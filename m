@@ -7,87 +7,71 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32A2CC388F7
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 17:48:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01243C388F2
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 19:00:32 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B2BD2221FB
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 17:48:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2083A20786
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 19:00:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="skfhuxXn";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="HlBdVjW4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B2BD2221FB
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tWf0igaA";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Wh43mnWM";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="STcwQ6Ra"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2083A20786
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References:In-Reply-To:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=apTQkQOuZdlMG9lqZfqbXWrTKwmh2JojOrhvA1LYD7Q=; b=skfhuxXn8CyFVlYd/DlqFgusE
-	EY5UOIb5yOB5bndS4xHIrlKrmuWPdiIa8MQxpUrBSYokloHoY0vKtxDsdhNyeDr9bsNF9LY6QJkJ7
-	iRs7jqo6rwngai6pCb9adYz0Vqk5sTTcKgFhRrX4uSyu7c/KbIPRD7FJMSMhsUAymXvNzbfPQ9pcw
-	1Sz0AeLrC6yM3/hxigG2hlTbLzVXIxU+C3bslXfUOUGoUBSKjXyGO5ymF9Jvv1IcAqP+wnNIVh/0X
-	Gz2MFtBBKFyWO7VhOsufJp2P/2+htfYPS/JU88pLPYKmq1fKRkQd4LPA8v45QcEz/BuccYfsiNuCq
-	cmfYrMPqA==;
+	 bh=DPBz5l+GtWlyhhFtud7MGuA9h93ueXfSXmLz6HEKV+g=; b=tWf0igaAbZzgFrvmjYRHqUZMY
+	fNwOuIsxfrfYHZ9ipdIIhKdyuZ5PzuCrq7FAcipJ+7DQzUk8aIWeUFkzc86GgMJe4TUY8Bhssdc0x
+	HZt/ZCRUCNiU1zLUXJqX156YEndYLDUZH3yDZYH51/dh0i2RtLK83g2QcbQyePVK3ZLdwdoC074jQ
+	YT7xqkZqanHMSVOxUoCg53CbZC1n6lFDKUhuvJaFwDl0IEB5uZR1XwoqSsZPOb2Bh9i5+PRn40aWf
+	pQptcLPX4RA6tVrozV9gW0XydNV007SPIEecqzfYW34oVPv9CPON33DGkvSMLZ6uVUrcK6QPtE0T+
+	rZ5U4AmmA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ka0Q9-0003XQ-Cr; Tue, 03 Nov 2020 17:48:37 +0000
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142])
+	id 1ka1Xi-0003sh-Bp; Tue, 03 Nov 2020 19:00:30 +0000
+Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ka0Q2-0003TI-8q
- for linux-snps-arc@lists.infradead.org; Tue, 03 Nov 2020 17:48:35 +0000
-Received: by mail-lf1-x142.google.com with SMTP id b1so23307053lfp.11
- for <linux-snps-arc@lists.infradead.org>; Tue, 03 Nov 2020 09:48:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=o0HUqTtrB0uneYNpLQNhQJ6FusME7LjWI9KZLqRyy8M=;
- b=HlBdVjW42hUSJkakIiVHCgxY07l6tlPx/MKTOg49MQqEt9fKpSl2tO6bNlSfEMf3/D
- yOb2ZUXxHpDZzPlQCZuCKgGgj4iIodCB3C8y4WCLAE53N4IY/fO4MumxqPXGllxVBzjJ
- AuMTxQdvsElAjMkZERbVlQwjny9JwixE30+4I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=o0HUqTtrB0uneYNpLQNhQJ6FusME7LjWI9KZLqRyy8M=;
- b=ACizrR7WihQlPYOPCMM8Vm1WHitEuNh02QudISvE78rM7zdzocVq3uEwYL5uPtNOjY
- vI31j0eR+4ZS6yP2SzEpjETsTUJ9Fv9UtsHkjmwZZN8zcvud2Ej30aETuCwTZHetB1Mr
- o1UDfRk0h8/9gCjUOoy9NrwDjaB8sqyv9f921QvGVpBa4/aghhe2VJFod4cTYM/zrdXr
- wCgAYasHWS28U4SXfphq4xE0TZ2gb1GDPni1aji61QXIH5SJI4o/zmbSQMJAzh2S4JMw
- E+vjnFz8skpLDv18vRvvsMXWwbMdjovYaP5ZZLCAAEKsfjekduxaIElOlhRv3nJRKKnW
- eV+g==
-X-Gm-Message-State: AOAM530ohXJof1AIHbJ3EYQx2cx6FTP6gmxaq39Vg+0GiP3BwxcqBZ43
- 4fRI/nMZye5PTLYC9o8ocfLoIl1kuaMuJw==
-X-Google-Smtp-Source: ABdhPJwOksBoRYQg+DLPzOT8qhvWd++HZ39iAn2zrxQhjA0qIhzDpqhvBt8++ntgALoGX+vt2r1ptg==
-X-Received: by 2002:ac2:5b12:: with SMTP id v18mr656644lfn.474.1604425708667; 
- Tue, 03 Nov 2020 09:48:28 -0800 (PST)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com.
- [209.85.167.47])
- by smtp.gmail.com with ESMTPSA id b13sm4102474lfp.119.2020.11.03.09.48.27
- for <linux-snps-arc@lists.infradead.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Nov 2020 09:48:27 -0800 (PST)
-Received: by mail-lf1-f47.google.com with SMTP id e27so507341lfn.7
- for <linux-snps-arc@lists.infradead.org>; Tue, 03 Nov 2020 09:48:27 -0800 (PST)
-X-Received: by 2002:a19:4815:: with SMTP id v21mr8859386lfa.603.1604425706752; 
- Tue, 03 Nov 2020 09:48:26 -0800 (PST)
-MIME-Version: 1.0
-References: <20201103092712.714480842@linutronix.de>
- <20201103095858.827582066@linutronix.de>
-In-Reply-To: <20201103095858.827582066@linutronix.de>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 3 Nov 2020 09:48:10 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wg2D_yjgKYkXCybD3uf0dtwYh6HxZ9BQJfV5t+EBqLGQQ@mail.gmail.com>
-Message-ID: <CAHk-=wg2D_yjgKYkXCybD3uf0dtwYh6HxZ9BQJfV5t+EBqLGQQ@mail.gmail.com>
+ id 1ka1Xd-0003q6-T3; Tue, 03 Nov 2020 19:00:26 +0000
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1604430021;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=p7vA0Pp8Yw32NcCmeGMglrNZNTsusNNmUR0JbokXn0s=;
+ b=Wh43mnWM8kdYti+K6Ejg70IQfa+GmZ8DCSo20FQE/hkLNmxVT4iphQnlk6m40FPrmWktQO
+ 8ayXKz0ztE1cqx/iEhmcbhojQh9yCHEkFANOGr1w8fGEwrPOcrWAWxi/OenSb5evTEILWa
+ oclhRZDu2W0eltn+sc+1j25HCEzKjNSXz+4io/CbYUyMFuxTbNnNJEiCm1jMBn8PGej5s3
+ E3JpbZR0aFWpI6lV+SZv22HUNUyPWbXG8oMYz+BmJikgi+ivLhTWpXqqgXf53DcJR+Ltrn
+ dCfpJUdQQNPCTgPlSMPzbs0whzNCaCVS/fZbTm34UVovthqkFff3qyFpeY0sbA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1604430021;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=p7vA0Pp8Yw32NcCmeGMglrNZNTsusNNmUR0JbokXn0s=;
+ b=STcwQ6RaI64DeextSGHfCvrA9zLqnmZlfhd6kn3GgHfcpWRfVbJIkhHpoM7lA8B8jXR4lp
+ QBLUYE/euA+zomCg==
+To: Linus Torvalds <torvalds@linux-foundation.org>
 Subject: Re: [patch V3 22/37] highmem: High implementation details and
  document API
-To: Thomas Gleixner <tglx@linutronix.de>
+In-Reply-To: <CAHk-=wg2D_yjgKYkXCybD3uf0dtwYh6HxZ9BQJfV5t+EBqLGQQ@mail.gmail.com>
+References: <20201103092712.714480842@linutronix.de>
+ <20201103095858.827582066@linutronix.de>
+ <CAHk-=wg2D_yjgKYkXCybD3uf0dtwYh6HxZ9BQJfV5t+EBqLGQQ@mail.gmail.com>
+Date: Tue, 03 Nov 2020 20:00:20 +0100
+Message-ID: <87y2ji1d17.fsf@nanos.tec.linutronix.de>
+MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201103_124830_468421_BEDC490B 
-X-CRM114-Status: GOOD (  18.12  )
+X-CRM114-CacheID: sfid-20201103_140026_073524_911005C1 
+X-CRM114-Status: GOOD (  18.98  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,57 +128,43 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 3, 2020 at 2:33 AM Thomas Gleixner <tglx@linutronix.de> wrote:
+On Tue, Nov 03 2020 at 09:48, Linus Torvalds wrote:
+> I have no complaints about the patch, but it strikes me that if people
+> want to actually have much better debug coverage, this is where it
+> should be (I like the "every other address" thing too, don't get me
+> wrong).
 >
-> +static inline void *kmap(struct page *page)
-> +{
-> +       void *addr;
-> +
-> +       might_sleep();
-> +       if (!PageHighMem(page))
-> +               addr = page_address(page);
-> +       else
-> +               addr = kmap_high(page);
-> +       kmap_flush_tlb((unsigned long)addr);
-> +       return addr;
-> +}
-> +
-> +static inline void kunmap(struct page *page)
-> +{
-> +       might_sleep();
-> +       if (!PageHighMem(page))
-> +               return;
-> +       kunmap_high(page);
-> +}
+> In particular, instead of these PageHighMem(page) tests, I think
+> something like this would be better:
+>
+>    #ifdef CONFIG_DEBUG_HIGHMEM
+>      #define page_use_kmap(page) ((page),1)
+>    #else
+>      #define page_use_kmap(page) PageHighMem(page)
+>    #endif
+>
+> adn then replace those "if (!PageHighMem(page))" tests with "if
+> (!page_use_kmap())" instead.
+>
+> IOW, in debug mode, it would _always_ remap the page, whether it's
+> highmem or not. That would really stress the highmem code and find any
+> fragilities.
 
-I have no complaints about the patch, but it strikes me that if people
-want to actually have much better debug coverage, this is where it
-should be (I like the "every other address" thing too, don't get me
-wrong).
+Yes, that makes a lot of sense. We just have to avoid that for the
+architectures with aliasing issues.
 
-In particular, instead of these PageHighMem(page) tests, I think
-something like this would be better:
+> Anyway, this is all sepatrate from the series, which still looks fine
+> to me. Just a reaction to seeing the patch, and Thomas' earlier
+> mention that the highmem debugging doesn't actually do much.
 
-   #ifdef CONFIG_DEBUG_HIGHMEM
-     #define page_use_kmap(page) ((page),1)
-   #else
-     #define page_use_kmap(page) PageHighMem(page)
-   #endif
+Right, forcing it for both kmap and kmap_local is straight forward. I'll
+cook a patch on top for that.
 
-adn then replace those "if (!PageHighMem(page))" tests with "if
-(!page_use_kmap())" instead.
+Thanks,
 
-IOW, in debug mode, it would _always_ remap the page, whether it's
-highmem or not. That would really stress the highmem code and find any
-fragilities.
+        tglx
 
-No?
 
-Anyway, this is all sepatrate from the series, which still looks fine
-to me. Just a reaction to seeing the patch, and Thomas' earlier
-mention that the highmem debugging doesn't actually do much.
-
-               Linus
 
 _______________________________________________
 linux-snps-arc mailing list
