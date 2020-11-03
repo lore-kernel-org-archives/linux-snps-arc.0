@@ -7,18 +7,18 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF1EEC2D0A3
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 11:42:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29384C388F7
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 11:42:14 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0C25F216C4
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 11:42:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A0DEF206C0
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 11:42:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="seCgTb8G";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="b6UWG1RX";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="7x5E7bhv"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0C25F216C4
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="HasiBhfM";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rvT54BmE";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lkKBWdK1"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A0DEF206C0
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,47 +27,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:Subject:To:From:Date:
 	Message-Id:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=xNEKa0L+ox7w3UfuO3XapR7nAdCZ2J8Ua4z9rYrhNJw=; b=seCgTb8Gpc+JTcSO5rI76gIbj
-	C3CvJX4Kx9D15mhiXAs6YLKk6ngzzhGxiyRtLKVmhJa5yguq4KiGf3ysKE7tHXfLzL82bAsJTye1Y
-	ewYmAfCvvzXOs6QHFIF/qPZ1ZPqmi8JlBsR1ZfoJFr7lrZG7bL0PcnEpkTdFUnYvhMDLLaITPC8pV
-	f+ug0qDCjC9EnTlG/SDaM+Paun/9phEB++SRINwK7GsK4ns6brHJyM1ng4bt3FdD2je3/BXh/naW3
-	dmN46EmZ7bH/N4yTurNp7FsEC5VJg4fDqObgsnDkr05JPTfOlvMEkL7pduMttkfpaUAbMO2zE4imT
-	r3wnJVIhg==;
+	 bh=7pb961v+H7Fp4vCcIdjPZST0z/M3Cd1zdKQMpZENBjQ=; b=HasiBhfM0myXhSd8jvOotXwtp
+	cgnm8ZsuobxOSHUbSe4ynTAbbVoCjHvUijkB5fQVFqnUYVXn/UJA7UsgVYN2xFPB4f2ip3yBw/4kI
+	7JMD/EAWnibEjjBNKEE6IN0ZGJ+TmrBOKtcFUtk24NdCy4BToED0bW1wMZNC76HRIiphW1rceQb5H
+	6J2H6tWmXRkY0DzQtACKFPDQkymELtWwUMNIbJIj5eY/Ea+7dxzerpaYg6MxKgx40c1ln9aoItGuy
+	3UfOwGjac5EYnabcZ6W8HI+Kx7Du8dbsxuq8yHil76Fdqtxj79AsYePuLgTmfiOx9oeP9aoxsk4Iy
+	em9Upilkw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kZuhY-00035Y-6U; Tue, 03 Nov 2020 11:42:12 +0000
-Received: from galois.linutronix.de ([193.142.43.55])
+	id 1kZuhY-00035j-NA; Tue, 03 Nov 2020 11:42:12 +0000
+Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kZtd3-0002tX-6j; Tue, 03 Nov 2020 10:33:33 +0000
-Message-Id: <20201103095856.979798613@linutronix.de>
+ id 1kZtd2-0002sa-KI; Tue, 03 Nov 2020 10:33:32 +0000
+Message-Id: <20201103095856.732891880@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1604399607;
+ s=2020; t=1604399605;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=oF4DYonwtBNvmWHcqJ3amZKMdxENJ+WTSLMv3+rtHDM=;
- b=b6UWG1RXLdBy2bRiDY0A2P6zUTcJ5Ww3Hloamuegv/bL3cd0Jtr2ttgYbbJrW5BYak/rkk
- PIZxdNYfysNFn3hkTOqqRZTgj7HKUJeNhycoOe7m3Id4B0EFsqDbR5SzgKvmyNco7YPeDJ
- 7zGBcL24S5tqjz5nUv65X7+akcl8LQTNORQzEg/iFXRbEmU8I/BDt33Ieg2A5XD5DrODpw
- Mks84NTPIQAyqEH3f2oDzt/ae9t4w9OMJO+I7JYrxIGeYRIj6k6PPK6tR2mIaKluksa7bD
- OXSaYC6IDAc3KYdm99Ww55f3jctY1IJoZnRNbxPldLZF+7xYm+DqO5Hw2kBfKA==
+ bh=3HwBsgFv26sFcL/ZrR5QT7IdhKdyl722jNSTyAsMfhU=;
+ b=rvT54BmES001fwkPfhre2195ODFh8EFwDZYAlKQRhVHUBxAXrQ4jz+GuDaq+7kANpwhtIs
+ Odqznja1AON6wOyHEpYXOzN884r1utS39bCLsxNEulHhg56wkK85myPaXmlcyC0Iwy9aJH
+ 7H/5d1lmCAyZsRrJM2yBsjEdO5LEmhyrq2wZg4iXyHs50gJQuJK3//uDTtWi4cGXwQajhE
+ 6zcImoXr01WpyQwaIvad1lc/klKtM4lT0KI/sOHFnGRyhXmWoqmmzQFg3YIBBqGRZ2BmRY
+ OjwLotmGcs5kT4ELYX86H43ZMMJAy6wm+tJXkQgUfKkVJUPub5l/USgVgx610A==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1604399607;
+ s=2020e; t=1604399605;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=oF4DYonwtBNvmWHcqJ3amZKMdxENJ+WTSLMv3+rtHDM=;
- b=7x5E7bhvi7aofzhhPh9QlETURgTfsCteOpP5xZ/APbluJpgTom1zgixNGKJtT0nUZF2P72
- bnhVHwiHvnfzpbCg==
-Date: Tue, 03 Nov 2020 10:27:16 +0100
+ bh=3HwBsgFv26sFcL/ZrR5QT7IdhKdyl722jNSTyAsMfhU=;
+ b=lkKBWdK1CIWHPlUI77sykNxUAemFnakZTPVr751NgUw5N/WO+Qg52P9pTni6F4JYuE0eLl
+ 4W0KlbICECLDLgCA==
+Date: Tue, 03 Nov 2020 10:27:14 +0100
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch V3 04/37] sh/highmem: Remove all traces of unused cruft
+Subject: [patch V3 02/37] highmem: Remove unused functions
 References: <20201103092712.714480842@linutronix.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201103_053329_701946_6ECE9F67 
-X-CRM114-Status: GOOD (  12.18  )
+X-CRM114-CacheID: sfid-20201103_053328_909168_7AC93A27 
+X-CRM114-Status: GOOD (  11.06  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,82 +122,39 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-For whatever reasons SH has highmem bits all over the place but does
-not enable it via Kconfig. Remove the bitrot.
+Nothing uses totalhigh_pages_dec() and totalhigh_pages_set().
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 ---
- arch/sh/include/asm/fixmap.h     |    8 --------
- arch/sh/include/asm/kmap_types.h |   15 ---------------
- arch/sh/mm/init.c                |    8 --------
- 3 files changed, 31 deletions(-)
+V3: New patch
+---
+ include/linux/highmem.h |   10 ----------
+ 1 file changed, 10 deletions(-)
 
---- a/arch/sh/include/asm/fixmap.h
-+++ b/arch/sh/include/asm/fixmap.h
-@@ -13,9 +13,6 @@
- #include <linux/kernel.h>
- #include <linux/threads.h>
- #include <asm/page.h>
--#ifdef CONFIG_HIGHMEM
--#include <asm/kmap_types.h>
--#endif
+--- a/include/linux/highmem.h
++++ b/include/linux/highmem.h
+@@ -104,21 +104,11 @@ static inline void totalhigh_pages_inc(v
+ 	atomic_long_inc(&_totalhigh_pages);
+ }
  
- /*
-  * Here we define all the compile-time 'special' virtual
-@@ -53,11 +50,6 @@ enum fixed_addresses {
- 	FIX_CMAP_BEGIN,
- 	FIX_CMAP_END = FIX_CMAP_BEGIN + (FIX_N_COLOURS * NR_CPUS) - 1,
+-static inline void totalhigh_pages_dec(void)
+-{
+-	atomic_long_dec(&_totalhigh_pages);
+-}
+-
+ static inline void totalhigh_pages_add(long count)
+ {
+ 	atomic_long_add(count, &_totalhigh_pages);
+ }
  
--#ifdef CONFIG_HIGHMEM
--	FIX_KMAP_BEGIN,	/* reserved pte's for temporary kernel mappings */
--	FIX_KMAP_END = FIX_KMAP_BEGIN + (KM_TYPE_NR * NR_CPUS) - 1,
--#endif
+-static inline void totalhigh_pages_set(long val)
+-{
+-	atomic_long_set(&_totalhigh_pages, val);
+-}
 -
- #ifdef CONFIG_IOREMAP_FIXED
- 	/*
- 	 * FIX_IOREMAP entries are useful for mapping physical address
---- a/arch/sh/include/asm/kmap_types.h
-+++ /dev/null
-@@ -1,15 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--#ifndef __SH_KMAP_TYPES_H
--#define __SH_KMAP_TYPES_H
--
--/* Dummy header just to define km_type. */
--
--#ifdef CONFIG_DEBUG_HIGHMEM
--#define  __WITH_KM_FENCE
--#endif
--
--#include <asm-generic/kmap_types.h>
--
--#undef __WITH_KM_FENCE
--
--#endif
---- a/arch/sh/mm/init.c
-+++ b/arch/sh/mm/init.c
-@@ -362,9 +362,6 @@ void __init mem_init(void)
- 	mem_init_print_info(NULL);
- 	pr_info("virtual kernel memory layout:\n"
- 		"    fixmap  : 0x%08lx - 0x%08lx   (%4ld kB)\n"
--#ifdef CONFIG_HIGHMEM
--		"    pkmap   : 0x%08lx - 0x%08lx   (%4ld kB)\n"
--#endif
- 		"    vmalloc : 0x%08lx - 0x%08lx   (%4ld MB)\n"
- 		"    lowmem  : 0x%08lx - 0x%08lx   (%4ld MB) (cached)\n"
- #ifdef CONFIG_UNCACHED_MAPPING
-@@ -376,11 +373,6 @@ void __init mem_init(void)
- 		FIXADDR_START, FIXADDR_TOP,
- 		(FIXADDR_TOP - FIXADDR_START) >> 10,
+ void kmap_flush_unused(void);
  
--#ifdef CONFIG_HIGHMEM
--		PKMAP_BASE, PKMAP_BASE+LAST_PKMAP*PAGE_SIZE,
--		(LAST_PKMAP*PAGE_SIZE) >> 10,
--#endif
--
- 		(unsigned long)VMALLOC_START, VMALLOC_END,
- 		(VMALLOC_END - VMALLOC_START) >> 20,
- 
+ struct page *kmap_to_page(void *addr);
 
 
 _______________________________________________
