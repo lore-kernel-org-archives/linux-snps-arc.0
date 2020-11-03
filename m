@@ -7,18 +7,19 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B495FC4742C
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 10:44:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0EEBC2D0A3
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 10:52:00 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 49950206F1
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 10:44:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0FA2C22384
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 10:51:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cd7W4Fwp";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="EFq00YaC";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="MNJFQ16T"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 49950206F1
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="w37CFt0w";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pQscywdv";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="YrCDKz93";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="euAZ2tpp"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0FA2C22384
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,47 +28,60 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:Subject:To:From:Date:
 	Message-Id:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=loK+0AK1faR5daXMi4h/iAUl5Xx76RU3BXIJ5z7QKDA=; b=cd7W4FwpDTDL0zaxOlHjdrq/J
-	nb5AealtCunduOyxcgE0dAIe3nVA0IzTv3tLSF57RxUwfAw/uK7IY6WwtOEOVrwUlSjMbzsAva/Jd
-	vIiURx3W5FB4M6joX7o9dqT7WMwWhuKTZP7s5V9yjzlTQAAoLmuQ63lD2LjrAn+Y9Fcrzf1a3jkI1
-	Ntp+h3R+DeIBqIOTeuLHybiy1ACZ4tmFuacaKw1hiGVerYftlb7921TE2i5IjsRgBIL/5OrBXKggY
-	z4aSnex9KlhwK9v8rOpy+/LfPWg0dQ5KvIDlMQY4RWc2kCgLHiCVERA0Yph18Bgr5EDPZ4N78jp7p
-	tIztyHNVA==;
+	 bh=TleE9p1A8L48xYFf7ziFoJtQRffSHYMzDel7/zyMPPQ=; b=w37CFt0wd5f+w2tbigASkakdb
+	pPtxVawFOpwkUTpO+qTMAbQ0HcJojLSRD3DSha5NJC4uW6O2Y+FBmmAKd7N1j9e1JkkFg0suBOmsb
+	tWABUpxd2U+vnlSXF2lVJfXU0C9Dn/Afjm5ekO+ImwjqwfxLzpOmyochXGbfy3AuqMA3ezP55W6FK
+	ZSeYuTI8J2e8p+BkIuwCb1kEZLYMF+LTcCnGTuvNCwJsgYU8/OYRKnYSuI5EayxGoaMXUzgNwyGyy
+	wbqSj1g4ADtO4HqRjATdchLyFFWCoQvvkEpi/kg3Zh5UOepRh8f0wSe4Rr4Y0sem1mJnYIGsUrnOM
+	7Hoipkj3g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kZtnJ-0007AV-V4; Tue, 03 Nov 2020 10:44:06 +0000
-Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
+	id 1kZtux-000088-0E; Tue, 03 Nov 2020 10:51:59 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kZtmj-0006tf-V5; Tue, 03 Nov 2020 10:43:34 +0000
-Message-Id: <20201103095859.335366302@linutronix.de>
+ id 1kZtuv-0008Ve-3x; Tue, 03 Nov 2020 10:51:57 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-transfer-encoding:Content-Type:
+ MIME-Version:References:Subject:Cc:To:From:Date:Message-Id:Sender:Reply-To:
+ Content-ID:Content-Description:In-Reply-To;
+ bh=KpyA3a1Xo75yVhQvaPuA7Fk/5PcMn7a0eJxDd+9rZFg=; b=pQscywdvyMjeei37aOTvWTd5pw
+ jRAGGbtFh2PXNzs4Zg70/daP1UySmCJ9MevtQhpjrcoK1Mw/luIQ9C/yO57/QBiGw0Fh0toNgKJ/v
+ yuD5hKFN+/FVfnRR6d9WsS36Aujeo4H0TPvkezjQzOkNrzL4N0zssNzQEcG5LUj3/kNxKLkp4TYqP
+ QuYgAgscEhigRGFNOQpWwrlQrLJfP+R19FnmHEVZS3DmO1RvlepDTbhpzuLIOYBEMFPdmFlVP8zxD
+ cpreoc7sMOjxqg8WY3K3QgBSZhZnJuq7hXtYDJkw22XKjaugjfoulMv9cgtkS++JnZTDb8cLMGvS9
+ VrqTaY8A==;
+Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
+ by casper.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kZtdF-0002Ca-LZ; Tue, 03 Nov 2020 10:35:43 +0000
+Message-Id: <20201103095857.980576055@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1604399636;
+ s=2020; t=1604399620;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=A9fIQi2MIxDLlGKHATeOlK6WSHzl9bMxA6Vy6WK4kFg=;
- b=EFq00YaC2cfZ3tRBXG1AYeQj6Sgd3q/sRky5nMpbjN5ek1aWLKVPUv+JvoHWa6vjJFl3Ww
- awzO+FzbND5FKjPGN7gNTnp5Mb1tq9qO15q652V8S0pc9Ce+oaGECW/jZPsmCvsiKGY+B3
- KwlcTL/aSMXp1KJx2nFOb6gxG+DhM4n5p7kt5iTVZXpFOkBEw1cbStLJ+/3gWYcjPH26QY
- Sbv7PLzlBaetuHp8ai5dMyYUIWrRveb5P6ybl5UfTZhOpH3MacNEiFaKtx28E2gAmPiYft
- OZoB88IwwamuMjukOjyOm6rKIPayv2itPmrCw7QTvAcv81mGKSLdYHUqSDcl3Q==
+ bh=KpyA3a1Xo75yVhQvaPuA7Fk/5PcMn7a0eJxDd+9rZFg=;
+ b=YrCDKz932HbpJdB1Ovswk3kIEHrrFpFM7BD36DvvxyEth/CYPlGfItygnSIqoI6PoZ9Z/n
+ 6hC0ZuoT80elU8CHbCQr0fHHRJ3A1QHV8hYDeuzKW3F3G1jODuF0hGXa3p5eo1f5CL3h0m
+ mvPJbu1gd6RilHZPBUG/H/5nLiHDqY2isN5mxaPhrn9WM/RJp+LRNmHyUB7oxkQWjQT4wM
+ ZLRmPc4c/6Oow9gWdXR7+WWQzVxtwM4nEpxuemQYN3qRdUOOq1L0jXu3C1ldf+8ujM+mdQ
+ ohWVt2Hp5iLc65BFOuRA06UNiV3yg6B6ouLgzducm6Kwvt5QKb2kbWNBQTmjxQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1604399636;
+ s=2020e; t=1604399620;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=A9fIQi2MIxDLlGKHATeOlK6WSHzl9bMxA6Vy6WK4kFg=;
- b=MNJFQ16TWMWokWTa10gHMVVbsQOpiB2QfbpOViNefBGxmMK6yL/K8NxBWEF2+7F4dQI9lX
- SBoVS11NJaJ9FoCQ==
-Date: Tue, 03 Nov 2020 10:27:39 +0100
+ bh=KpyA3a1Xo75yVhQvaPuA7Fk/5PcMn7a0eJxDd+9rZFg=;
+ b=euAZ2tpprrIyTefRLNP/P6Rxtm3nJite0axS+LZAHFnDm1mQ3sSmpWDqcjwQLk35BkXmiw
+ ylLG+RpY4pjgDfCw==
+Date: Tue, 03 Nov 2020 10:27:26 +0100
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch V3 27/37] x86/crashdump/32: Simplify copy_oldmem_page()
+Subject: [patch V3 14/37] nds32/mm/highmem: Switch to generic kmap atomic
 References: <20201103092712.714480842@linutronix.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201103_054330_522675_4FB43874 
-X-CRM114-Status: GOOD (  17.09  )
+X-CRM114-CacheID: sfid-20201103_103343_418551_51472FB8 
+X-CRM114-Status: GOOD (  16.48  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,20 +104,20 @@ Cc: Juri Lelli <juri.lelli@redhat.com>, linux-aio@kvack.org,
  Gerd Hoffmann <kraxel@redhat.com>,
  Daniel Bristot de Oliveira <bristot@redhat.com>, sparclinux@vger.kernel.org,
  Vincent Chen <deanbo422@gmail.com>, Christoph Hellwig <hch@lst.de>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Paul McKenney <paulmck@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>,
- Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
- Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
- Ingo Molnar <mingo@kernel.org>, David Airlie <airlied@linux.ie>,
+ Vincent Guittot <vincent.guittot@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
+ Max Filippov <jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ x86@kernel.org, Russell King <linux@armlinux.org.uk>,
+ linux-csky@vger.kernel.org, Ingo Molnar <mingo@kernel.org>,
+ David Airlie <airlied@linux.ie>,
  VMware Graphics <linux-graphics-maintainer@vmware.com>,
  Mel Gorman <mgorman@suse.de>, nouveau@lists.freedesktop.org,
  Dave Airlie <airlied@redhat.com>, linux-snps-arc@lists.infradead.org,
  Ben Skeggs <bskeggs@redhat.com>, linux-xtensa@linux-xtensa.org,
- Arnd Bergmann <arnd@arndb.de>, intel-gfx@lists.freedesktop.org,
+ Paul McKenney <paulmck@kernel.org>, intel-gfx@lists.freedesktop.org,
  Roland Scheidegger <sroland@vmware.com>, Josef Bacik <josef@toxicpanda.com>,
  Steven Rostedt <rostedt@goodmis.org>,
  Linus Torvalds <torvalds@linuxfoundation.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, spice-devel@lists.freedesktop.org,
+ Greentime Hu <green.hu@gmail.com>, spice-devel@lists.freedesktop.org,
  David Sterba <dsterba@suse.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Dietmar Eggemann <dietmar.eggemann@arm.com>,
  linux-arm-kernel@lists.infradead.org,
@@ -116,101 +130,159 @@ Cc: Juri Lelli <juri.lelli@redhat.com>, linux-aio@kvack.org,
  Daniel Vetter <daniel@ffwll.ch>, linux-fsdevel@vger.kernel.org,
  Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
  "David S. Miller" <davem@davemloft.net>, linux-btrfs@vger.kernel.org,
- Greentime Hu <green.hu@gmail.com>
+ Alexander Viro <viro@zeniv.linux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Replace kmap_atomic_pfn() with kmap_local_pfn() which is preemptible and
-can take page faults.
+The mapping code is odd and looks broken. See FIXME in the comment.
 
-Remove the indirection of the dump page and the related cruft which is not
-longer required.
+Also fix the harmless off by one in the FIX_KMAP_END define.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: Nick Hu <nickhu@andestech.com>
+Cc: Greentime Hu <green.hu@gmail.com>
+Cc: Vincent Chen <deanbo422@gmail.com>
 ---
-V3: New patch
+V3: Remove the kmap types cruft
 ---
- arch/x86/kernel/crash_dump_32.c |   48 ++++++++--------------------------------
- 1 file changed, 10 insertions(+), 38 deletions(-)
+ arch/nds32/Kconfig.cpu           |    1 
+ arch/nds32/include/asm/fixmap.h  |    4 +--
+ arch/nds32/include/asm/highmem.h |   22 +++++++++++++----
+ arch/nds32/mm/Makefile           |    1 
+ arch/nds32/mm/highmem.c          |   48 ---------------------------------------
+ 5 files changed, 19 insertions(+), 57 deletions(-)
 
---- a/arch/x86/kernel/crash_dump_32.c
-+++ b/arch/x86/kernel/crash_dump_32.c
-@@ -13,8 +13,6 @@
+--- a/arch/nds32/Kconfig.cpu
++++ b/arch/nds32/Kconfig.cpu
+@@ -157,6 +157,7 @@ config HW_SUPPORT_UNALIGNMENT_ACCESS
+ config HIGHMEM
+ 	bool "High Memory Support"
+ 	depends on MMU && !CPU_CACHE_ALIASING
++	select KMAP_LOCAL
+ 	help
+ 	  The address space of Andes processors is only 4 Gigabytes large
+ 	  and it has to accommodate user address space, kernel address
+--- a/arch/nds32/include/asm/fixmap.h
++++ b/arch/nds32/include/asm/fixmap.h
+@@ -6,7 +6,7 @@
  
- #include <linux/uaccess.h>
+ #ifdef CONFIG_HIGHMEM
+ #include <linux/threads.h>
+-#include <asm/kmap_types.h>
++#include <asm/kmap_size.h>
+ #endif
  
--static void *kdump_buf_page;
--
- static inline bool is_crashed_pfn_valid(unsigned long pfn)
- {
- #ifndef CONFIG_X86_PAE
-@@ -41,15 +39,11 @@ static inline bool is_crashed_pfn_valid(
-  * @userbuf: if set, @buf is in user address space, use copy_to_user(),
-  *	otherwise @buf is in kernel address space, use memcpy().
-  *
-- * Copy a page from "oldmem". For this page, there is no pte mapped
-- * in the current kernel. We stitch up a pte, similar to kmap_atomic.
-- *
-- * Calling copy_to_user() in atomic context is not desirable. Hence first
-- * copying the data to a pre-allocated kernel page and then copying to user
-- * space in non-atomic context.
-+ * Copy a page from "oldmem". For this page, there might be no pte mapped
-+ * in the current kernel.
+ enum fixed_addresses {
+@@ -14,7 +14,7 @@ enum fixed_addresses {
+ 	FIX_KMAP_RESERVED,
+ 	FIX_KMAP_BEGIN,
+ #ifdef CONFIG_HIGHMEM
+-	FIX_KMAP_END = FIX_KMAP_BEGIN + (KM_TYPE_NR * NR_CPUS),
++	FIX_KMAP_END = FIX_KMAP_BEGIN + (KM_MAX_IDX * NR_CPUS) - 1,
+ #endif
+ 	FIX_EARLYCON_MEM_BASE,
+ 	__end_of_fixed_addresses
+--- a/arch/nds32/include/asm/highmem.h
++++ b/arch/nds32/include/asm/highmem.h
+@@ -5,7 +5,6 @@
+ #define _ASM_HIGHMEM_H
+ 
+ #include <asm/proc-fns.h>
+-#include <asm/kmap_types.h>
+ #include <asm/fixmap.h>
+ 
+ /*
+@@ -45,11 +44,22 @@ extern pte_t *pkmap_page_table;
+ extern void kmap_init(void);
+ 
+ /*
+- * The following functions are already defined by <linux/highmem.h>
+- * when CONFIG_HIGHMEM is not set.
++ * FIXME: The below looks broken vs. a kmap_atomic() in task context which
++ * is interupted and another kmap_atomic() happens in interrupt context.
++ * But what do I know about nds32. -- tglx
   */
--ssize_t copy_oldmem_page(unsigned long pfn, char *buf,
--                               size_t csize, unsigned long offset, int userbuf)
-+ssize_t copy_oldmem_page(unsigned long pfn, char *buf, size_t csize,
-+			 unsigned long offset, int userbuf)
- {
- 	void  *vaddr;
+-#ifdef CONFIG_HIGHMEM
+-extern void *kmap_atomic_pfn(unsigned long pfn);
+-#endif
++#define arch_kmap_local_post_map(vaddr, pteval)			\
++	do {							\
++		__nds32__tlbop_inv(vaddr);			\
++		__nds32__mtsr_dsb(vaddr, NDS32_SR_TLB_VPN);	\
++		__nds32__tlbop_rwr(pteval);			\
++		__nds32__isb();					\
++	} while (0)
++
++#define arch_kmap_local_pre_unmap(vaddr)			\
++	do {							\
++		__nds32__tlbop_inv(vaddr);			\
++		__nds32__isb();					\
++	} while (0)
  
-@@ -59,38 +53,16 @@ ssize_t copy_oldmem_page(unsigned long p
- 	if (!is_crashed_pfn_valid(pfn))
- 		return -EFAULT;
+ #endif
+--- a/arch/nds32/mm/Makefile
++++ b/arch/nds32/mm/Makefile
+@@ -3,7 +3,6 @@ obj-y				:= extable.o tlb.o fault.o init
+                                    mm-nds32.o cacheflush.o proc.o
  
--	vaddr = kmap_atomic_pfn(pfn);
-+	vaddr = kmap_local_pfn(pfn);
+ obj-$(CONFIG_ALIGNMENT_TRAP)	+= alignment.o
+-obj-$(CONFIG_HIGHMEM)           += highmem.o
  
- 	if (!userbuf) {
--		memcpy(buf, (vaddr + offset), csize);
--		kunmap_atomic(vaddr);
-+		memcpy(buf, vaddr + offset, csize);
- 	} else {
--		if (!kdump_buf_page) {
--			printk(KERN_WARNING "Kdump: Kdump buffer page not"
--				" allocated\n");
--			kunmap_atomic(vaddr);
--			return -EFAULT;
--		}
--		copy_page(kdump_buf_page, vaddr);
--		kunmap_atomic(vaddr);
--		if (copy_to_user(buf, (kdump_buf_page + offset), csize))
--			return -EFAULT;
-+		if (copy_to_user(buf, vaddr + offset, csize))
-+			csize = -EFAULT;
- 	}
- 
--	return csize;
--}
-+	kunmap_local(vaddr);
- 
--static int __init kdump_buf_page_init(void)
+ ifdef CONFIG_FUNCTION_TRACER
+ CFLAGS_REMOVE_proc.o     = $(CC_FLAGS_FTRACE)
+--- a/arch/nds32/mm/highmem.c
++++ /dev/null
+@@ -1,48 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-// Copyright (C) 2005-2017 Andes Technology Corporation
+-
+-#include <linux/export.h>
+-#include <linux/highmem.h>
+-#include <linux/sched.h>
+-#include <linux/smp.h>
+-#include <linux/interrupt.h>
+-#include <linux/memblock.h>
+-#include <asm/fixmap.h>
+-#include <asm/tlbflush.h>
+-
+-void *kmap_atomic_high_prot(struct page *page, pgprot_t prot)
 -{
--	int ret = 0;
+-	unsigned int idx;
+-	unsigned long vaddr, pte;
+-	int type;
+-	pte_t *ptep;
 -
--	kdump_buf_page = kmalloc(PAGE_SIZE, GFP_KERNEL);
--	if (!kdump_buf_page) {
--		printk(KERN_WARNING "Kdump: Failed to allocate kdump buffer"
--			 " page\n");
--		ret = -ENOMEM;
+-	type = kmap_atomic_idx_push();
+-
+-	idx = type + KM_TYPE_NR * smp_processor_id();
+-	vaddr = __fix_to_virt(FIX_KMAP_BEGIN + idx);
+-	pte = (page_to_pfn(page) << PAGE_SHIFT) | prot;
+-	ptep = pte_offset_kernel(pmd_off_k(vaddr), vaddr);
+-	set_pte(ptep, pte);
+-
+-	__nds32__tlbop_inv(vaddr);
+-	__nds32__mtsr_dsb(vaddr, NDS32_SR_TLB_VPN);
+-	__nds32__tlbop_rwr(pte);
+-	__nds32__isb();
+-	return (void *)vaddr;
+-}
+-EXPORT_SYMBOL(kmap_atomic_high_prot);
+-
+-void kunmap_atomic_high(void *kvaddr)
+-{
+-	if (kvaddr >= (void *)FIXADDR_START) {
+-		unsigned long vaddr = (unsigned long)kvaddr;
+-		pte_t *ptep;
+-		kmap_atomic_idx_pop();
+-		__nds32__tlbop_inv(vaddr);
+-		__nds32__isb();
+-		ptep = pte_offset_kernel(pmd_off_k(vaddr), vaddr);
+-		set_pte(ptep, 0);
 -	}
--
--	return ret;
-+	return csize;
- }
--arch_initcall(kdump_buf_page_init);
+-}
+-EXPORT_SYMBOL(kunmap_atomic_high);
 
 
 _______________________________________________
