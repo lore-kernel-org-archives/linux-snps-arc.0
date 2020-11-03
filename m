@@ -7,19 +7,19 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 497FDC2D0A3
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 10:52:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 078A0C2D0A3
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 10:52:18 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5553E22384
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 10:52:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 38ABE22384
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 10:52:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="wImp9Zwi";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Gt9L/T2y";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Da+xDlV6";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="f+EMpg4d"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5553E22384
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="VHOv5xLp";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="h6sbkXca";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CdqukbVB";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pfa+TpRf"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 38ABE22384
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -28,61 +28,60 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:Subject:To:From:Date:
 	Message-Id:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=Tx0sP4ooWJGr+3MtA80Kljw72mU/nsgPHd1Wx/Ikua4=; b=wImp9ZwisMSpYRPLylA7P1ne7
-	Ip7OIQ08IhoMgdwKfz70rw1aDMcZdHa+vDGAuUcUQ2TylhFQjUgDVzH/wGxD33TzXkiuRLJ/o4s5Y
-	iZswnplWMX3B4Frd35taocCqxvcY+oBMxnzaShQXrZY+B8HHojSO4tQRk6vxxcq3lr0vBktAHasKQ
-	X7skFIDqdFwaevinhzqneLCtiYHe+32aZrcv1RXIxnzU5vbi893MFXKvFoVN0t2v9GGfFmIvF0OCz
-	6BsuM44UFmDDeH6f2O7cG3fSzKP1m4hQvf42DrFGYZ8gDshHw+gtUaLbMWodrxHabF0Gm05eOeRCZ
-	fBIjHh/ZA==;
+	 bh=NlNFo09VydvI2DdljSjwpVehfxQCGNWMNuXVstrX/jg=; b=VHOv5xLpuj7FpWv9nr8nKRbnK
+	VgSt6RzPztHdrJc/0I/Y+OZVt19fWbjro/ieIc6OsXcHqAcjontN4+I/zs9Wc29VVyL74DF2ZH1Eo
+	wbMvPf0jQ8leEm2RYokjXTrXIjxlKIMRXFhGlsCzWAgOD0vETxIsBl1ronneo9OoezU1MOVdjWWbt
+	Tk9QJlfvTZ+4rmIemCNhhyws9b7sGvrataX7VXiVtvlR1MKJtjwdx0+PAxRIakXbQxt7mvSwWZtNY
+	eQLx0u4onTr9eICaIJ/PxdpJ9lyclDSZWLhrF5t+6VnKj/QCjMToIuGi6pJpLnFIRjWzY3sWKYdek
+	YnV5rGokw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kZtv7-00009G-46; Tue, 03 Nov 2020 10:52:09 +0000
+	id 1kZtvE-0000Bt-BA; Tue, 03 Nov 2020 10:52:16 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kZtux-0008Ve-CT; Tue, 03 Nov 2020 10:51:59 +0000
+ id 1kZtv8-0008Ve-B4; Tue, 03 Nov 2020 10:52:10 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-transfer-encoding:Content-Type:
  MIME-Version:References:Subject:Cc:To:From:Date:Message-Id:Sender:Reply-To:
  Content-ID:Content-Description:In-Reply-To;
- bh=B0hFoCMbd1BTTJA4iomuHwwbKwpHOM25a6SSJ6sGjas=; b=Gt9L/T2yZ+vNZ2VmvWs/COzAaY
- hCGBB9MSuLS5juX8p1jmcd57jF6boT9O1ZkXsa5SnbghyRsqjPGIUESQvfX8iVajZrzAFVjRSLVTB
- D/7okLfgjLI01KXl6KwFZGIMAWJhca5mc8hX3iqaIks/wdFVv7PvBKQ9thDFOonOuz2NGJcdydWvh
- qzW54rczMsfJXjxubUmOODlJWwRiws7Gj8JwmIvZwVfIuxxK+zaawDSVFFIO4DRJdWoxuDNhJnBUv
- Oi+x5lZ4gm3KaNYA3n8nTmAAbf3fK5FzvrRfokmY2itwDTWixndc5/+XQEyaDzFPsDK/t4nODlF7U
- LI2AsO3A==;
-Received: from galois.linutronix.de ([193.142.43.55])
+ bh=XzZnXq40Xta6eAd8+Z4XomSn8j1A2hSECk29QnRRbws=; b=h6sbkXcamaGvCKpZfAGaOfROFa
+ KkR1WwTxes2M4FTP6Du8bI51/A70jftiRZVVxrkosK2ZI0QSiIwLx0kP0j21fLc00dV3YbIZ+wUH2
+ wfY1OvIbM6pT6sUY8rLJJrlE1yOZkxRb1Y28LzNIex0hi8GjguMg1wD9z6MLPNmTrdhplPrcg9Gv2
+ s/qbyS1eQiF8KMiKXYaxmk1E+mrDZS93yW8LHOifZl9fPni+uFtLyoqs87CUsb1gmX4odL6un/OgR
+ a4j1OOfx8RB6ojC11qXrhuH5t074mqDJiGAM8hxeBpAF0XUQX5Hd4ZLm6RBijnbSYSE9NAeBta5xD
+ 3+9tBwxw==;
+Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
  by casper.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kZtdA-0002BO-Ds; Tue, 03 Nov 2020 10:35:37 +0000
-Message-Id: <20201103095857.472289952@linutronix.de>
+ id 1kZtdu-0002Mu-66; Tue, 03 Nov 2020 10:35:06 +0000
+Message-Id: <20201103095900.367260321@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1604399614;
+ s=2020; t=1604399649;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=B0hFoCMbd1BTTJA4iomuHwwbKwpHOM25a6SSJ6sGjas=;
- b=Da+xDlV6KKffjn87YKI1w17KiAxAeIwWeQXSeWKC0+BzZgA/gqhzIh0qkDbs5ynMS6tGaO
- I8gHmEb35BY82N8vhI97HVBvnAj55thowV9wgbIh3Jq3p63khMhgHQ4eq2qttbXse7CCph
- uIdVwPXAtNbLoPzXMD0fYpkKihvozEBm9/mhdN9HeJsuptVOho9HcZgMt5aBipbQzD32j0
- n8uwlpoGAeQE1AfGOa25U2RbcXloELidSAwyNrGWvl5+J16S5YpCbXHODVye950pME+SVH
- /3ATFCqI1kOabZgkLc1vcBDW9PIVmKxSuqkyhuUa0/xRqCZQCIo4wyfRwpb6Tg==
+ bh=XzZnXq40Xta6eAd8+Z4XomSn8j1A2hSECk29QnRRbws=;
+ b=CdqukbVBWMYI/RONrhSGzX6/xMHlDVBTWtfJrQb8BGeECEJqjOAzrpgd/S5gcYhw2K5fbn
+ Eaab3vE9c+BoonfV0tN18iO2mipbe36uJxmY7lt1Q+Y/DUZ/Lt4ranrEwz1e8nCX8rE7ib
+ zUEarU65A2JKzY8kRhVSr0Mov+N333GuC6WgQoQRke1a5GsVBT4qs+q/yyCNm0M0BVOUKi
+ wwWaobx9qhLoUV9tFHktWx+AG8+ArEEhZ4OLWEEinwZC+qMmqYYw2bnvpObjtaVxDm8Ir6
+ h+E3LFBQps2vHJjH1B0mTeQMdmzvDlwqg7xu3fUjiEVpzfRq4Nob09i6lYhuzA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1604399614;
+ s=2020e; t=1604399649;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=B0hFoCMbd1BTTJA4iomuHwwbKwpHOM25a6SSJ6sGjas=;
- b=f+EMpg4dOklmbcFvEtDPybxH7tM1dD0ExZ/edleu8OU1SH6t6ksrWSj8ZZKeC1sXeVE20y
- HTqugv1TVnCd4ECw==
-Date: Tue, 03 Nov 2020 10:27:21 +0100
+ bh=XzZnXq40Xta6eAd8+Z4XomSn8j1A2hSECk29QnRRbws=;
+ b=pfa+TpRfmsyoL3kfRqJUVU2S9UUvIXMBP/3UXjO0TEtWrbhDCiNU865DGow3SSMVJwemxu
+ 95CKXmp2zPH8LuBg==
+Date: Tue, 03 Nov 2020 10:27:49 +0100
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch V3 09/37] arc/mm/highmem: Use generic kmap atomic
- implementation
+Subject: [patch V3 37/37] io-mapping: Remove io_mapping_map_atomic_wc()
 References: <20201103092712.714480842@linutronix.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201103_103337_048098_009B6B36 
-X-CRM114-Status: GOOD (  25.80  )
+X-CRM114-CacheID: sfid-20201103_103422_779473_0FB182DC 
+X-CRM114-Status: GOOD (  14.96  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,199 +136,134 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Adopt the map ordering to match the other architectures and the generic
-code. Also make the maximum entries limited and not dependend on the number
-of CPUs. With the original implementation did the following calculation:
-
-   nr_slots = mapsize >> PAGE_SHIFT;
-
-The results in either 512 or 1024 total slots depending on
-configuration. The total slots have to be divided by the number of CPUs to
-get the number of slots per CPU (former KM_TYPE_NR). ARC supports up to 4k
-CPUs, so this just falls apart in random ways depending on the number of
-CPUs and the actual kmap (atomic) nesting. The comment in highmem.c:
-
- * - fixmap anyhow needs a limited number of mappings. So 2M kvaddr == 256 PTE
- *   slots across NR_CPUS would be more than sufficient (generic code defines
- *   KM_TYPE_NR as 20).
-
-is just wrong. KM_TYPE_NR (now KM_MAX_IDX) is the number of slots per CPU
-because kmap_local/atomic() needs to support nested mappings (thread,
-softirq, interrupt). While KM_MAX_IDX might be overestimated, the above
-reasoning is just wrong and clearly the highmem code was never tested with
-any system with more than a few CPUs.
-
-Use the default number of slots and fail the build when it does not
-fit. Randomly failing at runtime is not a really good option.
+No more users. Get rid of it and remove the traces in documentation.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Vineet Gupta <vgupta@synopsys.com>
-Cc: linux-snps-arc@lists.infradead.org
 ---
-V3: Make it actually more correct.
+V3: New patch
 ---
- arch/arc/Kconfig                  |    1 
- arch/arc/include/asm/highmem.h    |   26 ++++++++++++++----
- arch/arc/include/asm/kmap_types.h |   14 ---------
- arch/arc/mm/highmem.c             |   54 +++-----------------------------------
- 4 files changed, 26 insertions(+), 69 deletions(-)
+ Documentation/driver-api/io-mapping.rst |   22 +++++-----------
+ include/linux/io-mapping.h              |   42 +-------------------------------
+ 2 files changed, 9 insertions(+), 55 deletions(-)
 
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -507,6 +507,7 @@ config LINUX_RAM_BASE
- config HIGHMEM
- 	bool "High Memory Support"
- 	select ARCH_DISCONTIGMEM_ENABLE
-+	select KMAP_LOCAL
- 	help
- 	  With ARC 2G:2G address split, only upper 2G is directly addressable by
- 	  kernel. Enable this to potentially allow access to rest of 2G and PAE
---- a/arch/arc/include/asm/highmem.h
-+++ b/arch/arc/include/asm/highmem.h
-@@ -9,17 +9,29 @@
- #ifdef CONFIG_HIGHMEM
+--- a/Documentation/driver-api/io-mapping.rst
++++ b/Documentation/driver-api/io-mapping.rst
+@@ -21,19 +21,15 @@ mappable, while 'size' indicates how lar
+ enable. Both are in bytes.
  
- #include <uapi/asm/page.h>
--#include <asm/kmap_types.h>
-+#include <asm/kmap_size.h>
-+
-+#define FIXMAP_SIZE		PGDIR_SIZE
-+#define PKMAP_SIZE		PGDIR_SIZE
+ This _wc variant provides a mapping which may only be used with
+-io_mapping_map_atomic_wc(), io_mapping_map_local_wc() or
+-io_mapping_map_wc().
++io_mapping_map_local_wc() or io_mapping_map_wc().
  
- /* start after vmalloc area */
- #define FIXMAP_BASE		(PAGE_OFFSET - FIXMAP_SIZE - PKMAP_SIZE)
--#define FIXMAP_SIZE		PGDIR_SIZE	/* only 1 PGD worth */
--#define KM_TYPE_NR		((FIXMAP_SIZE >> PAGE_SHIFT)/NR_CPUS)
--#define FIXMAP_ADDR(nr)		(FIXMAP_BASE + ((nr) << PAGE_SHIFT))
-+
-+#define FIX_KMAP_SLOTS		(KM_MAX_IDX * NR_CPUS)
-+#define FIX_KMAP_BEGIN		(0UL)
-+#define FIX_KMAP_END		((FIX_KMAP_BEGIN + FIX_KMAP_SLOTS) - 1)
-+
-+#define FIXADDR_TOP		(FIXMAP_BASE + (FIX_KMAP_END << PAGE_SHIFT))
-+
-+/*
-+ * This should be converted to the asm-generic version, but of course this
-+ * is needlessly different from all other architectures. Sigh - tglx
-+ */
-+#define __fix_to_virt(x)	(FIXADDR_TOP - ((x) << PAGE_SHIFT))
-+#define __virt_to_fix(x)	(((FIXADDR_TOP - ((x) & PAGE_MASK))) >> PAGE_SHIFT)
+ With this mapping object, individual pages can be mapped either temporarily
+ or long term, depending on the requirements. Of course, temporary maps are
+-more efficient. They come in two flavours::
++more efficient.
  
- /* start after fixmap area */
- #define PKMAP_BASE		(FIXMAP_BASE + FIXMAP_SIZE)
--#define PKMAP_SIZE		PGDIR_SIZE
- #define LAST_PKMAP		(PKMAP_SIZE >> PAGE_SHIFT)
- #define LAST_PKMAP_MASK		(LAST_PKMAP - 1)
- #define PKMAP_ADDR(nr)		(PKMAP_BASE + ((nr) << PAGE_SHIFT))
-@@ -29,11 +41,13 @@
+ 	void *io_mapping_map_local_wc(struct io_mapping *mapping,
+ 				      unsigned long offset)
  
- extern void kmap_init(void);
+-	void *io_mapping_map_atomic_wc(struct io_mapping *mapping,
+-				       unsigned long offset)
+-
+ 'offset' is the offset within the defined mapping region.  Accessing
+ addresses beyond the region specified in the creation function yields
+ undefined results. Using an offset which is not page aligned yields an
+@@ -50,9 +46,6 @@ io_mapping_map_local_wc() has a side eff
+ migration to make the mapping code work. No caller can rely on this side
+ effect.
  
-+#define arch_kmap_local_post_unmap(vaddr)			\
-+	local_flush_tlb_kernel_range(vaddr, vaddr + PAGE_SIZE)
-+
- static inline void flush_cache_kmaps(void)
- {
- 	flush_cache_all();
+-io_mapping_map_atomic_wc() has the side effect of disabling preemption and
+-pagefaults. Don't use in new code. Use io_mapping_map_local_wc() instead.
+-
+ Nested mappings need to be undone in reverse order because the mapping
+ code uses a stack for keeping track of them::
+ 
+@@ -65,11 +58,10 @@ Nested mappings need to be undone in rev
+ The mappings are released with::
+ 
+ 	void io_mapping_unmap_local(void *vaddr)
+-	void io_mapping_unmap_atomic(void *vaddr)
+ 
+-'vaddr' must be the value returned by the last io_mapping_map_local_wc() or
+-io_mapping_map_atomic_wc() call. This unmaps the specified mapping and
+-undoes the side effects of the mapping functions.
++'vaddr' must be the value returned by the last io_mapping_map_local_wc()
++call. This unmaps the specified mapping and undoes eventual side effects of
++the mapping function.
+ 
+ If you need to sleep while holding a mapping, you can use the regular
+ variant, although this may be significantly slower::
+@@ -77,8 +69,8 @@ If you need to sleep while holding a map
+ 	void *io_mapping_map_wc(struct io_mapping *mapping,
+ 				unsigned long offset)
+ 
+-This works like io_mapping_map_atomic/local_wc() except it has no side
+-effects and the pointer is globaly visible.
++This works like io_mapping_map_local_wc() except it has no side effects and
++the pointer is globaly visible.
+ 
+ The mappings are released with::
+ 
+--- a/include/linux/io-mapping.h
++++ b/include/linux/io-mapping.h
+@@ -60,28 +60,7 @@ io_mapping_fini(struct io_mapping *mappi
+ 	iomap_free(mapping->base, mapping->size);
  }
--
- #endif
  
- #endif
---- a/arch/arc/include/asm/kmap_types.h
-+++ /dev/null
-@@ -1,14 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * Copyright (C) 2015 Synopsys, Inc. (www.synopsys.com)
-- */
--
--#ifndef _ASM_KMAP_TYPES_H
--#define _ASM_KMAP_TYPES_H
--
--/*
-- * We primarily need to define KM_TYPE_NR here but that in turn
-- * is a function of PGDIR_SIZE etc.
-- * To avoid circular deps issue, put everything in asm/highmem.h
-- */
--#endif
---- a/arch/arc/mm/highmem.c
-+++ b/arch/arc/mm/highmem.c
-@@ -36,9 +36,8 @@
-  *   This means each only has 1 PGDIR_SIZE worth of kvaddr mappings, which means
-  *   2M of kvaddr space for typical config (8K page and 11:8:13 traversal split)
-  *
-- * - fixmap anyhow needs a limited number of mappings. So 2M kvaddr == 256 PTE
-- *   slots across NR_CPUS would be more than sufficient (generic code defines
-- *   KM_TYPE_NR as 20).
-+ * - The fixed KMAP slots for kmap_local/atomic() require KM_MAX_IDX slots per
-+ *   CPU. So the number of CPUs sharing a single PTE page is limited.
-  *
-  * - pkmap being preemptible, in theory could do with more than 256 concurrent
-  *   mappings. However, generic pkmap code: map_new_virtual(), doesn't traverse
-@@ -47,48 +46,6 @@
-  */
- 
- extern pte_t * pkmap_page_table;
--static pte_t * fixmap_page_table;
--
--void *kmap_atomic_high_prot(struct page *page, pgprot_t prot)
+-/* Atomic map/unmap */
+-static inline void __iomem *
+-io_mapping_map_atomic_wc(struct io_mapping *mapping,
+-			 unsigned long offset)
 -{
--	int idx, cpu_idx;
--	unsigned long vaddr;
+-	resource_size_t phys_addr;
 -
--	cpu_idx = kmap_atomic_idx_push();
--	idx = cpu_idx + KM_TYPE_NR * smp_processor_id();
--	vaddr = FIXMAP_ADDR(idx);
--
--	set_pte_at(&init_mm, vaddr, fixmap_page_table + idx,
--		   mk_pte(page, prot));
--
--	return (void *)vaddr;
+-	BUG_ON(offset >= mapping->size);
+-	phys_addr = mapping->base + offset;
+-	preempt_disable();
+-	pagefault_disable();
+-	return __iomap_local_pfn_prot(PHYS_PFN(phys_addr), mapping->prot);
 -}
--EXPORT_SYMBOL(kmap_atomic_high_prot);
 -
--void kunmap_atomic_high(void *kv)
+-static inline void
+-io_mapping_unmap_atomic(void __iomem *vaddr)
 -{
--	unsigned long kvaddr = (unsigned long)kv;
--
--	if (kvaddr >= FIXMAP_BASE && kvaddr < (FIXMAP_BASE + FIXMAP_SIZE)) {
--
--		/*
--		 * Because preemption is disabled, this vaddr can be associated
--		 * with the current allocated index.
--		 * But in case of multiple live kmap_atomic(), it still relies on
--		 * callers to unmap in right order.
--		 */
--		int cpu_idx = kmap_atomic_idx();
--		int idx = cpu_idx + KM_TYPE_NR * smp_processor_id();
--
--		WARN_ON(kvaddr != FIXMAP_ADDR(idx));
--
--		pte_clear(&init_mm, kvaddr, fixmap_page_table + idx);
--		local_flush_tlb_kernel_range(kvaddr, kvaddr + PAGE_SIZE);
--
--		kmap_atomic_idx_pop();
--	}
+-	kunmap_local_indexed((void __force *)vaddr);
+-	pagefault_enable();
+-	preempt_enable();
 -}
--EXPORT_SYMBOL(kunmap_atomic_high);
- 
- static noinline pte_t * __init alloc_kmap_pgtable(unsigned long kvaddr)
- {
-@@ -108,10 +65,9 @@ void __init kmap_init(void)
- {
- 	/* Due to recursive include hell, we can't do this in processor.h */
- 	BUILD_BUG_ON(PAGE_OFFSET < (VMALLOC_END + FIXMAP_SIZE + PKMAP_SIZE));
-+	BUILD_BUG_ON(LAST_PKMAP > PTRS_PER_PTE);
-+	BUILD_BUG_ON(FIX_KMAP_SLOTS > PTRS_PER_PTE);
- 
--	BUILD_BUG_ON(KM_TYPE_NR > PTRS_PER_PTE);
- 	pkmap_page_table = alloc_kmap_pgtable(PKMAP_BASE);
 -
--	BUILD_BUG_ON(LAST_PKMAP > PTRS_PER_PTE);
--	fixmap_page_table = alloc_kmap_pgtable(FIXMAP_BASE);
-+	alloc_kmap_pgtable(FIXMAP_BASE);
++/* Temporary mappings which are only valid in the current context */
+ static inline void __iomem *
+ io_mapping_map_local_wc(struct io_mapping *mapping, unsigned long offset)
+ {
+@@ -163,24 +142,7 @@ io_mapping_unmap(void __iomem *vaddr)
+ {
  }
+ 
+-/* Atomic map/unmap */
+-static inline void __iomem *
+-io_mapping_map_atomic_wc(struct io_mapping *mapping,
+-			 unsigned long offset)
+-{
+-	preempt_disable();
+-	pagefault_disable();
+-	return io_mapping_map_wc(mapping, offset, PAGE_SIZE);
+-}
+-
+-static inline void
+-io_mapping_unmap_atomic(void __iomem *vaddr)
+-{
+-	io_mapping_unmap(vaddr);
+-	pagefault_enable();
+-	preempt_enable();
+-}
+-
++/* Temporary mappings which are only valid in the current context */
+ static inline void __iomem *
+ io_mapping_map_local_wc(struct io_mapping *mapping, unsigned long offset)
+ {
 
 
 _______________________________________________
