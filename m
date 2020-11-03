@@ -7,19 +7,19 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FEC1C2D0A3
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 10:52:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F144C388F7
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 10:52:31 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C5D1322384
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 10:52:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DADA822384
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Nov 2020 10:52:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="taLRzyUy";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="by+mddR8";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="otNm1FLh";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="aDUoEgUs"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C5D1322384
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="O8UGdiK5";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fpMuh3vo";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="UIhQ3Idx";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Wh1ctmmS"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DADA822384
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -28,60 +28,60 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:Subject:To:From:Date:
 	Message-Id:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=G6EVD1lt5j8sqUx5Ra2PNvobTcVO+Tg3msL3OH4NH6U=; b=taLRzyUyDJR6iugwhEiv6wS3B
-	ZOGZJP6YogXxp4+k6Wzx6o1ANku8XWq4nbyfRqS/wzxIAdAXtbB4AnZkzQeVd3hY4Lmgk8vOiO73H
-	UR422v9aCFlw3IKaYGE5IIP+Fdocn+sZgAx3U6LUehc/u4++jLt0/1H9DHbdq6BV+zzLbwHWHinli
-	KlAe7UWVpCCjWq8TMO3BrPQnbPyP7Tb72862D8q/9zWcrxN/jNiYZ1eQo08Vz+HtVajgDfBQUpqVm
-	MBBfPGiuhSj6QbIGtzxQJ6Wj8YB1jtMRwKZyo62nAJw7W3uk/8/aKyJubkhnzYWiqOUzFxW9ZH6jY
-	RLR7Dx57w==;
+	 bh=lvv3Mt96Et/aROlIDQbf/RSRfRMvV2o7pC7B/K6D0Bw=; b=O8UGdiK52GR1o/i+RJ4b4Bz31
+	q3Pb4mYQ0KdxyvPxKLKx7tNU4LqI5eA+9xkIVnm/PuUO9ofu9+u52VuZX4KWux/VLsNrTp/Otu4+P
+	HquN+RNcUaV+haUxMVetkBfiMEnklPPEW5lvqqzla2i8NqL1gA9zHo3vq6HAw1JQfnqGhOxXbD1PA
+	DI2KMVl3qj3He5feKEAs0WPqIbeiVOU5jEwFtEpimanXrUB1xIJ4NBCsqYPsZnygyklMVkQYTgKu+
+	Z+ut270GeWCKTZWliaLwwEFmyLcrLatiRGILok2zfxKSqakR7pAW8gjylgoh2lW6Y3zv2phkLmvHQ
+	D9H69j9GQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kZtvQ-0000EE-ED; Tue, 03 Nov 2020 10:52:28 +0000
+	id 1kZtvR-0000Eb-HO; Tue, 03 Nov 2020 10:52:29 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kZtvF-0008Ve-BJ; Tue, 03 Nov 2020 10:52:22 +0000
+ id 1kZtvM-0008Ve-6R; Tue, 03 Nov 2020 10:52:24 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-transfer-encoding:Content-Type:
  MIME-Version:References:Subject:Cc:To:From:Date:Message-Id:Sender:Reply-To:
  Content-ID:Content-Description:In-Reply-To;
- bh=GQtIeN+bNrXtdDJbIY1/lT5u2Qlmlecyg45ylimAqeo=; b=by+mddR8IbKFxoGvBd3NUx5xrE
- WlK0vspEnIx+wx1vfrJhvkPJgCJeG6Adf/p/G3sNpEJU6ZxFZA9z0aW/u4M3oTRgPvGaaQth1B8FJ
- /e0lSEYw7DVyT3felP0ENWK4Ur2mMA+B02Kb7e2WK2BXG6Z4ETsvgCxVyBDvhm6UfpV0tzkMau4Dw
- IdGzgDQokBLnqQhmDIb1o+FgE5y1OZhBay2r+McgbB7F0nzKg0s1naApz/2KNbaojjIWz/I2ZoNOL
- 1Xl39auL1Nlc84m3OtH4sGJFimJ6HeWXsL/a3OYTfuTVeJqAkWuffCedONUUMgpw5kivgC6vdszv7
- uNsw/YsA==;
-Received: from galois.linutronix.de ([193.142.43.55])
+ bh=u8HY47nQ1rEETIi4/9zdfAjblKurxchJCqLvsv7KpOQ=; b=fpMuh3vohPiyFPxYVnLXsQNJcv
+ Vn1zTYVvUZddeRFx03ysTBToPHEyKmUoFE7g8IEYGWurH5DC0323tlLqzdZXnmoU6alBStb6fORow
+ NkQmvbTCYUz0aJZJtewI/WRmPMdXhv6P3PxtDDlFy4DjN0Jhp739iOpeMwymvkL5xvhXh9brreK7N
+ zqP/5sZOOjgTWYTN2FyFQR3hfcTWKoGwFsA/6+wW+m2hM/zC3LTTNc7HqjxWTMenwttvkamt33SFq
+ N22wr3yuCufK3d19wbGil0kCsS8EpZscK4sTuYQ4plHBsyIWr2rx3+PhZnQ+UrQ4QEnvwogXtVaz0
+ AZcRdOFw==;
+Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
  by casper.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kZtdR-0002Gw-Ju; Tue, 03 Nov 2020 10:34:28 +0000
-Message-Id: <20201103095858.734064977@linutronix.de>
+ id 1kZtdP-0002Gd-Qj; Tue, 03 Nov 2020 10:34:23 +0000
+Message-Id: <20201103095858.625310005@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1604399629;
+ s=2020; t=1604399627;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=GQtIeN+bNrXtdDJbIY1/lT5u2Qlmlecyg45ylimAqeo=;
- b=otNm1FLhC7ruMh7oNXQtNETNU6+54RFk+t2LyeEF9d9+kDoZ9Kh8ZPgA+UB8A6JQ1ZXrGj
- 0TPeQl8iy37SQzf3hhxJ0YH8tjvvuOPaAqFoJKHafSPmEiutw0Ud/5TB6XtJVn4M9v5QlN
- Kc0YPCEkVxgY8QSHdaCi6xZgLgOgc1LgMVaGrZjI4AUGq0ZlUKuDX4Xk4y+i0m9xE3dk86
- 7GNBZMVBc/q+vRf7Zxdqgcl3bL7dPvuY81X2pyGhr1m48UNO2c+I7V2+wunozMP8FhvNCm
- gkFktETWxncmi0cgpUqLzaSL8knV0VimchG0Urhi5o5DvILy9hDHjs2CmUtXqQ==
+ bh=u8HY47nQ1rEETIi4/9zdfAjblKurxchJCqLvsv7KpOQ=;
+ b=UIhQ3Idxk6DjqiC6Zp5rc4N6iIwQmApwpEz7EKu7hqb91V0vjErMVftYE/lIlYUApLaISa
+ 3ccLnmNasdVRHOr19A+0USX+WAAkZZIjUMJdOqwtST6bwLR8FfbnRoR8LKumRrrftbirYG
+ 0l6PZFPBhGEyltNl2guOKD+Y7j8W02bAqqHBZavnWH3Paom7PdVcbI5qxqWz6ddv36DWCP
+ zm4P6Knv2IQI5zIUHr2mvjLgLvmtINMaZyEWkyzXbaMNAnE91CmwDx3Mp24quHVVlblvyj
+ fuGwVAaCvcmIe9Q95benYVD1y+pfol/PFOUqRXxGybqy2IC6v/D7p/hCR6+Rig==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1604399629;
+ s=2020e; t=1604399627;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=GQtIeN+bNrXtdDJbIY1/lT5u2Qlmlecyg45ylimAqeo=;
- b=aDUoEgUsKRf0mAVHG33KZuw3tdfR+OUYkG1a4FnTBJVD3Vb06TvF7LUgRRezOsbA4xMida
- qFHqtJWvRi1kHPBw==
-Date: Tue, 03 Nov 2020 10:27:33 +0100
+ bh=u8HY47nQ1rEETIi4/9zdfAjblKurxchJCqLvsv7KpOQ=;
+ b=Wh1ctmmSJLQbhvGkIjkjFlpjReRcEPXXdhQjfh9QkvigubCQPDmw4DWcX/N5g5dqM9hpPg
+ QWU4PaI/uom22gDQ==
+Date: Tue, 03 Nov 2020 10:27:32 +0100
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch V3 21/37] Documentation/io-mapping: Remove outdated blurb
+Subject: [patch V3 20/37] io-mapping: Cleanup atomic iomap 
 References: <20201103092712.714480842@linutronix.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201103_103354_860127_09D0298E 
-X-CRM114-Status: GOOD (  12.66  )
+X-CRM114-CacheID: sfid-20201103_103352_874086_8E84498A 
+X-CRM114-Status: GOOD (  13.34  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,44 +136,82 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The implementation details in the documentation are outdated and not really
-helpful. Remove them.
+Switch the atomic iomap implementation over to kmap_local and stick the
+preempt/pagefault mechanics into the generic code similar to the
+kmap_atomic variants.
+
+Rename the x86 map function in preparation for a non-atomic variant.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 ---
-V3: New patch
+V2: New patch to make review easier
 ---
- Documentation/driver-api/io-mapping.rst |   22 ----------------------
- 1 file changed, 22 deletions(-)
+ arch/x86/include/asm/iomap.h |    9 +--------
+ arch/x86/mm/iomap_32.c       |    6 ++----
+ include/linux/io-mapping.h   |    8 ++++++--
+ 3 files changed, 9 insertions(+), 14 deletions(-)
 
---- a/Documentation/driver-api/io-mapping.rst
-+++ b/Documentation/driver-api/io-mapping.rst
-@@ -73,25 +73,3 @@ for pages mapped with io_mapping_map_wc.
- At driver close time, the io_mapping object must be freed::
+--- a/arch/x86/include/asm/iomap.h
++++ b/arch/x86/include/asm/iomap.h
+@@ -13,14 +13,7 @@
+ #include <asm/cacheflush.h>
+ #include <asm/tlbflush.h>
  
- 	void io_mapping_free(struct io_mapping *mapping)
+-void __iomem *iomap_atomic_pfn_prot(unsigned long pfn, pgprot_t prot);
 -
--Current Implementation
--======================
--
--The initial implementation of these functions uses existing mapping
--mechanisms and so provides only an abstraction layer and no new
--functionality.
--
--On 64-bit processors, io_mapping_create_wc calls ioremap_wc for the whole
--range, creating a permanent kernel-visible mapping to the resource. The
--map_atomic and map functions add the requested offset to the base of the
--virtual address returned by ioremap_wc.
--
--On 32-bit processors with HIGHMEM defined, io_mapping_map_atomic_wc uses
--kmap_atomic_pfn to map the specified page in an atomic fashion;
--kmap_atomic_pfn isn't really supposed to be used with device pages, but it
--provides an efficient mapping for this usage.
--
--On 32-bit processors without HIGHMEM defined, io_mapping_map_atomic_wc and
--io_mapping_map_wc both use ioremap_wc, a terribly inefficient function which
--performs an IPI to inform all processors about the new mapping. This results
--in a significant performance penalty.
+-static inline void iounmap_atomic(void __iomem *vaddr)
+-{
+-	kunmap_local_indexed((void __force *)vaddr);
+-	pagefault_enable();
+-	preempt_enable();
+-}
++void __iomem *__iomap_local_pfn_prot(unsigned long pfn, pgprot_t prot);
+ 
+ int iomap_create_wc(resource_size_t base, unsigned long size, pgprot_t *prot);
+ 
+--- a/arch/x86/mm/iomap_32.c
++++ b/arch/x86/mm/iomap_32.c
+@@ -44,7 +44,7 @@ void iomap_free(resource_size_t base, un
+ }
+ EXPORT_SYMBOL_GPL(iomap_free);
+ 
+-void __iomem *iomap_atomic_pfn_prot(unsigned long pfn, pgprot_t prot)
++void __iomem *__iomap_local_pfn_prot(unsigned long pfn, pgprot_t prot)
+ {
+ 	/*
+ 	 * For non-PAT systems, translate non-WB request to UC- just in
+@@ -60,8 +60,6 @@ void __iomem *iomap_atomic_pfn_prot(unsi
+ 	/* Filter out unsupported __PAGE_KERNEL* bits: */
+ 	pgprot_val(prot) &= __default_kernel_pte_mask;
+ 
+-	preempt_disable();
+-	pagefault_disable();
+ 	return (void __force __iomem *)__kmap_local_pfn_prot(pfn, prot);
+ }
+-EXPORT_SYMBOL_GPL(iomap_atomic_pfn_prot);
++EXPORT_SYMBOL_GPL(__iomap_local_pfn_prot);
+--- a/include/linux/io-mapping.h
++++ b/include/linux/io-mapping.h
+@@ -69,13 +69,17 @@ io_mapping_map_atomic_wc(struct io_mappi
+ 
+ 	BUG_ON(offset >= mapping->size);
+ 	phys_addr = mapping->base + offset;
+-	return iomap_atomic_pfn_prot(PHYS_PFN(phys_addr), mapping->prot);
++	preempt_disable();
++	pagefault_disable();
++	return __iomap_local_pfn_prot(PHYS_PFN(phys_addr), mapping->prot);
+ }
+ 
+ static inline void
+ io_mapping_unmap_atomic(void __iomem *vaddr)
+ {
+-	iounmap_atomic(vaddr);
++	kunmap_local_indexed((void __force *)vaddr);
++	pagefault_enable();
++	preempt_enable();
+ }
+ 
+ static inline void __iomem *
 
 
 _______________________________________________
