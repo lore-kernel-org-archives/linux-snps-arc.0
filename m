@@ -2,69 +2,69 @@ Return-Path: <SRS0=Y3bE=EN=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D45B1C55179
-	for <linux-snps-arc@archiver.kernel.org>; Sat,  7 Nov 2020 05:08:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9261C388F7
+	for <linux-snps-arc@archiver.kernel.org>; Sat,  7 Nov 2020 14:10:15 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1F48C20878
-	for <linux-snps-arc@archiver.kernel.org>; Sat,  7 Nov 2020 05:08:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6DA75206ED
+	for <linux-snps-arc@archiver.kernel.org>; Sat,  7 Nov 2020 14:10:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="XnpfzQ0n";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="clH9jKll"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1F48C20878
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ys5iu+o6";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="C1vtH8OW"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6DA75206ED
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Mime-Version:References:In-Reply-To:Message-Id:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=tt7dS9CDcdU/nZc+SHseHuG8wlHAYPtV8w66ZCCTaXc=; b=XnpfzQ0noZmcEnrS5/UjtyJO3
-	mFd3bkZgshMT6IiHGeAn2d2B0jx1e8MV/gDrDna3W52BZ7fZvo9lNlUPDvFBBqrsC5ZaGE/rGQj43
-	0kWHfsKBwj5f2gFu/91QQxeigIE1JJm3McYoyJD7BbH3cef2MKyIsEdVleE3hyhn/dA1bWhKSuzFz
-	xwL6wecWLAfUHiUQuAJDApusfuQwgHtsqcEpQEm99xcFDAzwbJY62/uUsXsUFLA9EtqK2cRgV8d+e
-	kigXoLKSII7sFqdOEils2Z/O2Oq5pQbEGNaJy+B/KQiK05VXs8uNwIRZco4PsAbcDSQv3xpruo194
-	0hUXDw+bA==;
+	 bh=//Gl8SQ0toBHzWwRTdVEI3APvxuf+eSp9nruQBRL08E=; b=ys5iu+o6ZAT8Ap6TPbP3QaDXa
+	JiX7Dmfrn/s/F9VlcKAs3Yoz2qzcBJFO2GZmAF834Dj+R8Ph+02mFGo54ypsJ/RyUdzHOeuf9xi4p
+	g4pdBt9EfhYZnWkCrQSokZaDQrvH42Xmp5mBwsyUNxYm0rWEbL4RWnrfpWXFvGJ6f9+97ekNy9Xvj
+	snb39IhDJH6oNnXq1p/rwUFY+JCyQpEq4KryG+eIZgz+2gkB9s4No4KVdjO8HrAC9PQnlhHOL4eSg
+	PZndfTZjjHTHRUOyGsiChp+uobGTPOBb/NPeBuiaqq1ivjrSaQ8HM4yoW1EJiDIiskuBUvnnLbLtf
+	EeyGVFInw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kbGT4-0000x3-NU; Sat, 07 Nov 2020 05:08:50 +0000
+	id 1kbOv0-0007P6-RI; Sat, 07 Nov 2020 14:10:14 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kbGT3-0000w9-0V
- for linux-snps-arc@lists.infradead.org; Sat, 07 Nov 2020 05:08:49 +0000
-Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net
- [73.231.172.41])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6BF4C20872;
- Sat,  7 Nov 2020 05:08:46 +0000 (UTC)
+ id 1kbOuy-0007OV-Cw
+ for linux-snps-arc@lists.infradead.org; Sat, 07 Nov 2020 14:10:13 +0000
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 85415206ED;
+ Sat,  7 Nov 2020 14:10:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604725727;
- bh=55KoHb8qRGofoRpTcqTP6+Sj4wA/iZddMk3945/FVcc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=clH9jKll51JXfmaZOHedvXOzyp7t2WgbUCWUJcFUbBilgShWQhDpvNoMEYLV6qd43
- +Fl/JEjNDA8ao703NxINPTq7DhZShDMQQ3SqcctGfKdjL2V0jw0fCkDbxitCqY1TJo
- ueNrSwM6MnUGAptjcct12z9Zzj6EsXyQ2pksLgGM=
-Date: Fri, 6 Nov 2020 21:08:45 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
+ s=default; t=1604758210;
+ bh=/cmrteONQ5VrT8WyKBVaKDbW134CqlhPulNPF5/0dso=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=C1vtH8OWUTlC3Kc+wD5ydbY9tuS/mLXRzaK0ijA+9rdpImqoNperxV1ln7AxHgNfP
+ ySBtRhE5h9p4G47cSlqW5XFjFU4+UlKLBqrrRSQwNkeAccXv+4YrvjPlIC7DCdnfVc
+ xGV+KxNKyNq4RJOZI73ztEWJKCLj0TD2tlqgVwqo=
+Date: Sat, 7 Nov 2020 15:10:06 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-Subject: Re: [RFC] proc: get_wchan() stack unwind only makes sense for
- sleeping/non-self tasks
-Message-Id: <20201106210845.e9e95e91b779a01b6751e240@linux-foundation.org>
-In-Reply-To: <20201105231132.2130132-1-vgupta@synopsys.com>
-References: <20201105231132.2130132-1-vgupta@synopsys.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
+Subject: Re: [PATCH] Revert "ARC: entry: fix potential EFA clobber when
+ TIF_SYSCALL_TRACE"
+Message-ID: <20201107141006.GB28983@kroah.com>
+References: <20201020021957.1260521-1-vgupta@synopsys.com>
+ <9cec26bd-6839-b90d-9bda-44936457e883@synopsys.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <9cec26bd-6839-b90d-9bda-44936457e883@synopsys.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201107_000849_131491_5CFE0688 
-X-CRM114-Status: GOOD (  10.93  )
+X-CRM114-CacheID: sfid-20201107_091012_523083_B9B7DD1F 
+X-CRM114-Status: GOOD (  21.67  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,31 +76,59 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, John Johansen <john.johansen@canonical.com>,
- linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
- linux-snps-arc@lists.infradead.org, Peter Zijlstra <peterz@infradead.org>,
- Alexey Gladkov <gladkov.alexey@gmail.com>,
- Bernd Edlinger <bernd.edlinger@hotmail.de>, Ingo Molnar <mingo@kernel.org>,
- Andrei Vagin <avagin@gmail.com>, "Eric W . Biederman" <ebiederm@xmission.com>,
- Oleg Nesterov <oleg@redhat.com>, linux-fsdevel@vger.kernel.org,
- Michel Lespinasse <walken@google.com>, Alexey Dobriyan <adobriyan@gmail.com>,
- Vlastimil Babka <vbabka@suse.cz>
+Cc: Waldemar Brodkorb <wbx@uclibc-ng.org>,
+ "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu,  5 Nov 2020 15:11:32 -0800 Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
+On Fri, Nov 06, 2020 at 08:27:44PM +0000, Vineet Gupta wrote:
+> Hi Stable Team,
+> 
+> On 10/19/20 7:19 PM, Vineet Gupta wrote:
+> > This reverts commit 00fdec98d9881bf5173af09aebd353ab3b9ac729.
+> > (but only from 5.2 and prior kernels)
+> > 
+> > The original commit was a preventive fix based on code-review and was
+> > auto-picked for stable back-port (for better or worse).
+> > It was OK for v5.3+ kernels, but turned up needing an implicit change
+> > 68e5c6f073bcf70 "(ARC: entry: EV_Trap expects r10 (vs. r9) to have
+> >  exception cause)" merged in v5.3 which itself was not backported.
+> > So to summarize the stable backport of this patch for v5.2 and prior
+> > kernels is busted and it won't boot.
+> > 
+> > The obvious solution is backport 68e5c6f073bcf70 but that is a pain as
+> > it doesn't revert cleanly and each of affected kernels (so far v4.19,
+> > v4.14, v4.9, v4.4) needs a slightly different massaged varaint.
+> > So the easier fix is to simply revert the backport from 5.2 and prior.
+> > The issue was not a big deal as it would cause strace to sporadically
+> > not work correctly.
+> > 
+> > Waldemar Brodkorb first reported this when running ARC uClibc regressions
+> > on latest stable kernels (with offending backport). Once he bisected it,
+> > the analysis was trivial, so thx to him for this.
+> > 
+> > Reported-by: Waldemar Brodkorb <wbx@uclibc-ng.org>
+> > Bisected-by: Waldemar Brodkorb <wbx@uclibc-ng.org>
+> > Cc: stable <stable@vger.kernel.org> # 5.2 and prior
+> > Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
+> 
+> Can this revert be please applied to 4.19 and older kernels for the next cycle.
+> 
+> Or is there is a procedural issue given this revert is not in mainline. I've
+> described the issue in detail above so if there's a better/desirable way of
+> reverting it from backports, please let me know.
 
-> Most architectures currently check this in their get_wchan() implementation
-> (ARC doesn't hence this patch). However doing this in core code shows
-> the semantics better so move the check one level up (eventually remove
-> the boiler-plate code from arches)
+THis is fine, sorry, it's just in a backlog of lots of stable patches...
 
-It would be nice to clean up the arch callees in the same patch, at
-least so it doesn't get forgotten about.  Are you prepared to propose
-such a change?
+We will get to it soon.
 
+thanks,
+
+greg k-h
 
 _______________________________________________
 linux-snps-arc mailing list
