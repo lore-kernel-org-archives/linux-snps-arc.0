@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F165EC388F7
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  9 Nov 2020 10:33:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78837C388F7
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  9 Nov 2020 10:39:40 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 53FD92084C
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  9 Nov 2020 10:33:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0B103216C4
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  9 Nov 2020 10:39:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="0TOF5AEb";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="ODYA388o"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 53FD92084C
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="1Ufl4zf5";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="C+J3DC9K"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0B103216C4
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,44 +26,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:Message-ID:In-Reply-To:Date:From:To:
 	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:List-Owner;
-	 bh=GjjC9n319COpoBqbOKjr1vDVLPbypDyKoLmCaaWPPLE=; b=0TOF5AEbzl2UicRfJ7x5UyQMh
-	0Ke4mY/65DRLxr9RuyuEGommEMKGrIUlVTeV6aBmVqSTXtq2krKe2mTFp4KjdE9lBcfCB1ellNAuC
-	oL/ru5MiCgiPRKd0C459lLCD+1kvpoGkv+Uqt8uAq00Yr/Bdl9gz+HO0hNFeT5XwzznzXCMdRyhjD
-	Zcj0U2GEi/MsSsA2/BqCxeQvJYFkuhMgCcUlC7K8uOBSBzlxEoYwaFeQnWvxAfeN/WvbaQvTd5RLz
-	M+FFP51CVU8Wqadi87APl0VF1E8+40dbLypuQS9Pd3KFYBtEAXuttLVWw/THUmw3ipsqmxfphCLNn
-	9wTcjBlaQ==;
+	 bh=/lgNT4ocwo3N/z0I6RpioDC0PXXFOV3v7aHLhWH/Lts=; b=1Ufl4zf5vlZA+DCS+9x/aEyM0
+	BAAANKPLtx02kHkrurEpjgbQ4FE+jEeJnFhBw2QsJvXbd+mnnWecd2tPd16e0OtY4I8EHfbkJMi4d
+	nBY/IpsteO0MIYgHdI8rqGvd7oNgSuS9p+nrnhhEUN/HqA3LzDxrED10L66F49Iih1zIEHVaO/plO
+	kZM4H5EDWn3OphC5PrK5ZBJ/rJzcfoiCuOkyzxQnjIWKmE2ICxGDYr0uAvKrND1yqevkveBVtJBCe
+	LfqyFogW/WHiQ/L+srxFuTXO//6zOy1A3bzArWNXCdSPr/sM3cHaRxBlmSf+EKf8fLlVrX3fbnU1r
+	2xTW7Wi6g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kc4UY-0007ZM-JS; Mon, 09 Nov 2020 10:33:42 +0000
+	id 1kc4aJ-0008JV-99; Mon, 09 Nov 2020 10:39:39 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kc4UV-0007Yr-Vf
- for linux-snps-arc@lists.infradead.org; Mon, 09 Nov 2020 10:33:41 +0000
+ id 1kc4aH-0008J6-Aj
+ for linux-snps-arc@lists.infradead.org; Mon, 09 Nov 2020 10:39:38 +0000
 Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0D8AA2083B;
- Mon,  9 Nov 2020 10:33:37 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9EC28206E3;
+ Mon,  9 Nov 2020 10:39:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604918018;
- bh=OwxCbh6qWEUR1WmJ99z84i5ytKpwxC8+c3L76Fyos6M=;
+ s=default; t=1604918376;
+ bh=pwmz/Oz6dkXkOsEz+3eldOvJ/3UWeENHdxLmY5SmDOQ=;
  h=Subject:To:Cc:From:Date:In-Reply-To:From;
- b=ODYA388oFkKwWCvZQlYE8W7XQqIk/kYfSf1ESFj5Ib1jycIDfP+RhMo51prSs2W3a
- JHJSxuLQIFbmVHl0nxi62PXU0ddpNOD+Ot3m2e59R5hdsUAdzcQNqvRpEx4RUMH3VP
- /tCF590DNOz/uHYy2kJsJB1x0ee7HoKg2fhDwS90=
+ b=C+J3DC9KVIekMAJJLkP3QlGeO78+UGDY9r2ElIg+IzNMKD3vyq6bKxJRxr/hXQN7u
+ /4gVjXSZSNfTA9T0fW0Zdw8n2rjoFOjZCikGNRTa6cqPYbNkucbvxvtY4zCtu56zN8
+ zONs1vLlRBzNaWG7rPQM9WGJHFvCbWyjfudPyZI8=
 Subject: Patch "Revert "ARC: entry: fix potential EFA clobber when
- TIF_SYSCALL_TRACE"" has been added to the 4.4-stable tree
+ TIF_SYSCALL_TRACE"" has been added to the 4.9-stable tree
 To: Vineet.Gupta1@synopsys.com, gregkh@linuxfoundation.org,
  linux-snps-arc@lists.infradead.org, vgupta@synopsys.com, wbx@uclibc-ng.org
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 09 Nov 2020 11:34:27 +0100
+Date: Mon, 09 Nov 2020 11:40:25 +0100
 In-Reply-To: <20201020021957.1260521-1-vgupta@synopsys.com>
-Message-ID: <160491806778237@kroah.com>
+Message-ID: <160491842512078@kroah.com>
 MIME-Version: 1.0
 X-stable: commit
 X-Patchwork-Hint: ignore 
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201109_053340_183472_FECC169D 
+X-CRM114-CacheID: sfid-20201109_053937_544589_C657EB7A 
 X-CRM114-Status: GOOD (  14.76  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -87,12 +87,12 @@ This is a note to let you know that I've just added the patch titled
 
     Revert "ARC: entry: fix potential EFA clobber when TIF_SYSCALL_TRACE"
 
-to the 4.4-stable tree which can be found at:
+to the 4.9-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      revert-arc-entry-fix-potential-efa-clobber-when-tif_syscall_trace.patch
-and it can be found in the queue-4.4 subdirectory.
+and it can be found in the queue-4.9 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -141,7 +141,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/arch/arc/kernel/entry.S
 +++ b/arch/arc/kernel/entry.S
-@@ -168,6 +168,7 @@ END(EV_Extension)
+@@ -156,6 +156,7 @@ END(EV_Extension)
  tracesys:
  	; save EFA in case tracer wants the PC of traced task
  	; using ERET won't work since next-PC has already committed
@@ -149,7 +149,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	GET_CURR_TASK_FIELD_PTR   TASK_THREAD, r11
  	st  r12, [r11, THREAD_FAULT_ADDR]	; thread.fault_address
  
-@@ -210,9 +211,15 @@ tracesys_exit:
+@@ -198,9 +199,15 @@ tracesys_exit:
  ; Breakpoint TRAP
  ; ---------------------------------------------
  trap_with_param:
@@ -166,7 +166,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	; Save callee regs in case gdb wants to have a look
  	; SP will grow up by size of CALLEE Reg-File
  	; NOTE: clobbers r12
-@@ -239,10 +246,6 @@ ENTRY(EV_Trap)
+@@ -227,10 +234,6 @@ ENTRY(EV_Trap)
  
  	EXCEPTION_PROLOGUE
  
@@ -177,7 +177,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	;============ TRAP 1   :breakpoints
  	; Check ECR for trap with arg (PROLOGUE ensures r9 has ECR)
  	bmsk.f 0, r9, 7
-@@ -250,6 +253,9 @@ ENTRY(EV_Trap)
+@@ -238,6 +241,9 @@ ENTRY(EV_Trap)
  
  	;============ TRAP  (no param): syscall top level
  
@@ -191,7 +191,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from Vineet.Gupta1@synopsys.com are
 
-queue-4.4/revert-arc-entry-fix-potential-efa-clobber-when-tif_syscall_trace.patch
+queue-4.9/revert-arc-entry-fix-potential-efa-clobber-when-tif_syscall_trace.patch
 
 _______________________________________________
 linux-snps-arc mailing list
