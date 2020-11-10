@@ -1,67 +1,73 @@
-Return-Path: <SRS0=sYE2=EP=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=K3hJ=EQ=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEA33C2D0A3
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  9 Nov 2020 13:22:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA0DBC5517A
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 10 Nov 2020 03:54:06 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5658C208FE
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  9 Nov 2020 13:22:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 683AA20829
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 10 Nov 2020 03:54:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RwncLr1Y"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5658C208FE
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=asem.it
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="bZXSTUvd";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="QQI18Qbo"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 683AA20829
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=z4ljpjTF5qEDUlTOEaNwRqcP/VjQSmElF8EmWgLDG0U=; b=RwncLr1YoF/NYR2glKdNe1liV7
-	I4cA8JFeO7rd9H3pBKkY1UsWjLDWqFczEe5nzmgjj+DdAG8amm8jXzNnFhdv4hR74q+YVcTDSZsyt
-	K7n/uuoj8jrly7dYHVzgd1Lp0ez6Pht7gkt+xW4PkFv6ukrD/xmljoNW8SyL6TYE0kSaA4dWz/8CP
-	FC8IY04QDiJbMJWX2NXiyeN4+RRq7nX5Wgi1WSA7SVCRhKB38KG7mL2Wbv4hnVNO4afrJPtQ4HbaG
-	mSwao5o57gUhSxwkaqTDctghpyVkAcNfY6U37ICZUMUwFm89KEMDWoZKwryzoy6xTCX51PBPG2GF0
-	py4+kkNw==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=twcnROTe0hiKCTRqD91ueHt3/sfvuBhBBJPzXXI09hw=; b=bZXSTUvdToFCbZJPhPO8TlZEg
+	NqgGA8N342QyRQEVK9ScXf8B3GO46StXdq6UAk52ctslh4DsG9q28l4RaGnAXM0oLMaW2fwkHSS5h
+	pDgQMG1eStcKysUU2glBX29J43kAuQaeQ9RtaB9EPFcpDV1ndZkTAX+bSTY7LWacGZWL4iN5JXa9b
+	7ijC71sANo76lm4qeCkESbrqJS3I62KrvILn/jVgGNjKrBEYXk3g0bvLBe97cYxRyZsj2PLo+REDT
+	8aFZEW9PJDRGYgxwpsq+tmjeIpVzyqMxdo1ySkskhgtUp7hkW6i8Pmy9ciuL0gHazXvkrCIgAW5kD
+	PpPaPrLjg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kc77h-00014H-20; Mon, 09 Nov 2020 13:22:17 +0000
-Received: from smtp.asem.it ([151.1.184.197])
+	id 1kcKjN-0001dw-H3; Tue, 10 Nov 2020 03:54:05 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kc77e-0000yh-9H
- for linux-snps-arc@lists.infradead.org; Mon, 09 Nov 2020 13:22:15 +0000
-Received: from webmail.asem.it by asem.it (smtp.asem.it)
- (SecurityGateway 6.5.2) with ESMTP id SG000594617.MSG 
- for <linux-snps-arc@lists.infradead.org>; Mon, 09 Nov 2020 14:22:09 +0100S
-Received: from ASAS044.asem.intra (172.16.16.44) by ASAS044.asem.intra
- (172.16.16.44) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 9 Nov
- 2020 14:22:06 +0100
-Received: from flavio-x.asem.intra (172.16.17.208) by ASAS044.asem.intra
- (172.16.16.44) with Microsoft SMTP Server id 15.1.1979.3 via Frontend
- Transport; Mon, 9 Nov 2020 14:22:06 +0100
-From: Flavio Suligoi <f.suligoi@asem.it>
-To: Vineet Gupta <vgupta@synopsys.com>
-Subject: [PATCH] ARC: mm: fix spelling mistakes
-Date: Mon, 9 Nov 2020 14:21:30 +0100
-Message-ID: <20201109132130.34555-1-f.suligoi@asem.it>
-X-Mailer: git-send-email 2.25.1
+ id 1kcKjI-0001bj-Qw
+ for linux-snps-arc@lists.infradead.org; Tue, 10 Nov 2020 03:54:02 +0000
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
+ [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4475B20E65;
+ Tue, 10 Nov 2020 03:53:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1604980440;
+ bh=7ztnYkMLU7W1/hYN9RH7Mo/BzV5XRX/k8BGYnIAvE5E=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=QQI18QboP1syENeLqHdJ2nopNCVVOJMbyL+4ohkezbk/wqubQybEwXjSXfNynfUcD
+ tRq0XP5Yzxg82JjKYgIZu0U8wvqsjhDUaW+7K5EpiBmNx26tRlCOjMXcVvb3MwesmV
+ wLk+4HYnM0Nv7loi2wg0td+rZ098WN5eFbfoyxH4=
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.9 29/55] ARC: [plat-hsdk] Remap CCMs super early in
+ asm boot trampoline
+Date: Mon,  9 Nov 2020 22:52:52 -0500
+Message-Id: <20201110035318.423757-29-sashal@kernel.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20201110035318.423757-1-sashal@kernel.org>
+References: <20201110035318.423757-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-SGHeloLookup-Result: pass smtp.helo=webmail.asem.it (ip=172.16.16.44)
-X-SGSPF-Result: none (smtp.asem.it)
-X-SGOP-RefID: str=0001.0A09020B.5FA9427F.0071, ss=1, re=0.000, recu=0.000,
- reip=0.000, cl=1, cld=1, fgs=0 (_st=1 _vt=0 _iwf=0)
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201109_082214_507175_01D0A6FB 
-X-CRM114-Status: GOOD (  12.33  )
+X-CRM114-CacheID: sfid-20201109_225401_094839_429F6130 
+X-CRM114-Status: GOOD (  19.18  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,129 +79,116 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Flavio Suligoi <f.suligoi@asem.it>, linux-snps-arc@lists.infradead.org,
- linux-kernel@vger.kernel.org
+Cc: linux-mm@kvack.org, Vineet Gupta <vgupta@synopsys.com>,
+ linux-snps-arc@lists.infradead.org, Sasha Levin <sashal@kernel.org>,
+ David Hildenbrand <david@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
----
- arch/arc/mm/tlb.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+From: Vineet Gupta <vgupta@synopsys.com>
 
-diff --git a/arch/arc/mm/tlb.c b/arch/arc/mm/tlb.c
-index c340acd989a0..9bb3c24f3677 100644
---- a/arch/arc/mm/tlb.c
-+++ b/arch/arc/mm/tlb.c
-@@ -30,14 +30,14 @@
-  *  -Changes related to MMU v2 (Rel 4.8)
-  *
-  * Vineetg: Aug 29th 2008
-- *  -In TLB Flush operations (Metal Fix MMU) there is a explict command to
-+ *  -In TLB Flush operations (Metal Fix MMU) there is a explicit command to
-  *    flush Micro-TLBS. If TLB Index Reg is invalid prior to TLBIVUTLB cmd,
-  *    it fails. Thus need to load it with ANY valid value before invoking
-  *    TLBIVUTLB cmd
-  *
-  * Vineetg: Aug 21th 2008:
-  *  -Reduced the duration of IRQ lockouts in TLB Flush routines
-- *  -Multiple copies of TLB erase code seperated into a "single" function
-+ *  -Multiple copies of TLB erase code separated into a "single" function
-  *  -In TLB Flush routines, interrupt disabling moved UP to retrieve ASID
-  *       in interrupt-safe region.
-  *
-@@ -66,7 +66,7 @@
-  *
-  * Although J-TLB is 2 way set assoc, ARC700 caches J-TLB into uTLBS which has
-  * much higher associativity. u-D-TLB is 8 ways, u-I-TLB is 4 ways.
-- * Given this, the thrasing problem should never happen because once the 3
-+ * Given this, the thrashing problem should never happen because once the 3
-  * J-TLB entries are created (even though 3rd will knock out one of the prev
-  * two), the u-D-TLB and u-I-TLB will have what is required to accomplish memcpy
-  *
-@@ -127,7 +127,7 @@ static void utlb_invalidate(void)
- 	 * There was however an obscure hardware bug, where uTLB flush would
- 	 * fail when a prior probe for J-TLB (both totally unrelated) would
- 	 * return lkup err - because the entry didn't exist in MMU.
--	 * The Workround was to set Index reg with some valid value, prior to
-+	 * The Workaround was to set Index reg with some valid value, prior to
- 	 * flush. This was fixed in MMU v3
- 	 */
- 	unsigned int idx;
-@@ -272,7 +272,7 @@ noinline void local_flush_tlb_all(void)
- }
+[ Upstream commit 3b57533b460c8dc22a432684b7e8d22571f34d2e ]
+
+ARC HSDK platform stopped booting on released v5.10-rc1, getting stuck
+in startup of non master SMP cores.
+
+This was bisected to upstream commit 7fef431be9c9ac25
+"(mm/page_alloc: place pages to tail in __free_pages_core())"
+That commit itself is harmless, it just exposed a subtle assumption in
+our platform code (hence CC'ing linux-mm just as FYI in case some other
+arches / platforms trip on it).
+
+The upstream commit is semantically disruptive as it reverses the order
+of page allocations (actually it can be good test for hardware
+verification to exercise different memory patterns altogether).
+For ARC HSDK platform that meant a remapped memory region (pertaining to
+unused Closely Coupled Memory) started getting used early for dynamice
+allocations, while not effectively remapped on all the cores, triggering
+memory error exception on those cores.
+
+The fix is to move the CCM remapping from early platform code to to early core
+boot code. And while it is undesirable to riddle common boot code with
+platform quirks, there is no other way to do this since the faltering code
+involves setting up stack itself so even function calls are not allowed at
+that point.
+
+If anyone is interested, all the gory details can be found at Link below.
+
+Link: https://github.com/foss-for-synopsys-dwc-arc-processors/linux/issues/32
+Cc: David Hildenbrand <david@redhat.com>
+Cc: linux-mm@kvack.org
+Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ arch/arc/kernel/head.S        | 17 ++++++++++++++++-
+ arch/arc/plat-hsdk/platform.c | 17 -----------------
+ 2 files changed, 16 insertions(+), 18 deletions(-)
+
+diff --git a/arch/arc/kernel/head.S b/arch/arc/kernel/head.S
+index 17fd1ed700cca..9152782444b55 100644
+--- a/arch/arc/kernel/head.S
++++ b/arch/arc/kernel/head.S
+@@ -67,7 +67,22 @@
+ 	sr	r5, [ARC_REG_LPB_CTRL]
+ 1:
+ #endif /* CONFIG_ARC_LPB_DISABLE */
+-#endif
++
++	/* On HSDK, CCMs need to remapped super early */
++#ifdef CONFIG_ARC_SOC_HSDK
++	mov	r6, 0x60000000
++	lr	r5, [ARC_REG_ICCM_BUILD]
++	breq	r5, 0, 1f
++	sr	r6, [ARC_REG_AUX_ICCM]
++1:
++	lr	r5, [ARC_REG_DCCM_BUILD]
++	breq	r5, 0, 2f
++	sr	r6, [ARC_REG_AUX_DCCM]
++2:
++#endif	/* CONFIG_ARC_SOC_HSDK */
++
++#endif	/* CONFIG_ISA_ARCV2 */
++
+ 	; Config DSP_CTRL properly, so kernel may use integer multiply,
+ 	; multiply-accumulate, and divide operations
+ 	DSP_EARLY_INIT
+diff --git a/arch/arc/plat-hsdk/platform.c b/arch/arc/plat-hsdk/platform.c
+index 0b961a2a10b8e..22c9e2c9c0283 100644
+--- a/arch/arc/plat-hsdk/platform.c
++++ b/arch/arc/plat-hsdk/platform.c
+@@ -17,22 +17,6 @@ int arc_hsdk_axi_dmac_coherent __section(.data) = 0;
  
- /*
-- * Flush the entrie MM for userland. The fastest way is to move to Next ASID
-+ * Flush the entire MM for userland. The fastest way is to move to Next ASID
-  */
- noinline void local_flush_tlb_mm(struct mm_struct *mm)
- {
-@@ -303,7 +303,7 @@ noinline void local_flush_tlb_mm(struct mm_struct *mm)
-  * Difference between this and Kernel Range Flush is
-  *  -Here the fastest way (if range is too large) is to move to next ASID
-  *      without doing any explicit Shootdown
-- *  -In case of kernel Flush, entry has to be shot down explictly
-+ *  -In case of kernel Flush, entry has to be shot down explicitly
-  */
- void local_flush_tlb_range(struct vm_area_struct *vma, unsigned long start,
- 			   unsigned long end)
-@@ -620,7 +620,7 @@ void update_mmu_cache(struct vm_area_struct *vma, unsigned long vaddr_unaligned,
-  * Super Page size is configurable in hardware (4K to 16M), but fixed once
-  * RTL builds.
-  *
-- * The exact THP size a Linx configuration will support is a function of:
-+ * The exact THP size a Linux configuration will support is a function of:
-  *  - MMU page size (typical 8K, RTL fixed)
-  *  - software page walker address split between PGD:PTE:PFN (typical
-  *    11:8:13, but can be changed with 1 line)
-@@ -698,7 +698,7 @@ void local_flush_pmd_tlb_range(struct vm_area_struct *vma, unsigned long start,
+ #define ARC_CCM_UNUSED_ADDR	0x60000000
  
- #endif
+-static void __init hsdk_init_per_cpu(unsigned int cpu)
+-{
+-	/*
+-	 * By default ICCM is mapped to 0x7z while this area is used for
+-	 * kernel virtual mappings, so move it to currently unused area.
+-	 */
+-	if (cpuinfo_arc700[cpu].iccm.sz)
+-		write_aux_reg(ARC_REG_AUX_ICCM, ARC_CCM_UNUSED_ADDR);
+-
+-	/*
+-	 * By default DCCM is mapped to 0x8z while this area is used by kernel,
+-	 * so move it to currently unused area.
+-	 */
+-	if (cpuinfo_arc700[cpu].dccm.sz)
+-		write_aux_reg(ARC_REG_AUX_DCCM, ARC_CCM_UNUSED_ADDR);
+-}
  
--/* Read the Cache Build Confuration Registers, Decode them and save into
-+/* Read the Cache Build Configuration Registers, Decode them and save into
-  * the cpuinfo structure for later use.
-  * No Validation is done here, simply read/convert the BCRs
-  */
-@@ -803,13 +803,13 @@ void arc_mmu_init(void)
- 	pr_info("%s", arc_mmu_mumbojumbo(0, str, sizeof(str)));
- 
- 	/*
--	 * Can't be done in processor.h due to header include depenedencies
-+	 * Can't be done in processor.h due to header include dependencies
- 	 */
- 	BUILD_BUG_ON(!IS_ALIGNED((CONFIG_ARC_KVADDR_SIZE << 20), PMD_SIZE));
- 
- 	/*
- 	 * stack top size sanity check,
--	 * Can't be done in processor.h due to header include depenedencies
-+	 * Can't be done in processor.h due to header include dependencies
- 	 */
- 	BUILD_BUG_ON(!IS_ALIGNED(STACK_TOP, PMD_SIZE));
- 
-@@ -881,7 +881,7 @@ void arc_mmu_init(void)
-  *      the duplicate one.
-  * -Knob to be verbose abt it.(TODO: hook them up to debugfs)
-  */
--volatile int dup_pd_silent; /* Be slient abt it or complain (default) */
-+volatile int dup_pd_silent; /* Be silent abt it or complain (default) */
- 
- void do_tlb_overlap_fault(unsigned long cause, unsigned long address,
- 			  struct pt_regs *regs)
-@@ -948,7 +948,7 @@ void do_tlb_overlap_fault(unsigned long cause, unsigned long address,
- 
- /***********************************************************************
-  * Diagnostic Routines
-- *  -Called from Low Level TLB Hanlders if things don;t look good
-+ *  -Called from Low Level TLB Handlers if things don;t look good
-  **********************************************************************/
- 
- #ifdef CONFIG_ARC_DBG_TLB_PARANOIA
+ #define ARC_PERIPHERAL_BASE	0xf0000000
+ #define CREG_BASE		(ARC_PERIPHERAL_BASE + 0x1000)
+@@ -339,5 +323,4 @@ static const char *hsdk_compat[] __initconst = {
+ MACHINE_START(SIMULATION, "hsdk")
+ 	.dt_compat	= hsdk_compat,
+ 	.init_early     = hsdk_init_early,
+-	.init_per_cpu	= hsdk_init_per_cpu,
+ MACHINE_END
 -- 
-2.25.1
+2.27.0
 
 
 _______________________________________________
