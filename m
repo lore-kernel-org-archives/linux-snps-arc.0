@@ -8,17 +8,17 @@ X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE5C2C55ABD
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Nov 2020 16:18:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A420FC5517A
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Nov 2020 16:18:35 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 366192074B
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Nov 2020 16:18:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 14C7A2074B
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Nov 2020 16:18:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="fnLOikoQ";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SNtJLH+S"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 366192074B
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="EDOQRKkE";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="njlb+t6w"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 14C7A2074B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,64 +27,64 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=P9TGSipgucSKmd7nbUGGmhJ9nnxie9l5jGjMf7H3PF0=; b=fnLOikoQlSu7NuUyZIAsaj8xy
-	FVcqT5lqKeD/j8xNMaQ+TQziUXOqtKmvbidvqLT7n9z4ogCsojt65lZ/j2G0q7+cOS+HEaqeBwSW3
-	ogL3tCf+70EPcTug4Vlln0EXhMjC1EZkVtAn9aBOztD9GJvUoZpL7yM2j9JOyi4kZPhSTe0LN7/Yb
-	0oZrWiXK3j12bgX1/pkzZx6uJs2VnfD7xRdRZAEZLTdtMRfJPkw85EJchTDs0vpYg89XPay2oJdgC
-	Yjxh917VC6LFauAe7duAw+IVbptBV4Bvz9dPfjnVEDnnuRxph1GaffEGjxS3DH2hQI/q3DL6s39WD
-	E9kf2gEjA==;
+	 bh=9nHlom5aoGcKRc40qMg2c6UlUM3kwyw5H/KFEshqba4=; b=EDOQRKkEdtNmrv9WIZ/eqLHIc
+	w24RjTzpEV5+FMsbjAZAQ/t5Pk7mTNqiIVy1z9LiovhOzguVXNr/59GW/G2rX2g+Xra5zSUt5ngDx
+	ci9UVwPkuBeVdy7NI4T1613JE5Fd11DF8YQfZ6hQ2cmscAYpWIFAw1sILHNPCrX3x4sUoSqrX+2sC
+	WxAVzaeIVdagOHh6xVlPOq2+DHrwHmif3ZREkqNf0j0gWjril+lAG/Svq7goZZrxHoGczPGfl5V0p
+	aD0njjfodrsLavPlZ++WkhosDCnaKel/V7wFNP55QmEGnMvn9Lisw5xRfiTEeqESosoyE3AuQ1kPe
+	zS6X7s4Kw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kcspM-0003iN-NC; Wed, 11 Nov 2020 16:18:32 +0000
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442])
+	id 1kcspN-0003ij-M5; Wed, 11 Nov 2020 16:18:33 +0000
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kcsp6-0003bg-GN
+ id 1kcspB-0003dw-5r
  for linux-snps-arc@lists.infradead.org; Wed, 11 Nov 2020 16:18:30 +0000
-Received: by mail-wr1-x442.google.com with SMTP id b8so3101699wrn.0
- for <linux-snps-arc@lists.infradead.org>; Wed, 11 Nov 2020 08:18:16 -0800 (PST)
+Received: by mail-wm1-x344.google.com with SMTP id h62so2853733wme.3
+ for <linux-snps-arc@lists.infradead.org>; Wed, 11 Nov 2020 08:18:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iaEqp3cvlyP/ihCD/HdV5tObzSXDSm8FccYEmQUDmOM=;
- b=SNtJLH+Sl2lCROUTN0dk4RCcy3H8rNboxK6KUJWvdP8W12AaA1/2mXVGfr7z9SfRUx
- AkeOQ5dBSZt5kksSERzGmTf25wDi6NwDAXgU1+EoBep5or9m/j/yYI0b4xzpsK/5VYS4
- kjNKd38iR9iwX1FVH112q29hpj+XneZ/Rbzwhr5AxCPCeyitGnGPcc23MCoJYjMj/bEZ
- xbg+gsT7wSd7TWWidh8P/NcvEn256meCTvBt4v+xxzNQuAM05D1zFEcsFiYYYLN2+cv6
- v/tWufTAh52BXUqP2wu6YNTD6Y49MxlyVWhye7VYDQa4l7OYJl2EZAmMdL2uxTL6lOvz
- IXoQ==
+ bh=9W8Lxyo7LjQbds7RRvpJL7/LGEGRKcbvZzwFoi75cW4=;
+ b=njlb+t6whuVLzTtVk/0nqrscdBtbj+X50tMafxzParZN45bXjcb4OvHtdu+vNQJgmF
+ l6ZCHdTGZj8NWm0yp/jcGz0IVnWORGiAmsG1o0Y5+DGx6tGnF14BXDdUkxoMg7Dv1zOU
+ bmWFFo1BNE5sn74jGtfsA2GVK/0DfdqbN1WqUurh8xTwSpMWHYIoyCeShA/aYZyUC76S
+ MGny3luvzkEbthc42236pYoylBD6BFJQ9Hy9R9YHA5rnZHF41zjLL8iHXcOldzshiRlZ
+ hEGEYziPkeV4lk3zr0eSuVYRCyOW5zH1enyYTLphwmtDwOLsLxBqtXvPQ9B7oNoqSTiw
+ LymQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iaEqp3cvlyP/ihCD/HdV5tObzSXDSm8FccYEmQUDmOM=;
- b=jGMgOnhdhttJDBwZ4rKFLSqew7WzbKE0HQW3xjjamTUtcfg6NsHX8HGeYUty1j4eLq
- iVGD45AZjnJE129OkZZPRpEyRs8q7PqzsYD7c44VCUylnzpaUkdZQELNGYlmZnyBg5mo
- tAdXjRX4VOjteV6qLDthRfEVVG7RjsmvhVJTZntL1ERN4ocEX1nJOG+qMijB/aLai700
- ZEKuuVJgtCB2Irp/y7v9rf1QNig8WlwJAEJTYKSgEn7k9AZzoLz0FMgCYn7n7+tJyUv/
- cU6yCltWg+JtoKF7kZMnZC0DRo6riXeZhtX+2ha0pec6HFwozL5WyoCiGf/iNbsOm5JR
- MAQg==
-X-Gm-Message-State: AOAM530OvtQbimG7CO6biKb47VwKR7Nz+wJLJkpT1DqlOSs7moqJLjML
- /HLCwQvV4+2OmSlo29eFd9c=
-X-Google-Smtp-Source: ABdhPJzSYxx2qGQs1pSGtA4No2bAx/cxYzwy69sGwXf1AmdK7Ub6V5rRA6eiCjSllRW1EeRZoK8v0w==
-X-Received: by 2002:adf:e5c4:: with SMTP id a4mr32814010wrn.56.1605111494955; 
- Wed, 11 Nov 2020 08:18:14 -0800 (PST)
+ bh=9W8Lxyo7LjQbds7RRvpJL7/LGEGRKcbvZzwFoi75cW4=;
+ b=jbL/KuX0bwE+CsR/65eWsnAH2jEyhj8ZmBmDpDYpJPIDU83DMaQ+5C3nU57SRhX/ZD
+ 6COtRBycruWlMrAzsv1MIYDBlYy/TB0tx3U2bGLZuAaVS79myXFYt3BjSpriJItD4/R3
+ F+k2GFHmtl8D+NI07nBApXlgkbbawCRHsh/Qnkf4SMWRWyTY37r/hjLmMl3BP5Gg+MMx
+ 7fYVoCPxTrwWAsKKNMaNMLyMYCXngLmafM/VcIJ0dZMAAQYn54rBt+TzBVpFMjmoqfU+
+ s9tWgofSjIISLlZt0kk+3FHX+W3ywLJMnDTVitg0MuXura/7+sUjLkZXe48FEUkpSDdH
+ X6Yg==
+X-Gm-Message-State: AOAM531AvYcggSEKo1c+HQtd9nD4cOX2kGbtkyhawOLPWotLpENAMz/1
+ suj1sGrTJRM2yD68NkdiTyEfltH3xDIeLA==
+X-Google-Smtp-Source: ABdhPJwFDkgRTwwcb0YvJWgtI6jmRXVJz7rH4kqsrxtB+CI7x2DbWp3b5oyWbtUABlDO4KYwNizsxg==
+X-Received: by 2002:a1c:e087:: with SMTP id x129mr4816457wmg.2.1605111500003; 
+ Wed, 11 Nov 2020 08:18:20 -0800 (PST)
 Received: from cmiranda-laptop.localdomain (bl19-104-46.dsl.telepac.pt.
  [2.80.104.46])
- by smtp.gmail.com with ESMTPSA id s188sm3115178wmf.45.2020.11.11.08.18.13
+ by smtp.gmail.com with ESMTPSA id s188sm3115178wmf.45.2020.11.11.08.18.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Nov 2020 08:18:13 -0800 (PST)
+ Wed, 11 Nov 2020 08:18:19 -0800 (PST)
 From: cupertinomiranda@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/15] arc: Add BCR and AUX registers implementation
-Date: Wed, 11 Nov 2020 16:17:50 +0000
-Message-Id: <20201111161758.9636-8-cupertinomiranda@gmail.com>
+Subject: [PATCH 11/15] arc: Add gdbstub and XML for debugging support
+Date: Wed, 11 Nov 2020 16:17:54 +0000
+Message-Id: <20201111161758.9636-12-cupertinomiranda@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201111161758.9636-1-cupertinomiranda@gmail.com>
 References: <20201111161758.9636-1-cupertinomiranda@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201111_111816_721701_DA91A5D4 
-X-CRM114-Status: GOOD (  22.99  )
+X-CRM114-CacheID: sfid-20201111_111821_380068_9FC17610 
+X-CRM114-Status: GOOD (  11.70  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,34 +106,358 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Cupertino Miranda <cmiranda@synopsys.com>
+From: Shahab Vahedi <shahab@synopsys.com>
 
-Add the infrastructure to define build configuration (BCR) and auxiliary
-registers allowing independent modules (MMU, MPU, etc.) to use and extend
-them.
+Register layout for the target and the mechanisms to read and set them.
 
-Signed-off-by: Cupertino Miranda <cmiranda@synopsys.com>
+Signed-off-by: Shahab Vahedi <shahab@synopsys.com>
 ---
- target/arc/cache.c         | 182 +++++++++++++
- target/arc/cache.h         |  42 +++
- target/arc/regs-detail.def | 538 +++++++++++++++++++++++++++++++++++++
- target/arc/regs.c          | 139 ++++++++++
- target/arc/regs.def        | 396 +++++++++++++++++++++++++++
- target/arc/regs.h          | 118 ++++++++
- 6 files changed, 1415 insertions(+)
- create mode 100644 target/arc/cache.c
- create mode 100644 target/arc/cache.h
- create mode 100644 target/arc/regs-detail.def
- create mode 100644 target/arc/regs.c
- create mode 100644 target/arc/regs.def
- create mode 100644 target/arc/regs.h
+ gdb-xml/arc-v2-aux.xml   |  32 +++
+ gdb-xml/arc-v2-core.xml  |  45 +++++
+ gdb-xml/arc-v2-other.xml | 235 ++++++++++++++++++++++
+ target/arc/gdbstub.c     | 420 +++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 732 insertions(+)
+ create mode 100644 gdb-xml/arc-v2-aux.xml
+ create mode 100644 gdb-xml/arc-v2-core.xml
+ create mode 100644 gdb-xml/arc-v2-other.xml
+ create mode 100644 target/arc/gdbstub.c
 
-diff --git a/target/arc/cache.c b/target/arc/cache.c
+diff --git a/gdb-xml/arc-v2-aux.xml b/gdb-xml/arc-v2-aux.xml
 new file mode 100644
-index 0000000000..b5495782a6
+index 0000000000..e18168ad05
 --- /dev/null
-+++ b/target/arc/cache.c
-@@ -0,0 +1,182 @@
++++ b/gdb-xml/arc-v2-aux.xml
+@@ -0,0 +1,32 @@
++<?xml version="1.0"?>
++<!-- Copyright (C) 2018 Free Software Foundation, Inc.
++     Copying and distribution of this file, with or without modification,
++     are permitted in any medium without royalty provided the copyright
++     notice and this notice are preserved.  -->
++
++<!DOCTYPE feature SYSTEM "gdb-target.dtd">
++<feature name="org.gnu.gdb.arc.aux">
++  <flags id="status32_type" size="4">
++      <field name="H"   start="0"  end="0"/>
++      <field name="E"   start="1"  end="4"/>
++      <field name="AE"  start="5"  end="5"/>
++      <field name="DE"  start="6"  end="6"/>
++      <field name="U"   start="7"  end="7"/>
++      <field name="V"   start="8"  end="8"/>
++      <field name="C"   start="9"  end="9"/>
++      <field name="N"   start="10" end="10"/>
++      <field name="Z"   start="11" end="11"/>
++      <field name="L"   start="12" end="12"/>
++      <field name="DZ"  start="13" end="13"/>
++      <field name="SC"  start="14" end="14"/>
++      <field name="ES"  start="15" end="15"/>
++      <field name="RB"  start="16" end="18"/>
++      <field name="AD"  start="19" end="19"/>
++      <field name="US"  start="20" end="20"/>
++      <field name="IE"  start="31" end="31"/>
++  </flags>
++  <reg name="pc"       bitsize="32" regnum="36" type="code_ptr"      group="general"/>
++  <reg name="lp_start" bitsize="32" regnum="37" type="code_ptr"      group="general"/>
++  <reg name="lp_end"   bitsize="32" regnum="38" type="code_ptr"      group="general"/>
++  <reg name="status32" bitsize="32" regnum="39" type="status32_type" group="general"/>
++</feature>
+diff --git a/gdb-xml/arc-v2-core.xml b/gdb-xml/arc-v2-core.xml
+new file mode 100644
+index 0000000000..c925a6994c
+--- /dev/null
++++ b/gdb-xml/arc-v2-core.xml
+@@ -0,0 +1,45 @@
++<?xml version="1.0"?>
++<!-- Copyright (C) 2018 Free Software Foundation, Inc.
++     Copying and distribution of this file, with or without modification,
++     are permitted in any medium without royalty provided the copyright
++     notice and this notice are preserved.  -->
++
++<!DOCTYPE feature SYSTEM "gdb-target.dtd">
++<feature name="org.gnu.gdb.arc.core">
++  <reg name="r0"       bitsize="32" regnum="0"                  group="general"/>
++  <reg name="r1"       bitsize="32" regnum="1"                  group="general"/>
++  <reg name="r2"       bitsize="32" regnum="2"                  group="general"/>
++  <reg name="r3"       bitsize="32" regnum="3"                  group="general"/>
++  <reg name="r4"       bitsize="32" regnum="4"                  group="general"/>
++  <reg name="r5"       bitsize="32" regnum="5"                  group="general"/>
++  <reg name="r6"       bitsize="32" regnum="6"                  group="general"/>
++  <reg name="r7"       bitsize="32" regnum="7"                  group="general"/>
++  <reg name="r8"       bitsize="32" regnum="8"                  group="general"/>
++  <reg name="r9"       bitsize="32" regnum="9"                  group="general"/>
++  <reg name="r10"      bitsize="32" regnum="10"                 group="general"/>
++  <reg name="r11"      bitsize="32" regnum="11"                 group="general"/>
++  <reg name="r12"      bitsize="32" regnum="12"                 group="general"/>
++  <reg name="r13"      bitsize="32" regnum="13"                 group="general"/>
++  <reg name="r14"      bitsize="32" regnum="14"                 group="general"/>
++  <reg name="r15"      bitsize="32" regnum="15"                 group="general"/>
++  <reg name="r16"      bitsize="32" regnum="16"                 group="general"/>
++  <reg name="r17"      bitsize="32" regnum="17"                 group="general"/>
++  <reg name="r18"      bitsize="32" regnum="18"                 group="general"/>
++  <reg name="r19"      bitsize="32" regnum="19"                 group="general"/>
++  <reg name="r20"      bitsize="32" regnum="20"                 group="general"/>
++  <reg name="r21"      bitsize="32" regnum="21"                 group="general"/>
++  <reg name="r22"      bitsize="32" regnum="22"                 group="general"/>
++  <reg name="r23"      bitsize="32" regnum="23"                 group="general"/>
++  <reg name="r24"      bitsize="32" regnum="24"                 group="general"/>
++  <reg name="r25"      bitsize="32" regnum="25"                 group="general"/>
++  <reg name="gp"       bitsize="32" regnum="26" type="data_ptr" group="general"/>
++  <reg name="fp"       bitsize="32" regnum="27" type="data_ptr" group="general"/>
++  <reg name="sp"       bitsize="32" regnum="28" type="data_ptr" group="general"/>
++  <reg name="ilink"    bitsize="32" regnum="29" type="code_ptr" group="general"/>
++  <reg name="r30"      bitsize="32" regnum="30"                 group="general"/>
++  <reg name="blink"    bitsize="32" regnum="31" type="code_ptr" group="general"/>
++  <reg name="accl"     bitsize="32" regnum="32"                 group="general"/>
++  <reg name="acch"     bitsize="32" regnum="33"                 group="general"/>
++  <reg name="lp_count" bitsize="32" regnum="34" type="uint32"   group="general"/>
++  <reg name="pcl"      bitsize="32" regnum="35" type="code_ptr" group="general"/>
++</feature>
+diff --git a/gdb-xml/arc-v2-other.xml b/gdb-xml/arc-v2-other.xml
+new file mode 100644
+index 0000000000..9824f518cc
+--- /dev/null
++++ b/gdb-xml/arc-v2-other.xml
+@@ -0,0 +1,235 @@
++<?xml version="1.0"?>
++<!-- Copyright (C) 2018 Free Software Foundation, Inc.
++     Copying and distribution of this file, with or without modification,
++     are permitted in any medium without royalty provided the copyright
++     notice and this notice are preserved.  -->
++
++<!DOCTYPE feature SYSTEM "gdb-target.dtd">
++<feature name="org.gnu.gdb.arc.other">
++  <flags id="timer_build_type" size="4">
++    <field name="version" start="0"  end="7"/>
++    <field name="t0"      start="8"  end="8"/>
++    <field name="t1"      start="9"  end="9"/>
++    <field name="rtc"     start="10" end="10"/>
++    <field name="p0"      start="16" end="19"/>
++    <field name="p1"      start="20" end="23"/>
++  </flags>
++  <flags id="irq_build_type" size="4">
++    <field name="version" start="0"  end="7"/>
++    <field name="IRQs"    start="8"  end="15"/>
++    <field name="exts"    start="16" end="23"/>
++    <field name="p"       start="24" end="27"/>
++    <field name="f"       start="28" end="28"/>
++  </flags>
++  <flags id="mpy_build_type" size="4">
++    <field name="version32x32" start="0"  end="7"/>
++    <field name="type"         start="8"  end="9"/>
++    <field name="cyc"          start="10" end="11"/>
++    <field name="DSP"          start="12" end="15"/>
++    <field name="version16x16" start="16" end="23"/>
++  </flags>
++  <flags id="vecbase_build_type" size="4">
++    <field name="version" start="2"  end="9"/>
++    <field name="addr"    start="10" end="31"/>
++  </flags>
++  <flags id="isa_config_type" size="4">
++    <field name="version"   start="0"  end="7"/>
++    <field name="pc_size"   start="8"  end="11"/>
++    <field name="lpc_size"  start="12" end="15"/>
++    <field name="addr_size" start="16" end="19"/>
++    <field name="b"         start="20" end="20"/>
++    <field name="a"         start="21" end="21"/>
++    <field name="n"         start="22" end="22"/>
++    <field name="l"         start="23" end="23"/>
++    <field name="c"         start="24" end="27"/>
++    <field name="d"         start="28" end="31"/>
++  </flags>
++  <flags id="timer_ctrl_type" size="4">
++    <field name="ie" start="0" end="0"/>
++    <field name="nh" start="1" end="1"/>
++    <field name="w"  start="2" end="2"/>
++    <field name="ip" start="3" end="3"/>
++    <field name="pd" start="4" end="4"/>
++  </flags>
++  <flags id="tlbpd0_type" size="4">
++    <field name="a"   start="0"  end="7"  type="uint8"/>
++    <field name="g"   start="8"  end="8"  type="bool"/>
++    <field name="v"   start="9"  end="9"  type="bool"/>
++    <field name="sz " start="10" end="10" type="bool"/>
++    <field name="vpn" start="12" end="30" type="uint32"/>
++    <field name="s"   start="31" end="31" type="bool"/>
++  </flags>
++  <flags id="tlbpd1_type" size="4">
++    <field name="fc"  start="0"  end="0"/>
++    <field name="eu"  start="1"  end="1"/>
++    <field name="wu"  start="2"  end="2"/>
++    <field name="ru"  start="3"  end="3"/>
++    <field name="ek"  start="4"  end="4"/>
++    <field name="wk"  start="5"  end="5"/>
++    <field name="rk"  start="6"  end="6"/>
++    <field name="ppn" start="12" end="31"/>
++  </flags>
++  <flags id="tlbindex_type" size="4">
++    <field name="index" start="0"  end="12"/>
++    <field name="rc"    start="28" end="30"/>
++    <field name="e"     start="31" end="31"/>
++  </flags>
++  <flags id="tlbcmd_type" size="4">
++    <field name="cmd" start="0" end="5"/>
++  </flags>
++  <flags id="pid_type" size="4">
++    <field name="p" start="0"  end="7" />
++    <field name="s" start="29" end="29"/>
++    <field name="t" start="31" end="31"/>
++  </flags>
++  <flags id="erstatus_type" size="4">
++    <field name="e"  start="1"  end="4" />
++    <field name="ae" start="5"  end="5" />
++    <field name="de" start="6"  end="6" />
++    <field name="u"  start="7"  end="7" />
++    <field name="v"  start="8"  end="8" />
++    <field name="c"  start="9"  end="9" />
++    <field name="n"  start="10" end="10"/>
++    <field name="z"  start="11" end="11"/>
++    <field name="l"  start="12" end="12"/>
++    <field name="dz" start="13" end="13"/>
++    <field name="sc" start="14" end="14"/>
++    <field name="es" start="15" end="15"/>
++    <field name="rb" start="16" end="18"/>
++    <field name="ad" start="19" end="19"/>
++    <field name="us" start="20" end="20"/>
++    <field name="ie" start="31" end="31"/>
++  </flags>
++  <flags id="ecr_type" size="4">
++    <field name="parameter"    start="0"  end="7" />
++    <field name="causecode"    start="8"  end="15"/>
++    <field name="vectornumber" start="16" end="23"/>
++    <field name="u"            start="30" end="30"/>
++    <field name="p"            start="31" end="31"/>
++  </flags>
++  <flags id="irq_ctrl_type" size="4">
++    <field name="nr" start="0"  end="4"/>
++    <field name="b"  start="9"  end="9"/>
++    <field name="l"  start="10" end="10"/>
++    <field name="u"  start="11" end="11"/>
++    <field name="lp" start="13" end="13"/>
++  </flags>
++  <flags id="irq_act_type" size="4">
++    <field name="active" start="0" end="15"/>
++    <field name="u" start="31" end="31"/>
++  </flags>
++  <flags id="irq_status_type" size="4">
++    <field name="p"  start="0"  end="3"/>
++    <field name="e"  start="4"  end="4"/>
++    <field name="t"  start="5"  end="5"/>
++    <field name="ip" start="31" end="31"/>
++  </flags>
++  <flags id="mpu_build_type" size="4">
++    <field name="version" start="0" end="7"/>
++    <field name="regions" start="8" end="15"/>
++  </flags>
++  <flags id="mpuen_type" size="4">
++    <field name="ue" start="3"  end="3"/>
++    <field name="uw" start="4"  end="4"/>
++    <field name="ur" start="5"  end="5"/>
++    <field name="ke" start="6"  end="6"/>
++    <field name="kw" start="7"  end="7"/>
++    <field name="kr" start="8"  end="8"/>
++    <field name="en" start="30" end="30"/>
++  </flags>
++  <flags id="mpuecr_type" size="4">
++    <field name="mr"      start="0"  end="7"/>
++    <field name="vt"      start="8"  end="9"/>
++    <field name="ec_code" start="16" end="31"/>
++  </flags>
++  <flags id="mpurdb_type" size="4">
++    <field name="v"         start="0" end="0"/>
++    <field name="base_addr" start="5" end="31"/>
++  </flags>
++  <flags id="mpurdp_type" size="4">
++    <field name="size_lower" start="0"  end="1"/>
++    <field name="ue"         start="3"  end="3"/>
++    <field name="uw"         start="4"  end="4"/>
++    <field name="ur"         start="5"  end="5"/>
++    <field name="ke"         start="6"  end="6"/>
++    <field name="kw"         start="7"  end="7"/>
++    <field name="kr"         start="8"  end="8"/>
++    <field name="size_upper" start="9"  end="11"/>
++  </flags>
++  <!-- build registers -->
++  <reg name="timer_build"   bitsize="32" regnum="40" type="timer_build_type"   group=""/>
++  <reg name="irq_build"     bitsize="32" regnum="41" type="irq_build_type"     group=""/>
++  <reg name="mpy_build"     bitsize="32" regnum="42" type="mpy_build_type"     group=""/>
++  <reg name="vecbase_build" bitsize="32" regnum="43" type="vecbase_build_type" group=""/>
++  <reg name="isa_config"    bitsize="32" regnum="44" type="isa_config_type"    group=""/>
++  <!-- timer registers -->
++  <reg name="timer_count0" bitsize="32" regnum="45"                        group="general"/>
++  <reg name="timer_ctrl0"  bitsize="32" regnum="46" type="timer_ctrl_type" group="general"/>
++  <reg name="timer_limit0" bitsize="32" regnum="47"                        group="general"/>
++  <reg name="timer_count1" bitsize="32" regnum="48"                        group="general"/>
++  <reg name="timer_ctrl1"  bitsize="32" regnum="49" type="timer_ctrl_type" group="general"/>
++  <reg name="timer_limit1" bitsize="32" regnum="50"                        group="general"/>
++  <!-- mmu registers -->
++  <reg name="pid"      bitsize="32" regnum="51" type="pid_type"      group="general"/>
++  <reg name="tlbpd0"   bitsize="32" regnum="52" type="tlbpd0_type"   group="general"/>
++  <reg name="tlbpd1"   bitsize="32" regnum="53" type="tlbpd1_type"   group="general"/>
++  <reg name="tlbindex" bitsize="32" regnum="54" type="tlbindex_type" group="general"/>
++  <reg name="tlbcmd"   bitsize="32" regnum="55" type="tlbcmd_type"   group="general"/>
++  <!-- mpu registers -->
++  <reg name="mpu_build" bitsize="32" regnum="56"  type="mpu_build_type" group=""/>
++  <reg name="mpuen"     bitsize="32" regnum="57"  type="mpuen_type"     group=""/>
++  <reg name="mpuecr"    bitsize="32" regnum="58"  type="mpuecr_type"    group=""/>
++  <reg name="mpurdb0"   bitsize="32" regnum="59"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb1"   bitsize="32" regnum="60"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb2"   bitsize="32" regnum="61"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb3"   bitsize="32" regnum="62"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb4"   bitsize="32" regnum="63"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb5"   bitsize="32" regnum="64"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb6"   bitsize="32" regnum="65"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb7"   bitsize="32" regnum="66"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb8"   bitsize="32" regnum="67"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb9"   bitsize="32" regnum="68"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb10"  bitsize="32" regnum="69"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb11"  bitsize="32" regnum="70"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb12"  bitsize="32" regnum="71"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb13"  bitsize="32" regnum="72"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb14"  bitsize="32" regnum="73"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb15"  bitsize="32" regnum="74"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdp0"   bitsize="32" regnum="75"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp1"   bitsize="32" regnum="76"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp2"   bitsize="32" regnum="77"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp3"   bitsize="32" regnum="78"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp4"   bitsize="32" regnum="79"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp5"   bitsize="32" regnum="80"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp6"   bitsize="32" regnum="81"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp7"   bitsize="32" regnum="82"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp8"   bitsize="32" regnum="83"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp9"   bitsize="32" regnum="84"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp10"  bitsize="32" regnum="85"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp11"  bitsize="32" regnum="86"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp12"  bitsize="32" regnum="87"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp13"  bitsize="32" regnum="88"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp14"  bitsize="32" regnum="89"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp15"  bitsize="32" regnum="90"  type="mpurdp_type"    group=""/>
++  <!-- exception registers -->
++  <reg name="erstatus" bitsize="32" regnum="91" type="erstatus_type" group="general"/>
++  <reg name="erbta"    bitsize="32" regnum="92" type="code_ptr"      group="general"/>
++  <reg name="ecr"      bitsize="32" regnum="93" type="ecr_type"      group="general"/>
++  <reg name="eret"     bitsize="32" regnum="94" type="code_ptr"      group="general"/>
++  <reg name="efa"      bitsize="32" regnum="95" type="uint32"        group="general"/>
++  <!-- irq registers -->
++  <reg name="icause"               bitsize="32" regnum="96"  type="uint8"           group="general"/>
++  <reg name="aux_irq_ctrl"         bitsize="32" regnum="97"  type="irq_ctrl_type"   group="general"/>
++  <reg name="aux_irq_act"          bitsize="32" regnum="98"  type="irq_act_type"    group="general"/>
++  <reg name="irq_priority_pending" bitsize="32" regnum="99"  type="uint16"          group="general"/>
++  <reg name="aux_irq_hint"         bitsize="32" regnum="100" type="uint8"           group="general"/>
++  <reg name="irq_select"           bitsize="32" regnum="101" type="uint8"           group="general"/>
++  <reg name="irq_enable"           bitsize="32" regnum="102" type="bool"            group="general"/>
++  <reg name="irq_trigger"          bitsize="32" regnum="103" type="bool"            group="general"/>
++  <reg name="irq_status"           bitsize="32" regnum="104" type="irq_status_type" group="general"/>
++  <reg name="irq_pulse_cancel"     bitsize="32" regnum="105" type="bool"            group="general"/>
++  <reg name="irq_pending"          bitsize="32" regnum="106" type="bool"            group="general"/>
++  <reg name="irq_priority"         bitsize="32" regnum="107" type="uint8"           group="general"/>
++  <!-- miscellaneous -->
++  <reg name="bta" bitsize="32" regnum="108" type="code_ptr" group="general"/>
++</feature>
+diff --git a/target/arc/gdbstub.c b/target/arc/gdbstub.c
+new file mode 100644
+index 0000000000..5f12935216
+--- /dev/null
++++ b/target/arc/gdbstub.c
+@@ -0,0 +1,420 @@
 +/*
 + * QEMU ARC CPU
 + *
@@ -155,1430 +479,405 @@ index 0000000000..b5495782a6
 + */
 +
 +#include "qemu/osdep.h"
-+#include "hw/hw.h"
-+#include "cpu.h"
++#include "exec/gdbstub.h"
++#include "arc-common.h"
 +#include "target/arc/regs.h"
-+#include "target/arc/cache.h"
++#include "internals.h"
++#include "irq.h"
 +
-+void arc_cache_aux_set(const struct arc_aux_reg_detail *aux_reg_detail,
-+                       uint32_t val, void *data)
++/* gets the register address for a particular processor */
++#define REG_ADDR(reg, processor_type) \
++    arc_aux_reg_address_for((reg), (processor_type))
++
++int arc_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
 +{
++    ARCCPU *cpu = ARC_CPU(cs);
++    CPUARCState *env = &cpu->env;
++    uint32_t regval = 0;
 +
-+    CPUARCState *env = (CPUARCState *) data;
-+    struct arc_cache *cache = &env->cache;
-+
-+    switch (aux_reg_detail->id) {
-+    case AUX_ID_ic_ivic:
-+    case AUX_ID_ic_ivil:
-+    case AUX_ID_dc_ivdc:
-+    case AUX_ID_dc_ivdl:
-+    case AUX_ID_dc_flsh:
-+    case AUX_ID_dc_fldl:
-+    case AUX_ID_dc_startr:
-+       /* Do nothing as we don't simulate cache memories */
++    switch (n) {
++    case 0 ... 31:
++       regval = env->r[n];
 +       break;
-+
-+    case AUX_ID_ic_ctrl:
-+        cache->ic_disabled = val & 1;
-+        break;
-+
-+    case AUX_ID_ic_ivir:
-+        cache->ic_ivir = val & 0xffffff00;
-+        break;
-+
-+    case AUX_ID_ic_endr:
-+        cache->ic_endr = val & 0xffffff00;
-+        break;
-+
-+    case AUX_ID_ic_ptag:
-+        cache->ic_ptag = val;
-+        break;
-+
-+    case AUX_ID_ic_ptag_hi:
-+        cache->ic_ptag_hi = val & 0xff;
-+        break;
-+
-+/*
-+ * Description of the register content in order:
-+ *   DC - Disable Cache: Enables/Disables the cache: 0 - Enabled, 1 - Disabled
-+ *   IM - Invalidate Mode: Selects the invalidate type
-+ */
-+    case AUX_ID_dc_ctrl:
-+        cache->dc_disabled = val & 1; /* DC */
-+        cache->dc_inv_mode = (val >> 6) & 1; /* IM */
-+        break;
-+
-+    case AUX_ID_dc_endr:
-+        cache->dc_endr = val & 0xffffff00;
-+        break;
-+
-+    case AUX_ID_dc_ptag_hi:
-+        cache->dc_ptag_hi = val & 0xff;
-+        break;
-+
++    case GDB_REG_58:
++       regval = env->r[58];
++       break;
++    case GDB_REG_59:
++       regval = env->r[59];
++       break;
++    case GDB_REG_60:
++       regval = env->r[60];
++       break;
++    case GDB_REG_63:
++       regval = env->r[63];
++       break;
 +    default:
-+        hw_error("%s@%d: Attempt to write read-only register 0x%02x!\n",
-+                 __func__, __LINE__, (unsigned int)aux_reg_detail->id);
-+        break;
++       assert(!"Unsupported register is being read.");
 +    }
 +
-+    return;
++    return gdb_get_reg32(mem_buf, regval);
 +}
 +
-+uint32_t arc_cache_aux_get(const struct arc_aux_reg_detail *aux_reg_detail,
-+                           void *data)
++int arc_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
 +{
-+    CPUARCState *env = (CPUARCState *) data;
-+    struct arc_cache *cache = &env->cache;
-+    uint32_t reg = 0;
++    ARCCPU *cpu = ARC_CPU(cs);
++    CPUARCState *env = &cpu->env;
++    uint32_t regval = ldl_p(mem_buf);
 +
-+    switch (aux_reg_detail->id) {
-+/*
-+ * Description of the register content in order.
-+ * Layout:  -------- -DFFBBBB CCCCAAAA VVVVVVVV
-+ *   D - indicates that IC is disabled on reset
-+ *   FL - Feature level: 10b - line lock, invalidate, advanced debug features
-+ *   BSize - indicates the cache block size in bytes: 0011b - 64 bytes
-+ *   Cache capacity: 0111b - 64 Kbytes
-+ *   Cache Associativiy: 0010b - Four-way set associative
-+ *   Version number: 4 - ARCv2
-+ */
-+    case AUX_ID_i_cache_build:
-+        reg = (0 << 22) | /* D */
-+              (2 << 20) | /* FL */
-+              (3 << 16) | /* BBSixe*/
-+              (7 << 12) | /* Cache capacity */
-+              (2 << 8)  | /* Cache Associativiy */
-+              (4 << 0);   /* Version Number */
++    switch (n) {
++    case 0 ... 31:
++        env->r[n] = regval;
 +        break;
-+
-+    case AUX_ID_ic_ctrl:
-+        reg = cache->ic_disabled & 1;
++    case GDB_REG_58:
++        env->r[58] = regval;
 +        break;
-+
-+    case AUX_ID_ic_ivir:
-+        reg = cache->ic_ivir;
++    case GDB_REG_59:
++        env->r[59] = regval;
 +        break;
-+
-+    case AUX_ID_ic_endr:
-+        reg = cache->ic_endr;
++    case GDB_REG_60:
++        env->r[60] = regval;
 +        break;
-+
-+    case AUX_ID_ic_ptag:
-+        reg = cache->ic_ptag;
++    case GDB_REG_63:
++        env->r[63] = regval;
 +        break;
-+
-+    case AUX_ID_ic_ptag_hi:
-+        reg = cache->ic_ptag_hi;
-+        break;
-+
-+/*
-+ * Description of the register content in order:
-+ *   FL - Feature level: 10b - line lock, invalidate, advanced debug features
-+ *   BSize - indicates the cache block size in bytes: 0010b - 64 bytes
-+ *   Cache capacity: 0111b - 64 Kbytes
-+ *   Cache Associativiy: 0001b - Two-way set associative
-+ *   Version number: 4 - ARCv2 with fixed number of cycles
-+ */
-+    case AUX_ID_d_cache_build:
-+        reg = (2 << 20) | /* FL */
-+              (2 << 16) | /* BSize */
-+              (7 << 12) | /* Cache capacity */
-+              (1 << 8)  | /* Cache Associativiy */
-+              (4 << 0);   /* Version number */
-+        break;
-+
-+/*
-+ * Description of the register content in order:
-+ *   DC - Disable Cache: Enables/Disables the cache: 0 - Enabled, 1 - Disabled
-+ *   SB - Success Bit: of last cache operation: 1 - succeded (immediately)
-+ *   IM - Invalidate Mode: Selects the invalidate type
-+ */
-+    case AUX_ID_dc_ctrl:
-+       reg = (cache->dc_disabled & 1) << 0 |  /* DC */
-+             (1 << 2) |                       /* SB */
-+             (cache->dc_inv_mode & 1) << 6;   /* IM */
-+        break;
-+
-+    case AUX_ID_dc_endr:
-+        reg = cache->dc_endr;
-+        break;
-+
-+    case AUX_ID_dc_ptag_hi:
-+        reg = cache->dc_ptag_hi;
-+        break;
-+
 +    default:
-+        hw_error("%s@%d: Attempt to read write-only register 0x%02x!\n",
-+                 __func__, __LINE__, (unsigned int)aux_reg_detail->id);
++        assert(!"Unsupported register is being written.");
++    }
++
++    return 4;
++}
++
++
++static int
++arc_aux_minimal_gdb_get_reg(CPUARCState *env, GByteArray *mem_buf, int regnum)
++{
++    /* TODO: processor type must be set according to configuration */
++    static const int processor = ARC_OPCODE_ARCv2HS;
++    uint32_t regval = 0;
++
++    switch (regnum) {
++    case GDB_AUX_MIN_REG_PC:
++        regval = env->pc & 0xfffffffe;
++        break;
++    case GDB_AUX_MIN_REG_LPS:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_lp_start, processor));
++        break;
++    case GDB_AUX_MIN_REG_LPE:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_lp_end, processor));
++        break;
++    case GDB_AUX_MIN_REG_STATUS:
++        regval = pack_status32(&env->stat);
++        break;
++    default:
++        assert(!"Unsupported minimal auxiliary register is being read.");
++    }
++    return gdb_get_reg32(mem_buf, regval);
++}
++
++
++static int
++arc_aux_minimal_gdb_set_reg(CPUARCState *env, uint8_t *mem_buf, int regnum)
++{
++    /* TODO: processor type must be set according to configuration */
++    static const int processor = ARC_OPCODE_ARCv2HS;
++    uint32_t regval = ldl_p(mem_buf);
++    switch (regnum) {
++    case GDB_AUX_MIN_REG_PC:
++        env->pc = regval & 0xfffffffe;
++        break;
++    case GDB_AUX_MIN_REG_LPS:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_lp_start, processor));
++        break;
++    case GDB_AUX_MIN_REG_LPE:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_lp_end, processor));
++        break;
++    case GDB_AUX_MIN_REG_STATUS:
++        unpack_status32(&env->stat, regval);
++        break;
++    default:
++        assert(!"Unsupported minimal auxiliary register is being written.");
++    }
++    return 4;
++}
++
++
++static int
++arc_aux_other_gdb_get_reg(CPUARCState *env, GByteArray *mem_buf, int regnum)
++{
++    /* TODO: processor type must be set according to configuration */
++    static const int processor = ARC_OPCODE_ARCv2HS;
++    uint32_t regval = 0;
++    switch (regnum) {
++    case GDB_AUX_OTHER_REG_TIMER_BUILD:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_timer_build, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_BUILD:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_build, processor));
++        break;
++    case GDB_AUX_OTHER_REG_MPY_BUILD:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_mpy_build, processor));
++        break;
++    case GDB_AUX_OTHER_REG_VECBASE_BUILD:
++        regval = env->vecbase_build;
++        break;
++    case GDB_AUX_OTHER_REG_ISA_CONFIG:
++        regval = env->isa_config;
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CNT0:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_count0, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CTRL0:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_control0, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_LIM0:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_limit0, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CNT1:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_count1, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CTRL1:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_control1, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_LIM1:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_limit1, processor));
++        break;
++    case GDB_AUX_OTHER_REG_PID:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_pid, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TLBPD0:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_tlbpd0, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TLBPD1:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_tlbpd1, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TLB_INDEX:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_tlbindex, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TLB_CMD:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_tlbcommand, processor));
++        break;
++    /* MPU */
++    case GDB_AUX_OTHER_REG_MPU_BUILD:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_mpu_build, processor));
++        break;
++    case GDB_AUX_OTHER_REG_MPU_EN:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_mpuen, processor));
++        break;
++    case GDB_AUX_OTHER_REG_MPU_ECR:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_mpuic, processor));
++        break;
++    case GDB_AUX_OTHER_REG_MPU_BASE0 ... GDB_AUX_OTHER_REG_MPU_BASE15: {
++        const uint8_t index = regnum - GDB_AUX_OTHER_REG_MPU_BASE0;
++        regval = helper_lr(env, REG_ADDR(AUX_ID_mpurdb0 + index, processor));
 +        break;
 +    }
-+
-+    return reg;
-+}
-diff --git a/target/arc/cache.h b/target/arc/cache.h
-new file mode 100644
-index 0000000000..c8167a07a1
---- /dev/null
-+++ b/target/arc/cache.h
-@@ -0,0 +1,42 @@
-+/*
-+ * QEMU ARC CPU
-+ *
-+ * Copyright (c) 2019 Synopsys, Inc.
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program. If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef __ARC_CACHE_H__
-+#define __ARC_CACHE_H__
-+
-+#include "target/arc/regs.h"
-+
-+struct arc_cache {
-+    bool ic_disabled;
-+    bool dc_disabled;
-+    bool dc_inv_mode;
-+    uint32_t ic_ivir;
-+    uint32_t ic_endr;
-+    uint32_t ic_ptag;
-+    uint32_t ic_ptag_hi;
-+    uint32_t dc_endr;
-+    uint32_t dc_ptag_hi;
-+};
-+
-+void arc_cache_aux_set(const struct arc_aux_reg_detail *aux_reg_detail,
-+                       uint32_t val, void *data);
-+
-+uint32_t arc_cache_aux_get(const struct arc_aux_reg_detail *aux_reg_detail,
-+                           void *data);
-+
-+#endif /* __ARC_CACHE_H__ */
-diff --git a/target/arc/regs-detail.def b/target/arc/regs-detail.def
-new file mode 100644
-index 0000000000..86f5123d6a
---- /dev/null
-+++ b/target/arc/regs-detail.def
-@@ -0,0 +1,538 @@
-+/*
-+ * QEMU ARC Auxiliary register definitions
-+ *
-+ * Copyright (c) 2020 Synopsys, Inc.
-+ * Contributed by Claudiu Zissulescu (claziss@synopsys.com)
-+ * Contributed by Cupertino Miranda (cmiranda@synopsys.com)
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program. If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+/* INFO: this list must be kept ordered by address to allow
-+ * binary search of register information based on address.
-+ */
-+
-+DEF(0xffff,ARC_OPCODE_ARCALL,  NONE, unimp_bcr)
-+DEF(0x1,   ARC_OPCODE_ARCV1,   NONE, semaphore)
-+DEF(0x2,   ARC_OPCODE_ARCALL,  NONE, lp_start)
-+DEF(0x3,   ARC_OPCODE_ARCALL,  NONE, lp_end)
-+DEF(0x4,   ARC_OPCODE_ARCALL,  NONE, identity)
-+DEF(0x5,   ARC_OPCODE_ARCALL,  NONE, debug)
-+DEF(0x6,   ARC_OPCODE_ARCALL,  NONE, pc)
-+DEF(0x7,   ARC_OPCODE_ARCv2HS, NONE, memseg)
-+DEF(0x7,   ARC_OPCODE_ARCV1,   NONE, adcr)
-+DEF(0x8,   ARC_OPCODE_ARCV1,   NONE, apcr)
-+DEF(0x8,   ARC_OPCODE_ARCv2HS, NONE, exec_ctrl)
-+DEF(0x9,   ARC_OPCODE_ARCV1,   NONE, acr)
-+DEF(0x9,   ARC_OPCODE_ARCv2EM, NONE, sec_stat)
-+DEF(0xa,   ARC_OPCODE_ARCALL,  NONE, status32)
-+DEF(0xb,   ARC_OPCODE_ARCV2,   NONE, status32_p0)
-+DEF(0xc,   ARC_OPCODE_ARCv2EM, NONE, sec_extra)
-+DEF(0xd,   ARC_OPCODE_ARCV2,   NONE, aux_user_sp)
-+DEF(0xe,   ARC_OPCODE_ARC700,  NONE, clk_enable)
-+DEF(0xe,   ARC_OPCODE_ARCV2,   NONE, aux_irq_ctrl)
-+DEF(0xf,   ARC_OPCODE_ARC700,  NONE, bpu_flush)
-+DEF(0xf,   ARC_OPCODE_ARCv2HS, NONE, debugi)
-+DEF(0x10,  ARC_OPCODE_ARCV1,   NONE, ivic)
-+DEF(0x10,  ARC_OPCODE_ARCALL,  NONE, ic_ivic)
-+DEF(0x11,  ARC_OPCODE_ARCV1,   NONE, che_mode)
-+DEF(0x11,  ARC_OPCODE_ARCALL,  NONE, ic_ctrl)
-+DEF(0x12,  ARC_OPCODE_ARC600,  NONE, mulhi)
-+DEF(0x12,  ARC_OPCODE_ARCv2HS, NONE, ic_startr)
-+DEF(0x13,  ARC_OPCODE_ARCV1,   NONE, lockline)
-+DEF(0x13,  ARC_OPCODE_ARCV2,   NONE, ic_lil)
-+DEF(0x14,  ARC_OPCODE_ARC600,  NONE, dmc_code_ram)
-+DEF(0x15,  ARC_OPCODE_ARCV1,   NONE, tag_addr_mask)
-+DEF(0x16,  ARC_OPCODE_ARCV1,   NONE, tag_data_mask)
-+DEF(0x16,  ARC_OPCODE_ARCv2HS, NONE, ic_ivir)
-+DEF(0x17,  ARC_OPCODE_ARCV1,   NONE, line_length_mask)
-+DEF(0x17,  ARC_OPCODE_ARCv2HS, NONE, ic_endr)
-+DEF(0x18,  ARC_OPCODE_ARC600,  NONE, aux_ldst_ram)
-+DEF(0x18,  ARC_OPCODE_NONE,    NONE, aux_dccm)
-+DEF(0x19,  ARC_OPCODE_ARCV1,   NONE, unlockline)
-+DEF(0x19,  ARC_OPCODE_ARCALL,  NONE, ic_ivil)
-+DEF(0x1a,  ARC_OPCODE_ARCALL,  NONE, ic_ram_address)
-+DEF(0x1b,  ARC_OPCODE_ARCALL,  NONE, ic_tag)
-+DEF(0x1c,  ARC_OPCODE_ARCALL,  NONE, ic_wp)
-+DEF(0x1d,  ARC_OPCODE_ARCALL,  NONE, ic_data)
-+DEF(0x1e,  ARC_OPCODE_ARCALL,  NONE, ic_ptag)
-+DEF(0x1f,  ARC_OPCODE_ARCv2EM, NONE, debugi)
-+DEF(0x1f,  ARC_OPCODE_ARCv2HS, NONE, ic_ptag_hi)
-+DEF(0x20,  ARC_OPCODE_ARC600,  NONE, sram_seq)
-+DEF(0x21,  ARC_OPCODE_ARCALL,  NONE, count0)
-+DEF(0x22,  ARC_OPCODE_ARCALL,  NONE, control0)
-+DEF(0x23,  ARC_OPCODE_ARCALL,  NONE, limit0)
-+DEF(0x24,  ARC_OPCODE_ARCV1,   NONE, pcport)
-+DEF(0x25,  ARC_OPCODE_ARC700,  NONE, int_vector_base)
-+DEF(0x25,  ARC_OPCODE_ARCV2,   NONE, int_vector_base)
-+DEF(0x26,  ARC_OPCODE_ARC600,  NONE, aux_vbfdw_mode)
-+DEF(0x27,  ARC_OPCODE_ARC600,  NONE, aux_vbfdw_bm0)
-+DEF(0x28,  ARC_OPCODE_ARC600,  NONE, aux_vbfdw_bm1)
-+DEF(0x29,  ARC_OPCODE_ARC600,  NONE, aux_vbfdw_accu)
-+DEF(0x2a,  ARC_OPCODE_ARC600,  NONE, aux_vbfdw_ofst)
-+DEF(0x2b,  ARC_OPCODE_ARC600,  NONE, aux_vbfdw_intstat)
-+DEF(0x2c,  ARC_OPCODE_ARC600,  NONE, aux_xmac0_24)
-+DEF(0x2d,  ARC_OPCODE_ARC600,  NONE, aux_xmac1_24)
-+DEF(0x2e,  ARC_OPCODE_ARC600,  NONE, aux_xmac2_24)
-+DEF(0x2f,  ARC_OPCODE_ARC600,  NONE, aux_fbf_store_16)
-+DEF(0x30,  ARC_OPCODE_ARCv2EM, NONE, acg_ctrl)
-+DEF(0x30,  ARC_OPCODE_NONE,    NONE, ax0)
-+DEF(0x31,  ARC_OPCODE_NONE,    NONE, ax1)
-+DEF(0x32,  ARC_OPCODE_NONE,    NONE, aux_crc_poly)
-+DEF(0x33,  ARC_OPCODE_NONE,    NONE, aux_crc_mode)
-+DEF(0x34,  ARC_OPCODE_NONE,    NONE, mx0)
-+DEF(0x35,  ARC_OPCODE_NONE,    NONE, mx1)
-+DEF(0x36,  ARC_OPCODE_NONE,    NONE, my0)
-+DEF(0x37,  ARC_OPCODE_NONE,    NONE, my1)
-+DEF(0x38,  ARC_OPCODE_NONE,    NONE, xyconfig)
-+DEF(0x38,  ARC_OPCODE_ARCv2EM, NONE, aux_kernel_sp)
-+DEF(0x39,  ARC_OPCODE_NONE,    NONE, scratch_a)
-+DEF(0x39,  ARC_OPCODE_ARCv2EM, NONE, aux_sec_u_sp)
-+/* TODO: The commented lines are repeated for specific configurations. */
-+/*
-+DEF (0x3a,  ARC_OPCODE_NONE,    NONE, burstsys)
-+DEF (0x3a,  ARC_OPCODE_NONE,    NONE, tsch)
-+*/
-+DEF(0x3a,  ARC_OPCODE_ARCv2EM, NONE, aux_sec_k_sp)
-+DEF(0x3b,  ARC_OPCODE_NONE,    NONE, burstxym)
-+DEF(0x3c,  ARC_OPCODE_NONE,    NONE, burstsz)
-+DEF(0x3d,  ARC_OPCODE_NONE,    NONE, burstval)
-+DEF(0x3e,  ARC_OPCODE_ARCv2EM, NONE, aux_sec_ctrl)
-+DEF(0x3f,  ARC_OPCODE_ARCv2EM, NONE, erp_control)
-+DEF(0x40,  ARC_OPCODE_ARCv2EM, NONE, rferp_status0)
-+DEF(0x41,  ARC_OPCODE_ARCv2EM, NONE, rferp_status1)
-+DEF(0x40,  ARC_OPCODE_ARC600,  NONE, xtp_newval)
-+DEF(0x41,  ARC_OPCODE_ARCV1,   NONE, aux_macmode)
-+DEF(0x42,  ARC_OPCODE_ARC600,  NONE, lsp_newval)
-+DEF(0x43,  ARC_OPCODE_ARCV1,   NONE, aux_irq_lv12)
-+DEF(0x43,  ARC_OPCODE_ARCV2,   NONE, aux_irq_act)
-+DEF(0x44,  ARC_OPCODE_ARCV1,   NONE, aux_xmac0)
-+DEF(0x45,  ARC_OPCODE_ARCV1,   NONE, aux_xmac1)
-+DEF(0x46,  ARC_OPCODE_ARCV1,   NONE, aux_xmac2)
-+DEF(0x47,  ARC_OPCODE_ARCALL,  NONE, dc_ivdc)
-+DEF(0x48,  ARC_OPCODE_ARCALL,  NONE, dc_ctrl)
-+DEF(0x49,  ARC_OPCODE_ARCALL,  NONE, dc_ldl)
-+DEF(0x4a,  ARC_OPCODE_ARCALL,  NONE, dc_ivdl)
-+DEF(0x4b,  ARC_OPCODE_ARCALL,  NONE, dc_flsh)
-+DEF(0x4c,  ARC_OPCODE_ARCALL,  NONE, dc_fldl)
-+DEF(0x4d,  ARC_OPCODE_ARCV2,   NONE, dc_startr)
-+DEF(0x4e,  ARC_OPCODE_ARCV2,   NONE, dc_endr)
-+DEF(0x50,  ARC_OPCODE_NONE,    NONE, hexdata)
-+DEF(0x51,  ARC_OPCODE_NONE,    NONE, hexctrl)
-+DEF(0x52,  ARC_OPCODE_NONE,    NONE, led)
-+DEF(0x56,  ARC_OPCODE_NONE,    NONE, dilstat)
-+DEF(0x57,  ARC_OPCODE_ARC600,  NONE, swstat)
-+DEF(0x58,  ARC_OPCODE_ARCALL,  NONE, dc_ram_addr)
-+DEF(0x59,  ARC_OPCODE_ARCALL,  NONE, dc_tag)
-+DEF(0x5a,  ARC_OPCODE_ARCALL,  NONE, dc_wp)
-+DEF(0x5b,  ARC_OPCODE_ARCALL,  NONE, dc_data)
-+DEF(0x5c,  ARC_OPCODE_ARCALL,  NONE, dc_ptag)
-+DEF(0x5e,  ARC_OPCODE_ARCv2HS, NONE, aux_volatile)
-+DEF(0x5f,  ARC_OPCODE_ARCv2HS, NONE, dc_ptag_hi)
-+DEF(0x80,  ARC_OPCODE_ARCALL,  NONE, ax0)
-+DEF(0x81,  ARC_OPCODE_ARCALL,  NONE, ax1)
-+DEF(0x82,  ARC_OPCODE_ARCALL,  NONE, ax2)
-+DEF(0x83,  ARC_OPCODE_ARCALL,  NONE, ax3)
-+DEF(0x84,  ARC_OPCODE_ARCALL,  NONE, ay0)
-+DEF(0x85,  ARC_OPCODE_ARCALL,  NONE, ay1)
-+DEF(0x86,  ARC_OPCODE_ARCALL,  NONE, ay2)
-+DEF(0x87,  ARC_OPCODE_ARCALL,  NONE, ay3)
-+DEF(0x88,  ARC_OPCODE_ARCALL,  NONE, mx00)
-+DEF(0x89,  ARC_OPCODE_ARCALL,  NONE, mx01)
-+DEF(0x8a,  ARC_OPCODE_ARCALL,  NONE, mx10)
-+DEF(0x8b,  ARC_OPCODE_ARCALL,  NONE, mx11)
-+DEF(0x8c,  ARC_OPCODE_ARCALL,  NONE, mx20)
-+DEF(0x8d,  ARC_OPCODE_ARCALL,  NONE, mx21)
-+DEF(0x8e,  ARC_OPCODE_ARCALL,  NONE, mx30)
-+DEF(0x8f,  ARC_OPCODE_ARCALL,  NONE, mx31)
-+DEF(0x90,  ARC_OPCODE_ARCALL,  NONE, my00)
-+DEF(0x91,  ARC_OPCODE_ARCALL,  NONE, my01)
-+DEF(0x92,  ARC_OPCODE_ARCALL,  NONE, my10)
-+DEF(0x93,  ARC_OPCODE_ARCALL,  NONE, my11)
-+DEF(0x94,  ARC_OPCODE_ARCALL,  NONE, my20)
-+DEF(0x95,  ARC_OPCODE_ARCALL,  NONE, my21)
-+DEF(0x96,  ARC_OPCODE_ARCALL,  NONE, my30)
-+DEF(0x97,  ARC_OPCODE_ARCALL,  NONE, my31)
-+DEF(0x98,  ARC_OPCODE_ARCALL,  NONE, xyconfig)
-+DEF(0x99,  ARC_OPCODE_ARCALL,  NONE, burstsys)
-+DEF(0x9a,  ARC_OPCODE_ARCALL,  NONE, burstxym)
-+DEF(0x9b,  ARC_OPCODE_ARCALL,  NONE, burstsz)
-+DEF(0x9c,  ARC_OPCODE_ARCALL,  NONE, burstval)
-+DEF(0x9d,  ARC_OPCODE_ARCALL,  NONE, xylsbasex)
-+DEF(0x9e,  ARC_OPCODE_ARCALL,  NONE, xylsbasey)
-+DEF(0x9f,  ARC_OPCODE_ARCALL,  NONE, aux_xmaclw_h)
-+DEF(0xa0,  ARC_OPCODE_ARCALL,  NONE, aux_xmaclw_l)
-+DEF(0xa1,  ARC_OPCODE_ARCALL,  NONE, se_ctrl)
-+DEF(0xa2,  ARC_OPCODE_ARCALL,  NONE, se_stat)
-+DEF(0xa3,  ARC_OPCODE_ARCALL,  NONE, se_err)
-+DEF(0xa4,  ARC_OPCODE_ARCALL,  NONE, se_eadr)
-+DEF(0xa5,  ARC_OPCODE_ARCALL,  NONE, se_spc)
-+DEF(0xa6,  ARC_OPCODE_ARCALL,  NONE, sdm_base)
-+DEF(0xa7,  ARC_OPCODE_ARCALL,  NONE, scm_base)
-+DEF(0xa8,  ARC_OPCODE_ARCALL,  NONE, se_dbg_ctrl)
-+DEF(0xa9,  ARC_OPCODE_ARCALL,  NONE, se_dbg_data0)
-+DEF(0xaa,  ARC_OPCODE_ARCALL,  NONE, se_dbg_data1)
-+DEF(0xab,  ARC_OPCODE_ARCALL,  NONE, se_dbg_data2)
-+DEF(0xac,  ARC_OPCODE_ARCALL,  NONE, se_dbg_data3)
-+DEF(0xad,  ARC_OPCODE_ARCALL,  NONE, se_watch)
-+DEF(0x100, ARC_OPCODE_ARCALL,  NONE, count1)
-+DEF(0x101, ARC_OPCODE_ARCALL,  NONE, control1)
-+DEF(0x102, ARC_OPCODE_ARCALL,  NONE, limit1)
-+DEF(0x103, ARC_OPCODE_ARCV2,   NONE, aux_rtc_ctrl)
-+DEF(0x104, ARC_OPCODE_ARCV2,   NONE, aux_rtc_low)
-+DEF(0x105, ARC_OPCODE_ARCV2,   NONE, aux_rtc_high)
-+DEF(0x200, ARC_OPCODE_ARCV1,   NONE, aux_irq_lev)
-+DEF(0x200, ARC_OPCODE_ARCV2,   NONE, irq_priority_pending)
-+DEF(0x201, ARC_OPCODE_ARCALL,  NONE, aux_irq_hint)
-+DEF(0x202, ARC_OPCODE_ARC600,  NONE, aux_inter_core_interrupt)
-+DEF(0x206, ARC_OPCODE_ARCV2,   NONE, irq_priority)
-+DEF(0x210, ARC_OPCODE_ARC700,  NONE, aes_aux_0)
-+DEF(0x211, ARC_OPCODE_ARC700,  NONE, aes_aux_1)
-+DEF(0x212, ARC_OPCODE_ARC700,  NONE, aes_aux_2)
-+DEF(0x213, ARC_OPCODE_ARC700,  NONE, aes_crypt_mode)
-+DEF(0x214, ARC_OPCODE_ARC700,  NONE, aes_auxs)
-+DEF(0x215, ARC_OPCODE_ARC700,  NONE, aes_auxi)
-+DEF(0x216, ARC_OPCODE_ARC700,  NONE, aes_aux_3)
-+DEF(0x217, ARC_OPCODE_ARC700,  NONE, aes_aux_4)
-+DEF(0x218, ARC_OPCODE_ARC700,  NONE, arith_ctl_aux)
-+DEF(0x219, ARC_OPCODE_ARC700,  NONE, des_aux)
-+DEF(0x220, ARC_OPCODE_ARCALL,  NONE, ap_amv0)
-+DEF(0x221, ARC_OPCODE_ARCALL,  NONE, ap_amm0)
-+DEF(0x222, ARC_OPCODE_ARCALL,  NONE, ap_ac0)
-+DEF(0x223, ARC_OPCODE_ARCALL,  NONE, ap_amv1)
-+DEF(0x224, ARC_OPCODE_ARCALL,  NONE, ap_amm1)
-+DEF(0x225, ARC_OPCODE_ARCALL,  NONE, ap_ac1)
-+DEF(0x226, ARC_OPCODE_ARCALL,  NONE, ap_amv2)
-+DEF(0x227, ARC_OPCODE_ARCALL,  NONE, ap_amm2)
-+DEF(0x228, ARC_OPCODE_ARCALL,  NONE, ap_ac2)
-+DEF(0x229, ARC_OPCODE_ARCALL,  NONE, ap_amv3)
-+DEF(0x22a, ARC_OPCODE_ARCALL,  NONE, ap_amm3)
-+DEF(0x22b, ARC_OPCODE_ARCALL,  NONE, ap_ac3)
-+DEF(0x22c, ARC_OPCODE_ARCALL,  NONE, ap_amv4)
-+DEF(0x22d, ARC_OPCODE_ARCALL,  NONE, ap_amm4)
-+DEF(0x22e, ARC_OPCODE_ARCALL,  NONE, ap_ac4)
-+DEF(0x22f, ARC_OPCODE_ARCALL,  NONE, ap_amv5)
-+DEF(0x230, ARC_OPCODE_ARCALL,  NONE, ap_amm5)
-+DEF(0x231, ARC_OPCODE_ARCALL,  NONE, ap_ac5)
-+DEF(0x232, ARC_OPCODE_ARCALL,  NONE, ap_amv6)
-+DEF(0x233, ARC_OPCODE_ARCALL,  NONE, ap_amm6)
-+DEF(0x234, ARC_OPCODE_ARCALL,  NONE, ap_ac6)
-+DEF(0x235, ARC_OPCODE_ARCALL,  NONE, ap_amv7)
-+DEF(0x236, ARC_OPCODE_ARCALL,  NONE, ap_amm7)
-+DEF(0x237, ARC_OPCODE_ARCALL,  NONE, ap_ac7)
-+DEF(0x268, ARC_OPCODE_ARCv2EM, NONE, nsc_table_top)
-+DEF(0x269, ARC_OPCODE_ARCv2EM, NONE, nsc_table_base)
-+DEF(0x290, ARC_OPCODE_ARCV2,   NONE, jli_base)
-+DEF(0x291, ARC_OPCODE_ARCV2,   NONE, ldi_base)
-+DEF(0x292, ARC_OPCODE_ARCV2,   NONE, ei_base)
-+DEF(0x300, ARC_OPCODE_ARCFPX,  DPX,  fp_status)
-+/*
-+DEF (0x301, ARC_OPCODE_ARCFPX,  DPX,  aux_dpfp1l)
-+DEF (0x301, ARC_OPCODE_ARCFPX,  DPX,  d1l)
-+*/
-+/*
-+DEF (0x302, ARC_OPCODE_ARCFPX,  DPX,  aux_dpfp1h)
-+DEF (0x302, ARC_OPCODE_ARCFPX,  DPX,  d1h)
-+*/
-+DEF(0x302, ARC_OPCODE_ARCv2EM, DPA,  d1l)
-+/*
-+DEF (0x303, ARC_OPCODE_ARCFPX,  DPX,  aux_dpfp2l)
-+DEF (0x303, ARC_OPCODE_ARCFPX,  DPX,  d2l)
-+*/
-+DEF(0x303, ARC_OPCODE_ARCv2EM, DPA,  d1h)
-+/*
-+DEF (0x304, ARC_OPCODE_ARCFPX,  DPX,  aux_dpfp2h)
-+DEF (0x304, ARC_OPCODE_ARCFPX,  DPX,  d2h)
-+*/
-+DEF(0x304, ARC_OPCODE_ARCv2EM, DPA,  d2l)
-+DEF(0x305, ARC_OPCODE_ARCFPX,  DPX,  dpfp_status)
-+DEF(0x305, ARC_OPCODE_ARCv2EM, DPA,  d2h)
-+DEF(0x400, ARC_OPCODE_ARCALL,  NONE, eret)
-+DEF(0x401, ARC_OPCODE_ARCALL,  NONE, erbta)
-+DEF(0x402, ARC_OPCODE_ARCALL,  NONE, erstatus)
-+DEF(0x403, ARC_OPCODE_ARCALL,  NONE, ecr)
-+DEF(0x404, ARC_OPCODE_ARCALL,  NONE, efa)
-+DEF(0x405, ARC_OPCODE_ARC700,  NONE, tlbpd0)
-+DEF(0x406, ARC_OPCODE_ARC700,  NONE, tlbpd1)
-+DEF(0x406, ARC_OPCODE_ARCv2EM, NONE, ersec_stat)
-+DEF(0x407, ARC_OPCODE_ARCv2EM, NONE, aux_sec_except)
-+DEF(0x407, ARC_OPCODE_ARC700,  NONE, tlbindex)
-+DEF(0x408, ARC_OPCODE_ARC700,  NONE, tlbcommand)
-+DEF(0x409, ARC_OPCODE_ARC700,  NONE, pid)
-+DEF(0x409, ARC_OPCODE_ARCALL,  NONE, mpuen)
-+DEF(0x40a, ARC_OPCODE_ARCV2,   NONE, icause)
-+DEF(0x40b, ARC_OPCODE_ARCV2,   NONE, irq_select)
-+DEF(0x40c, ARC_OPCODE_ARCV2,   NONE, irq_enable)
-+DEF(0x40d, ARC_OPCODE_ARCV2,   NONE, irq_trigger)
-+DEF(0x40f, ARC_OPCODE_ARCV2,   NONE, irq_status)
-+DEF(0x410, ARC_OPCODE_ARCALL,  NONE, xpu)
-+DEF(0x412, ARC_OPCODE_ARCALL,  NONE, bta)
-+DEF(0x413, ARC_OPCODE_ARC700,  NONE, bta_l1)
-+DEF(0x414, ARC_OPCODE_ARC700,  NONE, bta_l2)
-+DEF(0x415, ARC_OPCODE_ARCV2,   NONE, irq_pulse_cancel)
-+DEF(0x416, ARC_OPCODE_ARCV2,   NONE, irq_pending)
-+DEF(0x418, ARC_OPCODE_ARC700,  NONE, scratch_data0)
-+DEF(0x420, ARC_OPCODE_ARCALL,  NONE, mpuic)
-+DEF(0x421, ARC_OPCODE_ARCALL,  NONE, mpufa)
-+DEF(0x422, ARC_OPCODE_ARCALL,  NONE, mpurdb0)
-+DEF(0x423, ARC_OPCODE_ARCALL,  NONE, mpurdp0)
-+DEF(0x424, ARC_OPCODE_ARCALL,  NONE, mpurdb1)
-+DEF(0x425, ARC_OPCODE_ARCALL,  NONE, mpurdp1)
-+DEF(0x426, ARC_OPCODE_ARCALL,  NONE, mpurdb2)
-+DEF(0x427, ARC_OPCODE_ARCALL,  NONE, mpurdp2)
-+DEF(0x428, ARC_OPCODE_ARCALL,  NONE, mpurdb3)
-+DEF(0x429, ARC_OPCODE_ARCALL,  NONE, mpurdp3)
-+DEF(0x42a, ARC_OPCODE_ARCALL,  NONE, mpurdb4)
-+DEF(0x42b, ARC_OPCODE_ARCALL,  NONE, mpurdp4)
-+DEF(0x42c, ARC_OPCODE_ARCALL,  NONE, mpurdb5)
-+DEF(0x42d, ARC_OPCODE_ARCALL,  NONE, mpurdp5)
-+DEF(0x42e, ARC_OPCODE_ARCALL,  NONE, mpurdb6)
-+DEF(0x42f, ARC_OPCODE_ARCALL,  NONE, mpurdp6)
-+DEF(0x430, ARC_OPCODE_ARCALL,  NONE, mpurdb7)
-+DEF(0x431, ARC_OPCODE_ARCALL,  NONE, mpurdp7)
-+DEF(0x432, ARC_OPCODE_ARCALL,  NONE, mpurdb8)
-+DEF(0x433, ARC_OPCODE_ARCALL,  NONE, mpurdp8)
-+DEF(0x434, ARC_OPCODE_ARCALL,  NONE, mpurdb9)
-+DEF(0x435, ARC_OPCODE_ARCALL,  NONE, mpurdp9)
-+DEF(0x436, ARC_OPCODE_ARCALL,  NONE, mpurdb10)
-+DEF(0x437, ARC_OPCODE_ARCALL,  NONE, mpurdp10)
-+DEF(0x438, ARC_OPCODE_ARCALL,  NONE, mpurdb11)
-+DEF(0x439, ARC_OPCODE_ARCALL,  NONE, mpurdp11)
-+DEF(0x43a, ARC_OPCODE_ARCALL,  NONE, mpurdb12)
-+DEF(0x43b, ARC_OPCODE_ARCALL,  NONE, mpurdp12)
-+DEF(0x43c, ARC_OPCODE_ARCALL,  NONE, mpurdb13)
-+DEF(0x43d, ARC_OPCODE_ARCALL,  NONE, mpurdp13)
-+DEF(0x43e, ARC_OPCODE_ARCALL,  NONE, mpurdb14)
-+DEF(0x43f, ARC_OPCODE_ARCALL,  NONE, mpurdp14)
-+DEF(0x440, ARC_OPCODE_ARCALL,  NONE, mpurdb15)
-+DEF(0x441, ARC_OPCODE_ARCALL,  NONE, mpurdp15)
-+DEF(0x450, ARC_OPCODE_ARC600,  NONE, pm_status)
-+DEF(0x451, ARC_OPCODE_ARC600,  NONE, wake)
-+DEF(0x452, ARC_OPCODE_ARC600,  NONE, dvfs_performance)
-+DEF(0x453, ARC_OPCODE_ARC600,  NONE, pwr_ctrl)
-+DEF(0x460, ARC_OPCODE_ARCv2HS, NONE, tlbpd0)
-+DEF(0x461, ARC_OPCODE_ARCv2HS, NONE, tlbpd1)
-+DEF(0x463, ARC_OPCODE_ARCv2HS, NONE, tlbpd1_hi)
-+DEF(0x464, ARC_OPCODE_ARCv2HS, NONE, tlbindex)
-+DEF(0x465, ARC_OPCODE_ARCv2HS, NONE, tlbcommand)
-+DEF(0x468, ARC_OPCODE_ARCv2HS, NONE, pid)
-+DEF(0x46a, ARC_OPCODE_ARCv2HS, NONE, sasid0)
-+DEF(0x46b, ARC_OPCODE_ARCv2HS, NONE, sasid1)
-+DEF(0x46c, ARC_OPCODE_ARCv2HS, NONE, scratch_data0)
-+DEF(0x500, ARC_OPCODE_ARC700,  NONE, aux_vlc_buf_idx)
-+DEF(0x501, ARC_OPCODE_ARC700,  NONE, aux_vlc_read_buf)
-+DEF(0x502, ARC_OPCODE_ARC700,  NONE, aux_vlc_valid_bits)
-+DEF(0x503, ARC_OPCODE_ARC700,  NONE, aux_vlc_buf_in)
-+DEF(0x504, ARC_OPCODE_ARC700,  NONE, aux_vlc_buf_free)
-+DEF(0x505, ARC_OPCODE_ARC700,  NONE, aux_vlc_ibuf_status)
-+DEF(0x506, ARC_OPCODE_ARC700,  NONE, aux_vlc_setup)
-+DEF(0x507, ARC_OPCODE_ARC700,  NONE, aux_vlc_bits)
-+DEF(0x508, ARC_OPCODE_ARC700,  NONE, aux_vlc_table)
-+DEF(0x509, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_symbol)
-+DEF(0x50a, ARC_OPCODE_ARC700,  NONE, aux_vlc_read_symbol)
-+DEF(0x510, ARC_OPCODE_ARC700,  NONE, aux_ucavlc_setup)
-+DEF(0x511, ARC_OPCODE_ARC700,  NONE, aux_ucavlc_state)
-+DEF(0x512, ARC_OPCODE_ARC700,  NONE, aux_cavlc_zero_left)
-+DEF(0x514, ARC_OPCODE_ARC700,  NONE, aux_uvlc_i_state)
-+DEF(0x51c, ARC_OPCODE_ARC700,  NONE, aux_vlc_dma_ptr)
-+DEF(0x51d, ARC_OPCODE_ARC700,  NONE, aux_vlc_dma_end)
-+DEF(0x51e, ARC_OPCODE_ARC700,  NONE, aux_vlc_dma_esc)
-+DEF(0x51f, ARC_OPCODE_ARC700,  NONE, aux_vlc_dma_ctrl)
-+DEF(0x520, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_0bit)
-+DEF(0x521, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_1bit)
-+DEF(0x522, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_2bit)
-+DEF(0x523, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_3bit)
-+DEF(0x524, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_4bit)
-+DEF(0x525, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_5bit)
-+DEF(0x526, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_6bit)
-+DEF(0x527, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_7bit)
-+DEF(0x528, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_8bit)
-+DEF(0x529, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_9bit)
-+DEF(0x52a, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_10bit)
-+DEF(0x52b, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_11bit)
-+DEF(0x52c, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_12bit)
-+DEF(0x52d, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_13bit)
-+DEF(0x52e, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_14bit)
-+DEF(0x52f, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_15bit)
-+DEF(0x530, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_16bit)
-+DEF(0x531, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_17bit)
-+DEF(0x532, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_18bit)
-+DEF(0x533, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_19bit)
-+DEF(0x534, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_20bit)
-+DEF(0x535, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_21bit)
-+DEF(0x536, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_22bit)
-+DEF(0x537, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_23bit)
-+DEF(0x538, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_24bit)
-+DEF(0x539, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_25bit)
-+DEF(0x53a, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_26bit)
-+DEF(0x53b, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_27bit)
-+DEF(0x53c, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_28bit)
-+DEF(0x53d, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_29bit)
-+DEF(0x53e, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_30bit)
-+DEF(0x53f, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_31bit)
-+DEF(0x540, ARC_OPCODE_ARC700,  NONE, aux_cabac_ctrl)
-+DEF(0x541, ARC_OPCODE_ARC700,  NONE, aux_cabac_ctx_state)
-+DEF(0x542, ARC_OPCODE_ARC700,  NONE, aux_cabac_cod_param)
-+DEF(0x543, ARC_OPCODE_ARC700,  NONE, aux_cabac_misc0)
-+DEF(0x544, ARC_OPCODE_ARC700,  NONE, aux_cabac_misc1)
-+DEF(0x545, ARC_OPCODE_ARC700,  NONE, aux_cabac_misc2)
-+DEF(0x700, ARC_OPCODE_ARCALL,  NONE, smart_control)
-+/*
-+DEF (0x701, ARC_OPCODE_ARC700,  NONE, smart_data_0)
-+DEF (0x701, ARC_OPCODE_ARC600,  NONE, smart_data)
-+DEF (0x701, ARC_OPCODE_ARC700,  NONE, smart_data_2)
-+DEF (0x701, ARC_OPCODE_ARC700,  NONE, smart_data_3)
-+*/
-+
-+
-+/* BCR aux registers */
-+DEF(0x60, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x61, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x62, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x63, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x64, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x65, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x66, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x67, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x68, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x69, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x6a, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x6b, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x6c, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x6d, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x6e, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x6f, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x70, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x71, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x72, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x73, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x74, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x75, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x76, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x77, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x78, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x79, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x7a, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x7c, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x7d, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x7e, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x7f, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xc0, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xc1, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xc2, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xc3, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xc4, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xc5, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xc6, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xc7, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xc8, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xc9, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xca, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xcb, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xcc, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xcd, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xce, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xcf, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xd0, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xd1, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xd2, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xd3, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xd4, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xd5, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xd6, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xd7, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xd8, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xd9, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xda, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xdb, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xdc, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xdd, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xde, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xdf, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xe0, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xe1, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xe2, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xe3, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xe4, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xe5, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xe6, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xe7, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xe8, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xe9, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xea, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xeb, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xec, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xed, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xee, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xef, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xf0, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xf1, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xf2, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xf3, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xf4, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xf5, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xf6, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xf7, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xf8, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xf9, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xfa, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xfb, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xfc, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xfd, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xfe, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xff, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+
-+/* Actual BCR implementations */
-+
-+DEF(0x6d, ARC_OPCODE_ARCv2HS,  NONE, mpu_build)
-+DEF(0x6f, ARC_OPCODE_ARCv2HS,  NONE, mmu_build)
-+DEF(0x75,  ARC_OPCODE_ARCALL,  NONE, timer_build)
-+DEF(0xf3,  ARC_OPCODE_ARCV2,   NONE, irq_build)
-+DEF(0x72, ARC_OPCODE_ARCV2,    NONE, d_cache_build)
-+DEF(0x77, ARC_OPCODE_ARCV2,    NONE, i_cache_build)
-+DEF(0x7b, ARC_OPCODE_ARCV2,    NONE, mpy_build)
-+
-+/* OLD BCR definitions */
-+/*
-+DEF (0x61,  ARC_OPCODE_ARCALL,  NONE, dccm_base_build)
-+DEF (0x63,  ARC_OPCODE_ARCALL,  NONE, bta_link_build)
-+DEF (0x64,  ARC_OPCODE_ARCALL,  NONE, vbfdw_build)
-+DEF (0x65,  ARC_OPCODE_ARCALL,  NONE, ea_build)
-+DEF (0x66,  ARC_OPCODE_ARCALL,  NONE, dataspace)
-+DEF (0x67,  ARC_OPCODE_ARCALL,  NONE, memsubsys)
-+DEF (0x68,  ARC_OPCODE_ARCALL,  NONE, vecbase_ac_build)
-+DEF (0x69,  ARC_OPCODE_ARCALL,  NONE, p_base_addr)
-+DEF (0x6a,  ARC_OPCODE_ARCALL,  NONE, data_uncached_build)
-+DEF (0x6b,  ARC_OPCODE_ARCALL,  NONE, fp_build)
-+DEF (0x6c,  ARC_OPCODE_ARCALL,  NONE, dpfp_build)
-+DEF (0x6d,  ARC_OPCODE_ARCALL,  NONE, mpu_build)
-+DEF (0x6e,  ARC_OPCODE_ARCALL,  NONE, rf_build)
-+DEF (0x6f,  ARC_OPCODE_ARCALL,  NONE, mmu_build)
-+DEF (0x70,  ARC_OPCODE_ARCv2EM, NONE, sec_vecbase_build)
-+DEF (0x71,  ARC_OPCODE_ARCALL,  NONE, vecbase_build)
-+DEF (0x73,  ARC_OPCODE_ARCALL,  NONE, madi_build)
-+
-+DEF (0xc1,  ARC_OPCODE_ARC600,  NONE, arc600_build_config)
-+DEF (0xc2,  ARC_OPCODE_ARCALL,  NONE, isa_config)
-+DEF (0xf4,  ARC_OPCODE_ARCALL,  NONE, hwp_build)
-+DEF (0xf5,  ARC_OPCODE_ARCALL,  NONE, pct_build)
-+DEF (0xf6,  ARC_OPCODE_ARCALL,  NONE, cc_build)
-+DEF (0xf7,  ARC_OPCODE_ARCALL,  NONE, pm_bcr)
-+DEF (0xf8,  ARC_OPCODE_ARCALL,  NONE, scq_switch_build)
-+DEF (0xf9,  ARC_OPCODE_ARCALL,  NONE, vraptor_build)
-+DEF (0xfa,  ARC_OPCODE_ARCALL,  NONE, dma_config)
-+DEF (0xfb,  ARC_OPCODE_ARCALL,  NONE, simd_config)
-+DEF (0xfc,  ARC_OPCODE_ARCALL,  NONE, vlc_build)
-+DEF (0xfd,  ARC_OPCODE_ARCALL,  NONE, simd_dma_build)
-+DEF (0xfe,  ARC_OPCODE_ARCALL,  NONE, ifetch_queue_build)
-+*/
-diff --git a/target/arc/regs.c b/target/arc/regs.c
-new file mode 100644
-index 0000000000..3db4d01b07
---- /dev/null
-+++ b/target/arc/regs.c
-@@ -0,0 +1,139 @@
-+/*
-+ * QEMU ARC CPU
-+ *
-+ * Copyright (c) 2020 Synppsys Inc.
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * http://www.gnu.org/licenses/lgpl-2.1.html
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/log.h"
-+#include "qemu/error-report.h"
-+#include "target/arc/regs.h"
-+#include "target/arc/mmu.h"
-+#include "target/arc/mpu.h"
-+#include "target/arc/irq.h"
-+#include "target/arc/timer.h"
-+#include "target/arc/cache.h"
-+
-+struct arc_aux_reg_detail arc_aux_regs_detail[ARC_AUX_REGS_DETAIL_LAST] = {
-+#define DEF(NUM, CPU, SUB, NAME) \
-+  { \
-+    NUM, \
-+    CPU, \
-+    SUB, \
-+    AUX_ID_##NAME, \
-+    #NAME, \
-+    sizeof(#NAME) - 1, \
-+    NULL, \
-+    NULL, \
-+  },
-+#include "target/arc/regs-detail.def"
-+#undef DEF
-+};
-+
-+struct arc_aux_reg arc_aux_regs[ARC_AUX_REGS_LAST] = {
-+#define AUX_REG(NAME, GET_FUNC, SET_FUNC) \
-+  { \
-+    NULL, \
-+    GET_FUNC, \
-+    SET_FUNC \
-+  },
-+#include "target/arc/regs.def"
-+#undef AUX_REG
-+};
-+
-+const char *arc_aux_reg_name[ARC_AUX_REGS_DETAIL_LAST] = {
-+#define AUX_REG(NAME, GET, SET) #NAME,
-+#include "target/arc/regs.def"
-+#undef AUX_REG
-+  "last_invalid_aux_reg"
-+};
-+
-+
-+void arc_aux_regs_init(void)
-+{
-+    int i;
-+
-+    for (i = 0; i < ARC_AUX_REGS_DETAIL_LAST; i++) {
-+        enum arc_aux_reg_enum id = arc_aux_regs_detail[i].id;
-+        struct arc_aux_reg_detail *next = arc_aux_regs[id].first;
-+        arc_aux_regs_detail[i].next = next;
-+        arc_aux_regs_detail[i].aux_reg = &(arc_aux_regs[id]);
-+        arc_aux_regs[id].first = &(arc_aux_regs_detail[i]);
++    case GDB_AUX_OTHER_REG_MPU_PERM0 ... GDB_AUX_OTHER_REG_MPU_PERM15: {
++        const uint8_t index = regnum - GDB_AUX_OTHER_REG_MPU_PERM0;
++        regval = helper_lr(env, REG_ADDR(AUX_ID_mpurdp0 + index, processor));
++        break;
 +    }
-+}
-+
-+int
-+arc_aux_reg_address_for(enum arc_aux_reg_enum aux_reg_def,
-+                        int isa_mask)
-+{
-+    /* TODO: This must validate for CPU. */
-+    struct arc_aux_reg_detail *detail = arc_aux_regs[aux_reg_def].first;
-+    while (detail != NULL) {
-+        if ((detail->cpu & isa_mask) != 0) {
-+            return detail->address;
-+        }
-+        detail = detail->next;
++    /* exceptions */
++    case GDB_AUX_OTHER_REG_ERSTATUS:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_erstatus, processor));
++        break;
++    case GDB_AUX_OTHER_REG_ERBTA:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_erbta, processor));
++        break;
++    case GDB_AUX_OTHER_REG_ECR:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_ecr, processor));
++        break;
++    case GDB_AUX_OTHER_REG_ERET:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_eret, processor));
++        break;
++    case GDB_AUX_OTHER_REG_EFA:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_efa, processor));
++        break;
++    /* interrupt */
++    case GDB_AUX_OTHER_REG_ICAUSE:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_icause, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_CTRL:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_aux_irq_ctrl, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_ACT:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_aux_irq_act, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_PRIO_PEND:
++        regval = env->irq_priority_pending;
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_HINT:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_aux_irq_hint, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_SELECT:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_select, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_ENABLE:
++        regval = env->irq_bank[env->irq_select & 0xff].enable;
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_TRIGGER:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_trigger, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_STATUS:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_status, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_PULSE:
++        regval = 0; /* write only for clearing the pulse triggered interrupt */
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_PENDING:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_pending, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_PRIO:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_priority, processor));
++        break;
++    case GDB_AUX_OTHER_REG_BTA:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_bta, processor));
++        break;
++    default:
++        assert(!"Unsupported other auxiliary register is being read.");
 +    }
-+    assert(0);
-+
-+    /* We never get here but to accommodate -Werror ... */
-+    return 0;
++    return gdb_get_reg32(mem_buf, regval);
 +}
 +
-+struct arc_aux_reg_detail *
-+arc_aux_reg_struct_for_address(int address, int isa_mask)
-+{
-+    int i;
-+    bool has_default = false;
-+    struct arc_aux_reg_detail *default_ret = NULL;
 +
-+    /* TODO: Make this a binary search or something faster. */
-+    for (i = 0; i < ARC_AUX_REGS_DETAIL_LAST; i++) {
-+        if (arc_aux_regs_detail[i].address == address) {
-+            if (arc_aux_regs_detail[i].cpu == ARC_OPCODE_DEFAULT) {
-+                has_default = true;
-+                default_ret = &(arc_aux_regs_detail[i]);
-+            } else if ((arc_aux_regs_detail[i].cpu & isa_mask) != 0) {
-+                return &(arc_aux_regs_detail[i]);
-+            }
-+        }
++static int
++arc_aux_other_gdb_set_reg(CPUARCState *env, uint8_t *mem_buf, int regnum)
++{
++    /* TODO: processor type must be set according to configuration */
++    static const int processor = ARC_OPCODE_ARCv2HS;
++    uint32_t regval = ldl_p(mem_buf);
++    switch (regnum) {
++    case GDB_AUX_OTHER_REG_TIMER_BUILD:
++    case GDB_AUX_OTHER_REG_IRQ_BUILD:
++    case GDB_AUX_OTHER_REG_MPY_BUILD:
++    case GDB_AUX_OTHER_REG_VECBASE_BUILD:
++    case GDB_AUX_OTHER_REG_ISA_CONFIG:
++    case GDB_AUX_OTHER_REG_MPU_BUILD:
++    case GDB_AUX_OTHER_REG_MPU_ECR:
++    case GDB_AUX_OTHER_REG_ICAUSE:
++    case GDB_AUX_OTHER_REG_IRQ_PRIO_PEND:
++    case GDB_AUX_OTHER_REG_IRQ_STATUS:
++    case GDB_AUX_OTHER_REG_IRQ_PENDING:
++        /* builds/configs/exceptions/irqs cannot be changed */
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CNT0:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_count0, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CTRL0:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_control0, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_LIM0:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_limit0, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CNT1:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_count1, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CTRL1:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_control1, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_LIM1:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_limit1, processor));
++        break;
++    case GDB_AUX_OTHER_REG_PID:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_pid, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TLBPD0:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_tlbpd0, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TLBPD1:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_tlbpd1, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TLB_INDEX:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_tlbindex, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TLB_CMD:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_tlbcommand, processor));
++        break;
++    /* MPU */
++    case GDB_AUX_OTHER_REG_MPU_EN:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_mpuen, processor));
++        break;
++    case GDB_AUX_OTHER_REG_MPU_BASE0 ... GDB_AUX_OTHER_REG_MPU_BASE15: {
++        const uint8_t index = regnum - GDB_AUX_OTHER_REG_MPU_BASE0;
++        helper_sr(env, regval, REG_ADDR(AUX_ID_mpurdb0 + index, processor));
++        break;
 +    }
-+
-+    if (has_default == true) {
-+        return default_ret;
++    case GDB_AUX_OTHER_REG_MPU_PERM0 ... GDB_AUX_OTHER_REG_MPU_PERM15: {
++        const uint8_t index = regnum - GDB_AUX_OTHER_REG_MPU_PERM0;
++        helper_sr(env, regval, REG_ADDR(AUX_ID_mpurdp0 + index, processor));
++        break;
 +    }
-+
-+    return NULL;
++    /* exceptions */
++    case GDB_AUX_OTHER_REG_ERSTATUS:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_erstatus, processor));
++        break;
++    case GDB_AUX_OTHER_REG_ERBTA:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_erbta, processor));
++        break;
++    case GDB_AUX_OTHER_REG_ECR:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_ecr, processor));
++        break;
++    case GDB_AUX_OTHER_REG_ERET:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_eret, processor));
++        break;
++    case GDB_AUX_OTHER_REG_EFA:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_efa, processor));
++        break;
++    /* interrupt */
++    case GDB_AUX_OTHER_REG_IRQ_CTRL:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_aux_irq_ctrl, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_ACT:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_aux_irq_act, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_HINT:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_aux_irq_hint, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_SELECT:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_select, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_ENABLE:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_enable, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_TRIGGER:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_trigger, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_PULSE:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_pulse_cancel, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_PRIO:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_priority, processor));
++        break;
++    case GDB_AUX_OTHER_REG_BTA:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_bta, processor));
++        break;
++    default:
++        assert(!"Unsupported other auxiliary register is being written.");
++    }
++    return 4;
 +}
 +
-+uint32_t
-+arc_regs_bcr_default_impl(const struct arc_aux_reg_detail *aux_reg,
-+                          void *data)
++
++void arc_cpu_register_gdb_regs_for_features(ARCCPU *cpu)
 +{
-+    return 0;
++    CPUState *cs = CPU(cpu);
++
++    gdb_register_coprocessor(cs,
++                             arc_aux_minimal_gdb_get_reg, /* getter */
++                             arc_aux_minimal_gdb_set_reg, /* setter */
++                             GDB_AUX_MIN_REG_LAST,        /* number of registers */
++                             "arc-v2-aux.xml",            /* feature file */
++                             0);                          /* position in g packet */
++
++    gdb_register_coprocessor(cs,
++                             arc_aux_other_gdb_get_reg,
++                             arc_aux_other_gdb_set_reg,
++                             GDB_AUX_OTHER_REG_LAST,
++                             "arc-v2-other.xml",
++                             0);
 +}
 +
-+/* TODO: Implement any non implemented auxs regs. */
-+void TO_IMPLEMENT_SET(const struct arc_aux_reg_detail *aux_reg, uint32_t val,
-+                      void *data)
-+{
-+    return;
-+}
-+uint32_t TO_IMPLEMENT_GET(const struct arc_aux_reg_detail *aux_reg, void *data)
-+{
-+    return 0;
-+}
-diff --git a/target/arc/regs.def b/target/arc/regs.def
-new file mode 100644
-index 0000000000..d9cb865916
---- /dev/null
-+++ b/target/arc/regs.def
-@@ -0,0 +1,396 @@
-+/*
-+ * QEMU ARC Auxiliary register definitions
-+ *
-+ * Copyright (c) 2020 Synppsys Inc.
-+ * Contributed by Claudiu Zissulescu (claziss@synopsys.com)
-+ * Contributed by Cupertino Miranda (cmiranda@synopsys.com)
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * http://www.gnu.org/licenses/lgpl-2.1.html
-+ */
-+
-+AUX_REG (unimp_bcr, arc_regs_bcr_default_impl, NULL)
-+AUX_REG (acg_ctrl, NULL, NULL)
-+AUX_REG (acr, NULL, NULL)
-+AUX_REG (adcr, NULL, NULL)
-+AUX_REG (aes_aux_0, NULL, NULL)
-+AUX_REG (aes_aux_1, NULL, NULL)
-+AUX_REG (aes_aux_2, NULL, NULL)
-+AUX_REG (aes_aux_3, NULL, NULL)
-+AUX_REG (aes_aux_4, NULL, NULL)
-+AUX_REG (aes_auxi, NULL, NULL)
-+AUX_REG (aes_auxs, NULL, NULL)
-+AUX_REG (aes_crypt_mode, NULL, NULL)
-+AUX_REG (ap_ac0, NULL, NULL)
-+AUX_REG (ap_ac1, NULL, NULL)
-+AUX_REG (ap_ac2, NULL, NULL)
-+AUX_REG (ap_ac3, NULL, NULL)
-+AUX_REG (ap_ac4, NULL, NULL)
-+AUX_REG (ap_ac5, NULL, NULL)
-+AUX_REG (ap_ac6, NULL, NULL)
-+AUX_REG (ap_ac7, NULL, NULL)
-+AUX_REG (ap_amm0, NULL, NULL)
-+AUX_REG (ap_amm1, NULL, NULL)
-+AUX_REG (ap_amm2, NULL, NULL)
-+AUX_REG (ap_amm3, NULL, NULL)
-+AUX_REG (ap_amm4, NULL, NULL)
-+AUX_REG (ap_amm5, NULL, NULL)
-+AUX_REG (ap_amm6, NULL, NULL)
-+AUX_REG (ap_amm7, NULL, NULL)
-+AUX_REG (ap_amv0, NULL, NULL)
-+AUX_REG (ap_amv1, NULL, NULL)
-+AUX_REG (ap_amv2, NULL, NULL)
-+AUX_REG (ap_amv3, NULL, NULL)
-+AUX_REG (ap_amv4, NULL, NULL)
-+AUX_REG (ap_amv5, NULL, NULL)
-+AUX_REG (ap_amv6, NULL, NULL)
-+AUX_REG (ap_amv7, NULL, NULL)
-+AUX_REG (apcr, NULL, NULL)
-+AUX_REG (arc600_build_config, NULL, NULL)
-+AUX_REG (arith_ctl_aux, NULL, NULL)
-+AUX_REG (aux_cabac_cod_param, NULL, NULL)
-+AUX_REG (aux_cabac_ctrl, NULL, NULL)
-+AUX_REG (aux_cabac_ctx_state, NULL, NULL)
-+AUX_REG (aux_cabac_misc0, NULL, NULL)
-+AUX_REG (aux_cabac_misc1, NULL, NULL)
-+AUX_REG (aux_cabac_misc2, NULL, NULL)
-+AUX_REG (aux_cavlc_zero_left, NULL, NULL)
-+AUX_REG (aux_crc_mode, NULL, NULL)
-+AUX_REG (aux_crc_poly, NULL, NULL)
-+AUX_REG (aux_dccm, NULL, NULL)
-+AUX_REG (aux_dpfp1h, NULL, NULL)
-+AUX_REG (aux_dpfp1l, NULL, NULL)
-+AUX_REG (aux_dpfp2h, NULL, NULL)
-+AUX_REG (aux_dpfp2l, NULL, NULL)
-+AUX_REG (aux_fbf_store_16, NULL, NULL)
-+AUX_REG (aux_inter_core_interrupt, NULL, NULL)
-+AUX_REG (irq_priority, aux_irq_get, aux_irq_set)
-+AUX_REG (aux_irq_act, aux_irq_get, aux_irq_set)
-+AUX_REG (aux_irq_hint, aux_irq_get, aux_irq_set)
-+AUX_REG (aux_irq_lev, NULL, NULL)
-+AUX_REG (aux_irq_lv12, NULL, NULL)
-+AUX_REG (irq_pending, aux_irq_get, NULL)
-+AUX_REG (irq_pulse_cancel, NULL, aux_irq_set)
-+AUX_REG (aux_irq_ctrl, aux_irq_get, aux_irq_set)
-+AUX_REG (aux_kernel_sp, NULL, NULL)
-+AUX_REG (aux_ldst_ram, NULL, NULL)
-+AUX_REG (aux_macmode, NULL, NULL)
-+AUX_REG (aux_sec_ctrl, NULL, NULL)
-+AUX_REG (aux_sec_except, NULL, NULL)
-+AUX_REG (aux_sec_k_sp, NULL, NULL)
-+AUX_REG (aux_sec_u_sp, NULL, NULL)
-+AUX_REG (aux_ucavlc_setup, NULL, NULL)
-+AUX_REG (aux_ucavlc_state, NULL, NULL)
-+AUX_REG (aux_user_sp, aux_irq_get, aux_irq_set)
-+AUX_REG (aux_uvlc_i_state, NULL, NULL)
-+AUX_REG (aux_vbfdw_accu, NULL, NULL)
-+AUX_REG (aux_vbfdw_bm0, NULL, NULL)
-+AUX_REG (aux_vbfdw_bm1, NULL, NULL)
-+AUX_REG (aux_vbfdw_intstat, NULL, NULL)
-+AUX_REG (aux_vbfdw_mode, NULL, NULL)
-+AUX_REG (aux_vbfdw_ofst, NULL, NULL)
-+AUX_REG (aux_volatile, NULL, NULL)
-+AUX_REG (aux_vlc_bits, NULL, NULL)
-+AUX_REG (aux_vlc_buf_free, NULL, NULL)
-+AUX_REG (aux_vlc_buf_idx, NULL, NULL)
-+AUX_REG (aux_vlc_buf_in, NULL, NULL)
-+AUX_REG (aux_vlc_dma_ctrl, NULL, NULL)
-+AUX_REG (aux_vlc_dma_end, NULL, NULL)
-+AUX_REG (aux_vlc_dma_esc, NULL, NULL)
-+AUX_REG (aux_vlc_dma_ptr, NULL, NULL)
-+AUX_REG (aux_vlc_get_0bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_10bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_11bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_12bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_13bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_14bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_15bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_16bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_17bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_18bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_19bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_1bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_20bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_21bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_22bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_23bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_24bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_25bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_26bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_27bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_28bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_29bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_2bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_30bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_31bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_3bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_4bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_5bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_6bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_7bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_8bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_9bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_symbol, NULL, NULL)
-+AUX_REG (aux_vlc_ibuf_status, NULL, NULL)
-+AUX_REG (aux_vlc_read_buf, NULL, NULL)
-+AUX_REG (aux_vlc_read_symbol, NULL, NULL)
-+AUX_REG (aux_vlc_setup, NULL, NULL)
-+AUX_REG (aux_vlc_table, NULL, NULL)
-+AUX_REG (aux_vlc_valid_bits, NULL, NULL)
-+AUX_REG (aux_xmac0_24, NULL, NULL)
-+AUX_REG (aux_xmac0, NULL, NULL)
-+AUX_REG (aux_xmac1_24, NULL, NULL)
-+AUX_REG (aux_xmac1, NULL, NULL)
-+AUX_REG (aux_xmac2_24, NULL, NULL)
-+AUX_REG (aux_xmac2, NULL, NULL)
-+AUX_REG (aux_xmaclw_h, NULL, NULL)
-+AUX_REG (aux_xmaclw_l, NULL, NULL)
-+AUX_REG (ax0, NULL, NULL)
-+AUX_REG (ax1, NULL, NULL)
-+AUX_REG (ax2, NULL, NULL)
-+AUX_REG (ax3, NULL, NULL)
-+AUX_REG (ay0, NULL, NULL)
-+AUX_REG (ay1, NULL, NULL)
-+AUX_REG (ay2, NULL, NULL)
-+AUX_REG (ay3, NULL, NULL)
-+AUX_REG (bpu_flush, NULL, NULL)
-+AUX_REG (bta_l1, NULL, NULL)
-+AUX_REG (bta_l2, NULL, NULL)
-+AUX_REG (bta_link_build, NULL, NULL)
-+AUX_REG (bta, NULL, NULL)
-+AUX_REG (burstsys, NULL, NULL)
-+AUX_REG (burstsz, NULL, NULL)
-+AUX_REG (burstval, NULL, NULL)
-+AUX_REG (burstxym, NULL, NULL)
-+AUX_REG (cc_build, NULL, NULL)
-+AUX_REG (che_mode, NULL, NULL)
-+AUX_REG (clk_enable, NULL, NULL)
-+AUX_REG (control0, aux_timer_get, aux_timer_set)
-+AUX_REG (control1, aux_timer_get, aux_timer_set)
-+AUX_REG (count0, aux_timer_get, aux_timer_set)
-+AUX_REG (count1, aux_timer_get, aux_timer_set)
-+AUX_REG (d1h, NULL, NULL)
-+AUX_REG (d1l, NULL, NULL)
-+AUX_REG (d2h, NULL, NULL)
-+AUX_REG (d2l, NULL, NULL)
-+AUX_REG (dataspace, NULL, NULL)
-+AUX_REG (data_uncached_build, NULL, NULL)
-+AUX_REG (dccm_base_build, NULL, NULL)
-+AUX_REG (d_cache_build, arc_cache_aux_get, NULL)
-+AUX_REG (dc_ctrl, arc_cache_aux_get, arc_cache_aux_set)
-+AUX_REG (dc_data, NULL, NULL)
-+AUX_REG (dc_fldl, NULL, arc_cache_aux_set)
-+AUX_REG (dc_flsh, NULL, arc_cache_aux_set)
-+AUX_REG (dc_ivdc, NULL, arc_cache_aux_set)
-+AUX_REG (dc_ivdl, NULL, arc_cache_aux_set)
-+AUX_REG (dc_ldl, NULL, NULL)
-+AUX_REG (dc_startr, NULL, arc_cache_aux_set)
-+AUX_REG (dc_endr, arc_cache_aux_get, arc_cache_aux_set)
-+AUX_REG (dc_ptag, NULL, NULL)
-+AUX_REG (dc_ptag_hi, arc_cache_aux_get, arc_cache_aux_set)
-+AUX_REG (dc_ram_addr, NULL, NULL)
-+AUX_REG (dc_tag, NULL, NULL)
-+AUX_REG (dc_wp, NULL, NULL)
-+AUX_REG (debugi, NULL, NULL)
-+AUX_REG (debug, NULL, NULL)
-+AUX_REG (des_aux, NULL, NULL)
-+AUX_REG (dilstat, NULL, NULL)
-+AUX_REG (dma_config, NULL, NULL)
-+AUX_REG (dmc_code_ram, NULL, NULL)
-+AUX_REG (dpfp_build, NULL, NULL)
-+AUX_REG (dpfp_status, NULL, NULL)
-+AUX_REG (dvfs_performance, NULL, NULL)
-+AUX_REG (ea_build, NULL, NULL)
-+AUX_REG (ecr, NULL, NULL)
-+AUX_REG (efa, NULL, NULL)
-+AUX_REG (ei_base, NULL, NULL)
-+AUX_REG (erbta, NULL, NULL)
-+AUX_REG (eret, NULL, NULL)
-+AUX_REG (erp_control, NULL, NULL)
-+AUX_REG (ersec_stat, NULL, NULL)
-+AUX_REG (erstatus, NULL, NULL)
-+AUX_REG (exec_ctrl, NULL, NULL)
-+AUX_REG (fp_build, NULL, NULL)
-+AUX_REG (fp_status, NULL, NULL)
-+AUX_REG (hexctrl, NULL, NULL)
-+AUX_REG (hexdata, NULL, NULL)
-+AUX_REG (hwp_build, NULL, NULL)
-+AUX_REG (icause, aux_irq_get, NULL)
-+AUX_REG (irq_select, aux_irq_get, aux_irq_set)
-+AUX_REG (irq_enable, aux_irq_get, aux_irq_set)
-+AUX_REG (irq_trigger, aux_irq_get, aux_irq_set)
-+AUX_REG (irq_status, aux_irq_get, NULL)
-+AUX_REG (i_cache_build, arc_cache_aux_get, NULL)
-+AUX_REG (ic_ctrl, arc_cache_aux_get, arc_cache_aux_set)
-+AUX_REG (ic_data, NULL, NULL)
-+AUX_REG (ic_startr, NULL, arc_cache_aux_set)
-+AUX_REG (ic_endr, arc_cache_aux_get, arc_cache_aux_set)
-+AUX_REG (ic_ivic, NULL, arc_cache_aux_set)
-+AUX_REG (ic_ivil, NULL, arc_cache_aux_set)
-+AUX_REG (ic_ivir, arc_cache_aux_get, arc_cache_aux_set)
-+AUX_REG (ic_lil, NULL, NULL)
-+AUX_REG (ic_ptag, arc_cache_aux_get, arc_cache_aux_set)
-+AUX_REG (ic_ptag_hi, arc_cache_aux_get, arc_cache_aux_set)
-+AUX_REG (ic_ram_address, NULL, NULL)
-+AUX_REG (ic_tag, NULL, NULL)
-+AUX_REG (ic_wp, NULL, NULL)
-+AUX_REG (identity, NULL, NULL)
-+AUX_REG (ifetch_queue_build, NULL, NULL)
-+AUX_REG (int_vector_base, aux_irq_get, aux_irq_set)
-+AUX_REG (irq_build, aux_irq_get, NULL)
-+AUX_REG (irq_priority_pending, NULL, NULL)
-+AUX_REG (isa_config, NULL, NULL)
-+AUX_REG (ivic, NULL, NULL)
-+AUX_REG (jli_base, TO_IMPLEMENT_GET, TO_IMPLEMENT_SET)
-+AUX_REG (ldi_base, NULL, NULL)
-+AUX_REG (led, NULL, NULL)
-+AUX_REG (limit0, aux_timer_get, aux_timer_set)
-+AUX_REG (limit1, aux_timer_get, aux_timer_set)
-+AUX_REG (line_length_mask, NULL, NULL)
-+AUX_REG (lockline, NULL, NULL)
-+AUX_REG (lp_end, NULL, NULL)
-+AUX_REG (lp_start, NULL, NULL)
-+AUX_REG (lsp_newval, NULL, NULL)
-+AUX_REG (madi_build, NULL, NULL)
-+AUX_REG (memseg, NULL, NULL)
-+AUX_REG (memsubsys, NULL, NULL)
-+AUX_REG (mmu_build, arc_mmu_aux_get, NULL)
-+AUX_REG (mpu_build, arc_mpu_aux_get, NULL)
-+AUX_REG (mpuen, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpufa, NULL, NULL)
-+AUX_REG (mpuic, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb0, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb1, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb2, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb3, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb4, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb5, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb6, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb7, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb8, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb9, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb10, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb11, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb12, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb13, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb14, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb15, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp0, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp1, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp2, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp3, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp4, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp5, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp6, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp7, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp8, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp9, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp10, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp11, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp12, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp13, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp14, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp15, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpy_build, NULL, NULL)
-+AUX_REG (mulhi, NULL, NULL)
-+AUX_REG (mx00, NULL, NULL)
-+AUX_REG (mx01, NULL, NULL)
-+AUX_REG (mx0, NULL, NULL)
-+AUX_REG (mx10, NULL, NULL)
-+AUX_REG (mx11, NULL, NULL)
-+AUX_REG (mx1, NULL, NULL)
-+AUX_REG (mx20, NULL, NULL)
-+AUX_REG (mx21, NULL, NULL)
-+AUX_REG (mx30, NULL, NULL)
-+AUX_REG (mx31, NULL, NULL)
-+AUX_REG (my00, NULL, NULL)
-+AUX_REG (my01, NULL, NULL)
-+AUX_REG (my0, NULL, NULL)
-+AUX_REG (my10, NULL, NULL)
-+AUX_REG (my11, NULL, NULL)
-+AUX_REG (my1, NULL, NULL)
-+AUX_REG (my20, NULL, NULL)
-+AUX_REG (my21, NULL, NULL)
-+AUX_REG (my30, NULL, NULL)
-+AUX_REG (my31, NULL, NULL)
-+AUX_REG (nsc_table_base, NULL, NULL)
-+AUX_REG (nsc_table_top, NULL, NULL)
-+AUX_REG (p_base_addr, NULL, NULL)
-+AUX_REG (pc, NULL, NULL)
-+AUX_REG (pcport, NULL, NULL)
-+AUX_REG (pct_build, NULL, NULL)
-+AUX_REG (pid,    arc_mmu_aux_get, arc_mmu_aux_set)
-+AUX_REG (sasid0, arc_mmu_aux_get, arc_mmu_aux_set)
-+AUX_REG (sasid1, arc_mmu_aux_get, arc_mmu_aux_set)
-+AUX_REG (pm_bcr, NULL, NULL)
-+AUX_REG (pm_status, NULL, NULL)
-+AUX_REG (pwr_ctrl, NULL, NULL)
-+AUX_REG (rf_build, NULL, NULL)
-+AUX_REG (rferp_status0, NULL, NULL)
-+AUX_REG (rferp_status1, NULL, NULL)
-+AUX_REG (scm_base, NULL, NULL)
-+AUX_REG (scq_switch_build, NULL, NULL)
-+AUX_REG (scratch_a, NULL, NULL)
-+AUX_REG (scratch_data0, arc_mmu_aux_get, arc_mmu_aux_set)
-+AUX_REG (sdm_base, NULL, NULL)
-+AUX_REG (sec_extra, NULL, NULL)
-+AUX_REG (sec_stat, NULL, NULL)
-+AUX_REG (se_ctrl, NULL, NULL)
-+AUX_REG (sec_vecbase_build, NULL, NULL)
-+AUX_REG (se_dbg_ctrl, NULL, NULL)
-+AUX_REG (se_dbg_data0, NULL, NULL)
-+AUX_REG (se_dbg_data1, NULL, NULL)
-+AUX_REG (se_dbg_data2, NULL, NULL)
-+AUX_REG (se_dbg_data3, NULL, NULL)
-+AUX_REG (se_eadr, NULL, NULL)
-+AUX_REG (se_err, NULL, NULL)
-+AUX_REG (semaphore, NULL, NULL)
-+AUX_REG (se_spc, NULL, NULL)
-+AUX_REG (se_stat, NULL, NULL)
-+AUX_REG (se_watch, NULL, NULL)
-+AUX_REG (simd_config, NULL, NULL)
-+AUX_REG (simd_dma_build, NULL, NULL)
-+AUX_REG (smart_control, NULL, NULL)
-+AUX_REG (smart_data_0, NULL, NULL)
-+AUX_REG (smart_data_2, NULL, NULL)
-+AUX_REG (smart_data_3, NULL, NULL)
-+AUX_REG (smart_data, NULL, NULL)
-+AUX_REG (sram_seq, NULL, NULL)
-+AUX_REG (status32, NULL, NULL)
-+AUX_REG (status32_p0, NULL, NULL)
-+AUX_REG (swstat, NULL, NULL)
-+AUX_REG (tag_addr_mask, NULL, NULL)
-+AUX_REG (tag_data_mask, NULL, NULL)
-+AUX_REG (timer_build, aux_timer_get, NULL)
-+AUX_REG (tlbcommand,  arc_mmu_aux_get, arc_mmu_aux_set_tlbcmd)
-+AUX_REG (tlbindex,    arc_mmu_aux_get, arc_mmu_aux_set)
-+AUX_REG (tlbpd0,      arc_mmu_aux_get, arc_mmu_aux_set)
-+AUX_REG (tlbpd1_hi,   arc_mmu_aux_get, arc_mmu_aux_set)
-+AUX_REG (tlbpd1,      arc_mmu_aux_get, arc_mmu_aux_set)
-+AUX_REG (tsch, NULL, NULL)
-+AUX_REG (unlockline, NULL, NULL)
-+AUX_REG (vbfdw_build, NULL, NULL)
-+AUX_REG (vecbase_ac_build, aux_irq_get, NULL)
-+AUX_REG (vecbase_build, NULL, NULL)
-+AUX_REG (vlc_build, NULL, NULL)
-+AUX_REG (vraptor_build, NULL, NULL)
-+AUX_REG (wake, NULL, NULL)
-+AUX_REG (xpu, NULL, NULL)
-+AUX_REG (xtp_newval, NULL, NULL)
-+AUX_REG (xyconfig, NULL, NULL)
-+AUX_REG (xylsbasex, NULL, NULL)
-+AUX_REG (xylsbasey, NULL, NULL)
-+AUX_REG (aux_rtc_ctrl, aux_timer_get, aux_timer_set)
-+AUX_REG (aux_rtc_low, aux_timer_get, aux_timer_set)
-+AUX_REG (aux_rtc_high, aux_timer_get, aux_timer_set)
-diff --git a/target/arc/regs.h b/target/arc/regs.h
-new file mode 100644
-index 0000000000..aad8bda443
---- /dev/null
-+++ b/target/arc/regs.h
-@@ -0,0 +1,118 @@
-+/*
-+ * QEMU ARC CPU
-+ *
-+ * Copyright (c) 2020 Synppsys Inc.
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * http://www.gnu.org/licenses/lgpl-2.1.html
-+ */
-+
-+#ifndef ARC_REGS_H
-+#define ARC_REGS_H
-+
-+#include "target/arc/decoder.h"
-+
-+/*
-+ * BCRs (Build configuration registers) are very special AUX regs
-+ * as they are always readable even if corresponding HW module is absent.
-+ * Thus we may always safely read them and learn what HW we have.
-+ * All other AUX regs outside of 2 BCR areas are only readable if their
-+ * HW is really implemented, otherwise "Instruction error" exception
-+ * is raised by the CPU.
-+ */
-+
-+/* First BCR region. */
-+#define ARC_BCR1_START          0x60
-+#define ARC_BCR1_END            0x7f
-+/* Second BCR region. */
-+#define ARC_BCR2_START          0xc0
-+#define ARC_BCR2_END            0xff
-+
-+enum arc_aux_reg_enum {
-+    ARC_AUX_REGS_INVALID = -1,
-+#define AUX_REG(NAME, GET, SET) AUX_ID_##NAME,
-+#include "target/arc/regs.def"
-+#undef AUX_REG
-+    ARC_AUX_REGS_LAST
-+};
-+
-+enum arc_aux_reg_detail_enum {
-+    ARC_AUX_REGS_DETAIL_INVALID = -1,
-+#define DEF(NUM, CPU, SUB, NAME) CPU##_##NUM,
-+#include "target/arc/regs-detail.def"
-+#undef DEF
-+    ARC_AUX_REGS_DETAIL_LAST
-+};
-+
-+struct arc_aux_regs_data;
-+struct arc_aux_reg_detail {
-+    /* Register address. */
-+    int address;
-+
-+    /*
-+     * One bit flags for the opcode. These are primarily used to
-+     * indicate specific processors and environments support the
-+     * instructions.
-+     */
-+    enum arc_cpu_family cpu;
-+
-+    /* AUX register subclass. */
-+    insn_subclass_t subclass;
-+
-+    /* Enum for aux-reg. */
-+    enum arc_aux_reg_enum id;
-+
-+    /* Register name. */
-+    const char *name;
-+
-+    /* Size of the string. */
-+    size_t length;
-+
-+    /* pointer to the first element in the list. */
-+    struct arc_aux_reg_detail *next;
-+
-+    /* pointer to the first element in the list. */
-+    struct arc_aux_reg *aux_reg;
-+};
-+
-+typedef void (* aux_reg_set_func)(const struct arc_aux_reg_detail *aux_reg,
-+                                  uint32_t val, void *data);
-+typedef uint32_t (* aux_reg_get_func)(const struct arc_aux_reg_detail *aux_reg,
-+                                      void *data);
-+
-+struct arc_aux_reg {
-+    /* pointer to the first element in the list. */
-+    struct arc_aux_reg_detail *first;
-+
-+    /* get and set function for lr and sr helpers */
-+    aux_reg_get_func get_func;
-+    aux_reg_set_func set_func;
-+};
-+
-+extern struct arc_aux_reg_detail arc_aux_regs_detail[ARC_AUX_REGS_DETAIL_LAST];
-+extern struct arc_aux_reg arc_aux_regs[ARC_AUX_REGS_LAST];
-+extern const char *arc_aux_reg_name[ARC_AUX_REGS_DETAIL_LAST];
-+
-+void arc_aux_regs_init(void);
-+int arc_aux_reg_address_for(enum arc_aux_reg_enum, int);
-+struct arc_aux_reg_detail *arc_aux_reg_struct_for_address(int, int);
-+
-+uint32_t arc_regs_bcr_default_impl(const struct arc_aux_reg_detail *aux_reg,
-+                                   void *data);
-+
-+void TO_IMPLEMENT_SET(const struct arc_aux_reg_detail *aux_reg, uint32_t val,
-+                      void *data);
-+uint32_t TO_IMPLEMENT_GET(const struct arc_aux_reg_detail *aux_reg, void *data);
-+
-+#endif /* ARC_REGS_H */
++/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
++/* vim: set ts=4 sw=4 et: */
 -- 
 2.20.1
 
