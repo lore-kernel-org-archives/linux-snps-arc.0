@@ -5,18 +5,18 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B595EC4742C
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Nov 2020 09:10:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 696BDC4742C
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Nov 2020 09:11:19 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4A171206E3
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Nov 2020 09:10:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E5FA6206E3
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Nov 2020 09:11:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="0SKmpyJe"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4A171206E3
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FzPGeoC2"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E5FA6206E3
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baikalelectronics.ru
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,42 +25,41 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=v4t8QxRPqxn0Ac6aviyb/A7x9COXuN86hEwMDIVOhPU=; b=0SKmpyJeLTF+VgahPx3TK08JE
-	Twq62YPgMueh/IABYxuD2OL9Ho/kkyTVbjKd/ND6F+VFJ1wcjJCYoH7RMFU8tasIwz+x/uLda0fXa
-	ZD4xSctEiueGahrfc6B2dsnm4lHsHBHKNSd/IFGUz0fyCE5JuFeAjAeOCUGT4mSmUaMBhFmQtWkCq
-	IuKc7iS567X2oEsIjieFFMtJCWTXADRHKUIkSWzESzsh/dXRshWMy0+m7wduXx8B5fPWof/EmiDuQ
-	l6vhehJ6gH/1LaQvGtThN//hOngGnAAVzk8nLOo6J0rgQ5lws/L8fkgRnU4UWS20Yp987vgdsETLX
-	e0554hwrA==;
+	 bh=c9HKSDGpbpNLfLysmvvzmOsym6unC0DfBHQi3SqpDFA=; b=FzPGeoC264+eleLHGY4rgcLnW
+	AL5ui765m1p6LPhqdKXUqCs/IStVKxcfwi2Ivxxs5o7EOrtkwTbH8APfP2ZYUvX689C66dvpE8Elg
+	rHgJGiG9LI5uxEq8cEm9rwqq/1kGnBdTs2/YdjiW8HzY9FkUrLjjxfn60R2OKe7NBq6XX+AjGKOZh
+	NO7rzKLghs0PK7ZWLRE7aUbNEoD4pmWZ6+EyN+AO+K3zAyCkpRKxoy/fHI7Rk7HBV8XhSwdPIlz5S
+	Bx4bYFbxm9l/PgIkFrknLq575YB6pSpwVBw9muF/5QZjxw0K8ct9VOjQwcMPzm/eMZeD4hqqo+Mub
+	so2PMrEjQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kcm9P-0005Qv-7U; Wed, 11 Nov 2020 09:10:47 +0000
+	id 1kcm9t-0005jM-9g; Wed, 11 Nov 2020 09:11:17 +0000
 Received: from mail.baikalelectronics.com ([87.245.175.226]
  helo=mail.baikalelectronics.ru)
  by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kcm7u-0004jM-9x; Wed, 11 Nov 2020 09:09:17 +0000
+ id 1kcm7u-0004jI-9y; Wed, 11 Nov 2020 09:09:18 +0000
 Received: from localhost (unknown [127.0.0.1])
- by mail.baikalelectronics.ru (Postfix) with ESMTP id CD16F803073E;
- Wed, 11 Nov 2020 09:09:05 +0000 (UTC)
+ by mail.baikalelectronics.ru (Postfix) with ESMTP id 8B0B98030171;
+ Wed, 11 Nov 2020 09:09:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at baikalelectronics.ru
 Received: from mail.baikalelectronics.ru ([127.0.0.1])
  by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qU-jSI3SHFlp; Wed, 11 Nov 2020 12:09:05 +0300 (MSK)
+ with ESMTP id TZS9AUp4z0AJ; Wed, 11 Nov 2020 12:09:03 +0300 (MSK)
 From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To: Mathias Nyman <mathias.nyman@intel.com>, Felipe Balbi <balbi@kernel.org>, 
  Krzysztof Kozlowski <krzk@kernel.org>, Greg Kroah-Hartman
  <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v4 03/18] dt-bindings: usb: usb-drd: Add "otg-rev" property
- constraints
-Date: Wed, 11 Nov 2020 12:08:38 +0300
-Message-ID: <20201111090853.14112-4-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v4 01/18] dt-bindings: usb: usb-hcd: Detach generic USB
+ controller properties
+Date: Wed, 11 Nov 2020 12:08:36 +0300
+Message-ID: <20201111090853.14112-2-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201111090853.14112-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201111090853.14112-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201111_040914_652913_5FAD8237 
-X-CRM114-Status: UNSURE (   8.20  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20201111_040914_776460_4C68F880 
+X-CRM114-Status: GOOD (  11.20  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,54 +71,115 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
- Rob Herring <robh@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
- Andy Gross <agross@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- linux-snps-arc@lists.infradead.org, devicetree@vger.kernel.org,
+Cc: devicetree@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-mips@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- linux-arm-kernel@lists.infradead.org, Roger Quadros <rogerq@ti.com>,
+ Kevin Hilman <khilman@baylibre.com>,
  Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Serge Semin <fancer.lancer@gmail.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
  Serge Semin <Sergey.Semin@baikalelectronics.ru>,
- Manu Gautam <mgautam@codeaurora.org>, linuxppc-dev@lists.ozlabs.org
+ Manu Gautam <mgautam@codeaurora.org>, Andy Gross <agross@kernel.org>,
+ Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+ linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ Roger Quadros <rogerq@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-There are only four OTG revisions are currently supported by the kernel:
-0x0100, 0x0120, 0x0130, 0x0200. Any another value is considered as
-invalid.
+There can be three distinctive types of the USB controllers: USB hosts,
+USB peripherals/gadgets and USB OTG, which can switch from one role to
+another. In order to have that hierarchy handled in the DT binding files,
+we need to collect common properties in a common DT schema and specific
+properties in dedicated schemas. Seeing the usb-hcd.yaml DT schema is
+dedicated for the USB host controllers only, let's move some common
+properties from there into the usb.yaml schema. So the later would be
+available to evaluate all currently supported types of the USB
+controllers.
+
+While at it add an explicit "additionalProperties: true" into the
+usb-hcd.yaml as setting the additionalProperties/unevaluateProperties
+properties is going to be get mandatory soon.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Reviewed-by: Rob Herring <robh@kernel.org>
 
 ---
 
 Changelog v4:
-- Move the constraints to the usb-drd.yaml schema where the otg-rev
-  property is now defined.
+- This is a new patch created as a result of the comment left
+  by Chunfeng Yun in v3
 ---
- Documentation/devicetree/bindings/usb/usb-drd.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ .../devicetree/bindings/usb/usb-hcd.yaml      | 14 ++-------
+ .../devicetree/bindings/usb/usb.yaml          | 29 +++++++++++++++++++
+ 2 files changed, 32 insertions(+), 11 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/usb.yaml
 
-diff --git a/Documentation/devicetree/bindings/usb/usb-drd.yaml b/Documentation/devicetree/bindings/usb/usb-drd.yaml
-index f3a64c46dcd0..f229fc8068d9 100644
---- a/Documentation/devicetree/bindings/usb/usb-drd.yaml
-+++ b/Documentation/devicetree/bindings/usb/usb-drd.yaml
-@@ -18,6 +18,7 @@ properties:
-       features (HNP/SRP/ADP) is enabled. If ADP is required, otg-rev should be
-       0x0200 or above.
-     $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [0x0100, 0x0120, 0x0130, 0x0200]
+diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+index 7263b7f2b510..81f3ad1419d8 100644
+--- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
++++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+@@ -9,18 +9,10 @@ title: Generic USB Host Controller Device Tree Bindings
+ maintainers:
+   - Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
-   dr_mode:
-     description:
+-properties:
+-  $nodename:
+-    pattern: "^usb(@.*)?"
++allOf:
++  - $ref: usb.yaml#
+ 
+-  phys:
+-    $ref: /schemas/types.yaml#/definitions/phandle-array
+-    description:
+-      List of all the USB PHYs on this HCD
+-
+-  phy-names:
+-    description:
+-      Name specifier for the USB PHY
++additionalProperties: true
+ 
+ examples:
+   - |
+diff --git a/Documentation/devicetree/bindings/usb/usb.yaml b/Documentation/devicetree/bindings/usb/usb.yaml
+new file mode 100644
+index 000000000000..941ad59fbac5
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/usb.yaml
+@@ -0,0 +1,29 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/usb.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Generic USB Controller Device Tree Bindings
++
++maintainers:
++  - Greg Kroah-Hartman <gregkh@linuxfoundation.org>
++
++select: false
++
++properties:
++  $nodename:
++    pattern: "^usb(@.*)?"
++
++  phys:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description:
++      List of all the USB PHYs on this HCD
++
++  phy-names:
++    description:
++      Name specifier for the USB PHY
++
++additionalProperties: true
++
++...
 -- 
 2.28.0
 
