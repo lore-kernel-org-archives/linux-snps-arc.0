@@ -2,94 +2,65 @@ Return-Path: <SRS0=0uDb=ES=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6458C2D0A3
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Nov 2020 09:49:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F8BCC55ABD
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Nov 2020 10:30:13 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3E7DC221FC
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Nov 2020 09:49:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 98C9222203
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Nov 2020 10:30:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="eiMXIcju";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nCaiXL2p"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3E7DC221FC
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mBaOAYHC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 98C9222203
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baikalelectronics.ru
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=qQhZ/xAvRipZHkCz3d/fqx/PR7Z9VmeXd/6GuWG8Y5g=; b=eiMXIcjuRC9JWDl9n1BjIxXOC
-	DoIUYLZvg/9eiqWwNS/ZufxlpVBZhbX241OJNcMwl/GWXqwQL0DmNjUMU3216kHqAa6wK2wWVKikm
-	uT1WzMxKSldHWHRhRloAFsLxsElk7EiPYtWmsMBA59m+RQ7Pt4n0olbWXslZHnTR4DweXwNsPIypV
-	HBCl9D8wgWnuhX98h0eoZn28U0iAEG416cgTl73MQRDrfF3PN5s8wz9+fjt1/vMpcLaxU0SaBMzme
-	Lc8y1qjihEnjGUFEKA915eD/lBCsc25UxPfUZWVl2CA7G/dSSzhXmn+th/qVBheBPlHufpVODIAOu
-	i4OFrHzdQ==;
+	 bh=MDxmMCbWfVUn5RRGOt/tQvRY0mHkFN71Xbj0qA3Wk1g=; b=mBaOAYHCiUagutEjsyQHT5HJr
+	tY4M6N/CJq48rrbsl+AImVTRuf3HND/LvNvN3yvsDPQ3qv/2+y8QclUGCsxwurbIzD83O0eduYfCk
+	gHfmgLzokKwdf3ljCj3DQIXzKo7phh2+71DEZdTKcdmvJlmqSr28LLmEZ71H1xY7tB6hBg1+KW/PV
+	IX3yklIflPjkJCPZrFNyThzqddo2zmFlIXM9fCSotutqxSrsMdhCUOrC719Q/O0AKEbckHHKtzuXE
+	XEzXqDHMCNZRQ5g8hIPF63utamW0WbO/R3xv8aSFQ4yl7Bssgnd9AKYpnxIEQ/7iPJqpHj2hgJ26H
+	1HROe4Uig==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kd9ED-0006v2-Av; Thu, 12 Nov 2020 09:49:17 +0000
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441])
- by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kd9EA-0006to-Uo
- for linux-snps-arc@lists.infradead.org; Thu, 12 Nov 2020 09:49:15 +0000
-Received: by mail-wr1-x441.google.com with SMTP id r17so5322185wrw.1
- for <linux-snps-arc@lists.infradead.org>; Thu, 12 Nov 2020 01:49:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=a5+NFcDyPVwL4iDr+PAgUKJYb6rVA8T1U3x0Y4iCU9k=;
- b=nCaiXL2psPM+FnJMd+r6pB5nz7nVij0ktda8iIthyPuh27My6jq6bK55KBD2IBAUCx
- EECNaxhegOFYeP/1/TQKaQewftt81BMj9zxZ5fMbaXIZp+CWIVtaSZH2G6r57mDIb7et
- S8a65SAEMNUJaPQDq3G+SHeTKxqZYHFUDdjGrb4Un20AyRLdptmWJKKGBSKT0eRWRoBh
- S2hTsKp9jIgfgZhQaEQy04LTP08EqYfKvWqo2p1l4Y10eFPodBD3H2OkwMTj3isJ4ueM
- 031jkS6AHE+N5dSbuxk1iPwKm4qG6+KjqCoFVw5dSLQqPRxv9GQy5q8yqiQLw/SU0g/i
- Vw3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=a5+NFcDyPVwL4iDr+PAgUKJYb6rVA8T1U3x0Y4iCU9k=;
- b=dh3/9Sfqv2ZES1svOLTEifkIQqCX5CY09isFegDTxpcdYw9GIA3UiOYNYX4wF/MYhk
- T3dCO+mSp2mCBhnuwV5ssRC508weTuHZLkowHZpoqMT48vWBlx7vjsbV1/to2LGkHXM+
- Ibruoc6C+IbcSHnNyzLAtzv8FrBvK+lxIC0wjrR0dAhShWu6/WAYpqmewKGoZ0MBTeIR
- LougP84Q9p9JPLg21163s+qiRMQSrPYuuNPb6bHIAvWmG2XjBSjeAEm5AtiX7GCW+U4D
- zNbtiYSJ227Ltbyqj4psgiQJg5tgqbcAMG91v29iWNFisLRUyzejF0GbCTvcV6+zXEyJ
- IsVA==
-X-Gm-Message-State: AOAM533LSul8MyT1D6jYqOx4LUdxPbo7u+BzY8/nIxrMgAr1VoOwWC+H
- YsY8g2pQGpS22Qdg+9zFbRLgxyl4mkRdQA==
-X-Google-Smtp-Source: ABdhPJz1apoQxEsILClSk8e3lpSerncqkwJEG4iNylA+2jXkWdzyi/suvY3r8p2Ego5yOLNm/c8JPg==
-X-Received: by 2002:adf:e3cf:: with SMTP id k15mr18323110wrm.259.1605174551837; 
- Thu, 12 Nov 2020 01:49:11 -0800 (PST)
-Received: from ?IPv6:2a01:e34:ed2f:f020:6971:b700:3764:fa96?
- ([2a01:e34:ed2f:f020:6971:b700:3764:fa96])
- by smtp.googlemail.com with ESMTPSA id r8sm6125262wrq.14.2020.11.12.01.49.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Nov 2020 01:49:11 -0800 (PST)
-Subject: Re: [PATCH 1/3] drivers/clocksource: Remove EZChip NPS clocksource
- driver
-To: Vineet Gupta <Vineet.Gupta1@synopsys.com>, linux-kernel@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>
-References: <20201105212210.1891598-1-vgupta@synopsys.com>
- <20201105212210.1891598-2-vgupta@synopsys.com>
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <7647e159-411c-92ea-6a1a-6f3b9fa8ec8d@linaro.org>
-Date: Thu, 12 Nov 2020 10:49:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+	id 1kd9rm-0002oH-DL; Thu, 12 Nov 2020 10:30:10 +0000
+Received: from mail.baikalelectronics.com ([87.245.175.226]
+ helo=mail.baikalelectronics.ru)
+ by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kd9rf-0002ks-Js; Thu, 12 Nov 2020 10:30:05 +0000
+Received: from localhost (unknown [127.0.0.1])
+ by mail.baikalelectronics.ru (Postfix) with ESMTP id 4FE2E803017D;
+ Thu, 12 Nov 2020 10:29:52 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at baikalelectronics.ru
+Received: from mail.baikalelectronics.ru ([127.0.0.1])
+ by localhost (mail.baikalelectronics.ru [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id iBiqa6pqHcYW; Thu, 12 Nov 2020 13:29:50 +0300 (MSK)
+Date: Thu, 12 Nov 2020 13:29:46 +0300
+From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v4 10/18] dt-bindings: usb: Convert DWC USB3 bindings to
+ DT schema
+Message-ID: <20201112102946.ipcsiidty4ut4kap@mobilestation>
+References: <20201111090853.14112-1-Sergey.Semin@baikalelectronics.ru>
+ <20201111090853.14112-11-Sergey.Semin@baikalelectronics.ru>
+ <20201111201423.GA1938179@bogus>
 MIME-Version: 1.0
-In-Reply-To: <20201105212210.1891598-2-vgupta@synopsys.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20201111201423.GA1938179@bogus>
+X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201112_044915_074293_02F52CC8 
-X-CRM114-Status: GOOD (  10.70  )
+X-CRM114-CacheID: sfid-20201112_053003_974268_197B57F1 
+X-CRM114-Status: GOOD (  43.27  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,23 +72,355 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: linux-snps-arc@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+ Kevin Hilman <khilman@baylibre.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Andy Gross <agross@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ linux-snps-arc@lists.infradead.org, devicetree@vger.kernel.org,
+ Mathias Nyman <mathias.nyman@intel.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+ linux-arm-kernel@lists.infradead.org, Roger Quadros <rogerq@ti.com>,
+ Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
+ Serge Semin <fancer.lancer@gmail.com>, linux-kernel@vger.kernel.org,
+ Manu Gautam <mgautam@codeaurora.org>, linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-T24gMDUvMTEvMjAyMCAyMjoyMiwgVmluZWV0IEd1cHRhIHdyb3RlOgo+IE5QUyBwbGF0Zm9ybSBo
-YXMgYmVlbiByZW1vdmVkIGZyb20gQVJDIHBvcnQgYW5kIHRoZXJlIGFyZSBubyBpbi10cmVlCj4g
-dXNlcnMgb2YgaXQgbm93LiBTbyBSSVAgIQo+IAo+IENjOiBEYW5pZWwgTGV6Y2FubyA8ZGFuaWVs
-LmxlemNhbm9AbGluYXJvLm9yZz4KPiBDYzogVGhvbWFzIEdsZWl4bmVyIDx0Z2x4QGxpbnV0cm9u
-aXguZGU+Cj4gQ2M6IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcKPiBTaWduZWQtb2ZmLWJ5
-OiBWaW5lZXQgR3VwdGEgPHZndXB0YUBzeW5vcHN5cy5jb20+Cj4gLS0tCgpBcHBsaWVkLCB0aGFu
-a3MhCgoKLS0gCjxodHRwOi8vd3d3LmxpbmFyby5vcmcvPiBMaW5hcm8ub3JnIOKUgiBPcGVuIHNv
-dXJjZSBzb2Z0d2FyZSBmb3IgQVJNIFNvQ3MKCkZvbGxvdyBMaW5hcm86ICA8aHR0cDovL3d3dy5m
-YWNlYm9vay5jb20vcGFnZXMvTGluYXJvPiBGYWNlYm9vayB8CjxodHRwOi8vdHdpdHRlci5jb20v
-IyEvbGluYXJvb3JnPiBUd2l0dGVyIHwKPGh0dHA6Ly93d3cubGluYXJvLm9yZy9saW5hcm8tYmxv
-Zy8+IEJsb2cKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRl
-YWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgt
-c25wcy1hcmMK
+On Wed, Nov 11, 2020 at 02:14:23PM -0600, Rob Herring wrote:
+> On Wed, Nov 11, 2020 at 12:08:45PM +0300, Serge Semin wrote:
+> > DWC USB3 DT node is supposed to be compliant with the Generic xHCI
+> > Controller schema, but with additional vendor-specific properties, the
+> > controller-specific reference clocks and PHYs. So let's convert the
+> > currently available legacy text-based DWC USB3 bindings to the DT schema
+> > and make sure the DWC USB3 nodes are also validated against the
+> > usb-xhci.yaml schema.
+> > 
+> > Note we have to discard the nodename restriction of being prefixed with
+> > "dwc3@" string, since in accordance with the usb-hcd.yaml schema USB nodes
+> > are supposed to be named as "^usb(@.*)".
+> > 
+> > Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+> > 
+> > ---
+> > 
+> > Changelog v2:
+> > - Discard '|' from the descriptions, since we don't need to preserve
+> >   the text formatting in any of them.
+> > - Drop quotes from around the string constants.
+> > - Fix the "clock-names" prop description to be referring the enumerated
+> >   clock-names instead of the ones from the Databook.
+> > 
+> > Changelog v3:
+> > - Apply usb-xhci.yaml# schema only if the controller is supposed to work
+> >   as either host or otg.
+> > 
+> > Changelog v4:
+> > - Apply usb-drd.yaml schema first. If the controller is configured
+> >   to work in a gadget mode only, then apply the usb.yaml schema too,
+> >   otherwise apply the usb-xhci.yaml schema.
+> > - Discard the Rob'es Reviewed-by tag. Please review the patch one more
+> >   time.
+> > ---
+> >  .../devicetree/bindings/usb/dwc3.txt          | 125 --------
+> >  .../devicetree/bindings/usb/snps,dwc3.yaml    | 303 ++++++++++++++++++
+> >  2 files changed, 303 insertions(+), 125 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/usb/dwc3.txt
+> >  create mode 100644 Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/usb/dwc3.txt b/Documentation/devicetree/bindings/usb/dwc3.txt
+> > deleted file mode 100644
+> > index d03edf9d3935..000000000000
+> > --- a/Documentation/devicetree/bindings/usb/dwc3.txt
+> > +++ /dev/null
+> > @@ -1,125 +0,0 @@
+> > -synopsys DWC3 CORE
+> > -
+> > -DWC3- USB3 CONTROLLER. Complies to the generic USB binding properties
+> > -      as described in 'usb/generic.txt'
+> > -
+> > -Required properties:
+> > - - compatible: must be "snps,dwc3"
+> > - - reg : Address and length of the register set for the device
+> > - - interrupts: Interrupts used by the dwc3 controller.
+> > - - clock-names: list of clock names. Ideally should be "ref",
+> > -                "bus_early", "suspend" but may be less or more.
+> > - - clocks: list of phandle and clock specifier pairs corresponding to
+> > -           entries in the clock-names property.
+> > -
+> > -Exception for clocks:
+> > -  clocks are optional if the parent node (i.e. glue-layer) is compatible to
+> > -  one of the following:
+> > -    "cavium,octeon-7130-usb-uctl"
+> > -    "qcom,dwc3"
+> > -    "samsung,exynos5250-dwusb3"
+> > -    "samsung,exynos5433-dwusb3"
+> > -    "samsung,exynos7-dwusb3"
+> > -    "sprd,sc9860-dwc3"
+> > -    "st,stih407-dwc3"
+> > -    "ti,am437x-dwc3"
+> > -    "ti,dwc3"
+> > -    "ti,keystone-dwc3"
+> > -    "rockchip,rk3399-dwc3"
+> > -    "xlnx,zynqmp-dwc3"
+> > -
+> > -Optional properties:
+> > - - usb-phy : array of phandle for the PHY device.  The first element
+> > -   in the array is expected to be a handle to the USB2/HS PHY and
+> > -   the second element is expected to be a handle to the USB3/SS PHY
+> > - - phys: from the *Generic PHY* bindings
+> > - - phy-names: from the *Generic PHY* bindings; supported names are "usb2-phy"
+> > -	or "usb3-phy".
+> > - - resets: set of phandle and reset specifier pairs
+> > - - snps,usb2-lpm-disable: indicate if we don't want to enable USB2 HW LPM
+> > - - snps,usb3_lpm_capable: determines if platform is USB3 LPM capable
+> > - - snps,dis-start-transfer-quirk: when set, disable isoc START TRANSFER command
+> > -			failure SW work-around for DWC_usb31 version 1.70a-ea06
+> > -			and prior.
+> > - - snps,disable_scramble_quirk: true when SW should disable data scrambling.
+> > -	Only really useful for FPGA builds.
+> > - - snps,has-lpm-erratum: true when DWC3 was configured with LPM Erratum enabled
+> > - - snps,lpm-nyet-threshold: LPM NYET threshold
+> > - - snps,u2exit_lfps_quirk: set if we want to enable u2exit lfps quirk
+> > - - snps,u2ss_inp3_quirk: set if we enable P3 OK for U2/SS Inactive quirk
+> > - - snps,req_p1p2p3_quirk: when set, the core will always request for
+> > -			P1/P2/P3 transition sequence.
+> > - - snps,del_p1p2p3_quirk: when set core will delay P1/P2/P3 until a certain
+> > -			amount of 8B10B errors occur.
+> > - - snps,del_phy_power_chg_quirk: when set core will delay PHY power change
+> > -			from P0 to P1/P2/P3.
+> > - - snps,lfps_filter_quirk: when set core will filter LFPS reception.
+> > - - snps,rx_detect_poll_quirk: when set core will disable a 400us delay to start
+> > -			Polling LFPS after RX.Detect.
+> > - - snps,tx_de_emphasis_quirk: when set core will set Tx de-emphasis value.
+> > - - snps,tx_de_emphasis: the value driven to the PHY is controlled by the
+> > -			LTSSM during USB3 Compliance mode.
+> > - - snps,dis_u3_susphy_quirk: when set core will disable USB3 suspend phy.
+> > - - snps,dis_u2_susphy_quirk: when set core will disable USB2 suspend phy.
+> > - - snps,dis_enblslpm_quirk: when set clears the enblslpm in GUSB2PHYCFG,
+> > -			disabling the suspend signal to the PHY.
+> > - - snps,dis-u1-entry-quirk: set if link entering into U1 needs to be disabled.
+> > - - snps,dis-u2-entry-quirk: set if link entering into U2 needs to be disabled.
+> > - - snps,dis_rxdet_inp3_quirk: when set core will disable receiver detection
+> > -			in PHY P3 power state.
+> > - - snps,dis-u2-freeclk-exists-quirk: when set, clear the u2_freeclk_exists
+> > -			in GUSB2PHYCFG, specify that USB2 PHY doesn't provide
+> > -			a free-running PHY clock.
+> > - - snps,dis-del-phy-power-chg-quirk: when set core will change PHY power
+> > -			from P0 to P1/P2/P3 without delay.
+> > - - snps,dis-tx-ipgap-linecheck-quirk: when set, disable u2mac linestate check
+> > -			during HS transmit.
+> > - - snps,parkmode-disable-ss-quirk: when set, all SuperSpeed bus instances in
+> > -			park mode are disabled.
+> > - - snps,dis_metastability_quirk: when set, disable metastability workaround.
+> > -			CAUTION: use only if you are absolutely sure of it.
+> > - - snps,is-utmi-l1-suspend: true when DWC3 asserts output signal
+> > -			utmi_l1_suspend_n, false when asserts utmi_sleep_n
+> > - - snps,hird-threshold: HIRD threshold
+> > - - snps,hsphy_interface: High-Speed PHY interface selection between "utmi" for
+> > -   UTMI+ and "ulpi" for ULPI when the DWC_USB3_HSPHY_INTERFACE has value 3.
+> > - - snps,quirk-frame-length-adjustment: Value for GFLADJ_30MHZ field of GFLADJ
+> > -	register for post-silicon frame length adjustment when the
+> > -	fladj_30mhz_sdbnd signal is invalid or incorrect.
+> > - - snps,rx-thr-num-pkt-prd: periodic ESS RX packet threshold count - host mode
+> > -			only. Set this and rx-max-burst-prd to a valid,
+> > -			non-zero value 1-16 (DWC_usb31 programming guide
+> > -			section 1.2.4) to enable periodic ESS RX threshold.
+> > - - snps,rx-max-burst-prd: max periodic ESS RX burst size - host mode only. Set
+> > -			this and rx-thr-num-pkt-prd to a valid, non-zero value
+> > -			1-16 (DWC_usb31 programming guide section 1.2.4) to
+> > -			enable periodic ESS RX threshold.
+> > - - snps,tx-thr-num-pkt-prd: periodic ESS TX packet threshold count - host mode
+> > -			only. Set this and tx-max-burst-prd to a valid,
+> > -			non-zero value 1-16 (DWC_usb31 programming guide
+> > -			section 1.2.3) to enable periodic ESS TX threshold.
+> > - - snps,tx-max-burst-prd: max periodic ESS TX burst size - host mode only. Set
+> > -			this and tx-thr-num-pkt-prd to a valid, non-zero value
+> > -			1-16 (DWC_usb31 programming guide section 1.2.3) to
+> > -			enable periodic ESS TX threshold.
+> > -
+> > - - <DEPRECATED> tx-fifo-resize: determines if the FIFO *has* to be reallocated.
+> > - - snps,incr-burst-type-adjustment: Value for INCR burst type of GSBUSCFG0
+> > -			register, undefined length INCR burst type enable and INCRx type.
+> > -			When just one value, which means INCRX burst mode enabled. When
+> > -			more than one value, which means undefined length INCR burst type
+> > -			enabled. The values can be 1, 4, 8, 16, 32, 64, 128 and 256.
+> > -
+> > - - in addition all properties from usb-xhci.txt from the current directory are
+> > -   supported as well
+> > -
+> > -
+> > -This is usually a subnode to DWC3 glue to which it is connected.
+> > -
+> > -dwc3@4a030000 {
+> > -	compatible = "snps,dwc3";
+> > -	reg = <0x4a030000 0xcfff>;
+> > -	interrupts = <0 92 4>
+> > -	usb-phy = <&usb2_phy>, <&usb3,phy>;
+> > -	snps,incr-burst-type-adjustment = <1>, <4>, <8>, <16>;
+> > -};
+> > diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+> > new file mode 100644
+> > index 000000000000..079617891da6
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+> > @@ -0,0 +1,303 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Synopsys DesignWare USB3 Controller
+> > +
+> > +maintainers:
+> > +  - Felipe Balbi <balbi@kernel.org>
+> > +
+> > +description:
+> > +  This is usually a subnode to DWC3 glue to which it is connected, but can also
+> > +  be presented as a standalone DT node with an optional vendor-specific
+> > +  compatible string.
+> > +
+
+> > +allOf:
+> > +  - $ref: usb-drd.yaml#
+> > +  - if:
+> > +      properties:
+> > +        dr_mode:
+> > +          const: peripheral
+> > +    then:
+> > +      $ref: usb.yaml#
+> 
+> This part could be done in usb-drd.yaml?
+
+Originally I was thinking about that, but then in order to minimize
+the properties validation I've decided to split the properties in
+accordance with the USB controllers functionality:
+
+            +----- USB Gadget/Peripheral Controller. There is no
+            |      specific schema for the gadgets since there is no
+            |      common gadget properties (at least I failed to find
+            |      ones). So the pure gadget controllers need to be
+            |      validated just against usb.yaml schema.
+            |
+usb.yaml <--+-- usb-hcd.yaml - Generic USB Host Controller. The schema
+                ^              turns out to include the OHCI/UHCI/EHCI
+                |              properties, which AFAICS are also
+                |              applicable for the other host controllers.
+                |              So any USB host controller node needs to
+                |              be validated against this schema.
+                |
+                +- usb-xhci.yaml - Generic xHCI Host controller.
+
+usb-drd.yaml -- USB Dual-Role/OTG Controllers. It describes the
+                DRD/OTG-specific properties and nothing else. So normally
+                it should be applied together with one of the
+                schemas described above.
+
+So the use-cases of the suggested schemas is following:
+
+1) USB Controller is pure gadget? Then:
+   + allOf:
+   +  - $ref: usb.yaml#
+2) USB Controller is pure USB host (including OHCI/UHCI/EHCI)?
+   + allOf:
+   +   - $ref: usb-hcd.yaml#
+   Note this prevents us from fixing all the currently available USB DT
+   schemas, which already apply the usb-hcd.yaml schema.
+3) USB Controller is pure xHCI host controller? Then:
+   + allOf:
+   +   - $ref: usb-xhci.yaml#
+4) USB Controller is Dual-Role/OTG controller with USB 2.0 host? Then:
+   + allOf:
+   +   - $ref: usb-drd.yaml#
+   +   - $ref: usb-hcd.yaml#
+5) USB Controller is Dual-Role/OTG controller with xHCI host? Then:
+   + allOf:
+   +   - $ref: usb-drd.yaml#
+   +   - $ref: usb-xhci.yaml#
+6) USB Controller is Dual-Role/OTG controller which can only be a
+   gadget? Then:
+   + allOf:
+   +   - $ref: usb-drd.yaml#
+   +   - $ref: usb.yaml#
+
+* Don't know really if controllers like in 6)-th really exist. Most
+* likely they are still internally capable of dual-roling, but due to
+* some conditions can be used as gadgets only.
+
+It looks a bit complicated, but at least by having such design we'd minimize
+the number of properties validation.
+
+Alternatively we could implement a hierarchy like this (as you, Rob,
+suggested in the comment above): 
+
+            +-- USB Gadget/Peripheral Controller
+            |
+            +-- usb-drd.yaml - USB Dual-Role/OTG Controllers
+            |   
+usb.yaml <--+-- usb-dcd.yaml - Generic USB Host Controller
+                ^
+                |
+                +- usb-xhci.yaml - Generic xHCI Host controller
+
+But, for instance, if we got to have an OTG controller with USB 2.0
+host capability, the schema would have needed to be validated as
+described in 4) in the list above. That would have caused the usb.yaml
+schema validation twice.
+
+Of course I could have missed or misunderstood something. So any
+suggestion, any help with making things easier would be very
+appreciated. I asked Greg what he was thinking in this matter in
+the previous patchset thread, but he didn't respond.
+
+> 
+> > +    else:
+> > +      $ref: usb-xhci.yaml#
+> 
+> I'd really prefer if all the schema can just be applied unconditionally. 
+> Shouldn't someone (like a bootloader) be able to change dr_mode without 
+> changing anything else to set the mode? That would imply all the 
+> schemas can be applied.
+
+Theoretically it's possible, but I don't really know whether it can be
+practically met. Of course I fully agree with you and it's preferable to
+simplify the schema by getting rid of the condition if it's possible.
+
+My point of using the conditional schema here has been based
+on the driver implementation. According to the driver code if OTG mode is
+enabled by means of the dr_mode property, then the controller can work as
+either host or gadget. If either host or gadget mode is enabled in
+the dr_mode property, the mode updating won't be supported. So any
+properties specific to the unsupported mode will be just ignored.
+
+In addition to that DWC USB3 IP-core can be synthesized with different
+DWC_USB3_MODE parameter value. The controller can be either device
+(gadget), or host, or DRD, or HUB. In that case the dr_mode should be
+set in accordance with that parameter value. It means that the
+DWC USB3 controller will support the features in accordance with the
+selected parameter.
+
+Should we really bother with all of that? Could we just apply the
+schema like: allOf: [$ref: usb-drd.yaml#, $ref: usb-hcd.yaml#] and
+have the things much easier seeing the host-specific properties aren't
+required anyway? That's the main question. I've decided to bother,
+since it give us a better hardware description. If you think it's better
+to keep things easier, I'll be ok with this. It won't be that
+contradicting to the hardware capabilities after all.
+
+-Sergey
+
+> 
+> Rob
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
