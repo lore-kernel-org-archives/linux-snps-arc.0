@@ -1,80 +1,140 @@
-Return-Path: <SRS0=5Nd8=ER=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=0uDb=ES=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D453C388F9
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Nov 2020 20:14:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D63EFC2D0A3
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Nov 2020 08:11:14 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BC6482087D
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Nov 2020 20:14:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4B61F20709
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Nov 2020 08:11:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Q9K2Fgj+"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BC6482087D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="HVkAp0FS";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="b64XoHNH"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4B61F20709
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:References:In-Reply-To:MIME-Version:Date:Message-ID:
+	To:Subject:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=4p3naj8REMT0O2Lqzo4RhAmPsSUtOOfo/1nbKpPm32k=; b=Q9K2Fgj++zAyCjemygdOUu6IP
-	cdZG92e5LKq24GUUyhPr5hNEa75xxWc9nN6o9kn1RBQvJpuBTa2R5BnC64D0Ipp4JKYwNYXB4rpGN
-	QPrO51nWPhg/XXB0LZ/BQw9cyDfApwZQXSjyVZbQPyC9CnJNc9p8FZLUYi9hxZbN7PZrxBfnICNFC
-	0yIQidPEs+WdRaAuRx9V1beBXkUjoULUU+UZW3J4WRdCG0jPxb2/pZK1Za5hasnmM5vImapC+XoWR
-	J448KwLln7EJgaPzajxQc9DI5L+KSxzehPC1TmbZbVL2rDUFJ6L2XmF0fzMmD87NI5cHowtDpsGdo
-	iJUXcjqSA==;
+	 bh=FNRlmWqfF6XYlUZ+xWjI+QwFYU9Pda08IYKfsp0cHDM=; b=HVkAp0FS5LeZ/HDDLh6uKkkMM
+	tnDaTlEmI9sq6qwNoBUNW50+8pNuD6MybKPMGcAgA6HISkoSjCmvfaneuS5HZNsxw7N1NHtnVwzcu
+	SWExBYrO9RuDl3fzjotxGieX86g8a+MvPja0ODAScC1UgG6miktN4ygI5Q0Tv05AMh4irqYyVYN9+
+	0zLZH8gBD0d883uwk6W10KUIZijnrUo4JCFWaW2FUBXN2HOgj1P9X91HoNFuxpema0/MO/9w3hlx9
+	U5k3kvt2RWm/RZXF9YWmsFBeVYTT9cYR3fyM9O3lH+CTiWmRN+7GHbnKjIk42w1faWWUyIRau8jT/
+	a5qh0vgVw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kcwVo-0003Uv-GY; Wed, 11 Nov 2020 20:14:36 +0000
-Received: from mail-ot1-f68.google.com ([209.85.210.68])
+	id 1kd7hJ-0002Pc-0m; Thu, 12 Nov 2020 08:11:13 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kcwVg-0003TI-Jt; Wed, 11 Nov 2020 20:14:30 +0000
-Received: by mail-ot1-f68.google.com with SMTP id 30so3334262otx.9;
- Wed, 11 Nov 2020 12:14:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=RW7iciLpTFVtUIjk/YYI/BRkMGKbkwUgND+NEWuybYQ=;
- b=nz8Z3p7UeptJYGsIERoGH0YYuj1VwQC2/AAPcunhDd3wJacUTyU2QWPTTkdvnBmCG5
- YyVlRT5N1MIGT9nz+S0wHO9S9r80j6n7MeK99mHzYCObXihx7JSBiyuL/UfRxYPzPAre
- v/hN2gW5YSelVnmIWoY6xXVp5DUN3xJ7DgQ2NzQ2LvCCNIdRWFkLl1xbVSgrPoa8xNQe
- BIEhd0X8vcOWaXEE+ZV45JJl4uuyTefITTJIF5HAA2Sdy4GpYl0B1RRqdW7+p+WnUq8f
- 7DbAtb7F6vn7IVOwYKspFARR+OoROoxtCmgQFB6roXfcLbCIex2BPbIGEmWuh2J2ExV3
- IAZQ==
-X-Gm-Message-State: AOAM532oaGd2Bs1VHyjsF+iNMoHSlhg5JutCJZkXuK6xkBxA92qL1Gt2
- ntQqqv58COWIccayBuEktA==
-X-Google-Smtp-Source: ABdhPJzci4qX/Kp+zw12l4IqzSqkdA3v9PxKQpWr5j7ZQm/YhmO2gvRjdUkaFlALdWlraxApWhlEqg==
-X-Received: by 2002:a9d:2255:: with SMTP id o79mr17718495ota.174.1605125666944; 
- Wed, 11 Nov 2020 12:14:26 -0800 (PST)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id j6sm721443ots.32.2020.11.11.12.14.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Nov 2020 12:14:25 -0800 (PST)
-Received: (nullmailer pid 1950724 invoked by uid 1000);
- Wed, 11 Nov 2020 20:14:23 -0000
-Date: Wed, 11 Nov 2020 14:14:23 -0600
-From: Rob Herring <robh@kernel.org>
-To: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Subject: Re: [PATCH v4 10/18] dt-bindings: usb: Convert DWC USB3 bindings to
- DT schema
-Message-ID: <20201111201423.GA1938179@bogus>
-References: <20201111090853.14112-1-Sergey.Semin@baikalelectronics.ru>
- <20201111090853.14112-11-Sergey.Semin@baikalelectronics.ru>
+ id 1kd7h7-0002HP-2z; Thu, 12 Nov 2020 08:11:03 +0000
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20201112081042euoutp01ee2b09c53d6708d5028b94218aec3a07~GtGA8LMfA1889818898euoutp01_;
+ Thu, 12 Nov 2020 08:10:42 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20201112081042euoutp01ee2b09c53d6708d5028b94218aec3a07~GtGA8LMfA1889818898euoutp01_
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1605168642;
+ bh=5QhIz+Gn5Nu1t1BJ55g8tgSxAnN2Qhv3UsWQAPjr2XE=;
+ h=From:Subject:To:Cc:Date:In-Reply-To:References:From;
+ b=b64XoHNHyRH94WtnWrIiT5KU/cDx5fnxzItI77Kk7w6SZX7tsbA7Ai3ryZMzN5Lct
+ /YSCwayQ3wP9rhBfKUQ6YvKDKVpMpPXrLRlytAyQgSyHTrglDtwehR53iPmlFxJL/4
+ fmxfGzt1a6FiPCOc3jgRik1oRrUBO3w1EsNW9HmI=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20201112081037eucas1p10001fdda6dddb9d057a3eb3cec683c9b~GtF75tkcF3069230692eucas1p1I;
+ Thu, 12 Nov 2020 08:10:37 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id F7.8C.27958.CFDECAF5; Thu, 12
+ Nov 2020 08:10:37 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20201112081036eucas1p14e135a370d3bccab311727fd2e89f4df~GtF7QhSjo3069230692eucas1p1H;
+ Thu, 12 Nov 2020 08:10:36 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20201112081036eusmtrp1008f17458f30bdd010557b6fe39947dc~GtF7Pb3DY0531605316eusmtrp1k;
+ Thu, 12 Nov 2020 08:10:36 +0000 (GMT)
+X-AuditID: cbfec7f2-f15ff70000006d36-d1-5facedfc7293
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 08.81.21957.CFDECAF5; Thu, 12
+ Nov 2020 08:10:36 +0000 (GMT)
+Received: from [106.210.88.143] (unknown [106.210.88.143]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20201112081034eusmtip10485455f165c607ea5327c010a6dcda1~GtF5oIs1T2201322013eusmtip1k;
+ Thu, 12 Nov 2020 08:10:34 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: Re: [patch V3 10/37] ARM: highmem: Switch to generic kmap atomic
+To: Thomas Gleixner <tglx@linutronix.de>, LKML <linux-kernel@vger.kernel.org>
+Message-ID: <c07bae0c-68dd-2693-948f-00e8a50f3053@samsung.com>
+Date: Thu, 12 Nov 2020 09:10:34 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0)
+ Gecko/20100101 Thunderbird/78.4.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201111090853.14112-11-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201103095857.582196476@linutronix.de>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Te0xTZxzdd58tWnIBJx9gtliUBLehbNN9ic5oYuI1MxuLWbKYkFrmDbjx
+ SitOINlAkPESTUFWSnlNCC3lMS/PyLsOKiBlUGQIDGxgSHjoVodMsGXQqxv/nXN+53y/8/vj
+ E+HuVspbdCHyIqeIlIdLKReiofuF+T37UqXsQKMWQw/GijGkramkkF3VTaPb6hoS5Q6qcLQ0
+ 1Uwi7UAygYaXn1JIb+jCUE7uFYD46RESDU3raNRQloyhltYeAlnuaCmUxtcDNFm5TqKrE1UY
+ 0vdX0ch4sxWgtRUHibKfzAJkcPQCtJKVRSJb6XMCma51YOjaTBaG2lIfYSihR0eiGr4IR7X8
+ TRwV9FXTaMBuIlF5fyGF/vl5mjzmy14dslOsZWQQZ9dWVYCt0z/E2OS2MZqt1e1j+Yo0iuVt
+ Kpp9YjbT7D31GsHOdTbibHtBJc1OZZgwtrb0ezZ7tBywA+oSELTzrMuR81z4hUucYv/Rcy5h
+ jhuZIDrH4/LgeBpIAH1MOhCLIPMhNHUX0OnAReTO6ADUFufgAvkbwHq1FhPIMwAXMyz460hz
+ k40SBuUAlk40EQJ5CuCj0lZi00UxgTB9KZ3axB7MKdjaoXOmdzCfwdmk604PzuSJYaI+bBNL
+ mKOwOWfK6SGYvfDecLrT8yYTAhPvJlGCxw325M04dTFzED7svI4L77wNk+rzX2FPODZT5KwN
+ mUUXOD7fAoTaJ2DeZDsmYA84b6qjBbwL9mVnEkIgCUCruYoWSCaAlivqV+nDcMK8ulFDtLHC
+ H9bc2S/Ix6G1dIXelCHjCkeX3IQSrlDV8CMuyBKYmuIuuP2gxlT939rOX4fwG0Cq2XKaZss5
+ mi3naP7fWwyICuDJxSgjQjllYCT3bYBSHqGMiQwN+Coqggcbv6DPYbI1gYL5vwKMABMBI4Ai
+ XLpD4nusUuYuOS+PjeMUUTJFTDinNAIfESH1lFTkb4yYUPlF7huOi+YUr6eYSOydgBFiSXWE
+ ZUFr7c01LGfaqjte7M2zei88eEcReGLOcms51Td1eXWm4KdeXv9+fnFJ3Nc/xPt4eUZZtt/O
+ g2PQQJ3zm9jlH/eukjB+nPjW8cbx+3zLqceT/JpH4Sd/ZvMmfeKlaNlJx4GEzp0hwXYvn/WZ
+ IynbAv13373stmALXv6oqyWxnOwYbow8+UtbEG3cI3sZpxPXH/J7o7mwoSuBBOTzWxHbu0YM
+ rf3r24oaix4f/K7sjzM5u0Oe+YSc/aDf4LY+yzSk/H7YrS5Dbe38NF4ZoCH4Cl2wbS7V0O5Z
+ plb9Js13zSrpD1r83Msedyj6y8XQtVEuNvYLzWr8y/unZQ6zlFCGyQP34Qql/F8F4KeXdAQA
+ AA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0ybVRiAPd+tBa1+lCInzIWlExc3KRQoHnCSJVvc54VsmphsbrMr7AsQ
+ abu1ZRleQp2MjDouK9d1FKgOKaPAaMdEEBjoBgiMFLBKQdG1Elwsm5CxKVCEggn/nrzned7k
+ JC8X58+TIdw0hYZVKWTpQsqfGPD2/hK+5LFII7sHIfrRWY2hiiYLhZb1tzmoubyJRKV2PY48
+ U+0kqhjOJtDYw/sUqqu/haHi0rMAWV0OEo24zBx0oyYbQ9929BNotK2CQrnWFoB+tayQ6Nxk
+ A4bqhho4qKekA6DFR14SFc1OA1Tv/QGgR/n5JJq7skCg3rybGMpz52Oo8/xvGNL2m0nUZK3C
+ kc1agiPjQCMHDS/3kqh2qJJCj6+5yD3bmXMjyxQz6rDjzOK/esBcrxvHmOxOJ4exmXcy1qu5
+ FGOd03OY2Tt3OExf+SLBzHR/jTNdRguHmfq8F2NsV7KYop9rATNcbgIHn31PtFulzNCw21KV
+ as2rwiNiFCUSxyFRVEycSBz98rH4KIkwImH3CTY97TSrikg4Lkr1Fl4AJ4sDz9gncoEWDNA6
+ 4MeFdAxsb52jdMCfy6drACydXKLWH56D/aVacp0D4ZJDtyF5ADQ1TfskihZDnUfn40D6ddhx
+ 04yvsYBOhGfzqsm1AKeNfvCLFYNP4tNS6Bh2+Lby6ATYXjzlCwg6DPaN6Yg1DqKTYI5lGaw7
+ AbD/kts396MlcLy7wOfjdCystP2+waHws5bLGxwMne4qrBDwDZtyw6bEsCkxbEqqAXEVCNgM
+ tTxFrhaL1DK5OkORIkpWyq1g9fpu3P7H1goq7/0t6gEYF/QAyMWFAt72PRYpn3dClvkhq1JK
+ VRnprLoHSFb/cxEPCUpWrp6vQiMVx0ZKxDGxcZGSuNhoYTCvxbga0SkyDfsBy55kVf93GNcv
+ RItpjr4W0TacaT/Q3FWUOX/YspWfc/FLavR+kHdv6wVQa7v2Vu3MwnjYZMHK+DttS5YtGkIf
+ n1fxoD24zHk3ybHwdmNEuPn9xleGFKfcl0MdYccEgp+sn9w6c3Bqx4s18tBw7LH+3Y8O8Mfc
+ dODpsInjLYnoiGluiytAsEPVV7Y3R2udHey0J34TX+KvMGif2L+U53ljkDhEsQV9L5z/o+HB
+ p8Fbgx+mPO1Qf9/8UuclZdpk0UhWzq7rTxZPH733XepTHUmHF6pMmpkxRBcPvem4uwj/zLJ1
+ saZdftHJDc/8FTDP+9g7Mfp8ZWHoNlPbvn1FESX+s4dcxvavpirE9WWnJCrWKSTUqTLxTlyl
+ lv0HmCntXQYEAAA=
+X-CMS-MailID: 20201112081036eucas1p14e135a370d3bccab311727fd2e89f4df
+X-Msg-Generator: CA
+X-RootMTR: 20201112081036eucas1p14e135a370d3bccab311727fd2e89f4df
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20201112081036eucas1p14e135a370d3bccab311727fd2e89f4df
+References: <20201103092712.714480842@linutronix.de>
+ <20201103095857.582196476@linutronix.de>
+ <CGME20201112081036eucas1p14e135a370d3bccab311727fd2e89f4df@eucas1p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201111_151428_749557_3100274F 
-X-CRM114-Status: GOOD (  37.87  )
+X-CRM114-CacheID: sfid-20201112_031101_295605_72410B9D 
+X-CRM114-Status: GOOD (  15.10  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,243 +146,72 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
- Kevin Hilman <khilman@baylibre.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- Andy Gross <agross@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- linux-snps-arc@lists.infradead.org, devicetree@vger.kernel.org,
- Mathias Nyman <mathias.nyman@intel.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
- linux-arm-kernel@lists.infradead.org, Roger Quadros <rogerq@ti.com>,
- Felipe Balbi <balbi@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
- Serge Semin <fancer.lancer@gmail.com>, linux-kernel@vger.kernel.org,
- Manu Gautam <mgautam@codeaurora.org>, linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-aio@kvack.org, Peter Zijlstra <peterz@infradead.org>,
+ nouveau@lists.freedesktop.org,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linux-mm@kvack.org, Huang Rui <ray.huang@amd.com>, sparclinux@vger.kernel.org,
+ Ingo Molnar <mingo@kernel.org>, Paul McKenney <paulmck@kernel.org>,
+ x86@kernel.org, Russell King <linux@armlinux.org.uk>,
+ linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+ Mel Gorman <mgorman@suse.de>, Dave Airlie <airlied@redhat.com>,
+ linux-snps-arc@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+ Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Linus Torvalds <torvalds@linuxfoundation.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, spice-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+ Christian Koenig <christian.koenig@amd.com>, linux-btrfs@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Nov 11, 2020 at 12:08:45PM +0300, Serge Semin wrote:
-> DWC USB3 DT node is supposed to be compliant with the Generic xHCI
-> Controller schema, but with additional vendor-specific properties, the
-> controller-specific reference clocks and PHYs. So let's convert the
-> currently available legacy text-based DWC USB3 bindings to the DT schema
-> and make sure the DWC USB3 nodes are also validated against the
-> usb-xhci.yaml schema.
-> 
-> Note we have to discard the nodename restriction of being prefixed with
-> "dwc3@" string, since in accordance with the usb-hcd.yaml schema USB nodes
-> are supposed to be named as "^usb(@.*)".
-> 
-> Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-> 
-> ---
-> 
-> Changelog v2:
-> - Discard '|' from the descriptions, since we don't need to preserve
->   the text formatting in any of them.
-> - Drop quotes from around the string constants.
-> - Fix the "clock-names" prop description to be referring the enumerated
->   clock-names instead of the ones from the Databook.
-> 
-> Changelog v3:
-> - Apply usb-xhci.yaml# schema only if the controller is supposed to work
->   as either host or otg.
-> 
-> Changelog v4:
-> - Apply usb-drd.yaml schema first. If the controller is configured
->   to work in a gadget mode only, then apply the usb.yaml schema too,
->   otherwise apply the usb-xhci.yaml schema.
-> - Discard the Rob'es Reviewed-by tag. Please review the patch one more
->   time.
-> ---
->  .../devicetree/bindings/usb/dwc3.txt          | 125 --------
->  .../devicetree/bindings/usb/snps,dwc3.yaml    | 303 ++++++++++++++++++
->  2 files changed, 303 insertions(+), 125 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/usb/dwc3.txt
->  create mode 100644 Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/dwc3.txt b/Documentation/devicetree/bindings/usb/dwc3.txt
-> deleted file mode 100644
-> index d03edf9d3935..000000000000
-> --- a/Documentation/devicetree/bindings/usb/dwc3.txt
-> +++ /dev/null
-> @@ -1,125 +0,0 @@
-> -synopsys DWC3 CORE
-> -
-> -DWC3- USB3 CONTROLLER. Complies to the generic USB binding properties
-> -      as described in 'usb/generic.txt'
-> -
-> -Required properties:
-> - - compatible: must be "snps,dwc3"
-> - - reg : Address and length of the register set for the device
-> - - interrupts: Interrupts used by the dwc3 controller.
-> - - clock-names: list of clock names. Ideally should be "ref",
-> -                "bus_early", "suspend" but may be less or more.
-> - - clocks: list of phandle and clock specifier pairs corresponding to
-> -           entries in the clock-names property.
-> -
-> -Exception for clocks:
-> -  clocks are optional if the parent node (i.e. glue-layer) is compatible to
-> -  one of the following:
-> -    "cavium,octeon-7130-usb-uctl"
-> -    "qcom,dwc3"
-> -    "samsung,exynos5250-dwusb3"
-> -    "samsung,exynos5433-dwusb3"
-> -    "samsung,exynos7-dwusb3"
-> -    "sprd,sc9860-dwc3"
-> -    "st,stih407-dwc3"
-> -    "ti,am437x-dwc3"
-> -    "ti,dwc3"
-> -    "ti,keystone-dwc3"
-> -    "rockchip,rk3399-dwc3"
-> -    "xlnx,zynqmp-dwc3"
-> -
-> -Optional properties:
-> - - usb-phy : array of phandle for the PHY device.  The first element
-> -   in the array is expected to be a handle to the USB2/HS PHY and
-> -   the second element is expected to be a handle to the USB3/SS PHY
-> - - phys: from the *Generic PHY* bindings
-> - - phy-names: from the *Generic PHY* bindings; supported names are "usb2-phy"
-> -	or "usb3-phy".
-> - - resets: set of phandle and reset specifier pairs
-> - - snps,usb2-lpm-disable: indicate if we don't want to enable USB2 HW LPM
-> - - snps,usb3_lpm_capable: determines if platform is USB3 LPM capable
-> - - snps,dis-start-transfer-quirk: when set, disable isoc START TRANSFER command
-> -			failure SW work-around for DWC_usb31 version 1.70a-ea06
-> -			and prior.
-> - - snps,disable_scramble_quirk: true when SW should disable data scrambling.
-> -	Only really useful for FPGA builds.
-> - - snps,has-lpm-erratum: true when DWC3 was configured with LPM Erratum enabled
-> - - snps,lpm-nyet-threshold: LPM NYET threshold
-> - - snps,u2exit_lfps_quirk: set if we want to enable u2exit lfps quirk
-> - - snps,u2ss_inp3_quirk: set if we enable P3 OK for U2/SS Inactive quirk
-> - - snps,req_p1p2p3_quirk: when set, the core will always request for
-> -			P1/P2/P3 transition sequence.
-> - - snps,del_p1p2p3_quirk: when set core will delay P1/P2/P3 until a certain
-> -			amount of 8B10B errors occur.
-> - - snps,del_phy_power_chg_quirk: when set core will delay PHY power change
-> -			from P0 to P1/P2/P3.
-> - - snps,lfps_filter_quirk: when set core will filter LFPS reception.
-> - - snps,rx_detect_poll_quirk: when set core will disable a 400us delay to start
-> -			Polling LFPS after RX.Detect.
-> - - snps,tx_de_emphasis_quirk: when set core will set Tx de-emphasis value.
-> - - snps,tx_de_emphasis: the value driven to the PHY is controlled by the
-> -			LTSSM during USB3 Compliance mode.
-> - - snps,dis_u3_susphy_quirk: when set core will disable USB3 suspend phy.
-> - - snps,dis_u2_susphy_quirk: when set core will disable USB2 suspend phy.
-> - - snps,dis_enblslpm_quirk: when set clears the enblslpm in GUSB2PHYCFG,
-> -			disabling the suspend signal to the PHY.
-> - - snps,dis-u1-entry-quirk: set if link entering into U1 needs to be disabled.
-> - - snps,dis-u2-entry-quirk: set if link entering into U2 needs to be disabled.
-> - - snps,dis_rxdet_inp3_quirk: when set core will disable receiver detection
-> -			in PHY P3 power state.
-> - - snps,dis-u2-freeclk-exists-quirk: when set, clear the u2_freeclk_exists
-> -			in GUSB2PHYCFG, specify that USB2 PHY doesn't provide
-> -			a free-running PHY clock.
-> - - snps,dis-del-phy-power-chg-quirk: when set core will change PHY power
-> -			from P0 to P1/P2/P3 without delay.
-> - - snps,dis-tx-ipgap-linecheck-quirk: when set, disable u2mac linestate check
-> -			during HS transmit.
-> - - snps,parkmode-disable-ss-quirk: when set, all SuperSpeed bus instances in
-> -			park mode are disabled.
-> - - snps,dis_metastability_quirk: when set, disable metastability workaround.
-> -			CAUTION: use only if you are absolutely sure of it.
-> - - snps,is-utmi-l1-suspend: true when DWC3 asserts output signal
-> -			utmi_l1_suspend_n, false when asserts utmi_sleep_n
-> - - snps,hird-threshold: HIRD threshold
-> - - snps,hsphy_interface: High-Speed PHY interface selection between "utmi" for
-> -   UTMI+ and "ulpi" for ULPI when the DWC_USB3_HSPHY_INTERFACE has value 3.
-> - - snps,quirk-frame-length-adjustment: Value for GFLADJ_30MHZ field of GFLADJ
-> -	register for post-silicon frame length adjustment when the
-> -	fladj_30mhz_sdbnd signal is invalid or incorrect.
-> - - snps,rx-thr-num-pkt-prd: periodic ESS RX packet threshold count - host mode
-> -			only. Set this and rx-max-burst-prd to a valid,
-> -			non-zero value 1-16 (DWC_usb31 programming guide
-> -			section 1.2.4) to enable periodic ESS RX threshold.
-> - - snps,rx-max-burst-prd: max periodic ESS RX burst size - host mode only. Set
-> -			this and rx-thr-num-pkt-prd to a valid, non-zero value
-> -			1-16 (DWC_usb31 programming guide section 1.2.4) to
-> -			enable periodic ESS RX threshold.
-> - - snps,tx-thr-num-pkt-prd: periodic ESS TX packet threshold count - host mode
-> -			only. Set this and tx-max-burst-prd to a valid,
-> -			non-zero value 1-16 (DWC_usb31 programming guide
-> -			section 1.2.3) to enable periodic ESS TX threshold.
-> - - snps,tx-max-burst-prd: max periodic ESS TX burst size - host mode only. Set
-> -			this and tx-thr-num-pkt-prd to a valid, non-zero value
-> -			1-16 (DWC_usb31 programming guide section 1.2.3) to
-> -			enable periodic ESS TX threshold.
-> -
-> - - <DEPRECATED> tx-fifo-resize: determines if the FIFO *has* to be reallocated.
-> - - snps,incr-burst-type-adjustment: Value for INCR burst type of GSBUSCFG0
-> -			register, undefined length INCR burst type enable and INCRx type.
-> -			When just one value, which means INCRX burst mode enabled. When
-> -			more than one value, which means undefined length INCR burst type
-> -			enabled. The values can be 1, 4, 8, 16, 32, 64, 128 and 256.
-> -
-> - - in addition all properties from usb-xhci.txt from the current directory are
-> -   supported as well
-> -
-> -
-> -This is usually a subnode to DWC3 glue to which it is connected.
-> -
-> -dwc3@4a030000 {
-> -	compatible = "snps,dwc3";
-> -	reg = <0x4a030000 0xcfff>;
-> -	interrupts = <0 92 4>
-> -	usb-phy = <&usb2_phy>, <&usb3,phy>;
-> -	snps,incr-burst-type-adjustment = <1>, <4>, <8>, <16>;
-> -};
-> diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-> new file mode 100644
-> index 000000000000..079617891da6
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-> @@ -0,0 +1,303 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Synopsys DesignWare USB3 Controller
-> +
-> +maintainers:
-> +  - Felipe Balbi <balbi@kernel.org>
-> +
-> +description:
-> +  This is usually a subnode to DWC3 glue to which it is connected, but can also
-> +  be presented as a standalone DT node with an optional vendor-specific
-> +  compatible string.
-> +
-> +allOf:
-> +  - $ref: usb-drd.yaml#
-> +  - if:
-> +      properties:
-> +        dr_mode:
-> +          const: peripheral
-> +    then:
-> +      $ref: usb.yaml#
-
-This part could be done in usb-drd.yaml?
-
-> +    else:
-> +      $ref: usb-xhci.yaml#
-
-I'd really prefer if all the schema can just be applied unconditionally. 
-Shouldn't someone (like a bootloader) be able to change dr_mode without 
-changing anything else to set the mode? That would imply all the 
-schemas can be applied.
-
-Rob
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+SGkgVGhvbWFzLAoKT24gMDMuMTEuMjAyMCAxMDoyNywgVGhvbWFzIEdsZWl4bmVyIHdyb3RlOgo+
+IE5vIHJlYXNvbiBoYXZpbmcgdGhlIHNhbWUgY29kZSBpbiBldmVyeSBhcmNoaXRlY3R1cmUuCj4K
+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgR2xlaXhuZXIgPHRnbHhAbGludXRyb25peC5kZT4KPiBD
+YzogUnVzc2VsbCBLaW5nIDxsaW51eEBhcm1saW51eC5vcmcudWs+Cj4gQ2M6IEFybmQgQmVyZ21h
+bm4gPGFybmRAYXJuZGIuZGU+Cj4gQ2M6IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFk
+Lm9yZwoKVGhpcyBwYXRjaCBsYW5kZWQgaW4gbGludXgtbmV4dCAyMDIwMTEwOSBhcyBjb21taXQg
+MmExNWJhODJmYTZjICgiQVJNOiAKaGlnaG1lbTogU3dpdGNoIHRvIGdlbmVyaWMga21hcCBhdG9t
+aWMiKS4gSG93ZXZlciBpdCBjYXVzZXMgYSBmb2xsb3dpbmcgCndhcm5pbmcgb24gbXkgdGVzdCBi
+b2FyZHMgKFNhbXN1bmcgRXh5bm9zIFNvQyBiYXNlZCk6CgpSdW4gL3NiaW4vaW5pdCBhcyBpbml0
+IHByb2Nlc3MKSU5JVDogdmVyc2lvbiAyLjg4IGJvb3RpbmcKLS0tLS0tLS0tLS0tWyBjdXQgaGVy
+ZSBdLS0tLS0tLS0tLS0tCldBUk5JTkc6IENQVTogMyBQSUQ6IDEyMCBhdCBtbS9oaWdobWVtLmM6
+NTAyIAprdW5tYXBfbG9jYWxfaW5kZXhlZCsweDE5NC8weDFkMApNb2R1bGVzIGxpbmtlZCBpbjoK
+Q1BVOiAzIFBJRDogMTIwIENvbW06IGluaXQgTm90IHRhaW50ZWQgNS4xMC4wLXJjMi0wMDAxMC1n
+MmExNWJhODJmYTZjICMxOTI0CkhhcmR3YXJlIG5hbWU6IFNhbXN1bmcgRXh5bm9zIChGbGF0dGVu
+ZWQgRGV2aWNlIFRyZWUpCls8YzAxMTE1MTQ+XSAodW53aW5kX2JhY2t0cmFjZSkgZnJvbSBbPGMw
+MTBjZWI4Pl0gKHNob3dfc3RhY2srMHgxMC8weDE0KQpbPGMwMTBjZWI4Pl0gKHNob3dfc3RhY2sp
+IGZyb20gWzxjMGIxYjQwOD5dIChkdW1wX3N0YWNrKzB4YjQvMHhkNCkKWzxjMGIxYjQwOD5dIChk
+dW1wX3N0YWNrKSBmcm9tIFs8YzAxMjY5ODg+XSAoX193YXJuKzB4OTgvMHgxMDQpCls8YzAxMjY5
+ODg+XSAoX193YXJuKSBmcm9tIFs8YzAxMjZhYTQ+XSAod2Fybl9zbG93cGF0aF9mbXQrMHhiMC8w
+eGI4KQpbPGMwMTI2YWE0Pl0gKHdhcm5fc2xvd3BhdGhfZm10KSBmcm9tIFs8YzAyOGUyMmM+XSAK
+KGt1bm1hcF9sb2NhbF9pbmRleGVkKzB4MTk0LzB4MWQwKQpbPGMwMjhlMjJjPl0gKGt1bm1hcF9s
+b2NhbF9pbmRleGVkKSBmcm9tIFs8YzAyZDM3ZjQ+XSAKKHJlbW92ZV9hcmdfemVybysweGEwLzB4
+MTU4KQpbPGMwMmQzN2Y0Pl0gKHJlbW92ZV9hcmdfemVybykgZnJvbSBbPGMwMzRjZmM4Pl0gKGxv
+YWRfc2NyaXB0KzB4MjUwLzB4MzE4KQpbPGMwMzRjZmM4Pl0gKGxvYWRfc2NyaXB0KSBmcm9tIFs8
+YzAyZDJmN2M+XSAoYnBybV9leGVjdmUrMHgzZDAvMHg5MzApCls8YzAyZDJmN2M+XSAoYnBybV9l
+eGVjdmUpIGZyb20gWzxjMDJkM2RjOD5dIAooZG9fZXhlY3ZlYXRfY29tbW9uKzB4MTc0LzB4MTg0
+KQpbPGMwMmQzZGM4Pl0gKGRvX2V4ZWN2ZWF0X2NvbW1vbikgZnJvbSBbPGMwMmQ0Y2VjPl0gKHN5
+c19leGVjdmUrMHgzMC8weDM4KQpbPGMwMmQ0Y2VjPl0gKHN5c19leGVjdmUpIGZyb20gWzxjMDEw
+MDA2MD5dIChyZXRfZmFzdF9zeXNjYWxsKzB4MC8weDI4KQpFeGNlcHRpb24gc3RhY2soMHhjNDU2
+MWZhOCB0byAweGM0NTYxZmYwKQoxZmEwOsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBiNmYyYmFiOCBiZWY3ZGFjNCBiZWY3ZGFjNCBiZWY3ZDhmYyAwMDRiOWI1OCAKYmVmN2Rh
+YzgKMWZjMDogYjZmMmJhYjggYmVmN2RhYzQgYmVmN2Q4ZmMgMDAwMDAwMGIgMDA0YjgwMDAgMDA0
+YmFjNDQgYmVmN2RhM2MgCmJlZjdkOGRjCjFmZTA6IDAwMDAwMDJmIGJlZjdkODljIGI2ZDZkYzc0
+IGI2ZDZkNjVjCmlycSBldmVudCBzdGFtcDogMTI4MwpoYXJkaXJxcyBsYXN0wqAgZW5hYmxlZCBh
+dCAoMTI5Myk6IFs8YzAxOWY1NjQ+XSBjb25zb2xlX3VubG9jaysweDQzMC8weDZiMApoYXJkaXJx
+cyBsYXN0IGRpc2FibGVkIGF0ICgxMzAyKTogWzxjMDE5ZjU1Yz5dIGNvbnNvbGVfdW5sb2NrKzB4
+NDI4LzB4NmIwCnNvZnRpcnFzIGxhc3TCoCBlbmFibGVkIGF0ICgxMjgyKTogWzxjMDEwMTc2OD5d
+IF9fZG9fc29mdGlycSsweDUyOC8weDY3NApzb2Z0aXJxcyBsYXN0IGRpc2FibGVkIGF0ICgxMjY5
+KTogWzxjMDEyZmVkND5dIGlycV9leGl0KzB4MWRjLzB4MWU4Ci0tLVsgZW5kIHRyYWNlIDZmMzJh
+MmZiNDI5NDY1NWYgXS0tLQoKSSBjYW4gZG8gbW9yZSB0ZXN0cyB0byBoZWxwIGZpeGluZyB0aGlz
+IGlzc3VlLiBKdXN0IGxldCBtZSBrbm93IHdoYXQgdG8gZG8uCgouLi4KCkJlc3QgcmVnYXJkcwoK
+LS0gCk1hcmVrIFN6eXByb3dza2ksIFBoRApTYW1zdW5nIFImRCBJbnN0aXR1dGUgUG9sYW5kCgoK
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtc25w
+cy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0
+cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
