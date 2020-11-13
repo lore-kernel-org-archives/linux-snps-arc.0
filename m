@@ -2,78 +2,65 @@ Return-Path: <SRS0=Jm8S=ET=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06F0EC388F9
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Nov 2020 06:04:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 938CAC55ABD
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Nov 2020 15:00:19 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1D0A12078B
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Nov 2020 06:04:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 27A1D2222F
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Nov 2020 15:00:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="l7zTelOL";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="RiYT6Erx"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1D0A12078B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mediatek.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="2UaUiic/";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="uWGvxdNa"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 27A1D2222F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Date:To:From:
-	Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=2CWvejYPLibUGAKgpRxD45l4nibtdmQvw6gL9SyryIY=; b=l7zTelOLgko9WMPPxD115oONJ
-	YlnTJzGMj0ltg89Znpqhzpa/7cpeBxUhUAZdbaKOT4NC/6ZKEeozSvi51cGTx2JHd5TMEj4TeXzo+
-	52L7Xt7hzchXoVYvN1nBrLKNQlLfKKcVJrCLSee0qeCkHuxdaZ49kw8vEdorejL67xD2CrjZ3pyG8
-	Bxhjzms8m6WuTf18y8ygMfAuMH6cSQ8qhoaBTBg5Oxb9+xRbXHCBfdh1I9f65ptICMYIS0g7IIa9X
-	PAwMQ4Oo1tV2V3fbui3fIv0Hra28PTyxD1eSVTkeFou2qSea4fEPTZ803OfFnlplGGIgVtA/N36CP
-	QGnBjgX7Q==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=6yBHAGSfhCiAx5VRvEsAEQyTaolCluBOhQAvk1GUvk8=; b=2UaUiic/QtMNVjxFaMv1MQ9kCo
+	8JN2dRQper9dF4YWhvqwg0hnJGr2GtAGsa4AqNIXatjKCEN+LO52g4Vvz4PJGk35nNYQLCff6cE2p
+	Rlps0tyAvSbtXcPFqScTp1m1MTvgJ3LuDJG5ewPBk4N1P1aJoQavpvN9ZGyNcoTaZc7zjpT2LRupp
+	+wyC8v9AzvcnuRHYhKrjs4n1cYBiFCXPyLHtUmfFDbgPxolxaYpBxAnQVEuHE1OPusXETHYkSg6qV
+	ePZEuz4l05qvqQkq0AdXEnqTIM/XF+fB7ZHi9sU6DLd34pZ+XbEkhIA8mjuh/6uCg2gJwgk6t6HA6
+	EFSAQ7VQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kdSCK-0007WS-CW; Fri, 13 Nov 2020 06:04:36 +0000
-Received: from mailgw02.mediatek.com ([216.200.240.185])
+	id 1kdaYk-0006MZ-4w; Fri, 13 Nov 2020 15:00:18 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kdSCF-0007Vj-M5; Fri, 13 Nov 2020 06:04:33 +0000
-X-UUID: 7135201b33484d7abca788e6f1e5cbc4-20201112
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=Ir233lDJkicbZtH4igG3ioOgvXcy46PlSo6Vzwnmbug=; 
- b=RiYT6ErxaVwinryGNxuPlkJJNWCeBzyUiGNM3wgDEQjQc4ncQnqf2fumKrcqZzoUTLvTNFqoSXJKITpxewUIq4mzTt5J8hRWxJIPYtwPhwJxPD5DvSfb1w0YtrLXz+bSsqBg2jwWxc0f2MEUgKIHubTLDftfQ6oW3XnmMYS/OOI=;
-X-UUID: 7135201b33484d7abca788e6f1e5cbc4-20201112
-Received: from mtkcas66.mediatek.inc [(172.29.193.44)] by mailgw02.mediatek.com
- (envelope-from <chunfeng.yun@mediatek.com>)
- (musrelay.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1376257542; Thu, 12 Nov 2020 22:04:26 -0800
-Received: from MTKMBS32N1.mediatek.inc (172.27.4.71) by
- MTKMBS62N1.mediatek.inc (172.29.193.41) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 12 Nov 2020 22:04:24 -0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS32N1.mediatek.inc
- (172.27.4.71) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Fri, 13 Nov 2020 14:04:20 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 13 Nov 2020 14:04:19 +0800
-Message-ID: <1605247459.31607.23.camel@mhfsdcap03>
-Subject: Re: [PATCH v4 01/18] dt-bindings: usb: usb-hcd: Detach generic USB
- controller properties
-From: Chunfeng Yun <chunfeng.yun@mediatek.com>
-To: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Date: Fri, 13 Nov 2020 14:04:19 +0800
-In-Reply-To: <20201111090853.14112-2-Sergey.Semin@baikalelectronics.ru>
-References: <20201111090853.14112-1-Sergey.Semin@baikalelectronics.ru>
- <20201111090853.14112-2-Sergey.Semin@baikalelectronics.ru>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+ id 1kdaYa-0006JU-CK; Fri, 13 Nov 2020 15:00:10 +0000
+Received: from localhost.localdomain
+ (HSI-KBW-46-223-126-90.hsi.kabel-badenwuerttemberg.de [46.223.126.90])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id CA61921D79;
+ Fri, 13 Nov 2020 15:00:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1605279607;
+ bh=55BckvOEujfl1XMFu6uO29jq/GdivVi+CaX6Bmf/8PY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=uWGvxdNaEYlri5X3tN4k5SoawfpoeuTRAylRrEmRxgIq2WenVhheXivzWwl2Wo+oI
+ 2FnuGA1M7v8UrRURfVpj0ifxKiOUv+poNTKZ0KCkJ3Zic3OfIxvolh/9s92t7v61Ur
+ eOi4xjrWV2ODcgF7NfMnH6GibnOUFp5OllRV0f14=
+From: Arnd Bergmann <arnd@kernel.org>
+To: linux-mm@kvack.org
+Subject: [PATCH] arch: pgtable: define MAX_POSSIBLE_PHYSMEM_BITS where needed
+Date: Fri, 13 Nov 2020 15:59:32 +0100
+Message-Id: <20201113145932.10994-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 35256F855D28B8E9938E1E871FD37442AB0633F28C0BB20F747BFD0A0256B7812000:8
-X-MTK: N
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201113_010432_475751_960906A0 
-X-CRM114-Status: GOOD (  22.39  )
+X-CRM114-CacheID: sfid-20201113_100008_923196_B47EEB66 
+X-CRM114-Status: GOOD (  28.26  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,119 +72,255 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
- Kevin Hilman <khilman@baylibre.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- Andy Gross <agross@kernel.org>, linux-snps-arc@lists.infradead.org,
- devicetree@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
- Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org,
- Roger Quadros <rogerq@ti.com>, Felipe Balbi <balbi@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
- Serge Semin <fancer.lancer@gmail.com>, linux-kernel@vger.kernel.org,
- Manu Gautam <mgautam@codeaurora.org>, linuxppc-dev@lists.ozlabs.org
+Cc: linux-arch@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Arnd Bergmann <arnd@arndb.de>, Vineet Gupta <vgupta@synopsys.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Russell King <linux@armlinux.org.uk>, Stefan Agner <stefan@agner.ch>,
+ linux-mips@vger.kernel.org, Minchan Kim <minchan@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Paul Mackerras <paulus@samba.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Palmer Dabbelt <palmer@dabbelt.com>,
+ linux-riscv@lists.infradead.org, Nitin Gupta <ngupta@vflare.org>,
+ linuxppc-dev@lists.ozlabs.org, Mike Rapoport <rppt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, 2020-11-11 at 12:08 +0300, Serge Semin wrote:
-> There can be three distinctive types of the USB controllers: USB hosts,
-> USB peripherals/gadgets and USB OTG, which can switch from one role to
-> another. In order to have that hierarchy handled in the DT binding files,
-> we need to collect common properties in a common DT schema and specific
-> properties in dedicated schemas. Seeing the usb-hcd.yaml DT schema is
-> dedicated for the USB host controllers only, let's move some common
-> properties from there into the usb.yaml schema. So the later would be
-> available to evaluate all currently supported types of the USB
-> controllers.
-> 
-> While at it add an explicit "additionalProperties: true" into the
-> usb-hcd.yaml as setting the additionalProperties/unevaluateProperties
-> properties is going to be get mandatory soon.
-> 
-> Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-> 
-> ---
-> 
-> Changelog v4:
-> - This is a new patch created as a result of the comment left
->   by Chunfeng Yun in v3
-> ---
->  .../devicetree/bindings/usb/usb-hcd.yaml      | 14 ++-------
->  .../devicetree/bindings/usb/usb.yaml          | 29 +++++++++++++++++++
->  2 files changed, 32 insertions(+), 11 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/usb/usb.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-> index 7263b7f2b510..81f3ad1419d8 100644
-> --- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-> +++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-> @@ -9,18 +9,10 @@ title: Generic USB Host Controller Device Tree Bindings
->  maintainers:
->    - Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->  
-> -properties:
-> -  $nodename:
-> -    pattern: "^usb(@.*)?"
-> +allOf:
-> +  - $ref: usb.yaml#
->  
-> -  phys:
-> -    $ref: /schemas/types.yaml#/definitions/phandle-array
-> -    description:
-> -      List of all the USB PHYs on this HCD
-> -
-> -  phy-names:
-> -    description:
-> -      Name specifier for the USB PHY
-> +additionalProperties: true
-This seems already added by the applied patch 6a0e321ea735 "dt-bindings:
-Explicitly allow additional properties in common schemas"
+From: Arnd Bergmann <arnd@arndb.de>
 
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/usb/usb.yaml b/Documentation/devicetree/bindings/usb/usb.yaml
-> new file mode 100644
-> index 000000000000..941ad59fbac5
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/usb.yaml
-> @@ -0,0 +1,29 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/usb/usb.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Generic USB Controller Device Tree Bindings
-> +
-> +maintainers:
-> +  - Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> +
-> +select: false
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: "^usb(@.*)?"
-> +
-> +  phys:
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    description:
-> +      List of all the USB PHYs on this HCD
-> +
-> +  phy-names:
-> +    description:
-> +      Name specifier for the USB PHY
-> +
-> +additionalProperties: true
-> +
-> +...
+Stefan Agner reported a bug when using zsram on 32-bit Arm machines
+with RAM above the 4GB address boundary:
+
+  Unable to handle kernel NULL pointer dereference at virtual address 00000000
+  pgd = a27bd01c
+  [00000000] *pgd=236a0003, *pmd=1ffa64003
+  Internal error: Oops: 207 [#1] SMP ARM
+  Modules linked in: mdio_bcm_unimac(+) brcmfmac cfg80211 brcmutil raspberrypi_hwmon hci_uart crc32_arm_ce bcm2711_thermal phy_generic genet
+  CPU: 0 PID: 123 Comm: mkfs.ext4 Not tainted 5.9.6 #1
+  Hardware name: BCM2711
+  PC is at zs_map_object+0x94/0x338
+  LR is at zram_bvec_rw.constprop.0+0x330/0xa64
+  pc : [<c0602b38>]    lr : [<c0bda6a0>]    psr: 60000013
+  sp : e376bbe0  ip : 00000000  fp : c1e2921c
+  r10: 00000002  r9 : c1dda730  r8 : 00000000
+  r7 : e8ff7a00  r6 : 00000000  r5 : 02f9ffa0  r4 : e3710000
+  r3 : 000fdffe  r2 : c1e0ce80  r1 : ebf979a0  r0 : 00000000
+  Flags: nZCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment user
+  Control: 30c5383d  Table: 235c2a80  DAC: fffffffd
+  Process mkfs.ext4 (pid: 123, stack limit = 0x495a22e6)
+  Stack: (0xe376bbe0 to 0xe376c000)
+
+As it turns out, zsram needs to know the maximum memory size, which
+is defined in MAX_PHYSMEM_BITS when CONFIG_SPARSEMEM is set, or in
+MAX_POSSIBLE_PHYSMEM_BITS on the x86 architecture.
+
+The same problem will be hit on all 32-bit architectures that have a
+physical address space larger than 4GB and happen to not enable sparsemem
+and include asm/sparsemem.h from asm/pgtable.h.
+
+After the initial discussion, I suggested just always defining
+MAX_POSSIBLE_PHYSMEM_BITS whenever CONFIG_PHYS_ADDR_T_64BIT is
+set, or provoking a build error otherwise. This addresses all
+configurations that can currently have this runtime bug, but
+leaves all other configurations unchanged.
+
+I looked up the possible number of bits in source code and
+datasheets, here is what I found:
+
+ - on ARC, CONFIG_ARC_HAS_PAE40 controls whether 32 or 40 bits are used
+ - on ARM, CONFIG_LPAE enables 40 bit addressing, without it we never
+   support more than 32 bits, even though supersections in theory allow
+   up to 40 bits as well.
+ - on MIPS, some MIPS32r1 or later chips support 36 bits, and MIPS32r5
+   XPA supports up to 60 bits in theory, but 40 bits are more than
+   anyone will ever ship
+ - On PowerPC, there are three different implementations of 36 bit
+   addressing, but 32-bit is used without CONFIG_PTE_64BIT
+ - On RISC-V, the normal page table format can support 34 bit
+   addressing. There is no highmem support on RISC-V, so anything
+   above 2GB is unused, but it might be useful to eventually support
+   CONFIG_ZRAM for high pages.
+
+Fixes: 61989a80fb3a ("staging: zsmalloc: zsmalloc memory allocation library")
+Fixes: 02390b87a945 ("mm/zsmalloc: Prepare to variable MAX_PHYSMEM_BITS")
+Cc: Stefan Agner <stefan@agner.ch>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+Cc: Nitin Gupta <ngupta@vflare.org>
+Cc: Minchan Kim <minchan@kernel.org>
+Cc: Vineet Gupta <vgupta@synopsys.com>
+Cc: linux-snps-arc@lists.infradead.org
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: linux-mips@vger.kernel.org
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: Paul Walmsley <paul.walmsley@sifive.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Albert Ou <aou@eecs.berkeley.edu>
+Cc: linux-riscv@lists.infradead.org
+Link: https://lore.kernel.org/linux-mm/bdfa44bf1c570b05d6c70898e2bbb0acf234ecdf.1604762181.git.stefan@agner.ch/
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+If everyone is happy with this version, I would suggest merging this as
+a bugfix through my asm-generic tree for linux-5.10. I originally
+said I'd send individual patches for each architecture tree, but
+I now think this is easier and better documents what is going on.
+---
+ arch/arc/include/asm/pgtable.h               |  2 ++
+ arch/arm/include/asm/pgtable-2level.h        |  2 ++
+ arch/arm/include/asm/pgtable-3level.h        |  2 ++
+ arch/mips/include/asm/pgtable-32.h           |  3 +++
+ arch/powerpc/include/asm/book3s/32/pgtable.h |  2 ++
+ arch/powerpc/include/asm/nohash/32/pgtable.h |  2 ++
+ arch/riscv/include/asm/pgtable-32.h          |  2 ++
+ include/linux/pgtable.h                      | 13 +++++++++++++
+ 8 files changed, 28 insertions(+)
+
+diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
+index f1ed17edb085..163641726a2b 100644
+--- a/arch/arc/include/asm/pgtable.h
++++ b/arch/arc/include/asm/pgtable.h
+@@ -134,8 +134,10 @@
+ 
+ #ifdef CONFIG_ARC_HAS_PAE40
+ #define PTE_BITS_NON_RWX_IN_PD1	(0xff00000000 | PAGE_MASK | _PAGE_CACHEABLE)
++#define MAX_POSSIBLE_PHYSMEM_BITS 40
+ #else
+ #define PTE_BITS_NON_RWX_IN_PD1	(PAGE_MASK | _PAGE_CACHEABLE)
++#define MAX_POSSIBLE_PHYSMEM_BITS 32
+ #endif
+ 
+ /**************************************************************************
+diff --git a/arch/arm/include/asm/pgtable-2level.h b/arch/arm/include/asm/pgtable-2level.h
+index 3502c2f746ca..baf7d0204eb5 100644
+--- a/arch/arm/include/asm/pgtable-2level.h
++++ b/arch/arm/include/asm/pgtable-2level.h
+@@ -75,6 +75,8 @@
+ #define PTE_HWTABLE_OFF		(PTE_HWTABLE_PTRS * sizeof(pte_t))
+ #define PTE_HWTABLE_SIZE	(PTRS_PER_PTE * sizeof(u32))
+ 
++#define MAX_POSSIBLE_PHYSMEM_BITS	32
++
+ /*
+  * PMD_SHIFT determines the size of the area a second-level page table can map
+  * PGDIR_SHIFT determines what a third-level page table entry can map
+diff --git a/arch/arm/include/asm/pgtable-3level.h b/arch/arm/include/asm/pgtable-3level.h
+index fbb6693c3352..2b85d175e999 100644
+--- a/arch/arm/include/asm/pgtable-3level.h
++++ b/arch/arm/include/asm/pgtable-3level.h
+@@ -25,6 +25,8 @@
+ #define PTE_HWTABLE_OFF		(0)
+ #define PTE_HWTABLE_SIZE	(PTRS_PER_PTE * sizeof(u64))
+ 
++#define MAX_POSSIBLE_PHYSMEM_BITS 40
++
+ /*
+  * PGDIR_SHIFT determines the size a top-level page table entry can map.
+  */
+diff --git a/arch/mips/include/asm/pgtable-32.h b/arch/mips/include/asm/pgtable-32.h
+index a950fc1ddb4d..6c0532d7b211 100644
+--- a/arch/mips/include/asm/pgtable-32.h
++++ b/arch/mips/include/asm/pgtable-32.h
+@@ -154,6 +154,7 @@ static inline void pmd_clear(pmd_t *pmdp)
+ 
+ #if defined(CONFIG_XPA)
+ 
++#define MAX_POSSIBLE_PHYSMEM_BITS 40
+ #define pte_pfn(x)		(((unsigned long)((x).pte_high >> _PFN_SHIFT)) | (unsigned long)((x).pte_low << _PAGE_PRESENT_SHIFT))
+ static inline pte_t
+ pfn_pte(unsigned long pfn, pgprot_t prot)
+@@ -169,6 +170,7 @@ pfn_pte(unsigned long pfn, pgprot_t prot)
+ 
+ #elif defined(CONFIG_PHYS_ADDR_T_64BIT) && defined(CONFIG_CPU_MIPS32)
+ 
++#define MAX_POSSIBLE_PHYSMEM_BITS 36
+ #define pte_pfn(x)		((unsigned long)((x).pte_high >> 6))
+ 
+ static inline pte_t pfn_pte(unsigned long pfn, pgprot_t prot)
+@@ -183,6 +185,7 @@ static inline pte_t pfn_pte(unsigned long pfn, pgprot_t prot)
+ 
+ #else
+ 
++#define MAX_POSSIBLE_PHYSMEM_BITS 32
+ #ifdef CONFIG_CPU_VR41XX
+ #define pte_pfn(x)		((unsigned long)((x).pte >> (PAGE_SHIFT + 2)))
+ #define pfn_pte(pfn, prot)	__pte(((pfn) << (PAGE_SHIFT + 2)) | pgprot_val(prot))
+diff --git a/arch/powerpc/include/asm/book3s/32/pgtable.h b/arch/powerpc/include/asm/book3s/32/pgtable.h
+index 36443cda8dcf..1376be95e975 100644
+--- a/arch/powerpc/include/asm/book3s/32/pgtable.h
++++ b/arch/powerpc/include/asm/book3s/32/pgtable.h
+@@ -36,8 +36,10 @@ static inline bool pte_user(pte_t pte)
+  */
+ #ifdef CONFIG_PTE_64BIT
+ #define PTE_RPN_MASK	(~((1ULL << PTE_RPN_SHIFT) - 1))
++#define MAX_POSSIBLE_PHYSMEM_BITS 36
+ #else
+ #define PTE_RPN_MASK	(~((1UL << PTE_RPN_SHIFT) - 1))
++#define MAX_POSSIBLE_PHYSMEM_BITS 32
+ #endif
+ 
+ /*
+diff --git a/arch/powerpc/include/asm/nohash/32/pgtable.h b/arch/powerpc/include/asm/nohash/32/pgtable.h
+index ee2243ba96cf..96522f7f0618 100644
+--- a/arch/powerpc/include/asm/nohash/32/pgtable.h
++++ b/arch/powerpc/include/asm/nohash/32/pgtable.h
+@@ -153,8 +153,10 @@ int map_kernel_page(unsigned long va, phys_addr_t pa, pgprot_t prot);
+  */
+ #if defined(CONFIG_PPC32) && defined(CONFIG_PTE_64BIT)
+ #define PTE_RPN_MASK	(~((1ULL << PTE_RPN_SHIFT) - 1))
++#define MAX_POSSIBLE_PHYSMEM_BITS 36
+ #else
+ #define PTE_RPN_MASK	(~((1UL << PTE_RPN_SHIFT) - 1))
++#define MAX_POSSIBLE_PHYSMEM_BITS 32
+ #endif
+ 
+ /*
+diff --git a/arch/riscv/include/asm/pgtable-32.h b/arch/riscv/include/asm/pgtable-32.h
+index b0ab66e5fdb1..5b2e79e5bfa5 100644
+--- a/arch/riscv/include/asm/pgtable-32.h
++++ b/arch/riscv/include/asm/pgtable-32.h
+@@ -14,4 +14,6 @@
+ #define PGDIR_SIZE      (_AC(1, UL) << PGDIR_SHIFT)
+ #define PGDIR_MASK      (~(PGDIR_SIZE - 1))
+ 
++#define MAX_POSSIBLE_PHYSMEM_BITS 34
++
+ #endif /* _ASM_RISCV_PGTABLE_32_H */
+diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+index 71125a4676c4..e237004d498d 100644
+--- a/include/linux/pgtable.h
++++ b/include/linux/pgtable.h
+@@ -1427,6 +1427,19 @@ typedef unsigned int pgtbl_mod_mask;
+ 
+ #endif /* !__ASSEMBLY__ */
+ 
++#if !defined(MAX_POSSIBLE_PHYSMEM_BITS) && !defined(CONFIG_64BIT)
++#ifdef CONFIG_PHYS_ADDR_T_64BIT
++/*
++ * ZSMALLOC needs to know the highest PFN on 32-bit architectures
++ * with physical address space extension, but falls back to
++ * BITS_PER_LONG otherwise.
++ */
++#error Missing MAX_POSSIBLE_PHYSMEM_BITS definition
++#else
++#define MAX_POSSIBLE_PHYSMEM_BITS 32
++#endif
++#endif
++
+ #ifndef has_transparent_hugepage
+ #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+ #define has_transparent_hugepage() 1
+-- 
+2.27.0
+
 
 _______________________________________________
 linux-snps-arc mailing list
