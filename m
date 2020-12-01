@@ -2,22 +2,22 @@ Return-Path: <SRS0=KE/D=FF=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C688C64E7A
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  1 Dec 2020 21:35:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61124C64E7A
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  1 Dec 2020 22:16:59 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DF5842085B
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  1 Dec 2020 21:35:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B5DCB2086A
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  1 Dec 2020 22:16:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="bProzP8t";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wJ1JmNIk"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DF5842085B
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="F/p0ZXnV";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sBb6OotX"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B5DCB2086A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,68 +26,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=SUHIDrP5naRgThGt4bWGLR5stEG7z4VEh1VMoK7+v0E=; b=bProzP8tlWNVSvgrnChBmC4xN
-	FdN/PLCQjXZOF/K50/q+n2jSmO7mbwbymE4jXdpVMsfUOSNO2zqvwlWTK1Zzod43mKBRrA6eg5siX
-	s+v4Mh+FfTyJTzTWQUcl+TPtjVgI8DYdR6YdFurbnmRyspT/Nkputh8DEutubbySKBzNxewt+Le6X
-	SBYOTIdX14sSIP+iM5O3cV5nbQWHcFfAIjdkjbi/QwAAoSP3kVh61VvbsSARHac75uGWk0N4TPfWT
-	mTJiv/+AdrlkqkgpEOHwXXRrqgWasdfQI3bDZFXW/wX0gjF309pP1iqK1ypDhNE6sOvHnveLsh4uz
-	JL+wfO2qA==;
+	 bh=Lju4nBJ8dc943GfjsfGycS80MCJwOn21W83msj/tQRI=; b=F/p0ZXnV14EazC33fdLSnKGkE
+	IUG/s5zO3vRDOKpapnGm5Aelo8Td26a1DqWFVamn757y2TVZPhuDpm/51F+//uQSJtxpCkKh8UE1E
+	r93xmJ4007OLEYOYdohDZM8iWhmdfWcXNc/M01etuQsEeh3qpzKLqwHOEMCmAecTAdpaqx7lEKnUt
+	/0gQgG/v1zaORu3t2iK9TuAEfAN2JnJjZ6k+Nm9uPy8sqQXFZe9F8fszOGbVk6ke7V7PHRlgx4SJq
+	/PiFK3oRzyPVhpMAWRxVHjkS2yDiNwCZHBCehuGFIHzMqlXrgb+IvY+rsPR2HGu3+ih7FZcYOp5GU
+	uKLtHSxpQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kkDJ3-0005DV-1c; Tue, 01 Dec 2020 21:35:29 +0000
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333])
+	id 1kkDxB-00042K-Sy; Tue, 01 Dec 2020 22:16:57 +0000
+Received: from mail-oo1-xc2e.google.com ([2607:f8b0:4864:20::c2e])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kkDJ0-0005D3-0I
- for linux-snps-arc@lists.infradead.org; Tue, 01 Dec 2020 21:35:27 +0000
-Received: by mail-ot1-x333.google.com with SMTP id z24so3161478oto.6
- for <linux-snps-arc@lists.infradead.org>; Tue, 01 Dec 2020 13:35:25 -0800 (PST)
+ id 1kkDx8-00041k-Kl
+ for linux-snps-arc@lists.infradead.org; Tue, 01 Dec 2020 22:16:56 +0000
+Received: by mail-oo1-xc2e.google.com with SMTP id l20so796710oot.3
+ for <linux-snps-arc@lists.infradead.org>; Tue, 01 Dec 2020 14:16:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=FP/ibxdTQVSs37xhT5AXiefpJr30Jb5v6l7QlDzPBhs=;
- b=wJ1JmNIku7JhAXho054OA1mZxC0zYY9MR+fRl5Q9V1m9YwLa7cf5rmqtfmc1LzuhvD
- CKAys2uqnTYmthaV/5W0ly9rpv709ZWQmW4hfzo0SZYUjBO9c5xs0kkZVFzvZ2sKqz+N
- AZFkg01ncpwxNWEC+Oh/l9QzJo0UtEQY7MWZNErR3F7GaC/mjUvousmHshPtamwuSsEr
- 89Gzw7GRciv3mUAqOOY2z5EUQ/BV8PsY/pcb6GHvj/ZpTr4bIECnpMl7781pRQeNNrlq
- e9EO2hSRzdEGHe+4uXmWeTDoRzgPF8VK8YrjC79bVVAegWTnm0Fef5zHAxmd+VI0ovY0
- LPfA==
+ bh=xDh0Zx0mBv8xm9nrH4FSZIw5vJhBZ0OrId00N6Xy1QY=;
+ b=sBb6OotXzvZxhfHPtuKuWtqmDmZq57FV5SLMo+yCGHZ6s51RBbWSLT8TfxmKucD7i3
+ vu8c8649hJSzvHdm8nsnkBfEWxsd8rH4auBqxS5kwkDgdVNglSzb/zBNZ3xcUeJ4CERE
+ UZwXsS9kK0C6BvZIxrHav8jo2Luuc207Tbdrq1lmnkilQSnq6d4ZqcfWxSc47YYRQiCs
+ HmcJIlRxoWjlLCtd60xGplId1z4knUNojJfnAp/UWQTrZcl3ft8uPFuPn7FaEVV5J+6d
+ A4cni1RPIBm75UeJVWU3lwKtk85yCaeiL4+ghR7LZQTzPvD2ZPvAqetJG9MUafWcx25d
+ gp9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=FP/ibxdTQVSs37xhT5AXiefpJr30Jb5v6l7QlDzPBhs=;
- b=k4wa0G6JbEcuebRg3PFCQZptMua6WM7EphTp3DYspDA02xDJB7EbIg1vglmFE9o3mw
- /Xs5fbF5ZesQsHl8S/M448AXk1EIbfMJKmB5vHTBf6tn8ImtG3q8/+2kq2pz+O8GMmaT
- KjRjENoKevtrQ+608TaNDBQkk90FAz/xCwckbTswALIo64tVqdscGkAf1gEv8WdXd519
- HidcBE18UsaKzZMEtvCf7ZY3R52uqMVv6Mvb8vmXD+nRXN0f9TY1SA5qMSa11a3HiqSE
- iu9IuuSCgNLP+sLXUVFgILocqmjUy/Um0wzfH0zHv1b4pff4CoeDetnqO6qlBT1Mgl8a
- RHkQ==
-X-Gm-Message-State: AOAM532Nv6l4V3lGhmQw6uNdSSL4iw5hIIk7sEBj4TqkAhPhPm3AvGqn
- sfoPW6FK1TaZCJxg2zVWU7pP2A==
-X-Google-Smtp-Source: ABdhPJyPntPECJ7to1Cvz6N7LZwTrzLFCa70XYLEPbVObCzRHuGQvDYc6Uh2gx+SiH3JrIjULgbI7w==
-X-Received: by 2002:a9d:39f5:: with SMTP id y108mr3341334otb.63.1606858523607; 
- Tue, 01 Dec 2020 13:35:23 -0800 (PST)
+ bh=xDh0Zx0mBv8xm9nrH4FSZIw5vJhBZ0OrId00N6Xy1QY=;
+ b=MWle/vsb34RM7olioas/0aW/+skRZiobxEhB38r3PyKZXzVSv1lpNJXQ1E6QhfHlJS
+ V9G/RrfJYbhSjDbo28nS1WJ5TnXXfBPJT0sH1QEvP06gYRYf+x6IpHJH5/hii79cFami
+ rgNt9F2nxWO2E15WG/AbrCuUtaa2aUnkP0QoDASdEH6JhSOWiDEf7AX9/OkO4qdCHJ0f
+ xelu8UujW7446PIMv0m5hu7LqrSp/l0DIQ1F9miWywtM4jHyYvaZbQGO5A33s5YVnPEy
+ 5LJmkmyuVxZbX+HvyobO3u00c97fCqZ6EXWi5TNbyCCeG/PGUHiwPaBgk1/FSbvzTXAS
+ as2g==
+X-Gm-Message-State: AOAM532tAsEOXheuXvxWYijNxTpSmX58PKDu29sBa4/U7XRDHytrKwoG
+ O0HYeIDZpwUVBru+RJ/JgobiCg==
+X-Google-Smtp-Source: ABdhPJyer4WuH6k+9QxwZY4zE0+qV0Ll3GoFozzcYhZX82dXqy2x1/3GjdBpZruOKEBwZ46q0Zl7ng==
+X-Received: by 2002:a4a:7055:: with SMTP id b21mr3475556oof.66.1606861012479; 
+ Tue, 01 Dec 2020 14:16:52 -0800 (PST)
 Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id o63sm242755ooa.10.2020.12.01.13.35.21
+ by smtp.gmail.com with ESMTPSA id q129sm220202oif.43.2020.12.01.14.16.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Dec 2020 13:35:22 -0800 (PST)
-Subject: Re: [PATCH 04/15] arc: TCG and decoder glue code and helpers
+ Tue, 01 Dec 2020 14:16:51 -0800 (PST)
+Subject: Re: [PATCH 05/15] arc: TCG instruction generator and hand-definitions
 To: cupertinomiranda@gmail.com, qemu-devel@nongnu.org
 References: <20201111161758.9636-1-cupertinomiranda@gmail.com>
- <20201111161758.9636-5-cupertinomiranda@gmail.com>
+ <20201111161758.9636-6-cupertinomiranda@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <33ba8432-64c7-db76-459c-5fa6fd7e549a@linaro.org>
-Date: Tue, 1 Dec 2020 15:35:19 -0600
+Message-ID: <1b75a1e6-481c-1fe0-00b9-518b01fd53bd@linaro.org>
+Date: Tue, 1 Dec 2020 16:16:43 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201111161758.9636-5-cupertinomiranda@gmail.com>
+In-Reply-To: <20201111161758.9636-6-cupertinomiranda@gmail.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201201_163526_376273_C39CC85E 
-X-CRM114-Status: GOOD (  33.45  )
+X-CRM114-CacheID: sfid-20201201_171655_044185_E81ABEA6 
+X-CRM114-Status: GOOD (  27.07  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,398 +109,294 @@ Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
 On 11/11/20 10:17 AM, cupertinomiranda@gmail.com wrote:
-> From: Cupertino Miranda <cmiranda@synopsys.com>
-> 
-> Signed-off-by: Cupertino Miranda <cmiranda@synopsys.com>
-> ---
->  target/arc/extra_mapping.def   |  40 ++
->  target/arc/helper.c            | 293 +++++++++++++
->  target/arc/helper.h            |  46 ++
->  target/arc/op_helper.c         | 749 +++++++++++++++++++++++++++++++++
->  target/arc/semfunc_mapping.def | 329 +++++++++++++++
->  5 files changed, 1457 insertions(+)
->  create mode 100644 target/arc/extra_mapping.def
->  create mode 100644 target/arc/helper.c
->  create mode 100644 target/arc/helper.h
->  create mode 100644 target/arc/op_helper.c
->  create mode 100644 target/arc/semfunc_mapping.def
-
-Not an ideal patch split, since nothing uses the def files at this point.  But
-looking forward to the end product, they seem to be exactly what I was talking
-about re string manipulation vs patch 3.
-
-In particular, arc_map_opcode should be done at qemu build/compile time.  And
-not for nothing, a linear search through strings during translation is really
-beyond the pale.
-
-> +#if defined(CONFIG_USER_ONLY)
+> +/*
+> + * The macro to add boiler plate code for conditional execution.
+> + * It will add tcg_gen codes only if there is a condition to
+> + * be checked (ctx->insn.cc != 0). This macro assumes that there
+> + * is a "ctx" variable of type "DisasCtxt *" in context. Remember
+> + * to pair it with CC_EPILOGUE macro.
+> + */
+> +#define CC_PROLOGUE                                   \
+> +  TCGv cc = tcg_temp_local_new();                     \
+> +  TCGLabel *done = gen_new_label();                   \
+> +  do {                                                \
+> +    if (ctx->insn.cc) {                               \
+> +        arc_gen_verifyCCFlag(ctx, cc);                \
+> +        tcg_gen_brcondi_tl(TCG_COND_NE, cc, 1, done); \
+> +    }                                                 \
+> +  } while (0)
 > +
-> +void arc_cpu_do_interrupt(CPUState *cs)
+> +/*
+> + * The finishing counter part of CC_PROLUGE. This is supposed
+> + * to be put at the end of the function using it.
+> + */
+> +#define CC_EPILOGUE          \
+> +    if (ctx->insn.cc) {      \
+> +        gen_set_label(done); \
+> +    }                        \
+> +    tcg_temp_free(cc)
+
+Why would this need to be boiler-plate?  Why would this not simply exist in
+exactly one location?
+
+You don't need a tcg_temp_local_new, because the cc value is not used past the
+branch.  You should free the temp immediately after the branch.
+
+> +void gen_goto_tb(DisasContext *ctx, int n, TCGv dest)
 > +{
-> +    ARCCPU *cpu = ARC_CPU(cs);
-> +    CPUARCState *env = &cpu->env;
-> +
-> +    cs->exception_index = -1;
-> +    CPU_ILINK(env) = env->pc;
-> +}
+> +    tcg_gen_mov_tl(cpu_pc, dest);
+> +    tcg_gen_andi_tl(cpu_pcl, dest, 0xfffffffc);
+> +    if (ctx->base.singlestep_enabled) {
+> +        gen_helper_debug(cpu_env);
+> +    }
+> +    tcg_gen_exit_tb(NULL, 0);
 
-There are no user-only interrupts.
+Missing else.  This is dead code for single-step.
 
-> +    /*
-> +     * NOTE: Special LP_END exception. Immediatelly return code execution to
-
-Immediately.
-
-> +    /* 15. The PC is set with the appropriate exception vector. */
-> +    env->pc = cpu_ldl_code(env, env->intvec + offset);
-> +    CPU_PCL(env) = env->pc & 0xfffffffe;
-
-You should be using address_space_ldl, and handling any error.  As it is, if
-this load fails you'll get another interrupt, bringing you right back here, etc.
-
-> +DEF_HELPER_1(debug, void, env)
-> +DEF_HELPER_2(norm, i32, env, i32)
-> +DEF_HELPER_2(normh, i32, env, i32)
-> +DEF_HELPER_2(ffs, i32, env, i32)
-> +DEF_HELPER_2(fls, i32, env, i32)
-> +DEF_HELPER_2(lr, tl, env, i32)
-> +DEF_HELPER_3(sr, void, env, i32, i32)
-> +DEF_HELPER_2(halt, noreturn, env, i32)
-> +DEF_HELPER_1(rtie, void, env)
-> +DEF_HELPER_1(flush, void, env)
-> +DEF_HELPER_4(raise_exception, noreturn, env, i32, i32, i32)
-> +DEF_HELPER_2(zol_verify, void, env, i32)
-> +DEF_HELPER_2(fake_exception, void, env, i32)
-> +DEF_HELPER_2(set_status32, void, env, i32)
-> +DEF_HELPER_1(get_status32, i32, env)
-> +DEF_HELPER_3(carry_add_flag, i32, i32, i32, i32)
-> +DEF_HELPER_3(overflow_add_flag, i32, i32, i32, i32)
-> +DEF_HELPER_3(overflow_sub_flag, i32, i32, i32, i32)
-> +
-> +DEF_HELPER_2(enter, void, env, i32)
-> +DEF_HELPER_2(leave, void, env, i32)
-> +
-> +DEF_HELPER_3(mpymu, i32, env, i32, i32)
-> +DEF_HELPER_3(mpym, i32, env, i32, i32)
-> +
-> +DEF_HELPER_3(repl_mask, i32, i32, i32, i32)
-
-Use DEF_HELPER_FLAGS_* when possible.
-
-> +target_ulong helper_norm(CPUARCState *env, uint32_t src1)
+> +void arc_translate_init(void)
 > +{
 > +    int i;
-> +    int32_t tmp = (int32_t) src1;
-> +    if (tmp == 0 || tmp == -1) {
-> +        return 0;
-> +    }
-> +    for (i = 0; i <= 31; i++) {
-> +        if ((tmp >> i) == 0) {
-> +            break;
-> +        }
-> +        if ((tmp >> i) == -1) {
-> +            break;
-> +        }
-> +    }
-> +    return i;
-> +}
-
-The spec says 0/-1 -> 0x1f, not 0.
-
-That said, this appears to be clrsb32(src1), which could also be expanded
-inline with two uses of tcg_gen_clz_i32.
-
-> +target_ulong helper_normh(CPUARCState *env, uint32_t src1)
-> +{
-> +    int i;
-> +    for (i = 0; i <= 15; i++) {
-> +        if (src1 >> i == 0) {
-> +            break;
-> +        }
-> +        if (src1 >> i == -1) {
-> +            break;
-> +        }
-> +    }
-> +    return i;
-> +}
-
-Similarly.
-
-
+> +    static int init_not_done = 1;
 > +
-> +target_ulong helper_ffs(CPUARCState *env, uint32_t src)
-> +{
-> +    int i;
-> +    if (src == 0) {
-> +        return 31;
-> +    }
-> +    for (i = 0; i <= 31; i++) {
-> +        if (((src >> i) & 1) != 0) {
-> +            break;
-> +        }
-> +    }
-> +    return i;
-> +}
-
-This should use tcg_gen_ctz_i32.
-
-> +target_ulong helper_fls(CPUARCState *env, uint32_t src)
-> +{
-> +    int i;
-> +    if (src == 0) {
-> +        return 0;
-> +    }
-> +
-> +    for (i = 31; i >= 0; i--) {
-> +        if (((src >> i) & 1) != 0) {
-> +            break;
-> +        }
-> +    }
-> +    return i;
-> +}
-
-This should use tcg_gen_clz_i32.
-
-> +
-> +static void report_aux_reg_error(uint32_t aux)
-> +{
-> +    if (((aux >= ARC_BCR1_START) && (aux <= ARC_BCR1_END)) ||
-> +        ((aux >= ARC_BCR2_START) && (aux <= ARC_BCR2_END))) {
-> +        qemu_log_mask(LOG_UNIMP, "Undefined BCR 0x%03x\n", aux);
-> +    }
-> +
-> +    error_report("Undefined AUX register 0x%03x, aborting", aux);
-> +    exit(EXIT_FAILURE);
-> +}
-
-Do not exit on failure, or error_report for that matter -- raise an exception.
- Or...
-
-> +void helper_sr(CPUARCState *env, uint32_t val, uint32_t aux)
-> +{
-> +    struct arc_aux_reg_detail *aux_reg_detail =
-> +        arc_aux_reg_struct_for_address(aux, ARC_OPCODE_ARCv2HS);
-> +
-> +    if (aux_reg_detail == NULL) {
-> +        report_aux_reg_error(aux);
-> +    }
-
-... on the off-chance the above is a qemu bug and shouldn't happen, just
-g_assert(aux_reg_detail != NULL).
-
-> +static target_ulong get_identity(CPUARCState *env)
-> +{
-> +    target_ulong chipid = 0xffff, arcnum = 0, arcver, res;
-> +
-> +    switch (env->family) {
-> +    case ARC_OPCODE_ARC700:
-> +        arcver = 0x34;
-> +        break;
-> +
-> +    case ARC_OPCODE_ARCv2EM:
-> +        arcver = 0x44;
-> +        break;
-> +
-> +    case ARC_OPCODE_ARCv2HS:
-> +        arcver = 0x54;
-> +        break;
-> +
-> +    default:
-> +        arcver = 0;
-> +
-> +    }
-> +
-> +    /* TODO: in SMP, arcnum depends on the cpu instance. */
-> +    res = ((chipid & 0xFFFF) << 16) | ((arcnum & 0xFF) << 8) | (arcver & 0xFF);
-> +    return res;
-> +}
-
-Perhaps this should just be a constant on ArcCPU?
-
-> +target_ulong helper_lr(CPUARCState *env, uint32_t aux)
-> +{
-> +    target_ulong result = 0;
-> +
-> +    struct arc_aux_reg_detail *aux_reg_detail =
-> +        arc_aux_reg_struct_for_address(aux, ARC_OPCODE_ARCv2HS);
-> +
-> +    if (aux_reg_detail == NULL) {
-> +        report_aux_reg_error(aux);
-> +    }
-
-Similar commentary for helper_sr.
-
-> +void QEMU_NORETURN helper_halt(CPUARCState *env, uint32_t npc)
-> +{
-> +    CPUState *cs = env_cpu(env);
-> +    if (env->stat.Uf) {
-> +        cs->exception_index = EXCP_PRIVILEGEV;
-> +        env->causecode = 0;
-> +        env->param = 0;
-> +         /* Restore PC such that we point at the faulty instruction.  */
-> +        env->eret = env->pc;
-
-Any reason not to handle Uf at translate time?  Or at least create a single
-helper function for that here.  But it seems like translate will have to do a
-lot of priv checking anyway and will already have that handy.
-
-> +void helper_flush(CPUARCState *env)
-> +{
-> +    tb_flush((CPUState *)env_archcpu(env));
-> +}
-
-env_cpu(env), no cast required.
-
-> +void QEMU_NORETURN helper_raise_exception(CPUARCState *env,
-> +                                          uint32_t index,
-> +                                          uint32_t causecode,
-> +                                          uint32_t param)
-> +{
-> +    CPUState *cs = env_cpu(env);
-> +    /* Cannot restore state here. */
-> +    /* cpu_restore_state(cs, GETPC(), true); */
-
-Not a very good comment, because you *could* restore state here, but some user
-of the function wants to record different state.
-
-Alternately, the function is being used incorrectly, e.g.
-
-> +void helper_zol_verify(CPUARCState *env, uint32_t npc)
-> +{
-> +    if (npc == env->lpe) {
-> +        if (env->r[60] > 1) {
-> +            env->r[60] -= 1;
-> +            helper_raise_exception(env, (uint32_t) EXCP_LPEND_REACHED, 0,
-> +                                   env->lps);
-
-... here, which would have needed to pass in GETPC from here, and not use the
-value from the inner call.
-
-In general, you really shouldn't make calls from one helper_* to another,
-because that way lies confusion.
-
-The comment should be cleaned up to indicate the actual constraints.
-
-> +uint32_t helper_carry_add_flag(uint32_t dest, uint32_t b, uint32_t c)
-> +{
-> +    uint32_t t1, t2, t3;
-> +
-> +    t1 = b & c;
-> +    t2 = b & (~dest);
-> +    t3 = c & (~dest);
-> +    t1 = t1 | t2 | t3;
-> +    return (t1 >> 31) & 1;
-> +}
-> +
-> +uint32_t helper_overflow_add_flag(uint32_t dest, uint32_t b, uint32_t c)
-> +{
-> +    dest >>= 31;
-> +    b >>= 31;
-> +    c >>= 31;
-> +    if ((dest == 0 && b == 1 && c == 1)
-> +        || (dest == 1 && b == 0 && c == 0)) {
-> +        return 1;
-> +    } else {
-> +        return 0;
-> +    }
-> +}
-> +
-> +uint32_t helper_overflow_sub_flag(uint32_t dest, uint32_t b, uint32_t c)
-> +{
-> +    dest >>= 31;
-> +    b >>= 31;
-> +    c >>= 31;
-> +    if ((dest == 1 && b == 0 && c == 1)
-> +        || (dest == 0 && b == 1 && c == 0)) {
-> +        return 1;
-> +    } else {
-> +        return 0;
-> +    }
-> +}
-
-There's nothing in here that can't be done with tcg_gen_add2_i32 and
-tcg_gen_sub2_i32.
-
-> +uint32_t helper_repl_mask(uint32_t dest, uint32_t src, uint32_t mask)
-> +{
-> +    uint32_t ret = dest & (~mask);
-> +    ret |= (src & mask);
-> +
-> +    return ret;
-> +}
-
-    tcg_gen_and_i32(tmp, src, mask);
-    tcg_gen_andc_i32(dest, dest, mask);
-    tcg_gen_or_i32(dest, dest, tmp);
-
-> +uint32_t helper_mpymu(CPUARCState *env, uint32_t b, uint32_t c)
-> +{
-> +    uint64_t _b = (uint64_t) b;
-> +    uint64_t _c = (uint64_t) c;
-> +
-> +    return (uint32_t) ((_b * _c) >> 32);
-> +}
-
-tcg_gen_mulu2_i32(tmp, dest, b, c);
-
-> +uint32_t helper_mpym(CPUARCState *env, uint32_t b, uint32_t c)
-> +{
-> +    int64_t _b = (int64_t) ((int32_t) b);
-> +    int64_t _c = (int64_t) ((int32_t) c);
-> +
-> +    /*
-> +     * fprintf(stderr, "B = 0x%llx, C = 0x%llx, result = 0x%llx\n",
-> +     *         _b, _c, _b * _c);
-> +     */
-> +    return (_b * _c) >> 32;
-
-tcg_gen_muls2_i32(tmp, dest, b, c);
-
-> +void helper_enter(CPUARCState *env, uint32_t u6)
-> +{
-> +    /* nothing to do? then bye-bye! */
-> +    if (!u6) {
+> +    if (init_not_done == 0) {
 > +        return;
 > +    }
-> +
-> +    uint8_t regs       = u6 & 0x0f; /* u[3:0] determines registers to save */
-> +    bool    save_fp    = u6 & 0x10; /* u[4] indicates if fp must be saved  */
-> +    bool    save_blink = u6 & 0x20; /* u[5] indicates saving of blink      */
-> +    uint8_t stack_size = 4 * (regs + save_fp + save_blink);
-> +
-> +    /* number of regs to be saved must be sane */
-> +    check_enter_leave_nr_regs(env, regs, GETPC());
 
-Both of these checks could be translate time.
+Useless.  This will only be called once.
 
-> +    /* this cannot be executed in a delay/execution slot */
-> +    check_delay_or_execution_slot(env, GETPC());
-
-As could this.
-
-> +    /* stack must be a multiple of 4 (32 bit aligned) */
-> +    check_addr_is_word_aligned(env, CPU_SP(env) - stack_size, GETPC());
+> +#define ARC_REG_OFFS(x) offsetof(CPUARCState, x)
 > +
-> +    uint32_t tmp_sp = CPU_SP(env);
+> +#define NEW_ARC_REG(x) \
+> +        tcg_global_mem_new_i32(cpu_env, offsetof(CPUARCState, x), #x)
 > +
-> +    if (save_fp) {
-> +        tmp_sp -= 4;
-> +        cpu_stl_data(env, tmp_sp, CPU_FP(env));
+> +    cpu_S1f = NEW_ARC_REG(macmod.S1);
+> +    cpu_S2f = NEW_ARC_REG(macmod.S2);
+> +    cpu_CSf = NEW_ARC_REG(macmod.CS);
+> +
+> +    cpu_Zf  = NEW_ARC_REG(stat.Zf);
+> +    cpu_Lf  = NEW_ARC_REG(stat.Lf);
+> +    cpu_Nf  = NEW_ARC_REG(stat.Nf);
+> +    cpu_Cf  = NEW_ARC_REG(stat.Cf);
+> +    cpu_Vf  = NEW_ARC_REG(stat.Vf);
+> +    cpu_Uf  = NEW_ARC_REG(stat.Uf);
+> +    cpu_DEf = NEW_ARC_REG(stat.DEf);
+> +    cpu_ESf = NEW_ARC_REG(stat.ESf);
+> +    cpu_AEf = NEW_ARC_REG(stat.AEf);
+> +    cpu_Hf  = NEW_ARC_REG(stat.Hf);
+> +    cpu_IEf = NEW_ARC_REG(stat.IEf);
+> +    cpu_Ef  = NEW_ARC_REG(stat.Ef);
+> +
+> +    cpu_is_delay_slot_instruction = NEW_ARC_REG(stat.is_delay_slot_instruction);
+> +
+> +    cpu_l1_Zf = NEW_ARC_REG(stat_l1.Zf);
+> +    cpu_l1_Lf = NEW_ARC_REG(stat_l1.Lf);
+> +    cpu_l1_Nf = NEW_ARC_REG(stat_l1.Nf);
+> +    cpu_l1_Cf = NEW_ARC_REG(stat_l1.Cf);
+> +    cpu_l1_Vf = NEW_ARC_REG(stat_l1.Vf);
+> +    cpu_l1_Uf = NEW_ARC_REG(stat_l1.Uf);
+> +    cpu_l1_DEf = NEW_ARC_REG(stat_l1.DEf);
+> +    cpu_l1_AEf = NEW_ARC_REG(stat_l1.AEf);
+> +    cpu_l1_Hf = NEW_ARC_REG(stat_l1.Hf);
+> +
+> +    cpu_er_Zf = NEW_ARC_REG(stat_er.Zf);
+> +    cpu_er_Lf = NEW_ARC_REG(stat_er.Lf);
+> +    cpu_er_Nf = NEW_ARC_REG(stat_er.Nf);
+> +    cpu_er_Cf = NEW_ARC_REG(stat_er.Cf);
+> +    cpu_er_Vf = NEW_ARC_REG(stat_er.Vf);
+> +    cpu_er_Uf = NEW_ARC_REG(stat_er.Uf);
+> +    cpu_er_DEf = NEW_ARC_REG(stat_er.DEf);
+> +    cpu_er_AEf = NEW_ARC_REG(stat_er.AEf);
+> +    cpu_er_Hf = NEW_ARC_REG(stat_er.Hf);
+> +
+> +    cpu_eret = NEW_ARC_REG(eret);
+> +    cpu_erbta = NEW_ARC_REG(erbta);
+> +    cpu_ecr = NEW_ARC_REG(ecr);
+> +    cpu_efa = NEW_ARC_REG(efa);
+> +    cpu_bta = NEW_ARC_REG(bta);
+> +    cpu_lps = NEW_ARC_REG(lps);
+> +    cpu_lpe = NEW_ARC_REG(lpe);
+> +    cpu_pc = NEW_ARC_REG(pc);
+> +    cpu_npc = NEW_ARC_REG(npc);
+> +
+> +    cpu_bta_l1 = NEW_ARC_REG(bta_l1);
+> +    cpu_bta_l2 = NEW_ARC_REG(bta_l2);
+> +
+> +    cpu_intvec = NEW_ARC_REG(intvec);
+> +
+> +    for (i = 0; i < 64; i++) {
+> +        char name[16];
+> +
+> +        sprintf(name, "r[%d]", i);
+> +
+> +        cpu_r[i] = tcg_global_mem_new_i32(cpu_env,
+> +                                          ARC_REG_OFFS(r[i]),
+> +                                          strdup(name));
 > +    }
+> +
+> +    cpu_gp     = cpu_r[26];
+> +    cpu_fp     = cpu_r[27];
+> +    cpu_sp     = cpu_r[28];
+> +    cpu_ilink1 = cpu_r[29];
+> +    cpu_ilink2 = cpu_r[30];
+> +    cpu_blink  = cpu_r[31];
+> +    cpu_acclo  = cpu_r[58];
+> +    cpu_acchi  = cpu_r[59];
+> +    cpu_lpc    = cpu_r[60];
+> +    cpu_limm   = cpu_r[62];
+> +    cpu_pcl    = cpu_r[63];
 
-And what if these stores raise an exception?  I doubt you're going to get an
-exception at the correct pc.
+You shouldn't need two pointers to these.  Either use cpu_r[PCL] (preferred) or
+#define cpu_pcl cpu_r[63].
 
-> +void helper_leave(CPUARCState *env, uint32_t u7)
+You could put all of these into a const static table.
 
-Similarly.  I think that both of these could be implemented entirely in
-translate, which is what
+> +static int arc_gen_INVALID(const DisasContext *ctx)
+> +{
+> +    fprintf(stderr, "invalid inst @:%08x\n", ctx->cpc);
 
-> +    bool restore_fp    = u7 & 0x10; /* u[4] indicates if fp must be saved  */
-> +    bool restore_blink = u7 & 0x20; /* u[5] indicates saving of blink      */
-> +    bool jump_to_blink = u7 & 0x40; /* u[6] should we jump to blink?       */
+Never fprintf.  Raise an exception like you're supposed to.
 
-these bits strongly imply.
+> +/* Arrange to middle endian, used by LITTLE ENDIAN systems. */
+> +static uint32_t arc_getm32(uint32_t data)
+> +{
+> +    uint32_t value = 0;
+> +
+> +    value  = (data & 0x0000ffff) << 16;
+> +    value |= (data & 0xffff0000) >> 16;
+> +    return value;
+> +}
+
+This is ror32(data, 16).
+
+> +/* Check if OPR is a register _and_ an even numbered one. */
+> +static inline bool is_odd_numbered_register(const operand_t opr)
+
+comment s/even/odd/.
+
+> +static void add_constant_operand(enum arc_opcode_map mapping,
+> +                                 uint8_t operand_number,
+> +                                 uint32_t value)
+> +{
+> +    struct constant_operands **t = &(map_constant_operands[mapping]);
+> +    while (*t != NULL) {
+> +        t = &((*t)->next);
+> +    }
+> +    *t = (struct constant_operands *) malloc(sizeof(struct constant_operands));
+
+Use g_new, which doesn't require error checking, which is missing here.
+
+That said...
+
+> +static void init_constants(void)
+> +{
+> +#define SEMANTIC_FUNCTION(...)
+> +#define MAPPING(...)
+> +#define CONSTANT(NAME, MNEMONIC, OP_NUM, VALUE) \
+> +  add_constant_operand(MAP_##MNEMONIC##_##NAME, OP_NUM, VALUE);
+> +#include "target/arc/semfunc_mapping.def"
+> +#include "target/arc/extra_mapping.def"
+> +#undef MAPPING
+> +#undef CONSTANT
+> +#undef SEMANTIC_FUNCTION
+> +}
+
+Ew.  Yet another thing that can be done at build time.
+
+> +static TCGv arc_decode_operand(const struct arc_opcode *opcode,
+> +                               DisasContext *ctx,
+> +                               unsigned char nop,
+> +                               enum arc_opcode_map mapping)
+> +{
+> +    TCGv ret;
+> +
+> +    if (nop >= ctx->insn.n_ops) {
+> +        struct constant_operands *co = constant_entry_for(mapping, nop);
+> +        assert(co != NULL);
+> +        ret = tcg_const_local_i32(co->default_value);
+> +        return ret;
+> +    } else {
+> +        operand_t operand = ctx->insn.operands[nop];
+> +
+> +        if (operand.type & ARC_OPERAND_IR) {
+> +            ret = cpu_r[operand.value];
+> +            if (operand.value == 63) {
+> +                tcg_gen_movi_tl(cpu_pcl, ctx->pcl);
+> +            }
+> +      } else {
+
+Really bad indention.
+
+> +            int32_t limm = operand.value;
+> +            if (operand.type & ARC_OPERAND_LIMM) {
+> +                limm = ctx->insn.limm;
+> +                tcg_gen_movi_tl(cpu_limm, limm);
+> +                ret = cpu_r[62];
+> +            } else {
+> +                ret = tcg_const_local_i32(limm);
+> +            }
+> +        }
+> +    }
+> +
+> +  return ret;
+
+Why are you using locals for everything?  Is it because you have no proper
+control over your use of branching?
+
+> +    qemu_log_mask(CPU_LOG_TB_IN_ASM,
+> +                  "CPU in sleep mode, waiting for an IRQ.\n");
+
+Incorrect level at which to log this.
+
+You wanted the logging at runtime, not translate. Which suggests you'd be
+better off moving this entire function to a helper.
+
+> +/* Return from exception. */
+> +static void gen_rtie(DisasContext *ctx)
+> +{
+> +    tcg_gen_movi_tl(cpu_pc, ctx->cpc);
+> +    gen_helper_rtie(cpu_env);
+> +    tcg_gen_mov_tl(cpu_pc, cpu_pcl);
+> +    gen_goto_tb(ctx, 1, cpu_pc);
+> +}
+
+You must return to the main loop here, not goto_tb.  You must return to the
+main loop every time your interrupt mask changes, so that pending interrupts
+may be accepted.
+
+> +    val = ((val << 16) & 0xffff0000) | (val & 0xffff);
+
+  val = deposit32(val, 16, 16, val);
+
+> +static TCGv_i64 dup_limm_to_i64(int32_t limm)
+> +{
+> +    TCGv_i64 vec64 = tcg_temp_new_i64();
+> +    int64_t val = limm;
+> +    val = (val << 32) | (val & 0xffffffff);
+
+  val = deposit64(val, 32, 32, val);
+or
+  val = dup_const(val, MO_32);
+
+> +static TCGv_i64 quad_shimm_to_i64(int16_t shimm)
+> +{
+> +    TCGv_i64 vec64 = tcg_temp_new_i64();
+> +    int64_t val = shimm;
+> +    val = (val << 48) | ((val << 32) & 0x0000ffff00000000) |
+> +          ((val << 16) & 0x00000000ffff0000) | (val & 0xffff);
+
+  val = dup_const(val, MO_16);
+
+> + *    This is a truth table for XNOR(a,b):
+> + *      NOT(XOR(a,b))=XOR(XOR(a,b),1)
+
+Yes, well, XNOR = tcg_gen_eqv_tl, which is what tcg_gen_vec_sub16_i64 uses.
+Unfortunately, we only have 64-bit implementations of these generically.
+
+> +        default:
+> +            arc_debug_opcode(opcode, ctx, "No handle for map opcode");
+> +            g_assert(!"Semantic not handled: Use -d unimp to list it.");
+
+This must raise an exception, or return false, or something.
 
 
 r~
