@@ -2,65 +2,58 @@ Return-Path: <SRS0=5ghb=FH=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-23.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81EB8C63777
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  3 Dec 2020 08:50:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84FE5C63777
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  3 Dec 2020 13:29:30 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D77B22084C
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  3 Dec 2020 08:50:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D77B22084C
-Authentication-Results: mail.kernel.org; dmarc=fail (p=reject dis=none) header.from=boldwhite24.com
+	by mail.kernel.org (Postfix) with ESMTPS id 18CC425306
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  3 Dec 2020 13:29:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 18CC425306
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
-	:List-Id:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=YTBHxTVMd6NOVap4z4DDkJZJj5uX4YkIByKffNjSyHk=; b=Iq7ihcH7UF+7Iwk4/SqzWAwDTD
-	8B+WMCwAChOYIC04It6qxMxEwN3pHRlhekWtg2qTM0tx7vgZCkGIwYnPIreqMLavut+cXwKT58aa7
-	1+LflHxJOlJMXk9sdvJb0lVKSfXuKFMjmRHu8eHYdqx2owKuZqLZtmYFnzRPLUFSV+9wWNDz1zsdC
-	d8qw7ZcIfkF3YEBt3T/mqqEtw43oNO3BV0KYXbdmA+Yim70800mgn16H2+6gw1a4eGtiYv85WO586
-	YOlSmpL/ZLcoVmgs3OQh9TgdKO1J6QubXXYaHqbUm/sHF0G0hYzOQ5D59CzCJMJooqV34sY2N1pZd
-	ZpWcgdlA==;
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=rkJZs5DHIofPThYCpA8RCcm0ArdJfVVyuORJFjUhoKY=; b=Jg1v4Dn5m2eHoDcGduBIyt9q6
+	zIbSUci/6Dy/cQhTWLxh0l7LRQYsKE9btu+8yE8zspd6XG/Gy4zL9TarmVaGSKxwaOMgKH05AZs4D
+	AC9p2Tt/DCOw32LD9+fhRAipuDAmkfe38kMnx/q3a8yrPY55bSKlV0rwQhqYAxhapwSBlkSBImLJW
+	4JA0Y0/yidtLm4ItfzLvggMSoWqR2L2Eh1GeB4PzcvYhK2hHFFZmJyp8sEOt+uS1W7C+R2KRqAqq6
+	m1+bBFwyuc3LrlzKwo7GTwBIe3x9qed/ZNstb0mSTgKCZPUl7nS6627X5bGxchtaM3v3gFhpNYUW3
+	bnBRxtghA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kkkKG-0007IN-1p; Thu, 03 Dec 2020 08:50:56 +0000
-Received: from mail.boldwhite24.com ([80.211.42.67])
+	id 1kkofo-0002l8-V7; Thu, 03 Dec 2020 13:29:29 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kkkKD-0007HA-Ax
- for linux-snps-arc@lists.infradead.org; Thu, 03 Dec 2020 08:50:54 +0000
-Received: by mail.boldwhite24.com (Postfix, from userid 1001)
- id 186BCA31FE; Thu,  3 Dec 2020 08:50:19 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=boldwhite24.com;
- s=mail; t=1606985427;
- bh=hS3ibs4caZkahrzgcMN2TAJo2B2H5Muwb2NidDYlIzQ=;
- h=Date:From:To:Subject:From;
- b=HLpMQZf2cUPkBuR2RhLM6jBinsSVYPWMHQkbaHiqlI7NmwXcDwc1Fu3Lp6kfjJUrU
- s1EF2hMXrzgPNHCSwVcu8j0EzD/C3Hn3MJFyzIcJsisgyGO4cw9eh9gT5IDGQrLErz
- s7vpIxTb35xLdCaYJl7swqvg0g7yL9goTBGHRLT8ULNxdZ+wHF1McMbIVATMwt/jBW
- mNK67NNPO8hQQIaoVPvaoFdKBE+a4C7P856/P+DWBnzoq/BNXy1iUqvMpPLb56u+Sw
- QJHLRw7BArf1yl6RhxpTio1gtVyxNKfiejCYYbb2GTLF589btU0FC3mX86IPlV6+Fo
- M0Urxvz13Y0fA==
-Received: by mail.boldwhite24.com for <linux-snps-arc@lists.infradead.org>;
- Thu,  3 Dec 2020 08:50:11 GMT
-Message-ID: <20201203074501-0.1.2m.anb6.0.9mup619jq9@boldwhite24.com>
-Date: Thu,  3 Dec 2020 08:50:11 GMT
-From: =?UTF-8?Q?"Diego_S=C3=A1nchez"?= <diego.sanchez@boldwhite24.com>
-To: <linux-snps-arc@lists.infradead.org>
-Subject: Disinfection
-X-Mailer: mail.boldwhite24.com
+ id 1kkofE-0002Pl-Nu
+ for linux-snps-arc@lists.infradead.org; Thu, 03 Dec 2020 13:28:54 +0000
+From: Sasha Levin <sashal@kernel.org>
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.9 11/39] ARC: stack unwinding: don't assume
+ non-current task is sleeping
+Date: Thu,  3 Dec 2020 08:28:05 -0500
+Message-Id: <20201203132834.930999-11-sashal@kernel.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20201203132834.930999-1-sashal@kernel.org>
+References: <20201203132834.930999-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201203_035053_576709_B7E8B418 
-X-CRM114-Status: UNSURE (   0.57  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20201203_082853_205785_BCF8CEEC 
+X-CRM114-Status: GOOD (  13.54  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,26 +65,106 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sasha Levin <sashal@kernel.org>, Vineet Gupta <vgupta@synopsys.com>,
+ linux-snps-arc@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-R29vZCBtb3JuaW5nLAoKbG9va2luZyBmb3IgY29tcGFuaWVzIGludGVyZXN0ZWQgaW4gcmFpc2lu
-ZyBhZGRpdGlvbmFsIGNhcGl0YWwgYnkgZGl2ZXJzaWZ5aW5nIHRoZWlyIG9mZmVyIGluIHNvYXBz
-LCBsaXF1aWRzIGFuZCBnZWxzIGZvciBoYW5kIGRpc2luZmVjdGlvbiBhbmQgY29zbWV0aWNzIGZv
-ciBib2R5IGFuZCBoYWlyIGNhcmUuCgpUaGUgZGlzdHJpYnV0aW9uIG9mIGlubm92YXRpdmUgcHJv
-ZHVjdHMgY29ycmVzcG9uZGluZyB0byB0aGUgY3VycmVudCBwcmVmZXJlbmNlcyBvZiBjdXN0b21l
-cnMgaW4gdGhlIGZpZWxkIG9mIGh5Z2llbmUgYW5kIHByZXZlbnRpdmUgaGVhbHRoY2FyZSBhbGxv
-d3Mgb3VyIHBhcnRuZXJzIHRvIGdhaW4gbmV3IG1hcmtldHMgYW5kIGFjaGlldmUgYmV0dGVyIGVj
-b25vbWljIHJlc3VsdHMuCgpJbiBhZGRpdGlvbiB0byBwcm9kdWN0cyB3aXRoIGJhY3RlcmljaWRh
-bCBhY3Rpb24sIG91ciByYW5nZSBpbmNsdWRlcyBzaG93ZXIgZ2Vscywgc2hhbXBvb3MgYW5kIGhh
-aXIgY29uZGl0aW9uZXJzLCBhcyB3ZWxsIGFzIGVmZmljaWVudCwgY29uY2VudHJhdGVkIGRldGVy
-Z2VudHMuCgpUaGUgdmVyc2F0aWxpdHkgKHN1aXRhYmxlIGZvciBhbGwgc2tpbiB0eXBlcykgY29t
-YmluZWQgd2l0aCBhbiBhZmZvcmRhYmxlIHByaWNlIG1lYW5zIHRoYXQgY3VzdG9tZXJzIG1ha2Ug
-YW4gaW5mb3JtZWQgY2hvaWNlIG9mIGEgcHJvZHVjdCBhbW9uZyBvdGhlcnMgYXZhaWxhYmxlIG9u
-IHRoZSBtYXJrZXQuCgpBcmUgeW91IGludGVyZXN0ZWQgaW4gY29vcGVyYXRpb24/CgpEaWVnbyBT
-w6FuY2hlegoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-bGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVh
-ZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1z
-bnBzLWFyYwo=
+From: Vineet Gupta <vgupta@synopsys.com>
+
+[ Upstream commit e42404fa10fd11fe72d0a0e149a321d10e577715 ]
+
+To start stack unwinding (SP, PC and BLINK) are needed. When the
+explicit execution context (pt_regs etc) is not available, unwinder
+assumes the task is sleeping (in __switch_to()) and fetches SP and BLINK
+from kernel mode stack.
+
+But this assumption is not true, specially in a SMP system, when top
+runs on 1 core, there may be active running processes on all cores.
+
+So when unwinding non courrent tasks, ensure they are NOT running.
+
+And while at it, handle the self unwinding case explicitly.
+
+This came out of investigation of a customer reported hang with
+rcutorture+top
+
+Link: https://github.com/foss-for-synopsys-dwc-arc-processors/linux/issues/31
+Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ arch/arc/kernel/stacktrace.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
+
+diff --git a/arch/arc/kernel/stacktrace.c b/arch/arc/kernel/stacktrace.c
+index b23986f984509..b2557f581ea8c 100644
+--- a/arch/arc/kernel/stacktrace.c
++++ b/arch/arc/kernel/stacktrace.c
+@@ -38,15 +38,15 @@
+ 
+ #ifdef CONFIG_ARC_DW2_UNWIND
+ 
+-static void seed_unwind_frame_info(struct task_struct *tsk,
+-				   struct pt_regs *regs,
+-				   struct unwind_frame_info *frame_info)
++static int
++seed_unwind_frame_info(struct task_struct *tsk, struct pt_regs *regs,
++		       struct unwind_frame_info *frame_info)
+ {
+ 	/*
+ 	 * synchronous unwinding (e.g. dump_stack)
+ 	 *  - uses current values of SP and friends
+ 	 */
+-	if (tsk == NULL && regs == NULL) {
++	if (regs == NULL && (tsk == NULL || tsk == current)) {
+ 		unsigned long fp, sp, blink, ret;
+ 		frame_info->task = current;
+ 
+@@ -65,11 +65,15 @@ static void seed_unwind_frame_info(struct task_struct *tsk,
+ 		frame_info->call_frame = 0;
+ 	} else if (regs == NULL) {
+ 		/*
+-		 * Asynchronous unwinding of sleeping task
+-		 *  - Gets SP etc from task's pt_regs (saved bottom of kernel
+-		 *    mode stack of task)
++		 * Asynchronous unwinding of a likely sleeping task
++		 *  - first ensure it is actually sleeping
++		 *  - if so, it will be in __switch_to, kernel mode SP of task
++		 *    is safe-kept and BLINK at a well known location in there
+ 		 */
+ 
++		if (tsk->state == TASK_RUNNING)
++			return -1;
++
+ 		frame_info->task = tsk;
+ 
+ 		frame_info->regs.r27 = TSK_K_FP(tsk);
+@@ -103,6 +107,8 @@ static void seed_unwind_frame_info(struct task_struct *tsk,
+ 		frame_info->regs.r63 = regs->ret;
+ 		frame_info->call_frame = 0;
+ 	}
++
++	return 0;
+ }
+ 
+ #endif
+@@ -116,7 +122,8 @@ arc_unwind_core(struct task_struct *tsk, struct pt_regs *regs,
+ 	unsigned int address;
+ 	struct unwind_frame_info frame_info;
+ 
+-	seed_unwind_frame_info(tsk, regs, &frame_info);
++	if (seed_unwind_frame_info(tsk, regs, &frame_info))
++		return 0;
+ 
+ 	while (1) {
+ 		address = UNW_PC(&frame_info);
+-- 
+2.27.0
+
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
