@@ -7,53 +7,51 @@ X-Spam-Status: No, score=-23.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4F17C4CC64
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  3 Dec 2020 14:46:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2E6DC433FE
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  3 Dec 2020 14:46:40 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 54E8922CB9
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  3 Dec 2020 14:46:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 54E8922CB9
+	by mail.kernel.org (Postfix) with ESMTPS id 727D622D58
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  3 Dec 2020 14:46:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 727D622D58
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=QiVWFtR8kali3rYVxzxg+zVuiQcnjZm54+bKa3pkPKM=; b=DQzjco+DkRYEJhcWdwlW2tUXX
-	Oeo4zOeAd9zE6u+Dybhqv6JMdMjlFdCxZy9dBItJvfzq4sCs7CGyPY97+ECHbp7Yn+R1CmETkUfr+
-	B/aCFIKfBT+tYJ2apWzs/umv++Tlhj8Px3TEAMIi+lum0TjFFy1/6OweZURP4f7qDaAMRR5XoRivJ
-	NJzSVNXHjk00+yrkuvEi+sr8AUBRhO6B5HfuKw0lT5ys5beZC2HwEOOqNbN/YwlJabMPNgYodRiaG
-	Uwqh5M7KQVAkYAA0WLZRYrPU39bTfxbmMS5J/nHkGQFlakA+3UJ8xmoFqY8d1gAPoeMc9mC263E7H
-	LxyT9eyBQ==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=7KTDdQRun2m4/e+Mgl2xUBspqaCBc/kyulZ16ZgtFa0=; b=N7tTGvSgZikp5n3o6Z9zE+VgIa
+	5IZLPOVrGRIMRz4ovYdEGKFceGZmStEuPpv5h+X+f6aLiwREdu0YWoiTcSMwuvPiF4iVIPnE01+cv
+	ORWnUF4y6nUFPigeCZyDo+WDNCGHut9yx/3q9PiKSEHMwGvgEYzOPIc9sYuZKF3pQKHgvtlg0pE23
+	FBqyq6/4IOyf5SjwGDo+jrKldqYzR3j63Ij4WKxPLtrHubc80PTh2yWWs9alPY6iVqvBrS1Vn3o5n
+	FDZ3JEATjG1bme2zyTdmvPfDf8/QWXJbvXPsnmPlGMaeP4ndfaEVp5ECe/to5TNhbhy7JzgwGOtq2
+	oSO1h3bg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kkome-0006Wp-69; Thu, 03 Dec 2020 13:36:32 +0000
+	id 1kkonZ-0006zc-R7; Thu, 03 Dec 2020 13:37:29 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kkogy-0003Rm-4i
- for linux-snps-arc@lists.infradead.org; Thu, 03 Dec 2020 13:31:00 +0000
+ id 1kkohH-0003al-VX
+ for linux-snps-arc@lists.infradead.org; Thu, 03 Dec 2020 13:31:07 +0000
 From: Sasha Levin <sashal@kernel.org>
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 4/9] ARC: stack unwinding: don't assume
+Subject: [PATCH AUTOSEL 4.4 1/3] ARC: stack unwinding: don't assume
  non-current task is sleeping
-Date: Thu,  3 Dec 2020 08:30:26 -0500
-Message-Id: <20201203133031.931763-4-sashal@kernel.org>
+Date: Thu,  3 Dec 2020 08:30:54 -0500
+Message-Id: <20201203133057.931977-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201203133031.931763-1-sashal@kernel.org>
-References: <20201203133031.931763-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201203_083040_667917_5E67782C 
-X-CRM114-Status: GOOD (  13.54  )
+X-CRM114-CacheID: sfid-20201203_083100_744116_2675517D 
+X-CRM114-Status: GOOD (  13.64  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,10 +97,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 15 insertions(+), 8 deletions(-)
 
 diff --git a/arch/arc/kernel/stacktrace.c b/arch/arc/kernel/stacktrace.c
-index b007c06efbea9..35d418cde03b5 100644
+index 5401e2bab3da2..054511f571dfd 100644
 --- a/arch/arc/kernel/stacktrace.c
 +++ b/arch/arc/kernel/stacktrace.c
-@@ -41,15 +41,15 @@
+@@ -39,15 +39,15 @@
  
  #ifdef CONFIG_ARC_DW2_UNWIND
  
@@ -122,7 +120,7 @@ index b007c06efbea9..35d418cde03b5 100644
  		unsigned long fp, sp, blink, ret;
  		frame_info->task = current;
  
-@@ -68,11 +68,15 @@ static void seed_unwind_frame_info(struct task_struct *tsk,
+@@ -66,11 +66,15 @@ static void seed_unwind_frame_info(struct task_struct *tsk,
  		frame_info->call_frame = 0;
  	} else if (regs == NULL) {
  		/*
@@ -141,7 +139,7 @@ index b007c06efbea9..35d418cde03b5 100644
  		frame_info->task = tsk;
  
  		frame_info->regs.r27 = TSK_K_FP(tsk);
-@@ -106,6 +110,8 @@ static void seed_unwind_frame_info(struct task_struct *tsk,
+@@ -104,6 +108,8 @@ static void seed_unwind_frame_info(struct task_struct *tsk,
  		frame_info->regs.r63 = regs->ret;
  		frame_info->call_frame = 0;
  	}
@@ -150,7 +148,7 @@ index b007c06efbea9..35d418cde03b5 100644
  }
  
  #endif
-@@ -119,7 +125,8 @@ arc_unwind_core(struct task_struct *tsk, struct pt_regs *regs,
+@@ -117,7 +123,8 @@ arc_unwind_core(struct task_struct *tsk, struct pt_regs *regs,
  	unsigned int address;
  	struct unwind_frame_info frame_info;
  
