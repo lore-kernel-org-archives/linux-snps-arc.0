@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A16F3C4361B
-	for <linux-snps-arc@archiver.kernel.org>; Sat,  5 Dec 2020 15:29:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A6CBC4361B
+	for <linux-snps-arc@archiver.kernel.org>; Sat,  5 Dec 2020 15:56:54 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 64B8322B37
-	for <linux-snps-arc@archiver.kernel.org>; Sat,  5 Dec 2020 15:29:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 64B8322B37
+	by mail.kernel.org (Postfix) with ESMTPS id BD59023158
+	for <linux-snps-arc@archiver.kernel.org>; Sat,  5 Dec 2020 15:56:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BD59023158
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baikalelectronics.ru
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,35 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=tcLnBLTYNcPLx0K0pxYIrYoS28LV2yuulvK1+QTx6dM=; b=ySbFxQnf/4NsqhiVOiMvDr3kL
-	JcIn35TI07PiZ8F05rn/rWCdjy8lIz8TXC+SIAZFnah7S5mXNl6+JnlRHFJLyph84YBoSI7L30r5E
-	LFGFluA7+djs2sO5rIOpeH+Js1wJgRoE/BnErxrYtSp23wLCUnKouqi9g9CHCLdEY1xdViujopHLY
-	q/A0Q3kpQK5Dw6tRiDTy64neGunT0Eqt/XlgjZRUkYiOlgWWYwB0pb3ucKvIyU9xMkiIbRTe9VdMQ
-	Wh3xfbrXRp/j+9Qm/0g74omPnORokhuTCI0XTio/h5OKEfbqOOB0FCOjbR/mLwUpJt2iAaMAMQFSG
-	zVV2+RZBA==;
+	 bh=Q/oT6qGu+Ub9BArGjbazBQZGKxLqvBUzR4qE/NcaF3k=; b=ioUGmG4gw6MPpYesk1/YHFl2e
+	SIeoR/thxVYsGFtXY86WO6xapbiMKUn4z6LArqun/xeb9SWasFPD3wlRcIe6WUTjTd0ww8cawKSK/
+	sDedygIk9laQbCXPaZoP2L+ORAi41hk4X6IzsWLuTMvd/p5kAmtsNmIAHe7ytOHmQebbKRnqySkOY
+	tCkYdT9DXYCkrsS23E0yD6Okujr4ezSRyjWeWBu+qPUbnV8FJ4sWIgGUNoswEAdrt9Bin8Tv0IswP
+	4DYv8YJN+nj8gp2FcznO23WfLa328urzbSB1R8zDF+exSh+RA8Lb4C5ByDaa5RBBYgjZBBovDIV8C
+	cAn7dZklw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1klZVE-0005Cz-Fh; Sat, 05 Dec 2020 15:29:40 +0000
+	id 1klZvY-0000PX-8B; Sat, 05 Dec 2020 15:56:52 +0000
 Received: from mail.baikalelectronics.com ([87.245.175.226]
  helo=mail.baikalelectronics.ru)
  by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1klZRH-00033f-BX; Sat, 05 Dec 2020 15:25:42 +0000
+ id 1klZvM-0000M3-0o
+ for linux-snps-arc@lists.infradead.org; Sat, 05 Dec 2020 15:56:43 +0000
 From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-To: Mathias Nyman <mathias.nyman@intel.com>, Felipe Balbi <balbi@kernel.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, Chunfeng Yun
- <chunfeng.yun@mediatek.com>, Andy Gross <agross@kernel.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Manu Gautam <mgautam@codeaurora.org>
-Subject: [PATCH v5 18/19] dt-bindings: usb: qcom,dwc3: Validate DWC3 sub-node
-Date: Sat, 5 Dec 2020 18:24:25 +0300
-Message-ID: <20201205152427.29537-19-Sergey.Semin@baikalelectronics.ru>
-In-Reply-To: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
-References: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
+To: Felipe Balbi <balbi@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Florian Fainelli <f.fainelli@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alexey Brodkin
+ <abrodkin@synopsys.com>, Vineet Gupta <vgupta@synopsys.com>
+Subject: [PATCH v3 03/10] arc: dts: Harmonize EHCI/OHCI DT nodes name
+Date: Sat, 5 Dec 2020 18:56:14 +0300
+Message-ID: <20201205155621.3045-4-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201205155621.3045-1-Sergey.Semin@baikalelectronics.ru>
+References: <20201205155621.3045-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201205_102535_667751_FEBB0C75 
-X-CRM114-Status: UNSURE (   8.58  )
+X-CRM114-CacheID: sfid-20201205_105640_402170_EE9E7FEB 
+X-CRM114-Status: UNSURE (   8.97  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -64,73 +64,122 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-mips@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Kevin Hilman <khilman@baylibre.com>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Serge Semin <fancer.lancer@gmail.com>,
- Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
- Serge Semin <Sergey.Semin@baikalelectronics.ru>,
- Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
- linux-arm-msm@vger.kernel.org,
- Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
- linuxppc-dev@lists.ozlabs.org, Rob Herring <robh@kernel.org>,
- linux-arm-kernel@lists.infradead.org, Roger Quadros <rogerq@ti.com>
+Cc: Serge Semin <Sergey.Semin@baikalelectronics.ru>, devicetree@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Serge Semin <fancer.lancer@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Qualcomm msm8996/sc7180/sdm845 DWC3 compatible DT nodes are supposed to
-have a DWC USB3 compatible sub-node to describe a fully functioning USB
-interface. Let's use the available DWC USB3 DT schema to validate the
-Qualcomm DWC3 sub-nodes.
-
-Note since the generic DWC USB3 DT node is supposed to be named as generic
-USB HCD ("^usb(@.*)?") one we have to accordingly fix the sub-nodes name
-regexp and fix the DT node example.
+In accordance with the Generic EHCI/OHCI bindings the corresponding node
+name is suppose to comply with the Generic USB HCD DT schema, which
+requires the USB nodes to have the name acceptable by the regexp:
+"^usb(@.*)?" . Make sure the "generic-ehci" and "generic-ohci"-compatible
+nodes are correctly named.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Reviewed-by: Rob Herring <robh@kernel.org>
-
+Acked-by: Alexey Brodkin <abrodkin@synopsys.com>
+Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
+ arch/arc/boot/dts/axc003.dtsi        | 4 ++--
+ arch/arc/boot/dts/axc003_idu.dtsi    | 4 ++--
+ arch/arc/boot/dts/axs10x_mb.dtsi     | 4 ++--
+ arch/arc/boot/dts/hsdk.dts           | 4 ++--
+ arch/arc/boot/dts/vdk_axs10x_mb.dtsi | 2 +-
+ 5 files changed, 9 insertions(+), 9 deletions(-)
 
-Changelog v2:
-- Discard the "^dwc3@[0-9a-f]+$" nodes from being acceptable as sub-nodes.
----
- Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-index 2cf525d21e05..b336662e838c 100644
---- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-@@ -103,11 +103,8 @@ properties:
- # Required child node:
+diff --git a/arch/arc/boot/dts/axc003.dtsi b/arch/arc/boot/dts/axc003.dtsi
+index cd1edcf4f95e..3434c8131ecd 100644
+--- a/arch/arc/boot/dts/axc003.dtsi
++++ b/arch/arc/boot/dts/axc003.dtsi
+@@ -103,11 +103,11 @@ ethernet@18000 {
+ 			dma-coherent;
+ 		};
  
- patternProperties:
--  "^dwc3@[0-9a-f]+$":
--    type: object
--    description:
--      A child node must exist to represent the core DWC3 IP block
--      The content of the node is defined in dwc3.txt.
-+  "^usb@[0-9a-f]+$":
-+    $ref: snps,dwc3.yaml#
+-		ehci@40000 {
++		usb@40000 {
+ 			dma-coherent;
+ 		};
  
- required:
-   - compatible
-@@ -162,7 +159,7 @@ examples:
+-		ohci@60000 {
++		usb@60000 {
+ 			dma-coherent;
+ 		};
  
-             resets = <&gcc GCC_USB30_PRIM_BCR>;
+diff --git a/arch/arc/boot/dts/axc003_idu.dtsi b/arch/arc/boot/dts/axc003_idu.dtsi
+index 70779386ca79..67556f4b7057 100644
+--- a/arch/arc/boot/dts/axc003_idu.dtsi
++++ b/arch/arc/boot/dts/axc003_idu.dtsi
+@@ -110,11 +110,11 @@ ethernet@18000 {
+ 			dma-coherent;
+ 		};
  
--            dwc3@a600000 {
-+            usb@a600000 {
-                 compatible = "snps,dwc3";
-                 reg = <0 0x0a600000 0 0xcd00>;
-                 interrupts = <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
+-		ehci@40000 {
++		usb@40000 {
+ 			dma-coherent;
+ 		};
+ 
+-		ohci@60000 {
++		usb@60000 {
+ 			dma-coherent;
+ 		};
+ 
+diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
+index 99d3e7175bf7..b64435385304 100644
+--- a/arch/arc/boot/dts/axs10x_mb.dtsi
++++ b/arch/arc/boot/dts/axs10x_mb.dtsi
+@@ -87,13 +87,13 @@ gmac: ethernet@18000 {
+ 			mac-address = [00 00 00 00 00 00]; /* Filled in by U-Boot */
+ 		};
+ 
+-		ehci@40000 {
++		usb@40000 {
+ 			compatible = "generic-ehci";
+ 			reg = < 0x40000 0x100 >;
+ 			interrupts = < 8 >;
+ 		};
+ 
+-		ohci@60000 {
++		usb@60000 {
+ 			compatible = "generic-ohci";
+ 			reg = < 0x60000 0x100 >;
+ 			interrupts = < 8 >;
+diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
+index dcaa44e408ac..fdd4f7f635d3 100644
+--- a/arch/arc/boot/dts/hsdk.dts
++++ b/arch/arc/boot/dts/hsdk.dts
+@@ -234,7 +234,7 @@ phy0: ethernet-phy@0 { /* Micrel KSZ9031 */
+ 			};
+ 		};
+ 
+-		ohci@60000 {
++		usb@60000 {
+ 			compatible = "snps,hsdk-v1.0-ohci", "generic-ohci";
+ 			reg = <0x60000 0x100>;
+ 			interrupts = <15>;
+@@ -242,7 +242,7 @@ ohci@60000 {
+ 			dma-coherent;
+ 		};
+ 
+-		ehci@40000 {
++		usb@40000 {
+ 			compatible = "snps,hsdk-v1.0-ehci", "generic-ehci";
+ 			reg = <0x40000 0x100>;
+ 			interrupts = <15>;
+diff --git a/arch/arc/boot/dts/vdk_axs10x_mb.dtsi b/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
+index cbb179770293..90a412026e64 100644
+--- a/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
++++ b/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
+@@ -46,7 +46,7 @@ ethernet@18000 {
+ 			clock-names = "stmmaceth";
+ 		};
+ 
+-		ehci@40000 {
++		usb@40000 {
+ 			compatible = "generic-ehci";
+ 			reg = < 0x40000 0x100 >;
+ 			interrupts = < 8 >;
 -- 
 2.29.2
 
