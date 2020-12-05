@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F3E0C433FE
-	for <linux-snps-arc@archiver.kernel.org>; Sat,  5 Dec 2020 15:26:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2EFAC433FE
+	for <linux-snps-arc@archiver.kernel.org>; Sat,  5 Dec 2020 15:27:04 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4E58D23106
-	for <linux-snps-arc@archiver.kernel.org>; Sat,  5 Dec 2020 15:26:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4E58D23106
+	by mail.kernel.org (Postfix) with ESMTPS id 6910123107
+	for <linux-snps-arc@archiver.kernel.org>; Sat,  5 Dec 2020 15:27:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6910123107
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baikalelectronics.ru
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,36 +23,34 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=WBZ2BoeK1PaEXiePhm0SQkUNT2tzZBdpXIggkwHOnOk=; b=gHRZOvaL/iS081LG1hXMvvlmt
-	SCRklVLyKB5m0hoUI6ejz6W4vnlj3BMZYFX72iGjXE0tIaw/e0zlq1vAPeK0xa/wG4r9YPI+AZZI2
-	41OL7QqnbxKXHJ/lubVtGeg4kHweUJwumBM9j87OuZbTC91/6wPlEhdCRGZLLHrCz7/+7yrCpb35y
-	oD95UTo/jk9Gzk0/eeiT2ls3YJxC+kwuB5zk9R/NaVzHUSAiNVsjtPcVkyrUo5RZj6e2FaEiLJye4
-	DYiPvLmxh8M4je6EilqNMwmsGAsQj9F6BfPnJj/kN8fOxVwGF+l964nbFQL57/ygiNWCJo5RhfsEK
-	zuL118FxQ==;
+	 bh=e+xiVBYCtWDg4Y/ZR1Hz9BQ3LpZpTLcbAOw17awVnmc=; b=ZtP4N0KtJULziVpuNCY6/l6DK
+	pUCGrIV2NQcOxqEqBvZUAyu4g4AJpjB7FNTJPwNB1JmwiwVqkRpEl/NsOGC43zw5BHgO9GrCyu/mP
+	FKyqDoDYWtSKezvz9eaq1c8qk3DkTkuBUMpOWPcd9NcrojJRqcJ+9iCxwFfHgUb0wWtgPigrlOSAN
+	fi0quOLDgVDr/PzRe9ET2Wx+dwzkp3NwypTiIwih+VdLnt+Nt5X+o4F6d8RhPvE4hRSSQZCQxgVB9
+	Yi5cz2k+NhFWcjl6W4Lh6NlIEiWmVZrrjvF3lw3Z4c+mUU+nNLLWLdo+nlk+Y+NbNYBFPEJC0AnMW
+	cCelLLYHg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1klZSb-0003XS-4H; Sat, 05 Dec 2020 15:26:57 +0000
+	id 1klZSh-0003b7-1X; Sat, 05 Dec 2020 15:27:03 +0000
 Received: from mail.baikalelectronics.com ([87.245.175.226]
  helo=mail.baikalelectronics.ru)
  by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1klZRF-00031q-C7; Sat, 05 Dec 2020 15:25:37 +0000
+ id 1klZRC-00030c-KE; Sat, 05 Dec 2020 15:25:38 +0000
 From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To: Mathias Nyman <mathias.nyman@intel.com>, Felipe Balbi <balbi@kernel.org>, 
  Krzysztof Kozlowski <krzk@kernel.org>, Greg Kroah-Hartman
  <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, Chunfeng Yun
  <chunfeng.yun@mediatek.com>
-Subject: [PATCH v5 13/19] dt-bindings: usb: dwc3: Add Tx De-emphasis
- constraints
-Date: Sat, 5 Dec 2020 18:24:20 +0300
-Message-ID: <20201205152427.29537-14-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v5 07/19] dt-bindings: usb: Convert xHCI bindings to DT schema
+Date: Sat, 5 Dec 2020 18:24:14 +0300
+Message-ID: <20201205152427.29537-8-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201205_102533_759870_4744E764 
-X-CRM114-Status: UNSURE (   6.89  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20201205_102531_088767_A7484B35 
+X-CRM114-Status: GOOD (  18.81  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,10 +83,22 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-In accordance with the driver comments the PIPE3 de-emphasis can be tuned
-to be either -6dB, -2.5dB or disabled. Let's add the de-emphasis
-property constraints so the DT schema would make sure the controller DT
-node is equipped with correct value.
+Currently the DT bindings of Generic xHCI Controllers are described by
+means of the legacy text file. Since such format is deprecated in favor of
+the DT schema, let's convert the Generic xHCI Controllers bindings file to
+the corresponding yaml files. There will be two of them: a DT schema for
+the xHCI controllers on a generic platform and a DT schema validating a
+generic xHCI controllers properties. The later will be used to validate
+the xHCI controllers, which aside from some vendor-specific features
+support the basic xHCI functionality.
+
+An xHCI-compatible DT node shall support the standard USB HCD properties
+and custom ones like: usb2-lpm-disable, usb3-lpm-capable,
+quirk-broken-port-ped and imod-interval-ns. In addition if a generic xHCI
+controller is being validated against the DT schema it is also supposed to
+be equipped with mandatory compatible string, single registers range,
+single interrupts source, and is supposed to optionally contain up to two
+reference clocks for the controller core and CSRs.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Reviewed-by: Rob Herring <robh@kernel.org>
@@ -96,27 +106,182 @@ Reviewed-by: Rob Herring <robh@kernel.org>
 ---
 
 Changelog v2:
-- Grammar fix: "s/tunned/tuned"
-- Grammar fix: remove redundant "or" conjunction.
+- Add explicit "additionalProperties: true" to the usb-xhci.yaml schema,
+  since additionalProperties/unevaluatedProperties are going to be mandary
+  for each binding.
 ---
- Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../devicetree/bindings/usb/generic-xhci.yaml | 63 +++++++++++++++++++
+ .../devicetree/bindings/usb/usb-xhci.txt      | 41 ------------
+ .../devicetree/bindings/usb/usb-xhci.yaml     | 42 +++++++++++++
+ 3 files changed, 105 insertions(+), 41 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/generic-xhci.yaml
+ delete mode 100644 Documentation/devicetree/bindings/usb/usb-xhci.txt
+ create mode 100644 Documentation/devicetree/bindings/usb/usb-xhci.yaml
 
-diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-index b1890558affe..e39ad899c92e 100644
---- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-@@ -156,6 +156,10 @@ properties:
-       The value driven to the PHY is controlled by the LTSSM during USB3
-       Compliance mode.
-     $ref: /schemas/types.yaml#/definitions/uint8
-+    enum:
-+      - 0 # -6dB de-emphasis
-+      - 1 # -3.5dB de-emphasis
-+      - 2 # No de-emphasis
- 
-   snps,dis_u3_susphy_quirk:
-     description: When set core will disable USB3 suspend phy
+diff --git a/Documentation/devicetree/bindings/usb/generic-xhci.yaml b/Documentation/devicetree/bindings/usb/generic-xhci.yaml
+new file mode 100644
+index 000000000000..1ea1d49a8175
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/generic-xhci.yaml
+@@ -0,0 +1,63 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: USB xHCI Controller Device Tree Bindings
++
++maintainers:
++  - Mathias Nyman <mathias.nyman@intel.com>
++
++allOf:
++  - $ref: "usb-xhci.yaml#"
++
++properties:
++  compatible:
++    oneOf:
++      - description: Generic xHCI device
++        const: generic-xhci
++      - description: Armada 37xx/375/38x/8k SoCs
++        items:
++          - enum:
++              - marvell,armada3700-xhci
++              - marvell,armada-375-xhci
++              - marvell,armada-380-xhci
++              - marvell,armada-8k-xhci
++          - const: generic-xhci
++      - description: Broadcom STB SoCs with xHCI
++        const: brcm,bcm7445-xhci
++      - description: Generic xHCI device
++        const: xhci-platform
++        deprecated: true
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    minItems: 1
++    maxItems: 2
++
++  clock-names:
++    minItems: 1
++    items:
++      - const: core
++      - const: reg
++
++unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++examples:
++  - |
++    usb@f0931000 {
++      compatible = "generic-xhci";
++      reg = <0xf0931000 0x8c8>;
++      interrupts = <0x0 0x4e 0x0>;
++    };
+diff --git a/Documentation/devicetree/bindings/usb/usb-xhci.txt b/Documentation/devicetree/bindings/usb/usb-xhci.txt
+deleted file mode 100644
+index 0c5cff84a969..000000000000
+--- a/Documentation/devicetree/bindings/usb/usb-xhci.txt
++++ /dev/null
+@@ -1,41 +0,0 @@
+-USB xHCI controllers
+-
+-Required properties:
+-  - compatible: should be one or more of
+-
+-    - "generic-xhci" for generic XHCI device
+-    - "marvell,armada3700-xhci" for Armada 37xx SoCs
+-    - "marvell,armada-375-xhci" for Armada 375 SoCs
+-    - "marvell,armada-380-xhci" for Armada 38x SoCs
+-    - "brcm,bcm7445-xhci" for Broadcom STB SoCs with XHCI
+-    - "xhci-platform" (deprecated)
+-
+-    When compatible with the generic version, nodes must list the
+-    SoC-specific version corresponding to the platform first
+-    followed by the generic version.
+-
+-  - reg: should contain address and length of the standard XHCI
+-    register set for the device.
+-  - interrupts: one XHCI interrupt should be described here.
+-
+-Optional properties:
+-  - clocks: reference to the clocks
+-  - clock-names: mandatory if there is a second clock, in this case
+-    the name must be "core" for the first clock and "reg" for the
+-    second one
+-  - usb2-lpm-disable: indicate if we don't want to enable USB2 HW LPM
+-  - usb3-lpm-capable: determines if platform is USB3 LPM capable
+-  - quirk-broken-port-ped: set if the controller has broken port disable mechanism
+-  - imod-interval-ns: default interrupt moderation interval is 5000ns
+-  - phys : see usb-hcd.yaml in the current directory
+-
+-additionally the properties from usb-hcd.yaml (in the current directory) are
+-supported.
+-
+-
+-Example:
+-	usb@f0931000 {
+-		compatible = "generic-xhci";
+-		reg = <0xf0931000 0x8c8>;
+-		interrupts = <0x0 0x4e 0x0>;
+-	};
+diff --git a/Documentation/devicetree/bindings/usb/usb-xhci.yaml b/Documentation/devicetree/bindings/usb/usb-xhci.yaml
+new file mode 100644
+index 000000000000..965f87fef702
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/usb-xhci.yaml
+@@ -0,0 +1,42 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/usb-xhci.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Generic USB xHCI Controller Device Tree Bindings
++
++maintainers:
++  - Mathias Nyman <mathias.nyman@intel.com>
++
++allOf:
++  - $ref: "usb-hcd.yaml#"
++
++properties:
++  usb2-lpm-disable:
++    description: Indicates if we don't want to enable USB2 HW LPM
++    type: boolean
++
++  usb3-lpm-capable:
++    description: Determines if platform is USB3 LPM capable
++    type: boolean
++
++  quirk-broken-port-ped:
++    description: Set if the controller has broken port disable mechanism
++    type: boolean
++
++  imod-interval-ns:
++    description: Interrupt moderation interval
++    default: 5000
++
++additionalProperties: true
++
++examples:
++  - |
++    usb@f0930000 {
++      compatible = "generic-xhci";
++      reg = <0xf0930000 0x8c8>;
++      interrupts = <0x0 0x4e 0x0>;
++      usb2-lpm-disable;
++      usb3-lpm-capable;
++    };
 -- 
 2.29.2
 
