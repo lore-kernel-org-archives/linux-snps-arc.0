@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D491C4361A
-	for <linux-snps-arc@archiver.kernel.org>; Sat,  5 Dec 2020 15:26:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F3E0C433FE
+	for <linux-snps-arc@archiver.kernel.org>; Sat,  5 Dec 2020 15:26:58 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4301F23106
-	for <linux-snps-arc@archiver.kernel.org>; Sat,  5 Dec 2020 15:26:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4301F23106
+	by mail.kernel.org (Postfix) with ESMTPS id 4E58D23106
+	for <linux-snps-arc@archiver.kernel.org>; Sat,  5 Dec 2020 15:26:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4E58D23106
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baikalelectronics.ru
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,35 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ux4y9mlKdvPTB+7HA1JsYLHxwnWchUz2RI3ChD9a+4U=; b=Y3XarxueBZEb7SCAo8GHh1I0c
-	WMU7XDzh743gBHxCsWm1+6uH1Tl64MsiI9uNL7u+7205V36SU4XTnhMexYubuipjZvMXyRnCWJ+1g
-	RnN3u68FNeA+NBJzdxYy6oYLG3OYGKVXb15Nc0e6XToaaEzciq7n27p4P11isZ5nZDa6uLTuhIRNF
-	XJi2dC+eBcKHVKqi2tt9Zx4WaC0c8WX+DPrGPArooiHQ4yUszkzTdN9IYiDCHsBJg3mdhWisEjSv/
-	IpesdkS/mFWKPm1jHteU6qWK6qDaGu+OY5aFnJszo8iZKL0F3Dg8MJFbniUGGQvQx3bzNY87YZ++b
-	/LGe2lXKw==;
+	 bh=WBZ2BoeK1PaEXiePhm0SQkUNT2tzZBdpXIggkwHOnOk=; b=gHRZOvaL/iS081LG1hXMvvlmt
+	SCRklVLyKB5m0hoUI6ejz6W4vnlj3BMZYFX72iGjXE0tIaw/e0zlq1vAPeK0xa/wG4r9YPI+AZZI2
+	41OL7QqnbxKXHJ/lubVtGeg4kHweUJwumBM9j87OuZbTC91/6wPlEhdCRGZLLHrCz7/+7yrCpb35y
+	oD95UTo/jk9Gzk0/eeiT2ls3YJxC+kwuB5zk9R/NaVzHUSAiNVsjtPcVkyrUo5RZj6e2FaEiLJye4
+	DYiPvLmxh8M4je6EilqNMwmsGAsQj9F6BfPnJj/kN8fOxVwGF+l964nbFQL57/ygiNWCJo5RhfsEK
+	zuL118FxQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1klZSG-0003My-Ua; Sat, 05 Dec 2020 15:26:37 +0000
+	id 1klZSb-0003XS-4H; Sat, 05 Dec 2020 15:26:57 +0000
 Received: from mail.baikalelectronics.com ([87.245.175.226]
  helo=mail.baikalelectronics.ru)
  by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1klZRE-00030a-Mf; Sat, 05 Dec 2020 15:25:36 +0000
+ id 1klZRF-00031q-C7; Sat, 05 Dec 2020 15:25:37 +0000
 From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To: Mathias Nyman <mathias.nyman@intel.com>, Felipe Balbi <balbi@kernel.org>, 
  Krzysztof Kozlowski <krzk@kernel.org>, Greg Kroah-Hartman
  <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, Chunfeng Yun
  <chunfeng.yun@mediatek.com>
-Subject: [PATCH v5 14/19] dt-bindings: usb: dwc3: Add Frame Length Adj
+Subject: [PATCH v5 13/19] dt-bindings: usb: dwc3: Add Tx De-emphasis
  constraints
-Date: Sat, 5 Dec 2020 18:24:21 +0300
-Message-ID: <20201205152427.29537-15-Sergey.Semin@baikalelectronics.ru>
+Date: Sat, 5 Dec 2020 18:24:20 +0300
+Message-ID: <20201205152427.29537-14-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201205_102533_028190_A12681A2 
-X-CRM114-Status: UNSURE (   7.35  )
+X-CRM114-CacheID: sfid-20201205_102533_759870_4744E764 
+X-CRM114-Status: UNSURE (   6.89  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -85,30 +85,38 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-In accordance with the IP core databook the
-snps,quirk-frame-length-adjustment property can be set within [0, 0x3F].
-Let's make sure the DT schema applies a correct constraints on the
-property.
+In accordance with the driver comments the PIPE3 de-emphasis can be tuned
+to be either -6dB, -2.5dB or disabled. Let's add the de-emphasis
+property constraints so the DT schema would make sure the controller DT
+node is equipped with correct value.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Reviewed-by: Rob Herring <robh@kernel.org>
+
 ---
- Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+
+Changelog v2:
+- Grammar fix: "s/tunned/tuned"
+- Grammar fix: remove redundant "or" conjunction.
+---
+ Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-index e39ad899c92e..feb41f3e6b21 100644
+index b1890558affe..e39ad899c92e 100644
 --- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
 +++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-@@ -243,6 +243,8 @@ properties:
-       length adjustment when the fladj_30mhz_sdbnd signal is invalid or
-       incorrect.
-     $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 0
-+    maximum: 0x3f
+@@ -156,6 +156,10 @@ properties:
+       The value driven to the PHY is controlled by the LTSSM during USB3
+       Compliance mode.
+     $ref: /schemas/types.yaml#/definitions/uint8
++    enum:
++      - 0 # -6dB de-emphasis
++      - 1 # -3.5dB de-emphasis
++      - 2 # No de-emphasis
  
-   snps,rx-thr-num-pkt-prd:
-     description:
+   snps,dis_u3_susphy_quirk:
+     description: When set core will disable USB3 suspend phy
 -- 
 2.29.2
 
