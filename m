@@ -2,87 +2,133 @@ Return-Path: <SRS0=cm7l=FK=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 580A1C433FE
-	for <linux-snps-arc@archiver.kernel.org>; Sun,  6 Dec 2020 10:06:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09CE9C4361B
+	for <linux-snps-arc@archiver.kernel.org>; Sun,  6 Dec 2020 22:10:07 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0FF0822D0B
-	for <linux-snps-arc@archiver.kernel.org>; Sun,  6 Dec 2020 10:06:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0FF0822D0B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 7C1092256F
+	for <linux-snps-arc@archiver.kernel.org>; Sun,  6 Dec 2020 22:10:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7C1092256F
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=t2XweozF1vs+RBVjdz7CMB4o/gr2/w8cIPCIYGGUf+U=; b=mlu0Pqb3D/Dj+8XfCltWbS1Fw
-	enfjfAsrksRJ2ecdb5WcnkzpeDAD0pabs4wR5C5E5cGOmezDYa6GfmL7bajotS5zUaRQb1Jvpp9Y6
-	dLV3kSPR16ApQ5emKwlOoorGUQCAP8ZqxS5gDEvqBS+Qd3vC1o+o6SZ+SQyCIDeZ2jaQk76niDaWE
-	4ialqVRO18GGOW0L1aqf6EnhC9JXU0IMQ53aCrs7PpjmdTWxSXJA+7bQiHyITooOvK6LF5TIJfNnw
-	78BfxbjhXAQOhLX00Tzd9f6EOBvFwTkfcGl45qAK/5k9G0WYpmtf+1F90V5yV0vYA1kDmpRuK6llt
-	icXAiEwBQ==;
+	 bh=J7nG+lG9NS1CiHu1NaBCclmhy2BvX95IM8d0Bh9UxZQ=; b=f4Kzb0B0fCfSA7DkMcqROyUaz
+	6g0mVHwuvWpCfTy/jefdAIvA/IUm2TWpuqjOUhcVXof/46kdLfui7Z+Js++RvFp5ev8uKZiPXHicU
+	ZkM8D6t1QS0e3pb8iSmPdSlozZ+E9gzAUG82B4s6SX5boTvvBfmbVaVsna6L/b65LhXaKaoAfvJV1
+	oJ44h/cFmahRFL028RJGO/uGesGyR0I5w8f/IKZC7CIF4wFYI6kqvbAgHrK1qSKk4HrwbdUgcg0JH
+	gBXMZTgaJMl5kuCLZDEnQJkdrHGkwjS/EKawhlc/FS8prWx+6QzqJaOgkv1UdRMRG0LUd/C62gEVo
+	NMtxyH6pQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1klqvb-0001QZ-29; Sun, 06 Dec 2020 10:06:03 +0000
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141])
+	id 1km2EH-0000Am-Rp; Sun, 06 Dec 2020 22:10:05 +0000
+Received: from mail-eopbgr1410090.outbound.protection.outlook.com
+ ([40.107.141.90] helo=JPN01-OS2-obe.outbound.protection.outlook.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1klqvW-0001PK-10; Sun, 06 Dec 2020 10:05:58 +0000
-Received: by mail-lf1-x141.google.com with SMTP id l11so13817532lfg.0;
- Sun, 06 Dec 2020 02:05:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=xt68N/tojAn+X+eORxYIydzyuDkBvWrZkEpf49UU+Ws=;
- b=QustGC5gJezh0xNL/1XUtO+dCt5J+pvT7fp6FxldwuvmTZLa7CA93Y9b3RdoAJUE/T
- g0xIlxWJtXakl4UKiYwvYrJzdR4FMeXEtFrsIzZXkN9FuBTT1ruQEuznJf8QF+n8XBXL
- wpDjtR4HHi5UVz2iOJeC8+a3jBkvMPWwpc6dI8s91lpQ2HrEfJVGY17ccj59XvsFhPX3
- RKftikG2ho64wVjuTMMB3FDXGtU5B82ZSdJhdfMQa/J/Z4QBHTc8Y7Y6HQJNYbUzzzPW
- umgRjuMQFqpjcwNNAsX5ZyKvaIVlk8PJgtkdvWV6jiVv0ZNd/HB3HM+UJ3+RaPZRhrNw
- PEGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=xt68N/tojAn+X+eORxYIydzyuDkBvWrZkEpf49UU+Ws=;
- b=Fkyo5zDA1UjstXI9rRxiKFQY5gCTb7o5qtCMIWtSS9NJSTYovLdUwHc0PBDSEscX29
- 3RqFTM6+hxWgdkPcTw30PGRipmrD6zQkMqoMNbF4+yvKD6T9aX0BiNFFwBPiFGQCur2u
- cNnX/GKRAG6L7UfetaaM8T2vTV3H+5RXdlFguaKfL2WxvF15N8Xs+A9/s74dZuYENkEo
- xSUxXyDtq7zG6MQkQR7h71ywdc5MrYSkZ0aFrkVUbxH99xU7K7QzZKPL5kkWK7P7PX3u
- mdjZHa00y9+7Qahm609atrFUwJ/FF/MbmVqF6UaeEztSO2orx7W8vIVB+5P7kuw+GdQ1
- IwYg==
-X-Gm-Message-State: AOAM530GznQdvZ7lrEB8JSzhwhlHyJZFLM+U2z4zgjkM5xBcXMG5+/eX
- BO+XOMM2Jd1AJ95w//h2kb0=
-X-Google-Smtp-Source: ABdhPJw/nG2Sxcwi0lQk9dQrxf0vxOmbyiTRrngGMSbpQGeRGfcRhdlBhixGcs00B/NGWV2nb7r2dw==
-X-Received: by 2002:ac2:5a44:: with SMTP id r4mr5837652lfn.1.1607249154606;
- Sun, 06 Dec 2020 02:05:54 -0800 (PST)
-Received: from mobilestation ([95.79.141.114])
- by smtp.gmail.com with ESMTPSA id m16sm2498255lfa.57.2020.12.06.02.05.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Dec 2020 02:05:53 -0800 (PST)
-Date: Sun, 6 Dec 2020 13:05:51 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: "Wan Mohamad, Wan Ahmad Zainie" <wan.ahmad.zainie.wan.mohamad@intel.com>
-Subject: Re: [PATCH v5 19/19] dt-bindings: usb: intel,keembay-dwc3: Validate
- DWC3 sub-node
-Message-ID: <20201206100551.7ioybhtwfscul7kw@mobilestation>
+ id 1km2EC-00009D-Qg; Sun, 06 Dec 2020 22:10:02 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gmQwSLuvhWHC1QGCby1ezicfsFt6bnW7RhgvacPJEG16r6IXDsnWFaBV2IfREx063XP8jUoirA3A4LL1dUzQvn4AqfMWzjngPl6t/DsS76sEvLMXzEftKNmgCFH0GkbttxC4duDoQvPblfljMx/krRTnXpsrDgcaPvVs1sWHwgSlnbJq7odM1fo9CrL2S/k+dhl8uxq4CKSi7+WBIXE7N//pxh6Bh5/OkxxbWt/fiEeV/OSeUKMcAxx9G7EqScVgF6lpM85Qt2QAPazG18VBZcKlmsBW4Cmp0eMvQCiD1Sfok1q/R6/U9z0SZ2oTU5gM2Xkyq5C9zBp2bh/rqPDqwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mBCWCA8liMG4RrAS8XeHFIqKmlnmRbMj4R1QgaThGhc=;
+ b=XiEA1OZwDJZLs53isfDasaHt+qsueMXoWJPAlul3+qTvkL3YpWL+SxJr2QnzEp81JjZTuaFJp/LPyVDJYPL0y9DVp781v2wudDHFe+Hp4aljZ4+RJ0G/pYak7dXsbK/2UyypuRpd7C+vvEdtpWGLza+z3Z+y2PlHjHD/H7gFcLjunuJzY7ccROXri8guw0S7dK0HWlBRKP+LrA3ZQmDBHiC4zTGEGGkQFHC/Mq4JMA2Dr9BEa5bKAERKl3oMIvM24MgsLyvxWrjP/3LneXt9cLGW89KAtqxtJw7wDuQbSn1wC3W89h8KUQOB9qHjmFJvpEHujjI2dCBSF423uDpWvQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mBCWCA8liMG4RrAS8XeHFIqKmlnmRbMj4R1QgaThGhc=;
+ b=hma4eloNKLn2YQV/35HUsxd8JE1SUCV/djwO2ZP7itW2shihvwy2PJJUZ2wKK81G+BNFU+sjdEJKLedpgqMsfWgNPfP0x6t/H/p3Ko/2/C7VkMaXCn7mtubI8EPpsbz9JjRtyR2EC/g6oYE/1WC+AsFK1x4+5EPgr69d+2eGzNA=
+Received: from OSBPR01MB5048.jpnprd01.prod.outlook.com (2603:1096:604:38::10)
+ by OSBPR01MB3207.jpnprd01.prod.outlook.com (2603:1096:604:22::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Sun, 6 Dec
+ 2020 22:09:41 +0000
+Received: from OSBPR01MB5048.jpnprd01.prod.outlook.com
+ ([fe80::18f:c7ea:e9e4:db70]) by OSBPR01MB5048.jpnprd01.prod.outlook.com
+ ([fe80::18f:c7ea:e9e4:db70%3]) with mapi id 15.20.3632.019; Sun, 6 Dec 2020
+ 22:09:41 +0000
+From: Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Serge Semin <Sergey.Semin@baikalelectronics.ru>, Mathias Nyman
+ <mathias.nyman@intel.com>, Felipe Balbi <balbi@kernel.org>, Krzysztof
+ Kozlowski <krzk@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: RE: [PATCH v5 09/19] dt-bindings: usb: renesas-xhci: Refer to the
+ usb-xhci.yaml file
+Thread-Topic: [PATCH v5 09/19] dt-bindings: usb: renesas-xhci: Refer to the
+ usb-xhci.yaml file
+Thread-Index: AQHWyxresVcuPKjuRkaonyGzMr8w1Knqohuw
+Date: Sun, 6 Dec 2020 22:09:41 +0000
+Message-ID: <OSBPR01MB50483D3B3FFA24BFDA10B80CAACF0@OSBPR01MB5048.jpnprd01.prod.outlook.com>
 References: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
- <20201205152427.29537-20-Sergey.Semin@baikalelectronics.ru>
- <DM6PR11MB3721E8FEB4E755328D7A517EDDCF0@DM6PR11MB3721.namprd11.prod.outlook.com>
+ <20201205152427.29537-10-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201205152427.29537-10-Sergey.Semin@baikalelectronics.ru>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: baikalelectronics.ru; dkim=none (message not signed)
+ header.d=none;baikalelectronics.ru; dmarc=none action=none
+ header.from=bp.renesas.com;
+x-originating-ip: [193.141.220.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 3aa26450-ff0b-48da-1088-08d89a33a17a
+x-ms-traffictypediagnostic: OSBPR01MB3207:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <OSBPR01MB3207FAAAAB793BBD5F70ADC3AACF0@OSBPR01MB3207.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: WEFD35+EuyipVwwTNg/5nyXpCpriBgslUjyuDHNdCI96zcTedmAbbRfDOQbG9jtivtGDkD0RsDyS+rdDfRHeIHUtRCdn3T9I3nyp4YKdWlp416mi7ie09xWwCL4WXm8YPzgepf05tpjLzsc7u6tCTT8W9wr4ejXDC9mzY2g3GuqqVpYFq0iDsBG8Nzeqr3cKN08M9p1/mr6ZoVKxveAHnrcdRn6yVad/63SOx9t3jNdQHK2h2XVw5e9v5j8/Zayo93aacC90TZP4a/A44hJUFEpKYVILCOuCKvpVwEmsFC6hcN09NJc32FkExgSWI0CsR2WojVJIcnFgi6FS1LDxOg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:OSBPR01MB5048.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39850400004)(396003)(346002)(376002)(366004)(136003)(66476007)(9686003)(316002)(110136005)(83380400001)(71200400001)(2906002)(66946007)(55016002)(8676002)(5660300002)(4326008)(6506007)(66556008)(54906003)(66446008)(64756008)(33656002)(76116006)(86362001)(26005)(52536014)(53546011)(7416002)(478600001)(186003)(8936002)(7696005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?F7PzEAXNglcbAHhFqXdiak+iyCDVGiuIZo7NKBSnphHRkkaIKHZC9LTe4CUR?=
+ =?us-ascii?Q?w5a6SP7y3UrPxuOWM6mSwY6qhsjmgq9A1OMG1ub9JPPtOi+cbZMIV9IvtWwC?=
+ =?us-ascii?Q?yIIG3cHJEN0Wyi8gnWLw8T9ys3VMi+3cq0Zrb8KJYrt1fFT4iRNxQ2pf5rdV?=
+ =?us-ascii?Q?3Hl/Jxw+4EUdKECS8OZIzg51sgbaA+AYD5kPDVzZgf4Fqcfa00fbD6UBq6p3?=
+ =?us-ascii?Q?XhtnpblLbxL0Dw9tnkBI2j0T5M0x0eznhFWGgFVRp3nZbK34XRACMp56sUK5?=
+ =?us-ascii?Q?nU/C7hZQwCNuicsO3rvyDpQ5kspOZusXUAhaY0NBVvoaIPcwhFaTjN94OAI8?=
+ =?us-ascii?Q?ML6XE+WRyktwOvFORDBW0u1LMrjsmSqAeMX4s/D/Qj6DEsXLuSHZertP6sy5?=
+ =?us-ascii?Q?hW0mdPmSSim2399RKQkOojwT63AyCzFnkrZkjUKKaYqSgHVkqOHSwBh2pxXk?=
+ =?us-ascii?Q?+YruyLqcb3RE4pia7xZRdA+FX/xDnRyjMZmLlzqnpLFKAtaymdFtOpUSZZZl?=
+ =?us-ascii?Q?bT8LXA+hhUJXM9SX94r0KtSk+OnvhrEkKK+FMLqHFETWTw6PwO5QajA9Xwlr?=
+ =?us-ascii?Q?sqUSH7Gwe5DJ32yjrHstAZtMNk8fxivjeaywXfBgCJeUT4yuMNEVIbHkA6Nl?=
+ =?us-ascii?Q?Gifs12ZR9fcjdQ0mTBluDqx+v/KiTvtMXBulAoX//WH6PagHxr/BMJ62TdLt?=
+ =?us-ascii?Q?C+GVoeU1Na3xZVVk1x3DGteIie31dN6tWLL1ZQi28ek3Zmy5ATqQC/jAtQvw?=
+ =?us-ascii?Q?7FGepiq20srvS7t1uSvdlUdIRooP+5tjrgcogdemzqbQRn5xPvYRzUioZW25?=
+ =?us-ascii?Q?DtwsSrGQCp4Y29OIExbgAOxVQTLhc8yFitydeF7QhMDOgJ2wngwJytu1l/ne?=
+ =?us-ascii?Q?B28yDD+RMEcI7Bba/LuhxOz2i1ekg8jxIZJ0/sW3zWM56bjkXF1b4kMrzE2Z?=
+ =?us-ascii?Q?v8nnqWC3hZoYNTUBTscr3Szhpyx2wpW7zKTJ18kbiYs=3D?=
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <DM6PR11MB3721E8FEB4E755328D7A517EDDCF0@DM6PR11MB3721.namprd11.prod.outlook.com>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OSBPR01MB5048.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3aa26450-ff0b-48da-1088-08d89a33a17a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Dec 2020 22:09:41.3337 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: oxUmbn6Gx1Yijr2w1dIzJugdsblbey6avxMFR5E0a7cIgsUqHfETo+jWnmniczv4UqPzfn55WfI0oiCvVyQV56eRazOxpg+r5SzO2A93oAz9hVcMFq8eZ3lAtakEEOuI
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB3207
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201206_050558_186134_C7EEDC38 
-X-CRM114-Status: GOOD (  22.00  )
+X-CRM114-CacheID: sfid-20201206_171001_008178_B73CFB8C 
+X-CRM114-Status: GOOD (  17.82  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,131 +140,94 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: narmstrong <narmstrong@baylibre.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
- Kevin Hilman <khilman@baylibre.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- Andy Gross <agross@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "Nyman,
- Mathias" <mathias.nyman@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
- Rob Herring <robh+dt@kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- Roger Quadros <rogerq@ti.com>, Felipe Balbi <balbi@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ Kevin Hilman <khilman@baylibre.com>,
  "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
  "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Serge Semin <Sergey.Semin@baikalelectronics.ru>,
- Manu Gautam <mgautam@codeaurora.org>,
- "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
+ Serge Semin <fancer.lancer@gmail.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Manu Gautam <mgautam@codeaurora.org>, Andy Gross <agross@kernel.org>,
+ Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+ Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+ "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+ Rob Herring <robh@kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ Roger Quadros <rogerq@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Wan,
+Hi Serge,
 
-On Sun, Dec 06, 2020 at 09:56:47AM +0000, Wan Mohamad, Wan Ahmad Zainie wrote:
-> Hi Serge.
+Thank you for the patch.
+
+> -----Original Message-----
+> From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+> Sent: 05 December 2020 15:24
+> To: Mathias Nyman <mathias.nyman@intel.com>; Felipe Balbi <balbi@kernel.org>; Krzysztof Kozlowski
+> <krzk@kernel.org>; Greg Kroah-Hartman <gregkh@linuxfoundation.org>; Rob Herring <robh+dt@kernel.org>;
+> Chunfeng Yun <chunfeng.yun@mediatek.com>; Prabhakar Mahadev Lad <prabhakar.mahadev-
+> lad.rj@bp.renesas.com>; Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Cc: Serge Semin <Sergey.Semin@baikalelectronics.ru>; Serge Semin <fancer.lancer@gmail.com>; Alexey
+> Malahov <Alexey.Malahov@baikalelectronics.ru>; Pavel Parkhomenko
+> <Pavel.Parkhomenko@baikalelectronics.ru>; Andy Gross <agross@kernel.org>; Bjorn Andersson
+> <bjorn.andersson@linaro.org>; Manu Gautam <mgautam@codeaurora.org>; Roger Quadros <rogerq@ti.com>;
+> Neil Armstrong <narmstrong@baylibre.com>; Kevin Hilman <khilman@baylibre.com>; Martin Blumenstingl
+> <martin.blumenstingl@googlemail.com>; Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>; linux-
+> arm-kernel@lists.infradead.org; linux-snps-arc@lists.infradead.org; linux-mips@vger.kernel.org;
+> linuxppc-dev@lists.ozlabs.org; linux-usb@vger.kernel.org; devicetree@vger.kernel.org; linux-
+> kernel@vger.kernel.org; Rob Herring <robh@kernel.org>
+> Subject: [PATCH v5 09/19] dt-bindings: usb: renesas-xhci: Refer to the usb-xhci.yaml file
 > 
-> > -----Original Message-----
-> > From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-> > Sent: Saturday, December 5, 2020 11:24 PM
-> > To: Nyman, Mathias <mathias.nyman@intel.com>; Felipe Balbi
-> > <balbi@kernel.org>; Krzysztof Kozlowski <krzk@kernel.org>; Greg Kroah-
-> > Hartman <gregkh@linuxfoundation.org>; Rob Herring
-> > <robh+dt@kernel.org>; Chunfeng Yun <chunfeng.yun@mediatek.com>;
-> > Wan Mohamad, Wan Ahmad Zainie
-> > <wan.ahmad.zainie.wan.mohamad@intel.com>
-> > Cc: Serge Semin <Sergey.Semin@baikalelectronics.ru>; Serge Semin
-> > <fancer.lancer@gmail.com>; Alexey Malahov
-> > <Alexey.Malahov@baikalelectronics.ru>; Pavel Parkhomenko
-> > <Pavel.Parkhomenko@baikalelectronics.ru>; Andy Gross
-> > <agross@kernel.org>; Bjorn Andersson <bjorn.andersson@linaro.org>;
-> > Manu Gautam <mgautam@codeaurora.org>; Roger Quadros
-> > <rogerq@ti.com>; Lad Prabhakar <prabhakar.mahadev-
-> > lad.rj@bp.renesas.com>; Yoshihiro Shimoda
-> > <yoshihiro.shimoda.uh@renesas.com>; narmstrong
-> > <narmstrong@baylibre.com>; Kevin Hilman <khilman@baylibre.com>;
-> > Martin Blumenstingl <martin.blumenstingl@googlemail.com>; linux-arm-
-> > kernel@lists.infradead.org; linux-snps-arc@lists.infradead.org; linux-
-> > mips@vger.kernel.org; linuxppc-dev@lists.ozlabs.org; linux-
-> > usb@vger.kernel.org; devicetree@vger.kernel.org; linux-
-> > kernel@vger.kernel.org
-> > Subject: [PATCH v5 19/19] dt-bindings: usb: intel,keembay-dwc3: Validate
-> > DWC3 sub-node
-> > 
-> > Intel Keem Bay DWC3 compatible DT nodes are supposed to have a DWC
-> > USB3 compatible sub-node to describe a fully functioning USB interface. Let's
-> > use the available DWC USB3 DT schema to validate the Qualcomm DWC3 sub-
-> > nodes.
-> > 
-> > Note since the generic DWC USB3 DT node is supposed to be named as
-> > generic USB HCD ("^usb(@.*)?") one we have to accordingly fix the sub-
-> > nodes name regexp and fix the DT node example.
-> > 
-> > Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+> With minor peculiarities (like uploading some vendor-specific firmware)
+> these are just Generic xHCI controllers fully compatible with its
+> properties. Make sure the Renesas USB xHCI DT nodes are also validated
+> against the Generic xHCI DT schema.
 > 
-
-> LGTM. With minor change to fix the typo above, Qualcomm to Intel
-> Keem Bay,
-> Acked-by: Wan Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>
-
-Ah, right. Thanks for noticing that. A probability of copy-paste mistakes
-increases proportionally to the number sleepless hours.)
-
--Sergey
-
+> Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> > 
-> > ---
-> > 
-> > Changelog v5:
-> > - This is a new patch created for the new Intel Keem Bay bindings file,
-> >   which has been added just recently.
-> > ---
-> >  .../devicetree/bindings/usb/intel,keembay-dwc3.yaml      | 9 +++------
-> >  1 file changed, 3 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/usb/intel,keembay-
-> > dwc3.yaml b/Documentation/devicetree/bindings/usb/intel,keembay-
-> > dwc3.yaml
-> > index dd32c10ce6c7..43b91ab62004 100644
-> > --- a/Documentation/devicetree/bindings/usb/intel,keembay-dwc3.yaml
-> > +++ b/Documentation/devicetree/bindings/usb/intel,keembay-dwc3.yaml
-> > @@ -34,11 +34,8 @@ properties:
-> >  # Required child node:
-> > 
-> >  patternProperties:
-> > -  "^dwc3@[0-9a-f]+$":
-> > -    type: object
-> > -    description:
-> > -      A child node must exist to represent the core DWC3 IP block.
-> > -      The content of the node is defined in dwc3.txt.
-> > +  "^usb@[0-9a-f]+$":
-> > +    $ref: snps,dwc3.yaml#
-> > 
-> >  required:
-> >    - compatible
-> > @@ -68,7 +65,7 @@ examples:
-> >            #address-cells = <1>;
-> >            #size-cells = <1>;
-> > 
-> > -          dwc3@34000000 {
-> > +          usb@34000000 {
-> >                  compatible = "snps,dwc3";
-> >                  reg = <0x34000000 0x10000>;
-> >                  interrupts = <GIC_SPI 91 IRQ_TYPE_LEVEL_HIGH>;
-> > --
-> > 2.29.2
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Cheers,
+Prabhakar
+
+> diff --git a/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
+> b/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
+> index 0f078bd0a3e5..7e5ed196b52c 100644
+> --- a/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
+> +++ b/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
+> @@ -11,7 +11,7 @@ maintainers:
+>    - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 > 
-> Best regards,
-> Zainie
+>  allOf:
+> -  - $ref: "usb-hcd.yaml"
+> +  - $ref: "usb-xhci.yaml"
+> 
+>  properties:
+>    compatible:
+> @@ -69,7 +69,7 @@ required:
+>    - power-domains
+>    - resets
+> 
+> -additionalProperties: false
+> +unevaluatedProperties: false
+> 
+>  examples:
+>    - |
+> --
+> 2.29.2
+
 
 _______________________________________________
 linux-snps-arc mailing list
