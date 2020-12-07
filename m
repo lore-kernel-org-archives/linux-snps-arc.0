@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2316BC433FE
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Dec 2020 16:49:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00271C433FE
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Dec 2020 16:50:20 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D286F23787
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Dec 2020 16:49:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D286F23787
+	by mail.kernel.org (Postfix) with ESMTPS id 96E4823787
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Dec 2020 16:50:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 96E4823787
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,56 +23,57 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=TquIVBdHkfUJ92t2EVg32q5kffyoKffvut+5rvMCpi0=; b=TCINlYUV2ulo9M7bRqx1C9YTH
-	isou2MHUF633Vw5w1nMjHkRAA0STOGXfa0SJENkeCoarQGq+d31kaQDQ7xW8J9Uf+EBa2s/dlnVSf
-	P8ZCdmFTf5UFGP/RpBDUPhihqLAb/Q43jU0+IMzluzZIE7y+MdcCQeUKIbzENiZ/n8GtZ9gDZIaP7
-	A1fidWG0XKguKf2ky95wnMp5fVHfExIepeaNpGT5bZKD5S1H5YTCNS2cqckWo89rQnKp40KUXBQN3
-	FVjqvhuoAuJepwqKXk4cl9Xp3/khg+gEbypBCGd4V5zsbesaNgjp+zxEQYdJd0wY9ScqBmyMQLo9c
-	dmXBqPQgQ==;
+	 bh=DuSk91yzLkbn7YQ1vLESuPOdrlMMs1wluv9hb2huIiU=; b=cGNUCYrtzbdoPaKrqE7pWTYT1
+	jRxiI72wX5ieBwSFZkUKmtYIPbgdAf5GPP7x86OBg7SRMCncaxrYcuql4Ke0F52/iEFv/Jg60tbE2
+	pOUNaLV/BXnkTbGwJ6Ms1vLQEnF6DdYLGh5ZZFAUIYsZl7NVaOEj2J2cSjea7nChebnZVdTCLSjAt
+	V16TqQopZ22iccI+W7ALok1Uj1T48Iy3AkToRGzInq1PTummaL8rwmAnlSyfZ85N7JQAiLwLpedlw
+	c28nocEZUIfPRS9iMn4f3AuUVB0ZqWniEmyXueMspTI5iJFSc2ZHsQdQUSBysU/sk7aQzVIUn6aOz
+	F1DZYxewg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kmJhy-0004NS-4N; Mon, 07 Dec 2020 16:49:54 +0000
-Received: from mail-ot1-f65.google.com ([209.85.210.65])
+	id 1kmJiN-0004RS-PS; Mon, 07 Dec 2020 16:50:19 +0000
+Received: from mail-oi1-f194.google.com ([209.85.167.194])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kmJhv-0004N0-WF; Mon, 07 Dec 2020 16:49:52 +0000
-Received: by mail-ot1-f65.google.com with SMTP id o11so10377719ote.4;
- Mon, 07 Dec 2020 08:49:50 -0800 (PST)
+ id 1kmJiI-0004Ps-3p; Mon, 07 Dec 2020 16:50:14 +0000
+Received: by mail-oi1-f194.google.com with SMTP id 15so4889988oix.8;
+ Mon, 07 Dec 2020 08:50:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=UuU157skWGSfcX1NxkRT5BCxvQhS6DEbdRKPwY10+n0=;
- b=VNtOHiyPcF11TMPliAaASI5CUHy0bnbHjRvKQhQ84AlZAEFdekmX9IjEVG1kBN/x97
- LXeaDyXIVfqjB/HwEb0W2UlXEOJ/tlD7OsXLYUn//kyCDz/fAhoUnPqyrrK9c35HzJ0/
- FM+oYxA03exGxjA5fEU+3jd4hf0Go4Mc4pJ2z885HFaq7lwwYjvLDr3fDuFqtSHCdS1M
- w5GGLfprRUjMxeD56UP45F8FjXefVi0oFlZEcFcjIC9kxCfkd7kgj0rkm+pKk52uDGb0
- Zn6WvMebI9FTVpXYbDK73B23MRQMZXnxndxZjp9SHjIDdZfhzyC3U+Vo92FK1iDAf1uq
- 9r6w==
-X-Gm-Message-State: AOAM531Y4jIPdRc6XiGOXO0ijQRXnIHwGjfaMSdlbzjNVylNSYUjzCJ8
- 6BDd0fG9gg9eA5m/YC6vZQ==
-X-Google-Smtp-Source: ABdhPJxmcf4zm/wuxPhsKUoUScvOLy83vfBUwi8g1uPSshO3b0CcihsttcupDMYjJmpikbuM3HuZZw==
-X-Received: by 2002:a9d:7304:: with SMTP id e4mr4414560otk.228.1607359790146; 
- Mon, 07 Dec 2020 08:49:50 -0800 (PST)
+ bh=sVqHnk5+Qd48rsQgEdxe7AzLNS+jRVeavbI0MHrpgH8=;
+ b=G6j7ptQtpE1QNzzRZ+1f5YS7pWK7rcZ0Gj+30EFqcySM8uisB0g2EI+ShgDF2QFlau
+ ZD/H5R8ZtBH0+PjHwH8dqpg0hMCcVq9SqoE6R2E4RtsZlK46xlPaXzBnvxB50ipMAbj+
+ +yq0ge0Nl225sqwkdbBSyG7TjQ0Ho0x4mIWKJs85hFe1rz+m6sbTKJFZxdILz/guhUEQ
+ AOu1rsyz82lkkyxTPEtoDhT8AhGnv91duNOOfQI43VXrnc0/g1yxnPw4zGFBk2HPP709
+ eGHTM4TAMIQxpjtfXXK9vROiXs2EJNIJ1EpIExquhd09fLbiA7BvTHyMKDKxCjpxcbNN
+ dAQw==
+X-Gm-Message-State: AOAM531sQkRRdvlWkey9hFLcTFUlaL2HUQXejsQbnbIRkzbKJ/5hMkp0
+ xbXGHHCVGgz3sxgP4lizqw==
+X-Google-Smtp-Source: ABdhPJyi1wFJCXTTwPWZTDNSZYVtXEjaTrMTXAL1g/vcuUtmd8ZXTbe7OhMA8bMQ/ovZiNG8xiPfvg==
+X-Received: by 2002:aca:ccc1:: with SMTP id
+ c184mr10424948oig.121.1607359813295; 
+ Mon, 07 Dec 2020 08:50:13 -0800 (PST)
 Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id x72sm3040778oia.16.2020.12.07.08.49.48
+ by smtp.gmail.com with ESMTPSA id j62sm2730022otc.49.2020.12.07.08.50.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Dec 2020 08:49:48 -0800 (PST)
-Received: (nullmailer pid 420892 invoked by uid 1000);
- Mon, 07 Dec 2020 16:49:47 -0000
-Date: Mon, 7 Dec 2020 10:49:47 -0600
+ Mon, 07 Dec 2020 08:50:12 -0800 (PST)
+Received: (nullmailer pid 421441 invoked by uid 1000);
+ Mon, 07 Dec 2020 16:50:10 -0000
+Date: Mon, 7 Dec 2020 10:50:10 -0600
 From: Rob Herring <robh@kernel.org>
 To: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Subject: Re: [PATCH v5 10/19] dt-bindings: usb: Convert DWC USB3 bindings to
- DT schema
-Message-ID: <20201207164947.GA420349@robh.at.kernel.org>
+Subject: Re: [PATCH v5 01/19] dt-bindings: usb: usb-hcd: Detach generic USB
+ controller properties
+Message-ID: <20201207165010.GB420349@robh.at.kernel.org>
 References: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
- <20201205152427.29537-11-Sergey.Semin@baikalelectronics.ru>
+ <20201205152427.29537-2-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201205152427.29537-11-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201205152427.29537-2-Sergey.Semin@baikalelectronics.ru>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201207_114952_082099_D86B963F 
-X-CRM114-Status: GOOD (  23.68  )
+X-CRM114-CacheID: sfid-20201207_115014_191997_7F372617 
+X-CRM114-Status: GOOD (  19.29  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,71 +108,65 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Sat, 05 Dec 2020 18:24:17 +0300, Serge Semin wrote:
-> DWC USB3 DT node is supposed to be compliant with the Generic xHCI
-> Controller schema, but with additional vendor-specific properties, the
-> controller-specific reference clocks and PHYs. So let's convert the
-> currently available legacy text-based DWC USB3 bindings to the DT schema
-> and make sure the DWC USB3 nodes are also validated against the
-> usb-xhci.yaml schema.
+On Sat, 05 Dec 2020 18:24:08 +0300, Serge Semin wrote:
+> There can be three distinctive types of the USB controllers: USB hosts,
+> USB peripherals/gadgets and USB OTG, which can switch from one role to
+> another. In order to have that hierarchy handled in the DT binding files,
+> we need to collect common properties in a common DT schema and specific
+> properties in dedicated schemas. Seeing the usb-hcd.yaml DT schema is
+> dedicated for the USB host controllers only, let's move some common
+> properties from there into the usb.yaml schema. So the later would be
+> available to evaluate all currently supported types of the USB
+> controllers.
 > 
-> Note 1. we have to discard the nodename restriction of being prefixed with
-> "dwc3@" string, since in accordance with the usb-hcd.yaml schema USB nodes
-> are supposed to be named as "^usb(@.*)".
-> 
-> Note 2. The clock-related properties are marked as optional to match the
-> DWC USB3 driver expectation and to improve the bindings mainainability
-> so in case if there is a glue-node it would the responsible for the
-> clocks initialization.
+> While at it add an explicit "additionalProperties: true" into the
+> usb-hcd.yaml as setting the additionalProperties/unevaluateProperties
+> properties is going to be get mandatory soon.
 > 
 > Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 > 
 > ---
 > 
-> Changelog v2:
-> - Discard '|' from the descriptions, since we don't need to preserve
->   the text formatting in any of them.
-> - Drop quotes from around the string constants.
-> - Fix the "clock-names" prop description to be referring the enumerated
->   clock-names instead of the ones from the Databook.
-> 
-> Changelog v3:
-> - Apply usb-xhci.yaml# schema only if the controller is supposed to work
->   as either host or otg.
-> 
 > Changelog v4:
-> - Apply usb-drd.yaml schema first. If the controller is configured
->   to work in a gadget mode only, then apply the usb.yaml schema too,
->   otherwise apply the usb-xhci.yaml schema.
-> - Discard the Rob'es Reviewed-by tag. Please review the patch one more
->   time.
+> - This is a new patch created as a result of the comment left
+>   by Chunfeng Yun in v3
 > 
 > Changelog v5:
-> - Add "snps,dis-split-quirk" property to the DWC USB3 DT schema.
-> - Add a commit log text about the clock-related property changes.
-> - Make sure dr_mode exist to apply the USB-gadget-only schema.
+> - Discard duplicated additionalProperties property definition.
 > ---
->  .../devicetree/bindings/usb/dwc3.txt          | 128 -------
->  .../devicetree/bindings/usb/snps,dwc3.yaml    | 312 ++++++++++++++++++
->  2 files changed, 312 insertions(+), 128 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/usb/dwc3.txt
->  create mode 100644 Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+>  .../devicetree/bindings/usb/usb-hcd.yaml      | 14 ++-------
+>  .../devicetree/bindings/usb/usb.yaml          | 29 +++++++++++++++++++
+>  2 files changed, 31 insertions(+), 12 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/usb/usb.yaml
 > 
 
 
 My bot found errors running 'make dt_binding_check' on your patch:
 
 yamllint warnings/errors:
-./Documentation/devicetree/bindings/usb/snps,dwc3.yaml:55:4: [warning] wrong indentation: expected 4 but found 3 (indentation)
 
 dtschema/dtc warnings/errors:
-Unknown file referenced: [Errno 2] No such file or directory: '/usr/local/lib/python3.8/dist-packages/dtschema/schemas/usb/usb-drd.yaml'
-xargs: dt-doc-validate: exited with status 255; aborting
-make[1]: *** [Documentation/devicetree/bindings/Makefile:59: Documentation/devicetree/bindings/processed-schema-examples.json] Error 124
-make: *** [Makefile:1364: dt_binding_check] Error 2
+schemas/usb/usb-hcd.yaml: ignoring, error in schema: 
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-hcd.yaml: 'anyOf' conditional failed, one must be fixed:
+	'properties' is a required property
+	'patternProperties' is a required property
+schemas/usb/usb-hcd.yaml: ignoring, error in schema: 
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/usb-hcd.yaml: ignoring, error in schema: 
+warning: no schema found in file: ./Documentation/devicetree/bindings/usb/usb-hcd.yaml
+schemas/usb/usb-hcd.yaml: ignoring, error in schema: 
+dt-validate: recursion error: Check for prior errors in a referenced schema
+schemas/usb/usb-hcd.yaml: ignoring, error in schema: 
+dt-validate: recursion error: Check for prior errors in a referenced schema
+schemas/usb/usb-hcd.yaml: ignoring, error in schema: 
+dt-validate: recursion error: Check for prior errors in a referenced schema
+schemas/usb/usb-hcd.yaml: ignoring, error in schema: 
+dt-validate: recursion error: Check for prior errors in a referenced schema
+schemas/usb/usb-hcd.yaml: ignoring, error in schema: 
+dt-validate: recursion error: Check for prior errors in a referenced schema
+dt-validate: recursion error: Check for prior errors in a referenced schema
 
 
-See https://patchwork.ozlabs.org/patch/1411582
+See https://patchwork.ozlabs.org/patch/1411574
 
 The base for the patch is generally the last rc1. Any dependencies
 should be noted.
