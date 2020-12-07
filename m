@@ -2,75 +2,77 @@ Return-Path: <SRS0=A0w3=FL=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3C00C4361B
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Dec 2020 09:35:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2316BC433FE
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Dec 2020 16:49:55 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 97ABF2311A
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Dec 2020 09:35:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 97ABF2311A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mediatek.com
+	by mail.kernel.org (Postfix) with ESMTPS id D286F23787
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Dec 2020 16:49:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D286F23787
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Date:To:From:
-	Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=MzlhWPvzu+axI1dy/A15aUp0TefjK26pnXVDvprfqq8=; b=DQV+OYV4psf4q8ssKjoWd54je
-	8NStADMeyPxBIb6Iiqa6zKz7C/9r9q+MDt5kWSqI4gstDBiIH5Q9ajfpsMFDkhk92gUS/o7cGj/6g
-	sQ5lMjRfGpHYGqWCbQwfh31LiVwnuyb2ybAYXystFqJneH/rP7n2+ewV3JbMkouHQfY9XgosSk04N
-	EzqsiskDJ+VGRzq1FTvnrrNaYnxgehFIBGYTrwUwz25+9uVUTkC5DqYPBQFnXJ9nEvxos7aG7ZT0T
-	jfkt7puyDyIxV6BkK1FpCOWDpBuL6xR8VcPix7I2N+f13NYgejPzjfcIhcLRT+UuwEWjMfydzAAxt
-	N384X7tKA==;
+	 bh=TquIVBdHkfUJ92t2EVg32q5kffyoKffvut+5rvMCpi0=; b=TCINlYUV2ulo9M7bRqx1C9YTH
+	isou2MHUF633Vw5w1nMjHkRAA0STOGXfa0SJENkeCoarQGq+d31kaQDQ7xW8J9Uf+EBa2s/dlnVSf
+	P8ZCdmFTf5UFGP/RpBDUPhihqLAb/Q43jU0+IMzluzZIE7y+MdcCQeUKIbzENiZ/n8GtZ9gDZIaP7
+	A1fidWG0XKguKf2ky95wnMp5fVHfExIepeaNpGT5bZKD5S1H5YTCNS2cqckWo89rQnKp40KUXBQN3
+	FVjqvhuoAuJepwqKXk4cl9Xp3/khg+gEbypBCGd4V5zsbesaNgjp+zxEQYdJd0wY9ScqBmyMQLo9c
+	dmXBqPQgQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kmCva-0005Ug-DE; Mon, 07 Dec 2020 09:35:30 +0000
-Received: from mailgw02.mediatek.com ([216.200.240.185])
+	id 1kmJhy-0004NS-4N; Mon, 07 Dec 2020 16:49:54 +0000
+Received: from mail-ot1-f65.google.com ([209.85.210.65])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kmCvN-0005Px-BG; Mon, 07 Dec 2020 09:35:19 +0000
-X-UUID: a573ff0baf2d4425b59a2878985ea12e-20201207
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=PzXAt74ogdSVvHGMlNFXOX2qEwkVCLrOs16Lzlq64es=; 
- b=OV3sIbBr1/oGinAkIaXn9mQPEugTeqY4fbZ0B4iEDJ35M5ukreEfI+9XMt/F8oMQ3oSb2HYGffDGqAszfifoIjtQhkxXBSBQQqzN3KlxtwJ1sImYxj3BbS8gyVDgaf+UopVbr8n48KnUjkrKRHtF1SEKwTg+WKvQEZrsliu+C+s=;
-X-UUID: a573ff0baf2d4425b59a2878985ea12e-20201207
-Received: from mtkcas68.mediatek.inc [(172.29.94.19)] by mailgw02.mediatek.com
- (envelope-from <chunfeng.yun@mediatek.com>)
- (musrelay.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 2143493230; Mon, 07 Dec 2020 01:35:13 -0800
-Received: from MTKMBS32N2.mediatek.inc (172.27.4.72) by
- MTKMBS62N1.mediatek.inc (172.29.193.41) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 7 Dec 2020 01:35:11 -0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS32N2.mediatek.inc
- (172.27.4.72) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Mon, 7 Dec 2020 17:35:08 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 7 Dec 2020 17:35:05 +0800
-Message-ID: <1607333707.18575.4.camel@mhfsdcap03>
+ id 1kmJhv-0004N0-WF; Mon, 07 Dec 2020 16:49:52 +0000
+Received: by mail-ot1-f65.google.com with SMTP id o11so10377719ote.4;
+ Mon, 07 Dec 2020 08:49:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=UuU157skWGSfcX1NxkRT5BCxvQhS6DEbdRKPwY10+n0=;
+ b=VNtOHiyPcF11TMPliAaASI5CUHy0bnbHjRvKQhQ84AlZAEFdekmX9IjEVG1kBN/x97
+ LXeaDyXIVfqjB/HwEb0W2UlXEOJ/tlD7OsXLYUn//kyCDz/fAhoUnPqyrrK9c35HzJ0/
+ FM+oYxA03exGxjA5fEU+3jd4hf0Go4Mc4pJ2z885HFaq7lwwYjvLDr3fDuFqtSHCdS1M
+ w5GGLfprRUjMxeD56UP45F8FjXefVi0oFlZEcFcjIC9kxCfkd7kgj0rkm+pKk52uDGb0
+ Zn6WvMebI9FTVpXYbDK73B23MRQMZXnxndxZjp9SHjIDdZfhzyC3U+Vo92FK1iDAf1uq
+ 9r6w==
+X-Gm-Message-State: AOAM531Y4jIPdRc6XiGOXO0ijQRXnIHwGjfaMSdlbzjNVylNSYUjzCJ8
+ 6BDd0fG9gg9eA5m/YC6vZQ==
+X-Google-Smtp-Source: ABdhPJxmcf4zm/wuxPhsKUoUScvOLy83vfBUwi8g1uPSshO3b0CcihsttcupDMYjJmpikbuM3HuZZw==
+X-Received: by 2002:a9d:7304:: with SMTP id e4mr4414560otk.228.1607359790146; 
+ Mon, 07 Dec 2020 08:49:50 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id x72sm3040778oia.16.2020.12.07.08.49.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Dec 2020 08:49:48 -0800 (PST)
+Received: (nullmailer pid 420892 invoked by uid 1000);
+ Mon, 07 Dec 2020 16:49:47 -0000
+Date: Mon, 7 Dec 2020 10:49:47 -0600
+From: Rob Herring <robh@kernel.org>
+To: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Subject: Re: [PATCH v5 10/19] dt-bindings: usb: Convert DWC USB3 bindings to
  DT schema
-From: Chunfeng Yun <chunfeng.yun@mediatek.com>
-To: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Date: Mon, 7 Dec 2020 17:35:07 +0800
-In-Reply-To: <20201205152427.29537-11-Sergey.Semin@baikalelectronics.ru>
+Message-ID: <20201207164947.GA420349@robh.at.kernel.org>
 References: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
  <20201205152427.29537-11-Sergey.Semin@baikalelectronics.ru>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: AEB5FF3D303205152315F12801E2B2247DEE288D20E6EED68AE982586109AE1D2000:8
-X-MTK: N
+Content-Disposition: inline
+In-Reply-To: <20201205152427.29537-11-Sergey.Semin@baikalelectronics.ru>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201207_043517_613448_487B5154 
-X-CRM114-Status: GOOD (  24.17  )
+X-CRM114-CacheID: sfid-20201207_114952_082099_D86B963F 
+X-CRM114-Status: GOOD (  23.68  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,29 +84,30 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
+Cc: Neil Armstrong <narmstrong@baylibre.com>, linux-mips@vger.kernel.org,
  Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
  Kevin Hilman <khilman@baylibre.com>, Krzysztof Kozlowski <krzk@kernel.org>,
  Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
- Andy Gross <agross@kernel.org>, linux-snps-arc@lists.infradead.org,
- devicetree@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>,
+ Andy Gross <agross@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ linux-snps-arc@lists.infradead.org, devicetree@vger.kernel.org,
+ Mathias Nyman <mathias.nyman@intel.com>,
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
- Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org,
- Roger Quadros <rogerq@ti.com>, Felipe Balbi <balbi@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, Roger Quadros <rogerq@ti.com>,
+ Felipe Balbi <balbi@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
- Serge Semin <fancer.lancer@gmail.com>, linux-kernel@vger.kernel.org,
- Manu Gautam <mgautam@codeaurora.org>, linuxppc-dev@lists.ozlabs.org
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Serge Semin <fancer.lancer@gmail.com>, Manu Gautam <mgautam@codeaurora.org>,
+ linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Sat, 2020-12-05 at 18:24 +0300, Serge Semin wrote:
+On Sat, 05 Dec 2020 18:24:17 +0300, Serge Semin wrote:
 > DWC USB3 DT node is supposed to be compliant with the Generic xHCI
 > Controller schema, but with additional vendor-specific properties, the
 > controller-specific reference clocks and PHYs. So let's convert the
@@ -154,41 +157,33 @@ On Sat, 2020-12-05 at 18:24 +0300, Serge Semin wrote:
 >  delete mode 100644 Documentation/devicetree/bindings/usb/dwc3.txt
 >  create mode 100644 Documentation/devicetree/bindings/usb/snps,dwc3.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/usb/dwc3.txt b/Documentation/devicetree/bindings/usb/dwc3.txt
-> deleted file mode 100644
-> index 1aae2b6160c1..000000000000
-> --- a/Documentation/devicetree/bindings/usb/dwc3.txt
-> +++ /dev/null
-> @@ -1,128 +0,0 @@
-> -synopsys DWC3 CORE
-> -
-[...]
-> +
-> +  clock-names:
-> +    contains:
-> +      anyOf:
-> +        - enum: [bus_early, ref, suspend]
-> +        - true
-> +
-> +  usb-phy:
-> +   minItems: 1
-indentation: expected 4
-> +   items:
-> +     - description: USB2/HS PHY
-> +     - description: USB3/SS PHY
-> +
-> +  phys:
-> +    minItems: 1
-> +    items:
-> +      - description: USB2/HS PHY
-> +      - description: USB3/SS PHY
-> +
-> +  phy-names:
-> +    minItems: 1
-> +    items:
-> +      - const: usb2-phy
-> +      - const: usb3-phy
-[...]
+
+
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/usb/snps,dwc3.yaml:55:4: [warning] wrong indentation: expected 4 but found 3 (indentation)
+
+dtschema/dtc warnings/errors:
+Unknown file referenced: [Errno 2] No such file or directory: '/usr/local/lib/python3.8/dist-packages/dtschema/schemas/usb/usb-drd.yaml'
+xargs: dt-doc-validate: exited with status 255; aborting
+make[1]: *** [Documentation/devicetree/bindings/Makefile:59: Documentation/devicetree/bindings/processed-schema-examples.json] Error 124
+make: *** [Makefile:1364: dt_binding_check] Error 2
+
+
+See https://patchwork.ozlabs.org/patch/1411582
+
+The base for the patch is generally the last rc1. Any dependencies
+should be noted.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
 
 _______________________________________________
 linux-snps-arc mailing list
