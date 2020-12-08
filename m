@@ -1,20 +1,19 @@
-Return-Path: <SRS0=A0w3=FL=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=HtfL=FM=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BFF6C197BF
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Dec 2020 16:53:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79DD4C433FE
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  8 Dec 2020 15:21:36 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 50CE323787
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Dec 2020 16:53:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 50CE323787
+	by mail.kernel.org (Postfix) with ESMTPS id 347A723A7B
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  8 Dec 2020 15:21:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 347A723A7B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,56 +22,57 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=J8Y5lwSPn/ygQYXVozHkncDlh0NM4gB/CuaqjE954WA=; b=twcIyOMoDDrdsn0tWWwlsyf3A
-	GaVdZHKu5C6vBSezJZtkVBxcxyxVkrAqyyUchsZri0VX5wKjmvbzYK+OCIJ2sEipMBjycSRUebN/n
-	+QJUZJpvnUWQ11mM/wI+bNFQz/R3Oz3KXjGm6JMrlnXr3rbu3+8lS8FCu3+XL6J6+bqe+7h3EEala
-	6l/If0AxUyiPOBlWKAt1qAVxOaMILz9okXPU2+I3aK4E3XvlH4Vt9KmGOrFWqaWwqbHA0iaZkkrRz
-	HpBCWpn/vo7bAeJM5+ML68x1VoV+2XPtMkTij81b30tdCZyiMhpMg6WL6hubSSkX9U+Hs7aIWM1K/
-	mFhdr0EwA==;
+	 bh=d9cza106ruUzUQ3qQxGftCrgXD0WKif6UXdlBcTzWeQ=; b=iK7YgqIlYWAomtstKjh/FPxEQ
+	x5cWpydD5boeX76sC/K567USn1P7Rjs3N5LNlQCUxfm+h1L0JzkioLiJVHcsnliXfxuvVHqMPoP3z
+	8ffBWO+swY/U4uLlEfMqavz0YgQJ1dtF5y2uLPwDxA7on/Sa+c8/CZz+cJ4GS9L1W6PNsJ1HFSPvY
+	zmX+9ukbPEKXVl4qwpLO+s/SB3kQ0FjKflCgzKd9gvponFYhVot8TpWYkKZc3OgWtyak/JM5rJ5za
+	RORwsraYoWCBVCDJmQ2AzfdhHD64CmESyq1W7p2CFook7mP68bvbb84j3F3yZgtZSRMQOevvgcpdR
+	Bfj5rbqow==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kmJlF-0004xz-Lb; Mon, 07 Dec 2020 16:53:17 +0000
+	id 1kmeo3-0004HJ-At; Tue, 08 Dec 2020 15:21:35 +0000
 Received: from mail-ot1-f66.google.com ([209.85.210.66])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kmJlD-0004xC-75; Mon, 07 Dec 2020 16:53:15 +0000
-Received: by mail-ot1-f66.google.com with SMTP id b18so13104148ots.0;
- Mon, 07 Dec 2020 08:53:14 -0800 (PST)
+ id 1kmenw-0004FJ-M4; Tue, 08 Dec 2020 15:21:29 +0000
+Received: by mail-ot1-f66.google.com with SMTP id o11so13409060ote.4;
+ Tue, 08 Dec 2020 07:21:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=7U3Yhw/pl02ZoaOBu+HcEPYWSZaSb6JEpp9JpxVMzwM=;
- b=BdGbgnk85/VHewm5K5MI/kyM4pdOwugqjBOGs9mDLYVopNvqsTNbi/rT1CCdE7PyEJ
- Ind3CpxHHPzW29BqclVW4vcludLRI0lQWXJ1jtMO7QwJYpZEmmnRsKqzLVOOMP/2qBCj
- SIfDkRy3+q5dDk325lOmJPAIAoCzYycx8zXKTXcXj0vhR5THpQTOeh0ieSYahelxUBJ8
- B7SNgIxWHxQQJ7TLe1wjm7mWAPzG+LTL/jTcleE/edEiABuzPUUv32/k9u++2gioMfej
- bUUiS7c5+QlfjS5D46LMcbvxOgOcICssPZwav8B8SqcltM/r/Do6j4P0cE1qhcBKyefz
- x19Q==
-X-Gm-Message-State: AOAM531bKzu28qUGc+XduRKxS1CSLSx1ZzgylCQdvTQc3L4O/VLWB/oA
- AKKnn0US6oZbsAkG0OQKnw==
-X-Google-Smtp-Source: ABdhPJy7Q0USqnNLm3yD6fipjmEKQhCRZjQyZNGy1bziDJf63sFl8UXBj77WW4CCsAJh3BBAvF6/3A==
-X-Received: by 2002:a9d:6b88:: with SMTP id b8mr13781346otq.60.1607359994430; 
- Mon, 07 Dec 2020 08:53:14 -0800 (PST)
+ bh=IQ3hrRr5CR/EHc+P2sk3O7yO90fJ2PV9jiKrnTl/JOE=;
+ b=cED9qvzqCuyeVl946Z1E/oWm6c568GLeh8RSfdu0bNm4nvr+XZKdCz3Z8pqhN7vM6f
+ N0FZ5EJX6LG3Su8c+3KXNZefvclQcEqDLgJgZPzM5LrjzF4uthF8ZOzGRvCWzF6qBG+J
+ HTKvqoCCKVk02AEufF+K43Vcld4Rdpmih03i3qYwLZOUMljsuli8zCMXWi/VIkiFqxYe
+ hYaK1GWQCG4ZWS9eDn2GNzFoADLmR8AKS/wZr6WNjhpIrjyJCiQ0rUgMysZlYmSnoFyM
+ 7OlYeAW6PAiuDy6F04XA+UZdm/jiOrNPrc/6mHA6yiKSs0TUjIcJs9V2Qzkw/OMwUXna
+ gdtg==
+X-Gm-Message-State: AOAM532WFg68A3p/VokKitjLINpqmugddhWlqkdMVCxY+ChLXcvJ2qdn
+ 7qjjC3TzCvPcenMC1gnVDQ==
+X-Google-Smtp-Source: ABdhPJzmCHNnVAHVBS3T6eGsSQKp+szBNnE+KgDyZOtKt+lyLKF1btlAQoWaO2PnCHLoZUrZlxBiKg==
+X-Received: by 2002:a05:6830:1352:: with SMTP id
+ r18mr16663484otq.73.1607440887454; 
+ Tue, 08 Dec 2020 07:21:27 -0800 (PST)
 Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id t5sm2754514oth.16.2020.12.07.08.53.12
+ by smtp.gmail.com with ESMTPSA id u130sm3717886oib.53.2020.12.08.07.21.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Dec 2020 08:53:13 -0800 (PST)
-Received: (nullmailer pid 425824 invoked by uid 1000);
- Mon, 07 Dec 2020 16:53:12 -0000
-Date: Mon, 7 Dec 2020 10:53:12 -0600
+ Tue, 08 Dec 2020 07:21:25 -0800 (PST)
+Received: (nullmailer pid 2539592 invoked by uid 1000);
+ Tue, 08 Dec 2020 15:21:23 -0000
+Date: Tue, 8 Dec 2020 09:21:23 -0600
 From: Rob Herring <robh@kernel.org>
 To: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Subject: Re: [PATCH v5 19/19] dt-bindings: usb: intel, keembay-dwc3: Validate
- DWC3 sub-node
-Message-ID: <20201207165312.GA425775@robh.at.kernel.org>
+Subject: Re: [PATCH v5 10/19] dt-bindings: usb: Convert DWC USB3 bindings to
+ DT schema
+Message-ID: <20201208152123.GA2539227@robh.at.kernel.org>
 References: <20201205152427.29537-1-Sergey.Semin@baikalelectronics.ru>
- <20201205152427.29537-20-Sergey.Semin@baikalelectronics.ru>
+ <20201205152427.29537-11-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201205152427.29537-20-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20201205152427.29537-11-Sergey.Semin@baikalelectronics.ru>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201207_115315_294211_7867DCAC 
-X-CRM114-Status: GOOD (  13.82  )
+X-CRM114-CacheID: sfid-20201208_102128_739571_256C218C 
+X-CRM114-Status: GOOD (  22.08  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,36 +97,65 @@ Cc: Neil Armstrong <narmstrong@baylibre.com>,
  Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
  Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org,
  Roger Quadros <rogerq@ti.com>, Felipe Balbi <balbi@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-mips@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
- Serge Semin <fancer.lancer@gmail.com>, linux-kernel@vger.kernel.org,
- Manu Gautam <mgautam@codeaurora.org>, linuxppc-dev@lists.ozlabs.org
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Serge Semin <fancer.lancer@gmail.com>, Manu Gautam <mgautam@codeaurora.org>,
+ linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Sat, 05 Dec 2020 18:24:26 +0300, Serge Semin wrote:
-> Intel Keem Bay DWC3 compatible DT nodes are supposed to have a DWC USB3
-> compatible sub-node to describe a fully functioning USB interface. Let's
-> use the available DWC USB3 DT schema to validate the Qualcomm DWC3
-> sub-nodes.
+On Sat, 05 Dec 2020 18:24:17 +0300, Serge Semin wrote:
+> DWC USB3 DT node is supposed to be compliant with the Generic xHCI
+> Controller schema, but with additional vendor-specific properties, the
+> controller-specific reference clocks and PHYs. So let's convert the
+> currently available legacy text-based DWC USB3 bindings to the DT schema
+> and make sure the DWC USB3 nodes are also validated against the
+> usb-xhci.yaml schema.
 > 
-> Note since the generic DWC USB3 DT node is supposed to be named as generic
-> USB HCD ("^usb(@.*)?") one we have to accordingly fix the sub-nodes name
-> regexp and fix the DT node example.
+> Note 1. we have to discard the nodename restriction of being prefixed with
+> "dwc3@" string, since in accordance with the usb-hcd.yaml schema USB nodes
+> are supposed to be named as "^usb(@.*)".
+> 
+> Note 2. The clock-related properties are marked as optional to match the
+> DWC USB3 driver expectation and to improve the bindings mainainability
+> so in case if there is a glue-node it would the responsible for the
+> clocks initialization.
 > 
 > Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 > 
 > ---
 > 
+> Changelog v2:
+> - Discard '|' from the descriptions, since we don't need to preserve
+>   the text formatting in any of them.
+> - Drop quotes from around the string constants.
+> - Fix the "clock-names" prop description to be referring the enumerated
+>   clock-names instead of the ones from the Databook.
+> 
+> Changelog v3:
+> - Apply usb-xhci.yaml# schema only if the controller is supposed to work
+>   as either host or otg.
+> 
+> Changelog v4:
+> - Apply usb-drd.yaml schema first. If the controller is configured
+>   to work in a gadget mode only, then apply the usb.yaml schema too,
+>   otherwise apply the usb-xhci.yaml schema.
+> - Discard the Rob'es Reviewed-by tag. Please review the patch one more
+>   time.
+> 
 > Changelog v5:
-> - This is a new patch created for the new Intel Keem Bay bindings file,
->   which has been added just recently.
+> - Add "snps,dis-split-quirk" property to the DWC USB3 DT schema.
+> - Add a commit log text about the clock-related property changes.
+> - Make sure dr_mode exist to apply the USB-gadget-only schema.
 > ---
->  .../devicetree/bindings/usb/intel,keembay-dwc3.yaml      | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
+>  .../devicetree/bindings/usb/dwc3.txt          | 128 -------
+>  .../devicetree/bindings/usb/snps,dwc3.yaml    | 312 ++++++++++++++++++
+>  2 files changed, 312 insertions(+), 128 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/usb/dwc3.txt
+>  create mode 100644 Documentation/devicetree/bindings/usb/snps,dwc3.yaml
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
