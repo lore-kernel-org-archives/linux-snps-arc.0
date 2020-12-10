@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85640C433FE
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:11:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF5BEC4167B
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:11:23 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 27DA023D6B
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:11:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 27DA023D6B
+	by mail.kernel.org (Postfix) with ESMTPS id 55E4A22C7D
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:11:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 55E4A22C7D
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baikalelectronics.ru
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,35 +23,34 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=tf3eS3GVqF5zPqp1+Flc/84coZOBJgCMe2pbGishuvs=; b=JxHTlNX+y1l7XP5d1cMjFtcRZ
-	OcNXs2gfVXARQ9BGGDV40PziaI+Etjq+jnzyyQWbLcgoKW+7cYljtaHfftFD/s+VscIQJshxpGYDo
-	4XJJqKMz+RaG0djFucfELdje+CYVUvkSfMjeEw/djg+UhUpn/N27MZDwj/sCyWxfiNGg4azeUkdKF
-	QYa7PjBFyE/UT6DlSxzlGaKFACUY9CXTazcx5GcJvQt9vf6ppWfKzGgTNj1LioofAcZupaKIIFd49
-	inhI6D5EihxuS1ScTTWvAGMJdDI6Wuqia2DA8lishmgkUuMu2gOHNm2oEpPg88PsCrnIwb41TXLoK
-	3zWrIUfAQ==;
+	 bh=Cpvz4HxKC2nd6Pe1zEiJ+dETLiqNhFDWHHZD8F623pk=; b=sJOuvyG3+jCyArpRbfFP7eE1c
+	gR0IdY457oVpQ7VmOS83VMM3mAhg1i5zEy6Zc7DOHKFcqOjwbafbrEsanxdnI4fieOOhNncATvcIT
+	5vwQUDPN0nyjHeaUMA9I1w/tVHHO8eYhazQ8uQzISfEyGJNSQLyqkW/JmMyJFcP0ahIFM2Ph/UoqS
+	Sx5pb54u8VOdFAhhJVnKci8PjeroIhucmvAEGPGJ9etwIFGEitQCOY0o9D7RQJfwyBYXD1OjCQuKX
+	/kwC8PCVGsCUTJJN80pZIVe1EElClPx9OhWqnhjmrI7ADtqzo5EATO38714z+L36nu+CDk69oQwGE
+	gx+FbCfgw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1knHyq-0004mC-PR; Thu, 10 Dec 2020 09:11:20 +0000
+	id 1knHyr-0004mN-H7; Thu, 10 Dec 2020 09:11:21 +0000
 Received: from mail.baikalelectronics.com ([87.245.175.226]
  helo=mail.baikalelectronics.ru)
  by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1knHyA-0004VT-0a; Thu, 10 Dec 2020 09:10:39 +0000
+ id 1knHyA-0004Vb-00; Thu, 10 Dec 2020 09:10:39 +0000
 From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To: Mathias Nyman <mathias.nyman@intel.com>, Felipe Balbi <balbi@kernel.org>, 
  Krzysztof Kozlowski <krzk@kernel.org>, Greg Kroah-Hartman
  <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, Chunfeng Yun
  <chunfeng.yun@mediatek.com>
-Subject: [PATCH v6 03/19] dt-bindings: usb: usb-drd: Add "otg-rev" property
- constraints
-Date: Thu, 10 Dec 2020 12:09:27 +0300
-Message-ID: <20201210090944.16283-4-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v6 04/19] dt-bindings: usb: Add "ulpi/serial/hsic" PHY types
+Date: Thu, 10 Dec 2020 12:09:28 +0300
+Message-ID: <20201210090944.16283-5-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201210090944.16283-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201210090944.16283-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201210_041038_271754_D88B4C39 
-X-CRM114-Status: UNSURE (   8.47  )
+X-CRM114-CacheID: sfid-20201210_041038_242423_6232FD41 
+X-CRM114-Status: UNSURE (   9.92  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -85,33 +84,47 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-There are only four OTG revisions are currently supported by the kernel:
-0x0100, 0x0120, 0x0130, 0x0200. Any another value is considered as
-invalid.
+Aside from the UTMI+ there are also ULPI, Serial and HSIC PHY types
+that can be specified in the phy_type HCD property. Add them to the
+enumeration of the acceptable values.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Reviewed-by: Rob Herring <robh@kernel.org>
 
 ---
 
-Changelog v4:
-- Move the constraints to the usb-drd.yaml schema where the otg-rev
-  property is now defined.
----
- Documentation/devicetree/bindings/usb/usb-drd.yaml | 1 +
- 1 file changed, 1 insertion(+)
+Changelog v2:
+- Grammar fix: "s/PHY types can be/PHY types that can be"
+- Drop quotes from around the string constants.
 
-diff --git a/Documentation/devicetree/bindings/usb/usb-drd.yaml b/Documentation/devicetree/bindings/usb/usb-drd.yaml
-index f3a64c46dcd0..f229fc8068d9 100644
---- a/Documentation/devicetree/bindings/usb/usb-drd.yaml
-+++ b/Documentation/devicetree/bindings/usb/usb-drd.yaml
-@@ -18,6 +18,7 @@ properties:
-       features (HNP/SRP/ADP) is enabled. If ADP is required, otg-rev should be
-       0x0200 or above.
-     $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [0x0100, 0x0120, 0x0130, 0x0200]
+Changelog v4:
+- Move the new PHY types definitions into the usb.yaml schema where the
+  phy_type property is now defined.
+---
+ Documentation/devicetree/bindings/usb/usb.yaml | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/usb/usb.yaml b/Documentation/devicetree/bindings/usb/usb.yaml
+index aab74c671ccc..53144c4600c0 100644
+--- a/Documentation/devicetree/bindings/usb/usb.yaml
++++ b/Documentation/devicetree/bindings/usb/usb.yaml
+@@ -27,11 +27,13 @@ properties:
+   phy_type:
+     description:
+       Tells USB controllers that we want to configure the core to support a
+-      UTMI+ PHY with an 8- or 16-bit interface if UTMI+ is selected. In case
+-      this isn't passed via DT, USB controllers should default to HW
+-      capability.
++      UTMI+ PHY with an 8- or 16-bit interface if UTMI+ is selected, UTMI+ low
++      pin interface if ULPI is specified, Serial core/PHY interconnect if
++      serial is specified and High-Speed Inter-Chip feature if HSIC is
++      selected. In case this isn't passed via DT, USB controllers should
++      default to HW capability.
+     $ref: /schemas/types.yaml#/definitions/string
+-    enum: [utmi, utmi_wide]
++    enum: [utmi, utmi_wide, ulpi, serial, hsic]
  
-   dr_mode:
+   maximum-speed:
      description:
 -- 
 2.29.2
