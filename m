@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF5BEC4167B
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:11:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B215DC4361B
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:12:21 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 55E4A22C7D
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:11:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 55E4A22C7D
+	by mail.kernel.org (Postfix) with ESMTPS id 467F722C7D
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:12:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 467F722C7D
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baikalelectronics.ru
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,34 +23,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Cpvz4HxKC2nd6Pe1zEiJ+dETLiqNhFDWHHZD8F623pk=; b=sJOuvyG3+jCyArpRbfFP7eE1c
-	gR0IdY457oVpQ7VmOS83VMM3mAhg1i5zEy6Zc7DOHKFcqOjwbafbrEsanxdnI4fieOOhNncATvcIT
-	5vwQUDPN0nyjHeaUMA9I1w/tVHHO8eYhazQ8uQzISfEyGJNSQLyqkW/JmMyJFcP0ahIFM2Ph/UoqS
-	Sx5pb54u8VOdFAhhJVnKci8PjeroIhucmvAEGPGJ9etwIFGEitQCOY0o9D7RQJfwyBYXD1OjCQuKX
-	/kwC8PCVGsCUTJJN80pZIVe1EElClPx9OhWqnhjmrI7ADtqzo5EATO38714z+L36nu+CDk69oQwGE
-	gx+FbCfgw==;
+	 bh=MOp247ZKRoy3vojh7+4tMEJYevRDMqweK1EVBv6AVXk=; b=S5W+kkeMCxc80NRD0cKSHFo/W
+	9lZuJGtRL5zKqrqTT5X9kJGIRkC1VHNcVIyLtz6dcoQDm20R1mNYhP3/uz9XQGAs1rtnyyWX2BJUU
+	1vzeb8g6ZWpTS1Yg0mLp/PjJPzf2kQcwLV4HmIDMTc9nwTbS23tZeoHYf8KyOFFe26MiZOawm5BNf
+	sp6RQYH7IwmbLXhSymBfeECS/7TB8ASZUDp6otoz+ljn8TAaMfr8NPSpWMjOdlp3YoJ7rwxylPSaN
+	KJ3219nr6d1vazmLdzk0xjY+/mmYB7FbW10yzraJQ1DcDHFAIFFPQ0uaeLumgANIOgZm2+xLi8Vzn
+	9DLVEcdHw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1knHyr-0004mN-H7; Thu, 10 Dec 2020 09:11:21 +0000
+	id 1knHzo-00056y-3I; Thu, 10 Dec 2020 09:12:20 +0000
 Received: from mail.baikalelectronics.com ([87.245.175.226]
  helo=mail.baikalelectronics.ru)
  by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1knHyA-0004Vb-00; Thu, 10 Dec 2020 09:10:39 +0000
+ id 1knHyC-0004YX-6E; Thu, 10 Dec 2020 09:10:42 +0000
 From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To: Mathias Nyman <mathias.nyman@intel.com>, Felipe Balbi <balbi@kernel.org>, 
  Krzysztof Kozlowski <krzk@kernel.org>, Greg Kroah-Hartman
  <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, Chunfeng Yun
- <chunfeng.yun@mediatek.com>
-Subject: [PATCH v6 04/19] dt-bindings: usb: Add "ulpi/serial/hsic" PHY types
-Date: Thu, 10 Dec 2020 12:09:28 +0300
-Message-ID: <20201210090944.16283-5-Sergey.Semin@baikalelectronics.ru>
+ <chunfeng.yun@mediatek.com>, Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, Yoshihiro Shimoda
+ <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v6 09/19] dt-bindings: usb: renesas-xhci: Refer to the
+ usb-xhci.yaml file
+Date: Thu, 10 Dec 2020 12:09:33 +0300
+Message-ID: <20201210090944.16283-10-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201210090944.16283-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201210090944.16283-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201210_041038_242423_6232FD41 
-X-CRM114-Status: UNSURE (   9.92  )
+X-CRM114-CacheID: sfid-20201210_041040_475114_AC6343B1 
+X-CRM114-Status: UNSURE (   9.03  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -63,69 +66,60 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
- Rob Herring <robh@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
+Cc: devicetree@vger.kernel.org,
  Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
- Andy Gross <agross@kernel.org>, linux-snps-arc@lists.infradead.org,
- devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ Neil Armstrong <narmstrong@baylibre.com>,
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+ Kevin Hilman <khilman@baylibre.com>, linux-usb@vger.kernel.org,
+ linux-mips@vger.kernel.org, Serge Semin <fancer.lancer@gmail.com>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
- linux-arm-kernel@lists.infradead.org, Roger Quadros <rogerq@ti.com>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
- Serge Semin <fancer.lancer@gmail.com>,
  Serge Semin <Sergey.Semin@baikalelectronics.ru>,
- Manu Gautam <mgautam@codeaurora.org>, linuxppc-dev@lists.ozlabs.org
+ Manu Gautam <mgautam@codeaurora.org>, Andy Gross <agross@kernel.org>,
+ Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+ Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+ linuxppc-dev@lists.ozlabs.org, Rob Herring <robh@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, Roger Quadros <rogerq@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Aside from the UTMI+ there are also ULPI, Serial and HSIC PHY types
-that can be specified in the phy_type HCD property. Add them to the
-enumeration of the acceptable values.
+With minor peculiarities (like uploading some vendor-specific firmware)
+these are just Generic xHCI controllers fully compatible with its
+properties. Make sure the Renesas USB xHCI DT nodes are also validated
+against the Generic xHCI DT schema.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Reviewed-by: Rob Herring <robh@kernel.org>
-
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
+ Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Changelog v2:
-- Grammar fix: "s/PHY types can be/PHY types that can be"
-- Drop quotes from around the string constants.
-
-Changelog v4:
-- Move the new PHY types definitions into the usb.yaml schema where the
-  phy_type property is now defined.
----
- Documentation/devicetree/bindings/usb/usb.yaml | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/usb/usb.yaml b/Documentation/devicetree/bindings/usb/usb.yaml
-index aab74c671ccc..53144c4600c0 100644
---- a/Documentation/devicetree/bindings/usb/usb.yaml
-+++ b/Documentation/devicetree/bindings/usb/usb.yaml
-@@ -27,11 +27,13 @@ properties:
-   phy_type:
-     description:
-       Tells USB controllers that we want to configure the core to support a
--      UTMI+ PHY with an 8- or 16-bit interface if UTMI+ is selected. In case
--      this isn't passed via DT, USB controllers should default to HW
--      capability.
-+      UTMI+ PHY with an 8- or 16-bit interface if UTMI+ is selected, UTMI+ low
-+      pin interface if ULPI is specified, Serial core/PHY interconnect if
-+      serial is specified and High-Speed Inter-Chip feature if HSIC is
-+      selected. In case this isn't passed via DT, USB controllers should
-+      default to HW capability.
-     $ref: /schemas/types.yaml#/definitions/string
--    enum: [utmi, utmi_wide]
-+    enum: [utmi, utmi_wide, ulpi, serial, hsic]
+diff --git a/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml b/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
+index 0f078bd0a3e5..7e5ed196b52c 100644
+--- a/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
++++ b/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
+@@ -11,7 +11,7 @@ maintainers:
+   - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
  
-   maximum-speed:
-     description:
+ allOf:
+-  - $ref: "usb-hcd.yaml"
++  - $ref: "usb-xhci.yaml"
+ 
+ properties:
+   compatible:
+@@ -69,7 +69,7 @@ required:
+   - power-domains
+   - resets
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
 -- 
 2.29.2
 
