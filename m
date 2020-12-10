@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05BF2C2BBCA
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:12:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96751C4361B
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:13:44 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6EFBF23D23
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:12:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6EFBF23D23
+	by mail.kernel.org (Postfix) with ESMTPS id 3577F22C7D
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:13:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3577F22C7D
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baikalelectronics.ru
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,35 +23,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=rruoNXrbNgC3zp2/d2TA9gTeRNvbNntE34j/A/LA7qI=; b=iMFhtmJ33ZRhRwM0WK8K7RJvU
-	v8lnYKEvZotIObaKeBhM7Lw8PpnXFSHcp7Og/VE+wqSb2sWmu2MSheLivJs6YDQxaZMXEAV3EHGvz
-	JrSaVC5pEuMrad7m6PK7mX7wT9i+alWdowtXTn1qTTFd+weqK+CYB57b/Y7m3RvXIMRIzUNWsUL0h
-	txoavrtX+qF3VHWUqRFVLvlJeN3wpWX6ITeCNl1e0TNVKxaHY+ltVB01u/vIpyccEywIcz7KAgFXU
-	C/2x9bv/K/9is6FsB8rl3blR7/eZkuZOuPPVD1x8pbIeVduugwAvVaWKvx2jzi12lXFMK2GHS5gQ6
-	K4VsgQZbQ==;
+	 bh=U+2gTkAR0oamBHxF39svdX4HTaVYRKuaDzsKXpsPNeE=; b=kNx0PJbo7Vg9FL0fCqJEAytej
+	U0gIkGTR+vmdmzOErgaCKqMt/SvWoKIm+ZyBHh3pHK91VVHQLdzilyToE2DG40zNuTv770gFka9qL
+	VVFb3bRnp9pVaszGzS1PwWxi34M612Dj9O5BGuQ1biPd9eoeR4t/ZKv5eMwwiqRfaJA2KFd+833x6
+	wMOD3W9n0/KMOSLC2Y7Vfsr2dFM56XGA+pfPHtFGpxFwQSxJTBpTj1QKtuMLvjTzidYVp3pjrh3nv
+	PfyzCChK8tiaw0QirpnLKsV5K/eKBEoksof9csU0QiKiL5RXDt9F/wVuA3CFQzyqz6AoWXOXPzLtm
+	O/cidZiZg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1knHzw-0005BK-8R; Thu, 10 Dec 2020 09:12:28 +0000
+	id 1knI18-0005mI-0h; Thu, 10 Dec 2020 09:13:42 +0000
 Received: from mail.baikalelectronics.com ([87.245.175.226]
  helo=mail.baikalelectronics.ru)
  by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1knHyA-0004VJ-0b; Thu, 10 Dec 2020 09:10:45 +0000
+ id 1knHyF-0004YX-9V; Thu, 10 Dec 2020 09:10:52 +0000
 From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To: Mathias Nyman <mathias.nyman@intel.com>, Felipe Balbi <balbi@kernel.org>, 
  Krzysztof Kozlowski <krzk@kernel.org>, Greg Kroah-Hartman
  <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, Chunfeng Yun
  <chunfeng.yun@mediatek.com>
-Subject: [PATCH v6 02/19] dt-bindings: usb: Convert generic USB properties to
- DT schemas
-Date: Thu, 10 Dec 2020 12:09:26 +0300
-Message-ID: <20201210090944.16283-3-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v6 11/19] dt-bindings: usb: dwc3: Add interrupt-names property
+ support
+Date: Thu, 10 Dec 2020 12:09:35 +0300
+Message-ID: <20201210090944.16283-12-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201210090944.16283-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201210090944.16283-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201210_041038_516888_45DC0A03 
-X-CRM114-Status: GOOD (  21.54  )
+X-CRM114-CacheID: sfid-20201210_041043_517776_AAA18EE0 
+X-CRM114-Status: UNSURE (   7.78  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,15 +85,9 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The generic USB properties have been described in the legacy bindings
-text file: Documentation/devicetree/bindings/usb/generic.txt . Let's
-convert its content into the generic USB, USB HCD and USB DRD DT
-schemas. So the Generic USB schema will be applicable to all USB
-controllers, USB HCD - for the generic USB Host controllers and the USB
-DRD - for the USB Dual-role controllers.
-
-Note the USB DRD schema is supposed to work in conjunction with
-the USB peripheral/gadget and USB host controllers DT schemas.
+The controller driver supports two types of DWC USB3 devices: with a
+common interrupt lane and with individual interrupts for each mode. Add
+support for both these cases to the DWC USB3 DT schema.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Reviewed-by: Rob Herring <robh@kernel.org>
@@ -100,223 +95,40 @@ Reviewed-by: Rob Herring <robh@kernel.org>
 ---
 
 Changelog v2:
-- Discard '|' in all the new properties, since we don't need to preserve
-  the text formatting.
-- Convert abbreviated form of the "maximum-speed" enum restriction into
-  the multi-lined version of the list.
+- Grammar fix: "s/both of these cases support/support for both these cases"
 - Drop quotes from around the string constants.
 
 Changelog v4:
-- Redistribute the properties between generic ones, USB HCD-specific and
-  USB DRD-specific.
-- Discard the Rob'es Reviewed-by tag. Please review the patch one more time.
-
-Changelog v6:
-- Fix identations in the "maximum-speed" property definition.
+- Discard the block scalar style modifier "|" from the interrupts property
+  description.
 ---
- .../devicetree/bindings/usb/generic.txt       | 57 --------------
- .../devicetree/bindings/usb/usb-drd.yaml      | 77 +++++++++++++++++++
- .../devicetree/bindings/usb/usb-hcd.yaml      |  5 ++
- .../devicetree/bindings/usb/usb.yaml          | 22 ++++++
- 4 files changed, 104 insertions(+), 57 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/usb/generic.txt
- create mode 100644 Documentation/devicetree/bindings/usb/usb-drd.yaml
+ Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/generic.txt b/Documentation/devicetree/bindings/usb/generic.txt
-deleted file mode 100644
-index ba472e7aefc9..000000000000
---- a/Documentation/devicetree/bindings/usb/generic.txt
-+++ /dev/null
-@@ -1,57 +0,0 @@
--Generic USB Properties
--
--Optional properties:
-- - maximum-speed: tells USB controllers we want to work up to a certain
--			speed. Valid arguments are "super-speed-plus",
--			"super-speed", "high-speed", "full-speed" and
--			"low-speed". In case this isn't passed via DT, USB
--			controllers should default to their maximum HW
--			capability.
-- - dr_mode: tells Dual-Role USB controllers that we want to work on a
--			particular mode. Valid arguments are "host",
--			"peripheral" and "otg". In case this attribute isn't
--			passed via DT, USB DRD controllers should default to
--			OTG.
-- - phy_type: tells USB controllers that we want to configure the core to support
--			a UTMI+ PHY with an 8- or 16-bit interface if UTMI+ is
--			selected. Valid arguments are "utmi" and "utmi_wide".
--			In case this isn't passed via DT, USB controllers should
--			default to HW capability.
-- - otg-rev: tells usb driver the release number of the OTG and EH supplement
--			with which the device and its descriptors are compliant,
--			in binary-coded decimal (i.e. 2.0 is 0200H). This
--			property is used if any real OTG features(HNP/SRP/ADP)
--			is enabled, if ADP is required, otg-rev should be
--			0x0200 or above.
-- - companion: phandle of a companion
-- - hnp-disable: tells OTG controllers we want to disable OTG HNP, normally HNP
--			is the basic function of real OTG except you want it
--			to be a srp-capable only B device.
-- - srp-disable: tells OTG controllers we want to disable OTG SRP, SRP is
--			optional for OTG device.
-- - adp-disable: tells OTG controllers we want to disable OTG ADP, ADP is
--			optional for OTG device.
-- - usb-role-switch: boolean, indicates that the device is capable of assigning
--			the USB data role (USB host or USB device) for a given
--			USB connector, such as Type-C, Type-B(micro).
--			see connector/usb-connector.yaml.
-- - role-switch-default-mode: indicating if usb-role-switch is enabled, the
--			device default operation mode of controller while usb
--			role is USB_ROLE_NONE. Valid arguments are "host" and
--			"peripheral". Defaults to "peripheral" if not
--			specified.
--
--
--This is an attribute to a USB controller such as:
--
--dwc3@4a030000 {
--	compatible = "synopsys,dwc3";
--	reg = <0x4a030000 0xcfff>;
--	interrupts = <0 92 4>
--	usb-phy = <&usb2_phy>, <&usb3,phy>;
--	maximum-speed = "super-speed";
--	dr_mode = "otg";
--	phy_type = "utmi_wide";
--	otg-rev = <0x0200>;
--	adp-disable;
--};
-diff --git a/Documentation/devicetree/bindings/usb/usb-drd.yaml b/Documentation/devicetree/bindings/usb/usb-drd.yaml
-new file mode 100644
-index 000000000000..f3a64c46dcd0
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/usb-drd.yaml
-@@ -0,0 +1,77 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/usb-drd.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Generic USB OTG Controller Device Tree Bindings
-+
-+maintainers:
-+  - Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-+
-+properties:
-+  otg-rev:
-+    description:
-+      Tells usb driver the release number of the OTG and EH supplement with
-+      which the device and its descriptors are compliant, in binary-coded
-+      decimal (i.e. 2.0 is 0200H). This property is used if any real OTG
-+      features (HNP/SRP/ADP) is enabled. If ADP is required, otg-rev should be
-+      0x0200 or above.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+
-+  dr_mode:
-+    description:
-+      Tells Dual-Role USB controllers that we want to work on a particular
-+      mode. In case this attribute isn't passed via DT, USB DRD controllers
-+      should default to OTG.
-+    $ref: /schemas/types.yaml#/definitions/string
-+    enum: [host, peripheral, otg]
-+
-+  hnp-disable:
-+    description:
-+      Tells OTG controllers we want to disable OTG HNP. Normally HNP is the
-+      basic function of real OTG except you want it to be a srp-capable only B
-+      device.
-+    type: boolean
-+
-+  srp-disable:
-+    description:
-+      Tells OTG controllers we want to disable OTG SRP. SRP is optional for OTG
-+      device.
-+    type: boolean
-+
-+  adp-disable:
-+    description:
-+      Tells OTG controllers we want to disable OTG ADP. ADP is optional for OTG
-+      device.
-+    type: boolean
-+
-+  usb-role-switch:
-+    description:
-+      Indicates that the device is capable of assigning the USB data role
-+      (USB host or USB device) for a given USB connector, such as Type-C,
-+      Type-B(micro). See connector/usb-connector.yaml.
-+
-+  role-switch-default-mode:
-+    description:
-+      Indicates if usb-role-switch is enabled, the device default operation
-+      mode of controller while usb role is USB_ROLE_NONE.
-+    $ref: /schemas/types.yaml#/definitions/string
-+    enum: [host, peripheral]
-+    default: peripheral
-+
-+additionalProperties: true
-+
-+examples:
-+  - |
-+    usb@4a030000 {
-+        compatible = "snps,dwc3";
-+        reg = <0x4a030000 0xcfff>;
-+        interrupts = <0 92 4>;
-+        usb-phy = <&usb2_phy>, <&usb3_phy>;
-+        maximum-speed = "super-speed";
-+        dr_mode = "otg";
-+        phy_type = "utmi_wide";
-+        otg-rev = <0x0200>;
-+        adp-disable;
-+    };
-diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-index 81f3ad1419d8..52cc84c400c0 100644
---- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-+++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-@@ -12,6 +12,11 @@ maintainers:
- allOf:
-   - $ref: usb.yaml#
+diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+index 57caca8339ae..87a92e313d24 100644
+--- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+@@ -34,8 +34,19 @@ properties:
+       const: snps,dwc3
  
-+properties:
-+  companion:
-+    description: Phandle of a companion device
-+    $ref: /schemas/types.yaml#/definitions/phandle
+   interrupts:
++    description:
++      It's either a single common DWC3 interrupt (dwc_usb3) or individual
++      interrupts for the host, gadget and DRD modes.
++    minItems: 1
++    maxItems: 3
 +
- additionalProperties: true
++  interrupt-names:
+     minItems: 1
+     maxItems: 3
++    oneOf:
++      - const: dwc_usb3
++      - items:
++          enum: [host, peripheral, otg]
  
- examples:
-diff --git a/Documentation/devicetree/bindings/usb/usb.yaml b/Documentation/devicetree/bindings/usb/usb.yaml
-index 941ad59fbac5..aab74c671ccc 100644
---- a/Documentation/devicetree/bindings/usb/usb.yaml
-+++ b/Documentation/devicetree/bindings/usb/usb.yaml
-@@ -24,6 +24,28 @@ properties:
+   clocks:
      description:
-       Name specifier for the USB PHY
- 
-+  phy_type:
-+    description:
-+      Tells USB controllers that we want to configure the core to support a
-+      UTMI+ PHY with an 8- or 16-bit interface if UTMI+ is selected. In case
-+      this isn't passed via DT, USB controllers should default to HW
-+      capability.
-+    $ref: /schemas/types.yaml#/definitions/string
-+    enum: [utmi, utmi_wide]
-+
-+  maximum-speed:
-+    description:
-+      Tells USB controllers we want to work up to a certain speed. In case this
-+      isn't passed via DT, USB controllers should default to their maximum HW
-+      capability.
-+    $ref: /schemas/types.yaml#/definitions/string
-+    enum:
-+      - low-speed
-+      - full-speed
-+      - high-speed
-+      - super-speed
-+      - super-speed-plus
-+
- additionalProperties: true
- 
- ...
 -- 
 2.29.2
 
