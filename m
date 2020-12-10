@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D68A9C0018C
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:16:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA1A2C433FE
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:16:43 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 587142343B
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:16:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 587142343B
+	by mail.kernel.org (Postfix) with ESMTPS id 6B24E23D23
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:16:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6B24E23D23
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baikalelectronics.ru
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,35 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=fC1gYWPnU+JlbF0i/1H+yKNu0aegf7GPRpohOFrfDrY=; b=csSIl2PtG72SoPOUfVLKcoGmR
-	18Y8DoQYLnGl/yJoLgKxkH3kfcfoCG7KankPd26SXs1VfW2XO7dmV9xKT9yJPQnj735pmhtR4qIuv
-	k6VniTe1zVIe/kSNsWsiupvOn3eVGUZiirg3hpj+0sojSQiG/IohyvV3l1j2FCrEHIALiQvfpf2tt
-	KoeHlS775nEaL8Dxw22q77DKgnyvqXrzTfzg3r54ZmWrG3NHNYhCoMdgbyOise9U6W77QottNSuBs
-	q/C3P8cDuL2R3zEWrH6N61bmMQM1mlQ6eDg6TZBisJ++SSreYehus+dID3TEafXy9fvdL3WuTRttG
-	CAGhsJJSQ==;
+	 bh=8LAmxdM+YF5DNjarekFzJgap+d37/p1lKPJ74o1osCU=; b=U9DwKkz31sIc5jvH94xZMIdwl
+	ORJRLR/ca0eq43GBWKDqBgIpV/5sOzsGCKVbDST2slFLs3hwcOZD7AfBJS1JywXyy5vv86h3Vgc/M
+	eUT8uh7DdNmLJmgv2lpQFO5pfDhWh2/lSge8kkPB1sOjdBUwTmNZivfkX9YTi96ZOT4EASei5PBhu
+	lwR7qyIGHwz4r0kL8shM3ZL8vzuTCFB8kACs0no54qHmkidFmYFNljBXKbDy6sSvMTLGMSNL2UVU0
+	PQEq4GNfsNpeOZk6NZl/jlc9B8WmibANP+Vc0AdmduM5FB2yQHvpzJ/AsSwyqJuxcclrMWi3GRxiI
+	btvK39Ynw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1knI3f-00077a-DP; Thu, 10 Dec 2020 09:16:19 +0000
+	id 1knI41-0007K1-TN; Thu, 10 Dec 2020 09:16:41 +0000
 Received: from mail.baikalelectronics.com ([87.245.175.226]
  helo=mail.baikalelectronics.ru)
  by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1knHyF-0004ao-Ns; Thu, 10 Dec 2020 09:10:54 +0000
+ id 1knHyG-0004b2-0F; Thu, 10 Dec 2020 09:10:56 +0000
 From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To: Mathias Nyman <mathias.nyman@intel.com>, Felipe Balbi <balbi@kernel.org>, 
  Krzysztof Kozlowski <krzk@kernel.org>, Greg Kroah-Hartman
  <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, Chunfeng Yun
  <chunfeng.yun@mediatek.com>
-Subject: [PATCH v6 12/19] dt-bindings: usb: dwc3: Add synopsys,
- dwc3 compatible string
-Date: Thu, 10 Dec 2020 12:09:36 +0300
-Message-ID: <20201210090944.16283-13-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v6 13/19] dt-bindings: usb: dwc3: Add Tx De-emphasis
+ constraints
+Date: Thu, 10 Dec 2020 12:09:37 +0300
+Message-ID: <20201210090944.16283-14-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201210090944.16283-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201210090944.16283-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201210_041043_998243_737C55DD 
-X-CRM114-Status: UNSURE (   7.60  )
+X-CRM114-CacheID: sfid-20201210_041044_389558_BA7232D4 
+X-CRM114-Status: UNSURE (   7.00  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -85,11 +85,10 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The DWC USB3 driver and some DTS files like Exynos 5250, Keystone k2e, etc
-expects the DWC USB3 DT node to have the compatible string with the
-"synopsys" vendor prefix. Let's add the corresponding compatible string to
-the controller DT schema, but mark it as deprecated seeing the Synopsys,
-Inc. is presented with just "snps" vendor prefix.
+In accordance with the driver comments the PIPE3 de-emphasis can be tuned
+to be either -6dB, -2.5dB or disabled. Let's add the de-emphasis
+property constraints so the DT schema would make sure the controller DT
+node is equipped with correct value.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Reviewed-by: Rob Herring <robh@kernel.org>
@@ -97,31 +96,27 @@ Reviewed-by: Rob Herring <robh@kernel.org>
 ---
 
 Changelog v2:
-- Drop quotes from around the compat string constant.
-
-Changelog v4:
-- Get the patch back, since we can't discard the deprecated prefix from the
-  driver.
+- Grammar fix: "s/tunned/tuned"
+- Grammar fix: remove redundant "or" conjunction.
 ---
- Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-index 87a92e313d24..6253bc5fb18e 100644
+index 6253bc5fb18e..e01a9a93d74a 100644
 --- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
 +++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-@@ -31,7 +31,10 @@ allOf:
- properties:
-   compatible:
-     contains:
--      const: snps,dwc3
-+      oneOf:
-+        - const: snps,dwc3
-+        - const: synopsys,dwc3
-+          deprecated: true
+@@ -156,6 +156,10 @@ properties:
+       The value driven to the PHY is controlled by the LTSSM during USB3
+       Compliance mode.
+     $ref: /schemas/types.yaml#/definitions/uint8
++    enum:
++      - 0 # -6dB de-emphasis
++      - 1 # -3.5dB de-emphasis
++      - 2 # No de-emphasis
  
-   interrupts:
-     description:
+   snps,dis_u3_susphy_quirk:
+     description: When set core will disable USB3 suspend phy
 -- 
 2.29.2
 
