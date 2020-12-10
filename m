@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E219AC433FE
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:16:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44EEFC433FE
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:16:49 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8100B2343B
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:16:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8100B2343B
+	by mail.kernel.org (Postfix) with ESMTPS id CE6F72343B
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:16:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CE6F72343B
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baikalelectronics.ru
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,35 +23,34 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=8dZ/9Lj+UrkhMCdLqqYk4IzHEGNuTaf7CUnrZAkTlHg=; b=EsgLKOsyo8+OxOoBsBi4bZXvD
-	2RXjoUIjwKjW3uN6lDd46qS28qo8pewZ5ZcKMS+NBePi0u8RN/XWgwNZ3Xqz7FgtBmRS8NqoDb8N9
-	VCACHZhiFFeDVHXGb42NMRrUH5fzh8kGN5JWElnjKeuMBGIS3zola8r465oVmONqnqHH/0WVu816G
-	Sn6O9ZEu2ygG1jxYrHt97wQoNHbfBsSSphPmhK/v2HnzoA9AQJ5mgkeT7HqabXq1v7T+D3SLvrhkg
-	OCvXMCNAHibKyAUe3yRUfVUIk1klNE9Cu0vNpq3uXUxXZM6CXNXs6qMX1IV2YkdBJiuTgathCw/+y
-	7N+QEZPEw==;
+	 bh=XKfqAFk94FtvpHxmAKdFIZXr/Xy0r252oDPEGdiJU3w=; b=iwx+s2LgQBswZn9s+7vlWd278
+	42YRGBtN2BvgUX4QHxKtfg68p21PfNRHEIw/08iyEU3H+iA+3sSrvkdoCJITYBInM0ajbyitf8NmY
+	5ABEviHn/tsmrB+TX8fmPtJJt+gqpiRXdlESo5BQPFMtqSgikHjxPxYQMhMls0TfB6EDWzA9QXb6h
+	26mW4YtFEWsUXLH0opAcUaOieRqoNAokhQdkp7ej/B9PFIHe+/UIlCDdnA/TPSAqtDqkeyZDDgzwg
+	UXM4u9FoMSmpI8xKSUTD1iIhW7TZ+fUC/P72KPWiJkTokxoOzxWbG+tDOnPORxLxml+Bn/I6XXb5k
+	Sn9HjfNyw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1knI44-0007Lj-8x; Thu, 10 Dec 2020 09:16:44 +0000
+	id 1knI45-0007RA-7F; Thu, 10 Dec 2020 09:16:45 +0000
 Received: from mail.baikalelectronics.com ([87.245.175.226]
  helo=mail.baikalelectronics.ru)
  by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1knHyH-0004cU-8N; Thu, 10 Dec 2020 09:10:59 +0000
+ id 1knHyG-0004bF-PM; Thu, 10 Dec 2020 09:10:59 +0000
 From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To: Mathias Nyman <mathias.nyman@intel.com>, Felipe Balbi <balbi@kernel.org>, 
  Krzysztof Kozlowski <krzk@kernel.org>, Greg Kroah-Hartman
  <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, Chunfeng Yun
  <chunfeng.yun@mediatek.com>
-Subject: [PATCH v6 05/19] dt-bindings: usb: usb-hcd: Add "tpl-support" property
-Date: Thu, 10 Dec 2020 12:09:29 +0300
-Message-ID: <20201210090944.16283-6-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v6 06/19] dt-bindings: usb: Add generic "usb-phy" property
+Date: Thu, 10 Dec 2020 12:09:30 +0300
+Message-ID: <20201210090944.16283-7-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201210090944.16283-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201210090944.16283-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201210_041045_519955_0B8F62AD 
-X-CRM114-Status: UNSURE (   8.19  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20201210_041045_073340_4205D4D8 
+X-CRM114-Status: GOOD (  10.15  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,40 +83,49 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The host controller device might be designed to work for the particular
-products or applications. In that case its DT node is supposed to be
-equipped with the tpl-support property.
+Even though the Generic PHY framework is the more preferable way of
+setting the USB PHY up, there are still many dts-files and DT bindings
+which rely on having the legacy "usb-phy" specified to attach particular
+USB PHYs to USB cores. Let's have the "usb-phy" property described in
+the generic USB HCD binding file so it would be validated against the
+nodes in which it's specified. Mark the property as deprecated to
+discourage the developers from using it.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 Reviewed-by: Rob Herring <robh@kernel.org>
 
 ---
 
 Changelog v2:
-- Grammar fix: "s/it'/its"
-- Discard '|' from the property description, since we don't need to preserve
-  the text formatting.
----
- Documentation/devicetree/bindings/usb/usb-hcd.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+- Discard '|' from the property description, since we don't need to
+  preserve the text formatting.
 
-diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-index 52cc84c400c0..9881ac10380d 100644
---- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-+++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
-@@ -17,6 +17,12 @@ properties:
-     description: Phandle of a companion device
-     $ref: /schemas/types.yaml#/definitions/phandle
+Changelog v4:
+- Move the "usb-phy" property definition into the usb.yaml schema where
+  all generic USB properties are now defined.
+---
+ Documentation/devicetree/bindings/usb/usb.yaml | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/usb/usb.yaml b/Documentation/devicetree/bindings/usb/usb.yaml
+index 53144c4600c0..ebe7f4275c59 100644
+--- a/Documentation/devicetree/bindings/usb/usb.yaml
++++ b/Documentation/devicetree/bindings/usb/usb.yaml
+@@ -24,6 +24,13 @@ properties:
+     description:
+       Name specifier for the USB PHY
  
-+  tpl-support:
++  usb-phy:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
 +    description:
-+      Indicates if the Targeted Peripheral List is supported for given
-+      targeted hosts (non-PC hosts).
-+    type: boolean
++      List of all the USB PHYs on this HCD to be accepted by the legacy USB
++      Physical Layer subsystem.
++    deprecated: true
 +
- additionalProperties: true
- 
- examples:
+   phy_type:
+     description:
+       Tells USB controllers that we want to configure the core to support a
 -- 
 2.29.2
 
