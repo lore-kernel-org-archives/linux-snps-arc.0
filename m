@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D78EBC4167B
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:16:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E219AC433FE
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:16:45 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9D6982343B
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:16:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9D6982343B
+	by mail.kernel.org (Postfix) with ESMTPS id 8100B2343B
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:16:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8100B2343B
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baikalelectronics.ru
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,35 +23,34 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=z007anhYjZpiB7c1JjnXsIL01C7xh4WNeNKVR+0LI1Y=; b=AaczkooaJdjTKVhHzDoP2UGY0
-	RRSW9Jmwcm10xLcYApJHzDYHoPPQtn7Fq+GOM/S49+sPeb71SQXXR7D2Lf7wwY1wI2RyKtknKHMR3
-	SJB2U+EWg5MJdIZmwSWfLhVZ6d25jLXJaHuk1SraU/64LdvdjW3POKOxsr8qAehRICnlx/E1I0p6d
-	DtTCeDScq/m6/UEAQk9d9OLcixLsquQdSA/8DdzXRM0P+F05cx23rs07kyTjef2V09AnfXUzIlBO7
-	jWzs4gjM6RkpLz1wqf7PqXNYQUHlAHWxRafBv251dIZl5IfNrJl5A5QVuOzre0/XX3Gknppnr8hno
-	W75/9Mjkg==;
+	 bh=8dZ/9Lj+UrkhMCdLqqYk4IzHEGNuTaf7CUnrZAkTlHg=; b=EsgLKOsyo8+OxOoBsBi4bZXvD
+	2RXjoUIjwKjW3uN6lDd46qS28qo8pewZ5ZcKMS+NBePi0u8RN/XWgwNZ3Xqz7FgtBmRS8NqoDb8N9
+	VCACHZhiFFeDVHXGb42NMRrUH5fzh8kGN5JWElnjKeuMBGIS3zola8r465oVmONqnqHH/0WVu816G
+	Sn6O9ZEu2ygG1jxYrHt97wQoNHbfBsSSphPmhK/v2HnzoA9AQJ5mgkeT7HqabXq1v7T+D3SLvrhkg
+	OCvXMCNAHibKyAUe3yRUfVUIk1klNE9Cu0vNpq3uXUxXZM6CXNXs6qMX1IV2YkdBJiuTgathCw/+y
+	7N+QEZPEw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1knI42-0007Kp-VE; Thu, 10 Dec 2020 09:16:43 +0000
+	id 1knI44-0007Lj-8x; Thu, 10 Dec 2020 09:16:44 +0000
 Received: from mail.baikalelectronics.com ([87.245.175.226]
  helo=mail.baikalelectronics.ru)
  by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1knHyG-0004b4-1E; Thu, 10 Dec 2020 09:10:57 +0000
+ id 1knHyH-0004cU-8N; Thu, 10 Dec 2020 09:10:59 +0000
 From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To: Mathias Nyman <mathias.nyman@intel.com>, Felipe Balbi <balbi@kernel.org>, 
  Krzysztof Kozlowski <krzk@kernel.org>, Greg Kroah-Hartman
  <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, Chunfeng Yun
  <chunfeng.yun@mediatek.com>
-Subject: [PATCH v6 14/19] dt-bindings: usb: dwc3: Add Frame Length Adj
- constraints
-Date: Thu, 10 Dec 2020 12:09:38 +0300
-Message-ID: <20201210090944.16283-15-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v6 05/19] dt-bindings: usb: usb-hcd: Add "tpl-support" property
+Date: Thu, 10 Dec 2020 12:09:29 +0300
+Message-ID: <20201210090944.16283-6-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201210090944.16283-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201210090944.16283-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201210_041044_460100_362D6207 
-X-CRM114-Status: UNSURE (   7.47  )
+X-CRM114-CacheID: sfid-20201210_041045_519955_0B8F62AD 
+X-CRM114-Status: UNSURE (   8.19  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -85,30 +84,40 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-In accordance with the IP core databook the
-snps,quirk-frame-length-adjustment property can be set within [0, 0x3F].
-Let's make sure the DT schema applies a correct constraints on the
-property.
+The host controller device might be designed to work for the particular
+products or applications. In that case its DT node is supposed to be
+equipped with the tpl-support property.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Reviewed-by: Rob Herring <robh@kernel.org>
----
- Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-index e01a9a93d74a..2247da77eac1 100644
---- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-@@ -243,6 +243,8 @@ properties:
-       length adjustment when the fladj_30mhz_sdbnd signal is invalid or
-       incorrect.
-     $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 0
-+    maximum: 0x3f
+---
+
+Changelog v2:
+- Grammar fix: "s/it'/its"
+- Discard '|' from the property description, since we don't need to preserve
+  the text formatting.
+---
+ Documentation/devicetree/bindings/usb/usb-hcd.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+index 52cc84c400c0..9881ac10380d 100644
+--- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
++++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+@@ -17,6 +17,12 @@ properties:
+     description: Phandle of a companion device
+     $ref: /schemas/types.yaml#/definitions/phandle
  
-   snps,rx-thr-num-pkt-prd:
-     description:
++  tpl-support:
++    description:
++      Indicates if the Targeted Peripheral List is supported for given
++      targeted hosts (non-PC hosts).
++    type: boolean
++
+ additionalProperties: true
+ 
+ examples:
 -- 
 2.29.2
 
