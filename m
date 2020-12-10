@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44EEFC433FE
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:16:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C325C4361B
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:17:13 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CE6F72343B
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:16:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CE6F72343B
+	by mail.kernel.org (Postfix) with ESMTPS id 240F923D6B
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Dec 2020 09:17:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 240F923D6B
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baikalelectronics.ru
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,34 +23,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=XKfqAFk94FtvpHxmAKdFIZXr/Xy0r252oDPEGdiJU3w=; b=iwx+s2LgQBswZn9s+7vlWd278
-	42YRGBtN2BvgUX4QHxKtfg68p21PfNRHEIw/08iyEU3H+iA+3sSrvkdoCJITYBInM0ajbyitf8NmY
-	5ABEviHn/tsmrB+TX8fmPtJJt+gqpiRXdlESo5BQPFMtqSgikHjxPxYQMhMls0TfB6EDWzA9QXb6h
-	26mW4YtFEWsUXLH0opAcUaOieRqoNAokhQdkp7ej/B9PFIHe+/UIlCDdnA/TPSAqtDqkeyZDDgzwg
-	UXM4u9FoMSmpI8xKSUTD1iIhW7TZ+fUC/P72KPWiJkTokxoOzxWbG+tDOnPORxLxml+Bn/I6XXb5k
-	Sn9HjfNyw==;
+	 bh=ye/MsIQH6VsUpi4kGFrUa2EhD7pNC6KzS8SpURcCK6M=; b=0O8h2qIK59f8h+2mKHhfD9lmi
+	Z9wglvfB1QaRDhFpwGXjbXmm6laW7TGOA9CJW/ZKoKhSvXp2xCTc8DAsenf3fUyWZwr7M77diECP3
+	MCLvYOSg89/KxCUzAwDjKZ994b8gE/Dm90bVo8SYtBJH4cWYE2Tzdn0jQacHzTvhi5SQAsyg5C/72
+	3iBVtLy+KF/NzGvQelWo72VUk6MasmUifTmNDkxr0NatElOcGGbaF1GjG5ibBGKFyOlT11UQAt0NX
+	XSdZERILiyTARQ6fzO5YAHAu6msD2uVaX74+YD34YRnYmwMvOcLaW4Rd3tFjmi7degY8KI9OngRuC
+	OdO3H7a5w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1knI45-0007RA-7F; Thu, 10 Dec 2020 09:16:45 +0000
+	id 1knI4U-0007eT-Tp; Thu, 10 Dec 2020 09:17:10 +0000
 Received: from mail.baikalelectronics.com ([87.245.175.226]
  helo=mail.baikalelectronics.ru)
  by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1knHyG-0004bF-PM; Thu, 10 Dec 2020 09:10:59 +0000
+ id 1knHyI-0004dP-Eq; Thu, 10 Dec 2020 09:11:03 +0000
 From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To: Mathias Nyman <mathias.nyman@intel.com>, Felipe Balbi <balbi@kernel.org>, 
  Krzysztof Kozlowski <krzk@kernel.org>, Greg Kroah-Hartman
  <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, Chunfeng Yun
- <chunfeng.yun@mediatek.com>
-Subject: [PATCH v6 06/19] dt-bindings: usb: Add generic "usb-phy" property
-Date: Thu, 10 Dec 2020 12:09:30 +0300
-Message-ID: <20201210090944.16283-7-Sergey.Semin@baikalelectronics.ru>
+ <chunfeng.yun@mediatek.com>, Roger Quadros <rogerq@ti.com>
+Subject: [PATCH v6 17/19] dt-bindings: usb: keystone-dwc3: Validate DWC3
+ sub-node
+Date: Thu, 10 Dec 2020 12:09:41 +0300
+Message-ID: <20201210090944.16283-18-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20201210090944.16283-1-Sergey.Semin@baikalelectronics.ru>
 References: <20201210090944.16283-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201210_041045_073340_4205D4D8 
-X-CRM114-Status: GOOD (  10.15  )
+X-CRM114-CacheID: sfid-20201210_041046_833143_7F467D89 
+X-CRM114-Status: UNSURE (   7.42  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,70 +64,58 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
- Rob Herring <robh@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
- Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
- Andy Gross <agross@kernel.org>, linux-snps-arc@lists.infradead.org,
- devicetree@vger.kernel.org,
+Cc: devicetree@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-mips@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- linux-arm-kernel@lists.infradead.org, Roger Quadros <rogerq@ti.com>,
+ Kevin Hilman <khilman@baylibre.com>,
  Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Serge Semin <fancer.lancer@gmail.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
  Serge Semin <Sergey.Semin@baikalelectronics.ru>,
- Manu Gautam <mgautam@codeaurora.org>, linuxppc-dev@lists.ozlabs.org
+ Manu Gautam <mgautam@codeaurora.org>, Andy Gross <agross@kernel.org>,
+ Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+ Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+ linuxppc-dev@lists.ozlabs.org, Rob Herring <robh@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Even though the Generic PHY framework is the more preferable way of
-setting the USB PHY up, there are still many dts-files and DT bindings
-which rely on having the legacy "usb-phy" specified to attach particular
-USB PHYs to USB cores. Let's have the "usb-phy" property described in
-the generic USB HCD binding file so it would be validated against the
-nodes in which it's specified. Mark the property as deprecated to
-discourage the developers from using it.
+TI Keystone DWC3 compatible DT node is supposed to have a DWC USB3
+compatible sub-node to describe a fully functioning USB interface.
+Since DWC USB3 has now got a DT schema describing its DT node, let's make
+sure the TI Keystone DWC3 sub-node passes validation against it.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 Reviewed-by: Rob Herring <robh@kernel.org>
 
 ---
 
 Changelog v2:
-- Discard '|' from the property description, since we don't need to
-  preserve the text formatting.
-
-Changelog v4:
-- Move the "usb-phy" property definition into the usb.yaml schema where
-  all generic USB properties are now defined.
+- Grammar fix: "s/it'/its"
 ---
- Documentation/devicetree/bindings/usb/usb.yaml | 7 +++++++
- 1 file changed, 7 insertions(+)
+ Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/usb.yaml b/Documentation/devicetree/bindings/usb/usb.yaml
-index 53144c4600c0..ebe7f4275c59 100644
---- a/Documentation/devicetree/bindings/usb/usb.yaml
-+++ b/Documentation/devicetree/bindings/usb/usb.yaml
-@@ -24,6 +24,13 @@ properties:
-     description:
-       Name specifier for the USB PHY
+diff --git a/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml b/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml
+index c1b19fc5d0a2..ca7fbe3ed22e 100644
+--- a/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml
+@@ -64,9 +64,7 @@ properties:
  
-+  usb-phy:
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    description:
-+      List of all the USB PHYs on this HCD to be accepted by the legacy USB
-+      Physical Layer subsystem.
-+    deprecated: true
-+
-   phy_type:
-     description:
-       Tells USB controllers that we want to configure the core to support a
+ patternProperties:
+   "usb@[a-f0-9]+$":
+-    type: object
+-    description: This is the node representing the DWC3 controller instance
+-      Documentation/devicetree/bindings/usb/dwc3.txt
++    $ref: snps,dwc3.yaml#
+ 
+ required:
+   - compatible
 -- 
 2.29.2
 
