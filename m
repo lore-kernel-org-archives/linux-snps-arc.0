@@ -2,105 +2,92 @@ Return-Path: <SRS0=Z2ph=FQ=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 502C9C433FE
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 12 Dec 2020 16:02:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AD77C4361B
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 12 Dec 2020 18:19:32 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9955F22AAF
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 12 Dec 2020 16:02:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9955F22AAF
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	by mail.kernel.org (Postfix) with ESMTPS id E531622571
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 12 Dec 2020 18:19:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E531622571
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=1O68IldfsLI61y/Z7cKYWr2sK96Prfyq8assaINzOXw=; b=JEX1oWrU4j+SP2Qe+GrVvaZdR
-	C5lqhV5tb6BZeIsNlMvwZ5aRJUiqE+zEqZrFLsIWZuLu1rETbc0W5PZ25R2yAt2VU1QSYoRTBKBEB
-	VvLmdQxDzL1/5mvcuGj4wfLz6X5xfkjTcMuzpHyGr9Hx8bb5/Lq7ELlXptIVwI0nUMaEjjuA/uzBl
-	wG88im+uWK/wa5BUTRjad2RAUtEL+wNSLnZAhks+LXtL2ypwnOgSa6oPYAMiMJoMfyD18/bYlWUa9
-	xy01FnVsb/8sOow/2LbWomXTcv/zcSW0A7wU1+aICcsFkFYfnDHXy40ZJF2rSpCsfgDe7met4LVhB
-	teAxXCmDg==;
+	 bh=Cvailhb8lS1TK3tgmkKzHmIe9qw5mUg3373cuWGKmLE=; b=fnKwvvEblgFEUC9xmOGo4pE7R
+	rSBfTkFVoxtETJpQDnN0s0lEdsCJhgmWW3bkVSOVaOEc2oHBYMnxit//Bcu/FPzL+umKcoRY9CwzV
+	0BwNUWj3Bs1Ae8AdQg5Q50icVnQNSsJbo54zIBTKioaKXoiaPCQWTRHB/gYCeJcNXf5sAY+w2FQC9
+	zX97+J69r48SWK5wNuLVudzpcWiADzkpm16nIsui9OgFssLetUfC1MiGT37DMhGNdxRjc7RDOopr+
+	AAs/Qu8hTq141bRWWZHyOBQdKTo1ijfm1rIRx3gfQ4pjsyYF0Jx6+Y6Dfqh/C6kZhvUDSwBCV49e4
+	FVpSAujHg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ko7LS-0000kw-9U; Sat, 12 Dec 2020 16:02:06 +0000
-Received: from gproxy8-pub.mail.unifiedlayer.com ([67.222.33.93])
+	id 1ko9UQ-0007rT-1L; Sat, 12 Dec 2020 18:19:30 +0000
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ko7LQ-0000jp-Hz
- for linux-snps-arc@lists.infradead.org; Sat, 12 Dec 2020 16:02:05 +0000
-Received: from cmgw15.unifiedlayer.com (unknown [10.9.0.15])
- by gproxy8.mail.unifiedlayer.com (Postfix) with ESMTP id 27F0D1AB10E
- for <linux-snps-arc@lists.infradead.org>; Sat, 12 Dec 2020 09:01:48 -0700 (MST)
-Received: from bh-25.webhostbox.net ([208.91.199.152]) by cmsmtp with ESMTP
- id o7L9kjb0ih41lo7L9kkvDF; Sat, 12 Dec 2020 09:01:48 -0700
-X-Authority-Reason: nr=8
-X-Authority-Analysis: v=2.3 cv=dtv19Wo4 c=1 sm=1 tr=0
- a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
- a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19 a=kj9zAlcOel0A:10:nop_charset_1
- a=zTNgK-yGK50A:10:nop_rcvd_month_year
- a=evQFzbml-YQA:10:endurance_base64_authed_username_1 a=VnNF1IyMAAAA:8
- a=7-WUKsc9rpLG36axMwoA:9 a=CjuIK1q_8ugA:10:nop_charset_2
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
- :Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
- :Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=SONiYC+w5Ngr25MwYgor37vfyb+DMYhcD3u4dlHLhcY=; b=GX0cdE617m4Hnhp5Yacu1K/NtF
- 5yOaFooNMpuV5fj37e3ruItbQReDMItGbRjFL9bI7CWNykP4Nduws7r2jgyQF7hp8gfgUwy61JCsJ
- +L0IKzS+3fLBrTbpfhBmAD2TLHmjrpUjp0KR2hL8jtij4+LhT/9JDapJWbIJYR1t2l2vEa86aHKQc
- evukwK21/adlcL+kCNIavOaIRmcBALWTq+lqLJgWxUow5VMkmHCXe22f/u6ec2xDMTEfspJGwz2SP
- nLYakoJqT4JEgQ4anDolg70aYTtdI2/23EQy2pUZYISRXvfct+HL8rpUImbBx9cWclngC+ZLhNTnK
- RlTkr9RQ==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net
- ([108.223.40.66]:50062 helo=localhost)
- by bh-25.webhostbox.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
- (envelope-from <linux@roeck-us.net>)
- id 1ko7L6-002phO-Vt; Sat, 12 Dec 2020 16:01:45 +0000
-Date: Sat, 12 Dec 2020 08:01:44 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH 07/13] ia64: make SPARSEMEM default and disable
- DISCONTIGMEM
-Message-ID: <20201212160144.GA174701@roeck-us.net>
-References: <20201027112955.14157-1-rppt@kernel.org>
- <20201027112955.14157-8-rppt@kernel.org>
+ id 1ko9UN-0007r0-KV
+ for linux-snps-arc@lists.infradead.org; Sat, 12 Dec 2020 18:19:28 +0000
+Received: by mail-wr1-x42a.google.com with SMTP id r7so12308661wrc.5
+ for <linux-snps-arc@lists.infradead.org>; Sat, 12 Dec 2020 10:19:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=8XuSZWyg0uMtUzXE2YH5qeHChdkix/Llk/GJWnOCg1w=;
+ b=ndPXYE8q6gZ7VBW0OyGYsAFI/taVUKyhCPOBG3x336NFrXcta57QJWzEMiubWlJrGZ
+ nGgd0YxwMiZDPrzxfHhyag0PL5LVekMrm17fAVWkUM578cF0coHWMv0jxFJKWTelh7Yq
+ h9FOKQRYx7Y+om2DRiCnE2JbLTuHfBbQWDz3EDQ5M/uthct9I0+Qg8v0oownDKVJguiv
+ pnym1W7WtRKe8IdxBS77adv9FA+Q92cutfiCnEdvnHtMa7D5spiMWy4TjUxxtAyGRlvX
+ 6AKtVsKSVqf/JEDkmNQ6MPK3MTwgdeFIoDJzF5O9HfIq26IRLCMi4rfrUkrt5JhD08Gc
+ AJqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8XuSZWyg0uMtUzXE2YH5qeHChdkix/Llk/GJWnOCg1w=;
+ b=jpr+887pw2q1JkvMN7brqTtpDxvlrEYGrIydUvHbb75YRoaKV4rfPmsqEmw2buni65
+ YmtHoAdOBw48e+ConlrxSc867RSvvDUAfFBSSJaXp5N+UQe7fc3+zpTt1nVLoBocfvve
+ FJTx/BQRMBNXeQ6pNI8KLFTHle6J39mkD1NAkF9A9etAeQN09y1fmo4ZerRLIA8xZqhS
+ p3Hi6NnXhFGdOKv0aGdrzN4/kMIs0BqIynwj66YejeswYDxmkZo44Z9vnjN6B5HTJx/r
+ JOb3MbpJJZToww0ZpV4qjQ09f+bd9lrwu1ah9uICdrXZHoEqUUZ50XHG5N6D3xrIBAHz
+ HkWw==
+X-Gm-Message-State: AOAM531+BFbcfK8HDAid7Gu6zX4Rk9uwansSadwF/K+NZF4Cv4OCtD1l
+ 0Ecwtt5559f7GgP29i7wo+4=
+X-Google-Smtp-Source: ABdhPJx+KJDQiyXc0PNDTzEPFX+MNbcM09DvihhpkyzrpnG1t/ZITmj93N0yBXsLBk5bT20QvllLrQ==
+X-Received: by 2002:a5d:6443:: with SMTP id d3mr19836610wrw.422.1607797165626; 
+ Sat, 12 Dec 2020 10:19:25 -0800 (PST)
+Received: from [192.168.0.160] ([170.253.49.0])
+ by smtp.gmail.com with ESMTPSA id f199sm21586672wme.15.2020.12.12.10.19.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 12 Dec 2020 10:19:25 -0800 (PST)
+Subject: Re: [RFC] cacheflush.2: Document different prototypes for different
+ architectures
+To: Heinrich Schuchardt <xypron.glpk@gmx.de>,
+ "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
+ linux-man <linux-man@vger.kernel.org>
+References: <c284e55d-98e9-ae53-b6ca-f331b73841c7@gmail.com>
+ <20a8ebd5-ce04-1404-6113-02910cb21982@gmx.de>
+From: "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Message-ID: <6c1ae2e4-25d9-4364-0637-048c3b78c0fa@gmail.com>
+Date: Sat, 12 Dec 2020 19:19:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201027112955.14157-8-rppt@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - lists.infradead.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1ko7L6-002phO-Vt
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost)
- [108.223.40.66]:50062
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 1
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
+In-Reply-To: <20a8ebd5-ce04-1404-6113-02910cb21982@gmx.de>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201212_110204_723510_11BF8909 
-X-CRM114-Status: UNSURE (   9.56  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20201212_131927_735215_658BE166 
+X-CRM114-Status: GOOD (  21.23  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,86 +99,80 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: linux-ia64@vger.kernel.org, linux-doc@vger.kernel.org,
- Catalin Marinas <catalin.marinas@arm.com>, linux-mm@kvack.org,
- Will Deacon <will@kernel.org>, Greg Ungerer <gerg@linux-m68k.org>,
- Jonathan Corbet <corbet@lwn.net>, Meelis Roos <mroos@linux.ee>,
- Russell King <linux@armlinux.org.uk>, Mike Rapoport <rppt@linux.ibm.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Matt Turner <mattst88@gmail.com>,
- linux-snps-arc@lists.infradead.org, Alexey Dobriyan <adobriyan@gmail.com>,
- linux-m68k@lists.linux-m68k.org,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- linux-arm-kernel@lists.infradead.org, Michael Schmitz <schmitzmic@gmail.com>,
- Tony Luck <tony.luck@intel.com>, Vineet Gupta <vgupta@synopsys.com>,
- linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Vincent Chen <deanbo422@gmail.com>, Nick Hu <nickhu@andestech.com>,
+ Vineet Gupta <vgupta@synopsys.com>, linux-mips@vger.kernel.org,
+ linux-csky@vger.kernel.org, Guo Ren <guoren@kernel.org>,
+ Greentime Hu <green.hu@gmail.com>, libc-alpha@sourceware.org,
+ linux-snps-arc@lists.infradead.org, Dave Martin <Dave.Martin@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 27, 2020 at 01:29:49PM +0200, Mike Rapoport wrote:
-> From: Mike Rapoport <rppt@linux.ibm.com>
-> 
-> SPARSEMEM memory model suitable for systems with large holes in their
-> phyiscal memory layout. With SPARSEMEM_VMEMMAP enabled it provides
-> pfn_to_page() and page_to_pfn() as fast as FLATMEM.
-> 
-> Make it the default memory model for IA-64 and disable DISCONTIGMEM which
-> is considered obsolete for quite some time.
-> 
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-
-This patch results in 
-
-include/linux/mmzone.h:1156:2: error: #error Allocator MAX_ORDER exceeds SECTION_SIZE
- 1156 | #error Allocator MAX_ORDER exceeds SECTION_SIZE
-
-when building ia64:defconfig.
-
-Also, PAGE_SHIFT is not defined, though I don't know if that is related.
-
-Reverting the patch fixes the problem for me.
-
-Guenter
-
----
-bisect log:
-
-# bad: [3cc2bd440f2171f093b3a8480a4b54d8c270ed38] Add linux-next specific files for 20201211
-# good: [0477e92881850d44910a7e94fc2c46f96faa131f] Linux 5.10-rc7
-git bisect start 'HEAD' 'v5.10-rc7'
-# good: [0a701401d4e29d9e73f0f3cc02179fc6c9191646] Merge remote-tracking branch 'crypto/master'
-git bisect good 0a701401d4e29d9e73f0f3cc02179fc6c9191646
-# good: [6fd39ad603b113e9c68180b9138084710c036e34] Merge remote-tracking branch 'spi/for-next'
-git bisect good 6fd39ad603b113e9c68180b9138084710c036e34
-# good: [c96b2eec436e87b8c673213b203559bed9e551b9] Merge remote-tracking branch 'vfio/next'
-git bisect good c96b2eec436e87b8c673213b203559bed9e551b9
-# good: [4f2e7f6a2ce4e621b77e59c8763549fa8bee7b4b] Merge remote-tracking branch 'gpio/for-next'
-git bisect good 4f2e7f6a2ce4e621b77e59c8763549fa8bee7b4b
-# good: [5ee06b21caaeb37a1ff5143e8ce91b376fe73dc2] swiotlb.h: add "inline" to swiotlb_adjust_size
-git bisect good 5ee06b21caaeb37a1ff5143e8ce91b376fe73dc2
-# bad: [46aa09d885ce303efd6444def783ec575a5b57ee] mm, page_poison: remove CONFIG_PAGE_POISONING_ZERO
-git bisect bad 46aa09d885ce303efd6444def783ec575a5b57ee
-# good: [3b77356d530bfd93e2450c063718292aa435eede] mm: mmap_lock: add tracepoints around lock acquisition
-git bisect good 3b77356d530bfd93e2450c063718292aa435eede
-# bad: [e0287fb91c006d12bed9e6fbfc7fe661ad7f9647] mm,hwpoison: disable pcplists before grabbing a refcount
-git bisect bad e0287fb91c006d12bed9e6fbfc7fe661ad7f9647
-# bad: [94d171d065be406a2407f0d723afe14c05526283] ia64: make SPARSEMEM default and disable DISCONTIGMEM
-git bisect bad 94d171d065be406a2407f0d723afe14c05526283
-# good: [7499e1e91e18a285274e9b761ba2abf21e4343fa] mm/vmalloc: use free_vm_area() if an allocation fails
-git bisect good 7499e1e91e18a285274e9b761ba2abf21e4343fa
-# good: [eba50fff503fa6d6e20679509a1a960c3e003d22] lib/test_kasan.c: add workqueue test case
-git bisect good eba50fff503fa6d6e20679509a1a960c3e003d22
-# good: [e343d6ff702aaae6181448a38ff85cf201b011ba] ia64: remove 'ifdef CONFIG_ZONE_DMA32' statements
-git bisect good e343d6ff702aaae6181448a38ff85cf201b011ba
-# good: [a0bfb938ae29239a3f13f6a6a4ef41c3c7f0c84c] ia64: split virtual map initialization out of paging_init()
-git bisect good a0bfb938ae29239a3f13f6a6a4ef41c3c7f0c84c
-# good: [0e791e5138cde9b96d34ba68136fd26bb97f81e5] ia64: forbid using VIRTUAL_MEM_MAP with FLATMEM
-git bisect good 0e791e5138cde9b96d34ba68136fd26bb97f81e5
-# first bad commit: [94d171d065be406a2407f0d723afe14c05526283] ia64: make SPARSEMEM default and disable DISCONTIGMEM
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+SGkgSGVpbnJpY2gsCgpHb29kLgpCVFcsIGl0IGxvb2tzIGxpa2UgaW50ZXJuYWxseSBMTFZNIHVz
+ZXMgJ3ZvaWQgKidbMV0sCmJ1dCBDbGFuZyBleHBvc2VzICdjaGFyIConWzJdIGluIHRoZSBwcm90
+b3R5cGUuICBXZWlyZC4uLgpJIHJlcG9ydGVkIHRoZSBidWcgeWVzdGVyZGF5OiBodHRwczovL2J1
+Z3MubGx2bS5vcmcvc2hvd19idWcuY2dpP2lkPTQ4NDg5CgpUaGFua3MsCgpBbGV4CgpbMV06Cmh0
+dHBzOi8vZ2l0aHViLmNvbS9sbHZtL2xsdm0tcHJvamVjdC9ibG9iLzQxNGQzZGM2MmM3MDZmNDEy
+MjZiMGQ1NTIyMTBjNzlmNTA4MGRmNDMvY29tcGlsZXItcnQvbGliL2J1aWx0aW5zL2NsZWFyX2Nh
+Y2hlLmMjTDU5ClsyXToKaHR0cHM6Ly9naXRodWIuY29tL2xsdm0vbGx2bS1wcm9qZWN0L2Jsb2Iv
+N2ZhZjYyYTgwYmZjM2E5ZGZlMzQxMzM2ODFmY2MzMWY4ZThkNjU4Yi9jbGFuZy9pbmNsdWRlL2Ns
+YW5nL0Jhc2ljL0J1aWx0aW5zLmRlZiNMNTgzCgpPbiAxMi8xMi8yMCAxMjo1MiBBTSwgSGVpbnJp
+Y2ggU2NodWNoYXJkdCB3cm90ZToKPiBPbiAxMi8xMS8yMCAxMDowOSBQTSwgQWxlamFuZHJvIENv
+bG9tYXIgKG1hbi1wYWdlcykgd3JvdGU6Cj4+IEhpIE1pY2hhZWwsCj4+Cj4+IENvbnRpbnVpbmcg
+d2l0aCB0aGUgY2hhbmdlcyBpbiB0aGlzIHRocmVhZDoKPj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5v
+cmcvbGludXgtbWFuLzc0N2Q1NmUwLWMxMDItYWI0MC1hZGQ0LTUzMGE0OGE0M2E0ZEBnbXguZGUv
+VC8jdAo+Pgo+Pgo+PiBJIHJlc2VhcmNoZWQgdGhlIGFyY2hpdGVjdHVyZXMgdGhhdCBoYXZlIHRo
+aXMgc3lzY2FsbC7CoCBJIGZvdW5kIHNvbWUKPj4gdGhhdCBjbGVhcmx5IHByb3ZpZGUgdGhlIHN5
+c2NhbGwsIGFuZCBzb21lIHRoYXQgc2VlbSB0byBoYXZlIHNvbWV0aGluZywKPj4gYnV0IEkgZGlk
+bid0IGZpbmQgYSBkZWZpbml0aW9uIGluIHRoZSBrZXJuZWwgKGkuZS4sIEFSTSwgTWljcm9CbGF6
+ZQo+PiAoZ2xpYmMgb25seSk/KQo+IAo+IGFyY2gvYXJtL2luY2x1ZGUvdWFwaS9hc20vdW5pc3Rk
+Lmg6MzU6Cj4gI2RlZmluZSBfX0FSTV9OUl9jYWNoZWZsdXNowqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCAoX19BUk1fTlJfQkFTRSsyKQo+IAo+IGFyY2gvYXJtNjQvaW5jbHVkZS9hc20vdW5p
+c3RkLmg6Mzc6Cj4gI2RlZmluZSBfX0FSTV9OUl9jb21wYXRfY2FjaGVmbHVzaMKgwqAgKF9fQVJN
+X05SX0NPTVBBVF9CQVNFICsgMikKPiAKPiBUaGVzZSBzeXNjYWxscyBhcmUgbWFya2VkIGFzIHBy
+aXZhdGUuIFNvIHlvdSBzaG91bGQgbm90IHVzZSB0aGVtIGZyb20KPiB1c2VyIHNwYWNlLgo+IAo+
+IFRoZSBjb21waWxlcnMgc2VlbSBub3QgdG8gY2FyZSBhYm91dCB0aGVzZSBzeXNjYWxscyBiZWlu
+ZyBwcml2YXRlOgo+IAo+IGh0dHBzOi8vZ2l0aHViLmNvbS9nY2MtbWlycm9yL2djYy9ibG9iL21h
+c3Rlci9saWJnY2MvY29uZmlnL2FybS9saWIxZnVuY3MuUyNMMTUxMgo+IAo+IGh0dHBzOi8vZ2l0
+aHViLmNvbS9sbHZtLW1pcnJvci9jb21waWxlci1ydC9ibG9iL21hc3Rlci9saWIvYnVpbHRpbnMv
+Y2xlYXJfY2FjaGUuYwo+IAo+IAo+IEJlc3QgcmVnYXJkcwo+IAo+IEhlaW5yaWNoClsuLi5dCj4+
+IFJlbmRlcmVkIHBhZ2UgKE5PVEVTIG9ubHkpOgo+Pgo+PiBbCj4+IE5PVEVTCj4+IMKgwqDCoCBB
+cmNoaXRlY3R1cmUtc3BlY2lmaWMgdmFyaWFudHMKPj4gwqDCoMKgwqDCoMKgwqAgR2xpYmPCoCBw
+cm92aWRlcyBhIHdyYXBwZXIgZm9yIHRoaXMgc3lzdGVtIGNhbGwsIHdpdGggdGhlIHByb+KAkAo+
+PiDCoMKgwqDCoMKgwqDCoCB0b3R5cGUgc2hvd24gaW4gU1lOT1BTSVMsIGZvcsKgIHRoZcKgIGZv
+bGxvd2luZ8KgIGFyY2hpdGVjdHVyZXM6Cj4+IMKgwqDCoMKgwqDCoMKgIEFSQywgQ1NLWSwgTUlQ
+UywgYW5kIE5JT1MyLiAvLyBsb3dlcmNhc2U/Cj4+Cj4+IMKgwqDCoMKgwqDCoMKgIE9uwqAgc29t
+ZSBvdGhlciBhcmNoaXRlY3R1cmVzLCBMaW51eCBwcm92aWRlcyB0aGlzIHN5c3RlbSBjYWxsCj4+
+IMKgwqDCoMKgwqDCoMKgIHdpdGggZGlmZmVyZW50IGFyZ3VtZW50czoKPj4KPj4gwqDCoMKgwqDC
+oMKgwqAgTTY4SzoKPj4KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpbnQgY2FjaGVmbHVzaCh1
+bnNpZ25lZCBsb25nIGFkZHIsIGludCBzY29wZSwgaW50IGNhY2hlLAo+PiDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHVuc2lnbmVkIGxvbmcgbGVu
+KTsKPj4KPj4gwqDCoMKgwqDCoMKgwqAgU0g6Cj4+Cj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+aW50IGNhY2hlZmx1c2godW5zaWduZWQgbG9uZyBhZGRyLCB1bnNpZ25lZCBsb25nIGxlbiwgaW50
+Cj4+IG9wKTsKPj4KPj4gwqDCoMKgwqDCoMKgwqAgTkRTMzI6Cj4+Cj4+IMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgaW50IGNhY2hlZmx1c2godW5zaWduZWQgaW50IHN0YXJ0LCB1bnNpZ25lZCBpbnQg
+ZW5kLCBpbnQKPj4gY2FjaGUpOwo+Pgo+PiDCoMKgwqAgR0NDIGFsdGVybmF0aXZlCj4+IMKgwqDC
+oMKgwqDCoMKgIFVubGVzcyB5b3UgbmVlZCB0aGUgZmluZXIgZ3JhaW5lZCBjb250cm9swqAgdGhh
+dMKgIHRoaXPCoCBzeXN0ZW0KPj4gwqDCoMKgwqDCoMKgwqAgY2FsbMKgIHByb3ZpZGVzLMKgIHlv
+dcKgIHByb2JhYmx5wqAgd2FudMKgIHRvIHVzZSB0aGUgR0NDIGJ1aWx0LWluCj4+IMKgwqDCoMKg
+wqDCoMKgIGZ1bmN0aW9uIF9fYnVpbHRpbl9fX2NsZWFyX2NhY2hlKCksIHdoaWNoIHByb3ZpZGVz
+IGEgcG9ydGFibGUKPj4gwqDCoMKgwqDCoMKgwqAgaW50ZXJmYWNlwqAgYWNyb3NzwqAgcGxhdGZv
+cm1zwqAgc3VwcG9ydGVkIGJ5IEdDQyBhbmQgY29tcGF0aWJsZQo+PiDCoMKgwqDCoMKgwqDCoCBj
+b21waWxlcnM6Cj4+Cj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgdm9pZCBfX2J1aWx0aW5fX19j
+bGVhcl9jYWNoZSh2b2lkICpiZWdpbiwgdm9pZCAqZW5kKTsKPj4KPj4gwqDCoMKgwqDCoMKgwqAg
+T24gcGxhdGZvcm1zIHRoYXQgZG9uJ3QgcmVxdWlyZcKgIGluc3RydWN0aW9uwqAgY2FjaGXCoCBm
+bHVzaGVzLAo+PiDCoMKgwqDCoMKgwqDCoCBfX2J1aWx0aW5fX19jbGVhcl9jYWNoZSgpIGhhcyBu
+byBlZmZlY3QuCj4+Cj4+IMKgwqDCoMKgwqDCoMKgIE5vdGU6wqAgT27CoCBzb21lwqAgR0NDLWNv
+bXBhdGlibGUgY29tcGlsZXJzLCBzdWNoIGFzIGNsYW5nLCB0aGUKPj4gwqDCoMKgwqDCoMKgwqAg
+cHJvdG90eXBlIGZvciB0aGlzIGZ1bmN0aW9uIHVzZXMgY2hhciAqIGluc3RlYWQgb2Ygdm9pZCAq
+IGZvcgo+PiDCoMKgwqDCoMKgwqDCoCB0aGUgcGFyYW1ldGVycy4KPj4KPj4gXQo+Pgo+PiAnR0ND
+IGFsdGVybmF0aXZlJyBpcyB0aGUgbmFtZSBJIGdhdmUgdG8gdGhlIE5PVEVTIGZyb20gdGhlIG90
+aGVyIHRocmVhZCwKPj4gd2hpY2ggYXJlbid0IHlldCBtZXJnZWQgKEknbGwgc2VuZCB0aGUgcGF0
+Y2hlcyBhZnRlciB0aGUgd2Vla2VuZCwKPj4gcHJvYmFibHkpLgo+Pgo+PiBTdWJzZWN0aW9ucyBi
+YXNlZCBvbjoKPj4gZmFkdmlzZTY0KDIpCj4+Cj4+IENhbiB5b3UgcmV2aWV3IHRoaXM/Cj4+Cj4+
+IFRoYW5rcywKPj4KPj4gQWxleAo+Pgo+IAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMt
+YXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
