@@ -1,64 +1,89 @@
-Return-Path: <SRS0=MahF=FR=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=O7sC=FS=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93ADDC4361B
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 13 Dec 2020 08:36:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9B10C4361B
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 14 Dec 2020 11:44:01 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 37C492063A
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 13 Dec 2020 08:36:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 37C492063A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 6B83120798
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 14 Dec 2020 11:44:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6B83120798
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=YJF7nDxDCEsNFacefkU+o9SyTrzjFBPa067GD8ra3u0=; b=FJNfQQVT2UW5BAEV9gRdHVWPm
-	0CjeVYlmqdJTEAnGaJfxD0s/C0E6+fk2hlO6Yhur9YwRy3WcDlRWo5Oe/XLxX+LAfWvUHmVHR0F1y
-	8oTlFg7xzdXaHq1efUH/qLulvavykfvcUu5TK99zwtsDT/ifiFHfrNaO/u6J17mlyTu8SWdulKmEy
-	Uc2iWruy+DlXeV8Tp1YB/tz9mJ2qEX1I/z10xN2rJ3i0eexm+VTKnjBH5Aro51d+vrzipFZ3kr9n2
-	bv1YiRkzcIV5FXjtGZJnL0RMzdXzHnozWxCgRyVWU3jjQTiEjIQG3PSHhzdXPMH6CkRH1OjVVOoKg
-	BT5wrmwpQ==;
+	 bh=6A9utqbp/JSkGOIB93uOSARuhEJzbfN+NsFviJVb080=; b=Yh3W792retC9AjUJhiEXDSLK3
+	vHVI2YOnrT02WFDsfgF99vblsE1R7sWk8soC5R8Kn7nBJfM9bcNCiKOkFUNk7+olm6gH6fJCKoe/7
+	mFx5LO0BQYFdnJc6x8dZecr65kLuRJIfLEZ4nr7xnOH2PQPsMdaQDEo2qN5aQV1FC1GOCy9SpCwuV
+	AtuuH3T/AiUIirhFCE7CBmZpHn5ft4SBP1hJ6Plt6MOsHnpogJkl176HLiKRAiy0A6ULMYC2IKuKW
+	ylqk+HwUp02nFfTaS4NLKosdNaCwbvSrWCBCOa0o+AaNhjAUEyip+4KVTbneAeBOuB9oTyNppsyRn
+	Xqa+xP1WA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1koMs4-0004YE-6y; Sun, 13 Dec 2020 08:36:48 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1komGm-0003xf-Qf; Mon, 14 Dec 2020 11:44:00 +0000
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1koMrt-0004XG-7y; Sun, 13 Dec 2020 08:36:38 +0000
-Date: Sun, 13 Dec 2020 10:36:23 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1607848595;
- bh=Oe5JGmuoMJ7Fs86WbZB5DZ1VQL2J/VAWBl+yhiWVzvc=;
- h=From:To:Cc:Subject:References:In-Reply-To:From;
- b=giEpchRcy5TjV9ZPzj0N2Wlz7xFPJvYE3eB6uLRF2S+KF2bzg5LCT6jd1ZWDSoGpo
- IDu1rDd1+q8X76G5XPDmzweszjCemSA+1Y3Xm7O6/ikSbuLm+0W6A03T+FDqjCREjR
- A2bH0triUWEEOsEsJD1E6iOmbfGUf8t6lTz6+0BU8O24Yt+WaVjupEsTb4ik4kweIO
- KUmQ7pq2euLIkksCLx1dbpbat2gG4ZarsEmZIRHK1iIbo1tfiGBcyRtFBoc5oiqE60
- SvASYLoEtg1dHP0ygnpg2NlWoCAEAmL9bR3Xsmh8b2AVNXcs+p9DtN7w7jWs7mq2QS
- JE8iYzcEHWvpg==
-From: Mike Rapoport <rppt@kernel.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH 07/13] ia64: make SPARSEMEM default and disable
- DISCONTIGMEM
-Message-ID: <20201213083623.GA198219@kernel.org>
-References: <20201027112955.14157-1-rppt@kernel.org>
- <20201027112955.14157-8-rppt@kernel.org>
- <20201212160144.GA174701@roeck-us.net>
+ id 1komGl-0003x7-Dn
+ for linux-snps-arc@lists.infradead.org; Mon, 14 Dec 2020 11:44:00 +0000
+Received: by mail-wr1-x443.google.com with SMTP id w5so12420039wrm.11
+ for <linux-snps-arc@lists.infradead.org>; Mon, 14 Dec 2020 03:43:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Duu0tFo0BYN5uj6dURuetdL16PH4j+9j2ppt0P47uAQ=;
+ b=pB9wTxjZ7/mVFcG7DEye1eerxxcC4ixF6IXGpSf6sVJ0MNqfl5c03LarhNR+9Rb2wn
+ 3pUbhdPn6nInHo0E+Pf0mVki3C3Zr8fzOwKjpmZ2FX+BoX5rSfJQc9pDUK21jbtX5km8
+ 9hRb5LbE1+MlqnR9s/G3R2MfzK7J+xYgG1eIiWgMh82BZtIgop2XPtldp0Th0azQFyRY
+ KDdJSgiOHjte4z7WP35RrewVVvovSMtgDYj0loZslXUF9lmzklXkN7xOHqLOQd3sA/J0
+ Zj2Diw5iZ7iWLGyaA+9LP0oyg8BDFKWESTaXBUyl0ml60gLMafwZ0samI25t67EX/iUA
+ HCgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Duu0tFo0BYN5uj6dURuetdL16PH4j+9j2ppt0P47uAQ=;
+ b=RNu3JNDZddJxYyv8ub1RoEh5bVdzlvf+Itq0SOzCVI8BPrhJpOfunOdyQZf/fy6SAg
+ G/n/xJsPbgc0S0w7+iGMit0o5bGwrtruH6VkobAt2imZzMeNFPdQCU/PptxOzGrqhljw
+ aJApYMmu09ywaHmvKECK8yLNLWBuDL/dCImJWld3n4PYqhyeGo6niawLg9d1fYyK2j8D
+ u/VgXEAz33Yve+KJ0IeX70jvVAo/dztdAy8WMBBIAugLfJ30Z9PB7Qjothnk2xZNGEdQ
+ awji28SLTbi4yta8UVInOPDaj1qUXSN0JkhqguZ5YTIK6ztx/EGTgZAT+GXP2aBepo8y
+ N1jA==
+X-Gm-Message-State: AOAM531NIOenYyTa+Fh2UAOQpgWMI81BTCY7Q9x9Vph67OcYyeTVl7jI
+ WgI8DpmORARY2sg838SpfE8=
+X-Google-Smtp-Source: ABdhPJxsLEA1x2BvX2Vfv0PWw5ZALM5wpjW+lZrR3OZvh23vfIoL8ABymDaKKnKOm5kmY/zsMlVxdQ==
+X-Received: by 2002:a5d:4d02:: with SMTP id z2mr29370287wrt.109.1607946236907; 
+ Mon, 14 Dec 2020 03:43:56 -0800 (PST)
+Received: from debian.vlc ([170.253.51.130])
+ by smtp.gmail.com with ESMTPSA id w18sm11738403wrn.2.2020.12.14.03.43.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Dec 2020 03:43:56 -0800 (PST)
+From: Alejandro Colomar <alx.manpages@gmail.com>
+To: Michael Kerrisk <mtk.manpages@gmail.com>,
+ Dave Martin <Dave.Martin@arm.com>,
+ Heinrich Schuchardt <xypron.glpk@gmx.de>, linux-man@vger.kernel.org
+Subject: [PATCH v5] cacheflush.2: Document __builtin___clear_cache() as a more
+ portable alternative
+Date: Mon, 14 Dec 2020 12:43:07 +0100
+Message-Id: <20201214114306.10784-1-alx.manpages@gmail.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <e2424619-2a5a-a44a-2dc0-a16310725250@gmail.com>
+References: <e2424619-2a5a-a44a-2dc0-a16310725250@gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201212160144.GA174701@roeck-us.net>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201213_033637_571570_0EBCCCC1 
-X-CRM114-Status: GOOD (  20.41  )
+X-CRM114-CacheID: sfid-20201214_064359_491756_F0229972 
+X-CRM114-Status: GOOD (  10.46  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,109 +95,63 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: linux-ia64@vger.kernel.org, linux-doc@vger.kernel.org,
- Catalin Marinas <catalin.marinas@arm.com>, linux-mm@kvack.org,
- Will Deacon <will@kernel.org>, Greg Ungerer <gerg@linux-m68k.org>,
- Jonathan Corbet <corbet@lwn.net>, Meelis Roos <mroos@linux.ee>,
- Russell King <linux@armlinux.org.uk>, Mike Rapoport <rppt@linux.ibm.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Matt Turner <mattst88@gmail.com>,
- linux-snps-arc@lists.infradead.org, Alexey Dobriyan <adobriyan@gmail.com>,
- linux-m68k@lists.linux-m68k.org,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- linux-arm-kernel@lists.infradead.org, Michael Schmitz <schmitzmic@gmail.com>,
- Tony Luck <tony.luck@intel.com>, Vineet Gupta <vgupta@synopsys.com>,
- linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
+Cc: Alejandro Colomar <alx.manpages@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Vincent Chen <deanbo422@gmail.com>, Nick Hu <nickhu@andestech.com>,
+ Vineet Gupta <vgupta@synopsys.com>, linux-mips@vger.kernel.org,
+ linux-csky@vger.kernel.org, Guo Ren <guoren@kernel.org>,
+ Greentime Hu <green.hu@gmail.com>, gcc-patches@gcc.gnu.org,
+ linux-snps-arc@lists.infradead.org, cfe-users@lists.llvm.org,
+ cfe-dev@lists.llvm.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Sat, Dec 12, 2020 at 08:01:44AM -0800, Guenter Roeck wrote:
-> On Tue, Oct 27, 2020 at 01:29:49PM +0200, Mike Rapoport wrote:
-> > From: Mike Rapoport <rppt@linux.ibm.com>
-> > 
-> > SPARSEMEM memory model suitable for systems with large holes in their
-> > phyiscal memory layout. With SPARSEMEM_VMEMMAP enabled it provides
-> > pfn_to_page() and page_to_pfn() as fast as FLATMEM.
-> > 
-> > Make it the default memory model for IA-64 and disable DISCONTIGMEM which
-> > is considered obsolete for quite some time.
-> > 
-> > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> 
-> This patch results in 
-> 
-> include/linux/mmzone.h:1156:2: error: #error Allocator MAX_ORDER exceeds SECTION_SIZE
->  1156 | #error Allocator MAX_ORDER exceeds SECTION_SIZE
-> 
-> when building ia64:defconfig.
-> 
-> Also, PAGE_SHIFT is not defined, though I don't know if that is related.
+Reported-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
+Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+---
+ man2/cacheflush.2 | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-This is realated as sparesemem.h on ia64 needs PAGE_SHIFT for
-SECTION_SIZE and it is not there.
-This fixes the build for me (the patch is vs
-v5.10-rc7-mmots-2020-12-11-14-43)
-
-diff --git a/arch/ia64/include/asm/sparsemem.h b/arch/ia64/include/asm/sparsemem.h
-index dd8c166ffd7b..84652c26f3d9 100644
---- a/arch/ia64/include/asm/sparsemem.h
-+++ b/arch/ia64/include/asm/sparsemem.h
-@@ -3,6 +3,8 @@
- #define _ASM_IA64_SPARSEMEM_H
- 
- #ifdef CONFIG_SPARSEMEM
-+#include <asm/page.h>
-+
- /*
-  * SECTION_SIZE_BITS            2^N: how big each section will be
-  * MAX_PHYSMEM_BITS             2^N: how much memory we can have in that space
-
-> Reverting the patch fixes the problem for me.
-> 
-> Guenter
-> 
-> ---
-> bisect log:
-> 
-> # bad: [3cc2bd440f2171f093b3a8480a4b54d8c270ed38] Add linux-next specific files for 20201211
-> # good: [0477e92881850d44910a7e94fc2c46f96faa131f] Linux 5.10-rc7
-> git bisect start 'HEAD' 'v5.10-rc7'
-> # good: [0a701401d4e29d9e73f0f3cc02179fc6c9191646] Merge remote-tracking branch 'crypto/master'
-> git bisect good 0a701401d4e29d9e73f0f3cc02179fc6c9191646
-> # good: [6fd39ad603b113e9c68180b9138084710c036e34] Merge remote-tracking branch 'spi/for-next'
-> git bisect good 6fd39ad603b113e9c68180b9138084710c036e34
-> # good: [c96b2eec436e87b8c673213b203559bed9e551b9] Merge remote-tracking branch 'vfio/next'
-> git bisect good c96b2eec436e87b8c673213b203559bed9e551b9
-> # good: [4f2e7f6a2ce4e621b77e59c8763549fa8bee7b4b] Merge remote-tracking branch 'gpio/for-next'
-> git bisect good 4f2e7f6a2ce4e621b77e59c8763549fa8bee7b4b
-> # good: [5ee06b21caaeb37a1ff5143e8ce91b376fe73dc2] swiotlb.h: add "inline" to swiotlb_adjust_size
-> git bisect good 5ee06b21caaeb37a1ff5143e8ce91b376fe73dc2
-> # bad: [46aa09d885ce303efd6444def783ec575a5b57ee] mm, page_poison: remove CONFIG_PAGE_POISONING_ZERO
-> git bisect bad 46aa09d885ce303efd6444def783ec575a5b57ee
-> # good: [3b77356d530bfd93e2450c063718292aa435eede] mm: mmap_lock: add tracepoints around lock acquisition
-> git bisect good 3b77356d530bfd93e2450c063718292aa435eede
-> # bad: [e0287fb91c006d12bed9e6fbfc7fe661ad7f9647] mm,hwpoison: disable pcplists before grabbing a refcount
-> git bisect bad e0287fb91c006d12bed9e6fbfc7fe661ad7f9647
-> # bad: [94d171d065be406a2407f0d723afe14c05526283] ia64: make SPARSEMEM default and disable DISCONTIGMEM
-> git bisect bad 94d171d065be406a2407f0d723afe14c05526283
-> # good: [7499e1e91e18a285274e9b761ba2abf21e4343fa] mm/vmalloc: use free_vm_area() if an allocation fails
-> git bisect good 7499e1e91e18a285274e9b761ba2abf21e4343fa
-> # good: [eba50fff503fa6d6e20679509a1a960c3e003d22] lib/test_kasan.c: add workqueue test case
-> git bisect good eba50fff503fa6d6e20679509a1a960c3e003d22
-> # good: [e343d6ff702aaae6181448a38ff85cf201b011ba] ia64: remove 'ifdef CONFIG_ZONE_DMA32' statements
-> git bisect good e343d6ff702aaae6181448a38ff85cf201b011ba
-> # good: [a0bfb938ae29239a3f13f6a6a4ef41c3c7f0c84c] ia64: split virtual map initialization out of paging_init()
-> git bisect good a0bfb938ae29239a3f13f6a6a4ef41c3c7f0c84c
-> # good: [0e791e5138cde9b96d34ba68136fd26bb97f81e5] ia64: forbid using VIRTUAL_MEM_MAP with FLATMEM
-> git bisect good 0e791e5138cde9b96d34ba68136fd26bb97f81e5
-> # first bad commit: [94d171d065be406a2407f0d723afe14c05526283] ia64: make SPARSEMEM default and disable DISCONTIGMEM
-> 
-
+diff --git a/man2/cacheflush.2 b/man2/cacheflush.2
+index aba625721..7a2eed506 100644
+--- a/man2/cacheflush.2
++++ b/man2/cacheflush.2
+@@ -86,6 +86,30 @@ On Linux, this call first appeared on the MIPS architecture,
+ but nowadays, Linux provides a
+ .BR cacheflush ()
+ system call on some other architectures, but with different arguments.
++.SH NOTES
++Unless you need the finer grained control that this system call provides,
++you probably want to use the GCC built-in function
++.BR __builtin___clear_cache (),
++which provides a portable interface
++across platforms supported by GCC and compatible compilers:
++.PP
++.in +4n
++.EX
++.BI "void __builtin___clear_cache(void *" begin ", void *" end );
++.EE
++.in
++.PP
++On platforms that don't require instruction cache flushes,
++.BR __builtin___clear_cache ()
++has no effect.
++.PP
++.IR Note :
++Until GCC 9.1.0,
++the prototype for this built-in function used
++.I char *
++instead of
++.I void *
++for the parameters.
+ .SH BUGS
+ Linux kernels older than version 2.6.11 ignore the
+ .I addr
 -- 
-Sincerely yours,
-Mike.
+2.29.2
+
 
 _______________________________________________
 linux-snps-arc mailing list
