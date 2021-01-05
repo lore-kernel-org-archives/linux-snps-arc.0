@@ -2,66 +2,65 @@ Return-Path: <SRS0=DkXR=GI=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 813CCC433DB
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  5 Jan 2021 01:00:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3066C433DB
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  5 Jan 2021 03:44:53 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 31C3E2256F
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  5 Jan 2021 01:00:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 31C3E2256F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 1A9382256F
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  5 Jan 2021 03:44:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1A9382256F
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=VNOC2H3+Ow/6M/QaCYmyJzDJOwop12/60yB6fsjmgQY=; b=gPF6VJWiIsrkMj882HMfJOY1j
-	5BpDZRI4leZrw8xWR8+UKh+7y9EER9CR7wPKTxVTpJ67y3URRvKoni8nx1OIAn4DepIHd3zrZPglZ
-	JNuxnDw/NrJ2DD/9T1GbBwDDZjz7oEx6nQkerdqq2Pe43QJTOsJFrEX/K+19ELOZ2UXLyNsb62K7P
-	df5BKNDvxDkZa8UHSN65Hq8mQPOcg6Nstzy0xpvOk6bMt8V7gB0uuY1/2j7kuWNhCY3M1uaAu+ZSx
-	dcSg8tvDUS0MdbrUKaVj0PT+kW7KQYDT3BPOgHIl82+aHPi8eKjLCPmjRuSXFQLixbjO/BFGIUkcy
-	h17slGwmA==;
+	 bh=P4wAgf3OoBjcngs6L/bgCAHesYy6scpelG19TNZu1Dg=; b=K0P7XMghv7NqcCPhfsD2RIgni
+	4SCClzfSSqPurLEjoz2OaQqPsVzZSZVbuVpnj87vm4Wiy7rreqYQieLS0hwaoUh03b9G9vR0fAuCV
+	Y6/8yzUTRO5oaH9oEaMvSh/4e0RJpSvp+Z0LI2gb/fenZfpGw3ZfoJZJLNCVhmSALsRkoPQNXvGui
+	mB4yY+ltKZCGc+Owjzmr7YT4lUApP0niW4jreCxcoOKeFZbALu6J0121m/aplHOym5T9PXfc7GIb6
+	ryhG+lQDI2hWBb/sjgo0W1dM7/h/ufPUoF9AZSQJh3nexzGWEv6z4JBlH11BQhtjGy8dPKCTreFwE
+	plswy3m3A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kwahc-0005T1-Rl; Tue, 05 Jan 2021 01:00:00 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1kwdHA-0008TN-54; Tue, 05 Jan 2021 03:44:52 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kwahJ-0005FX-8L; Tue, 05 Jan 2021 00:59:42 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ADCE6229C4;
- Tue,  5 Jan 2021 00:59:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1609808380;
- bh=k5tUJHFjMO2s79xpLs4QJPdGWhJciPZsye1o8rF3dAs=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=J3TSwo3nNU7X1fflv8qhWlBhn2SmnPDX6zcIj6O9oxknpuMjJ7N3yvo9ua4URUl0A
- PuUfYceIKgapinnC/7xgRiktpmKCh88uXW3LIc+YIkYPxRD/9TsV1xs0NmEEJ6pjuk
- oOPR+/OyUvkgYYruRtYDpBW7qfr/apzWLFoFvF4TGS/TmChN4wb9jYM6uX/RFJil+Z
- yH/zKrmA41wjU1rucnDW1bq8SawDIgRo6A2eiQ22TOP0a4SI8/53r6h2GhKGeDbolu
- KP0RRqhT1KCPIJETNATjvr6VeQAgN6iMWTc1LgWYyJbTxVaFthxWvx/CpUMxRgvKs3
- 4F1Hff+G6hnoQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 13/17] local64.h: make <asm/local64.h> mandatory
-Date: Mon,  4 Jan 2021 19:59:11 -0500
-Message-Id: <20210105005915.3954208-13-sashal@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210105005915.3954208-1-sashal@kernel.org>
-References: <20210105005915.3954208-1-sashal@kernel.org>
+ id 1kwdH9-0008TG-3x
+ for linux-snps-arc@merlin.infradead.org; Tue, 05 Jan 2021 03:44:51 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description;
+ bh=LL0n5x3ZKQKBeJnSSJSM66PM0K/AJjwB+1HmKM1hr8U=; b=vqHQHb729MK/QOY1e4fmVZYfud
+ /TD9vGo4S6EN6UBI+d2ADvQfqXa3B0+lr1/RL8oNt4hJto7ltzwc/+KwiFIxBi0ukO1d+E/O6ryKc
+ Zwt7vKpdx69+TBSZLxxY7ZYbMzVj1tEmhkQO30zFGsZH7kQzEFWwiLRlP1oVDc/e2RGHwJCDnUilt
+ lNs3AgC8+Msq9m4ryKAY3Nie/F51/2kCM0Nuf6Urnkka/a3bZS16Z5HICp7iqi9Wc2zQoG1uQfjDi
+ r1hNWwUQH/e/pA8RC31LjXXerP46hcx0TayKREjnmGNFx6LT31RXQaVCXIVhEmqriQ94csQVnDN5t
+ 7iyMVmOA==;
+Received: from [2601:1c0:6280:3f0::64ea]
+ by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+ id 1kwdEH-000pgb-Q7; Tue, 05 Jan 2021 03:42:36 +0000
+Subject: Re: [PATCH v2] fs/dax: include <asm/page.h> to fix build error on ARC
+To: Dan Williams <dan.j.williams@intel.com>
+References: <20210101042914.5313-1-rdunlap@infradead.org>
+ <CAPcyv4jAiqyFg_BUHh_bJRG-BqzvOwthykijRapB_8i6VtwTmQ@mail.gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <f7803685-e255-7cfe-5259-e2a7dc5ab581@infradead.org>
+Date: Mon, 4 Jan 2021 19:41:48 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210104_195941_458000_40B08170 
-X-CRM114-Status: GOOD (  14.79  )
+In-Reply-To: <CAPcyv4jAiqyFg_BUHh_bJRG-BqzvOwthykijRapB_8i6VtwTmQ@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,312 +72,91 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: linux-ia64@vger.kernel.org, linux-sh@vger.kernel.org,
- Peter Zijlstra <peterz@infradead.org>, linux-csky@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
- Sasha Levin <sashal@kernel.org>, linux-s390@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-hexagon@vger.kernel.org,
- Masahiro Yamada <masahiroy@kernel.org>, Ley Foon Tan <ley.foon.tan@intel.com>,
- Christoph Hellwig <hch@infradead.org>, Mark Salter <msalter@redhat.com>,
- linux-snps-arc@lists.infradead.org, uclinux-h8-devel@lists.sourceforge.jp,
- linux-xtensa@linux-xtensa.org, Arnd Bergmann <arnd@arndb.de>,
- Aurelien Jacquiot <jacquiot.aurelien@gmail.com>,
- linux-m68k@lists.linux-m68k.org, linux-arm-kernel@lists.infradead.org,
- Jens Axboe <axboe@kernel.dk>, linux-parisc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, Randy Dunlap <rdunlap@infradead.org>,
- linux-mips@vger.kernel.org, linux-alpha@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Jan Kara <jack@suse.cz>, kernel test robot <lkp@intel.com>,
+ linux-nvdimm <linux-nvdimm@lists.01.org>, Vineet Gupta <vgupta@synopsys.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, Vineet Gupta <vgupts@synopsys.com>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-snps-arc@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+On 1/4/21 12:13 PM, Dan Williams wrote:
+> On Thu, Dec 31, 2020 at 8:29 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>>
+>> fs/dax.c uses copy_user_page() but ARC does not provide that interface,
+>> resulting in a build error.
+>>
+>> Provide copy_user_page() in <asm/page.h> (beside copy_page()) and
+>> add <asm/page.h> to fs/dax.c to fix the build error.
+>>
+>> ../fs/dax.c: In function 'copy_cow_page_dax':
+>> ../fs/dax.c:702:2: error: implicit declaration of function 'copy_user_page'; did you mean 'copy_to_user_page'? [-Werror=implicit-function-declaration]
+>>
+>> Fixes: cccbce671582 ("filesystem-dax: convert to dax_direct_access()")
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>> Cc: Vineet Gupta <vgupta@synopsys.com>
+>> Cc: linux-snps-arc@lists.infradead.org
+>> Cc: Dan Williams <dan.j.williams@intel.com>
+>> Acked-by: Vineet Gupta <vgupts@synopsys.com>
+>> Cc: Andrew Morton <akpm@linux-foundation.org>
+>> Cc: Matthew Wilcox <willy@infradead.org>
+>> Cc: Jan Kara <jack@suse.cz>
+>> Cc: linux-fsdevel@vger.kernel.org
+>> Cc: linux-nvdimm@lists.01.org
+>> ---
+>> v2: rebase, add more Cc:
+>>
+>>  arch/arc/include/asm/page.h |    1 +
+>>  fs/dax.c                    |    1 +
+>>  2 files changed, 2 insertions(+)
+>>
+>> --- lnx-511-rc1.orig/fs/dax.c
+>> +++ lnx-511-rc1/fs/dax.c
+>> @@ -25,6 +25,7 @@
+>>  #include <linux/sizes.h>
+>>  #include <linux/mmu_notifier.h>
+>>  #include <linux/iomap.h>
+>> +#include <asm/page.h>
+> 
+> I would expect this to come from one of the linux/ includes like
+> linux/mm.h. asm/ headers are implementation linux/ headers are api.
+> 
+> Once you drop that then the subject of this patch can just be "arc:
+> add a copy_user_page() implementation", and handled by the arc
+> maintainer (or I can take it with Vineet's ack).
 
-[ Upstream commit 87dbc209ea04645fd2351981f09eff5d23f8e2e9 ]
+Got it. Thanks.
+Vineet is copied. I expect that he will take the v3 patch.
 
-Make <asm-generic/local64.h> mandatory in include/asm-generic/Kbuild and
-remove all arch/*/include/asm/local64.h arch-specific files since they
-only #include <asm-generic/local64.h>.
+>>  #include <asm/pgalloc.h>
+> 
+> Yes, this one should have a linux/ api header to front it, but that's
+> a cleanup for another day.
 
-This fixes build errors on arch/c6x/ and arch/nios2/ for
-block/blk-iocost.c.
+That line is only part of the contextual diff in this patch.
+I guess you are just commenting in general, along with your earlier
+paragraph.
 
-Build-tested on 21 of 25 arch-es.  (tools problems on the others)
+>>
+>>  #define CREATE_TRACE_POINTS
+>> --- lnx-511-rc1.orig/arch/arc/include/asm/page.h
+>> +++ lnx-511-rc1/arch/arc/include/asm/page.h
+>> @@ -10,6 +10,7 @@
+>>  #ifndef __ASSEMBLY__
+>>
+>>  #define clear_page(paddr)              memset((paddr), 0, PAGE_SIZE)
+>> +#define copy_user_page(to, from, vaddr, pg)    copy_page(to, from)
+>>  #define copy_page(to, from)            memcpy((to), (from), PAGE_SIZE)
+>>
+>>  struct vm_area_struct;
 
-Yes, we could even rename <asm-generic/local64.h> to
-<linux/local64.h> and change all #includes to use
-<linux/local64.h> instead.
 
-Link: https://lkml.kernel.org/r/20201227024446.17018-1-rdunlap@infradead.org
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Suggested-by: Christoph Hellwig <hch@infradead.org>
-Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: Ley Foon Tan <ley.foon.tan@intel.com>
-Cc: Mark Salter <msalter@redhat.com>
-Cc: Aurelien Jacquiot <jacquiot.aurelien@gmail.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- arch/alpha/include/asm/local64.h   | 1 -
- arch/arc/include/asm/Kbuild        | 1 -
- arch/arm/include/asm/Kbuild        | 1 -
- arch/arm64/include/asm/Kbuild      | 1 -
- arch/csky/include/asm/Kbuild       | 1 -
- arch/h8300/include/asm/Kbuild      | 1 -
- arch/hexagon/include/asm/Kbuild    | 1 -
- arch/ia64/include/asm/local64.h    | 1 -
- arch/m68k/include/asm/Kbuild       | 1 -
- arch/microblaze/include/asm/Kbuild | 1 -
- arch/mips/include/asm/Kbuild       | 1 -
- arch/nds32/include/asm/Kbuild      | 1 -
- arch/parisc/include/asm/Kbuild     | 1 -
- arch/powerpc/include/asm/Kbuild    | 1 -
- arch/riscv/include/asm/Kbuild      | 1 -
- arch/s390/include/asm/Kbuild       | 1 -
- arch/sh/include/asm/Kbuild         | 1 -
- arch/sparc/include/asm/Kbuild      | 1 -
- arch/x86/include/asm/local64.h     | 1 -
- arch/xtensa/include/asm/Kbuild     | 1 -
- include/asm-generic/Kbuild         | 1 +
- 21 files changed, 1 insertion(+), 20 deletions(-)
- delete mode 100644 arch/alpha/include/asm/local64.h
- delete mode 100644 arch/ia64/include/asm/local64.h
- delete mode 100644 arch/x86/include/asm/local64.h
-
-diff --git a/arch/alpha/include/asm/local64.h b/arch/alpha/include/asm/local64.h
-deleted file mode 100644
-index 36c93b5cc239b..0000000000000
---- a/arch/alpha/include/asm/local64.h
-+++ /dev/null
-@@ -1 +0,0 @@
--#include <asm-generic/local64.h>
-diff --git a/arch/arc/include/asm/Kbuild b/arch/arc/include/asm/Kbuild
-index 81f4edec0c2a9..3c1afa524b9c2 100644
---- a/arch/arc/include/asm/Kbuild
-+++ b/arch/arc/include/asm/Kbuild
-@@ -1,7 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- generic-y += extable.h
- generic-y += kvm_para.h
--generic-y += local64.h
- generic-y += mcs_spinlock.h
- generic-y += parport.h
- generic-y += user.h
-diff --git a/arch/arm/include/asm/Kbuild b/arch/arm/include/asm/Kbuild
-index 383635b68763c..f1398b9267c08 100644
---- a/arch/arm/include/asm/Kbuild
-+++ b/arch/arm/include/asm/Kbuild
-@@ -2,7 +2,6 @@
- generic-y += early_ioremap.h
- generic-y += extable.h
- generic-y += flat.h
--generic-y += local64.h
- generic-y += parport.h
- generic-y += seccomp.h
- 
-diff --git a/arch/arm64/include/asm/Kbuild b/arch/arm64/include/asm/Kbuild
-index ff9cbb6312128..07ac208edc894 100644
---- a/arch/arm64/include/asm/Kbuild
-+++ b/arch/arm64/include/asm/Kbuild
-@@ -1,6 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
- generic-y += early_ioremap.h
--generic-y += local64.h
- generic-y += mcs_spinlock.h
- generic-y += qrwlock.h
- generic-y += qspinlock.h
-diff --git a/arch/csky/include/asm/Kbuild b/arch/csky/include/asm/Kbuild
-index 64876e59e2ef9..2a5a4d94fafad 100644
---- a/arch/csky/include/asm/Kbuild
-+++ b/arch/csky/include/asm/Kbuild
-@@ -2,7 +2,6 @@
- generic-y += asm-offsets.h
- generic-y += gpio.h
- generic-y += kvm_para.h
--generic-y += local64.h
- generic-y += qrwlock.h
- generic-y += seccomp.h
- generic-y += user.h
-diff --git a/arch/h8300/include/asm/Kbuild b/arch/h8300/include/asm/Kbuild
-index ddf04f32b5467..60ee7f0d60a8f 100644
---- a/arch/h8300/include/asm/Kbuild
-+++ b/arch/h8300/include/asm/Kbuild
-@@ -2,7 +2,6 @@
- generic-y += asm-offsets.h
- generic-y += extable.h
- generic-y += kvm_para.h
--generic-y += local64.h
- generic-y += mcs_spinlock.h
- generic-y += parport.h
- generic-y += spinlock.h
-diff --git a/arch/hexagon/include/asm/Kbuild b/arch/hexagon/include/asm/Kbuild
-index 373964bb177e4..3ece3c93fe086 100644
---- a/arch/hexagon/include/asm/Kbuild
-+++ b/arch/hexagon/include/asm/Kbuild
-@@ -2,5 +2,4 @@
- generic-y += extable.h
- generic-y += iomap.h
- generic-y += kvm_para.h
--generic-y += local64.h
- generic-y += mcs_spinlock.h
-diff --git a/arch/ia64/include/asm/local64.h b/arch/ia64/include/asm/local64.h
-deleted file mode 100644
-index 36c93b5cc239b..0000000000000
---- a/arch/ia64/include/asm/local64.h
-+++ /dev/null
-@@ -1 +0,0 @@
--#include <asm-generic/local64.h>
-diff --git a/arch/m68k/include/asm/Kbuild b/arch/m68k/include/asm/Kbuild
-index 1bff55aa2d54e..0dbf9c5c6faeb 100644
---- a/arch/m68k/include/asm/Kbuild
-+++ b/arch/m68k/include/asm/Kbuild
-@@ -2,6 +2,5 @@
- generated-y += syscall_table.h
- generic-y += extable.h
- generic-y += kvm_para.h
--generic-y += local64.h
- generic-y += mcs_spinlock.h
- generic-y += spinlock.h
-diff --git a/arch/microblaze/include/asm/Kbuild b/arch/microblaze/include/asm/Kbuild
-index 63bce836b9f10..29b0e557aa7c5 100644
---- a/arch/microblaze/include/asm/Kbuild
-+++ b/arch/microblaze/include/asm/Kbuild
-@@ -2,7 +2,6 @@
- generated-y += syscall_table.h
- generic-y += extable.h
- generic-y += kvm_para.h
--generic-y += local64.h
- generic-y += mcs_spinlock.h
- generic-y += parport.h
- generic-y += syscalls.h
-diff --git a/arch/mips/include/asm/Kbuild b/arch/mips/include/asm/Kbuild
-index 198b3bafdac97..95b4fa7bd0d1f 100644
---- a/arch/mips/include/asm/Kbuild
-+++ b/arch/mips/include/asm/Kbuild
-@@ -6,7 +6,6 @@ generated-y += syscall_table_64_n64.h
- generated-y += syscall_table_64_o32.h
- generic-y += export.h
- generic-y += kvm_para.h
--generic-y += local64.h
- generic-y += mcs_spinlock.h
- generic-y += parport.h
- generic-y += qrwlock.h
-diff --git a/arch/nds32/include/asm/Kbuild b/arch/nds32/include/asm/Kbuild
-index ff1e94299317d..82a4453c9c2d5 100644
---- a/arch/nds32/include/asm/Kbuild
-+++ b/arch/nds32/include/asm/Kbuild
-@@ -4,6 +4,5 @@ generic-y += cmpxchg.h
- generic-y += export.h
- generic-y += gpio.h
- generic-y += kvm_para.h
--generic-y += local64.h
- generic-y += parport.h
- generic-y += user.h
-diff --git a/arch/parisc/include/asm/Kbuild b/arch/parisc/include/asm/Kbuild
-index e3ee5c0bfe80f..a1bd2adc63e3a 100644
---- a/arch/parisc/include/asm/Kbuild
-+++ b/arch/parisc/include/asm/Kbuild
-@@ -3,7 +3,6 @@ generated-y += syscall_table_32.h
- generated-y += syscall_table_64.h
- generated-y += syscall_table_c32.h
- generic-y += kvm_para.h
--generic-y += local64.h
- generic-y += mcs_spinlock.h
- generic-y += seccomp.h
- generic-y += user.h
-diff --git a/arch/powerpc/include/asm/Kbuild b/arch/powerpc/include/asm/Kbuild
-index 90cd5c53af666..e1f9b4ea1c537 100644
---- a/arch/powerpc/include/asm/Kbuild
-+++ b/arch/powerpc/include/asm/Kbuild
-@@ -5,7 +5,6 @@ generated-y += syscall_table_c32.h
- generated-y += syscall_table_spu.h
- generic-y += export.h
- generic-y += kvm_types.h
--generic-y += local64.h
- generic-y += mcs_spinlock.h
- generic-y += qrwlock.h
- generic-y += vtime.h
-diff --git a/arch/riscv/include/asm/Kbuild b/arch/riscv/include/asm/Kbuild
-index 59dd7be550054..445ccc97305a5 100644
---- a/arch/riscv/include/asm/Kbuild
-+++ b/arch/riscv/include/asm/Kbuild
-@@ -3,6 +3,5 @@ generic-y += early_ioremap.h
- generic-y += extable.h
- generic-y += flat.h
- generic-y += kvm_para.h
--generic-y += local64.h
- generic-y += user.h
- generic-y += vmlinux.lds.h
-diff --git a/arch/s390/include/asm/Kbuild b/arch/s390/include/asm/Kbuild
-index 319efa0e6d024..1a18d7b82f86d 100644
---- a/arch/s390/include/asm/Kbuild
-+++ b/arch/s390/include/asm/Kbuild
-@@ -7,5 +7,4 @@ generated-y += unistd_nr.h
- generic-y += asm-offsets.h
- generic-y += export.h
- generic-y += kvm_types.h
--generic-y += local64.h
- generic-y += mcs_spinlock.h
-diff --git a/arch/sh/include/asm/Kbuild b/arch/sh/include/asm/Kbuild
-index 7435182ef8465..fc44d9c88b419 100644
---- a/arch/sh/include/asm/Kbuild
-+++ b/arch/sh/include/asm/Kbuild
-@@ -1,6 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
- generated-y += syscall_table.h
- generic-y += kvm_para.h
--generic-y += local64.h
- generic-y += mcs_spinlock.h
- generic-y += parport.h
-diff --git a/arch/sparc/include/asm/Kbuild b/arch/sparc/include/asm/Kbuild
-index 5269a704801fa..3688fdae50e45 100644
---- a/arch/sparc/include/asm/Kbuild
-+++ b/arch/sparc/include/asm/Kbuild
-@@ -6,5 +6,4 @@ generated-y += syscall_table_64.h
- generated-y += syscall_table_c32.h
- generic-y += export.h
- generic-y += kvm_para.h
--generic-y += local64.h
- generic-y += mcs_spinlock.h
-diff --git a/arch/x86/include/asm/local64.h b/arch/x86/include/asm/local64.h
-deleted file mode 100644
-index 36c93b5cc239b..0000000000000
---- a/arch/x86/include/asm/local64.h
-+++ /dev/null
-@@ -1 +0,0 @@
--#include <asm-generic/local64.h>
-diff --git a/arch/xtensa/include/asm/Kbuild b/arch/xtensa/include/asm/Kbuild
-index c59c42a1221a8..adefb1636f7ae 100644
---- a/arch/xtensa/include/asm/Kbuild
-+++ b/arch/xtensa/include/asm/Kbuild
-@@ -2,7 +2,6 @@
- generated-y += syscall_table.h
- generic-y += extable.h
- generic-y += kvm_para.h
--generic-y += local64.h
- generic-y += mcs_spinlock.h
- generic-y += param.h
- generic-y += qrwlock.h
-diff --git a/include/asm-generic/Kbuild b/include/asm-generic/Kbuild
-index e78bbb9a07e90..d1300c6e0a471 100644
---- a/include/asm-generic/Kbuild
-+++ b/include/asm-generic/Kbuild
-@@ -34,6 +34,7 @@ mandatory-y += kmap_types.h
- mandatory-y += kprobes.h
- mandatory-y += linkage.h
- mandatory-y += local.h
-+mandatory-y += local64.h
- mandatory-y += mm-arch-hooks.h
- mandatory-y += mmiowb.h
- mandatory-y += mmu.h
 -- 
-2.27.0
+~Randy
 
 
 _______________________________________________
