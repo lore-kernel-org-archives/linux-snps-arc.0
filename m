@@ -2,63 +2,64 @@ Return-Path: <SRS0=Lg4d=GK=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B8A9C433DB
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  7 Jan 2021 13:14:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3E00C433E0
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  7 Jan 2021 15:28:09 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CD43C223C8
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  7 Jan 2021 13:14:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CD43C223C8
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	by mail.kernel.org (Postfix) with ESMTPS id 328EA23405
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  7 Jan 2021 15:28:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 328EA23405
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=free.fr
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=R7D+B7wXPPNvSLeNz1IqGjhMEko/1FAc1KGW8XrsSu8=; b=fAYWX+jj2CQ5c8NogSYTIwh0r
-	Jsz3gnW3DfkG5w7klHSsIgsXQMfX6/RN1oc0tW8xp7XoYJ872dEhoe1VTsFbsz3LvbxzImjcGTlsc
-	lRLQVkdPegqpr3PDlnocnxqAOlGZhpGiArlmk8EAG5yIsdWrbCFxZ/IaDw9Ux1NMYCzRCBgpq1TOS
-	ql/wrHbDjhu1PeYtRT6XWlmU937EOki47xjAgbg0J+H3cxCJmlAhYDhzUL/xpXRfMa+czpa6RWahz
-	tFUAc6k6U/6MKEeHqrgY6RQdo2BEVAYcn6QiwNIcFT/FSJu4UZbi1h3z99NetxP5wa6zI6tgFisxL
-	Gz2HVcu4g==;
+	 bh=Lcv8Pvq2GXe9WlGA+AemzcsjA/SLVZCU6Z9lhXprqH0=; b=cpq07TYFROSOA+efxE9PLiVbZ
+	MHECmf7vao/4lzCekEM+DxN/JaxO5tcbcIv1eZq5Ce4qYUUUV1vVf0S1K8XUgtptN3huH2ao/aTIW
+	OK/V+lEhhHWHT9GLcy01JJ2JX92tYEGAu1T1BeEkavQbD4983shN4NpVVnA/cKN/54deMKUChciaC
+	9uUqHa7eKHspBXQZ50cfk5/hgjqlCZYmsDJiLULvFd2YxWkQaqae0SdjalTeCDcXkuJ0XlMiJsxXz
+	3/F3V4Os+XX/3VjVGdsDMPtVlugaqUK0ml0v7JcJu/dRZrsc5qyBqNQd6cHh1lNTXofzzw8g7GVNZ
+	g331sbXdA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kxV7Z-0000ns-AE; Thu, 07 Jan 2021 13:14:33 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1kxXCq-000198-3Z; Thu, 07 Jan 2021 15:28:08 +0000
+Received: from smtp1-g21.free.fr ([2a01:e0c:1:1599::10])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kxV7X-0000nV-6J
- for linux-snps-arc@lists.infradead.org; Thu, 07 Jan 2021 13:14:31 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6CE4B22285;
- Thu,  7 Jan 2021 13:14:25 +0000 (UTC)
-Subject: Re: ARC no console output (was Re: [PATCH 1/2] init/console: Use
- ttynull as a fallback when there is no console)
-To: John Ogness <john.ogness@linutronix.de>,
- Vineet Gupta <vgupta@synopsys.com>, Petr Mladek <pmladek@suse.com>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>
+ id 1kxXCm-000180-VA
+ for linux-snps-arc@lists.infradead.org; Thu, 07 Jan 2021 15:28:06 +0000
+Received: from ymorin.is-a-geek.org (unknown
+ [IPv6:2a01:cb19:8b51:cb00:e49b:7e99:8172:6888])
+ (Authenticated sender: yann.morin.1998)
+ by smtp1-g21.free.fr (Postfix) with ESMTPSA id 32EE5B005A4;
+ Thu,  7 Jan 2021 16:27:25 +0100 (CET)
+Received: by ymorin.is-a-geek.org (sSMTP sendmail emulation);
+ Thu, 07 Jan 2021 16:27:24 +0100
+Date: Thu, 7 Jan 2021 16:27:24 +0100
+From: "Yann E. MORIN" <yann.morin.1998@free.fr>
+To: Vineet Gupta <vgupta@synopsys.com>
+Subject: Re: [Buildroot] ARC no console output (was Re: [PATCH 1/2]
+ init/console: Use ttynull as a fallback when there is no console)
+Message-ID: <20210107152724.GL1485369@scaer>
 References: <20201111135450.11214-1-pmladek@suse.com>
  <20201111135450.11214-2-pmladek@suse.com>
  <d2a3b3c0-e548-7dd1-730f-59bc5c04e191@synopsys.com>
- <8735zdm86m.fsf@jogness.linutronix.de>
-From: Greg Ungerer <gerg@linux-m68k.org>
-Message-ID: <ac2aaa56-deca-8644-2a42-ca8ee8a77883@linux-m68k.org>
-Date: Thu, 7 Jan 2021 23:14:22 +1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <8735zdm86m.fsf@jogness.linutronix.de>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <d2a3b3c0-e548-7dd1-730f-59bc5c04e191@synopsys.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210107_081431_320874_5AA7BFE2 
-X-CRM114-Status: GOOD (  13.29  )
+X-CRM114-CacheID: sfid-20210107_102805_116215_249C67D5 
+X-CRM114-Status: GOOD (  18.32  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,46 +71,105 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org,
+Cc: linux-arch@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
  Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+ John Ogness <john.ogness@linutronix.de>,
  Shreyas Joshi <shreyas.joshi@biamp.com>, linux-kernel@vger.kernel.org,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, buildroot@busybox.net,
  arcml <linux-snps-arc@lists.infradead.org>,
  Linus Torvalds <torvalds@linux-foundation.org>, shreyasjoshi15@gmail.com,
  Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi John,
+Vineet, All,
 
-On 7/1/21 7:02 pm, John Ogness wrote:
-> On 2021-01-06, Vineet Gupta <vgupta@synopsys.com> wrote:
->> This breaks ARC booting (no output on console).
+On 2021-01-06 15:36 -0800, Vineet Gupta spake thusly:
+> On 11/11/20 5:54 AM, Petr Mladek wrote:
+[--SNIP--]
+> >Make sure that stdin, stdout, stderr, and /dev/console are always
+> >available by a fallback to the existing ttynull driver. It has
+> >been implemented for exactly this purpose but it was used only
+> >when explicitly configured.
+> >
+> >Signed-off-by: Petr Mladek <pmladek@suse.com>
 > 
-> Could you provide the kernel boot arguments that you use? This series is
-> partly about addressing users that have used boot arguments that are
-> technically incorrect (even if had worked). Seeing the boot arguments of
-> users that are not experiencing problems may help to reveal some of the
-> unusual console usages until now.
+> >--- a/init/main.c
+> >+++ b/init/main.c
+> >@@ -1470,8 +1470,14 @@ void __init console_on_rootfs(void)
+> >  	struct file *file = filp_open("/dev/console", O_RDWR, 0);
+> >  	if (IS_ERR(file)) {
+> >-		pr_err("Warning: unable to open an initial console.\n");
+> >-		return;
+> >+		pr_err("Warning: unable to open an initial console. Fallback to ttynull.\n");
+> >+		register_ttynull_console();
+> >+
+> >+		file = filp_open("/dev/console", O_RDWR, 0);
+> >+		if (IS_ERR(file)) {
+> >+			pr_err("Warning: Failed to add ttynull console. No stdin, stdout, and stderr for the init process!\n");
+> >+			return;
+> >+		}
+> 
+> This breaks ARC booting (no output on console).
+> 
+> Our Buildroot based setup has dynamic /dev where /dev/console doesn't exist
+> statically and there's a primoridla /init shell script which does following
+> 
+> /bin/mount -t devtmpfs devtmpfs /dev
+> exec 0</dev/console
+> exec 1>/dev/console
+> exec 2>/dev/console
+> exec /sbin/init "$@"
 
-I can show an example for m68knommu which this change breaks too
-(with no console output on boot).
+I guess you are speaking about the initramfs (cpio) case, right?
 
-All the ColdFire dev board targets (arch/m68k/configs/m5*) have a 
-compiled in boot argument which is "root=/dev/mtdblock0". They have no
-real mechanism to pass boot arguments from their boot loader, so it is
-compiled in.
+We've changed that code last August:
 
-The default mcf serial driver is the console on these and no 
-"console=ttyS0" argument was required in the past.
+    https://git.buildroot.org/buildroot/commit/fs/cpio/init?id=b9026e83f
 
-Regards
-Greg
+I.e. if we can't do the redirection, then we don't redirect anything.
+The change was done for people who explicitly pass an empty console= on
+their kernel command line.
 
+Now, I haven't looked at nulltty yet, and I have (so far) no idea on how
+it works. Thanks for the hint, I'll have a look.
 
+> Buildroot has had this way of handling missing /dev/console since 2011 [1]
+> and [2].
+
+See also more archaelogy on that topic, referenced in that commit:
+    https://git.buildroot.org/buildroot/commit/fs/cpio/?id=98a6f1fc02e41
+
+> Please advise what needs to be done to unbork boot.
+
+This has been present since the 2020.08 release, and has been backported
+to the maintenance branches:
+    2020.02.x (LTS) -> f1a83afe2df2a
+    2020.05.x       -> 797f9e40224c9
+
+> Otherwise this seems
+> like a kernel change which breaks user-space and needs to be backed-out (or
+> perhaps conditionalize on CONFIG_NULL_TTY. I'm surprised it hasn't been
+> reported by any other  embedded folks
+
+I won't speak about whether this is a kernel regression or not, not my
+call.
+
+Regards,
+Yann E. MORIN.
+
+-- 
+.-----------------.--------------------.------------------.--------------------.
+|  Yann E. MORIN  | Real-Time Embedded | /"\ ASCII RIBBON | Erics' conspiracy: |
+| +33 662 376 056 | Software  Designer | \ / CAMPAIGN     |  ___               |
+| +33 561 099 427 `------------.-------:  X  AGAINST      |  \e/  There is no  |
+| http://ymorin.is-a-geek.org/ | _/*\_ | / \ HTML MAIL    |   v   conspiracy.  |
+'------------------------------^-------^------------------^--------------------'
 
 _______________________________________________
 linux-snps-arc mailing list
