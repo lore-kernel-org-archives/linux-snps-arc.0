@@ -7,65 +7,67 @@ X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9014C433E0
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 Jan 2021 17:52:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3325C433E0
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 Jan 2021 20:53:11 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4410923A61
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 Jan 2021 17:52:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4410923A61
+	by mail.kernel.org (Postfix) with ESMTPS id 423D223A7F
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 Jan 2021 20:53:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 423D223A7F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=rVHd4WxxOan0fI69x3W9NG1smCFFcJnJCs+UxB9U2yU=; b=SPPbxRRMwkeVZDvUGcLGBIoaof
-	T1W0bOS3i5aEi81wL/CbqYMtUnOmvlWGm3yOZ3XWo+WvO1rSD8bU0diwxcJIEeDQV3wAMe1nlbElW
-	tXZdE59wIqFr7+kwYdOvrybUWL0TxUyG1qd88Zf9eyk7OZj7qZOI9o5HFfeP8Toj1WlJFYS+C6/E5
-	yve75fU9+UKeiMJIk9XqIPkhYoz5V/o+bXbDqILB/6ewQwepBigiag81d59H8KKsfj6VZQkHvuBky
-	HCjpiMwGCxANPSlhAxdOP2AUASBZ+Y+qIJmY3RJp2CEqLNYOnGVfBKe8U1iLRDJhvPhtsOsDahc6x
-	GL7ILDhA==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=rVHd4WxxOan0fI69x3W9NG1smCFFcJnJCs+UxB9U2yU=; b=Ldi5Q23nTFoxSwCymvHbwahnL
+	99IGliR/KS/26oFn1FAtWZljQq33XbfYCjdFkKYTiOjnuboOYArT39h5AYOFo1yEjByc2cM6fQZfd
+	DYevvjdXv+mbz+RORPZt2Erfe2b0/xsHFNFwmFlyr3qDYJmdL5g/9PYbsoTjQmjOnbZ02NNnBOfl+
+	SPNJlMDKTJRGSCyyQInoaS3NrEKn3AVUkDwRbdQe7DH2b7zc5Jrobzdp66Zap5YKn1iYTv5Uco3rK
+	KLojreola6OaO0vio51hwSM27VbaSzWVFx1mxyYQP5rELHAU8ARbpmFv1c/K8pgyk5ZTG6WSyW2xW
+	RI/6aSKCw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kxvvf-0001qE-0C; Fri, 08 Jan 2021 17:52:03 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
+	id 1kxykw-00085t-BJ; Fri, 08 Jan 2021 20:53:10 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kxvvb-0001pf-9h
- for linux-snps-arc@lists.infradead.org; Fri, 08 Jan 2021 17:52:01 +0000
-Received: from mailhost.synopsys.com (sv2-mailhost2.synopsys.com
- [10.205.2.134])
+ id 1kxykt-00085X-Vi
+ for linux-snps-arc@lists.infradead.org; Fri, 08 Jan 2021 20:53:09 +0000
+Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com
+ [10.205.2.132])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 1829E401AB;
- Fri,  8 Jan 2021 17:51:52 +0000 (UTC)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 769C0C00C9;
+ Fri,  8 Jan 2021 20:53:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1610128315; bh=sfJSeytvwwMSX+iN0lW5P/BjTyYslsyLT4cjLaczDc4=;
- h=From:To:Cc:Subject:Date:From;
- b=fasyvDdgPd6atM/7pGX5eJeq14JX6t4c0ohL6x529xOiLNJtbUDG8F+2B+Xlkftga
- MUmZepDRPGW1NoefcYr2odd3fY4i9SMgoRYZsE31YJKyJ6p1F9XSOTzgYEwNgXUUD7
- q6fs02mvESEBAulMpzL1TjiEpKW3nfzcscWCij69lzvt3FU/hkhjEVblswfxHyXdC7
- 2IOfOxfIJBRcUDEn7j5kCaPudllSBvkMY5Q0qPJUscwytP3aUJiCsl0TaDEKBQ+mlj
- FngByidySiJ4PqMJOpbAGf+UoNg8nTo7Yqk2KVtOGpfxRJaPOYPj9zGCmspShASzhx
- f0elj7gpG995Q==
+ t=1610139186; bh=sfJSeytvwwMSX+iN0lW5P/BjTyYslsyLT4cjLaczDc4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=E73DPV5pn0o+aub1th7fJORjaEjGxRCLQO12noYQk5oQR4fkqgXWaQL/kZ/F13m/7
+ JJQDMXV02A/ihvRQJqNqGo5+J3L0gBojHZPG5FqTm/crrZDwz4zClUEAUBS6wI+r+T
+ UXjBPFFx2DOVWvqvsCeGmX7+wLqTY+dCaSNpjJ14vFiWZFsdwbL++SfcCBwnyX3boN
+ z114wzdRwQMN5TzUdR4pZCiPR+HNoiw7O+nBKO275gbHEDyj7kgzoUgKBkJLigygM7
+ KfoQgP7KyfxvrW/Bq2uCoDopS3XJJFBaSeAYsl5e59q55yaVe+NvdJw/fcTqWl4kmd
+ +FrLyP+vx+HGg==
 Received: from vineetg-Latitude-7400.internal.synopsys.com (unknown
  [10.13.183.89])
- by mailhost.synopsys.com (Postfix) with ESMTP id AA288A009D;
- Fri,  8 Jan 2021 17:51:52 +0000 (UTC)
+ by mailhost.synopsys.com (Postfix) with ESMTP id F1EA3A0070;
+ Fri,  8 Jan 2021 20:53:01 +0000 (UTC)
 X-SNPS-Relay: synopsys.com
 From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
 To: libc-alpha@sourceware.org
-Subject: [PATCH] ARC: Regenerate ulps
-Date: Fri,  8 Jan 2021 09:51:45 -0800
-Message-Id: <20210108175145.44862-1-vgupta@synopsys.com>
+Subject: [COMMITTED] ARC: Regenerate ulps
+Date: Fri,  8 Jan 2021 12:52:59 -0800
+Message-Id: <20210108205259.115907-1-vgupta@synopsys.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210108175145.44862-1-vgupta@synopsys.com>
+References: <20210108175145.44862-1-vgupta@synopsys.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210108_125159_515340_C3AA2C4E 
-X-CRM114-Status: UNSURE (   6.58  )
+X-CRM114-CacheID: sfid-20210108_155308_224558_0D00ACFF 
+X-CRM114-Status: UNSURE (   6.69  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
