@@ -2,72 +2,51 @@ Return-Path: <SRS0=w8Em=GO=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0735C433DB
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 11 Jan 2021 09:17:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CC60C433DB
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 11 Jan 2021 19:46:18 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 710E62063A
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 11 Jan 2021 09:17:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 710E62063A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
+	by mail.kernel.org (Postfix) with ESMTPS id C5CD122BEF
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 11 Jan 2021 19:46:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C5CD122BEF
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=crapouillou.net
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=czyab3uMsEcd887hc2v+3Z1GrTrc3VjUqR+qPVCRB+c=; b=jOtxO+W5iXZFWTwI+rqMIU7re
-	39zywWd2fkorTXZG37JCoH2ryLsBYe1v+jeApFuWlboEVxqemxg8j7mwF4YLAb3G9AVYiCwxHkp8I
-	LNOIb8H+LwyBH3K/gen3D8y1PYAulPf1FX6qIFXjxO1knKvxYhfMzOoxplYlxu3B+TzM9uD+HAS68
-	sPO/yCYNRvTpQEKIFjmiwWV051GirvMZLxJvmOFWNk2TkxuinjMTaI+Ej4iu/AOl01O06clge6xeI
-	f0lOTkenfFEsjKKcsl1UUv52qiEePZuoD4C3KERA5S3xnUR1J1wIytLdqaACtT7BvUIy6+ctI1+Zo
-	9J2XTBmew==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:To:Subject:From:Date:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=mnvQx784K4HyGgDwP/+ugdk+WE7hC/VYPDV8GL9bFAs=; b=cp744vbzAPOp9oXnWt/oUOlBE4
+	B+HSZgpPFtxfOD+tnp2eaSjqrXY3ADmBriBFWTo20UYMH4JOqulMGzn6Y3ywgXVexktgOduoTEXPa
+	bTTKnjQP5LizNxdFrAzHXp7y9NKf0oCbc9xSFwxJZKA6vKqeszaRUxqFBj3sceNEnzuSJOoc0PQs7
+	z/V1qvybnpITbesQWUTERkpsqWz1N2NAuOna9CTCwRoLRu8uve1APCfDw1RJjdFn5Q62l6X7Tm+ql
+	2hn092lTBQh8Lt4tPbqk8c0i+TRgzo57ueiPQ7S/f0odPQUaBfw+uRmb3YGH52V2u6yliPYRWMmfz
+	JxYdd15Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kytK0-0007LM-N8; Mon, 11 Jan 2021 09:17:08 +0000
-Received: from galois.linutronix.de ([193.142.43.55])
+	id 1kz38q-0006o7-06; Mon, 11 Jan 2021 19:46:16 +0000
+Received: from aposti.net ([89.234.176.197])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kytJl-0007Bi-9u; Mon, 11 Jan 2021 09:16:55 +0000
-Date: Mon, 11 Jan 2021 10:16:46 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1610356608;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LEXe/B0Q3kSQ+pyi11QVzunFEXSDJfyzRctZD/mSGwY=;
- b=uCnnwbctZA1rQ3V0p2kZu+d3zaZFHTKUJPOo76b5D7cuxWEOXVJdpIqiLFP5aTXpvIjv9s
- qwAvW5WhwffRTnvcztEi2+1v/oENxwE79UOubMC7jJKeubOBD6zsvQUL74GztGQIAKB8HO
- BT4sxjhTakFs4dVqAQh6GY6Sn14JBtplCvPA2cmstH/p72FEB2TnSYVyeSL8sjTNI80v3T
- oCsDUl6wYJXQ9QueQxoB6wuP+fNUTobWuAtyizRQCOtZthAqYs4ojlXRNfsr2J83hANEKU
- KrLFmoV7Ai9vVG4RtXD3Lh/qUjXo6jULZnNtu/UYw3EhRXUZtNRGRg4NMuxugQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1610356608;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LEXe/B0Q3kSQ+pyi11QVzunFEXSDJfyzRctZD/mSGwY=;
- b=aQ0P+BB77W0OA8uLsIQDcnYrwKkOka8jvG0VLRGl2/Wpm04Edp57/CM7syBgLiKrsJkDcC
- 9SLKzMSTP9RzBiAw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+ id 1kxyyV-0000ze-2K; Fri, 08 Jan 2021 21:07:11 +0000
+Date: Fri, 08 Jan 2021 20:20:43 +0000
+From: Paul Cercueil <paul@crapouillou.net>
 Subject: Re: [patch V3 13/37] mips/mm/highmem: Switch to generic kmap atomic
-Message-ID: <20210111091646.hkugbtlcced3vmno@linutronix.de>
-References: <JUTMMQ.NNFWKIUV7UUJ1@crapouillou.net>
- <20210108235805.GA17543@alpha.franken.de>
- <20210109003352.GA18102@alpha.franken.de>
+To: tglx@linutronix.de
+Message-Id: <JUTMMQ.NNFWKIUV7UUJ1@crapouillou.net>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210109003352.GA18102@alpha.franken.de>
+X-Bad-Reply: 'Re:' in Subject but no References or In-Reply-To headers
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210111_041653_509295_B6A70C5A 
-X-CRM114-Status: GOOD (  17.31  )
+X-CRM114-CacheID: sfid-20210108_160711_268761_72A5FD7E 
+X-CRM114-Status: UNSURE (   4.39  )
+X-CRM114-Notice: Please train this message.
+X-Mailman-Approved-At: Mon, 11 Jan 2021 14:46:15 -0500
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,12 +58,11 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: juri.lelli@redhat.com, linux-aio@kvack.org,
- Paul Cercueil <paul@crapouillou.net>, airlied@linux.ie,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, bsegall@google.com, jcmvbkbc@gmail.com,
- ray.huang@amd.com, paulus@samba.org, kraxel@redhat.com,
- sparclinux@vger.kernel.org, deanbo422@gmail.com, hch@lst.de,
+Cc: juri.lelli@redhat.com, linux-aio@kvack.org, airlied@linux.ie,
+ nouveau@lists.freedesktop.org, bigeasy@linutronix.de,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ bsegall@google.com, jcmvbkbc@gmail.com, ray.huang@amd.com, paulus@samba.org,
+ kraxel@redhat.com, sparclinux@vger.kernel.org, deanbo422@gmail.com, hch@lst.de,
  vincent.guittot@linaro.org, paulmck@kernel.org, mpe@ellerman.id.au,
  x86@kernel.org, linux@armlinux.org.uk, linux-csky@vger.kernel.org,
  mingo@kernel.org, peterz@infradead.org, linux-graphics-maintainer@vmware.com,
@@ -93,69 +71,30 @@ Cc: juri.lelli@redhat.com, linux-aio@kvack.org,
  arnd@arndb.de, intel-gfx@lists.freedesktop.org, sroland@vmware.com,
  josef@toxicpanda.com, rostedt@goodmis.org, torvalds@linuxfoundation.org,
  green.hu@gmail.com, rodrigo.vivi@intel.com, dsterba@suse.com,
- tglx@linutronix.de, virtualization@lists.linux-foundation.org,
- dietmar.eggemann@arm.com, linux-arm-kernel@lists.infradead.org,
- chris@zankel.net, monstr@monstr.eu, nickhu@andestech.com, clm@fb.com,
+ virtualization@lists.linux-foundation.org, dietmar.eggemann@arm.com,
+ linux-arm-kernel@lists.infradead.org, chris@zankel.net, monstr@monstr.eu,
+ tsbogend@alpha.franken.de, nickhu@andestech.com, clm@fb.com,
  linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
  christian.koenig@amd.com, bcrl@kvack.org, spice-devel@lists.freedesktop.org,
  vgupta@synopsys.com, linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
  bristot@redhat.com, davem@davemloft.net, linux-btrfs@vger.kernel.org,
  viro@zeniv.linux.org.uk
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 2021-01-09 01:33:52 [+0100], Thomas Bogendoerfer wrote:
-> On Sat, Jan 09, 2021 at 12:58:05AM +0100, Thomas Bogendoerfer wrote:
-> > On Fri, Jan 08, 2021 at 08:20:43PM +0000, Paul Cercueil wrote:
-> > > Hi Thomas,
-> > > 
-> > > 5.11 does not boot anymore on Ingenic SoCs, I bisected it to this commit.
-> > > 
-> > > Any idea what could be happening?
-> > 
-> > not yet, kernel crash log of a Malta QEMU is below.
-> 
-> update:
-> 
-> This dirty hack lets the Malta QEMU boot again:
-> 
-> diff --git a/mm/highmem.c b/mm/highmem.c
-> index c3a9ea7875ef..190cdda1149d 100644
-> --- a/mm/highmem.c
-> +++ b/mm/highmem.c
-> @@ -515,7 +515,7 @@ void *__kmap_local_pfn_prot(unsigned long pfn, pgprot_t prot)
->  	vaddr = __fix_to_virt(FIX_KMAP_BEGIN + idx);
->  	BUG_ON(!pte_none(*(kmap_pte - idx)));
->  	pteval = pfn_pte(pfn, prot);
-> -	set_pte_at(&init_mm, vaddr, kmap_pte - idx, pteval);
-> +	set_pte(kmap_pte - idx, pteval);
->  	arch_kmap_local_post_map(vaddr, pteval);
->  	current->kmap_ctrl.pteval[kmap_local_idx()] = pteval;
->  	preempt_enable();
-> 
-> set_pte_at() tries to update cache and could do an kmap_atomic() there.
-So the old implementation used set_pte() while the new one uses
-set_pte_at().
+Hi Thomas,
 
-> Not sure, if this is allowed at this point.
-The problem is the recursion
-  kmap_atomic() -> __update_cache() -> kmap_atomic()
+5.11 does not boot anymore on Ingenic SoCs, I bisected it to this 
+commit.
 
-and kmap_local_idx_push() runs out if index space before stack space.
+Any idea what could be happening?
 
-I'm not sure if the __update_cache() worked for highmem. It has been
-added for that in commit
-   f4281bba81810 ("MIPS: Handle highmem pages in __update_cache")
+Cheers,
+-Paul
 
-but it assumes that the address returned by kmap_atomic() is the same or
-related enough for flush_data_cache_page() to work.
 
-> Thomas.
-> 
-
-Sebastian
 
 _______________________________________________
 linux-snps-arc mailing list
