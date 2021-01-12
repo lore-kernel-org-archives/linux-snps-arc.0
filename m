@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D5B0C433E9
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Jan 2021 12:55:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C904FC433DB
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Jan 2021 12:56:57 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BBC8B23117
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Jan 2021 12:55:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BBC8B23117
+	by mail.kernel.org (Postfix) with ESMTPS id 6989F2388D
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Jan 2021 12:56:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6989F2388D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,38 +23,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=vJuXYFxLQpi7zEYgyTHDcd3MlW51mbr5fbdfd7OqrnU=; b=nW+Qpout2MBghw3KNgdOGcucc
-	9byrNWppkpC+6+ziI2SO4QxCX4FBGX9w0wwu3np9LBHxBdlRLwmXMUw/GfeDio0fAo59ZO3Ws4JDp
-	tslbCr4vr0e4+h/yQ7om2k14XGrTi7OQa5Mfs0VdfM2jtTuMZ6+C5SJCZ6qIPXFIyhaYCoYIsVRjP
-	e35KTlgtxsuO67nV7lGKMHe5ma1LiuDwtfFVAiqjD+xIJazzEiz3giZJ2j+VBxUmhJHvBsIGur4Ho
-	WcsNKSZR9hQg2QPon3qIvmdlovvrxDCWuYwZieF9dYYIqIWaueWHlfbSuEpTCAzOFWHI2AfQ6vpCC
-	//AQPu4iA==;
+	 bh=OTJLzM4ubEHlCu/4YpuQANY6p781kfzioh6i/NaTtAc=; b=u4U3a1ZaNlJ56ggUfJASRbypW
+	bH830qx73tkeR4P3EIfyadJVAh4HHPsWP4pyN14iHq2C6571TW/Yks08eniNLhoCwdZtetAyDfOeZ
+	3rC0JOPOnwezch3/hjVJ7WNAAaegH1ZHrVFXO4l2ptblCOKTHqI5vjXaw869hs9z+KUSdfYjVXUIK
+	WyppxlYKNYFb4kYuYqYNlxMVhL8vKsW9s3Tn0dpqQoVDGPoFgSgJWT6nzKKI6RfwDGSO0DLizO8X9
+	ZEToPDrG0+8eLty8Tm6FPyGh8nXORfg7iH1jGO/scZ4RtYBJOqA/5Zph2xZI9PVBVPiquNoUg/Dd7
+	0RDA6jM+Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kzJD5-0008QT-SV; Tue, 12 Jan 2021 12:55:43 +0000
+	id 1kzJEE-0000Ur-1d; Tue, 12 Jan 2021 12:56:54 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kzJD2-0008Nq-Gd
- for linux-snps-arc@lists.infradead.org; Tue, 12 Jan 2021 12:55:41 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0DBDC23110;
- Tue, 12 Jan 2021 12:55:38 +0000 (UTC)
+ id 1kzJDg-0000Dc-R9
+ for linux-snps-arc@lists.infradead.org; Tue, 12 Jan 2021 12:56:22 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 82C822310F;
+ Tue, 12 Jan 2021 12:56:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1610456139;
- bh=woSES6KfNv28HGzlVcIEfla3NdPm1zWNe2Ynmnbv140=;
+ s=k20201202; t=1610456179;
+ bh=ZfRNyTieOsoVNKe8Y2oI4EMd7ks971g+wnjHRo7dt18=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JoTzEULfaN95dNnVIpAxq6HgWqH3ROglPM7welB1SHAE8Hlg5qQsapP6op937S9Pp
- nt73cU25J2nFOHyJkz/NcZhKHAJoqAIBPGp1VYHPybkOEB3sYRSuHFumEspzK9Nu//
- lQY2LQTo88wz+BLzyuePBNjf/Mqs+h+B7sFafPZvrl41lR5Wlk23mqjjS+AWikabsp
- bqLqe5WxhRsLRKVDrlJ5X77lbatuqmsaA4acx2iaFWZciqGKXV4TI4mp8i8R3A8n0a
- ys/Tej+ikF2DVZdLsQ9ARm94/1IjEKEczu6p51mLQbhfPni1etxVnn1y9WmMhGxvKK
- n1h0nIT+RQmTw==
+ b=FqXxn/DgLD+d0rPjUUJBXj4JJwMU47kZnN1obfF3BpYR6vsCBDSF0CGok+z1JzXID
+ s7/WcaVsAPP0U6fLDvLXz+x81AlDrmMeAwykwHZvViPf2S5q7FMQ3oNxTT5Wy5X2mw
+ 7it9K2GxOFAG9xRbyIOBtj6Ql9cIDBHQ2dD+C1fetuWiiDTk7/lGHyJvZnRwZ8Ym8Q
+ W9QYhp1K96PSFdyftVb4JWN1EmupGYpYzSwsU9g3pJMJirWcJNbjYIKYsQNzxM9jEs
+ s3E4EeI1cBgKSM807siv5f6LAQUOKBe53c/0sIvnVilNvIkT6X7FdG2G2iM9xSQJX5
+ 5jKlPx4s+lzCw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 04/51] ARC: build: move symlink creation to
- arch/arc/Makefile to avoid race
-Date: Tue, 12 Jan 2021 07:54:46 -0500
-Message-Id: <20210112125534.70280-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 34/51] arch/arc: add copy_user_page() to
+ <asm/page.h> to fix build error on ARC
+Date: Tue, 12 Jan 2021 07:55:16 -0500
+Message-Id: <20210112125534.70280-34-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210112125534.70280-1-sashal@kernel.org>
 References: <20210112125534.70280-1-sashal@kernel.org>
@@ -62,8 +62,8 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210112_075540_754848_E81F12E1 
-X-CRM114-Status: GOOD (  13.13  )
+X-CRM114-CacheID: sfid-20210112_075621_026184_E2D6ED0B 
+X-CRM114-Status: GOOD (  12.01  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,145 +75,59 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Vineet Gupta <vgupta@synopsys.com>,
- Masahiro Yamada <masahiroy@kernel.org>, linux-snps-arc@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, Jan Kara <jack@suse.cz>,
+ kernel test robot <lkp@intel.com>, linux-nvdimm@lists.01.org,
+ Vineet Gupta <vgupta@synopsys.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, linux-snps-arc@lists.infradead.org,
+ Dan Williams <dan.j.williams@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Masahiro Yamada <masahiroy@kernel.org>
+From: Randy Dunlap <rdunlap@infradead.org>
 
-[ Upstream commit c5e6ae563c802c4d828d42e134af64004db2e58c ]
+[ Upstream commit 8a48c0a3360bf2bf4f40c980d0ec216e770e58ee ]
 
-If you run 'make uImage uImage.gz' with the parallel option, uImage.gz
-will be created by two threads simultaneously.
+fs/dax.c uses copy_user_page() but ARC does not provide that interface,
+resulting in a build error.
 
-This is because arch/arc/Makefile does not specify the dependency
-between uImage and uImage.gz. Hence, GNU Make assumes they can be
-built in parallel. One thread descends into arch/arc/boot/ to create
-uImage, and another to create uImage.gz.
+Provide copy_user_page() in <asm/page.h>.
 
-Please notice the same log is displayed twice in the following steps:
+../fs/dax.c: In function 'copy_cow_page_dax':
+../fs/dax.c:702:2: error: implicit declaration of function 'copy_user_page'; did you mean 'copy_to_user_page'? [-Werror=implicit-function-declaration]
 
-  $ export CROSS_COMPILE=<your-arc-compiler-prefix>
-  $ make -s ARCH=arc defconfig
-  $ make -j$(nproc) ARCH=arc uImage uImage.gz
-  [ snip ]
-    LD      vmlinux
-    SORTTAB vmlinux
-    SYSMAP  System.map
-    OBJCOPY arch/arc/boot/vmlinux.bin
-    OBJCOPY arch/arc/boot/vmlinux.bin
-    GZIP    arch/arc/boot/vmlinux.bin.gz
-    GZIP    arch/arc/boot/vmlinux.bin.gz
-    UIMAGE  arch/arc/boot/uImage.gz
-    UIMAGE  arch/arc/boot/uImage.gz
-  Image Name:   Linux-5.10.0-rc4-00003-g62f23044
-  Created:      Sun Nov 22 02:52:26 2020
-  Image Type:   ARC Linux Kernel Image (gzip compressed)
-  Data Size:    2109376 Bytes = 2059.94 KiB = 2.01 MiB
-  Load Address: 80000000
-  Entry Point:  80004000
-    Image arch/arc/boot/uImage is ready
-  Image Name:   Linux-5.10.0-rc4-00003-g62f23044
-  Created:      Sun Nov 22 02:52:26 2020
-  Image Type:   ARC Linux Kernel Image (gzip compressed)
-  Data Size:    2815455 Bytes = 2749.47 KiB = 2.69 MiB
-  Load Address: 80000000
-  Entry Point:  80004000
-
-This is a race between the two threads trying to write to the same file
-arch/arc/boot/uImage.gz. This is a potential problem that can generate
-a broken file.
-
-I fixed a similar problem for ARM by commit 3939f3345050 ("ARM: 8418/1:
-add boot image dependencies to not generate invalid images").
-
-I highly recommend to avoid such build rules that cause a race condition.
-
-Move the uImage rule to arch/arc/Makefile.
-
-Another strangeness is that arch/arc/boot/Makefile compares the
-timestamps between $(obj)/uImage and $(obj)/uImage.*:
-
-  $(obj)/uImage: $(obj)/uImage.$(suffix-y)
-          @ln -sf $(notdir $<) $@
-          @echo '  Image $@ is ready'
-
-This does not work as expected since $(obj)/uImage is a symlink.
-The symlink should be created in a phony target rule.
-
-I used $(kecho) instead of echo to suppress the message
-'Image arch/arc/boot/uImage is ready' when the -s option is given.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Vineet Gupta <vgupta@synopsys.com>
+Cc: linux-snps-arc@lists.infradead.org
+Cc: Dan Williams <dan.j.williams@intel.com>
+#Acked-by: Vineet Gupta <vgupta@synopsys.com> # v1
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-nvdimm@lists.01.org
+#Reviewed-by: Ira Weiny <ira.weiny@intel.com> # v2
 Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- arch/arc/Makefile      | 13 ++++++++++++-
- arch/arc/boot/Makefile | 11 +----------
- 2 files changed, 13 insertions(+), 11 deletions(-)
+ arch/arc/include/asm/page.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-index cf9da9aea12ac..578bdbbb0fa7f 100644
---- a/arch/arc/Makefile
-+++ b/arch/arc/Makefile
-@@ -102,11 +102,22 @@ libs-y		+= arch/arc/lib/ $(LIBGCC)
+diff --git a/arch/arc/include/asm/page.h b/arch/arc/include/asm/page.h
+index b0dfed0f12be0..d9c264dc25fcb 100644
+--- a/arch/arc/include/asm/page.h
++++ b/arch/arc/include/asm/page.h
+@@ -10,6 +10,7 @@
+ #ifndef __ASSEMBLY__
  
- boot		:= arch/arc/boot
+ #define clear_page(paddr)		memset((paddr), 0, PAGE_SIZE)
++#define copy_user_page(to, from, vaddr, pg)	copy_page(to, from)
+ #define copy_page(to, from)		memcpy((to), (from), PAGE_SIZE)
  
--boot_targets := uImage uImage.bin uImage.gz uImage.lzma
-+boot_targets := uImage.bin uImage.gz uImage.lzma
- 
- PHONY += $(boot_targets)
- $(boot_targets): vmlinux
- 	$(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
- 
-+uimage-default-y			:= uImage.bin
-+uimage-default-$(CONFIG_KERNEL_GZIP)	:= uImage.gz
-+uimage-default-$(CONFIG_KERNEL_LZMA)	:= uImage.lzma
-+
-+PHONY += uImage
-+uImage: $(uimage-default-y)
-+	@ln -sf $< $(boot)/uImage
-+	@$(kecho) '  Image $(boot)/uImage is ready'
-+
-+CLEAN_FILES += $(boot)/uImage
-+
- archclean:
- 	$(Q)$(MAKE) $(clean)=$(boot)
-diff --git a/arch/arc/boot/Makefile b/arch/arc/boot/Makefile
-index 538b92f4dd253..3b1f8a69a89ef 100644
---- a/arch/arc/boot/Makefile
-+++ b/arch/arc/boot/Makefile
-@@ -1,5 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
--targets := vmlinux.bin vmlinux.bin.gz uImage
-+targets := vmlinux.bin vmlinux.bin.gz
- 
- # uImage build relies on mkimage being availble on your host for ARC target
- # You will need to build u-boot for ARC, rename mkimage to arc-elf32-mkimage
-@@ -13,11 +13,6 @@ LINUX_START_TEXT = $$(readelf -h vmlinux | \
- UIMAGE_LOADADDR    = $(CONFIG_LINUX_LINK_BASE)
- UIMAGE_ENTRYADDR   = $(LINUX_START_TEXT)
- 
--suffix-y := bin
--suffix-$(CONFIG_KERNEL_GZIP)	:= gz
--suffix-$(CONFIG_KERNEL_LZMA)	:= lzma
--
--targets += uImage
- targets += uImage.bin
- targets += uImage.gz
- targets += uImage.lzma
-@@ -42,7 +37,3 @@ $(obj)/uImage.gz: $(obj)/vmlinux.bin.gz FORCE
- 
- $(obj)/uImage.lzma: $(obj)/vmlinux.bin.lzma FORCE
- 	$(call if_changed,uimage,lzma)
--
--$(obj)/uImage: $(obj)/uImage.$(suffix-y)
--	@ln -sf $(notdir $<) $@
--	@echo '  Image $@ is ready'
+ struct vm_area_struct;
 -- 
 2.27.0
 
