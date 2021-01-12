@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31990C433E0
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Jan 2021 12:58:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 622ABC433DB
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Jan 2021 12:59:36 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B432F2311B
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Jan 2021 12:58:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B432F2311B
+	by mail.kernel.org (Postfix) with ESMTPS id 0996A2311A
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Jan 2021 12:59:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0996A2311A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,47 +23,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=XU22/90B546/j5O/msC7rncuOWln1eruViAxZq891FM=; b=2F9m9HoxkAiVc+mhYseIIfJ2n
-	WQweNkyCDCOf0FNfsFWn/EbV4tP8w9sO0AEmtEr3UfM/ghI4ZpQjooaaOPx9xfv9bQ8ptz2k6AedN
-	gn0kGyMDKm1SKsJIlepMaR1defWShobuGAnJpogy4QnTpCzzTXOAjcRHeC5um8S9DpkS6ObMh5KJh
-	8T0wDeVwr/v+OmGgrz6GeQeUYWyYIJRJ2DcpshqhpNOB2xLp6jk2xCPP31dMBsxe31Rx513DJr+Ms
-	1x7sJTkpRPbrSBqozuLObw2syL7sM4HDFLlgJKnSbIw2kwIj8NuijRfex0OHVw/ebtOIe6LNh6XjL
-	H+f8JNpsQ==;
+	 bh=9OKBov0jWk1HvtSlmdq3x5uahC6iWHNl4L/rNJQC6jY=; b=zohvJiY9y2ezEtqKiyhj2+B26
+	Z51lB/uMxCbq2uC48A2zZ436nzNq9UcPEzg2JGnyv5A8iiuukqPqXfoZGSt7agLX2aGtB72hNObFp
+	ufb3REWDFyHYdXl7uI5lOkWbwGh1TPzHYrywQNpgy6VpdTelNkqi37Hh/BIoKhVVUVTJ3DXoACPkY
+	wTIIP0K0YSsCelCZJNtRYUCsJbvCfH9G58Yf4RyVZTVKLXQUGUWAySp27Md4zE0WPXzb9yEiukQP8
+	Wc3alNsRFmc0Ftf7LVFSOWLDbigmXem12uqphhTuS1o+Uh6Poxw2P1t5SDmMKhVJMtoNxa0hfAJss
+	7BzFBIYNQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kzJFw-0001UQ-9h; Tue, 12 Jan 2021 12:58:40 +0000
+	id 1kzJGp-0001yk-43; Tue, 12 Jan 2021 12:59:35 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kzJEV-0000dg-4B
- for linux-snps-arc@lists.infradead.org; Tue, 12 Jan 2021 12:57:13 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C43F423125;
- Tue, 12 Jan 2021 12:57:08 +0000 (UTC)
+ id 1kzJEn-0000pi-DE
+ for linux-snps-arc@lists.infradead.org; Tue, 12 Jan 2021 12:57:31 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EA47C2388D;
+ Tue, 12 Jan 2021 12:57:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1610456230;
- bh=ZoM5RNyuCE09IxKK+DH0s/aeaGT914MTeZfuuKJGd+U=;
+ s=k20201202; t=1610456248;
+ bh=sz1R3HwZb4o4qiTaMpMikNw4vJUb6krejvhqf5QBTOI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=prxBZ9eVwr+fkGUEA42hJU5yTgJnJOZ2+lEwSfqlQ74B1Gd/VlzHndAwmcT+4duID
- CV3kRock8a0h+5On0zYp7zOzaExHnU0LFj9h3men7GoNPMtcGTSaNdttud7Z0XgLbU
- U3oSX0BDs/lkptpZ61nXiONcYaikF2hl4rkoJ0iQMfVoERZsceC8XhMj7dEFjUJd2x
- PdaA4FMkvjPf314Zn3SwShfha5JBGhPclMgbSlRPqD+QArbjJQorHzfgLldWbh5hRO
- BSthhOdBwx29VKXAGoBkEoIT/gJ3MPE84JGYBmEn1MvXEQudD0pw3qVRzdPw9yJRkH
- HaBa1xGqdRaEg==
+ b=ORICluun8ZPtlmqNrNHRWnosn4q2S7rLddgFL6W/knRu3vdD6hde/e4T7j9zoNFfW
+ cFnKPr25RYYv23UoW1shR6aG2ne5YQXbpfPDPT/ah268cEjVvE5MsUoFqEfthKo3qr
+ rWYX6QVakdCwk4Z9wEeCsAenOl/y1Ve6Ukgj3IeH61DrkgsXBb3P8JS9KgVWedw6HY
+ 9cD/rGio09F3fJB1xZfiByZ8wVNiLmsreqBZHhuoCtkgb/7b+BPWX6kJvG1/amKuj1
+ a6dabZKDlqNd+da6V+7XL6ffQHp3VWKtNNpG6PLQKNDXRGX2nU7tNChKKMKKGdXrqd
+ ZbFwtb35gWqIQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 18/28] arch/arc: add copy_user_page() to
- <asm/page.h> to fix build error on ARC
-Date: Tue, 12 Jan 2021 07:56:34 -0500
-Message-Id: <20210112125645.70739-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 02/16] ARC: build: add uImage.lzma to the
+ top-level target
+Date: Tue, 12 Jan 2021 07:57:11 -0500
+Message-Id: <20210112125725.71014-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210112125645.70739-1-sashal@kernel.org>
-References: <20210112125645.70739-1-sashal@kernel.org>
+In-Reply-To: <20210112125725.71014-1-sashal@kernel.org>
+References: <20210112125725.71014-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210112_075712_001352_7D698A4D 
-X-CRM114-Status: GOOD (  12.01  )
+X-CRM114-CacheID: sfid-20210112_075729_883082_94FDA7ED 
+X-CRM114-Status: GOOD (  11.11  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,59 +75,44 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Jan Kara <jack@suse.cz>,
- kernel test robot <lkp@intel.com>, linux-nvdimm@lists.01.org,
- Vineet Gupta <vgupta@synopsys.com>, Randy Dunlap <rdunlap@infradead.org>,
- Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, linux-snps-arc@lists.infradead.org,
- Dan Williams <dan.j.williams@intel.com>
+Cc: Sasha Levin <sashal@kernel.org>, Vineet Gupta <vgupta@synopsys.com>,
+ Masahiro Yamada <masahiroy@kernel.org>, linux-snps-arc@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
 
-[ Upstream commit 8a48c0a3360bf2bf4f40c980d0ec216e770e58ee ]
+[ Upstream commit f2712ec76a5433e5ec9def2bd52a95df1f96d050 ]
 
-fs/dax.c uses copy_user_page() but ARC does not provide that interface,
-resulting in a build error.
+arch/arc/boot/Makefile supports uImage.lzma, but you cannot do
+'make uImage.lzma' because the corresponding target is missing
+in arch/arc/Makefile. Add it.
 
-Provide copy_user_page() in <asm/page.h>.
+I also changed the assignment operator '+=' to ':=' since this is the
+only place where we expect this variable to be set.
 
-../fs/dax.c: In function 'copy_cow_page_dax':
-../fs/dax.c:702:2: error: implicit declaration of function 'copy_user_page'; did you mean 'copy_to_user_page'? [-Werror=implicit-function-declaration]
-
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Vineet Gupta <vgupta@synopsys.com>
-Cc: linux-snps-arc@lists.infradead.org
-Cc: Dan Williams <dan.j.williams@intel.com>
-#Acked-by: Vineet Gupta <vgupta@synopsys.com> # v1
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org
-Cc: linux-nvdimm@lists.01.org
-#Reviewed-by: Ira Weiny <ira.weiny@intel.com> # v2
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- arch/arc/include/asm/page.h | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arc/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arc/include/asm/page.h b/arch/arc/include/asm/page.h
-index 0a32e8cfd074d..bcd1920ae75a3 100644
---- a/arch/arc/include/asm/page.h
-+++ b/arch/arc/include/asm/page.h
-@@ -10,6 +10,7 @@
- #ifndef __ASSEMBLY__
+diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+index b07fdbdd8c836..cbb110309ae1c 100644
+--- a/arch/arc/Makefile
++++ b/arch/arc/Makefile
+@@ -91,7 +91,7 @@ libs-y		+= arch/arc/lib/ $(LIBGCC)
  
- #define clear_page(paddr)		memset((paddr), 0, PAGE_SIZE)
-+#define copy_user_page(to, from, vaddr, pg)	copy_page(to, from)
- #define copy_page(to, from)		memcpy((to), (from), PAGE_SIZE)
+ boot		:= arch/arc/boot
  
- struct vm_area_struct;
+-boot_targets += uImage uImage.bin uImage.gz
++boot_targets := uImage uImage.bin uImage.gz uImage.lzma
+ 
+ $(boot_targets): vmlinux
+ 	$(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
 -- 
 2.27.0
 
