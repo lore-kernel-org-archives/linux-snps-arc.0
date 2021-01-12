@@ -1,52 +1,69 @@
-Return-Path: <SRS0=w8Em=GO=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=SdQC=GP=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CC60C433DB
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 11 Jan 2021 19:46:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CD3CC433E0
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Jan 2021 12:55:42 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C5CD122BEF
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 11 Jan 2021 19:46:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C5CD122BEF
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=crapouillou.net
+	by mail.kernel.org (Postfix) with ESMTPS id B192C2311E
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Jan 2021 12:55:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B192C2311E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:To:Subject:From:Date:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=mnvQx784K4HyGgDwP/+ugdk+WE7hC/VYPDV8GL9bFAs=; b=cp744vbzAPOp9oXnWt/oUOlBE4
-	B+HSZgpPFtxfOD+tnp2eaSjqrXY3ADmBriBFWTo20UYMH4JOqulMGzn6Y3ywgXVexktgOduoTEXPa
-	bTTKnjQP5LizNxdFrAzHXp7y9NKf0oCbc9xSFwxJZKA6vKqeszaRUxqFBj3sceNEnzuSJOoc0PQs7
-	z/V1qvybnpITbesQWUTERkpsqWz1N2NAuOna9CTCwRoLRu8uve1APCfDw1RJjdFn5Q62l6X7Tm+ql
-	2hn092lTBQh8Lt4tPbqk8c0i+TRgzo57ueiPQ7S/f0odPQUaBfw+uRmb3YGH52V2u6yliPYRWMmfz
-	JxYdd15Q==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=aC2blsWkTKUyfDfJ6HshUnAvqKtBFMjyEiVMwx+9OLA=; b=RlS1koAa0SA8jvWmxXvRtt7q6
+	nAlQXyWZblZKr4icMHFf5ZpIoKoOECbgmpC1L8aL6p5YL39DCK9uHm4d7T8G9GxDTDGWL5oQE/6rq
+	+ZhvvkjA+nXFzwyN0GbYmqUEgwzOTYHptYyOpdT+5gtxjCy0xQ1wdL3lysVXCUuX3uXUkNsArXi0e
+	K1EBtmeMJm3dfS3iKNkSFHLwz5xWNWY9EaiBk5l4AjaLOwymnGvuOlyv+ZOKCUxKyi8PGAMrMHaHx
+	MVqi5HHaT+TkR31IQFxcP2X/snrskcTown4Ag58r1iZz2TBcPmtIZ7HLoeMpGlc4azchGpL2EPSNy
+	XaeX5UsgQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kz38q-0006o7-06; Mon, 11 Jan 2021 19:46:16 +0000
-Received: from aposti.net ([89.234.176.197])
+	id 1kzJD2-0008O5-Sm; Tue, 12 Jan 2021 12:55:40 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kxyyV-0000ze-2K; Fri, 08 Jan 2021 21:07:11 +0000
-Date: Fri, 08 Jan 2021 20:20:43 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [patch V3 13/37] mips/mm/highmem: Switch to generic kmap atomic
-To: tglx@linutronix.de
-Message-Id: <JUTMMQ.NNFWKIUV7UUJ1@crapouillou.net>
+ id 1kzJD0-0008MP-02
+ for linux-snps-arc@lists.infradead.org; Tue, 12 Jan 2021 12:55:39 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 896C02311A;
+ Tue, 12 Jan 2021 12:55:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1610456137;
+ bh=x68/nWBFEmoquc1Oqn+w9LkVQx83+m4xn465UtfB1k8=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=hUwhuqPSJuwSoPkVL9jtMRJ1NlEt5FE9hbcVtUAXFXtFpqGMjeSfKLHZxfZZ/2PhX
+ cs0wC2BsszRcbUZCyrwfsHAiE4qsIsYHWhtFw9Bvm8Poe6+5RZj0odOiMZkzHOl4Ny
+ +u6cdXdg4CdaiA+dz/x9PwouPOAu0jIILUmcT5s9gcFz7cCiJ/6o1mSfycEhJQzfLf
+ govHCo/Coatx6MTrrTs7laa0suK4YGQAujZueQ84Xlrk/EbgWlCsHkh4uZ/a7RUt8A
+ /QDh56cpj25tECoAp56om6bcvjmNE8eupBHvu1r94/skL98QvKIDlFciST2WBo4lx8
+ TIFXNkdlRUZ+w==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 02/51] ARC: build: add uImage.lzma to the
+ top-level target
+Date: Tue, 12 Jan 2021 07:54:44 -0500
+Message-Id: <20210112125534.70280-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210112125534.70280-1-sashal@kernel.org>
+References: <20210112125534.70280-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-Bad-Reply: 'Re:' in Subject but no References or In-Reply-To headers
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210108_160711_268761_72A5FD7E 
-X-CRM114-Status: UNSURE (   4.39  )
-X-CRM114-Notice: Please train this message.
-X-Mailman-Approved-At: Mon, 11 Jan 2021 14:46:15 -0500
+X-CRM114-CacheID: sfid-20210112_075538_152018_97FA591A 
+X-CRM114-Status: GOOD (  11.11  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,42 +75,46 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: juri.lelli@redhat.com, linux-aio@kvack.org, airlied@linux.ie,
- nouveau@lists.freedesktop.org, bigeasy@linutronix.de,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- bsegall@google.com, jcmvbkbc@gmail.com, ray.huang@amd.com, paulus@samba.org,
- kraxel@redhat.com, sparclinux@vger.kernel.org, deanbo422@gmail.com, hch@lst.de,
- vincent.guittot@linaro.org, paulmck@kernel.org, mpe@ellerman.id.au,
- x86@kernel.org, linux@armlinux.org.uk, linux-csky@vger.kernel.org,
- mingo@kernel.org, peterz@infradead.org, linux-graphics-maintainer@vmware.com,
- bskeggs@redhat.com, airlied@redhat.com, linux-snps-arc@lists.infradead.org,
- linux-mm@kvack.org, mgorman@suse.de, linux-xtensa@linux-xtensa.org,
- arnd@arndb.de, intel-gfx@lists.freedesktop.org, sroland@vmware.com,
- josef@toxicpanda.com, rostedt@goodmis.org, torvalds@linuxfoundation.org,
- green.hu@gmail.com, rodrigo.vivi@intel.com, dsterba@suse.com,
- virtualization@lists.linux-foundation.org, dietmar.eggemann@arm.com,
- linux-arm-kernel@lists.infradead.org, chris@zankel.net, monstr@monstr.eu,
- tsbogend@alpha.franken.de, nickhu@andestech.com, clm@fb.com,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- christian.koenig@amd.com, bcrl@kvack.org, spice-devel@lists.freedesktop.org,
- vgupta@synopsys.com, linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
- bristot@redhat.com, davem@davemloft.net, linux-btrfs@vger.kernel.org,
- viro@zeniv.linux.org.uk
+Cc: Sasha Levin <sashal@kernel.org>, Vineet Gupta <vgupta@synopsys.com>,
+ Masahiro Yamada <masahiroy@kernel.org>, linux-snps-arc@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Thomas,
+From: Masahiro Yamada <masahiroy@kernel.org>
 
-5.11 does not boot anymore on Ingenic SoCs, I bisected it to this 
-commit.
+[ Upstream commit f2712ec76a5433e5ec9def2bd52a95df1f96d050 ]
 
-Any idea what could be happening?
+arch/arc/boot/Makefile supports uImage.lzma, but you cannot do
+'make uImage.lzma' because the corresponding target is missing
+in arch/arc/Makefile. Add it.
 
-Cheers,
--Paul
+I also changed the assignment operator '+=' to ':=' since this is the
+only place where we expect this variable to be set.
 
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ arch/arc/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+index acf99420e161d..61a41123ad4c4 100644
+--- a/arch/arc/Makefile
++++ b/arch/arc/Makefile
+@@ -102,7 +102,7 @@ libs-y		+= arch/arc/lib/ $(LIBGCC)
+ 
+ boot		:= arch/arc/boot
+ 
+-boot_targets += uImage uImage.bin uImage.gz
++boot_targets := uImage uImage.bin uImage.gz uImage.lzma
+ 
+ $(boot_targets): vmlinux
+ 	$(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
+-- 
+2.27.0
 
 
 _______________________________________________
