@@ -7,63 +7,60 @@ X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA1DC433E0
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Jan 2021 13:01:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D7AAC433E0
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Jan 2021 13:01:42 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7C6B92310F
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Jan 2021 13:01:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7C6B92310F
+	by mail.kernel.org (Postfix) with ESMTPS id 2D2022310F
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Jan 2021 13:01:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2D2022310F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=GBmvHXCTqhA3YWaUsMOu1JXasHtnmmeSDfuuXv57MX0=; b=wVUsnyd1Sl6ryJMcQj6aqyuen
-	slmk4nkO6T4PkqL3Ykx8Lt991/qmcMMJjMKosJLrK4MSk2L5MSN7UdBQMKS/8pfNNgIZeiOhbT9jM
-	r4QqpaPw5GSOSLBBc9wlgJCMkdvspLhC3BQ1QdGq5g7EzDENKuIhzBY44U0bF2zKSLVOHsXJJim88
-	MuiRuij8I1sy9tdkKT/DHi/cKHop8kE4NvMC9QAQhxW/n8z4fCvQaHlyvmnPjkcEoBgizmB4UqKab
-	1z1JoPjedtjLDyFDEBPQ1lcv9Ct+w/dAz7SMpDCWyE/e64wfOWj7KJsu67Vn+4yPXYSadmZ6zbqkO
-	6cjLniFyw==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=uIBFWqgd/NQMe2zJxMQluTrQzE9UBDNW8Ad/fiPiacs=; b=g15tRR1tHPZuIfCna3A+E4/MWr
+	zZW6FI49UEYaUOeG+KEGCszh3YMqaEmcYC50dTzpVkvpeAwOIWoKttv6XV2DG1Q9b0EUhmVFpUal2
+	6cIzgd4rlVCAu5tS2U+hRLAPJLyeph0xAwpx808MBAHY91oGy99L9Hggf2MbMryR/rvyEZRyc+CzN
+	ctAt9KSZDM0Ismtb8GPaXrUecchvR97V2YCLQWRoWu/CbZ5iDTWF44oGEmJ+YydCzhg7pkHniqbWU
+	MykODbkkmRUdNAqA9VFWio1gYG/Mzk3MVz8OL6UdUQSckzXdoC0IlQMFapILw0EpMnlguYw3g3Psl
+	V9ClBlpg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kzJIA-0002f7-3b; Tue, 12 Jan 2021 13:00:58 +0000
+	id 1kzJIp-0002zt-0V; Tue, 12 Jan 2021 13:01:39 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kzJFb-0001Ir-EG
- for linux-snps-arc@lists.infradead.org; Tue, 12 Jan 2021 12:58:21 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BC6EA2312D;
- Tue, 12 Jan 2021 12:58:15 +0000 (UTC)
+ id 1kzJFj-0001Ni-0K
+ for linux-snps-arc@lists.infradead.org; Tue, 12 Jan 2021 12:58:29 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D078123117;
+ Tue, 12 Jan 2021 12:58:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1610456297;
- bh=zPb3uoCMpMg0zIdBDDDosH3CoWb00JMVhzJ0D614Sfo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tnWZe7jYXbndqJEpcGrhQv7J97EqfEVJk9gB/OqwruJWD4KT6vXrn1LZkmCJb/TfL
- L6k+CsN5GrPQZHDxUmIXS/LmiPmglS8AjlYfR28Wxl0Sgr99KfeCeQuvhwAfTUpcuR
- sMtEzPkClMz4DATC+qGKiaaoiaKxfUilJkOIMqr3XufQjfAlCxzZb6OiPvhyAO9mxF
- oP7DHzr6H2c9ygoxKrfwKYK98+PTeNx7fhR4wO2vu6kuWXT9A73fl2ijoNa4zmNj2c
- QyCT+W+XlfanQxgLoygJ9w5GO1PYVN0TwEhQxwdCi6/jnHmC4Hhrg0nxg62SjlYM8h
- ZZlEVqazWuh0Q==
+ s=k20201202; t=1610456305;
+ bh=eTOgMSs1N1PxgfxMoj1wYstzx8Qpt5KjBgDBV0XfFRs=;
+ h=From:To:Cc:Subject:Date:From;
+ b=s3WjL2OXVmKm3tBabmYY+rJVYlltoMdXt1WNCffLR5eHwSJw4raa4e2cVPN4oT3ZR
+ rrGGhUmEll1kHZBKqATTjZP0hUwsCs8G20mvLg9CcLuirVCaA9w5uVIkJS9puJvnDF
+ 2QxDB+AmQ4/alsidr/VA7H91VhRQzb8stVJVeazyGBJ/H1isoxE3bB9dlSrkA9mhSn
+ mYl8grMCt7Fj4vkFAWluErHAjo8+gPnXaV/J+NqAM/puqmN2a8wZ5VXWzBmZV/qJFC
+ xDYfjjpn8kW/uVje7d39kv5L7dW4TzCHehrSZKSBujQXL7Waux1uAt8jYHgnX7itId
+ 2+BPWE+F3GOKw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 4/8] arch/arc: add copy_user_page() to
- <asm/page.h> to fix build error on ARC
-Date: Tue, 12 Jan 2021 07:58:05 -0500
-Message-Id: <20210112125810.71348-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 1/8] ARC: build: add boot_targets to PHONY
+Date: Tue, 12 Jan 2021 07:58:16 -0500
+Message-Id: <20210112125823.71463-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210112125810.71348-1-sashal@kernel.org>
-References: <20210112125810.71348-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210112_075819_693070_61242B5C 
-X-CRM114-Status: GOOD (  12.01  )
+X-CRM114-CacheID: sfid-20210112_075827_356829_B618AD23 
+X-CRM114-Status: GOOD (  10.59  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,59 +72,56 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Jan Kara <jack@suse.cz>,
- kernel test robot <lkp@intel.com>, linux-nvdimm@lists.01.org,
- Vineet Gupta <vgupta@synopsys.com>, Randy Dunlap <rdunlap@infradead.org>,
- Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, linux-snps-arc@lists.infradead.org,
- Dan Williams <dan.j.williams@intel.com>
+Cc: Sasha Levin <sashal@kernel.org>, Vineet Gupta <vgupta@synopsys.com>,
+ Masahiro Yamada <masahiroy@kernel.org>, linux-snps-arc@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
 
-[ Upstream commit 8a48c0a3360bf2bf4f40c980d0ec216e770e58ee ]
+[ Upstream commit 0cfccb3c04934cdef42ae26042139f16e805b5f7 ]
 
-fs/dax.c uses copy_user_page() but ARC does not provide that interface,
-resulting in a build error.
+The top-level boot_targets (uImage and uImage.*) should be phony
+targets. They just let Kbuild descend into arch/arc/boot/ and create
+files there.
 
-Provide copy_user_page() in <asm/page.h>.
+If a file exists in the top directory with the same name, the boot
+image will not be created.
 
-../fs/dax.c: In function 'copy_cow_page_dax':
-../fs/dax.c:702:2: error: implicit declaration of function 'copy_user_page'; did you mean 'copy_to_user_page'? [-Werror=implicit-function-declaration]
+You can confirm it by the following steps:
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Vineet Gupta <vgupta@synopsys.com>
-Cc: linux-snps-arc@lists.infradead.org
-Cc: Dan Williams <dan.j.williams@intel.com>
-#Acked-by: Vineet Gupta <vgupta@synopsys.com> # v1
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org
-Cc: linux-nvdimm@lists.01.org
-#Reviewed-by: Ira Weiny <ira.weiny@intel.com> # v2
+  $ export CROSS_COMPILE=<your-arc-compiler-prefix>
+  $ make -s ARCH=arc defconfig all   # vmlinux will be built
+  $ touch uImage.gz
+  $ make ARCH=arc uImage.gz
+  CALL    scripts/atomic/check-atomics.sh
+  CALL    scripts/checksyscalls.sh
+  CHK     include/generated/compile.h
+  # arch/arc/boot/uImage.gz is not created
+
+Specify the targets as PHONY to fix this.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- arch/arc/include/asm/page.h | 1 +
+ arch/arc/Makefile | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/arch/arc/include/asm/page.h b/arch/arc/include/asm/page.h
-index ffb5f33475f19..f0f43eb709d2f 100644
---- a/arch/arc/include/asm/page.h
-+++ b/arch/arc/include/asm/page.h
-@@ -13,6 +13,7 @@
- #ifndef __ASSEMBLY__
+diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+index 8f8d53f08141d..150656503c117 100644
+--- a/arch/arc/Makefile
++++ b/arch/arc/Makefile
+@@ -108,6 +108,7 @@ bootpImage: vmlinux
  
- #define clear_page(paddr)		memset((paddr), 0, PAGE_SIZE)
-+#define copy_user_page(to, from, vaddr, pg)	copy_page(to, from)
- #define copy_page(to, from)		memcpy((to), (from), PAGE_SIZE)
+ boot_targets += uImage uImage.bin uImage.gz
  
- struct vm_area_struct;
++PHONY += $(boot_targets)
+ $(boot_targets): vmlinux
+ 	$(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
+ 
 -- 
 2.27.0
 
