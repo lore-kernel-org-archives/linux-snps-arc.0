@@ -7,62 +7,62 @@ X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68918C433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDF10C433E6
 	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Jan 2021 12:59:37 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 04B5C2311A
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Jan 2021 12:59:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 04B5C2311A
+	by mail.kernel.org (Postfix) with ESMTPS id 8DD4D2311A
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 12 Jan 2021 12:59:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8DD4D2311A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=FpzOjh5zQe+tDOQN7oypRWWp7a77hZgk6Smwu5mSOIE=; b=oYEzRMIsZ2sZGyhAiCFlcJNDl1
-	SUGgwy4KoSs8dEUsdItdvb82GSo4mbnYxGsdx8p2+o0N7HKJ9x1vThzF/K0vVMqDyA11YGWB3OvRt
-	W3WZxtrDYh2XnoztdnTe02MNnUboEUS19u03OJ0TXMVPklNLSheBF7/aKlKGhJKVugQDtZkGY10YF
-	96MW17POTh7RsxS1tYeIjOHBhCutwDoQ0eiEXbGR5HeSm6syyg5xvhNR+4vW8EtnxAYn5C/lGJHyb
-	KiwvpO2iLOYlHfL42RzwV0IO30HPiXH9ZvnqOEN+s6u2t4t8ogEG97dlG3qrm1g0FjySn4Bn9pUO2
-	a3f2hINQ==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=5ZZHtQKn4pPPj2o0p2IocSmlI8uZhXTIB8lWWbfR2R4=; b=IYUcC1WIEdIy2x3EqrZWyOiYG
+	GKTARvPXHLS+7vD+IbzlPjwjR/FccZhIdpQRdPtm7SVgL3OjrOFsiVram3inGFYlJTaLpkU0dE76O
+	Cd1+24cnxQK8xgJ7OAL/XQk5kJCDATE7UThmuEvB7GRVPRQJ0bHglxaZZdqBlDb7RDPC0SsryL8QI
+	5b5I+8L+mGPk7sKUmZZNn1pS31JTx1mTCHFAVoc3qi7w7SPww1y5aRjs3oLmHYhJYMXTnSCxrwObz
+	hlb6WPO2dOSN1VcL91pOTGXDVKftgq20fZQmBHPukQLeX7PrZy1tn3DkyHUM+c2UnxTxVXzAhv8Xf
+	eSm7/JUjw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kzJGp-0001yw-Od; Tue, 12 Jan 2021 12:59:35 +0000
+	id 1kzJGq-0001zZ-Dx; Tue, 12 Jan 2021 12:59:36 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kzJEm-0000pZ-Fp
- for linux-snps-arc@lists.infradead.org; Tue, 12 Jan 2021 12:57:31 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B31EA23129;
- Tue, 12 Jan 2021 12:57:26 +0000 (UTC)
+ id 1kzJEp-0000qf-LO
+ for linux-snps-arc@lists.infradead.org; Tue, 12 Jan 2021 12:57:33 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3340F2310F;
+ Tue, 12 Jan 2021 12:57:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1610456247;
- bh=ZRf0tHMkuD9fOooc5JgFR6IuPvDSlLfDzjQtFstq5ZI=;
- h=From:To:Cc:Subject:Date:From;
- b=pTyO7HO2qMQzQ/TYTzQVrFdbsPAtSPZykHsBQCxvyN41j3CxXTU4dfv0U5TwG/wKk
- ty9ExkuTJxO8stnwgkipd8xXrZFvILEz47Pqv08NTrLXaJsVxyJTo97QcSkr3PpX66
- q3EzItCXO63Rq2Y9CUQTEEYKdD/YJhaduVIB53Og7ySKZ9bq4it2J09LS2bvAObp4r
- XJTtfJGhSys9jp7gODxzJWPRw/7j0ifcsLeR2rY8w2iLrDoCVfDoUIa0FC2dBSnnio
- EvkfClsg/FFpf7AVYkmSe5tgxdAveSZoKPmZaT4WPYuNkvpsimGObx1lLbYTqq2+U8
- OXxMxxn4j6Wew==
+ s=k20201202; t=1610456250;
+ bh=o8UI3yBkRQdprQxc+IiJ5N44niPZfN1ywHkbHW68BFE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=gbX0W6bZ13RfAhRXibLWgPIbrgs3Viv+4iPxM7PvQAarRnhsl50UIX9QGVrEzk09f
+ nJeIteZDpy3b/sYcwyaAFz4moxszuXLyKc951xJr4sQbpYBps7dLVOIVm9g9x8H0a5
+ L9T4IOZBCun5k03fk3PboAE/9h+BoOSKAcQ+/ehpvBTVAtzO5yDiCvBsgfCoBwDrbg
+ rcwRIAmjX/ehZ0fNbNTfjUIL095/pg1iMiSfDsH3EbJbZZHRWSrvIRbOd6XSfwkdIX
+ Zn+XVoc4IukmT/20MmuuOj5gvJoTXDhjIwiczGBy+F9GBJCZPU3erYmaIs2yiwaJ7p
+ 059mlgMJz5pNA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 01/16] ARC: build: remove non-existing bootpImage
- from KBUILD_IMAGE
-Date: Tue, 12 Jan 2021 07:57:10 -0500
-Message-Id: <20210112125725.71014-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 03/16] ARC: build: add boot_targets to PHONY
+Date: Tue, 12 Jan 2021 07:57:12 -0500
+Message-Id: <20210112125725.71014-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210112125725.71014-1-sashal@kernel.org>
+References: <20210112125725.71014-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210112_075729_870354_B867BE72 
-X-CRM114-Status: UNSURE (   9.92  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210112_075732_016603_121C1944 
+X-CRM114-Status: GOOD (  10.69  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,60 +83,47 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Masahiro Yamada <masahiroy@kernel.org>
 
-[ Upstream commit 9836720911cfec25d3fbdead1c438bf87e0f2841 ]
+[ Upstream commit 0cfccb3c04934cdef42ae26042139f16e805b5f7 ]
 
-The deb-pkg builds for ARCH=arc fail.
+The top-level boot_targets (uImage and uImage.*) should be phony
+targets. They just let Kbuild descend into arch/arc/boot/ and create
+files there.
+
+If a file exists in the top directory with the same name, the boot
+image will not be created.
+
+You can confirm it by the following steps:
 
   $ export CROSS_COMPILE=<your-arc-compiler-prefix>
-  $ make -s ARCH=arc defconfig
-  $ make ARCH=arc bindeb-pkg
-  SORTTAB vmlinux
-  SYSMAP  System.map
-  MODPOST Module.symvers
-  make KERNELRELEASE=5.10.0-rc4 ARCH=arc KBUILD_BUILD_VERSION=2 -f ./Makefile intdeb-pkg
-  sh ./scripts/package/builddeb
-  cp: cannot stat 'arch/arc/boot/bootpImage': No such file or directory
-  make[4]: *** [scripts/Makefile.package:87: intdeb-pkg] Error 1
-  make[3]: *** [Makefile:1527: intdeb-pkg] Error 2
-  make[2]: *** [debian/rules:13: binary-arch] Error 2
-  dpkg-buildpackage: error: debian/rules binary subprocess returned exit status 2
-  make[1]: *** [scripts/Makefile.package:83: bindeb-pkg] Error 2
-  make: *** [Makefile:1527: bindeb-pkg] Error 2
+  $ make -s ARCH=arc defconfig all   # vmlinux will be built
+  $ touch uImage.gz
+  $ make ARCH=arc uImage.gz
+  CALL    scripts/atomic/check-atomics.sh
+  CALL    scripts/checksyscalls.sh
+  CHK     include/generated/compile.h
+  # arch/arc/boot/uImage.gz is not created
 
-The reason is obvious; arch/arc/Makefile sets $(boot)/bootpImage as
-the default image, but there is no rule to build it.
-
-Remove the meaningless KBUILD_IMAGE assignment so it will fallback
-to the default vmlinux. With this change, you can build the deb package.
-
-I removed the 'bootpImage' target as well. At best, it provides
-'make bootpImage' as an alias of 'make vmlinux', but I do not see
-much sense in doing so.
+Specify the targets as PHONY to fix this.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- arch/arc/Makefile | 6 ------
- 1 file changed, 6 deletions(-)
+ arch/arc/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-index 16e6cc22e25cc..b07fdbdd8c836 100644
+index cbb110309ae1c..99c55f015ce86 100644
 --- a/arch/arc/Makefile
 +++ b/arch/arc/Makefile
-@@ -91,12 +91,6 @@ libs-y		+= arch/arc/lib/ $(LIBGCC)
+@@ -93,6 +93,7 @@ boot		:= arch/arc/boot
  
- boot		:= arch/arc/boot
+ boot_targets := uImage uImage.bin uImage.gz uImage.lzma
  
--#default target for make without any arguments.
--KBUILD_IMAGE	:= $(boot)/bootpImage
--
--all:	bootpImage
--bootpImage: vmlinux
--
- boot_targets += uImage uImage.bin uImage.gz
- 
++PHONY += $(boot_targets)
  $(boot_targets): vmlinux
+ 	$(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
+ 
 -- 
 2.27.0
 
