@@ -2,88 +2,171 @@ Return-Path: <SRS0=h9uo=GS=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A55F0C433E0
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 15 Jan 2021 03:34:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FE4AC433E0
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 15 Jan 2021 17:11:33 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 67B1A22BEA
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 15 Jan 2021 03:34:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 67B1A22BEA
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
+	by mail.kernel.org (Postfix) with ESMTPS id 514472333E
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 15 Jan 2021 17:11:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 514472333E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:References:
+	Message-ID:Date:Subject:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=B+G0BzXEebEg6nWB+8Uvu91kJFTyGlI9m6Bm/PTEjkc=; b=VXL3LbHk3K/nwp7m0T/pvlF+L
-	1D0RBPkV84wki1oRcQIq1Pq/MiQsL3C81Am9Krbvu24Z7qGs6eF1P72a4nS4kO/dfgYukTAE2TW/I
-	DYPQPhSL/VP2ykwdqzo7VkuMCyF/kkPWqdDwrRozNc02q+38Lnas37mVg2xLO61bBHH6sTZTsNS8p
-	4FSixOFn5DrG4K267WwdWd7yQ+ahwrfOrQFHb2Ejp4mLry+PX3+FTzJQcunfFJmyil/ADrZkHWTLE
-	w/VYZUmwmcRTSxe1SEi8j3Zr3fG4qVaDNl8NuoF409RqQWd9itdKXqVRkzxMtOceugi+yMUyFZdjy
-	aRy9hwKeQ==;
+	 bh=RejfOG2fvwdN3GdHEAPFnSqlk4U7mgaJCYCsDmDdSq8=; b=RlI09B/MquWMGqg2KvNBAwkyB
+	aAIWOcBetTCGx/eyJNtjj9rS3EPnVpGztc7LXIZyDkUJqzwvKymMFZJkYzaAAzXQL7uSyktXyQRsA
+	zSfzEPSpujM8kEw3VgbWU0mqX7h5+4uCHuEyU86nmRi3z9eXbeajqITgvZyXA45mABl4hHHCpv21c
+	AGYB0KPZmFO2IPaZNgMUwcCmmVgxPiyEp5exnN8GKLY94gYFoRFRvXuc3CMMBqDemxq33zpG89ZWC
+	EEyNymOFZnXLNkdOLRLNkmEjs0H/PVNgeuiRJ1UUX/jIvSbNNkBKzzJu04kJQIUvnkAgn9eTr3Kpc
+	oQB8I/ayw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l0Fsm-0004ti-Lt; Fri, 15 Jan 2021 03:34:40 +0000
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+	id 1l0SdI-0001sq-FQ; Fri, 15 Jan 2021 17:11:32 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l0Fsi-0004sE-34
- for linux-snps-arc@lists.infradead.org; Fri, 15 Jan 2021 03:34:39 +0000
-Received: by mail-pj1-x1035.google.com with SMTP id ce17so2132508pjb.5
- for <linux-snps-arc@lists.infradead.org>; Thu, 14 Jan 2021 19:34:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=W07ZLPVszbueA12F97uxqmYwsZjLziE6s+z1n5bz+MA=;
- b=wzlU1v608Bp/5Fbh2LlphjOSHK6mVDaFC9eNHaDC2tGh7ihu4qx096kwF8127c89Ll
- jthd9Pm03WUosaLQezx/FRs71g/jon1IpEWnRmEIJEaa3/RqTfuKh6EMgw46I8CXq3D9
- /yeQBRNBhq99IYpe4/dgheqrWnGGRqaYp/pD0KqlsmA1/e3f3WRIf+s3I5FSkj6zEi7s
- mSj3ocJxC5OWg1FORIgSX/GK+xHgCI/Dhp8fJw5qax5XWl3Z/oGS5Gv9uAB9MWHMXIod
- s7Jvto4y8yKloaXd1xK705vZEuAc5yfmVaCbXy26Vk1daNcozz+ePsuEWmbi/gaCCTJB
- l6Mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=W07ZLPVszbueA12F97uxqmYwsZjLziE6s+z1n5bz+MA=;
- b=tK3Qd7rgtMICFiWnm1W/ZgmhTm0EPoRA0cCe/yVfr17GLbCJfalivPNbz+kTjA1yVT
- UP2K3eSUhIKc8DKwVb3Emz9vRKjxFp8FxZv85iOp3ukCMXCttKda7Wrna4A8y2JGJiBM
- chpahvGT6BwyARWBKAsALshQ0ElF13moIeEM0di5bfj8mVybEa+5STN+jy+CtAhSOUL/
- tio4u4EAZOMkPvhpPFJ6X5pDCfU8zci99RHeimBdnvJ6U9ah2kRtjnMppPLLQYuJFARf
- pdrkEJd0ghy5dA/k3e8XGyrBOwIBSJaupmTAWBQtV/1shwRbXNkugSBQc4dXihNtFbm2
- hloQ==
-X-Gm-Message-State: AOAM5306aIbRKLrPS45thu7MRVPjDP5xT6BbM8hhBJ/JrfTknSsLxPNW
- gj3L3lS8CpGAMQJx/HBzVlMV/Q==
-X-Google-Smtp-Source: ABdhPJyYdlMuN2pkKJ7RYKVFFcTi9PZ8+oVHWdgcn5YANMzdEyqNgbQgng2M+wNGbbyh/9Rvip/U2A==
-X-Received: by 2002:a17:90a:4cc5:: with SMTP id
- k63mr8252416pjh.202.1610681673757; 
- Thu, 14 Jan 2021 19:34:33 -0800 (PST)
-Received: from localhost ([122.172.85.111])
- by smtp.gmail.com with ESMTPSA id w19sm6454293pgf.23.2021.01.14.19.34.32
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 14 Jan 2021 19:34:32 -0800 (PST)
-Date: Fri, 15 Jan 2021 09:04:30 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-Subject: Re: [PATCH 03/18] arch: arc: Remove CONFIG_OPROFILE support
-Message-ID: <20210115033430.rzyja2diwp7lbmni@vireshk-i7>
-References: <cover.1610622251.git.viresh.kumar@linaro.org>
- <906d9d40746bb1b60823a288d00820cb50d29138.1610622251.git.viresh.kumar@linaro.org>
- <16e1ec02-e6da-b49d-ee21-c98660605cf8@synopsys.com>
+ id 1l0SdF-0001qD-TA
+ for linux-snps-arc@lists.infradead.org; Fri, 15 Jan 2021 17:11:31 +0000
+Received: from mailhost.synopsys.com (badc-mailhost4.synopsys.com
+ [10.192.0.82])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id E74C740762;
+ Fri, 15 Jan 2021 17:11:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1610730684; bh=Pp+oQesgsscCqKon9plKNcXs8f1MAFsnahw6wKCVQDI=;
+ h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+ b=dMzUk8Lgbv5TOWt/KSicAFmCtKsDZKZDHQKIa+ZjByEwMskwo012sabrLxxpBikCA
+ 3yfyzH2HAJY/EvZM83UadZfMD8MRI8nhzD9sSt0S38f2R5noIBiNVMq3JEuVhiHTu6
+ d4B3At3fnOVCGMPI+BHNUXG7sS4etSPEcZ8j9hT2QhkQUD8JM1Zb1KdkLYoRVy7Mq7
+ bufQmfoisOlhvf72Y84Xi2GeA9UgBvoP/mlVcuE/QnsZejwaD3PV5L1NgX968o/4hF
+ hxdlTcGFF+lPvhWowtjR1PlBQfLrTLoeU/lJpeauzjoC+CBYFZBMgcnlq1EHQywzJ+
+ EXM1FmEjPspuQ==
+Received: from o365relay-in.synopsys.com (us03-o365relay3.synopsys.com
+ [10.4.161.139])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mailhost.synopsys.com (Postfix) with ESMTPS id 0CFB2A0083;
+ Fri, 15 Jan 2021 17:11:22 +0000 (UTC)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam08lp2045.outbound.protection.outlook.com [104.47.74.45])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "mail.protection.outlook.com",
+ Issuer "GlobalSign Organization Validation CA - SHA256 - G3" (verified OK))
+ by o365relay-in.synopsys.com (Postfix) with ESMTPS id 8FE87802BC;
+ Fri, 15 Jan 2021 17:11:18 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com;
+ dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+ spf=pass smtp.mailfrom=cmiranda@synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
+ unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="cgfk+uwF";
+ dkim-atps=neutral
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IbrP9G2c6tWtpLKxRTjSITjbIqlw9pfGJr+GuguiuovyT5y7tpcfsY0Wiy9Cjworv2XtuImcFj5/O3lSJgWp2OPWota3t+CV6mFOjUMMwPuagNX+wAjfagtEFbgWRCXY7+Zr04hp7y9BOOpkwpWIWDwnio5a67XAFRWmq71+fFRQWVY6UMErg4SQfsCJhWnusC7CvNV7PKbOEkgd0WnHHUHpFzlyGXr2a52QO8h8SJzH0rAaXHFmwDeF+no9C35Xi5rNd5EyB82lnErLQ8VO6XVPXTEq0kWOC+gesXJp4joJGh/tu6kVQbIT7oVBBbQwBSaRoPd6aCAG7j1bEHTyhg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Pp+oQesgsscCqKon9plKNcXs8f1MAFsnahw6wKCVQDI=;
+ b=k8vwMFMjcoQ2PtPymhljmOXQGnhNqMatlpDu0jb+cjIqCiNZukKhtGZoCV4Kid7mqfKmXG/5eCuZp18Cxf+VsTxSJom/pdpGYBpxqNhBdnEK8AyQFm4Og0jR/S/wasIKB2i/MRuXuSvy2OVbZy7b3k4qZjDO/CnBQHUx3IIg72NAFtjus1JSw+4GdTcYfi0LIPfAxpn4V5N/eVwBDL7I327pUCuvAj7TnvKM+WI1NsN0mNMWoTiKDz7L0XhcEbT1R1f3wPyjgVJrHPp9Df4RmCVIcIoavb+oJF9+yIc453jWFumpmpGsmLpQ1Q/0s+cE0xP1OePn9EKQlWmRWWazTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Pp+oQesgsscCqKon9plKNcXs8f1MAFsnahw6wKCVQDI=;
+ b=cgfk+uwFv9GdNSK1f16ye6RO0Zs6b0U6iMnv2JGcQo2ESpelqkiGiU4LWnhyL1zC/HAenbWiBfXy7lf/xr5pvaRuPjr28dMeKhRh0JBHSc/PhCgjZtY7ae1k0+RvNboCAxsLcG++IDcv++Aye8hJvkP2PeGLTMPOw+4dc+566eQ=
+Received: from BL0PR12MB4673.namprd12.prod.outlook.com (2603:10b6:207:1d::16)
+ by MN2PR12MB4176.namprd12.prod.outlook.com (2603:10b6:208:1d5::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.11; Fri, 15 Jan
+ 2021 17:11:16 +0000
+Received: from BL0PR12MB4673.namprd12.prod.outlook.com
+ ([fe80::b123:27a0:c5e2:f5f0]) by BL0PR12MB4673.namprd12.prod.outlook.com
+ ([fe80::b123:27a0:c5e2:f5f0%7]) with mapi id 15.20.3763.012; Fri, 15 Jan 2021
+ 17:11:16 +0000
+X-SNPS-Relay: synopsys.com
+From: Cupertino Miranda <Cupertino.Miranda@synopsys.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ "cupertinomiranda@gmail.com" <cupertinomiranda@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: Re: [PATCH 03/15] arc: Opcode definitions table
+Thread-Topic: [PATCH 03/15] arc: Opcode definitions table
+Thread-Index: AQHW62Futm1hkevCxkC+Qhjmw9IAIg==
+Date: Fri, 15 Jan 2021 17:11:16 +0000
+Message-ID: <214ddc83-cf6e-20e7-0a86-92af851809e4@synopsys.com>
+References: <20201111161758.9636-1-cupertinomiranda@gmail.com>
+ <20201111161758.9636-4-cupertinomiranda@gmail.com>
+ <7336e0b3-13e8-a3d7-46fb-a4ea942c5c16@linaro.org>
+In-Reply-To: <7336e0b3-13e8-a3d7-46fb-a4ea942c5c16@linaro.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=synopsys.com;
+x-originating-ip: [188.250.163.183]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: aa5afbd8-3d04-4f8e-2e6a-08d8b97891a1
+x-ms-traffictypediagnostic: MN2PR12MB4176:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MN2PR12MB41762AD25ADF5FA122E0A84AA8A70@MN2PR12MB4176.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: IyJ3jTHwqP+ilmufeSpA7oBaspe1sCz0lMlMAxUjr74S5sB2ElAhyVm0xUXyIhdzQxeD6uixyFisM60CfpI2M79M5NawySUpo6iQQqwogz5NpryuHMaBzR+S2K/cSieYDapmz66H2+LTJYhpikVLnLsTE69G7W2cPkYSTsoY9CleFRMYyTiVeFB+bp5CWkLBwZQbQMqYmFfoAMzCk/M0GaynkStB/ZhCGxNTeUyGMGBxU3p0S2rFzJFgjyxkvKqzbMWnLUxYru4qn4Itmsj2MWGw7xaybKT/vL4zRxqclvCpRGx1OPnLzrmjvBf5IprezlpL3f6sY+1lAqz+r/bhgXaJ1U1eJBEmdtTx2fQejpAFxIKOe0u1zt6KNq3zMRfT7pqjZZHtBRXsb6pLnvkrGFbg6SuKJ1xST+I4aPsTdMEHLRdY4VjvkgdA14bVCcQ3a0o99N9tKVAv6zWEcZ2vDDJtXDHsQdZcXjFR4JkiMZ06ws9ZA7+yn6TKVdGBnY5ojgfkc7U9nJxJdpKfi4kAM0nLmJfmPV8sCBQzrN+945y1oWSRG3SaUFI4SF5rDXBq/OOS8m1gvARr9nyMw1yj3A==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB4673.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(376002)(366004)(346002)(39860400002)(136003)(396003)(86362001)(186003)(71200400001)(316002)(110136005)(6512007)(6486002)(31696002)(2906002)(2616005)(4326008)(36756003)(76116006)(53546011)(478600001)(8936002)(66556008)(107886003)(6506007)(66946007)(83380400001)(66476007)(31686004)(66446008)(91956017)(64756008)(26005)(5660300002)(8676002)(54906003)(45980500001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?aTBXMlJDZWo2K0srWm5VYW5XNFVaOHA5bXFURTBEeXBWaWF4SGR1cjBEQXV3?=
+ =?utf-8?B?Uy9HOHh3SDhvMWJRaUtCYytxcG53V0FoN3g5TUhoMUNXS0tPMjZGcEg0d2Q1?=
+ =?utf-8?B?aXpqd2wrOTlFeXJqMlRzMFVodWsxN0NWZ0lOYUtJWVRETVJIZlBRMGd6NHYv?=
+ =?utf-8?B?YXVhVU40K203Tk5xclE0ZWxnVWpTMENOVnNKYXdrY1N5OUl0RDFlREh4WDZq?=
+ =?utf-8?B?b0Z2Q0pCRlVEN01VUUhKTUJQcTZxRyt0WTZsaVRiUk1BTVJyRHVRN28zRHgv?=
+ =?utf-8?B?MjF6Y1BjdVhQNFhuV2VVQlk2K0hoZEI0S1ZQWUVRMHZ3NmppTTJCcHp1Vmlk?=
+ =?utf-8?B?LzVhMWs5WlI1U3ZlUU0vRjc5VzJJVUhrWFE4M2dwZmtOYU41R3NSaGRRT29R?=
+ =?utf-8?B?SjgzVzh4S00wS0hDMkJNQWxYUWc3YmFvNHMvS2tvNEdzT25pMnB5UytBWXcw?=
+ =?utf-8?B?UWdSVm9NS01DV09EenZZK1B5clBpdFdCeXVVSkRzOENZNlhIYTB5QkZEVlVp?=
+ =?utf-8?B?ZlI0S1FXVWlscFBwUjZIS2RsdjVoUHMyVHR5em5rRTNjZG1ZbnJ1em9EZ0dT?=
+ =?utf-8?B?aW4wVGx2bVpFM25jUTFZN2RIZ25UeVZWUXl4M0x1ZjN4R2R3QXpTYlllcmln?=
+ =?utf-8?B?T09OYlFUc3hENU5aK1JSKzc3SGl3WllWdFFUY0UzZUsxc2QvNEhNR1JpWnd0?=
+ =?utf-8?B?Z2pQMlpNQWs3OUd4MkRMQmcxRkplVzIwZ01qMWZhRmtaRkhYczFSNnZHZXpx?=
+ =?utf-8?B?WXhCM3ZyVWU1ZG9JVDZqcUhGSDVXSngwSndjRmNaM0g5Y3lGODQzZTlCL1pL?=
+ =?utf-8?B?dGlrMnhKSmttakxkL2hQd2poNnFvb1RaY3JHcXJYL3hWT3J0T2taMmJpZnpu?=
+ =?utf-8?B?Z0NRK21BdlNvVVhQbUs3RGc5S3hTOC9WblBmcTR6b1VYbzRWbEg5Wm90UnRp?=
+ =?utf-8?B?ek92ZDVETE9xWWd2UlBOMkp4RzBzYjE3K1Iwa1JJR3JVeXJ1REpqZy8rOVUy?=
+ =?utf-8?B?STZzYVoyWGR0dG9DYjBTWlNCYk1TRmF6THJkaWxTaVp3RGRxbjVIdU1aTzE3?=
+ =?utf-8?B?anBGVHNJSFZlQUFSNlJCV1RaZCs2MFVDMzRjSjdoL1dLcGQ5QVFya0N2WnBF?=
+ =?utf-8?B?STBLUVk1ZElINGN1WkdSR3dmUmdyUDZGTlNPMWZFUTJTUXhQdXY2eHJLWWhy?=
+ =?utf-8?B?UnhpaXhyRWhTM1podFpQYU14cVgwOFdpNVBsVnZNNEdDUUVZcnBMYlo0enVn?=
+ =?utf-8?B?NHhRZDBuM3RxMXFpVkJyZlJ5MUxhZ2FoVzIvandrOXZpRlYwNE1mZUUxNWti?=
+ =?utf-8?Q?d5zpvd/3rI8Rc=3D?=
+Content-ID: <77292E847F96854895C72368613B19BE@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <16e1ec02-e6da-b49d-ee21-c98660605cf8@synopsys.com>
-User-Agent: NeoMutt/20180716-391-311a52
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4673.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aa5afbd8-3d04-4f8e-2e6a-08d8b97891a1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2021 17:11:16.1736 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: c6AaP4i8lcqdCOe5p7oxg3AgxDnOMZDG97BZ/T61HuqSx22+jykwHtt2e+l9DBeyJF1pm9CUbhi2ThHlULy7Mg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4176
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210114_223436_518805_41669BA4 
-X-CRM114-Status: GOOD (  11.93  )
+X-CRM114-CacheID: sfid-20210115_121130_452466_11C2578C 
+X-CRM114-Status: GOOD (  22.49  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,41 +178,69 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@kernel.org>, Robert Richter <rric@kernel.org>,
- Christoph Hellwig <hch@infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "anmar.oueja@linaro.org" <anmar.oueja@linaro.org>,
- "oprofile-list@lists.sf.net" <oprofile-list@lists.sf.net>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- William Cohen <wcohen@redhat.com>,
+Cc: Shahab Vahedi <shahab.vahedi@gmail.com>,
+ Claudiu Zissulescu <Claudiu.Zissulescu@synopsys.com>,
  "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- Linus Torvalds <torvalds@linux-foundation.org>
+ Claudiu Zissulescu <claziss@gmail.com>,
+ Shahab Vahedi <Shahab.Vahedi@synopsys.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 14-01-21, 17:51, Vineet Gupta wrote:
-> On 1/14/21 3:35 AM, Viresh Kumar wrote:
-> > The "oprofile" user-space tools don't use the kernel OPROFILE support
-> > any more, and haven't in a long time. User-space has been converted to
-> > the perf interfaces.
-> >
-> > Remove the old oprofile's architecture specific support.
-> >
-> > Suggested-by: Christoph Hellwig <hch@infradead.org>
-> > Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> > Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-> 
-> Acked-by: Vineet Gupta <vgupta@synopsys.com>
-> 
-> I presume this doesn't need to go through ARC tree.
+Hi Richard,
 
-Yes.
+Sorry to take so long to get through the changes after your review.
+I am still going through the improving process and waiting for some 
+internal company approval to publish the generator of the TCG 
+instruction definitions, as we have discussed.
 
--- 
-viresh
+Nevertheless, there are some questions. I will address them near the 
+proper places and through the different patches.
+
+Once again, thank you very much for your reviews. ;-)
+
+On 12/1/20 8:22 PM, Richard Henderson wrote:
+> On 11/11/20 10:17 AM, cupertinomiranda@gmail.com wrote:
+>> From: Claudiu Zissulescu <claziss@synopsys.com>
+>>
+>> Signed-off-by: Claudiu Zissulescu <claziss@synopsys.com>
+>> ---
+>>   target/arc/opcodes.def | 19976 +++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 19976 insertions(+)
+>>   create mode 100644 target/arc/opcodes.def
+> 
+> OMG.  20k lines.
+> 
+> I assume this is gnu binutils opcodes/arc-tbl.h?
+> 
+> You are the contributor there, so a re-license is fine.  It would be good to
+> document the upstream location and revision, against some future re-sync.
+> 
+> That said, this format is less than ideal:
+> 
+>> +/* abs<.f> b,c 00100bbb00101111FBBBCCCCCC001001.  */
+>> +{ "abs", 0x202F0009, 0xF8FF003F, ARC_OPCODE_ARC600 | ARC_OPCODE_ARC700 | ARC_OPCODE_ARCv2EM | ARC_OPCODE_ARCv2HS, ARITH, NONE, { OPERAND_RB, OPERAND_RC }, { C_F }},
+> 
+> You've got the same information in two places
+> (00100bbb00101111FBBBCCCCCC001001) vs (0x202F0009, 0xF8FF003F, OPERAND_*).
+> Moreover, "abs" as a string is not especially useful, and means that you have
+> to deal with strings in the translator instead of C symbols or enumerators.
+> 
+> It would be relatively easy to generate a decodetree file from this input,
+> which would simplify the translator.
+> 
+> At a bare minimum strip the quotes and wrap in a macro so that you can (1)
+> define an enumerator and (2) put the entries into an array indexed by the
+> enumerator.
+> 
+
+As you know, we reused the code from binutils to implement the decoder.
+In that sense, we kindly request to allow us to do it through binutils 
+development flow later on. We will change the tables in binutils
+and those changes will also be mirrored to QEMU.
+Is this Ok ?
+
 
 _______________________________________________
 linux-snps-arc mailing list
