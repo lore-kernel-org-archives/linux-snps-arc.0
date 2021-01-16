@@ -2,84 +2,78 @@ Return-Path: <SRS0=Q4Kc=GT=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3B6BC433DB
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 16 Jan 2021 14:57:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49EFEC433E0
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 16 Jan 2021 15:29:48 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 32ED622DBF
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 16 Jan 2021 14:57:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 32ED622DBF
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id CF1102310F
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 16 Jan 2021 15:29:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CF1102310F
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=free.fr
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Q/8tcU0hOwTziCkPCM9dkWboqpbj70FkyXXitRhy9hE=; b=COnR0rJ16MjbWPsW3UN4P/2316
-	p1Hv1YOd3FsNQbXunjQedeem54PJ51wgmr9i1Eha+eZEIkcWBmKoqITeDTgPOHt//+rN8wYW9/985
-	YtMmwEVWQfGptpGdujEq+qLhwVa3wCciy/+7+pBlG23lerm1qbOySpji+PyR5Xdqys0qXgFTlJLUS
-	t1uzeth6ojVbGiLchelF5c0Cm9d7dOCNxK8QoCWWRYQFq4dEcjWpLvPa4tSMm3VvAmx+AJtKLcRcV
-	4k9F3jRDoqB4ll3d8r86XGXj/NO7c5jLM+UiFlopWM2wdVlyaioz9cJ1z4WO7OZon4TrpM3ru7SIp
-	7kLbTw5Q==;
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=zjlJznHubfdXdps5F83Py5ZQHOL1sBo5YVNI8S6qsKo=; b=M3VpXWcDwx2J5qz5IsJDUTffg
+	mNkLdl+RXfXdEBS4P8rUguQ+1sBZuYCquFtXLPjddXNUIGt5/lsJOfC1EFyZM6wcPcqpm3PFTiBu9
+	6mqB0zIp7s3A2Mj0bnMJQvEh6WB0bWfQ3KYwUuTId4ldqU2fzOIql40hlOgXkc6Uh/Mm9kxbLiATS
+	co+qZ3coyibWRqaeAqCtvSfj92vMLU+Vdr/Z0n1pezXv/1O4/CN4vQrUUepRs6g7bXgzMlSwvdbYH
+	1mBBRnB72i2DPhSbteQ9cS93bvMM4IwCjgEHsTy3LR1jmSuORC8GuDh2M3X55RpHUHmOWYDllokYt
+	9NkhKLNMQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l0n13-0004sd-VH; Sat, 16 Jan 2021 14:57:26 +0000
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+	id 1l0nWM-0005yi-Ij; Sat, 16 Jan 2021 15:29:46 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l0n12-0004rs-6z
- for linux-snps-arc@lists.infradead.org; Sat, 16 Jan 2021 14:57:24 +0000
-Received: by mail-wm1-x333.google.com with SMTP id u14so5881450wmq.4
- for <linux-snps-arc@lists.infradead.org>; Sat, 16 Jan 2021 06:57:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GBNeTSu04ixKYSzbYAV+880sIV5+lGfcrwYBDcoDztA=;
- b=Tf7ga7AWLWf2ItsBKMJgzstjS0iQOHyu2Bo5P9Zu7PeqJcTXV5R0QRtWy+fAX6ZziU
- VTNdIKv1L+KoiYBkGsnBL+BhiCiRriQOW5i2KikBXwHQIALRDeXy+VTiYVnz73jP7DAl
- 27BkEd63K5Hg779deY110KMYRPgeCQDyER+D7mwy7XNpWem3zdNkAXMiD48+24RuYJIU
- z0RotZ+DEDYaLV7VuLX0fzRCfjekiPoN3LBRk3jP37V7k+/qqLb5EksB0+JOLQGJvkDg
- zapzPI3f8tN+CN+LVAlIUlwTk5krGCiBKPyZl2T/h3eXWZNQpH9kbeXmx3g503dfLN6x
- DJ1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GBNeTSu04ixKYSzbYAV+880sIV5+lGfcrwYBDcoDztA=;
- b=mDt++cJipMoo6FYfg3kaJ6GhGgL/F6jWDuHqFRPzhxnDo5oAlPvDZB8ikkqjkStluR
- bNq9/FK5fKBNuGH35zNWNFtKIG1RAEu2Tz+McJzHmn4zUp/qVofeu/30Apnxh4MyAOgL
- rfMObz9oD+yiDE3X1nQHA2/fp/l5cAEnca9TptLDJs6D2wLO6VTHBNUEDd9p1D9hkL5s
- gyPpChqtHiNGXXMzvPbqqXVCWxlVrXIM+2mTp6nISsN0dly0jX/jThKPIlfbplQtyghu
- UsMD5FdItjeq1oqAtg5OA2x1ihmJZjsExNYdL93O4t1dL0RO99cvMc4UzXJZEwRhbPTs
- kPIg==
-X-Gm-Message-State: AOAM532G5+BFQ9cy2ilZvib0go2dGKHkSRGEYscAOQeFttd51GgMthwD
- x6AX5qfPFS7ay9ilumajo1E=
-X-Google-Smtp-Source: ABdhPJwm71FymYwD2RCaAQe0ruh5XNahsyLNfkIwL+NUnHq8L9JrVeaj5YOOjlfFOQEHLVAB1cN/oQ==
-X-Received: by 2002:a1c:e0d4:: with SMTP id
- x203mr13318861wmg.160.1610809041319; 
- Sat, 16 Jan 2021 06:57:21 -0800 (PST)
-Received: from debian.vlc ([170.253.51.130])
- by smtp.gmail.com with ESMTPSA id h83sm17285824wmf.9.2021.01.16.06.57.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 16 Jan 2021 06:57:20 -0800 (PST)
-From: Alejandro Colomar <alx.manpages@gmail.com>
-To: mtk.manpages@gmail.com
-Subject: [PATCH] cacheflush.2: Update SYNOPSIS for glibc wrapper
-Date: Sat, 16 Jan 2021 15:56:33 +0100
-Message-Id: <20210116145632.7636-1-alx.manpages@gmail.com>
-X-Mailer: git-send-email 2.30.0
+ id 1l0nWL-0005ya-F0
+ for linux-snps-arc@merlin.infradead.org; Sat, 16 Jan 2021 15:29:45 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=fOp0wPZtwPaopF/18DuiZq1+0U6KsnFihDUwZDn1P3M=; b=VUBhHsBDZgzqZ4UA1vW5E5cMfI
+ le9M4DbIhLzhuLa/d7uYfUro6JwJp9M+thmN36gj7rSLTZYYD+LkRM+uPRiOhoFwu8wpwTse7fIWR
+ nuqtMHMxjbLENRp+m2PSzDG5R8NuiOemiDQei0+v8zEqhNFCZsKNjoijaJC2LrYe4SpvFpBqhCSSu
+ QIIO49HoBX+Dth6UQHGx1F3l7rcLpdjKfC96a91kD3euSnC7DtJxOFYgofiKqmnwDybmxm/axoBM3
+ 9Ydc2k6WiH38u1XU7N5NsnAX/pz6cVXKySiyKlulzpz7+p/wJDXt8HfpEMdZED3YhdYgTnjivPFFB
+ RU0s6ERg==;
+Received: from smtpfb1-g21.free.fr ([212.27.42.9])
+ by casper.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
+ id 1l0nWC-00AP36-Tq
+ for linux-snps-arc@lists.infradead.org; Sat, 16 Jan 2021 15:29:39 +0000
+Received: from smtp5-g21.free.fr (smtp5-g21.free.fr [212.27.42.5])
+ by smtpfb1-g21.free.fr (Postfix) with ESMTP id B007FDF9D58
+ for <linux-snps-arc@lists.infradead.org>; Sat, 16 Jan 2021 16:29:26 +0100 (CET)
+Received: from ymorin.is-a-geek.org (unknown
+ [IPv6:2a01:cb19:8b51:cb00:1021:5979:3424:ca69])
+ (Authenticated sender: yann.morin.1998)
+ by smtp5-g21.free.fr (Postfix) with ESMTPSA id E2A655FFBD;
+ Sat, 16 Jan 2021 16:29:10 +0100 (CET)
+Received: by ymorin.is-a-geek.org (sSMTP sendmail emulation);
+ Sat, 16 Jan 2021 16:29:10 +0100
+Date: Sat, 16 Jan 2021 16:29:10 +0100
+From: "Yann E. MORIN" <yann.morin.1998@free.fr>
+To: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+Subject: Re: [Buildroot] [PATCH 0/4] ARC updates
+Message-ID: <20210116152910.GJ2375@scaer>
+References: <20210115200319.4139041-1-vgupta@synopsys.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210115200319.4139041-1-vgupta@synopsys.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210116_095724_329042_318A5320 
-X-CRM114-Status: UNSURE (   9.24  )
+X-CRM114-CacheID: sfid-20210116_152939_672098_C8B2BABF 
+X-CRM114-Status: UNSURE (   8.86  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -92,62 +86,56 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Alejandro Colomar <alx.manpages@gmail.com>, linux-man@vger.kernel.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Vincent Chen <deanbo422@gmail.com>, Nick Hu <nickhu@andestech.com>,
- Heinrich Schuchardt <xypron.glpk@gmx.de>, linux-mips@vger.kernel.org,
- linux-csky@vger.kernel.org, Martin Sebor <msebor@redhat.com>,
- Guo Ren <guoren@kernel.org>, Greentime Hu <green.hu@gmail.com>,
- Vineet Gupta <vgupta@synopsys.com>, libc-alpha@sourceware.org,
- linux-snps-arc@lists.infradead.org, Dave Martin <Dave.Martin@arm.com>
+Cc: buildroot@busybox.net, Evgeniy.Didin@synopsys.com,
+ linux-snps-arc@lists.infradead.org, Alexey.Brodkin@synopsys.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Glibc uses 'void *' instead of 'char *'.
-And the prototype is declared in <sys/cacheflush.h>.
+Vineet, All,
 
-......
+On 2021-01-15 12:03 -0800, Vineet Gupta spake thusly:
+> PFA assorted ARC changes. Main being a hw config for -mcpu=hs4x which
+> schedules code for HS48x dual issue pipeline.
 
-$ syscall='cacheflush';
-$ ret='int';
-$ find glibc/ -type f -name '*.h' \
-  |xargs pcregrep -Mn "(?s)^[\w\s]*${ret}\s*${syscall}\s*\(.*?;";
-glibc/sysdeps/unix/sysv/linux/nios2/sys/cachectl.h:27:
-extern int cacheflush (void *__addr, const int __nbytes, const int __op) __THROW;
-glibc/sysdeps/unix/sysv/linux/mips/sys/cachectl.h:35:
-extern int cacheflush (void *__addr, const int __nbytes, const int __op) __THROW;
-glibc/sysdeps/unix/sysv/linux/arc/sys/cachectl.h:30:
-extern int cacheflush (void *__addr, int __nbytes, int __op) __THROW;
-glibc/sysdeps/unix/sysv/linux/csky/sys/cachectl.h:30:
-extern int cacheflush (void *__addr, const int __nbytes,
-		       const int __op) __THROW;
+Series applied to master, thanks!
 
-Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
----
- man2/cacheflush.2 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I have however done a bit of changes, so I will reply individually to
+affected patches.
 
-diff --git a/man2/cacheflush.2 b/man2/cacheflush.2
-index 2cf624f3a..0496879ca 100644
---- a/man2/cacheflush.2
-+++ b/man2/cacheflush.2
-@@ -27,9 +27,9 @@
- cacheflush \- flush contents of instruction and/or data cache
- .SH SYNOPSIS
- .nf
--.B #include <asm/cachectl.h>
-+.B #inlcude <sys/cacheflush.h>
- .PP
--.BI "int cacheflush(char *" addr ", int "nbytes ", int "cache );
-+.BI "int cacheflush(void *" addr ", int "nbytes ", int "cache );
- .fi
- .PP
- .IR Note :
+Regards,
+Yann E. MORIN.
+
+> Thx,
+> -Vineet
+> 
+> Vineet Gupta (4):
+>   ARC: Add support for generic HS48 processor
+>   configs/snps_archs38_hsdk_defconfig: refresh defconfig
+>   configs/snps_archs38_hsdk_defconfig: switch to glibc hard-float
+>   configs/snps_archs38_hsdk_defconfig: update for better out-of-box
+>     experience
+> 
+>  arch/Config.in.arc                  | 16 +++++++++----
+>  configs/snps_archs38_hsdk_defconfig | 36 +++++++++++++++--------------
+>  2 files changed, 30 insertions(+), 22 deletions(-)
+> 
+> -- 
+> 2.25.1
+> 
+> _______________________________________________
+> buildroot mailing list
+> buildroot@busybox.net
+> http://lists.busybox.net/mailman/listinfo/buildroot
+
 -- 
-2.30.0
-
+.-----------------.--------------------.------------------.--------------------.
+|  Yann E. MORIN  | Real-Time Embedded | /"\ ASCII RIBBON | Erics' conspiracy: |
+| +33 662 376 056 | Software  Designer | \ / CAMPAIGN     |  ___               |
+| +33 561 099 427 `------------.-------:  X  AGAINST      |  \e/  There is no  |
+| http://ymorin.is-a-geek.org/ | _/*\_ | / \ HTML MAIL    |   v   conspiracy.  |
+'------------------------------^-------^------------------^--------------------'
 
 _______________________________________________
 linux-snps-arc mailing list
