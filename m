@@ -8,14 +8,14 @@ X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8633DC433DB
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 16 Jan 2021 15:35:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ED2FC433DB
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 16 Jan 2021 15:38:11 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B8D9E23119
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 16 Jan 2021 15:35:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B8D9E23119
+	by mail.kernel.org (Postfix) with ESMTPS id 9D6B42311F
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 16 Jan 2021 15:38:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9D6B42311F
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=free.fr
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,41 +24,41 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=2n6xa9gilfIeK8ymYFmMQkLLbhVAgeV30SRTzySWps4=; b=F/KBXt6CFx+NX4G2SLRainV1N
-	l2wC8qs5hMn/NSZMWG9uJCnbfE9ZwQGkGTIfXixA1W3J1xWsY7me726vEu8yYJPux8fkgO9a/C0Yg
-	mQynk2fvEkVKx8wXKONSRkD0MWd1/BOjNjdcvUhV3rTqVYoZv65GOwiF2i+cWK87faEaEv3C/jvz7
-	khSY2usbfDQuEgsKeXpb0xLJ2oROIFjtMOx4/e+W9+Nu/rbQe5UjpuMt6xHFLqMX/iYcG+RoN2S4+
-	n9kafiK7NR0dlRm/73AzwDCA+OzmZS+Z0m46Viw5N3zY6WG+DC4z+LZgtXGmV7fNoFah19hW3RVYU
-	+3jd5h8dg==;
+	 bh=Z+nhoNCE3X1psPjGKHA052ztucYcP+JR3kNEqh/EUng=; b=HgVvxRcDGv2ea2cesFSqRoEyI
+	k3pIqy3CCtZb1kUAKPdJ/Xgd35pxE2Ou28cbvGpHOYN0lZQHX0zdjnyDj0AMrAqvWaMxQpKCuwivx
+	J8Ez33I+P8np1Qle1RUKSDLWkBnlK0YAa8HFO6T04kxV3QmIGW7H+qYi+o9FgfzCJjPsVy2qGLupI
+	qzaayHjgXS317AzdLxHmEfcByaHleFt5MIF1/bwsgK04tl3+WOVQx4de9h6Rs+mV9YHVbGBcQ+aaD
+	gkS5u1ecfJ7aVcjznN60eJjS2RaH5rVTOvtKMwgBZmlMNeW8/3yi2iv0gBAsT7yKAKAG6Jz+PTR7m
+	81KVEOYrA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l0nc8-00064s-PJ; Sat, 16 Jan 2021 15:35:44 +0000
+	id 1l0neT-000693-Gu; Sat, 16 Jan 2021 15:38:09 +0000
 Received: from smtp5-g21.free.fr ([2a01:e0c:1:1599::14])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l0nc6-00064V-R9
- for linux-snps-arc@lists.infradead.org; Sat, 16 Jan 2021 15:35:44 +0000
+ id 1l0neQ-00068E-Uu
+ for linux-snps-arc@lists.infradead.org; Sat, 16 Jan 2021 15:38:08 +0000
 Received: from ymorin.is-a-geek.org (unknown
  [IPv6:2a01:cb19:8b51:cb00:1021:5979:3424:ca69])
  (Authenticated sender: yann.morin.1998)
- by smtp5-g21.free.fr (Postfix) with ESMTPSA id CD2A45FFA1;
- Sat, 16 Jan 2021 16:35:29 +0100 (CET)
+ by smtp5-g21.free.fr (Postfix) with ESMTPSA id BFA475FF95;
+ Sat, 16 Jan 2021 16:37:55 +0100 (CET)
 Received: by ymorin.is-a-geek.org (sSMTP sendmail emulation);
- Sat, 16 Jan 2021 16:35:29 +0100
-Date: Sat, 16 Jan 2021 16:35:29 +0100
+ Sat, 16 Jan 2021 16:37:55 +0100
+Date: Sat, 16 Jan 2021 16:37:55 +0100
 From: "Yann E. MORIN" <yann.morin.1998@free.fr>
 To: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-Subject: Re: [Buildroot] [PATCH 1/4] ARC: Add support for generic HS48
- processor
-Message-ID: <20210116153529.GK2375@scaer>
+Subject: Re: [Buildroot] [PATCH 3/4] configs/snps_archs38_hsdk_defconfig:
+ switch to glibc hard-float
+Message-ID: <20210116153755.GL2375@scaer>
 References: <20210115200319.4139041-1-vgupta@synopsys.com>
- <20210115200319.4139041-2-vgupta@synopsys.com>
+ <20210115200319.4139041-4-vgupta@synopsys.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210115200319.4139041-2-vgupta@synopsys.com>
+In-Reply-To: <20210115200319.4139041-4-vgupta@synopsys.com>
 User-Agent: Mutt/1.5.22 (2013-10-16)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210116_103542_997468_6644C512 
-X-CRM114-Status: GOOD (  18.03  )
+X-CRM114-CacheID: sfid-20210116_103807_169362_711AD4DE 
+X-CRM114-Status: GOOD (  15.61  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,113 +80,43 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 Vineet, All,
 
 On 2021-01-15 12:03 -0800, Vineet Gupta spake thusly:
-> For the HS48 processor, BR currently builds with -mcpu=hs4x_rel31 which
-> generates suboptimal code as it inhibits delay slot and back-back ST and so on.
+> We are no longer actively working on uClibc and hard-float support is
+> pretty stable, so make that default for HSDK boards
 > 
-> Enable a new variant to build with -mcpu=hs4x for normal codegen.
+> The hard-float setting is a bit convulated since current ARC gcc lacks
+> --with-fpu - so this is done with BR2_TARGET_OPTIMIZATION
 > 
 > Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
-> ---
->  arch/Config.in.arc | 16 +++++++++++-----
->  1 file changed, 11 insertions(+), 5 deletions(-)
-> 
-> diff --git a/arch/Config.in.arc b/arch/Config.in.arc
-> index fdfafda31c72..259d6f3ab8b9 100644
-> --- a/arch/Config.in.arc
-> +++ b/arch/Config.in.arc
-> @@ -39,9 +39,14 @@ config BR2_archs38_full
->  
->  config BR2_archs4x_rel31
->  	bool "ARC HS48 rel 31"
-> +	help
-> +	   Build for HS48 release 3.1
-> +
-> +config BR2_archs4x
-> +	bool "ARC HS48"
->  	help
->  	   Latest release of HS48 processor
-> -	   - Dual- and quad multiply and MC oprations
-> +	   - Dual and Quad multiply and MAC operations
->  	   - Double-precision FPU
->  
->  endchoice
-> @@ -49,7 +54,7 @@ endchoice
->  # Choice of atomic instructions presence
->  config BR2_ARC_ATOMIC_EXT
->  	bool "Atomic extension (LLOCK/SCOND instructions)"
-> -	default y if BR2_arc770d || BR2_archs38 || BR2_archs38_64mpy || BR2_archs38_full || BR2_archs4x_rel31
-> +	default y if BR2_arc770d || BR2_archs38 || BR2_archs38_64mpy || BR2_archs38_full || BR2_archs4x_rel31 || BR2_archs4x
 
-Those started to be rather long lines, so I split them.
+I split that patch in two:
+  - one commit to switch to glibc,
+  - one commit to enable hard-float
 
->  config BR2_ARCH
->  	default "arc"	if BR2_arcle
-> @@ -70,10 +75,11 @@ config BR2_GCC_TARGET_CPU
->  	default "hs38"	 if BR2_archs38_64mpy
->  	default "hs38_linux"	 if BR2_archs38_full
->  	default "hs4x_rel31"	 if BR2_archs4x_rel31
-> +	default "hs4x"	 if BR2_archs4x
->  
->  config BR2_READELF_ARCH_NAME
->  	default "ARCompact"	if BR2_arc750d || BR2_arc770d
-> -	default "ARCv2"		if BR2_archs38 || BR2_archs38_64mpy || BR2_archs38_full || BR2_archs4x_rel31
-> +	default "ARCv2"		if BR2_archs38 || BR2_archs38_64mpy || BR2_archs38_full || BR2_archs4x_rel31 || BR2_archs4x
-
-Ditto.
-
->  choice
->  	prompt "MMU Page Size"
-> @@ -93,7 +99,7 @@ choice
->  
->  config BR2_ARC_PAGE_SIZE_4K
->  	bool "4KB"
-> -	depends on BR2_arc770d || BR2_archs38 || BR2_archs38_64mpy || BR2_archs38_full || BR2_archs4x_rel31
-> +	depends on BR2_arc770d || BR2_archs38 || BR2_archs38_64mpy || BR2_archs38_full || BR2_archs4x_rel31 || BR2_archs4x
-
-In fact, the only variant that does not have 4K pages is 750d, so I
-inverted the logic to:
-
-    depends on !BR2_arc750d
-
-So the lines are not too long anymore.
-
-If the situation becones more complex than that, then we could introduce
-intermediate symbols, like;
-
-    config BR2_ARC_HAS_4K_PAGES
-        bool
-
-which could then be selected by the variants that do have it, e.g.:
-
-    config BR2_archs4x
-        bool "ARC HS48"
-        select BR2_ARC_HAS_4K_PAGES
-
-and then the 4K choice would depend on it;
-
-    config BR2_ARC_PAGE_SIZE_4K
-        bool "4KB"
-        depends on BR2_ARC_HAS_4K_PAGES
-
-I was about to do that, but if 750d is definitely the only variant to
-not support those 4K or 16K pages, this would be overkill...
-
->  config BR2_ARC_PAGE_SIZE_8K
->  	bool "8KB"
-> @@ -103,7 +109,7 @@ config BR2_ARC_PAGE_SIZE_8K
->  
->  config BR2_ARC_PAGE_SIZE_16K
->  	bool "16KB"
-> -	depends on BR2_arc770d || BR2_archs38 || BR2_archs38_64mpy || BR2_archs38_full || BR2_archs4x_rel31
-> +	depends on BR2_arc770d || BR2_archs38 || BR2_archs38_64mpy || BR2_archs38_full || BR2_archs4x_rel31 || BR2_archs4x
-
-Ditto.
+Since the hard-float, as you noticed, is using a non-conventional way to
+passit, so if it truns out to be causing issues, it is easier to revert
+if it is in a commit of its own.
 
 Regards,
 Yann E. MORIN.
 
->  endchoice
->  
+> ---
+>  configs/snps_archs38_hsdk_defconfig | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/configs/snps_archs38_hsdk_defconfig b/configs/snps_archs38_hsdk_defconfig
+> index b8fd35636000..69d0b1936b3a 100644
+> --- a/configs/snps_archs38_hsdk_defconfig
+> +++ b/configs/snps_archs38_hsdk_defconfig
+> @@ -1,6 +1,9 @@
+>  BR2_arcle=y
+>  BR2_archs38_full=y
+> +BR2_TOOLCHAIN_BUILDROOT_GLIBC=y
+>  BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_6=y
+> +BR2_PACKAGE_GLIBC_UTILS=y
+> +BR2_TARGET_OPTIMIZATION="-mfpu=fpud_all"
+>  BR2_TARGET_GENERIC_HOSTNAME="hsdk"
+>  BR2_TARGET_GENERIC_ISSUE="Welcome to the HSDK Platform"
+>  BR2_SYSTEM_DHCP="eth0"
 > -- 
 > 2.25.1
 > 
