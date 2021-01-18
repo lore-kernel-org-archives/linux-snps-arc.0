@@ -2,71 +2,63 @@ Return-Path: <SRS0=ZfBq=GV=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE355C433DB
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 18 Jan 2021 00:42:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55BD6C433DB
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 18 Jan 2021 11:37:26 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 95B482250F
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 18 Jan 2021 00:42:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 95B482250F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synopsys.com
+	by mail.kernel.org (Postfix) with ESMTPS id 1650822D01
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 18 Jan 2021 11:37:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1650822D01
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=syEE6jdJ9usywU1qWi+6NYw6/5zP6h/xj1tCdT7cfXc=; b=l3KUWxnn/UiKrVqSOgajXYkcA8
-	BSjgLL5UQGkFrymrWXNpZZu6imOgCp1FWKc/S8Se0m17X1jsI8zlk5F25mZLArRjEQnuhWzr+Vd4a
-	8mx0qG7RIUorUIEq7dfxzba1IWiZIkVbw9SU91+zCXTTzVjJised02InoyyV9JJdBtMx812J9NS5R
-	LqWDgrZ1HT0VCa7Pp0LMzEy8YLB9i2jkdg8US+mAi57guLD8vNKoaaXddEu53H1C9uXcPlZd53IhJ
-	ew68mIVjxYhtopi76ASGcf1X4Z8boNcPkNleRTpG18JXvRclb6+/i3ElP+nAXIl3lbKdD3RNGGwzb
-	VrplgDlQ==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=vEynppaswFm6uA1T3WCttbDp5gQiTmCl1GWZHYKqJ9o=; b=l/EaHImlVPyB6ttUmyoo7SF1A
+	TPQ7mkk+ANecGvee/wScClxetM1/usmkdMlvadABQAallD+/uEY8ytgZ+zzJOOFcK6h8bLb04zzSJ
+	U0+yoqzdW7ZLDv342sf4aqxWFJ5D6BKKA8TBdSzuCyyjWGLv27hK/rfzsYulIoCn4IMlOVsIpiSW3
+	418sYI4Ei98UIid+R1x8BGMdUWlDTH7evR4LyHodipqx0FOM9TON2lTAastqtSLFEAllMrqt2Nv/H
+	iQsaEqaVmdBjS/q3p213R4RuCgB1jmZfAXoZD0vDZVHdNV7hfptWkO2JD5imuAZ0kscwKl6PsOJiT
+	NudeWOQOg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l1Ics-0007Wm-FP; Mon, 18 Jan 2021 00:42:34 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
+	id 1l1Sqb-0007L7-Gt; Mon, 18 Jan 2021 11:37:25 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l1Icp-0007WI-PT
- for linux-snps-arc@lists.infradead.org; Mon, 18 Jan 2021 00:42:32 +0000
-Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com
- [10.205.2.132])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 86ED74013E;
- Mon, 18 Jan 2021 00:42:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1610930547; bh=dt8w/mHZSHzL2nK+raOjYdX0K/j9qKpAF4wRmZITM+o=;
- h=From:To:Cc:Subject:Date:From;
- b=L77b3O1tMrOSoyg9rbzSBPdh0bKvruPIt0Io0fx4d1OwFyEtODLh2whl2VeJr3PJX
- 163K7KXP84wOoNUZESSRoy518xH+ugNGSdwPWmJwelR/gd4F9pbiFDDGDHjwqP4Y3K
- IeGEHFnPMv/Z9QEP+uccwolodNcMd4llv9gaG7IPTn1/lXUIUeOB2G8oMmaonje5L6
- /7k88eHdXhmFuyNHbHtvACbyDBPtWjXzOKUjqiIq7BhwPqH4bxCSbsmr+jAkkUfVle
- 7MXQwaqQVTzOhn+T7nO7Xl8JoiJmnHbBD4l9QcgMmPCo+yxikN5IrHO8XX/tavLK7b
- 08AuTU/JxqOnA==
-Received: from vineetg-Latitude-7400.internal.synopsys.com (unknown
- [10.13.183.89])
- by mailhost.synopsys.com (Postfix) with ESMTP id 170EAA006F;
- Mon, 18 Jan 2021 00:42:24 +0000 (UTC)
-X-SNPS-Relay: synopsys.com
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-To: libc-alpha@sourceware.org
-Subject: [COMMITTED] ARC: nofpu: Regenerate ulps
-Date: Sun, 17 Jan 2021 16:42:22 -0800
-Message-Id: <20210118004222.877828-1-vgupta@synopsys.com>
-X-Mailer: git-send-email 2.25.1
+ id 1l1SqY-0007JX-Rt
+ for linux-snps-arc@lists.infradead.org; Mon, 18 Jan 2021 11:37:24 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 243EB22CA1;
+ Mon, 18 Jan 2021 11:37:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1610969838;
+ bh=sssGw7VAmhQ9zYNCAgQ46mvt8+d/n+n3c7UnO0Lb+nc=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=o0Dt5EbA3PfM95yOWXBZUXnHMBJXZ0zluXuA0/+qOWQYomQbKls79cXkt2yDbFEOx
+ MZxRxZG9uQhGnVlxZGZl1+2+7oLnFahamXKywNV33lybLGOq+XVPL55hoQqTZOqOEP
+ qceZwrg7MtC2WNDl/nP38Ner88U1TO3lRbBszxjg=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 4.19 19/43] arch/arc: add copy_user_page() to <asm/page.h> to
+ fix build error on ARC
+Date: Mon, 18 Jan 2021 12:34:42 +0100
+Message-Id: <20210118113335.870787462@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210118113334.966227881@linuxfoundation.org>
+References: <20210118113334.966227881@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210117_194232_006644_76A93257 
-X-CRM114-Status: UNSURE (   8.19  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210118_063722_974605_4B48698F 
+X-CRM114-Status: GOOD (  12.29  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,72 +70,64 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
- linux-snps-arc@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, Jan Kara <jack@suse.cz>,
+ kernel test robot <lkp@intel.com>, linux-nvdimm@lists.01.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, stable@vger.kernel.org,
+ Matthew Wilcox <willy@infradead.org>, Vineet Gupta <vgupta@synopsys.com>,
+ linux-fsdevel@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>,
+ linux-snps-arc@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
----
- sysdeps/arc/nofpu/libm-test-ulps | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+From: Randy Dunlap <rdunlap@infradead.org>
 
-diff --git a/sysdeps/arc/nofpu/libm-test-ulps b/sysdeps/arc/nofpu/libm-test-ulps
-index 260eacf1c337..15449dd55a9c 100644
---- a/sysdeps/arc/nofpu/libm-test-ulps
-+++ b/sysdeps/arc/nofpu/libm-test-ulps
-@@ -12,7 +12,7 @@ Function: "asin":
- float: 1
+[ Upstream commit 8a48c0a3360bf2bf4f40c980d0ec216e770e58ee ]
+
+fs/dax.c uses copy_user_page() but ARC does not provide that interface,
+resulting in a build error.
+
+Provide copy_user_page() in <asm/page.h>.
+
+../fs/dax.c: In function 'copy_cow_page_dax':
+../fs/dax.c:702:2: error: implicit declaration of function 'copy_user_page'; did you mean 'copy_to_user_page'? [-Werror=implicit-function-declaration]
+
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Vineet Gupta <vgupta@synopsys.com>
+Cc: linux-snps-arc@lists.infradead.org
+Cc: Dan Williams <dan.j.williams@intel.com>
+#Acked-by: Vineet Gupta <vgupta@synopsys.com> # v1
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-nvdimm@lists.01.org
+#Reviewed-by: Ira Weiny <ira.weiny@intel.com> # v2
+Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ arch/arc/include/asm/page.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arc/include/asm/page.h b/arch/arc/include/asm/page.h
+index 09ddddf71cc50..a70fef79c4055 100644
+--- a/arch/arc/include/asm/page.h
++++ b/arch/arc/include/asm/page.h
+@@ -13,6 +13,7 @@
+ #ifndef __ASSEMBLY__
  
- Function: "asinh":
--double: 1
-+double: 2
- float: 2
+ #define clear_page(paddr)		memset((paddr), 0, PAGE_SIZE)
++#define copy_user_page(to, from, vaddr, pg)	copy_page(to, from)
+ #define copy_page(to, from)		memcpy((to), (from), PAGE_SIZE)
  
- Function: "atan":
-@@ -80,7 +80,7 @@ double: 1
- float: 1
- 
- Function: "cbrt":
--double: 3
-+double: 4
- float: 1
- 
- Function: Real part of "ccos":
-@@ -127,7 +127,7 @@ double: 1
- float: 1
- 
- Function: "cosh":
--double: 1
-+double: 2
- float: 2
- 
- Function: Real part of "cpow":
-@@ -177,10 +177,11 @@ double: 1
- float: 1
- 
- Function: "erfc":
--double: 3
-+double: 5
- float: 3
- 
- Function: "exp":
-+double: 1
- float: 1
- 
- Function: "exp10":
-@@ -252,7 +253,7 @@ double: 2
- float: 2
- 
- Function: "tgamma":
--double: 5
-+double: 9
- float: 8
- 
- Function: "y0":
+ struct vm_area_struct;
 -- 
-2.25.1
+2.27.0
+
+
 
 
 _______________________________________________
