@@ -2,63 +2,53 @@ Return-Path: <SRS0=ZfBq=GV=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27424C433DB
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 18 Jan 2021 11:43:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 198A3C433E0
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 18 Jan 2021 22:53:57 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C461F22CA2
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 18 Jan 2021 11:43:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C461F22CA2
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linuxfoundation.org
+	by mail.kernel.org (Postfix) with ESMTPS id 3A5952222F
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 18 Jan 2021 22:53:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3A5952222F
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=eIb/3C4aEl6ONVICUxTTcp3npCJrwS4JRyruJlXc8vM=; b=sEQDe24VvI9K1Wy4xBoaTOuiR
-	e4uQEQVdva4opxW0yGDGTeF6mVuhgMEL/a8AthSYtTLhwJ/NFunsqDv6LFzE+e9XpIKM470186rWH
-	0LbBDiFtBObXbBo5nFIoUNndaMecaXs1UQtee+AO40099bRdRsE898nQcF1wyAiCj+y2t86UjytGT
-	qvsq7B7xMKH57QCMbLaFFozZ3+gMp6U76hCD4aoTxADUHeSc80ofM0ShRQhduGR/WHK1RYls7eJoD
-	qV5C2rCYn0aCCNc70aY96+00lyMORQ6TosUhqYPLQPONnQVBzVzZehdebmXARnK+VmVCkEyHYo6pY
-	wuzT1K19g==;
+	 bh=ZA8cbm3/nBLlhCSaoexSk2NTcNLKVQjTBTXO2cTbpn4=; b=lw5+wo0JtxNKq0I6d0ClMfgGU
+	mtBo+hLiRKA8exq2kpYytAKty8SzP4kQJMIrsROM4JUoqA8EFb/sf2ylgUlRuCCwqA+F5F7crDhk3
+	tt6G5qSomq4Tl7M49y5JUEBl2wCi3xRjx0eV6m49L5dsOU6h+3R0+Q8Vhsya6/3GCGF60037PhOfw
+	j4q7EzlINCoJ9oHF1z6mrACtxHKv/ZDbtgxbMKEKnVzGpn8MMvXUCN2qMD7ZeCrpmf35fp7hD4try
+	TJm5jC9TR/VnKAtL1JFkEO7EmOeBiyx1jHFBTgNKA8UMxlIUMJCd09jyKYwNv9S5eAWA04ck2/DYR
+	AGih7k5qA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l1SwR-0007ht-1U; Mon, 18 Jan 2021 11:43:27 +0000
-Received: from mail.kernel.org ([198.145.29.99])
- by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l1SwO-0007h3-GY
- for linux-snps-arc@lists.infradead.org; Mon, 18 Jan 2021 11:43:25 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 036412223E;
- Mon, 18 Jan 2021 11:43:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1610970203;
- bh=ZfRNyTieOsoVNKe8Y2oI4EMd7ks971g+wnjHRo7dt18=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LFz1164frJv8sVQS81iD6X+cJ2/nCG9T7f2pfGCe7nTgvcehmiRPaLOXpqWnmKI/E
- 3ViuIsTAXNvBOrWQINEfl5DcyCt1VWGElV5d3fiAOXe7Cc9blb78mHmQpdaoqruN2m
- /GdSOHNHAJlwbj6QSSL1W9vJr5zqtS6+8T5VJQE4=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.10 081/152] arch/arc: add copy_user_page() to <asm/page.h>
- to fix build error on ARC
-Date: Mon, 18 Jan 2021 12:34:16 +0100
-Message-Id: <20210118113356.647896767@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210118113352.764293297@linuxfoundation.org>
-References: <20210118113352.764293297@linuxfoundation.org>
-User-Agent: quilt/0.66
+	id 1l1dPH-0004lo-A6; Mon, 18 Jan 2021 22:53:55 +0000
+Received: from [2601:1c0:6280:3f0::9abc]
+ by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1l1dPC-0004l9-4s; Mon, 18 Jan 2021 22:53:50 +0000
+Subject: Re: [PATCH v5 1/2] lib: stackdepot: Add support to configure
+ STACK_HASH_SIZE
+To: vjitta@codeaurora.org, minchan@kernel.org, glider@google.com,
+ akpm@linux-foundation.org, dan.j.williams@intel.com, broonie@kernel.org,
+ mhiramat@kernel.org
+References: <1610963802-11042-1-git-send-email-vjitta@codeaurora.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <2f12a84c-132b-7141-a89e-9e19de0e4b90@infradead.org>
+Date: Mon, 18 Jan 2021 14:53:43 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210118_064324_621436_53C40B49 
-X-CRM114-Status: GOOD (  12.29  )
+In-Reply-To: <1610963802-11042-1-git-send-email-vjitta@codeaurora.org>
+Content-Language: en-US
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,65 +60,55 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Jan Kara <jack@suse.cz>,
- kernel test robot <lkp@intel.com>, linux-nvdimm@lists.01.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, stable@vger.kernel.org,
- Matthew Wilcox <willy@infradead.org>, Vineet Gupta <vgupta@synopsys.com>,
- linux-fsdevel@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>,
- linux-snps-arc@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>
+Cc: ylal@codeaurora.org, Vineet Gupta <vgupta@synopsys.com>,
+ vinmenon@codeaurora.org,
+ "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+On 1/18/21 1:56 AM, vjitta@codeaurora.org wrote:
+> From: Yogesh Lal <ylal@codeaurora.org>
+> 
+> Use CONFIG_STACK_HASH_ORDER to configure STACK_HASH_SIZE.
+> 
+> Aim is to have configurable value for  STACK_HASH_SIZE,
+> so depend on use case one can configure it.
+> 
+> One example is of Page Owner, default value of
+> STACK_HASH_SIZE lead stack depot to consume 8MB of static memory.
+> Making it configurable and use lower value helps to enable features like
+> CONFIG_PAGE_OWNER without any significant overhead.
+> 
+> Signed-off-by: Yogesh Lal <ylal@codeaurora.org>
+> Signed-off-by: Vinayak Menon <vinmenon@codeaurora.org>
+> Signed-off-by: Vijayanand Jitta <vjitta@codeaurora.org>
 
-[ Upstream commit 8a48c0a3360bf2bf4f40c980d0ec216e770e58ee ]
+Hi,
 
-fs/dax.c uses copy_user_page() but ARC does not provide that interface,
-resulting in a build error.
+Did you see
+https://lore.kernel.org/lkml/202101050729.cwTd47Yw-lkp@intel.com/
 
-Provide copy_user_page() in <asm/page.h>.
+It seems that arch/arc/ does not have:
+   arc-elf-ld: lib/stackdepot.o: in function `filter_irq_stacks':
+   (.text+0x6): undefined reference to `__irqentry_text_start'
+>> arc-elf-ld: (.text+0x6): undefined reference to `__irqentry_text_start'
+>> arc-elf-ld: (.text+0x26): undefined reference to `__irqentry_text_end'
+>> arc-elf-ld: (.text+0x26): undefined reference to `__irqentry_text_end'
+>> arc-elf-ld: (.text+0x34): undefined reference to `__softirqentry_text_start'
+>> arc-elf-ld: (.text+0x34): undefined reference to `__softirqentry_text_start'
+>> arc-elf-ld: (.text+0x3c): undefined reference to `__softirqentry_text_end'
+>> arc-elf-ld: (.text+0x3c): undefined reference to `__softirqentry_text_end'
 
-../fs/dax.c: In function 'copy_cow_page_dax':
-../fs/dax.c:702:2: error: implicit declaration of function 'copy_user_page'; did you mean 'copy_to_user_page'? [-Werror=implicit-function-declaration]
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Vineet Gupta <vgupta@synopsys.com>
-Cc: linux-snps-arc@lists.infradead.org
-Cc: Dan Williams <dan.j.williams@intel.com>
-#Acked-by: Vineet Gupta <vgupta@synopsys.com> # v1
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org
-Cc: linux-nvdimm@lists.01.org
-#Reviewed-by: Ira Weiny <ira.weiny@intel.com> # v2
-Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- arch/arc/include/asm/page.h | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arc/include/asm/page.h b/arch/arc/include/asm/page.h
-index b0dfed0f12be0..d9c264dc25fcb 100644
---- a/arch/arc/include/asm/page.h
-+++ b/arch/arc/include/asm/page.h
-@@ -10,6 +10,7 @@
- #ifndef __ASSEMBLY__
- 
- #define clear_page(paddr)		memset((paddr), 0, PAGE_SIZE)
-+#define copy_user_page(to, from, vaddr, pg)	copy_page(to, from)
- #define copy_page(to, from)		memcpy((to), (from), PAGE_SIZE)
- 
- struct vm_area_struct;
+
 -- 
-2.27.0
-
-
-
+~Randy
+You can't do anything without having to do something else first.
+-- Belefant's Law
 
 _______________________________________________
 linux-snps-arc mailing list
