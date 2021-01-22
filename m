@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A95D0C433E0
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 22 Jan 2021 14:10:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3963BC433E6
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 22 Jan 2021 14:13:34 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 71F6B23AA9
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 22 Jan 2021 14:10:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 71F6B23AA9
+	by mail.kernel.org (Postfix) with ESMTPS id 006C623B09
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 22 Jan 2021 14:13:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 006C623B09
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,41 +23,41 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=h4DA+ouNUzLI9dP68aTK0CmxDDoU0NVaid7fH3UkXy4=; b=OjNmCbp9q62J+mu3nJLYmxTq+
-	ZmCLUxTiNaLFu9JJwxd6kFJlolFR27qCL2NBRpq89rX6PrtWkpkYjlIWFP/LuWcgKsbPToz1T+EVO
-	yUJM+HZZm/bOlizA9Yq6+QRJMpi4lPMcfP1fK11IXS8ZxJ1CzVBccSEWcqZ4xGpR4elJohga6ryvr
-	4YnJsimvXgEtinrwE36Hkx7cJoJWBux5aHjbiCF19R+cCKGDBkNDqiaKcwSS7TU3Ol0UvBB61rRrm
-	JRjIaHYifT7xkFYdytfGBHfuGOusztdmYu0iCzD5iSRLoyjxkyoIkP3z23M58tPFFPxM05pPBtbmm
-	+GfUL3/IA==;
+	 bh=vEynppaswFm6uA1T3WCttbDp5gQiTmCl1GWZHYKqJ9o=; b=Z+Nvx4lWv4xpIhN2QNEQ6PoIq
+	AxRMI/X5z4DKOYouT6DhGMaUf06GJ97bexodQwzjNtWe7qA5mmZ1H2Xu9dLvNwoYqFvdIAJLazcgb
+	x7HEKo8SADOz4NF1h5jC33QKmRiTpbdagu3wMvH5BjnM8SKr9VvJeLlwxdI2a/AoOi2UbPOucgLyb
+	EihwomEI/rUPFjvr3mSL3OTVjX46ExZCbTgW4jFsDlXe2kuLcLN09t1wnB0b16rDemSaVtf+Vj8oY
+	zIONu9BnjTWxcUmV8WrvjRVpHBORPIcN/NU2SHHpF6M579dQUz4McWdqKcLtNXxQ5Hj4K22MTErrH
+	XoYhn3c7Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l2x9F-0004GA-Qh; Fri, 22 Jan 2021 14:10:49 +0000
+	id 1l2xBt-0005AC-CZ; Fri, 22 Jan 2021 14:13:33 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l2x9D-0004FC-8S
- for linux-snps-arc@lists.infradead.org; Fri, 22 Jan 2021 14:10:48 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5364E23AA3;
- Fri, 22 Jan 2021 14:10:45 +0000 (UTC)
+ id 1l2xBq-00058H-6U
+ for linux-snps-arc@lists.infradead.org; Fri, 22 Jan 2021 14:13:31 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D660823A77;
+ Fri, 22 Jan 2021 14:13:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1611324646;
- bh=zPb3uoCMpMg0zIdBDDDosH3CoWb00JMVhzJ0D614Sfo=;
+ s=korg; t=1611324809;
+ bh=sssGw7VAmhQ9zYNCAgQ46mvt8+d/n+n3c7UnO0Lb+nc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=u83cQdirnwFeD9/ilIBOM6VMOBOesrM++RGq45UGlM8dl4Cs0PsMUNWKcWWMdjIDy
- 7HpOe+X+zuGvV+lPjHPePjD7dm1Cegb0f/hdywddkJlUkEaehyb9VI2R/rah0gndIY
- jK9XPJRg5YwsDCNhfyQ769+Xm8dCS+vIqahFb18A=
+ b=RWnxMI1Kuxyn8sFbpngjfmh0DB+XtN99+rH1b3nnBnE44VGaf2zSyOaS5bOsKtkii
+ ZlE3MK143UltulaOQlAr79ieOWmPf1l9vxz49y7gCx7th9bY/USofc74FuKYYY0lRl
+ capayd4uTIkAg64yCdDA6rc2zoGPALUQAxrVLkSs=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 4.9 10/35] arch/arc: add copy_user_page() to <asm/page.h> to
+Subject: [PATCH 4.14 15/50] arch/arc: add copy_user_page() to <asm/page.h> to
  fix build error on ARC
-Date: Fri, 22 Jan 2021 15:10:12 +0100
-Message-Id: <20210122135732.747017067@linuxfoundation.org>
+Date: Fri, 22 Jan 2021 15:11:56 +0100
+Message-Id: <20210122135735.820675358@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210122135732.357969201@linuxfoundation.org>
-References: <20210122135732.357969201@linuxfoundation.org>
+In-Reply-To: <20210122135735.176469491@linuxfoundation.org>
+References: <20210122135735.176469491@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210122_091047_484906_8FF67B9B 
+X-CRM114-CacheID: sfid-20210122_091330_340140_D83A4C5B 
 X-CRM114-Status: GOOD (  12.40  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -113,7 +113,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/arch/arc/include/asm/page.h b/arch/arc/include/asm/page.h
-index ffb5f33475f19..f0f43eb709d2f 100644
+index 09ddddf71cc50..a70fef79c4055 100644
 --- a/arch/arc/include/asm/page.h
 +++ b/arch/arc/include/asm/page.h
 @@ -13,6 +13,7 @@
