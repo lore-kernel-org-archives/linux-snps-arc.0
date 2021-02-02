@@ -1,64 +1,84 @@
-Return-Path: <SRS0=wFQm=GZ=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=WeIn=HE=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Level: **
+X-Spam-Status: No, score=2.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,PI_HELLO,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3963BC433E6
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 22 Jan 2021 14:13:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91E12C433E0
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  2 Feb 2021 21:08:26 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 006C623B09
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 22 Jan 2021 14:13:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 006C623B09
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linuxfoundation.org
+	by mail.kernel.org (Postfix) with ESMTPS id 37D2264E3E
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  2 Feb 2021 21:08:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 37D2264E3E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=vEynppaswFm6uA1T3WCttbDp5gQiTmCl1GWZHYKqJ9o=; b=Z+Nvx4lWv4xpIhN2QNEQ6PoIq
-	AxRMI/X5z4DKOYouT6DhGMaUf06GJ97bexodQwzjNtWe7qA5mmZ1H2Xu9dLvNwoYqFvdIAJLazcgb
-	x7HEKo8SADOz4NF1h5jC33QKmRiTpbdagu3wMvH5BjnM8SKr9VvJeLlwxdI2a/AoOi2UbPOucgLyb
-	EihwomEI/rUPFjvr3mSL3OTVjX46ExZCbTgW4jFsDlXe2kuLcLN09t1wnB0b16rDemSaVtf+Vj8oY
-	zIONu9BnjTWxcUmV8WrvjRVpHBORPIcN/NU2SHHpF6M579dQUz4McWdqKcLtNXxQ5Hj4K22MTErrH
-	XoYhn3c7Q==;
+	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
+	:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:Reply-To:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=xHj7XNQy1VEOqDl+uKi8X6tWg0JC3fZHDy7OpxglIyk=; b=XWaI8ez1L3vMxv0C1Z3MSSrY0R
+	MqzDsXJIQkK1GY3LJRxzsotFOQEi9mxHSlIParpfkujZAskzvJ88HApVSNG2VrVZGSg71vvBItGPn
+	GeuFXQWmDFElm9xQbUOb+UBoG7zpNQ43KFig5Ndd4g42LLCYPjTyy2gp4/0RUJ9DJ886ef7WF+LpG
+	PzuSQTvwch1iorkD6HMdNF9Vhd5HRV0zPCwM2sTFwg4LM8bLq/WKpvaF0OwI5aCIOcOMCraq1fsD2
+	LtK0vyo8VDDCnZhjuJEziZgc6SpQYMJ1SlI5WYvFppGTNAO3/PugwLkv92JYkjw9AeXjqr1CE3jol
+	r9mqTBqA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l2xBt-0005AC-CZ; Fri, 22 Jan 2021 14:13:33 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1l72uP-0002CL-4i; Tue, 02 Feb 2021 21:08:25 +0000
+Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l2xBq-00058H-6U
- for linux-snps-arc@lists.infradead.org; Fri, 22 Jan 2021 14:13:31 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D660823A77;
- Fri, 22 Jan 2021 14:13:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1611324809;
- bh=sssGw7VAmhQ9zYNCAgQ46mvt8+d/n+n3c7UnO0Lb+nc=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RWnxMI1Kuxyn8sFbpngjfmh0DB+XtN99+rH1b3nnBnE44VGaf2zSyOaS5bOsKtkii
- ZlE3MK143UltulaOQlAr79ieOWmPf1l9vxz49y7gCx7th9bY/USofc74FuKYYY0lRl
- capayd4uTIkAg64yCdDA6rc2zoGPALUQAxrVLkSs=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 4.14 15/50] arch/arc: add copy_user_page() to <asm/page.h> to
- fix build error on ARC
-Date: Fri, 22 Jan 2021 15:11:56 +0100
-Message-Id: <20210122135735.820675358@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210122135735.176469491@linuxfoundation.org>
-References: <20210122135735.176469491@linuxfoundation.org>
-User-Agent: quilt/0.66
+ id 1l72uM-0002By-SC
+ for linux-snps-arc@lists.infradead.org; Tue, 02 Feb 2021 21:08:23 +0000
+Received: by mail-lj1-x233.google.com with SMTP id a17so533284ljq.2
+ for <linux-snps-arc@lists.infradead.org>; Tue, 02 Feb 2021 13:08:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:subject:message-id:mime-version:content-disposition;
+ bh=+s1gaEDQrspZ/qBxzsWLPfDCu3uPTxnZXSO6DojnUqY=;
+ b=eObAzLnsXG/blyBi34KYz87eI4rZmMNew/5f28If6Q5320GQ+HMdR/jepOZmjFK4gq
+ valwlff1zK58E+K7YYQbPpjvYgM738CeR2esu5MxtbOi1JUBLOlKMUHcfbEEwBPY2xaM
+ l9/BhugBoE53lHlZnKZVqUZWPDFsIOLKgmMEQa+KGSs2fIBgbNHhOKDNBOUgQ8izmp7u
+ mZksnCchcdzhXxrb55Pz/Iw6CKAoHgwi90AwoKDzhrmxwbmfrOEYyjWI4f8H/q8Tzk75
+ MTsf8SKfyd29GJjGloL85TIJNU+CCJTouOQ9B0MqPsb2BcRPJHf8iCVmlPoop+oQG85o
+ Oeuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+ :content-disposition;
+ bh=+s1gaEDQrspZ/qBxzsWLPfDCu3uPTxnZXSO6DojnUqY=;
+ b=OMlaWr23bMjD+vN6RAZ6mwvf2+mw/P0E3CAq9QJRY0Fevf/5oBLpTgoalZsMGj7Ayj
+ v15wlMAJ6SQXs90i+YXXhTGr1Z1bJZef74McHpHfqTJsjRldf7e43Buny3bRseRAbD4m
+ oWr8piIZFMHPVpok17W2eDH4rJFXysQb5dZXz1x1gSp5zr2CIMQGq+TC6kwqWltZ/SUP
+ wA/nB7ip94IhtBmpzNKAeq807q4uSvYdT6drHV1E2eDDIQYk0Vts/eFA3AXNItOGtw07
+ kAZyH5GkuopeHsCMhp5Q5wEzP8zUqlvHEZD9FL9kKT74J/6Fu0LSFlRCCtVuth/OgSYc
+ MkNA==
+X-Gm-Message-State: AOAM530lA/y2om+wtJ/XuvL8wSTJlCbIAr0R/GJ6sihyiLbbndyvuAL8
+ YtNvSc1GPFUPL0rLBuu/5M2z6INf5nfVrw==
+X-Google-Smtp-Source: ABdhPJxxAmDrffji32IAMKFfZV2YseYXeMYlMA3qAku1j8Hmubj2Vi1u3HPHY6YJe55+zyky5Wn0bg==
+X-Received: by 2002:a2e:155e:: with SMTP id 30mr14565943ljv.489.1612300097036; 
+ Tue, 02 Feb 2021 13:08:17 -0800 (PST)
+Received: from gmail.com ([2a03:1b20:5:f011:31::6d])
+ by smtp.gmail.com with ESMTPSA id r1sm6722lfp.306.2021.02.02.13.08.15
+ for <linux-snps-arc@lists.infradead.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Feb 2021 13:08:16 -0800 (PST)
+Date: Tue, 2 Feb 2021 22:08:46 +0100
+From: Curious Jack <shahab.vahedi@gmail.com>
+To: linux-snps-arc@lists.infradead.org
+Subject: Hello Vineet
+Message-ID: <YBm/XkXs1wlsr5GT@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210122_091330_340140_D83A4C5B 
-X-CRM114-Status: GOOD (  12.40  )
+X-CRM114-CacheID: sfid-20210202_160822_952657_585B20BD 
+X-CRM114-Status: UNSURE (   5.40  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,65 +90,12 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Jan Kara <jack@suse.cz>,
- kernel test robot <lkp@intel.com>, linux-nvdimm@lists.01.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, stable@vger.kernel.org,
- Matthew Wilcox <willy@infradead.org>, Vineet Gupta <vgupta@synopsys.com>,
- linux-fsdevel@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>,
- linux-snps-arc@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
-
-[ Upstream commit 8a48c0a3360bf2bf4f40c980d0ec216e770e58ee ]
-
-fs/dax.c uses copy_user_page() but ARC does not provide that interface,
-resulting in a build error.
-
-Provide copy_user_page() in <asm/page.h>.
-
-../fs/dax.c: In function 'copy_cow_page_dax':
-../fs/dax.c:702:2: error: implicit declaration of function 'copy_user_page'; did you mean 'copy_to_user_page'? [-Werror=implicit-function-declaration]
-
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Vineet Gupta <vgupta@synopsys.com>
-Cc: linux-snps-arc@lists.infradead.org
-Cc: Dan Williams <dan.j.williams@intel.com>
-#Acked-by: Vineet Gupta <vgupta@synopsys.com> # v1
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org
-Cc: linux-nvdimm@lists.01.org
-#Reviewed-by: Ira Weiny <ira.weiny@intel.com> # v2
-Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- arch/arc/include/asm/page.h | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/arch/arc/include/asm/page.h b/arch/arc/include/asm/page.h
-index 09ddddf71cc50..a70fef79c4055 100644
---- a/arch/arc/include/asm/page.h
-+++ b/arch/arc/include/asm/page.h
-@@ -13,6 +13,7 @@
- #ifndef __ASSEMBLY__
- 
- #define clear_page(paddr)		memset((paddr), 0, PAGE_SIZE)
-+#define copy_user_page(to, from, vaddr, pg)	copy_page(to, from)
- #define copy_page(to, from)		memcpy((to), (from), PAGE_SIZE)
- 
- struct vm_area_struct;
--- 
-2.27.0
-
-
-
+Long time no see.
 
 _______________________________________________
 linux-snps-arc mailing list
