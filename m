@@ -1,68 +1,58 @@
-Return-Path: <SRS0=9m4u=HJ=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=082d=HK=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FROM_LOCAL_DIGITS,
-	FROM_LOCAL_HEX,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F153DC433E0
-	for <linux-snps-arc@archiver.kernel.org>; Sun,  7 Feb 2021 01:55:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB0C3C433DB
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  8 Feb 2021 14:01:13 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 96FF264E87
-	for <linux-snps-arc@archiver.kernel.org>; Sun,  7 Feb 2021 01:55:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 96FF264E87
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=163.com
+	by mail.kernel.org (Postfix) with ESMTPS id 3F74164E4F
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  8 Feb 2021 14:01:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3F74164E4F
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baikalelectronics.ru
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=6V7KAZ2weOMTAm2dfCE9VuMleglUhiGPdr7L2Z/09UQ=; b=kT8rObwe6vNjdmMy3DZXzW1J/m
-	XanI//lVCY90C0mPvFRrKmZzkH+067RHzqJ3bk73aQL1q9GlMITdxFJr8XwTVWatcNtOkgzuIGq8f
-	DLLDnKhQRcKOt0MtNKGqoNEr+GhSoiOouQZv15q7DA20vpBpId1ymr/p32HXKDL+I9SunlyteEx6p
-	+6gepuCgJ96pKae7+pdbne0aYoYEquSXwsvXB2Yd9BdpfyliTXUs5+mxOxLOuDEF5AxDVvLjHnUhm
-	3LACfQzFsgGmQ3VyAZEC6L+4Y4mAwOUTfOcYtA1YRmdfd4H9Tl7rdDiK6GECPtyzw7N+NQWdnpKwT
-	sMcaHyfA==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=Q/oT6qGu+Ub9BArGjbazBQZGKxLqvBUzR4qE/NcaF3k=; b=JEKUJ864GwqUCwA6KXynjJfDO
+	fMRyqGSm6bt5tKfo0iFWcHwvx31CGm/IsTgWMYch+p5iMzfU+bkuifgYeiIjSZ3c9WK0lK2lvv3tB
+	fIdhhQc6coh2FkAqCH26cxHRdqDYgKuvq5IU+sXz/UHRXTYbmlFxYPmrdo4mPbqr1f8TobHVPo1ed
+	y4jrMuNKwGSshehodPPRqvyKDpUP5UGVDdOqaqtEW/aiEsEZEMtv/LaMdIg2P+Ny707MPVcRcnOvj
+	TzFPTXPyyGD83bW8/cLmNYyUb8yccqcePUKRTVrheNQ82ZAsUceIj+X/C5ta5Zk756j5H5Orcut9/
+	nlYAiL08w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l8ZIS-00058M-Fb; Sun, 07 Feb 2021 01:55:32 +0000
-Received: from m12-15.163.com ([220.181.12.15])
- by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l8ZIP-00057v-IJ
- for linux-snps-arc@lists.infradead.org; Sun, 07 Feb 2021 01:55:31 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=kJMhG
- H1QDTFVJ+sCQEjNNNnYTMpsThhsoFU+XxZ1I4o=; b=j/s09tzDraF677MuyoAWj
- P2oL32WP19QALbwVj6jMRovUco/nEmSWVe+sYzq3gVAV/ZPlapuq6NpEcdv4fWfn
- RGygAJ/eLOhJ1piMxXoTPjYb0JMHsIWj4BWTOSJWJS35DyhoATkFnYBPEXsHYGJR
- RcP+9Gz/E/BKBUcs021Z7I=
-Received: from yangdianqing01.ccdomain.com (unknown [218.17.89.92])
- by smtp11 (Coremail) with SMTP id D8CowADX7DCESB9gaRK2AA--.20533S2;
- Sun, 07 Feb 2021 09:55:21 +0800 (CST)
-From: sz18665958617@163.com
-To: vgupta@synopsys.com
-Subject: [PATCH] treewide: avoid the ponter addition with NULL pointer
-Date: Sun,  7 Feb 2021 09:54:56 +0800
-Message-Id: <20210207015456.1263-1-sz18665958617@163.com>
-X-Mailer: git-send-email 2.22.0.windows.1
+	id 1l976G-0002IV-8F; Mon, 08 Feb 2021 14:01:12 +0000
+Received: from mail.baikalelectronics.com ([87.245.175.226]
+ helo=mail.baikalelectronics.ru)
+ by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1l9761-0002DV-8o
+ for linux-snps-arc@lists.infradead.org; Mon, 08 Feb 2021 14:01:00 +0000
+From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+To: Felipe Balbi <balbi@kernel.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Krzysztof Kozlowski <krzk@kernel.org>, Florian
+ Fainelli <f.fainelli@gmail.com>, Rob Herring <robh+dt@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Alexey Brodkin
+ <abrodkin@synopsys.com>, Vineet Gupta <vgupta@synopsys.com>
+Subject: [PATCH v5 03/10] arc: dts: Harmonize EHCI/OHCI DT nodes name
+Date: Mon, 8 Feb 2021 16:51:47 +0300
+Message-ID: <20210208135154.6645-4-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20210208135154.6645-1-Sergey.Semin@baikalelectronics.ru>
+References: <20210208135154.6645-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
-X-CM-TRANSID: D8CowADX7DCESB9gaRK2AA--.20533S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxJrW8uw4xGF1rGF1xJr4Dtwb_yoW8Cryfpw
- 43GryrtrW5W34Yvw13ArnFgrWUJ398Xa42gFWxGa4Ut3Zrury8WrykGry7uwsav34kW3WY
- vrs09rWUCan7trDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07bIR6wUUUUU=
-X-Originating-IP: [218.17.89.92]
-X-CM-SenderInfo: dv2rmliwvzkmqwrxqiywtou0bp/xtbBEQkyflaEC3EFsAAAsJ
+X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210206_205530_231315_AE14404F 
-X-CRM114-Status: UNSURE (   9.41  )
+X-CRM114-CacheID: sfid-20210208_090057_639323_8377A170 
+X-CRM114-Status: UNSURE (   9.34  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -75,67 +65,124 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Cc: "dean.yang_cp" <yangdianqing@yulong.com>,
- linux-snps-arc@lists.infradead.org
+Cc: Serge Semin <Sergey.Semin@baikalelectronics.ru>, devicetree@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Serge Semin <fancer.lancer@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: "dean.yang_cp" <yangdianqing@yulong.com>
+In accordance with the Generic EHCI/OHCI bindings the corresponding node
+name is suppose to comply with the Generic USB HCD DT schema, which
+requires the USB nodes to have the name acceptable by the regexp:
+"^usb(@.*)?" . Make sure the "generic-ehci" and "generic-ohci"-compatible
+nodes are correctly named.
 
-Signed-off-by: dean.yang_cp <yangdianqing@yulong.com>
+Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+Acked-by: Alexey Brodkin <abrodkin@synopsys.com>
+Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- arch/arc/kernel/unwind.c | 27 ++++++++++++++-------------
- 1 file changed, 14 insertions(+), 13 deletions(-)
+ arch/arc/boot/dts/axc003.dtsi        | 4 ++--
+ arch/arc/boot/dts/axc003_idu.dtsi    | 4 ++--
+ arch/arc/boot/dts/axs10x_mb.dtsi     | 4 ++--
+ arch/arc/boot/dts/hsdk.dts           | 4 ++--
+ arch/arc/boot/dts/vdk_axs10x_mb.dtsi | 2 +-
+ 5 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/arch/arc/kernel/unwind.c b/arch/arc/kernel/unwind.c
-index 74ad425..47bab67 100644
---- a/arch/arc/kernel/unwind.c
-+++ b/arch/arc/kernel/unwind.c
-@@ -187,25 +187,26 @@ static void init_unwind_table(struct unwind_table *table, const char *name,
- 			      const void *table_start, unsigned long table_size,
- 			      const u8 *header_start, unsigned long header_size)
- {
--	const u8 *ptr = header_start + 4;
--	const u8 *end = header_start + header_size;
--
- 	table->core.pc = (unsigned long)core_start;
- 	table->core.range = core_size;
- 	table->init.pc = (unsigned long)init_start;
- 	table->init.range = init_size;
- 	table->address = table_start;
- 	table->size = table_size;
--
--	/* See if the linker provided table looks valid. */
--	if (header_size <= 4
--	    || header_start[0] != 1
--	    || (void *)read_pointer(&ptr, end, header_start[1]) != table_start
--	    || header_start[2] == DW_EH_PE_omit
--	    || read_pointer(&ptr, end, header_start[2]) <= 0
--	    || header_start[3] == DW_EH_PE_omit)
--		header_start = NULL;
--
-+	/* To avoid the pointer addition with NULL pointer.*/
-+	if (header_start != NULL) {
-+		const u8 *ptr = header_start + 4;
-+		const u8 *end = header_start + header_size;
-+		/* See if the linker provided table looks valid. */
-+		if (header_size <= 4
-+		|| header_start[0] != 1
-+		|| (void *)read_pointer(&ptr, end, header_start[1])
-+				!= table_start
-+		|| header_start[2] == DW_EH_PE_omit
-+		|| read_pointer(&ptr, end, header_start[2]) <= 0
-+		|| header_start[3] == DW_EH_PE_omit)
-+			header_start = NULL;
-+	}
- 	table->hdrsz = header_size;
- 	smp_wmb();
- 	table->header = header_start;
+diff --git a/arch/arc/boot/dts/axc003.dtsi b/arch/arc/boot/dts/axc003.dtsi
+index cd1edcf4f95e..3434c8131ecd 100644
+--- a/arch/arc/boot/dts/axc003.dtsi
++++ b/arch/arc/boot/dts/axc003.dtsi
+@@ -103,11 +103,11 @@ ethernet@18000 {
+ 			dma-coherent;
+ 		};
+ 
+-		ehci@40000 {
++		usb@40000 {
+ 			dma-coherent;
+ 		};
+ 
+-		ohci@60000 {
++		usb@60000 {
+ 			dma-coherent;
+ 		};
+ 
+diff --git a/arch/arc/boot/dts/axc003_idu.dtsi b/arch/arc/boot/dts/axc003_idu.dtsi
+index 70779386ca79..67556f4b7057 100644
+--- a/arch/arc/boot/dts/axc003_idu.dtsi
++++ b/arch/arc/boot/dts/axc003_idu.dtsi
+@@ -110,11 +110,11 @@ ethernet@18000 {
+ 			dma-coherent;
+ 		};
+ 
+-		ehci@40000 {
++		usb@40000 {
+ 			dma-coherent;
+ 		};
+ 
+-		ohci@60000 {
++		usb@60000 {
+ 			dma-coherent;
+ 		};
+ 
+diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
+index 99d3e7175bf7..b64435385304 100644
+--- a/arch/arc/boot/dts/axs10x_mb.dtsi
++++ b/arch/arc/boot/dts/axs10x_mb.dtsi
+@@ -87,13 +87,13 @@ gmac: ethernet@18000 {
+ 			mac-address = [00 00 00 00 00 00]; /* Filled in by U-Boot */
+ 		};
+ 
+-		ehci@40000 {
++		usb@40000 {
+ 			compatible = "generic-ehci";
+ 			reg = < 0x40000 0x100 >;
+ 			interrupts = < 8 >;
+ 		};
+ 
+-		ohci@60000 {
++		usb@60000 {
+ 			compatible = "generic-ohci";
+ 			reg = < 0x60000 0x100 >;
+ 			interrupts = < 8 >;
+diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
+index dcaa44e408ac..fdd4f7f635d3 100644
+--- a/arch/arc/boot/dts/hsdk.dts
++++ b/arch/arc/boot/dts/hsdk.dts
+@@ -234,7 +234,7 @@ phy0: ethernet-phy@0 { /* Micrel KSZ9031 */
+ 			};
+ 		};
+ 
+-		ohci@60000 {
++		usb@60000 {
+ 			compatible = "snps,hsdk-v1.0-ohci", "generic-ohci";
+ 			reg = <0x60000 0x100>;
+ 			interrupts = <15>;
+@@ -242,7 +242,7 @@ ohci@60000 {
+ 			dma-coherent;
+ 		};
+ 
+-		ehci@40000 {
++		usb@40000 {
+ 			compatible = "snps,hsdk-v1.0-ehci", "generic-ehci";
+ 			reg = <0x40000 0x100>;
+ 			interrupts = <15>;
+diff --git a/arch/arc/boot/dts/vdk_axs10x_mb.dtsi b/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
+index cbb179770293..90a412026e64 100644
+--- a/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
++++ b/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
+@@ -46,7 +46,7 @@ ethernet@18000 {
+ 			clock-names = "stmmaceth";
+ 		};
+ 
+-		ehci@40000 {
++		usb@40000 {
+ 			compatible = "generic-ehci";
+ 			reg = < 0x40000 0x100 >;
+ 			interrupts = < 8 >;
 -- 
-1.9.1
-
+2.29.2
 
 
 _______________________________________________
