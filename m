@@ -2,67 +2,91 @@ Return-Path: <SRS0=6MfY=IC=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3233CC433E0
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  4 Mar 2021 13:56:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33014C433DB
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  4 Mar 2021 14:22:36 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A97E764E5F
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  4 Mar 2021 13:56:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A97E764E5F
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+	by mail.kernel.org (Postfix) with ESMTPS id BE8B164F02
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  4 Mar 2021 14:22:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BE8B164F02
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
+	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=6J0adhZ6IN7ZS2inUpXMY8YPEa2VcuB/MyqUHKfwgrI=; b=bJ/tLekTac2Ahscf7218bU8Az
-	C4/PkOhiWLWPi2fH1h9n3yhXjq5t8gOW+Eym3oox37LgojUPA9x+AnuTxmOEd+IeR91e9ya3zwGD0
-	+zaz1S51Q99ehaINbOsZT4JDk+KCskMuE2fRBPNqJip/P2uA5OefTQ2lntL0m1uZEMgvhd7Z1eRca
-	bhlenN6FOivZPMoyHzLOmuTtJ2v13AjlW588WsH7hrJRcpPSu1CRrMXHbkM5+nm5WRmac13ExC2AJ
-	5kxHlpG5j+k18rgBPZ08dwur5uIzApVXh0rUMIHSXVIWfRZk3V7EEX+ImHnyYT7B83s+3C4Yd8fhQ
-	WyqS46kFw==;
+	 bh=S8dH/PRCTcPIv5h32Tpd+23Xd8AdwnW3c/VZQfHdT+M=; b=VZ4pyz50Kx0cW3U3gjFJ7AcHt
+	IYHnFWslKspEqnyxK/FT+2N+1eAqHaS/UURoVWrcCZEOQloJ0/g5bs4mc1D8PFQpu4GVFk937Pxz3
+	OphqgQU2Tj+EXk94D6ZMHN9LbNxsSjlbDdNuPSahHRANzrZ1VSrx3b5JPHk8Uxgnf3aYkSc/NhgrM
+	VqX1fMA1ejxKdY8gX7ZzRMXovYFfIGJzfEicm6vRStJNLx4BA26ff5+snbR/tW7qrdnjOOSt5YQp4
+	cgFM6yPBI7YVd7GbJXoOe7wskB0nAyPV6giqRYNMIxdcDNa22xHQu1Zavsavn2rL6/uD8e/SaYdjr
+	IA8WpOMtA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lHoSM-008okd-Pr; Thu, 04 Mar 2021 13:55:58 +0000
-Received: from master.debian.org ([2001:41b8:202:deb:216:36ff:fe40:4001])
+	id 1lHos6-008sss-7k; Thu, 04 Mar 2021 14:22:34 +0000
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lHoSF-008oid-Kz
- for linux-snps-arc@lists.infradead.org; Thu, 04 Mar 2021 13:55:54 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org; 
- s=smtpauto.master;
- h=In-Reply-To:Content-Transfer-Encoding:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
- Content-ID:Content-Description;
- bh=iRKMbGZ8eoUOQF/pqAzNbCSD93fWTTA20MfvSXne3yQ=; b=q6Nm4H2h/1mColfbFE63QWFfOk
- metxwa9R9vfIz5bF6QrLPvWjbeio9YWEHNZa6vqu+MBI+syby+yRhXni2KJcmYzJzxfVlSat+2965
- Kd7bxFNDy5zliis4BKVwqAwduF1jkkRAq7zwSbja4NuZXbrqv2L3Q1oTB+VPNNKJ6mnq+HMq6m2ky
- 7VSccJQzdWhNFCLJUoyWuehOGTJsiPiHDJSuG4vEroPiOooqJSXC0Ilj++9qiHkwJn9b4tqrcqUTQ
- PNqaLUhhfUfxHld5q8DtjDlP9vMltW1gYqe/926R3G1XrMGckQqKowg+WWKVqr2HewGAE1DohKXly
- 0Yu69C9A==;
-Received: from guillem by master.debian.org with local (Exim 4.92)
- (envelope-from <guillem@master.debian.org>)
- id 1lHoS9-0007sa-5n; Thu, 04 Mar 2021 13:55:45 +0000
-Date: Thu, 4 Mar 2021 14:55:43 +0100
-From: Guillem Jover <guillem@debian.org>
-To: Alexey Brodkin <Alexey.Brodkin@synopsys.com>, 980963@bugs.debian.org
-Cc: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
- linux-snps-arc <linux-snps-arc@lists.infradead.org>
-Subject: Re: Bug#980963: dpkg: Please add ARC architecture
-Message-ID: <YEDm3/c3h4lW7jjK@thunder.hadrons.org>
-References: <161152061283.11410.4872085138884291562.reportbug@abrodkin-5550.internal.synopsys.com>
+ id 1lHos0-008srU-SA
+ for linux-snps-arc@lists.infradead.org; Thu, 04 Mar 2021 14:22:30 +0000
+Received: by mail-wr1-x42a.google.com with SMTP id u14so27860108wri.3
+ for <linux-snps-arc@lists.infradead.org>; Thu, 04 Mar 2021 06:22:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=VnG4tu4VgSlUkh5WwEH2QyWi6B9WiJssSBKAtiBStGM=;
+ b=iuycZa+F+vtISNTPXCWqu6NyoSjc78qNC7lctybLJBDC8RepTQibIElKvgblS1lt1R
+ fShdhag9+n7w3EoTkk0cDWiJss3Y+TVo2uzl3ddLcVYAXw0b/366cKhKRMC7HgaX+K8X
+ CeHQ3/A3l2Ke+SvG70chT4E8BAJTqa4L8MkbCEEbDnvKyDrJSwb6e0uNXkK7IZ7vZ8z7
+ ZwxoM3btIU5GIP1JQtqI7ALH+/u+WAOPlmElTGO5EcYa8bYJd55pC+z+XsvuvneQdFrG
+ dSZND5WVL4lVOrtxMr7zGzGg9o+4VK9xBNoesn/bgCTpOn9w8uPc8FPCsR67wzregTfS
+ V7CA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VnG4tu4VgSlUkh5WwEH2QyWi6B9WiJssSBKAtiBStGM=;
+ b=A5iISivPLfXLZvgO7RbLl7Stq1ovgw/xEiWWpKkyOBQ58IEnjlBXx0Pn5X1isd5hl6
+ ge3wyVeB4Lwqf/KZ4fqhj3IdZ5L/CZrzHmh9zvI03TgPjwhplSxUPoS7jUvcpo9UDZiZ
+ iPcFRzD9JRqdYcK7cE/hycYJP+M6VHVAoDNL357eivSNkB19snPKLvsflkOT2DXXO1Wm
+ 0rHjdRulD9WGCMw3nVrVqwYrncBUDmsw7ckTvDANWuZ7ElXTNQBa6mtAtYxjGQk6tPGG
+ MMXGebU9bhOyM4QUz1flh9tt69TcnUfAwz2Yl4Za8YqK1PtgEJP6rwgaKcp0DweVFZyn
+ wEiA==
+X-Gm-Message-State: AOAM53290TMUfM/v2lInU//Dih2W1T7bStlR6GSpFvsz7h+TxYkagetb
+ 7p9f7E405F2m4C7zhp/y0H8=
+X-Google-Smtp-Source: ABdhPJzTdLStXYk0J9Ktu6ilg4ACfPbm1fzFL0y0p4yBuqDQhZH7uMsAbQ+g0rVak6P7DJ5H15cnKA==
+X-Received: by 2002:a5d:4743:: with SMTP id o3mr4512397wrs.108.1614867746226; 
+ Thu, 04 Mar 2021 06:22:26 -0800 (PST)
+Received: from [192.168.1.122]
+ (cpc159425-cmbg20-2-0-cust403.5-4.cable.virginm.net. [86.7.189.148])
+ by smtp.gmail.com with ESMTPSA id h20sm10121146wmb.1.2021.03.04.06.22.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Mar 2021 06:22:25 -0800 (PST)
+Subject: Re: [PATCH 10/11] pragma once: delete few backslashes
+To: Alexey Dobriyan <adobriyan@gmail.com>, torvalds@linux-foundation.org
+Cc: linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
+ vgupta@synopsys.com, linux-snps-arc@lists.infradead.org, jiri@nvidia.com,
+ idosch@nvidia.com, netdev@vger.kernel.org, Jason@zx2c4.com,
+ mchehab@kernel.org
+References: <YDvLYzsGu+l1pQ2y@localhost.localdomain>
+ <YDvNSg9OPv7JqfRS@localhost.localdomain>
+From: Edward Cree <ecree.xilinx@gmail.com>
+Message-ID: <91f4ba8b-38a0-dfcf-1fec-31410a802f5f@gmail.com>
+Date: Thu, 4 Mar 2021 14:22:24 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="yJmHD9zC4l7sxDmU"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <161152061283.11410.4872085138884291562.reportbug@abrodkin-5550.internal.synopsys.com>
+In-Reply-To: <YDvNSg9OPv7JqfRS@localhost.localdomain>
+Content-Language: en-GB
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,220 +98,49 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-
---yJmHD9zC4l7sxDmU
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-Hi!
-
-On Sun, 2021-01-24 at 23:36:52 +0300, Alexey Brodkin wrote:
-> Package: dpkg
-> Version: 1.19.7ubuntu3-1~202101232134~ubuntu20.04.1
-> Severity: wishlist
-> Tags: patch
-
-> ARC architecture seem to match requirements for being added to the dpkg
-> (https://wiki.debian.org/Teams/Dpkg/FAQ#Q._Can_we_add_support_for_new_dpkg_architectures.3F):
+On 28/02/2021 17:05, Alexey Dobriyan wrote:
+> From 251ca5673886b5bb0a42004944290b9d2b267a4a Mon Sep 17 00:00:00 2001
+> From: Alexey Dobriyan <adobriyan@gmail.com>
+> Date: Fri, 19 Feb 2021 13:37:24 +0300
+> Subject: [PATCH 10/11] pragma once: delete few backslashes
 > 
->  * GNU triplet is there since 2013,
->    see: https://git.savannah.gnu.org/cgit/config.git/commit/?id=986360de6e412cbed27dbe2dbfb64ddbd18e7370
->  * Binutils, GCC & uClibc support ARC for many years now,
->    glibc 2.32 finally gained ARC support, see https://lists.gnu.org/archive/html/info-gnu/2020-08/msg00002.html 
+> Some macros contain one backslash too many and end up being the last
+> macro in a header file. When #pragma once conversion script truncates
+> the last #endif and whitespace before it, such backslash triggers
+> a warning about "OMG file ends up in a backslash-newline".
+> 
+> Needless to say I don't want to handle another case in my script,
+> so delete useless backslashes instead.
+> 
+> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+> ---
+>  arch/arc/include/asm/cacheflush.h          | 2 +-
+>  drivers/net/ethernet/mellanox/mlxsw/item.h | 2 +-
+>  include/linux/once.h                       | 2 +-
+>  include/media/drv-intf/exynos-fimc.h       | 2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/arc/include/asm/cacheflush.h b/arch/arc/include/asm/cacheflush.h
+> index e201b4b1655a..46704c341b17 100644
+> --- a/arch/arc/include/asm/cacheflush.h
+> +++ b/arch/arc/include/asm/cacheflush.h
+> @@ -112,6 +112,6 @@ do {									\
+>  } while (0)
+>  
+>  #define copy_from_user_page(vma, page, vaddr, dst, src, len)		\
+> -	memcpy(dst, src, len);						\
+> +	memcpy(dst, src, len)
+>  This changebar also removes a semicolon.
+It looks plausibly correct, but the commit message ought to mention it.
 
-Sorry, didn't reply up to now due to the freeze, this not looking
-ready yet (as glibc is not even in Debian), but mostly because it
-slipped my mind, but that kind of blocks progress on your side.
-So let's see. :)
-
-Or, were you looking to get this included for bullseye? (I think this
-would not qualify, but, I think we might have done exceptions in such
-cases in the past.)
-
-Is the ABI fully stabilized now?
-
-> >From 96523e18473b56743bf2f7d308c2d786f337e52e Mon Sep 17 00:00:00 2001
-> From: Alexey Brodkin <abrodkin@synopsys.com>
-> Date: Sun, 24 Jan 2021 00:34:52 +0300
-> Subject: [PATCH] Add ARC architecture
-
-> diff --git a/data/cputable b/data/cputable
-> index 9f2a8e0e4..114a66ecb 100644
-> --- a/data/cputable
-> +++ b/data/cputable
-> @@ -20,6 +20,8 @@ i386		i686		(i[34567]86|pentium)	32	little
->  ia64		ia64		ia64			64	little
->  alpha		alpha		alpha.*			64	little
->  amd64		x86_64		(amd64|x86_64)		64	little
-> +arc		arc		arc.*			32	little
-> +arceb		arc		arceb.*			32	big
->  armeb		armeb		arm.*b			32	big
->  arm		arm		arm.*			32	little
->  arm64		aarch64		aarch64			64	little
-
-This looked incorrect, as it ends up not being a bijective relation,
-so the lines need to be swapped. The problem is that the comments do
-not explain this nor the test suite checks. So I improved both with the
-attached patches, which I'll commit into master once I open it up for
-1.21.x.
-
-Also just to make sure, the GNU triplets are:
-
-  arc-linux-gnu
-  arceb-linux-gnu
-
-No ABI modifiers (stuff like “eabi”) for the libc part (“gnu“) right?
-
-Thanks,
-Guillem
-
---yJmHD9zC4l7sxDmU
-Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: attachment;
-	filename="0001-test-Add-unit-tests-for-architecture-bijective-mappi.patch"
-Content-Transfer-Encoding: quoted-printable
-
-=46rom f5cae4f8fc4ef67ec5e26dffeb3b3c540949f554 Mon Sep 17 00:00:00 2001
-=46rom: Guillem Jover <guillem@debian.org>
-Date: Mon, 25 Jan 2021 05:37:06 +0100
-Subject: [PATCH] test: Add unit tests for architecture bijective mapping
- property
-
-The architectures need to have the bijective property when converting
-back and forth from the Debian arch name to the GNU triplet. Enforce
-this in the test suite to make it easier to guarantee this when adding
-new architectures to the tables.
----
- scripts/t/Dpkg_Arch.t | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/t/Dpkg_Arch.t b/scripts/t/Dpkg_Arch.t
-index a3a9e6fee..4f26778aa 100644
---- a/scripts/t/Dpkg_Arch.t
-+++ b/scripts/t/Dpkg_Arch.t
-@@ -16,7 +16,7 @@
- use strict;
- use warnings;
-=20
--use Test::More tests =3D> 16836;
-+use Test::More tests =3D> 17914;
-=20
- use_ok('Dpkg::Arch', qw(debarch_to_debtuple debarch_to_multiarch
-                         debarch_eq debarch_is debarch_is_wildcard
-@@ -24,9 +24,12 @@ use_ok('Dpkg::Arch', qw(debarch_to_debtuple debarch_to_m=
-ultiarch
-                         debarch_to_abiattrs debarch_to_cpubits
-                         debarch_list_parse
-                         debtuple_to_debarch gnutriplet_to_debarch
-+                        debtuple_to_gnutriplet gnutriplet_to_debtuple
-                         get_host_gnu_type
-                         get_valid_arches));
-=20
-+my @valid_arches =3D get_valid_arches();
-+
- sub get_valid_wildcards
- {
-     my %wildcards;
-@@ -37,7 +40,7 @@ sub get_valid_wildcards
-         any-any-any-any
-     );
-=20
--    foreach my $archname (get_valid_arches()) {
-+    foreach my $archname (@valid_arches) {
-         my @tuple =3D debarch_to_debtuple($archname);
-=20
-         my @wildcards_arch =3D (
-@@ -174,7 +177,17 @@ is(gnutriplet_to_debarch(undef), undef, 'undef gnutrip=
-let');
- is(gnutriplet_to_debarch('unknown-unknown-unknown'), undef, 'unknown gnutr=
-iplet');
- is(gnutriplet_to_debarch('x86_64-linux-gnu'), 'amd64', 'known gnutriplet');
-=20
--is(scalar get_valid_arches(), 539, 'expected amount of known architectures=
-');
-+foreach my $arch (@valid_arches) {
-+    my @tuple =3D debarch_to_debtuple($arch);
-+    is(debtuple_to_debarch(@tuple), $arch,
-+       "bijective arch $arch to tuple @tuple");
-+
-+    my $triplet =3D debtuple_to_gnutriplet(@tuple);
-+    is_deeply([ gnutriplet_to_debtuple($triplet) ], \@tuple,
-+              "bijective triplet $triplet to tuple @tuple");
-+}
-+
-+is(scalar @valid_arches, 539, 'expected amount of known architectures');
-=20
- {
-     local $ENV{CC} =3D 'false';
---=20
-2.30.1
-
-
---yJmHD9zC4l7sxDmU
-Content-Type: text/x-diff; charset=utf-8
-Content-Disposition: attachment;
-	filename="0001-arch-Clarify-that-the-regex-columns-need-to-be-order.patch"
-Content-Transfer-Encoding: quoted-printable
-
-=46rom 06cf2888850c63c59bf75820d2b69159684e6ba3 Mon Sep 17 00:00:00 2001
-=46rom: Guillem Jover <guillem@debian.org>
-Date: Mon, 25 Jan 2021 05:41:00 +0100
-Subject: [PATCH] arch: Clarify that the regex columns need to be ordered to
- match first
-
-The entries are used in a first match order, so the regexes need to
-be listed from most specific to less specific.
----
- data/cputable | 3 ++-
- data/ostable  | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/data/cputable b/data/cputable
-index 9f2a8e0e4..505641659 100644
---- a/data/cputable
-+++ b/data/cputable
-@@ -11,7 +11,8 @@
- # - Column 2 is the GNU name for the CPU, used to output build, host and
- #   target variables in =E2=80=98dpkg-architecture=E2=80=99.
- # - Column 3 is an extended regular expression used to match against the
--#   CPU part of the output of the GNU config.guess script.
-+#   CPU part of the output of the GNU config.guess script. The order of
-+#   this column is important as it is used in a first match basis.
- # - Column 4 is the size (in bits) of pointers.
- # - Column 5 is the endianness (byte ordering in numbers).
- #
-diff --git a/data/ostable b/data/ostable
-index 99c1f889d..055363bb9 100644
---- a/data/ostable
-+++ b/data/ostable
-@@ -11,7 +11,8 @@
- # - Column 2 is the GNU name for the system, used to output build, host and
- #   target variables in =E2=80=98dpkg-architecture=E2=80=99.
- # - Column 3 is an extended regular expression used to match against the
--#   system part of the output of the GNU config.guess script.
-+#   system part of the output of the GNU config.guess script. The order of
-+#   this column is important as it is used in a first match basis.
- #
- # <Debian name>		<GNU name>		<config.guess regex>
- eabi-uclibc-linux	linux-uclibceabi	linux[^-]*-uclibceabi
---=20
-2.30.1
-
-
---yJmHD9zC4l7sxDmU
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-ed
 
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-snps-arc
-
---yJmHD9zC4l7sxDmU--
-
