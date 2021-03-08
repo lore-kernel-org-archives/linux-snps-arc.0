@@ -2,58 +2,45 @@ Return-Path: <SRS0=u+eN=IG=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2658CC433E0
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  8 Mar 2021 06:54:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1125CC433E6
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  8 Mar 2021 06:54:03 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BBCCD651EF
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  8 Mar 2021 06:54:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BBCCD651EF
+	by mail.kernel.org (Postfix) with ESMTPS id 98CFD64E56
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  8 Mar 2021 06:54:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 98CFD64E56
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:MIME-Version:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=5m9kj6xXrfmf8jhZsLcZal3TcmzlBQwUiNjjJ7awYPA=; b=pN5TWYZ/cHVH9IYlhFNXee2RRa
-	rCQE3ppFhxHMM3KVIVlnJkbUtDEgmhL9fl6+LXOl/57dvU3U06JIVpuHl4Zwe7527byZC+wUgY4i3
-	n9L0G7QQJCEE7ZuInsTurueurXVh4PBoD+y2lAp2KYKLIVjMkClVqowYgSAlx9Y35dxSN2vo7sbHW
-	wOS449uOGM7ie7encMXI0w2INOtxA2o8Y0SJaL7ryD+efdsEGH8/xgscTbRT6Etxump8lNkwUByHX
-	43XBosJ/4xDjH3JCEy8BFHRs49i8xFXmHsQlcdxBAdxXhzQ8eReASueOXGEAABFZgWQxeSKEzyciS
-	3uaqQQfQ==;
+	List-Unsubscribe:List-Id:References:In-Reply-To:Message-Id:Date:Subject:Cc:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=VkiHE4pZ5gepb+fzJFzVqpXQhw707hdrNRgfolFhQbc=; b=P0FDZvS6C5QpDe1CroxhyxY3xM
+	agERLIyJxYT67iy0hC/srkfXlzuqs7uJn+Wztr8FJUUsEktMvHFhi8v4lOdKsXq3whelHuRnjRdG2
+	Tu9NUgEPC+Say4iNKR5NhsIYL78n0lPgmHpNcKJJXRTMS6jqzTEU+VJwtR27o2rRYfBqBWj5bLENK
+	V1FabinQJHV6SWhU6jTykfi6O9eTlUf1Og2ljU9qATkWOtHTvMU6UdJFnzJ/P4GbpI1Nd/QIVMqpN
+	Vl+xD5P7LDtYpA2GlnlnpAnHc0i18b2l5QHviEyXvOH88TRegAXthJxqXEBb4jqvysNfY2SqNlwNa
+	bVLIsq4g==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lJ9m8-00FZjX-MT; Mon, 08 Mar 2021 06:53:57 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
- by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lJ9ak-00FWoF-A0; Mon, 08 Mar 2021 06:42:10 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Message-Id:Date:Subject:Cc:To:From:
- Sender:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=NMrVT+bam/s7vjrq1xZAVmez63pfrdZCBuRhB7DtWOA=; b=eJk7PjKCzSOUvr7iPXHgEabkd9
- YECE2nU3Auk+Q96fzcu3e3Tc40mWHAGiLRNcp4Rgulj+SomfOHkb7t7O081C6a7FZzo+kHfoJgR4R
- 5sRAYrqk69tVqEKDgU0Fg8xB5yLEzKrucl2fuOUXJFWPGczBCJx32aFcSocxYJcqyPfkw19NVUYPT
- 4LARchrDtX8IguImvWEKeaAO6oAzDNygiItRwflwvWNHs4K4/nsQjtBS0zYlWKFgcGOWJCbozRN9u
- dl6XhT3GamT6FP8PIeQkymtpuABRvyqKJCWmMFITXM7iBLkE6uf1kJzZenzvFbEhWG1Emsx3NHw5E
- n2fqyQwA==;
+	id 1lJ9mC-00FZkT-FV; Mon, 08 Mar 2021 06:54:00 +0000
 Received: from foss.arm.com ([217.140.110.172])
- by casper.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
- id 1lJ9aL-00F8er-N1; Mon, 08 Mar 2021 06:41:54 +0000
+ by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
+ id 1lJ9aa-00FWkx-3C; Mon, 08 Mar 2021 06:42:13 +0000
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 29A34ED1;
- Sun,  7 Mar 2021 22:41:28 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E029811D4;
+ Sun,  7 Mar 2021 22:41:54 -0800 (PST)
 Received: from p8cg001049571a15.arm.com (unknown [10.163.67.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 4E5973F73C;
- Sun,  7 Mar 2021 22:41:23 -0800 (PST)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E3FCA3F73C;
+ Sun,  7 Mar 2021 22:41:45 -0800 (PST)
 From: Anshuman Khandual <anshuman.khandual@arm.com>
 To: linux-mm@kvack.org
 Cc: Anshuman Khandual <anshuman.khandual@arm.com>, x86@kernel.org,
@@ -62,15 +49,24 @@ Cc: Anshuman Khandual <anshuman.khandual@arm.com>, x86@kernel.org,
  linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
  linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
  linux-sh@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH 0/6] mm: some config cleanups
-Date: Mon,  8 Mar 2021 12:11:39 +0530
-Message-Id: <1615185706-24342-1-git-send-email-anshuman.khandual@arm.com>
+ linux-kernel@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Paul Mackerras <paulus@samba.org>, Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH 3/6] mm: Generalize ARCH_ENABLE_MEMORY_[HOTPLUG|HOTREMOVE]
+Date: Mon,  8 Mar 2021 12:11:42 +0530
+Message-Id: <1615185706-24342-4-git-send-email-anshuman.khandual@arm.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1615185706-24342-1-git-send-email-anshuman.khandual@arm.com>
+References: <1615185706-24342-1-git-send-email-anshuman.khandual@arm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210308_064152_795398_C099A45B 
-X-CRM114-Status: UNSURE (   8.42  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210308_064201_887468_6B589D04 
+X-CRM114-Status: GOOD (  12.94  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,52 +84,232 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-This series contains config cleanup patches which reduces code duplication
-across platforms and also improves maintainability. There is no functional
-change intended with this series. This has been boot tested on arm64 but
-only build tested on some other platforms.
+ARCH_ENABLE_MEMORY_[HOTPLUG|HOTREMOVE] configs have duplicate definitions
+on platforms that subscribe them. Instead, just make them generic options
+which can be selected on applicable platforms.
 
-This applies on 5.12-rc2
-
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: Heiko Carstens <hca@linux.ibm.com>
+Cc: Vasily Gorbik <gor@linux.ibm.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Rich Felker <dalias@libc.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
 Cc: x86@kernel.org
-Cc: linux-ia64@vger.kernel.org
-Cc: linux-s390@vger.kernel.org
-Cc: linux-snps-arc@lists.infradead.org
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
 Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-mips@vger.kernel.org
-Cc: linux-parisc@vger.kernel.org
+Cc: linux-ia64@vger.kernel.org
 Cc: linuxppc-dev@lists.ozlabs.org
-Cc: linux-riscv@lists.infradead.org
+Cc: linux-s390@vger.kernel.org
 Cc: linux-sh@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org
 Cc: linux-mm@kvack.org
 Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+---
+ arch/arm64/Kconfig   |  8 ++------
+ arch/ia64/Kconfig    |  8 ++------
+ arch/powerpc/Kconfig |  8 ++------
+ arch/s390/Kconfig    |  8 ++------
+ arch/sh/Kconfig      |  2 ++
+ arch/sh/mm/Kconfig   |  8 --------
+ arch/x86/Kconfig     | 10 ++--------
+ mm/Kconfig           |  6 ++++++
+ 8 files changed, 18 insertions(+), 40 deletions(-)
 
-Anshuman Khandual (6):
-  mm: Generalize ARCH_HAS_CACHE_LINE_SIZE
-  mm: Generalize SYS_SUPPORTS_HUGETLBFS (rename as ARCH_SUPPORTS_HUGETLBFS)
-  mm: Generalize ARCH_ENABLE_MEMORY_[HOTPLUG|HOTREMOVE]
-  mm: Drop redundant ARCH_ENABLE_[HUGEPAGE|THP]_MIGRATION
-  mm: Drop redundant ARCH_ENABLE_SPLIT_PMD_PTLOCK
-  mm: Drop redundant HAVE_ARCH_TRANSPARENT_HUGEPAGE
-
- arch/arc/Kconfig                       |  9 ++------
- arch/arm/Kconfig                       | 10 ++-------
- arch/arm64/Kconfig                     | 30 ++++++--------------------
- arch/ia64/Kconfig                      |  8 ++-----
- arch/mips/Kconfig                      |  6 +-----
- arch/parisc/Kconfig                    |  5 +----
- arch/powerpc/Kconfig                   | 11 ++--------
- arch/powerpc/platforms/Kconfig.cputype | 16 +++++---------
- arch/riscv/Kconfig                     |  5 +----
- arch/s390/Kconfig                      | 12 +++--------
- arch/sh/Kconfig                        |  7 +++---
- arch/sh/mm/Kconfig                     |  8 -------
- arch/x86/Kconfig                       | 29 ++++++-------------------
- fs/Kconfig                             |  5 ++++-
- mm/Kconfig                             |  9 ++++++++
- 15 files changed, 48 insertions(+), 122 deletions(-)
-
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 68fe3b5bf17a..67e904b0f32a 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -11,6 +11,8 @@ config ARM64
+ 	select ACPI_PPTT if ACPI
+ 	select ARCH_HAS_DEBUG_WX
+ 	select ARCH_BINFMT_ELF_STATE
++	select ARCH_ENABLE_MEMORY_HOTPLUG
++	select ARCH_ENABLE_MEMORY_HOTREMOVE
+ 	select ARCH_HAS_CACHE_LINE_SIZE
+ 	select ARCH_HAS_DEBUG_VIRTUAL
+ 	select ARCH_HAS_DEBUG_VM_PGTABLE
+@@ -305,12 +307,6 @@ config ZONE_DMA32
+ 	bool "Support DMA32 zone" if EXPERT
+ 	default y
+ 
+-config ARCH_ENABLE_MEMORY_HOTPLUG
+-	def_bool y
+-
+-config ARCH_ENABLE_MEMORY_HOTREMOVE
+-	def_bool y
+-
+ config SMP
+ 	def_bool y
+ 
+diff --git a/arch/ia64/Kconfig b/arch/ia64/Kconfig
+index 2ad7a8d29fcc..96ce53ad5c9d 100644
+--- a/arch/ia64/Kconfig
++++ b/arch/ia64/Kconfig
+@@ -13,6 +13,8 @@ config IA64
+ 	select ARCH_MIGHT_HAVE_PC_SERIO
+ 	select ACPI
+ 	select ACPI_NUMA if NUMA
++	select ARCH_ENABLE_MEMORY_HOTPLUG
++	select ARCH_ENABLE_MEMORY_HOTREMOVE
+ 	select ARCH_SUPPORTS_ACPI
+ 	select ACPI_SYSTEM_POWER_STATES_SUPPORT if ACPI
+ 	select ARCH_MIGHT_HAVE_ACPI_PDC if ACPI
+@@ -250,12 +252,6 @@ config HOTPLUG_CPU
+ 	  can be controlled through /sys/devices/system/cpu/cpu#.
+ 	  Say N if you want to disable CPU hotplug.
+ 
+-config ARCH_ENABLE_MEMORY_HOTPLUG
+-	def_bool y
+-
+-config ARCH_ENABLE_MEMORY_HOTREMOVE
+-	def_bool y
+-
+ config SCHED_SMT
+ 	bool "SMT scheduler support"
+ 	depends on SMP
+diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
+index a74c211e55b1..02a05a24659d 100644
+--- a/arch/powerpc/Kconfig
++++ b/arch/powerpc/Kconfig
+@@ -118,6 +118,8 @@ config PPC
+ 	# Please keep this list sorted alphabetically.
+ 	#
+ 	select ARCH_32BIT_OFF_T if PPC32
++	select ARCH_ENABLE_MEMORY_HOTPLUG
++	select ARCH_ENABLE_MEMORY_HOTREMOVE
+ 	select ARCH_HAS_DEBUG_VIRTUAL
+ 	select ARCH_HAS_DEVMEM_IS_ALLOWED
+ 	select ARCH_HAS_ELF_RANDOMIZE
+@@ -515,12 +517,6 @@ config ARCH_CPU_PROBE_RELEASE
+ 	def_bool y
+ 	depends on HOTPLUG_CPU
+ 
+-config ARCH_ENABLE_MEMORY_HOTPLUG
+-	def_bool y
+-
+-config ARCH_ENABLE_MEMORY_HOTREMOVE
+-	def_bool y
+-
+ config PPC64_SUPPORTS_MEMORY_FAILURE
+ 	bool "Add support for memory hwpoison"
+ 	depends on PPC_BOOK3S_64
+diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
+index c1ff874e6c2e..f8b356550daa 100644
+--- a/arch/s390/Kconfig
++++ b/arch/s390/Kconfig
+@@ -60,6 +60,8 @@ config S390
+ 	imply IMA_SECURE_AND_OR_TRUSTED_BOOT
+ 	select ARCH_32BIT_USTAT_F_TINODE
+ 	select ARCH_BINFMT_ELF_STATE
++	select ARCH_ENABLE_MEMORY_HOTPLUG if SPARSEMEM
++	select ARCH_ENABLE_MEMORY_HOTREMOVE
+ 	select ARCH_HAS_DEBUG_VM_PGTABLE
+ 	select ARCH_HAS_DEBUG_WX
+ 	select ARCH_HAS_DEVMEM_IS_ALLOWED
+@@ -626,12 +628,6 @@ config ARCH_SPARSEMEM_ENABLE
+ config ARCH_SPARSEMEM_DEFAULT
+ 	def_bool y
+ 
+-config ARCH_ENABLE_MEMORY_HOTPLUG
+-	def_bool y if SPARSEMEM
+-
+-config ARCH_ENABLE_MEMORY_HOTREMOVE
+-	def_bool y
+-
+ config ARCH_ENABLE_SPLIT_PMD_PTLOCK
+ 	def_bool y
+ 
+diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
+index a54b0c5de37b..68129537e350 100644
+--- a/arch/sh/Kconfig
++++ b/arch/sh/Kconfig
+@@ -2,6 +2,8 @@
+ config SUPERH
+ 	def_bool y
+ 	select ARCH_32BIT_OFF_T
++	select ARCH_ENABLE_MEMORY_HOTPLUG if SPARSEMEM && MMU
++	select ARCH_ENABLE_MEMORY_HOTREMOVE if SPARSEMEM && MMU
+ 	select ARCH_HAVE_CUSTOM_GPIO_H
+ 	select ARCH_HAVE_NMI_SAFE_CMPXCHG if (GUSA_RB || CPU_SH4A)
+ 	select ARCH_HAS_BINFMT_FLAT if !MMU
+diff --git a/arch/sh/mm/Kconfig b/arch/sh/mm/Kconfig
+index 77aa2f802d8d..d551a9cac41e 100644
+--- a/arch/sh/mm/Kconfig
++++ b/arch/sh/mm/Kconfig
+@@ -136,14 +136,6 @@ config ARCH_SPARSEMEM_DEFAULT
+ config ARCH_SELECT_MEMORY_MODEL
+ 	def_bool y
+ 
+-config ARCH_ENABLE_MEMORY_HOTPLUG
+-	def_bool y
+-	depends on SPARSEMEM && MMU
+-
+-config ARCH_ENABLE_MEMORY_HOTREMOVE
+-	def_bool y
+-	depends on SPARSEMEM && MMU
+-
+ config ARCH_MEMORY_PROBE
+ 	def_bool y
+ 	depends on MEMORY_HOTPLUG
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 51d171abb57a..503d8b2e8676 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -60,6 +60,8 @@ config X86
+ 	select ACPI_SYSTEM_POWER_STATES_SUPPORT	if ACPI
+ 	select ARCH_32BIT_OFF_T			if X86_32
+ 	select ARCH_CLOCKSOURCE_INIT
++	select ARCH_ENABLE_MEMORY_HOTPLUG if X86_64 || (X86_32 && HIGHMEM)
++	select ARCH_ENABLE_MEMORY_HOTREMOVE if MEMORY_HOTPLUG
+ 	select ARCH_HAS_ACPI_TABLE_UPGRADE	if ACPI
+ 	select ARCH_HAS_CACHE_LINE_SIZE
+ 	select ARCH_HAS_DEBUG_VIRTUAL
+@@ -2423,14 +2425,6 @@ config ARCH_HAS_ADD_PAGES
+ 	def_bool y
+ 	depends on X86_64 && ARCH_ENABLE_MEMORY_HOTPLUG
+ 
+-config ARCH_ENABLE_MEMORY_HOTPLUG
+-	def_bool y
+-	depends on X86_64 || (X86_32 && HIGHMEM)
+-
+-config ARCH_ENABLE_MEMORY_HOTREMOVE
+-	def_bool y
+-	depends on MEMORY_HOTPLUG
+-
+ config USE_PERCPU_NUMA_NODE_ID
+ 	def_bool y
+ 	depends on NUMA
+diff --git a/mm/Kconfig b/mm/Kconfig
+index 1c9a37fc651a..9b58fa08847d 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -149,6 +149,9 @@ config MEMORY_ISOLATION
+ config HAVE_BOOTMEM_INFO_NODE
+ 	def_bool n
+ 
++config ARCH_ENABLE_MEMORY_HOTPLUG
++	bool
++
+ # eventually, we can have this option just 'select SPARSEMEM'
+ config MEMORY_HOTPLUG
+ 	bool "Allow for memory hot-add"
+@@ -177,6 +180,9 @@ config MEMORY_HOTPLUG_DEFAULT_ONLINE
+ 	  Say N here if you want the default policy to keep all hot-plugged
+ 	  memory blocks in 'offline' state.
+ 
++config ARCH_ENABLE_MEMORY_HOTREMOVE
++	bool
++
+ config MEMORY_HOTREMOVE
+ 	bool "Allow for memory hot remove"
+ 	select HAVE_BOOTMEM_INFO_NODE if (X86_64 || PPC64)
 -- 
 2.20.1
 
