@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1125CC433E6
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  8 Mar 2021 06:54:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0585C433E0
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  8 Mar 2021 06:55:23 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 98CFD64E56
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  8 Mar 2021 06:54:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 98CFD64E56
+	by mail.kernel.org (Postfix) with ESMTPS id 50552651F6
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  8 Mar 2021 06:55:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 50552651F6
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,24 +23,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:References:In-Reply-To:Message-Id:Date:Subject:Cc:To
 	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VkiHE4pZ5gepb+fzJFzVqpXQhw707hdrNRgfolFhQbc=; b=P0FDZvS6C5QpDe1CroxhyxY3xM
-	agERLIyJxYT67iy0hC/srkfXlzuqs7uJn+Wztr8FJUUsEktMvHFhi8v4lOdKsXq3whelHuRnjRdG2
-	Tu9NUgEPC+Say4iNKR5NhsIYL78n0lPgmHpNcKJJXRTMS6jqzTEU+VJwtR27o2rRYfBqBWj5bLENK
-	V1FabinQJHV6SWhU6jTykfi6O9eTlUf1Og2ljU9qATkWOtHTvMU6UdJFnzJ/P4GbpI1Nd/QIVMqpN
-	Vl+xD5P7LDtYpA2GlnlnpAnHc0i18b2l5QHviEyXvOH88TRegAXthJxqXEBb4jqvysNfY2SqNlwNa
-	bVLIsq4g==;
+	bh=YVJvpcv9GqftB04EgGEoPI8pT4jht3OvoHjOi0f5Ws4=; b=fkclLeCH+FNhKmzyqWpoD4qMBj
+	e6Lx7+DjzPvEIQSJKVF0zHWEhmPFAui4rODnBSxWbWd7Pdv/0pF5SqO6juvY1ymzodRxXb3sXzaW/
+	9hNrTGBp3NmXoZ6cMhTIPp77oIqC4PKInLOyO3yYiVuLQe+hRIPQP6XxXd2NE+2fGXDuqh1PMZWGd
+	16DZy8gsaN6yTf+XYk16dxvdRIoud55+PboX3ghSb3Z3fKBKiZPJpuwCsseSKCU/d0N8RrDMeTtFk
+	glf5z0DScln1bMghi1UTZb3rrSNP4iA9V5/Haj8WFVrBsfysyq9za6fw2hfti0iDxzK+hJd3YJR9v
+	Ai5H9iuQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lJ9mC-00FZkT-FV; Mon, 08 Mar 2021 06:54:00 +0000
+	id 1lJ9nU-00Fa6G-3p; Mon, 08 Mar 2021 06:55:21 +0000
 Received: from foss.arm.com ([217.140.110.172])
  by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
- id 1lJ9aa-00FWkx-3C; Mon, 08 Mar 2021 06:42:13 +0000
+ id 1lJ9at-00FWqn-Ph; Mon, 08 Mar 2021 06:42:26 +0000
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E029811D4;
- Sun,  7 Mar 2021 22:41:54 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B59A7ED1;
+ Sun,  7 Mar 2021 22:42:12 -0800 (PST)
 Received: from p8cg001049571a15.arm.com (unknown [10.163.67.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E3FCA3F73C;
- Sun,  7 Mar 2021 22:41:45 -0800 (PST)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 931143F73C;
+ Sun,  7 Mar 2021 22:42:03 -0800 (PST)
 From: Anshuman Khandual <anshuman.khandual@arm.com>
 To: linux-mm@kvack.org
 Cc: Anshuman Khandual <anshuman.khandual@arm.com>, x86@kernel.org,
@@ -58,15 +58,15 @@ Cc: Anshuman Khandual <anshuman.khandual@arm.com>, x86@kernel.org,
  Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
  Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
  "H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH 3/6] mm: Generalize ARCH_ENABLE_MEMORY_[HOTPLUG|HOTREMOVE]
-Date: Mon,  8 Mar 2021 12:11:42 +0530
-Message-Id: <1615185706-24342-4-git-send-email-anshuman.khandual@arm.com>
+Subject: [PATCH 5/6] mm: Drop redundant ARCH_ENABLE_SPLIT_PMD_PTLOCK
+Date: Mon,  8 Mar 2021 12:11:44 +0530
+Message-Id: <1615185706-24342-6-git-send-email-anshuman.khandual@arm.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1615185706-24342-1-git-send-email-anshuman.khandual@arm.com>
 References: <1615185706-24342-1-git-send-email-anshuman.khandual@arm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210308_064201_887468_6B589D04 
-X-CRM114-Status: GOOD (  12.94  )
+X-CRM114-CacheID: sfid-20210308_064220_731875_D5BA7769 
+X-CRM114-Status: GOOD (  10.35  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,9 +84,9 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-ARCH_ENABLE_MEMORY_[HOTPLUG|HOTREMOVE] configs have duplicate definitions
-on platforms that subscribe them. Instead, just make them generic options
-which can be selected on applicable platforms.
+ARCH_ENABLE_SPLIT_PMD_PTLOCKS has duplicate definitions on platforms that
+subscribe it. Drop these reduntant definitions and instead just select it
+on applicable platforms.
 
 Cc: Catalin Marinas <catalin.marinas@arm.com>
 Cc: Will Deacon <will@kernel.org>
@@ -112,204 +112,102 @@ Cc: linux-mm@kvack.org
 Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
 ---
- arch/arm64/Kconfig   |  8 ++------
- arch/ia64/Kconfig    |  8 ++------
- arch/powerpc/Kconfig |  8 ++------
- arch/s390/Kconfig    |  8 ++------
- arch/sh/Kconfig      |  2 ++
- arch/sh/mm/Kconfig   |  8 --------
- arch/x86/Kconfig     | 10 ++--------
- mm/Kconfig           |  6 ++++++
- 8 files changed, 18 insertions(+), 40 deletions(-)
+ arch/arm64/Kconfig                     | 4 +---
+ arch/powerpc/platforms/Kconfig.cputype | 5 +----
+ arch/s390/Kconfig                      | 4 +---
+ arch/x86/Kconfig                       | 5 +----
+ 4 files changed, 4 insertions(+), 14 deletions(-)
 
 diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 68fe3b5bf17a..67e904b0f32a 100644
+index c0e75f62f08c..fb5b1630a4eb 100644
 --- a/arch/arm64/Kconfig
 +++ b/arch/arm64/Kconfig
-@@ -11,6 +11,8 @@ config ARM64
- 	select ACPI_PPTT if ACPI
- 	select ARCH_HAS_DEBUG_WX
- 	select ARCH_BINFMT_ELF_STATE
-+	select ARCH_ENABLE_MEMORY_HOTPLUG
-+	select ARCH_ENABLE_MEMORY_HOTREMOVE
+@@ -14,6 +14,7 @@ config ARM64
+ 	select ARCH_ENABLE_HUGEPAGE_MIGRATION if HUGETLB_PAGE && MIGRATION
+ 	select ARCH_ENABLE_MEMORY_HOTPLUG
+ 	select ARCH_ENABLE_MEMORY_HOTREMOVE
++	select ARCH_ENABLE_SPLIT_PMD_PTLOCK if PGTABLE_LEVELS > 2
+ 	select ARCH_ENABLE_THP_MIGRATION if TRANSPARENT_HUGEPAGE
  	select ARCH_HAS_CACHE_LINE_SIZE
  	select ARCH_HAS_DEBUG_VIRTUAL
- 	select ARCH_HAS_DEBUG_VM_PGTABLE
-@@ -305,12 +307,6 @@ config ZONE_DMA32
- 	bool "Support DMA32 zone" if EXPERT
- 	default y
+@@ -1054,9 +1055,6 @@ config HW_PERF_EVENTS
  
--config ARCH_ENABLE_MEMORY_HOTPLUG
--	def_bool y
--
--config ARCH_ENABLE_MEMORY_HOTREMOVE
--	def_bool y
--
- config SMP
- 	def_bool y
+ config ARCH_WANT_HUGE_PMD_SHARE
  
-diff --git a/arch/ia64/Kconfig b/arch/ia64/Kconfig
-index 2ad7a8d29fcc..96ce53ad5c9d 100644
---- a/arch/ia64/Kconfig
-+++ b/arch/ia64/Kconfig
-@@ -13,6 +13,8 @@ config IA64
- 	select ARCH_MIGHT_HAVE_PC_SERIO
- 	select ACPI
- 	select ACPI_NUMA if NUMA
-+	select ARCH_ENABLE_MEMORY_HOTPLUG
-+	select ARCH_ENABLE_MEMORY_HOTREMOVE
- 	select ARCH_SUPPORTS_ACPI
- 	select ACPI_SYSTEM_POWER_STATES_SUPPORT if ACPI
- 	select ARCH_MIGHT_HAVE_ACPI_PDC if ACPI
-@@ -250,12 +252,6 @@ config HOTPLUG_CPU
- 	  can be controlled through /sys/devices/system/cpu/cpu#.
- 	  Say N if you want to disable CPU hotplug.
+-config ARCH_ENABLE_SPLIT_PMD_PTLOCK
+-	def_bool y if PGTABLE_LEVELS > 2
+-
+ # Supported by clang >= 7.0
+ config CC_HAVE_SHADOW_CALL_STACK
+ 	def_bool $(cc-option, -fsanitize=shadow-call-stack -ffixed-x18)
+diff --git a/arch/powerpc/platforms/Kconfig.cputype b/arch/powerpc/platforms/Kconfig.cputype
+index 4465b71b2bff..be0e29f18dd4 100644
+--- a/arch/powerpc/platforms/Kconfig.cputype
++++ b/arch/powerpc/platforms/Kconfig.cputype
+@@ -97,6 +97,7 @@ config PPC_BOOK3S_64
+ 	select PPC_HAVE_PMU_SUPPORT
+ 	select HAVE_ARCH_TRANSPARENT_HUGEPAGE
+ 	select ARCH_ENABLE_HUGEPAGE_MIGRATION if HUGETLB_PAGE && MIGRATION
++	select ARCH_ENABLE_PMD_SPLIT_PTLOCK
+ 	select ARCH_ENABLE_THP_MIGRATION if TRANSPARENT_HUGEPAGE
+ 	select ARCH_SUPPORTS_HUGETLBFS
+ 	select ARCH_SUPPORTS_NUMA_BALANCING
+@@ -356,10 +357,6 @@ config SPE
  
--config ARCH_ENABLE_MEMORY_HOTPLUG
--	def_bool y
--
--config ARCH_ENABLE_MEMORY_HOTREMOVE
--	def_bool y
--
- config SCHED_SMT
- 	bool "SMT scheduler support"
- 	depends on SMP
-diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
-index a74c211e55b1..02a05a24659d 100644
---- a/arch/powerpc/Kconfig
-+++ b/arch/powerpc/Kconfig
-@@ -118,6 +118,8 @@ config PPC
- 	# Please keep this list sorted alphabetically.
- 	#
- 	select ARCH_32BIT_OFF_T if PPC32
-+	select ARCH_ENABLE_MEMORY_HOTPLUG
-+	select ARCH_ENABLE_MEMORY_HOTREMOVE
- 	select ARCH_HAS_DEBUG_VIRTUAL
- 	select ARCH_HAS_DEVMEM_IS_ALLOWED
- 	select ARCH_HAS_ELF_RANDOMIZE
-@@ -515,12 +517,6 @@ config ARCH_CPU_PROBE_RELEASE
- 	def_bool y
- 	depends on HOTPLUG_CPU
+ 	  If in doubt, say Y here.
  
--config ARCH_ENABLE_MEMORY_HOTPLUG
+-config ARCH_ENABLE_SPLIT_PMD_PTLOCK
 -	def_bool y
+-	depends on PPC_BOOK3S_64
 -
--config ARCH_ENABLE_MEMORY_HOTREMOVE
--	def_bool y
--
- config PPC64_SUPPORTS_MEMORY_FAILURE
- 	bool "Add support for memory hwpoison"
+ config PPC_RADIX_MMU
+ 	bool "Radix MMU Support"
  	depends on PPC_BOOK3S_64
 diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
-index c1ff874e6c2e..f8b356550daa 100644
+index f8b356550daa..d72989591223 100644
 --- a/arch/s390/Kconfig
 +++ b/arch/s390/Kconfig
-@@ -60,6 +60,8 @@ config S390
- 	imply IMA_SECURE_AND_OR_TRUSTED_BOOT
- 	select ARCH_32BIT_USTAT_F_TINODE
+@@ -62,6 +62,7 @@ config S390
  	select ARCH_BINFMT_ELF_STATE
-+	select ARCH_ENABLE_MEMORY_HOTPLUG if SPARSEMEM
-+	select ARCH_ENABLE_MEMORY_HOTREMOVE
+ 	select ARCH_ENABLE_MEMORY_HOTPLUG if SPARSEMEM
+ 	select ARCH_ENABLE_MEMORY_HOTREMOVE
++	select ARCH_ENABLE_SPLIT_PMD_PTLOCK
  	select ARCH_HAS_DEBUG_VM_PGTABLE
  	select ARCH_HAS_DEBUG_WX
  	select ARCH_HAS_DEVMEM_IS_ALLOWED
-@@ -626,12 +628,6 @@ config ARCH_SPARSEMEM_ENABLE
+@@ -628,9 +629,6 @@ config ARCH_SPARSEMEM_ENABLE
  config ARCH_SPARSEMEM_DEFAULT
  	def_bool y
  
--config ARCH_ENABLE_MEMORY_HOTPLUG
--	def_bool y if SPARSEMEM
--
--config ARCH_ENABLE_MEMORY_HOTREMOVE
+-config ARCH_ENABLE_SPLIT_PMD_PTLOCK
 -	def_bool y
 -
- config ARCH_ENABLE_SPLIT_PMD_PTLOCK
- 	def_bool y
- 
-diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
-index a54b0c5de37b..68129537e350 100644
---- a/arch/sh/Kconfig
-+++ b/arch/sh/Kconfig
-@@ -2,6 +2,8 @@
- config SUPERH
- 	def_bool y
- 	select ARCH_32BIT_OFF_T
-+	select ARCH_ENABLE_MEMORY_HOTPLUG if SPARSEMEM && MMU
-+	select ARCH_ENABLE_MEMORY_HOTREMOVE if SPARSEMEM && MMU
- 	select ARCH_HAVE_CUSTOM_GPIO_H
- 	select ARCH_HAVE_NMI_SAFE_CMPXCHG if (GUSA_RB || CPU_SH4A)
- 	select ARCH_HAS_BINFMT_FLAT if !MMU
-diff --git a/arch/sh/mm/Kconfig b/arch/sh/mm/Kconfig
-index 77aa2f802d8d..d551a9cac41e 100644
---- a/arch/sh/mm/Kconfig
-+++ b/arch/sh/mm/Kconfig
-@@ -136,14 +136,6 @@ config ARCH_SPARSEMEM_DEFAULT
- config ARCH_SELECT_MEMORY_MODEL
- 	def_bool y
- 
--config ARCH_ENABLE_MEMORY_HOTPLUG
--	def_bool y
--	depends on SPARSEMEM && MMU
--
--config ARCH_ENABLE_MEMORY_HOTREMOVE
--	def_bool y
--	depends on SPARSEMEM && MMU
--
- config ARCH_MEMORY_PROBE
- 	def_bool y
- 	depends on MEMORY_HOTPLUG
+ config MAX_PHYSMEM_BITS
+ 	int "Maximum size of supported physical memory in bits (42-53)"
+ 	range 42 53
 diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 51d171abb57a..503d8b2e8676 100644
+index 10702ef1eb57..5dd70c798167 100644
 --- a/arch/x86/Kconfig
 +++ b/arch/x86/Kconfig
-@@ -60,6 +60,8 @@ config X86
- 	select ACPI_SYSTEM_POWER_STATES_SUPPORT	if ACPI
- 	select ARCH_32BIT_OFF_T			if X86_32
- 	select ARCH_CLOCKSOURCE_INIT
-+	select ARCH_ENABLE_MEMORY_HOTPLUG if X86_64 || (X86_32 && HIGHMEM)
-+	select ARCH_ENABLE_MEMORY_HOTREMOVE if MEMORY_HOTPLUG
+@@ -63,6 +63,7 @@ config X86
+ 	select ARCH_ENABLE_HUGEPAGE_MIGRATION if x86_64 && HUGETLB_PAGE && MIGRATION
+ 	select ARCH_ENABLE_MEMORY_HOTPLUG if X86_64 || (X86_32 && HIGHMEM)
+ 	select ARCH_ENABLE_MEMORY_HOTREMOVE if MEMORY_HOTPLUG
++	select ARCH_ENABLE_SPLIT_PMD_PTLOCK if X86_64 || X86_PAE
+ 	select ARCH_ENABLE_THP_MIGRATION if x86_64 && TRANSPARENT_HUGEPAGE
  	select ARCH_HAS_ACPI_TABLE_UPGRADE	if ACPI
  	select ARCH_HAS_CACHE_LINE_SIZE
- 	select ARCH_HAS_DEBUG_VIRTUAL
-@@ -2423,14 +2425,6 @@ config ARCH_HAS_ADD_PAGES
- 	def_bool y
- 	depends on X86_64 && ARCH_ENABLE_MEMORY_HOTPLUG
- 
--config ARCH_ENABLE_MEMORY_HOTPLUG
--	def_bool y
--	depends on X86_64 || (X86_32 && HIGHMEM)
--
--config ARCH_ENABLE_MEMORY_HOTREMOVE
--	def_bool y
--	depends on MEMORY_HOTPLUG
--
- config USE_PERCPU_NUMA_NODE_ID
+@@ -2431,10 +2432,6 @@ config USE_PERCPU_NUMA_NODE_ID
  	def_bool y
  	depends on NUMA
-diff --git a/mm/Kconfig b/mm/Kconfig
-index 1c9a37fc651a..9b58fa08847d 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -149,6 +149,9 @@ config MEMORY_ISOLATION
- config HAVE_BOOTMEM_INFO_NODE
- 	def_bool n
  
-+config ARCH_ENABLE_MEMORY_HOTPLUG
-+	bool
-+
- # eventually, we can have this option just 'select SPARSEMEM'
- config MEMORY_HOTPLUG
- 	bool "Allow for memory hot-add"
-@@ -177,6 +180,9 @@ config MEMORY_HOTPLUG_DEFAULT_ONLINE
- 	  Say N here if you want the default policy to keep all hot-plugged
- 	  memory blocks in 'offline' state.
+-config ARCH_ENABLE_SPLIT_PMD_PTLOCK
+-	def_bool y
+-	depends on X86_64 || X86_PAE
+-
+ menu "Power management and ACPI options"
  
-+config ARCH_ENABLE_MEMORY_HOTREMOVE
-+	bool
-+
- config MEMORY_HOTREMOVE
- 	bool "Allow for memory hot remove"
- 	select HAVE_BOOTMEM_INFO_NODE if (X86_64 || PPC64)
+ config ARCH_HIBERNATION_HEADER
 -- 
 2.20.1
 
