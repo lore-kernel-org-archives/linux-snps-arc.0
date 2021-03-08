@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0585C433E0
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  8 Mar 2021 06:55:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1B85C433E0
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  8 Mar 2021 06:56:34 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 50552651F6
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  8 Mar 2021 06:55:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 50552651F6
+	by mail.kernel.org (Postfix) with ESMTPS id 1B5C064E56
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  8 Mar 2021 06:56:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1B5C064E56
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,24 +23,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:References:In-Reply-To:Message-Id:Date:Subject:Cc:To
 	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YVJvpcv9GqftB04EgGEoPI8pT4jht3OvoHjOi0f5Ws4=; b=fkclLeCH+FNhKmzyqWpoD4qMBj
-	e6Lx7+DjzPvEIQSJKVF0zHWEhmPFAui4rODnBSxWbWd7Pdv/0pF5SqO6juvY1ymzodRxXb3sXzaW/
-	9hNrTGBp3NmXoZ6cMhTIPp77oIqC4PKInLOyO3yYiVuLQe+hRIPQP6XxXd2NE+2fGXDuqh1PMZWGd
-	16DZy8gsaN6yTf+XYk16dxvdRIoud55+PboX3ghSb3Z3fKBKiZPJpuwCsseSKCU/d0N8RrDMeTtFk
-	glf5z0DScln1bMghi1UTZb3rrSNP4iA9V5/Haj8WFVrBsfysyq9za6fw2hfti0iDxzK+hJd3YJR9v
-	Ai5H9iuQ==;
+	bh=49/odLJXBmhPwaSg7ysF1YFgjQgLcaQN504c9MmpGa0=; b=gnjbLz7vPc8cf1LdFhg4RP7kNC
+	TctLTkCZNtI8wK/Z2MGPiO4FwahwA/X09iEkX25qi/06JqNp1qZr32xohDuzaDsI6xRL8lvOXm25W
+	FrrFZYDO++Tn20D9cmh31xhCopFi0r1nPJHoXcipGEVtEop7AaW4axogEblM5/C6LPACU4MSbZTqF
+	wGGEjaKqEY/6kDp37SaFNcHXmAv/Jygm9oDeSjJmb5i1DKDkO9BtHodXZXXOV6inwOl8Q0164zch1
+	YpXPJ/2Dwnbc43zeYga5OeL+rHWwJ3ybatPh73+0+J+d/fNpmyzEyNvC7trTj4SW/pOnX5aHiVjlC
+	iTECYNdw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lJ9nU-00Fa6G-3p; Mon, 08 Mar 2021 06:55:21 +0000
+	id 1lJ9oe-00FaRA-Bc; Mon, 08 Mar 2021 06:56:32 +0000
+Received: from merlin.infradead.org ([2001:8b0:10b:1234::107])
+ by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
+ id 1lJ9bN-00FWxQ-T3; Mon, 08 Mar 2021 06:42:50 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=merlin.20170209; h=References:In-Reply-To:Message-Id:Date:
+ Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=tmRikT90ApbrH9p2ttGRcFHHDMUUxUw29Wr36MuuvgY=; b=c+CUV4Zpqc/6xQdvlVqj1vTsE/
+ x1n5PMf3KsGyDu0Fx2JtazYu8ierM+gUtP0iZSN2rdeFCOmR6Vj/HIScX1eYKBC6RWV7iQBby0jLg
+ X2tYbRosse2/vEGuasFYIrdCKX7OvChwsBkCxa2/WbCk4G0LTCAtUyAyQvzte2CjxF00g44BI/Ja0
+ sfBeolqoH/9R9vZI/PV7vgH8fLUj4+pugzAx3glxUy5tInqj7biyPBxpZAdal1tAuejB6ekTtFIr2
+ mzHjJh5dUvZSsWNvPpEpUNZnvfRE5NU7QTA7ondKE5Bkwj0gBtJW2WcTUt0ejC2FSnzQygCIgBdM/
+ ORinVUFA==;
 Received: from foss.arm.com ([217.140.110.172])
- by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
- id 1lJ9at-00FWqn-Ph; Mon, 08 Mar 2021 06:42:26 +0000
+ by merlin.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
+ id 1lJ9aX-000UVH-Sc; Mon, 08 Mar 2021 06:42:48 +0000
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B59A7ED1;
- Sun,  7 Mar 2021 22:42:12 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EEB08106F;
+ Sun,  7 Mar 2021 22:41:35 -0800 (PST)
 Received: from p8cg001049571a15.arm.com (unknown [10.163.67.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 931143F73C;
- Sun,  7 Mar 2021 22:42:03 -0800 (PST)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B98303F73C;
+ Sun,  7 Mar 2021 22:41:28 -0800 (PST)
 From: Anshuman Khandual <anshuman.khandual@arm.com>
 To: linux-mm@kvack.org
 Cc: Anshuman Khandual <anshuman.khandual@arm.com>, x86@kernel.org,
@@ -49,24 +62,17 @@ Cc: Anshuman Khandual <anshuman.khandual@arm.com>, x86@kernel.org,
  linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
  linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
  linux-sh@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Paul Mackerras <paulus@samba.org>, Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
+ linux-kernel@vger.kernel.org, Vineet Gupta <vgupta@synopsys.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
  Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- "H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH 5/6] mm: Drop redundant ARCH_ENABLE_SPLIT_PMD_PTLOCK
-Date: Mon,  8 Mar 2021 12:11:44 +0530
-Message-Id: <1615185706-24342-6-git-send-email-anshuman.khandual@arm.com>
+ Borislav Petkov <bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH 1/6] mm: Generalize ARCH_HAS_CACHE_LINE_SIZE
+Date: Mon,  8 Mar 2021 12:11:40 +0530
+Message-Id: <1615185706-24342-2-git-send-email-anshuman.khandual@arm.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1615185706-24342-1-git-send-email-anshuman.khandual@arm.com>
 References: <1615185706-24342-1-git-send-email-anshuman.khandual@arm.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210308_064220_731875_D5BA7769 
-X-CRM114-Status: GOOD (  10.35  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,130 +90,112 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-ARCH_ENABLE_SPLIT_PMD_PTLOCKS has duplicate definitions on platforms that
-subscribe it. Drop these reduntant definitions and instead just select it
-on applicable platforms.
+ARCH_HAS_CACHE_LINE_SIZE config has duplicate definitions on platforms that
+subscribe it. Instead, just make it a generic option which can be selected
+on applicable platforms. This change reduces code duplication and makes it
+cleaner.
 
+Cc: Vineet Gupta <vgupta@synopsys.com>
 Cc: Catalin Marinas <catalin.marinas@arm.com>
 Cc: Will Deacon <will@kernel.org>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: Paul Mackerras <paulus@samba.org>
-Cc: Heiko Carstens <hca@linux.ibm.com>
-Cc: Vasily Gorbik <gor@linux.ibm.com>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: Rich Felker <dalias@libc.org>
 Cc: Thomas Gleixner <tglx@linutronix.de>
 Cc: Ingo Molnar <mingo@redhat.com>
-Cc: x86@kernel.org
+Cc: Borislav Petkov <bp@alien8.de>
 Cc: "H. Peter Anvin" <hpa@zytor.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: x86@kernel.org
+Cc: linux-snps-arc@lists.infradead.org
 Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-ia64@vger.kernel.org
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: linux-s390@vger.kernel.org
-Cc: linux-sh@vger.kernel.org
 Cc: linux-mm@kvack.org
 Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
 ---
- arch/arm64/Kconfig                     | 4 +---
- arch/powerpc/platforms/Kconfig.cputype | 5 +----
- arch/s390/Kconfig                      | 4 +---
- arch/x86/Kconfig                       | 5 +----
- 4 files changed, 4 insertions(+), 14 deletions(-)
+ arch/arc/Kconfig   | 4 +---
+ arch/arm64/Kconfig | 4 +---
+ arch/x86/Kconfig   | 4 +---
+ mm/Kconfig         | 3 +++
+ 4 files changed, 6 insertions(+), 9 deletions(-)
 
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index bc8d6aecfbbd..fab05f7189c0 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -6,6 +6,7 @@
+ config ARC
+ 	def_bool y
+ 	select ARC_TIMERS
++	select ARCH_HAS_CACHE_LINE_SIZE
+ 	select ARCH_HAS_DEBUG_VM_PGTABLE
+ 	select ARCH_HAS_DMA_PREP_COHERENT
+ 	select ARCH_HAS_PTE_SPECIAL
+@@ -48,9 +49,6 @@ config ARC
+ 	select HAVE_ARCH_JUMP_LABEL if ISA_ARCV2 && !CPU_ENDIAN_BE32
+ 	select SET_FS
+ 
+-config ARCH_HAS_CACHE_LINE_SIZE
+-	def_bool y
+-
+ config TRACE_IRQFLAGS_SUPPORT
+ 	def_bool y
+ 
 diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index c0e75f62f08c..fb5b1630a4eb 100644
+index 1f212b47a48a..606a2323e002 100644
 --- a/arch/arm64/Kconfig
 +++ b/arch/arm64/Kconfig
-@@ -14,6 +14,7 @@ config ARM64
- 	select ARCH_ENABLE_HUGEPAGE_MIGRATION if HUGETLB_PAGE && MIGRATION
- 	select ARCH_ENABLE_MEMORY_HOTPLUG
- 	select ARCH_ENABLE_MEMORY_HOTREMOVE
-+	select ARCH_ENABLE_SPLIT_PMD_PTLOCK if PGTABLE_LEVELS > 2
- 	select ARCH_ENABLE_THP_MIGRATION if TRANSPARENT_HUGEPAGE
- 	select ARCH_HAS_CACHE_LINE_SIZE
+@@ -11,6 +11,7 @@ config ARM64
+ 	select ACPI_PPTT if ACPI
+ 	select ARCH_HAS_DEBUG_WX
+ 	select ARCH_BINFMT_ELF_STATE
++	select ARCH_HAS_CACHE_LINE_SIZE
  	select ARCH_HAS_DEBUG_VIRTUAL
-@@ -1054,9 +1055,6 @@ config HW_PERF_EVENTS
+ 	select ARCH_HAS_DEBUG_VM_PGTABLE
+ 	select ARCH_HAS_DMA_PREP_COHERENT
+@@ -1057,9 +1058,6 @@ config SYS_SUPPORTS_HUGETLBFS
  
  config ARCH_WANT_HUGE_PMD_SHARE
  
--config ARCH_ENABLE_SPLIT_PMD_PTLOCK
--	def_bool y if PGTABLE_LEVELS > 2
--
- # Supported by clang >= 7.0
- config CC_HAVE_SHADOW_CALL_STACK
- 	def_bool $(cc-option, -fsanitize=shadow-call-stack -ffixed-x18)
-diff --git a/arch/powerpc/platforms/Kconfig.cputype b/arch/powerpc/platforms/Kconfig.cputype
-index 4465b71b2bff..be0e29f18dd4 100644
---- a/arch/powerpc/platforms/Kconfig.cputype
-+++ b/arch/powerpc/platforms/Kconfig.cputype
-@@ -97,6 +97,7 @@ config PPC_BOOK3S_64
- 	select PPC_HAVE_PMU_SUPPORT
- 	select HAVE_ARCH_TRANSPARENT_HUGEPAGE
- 	select ARCH_ENABLE_HUGEPAGE_MIGRATION if HUGETLB_PAGE && MIGRATION
-+	select ARCH_ENABLE_PMD_SPLIT_PTLOCK
- 	select ARCH_ENABLE_THP_MIGRATION if TRANSPARENT_HUGEPAGE
- 	select ARCH_SUPPORTS_HUGETLBFS
- 	select ARCH_SUPPORTS_NUMA_BALANCING
-@@ -356,10 +357,6 @@ config SPE
- 
- 	  If in doubt, say Y here.
- 
--config ARCH_ENABLE_SPLIT_PMD_PTLOCK
--	def_bool y
--	depends on PPC_BOOK3S_64
--
- config PPC_RADIX_MMU
- 	bool "Radix MMU Support"
- 	depends on PPC_BOOK3S_64
-diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
-index f8b356550daa..d72989591223 100644
---- a/arch/s390/Kconfig
-+++ b/arch/s390/Kconfig
-@@ -62,6 +62,7 @@ config S390
- 	select ARCH_BINFMT_ELF_STATE
- 	select ARCH_ENABLE_MEMORY_HOTPLUG if SPARSEMEM
- 	select ARCH_ENABLE_MEMORY_HOTREMOVE
-+	select ARCH_ENABLE_SPLIT_PMD_PTLOCK
- 	select ARCH_HAS_DEBUG_VM_PGTABLE
- 	select ARCH_HAS_DEBUG_WX
- 	select ARCH_HAS_DEVMEM_IS_ALLOWED
-@@ -628,9 +629,6 @@ config ARCH_SPARSEMEM_ENABLE
- config ARCH_SPARSEMEM_DEFAULT
- 	def_bool y
- 
--config ARCH_ENABLE_SPLIT_PMD_PTLOCK
+-config ARCH_HAS_CACHE_LINE_SIZE
 -	def_bool y
 -
- config MAX_PHYSMEM_BITS
- 	int "Maximum size of supported physical memory in bits (42-53)"
- 	range 42 53
+ config ARCH_ENABLE_SPLIT_PMD_PTLOCK
+ 	def_bool y if PGTABLE_LEVELS > 2
+ 
 diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 10702ef1eb57..5dd70c798167 100644
+index 2792879d398e..51d171abb57a 100644
 --- a/arch/x86/Kconfig
 +++ b/arch/x86/Kconfig
-@@ -63,6 +63,7 @@ config X86
- 	select ARCH_ENABLE_HUGEPAGE_MIGRATION if x86_64 && HUGETLB_PAGE && MIGRATION
- 	select ARCH_ENABLE_MEMORY_HOTPLUG if X86_64 || (X86_32 && HIGHMEM)
- 	select ARCH_ENABLE_MEMORY_HOTREMOVE if MEMORY_HOTPLUG
-+	select ARCH_ENABLE_SPLIT_PMD_PTLOCK if X86_64 || X86_PAE
- 	select ARCH_ENABLE_THP_MIGRATION if x86_64 && TRANSPARENT_HUGEPAGE
+@@ -61,6 +61,7 @@ config X86
+ 	select ARCH_32BIT_OFF_T			if X86_32
+ 	select ARCH_CLOCKSOURCE_INIT
  	select ARCH_HAS_ACPI_TABLE_UPGRADE	if ACPI
- 	select ARCH_HAS_CACHE_LINE_SIZE
-@@ -2431,10 +2432,6 @@ config USE_PERCPU_NUMA_NODE_ID
++	select ARCH_HAS_CACHE_LINE_SIZE
+ 	select ARCH_HAS_DEBUG_VIRTUAL
+ 	select ARCH_HAS_DEBUG_VM_PGTABLE	if !X86_PAE
+ 	select ARCH_HAS_DEVMEM_IS_ALLOWED
+@@ -313,9 +314,6 @@ config GENERIC_CALIBRATE_DELAY
+ config ARCH_HAS_CPU_RELAX
  	def_bool y
- 	depends on NUMA
  
--config ARCH_ENABLE_SPLIT_PMD_PTLOCK
+-config ARCH_HAS_CACHE_LINE_SIZE
 -	def_bool y
--	depends on X86_64 || X86_PAE
 -
- menu "Power management and ACPI options"
+ config ARCH_HAS_FILTER_PGPROT
+ 	def_bool y
  
- config ARCH_HIBERNATION_HEADER
+diff --git a/mm/Kconfig b/mm/Kconfig
+index 24c045b24b95..1c9a37fc651a 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -760,6 +760,9 @@ config IDLE_PAGE_TRACKING
+ 	  See Documentation/admin-guide/mm/idle_page_tracking.rst for
+ 	  more details.
+ 
++config ARCH_HAS_CACHE_LINE_SIZE
++	bool
++
+ config ARCH_HAS_PTE_DEVMAP
+ 	bool
+ 
 -- 
 2.20.1
 
