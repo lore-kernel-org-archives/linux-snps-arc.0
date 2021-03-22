@@ -1,62 +1,87 @@
-Return-Path: <SRS0=Zujn=IR=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=RmAe=IU=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B156C433E0
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 19 Mar 2021 18:36:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BEB5C433DB
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 22 Mar 2021 12:28:38 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B9EC96191B
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 19 Mar 2021 18:36:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B9EC96191B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
+	by mail.kernel.org (Postfix) with ESMTPS id 035156198B
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 22 Mar 2021 12:28:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 035156198B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ZjeV1kdugrKp2SHPY3OwqojD/SiRqZl5gRvhN+q7f8M=; b=qyksSnwQ1ZLBUaDonWsPByyT8
-	09pOexr1K1DVIYvuwIyubzewypJqggEFu3BpXHoJnAqZSIGLqqUkVwa+8dIJv4poCYEKAWK3pkBsw
-	fHpyDMDjiu+6ts0dY1fACSVtVhMHN0/rcT1klxe1Jn18t3o2ejYR/c+XFBKwdmyCKhsOqIGfX7xwZ
-	nlICJV1Iypu+C+fApLnd+03dP0sbJm9dD7PPDYlWm0c2HkzZdeeiDl/mWclOBWinMUrgGux6srJaH
-	RCQr7pKrG+o2dqn6JcoIck/jNflCGZxMM3tDCQQoHtyRs7D9SJx9SlSW3SrIbCdexFda6EVXsBIfZ
-	DOz1efy1A==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=TZkrEeyS1RoEMG/Vn3d1SrQMkyBUkokpiE1bcbyRIZs=; b=XU7S0HmbshM1tEgR4x2Fx6lnlS
+	HxX9QZ4ESI9+tEO87Se9Itc7gUhLO5IdbhOwk4dgog7k9oVcAnzdbHktvEuSvM7XQTgdzLUdtSTX/
+	hOcbF8AIsHpj888nJQcN+uqh43W69bs1IfurBxG66zRSZVRNiNNGNUhv2ZRVW83euQMrGrX6rDotK
+	gUROTY8fEVdLWVhWevQAV5C9DEY4V47vEFmexe2qRIX4ZPM9zr8RlEKUkTjFXtCrOVdKHJ9iaAPe4
+	XbqCBpiFYKsIwhYxTh5TLEFaXA6fdo9RGLaBG88UkEsRhqlrZ9kHNuU7KTJDkFdkiEBQ6o0EXQx2R
+	Ikn+Ir4A==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lNJyp-007xvg-Ts; Fri, 19 Mar 2021 18:36:16 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1lOJfg-00BaG3-5H; Mon, 22 Mar 2021 12:28:36 +0000
+Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lNJyX-007xq9-Nn; Fri, 19 Mar 2021 18:36:00 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D2EE661980;
- Fri, 19 Mar 2021 18:35:51 +0000 (UTC)
-Date: Fri, 19 Mar 2021 18:35:49 +0000
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: linux-mm@kvack.org, x86@kernel.org, linux-ia64@vger.kernel.org,
- linux-s390@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/6] mm: some config cleanups
-Message-ID: <20210319183548.GH6832@arm.com>
-References: <1615278790-18053-1-git-send-email-anshuman.khandual@arm.com>
+ id 1lOJfc-00BaF5-Hm
+ for linux-snps-arc@lists.infradead.org; Mon, 22 Mar 2021 12:28:34 +0000
+Received: by mail-qt1-x829.google.com with SMTP id c6so12116191qtc.1
+ for <linux-snps-arc@lists.infradead.org>; Mon, 22 Mar 2021 05:28:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vGeujgLiCOmPS0n6saoq+FGBAGBFECX5N0Yzgj/oqfM=;
+ b=fefLSd2hOcSUaWBKCAWohN7ObKf7dc29tcV4nCLi3hov+C+0oFlp88QNPCNPTsTDYC
+ D1eKMEmYt+uyQZcePrirOdC86YiwRag1ALR1aaghS6uVlzlBtZsJaU25OwD0HxsvT0VN
+ NMGtM/aL8+oTPeoe2D83y8G9j3KkPa0mi/L7lCS8I5ZhTaVaV2PcxClr83oXsi7KcBpo
+ WwtEH3F9SFplf9x9ADipCv5vwvJHaCWcG7dp6uufDxlCaaBJUw0Bj23espcEj8ybqYAW
+ aG+6xV74VXhNYx14ie861CvkY2rtcIFEytfLJ12Y5xeNIKAS6n13Djy6vpcTYyQECfK3
+ OkDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vGeujgLiCOmPS0n6saoq+FGBAGBFECX5N0Yzgj/oqfM=;
+ b=OOkOWx56s13nMU9fDD5RMUON8j0/KbM/LGJJwVQ87mK1QZZHP5JebD4VZOomQdbafx
+ em7NqeP09s/8YUDayfswWTVXVQnkCnr5W/ywwnBX4OY9xEraRqKTkc0kQKL0vTkpLwMF
+ zLwzHdz68k+orQJMy4sarpZSdNINKLBA3sKTwFrGGLXfonSOFdnHFNTyEhmrR80rGM81
+ QHuQHgt6V5Bq+Fo05UnJJnuL37sduqXrnOWtE9ZBcccekVFazJl2PkLIhcIn8XWHWloh
+ T0hQrxr7JCMSqw4KUtlQzb7NrgbkwckckKqEbKUhCty5gFufe+KHRAh1spxPIyu1gKxm
+ XMeg==
+X-Gm-Message-State: AOAM531xrmk3htaWznb8GY6p5nw3hv0rnM9Cx2Oy9DJFJ6sVByrV08WE
+ iOEULI98caxifV4CrvUD5gA=
+X-Google-Smtp-Source: ABdhPJz/qxCTRMstWrnwXc8n9foSSLckGAg4dOoqWPFBQOesadn5JMLsR+FIj30Z4nwIlhyk3Qrinw==
+X-Received: by 2002:ac8:7352:: with SMTP id q18mr9257500qtp.65.1616416111431; 
+ Mon, 22 Mar 2021 05:28:31 -0700 (PDT)
+Received: from localhost.localdomain ([143.244.44.200])
+ by smtp.gmail.com with ESMTPSA id u11sm8600784qta.91.2021.03.22.05.28.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Mar 2021 05:28:30 -0700 (PDT)
+From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To: vgupta@synopsys.com, linux-snps-arc@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Cc: rdunlap@infradead.org,
+	Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH] arch: arc: Fix a typo
+Date: Mon, 22 Mar 2021 17:58:19 +0530
+Message-Id: <20210322122819.2704169-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1615278790-18053-1-git-send-email-anshuman.khandual@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210319_183558_818492_202DF7A5 
-X-CRM114-Status: UNSURE (   8.64  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210322_122832_959557_B75E5CF5 
+X-CRM114-Status: GOOD (  10.38  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,43 +98,30 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 09, 2021 at 02:03:04PM +0530, Anshuman Khandual wrote:
-> This series contains config cleanup patches which reduces code duplication
-> across platforms and also improves maintainability. There is no functional
-> change intended with this series. This has been boot tested on arm64 but
-> only build tested on some other platforms.
-> 
-> This applies on 5.12-rc2
-> 
-> Cc: x86@kernel.org
-> Cc: linux-ia64@vger.kernel.org
-> Cc: linux-s390@vger.kernel.org
-> Cc: linux-snps-arc@lists.infradead.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-mips@vger.kernel.org
-> Cc: linux-parisc@vger.kernel.org
-> Cc: linuxppc-dev@lists.ozlabs.org
-> Cc: linux-riscv@lists.infradead.org
-> Cc: linux-sh@vger.kernel.org
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: linux-mm@kvack.org
-> Cc: linux-kernel@vger.kernel.org
-> 
-> Anshuman Khandual (6):
->   mm: Generalize ARCH_HAS_CACHE_LINE_SIZE
->   mm: Generalize SYS_SUPPORTS_HUGETLBFS (rename as ARCH_SUPPORTS_HUGETLBFS)
->   mm: Generalize ARCH_ENABLE_MEMORY_[HOTPLUG|HOTREMOVE]
->   mm: Drop redundant ARCH_ENABLE_[HUGEPAGE|THP]_MIGRATION
->   mm: Drop redundant ARCH_ENABLE_SPLIT_PMD_PTLOCK
->   mm: Drop redundant HAVE_ARCH_TRANSPARENT_HUGEPAGE
-> 
->  arch/arc/Kconfig                       |  9 ++------
->  arch/arm/Kconfig                       | 10 ++-------
->  arch/arm64/Kconfig                     | 30 ++++++--------------------
 
-For arm64:
+s/defintion/definition/
 
-Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ arch/arc/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+index 4392c9c189c4..e47adc97a89b 100644
+--- a/arch/arc/Makefile
++++ b/arch/arc/Makefile
+@@ -31,7 +31,7 @@ endif
+
+
+ ifdef CONFIG_ARC_CURR_IN_REG
+-# For a global register defintion, make sure it gets passed to every file
++# For a global register definition, make sure it gets passed to every file
+ # We had a customer reported bug where some code built in kernel was NOT using
+ # any kernel headers, and missing the r25 global register
+ # Can't do unconditionally because of recursive include issues
+--
+2.31.0
+
 
 _______________________________________________
 linux-snps-arc mailing list
