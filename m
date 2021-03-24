@@ -2,52 +2,62 @@ Return-Path: <SRS0=H19V=IW=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C025FC433DB
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 24 Mar 2021 17:56:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAB77C433DB
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 24 Mar 2021 20:57:35 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5A34F61A05
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 24 Mar 2021 17:56:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5A34F61A05
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	by mail.kernel.org (Postfix) with ESMTPS id 5D22C619B4
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 24 Mar 2021 20:57:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5D22C619B4
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baikalelectronics.ru
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
+	Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=et2LnfvVwdpWx6mwCAAqVbAldmP/5YzR6HQ7R8g3raM=; b=FqLza+f2Pe+KfNyVy+LCnK0FR
-	wVuDxeq7FFc9VbqSW6y9Ke0DbIBQyNFpD+vTjQGUE6PsMPBSaC81Y8I1DqknqbFcPi7U+05y/gUk9
-	asD98Dt8TxRghUZOndMvNnB0sa8lxpE6rvL9K4UImpv0WGv/1ExaPauQmCUrYjKhEoN+JERUj8FxP
-	cQjlpU04gQjLLUeT8tDsBUG+b8TmCaYynanlcWx7VAXC/0P6x2BWLSz6oRe3xwqmIv5e+xqRa631G
-	ROmZKIXLGvkiqJgQwtiyBmzKi6F9rHUF8OblPdw3WUS7hM5Yvuv2hETHch74wRpWxRFDwJ6ir3BaE
-	dnndvkOjQ==;
+	 bh=OLYrlDQaNQ7V+sNqpptTY5TMo4D5Nn7fmiVKSP/Umcs=; b=Qbqi+dXMy42SQyt73SrstEAWK
+	GLVeMcU1aSxs2wJnCbT/5+3+Amf8gSu2ajpLHza8fS/pda3YNV6VoFnvK0H3lyQpD2gx9E/SMDyxC
+	mebKtVSOZwHHJ5niMPyj6+174Q30RgPHVJae0jej/wCl4gnCghVRmKJR5xNjGTNB3X2HaNUttjygh
+	UbsQN6KBpWeoSg6KhvOB5ViWjRX1ln0gtUXGcOIwvxGyfZw6GteoObx7GyWUl3aBMBuHFwwVS9/+9
+	jjzvCLmYOwLJdSyQuOHNR2Q70imC7YCgAihxAfrJOZYPJXBT9c/JjhulITGzw3s6hvGHNUGrTcHSR
+	gI+JUAYpA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lP7jl-00Hb7A-9u; Wed, 24 Mar 2021 17:56:09 +0000
-Received: from [2601:1c0:6280:3f0::3ba4]
- by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1lP7jh-00Hb6m-Kj; Wed, 24 Mar 2021 17:56:06 +0000
-Subject: Re: [PATCH] arc/kernel/signal.c: Fix couple of typos
-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>, vgupta@synopsys.com,
- axboe@kernel.dk, gustavoars@kernel.org, tglx@linutronix.de,
- linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20210324055213.26775-1-unixbhaskar@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <6bdf8409-48cf-a68d-b4f1-172206753871@infradead.org>
-Date: Wed, 24 Mar 2021 10:56:00 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+	id 1lPAZJ-000Cu5-K6; Wed, 24 Mar 2021 20:57:33 +0000
+Received: from mail.baikalelectronics.com ([87.245.175.226]
+ helo=mail.baikalelectronics.ru)
+ by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
+ id 1lPAYw-000CqK-Jc
+ for linux-snps-arc@lists.infradead.org; Wed, 24 Mar 2021 20:57:14 +0000
+From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+To: Andy Gross <agross@kernel.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Felipe Balbi <balbi@kernel.org>, Michael
+ Ellerman <mpe@ellerman.id.au>, Vladimir Zapolskiy <vz@mleia.com>, Alexey
+ Brodkin <abrodkin@synopsys.com>, Vineet Gupta <vgupta@synopsys.com>, Rob
+ Herring <robh+dt@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Krzysztof Kozlowski <krzk@kernel.org>
+CC: Serge Semin <Sergey.Semin@baikalelectronics.ru>, Serge Semin
+ <fancer.lancer@gmail.com>, <devicetree@vger.kernel.org>,
+ <linux-snps-arc@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v7 1/7] arc: dts: Harmonize EHCI/OHCI DT nodes name
+Date: Wed, 24 Mar 2021 23:48:30 +0300
+Message-ID: <20210324204836.29668-2-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20210324204836.29668-1-Sergey.Semin@baikalelectronics.ru>
+References: <20210324204836.29668-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
-In-Reply-To: <20210324055213.26775-1-unixbhaskar@gmail.com>
-Content-Language: en-US
+X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20210324_205710_912357_E97F3172 
+X-CRM114-Status: UNSURE (   8.65  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,46 +74,116 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 3/23/21 10:52 PM, Bhaskar Chowdhury wrote:
-> 
-> s/unconditonally/unconditionally/
-> s/gaurantees/guarantees/
-> 
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+In accordance with the Generic EHCI/OHCI bindings the corresponding node
+name is suppose to comply with the Generic USB HCD DT schema, which
+requires the USB nodes to have the name acceptable by the regexp:
+"^usb(@.*)?" . Make sure the "generic-ehci" and "generic-ohci"-compatible
+nodes are correctly named.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+Acked-by: Alexey Brodkin <abrodkin@synopsys.com>
+Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
+---
+ arch/arc/boot/dts/axc003.dtsi        | 4 ++--
+ arch/arc/boot/dts/axc003_idu.dtsi    | 4 ++--
+ arch/arc/boot/dts/axs10x_mb.dtsi     | 4 ++--
+ arch/arc/boot/dts/hsdk.dts           | 4 ++--
+ arch/arc/boot/dts/vdk_axs10x_mb.dtsi | 2 +-
+ 5 files changed, 9 insertions(+), 9 deletions(-)
 
-> ---
->  arch/arc/kernel/signal.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arc/kernel/signal.c b/arch/arc/kernel/signal.c
-> index a78d8f745a67..cf1788fd3812 100644
-> --- a/arch/arc/kernel/signal.c
-> +++ b/arch/arc/kernel/signal.c
-> @@ -259,7 +259,7 @@ setup_rt_frame(struct ksignal *ksig, sigset_t *set, struct pt_regs *regs)
->  		regs->r2 = (unsigned long)&sf->uc;
-> 
->  		/*
-> -		 * small optim to avoid unconditonally calling do_sigaltstack
-> +		 * small optim to avoid unconditionally calling do_sigaltstack
->  		 * in sigreturn path, now that we only have rt_sigreturn
->  		 */
->  		magic = MAGIC_SIGALTSTK;
-> @@ -391,7 +391,7 @@ void do_signal(struct pt_regs *regs)
->  void do_notify_resume(struct pt_regs *regs)
->  {
->  	/*
-> -	 * ASM glue gaurantees that this is only called when returning to
-> +	 * ASM glue guarantees that this is only called when returning to
->  	 * user mode
->  	 */
->  	if (test_thread_flag(TIF_NOTIFY_RESUME))
-> --
-
-
+diff --git a/arch/arc/boot/dts/axc003.dtsi b/arch/arc/boot/dts/axc003.dtsi
+index cd1edcf4f95e..3434c8131ecd 100644
+--- a/arch/arc/boot/dts/axc003.dtsi
++++ b/arch/arc/boot/dts/axc003.dtsi
+@@ -103,11 +103,11 @@ ethernet@18000 {
+ 			dma-coherent;
+ 		};
+ 
+-		ehci@40000 {
++		usb@40000 {
+ 			dma-coherent;
+ 		};
+ 
+-		ohci@60000 {
++		usb@60000 {
+ 			dma-coherent;
+ 		};
+ 
+diff --git a/arch/arc/boot/dts/axc003_idu.dtsi b/arch/arc/boot/dts/axc003_idu.dtsi
+index 70779386ca79..67556f4b7057 100644
+--- a/arch/arc/boot/dts/axc003_idu.dtsi
++++ b/arch/arc/boot/dts/axc003_idu.dtsi
+@@ -110,11 +110,11 @@ ethernet@18000 {
+ 			dma-coherent;
+ 		};
+ 
+-		ehci@40000 {
++		usb@40000 {
+ 			dma-coherent;
+ 		};
+ 
+-		ohci@60000 {
++		usb@60000 {
+ 			dma-coherent;
+ 		};
+ 
+diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
+index 99d3e7175bf7..b64435385304 100644
+--- a/arch/arc/boot/dts/axs10x_mb.dtsi
++++ b/arch/arc/boot/dts/axs10x_mb.dtsi
+@@ -87,13 +87,13 @@ gmac: ethernet@18000 {
+ 			mac-address = [00 00 00 00 00 00]; /* Filled in by U-Boot */
+ 		};
+ 
+-		ehci@40000 {
++		usb@40000 {
+ 			compatible = "generic-ehci";
+ 			reg = < 0x40000 0x100 >;
+ 			interrupts = < 8 >;
+ 		};
+ 
+-		ohci@60000 {
++		usb@60000 {
+ 			compatible = "generic-ohci";
+ 			reg = < 0x60000 0x100 >;
+ 			interrupts = < 8 >;
+diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
+index dcaa44e408ac..fdd4f7f635d3 100644
+--- a/arch/arc/boot/dts/hsdk.dts
++++ b/arch/arc/boot/dts/hsdk.dts
+@@ -234,7 +234,7 @@ phy0: ethernet-phy@0 { /* Micrel KSZ9031 */
+ 			};
+ 		};
+ 
+-		ohci@60000 {
++		usb@60000 {
+ 			compatible = "snps,hsdk-v1.0-ohci", "generic-ohci";
+ 			reg = <0x60000 0x100>;
+ 			interrupts = <15>;
+@@ -242,7 +242,7 @@ ohci@60000 {
+ 			dma-coherent;
+ 		};
+ 
+-		ehci@40000 {
++		usb@40000 {
+ 			compatible = "snps,hsdk-v1.0-ehci", "generic-ehci";
+ 			reg = <0x40000 0x100>;
+ 			interrupts = <15>;
+diff --git a/arch/arc/boot/dts/vdk_axs10x_mb.dtsi b/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
+index cbb179770293..90a412026e64 100644
+--- a/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
++++ b/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
+@@ -46,7 +46,7 @@ ethernet@18000 {
+ 			clock-names = "stmmaceth";
+ 		};
+ 
+-		ehci@40000 {
++		usb@40000 {
+ 			compatible = "generic-ehci";
+ 			reg = < 0x40000 0x100 >;
+ 			interrupts = < 8 >;
 -- 
-~Randy
+2.30.1
 
 
 _______________________________________________
