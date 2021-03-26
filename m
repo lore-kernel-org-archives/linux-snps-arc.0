@@ -1,64 +1,186 @@
-Return-Path: <SRS0=H19V=IW=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=LzHK=IY=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C94F0C433DB
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 24 Mar 2021 20:57:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5F7BC433DB
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 26 Mar 2021 17:40:16 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 475C761A17
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 24 Mar 2021 20:57:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 475C761A17
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baikalelectronics.ru
+	by mail.kernel.org (Postfix) with ESMTPS id 081B5619B8
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 26 Mar 2021 17:40:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 081B5619B8
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=2TXyTSkZN+LVWP03IUGU2MuhglCKHI9IPSkP+uILiCk=; b=jlJRdj8Y/mzUQof2XcT8+0Kiw7
-	UFHcNcUOAjDtDbF0lmVACJu51MWXXSO9YZPMYLxGfdFN02WXnHekaMmDe7Iq000LW4Yr+SsV90+/A
-	9LtOrgncWoRbSXnMBiMgRKTiX+AzYOGnMk0I3IEiofqX1oXO1g+zPx3VVvGQVCFJ5TQPI8LRLOTh/
-	jWzbXgnVt9we3PQJI9y4ziox80S98+moZIz9RYIR1gFd6R8ozqKQJvtonScDIx8A56uiO9zf9wtt3
-	Rrp2v/P8BA+p/CWwRQGj/D3sVdBfHcNAEqOqsb/RFqE2HO33h0CtYBY5y9bmSdhUWBJAKJf656K5o
-	zK2SeQNw==;
+	List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=NrVm2lw5fULy8KirditjVzj2lGNda00E77hdDbOnpvY=; b=TS5xLHhjOu8qSbPBZTlzzARU7
+	ZsMfwRvzpjkc9fiZ1IrLjMOdBBYQR5t4cQ1c7AHZQh7pKzWkqnuy12zVUH+QrnoFnDaRStAUIzl1F
+	wavwocg1lXGei8G08RzU8AuXo7KJc60DTEgjlV8RR6s4+62QllqFMFcaShtAwV+nMPhZfJi0gJjV4
+	PCKrJF3xlPWsfRTpjKwl0mBRmwh5MBOntA/Mbd/3hP0kBrJd6CbvBSPMyNyJTvyf3LnZHM5Jmm/Gw
+	WVU2GBkIG/YVFDgrsktOsUFaV8oLCHonhmoel5Ugb3cHEtAmuYcwHQCg00aCI8fII+Zlvn6KF0IAc
+	63wJCY3ng==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lPAZT-000Cvq-QZ; Wed, 24 Mar 2021 20:57:44 +0000
-Received: from mail.baikalelectronics.com ([87.245.175.226]
- helo=mail.baikalelectronics.ru)
- by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
- id 1lPAYw-000CqH-Kr; Wed, 24 Mar 2021 20:57:14 +0000
-From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-To: Andy Gross <agross@kernel.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Felipe Balbi <balbi@kernel.org>, Michael
- Ellerman <mpe@ellerman.id.au>, Vladimir Zapolskiy <vz@mleia.com>, Alexey
- Brodkin <abrodkin@synopsys.com>, Vineet Gupta <vgupta@synopsys.com>, Rob
- Herring <robh+dt@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Krzysztof Kozlowski <krzk@kernel.org>
-CC: Serge Semin <Sergey.Semin@baikalelectronics.ru>, Serge Semin
- <fancer.lancer@gmail.com>, Khuong Dinh <khuong@os.amperecomputing.com>,
- Patrice Chotard <patrice.chotard@st.com>, Benjamin Herrenschmidt
- <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linuxppc-dev@lists.ozlabs.org>, <linux-snps-arc@lists.infradead.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v7 0/7] dt-bindings: usb: Harmonize xHCI/EHCI/OHCI/DWC3 nodes
- name
-Date: Wed, 24 Mar 2021 23:48:29 +0300
-Message-ID: <20210324204836.29668-1-Sergey.Semin@baikalelectronics.ru>
+	id 1lPqRR-0044h6-U2; Fri, 26 Mar 2021 17:40:14 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
+ by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
+ id 1lPqRN-0044gP-Dw
+ for linux-snps-arc@lists.infradead.org; Fri, 26 Mar 2021 17:40:12 +0000
+Received: from mailhost.synopsys.com (badc-mailhost4.synopsys.com
+ [10.192.0.82])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 6FBD840153;
+ Fri, 26 Mar 2021 17:40:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1616780403; bh=eIlffbDrfxA9lPYqFoJctp1ZbmdH7DKZjeMyT/B1cWw=;
+ h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+ b=KwyDt+rdfWMCaeqttBmwKtPLYM+jQ6iFEWWlGHgydErMe1RRGw6KwiKytI3Do7UmM
+ HMzjMa+QsJW+C9GSMtNLw0I4nIG7MHW8UtyfLgpShQ5poe1A1DRXISMz8kw1BA05Hj
+ LFZxCkIXgI1s9NkFDmsKyMjdhdSXAAYeF2TI2Isa9VqTnKCk5uqsiftYNJ2CDxaMnb
+ HSp7b2sYHL7En0iHDbeLH7tZBjfTnnJRUgXQjKSusq3bUaSEEaRhCSPHygXQiIAevl
+ LnUwwCzgX2mw6KDuBp0TJi39h3RMNjCAaOhvTRo+CinaJY9KL1sMFbRCOdJtYMeG0Y
+ /GqE7gq54vDrQ==
+Received: from o365relay-in.synopsys.com (us03-o365relay1.synopsys.com
+ [10.4.161.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mailhost.synopsys.com (Postfix) with ESMTPS id 50200A00D3;
+ Fri, 26 Mar 2021 17:40:00 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "mail.protection.outlook.com",
+ Issuer "DigiCert Cloud Services CA-1" (verified OK))
+ by o365relay-in.synopsys.com (Postfix) with ESMTPS id 78515801E3;
+ Fri, 26 Mar 2021 17:39:55 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com;
+ dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+ spf=pass smtp.mailfrom=vgupta@synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
+ unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="o7VBV22t";
+ dkim-atps=neutral
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aS1XKkZ0117jzUE+qypuukfqrJfTkT0OxWNnwRSqnKpaLdBTkN0tnkL6rNMdOcm8+fice4vb5NcBMXr40PVbQB9GEe0n7sXhAvZIxZMoWwoLQOX0Y7FrElrc9IvZ1COwvypJSN0CUzNUO2PUMgiMXoihhTpHlcsvM9tdswLU+mqC38d9nLtq1ik00pVnwnaz8+Row8j1soUdp8SrzqGN5psLbsMLyM7W+GlPq/2iytCpCKpCco8hZmYpxN1AdWbTI2+6ETi8Ot1skCDlVqrxNyWfZorBuQ+/+naIhkE2x5eB9oTc4GUsDqzUqKK8C9h73YxUXWCNGz7TzBPddxbAOw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eIlffbDrfxA9lPYqFoJctp1ZbmdH7DKZjeMyT/B1cWw=;
+ b=TA2iypBKnIm75nrfRH4qkMwLbU2L+63zWSbQEgZlOqrppV8zLPO9QMk0v4ICopk/2bPuOcj/x5LhyKzIfCRf4jhV7icYX6m5uqMdGvxd2yyUEpaD87ORwDNVRBmUj3XzzNK5z/J9D4Gn2X+yAyb2CJ+MzaI20cLFM1/09vBrti7f6NM4l3utcOTydpGesmE3N8Mzq8q8zRfhoRAmovMA+/C5ojV6JQwqx0LUGTjGjF1z8Y89m6oyWzm47axbRrByZXFzn+GCQ9b0CVxje6MYVYmJSJ0AlnkBFrJYrl01pi1q/7G2jY5FJN9W87FOfSVCaSS4bAPF4NbqAhtZsMisJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eIlffbDrfxA9lPYqFoJctp1ZbmdH7DKZjeMyT/B1cWw=;
+ b=o7VBV22tyOtbaBudZPNXAJ2qI7Vux3LaevfUvBkPkRcBpiSTkLgiC3ect/nSM2AUMQ4iXwq9naLjdqBsWaSSdTiOT+T7BQea1BQw2aanuBU5WBNAlu6hm86tMLaCceAMtsKRc1tiRRZcKjIlu3I0m3IxgPr6+1pLRsk2DoAZYYE=
+Received: from BYAPR12MB3479.namprd12.prod.outlook.com (2603:10b6:a03:dc::26)
+ by BY5PR12MB3857.namprd12.prod.outlook.com (2603:10b6:a03:196::28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.29; Fri, 26 Mar
+ 2021 17:39:52 +0000
+Received: from BYAPR12MB3479.namprd12.prod.outlook.com
+ ([fe80::88a:1041:81ed:982]) by BYAPR12MB3479.namprd12.prod.outlook.com
+ ([fe80::88a:1041:81ed:982%7]) with mapi id 15.20.3955.027; Fri, 26 Mar 2021
+ 17:39:52 +0000
+X-SNPS-Relay: synopsys.com
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To: Guillem Jover <guillem@debian.org>,
+ "980963@bugs.debian.org" <980963@bugs.debian.org>,
+ Alexey Brodkin <Alexey.Brodkin@synopsys.com>
+CC: linux-snps-arc <linux-snps-arc@lists.infradead.org>,
+ Helmut Grohne <helmut@subdivi.de>,
+ Claudiu Zissulescu <Claudiu.Zissulescu@synopsys.com>,
+ "debian-cross@lists.debian.org" <debian-cross@lists.debian.org>
+Subject: Re: Bug#980963: dpkg: Please add ARC architecture
+Thread-Topic: Bug#980963: dpkg: Please add ARC architecture
+Thread-Index: AQHXImcGTkBTaJF5wkKY8W33tD4qwQ==
+Date: Fri, 26 Mar 2021 17:39:52 +0000
+Message-ID: <6ca2d929-60d3-3846-876b-3b62dba635c0@synopsys.com>
+References: <161152061283.11410.4872085138884291562.reportbug@abrodkin-5550.internal.synopsys.com>
+ <161152061283.11410.4872085138884291562.reportbug@abrodkin-5550.internal.synopsys.com>
+ <YEDm3/c3h4lW7jjK@thunder.hadrons.org>
+ <f6ff72c8-46d0-db07-a741-fc9fa37f899b@synopsys.com>
+In-Reply-To: <f6ff72c8-46d0-db07-a741-fc9fa37f899b@synopsys.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+authentication-results: debian.org; dkim=none (message not signed)
+ header.d=none;debian.org; dmarc=none action=none header.from=synopsys.com;
+x-originating-ip: [24.4.73.83]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5c062591-488d-4cdc-d715-08d8f07e295c
+x-ms-traffictypediagnostic: BY5PR12MB3857:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BY5PR12MB38571FB885FA0CC0EF23466DB6619@BY5PR12MB3857.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 8FJqCWjDgevczetEPE4WtpL2oHgAQO9jNUW/reFDUmABdC83fPsAiXRGn3Yd9IGKtVht5q6gUOPKxpuelYRy/OgP56MtAV1ddSpAGY0opwEoaq7KS1UTO9HXcAF4D1ceRIYFwOV6hleg5nmAmokS1moI1DQesBki+CM2KXeBJ8SJ0frXN13RVNpHVbukb70jm7gVpQX+BJJv2jiQlYIKU5DyRcVlZ0i4csD00exNjm7XooHZxVVaYrP7VehEzRBMCvdLfpj4Hr+DxR1LQPXXasiBPpfaCHD8dWTB2wvaNh4wbvXiX2h917Bk+g8sKckU52iiJ07SAV7ezAI1/4WL0vT9Um0jvjgAYKVkUNP7dRgnHnKjLY0bkBHLtFE46kM8dIE02S99UxGLYleDYBStHRVDlHF2jpbXR/Aj17UVXZIWMrIakY6XDDIlCSOcNf1JZJ9wc2EeW+KR2+g0QvBybcrCZqJn7Uo4yWvtICWTCfr2TNgFkvkVEPfjahm6Jax0bmqLguJnDDLZ6s3kWQva3AfC0hVE7CTpsCUzZBQePYjNSmVySaQh4vKAR0sDD1pMGQm9/Ot8H7BDL6A7qx4Ba9l2efXQ17LfJ/U2AR7eLvlXcY8b68tmhxL2bmdulen0nVw0NC43OwxMDOUGefhKP/Nu9DXShqk3RujtysvepXeVo9o+h7Sj2LROjoSbj+Jq2X0+ldbljeHRaPYAO3jFQ3Lm2z+UZvkfZCbg9Klk178pTvwx5Tv/XyYtNdDTM0/7bFprIOLUiWwgAe1BvmTFreRdTRrUK7fCRDN7jNc4C/e3P+tGCZfTbPso+LPJ7aXO
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3479.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(136003)(396003)(346002)(39860400002)(376002)(366004)(66556008)(83380400001)(66946007)(76116006)(2906002)(71200400001)(54906003)(66476007)(186003)(2616005)(316002)(110136005)(5660300002)(38100700001)(26005)(4326008)(6486002)(6636002)(31686004)(6506007)(6512007)(31696002)(8676002)(64756008)(36756003)(8936002)(53546011)(966005)(478600001)(66446008)(86362001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?VXU1dWJsOTBQWTRHN1NXamtUNjhQREFlbFd1dEIvaUk1cDhwNWw2elg5WUk0?=
+ =?utf-8?B?eDdRS1UxbU43WEJzMTNLb1ZEOW1oc2RjNUxEd3hrVlY4OHFrVUF6K0Yrd2hu?=
+ =?utf-8?B?RVRpSFRsSEdLeEl5QnpmYmRsUVFyL3lJUTI3em9Rdk9SVFJRdUd5eWw3dXd0?=
+ =?utf-8?B?MmJTZjhkcE5RcERxd0hMN2tudnU1QTY3bzhaV3ZMRy8wTWFDand3RW9UVHNo?=
+ =?utf-8?B?eWhPaGIrbTFyQjlZVTZpWUlmcW5wa0lMa3ZUcTl4TGh3RHc2d1BNa2lBclBk?=
+ =?utf-8?B?Q1FZd0VxNWpOdjhiSHZPQzFnZHpkMEVsVkFZNWR1LzhNZS9vdGhkOFczVSti?=
+ =?utf-8?B?bTIzMmFQYUFUbUlTUklqOHp5RlpqZEJ5cEhTK2wyVXJ5TVNGcDVoV1VKTzVh?=
+ =?utf-8?B?VEdMdGV1VnlEVVpEbEd6ZGwwR0RXTDdpREFEeHBrdWRrSlI2bkdvSmw1WEpN?=
+ =?utf-8?B?RExsY09ySldhK0xrbFI5WmF5RWhmT1U0bTM3M2NFQWlGVW5MbUg2bFhsMW9W?=
+ =?utf-8?B?RmpEaVZ5TDgwMzJQMVFuTWtRSXNPcGtIT3FSc0tJWVh5eDRlQVpZYmJUUVY1?=
+ =?utf-8?B?RWlTM1dHZVByYVlWeFlsWEJjWm15WndsaGtyTlR6ZU96MG5nN05MeloxWW4y?=
+ =?utf-8?B?NGMxVWs3MkdzanhoQm9LV1dveEtya0FOb3p5SWNMcVBlcWdobVNsdkRONHA2?=
+ =?utf-8?B?aHZvQzdCZmNaSDFNdi84M2hKanhDMWROTlp1c3B6TVpNNUY0VFlVQStXN0Uy?=
+ =?utf-8?B?ZDQ4aHJabFg3VFRwQ1B3QXZGbWRJcnVsMzVYRUpYeDBpc0tSbHJHdEdROUJW?=
+ =?utf-8?B?ZFBBMjZLQXkxU1RLSU4vZFhmSllWdzBUcUJWR3ROYWdEYVYvL1k3bTVDMGc0?=
+ =?utf-8?B?T3RERHRSR2FJZmZQZWphQ3VKcC92bGpDNGFZaFl4a0RpbG5lL1Bka0JZSDRD?=
+ =?utf-8?B?ay9JcXU1SnlnQUwwUzRCc1NQeTExeUhMaE1Qb1JSRWVScHBlNWNnTDZ0TWVm?=
+ =?utf-8?B?L2pXZGxkc3RVQzRHa2dIZ0ZxekFyZnhNZ2tJbGlCdndrZHc1bm1UTk1Pbmll?=
+ =?utf-8?B?VkwxMnZNcFI3NzRza2JsOEVPZFltMjNPVDYwV0JWa2NLMXdKTHhWNDJGdUhv?=
+ =?utf-8?B?ckxqWWo3enNsdDhYdzVmeXZZTXNOTm5uR3p2SHhmSnBkTkk5NnlFK2RTc2xL?=
+ =?utf-8?B?eC8wTnJ0dkM4OTY0Q2xRZXdLM2loL3ZhWVhKd2lSREVwNyt6OWQvZjJGbSt5?=
+ =?utf-8?B?c0J5T2gveTB6V1ZqaG0wd1FHNmtBdXFUWmlOYlh3TTNWZjJXbjRkdkdhbDc5?=
+ =?utf-8?B?dDVWNE5NUkg3MDQwZ0NNa0lUUzkvbEtKcm5uM3pFOUwvN0E3cytHdURQd0xk?=
+ =?utf-8?B?OUlkVUIyOEZmYThiTjN5Y09WQTFlY0xLdUdFcjh1bE5tRU1kMVlJaGNSdVVQ?=
+ =?utf-8?B?a3dPa2gwaW92eTl3Q0R1SC9YTHlYdnAxbjlVREwrdWppM3IxZFVnQzg0dGVD?=
+ =?utf-8?B?WGpFc2NtN1E1NTc5QkRQYi9SUFR1cVRSYVN2MFBaUmtZOEw5Qk5Ia0pUUmNs?=
+ =?utf-8?B?Sy9nZTBBTSsvWjZVajM1c2hrRTI5R3UvOGJBNldza3FhMWlkclNOVE93T0c2?=
+ =?utf-8?B?RFRJSmVhdk5BWVVGNk5NN002MUhpNWZCaTBnQi9GcXBIVDNGdTRSTE5YVWtG?=
+ =?utf-8?B?V2dnVzRQM1dXcjJwaEo0OFRaL2dPamhNczhiT0phWTBiL05QM2lyeVdIQ2Fl?=
+ =?utf-8?Q?3n5onWQd5nHbLFr8ng=3D?=
+Content-ID: <F8E59913408696498DFA976155623151@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3479.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c062591-488d-4cdc-d715-08d8f07e295c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Mar 2021 17:39:52.1831 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ljuSKt/XY0ZvRZbINyNB4BDHHp44lVJHuvwWU5bzpbUu212Y2ag2qXBb3U48zAvVoc8+wRyTyCSVlSEz81NSdA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB3857
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210324_205710_933078_D8F749E0 
-X-CRM114-Status: GOOD (  18.40  )
+X-CRM114-CacheID: sfid-20210326_174009_929484_F6608687 
+X-CRM114-Status: GOOD (  22.21  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,162 +192,66 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-As the subject states this series is an attempt to harmonize the xHCI,
-EHCI, OHCI and DWC USB3 DT nodes with the DT schema introduced in the
-framework of the patchset [1].
-
-Firstly as Krzysztof suggested we've deprecated a support of DWC USB3
-controllers with "synopsys,"-vendor prefix compatible string in favor of
-the ones with valid "snps,"-prefix. It's done in all the DTS files,
-which have been unfortunate to define such nodes.
-
-Secondly we suggest to fix the snps,quirk-frame-length-adjustment property
-declaration in the Amlogic meson-g12-common.dtsi DTS file, since it has
-been erroneously declared as boolean while having uint32 type. Neil said
-it was ok to init that property with 0x20 value.
-
-Thirdly the main part of the patchset concern fixing the xHCI, EHCI/OHCI
-and DWC USB3 DT nodes name as in accordance with their DT schema the
-corresponding node name is suppose to comply with the Generic USB HCD DT
-schema, which requires the USB nodes to have the name acceptable by the
-regexp: "^usb(@.*)?". Such requirement had been applicable even before we
-introduced the new DT schema in [1], but as we can see it hasn't been
-strictly implemented for a lot the DTS files. Since DT schema is now
-available the automated DTS validation shall make sure that the rule isn't
-violated.
-
-Note most of these patches have been a part of the last three patches of
-[1]. But since there is no way to have them merged in in a combined
-manner, I had to move them to the dedicated series and split them up so to
-be accepted by the corresponding subsystem maintainers one-by-one.
-
-[1] Link: https://lore.kernel.org/linux-usb/20201014101402.18271-1-Sergey.Semin@baikalelectronics.ru/
-Changelog v1:
-- As Krzysztof suggested I've created a script which checked whether the
-  node names had been also updated in all the depended dts files. As a
-  result I found two more files which should have been also modified:
-  arch/arc/boot/dts/{axc003.dtsi,axc003_idu.dtsi}
-- Correct the USB DWC3 nodes name found in
-  arch/arm64/boot/dts/apm/{apm-storm.dtsi,apm-shadowcat.dtsi} too.
-
-Link: https://lore.kernel.org/linux-usb/20201020115959.2658-1-Sergey.Semin@baikalelectronics.ru
-Changelog v2:
-- Drop the patch:
-  [PATCH 01/29] usb: dwc3: Discard synopsys,dwc3 compatibility string
-  and get back the one which marks the "synopsys,dwc3" compatible string
-  as deprecated into the DT schema related series.
-- Drop the patches:
-  [PATCH 03/29] arm: dts: am437x: Correct DWC USB3 compatible string
-  [PATCH 04/29] arm: dts: exynos: Correct DWC USB3 compatible string
-  [PATCH 07/29] arm: dts: bcm53x: Harmonize EHCI/OHCI DT nodes name
-  [PATCH 08/29] arm: dts: stm32: Harmonize EHCI/OHCI DT nodes name
-  [PATCH 16/29] arm: dts: bcm5301x: Harmonize xHCI DT nodes name
-  [PATCH 19/29] arm: dts: exynos: Harmonize DWC USB3 DT nodes name
-  [PATCH 21/29] arm: dts: ls1021a: Harmonize DWC USB3 DT nodes name
-  [PATCH 22/29] arm: dts: omap5: Harmonize DWC USB3 DT nodes name
-  [PATCH 24/29] arm64: dts: allwinner: h6: Harmonize DWC USB3 DT nodes name
-  [PATCH 26/29] arm64: dts: exynos: Harmonize DWC USB3 DT nodes name
-  [PATCH 27/29] arm64: dts: layerscape: Harmonize DWC USB3 DT nodes name
-  since they have been applied to the corresponding maintainers repos.
-- Fix drivers/usb/dwc3/dwc3-qcom.c to be looking for the "usb@"-prefixed
-  sub-node and falling back to the "dwc3@"-prefixed one on failure.
-
-Link: https://lore.kernel.org/linux-usb/20201111091552.15593-1-Sergey.Semin@baikalelectronics.ru
-Changelog v3:
-- Drop the patches:
-  [PATCH v2 04/18] arm: dts: hisi-x5hd2: Harmonize EHCI/OHCI DT nodes name
-  [PATCH v2 06/18] arm64: dts: hisi: Harmonize EHCI/OHCI DT nodes name
-  [PATCH v2 07/18] mips: dts: jz47x: Harmonize EHCI/OHCI DT nodes name
-  [PATCH v2 08/18] mips: dts: sead3: Harmonize EHCI/OHCI DT nodes name
-  [PATCH v2 09/18] mips: dts: ralink: mt7628a: Harmonize EHCI/OHCI DT nodes name
-  [PATCH v2 11/18] arm64: dts: marvell: cp11x: Harmonize xHCI DT nodes name
-  [PATCH v2 12/18] arm: dts: marvell: armada-375: Harmonize DWC USB3 DT nodes name
-  [PATCH v2 16/18] arm64: dts: hi3660: Harmonize DWC USB3 DT nodes name
-  since they have been applied to the corresponding maintainers repos.
-
-Link: https://lore.kernel.org/linux-usb/20201205155621.3045-1-Sergey.Semin@baikalelectronics.ru
-Changelog v4:
-- Just resend.
-
-Link: https://lore.kernel.org/linux-usb/20201210091756.18057-1-Sergey.Semin@baikalelectronics.ru/
-Changelog v5:
-- Drop the patch:
-  [PATCH v4 02/10] arm64: dts: amlogic: meson-g12: Set FL-adj property value
-  since it has been applied to the corresponding maintainers repos.
-- Get back the patch:
-  [PATCH 21/29] arm: dts: ls1021a: Harmonize DWC USB3 DT nodes name
-  as it has been missing in the kernel 5.11-rc7
-- Rebase onto the kernel 5.11-rc7.
-
-Link: https://lore.kernel.org/lkml/20210208135154.6645-1-Sergey.Semin@baikalelectronics.ru/
-Changelog v6:
-- Just resend and add linux-usb.vger.kernel.org to the list of Ccecipients.
-
-Link: https://lore.kernel.org/linux-usb/20210210172850.20849-1-Sergey.Semin@baikalelectronics.ru
-Link: https://lore.kernel.org/linux-usb/20210212205521.14280-1-Sergey.Semin@baikalelectronics.ru
-Changelog v7:
-- Replace "of_get_child_by_name(np, "usb") ?: of_get_child_by_name(np, "dwc3");"
-  pattern with using of_get_compatible_child() method in the Qcom DWC3 driver.
-- Drop the patches:
-  [PATCH v6 01/10] arm: dts: ls1021a: Harmonize DWC USB3 DT nodes name
-  [PATCH v6 02/10] arm: dts: keystone: Correct DWC USB3 compatible string
-  [PATCH v6 06/10] arm: dts: keystone: Harmonize DWC USB3 DT nodes name
-  since they have been applied to the corresponding maintainers repos.
-- Cleanup the list of recipients.
-- Rebase onto kernel 5.12-rc4.
-
-Cc: Khuong Dinh <khuong@os.amperecomputing.com>
-Cc: Patrice Chotard <patrice.chotard@st.com>
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: Paul Mackerras <paulus@samba.org>
-Cc: linux-arm-msm@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: linux-snps-arc@lists.infradead.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-
-Serge Semin (7):
-  arc: dts: Harmonize EHCI/OHCI DT nodes name
-  arm: dts: lpc18xx: Harmonize EHCI/OHCI DT nodes name
-  powerpc: dts: akebono: Harmonize EHCI/OHCI DT nodes name
-  arm: dts: stih407-family: Harmonize DWC USB3 DT nodes name
-  arm64: dts: apm: Harmonize DWC USB3 DT nodes name
-  usb: dwc3: qcom: Detect DWC3 DT-nodes using compatible string
-  arm64: dts: qcom: Harmonize DWC USB3 DT nodes name
-
- arch/arc/boot/dts/axc003.dtsi                | 4 ++--
- arch/arc/boot/dts/axc003_idu.dtsi            | 4 ++--
- arch/arc/boot/dts/axs10x_mb.dtsi             | 4 ++--
- arch/arc/boot/dts/hsdk.dts                   | 4 ++--
- arch/arc/boot/dts/vdk_axs10x_mb.dtsi         | 2 +-
- arch/arm/boot/dts/lpc18xx.dtsi               | 4 ++--
- arch/arm/boot/dts/stih407-family.dtsi        | 2 +-
- arch/arm64/boot/dts/apm/apm-shadowcat.dtsi   | 4 ++--
- arch/arm64/boot/dts/apm/apm-storm.dtsi       | 6 +++---
- arch/arm64/boot/dts/qcom/apq8096-db820c.dtsi | 4 ++--
- arch/arm64/boot/dts/qcom/ipq8074.dtsi        | 4 ++--
- arch/arm64/boot/dts/qcom/msm8996.dtsi        | 4 ++--
- arch/arm64/boot/dts/qcom/msm8998.dtsi        | 2 +-
- arch/arm64/boot/dts/qcom/qcs404-evb.dtsi     | 2 +-
- arch/arm64/boot/dts/qcom/qcs404.dtsi         | 4 ++--
- arch/arm64/boot/dts/qcom/sc7180.dtsi         | 2 +-
- arch/arm64/boot/dts/qcom/sdm845.dtsi         | 4 ++--
- arch/arm64/boot/dts/qcom/sm8150.dtsi         | 2 +-
- arch/powerpc/boot/dts/akebono.dts            | 6 +++---
- drivers/usb/dwc3/dwc3-qcom.c                 | 2 +-
- 20 files changed, 35 insertions(+), 35 deletions(-)
-
--- 
-2.30.1
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gMy80LzIxIDM6NTYgUE0sIFZpbmVldCBHdXB0YSB3cm90ZToNCj4+IEFsc28ganVzdCB0byBt
+YWtlIHN1cmUsIHRoZSBHTlUgdHJpcGxldHMgYXJlOg0KPj4NCj4+IMKgwqAgYXJjLWxpbnV4LWdu
+dQ0KPj4gwqDCoCBhcmNlYi1saW51eC1nbnUNCj4+IE5vIEFCSSBtb2RpZmllcnMgKHN0dWZmIGxp
+a2Ug4oCcZWFiaeKAnSkgZm9yIHRoZSBsaWJjIHBhcnQgKOKAnGdudeKAnCkgcmlnaHQ/DQo+DQo+
+IEFjdHVhbGx5IGl0IHNlZW1zIHdlIGFyZSBtaXNzaW5nIGhhcmRmbG9hdCBoZXJlOiBBUkMgZ2xp
+YmMvZ2NjIHN1cHBvcnQgDQo+IGl0IHZlcnkgd2VsbCBhbmQgc2hvdWxkIGJlIGRlZmF1bHQgZm9y
+IGFueSByZWFzb25hYmxlIHBlcmZvcm1hbmNlLg0KPg0KPiBTbyBJIHRoaW5rIHdlIHNob3VsZCBh
+ZGQNCj4gwqDCoMKgIGFyYy1saW51eC1nbnVoZg0KPiDCoMKgwqAgYXJjZWItbGludXgtZ251aGYN
+Cj4NCj4gQlRXIEkgaGF2ZSBvY2UgcXVlc3Rpb246IHdoZXJlIGRvZXMgb25lIHNlbGVjdCB3aGF0
+IGRlZmF1bHQgdG9nZ2xlcyB0byANCj4gYnVpbGQgdGhlIGVudGlyZSBzb2Z0d2FyZSBzdGFjayB3
+aXRoIChzYXkgLW1jcHUgZXRjKS4gRG9lcyB0aGlzIHJlbHkgDQo+IG9uIHRvb2xjaGFpbiBkcml2
+ZXIgZGVmYXVsdCB0byBEUlRILiBPbmUgb2YgbXkgcHJvYmxlbXMgd2l0aCANCj4gcmVib290c3Ry
+YXAgd2FzIGdjYyBkcml2ZXIgZGVmYXVsdGluZyB0byBvdXIgbGVnYWN5IGNwdS4gSSd2ZSBjdXJl
+ZCBpdCANCj4gdGhlcmUgKGFuZCBwbGFubmluZyB0byB1cHN0cmVhbSB0aGUgZ2NjIGRyaXZlciBw
+YXRjaCkuDQoNClNvIGhlcmUncyB0aGUgbGF5IG9mIHRoZSBsYW5kLCBhcG9sb2dpZXMgZm9yIHRo
+ZSBsb25nIGVtYWlsLCBhbmQgaWYgDQpzb21lL21vc3Qgb2YgYmVsb3cgaXMgbm90IGRpcmVjdGx5
+IHJlbGV2YW50IHRvIGRwa2cgYnVnLCBidXQgSSdsbCANCnByb3ZpZGUgdGhlIGJhY2tncm91bmQg
+c28gd2UgYXJlIGFsbCBvbiBzYW1lIHBhZ2UuDQoNCldlJ3ZlIGhhZCAzIHJldmlzaW9ucyBvZiB0
+aGUgSVNBIGFuZCBlbnN1aW5nIG11bHRpcGxlIHByb2Nlc3NvcnMgaW4gbGFzdCANCjE1IHllYXJz
+Og0KDQpJU0HCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBJbXBsZW1lbnRhdGlvbnMv
+UHJvY2Vzc29ycyAoTGludXggY2FwYWJsZSkNCi0tLS0tLSAtLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCkFSQ29tcGFjdMKgwqDC
+oCBBUkM3MDANCkFSQ3YywqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBIUzM4eC9IUzQ4eA0KQVJDdjM6
+MzItYml0wqAgSFM1OE1QDQpBUkN2Mzo2NC1iaXTCoCBIUzY4TVANCg0KLSBBUkNvbXBhY3QgaXMg
+bGVnYWN5IGFuZCBubyBuZXcgZGV2ZWxvcG1lbnQgbmVlZGVkIGluY2x1ZGluZyBkZWJpYW4gcG9y
+dC4NCi0gQ29kZSBmb3Igb25lIElTQSBpcyBub3QgY29tcGF0aWJsZSB3aXRoIHByaW9ycywgbWFp
+bmx5IGR1ZSB0byBhZGRpdGlvbiANCm9mIG5ldyBpbnN0cnVjdGlvbnMuIEluIGZhY3QgZ2l2ZW4g
+dGhlIGNvbmZpZ3VyYWJpbGl0eSBvZiB0aGUgSVNBIGl0c2VsZiANCihmb3IgYmV0dGVyIG9yIHdv
+cnNlKSwgb25lIGNvdWxkIGVuZCB1cCAyIG5vbi1jb21wYXRpYmxlIHZhcmlhbnRzIG9mIA0Kc2Ft
+ZSBJU0EgKHRoaW5rIGRvdWJsZSBsb2FkL3N0b3JlIGluc3RydWN0aW9ucyBpbiBBUkN2MikuIEJ1
+dCB0aGUgcG9ydCANCmNhbiBhc3N1bWUgdGhlIGFsbCBlbmNvbXBhc3Npbmcgc3VwZXItc2V0IG9m
+IHRoZSBJU0EgYXMgYmFzZWxpbmUuDQotIEFSQ3YzIGlzIGN1cnJlbnRseSB1bmRlciBkZXZlbG9w
+bWVudCAvIHByZS1wcm9kdWN0aW9uIGJ1dCBzaG91bGQgYmUgDQprZXB0IGluIG1pbmQgYXMgaXQg
+aXMga25vY2tpbmcgb24gdGhlIGRvb3IgYWxyZWFkeS4NCg0KSW4gdGVybXMgb2YgdGhlIEFCSSBj
+cml0aWNhbCBmbGF2b3JzOiB0aGVyZSdzIGxpdHRsZS9iaWcgZW5kaWFuIGFuZCANCnNvZnQvaGFy
+ZC1mbG9hdC4NCi0gQWdhaW4gYmlnIGVuZGlhbiBkZWJpYW4gaXMgbm90IG5lZWRlZCAtIG1haW5s
+eSBiZWNhdXNlIG9mIG51bWJlciBvZiANCmN1c3RvbWVyIGVuZ2FnZW1lbnRzIGFuZCByZXNvdXJj
+aW5nIG5lZWRlZCB0byBzdXBwb3J0IGl0DQotIEFSQ3YyIGhhcmQtZmxvYXQgQUJJIGlzIHNhbWUg
+YXMgc29mdCAtIEZQVSBzaGFyZXMgdGhlIHNhbWUgcmVnaXN0ZXIgDQpmaWxlIHNvIHRoZSBjYWxs
+aW5nIGNvbnZlbnRpb25zIGFyZSBzYW1lLiBIb3dldmVyIHRoZSB0cmlwbGV0IGlzIA0KZGlmZmVy
+ZW50IGFyYy1saW51eC1nbnVoZiBbMV0gYXMgbGlicmFyaWVzIGZvciBoYXJkIHdvbid0IHJ1biBv
+biBhIA0Kc29mdC1mbG9hdCBzeXN0ZW0gZHVlIHRvIGxhY2sgb2YgZW11bGF0aW9uIGV0Yy4NCi0g
+QVJDdjMgZG9lcyBoYXZlIGEgZGVkaWNhdGVkIEZQIHJlZ2lzdGVyIGZpbGUgc28gdGhlcmUncyBz
+b2Z0IGFuZCBoYXJkIEFCSXMNCg0KU28gZ2l2ZW4gYWxsIG9mIHRoaXMsIEknZCBsaWtlIHRvIHBy
+b3Bvc2UgQVJDdjIgcG9ydCB3aXRoIGhhcmQtZmxvYXQgYXMgDQpiYXNlbGluZS4gV2UgZG9uJ3Qg
+Ym90aGVyIHdpdGggQmlnLWVuZGlhbi4gQSBzb2Z0LWZsb2F0IHdvdWxkIGJlIA0KZGVzaXJhYmxl
+IGZvciBkZWJ1Z2dpbmcgYW5kIGZhbGwtYmFjayBidXQgbm90IG5lY2Vzc2FyeSBmcm9tIGZlYXR1
+cmUgcG92Lg0KDQpJJ20gb3BlbiB0byBwb3J0IG5hbWVzIGFzIG1haW50YWluZXJzIGZlZWwgYXBw
+cm9wcmlhdGUgLSBidXQgc3RpY2sgd2l0aCANCmN1cnJlbnQgdHJpcGxldHMgYXJjLWdudS1saW51
+eCAvIGFyYy1nbnUtbGludXhoZiBmb3IgQVJDdjIuDQpGb3IgQVJDdjMsIHdlIGNvdWxkIGhhdmUg
+YXJjNjQqIC8gYXJjMzIqDQoNClBsZWFzZSBsZXQgbWUga25vdyBpZiB0aGlzIG1ha2VzIHNlbnNl
+Lg0KDQpPbmNlIHdlIGFncmVlLCB3ZSBjYW4gc3RhcnQgb2ZmIHdpdGggcmVxdWVzdGluZyBjaGFu
+Z2VzIHRvIEdOVSBjb25maWcgDQpwcm9qZWN0Lg0KDQpUaHgsDQotVmluZWV0DQoNClsxXSBJIGRv
+bid0IHNlZSB0aGUgYXJjIGhmIGV4cGxpY2l0bHkgQCANCmh0dHBzOi8vZ2l0LnNhdmFubmFoLmdu
+dS5vcmcvY2dpdC9jb25maWcuZ2l0L3RyZWUvdGVzdHN1aXRlL2NvbmZpZy1zdWIuZGF0YQ0KDQpf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1zbnBz
+LWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRw
+Oi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
