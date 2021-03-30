@@ -1,186 +1,80 @@
-Return-Path: <SRS0=LzHK=IY=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=o7wy=I4=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5F7BC433DB
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 26 Mar 2021 17:40:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE110C433C1
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 30 Mar 2021 13:11:32 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 081B5619B8
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 26 Mar 2021 17:40:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 081B5619B8
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=synopsys.com
+	by mail.kernel.org (Postfix) with ESMTPS id 39F186190A
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 30 Mar 2021 13:11:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 39F186190A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=NrVm2lw5fULy8KirditjVzj2lGNda00E77hdDbOnpvY=; b=TS5xLHhjOu8qSbPBZTlzzARU7
-	ZsMfwRvzpjkc9fiZ1IrLjMOdBBYQR5t4cQ1c7AHZQh7pKzWkqnuy12zVUH+QrnoFnDaRStAUIzl1F
-	wavwocg1lXGei8G08RzU8AuXo7KJc60DTEgjlV8RR6s4+62QllqFMFcaShtAwV+nMPhZfJi0gJjV4
-	PCKrJF3xlPWsfRTpjKwl0mBRmwh5MBOntA/Mbd/3hP0kBrJd6CbvBSPMyNyJTvyf3LnZHM5Jmm/Gw
-	WVU2GBkIG/YVFDgrsktOsUFaV8oLCHonhmoel5Ugb3cHEtAmuYcwHQCg00aCI8fII+Zlvn6KF0IAc
-	63wJCY3ng==;
+	 bh=vwgJvZgKHRyPP9plYAHNywxPk7CZNNC2BTLWogkvl9M=; b=DvrXnKlJCHD5DeBN3CV6eum+H
+	SKmI0/jt0uqrjPtqGDdNE8v9BEvxT0yP1oqFeBrFeqTXTkBH4RmNp29QwxlQMWu9OJA80n+NHwAA+
+	1JFL6lFHOgSNkX1LsTMy1F/PUfEnidvjyDx8ijDqZOPbjoPEwgWiXynExXUNStbw/Mz4Zvo3eAzDG
+	FmBMEAozrqSXeGxEUXoN6KEquLm0BbN4jAgcW4YWaFsJ83hF06rlCULWtJIIjavlQgjpDgs9fnYYx
+	AoUksWEoF6ef3wRZWd0GgUW5QWIUvZDvBPExmYjkwuWJjOm8YiCxWbLaQnoiN/DCClUNmDjCksNBb
+	87N1dRvBQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lPqRR-0044h6-U2; Fri, 26 Mar 2021 17:40:14 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
+	id 1lRE9a-003nLY-5A; Tue, 30 Mar 2021 13:11:30 +0000
+Received: from szxga06-in.huawei.com ([45.249.212.32])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lPqRN-0044gP-Dw
- for linux-snps-arc@lists.infradead.org; Fri, 26 Mar 2021 17:40:12 +0000
-Received: from mailhost.synopsys.com (badc-mailhost4.synopsys.com
- [10.192.0.82])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 6FBD840153;
- Fri, 26 Mar 2021 17:40:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1616780403; bh=eIlffbDrfxA9lPYqFoJctp1ZbmdH7DKZjeMyT/B1cWw=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=KwyDt+rdfWMCaeqttBmwKtPLYM+jQ6iFEWWlGHgydErMe1RRGw6KwiKytI3Do7UmM
- HMzjMa+QsJW+C9GSMtNLw0I4nIG7MHW8UtyfLgpShQ5poe1A1DRXISMz8kw1BA05Hj
- LFZxCkIXgI1s9NkFDmsKyMjdhdSXAAYeF2TI2Isa9VqTnKCk5uqsiftYNJ2CDxaMnb
- HSp7b2sYHL7En0iHDbeLH7tZBjfTnnJRUgXQjKSusq3bUaSEEaRhCSPHygXQiIAevl
- LnUwwCzgX2mw6KDuBp0TJi39h3RMNjCAaOhvTRo+CinaJY9KL1sMFbRCOdJtYMeG0Y
- /GqE7gq54vDrQ==
-Received: from o365relay-in.synopsys.com (us03-o365relay1.synopsys.com
- [10.4.161.137])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id 50200A00D3;
- Fri, 26 Mar 2021 17:40:00 +0000 (UTC)
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client CN "mail.protection.outlook.com",
- Issuer "DigiCert Cloud Services CA-1" (verified OK))
- by o365relay-in.synopsys.com (Postfix) with ESMTPS id 78515801E3;
- Fri, 26 Mar 2021 17:39:55 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com;
- dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
- spf=pass smtp.mailfrom=vgupta@synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
- unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="o7VBV22t";
- dkim-atps=neutral
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aS1XKkZ0117jzUE+qypuukfqrJfTkT0OxWNnwRSqnKpaLdBTkN0tnkL6rNMdOcm8+fice4vb5NcBMXr40PVbQB9GEe0n7sXhAvZIxZMoWwoLQOX0Y7FrElrc9IvZ1COwvypJSN0CUzNUO2PUMgiMXoihhTpHlcsvM9tdswLU+mqC38d9nLtq1ik00pVnwnaz8+Row8j1soUdp8SrzqGN5psLbsMLyM7W+GlPq/2iytCpCKpCco8hZmYpxN1AdWbTI2+6ETi8Ot1skCDlVqrxNyWfZorBuQ+/+naIhkE2x5eB9oTc4GUsDqzUqKK8C9h73YxUXWCNGz7TzBPddxbAOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eIlffbDrfxA9lPYqFoJctp1ZbmdH7DKZjeMyT/B1cWw=;
- b=TA2iypBKnIm75nrfRH4qkMwLbU2L+63zWSbQEgZlOqrppV8zLPO9QMk0v4ICopk/2bPuOcj/x5LhyKzIfCRf4jhV7icYX6m5uqMdGvxd2yyUEpaD87ORwDNVRBmUj3XzzNK5z/J9D4Gn2X+yAyb2CJ+MzaI20cLFM1/09vBrti7f6NM4l3utcOTydpGesmE3N8Mzq8q8zRfhoRAmovMA+/C5ojV6JQwqx0LUGTjGjF1z8Y89m6oyWzm47axbRrByZXFzn+GCQ9b0CVxje6MYVYmJSJ0AlnkBFrJYrl01pi1q/7G2jY5FJN9W87FOfSVCaSS4bAPF4NbqAhtZsMisJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eIlffbDrfxA9lPYqFoJctp1ZbmdH7DKZjeMyT/B1cWw=;
- b=o7VBV22tyOtbaBudZPNXAJ2qI7Vux3LaevfUvBkPkRcBpiSTkLgiC3ect/nSM2AUMQ4iXwq9naLjdqBsWaSSdTiOT+T7BQea1BQw2aanuBU5WBNAlu6hm86tMLaCceAMtsKRc1tiRRZcKjIlu3I0m3IxgPr6+1pLRsk2DoAZYYE=
-Received: from BYAPR12MB3479.namprd12.prod.outlook.com (2603:10b6:a03:dc::26)
- by BY5PR12MB3857.namprd12.prod.outlook.com (2603:10b6:a03:196::28)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.29; Fri, 26 Mar
- 2021 17:39:52 +0000
-Received: from BYAPR12MB3479.namprd12.prod.outlook.com
- ([fe80::88a:1041:81ed:982]) by BYAPR12MB3479.namprd12.prod.outlook.com
- ([fe80::88a:1041:81ed:982%7]) with mapi id 15.20.3955.027; Fri, 26 Mar 2021
- 17:39:52 +0000
-X-SNPS-Relay: synopsys.com
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-To: Guillem Jover <guillem@debian.org>,
- "980963@bugs.debian.org" <980963@bugs.debian.org>,
- Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-CC: linux-snps-arc <linux-snps-arc@lists.infradead.org>,
- Helmut Grohne <helmut@subdivi.de>,
- Claudiu Zissulescu <Claudiu.Zissulescu@synopsys.com>,
- "debian-cross@lists.debian.org" <debian-cross@lists.debian.org>
-Subject: Re: Bug#980963: dpkg: Please add ARC architecture
-Thread-Topic: Bug#980963: dpkg: Please add ARC architecture
-Thread-Index: AQHXImcGTkBTaJF5wkKY8W33tD4qwQ==
-Date: Fri, 26 Mar 2021 17:39:52 +0000
-Message-ID: <6ca2d929-60d3-3846-876b-3b62dba635c0@synopsys.com>
-References: <161152061283.11410.4872085138884291562.reportbug@abrodkin-5550.internal.synopsys.com>
- <161152061283.11410.4872085138884291562.reportbug@abrodkin-5550.internal.synopsys.com>
- <YEDm3/c3h4lW7jjK@thunder.hadrons.org>
- <f6ff72c8-46d0-db07-a741-fc9fa37f899b@synopsys.com>
-In-Reply-To: <f6ff72c8-46d0-db07-a741-fc9fa37f899b@synopsys.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-authentication-results: debian.org; dkim=none (message not signed)
- header.d=none;debian.org; dmarc=none action=none header.from=synopsys.com;
-x-originating-ip: [24.4.73.83]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5c062591-488d-4cdc-d715-08d8f07e295c
-x-ms-traffictypediagnostic: BY5PR12MB3857:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BY5PR12MB38571FB885FA0CC0EF23466DB6619@BY5PR12MB3857.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8FJqCWjDgevczetEPE4WtpL2oHgAQO9jNUW/reFDUmABdC83fPsAiXRGn3Yd9IGKtVht5q6gUOPKxpuelYRy/OgP56MtAV1ddSpAGY0opwEoaq7KS1UTO9HXcAF4D1ceRIYFwOV6hleg5nmAmokS1moI1DQesBki+CM2KXeBJ8SJ0frXN13RVNpHVbukb70jm7gVpQX+BJJv2jiQlYIKU5DyRcVlZ0i4csD00exNjm7XooHZxVVaYrP7VehEzRBMCvdLfpj4Hr+DxR1LQPXXasiBPpfaCHD8dWTB2wvaNh4wbvXiX2h917Bk+g8sKckU52iiJ07SAV7ezAI1/4WL0vT9Um0jvjgAYKVkUNP7dRgnHnKjLY0bkBHLtFE46kM8dIE02S99UxGLYleDYBStHRVDlHF2jpbXR/Aj17UVXZIWMrIakY6XDDIlCSOcNf1JZJ9wc2EeW+KR2+g0QvBybcrCZqJn7Uo4yWvtICWTCfr2TNgFkvkVEPfjahm6Jax0bmqLguJnDDLZ6s3kWQva3AfC0hVE7CTpsCUzZBQePYjNSmVySaQh4vKAR0sDD1pMGQm9/Ot8H7BDL6A7qx4Ba9l2efXQ17LfJ/U2AR7eLvlXcY8b68tmhxL2bmdulen0nVw0NC43OwxMDOUGefhKP/Nu9DXShqk3RujtysvepXeVo9o+h7Sj2LROjoSbj+Jq2X0+ldbljeHRaPYAO3jFQ3Lm2z+UZvkfZCbg9Klk178pTvwx5Tv/XyYtNdDTM0/7bFprIOLUiWwgAe1BvmTFreRdTRrUK7fCRDN7jNc4C/e3P+tGCZfTbPso+LPJ7aXO
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB3479.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(136003)(396003)(346002)(39860400002)(376002)(366004)(66556008)(83380400001)(66946007)(76116006)(2906002)(71200400001)(54906003)(66476007)(186003)(2616005)(316002)(110136005)(5660300002)(38100700001)(26005)(4326008)(6486002)(6636002)(31686004)(6506007)(6512007)(31696002)(8676002)(64756008)(36756003)(8936002)(53546011)(966005)(478600001)(66446008)(86362001)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?VXU1dWJsOTBQWTRHN1NXamtUNjhQREFlbFd1dEIvaUk1cDhwNWw2elg5WUk0?=
- =?utf-8?B?eDdRS1UxbU43WEJzMTNLb1ZEOW1oc2RjNUxEd3hrVlY4OHFrVUF6K0Yrd2hu?=
- =?utf-8?B?RVRpSFRsSEdLeEl5QnpmYmRsUVFyL3lJUTI3em9Rdk9SVFJRdUd5eWw3dXd0?=
- =?utf-8?B?MmJTZjhkcE5RcERxd0hMN2tudnU1QTY3bzhaV3ZMRy8wTWFDand3RW9UVHNo?=
- =?utf-8?B?eWhPaGIrbTFyQjlZVTZpWUlmcW5wa0lMa3ZUcTl4TGh3RHc2d1BNa2lBclBk?=
- =?utf-8?B?Q1FZd0VxNWpOdjhiSHZPQzFnZHpkMEVsVkFZNWR1LzhNZS9vdGhkOFczVSti?=
- =?utf-8?B?bTIzMmFQYUFUbUlTUklqOHp5RlpqZEJ5cEhTK2wyVXJ5TVNGcDVoV1VKTzVh?=
- =?utf-8?B?VEdMdGV1VnlEVVpEbEd6ZGwwR0RXTDdpREFEeHBrdWRrSlI2bkdvSmw1WEpN?=
- =?utf-8?B?RExsY09ySldhK0xrbFI5WmF5RWhmT1U0bTM3M2NFQWlGVW5MbUg2bFhsMW9W?=
- =?utf-8?B?RmpEaVZ5TDgwMzJQMVFuTWtRSXNPcGtIT3FSc0tJWVh5eDRlQVpZYmJUUVY1?=
- =?utf-8?B?RWlTM1dHZVByYVlWeFlsWEJjWm15WndsaGtyTlR6ZU96MG5nN05MeloxWW4y?=
- =?utf-8?B?NGMxVWs3MkdzanhoQm9LV1dveEtya0FOb3p5SWNMcVBlcWdobVNsdkRONHA2?=
- =?utf-8?B?aHZvQzdCZmNaSDFNdi84M2hKanhDMWROTlp1c3B6TVpNNUY0VFlVQStXN0Uy?=
- =?utf-8?B?ZDQ4aHJabFg3VFRwQ1B3QXZGbWRJcnVsMzVYRUpYeDBpc0tSbHJHdEdROUJW?=
- =?utf-8?B?ZFBBMjZLQXkxU1RLSU4vZFhmSllWdzBUcUJWR3ROYWdEYVYvL1k3bTVDMGc0?=
- =?utf-8?B?T3RERHRSR2FJZmZQZWphQ3VKcC92bGpDNGFZaFl4a0RpbG5lL1Bka0JZSDRD?=
- =?utf-8?B?ay9JcXU1SnlnQUwwUzRCc1NQeTExeUhMaE1Qb1JSRWVScHBlNWNnTDZ0TWVm?=
- =?utf-8?B?L2pXZGxkc3RVQzRHa2dIZ0ZxekFyZnhNZ2tJbGlCdndrZHc1bm1UTk1Pbmll?=
- =?utf-8?B?VkwxMnZNcFI3NzRza2JsOEVPZFltMjNPVDYwV0JWa2NLMXdKTHhWNDJGdUhv?=
- =?utf-8?B?ckxqWWo3enNsdDhYdzVmeXZZTXNOTm5uR3p2SHhmSnBkTkk5NnlFK2RTc2xL?=
- =?utf-8?B?eC8wTnJ0dkM4OTY0Q2xRZXdLM2loL3ZhWVhKd2lSREVwNyt6OWQvZjJGbSt5?=
- =?utf-8?B?c0J5T2gveTB6V1ZqaG0wd1FHNmtBdXFUWmlOYlh3TTNWZjJXbjRkdkdhbDc5?=
- =?utf-8?B?dDVWNE5NUkg3MDQwZ0NNa0lUUzkvbEtKcm5uM3pFOUwvN0E3cytHdURQd0xk?=
- =?utf-8?B?OUlkVUIyOEZmYThiTjN5Y09WQTFlY0xLdUdFcjh1bE5tRU1kMVlJaGNSdVVQ?=
- =?utf-8?B?a3dPa2gwaW92eTl3Q0R1SC9YTHlYdnAxbjlVREwrdWppM3IxZFVnQzg0dGVD?=
- =?utf-8?B?WGpFc2NtN1E1NTc5QkRQYi9SUFR1cVRSYVN2MFBaUmtZOEw5Qk5Ia0pUUmNs?=
- =?utf-8?B?Sy9nZTBBTSsvWjZVajM1c2hrRTI5R3UvOGJBNldza3FhMWlkclNOVE93T0c2?=
- =?utf-8?B?RFRJSmVhdk5BWVVGNk5NN002MUhpNWZCaTBnQi9GcXBIVDNGdTRSTE5YVWtG?=
- =?utf-8?B?V2dnVzRQM1dXcjJwaEo0OFRaL2dPamhNczhiT0phWTBiL05QM2lyeVdIQ2Fl?=
- =?utf-8?Q?3n5onWQd5nHbLFr8ng=3D?=
-Content-ID: <F8E59913408696498DFA976155623151@namprd12.prod.outlook.com>
+ id 1lRE9D-003nEf-Eg; Tue, 30 Mar 2021 13:11:14 +0000
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4F8qXV2VMXznTlj;
+ Tue, 30 Mar 2021 21:09:14 +0800 (CST)
+Received: from [10.174.177.244] (10.174.177.244) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.498.0; Tue, 30 Mar 2021 21:10:52 +0800
+Subject: Re: [PATCH v2] mm: Move mem_init_print_info() into mm_init()
+To: <linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+CC: Russell King <linux@armlinux.org.uk>, Catalin Marinas
+ <catalin.marinas@arm.com>, Richard Henderson <rth@twiddle.net>, Guo Ren
+ <guoren@kernel.org>, Yoshinori Sato <ysato@users.sourceforge.jp>, Huacai Chen
+ <chenhuacai@kernel.org>, Jonas Bonn <jonas@southpole.se>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Heiko Carstens <hca@linux.ibm.com>, "David S. Miller"
+ <davem@davemloft.net>, Dave Hansen <dave.hansen@linux.intel.com>, "Peter
+ Zijlstra" <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ <linux-alpha@vger.kernel.org>, <linux-snps-arc@lists.infradead.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-csky@vger.kernel.org>,
+ <linux-hexagon@vger.kernel.org>, <linux-ia64@vger.kernel.org>,
+ <linux-m68k@lists.linux-m68k.org>, <linux-mips@vger.kernel.org>,
+ <openrisc@lists.librecores.org>, <linux-parisc@vger.kernel.org>,
+ <linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
+ <linux-s390@vger.kernel.org>, <linux-sh@vger.kernel.org>,
+ <sparclinux@vger.kernel.org>, <linux-um@lists.infradead.org>,
+ <linux-xtensa@linux-xtensa.org>, <linux-mm@kvack.org>
+References: <4d488195-7281-9238-b30d-9f89a6100fb9@csgroup.eu>
+ <20210317015210.33641-1-wangkefeng.wang@huawei.com>
+From: Kefeng Wang <wangkefeng.wang@huawei.com>
+Message-ID: <46ecb35c-4a5d-db0b-d5f8-b53ff0583d49@huawei.com>
+Date: Tue, 30 Mar 2021 21:10:51 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3479.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c062591-488d-4cdc-d715-08d8f07e295c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Mar 2021 17:39:52.1831 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ljuSKt/XY0ZvRZbINyNB4BDHHp44lVJHuvwWU5bzpbUu212Y2ag2qXBb3U48zAvVoc8+wRyTyCSVlSEz81NSdA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB3857
+In-Reply-To: <20210317015210.33641-1-wangkefeng.wang@huawei.com>
+Content-Language: en-US
+X-Originating-IP: [10.174.177.244]
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210326_174009_929484_F6608687 
-X-CRM114-Status: GOOD (  22.21  )
+X-CRM114-CacheID: sfid-20210330_141108_066016_210A9926 
+X-CRM114-Status: GOOD (  22.28  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -192,66 +86,442 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-T24gMy80LzIxIDM6NTYgUE0sIFZpbmVldCBHdXB0YSB3cm90ZToNCj4+IEFsc28ganVzdCB0byBt
-YWtlIHN1cmUsIHRoZSBHTlUgdHJpcGxldHMgYXJlOg0KPj4NCj4+IMKgwqAgYXJjLWxpbnV4LWdu
-dQ0KPj4gwqDCoCBhcmNlYi1saW51eC1nbnUNCj4+IE5vIEFCSSBtb2RpZmllcnMgKHN0dWZmIGxp
-a2Ug4oCcZWFiaeKAnSkgZm9yIHRoZSBsaWJjIHBhcnQgKOKAnGdudeKAnCkgcmlnaHQ/DQo+DQo+
-IEFjdHVhbGx5IGl0IHNlZW1zIHdlIGFyZSBtaXNzaW5nIGhhcmRmbG9hdCBoZXJlOiBBUkMgZ2xp
-YmMvZ2NjIHN1cHBvcnQgDQo+IGl0IHZlcnkgd2VsbCBhbmQgc2hvdWxkIGJlIGRlZmF1bHQgZm9y
-IGFueSByZWFzb25hYmxlIHBlcmZvcm1hbmNlLg0KPg0KPiBTbyBJIHRoaW5rIHdlIHNob3VsZCBh
-ZGQNCj4gwqDCoMKgIGFyYy1saW51eC1nbnVoZg0KPiDCoMKgwqAgYXJjZWItbGludXgtZ251aGYN
-Cj4NCj4gQlRXIEkgaGF2ZSBvY2UgcXVlc3Rpb246IHdoZXJlIGRvZXMgb25lIHNlbGVjdCB3aGF0
-IGRlZmF1bHQgdG9nZ2xlcyB0byANCj4gYnVpbGQgdGhlIGVudGlyZSBzb2Z0d2FyZSBzdGFjayB3
-aXRoIChzYXkgLW1jcHUgZXRjKS4gRG9lcyB0aGlzIHJlbHkgDQo+IG9uIHRvb2xjaGFpbiBkcml2
-ZXIgZGVmYXVsdCB0byBEUlRILiBPbmUgb2YgbXkgcHJvYmxlbXMgd2l0aCANCj4gcmVib290c3Ry
-YXAgd2FzIGdjYyBkcml2ZXIgZGVmYXVsdGluZyB0byBvdXIgbGVnYWN5IGNwdS4gSSd2ZSBjdXJl
-ZCBpdCANCj4gdGhlcmUgKGFuZCBwbGFubmluZyB0byB1cHN0cmVhbSB0aGUgZ2NjIGRyaXZlciBw
-YXRjaCkuDQoNClNvIGhlcmUncyB0aGUgbGF5IG9mIHRoZSBsYW5kLCBhcG9sb2dpZXMgZm9yIHRo
-ZSBsb25nIGVtYWlsLCBhbmQgaWYgDQpzb21lL21vc3Qgb2YgYmVsb3cgaXMgbm90IGRpcmVjdGx5
-IHJlbGV2YW50IHRvIGRwa2cgYnVnLCBidXQgSSdsbCANCnByb3ZpZGUgdGhlIGJhY2tncm91bmQg
-c28gd2UgYXJlIGFsbCBvbiBzYW1lIHBhZ2UuDQoNCldlJ3ZlIGhhZCAzIHJldmlzaW9ucyBvZiB0
-aGUgSVNBIGFuZCBlbnN1aW5nIG11bHRpcGxlIHByb2Nlc3NvcnMgaW4gbGFzdCANCjE1IHllYXJz
-Og0KDQpJU0HCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBJbXBsZW1lbnRhdGlvbnMv
-UHJvY2Vzc29ycyAoTGludXggY2FwYWJsZSkNCi0tLS0tLSAtLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCkFSQ29tcGFjdMKgwqDC
-oCBBUkM3MDANCkFSQ3YywqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBIUzM4eC9IUzQ4eA0KQVJDdjM6
-MzItYml0wqAgSFM1OE1QDQpBUkN2Mzo2NC1iaXTCoCBIUzY4TVANCg0KLSBBUkNvbXBhY3QgaXMg
-bGVnYWN5IGFuZCBubyBuZXcgZGV2ZWxvcG1lbnQgbmVlZGVkIGluY2x1ZGluZyBkZWJpYW4gcG9y
-dC4NCi0gQ29kZSBmb3Igb25lIElTQSBpcyBub3QgY29tcGF0aWJsZSB3aXRoIHByaW9ycywgbWFp
-bmx5IGR1ZSB0byBhZGRpdGlvbiANCm9mIG5ldyBpbnN0cnVjdGlvbnMuIEluIGZhY3QgZ2l2ZW4g
-dGhlIGNvbmZpZ3VyYWJpbGl0eSBvZiB0aGUgSVNBIGl0c2VsZiANCihmb3IgYmV0dGVyIG9yIHdv
-cnNlKSwgb25lIGNvdWxkIGVuZCB1cCAyIG5vbi1jb21wYXRpYmxlIHZhcmlhbnRzIG9mIA0Kc2Ft
-ZSBJU0EgKHRoaW5rIGRvdWJsZSBsb2FkL3N0b3JlIGluc3RydWN0aW9ucyBpbiBBUkN2MikuIEJ1
-dCB0aGUgcG9ydCANCmNhbiBhc3N1bWUgdGhlIGFsbCBlbmNvbXBhc3Npbmcgc3VwZXItc2V0IG9m
-IHRoZSBJU0EgYXMgYmFzZWxpbmUuDQotIEFSQ3YzIGlzIGN1cnJlbnRseSB1bmRlciBkZXZlbG9w
-bWVudCAvIHByZS1wcm9kdWN0aW9uIGJ1dCBzaG91bGQgYmUgDQprZXB0IGluIG1pbmQgYXMgaXQg
-aXMga25vY2tpbmcgb24gdGhlIGRvb3IgYWxyZWFkeS4NCg0KSW4gdGVybXMgb2YgdGhlIEFCSSBj
-cml0aWNhbCBmbGF2b3JzOiB0aGVyZSdzIGxpdHRsZS9iaWcgZW5kaWFuIGFuZCANCnNvZnQvaGFy
-ZC1mbG9hdC4NCi0gQWdhaW4gYmlnIGVuZGlhbiBkZWJpYW4gaXMgbm90IG5lZWRlZCAtIG1haW5s
-eSBiZWNhdXNlIG9mIG51bWJlciBvZiANCmN1c3RvbWVyIGVuZ2FnZW1lbnRzIGFuZCByZXNvdXJj
-aW5nIG5lZWRlZCB0byBzdXBwb3J0IGl0DQotIEFSQ3YyIGhhcmQtZmxvYXQgQUJJIGlzIHNhbWUg
-YXMgc29mdCAtIEZQVSBzaGFyZXMgdGhlIHNhbWUgcmVnaXN0ZXIgDQpmaWxlIHNvIHRoZSBjYWxs
-aW5nIGNvbnZlbnRpb25zIGFyZSBzYW1lLiBIb3dldmVyIHRoZSB0cmlwbGV0IGlzIA0KZGlmZmVy
-ZW50IGFyYy1saW51eC1nbnVoZiBbMV0gYXMgbGlicmFyaWVzIGZvciBoYXJkIHdvbid0IHJ1biBv
-biBhIA0Kc29mdC1mbG9hdCBzeXN0ZW0gZHVlIHRvIGxhY2sgb2YgZW11bGF0aW9uIGV0Yy4NCi0g
-QVJDdjMgZG9lcyBoYXZlIGEgZGVkaWNhdGVkIEZQIHJlZ2lzdGVyIGZpbGUgc28gdGhlcmUncyBz
-b2Z0IGFuZCBoYXJkIEFCSXMNCg0KU28gZ2l2ZW4gYWxsIG9mIHRoaXMsIEknZCBsaWtlIHRvIHBy
-b3Bvc2UgQVJDdjIgcG9ydCB3aXRoIGhhcmQtZmxvYXQgYXMgDQpiYXNlbGluZS4gV2UgZG9uJ3Qg
-Ym90aGVyIHdpdGggQmlnLWVuZGlhbi4gQSBzb2Z0LWZsb2F0IHdvdWxkIGJlIA0KZGVzaXJhYmxl
-IGZvciBkZWJ1Z2dpbmcgYW5kIGZhbGwtYmFjayBidXQgbm90IG5lY2Vzc2FyeSBmcm9tIGZlYXR1
-cmUgcG92Lg0KDQpJJ20gb3BlbiB0byBwb3J0IG5hbWVzIGFzIG1haW50YWluZXJzIGZlZWwgYXBw
-cm9wcmlhdGUgLSBidXQgc3RpY2sgd2l0aCANCmN1cnJlbnQgdHJpcGxldHMgYXJjLWdudS1saW51
-eCAvIGFyYy1nbnUtbGludXhoZiBmb3IgQVJDdjIuDQpGb3IgQVJDdjMsIHdlIGNvdWxkIGhhdmUg
-YXJjNjQqIC8gYXJjMzIqDQoNClBsZWFzZSBsZXQgbWUga25vdyBpZiB0aGlzIG1ha2VzIHNlbnNl
-Lg0KDQpPbmNlIHdlIGFncmVlLCB3ZSBjYW4gc3RhcnQgb2ZmIHdpdGggcmVxdWVzdGluZyBjaGFu
-Z2VzIHRvIEdOVSBjb25maWcgDQpwcm9qZWN0Lg0KDQpUaHgsDQotVmluZWV0DQoNClsxXSBJIGRv
-bid0IHNlZSB0aGUgYXJjIGhmIGV4cGxpY2l0bHkgQCANCmh0dHBzOi8vZ2l0LnNhdmFubmFoLmdu
-dS5vcmcvY2dpdC9jb25maWcuZ2l0L3RyZWUvdGVzdHN1aXRlL2NvbmZpZy1zdWIuZGF0YQ0KDQpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1zbnBz
-LWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRw
-Oi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
+Hi Andrew, kindly ping
+
+On 2021/3/17 9:52, Kefeng Wang wrote:
+> mem_init_print_info() is called in mem_init() on each architecture,
+> and pass NULL argument, so using void argument and move it into mm_init().
+>
+> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+> ---
+> v2:
+> - Cleanup 'str' line suggested by Christophe and ACK
+>
+>   arch/alpha/mm/init.c             |  1 -
+>   arch/arc/mm/init.c               |  1 -
+>   arch/arm/mm/init.c               |  2 --
+>   arch/arm64/mm/init.c             |  2 --
+>   arch/csky/mm/init.c              |  1 -
+>   arch/h8300/mm/init.c             |  2 --
+>   arch/hexagon/mm/init.c           |  1 -
+>   arch/ia64/mm/init.c              |  1 -
+>   arch/m68k/mm/init.c              |  1 -
+>   arch/microblaze/mm/init.c        |  1 -
+>   arch/mips/loongson64/numa.c      |  1 -
+>   arch/mips/mm/init.c              |  1 -
+>   arch/mips/sgi-ip27/ip27-memory.c |  1 -
+>   arch/nds32/mm/init.c             |  1 -
+>   arch/nios2/mm/init.c             |  1 -
+>   arch/openrisc/mm/init.c          |  2 --
+>   arch/parisc/mm/init.c            |  2 --
+>   arch/powerpc/mm/mem.c            |  1 -
+>   arch/riscv/mm/init.c             |  1 -
+>   arch/s390/mm/init.c              |  2 --
+>   arch/sh/mm/init.c                |  1 -
+>   arch/sparc/mm/init_32.c          |  2 --
+>   arch/sparc/mm/init_64.c          |  1 -
+>   arch/um/kernel/mem.c             |  1 -
+>   arch/x86/mm/init_32.c            |  2 --
+>   arch/x86/mm/init_64.c            |  2 --
+>   arch/xtensa/mm/init.c            |  1 -
+>   include/linux/mm.h               |  2 +-
+>   init/main.c                      |  1 +
+>   mm/page_alloc.c                  | 10 +++++-----
+>   30 files changed, 7 insertions(+), 42 deletions(-)
+>
+> diff --git a/arch/alpha/mm/init.c b/arch/alpha/mm/init.c
+> index 3c42b3147fd6..a97650a618f1 100644
+> --- a/arch/alpha/mm/init.c
+> +++ b/arch/alpha/mm/init.c
+> @@ -282,5 +282,4 @@ mem_init(void)
+>   	set_max_mapnr(max_low_pfn);
+>   	high_memory = (void *) __va(max_low_pfn * PAGE_SIZE);
+>   	memblock_free_all();
+> -	mem_init_print_info(NULL);
+>   }
+> diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
+> index ce07e697916c..33832e36bdb7 100644
+> --- a/arch/arc/mm/init.c
+> +++ b/arch/arc/mm/init.c
+> @@ -194,7 +194,6 @@ void __init mem_init(void)
+>   {
+>   	memblock_free_all();
+>   	highmem_init();
+> -	mem_init_print_info(NULL);
+>   }
+>   
+>   #ifdef CONFIG_HIGHMEM
+> diff --git a/arch/arm/mm/init.c b/arch/arm/mm/init.c
+> index 828a2561b229..7022b7b5c400 100644
+> --- a/arch/arm/mm/init.c
+> +++ b/arch/arm/mm/init.c
+> @@ -316,8 +316,6 @@ void __init mem_init(void)
+>   
+>   	free_highpages();
+>   
+> -	mem_init_print_info(NULL);
+> -
+>   	/*
+>   	 * Check boundaries twice: Some fundamental inconsistencies can
+>   	 * be detected at build time already.
+> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+> index 3685e12aba9b..e8f29a0bb2f1 100644
+> --- a/arch/arm64/mm/init.c
+> +++ b/arch/arm64/mm/init.c
+> @@ -491,8 +491,6 @@ void __init mem_init(void)
+>   	/* this will put all unused low memory onto the freelists */
+>   	memblock_free_all();
+>   
+> -	mem_init_print_info(NULL);
+> -
+>   	/*
+>   	 * Check boundaries twice: Some fundamental inconsistencies can be
+>   	 * detected at build time already.
+> diff --git a/arch/csky/mm/init.c b/arch/csky/mm/init.c
+> index 894050a8ce09..bf2004aa811a 100644
+> --- a/arch/csky/mm/init.c
+> +++ b/arch/csky/mm/init.c
+> @@ -107,7 +107,6 @@ void __init mem_init(void)
+>   			free_highmem_page(page);
+>   	}
+>   #endif
+> -	mem_init_print_info(NULL);
+>   }
+>   
+>   void free_initmem(void)
+> diff --git a/arch/h8300/mm/init.c b/arch/h8300/mm/init.c
+> index 1f3b345d68b9..f7bf4693e3b2 100644
+> --- a/arch/h8300/mm/init.c
+> +++ b/arch/h8300/mm/init.c
+> @@ -98,6 +98,4 @@ void __init mem_init(void)
+>   
+>   	/* this will put all low memory onto the freelists */
+>   	memblock_free_all();
+> -
+> -	mem_init_print_info(NULL);
+>   }
+> diff --git a/arch/hexagon/mm/init.c b/arch/hexagon/mm/init.c
+> index f2e6c868e477..f01e91e10d95 100644
+> --- a/arch/hexagon/mm/init.c
+> +++ b/arch/hexagon/mm/init.c
+> @@ -55,7 +55,6 @@ void __init mem_init(void)
+>   {
+>   	/*  No idea where this is actually declared.  Seems to evade LXR.  */
+>   	memblock_free_all();
+> -	mem_init_print_info(NULL);
+>   
+>   	/*
+>   	 *  To-Do:  someone somewhere should wipe out the bootmem map
+> diff --git a/arch/ia64/mm/init.c b/arch/ia64/mm/init.c
+> index 16d0d7d22657..83280e2df807 100644
+> --- a/arch/ia64/mm/init.c
+> +++ b/arch/ia64/mm/init.c
+> @@ -659,7 +659,6 @@ mem_init (void)
+>   	set_max_mapnr(max_low_pfn);
+>   	high_memory = __va(max_low_pfn * PAGE_SIZE);
+>   	memblock_free_all();
+> -	mem_init_print_info(NULL);
+>   
+>   	/*
+>   	 * For fsyscall entrpoints with no light-weight handler, use the ordinary
+> diff --git a/arch/m68k/mm/init.c b/arch/m68k/mm/init.c
+> index 14c1e541451c..1759ab875d47 100644
+> --- a/arch/m68k/mm/init.c
+> +++ b/arch/m68k/mm/init.c
+> @@ -153,5 +153,4 @@ void __init mem_init(void)
+>   	/* this will put all memory onto the freelists */
+>   	memblock_free_all();
+>   	init_pointer_tables();
+> -	mem_init_print_info(NULL);
+>   }
+> diff --git a/arch/microblaze/mm/init.c b/arch/microblaze/mm/init.c
+> index 05cf1fb3f5ff..ab55c70380a5 100644
+> --- a/arch/microblaze/mm/init.c
+> +++ b/arch/microblaze/mm/init.c
+> @@ -131,7 +131,6 @@ void __init mem_init(void)
+>   	highmem_setup();
+>   #endif
+>   
+> -	mem_init_print_info(NULL);
+>   	mem_init_done = 1;
+>   }
+>   
+> diff --git a/arch/mips/loongson64/numa.c b/arch/mips/loongson64/numa.c
+> index 8315c871c435..fa9b4a487a47 100644
+> --- a/arch/mips/loongson64/numa.c
+> +++ b/arch/mips/loongson64/numa.c
+> @@ -178,7 +178,6 @@ void __init mem_init(void)
+>   	high_memory = (void *) __va(get_num_physpages() << PAGE_SHIFT);
+>   	memblock_free_all();
+>   	setup_zero_pages();	/* This comes from node 0 */
+> -	mem_init_print_info(NULL);
+>   }
+>   
+>   /* All PCI device belongs to logical Node-0 */
+> diff --git a/arch/mips/mm/init.c b/arch/mips/mm/init.c
+> index 5cb73bf74a8b..c36358758969 100644
+> --- a/arch/mips/mm/init.c
+> +++ b/arch/mips/mm/init.c
+> @@ -467,7 +467,6 @@ void __init mem_init(void)
+>   	memblock_free_all();
+>   	setup_zero_pages();	/* Setup zeroed pages.  */
+>   	mem_init_free_highmem();
+> -	mem_init_print_info(NULL);
+>   
+>   #ifdef CONFIG_64BIT
+>   	if ((unsigned long) &_text > (unsigned long) CKSEG0)
+> diff --git a/arch/mips/sgi-ip27/ip27-memory.c b/arch/mips/sgi-ip27/ip27-memory.c
+> index 87bb6945ec25..6173684b5aaa 100644
+> --- a/arch/mips/sgi-ip27/ip27-memory.c
+> +++ b/arch/mips/sgi-ip27/ip27-memory.c
+> @@ -420,5 +420,4 @@ void __init mem_init(void)
+>   	high_memory = (void *) __va(get_num_physpages() << PAGE_SHIFT);
+>   	memblock_free_all();
+>   	setup_zero_pages();	/* This comes from node 0 */
+> -	mem_init_print_info(NULL);
+>   }
+> diff --git a/arch/nds32/mm/init.c b/arch/nds32/mm/init.c
+> index fa86f7b2f416..f63f839738c4 100644
+> --- a/arch/nds32/mm/init.c
+> +++ b/arch/nds32/mm/init.c
+> @@ -191,7 +191,6 @@ void __init mem_init(void)
+>   
+>   	/* this will put all low memory onto the freelists */
+>   	memblock_free_all();
+> -	mem_init_print_info(NULL);
+>   
+>   	pr_info("virtual kernel memory layout:\n"
+>   		"    fixmap  : 0x%08lx - 0x%08lx   (%4ld kB)\n"
+> diff --git a/arch/nios2/mm/init.c b/arch/nios2/mm/init.c
+> index 61862dbb0e32..613fcaa5988a 100644
+> --- a/arch/nios2/mm/init.c
+> +++ b/arch/nios2/mm/init.c
+> @@ -71,7 +71,6 @@ void __init mem_init(void)
+>   
+>   	/* this will put all memory onto the freelists */
+>   	memblock_free_all();
+> -	mem_init_print_info(NULL);
+>   }
+>   
+>   void __init mmu_init(void)
+> diff --git a/arch/openrisc/mm/init.c b/arch/openrisc/mm/init.c
+> index bf9b2310fc93..d5641198b90c 100644
+> --- a/arch/openrisc/mm/init.c
+> +++ b/arch/openrisc/mm/init.c
+> @@ -211,8 +211,6 @@ void __init mem_init(void)
+>   	/* this will put all low memory onto the freelists */
+>   	memblock_free_all();
+>   
+> -	mem_init_print_info(NULL);
+> -
+>   	printk("mem_init_done ...........................................\n");
+>   	mem_init_done = 1;
+>   	return;
+> diff --git a/arch/parisc/mm/init.c b/arch/parisc/mm/init.c
+> index 9ca4e4ff6895..591a4e939415 100644
+> --- a/arch/parisc/mm/init.c
+> +++ b/arch/parisc/mm/init.c
+> @@ -573,8 +573,6 @@ void __init mem_init(void)
+>   #endif
+>   		parisc_vmalloc_start = SET_MAP_OFFSET(MAP_START);
+>   
+> -	mem_init_print_info(NULL);
+> -
+>   #if 0
+>   	/*
+>   	 * Do not expose the virtual kernel memory layout to userspace.
+> diff --git a/arch/powerpc/mm/mem.c b/arch/powerpc/mm/mem.c
+> index 4e8ce6d85232..7e11c4cb08b8 100644
+> --- a/arch/powerpc/mm/mem.c
+> +++ b/arch/powerpc/mm/mem.c
+> @@ -312,7 +312,6 @@ void __init mem_init(void)
+>   		(mfspr(SPRN_TLB1CFG) & TLBnCFG_N_ENTRY) - 1;
+>   #endif
+>   
+> -	mem_init_print_info(NULL);
+>   #ifdef CONFIG_PPC32
+>   	pr_info("Kernel virtual memory layout:\n");
+>   #ifdef CONFIG_KASAN
+> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+> index 7f5036fbee8c..3c5ee3b7d811 100644
+> --- a/arch/riscv/mm/init.c
+> +++ b/arch/riscv/mm/init.c
+> @@ -102,7 +102,6 @@ void __init mem_init(void)
+>   	high_memory = (void *)(__va(PFN_PHYS(max_low_pfn)));
+>   	memblock_free_all();
+>   
+> -	mem_init_print_info(NULL);
+>   	print_vm_layout();
+>   }
+>   
+> diff --git a/arch/s390/mm/init.c b/arch/s390/mm/init.c
+> index 0e76b2127dc6..8ac710de1ab1 100644
+> --- a/arch/s390/mm/init.c
+> +++ b/arch/s390/mm/init.c
+> @@ -209,8 +209,6 @@ void __init mem_init(void)
+>   	setup_zero_pages();	/* Setup zeroed pages. */
+>   
+>   	cmma_init_nodat();
+> -
+> -	mem_init_print_info(NULL);
+>   }
+>   
+>   void free_initmem(void)
+> diff --git a/arch/sh/mm/init.c b/arch/sh/mm/init.c
+> index 0db6919af8d3..168d7d4dd735 100644
+> --- a/arch/sh/mm/init.c
+> +++ b/arch/sh/mm/init.c
+> @@ -359,7 +359,6 @@ void __init mem_init(void)
+>   
+>   	vsyscall_init();
+>   
+> -	mem_init_print_info(NULL);
+>   	pr_info("virtual kernel memory layout:\n"
+>   		"    fixmap  : 0x%08lx - 0x%08lx   (%4ld kB)\n"
+>   		"    vmalloc : 0x%08lx - 0x%08lx   (%4ld MB)\n"
+> diff --git a/arch/sparc/mm/init_32.c b/arch/sparc/mm/init_32.c
+> index 6139c5700ccc..1e9f577f084d 100644
+> --- a/arch/sparc/mm/init_32.c
+> +++ b/arch/sparc/mm/init_32.c
+> @@ -292,8 +292,6 @@ void __init mem_init(void)
+>   
+>   		map_high_region(start_pfn, end_pfn);
+>   	}
+> -
+> -	mem_init_print_info(NULL);
+>   }
+>   
+>   void sparc_flush_page_to_ram(struct page *page)
+> diff --git a/arch/sparc/mm/init_64.c b/arch/sparc/mm/init_64.c
+> index 182bb7bdaa0a..e454f179cf5d 100644
+> --- a/arch/sparc/mm/init_64.c
+> +++ b/arch/sparc/mm/init_64.c
+> @@ -2520,7 +2520,6 @@ void __init mem_init(void)
+>   	}
+>   	mark_page_reserved(mem_map_zero);
+>   
+> -	mem_init_print_info(NULL);
+>   
+>   	if (tlb_type == cheetah || tlb_type == cheetah_plus)
+>   		cheetah_ecache_flush_init();
+> diff --git a/arch/um/kernel/mem.c b/arch/um/kernel/mem.c
+> index 9242dc91d751..9019ff5905b1 100644
+> --- a/arch/um/kernel/mem.c
+> +++ b/arch/um/kernel/mem.c
+> @@ -54,7 +54,6 @@ void __init mem_init(void)
+>   	memblock_free_all();
+>   	max_low_pfn = totalram_pages();
+>   	max_pfn = max_low_pfn;
+> -	mem_init_print_info(NULL);
+>   	kmalloc_ok = 1;
+>   }
+>   
+> diff --git a/arch/x86/mm/init_32.c b/arch/x86/mm/init_32.c
+> index da31c2635ee4..21ffb03f6c72 100644
+> --- a/arch/x86/mm/init_32.c
+> +++ b/arch/x86/mm/init_32.c
+> @@ -755,8 +755,6 @@ void __init mem_init(void)
+>   	after_bootmem = 1;
+>   	x86_init.hyper.init_after_bootmem();
+>   
+> -	mem_init_print_info(NULL);
+> -
+>   	/*
+>   	 * Check boundaries twice: Some fundamental inconsistencies can
+>   	 * be detected at build time already.
+> diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
+> index 5430c81eefc9..aa8387aab9c1 100644
+> --- a/arch/x86/mm/init_64.c
+> +++ b/arch/x86/mm/init_64.c
+> @@ -1350,8 +1350,6 @@ void __init mem_init(void)
+>   		kclist_add(&kcore_vsyscall, (void *)VSYSCALL_ADDR, PAGE_SIZE, KCORE_USER);
+>   
+>   	preallocate_vmalloc_pages();
+> -
+> -	mem_init_print_info(NULL);
+>   }
+>   
+>   #ifdef CONFIG_DEFERRED_STRUCT_PAGE_INIT
+> diff --git a/arch/xtensa/mm/init.c b/arch/xtensa/mm/init.c
+> index 2daeba9e454e..6a32b2cf2718 100644
+> --- a/arch/xtensa/mm/init.c
+> +++ b/arch/xtensa/mm/init.c
+> @@ -119,7 +119,6 @@ void __init mem_init(void)
+>   
+>   	memblock_free_all();
+>   
+> -	mem_init_print_info(NULL);
+>   	pr_info("virtual kernel memory layout:\n"
+>   #ifdef CONFIG_KASAN
+>   		"    kasan   : 0x%08lx - 0x%08lx  (%5lu MB)\n"
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 89314651dd62..c2e0b3495c5a 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -2373,7 +2373,7 @@ extern unsigned long free_reserved_area(void *start, void *end,
+>   					int poison, const char *s);
+>   
+>   extern void adjust_managed_page_count(struct page *page, long count);
+> -extern void mem_init_print_info(const char *str);
+> +extern void mem_init_print_info(void);
+>   
+>   extern void reserve_bootmem_region(phys_addr_t start, phys_addr_t end);
+>   
+> diff --git a/init/main.c b/init/main.c
+> index 53b278845b88..5581af5b4cb7 100644
+> --- a/init/main.c
+> +++ b/init/main.c
+> @@ -830,6 +830,7 @@ static void __init mm_init(void)
+>   	report_meminit();
+>   	stack_depot_init();
+>   	mem_init();
+> +	mem_init_print_info();
+>   	/* page_owner must be initialized after buddy is ready */
+>   	page_ext_init_flatmem_late();
+>   	kmem_cache_init();
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index 55d938297ce6..b5fe5962837c 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -7728,7 +7728,7 @@ unsigned long free_reserved_area(void *start, void *end, int poison, const char
+>   	return pages;
+>   }
+>   
+> -void __init mem_init_print_info(const char *str)
+> +void __init mem_init_print_info(void)
+>   {
+>   	unsigned long physpages, codesize, datasize, rosize, bss_size;
+>   	unsigned long init_code_size, init_data_size;
+> @@ -7767,17 +7767,17 @@ void __init mem_init_print_info(const char *str)
+>   #ifdef	CONFIG_HIGHMEM
+>   		", %luK highmem"
+>   #endif
+> -		"%s%s)\n",
+> +		")\n",
+>   		nr_free_pages() << (PAGE_SHIFT - 10),
+>   		physpages << (PAGE_SHIFT - 10),
+>   		codesize >> 10, datasize >> 10, rosize >> 10,
+>   		(init_data_size + init_code_size) >> 10, bss_size >> 10,
+>   		(physpages - totalram_pages() - totalcma_pages) << (PAGE_SHIFT - 10),
+> -		totalcma_pages << (PAGE_SHIFT - 10),
+> +		totalcma_pages << (PAGE_SHIFT - 10)
+>   #ifdef	CONFIG_HIGHMEM
+> -		totalhigh_pages() << (PAGE_SHIFT - 10),
+> +		, totalhigh_pages() << (PAGE_SHIFT - 10)
+>   #endif
+> -		str ? ", " : "", str ? str : "");
+> +		);
+>   }
+>   
+>   /**
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
