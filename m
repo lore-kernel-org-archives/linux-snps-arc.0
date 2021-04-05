@@ -8,14 +8,14 @@ X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84727C43603
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2ADAC43600
 	for <linux-snps-arc@archiver.kernel.org>; Mon,  5 Apr 2021 14:32:31 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 197E26139E
+	by mail.kernel.org (Postfix) with ESMTPS id 844AD6128D
 	for <linux-snps-arc@archiver.kernel.org>; Mon,  5 Apr 2021 14:32:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 197E26139E
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 844AD6128D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,68 +24,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=YOWi01cz0Re2g8D27iBejEbsZOfuV7xB8DWE5JCcwKA=; b=dCohihSzWAP1RO/DO5HrzyamS
-	YfL1S+G6Tb9FXiMDUD3sLrUT2Rem4s1AVIhnQtIlXi/OhJlb5pgw+v+//GvGw00vDtuScmU/wStK9
-	skY8SM94NVSUZoxtKJdidcmwvAYCIQ0pgNC5QG/uT7kjcXooYo7MpfXhW59q/OXgP6BeuBS8gUztg
-	JKpruL6+Ga5G+VkxA3sNVwELIjy+8L5iAyRI8d1SMOYHX08hvcApHUq85Lwka7FdWeX8IoQvoL+kr
-	IVhV0QZ1YXMZuywDreeJex42SQqjC1V3YcRtmaYC2nOhyKdKG5SrsbFiV+rne2Qy58mmU1GNuSXGJ
-	eZwofgZfA==;
+	 bh=9l5azmWA5GM1mIrISEIQtEl+Ho+HsyDJd7a/ozAw1xE=; b=aHg0crjk0shK2UTfHF4Q6wRGP
+	9mtm9BKva4wcaIlKQSIwMmT8Lz68UcFEbZ9339gu2Sm4rwFWlUpkqz/rdBQvmCtGBXNtq48be5HNL
+	CaUVuurQgp0GAFQVCGTA27LMmHQYWaNFHU/y9UcZezIXTpskSHzDfPSX5Ey/+IDwz7ouN5zxbJirl
+	bNbOlWKO11352go+iQSgNifMgvgGGXaS0+MnWWkf5mvD/h/2g3QRKZwh/t4Ba3CeJF3IHrl2wk7J3
+	j4Cm07oYQt1J/PdmNERZzPkxtewNFF+4FuTnJAannRUuhvvtLLFAsV3JtRu0gD0ztb7CMpZvIJITf
+	gbiGS3c+A==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lTQHF-00HPbg-FO; Mon, 05 Apr 2021 14:32:29 +0000
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+	id 1lTQHG-00HPc1-3R; Mon, 05 Apr 2021 14:32:30 +0000
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lTQH8-00HPYW-8Y
+ id 1lTQH7-00HPY2-Px
  for linux-snps-arc@lists.infradead.org; Mon, 05 Apr 2021 14:32:24 +0000
-Received: by mail-wm1-x32c.google.com with SMTP id
- u5-20020a7bcb050000b029010e9316b9d5so5722964wmj.2
- for <linux-snps-arc@lists.infradead.org>; Mon, 05 Apr 2021 07:32:22 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id
+ y20-20020a1c4b140000b029011f294095d3so592006wma.3
+ for <linux-snps-arc@lists.infradead.org>; Mon, 05 Apr 2021 07:32:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+eD9/4PxuofF/EcVcaO5wAPVHJCdzIAdzCadWF/N8SY=;
- b=ZtvX7QOLuA5ct52dXqQpULc+xh8rRcT0PU9+Q0HNiyFh9IOWxx8sqNSfuxAy4YyTCH
- a5TrPcmn7umnVR2zqxWfxGLsOXeTvUAGmx7WQPoXWbtv35g1/G7cIo/p5YL40f0hUauX
- E/MDCfzHPQM5Uk71RRJBkPU9zydu8BnLbdKbde7jHKGym9by3jZ5pKulVavO3q8UefAP
- mFxkzQncR+p/SBg8+bhJXhsQu/oeM3+Lx7a1YS7ZVdnvNsdUaOC5Mecc+Mn4uBTpdo9U
- FJYUXatP8vWXptn+Ms/QsZdLgp42kHimckdYbUheHpMeuTHw0OFIT7128NBLQrW+jPXy
- 9NGQ==
+ bh=fw6WluA/tm00Z/1f5+BgUFLzruYO6h/Qkj6bY1W+GOo=;
+ b=mz4JBPq+Ct8BmVZFkq+C91GaCKv+m9KZpdgSDSFuraX9AvND9c+CxFCcq9bwKvIwda
+ crnkArNJ5LAeI3FC0rYe3hDJ5gdCMmhohkYisSWAtsj1N8H58pJsZf16th/ZbrwYkJGw
+ a8w5e8Fwptw+9NxWrDOYHq5aaweRwtmFyiqgbxZaWsBtj5ZvlD98kWW53a7wpEjvcncz
+ y8y5Xdour05TgP2xb4whRpPQ6uV2HV+Aoe8HJQxFjuQkbG2WUW58jy7DiqSyxoUem54j
+ 4EPq4vUN5bW1nfjNmKItKJIoI35ZfpymcRsKblgyCphkpciu7/6wGgu5LQ1FPvm6sHU0
+ AIVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+eD9/4PxuofF/EcVcaO5wAPVHJCdzIAdzCadWF/N8SY=;
- b=Oay0ci4M0Qowl1Pi/W85PgJIOfJT8HdkOEMbnWSoFPTdrIGDTG9SEn0lU4jks5aCGX
- jgrInfKZluBnsLLnPnTUj0j36sTBZowX13WAQtzM+UJO3QjkvESDyEsfc3gnYRScoxQO
- O82INvjanszsiWwYbBMKrEfpiOPqwBQfUlm33Ox1HTnUpraI+pON1ofs8pG31XqpU+5s
- dm2/1wDxOxmLrfIKM2qiPw6fyENFDrtf7xM1k9FNyXxb9EHKoEAs/OMHif1dG8VJIkZp
- rZL+jMj/zewd6lCn2x8aOdYVX9ag4PPPjC3VhMtE21HGypWI2Wv3EJc3GeARbnu60vhU
- 7XOA==
-X-Gm-Message-State: AOAM530krgLYbKIkN9koqPqAJK1Bo5C6RBNqMgL5LIN2DJmKwpVah8eD
- 3mdx12Jf7UKJ1m2Plr1+JjOZX0dqhzbGVw==
-X-Google-Smtp-Source: ABdhPJzIfKfPdAE4kHB+9HKAj83aHEeHQ63LgGC7AL2wK+phPwDDU0qKJn1Bojgl+WbT+xv/vbzOyA==
-X-Received: by 2002:a05:600c:4013:: with SMTP id
- i19mr25317117wmm.33.1617633141919; 
- Mon, 05 Apr 2021 07:32:21 -0700 (PDT)
+ bh=fw6WluA/tm00Z/1f5+BgUFLzruYO6h/Qkj6bY1W+GOo=;
+ b=l/NeZw8eI2w2bPuIqGjP0KO4Ng0xURYiv6ko0RB9GsILfBbvP7HyHzVPNL361X51kC
+ LA21gmfMO/h3ZT6CF90wKos8usNT1DqhOXc2Ln8b8dq4Om1pRIswKbQCcrvWGlrRRifM
+ 043htPo5iPO1zEIK7VodN9TgLWBl20Lw0/wMy8kCGA95C8rnZKYog3kDiLUZgJFXuLyP
+ zJ5jnSSYvU2HeuTpYSU0BHVOIZ7oHN4jYqce7NS2AR82zVGoIbJYqScmBDr6xldk54z1
+ FqvWBflddDPH/0fOCvwlFDkuJGDFrNqyrk2JKhQrg1MftMRWsf77PqlXYh+amuK+CVRx
+ DrpQ==
+X-Gm-Message-State: AOAM5335sErePrA9CFRgL6xLPa/njxty3r7DAIoF6UPbR2YF5w2mGat3
+ rOYpqVLk4jAhgkhoOR8F3ZQ=
+X-Google-Smtp-Source: ABdhPJztDrJkzf1htbDZPC/lsFcolN2acWg5gxvDJnxsPsFhfC5FegVjPzmLzrId+PA0UoQd3sUO5A==
+X-Received: by 2002:a05:600c:2215:: with SMTP id
+ z21mr25783268wml.86.1617633140971; 
+ Mon, 05 Apr 2021 07:32:20 -0700 (PDT)
 Received: from cmiranda-laptop.localdomain (bl15-158-218.dsl.telepac.pt.
  [188.80.158.218])
- by smtp.gmail.com with ESMTPSA id k3sm8231552wrc.67.2021.04.05.07.32.21
+ by smtp.gmail.com with ESMTPSA id k3sm8231552wrc.67.2021.04.05.07.32.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Apr 2021 07:32:21 -0700 (PDT)
+ Mon, 05 Apr 2021 07:32:20 -0700 (PDT)
 From: cupertinomiranda@gmail.com
 To: qemu-devel@nongnu.org
 Cc: linux-snps-arc@lists.infradead.org, claziss@synopsys.com,
  shahab@synopsys.com, cmiranda@synopsys.com
-Subject: [PATCH 14/27] arc: Add support for ARCv2
-Date: Mon,  5 Apr 2021 15:31:25 +0100
-Message-Id: <20210405143138.17016-15-cupertinomiranda@gmail.com>
+Subject: [PATCH 13/27] arc: Add Synopsys ARC emulation boards
+Date: Mon,  5 Apr 2021 15:31:24 +0100
+Message-Id: <20210405143138.17016-14-cupertinomiranda@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210405143138.17016-1-cupertinomiranda@gmail.com>
 References: <20210405143138.17016-1-cupertinomiranda@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210405_153222_412833_76ABBC75 
-X-CRM114-Status: GOOD (  23.35  )
+X-CRM114-CacheID: sfid-20210405_153222_099092_504B641A 
+X-CRM114-Status: GOOD (  28.17  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,318 +102,682 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Shahab Vahedi <shahab@synopsys.com>
+From: Claudiu Zissulescu <claziss@synopsys.com>
 
-Add remaining bits of the Synopsys ARCv2 (EM/HS) support into QEMU,
-configure bits, arch_init and configuration files for softmmu (hardware
-emulation).
+Add the Synopsys ARC boards, arc_sim for testing, sim-hs main emulation
+board using standard UART and nsim which includes a Synopsys ARC specific
+UART implementation.
 
-Signed-off-by: Shahab Vahedi <shahab@synopsys.com>
-Signed-off-by: Cupertino Miranda <cmiranda@synopsys.com>
+Signed-off-by: Claudiu Zissulescu <claziss@synopsys.com>
 ---
- configure                               |  2 ++
- default-configs/arc-softmmu.mak         |  5 +++++
- default-configs/devices/arc-softmmu.mak |  7 +++++++
- default-configs/targets/arc-softmmu.mak |  3 +++
- disas.c                                 |  2 ++
- disas/meson.build                       |  1 +
- hw/Kconfig                              |  1 +
- hw/arc/Kconfig                          |  9 +++++++++
- hw/arc/Makefile.objs                    | 21 ---------------------
- hw/arc/meson.build                      |  6 +-----
- hw/meson.build                          |  1 +
- include/disas/dis-asm.h                 | 10 +++++++++-
- include/elf.h                           |  5 +++++
- include/exec/poison.h                   |  2 ++
- include/sysemu/arch_init.h              |  1 +
- meson.build                             |  5 +++--
- softmmu/arch_init.c                     |  2 ++
- target/meson.build                      |  1 +
- 18 files changed, 55 insertions(+), 29 deletions(-)
- create mode 100644 default-configs/arc-softmmu.mak
- create mode 100644 default-configs/devices/arc-softmmu.mak
- create mode 100644 default-configs/targets/arc-softmmu.mak
- create mode 100644 hw/arc/Kconfig
- delete mode 100644 hw/arc/Makefile.objs
+ hw/arc/Makefile.objs     |  21 +++++
+ hw/arc/arc_sim.c         | 124 +++++++++++++++++++++++++++
+ hw/arc/boot.c            | 100 ++++++++++++++++++++++
+ hw/arc/boot.h            |  21 +++++
+ hw/arc/meson.build       |  13 +++
+ hw/arc/pic_cpu.c         | 113 ++++++++++++++++++++++++
+ hw/arc/virt.c            | 180 +++++++++++++++++++++++++++++++++++++++
+ include/hw/arc/cpudevs.h |  30 +++++++
+ 8 files changed, 602 insertions(+)
+ create mode 100644 hw/arc/Makefile.objs
+ create mode 100644 hw/arc/arc_sim.c
+ create mode 100644 hw/arc/boot.c
+ create mode 100644 hw/arc/boot.h
+ create mode 100644 hw/arc/meson.build
+ create mode 100644 hw/arc/pic_cpu.c
+ create mode 100644 hw/arc/virt.c
+ create mode 100644 include/hw/arc/cpudevs.h
 
-diff --git a/configure b/configure
-index 535e6a9269..80d993fac7 100755
---- a/configure
-+++ b/configure
-@@ -680,6 +680,8 @@ elif check_define __arm__ ; then
-   cpu="arm"
- elif check_define __aarch64__ ; then
-   cpu="aarch64"
-+elif check_define __arc__ ; then
-+  cpu="arc"
- else
-   cpu=$(uname -m)
- fi
-diff --git a/default-configs/arc-softmmu.mak b/default-configs/arc-softmmu.mak
-new file mode 100644
-index 0000000000..4300a90c93
---- /dev/null
-+++ b/default-configs/arc-softmmu.mak
-@@ -0,0 +1,5 @@
-+# Default configuration for arc-softmmu
-+
-+CONFIG_VIRTIO_MMIO=y
-+CONFIG_SERIAL=y
-+CONFIG_OPENCORES_ETH=y
-diff --git a/default-configs/devices/arc-softmmu.mak b/default-configs/devices/arc-softmmu.mak
-new file mode 100644
-index 0000000000..0ce4176b2d
---- /dev/null
-+++ b/default-configs/devices/arc-softmmu.mak
-@@ -0,0 +1,7 @@
-+# Default configuration for arc-softmmu
-+
-+CONFIG_SEMIHOSTING=n
-+
-+# Boards:
-+#
-+CONFIG_ARC_VIRT=y
-diff --git a/default-configs/targets/arc-softmmu.mak b/default-configs/targets/arc-softmmu.mak
-new file mode 100644
-index 0000000000..a50b090b97
---- /dev/null
-+++ b/default-configs/targets/arc-softmmu.mak
-@@ -0,0 +1,3 @@
-+TARGET_ARCH=arcv2
-+TARGET_BASE_ARCH=arc
-+TARGET_XML_FILES= gdb-xml/arc-v2-core.xml gdb-xml/arc-v2-aux.xml gdb-xml/arc-v2-other.xml
-diff --git a/disas.c b/disas.c
-index a61f95b580..a10fa41330 100644
---- a/disas.c
-+++ b/disas.c
-@@ -208,6 +208,8 @@ static void initialize_debug_host(CPUDebug *s)
-     s->info.cap_insn_split = 6;
- #elif defined(__hppa__)
-     s->info.print_insn = print_insn_hppa;
-+#elif defined(__arc__)
-+    s->info.print_insn = print_insn_arc;
- #endif
- }
- 
-diff --git a/disas/meson.build b/disas/meson.build
-index 4c8da01877..c35836fa9f 100644
---- a/disas/meson.build
-+++ b/disas/meson.build
-@@ -4,6 +4,7 @@ subdir('libvixl')
- common_ss.add(when: 'CONFIG_ALPHA_DIS', if_true: files('alpha.c'))
- common_ss.add(when: 'CONFIG_ARM_A64_DIS', if_true: files('arm-a64.cc'))
- common_ss.add_all(when: 'CONFIG_ARM_A64_DIS', if_true: libvixl_ss)
-+common_ss.add(when: 'CONFIG_ARC_DIS', if_true: files('arc.c'))
- common_ss.add(when: 'CONFIG_ARM_DIS', if_true: files('arm.c'))
- common_ss.add(when: 'CONFIG_CRIS_DIS', if_true: files('cris.c'))
- common_ss.add(when: 'CONFIG_HEXAGON_DIS', if_true: files('hexagon.c'))
-diff --git a/hw/Kconfig b/hw/Kconfig
-index ff40bd3f7b..cdc0d380a3 100644
---- a/hw/Kconfig
-+++ b/hw/Kconfig
-@@ -41,6 +41,7 @@ source vfio/Kconfig
- source watchdog/Kconfig
- 
- # arch Kconfig
-+source arc/Kconfig
- source arm/Kconfig
- source alpha/Kconfig
- source avr/Kconfig
-diff --git a/hw/arc/Kconfig b/hw/arc/Kconfig
-new file mode 100644
-index 0000000000..b47afbcdf2
---- /dev/null
-+++ b/hw/arc/Kconfig
-@@ -0,0 +1,9 @@
-+config ARC_VIRT
-+    bool
-+    select SERIAL
-+    select VIRTIO_MMIO
-+    select PCI_EXPRESS_GENERIC_BRIDGE
-+    select PCI_DEVICES
-+
-+config ARC
-+    bool
 diff --git a/hw/arc/Makefile.objs b/hw/arc/Makefile.objs
-deleted file mode 100644
-index 28d7766cd9..0000000000
---- a/hw/arc/Makefile.objs
-+++ /dev/null
-@@ -1,21 +0,0 @@
--#
--#  QEMU ARC CPU
--#
--#  Copyright (c) 2019
--#
--#  This library is free software; you can redistribute it and/or
--#  modify it under the terms of the GNU Lesser General Public
--#  License as published by the Free Software Foundation; either
--#  version 2.1 of the License, or (at your option) any later version.
--#
--#  This library is distributed in the hope that it will be useful,
--#  but WITHOUT ANY WARRANTY; without even the implied warranty of
--#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
--#  Lesser General Public License for more details.
--#
--#  You should have received a copy of the GNU Lesser General Public
--#  License along with this library; if not, see
--#  http://www.gnu.org/licenses/lgpl-2.1.html
--#
--
--obj-y   = arc_sim.o arc_uart.o sample.o pic_cpu.o boot.o board-hsdk.o sim-hs.o nsim.o
+new file mode 100644
+index 0000000000..28d7766cd9
+--- /dev/null
++++ b/hw/arc/Makefile.objs
+@@ -0,0 +1,21 @@
++#
++#  QEMU ARC CPU
++#
++#  Copyright (c) 2019
++#
++#  This library is free software; you can redistribute it and/or
++#  modify it under the terms of the GNU Lesser General Public
++#  License as published by the Free Software Foundation; either
++#  version 2.1 of the License, or (at your option) any later version.
++#
++#  This library is distributed in the hope that it will be useful,
++#  but WITHOUT ANY WARRANTY; without even the implied warranty of
++#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++#  Lesser General Public License for more details.
++#
++#  You should have received a copy of the GNU Lesser General Public
++#  License along with this library; if not, see
++#  http://www.gnu.org/licenses/lgpl-2.1.html
++#
++
++obj-y   = arc_sim.o arc_uart.o sample.o pic_cpu.o boot.o board-hsdk.o sim-hs.o nsim.o
+diff --git a/hw/arc/arc_sim.c b/hw/arc/arc_sim.c
+new file mode 100644
+index 0000000000..64db440454
+--- /dev/null
++++ b/hw/arc/arc_sim.c
+@@ -0,0 +1,124 @@
++/*
++ * QEMU ARC CPU
++ *
++ * Copyright (c) 2020 Synppsys Inc.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * http://www.gnu.org/licenses/lgpl-2.1.html
++ */
++
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "cpu.h"
++#include "hw/hw.h"
++#include "hw/boards.h"
++#include "elf.h"
++#include "hw/char/serial.h"
++#include "net/net.h"
++#include "hw/loader.h"
++#include "exec/memory.h"
++#include "exec/address-spaces.h"
++#include "sysemu/reset.h"
++#include "sysemu/runstate.h"
++#include "sysemu/sysemu.h"
++#include "hw/sysbus.h"
++#include "hw/arc/cpudevs.h"
++#include "boot.h"
++
++
++static uint64_t arc_io_read(void *opaque, hwaddr addr, unsigned size)
++{
++    return 0;
++}
++
++static void arc_io_write(void *opaque, hwaddr addr,
++                         uint64_t val, unsigned size)
++{
++    switch (addr) {
++    case 0x08: /* board reset. */
++        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
++        break;
++    default:
++        break;
++    }
++}
++
++static const MemoryRegionOps arc_io_ops = {
++    .read = arc_io_read,
++    .write = arc_io_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++};
++
++static void arc_sim_init(MachineState *machine)
++{
++    static struct arc_boot_info boot_info;
++    unsigned int smp_cpus = machine->smp.cpus;
++    ram_addr_t ram_base = 0;
++    ram_addr_t ram_size = machine->ram_size;
++    ARCCPU *cpu = NULL;
++    MemoryRegion *ram, *system_io;
++    int n;
++
++    boot_info.ram_start = ram_base;
++    boot_info.ram_size = ram_size;
++    boot_info.kernel_filename = machine->kernel_filename;
++
++    for (n = 0; n < smp_cpus; n++) {
++        cpu = ARC_CPU(object_new(machine->cpu_type));
++        if (cpu == NULL) {
++            fprintf(stderr, "Unable to find CPU definition!\n");
++            exit(1);
++        }
++
++        /* Set the initial CPU properties. */
++        object_property_set_uint(OBJECT(cpu), "freq_hz", 1000000, &error_fatal);
++        object_property_set_bool(OBJECT(cpu), "rtc-opt", true, &error_fatal);
++        object_property_set_bool(OBJECT(cpu), "realized", true, &error_fatal);
++
++        /* Initialize internal devices. */
++        cpu_arc_pic_init(cpu);
++        cpu_arc_clock_init(cpu);
++
++        qemu_register_reset(arc_cpu_reset, cpu);
++    }
++
++    ram = g_new(MemoryRegion, 1);
++    memory_region_init_ram(ram, NULL, "arc.ram", ram_size, &error_fatal);
++    memory_region_add_subregion(get_system_memory(), ram_base, ram);
++
++    system_io = g_new(MemoryRegion, 1);
++    memory_region_init_io(system_io, NULL, &arc_io_ops, NULL, "arc.io",
++                           1024);
++    memory_region_add_subregion(get_system_memory(), 0xf0000000, system_io);
++
++    serial_mm_init(get_system_memory(), 0x90000000, 2, cpu->env.irq[20],
++                   115200, serial_hd(0), DEVICE_NATIVE_ENDIAN);
++
++    arc_load_kernel(cpu, &boot_info);
++}
++
++static void arc_sim_machine_init(MachineClass *mc)
++{
++    mc->desc = "ARCxx simulation";
++    mc->init = arc_sim_init;
++    mc->max_cpus = 1;
++    mc->is_default = false;
++    mc->default_cpu_type = ARC_CPU_TYPE_NAME("archs");
++}
++
++DEFINE_MACHINE("arc-sim", arc_sim_machine_init)
++
++
++/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
++/* vim: set ts=4 sw=4 et: */
+diff --git a/hw/arc/boot.c b/hw/arc/boot.c
+new file mode 100644
+index 0000000000..962fc03b03
+--- /dev/null
++++ b/hw/arc/boot.c
+@@ -0,0 +1,100 @@
++/*
++ * QEMU ARC CPU
++ *
++ * Copyright (c) 2020 Synppsys Inc.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * http://www.gnu.org/licenses/lgpl-2.1.html
++ */
++
++#include "qemu/osdep.h"
++#include "boot.h"
++#include "elf.h"
++#include "hw/loader.h"
++#include "qemu/error-report.h"
++#include "qemu/units.h"
++
++void arc_cpu_reset(void *opaque)
++{
++    ARCCPU *cpu = opaque;
++    CPUARCState *env = &cpu->env;
++    const struct arc_boot_info *info = env->boot_info;
++
++    cpu_reset(CPU(cpu));
++
++    /*
++     * Right before start CPU gets reset wiping out everything
++     * but PC which we set on Elf load.
++     *
++     * And if we still want to pass something like U-Boot data
++     * via CPU registers we have to do it here.
++     */
++
++    if (info->kernel_cmdline && strlen(info->kernel_cmdline)) {
++        /*
++         * Load "cmdline" far enough from the kernel image.
++         * Round by MAX page size for ARC - 16 KiB.
++         */
++        hwaddr cmdline_addr = info->ram_start +
++            QEMU_ALIGN_UP(info->ram_size / 2, 16 * KiB);
++        cpu_physical_memory_write(cmdline_addr, info->kernel_cmdline,
++                                  strlen(info->kernel_cmdline));
++
++        /* We're passing "cmdline" */
++        cpu->env.r[0] = ARC_UBOOT_CMDLINE;
++        cpu->env.r[2] = cmdline_addr;
++    }
++}
++
++
++void arc_load_kernel(ARCCPU *cpu, struct arc_boot_info *info)
++{
++    hwaddr entry;
++    int elf_machine, kernel_size;
++
++    if (!info->kernel_filename) {
++        error_report("missing kernel file");
++        exit(EXIT_FAILURE);
++    }
++
++    elf_machine = cpu->family > 2 ? EM_ARC_COMPACT2 : EM_ARC_COMPACT;
++    kernel_size = load_elf(info->kernel_filename, NULL, NULL, NULL,
++                           &entry, NULL, NULL, NULL, ARC_ENDIANNESS_LE,
++                           elf_machine, 1, 0);
++
++    if (kernel_size < 0) {
++        int is_linux;
++
++        kernel_size = load_uimage(info->kernel_filename, &entry, NULL,
++                                  &is_linux, NULL, NULL);
++        if (!is_linux) {
++            error_report("Wrong U-Boot image, only Linux kernel is supported");
++            exit(EXIT_FAILURE);
++        }
++    }
++
++    if (kernel_size < 0) {
++        error_report("No kernel image found");
++        exit(EXIT_FAILURE);
++    }
++
++    cpu->env.boot_info = info;
++
++    /* Set CPU's PC to point to the entry-point */
++    cpu->env.pc = entry;
++}
++
++
++/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
++/* vim: set ts=4 sw=4 et: */
+diff --git a/hw/arc/boot.h b/hw/arc/boot.h
+new file mode 100644
+index 0000000000..e46aa16fc6
+--- /dev/null
++++ b/hw/arc/boot.h
+@@ -0,0 +1,21 @@
++#ifndef ARC_BOOT_H
++#define ARC_BOOT_H
++
++#include "hw/hw.h"
++#include "cpu.h"
++
++struct arc_boot_info {
++    hwaddr ram_start;
++    uint64_t ram_size;
++    const char *kernel_filename;
++    const char *kernel_cmdline;
++};
++
++void arc_cpu_reset(void *opaque);
++void arc_load_kernel(ARCCPU *cpu, struct arc_boot_info *boot_info);
++
++#endif /* ARC_BOOT_H */
++
++
++/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
++/* vim: set ts=4 sw=4 et: */
 diff --git a/hw/arc/meson.build b/hw/arc/meson.build
-index 6a587307a4..f3b517013d 100644
---- a/hw/arc/meson.build
+new file mode 100644
+index 0000000000..6a587307a4
+--- /dev/null
 +++ b/hw/arc/meson.build
-@@ -1,13 +1,9 @@
- arc_ss = ss.source_set()
- arc_ss.add(files(
-   'arc_sim.c',
--  'arc_uart.c',
--  'sample.c',
-   'pic_cpu.c',
-   'boot.c',
--  'board-hsdk.c',
--  'sim-hs.c',
--  'nsim.c',
- ))
-+arc_ss.add(when: 'CONFIG_ARC_VIRT', if_true: files('virt.c'))
- 
- hw_arch += {'arc': arc_ss}
-diff --git a/hw/meson.build b/hw/meson.build
-index 8ba79b1a52..8f1a151c68 100644
---- a/hw/meson.build
-+++ b/hw/meson.build
-@@ -42,6 +42,7 @@ subdir('xen')
- subdir('xenpv')
- 
- subdir('alpha')
-+subdir('arc')
- subdir('arm')
- subdir('avr')
- subdir('cris')
-diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
-index 13fa1edd41..8a0aa19bc2 100644
---- a/include/disas/dis-asm.h
-+++ b/include/disas/dis-asm.h
-@@ -206,7 +206,14 @@ enum bfd_architecture
-   bfd_arch_v850,       /* NEC V850 */
- #define bfd_mach_v850          0
-   bfd_arch_arc,        /* Argonaut RISC Core */
--#define bfd_mach_arc_base 0
-+#define bfd_mach_arc_a4        0
-+#define bfd_mach_arc_a5        1
-+#define bfd_mach_arc_arc600    2
-+#define bfd_mach_arc_arc601    4
-+#define bfd_mach_arc_arc700    3
-+#define bfd_mach_arc_arcv2     5
-+#define bfd_mach_arc_arcv2em   6
-+#define bfd_mach_arc_arcv2hs   7
-   bfd_arch_m32r,       /* Mitsubishi M32R/D */
- #define bfd_mach_m32r          0  /* backwards compatibility */
-   bfd_arch_mn10200,    /* Matsushita MN10200 */
-@@ -460,6 +467,7 @@ int print_insn_riscv32          (bfd_vma, disassemble_info*);
- int print_insn_riscv64          (bfd_vma, disassemble_info*);
- int print_insn_rx(bfd_vma, disassemble_info *);
- int print_insn_hexagon(bfd_vma, disassemble_info *);
-+int print_insn_arc              (bfd_vma, disassemble_info*);
- 
- #ifdef CONFIG_CAPSTONE
- bool cap_disas_target(disassemble_info *info, uint64_t pc, size_t size);
-diff --git a/include/elf.h b/include/elf.h
-index 78237c9a87..8c7c4ab8a9 100644
---- a/include/elf.h
-+++ b/include/elf.h
-@@ -206,6 +206,11 @@ typedef struct mips_elf_abiflags_v0 {
- 
- #define EM_AARCH64  183
- 
-+#define EM_TILEGX   191 /* TILE-Gx */
+@@ -0,0 +1,13 @@
++arc_ss = ss.source_set()
++arc_ss.add(files(
++  'arc_sim.c',
++  'arc_uart.c',
++  'sample.c',
++  'pic_cpu.c',
++  'boot.c',
++  'board-hsdk.c',
++  'sim-hs.c',
++  'nsim.c',
++))
 +
-+#define EM_ARC_COMPACT  93  /* Synopsys ARCompact */
-+#define EM_ARC_COMPACT2 195 /* Synopsys ARCompact V2 */
++hw_arch += {'arc': arc_ss}
+diff --git a/hw/arc/pic_cpu.c b/hw/arc/pic_cpu.c
+new file mode 100644
+index 0000000000..d41fa0fe4b
+--- /dev/null
++++ b/hw/arc/pic_cpu.c
+@@ -0,0 +1,113 @@
++/*
++ * ARC Programmable Interrupt Controller support.
++ *
++ * Copyright (c) 2020 Synppsys Inc.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * http://www.gnu.org/licenses/lgpl-2.1.html
++ */
 +
- #define EM_MOXIE           223     /* Moxie processor family */
- #define EM_MOXIE_OLD       0xFEED
- 
-diff --git a/include/exec/poison.h b/include/exec/poison.h
-index 4cd3f8abb4..ec04c8370b 100644
---- a/include/exec/poison.h
-+++ b/include/exec/poison.h
-@@ -8,6 +8,7 @@
- #pragma GCC poison TARGET_X86_64
- #pragma GCC poison TARGET_AARCH64
- #pragma GCC poison TARGET_ALPHA
-+#pragma GCC poison TARGET_ARC
- #pragma GCC poison TARGET_ARM
- #pragma GCC poison TARGET_CRIS
- #pragma GCC poison TARGET_HEXAGON
-@@ -69,6 +70,7 @@
- 
- #pragma GCC poison CONFIG_ALPHA_DIS
- #pragma GCC poison CONFIG_ARM_A64_DIS
-+#pragma GCC poison CONFIG_ARC_DIS
- #pragma GCC poison CONFIG_ARM_DIS
- #pragma GCC poison CONFIG_CRIS_DIS
- #pragma GCC poison CONFIG_HPPA_DIS
-diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
-index 16da279696..ace91cd47c 100644
---- a/include/sysemu/arch_init.h
-+++ b/include/sysemu/arch_init.h
-@@ -26,6 +26,7 @@ enum {
-     QEMU_ARCH_RISCV = (1 << 19),
-     QEMU_ARCH_RX = (1 << 20),
-     QEMU_ARCH_AVR = (1 << 21),
-+    QEMU_ARCH_ARC = (1 << 22),
- 
-     QEMU_ARCH_NONE = (1 << 31),
- };
-diff --git a/meson.build b/meson.build
-index c6f4b0cf5e..a25425022e 100644
---- a/meson.build
-+++ b/meson.build
-@@ -56,8 +56,8 @@ have_block = have_system or have_tools
- python = import('python').find_installation()
- 
- supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
--supported_cpus = ['ppc', 'ppc64', 's390x', 'riscv32', 'riscv64', 'x86', 'x86_64',
--  'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
-+supported_cpus = ['ppc', 'ppc64', 's390x', 'sparc64', 'riscv32', 'riscv64', 'x86', 'x86_64',
-+  'arc', 'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
- 
- cpu = host_machine.cpu_family()
- targetos = host_machine.system()
-@@ -1190,6 +1190,7 @@ config_target_mak = {}
- 
- disassemblers = {
-   'alpha' : ['CONFIG_ALPHA_DIS'],
-+  'arc' : ['CONFIG_ARC_DIS'],
-   'arm' : ['CONFIG_ARM_DIS'],
-   'avr' : ['CONFIG_AVR_DIS'],
-   'cris' : ['CONFIG_CRIS_DIS'],
-diff --git a/softmmu/arch_init.c b/softmmu/arch_init.c
-index 7fd5c09b2b..27faed5edd 100644
---- a/softmmu/arch_init.c
-+++ b/softmmu/arch_init.c
-@@ -92,6 +92,8 @@ int graphic_depth = 32;
- #define QEMU_ARCH QEMU_ARCH_XTENSA
- #elif defined(TARGET_AVR)
- #define QEMU_ARCH QEMU_ARCH_AVR
-+#elif defined(TARGET_ARC)
-+#define QEMU_ARCH QEMU_ARCH_ARC
- #endif
- 
- const uint32_t arch_type = QEMU_ARCH;
-diff --git a/target/meson.build b/target/meson.build
-index 0e2c4b69cb..c3d94ae1dd 100644
---- a/target/meson.build
-+++ b/target/meson.build
-@@ -1,4 +1,5 @@
- subdir('alpha')
-+subdir('arc')
- subdir('arm')
- subdir('avr')
- subdir('cris')
++
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "hw/hw.h"
++#include "hw/irq.h"
++#include "qemu/log.h"
++#include "hw/arc/cpudevs.h"
++
++/*
++ * ARC pic handler
++ */
++static void arc_pic_cpu_handler(void *opaque, int irq, int level)
++{
++    ARCCPU *cpu = (ARCCPU *) opaque;
++    CPUState *cs = CPU(cpu);
++    CPUARCState *env = &cpu->env;
++    int i;
++    bool clear = false;
++    uint32_t irq_bit;
++
++    /* Assert if this handler is called in a system without interrupts. */
++    assert(cpu->cfg.has_interrupts);
++
++    /* Assert if the IRQ is not within the cpu configuration bounds. */
++    assert(irq >= 16 && irq < (cpu->cfg.number_of_interrupts + 15));
++
++    irq_bit = 1 << env->irq_bank[irq].priority;
++    if (level) {
++        /*
++         * An interrupt is enabled, update irq_priority_pendig and rise
++         * the qemu interrupt line.
++         */
++        env->irq_bank[irq].pending = 1;
++        qatomic_or(&env->irq_priority_pending, irq_bit);
++        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
++    } else {
++        env->irq_bank[irq].pending = 0;
++
++        /*
++         * First, check if we still have any pending interrupt at the
++         * given priority.
++         */
++        clear = true;
++        for (i = 16; i < cpu->cfg.number_of_interrupts; i++) {
++            if (env->irq_bank[i].pending
++                && env->irq_bank[i].priority == env->irq_bank[irq].priority) {
++                clear = false;
++                break;
++            }
++        }
++
++        /* If not, update (clear) irq_priority_pending. */
++        if (clear) {
++            qatomic_and(&env->irq_priority_pending, ~irq_bit);
++        }
++
++        /*
++         * If we don't have any pending priority, lower the qemu irq
++         * line. N.B. we can also check more here like IE bit, but we
++         * need to add a cpu_interrupt call when we enable the
++         * interrupts (e.g., sleep, seti).
++         */
++        if (!env->irq_priority_pending) {
++            cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
++        }
++    }
++    qemu_log_mask(CPU_LOG_INT,
++                  "[IRQ] level = %d, clear = %d, irq = %d, priority = " TARGET_FMT_lu ", "
++                  "pending = %08x, pc = " TARGET_FMT_lx "\n",
++                  level, clear, irq, env->irq_bank[irq].priority,
++                  env->irq_priority_pending, env->pc);
++}
++
++/*
++ * ARC PIC initialization helper
++ */
++void cpu_arc_pic_init(ARCCPU *cpu)
++{
++    CPUARCState *env = &cpu->env;
++    int i;
++    qemu_irq *qi;
++
++    qi = qemu_allocate_irqs(arc_pic_cpu_handler, cpu,
++                            16 + cpu->cfg.number_of_interrupts);
++
++    for (i = 0; i < cpu->cfg.number_of_interrupts; i++) {
++        env->irq[16 + i] = qi[16 + i];
++    }
++}
++
++
++/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
++/* vim: set ts=4 sw=4 et: */
+diff --git a/hw/arc/virt.c b/hw/arc/virt.c
+new file mode 100644
+index 0000000000..8f7d7cbd5d
+--- /dev/null
++++ b/hw/arc/virt.c
+@@ -0,0 +1,180 @@
++/*
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "boot.h"
++#include "hw/boards.h"
++#include "hw/char/serial.h"
++#include "exec/address-spaces.h"
++#include "sysemu/reset.h"
++#include "sysemu/sysemu.h"
++#include "hw/arc/cpudevs.h"
++#include "hw/pci-host/gpex.h"
++#include "hw/sysbus.h"
++
++#define VIRT_RAM_BASE      0x80000000
++#define VIRT_RAM_SIZE      0x80000000
++#define VIRT_IO_BASE       0xf0000000
++#define VIRT_IO_SIZE       0x10000000
++#define VIRT_UART0_OFFSET  0x0
++#define VIRT_UART0_IRQ     24
++
++/* VirtIO */
++#define VIRT_VIRTIO_NUMBER 5
++#define VIRT_VIRTIO_OFFSET 0x100000
++#define VIRT_VIRTIO_BASE   (VIRT_IO_BASE + VIRT_VIRTIO_OFFSET)
++#define VIRT_VIRTIO_SIZE   0x2000
++#define VIRT_VIRTIO_IRQ    31
++
++/* PCI */
++#define VIRT_PCI_ECAM_BASE 0xe0000000
++#define VIRT_PCI_ECAM_SIZE 0x01000000
++#define VIRT_PCI_MMIO_BASE 0xd0000000
++#define VIRT_PCI_MMIO_SIZE 0x10000000
++#define VIRT_PCI_PIO_BASE  0xc0000000
++#define VIRT_PCI_PIO_SIZE  0x00004000
++#define PCIE_IRQ           40  /* IRQs 40-43 as GPEX_NUM_IRQS=4 */
++
++static void create_pcie(ARCCPU *cpu)
++{
++    hwaddr base_ecam = VIRT_PCI_ECAM_BASE;
++    hwaddr size_ecam = VIRT_PCI_ECAM_SIZE;
++    hwaddr base_pio  = VIRT_PCI_PIO_BASE;
++    hwaddr size_pio  = VIRT_PCI_PIO_SIZE;
++    hwaddr base_mmio = VIRT_PCI_MMIO_BASE;
++    hwaddr size_mmio = VIRT_PCI_MMIO_SIZE;
++
++    MemoryRegion *ecam_alias;
++    MemoryRegion *ecam_reg;
++    MemoryRegion *pio_alias;
++    MemoryRegion *pio_reg;
++    MemoryRegion *mmio_alias;
++    MemoryRegion *mmio_reg;
++
++    DeviceState *dev;
++    int i;
++
++    dev = qdev_new(TYPE_GPEX_HOST);
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
++
++    /* Map only the first size_ecam bytes of ECAM space. */
++    ecam_alias = g_new0(MemoryRegion, 1);
++    ecam_reg = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
++    memory_region_init_alias(ecam_alias, OBJECT(dev), "pcie-ecam",
++                             ecam_reg, 0, size_ecam);
++    memory_region_add_subregion(get_system_memory(), base_ecam, ecam_alias);
++
++    /*
++     * Map the MMIO window into system address space so as to expose
++     * the section of PCI MMIO space which starts at the same base address
++     * (ie 1:1 mapping for that part of PCI MMIO space visible through
++     * the window).
++     */
++    mmio_alias = g_new0(MemoryRegion, 1);
++    mmio_reg = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 1);
++    memory_region_init_alias(mmio_alias, OBJECT(dev), "pcie-mmio",
++                             mmio_reg, base_mmio, size_mmio);
++    memory_region_add_subregion(get_system_memory(), base_mmio, mmio_alias);
++
++    /* Map IO port space. */
++    pio_alias = g_new0(MemoryRegion, 1);
++    pio_reg = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 2);
++    memory_region_init_alias(pio_alias, OBJECT(dev), "pcie-pio",
++                             pio_reg, 0, size_pio);
++    memory_region_add_subregion(get_system_memory(), base_pio, pio_alias);
++
++    /* Connect IRQ lines. */
++    for (i = 0; i < GPEX_NUM_IRQS; i++) {
++        sysbus_connect_irq(SYS_BUS_DEVICE(dev), i, cpu->env.irq[PCIE_IRQ + i]);
++        gpex_set_irq_num(GPEX_HOST(dev), i, PCIE_IRQ + i);
++    }
++}
++
++static void virt_init(MachineState *machine)
++{
++    static struct arc_boot_info boot_info;
++    unsigned int smp_cpus = machine->smp.cpus;
++    MemoryRegion *system_memory = get_system_memory();
++    MemoryRegion *system_ram;
++    MemoryRegion *system_ram0;
++    MemoryRegion *system_io;
++    ARCCPU *cpu = NULL;
++    int n;
++
++    boot_info.ram_start = VIRT_RAM_BASE;
++    boot_info.ram_size = VIRT_RAM_SIZE;
++    boot_info.kernel_filename = machine->kernel_filename;
++    boot_info.kernel_cmdline = machine->kernel_cmdline;
++
++    for (n = 0; n < smp_cpus; n++) {
++        cpu = ARC_CPU(cpu_create("archs-" TYPE_ARC_CPU));
++        if (cpu == NULL) {
++            fprintf(stderr, "Unable to find CPU definition!\n");
++            exit(1);
++        }
++
++       /* Initialize internal devices. */
++        cpu_arc_pic_init(cpu);
++        cpu_arc_clock_init(cpu);
++
++        qemu_register_reset(arc_cpu_reset, cpu);
++    }
++
++    /* Init system DDR */
++    system_ram = g_new(MemoryRegion, 1);
++    memory_region_init_ram(system_ram, NULL, "arc.ram", VIRT_RAM_SIZE,
++                           &error_fatal);
++    memory_region_add_subregion(system_memory, VIRT_RAM_BASE, system_ram);
++
++    system_ram0 = g_new(MemoryRegion, 1);
++    memory_region_init_ram(system_ram0, NULL, "arc.ram0", 0x1000000,
++                           &error_fatal);
++    memory_region_add_subregion(system_memory, 0, system_ram0);
++
++    /* Init IO area */
++    system_io = g_new(MemoryRegion, 1);
++    memory_region_init_io(system_io, NULL, NULL, NULL, "arc.io",
++                          VIRT_IO_SIZE);
++    memory_region_add_subregion(system_memory, VIRT_IO_BASE, system_io);
++
++    serial_mm_init(system_io, VIRT_UART0_OFFSET, 2,
++                   cpu->env.irq[VIRT_UART0_IRQ], 115200, serial_hd(0),
++                   DEVICE_NATIVE_ENDIAN);
++
++    for (n = 0; n < VIRT_VIRTIO_NUMBER; n++) {
++        sysbus_create_simple("virtio-mmio",
++                             VIRT_VIRTIO_BASE + VIRT_VIRTIO_SIZE * n,
++                             cpu->env.irq[VIRT_VIRTIO_IRQ + n]);
++    }
++
++    create_pcie(cpu);
++
++    arc_load_kernel(cpu, &boot_info);
++}
++
++static void virt_machine_init(MachineClass *mc)
++{
++    mc->desc = "ARC Virtual Machine";
++    mc->init = virt_init;
++    mc->max_cpus = 1;
++    mc->is_default = true;
++}
++
++DEFINE_MACHINE("virt", virt_machine_init)
++
++
++/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
++/* vim: set ts=4 sw=4 et: */
+diff --git a/include/hw/arc/cpudevs.h b/include/hw/arc/cpudevs.h
+new file mode 100644
+index 0000000000..2e155b6437
+--- /dev/null
++++ b/include/hw/arc/cpudevs.h
+@@ -0,0 +1,30 @@
++/*
++ * QEMU ARC CPU
++ *
++ * Copyright (c) 2020 Synppsys Inc.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * http://www.gnu.org/licenses/lgpl-2.1.html
++ */
++
++#ifndef HW_ARC_CPUDEVS_H
++#define HW_ARC_CPUDEVS_H
++
++/* Timer service routines.  */
++extern void cpu_arc_clock_init(ARCCPU *);
++
++/* PIC service routines. */
++extern void cpu_arc_pic_init(ARCCPU *);
++
++#endif /* !HW_ARC_CPUDEVS_H */
 -- 
 2.20.1
 
