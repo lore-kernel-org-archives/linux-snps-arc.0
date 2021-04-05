@@ -8,14 +8,14 @@ X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 263B8C433ED
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  5 Apr 2021 14:32:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E49AC433B4
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  5 Apr 2021 14:32:31 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 86B296128D
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  5 Apr 2021 14:32:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 86B296128D
+	by mail.kernel.org (Postfix) with ESMTPS id 8256E6128D
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  5 Apr 2021 14:32:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8256E6128D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,67 +24,66 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=B5Cd+U4Yze0SZWmFGykNF3XKxbbDDum4JUT573ab0Ss=; b=IWf8ICJSRXuhtrSAnWhYfPxQ7
-	izvvz8Dy9KrghrApjFB71myMOxCKvU3XhCYSMGR5O2xKjvACfTdlW9upNlCPKLV2G/gcr6umj3qNP
-	k0uNAMzK19yXptDcv1KqTra8I+pfC/YoEe9uK63S7tuDv+YUyRAvXaMYfD6+SIxNdsdC9T2HJlB40
-	4FKYr1x20YSLE3DkUA62LzAHN9F8neu0xoRh2RhlS9UPSyFrrYYVuZVWloZBH6XT6mUdtYin9h81Y
-	m20S9WeSuRYd4QIZcZ6T7lP20+evJqUhTyMCLqjejsXav/7k0zhReTvQZfPV2IK0Jfw9lVG/gMPAo
-	hT0O8CTQQ==;
+	 bh=cyPectv4D/NlJwJRpkHFO92DAOidb/RQnbUQvgSEg18=; b=cTt3umYY18mAG4Mj0ia464iTB
+	wXm7V2Lf5m3m8hMo7vbNQSuVyhJ2dqYMPmFZu+iw5GYd9Jrlm8T+Zr+XIOI/KwFYpeFKS2FajkF+R
+	ozLqQTX9IH162D0kGv2dM2rUfLUqMvqcHOcTOulN1C4yUaNslmaTYXzgs2Eib1AqR5tMJRK6kOisL
+	V3zZhKFCmfqzJPEayeYpFnGEmrspxBEUhs73Jl+Rf5YKQW5Brtp7rWvE/HGmCEuSIowdNesZMIlrH
+	nTdi/FoxTR6D1+Mfiaog1TUCOsMJmR3w7eSqn+f+1PQDpK98VSe8Ypo1oNZmPNIB5oM8Wv4g/Z9Ol
+	eQENy2/ug==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lTQHB-00HPaA-QL; Mon, 05 Apr 2021 14:32:26 +0000
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+	id 1lTQHF-00HPbT-02; Mon, 05 Apr 2021 14:32:29 +0000
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lTQH4-00HPWK-84
- for linux-snps-arc@lists.infradead.org; Mon, 05 Apr 2021 14:32:21 +0000
-Received: by mail-wm1-x32b.google.com with SMTP id
- j4-20020a05600c4104b029010c62bc1e20so5729461wmi.3
- for <linux-snps-arc@lists.infradead.org>; Mon, 05 Apr 2021 07:32:17 -0700 (PDT)
+ id 1lTQH6-00HPXa-GY
+ for linux-snps-arc@lists.infradead.org; Mon, 05 Apr 2021 14:32:23 +0000
+Received: by mail-wm1-x330.google.com with SMTP id o6so2862258wmq.3
+ for <linux-snps-arc@lists.infradead.org>; Mon, 05 Apr 2021 07:32:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nVm4SS8WVxKQiMgAE8qFuS0IjamCmWJyqE18TyAYMbg=;
- b=ptyHyofH7S0oxjg86v5cSJAYztZDff2RFbHn+/EoBOpu86Q8BWNktedOVzbYuTXlsd
- qGCFV7O7cL/oLkHHxckhkMPcD6w29NlQ4lVjQWx8tD2kRmgviIznqpbHCgSqUijJzWhV
- z/D1LYokZMkfcwo906e/Ha1e684ywWMOQG9KzdMXvh4L754UlTJREcB+7sdNsRNW+WY3
- yxpIbogCkbhWbb/m1VEtzfv3BEwZA5lCFO1Eq6iuZyUvRggb0o9S+Beo3D5QnkE/Ce5T
- Lz592I06RqTf50HsdOu8eE2vg+ZAJafRmS1n/cWEGXGsmjCfixJM6KhUG/L6vbpr2OGp
- yz4A==
+ bh=BY2DlGfthi/5EpjNo0Gz8ouWxFRGsyZJp6AAsyCinj8=;
+ b=u4xleXawVJ8K1Lu+aplES/Lu85MNx1rd9J+34odlp/x4QFLY57gPxpCO2zv8telliJ
+ f0kFpEO7c0unPkYffukvcKWPCFEKctF/sOsLuX5QC2PthllLIsHIdnQOyiOUFnQSxUdp
+ blXr/jFYyIHV1T1Repo9Rsf+mJu2SXE8Rp+3ouwnCnuEvv1IV73G01UhgiIZFfeR5gDr
+ crpBIELt+BhehshZDD1wOqmEkize1zor/AN5d1NxqMbBEk+yOa7EyEdpP3j1Hebrq4fK
+ yNM+WJV7iWbTWc2F/K64xIEg4pxFAXM1Gcs9eP2ouLxmkB0c6tdVkW6hNYtJIlsV37W+
+ a4FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nVm4SS8WVxKQiMgAE8qFuS0IjamCmWJyqE18TyAYMbg=;
- b=hjmIMdKIg8XGLnUMnj1+hBtSGTKM+u0BWg3RG5D94KKaljYq8fCjbUnB3+cwSS/DEf
- YM7e1onO7s07PXNXoqdqIOMyWPkqWX5dWTeXqjvpPXuWMuxA21eDlKGVTwgR9Y4isYPL
- yao0vin5pAa2IUuL9aCv3uTuKc4ArSdfyaGB/WZBY8EevcFgc5PDK7VGXcRLPAHugVR6
- ZuoGndTBTvQsvDrxPTu/6ZLIx1vCVVFvt3j9Qt1zN2cx2wBB7EwxuhInAsYElHC+b0MF
- yQCR1vkKVcHFgVRoMPuA74wWkQ3E22oi/lZb1O1uLmfBQAl2oTz+Iji+2JyzVFf4T0+B
- sjBQ==
-X-Gm-Message-State: AOAM533z6TxFz3rdv2hZSnn5Wf8ahzr1lK+0aD6Dgl8Eu8xcH/6SJRFj
- Sy2dkEgVTaIW00bme//0Cg0=
-X-Google-Smtp-Source: ABdhPJwVoJTTWNiHw7ZqcjOPQtU5WMskRhxblP8PVrO0Io5WmSed8syRjnoD9wqOAAimNL2u61a/qA==
-X-Received: by 2002:a1c:1fcb:: with SMTP id f194mr7336090wmf.79.1617633137058; 
- Mon, 05 Apr 2021 07:32:17 -0700 (PDT)
+ bh=BY2DlGfthi/5EpjNo0Gz8ouWxFRGsyZJp6AAsyCinj8=;
+ b=tgBLOKrqox5R06Rxrwq7kpkEb9TWI741OU34F8LXmezUGrid40q+0rcEiMBzBPPtgR
+ 4ZuYlj7cCVAi+dNeun1fH2yZASybDzWoPNpxV2QPAzgx7FYf6PtRGy9EJOoXzA6wJ8Ik
+ 6K2oaql3jL8e2vW+/pCVWowx1EIq7lHSVGNWqnWWMG0EgXklQbcO9rUbuYPMYRIr5Ssp
+ RjyWoqn+s8TJwG9doie61JTU1oxjuAtct0S50sFhoDSVqvwyJNOzaGx9vDZVBOUqDFOS
+ Txpajj+E1kyWQK8DuttN96LVL5iNg7Wf15kORUOMAPPrt5of8kj95+bl3FL7pfu96elY
+ 8Qvw==
+X-Gm-Message-State: AOAM531QjTgmNH7L8xiZDfWApe4kBv4eIJg+kyJpHTJLahwki4pJyor/
+ 9Ut31BK6JTV96rDdLhiCCd4=
+X-Google-Smtp-Source: ABdhPJzI5JJOOYRo3G6nJ3mWnVjpZQD7H8yfXQqvMMyZEmqVmcD0PYDIcd2Osyxf1wommlWSbF+p3w==
+X-Received: by 2002:a1c:6241:: with SMTP id w62mr25481929wmb.79.1617633140064; 
+ Mon, 05 Apr 2021 07:32:20 -0700 (PDT)
 Received: from cmiranda-laptop.localdomain (bl15-158-218.dsl.telepac.pt.
  [188.80.158.218])
- by smtp.gmail.com with ESMTPSA id k3sm8231552wrc.67.2021.04.05.07.32.16
+ by smtp.gmail.com with ESMTPSA id k3sm8231552wrc.67.2021.04.05.07.32.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Apr 2021 07:32:16 -0700 (PDT)
+ Mon, 05 Apr 2021 07:32:19 -0700 (PDT)
 From: cupertinomiranda@gmail.com
 To: qemu-devel@nongnu.org
 Cc: linux-snps-arc@lists.infradead.org, claziss@synopsys.com,
  shahab@synopsys.com, cmiranda@synopsys.com
-Subject: [PATCH 09/27] arc: Add IRQ and timer subsystem support
-Date: Mon,  5 Apr 2021 15:31:20 +0100
-Message-Id: <20210405143138.17016-10-cupertinomiranda@gmail.com>
+Subject: [PATCH 12/27] arc: Add gdbstub and XML for debugging support
+Date: Mon,  5 Apr 2021 15:31:23 +0100
+Message-Id: <20210405143138.17016-13-cupertinomiranda@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210405143138.17016-1-cupertinomiranda@gmail.com>
 References: <20210405143138.17016-1-cupertinomiranda@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210405_153218_553993_069E050E 
-X-CRM114-Status: GOOD (  24.00  )
+X-CRM114-CacheID: sfid-20210405_153220_784839_1E732CDE 
+X-CRM114-Status: GOOD (  11.82  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,35 +100,369 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Claudiu Zissulescu <claziss@synopsys.com>
+From: Shahab Vahedi <shahab@synopsys.com>
 
-Signed-off-by: Claudiu Zissulescu <claziss@synopsys.com>
+Register layout for the target and the mechanisms to read and set them.
+
+Signed-off-by: Shahab Vahedi <shahab@synopsys.com>
 ---
- target/arc/irq.c   | 680 +++++++++++++++++++++++++++++++++++++++++++++
- target/arc/irq.h   |  37 +++
- target/arc/timer.c | 459 ++++++++++++++++++++++++++++++
- target/arc/timer.h |  27 ++
- 4 files changed, 1203 insertions(+)
- create mode 100644 target/arc/irq.c
- create mode 100644 target/arc/irq.h
- create mode 100644 target/arc/timer.c
- create mode 100644 target/arc/timer.h
+ gdb-xml/arc-v2-aux.xml   |  32 +++
+ gdb-xml/arc-v2-core.xml  |  45 +++++
+ gdb-xml/arc-v2-other.xml | 235 ++++++++++++++++++++++
+ target/arc/gdbstub.c     | 421 +++++++++++++++++++++++++++++++++++++++
+ target/arc/gdbstub.h     | 157 +++++++++++++++
+ 5 files changed, 890 insertions(+)
+ create mode 100644 gdb-xml/arc-v2-aux.xml
+ create mode 100644 gdb-xml/arc-v2-core.xml
+ create mode 100644 gdb-xml/arc-v2-other.xml
+ create mode 100644 target/arc/gdbstub.c
+ create mode 100644 target/arc/gdbstub.h
 
-diff --git a/target/arc/irq.c b/target/arc/irq.c
+diff --git a/gdb-xml/arc-v2-aux.xml b/gdb-xml/arc-v2-aux.xml
 new file mode 100644
-index 0000000000..75111a87a8
+index 0000000000..e18168ad05
 --- /dev/null
-+++ b/target/arc/irq.c
-@@ -0,0 +1,680 @@
++++ b/gdb-xml/arc-v2-aux.xml
+@@ -0,0 +1,32 @@
++<?xml version="1.0"?>
++<!-- Copyright (C) 2018 Free Software Foundation, Inc.
++     Copying and distribution of this file, with or without modification,
++     are permitted in any medium without royalty provided the copyright
++     notice and this notice are preserved.  -->
++
++<!DOCTYPE feature SYSTEM "gdb-target.dtd">
++<feature name="org.gnu.gdb.arc.aux">
++  <flags id="status32_type" size="4">
++      <field name="H"   start="0"  end="0"/>
++      <field name="E"   start="1"  end="4"/>
++      <field name="AE"  start="5"  end="5"/>
++      <field name="DE"  start="6"  end="6"/>
++      <field name="U"   start="7"  end="7"/>
++      <field name="V"   start="8"  end="8"/>
++      <field name="C"   start="9"  end="9"/>
++      <field name="N"   start="10" end="10"/>
++      <field name="Z"   start="11" end="11"/>
++      <field name="L"   start="12" end="12"/>
++      <field name="DZ"  start="13" end="13"/>
++      <field name="SC"  start="14" end="14"/>
++      <field name="ES"  start="15" end="15"/>
++      <field name="RB"  start="16" end="18"/>
++      <field name="AD"  start="19" end="19"/>
++      <field name="US"  start="20" end="20"/>
++      <field name="IE"  start="31" end="31"/>
++  </flags>
++  <reg name="pc"       bitsize="32" regnum="36" type="code_ptr"      group="general"/>
++  <reg name="lp_start" bitsize="32" regnum="37" type="code_ptr"      group="general"/>
++  <reg name="lp_end"   bitsize="32" regnum="38" type="code_ptr"      group="general"/>
++  <reg name="status32" bitsize="32" regnum="39" type="status32_type" group="general"/>
++</feature>
+diff --git a/gdb-xml/arc-v2-core.xml b/gdb-xml/arc-v2-core.xml
+new file mode 100644
+index 0000000000..c925a6994c
+--- /dev/null
++++ b/gdb-xml/arc-v2-core.xml
+@@ -0,0 +1,45 @@
++<?xml version="1.0"?>
++<!-- Copyright (C) 2018 Free Software Foundation, Inc.
++     Copying and distribution of this file, with or without modification,
++     are permitted in any medium without royalty provided the copyright
++     notice and this notice are preserved.  -->
++
++<!DOCTYPE feature SYSTEM "gdb-target.dtd">
++<feature name="org.gnu.gdb.arc.core">
++  <reg name="r0"       bitsize="32" regnum="0"                  group="general"/>
++  <reg name="r1"       bitsize="32" regnum="1"                  group="general"/>
++  <reg name="r2"       bitsize="32" regnum="2"                  group="general"/>
++  <reg name="r3"       bitsize="32" regnum="3"                  group="general"/>
++  <reg name="r4"       bitsize="32" regnum="4"                  group="general"/>
++  <reg name="r5"       bitsize="32" regnum="5"                  group="general"/>
++  <reg name="r6"       bitsize="32" regnum="6"                  group="general"/>
++  <reg name="r7"       bitsize="32" regnum="7"                  group="general"/>
++  <reg name="r8"       bitsize="32" regnum="8"                  group="general"/>
++  <reg name="r9"       bitsize="32" regnum="9"                  group="general"/>
++  <reg name="r10"      bitsize="32" regnum="10"                 group="general"/>
++  <reg name="r11"      bitsize="32" regnum="11"                 group="general"/>
++  <reg name="r12"      bitsize="32" regnum="12"                 group="general"/>
++  <reg name="r13"      bitsize="32" regnum="13"                 group="general"/>
++  <reg name="r14"      bitsize="32" regnum="14"                 group="general"/>
++  <reg name="r15"      bitsize="32" regnum="15"                 group="general"/>
++  <reg name="r16"      bitsize="32" regnum="16"                 group="general"/>
++  <reg name="r17"      bitsize="32" regnum="17"                 group="general"/>
++  <reg name="r18"      bitsize="32" regnum="18"                 group="general"/>
++  <reg name="r19"      bitsize="32" regnum="19"                 group="general"/>
++  <reg name="r20"      bitsize="32" regnum="20"                 group="general"/>
++  <reg name="r21"      bitsize="32" regnum="21"                 group="general"/>
++  <reg name="r22"      bitsize="32" regnum="22"                 group="general"/>
++  <reg name="r23"      bitsize="32" regnum="23"                 group="general"/>
++  <reg name="r24"      bitsize="32" regnum="24"                 group="general"/>
++  <reg name="r25"      bitsize="32" regnum="25"                 group="general"/>
++  <reg name="gp"       bitsize="32" regnum="26" type="data_ptr" group="general"/>
++  <reg name="fp"       bitsize="32" regnum="27" type="data_ptr" group="general"/>
++  <reg name="sp"       bitsize="32" regnum="28" type="data_ptr" group="general"/>
++  <reg name="ilink"    bitsize="32" regnum="29" type="code_ptr" group="general"/>
++  <reg name="r30"      bitsize="32" regnum="30"                 group="general"/>
++  <reg name="blink"    bitsize="32" regnum="31" type="code_ptr" group="general"/>
++  <reg name="accl"     bitsize="32" regnum="32"                 group="general"/>
++  <reg name="acch"     bitsize="32" regnum="33"                 group="general"/>
++  <reg name="lp_count" bitsize="32" regnum="34" type="uint32"   group="general"/>
++  <reg name="pcl"      bitsize="32" regnum="35" type="code_ptr" group="general"/>
++</feature>
+diff --git a/gdb-xml/arc-v2-other.xml b/gdb-xml/arc-v2-other.xml
+new file mode 100644
+index 0000000000..9824f518cc
+--- /dev/null
++++ b/gdb-xml/arc-v2-other.xml
+@@ -0,0 +1,235 @@
++<?xml version="1.0"?>
++<!-- Copyright (C) 2018 Free Software Foundation, Inc.
++     Copying and distribution of this file, with or without modification,
++     are permitted in any medium without royalty provided the copyright
++     notice and this notice are preserved.  -->
++
++<!DOCTYPE feature SYSTEM "gdb-target.dtd">
++<feature name="org.gnu.gdb.arc.other">
++  <flags id="timer_build_type" size="4">
++    <field name="version" start="0"  end="7"/>
++    <field name="t0"      start="8"  end="8"/>
++    <field name="t1"      start="9"  end="9"/>
++    <field name="rtc"     start="10" end="10"/>
++    <field name="p0"      start="16" end="19"/>
++    <field name="p1"      start="20" end="23"/>
++  </flags>
++  <flags id="irq_build_type" size="4">
++    <field name="version" start="0"  end="7"/>
++    <field name="IRQs"    start="8"  end="15"/>
++    <field name="exts"    start="16" end="23"/>
++    <field name="p"       start="24" end="27"/>
++    <field name="f"       start="28" end="28"/>
++  </flags>
++  <flags id="mpy_build_type" size="4">
++    <field name="version32x32" start="0"  end="7"/>
++    <field name="type"         start="8"  end="9"/>
++    <field name="cyc"          start="10" end="11"/>
++    <field name="DSP"          start="12" end="15"/>
++    <field name="version16x16" start="16" end="23"/>
++  </flags>
++  <flags id="vecbase_build_type" size="4">
++    <field name="version" start="2"  end="9"/>
++    <field name="addr"    start="10" end="31"/>
++  </flags>
++  <flags id="isa_config_type" size="4">
++    <field name="version"   start="0"  end="7"/>
++    <field name="pc_size"   start="8"  end="11"/>
++    <field name="lpc_size"  start="12" end="15"/>
++    <field name="addr_size" start="16" end="19"/>
++    <field name="b"         start="20" end="20"/>
++    <field name="a"         start="21" end="21"/>
++    <field name="n"         start="22" end="22"/>
++    <field name="l"         start="23" end="23"/>
++    <field name="c"         start="24" end="27"/>
++    <field name="d"         start="28" end="31"/>
++  </flags>
++  <flags id="timer_ctrl_type" size="4">
++    <field name="ie" start="0" end="0"/>
++    <field name="nh" start="1" end="1"/>
++    <field name="w"  start="2" end="2"/>
++    <field name="ip" start="3" end="3"/>
++    <field name="pd" start="4" end="4"/>
++  </flags>
++  <flags id="tlbpd0_type" size="4">
++    <field name="a"   start="0"  end="7"  type="uint8"/>
++    <field name="g"   start="8"  end="8"  type="bool"/>
++    <field name="v"   start="9"  end="9"  type="bool"/>
++    <field name="sz " start="10" end="10" type="bool"/>
++    <field name="vpn" start="12" end="30" type="uint32"/>
++    <field name="s"   start="31" end="31" type="bool"/>
++  </flags>
++  <flags id="tlbpd1_type" size="4">
++    <field name="fc"  start="0"  end="0"/>
++    <field name="eu"  start="1"  end="1"/>
++    <field name="wu"  start="2"  end="2"/>
++    <field name="ru"  start="3"  end="3"/>
++    <field name="ek"  start="4"  end="4"/>
++    <field name="wk"  start="5"  end="5"/>
++    <field name="rk"  start="6"  end="6"/>
++    <field name="ppn" start="12" end="31"/>
++  </flags>
++  <flags id="tlbindex_type" size="4">
++    <field name="index" start="0"  end="12"/>
++    <field name="rc"    start="28" end="30"/>
++    <field name="e"     start="31" end="31"/>
++  </flags>
++  <flags id="tlbcmd_type" size="4">
++    <field name="cmd" start="0" end="5"/>
++  </flags>
++  <flags id="pid_type" size="4">
++    <field name="p" start="0"  end="7" />
++    <field name="s" start="29" end="29"/>
++    <field name="t" start="31" end="31"/>
++  </flags>
++  <flags id="erstatus_type" size="4">
++    <field name="e"  start="1"  end="4" />
++    <field name="ae" start="5"  end="5" />
++    <field name="de" start="6"  end="6" />
++    <field name="u"  start="7"  end="7" />
++    <field name="v"  start="8"  end="8" />
++    <field name="c"  start="9"  end="9" />
++    <field name="n"  start="10" end="10"/>
++    <field name="z"  start="11" end="11"/>
++    <field name="l"  start="12" end="12"/>
++    <field name="dz" start="13" end="13"/>
++    <field name="sc" start="14" end="14"/>
++    <field name="es" start="15" end="15"/>
++    <field name="rb" start="16" end="18"/>
++    <field name="ad" start="19" end="19"/>
++    <field name="us" start="20" end="20"/>
++    <field name="ie" start="31" end="31"/>
++  </flags>
++  <flags id="ecr_type" size="4">
++    <field name="parameter"    start="0"  end="7" />
++    <field name="causecode"    start="8"  end="15"/>
++    <field name="vectornumber" start="16" end="23"/>
++    <field name="u"            start="30" end="30"/>
++    <field name="p"            start="31" end="31"/>
++  </flags>
++  <flags id="irq_ctrl_type" size="4">
++    <field name="nr" start="0"  end="4"/>
++    <field name="b"  start="9"  end="9"/>
++    <field name="l"  start="10" end="10"/>
++    <field name="u"  start="11" end="11"/>
++    <field name="lp" start="13" end="13"/>
++  </flags>
++  <flags id="irq_act_type" size="4">
++    <field name="active" start="0" end="15"/>
++    <field name="u" start="31" end="31"/>
++  </flags>
++  <flags id="irq_status_type" size="4">
++    <field name="p"  start="0"  end="3"/>
++    <field name="e"  start="4"  end="4"/>
++    <field name="t"  start="5"  end="5"/>
++    <field name="ip" start="31" end="31"/>
++  </flags>
++  <flags id="mpu_build_type" size="4">
++    <field name="version" start="0" end="7"/>
++    <field name="regions" start="8" end="15"/>
++  </flags>
++  <flags id="mpuen_type" size="4">
++    <field name="ue" start="3"  end="3"/>
++    <field name="uw" start="4"  end="4"/>
++    <field name="ur" start="5"  end="5"/>
++    <field name="ke" start="6"  end="6"/>
++    <field name="kw" start="7"  end="7"/>
++    <field name="kr" start="8"  end="8"/>
++    <field name="en" start="30" end="30"/>
++  </flags>
++  <flags id="mpuecr_type" size="4">
++    <field name="mr"      start="0"  end="7"/>
++    <field name="vt"      start="8"  end="9"/>
++    <field name="ec_code" start="16" end="31"/>
++  </flags>
++  <flags id="mpurdb_type" size="4">
++    <field name="v"         start="0" end="0"/>
++    <field name="base_addr" start="5" end="31"/>
++  </flags>
++  <flags id="mpurdp_type" size="4">
++    <field name="size_lower" start="0"  end="1"/>
++    <field name="ue"         start="3"  end="3"/>
++    <field name="uw"         start="4"  end="4"/>
++    <field name="ur"         start="5"  end="5"/>
++    <field name="ke"         start="6"  end="6"/>
++    <field name="kw"         start="7"  end="7"/>
++    <field name="kr"         start="8"  end="8"/>
++    <field name="size_upper" start="9"  end="11"/>
++  </flags>
++  <!-- build registers -->
++  <reg name="timer_build"   bitsize="32" regnum="40" type="timer_build_type"   group=""/>
++  <reg name="irq_build"     bitsize="32" regnum="41" type="irq_build_type"     group=""/>
++  <reg name="mpy_build"     bitsize="32" regnum="42" type="mpy_build_type"     group=""/>
++  <reg name="vecbase_build" bitsize="32" regnum="43" type="vecbase_build_type" group=""/>
++  <reg name="isa_config"    bitsize="32" regnum="44" type="isa_config_type"    group=""/>
++  <!-- timer registers -->
++  <reg name="timer_count0" bitsize="32" regnum="45"                        group="general"/>
++  <reg name="timer_ctrl0"  bitsize="32" regnum="46" type="timer_ctrl_type" group="general"/>
++  <reg name="timer_limit0" bitsize="32" regnum="47"                        group="general"/>
++  <reg name="timer_count1" bitsize="32" regnum="48"                        group="general"/>
++  <reg name="timer_ctrl1"  bitsize="32" regnum="49" type="timer_ctrl_type" group="general"/>
++  <reg name="timer_limit1" bitsize="32" regnum="50"                        group="general"/>
++  <!-- mmu registers -->
++  <reg name="pid"      bitsize="32" regnum="51" type="pid_type"      group="general"/>
++  <reg name="tlbpd0"   bitsize="32" regnum="52" type="tlbpd0_type"   group="general"/>
++  <reg name="tlbpd1"   bitsize="32" regnum="53" type="tlbpd1_type"   group="general"/>
++  <reg name="tlbindex" bitsize="32" regnum="54" type="tlbindex_type" group="general"/>
++  <reg name="tlbcmd"   bitsize="32" regnum="55" type="tlbcmd_type"   group="general"/>
++  <!-- mpu registers -->
++  <reg name="mpu_build" bitsize="32" regnum="56"  type="mpu_build_type" group=""/>
++  <reg name="mpuen"     bitsize="32" regnum="57"  type="mpuen_type"     group=""/>
++  <reg name="mpuecr"    bitsize="32" regnum="58"  type="mpuecr_type"    group=""/>
++  <reg name="mpurdb0"   bitsize="32" regnum="59"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb1"   bitsize="32" regnum="60"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb2"   bitsize="32" regnum="61"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb3"   bitsize="32" regnum="62"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb4"   bitsize="32" regnum="63"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb5"   bitsize="32" regnum="64"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb6"   bitsize="32" regnum="65"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb7"   bitsize="32" regnum="66"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb8"   bitsize="32" regnum="67"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb9"   bitsize="32" regnum="68"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb10"  bitsize="32" regnum="69"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb11"  bitsize="32" regnum="70"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb12"  bitsize="32" regnum="71"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb13"  bitsize="32" regnum="72"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb14"  bitsize="32" regnum="73"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb15"  bitsize="32" regnum="74"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdp0"   bitsize="32" regnum="75"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp1"   bitsize="32" regnum="76"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp2"   bitsize="32" regnum="77"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp3"   bitsize="32" regnum="78"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp4"   bitsize="32" regnum="79"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp5"   bitsize="32" regnum="80"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp6"   bitsize="32" regnum="81"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp7"   bitsize="32" regnum="82"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp8"   bitsize="32" regnum="83"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp9"   bitsize="32" regnum="84"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp10"  bitsize="32" regnum="85"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp11"  bitsize="32" regnum="86"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp12"  bitsize="32" regnum="87"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp13"  bitsize="32" regnum="88"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp14"  bitsize="32" regnum="89"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp15"  bitsize="32" regnum="90"  type="mpurdp_type"    group=""/>
++  <!-- exception registers -->
++  <reg name="erstatus" bitsize="32" regnum="91" type="erstatus_type" group="general"/>
++  <reg name="erbta"    bitsize="32" regnum="92" type="code_ptr"      group="general"/>
++  <reg name="ecr"      bitsize="32" regnum="93" type="ecr_type"      group="general"/>
++  <reg name="eret"     bitsize="32" regnum="94" type="code_ptr"      group="general"/>
++  <reg name="efa"      bitsize="32" regnum="95" type="uint32"        group="general"/>
++  <!-- irq registers -->
++  <reg name="icause"               bitsize="32" regnum="96"  type="uint8"           group="general"/>
++  <reg name="aux_irq_ctrl"         bitsize="32" regnum="97"  type="irq_ctrl_type"   group="general"/>
++  <reg name="aux_irq_act"          bitsize="32" regnum="98"  type="irq_act_type"    group="general"/>
++  <reg name="irq_priority_pending" bitsize="32" regnum="99"  type="uint16"          group="general"/>
++  <reg name="aux_irq_hint"         bitsize="32" regnum="100" type="uint8"           group="general"/>
++  <reg name="irq_select"           bitsize="32" regnum="101" type="uint8"           group="general"/>
++  <reg name="irq_enable"           bitsize="32" regnum="102" type="bool"            group="general"/>
++  <reg name="irq_trigger"          bitsize="32" regnum="103" type="bool"            group="general"/>
++  <reg name="irq_status"           bitsize="32" regnum="104" type="irq_status_type" group="general"/>
++  <reg name="irq_pulse_cancel"     bitsize="32" regnum="105" type="bool"            group="general"/>
++  <reg name="irq_pending"          bitsize="32" regnum="106" type="bool"            group="general"/>
++  <reg name="irq_priority"         bitsize="32" regnum="107" type="uint8"           group="general"/>
++  <!-- miscellaneous -->
++  <reg name="bta" bitsize="32" regnum="108" type="code_ptr" group="general"/>
++</feature>
+diff --git a/target/arc/gdbstub.c b/target/arc/gdbstub.c
+new file mode 100644
+index 0000000000..a09cdb3f45
+--- /dev/null
++++ b/target/arc/gdbstub.c
+@@ -0,0 +1,421 @@
 +/*
-+ * QEMU ARC CPU - IRQ subsystem
++ * QEMU ARC CPU
 + *
-+ * Copyright (c) 2020 Synopsys Inc.
++ * Copyright (c) 2020 Synppsys Inc.
 + *
 + * This library is free software; you can redistribute it and/or
 + * modify it under the terms of the GNU Lesser General Public
 + * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
 + *
 + * This library is distributed in the hope that it will be useful,
 + * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -142,1206 +475,569 @@ index 0000000000..75111a87a8
 + */
 +
 +#include "qemu/osdep.h"
-+#include "qemu/log.h"
-+#include "qemu/error-report.h"
-+#include "hw/irq.h"
-+#include "cpu.h"
-+#include "qemu/main-loop.h"
++#include "exec/gdbstub.h"
++#include "arc-common.h"
++#include "target/arc/regs.h"
 +#include "irq.h"
-+#include "exec/cpu_ldst.h"
-+#include "translate.h"
-+#include "qemu/host-utils.h"
++#include "gdbstub.h"
++#include "exec/helper-proto.h"
 +
-+#define CACHE_ENTRY_SIZE (TARGET_LONG_BITS / 8)
-+#define TARGET_LONG_LOAD(ENV, ADDR) cpu_ldl_data(ENV, ADDR)
-+#define TARGET_LONG_STORE(ENV, ADDR, VALUE) cpu_stl_data(ENV, ADDR, VALUE)
++/* gets the register address for a particular processor */
++#define REG_ADDR(reg, processor_type) \
++    arc_aux_reg_address_for((reg), (processor_type))
 +
-+/* Static functions and variables. */
++#define GDB_GET_REG gdb_get_reg32
 +
-+static uint32_t save_reg_pair_32[] = {
-+    0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30
-+};
-+
-+static uint32_t save_reg_pair_16[] = {
-+    0, 2, 10, 12, 14, 26, 28, 30
-+};
-+
-+/* Given a struct STATUS_R, pack it to 32 bit. */
-+uint32_t pack_status32(ARCStatus *status_r)
-+{
-+    uint32_t res = 0x0;
-+
-+    res |= status_r->pstate & PSTATE_MASK;
-+    res |= (status_r->RBf & ((1 << RBf_bS)-1)) << RBf_b;
-+    res |= (status_r->Zf & ((1 << Zf_bS)-1)) << Zf_b;
-+    res |= (status_r->Nf & ((1 << Nf_bS)-1)) << Nf_b;
-+    res |= (status_r->Cf & ((1 << Cf_bS)-1)) << Cf_b;
-+    res |= (status_r->Vf & ((1 << Vf_bS)-1)) << Vf_b;
-+    res |= (status_r->DEf & ((1 << DEf_bS)-1)) << DEf_b;
-+    res |= (status_r->Ef  & ((1 << Ef_bS)-1)) << Ef_b;
-+    res |= (status_r->IEf & ((1 << IEf_bS)-1)) << IEf_b;
-+
-+    /* For debug purposes only. */
-+    /*
-+     * assert((status_r->pstate & ~PSTATE_MASK) == 0);
-+     * assert((status_r->RBf & (~((1 << RBf_bS) - 1))) == 0);
-+     * assert((status_r->Zf  & (~((1 << Zf_bS)  - 1))) == 0);
-+     * assert((status_r->Nf  & (~((1 << Cf_bS)  - 1))) == 0);
-+     * assert((status_r->Cf  & (~((1 << Cf_bS)  - 1))) == 0);
-+     * assert((status_r->Vf  & (~((1 << Vf_bS)  - 1))) == 0);
-+     * assert((status_r->DEf & (~((1 << DEf_bS) - 1))) == 0);
-+     * assert((status_r->Ef  & (~((1 << Ef_bS)  - 1))) == 0);
-+     * assert((status_r->IEf & (~((1 << IEf_bS) - 1))) == 0);
-+     */
-+
-+    return res;
-+}
-+
-+/* Reverse of the above function. */
-+void unpack_status32(ARCStatus *status_r, uint32_t value)
-+{
-+    status_r->pstate = value;
-+    status_r->RBf = ((value >> RBf_b)&((1 << RBf_bS)-1));
-+    status_r->Zf  = ((value >> Zf_b)&((1 << Zf_bS)-1));
-+    status_r->Nf  = ((value >> Nf_b)&((1 << Nf_bS)-1));
-+    status_r->Cf  = ((value >> Cf_b)&((1 << Cf_bS)-1));
-+    status_r->Vf  = ((value >> Vf_b)&((1 << Vf_bS)-1));
-+    status_r->DEf = ((value >> DEf_b)&((1 << DEf_bS)-1));
-+    status_r->Ef  = ((value >> Ef_b)&((1 << Ef_bS)-1));
-+    status_r->IEf = ((value >> IEf_b)&((1 << IEf_bS)-1));
-+}
-+
-+/* Return from fast interrupts. */
-+
-+static void arc_rtie_firq(CPUARCState *env)
-+{
-+    assert(GET_STATUS_BIT(env->stat, AEf) == 0);
-+
-+    qemu_log_mask(CPU_LOG_INT, "[IRQ] exit firq: U=" TARGET_FMT_ld
-+                  ", AUX_IRQ_ACT.U=%d\n",
-+                  GET_STATUS_BIT(env->stat, Uf), env->aux_irq_act >> 31);
-+
-+    /* Clear currently active interrupt. */
-+    env->aux_irq_act &= (~1);
-+
-+    /* Check if we need to restore userland SP. */
-+    if (((env->aux_irq_act & 0xFFFF) == 0) && (env->aux_irq_act & 0x80000000)) {
-+        switchSP(env);
-+    }
-+
-+    env->stat = env->stat_l1; /* FIXME use status32_p0 reg. */
-+    /* Keep U-bit in sync. */
-+    env->aux_irq_act &= ~(GET_STATUS_BIT(env->stat, Uf) << 31);
-+
-+    /* FIXME! fix current reg bank if RB bit is changed. */
-+
-+    CPU_PCL(env) = CPU_ILINK(env);
-+    env->pc = CPU_ILINK(env);
-+}
-+
-+/* Implements a pop operation from the CPU stack. */
-+static target_ulong irq_pop(CPUARCState *env, const char *str)
-+{
-+    target_ulong rval;
-+    rval = TARGET_LONG_LOAD(env, CPU_SP(env));
-+
-+    qemu_log_mask(CPU_LOG_INT, "[IRQ] Pop [SP:0x" TARGET_FMT_lx
-+                  "] => 0x" TARGET_FMT_lx " (%s)\n",
-+                  CPU_SP(env), rval, str ? str : "unk");
-+    CPU_SP(env) += CACHE_ENTRY_SIZE;
-+    return rval;
-+}
-+
-+/* Return from regular interrupts. */
-+
-+static void arc_rtie_irq(CPUARCState *env)
-+{
-+    uint32_t tmp;
-+    ARCCPU *cpu = env_archcpu(env);
-+
-+    assert((env->aux_irq_act & 0xFFFF) != 0);
-+    assert(GET_STATUS_BIT(env->stat, AEf) == 0);
-+
-+    /* Clear currently active interrupt. */
-+    tmp = ctz32(env->aux_irq_act & 0xffff);
-+
-+    qemu_log_mask(CPU_LOG_INT,
-+                  "[IRQ] exit irq:%d IRQ_ACT:0x%08x PRIO:%d\n",
-+                  env->icause[tmp], env->aux_irq_act, tmp);
-+
-+    /*
-+     * FIXME! I assume the current active interrupt is the one which is
-+     * the highest in the aux_irq_act register.
-+     */
-+    env->aux_irq_act &= ~(1 << tmp);
-+
-+    qemu_log_mask(CPU_LOG_INT,
-+                  "[IRQ] exit irq:%d U:" TARGET_FMT_ld " AE:" TARGET_FMT_ld
-+                  " IE:" TARGET_FMT_ld " E:" TARGET_FMT_ld " IRQ_ACT:0x%08x\n",
-+                  env->icause[tmp], GET_STATUS_BIT(env->stat, Uf),
-+                  GET_STATUS_BIT(env->stat, AEf), env->stat.IEf,
-+                  env->stat.Ef, env->aux_irq_act);
-+
-+    if (((env->aux_irq_act & 0xffff) == 0) &&
-+        (env->aux_irq_act & 0x80000000) && (env->aux_irq_ctrl & (1 << 11))) {
-+        switchSP(env);
-+    }
-+
-+    /* Pop requested number of registers. */
-+    /* FIXME! select rf16 when needed. */
-+    uint32_t *save_reg_pair = save_reg_pair_32;
-+    char regname[6];
-+    uint32_t i;
-+    for (i = 0; i < (env->aux_irq_ctrl & 0x1F); ++i) {
-+        sprintf(regname, "r%d", save_reg_pair[i]);
-+        env->r[save_reg_pair[i]] = irq_pop(env, (const char *) regname);
-+        sprintf(regname, "r%d", save_reg_pair[i] + 1);
-+        env->r[save_reg_pair[i] + 1] = irq_pop(env, (const char *) regname);
-+    }
-+
-+    /* Pop BLINK */
-+    if (env->aux_irq_ctrl & (1 << 9) && ((env->aux_irq_ctrl & 0x1F) != 16)) {
-+        CPU_BLINK(env) = irq_pop(env, "blink");
-+    }
-+
-+    /* Pop lp_end, lp_start, lp_count if aux_irq_ctrl.l bit is set. */
-+    if (env->aux_irq_ctrl & (1 << 10)) {
-+        env->lpe = irq_pop(env, "LP_END");
-+        env->lps = irq_pop(env, "LP_START");
-+        CPU_LP(env) = irq_pop(env, "lp");
-+    }
-+
-+    /*
-+     * Pop EI_BASE, JLI_BASE, LDI_BASE if LP bit is set and Code
-+     * Density feature is enabled. FIXME!
-+     */
-+    if (cpu->cfg.code_density && (env->aux_irq_ctrl & (1 << 13))) {
-+        /* FIXME! env->aux_ei_base  = irq_pop(env); */
-+        /* FIXME! env->aux_ldi_base = irq_pop(env); */
-+        /* FIXME! env->aux_jli_base = irq_pop(env); */
-+        irq_pop(env, "dummy EI_BASE");
-+        irq_pop(env, "dummy LDI_BASE");
-+        irq_pop(env, "dummy JLI_BASE");
-+    }
-+
-+    CPU_ILINK(env) = irq_pop(env, "PC"); /* CPU PC*/
-+    uint32_t tmp_stat = irq_pop(env, "STATUS32"); /* status. */
-+    unpack_status32(&env->stat, tmp_stat);
-+
-+    /* Late switch to Kernel SP if previously in User thread. */
-+    if (((env->aux_irq_act & 0xffff) == 0)
-+        && GET_STATUS_BIT(env->stat, Uf) && !(env->aux_irq_ctrl & (1 << 11))) {
-+        switchSP(env);
-+    }
-+
-+    /* Keep U-bit in sync. */
-+    env->aux_irq_act &= ~(GET_STATUS_BIT(env->stat, Uf) << 31);
-+    CPU_PCL(env) = CPU_ILINK(env);
-+    env->pc = CPU_ILINK(env);
-+}
-+
-+/* Helper, implements entering in a fast irq. */
-+static void arc_enter_firq(ARCCPU *cpu, uint32_t vector)
-+{
-+    CPUARCState *env = &cpu->env;
-+
-+    assert(env->stat.DEf == 0);
-+    assert(env->stat.is_delay_slot_instruction == 0);
-+
-+    /* Reset RTC state machine -> AUX_RTC_CTRL &= 0x3fffffff */
-+    qemu_log_mask(CPU_LOG_INT,
-+                  "[IRQ] enter firq:%d U:" TARGET_FMT_ld " AE:" TARGET_FMT_ld
-+                  " IE:" TARGET_FMT_ld " E:" TARGET_FMT_ld "\n",
-+                  vector, GET_STATUS_BIT(env->stat, Uf),
-+                  GET_STATUS_BIT(env->stat, AEf), env->stat.IEf,
-+                  env->stat.Ef);
-+
-+    /* Switch SP with AUX_SP. */
-+    if (GET_STATUS_BIT(env->stat, Uf)) {
-+        switchSP(env);
-+    }
-+
-+    /* Clobber ILINK with address of interrupting instruction. */
-+    CPU_ILINK(env) = env->pc;
-+    assert((env->pc & 0x1) == 0);
-+    env->stat_l1 = env->stat;
-+
-+    /* Set stat {Z = U; U = 0; L = 1; ES = 0; DZ = 0; DE = 0;} */
-+    SET_STATUS_BIT(env->stat, Lf, 1);
-+    env->stat.Zf = GET_STATUS_BIT(env->stat, Uf); /* Old User/Kernel bit. */
-+    SET_STATUS_BIT(env->stat, Uf, 0);
-+    SET_STATUS_BIT(env->stat, ESf, 0);
-+    SET_STATUS_BIT(env->stat, DZf, 0);
-+    env->stat.DEf = 0;
-+    env->stat.is_delay_slot_instruction = 0;
-+
-+    /* Set .RB to 1 if additional register banks are specified. */
-+    if (cpu->cfg.rgf_num_banks > 0) {
-+        env->stat.RBf = 1;
-+        /* FIXME! Switch to first register bank. */
-+    }
-+}
-+
-+/* Implements a push operation to the CPU stack. */
-+static void irq_push(CPUARCState *env, target_ulong regval, const char *str)
-+{
-+    CPU_SP(env) -= CACHE_ENTRY_SIZE;
-+    qemu_log_mask(CPU_LOG_INT, "[IRQ] Push [SP:0x" TARGET_FMT_lx
-+                  "] <= 0x" TARGET_FMT_lx " (%s)\n",
-+                  CPU_SP(env), regval, str ? str : "unk");
-+    uint32_t uf = GET_STATUS_BIT(env->stat, Uf);
-+    SET_STATUS_BIT(env->stat, Uf, 0);
-+    TARGET_LONG_STORE(env, CPU_SP(env), regval);
-+    SET_STATUS_BIT(env->stat, Uf, uf);
-+}
-+
-+/* Helper, implements the steps required to enter a simple interrupt. */
-+static void arc_enter_irq(ARCCPU *cpu, uint32_t vector)
-+{
-+    CPUARCState *env = &cpu->env;
-+
-+    assert(env->stat.DEf == 0);
-+    assert(env->stat.is_delay_slot_instruction == 0);
-+
-+    /* Reset RTC state machine -> AUX_RTC_CTRL &= 0x3fffffff */
-+    qemu_log_mask(CPU_LOG_INT, "[IRQ] enter irq:%d U:" TARGET_FMT_ld
-+                  " AE:" TARGET_FMT_ld " IE:" TARGET_FMT_ld
-+                  " E:" TARGET_FMT_ld "\n",
-+                  vector, GET_STATUS_BIT(env->stat, Uf),
-+                  GET_STATUS_BIT(env->stat, AEf), env->stat.IEf,
-+                  env->stat.Ef);
-+
-+    /* Early switch to kernel sp if previously in user thread */
-+    if (GET_STATUS_BIT(env->stat, Uf) && !(env->aux_irq_ctrl & (1 << 11))) {
-+        switchSP(env);
-+    }
-+
-+    /* Clobber ILINK with address of interrupting instruction. */
-+    CPU_ILINK(env) = env->pc;
-+
-+    /* Start pushing regs and stat. */
-+    irq_push(env, pack_status32(&env->stat), "STATUS32");
-+    irq_push(env, env->pc, "PC");
-+
-+    /*
-+     * Push EI_BASE, JLI_BASE, LDI_BASE if LP bit is set and Code
-+     * Density feature is enabled.
-+     */
-+    if (cpu->cfg.code_density && (env->aux_irq_ctrl & (1 << 13))) {
-+        /* FIXME! irq_push(env, env->aux_jli_base, "JLI_BASE"); */
-+        /* FIXME! irq_push(env, env->aux_ldi_base, "LDI_BASE""); */
-+        /* FIXME! irq_push(env, env->aux_ei_base, "EI_BASE"); */
-+        irq_push(env, 0xdeadbeef, "dummy JLI_BASE");
-+        irq_push(env, 0xdeadbeef, "dummy LDI_BASE");
-+        irq_push(env, 0xdeadbeef, "dummy EI_BASE");
-+    }
-+
-+    /* Push LP_COUNT, LP_START, LP_END registers if required. */
-+    if (env->aux_irq_ctrl & (1 << 10)) {
-+        irq_push(env, CPU_LP(env), "lp");
-+        irq_push(env, env->lps, "LP_START");
-+        irq_push(env, env->lpe, "LP_END");
-+    }
-+
-+    /* Push BLINK register if required */
-+    if (env->aux_irq_ctrl & (1 << 9) && ((env->aux_irq_ctrl & 0x1F) != 16)) {
-+        irq_push(env, CPU_BLINK(env), "blink");
-+    }
-+
-+    /* Push selected AUX_IRQ_CTRL.NR of registers onto stack. */
-+    uint32_t *save_reg_pair = cpu->cfg.rgf_num_regs == 32 ?
-+        save_reg_pair_32 : save_reg_pair_16;
-+    const uint32_t regspair = (cpu->cfg.rgf_num_regs == 32 ? 16 : 8);
-+    const uint32_t upperlimit = (env->aux_irq_ctrl & 0x1F) < regspair ?
-+        env->aux_irq_ctrl & 0x1F : regspair;
-+    char regname[6];
-+    uint32_t i;
-+
-+    for (i = upperlimit; i > 0; --i) {
-+        sprintf(regname, "r%d", save_reg_pair[i - 1] + 1);
-+        irq_push(env, env->r[save_reg_pair[i - 1] + 1], (const char *) regname);
-+        sprintf(regname, "r%d", save_reg_pair[i - 1]);
-+        irq_push(env, env->r[save_reg_pair[i - 1]], (const char *) regname);
-+    }
-+
-+    /* Late switch to Kernel SP if previously in User thread. */
-+    if (GET_STATUS_BIT(env->stat, Uf) && (env->aux_irq_ctrl & (1 << 11))) {
-+        switchSP(env);
-+    }
-+
-+    /* Set STATUS bits */
-+    env->stat.Zf = GET_STATUS_BIT(env->stat, Uf); /* Old User/Kernel mode. */
-+    SET_STATUS_BIT(env->stat, Lf, 1);
-+    SET_STATUS_BIT(env->stat, ESf, 0);
-+    SET_STATUS_BIT(env->stat, DZf, 0);
-+    env->stat.DEf  = 0;
-+    SET_STATUS_BIT(env->stat, Uf, 0);
-+}
-+
-+/* Function implementation for reading the IRQ related aux regs. */
-+target_ulong aux_irq_get(const struct arc_aux_reg_detail *aux_reg_detail,
-+                     void *data)
-+{
-+    CPUARCState *env = (CPUARCState *) data;
-+    ARCCPU *cpu = env_archcpu(env);
-+    uint32_t tmp;
-+
-+    /* extract selected IRQ. */
-+    const uint32_t irq = env->irq_select;
-+    const ARCIrq *irq_bank = &env->irq_bank[irq];
-+
-+    switch (aux_reg_detail->id) {
-+    case AUX_ID_irq_pending:
-+        return irq_bank->pending | (irq > 15 ? (env->aux_irq_hint == irq) : 0);
-+
-+    case AUX_ID_irq_select:
-+        return env->irq_select;
-+
-+    case AUX_ID_irq_priority:
-+        return irq_bank->priority;
-+
-+    case AUX_ID_irq_trigger:
-+        return irq_bank->trigger;
-+
-+    case AUX_ID_irq_status:
-+        return (irq_bank->priority
-+                | irq_bank->enable << 4
-+                | irq_bank->trigger << 5
-+                | (irq_bank->pending
-+                   | (irq > 15 ? ((env->aux_irq_hint == irq) << 31) : 0)));
-+
-+    case AUX_ID_aux_irq_act:
-+        return env->aux_irq_act;
-+
-+    case AUX_ID_aux_irq_ctrl:
-+        return env->aux_irq_ctrl;
-+
-+    case AUX_ID_icause:
-+        if ((env->aux_irq_act & 0xffff) == 0) {
-+            return 0;
-+        }
-+        tmp = ctz32(env->aux_irq_act & 0xffff);
-+        return env->icause[tmp];
-+
-+    case AUX_ID_irq_build:
-+        return cpu->irq_build;
-+
-+    case AUX_ID_int_vector_base:
-+        return env->intvec;
-+
-+    case AUX_ID_vecbase_ac_build:
-+        return cpu->vecbase_build;
-+        break;
-+
-+    case AUX_ID_aux_user_sp:
-+        return env->aux_user_sp;
-+
-+    case AUX_ID_aux_irq_hint:
-+        return env->aux_irq_hint;
-+
-+    default:
-+        break;
-+    }
-+    return 0;
-+}
-+
-+/* Function implementation for writing the IRQ related aux regs. */
-+void aux_irq_set(const struct arc_aux_reg_detail *aux_reg_detail,
-+                 target_ulong val, void *data)
-+{
-+    CPUARCState *env = (CPUARCState *) data;
-+    ARCCPU *cpu = env_archcpu(env);
-+    const uint32_t irq = env->irq_select;
-+    ARCIrq *irq_bank = &env->irq_bank[irq];
-+
-+    qemu_log_mask(CPU_LOG_INT, "[IRQ] set aux_reg: %s, with 0x"
-+                  TARGET_FMT_lx "\n",
-+                  arc_aux_reg_name[aux_reg_detail->id],
-+                  val);
-+
-+
-+    switch (aux_reg_detail->id) {
-+    case AUX_ID_irq_select:
-+        if (val <= (16 + ((cpu->irq_build >> 8) & 0xff)))
-+            env->irq_select = val;
-+        else
-+            qemu_log_mask(LOG_UNIMP,
-+                          "[IRQ] Invalid write 0x" TARGET_FMT_lx
-+                          " to IRQ_SELECT aux reg.\n",
-+                          val);
-+        break;
-+
-+    case AUX_ID_aux_irq_hint:
-+        qemu_mutex_lock_iothread();
-+        if (val == 0) {
-+            qemu_irq_lower(env->irq[env->aux_irq_hint]);
-+        } else if (val >= 16) {
-+            qemu_irq_raise(env->irq[val]);
-+            env->aux_irq_hint = val;
-+        }
-+        qemu_mutex_unlock_iothread();
-+        break;
-+
-+    case AUX_ID_irq_pulse_cancel:
-+        irq_bank->pending = irq_bank->trigger ? (val & 0x01) : 0;
-+        break;
-+
-+    case AUX_ID_irq_trigger:
-+        irq_bank->trigger = val & 0x01;
-+        break;
-+
-+    case AUX_ID_irq_priority:
-+        if (val <= ((cpu->irq_build >> 24) & 0x0f)) {
-+            irq_bank->priority = val & 0x0f;
-+        } else {
-+            qemu_log_mask(LOG_UNIMP,
-+                          "[IRQ] Invalid write 0x" TARGET_FMT_lx
-+                          " to IRQ_PRIORITY aux reg.\n",
-+                          val);
-+        }
-+        break;
-+
-+    case AUX_ID_aux_irq_ctrl:
-+        env->aux_irq_ctrl = val & 0x2e1f;
-+        break;
-+
-+    case AUX_ID_irq_enable:
-+        irq_bank->enable = val & 0x01;
-+        break;
-+
-+    case AUX_ID_aux_irq_act:
-+        env->aux_irq_act = val & 0x8000ffff;
-+        break;
-+
-+    case AUX_ID_int_vector_base:
-+        env->intvec = val;
-+        break;
-+
-+    case AUX_ID_aux_user_sp:
-+        env->aux_user_sp = val;
-+        break;
-+
-+    default:
-+        break;
-+    }
-+}
-+
-+/* Check if we can interrupt the cpu. */
-+
-+bool arc_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
++int arc_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
 +{
 +    ARCCPU *cpu = ARC_CPU(cs);
 +    CPUARCState *env = &cpu->env;
-+    bool found = false;
-+    uint32_t vectno = 0;
-+    uint32_t offset, priority;
++    target_ulong regval = 0;
 +
-+    /* Check if we should execute this interrupt. */
-+    if (GET_STATUS_BIT(env->stat, Hf)
-+        /* The interrupts are enabled. */
-+        || env->stat.IEf == 0
-+        /* We are not in an exception. */
-+        || GET_STATUS_BIT(env->stat, AEf)
-+        /* Disable interrupts to happen after MissI exceptions. */
-+        || env->enabled_interrupts == false
-+        /* In a delay slot of branch */
-+        || env->stat.is_delay_slot_instruction
-+        || env->stat.DEf
-+        || (!(interrupt_request & CPU_INTERRUPT_HARD))) {
-+        return false;
++    switch (n) {
++    case 0 ... 31:
++       regval = env->r[n];
++       break;
++    case GDB_REG_58:
++       regval = env->r[58];
++       break;
++    case GDB_REG_59:
++       regval = env->r[59];
++       break;
++    case GDB_REG_60:
++       regval = env->r[60];
++       break;
++    case GDB_REG_63:
++       regval = env->r[63];
++       break;
++    default:
++       assert(!"Unsupported register is being read.");
 +    }
 +
-+    /* Check if any interrupts are pending. */
-+    if (!env->irq_priority_pending
-+        /* Or we are serving at the same priority level. */
-+        || (ctz32(env->irq_priority_pending) >= ctz32(env->aux_irq_act))) {
-+        return false;
-+    }
-+
-+    /* Find the first IRQ to serve. */
-+    priority = 0;
-+    do {
-+        for (vectno = 0;
-+             vectno < cpu->cfg.number_of_interrupts; vectno++) {
-+            if (env->irq_bank[16 + vectno].priority == priority
-+                && env->irq_bank[16 + vectno].enable
-+                && env->irq_bank[16 + vectno].pending) {
-+                found = true;
-+                break;
-+            }
-+        }
-+    } while (!found && ((++priority) <= env->stat.Ef));
-+
-+    /* No valid interrupt has been found. */
-+    if (!found) {
-+        return false;
-+    }
-+
-+    qemu_log_mask(CPU_LOG_INT, "[IRQ] interrupt at pc=0x" TARGET_FMT_lx
-+                  "\n", env->pc);
-+
-+    /* Adjust vector number. */
-+    vectno += 16;
-+
-+    /* Set the AUX_IRQ_ACT. */
-+    if ((env->aux_irq_act & 0xffff) == 0) {
-+        env->aux_irq_act |= GET_STATUS_BIT(env->stat, Uf) << 31;
-+    }
-+    env->aux_irq_act |= 1 << priority;
-+
-+    /* Set ICAUSE register. */
-+    env->icause[priority] = vectno;
-+
-+    /* Do FIRQ if possible. */
-+    if (cpu->cfg.firq_option && priority == 0) {
-+        arc_enter_firq(cpu, vectno);
-+    } else {
-+        arc_enter_irq(cpu, vectno);
-+    }
-+
-+    /* XX. The PC is set with the appropriate exception vector. */
-+    offset = OFFSET_FOR_VECTOR(vectno);
-+    env->pc = TARGET_LONG_LOAD(env, env->intvec + offset);
-+    CPU_PCL(env) = env->pc & (~1);
-+
-+    qemu_log_mask(CPU_LOG_INT, "[IRQ] isr=0x" TARGET_FMT_lx
-+                  " vec=0x%08x, priority=0x%04x\n",
-+                  env->pc, offset, priority);
-+
-+    return true;
++    return GDB_GET_REG(mem_buf, regval);
 +}
 +
-+/* To be called in the RTIE helper. */
++int arc_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
++{
++    ARCCPU *cpu = ARC_CPU(cs);
++    CPUARCState *env = &cpu->env;
++    target_ulong regval = ldl_p(mem_buf);
 +
-+bool arc_rtie_interrupts(CPUARCState *env)
++    switch (n) {
++    case 0 ... 31:
++        env->r[n] = regval;
++        break;
++    case GDB_REG_58:
++        env->r[58] = regval;
++        break;
++    case GDB_REG_59:
++        env->r[59] = regval;
++        break;
++    case GDB_REG_60:
++        env->r[60] = regval;
++        break;
++    case GDB_REG_63:
++        env->r[63] = regval;
++        break;
++    default:
++        assert(!"Unsupported register is being written.");
++    }
++
++    return 4;
++}
++
++
++static int
++arc_aux_minimal_gdb_get_reg(CPUARCState *env, GByteArray *mem_buf, int regnum)
 +{
 +    ARCCPU *cpu = env_archcpu(env);
++    target_ulong regval = 0;
 +
-+    if (GET_STATUS_BIT(env->stat, AEf) || ((env->aux_irq_act & 0xffff) == 0)) {
-+        return false;
++    switch (regnum) {
++    case GDB_AUX_MIN_REG_PC:
++        regval = env->pc & ((target_ulong) 0xfffffffffffffffe);
++        break;
++    case GDB_AUX_MIN_REG_LPS:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_lp_start, cpu->family));
++        break;
++    case GDB_AUX_MIN_REG_LPE:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_lp_end, cpu->family));
++        break;
++    case GDB_AUX_MIN_REG_STATUS:
++        regval = pack_status32(&env->stat);
++        break;
++    default:
++        assert(!"Unsupported minimal auxiliary register is being read.");
 +    }
-+
-+    /* FIXME! Reset RTC state. */
-+
-+    if ((env->aux_irq_act & 0xffff) == 1 && cpu->cfg.firq_option) {
-+        arc_rtie_firq(env);
-+    } else {
-+        arc_rtie_irq(env);
-+    }
-+    return true;
++    return GDB_GET_REG(mem_buf, regval);
 +}
 +
-+/* Switch between AUX USER SP and CPU's SP. */
-+void switchSP(CPUARCState *env)
++
++static int
++arc_aux_minimal_gdb_set_reg(CPUARCState *env, uint8_t *mem_buf, int regnum)
 +{
-+    uint32_t tmp;
-+    qemu_log_mask(CPU_LOG_INT,
-+                  "[%s] swap: r28 = 0x" TARGET_FMT_lx
-+                  "  AUX_USER_SP = 0x%08x\n",
-+                  (env->aux_irq_act & 0xFFFF) ? "IRQ" : "EXCP",
-+                  CPU_SP(env), env->aux_user_sp);
-+
-+    tmp = env->aux_user_sp;
-+    env->aux_user_sp = CPU_SP(env);
-+    CPU_SP(env) = tmp;
-+    /*
-+     * TODO: maybe we need to flush the tcg buffer to switch into
-+     * kernel mode.
-+     */
++    ARCCPU *cpu = env_archcpu(env);
++    target_ulong regval = ldl_p(mem_buf);
++    switch (regnum) {
++    case GDB_AUX_MIN_REG_PC:
++        env->pc = regval & ((target_ulong) 0xfffffffffffffffe);
++        break;
++    case GDB_AUX_MIN_REG_LPS:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_lp_start, cpu->family));
++        break;
++    case GDB_AUX_MIN_REG_LPE:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_lp_end, cpu->family));
++        break;
++    case GDB_AUX_MIN_REG_STATUS:
++        unpack_status32(&env->stat, regval);
++        break;
++    default:
++        assert(!"Unsupported minimal auxiliary register is being written.");
++    }
++    return 4;
 +}
 +
-+/* Reset the IRQ subsytem. */
-+void arc_resetIRQ(ARCCPU *cpu)
++
++static int
++arc_aux_other_gdb_get_reg(CPUARCState *env, GByteArray *mem_buf, int regnum)
 +{
-+    CPUARCState *env = &cpu->env;
-+    uint32_t i;
-+
-+    if (!cpu->cfg.has_interrupts) {
-+        return;
++    ARCCPU *cpu = env_archcpu(env);
++    target_ulong regval = 0;
++    switch (regnum) {
++    case GDB_AUX_OTHER_REG_TIMER_BUILD:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_timer_build, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_BUILD:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_build, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_MPY_BUILD:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_mpy_build, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_VECBASE_BUILD:
++        regval = cpu->vecbase_build;
++        break;
++    case GDB_AUX_OTHER_REG_ISA_CONFIG:
++        regval = cpu->isa_config;
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CNT0:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_count0, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CTRL0:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_control0, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_LIM0:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_limit0, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CNT1:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_count1, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CTRL1:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_control1, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_LIM1:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_limit1, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_PID:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_pid, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_TLBPD0:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_tlbpd0, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_TLBPD1:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_tlbpd1, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_TLB_INDEX:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_tlbindex, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_TLB_CMD:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_tlbcommand, cpu->family));
++        break;
++    /* MPU */
++    case GDB_AUX_OTHER_REG_MPU_BUILD:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_mpu_build, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_MPU_EN:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_mpuen, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_MPU_ECR:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_mpuic, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_MPU_BASE0 ... GDB_AUX_OTHER_REG_MPU_BASE15: {
++        const uint8_t index = regnum - GDB_AUX_OTHER_REG_MPU_BASE0;
++        regval = helper_lr(env, REG_ADDR(AUX_ID_mpurdb0 + index, cpu->family));
++        break;
 +    }
-+
-+    for (i = 0; i < (cpu->cfg.number_of_interrupts & 0xff); i++) {
-+        env->irq_bank[16 + i].enable = 1;
++    case GDB_AUX_OTHER_REG_MPU_PERM0 ... GDB_AUX_OTHER_REG_MPU_PERM15: {
++        const uint8_t index = regnum - GDB_AUX_OTHER_REG_MPU_PERM0;
++        regval = helper_lr(env, REG_ADDR(AUX_ID_mpurdp0 + index, cpu->family));
++        break;
 +    }
-+
-+    if (cpu->cfg.has_timer_0) {
-+        /* FIXME! add build default timer0 priority. */
-+        env->irq_bank[16].priority = 0;
++    /* exceptions */
++    case GDB_AUX_OTHER_REG_ERSTATUS:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_erstatus, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_ERBTA:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_erbta, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_ECR:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_ecr, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_ERET:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_eret, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_EFA:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_efa, cpu->family));
++        break;
++    /* interrupt */
++    case GDB_AUX_OTHER_REG_ICAUSE:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_icause, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_CTRL:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_aux_irq_ctrl, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_ACT:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_aux_irq_act, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_PRIO_PEND:
++        regval = env->irq_priority_pending;
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_HINT:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_aux_irq_hint, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_SELECT:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_select, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_ENABLE:
++        regval = env->irq_bank[env->irq_select & 0xff].enable;
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_TRIGGER:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_trigger, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_STATUS:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_status, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_PULSE:
++        regval = 0; /* write only for clearing the pulse triggered interrupt */
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_PENDING:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_pending, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_PRIO:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_priority, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_BTA:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_bta, cpu->family));
++        break;
++    default:
++        assert(!"Unsupported other auxiliary register is being read.");
 +    }
-+
-+    if (cpu->cfg.has_timer_1) {
-+        /* FIXME! add build default timer1 priority. */
-+        env->irq_bank[17].priority = 0;
-+    }
-+
-+    qemu_log_mask(CPU_LOG_RESET, "[IRQ] Reset the IRQ subsystem.");
++    return GDB_GET_REG(mem_buf, regval);
 +}
 +
-+/* Initializing the IRQ subsystem. */
-+void arc_initializeIRQ(ARCCPU *cpu)
++
++static int
++arc_aux_other_gdb_set_reg(CPUARCState *env, uint8_t *mem_buf, int regnum)
 +{
-+    CPUARCState *env = &cpu->env;
-+    uint32_t i;
-+
-+    if (cpu->cfg.has_interrupts) {
-+        /* FIXME! add N (NMI) bit. */
-+        cpu->irq_build = 0x01 | ((cpu->cfg.number_of_interrupts & 0xff) << 8) |
-+            ((cpu->cfg.external_interrupts & 0xff) << 16) |
-+            ((cpu->cfg.number_of_levels & 0x0f) << 24) |
-+            (cpu->cfg.firq_option ? (1 << 28) : 0);
-+
-+        for (i = 0; i < (cpu->cfg.number_of_interrupts & 0xff); i++) {
-+            env->irq_bank[16 + i].enable = 1;
-+        }
-+
-+        cpu->vecbase_build = (cpu->cfg.intvbase_preset & (~0x3ffff))
-+            | (0x04 << 2);
-+        env->intvec = cpu->cfg.intvbase_preset & (~0x3ffff);
-+    } else {
-+        cpu->irq_build = 0;
++    ARCCPU *cpu = env_archcpu(env);
++    target_ulong regval = ldl_p(mem_buf);
++    switch (regnum) {
++    case GDB_AUX_OTHER_REG_TIMER_BUILD:
++    case GDB_AUX_OTHER_REG_IRQ_BUILD:
++    case GDB_AUX_OTHER_REG_MPY_BUILD:
++    case GDB_AUX_OTHER_REG_VECBASE_BUILD:
++    case GDB_AUX_OTHER_REG_ISA_CONFIG:
++    case GDB_AUX_OTHER_REG_MPU_BUILD:
++    case GDB_AUX_OTHER_REG_MPU_ECR:
++    case GDB_AUX_OTHER_REG_ICAUSE:
++    case GDB_AUX_OTHER_REG_IRQ_PRIO_PEND:
++    case GDB_AUX_OTHER_REG_IRQ_STATUS:
++    case GDB_AUX_OTHER_REG_IRQ_PENDING:
++        /* builds/configs/exceptions/irqs cannot be changed */
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CNT0:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_count0, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CTRL0:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_control0, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_LIM0:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_limit0, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CNT1:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_count1, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CTRL1:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_control1, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_LIM1:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_limit1, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_PID:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_pid, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_TLBPD0:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_tlbpd0, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_TLBPD1:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_tlbpd1, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_TLB_INDEX:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_tlbindex, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_TLB_CMD:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_tlbcommand, cpu->family));
++        break;
++    /* MPU */
++    case GDB_AUX_OTHER_REG_MPU_EN:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_mpuen, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_MPU_BASE0 ... GDB_AUX_OTHER_REG_MPU_BASE15: {
++        const uint8_t index = regnum - GDB_AUX_OTHER_REG_MPU_BASE0;
++        helper_sr(env, regval, REG_ADDR(AUX_ID_mpurdb0 + index, cpu->family));
++        break;
 +    }
++    case GDB_AUX_OTHER_REG_MPU_PERM0 ... GDB_AUX_OTHER_REG_MPU_PERM15: {
++        const uint8_t index = regnum - GDB_AUX_OTHER_REG_MPU_PERM0;
++        helper_sr(env, regval, REG_ADDR(AUX_ID_mpurdp0 + index, cpu->family));
++        break;
++    }
++    /* exceptions */
++    case GDB_AUX_OTHER_REG_ERSTATUS:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_erstatus, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_ERBTA:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_erbta, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_ECR:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_ecr, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_ERET:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_eret, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_EFA:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_efa, cpu->family));
++        break;
++    /* interrupt */
++    case GDB_AUX_OTHER_REG_IRQ_CTRL:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_aux_irq_ctrl, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_ACT:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_aux_irq_act, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_HINT:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_aux_irq_hint, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_SELECT:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_select, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_ENABLE:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_enable, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_TRIGGER:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_trigger, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_PULSE:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_pulse_cancel, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_PRIO:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_priority, cpu->family));
++        break;
++    case GDB_AUX_OTHER_REG_BTA:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_bta, cpu->family));
++        break;
++    default:
++        assert(!"Unsupported other auxiliary register is being written.");
++    }
++    return 4;
 +}
-diff --git a/target/arc/irq.h b/target/arc/irq.h
++
++#define GDB_TARGET_MINIMAL_XML "arc-v2-aux.xml"
++#define GDB_TARGET_AUX_XML     "arc-v2-other.xml"
++
++void arc_cpu_register_gdb_regs_for_features(ARCCPU *cpu)
++{
++    CPUState *cs = CPU(cpu);
++
++    gdb_register_coprocessor(cs,
++                             arc_aux_minimal_gdb_get_reg, /* getter */
++                             arc_aux_minimal_gdb_set_reg, /* setter */
++                             GDB_AUX_MIN_REG_LAST,   /* number of registers */
++                             GDB_TARGET_MINIMAL_XML, /* feature file */
++                             0);                     /* position in g packet */
++
++    gdb_register_coprocessor(cs,
++                             arc_aux_other_gdb_get_reg,
++                             arc_aux_other_gdb_set_reg,
++                             GDB_AUX_OTHER_REG_LAST,
++                             GDB_TARGET_AUX_XML,
++                             0);
++}
++
++/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
++/* vim: set ts=4 sw=4 et: */
+diff --git a/target/arc/gdbstub.h b/target/arc/gdbstub.h
 new file mode 100644
-index 0000000000..d450126b76
+index 0000000000..2ced52ee57
 --- /dev/null
-+++ b/target/arc/irq.h
-@@ -0,0 +1,37 @@
++++ b/target/arc/gdbstub.h
+@@ -0,0 +1,157 @@
 +/*
 + * QEMU ARC CPU
 + *
 + * Copyright (c) 2020 Synopsys Inc.
++ * Contributed by Cupertino Miranda <cmiranda@synopsys.com>
 + *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License) any later version.
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
 + *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-+ * Lesser General Public License for more details.
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
 + *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * http://www.gnu.org/licenses/lgpl-2.1.html
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#ifndef __IRQ_H__
-+#define __IRQ_H__
-+
-+#include "target/arc/regs.h"
-+#include "cpu.h"
-+
-+bool arc_cpu_exec_interrupt(CPUState *, int);
-+bool arc_rtie_interrupts(CPUARCState *);
-+void switchSP(CPUARCState *);
-+void arc_initializeIRQ(ARCCPU *);
-+void arc_resetIRQ(ARCCPU *);
-+uint32_t pack_status32(ARCStatus *);
-+void unpack_status32(ARCStatus *, uint32_t);
-+
-+#define OFFSET_FOR_VECTOR(VECNO) (VECNO << 2)
-+
-+#endif
-diff --git a/target/arc/timer.c b/target/arc/timer.c
-new file mode 100644
-index 0000000000..43caf3b5a1
---- /dev/null
-+++ b/target/arc/timer.c
-@@ -0,0 +1,459 @@
-+/*
-+ * QEMU ARC CPU
-+ *
-+ * Copyright (c) 2020 Synppsys Inc.
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * http://www.gnu.org/licenses/lgpl-2.1.html
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/timer.h"
-+#include "cpu.h"
-+#include "exec/exec-all.h"
-+#include "hw/irq.h"
-+#include "hw/arc/cpudevs.h"
-+#include "timer.h"
-+#include "qemu/main-loop.h"
-+
-+#define TIMER_PERIOD(hz) (1000000000LL / (hz))
-+#define TIMEOUT_LIMIT 1000000
-+
-+#define FREQ_HZ (env_archcpu(env)->freq_hz)
-+#define T_PERIOD (TIMER_PERIOD(FREQ_HZ))
-+#define T_COUNT(T)                                                      \
-+    ((uint32_t) ((qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) -               \
-+                  env->timer[T].last_clk) / T_PERIOD))
-+
-+/* Update the next timeout time as difference between Count and Limit */
-+static void cpu_arc_timer_update(CPUARCState *env, uint32_t timer)
-+{
-+    uint32_t delta;
-+    uint32_t t_count = T_COUNT(timer);
-+    uint64_t now =
-+        (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / T_PERIOD) * T_PERIOD;
-+    uint32_t period = T_PERIOD;
-+
-+    delta = env->timer[timer].T_Limit - t_count - 1;
-+
-+    /*
-+     * Artificially limit timeout rate to something achievable under
-+     * QEMU. Otherwise, QEMU spends all its time generating timer
-+     * interrupts, and there is no forward progress. About ten
-+     * microseconds is the fastest that really works on the current
-+     * generation of host machines.
-+     */
-+    if ((delta * period) < TIMEOUT_LIMIT) {
-+        delta = TIMEOUT_LIMIT / period;
-+    }
-+
-+    timer_mod(env->cpu_timer[timer], now + ((uint64_t)delta * period));
-+
-+    qemu_log_mask(LOG_UNIMP,
-+                  "[TMR%d] Timer update in 0x" TARGET_FMT_lx
-+                  " - 0x%08x = 0x%08x (ctrl:0x" TARGET_FMT_lx
-+                  " @ %d Hz)\n",
-+                  timer, env->timer[timer].T_Limit,
-+                  t_count, delta, env->timer[timer].T_Cntrl, FREQ_HZ);
-+}
-+
-+/* Expire the timer function. Rise an interrupt if required. */
-+
-+static void cpu_arc_timer_expire(CPUARCState *env, uint32_t timer)
-+{
-+    assert(timer == 1 || timer == 0);
-+    qemu_log_mask(LOG_UNIMP, "[TMR%d] Timer expired\n", timer);
-+
-+    uint32_t overflow = env->timer[timer].T_Cntrl & TMR_IP;
-+    /* Set the IP bit. */
-+
-+    bool unlocked = !qemu_mutex_iothread_locked();
-+    if (unlocked) {
-+        qemu_mutex_lock_iothread();
-+    }
-+    env->timer[timer].T_Cntrl |= TMR_IP;
-+    env->timer[timer].last_clk =
-+        (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / T_PERIOD) * T_PERIOD;
-+    if (unlocked) {
-+        qemu_mutex_unlock_iothread();
-+    }
-+
-+    /* Raise an interrupt if enabled. */
-+    if ((env->timer[timer].T_Cntrl & TMR_IE) && !overflow) {
-+        qemu_log_mask(CPU_LOG_INT, "[TMR%d] Rising IRQ\n", timer);
-+        qemu_irq_raise(env->irq[TIMER0_IRQ + (timer & 0x01)]);
-+    }
-+}
-+
-+/*
-+ * This callback should occur when the counter is exactly equal to the
-+ * limit value. Offset the count by one to avoid immediately
-+ * retriggering the callback before any virtual time has passed.
-+ */
-+
-+static void arc_timer0_cb(void *opaque)
-+{
-+    CPUARCState *env = (CPUARCState *) opaque;
-+
-+    if (!(env_archcpu(env)->timer_build & TB_T0)) {
-+        return;
-+    }
-+
-+    cpu_arc_timer_expire(env, 0);
-+    cpu_arc_timer_update(env, 0);
-+}
-+
-+/* Like the above function but for TIMER1. */
-+static void arc_timer1_cb(void *opaque)
-+{
-+    CPUARCState *env = (CPUARCState *) opaque;
-+
-+    if (!(env_archcpu(env)->timer_build & TB_T1)) {
-+        return;
-+    }
-+
-+    cpu_arc_timer_expire(env, 1);
-+    cpu_arc_timer_update(env, 1);
-+}
-+
-+/* RTC counter update. */
-+static void cpu_rtc_count_update(CPUARCState *env)
-+{
-+    uint64_t now;
-+    uint64_t llreg;
-+
-+    assert((env_archcpu(env)->timer_build & TB_RTC) && env->cpu_rtc);
-+    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+
-+    if (!(env->aux_rtc_ctrl & 0x01)) {
-+        return;
-+    }
-+
-+    llreg = ((now - env->last_clk_rtc) / TIMER_PERIOD(FREQ_HZ));
-+    llreg += env->aux_rtc_low + ((uint64_t)env->aux_rtc_high << 32);
-+    env->aux_rtc_high = llreg >> 32;
-+    env->aux_rtc_low = (uint32_t) llreg;
-+
-+    env->last_clk_rtc = now;
-+    qemu_log_mask(LOG_UNIMP, "[RTC] RTC count-regs update\n");
-+}
-+
-+/* Update the next timeout time as difference between Count and Limit */
-+static void cpu_rtc_update(CPUARCState *env)
-+{
-+    uint64_t wait = 0;
-+    uint64_t now, next, period;
-+
-+    assert(env->cpu_rtc);
-+    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+
-+    if (!(env->aux_rtc_ctrl & 0x01)) {
-+        return;
-+    }
-+
-+    period = TIMER_PERIOD(FREQ_HZ);
-+    wait = UINT64_MAX - ((((uint64_t) env->aux_rtc_high) << 32)
-+                       + env->aux_rtc_low);
-+    wait -= (now - env->last_clk_rtc) / period;
-+
-+    /* Limit timeout rate. */
-+    if ((wait * period) < TIMEOUT_LIMIT) {
-+        period = TIMEOUT_LIMIT / wait;
-+    }
-+
-+    next = now + (uint64_t) wait * period;
-+    timer_mod(env->cpu_rtc, next);
-+    qemu_log_mask(LOG_UNIMP, "[RTC] RTC update\n");
-+}
-+
-+/* RTC call back routine. */
-+static void arc_rtc_cb(void *opaque)
-+{
-+    CPUARCState *env = (CPUARCState *) opaque;
-+
-+    if (!(env_archcpu(env)->timer_build & TB_RTC)) {
-+        return;
-+    }
-+
-+    qemu_log_mask(LOG_UNIMP, "[RTC] RTC expired\n");
-+
-+    env->aux_rtc_high = 0;
-+    env->aux_rtc_low = 0;
-+    env->last_clk_rtc = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    cpu_rtc_update(env);
-+}
-+
-+/* Helper used when resetting the system. */
-+static void cpu_arc_count_reset(CPUARCState *env, uint32_t timer)
-+{
-+    assert(timer == 0 || timer == 1);
-+    env->timer[timer].T_Cntrl = 0;
-+    env->timer[timer].T_Limit = 0x00ffffff;
-+}
-+
-+/* Get the counter value. */
-+static uint32_t cpu_arc_count_get(CPUARCState *env, uint32_t timer)
-+{
-+    uint32_t count = T_COUNT(timer);
-+    qemu_log_mask(LOG_UNIMP, "[TMR%d] Timer count %d.\n", timer, count);
-+    return count;
-+}
-+
-+/* Set the counter value. */
-+static void cpu_arc_count_set(CPUARCState *env, uint32_t timer, uint32_t val)
-+{
-+    assert(timer == 0 || timer == 1);
-+    bool unlocked = !qemu_mutex_iothread_locked();
-+    if (unlocked) {
-+        qemu_mutex_lock_iothread();
-+    }
-+    env->timer[timer].last_clk =
-+        ((qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / T_PERIOD) + val) * T_PERIOD;
-+    cpu_arc_timer_update(env, timer);
-+    if (unlocked) {
-+        qemu_mutex_unlock_iothread();
-+    }
-+}
-+
-+/* Store the counter limit. */
-+static void cpu_arc_store_limit(CPUARCState *env,
-+                                uint32_t timer, uint32_t value)
-+{
-+    switch (timer) {
-+    case 0:
-+        if (!(env_archcpu(env)->timer_build & TB_T0)) {
-+            return;
-+        }
-+        break;
-+    case 1:
-+        if (!(env_archcpu(env)->timer_build & TB_T1)) {
-+            return;
-+        }
-+        break;
-+    default:
-+        break;
-+    }
-+    env->timer[timer].T_Limit = value;
-+    cpu_arc_timer_update(env, timer);
-+}
-+
-+/* Set the timer control bits. */
-+static void cpu_arc_control_set(CPUARCState *env,
-+                                uint32_t timer, uint32_t value)
-+{
-+    assert(timer == 1 || timer == 0);
-+    bool unlocked = !qemu_mutex_iothread_locked();
-+    if (unlocked) {
-+        qemu_mutex_lock_iothread();
-+    }
-+    if ((env->timer[timer].T_Cntrl & TMR_IP) && !(value & TMR_IP)) {
-+        qemu_irq_lower(env->irq[TIMER0_IRQ + (timer)]);
-+    }
-+    env->timer[timer].T_Cntrl = value & 0x1f;
-+    if (unlocked) {
-+        qemu_mutex_unlock_iothread();
-+    }
-+}
-+
-+/* Get The RTC count value. */
-+static uint32_t arc_rtc_count_get(CPUARCState *env, bool lower)
-+{
-+    cpu_rtc_count_update(env);
-+    return lower ? env->aux_rtc_low : env->aux_rtc_high;
-+}
-+
-+/* Set the RTC control bits. */
-+static void arc_rtc_ctrl_set(CPUARCState *env, uint32_t val)
-+{
-+    assert(GET_STATUS_BIT(env->stat, Uf) == 0);
-+
-+    if (val & 0x02) {
-+        env->aux_rtc_low = 0;
-+        env->aux_rtc_high = 0;
-+        env->last_clk_rtc = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    }
-+    if (!(val & 0x01)) {
-+        timer_del(env->cpu_rtc);
-+    }
-+
-+    /* Restart RTC, update last clock. */
-+    if ((env->aux_rtc_ctrl & 0x01) == 0 && (val & 0x01)) {
-+        env->last_clk_rtc = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    }
-+
-+    env->aux_rtc_ctrl = 0xc0000000 | (val & 0x01);
-+    cpu_rtc_update(env);
-+}
-+
-+/* Init procedure, called in platform. */
-+
-+void
-+cpu_arc_clock_init(ARCCPU *cpu)
-+{
-+    CPUARCState *env = &cpu->env;
-+
-+    if (env_archcpu(env)->timer_build & TB_T0) {
-+        env->cpu_timer[0] =
-+            timer_new_ns(QEMU_CLOCK_VIRTUAL, &arc_timer0_cb, env);
-+    }
-+
-+    if (env_archcpu(env)->timer_build & TB_T1) {
-+        env->cpu_timer[1] =
-+            timer_new_ns(QEMU_CLOCK_VIRTUAL, &arc_timer1_cb, env);
-+    }
-+
-+    if (env_archcpu(env)->timer_build & TB_RTC) {
-+        env->cpu_rtc =
-+            timer_new_ns(QEMU_CLOCK_VIRTUAL, &arc_rtc_cb, env);
-+    }
-+
-+    env->timer[0].last_clk =
-+        (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / T_PERIOD) * T_PERIOD;
-+    env->timer[1].last_clk =
-+        (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / T_PERIOD) * T_PERIOD;
-+}
-+
-+void
-+arc_initializeTIMER(ARCCPU *cpu)
-+{
-+    CPUARCState *env = &cpu->env;
-+
-+    /* FIXME! add default timer priorities. */
-+    env_archcpu(env)->timer_build = 0x04 | (cpu->cfg.has_timer_0 ? TB_T0 : 0) |
-+                       (cpu->cfg.has_timer_1 ? TB_T1 : 0) |
-+                       (cpu->cfg.rtc_option ? TB_RTC : 0);
-+}
-+
-+void
-+arc_resetTIMER(ARCCPU *cpu)
-+{
-+    CPUARCState *env = &cpu->env;
-+
-+    if (env_archcpu(env)->timer_build & TB_T0) {
-+        cpu_arc_count_reset(env, 0);
-+    }
-+
-+    if (env_archcpu(env)->timer_build & TB_T1) {
-+        cpu_arc_count_reset(env, 1);
-+    }
-+}
-+
-+/* Function implementation for reading/writing aux regs. */
-+target_ulong
-+aux_timer_get(const struct arc_aux_reg_detail *aux_reg_detail, void *data)
-+{
-+    CPUARCState *env = (CPUARCState *) data;
-+
-+    switch (aux_reg_detail->id) {
-+    case AUX_ID_control0:
-+        return env->timer[0].T_Cntrl;
-+        break;
-+
-+    case AUX_ID_control1:
-+        return env->timer[1].T_Cntrl;
-+        break;
-+
-+    case AUX_ID_count0:
-+        return cpu_arc_count_get(env, 0);
-+        break;
-+
-+    case AUX_ID_count1:
-+        return cpu_arc_count_get(env, 1);
-+        break;
-+
-+    case AUX_ID_limit0:
-+        return env->timer[0].T_Limit;
-+        break;
-+
-+    case AUX_ID_limit1:
-+        return env->timer[1].T_Limit;
-+        break;
-+
-+    case AUX_ID_timer_build:
-+        return env_archcpu(env)->timer_build;
-+        break;
-+
-+    case AUX_ID_aux_rtc_low:
-+        return arc_rtc_count_get(env, true);
-+        break;
-+
-+    case AUX_ID_aux_rtc_high:
-+        return arc_rtc_count_get(env, false);
-+        break;
-+
-+    case AUX_ID_aux_rtc_ctrl:
-+        return env->aux_rtc_ctrl;
-+        break;
-+
-+    default:
-+        break;
-+    }
-+    return 0;
-+}
-+
-+void aux_timer_set(const struct arc_aux_reg_detail *aux_reg_detail,
-+                   target_ulong val, void *data)
-+{
-+    CPUARCState *env = (CPUARCState *) data;
-+
-+    qemu_log_mask(LOG_UNIMP, "[TMRx] AUX[%s] <= 0x" TARGET_FMT_lx "\n",
-+                  aux_reg_detail->name, val);
-+
-+    qemu_mutex_lock_iothread();
-+    switch (aux_reg_detail->id) {
-+    case AUX_ID_control0:
-+        if (env_archcpu(env)->timer_build & TB_T0) {
-+            cpu_arc_control_set(env, 0, val);
-+        }
-+        break;
-+
-+    case AUX_ID_control1:
-+        if (env_archcpu(env)->timer_build & TB_T1) {
-+            cpu_arc_control_set(env, 1, val);
-+        }
-+        break;
-+
-+    case AUX_ID_count0:
-+        if (env_archcpu(env)->timer_build & TB_T0) {
-+            cpu_arc_count_set(env, 0, val);
-+        }
-+        break;
-+
-+    case AUX_ID_count1:
-+        if (env_archcpu(env)->timer_build & TB_T1) {
-+            cpu_arc_count_set(env, 1, val);
-+        }
-+        break;
-+
-+    case AUX_ID_limit0:
-+        cpu_arc_store_limit(env, 0, val);
-+        break;
-+
-+    case AUX_ID_limit1:
-+        cpu_arc_store_limit(env, 1, val);
-+        break;
-+
-+    case AUX_ID_aux_rtc_ctrl:
-+        arc_rtc_ctrl_set(env, val);
-+        break;
-+
-+    default:
-+        break;
-+    }
-+    qemu_mutex_unlock_iothread();
-+}
-+
-+
-+/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
-+/* vim: set ts=4 sw=4 et: */
-diff --git a/target/arc/timer.h b/target/arc/timer.h
-new file mode 100644
-index 0000000000..01baf73d37
---- /dev/null
-+++ b/target/arc/timer.h
-@@ -0,0 +1,27 @@
-+/*
-+ * QEMU ARC CPU
-+ *
-+ * Copyright (c) 2020 Synppsys Inc.
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * http://www.gnu.org/licenses/lgpl-2.1.html
-+ */
-+
-+#ifndef __ARC_TIMER_H__
-+#define __ARC_TIMER_H__
-+
-+void arc_initializeTIMER(ARCCPU *);
-+void arc_resetTIMER(ARCCPU *);
-+
-+#endif
++#ifndef ARC_GDBSTUB_H
++#define ARC_GDBSTUB_H
++
++#define GDB_TARGET_STRING "arc:ARCv2"
++
++enum gdb_regs {
++    GDB_REG_0 = 0,
++    GDB_REG_1,
++    GDB_REG_2,
++    GDB_REG_3,
++    GDB_REG_4,
++    GDB_REG_5,
++    GDB_REG_6,
++    GDB_REG_7,
++    GDB_REG_8,
++    GDB_REG_9,
++    GDB_REG_10,
++    GDB_REG_11,
++    GDB_REG_12,
++    GDB_REG_13,
++    GDB_REG_14,
++    GDB_REG_15,
++    GDB_REG_16,
++    GDB_REG_17,
++    GDB_REG_18,
++    GDB_REG_19,
++    GDB_REG_20,
++    GDB_REG_21,
++    GDB_REG_22,
++    GDB_REG_23,
++    GDB_REG_24,
++    GDB_REG_25,
++    GDB_REG_26,         /* GP                         */
++    GDB_REG_27,         /* FP                         */
++    GDB_REG_28,         /* SP                         */
++    GDB_REG_29,         /* ILINK                      */
++    GDB_REG_30,         /* R30                        */
++    GDB_REG_31,         /* BLINK                      */
++    GDB_REG_58,         /* little_endian? ACCL : ACCH */
++    GDB_REG_59,         /* little_endian? ACCH : ACCL */
++    GDB_REG_60,         /* LP                         */
++    GDB_REG_63,         /* Immediate                  */
++    GDB_REG_LAST
++};
++
++enum gdb_aux_min_regs {
++    GDB_AUX_MIN_REG_PC = 0, /* program counter */
++    GDB_AUX_MIN_REG_LPS,    /* loop body start */
++    GDB_AUX_MIN_REG_LPE,    /* loop body end   */
++    GDB_AUX_MIN_REG_STATUS, /* status flag     */
++    GDB_AUX_MIN_REG_LAST
++};
++
++enum gdb_aux_other_regs {
++    /* builds */
++    GDB_AUX_OTHER_REG_TIMER_BUILD = 0,  /* timer build                */
++    GDB_AUX_OTHER_REG_IRQ_BUILD,        /* irq build                  */
++    GDB_AUX_OTHER_REG_MPY_BUILD,        /* multiply configuration     */
++    GDB_AUX_OTHER_REG_VECBASE_BUILD,    /* vector base address config */
++    GDB_AUX_OTHER_REG_ISA_CONFIG,       /* isa config                 */
++    /* timers */
++    GDB_AUX_OTHER_REG_TIMER_CNT0,       /* timer 0 counter */
++    GDB_AUX_OTHER_REG_TIMER_CTRL0,      /* timer 0 control */
++    GDB_AUX_OTHER_REG_TIMER_LIM0,       /* timer 0 limit   */
++    GDB_AUX_OTHER_REG_TIMER_CNT1,       /* timer 1 counter */
++    GDB_AUX_OTHER_REG_TIMER_CTRL1,      /* timer 1 control */
++    GDB_AUX_OTHER_REG_TIMER_LIM1,       /* timer 1 limit   */
++    /* mpu */
++    GDB_AUX_OTHER_REG_MPU_BUILD,        /* MPU build           */
++    GDB_AUX_OTHER_REG_MPU_EN,           /* MPU enable          */
++    GDB_AUX_OTHER_REG_MPU_ECR,          /* MPU exception cause */
++    GDB_AUX_OTHER_REG_MPU_BASE0,        /* MPU base 0          */
++    GDB_AUX_OTHER_REG_MPU_BASE1,        /* MPU base 1          */
++    GDB_AUX_OTHER_REG_MPU_BASE2,        /* MPU base 2          */
++    GDB_AUX_OTHER_REG_MPU_BASE3,        /* MPU base 3          */
++    GDB_AUX_OTHER_REG_MPU_BASE4,        /* MPU base 4          */
++    GDB_AUX_OTHER_REG_MPU_BASE5,        /* MPU base 5          */
++    GDB_AUX_OTHER_REG_MPU_BASE6,        /* MPU base 6          */
++    GDB_AUX_OTHER_REG_MPU_BASE7,        /* MPU base 7          */
++    GDB_AUX_OTHER_REG_MPU_BASE8,        /* MPU base 8          */
++    GDB_AUX_OTHER_REG_MPU_BASE9,        /* MPU base 9          */
++    GDB_AUX_OTHER_REG_MPU_BASE10,       /* MPU base 10         */
++    GDB_AUX_OTHER_REG_MPU_BASE11,       /* MPU base 11         */
++    GDB_AUX_OTHER_REG_MPU_BASE12,       /* MPU base 12         */
++    GDB_AUX_OTHER_REG_MPU_BASE13,       /* MPU base 13         */
++    GDB_AUX_OTHER_REG_MPU_BASE14,       /* MPU base 14         */
++    GDB_AUX_OTHER_REG_MPU_BASE15,       /* MPU base 15         */
++    GDB_AUX_OTHER_REG_MPU_PERM0,        /* MPU permission 0    */
++    GDB_AUX_OTHER_REG_MPU_PERM1,        /* MPU permission 1    */
++    GDB_AUX_OTHER_REG_MPU_PERM2,        /* MPU permission 2    */
++    GDB_AUX_OTHER_REG_MPU_PERM3,        /* MPU permission 3    */
++    GDB_AUX_OTHER_REG_MPU_PERM4,        /* MPU permission 4    */
++    GDB_AUX_OTHER_REG_MPU_PERM5,        /* MPU permission 5    */
++    GDB_AUX_OTHER_REG_MPU_PERM6,        /* MPU permission 6    */
++    GDB_AUX_OTHER_REG_MPU_PERM7,        /* MPU permission 7    */
++    GDB_AUX_OTHER_REG_MPU_PERM8,        /* MPU permission 8    */
++    GDB_AUX_OTHER_REG_MPU_PERM9,        /* MPU permission 9    */
++    GDB_AUX_OTHER_REG_MPU_PERM10,       /* MPU permission 10   */
++    GDB_AUX_OTHER_REG_MPU_PERM11,       /* MPU permission 11   */
++    GDB_AUX_OTHER_REG_MPU_PERM12,       /* MPU permission 12   */
++    GDB_AUX_OTHER_REG_MPU_PERM13,       /* MPU permission 13   */
++    GDB_AUX_OTHER_REG_MPU_PERM14,       /* MPU permission 14   */
++    GDB_AUX_OTHER_REG_MPU_PERM15,       /* MPU permission 15   */
++    /* excpetions */
++    GDB_AUX_OTHER_REG_ERSTATUS,         /* exception return status  */
++    GDB_AUX_OTHER_REG_ERBTA,            /* exception return BTA     */
++    GDB_AUX_OTHER_REG_ECR,              /* exception cause register */
++    GDB_AUX_OTHER_REG_ERET,             /* exception return address */
++    GDB_AUX_OTHER_REG_EFA,              /* exception fault address  */
++    /* irq */
++    GDB_AUX_OTHER_REG_ICAUSE,           /* interrupt cause        */
++    GDB_AUX_OTHER_REG_IRQ_CTRL,         /* context saving control */
++    GDB_AUX_OTHER_REG_IRQ_ACT,          /* active                 */
++    GDB_AUX_OTHER_REG_IRQ_PRIO_PEND,    /* priority pending       */
++    GDB_AUX_OTHER_REG_IRQ_HINT,         /* hint                   */
++    GDB_AUX_OTHER_REG_IRQ_SELECT,       /* select                 */
++    GDB_AUX_OTHER_REG_IRQ_ENABLE,       /* enable                 */
++    GDB_AUX_OTHER_REG_IRQ_TRIGGER,      /* trigger                */
++    GDB_AUX_OTHER_REG_IRQ_STATUS,       /* status                 */
++    GDB_AUX_OTHER_REG_IRQ_PULSE,        /* pulse cancel           */
++    GDB_AUX_OTHER_REG_IRQ_PENDING,      /* pending                */
++    GDB_AUX_OTHER_REG_IRQ_PRIO,         /* priority               */
++    /* miscellaneous */
++    GDB_AUX_OTHER_REG_BTA,              /* branch target address */
++    /* mmu */
++    GDB_AUX_OTHER_REG_PID,              /* process identity  */
++    GDB_AUX_OTHER_REG_TLBPD0,           /* page descriptor 0 */
++    GDB_AUX_OTHER_REG_TLBPD1,           /* page descriptor 1 */
++    GDB_AUX_OTHER_REG_TLB_INDEX,        /* tlb index         */
++    GDB_AUX_OTHER_REG_TLB_CMD,          /* tlb command       */
++
++    GDB_AUX_OTHER_REG_LAST
++};
++
++/* add auxiliary registers to set of supported registers for GDB */
++void arc_cpu_register_gdb_regs_for_features(ARCCPU *cpu);
++
++#endif /* ARC_GDBSTUB_H */
 -- 
 2.20.1
 
