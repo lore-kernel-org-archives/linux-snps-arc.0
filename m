@@ -2,19 +2,19 @@ Return-Path: <SRS0=xZI/=JE=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3E80C433ED
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  7 Apr 2021 03:52:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B937C433B4
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  7 Apr 2021 16:47:55 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 93859613BD
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  7 Apr 2021 03:52:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 93859613BD
+	by mail.kernel.org (Postfix) with ESMTPS id B41D46128A
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  7 Apr 2021 16:47:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B41D46128A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,52 +23,52 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=pp79B85P007ojrh7IeG75VJ16OxLolUdN9PMWWVm6rE=; b=cPl1+whDnYiUwyB6XN2+B79+2
-	gpUX8GbFDeZ896SiNVLTGx+DGED/G7RNIDj9N2FK7m2QOFPPxNX0/dZYGRZgfYzSm7Y2K7s5x1i4a
-	i84dUbuqHw894UqbszunKlj1V53gBxjuNxNop66Hx25PDIg67QmEEBX5o83mrNi1WDGWSs/fybhC/
-	XwJmxGHF64dDzbD8W8hzzPSSinjKdcwytj5Zm0bk4Zf3VavFksvN5bLczoWen64lwtWBbCqprTOEy
-	LJpQ2b0iZIzoQ8Pm02E6/4U48gKzvX93DDXPasixiEVxXHTM9eoJGMssv9xgzxLYeUlpDWHSfKUjM
-	5k3d66vLg==;
+	 bh=GL0bEHiMwUM75gXd8Qvsm5ZgeHL0B8goy1jTgLveEg8=; b=CAczz5CxjzBHQIYKtHACCKhvt
+	AWcNZvLVGULaOZUMt3gMvixQLD5vDo1L7lwicKFb/gxoX2LIHRYhK0m6vQpXkbPELw3H/MehabSju
+	aTDP+l5vhGYf55cyfW9/3ZANMGz1N7pYfS9kBfidBUQn8N4uaCZzN+pA5bc5KZOLzW8Dtu2MeMrEQ
+	9X1WGp4mVl9bkm1b2O+ImufT7sRnUnezzx2Gpw/1KQ6iCFuiU0B8FI0Mvjr+jyZ1uJxQr31yynHd2
+	Erb6Ccop5JIVIHYZgrx0zgX7R5+Kbd4fPq08vZ+MRwo5o+UE6XfR3hzAsZpL26zOFdm2A9cUIeLKp
+	26q95LFrw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lTzF7-003ztL-0l; Wed, 07 Apr 2021 03:52:37 +0000
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
+	id 1lUBLN-005VUM-1M; Wed, 07 Apr 2021 16:47:53 +0000
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lTzF0-003zt2-S7
- for linux-snps-arc@lists.infradead.org; Wed, 07 Apr 2021 03:52:34 +0000
-Received: by mail-pg1-x534.google.com with SMTP id z16so4605804pga.1
- for <linux-snps-arc@lists.infradead.org>; Tue, 06 Apr 2021 20:52:30 -0700 (PDT)
+ id 1lUBLJ-005VST-C1
+ for linux-snps-arc@lists.infradead.org; Wed, 07 Apr 2021 16:47:51 +0000
+Received: by mail-pf1-x433.google.com with SMTP id n38so3643821pfv.2
+ for <linux-snps-arc@lists.infradead.org>; Wed, 07 Apr 2021 09:47:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=KSzUjykhlPdqK8yc/oHkW/atVoEfA4yFdtdXgnna6SE=;
- b=UosME+g5U7CTF4sTyfIVe2b4cenoVG0xILvVwvrcl5wPRSUZdxl9Ps3tVvk6Bgwh/g
- tE2qsYa3kSJoj607bguS1dhQTp7T8Jk6NX/UgJOMf3ijTmJis+jlQQknFLzXIElrZbjL
- /olntt+33osw0LawRRLEuSMwZATVU6Ehnp7YntfX/s56RK/ZdRGwL4Dk6W9WuvwyTzhC
- 9w7Kwp+b2hBYyMHuyYW4zSrW9vZtvoZJigkRyRdTYjj1ayeWcNu9DZt0/nEA3hmc1vYZ
- kT7NdfzdVhs/fn0M4iQLe4QMQGNdcFahWpCRw6db60kfBVhioxAMjYh+BwrIKRZRAqUY
- Makg==
+ bh=hiAeSQxKJY8HQhTWZrIE+gHskcdssDe2E9A14XOqwcU=;
+ b=Ilis7qT2IqmQ5+Y0IMDXKPEVrOnFRsBxoQQKnf6oQQ3HYbVrvzvcRixL7zYbmuKw7n
+ zNT+Njs/1h92Ij1B8r0kc2YvILXt8uBGpCyQ+Zm/AvjCuwWOA+jBI2CTDaJL640UQLnM
+ 2TN9zTcmwpKjqI8M7/fziW7n2jdeA0N7ktMCZgOqhpLjA79UPOHnsaFuAi2140BjDkoZ
+ v+TSyBxM9gBExP+lOaAFOD5WriC3d5yp97Q9wjDOJzg5kvPQhRfkSx1LSsFTXReSCPHA
+ ctentxJ4aG1zewR4PlPnpHkUcDlFa+p9+mWZj0Dkd+18d6BSn8szaApfkSN/n0QbnkYz
+ MJLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=KSzUjykhlPdqK8yc/oHkW/atVoEfA4yFdtdXgnna6SE=;
- b=F7+3JixmQWAvt8rRwOaCaR2iCdZVrnYPeONGtRBCcl9o5OcP99uXQ1IYElY4gUDCxk
- XBEUWTz/Lclf5qvZkZv+/s5+00MNjlTOIiBmtwl9rhXK9qn5T3qRHOT0MTyEw5elOwwG
- 4/jEGLmAs67rOdPEmEU6Fgdim5dUC2Iq2JEmuwjSNHAcvItFQn0ol6aJ5v/zqVXsG8Bu
- Ua0IVu9HnzSoILFavPeFvy9W/vsEQN7Jpyt9hOLUlvAlUKlJ5haU83ts0viDWxJdy10V
- 78+6RiIrm6275PM9M4d9ipoUVQw59GaoyzB5H7FLED3+u1vCdskbmQosG7mmYbBNn23Z
- FvPw==
-X-Gm-Message-State: AOAM531+Yh8gepPFNArOKjsKHBrpiFHe8EWRUzzJeRbMq/hj9TlZ0qn3
- chSqycYh/g4pfQmCawAP5hO7pA==
-X-Google-Smtp-Source: ABdhPJz8qPpZNv/e8OCGQZ4KFMaPA+EPsntXh2AxHLemJsuOlMI870/gpLX89XZybVk9rZnhPD/THA==
-X-Received: by 2002:a63:d54a:: with SMTP id v10mr1344192pgi.83.1617767548912; 
- Tue, 06 Apr 2021 20:52:28 -0700 (PDT)
+ bh=hiAeSQxKJY8HQhTWZrIE+gHskcdssDe2E9A14XOqwcU=;
+ b=ZnRUlJfh9Xa8RowLoagkfwP3N7xb+JaUlNZo1EFmTunXuAAvT4V2jH4xyzAZwPMsV7
+ zhWyw7SqInGu/SjhcXgllImyTWygcBNkXIjeE35OGGwUeajwWekSPPgmbChK3SaHyJs+
+ yZYwlkeqaudYEhOANel0dr32gdq+YByO/ayGExt8pxBsXlfqaHn1YviNsTzULJbTt+km
+ aXFBPPTmETGAdj1t0a3CnqBR6MPkMI1F4hUzvleV9SxoKDHx1I70cxyM7mNFnuSLQy3W
+ aPrD5Aq8V0fYMzwlmgWzq2De3iBM6AXL8cJL4fH1FSNGH5TR/1FWWXPTQQQphKgTcm7U
+ JJqQ==
+X-Gm-Message-State: AOAM533cM3wMPp8ys/xbYD2kQW+9iG/tUMd3MWetVGqpiD77XbTcMmsD
+ U1WGKIwOq3J7E+L8Tu9iVBgESg==
+X-Google-Smtp-Source: ABdhPJyiYUyR2O8gsDOEfzAuB3H0YQDLcj0W9OXFg8BTQs6YcZByB6FwTKy7W1XM9SNp5to0I3QDkQ==
+X-Received: by 2002:a63:3241:: with SMTP id y62mr4017178pgy.127.1617814067931; 
+ Wed, 07 Apr 2021 09:47:47 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id 11sm20493296pfn.146.2021.04.06.20.52.28
+ by smtp.gmail.com with ESMTPSA id s22sm5913271pjs.42.2021.04.07.09.47.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Apr 2021 20:52:28 -0700 (PDT)
+ Wed, 07 Apr 2021 09:47:47 -0700 (PDT)
 Subject: Re: [PATCH 05/27] arc: TCG instruction generator and hand-definitions
 To: cupertinomiranda@gmail.com, qemu-devel@nongnu.org
 Cc: shahab@synopsys.com, linux-snps-arc@lists.infradead.org,
@@ -76,16 +76,16 @@ Cc: shahab@synopsys.com, linux-snps-arc@lists.infradead.org,
 References: <20210405143138.17016-1-cupertinomiranda@gmail.com>
  <20210405143138.17016-6-cupertinomiranda@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <7fe5b4af-a4b5-354d-9901-67c414c92eef@linaro.org>
-Date: Tue, 6 Apr 2021 20:52:26 -0700
+Message-ID: <865edf7e-2d01-d272-411f-19e92671aa15@linaro.org>
+Date: Wed, 7 Apr 2021 09:47:45 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
 In-Reply-To: <20210405143138.17016-6-cupertinomiranda@gmail.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210407_045232_469067_DC1806C0 
-X-CRM114-Status: GOOD (  23.20  )
+X-CRM114-CacheID: sfid-20210407_174749_716824_C560332E 
+X-CRM114-Status: GOOD (  25.70  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,155 +103,176 @@ Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
 On 4/5/21 7:31 AM, cupertinomiranda@gmail.com wrote:
-> From: Cupertino Miranda <cmiranda@synopsys.com>
-> 
-> Add the most generic parts of TCG constructions. It contains the
-> basic infrastructure for fundamental ARC features, such as
-> ZOL (zero overhead loops) and delay-slots.
-> Also includes hand crafted TCG for more intricate instructions, such
-> as vector instructions.
-> 
-> Signed-off-by: Shahab Vahedi <shahab@synopsys.com>
-
-Procedure is that you also sign off on the patches you post.
-
-> +#define REG(x)  (cpu_r[x])
-
-Does this really provide any clarity to the code?
-
-> +static inline bool use_goto_tb(const DisasContext *dc, target_ulong dest)
-
-Drop all of the unnecessary inline markers.
-The compiler will decide for itself just fine.
-
-> +void gen_goto_tb(const DisasContext *ctx, int n, TCGv dest)
+> +/*
+> + * Function to add boiler plate code for conditional execution.
+> + * It will add tcg_gen codes only if there is a condition to
+> + * be checked (ctx->insn.cc != 0).
+> + * Remember to pair it with gen_cc_epilogue(ctx) macro.
+> + */
+> +static void gen_cc_prologue(DisasCtxt *ctx)
 > +{
-> +    tcg_gen_mov_tl(cpu_pc, dest);
-> +    tcg_gen_andi_tl(cpu_pcl, dest, ~((target_ulong) 3));
-> +    if (ctx->base.singlestep_enabled) {
-> +        gen_helper_debug(cpu_env);
-> +    } else {
-> +        tcg_gen_exit_tb(NULL, 0);
-> +    }
-> +}
+> +    ctx->tmp_reg = tcg_temp_local_new();
+> +    ctx->label = gen_new_label();
 
-This doesn't use goto_tb, so perhaps a better name?
+There's no point in creating these when insn.cc is false.
 
-It also doesn't use tcg_gen_lookup_and_goto_ptr(), so it could be improved.
+> +    if (ctx->insn.cc) {
+> +        arc_gen_verifyCCFlag(ctx, ctx->tmp_reg);
+> +        tcg_gen_brcondi_tl(TCG_COND_NE, ctx->tmp_reg, 1, ctx->label);
 
-> +static void gen_gotoi_tb(const DisasContext *ctx, int n, target_ulong dest)
-> +{
-> +    if (use_goto_tb(ctx, dest)) {
-> +        tcg_gen_goto_tb(n);
-> +        tcg_gen_movi_tl(cpu_pc, dest);
-> +        tcg_gen_movi_tl(cpu_pcl, dest & (~((target_ulong) 3)));
-> +        tcg_gen_exit_tb(ctx->base.tb, n);
-> +    } else {
-> +        tcg_gen_movi_tl(cpu_pc, dest);
-> +        tcg_gen_movi_tl(cpu_pcl, dest & (~((target_ulong) 3)));
-> +        if (ctx->base.singlestep_enabled) {
-> +            gen_helper_debug(cpu_env);
-> +        }
-> +        tcg_gen_exit_tb(NULL, 0);
-
-Forgot the else, as above.  Also not using lookup.
-
-> +    for (i = 0; i < 64; i++) {
-> +        char name[16];
-> +
-> +        sprintf(name, "r[%d]", i);
-> +        cpu_r[i] = tcg_global_mem_new(cpu_env,
-> +                                      ARC_REG_OFFS(r[i]),
-> +                                      strdup(name));
-
-g_strdup_printf, and drop the local variable.
-
-> +}
-> +static void arc_tr_tb_start(DisasContextBase *dcbase, CPUState *cpu)
-
-Mind the whitespace.
-
-> +{
-> +    /* place holder for now */
-> +}
-> +
-> +static void arc_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
-> +{
-> +    DisasContext *dc = container_of(dcbase, DisasContext, base);
-> +
-> +
-> +    tcg_gen_insn_start(dc->base.pc_next);
-
-Similarly.
-
-> +static int arc_gen_INVALID(const DisasContext *ctx)
-> +{
-> +    qemu_log_mask(LOG_UNIMP,
-> +                  "invalid inst @:%08x\n", ctx->cpc);
-> +    return DISAS_NEXT;
-> +}
-
-You need to generate an exception here.
-
-> +    buffer[0] = cpu_lduw_code(ctx->env, ctx->cpc);
-
-translator_lduw.
-
-> +    length = arc_insn_length(buffer[0], cpu->family);
-> +
-> +    switch (length) {
-> +    case 2:
-> +        /* 16-bit instructions. */
-> +        insn = (uint64_t) buffer[0];
-> +        break;
-> +    case 4:
-> +        /* 32-bit instructions. */
-> +        buffer[1] = cpu_lduw_code(ctx->env, ctx->cpc + 2);
-> +        uint32_t buf = (buffer[0] << 16) | buffer[1];
-
-Why use the array buffer[] and not a couple of scalars?
-
-> +    if (ctx->insn.limm_p) {
-> +        ctx->insn.limm = ARRANGE_ENDIAN(true,
-> +                                        cpu_ldl_code(ctx->env,
-
-translator_ldl
+You don't need a local temp for tmp_reg.
+You can create and free it here.
 
 > +/*
-> + * Throw "misaligned" exception if 'addr' is not 32-bit aligned.
-> + * This check is done irrelevant of status32.AD bit.
+> + * The finishing counter part of gen_cc_prologue. This is supposed
+> + * to be put at the end of the function using it.
 > + */
-> +static void check_addr_is_word_aligned(const DisasCtxt *ctx,
-> +                                       TCGv addr)
+> +static void gen_cc_epilogue(const DisasCtxt *ctx)
 > +{
-> +    TCGLabel *l1 = gen_new_label();
-> +    TCGv tmp = tcg_temp_local_new();
-> +
-> +    tcg_gen_andi_tl(tmp, addr, 0x3);
-> +    tcg_gen_brcondi_tl(TCG_COND_EQ, tmp, 0, l1);
-> +
-> +    tcg_gen_mov_tl(cpu_efa, addr);
-> +    tcg_gen_movi_tl(cpu_eret, ctx->cpc);
-> +    tcg_gen_mov_tl(cpu_erbta, cpu_bta);
-> +
-> +    TCGv tcg_index = tcg_const_tl(EXCP_MISALIGNED);
-> +    TCGv tcg_cause = tcg_const_tl(0x0);
-> +    TCGv tcg_param = tcg_const_tl(0x0);
-> +
-> +    gen_helper_raise_exception(cpu_env, tcg_index, tcg_cause, tcg_param);
-> +
-> +    gen_set_label(l1);
+> +    if (ctx->insn.cc) {
+> +        gen_set_label(ctx->label);
+> +    }
+> +    tcg_temp_free(ctx->tmp_reg);
+> +}
 
-So.. you shouldn't have to do anything like this.
+You do not need to keep it live til here.
 
-As far as I can see, there's nothing special about enter/leave.  All memory ops 
-are supposed to be aligned (with double-word ops treated as two word ops for 
-alignment).
+> +/*
+> + * Populates a 32-bit vector with repeating SHIMM:
+> + *   vec32=(0000000000u6,0000000000u6)
+> + *   vec32=(sssss12,sssss12)
+> + * It's crucial that the s12 part of an encoding is in signed
+> + * integer form while passed along in SHIMM, e.g:
+> + *   s12 = -125 (0xf803) --> 0xfffff803
+> + * Do not forget to free the returned TCGv_i32 when done!
+> + */
+> +static TCGv_i32 dup_shimm_to_i32(int16_t shimm)
+> +{
+> +    TCGv_i32 vec32 = tcg_temp_new_i32();
+> +    int32_t val = shimm;
+> +    val = ((val << 16) & 0xffff0000) | (val & 0xffff);
+> +    tcg_gen_movi_i32(vec32, val);
+> +    return vec32;
+> +}
 
-So you should be implementing TCGCPUOps.do_unaligned_access, and set 
-TARGET_ALIGNED_ONLY in default-configs/.
+   return tcg_constant_i32(dup_const(MO_16, shimm));
 
-Quite large this patch.  I'll get back to it later...
+> 
+> +static TCGv_i64 dup_limm_to_i64(int32_t limm)
+> +{
+> +    TCGv_i64 vec64 = tcg_temp_new_i64();
+> +    int64_t val = limm;
+> +    val = (val << 32) | (val & 0xffffffff);
+> +    tcg_gen_movi_i64(vec64, val);
+> +    return vec64;
+> +}
+
+   return tcg_constant_i64(dup_const(MO_32, limm));
+
+> +static TCGv_i64 quad_shimm_to_i64(int16_t shimm)
+> +{
+> +    TCGv_i64 vec64 = tcg_temp_new_i64();
+> +    int64_t val = shimm;
+> +    val = (val << 48) | ((val << 32) & 0x0000ffff00000000) |
+> +          ((val << 16) & 0x00000000ffff0000) | (val & 0xffff);
+> +    tcg_gen_movi_i64(vec64, val);
+> +    return vec64;
+> +}
+
+   return tcg_constant_i64(dup_const(MO_16, shimm));
+
+Note that, tcg_constant_* are hashed and need not be freed (but are silently 
+accepted if you do).  However, you cannot assign to them.  If you really 
+require a mutable temporary, use tcg_const_*.
+
+
+> +static void gen_vec_op2h(const DisasCtxt *ctx,
+> +                         void (*OP)(TCGv, TCGv, TCGv),
+> +                         TCGv_i32 dest,
+> +                         TCGv_i32 b32,
+> +                         TCGv_i32 c32)
+> +{
+> +    TCGv_i32 t0, t1;
+> +
+> +    /* If no real register for result, then this a nop. Bail out! */
+> +    if (!(ctx->insn.operands[0].type & ARC_OPERAND_IR)) {
+> +        return;
+> +    }
+> +
+> +    t0 = tcg_temp_new();
+> +    tcg_gen_mov_i32(t0, b32);
+> +    /*
+> +     * If the last operand is a u6/s12, say 63, there is no "HI" in it.
+> +     * Instead, it must be duplicated to form a pair; e.g.: (63, 63).
+> +     */
+> +    if (ctx->insn.operands[2].type & ARC_OPERAND_SHIMM) {
+> +        t1 = dup_shimm_to_i32(ctx->insn.operands[2].value);
+> +    } else {
+> +        t1 = tcg_temp_new();
+> +        tcg_gen_mov_i32(t1, c32);
+> +    }
+> +
+> +    (*OP)(dest, t0, t1);
+> +
+> +    tcg_temp_free(t1);
+> +    tcg_temp_free(t0);
+> +}
+
+Why are you copying b32 to a new temp?  Do you have callbacks that are not 
+careful about overlap between dest, t0, t1, and assume that you have 
+non-overlapping inputs?
+
+If you don't require uniqueness, and use tcg_constant_* above, then you don't 
+need to copy c32 into a new temp either, nor worry about conditionally freeing it.
+
+> +static void gen_add16(TCGv_i32 dest, TCGv_i32 t0, TCGv_i32 t1)
+> +{
+> +    TCGv_i32 tmp = tcg_temp_new_i32();
+> +    tcg_gen_xor_i32(tmp, t0, t1);
+> +    tcg_gen_andi_i32(tmp, tmp, 0x8000);
+> +    tcg_gen_andi_i32(t0, t0, ~0x8000);
+> +    tcg_gen_andi_i32(t1, t1, ~0x8000);
+> +    tcg_gen_add_i32(t0, t0, t1);
+> +    tcg_gen_xor_i32(dest, t0, tmp);
+> +    tcg_temp_free_i32(tmp);
+> +}
+
+I guess that answers my question of whether you're relying on new unique temps 
+as inputs: yes.
+
+> +static void arc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+> +{
+> +    bool in_a_delayslot_instruction = false;
+> +    DisasContext *dc = container_of(dcbase, DisasContext, base);
+> +    CPUARCState *env = cpu->env_ptr;
+> +
+> +    /* TODO (issue #62): these must be removed */
+> +    dc->zero = tcg_const_local_tl(0);
+> +    dc->one  = tcg_const_local_tl(1);
+> +
+> +    if (env->stat.is_delay_slot_instruction == 1) {
+> +        in_a_delayslot_instruction = true;
+> +    }
+> +
+> +    dc->cpc = dc->base.pc_next;
+> +    decode_opc(env, dc);
+> +
+> +    dc->base.pc_next = dc->npc;
+> +    tcg_gen_movi_tl(cpu_npc, dc->npc);
+> +
+> +    if (in_a_delayslot_instruction == true) {
+> +        dc->base.is_jmp = DISAS_NORETURN;
+> +
+> +        /* Post execution delayslot logic. */
+> +        TCGLabel *DEf_not_set_label1 = gen_new_label();
+> +        tcg_gen_brcondi_tl(TCG_COND_NE, cpu_DEf, 1, DEf_not_set_label1);
+> +        tcg_gen_movi_tl(cpu_DEf, 0);
+> +        gen_goto_tb(dc, 1, cpu_bta);
+> +        gen_set_label(DEf_not_set_label1);
+> +        env->stat.is_delay_slot_instruction = 0;
+
+You may not examine or modify env directly during translate.
+This absolutely will not work.
 
 
 r~
