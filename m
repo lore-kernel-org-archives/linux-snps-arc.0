@@ -2,41 +2,40 @@ Return-Path: <SRS0=pRBv=JG=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CA99C43460
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  9 Apr 2021 11:31:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECDA4C433B4
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  9 Apr 2021 11:32:06 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 30F86610A7
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  9 Apr 2021 11:31:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 30F86610A7
+	by mail.kernel.org (Postfix) with ESMTPS id 7DA5F6115B
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  9 Apr 2021 11:32:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7DA5F6115B
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=baikalelectronics.ru
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
-	Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=OLYrlDQaNQ7V+sNqpptTY5TMo4D5Nn7fmiVKSP/Umcs=; b=EFALm7rgtEp9dx1Bih8HpcxBW
-	3qooV/cI7bcPx1PX6BZcV/Aw8qZLKF0pGd7fQdyTig36vDNhCetuRWaWvFBolbu89Y7dMoLbPXB9F
-	Zfu6cijlIX3rsSS3c638HGblc6VwZezLFCj3sBZX7ujL5dd5gA7omotdxhTuTdkmMt5Ud3Kn2AZSJ
-	xLfXJXBnmGJJP06GRmGjPexSKIYgYOAFbwaqJnoGz0G8QDeUxjup5k3MeeOhxeTZrufbXHwH7wvW7
-	9tZQxE/sVTlDpk47rtElXMwP+pMMnDa7ywGzCLGWbIvqgtDBm+8qiATyzhvhU/x/Q4/9pQSLEAmcQ
-	y3Xh+GsGg==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=r2slEaw8VvwnX4mo5k91a+YqtMKjMhnUjFU9+YHrA1s=; b=Sl8IfiNkVmY6vPgS7CELHbGS94
+	LatRRqriG6SwL+cpAYyI6zPIsPAqGpfOuheYkiYCP1Vq94Eim43Kjr5/AWC6GKI0NpKyyCYC+ywLP
+	JGYNrL7doisZgwCX3b5RXvWaKAcGDVMlCNsslyyOIWmyv4EFs6wfJVqw5yl+9pGxCrsjRR6H9EaR/
+	PxPLu1FdTAxgZkcxobhBLBk8B5ojdOWR7PTwQFBP6QgQlLoT6R6xj8EKQUU2Q+TY5D4edqaLMWHnT
+	PYkf5xfcDagVqbhMQeR/c83Im4JEnNERxBeEIFW7B4TYsHsRCro4GaiGVTIhgfasmWA6DMFhB9Lxy
+	kGA+absg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lUpLm-000che-Ny; Fri, 09 Apr 2021 11:30:58 +0000
+	id 1lUpMq-000cvn-JU; Fri, 09 Apr 2021 11:32:04 +0000
 Received: from mail.baikalelectronics.com ([87.245.175.226]
  helo=mail.baikalelectronics.ru)
  by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
- id 1lUpLd-000cdm-7q
- for linux-snps-arc@lists.infradead.org; Fri, 09 Apr 2021 11:30:53 +0000
+ id 1lUpLf-000ceC-Kj; Fri, 09 Apr 2021 11:30:55 +0000
 From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To: Andy Gross <agross@kernel.org>, Bjorn Andersson
  <bjorn.andersson@linaro.org>, Felipe Balbi <balbi@kernel.org>, Michael
@@ -46,19 +45,21 @@ To: Andy Gross <agross@kernel.org>, Bjorn Andersson
  <gregkh@linuxfoundation.org>, Krzysztof Kozlowski <krzk@kernel.org>,
  <linux-usb@vger.kernel.org>
 CC: Serge Semin <Sergey.Semin@baikalelectronics.ru>, Serge Semin
- <fancer.lancer@gmail.com>, <devicetree@vger.kernel.org>,
- <linux-snps-arc@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH RESEND v8 1/7] arc: dts: Harmonize EHCI/OHCI DT nodes name
-Date: Fri, 9 Apr 2021 14:30:22 +0300
-Message-ID: <20210409113029.7144-2-Sergey.Semin@baikalelectronics.ru>
-In-Reply-To: <20210409113029.7144-1-Sergey.Semin@baikalelectronics.ru>
-References: <20210409113029.7144-1-Sergey.Semin@baikalelectronics.ru>
+ <fancer.lancer@gmail.com>, Khuong Dinh <khuong@os.amperecomputing.com>,
+ Patrice Chotard <patrice.chotard@st.com>, Benjamin Herrenschmidt
+ <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linuxppc-dev@lists.ozlabs.org>, <linux-snps-arc@lists.infradead.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH RESEND v8 0/7] dt-bindings: usb: Harmonize xHCI/EHCI/OHCI/DWC3
+ nodes name
+Date: Fri, 9 Apr 2021 14:30:21 +0300
+Message-ID: <20210409113029.7144-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210409_123051_708942_4EC582EA 
-X-CRM114-Status: UNSURE (   8.80  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210409_123051_913765_D8D18E19 
+X-CRM114-Status: GOOD (  18.38  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,114 +76,156 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-In accordance with the Generic EHCI/OHCI bindings the corresponding node
-name is suppose to comply with the Generic USB HCD DT schema, which
-requires the USB nodes to have the name acceptable by the regexp:
-"^usb(@.*)?" . Make sure the "generic-ehci" and "generic-ohci"-compatible
-nodes are correctly named.
+As the subject states this series is an attempt to harmonize the xHCI,
+EHCI, OHCI and DWC USB3 DT nodes with the DT schema introduced in the
+framework of the patchset [1].
 
-Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Acked-by: Alexey Brodkin <abrodkin@synopsys.com>
-Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- arch/arc/boot/dts/axc003.dtsi        | 4 ++--
- arch/arc/boot/dts/axc003_idu.dtsi    | 4 ++--
- arch/arc/boot/dts/axs10x_mb.dtsi     | 4 ++--
- arch/arc/boot/dts/hsdk.dts           | 4 ++--
- arch/arc/boot/dts/vdk_axs10x_mb.dtsi | 2 +-
- 5 files changed, 9 insertions(+), 9 deletions(-)
+Firstly as Krzysztof suggested we've deprecated a support of DWC USB3
+controllers with "synopsys,"-vendor prefix compatible string in favor of
+the ones with valid "snps,"-prefix. It's done in all the DTS files,
+which have been unfortunate to define such nodes.
 
-diff --git a/arch/arc/boot/dts/axc003.dtsi b/arch/arc/boot/dts/axc003.dtsi
-index cd1edcf4f95e..3434c8131ecd 100644
---- a/arch/arc/boot/dts/axc003.dtsi
-+++ b/arch/arc/boot/dts/axc003.dtsi
-@@ -103,11 +103,11 @@ ethernet@18000 {
- 			dma-coherent;
- 		};
- 
--		ehci@40000 {
-+		usb@40000 {
- 			dma-coherent;
- 		};
- 
--		ohci@60000 {
-+		usb@60000 {
- 			dma-coherent;
- 		};
- 
-diff --git a/arch/arc/boot/dts/axc003_idu.dtsi b/arch/arc/boot/dts/axc003_idu.dtsi
-index 70779386ca79..67556f4b7057 100644
---- a/arch/arc/boot/dts/axc003_idu.dtsi
-+++ b/arch/arc/boot/dts/axc003_idu.dtsi
-@@ -110,11 +110,11 @@ ethernet@18000 {
- 			dma-coherent;
- 		};
- 
--		ehci@40000 {
-+		usb@40000 {
- 			dma-coherent;
- 		};
- 
--		ohci@60000 {
-+		usb@60000 {
- 			dma-coherent;
- 		};
- 
-diff --git a/arch/arc/boot/dts/axs10x_mb.dtsi b/arch/arc/boot/dts/axs10x_mb.dtsi
-index 99d3e7175bf7..b64435385304 100644
---- a/arch/arc/boot/dts/axs10x_mb.dtsi
-+++ b/arch/arc/boot/dts/axs10x_mb.dtsi
-@@ -87,13 +87,13 @@ gmac: ethernet@18000 {
- 			mac-address = [00 00 00 00 00 00]; /* Filled in by U-Boot */
- 		};
- 
--		ehci@40000 {
-+		usb@40000 {
- 			compatible = "generic-ehci";
- 			reg = < 0x40000 0x100 >;
- 			interrupts = < 8 >;
- 		};
- 
--		ohci@60000 {
-+		usb@60000 {
- 			compatible = "generic-ohci";
- 			reg = < 0x60000 0x100 >;
- 			interrupts = < 8 >;
-diff --git a/arch/arc/boot/dts/hsdk.dts b/arch/arc/boot/dts/hsdk.dts
-index dcaa44e408ac..fdd4f7f635d3 100644
---- a/arch/arc/boot/dts/hsdk.dts
-+++ b/arch/arc/boot/dts/hsdk.dts
-@@ -234,7 +234,7 @@ phy0: ethernet-phy@0 { /* Micrel KSZ9031 */
- 			};
- 		};
- 
--		ohci@60000 {
-+		usb@60000 {
- 			compatible = "snps,hsdk-v1.0-ohci", "generic-ohci";
- 			reg = <0x60000 0x100>;
- 			interrupts = <15>;
-@@ -242,7 +242,7 @@ ohci@60000 {
- 			dma-coherent;
- 		};
- 
--		ehci@40000 {
-+		usb@40000 {
- 			compatible = "snps,hsdk-v1.0-ehci", "generic-ehci";
- 			reg = <0x40000 0x100>;
- 			interrupts = <15>;
-diff --git a/arch/arc/boot/dts/vdk_axs10x_mb.dtsi b/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
-index cbb179770293..90a412026e64 100644
---- a/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
-+++ b/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
-@@ -46,7 +46,7 @@ ethernet@18000 {
- 			clock-names = "stmmaceth";
- 		};
- 
--		ehci@40000 {
-+		usb@40000 {
- 			compatible = "generic-ehci";
- 			reg = < 0x40000 0x100 >;
- 			interrupts = < 8 >;
+Secondly we suggest to fix the snps,quirk-frame-length-adjustment property
+declaration in the Amlogic meson-g12-common.dtsi DTS file, since it has
+been erroneously declared as boolean while having uint32 type. Neil said
+it was ok to init that property with 0x20 value.
+
+Thirdly the main part of the patchset concern fixing the xHCI, EHCI/OHCI
+and DWC USB3 DT nodes name as in accordance with their DT schema the
+corresponding node name is suppose to comply with the Generic USB HCD DT
+schema, which requires the USB nodes to have the name acceptable by the
+regexp: "^usb(@.*)?". Such requirement had been applicable even before we
+introduced the new DT schema in [1], but as we can see it hasn't been
+strictly implemented for a lot the DTS files. Since DT schema is now
+available the automated DTS validation shall make sure that the rule isn't
+violated.
+
+Note most of these patches have been a part of the last three patches of
+[1]. But since there is no way to have them merged in in a combined
+manner, I had to move them to the dedicated series and split them up so to
+be accepted by the corresponding subsystem maintainers one-by-one.
+
+[1] Link: https://lore.kernel.org/linux-usb/20201014101402.18271-1-Sergey.Semin@baikalelectronics.ru/
+Changelog v1:
+- As Krzysztof suggested I've created a script which checked whether the
+  node names had been also updated in all the depended dts files. As a
+  result I found two more files which should have been also modified:
+  arch/arc/boot/dts/{axc003.dtsi,axc003_idu.dtsi}
+- Correct the USB DWC3 nodes name found in
+  arch/arm64/boot/dts/apm/{apm-storm.dtsi,apm-shadowcat.dtsi} too.
+
+Link: https://lore.kernel.org/linux-usb/20201020115959.2658-1-Sergey.Semin@baikalelectronics.ru
+Changelog v2:
+- Drop the patch:
+  [PATCH 01/29] usb: dwc3: Discard synopsys,dwc3 compatibility string
+  and get back the one which marks the "synopsys,dwc3" compatible string
+  as deprecated into the DT schema related series.
+- Drop the patches:
+  [PATCH 03/29] arm: dts: am437x: Correct DWC USB3 compatible string
+  [PATCH 04/29] arm: dts: exynos: Correct DWC USB3 compatible string
+  [PATCH 07/29] arm: dts: bcm53x: Harmonize EHCI/OHCI DT nodes name
+  [PATCH 08/29] arm: dts: stm32: Harmonize EHCI/OHCI DT nodes name
+  [PATCH 16/29] arm: dts: bcm5301x: Harmonize xHCI DT nodes name
+  [PATCH 19/29] arm: dts: exynos: Harmonize DWC USB3 DT nodes name
+  [PATCH 21/29] arm: dts: ls1021a: Harmonize DWC USB3 DT nodes name
+  [PATCH 22/29] arm: dts: omap5: Harmonize DWC USB3 DT nodes name
+  [PATCH 24/29] arm64: dts: allwinner: h6: Harmonize DWC USB3 DT nodes name
+  [PATCH 26/29] arm64: dts: exynos: Harmonize DWC USB3 DT nodes name
+  [PATCH 27/29] arm64: dts: layerscape: Harmonize DWC USB3 DT nodes name
+  since they have been applied to the corresponding maintainers repos.
+- Fix drivers/usb/dwc3/dwc3-qcom.c to be looking for the "usb@"-prefixed
+  sub-node and falling back to the "dwc3@"-prefixed one on failure.
+
+Link: https://lore.kernel.org/linux-usb/20201111091552.15593-1-Sergey.Semin@baikalelectronics.ru
+Changelog v3:
+- Drop the patches:
+  [PATCH v2 04/18] arm: dts: hisi-x5hd2: Harmonize EHCI/OHCI DT nodes name
+  [PATCH v2 06/18] arm64: dts: hisi: Harmonize EHCI/OHCI DT nodes name
+  [PATCH v2 07/18] mips: dts: jz47x: Harmonize EHCI/OHCI DT nodes name
+  [PATCH v2 08/18] mips: dts: sead3: Harmonize EHCI/OHCI DT nodes name
+  [PATCH v2 09/18] mips: dts: ralink: mt7628a: Harmonize EHCI/OHCI DT nodes name
+  [PATCH v2 11/18] arm64: dts: marvell: cp11x: Harmonize xHCI DT nodes name
+  [PATCH v2 12/18] arm: dts: marvell: armada-375: Harmonize DWC USB3 DT nodes name
+  [PATCH v2 16/18] arm64: dts: hi3660: Harmonize DWC USB3 DT nodes name
+  since they have been applied to the corresponding maintainers repos.
+
+Link: https://lore.kernel.org/linux-usb/20201205155621.3045-1-Sergey.Semin@baikalelectronics.ru
+Changelog v4:
+- Just resend.
+
+Link: https://lore.kernel.org/linux-usb/20201210091756.18057-1-Sergey.Semin@baikalelectronics.ru/
+Changelog v5:
+- Drop the patch:
+  [PATCH v4 02/10] arm64: dts: amlogic: meson-g12: Set FL-adj property value
+  since it has been applied to the corresponding maintainers repos.
+- Get back the patch:
+  [PATCH 21/29] arm: dts: ls1021a: Harmonize DWC USB3 DT nodes name
+  as it has been missing in the kernel 5.11-rc7
+- Rebase onto the kernel 5.11-rc7.
+
+Link: https://lore.kernel.org/lkml/20210208135154.6645-1-Sergey.Semin@baikalelectronics.ru/
+Changelog v6:
+- Just resend and add linux-usb.vger.kernel.org to the list of Ccecipients.
+
+Link: https://lore.kernel.org/linux-usb/20210210172850.20849-1-Sergey.Semin@baikalelectronics.ru
+Link: https://lore.kernel.org/linux-usb/20210212205521.14280-1-Sergey.Semin@baikalelectronics.ru
+Changelog v7:
+- Replace "of_get_child_by_name(np, "usb") ?: of_get_child_by_name(np, "dwc3");"
+  pattern with using of_get_compatible_child() method in the Qcom DWC3 driver.
+- Drop the patches:
+  [PATCH v6 01/10] arm: dts: ls1021a: Harmonize DWC USB3 DT nodes name
+  [PATCH v6 02/10] arm: dts: keystone: Correct DWC USB3 compatible string
+  [PATCH v6 06/10] arm: dts: keystone: Harmonize DWC USB3 DT nodes name
+  since they have been applied to the corresponding maintainers repos.
+- Cleanup the list of recipients.
+- Rebase onto kernel 5.12-rc4.
+
+Link: https://lore.kernel.org/lkml/20210324204836.29668-1-Sergey.Semin@baikalelectronics.ru/
+Changelog v8:
+- Just resend.
+
+Cc: Khuong Dinh <khuong@os.amperecomputing.com>
+Cc: Patrice Chotard <patrice.chotard@st.com>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: linux-arm-msm@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-snps-arc@lists.infradead.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+
+Serge Semin (7):
+  arc: dts: Harmonize EHCI/OHCI DT nodes name
+  arm: dts: lpc18xx: Harmonize EHCI/OHCI DT nodes name
+  powerpc: dts: akebono: Harmonize EHCI/OHCI DT nodes name
+  arm: dts: stih407-family: Harmonize DWC USB3 DT nodes name
+  arm64: dts: apm: Harmonize DWC USB3 DT nodes name
+  usb: dwc3: qcom: Detect DWC3 DT-nodes using compatible string
+  arm64: dts: qcom: Harmonize DWC USB3 DT nodes name
+
+ arch/arc/boot/dts/axc003.dtsi                | 4 ++--
+ arch/arc/boot/dts/axc003_idu.dtsi            | 4 ++--
+ arch/arc/boot/dts/axs10x_mb.dtsi             | 4 ++--
+ arch/arc/boot/dts/hsdk.dts                   | 4 ++--
+ arch/arc/boot/dts/vdk_axs10x_mb.dtsi         | 2 +-
+ arch/arm/boot/dts/lpc18xx.dtsi               | 4 ++--
+ arch/arm/boot/dts/stih407-family.dtsi        | 2 +-
+ arch/arm64/boot/dts/apm/apm-shadowcat.dtsi   | 4 ++--
+ arch/arm64/boot/dts/apm/apm-storm.dtsi       | 6 +++---
+ arch/arm64/boot/dts/qcom/apq8096-db820c.dtsi | 4 ++--
+ arch/arm64/boot/dts/qcom/ipq8074.dtsi        | 4 ++--
+ arch/arm64/boot/dts/qcom/msm8996.dtsi        | 4 ++--
+ arch/arm64/boot/dts/qcom/msm8998.dtsi        | 2 +-
+ arch/arm64/boot/dts/qcom/qcs404-evb.dtsi     | 2 +-
+ arch/arm64/boot/dts/qcom/qcs404.dtsi         | 4 ++--
+ arch/arm64/boot/dts/qcom/sc7180.dtsi         | 2 +-
+ arch/arm64/boot/dts/qcom/sdm845.dtsi         | 4 ++--
+ arch/arm64/boot/dts/qcom/sm8150.dtsi         | 2 +-
+ arch/powerpc/boot/dts/akebono.dts            | 6 +++---
+ drivers/usb/dwc3/dwc3-qcom.c                 | 2 +-
+ 20 files changed, 35 insertions(+), 35 deletions(-)
+
 -- 
 2.30.1
 
