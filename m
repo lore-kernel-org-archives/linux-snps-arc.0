@@ -2,20 +2,19 @@ Return-Path: <SRS0=IRdM=JJ=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8D53C433ED
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 12 Apr 2021 07:44:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEFE0C433ED
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 12 Apr 2021 08:16:39 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 61570600CD
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 12 Apr 2021 07:44:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 61570600CD
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	by mail.kernel.org (Postfix) with ESMTPS id 70C5A611AD
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 12 Apr 2021 08:16:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 70C5A611AD
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
@@ -23,75 +22,82 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:
 	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=C0aNTv52TwUdl703gncQ6md8LDhp8iqMAziJI6q0gIM=; b=eO4GZKnm1nSJJcVg9+3jm8W7x
-	IhYz+nXNeet+Mx8mXcFOtH8W4dNYmVIQbDLgRwBYS8G3yGaOSl119vCll8H/0WLV9zapvbdbu1v9h
-	pO7MhxevGgInUfd5pGJD/Qj1EjpI+LZfiscixpxz9L8nVVVm3jSpaFr8VJDfTzqFSvh5sMAlRWv4o
-	9UzdCLTaveE16QKF9HT/FmvNJtD+RtrLTHmC7Gx5u1ZrqfwqnMeYdwIHN3sq1XIBfMGYHp54S+ruh
-	agvoNcPTWgEZ0N2hem8aOBkUF+7K2H848vgI5cruUIImwBme753JkPEr+EHI5GXqgf3ulwBnAqCyq
-	uwndV3A/w==;
+	 bh=IgWsxkFZxgDU3xnOHxIw063ZSKcPTFmw15kULxUbiAM=; b=Rmx8S0Nv7IKAJ9/eOJqzNsbKo
+	L/yhLZ7Eiv7GRfrRRc8trAA+Wco/pLvdVJCMD4AtcgDO6u2sSpqb6Zco+hZRo4wYKrl93nw8xTh5f
+	LAfOYkBx7X/1DVhtVBMX56+PE8ED6HTuOdt54p6Pf24oKWYmWkAmFTayuC0GkI2FFdJSuW8xStC58
+	8GGpb+5liQV5pFlrjWdCgIsgFh3xO91dbh9guhMffVDNfAdVkZLrO6cvaBK10rEc7/z+W+bh8Q8Rr
+	oxUP6wodx8Cm20JxEwoXtacScMMN4cq2UcQYlPjT39JE0Xj/3+3xpc3kERpk1Ell1wNF/FA8y/cnh
+	Il1b6icXQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lVrFX-0060ne-Kg; Mon, 12 Apr 2021 07:44:47 +0000
+	id 1lVrkL-0064uU-Rc; Mon, 12 Apr 2021 08:16:37 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lVrFW-0060nX-55
- for linux-snps-arc@desiato.infradead.org; Mon, 12 Apr 2021 07:44:46 +0000
+ id 1lVrkH-0064tS-2G
+ for linux-snps-arc@desiato.infradead.org; Mon, 12 Apr 2021 08:16:35 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Type:Cc:To:Subject:Message-ID
  :Date:From:In-Reply-To:References:MIME-Version:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=JXZ2evZ1HlMgd5dQiMnzV28T68ypmIxoPU4uM5YLJDY=; b=AP3kUKWOI2Nshxph2zql4GjTTy
- rqa/LrhmezzQY0WEXEsQL1zwR8IJdvd810lBwlQmZCS9o5/e9CyuF00R3RCuf0QshzY2oRijKzE81
- ldj6NvFzMZjuixZz0NKrD1rZUF/LmuxZUAnryebI5vo1jIJMGTDkC3DcON6iZzotjOANwD03WMfPs
- ytrZDS+CuoU2d0rDJOsXeBFhJOqfq9Bx1a6YepiBGqXs7slSmEEfgCakgZHP2aQ6JEkPTgI/aNZCm
- u397mBI/+guVjewkuRR07Qx8naS9dGSU0dW8q9LKzqTOxEnz/NFxwF7wKFkDJBv5hesNxt3tWqyOC
- xS2eDbYw==;
-Received: from mail-ua1-f48.google.com ([209.85.222.48])
+ bh=uDdOFoatKT+5zEWWAiJzJLrdDEXYwLFG1mwLVDQeZSg=; b=A0tETLAU1qwnPNY1trKQrWxjHw
+ vrcz6rqxN31Yyu12IMP0bIrmaN31qhP+edkIGzcYhi85hHM/BRPzOf1ssQf0pJDmOMFmwIdDrNR60
+ 2e0RQsO47ccNSpk7dExAFE28Yc4C0wD1TQr27Kg2Bbgxow72Yswxel59OjcMV9XctItM5KzMHvGxI
+ 33fZ6C1xNG0ZrI74QQD4i7ghpFYHGBpA9go1H1BioR47IQIobxNCX2iG5PA/35InV80ECkzQY/dnb
+ XD93OrmU3m9STIXxhHnYRj792BCxES4dA48/ZX3WM/H5dKb78k86G+WpivBWPcYOZx7cu9KadmTKk
+ I1hhZ9Rg==;
+Received: from conssluserg-03.nifty.com ([210.131.2.82])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lVrFT-005w8n-44
- for linux-snps-arc@lists.infradead.org; Mon, 12 Apr 2021 07:44:44 +0000
-Received: by mail-ua1-f48.google.com with SMTP id a12so169786uak.6
- for <linux-snps-arc@lists.infradead.org>; Mon, 12 Apr 2021 00:44:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JXZ2evZ1HlMgd5dQiMnzV28T68ypmIxoPU4uM5YLJDY=;
- b=eAXrnvozXIaC18/NIw5WAGEm6UXGjUu4EcQ/bvXkOa5a5j9QRl6YDMXEKdsy3LRsde
- Krh5Z0/NdZGJrPm3kXY8bJ0I0mUA06jH4wwt7uh/6PUc91k7I5KshpIUY7QXOj3cqZ+8
- GUOl4XIKfEyrvxyuLXDnDO1Yefo6WugFkil6iuMSZDZ1souoaHq3y00wC+VxhST2PhED
- 2bWgSlvaG3pxoi3qJkzqaOyaSYxB5LD1zP5c0JflVMVGhqlxd0QZWqIIELeOShFhbuFc
- Xa9uCPXKC4qDMb0EMh5s1zXfEMIqEs8jDYuknKYAdNfphCsNENj9LXIKf2kd6DIGmuwk
- 6JtQ==
-X-Gm-Message-State: AOAM530UcOggNLT90mEUD+/F76UWNumJak6XkKMAhlwYkGy+kKYlvRtc
- j9/LZOnsUAHEjCuJgz+Zzn2obmTrMkXcn2mmsvI=
-X-Google-Smtp-Source: ABdhPJx+WwlU+f/sxyzlKoozSp4V5pjbJlg2tOYyn632dPGmXpWO0oMiT+z+uxKe9nNXFSbUevs6IBKhAohcjgM8HOo=
-X-Received: by 2002:a9f:262c:: with SMTP id 41mr8642842uag.4.1618213481107;
- Mon, 12 Apr 2021 00:44:41 -0700 (PDT)
+ id 1lVrkE-005xxO-49
+ for linux-snps-arc@lists.infradead.org; Mon, 12 Apr 2021 08:16:31 +0000
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
+ [209.85.215.176]) (authenticated)
+ by conssluserg-03.nifty.com with ESMTP id 13C8GChd020572
+ for <linux-snps-arc@lists.infradead.org>; Mon, 12 Apr 2021 17:16:13 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 13C8GChd020572
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+ s=dec2015msa; t=1618215373;
+ bh=uDdOFoatKT+5zEWWAiJzJLrdDEXYwLFG1mwLVDQeZSg=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=ChatkEem71FPJE1307DkBwk3EPN3NFOpzdXEboxnGfQ3DRCYX8wc4wg9Ihk3ndQb5
+ RFUazZAR9nNmJcwhJIvJV1T/Y12+8RCbGkYJS64SQ4g9fDYtJcIid3UnlN7jRZW5mM
+ kq1Foetoi6isuFQcp4M4PW8YDsrCiy/AG++mRyyu+VyqPU+XT7xVrfFVC15QVKq+Gg
+ ZEEhMg0jObJB08TbnX2+tovpffpLkluDGnNlPElN+JT2E6fLFzYMT73bi/H4crUpGS
+ 6tUqPA9Cy1ovNGsl09vTE+KpBs9rVQtDOWRJQoKwEJIVh3sTj0Duu5nOEkUsMABc1C
+ LUgQh95SyPgNw==
+X-Nifty-SrcIP: [209.85.215.176]
+Received: by mail-pg1-f176.google.com with SMTP id p12so8773043pgj.10
+ for <linux-snps-arc@lists.infradead.org>; Mon, 12 Apr 2021 01:16:12 -0700 (PDT)
+X-Gm-Message-State: AOAM532a+2OuTY0UBCIKwWJhnwkC8VZb4g/yYed04mqFYCjYQl4wmZDX
+ xQt7OKTk1/TjnWiaUMnTjK721E2QElEWJDk6OjY=
+X-Google-Smtp-Source: ABdhPJwQIkyZ0y/uMUlvB54CDG4omqvVnzcbv+RlS3hqxhdudrm8EDbUg9sZzv6Fn9SFbxY9GFmI5rHOYOeaY6T9tTM=
+X-Received: by 2002:a63:181c:: with SMTP id y28mr26531445pgl.175.1618215372220; 
+ Mon, 12 Apr 2021 01:16:12 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210411135532.219797-1-masahiroy@kernel.org>
-In-Reply-To: <20210411135532.219797-1-masahiroy@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 12 Apr 2021 09:44:29 +0200
-Message-ID: <CAMuHMdUtqSv6PUfLtuGoBSgqqM4CkwSkT3nKstXRKN1tuXrQ_g@mail.gmail.com>
+ <CAMuHMdUtqSv6PUfLtuGoBSgqqM4CkwSkT3nKstXRKN1tuXrQ_g@mail.gmail.com>
+In-Reply-To: <CAMuHMdUtqSv6PUfLtuGoBSgqqM4CkwSkT3nKstXRKN1tuXrQ_g@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 12 Apr 2021 17:15:35 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATozxbhq1Q4HtiOrE87KKFEmdC7Hfp-biXYG1e_eFzHvw@mail.gmail.com>
+Message-ID: <CAK7LNATozxbhq1Q4HtiOrE87KKFEmdC7Hfp-biXYG1e_eFzHvw@mail.gmail.com>
 Subject: Re: [PATCH] kbuild: use ?= to assign CROSS_COMPILE by arch-Makefile
-To: Masahiro Yamada <masahiroy@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: linux-kbuild <linux-kbuild@vger.kernel.org>, Helge Deller <deller@gmx.de>, 
  "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Rich Felker <dalias@libc.org>, 
+ Rich Felker <dalias@libc.org>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Vineet Gupta <vgupta@synopsys.com>, 
- Yoshinori Sato <ysato@users.sourceforge.jp>, 
+ Vineet Gupta <vgupta@synopsys.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-m68k <linux-m68k@lists.linux-m68k.org>, 
+ linux-m68k <linux-m68k@lists.linux-m68k.org>,
  "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- Parisc List <linux-parisc@vger.kernel.org>, 
+ Parisc List <linux-parisc@vger.kernel.org>,
  Linux-sh list <linux-sh@vger.kernel.org>,
- arcml <linux-snps-arc@lists.infradead.org>, 
+ arcml <linux-snps-arc@lists.infradead.org>,
  "moderated list:H8/300 ARCHITECTURE" <uclinux-h8-devel@lists.sourceforge.jp>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210412_004443_179474_8E2C0B21 
-X-CRM114-Status: GOOD (  21.73  )
+X-CRM114-CacheID: sfid-20210412_011630_528321_3BAFCD5A 
+X-CRM114-Status: GOOD (  27.62  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,64 +114,90 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Yamada-san,
-
-On Sun, Apr 11, 2021 at 3:56 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> Use ?= operator to let arch/*/Makefile to assign CROSS_COMPILE only
-> when CROSS_COMPILE is undefined.
+On Mon, Apr 12, 2021 at 4:44 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> This allows arch-Makefiles to drop the ifeq ($(CROSS_COMPILE),)
-> conditional.
+> Hi Yamada-san,
 >
-> This slightly changes the behavior; the arch-Makefile previously
-> overrode CROSS_COMPILE when CROSS_COMPILE has already been made empty
-> via an environment variable as in 'export CROSS_COMPILE='.
+> On Sun, Apr 11, 2021 at 3:56 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > Use ?= operator to let arch/*/Makefile to assign CROSS_COMPILE only
+> > when CROSS_COMPILE is undefined.
+> >
+> > This allows arch-Makefiles to drop the ifeq ($(CROSS_COMPILE),)
+> > conditional.
+> >
+> > This slightly changes the behavior; the arch-Makefile previously
+> > overrode CROSS_COMPILE when CROSS_COMPILE has already been made empty
+> > via an environment variable as in 'export CROSS_COMPILE='.
+> >
+> > With this commit, arch-Makefle will respect the user's environment
+> > set-up, which seems to be a more correct behavior.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 >
-> With this commit, arch-Makefle will respect the user's environment
-> set-up, which seems to be a more correct behavior.
+> Thanks for your patch!
 >
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-
-Thanks for your patch!
-
-> ---
+> > ---
+> >
+> >  arch/arc/Makefile    | 4 +---
+> >  arch/h8300/Makefile  | 4 +---
+> >  arch/m68k/Makefile   | 4 +---
+> >  arch/mips/Makefile   | 4 +---
+> >  arch/parisc/Makefile | 6 ++----
+> >  arch/sh/Makefile     | 4 +---
 >
->  arch/arc/Makefile    | 4 +---
->  arch/h8300/Makefile  | 4 +---
->  arch/m68k/Makefile   | 4 +---
->  arch/mips/Makefile   | 4 +---
->  arch/parisc/Makefile | 6 ++----
->  arch/sh/Makefile     | 4 +---
-
-What about arch/xtensa/Makefile?
-
-> --- a/arch/m68k/Makefile
-> +++ b/arch/m68k/Makefile
-> @@ -17,10 +17,8 @@
->  KBUILD_DEFCONFIG := multi_defconfig
+> What about arch/xtensa/Makefile?
 >
->  ifneq ($(SUBARCH),$(ARCH))
-> -       ifeq ($(CROSS_COMPILE),)
-> -               CROSS_COMPILE := $(call cc-cross-prefix, \
-> +       CROSS_COMPILE ?= $(call cc-cross-prefix, \
->                         m68k-linux-gnu- m68k-linux- m68k-unknown-linux-gnu-)
-> -       endif
->  endif
+> > --- a/arch/m68k/Makefile
+> > +++ b/arch/m68k/Makefile
+> > @@ -17,10 +17,8 @@
+> >  KBUILD_DEFCONFIG := multi_defconfig
+> >
+> >  ifneq ($(SUBARCH),$(ARCH))
+> > -       ifeq ($(CROSS_COMPILE),)
+> > -               CROSS_COMPILE := $(call cc-cross-prefix, \
+> > +       CROSS_COMPILE ?= $(call cc-cross-prefix, \
+> >                         m68k-linux-gnu- m68k-linux- m68k-unknown-linux-gnu-)
+> > -       endif
+> >  endif
+>
+> This does not seem to work as expected: my standard build scripts
+> (using "make ARCH=m68k") no longer pick up the cross-compiler,
+> but fall back to the native compiler, thus breaking the build.
 
-This does not seem to work as expected: my standard build scripts
-(using "make ARCH=m68k") no longer pick up the cross-compiler,
-but fall back to the native compiler, thus breaking the build.
 
-Gr{oetje,eeting}s,
+Agh, sorry, this patch does not work
+because the top Makefile exports CROSS_COMPILE.
 
-                        Geert
+export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_HOSTCFLAGS
+CROSS_COMPILE LD CC
+
+
+
+Removing CROSS_COMPILE from that makes ?= work,
+but it would break other parts.
+
+
+Please ignore this patch.
+
+
+
+
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+
+
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best Regards
+Masahiro Yamada
 
 _______________________________________________
 linux-snps-arc mailing list
