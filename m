@@ -4,161 +4,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49419C43460
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 14 Apr 2021 08:59:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7575C433ED
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 14 Apr 2021 09:11:32 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9601D61158
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 14 Apr 2021 08:59:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9601D61158
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synaptics.com
+	by mail.kernel.org (Postfix) with ESMTPS id 4DE4960BD3
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 14 Apr 2021 09:11:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4DE4960BD3
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=csgroup.eu
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=KVTjDcVRDnc8tRLccVjUMJOgnoLHJ3ZOkhAPFSDOuuQ=; b=RA9hla54lmSSZnyAOdH86WnsUq
-	LPlQ76zhLvXvAoH13SjYE2MEbIKWY8BzYwcoY537uejG7m312ysSj3OLMjG64nJiCJhVdyP6z+r3W
-	V6YILbj7J6ftsZL0qZwW20i2kV/zjSh5/1pa4KYg9Zm3VAIXtQjpmOG7cSH/VHPrQIip6BclNpNuY
-	qGQF1ePmRtx+aY368F8LswO4snOrfHDG4PCmz4d28IYA3P9j1mnIB5GSJ6pGq/RrwUZfX9VqgGr4b
-	/nONOGfBfkq80pI62htSdBiIUl8PGy8IJKz+QEVPv/JHex5Q8dzmy8Kg35/jGewgHNmZqwCNwjELX
-	U35/RTCg==;
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=Z/waQqgRpAgOSNz3ogKYCE0GgLM/AbotaBvjrNXmB/s=; b=gWmLCd4HmrbItLjujo3b0+JIG
+	guJfxu+4sGvPN2lPMmikww4AFB/VOcJepb4rYxPY4iSA9zxcEurFLh9DL22z7GgbsLa+WXbRy4/X7
+	4v0t5qRDdP8zF83/JFLD8mTZJMSZw01AedYv/xwymQyZdR71Gxq4OZMlUWdMVp0yUOiBDvqVyTWge
+	aS9oEQ0z8P7e1ZBkFITZdgT1J13xp21MMR0A7qDSv0w7ZDac/P0+JLCa1UkuU0k83T6UjAgZy2xmu
+	ImIiO12h4ifDkA2e4GzvQ4k+NdMc8D7xsVf9yJFHy5NVuax2bymqy3PQNq16ux7E6wKlNfEAsgoc8
+	ldkcuQqOA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lWbMR-00C4pS-9X; Wed, 14 Apr 2021 08:58:59 +0000
+	id 1lWbYW-00C6Qh-Fr; Wed, 14 Apr 2021 09:11:30 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lWbLz-00C4jz-5K; Wed, 14 Apr 2021 08:58:33 +0000
+ id 1lWbY0-00C6Np-DS; Wed, 14 Apr 2021 09:10:56 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=MIME-Version:
- Content-Transfer-Encoding:Content-Type:Message-ID:Subject:Cc:To:From:Date:
- Sender:Reply-To:Content-ID:Content-Description:In-Reply-To:References;
- bh=08voTLsZcDJChYQ5jgeNzzEpKc8++MtNWQh8s3eoYvU=; b=e9DYXDQnGk88Ru+niLHnlhBNAK
- VShnq1lsp3y7uble6fu5RisJbQiY/o6kVWxjl6FeYCAGBDi2/kZDwlTm2TvmIlrERJNLamLacaRAj
- cTm8A7gLXCMTObTAxU4/xMbDAHn6nauoA+V9XHpRZ2QzKXqJjVJWMvQyARftRq6KhCgqhUp368Zo2
- 6/zACmmEZKU4hHBojF4ItXezvGxhXY75cbKA3UUWeKpnq/lyIi0HnilfW45tJttqHcrUb1Sx+zaKS
- Uns/MjC9F6e+fC1ON0fJZaa39vFRCEX1/Fw7Pozx8ESXEUCBiSsmp+dRw5IxgEsObeXqvY7uRbKXk
- 8HagHhkw==;
-Received: from mail-dm6nam10on2065.outbound.protection.outlook.com
- ([40.107.93.65] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+ Subject:Sender:Reply-To:Content-ID:Content-Description;
+ bh=MBQu58u912Wp3RAACzwxJA2dsjrUY72qr2psLRaB7ps=; b=MrATausYZYDJzBp1KfoNsEQOXL
+ EFc6eklzbGHYkzgjyRB+wqFCPQqAFY7FDntVQTa2K2kHfVOzLOLmyEBj+UAijsQ1KsnSCfdGVtQHp
+ 5R928HDE3rHFH43GhR1HAIs6VUJOnpnJ4zv2wShRpJ0MMlLTlX7/ihs28ChxUTSsj5c/4Ey+sjGaD
+ GASLtCSDTqadxEW8hUk1KBpudwrdhIw01ngadUSliumQKkQfGL1+BjVi/o91TudOIYYVO0v1fUukp
+ FqMT2fhOcz7RuJF/5FSTCAAb0ctidSDPosJ2XF1T7MtG35D9fwxUrq/gg/8KN53MSdIHSEpGjFN99
+ 5IguMYjw==;
+Received: from pegase1.c-s.fr ([93.17.236.30])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lWbLv-007dHV-Iq; Wed, 14 Apr 2021 08:58:29 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aFZ4fduwkKuEKsaIEawDGjylvNl+A6eqRZZaK1+acS9Oj68pRag6FHveY1KuznN5Ngu1Q+7gDet4chvKUutS96LwCOia5/vcpQ9FyodQ8HjOE8wg50Hm4r+yWDPeW0sq60oIVinusymRQAJJYUhz62gvZ+nf4MM1GCIoH1MJmipjQnUgtWz83W3b6lru/g2YvrSUiWlP4Y+YUmt7iC2iatOE7E6w9hAfqH4VJJ8/ZlhaZ8IUZLOfLnUebqTes7ljuifKrNClUTp3GekXA24alPIMqNvcRP2D3MZCOchtYNL3V/WCP8QuRmZtdJjhjtK/IaxFa9qUg6/pvfRnSJM0Kg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=08voTLsZcDJChYQ5jgeNzzEpKc8++MtNWQh8s3eoYvU=;
- b=kEzcTqxJ8VSQOq+LOZJISWXVgktC1YAmtxb5HbthzlBp7ySiOtUv+VyQirKR5K9t1D4kiekTlJprIkdOz5xJC5vH+bGSBd6mMxRjbDDYKLbKIuppRHI9YFvYOC7mfCyUM3lBbS4OsUe8BWsM7AGTgVjOV67nbmT04pBcHSICohkqjHeTE8R3o7YQNPSWuFjFBGHHrO7NDq/cuQQgK7GlMuUR+M1ZZ+M6gFjCweK2T1Tc7PtbW9FzN5ChSX7pip3fThe6mphYfDYOp68cy2IoR2B3UXSWx4ddNlWu/crlmN4MXfSCfHQUFuLSkkUdSP+anVX2LBOKGcDKzmW1o3DhhA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synaptics.com; dmarc=pass action=none
- header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=08voTLsZcDJChYQ5jgeNzzEpKc8++MtNWQh8s3eoYvU=;
- b=Vw5JlE3LAAEucBaNse013pBy2dqiuPE0YpK2oVLfOdq7y6Bo0fWn1/vfcVjeGrS558kbEYs60EnJZw3zOSIcVLweOF7BQxbLz2avVqenu93DmEuQSF0aflRBRtDIybBYvid7UlyFY3nz08xfv3hbR7u2VbL7SrPcajsIS3RQhqI=
-Authentication-Results: synopsys.com; dkim=none (message not signed)
- header.d=none; synopsys.com; dmarc=none action=none header.from=synaptics.com; 
-Received: from BY5PR03MB5345.namprd03.prod.outlook.com (2603:10b6:a03:219::16)
- by BY5PR03MB5078.namprd03.prod.outlook.com (2603:10b6:a03:1e5::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16; Wed, 14 Apr
- 2021 08:58:22 +0000
-Received: from BY5PR03MB5345.namprd03.prod.outlook.com
- ([fe80::8569:341f:4bc6:5b72]) by BY5PR03MB5345.namprd03.prod.outlook.com
- ([fe80::8569:341f:4bc6:5b72%8]) with mapi id 15.20.4020.022; Wed, 14 Apr 2021
- 08:58:22 +0000
-Date: Wed, 14 Apr 2021 16:58:08 +0800
-From: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
-To: Vineet Gupta <vgupta@synopsys.com>, Russell King
- <linux@armlinux.org.uk>, Yoshinori Sato <ysato@users.sourceforge.jp>, Brian
- Cain <bcain@codeaurora.org>, Nick Hu <nickhu@andestech.com>, Greentime Hu
- <green.hu@gmail.com>, Vincent Chen <deanbo422@gmail.com>, Ley Foon Tan
- <ley.foon.tan@intel.com>, Jonas Bonn <jonas@southpole.se>, Stefan
- Kristiansson <stefan.kristiansson@saunalahti.fi>, Stafford Horne
- <shorne@gmail.com>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
- Michael Ellerman <mpe@ellerman.id.au>, Benjamin Herrenschmidt
- <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>, Paul
- Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Jeff Dike <jdike@addtoit.com>, Richard
- Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>
-Cc: linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- uclinux-h8-devel@lists.sourceforge.jp, linux-hexagon@vger.kernel.org,
- openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-um@lists.infradead.org, Anup Patel <anup@brainfault.org>
-Subject: [PATCH] init: consolidate trap_init()
-Message-ID: <20210414165808.458a3d11@xhacker.debian>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-X-Originating-IP: [192.147.44.204]
-X-ClientProxiedBy: SJ0PR03CA0126.namprd03.prod.outlook.com
- (2603:10b6:a03:33c::11) To BY5PR03MB5345.namprd03.prod.outlook.com
- (2603:10b6:a03:219::16)
+ id 1lWbXw-007duz-7Y; Wed, 14 Apr 2021 09:10:55 +0000
+Received: from localhost (mailhub1-int [192.168.12.234])
+ by localhost (Postfix) with ESMTP id 4FKxXQ05PXz9txRC;
+ Wed, 14 Apr 2021 11:10:46 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+ by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
+ with ESMTP id 0zeBA9ZPccDQ; Wed, 14 Apr 2021 11:10:45 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+ by pegase1.c-s.fr (Postfix) with ESMTP id 4FKxXP4rdvz9ttBY;
+ Wed, 14 Apr 2021 11:10:45 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id BE0B88B7BC;
+ Wed, 14 Apr 2021 11:10:46 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+ by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+ with ESMTP id QZ2BMSlNARn7; Wed, 14 Apr 2021 11:10:46 +0200 (CEST)
+Received: from [192.168.4.90] (unknown [192.168.4.90])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 098558B7BA;
+ Wed, 14 Apr 2021 11:10:44 +0200 (CEST)
+Subject: Re: [PATCH] init: consolidate trap_init()
+To: Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
+ Vineet Gupta <vgupta@synopsys.com>, Russell King <linux@armlinux.org.uk>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Brian Cain <bcain@codeaurora.org>, Nick Hu <nickhu@andestech.com>,
+ Greentime Hu <green.hu@gmail.com>, Vincent Chen <deanbo422@gmail.com>,
+ Ley Foon Tan <ley.foon.tan@intel.com>, Jonas Bonn <jonas@southpole.se>,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+ Stafford Horne <shorne@gmail.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Paul Mackerras <paulus@samba.org>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>
+Cc: uclinux-h8-devel@lists.sourceforge.jp, linux-parisc@vger.kernel.org,
+ linux-hexagon@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-kernel@vger.kernel.org, openrisc@lists.librecores.org,
+ Anup Patel <anup@brainfault.org>, linux-riscv@lists.infradead.org,
+ linux-snps-arc@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20210414165808.458a3d11@xhacker.debian>
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+Message-ID: <44bdf1f1-117d-0f10-fc59-9edd32d1ad61@csgroup.eu>
+Date: Wed, 14 Apr 2021 11:10:42 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from xhacker.debian (192.147.44.204) by
- SJ0PR03CA0126.namprd03.prod.outlook.com (2603:10b6:a03:33c::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17 via Frontend
- Transport; Wed, 14 Apr 2021 08:58:13 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7241407c-569c-4a0a-dbeb-08d8ff23748b
-X-MS-TrafficTypeDiagnostic: BY5PR03MB5078:
-X-Microsoft-Antispam-PRVS: <BY5PR03MB507877BF88DECBED662A331CED4E9@BY5PR03MB5078.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Crn+fGVoq2cFN5JsT5rO0n2SsaHWm3Ut8MH/MkRVC3a9qKL2t5tE1ctlC/CGF/bawhG5BgLQ2vfB+zsJz/6c/gzjuusAGP+OrGvKHHLd32vOkRWFZKpIw6JTlfCJrM1THdSj7fE/N/xQHpFk5KKQ64qcJA8skAURoQRhF42jx7t0ZwpY9t0ykX0v+DXVIHhSMBefbzr76ntASr5IMG2y6hIXj5n6lGxRFQNnkiAvk98k894H4J3yDFVLESJAdmb2TPSsVzwwVIntTe1U1U4lh3IehBtsLFAqN9A0fvu2RtoghMXdCM+ftkxR4gA5L3XO71oClniv0MTq8c6J4PxZ4HyNsj4svHhKJBJDtUhHX8qAMowfq97tBxEyZgS+3VEK4mVHpp33nM6U4IEJEvC/BpXSsSKVSEAv9rKOuqdnha9NfcdtJ1DPJ2zybEB+DIXyUoHGMYAE8nniBysB8NtBE0P18DgXfJAD//sJFuT7YlnzjH3R+zV9pVEj/OoK+8/gMPE4UYnRsegZUPWPYErVX5/LKbHhJDcwvl5VDcKOoFEkwxXc/8iuS5Om4+jwtfsliw23D34iH2h9W4XkoSc2s76CuNEkIpx28IevWlry3CG3LKx8lSC5ytbkIG9q1UwDSHY3xe0E2wTUoHJalAFkh3sebbOQGxGqx4POpkcRcnlOLaC5gynphBILeJFwQEGD
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR03MB5345.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(376002)(136003)(346002)(396003)(39850400004)(956004)(55016002)(8676002)(8936002)(66476007)(9686003)(66556008)(66946007)(6666004)(7416002)(7406005)(921005)(110136005)(86362001)(2906002)(1076003)(316002)(38350700002)(7696005)(52116002)(186003)(83380400001)(26005)(16526019)(6506007)(5660300002)(478600001)(4326008)(38100700002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?cN76SSrX8CSB9pwmcNgZn7oaug3fu8oia1gOEDie+RQu2LDC5HMVflXF5Oei?=
- =?us-ascii?Q?F3D7GWDS/GFTuG/xnCQ2W8YH6bxDMatQ1bawNa9XixIDzSI+dzjzCcwAPCcY?=
- =?us-ascii?Q?qLUWxbxJ+tsU/BZAM3I71+qgtPIa23g4shUk031TJqdJtTxpI3uKwUtzRBDL?=
- =?us-ascii?Q?QDdI9er3L18Z4CufL++In7dhSGbyQxzjELtGg3xBRqwvUhC6a2PdFVvWiYXq?=
- =?us-ascii?Q?x6kXaUB/TUqo+sPxkMXPahbF+BKaz954iJkKw0Ff4hkJydKMtlw+JKvq8GwK?=
- =?us-ascii?Q?mpihLgfdpDQRlFSxnLzDTa8NuWx+PguPle2l5lKGH9W2EgJyJWV4RDI8gMH/?=
- =?us-ascii?Q?CrZHhosQb8oT7aqqSTpF2zsDjfeaMlHdpT/9kRDJS4oq98Zirm2l7aBLVNuc?=
- =?us-ascii?Q?gJ6ZVIvQunw9erThGIzysLWpaoKzh1hbgfz5J1F/Qv+qoh6ZqvKhVGBp2r6f?=
- =?us-ascii?Q?SGj/M6uE1+RJVziPTfK1CWahTVzqhIJD+U7CrWYqpUDwbM6KbJgv9FUOgJDl?=
- =?us-ascii?Q?OTbsQP4H4exDbF8in0e/+CNu7wvNfqMJVQ+Lo9V0dnK3ZUlNPf/kbAPdGkJL?=
- =?us-ascii?Q?R+EB52YdQU/Llg4kB+Cgzo/ARQzx1WChB7PZD8OY+pXkDMq3x31n8IWzRe6+?=
- =?us-ascii?Q?YiPs+TMu/UBuxG2HYsz6R8xfmMQhO/A/ovqkQl2vra9TJ1zfuvq4XEm9Y3gB?=
- =?us-ascii?Q?ZKYbdQPgvW462jyCKChfGhwmuKQGE0v8Mv3DoY91cjkuyvLcJdjdB1nXwy2H?=
- =?us-ascii?Q?48vBrG3cUrN/b9fX38dqe7gAebyV3ZFkfaXMO8SfIoArhwBnvl490hxthE2i?=
- =?us-ascii?Q?Bjm55kckQhi3EyAQluaIBRtNe1EuUgyd3kx5tfgW7cKBv4/fRgVOQDjtuYo4?=
- =?us-ascii?Q?iSLLKrE/3ywFsGEDWRcTGVbi6872Xb1zuUktlBnQuI0KzUktHlvCY5Y9Rf05?=
- =?us-ascii?Q?nvlDj/oaztJKh8+Wa/A2QsR5Q3H7wilKp3dVkpTTr2hkRjYsKNi8AVMmBFtM?=
- =?us-ascii?Q?JfxdwB89v06vjzBX5WG+s7B4E3Adp9xgj6iaHDX5ZEV0LGddW0wu2cytNAGd?=
- =?us-ascii?Q?DbG8zYGgytjnNsScaONPCQfa0FCJ2l1Q9OOEpBzoIcOeRB2UsJSof2j7Z+n2?=
- =?us-ascii?Q?eNnpgegXeuNPC6EyXt/gIihLZuaJhaGLudadOVL7nj9SruscDQQp6WkipPAi?=
- =?us-ascii?Q?fXpo5VY1oWKbdufEnc3QDXOOQnD5f8ExGeX1guIlXoGAzbWp4LtKg+oclJeO?=
- =?us-ascii?Q?7KMfxo+E6GFkH7xoGrbV2O5s/IjArIb8BGXjf3vlslL08y5RsDK2qPe028v6?=
- =?us-ascii?Q?TZqo/HdUZosKUVq0998wxLyf?=
-X-OriginatorOrg: synaptics.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7241407c-569c-4a0a-dbeb-08d8ff23748b
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR03MB5345.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2021 08:58:21.9376 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: u3+IU7wqdlqvMVyVUza0UfQx5B/Ur9neZBnGGkRnm1Re505DQ2rdBkTR44Ir43r3kASpvgf2r7o74iIJ2MmnIw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR03MB5078
+In-Reply-To: <20210414165808.458a3d11@xhacker.debian>
+Content-Language: fr
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210414_015827_694357_CE8B7D6B 
-X-CRM114-Status: GOOD (  15.62  )
+X-CRM114-CacheID: sfid-20210414_021052_601333_97575297 
+X-CRM114-Status: GOOD (  18.31  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -170,222 +113,44 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Many architectures implement the trap_init() as NOP, since there is
-no such default for trap_init(), this empty stub is duplicated among
-these architectures. Provide a generic but weak NOP implementation
-to drop the empty stubs of trap_init() in these architectures.
-
-Signed-off-by: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
----
- arch/arc/kernel/traps.c      |  5 -----
- arch/arm/kernel/traps.c      |  5 -----
- arch/h8300/kernel/traps.c    | 13 -------------
- arch/hexagon/kernel/traps.c  |  4 ----
- arch/nds32/kernel/traps.c    |  5 -----
- arch/nios2/kernel/traps.c    |  5 -----
- arch/openrisc/kernel/traps.c |  5 -----
- arch/parisc/kernel/traps.c   |  4 ----
- arch/powerpc/kernel/traps.c  |  5 -----
- arch/riscv/kernel/traps.c    |  5 -----
- arch/um/kernel/trap.c        |  4 ----
- init/main.c                  |  2 ++
- 12 files changed, 2 insertions(+), 60 deletions(-)
-
-diff --git a/arch/arc/kernel/traps.c b/arch/arc/kernel/traps.c
-index 57235e5c0cea..6b83e3f2b41c 100644
---- a/arch/arc/kernel/traps.c
-+++ b/arch/arc/kernel/traps.c
-@@ -20,11 +20,6 @@
- #include <asm/unaligned.h>
- #include <asm/kprobes.h>
- 
--void __init trap_init(void)
--{
--	return;
--}
--
- void die(const char *str, struct pt_regs *regs, unsigned long address)
- {
- 	show_kernel_fault_diag(str, regs, address);
-diff --git a/arch/arm/kernel/traps.c b/arch/arm/kernel/traps.c
-index 17d5a785df28..9baccef20392 100644
---- a/arch/arm/kernel/traps.c
-+++ b/arch/arm/kernel/traps.c
-@@ -780,11 +780,6 @@ void abort(void)
- 	panic("Oops failed to kill thread");
- }
- 
--void __init trap_init(void)
--{
--	return;
--}
--
- #ifdef CONFIG_KUSER_HELPERS
- static void __init kuser_init(void *vectors)
- {
-diff --git a/arch/h8300/kernel/traps.c b/arch/h8300/kernel/traps.c
-index 5d8b969cd8f3..c3a3ebf77fbb 100644
---- a/arch/h8300/kernel/traps.c
-+++ b/arch/h8300/kernel/traps.c
-@@ -30,19 +30,6 @@
- 
- static DEFINE_SPINLOCK(die_lock);
- 
--/*
-- * this must be called very early as the kernel might
-- * use some instruction that are emulated on the 060
-- */
--
--void __init base_trap_init(void)
--{
--}
--
--void __init trap_init(void)
--{
--}
--
- asmlinkage void set_esp0(unsigned long ssp)
- {
- 	current->thread.esp0 = ssp;
-diff --git a/arch/hexagon/kernel/traps.c b/arch/hexagon/kernel/traps.c
-index 904134b37232..edfc35dafeb1 100644
---- a/arch/hexagon/kernel/traps.c
-+++ b/arch/hexagon/kernel/traps.c
-@@ -28,10 +28,6 @@
- #define TRAP_SYSCALL	1
- #define TRAP_DEBUG	0xdb
- 
--void __init trap_init(void)
--{
--}
--
- #ifdef CONFIG_GENERIC_BUG
- /* Maybe should resemble arch/sh/kernel/traps.c ?? */
- int is_valid_bugaddr(unsigned long addr)
-diff --git a/arch/nds32/kernel/traps.c b/arch/nds32/kernel/traps.c
-index ee0d9ae192a5..f06421c645af 100644
---- a/arch/nds32/kernel/traps.c
-+++ b/arch/nds32/kernel/traps.c
-@@ -183,11 +183,6 @@ void __pgd_error(const char *file, int line, unsigned long val)
- }
- 
- extern char *exception_vector, *exception_vector_end;
--void __init trap_init(void)
--{
--	return;
--}
--
- void __init early_trap_init(void)
- {
- 	unsigned long ivb = 0;
-diff --git a/arch/nios2/kernel/traps.c b/arch/nios2/kernel/traps.c
-index b172da4eb1a9..596986a74a26 100644
---- a/arch/nios2/kernel/traps.c
-+++ b/arch/nios2/kernel/traps.c
-@@ -105,11 +105,6 @@ void show_stack(struct task_struct *task, unsigned long *stack,
- 	printk("%s\n", loglvl);
- }
- 
--void __init trap_init(void)
--{
--	/* Nothing to do here */
--}
--
- /* Breakpoint handler */
- asmlinkage void breakpoint_c(struct pt_regs *fp)
- {
-diff --git a/arch/openrisc/kernel/traps.c b/arch/openrisc/kernel/traps.c
-index 4d61333c2623..aa1e709405ac 100644
---- a/arch/openrisc/kernel/traps.c
-+++ b/arch/openrisc/kernel/traps.c
-@@ -231,11 +231,6 @@ void unhandled_exception(struct pt_regs *regs, int ea, int vector)
- 	die("Oops", regs, 9);
- }
- 
--void __init trap_init(void)
--{
--	/* Nothing needs to be done */
--}
--
- asmlinkage void do_trap(struct pt_regs *regs, unsigned long address)
- {
- 	force_sig_fault(SIGTRAP, TRAP_BRKPT, (void __user *)regs->pc);
-diff --git a/arch/parisc/kernel/traps.c b/arch/parisc/kernel/traps.c
-index 8d8441d4562a..747c328fb886 100644
---- a/arch/parisc/kernel/traps.c
-+++ b/arch/parisc/kernel/traps.c
-@@ -859,7 +859,3 @@ void  __init early_trap_init(void)
- 
- 	initialize_ivt(&fault_vector_20);
- }
--
--void __init trap_init(void)
--{
--}
-diff --git a/arch/powerpc/kernel/traps.c b/arch/powerpc/kernel/traps.c
-index a44a30b0688c..e952bee89684 100644
---- a/arch/powerpc/kernel/traps.c
-+++ b/arch/powerpc/kernel/traps.c
-@@ -2207,11 +2207,6 @@ DEFINE_INTERRUPT_HANDLER(kernel_bad_stack)
- 	die("Bad kernel stack pointer", regs, SIGABRT);
- }
- 
--void __init trap_init(void)
--{
--}
--
--
- #ifdef CONFIG_PPC_EMULATED_STATS
- 
- #define WARN_EMULATED_SETUP(type)	.type = { .name = #type }
-diff --git a/arch/riscv/kernel/traps.c b/arch/riscv/kernel/traps.c
-index 0879b5df11b9..b3f3d84de779 100644
---- a/arch/riscv/kernel/traps.c
-+++ b/arch/riscv/kernel/traps.c
-@@ -194,8 +194,3 @@ int is_valid_bugaddr(unsigned long pc)
- 		return ((insn & __COMPRESSED_INSN_MASK) == __BUG_INSN_16);
- }
- #endif /* CONFIG_GENERIC_BUG */
--
--/* stvec & scratch is already set from head.S */
--void trap_init(void)
--{
--}
-diff --git a/arch/um/kernel/trap.c b/arch/um/kernel/trap.c
-index ad12f78bda7e..3198c4767387 100644
---- a/arch/um/kernel/trap.c
-+++ b/arch/um/kernel/trap.c
-@@ -311,7 +311,3 @@ void winch(int sig, struct siginfo *unused_si, struct uml_pt_regs *regs)
- {
- 	do_IRQ(WINCH_IRQ, regs);
- }
--
--void trap_init(void)
--{
--}
-diff --git a/init/main.c b/init/main.c
-index 53b278845b88..4bdbe2928530 100644
---- a/init/main.c
-+++ b/init/main.c
-@@ -790,6 +790,8 @@ static inline void initcall_debug_enable(void)
- }
- #endif
- 
-+void __init __weak trap_init(void) { }
-+
- /* Report memory auto-initialization states for this boot. */
- static void __init report_meminit(void)
- {
--- 
-2.31.0
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+CgpMZSAxNC8wNC8yMDIxIMOgIDEwOjU4LCBKaXNoZW5nIFpoYW5nIGEgw6ljcml0wqA6Cj4gTWFu
+eSBhcmNoaXRlY3R1cmVzIGltcGxlbWVudCB0aGUgdHJhcF9pbml0KCkgYXMgTk9QLCBzaW5jZSB0
+aGVyZSBpcwo+IG5vIHN1Y2ggZGVmYXVsdCBmb3IgdHJhcF9pbml0KCksIHRoaXMgZW1wdHkgc3R1
+YiBpcyBkdXBsaWNhdGVkIGFtb25nCj4gdGhlc2UgYXJjaGl0ZWN0dXJlcy4gUHJvdmlkZSBhIGdl
+bmVyaWMgYnV0IHdlYWsgTk9QIGltcGxlbWVudGF0aW9uCj4gdG8gZHJvcCB0aGUgZW1wdHkgc3R1
+YnMgb2YgdHJhcF9pbml0KCkgaW4gdGhlc2UgYXJjaGl0ZWN0dXJlcy4KCllvdSBkZWZpbmUgdGhl
+IHdlYWsgZnVuY3Rpb24gaW4gdGhlIF9faW5pdCBzZWN0aW9uLgoKTW9zdCBidXQgbm90IGFsbCBh
+cmNoaXRlY3R1cmVzIGhhZCBpdCBpbiBfX2luaXQgc2VjdGlvbi4KCkFuZCB0aGUgcmVtYWluaW5n
+IG9uZXMgbWF5IG5vdCBiZSBkZWZpbmVkIGluIF9faW5pdCBzZWN0aW9uLiBGb3IgaW5zdGFuY2Ug
+bG9vayBhdCB0aGUgb25lIGluIGFscGhhIAphcmNoaXRlY3R1cmUuCgpIYXZlIHlvdSBjaGVja2Vk
+IHRoYXQgaXQgaXMgbm90IGEgcHJvYmxlbSA/IEl0IHdvdWxkIGJlIGdvb2QgdG8gc2F5IHNvbWV0
+aGluZyBhYm91dCBpdCBpbiB0aGUgY29tbWl0IApkZXNjcmlwdGlvbi4KCgo+IAo+IFNpZ25lZC1v
+ZmYtYnk6IEppc2hlbmcgWmhhbmcgPEppc2hlbmcuWmhhbmdAc3luYXB0aWNzLmNvbT4KPiAtLS0K
+PiAgIGFyY2gvYXJjL2tlcm5lbC90cmFwcy5jICAgICAgfCAgNSAtLS0tLQo+ICAgYXJjaC9hcm0v
+a2VybmVsL3RyYXBzLmMgICAgICB8ICA1IC0tLS0tCj4gICBhcmNoL2g4MzAwL2tlcm5lbC90cmFw
+cy5jICAgIHwgMTMgLS0tLS0tLS0tLS0tLQo+ICAgYXJjaC9oZXhhZ29uL2tlcm5lbC90cmFwcy5j
+ICB8ICA0IC0tLS0KPiAgIGFyY2gvbmRzMzIva2VybmVsL3RyYXBzLmMgICAgfCAgNSAtLS0tLQo+
+ICAgYXJjaC9uaW9zMi9rZXJuZWwvdHJhcHMuYyAgICB8ICA1IC0tLS0tCj4gICBhcmNoL29wZW5y
+aXNjL2tlcm5lbC90cmFwcy5jIHwgIDUgLS0tLS0KPiAgIGFyY2gvcGFyaXNjL2tlcm5lbC90cmFw
+cy5jICAgfCAgNCAtLS0tCj4gICBhcmNoL3Bvd2VycGMva2VybmVsL3RyYXBzLmMgIHwgIDUgLS0t
+LS0KPiAgIGFyY2gvcmlzY3Yva2VybmVsL3RyYXBzLmMgICAgfCAgNSAtLS0tLQo+ICAgYXJjaC91
+bS9rZXJuZWwvdHJhcC5jICAgICAgICB8ICA0IC0tLS0KPiAgIGluaXQvbWFpbi5jICAgICAgICAg
+ICAgICAgICAgfCAgMiArKwo+ICAgMTIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCA2
+MCBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvaW5pdC9tYWluLmMgYi9pbml0L21haW4u
+Ywo+IGluZGV4IDUzYjI3ODg0NWI4OC4uNGJkYmUyOTI4NTMwIDEwMDY0NAo+IC0tLSBhL2luaXQv
+bWFpbi5jCj4gKysrIGIvaW5pdC9tYWluLmMKPiBAQCAtNzkwLDYgKzc5MCw4IEBAIHN0YXRpYyBp
+bmxpbmUgdm9pZCBpbml0Y2FsbF9kZWJ1Z19lbmFibGUodm9pZCkKPiAgIH0KPiAgICNlbmRpZgo+
+ICAgCj4gK3ZvaWQgX19pbml0IF9fd2VhayB0cmFwX2luaXQodm9pZCkgeyB9Cj4gKwoKSSB0aGlu
+ayBpbiBhIEMgZmlsZSB3ZSBkb24ndCB0cnkgdG8gc2F2ZSBzcGFjZSBhcyBtdWNoIGFzIGluIGEg
+aGVhZGVyIGZpbGUuCgpJIHdvdWxkIHByZWZlciBzb21ldGhpbmcgbGlrZToKCgp2b2lkIF9faW5p
+dCBfX3dlYWsgdHJhcF9pbml0KHZvaWQpCnsKfQoKCj4gICAvKiBSZXBvcnQgbWVtb3J5IGF1dG8t
+aW5pdGlhbGl6YXRpb24gc3RhdGVzIGZvciB0aGlzIGJvb3QuICovCj4gICBzdGF0aWMgdm9pZCBf
+X2luaXQgcmVwb3J0X21lbWluaXQodm9pZCkKPiAgIHsKPiAKCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdAps
+aW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQu
+b3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
