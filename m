@@ -2,170 +2,87 @@ Return-Path: <SRS0=NhYn=JL=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83CA3C433B4
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 14 Apr 2021 10:01:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C8E2C433ED
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 14 Apr 2021 17:11:09 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B3EC16128E
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 14 Apr 2021 10:01:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B3EC16128E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=synaptics.com
+	by mail.kernel.org (Postfix) with ESMTPS id 8140A61168
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 14 Apr 2021 17:11:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8140A61168
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=GRNhpIvAk0PmFN9kDn8dx2DXkJeT2DVW+XkP5J3baSM=; b=KDY29jkle9iKJ8oN+u4CBMYe1
-	RyphGoKCk5lEpgp4RUGUtkj9/yvTJA36KHEn/MPEsE4++sjbDXkrg0nrdqLoKw/+ZsmAnORzBjO+n
-	ljPK0emDXI0HBsAX3/5fQ35dDVHgXcW/mwgr/smPaktilg7FhVIFKgJUiciK4aYKfdIPPSFFJ4oIt
-	wgl9pGNlBFLKSDcLsrZM6hTf6x31soL9cPbZ78HuwTiF0PREAn2IyjV3tl/Ey5PfpbUA6McqqZKXA
-	NmYRcEFKUjMaya81tiIxYaldogBPFtxs65fKHsvN6EO0z86YRL3hblTB5ch27Ze9JSBiXViYS2KZw
-	cmVh+mUwQ==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=gHbVakSSq/QjH3m+prVzo98LJN5b/dC82gUUgMul95Q=; b=cztucs9xKv9I35fghjp4me/BnF
+	JZog4Y/SBFvtIKGq3hBYVy10DCtKeMvrf8Ege7koqtrs8JiMTQctwH1i+gXYya0PDKyhu8QtzG+ru
+	3+3YAjWRAYJzRGBpKr1rVsx0719Y8s7f4me4DYjjt5u5O4fNfuoqav9/GceCu8t0oKHM7F+YkY67o
+	gSj2CcerOZuKC6dgFCm2x38e5roOPmicuv9h9KOUXatZY/Gu6ZJ0qyP8XOshDKTr9CC5cGh7X2iAF
+	jNdkelF2qF7E6MJPv3LgwV2v+npTJwPtl5H+l/A69cI7YiulPMn/qPuWy0H+r21wWAXTGMaBi9ZsO
+	n4QpySSw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lWcKj-00CDG5-FI; Wed, 14 Apr 2021 10:01:17 +0000
+	id 1lWj2Z-00DDxQ-5f; Wed, 14 Apr 2021 17:11:02 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lWcKZ-00CDEP-31; Wed, 14 Apr 2021 10:01:07 +0000
+ id 1lWj2B-00DDuJ-Ew
+ for linux-snps-arc@desiato.infradead.org; Wed, 14 Apr 2021 17:10:37 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=MIME-Version:
- Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:Content-Description;
- bh=9hvDUWvMagmminxIZOyXXdM8fx95M0chBySaBi10y1U=; b=pfmpW3ufXhYp9jgEzKv0LfV9jQ
- arRWboSaSU8hvbuxMcj/q7/uYdJGfIZQILTh5ki7i3cXRlIQT5T5T8tgyh3acGzLZNcTiu9sU/jVy
- 1QUfeLagP4xSfi9eERNZky0HMnf9nJKtQK2rtOC+QN2sPQnad9kv81TKAxN/L3qEv1AFqdc0YXHa9
- O5XhsM9IlIU6B/RHPETrBsE9nWNsmbquCY7v979obymtqLkBmUOVm8EAdDuJKnTeHl6vjdHydXSPZ
- h9+nEZDRa9WTF0G8u1GCo9s7Fbd4PWkdWo9l+mm3RHu41vixrfAO42vCO2gmptPI8YGF0P0+v25/g
- 52xfiW6w==;
-Received: from mail-bn7nam10on2055.outbound.protection.outlook.com
- ([40.107.92.55] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=dsfkE3WpgnmTLEaCGQkTCMtXhooBQONkf/1VHK9QOFY=; b=rfhFzhNLqZjoEU6ALOnOfEEs8R
+ nZQCpFPNNzSlyNMLCzAE8317Eoh7q/KT/VzZstWUZZ0dStVJptTfHo1XwvCeIbkaGO6Jp+85yGO1x
+ JYo2DxW/IhBGNS+wraIJJQDaZXnVMv+LJHiqghxSGhEErfjHFAoovy0mV9hQHg+JriECzuw7l4Wgt
+ PHcyv8JAOqkFgHnGYmLLB2vy6ofEKk6SyxC1S9er18TAEniIV+fS+eqGtwh9ee3WAGAIadFlWFxGL
+ /ubufeCutp1iWrltoOVIqz2GQQVGvqYEHLNqEAVkxV+l8qUmkppacU05GKBbYAPyO18rIsTXXVL79
+ dJbkrsmw==;
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lWcKV-007fZ3-Tm; Wed, 14 Apr 2021 10:01:05 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=itOR5BQzQCd5wCExo3CMwerzqR8do8CLe3NCrScnV89n7e2z5I6j1YQWah5IascB64XkJRTeKhEUMSOoJzfzCCW1x68k58owGIRYRv6Vz0YBuupT31YCP13h1LIkgzDyvlgcNgtxUS3bn6Jl1BvIP1BRt/p1op+DCdCKSXqFfF7duxpfGn6ulsp8ue5Kx0hljhSusx/32HFMYiAKHM/eCPbha9+8RQAU8Ks+oU+EDKURo+a5dF/RsIVdB1F+zU4jjVCkiv2h4o2xPoUsG5pFGwAzMMQdbgzCGG0qPVBdtzRuq0IRQTusF+xhhEsdz3t9OBG+ZKCnJ6G7yCQxxVzKTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9hvDUWvMagmminxIZOyXXdM8fx95M0chBySaBi10y1U=;
- b=c7jC6bdHSnvKJZ5RqOaPFZMeYmkja8K5FLl0v9++Q/byBHYWf3+R0++stALj3/mD4BWgzZR1G3zjItd/FLNlE2pIORgeknquWHBTaijkKlaDAorAG2cv82rDaC030CWpHl7I8P6cPOuUqsZFsXWyZNjJetjUhQp7ve07NoL2aEGJ2Cc9GJ6XX7FU1xopC0GoD9UfmkvmwJz1ccvcoCmrZDAr4FiFIJWvcts2pwzybg5FblJPDMKwE/8SLST37neWXPvS+0QgXkFywYjhRBIAV0yUHzrBqEOythFL/Ej6NVbLgOvo5uLFpzyRDk++xH9Kzeu64d7dZDUD14yE4XdKxw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synaptics.com; dmarc=pass action=none
- header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9hvDUWvMagmminxIZOyXXdM8fx95M0chBySaBi10y1U=;
- b=Ybs2FhtyotlfYbal4E4pkpDMJCLbZr8o7ngFHPNeiHSAIHtaGSgpZBADETou8GuLOx1WUm1PHx/SFhXof1Hlb7wYU5dgO0IijPD5a+RXww5kkc+rv+lY4UAcEueP3IFJLJHdV5DBIBZODJuyRQtM8hFmDjSExmmFwRwSFvbxwCA=
-Authentication-Results: synopsys.com; dkim=none (message not signed)
- header.d=none; synopsys.com; dmarc=none action=none header.from=synaptics.com; 
-Received: from BY5PR03MB5345.namprd03.prod.outlook.com (2603:10b6:a03:219::16)
- by SJ0PR03MB5758.namprd03.prod.outlook.com (2603:10b6:a03:2d0::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.20; Wed, 14 Apr
- 2021 10:01:01 +0000
-Received: from BY5PR03MB5345.namprd03.prod.outlook.com
- ([fe80::8569:341f:4bc6:5b72]) by BY5PR03MB5345.namprd03.prod.outlook.com
- ([fe80::8569:341f:4bc6:5b72%8]) with mapi id 15.20.4020.022; Wed, 14 Apr 2021
- 10:01:00 +0000
-Date: Wed, 14 Apr 2021 18:00:45 +0800
-From: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
-To: Vineet Gupta <vgupta@synopsys.com>, Russell King
- <linux@armlinux.org.uk>, Yoshinori Sato <ysato@users.sourceforge.jp>, Brian
- Cain <bcain@codeaurora.org>, Nick Hu <nickhu@andestech.com>, Greentime Hu
- <green.hu@gmail.com>, Vincent Chen <deanbo422@gmail.com>, Ley Foon Tan
- <ley.foon.tan@intel.com>, Jonas Bonn <jonas@southpole.se>, Stefan
- Kristiansson <stefan.kristiansson@saunalahti.fi>, Stafford Horne
- <shorne@gmail.com>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
- Michael Ellerman <mpe@ellerman.id.au>, Benjamin Herrenschmidt
- <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>, Paul
- Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Jeff Dike <jdike@addtoit.com>, Richard
- Weinberger <richard@nod.at>, Anton Ivanov
- <anton.ivanov@cambridgegreys.com>, Richard Henderson <rth@twiddle.net>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Michal Simek <monstr@monstr.eu>, "David S. Miller"
- <davem@davemloft.net>, Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- uclinux-h8-devel@lists.sourceforge.jp, linux-hexagon@vger.kernel.org,
- openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-um@lists.infradead.org, Anup Patel <anup@brainfault.org>,
- linux-alpha@vger.kernel.org, sparclinux@vger.kernel.org
-Subject: [PATCH v2] init: consolidate trap_init()
-Message-ID: <20210414180037.14602dab@xhacker.debian>
-In-Reply-To: <20210414165808.458a3d11@xhacker.debian>
-References: <20210414165808.458a3d11@xhacker.debian>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-X-Originating-IP: [192.147.44.204]
-X-ClientProxiedBy: SJ0PR03CA0102.namprd03.prod.outlook.com
- (2603:10b6:a03:333::17) To BY5PR03MB5345.namprd03.prod.outlook.com
- (2603:10b6:a03:219::16)
+ id 1lWj28-007xtG-EX
+ for linux-snps-arc@lists.infradead.org; Wed, 14 Apr 2021 17:10:33 +0000
+Received: from mailhost.synopsys.com (sv2-mailhost1.synopsys.com
+ [10.205.2.133])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 88C11405D7;
+ Wed, 14 Apr 2021 17:10:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1618420229; bh=zOxHMrfuxOZP9j8TNriiRNQcrAoYWvql/URGy0TY9vk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=AIW/iPDBe+XR7b7CbS2k6O7FbeGQONS43DW7EkIMz1pTDVI1Jt12ZqYhhik4KCV2/
+ PipQieKwuyw6k9CJFNW6c4dX+EHxOVX6QvQN/mKnJdy1jzDwugEDl/sqj+Q+bij5xc
+ RQCw49PhPDaDdcR5hgA9+RvEbcb9sxfL1LErWlxCVDZCPKP4IrZ75kxwy3cedQzFKH
+ FXFBEYUlDOeCoOFKdsL2PVjcEoBl0vYMW5OLwVkApm4hUbg3Q9qRhItjdnTMpSAGjG
+ 6tbmCREg9+HqKu/9cX5AXT9gzK6BwZR47lQtDNwRHKiYPY6Sw209dABXlu5x8x6AIf
+ 08J073JvOnM6A==
+Received: from vineetg-Latitude-7400.internal.synopsys.com (unknown
+ [10.13.183.89])
+ by mailhost.synopsys.com (Postfix) with ESMTP id 1DA19A0096;
+ Wed, 14 Apr 2021 17:10:25 +0000 (UTC)
+X-SNPS-Relay: synopsys.com
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To: libc-alpha@sourceware.org
+Cc: linux-snps-arc@lists.infradead.org,
+ Vineet Gupta <Vineet.Gupta1@synopsys.com>
+Subject: [committed] ARC: Update ulps
+Date: Wed, 14 Apr 2021 10:10:23 -0700
+Message-Id: <20210414171023.2657987-1-vgupta@synopsys.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from xhacker.debian (192.147.44.204) by
- SJ0PR03CA0102.namprd03.prod.outlook.com (2603:10b6:a03:333::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17 via Frontend
- Transport; Wed, 14 Apr 2021 10:00:51 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3a1bde23-9e92-41ca-d79a-08d8ff2c34fa
-X-MS-TrafficTypeDiagnostic: SJ0PR03MB5758:
-X-Microsoft-Antispam-PRVS: <SJ0PR03MB57580D6B8A4B8BFC5DADBEB6ED4E9@SJ0PR03MB5758.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9Chu6EIXN05IUUFI9WpdzgdUM6qZ+Jplr0cj2Z29kKuHfn4haBFSfHeQx6AUDK2tp2Q6EBAHWmdLHodJROW/sCDcSAsJ5PEFm/ZXA50tMZqzRgEQYhEdUHbU/gf4jM0Z39gum+wGhCaGC/158nMIIYwj+Qi6ZV1n4RLDUFY6oRT/T2UJ06qVAAqlbQW74VVCwXcU7lB70Tqjf5NqWEi0Y4BoUyyBfPkeWeRIhPOuFJv8ug3zzD22V3QnKOHOmD3zJX+aj9+9By8zstLmyQfUa3B9VtK7T6hU/vyhKl3kB1yGJcxhHGWzm1DtotkkBoEhVpbjgMgoM59QtJhpJp5ZnR9WWbmO+y1OvUEGDm4nWofHB1fo/T3G1OQZKZTSVJMqSdB8PZCWcZGdReT6PsWgTTLWTgGBUpnE0rdKKYBguRTgSy92mUHRKAy40nA78LJTrY2QVABeOpDfTzU2pApSoVJEOwUVHXB4lopvHrtz0oPr632QT/SyzIXHVgkVkp45AzROT7sKUvGt4i5n5mpEBQqlLRNpsa/VkHTmILo3FIqLMbsEPavFOOB6DCdRkONe9WtNnZbCNGeBXTIsdVUnqdJ1jq00OdMy6pvHTkL4s5kC6k3cPbvAdNPW1QWQX47qklnNKRLftWZK45Yob8Gvv7FwLI3vMrBz4ae/DI99mKWqjix5hMTVE2o9kI7YV81B
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR03MB5345.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(136003)(366004)(376002)(39850400004)(346002)(396003)(16526019)(186003)(1076003)(26005)(52116002)(2906002)(7406005)(66476007)(956004)(55016002)(86362001)(316002)(6506007)(9686003)(66946007)(38100700002)(83380400001)(66556008)(8936002)(6666004)(5660300002)(110136005)(38350700002)(921005)(7696005)(8676002)(478600001)(7416002)(4326008);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?fzApouNs4z8cJkTblmEW+XqzmheOhAKoKiJEbmDEP3Jh3MFu4a1Q+tmkDNbN?=
- =?us-ascii?Q?2SrEN2Re4EQMpjNIcjydaYa9Slk31okMLZTr8ZwppxtOzSKAGKpCA4NhwJZ4?=
- =?us-ascii?Q?nt/5ExY/txTyOzmOqzpJGN1f82N+S5SsmueRO/TFMYjfEy224PDvqzAyeF5k?=
- =?us-ascii?Q?v2SBEGAUv4siXEwFDmWQ3EeNfPwpL+wghr3l3/BHvYUiP6HVfKfmG+SxzpTw?=
- =?us-ascii?Q?GHtAobC9X2ZDy1GByPSGxULHD0d3/m0UNvAnvalGdsJVJteXmMPVvoCyVgv/?=
- =?us-ascii?Q?WMf8I5T41vrZFewwJuCH80ExQ5/0mVXmKlyggnRHlF3bo2pMF8OTsvNCbKwa?=
- =?us-ascii?Q?DeKXs8gUMBJOQjg1ZnzqRU334bqapIaYJbY+/KeYPRu1o3We1RLVAGeOdxLI?=
- =?us-ascii?Q?uUIVLetGuMgvRcy1EUgzPu2KBtNQtIj1CmdfdUsM3isK7C4U5ItyD8vh86nZ?=
- =?us-ascii?Q?bQRQhyqt475u/U4f3mR6vbVv2dPyDT3mxGXayC1LqWOKn2aFEgVTNjfKHw7e?=
- =?us-ascii?Q?X32KyAmtr5Wy9YEqynxgrHsbP7F1+gCzcxoB0oUt4XhcrBjnIoFBcdeC1fOd?=
- =?us-ascii?Q?wHcyFg2S8p0i0Vngbbf3ZpBR1DLEmtqkLsSIs00WvBOtvCpMwiLCeMLHeXii?=
- =?us-ascii?Q?L7QIB4agT/+1dfH41jwwWC7h9dXhJAWt4uV148QRD0bep6gQMEJZp/NvVOtl?=
- =?us-ascii?Q?86U7I7EZhaBuKvtFTYUgL8Qrztbpqbbf/iKIS4iLJKiXkAxUEQWwbG/kuMGu?=
- =?us-ascii?Q?b9csup4qFHxvE9PfQWewv2eG5OIiROfK0iBaJoskZMlrOMCODdyQvqgIjSIV?=
- =?us-ascii?Q?vBRhCrTlQNl/w6NGvk89TxJr8hLtJdKu9CY5a9B0Ys44zu+To+20i3f49DMk?=
- =?us-ascii?Q?2uHSLTeRbM6e4kxyMFVS/NcBtYmwK1+k0i/yYHNQ/PqSn6T+tfm45VTY9cZv?=
- =?us-ascii?Q?xMTn+9S40+CbycEwgeOdpADuWKJirIwq7pteJ4wiKfI5D+R6iQt3MZi3pRUA?=
- =?us-ascii?Q?Rub4o9XqKE+07NAiHoAywpPDF0ZzJ/+HgYnk7YuEgBBZ8MXaKMzQrnavaOxh?=
- =?us-ascii?Q?gjBRSKGM6g0V8PA4WX+fkiKw/LLcAqT4ccC9npKHccmh7yfRbpYzGzcyR0ax?=
- =?us-ascii?Q?nrqLtRUfJZOou7N09B8tUDVnFxhkVE+cCX6pxOPtD9HzXFK/Vbgf47S0uuJR?=
- =?us-ascii?Q?o3riGu4qsx6db8dieXiLbTqs+3DBH1ItE0feNDbGX/rwmPTOA1v3JJP0o1kD?=
- =?us-ascii?Q?N/Jy8XboWR+eqtESe3mR5fe7yyi+WERU9V9d6Mg/MakWL+fLmjdADhfb/Wr8?=
- =?us-ascii?Q?tWWDJQQbeYTno7xlGnIVtl5a?=
-X-OriginatorOrg: synaptics.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3a1bde23-9e92-41ca-d79a-08d8ff2c34fa
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR03MB5345.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2021 10:01:00.8290 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DHpGWjssfLS/bjJ9P1ygEd62tbVtqx3XW1KowpbjwdSZPN4HhUXwjFnVNTAdT+hakbrF8o3SANvWG6WSC9ZM1Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR03MB5758
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210414_030104_194373_236C0EC7 
-X-CRM114-Status: GOOD (  16.74  )
+X-CRM114-CacheID: sfid-20210414_101032_514144_C8CFE3C3 
+X-CRM114-Status: UNSURE (   6.50  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -182,264 +99,188 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Many architectures implement the trap_init() as NOP, since there is
-no such default for trap_init(), this empty stub is duplicated among
-these architectures. Provide a generic but weak NOP implementation
-to drop the empty stubs of trap_init() in these architectures.
+Needed after 43576de04afc6
 
-The alpha, microblaze and sparc32 have real trap_init() implementation
-but the __init marker is missing, so add it to these three platforms.
-
-Signed-off-by: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
+Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 ---
-Since v1:
- - add __init marker to trap_init() for alpha, microblaze and sparc32
- - adjust the generic weak NOP trap_init() location to make it sits with
-   other NOP implementations together
+ sysdeps/arc/fpu/libm-test-ulps   | 40 ++++++++++++++++----------------
+ sysdeps/arc/nofpu/libm-test-ulps | 14 +++++++----
+ 2 files changed, 29 insertions(+), 25 deletions(-)
 
- arch/alpha/kernel/traps.c      |  2 +-
- arch/arc/kernel/traps.c        |  5 -----
- arch/arm/kernel/traps.c        |  5 -----
- arch/h8300/kernel/traps.c      | 13 -------------
- arch/hexagon/kernel/traps.c    |  4 ----
- arch/microblaze/kernel/traps.c |  2 +-
- arch/nds32/kernel/traps.c      |  5 -----
- arch/nios2/kernel/traps.c      |  5 -----
- arch/openrisc/kernel/traps.c   |  5 -----
- arch/parisc/kernel/traps.c     |  4 ----
- arch/powerpc/kernel/traps.c    |  5 -----
- arch/riscv/kernel/traps.c      |  5 -----
- arch/sparc/kernel/traps_32.c   |  2 +-
- arch/um/kernel/trap.c          |  4 ----
- init/main.c                    |  2 ++
- 15 files changed, 5 insertions(+), 63 deletions(-)
-
-diff --git a/arch/alpha/kernel/traps.c b/arch/alpha/kernel/traps.c
-index 921d4b6e4d95..96b203199c6c 100644
---- a/arch/alpha/kernel/traps.c
-+++ b/arch/alpha/kernel/traps.c
-@@ -973,7 +973,7 @@ do_entUnaUser(void __user * va, unsigned long opcode,
- 	return;
- }
+diff --git a/sysdeps/arc/fpu/libm-test-ulps b/sysdeps/arc/fpu/libm-test-ulps
+index 1a7cd54b39d2..56ff9149cbb6 100644
+--- a/sysdeps/arc/fpu/libm-test-ulps
++++ b/sysdeps/arc/fpu/libm-test-ulps
+@@ -46,7 +46,7 @@ double: 1
+ float: 1
  
--void
-+void __init
- trap_init(void)
- {
- 	/* Tell PAL-code what global pointer we want in the kernel.  */
-diff --git a/arch/arc/kernel/traps.c b/arch/arc/kernel/traps.c
-index 57235e5c0cea..6b83e3f2b41c 100644
---- a/arch/arc/kernel/traps.c
-+++ b/arch/arc/kernel/traps.c
-@@ -20,11 +20,6 @@
- #include <asm/unaligned.h>
- #include <asm/kprobes.h>
+ Function: "asin_upward":
+-double: 1
++double: 2
+ float: 1
  
--void __init trap_init(void)
--{
--	return;
--}
--
- void die(const char *str, struct pt_regs *regs, unsigned long address)
- {
- 	show_kernel_fault_diag(str, regs, address);
-diff --git a/arch/arm/kernel/traps.c b/arch/arm/kernel/traps.c
-index 17d5a785df28..9baccef20392 100644
---- a/arch/arm/kernel/traps.c
-+++ b/arch/arm/kernel/traps.c
-@@ -780,11 +780,6 @@ void abort(void)
- 	panic("Oops failed to kill thread");
- }
+ Function: "asinh":
+@@ -861,35 +861,35 @@ float: 1
  
--void __init trap_init(void)
--{
--	return;
--}
--
- #ifdef CONFIG_KUSER_HELPERS
- static void __init kuser_init(void *vectors)
- {
-diff --git a/arch/h8300/kernel/traps.c b/arch/h8300/kernel/traps.c
-index 5d8b969cd8f3..c3a3ebf77fbb 100644
---- a/arch/h8300/kernel/traps.c
-+++ b/arch/h8300/kernel/traps.c
-@@ -30,19 +30,6 @@
+ Function: "j0":
+ double: 4
+-float: 6
++float: 9
  
- static DEFINE_SPINLOCK(die_lock);
+ Function: "j0_downward":
+-double: 2
+-float: 4
++double: 6
++float: 8
  
--/*
-- * this must be called very early as the kernel might
-- * use some instruction that are emulated on the 060
-- */
--
--void __init base_trap_init(void)
--{
--}
--
--void __init trap_init(void)
--{
--}
--
- asmlinkage void set_esp0(unsigned long ssp)
- {
- 	current->thread.esp0 = ssp;
-diff --git a/arch/hexagon/kernel/traps.c b/arch/hexagon/kernel/traps.c
-index 904134b37232..edfc35dafeb1 100644
---- a/arch/hexagon/kernel/traps.c
-+++ b/arch/hexagon/kernel/traps.c
-@@ -28,10 +28,6 @@
- #define TRAP_SYSCALL	1
- #define TRAP_DEBUG	0xdb
+ Function: "j0_towardzero":
+ double: 4
+-float: 5
++float: 9
  
--void __init trap_init(void)
--{
--}
--
- #ifdef CONFIG_GENERIC_BUG
- /* Maybe should resemble arch/sh/kernel/traps.c ?? */
- int is_valid_bugaddr(unsigned long addr)
-diff --git a/arch/microblaze/kernel/traps.c b/arch/microblaze/kernel/traps.c
-index 94b6fe93147d..7c15704fe56e 100644
---- a/arch/microblaze/kernel/traps.c
-+++ b/arch/microblaze/kernel/traps.c
-@@ -18,7 +18,7 @@
- #include <asm/exceptions.h>
- #include <asm/unwind.h>
+ Function: "j0_upward":
+-double: 3
+-float: 5
++double: 4
++float: 9
  
--void trap_init(void)
-+void __init trap_init(void)
- {
- 	__enable_hw_exceptions();
- }
-diff --git a/arch/nds32/kernel/traps.c b/arch/nds32/kernel/traps.c
-index ee0d9ae192a5..f06421c645af 100644
---- a/arch/nds32/kernel/traps.c
-+++ b/arch/nds32/kernel/traps.c
-@@ -183,11 +183,6 @@ void __pgd_error(const char *file, int line, unsigned long val)
- }
+ Function: "j1":
+ double: 5
+ float: 9
  
- extern char *exception_vector, *exception_vector_end;
--void __init trap_init(void)
--{
--	return;
--}
--
- void __init early_trap_init(void)
- {
- 	unsigned long ivb = 0;
-diff --git a/arch/nios2/kernel/traps.c b/arch/nios2/kernel/traps.c
-index b172da4eb1a9..596986a74a26 100644
---- a/arch/nios2/kernel/traps.c
-+++ b/arch/nios2/kernel/traps.c
-@@ -105,11 +105,6 @@ void show_stack(struct task_struct *task, unsigned long *stack,
- 	printk("%s\n", loglvl);
- }
+ Function: "j1_downward":
+-double: 4
+-float: 6
++double: 9
++float: 8
  
--void __init trap_init(void)
--{
--	/* Nothing to do here */
--}
--
- /* Breakpoint handler */
- asmlinkage void breakpoint_c(struct pt_regs *fp)
- {
-diff --git a/arch/openrisc/kernel/traps.c b/arch/openrisc/kernel/traps.c
-index 4d61333c2623..aa1e709405ac 100644
---- a/arch/openrisc/kernel/traps.c
-+++ b/arch/openrisc/kernel/traps.c
-@@ -231,11 +231,6 @@ void unhandled_exception(struct pt_regs *regs, int ea, int vector)
- 	die("Oops", regs, 9);
- }
+ Function: "j1_towardzero":
+-double: 4
+-float: 3
++double: 5
++float: 8
  
--void __init trap_init(void)
--{
--	/* Nothing needs to be done */
--}
--
- asmlinkage void do_trap(struct pt_regs *regs, unsigned long address)
- {
- 	force_sig_fault(SIGTRAP, TRAP_BRKPT, (void __user *)regs->pc);
-diff --git a/arch/parisc/kernel/traps.c b/arch/parisc/kernel/traps.c
-index 8d8441d4562a..747c328fb886 100644
---- a/arch/parisc/kernel/traps.c
-+++ b/arch/parisc/kernel/traps.c
-@@ -859,7 +859,3 @@ void  __init early_trap_init(void)
+ Function: "j1_upward":
+ double: 5
+-float: 5
++float: 7
  
- 	initialize_ivt(&fault_vector_20);
- }
--
--void __init trap_init(void)
--{
--}
-diff --git a/arch/powerpc/kernel/traps.c b/arch/powerpc/kernel/traps.c
-index a44a30b0688c..e952bee89684 100644
---- a/arch/powerpc/kernel/traps.c
-+++ b/arch/powerpc/kernel/traps.c
-@@ -2207,11 +2207,6 @@ DEFINE_INTERRUPT_HANDLER(kernel_bad_stack)
- 	die("Bad kernel stack pointer", regs, SIGABRT);
- }
+ Function: "jn":
+ double: 9
+@@ -1093,35 +1093,35 @@ float: 9
  
--void __init trap_init(void)
--{
--}
--
--
- #ifdef CONFIG_PPC_EMULATED_STATS
+ Function: "y0":
+ double: 3
+-float: 6
++float: 8
  
- #define WARN_EMULATED_SETUP(type)	.type = { .name = #type }
-diff --git a/arch/riscv/kernel/traps.c b/arch/riscv/kernel/traps.c
-index 0879b5df11b9..b3f3d84de779 100644
---- a/arch/riscv/kernel/traps.c
-+++ b/arch/riscv/kernel/traps.c
-@@ -194,8 +194,3 @@ int is_valid_bugaddr(unsigned long pc)
- 		return ((insn & __COMPRESSED_INSN_MASK) == __BUG_INSN_16);
- }
- #endif /* CONFIG_GENERIC_BUG */
--
--/* stvec & scratch is already set from head.S */
--void trap_init(void)
--{
--}
-diff --git a/arch/sparc/kernel/traps_32.c b/arch/sparc/kernel/traps_32.c
-index 247a0d9683b2..c4df20ec01e2 100644
---- a/arch/sparc/kernel/traps_32.c
-+++ b/arch/sparc/kernel/traps_32.c
-@@ -365,7 +365,7 @@ EXPORT_SYMBOL(do_BUG);
-  * up here so that timer interrupts work during initialization.
-  */
+ Function: "y0_downward":
+ double: 3
+-float: 4
++float: 8
  
--void trap_init(void)
-+void __init trap_init(void)
- {
- 	extern void thread_info_offsets_are_bolixed_pete(void);
+ Function: "y0_towardzero":
+ double: 3
+-float: 4
++float: 8
  
-diff --git a/arch/um/kernel/trap.c b/arch/um/kernel/trap.c
-index ad12f78bda7e..3198c4767387 100644
---- a/arch/um/kernel/trap.c
-+++ b/arch/um/kernel/trap.c
-@@ -311,7 +311,3 @@ void winch(int sig, struct siginfo *unused_si, struct uml_pt_regs *regs)
- {
- 	do_IRQ(WINCH_IRQ, regs);
- }
--
--void trap_init(void)
--{
--}
-diff --git a/init/main.c b/init/main.c
-index 53b278845b88..8d14674c4e00 100644
---- a/init/main.c
-+++ b/init/main.c
-@@ -779,6 +779,8 @@ void __init __weak poking_init(void) { }
+ Function: "y0_upward":
+ double: 4
+-float: 5
++float: 8
  
- void __init __weak pgtable_cache_init(void) { }
+ Function: "y1":
+ double: 7
+-float: 6
++float: 9
  
-+void __init __weak trap_init(void) { }
-+
- bool initcall_debug;
- core_param(initcall_debug, initcall_debug, bool, 0644);
+ Function: "y1_downward":
+ double: 6
+-float: 6
++float: 8
  
+ Function: "y1_towardzero":
+ double: 7
+-float: 7
++float: 9
+ 
+ Function: "y1_upward":
+ double: 7
+-float: 7
++float: 9
+ 
+ Function: "yn":
+ double: 9
+diff --git a/sysdeps/arc/nofpu/libm-test-ulps b/sysdeps/arc/nofpu/libm-test-ulps
+index 15449dd55a9c..6ac2830b2594 100644
+--- a/sysdeps/arc/nofpu/libm-test-ulps
++++ b/sysdeps/arc/nofpu/libm-test-ulps
+@@ -2,6 +2,7 @@
+ 
+ # Maximal error of functions:
+ Function: "acos":
++double: 1
+ float: 1
+ 
+ Function: "acosh":
+@@ -9,6 +10,7 @@ double: 2
+ float: 2
+ 
+ Function: "asin":
++double: 1
+ float: 1
+ 
+ Function: "asinh":
+@@ -16,10 +18,11 @@ double: 2
+ float: 2
+ 
+ Function: "atan":
++double: 1
+ float: 1
+ 
+ Function: "atan2":
+-float: 1
++float: 2
+ 
+ Function: "atanh":
+ double: 2
+@@ -112,6 +115,7 @@ double: 3
+ float: 3
+ 
+ Function: Imaginary part of "clog":
++double: 1
+ float: 1
+ 
+ Function: Real part of "clog10":
+@@ -204,10 +208,10 @@ double: 1
+ 
+ Function: "j0":
+ double: 2
+-float: 8
++float: 9
+ 
+ Function: "j1":
+-double: 2
++double: 4
+ float: 9
+ 
+ Function: "jn":
+@@ -258,11 +262,11 @@ float: 8
+ 
+ Function: "y0":
+ double: 3
+-float: 8
++float: 9
+ 
+ Function: "y1":
+ double: 3
+-float: 2
++float: 9
+ 
+ Function: "yn":
+ double: 3
 -- 
-2.31.0
+2.25.1
 
 
 _______________________________________________
