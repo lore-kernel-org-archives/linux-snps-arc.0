@@ -2,51 +2,51 @@ Return-Path: <SRS0=/KVa=JN=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC234C433B4
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 16 Apr 2021 23:08:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51104C433ED
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 16 Apr 2021 23:08:11 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 69C9F610C8
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 16 Apr 2021 23:08:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 69C9F610C8
+	by mail.kernel.org (Postfix) with ESMTPS id 1CB14610CC
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 16 Apr 2021 23:08:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1CB14610CC
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=xvfp1Yzo29HiOK4lq3gKMKJiY8qd0REsKdF0Ac2RsEI=; b=jBrlXkblL1ECB7f5PSsXZ2KWr5
-	JDFkryj+It/yvSNUBpL4DNKhh+v6O9rCdf/njxuqkO3tilWhmJ4shnqYf1K+C9jVPN8WyEP8+O/zC
-	1ByyMQnv1tBH5Mz5mGRENJd+fadVJCNmQ6A7+OwAforCogsKN7hkEdrbWYJ1NMmV+YsgiR6w5yvvh
-	1a3aFecFEise3WmT7hFHOngoh7cQwxAuUTFM/YMIB4wK9sV6Gj2xMbJ5Z4sgchePTUzwGXc/kg3z3
-	Gx+lqJAFifuHFp8xvIWwryHJ7bD/hVeyALntnd491jUXKfoKLzGc0AjAaO1uVfBciJ1hNoHDU4EQ7
-	8qrE7FRA==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=KyFIyqRXeuZEde0ROBfGVRVgAQruJaC+rTEr6cJ2jsY=; b=fVfwIU1WtjSWKYsQkQyN3bDAK
+	NGYwBVP5MtARpHGEPVo/81WFRxx1P9+/y5SvygZynaa4QSVnzQ1N4MK7ehZFePT+XiCgJg/zJhCvM
+	FK3M2NFko3LhXdCnuMac+VyubI64F4+wyf3SkNLCc7XTcOBsPpS+6IQn2BL1/JqZ6VEYgr3/cHUbj
+	OuFiu3u5ierSEjWtum0bfXcj3GKAgq7+aHRn8JkjzpSME+LforSr8hYcHRfwfTCTipFb6DCmase8Z
+	2BBi26Mo+lj70342a+CYe+K5U5SIAEUXez6ruH/pICgcbcwrB++tgoYbNpBa31Y2QQPejbDc9tu64
+	ul4+LmZkg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lXXZ9-003fRJ-T1; Fri, 16 Apr 2021 23:07:59 +0000
+	id 1lXXZJ-003fSG-KC; Fri, 16 Apr 2021 23:08:09 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lXXYt-003fPb-RZ; Fri, 16 Apr 2021 23:07:44 +0000
+ id 1lXXYx-003fQU-La; Fri, 16 Apr 2021 23:07:47 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=mbIW7FDOiEKRuwEXnsOYQIYqDQHUf6UllHx7WSCAIjI=; b=lxU48mq458bF7JV1aZ6L3Zo2UR
- I585HQrHxlGeweJsLkRKCYSCqoFhHxnYj7gGJ39liWPLTQfWA2ajmWmKMkjA3Z0VTIOSaFEWoqv+g
- ksAAAbmBr7Y58UiFpMY9kGMNAA7SSWLAld8PZaACTYfsZKQ0YTQLayBMcepZBZpoQfoixfm1eQJzi
- 9JPDz6/LgxP88bdj+7aikBJTkOBO4kN5ye3LclnZjCY9axF+/s3S+7ev/MqsAbrxEYieXycizyc6g
- hQU35iOkWcVessGC+PK9aR+/kafdQoaygcZji5k3N5WJfQmWMMYu40YcWG69i1HQUBftuOxgDpZpA
- l+QkiMeg==;
+ References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-Type:Content-ID:Content-Description;
+ bh=tfA9/CMMjzVJbfa5k3nU3g5wOaQhTGv4Y2DdGMdqE7Q=; b=sTOSCTMeSHNrr2R6hLTjOnMirn
+ /l111sXXa+hkgheaR3XHlrEYp9dRyu1Hx8aLdl7v/0IpOQHkQIeiAwc7DnALGgsfq1OfrOHRpSTWO
+ SYlZOacvnN9dQNE9YhagejFjJKq3xQKyWtSOPbovu7laaFnuJSs6yA3l8k88k+5LfIDyBsGCKy7um
+ vF5omj4LN2RyRJXB6KRFFzh/OdYT/oj1ZLEfFu9KqMqY1JcBqzP8ZhrETltLNmZvDtTz/WlHs3SMZ
+ 6KuL/e0wM16OjO/w9S7tttTFE1ATb7HFLwJ8ZeoYI0HagCJy/8znvaOXSqeZQgTAoUqdG6HDHOzRs
+ 28cEctHw==;
 Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
- Linux)) id 1lXXYb-00AZO9-Jr; Fri, 16 Apr 2021 23:07:27 +0000
+ Linux)) id 1lXXYg-00AZOD-UA; Fri, 16 Apr 2021 23:07:32 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: brouer@redhat.com
 Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
@@ -56,10 +56,12 @@ Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
  mcroce@linux.microsoft.com, grygorii.strashko@ti.com, arnd@kernel.org,
  hch@lst.de, linux-snps-arc@lists.infradead.org, mhocko@kernel.org,
  mgorman@suse.de
-Subject: [PATCH 0/2] Change struct page layout for page_pool
-Date: Sat, 17 Apr 2021 00:07:22 +0100
-Message-Id: <20210416230724.2519198-1-willy@infradead.org>
+Subject: [PATCH 1/2] mm: Fix struct page layout on 32-bit systems
+Date: Sat, 17 Apr 2021 00:07:23 +0100
+Message-Id: <20210416230724.2519198-2-willy@infradead.org>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210416230724.2519198-1-willy@infradead.org>
+References: <20210416230724.2519198-1-willy@infradead.org>
 MIME-Version: 1.0
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -77,26 +79,108 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The first patch here fixes two bugs on ppc32, and mips32.  It fixes one
-bug on arc and arm32 (in certain configurations).  It probably makes
-sense to get it in ASAP through the networking tree.  I'd like to see
-testing on those four architectures if possible?
+32-bit architectures which expect 8-byte alignment for 8-byte integers
+and need 64-bit DMA addresses (arc, arm, mips, ppc) had their struct
+page inadvertently expanded in 2019.  When the dma_addr_t was added,
+it forced the alignment of the union to 8 bytes, which inserted a 4 byte
+gap between 'flags' and the union.
 
-The second patch enables new functionality.  It is much less urgent.
-I'd really like to see Mel & Michal's thoughts on it.
+Fix this by storing the dma_addr_t in one or two adjacent unsigned longs.
+This restores the alignment to that of an unsigned long, and also fixes a
+potential problem where (on a big endian platform), the bit used to denote
+PageTail could inadvertently get set, and a racing get_user_pages_fast()
+could dereference a bogus compound_head().
 
-I have only compile-tested these patches.
-
-Matthew Wilcox (Oracle) (2):
-  mm: Fix struct page layout on 32-bit systems
-  mm: Indicate pfmemalloc pages in compound_head
-
- include/linux/mm.h       | 12 +++++++-----
- include/linux/mm_types.h |  9 ++++-----
+Fixes: c25fff7171be ("mm: add dma_addr_t to struct page")
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+---
+ include/linux/mm_types.h |  4 ++--
  include/net/page_pool.h  | 12 +++++++++++-
  net/core/page_pool.c     | 12 +++++++-----
- 4 files changed, 29 insertions(+), 16 deletions(-)
+ 3 files changed, 20 insertions(+), 8 deletions(-)
 
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index 6613b26a8894..5aacc1c10a45 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -97,10 +97,10 @@ struct page {
+ 		};
+ 		struct {	/* page_pool used by netstack */
+ 			/**
+-			 * @dma_addr: might require a 64-bit value even on
++			 * @dma_addr: might require a 64-bit value on
+ 			 * 32-bit architectures.
+ 			 */
+-			dma_addr_t dma_addr;
++			unsigned long dma_addr[2];
+ 		};
+ 		struct {	/* slab, slob and slub */
+ 			union {
+diff --git a/include/net/page_pool.h b/include/net/page_pool.h
+index b5b195305346..db7c7020746a 100644
+--- a/include/net/page_pool.h
++++ b/include/net/page_pool.h
+@@ -198,7 +198,17 @@ static inline void page_pool_recycle_direct(struct page_pool *pool,
+ 
+ static inline dma_addr_t page_pool_get_dma_addr(struct page *page)
+ {
+-	return page->dma_addr;
++	dma_addr_t ret = page->dma_addr[0];
++	if (sizeof(dma_addr_t) > sizeof(unsigned long))
++		ret |= (dma_addr_t)page->dma_addr[1] << 32;
++	return ret;
++}
++
++static inline void page_pool_set_dma_addr(struct page *page, dma_addr_t addr)
++{
++	page->dma_addr[0] = addr;
++	if (sizeof(dma_addr_t) > sizeof(unsigned long))
++		page->dma_addr[1] = addr >> 32;
+ }
+ 
+ static inline bool is_page_pool_compiled_in(void)
+diff --git a/net/core/page_pool.c b/net/core/page_pool.c
+index ad8b0707af04..f014fd8c19a6 100644
+--- a/net/core/page_pool.c
++++ b/net/core/page_pool.c
+@@ -174,8 +174,10 @@ static void page_pool_dma_sync_for_device(struct page_pool *pool,
+ 					  struct page *page,
+ 					  unsigned int dma_sync_size)
+ {
++	dma_addr_t dma_addr = page_pool_get_dma_addr(page);
++
+ 	dma_sync_size = min(dma_sync_size, pool->p.max_len);
+-	dma_sync_single_range_for_device(pool->p.dev, page->dma_addr,
++	dma_sync_single_range_for_device(pool->p.dev, dma_addr,
+ 					 pool->p.offset, dma_sync_size,
+ 					 pool->p.dma_dir);
+ }
+@@ -226,7 +228,7 @@ static struct page *__page_pool_alloc_pages_slow(struct page_pool *pool,
+ 		put_page(page);
+ 		return NULL;
+ 	}
+-	page->dma_addr = dma;
++	page_pool_set_dma_addr(page, dma);
+ 
+ 	if (pool->p.flags & PP_FLAG_DMA_SYNC_DEV)
+ 		page_pool_dma_sync_for_device(pool, page, pool->p.max_len);
+@@ -294,13 +296,13 @@ void page_pool_release_page(struct page_pool *pool, struct page *page)
+ 		 */
+ 		goto skip_dma_unmap;
+ 
+-	dma = page->dma_addr;
++	dma = page_pool_get_dma_addr(page);
+ 
+-	/* When page is unmapped, it cannot be returned our pool */
++	/* When page is unmapped, it cannot be returned to our pool */
+ 	dma_unmap_page_attrs(pool->p.dev, dma,
+ 			     PAGE_SIZE << pool->p.order, pool->p.dma_dir,
+ 			     DMA_ATTR_SKIP_CPU_SYNC);
+-	page->dma_addr = 0;
++	page_pool_set_dma_addr(page, 0);
+ skip_dma_unmap:
+ 	/* This may be the last page returned, releasing the pool, so
+ 	 * it is not safe to reference pool afterwards.
 -- 
 2.30.2
 
