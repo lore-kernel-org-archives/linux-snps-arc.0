@@ -7,92 +7,102 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FD45C433ED
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 17 Apr 2021 07:34:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 639AEC433B4
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 17 Apr 2021 18:32:31 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 83CD4610FA
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 17 Apr 2021 07:34:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 83CD4610FA
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id B177D60FE5
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 17 Apr 2021 18:32:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B177D60FE5
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=HSlscIx/0mQIgz+Tr01bCREP+r+LAdq2vsi9xdcXjZw=; b=jfRa7l748+Bt/fotA+cDQzIzs
-	xspdxfU9AzamEdPEwdyt1JKO/1QtASjyUIm3Pa2vJB77HBiTA9lEWCi6MnvExNZkPgW66HBYhHh0Y
-	Z+I2iHHU4qFhz46PNpfwW+8JxMBa5s6Ntcu5QeaC6TQt2Q5x/HYtYfd5UKbjQ6Sn5L2/EuD4bb77e
-	27+6A32B9Tnnl6+sznWX4FDu0m5k2l1F62pMXcXYBPPa23KnFLEtV89y5FEZ9/kW8+Su1D9IN0fXX
-	X02wQrbi+zDYhoySuRJY8nC6RTRV7IUD3sfyiw00cZcOqX+MeAq3s+kAlCryTXwM7vVgrJMuY/3r2
-	5sEXHdTzQ==;
+	 bh=agzGjv0aNoUXveENTKXv2MO19oufGwTpbIovKwcwQvM=; b=nrqlOvvpxksDT/OjELd+6oOcG
+	VHhcxzYc37CwkaiH5QotSMIgtwbbokgqw7lDCbj0pr8EILWQc9DtO/e2t1TUVIb7fWukBa/mWo3KD
+	N1aZr/KbDNUMukXfUNhiILqrnCE8iS+GbUEO+Z1JevfCs456h4bBFjZ8AeVK20miElO0w7cgmYHRd
+	Yqbfw2/qwj2ew3ZhgEJKM8jx04ocV83uXdeWRIhGVFJMH5+hjhZUCmN29JMWayeriqnFLo+k8quDM
+	i/TmHOYnHa7XJgzLZ8EYjvMDHwMLrNzxQCJGh8t+ZZeJEZvLlaMQ7C+iXxiX7Pbdv98x868CfZtxX
+	WgktTdgyQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lXfTX-004g27-GG; Sat, 17 Apr 2021 07:34:43 +0000
+	id 1lXpk5-005xog-1v; Sat, 17 Apr 2021 18:32:29 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lXfTT-004g1I-MD
- for linux-snps-arc@desiato.infradead.org; Sat, 17 Apr 2021 07:34:41 +0000
+ id 1lXpjt-005xmz-25
+ for linux-snps-arc@desiato.infradead.org; Sat, 17 Apr 2021 18:32:17 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
- From:Date:Sender:Reply-To:Content-ID:Content-Description;
- bh=ukfumMluZP0EnUtJDPV+zqcuT6EyAAYlsiNwPNai6SA=; b=A3Tj6os4UjLBbawmoHAs8uBWXe
- QQtLOD+65aY8Qo0VSzmR2IRG0RB6Lc4FwZv3RkW745F8Xcr5g1hhhcxOI7jAD3H8+JFqZ/gT9ObmY
- hPAT7i+mRJofSuaBGtLlvFfFd/JLY8f0mhIeWUd+fxFRHZSMOJSWvrwJWVmoPmJ8hh0W/+4KC/+Rs
- y63CxAcMpBLxZv08yIWFcAaZfhDJzIKjQEROh6JWh65R/PZb2B+DtO6tJWNC6xGEv4xmW5y6ZPREM
- +kahv6Y0rn5m9tTWI2DoxOVbeH/b/LhAePHVYaS+yIP5zmX4+jUjVNUbtSiK6McJPgVXewjlfeY6r
- kav9mU0w==;
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124])
+ d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=rXzu2aaQG3S7cGTxRDcxeH5itwSf5UHiBbc+Mfp3iik=; b=TrKJWyDdQkHZ4zsyZNy/NMtBEN
+ eJaMLNkL3TexXMjEzwhU2eGmoMbBrDysm2q7nBxsepefvob4ijy7RB8gr0CDhtP00turlakLvJgTQ
+ A+Fdxd7x0uEkCKo2kYnE9RSlvtCMu1CZ9JfPijSlSPEPLd9EFJQzOEKivrOHdLI79uJ6UJ7aK9RGr
+ F50Qx8arIMcTkJjzXOiLlg3SHMbIHey3ACZuftEgKV3CNCj5m/TmUqQu4Br3lAglEFeVzyEtiQivY
+ QgL8WhOW3PHRhFHCeAz+N/OrhE8sFSCyf3SMfp6XQwXmfgo9zZcfy71czfUSAAdYfyDT20+G25jxY
+ HcCBTE3w==;
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lXfTO-009vKp-0G
- for linux-snps-arc@lists.infradead.org; Sat, 17 Apr 2021 07:34:38 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618644870;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ukfumMluZP0EnUtJDPV+zqcuT6EyAAYlsiNwPNai6SA=;
- b=L+tLYfTqTGkcnroOcqRsrYv/YPG1LB9dxNKjwNo2Yz/K+P3wY5Red7Zo/brk6RSUmoE7Ce
- sOGgMJ8O/HXk8iSwig5dFr2YxDIQXl+TZ/jaZxRKUPwixcWUoeez1rauP8nhS7VPn2iWds
- 2LOX+H96F78rP93PlML0256fAPVv95Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-542-NiqHmWmsNzuzO21lRXyc-g-1; Sat, 17 Apr 2021 03:34:26 -0400
-X-MC-Unique: NiqHmWmsNzuzO21lRXyc-g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 897248189C6;
- Sat, 17 Apr 2021 07:34:24 +0000 (UTC)
-Received: from carbon (unknown [10.36.110.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4F89E5D9C6;
- Sat, 17 Apr 2021 07:34:17 +0000 (UTC)
-Date: Sat, 17 Apr 2021 09:34:15 +0200
-From: Jesper Dangaard Brouer <brouer@redhat.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ id 1lXpjn-00A93G-J0
+ for linux-snps-arc@lists.infradead.org; Sat, 17 Apr 2021 18:32:15 +0000
+Received: by mail-wm1-x32a.google.com with SMTP id
+ y124-20020a1c32820000b029010c93864955so18235965wmy.5
+ for <linux-snps-arc@lists.infradead.org>; Sat, 17 Apr 2021 11:32:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=rXzu2aaQG3S7cGTxRDcxeH5itwSf5UHiBbc+Mfp3iik=;
+ b=e9wLqXquNQTYWhXjUdKEFxVNM3EcZvI8CB4v0ovhwe/yevYVGVmzrbaHhE02CX0UKZ
+ iAQ9XXHX1nTA8YswubW58TmD3iYRX4RADm9tE2JivkSsjiH4tHL6PevgUD+Q8o0lj13M
+ Wh4WQNLWESeMTaegmO+swRQWtdK95e3TtBPFPjyoSMZO3m6jYk3AFl+7UJTVlzhYvukt
+ kZIWWQL5KZN7mSFoC/bQUNXGH+80MdOC3b07Am6Bil612+h6z0k+ywWcIjHl/qR1rea2
+ iA5ItEuiIMldPKGr3Y9PSZWyZuR7p/rmUen+WySDnuz9aNuJAQg+hrIjwxVrU28R2S8P
+ JYAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=rXzu2aaQG3S7cGTxRDcxeH5itwSf5UHiBbc+Mfp3iik=;
+ b=jkNFT/mUfHMdkUu+I9aThL1iLdzXDpUmh28aS/s6gDJ9uizUx/zp8AhyZe5baoDSWU
+ ceVD5I0LWF9joBROD4Z2MWmBA2/JCwhFWp86oNh/xuj/FlBXwRWrBFpuLH7gMulsSiCm
+ eO+odo+bCru2CJZl1kkT0JFL8VhcyqJuf+W/W5WQLxfQ7aIzTj/dth9JVmZfZ1NEa13T
+ izlm/+DJzriOnDOClEYjbQzeUa/orArwJEKVJsD7dBAV/BXNp0dESfTuMCeIfs/5KWk1
+ 4ptbnfVgSDRziJ3N8fEa/A/dXCagNhRgCJs8kYY9S3Oa+f+5h8tQRc+K0U5ftNdt+V0Q
+ t2bg==
+X-Gm-Message-State: AOAM533Xvqu5HJn8QKokiUYlteteep1rY7egiUhUZKUImbi27DRzIjh+
+ 8AGaAIYvmuYvT2bRXWymX2YnWQ==
+X-Google-Smtp-Source: ABdhPJy8eVPGkCEVOqcITHVxTpCMYxsxuxYGe77mR9W540Za15SuA9f3s8LvAfJ6EElZzxF5pnQVxQ==
+X-Received: by 2002:a1c:770a:: with SMTP id t10mr13782514wmi.49.1618684329574; 
+ Sat, 17 Apr 2021 11:32:09 -0700 (PDT)
+Received: from apalos.home (ppp-94-65-92-88.home.otenet.gr. [94.65.92.88])
+ by smtp.gmail.com with ESMTPSA id a22sm15043900wrc.59.2021.04.17.11.32.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 17 Apr 2021 11:32:09 -0700 (PDT)
+Date: Sat, 17 Apr 2021 21:32:06 +0300
+From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: brouer@redhat.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  netdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
  linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
- ilias.apalodimas@linaro.org, mcroce@linux.microsoft.com,
- grygorii.strashko@ti.com, arnd@kernel.org, hch@lst.de,
- linux-snps-arc@lists.infradead.org, mhocko@kernel.org, mgorman@suse.de,
- brouer@redhat.com
+ mcroce@linux.microsoft.com, grygorii.strashko@ti.com,
+ arnd@kernel.org, hch@lst.de, linux-snps-arc@lists.infradead.org,
+ mhocko@kernel.org, mgorman@suse.de
 Subject: Re: [PATCH 1/2] mm: Fix struct page layout on 32-bit systems
-Message-ID: <20210417093415.41bcfde7@carbon>
-In-Reply-To: <20210416230724.2519198-2-willy@infradead.org>
+Message-ID: <YHspptFx+T588KcG@apalos.home>
 References: <20210416230724.2519198-1-willy@infradead.org>
  <20210416230724.2519198-2-willy@infradead.org>
+ <20210417024522.GP2531743@casper.infradead.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Disposition: inline
+In-Reply-To: <20210417024522.GP2531743@casper.infradead.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210417_003434_131120_0D1F4D39 
-X-CRM114-Status: GOOD (  31.38  )
+X-CRM114-CacheID: sfid-20210417_113211_693147_AAEC3A84 
+X-CRM114-Status: GOOD (  32.08  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,9 +119,31 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Sat, 17 Apr 2021 00:07:23 +0100
-"Matthew Wilcox (Oracle)" <willy@infradead.org> wrote:
+Hi Matthew,
 
+On Sat, Apr 17, 2021 at 03:45:22AM +0100, Matthew Wilcox wrote:
+> 
+> Replacement patch to fix compiler warning.
+> 
+> From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+> Date: Fri, 16 Apr 2021 16:34:55 -0400
+> Subject: [PATCH 1/2] mm: Fix struct page layout on 32-bit systems
+> To: brouer@redhat.com
+> Cc: linux-kernel@vger.kernel.org,
+>     linux-mm@kvack.org,
+>     netdev@vger.kernel.org,
+>     linuxppc-dev@lists.ozlabs.org,
+>     linux-arm-kernel@lists.infradead.org,
+>     linux-mips@vger.kernel.org,
+>     ilias.apalodimas@linaro.org,
+>     mcroce@linux.microsoft.com,
+>     grygorii.strashko@ti.com,
+>     arnd@kernel.org,
+>     hch@lst.de,
+>     linux-snps-arc@lists.infradead.org,
+>     mhocko@kernel.org,
+>     mgorman@suse.de
+> 
 > 32-bit architectures which expect 8-byte alignment for 8-byte integers
 > and need 64-bit DMA addresses (arc, arm, mips, ppc) had their struct
 > page inadvertently expanded in 2019.  When the dma_addr_t was added,
@@ -127,24 +159,11 @@ On Sat, 17 Apr 2021 00:07:23 +0100
 > Fixes: c25fff7171be ("mm: add dma_addr_t to struct page")
 > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 > ---
-
-Acked-by: Jesper Dangaard Brouer <brouer@redhat.com>
-
-Thanks you Matthew for working on a fix for this.  It's been a pleasure
-working with you and exchanging crazy ideas with you for solving this.
-Most of them didn't work out, especially those that came to me during
-restless nights ;-).
-
-Having worked through the other solutions, some very intrusive and some
-could even be consider ugly.  I think we have a good and non-intrusive
-solution/workaround in this patch.  Thanks!
-
-
 >  include/linux/mm_types.h |  4 ++--
 >  include/net/page_pool.h  | 12 +++++++++++-
 >  net/core/page_pool.c     | 12 +++++++-----
 >  3 files changed, 20 insertions(+), 8 deletions(-)
->
+> 
 > diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
 > index 6613b26a8894..5aacc1c10a45 100644
 > --- a/include/linux/mm_types.h
@@ -163,7 +182,7 @@ solution/workaround in this patch.  Thanks!
 >  		struct {	/* slab, slob and slub */
 >  			union {
 > diff --git a/include/net/page_pool.h b/include/net/page_pool.h
-> index b5b195305346..db7c7020746a 100644
+> index b5b195305346..ad6154dc206c 100644
 > --- a/include/net/page_pool.h
 > +++ b/include/net/page_pool.h
 > @@ -198,7 +198,17 @@ static inline void page_pool_recycle_direct(struct page_pool *pool,
@@ -173,7 +192,7 @@ solution/workaround in this patch.  Thanks!
 > -	return page->dma_addr;
 > +	dma_addr_t ret = page->dma_addr[0];
 > +	if (sizeof(dma_addr_t) > sizeof(unsigned long))
-> +		ret |= (dma_addr_t)page->dma_addr[1] << 32;
+> +		ret |= (dma_addr_t)page->dma_addr[1] << 16 << 16;
 > +	return ret;
 > +}
 > +
@@ -181,7 +200,15 @@ solution/workaround in this patch.  Thanks!
 > +{
 > +	page->dma_addr[0] = addr;
 > +	if (sizeof(dma_addr_t) > sizeof(unsigned long))
-> +		page->dma_addr[1] = addr >> 32;
+> +		page->dma_addr[1] = addr >> 16 >> 16;
+
+
+The 'error' that was reported will never trigger right?
+I assume this was compiled with dma_addr_t as 32bits (so it triggered the
+compilation error), but the if check will never allow this codepath to run.
+If so can we add a comment explaining this, since none of us will remember why
+in 6 months from now?
+
 >  }
 >  
 >  static inline bool is_page_pool_compiled_in(void)
@@ -227,15 +254,12 @@ solution/workaround in this patch.  Thanks!
 >  skip_dma_unmap:
 >  	/* This may be the last page returned, releasing the pool, so
 >  	 * it is not safe to reference pool afterwards.
+> -- 
+> 2.30.2
+> 
 
-
-
--- 
-Best regards,
-  Jesper Dangaard Brouer
-  MSc.CS, Principal Kernel Engineer at Red Hat
-  LinkedIn: http://www.linkedin.com/in/brouer
-
+Thanks
+/Ilias
 
 _______________________________________________
 linux-snps-arc mailing list
