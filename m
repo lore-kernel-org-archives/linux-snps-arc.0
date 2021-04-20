@@ -2,100 +2,107 @@ Return-Path: <SRS0=81lh=JR=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18A82C433ED
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 20 Apr 2021 07:08:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CA3CC433ED
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 20 Apr 2021 07:21:52 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6C2ED61220
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 20 Apr 2021 07:08:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6C2ED61220
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 6359860FE5
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 20 Apr 2021 07:21:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6359860FE5
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=FmSBvLRu4TC0dYIB38vG5U4cxN0ditrwIpf7pksgjsY=; b=lXsUHtHd0TALZzmUw4MNfI0vx
-	YS3nRpd+EjCMFLIuPTN0vjY0nF3ob1ziHQeKYlUt1WuWJecuW9K/N3wZZlwESZePJzX9JFcVLVh0i
-	+L+XvX92V6FoQ0FJ2uynr7yyUu3FjyraJFFotDzIzlRWyugSMPkws+c7fR7aMA0y4sirBqtaL3qpU
-	khQI/tiIwyMTlaDYUvk4iPaVefr+sq5nEUWkkG7W2OKiqytOX9GNg6BlNo9W7xCA7mO/oFkT+bX1A
-	HNGnA1T1pTTQDZ+/nM3AXZiMPF1lLJrSMU9gmQkijkxF1bN4aqoLLHS0PAlSkwbs1DxFROgFJl+zv
-	fnJjqasjw==;
+	 bh=RMlsw0GINQCOK+xQl0JO9TaK4reSqM/prXdhU03nPO8=; b=DGdclj8tC5TuB4RX2M+EwBmcQ
+	0NY8gw4CwABhyb0tSMg7pxLErqPT6BRixgKOsOCe0Qi8q2IlLRG2ljbbALA+XbmHBokqo/W1CaG60
+	18LSyYrZrWwAtm+Zd68UQITLYFypYTzHDsvES/9kLWbs/VyOFcO2aka5jcLBEaqraHtupu9/KjLs/
+	Tq6opON5nXJV+93MVxISABzKtFrghCqyEVDCex7yd+h5x7CxV6hxQ7tw+SWAmQ0B6fo0u9rqa8RuQ
+	BFfwzIu98E45hZ4qEHwPUFkDNHlaF+HV9AVzSHNNQouoMi21YBPX6EH1QSL+xOG6lVcNSESPjKaha
+	m+jWCFwPw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lYkUm-00BPkw-Q2; Tue, 20 Apr 2021 07:08:28 +0000
+	id 1lYkhh-00BRiD-HB; Tue, 20 Apr 2021 07:21:49 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lYkUb-00BPkQ-KC; Tue, 20 Apr 2021 07:08:17 +0000
+ id 1lYkhQ-00BRea-AF
+ for linux-snps-arc@desiato.infradead.org; Tue, 20 Apr 2021 07:21:32 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Type:Cc:To:Subject:Message-ID
- :Date:From:In-Reply-To:References:MIME-Version:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=kVGr8CsF1My79J8xpinlB3/ZQ4Uh3svFm0eR6xjmhD4=; b=dYI/cmxqNdizPb/W5J0qm3x8G0
- 1vLcVpHjtznv/nT07gOUFRXpwqqlO//t+BOpZlYGBWeLIhatwCUqY7lTkD0xod5X5VTc1+08Qay3r
- ohVWJ0hzyJo1eEhZ5SNqUmFNW9ao3LxT8jBvUPJtrjfme/Pn00JSIEw5O5hymwXXw6R99Y+xt23Ga
- 5n9hs9VcVGJtm9qUubms6uMWgJv+8Oa9cQhFcfnPuCaLsc1FvftIMKepUlUkX9n7bjZ3r6Si5lMlu
- ZS3z6g6nb1Nzw80RQl6bAt9XsauzakL/X6rZZJiYfxqaRcf59CsgMiw9dIIlSj7dfg2/yJNbvUFj3
- CiCvfFAQ==;
-Received: from mail.kernel.org ([198.145.29.99])
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+ Subject:Sender:Reply-To:Content-ID:Content-Description;
+ bh=Fdo4mE/+cjJuC72UnytwwUxZcVyYzOvI58iBPYYyS4o=; b=bhpRKh1PbLeWe10JIbd0rbJlaO
+ aKvSB22dHA2E/X7OtQNSTJk7qcXe+fagY5NmbPE2OsZ9oHX0xB0/b7Z6K7Kq7aclRyAzUfpUtLaR7
+ YULNYCD1Ek6Q85eLMQkFEjOUmHPbtPGzQLNE4d3NzwvbX6FHoAkoadIg97aC3Qs7TLalrS1+fBy9v
+ UPMs1O9z1hNrQfSfOC1bdklyicWcZpRGeSiR4huzbRrnzhlBDvEQ5TY9l+myDVpc3oHnrK5q61NhN
+ 36LoY/zcarjveR5DhTYnjmzkV20Ytl02+/RekJa3gAn7jn12S/p4j0a89GeTSXQYh6uEJthccPXZA
+ jE/gbkOQ==;
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lYkUY-00Brof-4y; Tue, 20 Apr 2021 07:08:15 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 27EFA6135F;
- Tue, 20 Apr 2021 07:08:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1618902493;
- bh=DOW/KsRt5H6t1Pgz46XK8iIY+rilYGODWaTzp+KKVBg=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=bGeMIcK4oyaw9PKWK4LZfywrca9QFox2DwtXtJf3Rpcw/1K0zEYwkxTvdm9Wy2p/k
- 6FGb/yaJGmnEbuwRVwyZQkwjZldF6m9tFCT+KATXFY8IrIR886CLL8liQSNzWyh2yw
- iJSJjHp3Z+yxDM9fPgaOfcQdSbHoO+TCqiHV+U8+DlXk0kyo+sveadEsfFEWKESyT3
- JVcLzmur1EbwKBuEBrxveDtDEWusqRL4P/EY4pV14VHKqTqzeLRn2qWiYT9IAC9QW1
- bErddbD2N2wX+mbwamKuFEVf0NAPJ+BT3maEQ6dNvAXY5/xnZvWRUHB1OYwLit78CN
- d989R9HQVE2fA==
-Received: by mail-wm1-f47.google.com with SMTP id n127so7704479wmb.5;
- Tue, 20 Apr 2021 00:08:13 -0700 (PDT)
-X-Gm-Message-State: AOAM530mfANQYO/1T9w53ElrJcE1wWS39d2qD5mn0yoosI2DDAkRlPXR
- REeZwiBVls+arCR9l7X/XU0CEF6FWFwnqd6MK9I=
-X-Google-Smtp-Source: ABdhPJzw8YTyu5KshxUEZlu3irZnfAegvQ8VILMGpH1RGSIFiQhsKgjG1gjcqz1I3fFsHj1Q1aLjZg7NWbZtj6Nq3DE=
-X-Received: by 2002:a7b:c14a:: with SMTP id z10mr2758133wmi.75.1618902491684; 
- Tue, 20 Apr 2021 00:08:11 -0700 (PDT)
-MIME-Version: 1.0
+ id 1lYkhK-00BsIW-Mu
+ for linux-snps-arc@lists.infradead.org; Tue, 20 Apr 2021 07:21:30 +0000
+Received: by mail-ej1-x635.google.com with SMTP id r12so56733201ejr.5
+ for <linux-snps-arc@lists.infradead.org>; Tue, 20 Apr 2021 00:21:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rasmusvillemoes.dk; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Fdo4mE/+cjJuC72UnytwwUxZcVyYzOvI58iBPYYyS4o=;
+ b=JDcuGmSnwgEFOWi0Hol09StsvZpHTO8W+O/Gz5MCGTk1hrnPT23hDPfAyBVwJSNZpt
+ czBoQS5EsqxfrGVAbix+Te7AGsP7UXhIx8YFBmygfQto+b48SP2efSg7JWmJOpyukexr
+ FTsu8EMSbjXVSgncFtnRCeoktgRoY0XVLaFrk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Fdo4mE/+cjJuC72UnytwwUxZcVyYzOvI58iBPYYyS4o=;
+ b=ie5oOUJCC7vVWqPQf9Bc9bCMM56PYYFbmFtQsgKjh8UU9nUVNfXo1d4gKnOMf/fP6I
+ iZj6m2iS0K/Io3d1+l4JtrG+X5HTagwyvghHi0koCvQryNYl6Rx3kLjldzXWDCK7W7TN
+ qJNM3K9qRkfPZjH0nm06iT5VZpiGpBSU8s7vYipkf5vYb0vQKMjBMRwTXaqY7/lBT79e
+ aENZYdcJLwhqvgALZokkmn/mexfRNH6EN3+9FEDl8jUwa9QV6Ms9R5YcfWBA71yWV/bF
+ HuXUHb4u/qPkrJl+uSN7tjNTNQ5heaSHx4lTi0grO67A5KdRK6YjHc1Rp2OiBAwWky4g
+ Zm2A==
+X-Gm-Message-State: AOAM531+mYSZXEgviwyM5aaqImDmE9qwvD86XJZh6xwk5Jj9ZCblr/qe
+ VD2cuxglz8AFpxcMpSaBderzgg==
+X-Google-Smtp-Source: ABdhPJwk6gzZ2A5irFuyneT8BrQdebb3nmjVkes+GHHyVGt7Uear5nG59XVGsiWotx3n47m/ELrbzA==
+X-Received: by 2002:a17:906:4d10:: with SMTP id
+ r16mr25604487eju.169.1618903284093; 
+ Tue, 20 Apr 2021 00:21:24 -0700 (PDT)
+Received: from [192.168.1.149] ([80.208.71.248])
+ by smtp.gmail.com with ESMTPSA id p3sm11836507ejd.65.2021.04.20.00.21.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Apr 2021 00:21:23 -0700 (PDT)
+Subject: Re: [PATCH 1/2] mm: Fix struct page layout on 32-bit systems
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, brouer@redhat.com
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, netdev@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ linux-mips@vger.kernel.org, ilias.apalodimas@linaro.org,
+ mcroce@linux.microsoft.com, grygorii.strashko@ti.com, arnd@kernel.org,
+ hch@lst.de, linux-snps-arc@lists.infradead.org, mhocko@kernel.org,
+ mgorman@suse.de
 References: <20210416230724.2519198-1-willy@infradead.org>
  <20210416230724.2519198-2-willy@infradead.org>
- <20210417024522.GP2531743@casper.infradead.org>
- <9f99b0a0-f1c1-f3b0-5f84-3a4bfc711725@synopsys.com>
- <20210420031029.GI2531743@casper.infradead.org>
-In-Reply-To: <20210420031029.GI2531743@casper.infradead.org>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Tue, 20 Apr 2021 09:07:55 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0KUwf1Z0bHiUaHC2nHztevkxg5_FBSzHddNeSsBayWUA@mail.gmail.com>
-Message-ID: <CAK8P3a0KUwf1Z0bHiUaHC2nHztevkxg5_FBSzHddNeSsBayWUA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] mm: Fix struct page layout on 32-bit systems
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Vineet Gupta <Vineet.Gupta1@synopsys.com>, 
- "grygorii.strashko@ti.com" <grygorii.strashko@ti.com>, 
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
- "ilias.apalodimas@linaro.org" <ilias.apalodimas@linaro.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
- "mhocko@kernel.org" <mhocko@kernel.org>, 
- "linux-mm@kvack.org" <linux-mm@kvack.org>, "mgorman@suse.de" <mgorman@suse.de>,
- "brouer@redhat.com" <brouer@redhat.com>, 
- "mcroce@linux.microsoft.com" <mcroce@linux.microsoft.com>, 
- "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>, 
- "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
- "hch@lst.de" <hch@lst.de>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Message-ID: <d0c32751-0a12-1f7f-4f6a-b1f6535a6b6e@rasmusvillemoes.dk>
+Date: Tue, 20 Apr 2021 09:21:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+MIME-Version: 1.0
+In-Reply-To: <20210416230724.2519198-2-willy@infradead.org>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210420_000814_274373_13C8021A 
-X-CRM114-Status: GOOD (  12.47  )
+X-CRM114-CacheID: sfid-20210420_002126_926520_0D2E865D 
+X-CRM114-Status: GOOD (  22.40  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,65 +119,49 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 20, 2021 at 5:10 AM Matthew Wilcox <willy@infradead.org> wrote:
->
-> On Tue, Apr 20, 2021 at 02:48:17AM +0000, Vineet Gupta wrote:
-> > > 32-bit architectures which expect 8-byte alignment for 8-byte integers
-> > > and need 64-bit DMA addresses (arc, arm, mips, ppc) had their struct
-> > > page inadvertently expanded in 2019.
-> >
-> > FWIW, ARC doesn't require 8 byte alignment for 8 byte integers. This is
-> > only needed for 8-byte atomics due to the requirements of LLOCKD/SCOND
-> > instructions.
->
-> Ah, like x86?  OK, great, I'll drop your arch from the list of
-> affected.  Thanks!
+On 17/04/2021 01.07, Matthew Wilcox (Oracle) wrote:
+> 32-bit architectures which expect 8-byte alignment for 8-byte integers
+> and need 64-bit DMA addresses (arc, arm, mips, ppc) had their struct
+> page inadvertently expanded in 2019.  When the dma_addr_t was added,
+> it forced the alignment of the union to 8 bytes, which inserted a 4 byte
+> gap between 'flags' and the union.
+> 
+> Fix this by storing the dma_addr_t in one or two adjacent unsigned longs.
+> This restores the alignment to that of an unsigned long, and also fixes a
+> potential problem where (on a big endian platform), the bit used to denote
+> PageTail could inadvertently get set, and a racing get_user_pages_fast()
+> could dereference a bogus compound_head().
+> 
+> Fixes: c25fff7171be ("mm: add dma_addr_t to struct page")
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> ---
+>  include/linux/mm_types.h |  4 ++--
+>  include/net/page_pool.h  | 12 +++++++++++-
+>  net/core/page_pool.c     | 12 +++++++-----
+>  3 files changed, 20 insertions(+), 8 deletions(-)
+> 
+> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> index 6613b26a8894..5aacc1c10a45 100644
+> --- a/include/linux/mm_types.h
+> +++ b/include/linux/mm_types.h
+> @@ -97,10 +97,10 @@ struct page {
+>  		};
+>  		struct {	/* page_pool used by netstack */
+>  			/**
+> -			 * @dma_addr: might require a 64-bit value even on
+> +			 * @dma_addr: might require a 64-bit value on
+>  			 * 32-bit architectures.
+>  			 */
+> -			dma_addr_t dma_addr;
+> +			unsigned long dma_addr[2];
 
-I mistakenly assumed that i386 and m68k were the only supported
-architectures with 32-bit alignment on u64. I checked it now and found
+Shouldn't that member get another name (_dma_addr?) to be sure the
+buildbots catch every possible (ab)user and get them turned into the new
+accessors? Sure, page->dma_addr is now "pointer to unsigned long"
+instead of "dma_addr_t", but who knows if there's a
+"(long)page->dma_addr" somewhere?
 
-$ for i in /home/arnd/cross/x86_64/gcc-10.1.0-nolibc/*/bin/*-gcc ; do
-echo `echo 'int a = __alignof__(long long);' | $i -xc - -Wall -S -o- |
-grep -A1 a: | tail -n 1 | cut -f 3 -d\   `
-${i#/home/arnd/cross/x86_64/gcc-10.1.0-nolibc/*/bin/} ; done
-8 aarch64-linux-gcc
-8 alpha-linux-gcc
-4 arc-linux-gcc
-8 arm-linux-gnueabi-gcc
-8 c6x-elf-gcc
-4 csky-linux-gcc
-4 h8300-linux-gcc
-8 hppa-linux-gcc
-8 hppa64-linux-gcc
-8 i386-linux-gcc
-8 ia64-linux-gcc
-2 m68k-linux-gcc
-4 microblaze-linux-gcc
-8 mips-linux-gcc
-8 mips64-linux-gcc
-8 nds32le-linux-gcc
-4 nios2-linux-gcc
-4 or1k-linux-gcc
-8 powerpc-linux-gcc
-8 powerpc64-linux-gcc
-8 riscv32-linux-gcc
-8 riscv64-linux-gcc
-8 s390-linux-gcc
-4 sh2-linux-gcc
-4 sh4-linux-gcc
-8 sparc-linux-gcc
-8 sparc64-linux-gcc
-8 x86_64-linux-gcc
-8 xtensa-linux-gcc
-
-which means that half the 32-bit architectures do this. This may
-cause more problems when arc and/or microblaze want to support
-64-bit kernels and compat mode in the future on their latest hardware,
-as that means duplicating the x86 specific hacks we have for compat.
-
-What is alignof(u64) on 64-bit arc?
-
-      Arnd
+Rasmus
 
 _______________________________________________
 linux-snps-arc mailing list
