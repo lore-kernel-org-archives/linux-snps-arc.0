@@ -2,103 +2,86 @@ Return-Path: <SRS0=2K9J=JS=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BEB9C433ED
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 21 Apr 2021 11:58:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF913C433ED
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 21 Apr 2021 19:51:37 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 741F96144C
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 21 Apr 2021 11:58:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 741F96144C
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
+	by mail.kernel.org (Postfix) with ESMTPS id 498C060FDB
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 21 Apr 2021 19:51:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 498C060FDB
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=fY1+gJehvSEUq4FXtq3OELvO++96HYSmbgnETYhOHwk=; b=OJN1J/aYMnJklcynQc8QR61JI
-	8+Y1smLcoJQweSoUookqC+owrh7ueBishJ+gta0rJA5Ha/yDT31gCTDF5EKPh4aSn3UQ2zoizHebm
-	PwB4YtXRl0E9s2BuqB1kztVTxsAerejHELQ0LJTEFOYWo0fVILz1u8MD0lPnMn/nS6y9WElnJ+kwG
-	CHj9xDc4g6NFdNcvwiBUcwL6Fi/7DQ/3+a2fd2KuSGGokOQuy4/tS5hKOOwOxy8rl48FlsqDDv/4l
-	y9cMC1KuVPv9A9tWM+AOUIDt4xQ4BEjBYpeGnJcuETnW+st+SoiB+HwcBGyjxty2tunQtMNsK+n20
-	VMaPciaRA==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=3aXUH8J/d3i1bDw/hYXNeYYk3/WrVZBFRz7LcPJ3yC8=; b=olFN2UkWWrEQCI9/5TF/vE80AI
+	rG9xJX6OTtvJODQgvUcS5/J2oCUbUMdHT1LWz2X8fxjG1KYY6Z50hzHNRSHBQRkzc6qU6Czn/BJHL
+	m+QKptCpoLsrW/RWBS7LXiB9m7wlrJoYnFiGb42yWKFKGJUPK1eisdu5UoFrZnyOidzGscHo4PNbH
+	su7GnFv4pONXWU4piomGBVy78txUA0bADAyrbIe1n4PXGbFog6rxVlP3DRgzdkeV2qiwxfGZ7N1Ha
+	bkKZ48Jj2Rhm0uG7n/xxkWH8UKx9ErE6kGlsk7E7mgEbpOs5GoXtrjLT10ASN0jQI3dFkQN9SoaSW
+	UMA7bo8g==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lZBUY-00ELK6-9g; Wed, 21 Apr 2021 11:58:02 +0000
+	id 1lZIsp-00F3yg-AZ; Wed, 21 Apr 2021 19:51:35 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lZBUW-00ELJm-IW
- for linux-snps-arc@desiato.infradead.org; Wed, 21 Apr 2021 11:58:00 +0000
+ id 1lZIsj-00F3yA-Q9
+ for linux-snps-arc@desiato.infradead.org; Wed, 21 Apr 2021 19:51:31 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Type:Cc:To:Subject:Message-ID
- :Date:From:In-Reply-To:References:MIME-Version:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=ollGuOmsPx94rw2T0PCZHYaSO47mOMeUsry14ZvLfJM=; b=QcwwEG1VKndSeiqZL+GiGpSj/7
- UUbE0s3tFf4zD0YSTO8CZJjIdfaghEj4GGTeVOTs4rIORGgVyVxfT7oHqytPD4Izk5ZNe68Fr6ul/
- qDorYNL5NjC+E8lv1JufFyFgRDYC1WuxMD/T4Fct8bf8Mdidg5rf35HWNdiBBT359KdFilVoggOid
- kBg6vP4/5DdJuRKJB8OQ1PRtZFNjpao6aasE8yb8xv65ma6neuRCAdMb/bmR1HUdpT1z4qUXE5NCK
- /4D5ZZBSY3sJZSfu4cn5j/IPUm4o5Hqi5kKJUNtbS8bAkrCi0vfV1hOJTrWbg2Mu+yVtyPB2B4IIG
- YfHw6eAQ==;
-Received: from mout.kundenserver.de ([212.227.126.131])
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=Z2PxemYaBJMUvYQygsq5eAy/m4HDJtFVAYGhqy/x+fg=; b=QqlEHVmgyUl9bsFRY84iS3NqKe
+ rjnGkjor0LSx+kavDtLKtr75DiGzPogIyjRcOJ+69l+ejHy/W5MwjLO47D/IyN0EZPreFzUGkfDGA
+ xqmBbX/l4TilfUYLmRuID91wTuQsoFwKSR+bKX155yQ0YPKrqo8EbnfSxVZnVAJg+SsuaQ0f++Znt
+ 1Ks/Alrek69V3d9hy4TAhkzHymM/YzKAkgG2f9B/MN91P6EBGo2NUGf05VRSA5keyo5Gcd9CpHA92
+ 2fSorNoEiLpGPgTBUJi1ocuA4qkkaouqwqccSH1AElhoLpKsblztaKcpNFdt+UZmwL1L+g2idMNTr
+ 3kovCveQ==;
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lZBUT-00CqnE-OU
- for linux-snps-arc@lists.infradead.org; Wed, 21 Apr 2021 11:57:59 +0000
-Received: from mail-wr1-f48.google.com ([209.85.221.48]) by
- mrelayeu.kundenserver.de (mreue009 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1Ma1wa-1m5Akn28MG-00W20o for <linux-snps-arc@lists.infradead.org>; Wed, 21
- Apr 2021 13:57:53 +0200
-Received: by mail-wr1-f48.google.com with SMTP id c4so2163097wrt.8
- for <linux-snps-arc@lists.infradead.org>; Wed, 21 Apr 2021 04:57:53 -0700 (PDT)
-X-Gm-Message-State: AOAM532x57B+g6Z3SiBsvdYrSWAz8JG54bhgxPAgTuMv85HITODz0lD+
- p4zdgHZZsRaYW/YIIKeRd48v7KOMdIFeKzUG90I=
-X-Google-Smtp-Source: ABdhPJxxLHU622QUTxVLT5JG28FXBqbMwoP9QmuTk81YvLLEEGjqqeD8jwt159GM0E527X3eKOyaGZAiRaJowXbS4kU=
-X-Received: by 2002:adf:c70b:: with SMTP id k11mr27161191wrg.165.1619006273000; 
- Wed, 21 Apr 2021 04:57:53 -0700 (PDT)
+ id 1lZIse-00D9My-Sr
+ for linux-snps-arc@lists.infradead.org; Wed, 21 Apr 2021 19:51:28 +0000
+Received: from mailhost.synopsys.com (sv2-mailhost1.synopsys.com
+ [10.205.2.133])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 70C6E40396;
+ Wed, 21 Apr 2021 19:51:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1619034681; bh=SnAVhq7McN5M7bQirJp6dNKBhH8nLbc+4X6VGah6fJ4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=e+mvBVgSOxnWwZDxTVe2ooEpAmwEGc4aYv+fSoxoUHFBUcr4eR9n2A2N9P78Hby8/
+ PXoj77Y4BdZ1n6M4QzBWVzo7wDA4HxdXYIOy4+1Xj14YuKa1D457w7S0ryCkFSg28M
+ 1MIsift1fCeROjuD5A/lPts2ZXW22tFW5xVLBiIdqtXCA6cvs57DzsQmIXlaQMF4c7
+ RsBXfhLIT0TSsBT0tS6ER/+p0FeR9nUnB1m3Zoqw5VKmqH3tVGDU27IznwdKzzzblD
+ lMtn9d0nb7gMPXxSGX342LhwF42sUKSGhG8hrOxp7MbiyU+x/OJO+Osz6I2DkAr6ol
+ pTFZGeD9nsBZA==
+Received: from vineetg-Latitude-7400.internal.synopsys.com (unknown
+ [10.13.183.89])
+ by mailhost.synopsys.com (Postfix) with ESMTP id 15E28A007C;
+ Wed, 21 Apr 2021 19:51:19 +0000 (UTC)
+X-SNPS-Relay: synopsys.com
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To: config-patches@gnu.org
+Cc: linux-snps-arc@lists.infradead.org,
+ Vineet Gupta <Vineet.Gupta1@synopsys.com>
+Subject: [PATCH] Recognize arc64
+Date: Wed, 21 Apr 2021 12:51:18 -0700
+Message-Id: <20210421195118.158464-1-vgupta@synopsys.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210421111759.2059976-1-schnelle@linux.ibm.com>
- <20210421111759.2059976-4-schnelle@linux.ibm.com>
- <bb21141706d7477794453f7f52f6bc98@AcuMS.aculab.com>
- <aac9ac52de09ff7162fc7caa6e817258d9dd313d.camel@linux.ibm.com>
-In-Reply-To: <aac9ac52de09ff7162fc7caa6e817258d9dd313d.camel@linux.ibm.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Wed, 21 Apr 2021 13:57:34 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0uXo+CLs2emsXE=-Zr+FjxV5k7AWNdGrN0fa37gwub8w@mail.gmail.com>
-Message-ID: <CAK8P3a0uXo+CLs2emsXE=-Zr+FjxV5k7AWNdGrN0fa37gwub8w@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] asm-generic/io.h: Silence -Wnull-pointer-arithmetic
- warning on PCI_IOBASE
-To: Niklas Schnelle <schnelle@linux.ibm.com>
-Cc: David Laight <David.Laight@aculab.com>, Vineet Gupta <vgupta@synopsys.com>,
- "David S. Miller" <davem@davemloft.net>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, 
- "clang-built-linux@googlegroups.com" <clang-built-linux@googlegroups.com>, 
- "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, 
- "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>, 
- "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>
-X-Provags-ID: V03:K1:BqSOneFcw0W6eYN40nfdDYqAUesT7jNsvfLjz0keYhQfKeua+Vq
- 9Y3CUDe3o1MaOSNQf262eDsS43w4GJsFIcvNTKTUYEJ93dl3qmuRPket5bt5eCdUEsGz2Ct
- PTRg7SB4V531EbaldHfm6EfqYBXqngtdZm2dupbBvZ8Vmos79NGHkRAOv6V1DmhRLTi/BAe
- 1mqHbiOU2WlGmFLnTWtvQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:USGAqJqTzi4=:lo/hEvhUU4eHzjINhh4+s/
- 7J+6bzgLU9g87uiXTu8LR9T+wqOb0HKnxm5wVZYmvLTDODl3a/lpA61TlN3Kq38OV4hIx3ubp
- +UDemmbS35C9hlpqkiAmc8DN7k462pHKlQD1IpPG3ULD7sotnAsAU2mTrIHEr0R1XPKf1NHn1
- CPrw/m+7vI0w5rCsXAsPmzA9UsuAU7666eTJ5BI/EZtTtoqUpWAR6uVhrvwnvXkzDMBnQ27Z3
- QY7O4zj/Wc4RgHv1OHEhFFrJF7+8cVFGMn5hPxSpABFOkWXNKhD7kQyNkHlDbZwRPOOrxy99k
- ozoXCs+05z9EWABpiM4dMihH1s7VfSrhSbqUGHv7X3h5Q813zHX1uiCIzsLMxAu4w+pQHFy/U
- QxtvyTrWBaUvqqTwvH3oveDprx2Gx4y+g2L4edxfYt153/h1PR//XZ3PcLO8X7X6CXcdP99Yz
- JsfoCxcwG5WA8tiEE7WynZ7uI/h8o8+Fc0JpFZjKvTBFMphYgeZon+FtU0iiXYmqHXhDfXN1+
- 5yxKBBZAeuWV0y+ZCIheKc=
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210421_045758_171807_64C748F7 
-X-CRM114-Status: GOOD (  17.99  )
+X-CRM114-CacheID: sfid-20210421_125124_962993_FD178B10 
+X-CRM114-Status: GOOD (  13.65  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,31 +98,133 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 21, 2021 at 1:50 PM Niklas Schnelle <schnelle@linux.ibm.com> wrote:
-> On Wed, 2021-04-21 at 11:24 +0000, David Laight wrote:
-> >
-> > I suspect that this might be better not inlined
-> > when PCI_IOBASE is undefined.
-> >
-> > Otherwise you get quite a lot of bloat from all the
-> > WARN_ONCE() calls.
->
-> Hmm, I was wondering if we should rather have a large ifdef block of
-> all these functions stubbed to WARN_ONCE rather than in each function.
-> As I understand it this would be necessary if we want the inline gone.
-> They would still be static though so we still get a copy per
-> compilation unit that uses it or am I misunderstanding?
+This paves way for setting up arc64 software ecosystem.
 
-I wouldn't worry too much about the size of known broken drivers during
-compile testing. Also, since the functions are marked 'inline' and not
-'__always_inline', the compiler is free to decide not to inline them if
-the contents are excessively big, and since the strings are all identical,
-they should be constant-folded.
+$ make check
+cd testsuite && bash config-guess.sh && rm uname
+PASS: config.guess checks (135 tests)
+cd testsuite && bash config-sub.sh
+PASS: config.sub checks (852 tests)
+PASS: config.sub idempotency checks (789 tests)
+PASS: config.sub canonicalise each config.guess testcase (135 tests)
 
-If you want to make this a little smaller, using pr_warn_once()
-would be a little smaller, but also give less information.
+* config.guess (arc64:Linux:*:*): Recognize.
+* config.sub (arc64): Likewise.
+* doc/config.guess.1: Regenerate.
+* doc/config.sub.1: Likewise.
+* testsuite/config-guess.data: Add test cases for arc64.
+* testsuite/config-sub.data (arc64, arc*-elf): Add test cases.
 
-      Arnd
+Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
+---
+ config.guess                | 4 ++--
+ config.sub                  | 4 ++--
+ doc/config.guess.1          | 2 +-
+ doc/config.sub.1            | 2 +-
+ testsuite/config-guess.data | 1 +
+ testsuite/config-sub.data   | 5 +++++
+ 6 files changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/config.guess b/config.guess
+index 1972fda8eb05..a6646ed28258 100755
+--- a/config.guess
++++ b/config.guess
+@@ -2,7 +2,7 @@
+ # Attempt to guess a canonical system name.
+ #   Copyright 1992-2021 Free Software Foundation, Inc.
+ 
+-timestamp='2021-01-25'
++timestamp='2021-04-21'
+ 
+ # This file is free software; you can redistribute it and/or modify it
+ # under the terms of the GNU General Public License as published by
+@@ -949,7 +949,7 @@ EOF
+ 	if test "$?" = 0 ; then LIBC=gnulibc1 ; fi
+ 	echo "$UNAME_MACHINE"-unknown-linux-"$LIBC"
+ 	exit ;;
+-    arc:Linux:*:* | arceb:Linux:*:*)
++    arc:Linux:*:* | arceb:Linux:*:* | arc64:Linux:*:*)
+ 	echo "$UNAME_MACHINE"-unknown-linux-"$LIBC"
+ 	exit ;;
+     arm*:Linux:*:*)
+diff --git a/config.sub b/config.sub
+index 7f7d0b055ac5..d70247c08d12 100755
+--- a/config.sub
++++ b/config.sub
+@@ -2,7 +2,7 @@
+ # Configuration validation subroutine script.
+ #   Copyright 1992-2021 Free Software Foundation, Inc.
+ 
+-timestamp='2021-03-10'
++timestamp='2021-04-21'
+ 
+ # This file is free software; you can redistribute it and/or modify it
+ # under the terms of the GNU General Public License as published by
+@@ -1165,7 +1165,7 @@ case $cpu-$vendor in
+ 			| alphapca5[67] | alpha64pca5[67] \
+ 			| am33_2.0 \
+ 			| amdgcn \
+-			| arc | arceb \
++			| arc | arceb | arc64 \
+ 			| arm | arm[lb]e | arme[lb] | armv* \
+ 			| avr | avr32 \
+ 			| asmjs \
+diff --git a/doc/config.guess.1 b/doc/config.guess.1
+index 75fbb236fd68..f79f1c5f10c5 100644
+--- a/doc/config.guess.1
++++ b/doc/config.guess.1
+@@ -1,5 +1,5 @@
+ .\" DO NOT MODIFY THIS FILE!  It was generated by help2man 1.47.16.
+-.TH CONFIG.GUESS "1" "January 2021" "GNU config.guess (2021-01-25)" "User Commands"
++.TH CONFIG.GUESS "1" "January 2021" "GNU config.guess (2021-04-21)" "User Commands"
+ .SH NAME
+ config.guess \- guess the build system triplet
+ .SH SYNOPSIS
+diff --git a/doc/config.sub.1 b/doc/config.sub.1
+index 317c8c47a180..9d52cebf58d0 100644
+--- a/doc/config.sub.1
++++ b/doc/config.sub.1
+@@ -1,5 +1,5 @@
+ .\" DO NOT MODIFY THIS FILE!  It was generated by help2man 1.47.16.
+-.TH CONFIG.SUB "1" "March 2021" "GNU config.sub (2021-03-10)" "User Commands"
++.TH CONFIG.SUB "1" "March 2021" "GNU config.sub (2021-04-21)" "User Commands"
+ .SH NAME
+ config.sub \- validate and canonicalize a configuration triplet
+ .SH SYNOPSIS
+diff --git a/testsuite/config-guess.data b/testsuite/config-guess.data
+index f240e9ce61df..73908abb4e06 100644
+--- a/testsuite/config-guess.data
++++ b/testsuite/config-guess.data
+@@ -35,6 +35,7 @@ amd64 | 7.0_RC1 | NetBSD | ignored | x86_64 | x86_64-unknown-netbsd7.0
+ amd64 | 7.2.1 | Isilon OneFS | ignored | ignored | x86_64-unknown-onefs
+ arc | ignored | Linux | ignored | ignored | arc-unknown-linux-gnu
+ arceb | ignored | Linux | ignored | ignored | arceb-unknown-linux-gnu
++arc64 | ignored | Linux | ignored | ignored | arc64-unknown-linux-gnu
+ arm | 12.0 | FreeBSD | ignored | armv6 | armv6-unknown-freebsd12.0-gnueabihf
+ arm | 12.0 | FreeBSD | ignored | armv7 | armv7-unknown-freebsd12.0-gnueabihf
+ arm | 12.1 | AROS | ignored | armv7 | arm-unknown-aros
+diff --git a/testsuite/config-sub.data b/testsuite/config-sub.data
+index 101a4c45ec39..0a59eaf1cec7 100644
+--- a/testsuite/config-sub.data
++++ b/testsuite/config-sub.data
+@@ -59,9 +59,14 @@ amix						m68k-unknown-sysv4
+ apollo68					m68k-apollo-sysv
+ apollo68bsd					m68k-apollo-bsd
+ arc						arc-unknown-none
++arc-elf						arc-unknown-elf
+ arc-linux					arc-unknown-linux-gnu
+ arceb						arceb-unknown-none
++arceb-elf					arceb-unknown-elf
+ arceb-linux					arceb-unknown-linux-gnu
++arc64						arc64-unknown-none
++arc64-elf					arc64-unknown-elf
++arc64-linux					arc64-unknown-linux-gnu
+ arm						arm-unknown-none
+ arm-cegcc					arm-unknown-cegcc
+ arm-coff					arm-unknown-coff
+-- 
+2.25.1
+
 
 _______________________________________________
 linux-snps-arc mailing list
