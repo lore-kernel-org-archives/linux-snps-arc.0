@@ -2,107 +2,130 @@ Return-Path: <SRS0=2K9J=JS=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EA01C433B4
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 21 Apr 2021 08:58:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 168BCC43460
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 21 Apr 2021 11:18:25 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F151D61437
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 21 Apr 2021 08:58:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F151D61437
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 50B256143C
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 21 Apr 2021 11:18:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 50B256143C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=6n8T7m83W40CakYbRu0BxhNSAugWxjWk68dlPMAfATs=; b=Ge5G3ehZOlszFjw0Aw9LCuYoN
-	FL0fHNKyWvR4jdcwTcA/KlQnoZSoTQTGr70hWCdfDUaOF9c6DkR9aCPPll1N6vcvIvyhyVTeYhUdJ
-	siJh2sXGjN0Vy79/HCbB/RL0B6KZc3Sp73yN+42tJcpARlAUTQ5a7MNEI/0sCAI0j56sRGb4CzYwX
-	g3vS5Orv9YxjSPp0viGwxQTm7UoBajHu8Fe0vOcATKXIzk+FbD9RgmXSftB6v/fMjnUybe5habT3n
-	rmN4Sceq070YTymRDqOyUar49PgkN1yAd2ozk45re27J+H+ufVC13lcUn3zwRYGZ9rRFW0hYimlWl
-	2PvX1zRtg==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Sa5f0/YVTbwZfKZXTbyfr7AefRi8ac8b+T9pGR6sWIA=; b=GCJ8RV1oL4c/fStzhzSohxHBEd
+	GxUYRs1r0AUzu7IQNGiE5dkN9JC64xZt2PbdXJPyoDbcMF7UugoOG+NCY5cjoktF2+UX9c43/KVB8
+	UFwfH7D1E7VxFLPeGXt/cC2bO6FWRLBewUhkMoPQOpMgoG+XiByNIhf8m5Z0mTBrKmlVTjJDRLcdV
+	YILSYycFx55HpsJOxdFK2XF2t2AS/DCTwwlssADZsnO+wpaJ16+vcM9AueXPenv628dn7Zm15T1oa
+	sZXxnO/MSu93zNkOMA/63jMNIJkbdAhWLOaenc5VcAUGS0jXbrRmh/3RNYbZXrnVbUVxBau+r9MO+
+	G4kT8zfA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lZ8hC-00E2GM-6R; Wed, 21 Apr 2021 08:58:54 +0000
+	id 1lZAsA-00EIKn-7U; Wed, 21 Apr 2021 11:18:22 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lZ8h0-00E2Fj-HR; Wed, 21 Apr 2021 08:58:42 +0000
+ id 1lZAs6-00EIK7-V1
+ for linux-snps-arc@desiato.infradead.org; Wed, 21 Apr 2021 11:18:19 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Type:Cc:To:Subject:Message-ID
- :Date:From:In-Reply-To:References:MIME-Version:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=vXB9BltYL4qczMrmq6PUXNpGa27a++HVt7BjrbXMCdI=; b=1lfxet2G26+tketvKi1zXFRQ20
- M/AXny1u/1JZh9j/+bZrqYro0rthpkA708rM288KGbPP3K8Te5Zobv71jVIhMkngWonFy2Gky6jcv
- WY0wJyo3+bIqYXlrDNqmh/zQHB3ZgdIrGLLv4mcaS+cqX8aedy2p7jaYW7iROupB5zciBOOgSY+HH
- XU792ZZuAOezu3oJhV0AkmOS7UCcv7gNKKjR9ebWbM2ll1mTyTEmM0l1BaVQ+udCNoYtssIfeOGI4
- wa0Sz+QJjtyXa9BtyjeL8LMhK+3Vk5uzuTI6Z4yZfyCWJzjtaZy8EYUp+gWTvOzEhaPWTWXDQbTe8
- TKGxUJbA==;
-Received: from mail.kernel.org ([198.145.29.99])
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=jAiMiw2e6+1XZZGZXBMG035KEyr8tjtVKWXIdCM0biQ=; b=EhyMhzcBWVP/Y3MfUavXdeRdYs
+ miZhe/nUSVQtCXEHHTnl+L3xTClerEG6PTQAvvZY3VpVRcuuqMym3PB5RxfB+s56rBP73kQDojNNL
+ NHD6Lw8fqDptB6kTi6nxQVKqqY+2Rd+Vl2u57KziAGzZ2UzU++YMZ16COTVjf5ZMsPTvesy7TC+OF
+ bJg4RWOY+fSSataKB9dVFYhTsXDk2o0BxMcP1MZvpSU0WSqIL3a4fneJF4/R+Y0Zi+PgqPRZqL+ki
+ V4319XjlXk70BdnRc3bycUOraXa2B/UcqEBtc6jS9QmTcbczMJjE7p10ER6MJawe/MkHU0dKS2P6l
+ 9fHg+h1w==;
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lZ8gx-00CjFc-Uq; Wed, 21 Apr 2021 08:58:41 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E91886144B;
- Wed, 21 Apr 2021 08:58:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1618995518;
- bh=64KJf6xIhQSnl3PhQoQ0a9YdaBe+gMwA8Np6LwW1+/4=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=KspKrNpocGC+THW2FQf8l/RTxYj9VsuAMN9o6fRqaCIHROlddiUnVoGVbSJevcK8P
- t9Ih4ay4gNZRHVDqglHOGunFJvorx346JxWj8TRSdxkGT0Mx+bIg6kSOy9/tw6wrli
- AyoCGd/Aj4lwDeEU4D5FwKzcgcMb/8X46RKGEXUG2g1sE3gyPvvaBF9LVNzp8ElJtH
- nxpWNiCTcCzxZsHmOA3b5MzE1AlJaFRQLBbGl79XxBJRzbOZ0HNJnsSBV2Azw6FIoW
- hMQ03qhaDP19GOcFUHxal2wg+Dsk2MwLLe7C5x4sfsipcA0LcpO/cD4GZh1Ilzc8Wj
- Fofb7CfADu1kg==
-Received: by mail-wm1-f43.google.com with SMTP id
- n4-20020a05600c4f84b029013151278decso790556wmq.4; 
- Wed, 21 Apr 2021 01:58:38 -0700 (PDT)
-X-Gm-Message-State: AOAM5318QSC4DcvF13tGgO/PZUEjLI5cqFRf36kC6REBrOZr+NFyZdaO
- S2qNNn2AVQJgpng/RBefAczVz1ojgtCVMVGNaDM=
-X-Google-Smtp-Source: ABdhPJzfODrhPhGfivkqeugtVvYFeuZiRdEx50xM7G3CMPJPgDkMCFmpfx3SbcIBA3tmKParqz5KGFeTEwP9bSV2emc=
-X-Received: by 2002:a05:600c:2282:: with SMTP id
- 2mr8921317wmf.84.1618995517297; 
- Wed, 21 Apr 2021 01:58:37 -0700 (PDT)
+ id 1lZAs1-00Cpgk-Am
+ for linux-snps-arc@lists.infradead.org; Wed, 21 Apr 2021 11:18:17 +0000
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13LBEZRO050148; Wed, 21 Apr 2021 07:18:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=jAiMiw2e6+1XZZGZXBMG035KEyr8tjtVKWXIdCM0biQ=;
+ b=YUKvfRbx7B0r3vJ1PH4TaPyxW+vonDkI3EH/cT+Kl96BFtDb0qi5CCzhG2EzoN9q13b4
+ RZQ5EFbbvlKiTLtup2ArpoKVH+HNnFlX2+Y/MNQnm5sU4po2M4cE5z33TC65gfCtI1/I
+ NZgha6NdX5OU9ta49/njYdMqjYM4nXcp5hIIkSneElvN3PTWHRlBhXyzcPlXpyeTOKxQ
+ SF+RwcRnWW+ZXqiOtZLz8uK69ymgWTyhw5RArZo5nyv2A3+B+i8mo5iFt7DvPGcLoTVK
+ m8/Xae0conpE77bb00py3JCuuICLQt7hO4JHJl1gPSsbAGkvHda7sjp9WYJgGGwbYB8i jQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 382jds14pq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 21 Apr 2021 07:18:05 -0400
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13LBG88B056012;
+ Wed, 21 Apr 2021 07:18:04 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 382jds14p3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 21 Apr 2021 07:18:04 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13LBH3ZK018782;
+ Wed, 21 Apr 2021 11:18:02 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 37yqa8j91u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 21 Apr 2021 11:18:02 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 13LBI0tE24445332
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 21 Apr 2021 11:18:00 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 67DC94203F;
+ Wed, 21 Apr 2021 11:18:00 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0988142045;
+ Wed, 21 Apr 2021 11:18:00 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 21 Apr 2021 11:17:59 +0000 (GMT)
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: Arnd Bergmann <arnd@arndb.de>, Vineet Gupta <vgupta@synopsys.com>,
+ "David S. Miller" <davem@davemloft.net>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ clang-built-linux@googlegroups.com, linux-arch@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, sparclinux@vger.kernel.org
+Subject: [PATCH v3 0/3] asm-generic/io.h: Silence -Wnull-pointer-arithmetic
+ warning on PCI_IOBASE
+Date: Wed, 21 Apr 2021 13:17:56 +0200
+Message-Id: <20210421111759.2059976-1-schnelle@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210416230724.2519198-1-willy@infradead.org>
- <20210416230724.2519198-2-willy@infradead.org>
- <20210417024522.GP2531743@casper.infradead.org>
- <9f99b0a0-f1c1-f3b0-5f84-3a4bfc711725@synopsys.com>
- <20210420031029.GI2531743@casper.infradead.org>
- <CAK8P3a0KUwf1Z0bHiUaHC2nHztevkxg5_FBSzHddNeSsBayWUA@mail.gmail.com>
- <8d0fce1c-be7c-1c9b-bf5c-0c531db496ac@synopsys.com>
- <CAK8P3a3rzz1gfNLoGC8aZJiAC-tgZYD6P8pQsoEfgCAmQK=FAw@mail.gmail.com>
- <5c41d562589b497ca3c1047e0e18b3a1@AcuMS.aculab.com>
-In-Reply-To: <5c41d562589b497ca3c1047e0e18b3a1@AcuMS.aculab.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Wed, 21 Apr 2021 10:58:18 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2GN9HVwSjfsXaYVO29zeUNB1hQENRw1K0DXCLdt-M-qA@mail.gmail.com>
-Message-ID: <CAK8P3a2GN9HVwSjfsXaYVO29zeUNB1hQENRw1K0DXCLdt-M-qA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] mm: Fix struct page layout on 32-bit systems
-To: David Laight <David.Laight@aculab.com>
-Cc: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
- Matthew Wilcox <willy@infradead.org>, 
- "grygorii.strashko@ti.com" <grygorii.strashko@ti.com>, 
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
- "ilias.apalodimas@linaro.org" <ilias.apalodimas@linaro.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
- "mhocko@kernel.org" <mhocko@kernel.org>, 
- "linux-mm@kvack.org" <linux-mm@kvack.org>, "mgorman@suse.de" <mgorman@suse.de>,
- "brouer@redhat.com" <brouer@redhat.com>, 
- "mcroce@linux.microsoft.com" <mcroce@linux.microsoft.com>, 
- "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>, 
- "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
- "hch@lst.de" <hch@lst.de>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: EAQBMOlkNhLPmhmROBdDkmWEOEqTImRJ
+X-Proofpoint-ORIG-GUID: M-rChegDgNZIrGrKaOcdNqLCeP0dzNQa
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-04-21_04:2021-04-21,
+ 2021-04-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 bulkscore=0
+ clxscore=1011 impostorscore=0 adultscore=0 lowpriorityscore=0 spamscore=0
+ malwarescore=0 suspectscore=0 phishscore=0 mlxlogscore=647
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104210085
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210421_015840_098856_E64E12BA 
-X-CRM114-Status: GOOD (  16.83  )
+X-CRM114-CacheID: sfid-20210421_041813_535500_DC2A5BF5 
+X-CRM114-Status: GOOD (  17.33  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -119,43 +142,50 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 21, 2021 at 10:43 AM David Laight <David.Laight@aculab.com> wrote:
-> From: Arnd Bergmann Sent: 20 April 2021 22:20
-> > On Tue, Apr 20, 2021 at 11:14 PM Vineet Gupta <Vineet.Gupta1@synopsys.com> wrote:
-> > > On 4/20/21 12:07 AM, Arnd Bergmann wrote:
-> >
-> > > >
-> > > > which means that half the 32-bit architectures do this. This may
-> > > > cause more problems when arc and/or microblaze want to support
-> > > > 64-bit kernels and compat mode in the future on their latest hardware,
-> > > > as that means duplicating the x86 specific hacks we have for compat.
-> > > >
-> > > > What is alignof(u64) on 64-bit arc?
-> > >
-> > > $ echo 'int a = __alignof__(long long);' | arc64-linux-gnu-gcc -xc -
-> > > -Wall -S -o - | grep -A1 a: | tail -n 1 | cut -f 3
-> > > 8
-> >
-> > Ok, good.
->
-> That test doesn't prove anything.
-> Try running on x86:
-> $ echo 'int a = __alignof__(long long);' | gcc -xc - -Wall -S -o - -m32
-> a:
->         .long   8
+Hi,
 
-Right, I had wondered about that one after I sent the email.
+This is version 3 of my attempt to get rid of a clang -Wnull-pointer-arithmetic
+warning for the use of PCI_IOBASE in asm-generic/io.h. This was originally
+found on s390 but should apply to all platforms leaving PCI_IOBASE undefined
+while making use of the inb() and friends helpers from asm-generic/io.h.
 
-> Using '__alignof__(struct {long long x;})' does give the expected 4.
->
-> __alignof__() returns the preferred alignment, not the enforced
-> alignmnet - go figure.
+This applies cleanly and was compile tested on top of v5.12-rc8 for the
+previously broken ARC and nds32 architectures.
 
-I checked the others as well now, and i386 is the only one that
-changed here: m68k still has '2', while arc/csky/h8300/microblaze/
-nios2/or1k/sh/i386 all have '4' and the rest have '8'.
+I did boot test this only on x86_64 and s390x the former implements inb()
+itself while the latter would emit a WARN_ONCE() but no drivers using inb().
 
-     Arnd
+Thanks,
+Niklas
+
+Changes since v2:
+- Improved comment for SPARC PCI_IOBASE definition as suggested by David Laight
+- Added a patch for ARC which is missing the asm/bug.h include for WARN_ONCE()
+  (kernel test robot)
+- Added ifdefs to ioport_map() and __pci_ioport_map() since apparently at least
+  test configs enable CONFIG_HAS_IOPORT_MAP even on architectures which leave
+  PCI_IOBASE unset (kernel test robot for nds32 and ARC).
+
+Changes since v1:
+- Added patch to explicitly set PCI_IOBASE to 0 on sparc as suggested by Arnd
+  Bergmann
+- Instead of working around the warning with a uintptr_t PCI_IOBASE make inb()
+  and friends explicitly WARN_ONCE() and return 0xff... (Arnd Bergmann)
+
+Niklas Schnelle (3):
+  sparc: explicitly set PCI_IOBASE to 0
+  ARC: io.h: Include asm/bug.h
+  asm-generic/io.h: Silence -Wnull-pointer-arithmetic warning on
+    PCI_IOBASE
+
+ arch/arc/include/asm/io.h   |  1 +
+ arch/sparc/include/asm/io.h |  8 +++++
+ include/asm-generic/io.h    | 64 ++++++++++++++++++++++++++++++++++---
+ 3 files changed, 69 insertions(+), 4 deletions(-)
+
+-- 
+2.25.1
+
 
 _______________________________________________
 linux-snps-arc mailing list
