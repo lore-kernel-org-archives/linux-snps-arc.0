@@ -1,88 +1,194 @@
-Return-Path: <SRS0=SN/c=JY=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=hv9B=J2=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB482C433ED
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Apr 2021 12:14:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57254C433ED
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 29 Apr 2021 11:40:12 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 020A2613D1
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Apr 2021 12:14:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 020A2613D1
+	by mail.kernel.org (Postfix) with ESMTPS id 6AA2861441
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 29 Apr 2021 11:40:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6AA2861441
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:MIME-Version:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=mcsuyggRhQnhINEdJN91QFf55eoJZUOlkdBRjJWKKaE=; b=IUuNOYvpAqpyyHzotAAdl6uImc
-	VYVya4tDt/qHOXbH1Fs9TUbTdPDtj+uhi9yCX5pwhlsbrlfbKeAjGr6dT1/82oXq2P/g/RVIAHSpT
-	5ueE8rC1uFndKmMA7Y8qaLTH8GpnCVDTn8VxpGY1bORaQG4+JMjubEkwPMxauDz1zEdQPBn4YvIRy
-	dCOO5ASnHVC8HGh+ou1IEBWck+HuKVXERTRtMcjwLM2xYuEbrNJ3ZYBAKOvgFR9l4D8i9p9gnYKdS
-	Yuhw5E3BcTOrFGHoQqj43caRQD7FiHuk8VHHO3oyABVTwRkwOrnSD4BfQTf+UblonTwyVR/9codFI
-	GIWJ75/Q==;
+	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=f2CistH0c0HHpmCYZ5/ThdpZkHk0kD/SMYKcyvWkELU=; b=Vl7zaz7Ygw1cE/sHzDumlQZT7
+	PoPcSViH8DeRDXoMRi/w14MyJy912qpYNho6Aj0NeMVUYzKtCeRPv3+Fj1+xnKYYDUcodvzr1HyxU
+	md3WdBYtHk6N2Bk6k8ETG3gcCWWKSeT2V2XrBTdj5NJB3ZY+Y8ESxzKhPXSJivCDYa0Rk/7+tt4yG
+	Eq+7qV0AzJE7MrNBa9NsltZcdsW1m+1X+TYRF6z1GAr6+dJ9G1NkdN5z6qatzwOKK4n2tHoTdVFW9
+	c3OervOkahSt6m65nJ9e4AHEDDk/MTAuoIVqjVl3FprzF3C/SrcxxVSy5werciOYdP6DyVt7KP9fZ
+	Lu45lWv1A==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lbMbd-001bXb-BJ; Tue, 27 Apr 2021 12:14:21 +0000
+	id 1lc51d-005ZHN-DK; Thu, 29 Apr 2021 11:40:09 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lbMbZ-001bXB-Lo
- for linux-snps-arc@desiato.infradead.org; Tue, 27 Apr 2021 12:14:17 +0000
+ id 1lc51a-005ZH1-Od
+ for linux-snps-arc@desiato.infradead.org; Thu, 29 Apr 2021 11:40:07 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Message-Id:Date:Subject:Cc:To:From:
- Sender:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=PBm+dsM4nGsIxrcaMfK4qOnmhy3jhi20DH/GggPlbAs=; b=EvNEaUeM2u8nwAA1djzTKTG11d
- twcIJ+lYZRoWoVydbf2k2l58D+nr3IFybfqqI0bWnh6CF+5lM5yesvCNKSdS1IVOZwN5R0ZjLADd3
- J9GaYWSvmvfQ+5OPUCzf+ehqJg2yivS5RHCwN0rBdM5Dh4tqvJj5ax9RkrT5rbsDstDpa1avyZtt0
- UxDNiQP5kDf2OD8kdc9Hx8hJat0tStpjm/9+2RzsUKNx2gulFF2QRw82lPsz98qxWgTA2yIkVxgm5
- KLhbklEtnF9qEDdBvHmq8qrVJSO1L0/1/BO2vV/QustTZzeI7ErX4KUKrYIeRzDO5TjRZL1GiLdZ8
- MPc23msw==;
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
+ d=infradead.org; s=bombadil.20210309; h=MIME-Version:
+ Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+ Message-ID:Date:Subject:CC:To:From:Sender:Reply-To:Content-Description;
+ bh=UJChwqX6dL94nHg5wNmxzJIUWv+liIE0cSZkIGWi17Y=; b=RmyVeyS0jzsCSwtWK6f/+AJkJk
+ amFYqzbAIoSsnFMtIC7CT11OOPPscnrtqbQODHTK6QnzneaaFv7WPpQwZ3OKIWAsn1rvr/Tf79pAv
+ /gX9ZBXFjZ1FG3NCFIbgtW7sznvYrDrlObfR9z3BNN46Bgs8tTRFRO4AHFYBphhqP54JHcso1tbgq
+ 7kN67SoVfOCwvLjHt0eIWFSimPHGPRKtzyR5ukqXyhUlpchVYQpu0x9NX3rJUx71iW+1c2E0qKJVn
+ kTwguPqFlvjvXn6ndcShsqRfl2+fKXhijN0ZU2jy6TSBxvXxT8S3rVwYCBcNHZNhCZT62dFqEiPr5
+ dpLbc29w==;
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lbMbW-00Gihg-Oi
- for linux-snps-arc@lists.infradead.org; Tue, 27 Apr 2021 12:14:16 +0000
-Received: from mailhost.synopsys.com (mdc-mailhost1.synopsys.com
- [10.225.0.209])
+ id 1lc51W-000b33-Pb
+ for linux-snps-arc@lists.infradead.org; Thu, 29 Apr 2021 11:40:04 +0000
+Received: from mailhost.synopsys.com (sv1-mailhost1.synopsys.com
+ [10.205.2.131])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id BDFAEC0552;
- Tue, 27 Apr 2021 12:14:09 +0000 (UTC)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 861DA40461;
+ Thu, 29 Apr 2021 11:39:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1619525653; bh=KRq0A/+QMHj5BLNmcw2miTkzyZiUHS4WDq7zHqV5LRg=;
- h=From:To:Cc:Subject:Date:From;
- b=DEgE3TErxy9aZN26Qcm5kU1BgX5NR3HwR+1aS4xNW9Uosf5lcpyVAFKbfRYJ9CnjY
- Vr2nwDhfnpnC51OzFJSDg6xTr8eAaQiNLqRgeMp8hpT51y/YX46GDT79LCokdPhokd
- VneN74QM5RrQdkRXk6pZdBMZsDbiNm7TYUsCslwSbGChjE5T0FIzPTVvA0Qz67MKmB
- 8ktP2a9wD+CkrB/LoUHrHvSS1XQqcS6HRk6KriAtHgLI12jUyJnLt3yfoxjoEkiE9w
- HnEe/FouDKZGFaG9EXVVaUENU9hhv9wezeoOm0PUei2VHs/BLqhsI2FOJeQcxVHg0p
- ABZcpiljJkX4A==
-Received: from ru20arcgnu1.internal.synopsys.com
- (ru20arcgnu1.internal.synopsys.com [10.121.9.48])
- by mailhost.synopsys.com (Postfix) with ESMTP id 5B1C6A005C;
- Tue, 27 Apr 2021 12:14:07 +0000 (UTC)
+ t=1619696397; bh=UJChwqX6dL94nHg5wNmxzJIUWv+liIE0cSZkIGWi17Y=;
+ h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+ b=IP9fs5dN0KXrU/PbFtFtLCVMdMlSMk/RcriUOm4sM8Q3onj+FWWCPSrT3z8AJbZJG
+ CuaQO5if3U7pPrn91dpw6zSeNYOvKwrCu+9crnBc9eIQQXP+ITQCApE3x58z0xtsQJ
+ PFvviBZOqfrFwX4kOeqjl33QYuKRnsVEeNxeSx8GzhIyyuYZz9q3/GzzQ/fcS+O/Ou
+ jSjdvP+YWLpLxmD9ZGRpAf77kFfOXuhjdrLoIuxgZhjWrAjZ/OPWK8mXjWkbgzvuMx
+ rHAEVc3WxKe7Pd+NF8vtWnBs3t/l2enpwIF85AJaJefA7WpGfA6izUf8iAdu/K0mKZ
+ BlmUQhbicTDeA==
+Received: from o365relay-in.synopsys.com (sv2-o365relay1.synopsys.com
+ [10.202.1.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mailhost.synopsys.com (Postfix) with ESMTPS id 3849EA006A;
+ Thu, 29 Apr 2021 11:39:56 +0000 (UTC)
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam08lp2176.outbound.protection.outlook.com [104.47.73.176])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "mail.protection.outlook.com",
+ Issuer "DigiCert Cloud Services CA-1" (verified OK))
+ by o365relay-in.synopsys.com (Postfix) with ESMTPS id 6D0C240099;
+ Thu, 29 Apr 2021 11:39:55 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com;
+ dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+ spf=pass smtp.mailfrom=shahab@synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
+ unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="Z+A2K3OF";
+ dkim-atps=neutral
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YkbnSLZ58MdwdGYi8elHezgtcrgd4OpMkglUtZOjUG8iQ6FZjXVkDdQC7p4yVZcE1xiARuZ4EaAgSKvZLkRe3HZU1DY3ofH9FWwo/1+/dzLbZDUUGAISXUwDJYI9AUUUMpXST3tg6xuqO8CVzjL8/29/lzydN+ZLM/3gjhzBc8oOzymbpr6ypBJxTHJTENE+dZYU+IzjX0twZiNqRBXohLpqiKWBSygMxeBusnAxM1XF5L7+3SJO/7iakBxMIDvopLjXng4ElkQTRaRPeCimmx4qJSKop3m8eX3WUiJT6/sA7S2KyKVz+iHROlqp1ysFCBKjm8RM3SB8KgY1tijEqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UJChwqX6dL94nHg5wNmxzJIUWv+liIE0cSZkIGWi17Y=;
+ b=NPX4ik8qj5W4g4BaPyu7Zhb1bxQd8cYcxicokTFmS4F62jf5pYBijDkzxK0LmgO1qObh28PaR1EhxoiEq5Aq4NLLGy266WUXSvY1FZMBjQfQt2wZMbd7Mec96IQmdw5T1JR1Qx0kYg5JDpDBZOsGaLmpLJdH9YT8Hq6wdTmAHS68MkIJr44VFU4xobeOPBWjuJ710fYrOLbYvFAfuBTD6Sd5ag4jUoXN6yXqgAbs9VxSTWMqVYV54qHvkNIHW5gONk7Q+P9G14ohPvhP4wPjSj/Spjk5ld1RuUtarQG67JH+D22c1tdR7QQHYzY2GOUB6pPQRx6U4o1a6hfcJKxQ8g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UJChwqX6dL94nHg5wNmxzJIUWv+liIE0cSZkIGWi17Y=;
+ b=Z+A2K3OFjt9UQCIITGTJPeH0pWj1vqZFjTw4P0cl9Xp80rPfIt3ZpGOs48wIUMZjZT1GRwZlf9IpEkan8yfdhYmgJUZWbFDbSwqOSHsIhmjCC7fco8/pbd4f3SJx7bWVeVSf48lO2kj4cLvK90XMBEbeVSJahQjGyiQAKt1/XN8=
+Received: from DM5PR12MB1580.namprd12.prod.outlook.com (2603:10b6:4:10::10) by
+ DM6PR12MB3995.namprd12.prod.outlook.com (2603:10b6:5:1c6::27) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4065.22; Thu, 29 Apr 2021 11:39:52 +0000
+Received: from DM5PR12MB1580.namprd12.prod.outlook.com
+ ([fe80::a565:da8c:3790:20b0]) by DM5PR12MB1580.namprd12.prod.outlook.com
+ ([fe80::a565:da8c:3790:20b0%11]) with mapi id 15.20.4065.026; Thu, 29 Apr
+ 2021 11:39:52 +0000
 X-SNPS-Relay: synopsys.com
-From: Vladimir Isaev <Vladimir.Isaev@synopsys.com>
-To: linux-snps-arc@lists.infradead.org
-Cc: linux-arch@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, rppt@linux.ibm.com,
- Vladimir Isaev <Vladimir.Isaev@synopsys.com>,
- Vineet Gupta <Vineet.Gupta1@synopsys.com>
-Subject: [PATCH v2] ARC: Use max_high_pfn as a HIGHMEM zone border
-Date: Tue, 27 Apr 2021 15:13:54 +0300
-Message-Id: <20210427121354.3620-1-isaev@synopsys.com>
-X-Mailer: git-send-email 2.16.2
+From: Shahab Vahedi <Shahab.Vahedi@synopsys.com>
+To: Vineet Gupta <Vineet.Gupta1@synopsys.com>,
+ "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ARC: entry: fix off-by-one error in syscall number
+ validation
+Thread-Topic: [PATCH] ARC: entry: fix off-by-one error in syscall number
+ validation
+Thread-Index: AQHXOHpElcuKnU9ZSEqu7vDIz0TRhKrLZ8uA
+Date: Thu, 29 Apr 2021 11:39:52 +0000
+Message-ID: <8d154e49-d77e-012a-81df-c1946b669bb4@synopsys.com>
+References: <20210423195257.892560-1-vgupta@synopsys.com>
+In-Reply-To: <20210423195257.892560-1-vgupta@synopsys.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: synopsys.com; dkim=none (message not signed)
+ header.d=none;synopsys.com; dmarc=none action=none header.from=synopsys.com;
+x-originating-ip: [2001:983:21dc:1:fc9:f284:50db:dc0e]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 85f8462b-daa7-4f0c-4166-08d90b0380ff
+x-ms-traffictypediagnostic: DM6PR12MB3995:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM6PR12MB399553A52855F1EDF67FDBC7A65F9@DM6PR12MB3995.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5516;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: raFq1N/RRRMu9SXNvGu1AhC3hhNj2QDAO8bsL4AAj1oH33kjYNfXQktRCIkJGbmTn8uRpUKBWspEdfMTPi6NbzyEXMfb5TrLdanbjYs1zxy0WCPVkBCgu6v9ATcY/H9HAJe9VfidgozQ8aQ8JcnnJN2gVH5XFBCX+6xN03HAcxJFuPu8CHO/vtqyUPjB4LGISQCtapq7n2fg2hvpoDewA5QEAfov2dZMVkZkdiNpBMNHjui22Eo+81oSsqq22iCvfslrGMAWBYI2xUBY/QiilPgRUC4RN7I9ZBD+oy8zW4TgSHWoSsVqijLi54pye9B/ouDdLkdXiB6PxHLf7Rzv/JZzeDNIQbHJone2gvVPXq7f2TBbKt/LDH+3letuLQR0VH09c5BqNG71deJLnPjaCZzUn6/0zMMXj+R6+iYyexU/UAPsxBW80+b2Hk0kBc+9uDEgXGU9LextpD4dweLFDNYS/C4ZnKYhnkZTmrEw+buyLvXqluDqhOR+0fbXcvIo3ZroJRv3GnG0FLiTwzgLiwd+iuOn/WJtAjoaPQ+R/wfsaIgpdF+J7fwDykNd1xJnhnP7Eu4vHq4zReGgQSkASa+GX/pztOr7EFOVmD9pEWbG0pdJ9JiTuBXd6sCONHuRIaXC59iiB4mt7mHTAz2YubwczbXAjVdqDTJDXpieW/A=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1580.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(136003)(346002)(376002)(39860400002)(396003)(366004)(38100700002)(6512007)(122000001)(4326008)(83380400001)(2906002)(186003)(110136005)(71200400001)(31696002)(36756003)(2616005)(4744005)(5660300002)(6486002)(91956017)(66946007)(86362001)(66476007)(76116006)(316002)(8676002)(66446008)(66556008)(31686004)(8936002)(53546011)(64756008)(6506007)(478600001)(45980500001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?QURKUWsvOUp0NjRiVDF0SjZvZFJPYjA4RUN1bldpOVlKOVh1MlpkbUJwMTJN?=
+ =?utf-8?B?bzhOa1VUQTBmUFozZG0vS01zUnB4aHMyajN1RUVSM2lReTBuUGppczNjNTAy?=
+ =?utf-8?B?cWJLUVgyVFBPYm10YTVwdjI3eUFmZHlTVFh0ZGVCTkl6Uk91YnU1WUJSQUR2?=
+ =?utf-8?B?SWpzeDQxa01hWFJZV2tEb0pycVpibkF5Q0JaZWpFcHpwa0J0WVpBWkhOKzRs?=
+ =?utf-8?B?ZnBWd0FvZ09ma1FjeW5EL3UzanF5RGVWK0ZjRVVNbnpnalovU1RpMTJtRWg4?=
+ =?utf-8?B?Ni81NG5jMFdPczdwQkd1TG1SWGZnMmZ5VTd5cmx0MVhnVC90VUdoZGd5NnBQ?=
+ =?utf-8?B?T3pObC9JUVhmOTU1NXFSWUluNkVGRk9WMWdnV0cvYkEzY0J5cTRUY0I4VHJp?=
+ =?utf-8?B?SHNTQitzUVE2b0I0MDNPdnM1aVRzaDM4WmhrdzNiOGxQUkE1RUh0WDlGVWpp?=
+ =?utf-8?B?ejliRWN5amxEODZyQmsrSkc1WGlNMElVR1QzVlJuOGtOTFNGQS9kanFaRWw3?=
+ =?utf-8?B?bGVxZGw1UW1telJFOFRNZ05GaFN0WHVTU0JEcmpaN0dPdlhrbjlMMnYwcUNn?=
+ =?utf-8?B?dWVkV2YxMkk1bGgzOUM1aXJPZC93WUJiQkxQSWNlWm8rUVhBdWJYSzU0R2Yw?=
+ =?utf-8?B?M0RSZlAraFpvakJoekpoV0I1aHo0dmJIUEtlNzFuQ3dGNHUrQnhFbU4zOGx3?=
+ =?utf-8?B?ZnJKWTRHdnZ2dUR5eW9tU29SUktBZTVoTXhFb21tUlNnZDA2Q3lnRnE5UUNy?=
+ =?utf-8?B?NDlCRjV6VitkeXpueU00Q3pFYlIwL1RRR1hoaitIVHpnb3lNdHIwSGtoblFG?=
+ =?utf-8?B?eUxxOHhld3FvMVpZQ2dqeGtsSytRMnFlNGRzZk84SVlXOUI1bnBuVEFaUjhI?=
+ =?utf-8?B?S3pOUDEwaWV4NU4yck1sdnVvaGVGWWFVWTAwdWZqUHBGYVc2d2ZzQ0x4VHVa?=
+ =?utf-8?B?R2dOcS9NZ0NMMjU3VnM5UzV6M1FuaWRDYmUvaTlXVGYvMlVWV0hsS1NjV2Vy?=
+ =?utf-8?B?RDNpejV1akxhK1R0V3NIQm9MYnFxanhoSnVOZXdSMjVkdnh3U1BSa0xqcnRk?=
+ =?utf-8?B?VkFEZnBDU203eEplV294RTI4M3dGa0Z5UHdubytEMmQ3RUlPUWFqenVUVGRi?=
+ =?utf-8?B?SkZ0dXh0eTFCNFpVMU1hZFF5OENaakRuMHJlQ0czQVZCWEVIT241cDRnYlBI?=
+ =?utf-8?B?ZGZSNmNLdU5UNmsyYUlSV2s5cUFLTFp5N2VJQkxZUUc5K2hzUmd5RFBXNFkv?=
+ =?utf-8?B?MmlkMWQ1amhWbWtOV3BNZmYwTGZQZEtRWUUrNjhHbkVxYnlaTlEzRVYrOUV4?=
+ =?utf-8?B?b0ticTZsSjNTbHE3MERjSERXaitUL1Q3b051UWNQTjRxYmZ4eUhrTUlvWnJR?=
+ =?utf-8?B?MHBqa1l0bDQyMjJMOUUvN2hSQzROQVRPVDduL3RoM1NWck1pMXJhclFQSStV?=
+ =?utf-8?B?NUNPRkRQVWpYQnBCQzJweGFTZzZwQTlpZnk0dmZRNGh0Q2RRMEs2cVMraVJY?=
+ =?utf-8?B?WnFvNXJMS1ZCclEyVXcrWTZaN2tzMHJFemdiZ3NMcmxDWFNKVThiZnZ6dHZn?=
+ =?utf-8?B?RFZ3WlI1dHlDVkhLcjlsS1lGcmdhV283eVRTYjZqNTV5VDdQOTZMV2c3TjUy?=
+ =?utf-8?B?clZROUJJQ2xoMmhGWktReFlxZTY1NGRQQ0lEeGZBaDdrbkY5KzhIdjEvbzgv?=
+ =?utf-8?B?Vzd2bUtGcVZqcEFkNk9vM3UydS9uMlo5V1Q4eVBPSEJoWldOcXE5TFlDREE4?=
+ =?utf-8?B?MjUxUS84MnVxdXFxVGlrMGhpTnN2MUpQbGNIaW9iYUJ2cTVnMkZueWd4T2Vl?=
+ =?utf-8?Q?F9y61RVqBUvQNJzjU8buANuMYiqpdGeK9ava8=3D?=
+Content-ID: <97E7D0839A584A4EB3659079FEF9C83C@namprd12.prod.outlook.com>
+MIME-Version: 1.0
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1580.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85f8462b-daa7-4f0c-4166-08d90b0380ff
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Apr 2021 11:39:52.4936 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Gst/FlsNclxZ3FdMHWIn//YyUKEPCTJlrtslTxSY/j/mREbeRdYEiIQIqsld/HXKAu6TVooN1NYWh8hmh+zgiA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3995
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210427_051414_843871_734E034A 
-X-CRM114-Status: GOOD (  13.00  )
+X-CRM114-CacheID: sfid-20210429_044002_859057_B9879B7F 
+X-CRM114-Status: GOOD (  12.82  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,70 +200,36 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Commit 4af22ded0ecf ("arc: fix memory initialization for systems
-with two memory banks") fixed highmem, but for the PAE case it causes
-bug messages:
+On 4/23/21 9:52 PM, Vineet Gupta wrote:
+> diff --git a/arch/arc/kernel/entry.S b/arch/arc/kernel/entry.S
+> index 1743506081da..aea9b558993d 100644
+> --- a/arch/arc/kernel/entry.S
+> +++ b/arch/arc/kernel/entry.S
+> @@ -255,7 +255,7 @@ ENTRY(EV_Trap)
+>  	;============ Normal syscall case
+>  
+>  	; syscall num shd not exceed the total system calls avail
+> -	cmp     r8,  NR_syscalls
+> +	cmp     r8,  NR_syscalls - 1
+>  	mov.hi  r0, -ENOSYS
+>  	bhi     .Lret_from_system_call
 
-BUG: Bad page state in process swapper  pfn:80000
-page:(ptrval) refcount:0 mapcount:1 mapping:00000000 index:0x0 pfn:0x80000
-flags: 0x0()
-raw: 00000000 00000100 00000122 00000000 00000000 00000000 00000000 00000000
-raw: 00000000
-page dumped because: nonzero mapcount
-Modules linked in:
-CPU: 0 PID: 0 Comm: swapper Not tainted 5.12.0-rc5-00003-g1e43c377a79f #1
+Same problem exists in "syscall Tracing" section:
 
-Stack Trace:
-  arc_unwind_core+0xe8/0x118
-Disabling lock debugging due to kernel taint
+; Do the Sys Call as we normally would.
+; Validate the Sys Call number
+cmp     r8,  NR_syscalls
+mov.hi  r0, -ENOSYS
+bhi     tracesys_exit
 
-This is because the fix expects highmem to be always less than
-lowmem and uses min_low_pfn as an upper zone border for highmem.
 
-max_high_pfn should be ok for both highmem and highmem+PAE cases.
-
-Signed-off-by: Vladimir Isaev <isaev@synopsys.com>
-Cc: Mike Rapoport <rppt@linux.ibm.com>
-Cc: Vineet Gupta <vgupta@synopsys.com>
----
-Changes for v2:
- - Revised commit message and added comment to code
----
- arch/arc/mm/init.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
-index ce07e697916c..1bcc6985b9a0 100644
---- a/arch/arc/mm/init.c
-+++ b/arch/arc/mm/init.c
-@@ -157,7 +157,16 @@ void __init setup_arch_memory(void)
- 	min_high_pfn = PFN_DOWN(high_mem_start);
- 	max_high_pfn = PFN_DOWN(high_mem_start + high_mem_sz);
- 
--	max_zone_pfn[ZONE_HIGHMEM] = min_low_pfn;
-+	/*
-+	 * max_high_pfn should be ok here for both HIGHMEM and HIGHMEM+PAE.
-+	 * For HIGHMEM without PAE max_high_pfn should be less than
-+	 * min_low_pfn to guarantee that these two regions don't overlap.
-+	 * For PAE case highmem is greater than lowmem, so it is natural
-+	 * to use max_high_pfn.
-+	 *
-+	 * In both cases, holes should be handled by pfn_valid().
-+	 */
-+	max_zone_pfn[ZONE_HIGHMEM] = max_high_pfn;
- 
- 	high_memory = (void *)(min_high_pfn << PAGE_SHIFT);
- 
 -- 
-2.16.2
-
-
+Shahab
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
