@@ -2,134 +2,194 @@ Return-Path: <SRS0=2M3J=J3=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1E05C43603
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Apr 2021 11:17:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46CFDC433B4
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Apr 2021 20:46:36 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6023F61107
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Apr 2021 11:17:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6023F61107
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.ibm.com
+	by mail.kernel.org (Postfix) with ESMTPS id 9DEB761090
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Apr 2021 20:46:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9DEB761090
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=6rcf6A1LhGS425tlTMZ+W2eqRmAyl8ZdpzsKNDSuM6s=; b=W6RVnNBCSJBIU0f4umnaTf9D4
-	hJvYdz1c95zN1bAupLgyslr1kccaUUGAWYRwTTsbDj7EkXeyHpAtstWvW+cxbbKnCVpNt5RShx96s
-	+G/hrOg4uGSQSe7kmA8JTd0arJHl1s0Vr2lxuLsI1lq8dIy/TTNidED4Gs44lYj0d++kU2sXS/SX6
-	bfbFt9RsaxE+df8HWP0cAdekZzjc1TfwwUIfdeE7N/zDbohz/iBsodlsPr0ILQI0Zv2zvlrAu+3aU
-	vZHy9p4vPjD6fBLQFAxj1+0IQkDQ5a2d2b6KNEnqeXg1xQ5NPwGb+DSEfJ6FlQviqgLWylbYvOAE4
-	sqzLW5WMg==;
+	List-Unsubscribe:List-Id:MIME-Version:Content-ID:Message-ID:Date:Subject:CC:
+	To:From:Reply-To:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=A9QU60o8f774IZjnziWndmZn1/xqTxuiBXp/mcxJk5U=; b=mGimgqJlz5LPWI0+7MLFqyxClS
+	9EM8kcXnZpUTovigxekhAGSLo1C6XrWHkRRzxSGNAO0HuonWWeLKGwPN2Gdk37BfL7GYaQ8Ur9hGL
+	gAHqSodFdj2LsWxQF9nCFQvXweWr2iWyRpTWuHrRxjGWtk+rZ9dsA1GN9VErAjIm83sF4U4ifwmXv
+	vSBQlDlBL6Wbfyc5yT4hEOLhhl67zFBj3AIfZ4Qvwm5zOlarTAAdQ+7FhMOymcsAZBrcPiBA0oZWN
+	S7DCgXG3xejvo3Xyqr+u/0YU9UydjKZ9nFphld3LkHQkweaastMM1DePGQ82v1BdippS9otD4YTim
+	4NWU6g0w==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lcR8n-007jPJ-ND; Fri, 30 Apr 2021 11:17:01 +0000
+	id 1lca1x-008ZsR-9t; Fri, 30 Apr 2021 20:46:33 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lcR8k-007jOr-SS
- for linux-snps-arc@desiato.infradead.org; Fri, 30 Apr 2021 11:16:59 +0000
+ id 1lca1t-008ZrX-Jw
+ for linux-snps-arc@desiato.infradead.org; Fri, 30 Apr 2021 20:46:30 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
- :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=ebZFECJxGjtLcF1rluTOfeZFyPV564vNRUrltdwSGtg=; b=c7ZHjHnn1kfOr+i6BDa8Q/GRve
- 0kodzBSOpZUqijiblOpQZWG1PD1OC2fHRg7j0TjYcoMwJO1v929kAOy7fYADWnrZi3fKEP6Jtibwi
- x5odzHKE9/CT9yjtoHks9zmnNeUId6nbs0ZTHa/E4us8iDMDxj60xDdMWxDHADRcTKlqiVZKf0CZX
- NltAid+SwrdU/lU3P8+jVxUHxVqcwGKQ/wBJgM1aI1MQVGO1KbSThgk3RcKMZDdhRP0kLplUz75NF
- mVG02/TorUlySZy1s44d6Pc+oOKiaknRO+KkC5JyTy1SlPEKCHE5CS3Hv8I9fZUJec0iwjy1EGozf
- lCPyfAoA==;
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ d=infradead.org; s=bombadil.20210309; h=MIME-Version:
+ Content-Transfer-Encoding:Content-ID:Content-Type:Message-ID:Date:Subject:CC:
+ To:From:Sender:Reply-To:Content-Description:In-Reply-To:References;
+ bh=GbMIczPTnnRephqd+l3mI3WYBrJvTxGXKuKlWzS4Wsw=; b=csPFwxNSk/hWKWMn0Uo52g1AfC
+ VAYDIxjSyvRqsgwDaBJHOpeOWunuK/UiqO7KHlxMcaiCnTUVpoQAbCmp1aFnyrBv1QkMQvGKHodKq
+ GJDpD/dDHkc1/Jqt8TV0VK/ZWCp6TncdauZeqKuYubQ3Xv+3uMrGZORYonAExUDJ+yjyURZYZWlsK
+ t1+OkRGCS/4INetzTTk0MrxBJTWB9xYzXuMJkOyBztbV4X5MWblzPY4phlcLl2zkPLX5yd0X1Y57m
+ icANb2s9T0bBQmfm/LruEoZVHlCyDTlZtv+hQVdE4S26ccMmKDhVbV6BYO5wdqsQi0pW8JtcGMKMS
+ ue1uA6tQ==;
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lcR8h-001K2Y-Qo
- for linux-snps-arc@lists.infradead.org; Fri, 30 Apr 2021 11:16:57 +0000
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13UB2kl0071093; Fri, 30 Apr 2021 07:16:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=ebZFECJxGjtLcF1rluTOfeZFyPV564vNRUrltdwSGtg=;
- b=GD/rNQK2F8Uc0uCMxlWTNWpQgFDlA4LsPXXPowKSdJUJZP42I+0vPB3kEM5l1JGpghpq
- kgeUyiqAcV6rz6TKZ7l2bB4w45Li6tdoMxg4pc7goqjCkN6tYrZTAvjE7bB8/gLKujo8
- boCK/nxDoaCdaBZdJQCAu0rJOUNw3bXQwo+7jG4Jxxsk2lx7UR/3j6w3VIgLBEEraL20
- FetsT8N8f50990U0b57Dtp+HW5zWgZZ1JesAr88Cp5tDW0iGDWtUUFcxoDY7KJiYZ5Ui
- 8f3va9H/QWwIx81l7m4GSh2eUNhsUQI1LYPXrWIbbFmfM1NvTOQHWmLO0uUDD/4laSr5 zQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 388g4dhdft-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Apr 2021 07:16:47 -0400
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13UB3eR2080684;
- Fri, 30 Apr 2021 07:16:47 -0400
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0b-001b2d01.pphosted.com with ESMTP id 388g4dhdfe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Apr 2021 07:16:47 -0400
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13UBF6NA028083;
- Fri, 30 Apr 2021 11:16:45 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma02fra.de.ibm.com with ESMTP id 384ay89pp3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Apr 2021 11:16:45 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 13UBGhVU23003526
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 30 Apr 2021 11:16:43 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1168FA4053;
- Fri, 30 Apr 2021 11:16:43 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B0221A4051;
- Fri, 30 Apr 2021 11:16:42 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 30 Apr 2021 11:16:42 +0000 (GMT)
-From: Niklas Schnelle <schnelle@linux.ibm.com>
-To: Arnd Bergmann <arnd@arndb.de>, Vineet Gupta <vgupta@synopsys.com>,
- "David S. Miller" <davem@davemloft.net>
-Cc: Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- clang-built-linux@googlegroups.com, linux-arch@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, sparclinux@vger.kernel.org
-Subject: [PATCH v4 3/3] asm-generic/io.h: warn in inb() and friends with
- undefined PCI_IOBASE
-Date: Fri, 30 Apr 2021 13:16:41 +0200
-Message-Id: <20210430111641.1911207-4-schnelle@linux.ibm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210430111641.1911207-1-schnelle@linux.ibm.com>
-References: <20210430111641.1911207-1-schnelle@linux.ibm.com>
+ id 1lca1q-001f6h-AO
+ for linux-snps-arc@lists.infradead.org; Fri, 30 Apr 2021 20:46:27 +0000
+Received: from mailhost.synopsys.com (badc-mailhost4.synopsys.com
+ [10.192.0.82])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 546874043E;
+ Fri, 30 Apr 2021 20:46:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1619815583; bh=GbMIczPTnnRephqd+l3mI3WYBrJvTxGXKuKlWzS4Wsw=;
+ h=From:To:CC:Subject:Date:From;
+ b=AtqV5aaAXE4Y3WYEqXhblkBXoY/HSuPnE/lqXvWiv5nHoWNPHmcKsezac2qsCZPWR
+ r7DQgIWYi1Ld8TzGUsdddHSqBw/GzDXMK7t8AasLQ1d/OPaYJl/U/vz3QhjD39FL66
+ F5QIMbHSsEF94h4dBjqSpFoRLm3kZ62ym9djjUlKxsdDfkNuA8PHukq5cPSolY2iJr
+ jZqoYTWSGBQZ76c0sXi2CikD/HvKXIAFreAdekp+JAUEegg49OpAD8PCxzc38c1Z9X
+ KINSo3e1oxjc3n5p3gHGmdk6QWwJpv3awpRiOCXqGM+F1FBBNji7+wqOk2Ut/YC7Fj
+ eBg+IWiEtl04g==
+Received: from o365relay-in.synopsys.com (sv2-o365relay1.synopsys.com
+ [10.202.1.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mailhost.synopsys.com (Postfix) with ESMTPS id B756BA005E;
+ Fri, 30 Apr 2021 20:46:20 +0000 (UTC)
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam08lp2041.outbound.protection.outlook.com [104.47.73.41])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "mail.protection.outlook.com",
+ Issuer "DigiCert Cloud Services CA-1" (verified OK))
+ by o365relay-in.synopsys.com (Postfix) with ESMTPS id 859D44061D;
+ Fri, 30 Apr 2021 20:46:19 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com;
+ dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+ spf=pass smtp.mailfrom=vgupta@synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
+ unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="BrBuSWqN";
+ dkim-atps=neutral
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ddTUClwdYcG9BlEw5cwTPgpvCD0KrUUxl9AjP0nzHtx4tN8s5bV0h4tV0fGlSqyx0SEyWpQuaK7YQRJkz+G1Uvrq4vdGiAMGI+VFy/kc8HFwb68Yz91aUOcOw09szYVh+IUw2oMQ8Ovzuu7q5+J+JoFbuRV/eVXsO8kO2JnR/rCnN9JrvxMe86ywQR4K8w7R7yh0EgA4x3tS4EkAqhBVuLHqfh6/YkmSLFTgBTNGZ78E6F7tLJUhQQIHCz/NSsLIncWgY+1xc7cjWwQv4xPCTT4ITI3HAp4Xet6vXJTG0DnRHiypviJEyaDx+VFyyjM3yShgx/VuoFQHNitwggq2uQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GbMIczPTnnRephqd+l3mI3WYBrJvTxGXKuKlWzS4Wsw=;
+ b=JdMiF3+YNWVZi4dq4uBSrcKUy1bFvW/cdJBYf57VgDEJwASFmEOXCQsGRdnoyYuecNg7Q4ni4RAZoye0vuCcVd6rVYikEvUhI0ZS26ZKAU+ojQgbk5Weqv81iMjl48o/wwJWhhGWK2AtvYHNZOWl6L9sBJlCy/T/4m6JuSbB5D/2KDVNiOw2RbLB/hEVrb8k+l5FYt57s5ruNrtQD7QRDcg41aJSZxsQRHMNQJ30INp/lFNd7fELOkABLYCp6Gmb1hRM10PIdiVoYZqrwMHhMDKHq3fOs58YL9sfCX797baa3orGVr1G1MU/vXcxlG6Kfq2pfKhak9iqqxiFPGQiHg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GbMIczPTnnRephqd+l3mI3WYBrJvTxGXKuKlWzS4Wsw=;
+ b=BrBuSWqN5//l3+TpqiVjECHuPGuydoVPlDJAA7YLZZjIP8MuzPZZW/uiGUWBGEXk2asQYEDfPAYCEKnihL3T4NyLq1PzSu56L2C8L4S37PV9qzBXqRc/BdH5S/3V4+97+B96KijFTCHEobtmKvanIZ8TYAspWAMPg4jUKPrlNvo=
+Received: from BYAPR12MB3479.namprd12.prod.outlook.com (2603:10b6:a03:dc::26)
+ by BY5PR12MB4098.namprd12.prod.outlook.com (2603:10b6:a03:205::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.22; Fri, 30 Apr
+ 2021 20:46:17 +0000
+Received: from BYAPR12MB3479.namprd12.prod.outlook.com
+ ([fe80::d1a0:ed05:b9cc:e94d]) by BYAPR12MB3479.namprd12.prod.outlook.com
+ ([fe80::d1a0:ed05:b9cc:e94d%7]) with mapi id 15.20.4087.035; Fri, 30 Apr 2021
+ 20:46:16 +0000
+X-SNPS-Relay: synopsys.com
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To: Arnd Bergmann <arnd@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>
+CC: lkml <linux-kernel@vger.kernel.org>, arcml
+ <linux-snps-arc@lists.infradead.org>, "linux-arch@vger.kernel.org"
+ <linux-arch@vger.kernel.org>
+Subject: Heads up: gcc miscompiling initramfs zlib decompression code at -O3
+Thread-Topic: Heads up: gcc miscompiling initramfs zlib decompression code at
+ -O3
+Thread-Index: AQHXPgHd1RlrjZ3rIE6wtN03PsVzsg==
+Date: Fri, 30 Apr 2021 20:46:16 +0000
+Message-ID: <75d07691-1e4f-741f-9852-38c0b4f520bc@synopsys.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=synopsys.com;
+x-originating-ip: [149.117.75.11]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5f48d204-db90-486e-ca0d-08d90c190062
+x-ms-traffictypediagnostic: BY5PR12MB4098:
+x-microsoft-antispam-prvs: <BY5PR12MB409871071C90523DAD9AB324B65E9@BY5PR12MB4098.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 0jEudJzTWMPdpVg7CrD3KUb9kPpYi7U5wqr00Wb/kj2AInt4QmRZIewWelT+gXvP32ccJ4VYtfeUZtbXSVSEE+tU0onVLJKa/uAikS/nGP4EEG2d9RLexi2sMGSKz4c2n7g6vupJTKugB2TkJd3pbch5a3R7mVzwenrA/JicL+htnHpSYOBhT0ioQMizqwJdrNoYOXZGU62MDX9m94xm4Us/Me/wpq1zJbUOLo20lIEv9gT2NsNcSd27TS3HnDeLU6c6u7m5A4xj4HcFxzZ74kqYcQqARnPtaueRYltRyp2uGvAZo7zmqHilcK4Yk0D9GJ35kDwQSnAShUbP9/ryibc2u36sXyGK/142JpOf2Bm6ZEoFVTD/w1edKxyQl8xKR7tCd1NYREwqxSXmZtU3nD7OERIbqaWPnjHlyqoP+eFf4xQesx2+Bsj8tonjlwBXDbG2cCyHaeXHAnwwGw8mfLnMhfzKBIKnnIlXC3o2MmC8SDUZqkfCovikt2+oDh1Un31Wjf2YMh8AshOrqu6c9X/+JMLg+5+DUI/793FGmNZLAwAYKBmw4estaNMMAQ+uocwszTTSWd+hAA0zDL9/XeNoogDxaNe3OOaB6DkJg+8hSkpM3ZGZG07042Cdw6zx3WkN3ZtEtbOCI3hqNksgPFhuzPKao135W5j2ao8k73aHf0oJ/0C7+CIh8BfwNzKqcbFFqiPLKQ6fHZ99qtr0snwDyxGa05KOlGMr8WeAb9koRs1OikCb/R/o+9HYdKDJ5UjYebtQaGO3zKBOY0JWNg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3479.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(136003)(376002)(366004)(39850400004)(346002)(396003)(26005)(478600001)(186003)(8936002)(6512007)(54906003)(64756008)(38100700002)(6506007)(110136005)(2616005)(71200400001)(6486002)(966005)(36756003)(66476007)(4326008)(316002)(86362001)(83380400001)(31686004)(8676002)(2906002)(5660300002)(66556008)(122000001)(66946007)(66446008)(76116006)(31696002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?UEpqTDVTdnJNa1kwYVUxTUFiZkxQR00xamk2Z0FtdmRMcDdFK2ZaTlorRXR6?=
+ =?utf-8?B?QU11MVg4WFhxN0NzcXAzU1JEMkV5bC8vUXdQNmpyNTdlcmllTm92K1c0a3kr?=
+ =?utf-8?B?akNoM3Vzbk1EUGNaM3lRZHNjejBuamVuekUyNkI2ajZ4STRnY3pVTm9qeDk5?=
+ =?utf-8?B?WEFCYUM1M1p3UFFMOHVuOE5LcEk5L2VRUmxmUkNtTGEzL3Z3R1gxMDRVK2g0?=
+ =?utf-8?B?NFZsNUR0SXdlR0ZUeUJ5Q1o0cHpUc3paaTR3eEE0UjhBYXVLYlZLRjA0ejNP?=
+ =?utf-8?B?MGNPNVVTQkt5WURHN3pXdVBNNUtJZlBhYTN0NHU0NitEWC94QUlKOXJzS0t1?=
+ =?utf-8?B?b21kWHYrdWovZWszVUFlQzZUWXdYYVM3Um5CdEFyZXA0OUYwdFQ4M2RGMGpo?=
+ =?utf-8?B?YzBaeU9pRWkxQ29qWGJoY3d5SnNKRkpaN04vZmREZ0E0TExpYnd3SWd3akxM?=
+ =?utf-8?B?UDNyNkk5SHpDbnB1cW0zcCtqRU5VdmUrbUtSKzA5WTBQOFNkdFU3YVdsR1h6?=
+ =?utf-8?B?MVhSMXJpdmpnYk1qZHAwTkNoTTBIUEh4UHF4TSt1Z1JFL3dYdnczQkhlbnB4?=
+ =?utf-8?B?c1dLM2tFNUlEME93V2NXMVh6ZW4yakVHVFpFc1hLVzlSczhaK0ltaG1DdUdi?=
+ =?utf-8?B?VkYvQzZQUGFRYmNjTjVYdEpGU1l0YWpPRGMvV041RzVoMTdsOG9xNGg1bTZK?=
+ =?utf-8?B?eW9VSUpyVGl3SnUxRmp1ME5vWWlVSUxPZW5BbVhxWko2YSswb0xhOHl2dkR5?=
+ =?utf-8?B?UU95YU9aZmJDRXNKUGxRZWRjRk53d0V3UnVQckxHVGRXQjZhdmRuNVhCY1RT?=
+ =?utf-8?B?QVFoNXZXalJ0bkRWcGpTOGhJd3N0NGZ6eUtqQVd2WlRlNG5wdkNpNTBid05q?=
+ =?utf-8?B?UkNqZFZSajZJRExOakdRQm5zQTdsWG9LRkdGVmJjMWFrRkhBY2toS1NRQjh0?=
+ =?utf-8?B?VlVldlRiZ0JiMkZxaGNGVE42MVBVYzZtTFF4eWZGR2l6QStUQk1xZzJSVktr?=
+ =?utf-8?B?aURkZUN1MlFwTlJieUNXQlJNandvcG41U2dFcDEvSmQzZkRaK2kyWDRWbGY4?=
+ =?utf-8?B?SFpUQjJVQ3ZuVklxNkF6b3RJaUlZMHR6dnQzSW1iQmR6RFRoSWU3U0htV2dn?=
+ =?utf-8?B?MkVrT1dGVmhpbm13b05vZzNTLzRxZ1pDdU40NVJiR2JIcHc0QVVxYzd3TWhl?=
+ =?utf-8?B?WDNoVTZiOHlUUE1xaldNYkljamIwdTFKRzd6VHpoSDRKdDdzanBQQ3RydFYw?=
+ =?utf-8?B?Q2w5ZmNtblF3bFVYRExRMWVjTk5NZk5pM2FXUFA1L291RHpxNC82YlQwYVlq?=
+ =?utf-8?B?S2NBWGJJVnFaYUFNOGE4d3kxamc5OVhqdnFrbmRTdndiTTdOeGxwbVBlZ0dh?=
+ =?utf-8?B?VWhmS25CdzhIZ0xSSXVNUUk0c3BIN1g2Y3pYZ3VlTENTMUpHR0lkVUtSWkor?=
+ =?utf-8?B?V0RvWGFseEZSUmd3NHl5VkNjV012NkNKajBCU040d0J6RTdPMllBZ0VNMjJo?=
+ =?utf-8?B?dUZZUnMyY2tCTzlwWjBEV3d4bjNiWjVIMlB2QWhtMy9jRkpteXk4Y1J5R3E5?=
+ =?utf-8?B?SXdBRW1wSWtFejNSSEErS2x2Um9wSDdBR096a3hna29SU1ZjQlBGL2VyWXpi?=
+ =?utf-8?B?VWtnOHZnUmtoWDJoV3Z0c3Bka0tQdWlXRXdqQzRkYVNvNmlmRGpWMzkwMWI2?=
+ =?utf-8?B?UjJIQlNDQ0t0bVh0WVpUZ3kwcHhnT2tFWGFFT1h0RXdrNzRPcXh0TGcxbzV0?=
+ =?utf-8?Q?4MyTDsA0H4V4jdcLFA=3D?=
+x-ms-exchange-transport-forked: True
+Content-ID: <74ED9ADC53D2A8419A08C9C5B00033D8@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: QDqUu04eH9wD3YyH5SJDgqyDb1iAv4i9
-X-Proofpoint-GUID: LumMAV0Xbff0VDAIIdZHB3vHbhOBHXpS
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-04-30_06:2021-04-30,
- 2021-04-30 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxscore=0
- lowpriorityscore=0 priorityscore=1501 spamscore=0 clxscore=1015
- phishscore=0 suspectscore=0 bulkscore=0 mlxlogscore=999 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104300080
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3479.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f48d204-db90-486e-ca0d-08d90c190062
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2021 20:46:16.8816 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 96BnqSiMyOuvMw3OzEdNXKDpuNu3rxyse/KTO8pLOnYGrXzRfpIrkJwbCDU/smVi7crhbn11Plv8Z2bMVliRQA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4098
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210430_041656_007860_4DCEED47 
-X-CRM114-Status: GOOD (  20.61  )
+X-CRM114-CacheID: sfid-20210430_134626_384230_E825344F 
+X-CRM114-Status: GOOD (  11.66  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -146,243 +206,58 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-When PCI_IOBASE is not defined, it is set to 0 such that it is ignored
-in calls to the readX/writeX primitives. This triggers clang's
--Wnull-pointer-arithmetic warning and will result in illegal accesses on
-platforms that do not support I/O ports.
+Hi,
 
-Make things explicit and silence the warning by letting inb() and
-friends fail with WARN_ONCE() and a 0xff... return in case PCI_IOBASE is
-not defined.
+I've hit a mainline gcc 10.2 (also gcc 9.3) bug which triggers at -O3 
+causing wrong codegen.
 
-Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
----
- include/asm-generic/io.h | 65 +++++++++++++++++++++++++++++++++++++---
- 1 file changed, 61 insertions(+), 4 deletions(-)
+  Config needs to have initramfs + gzip compressed.
 
-diff --git a/include/asm-generic/io.h b/include/asm-generic/io.h
-index c6af40ce03be..6207fb4b9a7d 100644
---- a/include/asm-generic/io.h
-+++ b/include/asm-generic/io.h
-@@ -8,6 +8,7 @@
- #define __ASM_GENERIC_IO_H
+	CONFIG_HAVE_KERNEL_GZIP=y
+	CONFIG_KERNEL_GZIP=y
+	CONFIG_DECOMPRESS_GZIP=y
+	CONFIG_INITRAMFS_COMPRESSION_GZIP=y
+
+  lib/zlib_inflate/inffast.c
+
+     if (dist > 2) {
+	unsigned short *sfrom;
+
+	sfrom = (unsigned short *)(from);
+	loops = len >> 1;
+	do
+	    *sout++ = *sfrom++;
+              ^^^^^^    ^^^^^^^^
+	while (--loops);
+	out = (unsigned char *)sout;
+	from = (unsigned char *)sfrom;
+     }
+     ...
+
+The gist of issue is that despite use of unsigned short pointers, gcc is 
+generating wider load/stores (8-byte LDD/STD on arcv2 and 16-byte on 
+aarch64) causing extraneous bytes to copied into inflated gzip binaries
+manifesting later as corrupted fragments in the binaries.
+
+I've opened a gcc bug at:
+   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100363
+
+The workaround is to build lib/zlib_inflate/inffast.c with -O2, although 
+I reckon not many arches build with -O3 as default. I'll be proposing an 
+ARC only patch to build this file with -O2, unless people think it needs 
+to be generalized.
+
+Also problem originally seen on 5.6 kernel, although I confirm it shows 
+on latest mainline as well.
+
+Unraveling this pretty fun, gory details for those interested at:
+
  
- #include <asm/page.h> /* I/O is all done through memory accesses */
-+#include <linux/bug.h>
- #include <linux/string.h> /* for memset() and memcpy() */
- #include <linux/types.h>
- 
-@@ -440,10 +441,6 @@ static inline void writesq(volatile void __iomem *addr, const void *buffer,
- #endif
- #endif /* CONFIG_64BIT */
- 
--#ifndef PCI_IOBASE
--#define PCI_IOBASE ((void __iomem *)0)
--#endif
--
- #ifndef IO_SPACE_LIMIT
- #define IO_SPACE_LIMIT 0xffff
- #endif
-@@ -458,12 +455,17 @@ static inline void writesq(volatile void __iomem *addr, const void *buffer,
- #define _inb _inb
- static inline u8 _inb(unsigned long addr)
- {
-+#ifdef PCI_IOBASE
- 	u8 val;
- 
- 	__io_pbr();
- 	val = __raw_readb(PCI_IOBASE + addr);
- 	__io_par(val);
- 	return val;
-+#else
-+	WARN_ONCE(1, "No I/O port support\n");
-+	return ~0;
-+#endif
- }
- #endif
- 
-@@ -471,12 +473,17 @@ static inline u8 _inb(unsigned long addr)
- #define _inw _inw
- static inline u16 _inw(unsigned long addr)
- {
-+#ifdef PCI_IOBASE
- 	u16 val;
- 
- 	__io_pbr();
- 	val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
- 	__io_par(val);
- 	return val;
-+#else
-+	WARN_ONCE(1, "No I/O port support\n");
-+	return ~0;
-+#endif
- }
- #endif
- 
-@@ -484,12 +491,17 @@ static inline u16 _inw(unsigned long addr)
- #define _inl _inl
- static inline u32 _inl(unsigned long addr)
- {
-+#ifdef PCI_IOBASE
- 	u32 val;
- 
- 	__io_pbr();
- 	val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
- 	__io_par(val);
- 	return val;
-+#else
-+	WARN_ONCE(1, "No I/O port support\n");
-+	return ~0;
-+#endif
- }
- #endif
- 
-@@ -497,9 +509,13 @@ static inline u32 _inl(unsigned long addr)
- #define _outb _outb
- static inline void _outb(u8 value, unsigned long addr)
- {
-+#ifdef PCI_IOBASE
- 	__io_pbw();
- 	__raw_writeb(value, PCI_IOBASE + addr);
- 	__io_paw();
-+#else
-+	WARN_ONCE(1, "No I/O port support\n");
-+#endif
- }
- #endif
- 
-@@ -507,9 +523,13 @@ static inline void _outb(u8 value, unsigned long addr)
- #define _outw _outw
- static inline void _outw(u16 value, unsigned long addr)
- {
-+#ifdef PCI_IOBASE
- 	__io_pbw();
- 	__raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
- 	__io_paw();
-+#else
-+	WARN_ONCE(1, "No I/O port support\n");
-+#endif
- }
- #endif
- 
-@@ -517,9 +537,13 @@ static inline void _outw(u16 value, unsigned long addr)
- #define _outl _outl
- static inline void _outl(u32 value, unsigned long addr)
- {
-+#ifdef PCI_IOBASE
- 	__io_pbw();
- 	__raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
- 	__io_paw();
-+#else
-+	WARN_ONCE(1, "No I/O port support\n");
-+#endif
- }
- #endif
- 
-@@ -606,7 +630,11 @@ static inline void outl_p(u32 value, unsigned long addr)
- #define insb insb
- static inline void insb(unsigned long addr, void *buffer, unsigned int count)
- {
-+#ifdef PCI_IOBASE
- 	readsb(PCI_IOBASE + addr, buffer, count);
-+#else
-+	WARN_ONCE(1, "No I/O port support\n");
-+#endif
- }
- #endif
- 
-@@ -614,7 +642,11 @@ static inline void insb(unsigned long addr, void *buffer, unsigned int count)
- #define insw insw
- static inline void insw(unsigned long addr, void *buffer, unsigned int count)
- {
-+#ifdef PCI_IOBASE
- 	readsw(PCI_IOBASE + addr, buffer, count);
-+#else
-+	WARN_ONCE(1, "No I/O port support\n");
-+#endif
- }
- #endif
- 
-@@ -622,7 +654,11 @@ static inline void insw(unsigned long addr, void *buffer, unsigned int count)
- #define insl insl
- static inline void insl(unsigned long addr, void *buffer, unsigned int count)
- {
-+#ifdef PCI_IOBASE
- 	readsl(PCI_IOBASE + addr, buffer, count);
-+#else
-+	WARN_ONCE(1, "No I/O port support\n");
-+#endif
- }
- #endif
- 
-@@ -631,7 +667,11 @@ static inline void insl(unsigned long addr, void *buffer, unsigned int count)
- static inline void outsb(unsigned long addr, const void *buffer,
- 			 unsigned int count)
- {
-+#ifdef PCI_IOBASE
- 	writesb(PCI_IOBASE + addr, buffer, count);
-+#else
-+	WARN_ONCE(1, "No I/O port support\n");
-+#endif
- }
- #endif
- 
-@@ -640,7 +680,11 @@ static inline void outsb(unsigned long addr, const void *buffer,
- static inline void outsw(unsigned long addr, const void *buffer,
- 			 unsigned int count)
- {
-+#ifdef PCI_IOBASE
- 	writesw(PCI_IOBASE + addr, buffer, count);
-+#else
-+	WARN_ONCE(1, "No I/O port support\n");
-+#endif
- }
- #endif
- 
-@@ -649,7 +693,11 @@ static inline void outsw(unsigned long addr, const void *buffer,
- static inline void outsl(unsigned long addr, const void *buffer,
- 			 unsigned int count)
- {
-+#ifdef PCI_IOBASE
- 	writesl(PCI_IOBASE + addr, buffer, count);
-+#else
-+	WARN_ONCE(1, "No I/O port support\n");
-+#endif
- }
- #endif
- 
-@@ -1001,18 +1049,27 @@ static inline void __iomem *ioremap_uc(phys_addr_t offset, size_t size)
- #define ioport_map ioport_map
- static inline void __iomem *ioport_map(unsigned long port, unsigned int nr)
- {
-+#ifdef PCI_IOBASE
- 	port &= IO_SPACE_LIMIT;
- 	return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-+#else
-+	WARN_ONCE(1, "No I/O port support\n");
-+	return NULL;
-+#endif
- }
- #define __pci_ioport_unmap __pci_ioport_unmap
- static inline void __pci_ioport_unmap(void __iomem *p)
- {
-+#ifdef PCI_IOBASE
- 	uintptr_t start = (uintptr_t) PCI_IOBASE;
- 	uintptr_t addr = (uintptr_t) p;
- 
- 	if (addr >= start && addr < start + IO_SPACE_LIMIT)
- 		return;
- 	iounmap(p);
-+#else
-+	WARN_ONCE(1, "No I/O port support\n");
-+#endif
- }
- #endif
- 
--- 
-2.31.1
+https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/issues/372
 
 
+Thx,
+-Vineet
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
