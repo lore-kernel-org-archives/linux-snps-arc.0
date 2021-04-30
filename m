@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D93CC43462
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1E05C43603
 	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Apr 2021 11:17:03 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D776261434
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Apr 2021 11:17:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D776261434
+	by mail.kernel.org (Postfix) with ESMTPS id 6023F61107
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Apr 2021 11:17:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6023F61107
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,77 +23,78 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=vYO3XC9zbzkeo4+VLvarft2QUtmI3UFIR4PpTgrf4ew=; b=k99J3EHLdWji157F3YWpBvGCp
-	gpnc5vL2a2odpaNFUEry+1x6+inUsK5FR7xz1r9RKp14K998dwEH7kj4DjTjPSbSgIi0dWzc/E7ek
-	HJe8+oIuGH6U2qSSuBSniA+/c2XtnNSyFmdJ0TSHL9aWvx7ldrCIK2G8ZQunQSQbqyesLCey+wDUe
-	MSH4BDJ00RnyoUeNqbDP4bqR538+4Jygj9rTdGMEj7m8eY6gICTqysTdI2PNek3Fpjsw1BQAkx8j8
-	E2Lt4Ygabi06iveRcQwb63HLztdQzQ0uwsJIVOSK1aHggNglLqOhxxYAAcexd+kxvNcD5Ii2s7v3g
-	Z/eZPcadQ==;
+	 bh=6rcf6A1LhGS425tlTMZ+W2eqRmAyl8ZdpzsKNDSuM6s=; b=W6RVnNBCSJBIU0f4umnaTf9D4
+	hJvYdz1c95zN1bAupLgyslr1kccaUUGAWYRwTTsbDj7EkXeyHpAtstWvW+cxbbKnCVpNt5RShx96s
+	+G/hrOg4uGSQSe7kmA8JTd0arJHl1s0Vr2lxuLsI1lq8dIy/TTNidED4Gs44lYj0d++kU2sXS/SX6
+	bfbFt9RsaxE+df8HWP0cAdekZzjc1TfwwUIfdeE7N/zDbohz/iBsodlsPr0ILQI0Zv2zvlrAu+3aU
+	vZHy9p4vPjD6fBLQFAxj1+0IQkDQ5a2d2b6KNEnqeXg1xQ5NPwGb+DSEfJ6FlQviqgLWylbYvOAE4
+	sqzLW5WMg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lcR8n-007jPE-9x; Fri, 30 Apr 2021 11:17:01 +0000
+	id 1lcR8n-007jPJ-ND; Fri, 30 Apr 2021 11:17:01 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lcR8k-007jOh-9Y
- for linux-snps-arc@desiato.infradead.org; Fri, 30 Apr 2021 11:16:58 +0000
+ id 1lcR8k-007jOr-SS
+ for linux-snps-arc@desiato.infradead.org; Fri, 30 Apr 2021 11:16:59 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
  :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=5SsglWhGmMPmJXCcuqG+7DJk2fX9LwEDn2iiu26ZJ7o=; b=cQYUkiavTfU2jw2FpOVFTkP61T
- DhLn9GPLSxVb+UOzB90v7GVcIKPngcK8gusieRqNaSO2BcrzGxu6D3KkJn6TrdIEANNWzBrW3UkFQ
- W1hL/c5rEeBCLuKKAbl7C5Cp5Oot77s+aJcKyATVetw+4soVGDC0g1IX0jVdrW1GuIaU4pKk0mdH/
- YEZb0vwotoDhRSYbs9ng8lz873K/WVgUZNEHaVjzLEadv7qaRu52aHhBKz5C+ONi9qSkQszUROvRh
- pqawPbomk+0spIC8xQXOdhHYW/Mx4XWG4Ku64jm6TNpDkCQAcWlq017FRoTkR/ThDRmSiwJocF9rT
- SGRaP3TQ==;
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ bh=ebZFECJxGjtLcF1rluTOfeZFyPV564vNRUrltdwSGtg=; b=c7ZHjHnn1kfOr+i6BDa8Q/GRve
+ 0kodzBSOpZUqijiblOpQZWG1PD1OC2fHRg7j0TjYcoMwJO1v929kAOy7fYADWnrZi3fKEP6Jtibwi
+ x5odzHKE9/CT9yjtoHks9zmnNeUId6nbs0ZTHa/E4us8iDMDxj60xDdMWxDHADRcTKlqiVZKf0CZX
+ NltAid+SwrdU/lU3P8+jVxUHxVqcwGKQ/wBJgM1aI1MQVGO1KbSThgk3RcKMZDdhRP0kLplUz75NF
+ mVG02/TorUlySZy1s44d6Pc+oOKiaknRO+KkC5JyTy1SlPEKCHE5CS3Hv8I9fZUJec0iwjy1EGozf
+ lCPyfAoA==;
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lcR8h-001K2Z-OL
+ id 1lcR8h-001K2Y-Qo
  for linux-snps-arc@lists.infradead.org; Fri, 30 Apr 2021 11:16:57 +0000
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13UB6Jvj157413; Fri, 30 Apr 2021 07:16:47 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13UB2kl0071093; Fri, 30 Apr 2021 07:16:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=5SsglWhGmMPmJXCcuqG+7DJk2fX9LwEDn2iiu26ZJ7o=;
- b=XMk73+vjYvIX0cpgNDVcr20snXAORgz71V5jvR3JPGqdQUA9dKIJL/5fg2mszOyh2zwF
- 81UJWTTTbaKCuczKlUNgWjgSif8Q5Pv16oa8fwhX0ft0LxHTw6Q8rVnD12B47vckQn6a
- 5liT9C/knfKypSsMqqW0tRvP32cvZoJmviTftpxPm78ydwkO8ULwsKdmiXHfmBk0fts8
- 6NNipnIvnFjkn544D3HfbUXsOZg4thFC9hQvle1ai8ZCGUZdlK1upoetpNn/8XCbhHRY
- d91sMN/HVhUqNQAzuG+AXAE2y/CVEveFMUuDN1AwpxvU1ds2ZtjICdS/JzFWT/LJidgB 8w== 
+ bh=ebZFECJxGjtLcF1rluTOfeZFyPV564vNRUrltdwSGtg=;
+ b=GD/rNQK2F8Uc0uCMxlWTNWpQgFDlA4LsPXXPowKSdJUJZP42I+0vPB3kEM5l1JGpghpq
+ kgeUyiqAcV6rz6TKZ7l2bB4w45Li6tdoMxg4pc7goqjCkN6tYrZTAvjE7bB8/gLKujo8
+ boCK/nxDoaCdaBZdJQCAu0rJOUNw3bXQwo+7jG4Jxxsk2lx7UR/3j6w3VIgLBEEraL20
+ FetsT8N8f50990U0b57Dtp+HW5zWgZZ1JesAr88Cp5tDW0iGDWtUUFcxoDY7KJiYZ5Ui
+ 8f3va9H/QWwIx81l7m4GSh2eUNhsUQI1LYPXrWIbbFmfM1NvTOQHWmLO0uUDD/4laSr5 zQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 388fyhsma6-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 388g4dhdft-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Fri, 30 Apr 2021 07:16:47 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13UB6Ygb158289;
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13UB3eR2080684;
  Fri, 30 Apr 2021 07:16:47 -0400
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com with ESMTP id 388fyhsm9m-1
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 388g4dhdfe-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Fri, 30 Apr 2021 07:16:47 -0400
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13UBETis016792;
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13UBF6NA028083;
  Fri, 30 Apr 2021 11:16:45 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma03fra.de.ibm.com with ESMTP id 384ay8sq3m-1
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma02fra.de.ibm.com with ESMTP id 384ay89pp3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Fri, 30 Apr 2021 11:16:45 +0000
 Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
  [9.149.105.59])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 13UBGg6444040536
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 13UBGhVU23003526
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 30 Apr 2021 11:16:42 GMT
+ Fri, 30 Apr 2021 11:16:43 GMT
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A5267A4040;
- Fri, 30 Apr 2021 11:16:42 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 1168FA4053;
+ Fri, 30 Apr 2021 11:16:43 +0000 (GMT)
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 522C9A404D;
+ by IMSVA (Postfix) with ESMTP id B0221A4051;
  Fri, 30 Apr 2021 11:16:42 +0000 (GMT)
 Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
  by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
@@ -106,28 +107,29 @@ Cc: Nathan Chancellor <nathan@kernel.org>,
  clang-built-linux@googlegroups.com, linux-arch@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
  linux-snps-arc@lists.infradead.org, sparclinux@vger.kernel.org
-Subject: [PATCH v4 2/3] risc-v: Use generic io.h helpers for nommu
-Date: Fri, 30 Apr 2021 13:16:40 +0200
-Message-Id: <20210430111641.1911207-3-schnelle@linux.ibm.com>
+Subject: [PATCH v4 3/3] asm-generic/io.h: warn in inb() and friends with
+ undefined PCI_IOBASE
+Date: Fri, 30 Apr 2021 13:16:41 +0200
+Message-Id: <20210430111641.1911207-4-schnelle@linux.ibm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210430111641.1911207-1-schnelle@linux.ibm.com>
 References: <20210430111641.1911207-1-schnelle@linux.ibm.com>
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: t5jSEkAyzQg9YbKLNibhxJHyuOSn6PuM
-X-Proofpoint-ORIG-GUID: pMjuzfh22pq1b2J_gzy8Gn17zt6yrdo1
+X-Proofpoint-ORIG-GUID: QDqUu04eH9wD3YyH5SJDgqyDb1iAv4i9
+X-Proofpoint-GUID: LumMAV0Xbff0VDAIIdZHB3vHbhOBHXpS
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
  definitions=2021-04-30_06:2021-04-30,
  2021-04-30 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 bulkscore=0
- suspectscore=0 clxscore=1015 lowpriorityscore=0 impostorscore=0
- phishscore=0 mlxlogscore=795 malwarescore=0 priorityscore=1501
- adultscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ adultscore=0 mlxscore=0
+ lowpriorityscore=0 priorityscore=1501 spamscore=0 clxscore=1015
+ phishscore=0 suspectscore=0 bulkscore=0 mlxlogscore=999 impostorscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2104060000 definitions=main-2104300080
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210430_041655_927667_C3BCFF21 
-X-CRM114-Status: GOOD (  19.35  )
+X-CRM114-CacheID: sfid-20210430_041656_007860_4DCEED47 
+X-CRM114-Status: GOOD (  20.61  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -144,49 +146,238 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Niklas Schnelle <niklas@komani.de>
+When PCI_IOBASE is not defined, it is set to 0 such that it is ignored
+in calls to the readX/writeX primitives. This triggers clang's
+-Wnull-pointer-arithmetic warning and will result in illegal accesses on
+platforms that do not support I/O ports.
 
-Without MMU support PCI_IOBASE is left undefined because PCI_IO_END is
-VMEMMAP_START. Nevertheless the in*()/out*() helper macros are left
-defined with uses of PCI_IOBASE. At the moment this only compiles
-because asm-generic/io.h defines PCI_IOBASE as 0 if it is undefined and
-so at macro expansion the macro is defined. This is suprising at the
-least and leads to compilation errors when asm-generic/io.h is changed
-to leave PCI_IOBASE undefined. Instead only define the in*()/out*()
-helper macros with MMU support and fall back to the asm-generic/io.h
-helper stubs otherwise.
+Make things explicit and silence the warning by letting inb() and
+friends fail with WARN_ONCE() and a 0xff... return in case PCI_IOBASE is
+not defined.
 
-Signed-off-by: Niklas Schnelle <niklas@komani.de>
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
 ---
- arch/riscv/include/asm/io.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ include/asm-generic/io.h | 65 +++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 61 insertions(+), 4 deletions(-)
 
-diff --git a/arch/riscv/include/asm/io.h b/arch/riscv/include/asm/io.h
-index c025a746a148..31a8b98c0f13 100644
---- a/arch/riscv/include/asm/io.h
-+++ b/arch/riscv/include/asm/io.h
-@@ -23,12 +23,12 @@
- #include <asm/mmio.h>
+diff --git a/include/asm-generic/io.h b/include/asm-generic/io.h
+index c6af40ce03be..6207fb4b9a7d 100644
+--- a/include/asm-generic/io.h
++++ b/include/asm-generic/io.h
+@@ -8,6 +8,7 @@
+ #define __ASM_GENERIC_IO_H
  
- /*
-- *  I/O port access constants.
-+ *  I/O port access constants. Without MMU support leave PCI_IOBASE undefined
-+ *  and fall back to generic stubs for I/O access routines.
-  */
- #ifdef CONFIG_MMU
- #define IO_SPACE_LIMIT		(PCI_IO_SIZE - 1)
- #define PCI_IOBASE		((void __iomem *)PCI_IO_START)
--#endif /* CONFIG_MMU */
+ #include <asm/page.h> /* I/O is all done through memory accesses */
++#include <linux/bug.h>
+ #include <linux/string.h> /* for memset() and memcpy() */
+ #include <linux/types.h>
  
- /*
-  * Emulation routines for the port-mapped IO space used by some PCI drivers.
-@@ -145,6 +145,7 @@ __io_writes_outs(writes, u64, q, __io_bw(), __io_aw())
- __io_writes_outs(outs, u64, q, __io_pbr(), __io_paw())
- #define outsq(addr, buffer, count) __outsq((void __iomem *)addr, buffer, count)
+@@ -440,10 +441,6 @@ static inline void writesq(volatile void __iomem *addr, const void *buffer,
  #endif
-+#endif /* CONFIG_MMU */
+ #endif /* CONFIG_64BIT */
  
- #include <asm-generic/io.h>
+-#ifndef PCI_IOBASE
+-#define PCI_IOBASE ((void __iomem *)0)
+-#endif
+-
+ #ifndef IO_SPACE_LIMIT
+ #define IO_SPACE_LIMIT 0xffff
+ #endif
+@@ -458,12 +455,17 @@ static inline void writesq(volatile void __iomem *addr, const void *buffer,
+ #define _inb _inb
+ static inline u8 _inb(unsigned long addr)
+ {
++#ifdef PCI_IOBASE
+ 	u8 val;
+ 
+ 	__io_pbr();
+ 	val = __raw_readb(PCI_IOBASE + addr);
+ 	__io_par(val);
+ 	return val;
++#else
++	WARN_ONCE(1, "No I/O port support\n");
++	return ~0;
++#endif
+ }
+ #endif
+ 
+@@ -471,12 +473,17 @@ static inline u8 _inb(unsigned long addr)
+ #define _inw _inw
+ static inline u16 _inw(unsigned long addr)
+ {
++#ifdef PCI_IOBASE
+ 	u16 val;
+ 
+ 	__io_pbr();
+ 	val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+ 	__io_par(val);
+ 	return val;
++#else
++	WARN_ONCE(1, "No I/O port support\n");
++	return ~0;
++#endif
+ }
+ #endif
+ 
+@@ -484,12 +491,17 @@ static inline u16 _inw(unsigned long addr)
+ #define _inl _inl
+ static inline u32 _inl(unsigned long addr)
+ {
++#ifdef PCI_IOBASE
+ 	u32 val;
+ 
+ 	__io_pbr();
+ 	val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+ 	__io_par(val);
+ 	return val;
++#else
++	WARN_ONCE(1, "No I/O port support\n");
++	return ~0;
++#endif
+ }
+ #endif
+ 
+@@ -497,9 +509,13 @@ static inline u32 _inl(unsigned long addr)
+ #define _outb _outb
+ static inline void _outb(u8 value, unsigned long addr)
+ {
++#ifdef PCI_IOBASE
+ 	__io_pbw();
+ 	__raw_writeb(value, PCI_IOBASE + addr);
+ 	__io_paw();
++#else
++	WARN_ONCE(1, "No I/O port support\n");
++#endif
+ }
+ #endif
+ 
+@@ -507,9 +523,13 @@ static inline void _outb(u8 value, unsigned long addr)
+ #define _outw _outw
+ static inline void _outw(u16 value, unsigned long addr)
+ {
++#ifdef PCI_IOBASE
+ 	__io_pbw();
+ 	__raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+ 	__io_paw();
++#else
++	WARN_ONCE(1, "No I/O port support\n");
++#endif
+ }
+ #endif
+ 
+@@ -517,9 +537,13 @@ static inline void _outw(u16 value, unsigned long addr)
+ #define _outl _outl
+ static inline void _outl(u32 value, unsigned long addr)
+ {
++#ifdef PCI_IOBASE
+ 	__io_pbw();
+ 	__raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+ 	__io_paw();
++#else
++	WARN_ONCE(1, "No I/O port support\n");
++#endif
+ }
+ #endif
+ 
+@@ -606,7 +630,11 @@ static inline void outl_p(u32 value, unsigned long addr)
+ #define insb insb
+ static inline void insb(unsigned long addr, void *buffer, unsigned int count)
+ {
++#ifdef PCI_IOBASE
+ 	readsb(PCI_IOBASE + addr, buffer, count);
++#else
++	WARN_ONCE(1, "No I/O port support\n");
++#endif
+ }
+ #endif
+ 
+@@ -614,7 +642,11 @@ static inline void insb(unsigned long addr, void *buffer, unsigned int count)
+ #define insw insw
+ static inline void insw(unsigned long addr, void *buffer, unsigned int count)
+ {
++#ifdef PCI_IOBASE
+ 	readsw(PCI_IOBASE + addr, buffer, count);
++#else
++	WARN_ONCE(1, "No I/O port support\n");
++#endif
+ }
+ #endif
+ 
+@@ -622,7 +654,11 @@ static inline void insw(unsigned long addr, void *buffer, unsigned int count)
+ #define insl insl
+ static inline void insl(unsigned long addr, void *buffer, unsigned int count)
+ {
++#ifdef PCI_IOBASE
+ 	readsl(PCI_IOBASE + addr, buffer, count);
++#else
++	WARN_ONCE(1, "No I/O port support\n");
++#endif
+ }
+ #endif
+ 
+@@ -631,7 +667,11 @@ static inline void insl(unsigned long addr, void *buffer, unsigned int count)
+ static inline void outsb(unsigned long addr, const void *buffer,
+ 			 unsigned int count)
+ {
++#ifdef PCI_IOBASE
+ 	writesb(PCI_IOBASE + addr, buffer, count);
++#else
++	WARN_ONCE(1, "No I/O port support\n");
++#endif
+ }
+ #endif
+ 
+@@ -640,7 +680,11 @@ static inline void outsb(unsigned long addr, const void *buffer,
+ static inline void outsw(unsigned long addr, const void *buffer,
+ 			 unsigned int count)
+ {
++#ifdef PCI_IOBASE
+ 	writesw(PCI_IOBASE + addr, buffer, count);
++#else
++	WARN_ONCE(1, "No I/O port support\n");
++#endif
+ }
+ #endif
+ 
+@@ -649,7 +693,11 @@ static inline void outsw(unsigned long addr, const void *buffer,
+ static inline void outsl(unsigned long addr, const void *buffer,
+ 			 unsigned int count)
+ {
++#ifdef PCI_IOBASE
+ 	writesl(PCI_IOBASE + addr, buffer, count);
++#else
++	WARN_ONCE(1, "No I/O port support\n");
++#endif
+ }
+ #endif
+ 
+@@ -1001,18 +1049,27 @@ static inline void __iomem *ioremap_uc(phys_addr_t offset, size_t size)
+ #define ioport_map ioport_map
+ static inline void __iomem *ioport_map(unsigned long port, unsigned int nr)
+ {
++#ifdef PCI_IOBASE
+ 	port &= IO_SPACE_LIMIT;
+ 	return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
++#else
++	WARN_ONCE(1, "No I/O port support\n");
++	return NULL;
++#endif
+ }
+ #define __pci_ioport_unmap __pci_ioport_unmap
+ static inline void __pci_ioport_unmap(void __iomem *p)
+ {
++#ifdef PCI_IOBASE
+ 	uintptr_t start = (uintptr_t) PCI_IOBASE;
+ 	uintptr_t addr = (uintptr_t) p;
+ 
+ 	if (addr >= start && addr < start + IO_SPACE_LIMIT)
+ 		return;
+ 	iounmap(p);
++#else
++	WARN_ONCE(1, "No I/O port support\n");
++#endif
+ }
+ #endif
  
 -- 
 2.31.1
