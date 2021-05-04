@@ -1,200 +1,137 @@
-Return-Path: <SRS0=JzVM=J6=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=zACa=J7=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8BB7C433B4
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  3 May 2021 19:18:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B94DC433B4
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  4 May 2021 07:40:41 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 233EC6135F
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  3 May 2021 19:18:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 233EC6135F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=synopsys.com
+	by mail.kernel.org (Postfix) with ESMTPS id 97389611C0
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  4 May 2021 07:40:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 97389611C0
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:Mime-Version:References:In-Reply-To:Date:Cc:To:From:
+	Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=aKoAGYWU2g2aavTIYioom+LG1m3Ok7gDiR6/DmSJTDQ=; b=HTt4hTgIvM1OlPinVPvX8CSSW
-	Oxh0K03gP+FezLZDZeotJXsWeg8ld4s5K3B9/XTOQvD1K1ujzNWNnyoRbHCu4ZitaHZ2urw05x82U
-	D2MJJ5+OP8jVDt8mbpo9JxRkQNt8UVp8W7GM3AvR90NSWRVlHsdbmySKIBCVt1h31Yg4mKAul6KxO
-	KFk+RLaMLySKypf3l4x61w+3UrLfqHbU3xEzKwGsy+230lrJhiP65gOF7D3CXsBHZdf59JnTd8lGP
-	VZJkEt05tEjHQKbUkL/vS/NaqwB/tNV26YWpESwYkBcRyupvk+yfrORqzrjPwR2UzY3l8zElZDTzJ
-	3xGoiy/qQ==;
+	 bh=lvgJZEDWBaBYL98OH6/2INNYLzUN76KvNR62vtUaYMs=; b=adt9aPYQCiJBMzy7GIZSoqt3S
+	6xP1sij6o2NSAAnPGU19mXfi9zVURRLexagLIBCzGsiHQn3bWZYS/Wxq9uyBvfVbBv1QuGQyVOnRz
+	FJWU/P4v4hoH4SglJCTdq1sLzs24R0Cv0nOXtPIF0wEmQ+3gUri9vxPcxbJedxHg7B6rG4BzLJlsk
+	jI+5zzSlCBrIxcOtkfyX68t58LLQt5lHOyLOE/uqm74m/Ykm2+lEHIxy1VVzJ6+0RgMc6JMxF0F/o
+	GHI3wvi76KOusCri/bcmn4vKoj+518wgYOo5W0ilzvPzIgp+Q6ZolXvPjKUX18RXZ1EjslFSr6aya
+	yGIRkYWyA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lde5n-00EhcY-Gz; Mon, 03 May 2021 19:18:55 +0000
+	id 1ldpfa-00Fd85-M6; Tue, 04 May 2021 07:40:38 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lde5k-00EhcP-W6
- for linux-snps-arc@desiato.infradead.org; Mon, 03 May 2021 19:18:53 +0000
+ id 1ldpfX-00Fd7b-HF
+ for linux-snps-arc@desiato.infradead.org; Tue, 04 May 2021 07:40:36 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=MIME-Version:
- Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
- Message-ID:Date:Subject:CC:To:From:Sender:Reply-To:Content-Description;
- bh=RLFhFcct3sZyHHEEdlld+8h7UrRO1toxzcabCPMoraY=; b=KLA2QcSifSNRyk5y0CICzLlxd3
- PtVgv3trYHAhB+uzFhgHmAhXoeqH3U4GjzTivPNvWL8cWirWuIhpMZZRwDEZEmbkKiHd40NC3DwP2
- v5eLani+Le5ihLG9/FYU2sXDUy4Xnyi5A7JiLmtiUgjOthEZ7jFLjSdH5EKUJ+JLFz0Pu0xMbB/J5
- hIoP3JFZ6D/jkhaU1PufrVz8ENqMTrnIOrIIo2Ol2Zd/ymPVtXEiW+GftyyTkuPOPeYeAItvGwFUt
- oYL3svn7mGTlhG3x1WLrtK6FENhnI+vt6AIhvVikUajPTST/Pr49cThBQGh6NYRSr7rci2FNdqtJY
- vs+i8g+w==;
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Mime-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=SNzRA80G7BEoftP4TQQcROGHJxxlHWljovtZ2dqle6M=; b=JGgSnbz12I9YiS/zjZcx55nTkC
+ T1SmaUr9tFwktgCyRTivaq17WuWz4JY6NUCbQsAo2Emi+2+D9oHhXV/xtXzc9/bseSx+L/eX0F9GN
+ EfBK9zKxkQ1C6Z6z876wyYbvy/tT5/T4+ZIMEplGzX4Y8CU1+U6KcD3trBlxqriDQ9HaXI8uyyXn+
+ bQRNU2nQdO3mGHavYFfOQLolAaH35A8bg3IUYeR06eLwTfM/sXjYHhdvNHkAKTLdaqqxSEh77YP6V
+ Cb7CWX/0Zu66G7loeCI5aBKIw+fraktroDxAYhxf4R3pn9vRmhT7JqvlTEgJ0IiRXtT1Eib9MZcEn
+ IoIA8T/g==;
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lde5h-003QfI-MB
- for linux-snps-arc@lists.infradead.org; Mon, 03 May 2021 19:18:51 +0000
-Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com
- [10.205.2.132])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 7966BC000E;
- Mon,  3 May 2021 19:18:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1620069525; bh=RLFhFcct3sZyHHEEdlld+8h7UrRO1toxzcabCPMoraY=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=gXNl6ueiNIpVNa+W87QeNOsaXVo+WliP0nGs7Ryky050wIUZaRx0KrDl79J+rmpkG
- qzDo2smYuMhXMdZR55q22kdewCXKIziXq3/Q47QkprqMPlBgdtn6eBj+hRzPYQM1Xj
- wWzOjpRmOoH27BAP7zjbDiIqDsRMiNOUHUHHqjNMZFPA2U/xf8RWNjoaKB6Xa9pOuf
- s+2zxuFntBuJg/Znza/lnYM1ROorwtI8eW9ML8Ht5qvTLU/RPYdyL5Jw4mTLfYQ8xB
- xWSRsZaNsjgtbXapr2NSiUS2JVdK/7te0rsdBRiXzitLhyuGEqz3AqKLK1TYmrptKA
- NIkTs/qfHiAww==
-Received: from o365relay-in.synopsys.com (sv2-o365relay1.synopsys.com
- [10.202.1.137])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id DD93BA0070;
- Mon,  3 May 2021 19:18:41 +0000 (UTC)
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam08lp2049.outbound.protection.outlook.com [104.47.74.49])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client CN "mail.protection.outlook.com",
- Issuer "DigiCert Cloud Services CA-1" (verified OK))
- by o365relay-in.synopsys.com (Postfix) with ESMTPS id 98FC64011C;
- Mon,  3 May 2021 19:18:40 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com;
- dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
- spf=pass smtp.mailfrom=vgupta@synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
- unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="Qvyvb946";
- dkim-atps=neutral
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IP5KGSeyNq8oLoM+otqpyJAeXL2C2nhIi8xb48Hoh5r+qR/gPFbUiNNzy/pMEkYw0YROZdfhHNBA29OhjO6mtad3zhJ0W4aeXNtYVKS48dO4qwH5eoevojIicgIPnFeH+nMFk5mB8t9jXmolrSOiE+ram731mHrGWPDFwK4x1wJZ5/QGFpAaoUCtE+tyOHA0vtOdnpPW47EzGJYNKJO0Ps4ofZuf8xAjIihVKDoQw24yT/eN9aKezQwIcliVZj8r1YNKoXe5ntYLzoXaYHrpMorEMVl6wEGKeDUi8TYocEt5kMbjdnZemH9lneeAHSiBcQQ9G5NswZbUf8NdAEIv+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RLFhFcct3sZyHHEEdlld+8h7UrRO1toxzcabCPMoraY=;
- b=YNPagun7IC2FQv97dWAH4yDMS3pOLGvLvfbr+5MF4fBVZkv9Hcb6U026FZVp5vRdnJPqmtvEyTyHFgqhWAhV8haWc0iQLvyk6dscXEomp06k9sruWXTlGMcluPg16sRR7WVp8Zo2b1+OA5m7tA00VxbpKpb8Ou5SJvsa+CSUFuCwv3S3qZDXllNf74TkEhH9MLqU8i6IuM/7xOabl9yRXopGZNXIabn4MBNZ3BXHXQnnlA+SFe0JH4JZCA1ae0Scs5BD+vS4yeR/1ICq+ho0RKXvSEuQyogGuY34Ct29qe4QW+2lY0SdK2GiGu+PIcpip2D9iPlgOymTUBCbaKd68g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RLFhFcct3sZyHHEEdlld+8h7UrRO1toxzcabCPMoraY=;
- b=Qvyvb946qGeedNVVwZCLeuGVr32bGcmDuPTTiG36SnSNhaZy4YlrPPuuwWOPiww5RQfoXwLQuFDXfSVhstL5jzbR+Yw9NPon5wcFUFm6crjVNRECJZ3gWYeercyXDM9fCjq638+YRLV53u/GGkAfgf4YjDuaGkzWuO6R4RLSX2Q=
-Received: from BYAPR12MB3479.namprd12.prod.outlook.com (2603:10b6:a03:dc::26)
- by BY5PR12MB3940.namprd12.prod.outlook.com (2603:10b6:a03:1a8::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.38; Mon, 3 May
- 2021 19:18:38 +0000
-Received: from BYAPR12MB3479.namprd12.prod.outlook.com
- ([fe80::d1a0:ed05:b9cc:e94d]) by BYAPR12MB3479.namprd12.prod.outlook.com
- ([fe80::d1a0:ed05:b9cc:e94d%7]) with mapi id 15.20.4087.043; Mon, 3 May 2021
- 19:18:38 +0000
-X-SNPS-Relay: synopsys.com
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Vineet Gupta <Vineet.Gupta1@synopsys.com>
-CC: Arnd Bergmann <arnd@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Masahiro Yamada <masahiroy@kernel.org>, Jann Horn <jannh@google.com>, lkml
- <linux-kernel@vger.kernel.org>, arcml <linux-snps-arc@lists.infradead.org>,
- "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
-Subject: Re: Heads up: gcc miscompiling initramfs zlib decompression code at
- -O3
-Thread-Topic: Heads up: gcc miscompiling initramfs zlib decompression code at
- -O3
-Thread-Index: AQHXPgHd1RlrjZ3rIE6wtN03PsVzsqrSCyeAgAAbEYA=
-Date: Mon, 3 May 2021 19:18:38 +0000
-Message-ID: <e37b5c4c-f22d-ca3d-2361-40e8ba95cb12@synopsys.com>
-References: <75d07691-1e4f-741f-9852-38c0b4f520bc@synopsys.com>
- <CAHk-=wi4Rgo7f17AwYduEPKr6SEVq-mxRJiZ5S5X0hQ9RWmkYA@mail.gmail.com>
-In-Reply-To: <CAHk-=wi4Rgo7f17AwYduEPKr6SEVq-mxRJiZ5S5X0hQ9RWmkYA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-authentication-results: linux-foundation.org; dkim=none (message not signed)
- header.d=none;linux-foundation.org; dmarc=none action=none
- header.from=synopsys.com;
-x-originating-ip: [24.4.73.83]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 54fbc952-b321-402d-f1e0-08d90e68414b
-x-ms-traffictypediagnostic: BY5PR12MB3940:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BY5PR12MB3940CA9FF7EB4BBE58B88BC1B65B9@BY5PR12MB3940.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: aBRvpZxdtGXZHKzubzoGf3D7Uy6bwFYtwYmZZ9MO1zKjyClRdWOuSDede2DXtyXhX9NTNLA04iEjy6Mb8mq6L/aqSkgHLTt5RcSaw1ikAmsXLsYI3vYcyQ9/SvcB2UCUL3LBJe9sPW61H58OWKzqsKbBMuEqTCMXYlec8R3AW5VfmOYDYiN2WR9jGaJGBjGn9leCQtf0jUWCVXLDkyQvCRRckSPEVJABFGRN2jfgxtoeb48MNU4yLObrO+pgqYmA76nlvTb2lvR8BGJJOcaktxboKNiRsXGzOf6d5YEEM4nACAtioSWMEFx3AkNmPxGIf+VepBxcVuVf9wzPYb8MmG3N3pQ1l+RKA0+XaAjlHecaGv2x+bIYwqtSC7XAXwk6PrwKYGRd5XaUYzFPVjx8cm7noIxZm1OGgYNME4SL57iHHZjV4S8TdeWQ3M6u8wCDuOI3Gbf0evN1Ver9B74VDPGBRIvJ2NNQ04PSutw1hG1W1BvVqrHA5DB8HVZFoWCwRsEijSthJib7qThWsZ837LpWf+ucq6T7iNKUheSUi6RGO95Mq1EZj8OS7fPD3G7/yPkUFLxZDXfnU/nkFr/S0ebWxO94uoyEwwQyYnjW4/3PfaAVGlxJThkOONtvBoMOBbdSOsYwNvwN8MktgB6dF8pF+uD2wVnXt+s8bIk5C09uWNZyOtPCAzvZeMeWE/uf
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB3479.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(136003)(346002)(366004)(376002)(39860400002)(478600001)(5660300002)(86362001)(66476007)(66556008)(31696002)(71200400001)(38100700002)(2906002)(66446008)(64756008)(122000001)(83380400001)(66946007)(31686004)(76116006)(186003)(2616005)(8676002)(6512007)(54906003)(6486002)(316002)(110136005)(26005)(8936002)(53546011)(6506007)(36756003)(4326008)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?YWcwM0tINHVwTEU4Sjc1VUtSbmxmZGlsVFhDUm9lWC93NkwrUy8wSzQ4VTFS?=
- =?utf-8?B?elptUEpDaU5iWW83L0NxMldSQk9ySnRPV00vN2tVVktWNkhqZHgrZUNjdWdG?=
- =?utf-8?B?aTIvaEhzVXhEVVhBUUhZVnFpSEU2ZFlJZUJBUjZVZG4yek5QcGZHdFdXbmF6?=
- =?utf-8?B?MmcyVm1pdWlKaXh2T0JNTzA3ZkI3ZUlVdEZkVlJrMzd5VlQrT2lSL2ZsWWF3?=
- =?utf-8?B?WklrTlVXOFg5bnREeVU5UWVKa0FOYWRHZ1UzSk5Rd1NueTVCMVE0TzFiU1la?=
- =?utf-8?B?bEoxYlhJUitsM3ltaXNXcVFod3dHcXh5OENqZ3NoQms2Um5wSEdXZnk3WGFX?=
- =?utf-8?B?OFFaQnVqakRoUUZKeHpBa0d5MkcxQ2k4aWNsZEUya3hDQlBTVGdMV1hIVDZE?=
- =?utf-8?B?blVSWlYvaGFnM1V1eEVja2NXN0xYcEdsUHdNYlRjU0Mva3g5bnZoTGJCaXVZ?=
- =?utf-8?B?WWpTNlVLOU4vTFJNNGFjVUNJZzVlWVpseHRZWmRud3psMGloMm1NaGhNTDlp?=
- =?utf-8?B?UTlqUFhESHptbnV1UUdaMmhEM0hMNXRGOWV4TSttcTlZRXNRckkzeThJc2R3?=
- =?utf-8?B?WUF0MkpqWVVCSW5hMWhxZm5CTno1ZEEyeVp3ZmZxSUNBWFhEVGZDcnpQbytn?=
- =?utf-8?B?L3U5cHBpa2pKTWZYb3hlYVlnQVdEUmxFZ2RlViszdktSdnozd1VaMEpFdGlo?=
- =?utf-8?B?SVRjK2lyelpDQW1jR3BXTkVWUCtRT1pZVER3cCtvejF3elZCN1FheE9yY2dY?=
- =?utf-8?B?Q3JjejE2SjhSdzlFeVN6enhnYUI3MkhLaEd4OUIyVlMxVjBpSkxoUmFUNjhY?=
- =?utf-8?B?Vzh4NjlkeE9sbW5MUTV5Wm5wK2NxMnppN3lsSDJ1K2wxa2hyd2E3VUlmN3Bp?=
- =?utf-8?B?a1lMTnl2bFdhbUVycGFPeTZBZVN0elFRTTFYUkp1WXNzWVZ3SXhhZE9uaUpz?=
- =?utf-8?B?bVZJdzhwblM3VzVPVEQvcFNMbmFhSzZQUGFVQ21hU0kweThlV1dsWWMzY0lL?=
- =?utf-8?B?OUxKODVCMW9Nd1NzRFFtM0dYdmczTnVmL05BVzJ5ZHVnMGk2eUZXZFlGSkdu?=
- =?utf-8?B?NEhXM1M1aVZXdkRxR242WU53eDhxbER0WXo3OVUxSXF6VHZnUm9HQVJ0QjFW?=
- =?utf-8?B?ZlRKcmpMSFV0UU5OTEdXL0FsbTNTMVUvbDAvZGIyTStqZkFOaWcvdkpaRDNR?=
- =?utf-8?B?eGlWMzlkOVN4dCt1YVZKeXlFVHVaUStyKyt4TDJ4dHlaVklmMzd5dEFNMzBE?=
- =?utf-8?B?L1VyaWk0czEwL3ovbDh6SU15Ui9CYWRWejAzRy9RYnkxS3c3N24ybXBOK3VR?=
- =?utf-8?B?UzhkZEE5aUdaZjZDS2lwUnV6TzQyQnhoaUp3RmNPTW1mcC9ROEN4WGFSUTNS?=
- =?utf-8?B?MzNHWENGblFTcG10OVhQQ2tQUHJUN0U3WnBpWTJQL0tvZHJWaC9Pa1NLalVF?=
- =?utf-8?B?aWNlVjFyemhOTXNLZjhINUJkL0VHdDZyQnlWai96RjNiWmRWeGlFVXhnUTBH?=
- =?utf-8?B?K3hlZlhyQytmUm5rUkdCYVF6S0hwVWFiVkdpcDVrdGpFc3NXcUpJN09NQkdk?=
- =?utf-8?B?R2FFekhjSTIwdGIyK01PRFdtaVkyRHV2eTdHS3VIVVRSOXB2ZUJ2MUVsRUtt?=
- =?utf-8?B?MW51YUVHc0lsYXBwcDFRdDZkemZLMktZbjVlb1ZZNWpMaHQ0NmJ4WERCVmpr?=
- =?utf-8?B?MUVaWVV2RFJzZWpFc29KK3dXRlg4WHMrOHVxV1ZYYTFqRUJJaUNOMXVMQk1a?=
- =?utf-8?Q?3sUZJv4kqE2suDXB+w=3D?=
-Content-ID: <8830F9400C82794DBD80B249E926FCD2@namprd12.prod.outlook.com>
-MIME-Version: 1.0
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3479.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 54fbc952-b321-402d-f1e0-08d90e68414b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 May 2021 19:18:38.2590 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RYihg/uzg7DlpWI8Yi2xqBv+AX1MHmyzwghClh23SoOuEITBY6fCubLr27QAX0ouAlOeP4FOKcwQFNlZ+sVEVA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB3940
+ id 1ldpfU-003lxP-Cc
+ for linux-snps-arc@lists.infradead.org; Tue, 04 May 2021 07:40:34 +0000
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 1447Y8TK073727; Tue, 4 May 2021 03:39:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=SNzRA80G7BEoftP4TQQcROGHJxxlHWljovtZ2dqle6M=;
+ b=VrfZxHOxJy0a7qA1nJsTVskQWqLvq0kcXTsg0caPlHMlfWsUMMXrxBvmsfeIaevXaUa6
+ oT8Wk9PKn4dwM5pNRt0jCewGcrC/ut0yk2M2ALJiQL3dGoa4D7V/nu+7weMFhsRipRqB
+ GzhiFDOW51PbmbWyWkPC0Q8g/UQBQ5fuhPn217d6oexoCtgA3dfmugMyI5SOwORC/ebW
+ itzLKdpLo/3IFtZ6INwLE7Y3bu+QKnDJlI7IZIqYo8lw80swysip031S2PlCNfxxAhXk
+ b0zmOlIzEOuJhVN3vE9IYY3gGyRJuqGWLRK232po6k5yy9SHXAAATGAXogvTI9e0+YKQ kQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 38b1wb09kp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 May 2021 03:39:46 -0400
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1447Yca9075458;
+ Tue, 4 May 2021 03:39:46 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 38b1wb09k2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 May 2021 03:39:46 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 1447WEC0016838;
+ Tue, 4 May 2021 07:39:44 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma03ams.nl.ibm.com with ESMTP id 388xm8h27c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 May 2021 07:39:44 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 1447dGux30474742
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 4 May 2021 07:39:16 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A213FAE055;
+ Tue,  4 May 2021 07:39:41 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 19DA5AE045;
+ Tue,  4 May 2021 07:39:41 +0000 (GMT)
+Received: from sig-9-145-90-245.uk.ibm.com (unknown [9.145.90.245])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  4 May 2021 07:39:41 +0000 (GMT)
+Message-ID: <9e52895227515143bf3cd9197876ff1ed596682b.camel@linux.ibm.com>
+Subject: Re: [PATCH v4 0/3] asm-generic/io.h: Silence
+ -Wnull-pointer-arithmetic warning on PCI_IOBASE
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Vineet Gupta <vgupta@synopsys.com>, "David S. Miller"
+ <davem@davemloft.net>, Nathan Chancellor <nathan@kernel.org>, Nick
+ Desaulniers <ndesaulniers@google.com>, clang-built-linux
+ <clang-built-linux@googlegroups.com>, linux-arch
+ <linux-arch@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, linux-s390 <linux-s390@vger.kernel.org>,
+ "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
+ sparclinux <sparclinux@vger.kernel.org>
+Date: Tue, 04 May 2021 09:39:40 +0200
+In-Reply-To: <CAK8P3a3mCujxC0=_cL6Z88Xh2cb=OY_Ct7DVpJNvRn1v9=FhkQ@mail.gmail.com>
+References: <20210430111641.1911207-1-schnelle@linux.ibm.com>
+ <CAK8P3a3mCujxC0=_cL6Z88Xh2cb=OY_Ct7DVpJNvRn1v9=FhkQ@mail.gmail.com>
+X-Mailer: Evolution 3.28.5 (3.28.5-14.el8) 
+Mime-Version: 1.0
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 1Pftu_AEJr1ccZfm4uSBQRSXbzHt5fUN
+X-Proofpoint-GUID: NnNsF52RJSWhrfL8DmTT5s-OsatqEN8Z
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-05-04_02:2021-05-04,
+ 2021-05-04 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ clxscore=1015 malwarescore=0 mlxscore=0 suspectscore=0 adultscore=0
+ lowpriorityscore=0 mlxlogscore=880 bulkscore=0 phishscore=0
+ impostorscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2104060000 definitions=main-2105040057
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210503_121849_792832_B3B2B347 
-X-CRM114-Status: GOOD (  33.78  )
+X-CRM114-CacheID: sfid-20210504_004032_677902_B4A7DB0B 
+X-CRM114-Status: GOOD (  33.95  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -206,75 +143,75 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-T24gNS8zLzIxIDEwOjQxIEFNLCBMaW51cyBUb3J2YWxkcyB3cm90ZToNCj4gT24gRnJpLCBBcHIg
-MzAsIDIwMjEgYXQgMTo0NiBQTSBWaW5lZXQgR3VwdGEgPFZpbmVldC5HdXB0YTFAc3lub3BzeXMu
-Y29tPiB3cm90ZToNCj4+IEkndmUgaGl0IGEgbWFpbmxpbmUgZ2NjIDEwLjIgKGFsc28gZ2NjIDku
-MykgYnVnIHdoaWNoIHRyaWdnZXJzIGF0IC1PMw0KPj4gY2F1c2luZyB3cm9uZyBjb2RlZ2VuLg0K
-PiBTbyBpdCBkb2VzIHNlZW0gdG8gYmUgYSBnY2MgYnVnIG9yIGF0IGxlYXN0IG1pcy1mZWF0dXJl
-IHdoZXJlIGdjYyBnZXRzDQo+IHRoZSBhbGlhc2luZyBkZWNpc2lvbiB3cm9uZyB3aGVuIHZlY3Rv
-cml6aW5nIHRoZSBjb2RlLg0KPg0KPiBUaGF0IHNhaWQsIHRoZSBmYWN0IHRoYXQgZ2NjIGV2ZW4g
-dHJpZXMgdG8gdmVjdG9yaXplIHRoZSBjb2RlIHNob3dzDQo+IGhvdyBwb2ludGxlc3MgaXQgd2Fz
-IGZvciB1cyB0byAoeWVhcnMgYWdvKSB0cnkgdG8gbWFrZSBpdCB1c2UgMTYtYml0DQo+IGFjY2Vz
-c2VzIGluIHRoZSBmaXJzdCBwbGFjZS4NCj4NCj4gU28gY2FuIHlvdSB0cnkgdGhpcyBwYXRjaCB0
-aGF0IGJhc2ljYWxseSByZXZlcnRzIHNvbWUgb2YgdGhvc2UNCj4ga2VybmVsLXNwZWNpZmljIGNo
-YW5nZXMgdG8gemxpYidzIGluZmZhc3QuYyAtIGFuZCBkb2VzIHNvIGJ5IGp1c3QNCj4gdXBncmFk
-aW5nIGl0IHRvIGEgbmV3ZXIgdmVyc2lvbiBmcm9tIGEgbW9yZSBtb2Rlcm4gemxpYiAod2hpY2gg
-aW4gdGhpcw0KPiBjYXNlIHN0aWxsIG1lYW5zICJmcm9tIDIwMTciLCBidXQgdGhhdCdzIHRoZSBt
-b3N0IHJlY2VudCB2ZXJzaW9uIHRoZXJlDQo+IGlzKS4NCj4NCj4gVGhpcyBpcyBhIGZhaXJseSBx
-dWljayBoYWNrLCBhbmQgSSByZWFsbHkgdHJpZWQgdG8ga2VlcCBpdCB0byBqdXN0DQo+IGluZmZh
-c3QuYyBhbmQgaW5mdHJlZXMuYyB3aXRoIGEgZmV3IG1pbmltYWwgZml4dXBzIHRvIGluZmxhdGUu
-Yw0KPiBpdHNlbGYuDQo+DQo+IE1vc3Qgb2YgdGhlIGNoYW5nZXMgYXJlIGZvciBuYW1pbmcgKHdo
-aWNoIHNlZW1zIHRvIGJlIGF0IGxlYXN0IHBhcnRseQ0KPiBmb3IgQysrIG5hbWVzcGFjZSByZWFz
-b25zLCBpZSAidGhpcyIgLT4gImhlcmUiKSwgYnV0IHRoZXJlJ3Mgc29tZQ0KPiBjbGVhbnVwIHdy
-dCBtYXhpbXVtIHRhYmxlIHNpemVzIGV0YyB0b28uDQo+DQo+IE5PVEUhIEkgaGF2ZSBub3QgdGVz
-dGVkIHRoaXMgcGF0Y2ggaW4gYW55IG90aGVyIHdheSB0aGFuICJpdCBjb21waWxlcw0KPiB3aXRo
-IGFsbG1vZGNvbmZpZyIuIFRoZSBkaWZmIGxvb2tzIHJlYXNvbmFibGUgdG8gbWUsIGJ1dCB0aGF0
-J3MgYWxsDQo+IEknbSByZWFsbHkgZ29pbmcgdG8gc2F5Lg0KPg0KPiBEb2VzIHRoaXMgYXZvaWQg
-dGhlIGdjYyAtTzMgcHJvYmxlbSBmb3IgeW91Pw0KDQpZZXMgaXQgZG9lcy4gSSBidWlsdCB0aGUg
-Zm9sbG93aW5nOg0KDQoyMDIxLTA1LTAzIGI5M2JlZGNmOGZhNCBVcGRhdGUgemxpYiBpbmZmYXN0
-IGNvZGUgdG8gbW9yZSBtb2Rlcm4gemxpYg0KMjAyMS0wMi0yNiBlYTY4MDk4NTQ2OGYgQVJDOiBm
-aXggQ09ORklHX0hBUkRFTkVEX1VTRVJDT1BZDQoyMDIxLTA0LTIzIGY3MTE4ZjhhZGExYiBBUkM6
-IGVudHJ5OiBmaXggb2ZmLWJ5LW9uZSBlcnJvciBpbiBzeXNjYWxsIA0KbnVtYmVyIHZhbGlkYXRp
-b24NCjIwMjEtMDQtMjEgMWNiN2VlZmRhN2VkIEFSQzoga2dkYjogYWRkICdmYWxsdGhyb3VnaCcg
-dG8gcHJldmVudCBhIHdhcm5pbmcNCjIwMjEtMDMtMjIgMTYzNjMwYjJkOTViIGFyYzogRml4IHR5
-cG9zL3NwZWxsb3MNCjIwMjEtMDQtMTEgZDQzNDQwNWFhYWI3IExpbnV4IDUuMTItcmM3DQoNCkFu
-ZCBpdCBzZWVtcyB0byBiZSBEVFJUDQoNCnwgTGludXggdmVyc2lvbiA1LjEyLjAtcmM3LTAwMDA1
-LWdiOTNiZWRjZjhmYTQgDQoodmluZWV0Z0B2aW5lZXRnLUxhdGl0dWRlLTc0MDApIChhcmMtbGlu
-dXgtZ2NjLmJyX3JlYWwgKEJ1aWxkcm9vdCANCjIwMjEuMDItNi1nNWUyOWJhN2JmNzMyKSAxMC4y
-LjAsIEdOVSBsZCAoR05VIEJpbnV0aWxzKSAyLjM2LjEpICM2NzggDQpQUkVFTVBUIE1vbiBNYXkg
-MyAxMToyOTozMiBQRFQgMjAyMQ0KfCBNZW1vcnkgQCA4MDAwMDAwMCBbMTAyNE1dDQp8IC4uLg0K
-fCDCoCB3aXRoIGVudmlyb25tZW50Og0KfMKgIMKgwqAgSE9NRT0vDQp8wqAgwqDCoCBURVJNPWxp
-bnV4DQp8IFN0YXJ0aW5nIHN5c2xvZ2Q6IE9LDQp8IFN0YXJ0aW5nIGtsb2dkOiBPSw0KfCBSdW5u
-aW5nIHN5c2N0bDogT0sNCnwgJA0KfCAkIHpjYXQgL3Byb2MvY29uZmlnLmd6IHwgZWdyZXAgIihP
-UFRJTXxDT01QUkVTU0lPTl9HWklQKSINCnwgQ09ORklHX0lOSVRSQU1GU19DT01QUkVTU0lPTl9H
-WklQPXkNCnwgIyBDT05GSUdfQ0NfT1BUSU1JWkVfRk9SX1BFUkZPUk1BTkNFIGlzIG5vdCBzZXQN
-CnwgQ09ORklHX0NDX09QVElNSVpFX0ZPUl9QRVJGT1JNQU5DRV9PMz15DQp8DQp8ICQgZnJlZSAt
-bQ0KfMKgIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB0b3RhbMKgwqDCoMKgwqDCoMKgIHVzZWTC
-oMKgwqDCoMKgwqDCoCBmcmVlwqDCoMKgwqDCoCBzaGFyZWQgYnVmZi9jYWNoZcKgwqAgDQphdmFp
-bGFibGUNCnwgTWVtOsKgwqDCoMKgwqDCoMKgwqDCoMKgIDEwMTLCoMKgwqDCoMKgwqDCoMKgwqDC
-oCAzwqDCoMKgwqDCoMKgwqDCoCA5NzjCoMKgwqDCoMKgwqDCoMKgwqAgMzEgMzHCoMKgwqDCoMKg
-wqDCoMKgIDk3Mg0KfCBTd2FwOg0KfA0KDQo+IEl0IHdvdWxkIGJlIGxvdmVseSBpZiBzb21lYm9k
-eSBhbHNvIHRvb2sgYSBsb29rIGF0IHNvbWUgb2YgdGhlIG90aGVyDQo+IHpsaWIgY29kZSwgbGlr
-ZSBpbmZsYXRlLmMgaXRzZWxmLiBCdXQgc29tZSBvZiB0aGF0IGNvZGUgaGFzIHJhdGhlcg0KPiBz
-dWJ0bGUgY2hhbmdlcyBmb3IgdGhpbmdzIGxpa2UgczM5MCBoYXJkd2FyZSBzdXBwb3J0LCBhbmQg
-d2UgaGF2ZQ0KPiB0aGlobmdzIGxpa2Ugb3VyIGZhbGx0aHJvdWdoIHJ1bGVzIGV0Yywgc28gaXQg
-Z2V0cyBhIGJpdCBoYWlyaWVyLg0KDQpJIHRvb2sgYSBxdWljayBsb29rLCBidXQgdGhlcmUgc29t
-ZSB0byBiZSBzdWJ0bGUgc3RhdGUgbWFjaGluZSBjaGFuZ2VzIA0KaW4gaW5mbGF0ZS5jIHdoaWNo
-IEknbSBub3QgY29tZm9ydGFibGUgbXVja2luZyBhcm91bmQgd2l0aC4NCg0KPiBXaGljaCBpcyB3
-aHkgSSBkaWQganVzdCB0aGlzIGZhaXJseSBtaW5pbWFsIHBhcnQuDQo+DQo+IE5vdGUgdGhhdCB0
-aGUgY29tbWl0IG1lc3NhZ2UgaGFzIGEgIk5vdC15ZXQtc2lnbmVkLW9mZi1ieToiIGZyb20gbWUu
-DQo+IFRoYXQncyBwdXJlbHkgYmVjYXVzZSBJIHdhbnRlZCBpdCB0byBiZSBvYnZpb3VzIHRoYXQg
-dGhpcyBuZWVkcyBhIGxvdA0KPiBtb3JlIHRlc3RpbmcgLSBJJ20gbm90IGNvbWZ5IHdpdGggdGhp
-cyBwYXRjaCB1bmxlc3Mgc29tZWJvZHkgdGFrZXMgaXQNCj4gdXBvbiB0aGVtc2VsdmVzIHRvIGFj
-dHVhbGx5IHRlc3QgaXQgdW5kZXIgZGlmZmVyZW50IGxvYWRzIChhbmQNCj4gZGlmZmVyZW50IGFy
-Y2hpdGVjdHVyZXMpLg0KDQpNYXliZSBnaXZlIGl0IHNvbWUgdGltZSB0byBiYWtlIGluIGxpbnV4
-LW5leHQgZm9yIGEgNS4xNCBpbmNsdXNpb24gPw0KVGh4IGFnYWluIGZvciBqdW1waW5nIGluIGFu
-ZCBzdGVlcmluZyBnY2MgZm9sa3MgdG8gcmlnaHQgY29uY2x1c2lvbnMuDQoNCi1WaW5lZXQNCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMt
-YXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6
-Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
+On Mon, 2021-05-03 at 18:07 +0200, Arnd Bergmann wrote:
+> On Fri, Apr 30, 2021 at 1:16 PM Niklas Schnelle <schnelle@linux.ibm.com> wrote:
+> > From: Niklas Schnelle <niklas@komani.de>
+> > 
+> > This is version 4 of my attempt to get rid of a clang
+> > -Wnull-pointer-arithmetic warning for the use of PCI_IOBASE in
+> > asm-generic/io.h. This was originally found on s390 but should apply to
+> > all platforms leaving PCI_IOBASE undefined while making use of the inb()
+> > and friends helpers from asm-generic/io.h.
+> > 
+> > This applies cleanly and was compile tested on top of v5.12 for the
+> > previously broken ARC, nds32, h8300 and risc-v architecture
+> > 
+> > I did boot test this only on x86_64 and s390x the former implements
+> > inb() itself while the latter would emit a WARN_ONCE() but no drivers
+> > use inb().
+> 
+> This looks all fine to me, but with the merge window open right now, I
+> can't add it into linux-next yet, and it wouldn't qualify as a bugfix for 5.13.
+> 
+> Please resend them to me after -rc1 is out so I can merge it for
+> 5.14 through the asm-generic tree.
+
+Thanks for the great feedback I appreciate it. Will do the resend of
+course.
+
+> 
+> Please add two small changes to the changelog texts:
+> 
+> - for patch 3, please include a 'Link: tag' to the lore archive of the
+>   previous discussion, that should cover any questions that people
+>   may have
+
+Done
+
+> 
+> - for the risc-v patch, I would suggest explaining that this fixes
+>   an existing runtime bug, not just a compiler error:
+>   | This is already broken, as accessing a fixed I/O port number of
+>   | an ISA device on NOMMU RISC-V would turn into a NULL pointer
+>   | dereference.
+>   Feel free to either copy this, or use your own explanation.
+
+I mixed the above in with the current commit message:
+
+    Without MMU support PCI_IOBASE is left undefined because PCI_IO_END is
+    VMEMMAP_START. Nevertheless the in*()/out*() helper macros are left
+    defined with uses of PCI_IOBASE. At the moment this only compiles
+    because asm-generic/io.h defines PCI_IOBASE as 0 if it is undefined and
+    so at macro expansion PCI_IOBASE is defined. This leads to compilation
+    errors when asm-generic/io.h is changed to leave PCI_IOBASE undefined.
+    More importantly it is currently broken at runtime, as accessing a fixed
+    I/O port number of an ISA device on NOMMU RISC-V would turn into a NULL
+    pointer dereference. Instead only define the in*()/out*() helper macros
+    with MMU support and fall back to the asm-generic/io.h helper stubs
+    otherwise.
+
+
+
+> 
+>        Arnd
+
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
