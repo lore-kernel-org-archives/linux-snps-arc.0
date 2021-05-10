@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18EB3C433ED
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 10 May 2021 08:48:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C11EC433B4
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 10 May 2021 08:48:13 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 73BAD61352
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 10 May 2021 08:48:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 73BAD61352
+	by mail.kernel.org (Postfix) with ESMTPS id 04A13613CD
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 10 May 2021 08:48:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 04A13613CD
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,78 +23,77 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=GUOWljUz8BwWtce2nZ5NliDR+c7sxtUy7ogsE3rRGkc=; b=eAJTe8RJKE/lvMHpXaGZA5c2W
-	0TPX8tq6meKoNuO/9b/geM3zvABHodAbSxJ3AuDYU+V4ssW8bPVsDJtbhtJ4JiUetZDUHlUs6hu4D
-	nEhTtc9DfL65HTaCpwYovbIUqFq+A6AEMy1DcZ71k+iK5eSPv2RlaLI3bDujAoXIpC2QAcTZhg5qR
-	cAdajkFL5HIfgz1eAKKaBwvsmxZyIXpbgr7lS7y+Kn4ecm+CmI4TDtV3Hqk5ZqoMa11/CHio3QyhZ
-	KaVRs7w6kq/qMD4Wb4ZNTp7Z7pdJGualqU4z6DqNGkFS6pP/wZ5w+nDIXDae7XO70A7rWQ87/yyNt
-	l6kFwOMwg==;
+	 bh=PXkmUCAMLFAlJOMCztehRz6/fy7DuI52mYkp59cBZiE=; b=LGxelC7O0FPn4RbSEaM3HID9S
+	W5pTxNsFo36b1a5MUW5qz7nJChV73B5haeheZaBKKNTplgC9k/b/wWtG64iP3Lpl+P38m9u0gQ1ax
+	T4Ns4SMoMrAxX9gOkkqTE2UJwGPyh9qhCnC7bXk/qIN9NLmKfONVAt5Jaco1Fo0+ipkJQRecV2qR4
+	uK0xppT8LG/hC+plUibpVK3nrLUMw2ilAR8B51v7tvxfXYsgl7UWJWuzJ/eIfQeyi/Jw1oNCGZj9/
+	nBeE0aKOCWTNXyJyKUkR3FdD0hsIpV0gPZkTQqEc51YHyIqa+OXUSirpSpYNxWmmliKeLOzbywXNc
+	56ir97ycQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lg1aD-00Dg2d-Dq; Mon, 10 May 2021 08:48:09 +0000
+	id 1lg1aF-00Dg33-5I; Mon, 10 May 2021 08:48:11 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lg1a5-00Dg0y-Uo
+ id 1lg1a6-00Dg0z-3N
  for linux-snps-arc@desiato.infradead.org; Mon, 10 May 2021 08:48:02 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
- :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=evXVASPNHYxBuNpGpwUb76ljx34WoISjJiXB/0dEjGk=; b=i1ME8O34P+GRTvfHCKE6ZKP4d5
- 2XEhbwWwoxKggurh3Qd+X0Pw2Vwt0YXhZCB8SqWs8e3fKD0VrVXEbup7OCdiUvb8zxHyUcJK0XeBR
- 1eBiruDYcNRzu+0hMndbpmbYiPGtihLN8Z/qrpoOpNmr3sotfzbkG+JZ59GEf+ZC0Pyf3YMUdG1VG
- AyQcRai5pJGeKWgoEJ93TUwAlI9W22e6R9ITTmT2EeNeUA+1K2StkXvnUxxWin+PI9L/gRj3ExmpP
- hVwCBuvX9h8rs15KNTSTfRVRSGOFnjA8vt/nONIk5LPb1pr6g1lds852Zx6p4OCDdo6o6pjg85W9U
- 9ttJZ/0w==;
+ d=infradead.org; s=bombadil.20210309; h=MIME-Version:
+ Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+ To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description;
+ bh=mp/51zQTwU0ypyrfGm7d48XnTdWhVBfdFjEkqW1sSTI=; b=Y2JoBNmMQrD6j5p4IhWyPMbJeF
+ 7wlJLQHXccoZeAjh2FDzZ3oTpqvD43ShFeKko64ppX4UIyIhHGKB309KcIghXG7GKu2RydO5Z9z78
+ st9afHr5RMRzrOBvItOUMcXJ7IDUGoWnraTWmcdZECo94vx9JS5SvE5/qQnCvefFRSOgBRicwFk1+
+ 7mSHUlrefroKx+4itNcgTZ3dWU8TYa7jtwo/Y631JGiONzmkYX09PtD0sNvXegnVVKxrRQ7yt/OJO
+ u45UoLnCi1gb+I0pCz5X895Ji6u8wJTsjaa88GKCmW4xJF7XLrzJMpViD6HCvJnLAzT302yVcVdAp
+ ILsttVaw==;
 Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
  helo=mx0a-001b2d01.pphosted.com)
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lg1a2-008Qer-50
+ id 1lg1a2-008Qes-3f
  for linux-snps-arc@lists.infradead.org; Mon, 10 May 2021 08:48:00 +0000
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14A8Y5Jw092729; Mon, 10 May 2021 04:47:50 -0400
+ 14A8Y1mP142410; Mon, 10 May 2021 04:47:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=evXVASPNHYxBuNpGpwUb76ljx34WoISjJiXB/0dEjGk=;
- b=ORnm0lLUxN1YpQA8HlyRcBFkf6KoxCic7Ncm8AuCh7Ot/rwnQeNSElhA+xQUd+KwPlOU
- tNJnPyTQhDuLvR9morTthwfn25Et6eAeYxvNhj0ePcJ1JlIkRbSFYTXsGFn8+Yf96Xn+
- Dp3yhj3Qb7MJ3SUbvPx/FfvxB/fp/sg12uTzyIi6CbAaZskbXfRhp1SrklpAUHl3kJ8b
- ovtSXGMaaABo0/lBCxZEFK7x4b+SF731rTtHCuHokrEBBud2VkU2Xw4ouIWXZSv4i0st
- EPVWd8cFv6MAczXHErRCCnyJnox644XcdG19p0FqQXj4kGEWbSSB4P5vxdxe7tmOiu4J mg== 
+ : date : message-id : in-reply-to : references : content-transfer-encoding
+ : mime-version; s=pp1; bh=mp/51zQTwU0ypyrfGm7d48XnTdWhVBfdFjEkqW1sSTI=;
+ b=RosswqG/RQpC8NYX9+lTy6EWlYVT6jo646pFbpUzsrx8zs7SF47sPtWmPbU9vYMsyya5
+ +PCuz32wkh99huvudm5hPdCd7MfLKMOgoDQt6boYpw4z56abWjWk1veTYz4mKKSWsUDL
+ cVZ5Uv7RMGzRjkuTc0XiBphTx5aVPvNbWe4wXj2T+e6d2/AwMM09+k3jc6GQViRVPnFo
+ bGRs7IoxbJ86W8JJO0SSSUPKZk3VdGF4C1m4qGH/wNiBnfHoZp2JJZT5SqHQd0C6DHAW
+ 1UGCy5nsK66SBBR4kFnyXkUQfeUcH6kwTmt05LtDkjTbdz5b34ncicMGVJ1pCmQFGMVX 2A== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38f156ru71-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 38f14tgt5h-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Mon, 10 May 2021 04:47:49 -0400
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14A8h31t128637;
- Mon, 10 May 2021 04:47:49 -0400
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38f156ru6j-1
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14A8Y0X6142349;
+ Mon, 10 May 2021 04:47:48 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 38f14tgt55-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 May 2021 04:47:49 -0400
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 14A8g7hA014602;
+ Mon, 10 May 2021 04:47:48 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 14A8hEVG023702;
  Mon, 10 May 2021 08:47:47 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma06ams.nl.ibm.com with ESMTP id 38dhwh8skc-1
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 38dj988sg0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Mon, 10 May 2021 08:47:47 +0000
 Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
  [9.149.105.58])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 14A8ljAw29884800
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 14A8liFF22086034
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 10 May 2021 08:47:45 GMT
+ Mon, 10 May 2021 08:47:44 GMT
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 39B934C044;
- Mon, 10 May 2021 08:47:45 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id B403F4C044;
+ Mon, 10 May 2021 08:47:44 +0000 (GMT)
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CAA344C04A;
+ by IMSVA (Postfix) with ESMTP id 514AB4C05A;
  Mon, 10 May 2021 08:47:44 +0000 (GMT)
 Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
  by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
@@ -107,29 +106,29 @@ Cc: Nathan Chancellor <nathan@kernel.org>,
  clang-built-linux@googlegroups.com, linux-arch@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
  linux-snps-arc@lists.infradead.org, sparclinux@vger.kernel.org
-Subject: [PATCH v5--cover-letter 2/3] risc-v: Use generic io.h helpers for
- nommu
-Date: Mon, 10 May 2021 10:47:42 +0200
-Message-Id: <20210510084743.1850777-3-schnelle@linux.ibm.com>
+Subject: [PATCH v5--cover-letter 1/3] sparc: explicitly set PCI_IOBASE to 0
+Date: Mon, 10 May 2021 10:47:41 +0200
+Message-Id: <20210510084743.1850777-2-schnelle@linux.ibm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210510084743.1850777-1-schnelle@linux.ibm.com>
 References: <20210510084743.1850777-1-schnelle@linux.ibm.com>
-MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: mv9os6CnoMAOgvLf5XHalhXFL_P_nZND
-X-Proofpoint-ORIG-GUID: I0yuNbIY3BzKJLWW9ZbQ3sjB9fNQbOwV
+X-Proofpoint-ORIG-GUID: JtxoUCGur3jImDIEPlEJ7bs4M8HeIT5X
+X-Proofpoint-GUID: _EH7UP4vpJXtbqUPifcmdxty6KZawUbs
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
  definitions=2021-05-10_04:2021-05-10,
  2021-05-10 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015
- mlxlogscore=967 priorityscore=1501 bulkscore=0 spamscore=0 impostorscore=0
- mlxscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2105100061
+ priorityscore=1501
+ mlxlogscore=999 spamscore=0 mlxscore=0 suspectscore=0 impostorscore=0
+ phishscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2105100061
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210510_014758_329462_0357708A 
-X-CRM114-Status: GOOD (  20.11  )
+X-CRM114-CacheID: sfid-20210510_014758_289826_0CBC0A6A 
+X-CRM114-Status: GOOD (  17.89  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -146,54 +145,34 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Niklas Schnelle <niklas@komani.de>
+Instead of relying on the fallback in asm-generic/io.h which sets
+PCI_IOBASE 0 if it is not defined set it explicitly.
 
-Without MMU support PCI_IOBASE is left undefined because PCI_IO_END is
-VMEMMAP_START. Nevertheless the in*()/out*() helper macros are left
-defined with uses of PCI_IOBASE.
-
-At the moment this only compiles because asm-generic/io.h defines
-PCI_IOBASE as 0 if it is undefined and so at macro expansion PCI_IOBASE
-is defined. This leads to compilation errors when asm-generic/io.h is
-changed to leave PCI_IOBASE undefined.  More importantly it is currently
-broken at runtime, as accessing a fixed I/O port number of an ISA device
-on NOMMU RISC-V would turn into a NULL pointer dereference.
-
-Instead only define the in*()/out*() helper macros with MMU support and
-fall back to the asm-generic/io.h helper stubs otherwise.
-
-Signed-off-by: Niklas Schnelle <niklas@komani.de>
+Link: https://lore.kernel.org/lkml/CAK8P3a3PK9zyeP4ymELtc2ZYnymECoACiigw9Za+pvSJpCk5=g@mail.gmail.com/
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
 ---
- arch/riscv/include/asm/io.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ arch/sparc/include/asm/io.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/arch/riscv/include/asm/io.h b/arch/riscv/include/asm/io.h
-index c025a746a148..31a8b98c0f13 100644
---- a/arch/riscv/include/asm/io.h
-+++ b/arch/riscv/include/asm/io.h
-@@ -23,12 +23,12 @@
- #include <asm/mmio.h>
- 
- /*
-- *  I/O port access constants.
-+ *  I/O port access constants. Without MMU support leave PCI_IOBASE undefined
-+ *  and fall back to generic stubs for I/O access routines.
-  */
- #ifdef CONFIG_MMU
- #define IO_SPACE_LIMIT		(PCI_IO_SIZE - 1)
- #define PCI_IOBASE		((void __iomem *)PCI_IO_START)
--#endif /* CONFIG_MMU */
- 
- /*
-  * Emulation routines for the port-mapped IO space used by some PCI drivers.
-@@ -145,6 +145,7 @@ __io_writes_outs(writes, u64, q, __io_bw(), __io_aw())
- __io_writes_outs(outs, u64, q, __io_pbr(), __io_paw())
- #define outsq(addr, buffer, count) __outsq((void __iomem *)addr, buffer, count)
- #endif
-+#endif /* CONFIG_MMU */
- 
- #include <asm-generic/io.h>
- 
+diff --git a/arch/sparc/include/asm/io.h b/arch/sparc/include/asm/io.h
+index 2eefa526b38f..c019e50702c1 100644
+--- a/arch/sparc/include/asm/io.h
++++ b/arch/sparc/include/asm/io.h
+@@ -1,6 +1,14 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ #ifndef ___ASM_SPARC_IO_H
+ #define ___ASM_SPARC_IO_H
++
++/*
++ * On LEON PCI addresses below 64k are converted to IO accesses.
++ * io_remap_xxx() returns a kernel virtual address in the PCI window so
++ * inb() doesn't need to add an offset.
++ */
++#define PCI_IOBASE ((void __iomem *)0)
++
+ #if defined(__sparc__) && defined(__arch64__)
+ #include <asm/io_64.h>
+ #else
 -- 
 2.25.1
 
