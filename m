@@ -2,97 +2,98 @@ Return-Path: <SRS0=C+4U=KF=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76EA2C433B4
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 10 May 2021 08:53:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73C7AC43460
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 10 May 2021 08:53:59 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C74ED61106
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 10 May 2021 08:53:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C74ED61106
+	by mail.kernel.org (Postfix) with ESMTPS id E796D6143C
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 10 May 2021 08:53:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E796D6143C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=aJenGY1qotqOgc9nPA63tvnVZaFDm/wSuBMI4w3CbNE=; b=hzfzVhz7u3RVP4NQS9ljefKINd
-	Oex5a6ieVImClEJ312Nvl49GqETgYddC+SqvsPV8geNsN28hlJjKGl67axV05oT6lVve018Ni2nVD
-	ZH9xfYwtiJLCaiRcXcgBbxIkDB4cnda6WMa52uXC8m6WWeY9c5XAn+3E5BSD6VlpWe5KqnN4iog/z
-	vBaqqOT6BiLgnGU69bwlu5r09h56JmzG433oOlzYdcuUs8zrWpGFTRfXaxEa1KSFovghy9zpuAJMC
-	ZHDqFDbz3GOGHgELWXucjguV4J2hr3NNij4j7gXaXTzz6meOS2iJmSLkoUkNCe+jBltiXekqEJQfj
-	e8rJpUyQ==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=PXkmUCAMLFAlJOMCztehRz6/fy7DuI52mYkp59cBZiE=; b=HxuuLgcayamxRtzPTmXG9Ze0f
+	FbCbd4DlRigeTms+QLDaErDz16pDZPU4tRdUdfdghpNS/rU0RJ1YgJGlISbsJcUHK61arlymgfj5A
+	gbPVJ93nOmtoRJeIzVgS4jCk0hL2tF6YDMfZ2/hEL1O+TsqAb8Pi/CAus0UxaTZVe3IKOafaUK7p1
+	OtoZQBhXgLFFw8t1cbpYA4PNEJWUlBbC1OGzbc17YnPoEKDLaufv6DUeW6cvaNGEWP044XxhQZDuR
+	9uyYpiAe0FSOW+qkO7KnZORShA3erKsYjkh41npq6yDSQ96IBCRdjps/740wetOFFVshdpcpMYar5
+	9oszoqg3w==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lg1fm-00DgkQ-A2; Mon, 10 May 2021 08:53:55 +0000
+	id 1lg1fp-00Dgkz-01; Mon, 10 May 2021 08:53:57 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lg1fk-00Dgjw-9i
+ id 1lg1fk-00Dgjy-JL
  for linux-snps-arc@desiato.infradead.org; Mon, 10 May 2021 08:53:52 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=6fFPdOHxtkUTM7Jw0a26ZGpUOLJ0x+XNGqYwRDW5zLc=; b=vWrI0DmLC6a98Beh1lltmZpjYa
- 76aFxeYlUhOH1Dgh0/2kwjqADWTo7RusLKn4I0SwJmjsB/PBHzUXOCd4BmBXfPtxARO7sM3d6z7eW
- 3+V0CjisirUT/3fqa1qgTSdNJusW0zdgSeDtGWgcq3IOJSx9DhkZ/zzgmNIMZBrQo83WqJycfTc95
- MvYLG5wt381oSj39X8GgXDrHT6WojQ9wsO8nipgzOQQ7ZToxysmm+ohyUhhpaz01Hz+XRGmlM8imn
- tHjdHW4/IbAimXplll9eS8RcqcJOo+UAdcHvLBFLhp/bKygQpBHoAGPoQ4azytnEMDGbYh7+pvAPM
- GZ0OT5Ow==;
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ d=infradead.org; s=bombadil.20210309; h=MIME-Version:
+ Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+ To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description;
+ bh=mp/51zQTwU0ypyrfGm7d48XnTdWhVBfdFjEkqW1sSTI=; b=KliUppBL724KvRWT+fNr+bq+sX
+ b0SdWvYr5A+4X/xW6brP1mbrqn2bd7MWifoSGbJY3mvc8XmwMzLx+amMILOhLOJZoEoqsR40dNFek
+ myspK/PKtO128CSntbdiL7dLhJfKpsObcT3rf84j+0laAZf6wi9T6UJLGNapWpLnWCGXWOW+wy0HQ
+ dkBIN9cWNvdKDGoVlUDLlECcvrjiEaEc6IzvYAabzdAPtaRJVwNj/hpThGC5Q2SYcng47K13EB/ye
+ 5SWEndsvHa2zMp9QQjh4z0Ew5ESTb6ECv0+WfmVIoSKNCWJnO+WzRjc4YW9S9tiBLTuehqHUi+46S
+ zpeUlDjw==;
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lg1fh-008QsX-K3
+ id 1lg1fh-008QsY-VK
  for linux-snps-arc@lists.infradead.org; Mon, 10 May 2021 08:53:51 +0000
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14A8XsrS191808; Mon, 10 May 2021 04:53:44 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 14A8YiMG022973; Mon, 10 May 2021 04:53:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=6fFPdOHxtkUTM7Jw0a26ZGpUOLJ0x+XNGqYwRDW5zLc=;
- b=qB/vdMLHMpfMeIxEBJU1MgAjib4posbxwFNru4158ZhWFUeaBgOIYB1zRHtoJkhX0u+D
- 06nOwcf3Ies13XwKzvUJg1F/vbF/6QkjUg4yEnZuFI9GGRUjWB1YAAADKYS1z+P6kPkX
- /+UMPIgS2/0l3627x0cik5ZSZ41n838gJzik43rCaGw+E7B9m58+UVd9q3zXkf/0525m
- 7zRoh4dQhi7BecwKFOD/XM7q+hNl8PhSWcPfMWRClNI8pMqFEQomsXe0VOS2nJCCyhRf
- gRS+TFDDrI0qwQ995DlHuQeEnOvGRdTDjiWJbMN3o+uPkiEJveHCh8x0ySrvfud8BJRX EA== 
+ : date : message-id : in-reply-to : references : content-transfer-encoding
+ : mime-version; s=pp1; bh=mp/51zQTwU0ypyrfGm7d48XnTdWhVBfdFjEkqW1sSTI=;
+ b=hFa9lnnzKl5WkpUErVurktIj8JAcXAQK8lip0QDT65f0ruO3t+y2GDsBg1TEhVzp7pmh
+ T71PytzDxjOxiMe3ki+AnJjnh/hZ/i9FYMpF1Tlq2W3vs1tHFHk2R0fff4hWCgAZ2m/z
+ L8CgtusYjmdlN21fVj+Sx6mjb9VDDN3lFxyE4dKGN3dvsqeOGnzqKkOrqcO9tJ+oyQk0
+ WOohngbOFFSfepZPaTZ+giuSt+ojBqxJpvFCyePTVW1JsehSjgL5UQIYp+nh7aq/5XkM
+ P1sfiJ7RkbKDvZxxwZCmlHyXrRUkpzR2b8L7v4NnWtwTc1tXhbkHlo9OjfCIQ+a535Wt AA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 38f19a0qqq-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 38f0qh9rw4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Mon, 10 May 2021 04:53:44 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14A8YEa7195724;
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14A8ZSVu025565;
  Mon, 10 May 2021 04:53:44 -0400
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 38f19a0qq1-1
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 38f0qh9rvk-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Mon, 10 May 2021 04:53:44 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 14A8qbQE032233;
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 14A8phmb032561;
  Mon, 10 May 2021 08:53:42 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma03ams.nl.ibm.com with ESMTP id 38dj988snn-1
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma04ams.nl.ibm.com with ESMTP id 38dj988sm9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Mon, 10 May 2021 08:53:42 +0000
 Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
  [9.149.105.232])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 14A8rdUv29884706
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 14A8reMh37749088
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Mon, 10 May 2021 08:53:40 GMT
 Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D1D3E5204F;
- Mon, 10 May 2021 08:53:39 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 374CF5204F;
+ Mon, 10 May 2021 08:53:40 +0000 (GMT)
 Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 7F46D52051;
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id D278D52054;
  Mon, 10 May 2021 08:53:39 +0000 (GMT)
 From: Niklas Schnelle <schnelle@linux.ibm.com>
 To: Arnd Bergmann <arnd@arndb.de>, Vineet Gupta <vgupta@synopsys.com>,
@@ -102,27 +103,29 @@ Cc: Nathan Chancellor <nathan@kernel.org>,
  clang-built-linux@googlegroups.com, linux-arch@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
  linux-snps-arc@lists.infradead.org, sparclinux@vger.kernel.org
-Subject: [PATCH v5 0/3] asm-generic/io.h: Silence -Wnull-pointer-arithmetic
- warning on PCI_IOBASE
-Date: Mon, 10 May 2021 10:53:36 +0200
-Message-Id: <20210510085339.1857696-1-schnelle@linux.ibm.com>
+Subject: [PATCH v5 1/3] sparc: explicitly set PCI_IOBASE to 0
+Date: Mon, 10 May 2021 10:53:37 +0200
+Message-Id: <20210510085339.1857696-2-schnelle@linux.ibm.com>
 X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
+In-Reply-To: <20210510085339.1857696-1-schnelle@linux.ibm.com>
+References: <20210510085339.1857696-1-schnelle@linux.ibm.com>
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: xXMyFMxMyqBBSOV-lgo2PQozxcUhUnUn
-X-Proofpoint-ORIG-GUID: LmKaNdj7E8eXOr6W-uEcpZMInnDmFIGb
+X-Proofpoint-GUID: P8gbHC4QcXnCxhfH8z3paOdfhtIG_k5T
+X-Proofpoint-ORIG-GUID: 2QfnhUpHBA0LNW97Di4oKa8vDYlVCFJ1
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-10_04:2021-05-10,
+ definitions=2021-05-10_02:2021-05-10,
  2021-05-10 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 suspectscore=0
- priorityscore=1501 mlxscore=0 impostorscore=0 spamscore=0 bulkscore=0
- mlxlogscore=670 adultscore=0 lowpriorityscore=0 clxscore=1015
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ bulkscore=0 mlxlogscore=999
+ priorityscore=1501 malwarescore=0 lowpriorityscore=0 adultscore=0
+ clxscore=1015 phishscore=0 suspectscore=0 impostorscore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2104190000 definitions=main-2105100061
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210510_015349_792178_09D78480 
-X-CRM114-Status: GOOD (  20.61  )
+X-CRM114-CacheID: sfid-20210510_015350_128500_64EDE022 
+X-CRM114-Status: GOOD (  16.64  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -139,64 +142,34 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi,
+Instead of relying on the fallback in asm-generic/io.h which sets
+PCI_IOBASE 0 if it is not defined set it explicitly.
 
-This is version 5 of my attempt to get rid of a clang
--Wnull-pointer-arithmetic warning for the use of PCI_IOBASE in
-asm-generic/io.h. This was originally found on s390 but should apply to
-all platforms leaving PCI_IOBASE undefined while making use of the inb()
-and friends helpers from asm-generic/io.h.
+Link: https://lore.kernel.org/lkml/CAK8P3a3PK9zyeP4ymELtc2ZYnymECoACiigw9Za+pvSJpCk5=g@mail.gmail.com/
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+---
+ arch/sparc/include/asm/io.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-This applies cleanly and was compile tested on top of v5.12 for the
-previously broken ARC, nds32, h8300 and risc-v architecture. It also
-applies cleanly on v5.13-rc1 for which I boot tested it on s390.
-
-I did boot test this only on x86_64 and s390x the former implements
-inb() itself while the latter would emit a WARN_ONCE() but no drivers
-use inb().
-
-Thanks,
-Niklas
-
-Changes since v4:
-- Added Link to patch 4 (Arnd)
-- Improved comment on RISC-V patch mentioning current brokeness (Arnd)
-
-Changes since v3:
-- Changed the subject of the last patch to better reflect the actual
-  change i.e. the addition of WARN_ONCE() to the helpers not the
-  silencing of the clang warning
-- Added asm/bug.h to asm-generic/io.h so it doesn't have to be included
-  previously by all arches to be available for the WARN_ONCE()
-- Added patch for risc-v which defines PCI_IOBASE except when compiled
-  for nommu
-
-Changes since v2:
-- Improved comment for SPARC PCI_IOBASE definition as suggested
-  by David Laight
-- Added a patch for ARC which is missing the asm/bug.h include for
-  WARN_ONCE() (kernel test robot)
-- Added ifdefs to ioport_map() and __pci_ioport_map() since apparently
-  at least test configs enable CONFIG_HAS_IOPORT_MAP even on
-  architectures which leave PCI_IOBASE unset (kernel test robot for
-  nds32 and ARC).
-
-Changes since v1:
-- Added patch to explicitly set PCI_IOBASE to 0 on sparc as suggested by
-  Arnd Bergmann
-- Instead of working around the warning with a uintptr_t PCI_IOBASE make
-  inb() and friends explicitly WARN_ONCE() and return 0xff... (Arnd
-  Bergmann)
-Niklas Schnelle (3):
-  sparc: explicitly set PCI_IOBASE to 0
-  risc-v: Use generic io.h helpers for nommu
-  asm-generic/io.h: warn in inb() and friends with undefined PCI_IOBASE
-
- arch/riscv/include/asm/io.h |  5 +--
- arch/sparc/include/asm/io.h |  8 +++++
- include/asm-generic/io.h    | 65 ++++++++++++++++++++++++++++++++++---
- 3 files changed, 72 insertions(+), 6 deletions(-)
-
+diff --git a/arch/sparc/include/asm/io.h b/arch/sparc/include/asm/io.h
+index 2eefa526b38f..c019e50702c1 100644
+--- a/arch/sparc/include/asm/io.h
++++ b/arch/sparc/include/asm/io.h
+@@ -1,6 +1,14 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ #ifndef ___ASM_SPARC_IO_H
+ #define ___ASM_SPARC_IO_H
++
++/*
++ * On LEON PCI addresses below 64k are converted to IO accesses.
++ * io_remap_xxx() returns a kernel virtual address in the PCI window so
++ * inb() doesn't need to add an offset.
++ */
++#define PCI_IOBASE ((void __iomem *)0)
++
+ #if defined(__sparc__) && defined(__arch64__)
+ #include <asm/io_64.h>
+ #else
 -- 
 2.25.1
 
