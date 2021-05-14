@@ -1,21 +1,21 @@
-Return-Path: <SRS0=lmvv=KH=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=Kl7k=KJ=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75828C43460
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 12 May 2021 09:48:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42155C433B4
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 14 May 2021 22:10:57 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B57ED613A9
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 12 May 2021 09:48:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B57ED613A9
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
+	by mail.kernel.org (Postfix) with ESMTPS id BEC986144B
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 14 May 2021 22:10:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BEC986144B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
@@ -23,61 +23,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=h062jqmUyYqoQXuFmMW96T7rcwU3agHedGsnbodOJzc=; b=SYAsorovXaxPtPN++mlJ7bCrf5
-	Ae3SgEmA2AoO/KnXMbpLIHILqKGJYVl1SvMjoJdxf3VO1An0SeGL7qkMptm3+bt4hggcyBV5pJ5du
-	af9GNH5GY67guvWxWUnyyFZYXOMfwwehl7FLDmxcaINDefSAdWtmJiVbe4i8VIJDqQkyNYZVwRaQY
-	3sRI5c6xu9d1MO3R4pdKc0ZeCo82qkz1vn+EeIVpF6tTPKuPZKxfcAX+0rtGbgbtTc/ng87e24rep
-	aIWVY2niGdOHTQYW39w/LfpRSiboeALdyxHvlgGP0O7vs6ZgkXrLq80BwiTUzfQCV4es/2kYFDpqh
-	7/3R1Yuw==;
+	bh=D/mm82q3kG6QoofRvnhLhxWHnZHmmBZOfw2f6O5BgDg=; b=SRykeFqU5r0Av1OYz8WlTO9mDC
+	D+MT+5ltFolTsuyKpwOWXdRYn1mpwFqCAMZXdfnT0ouB3orC688IK2YE1hB0Yc4vVMDEiQ237fK2F
+	a1ZXJXo4fBgLTj1x2i4t4uKSt4RIS4es7LJBpeNjwaN/bgpXoQUO0Z4vdUBKA/NFV23o0KiCb5h5H
+	qAgWssJH3uyBCuY74AjZJBAJtgmCL/G9yM90TMtGcj1nyUwqRCit8Ex5WUBN4YGF0ODtCuZ7OQ3sR
+	WhKGfYbhDEsEjDZVM7UVNMt465fTqz27JFdI43+BZu1KqCI/bnAaC7cmy1z+hCJUuNX+ayhjUhxt3
+	0kgLW6rg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lglTM-002SwU-1L; Wed, 12 May 2021 09:48:08 +0000
+	id 1lhg1G-0098BW-Tj; Fri, 14 May 2021 22:10:55 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lglT8-002SuX-QG; Wed, 12 May 2021 09:47:55 +0000
+ id 1lhg1D-0098Aq-NF; Fri, 14 May 2021 22:10:51 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
  Content-ID:Content-Description:In-Reply-To:References;
- bh=Qn3ZWYEgozq1zL+rXXwnZ2X6+k3T7d/9gkr4ek0kj1w=; b=eaPDMkPPfyZ6J1LuwqxXMWHD7R
- y0CSl4DdX5SPrzSPTbNokz23cFmW5oOC/tAiiE15qqU/hLi1euZWGj6zQiqgl75ihDuAbUWdAn7R0
- WKG5+ktrM4PqgBeEejsLNABlMiloaerIxnRzqagkHMKQ0P7PKv3siIkj9lT5eaoeU1TBojJlREval
- lEAdUyYyvkpA624BUkXej0VBJ5FnFRcuONWvbpPEETxgiu31buUzuc7367tNDJWwAAfWOnRAUlTBp
- CEqmwCKUfd6SMAWJhT/2kgTPyCB6b9pZ74//otC2lQXDKgoiV3o1YYWmNB0fKhY1lL29xdWa+37Ei
- ZC5kYvIA==;
-Received: from foss.arm.com ([217.140.110.172])
- by bombadil.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
- id 1lglT5-00AGIW-8B; Wed, 12 May 2021 09:47:53 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A3064D6E;
- Wed, 12 May 2021 02:47:46 -0700 (PDT)
-Received: from e113632-lin.cambridge.arm.com (e113632-lin.cambridge.arm.com
- [10.1.194.46])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 742143F719;
- Wed, 12 May 2021 02:47:43 -0700 (PDT)
-From: Valentin Schneider <valentin.schneider@arm.com>
-To: linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-csky@vger.kernel.org, linux-ia64@vger.kernel.org,
- linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-xtensa@linux-xtensa.org, linux-arch@vger.kernel.org
-Cc: mingo@kernel.org, peterz@infradead.org, tglx@linutronix.de,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Steven Rostedt <rostedt@goodmis.org>, bristot@redhat.com,
- yejune.deng@gmail.com
-Subject: [PATCH] sched: Initialize the idle task with preemption disabled
-Date: Wed, 12 May 2021 10:46:36 +0100
-Message-Id: <20210512094636.2958515-1-valentin.schneider@arm.com>
-X-Mailer: git-send-email 2.25.1
+ bh=miI/aEPj8G91cf9USfD8J3zXAl6W6h46Uu9Kg4U0xFU=; b=H4UkK3O6GtztASKUdT5xHBSpDe
+ 3GD/hrBl5eAMoq/hPRkr/IVgqr7vyoLQDU/K0vJgYFtpX0plHr56Idztie130sI+dmO2ZBJYcrc7t
+ md5CtTl0tD6o0JisCAygiM3HwG+wCSgAiifgHO689tSgiHMRV9KEsjt/Wc47BA5mIiQlCIIY/E5dG
+ 2kdPY+caCnTlVBnugNxX7O8P4UCtGpn7QdQJTTclvV4jNAs7Oq2Hg0sZHwsMzbRMU8iYDqv9BG/dA
+ 1JaYKUdNub6BYYB+1Y6uiwzMXutXfEy9xx3gYL3xvL4MqHyvwQzAtvkSnk/qJt8hxmBfJ6KInkCsL
+ Htg3PtsA==;
+Received: from mail.kernel.org ([198.145.29.99])
+ by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
+ id 1lhg1B-00CIAb-56; Fri, 14 May 2021 22:10:50 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8F55B61182;
+ Fri, 14 May 2021 22:10:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1621030248;
+ bh=zwzpJpxhzEGdOSTs7iHw5uHEDYyGgvaSUy2MfaxR8a4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Amsg36igKFenDeVbVYqjy3ug1isOcKoawk6bBGVwpXxus0vf9KtNztP7we1xEnUjo
+ G4P9ZW0acUdIcQ54wii2EhWxQzotCNPrDegb9Ij4ShWHQsNq08RmeCBvVFHnUC+v77
+ 5fx2VXC98JVtLXFyuub4Hjokij4TJwUqVxAIe3xhFi40DUBaL6RWuUS7GQqq4QupMJ
+ hGB6WqnnpE2ySboqAEjuH2/wBaJ3s5EYxDocovzG6UVkcoGZM2dDSjIHRZGZPQfPVg
+ qTqvx1B5VLkspJfQlTpO8TCmXDQEghXCqbkRbEToYO10Sayisjq1O+a1YrOM7useM6
+ FvHmzQq//ayRg==
+From: Arnd Bergmann <arnd@kernel.org>
+To: linux-arch@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>,
+ Al Viro <viro@zeniv.linux.org.uk>, Vineet Gupta <vgupta@synopsys.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Brian Cain <bcain@codeaurora.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Sid Manning <sidneym@codeaurora.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
+ uclinux-h8-devel@lists.sourceforge.jp, linux-hexagon@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, linux-riscv@lists.infradead.org,
+ linux-um@lists.infradead.org
+Subject: [PATCH 0/5] asm-generic: strncpy_from_user/strnlen_user cleanup
+Date: Sat, 15 May 2021 00:09:37 +0200
+Message-Id: <20210514220942.879805-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210512_024751_412546_33F4C843 
-X-CRM114-Status: GOOD (  20.26  )
+X-CRM114-CacheID: sfid-20210514_151049_262524_9D6BAFC2 
+X-CRM114-Status: GOOD (  12.88  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,397 +101,71 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-As pointed out by commit
+From: Arnd Bergmann <arnd@arndb.de>
 
-  de9b8f5dcbd9 ("sched: Fix crash trying to dequeue/enqueue the idle thread")
+As I've queued up some patches for include/asm-generic/unistd.h, I
+remembered an older series that I created but never submitted.
 
-init_idle() can and will be invoked more than once on the same idle
-task. At boot time, it is invoked for the boot CPU thread by
-sched_init(). Then smp_init() creates the threads for all the secondary
-CPUs and invokes init_idle() on them.
+These two functions appear to be unnecessarily different between
+architectures, and the asm-generic version is a bit questionable,
+even for NOMMU architectures.
 
-As the hotplug machinery brings the secondaries to life, it will issue
-calls to idle_thread_get(), which itself invokes init_idle() yet again.
-In this case it's invoked twice more per secondary: at _cpu_up(), and at
-bringup_cpu().
+Clean this up to just use the generic library version for anything
+that uses the generic version today.
 
-Given smp_init() already initializes the idle tasks for all *possible*
-CPUs, no further initialization should be required. Now, removing
-init_idle() from idle_thread_get() exposes some interesting expectations
-with regards to the idle task's preempt_count: the secondary startup always
-issues a preempt_disable(), requiring some reset of the preempt count to 0
-between hot-unplug and hotplug, which is currently served by
-idle_thread_get() -> idle_init().
+       Arnd
 
-Given the idle task is supposed to have preemption disabled once and never
-see it re-enabled, it seems that what we actually want is to initialize its
-preempt_count to PREEMPT_DISABLED and leave it there. Do that, and remove
-init_idle() from idle_thread_get().
+Arnd Bergmann (5):
+  asm-generic/uaccess.h: remove __strncpy_from_user/__strnlen_user
+  hexagon: use generic strncpy/strnlen from_user
+  arc: use generic strncpy/strnlen from_user
+  asm-generic: uaccess: remove inline strncpy_from_user/strnlen_user
+  asm-generic: remove extra strn{cpy_from,len}_user declarations
 
-Secondary startups were patched via coccinelle:
+ arch/arc/Kconfig                    |   2 +
+ arch/arc/include/asm/uaccess.h      |  72 ----------------
+ arch/arc/mm/extable.c               |  12 ---
+ arch/h8300/Kconfig                  |   2 +
+ arch/hexagon/Kconfig                |   2 +
+ arch/hexagon/include/asm/uaccess.h  |  31 -------
+ arch/hexagon/kernel/hexagon_ksyms.c |   1 -
+ arch/hexagon/mm/Makefile            |   2 +-
+ arch/hexagon/mm/strnlen_user.S      | 126 ----------------------------
+ arch/m68k/Kconfig                   |   4 +-
+ arch/riscv/Kconfig                  |   4 +-
+ arch/um/include/asm/uaccess.h       |   5 +-
+ arch/um/kernel/skas/uaccess.c       |   5 +-
+ include/asm-generic/uaccess.h       |  52 ++----------
+ 14 files changed, 24 insertions(+), 296 deletions(-)
+ delete mode 100644 arch/hexagon/mm/strnlen_user.S
 
-  @begone@
-  @@
-
-  -preempt_disable();
-  ...
-  cpu_startup_entry(CPUHP_AP_ONLINE_IDLE);
-
-Signed-off-by: Valentin Schneider <valentin.schneider@arm.com>
----
- arch/alpha/kernel/smp.c          | 1 -
- arch/arc/kernel/smp.c            | 1 -
- arch/arm/kernel/smp.c            | 1 -
- arch/arm64/include/asm/preempt.h | 2 +-
- arch/arm64/kernel/smp.c          | 1 -
- arch/csky/kernel/smp.c           | 1 -
- arch/ia64/kernel/smpboot.c       | 1 -
- arch/mips/kernel/smp.c           | 1 -
- arch/openrisc/kernel/smp.c       | 2 --
- arch/parisc/kernel/smp.c         | 1 -
- arch/powerpc/kernel/smp.c        | 1 -
- arch/riscv/kernel/smpboot.c      | 1 -
- arch/s390/include/asm/preempt.h  | 4 ++--
- arch/s390/kernel/smp.c           | 1 -
- arch/sh/kernel/smp.c             | 2 --
- arch/sparc/kernel/smp_32.c       | 1 -
- arch/sparc/kernel/smp_64.c       | 3 ---
- arch/x86/include/asm/preempt.h   | 2 +-
- arch/x86/kernel/smpboot.c        | 1 -
- arch/xtensa/kernel/smp.c         | 1 -
- include/asm-generic/preempt.h    | 2 +-
- init/main.c                      | 6 +-----
- kernel/fork.c                    | 2 +-
- kernel/sched/core.c              | 2 +-
- kernel/smpboot.c                 | 1 -
- 25 files changed, 8 insertions(+), 34 deletions(-)
-
-diff --git a/arch/alpha/kernel/smp.c b/arch/alpha/kernel/smp.c
-index f4dd9f3f3001..4b2575f936d4 100644
---- a/arch/alpha/kernel/smp.c
-+++ b/arch/alpha/kernel/smp.c
-@@ -166,7 +166,6 @@ smp_callin(void)
- 	DBGS(("smp_callin: commencing CPU %d current %p active_mm %p\n",
- 	      cpuid, current, current->active_mm));
- 
--	preempt_disable();
- 	cpu_startup_entry(CPUHP_AP_ONLINE_IDLE);
- }
- 
-diff --git a/arch/arc/kernel/smp.c b/arch/arc/kernel/smp.c
-index 52906d314537..db0e104d6835 100644
---- a/arch/arc/kernel/smp.c
-+++ b/arch/arc/kernel/smp.c
-@@ -189,7 +189,6 @@ void start_kernel_secondary(void)
- 	pr_info("## CPU%u LIVE ##: Executing Code...\n", cpu);
- 
- 	local_irq_enable();
--	preempt_disable();
- 	cpu_startup_entry(CPUHP_AP_ONLINE_IDLE);
- }
- 
-diff --git a/arch/arm/kernel/smp.c b/arch/arm/kernel/smp.c
-index 74679240a9d8..c7bb168b0d97 100644
---- a/arch/arm/kernel/smp.c
-+++ b/arch/arm/kernel/smp.c
-@@ -432,7 +432,6 @@ asmlinkage void secondary_start_kernel(void)
- #endif
- 	pr_debug("CPU%u: Booted secondary processor\n", cpu);
- 
--	preempt_disable();
- 	trace_hardirqs_off();
- 
- 	/*
-diff --git a/arch/arm64/include/asm/preempt.h b/arch/arm64/include/asm/preempt.h
-index 80e946b2abee..e83f0982b99c 100644
---- a/arch/arm64/include/asm/preempt.h
-+++ b/arch/arm64/include/asm/preempt.h
-@@ -23,7 +23,7 @@ static inline void preempt_count_set(u64 pc)
- } while (0)
- 
- #define init_idle_preempt_count(p, cpu) do { \
--	task_thread_info(p)->preempt_count = PREEMPT_ENABLED; \
-+	task_thread_info(p)->preempt_count = PREEMPT_DISABLED; \
- } while (0)
- 
- static inline void set_preempt_need_resched(void)
-diff --git a/arch/arm64/kernel/smp.c b/arch/arm64/kernel/smp.c
-index 357590beaabb..48fd89256739 100644
---- a/arch/arm64/kernel/smp.c
-+++ b/arch/arm64/kernel/smp.c
-@@ -223,7 +223,6 @@ asmlinkage notrace void secondary_start_kernel(void)
- 		init_gic_priority_masking();
- 
- 	rcu_cpu_starting(cpu);
--	preempt_disable();
- 	trace_hardirqs_off();
- 
- 	/*
-diff --git a/arch/csky/kernel/smp.c b/arch/csky/kernel/smp.c
-index 0f9f5eef9338..e2993539af8e 100644
---- a/arch/csky/kernel/smp.c
-+++ b/arch/csky/kernel/smp.c
-@@ -281,7 +281,6 @@ void csky_start_secondary(void)
- 	pr_info("CPU%u Online: %s...\n", cpu, __func__);
- 
- 	local_irq_enable();
--	preempt_disable();
- 	cpu_startup_entry(CPUHP_AP_ONLINE_IDLE);
- }
- 
-diff --git a/arch/ia64/kernel/smpboot.c b/arch/ia64/kernel/smpboot.c
-index 49b488580939..d10f780c13b9 100644
---- a/arch/ia64/kernel/smpboot.c
-+++ b/arch/ia64/kernel/smpboot.c
-@@ -441,7 +441,6 @@ start_secondary (void *unused)
- #endif
- 	efi_map_pal_code();
- 	cpu_init();
--	preempt_disable();
- 	smp_callin();
- 
- 	cpu_startup_entry(CPUHP_AP_ONLINE_IDLE);
-diff --git a/arch/mips/kernel/smp.c b/arch/mips/kernel/smp.c
-index ef86fbad8546..d542fb7af3ba 100644
---- a/arch/mips/kernel/smp.c
-+++ b/arch/mips/kernel/smp.c
-@@ -348,7 +348,6 @@ asmlinkage void start_secondary(void)
- 	 */
- 
- 	calibrate_delay();
--	preempt_disable();
- 	cpu = smp_processor_id();
- 	cpu_data[cpu].udelay_val = loops_per_jiffy;
- 
-diff --git a/arch/openrisc/kernel/smp.c b/arch/openrisc/kernel/smp.c
-index 48e1092a64de..415e209732a3 100644
---- a/arch/openrisc/kernel/smp.c
-+++ b/arch/openrisc/kernel/smp.c
-@@ -145,8 +145,6 @@ asmlinkage __init void secondary_start_kernel(void)
- 	set_cpu_online(cpu, true);
- 
- 	local_irq_enable();
--
--	preempt_disable();
- 	/*
- 	 * OK, it's off to the idle thread for us
- 	 */
-diff --git a/arch/parisc/kernel/smp.c b/arch/parisc/kernel/smp.c
-index 10227f667c8a..1405b603b91b 100644
---- a/arch/parisc/kernel/smp.c
-+++ b/arch/parisc/kernel/smp.c
-@@ -302,7 +302,6 @@ void __init smp_callin(unsigned long pdce_proc)
- #endif
- 
- 	smp_cpu_init(slave_id);
--	preempt_disable();
- 
- 	flush_cache_all_local(); /* start with known state */
- 	flush_tlb_all_local(NULL);
-diff --git a/arch/powerpc/kernel/smp.c b/arch/powerpc/kernel/smp.c
-index 5a4d59a1070d..055ca3816eb7 100644
---- a/arch/powerpc/kernel/smp.c
-+++ b/arch/powerpc/kernel/smp.c
-@@ -1505,7 +1505,6 @@ void start_secondary(void *unused)
- 	smp_store_cpu_info(cpu);
- 	set_dec(tb_ticks_per_jiffy);
- 	rcu_cpu_starting(cpu);
--	preempt_disable();
- 	cpu_callin_map[cpu] = 1;
- 
- 	if (smp_ops->setup_cpu)
-diff --git a/arch/riscv/kernel/smpboot.c b/arch/riscv/kernel/smpboot.c
-index 5e276c25646f..1941a6ce86a1 100644
---- a/arch/riscv/kernel/smpboot.c
-+++ b/arch/riscv/kernel/smpboot.c
-@@ -176,7 +176,6 @@ asmlinkage __visible void smp_callin(void)
- 	 * Disable preemption before enabling interrupts, so we don't try to
- 	 * schedule a CPU that hasn't actually started yet.
- 	 */
--	preempt_disable();
- 	local_irq_enable();
- 	cpu_startup_entry(CPUHP_AP_ONLINE_IDLE);
- }
-diff --git a/arch/s390/include/asm/preempt.h b/arch/s390/include/asm/preempt.h
-index b49e0492842c..23ff51be7e29 100644
---- a/arch/s390/include/asm/preempt.h
-+++ b/arch/s390/include/asm/preempt.h
-@@ -32,7 +32,7 @@ static inline void preempt_count_set(int pc)
- #define init_task_preempt_count(p)	do { } while (0)
- 
- #define init_idle_preempt_count(p, cpu)	do { \
--	S390_lowcore.preempt_count = PREEMPT_ENABLED; \
-+	S390_lowcore.preempt_count = PREEMPT_DISABLED; \
- } while (0)
- 
- static inline void set_preempt_need_resched(void)
-@@ -91,7 +91,7 @@ static inline void preempt_count_set(int pc)
- #define init_task_preempt_count(p)	do { } while (0)
- 
- #define init_idle_preempt_count(p, cpu)	do { \
--	S390_lowcore.preempt_count = PREEMPT_ENABLED; \
-+	S390_lowcore.preempt_count = PREEMPT_DISABLED; \
- } while (0)
- 
- static inline void set_preempt_need_resched(void)
-diff --git a/arch/s390/kernel/smp.c b/arch/s390/kernel/smp.c
-index 58c8afa3da65..d60c7374d807 100644
---- a/arch/s390/kernel/smp.c
-+++ b/arch/s390/kernel/smp.c
-@@ -877,7 +877,6 @@ static void smp_init_secondary(void)
- 	restore_access_regs(S390_lowcore.access_regs_save_area);
- 	cpu_init();
- 	rcu_cpu_starting(cpu);
--	preempt_disable();
- 	init_cpu_timer();
- 	vtime_init();
- 	vdso_getcpu_init();
-diff --git a/arch/sh/kernel/smp.c b/arch/sh/kernel/smp.c
-index 372acdc9033e..65924d9ec245 100644
---- a/arch/sh/kernel/smp.c
-+++ b/arch/sh/kernel/smp.c
-@@ -186,8 +186,6 @@ asmlinkage void start_secondary(void)
- 
- 	per_cpu_trap_init();
- 
--	preempt_disable();
--
- 	notify_cpu_starting(cpu);
- 
- 	local_irq_enable();
-diff --git a/arch/sparc/kernel/smp_32.c b/arch/sparc/kernel/smp_32.c
-index 50c127ab46d5..22b148e5a5f8 100644
---- a/arch/sparc/kernel/smp_32.c
-+++ b/arch/sparc/kernel/smp_32.c
-@@ -348,7 +348,6 @@ static void sparc_start_secondary(void *arg)
- 	 */
- 	arch_cpu_pre_starting(arg);
- 
--	preempt_disable();
- 	cpu = smp_processor_id();
- 
- 	notify_cpu_starting(cpu);
-diff --git a/arch/sparc/kernel/smp_64.c b/arch/sparc/kernel/smp_64.c
-index e38d8bf454e8..ae5faa1d989d 100644
---- a/arch/sparc/kernel/smp_64.c
-+++ b/arch/sparc/kernel/smp_64.c
-@@ -138,9 +138,6 @@ void smp_callin(void)
- 
- 	set_cpu_online(cpuid, true);
- 
--	/* idle thread is expected to have preempt disabled */
--	preempt_disable();
--
- 	local_irq_enable();
- 
- 	cpu_startup_entry(CPUHP_AP_ONLINE_IDLE);
-diff --git a/arch/x86/include/asm/preempt.h b/arch/x86/include/asm/preempt.h
-index f8cb8af4de5c..fe5efbcba824 100644
---- a/arch/x86/include/asm/preempt.h
-+++ b/arch/x86/include/asm/preempt.h
-@@ -44,7 +44,7 @@ static __always_inline void preempt_count_set(int pc)
- #define init_task_preempt_count(p) do { } while (0)
- 
- #define init_idle_preempt_count(p, cpu) do { \
--	per_cpu(__preempt_count, (cpu)) = PREEMPT_ENABLED; \
-+	per_cpu(__preempt_count, (cpu)) = PREEMPT_DISABLED; \
- } while (0)
- 
- /*
-diff --git a/arch/x86/kernel/smpboot.c b/arch/x86/kernel/smpboot.c
-index 16703c35a944..29713d0cf155 100644
---- a/arch/x86/kernel/smpboot.c
-+++ b/arch/x86/kernel/smpboot.c
-@@ -236,7 +236,6 @@ static void notrace start_secondary(void *unused)
- 	cpu_init();
- 	rcu_cpu_starting(raw_smp_processor_id());
- 	x86_cpuinit.early_percpu_clock_init();
--	preempt_disable();
- 	smp_callin();
- 
- 	enable_start_cpu0 = 0;
-diff --git a/arch/xtensa/kernel/smp.c b/arch/xtensa/kernel/smp.c
-index cd85a7a2722b..1254da07ead1 100644
---- a/arch/xtensa/kernel/smp.c
-+++ b/arch/xtensa/kernel/smp.c
-@@ -145,7 +145,6 @@ void secondary_start_kernel(void)
- 	cpumask_set_cpu(cpu, mm_cpumask(mm));
- 	enter_lazy_tlb(mm, current);
- 
--	preempt_disable();
- 	trace_hardirqs_off();
- 
- 	calibrate_delay();
-diff --git a/include/asm-generic/preempt.h b/include/asm-generic/preempt.h
-index d683f5e6d791..b4d43a4af5f7 100644
---- a/include/asm-generic/preempt.h
-+++ b/include/asm-generic/preempt.h
-@@ -29,7 +29,7 @@ static __always_inline void preempt_count_set(int pc)
- } while (0)
- 
- #define init_idle_preempt_count(p, cpu) do { \
--	task_thread_info(p)->preempt_count = PREEMPT_ENABLED; \
-+	task_thread_info(p)->preempt_count = PREEMPT_DISABLED; \
- } while (0)
- 
- static __always_inline void set_preempt_need_resched(void)
-diff --git a/init/main.c b/init/main.c
-index 53b278845b88..d8580323110e 100644
---- a/init/main.c
-+++ b/init/main.c
-@@ -918,11 +918,7 @@ asmlinkage __visible void __init __no_sanitize_address start_kernel(void)
- 	 * time - but meanwhile we still have a functioning scheduler.
- 	 */
- 	sched_init();
--	/*
--	 * Disable preemption - early bootup scheduling is extremely
--	 * fragile until we cpu_idle() for the first time.
--	 */
--	preempt_disable();
-+
- 	if (WARN(!irqs_disabled(),
- 		 "Interrupts were enabled *very* early, fixing it\n"))
- 		local_irq_disable();
-diff --git a/kernel/fork.c b/kernel/fork.c
-index a1a763019bfb..9de7bc40be1d 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -2406,7 +2406,7 @@ static inline void init_idle_pids(struct task_struct *idle)
- 	}
- }
- 
--struct task_struct *fork_idle(int cpu)
-+struct task_struct * __init fork_idle(int cpu)
- {
- 	struct task_struct *task;
- 	struct kernel_clone_args args = {
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 4a0668acd876..43b903ae823b 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -7433,7 +7433,7 @@ void show_state_filter(unsigned long state_filter)
-  * NOTE: this function does not set the idle thread's NEED_RESCHED
-  * flag, to make booting more robust.
-  */
--void init_idle(struct task_struct *idle, int cpu)
-+void __init init_idle(struct task_struct *idle, int cpu)
- {
- 	struct rq *rq = cpu_rq(cpu);
- 	unsigned long flags;
-diff --git a/kernel/smpboot.c b/kernel/smpboot.c
-index f25208e8df83..e4163042c4d6 100644
---- a/kernel/smpboot.c
-+++ b/kernel/smpboot.c
-@@ -33,7 +33,6 @@ struct task_struct *idle_thread_get(unsigned int cpu)
- 
- 	if (!tsk)
- 		return ERR_PTR(-ENOMEM);
--	init_idle(tsk, cpu);
- 	return tsk;
- }
- 
 -- 
-2.25.1
+2.29.2
+
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Vineet Gupta <vgupta@synopsys.com>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Brian Cain <bcain@codeaurora.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Albert Ou <aou@eecs.berkeley.edu>
+Cc: Jeff Dike <jdike@addtoit.com>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Sid Manning <sidneym@codeaurora.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: linux-snps-arc@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Cc: uclinux-h8-devel@lists.sourceforge.jp
+Cc: linux-hexagon@vger.kernel.org
+Cc: linux-m68k@lists.linux-m68k.org
+Cc: linux-riscv@lists.infradead.org
+Cc: linux-um@lists.infradead.org
+Cc: linux-arch@vger.kernel.org
 
 
 _______________________________________________
