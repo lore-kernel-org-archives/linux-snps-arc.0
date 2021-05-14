@@ -2,64 +2,64 @@ Return-Path: <SRS0=Kl7k=KJ=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42155C433B4
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 14 May 2021 22:10:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2F9FC433B4
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 14 May 2021 22:11:02 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BEC986144B
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 14 May 2021 22:10:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BEC986144B
+	by mail.kernel.org (Postfix) with ESMTPS id 4984E61453
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 14 May 2021 22:11:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4984E61453
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=D/mm82q3kG6QoofRvnhLhxWHnZHmmBZOfw2f6O5BgDg=; b=SRykeFqU5r0Av1OYz8WlTO9mDC
-	D+MT+5ltFolTsuyKpwOWXdRYn1mpwFqCAMZXdfnT0ouB3orC688IK2YE1hB0Yc4vVMDEiQ237fK2F
-	a1ZXJXo4fBgLTj1x2i4t4uKSt4RIS4es7LJBpeNjwaN/bgpXoQUO0Z4vdUBKA/NFV23o0KiCb5h5H
-	qAgWssJH3uyBCuY74AjZJBAJtgmCL/G9yM90TMtGcj1nyUwqRCit8Ex5WUBN4YGF0ODtCuZ7OQ3sR
-	WhKGfYbhDEsEjDZVM7UVNMt465fTqz27JFdI43+BZu1KqCI/bnAaC7cmy1z+hCJUuNX+ayhjUhxt3
-	0kgLW6rg==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=NrLfsYHlnC3N4tSd2pbykGH2l3YT9eiakpJ/ilBbjTQ=; b=jLXwyjuAuHdIU/dTuWyMBITIM
+	cFWmHApARCCVd/DqAz7Fj8I/ZVxKN8pHa3kfb/fAV01HlRk4XJs2ZwToeBh8YTLK3Uei16AakiL51
+	l6ILuBysHW0RqpKGGxwBnK/6VpgGfVXAhjHzSUxB9J6TVEu65klzHZwFIcJdNlSoqoHskyvFiz1Mu
+	2aLw4UEBDNqIxM4hfJ5aqIiurzmUHxBA8CUjmwjSd9AGcDc/n6Jzy+tGPLfFMeVdB2Kf1GQ+g1Hso
+	vLC6aBDdtjTGozKyn0KpUa+iRHm2japaR/luEsMJZmh8CmMKy+ROYC/jcG/yn6jXvXtvbvJXspKeA
+	KkCsOv7og==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lhg1G-0098BW-Tj; Fri, 14 May 2021 22:10:55 +0000
+	id 1lhg1M-0098Cw-JT; Fri, 14 May 2021 22:11:00 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lhg1D-0098Aq-NF; Fri, 14 May 2021 22:10:51 +0000
+ id 1lhg1I-0098Be-CI; Fri, 14 May 2021 22:10:56 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=miI/aEPj8G91cf9USfD8J3zXAl6W6h46Uu9Kg4U0xFU=; b=H4UkK3O6GtztASKUdT5xHBSpDe
- 3GD/hrBl5eAMoq/hPRkr/IVgqr7vyoLQDU/K0vJgYFtpX0plHr56Idztie130sI+dmO2ZBJYcrc7t
- md5CtTl0tD6o0JisCAygiM3HwG+wCSgAiifgHO689tSgiHMRV9KEsjt/Wc47BA5mIiQlCIIY/E5dG
- 2kdPY+caCnTlVBnugNxX7O8P4UCtGpn7QdQJTTclvV4jNAs7Oq2Hg0sZHwsMzbRMU8iYDqv9BG/dA
- 1JaYKUdNub6BYYB+1Y6uiwzMXutXfEy9xx3gYL3xvL4MqHyvwQzAtvkSnk/qJt8hxmBfJ6KInkCsL
- Htg3PtsA==;
+ MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+ :Reply-To:Content-Type:Content-ID:Content-Description;
+ bh=tNtVzum3+jmItql2AdkblZN0kg2xjCy6+6H3Mnz/RAM=; b=fUlZez16U5xQoXNckzom2MaqT+
+ IBJgsZhOVA98kqyhYs++A4JglgbWvQasmZcTxydOkA5TftQgvxhrW/sNg2/faVMBpUJPLTWWE7iFY
+ 8tVr0jXmZ2VX3WRNmgaMtfKbG7D5OrKhc0eSC1KIYcn0OTVBNrCAaPFciyEMFs9ztsbkSShmdH8OC
+ Eg6TgUKd478rrBOq5AdJR8LshbLQ2iN3aztBbRZI4mXd9VVHmObL/m5PDPolH/6+3LSRsd29toh+a
+ VVLxWoghPRPwQWsT7S0DLNixsTBkHYcRkGBPNeAsT+Hw+PreLQBJXmbTlPoH7s8H6a3Xt6/rdS2Pl
+ /nt9PX+Q==;
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lhg1B-00CIAb-56; Fri, 14 May 2021 22:10:50 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8F55B61182;
- Fri, 14 May 2021 22:10:44 +0000 (UTC)
+ id 1lhg1F-00CIB7-EB; Fri, 14 May 2021 22:10:55 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1050861442;
+ Fri, 14 May 2021 22:10:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1621030248;
- bh=zwzpJpxhzEGdOSTs7iHw5uHEDYyGgvaSUy2MfaxR8a4=;
- h=From:To:Cc:Subject:Date:From;
- b=Amsg36igKFenDeVbVYqjy3ug1isOcKoawk6bBGVwpXxus0vf9KtNztP7we1xEnUjo
- G4P9ZW0acUdIcQ54wii2EhWxQzotCNPrDegb9Ij4ShWHQsNq08RmeCBvVFHnUC+v77
- 5fx2VXC98JVtLXFyuub4Hjokij4TJwUqVxAIe3xhFi40DUBaL6RWuUS7GQqq4QupMJ
- hGB6WqnnpE2ySboqAEjuH2/wBaJ3s5EYxDocovzG6UVkcoGZM2dDSjIHRZGZPQfPVg
- qTqvx1B5VLkspJfQlTpO8TCmXDQEghXCqbkRbEToYO10Sayisjq1O+a1YrOM7useM6
- FvHmzQq//ayRg==
+ s=k20201202; t=1621030253;
+ bh=aUw+r/nEodOPwyLxBnACR72ulITbwIstVbqXf4RRoJE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=oYBr8bGKcTRMUOp2zoQGJPX5679NcgVqQDZoScnhBl/RG3Kf9VFROFuxnZ2PYbUQp
+ HbMeDK9xehouxSDKBmgv5lyhLy6L8QEuCI09B8k636PJ4PIx+RMZ86BZJ+1SDBOjtI
+ w6x/8vaq2LgB/oHRDPceRLy95NS/naosQOIONqbCHDfwcxS1vZmYhqRX8HywJHQy7Z
+ oN85ZsVRRgEdcYYERghpTitKtDHkJAUTk4nmz4zUq84KFTvm2HT4FkLgUi4AN1teug
+ 0D5rRFn5LTD1UcK81AXhl4m0dGa5I4XmVban0KVqOcblgEZp8Xu4oMFybVHbboBLKp
+ nqjttqDBqwHiA==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-arch@vger.kernel.org
 Cc: Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>,
@@ -77,14 +77,17 @@ Cc: Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>,
  uclinux-h8-devel@lists.sourceforge.jp, linux-hexagon@vger.kernel.org,
  linux-m68k@lists.linux-m68k.org, linux-riscv@lists.infradead.org,
  linux-um@lists.infradead.org
-Subject: [PATCH 0/5] asm-generic: strncpy_from_user/strnlen_user cleanup
-Date: Sat, 15 May 2021 00:09:37 +0200
-Message-Id: <20210514220942.879805-1-arnd@kernel.org>
+Subject: [PATCH 1/5] asm-generic/uaccess.h: remove
+ __strncpy_from_user/__strnlen_user
+Date: Sat, 15 May 2021 00:09:38 +0200
+Message-Id: <20210514220942.879805-2-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210514220942.879805-1-arnd@kernel.org>
+References: <20210514220942.879805-1-arnd@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210514_151049_262524_9D6BAFC2 
-X-CRM114-Status: GOOD (  12.88  )
+X-CRM114-CacheID: sfid-20210514_151053_546066_28DDB6CA 
+X-CRM114-Status: GOOD (  19.00  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,69 +106,220 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-As I've queued up some patches for include/asm-generic/unistd.h, I
-remembered an older series that I created but never submitted.
+This is a preparation for changing over architectures to the
+generic implementation one at a time. As there are no callers
+of either __strncpy_from_user() or __strnlen_user(), fold these
+into the strncpy_from_user() strnlen_user() functions to make
+each implementation independent of the others.
 
-These two functions appear to be unnecessarily different between
-architectures, and the asm-generic version is a bit questionable,
-even for NOMMU architectures.
+Many of these implementations have known bugs, but the intention
+here is to not change behavior at all and stay compatible with
+those bugs for the moment.
 
-Clean this up to just use the generic library version for anything
-that uses the generic version today.
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ arch/arc/include/asm/uaccess.h     | 14 ++++++++++----
+ arch/hexagon/include/asm/uaccess.h | 22 +++++++++++++---------
+ arch/um/include/asm/uaccess.h      |  8 ++++----
+ arch/um/kernel/skas/uaccess.c      |  5 ++++-
+ include/asm-generic/uaccess.h      | 28 +++++++++++-----------------
+ 5 files changed, 42 insertions(+), 35 deletions(-)
 
-       Arnd
-
-Arnd Bergmann (5):
-  asm-generic/uaccess.h: remove __strncpy_from_user/__strnlen_user
-  hexagon: use generic strncpy/strnlen from_user
-  arc: use generic strncpy/strnlen from_user
-  asm-generic: uaccess: remove inline strncpy_from_user/strnlen_user
-  asm-generic: remove extra strn{cpy_from,len}_user declarations
-
- arch/arc/Kconfig                    |   2 +
- arch/arc/include/asm/uaccess.h      |  72 ----------------
- arch/arc/mm/extable.c               |  12 ---
- arch/h8300/Kconfig                  |   2 +
- arch/hexagon/Kconfig                |   2 +
- arch/hexagon/include/asm/uaccess.h  |  31 -------
- arch/hexagon/kernel/hexagon_ksyms.c |   1 -
- arch/hexagon/mm/Makefile            |   2 +-
- arch/hexagon/mm/strnlen_user.S      | 126 ----------------------------
- arch/m68k/Kconfig                   |   4 +-
- arch/riscv/Kconfig                  |   4 +-
- arch/um/include/asm/uaccess.h       |   5 +-
- arch/um/kernel/skas/uaccess.c       |   5 +-
- include/asm-generic/uaccess.h       |  52 ++----------
- 14 files changed, 24 insertions(+), 296 deletions(-)
- delete mode 100644 arch/hexagon/mm/strnlen_user.S
-
+diff --git a/arch/arc/include/asm/uaccess.h b/arch/arc/include/asm/uaccess.h
+index ea40ec7f6cae..3476348f361e 100644
+--- a/arch/arc/include/asm/uaccess.h
++++ b/arch/arc/include/asm/uaccess.h
+@@ -661,6 +661,9 @@ __arc_strncpy_from_user(char *dst, const char __user *src, long count)
+ 	long res = 0;
+ 	char val;
+ 
++	if (!access_ok(src, 1))
++		return -EFAULT;
++
+ 	if (count == 0)
+ 		return 0;
+ 
+@@ -693,6 +696,9 @@ static inline long __arc_strnlen_user(const char __user *s, long n)
+ 	long res, tmp1, cnt;
+ 	char val;
+ 
++	if (!access_ok(s, 1))
++		return 0;
++
+ 	__asm__ __volatile__(
+ 	"	mov %2, %1			\n"
+ 	"1:	ldb.ab  %3, [%0, 1]		\n"
+@@ -724,8 +730,8 @@ static inline long __arc_strnlen_user(const char __user *s, long n)
+ #define INLINE_COPY_FROM_USER
+ 
+ #define __clear_user(d, n)		__arc_clear_user(d, n)
+-#define __strncpy_from_user(d, s, n)	__arc_strncpy_from_user(d, s, n)
+-#define __strnlen_user(s, n)		__arc_strnlen_user(s, n)
++#define strncpy_from_user(d, s, n)	__arc_strncpy_from_user(d, s, n)
++#define strnlen_user(s, n)		__arc_strnlen_user(s, n)
+ #else
+ extern unsigned long arc_clear_user_noinline(void __user *to,
+ 		unsigned long n);
+@@ -734,8 +740,8 @@ extern long arc_strncpy_from_user_noinline (char *dst, const char __user *src,
+ extern long arc_strnlen_user_noinline(const char __user *src, long n);
+ 
+ #define __clear_user(d, n)		arc_clear_user_noinline(d, n)
+-#define __strncpy_from_user(d, s, n)	arc_strncpy_from_user_noinline(d, s, n)
+-#define __strnlen_user(s, n)		arc_strnlen_user_noinline(s, n)
++#define strncpy_from_user(d, s, n)	arc_strncpy_from_user_noinline(d, s, n)
++#define strnlen_user(s, n)		arc_strnlen_user_noinline(s, n)
+ 
+ #endif
+ 
+diff --git a/arch/hexagon/include/asm/uaccess.h b/arch/hexagon/include/asm/uaccess.h
+index c1019a736ff1..59aa3a50744f 100644
+--- a/arch/hexagon/include/asm/uaccess.h
++++ b/arch/hexagon/include/asm/uaccess.h
+@@ -57,23 +57,27 @@ unsigned long raw_copy_to_user(void __user *to, const void *from,
+ __kernel_size_t __clear_user_hexagon(void __user *dest, unsigned long count);
+ #define __clear_user(a, s) __clear_user_hexagon((a), (s))
+ 
+-#define __strncpy_from_user(dst, src, n) hexagon_strncpy_from_user(dst, src, n)
++extern long __strnlen_user(const char __user *src, long n);
+ 
+-/*  get around the ifndef in asm-generic/uaccess.h  */
+-#define __strnlen_user __strnlen_user
++static inline strnlen_user(const char __user *src, long n)
++{
++        if (!access_ok(src, 1))
++		return 0;
+ 
+-extern long __strnlen_user(const char __user *src, long n);
++	return __strnlen_user(src, n);
++}
++/*  get around the ifndef in asm-generic/uaccess.h  */
++#define strnlen_user strnlen_user
+ 
+-static inline long hexagon_strncpy_from_user(char *dst, const char __user *src,
+-					     long n);
++static inline long strncpy_from_user(char *dst, const char __user *src, long n);
++#define strncpy_from_user strncpy_from_user
+ 
+ #include <asm-generic/uaccess.h>
+ 
+ /*  Todo:  an actual accelerated version of this.  */
+-static inline long hexagon_strncpy_from_user(char *dst, const char __user *src,
+-					     long n)
++static inline long strncpy_from_user(char *dst, const char __user *src, long n)
+ {
+-	long res = __strnlen_user(src, n);
++	long res = strnlen_user(src, n);
+ 
+ 	if (unlikely(!res))
+ 		return -EFAULT;
+diff --git a/arch/um/include/asm/uaccess.h b/arch/um/include/asm/uaccess.h
+index fe66d659acad..3bf209f683f8 100644
+--- a/arch/um/include/asm/uaccess.h
++++ b/arch/um/include/asm/uaccess.h
+@@ -23,16 +23,16 @@
+ 
+ extern unsigned long raw_copy_from_user(void *to, const void __user *from, unsigned long n);
+ extern unsigned long raw_copy_to_user(void __user *to, const void *from, unsigned long n);
+-extern long __strncpy_from_user(char *dst, const char __user *src, long count);
+-extern long __strnlen_user(const void __user *str, long len);
++extern long strncpy_from_user(char *dst, const char __user *src, long count);
++extern long strnlen_user(const void __user *str, long len);
+ extern unsigned long __clear_user(void __user *mem, unsigned long len);
+ static inline int __access_ok(unsigned long addr, unsigned long size);
+ 
+ /* Teach asm-generic/uaccess.h that we have C functions for these. */
+ #define __access_ok __access_ok
+ #define __clear_user __clear_user
+-#define __strnlen_user __strnlen_user
+-#define __strncpy_from_user __strncpy_from_user
++#define strnlen_user strnlen_user
++#define strncpy_from_user strncpy_from_user
+ #define INLINE_COPY_FROM_USER
+ #define INLINE_COPY_TO_USER
+ 
+diff --git a/arch/um/kernel/skas/uaccess.c b/arch/um/kernel/skas/uaccess.c
+index 2dec915abe6f..205679cc4bb7 100644
+--- a/arch/um/kernel/skas/uaccess.c
++++ b/arch/um/kernel/skas/uaccess.c
+@@ -188,11 +188,14 @@ static int strncpy_chunk_from_user(unsigned long from, int len, void *arg)
+ 	return 0;
+ }
+ 
+-long __strncpy_from_user(char *dst, const char __user *src, long count)
++long strncpy_from_user(char *dst, const char __user *src, long count)
+ {
+ 	long n;
+ 	char *ptr = dst;
+ 
++	if (!access_ok(src, 1))
++		return -EFAULT;
++
+ 	if (uaccess_kernel()) {
+ 		strncpy(dst, (__force void *) src, count);
+ 		return strnlen(dst, count);
+diff --git a/include/asm-generic/uaccess.h b/include/asm-generic/uaccess.h
+index 4973328f3c6e..c03889cc904c 100644
+--- a/include/asm-generic/uaccess.h
++++ b/include/asm-generic/uaccess.h
+@@ -246,11 +246,15 @@ extern int __get_user_bad(void) __attribute__((noreturn));
+ /*
+  * Copy a null terminated string from userspace.
+  */
+-#ifndef __strncpy_from_user
++#ifndef strncpy_from_user
+ static inline long
+-__strncpy_from_user(char *dst, const char __user *src, long count)
++strncpy_from_user(char *dst, const char __user *src, long count)
+ {
+ 	char *tmp;
++
++	if (!access_ok(src, 1))
++		return -EFAULT;
++
+ 	strncpy(dst, (const char __force *)src, count);
+ 	for (tmp = dst; *tmp && count > 0; tmp++, count--)
+ 		;
+@@ -258,24 +262,12 @@ __strncpy_from_user(char *dst, const char __user *src, long count)
+ }
+ #endif
+ 
+-static inline long
+-strncpy_from_user(char *dst, const char __user *src, long count)
+-{
+-	if (!access_ok(src, 1))
+-		return -EFAULT;
+-	return __strncpy_from_user(dst, src, count);
+-}
+-
++#ifndef strnlen_user
+ /*
+  * Return the size of a string (including the ending 0)
+  *
+  * Return 0 on exception, a value greater than N if too long
+- */
+-#ifndef __strnlen_user
+-#define __strnlen_user(s, n) (strnlen((s), (n)) + 1)
+-#endif
+-
+-/*
++ *
+  * Unlike strnlen, strnlen_user includes the nul terminator in
+  * its returned count. Callers should check for a returned value
+  * greater than N as an indication the string is too long.
+@@ -284,8 +276,10 @@ static inline long strnlen_user(const char __user *src, long n)
+ {
+ 	if (!access_ok(src, 1))
+ 		return 0;
+-	return __strnlen_user(src, n);
++
++	return strnlen(src, n) + 1;
+ }
++#endif
+ 
+ /*
+  * Zero Userspace
 -- 
 2.29.2
-
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Vineet Gupta <vgupta@synopsys.com>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: Brian Cain <bcain@codeaurora.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>
-Cc: Albert Ou <aou@eecs.berkeley.edu>
-Cc: Jeff Dike <jdike@addtoit.com>
-Cc: Richard Weinberger <richard@nod.at>
-Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Sid Manning <sidneym@codeaurora.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Mike Rapoport <rppt@kernel.org>
-Cc: linux-snps-arc@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
-Cc: uclinux-h8-devel@lists.sourceforge.jp
-Cc: linux-hexagon@vger.kernel.org
-Cc: linux-m68k@lists.linux-m68k.org
-Cc: linux-riscv@lists.infradead.org
-Cc: linux-um@lists.infradead.org
-Cc: linux-arch@vger.kernel.org
 
 
 _______________________________________________
