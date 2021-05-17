@@ -2,20 +2,19 @@ Return-Path: <SRS0=QMqO=KM=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 784BCC433ED
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 17 May 2021 07:52:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2CD1C433B4
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 17 May 2021 08:44:16 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3DD3160232
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 17 May 2021 07:52:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3DD3160232
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	by mail.kernel.org (Postfix) with ESMTPS id 95ABC61184
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 17 May 2021 08:44:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 95ABC61184
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
@@ -23,62 +22,65 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:
 	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=1R0+Myvx5ueFuwOJpJKmEskC3igL6BgR/bDpU+FMO84=; b=CYBa7Sbf1LKC+eEgLMbRBukK2
-	ihuzTM0MBQter44fH6ua8ZQxrkW+fxbHL/bYDtcVslfiz8WG/G8qHrVdWosKjctBZFX8lkatBLSzP
-	oYlnR2QfqhN/buAYDIp17pi7hf6YtvGqsKQbRwt40vAdSlOmVdlkkByVuPwDk6gMmJnk8REMjSdh4
-	05Hw1TrH44cg2yCZegLQ6JChB20HG7TCE0nZWn9LVXmhRueAwmWeMxH+C3Un5EQHxfH0utcM0119q
-	GsfUUAEvViwWZB6rifLvRlsQMYxMIpLLopK1ACnvx6/6iF3wUnMmNdwJJpIz31Fbzbyx3yBZWFY6k
-	Qwo5Y4a1g==;
+	 bh=jVWQckB3C2ZXJuTTRN33Ooyy86YTGLWmMHB7LSfNey8=; b=VGosmRG1q9JlfsCdrGwFZqO86
+	jKdgiSe2/5H1xzdMAVHJidgY41xTreqwO3Y1cg6iPq966Mff7Qd9Ooq0I4As2gylA12Ltpcw2Dz+Z
+	PwcQgiSeVSJnO64RTRqlnvMNVLVCZCSROl3Iq898MyBi6b0PA2GIZMQ149+LZ31bOdfcobDg2yS0G
+	MS+hTeDkH5EpGLXA4itTZL11tG369wA/Qs0oE6GO30GT3tW3q2DQ1cdxm8G/l1aVQxdhx4FQub+CD
+	/Il7BKmAQn1TvZm3piC3L0AqvzTbElnPo7TZz/rRmhM6D9rpg7/nxyFEBYsj8oxgb+qLIaze0DL+U
+	vWykSeDyg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1liY3N-00E6uA-6W; Mon, 17 May 2021 07:52:41 +0000
+	id 1liYrG-00EIxS-LJ; Mon, 17 May 2021 08:44:14 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1liY0n-00E5xb-M5; Mon, 17 May 2021 07:50:01 +0000
+ id 1liYr8-00EIvJ-9C; Mon, 17 May 2021 08:44:06 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Type:Cc:To:Subject:Message-ID
  :Date:From:In-Reply-To:References:MIME-Version:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=Wm1leRczzFOwOFaSNT2IC1vyfbeH7BGd9FvIHYCsh/w=; b=o8zAv3vqscu53aJ6D0K4yz+GV3
- 3F3DLgxgl5OfvZwIXBpiunxipek4+8O1LcEbmARC+4xugG6paX8n2s5J6iEf60QgLA/0hQYhyb+lg
- vUHo2aeZsfzNHX/gWKYB9OWANHQlzi3ImGEkI1st64ewYktF/btAQ9pPxVIrK/T14IOqCBBdWMfNo
- Qa7kXXXkO4Os8sYWIlvUwb6ynaOn+Bm0jf2RxDv2kpAvZ0w1GCKjqIKJ2pw+/9wJSAiANZP5qKfVb
- OMOkmBbpnYY4Tj8KcZBoMNhfuJhulYf3AsAsHst09F1xUkSpMmEveB6++AICupMSXdT4EIWbz4rQw
- +dMGUy0g==;
-Received: from mail-ua1-f54.google.com ([209.85.222.54])
+ bh=/tjlZf1KVR0s5D53uDj326IGYvtuxn9ZHeLU8roq3mU=; b=H/5xfieg4snhVX3AsSJfiAzB2E
+ qIixBuMAzq4WUqRwMzn+vnhvrfYDIgBDGncLs0rfMCKvTf/etgW9Zjyxt3ZcUoZOyfbQamRqGfZ+5
+ 2nAtJxWrBy57ZDAHE2dG3NOM5J20br7qPQSe91EoxtD1lO0BHAynRvVP3Fd72yuljcDBsOEKmBMAq
+ 8j24JEgsP/+ENhGXsVtzGtFKz8chaRQeOBgWdem6DI19FAMTQ2XsWzUWBNjaEogeOIqCCUlJT9S4Q
+ y3p+IhNFKuw78Xgs+qtqyEXSO1UXClVxAd6QMZkvv7FkA0z62ZXJbiYgh22xEiRYPKh77kBE9ATZE
+ VtCkXtgQ==;
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1liY0l-00DYoX-2i; Mon, 17 May 2021 07:50:00 +0000
-Received: by mail-ua1-f54.google.com with SMTP id 20so1805732uaf.12;
- Mon, 17 May 2021 00:49:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Wm1leRczzFOwOFaSNT2IC1vyfbeH7BGd9FvIHYCsh/w=;
- b=HEcd2ofnR30R14KFVuZqV1W6g2wsVx6jRS2dI11k4KWKr6QYP8oe/hXd6FqXL5JJrL
- KEznHbTtY47gaWGB3rojFREtc1fxH0iAOJeBR98Ni6+FTZls92jVZTrEHK0m9NxZljZV
- 4QsZVGZAhdBu669t6DjXMkgG1p1pwJw6TSUCZ2dmG4h71wE/6futgOeTVu+tPNWm0td5
- WP5h6d5/+KFO9ZKybJLyObarlPm2CuCNiukIEVCrGVsxm+QhQidJGje5sZkH99ngNsrr
- UzLGEWXn6MK6bcssVO8cpf698KpoK89Wq1DiLVsNrjza8iPNNFvCaGJJI5QxjLYNSHss
- z8uw==
-X-Gm-Message-State: AOAM533zwdNaXyDT87ctgX1JWph4FzmjM5Xr1vunU/eVouvmlF+RMpCl
- 9xmLIXVpeLGszH3+U0gl56+94LkAXUIUF1NpxmQ=
-X-Google-Smtp-Source: ABdhPJxMkbz10U6Jg7YSgioxoN/77aKbpd9YpL153uII/i6U1HGzQThHJEqUHqKW1WMKKAc41kkz+IhZpWsMRXHngY4=
-X-Received: by 2002:ab0:f5:: with SMTP id 108mr16323124uaj.106.1621237797742; 
- Mon, 17 May 2021 00:49:57 -0700 (PDT)
+ id 1liYr5-00DbqO-TV; Mon, 17 May 2021 08:44:05 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 86E9F61285;
+ Mon, 17 May 2021 08:44:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1621241043;
+ bh=pGxJJRkE9qeDtccc/YEcwOP1pJnAulKNh3xYI4CjqcE=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=VhyR280qktq3Yj7mvUPKACKxoTFcuZgScgzvJHx3l38cArr8+Z1PHUCauN7611dwt
+ NPqfUoJoLvybKsWnw5XBfWBnw8Kv/cK+DKuTDCcu6S3genrIH4gyCUDyMru0esHMq3
+ IQajegZypqB2swBYx+h3oZex0t4OU4xmY+RiLrkmtgPak2eiVPLgJdWphXaIjg2ZQR
+ xazekUTIUzom3w/On/AUGF/4aikSScp4WWIi0uoJhNFKiP0lEpNVnpQ48HG9k3wCGu
+ 5YN9cseL+gw6iSznh8e4ihyONNGEmrxfyQM2XPKMRSASOUsEWkgPtNFIfn50Tm8Cvs
+ 7//2tKougJRQA==
+Received: by mail-wm1-f44.google.com with SMTP id
+ f6-20020a1c1f060000b0290175ca89f698so2249399wmf.5; 
+ Mon, 17 May 2021 01:44:03 -0700 (PDT)
+X-Gm-Message-State: AOAM5311myyIxukP7rtBiHfowGgUFQ4Ocz4AioBFEEz7FQaiQlv5niRn
+ tf1T7Zs/qHUTlLO+IcHPeDLrQpN8v8lF2M3k/5U=
+X-Google-Smtp-Source: ABdhPJyn3HuFOFAJWNgd1wcrETQpYkMJHnXvEOT0odsuIYz2sA4AdaozgJ+/NI7bT1baIPTv7IRh4lYoa6g98QiwBCo=
+X-Received: by 2002:a7b:c446:: with SMTP id l6mr6057480wmi.75.1621241041984;
+ Mon, 17 May 2021 01:44:01 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210514220942.879805-1-arnd@kernel.org>
- <20210514220942.879805-5-arnd@kernel.org>
-In-Reply-To: <20210514220942.879805-5-arnd@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 17 May 2021 09:49:45 +0200
-Message-ID: <CAMuHMdXPWdNqeeyCuKheOyTT-DSqrhKQyotmY5YBhdbz-VgfwA@mail.gmail.com>
-Subject: Re: [PATCH 4/5] asm-generic: uaccess: remove inline
- strncpy_from_user/strnlen_user
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Linux-Arch <linux-arch@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
- Christoph Hellwig <hch@lst.de>, Al Viro <viro@zeniv.linux.org.uk>,
- Vineet Gupta <vgupta@synopsys.com>, 
+ <20210514220942.879805-2-arnd@kernel.org>
+ <CAMuHMdXr6gxbJu+otHV=PhoXvM7aoshs_A-SVpTmYw1iDdiqsg@mail.gmail.com>
+In-Reply-To: <CAMuHMdXr6gxbJu+otHV=PhoXvM7aoshs_A-SVpTmYw1iDdiqsg@mail.gmail.com>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Mon, 17 May 2021 10:42:54 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a02V8k6aGkqtc0A7PiAwhJDCw6yMW=m4nmTmgVbwy316g@mail.gmail.com>
+Message-ID: <CAK8P3a02V8k6aGkqtc0A7PiAwhJDCw6yMW=m4nmTmgVbwy316g@mail.gmail.com>
+Subject: Re: [PATCH 1/5] asm-generic/uaccess.h: remove
+ __strncpy_from_user/__strnlen_user
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Linux-Arch <linux-arch@vger.kernel.org>, Christoph Hellwig <hch@lst.de>, 
+ Al Viro <viro@zeniv.linux.org.uk>, Vineet Gupta <vgupta@synopsys.com>, 
  Yoshinori Sato <ysato@users.sourceforge.jp>, Brian Cain <bcain@codeaurora.org>,
  Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
  Albert Ou <aou@eecs.berkeley.edu>, Jeff Dike <jdike@addtoit.com>, 
@@ -93,8 +95,8 @@ Cc: Linux-Arch <linux-arch@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
  linux-riscv <linux-riscv@lists.infradead.org>,
  linux-um <linux-um@lists.infradead.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210517_004959_141195_EEFACD27 
-X-CRM114-Status: GOOD (  17.78  )
+X-CRM114-CacheID: sfid-20210517_014403_990421_3F147357 
+X-CRM114-Status: GOOD (  13.54  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,29 +113,21 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Sat, May 15, 2021 at 12:11 AM Arnd Bergmann <arnd@kernel.org> wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Mon, May 17, 2021 at 9:42 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> Consolidate the asm-generic implementation with the library version
-> that is used everywhere else.
+> On Sat, May 15, 2021 at 12:10 AM Arnd Bergmann <arnd@kernel.org> wrote:
+> > From: Arnd Bergmann <arnd@arndb.de>
+> >
+> > This is a preparation for changing over architectures to the
+> > generic implementation one at a time. As there are no callers
+> > of either __strncpy_from_user() or __strnlen_user(), fold these
+> > into the strncpy_from_user() strnlen_user() functions to make
 >
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ... and ...
 
->  arch/m68k/Kconfig             |  4 +--
+Fixed, thanks!
 
-Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+      Arnd
 
 _______________________________________________
 linux-snps-arc mailing list
