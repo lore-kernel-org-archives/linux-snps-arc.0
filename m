@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C94DFC433ED
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 17 May 2021 06:18:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C8F6C433B4
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 17 May 2021 06:19:21 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4A24561221
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 17 May 2021 06:18:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4A24561221
+	by mail.kernel.org (Postfix) with ESMTPS id AC44B6121F
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 17 May 2021 06:19:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AC44B6121F
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,34 +23,34 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=DIvgvZG6yi2LgIBp2+loovXT98RqBmg6271VrCl4RXw=; b=guyqSMGNfkl6kBgG6yZ7ZlgVg
-	R4LYBWBJ0u+GWANiMRDUzkeoacB0QFnoxajqp2fSrN3Xs4fSkuWlfuiG2kcuCB/YZIgb8oni2ZA9v
-	n9K0kDamp+eSmEqyYpfKbd/umRpNpYPeKedYP721F2xeLwBSJOUvd0hcTWsPiqHgOGo73jOoQmy8/
-	n813hEcnzKiYmamSVVSfnimanbHV8uE9qLB36hXI2djpXvXaniGcNrUAZArUOHUUBIxuSKtCufDMn
-	7HEGLqV13LDX0miDOIZsJ3oZmmaR+wMVI14hLIOL/LwG5zuMJyWzhT/umMTVsCENWzzySvG89rgKZ
-	mDe1Lq4LQ==;
+	 bh=OStfujJpwC8fH5HoBxZohiDAcy1PYccNY9X2gEoDlNE=; b=hb2jExQhObNsVTB0BVFCVB+mz
+	l/Yyiuw1pHR0D+3mtcmLMkqmCW2efHITy3CIYjV7RmXj1Pcp7DTKzJolZoCF7A/gaiiw4+9ePEhx6
+	jeR7uQo58OX8pHDNfcSU5kqqrGGR5OcS+GU1FljNVj5TvBIUNhsa/G6lYiKBP6kqHnMIA2G4aPR59
+	DikkvVJuTj16+Ddaj5q5bVECgfcYepzsaNSqfcdLOKkdPffOjPkXbIAKh4Wd0zy6y8Cg5b9OsfWwO
+	O8U8nz2uT+S5lnlcwfKzFcAwIHuQdvAQDdOO5MhNYeqcBkIOMKwuElRvpM1Uz+N/F6q9X/pJMb3zc
+	WYLYszaIg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1liWZx-00DqW6-7V; Mon, 17 May 2021 06:18:13 +0000
+	id 1liWb0-00DqmC-Kv; Mon, 17 May 2021 06:19:18 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1liWYa-00DqLW-Up; Mon, 17 May 2021 06:16:49 +0000
+ id 1liWYn-00DqOI-NL; Mon, 17 May 2021 06:17:04 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
  :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=dXg2FSOjoO0+r986FnHHsj9nMRxMBnZb7jO3kfUaz8s=; b=rDzyjwUQwb952II8EiAAksjv8F
- ME0B7HE1NsaKi75/FQP0Ysymg8UNyqhF+NZgzzc1+7w3lDeW6PRT58oq1nyBjNFfHCFtefn0IbgEd
- Wy8DIZJRvWpgwcWWEw0zJrXzCG8jWbO1Jv7mkh209S5BeiwbeTXhbhp+hGIr1lFrPVTGdDIU2AQjA
- W088xJv6q00LzLCEM3VfoCyd7m5agyZB35+3ZfFzuhdx9Aiiu2eXZ9CBAInWRo6oharWEniaV5IXz
- FJI8wFok+oGS+CtbZCPpam6OX3vELm2TW1nu5WBtHHmZAC/NFCSzvIHtRUMh5M8/ikARSblZk0Eu3
- ajUw+IVQ==;
+ bh=Rc39pSTelZ0E7dwuNrXoMHBf3l0C451wcyf/Kvd1O6E=; b=lOQbmoKenA8Yy4Ntf8VbGkAxBm
+ PftAEcPlhhqexAJpmQyv5s6wQYXfoJ4Aq9c7dfgSoT66QC4l9QPwu/xH20wJ28a6cBR0OKt5YL1BF
+ /O7Os4JvgyXVgljnO2yY4/Kgtej7NnHo1vlndfmptBYnXvGwYZ7P6qpeOMF9ha5jHcMI1A0MvG7V9
+ Ne1ijrC0nOHNJRgpUEgVM/mvpjjErqM5UV/Dz1jqZmrFyGcczklR/rzqxtOWHox1WatovacX4bIUM
+ wC+tCUrdyhgNu4DN1V7kyjWdBZPa09ikmjjKXzVc9eUq0QD4xkBvzbrx0NojkGYipQ5MHloT+i0tD
+ GFC792Pg==;
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1liWYX-00DVHb-W8; Mon, 17 May 2021 06:16:47 +0000
+ id 1liWYl-00DVIK-9l; Mon, 17 May 2021 06:17:00 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id E9B8E6736F; Mon, 17 May 2021 08:16:35 +0200 (CEST)
-Date: Mon, 17 May 2021 08:16:35 +0200
+ id 60D5F6736F; Mon, 17 May 2021 08:16:56 +0200 (CEST)
+Date: Mon, 17 May 2021 08:16:56 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Arnd Bergmann <arnd@kernel.org>
 Cc: linux-arch@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
@@ -70,17 +70,17 @@ Cc: linux-arch@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
  linux-kernel@vger.kernel.org, uclinux-h8-devel@lists.sourceforge.jp,
  linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
  linux-riscv@lists.infradead.org, linux-um@lists.infradead.org
-Subject: Re: [PATCH 3/6] [v2] hexagon: use generic strncpy/strnlen from_user
-Message-ID: <20210517061635.GA23581@lst.de>
+Subject: Re: [PATCH 4/6] [v2] arc: use generic strncpy/strnlen from_user
+Message-ID: <20210517061656.GB23581@lst.de>
 References: <20210515101803.924427-1-arnd@kernel.org>
- <20210515101803.924427-4-arnd@kernel.org>
+ <20210515101803.924427-5-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210515101803.924427-4-arnd@kernel.org>
+In-Reply-To: <20210515101803.924427-5-arnd@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210516_231646_200680_E3F998CF 
-X-CRM114-Status: GOOD (  13.55  )
+X-CRM114-CacheID: sfid-20210516_231659_508403_19567863 
+X-CRM114-Status: GOOD (  13.27  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,23 +97,20 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Sat, May 15, 2021 at 12:18:00PM +0200, Arnd Bergmann wrote:
+On Sat, May 15, 2021 at 12:18:01PM +0200, Arnd Bergmann wrote:
 > From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Most per-architecture versions of these functions are broken in some form,
-> and they are almost certainly slower than the generic code as well.
+> Most per-architecture versions of these functions are broken
+> in some form, and they are almost certainly slower than the
+> generic code as well.
 > 
-> Remove the ones for hexagon and instead use the generic version.
-> This custom version reads the data twice for strncpy() by doing an extra
-> strnlen(), and it apparently lacks a check for user_addr_max().
+> This version is fairly slow because it always does byte accesses
+> even for aligned data, and its checks for user_addr_max() differ
+> from the generic code.
+> 
+> Remove the ones for arc and instead use the generic version.
 
-I'd be tempted to just remove the first paragraph and reword the second
-as:
-
-Remove the hexagon implementation of strncpy/strnlen and instead use the
-generic versions.  The hexago version of strncpy reads the data twice by
-doing an extra strnlen(), and it apparently lacks a check for
-user_addr_max().
+Same comment as for hexaon before.
 
 _______________________________________________
 linux-snps-arc mailing list
