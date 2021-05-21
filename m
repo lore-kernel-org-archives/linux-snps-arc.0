@@ -1,108 +1,192 @@
-Return-Path: <SRS0=DFiJ=KP=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=FXUf=KQ=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-15.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E1C9C433ED
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 20 May 2021 08:41:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E718CC4707A
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 21 May 2021 22:35:54 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ED83461184
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 20 May 2021 08:41:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ED83461184
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=korsgaard.com
+	by mail.kernel.org (Postfix) with ESMTPS id 66CB86135C
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 21 May 2021 22:35:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 66CB86135C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:In-Reply-To:Date:References:
-	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=q82T1XZq6tGBGwubflIKB7yxCwJk/HTHCBBCEaMggGA=; b=jiZSnsqgW89E4ME3o3VV7hTo0
-	WnPtRE+r45npFAX0VSLB0uRgjMKsT0xqlux5j9MaCMaxOpz5lSkwknZXGSJG2qD8eyXk0toYoqSZZ
-	w7YtvxGGr8MUeztug1JSaB9ktmK3f+f1eIkxA2yqvY7h9gEkTKPQKoCYdfGuMdCaCm1AaTzCQxto7
-	LVa/mhUVadl3hvDw2C/wIQiBNZxkoqyungfOAwRK2x1Yl5MAgLrUWT0VLpRZUQYjdhl9bwGZobvj5
-	3K5yJbXArs4/v6X7GgTWpzMJrhm+qQpcOWVkD+WEnZGDebgg97zqUgxvJecnQ6eFJR+XmlCAPPo5V
-	nBNGA1GUQ==;
+	bh=LQZqzfMrLpKFWlda2WJ/a4R5kqvbWjStLT9834mY6FA=; b=M1w3IxeqyBPIKoEnm3FfNrqjYU
+	x2ZUTCeUOVPBG4RRF2hxWhqE0WMuEGOgGyzhjMArtCFH5vm2fs/LtfYs/+bYGyd+5KY6+4u8Xt4iW
+	tYRoFc3MrWrKsECEZ+HYvCc+00ABa7Cxe3Q44zFZ9SU5CGd5VMZIXpoPcZ88o/yIbA/n3j1FXWUsa
+	b0piC5+UVNr2/uXK/qfKg5xC+ho74GQVzffqu4ns1FH30rUV4jZZm5gOCOxFezkZ8WmuB8u5q9vnb
+	xAap/0rkS19MnSZ4YXNemWa40JF1S9d6iPd5l4d0p3Tu6qs5t9lNayuQkzEqxXG72/DikiVsXmLXF
+	EPuhiJNg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
-	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1ljeFV-006Fh3-Ft; Thu, 20 May 2021 08:41:46 +0000
+	by desiato.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1lkDkE-001GBc-Ss; Fri, 21 May 2021 22:35:52 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
- by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ljeFT-006FgT-5u
- for linux-snps-arc@desiato.infradead.org; Thu, 20 May 2021 08:41:43 +0000
+ by desiato.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1lkDkC-001GBG-63
+ for linux-snps-arc@desiato.infradead.org; Fri, 21 May 2021 22:35:48 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Type:MIME-Version:Message-ID:
- In-Reply-To:Date:References:Subject:Cc:To:From:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=T0ppVreHUmy08BJqE7YgiCmeprMRBFovM1x+vk+Qlok=; b=OTPYnQ0tAxV62lDLRtxtIOzdSb
- 2aDS4yQntjvBHd00MdvEnto2ADo+jpVNFLusYf2FuY/7NkBlmbA8gb7M3OLtZ3oorl8hHKZyVIDYj
- ZIZ3PPE7tm90nSimBMkHMvhtUXNiNzNOaaEDNaPTxc7qlMLFr/Y66c8wvd8uFQY2/zkEfY8pS8Bfs
- 1LqytBVj3riNtFA0k1Yu6GsWNeOY0HPTC9ZH5fw1u4e1io13gyyG/frSLkZbBv6AoHag63ECOBO1K
- NmXvR0sIJG+ubz6xYkvza5mFiUqOOQUcS1WvrwdpklYta3UDLkAMFLm/WNEyI5ZwGnLWvH+qMeI+a
- mZQCdU1g==;
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
+ d=infradead.org; s=bombadil.20210309; h=MIME-Version:
+ Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+ Message-ID:Date:Subject:CC:To:From:Sender:Reply-To:Content-Description;
+ bh=K7x/0PrBes2rRbr2uvjV5lEGhFUHtU7EI88F54suLzg=; b=iJYo54BsbgvKR3b2wAVDnCkiO5
+ auXbWHF6koxU2ctM0kb5Mpv7CK7zWSdkrdETO9tQBLeG7/ZjLz61fnPeT2Awd+TtCBt5V8zt01umU
+ UvXyzg35S1zbZa8qltgvM6sBgd7JHBQB6TJWz4YXWewRPNtNjot+oR7BZxIzPeHS8RROe4aODWXSb
+ 87hN3lWb9aTaL2rdBhw3dXOIqPf2MCT+jQl79655UUwybVGEQ14reSKpzRkpsQFbrGcq22v2LU3AM
+ X4V1jJ+hIins8Y6EaW/wCrsmZ0aN8gb1zOJYZCbfVGrH67obE5ckumcEKSY0vU7qTPfJrOg+uCTp/
+ DHIeewtQ==;
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ljeFQ-00G4e5-Ml
- for linux-snps-arc@lists.infradead.org; Thu, 20 May 2021 08:41:41 +0000
-Received: by mail-ed1-x534.google.com with SMTP id df21so18456972edb.3
- for <linux-snps-arc@lists.infradead.org>; Thu, 20 May 2021 01:41:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:references:date:in-reply-to:message-id
- :user-agent:mime-version;
- bh=T0ppVreHUmy08BJqE7YgiCmeprMRBFovM1x+vk+Qlok=;
- b=uKsuW6gpn2YaYgAkCzYY790rZC+0w1g6JLp3vGbCp20tRC143xr8VQPBmoGKRO1TaJ
- Bg/Bk67InFtMd9Q0IY3+p4vDaNZS1fq5AMKPRu2ivA9vsnHPK6d7QKK5aCPbmom9VDAy
- yezfUzt2tUfBor4kTrvsSCV6ZIgrD+N+f0Le6Ydy9usNFkb9IxVouALlXDG+uzYn2N2y
- 3TeOUEZFhD4Hn0Kual/SOiHsvFx1rp85I3QaJq/3DN7+xD0OMfdGSnpK5PVNoIoOSzfq
- 4u2zLjpYskcjVau4XiX0xKoCwzwNK5GIALGgoE7r9+uI1c8t9BJ4Yx+h1zHTOKbOOcrn
- 0CYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:references:date
- :in-reply-to:message-id:user-agent:mime-version;
- bh=T0ppVreHUmy08BJqE7YgiCmeprMRBFovM1x+vk+Qlok=;
- b=LlgqAlADObk1VXtppBd/TMTgUmBnzhtqJO3ABXeU4kCbzF+qz5r8L2wGMrQ9iixvka
- SJNKviZXiMbecHepFWY/ZWCsYZ2C+gHwRA8DVWS/soTHVMduKOsbTaRP2+SJJ5VCgpKI
- 0dyB4XwkYRqck6Usqv4LSXoS4vdoD0Vkq5tfEvZkqO8y/4NWWyNBnSOJttkY8wQr0zND
- bTYeoTLzWoSJA5x+mm/QNPP6YxODjpjPLWeUPROa5fR9E4VJFonwucE5+uKVedkb9T3h
- YRG44tEahHl98fxGFNAYC2ZqQK/oI+1KagOWe6eg41Yg5gCrUluFPwPGMvotlarqKv7+
- i/xw==
-X-Gm-Message-State: AOAM530momU73OwOafSjkAbrzcjHVo895971b1cSOlwYdN3jmnldf5eu
- sOUNE2oHeHgMZ9hcybU8Dx4=
-X-Google-Smtp-Source: ABdhPJz6NqUn2kc8seV7vWtOJEBIgj5XcEXvh47Ng5BITi8wHAtxe6pFnEynfZ68DLdMtYY4uvHFYQ==
-X-Received: by 2002:aa7:dc17:: with SMTP id b23mr3717318edu.359.1621500098966; 
- Thu, 20 May 2021 01:41:38 -0700 (PDT)
-Received: from dell.be.48ers.dk (d51A5BC31.access.telenet.be. [81.165.188.49])
- by smtp.gmail.com with ESMTPSA id
- q16sm1129848edv.61.2021.05.20.01.41.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 01:41:38 -0700 (PDT)
-Received: from peko by dell.be.48ers.dk with local (Exim 4.92)
- (envelope-from <peter@korsgaard.com>)
- id 1ljeFN-00039M-Qt; Thu, 20 May 2021 10:41:37 +0200
-From: Peter Korsgaard <peter@korsgaard.com>
-To: Vineet Gupta via buildroot <buildroot@busybox.net>
-Cc: Vineet Gupta <Vineet.Gupta1@synopsys.com>, Evgeniy.Didin@synopsys.com,
- linux-snps-arc@lists.infradead.org, Alexey.Brodkin@synopsys.com
-Subject: Re: [PATCH v3 4/4] lmbench: lat_rpc: fix stray pointer
-References: <20210510180049.61421-1-vgupta@synopsys.com>
- <20210510180049.61421-6-vgupta@synopsys.com>
-Date: Thu, 20 May 2021 10:41:37 +0200
-In-Reply-To: <20210510180049.61421-6-vgupta@synopsys.com> (Vineet Gupta via
- buildroot's message of "Mon, 10 May 2021 11:00:49 -0700")
-Message-ID: <87y2c9ajb2.fsf@dell.be.48ers.dk>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+ id 1lkDk9-00HTVz-F0
+ for linux-snps-arc@lists.infradead.org; Fri, 21 May 2021 22:35:46 +0000
+Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com
+ [10.205.2.132])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 1E66D40167;
+ Fri, 21 May 2021 22:35:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1621636542; bh=K7x/0PrBes2rRbr2uvjV5lEGhFUHtU7EI88F54suLzg=;
+ h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+ b=Ayno1k3qoKzjL/oMH2LDN4UyvrjyAjJiTs381dGU/yeb+yvsrazBtOIb21MPWKIJH
+ kVNR++Z56WgTvWLMaNoeMB3UPGC0N2dl0IQImggMTY6/b0nOuzhkR+4GU2erx8aQAw
+ 5eyJnJRfDj6d6Gqy2O5byA+vII0QLrzrYDV9catWOqJdg7krTae9cDagwCUZWHmmMP
+ Ypr+PR7skgEnZ7iRCqZdabj+HGpWEq4eabHkCtRfEmkT6EmVDrsdmCPnrGms2MGxH9
+ U0bPT9bozoUuSW8zEP6n/19pQwO0AyHfT2aTH6Cox1hVnX3/FeJk4SIzpFOX+w2Drd
+ yjdUx2vYB+bXQ==
+Received: from o365relay-in.synopsys.com (us03-o365relay3.synopsys.com
+ [10.4.161.139])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mailhost.synopsys.com (Postfix) with ESMTPS id A607EA006F;
+ Fri, 21 May 2021 22:35:39 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11lp2169.outbound.protection.outlook.com [104.47.56.169])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "mail.protection.outlook.com",
+ Issuer "DigiCert Cloud Services CA-1" (verified OK))
+ by o365relay-in.synopsys.com (Postfix) with ESMTPS id A4B5A80269;
+ Fri, 21 May 2021 22:35:38 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com;
+ dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+ spf=pass smtp.mailfrom=vgupta@synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
+ unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="ou5K+o5h";
+ dkim-atps=neutral
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AN2KpIAfWja5bIqWZce0/3qUa6Osmx69Bu8IgwWGCIfpFKuzhQxm3w/frveNhEuvehMC2F1gOfUS7flcOU0K2O/C3U58iB2X2G4/FjTVpZkQgh2EpJsw6XFl8vqzrW/ccofMC9HkVB9qg5FDc54kWGz7poufC1qWK1WIaf6ctAUP1ZDla9Ig3L1yX+ZC0Vy/tcZkY9kzN8Q2rWTxPnKznQJU+A2AffbEeY1FXkmD6PhLFydEhqW/8sIOD6S/er+MO7wOo5X61idLdYZCsWXzcLo/pAS1P8LFtHieYbUrgUYJoZ3oDMEynKapDq/pwPh8dpUghX/uGba5YXhLUtSNTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K7x/0PrBes2rRbr2uvjV5lEGhFUHtU7EI88F54suLzg=;
+ b=jsg8HiIj+IyRko8EK4hu6b3fNVSXN0OiuMqwyriojeQwifopQr7sQ8T7gUDcDcXbUOr694WKMmtzgio3HwI1aLlOBZ3G8uHvNPW32Mb6dOaHMx51ELEF/jo4oiGl/kjVrZs0uE3tdLFZ1iNf+xksmqDGLIYDQNUJ5Ic0G0YeZd4LbYD6lt8Oo84xk7n+rR3e3p7KebSM8iJUjNP+dLcYeVX4IdK4rhQN02Pt+Oq/uxVbjpt82wzAGi5EZDwDMEdmHbt0M22PnMd5wnbxHFf6xlNZN2lodP9CYLigbLgLzCWx1YdYrFf2XCLjGBf4leWcoYtslW78U8kCT4PkCFMJ9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K7x/0PrBes2rRbr2uvjV5lEGhFUHtU7EI88F54suLzg=;
+ b=ou5K+o5hylUCvO4sUj+wCFtadBABcYSCOFL9qjX//V0KFGDvmg+TiiTQ6mx5E4LCbOpPEXok3dlPuDMOEidLw3nwp0KPUxqxQrre9DmaE2wd28beQbYG5q1mHX+TD/Op8R+iONN1vCvlnaY8LCHmFZtnaq3kHeDHov50tia+vgg=
+Received: from BYAPR12MB3479.namprd12.prod.outlook.com (2603:10b6:a03:dc::26)
+ by BY5PR12MB3698.namprd12.prod.outlook.com (2603:10b6:a03:194::30)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.25; Fri, 21 May
+ 2021 22:35:36 +0000
+Received: from BYAPR12MB3479.namprd12.prod.outlook.com
+ ([fe80::d1a0:ed05:b9cc:e94d]) by BYAPR12MB3479.namprd12.prod.outlook.com
+ ([fe80::d1a0:ed05:b9cc:e94d%7]) with mapi id 15.20.4129.035; Fri, 21 May 2021
+ 22:35:36 +0000
+X-SNPS-Relay: synopsys.com
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To: "guile-devel@gnu.org" <guile-devel@gnu.org>
+CC: "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
+Subject: Re: [PATCH] add support for ARC architecture
+Thread-Topic: [PATCH] add support for ARC architecture
+Thread-Index: AQHXKzDLne9s8F85C0Wu+wHeMjfltqruzNgA
+Date: Fri, 21 May 2021 22:35:36 +0000
+Message-ID: <f8fd467a-7724-331b-9c27-4ef61a40928d@synopsys.com>
+References: <20210406220414.2400239-1-vgupta@synopsys.com>
+In-Reply-To: <20210406220414.2400239-1-vgupta@synopsys.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+authentication-results: gnu.org; dkim=none (message not signed)
+ header.d=none;gnu.org; dmarc=none action=none header.from=synopsys.com;
+x-originating-ip: [24.4.73.83]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c941fc54-0a32-486e-6b0f-08d91ca8c101
+x-ms-traffictypediagnostic: BY5PR12MB3698:
+x-microsoft-antispam-prvs: <BY5PR12MB3698643A4F86F1B1F655C916B6299@BY5PR12MB3698.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:243;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: HNfM0F0y3QqXK9zBCVqfWj1VAd3vmlMUfGxtoeEIWYJvkIXCR1G9QDOtrdqVEDDGXMk60oQEEF3dtFfMT9xsbJMr4ygTWdNHq7Hyh2XSU/UoHWA+PY3exYO4QAgQ6ica/kOamUNUSUmftJq1UScxmZec/VaxUJ5F/PdpcgOyo8s/AknciQGTcKsIFDd7RinjPWWlPJSRlhPwwvc84g/sMVCMqEmBaY/h/YhE7LpXArlzU9YK/8PMkuu82P7qK+k91CttJ/9fFq/vvnbyL0og8aWGNtAVRDYLQRmzEFAZjZkuggFvzBPxvcmA28qEEoR9t5TC2VVGLyAFSPf5HrHkWV5l1FAh7Cu104bD4QGx0whYUYwMs8Jxf5sZ4sIrZ9+cGEcNIhh3yY8sFuNKegKnDjxi7Rbt2RrsLrxoMty8QrOMgQQluws0k99rPQvFKin6bKQTrI71Fu7U+dwrljT9l2hE1q+8FD/OHu4YpQiqGzrLakfxkOhpZKCu9LenwbkmHUvL6xQ2Q1WdduueURobIZgQLNergG4p0TBFkLTPBBMV8usBhKYYCyU9qe6CSRBTRmf08UvRkZoyuLmE9UvOPe4r/oSAYjC3TGDzfLOQD9l5jts9V8fqbxtjeqMdevUdxl/tYxmvO3Tl6oTF3CFOaMUArjIH2lXXiaYE8+HuMn2RQ80mkWmkY62Ko+zZDUbO
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3479.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(346002)(376002)(39860400002)(136003)(366004)(396003)(316002)(186003)(36756003)(66556008)(8936002)(31686004)(76116006)(8676002)(66946007)(66476007)(6512007)(4326008)(31696002)(6486002)(2906002)(86362001)(6916009)(6506007)(53546011)(66446008)(83380400001)(64756008)(5660300002)(2616005)(26005)(478600001)(38100700002)(122000001)(71200400001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?UzJDNHhIWlNrQW41d1V3UlFZMjE3R2s2clBZaFhkWTJNOGxXUm8raFBmaWlB?=
+ =?utf-8?B?V1NPQkhWZitaMGlxOHR2Nks5cEpOZDBtUzFTTXE0cEhqNkhNM1ZyRnorZnZk?=
+ =?utf-8?B?bldzV0hiU29vazVLWFR1YVZKYVRHeW5waDNhWVYzaWVTdEhPcFowT0o0eSth?=
+ =?utf-8?B?OSt2WGphQ3h6U0JJd2xTT0VmVXBxb0IrLzlPQ1o3cStkbEg5N0kvRTNKbXlk?=
+ =?utf-8?B?MWIzaThJNmQzOFlKK3Y1SnhJbU96MW9JYURyK0FGV1h2NUIrL2xoKzkySkdR?=
+ =?utf-8?B?TG1uMTViNSs3YVZULzJISm1vQ1I2ZDBSazJ3aGdmUldGVUhKZHRid0QzRkh0?=
+ =?utf-8?B?Vm1UNFoxanZFeVI1TU5NMWU0bHMzQTREbHo1UlNHdHorTW5zMERyQXFmd1py?=
+ =?utf-8?B?eDZGNVZvUmkrQ2FBQ3R1L0VwSnVEMC95cjliZldSaDQzSCtyU3ZpQXlEL29S?=
+ =?utf-8?B?dFQ3WTNHYTdYc3VmbzhvenVFNUNlYUYxRSs5TWpvQXEwdCsvT0x0VldxZkx0?=
+ =?utf-8?B?UnJkeUZnODVVaGs2bWJRKzg5NFhRRmtrYjUvMFcxY1hPTmkzOTUzU3E4N0l3?=
+ =?utf-8?B?T0Nhck5PZm8raG9kbWVBeW9XWU9yS2xUNlZZNzg3QnZwa2hqc2hseGFMOGdm?=
+ =?utf-8?B?MWRGMzZ3NGh6TWNzVVFQY1A1NEExVjBqUW5PcVZBTzVoY0ppVitCVml5bGJG?=
+ =?utf-8?B?dTFkUmZQRzJFcExyMDhacGhlR0RlSkRqYXN2aGRvNDFGQmpiL2llbkxjMVNy?=
+ =?utf-8?B?TllLZk5EV2VHMEFMMHlFem1weU9sOXdid20zNlBnUDhvVldoYkVJem1BSlM2?=
+ =?utf-8?B?NWJ4SWhRR1dSeVltdStIRld6R2dMYVNiMzh1V2p2Ui9ySkNKUG5FMGdSZUdS?=
+ =?utf-8?B?cHRLRDQxRG5UejFRRm4wUmNXYXRkVnh3YUwvMHYwcDA5dkJ3WWZ0akxqdm1l?=
+ =?utf-8?B?UHJvVS82dHdXeE9zb2lJRC9uUnVub3V1dldqcUJwcTY1TENwMjY1RktnQ1N6?=
+ =?utf-8?B?ZDYrTzJHUHVQVTZZbXc0eGFocDJua0Z4S2YvVi9RZVQ4UG5QKzZpUXJMODAz?=
+ =?utf-8?B?MHRSdXZqVEtHTUxYM295UDU0K29iemtvcCszVmZXd0dpcmk1RTVRRUFBRjJX?=
+ =?utf-8?B?Nit3MktodmV6N2pDNXR0dTd3T21sVFRBa3pHd04xZXVzUFJJM21MaFhSYkYw?=
+ =?utf-8?B?djladGJuZTMrTkppVnRZVm1xUzkyZUduV1FuOTRpQW5oWUl4ZlloR0R6cjNE?=
+ =?utf-8?B?b3p4Rkg2NzNMdDQzUkhqMm5zSGIwWnJaUGlZY0JOekZ2d0E1WVp0QzR4MGhy?=
+ =?utf-8?B?RUxlcWticmkveUh3SnBJaWFvcWp4SWl1ZzRBdzNuR09IeFdycExnZnFsakxN?=
+ =?utf-8?B?MmpIQUpIUWVqRVNKeEF0NGpoc0c2R1JZUkliUHRBcFNZVWhqeFA1ejdmUGRm?=
+ =?utf-8?B?a3BqT25Eb1E4SStFQjQxOFRycno1SkM5bmNSNFh3a3NFOTh2TkY1a1B3TDlE?=
+ =?utf-8?B?L2ZVOU84RnFoQStmTDlJZWM1Q1NnWTc5Y1cwb3hLdzVuSFNJajJRZzdDY1Ix?=
+ =?utf-8?B?Mm9hV2dCbkRpNjVZdkJjcUs5alpMNEtVcEl2cXVPMkFCcWx4YTVob2xrTVc3?=
+ =?utf-8?B?dEZOdFJUTG4yZ0IwOEZ2a1c2blFaTnMvNFEwcENja1VENTA2MngwbmVzZEYr?=
+ =?utf-8?B?ZlNSaWQwcmRTODVkc3k4S0tWaFRraThBUm5wRXRZWDgrbFFGK0hHb0tMUzVD?=
+ =?utf-8?Q?LH0zB79+scIerfI+mw=3D?=
+x-ms-exchange-transport-forked: True
+Content-ID: <71FC45E2C6C7874D9252767872C2BB5C@namprd12.prod.outlook.com>
 MIME-Version: 1.0
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3479.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c941fc54-0a32-486e-6b0f-08d91ca8c101
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 May 2021 22:35:36.5706 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: j1qZqD0RjS/BFbp3phN0LFxrvTGIukNTh4lFMgKtqNnrNzMtxkDLelhQnlFL4VaXQbCcUyhayF19A1tzrZsZ6w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB3698
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210520_014140_762746_C38BECE6 
-X-CRM114-Status: UNSURE (   7.76  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210521_153545_603180_785D4EB0 
+X-CRM114-Status: GOOD (  16.96  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -119,35 +203,36 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
->>>>> "Vineet" == Vineet Gupta via buildroot <buildroot@busybox.net> writes:
+On 4/6/21 3:04 PM, Vineet Gupta wrote:
+> Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
+> ---
+>   module/system/base/target.scm | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/module/system/base/target.scm b/module/system/base/target.scm
+> index 2088cd86697a..8bdcd66039e4 100644
+> --- a/module/system/base/target.scm
+> +++ b/module/system/base/target.scm
+> @@ -77,7 +77,7 @@
+>         (cond ((string-match "^i[0-9]86$" cpu)
+>                (endianness little))
+>               ((member cpu '("x86_64" "ia64"
+> -                           "powerpcle" "powerpc64le" "mipsel" "mips64el" "nios2" "sh3" "sh4" "alpha"))
+> +                           "powerpcle" "powerpc64le" "mipsel" "mips64el" "nios2" "sh3" "sh4" "alpha" "arc"))
+>                (endianness little))
+>               ((member cpu '("sparc" "sparc64" "powerpc" "powerpc64" "spu"
+>                              "mips" "mips64" "m68k" "s390x"))
+> @@ -118,7 +118,7 @@
+>   
+>             ((string-match "64$" cpu) 8)
+>             ((string-match "64_?[lbe][lbe]$" cpu) 8)
+> -          ((member cpu '("sparc" "powerpc" "mips" "mipsel" "nios2" "m68k" "sh3" "sh4")) 4)
+> +          ((member cpu '("sparc" "powerpc" "mips" "mipsel" "nios2" "m68k" "sh3" "sh4" "arc")) 4)
+>             ((member cpu '("s390x" "alpha")) 8)
+>             ((string-match "^arm.*" cpu) 4)
+>             (else (error "unknown CPU word size" cpu)))))
 
- > | # ./lat_rpc -S localhost
- > | potentially unexpected fatal signal 11.
- > | Path: /lmbench/bin/arc64/lat_rpc
- > | CPU: 0 PID: 62 Comm: lat_rpc Not tainted 5.6.0-00224-g8e1b159f529e #39
- > | Invalid Read @ 0x00000001 by insn @ 0x2011f110
- > |   @off 0x6c110 in [/lib/libc-2.32.so]  VMA: 0x200b3000 to 0x201b8000
- > | ECR: 0x00050100 EFA: 0x00000001 ERET: 0x2011f110
- > | STAT32: 0x80081082 [IE U     ]   BTA: 0x2011b87c
- > |  SP: 0x5fffefe8  FP: 0x00000000 BLK: 0x20103242
- > | r00: 0x00000001 r01: 0x00000002 r02: 0x00000001
- > | r03: 0x20101eb0 r04: 0x00000001 r05: 0x00000001
- > | r06: 0x00000000 r07: 0x00000000 r08: 0x00000001
- > | r09: 0x2019d8b0 r10: 0x20039fc4 r11: 0x5ffff0f0
- > | r12: 0x2019d6d0 r13: 0x2019d748 r14: 0x5ffff588
- > | r15: 0x00000000 r16: 0x00000000 r17: 0x5ffff708
- > | r18: 0x20039fc0 r19: 0xffffffff r20: 0x201ba010
- > | r21: 0x00000000 r22: 0x00000000 r23: 0x20039fc0
- > | r24: 0x00000bd0 r25: 0x00000073
- > Segmentation fault
-
- > Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
-
-Committed to 2021.02.x, thanks.
-
--- 
-Bye, Peter Korsgaard
-
+ping !
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
