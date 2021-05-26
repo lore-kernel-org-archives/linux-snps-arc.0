@@ -1,188 +1,120 @@
-Return-Path: <SRS0=nRph=KU=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=WhQu=KV=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 835FCC2B9F7
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 25 May 2021 02:07:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA76AC47088
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 26 May 2021 15:43:50 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 393AC61402
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 25 May 2021 02:07:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 393AC61402
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=synopsys.com
+	by mail.kernel.org (Postfix) with ESMTPS id 724DC613D3
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 26 May 2021 15:43:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 724DC613D3
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
-	References:Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=uaN3/R/lKpp16PqLlrfouTlddZmZWdxAQy9AbLqarJw=; b=Mgc/+8O9eDPreZ
-	yS4ZwItG/s3m9ZQVCaPWM1aszSWehp+tRoRPTmKx7NUE0b9XBumhf48MOjEl7MasG76DiQl5i0lU5
-	gfXI9vtF2K6gr0o9d+EgJDhkfi5cWDXhAo8OU0GN7zEdgbU7Ed6ibeC5osWW480aWoSC7A4Dit0Dw
-	UsIWYMd/Xgp1OoNotlsVJvBwD6QDji1kP6bUq1adElq5NW/fx2pL5oX1qGtfnu9DAMgQMiH/cvwT1
-	cqjQSljSnW96XmQA1sB3EWqdytCrXsxcQLvIbi/2FVRZH3sxG17x/wUT2hMFYX76DABqjm7ypnrwl
-	NOXwPI4wdebWxOxc4VhA==;
+	List-Owner; bh=k52O6TTV0Yzry/fSStJDZNzJU3gnHCvMJboqudF5HLU=; b=Xxg3sKdOTuZxmF
+	U8y5qQ5HF/x8OHOgL5sS28dJ7bq36vFSaQeanPkW44eD/T6exon+YgnMStxtid74RBLkN562OckZC
+	aJzkiD8tDI+/r/OG1j8Z9pK0XKlg3R3dWYKY5ut8po4ziqV18IzN98eYw3LewG1XvtwLZgmuoMDeK
+	S9nDOFlBc6jz7LuMKdbqbRA3gjgFpOsV9jmjFYQKvIrneCkGiKYQpLcceN6g6bbQ+V+2PIP0kq118
+	oRZgqP+IF1/PrdfvSwuwTZ2hVIlkwTzNPPWD7OFZxnuQsgFKUqahR69WtnlGDnZW5AF9n0dDA67an
+	B50SQA/h/TWaXK3KDHxQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1llMTt-002r1t-As; Tue, 25 May 2021 02:07:41 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
- by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1llHOI-001qm6-Ph
- for linux-snps-arc@lists.infradead.org; Mon, 24 May 2021 20:41:36 +0000
-Received: from mailhost.synopsys.com (sv1-mailhost1.synopsys.com
- [10.205.2.131])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 233BDC00B8;
- Mon, 24 May 2021 20:41:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1621888892; bh=4r5LCaQF8M/JHNp+bsv6oQCRCEAdlyojYvo1uw+L5uM=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=UDns8xT/MIOwc1woyUB5jrQOC74+ps2exorJ1q3o0GspMV/89MXTJIDH/vRDHCMYI
- zbsOkX1aGwUYcraiSqjMCwvVzn2sH/Y5jd6m2hcEJ9gl8YUHnHuDNNI5IuEdlU6ZOr
- xYUww7PpW+y2SIIz2v7Vyw8IlS5XMNFaN9z9EihZjvvleasP3zUKVwiYbAxVzLQiXp
- zYtc8k03NnDpiGhFWmm87oyGNpb+dlyvSNKpkutdlVoNFeON2PrZzscEbf2OwgvZZt
- snBmpZeVi14RSXo922opcyU4qEPZZ00sl8AH2pqSp1Z6oKrHfQxn8Sb9RMVRJZp857
- L5Yy9vzn19rvA==
-Received: from o365relay-in.synopsys.com (sv2-o365relay3.synopsys.com
- [10.202.1.139])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client CN "o365relay-in.synopsys.com",
- Issuer "Entrust Certification Authority - L1K" (verified OK))
- by mailhost.synopsys.com (Postfix) with ESMTPS id 89A76A005E;
- Mon, 24 May 2021 20:41:27 +0000 (UTC)
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12lp2169.outbound.protection.outlook.com [104.47.59.169])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client CN "mail.protection.outlook.com",
- Issuer "DigiCert Cloud Services CA-1" (verified OK))
- by o365relay-in.synopsys.com (Postfix) with ESMTPS id 889CA400CC;
- Mon, 24 May 2021 20:41:25 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com;
- dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
- spf=pass smtp.mailfrom=vgupta@synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
- unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="vaBSS9js";
- dkim-atps=neutral
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dX6Yz/lCJ0BFQ5Ldm08v/Z6V41/yo6lHM1ER2W7DhrBpj3ikCQreqgl8u6NZxkPa7F4styZQf5F5l1T7ox6TN+d6LTwIcWfJ352tZWtxL/DkYYRAyPbMlXziKHNFCJY9dvpACxDsnvWmyd5Uh2Pbgk9uoi8XqL5p/KpmrEflZ643sBGBmbvNe9PZc2yZJkKcQmr+YlvLQb0Kqi3ZmScMxnFLhVfmyTWj3/K9qdndwC+otVuhRIUNEyLmY6p+/Q0pnbbM4Y43eWQtMwAVaPGn3YgFmNrX2t5CMNScFtuc9fS1SRq9+pWpqbj0FuSMfQoJEhlOmRPn0UuXsgVsqC/Mrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4r5LCaQF8M/JHNp+bsv6oQCRCEAdlyojYvo1uw+L5uM=;
- b=HhT6IpPrLjvw+4gH1Srf2bGM+Ebm9yDGW+mriss1ZHgLEEje7/iRxrwmkh7xYUq4ju0XcNEWYh6Z/QJEpz6glBsFaW1TAENrWnTGTlQR/WgfZqjWRa7uf37exnpTYigg1UmQgL8gJilLDi+f+MqA7msr7MUN/4LRoUktvrt+1p+jKYV/gligBMutj86gw6Mw0uaT2/JsMMIg0krkWwTh+KeND0Fj/YOjlThJDYstxaVa5BZbTrBe8xU2A/c/2tTycFFQtKpUgkYDu5RrnBqlTWMUpm4H+oH19IoJgTwkHbUHoG+UJ5Ii47N8UyN7rFcsgqogH5NBQuVmEEPTFZhf/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4r5LCaQF8M/JHNp+bsv6oQCRCEAdlyojYvo1uw+L5uM=;
- b=vaBSS9jscUisGwzLBbpoR9tRU5XvzyAOr2o4oucYh7YaYnIekZkspkogDJpP7k/wrgC/I9abJbAoI0+wWf2kfhC7z3HeArtY5YOjEds7CeYqGOo6+X/S1VGBZfQ0u1VRzRF+iEWgm2eOcOdS81zRm+NC3HZ6KytKPG2VNwhClBM=
-Received: from BYAPR12MB3479.namprd12.prod.outlook.com (2603:10b6:a03:dc::26)
- by BY5PR12MB5013.namprd12.prod.outlook.com (2603:10b6:a03:1dc::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.27; Mon, 24 May
- 2021 20:41:23 +0000
-Received: from BYAPR12MB3479.namprd12.prod.outlook.com
- ([fe80::d1a0:ed05:b9cc:e94d]) by BYAPR12MB3479.namprd12.prod.outlook.com
- ([fe80::d1a0:ed05:b9cc:e94d%7]) with mapi id 15.20.4150.027; Mon, 24 May 2021
- 20:41:23 +0000
-X-SNPS-Relay: synopsys.com
-From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
-To: Guillem Jover <guillem@debian.org>,
- "980963@bugs.debian.org" <980963@bugs.debian.org>,
- Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-CC: linux-snps-arc <linux-snps-arc@lists.infradead.org>,
- Helmut Grohne <helmut@subdivi.de>,
- Claudiu Zissulescu <Claudiu.Zissulescu@synopsys.com>,
- "debian-cross@lists.debian.org" <debian-cross@lists.debian.org>
-Subject: Re: Bug#980963: dpkg: Please add ARC architecture
-Thread-Topic: Bug#980963: dpkg: Please add ARC architecture
-Thread-Index: AQHXUN0oitf8oU73oUO/tjushpYdzg==
-Date: Mon, 24 May 2021 20:41:23 +0000
-Message-ID: <4e8dbf4f-5e91-778f-7139-19a13e49ae4a@synopsys.com>
-References: <161152061283.11410.4872085138884291562.reportbug@abrodkin-5550.internal.synopsys.com>
- <161152061283.11410.4872085138884291562.reportbug@abrodkin-5550.internal.synopsys.com>
- <YEDm3/c3h4lW7jjK@thunder.hadrons.org>
- <f6ff72c8-46d0-db07-a741-fc9fa37f899b@synopsys.com>
- <6ca2d929-60d3-3846-876b-3b62dba635c0@synopsys.com>
-In-Reply-To: <6ca2d929-60d3-3846-876b-3b62dba635c0@synopsys.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-authentication-results: debian.org; dkim=none (message not signed)
- header.d=none;debian.org; dmarc=none action=none header.from=synopsys.com;
-x-originating-ip: [149.117.75.13]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3e31ff27-ef02-413a-db8d-08d91ef44b55
-x-ms-traffictypediagnostic: BY5PR12MB5013:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BY5PR12MB50134891631BB72DBC635A72B6269@BY5PR12MB5013.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: jBRvHgwNoo2ul12+Atfnc2WDioKB5ts9DNYHY4A/1eWsaHN6vQxF7Mxt5TlgzehtcN1mfnPZrSxpA3dNMTMVtuDN+tUS0qlXjpXpqZeZMHrtjXwg9RqgC+Ps1a+FGcqqcZEXXl34LXDdse0iNZV0YvKpzuaYk3WLIzVnjsehTq0P+OdzF5s0vYsHX7h7ruB3tHl/2eThb82ONRxVsZstekDRJhqa1zOknOeBTFlVLhxqbnRR08hbad/Nrzx7xP02ocv8eTBJlUEM9cw28mixC8w+HsxWjJX7ZT0iAeDFoI08Lw8Kd9wgdeJQXWQ5A8OtZjDy5yNaNrozqKa5I229ZLpwf5heoNGGE8mZM4/dxb/MQ2CgdmxFwbG2TuAxATGn8NwIK08SBjF34KG2eULyZVHUzTc+sdLtWozl4k4o0ZKpeZKD897nL9czup8FMYAjSd5vxayuZdt5WMmIIq87J7x4oRmwFRmLFGMxVQPqQuhUwwj/FmBypdbWqCfSu27QwgkXm9kxPUiZ1rmSNCz1AH9Ot7eY88b78bnog8gTKvgx3FMBYVCqqM/gHvd9UgYUxXR+MaKvak4K+CNHhfGzsFiiVn3jY1qaL/KOIbgMEMrnvXKAh2a1PpJhd80QyNzqRT6KNnITyQMfvI9pM4E3IIyJKZOU4PhZ4BAcuY7GZKANFBgIcKoRSx+pt9p14UQLhMo5OZfoUDXWROhFSsVRQdQSQqtT1zQrSRd0TUYtuMLE/2j3iC1+oLI/hZOdYUg6sw60nQOlfhT8VNnh6hesxPMSOOVJE7w589Yivyhj4QgHI4Ki73BeeSOkWIYMa75V
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB3479.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39860400002)(136003)(376002)(396003)(346002)(366004)(86362001)(316002)(5660300002)(38100700002)(186003)(83380400001)(6486002)(31686004)(122000001)(71200400001)(54906003)(36756003)(66946007)(6512007)(66476007)(66556008)(64756008)(66446008)(6506007)(31696002)(2616005)(2906002)(26005)(8676002)(8936002)(4326008)(110136005)(6636002)(76116006)(478600001)(53546011)(966005)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?dWNmTkdsUGxZeUZtbk4vYnQvbEpESW1mUVNnMmNMbnNPTVRGMEdNa0hyYmJN?=
- =?utf-8?B?UGtlbzNpc2ltZkF6RHdGNmR2RC9kekhjdTZLWHhBcW1FT2dyU1JUSmp3MXRI?=
- =?utf-8?B?cndtbVZocnB1cDBBcWRkQTlQaWVnR3pQYlMxVmVaSmk1UDJKVE1mU1JaU084?=
- =?utf-8?B?RDFvYTN6V3JpQ3NPVFQ5ZHZzUnZGVktHUG94cm9MdXpUZmV0eC9nNEVnL0ZR?=
- =?utf-8?B?cXIyWVFQQ1FpbEpZaTFDM09xTTBFSlF0enlQOHZJc3N3bzd2SWFpQ24rRlg0?=
- =?utf-8?B?VVNkaFd1dGhXaTQ4ZUVQSWxKZzVWakdHQnRnT2l6cDd2a1oyWGVIc2VkRWo2?=
- =?utf-8?B?WjRPWmloWUFvYWtzSlpkdE8za1JHWFFVZkZtU2w3ZE44U3FYNmtRSmoySnZ3?=
- =?utf-8?B?T3V4RnhwcnlhaG9ia3dwcGxSKzRQY1VyZmx6enE3R3JueVFkUmVpcjEzMzAy?=
- =?utf-8?B?WStFQzA4c2FPWi9GWWFUaGZ0SkZrLzdBcU53dTh4d21OTUNDM0x5WHdzQ1Nh?=
- =?utf-8?B?VEMxeVlGRUdzUlNzM0dXbWZxMHAzRVRXWldNUzU1bmJHNHZiMlZPUTczcDBG?=
- =?utf-8?B?cGN2WTEzZElXQWpHTXZoL2xkTjFnSlpFUlFxMjl6ano2UWN6dThUcGxveGVh?=
- =?utf-8?B?MHJ6ZDFIQ1JhNjVoVU9ZUzczbmFQdlVtZWJTb004aEhleWJIdDVkclhPeTVB?=
- =?utf-8?B?NVhTRjYwZVduOW9UVXFINzdGZ2VJMkhCdjlZU3Zxc3pZNWpwVnJoTG9mTDRq?=
- =?utf-8?B?VXV1RGU1MjAxRlNFTWJRY2d4SVBLcDBoYlVCUUMwMWpSeDhibS9qcXgxSnM2?=
- =?utf-8?B?N21JckVPUG1FVnVlcnVuMVcraHVWdCtuTDNBSmxaZjhWZ3VFNUZTaldTUnVW?=
- =?utf-8?B?UndaRUNRUGR0UkVMa2JQUGZubXE5Rm1qNFk3U3dlbk45MUVVTEc2MzBxNDZM?=
- =?utf-8?B?U05yM1dYRnloSVJYcXdORVFOd3ZjdDNlMjRBSWYxT1pTMGJVek5lUTNIQTM3?=
- =?utf-8?B?T0lCbGdQT2tjS0RiR1A2T01WaEs4ZExqdy9pWWFNQ3ZtWXlyOEFkVm9JTGlN?=
- =?utf-8?B?TmhsL01abzRHYVd0SXlPWmdEelB5ZkZwMU5rRHgwZTZOREJ3K1pTOU5RLzlE?=
- =?utf-8?B?MmRRc3g4MmtFSUNrYU41MURVRGFWU05qQUd6b1BpQytiNDc4cEFNK3hmOFBS?=
- =?utf-8?B?UjhvZGRtL0h5Q0pBVllGZWdEaXUwZGZPdTFsNVlyZm9HRk1wZDEyTWw0dldi?=
- =?utf-8?B?ZTVDWUgyVmRFR3pxZkpiQnFFWjk3SGZPR01QWUNyOWlVeFlDcW1sOE9XT2FD?=
- =?utf-8?B?eUJrQUV4WklTZnVCRks0N3VqTUdIcStGa0JwejRXdDRraiswSmM4WVprVjJJ?=
- =?utf-8?B?L3ZxNG1DYnF6LzQwb0NoZ2FDMmxCbzRnY3dqTkZKUGFoZ2xpcm5icENoKzhW?=
- =?utf-8?B?SHBGeHpNbldKY0FOS01xOGJZNlppRGl2N3NlSDNwaG10ZEtvNUpZU1ExZEFC?=
- =?utf-8?B?SGZMeE9mMG1Ha0pJTkY5b1M0Q0l5ZDg0Q3l0WVBYZXplb0cyOWlMQmRENkMy?=
- =?utf-8?B?RVVCcHF1ZDQ2enFNSnRLL2pHcG9uRENQWUlhN3ZvMnZFb3JSaWRYTksrMFVw?=
- =?utf-8?B?TWl3UGV3QUwzdjRUMVYrcFJjN1ZYVWxYMWR6RXN1OEt1YjF3TFNBeW5LM3gz?=
- =?utf-8?B?d2ZxUS9JY2Z6Nlk0UmlqdEdSWTV3RWdUbXVLRzIxL2RFaUpjY3pHZFo5SHk2?=
- =?utf-8?Q?7GcukXeOjPU+qOrRIM=3D?=
-Content-ID: <13D9BAFDB951B0468D67ECDE655B22B1@namprd12.prod.outlook.com>
+	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1llvhF-00FT2d-TR; Wed, 26 May 2021 15:43:49 +0000
+Received: from conssluserg-02.nifty.com ([210.131.2.81])
+ by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1llubS-00EvQW-Af; Wed, 26 May 2021 14:33:48 +0000
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173]) (authenticated)
+ by conssluserg-02.nifty.com with ESMTP id 14QEXAIR002409;
+ Wed, 26 May 2021 23:33:11 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 14QEXAIR002409
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+ s=dec2015msa; t=1622039591;
+ bh=K2JBpUyGmknhlRJpT71wl4Baxz8GsbPi2HBWhe0fUJY=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=ILDEYKAiQK7B/4DimCTAOYnjsseKaQ1dPgHn31xY8h3UVsgF/C7B6zWQmVjH4DP6F
+ olANctJrD67l+/JOS4RenYe29C9FcSpo3p19WInjceJtm3q4jZ+tOVFx7rzXm0pelz
+ Cu7tqYo3umjioF9yqhM2tldSoriFEyiAouaRsE3BDOLnL3LjJZ8cyof+rwzb/MB95d
+ UIvpJn8LgJIIXLkq4NiDzePLpjORdoXJwZyrpQwd/BerQ4zV0kIWg9SzODezFH+CLy
+ kCJvtezc0vhOkZuzBYkTfq1UYCae6GaKIgVtapxKLnrmmk4MJxIBY3vsXmimQjGLT+
+ 03l46pK1oQfkQ==
+X-Nifty-SrcIP: [209.85.214.173]
+Received: by mail-pl1-f173.google.com with SMTP id u7so714746plq.4;
+ Wed, 26 May 2021 07:33:11 -0700 (PDT)
+X-Gm-Message-State: AOAM530JSgtq3rr6gFfRPujs3i+vK391Fookfq+t0xw0zFEoU0bDQU9R
+ +Z0erR0cVkItKdFQ88RvJgZccO7XJXhqM8862K4=
+X-Google-Smtp-Source: ABdhPJw/7i4Yr5Lur94Y0RHgLFU9NY7pValTqlXUvZTdqsgLwd6wmbbeeFmUfP1tSYkLq/bZEryNx1br7CSMU1EHLow=
+X-Received: by 2002:a17:902:541:b029:f0:3187:409b with SMTP id
+ 59-20020a1709020541b02900f03187409bmr36247746plf.47.1622039579510; Wed, 26
+ May 2021 07:32:59 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3479.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3e31ff27-ef02-413a-db8d-08d91ef44b55
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 May 2021 20:41:23.3217 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9hg8to2/0HZwFvvESukX+Qj/03exrtOFP4PiZF2d21jOeZzBnTDw6mZGEbSSOxVCUcBiXhmeD9sohuFeiOAkFg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB5013
+References: <20210512075729.60291-1-masahiroy@kernel.org>
+In-Reply-To: <20210512075729.60291-1-masahiroy@kernel.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Wed, 26 May 2021 23:32:22 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS7cEj9h=Hi0O-AoFjJPg2mxp0zbi8boXj4O9aYt_yg6Q@mail.gmail.com>
+Message-ID: <CAK7LNAS7cEj9h=Hi0O-AoFjJPg2mxp0zbi8boXj4O9aYt_yg6Q@mail.gmail.com>
+Subject: Re: [PATCH 1/5] kbuild: require all architectures to have
+ arch/$(SRCARCH)/Kbuild
+To: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc: Albert Ou <aou@eecs.berkeley.edu>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@codeaurora.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Chris Zankel <chris@zankel.net>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Greentime Hu <green.hu@gmail.com>, Guo Ren <guoren@kernel.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Helge Deller <deller@gmx.de>, Ingo Molnar <mingo@redhat.com>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Jeff Dike <jdike@addtoit.com>, Jonas Bonn <jonas@southpole.se>,
+ Ley Foon Tan <ley.foon.tan@intel.com>,
+ Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Michal Marek <michal.lkml@markovi.net>,
+ Michal Simek <monstr@monstr.eu>, Nick Hu <nickhu@andestech.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Mackerras <paulus@samba.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Rich Felker <dalias@libc.org>, Richard Henderson <rth@twiddle.net>,
+ Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
+ Stafford Horne <shorne@gmail.com>,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Vasily Gorbik <gor@linux.ibm.com>, Vincent Chen <deanbo422@gmail.com>,
+ Vineet Gupta <vgupta@synopsys.com>, Will Deacon <will@kernel.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, linux-alpha@vger.kernel.org,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-ia64@vger.kernel.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ Parisc List <linux-parisc@vger.kernel.org>,
+ "open list:SIFIVE DRIVERS" <linux-riscv@lists.infradead.org>,
+ linux-s390 <linux-s390@vger.kernel.org>,
+ Linux-sh list <linux-sh@vger.kernel.org>,
+ arcml <linux-snps-arc@lists.infradead.org>, linux-um@lists.infradead.org,
+ "open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ openrisc@lists.librecores.org, sparclinux <sparclinux@vger.kernel.org>,
+ "moderated list:H8/300 ARCHITECTURE" <uclinux-h8-devel@lists.sourceforge.jp>, 
+ X86 ML <x86@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210524_134134_990912_1D08013E 
-X-CRM114-Status: GOOD (  30.65  )
+X-CRM114-CacheID: sfid-20210526_073346_614317_18B2C63F 
+X-CRM114-Status: GOOD (  24.64  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -194,73 +126,301 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-SGkgR3VpbGxlbSwNCg0KT24gMy8yNi8yMSAxMDozOSBBTSwgVmluZWV0IEd1cHRhIHdyb3RlOg0K
-PiBPbiAzLzQvMjEgMzo1NiBQTSwgVmluZWV0IEd1cHRhIHdyb3RlOg0KPj4+IEFsc28ganVzdCB0
-byBtYWtlIHN1cmUsIHRoZSBHTlUgdHJpcGxldHMgYXJlOg0KPj4+DQo+Pj4gIMKgwqAgYXJjLWxp
-bnV4LWdudQ0KPj4+ICDCoMKgIGFyY2ViLWxpbnV4LWdudQ0KPj4+IE5vIEFCSSBtb2RpZmllcnMg
-KHN0dWZmIGxpa2Ug4oCcZWFiaeKAnSkgZm9yIHRoZSBsaWJjIHBhcnQgKOKAnGdudeKAnCkgcmln
-aHQ/DQo+PiBBY3R1YWxseSBpdCBzZWVtcyB3ZSBhcmUgbWlzc2luZyBoYXJkZmxvYXQgaGVyZTog
-QVJDIGdsaWJjL2djYyBzdXBwb3J0DQo+PiBpdCB2ZXJ5IHdlbGwgYW5kIHNob3VsZCBiZSBkZWZh
-dWx0IGZvciBhbnkgcmVhc29uYWJsZSBwZXJmb3JtYW5jZS4NCj4+DQo+PiBTbyBJIHRoaW5rIHdl
-IHNob3VsZCBhZGQNCj4+ICDCoMKgwqAgYXJjLWxpbnV4LWdudWhmDQo+PiAgwqDCoMKgIGFyY2Vi
-LWxpbnV4LWdudWhmDQo+Pg0KPj4gQlRXIEkgaGF2ZSBvY2UgcXVlc3Rpb246IHdoZXJlIGRvZXMg
-b25lIHNlbGVjdCB3aGF0IGRlZmF1bHQgdG9nZ2xlcyB0bw0KPj4gYnVpbGQgdGhlIGVudGlyZSBz
-b2Z0d2FyZSBzdGFjayB3aXRoIChzYXkgLW1jcHUgZXRjKS4gRG9lcyB0aGlzIHJlbHkNCj4+IG9u
-IHRvb2xjaGFpbiBkcml2ZXIgZGVmYXVsdCB0byBEUlRILiBPbmUgb2YgbXkgcHJvYmxlbXMgd2l0
-aA0KPj4gcmVib290c3RyYXAgd2FzIGdjYyBkcml2ZXIgZGVmYXVsdGluZyB0byBvdXIgbGVnYWN5
-IGNwdS4gSSd2ZSBjdXJlZCBpdA0KPj4gdGhlcmUgKGFuZCBwbGFubmluZyB0byB1cHN0cmVhbSB0
-aGUgZ2NjIGRyaXZlciBwYXRjaCkuDQo+IFNvIGhlcmUncyB0aGUgbGF5IG9mIHRoZSBsYW5kLCBh
-cG9sb2dpZXMgZm9yIHRoZSBsb25nIGVtYWlsLCBhbmQgaWYNCj4gc29tZS9tb3N0IG9mIGJlbG93
-IGlzIG5vdCBkaXJlY3RseSByZWxldmFudCB0byBkcGtnIGJ1ZywgYnV0IEknbGwNCj4gcHJvdmlk
-ZSB0aGUgYmFja2dyb3VuZCBzbyB3ZSBhcmUgYWxsIG9uIHNhbWUgcGFnZS4NCj4NCj4gV2UndmUg
-aGFkIDMgcmV2aXNpb25zIG9mIHRoZSBJU0EgYW5kIGVuc3VpbmcgbXVsdGlwbGUgcHJvY2Vzc29y
-cyBpbiBsYXN0DQo+IDE1IHllYXJzOg0KPg0KPiBJU0HCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBJbXBsZW1lbnRhdGlvbnMvUHJvY2Vzc29ycyAoTGludXggY2FwYWJsZSkNCj4gLS0t
-LS0tIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLQ0KPiBBUkNvbXBhY3TCoMKgwqAgQVJDNzAwDQo+IEFSQ3YywqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBIUzM4eC9IUzQ4eA0KPiBBUkN2MzozMi1iaXTCoCBIUzU4TVANCj4gQVJDdjM6
-NjQtYml0wqAgSFM2OE1QDQo+DQo+IC0gQVJDb21wYWN0IGlzIGxlZ2FjeSBhbmQgbm8gbmV3IGRl
-dmVsb3BtZW50IG5lZWRlZCBpbmNsdWRpbmcgZGViaWFuIHBvcnQuDQo+IC0gQ29kZSBmb3Igb25l
-IElTQSBpcyBub3QgY29tcGF0aWJsZSB3aXRoIHByaW9ycywgbWFpbmx5IGR1ZSB0byBhZGRpdGlv
-bg0KPiBvZiBuZXcgaW5zdHJ1Y3Rpb25zLiBJbiBmYWN0IGdpdmVuIHRoZSBjb25maWd1cmFiaWxp
-dHkgb2YgdGhlIElTQSBpdHNlbGYNCj4gKGZvciBiZXR0ZXIgb3Igd29yc2UpLCBvbmUgY291bGQg
-ZW5kIHVwIDIgbm9uLWNvbXBhdGlibGUgdmFyaWFudHMgb2YNCj4gc2FtZSBJU0EgKHRoaW5rIGRv
-dWJsZSBsb2FkL3N0b3JlIGluc3RydWN0aW9ucyBpbiBBUkN2MikuIEJ1dCB0aGUgcG9ydA0KPiBj
-YW4gYXNzdW1lIHRoZSBhbGwgZW5jb21wYXNzaW5nIHN1cGVyLXNldCBvZiB0aGUgSVNBIGFzIGJh
-c2VsaW5lLg0KPiAtIEFSQ3YzIGlzIGN1cnJlbnRseSB1bmRlciBkZXZlbG9wbWVudCAvIHByZS1w
-cm9kdWN0aW9uIGJ1dCBzaG91bGQgYmUNCj4ga2VwdCBpbiBtaW5kIGFzIGl0IGlzIGtub2NraW5n
-IG9uIHRoZSBkb29yIGFscmVhZHkuDQo+DQo+IEluIHRlcm1zIG9mIHRoZSBBQkkgY3JpdGljYWwg
-Zmxhdm9yczogdGhlcmUncyBsaXR0bGUvYmlnIGVuZGlhbiBhbmQNCj4gc29mdC9oYXJkLWZsb2F0
-Lg0KPiAtIEFnYWluIGJpZyBlbmRpYW4gZGViaWFuIGlzIG5vdCBuZWVkZWQgLSBtYWlubHkgYmVj
-YXVzZSBvZiBudW1iZXIgb2YNCj4gY3VzdG9tZXIgZW5nYWdlbWVudHMgYW5kIHJlc291cmNpbmcg
-bmVlZGVkIHRvIHN1cHBvcnQgaXQNCj4gLSBBUkN2MiBoYXJkLWZsb2F0IEFCSSBpcyBzYW1lIGFz
-IHNvZnQgLSBGUFUgc2hhcmVzIHRoZSBzYW1lIHJlZ2lzdGVyDQo+IGZpbGUgc28gdGhlIGNhbGxp
-bmcgY29udmVudGlvbnMgYXJlIHNhbWUuIEhvd2V2ZXIgdGhlIHRyaXBsZXQgaXMNCj4gZGlmZmVy
-ZW50IGFyYy1saW51eC1nbnVoZiBbMV0gYXMgbGlicmFyaWVzIGZvciBoYXJkIHdvbid0IHJ1biBv
-biBhDQo+IHNvZnQtZmxvYXQgc3lzdGVtIGR1ZSB0byBsYWNrIG9mIGVtdWxhdGlvbiBldGMuDQo+
-IC0gQVJDdjMgZG9lcyBoYXZlIGEgZGVkaWNhdGVkIEZQIHJlZ2lzdGVyIGZpbGUgc28gdGhlcmUn
-cyBzb2Z0IGFuZCBoYXJkIEFCSXMNCj4NCj4gU28gZ2l2ZW4gYWxsIG9mIHRoaXMsIEknZCBsaWtl
-IHRvIHByb3Bvc2UgQVJDdjIgcG9ydCB3aXRoIGhhcmQtZmxvYXQgYXMNCj4gYmFzZWxpbmUuIFdl
-IGRvbid0IGJvdGhlciB3aXRoIEJpZy1lbmRpYW4uIEEgc29mdC1mbG9hdCB3b3VsZCBiZQ0KPiBk
-ZXNpcmFibGUgZm9yIGRlYnVnZ2luZyBhbmQgZmFsbC1iYWNrIGJ1dCBub3QgbmVjZXNzYXJ5IGZy
-b20gZmVhdHVyZSBwb3YuDQo+DQo+IEknbSBvcGVuIHRvIHBvcnQgbmFtZXMgYXMgbWFpbnRhaW5l
-cnMgZmVlbCBhcHByb3ByaWF0ZSAtIGJ1dCBzdGljayB3aXRoDQo+IGN1cnJlbnQgdHJpcGxldHMg
-YXJjLWdudS1saW51eCAvIGFyYy1nbnUtbGludXhoZiBmb3IgQVJDdjIuDQo+IEZvciBBUkN2Mywg
-d2UgY291bGQgaGF2ZSBhcmM2NCogLyBhcmMzMioNCj4NCj4gUGxlYXNlIGxldCBtZSBrbm93IGlm
-IHRoaXMgbWFrZXMgc2Vuc2UuDQo+DQo+IE9uY2Ugd2UgYWdyZWUsIHdlIGNhbiBzdGFydCBvZmYg
-d2l0aCByZXF1ZXN0aW5nIGNoYW5nZXMgdG8gR05VIGNvbmZpZw0KPiBwcm9qZWN0Lg0KDQpGdXJ0
-aGVyIHRvIG15IG1zZyBvbiBJUkMsIHdlJ3ZlIGdvdHRlbiBwcmV0dHkgZmFyIGFsb25nIHdpdGgg
-QVJDIA0KcmVib290c3RyYXAgWzFdLiBJdCBzZWVtcyB0byBidWlsZCAxNTEgcGFja2FnZXMgYmVm
-b3JlIGZhaWxpbmcgZm9yIHBlcmwgDQphbmQgSSBzZWUgc2ltaWxhciBvdXRjb21lIGZvciByaXNj
-djY0ICh3aGljaCBpcyB3ZWlyZCBhcyBwZXJsIHNob3VsZCBiZSANCnN1cHBvcnRlZCB0aGVyZS4N
-Cg0KQW55aG93IHRoaXMgaXMganVzdCBhIHBvbGl0ZSBwaW5nIHRvIG1ha2Ugc29tZSBwcm9ncmVz
-cyBvbiBBUkMuDQoNClRoeCwNCi1WaW5lZXQNCg0KWzFdIGh0dHBzOi8vc2Fsc2EuZGViaWFuLm9y
-Zy92aW5lZXRnYXJjL3JlYm9vdHN0cmFwDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1h
-cmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
+On Wed, May 12, 2021 at 5:00 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> arch/$(SRCARCH)/Kbuild is useful for Makefile cleanups because you can
+> use the obj-y syntax.
+>
+> Add an empty file if it is missing in arch/$(SRCARCH)/.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+
+
+Applied to linux-kbuild.
+
+>
+>  Makefile               | 2 +-
+>  arch/alpha/Kbuild      | 1 +
+>  arch/arc/Makefile      | 3 ---
+>  arch/arm/Makefile      | 1 -
+>  arch/arm64/Makefile    | 1 -
+>  arch/csky/Kbuild       | 1 +
+>  arch/h8300/Kbuild      | 1 +
+>  arch/hexagon/Kbuild    | 1 +
+>  arch/ia64/Kbuild       | 1 +
+>  arch/microblaze/Kbuild | 1 +
+>  arch/mips/Makefile     | 3 ---
+>  arch/nds32/Kbuild      | 1 +
+>  arch/nios2/Kbuild      | 1 +
+>  arch/openrisc/Makefile | 1 -
+>  arch/parisc/Kbuild     | 1 +
+>  arch/powerpc/Makefile  | 3 ---
+>  arch/riscv/Makefile    | 1 -
+>  arch/s390/Makefile     | 3 ---
+>  arch/sh/Kbuild         | 1 +
+>  arch/sparc/Makefile    | 3 ---
+>  arch/um/Kbuild         | 1 +
+>  arch/x86/Makefile      | 3 ---
+>  arch/xtensa/Kbuild     | 1 +
+>  23 files changed, 13 insertions(+), 23 deletions(-)
+>  create mode 100644 arch/alpha/Kbuild
+>  create mode 100644 arch/csky/Kbuild
+>  create mode 100644 arch/h8300/Kbuild
+>  create mode 100644 arch/hexagon/Kbuild
+>  create mode 100644 arch/ia64/Kbuild
+>  create mode 100644 arch/microblaze/Kbuild
+>  create mode 100644 arch/nds32/Kbuild
+>  create mode 100644 arch/nios2/Kbuild
+>  create mode 100644 arch/parisc/Kbuild
+>  create mode 100644 arch/sh/Kbuild
+>  create mode 100644 arch/um/Kbuild
+>  create mode 100644 arch/xtensa/Kbuild
+>
+> diff --git a/Makefile b/Makefile
+> index 15b6476d0f89..7df040b1b023 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -658,7 +658,7 @@ endif
+>
+>  ifeq ($(KBUILD_EXTMOD),)
+>  # Objects we will link into vmlinux / subdirs we need to visit
+> -core-y         := init/ usr/
+> +core-y         := init/ usr/ arch/$(SRCARCH)/
+>  drivers-y      := drivers/ sound/
+>  drivers-$(CONFIG_SAMPLES) += samples/
+>  drivers-$(CONFIG_NET) += net/
+> diff --git a/arch/alpha/Kbuild b/arch/alpha/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/alpha/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+> index 4392c9c189c4..3e6d4b84797f 100644
+> --- a/arch/arc/Makefile
+> +++ b/arch/arc/Makefile
+> @@ -85,9 +85,6 @@ KBUILD_LDFLAGS        += $(ldflags-y)
+>
+>  head-y         := arch/arc/kernel/head.o
+>
+> -# See arch/arc/Kbuild for content of core part of the kernel
+> -core-y         += arch/arc/
+> -
+>  # w/o this dtb won't embed into kernel binary
+>  core-y         += arch/arc/boot/dts/
+>
+> diff --git a/arch/arm/Makefile b/arch/arm/Makefile
+> index 415c3514573a..173da685a52e 100644
+> --- a/arch/arm/Makefile
+> +++ b/arch/arm/Makefile
+> @@ -252,7 +252,6 @@ endif
+>
+>  export TEXT_OFFSET GZFLAGS MMUEXT
+>
+> -core-y                         += arch/arm/
+>  # If we have a machine-specific directory, then include it in the build.
+>  core-y                         += $(machdirs) $(platdirs)
+>
+> diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
+> index 7ef44478560d..b73c151f3a53 100644
+> --- a/arch/arm64/Makefile
+> +++ b/arch/arm64/Makefile
+> @@ -149,7 +149,6 @@ KBUILD_CFLAGS += -DKASAN_SHADOW_SCALE_SHIFT=$(KASAN_SHADOW_SCALE_SHIFT)
+>  KBUILD_CPPFLAGS += -DKASAN_SHADOW_SCALE_SHIFT=$(KASAN_SHADOW_SCALE_SHIFT)
+>  KBUILD_AFLAGS += -DKASAN_SHADOW_SCALE_SHIFT=$(KASAN_SHADOW_SCALE_SHIFT)
+>
+> -core-y         += arch/arm64/
+>  libs-y         := arch/arm64/lib/ $(libs-y)
+>  libs-$(CONFIG_EFI_STUB) += $(objtree)/drivers/firmware/efi/libstub/lib.a
+>
+> diff --git a/arch/csky/Kbuild b/arch/csky/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/csky/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/arch/h8300/Kbuild b/arch/h8300/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/h8300/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/arch/hexagon/Kbuild b/arch/hexagon/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/hexagon/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/arch/ia64/Kbuild b/arch/ia64/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/ia64/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/arch/microblaze/Kbuild b/arch/microblaze/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/microblaze/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/arch/mips/Makefile b/arch/mips/Makefile
+> index 258234c35a09..4e942b7ef022 100644
+> --- a/arch/mips/Makefile
+> +++ b/arch/mips/Makefile
+> @@ -332,9 +332,6 @@ head-y := arch/mips/kernel/head.o
+>  libs-y                 += arch/mips/lib/
+>  libs-$(CONFIG_MIPS_FP_SUPPORT) += arch/mips/math-emu/
+>
+> -# See arch/mips/Kbuild for content of core part of the kernel
+> -core-y += arch/mips/
+> -
+>  drivers-y                      += arch/mips/crypto/
+>
+>  # suspend and hibernation support
+> diff --git a/arch/nds32/Kbuild b/arch/nds32/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/nds32/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/arch/nios2/Kbuild b/arch/nios2/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/nios2/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/arch/openrisc/Makefile b/arch/openrisc/Makefile
+> index 410e7abfac69..c52de526e518 100644
+> --- a/arch/openrisc/Makefile
+> +++ b/arch/openrisc/Makefile
+> @@ -42,7 +42,6 @@ endif
+>
+>  head-y                 := arch/openrisc/kernel/head.o
+>
+> -core-y         += arch/openrisc/
+>  libs-y         += $(LIBGCC)
+>
+>  PHONY += vmlinux.bin
+> diff --git a/arch/parisc/Kbuild b/arch/parisc/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/parisc/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
+> index 3212d076ac6a..af669aa75b73 100644
+> --- a/arch/powerpc/Makefile
+> +++ b/arch/powerpc/Makefile
+> @@ -267,9 +267,6 @@ head-$(CONFIG_PPC_FPU)              += arch/powerpc/kernel/fpu.o
+>  head-$(CONFIG_ALTIVEC)         += arch/powerpc/kernel/vector.o
+>  head-$(CONFIG_PPC_OF_BOOT_TRAMPOLINE)  += arch/powerpc/kernel/prom_init.o
+>
+> -# See arch/powerpc/Kbuild for content of core part of the kernel
+> -core-y += arch/powerpc/
+> -
+>  # Default to zImage, override when needed
+>  all: zImage
+>
+> diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
+> index 3eb9590a0775..c5f359540862 100644
+> --- a/arch/riscv/Makefile
+> +++ b/arch/riscv/Makefile
+> @@ -90,7 +90,6 @@ endif
+>
+>  head-y := arch/riscv/kernel/head.o
+>
+> -core-y += arch/riscv/
+>  core-$(CONFIG_RISCV_ERRATA_ALTERNATIVE) += arch/riscv/errata/
+>
+>  libs-y += arch/riscv/lib/
+> diff --git a/arch/s390/Makefile b/arch/s390/Makefile
+> index e443ed9947bd..37b61645694c 100644
+> --- a/arch/s390/Makefile
+> +++ b/arch/s390/Makefile
+> @@ -128,9 +128,6 @@ OBJCOPYFLAGS        := -O binary
+>
+>  head-y         := arch/s390/kernel/head64.o
+>
+> -# See arch/s390/Kbuild for content of core part of the kernel
+> -core-y         += arch/s390/
+> -
+>  libs-y         += arch/s390/lib/
+>  drivers-y      += drivers/s390/
+>
+> diff --git a/arch/sh/Kbuild b/arch/sh/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/sh/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/arch/sparc/Makefile b/arch/sparc/Makefile
+> index bee99e65fe23..4e65245bc755 100644
+> --- a/arch/sparc/Makefile
+> +++ b/arch/sparc/Makefile
+> @@ -58,9 +58,6 @@ endif
+>
+>  head-y                 := arch/sparc/kernel/head_$(BITS).o
+>
+> -# See arch/sparc/Kbuild for the core part of the kernel
+> -core-y                 += arch/sparc/
+> -
+>  libs-y                 += arch/sparc/prom/
+>  libs-y                 += arch/sparc/lib/
+>
+> diff --git a/arch/um/Kbuild b/arch/um/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/um/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+> index c77c5d8a7b3e..4307bf48ec53 100644
+> --- a/arch/x86/Makefile
+> +++ b/arch/x86/Makefile
+> @@ -239,9 +239,6 @@ head-y += arch/x86/kernel/platform-quirks.o
+>
+>  libs-y  += arch/x86/lib/
+>
+> -# See arch/x86/Kbuild for content of core part of the kernel
+> -core-y += arch/x86/
+> -
+>  # drivers-y are linked after core-y
+>  drivers-$(CONFIG_MATH_EMULATION) += arch/x86/math-emu/
+>  drivers-$(CONFIG_PCI)            += arch/x86/pci/
+> diff --git a/arch/xtensa/Kbuild b/arch/xtensa/Kbuild
+> new file mode 100644
+> index 000000000000..a4e40e534e6a
+> --- /dev/null
+> +++ b/arch/xtensa/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> --
+> 2.27.0
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
