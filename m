@@ -1,72 +1,74 @@
-Return-Path: <SRS0=keuX=K2=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=Asc5=K3=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-22.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F3A0C47083
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 31 May 2021 20:16:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C4D7C47080
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  1 Jun 2021 19:43:13 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1605360FF3
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 31 May 2021 20:16:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1605360FF3
+	by mail.kernel.org (Postfix) with ESMTPS id BCE8F613B4
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  1 Jun 2021 19:43:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BCE8F613B4
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:To
-	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=rfTiPgvdthDd/LpAIeFOVXG00EAR9xbh60NhyStDCCQ=; b=k+7hcHKuhXRmhg
-	aunr8/HCMPplDgBhiMd4Nb/oqku3TlRfDegDKkEjfrmzbSUfUKfmE5Vi/33fM5vVnymoTUD4EvgZ1
-	JAtaKcnxkRAhPWYNoaCe8+Fk5dEsVDU452heTSzqdVtPlghv5JP4BSE7dvCRidC9o+6PZpier4CFO
-	Tmy6Rmus6qjM432S9xMbPyhvn08eic2itw6jmC7UAkOb2TYN6yKuTdV0h7TR0L6BPToZnbG6BHdrb
-	zwrAn7kFWuiDdpWQgO4hYHwDwsyCfKNYz+9QyYfCZSFfE16lfDJbvX2RQNi8zDlDjzTXeh0kw9EnC
-	Ua17eYLniaJmlGKTNy5Q==;
+	List-Owner; bh=vE92jnF+BCZF54/wxl7wt2dcpQquwx6mPmbw4Drtw7k=; b=MD4dnfpz/hRj0A
+	5mtRGxElm9/JM71jlMzNo1jW5Vztjw3k5HLGx0r40rBIaTnyU3NHVbLoPNnuaWvmyWrfaHg1yFU1C
+	ejkB1xYY0YC2yFFrlGabS5QUEdPvFQavPHPCrCmNpga/aYdtc+IZ0S6mGozfjE6wSljsjvaK/zjaB
+	Dqt2q9GxLsx1Z5T4YPj6nrj26/pS5KhQsD3qTzBLIo4AM+RfV8iIK8Bg6c3+UKqxT+C+D05WCRq6a
+	4QTEKejFWCnfHpTdYPwtte27C9+IBGdR2Mc+LgAFUuohG4nqfJTTW/xyEZ7J4TPJwXHX9e0pk8P0a
+	IDTgCjyWvvNLGlvJps/g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lnoLC-00DMDg-G2; Mon, 31 May 2021 20:16:50 +0000
+	id 1loAIC-000biG-9f; Tue, 01 Jun 2021 19:43:12 +0000
 Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lnoLA-00DMDI-5A
- for linux-snps-arc@lists.infradead.org; Mon, 31 May 2021 20:16:49 +0000
-Received: from mailhost.synopsys.com (badc-mailhost3.synopsys.com
- [10.192.0.81])
+ id 1loAI9-000bhR-NW
+ for linux-snps-arc@lists.infradead.org; Tue, 01 Jun 2021 19:43:10 +0000
+Received: from mailhost.synopsys.com (sv2-mailhost2.synopsys.com
+ [10.205.2.134])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id C33ECC09A2;
- Mon, 31 May 2021 20:16:47 +0000 (UTC)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 85DB0C0807;
+ Tue,  1 Jun 2021 19:43:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1622492207; bh=2ctEcYErY/rylyQEvFLBnkHXpg6xMjlEVX7nl8MdoCY=;
+ t=1622576586; bh=SFtD15XNYUC0sNhlc/inQ8rI/FJ1BrO3DZZh6KV1cnY=;
  h=From:To:Cc:Subject:Date:From;
- b=iFlxDyWjXW5o6sKwbHEznLGpUUUXpVDtgonLKytSCxriLcIq1J7cBXZfkKMnW4lZz
- IRyvjD8R2IZKDfNtxpy8av9DLYAkDUNiVXg0v5YpX2Q/TQQcf1mkpZcZRW1cllScWs
- hBOrlSH6R4hwF8UGWKkWh8KXke0NUmj83lbZ7xqeFMmnBi0Q0j3luXoEeKbTQWob9c
- vGjmzTM7oij+PKHfGI55IYVSEGPWFwXAErtU0Ps3XHlNHlkxW6ozXIBIzeIPlAZfod
- PYs3FQRhj4OjsY5qofYXb8PBC/INZbkgJZ9lOE4e1kngwiwn27WCk/4k0OcdVg6UbX
- +yp8N4mbPqoGw==
-Received: from us01odcres-abrodkin-0009.internal.synopsys.com
- (us01odcres-abrodkin-0009.sg.us01-p01.synopsys.com [10.195.24.123])
- by mailhost.synopsys.com (Postfix) with ESMTP id 484D6A0085;
- Mon, 31 May 2021 20:16:45 +0000 (UTC)
+ b=OtReuKr52Hkru46nSUDfdOCPq3t2V8zd4lbL/lcKHHbasif6HEd2oMukq0jB6hFdb
+ iDUYSEgpIMu5QFsCvYHA0rHLIqChlySSoheb9svdJKRr4albHNA1BJ86bEjVuTmfWf
+ V+J9NSkt9lVHQWddLp4SRszEybj5weYsM31VgHiEESuGqtfrTcXdjyjZW7zOgTtLcy
+ hZOpHV1A2z8vFez2/mcPA/FHq6T9dGHWsziGc594WIr6CufwsX2z+75I6Clj04V8u+
+ duqw34eP6Ads+9KkPcC2eHUgpk832/dubUa24C4A32eNlIRXimIxlou6wjyTCWUnP8
+ wOqoCSs2Fm2/g==
+Received: from vineetg-Latitude-7400.internal.synopsys.com
+ (snps-fugpbdpduq.internal.synopsys.com [10.202.17.37])
+ by mailhost.synopsys.com (Postfix) with ESMTP id AFCE7A0096;
+ Tue,  1 Jun 2021 19:43:04 +0000 (UTC)
 X-SNPS-Relay: synopsys.com
-From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-To: linux-yocto@lists.yoctoproject.org
-Cc: linux-snps-arc@lists.infradead.org,
- Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-Subject: [PATCH] ARC: Rename nSIM HS to HAPS HS
-Date: Mon, 31 May 2021 13:16:41 -0700
-Message-Id: <20210531201641.2804-1-abrodkin@synopsys.com>
-X-Mailer: git-send-email 2.16.2
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To: gcc-patches@gcc.gnu.org
+Cc: Claudiu Zissulescu <Claudiu.Zissulescu@synopsys.com>,
+ linux-snps-arc@lists.infradead.org,
+ Vineet Gupta <Vineet.Gupta1@synopsys.com>
+Subject: [PATCH] ARC: gcc driver default to hs38_linux
+Date: Tue,  1 Jun 2021 12:42:48 -0700
+Message-Id: <20210601194248.135515-1-vgupta@synopsys.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210531_131648_254829_78092C95 
-X-CRM114-Status: GOOD (  12.02  )
+X-CRM114-CacheID: sfid-20210601_124309_824480_D21E0D81 
+X-CRM114-Status: GOOD (  11.26  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,108 +80,34 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-In v5.5 kernel we merged "nsim_hs" config into "haps_hs", see [1],
-and from then on we use the same one "haps_hs" for everything simulated:
-nSIM/QEMU/FPGA.
+arc700 is legacy and there's no active development for it, so switch to
+latest hs38_linux as default
 
-Of important notes:
- * We switched from legacy ARC UART to a standard DW UART
-
- * QEMU port for ARC is under review upstream, see [2].
-   But even today with WIP version from our GitHub fork [3] its possible
-   to run this image for "hapshs" machine as simple as:
-   ----------------------------->8------------------------------
-   $ qemu-system-arc -cpu archs -M virt -nographic -no-reboot -monitor none \
-     -kernel build/tmp-glibc/deploy/images/hapshs/vmlinux-initramfs-hapshs.bin
-   ----------------------------->8------------------------------
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1681baa713aa138d3f0f77f05c3de1cd6416c7d6
-[2] https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg00458.html
-[3] https://github.com/foss-for-synopsys-dwc-arc-processors/qemu
-
-Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 ---
- .../nsimhs-standard.scc => hapshs/hapshs-standard.scc}       |  4 ++--
- bsp/hapshs/hapshs.cfg                                        | 12 ++++++++++++
- bsp/{nsimhs/nsimhs.scc => hapshs/hapshs.scc}                 |  2 +-
- bsp/nsimhs/nsimhs.cfg                                        | 10 ----------
- 4 files changed, 15 insertions(+), 13 deletions(-)
- rename bsp/{nsimhs/nsimhs-standard.scc => hapshs/hapshs-standard.scc} (72%)
- create mode 100644 bsp/hapshs/hapshs.cfg
- rename bsp/{nsimhs/nsimhs.scc => hapshs/hapshs.scc} (54%)
- delete mode 100644 bsp/nsimhs/nsimhs.cfg
+ gcc/config/arc/arc.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/bsp/nsimhs/nsimhs-standard.scc b/bsp/hapshs/hapshs-standard.scc
-similarity index 72%
-rename from bsp/nsimhs/nsimhs-standard.scc
-rename to bsp/hapshs/hapshs-standard.scc
-index 3201ca52..1842b00c 100644
---- a/bsp/nsimhs/nsimhs-standard.scc
-+++ b/bsp/hapshs/hapshs-standard.scc
-@@ -1,8 +1,8 @@
- # SPDX-License-Identifier: MIT
--define KMACHINE nsimhs
-+define KMACHINE hapshs
- define KTYPE standard
- define KARCH arc
+diff --git a/gcc/config/arc/arc.h b/gcc/config/arc/arc.h
+index bd1fe0abd7af..252241a858c9 100644
+--- a/gcc/config/arc/arc.h
++++ b/gcc/config/arc/arc.h
+@@ -34,7 +34,7 @@ along with GCC; see the file COPYING3.  If not see
+ #define SYMBOL_FLAG_CMEM	(SYMBOL_FLAG_MACH_DEP << 3)
  
- include ktypes/standard/standard.scc
+ #ifndef TARGET_CPU_DEFAULT
+-#define TARGET_CPU_DEFAULT	PROCESSOR_arc700
++#define TARGET_CPU_DEFAULT	PROCESSOR_hs38_linux
+ #endif
  
--include nsimhs.scc
-+include hapshs.scc
-diff --git a/bsp/hapshs/hapshs.cfg b/bsp/hapshs/hapshs.cfg
-new file mode 100644
-index 00000000..adcc0531
---- /dev/null
-+++ b/bsp/hapshs/hapshs.cfg
-@@ -0,0 +1,12 @@
-+# SPDX-License-Identifier: MIT
-+# ARCv2 ISA
-+CONFIG_ISA_ARCV2=y
-+
-+# Serial port
-+CONFIG_SERIAL_8250=y
-+CONFIG_SERIAL_8250_CONSOLE=y
-+CONFIG_SERIAL_8250_DW=y
-+CONFIG_SERIAL_OF_PLATFORM=y
-+
-+# Built-in .dtb
-+CONFIG_ARC_BUILTIN_DTB_NAME="haps_hs"
-diff --git a/bsp/nsimhs/nsimhs.scc b/bsp/hapshs/hapshs.scc
-similarity index 54%
-rename from bsp/nsimhs/nsimhs.scc
-rename to bsp/hapshs/hapshs.scc
-index 3c1613a6..ea2b8b6c 100644
---- a/bsp/nsimhs/nsimhs.scc
-+++ b/bsp/hapshs/hapshs.scc
-@@ -1,2 +1,2 @@
- # SPDX-License-Identifier: MIT
--kconf hardware nsimhs.cfg
-+kconf hardware hapshs.cfg
-diff --git a/bsp/nsimhs/nsimhs.cfg b/bsp/nsimhs/nsimhs.cfg
-deleted file mode 100644
-index 34580a39..00000000
---- a/bsp/nsimhs/nsimhs.cfg
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# SPDX-License-Identifier: MIT
--# ARCv2 ISA
--CONFIG_ISA_ARCV2=y
--
--# Legacy ARC UART
--CONFIG_SERIAL_ARC=y
--CONFIG_SERIAL_ARC_CONSOLE=y
--
--# Built-in .dtb
--CONFIG_ARC_BUILTIN_DTB_NAME="nsim_hs"
+ /* Check if this symbol has a long_call attribute in its declaration */
 -- 
-2.16.2
+2.25.1
 
 
 _______________________________________________
