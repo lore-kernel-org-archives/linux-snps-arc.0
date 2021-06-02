@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90533C4708F
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  2 Jun 2021 11:03:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36092C47092
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  2 Jun 2021 11:04:32 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 588B8613B8
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  2 Jun 2021 11:03:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 588B8613B8
+	by mail.kernel.org (Postfix) with ESMTPS id 080B7613B8
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  2 Jun 2021 11:04:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 080B7613B8
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,30 +23,30 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=3JcNPEQHL8+IE6hB3quwSUiFUp2vAl5xrQg+7RNzHDM=; b=NCWMN6mRx1bnOD
-	D2/vT8G3ftkMQQtZ5aLuQOERcnCHz9wUdpFvnGrornptNvmZ9tmLPgp4gsqWroYwbaC1b/h+IOEfo
-	hPkkRSqS9rHomV2UJIywoeZI9Xk1/9dOavD4fkSW/x6sgP6xDZll5C9/MPYbQ+P+pCdbpCKxpd0yX
-	vq5gFIsJBRAiUGiHc4aImeR+uQQ9nuhE4Qno5GwJk9QPi5/A/D7ubXpIAKlObgTA1SG9CMztUmB25
-	zD7V9zPjJurT1ilZ8mKR4lEv2j7S4MFt8sQXAcMeiM02OeYbBKzTI4vsav985XjPR6fGsB3riak03
-	ECa1PGf4LCAnJs+vetNA==;
+	List-Owner; bh=Z2raHxOheWOXFYqPueFfyxw2iYaE2JcEWBltbVNK/Ag=; b=xUSEbehxR0exYR
+	SmVKanJNxoCSjwgVI0/Zt5FWJSenUC4zWpcVd/dxcMQnCZj2p4/k7FaWWDdj2UkvDkmrKRnzrp127
+	qT5zR4i49la29su/9p7kQa37XplbAR5q2JC7xUGA+QWMbM7hhaMOjVtMuEs4LfLciQeMJqLUxBwDi
+	Wl3pKoARkqzDOcYXQxBvHoircIMz1X+Lvv/iMuy2bv38G9refDeOpB9IGUkbhk5AhhFFVJ6rej+P2
+	qznOSUT3L4QN2PCmWyKBPXQ8z2m523IZBc2G61Wi6wLWiLzmEkSRnW6QBc9TPqxDRQesPLXOO3mVm
+	FzjSs6qR4Q0p7kJpSW7g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1loOeX-003Xuj-NP; Wed, 02 Jun 2021 11:03:13 +0000
+	id 1loOfn-003YRs-41; Wed, 02 Jun 2021 11:04:31 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1loOW2-003UGo-Gh; Wed, 02 Jun 2021 10:54:28 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0DEAE613AE;
- Wed,  2 Jun 2021 10:54:19 +0000 (UTC)
+ id 1loOW9-003UJp-5k; Wed, 02 Jun 2021 10:54:34 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8DC4E613DD;
+ Wed,  2 Jun 2021 10:54:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1622631266;
- bh=ABRwdf1ZSkT41VaIijSX6Aofx73KQpJ0Eh1mOZHecXU=;
+ s=k20201202; t=1622631272;
+ bh=jRQLkpHVz/iMV5ADUND9kgIZltTm9P6Hoc5VQUTEzHw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jcGBWvEaHEgHKUWqorlbIK02J0RiVwFVqw7ykf/dGv0vUEzECTAS8ekN0sMHOx42B
- HjBmF22RjLTSxkO33ZX+JVwdpfKVEKVhS2S7ZVnSn7V7SbJ2iGjfc7p4XPeWKteOlx
- HtzW0ETLflf2G0Qvq+85e/ubO8SbxJ/ktzo3wWZ9h/sCAqope2FbG8PAZ8Y2AQcgJX
- nRJ0j/ZuqKHbeAe5rtXZipu791dcxaF4dkjtgFXh3UUrvisu8NxYoMZg5taFPTqKEV
- ek2oDFuiLI0bu4/wmooFYjbNHM7EeIFGiUPOTWVK9BSMPaSWvmWeY3czD6ohIq0RML
- hz/Ah1ImrSs7g==
+ b=Ezo6lJJnkqDE0zhn9oI8ZPCQzzmmDS3pbuuxNQt4h8ieauW2gcB6l+CI+8F5lb/PJ
+ YAtbXfYXZQcuURxa6b8/zfIU0FURcRmdi6PvN9qFhzKpyoONdQ8cPutFsxH0yp4scY
+ FKL8xJKubqAValNIvImPCvCK9SY5SXfkeoojDF4NaKSO1lI9Gl+DJGHUurGw9x5ZlD
+ T+PhA6nZOYMM+iXGcuzp4WNHI6WsEzOIZ6AogZ9fyyFPNxh0wjGTwU6sS7+U9E8u8v
+ vfjWTMERIyxdYLjctBOMc8dshco/m8dZ7q2ekQ05Ss707pTbUwu6C+ifcAB+gInaN+
+ syrJ7J4gJ8xbA==
 From: Mike Rapoport <rppt@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Arnd Bergmann <arnd@arndb.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
@@ -63,16 +63,16 @@ Cc: Arnd Bergmann <arnd@arndb.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
  linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
  linux-xtensa@linux-xtensa.org, linuxppc-dev@lists.ozlabs.org,
  sparclinux@vger.kernel.org
-Subject: [PATCH 4/9] m68k: remove support for DISCONTIGMEM
-Date: Wed,  2 Jun 2021 13:53:43 +0300
-Message-Id: <20210602105348.13387-5-rppt@kernel.org>
+Subject: [PATCH 5/9] mm: remove CONFIG_DISCONTIGMEM
+Date: Wed,  2 Jun 2021 13:53:44 +0300
+Message-Id: <20210602105348.13387-6-rppt@kernel.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210602105348.13387-1-rppt@kernel.org>
 References: <20210602105348.13387-1-rppt@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210602_035426_632447_0F5201AF 
-X-CRM114-Status: GOOD (  14.06  )
+X-CRM114-CacheID: sfid-20210602_035433_297389_1A078115 
+X-CRM114-Status: GOOD (  18.91  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,151 +91,201 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Mike Rapoport <rppt@linux.ibm.com>
 
-DISCONTIGMEM was replaced by FLATMEM with freeing of the unused memory map
-in v5.11.
+There are no architectures that support DISCONTIGMEM left.
 
-Remove the support for DISCONTIGMEM entirely.
+Remove the configuration option and the dead code it was guarding in the
+generic memory management code.
 
 Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 ---
- arch/m68k/Kconfig.cpu           | 10 ----------
- arch/m68k/include/asm/page.h    |  2 +-
- arch/m68k/include/asm/page_mm.h | 33 ---------------------------------
- arch/m68k/mm/init.c             | 20 --------------------
- 4 files changed, 1 insertion(+), 64 deletions(-)
+ include/asm-generic/memory_model.h | 37 ++++--------------------------
+ include/linux/mmzone.h             |  4 ++--
+ mm/Kconfig                         | 25 +++-----------------
+ mm/memory.c                        |  3 +--
+ mm/page_alloc.c                    | 13 -----------
+ 5 files changed, 10 insertions(+), 72 deletions(-)
 
-diff --git a/arch/m68k/Kconfig.cpu b/arch/m68k/Kconfig.cpu
-index f4d23977d2a5..29e946394fdb 100644
---- a/arch/m68k/Kconfig.cpu
-+++ b/arch/m68k/Kconfig.cpu
-@@ -408,10 +408,6 @@ config SINGLE_MEMORY_CHUNK
- 	  order" to save memory that could be wasted for unused memory map.
- 	  Say N if not sure.
+diff --git a/include/asm-generic/memory_model.h b/include/asm-generic/memory_model.h
+index 7637fb46ba4f..a2c8ed60233a 100644
+--- a/include/asm-generic/memory_model.h
++++ b/include/asm-generic/memory_model.h
+@@ -6,47 +6,18 @@
  
--config ARCH_DISCONTIGMEM_ENABLE
--	depends on BROKEN
--	def_bool MMU && !SINGLE_MEMORY_CHUNK
--
- config FORCE_MAX_ZONEORDER
- 	int "Maximum zone order" if ADVANCED
- 	depends on !SINGLE_MEMORY_CHUNK
-@@ -451,11 +447,6 @@ config M68K_L2_CACHE
- 	depends on MAC
- 	default y
+ #ifndef __ASSEMBLY__
  
--config NODES_SHIFT
--	int
--	default "3"
--	depends on DISCONTIGMEM
--
- config CPU_HAS_NO_BITFIELDS
- 	bool
++/*
++ * supports 3 memory models.
++ */
+ #if defined(CONFIG_FLATMEM)
  
-@@ -553,4 +544,3 @@ config CACHE_COPYBACK
- 	  The ColdFire CPU cache is set into Copy-back mode.
- endchoice
- endif
--
-diff --git a/arch/m68k/include/asm/page.h b/arch/m68k/include/asm/page.h
-index 97087dd3ca6d..2f1c54e4725d 100644
---- a/arch/m68k/include/asm/page.h
-+++ b/arch/m68k/include/asm/page.h
-@@ -62,7 +62,7 @@ extern unsigned long _ramend;
- #include <asm/page_no.h>
+ #ifndef ARCH_PFN_OFFSET
+ #define ARCH_PFN_OFFSET		(0UL)
  #endif
  
--#if !defined(CONFIG_MMU) || defined(CONFIG_DISCONTIGMEM)
-+#ifndef CONFIG_MMU
- #define __phys_to_pfn(paddr)	((unsigned long)((paddr) >> PAGE_SHIFT))
- #define __pfn_to_phys(pfn)	PFN_PHYS(pfn)
- #endif
-diff --git a/arch/m68k/include/asm/page_mm.h b/arch/m68k/include/asm/page_mm.h
-index 2411ea9ef578..ff8f8a3f7cac 100644
---- a/arch/m68k/include/asm/page_mm.h
-+++ b/arch/m68k/include/asm/page_mm.h
-@@ -126,25 +126,7 @@ static inline void *__va(unsigned long x)
+-#elif defined(CONFIG_DISCONTIGMEM)
+-
+-#ifndef arch_pfn_to_nid
+-#define arch_pfn_to_nid(pfn)	pfn_to_nid(pfn)
+-#endif
+-
+-#ifndef arch_local_page_offset
+-#define arch_local_page_offset(pfn, nid)	\
+-	((pfn) - NODE_DATA(nid)->node_start_pfn)
+-#endif
+-
+-#endif /* CONFIG_DISCONTIGMEM */
+-
+-/*
+- * supports 3 memory models.
+- */
+-#if defined(CONFIG_FLATMEM)
+-
+ #define __pfn_to_page(pfn)	(mem_map + ((pfn) - ARCH_PFN_OFFSET))
+ #define __page_to_pfn(page)	((unsigned long)((page) - mem_map) + \
+ 				 ARCH_PFN_OFFSET)
+-#elif defined(CONFIG_DISCONTIGMEM)
+-
+-#define __pfn_to_page(pfn)			\
+-({	unsigned long __pfn = (pfn);		\
+-	unsigned long __nid = arch_pfn_to_nid(__pfn);  \
+-	NODE_DATA(__nid)->node_mem_map + arch_local_page_offset(__pfn, __nid);\
+-})
+-
+-#define __page_to_pfn(pg)						\
+-({	const struct page *__pg = (pg);					\
+-	struct pglist_data *__pgdat = NODE_DATA(page_to_nid(__pg));	\
+-	(unsigned long)(__pg - __pgdat->node_mem_map) +			\
+-	 __pgdat->node_start_pfn;					\
+-})
  
- extern int m68k_virt_to_node_shift;
+ #elif defined(CONFIG_SPARSEMEM_VMEMMAP)
+ 
+@@ -70,7 +41,7 @@
+ 	struct mem_section *__sec = __pfn_to_section(__pfn);	\
+ 	__section_mem_map_addr(__sec) + __pfn;		\
+ })
+-#endif /* CONFIG_FLATMEM/DISCONTIGMEM/SPARSEMEM */
++#endif /* CONFIG_FLATMEM/SPARSEMEM */
+ 
+ /*
+  * Convert a physical address to a Page Frame Number and back
+diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+index 0d53eba1c383..2b41e252a995 100644
+--- a/include/linux/mmzone.h
++++ b/include/linux/mmzone.h
+@@ -738,8 +738,8 @@ struct zonelist {
+ 	struct zoneref _zonerefs[MAX_ZONES_PER_ZONELIST + 1];
+ };
  
 -#ifndef CONFIG_DISCONTIGMEM
- #define __virt_to_node(addr)	(&pg_data_map[0])
+-/* The array of struct pages - for discontigmem use pgdat->lmem_map */
++#ifdef CONFIG_FLATMEM
++/* The array of struct pages for flatmem */
+ extern struct page *mem_map;
+ #endif
+ 
+diff --git a/mm/Kconfig b/mm/Kconfig
+index 02d44e3420f5..218b96ccc84a 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -19,7 +19,7 @@ choice
+ 
+ config FLATMEM_MANUAL
+ 	bool "Flat Memory"
+-	depends on !(ARCH_DISCONTIGMEM_ENABLE || ARCH_SPARSEMEM_ENABLE) || ARCH_FLATMEM_ENABLE
++	depends on !ARCH_SPARSEMEM_ENABLE || ARCH_FLATMEM_ENABLE
+ 	help
+ 	  This option is best suited for non-NUMA systems with
+ 	  flat address space. The FLATMEM is the most efficient
+@@ -32,21 +32,6 @@ config FLATMEM_MANUAL
+ 
+ 	  If unsure, choose this option (Flat Memory) over any other.
+ 
+-config DISCONTIGMEM_MANUAL
+-	bool "Discontiguous Memory"
+-	depends on ARCH_DISCONTIGMEM_ENABLE
+-	help
+-	  This option provides enhanced support for discontiguous
+-	  memory systems, over FLATMEM.  These systems have holes
+-	  in their physical address spaces, and this option provides
+-	  more efficient handling of these holes.
+-
+-	  Although "Discontiguous Memory" is still used by several
+-	  architectures, it is considered deprecated in favor of
+-	  "Sparse Memory".
+-
+-	  If unsure, choose "Sparse Memory" over this option.
+-
+ config SPARSEMEM_MANUAL
+ 	bool "Sparse Memory"
+ 	depends on ARCH_SPARSEMEM_ENABLE
+@@ -62,17 +47,13 @@ config SPARSEMEM_MANUAL
+ 
+ endchoice
+ 
+-config DISCONTIGMEM
+-	def_bool y
+-	depends on (!SELECT_MEMORY_MODEL && ARCH_DISCONTIGMEM_ENABLE) || DISCONTIGMEM_MANUAL
+-
+ config SPARSEMEM
+ 	def_bool y
+ 	depends on (!SELECT_MEMORY_MODEL && ARCH_SPARSEMEM_ENABLE) || SPARSEMEM_MANUAL
+ 
+ config FLATMEM
+ 	def_bool y
+-	depends on (!DISCONTIGMEM && !SPARSEMEM) || FLATMEM_MANUAL
++	depends on !SPARSEMEM || FLATMEM_MANUAL
+ 
+ config FLAT_NODE_MEM_MAP
+ 	def_bool y
+@@ -85,7 +66,7 @@ config FLAT_NODE_MEM_MAP
+ #
+ config NEED_MULTIPLE_NODES
+ 	def_bool y
+-	depends on DISCONTIGMEM || NUMA
++	depends on NUMA
+ 
+ #
+ # SPARSEMEM_EXTREME (which is the default) does some bootmem
+diff --git a/mm/memory.c b/mm/memory.c
+index 730daa00952b..7c7b6ea02504 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -90,8 +90,7 @@
+ #warning Unfortunate NUMA and NUMA Balancing config, growing page-frame for last_cpupid.
+ #endif
+ 
+-#ifndef CONFIG_NEED_MULTIPLE_NODES
+-/* use the per-pgdat data instead for discontigmem - mbligh */
++#ifdef CONFIG_FLATMEM
+ unsigned long max_mapnr;
+ EXPORT_SYMBOL(max_mapnr);
+ 
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index aaa1655cf682..6fc22482eaa8 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -331,20 +331,7 @@ compound_page_dtor * const compound_page_dtors[NR_COMPOUND_DTORS] = {
+ 
+ int min_free_kbytes = 1024;
+ int user_min_free_kbytes = -1;
+-#ifdef CONFIG_DISCONTIGMEM
+-/*
+- * DiscontigMem defines memory ranges as separate pg_data_t even if the ranges
+- * are not on separate NUMA nodes. Functionally this works but with
+- * watermark_boost_factor, it can reclaim prematurely as the ranges can be
+- * quite small. By default, do not boost watermarks on discontigmem as in
+- * many cases very high-order allocations like THP are likely to be
+- * unsupported and the premature reclaim offsets the advantage of long-term
+- * fragmentation avoidance.
+- */
+-int watermark_boost_factor __read_mostly;
 -#else
--extern struct pglist_data *pg_data_table[];
--
--static inline __attribute_const__ int __virt_to_node_shift(void)
--{
--	int shift;
--
--	asm (
--		"1:	moveq	#0,%0\n"
--		m68k_fixup(%c1, 1b)
--		: "=d" (shift)
--		: "i" (m68k_fixup_vnode_shift));
--	return shift;
--}
--
--#define __virt_to_node(addr)	(pg_data_table[(unsigned long)(addr) >> __virt_to_node_shift()])
+ int watermark_boost_factor __read_mostly = 15000;
 -#endif
+ int watermark_scale_factor = 10;
  
- #define virt_to_page(addr) ({						\
- 	pfn_to_page(virt_to_pfn(addr));					\
-@@ -153,23 +135,8 @@ static inline __attribute_const__ int __virt_to_node_shift(void)
- 	pfn_to_virt(page_to_pfn(page));					\
- })
- 
--#ifdef CONFIG_DISCONTIGMEM
--#define pfn_to_page(pfn) ({						\
--	unsigned long __pfn = (pfn);					\
--	struct pglist_data *pgdat;					\
--	pgdat = __virt_to_node((unsigned long)pfn_to_virt(__pfn));	\
--	pgdat->node_mem_map + (__pfn - pgdat->node_start_pfn);		\
--})
--#define page_to_pfn(_page) ({						\
--	const struct page *__p = (_page);				\
--	struct pglist_data *pgdat;					\
--	pgdat = &pg_data_map[page_to_nid(__p)];				\
--	((__p) - pgdat->node_mem_map) + pgdat->node_start_pfn;		\
--})
--#else
- #define ARCH_PFN_OFFSET (m68k_memory[0].addr >> PAGE_SHIFT)
- #include <asm-generic/memory_model.h>
--#endif
- 
- #define virt_addr_valid(kaddr)	((unsigned long)(kaddr) >= PAGE_OFFSET && (unsigned long)(kaddr) < (unsigned long)high_memory)
- #define pfn_valid(pfn)		virt_addr_valid(pfn_to_virt(pfn))
-diff --git a/arch/m68k/mm/init.c b/arch/m68k/mm/init.c
-index 1759ab875d47..5d749e188246 100644
---- a/arch/m68k/mm/init.c
-+++ b/arch/m68k/mm/init.c
-@@ -44,28 +44,8 @@ EXPORT_SYMBOL(empty_zero_page);
- 
- int m68k_virt_to_node_shift;
- 
--#ifdef CONFIG_DISCONTIGMEM
--pg_data_t pg_data_map[MAX_NUMNODES];
--EXPORT_SYMBOL(pg_data_map);
--
--pg_data_t *pg_data_table[65];
--EXPORT_SYMBOL(pg_data_table);
--#endif
--
- void __init m68k_setup_node(int node)
- {
--#ifdef CONFIG_DISCONTIGMEM
--	struct m68k_mem_info *info = m68k_memory + node;
--	int i, end;
--
--	i = (unsigned long)phys_to_virt(info->addr) >> __virt_to_node_shift();
--	end = (unsigned long)phys_to_virt(info->addr + info->size - 1) >> __virt_to_node_shift();
--	for (; i <= end; i++) {
--		if (pg_data_table[i])
--			pr_warn("overlap at %u for chunk %u\n", i, node);
--		pg_data_table[i] = pg_data_map + node;
--	}
--#endif
- 	node_set_online(node);
- }
- 
+ static unsigned long nr_kernel_pages __initdata;
 -- 
 2.28.0
 
