@@ -1,91 +1,179 @@
-Return-Path: <SRS0=Frhj=K4=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=tXg0=K5=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E666BC4708F
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  2 Jun 2021 21:01:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7F23C47096
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  3 Jun 2021 19:00:43 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9CC2B613DE
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  2 Jun 2021 21:01:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9CC2B613DE
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 6BF32613D2
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  3 Jun 2021 19:00:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6BF32613D2
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=b63NpAse/4w/C9onOOMvh7n1vJJZp5wAEUscaTT8MRQ=; b=k7+tbGe43ib2d/
-	llan7OsVHyVVFIhFPBDdmYaB7CcGSuaX1ngsodRqTKPmofIdmVceN6IA4B+Jg45XShhK8G7YvukIh
-	v4vyuUqSpJSBhmP7GCssQpSdpsxhXm5mb44S4ES7e/6FovweZ0674864fRMYd9q9cB2NV4eAExb6k
-	EESes1if80TDV+oDZ4t2SLf+CEha2BIu9VjqsapBRZcXg2+SI8LFKSz1zTTHlrKruARQGGZtWnsk2
-	VGnJ9UW4tXyULAQCCRtKNTCwFsrTXiP4dpQ8Ett0KwPDkeMU86IwtppAI5kYk6ISBr9gIw2NTMzzE
-	3nRmW8e2t4Bd0qlQPe9w==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Wc7/A0ES0MJ7ljXryOUAT5oilhAhd5RbKlBTiN35H3I=; b=Ph2qWdhA9udFHaCA4VfnvvLAsM
+	pOF2ckqJ6MEjCxuTtte3jsH+WK2R1XAlbRAfFcl86YqjiGQUy3Jm13rN4W+p98Y3RIEIls6njPsfG
+	nA/edr81N6s6b7FrawrN/Fvvrbt/4CX+vhlDDOJuCZApasL9SqCVTgI2kz7R/q54w/0+Ez1ww+Sun
+	q3r30G2kGPOgjs7a7Cttz8dqB6/hzfZdyAStTuJdxrGxCQlzukrPIIrCwSG+ulhTv38Erb52bnfu+
+	Bd1i7+X3CAOTPB0TZxacvVERsN3564IFCf+aIULolRqOwGpH8ep3lnOxIOR23lsT3Fnvhf69GoQOR
+	sDyLclNw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1loXzw-006D79-5B; Wed, 02 Jun 2021 21:01:56 +0000
-Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736])
+	id 1losaA-00AHmR-VN; Thu, 03 Jun 2021 19:00:42 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1loXzs-006D6a-PA
- for linux-snps-arc@lists.infradead.org; Wed, 02 Jun 2021 21:01:54 +0000
-Received: by mail-qk1-x736.google.com with SMTP id 65so2460644qkg.12
- for <linux-snps-arc@lists.infradead.org>; Wed, 02 Jun 2021 14:01:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=z1KT2SC7zYxQmOT5Kh+dVtbV5THGRScxhKf6qZ6NuhM=;
- b=fjVzBHwziXF8lOlGiA+cSdLI5WysFYebfsZljZNKd0y07bFMazdOtpXO8LeAFnilQF
- bNgYzdiANZE1O/skNn1ESWetKqN7Y3AWq9kBmO/Rb9mEIWT53loNjrOju2zLpfYvehNn
- 7mxbw+6b4AwoqpZ47FGrGIvIZXTjNcXpCHcusIqWkLShfqr9e0Ze+oISyL8E1DPd39C+
- il9lZaleTKA9Qv+zQMUEajB3+2PfM78c6yFRR+qjWCdUxvyAcWvAMVEZIkyf5BSma5i7
- orqNgezkQGcLOKBojT1L7As8o/eLvUh91kUa5WadSYrPLlImR2aBW/jUOUXpGRiNYmrl
- L/rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=z1KT2SC7zYxQmOT5Kh+dVtbV5THGRScxhKf6qZ6NuhM=;
- b=SN1w8rLQEY1HAFiIincPvMi0f5LJNavq5dQ7L2JNFdNw3NPmoSyW+kylcT3mG98SOj
- SXCHqpiBALpaw+68zglBUkqvGKjpsLUSp26Ssd72XtuwJ4mhfjjpFLmg82CQzkBVZs7z
- G+DmmkYgA2zCTV3IHoxSyI2Mjpin9Mr5+gHQOvKwCufCZapB3wXPZ8iuB/F0YauDyNTU
- F1s7I94nY8cNz1A0mGcRUnB3wMM77LkF5ar9pil0SJXaoH2a4ypXTuyRWXu0MGJDvPQf
- OS3fY12EYxTr+XTXWTQSzgYhJoCOYGcVeBVWTb0i2O7mErUAtiddvhutL/NOjhuYkm1Z
- CTaw==
-X-Gm-Message-State: AOAM533nKUQEhDnI5jLxGf+Q1eyivxu5CUpAzIV4SNkVDZPlbEOXgsj5
- fb0WQF7nhQvsytdRgSTycSM=
-X-Google-Smtp-Source: ABdhPJydjhJaoCAG7zNDFMerQvKEOpT3T7CAHJsFcWPZywrffd7t/jicwxojt/WinXZFX30lfERCGg==
-X-Received: by 2002:a37:b6c4:: with SMTP id
- g187mr29621983qkf.491.1622667710719; 
- Wed, 02 Jun 2021 14:01:50 -0700 (PDT)
-Received: from gmail.com
- (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
- by smtp.gmail.com with ESMTPSA id s24sm542621qtx.94.2021.06.02.14.01.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jun 2021 14:01:50 -0700 (PDT)
-Date: Wed, 2 Jun 2021 17:01:48 -0400
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: abrodkin@synopsys.com
-Cc: linux-yocto@lists.yoctoproject.org, linux-snps-arc@lists.infradead.org,
- Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-Subject: Re: [linux-yocto] [PATCH] ARC: Rename nSIM HS to HAPS HS
-Message-ID: <20210602210146.GA26712@gmail.com>
-References: <20210531201641.2804-1-abrodkin@synopsys.com>
+ id 1losa8-00AHkp-7V
+ for linux-snps-arc@lists.infradead.org; Thu, 03 Jun 2021 19:00:42 +0000
+Received: from mailhost.synopsys.com (us03-mailhost2.synopsys.com [10.4.17.18])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id C1D4A406E7;
+ Thu,  3 Jun 2021 19:00:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1622746838; bh=YHAK1vvdPUI9205x1tr7qEChvuLP9taCqhse0wncMKE=;
+ h=From:To:CC:Subject:Date:From;
+ b=hkqfQe+YQzXYxXJErJMtR36VIihQ1OjEJCoYRGUlJZ5rse1ZkipU+mYb/usw4adAI
+ saLUk//VCqxZjdRRkiuKK+9S+3zmNuYizPhF45MC2Y4L5x0sh2isE0/NpqavODbm5/
+ izy5htpAMLa4vTg8rhEcMGONOzlZAdSAzvnDcQPBZNkKnsec0vNZbyk3PVU0GiHrGK
+ QdophJo4b1uW5Vj7dBQtudd19SvvfjmSH2ESFvXXWTdOLkCERW/eAgF7wj53LVRre5
+ tLyFttJR4ShAcuC3L/vpiXqFUaP2/u06EX9IGvvjecCgpxWbdQ4JnLy/vCL04KsR7F
+ 2dk/TZJi/Z3Jg==
+Received: from o365relay-in.synopsys.com (us03-o365relay1.synopsys.com
+ [10.4.161.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client CN "o365relay-in.synopsys.com",
+ Issuer "Entrust Certification Authority - L1K" (verified OK))
+ by mailhost.synopsys.com (Postfix) with ESMTPS id 48E22A0084;
+ Thu,  3 Jun 2021 19:00:34 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10lp2107.outbound.protection.outlook.com [104.47.58.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "mail.protection.outlook.com",
+ Issuer "DigiCert Cloud Services CA-1" (verified OK))
+ by o365relay-in.synopsys.com (Postfix) with ESMTPS id 5EC938000C;
+ Thu,  3 Jun 2021 19:00:33 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com;
+ dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+ spf=pass smtp.mailfrom=vgupta@synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
+ unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="RU8EPmHi";
+ dkim-atps=neutral
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GY8dg8SNOfRgspJr6u1iiIbcAydDP44A+qlys6T3Xqcw9YbrN+Y1dgqw7srIsMpORRvMKWaCj7XtMbubii23tyatzlREoyyGpycDLRhkvXXoNyhv5bQCNMsWun0r3s1UtcKzIVf/YlSTNq7csjF6B41Dy0PmM4RTfYttP0SqJjZ6xniJBlklP1FoqrBM6Wb7kRZnLDEIKL6nnoxGndLyhpm0W3Pc4HTr7qv8x7E/CKP2Ieg2dCk+tFKknoHbNavXMVOTVTaKtwvvwBuk8I8Y1BmZ/t0i2TTrSoSnoHhYGhl2Ory4vODkMdUbCtwWTfrTTqr8V+Edh43erh+mQDOKnw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/biF2j9Sa03KxaHnkkX0jtx/5EhcoryOIovU9P3uNbg=;
+ b=Kp276erlwOloh+e3TmNbydCVKU1yUy6O+Wud0r9X+iq4MsLdlEfU1DgOQdqyhImmvTUhDe3FsZ1SwAVx/kX02EpyUWl8s8JMyaeB0AebGatXDDx/HFJHnVSDe8gF1o3RonyczfeDiYBI7KxRlDmvBSQih/dA1YTG9Lep6Kfg6HP+geL4RCy4+j3DRpJEUVOXb9NZOPat8MmQh816P6Crn7xlpn421LzUeutRb85zV6EA56m5OSKqVs+Obfz4WfiaZCs3DN4mTUCrpZisPJTH3RI70V1auTRMnZzCgm4o+/aEcvYaIt/y4sd91FgBvi+ASr1tglOMhFVuJtbo3Z3hyA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/biF2j9Sa03KxaHnkkX0jtx/5EhcoryOIovU9P3uNbg=;
+ b=RU8EPmHiBwga1Hvag+v2f08hLsbv0Q6EMd1bcyI/J3q6Y5/wFAxwnic70bYx9NIHxKYNKefRyj2MeWH/sydPE78NhvM7dxf2ZCSkc2QOwXucMmyLudWJkkt8kl8WmyLEYPDE0srSNDaIGNeZLjJ/uLbRqGFkxgsX1ACpwulad7A=
+Received: from BYAPR12MB3479.namprd12.prod.outlook.com (2603:10b6:a03:dc::26)
+ by BYAPR12MB3397.namprd12.prod.outlook.com (2603:10b6:a03:db::26)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.22; Thu, 3 Jun
+ 2021 19:00:31 +0000
+Received: from BYAPR12MB3479.namprd12.prod.outlook.com
+ ([fe80::d1a0:ed05:b9cc:e94d]) by BYAPR12MB3479.namprd12.prod.outlook.com
+ ([fe80::d1a0:ed05:b9cc:e94d%7]) with mapi id 15.20.4173.033; Thu, 3 Jun 2021
+ 19:00:30 +0000
+X-SNPS-Relay: synopsys.com
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To: "submit@bugs.debian.org" <submit@bugs.debian.org>
+CC: arcml <linux-snps-arc@lists.infradead.org>, Helmut Grohne
+ <helmut@subdivi.de>, Guillem Jover <guillem@debian.org>
+Subject: Debian: gmp: add support for arc
+Thread-Topic: Debian: gmp: add support for arc
+Thread-Index: AQHXWKq5Kgbx7v+SZUS/pNXlD7Gcfg==
+Date: Thu, 3 Jun 2021 19:00:30 +0000
+Message-ID: <63a0facb-2453-bb80-1361-18c7bfd00691@synopsys.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+authentication-results: bugs.debian.org; dkim=none (message not signed)
+ header.d=none;bugs.debian.org; dmarc=none action=none
+ header.from=synopsys.com;
+x-originating-ip: [149.117.75.13]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 89c78869-e552-48bb-676b-08d926c1dbe7
+x-ms-traffictypediagnostic: BYAPR12MB3397:
+x-microsoft-antispam-prvs: <BYAPR12MB33972247B17C8114FFF53522B63C9@BYAPR12MB3397.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1850;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: El5/K/I6dIuQwFc8+PPusHGdSovgd3J/stCwEkLKz0+3qMYGsAxm0PWj3eq7Q0vlOeXNJ1zIzO3mGmhziUanDHFZ3l6vyGO2JPsr16eG315OtgtO9z2qWhc7MVV8aTg77ld6tQSkjagja8GCD0cyf2XMzRSvlfXHwqiXFyPNThouKTdBM4bdGZaphGjsItKyTedeMOSSxFmioWa0FWdHv79IaY5rOYPqtzvJ/cUP/ll4Oo0pM2slcV5KgXyU3UO2MOOZqfcGgcF0s0c0LA4aNuMYFYdz/i/o6Ij+EorYobJ82yExcSNjcyNUsITOtHhlkT4dU4N1MYObY6etHHV5uA7X1aAmXi7UOGjXq0iloHlfz6d/zHbJgZhZOM/PJ4LP05KQEUzStrzPMcAn+4sTbQLgKj0X62aEWV5EBnUQG2pTlscJNw1h1s7++BnTMxo9uuVm9fPZmmpUa1pNQz12kO3iaVaD8wWu44ankGFkIRJJzKpQHyVig1O95/cIHnwYaEVf8mIEZ+Fn0uPPzdAqZSmzW49kymXMltj2BQPSf1aCAcCLgSq9KHiW8OumiX8dMAq6+TA8neWxbqgsUnf0iFpCMNIxveS9fatTOKvgiuMCYwsKOo6jhbL8VzGDotTK4S5QuBeuPaOueEAr8Z6QhCetoyIeb504zRQQwy1U6H08Eegqj6ImKhj4tScVe18f
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3479.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(376002)(346002)(39850400004)(366004)(396003)(136003)(99936003)(186003)(6506007)(6916009)(4326008)(31686004)(86362001)(316002)(558084003)(26005)(6486002)(36756003)(8676002)(54906003)(83380400001)(478600001)(31696002)(6512007)(8936002)(5660300002)(38100700002)(122000001)(2906002)(66946007)(66616009)(66476007)(64756008)(71200400001)(66556008)(66446008)(2616005)(76116006)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?RWJxcmY1R3lXT2R4MjRHb2hzNUZCcEhZMHpLNzkvTmtQK2o3V0FoL3lFOTVj?=
+ =?utf-8?B?dnl5YlVLNXgraDFFY1BjR2tjVDJEQ0hydVExUHVUVHhpYnlGQ29qTGVsaVhM?=
+ =?utf-8?B?ME1iNWZycG0vbUtSYXU3ajJYU0tvM0lpZ2dNdjdWT1B0enV2alFlL2hVQ0tV?=
+ =?utf-8?B?b1ZZYTNuQzg5UThOU2ZFdENPdHJwWUZ0VElDMkNmN21LYmpuUm9UQkxBSkFL?=
+ =?utf-8?B?OEIwdnVhekpIZnNBc2Y5RG56TjAzWWRuSlR1dHR0WFhqeUFGV2pvRExlcnl4?=
+ =?utf-8?B?RjlhWnNLNU1IL2xqQ0FQU3g0ZzhDbkl1SzBSM2FCNlpCeHF4bFMrR0lBSy9E?=
+ =?utf-8?B?NWMzNnM2VXJTaHNCeWwzUEtDUzZ4RHdRbE9qcmdwbFYyeHByd0Y4SlVpSlZ6?=
+ =?utf-8?B?YlZpb3VocTZMcDNjV0g0S0lGbUZrTkUxSWNQWldhNmx4SFhSa0lBTFgyTlVJ?=
+ =?utf-8?B?RzFyVG1JUysza3hZOUtoTmN5T0paVU5teUVCSldMQy82czZwdWxHdTNZc1g4?=
+ =?utf-8?B?cVZVbGtoeHVOQ3NQTVZ5anRjemZpaGd5dDg4dzM5d29yMU44bytmazZGWXRR?=
+ =?utf-8?B?TFNGTlVyUHNhYWtCMGVZN3REMDVpTDlGRldjb1FmcmRHVDhOMjJwRHZ6OExW?=
+ =?utf-8?B?bTlOT005cWR0SXhiV2syelRYU3dmUFluV1M2MzRIaWFVNHlLVndFd21CbGhw?=
+ =?utf-8?B?QURLRTZZbXIvSGROb2wySStmN0N4dXVNY1gwZnZrRFVzSC9UY3NaT0FvemRG?=
+ =?utf-8?B?RDczSjBWb1QyN3U5SmQrYWRnTTAyTjJlQVlCWXJWWUZXUW4xNXZyejhaRVBS?=
+ =?utf-8?B?OWdkNzVwY2pUbXl4Y0wwRnRpbWREOFVsdnhpdzZCVXl6bVNMRTQ5ekMyeENM?=
+ =?utf-8?B?VW5HVSt5YTBrTy9FV0pIV1V1ODFORi9iVEUrTjlZQUJpZjFtUlUySk5UdE4z?=
+ =?utf-8?B?U2Z5Q245Z1VNdGtrd1dTYW5wWUVwLzlNNHFmTHhiSHRVbE5ESGg2aDhPOFY2?=
+ =?utf-8?B?UEVYY2dPZFRwQ2pHVnlEdCsxQk50SzNrVW9SOThwNTg2YVJMSkFHakxoTHMr?=
+ =?utf-8?B?ckZhWmQ0V2kvTDc5dWczYy9uMVNGYmZuNGVTcGovS1pyQTdSNVhwTDArUlRF?=
+ =?utf-8?B?aHVmeTV2akFGVkRPQmZ0aEJnc3k3VXhCZ3JZbUJnaWh3WWcrT29yMllqZ0FK?=
+ =?utf-8?B?UWdtUkN0a3c4M1dTY3hLY0g3bDdYTWhsZ3BtUnhmTE5xeDFsOUhJeXAxcVVD?=
+ =?utf-8?B?aHMyODVaV0ZKMDBsUGVQTGJJNERMc0szd2ZKTjNFaXpPMFpwTXRCNm94RTdP?=
+ =?utf-8?B?aDRMaHdsNHA4U1RXRkl3d0Z1TzgrOGZOWUxETXdyZDNva2NQWmdYdC9Dazll?=
+ =?utf-8?B?ZU1xK0RyajdnaXRHczY0UW5INDduU29tblErbm1BRzlmd0pyUnc2Vy9KT1VX?=
+ =?utf-8?B?OE8zdndpQk5Kd1Y1enRZU3lPV0wyVThBQXpnTGRuYVdVaW9GblRwaTJsRmc1?=
+ =?utf-8?B?Zm45TnJtRCs5Z2ZEU3Z5Z0ZMRzAyb0I3NXBEbkpTSWlyT3BDTHVQWmxDeGZE?=
+ =?utf-8?B?Q2Jib1E0OUo2YjU4RVh4eHZkeHYzd3BYK3NNeXd2YUZWS1hXbCtwNnBCRmNm?=
+ =?utf-8?B?b3lHK2gxNE9YZWNFQU0wQkVuRHhqaytzQkxLNHhuVDdKV2VzSXA0Rk1FWGpw?=
+ =?utf-8?B?SFRYREluOWxxZXpsSGtodkRwVWJwZm9WS2xta254TnhUcG8vdVJTSERmS3Bi?=
+ =?utf-8?Q?aoJLaDwBwj6eoVZJEQ=3D?=
+x-ms-exchange-transport-forked: True
+Content-Type: multipart/mixed;
+ boundary="_002_63a0facb2453bb80136118c7bfd00691synopsyscom_"
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210531201641.2804-1-abrodkin@synopsys.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3479.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89c78869-e552-48bb-676b-08d926c1dbe7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jun 2021 19:00:30.7746 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: F2hGef2wAe6Cg4WVQsZu7DoKiZ97xbPBNGsWZjKOTJcH4MmncDgi1SozbNUXxIr97m76AVrITvGNvTkT2/NFPg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3397
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210602_140152_853731_C1F309E0 
-X-CRM114-Status: GOOD (  18.19  )
+X-CRM114-CacheID: sfid-20210603_120040_390089_2E64241C 
+X-CRM114-Status: GOOD (  13.26  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,130 +185,193 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Looks good to me.
+--_002_63a0facb2453bb80136118c7bfd00691synopsyscom_
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <2693F8D60887CB41A9A5D8F9BDCA4A3B@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 
-What branches were you targetting for the change ?
+U291cmNlOiBnbXANClNldmVyaXR5OiBub3JtYWwNClRhZ3M6IHBhdGNoDQoNCkhpLA0KDQpUbyBi
+b290c3RyYXAgYXJjIHBvcnQgd2UgbmVlZCBzeW1ib2xzIGZpbGUgdXBkYXRlIGluIGdtcC4NClBh
+dGNoIGF0dGFjaGVkLg0KDQpUaHgsDQotVmluZWV0DQo=
 
-Bruce
+--_002_63a0facb2453bb80136118c7bfd00691synopsyscom_
+Content-Type: text/x-patch; name="0001-Update-symbols-file-for-arc.patch"
+Content-Description: 0001-Update-symbols-file-for-arc.patch
+Content-Disposition: attachment;
+	filename="0001-Update-symbols-file-for-arc.patch"; size=8761;
+	creation-date="Thu, 03 Jun 2021 19:00:30 GMT";
+	modification-date="Thu, 03 Jun 2021 19:00:30 GMT"
+Content-ID: <CABC3E0F2383E44F975450B1204EECDD@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 
-In message: [linux-yocto] [PATCH] ARC: Rename nSIM HS to HAPS HS
-on 31/05/2021 Alexey Brodkin via lists.yoctoproject.org wrote:
+RnJvbSA1ODk0ZTE2OGYzYTE5ZTJmMTEzZjY3MjY5N2NmOGJiMDc4YTY1YTlmIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQ0KRnJvbTogVmluZWV0IEd1cHRhIDx2Z3VwdGFAc3lub3BzeXMuY29tPg0K
+RGF0ZTogVGh1LCAzIEp1biAyMDIxIDExOjMzOjA1IC0wNzAwDQpTdWJqZWN0OiBbUEFUQ0hdIFVw
+ZGF0ZSBzeW1ib2xzIGZpbGUgZm9yIGFyYw0KDQpTaWduZWQtb2ZmLWJ5OiBWaW5lZXQgR3VwdGEg
+PHZndXB0YUBzeW5vcHN5cy5jb20+DQotLS0NCiBkZWJpYW4vbGliZ21wMTAuc3ltYm9scyB8IDMy
+ICsrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tDQogMSBmaWxlIGNoYW5nZWQsIDE2IGlu
+c2VydGlvbnMoKyksIDE2IGRlbGV0aW9ucygtKQ0KDQpkaWZmIC0tZ2l0IGEvZGViaWFuL2xpYmdt
+cDEwLnN5bWJvbHMgYi9kZWJpYW4vbGliZ21wMTAuc3ltYm9scw0KaW5kZXggOTY2Y2RjNTU4YzQ5
+Li41NjgwNDkwMzRkNTEgMTAwNjQ0DQotLS0gYS9kZWJpYW4vbGliZ21wMTAuc3ltYm9scw0KKysr
+IGIvZGViaWFuL2xpYmdtcDEwLnN5bWJvbHMNCkBAIC0yMTgsNyArMjE4LDcgQEAgbGliZ21wLnNv
+LjEwIGxpYmdtcDEwICNNSU5WRVIjDQogIChhcmNoPWFueS1pMzg2KV9fZ21wbl9hZGRfbl9wZW50
+aXVtQEJhc2UgMjo1LjEuMQ0KICBfX2dtcG5fYWRkX25fc3ViX25AQmFzZSAyOjUuMS4xDQogIChh
+cmNoPWFueS1pMzg2KV9fZ21wbl9hZGRfbl94ODZAQmFzZSAyOjUuMS4xDQotIChhcmNoPSFocHBh
+ICFtaXBzICFtaXBzZWwgIW02OGsgIW5pb3MyICFyaXNjdjY0ICFzMzkweCAhc2gzICFzaDQgIXNw
+YXJjICFzcGFyYzY0ICF0aWxlZ3ggIWFueS1pMzg2KV9fZ21wbl9hZGRfbmNAQmFzZSAwDQorIChh
+cmNoPSFhcmMgIWhwcGEgIW1pcHMgIW1pcHNlbCAhbTY4ayAhbmlvczIgIXJpc2N2NjQgIXMzOTB4
+ICFzaDMgIXNoNCAhc3BhcmMgIXNwYXJjNjQgIXRpbGVneCAhYW55LWkzODYpX19nbXBuX2FkZF9u
+Y0BCYXNlIDANCiAgKGFyY2g9YW55LWkzODYpX19nbXBuX2FkZF9uY19hdG9tQEJhc2UgMjo1LjEu
+MQ0KICAoYXJjaD1hbnktaTM4NilfX2dtcG5fYWRkX25jX2s2QEJhc2UgMjo1LjEuMQ0KICAoYXJj
+aD1hbnktaTM4NilfX2dtcG5fYWRkX25jX2s3QEJhc2UgMjo1LjEuMQ0KQEAgLTIyNyw5ICsyMjcs
+OSBAQCBsaWJnbXAuc28uMTAgbGliZ21wMTAgI01JTlZFUiMNCiAgKGFyY2g9YW55LWkzODYpX19n
+bXBuX2FkZF9uY19wZW50aXVtQEJhc2UgMjo1LjEuMQ0KICAoYXJjaD1hbnktaTM4NilfX2dtcG5f
+YWRkX25jX3g4NkBCYXNlIDI6NS4xLjENCiAgKGFyY2g9YW55LWFtZDY0KV9fZ21wbl9hZGRhZGRt
+dWxfMW1zYjBAQmFzZSAwDQotIChhcmNoPSFocHBhICFtNjhrICFtaXBzICFtaXBzNjQgIW1pcHM2
+NGVsICFtaXBzZWwgIW5pb3MyICFyaXNjdjY0ICFzaDMgIXNoNCAhc3BhcmMgIXNwYXJjNjQgIXRp
+bGVneClfX2dtcG5fYWRkbHNoMV9uQEJhc2UgMjo2LjIuMA0KKyAoYXJjaD0hYXJjICFocHBhICFt
+NjhrICFtaXBzICFtaXBzNjQgIW1pcHM2NGVsICFtaXBzZWwgIW5pb3MyICFyaXNjdjY0ICFzaDMg
+IXNoNCAhc3BhcmMgIXNwYXJjNjQgIXRpbGVneClfX2dtcG5fYWRkbHNoMV9uQEJhc2UgMjo2LjIu
+MA0KICAoYXJjaD1hbnktaTM4NilfX2dtcG5fYWRkbHNoMV9uX2luaXRAQmFzZSAyOjUuMS4xDQot
+IChhcmNoPSFhcm1lbCAhYXJtaGYgIWhwcGEgIW02OGsgIW1pcHMgIW1pcHM2NCAhbWlwczY0ZWwg
+IW1pcHNlbCAhbmlvczIgIXBvd2VycGMgIXBvd2VycGNzcGUgIXJpc2N2NjQgIXMzOTB4ICFzaDMg
+IXNoNCAhc3BhcmMgIXNwYXJjNjQgIXRpbGVneClfX2dtcG5fYWRkbHNoMl9uQEJhc2UgMjo2LjIu
+MA0KKyAoYXJjaD0hYXJjICFhcm1lbCAhYXJtaGYgIWhwcGEgIW02OGsgIW1pcHMgIW1pcHM2NCAh
+bWlwczY0ZWwgIW1pcHNlbCAhbmlvczIgIXBvd2VycGMgIXBvd2VycGNzcGUgIXJpc2N2NjQgIXMz
+OTB4ICFzaDMgIXNoNCAhc3BhcmMgIXNwYXJjNjQgIXRpbGVneClfX2dtcG5fYWRkbHNoMl9uQEJh
+c2UgMjo2LjIuMA0KICAoYXJjaD1hbnktaTM4NilfX2dtcG5fYWRkbHNoMl9uX2luaXRAQmFzZSAy
+OjUuMS4xDQogIChhcmNoPWFueS1hbWQ2NClfX2dtcG5fYWRkbHNoX25AQmFzZSAwDQogIF9fZ21w
+bl9hZGRtdWxfMUBCYXNlIDANCkBAIC0yNzMsNyArMjczLDcgQEAgbGliZ21wLnNvLjEwIGxpYmdt
+cDEwICNNSU5WRVIjDQogIF9fZ21wbl9icm9vdGludkBCYXNlIDI6NS4xLjENCiAgX19nbXBuX2Jz
+cXJ0QEJhc2UgMjo1LjEuMQ0KICBfX2dtcG5fYnNxcnRpbnZAQmFzZSAyOjUuMS4xDQotIChhcmNo
+PWh1cmQtaTM4NiBpMzg2IGtmcmVlYnNkLWkzODYgcmlzY3Y2NCBzMzkweCBzaDQgc3BhcmM2NClf
+X2dtcG5fY2x6X3RhYkBCYXNlIDI6Ni4yLjANCisgX19nbXBuX2Nsel90YWJAQmFzZSAyOjYuMi4w
+DQogIF9fZ21wbl9jbXBAQmFzZSAwDQogIF9fZ21wbl9jbmRfYWRkX25AQmFzZSAyOjYuMC4wDQog
+IChhcmNoPWFueS1pMzg2KV9fZ21wbl9jbmRfYWRkX25fYXRvbUBCYXNlIDI6NS4xLjENCkBAIC0z
+OTgsNyArMzk4LDcgQEAgbGliZ21wLnNvLjEwIGxpYmdtcDEwICNNSU5WRVIjDQogIF9fZ21wbl9o
+Z2NkX3JlZHVjZV9pdGNoQEJhc2UgMjo1LjEuMQ0KICBfX2dtcG5faGdjZF9zdGVwQEJhc2UgMjo1
+LjEuMQ0KICBfX2dtcG5faW52ZXJ0QEJhc2UgMA0KLSAoYXJjaD0haHBwYSAhbWlwcyAhbWlwc2Vs
+ICFtaXBzNjQgIW1pcHM2NGVsICFtNjhrICFuaW9zMiAhcmlzY3Y2NCAhc3BhcmMgIXNwYXJjNjQg
+IXNoMyAhc2g0ICF0aWxlZ3ggIWFueS1pMzg2KV9fZ21wbl9pbnZlcnRfbGltYkBCYXNlIDANCisg
+KGFyY2g9IWFyYyAhaHBwYSAhbWlwcyAhbWlwc2VsICFtaXBzNjQgIW1pcHM2NGVsICFtNjhrICFu
+aW9zMiAhcmlzY3Y2NCAhc3BhcmMgIXNwYXJjNjQgIXNoMyAhc2g0ICF0aWxlZ3ggIWFueS1pMzg2
+KV9fZ21wbl9pbnZlcnRfbGltYkBCYXNlIDANCiAgX19nbXBuX2ludmVydGFwcHJAQmFzZSAwDQog
+IF9fZ21wbl9pb3JfbkBCYXNlIDANCiAgX19nbXBuX2lvcm5fbkBCYXNlIDANCkBAIC01MDgsNyAr
+NTA4LDcgQEAgbGliZ21wLnNvLjEwIGxpYmdtcDEwICNNSU5WRVIjDQogIChhcmNoPWFueS1pMzg2
+KV9fZ21wbl9tdWxfMV9wZW50aXVtQEJhc2UgMjo1LjEuMQ0KICAoYXJjaD1hbnktaTM4NilfX2dt
+cG5fbXVsXzFfcGVudGl1bV9tbXhAQmFzZSAyOjUuMS4xDQogIChhcmNoPWFueS1pMzg2KV9fZ21w
+bl9tdWxfMV94ODZAQmFzZSAyOjUuMS4xDQotIChhcmNoPSFhbnktaTM4NiAhYXJtZWwgIWFybWhm
+ICFocHBhICFtNjhrICFtaXBzICFtaXBzNjQgIW1pcHM2NGVsICFtaXBzZWwgIW5pb3MyICFwb3dl
+cnBjICFwb3dlcnBjc3BlICFyaXNjdjY0ICFzMzkweCAhc2gzICFzaDQgIXNwYXJjICFzcGFyYzY0
+ICF0aWxlZ3gpX19nbXBuX211bF8xY0BCYXNlIDI6Ni4yLjANCisgKGFyY2g9IWFueS1pMzg2ICFh
+cmMgIWFybWVsICFhcm1oZiAhaHBwYSAhbTY4ayAhbWlwcyAhbWlwczY0ICFtaXBzNjRlbCAhbWlw
+c2VsICFuaW9zMiAhcG93ZXJwYyAhcG93ZXJwY3NwZSAhcmlzY3Y2NCAhczM5MHggIXNoMyAhc2g0
+ICFzcGFyYyAhc3BhcmM2NCAhdGlsZWd4KV9fZ21wbl9tdWxfMWNAQmFzZSAyOjYuMi4wDQogIChh
+cmNoPWFueS1pMzg2KV9fZ21wbl9tdWxfMWNfYXRvbV9zc2UyQEJhc2UgMjo1LjEuMQ0KICAoYXJj
+aD1hbnktaTM4NilfX2dtcG5fbXVsXzFjX2s2QEJhc2UgMjo1LjEuMQ0KICAoYXJjaD1hbnktaTM4
+NilfX2dtcG5fbXVsXzFjX2s3QEJhc2UgMjo1LjEuMQ0KQEAgLTU3MSwxMyArNTcxLDEzIEBAIGxp
+YmdtcC5zby4xMCBsaWJnbXAxMCAjTUlOVkVSIw0KICBfX2dtcG5fcmVkY19uQEJhc2UgMA0KICBf
+X2dtcG5fcmVtb3ZlQEJhc2UgMA0KICBfX2dtcG5fcm9vdHJlbUBCYXNlIDANCi0gKGFyY2g9IWFs
+cGhhICFhbnktaTM4NiAhYXJtZWwgIWFybWhmICFocHBhICFtNjhrICFtaXBzICFtaXBzNjQgIW1p
+cHM2NGVsICFtaXBzZWwgIW5pb3MyICFwb3dlcnBjICFwb3dlcnBjc3BlICFyaXNjdjY0ICFzaDMg
+IXNoNCAhc3BhcmMgIXNwYXJjNjQgIXRpbGVneClfX2dtcG5fcnNibHNoMV9uQEJhc2UgMjo2LjIu
+MA0KLSAoYXJjaD0hYWxwaGEgIWFueS1pMzg2ICFhcm1lbCAhYXJtaGYgIWhwcGEgIW02OGsgIW1p
+cHMgIW1pcHM2NCAhbWlwczY0ZWwgIW1pcHNlbCAhbmlvczIgIXBvd2VycGMgIXBvd2VycGNzcGUg
+IXJpc2N2NjQgIXMzOTB4ICFzaDMgIXNoNCAhc3BhcmMgIXNwYXJjNjQgIXRpbGVneClfX2dtcG5f
+cnNibHNoMl9uQEJhc2UgMjo2LjIuMA0KLSAoYXJjaD0hYWxwaGEgIWFybTY0ICFhcm1lbCAhYXJt
+aGYgIWhwcGEgIWlhNjQgIW1pcHMgIW1pcHNlbCAhbWlwczY0ICFtaXBzNjRlbCAhbTY4ayAhbmlv
+czIgIXBvd2VycGMgIXBvd2VycGNzcGUgIXBwYzY0ICFwcGM2NGVsICFyaXNjdjY0ICFzMzkweCAh
+c2gzICFzaDQgIXNwYXJjICFzcGFyYzY0ICF0aWxlZ3ggIWFueS1pMzg2KV9fZ21wbl9yc2Jsc2hf
+bkBCYXNlIDANCi0gKGFyY2g9IWFscGhhICFhbnktaTM4NiAhaHBwYSAhbTY4ayAhbWlwcyAhbWlw
+czY0ICFtaXBzNjRlbCAhbWlwc2VsICFuaW9zMiAhcG93ZXJwYyAhcG93ZXJwY3NwZSAhcmlzY3Y2
+NCAhczM5MHggIXNoMyAhc2g0ICFzcGFyYyAhc3BhcmM2NCAhdGlsZWd4KV9fZ21wbl9yc2gxYWRk
+X25AQmFzZSAyOjYuMi4wDQotIChhcmNoPSFhbHBoYSAhYXJtNjQgIWFybWVsICFhcm1oZiAhaHBw
+YSAhaWE2NCAhbWlwcyAhbWlwc2VsICFtaXBzNjQgIW1pcHM2NGVsICFtNjhrICFuaW9zMiAhcG93
+ZXJwYyAhcG93ZXJwY3NwZSAhcHBjNjQgIXBwYzY0ZWwgIXJpc2N2NjQgIXMzOTB4ICFzaDMgIXNo
+NCAhc3BhcmMgIXNwYXJjNjQgIXRpbGVneCAhYW55LWkzODYpX19nbXBuX3JzaDFhZGRfbmNAQmFz
+ZSAwDQotIChhcmNoPSFhbHBoYSAhYW55LWkzODYgIWhwcGEgIW02OGsgIW1pcHMgIW1pcHM2NCAh
+bWlwczY0ZWwgIW1pcHNlbCAhbmlvczIgIXBvd2VycGMgIXBvd2VycGNzcGUgIXJpc2N2NjQgIXMz
+OTB4ICFzaDMgIXNoNCAhc3BhcmMgIXNwYXJjNjQgIXRpbGVneClfX2dtcG5fcnNoMXN1Yl9uQEJh
+c2UgMjo2LjIuMA0KLSAoYXJjaD0hYWxwaGEgIWFybTY0ICFhcm1lbCAhYXJtaGYgIWhwcGEgIWlh
+NjQgIW1pcHMgIW1pcHNlbCAhbWlwczY0ICFtaXBzNjRlbCAhbTY4ayAhbmlvczIgIXBvd2VycGMg
+IXBvd2VycGNzcGUgIXBwYzY0ICFwcGM2NGVsICFyaXNjdjY0ICFzMzkweCAhc2gzICFzaDQgIXNw
+YXJjICFzcGFyYzY0ICF0aWxlZ3ggIWFueS1pMzg2KV9fZ21wbl9yc2gxc3ViX25jQEJhc2UgMA0K
+KyAoYXJjaD0hYWxwaGEgIWFueS1pMzg2ICFhcmMgIWFybWVsICFhcm1oZiAhaHBwYSAhbTY4ayAh
+bWlwcyAhbWlwczY0ICFtaXBzNjRlbCAhbWlwc2VsICFuaW9zMiAhcG93ZXJwYyAhcG93ZXJwY3Nw
+ZSAhcmlzY3Y2NCAhc2gzICFzaDQgIXNwYXJjICFzcGFyYzY0ICF0aWxlZ3gpX19nbXBuX3JzYmxz
+aDFfbkBCYXNlIDI6Ni4yLjANCisgKGFyY2g9IWFscGhhICFhbnktaTM4NiAhYXJjICFhcm1lbCAh
+YXJtaGYgIWhwcGEgIW02OGsgIW1pcHMgIW1pcHM2NCAhbWlwczY0ZWwgIW1pcHNlbCAhbmlvczIg
+IXBvd2VycGMgIXBvd2VycGNzcGUgIXJpc2N2NjQgIXMzOTB4ICFzaDMgIXNoNCAhc3BhcmMgIXNw
+YXJjNjQgIXRpbGVneClfX2dtcG5fcnNibHNoMl9uQEJhc2UgMjo2LjIuMA0KKyAoYXJjaD0hYWxw
+aGEgIWFyYyAhYXJtNjQgIWFybWVsICFhcm1oZiAhaHBwYSAhaWE2NCAhbWlwcyAhbWlwc2VsICFt
+aXBzNjQgIW1pcHM2NGVsICFtNjhrICFuaW9zMiAhcG93ZXJwYyAhcG93ZXJwY3NwZSAhcHBjNjQg
+IXBwYzY0ZWwgIXJpc2N2NjQgIXMzOTB4ICFzaDMgIXNoNCAhc3BhcmMgIXNwYXJjNjQgIXRpbGVn
+eCAhYW55LWkzODYpX19nbXBuX3JzYmxzaF9uQEJhc2UgMA0KKyAoYXJjaD0hYWxwaGEgIWFueS1p
+Mzg2ICFhcmMgIWhwcGEgIW02OGsgIW1pcHMgIW1pcHM2NCAhbWlwczY0ZWwgIW1pcHNlbCAhbmlv
+czIgIXBvd2VycGMgIXBvd2VycGNzcGUgIXJpc2N2NjQgIXMzOTB4ICFzaDMgIXNoNCAhc3BhcmMg
+IXNwYXJjNjQgIXRpbGVneClfX2dtcG5fcnNoMWFkZF9uQEJhc2UgMjo2LjIuMA0KKyAoYXJjaD0h
+YWxwaGEgIWFyYyAhYXJtNjQgIWFybWVsICFhcm1oZiAhaHBwYSAhaWE2NCAhbWlwcyAhbWlwc2Vs
+ICFtaXBzNjQgIW1pcHM2NGVsICFtNjhrICFuaW9zMiAhcG93ZXJwYyAhcG93ZXJwY3NwZSAhcHBj
+NjQgIXBwYzY0ZWwgIXJpc2N2NjQgIXMzOTB4ICFzaDMgIXNoNCAhc3BhcmMgIXNwYXJjNjQgIXRp
+bGVneCAhYW55LWkzODYpX19nbXBuX3JzaDFhZGRfbmNAQmFzZSAwDQorIChhcmNoPSFhbHBoYSAh
+YW55LWkzODYgIWFyYyAhaHBwYSAhbTY4ayAhbWlwcyAhbWlwczY0ICFtaXBzNjRlbCAhbWlwc2Vs
+ICFuaW9zMiAhcG93ZXJwYyAhcG93ZXJwY3NwZSAhcmlzY3Y2NCAhczM5MHggIXNoMyAhc2g0ICFz
+cGFyYyAhc3BhcmM2NCAhdGlsZWd4KV9fZ21wbl9yc2gxc3ViX25AQmFzZSAyOjYuMi4wDQorIChh
+cmNoPSFhbHBoYSAhYXJjICFhcm02NCAhYXJtZWwgIWFybWhmICFocHBhICFpYTY0ICFtaXBzICFt
+aXBzZWwgIW1pcHM2NCAhbWlwczY0ZWwgIW02OGsgIW5pb3MyICFwb3dlcnBjICFwb3dlcnBjc3Bl
+ICFwcGM2NCAhcHBjNjRlbCAhcmlzY3Y2NCAhczM5MHggIXNoMyAhc2g0ICFzcGFyYyAhc3BhcmM2
+NCAhdGlsZWd4ICFhbnktaTM4NilfX2dtcG5fcnNoMXN1Yl9uY0BCYXNlIDANCiAgX19nbXBuX3Jz
+aGlmdEBCYXNlIDANCiAgKGFyY2g9YW55LWkzODYpX19nbXBuX3JzaGlmdF9hdG9tQEJhc2UgMjo1
+LjEuMQ0KICAoYXJjaD1hbnktaTM4NilfX2dtcG5fcnNoaWZ0X2luaXRAQmFzZSAyOjUuMS4xDQpA
+QCAtNjI5LDcgKzYyOSw3IEBAIGxpYmdtcC5zby4xMCBsaWJnbXAxMCAjTUlOVkVSIw0KICAoYXJj
+aD1hbnktaTM4NilfX2dtcG5fc3FyX2Jhc2VjYXNlX3BlbnRpdW00X3NzZTJAQmFzZSAyOjUuMS4x
+DQogIChhcmNoPWFueS1pMzg2KV9fZ21wbl9zcXJfYmFzZWNhc2VfcGVudGl1bUBCYXNlIDI6NS4x
+LjENCiAgKGFyY2g9YW55LWkzODYpX19nbXBuX3Nxcl9iYXNlY2FzZV94ODZAQmFzZSAyOjUuMS4x
+DQotIChhcmNoPSFhbnktaTM4NiAhYXJtZWwgIWFybWhmICFocHBhICFtNjhrICFtaXBzICFtaXBz
+NjQgIW1pcHM2NGVsICFtaXBzZWwgIW5pb3MyICFwcGM2NCAhcHBjNjRlbCAhcmlzY3Y2NCAhczM5
+MHggIXNoMyAhc2g0ICFzcGFyYyAhc3BhcmM2NCAhdGlsZWd4KV9fZ21wbl9zcXJfZGlhZ19hZGRs
+c2gxQEJhc2UgMjo2LjIuMA0KKyAoYXJjaD0hYW55LWkzODYgIWFyYyAhYXJtZWwgIWFybWhmICFo
+cHBhICFtNjhrICFtaXBzICFtaXBzNjQgIW1pcHM2NGVsICFtaXBzZWwgIW5pb3MyICFwcGM2NCAh
+cHBjNjRlbCAhcmlzY3Y2NCAhczM5MHggIXNoMyAhc2g0ICFzcGFyYyAhc3BhcmM2NCAhdGlsZWd4
+KV9fZ21wbl9zcXJfZGlhZ19hZGRsc2gxQEJhc2UgMjo2LjIuMA0KICAoYXJjaD1ocHBhKV9fZ21w
+bl9zcXJfZGlhZ29uYWxAQmFzZSAyOjYuMi4wDQogIF9fZ21wbl9zcXJsb0BCYXNlIDI6Ni4xLjAN
+CiAgX19nbXBuX3NxcmxvX2Jhc2VjYXNlQEJhc2UgMjo2LjEuMA0KQEAgLTY1MSw3ICs2NTEsNyBA
+QCBsaWJnbXAuc28uMTAgbGliZ21wMTAgI01JTlZFUiMNCiAgKGFyY2g9YW55LWkzODYpX19nbXBu
+X3N1Yl9uX3BlbnRpdW00X3NzZTJAQmFzZSAyOjUuMS4xDQogIChhcmNoPWFueS1pMzg2KV9fZ21w
+bl9zdWJfbl9wZW50aXVtQEJhc2UgMjo1LjEuMQ0KICAoYXJjaD1hbnktaTM4NilfX2dtcG5fc3Vi
+X25feDg2QEJhc2UgMjo1LjEuMQ0KLSAoYXJjaD0haHBwYSAhbWlwcyAhbWlwc2VsICFtNjhrICFu
+aW9zMiAhcmlzY3Y2NCAhczM5MHggIXNoMyAhc2g0ICFzcGFyYyAhc3BhcmM2NCAhdGlsZWd4ICFh
+bnktaTM4NilfX2dtcG5fc3ViX25jQEJhc2UgMA0KKyAoYXJjaD0hYXJjICFocHBhICFtaXBzICFt
+aXBzZWwgIW02OGsgIW5pb3MyICFyaXNjdjY0ICFzMzkweCAhc2gzICFzaDQgIXNwYXJjICFzcGFy
+YzY0ICF0aWxlZ3ggIWFueS1pMzg2KV9fZ21wbl9zdWJfbmNAQmFzZSAwDQogIChhcmNoPWFueS1p
+Mzg2KV9fZ21wbl9zdWJfbmNfYXRvbUBCYXNlIDI6NS4xLjENCiAgKGFyY2g9YW55LWkzODYpX19n
+bXBuX3N1Yl9uY19rNkBCYXNlIDI6NS4xLjENCiAgKGFyY2g9YW55LWkzODYpX19nbXBuX3N1Yl9u
+Y19rN0BCYXNlIDI6NS4xLjENCkBAIC02NTksNyArNjU5LDcgQEAgbGliZ21wLnNvLjEwIGxpYmdt
+cDEwICNNSU5WRVIjDQogIChhcmNoPWFueS1pMzg2KV9fZ21wbl9zdWJfbmNfcGVudGl1bTRfc3Nl
+MkBCYXNlIDI6NS4xLjENCiAgKGFyY2g9YW55LWkzODYpX19nbXBuX3N1Yl9uY19wZW50aXVtQEJh
+c2UgMjo1LjEuMQ0KICAoYXJjaD1hbnktaTM4NilfX2dtcG5fc3ViX25jX3g4NkBCYXNlIDI6NS4x
+LjENCi0gKGFyY2g9IWhwcGEgIW02OGsgIW1pcHMgIW1pcHM2NCAhbWlwczY0ZWwgIW1pcHNlbCAh
+bmlvczIgIXJpc2N2NjQgIXNoMyAhc2g0ICFzcGFyYyAhc3BhcmM2NCAhdGlsZWd4KV9fZ21wbl9z
+dWJsc2gxX25AQmFzZSAyOjYuMi4wDQorIChhcmNoPSFhcmMgIWhwcGEgIW02OGsgIW1pcHMgIW1p
+cHM2NCAhbWlwczY0ZWwgIW1pcHNlbCAhbmlvczIgIXJpc2N2NjQgIXNoMyAhc2g0ICFzcGFyYyAh
+c3BhcmM2NCAhdGlsZWd4KV9fZ21wbl9zdWJsc2gxX25AQmFzZSAyOjYuMi4wDQogIChhcmNoPWFu
+eS1pMzg2KV9fZ21wbl9zdWJsc2gxX25faW5pdEBCYXNlIDI6NS4xLjENCiAgKGFyY2g9YWxwaGEg
+YXJtNjQgaWE2NCBwcGM2NCBwcGM2NGVsKV9fZ21wbl9zdWJsc2gyX25AQmFzZSAyOjYuMi4wDQog
+IF9fZ21wbl9zdWJtdWxfMUBCYXNlIDANCi0tIA0KMi4yNS4xDQoNCg==
 
-> In v5.5 kernel we merged "nsim_hs" config into "haps_hs", see [1],
-> and from then on we use the same one "haps_hs" for everything simulated:
-> nSIM/QEMU/FPGA.
-> 
-> Of important notes:
->  * We switched from legacy ARC UART to a standard DW UART
-> 
->  * QEMU port for ARC is under review upstream, see [2].
->    But even today with WIP version from our GitHub fork [3] its possible
->    to run this image for "hapshs" machine as simple as:
->    ----------------------------->8------------------------------
->    $ qemu-system-arc -cpu archs -M virt -nographic -no-reboot -monitor none \
->      -kernel build/tmp-glibc/deploy/images/hapshs/vmlinux-initramfs-hapshs.bin
->    ----------------------------->8------------------------------
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1681baa713aa138d3f0f77f05c3de1cd6416c7d6
-> [2] https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg00458.html
-> [3] https://github.com/foss-for-synopsys-dwc-arc-processors/qemu
-> 
-> Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
-> ---
->  .../nsimhs-standard.scc => hapshs/hapshs-standard.scc}       |  4 ++--
->  bsp/hapshs/hapshs.cfg                                        | 12 ++++++++++++
->  bsp/{nsimhs/nsimhs.scc => hapshs/hapshs.scc}                 |  2 +-
->  bsp/nsimhs/nsimhs.cfg                                        | 10 ----------
->  4 files changed, 15 insertions(+), 13 deletions(-)
->  rename bsp/{nsimhs/nsimhs-standard.scc => hapshs/hapshs-standard.scc} (72%)
->  create mode 100644 bsp/hapshs/hapshs.cfg
->  rename bsp/{nsimhs/nsimhs.scc => hapshs/hapshs.scc} (54%)
->  delete mode 100644 bsp/nsimhs/nsimhs.cfg
-> 
-> diff --git a/bsp/nsimhs/nsimhs-standard.scc b/bsp/hapshs/hapshs-standard.scc
-> similarity index 72%
-> rename from bsp/nsimhs/nsimhs-standard.scc
-> rename to bsp/hapshs/hapshs-standard.scc
-> index 3201ca52..1842b00c 100644
-> --- a/bsp/nsimhs/nsimhs-standard.scc
-> +++ b/bsp/hapshs/hapshs-standard.scc
-> @@ -1,8 +1,8 @@
->  # SPDX-License-Identifier: MIT
-> -define KMACHINE nsimhs
-> +define KMACHINE hapshs
->  define KTYPE standard
->  define KARCH arc
->  
->  include ktypes/standard/standard.scc
->  
-> -include nsimhs.scc
-> +include hapshs.scc
-> diff --git a/bsp/hapshs/hapshs.cfg b/bsp/hapshs/hapshs.cfg
-> new file mode 100644
-> index 00000000..adcc0531
-> --- /dev/null
-> +++ b/bsp/hapshs/hapshs.cfg
-> @@ -0,0 +1,12 @@
-> +# SPDX-License-Identifier: MIT
-> +# ARCv2 ISA
-> +CONFIG_ISA_ARCV2=y
-> +
-> +# Serial port
-> +CONFIG_SERIAL_8250=y
-> +CONFIG_SERIAL_8250_CONSOLE=y
-> +CONFIG_SERIAL_8250_DW=y
-> +CONFIG_SERIAL_OF_PLATFORM=y
-> +
-> +# Built-in .dtb
-> +CONFIG_ARC_BUILTIN_DTB_NAME="haps_hs"
-> diff --git a/bsp/nsimhs/nsimhs.scc b/bsp/hapshs/hapshs.scc
-> similarity index 54%
-> rename from bsp/nsimhs/nsimhs.scc
-> rename to bsp/hapshs/hapshs.scc
-> index 3c1613a6..ea2b8b6c 100644
-> --- a/bsp/nsimhs/nsimhs.scc
-> +++ b/bsp/hapshs/hapshs.scc
-> @@ -1,2 +1,2 @@
->  # SPDX-License-Identifier: MIT
-> -kconf hardware nsimhs.cfg
-> +kconf hardware hapshs.cfg
-> diff --git a/bsp/nsimhs/nsimhs.cfg b/bsp/nsimhs/nsimhs.cfg
-> deleted file mode 100644
-> index 34580a39..00000000
-> --- a/bsp/nsimhs/nsimhs.cfg
-> +++ /dev/null
-> @@ -1,10 +0,0 @@
-> -# SPDX-License-Identifier: MIT
-> -# ARCv2 ISA
-> -CONFIG_ISA_ARCV2=y
-> -
-> -# Legacy ARC UART
-> -CONFIG_SERIAL_ARC=y
-> -CONFIG_SERIAL_ARC_CONSOLE=y
-> -
-> -# Built-in .dtb
-> -CONFIG_ARC_BUILTIN_DTB_NAME="nsim_hs"
-> -- 
-> 2.16.2
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9926): https://lists.yoctoproject.org/g/linux-yocto/message/9926
-> Mute This Topic: https://lists.yoctoproject.org/mt/83218216/1050810
-> Group Owner: linux-yocto+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/linux-yocto/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
+--_002_63a0facb2453bb80136118c7bfd00691synopsyscom_
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+
+--_002_63a0facb2453bb80136118c7bfd00691synopsyscom_--
+
