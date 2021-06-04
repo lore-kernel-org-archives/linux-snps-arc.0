@@ -2,73 +2,182 @@ Return-Path: <SRS0=rV/3=K6=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 609BEC07E94
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  4 Jun 2021 07:10:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDF41C07E94
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  4 Jun 2021 14:03:29 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3242661418
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  4 Jun 2021 07:10:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3242661418
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
+	by mail.kernel.org (Postfix) with ESMTPS id 80F2061404
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  4 Jun 2021 14:03:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 80F2061404
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
+	References:Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=mICI+F4etr58wSC6x86SWZuv0dEC10tRga3hK8AjXgg=; b=V1wcrDYlfCo7F7
-	oWmjzxEjUJLWG2JyTwM1T5CfQtQPsh4h/llkH5BhfJ3gi/S5DbyRcBTkW5ek8KNZilBVXPEOcFrd4
-	LR5ah80lO327wAJZ3wA2GfCCMpdfA8FWe/wkkWuTA20+RDMxb9YG3p+pJglEcpFBr5YxnYpT04Ksu
-	RVMRQpQQrMn/NBT3X85/5ELQVw/FQyDr9PNfXmQYwogrBpFPXFcWWiblVgule/7qvrXxgLsrXjkbJ
-	qOQ9qsVyVncX7XWR9r7etfbVZoKUt7p8ME5jaEZjzVjn8ATC6n5CSPSDtRvSSyFyVEg9eDbXve+xi
-	jzln9d5UQJU2C9lS+ISA==;
+	List-Owner; bh=XUEUn8ahxYs6WRWC08oYDac+xBcM78Ehu0gyoZImwZ0=; b=vd+FYkQcSJ9mtQ
+	A5pvQL/ZVg24h4UpgOKC+g4CxEvhwnWLdmDJQe2uZPBLzxDPyxHTYqNYlyjGYCKTbJ8ctSSvjHPn9
+	+xD4KRp/b8r6ggLHr/zb8js5pm46GEku2DqpXrhOOmqYwSkyvR3vkggMWPhXXoq7crh2WiZNCfStY
+	Q4O/1gt3AEUwYmvZYsGttNKJrE9tt5mVt9BUzu+hePRgkb67RRCuj0S012r5YInBpcK01g4N7vtK8
+	Mthq4wUEt0VENBi/wD/3GFgKOITjwqHc7cdgVH89ZGasA5jH7NIH6FY2lKvx2YtQrX4Sm3fJQ7Ig7
+	6vZVOUknDMVigWpd90VQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lp3yR-00BxT4-0e; Fri, 04 Jun 2021 07:10:31 +0000
-Received: from szxga03-in.huawei.com ([45.249.212.189])
+	id 1lpAQ5-00DpiJ-1B; Fri, 04 Jun 2021 14:03:29 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lp3mM-00BsEQ-FE; Fri, 04 Jun 2021 06:58:05 +0000
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4FxD5C6GFvz64vH;
- Fri,  4 Jun 2021 14:54:07 +0800 (CST)
-Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 4 Jun 2021 14:57:54 +0800
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 4 Jun 2021 14:57:53 +0800
-From: Kefeng Wang <wangkefeng.wang@huawei.com>
-To: Andrew Morton <akpm@linux-foundation.org>, <linux-kernel@vger.kernel.org>
-CC: <linux-mm@kvack.org>, Kefeng Wang <wangkefeng.wang@huawei.com>,
- <linux-snps-arc@lists.infradead.org>, <linux-arm-kernel@lists.infradead.org>, 
- <linux-csky@vger.kernel.org>, <uclinux-h8-devel@lists.sourceforge.jp>,
- <linux-m68k@lists.linux-m68k.org>, <openrisc@lists.librecores.org>,
- <linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
- <linux-sh@vger.kernel.org>, <linux-s390@vger.kernel.org>, <x86@kernel.org>
-Subject: [PATCH v2 01/15] mm: add setup_initial_init_mm() helper
-Date: Fri, 4 Jun 2021 15:06:19 +0800
-Message-ID: <20210604070633.32363-2-wangkefeng.wang@huawei.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210604070633.32363-1-wangkefeng.wang@huawei.com>
+ id 1lpAPz-00Dpgv-Je
+ for linux-snps-arc@lists.infradead.org; Fri, 04 Jun 2021 14:03:27 +0000
+Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com
+ [10.205.2.132])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id A430240817;
+ Fri,  4 Jun 2021 14:03:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1622815401; bh=KDwL29zLAsKcE2t9DtPYVW5u013aC93rRqyEPvsx2+I=;
+ h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+ b=LhP8h+B80FuAzrNYKX5dCp/vHGS/K1P8craMrZsMnpBkxVzmUYYRZ/JehGX8f6idJ
+ BnLQVbST4gWuwoqNOmiQ13ZDE8ovydiLRg0AuWNvRL1IaZK/ABCn4vf9TbbunYsHRw
+ vN/gv09h88iosS3Rk86nAct7BTKiugvla8zO+NPaPqhAlUEyXxGxB0s9xzmThVGFXc
+ DCxjXr1jIGCmxTvFtkRW090sVSU7cK8DuBTOzBHALrB0m4pjsBrF4ad/TlGVDgbjhK
+ tabHBejDo2p1ShTDBXsnGMmTq09U7hSRDjz0lTHuvlwLWqnk6OJ0AapUwSrYZnODuA
+ NvZWa9FlXxOYw==
+Received: from o365relay-in.synopsys.com (us03-o365relay1.synopsys.com
+ [10.4.161.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client CN "o365relay-in.synopsys.com",
+ Issuer "Entrust Certification Authority - L1K" (verified OK))
+ by mailhost.synopsys.com (Postfix) with ESMTPS id 33C6FA006D;
+ Fri,  4 Jun 2021 14:03:17 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11lp2168.outbound.protection.outlook.com [104.47.56.168])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "mail.protection.outlook.com",
+ Issuer "DigiCert Cloud Services CA-1" (verified OK))
+ by o365relay-in.synopsys.com (Postfix) with ESMTPS id A54C0802D7;
+ Fri,  4 Jun 2021 14:03:14 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com;
+ dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+ spf=pass smtp.mailfrom=vgupta@synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
+ unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="coBvBjF+";
+ dkim-atps=neutral
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=W7PDnNhmq2e5jvtpEbeS6zFR1dfA4v4WhUm7U7n9G+H0BXqb8mXVvPAFF9DDBJ0Nm4h7rgDxM432GFA3u0WLbJfqjmt9BTb8eOnKLHMrMJykaPgpFXb4IFXe8j8BIEuXo0J7gcnDT5MdklMh8uKbkmRN07xZAQnwW2G6k0DdW0iL4x0IT8chmRl1PkDtD11uD8Dy8nrb7W5E+rWwrJVLg3wsRyOCcbyShbe7cZlQzgNHxK7VsCkFX/pLLrlZa6IMw6D3C+FH3BV2t7afUMAAm+VYZMxfsgLR1T3+EYjyagvGXHje/dYNpz/PYtlQLIwZlRFvBBIA9x7Q3qHbWj+uWg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KDwL29zLAsKcE2t9DtPYVW5u013aC93rRqyEPvsx2+I=;
+ b=DyoqXWYvAyhnCiHF/O+e0ffgJb00eCXn6OJfSBrraPsy0E1al3yoE/sMaeuBtS7+bo4neb+uA3MTtUNLQfgO9KGL4aMSuIj/+LzNHTN9kuLpzHyq0QQUVFEhFGoShFsjzsJyWOjgV9fp+r9G4zhsae8MtjnyXMS8b1d8kxzzgRuZHOE9un/N0CG87G+NmJAb3WcJyrb3R5cMMOHdSm/6WVWyNWRP5vpl3eXXjfdChhgD5fIKsIi3XSNnelommgawYSjA/q2HNOv7tuWwpoJbUcJTDFIvc1FewxT0oQ+TdT+l1Y+yQF2gkjCRr9F5einRyp5ROwjQ/NRQCvtppKWz0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KDwL29zLAsKcE2t9DtPYVW5u013aC93rRqyEPvsx2+I=;
+ b=coBvBjF+sLSx5shka9ZGPTvMUv/hqJ5GTYjIzB8BO8JFAWPUqAdqizsz26EdqP58L++N5wtqE1zeGbJChTwr2ZPdp64qya2hVWk0VnVksBwrWw88Bvqb5a6VJcYHL/psOl5VaudSwkxQF94yzxPcQGPG4+90I1WMn+EmY+7NCVg=
+Received: from BYAPR12MB3479.namprd12.prod.outlook.com (2603:10b6:a03:dc::26)
+ by BYAPR12MB2952.namprd12.prod.outlook.com (2603:10b6:a03:13b::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.24; Fri, 4 Jun
+ 2021 14:03:11 +0000
+Received: from BYAPR12MB3479.namprd12.prod.outlook.com
+ ([fe80::d1a0:ed05:b9cc:e94d]) by BYAPR12MB3479.namprd12.prod.outlook.com
+ ([fe80::d1a0:ed05:b9cc:e94d%7]) with mapi id 15.20.4173.033; Fri, 4 Jun 2021
+ 14:03:11 +0000
+X-SNPS-Relay: synopsys.com
+From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+To: Kefeng Wang <wangkefeng.wang@huawei.com>, Andrew Morton
+ <akpm@linux-foundation.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+CC: "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
+Subject: Re: [PATCH v2 02/15] arc: convert to setup_initial_init_mm()
+Thread-Topic: [PATCH v2 02/15] arc: convert to setup_initial_init_mm()
+Thread-Index: AQHXWQ73wirLqHTvdEykgrzS/bG7dasD4paA
+Date: Fri, 4 Jun 2021 14:03:11 +0000
+Message-ID: <289ae7eb-7c27-5c08-691f-b607e0584290@synopsys.com>
 References: <20210604070633.32363-1-wangkefeng.wang@huawei.com>
+ <20210604070633.32363-3-wangkefeng.wang@huawei.com>
+In-Reply-To: <20210604070633.32363-3-wangkefeng.wang@huawei.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+authentication-results: huawei.com; dkim=none (message not signed)
+ header.d=none;huawei.com; dmarc=none action=none header.from=synopsys.com;
+x-originating-ip: [149.117.75.13]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 948e85d7-8484-49f4-75ad-08d927617d15
+x-ms-traffictypediagnostic: BYAPR12MB2952:
+x-microsoft-antispam-prvs: <BYAPR12MB29523E82F6EF57DBA76C15E4B63B9@BYAPR12MB2952.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:204;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: FG+COT6DhsYj+XkwkVfl6tCZVpw+2kM2MVNpC7UF+Y9DgPZDjzdD2tnYVv0PdRfNFFCsDsXb1zjumeOxyrW9LUTwCBbDPmRhguULWZIuDhgYJBqD9I0KWh0fA54UAOSEQCZ0dKzdIlGR7G1zRYmJRctsbcQS83iqvBRx28WkqNspW6FDmSaxR5lrurUlGTQF1Et6NrdvDRsROsxwSummnsJL3ZKdfsGHv0Slz4oiMncFz6u/HjV8t/X4fzxKXVKPsVJ6pSMUJSThn9yZCs9gvTRUHKMCLHpxveEU0CH7I9+3C3jEe9dde+AW18xZ9eJw1WqQfUqbkmaZZYEkg4ZESROF7sp/VfImKUskfi5xYeAt8RsPsvJrEFzB3dEruTfGDIDUE5fvCZLHFKW8IzfEsRQdsBHE1cBidA1RGdtAb0qIerte1OpwkD1465STZ68aDik3SDJZFEYLDz60yJTE83jBt/SNH7+BYU4tYao+gmj7+8KT7Fvj0mlslD/PGgrE7s3VcNWmKJCgWsATtYYULULAq5CSb8FQcIvwLNUFdAZawNGLlHq4ryuAB2zcykjBz8OV92smGhpyrf2BJFeqdCkrJcz9xmmTmNigU3WVybXaIh4GX9DeMtSCXG6qzCOc/lTNN/4zddfZdAaIMm/mbTscr63xgzi+hBWvrq5t3SNZuVreYGfN5hyDuQV5VXoj
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3479.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(39860400002)(396003)(376002)(346002)(136003)(31696002)(31686004)(86362001)(2616005)(4326008)(8936002)(8676002)(186003)(26005)(478600001)(6506007)(53546011)(71200400001)(122000001)(76116006)(6512007)(38100700002)(4744005)(6486002)(66946007)(316002)(66446008)(5660300002)(83380400001)(2906002)(54906003)(64756008)(66556008)(66476007)(36756003)(110136005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?S3JHOXlGM04xYzVUTGZlZ2p0UjZadFk4eTV3dzUva3ZQUVd3ZGgxOWUwNTdW?=
+ =?utf-8?B?RGN2T2tRTGZrUEdPSE1FK0dvS3FWWG1Hd3MyUDRKN1FNSSs4Tm5XUjFtV0hF?=
+ =?utf-8?B?c3ROVUthbnp2SHNYd251ZEgyODI0aTl6SWZaV2VkamZhS3JEY095MU16Tml2?=
+ =?utf-8?B?NDRrbzJkWHlmRDN0RDFOU1FSSXFCcTR0Qm5wNldBcmJpNVR0cEVJT2FLWEZt?=
+ =?utf-8?B?aS9IWFk1YW01VjQ0d3JPUmpLSmhjVVZVYytJL1Jua1hJZHg0b1h6c3orNHZO?=
+ =?utf-8?B?MkQ5VjRJVGRpZUpjZ2JWZ0tSYnNRcWlQMkFRbnJJdi9FRkhVKzYvakxqeUlT?=
+ =?utf-8?B?d3l5cURQQTgzUHBaYkFVK3NJM1c0ODhjNHlIK3czWXNPVG5XWG42S2pKV0hS?=
+ =?utf-8?B?cGZYWUFIUENpb21nNEI2QWRCMUJKVzV1Ym5aWHZtY2Z3Yi9TeXozNTZzdUVt?=
+ =?utf-8?B?ekIvT1BYV2d6VmllcXpqMi8wQVV0MktUemtrMTExVlVpcTJSZW5LYlMvcWpM?=
+ =?utf-8?B?VSs3QnJPWGFDeFpiNld6TVh2ODNoWEhGNi9qTFowcnF2Vm5ZeUhKeTE0VDVU?=
+ =?utf-8?B?MFVFaUZhVVZWY2UrZ0hRNkhyM24wdnR2TlNVallPSWNoOWIrQU1XWXdhWUFt?=
+ =?utf-8?B?Zkk2RmpLakFNcHh3TXZGdmp0SFVCL2Evc05aZ0pwWi9YNWZKQWJoYXprZEtG?=
+ =?utf-8?B?TVRjYWZEWU1lTzBHT2lsc0FZMmVEYU5sQ2J1b2FRNWVpL2UvOXQvZDV5NkVv?=
+ =?utf-8?B?cXZiWCsrQWVTWUdGT2tyazVRMXdoaFNRNVVvc0MycytZVVJtQXpFd2pOVkgy?=
+ =?utf-8?B?d1Ywbk5KRy9qekRJWUhjblh4eVFyR0ZCWTF0blZGNWFzOTFmUE1hOVBwMkZ4?=
+ =?utf-8?B?ZktIaUJQY1FqV2RxM2pWVU90VmxZWWk5MHBFdmJYSnAxdm5MWCtFeHJMTUo2?=
+ =?utf-8?B?U1dxVGM1bzV1WnVtcjQ0c2s1S0NTQjB6dmlWTUdvTGpRK21EdmwxT3NHUTFJ?=
+ =?utf-8?B?Nkt5UHpBbTI4OVVlTXNrWW9QM1JIdkJveEU4emd2NER4T1BIUm9xSlRzM1dM?=
+ =?utf-8?B?WjhOWmQ2OFdYVWFUZDRFc2YxUU1LMlF1ZXZEaTQybU9ZZ3praFB2MGpQeS8y?=
+ =?utf-8?B?NVJsbnppOUIzMEVrWG5jWXFLMGVLMnc0ZkdtaU5rQ0VPdHNYRVhaUWJ1aG04?=
+ =?utf-8?B?TW5ST1ZMblZmSFBZVnJCb3pzVnZLMFlwbFk2S2Frb0M0eDBJbTdBS0VnV3dh?=
+ =?utf-8?B?VUVVWGUyZ1R6YU84amZURlVMa2g5ZDgzc3JmL0NZK0llVkVYanhpSzJ3Q2Mv?=
+ =?utf-8?B?ZThCak9QVUpJVXBVRFNSak9vTmNHbEg3ZEdtODVlODZ2NkQ3UUNwT0lSZDVT?=
+ =?utf-8?B?Wkl3RVpyekcxOEtYOWsxeDFJZnpDUG9EVGo5Q0JCY3EwUndOT0t0UjBsdFZm?=
+ =?utf-8?B?cnA4UXdrOTJDNGN1RWdPWFpVVFQxMmhGNTRvQmxUMWxsNHlDUGowOVBKZDMz?=
+ =?utf-8?B?bU95eWt0VlNUOEpTbi9ZS2lnYVhiZ3Q3QmpNbW9sZXF5Y1JlbExnSG5EMUx1?=
+ =?utf-8?B?Um9ERVFKSlZkNjlqbGtQYVFrQnNvTTBkd3hkVjZkYktWZ1JlTml4ZTVFOHVV?=
+ =?utf-8?B?b0VaT2Qvam5RS3dTWHkyWVhTQ0ZoWGtCTzlvVVlmQ2FXSmxZT2dqbWU1MEhv?=
+ =?utf-8?B?WnlDNVZQTGRKZm5XbXExZjBjNWpHdXE1SjRsSitzZXlYMC8zUDNyWTdRbk1n?=
+ =?utf-8?Q?5gqnWLMX2b152I2JCk=3D?=
+x-ms-exchange-transport-forked: True
+Content-ID: <66579E1E7090CB4CA919A3D729E7478E@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.175.113.25]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500001.china.huawei.com (7.185.36.107)
-X-CFilter-Loop: Reflected
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3479.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 948e85d7-8484-49f4-75ad-08d927617d15
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jun 2021 14:03:11.2505 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: VHxhxuCpjGQxL4j7PT4wZKXedjL2wlKOiMNjNFucIhKwNTMLy9BnhLbj+1He+NFn9VXv+u+CRn6rKlnyZtSpDg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2952
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210603_235802_758310_CFC0B310 
-X-CRM114-Status: UNSURE (   7.66  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210604_070323_760486_C1F43D67 
+X-CRM114-Status: GOOD (  17.74  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,54 +189,30 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Add setup_initial_init_mm() helper to setup kernel text,
-data and brk.
-
-Cc: linux-snps-arc@lists.infradead.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-csky@vger.kernel.org
-Cc: uclinux-h8-devel@lists.sourceforge.jp
-Cc: linux-m68k@lists.linux-m68k.org
-Cc: openrisc@lists.librecores.org
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: linux-riscv@lists.infradead.org
-Cc: linux-sh@vger.kernel.org
-Cc: linux-s390@vger.kernel.org
-Cc: x86@kernel.org
-Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
----
- include/linux/mm_types.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index 5aacc1c10a45..e1d2429089a4 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -572,6 +572,14 @@ struct mm_struct {
- };
- 
- extern struct mm_struct init_mm;
-+static inline void setup_initial_init_mm(void *start_code, void *end_code,
-+					 void *end_data, void *brk)
-+{
-+	init_mm.start_code = (unsigned long)start_code;
-+	init_mm.end_code = (unsigned long)end_code;
-+	init_mm.end_data = (unsigned long)end_data;
-+	init_mm.brk = (unsigned long)brk;
-+}
- 
- /* Pointer magic because the dynamic array size confuses some compilers. */
- static inline void mm_init_cpumask(struct mm_struct *mm)
--- 
-2.26.2
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gNi80LzIxIDEyOjA2IEFNLCBLZWZlbmcgV2FuZyB3cm90ZToNCj4gVXNlIHNldHVwX2luaXRp
+YWxfaW5pdF9tbSgpIGhlbHBlciB0byBzaW1wbGlmeSBjb2RlLg0KPg0KPiBDYzogVmluZWV0IEd1
+cHRhIDx2Z3VwdGFAc3lub3BzeXMuY29tPg0KPiBDYzogbGludXgtc25wcy1hcmNAbGlzdHMuaW5m
+cmFkZWFkLm9yZw0KPiBTaWduZWQtb2ZmLWJ5OiBLZWZlbmcgV2FuZyA8d2FuZ2tlZmVuZy53YW5n
+QGh1YXdlaS5jb20+DQoNCkFja2VkLWJ5OiBWaW5lZXQgR3VwdGEgPHZndXB0YUBzeW5vcHN5cy5j
+b20+wqDCoCAjYXJjaC9hcmMNCg0KVGh4LA0KLVZpbmVldA0KDQo+IC0tLQ0KPiAgIGFyY2gvYXJj
+L21tL2luaXQuYyB8IDUgKy0tLS0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyks
+IDQgZGVsZXRpb25zKC0pDQo+DQo+IGRpZmYgLS1naXQgYS9hcmNoL2FyYy9tbS9pbml0LmMgYi9h
+cmNoL2FyYy9tbS9pbml0LmMNCj4gaW5kZXggZTJlZDM1NTQzOGM5Li4zM2I4ZmFiODkwMjIgMTAw
+NjQ0DQo+IC0tLSBhL2FyY2gvYXJjL21tL2luaXQuYw0KPiArKysgYi9hcmNoL2FyYy9tbS9pbml0
+LmMNCj4gQEAgLTk0LDEwICs5NCw3IEBAIHZvaWQgX19pbml0IHNldHVwX2FyY2hfbWVtb3J5KHZv
+aWQpDQo+ICAgew0KPiAgIAl1bnNpZ25lZCBsb25nIG1heF96b25lX3BmbltNQVhfTlJfWk9ORVNd
+ID0geyAwIH07DQo+ICAgDQo+IC0JaW5pdF9tbS5zdGFydF9jb2RlID0gKHVuc2lnbmVkIGxvbmcp
+X3RleHQ7DQo+IC0JaW5pdF9tbS5lbmRfY29kZSA9ICh1bnNpZ25lZCBsb25nKV9ldGV4dDsNCj4g
+LQlpbml0X21tLmVuZF9kYXRhID0gKHVuc2lnbmVkIGxvbmcpX2VkYXRhOw0KPiAtCWluaXRfbW0u
+YnJrID0gKHVuc2lnbmVkIGxvbmcpX2VuZDsNCj4gKwlzZXR1cF9pbml0aWFsX2luaXRfbW0oX3Rl
+eHQsIF9ldGV4dCwgX2VkYXRhLCBfZW5kKTsNCj4gICANCj4gICAJLyogZmlyc3QgcGFnZSBvZiBz
+eXN0ZW0gLSBrZXJuZWwgLnZlY3RvciBzdGFydHMgaGVyZSAqLw0KPiAgIAltaW5fbG93X3BmbiA9
+IHZpcnRfdG9fcGZuKENPTkZJR19MSU5VWF9SQU1fQkFTRSk7DQoNCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlz
+dApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRl
+YWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
