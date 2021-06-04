@@ -4,17 +4,17 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CED84C4708F
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  4 Jun 2021 06:51:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2D89C47097
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  4 Jun 2021 06:51:49 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A44CD6140C
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  4 Jun 2021 06:51:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A44CD6140C
+	by mail.kernel.org (Postfix) with ESMTPS id 987F261407
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  4 Jun 2021 06:51:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 987F261407
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,30 +23,30 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=TeLSyFPklEtFQSdX/6h5qEf4ASFBbt+e0wivtqLOGzQ=; b=aWTF7BAafS94M9
-	YdDVY1xpoMrBk9HYsQ1l/4QNdQkJIumUV6ksuewOovdwL2PbBY/vagDwmdMmJIkGn3P0+QMfs+GOU
-	3EesQM9xsDkmHQfcu/FGsWqolI8HHJGUmyJfCmtwYWECMc5z52R1pFukCSjf4GCDJSiTNAAT8bVVr
-	q0b5G1OA9Ow6mvW9bb0cFaA2XvkZGga5AwjqqbnR1LD0/GiINzYbJ8VqKQtyF204Dayr27qoEILeh
-	qsxDY0YT6VYLpY3HbbTon2GsmVDGb5xIbXHY3LXiTTXcyBXsFfQO4A639l2XRJMBpd1KgoJeTKeAt
-	kV6yiS6lI+Rc4zjJAuBg==;
+	List-Owner; bh=No5XZGmr3qjcKapQCSEazDF8mzD451Ay4CKgih+SOTQ=; b=QXH39FZ2x80ZxO
+	WxTFgXyRN6m+wpXmWTpTU8eGKw3srAKk+Hru5iKJZJpcVsEhCLUFr3HytQx89bE96ha/hTSmvry/s
+	TU4/0KmNfaJjQWCueekQHFVTVnO0rVnyohDLV9iPz5kqRPTsBPlB74T+wSxyoU6Vsq0g0Olmjbnwh
+	lNrnIu0TvJPta4aJlcxZlwnrGi3scvT+HDPS7LBzIi5+TZHkFUxvwRI+YHDrUh57cUr98tdTeWO7n
+	Gei9xf8lZLP5ukGQfLHKu98b7mofdFf3EZ/D5VJb++FDIbu/r6zT2tQj6Fi40ZFd7HmWj7TAAq5CL
+	UA7AbZ+LwyQu6hWSBcdw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lp3fd-00Bob4-VO; Fri, 04 Jun 2021 06:51:05 +0000
+	id 1lp3gL-00Bp1n-0M; Fri, 04 Jun 2021 06:51:49 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lp3eI-00BngP-AW; Fri, 04 Jun 2021 06:49:46 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8DFE361413;
- Fri,  4 Jun 2021 06:49:35 +0000 (UTC)
+ id 1lp3eP-00Bnl9-6l; Fri, 04 Jun 2021 06:49:54 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7B51361418;
+ Fri,  4 Jun 2021 06:49:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1622789382;
- bh=M0bKVaGHx9OxuQ1E9oxHVBUkdvBwvAMGJJiXepUaSFE=;
+ s=k20201202; t=1622789388;
+ bh=wiXTn//eiKgcS7LspEevBm9W4ghqhPpXnabDtNpHAWc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=m1xo4u+Si7emA8slitIie2ULoZsht8ha8SyFQj02+XTG+F7A4NOe0gxxUMGWIJTYB
- wc/7fwptpwZlBWfX9JbNIM8WSNKc7buOk4ow62hlWtFbm6GX2hvzrUjXRteHjFMesG
- YHVA8gxQKJ31bz/McyrtB1rVOQJP3nvxhBaP6+U6nn6e14KMbUBmAooBuLNipUKl+c
- QvKYiEU3jQMHkfPgbsooR2npgVhJA2i+CcLHv2piAdbgl2xzodE3c1FH28gVaB9v0c
- t7tPqS9VdVO+hJS7qBFpEoO0tettUxDG1qodQSZXt2uovcEHRnxWhvsHDFPz6pQrlv
- S/UZADKg8NZ6A==
+ b=dI1y+7b/vyw0B8MjOjQoBmAZDR44s/j/eSMm0CRzwdKcSBnXN1/ft4uXUdeZOOUaa
+ 4gPEgqKkXCmL+Spuoo55Cd2vZvVzK9uTJPXuPO6KOe9F56YYvXJJAREJO6EfmrUFDF
+ 0IZUnGhKCeXyi6AVF7c3ft0L95jdX1TUgbMjS8BZqYpfVKbC9wY/jIiQ8aDy88ikx/
+ Qk1PuQn8X384s3rNeEbO2co+fX/f7Z53TNxUc7WD4d2WjGx/m1HGSFjSOlUbnfnQ+G
+ 0Ghqc/9r+bZe8APJP0JFwn/dOCLpqGZikz6H0Au+u7evsWyXG9iySLpRc7cfWzb0km
+ 7X1vLFCkJhFYg==
 From: Mike Rapoport <rppt@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Arnd Bergmann <arnd@arndb.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
@@ -63,16 +63,16 @@ Cc: Arnd Bergmann <arnd@arndb.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
  linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
  linux-xtensa@linux-xtensa.org, linuxppc-dev@lists.ozlabs.org,
  sparclinux@vger.kernel.org
-Subject: [PATCH v2 2/9] arc: update comment about HIGHMEM implementation
-Date: Fri,  4 Jun 2021 09:49:09 +0300
-Message-Id: <20210604064916.26580-3-rppt@kernel.org>
+Subject: [PATCH v2 3/9] arc: remove support for DISCONTIGMEM
+Date: Fri,  4 Jun 2021 09:49:10 +0300
+Message-Id: <20210604064916.26580-4-rppt@kernel.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210604064916.26580-1-rppt@kernel.org>
 References: <20210604064916.26580-1-rppt@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210603_234942_418268_0F570D37 
-X-CRM114-Status: GOOD (  12.76  )
+X-CRM114-CacheID: sfid-20210603_234949_326079_072C5E90 
+X-CRM114-Status: GOOD (  14.32  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,40 +91,122 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Mike Rapoport <rppt@linux.ibm.com>
 
-Arc does not use DISCONTIGMEM to implement high memory, update the comment
-describing how high memory works to reflect this.
+DISCONTIGMEM was replaced by FLATMEM with freeing of the unused memory map
+in v5.11.
+
+Remove the support for DISCONTIGMEM entirely.
 
 Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 ---
- arch/arc/mm/init.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ arch/arc/Kconfig              | 13 ------------
+ arch/arc/include/asm/mmzone.h | 40 -----------------------------------
+ arch/arc/mm/init.c            |  8 -------
+ 3 files changed, 61 deletions(-)
+ delete mode 100644 arch/arc/include/asm/mmzone.h
 
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index 2d98501c0897..d8f51eb8963b 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -62,10 +62,6 @@ config SCHED_OMIT_FRAME_POINTER
+ config GENERIC_CSUM
+ 	def_bool y
+ 
+-config ARCH_DISCONTIGMEM_ENABLE
+-	def_bool n
+-	depends on BROKEN
+-
+ config ARCH_FLATMEM_ENABLE
+ 	def_bool y
+ 
+@@ -344,15 +340,6 @@ config ARC_HUGEPAGE_16M
+ 
+ endchoice
+ 
+-config NODES_SHIFT
+-	int "Maximum NUMA Nodes (as a power of 2)"
+-	default "0" if !DISCONTIGMEM
+-	default "1" if DISCONTIGMEM
+-	depends on NEED_MULTIPLE_NODES
+-	help
+-	  Accessing memory beyond 1GB (with or w/o PAE) requires 2 memory
+-	  zones.
+-
+ config ARC_COMPACT_IRQ_LEVELS
+ 	depends on ISA_ARCOMPACT
+ 	bool "Setup Timer IRQ as high Priority"
+diff --git a/arch/arc/include/asm/mmzone.h b/arch/arc/include/asm/mmzone.h
+deleted file mode 100644
+index b86b9d1e54dc..000000000000
+--- a/arch/arc/include/asm/mmzone.h
++++ /dev/null
+@@ -1,40 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-only */
+-/*
+- * Copyright (C) 2016 Synopsys, Inc. (www.synopsys.com)
+- */
+-
+-#ifndef _ASM_ARC_MMZONE_H
+-#define _ASM_ARC_MMZONE_H
+-
+-#ifdef CONFIG_DISCONTIGMEM
+-
+-extern struct pglist_data node_data[];
+-#define NODE_DATA(nid) (&node_data[nid])
+-
+-static inline int pfn_to_nid(unsigned long pfn)
+-{
+-	int is_end_low = 1;
+-
+-	if (IS_ENABLED(CONFIG_ARC_HAS_PAE40))
+-		is_end_low = pfn <= virt_to_pfn(0xFFFFFFFFUL);
+-
+-	/*
+-	 * node 0: lowmem:             0x8000_0000   to 0xFFFF_FFFF
+-	 * node 1: HIGHMEM w/o  PAE40: 0x0           to 0x7FFF_FFFF
+-	 *         HIGHMEM with PAE40: 0x1_0000_0000 to ...
+-	 */
+-	if (pfn >= ARCH_PFN_OFFSET && is_end_low)
+-		return 0;
+-
+-	return 1;
+-}
+-
+-static inline int pfn_valid(unsigned long pfn)
+-{
+-	int nid = pfn_to_nid(pfn);
+-
+-	return (pfn <= node_end_pfn(nid));
+-}
+-#endif /* CONFIG_DISCONTIGMEM  */
+-
+-#endif
 diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
-index e2ed355438c9..397a201adfe3 100644
+index 397a201adfe3..abfeef7bf6f8 100644
 --- a/arch/arc/mm/init.c
 +++ b/arch/arc/mm/init.c
-@@ -139,16 +139,13 @@ void __init setup_arch_memory(void)
+@@ -32,11 +32,6 @@ unsigned long arch_pfn_offset;
+ EXPORT_SYMBOL(arch_pfn_offset);
+ #endif
  
- #ifdef CONFIG_HIGHMEM
- 	/*
--	 * Populate a new node with highmem
--	 *
- 	 * On ARC (w/o PAE) HIGHMEM addresses are actually smaller (0 based)
--	 * than addresses in normal ala low memory (0x8000_0000 based).
-+	 * than addresses in normal aka low memory (0x8000_0000 based).
- 	 * Even with PAE, the huge peripheral space hole would waste a lot of
--	 * mem with single mem_map[]. This warrants a mem_map per region design.
--	 * Thus HIGHMEM on ARC is imlemented with DISCONTIGMEM.
--	 *
--	 * DISCONTIGMEM in turns requires multiple nodes. node 0 above is
--	 * populated with normal memory zone while node 1 only has highmem
-+	 * mem with single contiguous mem_map[].
-+	 * Thus when HIGHMEM on ARC is enabled the memory map corresponding
-+	 * to the hole is freed and ARC specific version of pfn_valid()
-+	 * handles the hole in the memory map.
+-#ifdef CONFIG_DISCONTIGMEM
+-struct pglist_data node_data[MAX_NUMNODES] __read_mostly;
+-EXPORT_SYMBOL(node_data);
+-#endif
+-
+ long __init arc_get_mem_sz(void)
+ {
+ 	return low_mem_sz;
+@@ -147,9 +142,6 @@ void __init setup_arch_memory(void)
+ 	 * to the hole is freed and ARC specific version of pfn_valid()
+ 	 * handles the hole in the memory map.
  	 */
- #ifdef CONFIG_DISCONTIGMEM
- 	node_set_online(1);
+-#ifdef CONFIG_DISCONTIGMEM
+-	node_set_online(1);
+-#endif
+ 
+ 	min_high_pfn = PFN_DOWN(high_mem_start);
+ 	max_high_pfn = PFN_DOWN(high_mem_start + high_mem_sz);
 -- 
 2.28.0
 
