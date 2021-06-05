@@ -2,84 +2,62 @@ Return-Path: <SRS0=8BTh=LB=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,FAKE_REPLY_A1,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2466C4743F
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Jun 2021 09:47:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69F60C47082
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Jun 2021 15:55:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B156161130
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Jun 2021 09:47:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B156161130
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=armlinux.org.uk
+	by mail.kernel.org (Postfix) with ESMTPS id 142446101A
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Jun 2021 15:55:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 142446101A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=PpTMqQ6wPU9bzgNrWcNx2NQ4UU9z3Lxj6CGzCHBhuuQ=; b=kaxAukeT0gUXne
-	Av+JB5t67jV8bVygEfiJhJOT1xi4OjOv81MAUnoms09L6QpPY7DN4gnD4ELPw1MsQmXQtTkKrUPxx
-	cj8YNbaQrOVDvMxZbeOC9hJALrCISb8i1Mr1yU8wp6WES/Ha6MMoMvjmo9n02hOMSenigpg57Vm4P
-	Ity2nQ6fGrR4OrV356hRDGLEwAZ1N0MWhr5hM1pSxsJK9DL97fdBjbsyyJLi+k1acvILYKdLVV3vq
-	gxRdofDvy9lrvja2PeevRRH4tyPVMIkGmCGd6pXiqA8tpwqoWJxd//jbRc9st4DXwubdVVwrzX/8w
-	b3JFZjVr1orrGNtIqAnw==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Date:Message-ID:Subject:
+	From:Cc:To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=51iT+78+GZ1c7O4bgBJ52Gx38bMhrxK4+e9966j4Yzk=; b=e6ScVgxgtdenvr
+	VBpPZxQf3cyfmQuiyV0mHMV7py4NGwY6Ql1d0yJ6rnhqa5BHcoA4LV/kFFDOvl5/QrJNPHbLy6Kpt
+	0LwBNmcRtySRHmVi3kLsAh16rUZX9mTVt87C/9/dXsnZf7rGyZXrUOGax/bXKUbYUHouKrfXeEAN3
+	k+BnDOfzuj5RiissIF4xUFZtN2180BLC1UhgkTNAmWv+jx+sfAWi+3qJWiEUXuJgrnI6fvuck9F6x
+	YIoR7p+YfPXCwk+K9dXqx5rr9lv/XElShNMw8o4jT+oiYGe7NZ7eIodrA6g+sHdmMOcy4chABDR9Q
+	cYr4d8mNPSlaBya7j0Zw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lqBqw-002hQP-Tq; Mon, 07 Jun 2021 09:47:26 +0000
-Received: from pandora.armlinux.org.uk ([2001:4d48:ad52:32c8:5054:ff:fe00:142])
+	id 1lqHb5-004LMf-Jp; Mon, 07 Jun 2021 15:55:27 +0000
+Received: from einhorn-mail.in-berlin.de ([217.197.80.20]
+ helo=einhorn-mail-out.in-berlin.de)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqBbf-002cMY-1L; Mon, 07 Jun 2021 09:31:42 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=MlvkgxFcyawWgLbaD1anFAhejhA4mPswAd0WEOPLbd0=; b=cetr6/k8ZHIlURSNkBDEkxOd3
- puNo+HwooQUeJn9AaPBl4regJ9NkcXwohGBb5OPUoX7XTTODh5d6IsuhC8Hnw3taLmVn0F8+4hF1o
- ArioCmyKCJRUZ5c5W9Ct8Cw0Zpb4xNWdK87xHBWnc3daFNyrTg9aLL7A/E6TbbFPNgdTXMtoLpPh1
- VNTboFgYQtPgYxGziLgboqSm+C9rc0zETM+h5ZE5kg+2kGPOkoZAIe8MZfd5JZNTDNazJFXr/S6Gm
- YDi+dqX3d1L4b71QKMOqk7jvcXPp8QSgQdX3C28GtCjdiTWKtuBWWAYuFwAi7GnVSCXRZB8Zx7iVW
- ALDutps2w==;
-Received: from shell.armlinux.org.uk
- ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:44784)
- by pandora.armlinux.org.uk with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <linux@armlinux.org.uk>)
- id 1lqBbS-0000Eu-Fv; Mon, 07 Jun 2021 10:31:26 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
- (envelope-from <linux@shell.armlinux.org.uk>)
- id 1lqBbN-0005oE-UB; Mon, 07 Jun 2021 10:31:21 +0100
-Date: Mon, 7 Jun 2021 10:31:21 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: Kefeng Wang <wangkefeng.wang@huawei.com>, Mike Rapoport <rppt@kernel.org>,
- uclinux-h8-devel@lists.sourceforge.jp, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-csky@vger.kernel.org, linux-mm@kvack.org,
- linux-m68k@lists.linux-m68k.org, openrisc@lists.librecores.org,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-snps-arc@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 00/15] init_mm: cleanup ARCH's text/data/brk setup code
-Message-ID: <20210607093121.GC22278@shell.armlinux.org.uk>
-References: <20210604070633.32363-1-wangkefeng.wang@huawei.com>
- <YL0+Jargm+y9aqx1@kernel.org>
- <481056ab-686e-9f42-3b8a-b31941f58af6@huawei.com>
- <006eb573-5a20-1ac7-6234-338d11346a08@csgroup.eu>
+ id 1lpUEk-00GUbk-Dh
+ for linux-snps-arc@lists.infradead.org; Sat, 05 Jun 2021 11:13:08 +0000
+X-Envelope-From: doko@debian.org
+Received: from authenticated.user (localhost [127.0.0.1]) by
+ einhorn.in-berlin.de with ESMTPSA id 155BCric011349
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+ Sat, 5 Jun 2021 13:12:53 +0200
+To: 989453@bugs.debian.org, Vineet Gupta <Vineet.Gupta1@synopsys.com>
+Cc: arcml <linux-snps-arc@lists.infradead.org>,
+ Helmut Grohne <helmut@subdivi.de>, Guillem Jover <guillem@debian.org>
+From: Matthias Klose <doko@debian.org>
+Subject: Re: Debian: gcc: add support for ARC
+Message-ID: <746063d5-762a-79bd-529c-c8f92848d043@debian.org>
+Date: Sat, 5 Jun 2021 13:12:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <006eb573-5a20-1ac7-6234-338d11346a08@csgroup.eu>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-US
+X-Bad-Reply: 'Re:' in Subject but no References or In-Reply-To headers
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210607_023139_154894_06700AF7 
-X-CRM114-Status: GOOD (  11.27  )
+X-CRM114-CacheID: sfid-20210605_041306_787187_62FDC08C 
+X-CRM114-Status: UNSURE (   4.23  )
+X-CRM114-Notice: Please train this message.
+X-Mailman-Approved-At: Mon, 07 Jun 2021 08:55:26 -0700
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,22 +74,12 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jun 07, 2021 at 07:48:54AM +0200, Christophe Leroy wrote:
-> Hi Kefeng,
-> 
-> What you could do is to define a __weak function that architectures can
-> override and call that function from mm_init() as suggested by Mike,
+Control: tags -1 + incomplete
 
-The problem with weak functions is that they bloat the kernel. Each
-time a weak function is overriden, it becomes dead unreachable code
-within the kernel image.
+These definitions have to go first to
+https://wiki.debian.org/Multiarch/Tuples
 
-At some point we're probabily going to have to enable -ffunction-sections
-to (hopefully) allow the dead code to be discarded.
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+Please update.
 
 _______________________________________________
 linux-snps-arc mailing list
