@@ -2,77 +2,74 @@ Return-Path: <SRS0=8BTh=LB=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AE91C4743D
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Jun 2021 01:50:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0822CC4743E
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Jun 2021 02:27:37 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DD20361107
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Jun 2021 01:50:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DD20361107
+	by mail.kernel.org (Postfix) with ESMTPS id A0FCE611CB
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Jun 2021 02:27:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A0FCE611CB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=He2BzhneHrpQNAk5I9JKLYjyP0X4g9yvHSbL1f7x7Jk=; b=o8FLnp6rAo1HZ2rz970jzFzzu1
-	q8ef8Ox5JsNFZ0bB0q5NbxtxXjmrXtb7MkLMzW1p422r8FZXkBqdXSyVoiYMBTysLxbhjF2Qz4auj
-	hMjIJvJrL7L9oCO7VEaOwCX5viP3qLk2Ti2a9eOOP+DQGgA5AQRR7Gh3+ZcBXPTtxy3eWS+QfVbf3
-	He1AbueNm59sH2qDfdI/p37bH6jseDy8uuXoJ7VsP+yOOP5lxH5KvMOSNiPQSNs80D2yaIDHdcgz/
-	KIe+d9Fan6lpKw3YQCfNa6EdNrA+52q2ytEG/V/fb19SyEi/zshsxtEe+vH+qSp38boFwQG25pCIN
-	vR4LR1og==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=vYcuA03hlnI3EHFSBwM1Tk71NQUlsVaDU/0H+ivpVDI=; b=fDGV7F7XmkiuQF
+	LzYYZSalKm6oBBLs+20arOm4/PLh1LzfrdyXtnXudSyiydqjohmUfGlYtoA1s1yrVAUUwWREY3ilH
+	E/NQSrNoG/GMCBPCDJyc4SMoxxFr0BnMm5sW8k6TzNGw23HpsswQyHRSCkPHQ0PKrT2R4lEGru79n
+	EziH+R4sydScsUAd/LiEFd81GV2BQBRgkHGbUF1MUYujloTLW9Dr8VUmHchjUBIh2XD2Gq2Asb0me
+	7PLH8n5KDXxabyv80Hunt65Z51XpAWr/vzw3WhRNXvNwwRhp9G4FDlEWuJpikElujsoFTvWpdDn0q
+	WCl/AJTJE9up5pbOjrYg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lq4Pm-001DJt-Dw; Mon, 07 Jun 2021 01:50:54 +0000
-Received: from szxga03-in.huawei.com ([45.249.212.189])
+	id 1lq4zI-001Fo2-7g; Mon, 07 Jun 2021 02:27:36 +0000
+Received: from szxga02-in.huawei.com ([45.249.212.188])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lq4PX-001DHT-3e; Mon, 07 Jun 2021 01:50:41 +0000
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.57])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Fyx774Ylsz69Gm;
- Mon,  7 Jun 2021 09:46:43 +0800 (CST)
+ id 1lq4z3-001FlA-Rq; Mon, 07 Jun 2021 02:27:23 +0000
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Fyxyf67zXzZdPf;
+ Mon,  7 Jun 2021 10:24:26 +0800 (CST)
 Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 7 Jun 2021 09:50:32 +0800
-Received: from [10.174.177.243] (10.174.177.243) by
+ 15.1.2176.2; Mon, 7 Jun 2021 10:27:15 +0800
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
  dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 7 Jun 2021 09:50:31 +0800
-Subject: Re: [PATCH v2 01/15] mm: add setup_initial_init_mm() helper
-To: Mike Rapoport <rppt@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>, <linux-kernel@vger.kernel.org>, 
- <linux-mm@kvack.org>, <linux-snps-arc@lists.infradead.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-csky@vger.kernel.org>,
- <uclinux-h8-devel@lists.sourceforge.jp>, <linux-m68k@lists.linux-m68k.org>,
- <openrisc@lists.librecores.org>, <linuxppc-dev@lists.ozlabs.org>,
- <linux-riscv@lists.infradead.org>, <linux-sh@vger.kernel.org>,
- <linux-s390@vger.kernel.org>, <x86@kernel.org>
-References: <20210604070633.32363-1-wangkefeng.wang@huawei.com>
- <20210604070633.32363-2-wangkefeng.wang@huawei.com>
- <YL0+nZPViz5xzxca@kernel.org>
+ 15.1.2176.2; Mon, 7 Jun 2021 10:27:14 +0800
 From: Kefeng Wang <wangkefeng.wang@huawei.com>
-Message-ID: <d07abbe5-941d-a27f-d968-e3d14ef9329a@huawei.com>
-Date: Mon, 7 Jun 2021 09:50:31 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
+To: Andrew Morton <akpm@linux-foundation.org>, <linux-kernel@vger.kernel.org>
+CC: <linux-mm@kvack.org>, Kefeng Wang <wangkefeng.wang@huawei.com>,
+ <linux-snps-arc@lists.infradead.org>, <linux-arm-kernel@lists.infradead.org>, 
+ <linux-csky@vger.kernel.org>, <uclinux-h8-devel@lists.sourceforge.jp>,
+ <linux-m68k@lists.linux-m68k.org>, <openrisc@lists.librecores.org>,
+ <linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
+ <linux-sh@vger.kernel.org>, <linux-s390@vger.kernel.org>, <x86@kernel.org>
+Subject: [PATCH v3] mm: add setup_initial_init_mm() helper
+Date: Mon, 7 Jun 2021 10:36:11 +0800
+Message-ID: <20210607023611.159804-1-wangkefeng.wang@huawei.com>
+X-Mailer: git-send-email 2.26.2
 In-Reply-To: <YL0+nZPViz5xzxca@kernel.org>
-Content-Language: en-US
-X-Originating-IP: [10.174.177.243]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+References: <YL0+nZPViz5xzxca@kernel.org>
+MIME-Version: 1.0
+X-Originating-IP: [10.175.113.25]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
  dggpemm500001.china.huawei.com (7.185.36.107)
 X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210606_185039_384874_C01B0E77 
-X-CRM114-Status: GOOD (  13.49  )
+X-CRM114-CacheID: sfid-20210606_192722_075279_05CAA782 
+X-CRM114-Status: UNSURE (   8.15  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,68 +81,66 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+Add setup_initial_init_mm() helper to setup kernel text,
+data and brk.
 
-On 2021/6/7 5:31, Mike Rapoport wrote:
-> Hello Kefeng,
->
-> On Fri, Jun 04, 2021 at 03:06:19PM +0800, Kefeng Wang wrote:
->> Add setup_initial_init_mm() helper to setup kernel text,
->> data and brk.
->>
->> Cc: linux-snps-arc@lists.infradead.org
->> Cc: linux-arm-kernel@lists.infradead.org
->> Cc: linux-csky@vger.kernel.org
->> Cc: uclinux-h8-devel@lists.sourceforge.jp
->> Cc: linux-m68k@lists.linux-m68k.org
->> Cc: openrisc@lists.librecores.org
->> Cc: linuxppc-dev@lists.ozlabs.org
->> Cc: linux-riscv@lists.infradead.org
->> Cc: linux-sh@vger.kernel.org
->> Cc: linux-s390@vger.kernel.org
->> Cc: x86@kernel.org
->> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
->> ---
->>   include/linux/mm_types.h | 8 ++++++++
->>   1 file changed, 8 insertions(+)
->>
->> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
->> index 5aacc1c10a45..e1d2429089a4 100644
->> --- a/include/linux/mm_types.h
->> +++ b/include/linux/mm_types.h
->> @@ -572,6 +572,14 @@ struct mm_struct {
->>   };
->>   
->>   extern struct mm_struct init_mm;
->> +static inline void setup_initial_init_mm(void *start_code, void *end_code,
->> +					 void *end_data, void *brk)
-> I think it's not that performance sensitive to make it inline. It can be
-> placed in mm/init-mm.c with a forward declaration in mm.h
+Cc: linux-snps-arc@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-csky@vger.kernel.org
+Cc: uclinux-h8-devel@lists.sourceforge.jp
+Cc: linux-m68k@lists.linux-m68k.org
+Cc: openrisc@lists.librecores.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-riscv@lists.infradead.org
+Cc: linux-sh@vger.kernel.org
+Cc: linux-s390@vger.kernel.org
+Cc: x86@kernel.org
+Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+---
+v3: declaration in mm.h, implemention in init-mm.c
+ include/linux/mm.h | 3 +++
+ mm/init-mm.c       | 9 +++++++++
+ 2 files changed, 12 insertions(+)
 
-Ok, I will send a update one with this change.
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index c274f75efcf9..02aa057540b7 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -244,6 +244,9 @@ int __add_to_page_cache_locked(struct page *page, struct address_space *mapping,
+ 
+ #define lru_to_page(head) (list_entry((head)->prev, struct page, lru))
+ 
++void setup_initial_init_mm(void *start_code, void *end_code,
++			   void *end_data, void *brk);
++
+ /*
+  * Linux kernel virtual memory manager primitives.
+  * The idea being to have a "virtual" mm in the same way
+diff --git a/mm/init-mm.c b/mm/init-mm.c
+index 153162669f80..b4a6f38fb51d 100644
+--- a/mm/init-mm.c
++++ b/mm/init-mm.c
+@@ -40,3 +40,12 @@ struct mm_struct init_mm = {
+ 	.cpu_bitmap	= CPU_BITS_NONE,
+ 	INIT_MM_CONTEXT(init_mm)
+ };
++
++void setup_initial_init_mm(void *start_code, void *end_code,
++			   void *end_data, void *brk)
++{
++	init_mm.start_code = (unsigned long)start_code;
++	init_mm.end_code = (unsigned long)end_code;
++	init_mm.end_data = (unsigned long)end_data;
++	init_mm.brk = (unsigned long)brk;
++}
+-- 
+2.26.2
 
->
->> +{
->> +	init_mm.start_code = (unsigned long)start_code;
->> +	init_mm.end_code = (unsigned long)end_code;
->> +	init_mm.end_data = (unsigned long)end_data;
->> +	init_mm.brk = (unsigned long)brk;
->> +}
->    
->>   /* Pointer magic because the dynamic array size confuses some compilers. */
->>   static inline void mm_init_cpumask(struct mm_struct *mm)
->> -- 
->> 2.26.2
->>
->>
->> _______________________________________________
->> linux-riscv mailing list
->> linux-riscv@lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-riscv
 
 _______________________________________________
 linux-snps-arc mailing list
