@@ -2,91 +2,84 @@ Return-Path: <SRS0=8BTh=LB=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21A0FC47082
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Jun 2021 09:24:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2466C4743F
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Jun 2021 09:47:27 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DC0AC611AB
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Jun 2021 09:24:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DC0AC611AB
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	by mail.kernel.org (Postfix) with ESMTPS id B156161130
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Jun 2021 09:47:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B156161130
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=armlinux.org.uk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=8SmeA+wF3ZWmYvqxC9uRSrezvF3Uqz1CvwpgkLwV9Mo=; b=Zl/8/8N1mSgHqn
-	lG+qgXpic1gY1z+ah7cgC+5E/cFzVxJWb05LFsNMSti5Wq1cnaIBckJuV4RIAXoY5g+y/uxI3OgQ/
-	UFnm+QDCeyGhBm013aHuDSuOFs9WHLq5R4Mcio6gbLJiLh+KUNdqoG8xZ0KMVWIKHvVrAz/4cm0ZK
-	m7h+9hzPyF0thYgjFEMVDerwz8aE1Ue0+lYR0gZVz5i54UVCFrzYRTkvxxyA4UpwVzwKVxtjZS+5J
-	BFrRHSIbhjzQ4IEor7yUGquctok0hB49ZSvp5aALudm4AAoGxEr/AbdfR99MHElPAdUNN6xK+wrzV
-	gVZ8ijPciYSm0LAjYApQ==;
+	List-Owner; bh=PpTMqQ6wPU9bzgNrWcNx2NQ4UU9z3Lxj6CGzCHBhuuQ=; b=kaxAukeT0gUXne
+	Av+JB5t67jV8bVygEfiJhJOT1xi4OjOv81MAUnoms09L6QpPY7DN4gnD4ELPw1MsQmXQtTkKrUPxx
+	cj8YNbaQrOVDvMxZbeOC9hJALrCISb8i1Mr1yU8wp6WES/Ha6MMoMvjmo9n02hOMSenigpg57Vm4P
+	Ity2nQ6fGrR4OrV356hRDGLEwAZ1N0MWhr5hM1pSxsJK9DL97fdBjbsyyJLi+k1acvILYKdLVV3vq
+	gxRdofDvy9lrvja2PeevRRH4tyPVMIkGmCGd6pXiqA8tpwqoWJxd//jbRc9st4DXwubdVVwrzX/8w
+	b3JFZjVr1orrGNtIqAnw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lqBUd-002ZSe-F4; Mon, 07 Jun 2021 09:24:23 +0000
-Received: from mail-ua1-f45.google.com ([209.85.222.45])
+	id 1lqBqw-002hQP-Tq; Mon, 07 Jun 2021 09:47:26 +0000
+Received: from pandora.armlinux.org.uk ([2001:4d48:ad52:32c8:5054:ff:fe00:142])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqB0a-002QLb-VF; Mon, 07 Jun 2021 08:53:23 +0000
-Received: by mail-ua1-f45.google.com with SMTP id l12so9292621uai.0;
- Mon, 07 Jun 2021 01:53:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=y7XwbZyFAy9rqQo5J7t8DRS+d/mueoOLl5p+cSQb+8Y=;
- b=hKBndH/5jrn5HhJNu1AcNO3JoGuCUsqjDgN34Df7a6h04SNBYeNU66G1XBjjDa/g8d
- aXxgvmRCSxjjeKuIw8sKMeUl4CBJ2tJt2mPh0104rwQ44ovGgk+AZoXw1Mw20laLb0QV
- Zw1n45neJGXonqUP2tENLz6VZeaXNdZB5h9MjRBuJstx3Z2Je529HZ9V+E6AwIwpeBva
- SoIQ+BJpwF+ZP+hYbF5PBLhvFis77WtR8F2DQKVEr3azyBQrHL4a97dU6i78OPmj9NHa
- ZMns71LYVkgmSuf5f4inEHv934G7EBbnUiS2Ot683q8TvLm13AXT0hxL6xk44bWraZvK
- xH+w==
-X-Gm-Message-State: AOAM531wZ+zwERp6y/RqjDHaGktXtbsfhYmOa6zVnnu5TS19DaQf95DR
- gj72G0THqn7MyBzoF+DuiO4RTuaQy06Wkg69Krc=
-X-Google-Smtp-Source: ABdhPJw70xfmNroh3KIu5QGmqKsYwQ+PKLyHQ50n7DeatYgE4iGl6TNz+FWGTOL2BBcrgRRRH99rMYwIPPT469OpB6M=
-X-Received: by 2002:ab0:63d9:: with SMTP id i25mr6682382uap.106.1623055999326; 
- Mon, 07 Jun 2021 01:53:19 -0700 (PDT)
+ id 1lqBbf-002cMY-1L; Mon, 07 Jun 2021 09:31:42 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=MlvkgxFcyawWgLbaD1anFAhejhA4mPswAd0WEOPLbd0=; b=cetr6/k8ZHIlURSNkBDEkxOd3
+ puNo+HwooQUeJn9AaPBl4regJ9NkcXwohGBb5OPUoX7XTTODh5d6IsuhC8Hnw3taLmVn0F8+4hF1o
+ ArioCmyKCJRUZ5c5W9Ct8Cw0Zpb4xNWdK87xHBWnc3daFNyrTg9aLL7A/E6TbbFPNgdTXMtoLpPh1
+ VNTboFgYQtPgYxGziLgboqSm+C9rc0zETM+h5ZE5kg+2kGPOkoZAIe8MZfd5JZNTDNazJFXr/S6Gm
+ YDi+dqX3d1L4b71QKMOqk7jvcXPp8QSgQdX3C28GtCjdiTWKtuBWWAYuFwAi7GnVSCXRZB8Zx7iVW
+ ALDutps2w==;
+Received: from shell.armlinux.org.uk
+ ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:44784)
+ by pandora.armlinux.org.uk with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <linux@armlinux.org.uk>)
+ id 1lqBbS-0000Eu-Fv; Mon, 07 Jun 2021 10:31:26 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+ (envelope-from <linux@shell.armlinux.org.uk>)
+ id 1lqBbN-0005oE-UB; Mon, 07 Jun 2021 10:31:21 +0100
+Date: Mon, 7 Jun 2021 10:31:21 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Kefeng Wang <wangkefeng.wang@huawei.com>, Mike Rapoport <rppt@kernel.org>,
+ uclinux-h8-devel@lists.sourceforge.jp, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-csky@vger.kernel.org, linux-mm@kvack.org,
+ linux-m68k@lists.linux-m68k.org, openrisc@lists.librecores.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-snps-arc@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 00/15] init_mm: cleanup ARCH's text/data/brk setup code
+Message-ID: <20210607093121.GC22278@shell.armlinux.org.uk>
+References: <20210604070633.32363-1-wangkefeng.wang@huawei.com>
+ <YL0+Jargm+y9aqx1@kernel.org>
+ <481056ab-686e-9f42-3b8a-b31941f58af6@huawei.com>
+ <006eb573-5a20-1ac7-6234-338d11346a08@csgroup.eu>
 MIME-Version: 1.0
-References: <20210604064916.26580-1-rppt@kernel.org>
- <20210604064916.26580-9-rppt@kernel.org>
-In-Reply-To: <20210604064916.26580-9-rppt@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 7 Jun 2021 10:53:08 +0200
-Message-ID: <CAMuHMdVa29gUQAdHjKh-qDNpOJaoGwXtUkBM2qnOTi1DWV70xA@mail.gmail.com>
-Subject: Re: [PATCH v2 8/9] mm: replace CONFIG_NEED_MULTIPLE_NODES with
- CONFIG_NUMA
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, 
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Jonathan Corbet <corbet@lwn.net>, 
- Matt Turner <mattst88@gmail.com>, Mike Rapoport <rppt@linux.ibm.com>, 
- Richard Henderson <rth@twiddle.net>, Vineet Gupta <vgupta@synopsys.com>,
- kexec@lists.infradead.org, 
- alpha <linux-alpha@vger.kernel.org>, Linux-Arch <linux-arch@vger.kernel.org>, 
- Linux ARM <linux-arm-kernel@lists.infradead.org>, 
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
- "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-m68k <linux-m68k@lists.linux-m68k.org>, 
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- Linux MM <linux-mm@kvack.org>, 
- linux-riscv <linux-riscv@lists.infradead.org>,
- linux-s390 <linux-s390@vger.kernel.org>, 
- Linux-sh list <linux-sh@vger.kernel.org>,
- arcml <linux-snps-arc@lists.infradead.org>, 
- "open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>, 
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- sparclinux <sparclinux@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <006eb573-5a20-1ac7-6234-338d11346a08@csgroup.eu>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210607_015321_136219_B0E223FC 
-X-CRM114-Status: GOOD (  19.83  )
+X-CRM114-CacheID: sfid-20210607_023139_154894_06700AF7 
+X-CRM114-Status: GOOD (  11.27  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,59 +96,22 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Mike,
+On Mon, Jun 07, 2021 at 07:48:54AM +0200, Christophe Leroy wrote:
+> Hi Kefeng,
+> 
+> What you could do is to define a __weak function that architectures can
+> override and call that function from mm_init() as suggested by Mike,
 
-On Fri, Jun 4, 2021 at 8:50 AM Mike Rapoport <rppt@kernel.org> wrote:
-> From: Mike Rapoport <rppt@linux.ibm.com>
->
-> After removal of DISCINTIGMEM the NEED_MULTIPLE_NODES and NUMA
-> configuration options are equivalent.
->
-> Drop CONFIG_NEED_MULTIPLE_NODES and use CONFIG_NUMA instead.
->
-> Done with
->
->         $ sed -i 's/CONFIG_NEED_MULTIPLE_NODES/CONFIG_NUMA/' \
->                 $(git grep -wl CONFIG_NEED_MULTIPLE_NODES)
->         $ sed -i 's/NEED_MULTIPLE_NODES/NUMA/' \
->                 $(git grep -wl NEED_MULTIPLE_NODES)
->
-> with manual tweaks afterwards.
->
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+The problem with weak functions is that they bloat the kernel. Each
+time a weak function is overriden, it becomes dead unreachable code
+within the kernel image.
 
-Thanks for your patch!
-
-As you dropped the following hunk from v2 of PATCH 5/9, there's now
-one reference left of CONFIG_NEED_MULTIPLE_NODES
-(plus the discontigmem comment):
-
--diff --git a/mm/memory.c b/mm/memory.c
--index f3ffab9b9e39157b..fd0ebb63be3304f5 100644
----- a/mm/memory.c
--+++ b/mm/memory.c
--@@ -90,8 +90,7 @@
-- #warning Unfortunate NUMA and NUMA Balancing config, growing
-page-frame for last_cpupid.
-- #endif
--
---#ifndef CONFIG_NEED_MULTIPLE_NODES
---/* use the per-pgdat data instead for discontigmem - mbligh */
--+#ifdef CONFIG_FLATMEM
-- unsigned long max_mapnr;
-- EXPORT_SYMBOL(max_mapnr);
--
-
-Gr{oetje,eeting}s,
-
-                        Geert
+At some point we're probabily going to have to enable -ffunction-sections
+to (hopefully) allow the dead code to be discarded.
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
 
 _______________________________________________
 linux-snps-arc mailing list
