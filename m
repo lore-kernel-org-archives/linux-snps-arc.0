@@ -2,87 +2,70 @@ Return-Path: <SRS0=KZrG=LC=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6C18C47082
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  8 Jun 2021 05:45:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D56C3C47082
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  8 Jun 2021 08:29:58 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B2A4961289
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  8 Jun 2021 05:45:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B2A4961289
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id A2261608FC
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  8 Jun 2021 08:29:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A2261608FC
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=1LdTasqLRudyOwH3aYlZ6+mNdcTzBTeeQqX0Vn6Z/t4=; b=kJSeAqMV1oJvUw
-	dea5QcR2DB7ag+QaxHiaDNgs4Pho0wModnP6fHeDp+kphXN0WAhfA1ZWBvZ0EQA+G7eZq0Fcwr32B
-	fiWMNNa5qznblmPwJkLaFP0okqQIYWLLA1s10VTBnN79rAK4fuvepPcJvaxVpm5VBRT80f0natNob
-	pt+V6yVt3/1tHblX8pZoa2prNKj7AJWXDpM908eChJWc5u9HGfXOVPAxQIYapnZPdEY9QKVIL73dB
-	ZTyaDmMQ5McDTTPt2wmLqnTgQqz8K4aeSvZm7xvFNyTBHOaeV/Y7kteqhvXYwinx3wuGyycQ0NCh1
-	aXZMhCJMK2SJ1Aw8MWwA==;
+	List-Owner; bh=+HDKMGmdDcgJe6bkX7Xy2+3kudQtR55qn1U9h0JBjUc=; b=Ls5Wwvc3qEnccm
+	LVkXD8i4XGDzmijBHQbt+dlwQ9cDExyjqJjhQzHbyhXsprKvHfUSL1xGVSL5wleMpy2L252gCRi0X
+	H7v0ljHyfGe6XBYChPD43Fz2XzJbr+kneaAqLojQ3aPlbQ25JgwwJeeRp4NmNKDnTfj74K+8ziBgW
+	8TxXLje0+c9rrAhTJ/MFvKsFbXQSzY7ipLmOuItVvVXM/EMSNY+E6pAybgv1+TyjUzj/uQBR6+w8w
+	ktQ2c5+slSnOTUpTkggdLpJz1aLBPRSuSkGgGJdMA+ZrA2SA3X8K+KwgjogzgdSVmiWCfDclKLpEN
+	AmhVuz+GAM6ro0RGTPaQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lqUYT-006Zy2-92; Tue, 08 Jun 2021 05:45:37 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1lqX7V-0078RJ-UK; Tue, 08 Jun 2021 08:29:57 +0000
+Received: from szxga08-in.huawei.com ([45.249.212.255])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqUYC-006ZtI-Jn; Tue, 08 Jun 2021 05:45:21 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C5D8361029;
- Tue,  8 Jun 2021 05:45:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623131119;
- bh=49fVzdt4MSY+UspP64EgJQ791zimRP1gxTciSlJZXt4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=G0Rtshf8pvTrv3vEhpsoWQuj5JjeNYokUzfYJ5STkCXI/OnFwZ+jzE319giZq9upk
- Ip6wZYmg/mXX1RsKoBHJISuKRrHfu3i7LKK8o6lrdj3F/wsMYKU4KSiTq0yf0Te/9Y
- EXkEDnDuymhI/7Es9g0unojNazWzSj6FWZpsSVsuRv7SkD+TKqrUPOkH42sn/s2o3k
- YyeAtmie679nER7vSNNhYu+t0T8vpaLE8THVLmZUT2dI3k363OIVX5xgUfeXV7EiTs
- ihyAaoDmjCZhWOCiJEmXQBaJ0yMnS1SK6yRX7SpN+JL1ZvqVGV5DXW68K81QTP/SNc
- ubRqN6fNQU7pg==
-Date: Tue, 8 Jun 2021 08:45:07 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Jonathan Corbet <corbet@lwn.net>, Matt Turner <mattst88@gmail.com>,
- Mike Rapoport <rppt@linux.ibm.com>, Richard Henderson <rth@twiddle.net>,
- Vineet Gupta <vgupta@synopsys.com>, kexec@lists.infradead.org,
- alpha <linux-alpha@vger.kernel.org>,
- Linux-Arch <linux-arch@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-m68k <linux-m68k@lists.linux-m68k.org>,
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- Linux MM <linux-mm@kvack.org>,
- linux-riscv <linux-riscv@lists.infradead.org>,
- linux-s390 <linux-s390@vger.kernel.org>,
- Linux-sh list <linux-sh@vger.kernel.org>,
- arcml <linux-snps-arc@lists.infradead.org>,
- "open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- sparclinux <sparclinux@vger.kernel.org>
-Subject: Re: [PATCH v2 8/9] mm: replace CONFIG_NEED_MULTIPLE_NODES with
- CONFIG_NUMA
-Message-ID: <YL8D47Ty8iXZJsK3@kernel.org>
-References: <20210604064916.26580-1-rppt@kernel.org>
- <20210604064916.26580-9-rppt@kernel.org>
- <CAMuHMdVa29gUQAdHjKh-qDNpOJaoGwXtUkBM2qnOTi1DWV70xA@mail.gmail.com>
+ id 1lqX3m-0076j9-Su
+ for linux-snps-arc@lists.infradead.org; Tue, 08 Jun 2021 08:26:09 +0000
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Fzjqg6FVtz1BK1f;
+ Tue,  8 Jun 2021 16:21:03 +0800 (CST)
+Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Tue, 8 Jun 2021 16:25:54 +0800
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Tue, 8 Jun 2021 16:25:53 +0800
+From: Kefeng Wang <wangkefeng.wang@huawei.com>
+To: Andrew Morton <akpm@linux-foundation.org>, <linux-kernel@vger.kernel.org>
+CC: <linux-mm@kvack.org>, Kefeng Wang <wangkefeng.wang@huawei.com>, "Vineet
+ Gupta" <vgupta@synopsys.com>, <linux-snps-arc@lists.infradead.org>
+Subject: [PATCH v3 resend 02/15] arc: convert to setup_initial_init_mm()
+Date: Tue, 8 Jun 2021 16:34:05 +0800
+Message-ID: <20210608083418.137226-3-wangkefeng.wang@huawei.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210608083418.137226-1-wangkefeng.wang@huawei.com>
+References: <20210608083418.137226-1-wangkefeng.wang@huawei.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVa29gUQAdHjKh-qDNpOJaoGwXtUkBM2qnOTi1DWV70xA@mail.gmail.com>
+X-Originating-IP: [10.175.113.25]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemm500001.china.huawei.com (7.185.36.107)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210607_224520_707166_61E5C795 
-X-CRM114-Status: GOOD (  24.67  )
+X-CRM114-CacheID: sfid-20210608_012607_125376_471135A9 
+X-CRM114-Status: UNSURE (   8.17  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,70 +82,35 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi,
+Use setup_initial_init_mm() helper to simplify code.
 
-On Mon, Jun 07, 2021 at 10:53:08AM +0200, Geert Uytterhoeven wrote:
-> Hi Mike,
-> 
-> On Fri, Jun 4, 2021 at 8:50 AM Mike Rapoport <rppt@kernel.org> wrote:
-> > From: Mike Rapoport <rppt@linux.ibm.com>
-> >
-> > After removal of DISCINTIGMEM the NEED_MULTIPLE_NODES and NUMA
-> > configuration options are equivalent.
-> >
-> > Drop CONFIG_NEED_MULTIPLE_NODES and use CONFIG_NUMA instead.
-> >
-> > Done with
-> >
-> >         $ sed -i 's/CONFIG_NEED_MULTIPLE_NODES/CONFIG_NUMA/' \
-> >                 $(git grep -wl CONFIG_NEED_MULTIPLE_NODES)
-> >         $ sed -i 's/NEED_MULTIPLE_NODES/NUMA/' \
-> >                 $(git grep -wl NEED_MULTIPLE_NODES)
-> >
-> > with manual tweaks afterwards.
-> >
-> > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> 
-> Thanks for your patch!
-> 
-> As you dropped the following hunk from v2 of PATCH 5/9, there's now
-> one reference left of CONFIG_NEED_MULTIPLE_NODES
-> (plus the discontigmem comment):
+Cc: Vineet Gupta <vgupta@synopsys.com>
+Cc: linux-snps-arc@lists.infradead.org
+Acked-by: Vineet Gupta <vgupta@synopsys.com>   #arch/arc
+Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+---
+ arch/arc/mm/init.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-Aargh, indeed. Thanks for catching this.
-
-And I wondered why you suggested to fix spelling in cover letter for v3 :)
+diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
+index e2ed355438c9..33b8fab89022 100644
+--- a/arch/arc/mm/init.c
++++ b/arch/arc/mm/init.c
+@@ -94,10 +94,7 @@ void __init setup_arch_memory(void)
+ {
+ 	unsigned long max_zone_pfn[MAX_NR_ZONES] = { 0 };
  
-> -diff --git a/mm/memory.c b/mm/memory.c
-> -index f3ffab9b9e39157b..fd0ebb63be3304f5 100644
-> ---- a/mm/memory.c
-> -+++ b/mm/memory.c
-> -@@ -90,8 +90,7 @@
-> - #warning Unfortunate NUMA and NUMA Balancing config, growing
-> page-frame for last_cpupid.
-> - #endif
-> -
-> --#ifndef CONFIG_NEED_MULTIPLE_NODES
-> --/* use the per-pgdat data instead for discontigmem - mbligh */
-> -+#ifdef CONFIG_FLATMEM
-> - unsigned long max_mapnr;
-> - EXPORT_SYMBOL(max_mapnr);
-> -
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-
+-	init_mm.start_code = (unsigned long)_text;
+-	init_mm.end_code = (unsigned long)_etext;
+-	init_mm.end_data = (unsigned long)_edata;
+-	init_mm.brk = (unsigned long)_end;
++	setup_initial_init_mm(_text, _etext, _edata, _end);
+ 
+ 	/* first page of system - kernel .vector starts here */
+ 	min_low_pfn = virt_to_pfn(CONFIG_LINUX_RAM_BASE);
 -- 
-Sincerely yours,
-Mike.
+2.26.2
+
 
 _______________________________________________
 linux-snps-arc mailing list
