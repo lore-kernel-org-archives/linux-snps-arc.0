@@ -2,78 +2,86 @@ Return-Path: <SRS0=KZrG=LC=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B916BC47082
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  8 Jun 2021 09:23:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00C8DC47082
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  8 Jun 2021 14:54:55 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7C0BC61249
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  8 Jun 2021 09:23:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7C0BC61249
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id C100161183
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  8 Jun 2021 14:54:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C100161183
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=7yb0ny7VjL3s1Nhr164oWyYNGCcI61UmEPA2PGeeW38=; b=ekpS0mx2bpwuIW
-	CeKWaZGFAEA82fXXPBMTYJKWJOgo+ZXpjInMFF7WADN0zBC/xH3AQ1ZpeHWs9bkZjEUm3uTtZIrOX
-	IF6EQkjggN2lCjLvHag0RvrBpc1gUoitehC+gTTpDBVTlj4PHFH7vUymn7tPSELbJaw5O9xqt7J0F
-	9CNds5lG2y9PPSM8yE1F090i8NY9p31KHuIcrwrUjMbTjvqqxSne1n8bOunrLVe2+uLM/0X7v1EmV
-	cX9HbrUksz5yi6SDuyd2IjyAvwQLmJimZt+g9sqjgDi/e5Q11Dcw79IoIrwLYSBahRdGFKG1jI4XN
-	jIy8g4EZcg7mS4TOy7cw==;
+	List-Owner; bh=ftMq/YhOGBFFO7u0VR7OQ0vVMfUvGwN3OVMA3/PAaHI=; b=K4aOr7vCYU1LIl
+	WqCWp/Yb2iFotO5cZ09tOLOZfWwg5FJj0P31+jS6x28FrwoZhod6Ejsdwd17HmK/A5t1xPO0zG5mD
+	6Ug82cuHWbRfB26I86pc1LSwmmLNocjprkTds5Rf9hoJVO4pR1xssNWth0kb7am3zNmCmpyP1rC8A
+	WvVUZW98lP1l1VTPOfq7P0mLxeuHh4xphe31rlXRoyAxTaAmlQjnWl9evSyOZs9Hm2xqZWcoKRawd
+	qgdfGzl3CYx1yd7+ykhhEANcSF6khnZgEuIEe5+aFl2BWRfggGITYXCGd7I6TcyiqwC+BHdFx1KZx
+	VRU1CWWr01owrb1EAwiQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lqXwp-007MLA-QI; Tue, 08 Jun 2021 09:22:59 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1lqd82-00929S-7J; Tue, 08 Jun 2021 14:54:54 +0000
+Received: from mail-vs1-f43.google.com ([209.85.217.43])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqXob-007Hkd-9P; Tue, 08 Jun 2021 09:14:30 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B55CA61278;
- Tue,  8 Jun 2021 09:14:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623143668;
- bh=lDEh/GlZ6IHzCVgoifZXFj4eSjBGzRR223ZmBbEbu7M=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CBfKZuYBhfUYXhnu1/Q+GcZTRvIyVwqk4OlKe/GEc17t/9vnTzCn3+6STQ5/LrWyP
- 8QFWfCwt8RuCmCYqGrfuMUYMf8TuGEDAHwre0FfL8FXqeF48qkGpvZpcwYFJzt4XGO
- JcyHuTpulyjZnXu14di6K2Cf1M5TiHD6xEeC+2cmnNhaNtpIQyCSjOB8JNJfb/PPQ1
- Wb5J09t+fossaPoReHqWdEdSkJJqD+/z2/L/BHoqjkvy/9MBHHgzSbkeuZ/ex8Dz0T
- 0m07Bad0h9qq0FDqyCIiuAFw81XELQT4ubN6MTX3ywS0SdKnkYIQnokWOfWnAoSsd0
- DZubZDkPDz+fA==
-From: Mike Rapoport <rppt@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Jonathan Corbet <corbet@lwn.net>, Matt Turner <mattst88@gmail.com>,
- Mike Rapoport <rppt@kernel.org>, Mike Rapoport <rppt@linux.ibm.com>,
- Richard Henderson <rth@twiddle.net>, Vineet Gupta <vgupta@synopsys.com>,
- kexec@lists.infradead.org, linux-alpha@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-ia64@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, linux-mm@kvack.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-xtensa@linux-xtensa.org, linuxppc-dev@lists.ozlabs.org,
- sparclinux@vger.kernel.org
-Subject: [PATCH v3 9/9] mm: replace CONFIG_FLAT_NODE_MEM_MAP with
- CONFIG_FLATMEM
-Date: Tue,  8 Jun 2021 12:13:16 +0300
-Message-Id: <20210608091316.3622-10-rppt@kernel.org>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210608091316.3622-1-rppt@kernel.org>
-References: <20210608091316.3622-1-rppt@kernel.org>
+ id 1lqd7z-00927s-HM; Tue, 08 Jun 2021 14:54:52 +0000
+Received: by mail-vs1-f43.google.com with SMTP id l25so10995849vsb.9;
+ Tue, 08 Jun 2021 07:54:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2AJ2s6Swi7DKePDYPTjpM9W7XfKGuXx2NmxnXLQgYSU=;
+ b=rU2pKJ75Y3/QHhh8al8WEHFkA1xcRM5SZMWEuWTFwhfJJj/V+31x/44DQ1/ocvOPg+
+ HHLB+cX2JzVE7e8VyhwDv4Qz2FVNR+zh+m0OixPYjyc4fzjuukhztIpMy0r4QCqs9ENM
+ rx2wn2LyftAjOv4hRMViR3COc1TqDPy9Jwcq9YGNqCboxfBQc5R+uHuQkEmoWcUMg/uD
+ GgTRTBH9LOsD2SMP7YGpIDk7kjlQlU6IpzX1idxEjiKF6VTF7R6q/SsI4HkaBei2kO/c
+ foGKHLzxbvnAfZr24OLQ0mXOUtMYfCqu0p3aPHXa31jtaApPg9eDz4MFF332lbCsxpOF
+ vhTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2AJ2s6Swi7DKePDYPTjpM9W7XfKGuXx2NmxnXLQgYSU=;
+ b=jsJGAmKB7VuFPKCmGHA6gEst2ZFsoqwbzHvnyrzImptUSlLNluMMPrK6QcWiRx3VXK
+ IvNhmUDv5211aDEa4v2r8WmyjkswqTSJfR/3+/fZkiYSNhJHBprQRBLlzInlr9CC8Q7p
+ 7nG37U9fuOkQ65Hm3uXJmfzHQpLBTQLClwWBzeJtneVdT/FJ+2/XLmFBXMbODvHcecN5
+ d4htbI4YKb6IYgSuElnZ7VnlBzCxDKJ6eCJid0TkCSdhGRUPMAjk2SW3FXqG2k0HtknF
+ u7ygpL+kiqFzFlLWqCy4C20FA0/JffsRVQnmbImkbGRK9qOs9ys9DTUIzgWi8Pt1+WiJ
+ FF/g==
+X-Gm-Message-State: AOAM531SjvodA9OErxIZR2cH/T5yc4DzjPy7BendZBPi5a0RREXMa7qm
+ j4dBYQmuMmErsaJxfqDLpcgYXH7i2fL7ZbXM/WI=
+X-Google-Smtp-Source: ABdhPJyRLWrfWEbRY82WKzbAaqxe+Tz0Rq9l4OoSLSgaPe9ZQ71sH6V/8n9uYyj4peJXY7ySMuwi8lVHUHfIxXWhTlU=
+X-Received: by 2002:a67:ed5a:: with SMTP id m26mr149235vsp.59.1623164030307;
+ Tue, 08 Jun 2021 07:53:50 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210608083418.137226-1-wangkefeng.wang@huawei.com>
+ <20210608083418.137226-2-wangkefeng.wang@huawei.com>
+In-Reply-To: <20210608083418.137226-2-wangkefeng.wang@huawei.com>
+From: Souptick Joarder <jrdr.linux@gmail.com>
+Date: Tue, 8 Jun 2021 20:23:38 +0530
+Message-ID: <CAFqt6zYmCQ=wxEjnOJ6fgJWYQyFajBuxWD=UT_D-WjWUS_4pcw@mail.gmail.com>
+Subject: Re: [PATCH v3 resend 01/15] mm: add setup_initial_init_mm() helper
+To: Kefeng Wang <wangkefeng.wang@huawei.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, 
+ Linux-MM <linux-mm@kvack.org>, linux-snps-arc@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org, 
+ uclinux-h8-devel@lists.sourceforge.jp, linux-m68k@lists.linux-m68k.org, 
+ openrisc@lists.librecores.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org, 
+ linux-s390@vger.kernel.org, X86 ML <x86@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210608_021429_416254_FFDBAFB2 
-X-CRM114-Status: GOOD (  15.54  )
+X-CRM114-CacheID: sfid-20210608_075451_590430_BB8E464B 
+X-CRM114-Status: GOOD (  15.88  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,119 +98,67 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Mike Rapoport <rppt@linux.ibm.com>
+On Tue, Jun 8, 2021 at 1:56 PM Kefeng Wang <wangkefeng.wang@huawei.com> wrote:
+>
+> Add setup_initial_init_mm() helper to setup kernel text,
+> data and brk.
+>
+> Cc: linux-snps-arc@lists.infradead.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-csky@vger.kernel.org
+> Cc: uclinux-h8-devel@lists.sourceforge.jp
+> Cc: linux-m68k@lists.linux-m68k.org
+> Cc: openrisc@lists.librecores.org
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Cc: linux-riscv@lists.infradead.org
+> Cc: linux-sh@vger.kernel.org
+> Cc: linux-s390@vger.kernel.org
+> Cc: x86@kernel.org
+> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+> ---
+>  include/linux/mm.h | 3 +++
+>  mm/init-mm.c       | 9 +++++++++
+>  2 files changed, 12 insertions(+)
+>
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index c274f75efcf9..02aa057540b7 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -244,6 +244,9 @@ int __add_to_page_cache_locked(struct page *page, struct address_space *mapping,
+>
+>  #define lru_to_page(head) (list_entry((head)->prev, struct page, lru))
+>
+> +void setup_initial_init_mm(void *start_code, void *end_code,
+> +                          void *end_data, void *brk);
+> +
 
-After removal of the DISCONTIGMEM memory model the FLAT_NODE_MEM_MAP
-configuration option is equivalent to FLATMEM.
+Gentle query -> is there any limitation to add inline functions in
+setup_arch() functions ?
 
-Drop CONFIG_FLAT_NODE_MEM_MAP and use CONFIG_FLATMEM instead.
-
-Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
----
- include/linux/mmzone.h | 4 ++--
- kernel/crash_core.c    | 2 +-
- mm/Kconfig             | 4 ----
- mm/page_alloc.c        | 6 +++---
- mm/page_ext.c          | 2 +-
- 5 files changed, 7 insertions(+), 11 deletions(-)
-
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index acdc51c7b259..1d5cafe5ccc3 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -777,7 +777,7 @@ typedef struct pglist_data {
- 	struct zonelist node_zonelists[MAX_ZONELISTS];
- 
- 	int nr_zones; /* number of populated zones in this node */
--#ifdef CONFIG_FLAT_NODE_MEM_MAP	/* means !SPARSEMEM */
-+#ifdef CONFIG_FLATMEM	/* means !SPARSEMEM */
- 	struct page *node_mem_map;
- #ifdef CONFIG_PAGE_EXTENSION
- 	struct page_ext *node_page_ext;
-@@ -867,7 +867,7 @@ typedef struct pglist_data {
- 
- #define node_present_pages(nid)	(NODE_DATA(nid)->node_present_pages)
- #define node_spanned_pages(nid)	(NODE_DATA(nid)->node_spanned_pages)
--#ifdef CONFIG_FLAT_NODE_MEM_MAP
-+#ifdef CONFIG_FLATMEM
- #define pgdat_page_nr(pgdat, pagenr)	((pgdat)->node_mem_map + (pagenr))
- #else
- #define pgdat_page_nr(pgdat, pagenr)	pfn_to_page((pgdat)->node_start_pfn + (pagenr))
-diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-index 53eb8bc6026d..2b8446ea7105 100644
---- a/kernel/crash_core.c
-+++ b/kernel/crash_core.c
-@@ -483,7 +483,7 @@ static int __init crash_save_vmcoreinfo_init(void)
- 	VMCOREINFO_OFFSET(page, compound_head);
- 	VMCOREINFO_OFFSET(pglist_data, node_zones);
- 	VMCOREINFO_OFFSET(pglist_data, nr_zones);
--#ifdef CONFIG_FLAT_NODE_MEM_MAP
-+#ifdef CONFIG_FLATMEM
- 	VMCOREINFO_OFFSET(pglist_data, node_mem_map);
- #endif
- 	VMCOREINFO_OFFSET(pglist_data, node_start_pfn);
-diff --git a/mm/Kconfig b/mm/Kconfig
-index bffe4bd859f3..ded98fb859ab 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -55,10 +55,6 @@ config FLATMEM
- 	def_bool y
- 	depends on !SPARSEMEM || FLATMEM_MANUAL
- 
--config FLAT_NODE_MEM_MAP
--	def_bool y
--	depends on !SPARSEMEM
--
- #
- # SPARSEMEM_EXTREME (which is the default) does some bootmem
- # allocations when sparse_init() is called.  If this cannot
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 8f08135d3eb4..f039736541eb 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -6444,7 +6444,7 @@ static void __meminit zone_init_free_lists(struct zone *zone)
- 	}
- }
- 
--#if !defined(CONFIG_FLAT_NODE_MEM_MAP)
-+#if !defined(CONFIG_FLATMEM)
- /*
-  * Only struct pages that correspond to ranges defined by memblock.memory
-  * are zeroed and initialized by going through __init_single_page() during
-@@ -7241,7 +7241,7 @@ static void __init free_area_init_core(struct pglist_data *pgdat)
- 	}
- }
- 
--#ifdef CONFIG_FLAT_NODE_MEM_MAP
-+#ifdef CONFIG_FLATMEM
- static void __ref alloc_node_mem_map(struct pglist_data *pgdat)
- {
- 	unsigned long __maybe_unused start = 0;
-@@ -7289,7 +7289,7 @@ static void __ref alloc_node_mem_map(struct pglist_data *pgdat)
- }
- #else
- static void __ref alloc_node_mem_map(struct pglist_data *pgdat) { }
--#endif /* CONFIG_FLAT_NODE_MEM_MAP */
-+#endif /* CONFIG_FLATMEM */
- 
- #ifdef CONFIG_DEFERRED_STRUCT_PAGE_INIT
- static inline void pgdat_set_deferred_range(pg_data_t *pgdat)
-diff --git a/mm/page_ext.c b/mm/page_ext.c
-index df6f74aac8e1..293b2685fc48 100644
---- a/mm/page_ext.c
-+++ b/mm/page_ext.c
-@@ -191,7 +191,7 @@ void __init page_ext_init_flatmem(void)
- 	panic("Out of memory");
- }
- 
--#else /* CONFIG_FLAT_NODE_MEM_MAP */
-+#else /* CONFIG_FLATMEM */
- 
- struct page_ext *lookup_page_ext(const struct page *page)
- {
--- 
-2.28.0
-
+>  /*
+>   * Linux kernel virtual memory manager primitives.
+>   * The idea being to have a "virtual" mm in the same way
+> diff --git a/mm/init-mm.c b/mm/init-mm.c
+> index 153162669f80..b4a6f38fb51d 100644
+> --- a/mm/init-mm.c
+> +++ b/mm/init-mm.c
+> @@ -40,3 +40,12 @@ struct mm_struct init_mm = {
+>         .cpu_bitmap     = CPU_BITS_NONE,
+>         INIT_MM_CONTEXT(init_mm)
+>  };
+> +
+> +void setup_initial_init_mm(void *start_code, void *end_code,
+> +                          void *end_data, void *brk)
+> +{
+> +       init_mm.start_code = (unsigned long)start_code;
+> +       init_mm.end_code = (unsigned long)end_code;
+> +       init_mm.end_data = (unsigned long)end_data;
+> +       init_mm.brk = (unsigned long)brk;
+> +}
+> --
+> 2.26.2
+>
+>
 
 _______________________________________________
 linux-snps-arc mailing list
