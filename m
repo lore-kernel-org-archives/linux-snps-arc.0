@@ -2,85 +2,93 @@ Return-Path: <SRS0=1R09=LD=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6859AC48BCD
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Jun 2021 16:02:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F301DC48BD1
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Jun 2021 17:30:21 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 30E1B6136D
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Jun 2021 16:02:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 30E1B6136D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id B26A3613D3
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Jun 2021 17:30:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B26A3613D3
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Eagul4GQUyA0ai2RgPxSXFaT5kmBXl8usMLuM1UFJrc=; b=BjRhizOvzRaaUz
-	U79omooK0NdjlcWjN3wkKaATRUh3b4pAvcIUB3BoK8LXHlyv40bkPXpDpfIVbvd5V/sTp7DxFY+Kw
-	8rpV1LiHLdu86glP8vTRynmOl22R+VgtHX/a+SkNfFU9CnvvSjD9O7xY3aAzog8qVL/hcCvYAA4rQ
-	Wl5r5UpG2W++nQuAoqGbKS7OlA7b7ws0qfgPd1+iYk0rG4xAaxmdDUXbh1XKyWwXcjYOV3z/+ecPm
-	7uaqAKE8Tmqgwm5VCBIZawWWWsJgYShz0PtFu364z4M8Wc0VEUOu17FVsviAWGWVVwScyqFRINMSL
-	k4VdhKLLQZTR9uRIObpg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ZBZM2sGKvcwI5Vzy8f5XNi6L1w80hjmOVPYmwvE2HOA=; b=TZRgv72qul8dQ35LV+3bgVo+9E
+	9m1hTJOKC0k+mWhKBLZqDLFEMt2TyFXkqh4/FtxL2+R4sat/3R+m8kRyVMqPh+GGYFU7p32xdW2VD
+	5TBOGXae+ZxiZDSChAHBL1NnigNn06pRYi6QptqhLZiL5Rwu3ma6eybMipcWTiEVKQ6KCzrljmuvl
+	3ilRzWI+wdSlolZBd/RpIWrU1tC5wZ37/mYdUvkNxVex0EbGWIOxBSUWi5r3iAImu7NVjOc9/Xn5i
+	bk/npAVJG6pYaU42j/7aQdosumuy0OPP668e7i9Q0W0YWvUA1H/JdyawSnWorghcVExe+urwaVHZ2
+	2Pv3MvNg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lr0eq-00EleJ-Da; Wed, 09 Jun 2021 16:02:20 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1lr221-00FJH2-0l; Wed, 09 Jun 2021 17:30:21 +0000
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqzXp-00EPfj-Lk; Wed, 09 Jun 2021 14:51:04 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2163C6128A;
- Wed,  9 Jun 2021 14:50:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623250261;
- bh=svcXYr1x4uog0gl91R41ozY2Q0KNDzZmG4YRGTMMy2A=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YkHX/JVfHqUvpWvWXkgg3rdrkk7agHtEIKqaX0vfSpX504lTGaDjO7Qz7iARqzkGp
- DWsHVY+tAbRsBUSVBkbhVjgZvGY6y/wRIXGMo+CgzooB/zqPomfgnsHX9y3mgTbMXc
- xGiW+RangNEk+pKIT8UX8w6paGaFQZLDQ+McKqTpjqFKueMHIVGMXJpalfW0Fph76r
- Lcm2WPwzewVnde/Vu5ujWTdQssxwNbFghUliAxp8Ku3YbSQHaHnLbkGz+awfGrnWGJ
- yu4qANQoP9p9s4/vzkSPeJiYpDnHVlRdjW4xbBVW2tivL4go8M8laNS3QaNsdGKKc0
- R1JEjjJpSG45g==
-Date: Wed, 9 Jun 2021 17:50:50 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Jonathan Corbet <corbet@lwn.net>, Matt Turner <mattst88@gmail.com>,
- Mike Rapoport <rppt@linux.ibm.com>, Richard Henderson <rth@twiddle.net>,
- Vineet Gupta <vgupta@synopsys.com>, kexec@lists.infradead.org,
- alpha <linux-alpha@vger.kernel.org>,
- linux-arch <linux-arch@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- linux-ia64@vger.kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-m68k <linux-m68k@lists.linux-m68k.org>,
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- Linux-MM <linux-mm@kvack.org>,
- linux-riscv <linux-riscv@lists.infradead.org>,
- linux-s390 <linux-s390@vger.kernel.org>,
- Linux-sh list <linux-sh@vger.kernel.org>,
- "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
- "open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- sparclinux <sparclinux@vger.kernel.org>
-Subject: Re: [PATCH v2 0/9] Remove DISCINTIGMEM memory model
-Message-ID: <YMDVSu00xXGmdCtC@kernel.org>
-References: <20210604064916.26580-1-rppt@kernel.org>
- <CAK8P3a2tZDJDqgr9-1vJrnbDhd_36eKq8LMEznDkU7rvuAnAag@mail.gmail.com>
+ id 1lr1Em-00EzcK-3O
+ for linux-snps-arc@lists.infradead.org; Wed, 09 Jun 2021 16:39:29 +0000
+Received: by mail-pg1-x52e.google.com with SMTP id q15so19922292pgg.12
+ for <linux-snps-arc@lists.infradead.org>; Wed, 09 Jun 2021 09:39:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=I5IRu80lLOMpanm9WUAqchFMOp+9/CtG6qdClPI2OkQ=;
+ b=EM5p6O0l0hGQPJMOA7iex5AVFOFie4PRF7AxV75SM6YBBrsY1KWkZTUZKvtAOk3DGQ
+ SGuQjkzS+5YH6QqW0xssrRDPr0F7EHYcZ8rtI8KwzZUnNzOIr+o0WFR+6ciWnSo5nemX
+ SixrWcZiF6TLBxO0BecUfswnY2zBCrzygvT2auCpb+hetQuseq0hpLMhARfGUZsDzV4F
+ 6NEB4IcAmO3GVA5i74C4cY9aRX1L17qracsfUVgI0EVxAOCkB1MP1NMEgyGNnKanQBSm
+ GvgRaF9pWUk9dC0KrQrpUcJ7ECLnXVMqnGVMgBEBIUs9fOOBcQH2zFB4/bbye+5cFZS5
+ FZuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=I5IRu80lLOMpanm9WUAqchFMOp+9/CtG6qdClPI2OkQ=;
+ b=rMlRNIzfQzT10BZvK5aGf6oHY6nBR2xzblL6UmT+Pn4AsPcPv0y8F6eN8HDK2EKYcI
+ S5ouWtvLOFH3FIWYDRB7NDoOxjtuFVOzMBkvRvXqlH2HhJtLL3tvMokPCkiTulKr+idH
+ mUiBadhIkwOp4wmx41GxrNK4OZjBRbH4GgRktC1erJ00uA//4Q3iPhIt6/+pgAiVwayh
+ NZ3HKhuczD73v83tOePgiVwo8bBILgh3feWIjYxEVjOpi8nXWB0O5j3NnelyIhk4sRWC
+ MAATQWr6xUYXUGY/GzYmmLQq1BRi2L7kx2rS8Nm7kRdtSfu2bO8o48X/B9QUchHCiu/U
+ GquQ==
+X-Gm-Message-State: AOAM533t5g+FPANMgHyleMiZ42ThjYs51iHysYOMwEX/cM58oOe9cVd5
+ p28AEWyR36DZdxT3HxQVRDDirwvP1olCmA==
+X-Google-Smtp-Source: ABdhPJwuukpJodVsO8TyVswLFt/TEpQOLV4fvlghgHNiCWaPkNw2Q9SZmRn9f0OMx344ohzBSasIMA==
+X-Received: by 2002:a63:5c4:: with SMTP id 187mr574095pgf.368.1623256765351;
+ Wed, 09 Jun 2021 09:39:25 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ u5sm122576pfi.179.2021.06.09.09.39.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Jun 2021 09:39:24 -0700 (PDT)
+Subject: Re: QEmu ARC port - decoder implementation feedback
+To: Cupertino Miranda <Cupertino.Miranda@synopsys.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Shahab Vahedi <Shahab.Vahedi@synopsys.com>,
+ Claudiu Zissulescu <Claudiu.Zissulescu@synopsys.com>,
+ "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
+ "cupertinomiranda@gmail.com" <cupertinomiranda@gmail.com>
+References: <a882003d-4949-06ac-d111-8f41cb2d54b9@synopsys.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <0c90a8c4-0977-b11b-b543-9eef4d4d14c3@linaro.org>
+Date: Wed, 9 Jun 2021 09:39:23 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a2tZDJDqgr9-1vJrnbDhd_36eKq8LMEznDkU7rvuAnAag@mail.gmail.com>
+In-Reply-To: <a882003d-4949-06ac-d111-8f41cb2d54b9@synopsys.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210609_075101_777220_832B1AC4 
-X-CRM114-Status: GOOD (  21.78  )
+X-CRM114-CacheID: sfid-20210609_093928_211321_33BC29C1 
+X-CRM114-Status: GOOD (  16.58  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,55 +100,41 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Arnd,
-
-On Wed, Jun 09, 2021 at 01:30:39PM +0200, Arnd Bergmann wrote:
-> On Fri, Jun 4, 2021 at 8:49 AM Mike Rapoport <rppt@kernel.org> wrote:
-> >
-> > From: Mike Rapoport <rppt@linux.ibm.com>
-> >
-> > Hi,
-> >
-> > SPARSEMEM memory model was supposed to entirely replace DISCONTIGMEM a
-> > (long) while ago. The last architectures that used DISCONTIGMEM were
-> > updated to use other memory models in v5.11 and it is about the time to
-> > entirely remove DISCONTIGMEM from the kernel.
-> >
-> > This set removes DISCONTIGMEM from alpha, arc and m68k, simplifies memory
-> > model selection in mm/Kconfig and replaces usage of redundant
-> > CONFIG_NEED_MULTIPLE_NODES and CONFIG_FLAT_NODE_MEM_MAP with CONFIG_NUMA
-> > and CONFIG_FLATMEM respectively.
-> >
-> > I've also removed NUMA support on alpha that was BROKEN for more than 15
-> > years.
-> >
-> > There were also minor updates all over arch/ to remove mentions of
-> > DISCONTIGMEM in comments and #ifdefs.
-> 
-> Hi Mike and Andrew,
-> 
-> It looks like everyone is happy with this version so far. How should we merge it
-> for linux-next? I'm happy to take it through the asm-generic tree, but linux-mm
-> would fit at least as well. In case we go for linux-mm, feel free to add
-
-Andrew already took to mmotm.
- 
-> Acked-by: Arnd Bergmann <arnd@arndb.de>
-
-Thanks!
-
-> for the whole series.
-
--- 
-Sincerely yours,
-Mike.
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gNi85LzIxIDI6NTggQU0sIEN1cGVydGlubyBNaXJhbmRhIHdyb3RlOgo+IFdlIHN0YXJ0ZWQg
+dG8gZG8gdGhhdCBhbmQgaW4gdGhlIHByb2Nlc3Mgd2UgcmVhbGl6ZSB0aGF0IHRoZSBhcHByb2Fj
+aAo+IHdvdWxkIGJyaW5nIHVzIHlldCBhbm90aGVyIGVuY29kaW5nIGxhbmd1YWdlIGRlc2NyaXB0
+aW9uIHRvIG1haW50YWluLgoKV2h5IHdvdWxkIHlvdSBiZSBtYWludGFpbmluZyBhbm90aGVyIGRl
+c2NyaXB0aW9uPyAgWW91ciBhcHByb2FjaCBiZWxvdyB3aXRoIHRoZSAKc2ltcGxlIHJlY3Vyc2l2
+ZSBhbGdvcml0aG0gYXBwZWFycyB0byBiZSBubyBkaWZmZXJlbnQuCgo+IEFsc28gdGhhdCBkZWNv
+ZGV0cmVlIGFsb25lIHdvdWxkIG5vdCBhbGxvdyB1cyB0byBwcm9wZXJseSBkaXNhc3NlbWJseQo+
+IGNvZGUsIHN0aWxsIHJlcXVpcmluZyB0byBrZWVwIHRoZSBpbml0aWFsIHN0cnVjdHVyZS4KCldo
+eSBpcyB0aGF0PwoKVGhlIGN1cnJlbnQgdXNlcyBvZiBkZWNvZGV0cmVlIGFyZSBxdWl0ZSBjb21w
+bGV4LCBzbyBJIHNpbmNlcmVseSBkb3VidCB0aGF0IGl0IApjYW5ub3QgZG8gdGhlIGpvYi4gIFlv
+dSd2ZSBhc2tlZCBubyBxdWVzdGlvbnMsIG5vciBoYXZlIHlvdSBkZXNjcmliZWQgYW55IApwcm9i
+bGVtcyB5b3UgaGF2ZSBlbmNvdW50ZXJlZC4KClRoYXQgc2FpZCwgZGVjb2RldHJlZSB3YXMgbWVy
+ZWx5IGEgc3VnZ2VzdGlvbiBiYXNlZCBvbiB3aGF0IGFwcGVhcmVkIHRvIG1lIHRvIApiZSBhIHRy
+aXZpYWwgYXV0b21hdGVkIHRleHR1YWwgcmV3cml0ZSBvZiB5b3VyIGN1cnJlbnQgZGF0YSBzZXQu
+ICBJZiB5b3Ugd2FudCAKdG8gdXNlIHNvbWV0aGluZyBlbHNlIHRoYXQgcGVyZm9ybXMgZXF1YWxs
+eSB3ZWxsLCBmaW5lLgoKPiBTbyBmYXIsIHdlIGRpZCB0aGUgZm9sbG93aW5nOgo+ICAgIMKgLSBj
+b252ZXJ0ZWQgb3Bjb2Rlcy5kZWYgdG8gbWFjcm9zIGluc3RlYWQgb2YgdGFibGUgZW50cmllcy4K
+ClN1cmUuCgo+ICAgIMKgLSBjcmVhdGVkIGEgc2NyaXB0IHRoYXQgcmVhZHMgdGhvc2UgZW50cmll
+cyBhbmQgb3V0cHV0cyBtYWNyb3MgdGhhdAo+IGRpcmVjdGx5IHRyYW5zbGF0ZSB0byBhIHN3aXRj
+aC9jYXNlIGRlY2lzaW9uIHRyZWUgKGV4YW1wbGUgYmVsb3cpLCBqdXN0Cj4gbGlrZSB0aGUgb25l
+cyBwcm9kdWNlZCBieSBkZWNvZGV0cmVlLiBUaGUgZGlmZmVyZW5jZSBpcyB0aGF0IHRoZSBzd2l0
+Y2gKPiB3aWxsIHJldHVybiB0aGUgZW51bSBlbnRyeSBmb3IgdGhlIHByb3BlciBkZWNvZGVyIHN0
+cnVjdHVyZSBpbnN0ZWFkIG9mCj4gY2FsbGluZyBhIHRyYW5zbGF0aW9uIGZ1bmN0aW9uLgoKQW4g
+ZW51bSByZXN1bHQgaXMgZmluZSwgc3VyZS4KClRoZSBleGFtcGxlIGlzIG5vdCBlc3BlY2lhbGx5
+IGVubGlnaHRlbmluZyBiZWNhdXNlIHlvdSBkb24ndCBzaG93IHRoZSBtYWNybyAKZGVmaW5pdGlv
+bnMsIG9yIHRoZSBleHBhbnNpb24uICBIYXZlIHlvdSBhIGxpbmsgdG8gYSBnaXQgcmVwbyB0aGF0
+IHlvdSBjYW4gc2hhcmU/Cgo+ICAgIMKgLSB0aGUgc2NyaXB0IGNhbiBlaXRoZXIgYmUgY29udHJp
+YnV0ZWQgaW4gQyBvciBweXRob24gbGFuZ3VhZ2UgYXMgaXQKPiBpcyBiYXNlZCBvbiBhIHNpbXBs
+ZSByZWN1cnNpdmUgYWxnb3JpdGhtLgoKRWl0aGVyIGlzIGZpbmUuICBXZSBjdXJyZW50bHkgdXNl
+IGJvdGggYXMgYnVpbGQtdGltZSBnZW5lcmF0b3JzLgoKCnJ+CgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QK
+bGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFk
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
