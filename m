@@ -2,177 +2,117 @@ Return-Path: <SRS0=1R09=LD=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE294C47095
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Jun 2021 10:03:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1882C48BCF
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Jun 2021 10:51:07 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 53B2B60FDC
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Jun 2021 10:03:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 53B2B60FDC
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=synopsys.com
+	by mail.kernel.org (Postfix) with ESMTPS id 6EF8261059
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Jun 2021 10:51:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6EF8261059
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=tnj1HTYGihTXCRIl6EOBT02zchEFQRp2QXSM6G8cwok=; b=rwp2WKPseOQKUI
-	cRWZfXvSDrhixPvyAxlmj4ByYkNLwB4wl4R53sns/uzAffyaeHyv6d2MG5LolxJg5Dxv6U8LtPvWO
-	gqZQCSnE//SulmHEyp6jHJ47/QF1yNquWvfZAWNo8o91uzaHzen+WMbu+jRpWfvbhTA71jbI2YS1F
-	1rdVhwjp/d9xtk+g/JFT+s7irOHIhCck7m/dHwfvw9ZJ+mdJ7Ge/CWeY8fjbDnYLJIVktyednejef
-	2NqET/SM5BxA0wMDmWFvJSfPIIikUtkSr/mHuSRkwu6AJghP6/i/VM7ZfdlBYGlO3y2XKTJxWtYee
-	OGHAXNzR/WAuwj4TDmwA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=kCatz2I6KqwYUN2TaMTB8usb/fMrQlu4fmyTYXKMZgs=; b=uaVTppavMJViq+xT2HunUC1da3
+	+N23eoySQKcpSzWUcsDVNlT4Yinxu5bu+gInLu+i/U1AYFPqP4awKq2Mj39wmg4iSmBztRBXEVakK
+	JZOy+D0FG9YFL3dBK7jQrc2srLBjwRcJX6uLnNMt7cJYfBI+cT18VIQLrEu6o8j1rt8b2TAboGeIh
+	b2H0wAkfDmUyicD6/k7WHslUMMPppTu2PIUak0cS+BcHQQp2XpH3GdDT1Jm05eTu8Cr7RB4X9ZsGy
+	gEhLaf5UtCvIUrfBvXuRP+/TuiAi25D112WO2mFx88IRBniSmixUZNMsMJmoNbD+rV62uSCfggaTR
+	DDm8DFqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lqv38-00Cs5s-Or; Wed, 09 Jun 2021 10:03:02 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
+	id 1lqvne-00D8Jt-Vw; Wed, 09 Jun 2021 10:51:06 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lquz2-00Cqgs-4i
- for linux-snps-arc@lists.infradead.org; Wed, 09 Jun 2021 09:58:49 +0000
-Received: from mailhost.synopsys.com (us03-mailhost1.synopsys.com [10.4.17.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id B0C694064F;
- Wed,  9 Jun 2021 09:58:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1623232722; bh=jZ8dxfEN/3PSH1xnXCCuYvrvcpk2/rXDsd6tY7/5BCk=;
- h=From:To:CC:Subject:Date:From;
- b=JaNaL+HBol1gufnzXk3q7eMnQBe7fBYpdKWzloQnlmfh0W/PN12vbPTqtWiVbhIBG
- NPXBkXt2zOho3vWbxsfkgwGUFF/+8WvUPI4tKSpzQwKKy4afIDXMrgu0w4QIpUuHf1
- rBugo2kTDvKnA125UB0CdGy6/qcAwkHpwdy5hdvxJ1lLyqd5HPAnsjQwP7DqZj5hIy
- Qq3LFDvvO23Dxbd5hMhIkuPBmR/ivFbNzYQMFAa3uALTp/D4qbsbzpliyI/KDUKNJA
- ON82CKYFHpyI+MvUTTToHVncSQrfBOc9hwHInZgnEOhh4deVnddA/sWuXgVYLPAC3Y
- ZlzsJcre0Pl5A==
-Received: from o365relay-in.synopsys.com (us03-o365relay3.synopsys.com
- [10.4.161.139])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client CN "o365relay-in.synopsys.com",
- Issuer "Entrust Certification Authority - L1K" (verified OK))
- by mailhost.synopsys.com (Postfix) with ESMTPS id 0AE20A0080;
- Wed,  9 Jun 2021 09:58:39 +0000 (UTC)
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12lp2172.outbound.protection.outlook.com [104.47.59.172])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client CN "mail.protection.outlook.com",
- Issuer "DigiCert Cloud Services CA-1" (verified OK))
- by o365relay-in.synopsys.com (Postfix) with ESMTPS id 3663880062;
- Wed,  9 Jun 2021 09:58:36 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com;
- dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
- spf=pass smtp.mailfrom=cmiranda@synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
- unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="cMosmg3n";
- dkim-atps=neutral
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=W5FjPdoKJ4k9c6yo1bKrYFGCabt5hXVGA3guErrlLm0+KBY87ISI7e7/yov+PhM2Ebys5AFhxL90fbT/HY+6o1J8WfBpIqR1nkMPxml7UfixGam4V9+uwCGHVbhxXPdvaFwGOQZOqOeBOMbJKJ/0qMlbKqr09BeEoq7JTjViIH7KKLbhXOpsCmMFQ05ZEZ8lLhiPr2s5XDW1LLWCFfMfFuZGaEODy+unGns55kxP92YMnErjj6/K5Ro8dvL30mSTF8PAuusCEUYFzc8dBbmkDOrJe6bkk4Zw+B5xpIWZcICmH0IgAUmWYpXUN/A6BEjl3ph0XIwjPVYZP7zyQ1gYjQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jZ8dxfEN/3PSH1xnXCCuYvrvcpk2/rXDsd6tY7/5BCk=;
- b=CkPBI5Khov5YjUTub5KiD+aYkcwJWcag4kyiWN1fGwnkELMq6lPup88L2yUpD3LlKivHQrgPmUzI996R0P2DIYe/SKKvFeUsSTPjZF70T+gDMeMcGpEUTc9tXURlWpRoVkTSVyvSOXEWyvDL8WWEu2Lau2mc77mmM7FAvz4tZrvEuckI6rrb0i8UPhm1lBxBFvoqQq91L5dFdHtDOnq1Lo4tbC/amrIHZjz6Ft5M7+JcHxUP23DbSfL5MgRGVcmOiDQ0U1Id9wQ9Om7MRhLDYRgwt8otq2ph3+lLtqgwLZefPu4FCZnrXSOGDSoURPMmDJqnXwt4sbqNn5QS516ttw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jZ8dxfEN/3PSH1xnXCCuYvrvcpk2/rXDsd6tY7/5BCk=;
- b=cMosmg3noxbb+Utjm8C5YB2v0z5UT9jmy6Tir24aNK7EOobtKkpXssXAjAwNJH1JB2dj1KAL4/+4JTwKsRnUpETCTzNt+xZ1Lb0HKfnhov85aDAB4LpBR0k9PidbSYCFsVtjhquN2khU4lOqNi2UywwndbapihHNFlYL9ivd7oA=
-Received: from DM6PR12MB4877.namprd12.prod.outlook.com (2603:10b6:5:1bb::24)
- by DM6PR12MB4698.namprd12.prod.outlook.com (2603:10b6:5:34::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.20; Wed, 9 Jun
- 2021 09:58:34 +0000
-Received: from DM6PR12MB4877.namprd12.prod.outlook.com
- ([fe80::2409:edc4:60b9:72d6]) by DM6PR12MB4877.namprd12.prod.outlook.com
- ([fe80::2409:edc4:60b9:72d6%9]) with mapi id 15.20.4219.021; Wed, 9 Jun 2021
- 09:58:34 +0000
-X-SNPS-Relay: synopsys.com
-From: Cupertino Miranda <Cupertino.Miranda@synopsys.com>
-To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-CC: Shahab Vahedi <Shahab.Vahedi@synopsys.com>,
- Claudiu Zissulescu <Claudiu.Zissulescu@synopsys.com>,
- "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- "cupertinomiranda@gmail.com" <cupertinomiranda@gmail.com>
-Subject: QEmu ARC port - decoder implementation feedback
-Thread-Topic: QEmu ARC port - decoder implementation feedback
-Thread-Index: AQHXXRYCp0g4uHxJwUSWGu/ANfQZ7w==
-Date: Wed, 9 Jun 2021 09:58:34 +0000
-Message-ID: <a882003d-4949-06ac-d111-8f41cb2d54b9@synopsys.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none header.from=synopsys.com;
-x-originating-ip: [198.182.37.200]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: fa67b5bf-f0e0-44ac-a7c9-08d92b2d253b
-x-ms-traffictypediagnostic: DM6PR12MB4698:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR12MB4698148142D67A6E4F6FE672A8369@DM6PR12MB4698.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: PCXOnw6YUmcwSLe/e0AzpNBQ/74ShWKmI41meiqRKT8FzvH3Zm3EAUT5DXzGT9U+2h17GsDgK07GpXH7cm7whZS4mjFLxzng8lg6TN3Mfg87Bb6Jng8yhDqPiyHjoGHs1JmioGVXA5qDK1eFdyh+Tui05k+JdARysoAQBUgute1kwhON2KR/B6oKwrDLnZc1hwUD8UjI6Y46WTm34kuX0NcNQpnIshvTsVEAuI2Faho4bPRgtJIo90N8SiZ2WOabh2FMSFCMYBHw2lnNAW+4nU6gA+0H3Qf0a56wTqHcMt6LCZcHIWXdke4+yzWBDTBQedp0MyXn7ul7trkYnJUaUiXc0O2TR8TiOUOF+NBPMgTZMkvCnnDXtcee7I9N/SzLexh9e+6pdZmF6g9y9YO+Vf4KFVZPtrRKhA5IOavdJ5kSl30frZu/TFcjLD7gZjvLOHCqPcYBR7V5Fq+H4tuEjOhgvxPNU37t/eeQ7wciGpFPnWdhI3yTnGli168QyFmybzxVI5bO36T6kmfbTmnpUVh36HBYUgYH5KSZBY6lYfGoanLT+MYC32OGaX2y/cdxB35j3CSuIwT90vPvmO0xKFtPWyB55bcDgzfYXRZ1o8SBCotpc12TBOeu6mv0QvuaviQFGSQy+0dXS9kitSTtPRJbOEMENWcF8wk0dFK6BaM=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB4877.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(346002)(39850400004)(396003)(366004)(376002)(136003)(86362001)(91956017)(5660300002)(4326008)(31686004)(38100700002)(316002)(8676002)(8936002)(76116006)(6506007)(36756003)(83380400001)(31696002)(54906003)(110136005)(26005)(478600001)(2906002)(66476007)(66556008)(64756008)(6512007)(66446008)(122000001)(6486002)(71200400001)(66946007)(2616005)(186003)(45980500001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZHlwWklYVFNNNWRLTWoyWWxQa29YOGRnRDhwT3hWaHViT0ZTUUY4VERuNEhY?=
- =?utf-8?B?R0FjV0V0UzMwaTlLSytWMjhwY3FEclJKV1o0WFdGYWJqTm1YT3FPOTBlMmsv?=
- =?utf-8?B?eWt4NXBNRnBYV2FHMW1Ta3A4UlJaWFpwYmFQY1JPWW5aVUZkVi9VWFVwRnhC?=
- =?utf-8?B?ZWdCOWFKWmJXdDVVODVKVmhwUFM2b2NSWDV1WmJiMGV0MDZHWU5rSitxVUIv?=
- =?utf-8?B?cmNRTU5NYk1TUExuR09jbE01QVdGSGZsZmRJKzBvUXBoN3FSR3VPWWtFQWhW?=
- =?utf-8?B?cndnYmlxRG8wWDFmUTluZTdrKzJObEhORE5YSitVeFc3T3c3ODBhWDlaZTZp?=
- =?utf-8?B?MTBlZkY2enZPa3c0ZnY1TkpETmduendmWml0Ty9iQTVTOXN3aGg0NVFIa0tk?=
- =?utf-8?B?ZXIvZG1ia0hjM0pJS2FFbE9CTjlXUnRPTFY4STV6NHd0ck5oaGhnODR6S2xM?=
- =?utf-8?B?ZTJ2RUZhaU1HaFNmWlAwOHBlV0pUaXJ3eHI0alFNNXRBVGVpMEhEV1RSRjUz?=
- =?utf-8?B?Q0RGQXhobTdhM00vUmNrNlNIdmZUTGJCaWVmblpmVVgzakNjazNHQlJCUVNX?=
- =?utf-8?B?QVpFbjVLTklYbm8rZVF1RXlCQ3pQWkdXVXhCRjh2UnZYNWRmVTVGVGxLRUdk?=
- =?utf-8?B?Tm5RSFpvS0xqd1NOY3BhL0VwL29CRGVOMHA5SW9MRGEvR01YSms4OWZ5c1Vp?=
- =?utf-8?B?TjZob1AwT05GQXRzTi9IMVQ1dmxDWVpQbEV0RkJoZUhxRVdzRDEvOThHb3dv?=
- =?utf-8?B?V3FIbHJmNWQ5aW1TUkE0MkhHOGY0Wm9rM2RxdjJoQlEyTWd0Uy8zQThnTndN?=
- =?utf-8?B?bzZSYmlGdnhjZitLVHcrMVpWckM2NVBVUVdmYlVSeGJjeHRGRkhjeWI4WlJL?=
- =?utf-8?B?ZCtaYUR5VFl1VDBJMENuTUpiUzR3SW5nTGgvS3hMWEg5akY0K3BkMVR6MGJx?=
- =?utf-8?B?b0t1VWp1aHM0T29WaHFoako2Y1BTeTBGK1U2cmQya2F0ampqTWtqM3ZXY0Ux?=
- =?utf-8?B?dzJscUcwRGlNY1RKRXdBK3NpV2d4TVQxbkd5d2ZTYlhNb0JPR21sSzdIRWNi?=
- =?utf-8?B?Z2twYU1LMzZqNXNQNjY0K3VYc2toMVU5cWxjaVNocmdVVDZCeVBBamdMaC9I?=
- =?utf-8?B?djlPMnQ4RTlIN0NZWWdDWGZOcmVKQ01ITW1vQVdkY3BaSklkMDJZelJJTHhL?=
- =?utf-8?B?SER3SnU3UFRDYkh3eCtodk1yaGJxSkw3aDBjUGU5Z2VPckdZZEVvTWNkUk5H?=
- =?utf-8?B?L3RmbHpoUC9rcG1WR1JHNDk0bTFEQmxFUFpnVyt0SmhrOWUwOFB5RUNIZE5j?=
- =?utf-8?B?SGlham5BalBBUjNBZzVHSDV3U0l3SEpJSzM5UUg3dlVaa0NtL2FmTHUybVU0?=
- =?utf-8?B?eUpLWCs1ODN2ZlNOSXJYWXR2aCtINkFZeWFpcnowTnh1UjBWSjlIb0llbmxH?=
- =?utf-8?B?cHVqcVZhYUxJb2tPalZiVTNXaE1kZU9XYXBaOGxvWDZjT0dvNmdjU3JQc2tW?=
- =?utf-8?B?TTRpUTgrbUk4dXg5WURGVTlSUk9PaGFjWDR2UlJLOVhtQkdUQzJsRnloK2hi?=
- =?utf-8?B?RkJZdmVqdFBQcnhScUZxbHlGd010akx5YmhnS3VIRTh4Rlh1MzlyS0JERzBI?=
- =?utf-8?B?bzg3WDY0THcyNjA3ZzRkOGREb29LWnBaMmVaRW9XalZnNDFmelpubG5UblFy?=
- =?utf-8?B?QW9qSzhCYWJzRzlTNHFLaTlvQzJHeTFwWDZVM0diSXorQzVvMmI3SlFWaXZO?=
- =?utf-8?Q?AA2xgVZKJi6GNfQjqoB0hq7Q+hzJN4pkiPvVHQ+?=
-Content-ID: <141D4F71E248654690EA27B5A5BAB933@namprd12.prod.outlook.com>
+ id 1lqvnK-00D8Eb-Aj
+ for linux-snps-arc@lists.infradead.org; Wed, 09 Jun 2021 10:50:53 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623235845;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Gih+GOhMcRK69kb3EGSNRXJsErdU73QPoTGSv1fwOew=;
+ b=VY8aJerG7mEEMIJjb1gKdimFvxLQqCOpl0dyYkhhog3BnZ3Od4qHjr+YNN0TgRUWbUiHdr
+ QvRsfzvA8FrHirhACfDD+U20Cqee2lCsoTGK1Vh4/+tOrVulWZ4pzH4BHv9vJFAJmd4rVv
+ 473fpuvy4FTBUmE0qzQAo8fOLvA58qs=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-441-rGwbX0V3PfCUJol4TRzplQ-1; Wed, 09 Jun 2021 06:50:44 -0400
+X-MC-Unique: rGwbX0V3PfCUJol4TRzplQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ k11-20020adfe3cb0000b0290115c29d165cso10584812wrm.14
+ for <linux-snps-arc@lists.infradead.org>; Wed, 09 Jun 2021 03:50:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=Yv3zgvNgf41xC+/2Z1rwowxZVTGUAiARfUOeW4pizSE=;
+ b=q+K3v8lD6xXqWqr46SXjO6sqTGRjew51vrDsxNyjoTMDjVXASThx/YknUEruCK4r1a
+ 6XkV5ZvrmxdInJFLjvSpBM5UmlAjbtC+1QXNDiFIbAdxSrzalpoWzNhD51x3ea/1jDz8
+ jvoOx+198TgfL9xsJrXjUV58R+kUCmWkbefzeCxUrqmjTooGh2aaZBLG/AazO0SI3pRr
+ IxghvdTtlG1/GPaG74tyXPzLGb/3mGSYaVHm9XjeoxJaPakOtZ2C2W4G6MiiK5+zriSA
+ PGZ+GKjitStbIwBM4ni/jBt1BPpFaKTOeQb2XJhxJxTFbTa78Nv8dUL7sVuomvZzuuQO
+ vQQA==
+X-Gm-Message-State: AOAM5313bVb20qv/8zLfepQXbvkgkbOdeD3+ikkVrXhgfNHK2iXj9waS
+ PmzttuH/A1qIZ7QYQSJeByGQv8i0SgCbE/TD2syGki8Bi1Hrw+Yi5BEv09HTiyB4EAGGDl4E+hP
+ XwXixsFb58tYlKQxqCtVHQWyI1R4VYvaW
+X-Received: by 2002:a05:6000:551:: with SMTP id
+ b17mr27489107wrf.32.1623235842566; 
+ Wed, 09 Jun 2021 03:50:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyJNophHqrOQYZJwiaAOxwKxtIDjlmxl5kZvdlioYLSN+jaiappbAtr3cf3TUAjZaSiNRrcFA==
+X-Received: by 2002:a05:6000:551:: with SMTP id
+ b17mr27489024wrf.32.1623235841786; 
+ Wed, 09 Jun 2021 03:50:41 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c611d.dip0.t-ipconnect.de. [91.12.97.29])
+ by smtp.gmail.com with ESMTPSA id
+ u7sm20706980wrt.18.2021.06.09.03.50.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Jun 2021 03:50:41 -0700 (PDT)
+Subject: Re: [PATCH 1/9] alpha: remove DISCONTIGMEM and NUMA
+To: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Jonathan Corbet
+ <corbet@lwn.net>, Matt Turner <mattst88@gmail.com>,
+ Mike Rapoport <rppt@linux.ibm.com>, Richard Henderson <rth@twiddle.net>,
+ Vineet Gupta <vgupta@synopsys.com>, kexec@lists.infradead.org,
+ linux-alpha@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+ linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+ linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org
+References: <20210602105348.13387-1-rppt@kernel.org>
+ <20210602105348.13387-2-rppt@kernel.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <5eef17c5-a388-44fd-ab4e-5e1acec6d13e@redhat.com>
+Date: Wed, 9 Jun 2021 12:50:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4877.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa67b5bf-f0e0-44ac-a7c9-08d92b2d253b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jun 2021 09:58:34.6958 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: nG3sggdxIdwI6bZslpAEdqmyydHpoIf+7wSnMUEhu+Rw0KmZN6DKPJaowGwl7AYlg422u5L9+GX+KR9v4n2Ppg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4698
+In-Reply-To: <20210602105348.13387-2-rppt@kernel.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210609_025848_305573_573BBEA5 
-X-CRM114-Status: GOOD (  14.79  )
+X-CRM114-CacheID: sfid-20210609_035046_685936_3262551B 
+X-CRM114-Status: GOOD (  35.72  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -184,81 +124,835 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-SGkgUmljaGFyZCwNCg0KTGFzdCBmZXcgd2Vla3MgSSBoYXZlIGJlZW4gd29ya2luZyBvbiBjbGVh
-bmluZyB1cCBBUkMgcG9ydCBmb3IgZnVydGhlcg0KcmV2aWV3aW5nLg0KDQpJbiB0aGUgY29udGV4
-dCBvZiB0aGUgZGVjb2RlciwgaWYgSSByZWNhbGwgd2VsbCwgeW91ciBvYnNlcnZhdGlvbiB3YXMN
-CnRoYXQgYSBsaW5lYXIgc2VhcmNoIHdhcyBub3QgT2suDQpZb3VyIHN1Z2dlc3Rpb24gd2FzIG5v
-dCB0byByZWludmVudCB0aGUgd2hlZWwgYW5kIGdlbmVyYXRlIGRlY29kZXRyZWUgdG8NCmNyZWF0
-ZSB0aGUgZGVjb2Rlci4NCg0KV2Ugc3RhcnRlZCB0byBkbyB0aGF0IGFuZCBpbiB0aGUgcHJvY2Vz
-cyB3ZSByZWFsaXplIHRoYXQgdGhlIGFwcHJvYWNoDQp3b3VsZCBicmluZyB1cyB5ZXQgYW5vdGhl
-ciBlbmNvZGluZyBsYW5ndWFnZSBkZXNjcmlwdGlvbiB0byBtYWludGFpbi4NCkFsc28gdGhhdCBk
-ZWNvZGV0cmVlIGFsb25lIHdvdWxkIG5vdCBhbGxvdyB1cyB0byBwcm9wZXJseSBkaXNhc3NlbWJs
-eQ0KY29kZSwgc3RpbGwgcmVxdWlyaW5nIHRvIGtlZXAgdGhlIGluaXRpYWwgc3RydWN0dXJlLg0K
-DQpUYWtpbmcgaW4gY29uc2lkZXJhdGlvbiB0aGF0IHdlIGRvIGFsbCB0aGUgb3RoZXIgdG9vbGNo
-YWluIHRvb2xzIGZvciBBUkMNCmFuZCB0aGF0IHRoZSBkZWNvZGVyIHN0cnVjdHVyZSBpcyBhbHJl
-YWR5IHVwc3RyZWFtZWQgaW4gYmludXRpbHMgd2UNCndvdWxkIGRlZmluaXRlbHkgcHJlZmVyIHRv
-IGtlZXAgdGhhdCBzdHJ1Y3R1cmUgYW5kIG9wdGltaXplIHRoZQ0Kc3Vycm91bmRpbmdzIGZvciBw
-cm9wZXIgZGVjb2Rpbmcgc3BlZWRzLg0KDQpTbyBmYXIsIHdlIGRpZCB0aGUgZm9sbG93aW5nOg0K
-ICDCoC0gY29udmVydGVkIG9wY29kZXMuZGVmIHRvIG1hY3JvcyBpbnN0ZWFkIG9mIHRhYmxlIGVu
-dHJpZXMuDQogIMKgLSBjcmVhdGVkIGEgc2NyaXB0IHRoYXQgcmVhZHMgdGhvc2UgZW50cmllcyBh
-bmQgb3V0cHV0cyBtYWNyb3MgdGhhdA0KZGlyZWN0bHkgdHJhbnNsYXRlIHRvIGEgc3dpdGNoL2Nh
-c2UgZGVjaXNpb24gdHJlZSAoZXhhbXBsZSBiZWxvdyksIGp1c3QNCmxpa2UgdGhlIG9uZXMgcHJv
-ZHVjZWQgYnkgZGVjb2RldHJlZS4gVGhlIGRpZmZlcmVuY2UgaXMgdGhhdCB0aGUgc3dpdGNoDQp3
-aWxsIHJldHVybiB0aGUgZW51bSBlbnRyeSBmb3IgdGhlIHByb3BlciBkZWNvZGVyIHN0cnVjdHVy
-ZSBpbnN0ZWFkIG9mDQpjYWxsaW5nIGEgdHJhbnNsYXRpb24gZnVuY3Rpb24uDQogIMKgLSB0aGUg
-c2NyaXB0IGNhbiBlaXRoZXIgYmUgY29udHJpYnV0ZWQgaW4gQyBvciBweXRob24gbGFuZ3VhZ2Ug
-YXMgaXQNCmlzIGJhc2VkIG9uIGEgc2ltcGxlIHJlY3Vyc2l2ZSBhbGdvcml0aG0uDQoNCkFzIHlv
-dSBoYXZlIGJlZW4gdGhlIG9uZSBnaXZpbmcgYXR0ZW50aW9uIHRvIG91ciB0YXJnZXQsIEkgc2Vl
-ayBmb3IgeW91cg0KZWFybHkgZmVlZGJhY2sgYW5kIHRvIG1ha2Ugc3VyZSB0aGF0IHRoZSBzb2x1
-dGlvbiBpcyBzdGlsbCBpbmxpbmUgd2l0aA0KeW91ciBleHBlY3RhdGlvbnMuDQoNCkxvb2tpbmcg
-Zm9yd2FyZCBmb3IgeW91ciBmZWVkYmFjay4NCg0KUmVnYXJkcywNCkN1cGVydGlubw0KDQpQUzog
-V291bGQgaXQgYmUgYXNraW5nIHRvbyBtdWNoIGlmIHdlIGNvdWxkIGhhdmUgYSBjYWxsLCBqdXN0
-IHRvDQpnZXQgdG8gbWVldCBlYWNoIG90aGVyLiBVbmZvcnR1bmF0ZWx5LCBubyBvbmUgbm93IGlz
-IGFibGUgdG8gZG8gaXQgYW55DQpvdGhlciB3YXkuIEkgbWlzcyB0aGUgdHJhdmVsaW5nIGFuZCBj
-b25mZXJlbmNlcy4NCg0KRXhhbXBsZTEgKGZpcnN0IGZldyBsaW5lcyBvZiB0aGUgZmlsZSk6DQoN
-CiAgwqBNQVRDSF9QQVRURVJOKDB4ZjgwMDAwMDApIC8qIDExMTExMDAwMDAwMDAwMDAwMDAwMDAw
-MDAwMDAwMDAwICovDQogIMKgIE1BVENIX1ZBTFVFKDB4MCkgLyogMCAqLw0KICDCoMKgIE1BVENI
-X1BBVFRFUk4oMHgxMDAwMCkgLyogMTAwMDAwMDAwMDAwMDAwMDAgKi8NCiAgwqDCoMKgIE1BVENI
-X1ZBTFVFKDB4MCkgLyogMCAqLw0KUkVUVVJOX01BVENIKE9QQ09ERV9BUkN2MkhTX2JfMHgwMDAw
-MDAwMF8weEY4MDEwMDAwX0JSQU5DSF9PUF9TSU1NMjFfQTE2XzUpDQovKiAwMDAwMHNzc3Nzc3Nz
-c3MwU1NTU1NTU1NTU05RUVFRUSAqLw0KICDCoMKgwqAgRU5EX01BVENIX1ZBTFVFKDB4MCkgLyog
-MCAqLw0KICDCoMKgwqAgTUFUQ0hfVkFMVUUoMHgxMDAwMCkgLyogMTAwMDAwMDAwMDAwMDAwMDAg
-Ki8NClJFVFVSTl9NQVRDSChPUENPREVfQVJDdjJIU19iXzB4MDAwMTAwMDBfMHhGODAxMDAwMF9C
-UkFOQ0hfT1BfU0lNTTI1X0ExNl81KQ0KLyogMDAwMDBzc3Nzc3Nzc3NzMVNTU1NTU1NTU1NOUnR0
-dHQgKi8NCiAgwqDCoMKgIEVORF9NQVRDSF9WQUxVRSgweDEwMDAwKSAvKiAxMDAwMDAwMDAwMDAw
-MDAwMCAqLw0KICDCoMKgIEVORF9NQVRDSF9QQVRURVJOKDB4MTAwMDApIC8qIDEwMDAwMDAwMDAw
-MDAwMDAwICovDQogIMKgIEVORF9NQVRDSF9WQUxVRSgweDApIC8qIDAgKi8NCiAgwqAgTUFUQ0hf
-VkFMVUUoMHg4MDAwMDAwKSAvKiAxMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwICovDQogIMKg
-wqAgTUFUQ0hfUEFUVEVSTigweDEwMDAwKSAvKiAxMDAwMDAwMDAwMDAwMDAwMCAqLw0KICDCoMKg
-wqAgTUFUQ0hfVkFMVUUoMHgwKSAvKiAwICovDQogIMKgwqDCoMKgIE1BVENIX1BBVFRFUk4oMHgy
-MDAwMCkgLyogMTAwMDAwMDAwMDAwMDAwMDAwICovDQogIMKgwqDCoMKgwqAgTUFUQ0hfVkFMVUUo
-MHgwKSAvKiAwICovDQpSRVRVUk5fTUFUQ0goT1BDT0RFX0FSQ3YySFNfYmxfMHgwODAwMDAwMF8w
-eEY4MDMwMDAwX0JSQU5DSF9PUF9TSU1NMjFfQTMyXzUpDQovKiAwMDAwMXNzc3Nzc3NzczAwU1NT
-U1NTU1NTU05RUVFRUSAqLw0KICDCoMKgwqDCoMKgIEVORF9NQVRDSF9WQUxVRSgweDApIC8qIDAg
-Ki8NCiAgwqDCoMKgwqDCoCBNQVRDSF9WQUxVRSgweDIwMDAwKSAvKiAxMDAwMDAwMDAwMDAwMDAw
-MDAgKi8NClJFVFVSTl9NQVRDSChPUENPREVfQVJDdjJIU19ibF8weDA4MDIwMDAwXzB4RjgwMzAw
-MDBfQlJBTkNIX09QX1NJTU0yNV9BMzJfNSkNCi8qIDAwMDAxc3Nzc3Nzc3NzMTBTU1NTU1NTU1NT
-TlJ0dHR0ICovDQogIMKgwqDCoMKgwqAgRU5EX01BVENIX1ZBTFVFKDB4MjAwMDApIC8qIDEwMDAw
-MDAwMDAwMDAwMDAwMCAqLw0KICDCoMKgwqDCoCBFTkRfTUFUQ0hfUEFUVEVSTigweDIwMDAwKSAv
-KiAxMDAwMDAwMDAwMDAwMDAwMDAgKi8NCiAgwqDCoMKgIEVORF9NQVRDSF9WQUxVRSgweDApIC8q
-IDAgKi8NCiAgwqDCoMKgIE1BVENIX1ZBTFVFKDB4MTAwMDApIC8qIDEwMDAwMDAwMDAwMDAwMDAw
-ICovDQogIMKgwqDCoMKgIE1BVENIX1BBVFRFUk4oMHgxNykgLyogMTAxMTEgKi8NCiAgwqDCoMKg
-wqDCoCBNQVRDSF9WQUxVRSgweDApIC8qIDAgKi8NCk1VTFRJX01BVENIKE9QQ09ERV9BUkN2MkhT
-X2JyZXFfMHgwODAxMDAwMF8weEY4MDEwMDE3X0JSQ0NfT1BfUkJfUkNfU0lNTTlfQTE2XzgpDQov
-KiAwMDAwMWJiYnNzc3Nzc3MxU0JCQkNDQ0NDQ04wWTAwMCAqLw0KTVVMVElfTUFUQ0goT1BDT0RF
-X0FSQ3YySFNfYnJlcV8weDA4MDEwRjgwXzB4RjgwMTBGRjdfQlJDQ19PUF9SQl9MSU1NX1NJTU05
-X0ExNl84KQ0KLyogMDAwMDFiYmJzc3Nzc3NzMVNCQkIxMTExMTAwMFkwMDAgKi8NCk1VTFRJX01B
-VENIKE9QQ09ERV9BUkN2MkhTX2JyZXFfMHgwRTAxNzAwMF8weEZGMDE3MDM3X0JSQ0NfT1BfTElN
-TV9SQ19TSU1NOV9BMTZfOCkNCi8qIDAwMDAxMTEwc3Nzc3NzczFTMTExQ0NDQ0NDMDBZMDAwICov
-DQpNVUxUSV9NQVRDSChPUENPREVfQVJDdjJIU19icmVxXzB4MEUwMTdGODBfMHhGRjAxN0ZGN19C
-UkNDX09QX0xJTU1fTElNTWR1cF9TSU1NOV9BMTZfOCkNCi8qIDAwMDAxMTEwc3Nzc3NzczFTMTEx
-MTExMTEwMDBZMDAwICovDQogIMKgwqDCoMKgwqAgRU5EX01BVENIX1ZBTFVFKDB4MCkgLyogMCAq
-Lw0KDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51
-eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9y
-ZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNucHMt
-YXJjCg==
+On 02.06.21 12:53, Mike Rapoport wrote:
+> From: Mike Rapoport <rppt@linux.ibm.com>
+> 
+> NUMA is marked broken on alpha for more than 15 years and DISCONTIGMEM was
+> replaced with SPARSEMEM in v5.11.
+> 
+> Remove both NUMA and DISCONTIGMEM support from alpha.
+> 
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> ---
+>   arch/alpha/Kconfig                |  22 ---
+>   arch/alpha/include/asm/machvec.h  |   6 -
+>   arch/alpha/include/asm/mmzone.h   | 100 --------------
+>   arch/alpha/include/asm/pgtable.h  |   4 -
+>   arch/alpha/include/asm/topology.h |  39 ------
+>   arch/alpha/kernel/core_marvel.c   |  53 +------
+>   arch/alpha/kernel/core_wildfire.c |  29 +---
+>   arch/alpha/kernel/pci_iommu.c     |  29 ----
+>   arch/alpha/kernel/proto.h         |   8 --
+>   arch/alpha/kernel/setup.c         |  16 ---
+>   arch/alpha/kernel/sys_marvel.c    |   5 -
+>   arch/alpha/kernel/sys_wildfire.c  |   5 -
+>   arch/alpha/mm/Makefile            |   2 -
+>   arch/alpha/mm/init.c              |   3 -
+>   arch/alpha/mm/numa.c              | 223 ------------------------------
+>   15 files changed, 4 insertions(+), 540 deletions(-)
+>   delete mode 100644 arch/alpha/include/asm/mmzone.h
+>   delete mode 100644 arch/alpha/mm/numa.c
+> 
+> diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
+> index 5998106faa60..8954216b9956 100644
+> --- a/arch/alpha/Kconfig
+> +++ b/arch/alpha/Kconfig
+> @@ -549,29 +549,12 @@ config NR_CPUS
+>   	  MARVEL support can handle a maximum of 32 CPUs, all the others
+>   	  with working support have a maximum of 4 CPUs.
+>   
+> -config ARCH_DISCONTIGMEM_ENABLE
+> -	bool "Discontiguous Memory Support"
+> -	depends on BROKEN
+> -	help
+> -	  Say Y to support efficient handling of discontiguous physical memory,
+> -	  for architectures which are either NUMA (Non-Uniform Memory Access)
+> -	  or have huge holes in the physical address space for other reasons.
+> -	  See <file:Documentation/vm/numa.rst> for more.
+> -
+>   config ARCH_SPARSEMEM_ENABLE
+>   	bool "Sparse Memory Support"
+>   	help
+>   	  Say Y to support efficient handling of discontiguous physical memory,
+>   	  for systems that have huge holes in the physical address space.
+>   
+> -config NUMA
+> -	bool "NUMA Support (EXPERIMENTAL)"
+> -	depends on DISCONTIGMEM && BROKEN
+> -	help
+> -	  Say Y to compile the kernel to support NUMA (Non-Uniform Memory
+> -	  Access).  This option is for configuring high-end multiprocessor
+> -	  server machines.  If in doubt, say N.
+> -
+>   config ALPHA_WTINT
+>   	bool "Use WTINT" if ALPHA_SRM || ALPHA_GENERIC
+>   	default y if ALPHA_QEMU
+> @@ -596,11 +579,6 @@ config ALPHA_WTINT
+>   
+>   	  If unsure, say N.
+>   
+> -config NODES_SHIFT
+> -	int
+> -	default "7"
+> -	depends on NEED_MULTIPLE_NODES
+> -
+>   # LARGE_VMALLOC is racy, if you *really* need it then fix it first
+>   config ALPHA_LARGE_VMALLOC
+>   	bool
+> diff --git a/arch/alpha/include/asm/machvec.h b/arch/alpha/include/asm/machvec.h
+> index a4e96e2bec74..e49fabce7b33 100644
+> --- a/arch/alpha/include/asm/machvec.h
+> +++ b/arch/alpha/include/asm/machvec.h
+> @@ -99,12 +99,6 @@ struct alpha_machine_vector
+>   
+>   	const char *vector_name;
+>   
+> -	/* NUMA information */
+> -	int (*pa_to_nid)(unsigned long);
+> -	int (*cpuid_to_nid)(int);
+> -	unsigned long (*node_mem_start)(int);
+> -	unsigned long (*node_mem_size)(int);
+> -
+>   	/* System specific parameters.  */
+>   	union {
+>   	    struct {
+> diff --git a/arch/alpha/include/asm/mmzone.h b/arch/alpha/include/asm/mmzone.h
+> deleted file mode 100644
+> index 86644604d977..000000000000
+> --- a/arch/alpha/include/asm/mmzone.h
+> +++ /dev/null
+> @@ -1,100 +0,0 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> -/*
+> - * Written by Kanoj Sarcar (kanoj@sgi.com) Aug 99
+> - * Adapted for the alpha wildfire architecture Jan 2001.
+> - */
+> -#ifndef _ASM_MMZONE_H_
+> -#define _ASM_MMZONE_H_
+> -
+> -#ifdef CONFIG_DISCONTIGMEM
+> -
+> -#include <asm/smp.h>
+> -
+> -/*
+> - * Following are macros that are specific to this numa platform.
+> - */
+> -
+> -extern pg_data_t node_data[];
+> -
+> -#define alpha_pa_to_nid(pa)		\
+> -        (alpha_mv.pa_to_nid 		\
+> -	 ? alpha_mv.pa_to_nid(pa)	\
+> -	 : (0))
+> -#define node_mem_start(nid)		\
+> -        (alpha_mv.node_mem_start 	\
+> -	 ? alpha_mv.node_mem_start(nid) \
+> -	 : (0UL))
+> -#define node_mem_size(nid)		\
+> -        (alpha_mv.node_mem_size 	\
+> -	 ? alpha_mv.node_mem_size(nid) 	\
+> -	 : ((nid) ? (0UL) : (~0UL)))
+> -
+> -#define pa_to_nid(pa)		alpha_pa_to_nid(pa)
+> -#define NODE_DATA(nid)		(&node_data[(nid)])
+> -
+> -#define node_localnr(pfn, nid)	((pfn) - NODE_DATA(nid)->node_start_pfn)
+> -
+> -#if 1
+> -#define PLAT_NODE_DATA_LOCALNR(p, n)	\
+> -	(((p) >> PAGE_SHIFT) - PLAT_NODE_DATA(n)->gendata.node_start_pfn)
+> -#else
+> -static inline unsigned long
+> -PLAT_NODE_DATA_LOCALNR(unsigned long p, int n)
+> -{
+> -	unsigned long temp;
+> -	temp = p >> PAGE_SHIFT;
+> -	return temp - PLAT_NODE_DATA(n)->gendata.node_start_pfn;
+> -}
+> -#endif
+> -
+> -/*
+> - * Following are macros that each numa implementation must define.
+> - */
+> -
+> -/*
+> - * Given a kernel address, find the home node of the underlying memory.
+> - */
+> -#define kvaddr_to_nid(kaddr)	pa_to_nid(__pa(kaddr))
+> -
+> -/*
+> - * Given a kaddr, LOCAL_BASE_ADDR finds the owning node of the memory
+> - * and returns the kaddr corresponding to first physical page in the
+> - * node's mem_map.
+> - */
+> -#define LOCAL_BASE_ADDR(kaddr)						  \
+> -    ((unsigned long)__va(NODE_DATA(kvaddr_to_nid(kaddr))->node_start_pfn  \
+> -			 << PAGE_SHIFT))
+> -
+> -/* XXX: FIXME -- nyc */
+> -#define kern_addr_valid(kaddr)	(0)
+> -
+> -#define mk_pte(page, pgprot)						     \
+> -({								 	     \
+> -	pte_t pte;                                                           \
+> -	unsigned long pfn;                                                   \
+> -									     \
+> -	pfn = page_to_pfn(page) << 32; \
+> -	pte_val(pte) = pfn | pgprot_val(pgprot);			     \
+> -									     \
+> -	pte;								     \
+> -})
+> -
+> -#define pte_page(x)							\
+> -({									\
+> -       	unsigned long kvirt;						\
+> -	struct page * __xx;						\
+> -									\
+> -	kvirt = (unsigned long)__va(pte_val(x) >> (32-PAGE_SHIFT));	\
+> -	__xx = virt_to_page(kvirt);					\
+> -									\
+> -	__xx;                                                           \
+> -})
+> -
+> -#define pfn_to_nid(pfn)		pa_to_nid(((u64)(pfn) << PAGE_SHIFT))
+> -#define pfn_valid(pfn)							\
+> -	(((pfn) - node_start_pfn(pfn_to_nid(pfn))) <			\
+> -	 node_spanned_pages(pfn_to_nid(pfn)))					\
+> -
+> -#endif /* CONFIG_DISCONTIGMEM */
+> -
+> -#endif /* _ASM_MMZONE_H_ */
+> diff --git a/arch/alpha/include/asm/pgtable.h b/arch/alpha/include/asm/pgtable.h
+> index 8d856c62e22a..e1757b7cfe3d 100644
+> --- a/arch/alpha/include/asm/pgtable.h
+> +++ b/arch/alpha/include/asm/pgtable.h
+> @@ -206,7 +206,6 @@ extern unsigned long __zero_page(void);
+>   #define page_to_pa(page)	(page_to_pfn(page) << PAGE_SHIFT)
+>   #define pte_pfn(pte)	(pte_val(pte) >> 32)
+>   
+> -#ifndef CONFIG_DISCONTIGMEM
+>   #define pte_page(pte)	pfn_to_page(pte_pfn(pte))
+>   #define mk_pte(page, pgprot)						\
+>   ({									\
+> @@ -215,7 +214,6 @@ extern unsigned long __zero_page(void);
+>   	pte_val(pte) = (page_to_pfn(page) << 32) | pgprot_val(pgprot);	\
+>   	pte;								\
+>   })
+> -#endif
+>   
+>   extern inline pte_t pfn_pte(unsigned long physpfn, pgprot_t pgprot)
+>   { pte_t pte; pte_val(pte) = (PHYS_TWIDDLE(physpfn) << 32) | pgprot_val(pgprot); return pte; }
+> @@ -330,9 +328,7 @@ extern inline pte_t mk_swap_pte(unsigned long type, unsigned long offset)
+>   #define __pte_to_swp_entry(pte)	((swp_entry_t) { pte_val(pte) })
+>   #define __swp_entry_to_pte(x)	((pte_t) { (x).val })
+>   
+> -#ifndef CONFIG_DISCONTIGMEM
+>   #define kern_addr_valid(addr)	(1)
+> -#endif
+>   
+>   #define pte_ERROR(e) \
+>   	printk("%s:%d: bad pte %016lx.\n", __FILE__, __LINE__, pte_val(e))
+> diff --git a/arch/alpha/include/asm/topology.h b/arch/alpha/include/asm/topology.h
+> index 5a77a40567fa..7d393036aa8f 100644
+> --- a/arch/alpha/include/asm/topology.h
+> +++ b/arch/alpha/include/asm/topology.h
+> @@ -7,45 +7,6 @@
+>   #include <linux/numa.h>
+>   #include <asm/machvec.h>
+>   
+> -#ifdef CONFIG_NUMA
+> -static inline int cpu_to_node(int cpu)
+> -{
+> -	int node;
+> -	
+> -	if (!alpha_mv.cpuid_to_nid)
+> -		return 0;
+> -
+> -	node = alpha_mv.cpuid_to_nid(cpu);
+> -
+> -#ifdef DEBUG_NUMA
+> -	BUG_ON(node < 0);
+> -#endif
+> -
+> -	return node;
+> -}
+> -
+> -extern struct cpumask node_to_cpumask_map[];
+> -/* FIXME: This is dumb, recalculating every time.  But simple. */
+> -static const struct cpumask *cpumask_of_node(int node)
+> -{
+> -	int cpu;
+> -
+> -	if (node == NUMA_NO_NODE)
+> -		return cpu_all_mask;
+> -
+> -	cpumask_clear(&node_to_cpumask_map[node]);
+> -
+> -	for_each_online_cpu(cpu) {
+> -		if (cpu_to_node(cpu) == node)
+> -			cpumask_set_cpu(cpu, node_to_cpumask_map[node]);
+> -	}
+> -
+> -	return &node_to_cpumask_map[node];
+> -}
+> -
+> -#define cpumask_of_pcibus(bus)	(cpu_online_mask)
+> -
+> -#endif /* !CONFIG_NUMA */
+>   # include <asm-generic/topology.h>
+>   
+>   #endif /* _ASM_ALPHA_TOPOLOGY_H */
+> diff --git a/arch/alpha/kernel/core_marvel.c b/arch/alpha/kernel/core_marvel.c
+> index 4485b77f8658..1efca79ac83c 100644
+> --- a/arch/alpha/kernel/core_marvel.c
+> +++ b/arch/alpha/kernel/core_marvel.c
+> @@ -287,8 +287,7 @@ io7_init_hose(struct io7 *io7, int port)
+>   	/*
+>   	 * Set up window 0 for scatter-gather 8MB at 8MB.
+>   	 */
+> -	hose->sg_isa = iommu_arena_new_node(marvel_cpuid_to_nid(io7->pe),
+> -					    hose, 0x00800000, 0x00800000, 0);
+> +	hose->sg_isa = iommu_arena_new_node(0, hose, 0x00800000, 0x00800000, 0);
+>   	hose->sg_isa->align_entry = 8;	/* cache line boundary */
+>   	csrs->POx_WBASE[0].csr =
+>   		hose->sg_isa->dma_base | wbase_m_ena | wbase_m_sg;
+> @@ -305,8 +304,7 @@ io7_init_hose(struct io7 *io7, int port)
+>   	/*
+>   	 * Set up window 2 for scatter-gather (up-to) 1GB at 3GB.
+>   	 */
+> -	hose->sg_pci = iommu_arena_new_node(marvel_cpuid_to_nid(io7->pe),
+> -					    hose, 0xc0000000, 0x40000000, 0);
+> +	hose->sg_pci = iommu_arena_new_node(0, hose, 0xc0000000, 0x40000000, 0);
+>   	hose->sg_pci->align_entry = 8;	/* cache line boundary */
+>   	csrs->POx_WBASE[2].csr =
+>   		hose->sg_pci->dma_base | wbase_m_ena | wbase_m_sg;
+> @@ -843,53 +841,8 @@ EXPORT_SYMBOL(marvel_ioportmap);
+>   EXPORT_SYMBOL(marvel_ioread8);
+>   EXPORT_SYMBOL(marvel_iowrite8);
+>   #endif
+> -
+> -/*
+> - * NUMA Support
+> - */
+> -/**********
+> - * FIXME - for now each cpu is a node by itself
+> - *              -- no real support for striped mode
+> - **********
+> - */
+> -int
+> -marvel_pa_to_nid(unsigned long pa)
+> -{
+> -	int cpuid;
+>   
+> -	if ((pa >> 43) & 1) 	/* I/O */
+> -		cpuid = (~(pa >> 35) & 0xff);
+> -	else			/* mem */
+> -		cpuid = ((pa >> 34) & 0x3) | ((pa >> (37 - 2)) & (0x1f << 2));
+> -
+> -	return marvel_cpuid_to_nid(cpuid);
+> -}
+> -
+> -int
+> -marvel_cpuid_to_nid(int cpuid)
+> -{
+> -	return cpuid;
+> -}
+> -
+> -unsigned long
+> -marvel_node_mem_start(int nid)
+> -{
+> -	unsigned long pa;
+> -
+> -	pa = (nid & 0x3) | ((nid & (0x1f << 2)) << 1);
+> -	pa <<= 34;
+> -
+> -	return pa;
+> -}
+> -
+> -unsigned long
+> -marvel_node_mem_size(int nid)
+> -{
+> -	return 16UL * 1024 * 1024 * 1024; /* 16GB */
+> -}
+> -
+> -
+> -/*
+> +/*
+>    * AGP GART Support.
+>    */
+>   #include <linux/agp_backend.h>
+> diff --git a/arch/alpha/kernel/core_wildfire.c b/arch/alpha/kernel/core_wildfire.c
+> index e8d3b033018d..3a804b67f9da 100644
+> --- a/arch/alpha/kernel/core_wildfire.c
+> +++ b/arch/alpha/kernel/core_wildfire.c
+> @@ -434,39 +434,12 @@ wildfire_write_config(struct pci_bus *bus, unsigned int devfn, int where,
+>   	return PCIBIOS_SUCCESSFUL;
+>   }
+>   
+> -struct pci_ops wildfire_pci_ops =
+> +struct pci_ops wildfire_pci_ops =
+>   {
+>   	.read =		wildfire_read_config,
+>   	.write =	wildfire_write_config,
+>   };
+>   
+> -
+> -/*
+> - * NUMA Support
+> - */
+> -int wildfire_pa_to_nid(unsigned long pa)
+> -{
+> -	return pa >> 36;
+> -}
+> -
+> -int wildfire_cpuid_to_nid(int cpuid)
+> -{
+> -	/* assume 4 CPUs per node */
+> -	return cpuid >> 2;
+> -}
+> -
+> -unsigned long wildfire_node_mem_start(int nid)
+> -{
+> -	/* 64GB per node */
+> -	return (unsigned long)nid * (64UL * 1024 * 1024 * 1024);
+> -}
+> -
+> -unsigned long wildfire_node_mem_size(int nid)
+> -{
+> -	/* 64GB per node */
+> -	return 64UL * 1024 * 1024 * 1024;
+> -}
+> -
+>   #if DEBUG_DUMP_REGS
+>   
+>   static void __init
+> diff --git a/arch/alpha/kernel/pci_iommu.c b/arch/alpha/kernel/pci_iommu.c
+> index d84b19aa8e9d..35d7b3096d6e 100644
+> --- a/arch/alpha/kernel/pci_iommu.c
+> +++ b/arch/alpha/kernel/pci_iommu.c
+> @@ -71,33 +71,6 @@ iommu_arena_new_node(int nid, struct pci_controller *hose, dma_addr_t base,
+>   	if (align < mem_size)
+>   		align = mem_size;
+>   
+> -
+> -#ifdef CONFIG_DISCONTIGMEM
+> -
+> -	arena = memblock_alloc_node(sizeof(*arena), align, nid);
+> -	if (!NODE_DATA(nid) || !arena) {
+> -		printk("%s: couldn't allocate arena from node %d\n"
+> -		       "    falling back to system-wide allocation\n",
+> -		       __func__, nid);
+> -		arena = memblock_alloc(sizeof(*arena), SMP_CACHE_BYTES);
+> -		if (!arena)
+> -			panic("%s: Failed to allocate %zu bytes\n", __func__,
+> -			      sizeof(*arena));
+> -	}
+> -
+> -	arena->ptes = memblock_alloc_node(sizeof(*arena), align, nid);
+> -	if (!NODE_DATA(nid) || !arena->ptes) {
+> -		printk("%s: couldn't allocate arena ptes from node %d\n"
+> -		       "    falling back to system-wide allocation\n",
+> -		       __func__, nid);
+> -		arena->ptes = memblock_alloc(mem_size, align);
+> -		if (!arena->ptes)
+> -			panic("%s: Failed to allocate %lu bytes align=0x%lx\n",
+> -			      __func__, mem_size, align);
+> -	}
+> -
+> -#else /* CONFIG_DISCONTIGMEM */
+> -
+>   	arena = memblock_alloc(sizeof(*arena), SMP_CACHE_BYTES);
+>   	if (!arena)
+>   		panic("%s: Failed to allocate %zu bytes\n", __func__,
+> @@ -107,8 +80,6 @@ iommu_arena_new_node(int nid, struct pci_controller *hose, dma_addr_t base,
+>   		panic("%s: Failed to allocate %lu bytes align=0x%lx\n",
+>   		      __func__, mem_size, align);
+>   
+> -#endif /* CONFIG_DISCONTIGMEM */
+> -
+>   	spin_lock_init(&arena->lock);
+>   	arena->hose = hose;
+>   	arena->dma_base = base;
+> diff --git a/arch/alpha/kernel/proto.h b/arch/alpha/kernel/proto.h
+> index 701a05090141..5816a31c1b38 100644
+> --- a/arch/alpha/kernel/proto.h
+> +++ b/arch/alpha/kernel/proto.h
+> @@ -49,10 +49,6 @@ extern void marvel_init_arch(void);
+>   extern void marvel_kill_arch(int);
+>   extern void marvel_machine_check(unsigned long, unsigned long);
+>   extern void marvel_pci_tbi(struct pci_controller *, dma_addr_t, dma_addr_t);
+> -extern int marvel_pa_to_nid(unsigned long);
+> -extern int marvel_cpuid_to_nid(int);
+> -extern unsigned long marvel_node_mem_start(int);
+> -extern unsigned long marvel_node_mem_size(int);
+>   extern struct _alpha_agp_info *marvel_agp_info(void);
+>   struct io7 *marvel_find_io7(int pe);
+>   struct io7 *marvel_next_io7(struct io7 *prev);
+> @@ -101,10 +97,6 @@ extern void wildfire_init_arch(void);
+>   extern void wildfire_kill_arch(int);
+>   extern void wildfire_machine_check(unsigned long vector, unsigned long la_ptr);
+>   extern void wildfire_pci_tbi(struct pci_controller *, dma_addr_t, dma_addr_t);
+> -extern int wildfire_pa_to_nid(unsigned long);
+> -extern int wildfire_cpuid_to_nid(int);
+> -extern unsigned long wildfire_node_mem_start(int);
+> -extern unsigned long wildfire_node_mem_size(int);
+>   
+>   /* console.c */
+>   #ifdef CONFIG_VGA_HOSE
+> diff --git a/arch/alpha/kernel/setup.c b/arch/alpha/kernel/setup.c
+> index 03dda3beb3bd..5f6858e9dc28 100644
+> --- a/arch/alpha/kernel/setup.c
+> +++ b/arch/alpha/kernel/setup.c
+> @@ -79,11 +79,6 @@ int alpha_l3_cacheshape;
+>   unsigned long alpha_verbose_mcheck = CONFIG_VERBOSE_MCHECK_ON;
+>   #endif
+>   
+> -#ifdef CONFIG_NUMA
+> -struct cpumask node_to_cpumask_map[MAX_NUMNODES] __read_mostly;
+> -EXPORT_SYMBOL(node_to_cpumask_map);
+> -#endif
+> -
+>   /* Which processor we booted from.  */
+>   int boot_cpuid;
+>   
+> @@ -305,7 +300,6 @@ move_initrd(unsigned long mem_limit)
+>   }
+>   #endif
+>   
+> -#ifndef CONFIG_DISCONTIGMEM
+>   static void __init
+>   setup_memory(void *kernel_end)
+>   {
+> @@ -389,9 +383,6 @@ setup_memory(void *kernel_end)
+>   	}
+>   #endif /* CONFIG_BLK_DEV_INITRD */
+>   }
+> -#else
+> -extern void setup_memory(void *);
+> -#endif /* !CONFIG_DISCONTIGMEM */
+>   
+>   int __init
+>   page_is_ram(unsigned long pfn)
+> @@ -618,13 +609,6 @@ setup_arch(char **cmdline_p)
+>   	       "VERBOSE_MCHECK "
+>   #endif
+>   
+> -#ifdef CONFIG_DISCONTIGMEM
+> -	       "DISCONTIGMEM "
+> -#ifdef CONFIG_NUMA
+> -	       "NUMA "
+> -#endif
+> -#endif
+> -
+>   #ifdef CONFIG_DEBUG_SPINLOCK
+>   	       "DEBUG_SPINLOCK "
+>   #endif
+> diff --git a/arch/alpha/kernel/sys_marvel.c b/arch/alpha/kernel/sys_marvel.c
+> index 83d6c53d6d4d..1f99b03effc2 100644
+> --- a/arch/alpha/kernel/sys_marvel.c
+> +++ b/arch/alpha/kernel/sys_marvel.c
+> @@ -461,10 +461,5 @@ struct alpha_machine_vector marvel_ev7_mv __initmv = {
+>   	.kill_arch		= marvel_kill_arch,
+>   	.pci_map_irq		= marvel_map_irq,
+>   	.pci_swizzle		= common_swizzle,
+> -
+> -	.pa_to_nid		= marvel_pa_to_nid,
+> -	.cpuid_to_nid		= marvel_cpuid_to_nid,
+> -	.node_mem_start		= marvel_node_mem_start,
+> -	.node_mem_size		= marvel_node_mem_size,
+>   };
+>   ALIAS_MV(marvel_ev7)
+> diff --git a/arch/alpha/kernel/sys_wildfire.c b/arch/alpha/kernel/sys_wildfire.c
+> index 2c54d707142a..3cee05443f07 100644
+> --- a/arch/alpha/kernel/sys_wildfire.c
+> +++ b/arch/alpha/kernel/sys_wildfire.c
+> @@ -337,10 +337,5 @@ struct alpha_machine_vector wildfire_mv __initmv = {
+>   	.kill_arch		= wildfire_kill_arch,
+>   	.pci_map_irq		= wildfire_map_irq,
+>   	.pci_swizzle		= common_swizzle,
+> -
+> -	.pa_to_nid		= wildfire_pa_to_nid,
+> -	.cpuid_to_nid		= wildfire_cpuid_to_nid,
+> -	.node_mem_start		= wildfire_node_mem_start,
+> -	.node_mem_size		= wildfire_node_mem_size,
+>   };
+>   ALIAS_MV(wildfire)
+> diff --git a/arch/alpha/mm/Makefile b/arch/alpha/mm/Makefile
+> index 08ac6612edad..bd770302eb82 100644
+> --- a/arch/alpha/mm/Makefile
+> +++ b/arch/alpha/mm/Makefile
+> @@ -6,5 +6,3 @@
+>   ccflags-y := -Werror
+>   
+>   obj-y	:= init.o fault.o
+> -
+> -obj-$(CONFIG_DISCONTIGMEM) += numa.o
+> diff --git a/arch/alpha/mm/init.c b/arch/alpha/mm/init.c
+> index a97650a618f1..f6114d03357c 100644
+> --- a/arch/alpha/mm/init.c
+> +++ b/arch/alpha/mm/init.c
+> @@ -235,8 +235,6 @@ callback_init(void * kernel_end)
+>   	return kernel_end;
+>   }
+>   
+> -
+> -#ifndef CONFIG_DISCONTIGMEM
+>   /*
+>    * paging_init() sets up the memory map.
+>    */
+> @@ -257,7 +255,6 @@ void __init paging_init(void)
+>   	/* Initialize the kernel's ZERO_PGE. */
+>   	memset((void *)ZERO_PGE, 0, PAGE_SIZE);
+>   }
+> -#endif /* CONFIG_DISCONTIGMEM */
+>   
+>   #if defined(CONFIG_ALPHA_GENERIC) || defined(CONFIG_ALPHA_SRM)
+>   void
+> diff --git a/arch/alpha/mm/numa.c b/arch/alpha/mm/numa.c
+> deleted file mode 100644
+> index 0636e254a22f..000000000000
+> --- a/arch/alpha/mm/numa.c
+> +++ /dev/null
+> @@ -1,223 +0,0 @@
+> -// SPDX-License-Identifier: GPL-2.0
+> -/*
+> - *  linux/arch/alpha/mm/numa.c
+> - *
+> - *  DISCONTIGMEM NUMA alpha support.
+> - *
+> - *  Copyright (C) 2001 Andrea Arcangeli <andrea@suse.de> SuSE
+> - */
+> -
+> -#include <linux/types.h>
+> -#include <linux/kernel.h>
+> -#include <linux/mm.h>
+> -#include <linux/memblock.h>
+> -#include <linux/swap.h>
+> -#include <linux/initrd.h>
+> -#include <linux/pfn.h>
+> -#include <linux/module.h>
+> -
+> -#include <asm/hwrpb.h>
+> -#include <asm/sections.h>
+> -
+> -pg_data_t node_data[MAX_NUMNODES];
+> -EXPORT_SYMBOL(node_data);
+> -
+> -#undef DEBUG_DISCONTIG
+> -#ifdef DEBUG_DISCONTIG
+> -#define DBGDCONT(args...) printk(args)
+> -#else
+> -#define DBGDCONT(args...)
+> -#endif
+> -
+> -#define for_each_mem_cluster(memdesc, _cluster, i)		\
+> -	for ((_cluster) = (memdesc)->cluster, (i) = 0;		\
+> -	     (i) < (memdesc)->numclusters; (i)++, (_cluster)++)
+> -
+> -static void __init show_mem_layout(void)
+> -{
+> -	struct memclust_struct * cluster;
+> -	struct memdesc_struct * memdesc;
+> -	int i;
+> -
+> -	/* Find free clusters, and init and free the bootmem accordingly.  */
+> -	memdesc = (struct memdesc_struct *)
+> -	  (hwrpb->mddt_offset + (unsigned long) hwrpb);
+> -
+> -	printk("Raw memory layout:\n");
+> -	for_each_mem_cluster(memdesc, cluster, i) {
+> -		printk(" memcluster %2d, usage %1lx, start %8lu, end %8lu\n",
+> -		       i, cluster->usage, cluster->start_pfn,
+> -		       cluster->start_pfn + cluster->numpages);
+> -	}
+> -}
+> -
+> -static void __init
+> -setup_memory_node(int nid, void *kernel_end)
+> -{
+> -	extern unsigned long mem_size_limit;
+> -	struct memclust_struct * cluster;
+> -	struct memdesc_struct * memdesc;
+> -	unsigned long start_kernel_pfn, end_kernel_pfn;
+> -	unsigned long start, end;
+> -	unsigned long node_pfn_start, node_pfn_end;
+> -	unsigned long node_min_pfn, node_max_pfn;
+> -	int i;
+> -	int show_init = 0;
+> -
+> -	/* Find the bounds of current node */
+> -	node_pfn_start = (node_mem_start(nid)) >> PAGE_SHIFT;
+> -	node_pfn_end = node_pfn_start + (node_mem_size(nid) >> PAGE_SHIFT);
+> -	
+> -	/* Find free clusters, and init and free the bootmem accordingly.  */
+> -	memdesc = (struct memdesc_struct *)
+> -	  (hwrpb->mddt_offset + (unsigned long) hwrpb);
+> -
+> -	/* find the bounds of this node (node_min_pfn/node_max_pfn) */
+> -	node_min_pfn = ~0UL;
+> -	node_max_pfn = 0UL;
+> -	for_each_mem_cluster(memdesc, cluster, i) {
+> -		/* Bit 0 is console/PALcode reserved.  Bit 1 is
+> -		   non-volatile memory -- we might want to mark
+> -		   this for later.  */
+> -		if (cluster->usage & 3)
+> -			continue;
+> -
+> -		start = cluster->start_pfn;
+> -		end = start + cluster->numpages;
+> -
+> -		if (start >= node_pfn_end || end <= node_pfn_start)
+> -			continue;
+> -
+> -		if (!show_init) {
+> -			show_init = 1;
+> -			printk("Initializing bootmem allocator on Node ID %d\n", nid);
+> -		}
+> -		printk(" memcluster %2d, usage %1lx, start %8lu, end %8lu\n",
+> -		       i, cluster->usage, cluster->start_pfn,
+> -		       cluster->start_pfn + cluster->numpages);
+> -
+> -		if (start < node_pfn_start)
+> -			start = node_pfn_start;
+> -		if (end > node_pfn_end)
+> -			end = node_pfn_end;
+> -
+> -		if (start < node_min_pfn)
+> -			node_min_pfn = start;
+> -		if (end > node_max_pfn)
+> -			node_max_pfn = end;
+> -	}
+> -
+> -	if (mem_size_limit && node_max_pfn > mem_size_limit) {
+> -		static int msg_shown = 0;
+> -		if (!msg_shown) {
+> -			msg_shown = 1;
+> -			printk("setup: forcing memory size to %ldK (from %ldK).\n",
+> -			       mem_size_limit << (PAGE_SHIFT - 10),
+> -			       node_max_pfn    << (PAGE_SHIFT - 10));
+> -		}
+> -		node_max_pfn = mem_size_limit;
+> -	}
+> -
+> -	if (node_min_pfn >= node_max_pfn)
+> -		return;
+> -
+> -	/* Update global {min,max}_low_pfn from node information. */
+> -	if (node_min_pfn < min_low_pfn)
+> -		min_low_pfn = node_min_pfn;
+> -	if (node_max_pfn > max_low_pfn)
+> -		max_pfn = max_low_pfn = node_max_pfn;
+> -
+> -#if 0 /* we'll try this one again in a little while */
+> -	/* Cute trick to make sure our local node data is on local memory */
+> -	node_data[nid] = (pg_data_t *)(__va(node_min_pfn << PAGE_SHIFT));
+> -#endif
+> -	printk(" Detected node memory:   start %8lu, end %8lu\n",
+> -	       node_min_pfn, node_max_pfn);
+> -
+> -	DBGDCONT(" DISCONTIG: node_data[%d]   is at 0x%p\n", nid, NODE_DATA(nid));
+> -
+> -	/* Find the bounds of kernel memory.  */
+> -	start_kernel_pfn = PFN_DOWN(KERNEL_START_PHYS);
+> -	end_kernel_pfn = PFN_UP(virt_to_phys(kernel_end));
+> -
+> -	if (!nid && (node_max_pfn < end_kernel_pfn || node_min_pfn > start_kernel_pfn))
+> -		panic("kernel loaded out of ram");
+> -
+> -	memblock_add_node(PFN_PHYS(node_min_pfn),
+> -			  (node_max_pfn - node_min_pfn) << PAGE_SHIFT, nid);
+> -
+> -	/* Zone start phys-addr must be 2^(MAX_ORDER-1) aligned.
+> -	   Note that we round this down, not up - node memory
+> -	   has much larger alignment than 8Mb, so it's safe. */
+> -	node_min_pfn &= ~((1UL << (MAX_ORDER-1))-1);
+> -
+> -	NODE_DATA(nid)->node_start_pfn = node_min_pfn;
+> -	NODE_DATA(nid)->node_present_pages = node_max_pfn - node_min_pfn;
+> -
+> -	node_set_online(nid);
+> -}
+> -
+> -void __init
+> -setup_memory(void *kernel_end)
+> -{
+> -	unsigned long kernel_size;
+> -	int nid;
+> -
+> -	show_mem_layout();
+> -
+> -	nodes_clear(node_online_map);
+> -
+> -	min_low_pfn = ~0UL;
+> -	max_low_pfn = 0UL;
+> -	for (nid = 0; nid < MAX_NUMNODES; nid++)
+> -		setup_memory_node(nid, kernel_end);
+> -
+> -	kernel_size = virt_to_phys(kernel_end) - KERNEL_START_PHYS;
+> -	memblock_reserve(KERNEL_START_PHYS, kernel_size);
+> -
+> -#ifdef CONFIG_BLK_DEV_INITRD
+> -	initrd_start = INITRD_START;
+> -	if (initrd_start) {
+> -		extern void *move_initrd(unsigned long);
+> -
+> -		initrd_end = initrd_start+INITRD_SIZE;
+> -		printk("Initial ramdisk at: 0x%p (%lu bytes)\n",
+> -		       (void *) initrd_start, INITRD_SIZE);
+> -
+> -		if ((void *)initrd_end > phys_to_virt(PFN_PHYS(max_low_pfn))) {
+> -			if (!move_initrd(PFN_PHYS(max_low_pfn)))
+> -				printk("initrd extends beyond end of memory "
+> -				       "(0x%08lx > 0x%p)\ndisabling initrd\n",
+> -				       initrd_end,
+> -				       phys_to_virt(PFN_PHYS(max_low_pfn)));
+> -		} else {
+> -			nid = kvaddr_to_nid(initrd_start);
+> -			memblock_reserve(virt_to_phys((void *)initrd_start),
+> -					 INITRD_SIZE);
+> -		}
+> -	}
+> -#endif /* CONFIG_BLK_DEV_INITRD */
+> -}
+> -
+> -void __init paging_init(void)
+> -{
+> -	unsigned long   max_zone_pfn[MAX_NR_ZONES] = {0, };
+> -	unsigned long	dma_local_pfn;
+> -
+> -	/*
+> -	 * The old global MAX_DMA_ADDRESS per-arch API doesn't fit
+> -	 * in the NUMA model, for now we convert it to a pfn and
+> -	 * we interpret this pfn as a local per-node information.
+> -	 * This issue isn't very important since none of these machines
+> -	 * have legacy ISA slots anyways.
+> -	 */
+> -	dma_local_pfn = virt_to_phys((char *)MAX_DMA_ADDRESS) >> PAGE_SHIFT;
+> -
+> -	max_zone_pfn[ZONE_DMA] = dma_local_pfn;
+> -	max_zone_pfn[ZONE_NORMAL] = max_pfn;
+> -
+> -	free_area_init(max_zone_pfn);
+> -
+> -	/* Initialize the kernel's ZERO_PGE. */
+> -	memset((void *)ZERO_PGE, 0, PAGE_SIZE);
+> -}
+> 
+
+Acked-by: David Hildenbrand <david@redhat.com>
+
+-- 
+Thanks,
+
+David / dhildenb
+
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
