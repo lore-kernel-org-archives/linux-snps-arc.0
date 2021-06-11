@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-21.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48465C48BE5
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 11 Jun 2021 17:51:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87EA3C48BE5
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 11 Jun 2021 17:53:53 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DF815613D3
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 11 Jun 2021 17:51:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DF815613D3
+	by mail.kernel.org (Postfix) with ESMTPS id 43841613D3
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 11 Jun 2021 17:53:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 43841613D3
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,49 +23,49 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:To
 	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=/ebARdBf+jRTIDNpZ0D1Dhjood9kVoNrFub1cHhEdqI=; b=fJGo/IkjmE7vWz
-	Sbo3+l/kDCu5xcRhbDYW+jOvUqvDNVxIn3053pQVgiHFOLd9gY9Jv+siJcdg8PSKy4GCIXgSHwe3p
-	tbT4GYAFlxfYK9yC9zWz0KXrm8MUP69RDo8NMQ64Rgk/kJcuqlTys0RsLeQ3nz9EPR9zmHOByeziD
-	OuPEbpAJ3y6sMMdSbM0SftRTNamR/epzpLrJh0/O7AN14NnmEYmtd7Tcbu08ETLxD6eh4Z6XypBiJ
-	0tYMwLEvRgwIXKeUtx1q44QkoNmIAIDoYW5UOB+Z7smdK8TJzYceMjVCBHz9vo7hipeGG21N+JbBk
-	dexghWUe5XrsFJXNcenQ==;
+	List-Owner; bh=/ebARdBf+jRTIDNpZ0D1Dhjood9kVoNrFub1cHhEdqI=; b=uFDVN7HVvvmsEI
+	Gb2nCLKr7iFoEtFHnyLR79Pqm79X7gLJ3GQqq4CkyIigaMHMx+ctEpXZLdiu2tYANuA3FUgmtyWtI
+	g0nIrWem8MMKiZoGIbk0Cf3r1bEletQyW/pNsIYwjUoq0xspGX4pSJ3t6P5aiVViWMsMYBMJDvWEw
+	8JOjaybUWvs8rqMj0GT0YnY6koluL+s3odJrasko4PFAZEF45sWGqEX1A5cPRdcdQ9N7xawRoepBO
+	4EImlQoQDaiscQp7NO4JZIcDrzEmAh0mskA6LzW7rpwlc95AEF3C7L2w96E3uyJ3sSd7UO/glQCJB
+	r60r+P69CKnEDo1WGk6A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lrlJY-006N5o-GD; Fri, 11 Jun 2021 17:51:28 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
+	id 1lrlLs-006NLu-Oc; Fri, 11 Jun 2021 17:53:52 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lrlJU-006N4r-DM
- for linux-snps-arc@lists.infradead.org; Fri, 11 Jun 2021 17:51:27 +0000
-Received: from mailhost.synopsys.com (badc-mailhost3.synopsys.com
- [10.192.0.81])
+ id 1lrlLo-006NLN-Mq
+ for linux-snps-arc@lists.infradead.org; Fri, 11 Jun 2021 17:53:51 +0000
+Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com
+ [10.192.0.17])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 6BC3EC09B5;
- Fri, 11 Jun 2021 17:51:23 +0000 (UTC)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 86D4840391;
+ Fri, 11 Jun 2021 17:53:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1623433884; bh=RQhvl5OzQwVDrrST6cBlzKnnw+WljoX7EAN9o+Zz0IE=;
+ t=1623434028; bh=RQhvl5OzQwVDrrST6cBlzKnnw+WljoX7EAN9o+Zz0IE=;
  h=From:To:Cc:Subject:Date:From;
- b=dJRERksslCM33PJ6U118+okMpsS0UAtjqw1Y7rz4CWOAwp/5/YPe7hupkLFyg0W6j
- t27Wp9ubNRs0+CsymbO94aCU/NXvZMrGbUL6E+M4Be1bDXEm3kC35v3LqMUsc2ynwT
- CMO3NbuWoX4Duoy09aU0Px+SFtc2Ca7ffXxG+DUHM+Jz8waEi+IFdlZ2J7xcjxu2q3
- tjpgWEgJiBzXpdza2nD+wNxNjXzaMZkf8Kp2Ec0muWdiE+cX7XBEgFn6XoJqjCOBfU
- engifsYLBRjzOriRikVye0fYCeSNbM0ixk5v2PNWPhR5w1OC7PjFbQe1mJa8ARYMML
- KjS5bV4ndlX4w==
+ b=MTaS3Ce547PDenZQ5HVU4C5RS2vMA6NoU9yP8YLdA2LR0Ic/xvMC8a8UdVz59QlFJ
+ NcN/Jmlgs02+6wOUBZ2K3enXMW16bAQLY3n3uI6aqkz60FSWTTGO85eZFu2+e3yCkr
+ gwir/yYy46zcEr7aEN7TARXUQAHdprzIawBzXKvUJmFCMaxEGZQjIV5SoWsmWNQsvb
+ IPstbHtrol/g/l5mZk0qpVCnyNDjgBguo7L7/esR/h24b7FCGYZTLg2kxtn+pwDXZz
+ nq9osl5yvvilUCMEa2JbMf92whsWrhvt43nhjQUn1O8Lx+P7/QZlB/aoWgK9rQGtxz
+ Lae+2eZAuQEJg==
 Received: from us01odcres-abrodkin-0009.internal.synopsys.com
  (us01odcres-abrodkin-0009.sg.us01-p01.synopsys.com [10.195.24.123])
- by mailhost.synopsys.com (Postfix) with ESMTP id 30CCDA005C;
- Fri, 11 Jun 2021 17:51:22 +0000 (UTC)
+ by mailhost.synopsys.com (Postfix) with ESMTP id C9DBFA0071;
+ Fri, 11 Jun 2021 17:53:46 +0000 (UTC)
 X-SNPS-Relay: synopsys.com
 From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
 To: openembedded-core@lists.openembedded.org
 Cc: linux-snps-arc@lists.infradead.org,
  Alexey Brodkin <Alexey.Brodkin@synopsys.com>
 Subject: [PATCH] gcc: Fixes for ARC
-Date: Fri, 11 Jun 2021 10:51:17 -0700
-Message-Id: <20210611175117.25183-1-abrodkin@synopsys.com>
+Date: Fri, 11 Jun 2021 10:53:44 -0700
+Message-Id: <20210611175344.26796-1-abrodkin@synopsys.com>
 X-Mailer: git-send-email 2.16.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210611_105124_539750_244748BA 
+X-CRM114-CacheID: sfid-20210611_105348_764581_02EB7F27 
 X-CRM114-Status: GOOD (  20.55  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
