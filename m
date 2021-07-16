@@ -2,88 +2,102 @@ Return-Path: <SRS0=1Xwl=MI=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A7CCC12002
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 16 Jul 2021 18:57:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B84C4C12002
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 16 Jul 2021 19:39:57 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0A41A613CF
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 16 Jul 2021 18:57:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0A41A613CF
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmx.com
+	by mail.kernel.org (Postfix) with ESMTPS id 71CE8611AB
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 16 Jul 2021 19:39:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 71CE8611AB
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=ty06XOORL93RrIaAvx7ZPjW8f5vprbDIpWhH92ozE5A=; b=qQHIobkosCSOUe
-	VLJp/+DD3V1C/0p2X7XvLrDwYAnuEKY4JanDUMF9wP4i8I82zPVeS5PwftFEpVyfxswX+/V5eKfPU
-	TGS5u85uWTP8kH+J+Uxjo1ckc2EsIVxtc+WrSPIRyevSuNbC8iLb1XFsMnvuVy+RWaQfg3IR1dF1e
-	EANl+I516yCcHfWkfCtXps8kYEy+gkpRAwm0TZFDX+TYMnO/gkuh7JF9vrJdmMPbJfyVTUZWQeixr
-	72g3UHJjD3B+4OSVj4M45aiOKiSNStvvoTO5Tf9zfd8MAPP0Hiwws+nqkMb99e1SRE/byDCSCO+fQ
-	Cml2ro8ozfH6Bhd+4f0g==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:Cc:To:Subject:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=ClZZEVd6jMiKudOGAAumchQA1ivf5pS+3aVXbCs8oCg=; b=sD0VhK/JqYlPK1Ox1JadjiYPMo
+	chXQeybYIpqq79hJegIF7FBAka+xzoufYFl/RZ86qgrGCQNngMrpu9le/eOlpUcFBlZFuwhfZ+8ZZ
+	Ayq0vButSyYX+y76yzmHvobFBCQKdqIkXqTxduJNcqcY5Ij+DK/CR02scTaCoGBBgYI1ay3q08xCd
+	2sK79+NpXij7I+hNG/fhts85CTfMu0S3PSOK1Y2obGxGa720oggLY0Wupgte7VYjaWUylrcZDLuG2
+	FDR20kOBeaN//Rj70Yn0oNz97VaSeA5wUxFBQqvUXhiu3vT+5GduYP7l7uQDrnM8TpMsXq68yLrzK
+	rY194BrA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m4T1M-0055f5-Gu; Fri, 16 Jul 2021 18:57:12 +0000
-Received: from mout.gmx.net ([212.227.15.19])
+	id 1m4Tgi-0059V3-PY; Fri, 16 Jul 2021 19:39:56 +0000
+Received: from gateway23.websitewelcome.com ([192.185.50.108])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m4T1J-0055en-Ha
- for linux-snps-arc@lists.infradead.org; Fri, 16 Jul 2021 18:57:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1626461820;
- bh=LrJqnGLr+yAUvufNYQHvar5369au8NY8/oDzo4u3xto=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
- b=XwExZnsJfQ+X8B0rpgw0gihOv0utXtTdkgNCMJHcrxYlz2agulAdQCLwN/l0Mkf0P
- IGRqh7aLYA7RpqgRY/HHPOoD7UFNdZ4SeUfJx0n2ZJpHyLTcR/lrqRHBH0WCuFxQNr
- r8CcI617cTAkBM75f8TsH0Ui+1jj0ZX0nO/pEdpw=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([83.52.228.41]) by mail.gmx.net
- (mrgmx005 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1MybGh-1lCAcJ2iDN-00yypb; Fri, 16 Jul 2021 19:04:02 +0200
-From: Len Baker <len.baker@gmx.com>
-To: Vineet Gupta <vgupta@synopsys.com>
-Cc: Len Baker <len.baker@gmx.com>, "dean.yang_cp" <yangdianqing@yulong.com>,
+ id 1m4Tgf-0059Sf-Ur
+ for linux-snps-arc@lists.infradead.org; Fri, 16 Jul 2021 19:39:55 +0000
+Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
+ by gateway23.websitewelcome.com (Postfix) with ESMTP id 67358195BE
+ for <linux-snps-arc@lists.infradead.org>; Fri, 16 Jul 2021 14:39:31 -0500 (CDT)
+Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with SMTP
+ id 4TgJmqchcoIHn4TgJm57Ej; Fri, 16 Jul 2021 14:39:31 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=wG2fHRIYhToISlq/S0FluX42lfgP0GsA8YTjdaC6kf8=; b=FJX96jA0Fdz2e8153jhYYYymUl
+ 3xQW8aS/aM5g7lahRxIicefg9mrRo9F3xyU5Q7rVETSD2XSBuAaNu5PT30tWyoK/ualYbjKkTsf22
+ J3XN6HIz+UADKpWE2WFtyzfUAqNuQEClplsY76QIbcz1+Jm2ioINwIDpYdeF7cqw+gsSQE74xA6+7
+ VCN9upjgnbb6TlUSqcuHeiSfyNq4XzJq+vxpiA10b0GoOWTKrqFjYZbK6r+E2yvbMmJEFOVE52AO9
+ aXxPWsEihxwphWCK6x4xyTfP88H0hH21z/gKGhNGtRI9iyjDLidMZWhG1PnGLN6hX8qLpLN47+Bhm
+ 3HkqPWBg==;
+Received: from 187-162-31-110.static.axtel.net ([187.162.31.110]:42938
+ helo=[192.168.15.8])
+ by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
+ (envelope-from <gustavo@embeddedor.com>)
+ id 1m4TgG-003TNa-Sf; Fri, 16 Jul 2021 14:39:28 -0500
+Subject: Re: [PATCH] ARC: unwind: Use struct_size helper instead of open-coded
+ arithmetic
+To: Len Baker <len.baker@gmx.com>, Vineet Gupta <vgupta@synopsys.com>
+Cc: "dean.yang_cp" <yangdianqing@yulong.com>,
  "Gustavo A. R. Silva" <gustavoars@kernel.org>,
  linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] ARC: unwind: Use struct_size helper instead of open-coded
- arithmetic
-Date: Fri, 16 Jul 2021 19:03:44 +0200
-Message-Id: <20210716170344.9150-1-len.baker@gmx.com>
-X-Mailer: git-send-email 2.25.1
+References: <20210716170344.9150-1-len.baker@gmx.com>
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Message-ID: <e39778bc-4059-49d6-79a1-9a207eb319cf@embeddedor.com>
+Date: Fri, 16 Jul 2021 14:41:42 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Provags-ID: V03:K1:5SAJCQgoPecLOvlAQgDwaVANDA8DxUuLHfyrrkaNw0SbTdjcubb
- +3mVWWXnnrtaFn7YSpUqf7imH3OMpztog3bq8Qy2lKTgdiSIV36wx9kxNZzrF/WEpZCwRem
- eVgdflOQ30ghuVax+8LcnoW3M8I4JnPvkIEJO0p8Z3mI2/tM0cKFcrNmBiC7F2zbFOmIPDW
- q6lobTxcgJROUUt2IFdPw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:FMaIHDtt3TQ=:LSLkKUsSh8DCjF9U0xiz3B
- oUig+i4vvD4uMv5wQfBMvd7xn7SLBiNi1BwCD09YITPdEmn/m0T4qdVUl09/RpSLgQQBeVXjd
- qzhYxG7zAKx/v72e7rtYQSA/7975CQIOwPZlPqfHqwRUq2a146/htOBFIvW64XeQ0UHK3bDzL
- gwkU5pe+hJCAaEdcRC2yRFB/WzMpG3rR7h8XfZ0JfoxWFwGJtOZFPDBva1g9jnB7LTrY9Q3M0
- Mv5YhG77TwYthFjwEYFGrP/cBDUxlHmTgKoybp7U7s7HCPRKtIYXPzeZOEYCM+IgwoAEYJAyx
- MbvEUkN2IF+cBsIRADxqjNppK3F2J8ApZOok58o3N5Uem+ZLBevOPR1UA03Yy4S/8zw1hcJxo
- xct+YNur76woW2z0qVAgR9Udjx1L36GXe91chKp7Iz6Is39OQPRIZ8NDuZPlTi4hJSNSWrmw8
- 0bZLqKfR7oiIEKqRMYOOyxLPe8V2B7X4B9MQAC4+GFz7jkzUh1mVRgYdieDLZgkN+LxogPl4i
- HyFn2ZNZC4WSw4lEWExRnlWsXIHEZd9zTQUkOEiS7wyFE9G4OqYHUSJYzlQTLUjyJej4Fk45y
- tGOBEHmfQwQ2PW5UGdMZe6W9382NGp8U091tp/UAVCq/TVPu4bQagGnCkxTWEo0f6QTo3Z8KT
- aCjViZOeTbZGlrX0KB9kDCpniBzaCrNBVLkzZB0A51HcFxsJljIppskuWK8ME+3wwQkSb/6wq
- wNx47Awffd7D/Et7htO7taD7jnqENOBSeNtYHCZ5mvHQfBT3ulBNpkAQ3QTp72Y1tRN1VPxok
- DAHfR9nlt07oaADPGnxNfCLtf0NlcYiBvXEr8vgfvouBqKasnNb2FZs0sHRtQaeoDnQ1C7Pux
- 6zr7KAsIfh6We0Zwxzgk4myo2I9YnQBhoUYDi4kqciGsLx1bV9KnRV+sjx117UUg4hEpjhBQr
- ksJ8kHcf6wpOf/LZh/60JIUHiUDijStMUY9EJEuwXHzCrxzfatw4d4ZmWkDHkDmWAGAEq4eHJ
- jbRYY4I24LHq+MXsxMFrtBWzZOoJqpIghg7lpIlPyNfH0tzNDcUypHhK7eJwW5O++xR93zpcO
- jcR57+1QXBWYtdgRBukXMIE1coQNVyTeM/I
+In-Reply-To: <20210716170344.9150-1-len.baker@gmx.com>
+Content-Language: en-US
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.infradead.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 187.162.31.110
+X-Source-L: No
+X-Exim-ID: 1m4TgG-003TNa-Sf
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 187-162-31-110.static.axtel.net ([192.168.15.8])
+ [187.162.31.110]:42938
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 5
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210716_115709_960361_AB2CD2C9 
-X-CRM114-Status: UNSURE (   8.33  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210716_123954_144174_ACA12901 
+X-CRM114-Status: GOOD (  11.89  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,46 +114,56 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Dynamic size calculations (especially multiplication) should not be
-performed in memory allocator function arguments due to the risk of them
-overflowing. This could lead to values wrapping around and a smaller
-allocation being made than the caller was expecting. Using those
-allocations could lead to linear overflows of heap memory and other
-misbehaviors.
 
-To avoid this scenario, use the struct_size helper.
 
-Signed-off-by: Len Baker <len.baker@gmx.com>
----
- arch/arc/kernel/unwind.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+On 7/16/21 12:03, Len Baker wrote:
+> Dynamic size calculations (especially multiplication) should not be
+> performed in memory allocator function arguments due to the risk of them
+> overflowing. This could lead to values wrapping around and a smaller
+> allocation being made than the caller was expecting. Using those
+> allocations could lead to linear overflows of heap memory and other
+> misbehaviors.
+> 
+> To avoid this scenario, use the struct_size helper.
+> 
+> Signed-off-by: Len Baker <len.baker@gmx.com>
 
-diff --git a/arch/arc/kernel/unwind.c b/arch/arc/kernel/unwind.c
-index 47bab67f8649..af18052b86a7 100644
---- a/arch/arc/kernel/unwind.c
-+++ b/arch/arc/kernel/unwind.c
-@@ -13,6 +13,7 @@
- #include <linux/sched.h>
- #include <linux/module.h>
- #include <linux/memblock.h>
-+#include <linux/overflow.h>
- #include <linux/sort.h>
- #include <linux/slab.h>
- #include <linux/stop_machine.h>
-@@ -312,9 +313,7 @@ static void init_unwind_hdr(struct unwind_table *table,
- 	if (tableSize || !n)
- 		goto ret_err;
+Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
--	hdrSize = 4 + sizeof(unsigned long) + sizeof(unsigned int)
--	    + 2 * n * sizeof(unsigned long);
--
-+	hdrSize = struct_size(header, table, n);
- 	header = alloc(hdrSize);
- 	if (!header)
- 		goto ret_err;
+Thanks!
 --
-2.25.1
+Gustavo
 
+> ---
+>  arch/arc/kernel/unwind.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/arc/kernel/unwind.c b/arch/arc/kernel/unwind.c
+> index 47bab67f8649..af18052b86a7 100644
+> --- a/arch/arc/kernel/unwind.c
+> +++ b/arch/arc/kernel/unwind.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/sched.h>
+>  #include <linux/module.h>
+>  #include <linux/memblock.h>
+> +#include <linux/overflow.h>
+>  #include <linux/sort.h>
+>  #include <linux/slab.h>
+>  #include <linux/stop_machine.h>
+> @@ -312,9 +313,7 @@ static void init_unwind_hdr(struct unwind_table *table,
+>  	if (tableSize || !n)
+>  		goto ret_err;
+> 
+> -	hdrSize = 4 + sizeof(unsigned long) + sizeof(unsigned int)
+> -	    + 2 * n * sizeof(unsigned long);
+> -
+> +	hdrSize = struct_size(header, table, n);
+>  	header = alloc(hdrSize);
+>  	if (!header)
+>  		goto ret_err;
+> --
+> 2.25.1
+> 
 
 _______________________________________________
 linux-snps-arc mailing list
