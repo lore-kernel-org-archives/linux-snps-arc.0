@@ -1,103 +1,49 @@
-Return-Path: <SRS0=1Xwl=MI=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=qQBs=MK=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B84C4C12002
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 16 Jul 2021 19:39:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57774C636CA
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 18 Jul 2021 20:36:37 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 71CE8611AB
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 16 Jul 2021 19:39:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 71CE8611AB
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
+	by mail.kernel.org (Postfix) with ESMTPS id 13C85610A2
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 18 Jul 2021 20:36:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 13C85610A2
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:Cc:To:Subject:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Owner;
-	bh=ClZZEVd6jMiKudOGAAumchQA1ivf5pS+3aVXbCs8oCg=; b=sD0VhK/JqYlPK1Ox1JadjiYPMo
-	chXQeybYIpqq79hJegIF7FBAka+xzoufYFl/RZ86qgrGCQNngMrpu9le/eOlpUcFBlZFuwhfZ+8ZZ
-	Ayq0vButSyYX+y76yzmHvobFBCQKdqIkXqTxduJNcqcY5Ij+DK/CR02scTaCoGBBgYI1ay3q08xCd
-	2sK79+NpXij7I+hNG/fhts85CTfMu0S3PSOK1Y2obGxGa720oggLY0Wupgte7VYjaWUylrcZDLuG2
-	FDR20kOBeaN//Rj70Yn0oNz97VaSeA5wUxFBQqvUXhiu3vT+5GduYP7l7uQDrnM8TpMsXq68yLrzK
-	rY194BrA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=Ngf+xC1OqKl9Di8MxP1SbCyRLbwbgq4IQUeV4PPZIBk=; b=xYhhIwFbt8mCRX
+	FzYaTks046SCvKuY/EJckmQvWSZaaVqSp1isj8ZIY+SeCf7AAoWcyTN6BoSDh9Xjb6zZMJgw02Wrm
+	3cSj7FvaWgcjlxpoqQ1PpZ/o+RJr6DNfVawgTsF3z/Zsaz0gP/J1rG4Q/tOMxWH3nPg4Co4xHmpn3
+	yfYE+BFdC/tzjHl3JxPqwK1fz8u3zg6W7y2qTupIiZp5Lcybhk34vFsjKSs0jDgwKT+x+WZhXCQPb
+	pibM5Pljz0F4Y5L5qem98Bbdfp+LzxF85hxwWKAwl+RZHBUz9+rqkiUjcA50F3r6gzQEMCqheCX51
+	qWG4XKrPN1N5STs8H+Wg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m4Tgi-0059V3-PY; Fri, 16 Jul 2021 19:39:56 +0000
-Received: from gateway23.websitewelcome.com ([192.185.50.108])
- by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m4Tgf-0059Sf-Ur
- for linux-snps-arc@lists.infradead.org; Fri, 16 Jul 2021 19:39:55 +0000
-Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
- by gateway23.websitewelcome.com (Postfix) with ESMTP id 67358195BE
- for <linux-snps-arc@lists.infradead.org>; Fri, 16 Jul 2021 14:39:31 -0500 (CDT)
-Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with SMTP
- id 4TgJmqchcoIHn4TgJm57Ej; Fri, 16 Jul 2021 14:39:31 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=wG2fHRIYhToISlq/S0FluX42lfgP0GsA8YTjdaC6kf8=; b=FJX96jA0Fdz2e8153jhYYYymUl
- 3xQW8aS/aM5g7lahRxIicefg9mrRo9F3xyU5Q7rVETSD2XSBuAaNu5PT30tWyoK/ualYbjKkTsf22
- J3XN6HIz+UADKpWE2WFtyzfUAqNuQEClplsY76QIbcz1+Jm2ioINwIDpYdeF7cqw+gsSQE74xA6+7
- VCN9upjgnbb6TlUSqcuHeiSfyNq4XzJq+vxpiA10b0GoOWTKrqFjYZbK6r+E2yvbMmJEFOVE52AO9
- aXxPWsEihxwphWCK6x4xyTfP88H0hH21z/gKGhNGtRI9iyjDLidMZWhG1PnGLN6hX8qLpLN47+Bhm
- 3HkqPWBg==;
-Received: from 187-162-31-110.static.axtel.net ([187.162.31.110]:42938
- helo=[192.168.15.8])
- by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
- (envelope-from <gustavo@embeddedor.com>)
- id 1m4TgG-003TNa-Sf; Fri, 16 Jul 2021 14:39:28 -0500
-Subject: Re: [PATCH] ARC: unwind: Use struct_size helper instead of open-coded
- arithmetic
-To: Len Baker <len.baker@gmx.com>, Vineet Gupta <vgupta@synopsys.com>
-Cc: "dean.yang_cp" <yangdianqing@yulong.com>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20210716170344.9150-1-len.baker@gmx.com>
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Message-ID: <e39778bc-4059-49d6-79a1-9a207eb319cf@embeddedor.com>
-Date: Fri, 16 Jul 2021 14:41:42 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+	id 1m5DWd-0080Jc-Jg; Sun, 18 Jul 2021 20:36:35 +0000
+Received: from [2601:1c0:6280:3f0::aefb] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1m5DWc-0080J7-ME; Sun, 18 Jul 2021 20:36:34 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>, Vineet Gupta <vgupta@synopsys.com>,
+ linux-snps-arc@lists.infradead.org
+Subject: [PATCH] arc: rename arc_timer's TIMER_CTRL_IE to avoid redefinition
+Date: Sun, 18 Jul 2021 13:36:32 -0700
+Message-Id: <20210718203632.3982-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20210716170344.9150-1-len.baker@gmx.com>
-Content-Language: en-US
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.infradead.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.162.31.110
-X-Source-L: No
-X-Exim-ID: 1m4TgG-003TNa-Sf
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 187-162-31-110.static.axtel.net ([192.168.15.8])
- [187.162.31.110]:42938
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 5
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210716_123954_144174_ACA12901 
-X-CRM114-Status: GOOD (  11.89  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,56 +60,59 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+There are 2 other clocksource drivers that use the symbol
+(macro/define) TIMER_CTRL_IE (in 3 files). Change the ARC timer
+symbol "TIMER_CTRL_IE" to "TIMER_CTRL_IEN" to resolve the symbol
+collision (redefinition).
 
+In file included from ../drivers/clocksource/timer-integrator-ap.c:17:
+../drivers/clocksource/timer-sp.h:25: warning: "TIMER_CTRL_IE" redefined
+   25 | #define TIMER_CTRL_IE  (1 << 5) /*   VR */
+../include/soc/arc/timers.h:20: note: this is the location of the previous definition
+   20 | #define TIMER_CTRL_IE         (1 << 0) /* Interrupt when Count reaches limit */
 
-On 7/16/21 12:03, Len Baker wrote:
-> Dynamic size calculations (especially multiplication) should not be
-> performed in memory allocator function arguments due to the risk of them
-> overflowing. This could lead to values wrapping around and a smaller
-> allocation being made than the caller was expecting. Using those
-> allocations could lead to linear overflows of heap memory and other
-> misbehaviors.
-> 
-> To avoid this scenario, use the struct_size helper.
-> 
-> Signed-off-by: Len Baker <len.baker@gmx.com>
+../drivers/clocksource/mps2-timer.c:25: warning: "TIMER_CTRL_IE" redefined
+   25 | #define TIMER_CTRL_IE  BIT(3)
+../include/soc/arc/timers.h:20: note: this is the location of the previous definition
+   20 | #define TIMER_CTRL_IE         (1 << 0) /* Interrupt when Count reaches limit */
 
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+In file included from ../drivers/clocksource/timer-sp804.c:24:
+../drivers/clocksource/timer-sp.h:25: warning: "TIMER_CTRL_IE" redefined
+   25 | #define TIMER_CTRL_IE  (1 << 5) /*   VR */
+../include/soc/arc/timers.h:20: note: this is the location of the previous definition
+   20 | #define TIMER_CTRL_IE         (1 << 0) /* Interrupt when Count reaches limit */
 
-Thanks!
---
-Gustavo
+Fixes: b26c2e3823ba ("ARC: breakout timer include code into separate header")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Vineet Gupta <vgupta@synopsys.com>
+Cc: linux-snps-arc@lists.infradead.org
+---
+ drivers/clocksource/arc_timer.c |    2 +-
+ include/soc/arc/timers.h        |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-> ---
->  arch/arc/kernel/unwind.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/arch/arc/kernel/unwind.c b/arch/arc/kernel/unwind.c
-> index 47bab67f8649..af18052b86a7 100644
-> --- a/arch/arc/kernel/unwind.c
-> +++ b/arch/arc/kernel/unwind.c
-> @@ -13,6 +13,7 @@
->  #include <linux/sched.h>
->  #include <linux/module.h>
->  #include <linux/memblock.h>
-> +#include <linux/overflow.h>
->  #include <linux/sort.h>
->  #include <linux/slab.h>
->  #include <linux/stop_machine.h>
-> @@ -312,9 +313,7 @@ static void init_unwind_hdr(struct unwind_table *table,
->  	if (tableSize || !n)
->  		goto ret_err;
-> 
-> -	hdrSize = 4 + sizeof(unsigned long) + sizeof(unsigned int)
-> -	    + 2 * n * sizeof(unsigned long);
-> -
-> +	hdrSize = struct_size(header, table, n);
->  	header = alloc(hdrSize);
->  	if (!header)
->  		goto ret_err;
-> --
-> 2.25.1
-> 
+--- linux-next-20210716.orig/drivers/clocksource/arc_timer.c
++++ linux-next-20210716/drivers/clocksource/arc_timer.c
+@@ -245,7 +245,7 @@ static void arc_timer_event_setup(unsign
+ 	write_aux_reg(ARC_REG_TIMER0_LIMIT, cycles);
+ 	write_aux_reg(ARC_REG_TIMER0_CNT, 0);	/* start from 0 */
+ 
+-	write_aux_reg(ARC_REG_TIMER0_CTRL, TIMER_CTRL_IE | TIMER_CTRL_NH);
++	write_aux_reg(ARC_REG_TIMER0_CTRL, TIMER_CTRL_IEN | TIMER_CTRL_NH);
+ }
+ 
+ 
+--- linux-next-20210716.orig/include/soc/arc/timers.h
++++ linux-next-20210716/include/soc/arc/timers.h
+@@ -17,7 +17,7 @@
+ #define ARC_REG_TIMER1_CNT	0x100	/* timer 1 count */
+ 
+ /* CTRL reg bits */
+-#define TIMER_CTRL_IE	        (1 << 0) /* Interrupt when Count reaches limit */
++#define TIMER_CTRL_IEN	        (1 << 0) /* Interrupt when Count reaches limit */
+ #define TIMER_CTRL_NH	        (1 << 1) /* Count only when CPU NOT halted */
+ 
+ #define ARC_TIMERN_MAX		0xFFFFFFFF
 
 _______________________________________________
 linux-snps-arc mailing list
