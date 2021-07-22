@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-18.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C30AC6377D
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Jul 2021 13:29:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E80AC6377D
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Jul 2021 13:29:43 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 568AD61289
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Jul 2021 13:29:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 568AD61289
+	by mail.kernel.org (Postfix) with ESMTPS id 2E5DE60FED
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Jul 2021 13:29:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2E5DE60FED
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,30 +23,30 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=tGwPx/OkRMInwWgkJQ3riCBXs34Momh8jeStrD+OcCk=; b=PyrlIvsSY5rwiV
-	5xT3ovQfeg8Fe5TosXVgOsorSskEyWXxDUE69mUHj5qThqTwYgGM0XuURtVjiqqmwKIjfAkJrympM
-	Ay5lxBwDfcaaRQHRy1iDHmMRlVfk6n579ZPzizDRdEiisBKpnwnuOPy4l0Vi2+330cyYz0rmhFaru
-	9CTwUX638XCM2Vhmjce9kAKjQeagB2FTGtJJR8Okrkz2cXtuP1+Di3C9HfiO1hnRFSfg7fxTBSGV3
-	ot7YMJw53nQ484cuOnKpHo/1WtL4LnSpNILK3SbMWLaxcJk+WJZaAJpTYQtQbhnrXEmA27WgqV5PZ
-	d8HL6somLZjob/6PCsLg==;
+	List-Owner; bh=Mh1v+Q1ulTxgtVm1PD2wjiood1dSsVtYKHEGlu/Ge8M=; b=Zqi9t2fhvHJXvG
+	estF4w/mwPAmVj8tg0TBDtzR+hKHRi0i48IjHA9BDsn//6CMLBw8AEGFvxdI8LLjBbgmTSrsxHywL
+	leCBESx277ydCngbg7tDTV5iKFnogi9gd0Vhfcs5Prr6V9YhXmoFgh+wJCfMvJGR9CX5v4MPszoSO
+	auJehaQh8/kuXoYuhwJG2x6zd/RUnEPiS8xSVYF5bfBaiKxPTNMnSXgAwyAvfK9RKZ0JaetW9hvSa
+	1RTrgLKSHejt8+v94JydmHSBeHqCsGrom18sXkr0W4SG80BW4VbOgE/1dGLyr+dzsnoPPXGTNBArn
+	Of0x0aORUQHbBhnpCsiQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m6Ylf-001fRQ-Ts; Thu, 22 Jul 2021 13:29:39 +0000
+	id 1m6Ylh-001fS5-8N; Thu, 22 Jul 2021 13:29:41 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m6Y8a-001XS8-Hi; Thu, 22 Jul 2021 12:49:18 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6ADE7613BB;
- Thu, 22 Jul 2021 12:49:10 +0000 (UTC)
+ id 1m6Y8g-001XTz-As; Thu, 22 Jul 2021 12:49:23 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2D64A61376;
+ Thu, 22 Jul 2021 12:49:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1626958155;
- bh=tqJH0vqxcWhhn0NnJI/oW7Rihc47OssJOxXQlI4xJ40=;
+ s=k20201202; t=1626958161;
+ bh=9x/D2B8Ckh9kJKg3NBeTbDgPlisGTuKwHHdZXpMw9jQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=M4JNqHkT5asZDoDPWdngOvampfrrZBn/xbxxnUQ0F8obR6jcaxmt+6C+XEYyeJ/3/
- ywyoxo0HQJ8KWzzKEZQefCjh1xA6ZAM2S9BJy2JHn70Huz2f3UpDzZ11olPVfFt8hO
- ni7dA/IV0fB2E4lHQx0voSIRFDKADsTVJEld+b/HqrHxomixp35vz+9LeI9MmGJqno
- CH1ke9fSeZu+I98AnGwjjlBjBBZ1+tkQLhhdRPsLkyJSqJ7XUSlegYPocARLrFP0ky
- TVXNnUSDZFe0m0Px3i2lGteZ9HXXkx6CEgb0bXsmLS3lM6r+XeJmCGocCfnrTbkmvy
- WQ7lEbKMnNNnw==
+ b=AfeS6riJnkQc2D4GLt6Kqrrw2LRawAfLu2rVqZJU0uN7PtqARUEVZtQ60sf5rZvTT
+ aSmuwWQaD1/7o+/UzcXjVSuimNjLYSll9JhUOtwUxQ+W8XVgO8xB9c7/ykuS9EUTNM
+ uxDMEzwhhqieVob8FLOrQC4PtORDcTAXja4KzwN3tOPprSiS7XWzKvubSI4B9eOq1u
+ 73m7vLmCAOHLK51W/qVhOXKjRgAYOt5rdoz0Ip3+3sWWkKPUsqYFMrLyejJmr/2U14
+ AgNDwnt3niJNGpuiLrhhtalDDP4K7phdFQlukCSDkom4AyjTw7yqX1zimm1d7VtsSe
+ YJA+suLjgStEg==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-arch@vger.kernel.org
 Cc: Arnd Bergmann <arnd@arndb.de>,
@@ -68,16 +68,16 @@ Cc: Arnd Bergmann <arnd@arndb.de>,
  linux-parisc@vger.kernel.org, linux-s390@vger.kernel.org,
  linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
  linux-xtensa@linux-xtensa.org, uclinux-h8-devel@lists.sourceforge.jp
-Subject: [PATCH v3 4/9] arc: use generic strncpy/strnlen from_user
-Date: Thu, 22 Jul 2021 14:48:09 +0200
-Message-Id: <20210722124814.778059-5-arnd@kernel.org>
+Subject: [PATCH v3 5/9] csky: use generic strncpy/strnlen from_user
+Date: Thu, 22 Jul 2021 14:48:10 +0200
+Message-Id: <20210722124814.778059-6-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210722124814.778059-1-arnd@kernel.org>
 References: <20210722124814.778059-1-arnd@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210722_054916_757480_AA033AA4 
-X-CRM114-Status: GOOD (  10.89  )
+X-CRM114-CacheID: sfid-20210722_054922_477297_A4E3AFCB 
+X-CRM114-Status: GOOD (  14.59  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,158 +96,167 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-Remove the arc implemenation of strncpy/strnlen and instead use the
-generic versions.  The arc version is fairly slow because it always does
-byte accesses even for aligned data, and its checks for user_addr_max()
-differ from the generic code.
+Remove the csky implemenation of strncpy/strnlen and instead use the
+generic versions.  The csky version is fairly slow because it always does
+byte accesses even for aligned data, and it lacks a checks for
+user_addr_max().
 
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arc/Kconfig               |  2 +
- arch/arc/include/asm/uaccess.h | 83 ++--------------------------------
- arch/arc/mm/extable.c          | 12 -----
- 3 files changed, 7 insertions(+), 90 deletions(-)
+ arch/csky/Kconfig               |   2 +
+ arch/csky/include/asm/uaccess.h |   6 --
+ arch/csky/lib/usercopy.c        | 108 --------------------------------
+ 3 files changed, 2 insertions(+), 114 deletions(-)
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index d8f51eb8963b..64e5f9366401 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -27,6 +27,8 @@ config ARC
- 	select GENERIC_PENDING_IRQ if SMP
+diff --git a/arch/csky/Kconfig b/arch/csky/Kconfig
+index 2716f6395ba7..5043e221ced4 100644
+--- a/arch/csky/Kconfig
++++ b/arch/csky/Kconfig
+@@ -35,6 +35,8 @@ config CSKY
+ 	select GENERIC_IRQ_MULTI_HANDLER
  	select GENERIC_SCHED_CLOCK
  	select GENERIC_SMP_IDLE_THREAD
 +	select GENERIC_STRNCPY_FROM_USER
 +	select GENERIC_STRNLEN_USER
- 	select HAVE_ARCH_KGDB
- 	select HAVE_ARCH_TRACEHOOK
- 	select HAVE_ARCH_TRANSPARENT_HUGEPAGE if ARC_MMU_V4
-diff --git a/arch/arc/include/asm/uaccess.h b/arch/arc/include/asm/uaccess.h
-index 3476348f361e..754a23f26736 100644
---- a/arch/arc/include/asm/uaccess.h
-+++ b/arch/arc/include/asm/uaccess.h
-@@ -655,96 +655,23 @@ static inline unsigned long __arc_clear_user(void __user *to, unsigned long n)
- 	return res;
- }
+ 	select GENERIC_TIME_VSYSCALL
+ 	select GENERIC_VDSO_32
+ 	select GENERIC_GETTIMEOFDAY
+diff --git a/arch/csky/include/asm/uaccess.h b/arch/csky/include/asm/uaccess.h
+index e17c02a6709f..c40f06ee8d3e 100644
+--- a/arch/csky/include/asm/uaccess.h
++++ b/arch/csky/include/asm/uaccess.h
+@@ -209,12 +209,6 @@ unsigned long raw_copy_to_user(void *to, const void *from, unsigned long n);
+ unsigned long __clear_user(void __user *to, unsigned long n);
+ #define __clear_user __clear_user
  
--static inline long
--__arc_strncpy_from_user(char *dst, const char __user *src, long count)
+-long strncpy_from_user(char *dst, const char *src, long count);
+-#define strncpy_from_user strncpy_from_user
+-
+-long strnlen_user(const char *s, long n);
+-#define strnlen_user strnlen_user
+-
+ #include <asm/segment.h>
+ #include <asm-generic/uaccess.h>
+ 
+diff --git a/arch/csky/lib/usercopy.c b/arch/csky/lib/usercopy.c
+index 938b750d2fb1..3c01c54421ca 100644
+--- a/arch/csky/lib/usercopy.c
++++ b/arch/csky/lib/usercopy.c
+@@ -142,114 +142,6 @@ unsigned long raw_copy_to_user(void *to, const void *from,
+ }
+ EXPORT_SYMBOL(raw_copy_to_user);
+ 
+-/*
+- * __strncpy_from_user: - Copy a NUL terminated string from userspace,
+- * with less checking.
+- * @dst:   Destination address, in kernel space.  This buffer must be at
+- *         least @count bytes long.
+- * @src:   Source address, in user space.
+- * @count: Maximum number of bytes to copy, including the trailing NUL.
+- *
+- * Copies a NUL-terminated string from userspace to kernel space.
+- * Caller must check the specified block with access_ok() before calling
+- * this function.
+- *
+- * On success, returns the length of the string (not including the trailing
+- * NUL).
+- *
+- * If access to userspace fails, returns -EFAULT (some data may have been
+- * copied).
+- *
+- * If @count is smaller than the length of the string, copies @count bytes
+- * and returns @count.
+- */
+-long strncpy_from_user(char *dst, const char *src, long count)
 -{
--	long res = 0;
--	char val;
+-	long res, faultres;
+-	int tmp;
 -
 -	if (!access_ok(src, 1))
 -		return -EFAULT;
 -
--	if (count == 0)
--		return 0;
--
 -	__asm__ __volatile__(
--	"	mov	lp_count, %5		\n"
--	"	lp	3f			\n"
--	"1:	ldb.ab  %3, [%2, 1]		\n"
--	"	breq.d	%3, 0, 3f               \n"
--	"	stb.ab  %3, [%1, 1]		\n"
--	"	add	%0, %0, 1	# Num of NON NULL bytes copied	\n"
--	"3:								\n"
--	"	.section .fixup, \"ax\"		\n"
--	"	.align 4			\n"
--	"4:	mov %0, %4		# sets @res as -EFAULT	\n"
--	"	j   3b				\n"
--	"	.previous			\n"
--	"	.section __ex_table, \"a\"	\n"
--	"	.align 4			\n"
--	"	.word   1b, 4b			\n"
--	"	.previous			\n"
--	: "+r"(res), "+r"(dst), "+r"(src), "=r"(val)
--	: "g"(-EFAULT), "r"(count)
--	: "lp_count", "memory");
--
--	return res;
--}
--
--static inline long __arc_strnlen_user(const char __user *s, long n)
--{
--	long res, tmp1, cnt;
--	char val;
--
--	if (!access_ok(s, 1))
--		return 0;
--
--	__asm__ __volatile__(
--	"	mov %2, %1			\n"
--	"1:	ldb.ab  %3, [%0, 1]		\n"
--	"	breq.d  %3, 0, 2f		\n"
--	"	sub.f   %2, %2, 1		\n"
--	"	bnz 1b				\n"
--	"	sub %2, %2, 1			\n"
--	"2:	sub %0, %1, %2			\n"
--	"3:	;nop				\n"
--	"	.section .fixup, \"ax\"		\n"
--	"	.align 4			\n"
--	"4:	mov %0, 0			\n"
--	"	j   3b				\n"
--	"	.previous			\n"
--	"	.section __ex_table, \"a\"	\n"
--	"	.align 4			\n"
--	"	.word 1b, 4b			\n"
--	"	.previous			\n"
--	: "=r"(res), "=r"(tmp1), "=r"(cnt), "=r"(val)
--	: "0"(s), "1"(n)
+-	"       cmpnei  %3, 0           \n"
+-	"       bf      4f              \n"
+-	"1:     cmpnei  %1, 0          	\n"
+-	"       bf      5f              \n"
+-	"2:     ldb     %4, (%3, 0)     \n"
+-	"       stb     %4, (%2, 0)     \n"
+-	"       cmpnei  %4, 0           \n"
+-	"       bf      3f              \n"
+-	"       addi    %3,  1          \n"
+-	"       addi    %2,  1          \n"
+-	"       subi    %1,  1          \n"
+-	"       br      1b              \n"
+-	"3:     subu	%0, %1          \n"
+-	"       br      5f              \n"
+-	"4:     mov     %0, %5          \n"
+-	"       br      5f              \n"
+-	".section __ex_table, \"a\"     \n"
+-	".align   2                     \n"
+-	".long    2b, 4b                \n"
+-	".previous                      \n"
+-	"5:                             \n"
+-	: "=r"(res), "=r"(count), "=r"(dst),
+-	  "=r"(src), "=r"(tmp), "=r"(faultres)
+-	: "5"(-EFAULT), "0"(count), "1"(count),
+-	  "2"(dst), "3"(src)
 -	: "memory");
 -
 -	return res;
 -}
+-EXPORT_SYMBOL(strncpy_from_user);
 -
- #ifndef CONFIG_CC_OPTIMIZE_FOR_SIZE
- 
- #define INLINE_COPY_TO_USER
- #define INLINE_COPY_FROM_USER
- 
- #define __clear_user(d, n)		__arc_clear_user(d, n)
--#define strncpy_from_user(d, s, n)	__arc_strncpy_from_user(d, s, n)
--#define strnlen_user(s, n)		__arc_strnlen_user(s, n)
- #else
- extern unsigned long arc_clear_user_noinline(void __user *to,
- 		unsigned long n);
--extern long arc_strncpy_from_user_noinline (char *dst, const char __user *src,
--		long count);
--extern long arc_strnlen_user_noinline(const char __user *src, long n);
--
- #define __clear_user(d, n)		arc_clear_user_noinline(d, n)
--#define strncpy_from_user(d, s, n)	arc_strncpy_from_user_noinline(d, s, n)
--#define strnlen_user(s, n)		arc_strnlen_user_noinline(s, n)
--
- #endif
- 
-+extern long strncpy_from_user(char *dst, const char __user *src, long count);
-+#define strncpy_from_user(d, s, n)	strncpy_from_user(d, s, n)
-+extern long strnlen_user(const char __user *src, long n);
-+#define strnlen_user(s, n)		strnlen_user(s, n)
-+
- #include <asm/segment.h>
- #include <asm-generic/uaccess.h>
- 
-diff --git a/arch/arc/mm/extable.c b/arch/arc/mm/extable.c
-index b06b09ddf924..4e14c4244ea2 100644
---- a/arch/arc/mm/extable.c
-+++ b/arch/arc/mm/extable.c
-@@ -32,16 +32,4 @@ unsigned long arc_clear_user_noinline(void __user *to,
- }
- EXPORT_SYMBOL(arc_clear_user_noinline);
- 
--long arc_strncpy_from_user_noinline(char *dst, const char __user *src,
--		long count)
+-/*
+- * strnlen_user: - Get the size of a string in user space.
+- * @str: The string to measure.
+- * @n:   The maximum valid length
+- *
+- * Get the size of a NUL-terminated string in user space.
+- *
+- * Returns the size of the string INCLUDING the terminating NUL.
+- * On exception, returns 0.
+- * If the string is too long, returns a value greater than @n.
+- */
+-long strnlen_user(const char *s, long n)
 -{
--	return __arc_strncpy_from_user(dst, src, count);
--}
--EXPORT_SYMBOL(arc_strncpy_from_user_noinline);
+-	unsigned long res, tmp;
 -
--long arc_strnlen_user_noinline(const char __user *src, long n)
--{
--	return __arc_strnlen_user(src, n);
+-	if (!access_ok(src, 1))
+-		return -EFAULT;
+-
+-	__asm__ __volatile__(
+-	"       cmpnei  %1, 0           \n"
+-	"       bf      3f              \n"
+-	"1:     cmpnei  %0, 0           \n"
+-	"       bf      3f              \n"
+-	"2:     ldb     %3, (%1, 0)     \n"
+-	"       cmpnei  %3, 0           \n"
+-	"       bf      3f              \n"
+-	"       subi    %0,  1          \n"
+-	"       addi    %1,  1          \n"
+-	"       br      1b              \n"
+-	"3:     subu    %2, %0          \n"
+-	"       addi    %2,  1          \n"
+-	"       br      5f              \n"
+-	"4:     movi    %0, 0           \n"
+-	"       br      5f              \n"
+-	".section __ex_table, \"a\"     \n"
+-	".align   2                     \n"
+-	".long    2b, 4b                \n"
+-	".previous                      \n"
+-	"5:                             \n"
+-	: "=r"(n), "=r"(s), "=r"(res), "=r"(tmp)
+-	: "0"(n), "1"(s), "2"(n)
+-	: "memory");
+-
+-	return res;
 -}
--EXPORT_SYMBOL(arc_strnlen_user_noinline);
- #endif
+-EXPORT_SYMBOL(strnlen_user);
+-
+ /*
+  * __clear_user: - Zero a block of memory in user space, with less checking.
+  * @to:   Destination address, in user space.
 -- 
 2.29.2
 
