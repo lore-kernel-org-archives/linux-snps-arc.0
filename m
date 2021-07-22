@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9962C63793
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Jul 2021 13:34:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20289C63797
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Jul 2021 13:34:20 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9896F61289
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Jul 2021 13:34:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9896F61289
+	by mail.kernel.org (Postfix) with ESMTPS id E92A060FE7
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Jul 2021 13:34:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E92A060FE7
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,21 +23,21 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=bBZ4KZexSM9oviSjrySAZmOe4yNaJcaTtsF1sA+hecU=; b=lJpfJKkm2g1Hxy
-	oRBH2X+BbKV4BHt3mkW1jpYV2Mupc7PQfChE1VzthIjAOgjU2En2mBep5fpsZgEgEKroL6FHw1k54
-	nRM7WoKcbDcCBkFYX6hWwIzmH3fqa1yerHHMMpqxa+UMS+uxdflWiNdyR3ntZi1CfFxBK5c1za9iJ
-	HXj8WFu0cXTAIODK6ArTKZqFZb/c6Gn9uZY9KKQ3rPVyPRwfO61yCbr4ssFlaW1KGFCA3g9toPPh6
-	CtAGM3FgI8+4YzNxGtIzcQEtjlpa/hTcxOpjiSYU8zbz7ULLmvd1lyFHfdGjd0e5WhAyJPWqBEhmH
-	+GVIgsacMlVI4tMXbQlg==;
+	List-Owner; bh=xR5E2TIc0a5lcVNkOCt7BDDfOhlJLvbF1OwAayDG+TY=; b=I+FlaS+VFHV6KU
+	3nuDhVA6jCLdyTO9gAfgalb9jflibplfjmcjH/knliAZq0NRhZon8pTcbSGfRH+ImQ8DQJp+XFeoh
+	azeoZUR96m1IBI7qJgOKtFTriOtZ485GG33XOqiB7nMCF5j+MXapZb8/X7YWfaWbwVp6a5YlMP7gV
+	j/0ZMEphMPI4IBOxsei4bTKWQeyPKRhNoPUh/LgdR3iIJbO1/c87KP8FRUuVsZoHJGMWjN0gMYKr3
+	3vJnVJ1UsRDxcIWnhGWAzXXikmg2yvysZRFtB8XaKbNE0Xz+xhBbyvhf7WvDkiTAUzFzsY+hFniN2
+	f2RPk1GU4LI3DxlE6Bcg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m6Yq8-001ggy-MU; Thu, 22 Jul 2021 13:34:16 +0000
+	id 1m6YqA-001gj4-QX; Thu, 22 Jul 2021 13:34:18 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m6YKF-001Zmh-Ep; Thu, 22 Jul 2021 13:01:20 +0000
+ id 1m6YKU-001Zrj-2q; Thu, 22 Jul 2021 13:01:35 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 4EF0468BFE; Thu, 22 Jul 2021 15:01:17 +0200 (CEST)
-Date: Thu, 22 Jul 2021 15:01:17 +0200
+ id EB11868C4E; Thu, 22 Jul 2021 15:01:31 +0200 (CEST)
+Date: Thu, 22 Jul 2021 15:01:31 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Arnd Bergmann <arnd@kernel.org>
 Cc: linux-arch@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
@@ -60,17 +60,17 @@ Cc: linux-arch@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
  linux-s390@vger.kernel.org, linux-snps-arc@lists.infradead.org,
  linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
  uclinux-h8-devel@lists.sourceforge.jp
-Subject: Re: [PATCH v3 5/9] csky: use generic strncpy/strnlen from_user
-Message-ID: <20210722130117.GE26225@lst.de>
+Subject: Re: [PATCH v3 6/9] microblaze: use generic strncpy/strnlen from_user
+Message-ID: <20210722130131.GF26225@lst.de>
 References: <20210722124814.778059-1-arnd@kernel.org>
- <20210722124814.778059-6-arnd@kernel.org>
+ <20210722124814.778059-7-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210722124814.778059-6-arnd@kernel.org>
+In-Reply-To: <20210722124814.778059-7-arnd@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210722_060119_711454_F3AC6634 
-X-CRM114-Status: GOOD (  12.20  )
+X-CRM114-CacheID: sfid-20210722_060134_343028_04B61E3F 
+X-CRM114-Status: GOOD (  11.23  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,13 +87,13 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 22, 2021 at 02:48:10PM +0200, Arnd Bergmann wrote:
+On Thu, Jul 22, 2021 at 02:48:11PM +0200, Arnd Bergmann wrote:
 > From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Remove the csky implemenation of strncpy/strnlen and instead use the
-> generic versions.  The csky version is fairly slow because it always does
-> byte accesses even for aligned data, and it lacks a checks for
-> user_addr_max().
+> Remove the microblaze implemenation of strncpy/strnlen and instead use
+> the generic versions.  The microblaze version is fairly slow because it
+> always does byte accesses even for aligned data, and it lacks a checks
+> for user_addr_max().
 
 Looks good,
 
