@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A64D0C6377D
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Jul 2021 13:34:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80941C63793
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Jul 2021 13:34:23 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 738CF60FE7
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Jul 2021 13:34:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 738CF60FE7
+	by mail.kernel.org (Postfix) with ESMTPS id 51A4660FE7
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Jul 2021 13:34:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 51A4660FE7
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,21 +23,21 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=3JWHCO2/lkSgXHw5yw61Ty0m4H0Gl+DRQiMqhYDxN4k=; b=ZNMdzEekPXBJcg
-	DT4w/ns3eVZJTaUKZ2YzksVIcvtr+kL912piqiDazpBWYD7nG1TqS+fseOsRUDoD5odaFGdT9KJos
-	tRj6vWLNQvjiQCXAfSOlS4FLe0PIFxOGfeM8NpAcViWIAvCTrPdnYJ1IflPQB8NxwL+iO+c++z25q
-	ItMM+AA2CUimxyFJHcYxMtak7kTGa6iBK4lE6n1VNlg5GjsP6O9g8lGSZUqmQ7jcdm5bSIBIJHvAY
-	JmxphvtoG69f83dB0djIWa2cHKwDu9bfp2V23BtjPEQ9jZDTqXWRS+XEPU9nn5CXnl1wXNlp6v8Xj
-	7qiks2JVCCOQDKI6K/hg==;
+	List-Owner; bh=FzMRVOugVY9hLOw87WNH0tvQvfdAgkUgRh0HyrcQC1o=; b=3vaPmba1estxBD
+	dJmNTkTLgd9KjE4w8BW73IClwFTXhJavhH3B4TjV+UF+cAXQp6RqsOFalTEnvIT0Edi/MT7uWzKlm
+	lJ2x4KuQLsOWcpU5vlfrugTX7onZjBSbUvpIsj7m+9psHObFa2n+p3hIQSMqBgy2+TVDHemYfDxbG
+	ahN219JHDuPLfNtjdH4KZ4AOxXhtiEf9DSVUn2A1pZvsuDB4HhoZF0qDa/yXM8Zpx7BtTORR3XUrw
+	UNOZTMgHJ2OVOtALopjCWQsPC/LjJdxe3/vKsD9W2pN0lW/glDqFaOVRzcE1c78JSrZ3/jql1NkQW
+	an1m1PCFBfJW/2HSQNZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m6YqC-001gke-JQ; Thu, 22 Jul 2021 13:34:20 +0000
+	id 1m6YqE-001gmB-Ah; Thu, 22 Jul 2021 13:34:22 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m6YL5-001a0x-BD; Thu, 22 Jul 2021 13:02:12 +0000
+ id 1m6YLc-001a7G-0S; Thu, 22 Jul 2021 13:02:45 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 2F23368C7B; Thu, 22 Jul 2021 15:02:09 +0200 (CEST)
-Date: Thu, 22 Jul 2021 15:02:09 +0200
+ id 951C768CFE; Thu, 22 Jul 2021 15:02:41 +0200 (CEST)
+Date: Thu, 22 Jul 2021 15:02:41 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Arnd Bergmann <arnd@kernel.org>
 Cc: linux-arch@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
@@ -59,20 +59,19 @@ Cc: linux-arch@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
  linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
  linux-s390@vger.kernel.org, linux-snps-arc@lists.infradead.org,
  linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
- uclinux-h8-devel@lists.sourceforge.jp,
- Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v3 7/9] asm-generic: uaccess: remove inline
- strncpy_from_user/strnlen_user
-Message-ID: <20210722130209.GG26225@lst.de>
+ uclinux-h8-devel@lists.sourceforge.jp
+Subject: Re: [PATCH v3 8/9] asm-generic: remove extra
+ strn{cpy_from,len}_user declarations
+Message-ID: <20210722130241.GH26225@lst.de>
 References: <20210722124814.778059-1-arnd@kernel.org>
- <20210722124814.778059-8-arnd@kernel.org>
+ <20210722124814.778059-9-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210722124814.778059-8-arnd@kernel.org>
+In-Reply-To: <20210722124814.778059-9-arnd@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210722_060211_604455_BCCDEDD3 
-X-CRM114-Status: GOOD (  16.77  )
+X-CRM114-CacheID: sfid-20210722_060244_296233_1D5EAC29 
+X-CRM114-Status: GOOD (  11.62  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,22 +88,11 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 22, 2021 at 02:48:12PM +0200, Arnd Bergmann wrote:
+On Thu, Jul 22, 2021 at 02:48:13PM +0200, Arnd Bergmann wrote:
 > From: Arnd Bergmann <arnd@arndb.de>
 > 
-> The inline version is used on three NOMMU architectures and is
-> particularly inefficient when it scans the string one byte at a time
-> twice. It also lacks a check for user_addr_max(), but this is
-> probably ok on NOMMU targets.
-> 
-> Consolidate the asm-generic implementation with the library version
-> that is used everywhere else.  This version is generalized enough to
-> work efficiently on both MMU and NOMMU targets, and using the
-> same code everywhere reduces the potential for subtle bugs.
-> 
-> Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> As these are now in asm-generic, it's no longer necessary to
+> declare them in the architecture.
 
 Looks good,
 
