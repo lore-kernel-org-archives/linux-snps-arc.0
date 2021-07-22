@@ -2,51 +2,51 @@ Return-Path: <SRS0=s8S7=MO=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-18.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1B4CC6377D
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Jul 2021 13:29:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3776C63793
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Jul 2021 13:29:36 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8BCBD61289
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Jul 2021 13:29:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8BCBD61289
+	by mail.kernel.org (Postfix) with ESMTPS id A569961353
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Jul 2021 13:29:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A569961353
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=KZzTF7an1HYrHPy6FXdRKsSHhdUu2wZJ4JvdhxB9xBE=; b=Mh8n0Ls6Q4K+GM
-	OhJGydGSBbgqW1X+n2rlvRyT0xD/DguXgbLgtPAyJax4jcLo2CdBDZhYy++0Gtb+I8RovlH8x5+/X
-	BzgTWIVO69kj7nvJiaPs+hyUnnQNbTpdQhtnk2m+OwOqWjphHDe5iDXhpSwByYhBtiFEw6VIeg/sS
-	V+nQjEYXHqiMCjcO4/mB7wbtJf1EatAzRPjdwB7rv9xgw/kRVnV81+krNAO2AxKrLnOaSyrFHW5OR
-	mDUiQm9JvLCOtUOebh5mtX0/4sN+5lxfgjmnJvk92p0EEzyMUmGaV3IosZF1CKZx1wtRMDf1UB+Sm
-	+LWIYnGif9wRenY523aA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=wOBfRCYXbI6xUvntNuXm98sU+mvnwC9AGnMph8QMhcQ=; b=YRA/M+rkPXfEZA
+	E9oV/PuLyjo9j6CL7gNXQ/kJj9ynoGLP2vqcXLFpV3NzVpC8XfSkck+unMUO3otagaVEMn3iqYWT4
+	WukTwmnio8wb+zdx38bKkhGBYuhokJHtinsjepjXTjWEepbvyO40ODcK5RxhFUI9thTUOroHKT7yD
+	APeFRXzYpEL1CLFr/LQFrwpg4MVGlgGJPj/g876vnx1khCOJJqKFRuZSgKai/exAOU66y3ePC0j/L
+	Qytvp7TMZPFV8gZo27LqRgaAPIG7lLHc9VfEAHO2QzO3H9eFj6VfKUOR8751JqDsflFBJTNzg04h2
+	ybmDrfPyIP0oXrIgC8HQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m6YlY-001fNC-5s; Thu, 22 Jul 2021 13:29:32 +0000
+	id 1m6Ylb-001fOy-R9; Thu, 22 Jul 2021 13:29:35 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m6Y8D-001XMG-Gl; Thu, 22 Jul 2021 12:48:55 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6B77A61285;
- Thu, 22 Jul 2021 12:48:47 +0000 (UTC)
+ id 1m6Y8O-001XOs-LC; Thu, 22 Jul 2021 12:49:06 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E28E361362;
+ Thu, 22 Jul 2021 12:48:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1626958132;
- bh=PX46ntR2F8mhtnTnqk6z0maUFKW3hKlsYGyDxWq8nt8=;
- h=From:To:Cc:Subject:Date:From;
- b=uI8fZsAnCujH8W7YiEBRgCAjHShI6gE1mvUR0l57R+InmBX0WanZ/uw9vRAOln3Z8
- nGIW49oPfs3Z0oGoceXArCb+pcxtHVC7BDgIPVu7ZQgOSXVYcpE0fh0cemOAHYvVRq
- FKI2JY1Q7ji5J3em2CfLjWBtEWHTWOWxHMmXXgWyndwrPSlVntSikFKkr25MPmfWRd
- v73iMcJt52+PkD+rdPNKZ3PKisAXpGa6fQ8OZroEymMb7Gi2et/DUC63IcI09aav3H
- 3ECp+pAFmA7kucS8vsrWJ92J66Z8gjShxT5O7vJdnqnBEe0ThenTNBxBPkUxQ1dKDS
- brNKF2Qpg7HWw==
+ s=k20201202; t=1626958144;
+ bh=ZuoXd0B2SrZ7Z7bKOj6098xfQUeD3LlhjJk6ioEZ4Xs=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=hA3Nlg7PrCYGjNZbyik3EyJnOGH4Rc+WYZ/44n/S8bm1S6Z4X1gjmih8rHBlXKQot
+ GSuLfvUhJGYRCeAt3OD4idwM47GXeI38tK4ueK9rSkMpw76wM3DftVyTOVJbuJgErI
+ 3G1dOi6f0yBrlYqEGllSDwn4BaHHw1e//0+kj36Ov6BumSLnC5e8cjFwoyBjuvxdZK
+ 56PzMD+dBAZmyaIHbyo6gB8KRotIXWFo2JwMKdGjo+8D0Jxqcypq81UfnfAUnUmNog
+ 3yVbGFOs8zQc9PujNSM217ldBRIWNluLGRQnAXjeifG5jNaaN2DZzzboy4rk8bo2pm
+ c+NrsffAWKYYA==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-arch@vger.kernel.org
 Cc: Arnd Bergmann <arnd@arndb.de>,
@@ -68,14 +68,16 @@ Cc: Arnd Bergmann <arnd@arndb.de>,
  linux-parisc@vger.kernel.org, linux-s390@vger.kernel.org,
  linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
  linux-xtensa@linux-xtensa.org, uclinux-h8-devel@lists.sourceforge.jp
-Subject: [PATCH v3 0/6] asm-generic: strncpy_from_user/strnlen_user cleanup
-Date: Thu, 22 Jul 2021 14:48:05 +0200
-Message-Id: <20210722124814.778059-1-arnd@kernel.org>
+Subject: [PATCH v3 2/9] h8300: remove stale strncpy_from_user
+Date: Thu, 22 Jul 2021 14:48:07 +0200
+Message-Id: <20210722124814.778059-3-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210722124814.778059-1-arnd@kernel.org>
+References: <20210722124814.778059-1-arnd@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210722_054853_672513_F6B83885 
-X-CRM114-Status: GOOD (  16.82  )
+X-CRM114-CacheID: sfid-20210722_054904_777614_8089ECC3 
+X-CRM114-Status: GOOD (  11.62  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,117 +96,91 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-I had run into some regressions for the previous version of this
-series, the new version is based on v5.14-rc2 instead.
+This function is never called because h8300 uses the asm-generic
+inline function version.
 
-These two functions appear to be unnecessarily different between
-architectures, and the asm-generic version is a bit questionable,
-even for NOMMU architectures.
-
-Clean this up to just use the generic library version for anything
-that uses the generic version today. I've expanded on the patch
-descriptions a little, as suggested by Christoph Hellwig, but I
-suspect a more detailed review would uncover additional problems
-with the custom versions that are getting removed.
-
-I ended up adding patches for csky and microblaze as they had the
-same implementation that I removed elsewhere, these are now gone
-as well.
-
-If I hear no objections from architecture maintainers or new
-build regressions, I'll queue these up in the asm-generic tree
-for 5.15.
-
-       Arnd
-
-Link: https://lore.kernel.org/linux-arch/20210515101803.924427-1-arnd@kernel.org/
-
-Arnd Bergmann (9):
-  asm-generic/uaccess.h: remove __strncpy_from_user/__strnlen_user
-  h8300: remove stale strncpy_from_user
-  hexagon: use generic strncpy/strnlen from_user
-  arc: use generic strncpy/strnlen from_user
-  csky: use generic strncpy/strnlen from_user
-  microblaze: use generic strncpy/strnlen from_user
-  asm-generic: uaccess: remove inline strncpy_from_user/strnlen_user
-  asm-generic: remove extra strn{cpy_from,len}_user declarations
-  asm-generic: reverse GENERIC_{STRNCPY_FROM,STRNLEN}_USER symbols
-
- arch/alpha/Kconfig                        |   2 -
- arch/arc/include/asm/uaccess.h            |  72 -------------
- arch/arc/mm/extable.c                     |  12 ---
- arch/arm/Kconfig                          |   2 -
- arch/arm64/Kconfig                        |   2 -
- arch/csky/include/asm/uaccess.h           |   6 --
- arch/csky/lib/usercopy.c                  | 102 ------------------
- arch/h8300/kernel/h8300_ksyms.c           |   2 -
- arch/h8300/lib/Makefile                   |   2 +-
- arch/h8300/lib/strncpy.S                  |  35 ------
- arch/hexagon/include/asm/uaccess.h        |  31 ------
- arch/hexagon/kernel/hexagon_ksyms.c       |   1 -
- arch/hexagon/mm/Makefile                  |   2 +-
- arch/hexagon/mm/strnlen_user.S            | 126 ----------------------
- arch/ia64/Kconfig                         |   2 +
- arch/m68k/Kconfig                         |   2 -
- arch/microblaze/include/asm/uaccess.h     |  19 +---
- arch/microblaze/kernel/microblaze_ksyms.c |   3 -
- arch/microblaze/lib/uaccess_old.S         |  90 ----------------
- arch/mips/Kconfig                         |   2 +
- arch/nds32/Kconfig                        |   2 -
- arch/nios2/Kconfig                        |   2 -
- arch/openrisc/Kconfig                     |   2 -
- arch/parisc/Kconfig                       |   2 +-
- arch/powerpc/Kconfig                      |   2 -
- arch/riscv/Kconfig                        |   2 -
- arch/s390/Kconfig                         |   2 +
- arch/sh/Kconfig                           |   2 -
- arch/sparc/Kconfig                        |   2 -
- arch/um/Kconfig                           |   2 +
- arch/um/include/asm/uaccess.h             |   5 +-
- arch/um/kernel/skas/uaccess.c             |  14 ++-
- arch/x86/Kconfig                          |   2 -
- arch/xtensa/Kconfig                       |   3 +-
- arch/xtensa/include/asm/uaccess.h         |   3 +-
- include/asm-generic/uaccess.h             |  52 ++-------
- lib/Kconfig                               |  10 +-
- 37 files changed, 43 insertions(+), 581 deletions(-)
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ arch/h8300/kernel/h8300_ksyms.c |  2 --
+ arch/h8300/lib/Makefile         |  2 +-
+ arch/h8300/lib/strncpy.S        | 35 ---------------------------------
+ 3 files changed, 1 insertion(+), 38 deletions(-)
  delete mode 100644 arch/h8300/lib/strncpy.S
- delete mode 100644 arch/hexagon/mm/strnlen_user.S
 
+diff --git a/arch/h8300/kernel/h8300_ksyms.c b/arch/h8300/kernel/h8300_ksyms.c
+index 1c6f902e82a5..853d6e886477 100644
+--- a/arch/h8300/kernel/h8300_ksyms.c
++++ b/arch/h8300/kernel/h8300_ksyms.c
+@@ -19,7 +19,6 @@ asmlinkage long __mulsi3(long, long);
+ asmlinkage long __udivsi3(long, long);
+ asmlinkage void *memcpy(void *, const void *, size_t);
+ asmlinkage void *memset(void *, int, size_t);
+-asmlinkage long strncpy_from_user(void *to, void *from, size_t n);
+ 
+ 	/* gcc lib functions */
+ EXPORT_SYMBOL(__ucmpdi2);
+@@ -34,4 +33,3 @@ EXPORT_SYMBOL(__mulsi3);
+ EXPORT_SYMBOL(__udivsi3);
+ EXPORT_SYMBOL(memcpy);
+ EXPORT_SYMBOL(memset);
+-EXPORT_SYMBOL(strncpy_from_user);
+diff --git a/arch/h8300/lib/Makefile b/arch/h8300/lib/Makefile
+index 685fa837c1f7..5911c1fa856d 100644
+--- a/arch/h8300/lib/Makefile
++++ b/arch/h8300/lib/Makefile
+@@ -3,7 +3,7 @@
+ # Makefile for H8/300-specific library files..
+ #
+ 
+-lib-y  = memcpy.o memset.o abs.o strncpy.o \
++lib-y  = memcpy.o memset.o abs.o \
+ 	 mulsi3.o udivsi3.o muldi3.o moddivsi3.o \
+ 	 ashldi3.o lshrdi3.o ashrdi3.o ucmpdi2.o \
+ 	 delay.o
+diff --git a/arch/h8300/lib/strncpy.S b/arch/h8300/lib/strncpy.S
+deleted file mode 100644
+index 8b65d7c4727b..000000000000
+--- a/arch/h8300/lib/strncpy.S
++++ /dev/null
+@@ -1,35 +0,0 @@
+-;;; SPDX-License-Identifier: GPL-2.0
+-;;; strncpy.S
+-
+-#include <asm/linkage.h>
+-
+-	.text
+-.global strncpy_from_user
+-
+-;;; long strncpy_from_user(void *to, void *from, size_t n)
+-strncpy_from_user:
+-	mov.l	er2,er2
+-	bne	1f
+-	sub.l	er0,er0
+-	rts
+-1:
+-	mov.l	er4,@-sp
+-	sub.l	er3,er3
+-2:
+-	mov.b	@er1+,r4l
+-	mov.b	r4l,@er0
+-	adds	#1,er0
+-	beq	3f
+-	inc.l	#1,er3
+-	dec.l	#1,er2
+-	bne	2b
+-3:
+-	dec.l	#1,er2
+-4:
+-	mov.b	r4l,@er0
+-	adds	#1,er0
+-	dec.l	#1,er2
+-	bne	4b
+-	mov.l	er3,er0
+-	mov.l	@sp+,er4
+-	rts
 -- 
 2.29.2
 
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com> 
-Cc: Al Viro <viro@zeniv.linux.org.uk> 
-Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com> 
-Cc: Brian Cain <bcain@codeaurora.org> 
-Cc: Chris Zankel <chris@zankel.net> 
-Cc: Christian Borntraeger <borntraeger@de.ibm.com> 
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Guo Ren <guoren@kernel.org> 
-Cc: Heiko Carstens <hca@linux.ibm.com> 
-Cc: Helge Deller <deller@gmx.de> 
-Cc: Jeff Dike <jdike@addtoit.com> 
-Cc: Linus Walleij <linus.walleij@linaro.org> 
-Cc: Max Filippov <jcmvbkbc@gmail.com> 
-Cc: Michal Simek <monstr@monstr.eu> 
-Cc: Richard Weinberger <richard@nod.at> 
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de> 
-Cc: Vasily Gorbik <gor@linux.ibm.com> 
-Cc: Vineet Gupta <vgupta@synopsys.com> 
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp> 
-Cc: linux-arch@vger.kernel.org 
-Cc: linux-csky@vger.kernel.org 
-Cc: linux-hexagon@vger.kernel.org 
-Cc: linux-ia64@vger.kernel.org 
-Cc: linux-kernel@vger.kernel.org 
-Cc: linux-mips@vger.kernel.org 
-Cc: linux-parisc@vger.kernel.org 
-Cc: linux-s390@vger.kernel.org 
-Cc: linux-snps-arc@lists.infradead.org 
-Cc: linux-um@lists.infradead.org 
-Cc: linux-xtensa@linux-xtensa.org 
-Cc: uclinux-h8-devel@lists.sourceforge.jp 
 
 _______________________________________________
 linux-snps-arc mailing list
