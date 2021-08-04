@@ -5,16 +5,16 @@ X-Spam-Level:
 X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4277C19F39
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83C9CC19F38
 	for <linux-snps-arc@archiver.kernel.org>; Wed,  4 Aug 2021 19:16:15 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5FD7A61040
+	by mail.kernel.org (Postfix) with ESMTPS id 40372600D4
 	for <linux-snps-arc@archiver.kernel.org>; Wed,  4 Aug 2021 19:16:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5FD7A61040
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 40372600D4
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,40 +23,40 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=GQPlJFE01uEJdvNpOU2/7i0+SP4PThLt/VNNowTmzU0=; b=lbQueNYBc1dygu
-	YdbIIUmyUf2EO8O98GQzmVLdhBoUPLgw5vMS+y1cLZV9hHbyoOSYV1hf43BMfJJoLwDhoMFCNvwvJ
-	7B3B6SPs11yCYFHC2d+61fqaZEKjMGdCMjCC2yQhFYq/AoLbSU2NT/VVFF+wOJ4M1LRXN/7UjIAB7
-	wHTQ4RWkbRWKYRfLmvu2yMqQorJlpPMMN4w4w+zgbLjWy0N5vy5XC3KZdxZFw07FkbRM9AYbHUs9X
-	kX1BF2TGCDhvFNbYGdC+KOdMpP5xSiXpL2wgYkLgciMcb45K6+hnl4cJNx8v5NLVHsT83yU3VKVDo
-	yzJ3PKb2TUkUzekORN3Q==;
+	List-Owner; bh=JQMKPE/BdxczEEPOraALbtMbjIHpq9W/BdvxbI0leJQ=; b=xaAipntWjPst9Y
+	19vKTUFb75z+AXavURhWb/5TmkhYxgsOZjc8ukeDO+v8Pi2yhzzcGtKBfOwnj0BHSdFTLp1R7GrZm
+	Wc4yRZkM0ufo6u/XXTY8Oe6y86OFT2xM5lo9tx7DQPY0ixiaa3qo4QbHMQvR/2H2yT9fWuXQ09leK
+	7/XPYDdhp6/NCj5MyS//88vz/gqlQXbgvzgD7mXE2Z1zaX541Q2Ekxfj8nYUxGOZO+CJdFrW6JmoJ
+	0gN5BNFuFem/OBEmYfhXLZYHUw1259GePDF5S2WmjGozQrP1atw+C/1a6dZyuMnu2DleRLbVxIO8A
+	CjNiCnZUWnqvsFejaQ3A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mBMNC-007HYQ-UA; Wed, 04 Aug 2021 19:16:14 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
+	id 1mBMNC-007HYK-QD; Wed, 04 Aug 2021 19:16:14 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mBMN9-007HSt-7S
- for linux-snps-arc@lists.infradead.org; Wed, 04 Aug 2021 19:16:14 +0000
+ id 1mBMN7-007HRE-0e
+ for linux-snps-arc@lists.infradead.org; Wed, 04 Aug 2021 19:16:13 +0000
 Received: from mailhost.synopsys.com (sv1-mailhost1.synopsys.com
  [10.205.2.131])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 3F34540DBA;
- Wed,  4 Aug 2021 19:16:07 +0000 (UTC)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id B74FEC0CD7;
+ Wed,  4 Aug 2021 19:16:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1628104567; bh=ETzGMk/ObfVL8wKfDVOEoi0RM2tas4Uky7iyu8ZWips=;
+ t=1628104565; bh=/qXDwrbmCfElcb/+B76kttTfY7GWTthqXCsydOnJoEk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=c+o0MSTNHiEFFu5uApAXwSL8QsJ2m0J8c8AVi+iXZVELxkY34RA6BH7mhFuF2thX1
- qpPdtcyjIbLSKhUujw5prCfXP3sOhkQSLwO4cYWc8SFnEoIB1OupxNsk8ZD3pDQEer
- B/geApv/HiJj0ivLUNHqy+/NRm1FJsYRbNlA+o9Sb0mJl7V3TVWvgeq4xAPo+E465a
- olrkHURomE+z81JTeR/RuwITqKqctlHIXo/d0Go2o9Z6H6HCsQ0/rRtZXX3LG/OA2e
- PI6oWnrawOnpZAL/83WAWB+Nhz59mwWhaJkJUzzItURzBEz4PxTN04qFTAGbhihwMv
- QDlKTdbNe4hvw==
+ b=V5+BFYPRmM3R42fIlOWUQjXVCdX+0v2bnffJYB9g6sPc5XUKIbWzcbjopK/jj0SUp
+ f07BXeR7zsEJvY0dbiU3lBukiU0jgVaZkUTtGZ+LUCq0US5zJ/3OPZPz34faKvPLhM
+ jwtA6yGlbuuZMLDp5wqj4aQCkVuRdym2KO0bcJ97YVu2ItbS2k5JDibv6gPDjFXAlp
+ dcesBQzFj02Zc2kF6IRMdHBO5QHrdum0BTXaDZ0tLVQcNMFY3zti+9vLZLuiI9j29Z
+ HpeF85LGRTycEMg3KEvNJ/YJ928/v5Le6VKuoD6cIigWFab7IqLDVxgoXkOhoA8QWG
+ ImuPV66rTaXKQ==
 Received: from vineetg-Latitude-7400.internal.synopsys.com
  (snps-fugpbdpduq.internal.synopsys.com [10.202.17.37])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client did not present a certificate)
- by mailhost.synopsys.com (Postfix) with ESMTPSA id EB36AA0094;
- Wed,  4 Aug 2021 19:16:06 +0000 (UTC)
+ by mailhost.synopsys.com (Postfix) with ESMTPSA id 3BBFBA0096;
+ Wed,  4 Aug 2021 19:16:04 +0000 (UTC)
 X-SNPS-Relay: synopsys.com
 From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
@@ -65,17 +65,16 @@ Cc: Peter Zijlstra <peterz@infradead.org>,
  Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
  linux-arch@vger.kernel.org, Vladimir Isaev <Vladimir.Isaev@synopsys.com>,
  Vineet Gupta <Vineet.Gupta1@synopsys.com>
-Subject: [PATCH 11/11] ARC: atomic_cmpxchg/atomic_xchg: implement relaxed
- variants
-Date: Wed,  4 Aug 2021 12:15:54 -0700
-Message-Id: <20210804191554.1252776-12-vgupta@synopsys.com>
+Subject: [PATCH 01/11] ARC: atomics: disintegrate header
+Date: Wed,  4 Aug 2021 12:15:44 -0700
+Message-Id: <20210804191554.1252776-2-vgupta@synopsys.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210804191554.1252776-1-vgupta@synopsys.com>
 References: <20210804191554.1252776-1-vgupta@synopsys.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210804_121611_378478_BC4BA3D4 
-X-CRM114-Status: GOOD (  15.21  )
+X-CRM114-CacheID: sfid-20210804_121609_242029_A010C963 
+X-CRM114-Status: GOOD (  21.36  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,91 +91,938 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-And move them out of cmpxchg.h to canonical atomic.h
+Non functional change, to ease future addition/removal
 
 Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 ---
- arch/arc/include/asm/atomic.h  | 27 +++++++++++++++++++++++++++
- arch/arc/include/asm/cmpxchg.h | 23 -----------------------
- 2 files changed, 27 insertions(+), 23 deletions(-)
+ arch/arc/include/asm/atomic-llsc.h     | 103 ++++++
+ arch/arc/include/asm/atomic-spinlock.h | 111 +++++++
+ arch/arc/include/asm/atomic.h          | 429 +------------------------
+ arch/arc/include/asm/atomic64-arcv2.h  | 242 ++++++++++++++
+ 4 files changed, 461 insertions(+), 424 deletions(-)
+ create mode 100644 arch/arc/include/asm/atomic-llsc.h
+ create mode 100644 arch/arc/include/asm/atomic-spinlock.h
+ create mode 100644 arch/arc/include/asm/atomic64-arcv2.h
 
-diff --git a/arch/arc/include/asm/atomic.h b/arch/arc/include/asm/atomic.h
-index ee88e1dbaab5..52ee51e1ff7c 100644
---- a/arch/arc/include/asm/atomic.h
-+++ b/arch/arc/include/asm/atomic.h
-@@ -22,6 +22,33 @@
- #include <asm/atomic-spinlock.h>
- #endif
- 
-+#define arch_atomic_cmpxchg(v, o, n)					\
-+({									\
-+	arch_cmpxchg(&((v)->counter), (o), (n));			\
-+})
+diff --git a/arch/arc/include/asm/atomic-llsc.h b/arch/arc/include/asm/atomic-llsc.h
+new file mode 100644
+index 000000000000..aab4f2855457
+--- /dev/null
++++ b/arch/arc/include/asm/atomic-llsc.h
+@@ -0,0 +1,103 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
 +
-+#ifdef arch_cmpxchg_relaxed
-+#define arch_atomic_cmpxchg_relaxed(v, o, n)				\
-+({									\
-+	arch_cmpxchg_relaxed(&((v)->counter), (o), (n));		\
-+})
++#ifndef _ASM_ARC_ATOMIC_LLSC_H
++#define _ASM_ARC_ATOMIC_LLSC_H
++
++#define arch_atomic_set(v, i) WRITE_ONCE(((v)->counter), (i))
++
++#define ATOMIC_OP(op, c_op, asm_op)					\
++static inline void arch_atomic_##op(int i, atomic_t *v)			\
++{									\
++	unsigned int val;						\
++									\
++	__asm__ __volatile__(						\
++	"1:	llock   %[val], [%[ctr]]		\n"		\
++	"	" #asm_op " %[val], %[val], %[i]	\n"		\
++	"	scond   %[val], [%[ctr]]		\n"		\
++	"	bnz     1b				\n"		\
++	: [val]	"=&r"	(val) /* Early clobber to prevent reg reuse */	\
++	: [ctr]	"r"	(&v->counter), /* Not "m": llock only supports reg direct addr mode */	\
++	  [i]	"ir"	(i)						\
++	: "cc");							\
++}									\
++
++#define ATOMIC_OP_RETURN(op, c_op, asm_op)				\
++static inline int arch_atomic_##op##_return(int i, atomic_t *v)		\
++{									\
++	unsigned int val;						\
++									\
++	/*								\
++	 * Explicit full memory barrier needed before/after as		\
++	 * LLOCK/SCOND themselves don't provide any such semantics	\
++	 */								\
++	smp_mb();							\
++									\
++	__asm__ __volatile__(						\
++	"1:	llock   %[val], [%[ctr]]		\n"		\
++	"	" #asm_op " %[val], %[val], %[i]	\n"		\
++	"	scond   %[val], [%[ctr]]		\n"		\
++	"	bnz     1b				\n"		\
++	: [val]	"=&r"	(val)						\
++	: [ctr]	"r"	(&v->counter),					\
++	  [i]	"ir"	(i)						\
++	: "cc");							\
++									\
++	smp_mb();							\
++									\
++	return val;							\
++}
++
++#define ATOMIC_FETCH_OP(op, c_op, asm_op)				\
++static inline int arch_atomic_fetch_##op(int i, atomic_t *v)		\
++{									\
++	unsigned int val, orig;						\
++									\
++	/*								\
++	 * Explicit full memory barrier needed before/after as		\
++	 * LLOCK/SCOND themselves don't provide any such semantics	\
++	 */								\
++	smp_mb();							\
++									\
++	__asm__ __volatile__(						\
++	"1:	llock   %[orig], [%[ctr]]		\n"		\
++	"	" #asm_op " %[val], %[orig], %[i]	\n"		\
++	"	scond   %[val], [%[ctr]]		\n"		\
++	"	bnz     1b				\n"		\
++	: [val]	"=&r"	(val),						\
++	  [orig] "=&r" (orig)						\
++	: [ctr]	"r"	(&v->counter),					\
++	  [i]	"ir"	(i)						\
++	: "cc");							\
++									\
++	smp_mb();							\
++									\
++	return orig;							\
++}
++
++#define ATOMIC_OPS(op, c_op, asm_op)					\
++	ATOMIC_OP(op, c_op, asm_op)					\
++	ATOMIC_OP_RETURN(op, c_op, asm_op)				\
++	ATOMIC_FETCH_OP(op, c_op, asm_op)
++
++ATOMIC_OPS(add, +=, add)
++ATOMIC_OPS(sub, -=, sub)
++
++#undef ATOMIC_OPS
++#define ATOMIC_OPS(op, c_op, asm_op)					\
++	ATOMIC_OP(op, c_op, asm_op)					\
++	ATOMIC_FETCH_OP(op, c_op, asm_op)
++
++ATOMIC_OPS(and, &=, and)
++ATOMIC_OPS(andnot, &= ~, bic)
++ATOMIC_OPS(or, |=, or)
++ATOMIC_OPS(xor, ^=, xor)
++
++#define arch_atomic_andnot		arch_atomic_andnot
++#define arch_atomic_fetch_andnot	arch_atomic_fetch_andnot
++
++#undef ATOMIC_OPS
++#undef ATOMIC_FETCH_OP
++#undef ATOMIC_OP_RETURN
++#undef ATOMIC_OP
++
 +#endif
+diff --git a/arch/arc/include/asm/atomic-spinlock.h b/arch/arc/include/asm/atomic-spinlock.h
+new file mode 100644
+index 000000000000..bdf87610b2d7
+--- /dev/null
++++ b/arch/arc/include/asm/atomic-spinlock.h
+@@ -0,0 +1,111 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
 +
-+#define arch_atomic_xchg(v, n)						\
-+({									\
-+	arch_xchg(&((v)->counter), (n));				\
-+})
++#ifndef _ASM_ARC_ATOMIC_SPLOCK_H
++#define _ASM_ARC_ATOMIC_SPLOCK_H
 +
-+#ifdef arch_xchg_relaxed
-+#define arch_atomic_xchg_relaxed(v, n)					\
-+({									\
-+	arch_xchg_relaxed(&((v)->counter), (n));			\
-+})
++#ifndef CONFIG_SMP
++
++ /* violating atomic_xxx API locking protocol in UP for optimization sake */
++#define arch_atomic_set(v, i) WRITE_ONCE(((v)->counter), (i))
++
++#else
++
++static inline void arch_atomic_set(atomic_t *v, int i)
++{
++	/*
++	 * Independent of hardware support, all of the atomic_xxx() APIs need
++	 * to follow the same locking rules to make sure that a "hardware"
++	 * atomic insn (e.g. LD) doesn't clobber an "emulated" atomic insn
++	 * sequence
++	 *
++	 * Thus atomic_set() despite being 1 insn (and seemingly atomic)
++	 * requires the locking.
++	 */
++	unsigned long flags;
++
++	atomic_ops_lock(flags);
++	WRITE_ONCE(v->counter, i);
++	atomic_ops_unlock(flags);
++}
++
++#define arch_atomic_set_release(v, i)	arch_atomic_set((v), (i))
++
 +#endif
 +
 +/*
-+ * 64-bit atomics
++ * Non hardware assisted Atomic-R-M-W
++ * Locking would change to irq-disabling only (UP) and spinlocks (SMP)
 + */
- #ifdef CONFIG_GENERIC_ATOMIC64
- #include <asm-generic/atomic64.h>
++
++#define ATOMIC_OP(op, c_op, asm_op)					\
++static inline void arch_atomic_##op(int i, atomic_t *v)			\
++{									\
++	unsigned long flags;						\
++									\
++	atomic_ops_lock(flags);						\
++	v->counter c_op i;						\
++	atomic_ops_unlock(flags);					\
++}
++
++#define ATOMIC_OP_RETURN(op, c_op, asm_op)				\
++static inline int arch_atomic_##op##_return(int i, atomic_t *v)		\
++{									\
++	unsigned long flags;						\
++	unsigned long temp;						\
++									\
++	/*								\
++	 * spin lock/unlock provides the needed smp_mb() before/after	\
++	 */								\
++	atomic_ops_lock(flags);						\
++	temp = v->counter;						\
++	temp c_op i;							\
++	v->counter = temp;						\
++	atomic_ops_unlock(flags);					\
++									\
++	return temp;							\
++}
++
++#define ATOMIC_FETCH_OP(op, c_op, asm_op)				\
++static inline int arch_atomic_fetch_##op(int i, atomic_t *v)		\
++{									\
++	unsigned long flags;						\
++	unsigned long orig;						\
++									\
++	/*								\
++	 * spin lock/unlock provides the needed smp_mb() before/after	\
++	 */								\
++	atomic_ops_lock(flags);						\
++	orig = v->counter;						\
++	v->counter c_op i;						\
++	atomic_ops_unlock(flags);					\
++									\
++	return orig;							\
++}
++
++#define ATOMIC_OPS(op, c_op, asm_op)					\
++	ATOMIC_OP(op, c_op, asm_op)					\
++	ATOMIC_OP_RETURN(op, c_op, asm_op)				\
++	ATOMIC_FETCH_OP(op, c_op, asm_op)
++
++ATOMIC_OPS(add, +=, add)
++ATOMIC_OPS(sub, -=, sub)
++
++#undef ATOMIC_OPS
++#define ATOMIC_OPS(op, c_op, asm_op)					\
++	ATOMIC_OP(op, c_op, asm_op)					\
++	ATOMIC_FETCH_OP(op, c_op, asm_op)
++
++ATOMIC_OPS(and, &=, and)
++ATOMIC_OPS(andnot, &= ~, bic)
++ATOMIC_OPS(or, |=, or)
++ATOMIC_OPS(xor, ^=, xor)
++
++#define arch_atomic_andnot		arch_atomic_andnot
++#define arch_atomic_fetch_andnot	arch_atomic_fetch_andnot
++
++#undef ATOMIC_OPS
++#undef ATOMIC_FETCH_OP
++#undef ATOMIC_OP_RETURN
++#undef ATOMIC_OP
++
++#endif
+diff --git a/arch/arc/include/asm/atomic.h b/arch/arc/include/asm/atomic.h
+index 7a36d79b5b2f..ee88e1dbaab5 100644
+--- a/arch/arc/include/asm/atomic.h
++++ b/arch/arc/include/asm/atomic.h
+@@ -17,435 +17,16 @@
+ #define arch_atomic_read(v)  READ_ONCE((v)->counter)
+ 
+ #ifdef CONFIG_ARC_HAS_LLSC
+-
+-#define arch_atomic_set(v, i) WRITE_ONCE(((v)->counter), (i))
+-
+-#define ATOMIC_OP(op, c_op, asm_op)					\
+-static inline void arch_atomic_##op(int i, atomic_t *v)			\
+-{									\
+-	unsigned int val;						\
+-									\
+-	__asm__ __volatile__(						\
+-	"1:	llock   %[val], [%[ctr]]		\n"		\
+-	"	" #asm_op " %[val], %[val], %[i]	\n"		\
+-	"	scond   %[val], [%[ctr]]		\n"		\
+-	"	bnz     1b				\n"		\
+-	: [val]	"=&r"	(val) /* Early clobber to prevent reg reuse */	\
+-	: [ctr]	"r"	(&v->counter), /* Not "m": llock only supports reg direct addr mode */	\
+-	  [i]	"ir"	(i)						\
+-	: "cc");							\
+-}									\
+-
+-#define ATOMIC_OP_RETURN(op, c_op, asm_op)				\
+-static inline int arch_atomic_##op##_return(int i, atomic_t *v)		\
+-{									\
+-	unsigned int val;						\
+-									\
+-	/*								\
+-	 * Explicit full memory barrier needed before/after as		\
+-	 * LLOCK/SCOND themselves don't provide any such semantics	\
+-	 */								\
+-	smp_mb();							\
+-									\
+-	__asm__ __volatile__(						\
+-	"1:	llock   %[val], [%[ctr]]		\n"		\
+-	"	" #asm_op " %[val], %[val], %[i]	\n"		\
+-	"	scond   %[val], [%[ctr]]		\n"		\
+-	"	bnz     1b				\n"		\
+-	: [val]	"=&r"	(val)						\
+-	: [ctr]	"r"	(&v->counter),					\
+-	  [i]	"ir"	(i)						\
+-	: "cc");							\
+-									\
+-	smp_mb();							\
+-									\
+-	return val;							\
+-}
+-
+-#define ATOMIC_FETCH_OP(op, c_op, asm_op)				\
+-static inline int arch_atomic_fetch_##op(int i, atomic_t *v)		\
+-{									\
+-	unsigned int val, orig;						\
+-									\
+-	/*								\
+-	 * Explicit full memory barrier needed before/after as		\
+-	 * LLOCK/SCOND themselves don't provide any such semantics	\
+-	 */								\
+-	smp_mb();							\
+-									\
+-	__asm__ __volatile__(						\
+-	"1:	llock   %[orig], [%[ctr]]		\n"		\
+-	"	" #asm_op " %[val], %[orig], %[i]	\n"		\
+-	"	scond   %[val], [%[ctr]]		\n"		\
+-	"	bnz     1b				\n"		\
+-	: [val]	"=&r"	(val),						\
+-	  [orig] "=&r" (orig)						\
+-	: [ctr]	"r"	(&v->counter),					\
+-	  [i]	"ir"	(i)						\
+-	: "cc");							\
+-									\
+-	smp_mb();							\
+-									\
+-	return orig;							\
+-}
+-
+-#else	/* !CONFIG_ARC_HAS_LLSC */
+-
+-#ifndef CONFIG_SMP
+-
+- /* violating atomic_xxx API locking protocol in UP for optimization sake */
+-#define arch_atomic_set(v, i) WRITE_ONCE(((v)->counter), (i))
+-
++#include <asm/atomic-llsc.h>
  #else
-diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
-index e2ae0eb1ca07..c5b544a5fe81 100644
---- a/arch/arc/include/asm/cmpxchg.h
-+++ b/arch/arc/include/asm/cmpxchg.h
-@@ -80,14 +80,6 @@
- 
+-
+-static inline void arch_atomic_set(atomic_t *v, int i)
+-{
+-	/*
+-	 * Independent of hardware support, all of the atomic_xxx() APIs need
+-	 * to follow the same locking rules to make sure that a "hardware"
+-	 * atomic insn (e.g. LD) doesn't clobber an "emulated" atomic insn
+-	 * sequence
+-	 *
+-	 * Thus atomic_set() despite being 1 insn (and seemingly atomic)
+-	 * requires the locking.
+-	 */
+-	unsigned long flags;
+-
+-	atomic_ops_lock(flags);
+-	WRITE_ONCE(v->counter, i);
+-	atomic_ops_unlock(flags);
+-}
+-
+-#define arch_atomic_set_release(v, i)	arch_atomic_set((v), (i))
+-
++#include <asm/atomic-spinlock.h>
  #endif
  
 -/*
-- * atomic_cmpxchg is same as cmpxchg
-- *   LLSC: only different in data-type, semantics are exactly same
-- *  !LLSC: cmpxchg() has to use an external lock atomic_ops_lock to guarantee
-- *         semantics, and this lock also happens to be used by atomic_*()
+- * Non hardware assisted Atomic-R-M-W
+- * Locking would change to irq-disabling only (UP) and spinlocks (SMP)
 - */
--#define arch_atomic_cmpxchg(v, o, n) ((int)arch_cmpxchg(&((v)->counter), (o), (n)))
 -
- /*
-  * xchg
-  */
-@@ -148,19 +140,4 @@
- 
- #endif
- 
+-#define ATOMIC_OP(op, c_op, asm_op)					\
+-static inline void arch_atomic_##op(int i, atomic_t *v)			\
+-{									\
+-	unsigned long flags;						\
+-									\
+-	atomic_ops_lock(flags);						\
+-	v->counter c_op i;						\
+-	atomic_ops_unlock(flags);					\
+-}
+-
+-#define ATOMIC_OP_RETURN(op, c_op, asm_op)				\
+-static inline int arch_atomic_##op##_return(int i, atomic_t *v)		\
+-{									\
+-	unsigned long flags;						\
+-	unsigned long temp;						\
+-									\
+-	/*								\
+-	 * spin lock/unlock provides the needed smp_mb() before/after	\
+-	 */								\
+-	atomic_ops_lock(flags);						\
+-	temp = v->counter;						\
+-	temp c_op i;							\
+-	v->counter = temp;						\
+-	atomic_ops_unlock(flags);					\
+-									\
+-	return temp;							\
+-}
+-
+-#define ATOMIC_FETCH_OP(op, c_op, asm_op)				\
+-static inline int arch_atomic_fetch_##op(int i, atomic_t *v)		\
+-{									\
+-	unsigned long flags;						\
+-	unsigned long orig;						\
+-									\
+-	/*								\
+-	 * spin lock/unlock provides the needed smp_mb() before/after	\
+-	 */								\
+-	atomic_ops_lock(flags);						\
+-	orig = v->counter;						\
+-	v->counter c_op i;						\
+-	atomic_ops_unlock(flags);					\
+-									\
+-	return orig;							\
+-}
+-
+-#endif /* !CONFIG_ARC_HAS_LLSC */
+-
+-#define ATOMIC_OPS(op, c_op, asm_op)					\
+-	ATOMIC_OP(op, c_op, asm_op)					\
+-	ATOMIC_OP_RETURN(op, c_op, asm_op)				\
+-	ATOMIC_FETCH_OP(op, c_op, asm_op)
+-
+-ATOMIC_OPS(add, +=, add)
+-ATOMIC_OPS(sub, -=, sub)
+-
+-#undef ATOMIC_OPS
+-#define ATOMIC_OPS(op, c_op, asm_op)					\
+-	ATOMIC_OP(op, c_op, asm_op)					\
+-	ATOMIC_FETCH_OP(op, c_op, asm_op)
+-
+-ATOMIC_OPS(and, &=, and)
+-ATOMIC_OPS(andnot, &= ~, bic)
+-ATOMIC_OPS(or, |=, or)
+-ATOMIC_OPS(xor, ^=, xor)
+-
+-#define arch_atomic_andnot		arch_atomic_andnot
+-#define arch_atomic_fetch_andnot	arch_atomic_fetch_andnot
+-
+-#undef ATOMIC_OPS
+-#undef ATOMIC_FETCH_OP
+-#undef ATOMIC_OP_RETURN
+-#undef ATOMIC_OP
+-
+ #ifdef CONFIG_GENERIC_ATOMIC64
+-
+ #include <asm-generic/atomic64.h>
+-
+-#else	/* Kconfig ensures this is only enabled with needed h/w assist */
+-
 -/*
-- * "atomic" variant of xchg()
-- * REQ: It needs to follow the same serialization rules as other atomic_xxx()
-- * Since xchg() doesn't always do that, it would seem that following definition
-- * is incorrect. But here's the rationale:
-- *   SMP : Even xchg() takes the atomic_ops_lock, so OK.
-- *   LLSC: atomic_ops_lock are not relevant at all (even if SMP, since LLSC
-- *         is natively "SMP safe", no serialization required).
-- *   UP  : other atomics disable IRQ, so no way a difft ctxt atomic_xchg()
-- *         could clobber them. atomic_xchg() itself would be 1 insn, so it
-- *         can't be clobbered by others. Thus no serialization required when
-- *         atomic_xchg is involved.
+- * ARCv2 supports 64-bit exclusive load (LLOCKD) / store (SCONDD)
+- *  - The address HAS to be 64-bit aligned
+- *  - There are 2 semantics involved here:
+- *    = exclusive implies no interim update between load/store to same addr
+- *    = both words are observed/updated together: this is guaranteed even
+- *      for regular 64-bit load (LDD) / store (STD). Thus atomic64_set()
+- *      is NOT required to use LLOCKD+SCONDD, STD suffices
 - */
--#define arch_atomic_xchg(v, new) (arch_xchg(&((v)->counter), new))
 -
- #endif
+-typedef struct {
+-	s64 __aligned(8) counter;
+-} atomic64_t;
+-
+-#define ATOMIC64_INIT(a) { (a) }
+-
+-static inline s64 arch_atomic64_read(const atomic64_t *v)
+-{
+-	s64 val;
+-
+-	__asm__ __volatile__(
+-	"	ldd   %0, [%1]	\n"
+-	: "=r"(val)
+-	: "r"(&v->counter));
+-
+-	return val;
+-}
+-
+-static inline void arch_atomic64_set(atomic64_t *v, s64 a)
+-{
+-	/*
+-	 * This could have been a simple assignment in "C" but would need
+-	 * explicit volatile. Otherwise gcc optimizers could elide the store
+-	 * which borked atomic64 self-test
+-	 * In the inline asm version, memory clobber needed for exact same
+-	 * reason, to tell gcc about the store.
+-	 *
+-	 * This however is not needed for sibling atomic64_add() etc since both
+-	 * load/store are explicitly done in inline asm. As long as API is used
+-	 * for each access, gcc has no way to optimize away any load/store
+-	 */
+-	__asm__ __volatile__(
+-	"	std   %0, [%1]	\n"
+-	:
+-	: "r"(a), "r"(&v->counter)
+-	: "memory");
+-}
+-
+-#define ATOMIC64_OP(op, op1, op2)					\
+-static inline void arch_atomic64_##op(s64 a, atomic64_t *v)		\
+-{									\
+-	s64 val;							\
+-									\
+-	__asm__ __volatile__(						\
+-	"1:				\n"				\
+-	"	llockd  %0, [%1]	\n"				\
+-	"	" #op1 " %L0, %L0, %L2	\n"				\
+-	"	" #op2 " %H0, %H0, %H2	\n"				\
+-	"	scondd   %0, [%1]	\n"				\
+-	"	bnz     1b		\n"				\
+-	: "=&r"(val)							\
+-	: "r"(&v->counter), "ir"(a)					\
+-	: "cc");							\
+-}									\
+-
+-#define ATOMIC64_OP_RETURN(op, op1, op2)		        	\
+-static inline s64 arch_atomic64_##op##_return(s64 a, atomic64_t *v)	\
+-{									\
+-	s64 val;							\
+-									\
+-	smp_mb();							\
+-									\
+-	__asm__ __volatile__(						\
+-	"1:				\n"				\
+-	"	llockd   %0, [%1]	\n"				\
+-	"	" #op1 " %L0, %L0, %L2	\n"				\
+-	"	" #op2 " %H0, %H0, %H2	\n"				\
+-	"	scondd   %0, [%1]	\n"				\
+-	"	bnz     1b		\n"				\
+-	: [val] "=&r"(val)						\
+-	: "r"(&v->counter), "ir"(a)					\
+-	: "cc");	/* memory clobber comes from smp_mb() */	\
+-									\
+-	smp_mb();							\
+-									\
+-	return val;							\
+-}
+-
+-#define ATOMIC64_FETCH_OP(op, op1, op2)		        		\
+-static inline s64 arch_atomic64_fetch_##op(s64 a, atomic64_t *v)	\
+-{									\
+-	s64 val, orig;							\
+-									\
+-	smp_mb();							\
+-									\
+-	__asm__ __volatile__(						\
+-	"1:				\n"				\
+-	"	llockd   %0, [%2]	\n"				\
+-	"	" #op1 " %L1, %L0, %L3	\n"				\
+-	"	" #op2 " %H1, %H0, %H3	\n"				\
+-	"	scondd   %1, [%2]	\n"				\
+-	"	bnz     1b		\n"				\
+-	: "=&r"(orig), "=&r"(val)					\
+-	: "r"(&v->counter), "ir"(a)					\
+-	: "cc");	/* memory clobber comes from smp_mb() */	\
+-									\
+-	smp_mb();							\
+-									\
+-	return orig;							\
+-}
+-
+-#define ATOMIC64_OPS(op, op1, op2)					\
+-	ATOMIC64_OP(op, op1, op2)					\
+-	ATOMIC64_OP_RETURN(op, op1, op2)				\
+-	ATOMIC64_FETCH_OP(op, op1, op2)
+-
+-ATOMIC64_OPS(add, add.f, adc)
+-ATOMIC64_OPS(sub, sub.f, sbc)
+-ATOMIC64_OPS(and, and, and)
+-ATOMIC64_OPS(andnot, bic, bic)
+-ATOMIC64_OPS(or, or, or)
+-ATOMIC64_OPS(xor, xor, xor)
+-
+-#define arch_atomic64_andnot		arch_atomic64_andnot
+-#define arch_atomic64_fetch_andnot	arch_atomic64_fetch_andnot
+-
+-#undef ATOMIC64_OPS
+-#undef ATOMIC64_FETCH_OP
+-#undef ATOMIC64_OP_RETURN
+-#undef ATOMIC64_OP
+-
+-static inline s64
+-arch_atomic64_cmpxchg(atomic64_t *ptr, s64 expected, s64 new)
+-{
+-	s64 prev;
+-
+-	smp_mb();
+-
+-	__asm__ __volatile__(
+-	"1:	llockd  %0, [%1]	\n"
+-	"	brne    %L0, %L2, 2f	\n"
+-	"	brne    %H0, %H2, 2f	\n"
+-	"	scondd  %3, [%1]	\n"
+-	"	bnz     1b		\n"
+-	"2:				\n"
+-	: "=&r"(prev)
+-	: "r"(ptr), "ir"(expected), "r"(new)
+-	: "cc");	/* memory clobber comes from smp_mb() */
+-
+-	smp_mb();
+-
+-	return prev;
+-}
+-
+-static inline s64 arch_atomic64_xchg(atomic64_t *ptr, s64 new)
+-{
+-	s64 prev;
+-
+-	smp_mb();
+-
+-	__asm__ __volatile__(
+-	"1:	llockd  %0, [%1]	\n"
+-	"	scondd  %2, [%1]	\n"
+-	"	bnz     1b		\n"
+-	"2:				\n"
+-	: "=&r"(prev)
+-	: "r"(ptr), "r"(new)
+-	: "cc");	/* memory clobber comes from smp_mb() */
+-
+-	smp_mb();
+-
+-	return prev;
+-}
+-
+-/**
+- * arch_atomic64_dec_if_positive - decrement by 1 if old value positive
+- * @v: pointer of type atomic64_t
+- *
+- * The function returns the old value of *v minus 1, even if
+- * the atomic variable, v, was not decremented.
+- */
+-
+-static inline s64 arch_atomic64_dec_if_positive(atomic64_t *v)
+-{
+-	s64 val;
+-
+-	smp_mb();
+-
+-	__asm__ __volatile__(
+-	"1:	llockd  %0, [%1]	\n"
+-	"	sub.f   %L0, %L0, 1	# w0 - 1, set C on borrow\n"
+-	"	sub.c   %H0, %H0, 1	# if C set, w1 - 1\n"
+-	"	brlt    %H0, 0, 2f	\n"
+-	"	scondd  %0, [%1]	\n"
+-	"	bnz     1b		\n"
+-	"2:				\n"
+-	: "=&r"(val)
+-	: "r"(&v->counter)
+-	: "cc");	/* memory clobber comes from smp_mb() */
+-
+-	smp_mb();
+-
+-	return val;
+-}
+-#define arch_atomic64_dec_if_positive arch_atomic64_dec_if_positive
+-
+-/**
+- * arch_atomic64_fetch_add_unless - add unless the number is a given value
+- * @v: pointer of type atomic64_t
+- * @a: the amount to add to v...
+- * @u: ...unless v is equal to u.
+- *
+- * Atomically adds @a to @v, if it was not @u.
+- * Returns the old value of @v
+- */
+-static inline s64 arch_atomic64_fetch_add_unless(atomic64_t *v, s64 a, s64 u)
+-{
+-	s64 old, temp;
+-
+-	smp_mb();
+-
+-	__asm__ __volatile__(
+-	"1:	llockd  %0, [%2]	\n"
+-	"	brne	%L0, %L4, 2f	# continue to add since v != u \n"
+-	"	breq.d	%H0, %H4, 3f	# return since v == u \n"
+-	"2:				\n"
+-	"	add.f   %L1, %L0, %L3	\n"
+-	"	adc     %H1, %H0, %H3	\n"
+-	"	scondd  %1, [%2]	\n"
+-	"	bnz     1b		\n"
+-	"3:				\n"
+-	: "=&r"(old), "=&r" (temp)
+-	: "r"(&v->counter), "r"(a), "r"(u)
+-	: "cc");	/* memory clobber comes from smp_mb() */
+-
+-	smp_mb();
+-
+-	return old;
+-}
+-#define arch_atomic64_fetch_add_unless arch_atomic64_fetch_add_unless
+-
+-#endif	/* !CONFIG_GENERIC_ATOMIC64 */
++#else
++#include <asm/atomic64-arcv2.h>
++#endif
+ 
+ #endif	/* !__ASSEMBLY__ */
+ 
+diff --git a/arch/arc/include/asm/atomic64-arcv2.h b/arch/arc/include/asm/atomic64-arcv2.h
+new file mode 100644
+index 000000000000..53996b11b551
+--- /dev/null
++++ b/arch/arc/include/asm/atomic64-arcv2.h
+@@ -0,0 +1,242 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++
++/*
++ * ARCv2 supports 64-bit exclusive load (LLOCKD) / store (SCONDD)
++ *  - The address HAS to be 64-bit aligned
++ */
++
++#ifndef _ASM_ARC_ATOMIC64_ARCV2_H
++#define _ASM_ARC_ATOMIC64_ARCV2_H
++
++typedef struct {
++	s64 __aligned(8) counter;
++} atomic64_t;
++
++#define ATOMIC64_INIT(a) { (a) }
++
++static inline s64 arch_atomic64_read(const atomic64_t *v)
++{
++	s64 val;
++
++	__asm__ __volatile__(
++	"	ldd   %0, [%1]	\n"
++	: "=r"(val)
++	: "r"(&v->counter));
++
++	return val;
++}
++
++static inline void arch_atomic64_set(atomic64_t *v, s64 a)
++{
++	/*
++	 * This could have been a simple assignment in "C" but would need
++	 * explicit volatile. Otherwise gcc optimizers could elide the store
++	 * which borked atomic64 self-test
++	 * In the inline asm version, memory clobber needed for exact same
++	 * reason, to tell gcc about the store.
++	 *
++	 * This however is not needed for sibling atomic64_add() etc since both
++	 * load/store are explicitly done in inline asm. As long as API is used
++	 * for each access, gcc has no way to optimize away any load/store
++	 */
++	__asm__ __volatile__(
++	"	std   %0, [%1]	\n"
++	:
++	: "r"(a), "r"(&v->counter)
++	: "memory");
++}
++
++#define ATOMIC64_OP(op, op1, op2)					\
++static inline void arch_atomic64_##op(s64 a, atomic64_t *v)		\
++{									\
++	s64 val;							\
++									\
++	__asm__ __volatile__(						\
++	"1:				\n"				\
++	"	llockd  %0, [%1]	\n"				\
++	"	" #op1 " %L0, %L0, %L2	\n"				\
++	"	" #op2 " %H0, %H0, %H2	\n"				\
++	"	scondd   %0, [%1]	\n"				\
++	"	bnz     1b		\n"				\
++	: "=&r"(val)							\
++	: "r"(&v->counter), "ir"(a)					\
++	: "cc");							\
++}									\
++
++#define ATOMIC64_OP_RETURN(op, op1, op2)		        	\
++static inline s64 arch_atomic64_##op##_return(s64 a, atomic64_t *v)	\
++{									\
++	s64 val;							\
++									\
++	smp_mb();							\
++									\
++	__asm__ __volatile__(						\
++	"1:				\n"				\
++	"	llockd   %0, [%1]	\n"				\
++	"	" #op1 " %L0, %L0, %L2	\n"				\
++	"	" #op2 " %H0, %H0, %H2	\n"				\
++	"	scondd   %0, [%1]	\n"				\
++	"	bnz     1b		\n"				\
++	: [val] "=&r"(val)						\
++	: "r"(&v->counter), "ir"(a)					\
++	: "cc");	/* memory clobber comes from smp_mb() */	\
++									\
++	smp_mb();							\
++									\
++	return val;							\
++}
++
++#define ATOMIC64_FETCH_OP(op, op1, op2)		        		\
++static inline s64 arch_atomic64_fetch_##op(s64 a, atomic64_t *v)	\
++{									\
++	s64 val, orig;							\
++									\
++	smp_mb();							\
++									\
++	__asm__ __volatile__(						\
++	"1:				\n"				\
++	"	llockd   %0, [%2]	\n"				\
++	"	" #op1 " %L1, %L0, %L3	\n"				\
++	"	" #op2 " %H1, %H0, %H3	\n"				\
++	"	scondd   %1, [%2]	\n"				\
++	"	bnz     1b		\n"				\
++	: "=&r"(orig), "=&r"(val)					\
++	: "r"(&v->counter), "ir"(a)					\
++	: "cc");	/* memory clobber comes from smp_mb() */	\
++									\
++	smp_mb();							\
++									\
++	return orig;							\
++}
++
++#define ATOMIC64_OPS(op, op1, op2)					\
++	ATOMIC64_OP(op, op1, op2)					\
++	ATOMIC64_OP_RETURN(op, op1, op2)				\
++	ATOMIC64_FETCH_OP(op, op1, op2)
++
++ATOMIC64_OPS(add, add.f, adc)
++ATOMIC64_OPS(sub, sub.f, sbc)
++ATOMIC64_OPS(and, and, and)
++ATOMIC64_OPS(andnot, bic, bic)
++ATOMIC64_OPS(or, or, or)
++ATOMIC64_OPS(xor, xor, xor)
++
++#define arch_atomic64_andnot		arch_atomic64_andnot
++#define arch_atomic64_fetch_andnot	arch_atomic64_fetch_andnot
++
++#undef ATOMIC64_OPS
++#undef ATOMIC64_FETCH_OP
++#undef ATOMIC64_OP_RETURN
++#undef ATOMIC64_OP
++
++static inline s64
++arch_atomic64_cmpxchg(atomic64_t *ptr, s64 expected, s64 new)
++{
++	s64 prev;
++
++	smp_mb();
++
++	__asm__ __volatile__(
++	"1:	llockd  %0, [%1]	\n"
++	"	brne    %L0, %L2, 2f	\n"
++	"	brne    %H0, %H2, 2f	\n"
++	"	scondd  %3, [%1]	\n"
++	"	bnz     1b		\n"
++	"2:				\n"
++	: "=&r"(prev)
++	: "r"(ptr), "ir"(expected), "r"(new)
++	: "cc");	/* memory clobber comes from smp_mb() */
++
++	smp_mb();
++
++	return prev;
++}
++
++static inline s64 arch_atomic64_xchg(atomic64_t *ptr, s64 new)
++{
++	s64 prev;
++
++	smp_mb();
++
++	__asm__ __volatile__(
++	"1:	llockd  %0, [%1]	\n"
++	"	scondd  %2, [%1]	\n"
++	"	bnz     1b		\n"
++	"2:				\n"
++	: "=&r"(prev)
++	: "r"(ptr), "r"(new)
++	: "cc");	/* memory clobber comes from smp_mb() */
++
++	smp_mb();
++
++	return prev;
++}
++
++/**
++ * arch_atomic64_dec_if_positive - decrement by 1 if old value positive
++ * @v: pointer of type atomic64_t
++ *
++ * The function returns the old value of *v minus 1, even if
++ * the atomic variable, v, was not decremented.
++ */
++
++static inline s64 arch_atomic64_dec_if_positive(atomic64_t *v)
++{
++	s64 val;
++
++	smp_mb();
++
++	__asm__ __volatile__(
++	"1:	llockd  %0, [%1]	\n"
++	"	sub.f   %L0, %L0, 1	# w0 - 1, set C on borrow\n"
++	"	sub.c   %H0, %H0, 1	# if C set, w1 - 1\n"
++	"	brlt    %H0, 0, 2f	\n"
++	"	scondd  %0, [%1]	\n"
++	"	bnz     1b		\n"
++	"2:				\n"
++	: "=&r"(val)
++	: "r"(&v->counter)
++	: "cc");	/* memory clobber comes from smp_mb() */
++
++	smp_mb();
++
++	return val;
++}
++#define arch_atomic64_dec_if_positive arch_atomic64_dec_if_positive
++
++/**
++ * arch_atomic64_fetch_add_unless - add unless the number is a given value
++ * @v: pointer of type atomic64_t
++ * @a: the amount to add to v...
++ * @u: ...unless v is equal to u.
++ *
++ * Atomically adds @a to @v, if it was not @u.
++ * Returns the old value of @v
++ */
++static inline s64 arch_atomic64_fetch_add_unless(atomic64_t *v, s64 a, s64 u)
++{
++	s64 old, temp;
++
++	smp_mb();
++
++	__asm__ __volatile__(
++	"1:	llockd  %0, [%2]	\n"
++	"	brne	%L0, %L4, 2f	# continue to add since v != u \n"
++	"	breq.d	%H0, %H4, 3f	# return since v == u \n"
++	"2:				\n"
++	"	add.f   %L1, %L0, %L3	\n"
++	"	adc     %H1, %H0, %H3	\n"
++	"	scondd  %1, [%2]	\n"
++	"	bnz     1b		\n"
++	"3:				\n"
++	: "=&r"(old), "=&r" (temp)
++	: "r"(&v->counter), "r"(a), "r"(u)
++	: "cc");	/* memory clobber comes from smp_mb() */
++
++	smp_mb();
++
++	return old;
++}
++#define arch_atomic64_fetch_add_unless arch_atomic64_fetch_add_unless
++
++#endif
 -- 
 2.25.1
 
