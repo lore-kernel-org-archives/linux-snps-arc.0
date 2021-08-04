@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14E89C43216
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45CDEC43214
 	for <linux-snps-arc@archiver.kernel.org>; Wed,  4 Aug 2021 19:16:14 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D6B82600D4
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  4 Aug 2021 19:16:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D6B82600D4
+	by mail.kernel.org (Postfix) with ESMTPS id 1548261002
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  4 Aug 2021 19:16:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1548261002
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,40 +23,40 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=kPqrw+Qlzbfz+U3xlac0bvlTUEAg47UtQZkQuyNhkr4=; b=zYiQIpEe37rIls
-	k/f9n0SC34EIe2kj18EGPWb5zP9X32cVVbvXnfGD2kxI5wCFIpV/cRG82TREiK/dp/4aKsqRBfWea
-	dW8gnijRLqMamZeMrrrTl3ZgHH1eVwcfXf9jFwZn40Qxf6OuZEqqeUe2OUrUchhZa0S6h4CjoA6is
-	L2n+ohnP7buzpbD5ChN1r2A00FGvFasaizjpyef88te+UHi1pERiHFrf0HiOHT5vk9lUyBdmiBLg1
-	IbA1xRqKk8kJIrD46baQ8WJubwKd/TwqYKXuc21TTd5r3NHACuMHfKSnzTCUP0kHD9GAmq4wYe5Xc
-	LDy0RyMRNCU5HHVM+1Kg==;
+	List-Owner; bh=JHDwtMiD28HE3xBUKd50O4aOs+sdAgdeCnhvxSsRVZs=; b=Ze6MWHuy5S59Ob
+	yiMgb2Ixg0cK9YcQex2xeaC4Y41F+4MI8/bCE1zXRyGPr/hDywU9e4KOoSg9HU945eF7IB/sM0JQR
+	KWYcsGDwFFRtaBbBK8p367LUSJgQItFdT/sDbW7G0wAcmPLCb7EYY3OWvzStRG+mqzPQn2/rR1hI3
+	tp4+G+31OM+26CdmL0NAKjVdNb5RY1XDv7WBA8js0Y4Hp3OrR3MH3r8YmCpwikn4lFfAfcZHLIx7q
+	R1ZPtHcOS2pTl80YF2krOcZNtEzsSRsUILssPXc+w0hYxm3tR7L4ybFbuCnL9ihehjp+m3YYHFag9
+	fWamP6bo8zxFV1K1ZESg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mBMNB-007HXF-A7; Wed, 04 Aug 2021 19:16:13 +0000
+	id 1mBMNB-007HXO-H8; Wed, 04 Aug 2021 19:16:13 +0000
 Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mBMN7-007HSa-2e
+ id 1mBMN7-007HRG-0h
  for linux-snps-arc@lists.infradead.org; Wed, 04 Aug 2021 19:16:11 +0000
 Received: from mailhost.synopsys.com (sv1-mailhost1.synopsys.com
  [10.205.2.131])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 5D084C0CDE;
- Wed,  4 Aug 2021 19:16:06 +0000 (UTC)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 80D99C0CDB;
+ Wed,  4 Aug 2021 19:16:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1628104566; bh=/wh7ABtjn6/Tkz5G7lWiGEgr5tXzrW9gN1lxc/ICBZY=;
+ t=1628104565; bh=OBVOhlFpb0ubl681yuxTSCalPDqOt+4DEullYEuvCBM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TJaYUc8hlMAFJLFIfiKtUWwtNIviGHBUZbCaIuONUk03l7b5KjGkiqURVWaC6kf9S
- 8wBsK03NlXPvbnRCUnNmjJexM1G/3CKruW9J+acNEX15zOeOwzwMllL178/NkCynu2
- uZkpzeT3D+h25kDACWq2RO6Eaq8FuD+v6FXvZM+NujSj5tAP6Oz8yAZGaI0NBySy07
- f92m94YM822V10ivN0f5KC7jP+n0WRxW9A7nGuG3VMr1xEH9sz7duXFX//0W63S6Xi
- Nd736JM2vYkLYoAd47U7TYxEYG0I0s6T/lnV98QIcvOEjRjW/x5BU1rJ+ENnkaUfkQ
- hua53fwqBPz1A==
+ b=O1MyVDo9q04I9gOvz1Ddj9PEDHuZVyUgxx+ni1izear6AquuLnQNWT0ReF90V2znj
+ zrUhLKZykQ5LpxmbtJDFmvaienRC7i/qR38g3ltNB0etdI4HI+YAhqt8IQflgjkmD1
+ KipBITz9l1B6fj21Ltz83vt6qmbFGW1eWzE2Gn8RsLi5iftMtTVaDdQVBU8OUxkpet
+ UJMD3OS7f+q4Qdy9BWbdbqVbjm1MD23LiMszSJ4RA7pjPYgrQM9tL8jGc3KOGvLMpZ
+ 58DPZzKrAzuEQ2KRVJqIrsygQ/uAf5CLPyg/ng9gUpD0tW7mBzkM7SrWE/AM/AddV1
+ GZ1GHX/6zBfSw==
 Received: from vineetg-Latitude-7400.internal.synopsys.com
  (snps-fugpbdpduq.internal.synopsys.com [10.202.17.37])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client did not present a certificate)
- by mailhost.synopsys.com (Postfix) with ESMTPSA id 06691A0096;
- Wed,  4 Aug 2021 19:16:06 +0000 (UTC)
+ by mailhost.synopsys.com (Postfix) with ESMTPSA id 15603A009F;
+ Wed,  4 Aug 2021 19:16:05 +0000 (UTC)
 X-SNPS-Relay: synopsys.com
 From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
 To: linux-snps-arc@lists.infradead.org
@@ -65,17 +65,18 @@ Cc: Peter Zijlstra <peterz@infradead.org>,
  Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
  linux-arch@vger.kernel.org, Vladimir Isaev <Vladimir.Isaev@synopsys.com>,
  Vineet Gupta <Vineet.Gupta1@synopsys.com>
-Subject: [PATCH 07/11] ARC: bitops: fls/ffs to take int (vs long) per
- asm-generic defines
-Date: Wed,  4 Aug 2021 12:15:50 -0700
-Message-Id: <20210804191554.1252776-8-vgupta@synopsys.com>
+Subject: [PATCH 04/11] ARC: atomic64: LLSC: elide unused atomic_{and, or, xor,
+ andnot}_return
+Date: Wed,  4 Aug 2021 12:15:47 -0700
+Message-Id: <20210804191554.1252776-5-vgupta@synopsys.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210804191554.1252776-1-vgupta@synopsys.com>
 References: <20210804191554.1252776-1-vgupta@synopsys.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210804_121609_219025_8234CCDA 
-X-CRM114-Status: GOOD (  11.71  )
+X-CRM114-CacheID: sfid-20210804_121609_231767_67FB799B 
+X-CRM114-Status: UNSURE (   9.52  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,33 +93,33 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+This is a non-functional change since those wrappers are not
+used in kernel sources at all.
+
+Link: http://lists.infradead.org/pipermail/linux-snps-arc/2018-August/004246.html
+Suggested-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
 ---
- arch/arc/include/asm/bitops.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/arc/include/asm/atomic64-arcv2.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/arch/arc/include/asm/bitops.h b/arch/arc/include/asm/bitops.h
-index 4f35130f5ba3..a7daaf64ae34 100644
---- a/arch/arc/include/asm/bitops.h
-+++ b/arch/arc/include/asm/bitops.h
-@@ -114,7 +114,7 @@ static inline __attribute__ ((const)) unsigned long __ffs(unsigned long word)
-  * @result: [1-32]
-  * fls(1) = 1, fls(0x80000000) = 32, fls(0) = 0
-  */
--static inline __attribute__ ((const)) int fls(unsigned long x)
-+static inline __attribute__ ((const)) int fls(unsigned int x)
- {
- 	int n;
+diff --git a/arch/arc/include/asm/atomic64-arcv2.h b/arch/arc/include/asm/atomic64-arcv2.h
+index 53996b11b551..22ef1cbb94e2 100644
+--- a/arch/arc/include/asm/atomic64-arcv2.h
++++ b/arch/arc/include/asm/atomic64-arcv2.h
+@@ -116,6 +116,12 @@ static inline s64 arch_atomic64_fetch_##op(s64 a, atomic64_t *v)	\
  
-@@ -141,7 +141,7 @@ static inline __attribute__ ((const)) int __fls(unsigned long x)
-  * ffs = Find First Set in word (LSB to MSB)
-  * @result: [1-32], 0 if all 0's
-  */
--static inline __attribute__ ((const)) int ffs(unsigned long x)
-+static inline __attribute__ ((const)) int ffs(unsigned int x)
- {
- 	int n;
- 
+ ATOMIC64_OPS(add, add.f, adc)
+ ATOMIC64_OPS(sub, sub.f, sbc)
++
++#undef ATOMIC64_OPS
++#define ATOMIC64_OPS(op, op1, op2)					\
++	ATOMIC64_OP(op, op1, op2)					\
++	ATOMIC64_FETCH_OP(op, op1, op2)
++
+ ATOMIC64_OPS(and, and, and)
+ ATOMIC64_OPS(andnot, bic, bic)
+ ATOMIC64_OPS(or, or, or)
 -- 
 2.25.1
 
