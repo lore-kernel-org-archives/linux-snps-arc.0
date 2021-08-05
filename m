@@ -2,20 +2,20 @@ Return-Path: <SRS0=zy2i=M4=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52929C4320A
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  5 Aug 2021 17:36:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5409DC4338F
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  5 Aug 2021 18:41:33 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 18A0460F42
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  5 Aug 2021 17:36:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 18A0460F42
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
+	by mail.kernel.org (Postfix) with ESMTPS id 1AB4A60230
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  5 Aug 2021 18:41:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1AB4A60230
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
@@ -23,26 +23,34 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=cKr4i+t79vVO589sjOO8E0QONJnjSk5QmrBJYoFNkpE=; b=dIP+fZoKmUPtDQ
-	5NaylpsZLUIB+fCavgQFXwnvBOn5uTujUn8abfwL6Egfz3hq7Te5TJFpl1OvNjYLRZhLnfJW9zPJ4
-	HcsTL25XjK+fL1Vf6BlczpPEhJrQq8gNYeGSWPhEBg1bqrhtBWFoMBh0hq1p9O4oU2HuEG2eSp04J
-	RdvOKM0Qzo+CPL0XAcMT6+s9sYAAMF/5R7mzFzYu0lrb7lRFDpEQpge2fE7ynyxjHzgFQyacsn79K
-	0GM+yw0srRVAq72R36NVUylJGzzM+Bm5FcCHui1HQa5UOMRw9/OwBgHOfh2Nl9yn4jjnvbYyLVBEd
-	PiL47VSOP76N5TtKeBvQ==;
+	List-Owner; bh=BOnEeVKAcmmv2oXmNXDJkqGfv/y5rVmUZAVCSi4afJY=; b=YzYrKyWAA+BtLy
+	NyvNMF86QATqMk09MTwN8/eRcz0WZpngwz3tJfavz8ZRiwnchOIjkJFHynhAuvAJSnIasYoKH2qXy
+	OSZxy/BJRuNIoew06BYouuvax/UFnZXSEkeLg0VW9zt78kJkpRdx9bUhAAW1fiZGDFh1wLnIOfvX4
+	G8ylZqnGHExRe94m6P4myqBSNLkEI9e2foZLivmUD52428hiOxC++5QpDv2C2AtaFWvNubXHHkLGN
+	WAGZSD55lJGePEsYLmbsOGlG58Jp0N3cemEjZxTLUQ9mgG0eAhEpEPrSCHAkISWzsvCWsP4tgtM+g
+	he3nQQruxSjUZVqGEbMw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mBhIT-00ARpf-K8; Thu, 05 Aug 2021 17:36:45 +0000
+	id 1mBiJA-00AXqe-Kz; Thu, 05 Aug 2021 18:41:32 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mBhIO-00ARod-VT; Thu, 05 Aug 2021 17:36:42 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0683E610A2;
- Thu,  5 Aug 2021 17:36:32 +0000 (UTC)
-Date: Thu, 5 Aug 2021 18:36:25 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Lee Jones <lee.jones@linaro.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Vineet Gupta <vgupta@synopsys.com>, Will Deacon <will@kernel.org>,
- Guo Ren <guoren@kernel.org>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ id 1mBiJ6-00AXpP-4e; Thu, 05 Aug 2021 18:41:29 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D0F0C60F01;
+ Thu,  5 Aug 2021 18:41:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1628188887;
+ bh=DJstyoIneDhJWe2M45tnolj4HGCE0gCrRv38Ul0FPvI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=yLSS87676hn106VIngpXBP/rOEU9YnrWCbO+LvhheiKjxKARCwKmpPaCV3EXfwCgP
+ eswsJEhyB34IGotQMI4++5xN+H6/H2Zsa8YN4zRquACi04W3hFcBWcF1DF3HWEIxIo
+ hfvqM78wNk4u3fnnSgFl6tYnBJF7uBTAQJcXiptc=
+Date: Thu, 5 Aug 2021 20:41:23 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Lee Jones <lee.jones@linaro.org>, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Vineet Gupta <vgupta@synopsys.com>,
+ Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
  Brian Cain <bcain@codeaurora.org>,
  Geert Uytterhoeven <geert@linux-m68k.org>, Michal Simek <monstr@monstr.eu>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
@@ -50,7 +58,7 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  Jonas Bonn <jonas@southpole.se>,
  Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
  Stafford Horne <shorne@gmail.com>,
- "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
  Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>,
  Paul Walmsley <paul.walmsley@sifive.com>,
  Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
@@ -62,7 +70,6 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  Thomas Gleixner <tglx@linutronix.de>,
  Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
  Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Sebastian Reichel <sre@kernel.org>,
  linux-snps-arc@lists.infradead.org, linux-csky@vger.kernel.org,
  uclinux-h8-devel@lists.sourceforge.jp,
@@ -74,16 +81,16 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org
 Subject: Re: [PATCH 1/3] arch: Export machine_restart() instances so they can
  be called from modules
-Message-ID: <20210805173625.GH6719@arm.com>
+Message-ID: <YQww08x2whx/LIIT@kroah.com>
 References: <20210805075032.723037-1-lee.jones@linaro.org>
  <20210805075032.723037-2-lee.jones@linaro.org>
+ <20210805173625.GH6719@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210805075032.723037-2-lee.jones@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210805173625.GH6719@arm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210805_103641_075447_ECBD64D6 
-X-CRM114-Status: GOOD (  12.04  )
+X-CRM114-CacheID: sfid-20210805_114128_243547_1BA1520D 
+X-CRM114-Status: GOOD (  12.74  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,24 +107,23 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 05, 2021 at 08:50:30AM +0100, Lee Jones wrote:
-> diff --git a/arch/arm64/kernel/process.c b/arch/arm64/kernel/process.c
-> index b4bb67f17a2ca..cf89ce91d7145 100644
-> --- a/arch/arm64/kernel/process.c
-> +++ b/arch/arm64/kernel/process.c
-> @@ -212,6 +212,7 @@ void machine_restart(char *cmd)
->  	printk("Reboot failed -- System halted\n");
->  	while (1);
->  }
-> +EXPORT_SYMBOL(machine_restart);
+On Thu, Aug 05, 2021 at 06:36:25PM +0100, Catalin Marinas wrote:
+> On Thu, Aug 05, 2021 at 08:50:30AM +0100, Lee Jones wrote:
+> > diff --git a/arch/arm64/kernel/process.c b/arch/arm64/kernel/process.c
+> > index b4bb67f17a2ca..cf89ce91d7145 100644
+> > --- a/arch/arm64/kernel/process.c
+> > +++ b/arch/arm64/kernel/process.c
+> > @@ -212,6 +212,7 @@ void machine_restart(char *cmd)
+> >  	printk("Reboot failed -- System halted\n");
+> >  	while (1);
+> >  }
+> > +EXPORT_SYMBOL(machine_restart);
+> 
+> Should we make this EXPORT_SYMBOL_GPL? I suppose it's not for general
+> use by out of tree drivers and it matches the other pm_power_off symbol
+> we export in this file.
 
-Should we make this EXPORT_SYMBOL_GPL? I suppose it's not for general
-use by out of tree drivers and it matches the other pm_power_off symbol
-we export in this file.
-
-Either way:
-
-Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+Yes please.
 
 _______________________________________________
 linux-snps-arc mailing list
