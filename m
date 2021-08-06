@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15D2EC432BE
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Aug 2021 06:20:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FB82C4320E
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Aug 2021 06:42:53 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8F30B60F14
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Aug 2021 06:20:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 8F30B60F14
+	by mail.kernel.org (Postfix) with ESMTPS id 17B9161206
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Aug 2021 06:42:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 17B9161206
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,48 +23,48 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=cYAr+rWYRzBAnXG+HvrDoYFohfNBqMJy9G2fDgBbom0=; b=qsWyzpm5tloyGiYNvONHrP1UP9
-	+58voGy+uCrg5k5P89zITwRATiOdkO0fmexf6fh4F6QWwN0YcqpM5aiRlFbG6Tkb/MavpgBpv34FH
-	ZSxhdnERhUJfIpgeeVCK2mhSaVqwmk0S4FgCiD1126sRwaGNBt89UizXFAFYGWJ5IcPyQvIptyOjE
-	d+su64qLHhpW6docsKURKaDM5uu8VmvREdBamFXingfYJLjP7A3aU3EQGiuC3UCu18fmO3RmL2eCe
-	WZAcEf7mfkux8jlj7TSp9jruDKBj3tmgWSOFx7C47LdkZti2bluyEh3iYseTbOoyKyjGvWK+xfOB1
-	NeB2gMfg==;
+	bh=oUfOvtc09dYuNQrx9uB/fbUCN0qgY8KtRcKVOmUPEWQ=; b=IbupqM+u3PZnvH6O8tPQcN2Vp1
+	y5L4Tpx7oz/mzJNu350JRppaCA9aSbSskT+AvBSZYTfjUmYELNbrnQswEsIqSkE+JPlZrNLMyBCx7
+	8BmywTnLo+/7dgMRAr/qtXPEPdgyWAWI85w1p8gJ9HTLuIVz/bSNNAo8i1eTl3b9FrOFtV5pVDgQ5
+	QUWC0btZLLgaJnbKNkeQG/Ik4x19wTF4fUEYUgoHIa+glyS3lhnq+/3sQLujI+r1rlnnTnkCD4a/B
+	f9Nb1Mtzt2EkdsV9tbShhwk1j/ek1KOaYWZFgbUyi3COftF/ao8oguo78qNz4ZhZbP5GgxGmpirA+
+	Nnn1qk+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mBtE1-00BhwE-Tz; Fri, 06 Aug 2021 06:20:57 +0000
-Received: from mga01.intel.com ([192.55.52.88])
+	id 1mBtZD-00BiZN-Vz; Fri, 06 Aug 2021 06:42:52 +0000
+Received: from mga11.intel.com ([192.55.52.93])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mBtDy-00Bhvb-HF
- for linux-snps-arc@lists.infradead.org; Fri, 06 Aug 2021 06:20:56 +0000
-X-IronPort-AV: E=McAfee;i="6200,9189,10067"; a="236292180"
+ id 1mBtZA-00BiYf-Jy
+ for linux-snps-arc@lists.infradead.org; Fri, 06 Aug 2021 06:42:50 +0000
+X-IronPort-AV: E=McAfee;i="6200,9189,10067"; a="211214999"
 X-IronPort-AV: E=Sophos;i="5.84,299,1620716400"; 
- d="gz'50?scan'50,208,50";a="236292180"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Aug 2021 23:20:46 -0700
+ d="gz'50?scan'50,208,50";a="211214999"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Aug 2021 23:42:46 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.84,299,1620716400"; 
- d="gz'50?scan'50,208,50";a="420086251"
+ d="gz'50?scan'50,208,50";a="523352503"
 Received: from lkp-server01.sh.intel.com (HELO d053b881505b) ([10.239.97.150])
- by orsmga006.jf.intel.com with ESMTP; 05 Aug 2021 23:20:44 -0700
+ by fmsmga002.fm.intel.com with ESMTP; 05 Aug 2021 23:42:44 -0700
 Received: from kbuild by d053b881505b with local (Exim 4.92)
  (envelope-from <lkp@intel.com>)
- id 1mBtDn-000Gb1-KL; Fri, 06 Aug 2021 06:20:43 +0000
-Date: Fri, 6 Aug 2021 14:19:42 +0800
+ id 1mBtZ5-000Gbl-Si; Fri, 06 Aug 2021 06:42:43 +0000
+Date: Fri, 6 Aug 2021 14:42:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: Vineet Gupta <vgupta@synopsys.com>
 Cc: kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
  linux-snps-arc@lists.infradead.org
-Subject: [arc:topic-mmu 15/32] arch/arc/mm/tlb.c:109:36: error:
- 'TLBDeleteEntry' undeclared
-Message-ID: <202108061434.r1KZlX0f-lkp@intel.com>
+Subject: [arc:topic-mmu 25/32] arch/arc/include/asm/mmu-arcv2.h:79:1:
+ warning: 'inline' is not at beginning of declaration
+Message-ID: <202108061432.o1j72oJp-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="BXVAT5kNtrzKuDFl"
+Content-Type: multipart/mixed; boundary="n8g4imXOkfNTN/H1"
 Content-Disposition: inline
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210805_232054_718327_750B07F8 
-X-CRM114-Status: GOOD (  14.87  )
+X-CRM114-CacheID: sfid-20210805_234248_759528_73960C8C 
+X-CRM114-Status: GOOD (  18.96  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,31 +80,38 @@ Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
 
---BXVAT5kNtrzKuDFl
+--n8g4imXOkfNTN/H1
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git topic-mmu
 head:   aad84191703280f0aace986bff0afd917b77511e
-commit: 44180330845d9748c468560312cd2ce28101325f [15/32] ARC: mm: retire MMUv1 and MMUv2 support
+commit: d6ebfa35edcd6b043526f8d4dc6425f8c8afe3ae [25/32] ARC: mm: disintegrate mmu.h (arcv2 bits out)
 config: arc-randconfig-r012-20210805 (attached as .config)
 compiler: arceb-elf-gcc (GCC) 10.3.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/commit/?id=44180330845d9748c468560312cd2ce28101325f
+        # https://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/commit/?id=d6ebfa35edcd6b043526f8d4dc6425f8c8afe3ae
         git remote add arc https://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git
         git fetch --no-tags arc topic-mmu
-        git checkout 44180330845d9748c468560312cd2ce28101325f
+        git checkout d6ebfa35edcd6b043526f8d4dc6425f8c8afe3ae
         # save the attached .config to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-10.3.0 make.cross O=build_dir ARCH=arc SHELL=/bin/bash arch/arc/mm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-10.3.0 make.cross ARCH=arc 
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
+   In file included from arch/arc/include/asm/mmu_context.h:22,
+                    from arch/arc/mm/tlb.c:15:
+>> arch/arc/include/asm/mmu-arcv2.h:79:1: warning: 'inline' is not at beginning of declaration [-Wold-style-declaration]
+      79 | static void inline mmu_setup_asid(struct mm_struct *mm, unsigned long asid)
+         | ^~~~~~
+   arch/arc/include/asm/mmu-arcv2.h:84:1: warning: 'inline' is not at beginning of declaration [-Wold-style-declaration]
+      84 | static void inline mmu_setup_pgd(struct mm_struct *mm, pgd_t *pgd)
+         | ^~~~~~
    In file included from arch/arc/include/asm/arcregs.h:149,
                     from arch/arc/include/asm/irqflags-compact.h:16,
                     from arch/arc/include/asm/irqflags.h:11,
@@ -121,7 +128,7 @@ All errors (new ones prefixed by >>):
                     from include/linux/module.h:12,
                     from arch/arc/mm/tlb.c:9:
    arch/arc/mm/tlb.c: In function 'tlb_entry_erase':
->> arch/arc/mm/tlb.c:109:36: error: 'TLBDeleteEntry' undeclared (first use in this function)
+   arch/arc/mm/tlb.c:109:36: error: 'TLBDeleteEntry' undeclared (first use in this function)
      109 |  write_aux_reg(ARC_REG_TLBCOMMAND, TLBDeleteEntry);
          |                                    ^~~~~~~~~~~~~~
    include/soc/arc/aux.h:14:61: note: in definition of macro 'write_aux_reg'
@@ -134,58 +141,73 @@ All errors (new ones prefixed by >>):
       14 | #define write_aux_reg(r, v) __builtin_arc_sr((unsigned int)(v), r)
          |                                                             ^
    arch/arc/mm/tlb.c: In function 'tlb_entry_insert':
->> arch/arc/mm/tlb.c:120:36: error: 'TLBInsertEntry' undeclared (first use in this function)
-     120 |  write_aux_reg(ARC_REG_TLBCOMMAND, TLBInsertEntry);
+   arch/arc/mm/tlb.c:123:36: error: 'TLBInsertEntry' undeclared (first use in this function)
+     123 |  write_aux_reg(ARC_REG_TLBCOMMAND, TLBInsertEntry);
          |                                    ^~~~~~~~~~~~~~
    include/soc/arc/aux.h:14:61: note: in definition of macro 'write_aux_reg'
       14 | #define write_aux_reg(r, v) __builtin_arc_sr((unsigned int)(v), r)
          |                                                             ^
    arch/arc/mm/tlb.c: At top level:
-   arch/arc/mm/tlb.c:389:6: warning: no previous prototype for 'create_tlb' [-Wmissing-prototypes]
-     389 | void create_tlb(struct vm_area_struct *vma, unsigned long vaddr, pte_t *ptep)
+   arch/arc/mm/tlb.c:392:6: warning: no previous prototype for 'create_tlb' [-Wmissing-prototypes]
+     392 | void create_tlb(struct vm_area_struct *vma, unsigned long vaddr, pte_t *ptep)
          |      ^~~~~~~~~~
    arch/arc/mm/tlb.c:756:6: warning: no previous prototype for 'do_tlb_overlap_fault' [-Wmissing-prototypes]
      756 | void do_tlb_overlap_fault(unsigned long cause, unsigned long address,
          |      ^~~~~~~~~~~~~~~~~~~~
+--
+   In file included from arch/arc/include/asm/mmu_context.h:22,
+                    from include/linux/mmu_context.h:5,
+                    from arch/arc/mm/cache.c:13:
+>> arch/arc/include/asm/mmu-arcv2.h:79:1: warning: 'inline' is not at beginning of declaration [-Wold-style-declaration]
+      79 | static void inline mmu_setup_asid(struct mm_struct *mm, unsigned long asid)
+         | ^~~~~~
+   arch/arc/include/asm/mmu-arcv2.h:84:1: warning: 'inline' is not at beginning of declaration [-Wold-style-declaration]
+      84 | static void inline mmu_setup_pgd(struct mm_struct *mm, pgd_t *pgd)
+         | ^~~~~~
+   arch/arc/mm/cache.c:584:15: warning: no previous prototype for 'slc_op_rgn' [-Wmissing-prototypes]
+     584 | noinline void slc_op_rgn(phys_addr_t paddr, unsigned long sz, const int op)
+         |               ^~~~~~~~~~
+   arch/arc/mm/cache.c:647:15: warning: no previous prototype for 'slc_op_line' [-Wmissing-prototypes]
+     647 | noinline void slc_op_line(phys_addr_t paddr, unsigned long sz, const int op)
+         |               ^~~~~~~~~~~
+   arch/arc/mm/cache.c:1072:22: warning: no previous prototype for 'arc_ioc_setup' [-Wmissing-prototypes]
+    1072 | noinline void __init arc_ioc_setup(void)
+         |                      ^~~~~~~~~~~~~
+   arch/arc/mm/cache.c:1134:13: warning: no previous prototype for 'arc_cache_init_master' [-Wmissing-prototypes]
+    1134 | void __init arc_cache_init_master(void)
+         |             ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/perf_event.h:25,
+                    from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:87,
+                    from arch/arc/mm/cache.c:14:
+   arch/arc/include/asm/perf_event.h:126:23: warning: 'arc_pmu_cache_map' defined but not used [-Wunused-const-variable=]
+     126 | static const unsigned arc_pmu_cache_map[C(MAX)][C(OP_MAX)][C(RESULT_MAX)] = {
+         |                       ^~~~~~~~~~~~~~~~~
+   arch/arc/include/asm/perf_event.h:91:27: warning: 'arc_pmu_ev_hw_map' defined but not used [-Wunused-const-variable=]
+      91 | static const char * const arc_pmu_ev_hw_map[] = {
+         |                           ^~~~~~~~~~~~~~~~~
 
 
-vim +/TLBDeleteEntry +109 arch/arc/mm/tlb.c
+vim +/inline +79 arch/arc/include/asm/mmu-arcv2.h
 
-d7a512bfe0be37 Vineet Gupta 2015-04-06  105  
-d7a512bfe0be37 Vineet Gupta 2015-04-06  106  static void tlb_entry_erase(unsigned int vaddr_n_asid)
-d7a512bfe0be37 Vineet Gupta 2015-04-06  107  {
-d7a512bfe0be37 Vineet Gupta 2015-04-06  108  	write_aux_reg(ARC_REG_TLBPD0, vaddr_n_asid | _PAGE_PRESENT);
-d7a512bfe0be37 Vineet Gupta 2015-04-06 @109  	write_aux_reg(ARC_REG_TLBCOMMAND, TLBDeleteEntry);
-d7a512bfe0be37 Vineet Gupta 2015-04-06  110  }
-d7a512bfe0be37 Vineet Gupta 2015-04-06  111  
-5a364c2a1762e8 Vineet Gupta 2015-02-06  112  static void tlb_entry_insert(unsigned int pd0, pte_t pd1)
-d7a512bfe0be37 Vineet Gupta 2015-04-06  113  {
-d7a512bfe0be37 Vineet Gupta 2015-04-06  114  	write_aux_reg(ARC_REG_TLBPD0, pd0);
-d7a512bfe0be37 Vineet Gupta 2015-04-06  115  	write_aux_reg(ARC_REG_TLBPD1, pd1);
-5a364c2a1762e8 Vineet Gupta 2015-02-06  116  
-5a364c2a1762e8 Vineet Gupta 2015-02-06  117  	if (is_pae40_enabled())
-5a364c2a1762e8 Vineet Gupta 2015-02-06  118  		write_aux_reg(ARC_REG_TLBPD1HI, (u64)pd1 >> 32);
-5a364c2a1762e8 Vineet Gupta 2015-02-06  119  
-d7a512bfe0be37 Vineet Gupta 2015-04-06 @120  	write_aux_reg(ARC_REG_TLBCOMMAND, TLBInsertEntry);
-d7a512bfe0be37 Vineet Gupta 2015-04-06  121  }
-d7a512bfe0be37 Vineet Gupta 2015-04-06  122  
-
-:::::: The code at line 109 was first introduced by commit
-:::::: d7a512bfe0be3790bae8465b4cb6c1bbca03c616 ARCv2: MMUv4: TLB programming Model changes
-
-:::::: TO: Vineet Gupta <vgupta@synopsys.com>
-:::::: CC: Vineet Gupta <vgupta@synopsys.com>
+    78	
+  > 79	static void inline mmu_setup_asid(struct mm_struct *mm, unsigned long asid)
+    80	{
+    81		write_aux_reg(ARC_REG_PID, asid | MMU_ENABLE);
+    82	}
+    83	
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---BXVAT5kNtrzKuDFl
+--n8g4imXOkfNTN/H1
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICI/RDGEAAy5jb25maWcAnDxbc9u20u/9FZz0pZ05bSU7TuL5xg8gCIqoSIIGQFnyC8e1
+H4sICHvXDGEAAy5jb25maWcAnDxbc9u20u/9FZz0pZ05bSU7TuL5xg8gCIqoSIIGQFnyC8e1
 ldZTx87Yck/z788ueFtQoNv5OtNE3F3c945Fvv/u+4i9Hp6+3Bzub28eHr5Fv+8f9883h/1d
 9Pn+Yf9/UaKiUtlIJNL+DMT5/ePr37/cPN9GZz8v3/+8+On59n203j8/7h8i/vT4+f73V2h9
 //T43fffcVWmctVw3myENlKVjRVbe/EOWu9/+2n/8Pmn329vox9WnP8YLRc/n/68eEfaSNMA
@@ -755,7 +777,7 @@ GyoSEWaMePy6Nd7EdIV5qiYDeohJM59TjnE+XBjfiO6ROMGrthO1lgV4mlPWVtgBPSs5TWQc
 zCXC5T9cnjkxBW9lhCaCjpwSJx5CWI0G5TkqV4pLK/s+Biw5vFVrpZYinK1IiXZqiqydAsz1
 BkuKy6iD0mzDV+4l81R2rjlVkz6l/H/Ult/WzucBAA==
 
---BXVAT5kNtrzKuDFl
+--n8g4imXOkfNTN/H1
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -766,5 +788,5 @@ linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-snps-arc
 
---BXVAT5kNtrzKuDFl--
+--n8g4imXOkfNTN/H1--
 
