@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-14.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49CFCC4338F
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Aug 2021 05:10:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3182FC4320A
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Aug 2021 05:12:15 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 08BBD60EB2
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Aug 2021 05:10:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 08BBD60EB2
+	by mail.kernel.org (Postfix) with ESMTPS id E60F160F13
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Aug 2021 05:12:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E60F160F13
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,47 +23,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=dDry3V8enYFmavCDfXQT6NFwgkmhF26rX3Fhv/UuXI4=; b=16SCxCiWc+Xi+o
-	nSfc9SWPTUFh7eEfaFu8EYZYOfpNT2Q/ttnedQrvTzN86oSXGwGyjcpg9BRe+2kss1kzFQJelSYOS
-	JOCvk762wTv90vsTtDFDy/D1CFmR8DiMT25YOSpBt+Hgz6ludtPDVdkSDq3TML20WOTlYWTEUUQXr
-	C15DRWrpv7nTE/645TmGuCMzADaVDu3ikisClBshPn9YaxkPRpMgwYWmsXLQnX2OjeOJjFFhfhYAS
-	I5ckmjUxynEc7y83DcNk1vy1/gDa/toymm7R/yfBBJI6E5IjQfpYeOscTJBju84LP0Rwmr51g5c7/
-	hb9XQx8orsOI39dtWKcA==;
+	List-Owner; bh=MkgsiUZSPqifFXFs+sRNiEF8exk+80aOrb11jL3sL+s=; b=3jm3aeYImfVVAh
+	R5tuZ9wN4ShDw2/fC1ygykWnvXFN3okAuETU6R2E4iHoukIop32MmmbgM3BZS9wHqIyiyYFZpVKye
+	OhYOMCX15/8sYvT1mU8JQt1/MPykCjmWpczZOVcuh6QssIyDIEKMXR+nOLWHwfjqxmOLOm0h0yEpn
+	Vt40Ckb3BzTZTP1NJ81uJ6nwXiuWcO+n0vRihb2rMSR/aSf9U+bJhVdnrx6qtWIUlmXwuP275xcal
+	ix6p/gFB1D8FFC8XXgYTKNt4AMp2Bc2+Xlr6u8fk/gAF6hIoo6pEHfZjKSG5D1SZfnYreZBscEx//
+	lNbLHLvZvjKvdB46dqvg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mDgVv-005bQ4-E7; Wed, 11 Aug 2021 05:10:51 +0000
+	id 1mDgXG-005bhX-Cf; Wed, 11 Aug 2021 05:12:14 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mDgVq-005bNx-IF
- for linux-snps-arc@lists.infradead.org; Wed, 11 Aug 2021 05:10:50 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5407C60F13;
- Wed, 11 Aug 2021 05:10:44 +0000 (UTC)
+ id 1mDgXE-005bgx-DY
+ for linux-snps-arc@lists.infradead.org; Wed, 11 Aug 2021 05:12:13 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 75B2D60EB2;
+ Wed, 11 Aug 2021 05:12:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628658645;
- bh=vtfachGX2HaQKQQ+eKZlQAp5s4358iBlM/gx9iFw89w=;
+ s=k20201202; t=1628658732;
+ bh=Z7LmDfo4zvKNkhohC0InW+SMDP5rAOUz38E0mqDCwHU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OJERWMdNw8yHZE+h1TaCX40nXl9dQZAyGGZpl5gu96UEoAWKVdjgejNhWEzy5gLzH
- 15qohJQHhwiN54wKVsqipLECWOfF0q6NzoZMx/ZRKUL0vDlq8x6zzwDcxW/p2lwh7L
- WfKEE4ssTF3pnksDYpqK9IVpImgGvI5y7Tt/qbrCZ/U11aQGJm/JsUDYRE2ES2E8M/
- Y69c++lNaezHlR28vjS4gJHLB+NVjIOntCRaWKZm0Am6lXfaGk3Rnuaeprgv2/AoTO
- RGQTO4Sf2jkKietY/D0QLOoynON/zwNW0VFjYIwNp/TIFWslQmgRJLbe8oHRWbAhFi
- jwwC+hTx+1FQw==
-Date: Wed, 11 Aug 2021 08:10:40 +0300
+ b=If2GrYZCsWAgUZn4dzhz/2LCPJSsKIUbL6y295qindWqzCnB0YyfeR+v2laCFsBzm
+ apcx3Y2yNDWkVUFMLBXlJJMbmrS0WMxn4rqNf2uPrLf0XiIa4t8IaS56iSo7REHPZI
+ hiDmPVgoxfTwcSUAdHuG/G2yBJU39eeBbsBcXNQpAsjjWWTpafVDyPXg4YVApk9Iz/
+ VRaZZ0dcAFvLuDTrYUFXaujZN7Mq9jufIKrodyvysk9DtREFIr6hO2G2Ku3vP7GpPZ
+ 8/EAcjdYYoq6D5Jlqbn/eUrzaYTWCUc1WR3rbA3fGypWwPA+Y++GbWXLDHlL+7c5id
+ CT1YfSwQyzDYQ==
+Date: Wed, 11 Aug 2021 08:12:06 +0300
 From: Mike Rapoport <rppt@kernel.org>
 To: Vineet Gupta <vgupta@kernel.org>
 Cc: linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, Anshuman Khandual <anshuman.khandual@arm.com>,
- Vineet Gupta <vgupta@kernel.com>
-Subject: Re: [PATCH 03/18] ARC: mm: move mmu/cache externs out to setup.h
-Message-ID: <YRNb0EbPzejXJdax@kernel.org>
+ linux-mm@kvack.org, Anshuman Khandual <anshuman.khandual@arm.com>
+Subject: Re: [PATCH 04/18] ARC: mm: remove pgd_offset_fast
+Message-ID: <YRNcJpyr76h5EK0k@kernel.org>
 References: <20210811004258.138075-1-vgupta@kernel.org>
- <20210811004258.138075-4-vgupta@kernel.org>
+ <20210811004258.138075-5-vgupta@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210811004258.138075-4-vgupta@kernel.org>
+In-Reply-To: <20210811004258.138075-5-vgupta@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210810_221046_670093_EA488649 
-X-CRM114-Status: GOOD (  13.64  )
+X-CRM114-CacheID: sfid-20210810_221212_523017_59697C4E 
+X-CRM114-Status: GOOD (  15.61  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,81 +79,63 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Vineet,
-
-On Tue, Aug 10, 2021 at 05:42:43PM -0700, Vineet Gupta wrote:
-> Signed-off-by: Vineet Gupta <vgupta@kernel.com>
-
-Hmm, this one seems odd. Try https://www.kernel.com/ ;-)
-
+On Tue, Aug 10, 2021 at 05:42:44PM -0700, Vineet Gupta wrote:
 > Signed-off-by: Vineet Gupta <vgupta@kernel.org>
 > ---
->  arch/arc/include/asm/cache.h |  4 ----
->  arch/arc/include/asm/mmu.h   |  4 ----
->  arch/arc/include/asm/setup.h | 12 ++++++++++--
+>  arch/arc/include/asm/pgtable.h | 23 -----------------------
+>  arch/arc/mm/fault.c            |  2 +-
+>  2 files changed, 1 insertion(+), 24 deletions(-)
 
-A sentence about why these move would have been nice.
-
->  3 files changed, 10 insertions(+), 10 deletions(-)
-> 
-> diff --git a/arch/arc/include/asm/cache.h b/arch/arc/include/asm/cache.h
-> index d8ece4292388..f0f1fc5d62b6 100644
-> --- a/arch/arc/include/asm/cache.h
-> +++ b/arch/arc/include/asm/cache.h
-> @@ -62,10 +62,6 @@
->  #define ARCH_SLAB_MINALIGN	8
->  #endif
+Shouldn't this be a part of the patch that removed usage of the scratch reg
+for pgd?
+ 
+> diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
+> index 0c3e220bd2b4..80b57c14b430 100644
+> --- a/arch/arc/include/asm/pgtable.h
+> +++ b/arch/arc/include/asm/pgtable.h
+> @@ -284,29 +284,6 @@ static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
+>  	set_pte(ptep, pteval);
+>  }
 >  
-> -extern void arc_cache_init(void);
-> -extern char *arc_cache_mumbojumbo(int cpu_id, char *buf, int len);
-> -extern void read_decode_cache_bcr(void);
+> -/*
+> - * Macro to quickly access the PGD entry, utlising the fact that some
+> - * arch may cache the pointer to Page Directory of "current" task
+> - * in a MMU register
+> - *
+> - * Thus task->mm->pgd (3 pointer dereferences, cache misses etc simply
+> - * becomes read a register
+> - *
+> - * ********CAUTION*******:
+> - * Kernel code might be dealing with some mm_struct of NON "current"
+> - * Thus use this macro only when you are certain that "current" is current
+> - * e.g. when dealing with signal frame setup code etc
+> - */
+> -#ifdef ARC_USE_SCRATCH_REG
+> -#define pgd_offset_fast(mm, addr)	\
+> -({					\
+> -	pgd_t *pgd_base = (pgd_t *) read_aux_reg(ARC_REG_SCRATCH_DATA0);  \
+> -	pgd_base + pgd_index(addr);	\
+> -})
+> -#else
+> -#define pgd_offset_fast(mm, addr)	pgd_offset(mm, addr)
+> -#endif
 > -
->  extern int ioc_enable;
->  extern unsigned long perip_base, perip_end;
+>  extern pgd_t swapper_pg_dir[] __aligned(PAGE_SIZE);
+>  void update_mmu_cache(struct vm_area_struct *vma, unsigned long address,
+>  		      pte_t *ptep);
+> diff --git a/arch/arc/mm/fault.c b/arch/arc/mm/fault.c
+> index f5657cb68e4f..41f154320964 100644
+> --- a/arch/arc/mm/fault.c
+> +++ b/arch/arc/mm/fault.c
+> @@ -33,7 +33,7 @@ noinline static int handle_kernel_vaddr_fault(unsigned long address)
+>  	pud_t *pud, *pud_k;
+>  	pmd_t *pmd, *pmd_k;
 >  
-> diff --git a/arch/arc/include/asm/mmu.h b/arch/arc/include/asm/mmu.h
-> index 38a036508699..762cfe66e16b 100644
-> --- a/arch/arc/include/asm/mmu.h
-> +++ b/arch/arc/include/asm/mmu.h
-> @@ -64,10 +64,6 @@ typedef struct {
->  	unsigned long asid[NR_CPUS];	/* 8 bit MMU PID + Generation cycle */
->  } mm_context_t;
+> -	pgd = pgd_offset_fast(current->active_mm, address);
+> +	pgd = pgd_offset(current->active_mm, address);
+>  	pgd_k = pgd_offset_k(address);
 >  
-> -void arc_mmu_init(void);
-> -extern char *arc_mmu_mumbojumbo(int cpu_id, char *buf, int len);
-> -void read_decode_mmu_bcr(void);
-> -
->  static inline int is_pae40_enabled(void)
->  {
->  	return IS_ENABLED(CONFIG_ARC_HAS_PAE40);
-> diff --git a/arch/arc/include/asm/setup.h b/arch/arc/include/asm/setup.h
-> index 01f85478170d..028a8cf76206 100644
-> --- a/arch/arc/include/asm/setup.h
-> +++ b/arch/arc/include/asm/setup.h
-> @@ -2,8 +2,8 @@
->  /*
->   * Copyright (C) 2004, 2007-2010, 2011-2012 Synopsys, Inc. (www.synopsys.com)
->   */
-> -#ifndef __ASMARC_SETUP_H
-> -#define __ASMARC_SETUP_H
-> +#ifndef __ASM_ARC_SETUP_H
-> +#define __ASM_ARC_SETUP_H
->  
->  
->  #include <linux/types.h>
-> @@ -34,4 +34,12 @@ long __init arc_get_mem_sz(void);
->  #define IS_AVAIL2(v, s, cfg)	IS_AVAIL1(v, s), IS_AVAIL1(v, IS_USED_CFG(cfg))
->  #define IS_AVAIL3(v, v2, s)	IS_AVAIL1(v, s), IS_AVAIL1(v, IS_DISABLED_RUN(v2))
->  
-> +extern void arc_mmu_init(void);
-> +extern char *arc_mmu_mumbojumbo(int cpu_id, char *buf, int len);
-> +extern void read_decode_mmu_bcr(void);
-> +
-> +extern void arc_cache_init(void);
-> +extern char *arc_cache_mumbojumbo(int cpu_id, char *buf, int len);
-> +extern void read_decode_cache_bcr(void);
-> +
->  #endif /* __ASMARC_SETUP_H */
+>  	if (!pgd_present(*pgd_k))
 > -- 
 > 2.25.1
 > 
