@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 602F1C19F3C
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Aug 2021 00:43:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FC34C43216
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Aug 2021 00:43:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1561B6101D
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Aug 2021 00:43:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1561B6101D
+	by mail.kernel.org (Postfix) with ESMTPS id C066760EB5
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Aug 2021 00:43:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C066760EB5
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,46 +23,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=9VXw1Zvat4tE/MS99iFP6oUevSoHb/q3kzOzRgKszLI=; b=eHJaJo2k61/XZp
-	GUiFndzzAe0iGsYvLgEI50seu0f9rkzkdZQOe1m3cWd7BiIlLt12rRmvEIvWXtq5zA7cNYH/Mym5Z
-	nJ2rFLEBPOTcQozLXOkF1iW8Z1w2iUHfiMdorN1sUd3OHvmWd3ZgV6cRT2IhjvDVG/HAiFyEv+Ii4
-	olgTQjr/AC5sWMGKlzClwAeprR0aqK4TcRhsjW/DHEbidEbBj/i3lrRtTvmkWMKHCrsm4Uj4twdZx
-	gg287R4/GgGdfurT+vxXmwopSRHc+zR8SP4EswRrVyDK+Bnzw8B6UTwSdDfSgR6JvHinvLstHwOh+
-	CRuaxl++E/wd5jYYAjhg==;
+	List-Owner; bh=Fe7G/Q3uK+fw5I8rrTyNGfxa2u3PRYyN4eXJvNMoen4=; b=S4h6JBs4pZNbgY
+	KIz2wLu6/KKkZvPlbEh3wDcIDzfTr/vP8a3Aen2h/K4y6t73xHqYMgVFs+0Uvwls1/7GTsbHwlcFM
+	QF1SSMi0SIgeHiWyD2YJMtFIFoX4wSjXhkDhTaclzAWt1F4Rxl+aq/D31vPERBpvllcH8NTXByHn4
+	u6kDDJNtyjZY+UHBKJu+Sp59yBH+8uGvfQ8VRY6Izu8fI4EAFoEka/jfi4LRjdzQIH35mBqyFO/cV
+	XaKZf1/edWqxlZAAcMNJW/2tkRL6SHOag0zJkaq+yniOw7RU2L+ImqnVZRRopjcm0U/PvCMO6k1Y8
+	55aipSCtuj+49Hu6QEZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mDcL7-0056kW-Cs; Wed, 11 Aug 2021 00:43:25 +0000
+	id 1mDcL8-0056ly-Ng; Wed, 11 Aug 2021 00:43:27 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mDcL2-0056cv-HT
- for linux-snps-arc@lists.infradead.org; Wed, 11 Aug 2021 00:43:22 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0C330610FC;
+ id 1mDcL3-0056fH-E9
+ for linux-snps-arc@lists.infradead.org; Wed, 11 Aug 2021 00:43:23 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E229B60EDF;
  Wed, 11 Aug 2021 00:43:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628642600;
- bh=iW4KvuWuC+r5z39MFQzwrbwCs0tKRK5GIGFWIb/ZRJY=;
+ s=k20201202; t=1628642601;
+ bh=rQG6R4IYtK009L51KoLDJPAjJafHG5PoJg6sbJHan6E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=agy6Rj11nk6gxe06wBgAua7nlZQ5Lkktx0Qtu9NWGx3Dyz1Ac9gkJfbTindxD4NJb
- iVuNiEnXjhwfd7iOzQIh42HKk7mj/QSv3lYGVA83QIM1zjK1KTZxKWtt10tPW8abL7
- QcB4UC8QATKQ2XIOcbTGGiuba4r5F5wyMGhNuM/bB8ehF6Vtz/70Wo23Np+qvS821W
- yQ6zTuTQG9h/rkXk+7Sz40K8+hK+FLYpZQUV0uT3Q0bAsr/J+jl9nh2986SA5G41YZ
- 6T/OzK/iD2vARp9YolUHaRcVfZMjd0I0ruDHt4s+h6VfCNZrKi/1NbRU1OgopWpU3G
- UDwuuvxls+8Lw==
+ b=DJg+8ueSH0w/uLEJilaVjKfT7/1op5f9m25OKoODB2hgOotmDiKaiWNsqlSSJFjWa
+ I184RC/qwaFr3Qxsf9BJ26Wjz+PnlteUyda2kOpu1K6VbC/nasY6d5hW8DYjn/WWDL
+ hDzArlo4G20vmIyrDFCP94XrRzXCnTmzUfnY9X2IYALSRgT66zRyKRXAJliAEtpt6E
+ Y8r94qPZjjfFn2porTkDsupsx0dUBiMIqZzn6ww0B0d1Sv1nWhSn7L5BYLwxWXm3kq
+ L2IG9lDzZVjkulLxDzXvYk2Tx4sRr1sIbfds+xs2KQPooGRGNYWAXU42SlIi64Pbf5
+ N7KCYFHYLALnA==
 From: Vineet Gupta <vgupta@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  Anshuman Khandual <anshuman.khandual@arm.com>,
  Mike Rapoport <rppt@kernel.org>, Vineet Gupta <vgupta@kernel.org>
-Subject: [PATCH 09/18] ARC: mm: non-functional code cleanup ahead of 3 levels
-Date: Tue, 10 Aug 2021 17:42:49 -0700
-Message-Id: <20210811004258.138075-10-vgupta@kernel.org>
+Subject: [PATCH 11/18] ARC: mm: move MMU specific bits out of entry code
+Date: Tue, 10 Aug 2021 17:42:51 -0700
+Message-Id: <20210811004258.138075-12-vgupta@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210811004258.138075-1-vgupta@kernel.org>
 References: <20210811004258.138075-1-vgupta@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210810_174320_650127_FC11F54C 
-X-CRM114-Status: GOOD (  11.42  )
+X-CRM114-CacheID: sfid-20210810_174321_575362_C73D9BB0 
+X-CRM114-Status: UNSURE (   9.06  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,94 +82,40 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 Signed-off-by: Vineet Gupta <vgupta@kernel.org>
 ---
- arch/arc/include/asm/page.h    | 30 ++++++++++++++++--------------
- arch/arc/include/asm/pgalloc.h |  7 ++++++-
- 2 files changed, 22 insertions(+), 15 deletions(-)
+ arch/arc/kernel/entry.S | 6 ------
+ arch/arc/mm/tlb.c       | 3 +++
+ 2 files changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/arch/arc/include/asm/page.h b/arch/arc/include/asm/page.h
-index c4ac827379cd..313e6f543d2d 100644
---- a/arch/arc/include/asm/page.h
-+++ b/arch/arc/include/asm/page.h
-@@ -34,6 +34,13 @@ void copy_user_highpage(struct page *to, struct page *from,
- 			unsigned long u_vaddr, struct vm_area_struct *vma);
- void clear_user_page(void *to, unsigned long u_vaddr, struct page *page);
+diff --git a/arch/arc/kernel/entry.S b/arch/arc/kernel/entry.S
+index 2cb8dfe866b6..684efd094520 100644
+--- a/arch/arc/kernel/entry.S
++++ b/arch/arc/kernel/entry.S
+@@ -101,12 +101,6 @@ ENTRY(EV_MachineCheck)
+ 	lr  r0, [efa]
+ 	mov r1, sp
  
-+typedef struct {
-+	unsigned long pgd;
-+} pgd_t;
-+
-+#define pgd_val(x)	((x).pgd)
-+#define __pgd(x)	((pgd_t) { (x) })
-+
- typedef struct {
- #ifdef CONFIG_ARC_HAS_PAE40
- 	unsigned long long pte;
-@@ -41,22 +48,17 @@ typedef struct {
- 	unsigned long pte;
- #endif
- } pte_t;
--typedef struct {
--	unsigned long pgd;
--} pgd_t;
-+
-+#define pte_val(x)	((x).pte)
-+#define __pte(x)	((pte_t) { (x) })
-+
- typedef struct {
- 	unsigned long pgprot;
- } pgprot_t;
- 
--#define pte_val(x)      ((x).pte)
--#define pgd_val(x)      ((x).pgd)
--#define pgprot_val(x)   ((x).pgprot)
+-	; hardware auto-disables MMU, re-enable it to allow kernel vaddr
+-	; access for say stack unwinding of modules for crash dumps
+-	lr	r3, [ARC_REG_PID]
+-	or	r3, r3, MMU_ENABLE
+-	sr	r3, [ARC_REG_PID]
 -
--#define __pte(x)        ((pte_t) { (x) })
--#define __pgd(x)        ((pgd_t) { (x) })
--#define __pgprot(x)     ((pgprot_t) { (x) })
--
--#define pte_pgprot(x) __pgprot(pte_val(x))
-+#define pgprot_val(x)	((x).pgprot)
-+#define __pgprot(x)	((pgprot_t) { (x) })
-+#define pte_pgprot(x)	__pgprot(pte_val(x))
+ 	lsr  	r3, r2, 8
+ 	bmsk 	r3, r3, 7
+ 	brne    r3, ECR_C_MCHK_DUP_TLB, 1f
+diff --git a/arch/arc/mm/tlb.c b/arch/arc/mm/tlb.c
+index b68d5798327b..34f16e0b41e6 100644
+--- a/arch/arc/mm/tlb.c
++++ b/arch/arc/mm/tlb.c
+@@ -813,5 +813,8 @@ void do_tlb_overlap_fault(unsigned long cause, unsigned long address,
+ 		}
+ 	}
  
- typedef pte_t * pgtable_t;
- 
-@@ -96,8 +98,8 @@ extern int pfn_valid(unsigned long pfn);
-  * virt here means link-address/program-address as embedded in object code.
-  * And for ARC, link-addr = physical address
-  */
--#define __pa(vaddr)  ((unsigned long)(vaddr))
--#define __va(paddr)  ((void *)((unsigned long)(paddr)))
-+#define __pa(vaddr)  		((unsigned long)(vaddr))
-+#define __va(paddr)  		((void *)((unsigned long)(paddr)))
- 
- #define virt_to_page(kaddr)	pfn_to_page(virt_to_pfn(kaddr))
- #define virt_addr_valid(kaddr)  pfn_valid(virt_to_pfn(kaddr))
-diff --git a/arch/arc/include/asm/pgalloc.h b/arch/arc/include/asm/pgalloc.h
-index 356237b9c537..0cf73431eb89 100644
---- a/arch/arc/include/asm/pgalloc.h
-+++ b/arch/arc/include/asm/pgalloc.h
-@@ -29,6 +29,11 @@
- #ifndef _ASM_ARC_PGALLOC_H
- #define _ASM_ARC_PGALLOC_H
- 
-+/*
-+ * For ARC, pgtable_t is not struct page *, but pte_t * (to avoid
-+ * extraneous page_address() calculations) hence can't use
-+ * use asm-generic/pgalloc.h which assumes it being struct page *
-+ */
- #include <linux/mm.h>
- #include <linux/log2.h>
- 
-@@ -36,7 +41,7 @@ static inline void
- pmd_populate_kernel(struct mm_struct *mm, pmd_t *pmdp, pte_t *ptep)
- {
- 	/*
--	 * The cast to long below is OK even when pte is long long (PAE40)
-+	 * The cast to long below is OK in 32-bit PAE40 regime with long long pte
- 	 * Despite "wider" pte, the pte table needs to be in non-PAE low memory
- 	 * as all higher levels can only hold long pointers.
- 	 *
++	/* Re-enable MMU as hardware may have auto-disabled it upon exception */
++	write_aux_reg(ARC_REG_PID, read_aux_reg(ARC_REG_PID) | MMU_ENABLE);
++
+ 	local_irq_restore(flags);
+ }
 -- 
 2.25.1
 
