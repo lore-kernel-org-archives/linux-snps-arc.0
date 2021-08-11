@@ -4,17 +4,17 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-14.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3182FC4320A
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Aug 2021 05:12:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1107CC432BE
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Aug 2021 05:18:09 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E60F160F13
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Aug 2021 05:12:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E60F160F13
+	by mail.kernel.org (Postfix) with ESMTPS id C529F60560
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Aug 2021 05:18:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C529F60560
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,46 +23,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=MkgsiUZSPqifFXFs+sRNiEF8exk+80aOrb11jL3sL+s=; b=3jm3aeYImfVVAh
-	R5tuZ9wN4ShDw2/fC1ygykWnvXFN3okAuETU6R2E4iHoukIop32MmmbgM3BZS9wHqIyiyYFZpVKye
-	OhYOMCX15/8sYvT1mU8JQt1/MPykCjmWpczZOVcuh6QssIyDIEKMXR+nOLWHwfjqxmOLOm0h0yEpn
-	Vt40Ckb3BzTZTP1NJ81uJ6nwXiuWcO+n0vRihb2rMSR/aSf9U+bJhVdnrx6qtWIUlmXwuP275xcal
-	ix6p/gFB1D8FFC8XXgYTKNt4AMp2Bc2+Xlr6u8fk/gAF6hIoo6pEHfZjKSG5D1SZfnYreZBscEx//
-	lNbLHLvZvjKvdB46dqvg==;
+	List-Owner; bh=kwybDTdoKeIqKyl9j4nsijVyMhJp4j+Qzy0XS+TYYYg=; b=hyNBzuX0QE9Fxh
+	+NLSFDd9KSSa0ojO+qdKLSn39d20qXooNuixoROVlYQjv9MI8/miqwETUtoujOzuUygN/BQDHy2Ft
+	++jsYsjTIs8LeY5tiEvApj/YntpTmfQeeiEi8kdXKegu5xFHBz5fTv4wxIA18hnHiqK99Ms9ldZWS
+	CWccdjl1F1ryHBqchBU+igZKIQtfsDOVdVdui7svHViO6JzEShaGtBTVYWDIUBKISPB2NKvTjNvy5
+	N8Mo6Vg73gludocjG1elN+WflWKqSgYsa1lxiTDYE0jh0gW+rrJU2JR51OsISB3A0Vi6cRYEtBiRw
+	UpoKtsRXPtA0VUanzYmA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mDgXG-005bhX-Cf; Wed, 11 Aug 2021 05:12:14 +0000
+	id 1mDgcy-005cHD-8V; Wed, 11 Aug 2021 05:18:08 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mDgXE-005bgx-DY
- for linux-snps-arc@lists.infradead.org; Wed, 11 Aug 2021 05:12:13 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 75B2D60EB2;
- Wed, 11 Aug 2021 05:12:10 +0000 (UTC)
+ id 1mDgcv-005cGb-Jl
+ for linux-snps-arc@lists.infradead.org; Wed, 11 Aug 2021 05:18:06 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BEDD660560;
+ Wed, 11 Aug 2021 05:18:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628658732;
- bh=Z7LmDfo4zvKNkhohC0InW+SMDP5rAOUz38E0mqDCwHU=;
+ s=k20201202; t=1628659085;
+ bh=KaZ5HktjKJgg/abvCF/afCgcYiL4DoXNFGs6S6USjuw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=If2GrYZCsWAgUZn4dzhz/2LCPJSsKIUbL6y295qindWqzCnB0YyfeR+v2laCFsBzm
- apcx3Y2yNDWkVUFMLBXlJJMbmrS0WMxn4rqNf2uPrLf0XiIa4t8IaS56iSo7REHPZI
- hiDmPVgoxfTwcSUAdHuG/G2yBJU39eeBbsBcXNQpAsjjWWTpafVDyPXg4YVApk9Iz/
- VRaZZ0dcAFvLuDTrYUFXaujZN7Mq9jufIKrodyvysk9DtREFIr6hO2G2Ku3vP7GpPZ
- 8/EAcjdYYoq6D5Jlqbn/eUrzaYTWCUc1WR3rbA3fGypWwPA+Y++GbWXLDHlL+7c5id
- CT1YfSwQyzDYQ==
-Date: Wed, 11 Aug 2021 08:12:06 +0300
+ b=iaUw+W5tJLNTIO8XlWFxDhu1sfkl05slqvSv8mec9a6kDYbqIxMRtBZwvk7/a/grn
+ MlBkLZBLE1WPjD7gbuz3cvbM0txRFgMvcygTxYNL2OOYxqR27yTL7oW2bJiQ9EIxWp
+ Pqpw0krpzymCUfgEA5aPioD/ZznEIMVfNSQ5W/N8t5yHArPjTNP3WMKz7IMUDzlEvW
+ 42towC/cT4ZDZFZGkeagFNla2KHp5DBcTN7941p1rDtPy/jnI42nkS7IfJ6XYFWJKh
+ f3y2RSp3mQYoS1lXUko2AG7CKkHkSHsC2Rkjq8z0+nn7qS4fe70GVez80HzAwxytQc
+ vGWMxstpln/lA==
+Date: Wed, 11 Aug 2021 08:18:00 +0300
 From: Mike Rapoport <rppt@kernel.org>
 To: Vineet Gupta <vgupta@kernel.org>
 Cc: linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-mm@kvack.org, Anshuman Khandual <anshuman.khandual@arm.com>
-Subject: Re: [PATCH 04/18] ARC: mm: remove pgd_offset_fast
-Message-ID: <YRNcJpyr76h5EK0k@kernel.org>
+Subject: Re: [PATCH 07/18] ARC: ioremap: use more commonly used PAGE_KERNEL
+ based uncached flag
+Message-ID: <YRNdiDnMjQ2hKzIV@kernel.org>
 References: <20210811004258.138075-1-vgupta@kernel.org>
- <20210811004258.138075-5-vgupta@kernel.org>
+ <20210811004258.138075-8-vgupta@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210811004258.138075-5-vgupta@kernel.org>
+In-Reply-To: <20210811004258.138075-8-vgupta@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210810_221212_523017_59697C4E 
-X-CRM114-Status: GOOD (  15.61  )
+X-CRM114-CacheID: sfid-20210810_221805_713645_CF5A8ECC 
+X-CRM114-Status: GOOD (  14.61  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,63 +80,46 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 10, 2021 at 05:42:44PM -0700, Vineet Gupta wrote:
+On Tue, Aug 10, 2021 at 05:42:47PM -0700, Vineet Gupta wrote:
+> and remove the one off uncached definition for ARC
+> 
 > Signed-off-by: Vineet Gupta <vgupta@kernel.org>
 > ---
->  arch/arc/include/asm/pgtable.h | 23 -----------------------
->  arch/arc/mm/fault.c            |  2 +-
->  2 files changed, 1 insertion(+), 24 deletions(-)
-
-Shouldn't this be a part of the patch that removed usage of the scratch reg
-for pgd?
- 
+>  arch/arc/include/asm/pgtable.h | 3 ---
+>  arch/arc/mm/ioremap.c          | 3 ++-
+>  2 files changed, 2 insertions(+), 4 deletions(-)
+> 
 > diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
-> index 0c3e220bd2b4..80b57c14b430 100644
+> index 80b57c14b430..b054c14f8bf6 100644
 > --- a/arch/arc/include/asm/pgtable.h
 > +++ b/arch/arc/include/asm/pgtable.h
-> @@ -284,29 +284,6 @@ static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
->  	set_pte(ptep, pteval);
->  }
+> @@ -103,9 +103,6 @@
+>   */
+>  #define PAGE_KERNEL          __pgprot(_K_PAGE_PERMS | _PAGE_CACHEABLE)
 >  
-> -/*
-> - * Macro to quickly access the PGD entry, utlising the fact that some
-> - * arch may cache the pointer to Page Directory of "current" task
-> - * in a MMU register
-> - *
-> - * Thus task->mm->pgd (3 pointer dereferences, cache misses etc simply
-> - * becomes read a register
-> - *
-> - * ********CAUTION*******:
-> - * Kernel code might be dealing with some mm_struct of NON "current"
-> - * Thus use this macro only when you are certain that "current" is current
-> - * e.g. when dealing with signal frame setup code etc
-> - */
-> -#ifdef ARC_USE_SCRATCH_REG
-> -#define pgd_offset_fast(mm, addr)	\
-> -({					\
-> -	pgd_t *pgd_base = (pgd_t *) read_aux_reg(ARC_REG_SCRATCH_DATA0);  \
-> -	pgd_base + pgd_index(addr);	\
-> -})
-> -#else
-> -#define pgd_offset_fast(mm, addr)	pgd_offset(mm, addr)
-> -#endif
+> -/* ioremap */
+> -#define PAGE_KERNEL_NO_CACHE __pgprot(_K_PAGE_PERMS)
 > -
->  extern pgd_t swapper_pg_dir[] __aligned(PAGE_SIZE);
->  void update_mmu_cache(struct vm_area_struct *vma, unsigned long address,
->  		      pte_t *ptep);
-> diff --git a/arch/arc/mm/fault.c b/arch/arc/mm/fault.c
-> index f5657cb68e4f..41f154320964 100644
-> --- a/arch/arc/mm/fault.c
-> +++ b/arch/arc/mm/fault.c
-> @@ -33,7 +33,7 @@ noinline static int handle_kernel_vaddr_fault(unsigned long address)
->  	pud_t *pud, *pud_k;
->  	pmd_t *pmd, *pmd_k;
+>  /* Masks for actual TLB "PD"s */
+>  #define PTE_BITS_IN_PD0		(_PAGE_GLOBAL | _PAGE_PRESENT | _PAGE_HW_SZ)
+>  #define PTE_BITS_RWX		(_PAGE_EXECUTE | _PAGE_WRITE | _PAGE_READ)
+> diff --git a/arch/arc/mm/ioremap.c b/arch/arc/mm/ioremap.c
+> index 052bbd8b1e5f..0ee75aca6e10 100644
+> --- a/arch/arc/mm/ioremap.c
+> +++ b/arch/arc/mm/ioremap.c
+> @@ -39,7 +39,8 @@ void __iomem *ioremap(phys_addr_t paddr, unsigned long size)
+>  	if (arc_uncached_addr_space(paddr))
+>  		return (void __iomem *)(u32)paddr;
 >  
-> -	pgd = pgd_offset_fast(current->active_mm, address);
-> +	pgd = pgd_offset(current->active_mm, address);
->  	pgd_k = pgd_offset_k(address);
+> -	return ioremap_prot(paddr, size, pgprot_val(PAGE_KERNEL_NO_CACHE));
+> +	return ioremap_prot(paddr, size,
+> +			    pgprot_val(pgprot_noncached(PAGE_KERNEL)));
+
+But this becomes _PAGE_CACHEABLE now. What did I miss?
+
+>  }
+>  EXPORT_SYMBOL(ioremap);
 >  
->  	if (!pgd_present(*pgd_k))
 > -- 
 > 2.25.1
 > 
