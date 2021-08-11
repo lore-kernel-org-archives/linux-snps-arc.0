@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F6F9C19F41
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Aug 2021 00:43:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29D8BC19F3E
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Aug 2021 00:43:30 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EE45460EDF
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Aug 2021 00:43:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org EE45460EDF
+	by mail.kernel.org (Postfix) with ESMTPS id B740260EB7
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Aug 2021 00:43:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B740260EB7
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,46 +23,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=F1ESdfepDWzmkiXSSPqx9bE2mDwvfd/8SIbr6Nj8KlY=; b=Tves1eq26Igep+
-	eHM725e3LsPE4uCjL7bw4PvZhq2bHRR0TzqTHe/Oi1qXLVFHR+b8/qil3jIN9JeFlV806ihqnI1WV
-	X63T080kZ+g9iyxy9Tg2woS+iOE2WxHpAoJ0WQR8Ju0jWY67j/NwKNXrgpDzhRLZUHL9Gz/cgjKU7
-	wthg6l7CnqoeFvaTFemrDe8CyjHC/IgEQiqrdEOzh4xaGmqkc5k6aiGRWOb/VPTC5ybnGCYLyNEJy
-	V3lfBee2KB49BiFA2ykxrON5TDe8udiyj4JRIw9bF2WObIWdOR6xKVAZx8Nsee5IRPVYGIvbFT59M
-	fcDTq28osks0+/26zf9g==;
+	List-Owner; bh=Av+/ryQQf2AP6Rbkn+ey3xQqN+hurBrg4vajaeMoUDs=; b=jDwJK1Mlzxk/wi
+	9NM6KIWq8eMVpUfRtyywVHYnPQF0U57juVcVEvvMMfYOAPyYwv19dy/U6evNqvS6unK8YErsVD22Y
+	Swfu+NAjn9/bZHpKXBxOkpM7LnHn3ZeQ8crfA4LTnHIJtmlxdsG+OH7vSzPV73NrUf8GGuzX/0Vdd
+	TxZCl633SRUqmlnTdUc6VeGD5IoktCYekad6BLpKdEukOP/Vj3SAXiC1tAR8v3UOC1XY9gN/eJUkq
+	eGFCsBCM8uHfBhshfZTOcEHGSSAuOqku1cntEiciAF9jNARcnWTm4q0uUFcwi0lfa65+k0pAImSrK
+	5ATKoaU68k85eaufOBDA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mDcLC-0056q0-B0; Wed, 11 Aug 2021 00:43:30 +0000
+	id 1mDcLB-0056oh-5y; Wed, 11 Aug 2021 00:43:29 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mDcL5-0056cv-4U
- for linux-snps-arc@lists.infradead.org; Wed, 11 Aug 2021 00:43:28 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B562B61008;
- Wed, 11 Aug 2021 00:43:22 +0000 (UTC)
+ id 1mDcL4-0056dw-8z
+ for linux-snps-arc@lists.infradead.org; Wed, 11 Aug 2021 00:43:26 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CC4F160EB5;
+ Wed, 11 Aug 2021 00:43:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1628642602;
- bh=fbU0hMmleCw5vRgQgXl1CKzt9JscXC+sV2x5UO3YuGo=;
+ bh=c2E/fYN0v+g0xfHg2rVvxKo6rGmQOQAUbmipN+98JqE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LqPNYuK2wTt0KTP/CLyyyDZ+7qk/5ZvutiPZwv+6AkJVRYI0LKwaa1YjBXbbsRz1n
- zjEu0d8Eub46NnLcuoa+2ThJ7y5XJtzvkRe3QmLCpcAVUcOAZMKrEoJxlj+TnmPKV5
- x38JQmkSO8xA6cVdO5ksMmGXYczvX71ocM+rx+k1Ds2GnbXa8OcfY0kBb91xrAEnuG
- v+3gU2t1eM3m79CFAT845BEO5PPztfBR41ymp6IFS0FIQMlk9biORrxHHJf1YAV2wx
- EtF4Vb7lGwYHzLAr6n4Jtxt/EzW8euzUhTxQEHXtRUC0vTCrgYdKY7jV0k28WIIC7M
- xwmMoRf/1m+gA==
+ b=kdRdzw3qxJOpftjPzoaR2QYxiuPNhjRjnbGlQtgdRzul9n6YVAHff9qtPvEGeuSBs
+ 0rH6kI76O6pGa2zYNsHbW/JYicslHs7/2kH5b90dnrfswZ2kmxXc2fYkuMwkX5+qi4
+ 5i4bIeZLr+o4ufWg6b9Zjao9c/tALI7Pt77Qek0dGP94OeMyhrvaeHaJEehiEhoGX2
+ gfwWJ+UkyAfgPAoIvY9ZGp8UEaEj6kHstPykkoqn3ro70WyF4yEoIJGVJ1QVLCEWg7
+ W224wNdj8HoFZbvMzmErwfq+okZVaJde9BN6VOGz4xCTioVWavat9IZYvxLa4FsBMY
+ REFOzkmx5OrXw==
 From: Vineet Gupta <vgupta@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  Anshuman Khandual <anshuman.khandual@arm.com>,
  Mike Rapoport <rppt@kernel.org>, Vineet Gupta <vgupta@kernel.org>
-Subject: [PATCH 15/18] ARC: mm: support 3 levels of page tables
-Date: Tue, 10 Aug 2021 17:42:55 -0700
-Message-Id: <20210811004258.138075-16-vgupta@kernel.org>
+Subject: [PATCH 13/18] ARC: mm: disintegrate pgtable.h into levels and flags
+Date: Tue, 10 Aug 2021 17:42:53 -0700
+Message-Id: <20210811004258.138075-14-vgupta@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210811004258.138075-1-vgupta@kernel.org>
 References: <20210811004258.138075-1-vgupta@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210810_174323_278203_2BA3CD1F 
-X-CRM114-Status: GOOD (  19.59  )
+X-CRM114-CacheID: sfid-20210810_174322_491929_EBAE7343 
+X-CRM114-Status: GOOD (  25.31  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,291 +79,586 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-ARCv2 MMU is software walked and Linux implements 2 levels of paging: pgd/pte.
-Forthcoming hw will have multiple levels, so this change preps mm code
-for same. It is also fun to try multi levels even on soft-walked code to
-ensure generic mm code is robust to handle.
+ - pgtable-bits-arcv2.h (MMU specific page table flags)
+ - pgtable-levels.h (paging levels)
 
-overview
-________
-
-2 levels {pgd, pte} : pmd is folded but pmd_* macros are valid and operate on pgd
-3 levels {pgd, pmd, pte}:
-  - pud is folded and pud_* macros point to pgd
-  - pmd_* macros operate on actual pmd
-
-code changes
-____________
-
-1. #include <asm-generic/pgtable-nopud.h>
-
-2. Define CONFIG_PGTABLE_LEVELS 3
-
-3a. Define PMD_SHIFT, PMD_SIZE, PMD_MASK, pmd_t
-3b. Define pmd_val() which actually deals with pmd
-    (pmd_offset(), pmd_index() are provided by generic code)
-3c. Define pmd_alloc_one() and pmd_free() to allocate pmd
-    (pmd_populate/pmd_free already exist)
-
-4. Define pud_none(), pud_bad() macros based on generic pud_val() which
-   internally pertains to pgd now.
-4b. define pud_populate() to just setup pgd
+No functional changes, but paves way for easy addition of new MMU code
+with different bits and levels etc
 
 Signed-off-by: Vineet Gupta <vgupta@kernel.org>
 ---
- arch/arc/Kconfig                      |  4 ++
- arch/arc/include/asm/page.h           | 11 +++++
- arch/arc/include/asm/pgalloc.h        | 22 ++++++++++
- arch/arc/include/asm/pgtable-levels.h | 63 ++++++++++++++++++++++++---
- arch/arc/include/asm/processor.h      |  2 +-
- arch/arc/mm/fault.c                   |  4 ++
- arch/arc/mm/tlb.c                     |  4 +-
- arch/arc/mm/tlbex.S                   |  9 ++++
- 8 files changed, 111 insertions(+), 8 deletions(-)
+ arch/arc/include/asm/pgtable-bits-arcv2.h | 149 ++++++++++++
+ arch/arc/include/asm/pgtable-levels.h     |  91 +++++++
+ arch/arc/include/asm/pgtable.h            | 277 +---------------------
+ 3 files changed, 244 insertions(+), 273 deletions(-)
+ create mode 100644 arch/arc/include/asm/pgtable-bits-arcv2.h
+ create mode 100644 arch/arc/include/asm/pgtable-levels.h
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 59d5b2a179f6..43cb8aaf57a2 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -314,6 +314,10 @@ config ARC_HUGEPAGE_16M
- 
- endchoice
- 
-+config PGTABLE_LEVELS
-+	int "Number of Page table levels"
-+	default 2
-+
- config ARC_COMPACT_IRQ_LEVELS
- 	depends on ISA_ARCOMPACT
- 	bool "Setup Timer IRQ as high Priority"
-diff --git a/arch/arc/include/asm/page.h b/arch/arc/include/asm/page.h
-index 313e6f543d2d..df3cc154ae4a 100644
---- a/arch/arc/include/asm/page.h
-+++ b/arch/arc/include/asm/page.h
-@@ -41,6 +41,17 @@ typedef struct {
- #define pgd_val(x)	((x).pgd)
- #define __pgd(x)	((pgd_t) { (x) })
- 
-+#if CONFIG_PGTABLE_LEVELS > 2
-+
-+typedef struct {
-+	unsigned long pmd;
-+} pmd_t;
-+
-+#define pmd_val(x)	((x).pmd)
-+#define __pmd(x)	((pmd_t) { (x) })
-+
-+#endif
-+
- typedef struct {
- #ifdef CONFIG_ARC_HAS_PAE40
- 	unsigned long long pte;
-diff --git a/arch/arc/include/asm/pgalloc.h b/arch/arc/include/asm/pgalloc.h
-index 0cf73431eb89..01c2d84418ed 100644
---- a/arch/arc/include/asm/pgalloc.h
-+++ b/arch/arc/include/asm/pgalloc.h
-@@ -86,6 +86,28 @@ static inline void pgd_free(struct mm_struct *mm, pgd_t *pgd)
- }
- 
- 
-+#if CONFIG_PGTABLE_LEVELS > 2
-+
-+static inline void pud_populate(struct mm_struct *mm, pud_t *pudp, pmd_t *pmdp)
-+{
-+	set_pud(pudp, __pud((unsigned long)pmdp));
-+}
-+
-+static inline pmd_t *pmd_alloc_one(struct mm_struct *mm, unsigned long addr)
-+{
-+	return (pmd_t *)__get_free_page(
-+		GFP_KERNEL | __GFP_RETRY_MAYFAIL | __GFP_ZERO);
-+}
-+
-+static inline void pmd_free(struct mm_struct *mm, pmd_t *pmd)
-+{
-+	free_page((unsigned long)pmd);
-+}
-+
-+#define __pmd_free_tlb(tlb, pmd, addr)  pmd_free((tlb)->mm, pmd)
-+
-+#endif
-+
- /*
-  * With software-only page-tables, addr-split for traversal is tweakable and
-  * that directly governs how big tables would be at each level.
-diff --git a/arch/arc/include/asm/pgtable-levels.h b/arch/arc/include/asm/pgtable-levels.h
-index 8ece75335bb5..1c2f022d4ad0 100644
---- a/arch/arc/include/asm/pgtable-levels.h
-+++ b/arch/arc/include/asm/pgtable-levels.h
-@@ -10,6 +10,8 @@
- #ifndef _ASM_ARC_PGTABLE_LEVELS_H
- #define _ASM_ARC_PGTABLE_LEVELS_H
- 
-+#if CONFIG_PGTABLE_LEVELS == 2
-+
- /*
-  * 2 level paging setup for software walked MMUv3 (ARC700) and MMUv4 (HS)
-  *
-@@ -37,16 +39,38 @@
- #define PGDIR_SHIFT		21
- #endif
- 
--#define PGDIR_SIZE		BIT(PGDIR_SHIFT)	/* vaddr span, not PDG sz */
--#define PGDIR_MASK		(~(PGDIR_SIZE - 1))
-+#else
+diff --git a/arch/arc/include/asm/pgtable-bits-arcv2.h b/arch/arc/include/asm/pgtable-bits-arcv2.h
+new file mode 100644
+index 000000000000..183d23bc1e00
+--- /dev/null
++++ b/arch/arc/include/asm/pgtable-bits-arcv2.h
+@@ -0,0 +1,149 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2004, 2007-2010, 2011-2012 Synopsys, Inc. (www.synopsys.com)
++ */
 +
 +/*
-+ * A default 3 level paging testing setup in software walked MMU
-+ *   MMUv4 (8K page): <4> : <7> : <8> : <13>
++ * page table flags for software walked/managed MMUv3 (ARC700) and MMUv4 (HS)
++ * There correspond to the corresponding bits in the TLB
 + */
-+#define PGDIR_SHIFT		28
-+#if CONFIG_PGTABLE_LEVELS > 2
-+#define PMD_SHIFT		21
++
++#ifndef _ASM_ARC_PGTABLE_BITS_ARCV2_H
++#define _ASM_ARC_PGTABLE_BITS_ARCV2_H
++
++#ifdef CONFIG_ARC_CACHE_PAGES
++#define _PAGE_CACHEABLE		(1 << 0)  /* Cached (H) */
++#else
++#define _PAGE_CACHEABLE		0
 +#endif
 +
++#define _PAGE_EXECUTE		(1 << 1)  /* User Execute  (H) */
++#define _PAGE_WRITE		(1 << 2)  /* User Write    (H) */
++#define _PAGE_READ		(1 << 3)  /* User Read     (H) */
++#define _PAGE_ACCESSED		(1 << 4)  /* Accessed      (s) */
++#define _PAGE_DIRTY		(1 << 5)  /* Modified      (s) */
++#define _PAGE_SPECIAL		(1 << 6)
++#define _PAGE_GLOBAL		(1 << 8)  /* ASID agnostic (H) */
++#define _PAGE_PRESENT		(1 << 9)  /* PTE/TLB Valid (H) */
++
++#ifdef CONFIG_ARC_MMU_V4
++#define _PAGE_HW_SZ		(1 << 10)  /* Normal/super (H) */
++#else
++#define _PAGE_HW_SZ		0
 +#endif
- 
-+#define PGDIR_SIZE		BIT(PGDIR_SHIFT)
++
++/* Defaults for every user page */
++#define ___DEF		(_PAGE_PRESENT | _PAGE_CACHEABLE)
++
++/* Set of bits not changed in pte_modify */
++#define _PAGE_CHG_MASK	(PAGE_MASK_PHYS | _PAGE_ACCESSED | _PAGE_DIRTY | \
++							   _PAGE_SPECIAL)
++
++/* More Abbrevaited helpers */
++#define PAGE_U_NONE     __pgprot(___DEF)
++#define PAGE_U_R        __pgprot(___DEF | _PAGE_READ)
++#define PAGE_U_W_R      __pgprot(___DEF | _PAGE_READ | _PAGE_WRITE)
++#define PAGE_U_X_R      __pgprot(___DEF | _PAGE_READ | _PAGE_EXECUTE)
++#define PAGE_U_X_W_R    __pgprot(___DEF \
++				| _PAGE_READ | _PAGE_WRITE | _PAGE_EXECUTE)
++#define PAGE_KERNEL     __pgprot(___DEF | _PAGE_GLOBAL \
++				| _PAGE_READ | _PAGE_WRITE | _PAGE_EXECUTE)
++
++#define PAGE_SHARED	PAGE_U_W_R
++
++#define pgprot_noncached(prot)	(__pgprot(pgprot_val(prot) & ~_PAGE_CACHEABLE))
++
++/*
++ * Mapping of vm_flags (Generic VM) to PTE flags (arch specific)
++ *
++ * Certain cases have 1:1 mapping
++ *  e.g. __P101 means VM_READ, VM_EXEC and !VM_SHARED
++ *       which directly corresponds to  PAGE_U_X_R
++ *
++ * Other rules which cause the divergence from 1:1 mapping
++ *
++ *  1. Although ARC700 can do exclusive execute/write protection (meaning R
++ *     can be tracked independet of X/W unlike some other CPUs), still to
++ *     keep things consistent with other archs:
++ *      -Write implies Read:   W => R
++ *      -Execute implies Read: X => R
++ *
++ *  2. Pvt Writable doesn't have Write Enabled initially: Pvt-W => !W
++ *     This is to enable COW mechanism
++ */
++	/* xwr */
++#define __P000  PAGE_U_NONE
++#define __P001  PAGE_U_R
++#define __P010  PAGE_U_R	/* Pvt-W => !W */
++#define __P011  PAGE_U_R	/* Pvt-W => !W */
++#define __P100  PAGE_U_X_R	/* X => R */
++#define __P101  PAGE_U_X_R
++#define __P110  PAGE_U_X_R	/* Pvt-W => !W and X => R */
++#define __P111  PAGE_U_X_R	/* Pvt-W => !W */
++
++#define __S000  PAGE_U_NONE
++#define __S001  PAGE_U_R
++#define __S010  PAGE_U_W_R	/* W => R */
++#define __S011  PAGE_U_W_R
++#define __S100  PAGE_U_X_R	/* X => R */
++#define __S101  PAGE_U_X_R
++#define __S110  PAGE_U_X_W_R	/* X => R */
++#define __S111  PAGE_U_X_W_R
++
++#ifndef __ASSEMBLY__
++
++#define pte_write(pte)		(pte_val(pte) & _PAGE_WRITE)
++#define pte_dirty(pte)		(pte_val(pte) & _PAGE_DIRTY)
++#define pte_young(pte)		(pte_val(pte) & _PAGE_ACCESSED)
++#define pte_special(pte)	(pte_val(pte) & _PAGE_SPECIAL)
++
++#define PTE_BIT_FUNC(fn, op) \
++	static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
++
++PTE_BIT_FUNC(mknotpresent,     &= ~(_PAGE_PRESENT));
++PTE_BIT_FUNC(wrprotect,	&= ~(_PAGE_WRITE));
++PTE_BIT_FUNC(mkwrite,	|= (_PAGE_WRITE));
++PTE_BIT_FUNC(mkclean,	&= ~(_PAGE_DIRTY));
++PTE_BIT_FUNC(mkdirty,	|= (_PAGE_DIRTY));
++PTE_BIT_FUNC(mkold,	&= ~(_PAGE_ACCESSED));
++PTE_BIT_FUNC(mkyoung,	|= (_PAGE_ACCESSED));
++PTE_BIT_FUNC(mkspecial,	|= (_PAGE_SPECIAL));
++PTE_BIT_FUNC(mkhuge,	|= (_PAGE_HW_SZ));
++
++static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
++{
++	return __pte((pte_val(pte) & _PAGE_CHG_MASK) | pgprot_val(newprot));
++}
++
++static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
++			      pte_t *ptep, pte_t pteval)
++{
++	set_pte(ptep, pteval);
++}
++
++void update_mmu_cache(struct vm_area_struct *vma, unsigned long address,
++		      pte_t *ptep);
++
++/* Encode swap {type,off} tuple into PTE
++ * We reserve 13 bits for 5-bit @type, keeping bits 12-5 zero, ensuring that
++ * PAGE_PRESENT is zero in a PTE holding swap "identifier"
++ */
++#define __swp_entry(type, off)		((swp_entry_t) \
++					{ ((type) & 0x1f) | ((off) << 13) })
++
++/* Decode a PTE containing swap "identifier "into constituents */
++#define __swp_type(pte_lookalike)	(((pte_lookalike).val) & 0x1f)
++#define __swp_offset(pte_lookalike)	((pte_lookalike).val >> 13)
++
++#define __pte_to_swp_entry(pte)		((swp_entry_t) { pte_val(pte) })
++#define __swp_entry_to_pte(x)		((pte_t) { (x).val })
++
++#define kern_addr_valid(addr)	(1)
++
++#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++#include <asm/hugepage.h>
++#endif
++
++#endif /* __ASSEMBLY__ */
++
++#endif
+diff --git a/arch/arc/include/asm/pgtable-levels.h b/arch/arc/include/asm/pgtable-levels.h
+new file mode 100644
+index 000000000000..8ece75335bb5
+--- /dev/null
++++ b/arch/arc/include/asm/pgtable-levels.h
+@@ -0,0 +1,91 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2020 Synopsys, Inc. (www.synopsys.com)
++ */
++
++/*
++ * Helpers for implemenintg paging levels
++ */
++
++#ifndef _ASM_ARC_PGTABLE_LEVELS_H
++#define _ASM_ARC_PGTABLE_LEVELS_H
++
++/*
++ * 2 level paging setup for software walked MMUv3 (ARC700) and MMUv4 (HS)
++ *
++ * [31]            32 bit virtual address              [0]
++ * -------------------------------------------------------
++ * |               | <---------- PGDIR_SHIFT ----------> |
++ * |               |                | <-- PAGE_SHIFT --> |
++ * -------------------------------------------------------
++ *       |                  |                |
++ *       |                  |                --> off in page frame
++ *       |                  ---> index into Page Table
++ *       ----> index into Page Directory
++ *
++ * Given software walk, the vaddr split is arbitrary set to 11:8:13
++ * However enabling of super page in a 2 level regime pegs PGDIR_SHIFT to
++ * super page size.
++ */
++
++#if defined(CONFIG_ARC_HUGEPAGE_16M)
++#define PGDIR_SHIFT		24
++#elif defined(CONFIG_ARC_HUGEPAGE_2M)
++#define PGDIR_SHIFT		21
++#else
++/* No Super page case: in theory this can be any number */
++#define PGDIR_SHIFT		21
++#endif
++
++#define PGDIR_SIZE		BIT(PGDIR_SHIFT)	/* vaddr span, not PDG sz */
 +#define PGDIR_MASK		(~(PGDIR_SIZE - 1))
- #define PTRS_PER_PGD		BIT(32 - PGDIR_SHIFT)
- 
--#define PTRS_PER_PTE		BIT(PGDIR_SHIFT - PAGE_SHIFT)
-+#if CONFIG_PGTABLE_LEVELS > 2
-+#define PMD_SIZE		BIT(PMD_SHIFT)
-+#define PMD_MASK		(~(PMD_SIZE - 1))
-+#define PTRS_PER_PMD		BIT(PGDIR_SHIFT - PMD_SHIFT)
++
++#define PTRS_PER_PGD		BIT(32 - PGDIR_SHIFT)
++
++#define PTRS_PER_PTE		BIT(PGDIR_SHIFT - PAGE_SHIFT)
++
++#ifndef __ASSEMBLY__
++
++#include <asm-generic/pgtable-nopmd.h>
++
++/*
++ * 1st level paging: pgd
++ */
++#define pgd_index(addr)		((addr) >> PGDIR_SHIFT)
++#define pgd_offset(mm, addr)	(((mm)->pgd) + pgd_index(addr))
++#define pgd_offset_k(addr)	pgd_offset(&init_mm, addr)
++#define pgd_ERROR(e) \
++	pr_crit("%s:%d: bad pgd %08lx.\n", __FILE__, __LINE__, pgd_val(e))
++
++/*
++ * Due to the strange way generic pgtable level folding works, in a 2 level
++ * setup, pmd_val() returns pgd, so these pmd_* macros actually work on pgd
++ */
++#define pmd_none(x)		(!pmd_val(x))
++#define pmd_bad(x)		((pmd_val(x) & ~PAGE_MASK))
++#define pmd_present(x)		(pmd_val(x))
++#define pmd_clear(xp)		do { pmd_val(*(xp)) = 0; } while (0)
++#define pmd_page_vaddr(pmd)	(pmd_val(pmd) & PAGE_MASK)
++#define pmd_page(pmd)		virt_to_page(pmd_page_vaddr(pmd))
++#define set_pmd(pmdp, pmd)	(*(pmdp) = pmd)
++#define pmd_pgtable(pmd)	((pgtable_t) pmd_page_vaddr(pmd))
++
++#define pte_ERROR(e) \
++	pr_crit("%s:%d: bad pte %08lx.\n", __FILE__, __LINE__, pte_val(e))
++
++#define pte_none(x)		(!pte_val(x))
++#define pte_present(x)		(pte_val(x) & _PAGE_PRESENT)
++#define pte_clear(mm,addr,ptep)	set_pte_at(mm, addr, ptep, __pte(0))
++#define pte_page(pte)		pfn_to_page(pte_pfn(pte))
++#define set_pte(ptep, pte)	((*(ptep)) = (pte))
++#define pte_pfn(pte)		(pte_val(pte) >> PAGE_SHIFT)
++#define pfn_pte(pfn, prot)	__pte(__pfn_to_phys(pfn) | pgprot_val(prot))
++#define mk_pte(page, prot)	pfn_pte(page_to_pfn(page), prot)
++
++#ifdef CONFIG_ISA_ARCV2
++#define pmd_leaf(x)		(pmd_val(x) & _PAGE_HW_SZ)
 +#endif
 +
-+#define PTRS_PER_PTE		BIT(PMD_SHIFT - PAGE_SHIFT)
++#endif	/* !__ASSEMBLY__ */
++
++#endif
+diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
+index de4576e8d17a..9320b04c04bf 100644
+--- a/arch/arc/include/asm/pgtable.h
++++ b/arch/arc/include/asm/pgtable.h
+@@ -1,304 +1,35 @@
+ /* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * Copyright (C) 2004, 2007-2010, 2011-2012 Synopsys, Inc. (www.synopsys.com)
+- *
+- * vineetg: May 2011
+- *  -Folded PAGE_PRESENT (used by VM) and PAGE_VALID (used by MMU) into 1.
+- *     They are semantically the same although in different contexts
+- *     VALID marks a TLB entry exists and it will only happen if PRESENT
+- *  - Utilise some unused free bits to confine PTE flags to 12 bits
+- *     This is a must for 4k pg-sz
+- *
+- * vineetg: Mar 2011 - changes to accommodate MMU TLB Page Descriptor mods
+- *  -TLB Locking never really existed, except for initial specs
+- *  -SILENT_xxx not needed for our port
+- *  -Per my request, MMU V3 changes the layout of some of the bits
+- *     to avoid a few shifts in TLB Miss handlers.
+- *
+- * vineetg: April 2010
+- *  -PGD entry no longer contains any flags. If empty it is 0, otherwise has
+- *   Pg-Tbl ptr. Thus pmd_present(), pmd_valid(), pmd_set( ) become simpler
+- *
+- * vineetg: April 2010
+- *  -Switched form 8:11:13 split for page table lookup to 11:8:13
+- *  -this speeds up page table allocation itself as we now have to memset 1K
+- *    instead of 8k per page table.
+- * -TODO: Right now page table alloc is 8K and rest 7K is unused
+- *    need to optimise it
+- *
+- * Amit Bhor, Sameer Dhavale: Codito Technologies 2004
+  */
  
+ #ifndef _ASM_ARC_PGTABLE_H
+ #define _ASM_ARC_PGTABLE_H
+ 
+ #include <linux/bits.h>
+-#include <asm-generic/pgtable-nopmd.h>
++
++#include <asm/pgtable-levels.h>
++#include <asm/pgtable-bits-arcv2.h>
+ #include <asm/page.h>
+ #include <asm/mmu.h>
+ 
+-/**************************************************************************
+- * Page Table Flags
+- *
+- * ARC700 MMU only deals with softare managed TLB entries.
+- * Page Tables are purely for Linux VM's consumption and the bits below are
+- * suited to that (uniqueness). Hence some are not implemented in the TLB and
+- * some have different value in TLB.
+- * e.g. MMU v2: K_READ bit is 8 and so is GLOBAL (possible because they live in
+- *      seperate PD0 and PD1, which combined forms a translation entry)
+- *      while for PTE perspective, they are 8 and 9 respectively
+- * with MMU v3: Most bits (except SHARED) represent the exact hardware pos
+- *      (saves some bit shift ops in TLB Miss hdlrs)
+- */
+-
+-#define _PAGE_CACHEABLE     (1<<0)	/* Page is cached (H) */
+-#define _PAGE_EXECUTE       (1<<1)	/* Page has user execute perm (H) */
+-#define _PAGE_WRITE         (1<<2)	/* Page has user write perm (H) */
+-#define _PAGE_READ          (1<<3)	/* Page has user read perm (H) */
+-#define _PAGE_ACCESSED      (1<<4)	/* Page is accessed (S) */
+-#define _PAGE_DIRTY         (1<<5)	/* Page modified (dirty) (S) */
+-#define _PAGE_SPECIAL       (1<<6)
+-
+-#define _PAGE_GLOBAL        (1<<8)	/* Page is global (H) */
+-#define _PAGE_PRESENT       (1<<9)	/* TLB entry is valid (H) */
+-
+-#ifdef CONFIG_ARC_MMU_V4
+-#define _PAGE_HW_SZ         (1<<10)	/* Page Size indicator (H): 0 normal, 1 super */
+-#endif
+-
+-#define _PAGE_SHARED_CODE   (1<<11)	/* Shared Code page with cmn vaddr
+-					   usable for shared TLB entries (H) */
+-/* vmalloc permissions */
+-#define _K_PAGE_PERMS  (_PAGE_EXECUTE | _PAGE_WRITE | _PAGE_READ | \
+-			_PAGE_GLOBAL | _PAGE_PRESENT)
+-
+-#ifndef CONFIG_ARC_CACHE_PAGES
+-#undef _PAGE_CACHEABLE
+-#define _PAGE_CACHEABLE 0
+-#endif
+-
+-#ifndef _PAGE_HW_SZ
+-#define _PAGE_HW_SZ	0
+-#endif
+-
+-/* Defaults for every user page */
+-#define ___DEF (_PAGE_PRESENT | _PAGE_CACHEABLE)
+-
+-/* Set of bits not changed in pte_modify */
+-#define _PAGE_CHG_MASK	(PAGE_MASK_PHYS | _PAGE_ACCESSED | _PAGE_DIRTY | \
+-							   _PAGE_SPECIAL)
+-/* More Abbrevaited helpers */
+-#define PAGE_U_NONE     __pgprot(___DEF)
+-#define PAGE_U_R        __pgprot(___DEF | _PAGE_READ)
+-#define PAGE_U_W_R      __pgprot(___DEF | _PAGE_READ | _PAGE_WRITE)
+-#define PAGE_U_X_R      __pgprot(___DEF | _PAGE_READ | _PAGE_EXECUTE)
+-#define PAGE_U_X_W_R    __pgprot(___DEF | _PAGE_READ | _PAGE_WRITE | \
+-						       _PAGE_EXECUTE)
+-
+-#define PAGE_SHARED	PAGE_U_W_R
+-
+-/* While kernel runs out of unstranslated space, vmalloc/modules use a chunk of
+- * user vaddr space - visible in all addr spaces, but kernel mode only
+- * Thus Global, all-kernel-access, no-user-access, cached
+- */
+-#define PAGE_KERNEL          __pgprot(_K_PAGE_PERMS | _PAGE_CACHEABLE)
+-
+-/**************************************************************************
+- * Mapping of vm_flags (Generic VM) to PTE flags (arch specific)
+- *
+- * Certain cases have 1:1 mapping
+- *  e.g. __P101 means VM_READ, VM_EXEC and !VM_SHARED
+- *       which directly corresponds to  PAGE_U_X_R
+- *
+- * Other rules which cause the divergence from 1:1 mapping
+- *
+- *  1. Although ARC700 can do exclusive execute/write protection (meaning R
+- *     can be tracked independet of X/W unlike some other CPUs), still to
+- *     keep things consistent with other archs:
+- *      -Write implies Read:   W => R
+- *      -Execute implies Read: X => R
+- *
+- *  2. Pvt Writable doesn't have Write Enabled initially: Pvt-W => !W
+- *     This is to enable COW mechanism
+- */
+-	/* xwr */
+-#define __P000  PAGE_U_NONE
+-#define __P001  PAGE_U_R
+-#define __P010  PAGE_U_R	/* Pvt-W => !W */
+-#define __P011  PAGE_U_R	/* Pvt-W => !W */
+-#define __P100  PAGE_U_X_R	/* X => R */
+-#define __P101  PAGE_U_X_R
+-#define __P110  PAGE_U_X_R	/* Pvt-W => !W and X => R */
+-#define __P111  PAGE_U_X_R	/* Pvt-W => !W */
+-
+-#define __S000  PAGE_U_NONE
+-#define __S001  PAGE_U_R
+-#define __S010  PAGE_U_W_R	/* W => R */
+-#define __S011  PAGE_U_W_R
+-#define __S100  PAGE_U_X_R	/* X => R */
+-#define __S101  PAGE_U_X_R
+-#define __S110  PAGE_U_X_W_R	/* X => R */
+-#define __S111  PAGE_U_X_W_R
+-
+-/****************************************************************
+- * 2 tier (PGD:PTE) software page walker
+- *
+- * [31]		    32 bit virtual address              [0]
+- * -------------------------------------------------------
+- * |               | <------------ PGDIR_SHIFT ----------> |
+- * |		   |					 |
+- * | BITS_FOR_PGD  |  BITS_FOR_PTE  | <-- PAGE_SHIFT --> |
+- * -------------------------------------------------------
+- *       |                  |                |
+- *       |                  |                --> off in page frame
+- *       |                  ---> index into Page Table
+- *       ----> index into Page Directory
+- *
+- * In a single page size configuration, only PAGE_SHIFT is fixed
+- * So both PGD and PTE sizing can be tweaked
+- *  e.g. 8K page (PAGE_SHIFT 13) can have
+- *  - PGDIR_SHIFT 21  -> 11:8:13 address split
+- *  - PGDIR_SHIFT 24  -> 8:11:13 address split
+- *
+- * If Super Page is configured, PGDIR_SHIFT becomes fixed too,
+- * so the sizing flexibility is gone.
+- */
+-
+-#if defined(CONFIG_ARC_HUGEPAGE_16M)
+-#define PGDIR_SHIFT	24
+-#elif defined(CONFIG_ARC_HUGEPAGE_2M)
+-#define PGDIR_SHIFT	21
+-#else
+-/*
+- * Only Normal page support so "hackable" (see comment above)
+- * Default value provides 11:8:13 (8K), 11:9:12 (4K)
+- */
+-#define PGDIR_SHIFT	21
+-#endif
+-
+-#define BITS_FOR_PTE	(PGDIR_SHIFT - PAGE_SHIFT)
+-#define BITS_FOR_PGD	(32 - PGDIR_SHIFT)
+-
+-#define PGDIR_SIZE	BIT(PGDIR_SHIFT)	/* vaddr span, not PDG sz */
+-#define PGDIR_MASK	(~(PGDIR_SIZE-1))
+-
+-#define	PTRS_PER_PTE	BIT(BITS_FOR_PTE)
+-#define	PTRS_PER_PGD	BIT(BITS_FOR_PGD)
+-
+ /*
+  * Number of entries a user land program use.
+  * TASK_SIZE is the maximum vaddr that can be used by a userland program.
+  */
+ #define	USER_PTRS_PER_PGD	(TASK_SIZE / PGDIR_SIZE)
+ 
+-
+-/****************************************************************
+- * Bucket load of VM Helpers
+- */
+-
  #ifndef __ASSEMBLY__
  
-+#if CONFIG_PGTABLE_LEVELS > 2
-+#include <asm-generic/pgtable-nopud.h>
-+#else
- #include <asm-generic/pgtable-nopmd.h>
-+#endif
+-#define pte_ERROR(e) \
+-	pr_crit("%s:%d: bad pte %08lx.\n", __FILE__, __LINE__, pte_val(e))
+-#define pgd_ERROR(e) \
+-	pr_crit("%s:%d: bad pgd %08lx.\n", __FILE__, __LINE__, pgd_val(e))
+-
+-/* the zero page used for uninitialized and anonymous pages */
+ extern char empty_zero_page[PAGE_SIZE];
+ #define ZERO_PAGE(vaddr)	(virt_to_page(empty_zero_page))
  
- /*
-  * 1st level paging: pgd
-@@ -57,9 +81,35 @@
- #define pgd_ERROR(e) \
- 	pr_crit("%s:%d: bad pgd %08lx.\n", __FILE__, __LINE__, pgd_val(e))
+-#define set_pte(pteptr, pteval)	((*(pteptr)) = (pteval))
+-#define set_pmd(pmdptr, pmdval)	(*(pmdptr) = pmdval)
+-
+-/* find the page descriptor of the Page Tbl ref by PMD entry */
+-#define pmd_page(pmd)		virt_to_page(pmd_val(pmd) & PAGE_MASK)
+-
+-/* find the logical addr (phy for ARC) of the Page Tbl ref by PMD entry */
+-#define pmd_page_vaddr(pmd)	(pmd_val(pmd) & PAGE_MASK)
+-
+-#define pte_none(x)			(!pte_val(x))
+-#define pte_present(x)			(pte_val(x) & _PAGE_PRESENT)
+-#define pte_clear(mm, addr, ptep)	set_pte_at(mm, addr, ptep, __pte(0))
+-
+-#define pmd_none(x)			(!pmd_val(x))
+-#define	pmd_bad(x)			((pmd_val(x) & ~PAGE_MASK))
+-#define pmd_present(x)			(pmd_val(x))
+-#define pmd_leaf(x)			(pmd_val(x) & _PAGE_HW_SZ)
+-#define pmd_clear(xp)			do { pmd_val(*(xp)) = 0; } while (0)
+-
+-#define pte_page(pte)		pfn_to_page(pte_pfn(pte))
+-#define mk_pte(page, prot)	pfn_pte(page_to_pfn(page), prot)
+-#define pfn_pte(pfn, prot)	__pte(__pfn_to_phys(pfn) | pgprot_val(prot))
+-
+-/* Don't use virt_to_pfn for macros below: could cause truncations for PAE40*/
+-#define pte_pfn(pte)		(pte_val(pte) >> PAGE_SHIFT)
+-
+-/* Zoo of pte_xxx function */
+-#define pte_read(pte)		(pte_val(pte) & _PAGE_READ)
+-#define pte_write(pte)		(pte_val(pte) & _PAGE_WRITE)
+-#define pte_dirty(pte)		(pte_val(pte) & _PAGE_DIRTY)
+-#define pte_young(pte)		(pte_val(pte) & _PAGE_ACCESSED)
+-#define pte_special(pte)	(pte_val(pte) & _PAGE_SPECIAL)
+-
+-#define PTE_BIT_FUNC(fn, op) \
+-	static inline pte_t pte_##fn(pte_t pte) { pte_val(pte) op; return pte; }
+-
+-PTE_BIT_FUNC(mknotpresent,	&= ~(_PAGE_PRESENT));
+-PTE_BIT_FUNC(wrprotect,	&= ~(_PAGE_WRITE));
+-PTE_BIT_FUNC(mkwrite,	|= (_PAGE_WRITE));
+-PTE_BIT_FUNC(mkclean,	&= ~(_PAGE_DIRTY));
+-PTE_BIT_FUNC(mkdirty,	|= (_PAGE_DIRTY));
+-PTE_BIT_FUNC(mkold,	&= ~(_PAGE_ACCESSED));
+-PTE_BIT_FUNC(mkyoung,	|= (_PAGE_ACCESSED));
+-PTE_BIT_FUNC(exprotect,	&= ~(_PAGE_EXECUTE));
+-PTE_BIT_FUNC(mkexec,	|= (_PAGE_EXECUTE));
+-PTE_BIT_FUNC(mkspecial,	|= (_PAGE_SPECIAL));
+-PTE_BIT_FUNC(mkhuge,	|= (_PAGE_HW_SZ));
+-
+-static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
+-{
+-	return __pte((pte_val(pte) & _PAGE_CHG_MASK) | pgprot_val(newprot));
+-}
++extern pgd_t swapper_pg_dir[] __aligned(PAGE_SIZE);
  
-+#if CONFIG_PGTABLE_LEVELS > 2
-+
-+/* In 3 level paging, pud_* macros work on pgd */
-+#define pud_none(x)		(!pud_val(x))
-+#define pud_bad(x)		((pud_val(x) & ~PAGE_MASK))
-+#define pud_present(x)		(pud_val(x))
-+#define pud_clear(xp)		do { pud_val(*(xp)) = 0; } while (0)
-+#define pud_pgtable(pud)	((pmd_t *)(pud_val(pud) & PAGE_MASK))
-+#define pud_page(pud)		virt_to_page(pud_pgtable(pud))
-+#define set_pud(pudp, pud)	(*(pudp) = pud)
-+
-+/*
-+ * 2nd level paging: pmd
-+ */
-+#define pmd_ERROR(e) \
-+	pr_crit("%s:%d: bad pmd %08lx.\n", __FILE__, __LINE__, pmd_val(e))
-+
-+#define pmd_pfn(pmd)		((pmd_val(pmd) & PMD_MASK) >> PAGE_SHIFT)
-+#define pfn_pmd(pfn,prot)	__pmd(((pfn) << PAGE_SHIFT) | pgprot_val(prot))
-+#define mk_pmd(page,prot)	pfn_pmd(page_to_pfn(page),prot)
-+
-+#endif
-+
- /*
-- * Due to the strange way generic pgtable level folding works, in a 2 level
-- * setup, pmd_val() returns pgd, so these pmd_* macros actually work on pgd
-+ * Due to the strange way generic pgtable level folding works, the pmd_* macros
-+ *  - are valid even for 2 levels (which supposedly only has pgd - pte)
-+ *  - behave differently for 2 vs. 3
-+ * In 2  level paging        (pgd -> pte), pmd_* macros work on pgd
-+ * In 3+ level paging (pgd -> pmd -> pte), pmd_* macros work on pmd
-  */
- #define pmd_none(x)		(!pmd_val(x))
- #define pmd_bad(x)		((pmd_val(x) & ~PAGE_MASK))
-@@ -70,6 +120,9 @@
- #define set_pmd(pmdp, pmd)	(*(pmdp) = pmd)
- #define pmd_pgtable(pmd)	((pgtable_t) pmd_page_vaddr(pmd))
+ /* Macro to mark a page protection as uncacheable */
+ #define pgprot_noncached(prot)	(__pgprot(pgprot_val(prot) & ~_PAGE_CACHEABLE))
  
-+/*
-+ * 3rd level paging: pte
-+ */
- #define pte_ERROR(e) \
- 	pr_crit("%s:%d: bad pte %08lx.\n", __FILE__, __LINE__, pte_val(e))
+-static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
+-			      pte_t *ptep, pte_t pteval)
+-{
+-	set_pte(ptep, pteval);
+-}
+-
+ extern pgd_t swapper_pg_dir[] __aligned(PAGE_SIZE);
+-void update_mmu_cache(struct vm_area_struct *vma, unsigned long address,
+-		      pte_t *ptep);
+-
+-/* Encode swap {type,off} tuple into PTE
+- * We reserve 13 bits for 5-bit @type, keeping bits 12-5 zero, ensuring that
+- * PAGE_PRESENT is zero in a PTE holding swap "identifier"
+- */
+-#define __swp_entry(type, off)	((swp_entry_t) { \
+-					((type) & 0x1f) | ((off) << 13) })
+-
+-/* Decode a PTE containing swap "identifier "into constituents */
+-#define __swp_type(pte_lookalike)	(((pte_lookalike).val) & 0x1f)
+-#define __swp_offset(pte_lookalike)	((pte_lookalike).val >> 13)
+-
+-/* NOPs, to keep generic kernel happy */
+-#define __pte_to_swp_entry(pte)	((swp_entry_t) { pte_val(pte) })
+-#define __swp_entry_to_pte(x)	((pte_t) { (x).val })
+-
+-#define kern_addr_valid(addr)	(1)
+-
+-#define pmd_pgtable(pmd)       ((pgtable_t) pmd_page_vaddr(pmd))
+-
+-/*
+- * remap a physical page `pfn' of size `size' with page protection `prot'
+- * into virtual address `from'
+- */
+-#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+-#include <asm/hugepage.h>
+-#endif
  
-diff --git a/arch/arc/include/asm/processor.h b/arch/arc/include/asm/processor.h
-index e4031ecd3c8c..f28afcf5c6d1 100644
---- a/arch/arc/include/asm/processor.h
-+++ b/arch/arc/include/asm/processor.h
-@@ -93,7 +93,7 @@ extern unsigned int get_wchan(struct task_struct *p);
- #define VMALLOC_START	(PAGE_OFFSET - (CONFIG_ARC_KVADDR_SIZE << 20))
- 
- /* 1 PGDIR_SIZE each for fixmap/pkmap, 2 PGDIR_SIZE gutter (see asm/highmem.h) */
--#define VMALLOC_SIZE	((CONFIG_ARC_KVADDR_SIZE << 20) - PGDIR_SIZE * 4)
-+#define VMALLOC_SIZE	((CONFIG_ARC_KVADDR_SIZE << 20) - PMD_SIZE * 4)
- 
- #define VMALLOC_END	(VMALLOC_START + VMALLOC_SIZE)
- 
-diff --git a/arch/arc/mm/fault.c b/arch/arc/mm/fault.c
-index 41f154320964..8da2f0ad8c69 100644
---- a/arch/arc/mm/fault.c
-+++ b/arch/arc/mm/fault.c
-@@ -39,6 +39,8 @@ noinline static int handle_kernel_vaddr_fault(unsigned long address)
- 	if (!pgd_present(*pgd_k))
- 		goto bad_area;
- 
-+	set_pgd(pgd, *pgd_k);
-+
- 	p4d = p4d_offset(pgd, address);
- 	p4d_k = p4d_offset(pgd_k, address);
- 	if (!p4d_present(*p4d_k))
-@@ -49,6 +51,8 @@ noinline static int handle_kernel_vaddr_fault(unsigned long address)
- 	if (!pud_present(*pud_k))
- 		goto bad_area;
- 
-+	set_pud(pud, *pud_k);
-+
- 	pmd = pmd_offset(pud, address);
- 	pmd_k = pmd_offset(pud_k, address);
- 	if (!pmd_present(*pmd_k))
-diff --git a/arch/arc/mm/tlb.c b/arch/arc/mm/tlb.c
-index 34f16e0b41e6..77da83569b36 100644
---- a/arch/arc/mm/tlb.c
-+++ b/arch/arc/mm/tlb.c
-@@ -658,8 +658,8 @@ char *arc_mmu_mumbojumbo(int cpu_id, char *buf, int len)
- 			  IS_USED_CFG(CONFIG_TRANSPARENT_HUGEPAGE));
- 
- 	n += scnprintf(buf + n, len - n,
--		      "MMU [v%x]\t: %dk PAGE, %sJTLB %d (%dx%d), uDTLB %d, uITLB %d%s%s\n",
--		       p_mmu->ver, p_mmu->pg_sz_k, super_pg,
-+		      "MMU [v%x]\t: %dk PAGE, %s, swalk %d lvl, JTLB %d (%dx%d), uDTLB %d, uITLB %d%s%s\n",
-+		       p_mmu->ver, p_mmu->pg_sz_k, super_pg,  CONFIG_PGTABLE_LEVELS,
- 		       p_mmu->sets * p_mmu->ways, p_mmu->sets, p_mmu->ways,
- 		       p_mmu->u_dtlb, p_mmu->u_itlb,
- 		       IS_AVAIL2(p_mmu->pae, ", PAE40 ", CONFIG_ARC_HAS_PAE40));
-diff --git a/arch/arc/mm/tlbex.S b/arch/arc/mm/tlbex.S
-index d08bd09a0afc..5f6bfdfda1be 100644
---- a/arch/arc/mm/tlbex.S
-+++ b/arch/arc/mm/tlbex.S
-@@ -173,6 +173,15 @@ ex_saved_reg1:
- 	tst	r3, r3
- 	bz	do_slow_path_pf         ; if no Page Table, do page fault
- 
-+#if CONFIG_PGTABLE_LEVELS > 2
-+	lsr     r0, r2, PMD_SHIFT	; Bits for indexing into PMD
-+	and	r0, r0, (PTRS_PER_PMD - 1)
-+	ld.as	r1, [r3, r0]		; PMD entry
-+	tst	r1, r1
-+	bz	do_slow_path_pf
-+	mov	r3, r1
-+#endif
-+
- #ifdef CONFIG_TRANSPARENT_HUGEPAGE
- 	and.f	0, r3, _PAGE_HW_SZ	; Is this Huge PMD (thp)
- 	add2.nz	r1, r1, r0
+ /* to cope with aliasing VIPT cache */
+ #define HAVE_ARCH_UNMAPPED_AREA
 -- 
 2.25.1
 
