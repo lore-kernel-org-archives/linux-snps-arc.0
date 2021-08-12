@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 044E1C43214
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Aug 2021 23:38:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5EADC47422
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Aug 2021 23:38:16 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B16C6610A4
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Aug 2021 23:38:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B16C6610A4
+	by mail.kernel.org (Postfix) with ESMTPS id 5D4326109F
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Aug 2021 23:38:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5D4326109F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,46 +23,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=SHwtZlfWb8eEajB+WslVfBF1szcrlDDzduxgiiJxMIM=; b=1YeuXXAqvL0M1l
-	ENs1Tja5YKt70c6ee6hcvYT/1PgJlS26F6POPvmDhFdc65OveUh2cmwrxxV+u2VhYcKaAzxDGAd8y
-	7CghCLeNv6QXKN8ATW4XypgC+wrnLACppS0Vdx5eUJhBusxLZ5stJ8nrJH4XdaIm6xd06D95mX3+X
-	Yj6roroJ3zizpAo5Ekw2aBMEpIwe1I+g2m3mHEKdZZz8uHFwRTTpR1YdkOnil7v52OZwZ4qq5NqRw
-	xtGphZZTDqZN/prsf1/MnLYFff5NOkgKIWoBPh8bOvZ64+cTLE+u2AJNE4JbVy/Og1ndBGnlSw/0q
-	VfJCUMUpAWFEqD4mTwCQ==;
+	List-Owner; bh=kSjROh2y2J8AGAmMdRhoaKiWKQCNkgc0Wl15TPhKp7I=; b=OakDBBcFzXQ9Dh
+	6hyeNAnPXb4ZMg1Tm+afFMICwHes3E86gNQhBDI3cvhINToLeWTkViNiHc8P/em8Ayi7OLqgDYEex
+	aiMGkEJnKHl/d6jFNgUiCyWvvUBEY3FYdkoO5FgFx0wZ4Y+IEYG3Qbyp1drn60+uufkK0ABicpCj/
+	RcEFd7OIo+vpVarYuwLOx/kvyw33YIfG5aEHZVXEZ5iwZYgNPZigeufwK41GMVQO6ezZo6QA1MLzV
+	KawO5FLPpWS029gaQyYAO89k6gVCurwh3VWylJs9tQptPqi47ArSD2SfRdlOlS4AU2sZVaWBEyiJp
+	oPt6DF/OgWvwGZZr1hqQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mEKH7-00BU7S-W1; Thu, 12 Aug 2021 23:38:14 +0000
+	id 1mEKH9-00BU9b-Ob; Thu, 12 Aug 2021 23:38:15 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mEKGy-00BTvc-1J
- for linux-snps-arc@lists.infradead.org; Thu, 12 Aug 2021 23:38:10 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0FB61610FD;
- Thu, 12 Aug 2021 23:38:03 +0000 (UTC)
+ id 1mEKGz-00BTxg-0j
+ for linux-snps-arc@lists.infradead.org; Thu, 12 Aug 2021 23:38:13 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7766D6112E;
+ Thu, 12 Aug 2021 23:38:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628811483;
- bh=2Fl+UaQd2LbBkvpg/DazzYYTlhrohlhzA+PnuOctBVY=;
+ s=k20201202; t=1628811484;
+ bh=WwnrEymPtlTXjy10ynCidFxMgHguuIzE/6UZ1pzghrQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=aPK0kff4ECHeCAQ5/7/T8RrOf3uCFlgE4teUXWOt0D32NUoOkPIkN5V9THIfZtjas
- kw1gv/ujim8O654BSs6OKq+uDfgJOQQSGzf1c8ii07AWLy+c9WLQqUcB9SM+sVZuxe
- 0Y+XfnZRNZ0B7gbFefwxETwkm8QKVbl2AzPaAt72it1DgB3p27p26vPlUwDwG8SmCv
- VjdtYqTwVtYvTUtF0H+tseJNpFtqJp1QhNN9cSsJ1qB4aDdfqQs2RkggLFobtEatMn
- j83jsD5tMIau/9zOlhfvTOWHkD3DvRFtItE3nQvaZbw6bC9SpDHIDMUQ1xEpc0Vmac
- kNVgGqnboAfkw==
+ b=isKycoi2XNHSvdcerZYs00WsF4IWnL5ab2yY6BhAjcr2inMrF6bR8DVcPtADZxM8F
+ AJjsG0M1wX88FKJC28LkQR7tKiD+Bj9DqMWCFa6si6z+T7eHxUA1bdps461M0zUsHJ
+ kAymUno45/Ii8RwiJfwJCwKx0DgIudQuZ96ar1H3Gxppy9ToPKiXS6yPCOMACYOBrm
+ nCXiUVWWbbqCg7xb7NvWybTlWSLsdiceMPphU4knfALUvXHFT4bEB6gF+mSlOAPiTw
+ nOiiBiobX1lQZ8G0/Bf1thsTcjMDL6xfQqiLUylLgcBIj+q9uavsAQq9UWetDcWnmv
+ 5IRDjaJSovhLw==
 From: Vineet Gupta <vgupta@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  Anshuman Khandual <anshuman.khandual@arm.com>,
  Mike Rapoport <rppt@kernel.org>, Vineet Gupta <vgupta@kernel.org>
-Subject: [PATCH v2 13/19] ARC: mm: disintegrate mmu.h (arcv2 bits out)
-Date: Thu, 12 Aug 2021 16:37:47 -0700
-Message-Id: <20210812233753.104217-14-vgupta@kernel.org>
+Subject: [PATCH v2 16/19] ARC: mm: support 3 levels of page tables
+Date: Thu, 12 Aug 2021 16:37:50 -0700
+Message-Id: <20210812233753.104217-17-vgupta@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210812233753.104217-1-vgupta@kernel.org>
 References: <20210812233753.104217-1-vgupta@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210812_163804_214112_53D93306 
-X-CRM114-Status: GOOD (  14.72  )
+X-CRM114-CacheID: sfid-20210812_163805_137413_3AE4B47D 
+X-CRM114-Status: GOOD (  19.62  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,240 +79,293 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-non functional change
+ARCv2 MMU is software walked and Linux implements 2 levels of paging: pgd/pte.
+Forthcoming hw will have multiple levels, so this change preps mm code
+for same. It is also fun to try multi levels even on soft-walked code to
+ensure generic mm code is robust to handle.
+
+overview
+________
+
+2 levels {pgd, pte} : pmd is folded but pmd_* macros are valid and operate on pgd
+3 levels {pgd, pmd, pte}:
+  - pud is folded and pud_* macros point to pgd
+  - pmd_* macros operate on actual pmd
+
+code changes
+____________
+
+1. #include <asm-generic/pgtable-nopud.h>
+
+2. Define CONFIG_PGTABLE_LEVELS 3
+
+3a. Define PMD_SHIFT, PMD_SIZE, PMD_MASK, pmd_t
+3b. Define pmd_val() which actually deals with pmd
+    (pmd_offset(), pmd_index() are provided by generic code)
+3c. pmd_alloc_one()/pmd_free() also provided by generic code
+    (pmd_populate/pmd_free already exist)
+
+4. Define pud_none(), pud_bad() macros based on generic pud_val() which
+   internally pertains to pgd now.
+4b. define pud_populate() to just setup pgd
 
 Signed-off-by: Vineet Gupta <vgupta@kernel.org>
 ---
- arch/arc/include/asm/mmu-arcv2.h | 103 +++++++++++++++++++++++++++++++
- arch/arc/include/asm/mmu.h       |  80 +-----------------------
- arch/arc/include/asm/pgtable.h   |   6 --
- 3 files changed, 105 insertions(+), 84 deletions(-)
- create mode 100644 arch/arc/include/asm/mmu-arcv2.h
+ arch/arc/Kconfig                      |  4 ++
+ arch/arc/include/asm/page.h           | 11 +++++
+ arch/arc/include/asm/pgalloc.h        | 11 +++++
+ arch/arc/include/asm/pgtable-levels.h | 63 ++++++++++++++++++++++++---
+ arch/arc/include/asm/processor.h      |  2 +-
+ arch/arc/mm/fault.c                   |  4 ++
+ arch/arc/mm/init.c                    |  1 +
+ arch/arc/mm/tlb.c                     |  4 +-
+ arch/arc/mm/tlbex.S                   |  9 ++++
+ 9 files changed, 101 insertions(+), 8 deletions(-)
 
-diff --git a/arch/arc/include/asm/mmu-arcv2.h b/arch/arc/include/asm/mmu-arcv2.h
-new file mode 100644
-index 000000000000..4c47dd3864d1
---- /dev/null
-+++ b/arch/arc/include/asm/mmu-arcv2.h
-@@ -0,0 +1,103 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2004, 2007-2010, 2011-2012, 2019-20 Synopsys, Inc. (www.synopsys.com)
-+ *
-+ * MMUv3 (arc700) / MMUv4 (archs) are software page walked and software managed.
-+ * This file contains the TLB access registers and commands
-+ */
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index 59d5b2a179f6..43cb8aaf57a2 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -314,6 +314,10 @@ config ARC_HUGEPAGE_16M
+ 
+ endchoice
+ 
++config PGTABLE_LEVELS
++	int "Number of Page table levels"
++	default 2
 +
-+#ifndef _ASM_ARC_MMU_ARCV2_H
-+#define _ASM_ARC_MMU_ARCV2_H
+ config ARC_COMPACT_IRQ_LEVELS
+ 	depends on ISA_ARCOMPACT
+ 	bool "Setup Timer IRQ as high Priority"
+diff --git a/arch/arc/include/asm/page.h b/arch/arc/include/asm/page.h
+index 28ed82b1800f..5d7899d87c08 100644
+--- a/arch/arc/include/asm/page.h
++++ b/arch/arc/include/asm/page.h
+@@ -41,6 +41,17 @@ typedef struct {
+ #define pgd_val(x)	((x).pgd)
+ #define __pgd(x)	((pgd_t) { (x) })
+ 
++#if CONFIG_PGTABLE_LEVELS > 2
 +
-+/*
-+ * TLB Management regs
-+ */
-+#define ARC_REG_MMU_BCR		0x06f
++typedef struct {
++	unsigned long pmd;
++} pmd_t;
 +
-+#ifdef CONFIG_ARC_MMU_V3
-+#define ARC_REG_TLBPD0		0x405
-+#define ARC_REG_TLBPD1		0x406
-+#define ARC_REG_TLBPD1HI	0	/* Dummy: allows common code */
-+#define ARC_REG_TLBINDEX	0x407
-+#define ARC_REG_TLBCOMMAND	0x408
-+#define ARC_REG_PID		0x409
-+#define ARC_REG_SCRATCH_DATA0	0x418
-+#else
-+#define ARC_REG_TLBPD0		0x460
-+#define ARC_REG_TLBPD1		0x461
-+#define ARC_REG_TLBPD1HI	0x463
-+#define ARC_REG_TLBINDEX	0x464
-+#define ARC_REG_TLBCOMMAND	0x465
-+#define ARC_REG_PID		0x468
-+#define ARC_REG_SCRATCH_DATA0	0x46c
++#define pmd_val(x)	((x).pmd)
++#define __pmd(x)	((pmd_t) { (x) })
++
 +#endif
 +
-+/* Bits in MMU PID reg */
-+#define __TLB_ENABLE		(1 << 31)
-+#define __PROG_ENABLE		(1 << 30)
-+#define MMU_ENABLE		(__TLB_ENABLE | __PROG_ENABLE)
+ typedef struct {
+ #ifdef CONFIG_ARC_HAS_PAE40
+ 	unsigned long long pte;
+diff --git a/arch/arc/include/asm/pgalloc.h b/arch/arc/include/asm/pgalloc.h
+index 0cde9e5eefd7..781620d2e86f 100644
+--- a/arch/arc/include/asm/pgalloc.h
++++ b/arch/arc/include/asm/pgalloc.h
+@@ -70,6 +70,17 @@ static inline pgd_t *pgd_alloc(struct mm_struct *mm)
+ 	return ret;
+ }
+ 
++#if CONFIG_PGTABLE_LEVELS > 2
 +
-+/* Bits in TLB Index reg */
-+#define TLB_LKUP_ERR		0x80000000
-+
-+#ifdef CONFIG_ARC_MMU_V3
-+#define TLB_DUP_ERR		(TLB_LKUP_ERR | 0x00000001)
-+#else
-+#define TLB_DUP_ERR		(TLB_LKUP_ERR | 0x40000000)
-+#endif
-+
-+/*
-+ * TLB Commands
-+ */
-+#define TLBWrite    		0x1
-+#define TLBRead     		0x2
-+#define TLBGetIndex 		0x3
-+#define TLBProbe    		0x4
-+#define TLBWriteNI		0x5  /* write JTLB without inv uTLBs */
-+#define TLBIVUTLB		0x6  /* explicitly inv uTLBs */
-+
-+#ifdef CONFIG_ARC_MMU_V4
-+#define TLBInsertEntry		0x7
-+#define TLBDeleteEntry		0x8
-+#endif
-+
-+/* Masks for actual TLB "PD"s */
-+#define PTE_BITS_IN_PD0		(_PAGE_GLOBAL | _PAGE_PRESENT | _PAGE_HW_SZ)
-+#define PTE_BITS_RWX		(_PAGE_EXECUTE | _PAGE_WRITE | _PAGE_READ)
-+
-+#define PTE_BITS_NON_RWX_IN_PD1	(PAGE_MASK_PHYS | _PAGE_CACHEABLE)
-+
-+#ifndef __ASSEMBLY__
-+
-+struct mm_struct;
-+extern int pae40_exist_but_not_enab(void);
-+
-+static inline int is_pae40_enabled(void)
++static inline void pud_populate(struct mm_struct *mm, pud_t *pudp, pmd_t *pmdp)
 +{
-+	return IS_ENABLED(CONFIG_ARC_HAS_PAE40);
++	set_pud(pudp, __pud((unsigned long)pmdp));
 +}
 +
-+static void inline mmu_setup_asid(struct mm_struct *mm, unsigned long asid)
-+{
-+	write_aux_reg(ARC_REG_PID, asid | MMU_ENABLE);
-+}
++#define __pmd_free_tlb(tlb, pmd, addr)  pmd_free((tlb)->mm, pmd)
 +
-+static void inline mmu_setup_pgd(struct mm_struct *mm, void *pgd)
-+{
-+	/* PGD cached in MMU reg to avoid 3 mem lookups: task->mm->pgd */
-+#ifdef CONFIG_ISA_ARCV2
-+	write_aux_reg(ARC_REG_SCRATCH_DATA0, (unsigned int)pgd);
 +#endif
-+}
 +
+ #define __pte_free_tlb(tlb, pte, addr)  pte_free((tlb)->mm, pte)
+ 
+ #endif /* _ASM_ARC_PGALLOC_H */
+diff --git a/arch/arc/include/asm/pgtable-levels.h b/arch/arc/include/asm/pgtable-levels.h
+index 8ece75335bb5..1c2f022d4ad0 100644
+--- a/arch/arc/include/asm/pgtable-levels.h
++++ b/arch/arc/include/asm/pgtable-levels.h
+@@ -10,6 +10,8 @@
+ #ifndef _ASM_ARC_PGTABLE_LEVELS_H
+ #define _ASM_ARC_PGTABLE_LEVELS_H
+ 
++#if CONFIG_PGTABLE_LEVELS == 2
++
+ /*
+  * 2 level paging setup for software walked MMUv3 (ARC700) and MMUv4 (HS)
+  *
+@@ -37,16 +39,38 @@
+ #define PGDIR_SHIFT		21
+ #endif
+ 
+-#define PGDIR_SIZE		BIT(PGDIR_SHIFT)	/* vaddr span, not PDG sz */
+-#define PGDIR_MASK		(~(PGDIR_SIZE - 1))
 +#else
 +
-+.macro ARC_MMU_REENABLE reg
-+	lr \reg, [ARC_REG_PID]
-+	or \reg, \reg, MMU_ENABLE
-+	sr \reg, [ARC_REG_PID]
-+.endm
-+
-+#endif /* !__ASSEMBLY__ */
++/*
++ * A default 3 level paging testing setup in software walked MMU
++ *   MMUv4 (8K page): <4> : <7> : <8> : <13>
++ */
++#define PGDIR_SHIFT		28
++#if CONFIG_PGTABLE_LEVELS > 2
++#define PMD_SHIFT		21
++#endif
 +
 +#endif
-diff --git a/arch/arc/include/asm/mmu.h b/arch/arc/include/asm/mmu.h
-index 414a27e806b6..ca427c30f70e 100644
---- a/arch/arc/include/asm/mmu.h
-+++ b/arch/arc/include/asm/mmu.h
-@@ -7,91 +7,15 @@
- #define _ASM_ARC_MMU_H
+ 
++#define PGDIR_SIZE		BIT(PGDIR_SHIFT)
++#define PGDIR_MASK		(~(PGDIR_SIZE - 1))
+ #define PTRS_PER_PGD		BIT(32 - PGDIR_SHIFT)
+ 
+-#define PTRS_PER_PTE		BIT(PGDIR_SHIFT - PAGE_SHIFT)
++#if CONFIG_PGTABLE_LEVELS > 2
++#define PMD_SIZE		BIT(PMD_SHIFT)
++#define PMD_MASK		(~(PMD_SIZE - 1))
++#define PTRS_PER_PMD		BIT(PGDIR_SHIFT - PMD_SHIFT)
++#endif
++
++#define PTRS_PER_PTE		BIT(PMD_SHIFT - PAGE_SHIFT)
  
  #ifndef __ASSEMBLY__
--#include <linux/threads.h>	/* NR_CPUS */
--#endif
--
--/* MMU Management regs */
--#define ARC_REG_MMU_BCR		0x06f
--
--#ifdef CONFIG_ARC_MMU_V3
--#define ARC_REG_TLBPD0		0x405
--#define ARC_REG_TLBPD1		0x406
--#define ARC_REG_TLBPD1HI	0	/* Dummy: allows code sharing with ARC700 */
--#define ARC_REG_TLBINDEX	0x407
--#define ARC_REG_TLBCOMMAND	0x408
--#define ARC_REG_PID		0x409
--#define ARC_REG_SCRATCH_DATA0	0x418
--#else
--#define ARC_REG_TLBPD0		0x460
--#define ARC_REG_TLBPD1		0x461
--#define ARC_REG_TLBPD1HI	0x463
--#define ARC_REG_TLBINDEX	0x464
--#define ARC_REG_TLBCOMMAND	0x465
--#define ARC_REG_PID		0x468
--#define ARC_REG_SCRATCH_DATA0	0x46c
--#endif
--
--/* Bits in MMU PID register */
--#define __TLB_ENABLE		(1 << 31)
--#define __PROG_ENABLE		(1 << 30)
--#define MMU_ENABLE		(__TLB_ENABLE | __PROG_ENABLE)
--
--/* Error code if probe fails */
--#define TLB_LKUP_ERR		0x80000000
--
--#ifdef CONFIG_ARC_MMU_V3
--#define TLB_DUP_ERR	(TLB_LKUP_ERR | 0x00000001)
--#else
--#define TLB_DUP_ERR	(TLB_LKUP_ERR | 0x40000000)
--#endif
--
--/* TLB Commands */
--#define TLBWrite    0x1
--#define TLBRead     0x2
--#define TLBGetIndex 0x3
--#define TLBProbe    0x4
--#define TLBWriteNI  0x5		/* write JTLB without inv uTLBs */
--#define TLBIVUTLB   0x6		/* explicitly inv uTLBs */
  
--#ifdef CONFIG_ARC_MMU_V4
--#define TLBInsertEntry	0x7
--#define TLBDeleteEntry	0x8
--#endif
--
--#ifndef __ASSEMBLY__
-+#include <linux/threads.h>	/* NR_CPUS */
++#if CONFIG_PGTABLE_LEVELS > 2
++#include <asm-generic/pgtable-nopud.h>
++#else
+ #include <asm-generic/pgtable-nopmd.h>
++#endif
  
- typedef struct {
- 	unsigned long asid[NR_CPUS];	/* 8 bit MMU PID + Generation cycle */
- } mm_context_t;
+ /*
+  * 1st level paging: pgd
+@@ -57,9 +81,35 @@
+ #define pgd_ERROR(e) \
+ 	pr_crit("%s:%d: bad pgd %08lx.\n", __FILE__, __LINE__, pgd_val(e))
  
--static void inline mmu_setup_asid(struct mm_struct *mm, unsigned int asid)
--{
--	write_aux_reg(ARC_REG_PID, asid | MMU_ENABLE);
--}
--
--static void inline mmu_setup_pgd(struct mm_struct *mm, void *pgd)
--{
--	/* PGD cached in MMU reg to avoid 3 mem lookups: task->mm->pgd */
--#ifdef CONFIG_ISA_ARCV2
--	write_aux_reg(ARC_REG_SCRATCH_DATA0, (unsigned int)pgd);
- #endif
--}
--
--static inline int is_pae40_enabled(void)
--{
--	return IS_ENABLED(CONFIG_ARC_HAS_PAE40);
--}
--
--extern int pae40_exist_but_not_enab(void);
--
--#else
--
--.macro ARC_MMU_REENABLE reg
--	lr \reg, [ARC_REG_PID]
--	or \reg, \reg, MMU_ENABLE
--	sr \reg, [ARC_REG_PID]
--.endm
- 
--#endif	/* !__ASSEMBLY__ */
-+#include <asm/mmu-arcv2.h>
- 
- #endif
-diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
-index f762bacb2358..de4576e8d17a 100644
---- a/arch/arc/include/asm/pgtable.h
-+++ b/arch/arc/include/asm/pgtable.h
-@@ -103,12 +103,6 @@
++#if CONFIG_PGTABLE_LEVELS > 2
++
++/* In 3 level paging, pud_* macros work on pgd */
++#define pud_none(x)		(!pud_val(x))
++#define pud_bad(x)		((pud_val(x) & ~PAGE_MASK))
++#define pud_present(x)		(pud_val(x))
++#define pud_clear(xp)		do { pud_val(*(xp)) = 0; } while (0)
++#define pud_pgtable(pud)	((pmd_t *)(pud_val(pud) & PAGE_MASK))
++#define pud_page(pud)		virt_to_page(pud_pgtable(pud))
++#define set_pud(pudp, pud)	(*(pudp) = pud)
++
++/*
++ * 2nd level paging: pmd
++ */
++#define pmd_ERROR(e) \
++	pr_crit("%s:%d: bad pmd %08lx.\n", __FILE__, __LINE__, pmd_val(e))
++
++#define pmd_pfn(pmd)		((pmd_val(pmd) & PMD_MASK) >> PAGE_SHIFT)
++#define pfn_pmd(pfn,prot)	__pmd(((pfn) << PAGE_SHIFT) | pgprot_val(prot))
++#define mk_pmd(page,prot)	pfn_pmd(page_to_pfn(page),prot)
++
++#endif
++
+ /*
+- * Due to the strange way generic pgtable level folding works, in a 2 level
+- * setup, pmd_val() returns pgd, so these pmd_* macros actually work on pgd
++ * Due to the strange way generic pgtable level folding works, the pmd_* macros
++ *  - are valid even for 2 levels (which supposedly only has pgd - pte)
++ *  - behave differently for 2 vs. 3
++ * In 2  level paging        (pgd -> pte), pmd_* macros work on pgd
++ * In 3+ level paging (pgd -> pmd -> pte), pmd_* macros work on pmd
   */
- #define PAGE_KERNEL          __pgprot(_K_PAGE_PERMS | _PAGE_CACHEABLE)
+ #define pmd_none(x)		(!pmd_val(x))
+ #define pmd_bad(x)		((pmd_val(x) & ~PAGE_MASK))
+@@ -70,6 +120,9 @@
+ #define set_pmd(pmdp, pmd)	(*(pmdp) = pmd)
+ #define pmd_pgtable(pmd)	((pgtable_t) pmd_page_vaddr(pmd))
  
--/* Masks for actual TLB "PD"s */
--#define PTE_BITS_IN_PD0		(_PAGE_GLOBAL | _PAGE_PRESENT | _PAGE_HW_SZ)
--#define PTE_BITS_RWX		(_PAGE_EXECUTE | _PAGE_WRITE | _PAGE_READ)
--
--#define PTE_BITS_NON_RWX_IN_PD1	(PAGE_MASK_PHYS | _PAGE_CACHEABLE)
--
- /**************************************************************************
-  * Mapping of vm_flags (Generic VM) to PTE flags (arch specific)
-  *
++/*
++ * 3rd level paging: pte
++ */
+ #define pte_ERROR(e) \
+ 	pr_crit("%s:%d: bad pte %08lx.\n", __FILE__, __LINE__, pte_val(e))
+ 
+diff --git a/arch/arc/include/asm/processor.h b/arch/arc/include/asm/processor.h
+index e4031ecd3c8c..f28afcf5c6d1 100644
+--- a/arch/arc/include/asm/processor.h
++++ b/arch/arc/include/asm/processor.h
+@@ -93,7 +93,7 @@ extern unsigned int get_wchan(struct task_struct *p);
+ #define VMALLOC_START	(PAGE_OFFSET - (CONFIG_ARC_KVADDR_SIZE << 20))
+ 
+ /* 1 PGDIR_SIZE each for fixmap/pkmap, 2 PGDIR_SIZE gutter (see asm/highmem.h) */
+-#define VMALLOC_SIZE	((CONFIG_ARC_KVADDR_SIZE << 20) - PGDIR_SIZE * 4)
++#define VMALLOC_SIZE	((CONFIG_ARC_KVADDR_SIZE << 20) - PMD_SIZE * 4)
+ 
+ #define VMALLOC_END	(VMALLOC_START + VMALLOC_SIZE)
+ 
+diff --git a/arch/arc/mm/fault.c b/arch/arc/mm/fault.c
+index 41f154320964..8da2f0ad8c69 100644
+--- a/arch/arc/mm/fault.c
++++ b/arch/arc/mm/fault.c
+@@ -39,6 +39,8 @@ noinline static int handle_kernel_vaddr_fault(unsigned long address)
+ 	if (!pgd_present(*pgd_k))
+ 		goto bad_area;
+ 
++	set_pgd(pgd, *pgd_k);
++
+ 	p4d = p4d_offset(pgd, address);
+ 	p4d_k = p4d_offset(pgd_k, address);
+ 	if (!p4d_present(*p4d_k))
+@@ -49,6 +51,8 @@ noinline static int handle_kernel_vaddr_fault(unsigned long address)
+ 	if (!pud_present(*pud_k))
+ 		goto bad_area;
+ 
++	set_pud(pud, *pud_k);
++
+ 	pmd = pmd_offset(pud, address);
+ 	pmd_k = pmd_offset(pud_k, address);
+ 	if (!pmd_present(*pmd_k))
+diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
+index 46ad9aee7a73..f7ba2a5d5ec8 100644
+--- a/arch/arc/mm/init.c
++++ b/arch/arc/mm/init.c
+@@ -191,6 +191,7 @@ void __init mem_init(void)
+ 	highmem_init();
+ 
+ 	BUILD_BUG_ON((PTRS_PER_PGD * sizeof(pgd_t)) > PAGE_SIZE);
++	BUILD_BUG_ON((PTRS_PER_PMD * sizeof(pmd_t)) > PAGE_SIZE);
+ 	BUILD_BUG_ON((PTRS_PER_PTE * sizeof(pte_t)) > PAGE_SIZE);
+ }
+ 
+diff --git a/arch/arc/mm/tlb.c b/arch/arc/mm/tlb.c
+index b68d5798327b..352abb35a2ad 100644
+--- a/arch/arc/mm/tlb.c
++++ b/arch/arc/mm/tlb.c
+@@ -658,8 +658,8 @@ char *arc_mmu_mumbojumbo(int cpu_id, char *buf, int len)
+ 			  IS_USED_CFG(CONFIG_TRANSPARENT_HUGEPAGE));
+ 
+ 	n += scnprintf(buf + n, len - n,
+-		      "MMU [v%x]\t: %dk PAGE, %sJTLB %d (%dx%d), uDTLB %d, uITLB %d%s%s\n",
+-		       p_mmu->ver, p_mmu->pg_sz_k, super_pg,
++		      "MMU [v%x]\t: %dk PAGE, %s, swalk %d lvl, JTLB %d (%dx%d), uDTLB %d, uITLB %d%s%s\n",
++		       p_mmu->ver, p_mmu->pg_sz_k, super_pg,  CONFIG_PGTABLE_LEVELS,
+ 		       p_mmu->sets * p_mmu->ways, p_mmu->sets, p_mmu->ways,
+ 		       p_mmu->u_dtlb, p_mmu->u_itlb,
+ 		       IS_AVAIL2(p_mmu->pae, ", PAE40 ", CONFIG_ARC_HAS_PAE40));
+diff --git a/arch/arc/mm/tlbex.S b/arch/arc/mm/tlbex.S
+index c4a5f16444ce..5f57eba1089d 100644
+--- a/arch/arc/mm/tlbex.S
++++ b/arch/arc/mm/tlbex.S
+@@ -173,6 +173,15 @@ ex_saved_reg1:
+ 	tst	r3, r3
+ 	bz	do_slow_path_pf         ; if no Page Table, do page fault
+ 
++#if CONFIG_PGTABLE_LEVELS > 2
++	lsr     r0, r2, PMD_SHIFT	; Bits for indexing into PMD
++	and	r0, r0, (PTRS_PER_PMD - 1)
++	ld.as	r1, [r3, r0]		; PMD entry
++	tst	r1, r1
++	bz	do_slow_path_pf
++	mov	r3, r1
++#endif
++
+ #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+ 	and.f	0, r3, _PAGE_HW_SZ	; Is this Huge PMD (thp)
+ 	add2.nz	r1, r1, r0
 -- 
 2.25.1
 
