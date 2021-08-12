@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2445C19F36
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Aug 2021 23:38:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5107BC19F3A
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Aug 2021 23:38:15 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5DC3D610FD
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Aug 2021 23:38:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5DC3D610FD
+	by mail.kernel.org (Postfix) with ESMTPS id EF74A610CC
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Aug 2021 23:38:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org EF74A610CC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,48 +23,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=j8KDXfe9W5hQ8XG1GLyPK+v0ejnR21q1DVjv2/upAAU=; b=udI16QeJR6QwA4
-	FbkZDtyr1GIyKhZKy2wxlsCT+5fA9HIN7RjWpLg+LhtZCwxVIWZHBDvowzNJg4Dy8Irti5vMs7MHW
-	iZedqnFMbKbYl2XmDjBLrnDSDQsksH7AiI8WsE1Aqp33ENBkQv2mBhxuy2wZbguwiBd0j/OpMcYx0
-	drif0WQ1jTDkwFYZ3GPIJ4oJ22T2XaMtCJzxXnAg9Kgyejteq0NVdR9NfiN/5EjZu/Oyv1xgdZ8xf
-	xu8C8lBYd6VlSRzUUC/6CPjTeMaj093IYNmC0zAuOKz7Nf5Ebjti8O/zgqPhdCtBCfLd4D5xeWE7d
-	r+DHLaneU63EYqp/Kgfw==;
+	List-Owner; bh=Jcd/YQGNskFS1nxO1ccm1VaoDWpqKBLKbULcdev4RGM=; b=gRdnoztxVSFWY2
+	h+xaCtgnwHbwr8fg+fT42OsrUaRWf/rC/D7g8h+rb41guv4PTOMwkBleJgUKBdfYlJYssaeqd2RNo
+	USOr7wn58xnhTYevQR3kFZFfq1O6IQ5a/mmIkN3RI2nMHcxWLKEYAZBW9+rkiOXOiWgbdRSmnGFW8
+	awKluyWzD1wL7nCVF8jVG0oiCIqcnAOciGmpQ3Fb7e5YRkML0oO0h2T1ljTj3wZaXF3bpwI3H1wv0
+	2wpkXQOhxVeQ1dYyRICLZoWCdqamDiCJYqh3bzIQkl+IIIZIOx4MwHqBLLTD6B9QCwB6XOP7DoYOO
+	zuLFevh7CVmTu/4YRKjQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mEKH5-00BU4R-ME; Thu, 12 Aug 2021 23:38:11 +0000
+	id 1mEKH8-00BU7g-6U; Thu, 12 Aug 2021 23:38:14 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mEKGy-00BTsj-CR
- for linux-snps-arc@lists.infradead.org; Thu, 12 Aug 2021 23:38:09 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 00929610FF;
- Thu, 12 Aug 2021 23:38:03 +0000 (UTC)
+ id 1mEKH0-00BTym-A8
+ for linux-snps-arc@lists.infradead.org; Thu, 12 Aug 2021 23:38:10 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4087A61131;
+ Thu, 12 Aug 2021 23:38:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628811484;
- bh=OznPj0H31NuyGJ0zu5NrPr8zmibKxgGabmxj0tfu3OI=;
+ s=k20201202; t=1628811485;
+ bh=7WJKlO9bHU1KTACHVSZNKYdiOMEX5YhZuZxQV/SdLuA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qSLCgRfDUgYypTq6vAUv99MIOcg2OnKf0tnDXJqcySf3ubU/7uoPK7McrjorJIkxX
- VfcDxT+ITm2tR4CPvh0KFoYz7ntI9yAluS95kThBPQzj4peUcTgFXvXnixaRcjf4oz
- mvs8MWR0B4l9tfx3cNDVtWbyU9kofkJhuFdo243+DMU9Jh8DGEgSEz+EkTdio3gE+g
- J/H9DmrTQ4RbJIOPOW9rTn8IDNhacihpSUGjLyQzwhEITlQo9bQeNjdriIb90bWMvn
- ETyBJ0iKYzooOHqC2RVmF1lRDL8zf7EGYlVavXPmsVbI08yOdOsazanNOQZVC2nb8z
- xgdu49URX80Dg==
+ b=Dt1uufFxiBpM64WdTSAuTk8+1zrKO6HU17TYlEUlNN2kujLxQYptBPWGS+0DQsO8c
+ qLICm2qZyETLEzLvScOtCQYp5JedDoefi3B5ziqpYXQusDyQeCNzXRPINiFGzyB0ik
+ AIsE96Dk0G2t12AyO1Ka1LfR5NFh9OOSpW0+yL/l0+qDRko4spy5cH0V3OuvtRJ3Fg
+ nIKGR1NJko/owd0DL01zdM6HsvN6k862UPaFztDZw0p5ZGHiObtNREUaZCUqexrveP
+ m580WAdbM/F0mF37GPiVk2k5f33D1sPQrkwPSbiJSQCipodfYOi5O5jCZ9SrkyCP0n
+ GSOvLOSh6E24w==
 From: Vineet Gupta <vgupta@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  Anshuman Khandual <anshuman.khandual@arm.com>,
  Mike Rapoport <rppt@kernel.org>, Vineet Gupta <vgupta@kernel.org>
-Subject: [PATCH v2 15/19] ARC: mm: hack to allow 2 level build with 4 level
- code
-Date: Thu, 12 Aug 2021 16:37:49 -0700
-Message-Id: <20210812233753.104217-16-vgupta@kernel.org>
+Subject: [PATCH v2 18/19] ARC: mm: vmalloc sync from kernel to user table to
+ update PMD ...
+Date: Thu, 12 Aug 2021 16:37:52 -0700
+Message-Id: <20210812233753.104217-19-vgupta@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210812233753.104217-1-vgupta@kernel.org>
 References: <20210812233753.104217-1-vgupta@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210812_163804_509523_F9BAF027 
-X-CRM114-Status: UNSURE (   9.08  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210812_163806_558788_BD2BF740 
+X-CRM114-Status: GOOD (  11.84  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,39 +80,90 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-PMD_SHIFT is mapped to PUD_SHIFT or PGD_SHIFT by asm-generic/pgtable-*
-but only for !__ASSEMBLY__
+... not PGD
 
-tlbex.S asm code has PTRS_PER_PTE which uses PMD_SHIFT hence barfs
-for CONFIG_PGTABLE_LEVEL={2,3} and works for 4.
+vmalloc() sets up the kernel page table (starting from @swapper_pg_dir).
+But when vmalloc area is accessed in context of a user task, say opening
+terminal in n_tty_open(), the user page tables need to be synced from
+kernel page tables so that TLB entry is created in "user context".
 
-So add a workaround local to tlbex.S - the proper fix is to change
-asm-generic/pgtable-* headers to expose the defines for __ASSEMBLY__ too
+The old code was doing this incorrectly, as it was updating the user pgd
+entry (first level itself) to point to kernel pud table (2nd level),
+effectively yanking away the entire user space translation with kernel one.
+
+The correct way to do this is to ONLY update a user space pgd/pud/pmd entry
+if it is not popluated already. This ensures that only the missing leaf
+pmd entry gets updated to point to relevant kernel pte table.
+
+From code change pov, we are chaging the pattern:
+
+	p4d = p4d_offset(pgd, address);
+	p4d_k = p4d_offset(pgd_k, address);
+	if (!p4d_present(*p4d_k))
+		goto bad_area;
+	set_p4d(p4d, *p4d_k);
+
+with
+	p4d = p4d_offset(pgd, address);
+	p4d_k = p4d_offset(pgd_k, address);
+	if (p4d_none(*p4d_k))
+		goto bad_area;
+	if (!p4d_present(*p4d))
+		set_p4d(p4d, *p4d_k);
 
 Signed-off-by: Vineet Gupta <vgupta@kernel.org>
 ---
- arch/arc/mm/tlbex.S | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ arch/arc/mm/fault.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/arch/arc/mm/tlbex.S b/arch/arc/mm/tlbex.S
-index 0b4bb62fa0ab..c4a5f16444ce 100644
---- a/arch/arc/mm/tlbex.S
-+++ b/arch/arc/mm/tlbex.S
-@@ -145,6 +145,14 @@ ex_saved_reg1:
- ;TLB Miss handling Code
- ;============================================================================
+diff --git a/arch/arc/mm/fault.c b/arch/arc/mm/fault.c
+index f8994164fa36..5787c261c9a4 100644
+--- a/arch/arc/mm/fault.c
++++ b/arch/arc/mm/fault.c
+@@ -36,31 +36,31 @@ noinline static int handle_kernel_vaddr_fault(unsigned long address)
+ 	pgd = pgd_offset(current->active_mm, address);
+ 	pgd_k = pgd_offset_k(address);
  
-+#ifndef PMD_SHIFT
-+#define PMD_SHIFT PUD_SHIFT
-+#endif
-+
-+#ifndef PUD_SHIFT
-+#define PUD_SHIFT PGDIR_SHIFT
-+#endif
-+
- ;-----------------------------------------------------------------------------
- ; This macro does the page-table lookup for the faulting address.
- ; OUT: r0 = PTE faulted on, r1 = ptr to PTE, r2 = Faulting V-address
+-	if (!pgd_present(*pgd_k))
++	if (pgd_none (*pgd_k))
+ 		goto bad_area;
+-
+-	set_pgd(pgd, *pgd_k);
++	if (!pgd_present(*pgd))
++		set_pgd(pgd, *pgd_k);
+ 
+ 	p4d = p4d_offset(pgd, address);
+ 	p4d_k = p4d_offset(pgd_k, address);
+-	if (!p4d_present(*p4d_k))
++	if (p4d_none(*p4d_k))
+ 		goto bad_area;
+-
+-	set_p4d(p4d, *p4d_k);
++	if (!p4d_present(*p4d))
++		set_p4d(p4d, *p4d_k);
+ 
+ 	pud = pud_offset(p4d, address);
+ 	pud_k = pud_offset(p4d_k, address);
+-	if (!pud_present(*pud_k))
++	if (pud_none(*pud_k))
+ 		goto bad_area;
+-
+-	set_pud(pud, *pud_k);
++	if (!pud_present(*pud))
++		set_pud(pud, *pud_k);
+ 
+ 	pmd = pmd_offset(pud, address);
+ 	pmd_k = pmd_offset(pud_k, address);
+-	if (!pmd_present(*pmd_k))
++	if (pmd_none(*pmd_k))
+ 		goto bad_area;
+-
+-	set_pmd(pmd, *pmd_k);
++	if (!pmd_present(*pmd))
++		set_pmd(pmd, *pmd_k);
+ 
+ 	/* XXX: create the TLB entry here */
+ 	return 0;
 -- 
 2.25.1
 
