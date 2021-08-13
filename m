@@ -1,69 +1,86 @@
-Return-Path: <SRS0=WOcc=ND=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=Hn5+=NE=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42908C19F35
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Aug 2021 23:38:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52369C4338F
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Aug 2021 02:28:39 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F27DB6109F
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Aug 2021 23:38:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org F27DB6109F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 1CA2D60F11
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Aug 2021 02:28:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1CA2D60F11
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References
+	:In-Reply-To:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Hg3k7Kh/OZ7GqgfyOn6mZAU7Ec6h+BGtIu1vjzak4eY=; b=b7MXl4lFXTFaKZ
-	N9NjW6oMjwVCyZ8jBkKtaWidaLXn4A4pYJFAsSlXvt0e33EswOVsfyZgukhpWqVeRW1PE7NtNEWC9
-	wfe1gxS2+nnHw65zkThKGjeLkFnHGEm4AoI86QQZ0x2tT/dENOqhlD7M4/V0L8xyKfAfZ/6r+6/Wu
-	JNaxuMyIM0eD0e/5Nbwl+mMz0H25nVAOn3rZ3jVX8x+yuoR/z7dfAQUE7YuC+03Br9eLjUyZvQ7hK
-	SkTd42vYFEtz6uxehBeDLz7ESVy3zyWXeowqxc9nseg5vRl4Ys6UzA3zBrXFxRLRXBifwBVjPI4ID
-	BU+lOCyonEl2DDMgj3jw==;
+	List-Owner; bh=0VYMDvx8e1g99wnQekB4sbfiN0k5wOVQiVHBuj1gAYs=; b=kuPJkP5hiMEshe
+	RDfb2qtNTui43EDerdIXlshogUJSUJbrUOJ8y6mDbm3PgUFjfAp2eq8VmTzz/dZgBZyvRJYqkCZrg
+	ODfqVWEyCab7+Rr9kEncpvsGOfNTqRs7/0XL+PqySNXAH1wtP/tMHVDZLAWiT2Lcws5SeBvzt0oFS
+	pu1zlmXgu/UuL2v83I7IpJ4m2KzxQQx3CdZfCU44ohqOpINVnHVX+L2OgJ5RoXU/+9ZCgPBN9BbSW
+	JHzbYxEoYpQ7PbYvxxJsvmG4ZDuMCva+gpip40EKvpJSUaD+6TZR8qAJDRYzz/Lsk4uleRbP8Dsdw
+	018jfkgkSeVJZgfuzsLw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mEKHB-00BUBe-81; Thu, 12 Aug 2021 23:38:17 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1mEMw2-00BaHe-Ko; Fri, 13 Aug 2021 02:28:38 +0000
+Received: from bilbo.ozlabs.org ([203.11.71.1] helo=ozlabs.org)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mEKH0-00BTuE-IR
- for linux-snps-arc@lists.infradead.org; Thu, 12 Aug 2021 23:38:15 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D23A661101;
- Thu, 12 Aug 2021 23:38:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628811486;
- bh=VGtZCbKljVwjXPskC+/bFDWf9l1SbMAK3xd6joWYr3c=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dh3f/J/QQ5q0R8A4sxpCNodX8JWCbztZwgSkoR0mwiE1JPB3LjQhc4rHCOFvEsFUz
- Z0gRIJyWG38cuR4CyMOXJ6fdZ/Z3i2B1XJe3FVGhSYklCqrtLWcz2tms1tFmgLaczJ
- mmiKZdQWV7pRKUAJnkYDnGyvX1O0uwRdkBE+UG/WvEMeT30FMXroO0s914EwJdn12t
- 5MCEQm4i53THfTpslaFBf1snNLHe/Snr1vKnHWhQHYYrXW/zhaFJzoKGEAVWceKe6+
- n2PMoIx0/vvIIGG+vrxMJtKA3bIomvupXvJ4UwiQn7/orvyqUt+lx/uBX09r9Jyjvj
- kVgvrQGf1V30g==
-From: Vineet Gupta <vgupta@kernel.org>
-To: linux-snps-arc@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- Mike Rapoport <rppt@kernel.org>, Vineet Gupta <vgupta@kernel.org>
-Subject: [PATCH v2 19/19] ARC: mm: introduce _PAGE_TABLE to explicitly link
- pgd, pud, pmd entries
-Date: Thu, 12 Aug 2021 16:37:53 -0700
-Message-Id: <20210812233753.104217-20-vgupta@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210812233753.104217-1-vgupta@kernel.org>
-References: <20210812233753.104217-1-vgupta@kernel.org>
+ id 1mEMvl-00BaG7-7o; Fri, 13 Aug 2021 02:28:26 +0000
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Gm6st5f1Mz9t23;
+ Fri, 13 Aug 2021 12:28:02 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+ s=201909; t=1628821695;
+ bh=jlHWtsgYmZ30B2WJN0Jw5XD8BZs0Z7qm5rWOQviWRxQ=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=iQqdFqNsp0RRZI3qzmEc8DvXwIl+xP6sqn6MkAu1yNyVEEqSByPkt7fyHM+X9Mkc1
+ H5RsYWUWRX8EIeuJJ4pqVwfnttonPEDoUI6iLblU3xQm7I/dYs830ptXGtqFnm8msw
+ bQaEGG6Y/DzH1CN1Mvvb00KGwJKu//Dz61HaxwsLpsn/iRop+KxRmApjk7hRSxfG8F
+ cG79DxTOVkrHCCl0Z+JjvfFI1Us2ePvxaJcd/q1n8XQPkD29Snt/5eadLOKqEw4s5I
+ wyuWWaQ6HM0csDFNLWQbGqs6kWuET5VesHnFV3cwA2hGTS/6dU1L+U6SqYdZgv1Mhm
+ jRnaImnD2vgxw==
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Kefeng Wang <wangkefeng.wang@huawei.com>,
+ linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ uclinux-h8-devel@lists.sourceforge.jp, linux-hexagon@vger.kernel.org,
+ openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-um@lists.infradead.org, linux-mm@kvack.org
+Cc: Kefeng Wang <wangkefeng.wang@huawei.com>, Vineet Gupta
+ <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, Yoshinori Sato
+ <ysato@users.sourceforge.jp>, Ley Foon Tan <ley.foon.tan@intel.com>, Jonas
+ Bonn <jonas@southpole.se>, Stefan Kristiansson
+ <stefan.kristiansson@saunalahti.fi>, Stafford Horne <shorne@gmail.com>,
+ "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>, Helge
+ Deller <deller@gmx.de>, Benjamin
+ Herrenschmidt <benh@kernel.crashing.org>, Paul Mackerras
+ <paulus@samba.org>, Paul Walmsley <palmerdabbelt@google.com>, Jeff Dike
+ <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>, Anton Ivanov
+ <anton.ivanov@cambridgegreys.com>, Andrew Morton
+ <akpm@linux-foundation.org>
+Subject: Re: [PATCH -next] trap: Cleanup trap_init()
+In-Reply-To: <20210812123602.76356-1-wangkefeng.wang@huawei.com>
+References: <20210812123602.76356-1-wangkefeng.wang@huawei.com>
+Date: Fri, 13 Aug 2021 12:27:58 +1000
+Message-ID: <87czqim635.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210812_163806_722945_8A477D96 
-X-CRM114-Status: GOOD (  13.15  )
+X-CRM114-CacheID: sfid-20210812_192822_010063_A82A6583 
+X-CRM114-Status: UNSURE (   7.99  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,133 +97,42 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-ARCv3 hardware walker expects Table Descriptors to have b'11 in LSB bits
-to continue moving to next level.
+Kefeng Wang <wangkefeng.wang@huawei.com> writes:
+> There are some empty trap_init() in different ARCHs, introduce
+> a new weak trap_init() function to cleanup them.
+>
+> Cc: Vineet Gupta <vgupta@kernel.org>
+> Cc: Russell King <linux@armlinux.org.uk>
+> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Cc: Ley Foon Tan <ley.foon.tan@intel.com>
+> Cc: Jonas Bonn <jonas@southpole.se>
+> Cc: Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>
+> Cc: Stafford Horne <shorne@gmail.com>
+> Cc: James E.J. Bottomley <James.Bottomley@HansenPartnership.com>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> Cc: Paul Mackerras <paulus@samba.org>
+> Cc: Paul Walmsley <palmerdabbelt@google.com>
+> Cc: Jeff Dike <jdike@addtoit.com>
+> Cc: Richard Weinberger <richard@nod.at>
+> Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+> ---
+>  arch/arc/kernel/traps.c      | 5 -----
+>  arch/arm/kernel/traps.c      | 5 -----
+>  arch/h8300/kernel/traps.c    | 4 ----
+>  arch/hexagon/kernel/traps.c  | 4 ----
+>  arch/nds32/kernel/traps.c    | 5 -----
+>  arch/nios2/kernel/traps.c    | 5 -----
+>  arch/openrisc/kernel/traps.c | 5 -----
+>  arch/parisc/kernel/traps.c   | 4 ----
+>  arch/powerpc/kernel/traps.c  | 5 -----
 
-This commits adds that (to ARCv2 code) and ensures that it works in
-software walked regime.
+Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
 
-The pte entries stil need tagging, but that is not possible in ARCv2
-since the LSB 2 bits are currently used.
-
-Signed-off-by: Vineet Gupta <vgupta@kernel.org>
----
- arch/arc/include/asm/pgalloc.h            | 8 ++++----
- arch/arc/include/asm/pgtable-bits-arcv2.h | 2 ++
- arch/arc/include/asm/pgtable-levels.h     | 6 +++---
- arch/arc/mm/tlbex.S                       | 4 +++-
- 4 files changed, 12 insertions(+), 8 deletions(-)
-
-diff --git a/arch/arc/include/asm/pgalloc.h b/arch/arc/include/asm/pgalloc.h
-index 096b8ef58edb..a8c01eceba1b 100644
---- a/arch/arc/include/asm/pgalloc.h
-+++ b/arch/arc/include/asm/pgalloc.h
-@@ -43,12 +43,12 @@ pmd_populate_kernel(struct mm_struct *mm, pmd_t *pmd, pte_t *pte)
- 	 *
- 	 * The cast itself is needed given simplistic definition of set_pmd()
- 	 */
--	set_pmd(pmd, __pmd((unsigned long)pte));
-+	set_pmd(pmd, __pmd((unsigned long)pte | _PAGE_TABLE));
- }
- 
- static inline void pmd_populate(struct mm_struct *mm, pmd_t *pmd, pgtable_t pte_page)
- {
--	set_pmd(pmd, __pmd((unsigned long)page_address(pte_page)));
-+	set_pmd(pmd, __pmd((unsigned long)page_address(pte_page) | _PAGE_TABLE));
- }
- 
- static inline pgd_t *pgd_alloc(struct mm_struct *mm)
-@@ -74,7 +74,7 @@ static inline pgd_t *pgd_alloc(struct mm_struct *mm)
- 
- static inline void p4d_populate(struct mm_struct *mm, p4d_t *p4dp, pud_t *pudp)
- {
--	set_p4d(p4dp, __p4d((unsigned long)pudp));
-+	set_p4d(p4dp, __p4d((unsigned long)pudp | _PAGE_TABLE));
- }
- 
- #define __pud_free_tlb(tlb, pmd, addr)  pud_free((tlb)->mm, pmd)
-@@ -85,7 +85,7 @@ static inline void p4d_populate(struct mm_struct *mm, p4d_t *p4dp, pud_t *pudp)
- 
- static inline void pud_populate(struct mm_struct *mm, pud_t *pudp, pmd_t *pmdp)
- {
--	set_pud(pudp, __pud((unsigned long)pmdp));
-+	set_pud(pudp, __pud((unsigned long)pmdp | _PAGE_TABLE));
- }
- 
- #define __pmd_free_tlb(tlb, pmd, addr)  pmd_free((tlb)->mm, pmd)
-diff --git a/arch/arc/include/asm/pgtable-bits-arcv2.h b/arch/arc/include/asm/pgtable-bits-arcv2.h
-index 183d23bc1e00..54aba0d3ae34 100644
---- a/arch/arc/include/asm/pgtable-bits-arcv2.h
-+++ b/arch/arc/include/asm/pgtable-bits-arcv2.h
-@@ -32,6 +32,8 @@
- #define _PAGE_HW_SZ		0
- #endif
- 
-+#define _PAGE_TABLE		0x3
-+
- /* Defaults for every user page */
- #define ___DEF		(_PAGE_PRESENT | _PAGE_CACHEABLE)
- 
-diff --git a/arch/arc/include/asm/pgtable-levels.h b/arch/arc/include/asm/pgtable-levels.h
-index 2da3c4e52a91..6c7a8360d986 100644
---- a/arch/arc/include/asm/pgtable-levels.h
-+++ b/arch/arc/include/asm/pgtable-levels.h
-@@ -98,7 +98,7 @@
- 
- /* In 4 level paging, p4d_* macros work on pgd */
- #define p4d_none(x)		(!p4d_val(x))
--#define p4d_bad(x)		((p4d_val(x) & ~PAGE_MASK))
-+#define p4d_bad(x)		(!(p4d_val(x) & _PAGE_TABLE))
- #define p4d_present(x)		(p4d_val(x))
- #define p4d_clear(xp)		do { p4d_val(*(xp)) = 0; } while (0)
- #define p4d_pgtable(p4d)	((pud_t *)(p4d_val(p4d) & PAGE_MASK))
-@@ -120,7 +120,7 @@
-  * In 4 level paging, pud_* macros work on pud
-  */
- #define pud_none(x)		(!pud_val(x))
--#define pud_bad(x)		((pud_val(x) & ~PAGE_MASK))
-+#define pud_bad(x)		(!(pud_val(x) & _PAGE_TABLE))
- #define pud_present(x)		(pud_val(x))
- #define pud_clear(xp)		do { pud_val(*(xp)) = 0; } while (0)
- #define pud_pgtable(pud)	((pmd_t *)(pud_val(pud) & PAGE_MASK))
-@@ -147,7 +147,7 @@
-  * In 3+ level paging (pgd -> pmd -> pte), pmd_* macros work on pmd
-  */
- #define pmd_none(x)		(!pmd_val(x))
--#define pmd_bad(x)		((pmd_val(x) & ~PAGE_MASK))
-+#define pmd_bad(pmd)		(!(pmd_val(pmd) & _PAGE_TABLE))
- #define pmd_present(x)		(pmd_val(x))
- #define pmd_clear(xp)		do { pmd_val(*(xp)) = 0; } while (0)
- #define pmd_page_vaddr(pmd)	(pmd_val(pmd) & PAGE_MASK)
-diff --git a/arch/arc/mm/tlbex.S b/arch/arc/mm/tlbex.S
-index e054780a8fe0..3874a8086591 100644
---- a/arch/arc/mm/tlbex.S
-+++ b/arch/arc/mm/tlbex.S
-@@ -171,11 +171,12 @@ ex_saved_reg1:
- 	lsr     r0, r2, PGDIR_SHIFT     ; Bits for indexing into PGD
- 	ld.as   r3, [r1, r0]            ; PGD entry corresp to faulting addr
- 	tst	r3, r3
--	bz	do_slow_path_pf         ; if no Page Table, do page fault
-+	bz	do_slow_path_pf         ; next level table missing, handover to linux vm code
- 
- #if CONFIG_PGTABLE_LEVELS > 3
- 	lsr     r0, r2, PUD_SHIFT	; Bits for indexing into PUD
- 	and	r0, r0, (PTRS_PER_PUD - 1)
-+	bmskn	r3, r3, 1		; clear _PAGE_TABLE bits
- 	ld.as	r1, [r3, r0]		; PMD entry
- 	tst	r1, r1
- 	bz	do_slow_path_pf
-@@ -185,6 +186,7 @@ ex_saved_reg1:
- #if CONFIG_PGTABLE_LEVELS > 2
- 	lsr     r0, r2, PMD_SHIFT	; Bits for indexing into PMD
- 	and	r0, r0, (PTRS_PER_PMD - 1)
-+	bmskn	r3, r3, 1		; clear _PAGE_TABLE bits
- 	ld.as	r1, [r3, r0]		; PMD entry
- 	tst	r1, r1
- 	bz	do_slow_path_pf
--- 
-2.25.1
-
+cheers
 
 _______________________________________________
 linux-snps-arc mailing list
