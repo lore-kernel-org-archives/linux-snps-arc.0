@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78D1CC4320E
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 17 Aug 2021 00:36:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7ECAC4320E
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 17 Aug 2021 00:36:21 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4C3C96108F
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 17 Aug 2021 00:36:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4C3C96108F
+	by mail.kernel.org (Postfix) with ESMTPS id 7A37E60F58
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 17 Aug 2021 00:36:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 7A37E60F58
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,47 +23,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=szwwsleYfF013S7Qg4vciAjWl/tw+9XopRfedl/Pvh0=; b=h2u+XxbP1FtPkk
-	gK7ZHfwTPQVEYtkbvvwUPd9MZNoWZLEcePHACPP1TDVBFxSLSQb+RVKoZzz2Ec4fLWKMOfH9fICKq
-	sx21eCQoEkNQVLywBcCKi+EVuGIfrpBwnz66bLqBClHpGV+s1rdcH7y1GWAuLbZmYWKwenZUdu8YO
-	cUsZA3Td+XBNAJSAQAnursnwT45i34cufLEAb7js4gyu2Lge9N2HOE9SM/MUKOGREZHv6Ub7Jdhsy
-	EbL9bEdAWZyQwCOKzx1DdJLaUc3RrJZmvOqiuMnMUdoV4XZnSNiHsXHz8kpPowhMZAQrOAzwbdnA5
-	Brr2jKf1PeMtB9crsuyA==;
+	List-Owner; bh=n7Z54QOAA9J7NfhbQvVAzk5DPnhMI0a3B3SXSydsZlA=; b=ManmCjrIZWBH7x
+	PL8jUWm6m9vAx9Xmde5c7WyI9w2N7aIZi7wUTfjckx5xijm0pheUwQQ94xoZQcWYsQzWLuFO5GH2C
+	JFm6b0wa+Yg9MdJfBc4gteH1IdXfj2SOsOQMnQ7chlVA6BvkKHjsaYTS5NjD6ZaWS5WYZUv0WQglf
+	w6m+BwSTYwAqOBRif7vZi2cbhSUQpplYsOCsMgxzcc3wpvVjMQTpYaHQp8LFkwMSyw36PyTeUraqE
+	zlMVwXh7PAzJU2g7r5SJYSyzFePiH2EcDzq0frJNJQ8vHyVekd8AVTrIRjUKhHiWo6ZCSva0Vbdv4
+	CByd83gZ3aAF//TIX0jA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mFn5R-000aXh-Rm; Tue, 17 Aug 2021 00:36:13 +0000
+	id 1mFn5Z-000aYw-1X; Tue, 17 Aug 2021 00:36:21 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mFn5O-000aWv-RN
- for linux-snps-arc@lists.infradead.org; Tue, 17 Aug 2021 00:36:12 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D9A3561075;
- Tue, 17 Aug 2021 00:36:09 +0000 (UTC)
+ id 1mFn5W-000aYN-Jf
+ for linux-snps-arc@lists.infradead.org; Tue, 17 Aug 2021 00:36:19 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A278A60240;
+ Tue, 17 Aug 2021 00:36:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1629160570;
- bh=1kt6C5ihICQFg3sopXYcm7je5MbaFsC2hq4/+bxew+A=;
+ s=k20201202; t=1629160578;
+ bh=CqTbosjXnUtabwSkr9DsvgcHDiMzeeKQ2Y5yfOQoNQk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lRmfd1Ce+UGesMk96p6FupBcP4zkxtgwllrr7LNTX6K2j5o6tE0HW1cwYPgslEPoc
- T6pvXQvcyNiCBPCd7UiZMOmZS/W8GLHwMhUsQL0SFMNdfQCJbcb+oM6FZvSgtjOyNm
- G8Ex5BwAO3aJsLAj6nJvSr/xAK8VqzqYebiq2DSMYc0uV8CYbhyw+fg/CbIy6Ud5J8
- rDThODQppEIRvHGGsnVFwkNQgdiVugbu2msU/nmg+4mRU7ZERreGyX1wpCuB7f716h
- OAse2iS3X61TKbggKBJVcCp7ZLQ9iRtQ+mIP64VPMRErcmfsZkDPmwdB+hLOuwdOeI
- Yp9qrWpTvFtlA==
+ b=idNRBPc1V7Pr/YTroj5rvf+iJkxyJ6k4J/4QgVTP3eQOnoru/D/8CN311Bguxq8c+
+ 5zjzd2qN++W8ASjCicUDYUY0j3WvoLsy8PF77osVdzeWx4jXJXUeLfblTBiirx9kwM
+ kfQ7VALDQJ/oSI299I2Z8bvnVwUz7jLcC86/BI+9zOmE5a+3wbbBx6kWC/zb6qsLuo
+ /tCb6ojKmTCYyQ027unjrhB7iWGc3Y8vragIuo00ghpztbnssxrxvuRQG7CK+TeRAl
+ 7ECAjIkNtRhKNEXWo7zSugWFphhPmusPXHtGyYFtJrQhkBJIZQ8ztLMEOf1jgMJ2P5
+ gzNz4ebLC9/Tg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Guenter Roeck <linux@roeck-us.net>, Vineet Gupta <vgupta@synopsys.com>,
  Sasha Levin <sashal@kernel.org>, linux-snps-arc@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.4 2/5] ARC: Fix CONFIG_STACKDEPOT
-Date: Mon, 16 Aug 2021 20:36:04 -0400
-Message-Id: <20210817003607.83340-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 2/4] ARC: Fix CONFIG_STACKDEPOT
+Date: Mon, 16 Aug 2021 20:36:13 -0400
+Message-Id: <20210817003615.83434-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210817003607.83340-1-sashal@kernel.org>
-References: <20210817003607.83340-1-sashal@kernel.org>
+In-Reply-To: <20210817003615.83434-1-sashal@kernel.org>
+References: <20210817003615.83434-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210816_173610_940658_9CFC1531 
+X-CRM114-CacheID: sfid-20210816_173618_686042_C029D148 
 X-CRM114-Status: UNSURE (   7.33  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -109,10 +109,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+)
 
 diff --git a/arch/arc/kernel/vmlinux.lds.S b/arch/arc/kernel/vmlinux.lds.S
-index 6c693a9d29b6..0391b8293ad8 100644
+index f35ed578e007..4d823d3f65bb 100644
 --- a/arch/arc/kernel/vmlinux.lds.S
 +++ b/arch/arc/kernel/vmlinux.lds.S
-@@ -88,6 +88,8 @@ SECTIONS
+@@ -92,6 +92,8 @@ SECTIONS
  		CPUIDLE_TEXT
  		LOCK_TEXT
  		KPROBES_TEXT
