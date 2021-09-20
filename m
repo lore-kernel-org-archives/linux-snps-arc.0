@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3182DC433EF
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 20 Sep 2021 16:50:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6E1AC433F5
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 20 Sep 2021 16:56:22 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F1A5061361
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 20 Sep 2021 16:50:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org F1A5061361
+	by mail.kernel.org (Postfix) with ESMTPS id BA12C6187F
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 20 Sep 2021 16:56:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BA12C6187F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,45 +23,45 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=bWGJiaHzLHwF+yGpbPeB65xyVsRGLEsxHpWz6gjlGJg=; b=sogOlQ6u4jNm1y
-	hVTk8lolqyAoKGFUmmWOg0SwOw0aW2fNsMhTMm+de9tpx4I1iHR8DnRpfmuQRDFR5x+Su5uX6Hsqw
-	Dqzinm0FbrNR0kbJlIkWEulM2eoSWftmmkCKAbPVUtOvoIIVHRp6t4LV/1mDCtINYzzhVJmQT6NkH
-	pIwHY62d4Y0Dapspan7oViCDn7wjaeVfO+R5LnqPPHh9NUrm8qHXzPcHBEfXZZZ8pq62CnryY6cEv
-	uWvaEoDqafeKt4wCdcKaptZJcZHlvGOcHbR86ps99/ctvg17nTOACUG680KthLUlf8ViYbviqzcqV
-	zj4KnMa64pJRpvSAKaWA==;
+	List-Owner; bh=dxOZdy+qjp70i7jd6a0AsvWJ55/YLC6LOiBafXkuwyk=; b=GVGR4KnHk7NWVm
+	+BBm1AoyLFW64rn2oBjPnLFQ1V5a+sqpqUMB9gwkrdJlP5isIDHvyQxVw9EPiVq0m6plIlzuoDry6
+	JHy5PaJVQM8Xjm+Q40k2l8qxN+2Re8oFMpzRCoz2Gy8u8W9rVQyqdC21xqxmwtAfVT6Nzc6Qa1MWu
+	n4jqT3eavxl7lBwFJtey8sO4sKkBGkQK7iTBdDPvoFQkwLpNLQi6yLw4QnxuSPcvE1H9ItWC3yMMQ
+	CBn+D8+sjWsnFDeKa/3xajEhUCOi0rM9Xy+3bgWEnGNxJ0Fdzma0u3C/yX2UeiS9VzPopbpZF+SML
+	gBh3N3B+S6JeIynsV74w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mSMUf-002Td3-HD; Mon, 20 Sep 2021 16:50:13 +0000
+	id 1mSMac-002V6w-9L; Mon, 20 Sep 2021 16:56:22 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mSMUd-002Tc4-9R
- for linux-snps-arc@lists.infradead.org; Mon, 20 Sep 2021 16:50:12 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 83C1F611ED;
- Mon, 20 Sep 2021 16:50:10 +0000 (UTC)
+ id 1mSMaZ-002V5i-66
+ for linux-snps-arc@lists.infradead.org; Mon, 20 Sep 2021 16:56:20 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3B7D16187A;
+ Mon, 20 Sep 2021 16:56:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1632156611;
- bh=faO3FdE5clD/PqC7Oe5fqJAwQaksY0pubEw8Y/foOpk=;
+ s=korg; t=1632156978;
+ bh=RQmmok5RPzgcUTiR4Kq/iPGPH2IKCdUv2OgGwi4djgk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=h1KCk94LNxlDoIWo9OF4B2AWQ7K/vQi0uEF2fed2aE+/bnPRpC1Xk1zxxCoUO959/
- 7cJc3u+IMbufIimMlvAwst4sZS4/778VW49IOtdBWRm2tIJ+OqoX+E3r825t5QDK7R
- hrc++T8vooHDljtlheEsCXf8G4rKwL4S5RtzDy+o=
+ b=cwA3um9EVCR3+rOvjelSow4a+M2Negou4pArgJ48NuyuswIUQKO9kK6l5RzFUCmSm
+ zIvDiHi0mU89yX7u9V1ka9aTj1hrLZKdufJiFeyif+bLdOmfersBYs2kmVoTN+mnKD
+ dUtIXLjPvdTFEAVsVVu9s/c4+f1prKWNVDxg7kSU=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org,
  Randy Dunlap <rdunlap@infradead.org>, kernel test robot <lkp@intel.com>,
  Guenter Roeck <linux@roeck-us.net>, linux-snps-arc@lists.infradead.org,
  Vineet Gupta <vgupta@kernel.org>, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.4 131/133] ARC: export clear_user_page() for modules
-Date: Mon, 20 Sep 2021 18:43:29 +0200
-Message-Id: <20210920163916.907549425@linuxfoundation.org>
+Subject: [PATCH 4.9 172/175] ARC: export clear_user_page() for modules
+Date: Mon, 20 Sep 2021 18:43:41 +0200
+Message-Id: <20210920163923.695535591@linuxfoundation.org>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210920163912.603434365@linuxfoundation.org>
-References: <20210920163912.603434365@linuxfoundation.org>
+In-Reply-To: <20210920163918.068823680@linuxfoundation.org>
+References: <20210920163918.068823680@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210920_095011_397538_E6537C16 
-X-CRM114-Status: GOOD (  11.64  )
+X-CRM114-CacheID: sfid-20210920_095619_311291_B7DA7612 
+X-CRM114-Status: GOOD (  11.25  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,10 +103,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
-index 017fb440bba4..f425405a8a76 100644
+index fefe357c3d31..076b5e8c8562 100644
 --- a/arch/arc/mm/cache.c
 +++ b/arch/arc/mm/cache.c
-@@ -904,7 +904,7 @@ void clear_user_page(void *to, unsigned long u_vaddr, struct page *page)
+@@ -923,7 +923,7 @@ void clear_user_page(void *to, unsigned long u_vaddr, struct page *page)
  	clear_page(to);
  	clear_bit(PG_dc_clean, &page->flags);
  }
