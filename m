@@ -2,88 +2,180 @@ Return-Path: <SRS0=XnSr=ON=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7D58C433F5
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 23 Sep 2021 08:15:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09857C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 23 Sep 2021 09:42:25 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A106C6105A
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 23 Sep 2021 08:15:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A106C6105A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
+	by mail.kernel.org (Postfix) with ESMTPS id BBC3761107
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 23 Sep 2021 09:42:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BBC3761107
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=synopsys.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:
-	Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date
-	:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2FXOzfR+XjVZrleNwbdjHxoNdRbdxQFSmlrFX3zgsrQ=; b=UqE/SydyDl3YHHDTq/v3stTmYA
-	Wih63rcb4Btt6B+zUbsJay5zBCUuOf/Uq9Agc/5Owb0bMWA9sojVLJugZUSbry/YiIKOOm+S8esH4
-	6G05bXL51tNkUZGQ436u/xcc5hH4afdDwJgeirPRy5aoe5+CiTRFHEpQMXSZrBy55Xv8CSCJxqyFI
-	QBVc4vnwvWZ/996h+ow8t95SAJRfEbJLCQSuIOKpq4siqvD69u8yhL8UbRgN7VRQ4zsLTFRor59fi
-	BbfYRKgfHreRUx73aduOnqGvM6GZaS8hPAl+t2y+LkJQuh0GbO/OmXc1Z3JjmaQ2NaXYxqu72VxL4
-	aS2CrsQQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
+	References:Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=02sqyZXrwZyXgyUsv6yMHbjASrvzdZRwsIIngwHPF6k=; b=o6mDhZwpTZeSyo
+	Y8vKSx8fTKCRvzRhy2eU8BB0l+GUKn5KuHVJH7FDMN3O4lIwECu6tvh3CAP9pM5/+NowW7GHY5WL6
+	gGBu/yPN1pKyFMCLn5lQEyn/pJSJArCvJ28VL+f8mj1bQhmXkFCu2OsEZ/HK3t4KaEY8DNxKpo9Wl
+	IjCR6Flr2EOI5bezNMX0XqbvCXGsKd9ZPLZivYzFVwbJ45IpfaZ2bHBfnrUBsRGVThiJe57A6V/Zf
+	EljLa75Ccw3vBwEAGH4JBg8x25untTvHpNFPcKseYTfrtan3I4/bEgaSlyi70RLuYFMAtV00Dwwcj
+	Q7yla2mCs6iSPm+1YdEw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mTJtE-00AcEy-4w; Thu, 23 Sep 2021 08:15:32 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1mTLFI-00Aow0-8S; Thu, 23 Sep 2021 09:42:24 +0000
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mTJsw-00Ac9C-5t; Thu, 23 Sep 2021 08:15:15 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id A60422027D;
- Thu, 23 Sep 2021 08:15:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1632384912; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QSLhmvEk1Pq1iiswl5snzLhelQGabqOAvRi47xucKUc=;
- b=dQkZNFnVmjFTdqDDt9GU9DTIEjBGZRbIA2ofbDcmiIB8bDqVrDggJ8ZwgPcJOAAnibhKSk
- wohDp1nG/Y0sL0SW/01jfOSBK8tJNu5AzCDV/dTnleWkyjK5RMbnhh0I5Wt/IQmwJHm3zx
- ZvfeJvE8TpXAAdEAgm6wdTBm9F+eeO8=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 13F2613DC7;
- Thu, 23 Sep 2021 08:15:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ojiaA5A3TGF2FQAAMHmgww
- (envelope-from <jgross@suse.com>); Thu, 23 Sep 2021 08:15:12 +0000
-Subject: Re: [PATCH 3/3] memblock: cleanup memblock_free interface
-To: Mike Rapoport <rppt@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, devicetree@vger.kernel.org,
- iommu@lists.linux-foundation.org, kasan-dev@googlegroups.com,
- kvm@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-mm@kvack.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
- linux-usb@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- sparclinux@vger.kernel.org, xen-devel@lists.xenproject.org,
- Mike Rapoport <rppt@linux.ibm.com>
-References: <20210923074335.12583-1-rppt@kernel.org>
- <20210923074335.12583-4-rppt@kernel.org>
-From: Juergen Gross <jgross@suse.com>
-Message-ID: <60c0d0f9-e4c6-ef66-b85b-0d091f8cba15@suse.com>
-Date: Thu, 23 Sep 2021 10:15:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ id 1mTLFF-00Aotx-KE
+ for linux-snps-arc@lists.infradead.org; Thu, 23 Sep 2021 09:42:22 +0000
+Received: from mailhost.synopsys.com (sv2-mailhost2.synopsys.com
+ [10.205.2.134])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 5FBB540A7F;
+ Thu, 23 Sep 2021 09:42:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1632390138; bh=kS9144v2sSIgDHdfCOjC/M0GPSqMaz/Mvj77DMC6BQg=;
+ h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+ b=FXkcaEj0PcyAEte+/VY4mSpyEpmHyyXVLissxFp/qgPvvi3zpUc2qbfOt+jXOpvxB
+ CbpzOPbYL9kz6sARc93uChg01M18hNmiZu9i9iXTJzUBxpOAzH94Wam9hn6WsnGjzY
+ FooVAetJWexuLMjacvjSm0YeIotdoPCtwal8tKabf70iB+Cg1FqfE/1Mhh5ehHarEv
+ y5e8gbCeHxfZpwwHxCltzH0Ea7sYco5zjq3RA+WGojk2tmxRigppcYYjRNTqLSzl5T
+ HKbKVEcnljWORRG/vUJ45zwm2PUm5wZaYWry95UylBfi9ilzRZzYHN5LEWDl3o1L2y
+ vtuQWlt9gxFvA==
+Received: from o365relay-in.synopsys.com (sv2-o365relay1.synopsys.com
+ [10.202.1.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client CN "o365relay-in.synopsys.com",
+ Issuer "Entrust Certification Authority - L1K" (verified OK))
+ by mailhost.synopsys.com (Postfix) with ESMTPS id 902FFA0099;
+ Thu, 23 Sep 2021 09:42:14 +0000 (UTC)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2109.outbound.protection.outlook.com [104.47.55.109])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "mail.protection.outlook.com",
+ Issuer "DigiCert Cloud Services CA-1" (verified OK))
+ by o365relay-in.synopsys.com (Postfix) with ESMTPS id 27C2A4009D;
+ Thu, 23 Sep 2021 09:42:12 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com;
+ dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+ spf=pass smtp.mailfrom=shahab@synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
+ unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="BiWi/ZL1";
+ dkim-atps=neutral
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j4dsFsUkIOOY+aJ4w9xh1/1p+02VhOPW7HapH/HpG90hes2xXAWxQZbCyXUTm9dPHa+NKGrPtfsXYibH7wzhbYdhNY084CLZM4rExLxC0Wi2+SMvq5oJ8x/3X6cDsotN/0y+NorK8imgAl7aOc5OdrKwHCJ8+v8Ez7oUKldhWUgKZEBq/4bvyA2rqrzzRq5I8x246qHq33Fc2oRY7psVjwh1CLG1EOGqG0eg8Wft8b1GcM3KmuYnV2sW0i4NL77AuaMMo5sVwD6BJSdyPwSLNG+fOIZuze1A8giGbP06DLAUarI6aXguc0uypZNII5LeEJhMNvI8hLfUa6Q8KYCzCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=kS9144v2sSIgDHdfCOjC/M0GPSqMaz/Mvj77DMC6BQg=;
+ b=oc25u4DNlHO0Ru5aVddyLL0HvdFcMzp1QpgSzGPD9OaaCGgL/0pV7ZAKAEUBjHNG8FaVWm9B89EWyH0bt3xxrFe2+wUL+c52u6Rq3e9h1ZMnhvzEfbsNUjusxx4pSmfM++darFQWKTJYUbQqv5j+Pgxd/2ImaXqPH/WBpH9p3miG6WT7qYuzrl2k8QzfAfHoE/BM776qnJbbXDvCopKRWyKCXFaH0sBTofkUECV3dBA5DYjD8SeBhJl0si11GBpLkEkC8wSITqq423XJQIg7r2Iuf8c6ejrunKLj6iSyX20clP4OXjMEs94ooZsgB7hwFi8V6+JARLX/o1q4vErRGw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kS9144v2sSIgDHdfCOjC/M0GPSqMaz/Mvj77DMC6BQg=;
+ b=BiWi/ZL1KMNDpR8bpohEIH0EogH5TMjCKe2V67v9QCVawCsBpwTDJZ6epHSdiBhzPQL2YoKx3X0TAcJkvLKrDJ/c+ICBYr1n+Pd7n2mRUPo8BTJO1QpANvbrzA5cfPmjeY+FSIuLx2LRuidyrDRjHE2G3ZXb1Q9SixIf8YnrtX4=
+Received: from CY4PR12MB1160.namprd12.prod.outlook.com (2603:10b6:903:38::12)
+ by CY4PR12MB1911.namprd12.prod.outlook.com (2603:10b6:903:121::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13; Thu, 23 Sep
+ 2021 09:42:10 +0000
+Received: from CY4PR12MB1160.namprd12.prod.outlook.com
+ ([fe80::2d3a:44fe:fd31:11e2]) by CY4PR12MB1160.namprd12.prod.outlook.com
+ ([fe80::2d3a:44fe:fd31:11e2%7]) with mapi id 15.20.4523.018; Thu, 23 Sep 2021
+ 09:42:10 +0000
+X-SNPS-Relay: synopsys.com
+From: Shahab Vahedi <Shahab.Vahedi@synopsys.com>
+To: Randy Dunlap <rdunlap@infradead.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+CC: Vineet Gupta <vgupta@kernel.org>, "linux-snps-arc@lists.infradead.org"
+ <linux-snps-arc@lists.infradead.org>, Daniel Lezcano
+ <daniel.lezcano@linaro.org>, Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH] clocksource: arc_timer: eliminate redefined macro error
+Thread-Topic: [PATCH] clocksource: arc_timer: eliminate redefined macro error
+Thread-Index: AQHXsCmraQ1C4wDZlUWDP8GpstWP/KuxXnGA
+Date: Thu, 23 Sep 2021 09:42:10 +0000
+Message-ID: <61fef534-36df-2ed9-5662-ccebefef494e@synopsys.com>
+References: <20210923031808.5945-1-rdunlap@infradead.org>
+In-Reply-To: <20210923031808.5945-1-rdunlap@infradead.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: infradead.org; dkim=none (message not signed)
+ header.d=none; infradead.org; dmarc=none action=none header.from=synopsys.com; 
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 352f7496-83a7-434b-fcea-08d97e766a5e
+x-ms-traffictypediagnostic: CY4PR12MB1911:
+x-microsoft-antispam-prvs: <CY4PR12MB19118A016C2303C30138F0E1A6A39@CY4PR12MB1911.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5516;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: jE+K3PB96SixTL4iAPT6xJ19Tzh82g+y3qG68GWWnn1y316y03w1NRx+/l6qdTUJG6TOiZ9FVWDF8J5Ov5cYfWebVmzLy8CoedgXHEWtWNeoeWu/K9P4jwYPXtw4L9+Tqp7qydvevvcwLiXM40XpvIMocRGGkGFnpavsR09Cwh7oA4iC6MiSy9OTSDTxjRPmjLSPOlmCLy4FzBOh4/BJlufj732g2ovHWcfKehdDsIbi7UVrD46WMoGmSGxUMgrE3sp7rIPmsfn0n7wTRMKTSC68QtCd67jK6FK5EUi5W3KnDRgbZnnOAL5ExPJwSV271n++AcMQZeQUByJgIgMswkkRJ7mALZTurskIxIQH0GuHn+hpEqW4cfhic/3vO5Zxev9E9KjBTkxJtB+M4UYo3PtWoOmPhR9faLgEPHqX5jsirI5djy3F8ZusAZKrRmdUFp8/ykol8Bs3A7K0bTBI8uY6rLZtVvEqQ499V4c5nhLOXl8r6PxNVw0HLvzVmSpH5aaCvzlasjtFqu1dxWs/6wHN3CESgEVZJVbFXFl7v8Xq0HBin0Hm4mxg+lYubX65uorEGwwImMBFd6Cq81BiA0KK4EodzeliySIqDK8mG3TK4uDWE3JpMxudGZgTylcL3nQqFk4A9FG9Mwn82fzse42MJHB90N2BuO/GNzykFdk5b1bea0jhMe2rGbjQF8NRtw/vXv9dBs0mnGR1aa2UyJmQ9orDd/dwiR+akzaFSP6tHyXWZDrOJTYplYU0iHYXGSPV0YwagdzevTmDS2PRXxmvRi3FpSPxo7B23pk6GgrD+eiPjzVgciNbDq9/GsYT9UMbP3P1rUt9vlThp8ycXA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY4PR12MB1160.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(4326008)(53546011)(6512007)(6486002)(8676002)(36756003)(91956017)(6506007)(66946007)(38070700005)(66476007)(66556008)(71200400001)(76116006)(4744005)(2616005)(83380400001)(38100700002)(5660300002)(54906003)(86362001)(31696002)(316002)(31686004)(508600001)(110136005)(186003)(122000001)(8936002)(2906002)(66446008)(64756008)(45980500001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?a2tFV0Q2ZGlZSWE0YmVBbjF4ek41Z2NkNDdRaS9SbDd6K3BGSFdXQkZuV0JY?=
+ =?utf-8?B?RkwxNGRaUStmc2prSW9kYktJM0NraDg4U3IyRDhDYUhaSUZyb3plS1BpeVlv?=
+ =?utf-8?B?MFBRaTk1em9ucUZOWlJ4NjFtYll2ZEtzVUJqb0dRaGdpeElRTWJheHRBNVpl?=
+ =?utf-8?B?NXd3aFNUS0Fndk13dTRvemtPcVhLY0dPelBhK2RBODBNUmFKUFc5ZG4zZ1pJ?=
+ =?utf-8?B?RkRYOE4rQUlsSlBDU2d3K3ZWSUZya0FuczBoWm5scU90bGc2SXpqOGVKY1RT?=
+ =?utf-8?B?bGYyWVhqbURwUkpiWFdML0pIREZkUGpPTlZWeHpOZXhoL28zZ1hCb2xrUzUr?=
+ =?utf-8?B?dEtCc0crYUhEbDlnSGF2NjZRSHZHckxURHYxVU5nUGU2Ykc1N1BQQjM1NkVi?=
+ =?utf-8?B?M1FBYmlQOWFKMzF0eEpqTXJ6QWluT1BrZmVmbUc2dkl6SzZzektyaExjMm4r?=
+ =?utf-8?B?YWZueHNSdU5pMkdkSWczeGJFMFZCK24zVUttc21jc0hleERwbENoT3lHL0dI?=
+ =?utf-8?B?WnNsRDhwSEF0NEF2Wis0Sno0K3g0ZDN6M0s2ckt1NFpTV3FxL0VEWjI3RE5N?=
+ =?utf-8?B?ZHRRZXEzbEF1dEJSbWtEeU13cGlhYy9iakdmZy92YW1IK0FTUWhmV2c1ZVA4?=
+ =?utf-8?B?S1c2SW5VRlJMM1czR3ovaHZkT2F0NG01Wno2eExubVk2N0VJVWNrWXhMVkZI?=
+ =?utf-8?B?YkxrSURmTG03cGZmMHFESjRCOXF0MGNmajhkKzBhMmtRODV0Y3dHUWRGdnJW?=
+ =?utf-8?B?R2tsTzlKWi9UdTRISW5CUjJwVzBFQyswZ2FKOWFuT2JjTSs0ZktiSHVCWEZo?=
+ =?utf-8?B?ZGtQdXpTRFhxLyt0WDA5UVhDNk1uaDZrMm5KY2pKeDFsaVpMWmFac2JBY29o?=
+ =?utf-8?B?bjlIVTJCVU9IR3dldG9KQnRVQ2c2aDM1eHpwUWhLSVVPMU1JZkp6WWFCM214?=
+ =?utf-8?B?RkdqMVpwa3FOdkduSXJOdGpwaDlvTTRuZU9wd1dQai93ZFMvZGg1TFZoWjM4?=
+ =?utf-8?B?TjQ1cDh6OHVrUmVhcFhnVDFmVUc5V1psLzlXa3h3anpURXQ1dHUydkErMTdM?=
+ =?utf-8?B?WXphUENzNm5nYzlCbFFxRGdqRGJLSS9RdTZZZlljNWgxR0ZEbUQ5MytRZFBv?=
+ =?utf-8?B?Zy9QRzlqUDVOa3ByTnBvSHJodFpUVUNuZXdSVHE0TGxBVlNJeVQ0b2l6QUdF?=
+ =?utf-8?B?QmIvT2t6LzlRVlhPV3VLL2xzVWR6WVBoUTVvZWVOMTFZVG94a1pEbWtHQ1My?=
+ =?utf-8?B?RUJhNHJFK1JsSTBPMUhaOU5UcHAzNldQLzVOcGYyWCtRSElkd0laWUVEL2ha?=
+ =?utf-8?B?dlF5WXJJMmRRMUFQOVhlUm5MajJVWUdsWnFscExJMWZXWE1BcTVjZThjU1VX?=
+ =?utf-8?B?R2lrdzI5UDdoRkZaQWJvWllyWFFRd2lINlZvaE1XS0t3RnlOc1F0NHBWU21v?=
+ =?utf-8?B?RnhmOWpmTEwvY3I3cnJ6QnlsNGFoNklYN08zMzdtR3hUTFdSa3ZWU0hEdjJs?=
+ =?utf-8?B?Ukd4Smg3NnROWDhrUkJjZnZwSmRTU0RSaGx1Q3JrOHFDOHg2NW9wZ0NlS3JL?=
+ =?utf-8?B?TEs1RmNmb3lTNGhHYm9nNFJ4WG11TmVhWTMzNEoySG1xSFJ6bzhBdmpFNlFZ?=
+ =?utf-8?B?dlBOQ2dtTTUyUjBzNXJ0eG83M3FHMEpFTnh2Mm9PSEREMkNZLzBqcmNsWFBD?=
+ =?utf-8?B?MWFmalp2bHB3VWVBR1JIaStWVVJJTDlDb0Q0TVNsdGozYzJTVlZ4SWJSbFhC?=
+ =?utf-8?Q?jC2NPA4By86d4S8FnjRyp8m3Qw4wiahwhOt0Oph?=
+x-ms-exchange-transport-forked: True
+Content-ID: <EA11333469DDD040A2D4CA61A650E0C7@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20210923074335.12583-4-rppt@kernel.org>
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR12MB1160.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 352f7496-83a7-434b-fcea-08d97e766a5e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2021 09:42:10.4377 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: j+5mIpTMDz3OEAe0JKk/c0lw5qymjq3K7NHdW2P7YRJf6rHeETYJcyw8tw9CzE5SD585y9Rq54ewAxIevjZyxw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1911
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210923_011514_453164_D7613B83 
-X-CRM114-Status: GOOD (  11.95  )
+X-CRM114-CacheID: sfid-20210923_024221_712733_988764F6 
+X-CRM114-Status: GOOD (  10.94  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,205 +187,33 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============7189208304477850313=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============7189208304477850313==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="zppOVwffTjZ5Oe49Vq0wbEbRvLUF4dOID"
+Hi Randy,
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---zppOVwffTjZ5Oe49Vq0wbEbRvLUF4dOID
-Content-Type: multipart/mixed; boundary="AxmgW1XtM0JJFTzWHwG0o4gfWFl7DFvoM";
- protected-headers="v1"
-From: Juergen Gross <jgross@suse.com>
-To: Mike Rapoport <rppt@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, devicetree@vger.kernel.org,
- iommu@lists.linux-foundation.org, kasan-dev@googlegroups.com,
- kvm@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-mm@kvack.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
- linux-usb@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- sparclinux@vger.kernel.org, xen-devel@lists.xenproject.org,
- Mike Rapoport <rppt@linux.ibm.com>
-Message-ID: <60c0d0f9-e4c6-ef66-b85b-0d091f8cba15@suse.com>
-Subject: Re: [PATCH 3/3] memblock: cleanup memblock_free interface
-References: <20210923074335.12583-1-rppt@kernel.org>
- <20210923074335.12583-4-rppt@kernel.org>
-In-Reply-To: <20210923074335.12583-4-rppt@kernel.org>
+I have one minor comment.
 
---AxmgW1XtM0JJFTzWHwG0o4gfWFl7DFvoM
-Content-Type: multipart/mixed;
- boundary="------------CFB99E0866EE66F8CFC01FC3"
-Content-Language: en-US
+On 9/23/21 5:18 AM, Randy Dunlap wrote:
+> 
+> --- linux-next-20210917.orig/include/soc/arc/timers.h
+> +++ linux-next-20210917/include/soc/arc/timers.h
+> @@ -17,7 +17,7 @@
+>  #define ARC_REG_TIMER1_CNT	0x100	/* timer 1 count */
+>  
+>  /* CTRL reg bits */
+> -#define TIMER_CTRL_IE	        (1 << 0) /* Interrupt when Count reaches limit */
+> +#define TIMER_CTRL_IEN	        (1 << 0) /* Interrupt when Count reaches limit */
 
-This is a multi-part message in MIME format.
---------------CFB99E0866EE66F8CFC01FC3
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Could you change the name to "ARC_TIMER_CTRL_IE" instead? and while at it, please rename
+"TIMER_CTRL_NH" to "ARC_TIMER_CTRL_NH" for obvious consistency reasons and saving us
+from future clashes.  Thank you!
 
-On 23.09.21 09:43, Mike Rapoport wrote:
-> From: Mike Rapoport <rppt@linux.ibm.com>
->=20
-> For ages memblock_free() interface dealt with physical addresses even
-> despite the existence of memblock_alloc_xx() functions that return a
-> virtual pointer.
->=20
-> Introduce memblock_phys_free() for freeing physical ranges and repurpos=
-e
-> memblock_free() to free virtual pointers to make the following pairing
-> abundantly clear:
->=20
-> 	int memblock_phys_free(phys_addr_t base, phys_addr_t size);
-> 	phys_addr_t memblock_phys_alloc(phys_addr_t base, phys_addr_t size);
->=20
-> 	void *memblock_alloc(phys_addr_t size, phys_addr_t align);
-> 	void memblock_free(void *ptr, size_t size);
->=20
-> Replace intermediate memblock_free_ptr() with memblock_free() and drop
-> unnecessary aliases memblock_free_early() and memblock_free_early_nid()=
-=2E
->=20
-> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-
-arch/x86/xen/ parts: Reviewed-by: Juergen Gross <jgross@suse.com>
-
-
-Juergen
-
---------------CFB99E0866EE66F8CFC01FC3
-Content-Type: application/pgp-keys;
- name="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Transfer-Encoding: quoted-printable
-Content-Description: OpenPGP public key
-Content-Disposition: attachment;
- filename="OpenPGP_0xB0DE9DD628BF132F.asc"
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOBy=
-cWx
-w3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJvedYm8O=
-f8Z
-d621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJNwQpd369y=
-9bf
-IhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvxXP3FAp2pkW0xq=
-G7/
-377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEBAAHNHEp1ZXJnZW4gR=
-3Jv
-c3MgPGpnQHBmdXBmLm5ldD7CwHkEEwECACMFAlOMcBYCGwMHCwkIBwMCAQYVCAIJCgsEFgIDA=
-QIe
-AQIXgAAKCRCw3p3WKL8TL0KdB/93FcIZ3GCNwFU0u3EjNbNjmXBKDY4FUGNQH2lvWAUy+dnyT=
-hpw
-dtF/jQ6j9RwE8VP0+NXcYpGJDWlNb9/JmYqLiX2Q3TyevpB0CA3dbBQp0OW0fgCetToGIQrg0=
-MbD
-1C/sEOv8Mr4NAfbauXjZlvTj30H2jO0u+6WGM6nHwbh2l5O8ZiHkH32iaSTfN7Eu5RnNVUJbv=
-oPH
-Z8SlM4KWm8rG+lIkGurqqu5gu8q8ZMKdsdGC4bBxdQKDKHEFExLJK/nRPFmAuGlId1E3fe10v=
-5QL
-+qHI3EIPtyfE7i9Hz6rVwi7lWKgh7pe0ZvatAudZ+JNIlBKptb64FaiIOAWDCx1SzR9KdWVyZ=
-2Vu
-IEdyb3NzIDxqZ3Jvc3NAc3VzZS5jb20+wsB5BBMBAgAjBQJTjHCvAhsDBwsJCAcDAgEGFQgCC=
-QoL
-BBYCAwECHgECF4AACgkQsN6d1ii/Ey/HmQf/RtI7kv5A2PS4RF7HoZhPVPogNVbC4YA6lW7Dr=
-Wf0
-teC0RR3MzXfy6pJ+7KLgkqMlrAbN/8Dvjoz78X+5vhH/rDLa9BuZQlhFmvcGtCF8eR0T1v0nC=
-/nu
-AFVGy+67q2DH8As3KPu0344TBDpAvr2uYM4tSqxK4DURx5INz4ZZ0WNFHcqsfvlGJALDeE0Lh=
-ITT
-d9jLzdDad1pQSToCnLl6SBJZjDOX9QQcyUigZFtCXFst4dlsvddrxyqT1f17+2cFSdu7+ynLm=
-XBK
-7abQ3rwJY8SbRO2iRulogc5vr/RLMMlscDAiDkaFQWLoqHHOdfO9rURssHNN8WkMnQfvUewRz=
-80h
-SnVlcmdlbiBHcm9zcyA8amdyb3NzQG5vdmVsbC5jb20+wsB5BBMBAgAjBQJTjHDXAhsDBwsJC=
-AcD
-AgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey8PUQf/ehmgCI9jB9hlgexLvgOtf7PJn=
-FOX
-gMLdBQgBlVPO3/D9R8LtF9DBAFPNhlrsfIG/SqICoRCqUcJ96Pn3P7UUinFG/I0ECGF4EvTE1=
-jnD
-kfJZr6jrbjgyoZHiw/4BNwSTL9rWASyLgqlA8u1mf+c2yUwcGhgkRAd1gOwungxcwzwqgljf0=
-N51
-N5JfVRHRtyfwq/ge+YEkDGcTU6Y0sPOuj4Dyfm8fJzdfHNQsWq3PnczLVELStJNdapwPOoE+l=
-otu
-fe3AM2vAEYJ9rTz3Cki4JFUsgLkHFqGZarrPGi1eyQcXeluldO3m91NK/1xMI3/+8jbO0tsn1=
-tqS
-EUGIJi7ox80eSnVlcmdlbiBHcm9zcyA8amdyb3NzQHN1c2UuZGU+wsB5BBMBAgAjBQJTjHDrA=
-hsD
-BwsJCAcDAgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey+LhQf9GL45eU5vOowA2u5N3=
-g3O
-ZUEBmDHVVbqMtzwlmNC4k9Kx39r5s2vcFl4tXqW7g9/ViXYuiDXb0RfUpZiIUW89siKrkzmQ5=
-dM7
-wRqzgJpJwK8Bn2MIxAKArekWpiCKvBOB/Cc+3EXE78XdlxLyOi/NrmSGRIov0karw2RzMNOu5=
-D+j
-LRZQd1Sv27AR+IP3I8U4aqnhLpwhK7MEy9oCILlgZ1QZe49kpcumcZKORmzBTNh30FVKK1Evm=
-V2x
-AKDoaEOgQB4iFQLhJCdP1I5aSgM5IVFdn7v5YgEYuJYx37IoN1EblHI//x/e2AaIHpzK5h88N=
-Eaw
-QsaNRpNSrcfbFmAg987ATQRTjHAWAQgAyzH6AOODMBjgfWE9VeCgsrwH3exNAU32gLq2xvjpW=
-nHI
-s98ndPUDpnoxWQugJ6MpMncr0xSwFmHEgnSEjK/PAjppgmyc57BwKII3sV4on+gDVFJR6Y8ZR=
-wgn
-BC5mVM6JjQ5xDk8WRXljExRfUX9pNhdE5eBOZJrDRoLUmmjDtKzWaDhIg/+1Hzz93X4fCQkNV=
-bVF
-LELU9bMaLPBG/x5q4iYZ2k2ex6d47YE1ZFdMm6YBYMOljGkZKwYde5ldM9mo45mmwe0icXKLk=
-pEd
-IXKTZeKDO+Hdv1aqFuAcccTg9RXDQjmwhC3yEmrmcfl0+rPghO0Iv3OOImwTEe4co3c1mwARA=
-QAB
-wsBfBBgBAgAJBQJTjHAWAhsMAAoJELDendYovxMvQ/gH/1ha96vm4P/L+bQpJwrZ/dneZcmEw=
-Tbe
-8YFsw2V/Buv6Z4Mysln3nQK5ZadD534CF7TDVft7fC4tU4PONxF5D+/tvgkPfDAfF77zy2AH1=
-vJz
-Q1fOU8lYFpZXTXIHb+559UqvIB8AdgR3SAJGHHt4RKA0F7f5ipYBBrC6cyXJyyoprT10EMvU8=
-VGi
-wXvTyJz3fjoYsdFzpWPlJEBRMedCot60g5dmbdrZ5DWClAr0yau47zpWj3enf1tLWaqcsuylW=
-svi
-uGjKGw7KHQd3bxALOknAp4dN3QwBYCKuZ7AddY9yjynVaD5X7nF9nO5BjR/i1DG86lem3iBDX=
-zXs
-ZDn8R38=3D
-=3D2wuH
------END PGP PUBLIC KEY BLOCK-----
-
---------------CFB99E0866EE66F8CFC01FC3--
-
---AxmgW1XtM0JJFTzWHwG0o4gfWFl7DFvoM--
-
---zppOVwffTjZ5Oe49Vq0wbEbRvLUF4dOID
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmFMN48FAwAAAAAACgkQsN6d1ii/Ey8D
-fwf/WV3EUVWvjXkc64q0a0it6LMGy2AtQrh8KdDecuLV8iH5bKTnqNAZOUoV6sYTeiLsSSnRTLOt
-yKKjkWsC9/gUsyuO0B8Zw/VX/zoXJqp7T57FfmW+37qcslFuLzImqvDxdU65n/jEbme+VExmw6UF
-yy1ATxxxhQIxeTDXB3SfE0f6rX4Fw1DUqQc25bFNpD1wzdp1xG6qhH31/CWUI/V/frEfuzZrrN5F
-Uimkqk3+xjrqqpYh2fb/Pwpd77LFOdIrV4gH0oyl0NA3x3QMNi+67FrbMtuRHZij1jnpwoY1RiUc
-uVxzINJ+LJh0g8836hHAkPh5tQNBjV7C6V7LXddn6g==
-=Fnkp
------END PGP SIGNATURE-----
-
---zppOVwffTjZ5Oe49Vq0wbEbRvLUF4dOID--
-
-
---===============7189208304477850313==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Shahab
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-snps-arc
-
---===============7189208304477850313==--
-
