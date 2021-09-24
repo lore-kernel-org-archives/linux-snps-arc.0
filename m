@@ -1,123 +1,52 @@
-Return-Path: <SRS0=XnSr=ON=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=GYWY=OO=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8290C433F5
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 23 Sep 2021 19:46:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D8A2C433F5
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Sep 2021 02:08:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5D6046124B
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 23 Sep 2021 19:46:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5D6046124B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.ibm.com
+	by mail.kernel.org (Postfix) with ESMTPS id 1A57760F6F
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Sep 2021 02:08:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1A57760F6F
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=/j5HlP62cE8QiyERK4edHuPznCW0j1FIlx5qyfsMom0=; b=pzCNVUMgyH1NA3
-	6WTE2ORK76vL7rOzfNGn5Fq33vhqxaEfn/BJPsnCqtN860G2kjptRkoWwXVZ+nGDLvq3yYgPT+Tpc
-	VwaZOE7mEMvAMyojxpM0nmBCNF6JEnBVzmXHwyY5FBIkBgbystBwfCX1aRvmbqPFcQNJHk52jvIvr
-	f6va0kk1kbC450DuRAueBibKhxj119+cQrTBhtbJjVFI7Dg1m0v06vSOBAxrZ2WhZtzPiT/uMKySM
-	+s6R7voplaZ3ZrmbiBRoQURwfZ9/OHZ+eTT1Svm34820qPSWXWGzZ9woD6dxUYdKJtBmgUFuNtccH
-	5PStoNj0n9WgCoDUug6g==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=ucS4C3CoJCvkcWG4UewxdMyC19AmdDdbz9jCtdiQz00=; b=dBV1NmLWtle52O
+	8wFIBd6A/SkyQMCo6XXzYmiH2cR0fMXxzK67Eu3tcE38XpLCaM0PEgzDggHBJmOfj1sReUGs0GEZn
+	9+ON27qjqrxvYCwQWI2ZwhDyAq8Z/0JDY1C+2bZCuL2y8sc2le1SGkwnGIRK+gpylb0rUo1KZpUO5
+	LbIwjmRDev8Elrz6xeS3mcdZXIYte8r6iVQZBDlm2DkB4o185MsQaFhAvD7c23maNYk9QbtDaNaGx
+	i8VEI/XMZrxnOpecv1OLBIob1HnwPr29INR0UcaLQVijivMHw3aodl4kZpojYDS01zM3It+AgsqHU
+	LnU9N0Z4hyQ1+S9Rukow==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mTUfX-00CUDt-Q9; Thu, 23 Sep 2021 19:46:07 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mTUfU-00CUD1-Lz; Thu, 23 Sep 2021 19:46:06 +0000
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18NJW36f031236; 
- Thu, 23 Sep 2021 15:45:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=OlfxwL5SxCQJGsEygNnP+Bd9S5CycoibyIwI1T9qbFQ=;
- b=o2g9xUdg4iWokOSpifGukNkZK7jrG3PCnBFvuz4C7oP+gzjHDglARWvYTHBDYKWgrmUN
- nywTanPgUpTOTd5/xMfhi1L+mJwrCvVoKxej3UCLp5sG7C25GVynwAmr4q0nxjw5T5YF
- XfSS+haqO/MAAWW7EoLHEph+pIjpH8koxcOuzA2lkqyOwZ+Lt0jX5schDBGsmjxT7nCn
- nj0KpCKZ1MAIxT1dHKe+ArroeI/VY7R10b19vbUGLmbRaxdWWrC+tHtvcRU2gpGyiZee
- fQz965XLLMlLTgvc9SCxBhiIocufoeoMuCL9s+OrHLUbKOqWsHzC5EoSrMfU3XKh1xK9 Bg== 
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3b8wkuupat-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Sep 2021 15:45:58 -0400
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 18NJRuDe003688;
- Thu, 23 Sep 2021 19:45:56 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma03fra.de.ibm.com with ESMTP id 3b7q6kd587-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Sep 2021 19:45:56 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 18NJjrxv44106172
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 23 Sep 2021 19:45:53 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A19734C04A;
- Thu, 23 Sep 2021 19:45:53 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 903DC4C05A;
- Thu, 23 Sep 2021 19:45:51 +0000 (GMT)
-Received: from linux.ibm.com (unknown [9.145.159.121])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Thu, 23 Sep 2021 19:45:51 +0000 (GMT)
-Date: Thu, 23 Sep 2021 22:45:49 +0300
-From: Mike Rapoport <rppt@linux.ibm.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- devicetree <devicetree@vger.kernel.org>,
- iommu <iommu@lists.linux-foundation.org>,
- kasan-dev <kasan-dev@googlegroups.com>, KVM list <kvm@vger.kernel.org>,
- alpha <linux-alpha@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- linux-efi <linux-efi@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- Linux-MM <linux-mm@kvack.org>,
- linux-riscv <linux-riscv@lists.infradead.org>,
- linux-s390 <linux-s390@vger.kernel.org>,
- Linux-sh list <linux-sh@vger.kernel.org>,
- "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
- linux-um <linux-um@lists.infradead.org>, linux-usb@vger.kernel.org,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- linux-sparc <sparclinux@vger.kernel.org>, xen-devel@lists.xenproject.org
-Subject: Re: [PATCH 0/3] memblock: cleanup memblock_free interface
-Message-ID: <YUzZberbgZE+7HEo@linux.ibm.com>
-References: <20210923074335.12583-1-rppt@kernel.org>
- <CAHk-=wiJB8H5pZz-AKaSJ7ViRtdxQGJT7eOByp8DJx2OwZSYwA@mail.gmail.com>
+	id 1mTadX-00Ctpt-1u; Fri, 24 Sep 2021 02:08:27 +0000
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mTadW-00Ctpd-3d; Fri, 24 Sep 2021 02:08:26 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>, Vineet Gupta <vgupta@kernel.org>,
+ linux-snps-arc@lists.infradead.org,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Shahab Vahedi <Shahab.Vahedi@synopsys.com>
+Subject: [PATCH v2] clocksource: arc_timer: eliminate redefined macro error
+Date: Thu, 23 Sep 2021 19:08:25 -0700
+Message-Id: <20210924020825.20317-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wiJB8H5pZz-AKaSJ7ViRtdxQGJT7eOByp8DJx2OwZSYwA@mail.gmail.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: NmcKtlYbna1qS7iyZ4wr-YnA7UP6mwwQ
-X-Proofpoint-ORIG-GUID: NmcKtlYbna1qS7iyZ4wr-YnA7UP6mwwQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-09-23_06,2021-09-23_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- lowpriorityscore=0 mlxscore=0 malwarescore=0 spamscore=0
- priorityscore=1501 bulkscore=0 clxscore=1015 suspectscore=0
- mlxlogscore=691 adultscore=0 phishscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2109200000
- definitions=main-2109230115
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210923_124604_898041_34BFE4DE 
-X-CRM114-Status: GOOD (  20.02  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,36 +63,79 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Linus,
+In drivers/clocksource/, 3 drivers use "TIMER_CTRL_IE" with 3 different
+values.  Two of them (mps2-timer.c and timer-sp804.c/timer-sp.h) are
+localized and left unmodifed.
 
-On Thu, Sep 23, 2021 at 09:01:46AM -0700, Linus Torvalds wrote:
-> On Thu, Sep 23, 2021 at 12:43 AM Mike Rapoport <rppt@kernel.org> wrote:
-> >
-> You need to be a LOT more careful.
-> 
-> From a trivial check - exactly because I looked at doing it with a
-> script, and decided it's not so easy - I found cases like this:
-> 
-> -               memblock_free(__pa(paca_ptrs) + new_ptrs_size,
-> +               memblock_free(paca_ptrs + new_ptrs_size,
-> 
-> which is COMPLETELY wrong.
+One of them uses a shared header file (<soc/arc/timers.h>), which is
+what is causing the "redefined" warnings, so change the macro name in
+that driver only. Also change the TIMER_CTRL_NH macro name.
+Both macro names are prefixed with "ARC_" to reduce the likelihood
+of future name collisions.
 
-I did use a coccinelle script that's slightly more robust that a sed you've
-sent, but then I did a manual review, hence the two small patches with
-fixes. Indeed I missed this one, so to be on the safe side I'll rename only
-the obvious cases where coccinelle can be used reliably and leave all the
-rest as it's now. If somebody cares enough they can update it later.
+In file included from ../drivers/clocksource/timer-sp804.c:24:
+../drivers/clocksource/timer-sp.h:25: error: "TIMER_CTRL_IE" redefined [-Werror]
+   25 | #define TIMER_CTRL_IE           (1 << 5)        /*   VR */
+../include/soc/arc/timers.h:20: note: this is the location of the previous definition
+   20 | #define TIMER_CTRL_IE           (1 << 0) /* Interrupt when Count reaches limit */
+
+Fixes: b26c2e3823ba ("ARC: breakout timer include code into separate header")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Vineet Gupta <vgupta@kernel.org>
+Cc: linux-snps-arc@lists.infradead.org
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Shahab Vahedi <Shahab.Vahedi@synopsys.com>
+---
+v2: prefix both TIMER_CTRL_xx macros with ARC_ (suggested by
+    Shahab Vahedi <Shahab.Vahedi@synopsys.com>
+
+ drivers/clocksource/arc_timer.c |    6 +++---
+ include/soc/arc/timers.h        |    4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+--- linux-next-20210917.orig/include/soc/arc/timers.h
++++ linux-next-20210917/include/soc/arc/timers.h
+@@ -17,8 +17,8 @@
+ #define ARC_REG_TIMER1_CNT	0x100	/* timer 1 count */
  
-> And no, making the scripting just replace '__pa(x)' with '(void *)(x)'
-
-These were actually manual and they are required for variables that
-used as virtual addresses but have unsigned long type, like e.g.
-initrd_start. So it's either __pa(x) or (void *).
-
--- 
-Sincerely yours,
-Mike.
+ /* CTRL reg bits */
+-#define TIMER_CTRL_IE	        (1 << 0) /* Interrupt when Count reaches limit */
+-#define TIMER_CTRL_NH	        (1 << 1) /* Count only when CPU NOT halted */
++#define ARC_TIMER_CTRL_IE	(1 << 0) /* Interrupt when Count reaches limit */
++#define ARC_TIMER_CTRL_NH	(1 << 1) /* Count only when CPU NOT halted */
+ 
+ #define ARC_TIMERN_MAX		0xFFFFFFFF
+ 
+--- linux-next-20210917.orig/drivers/clocksource/arc_timer.c
++++ linux-next-20210917/drivers/clocksource/arc_timer.c
+@@ -225,7 +225,7 @@ static int __init arc_cs_setup_timer1(st
+ 
+ 	write_aux_reg(ARC_REG_TIMER1_LIMIT, ARC_TIMERN_MAX);
+ 	write_aux_reg(ARC_REG_TIMER1_CNT, 0);
+-	write_aux_reg(ARC_REG_TIMER1_CTRL, TIMER_CTRL_NH);
++	write_aux_reg(ARC_REG_TIMER1_CTRL, ARC_TIMER_CTRL_NH);
+ 
+ 	sched_clock_register(arc_timer1_clock_read, 32, arc_timer_freq);
+ 
+@@ -245,7 +245,7 @@ static void arc_timer_event_setup(unsign
+ 	write_aux_reg(ARC_REG_TIMER0_LIMIT, cycles);
+ 	write_aux_reg(ARC_REG_TIMER0_CNT, 0);	/* start from 0 */
+ 
+-	write_aux_reg(ARC_REG_TIMER0_CTRL, TIMER_CTRL_IE | TIMER_CTRL_NH);
++	write_aux_reg(ARC_REG_TIMER0_CTRL, ARC_TIMER_CTRL_IE | ARC_TIMER_CTRL_NH);
+ }
+ 
+ 
+@@ -294,7 +294,7 @@ static irqreturn_t timer_irq_handler(int
+ 	 *      explicitly clears IP bit
+ 	 * 2. Re-arm interrupt if periodic by writing to IE bit [0]
+ 	 */
+-	write_aux_reg(ARC_REG_TIMER0_CTRL, irq_reenable | TIMER_CTRL_NH);
++	write_aux_reg(ARC_REG_TIMER0_CTRL, irq_reenable | ARC_TIMER_CTRL_NH);
+ 
+ 	evt->event_handler(evt);
+ 
 
 _______________________________________________
 linux-snps-arc mailing list
