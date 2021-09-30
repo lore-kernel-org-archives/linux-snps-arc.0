@@ -2,14 +2,14 @@ Return-Path: <SRS0=Bf7c=OU=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73080C433FE
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 30 Sep 2021 18:56:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4038C433F5
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 30 Sep 2021 18:57:25 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3F8F56135D
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 30 Sep 2021 18:56:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3F8F56135D
+	by mail.kernel.org (Postfix) with ESMTPS id 99C22600D4
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 30 Sep 2021 18:57:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 99C22600D4
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,30 +18,30 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=xIWiMcKxsqpJPnZK69y38V+js6KJVFDfazWx2djAL9M=; b=qyhHiYBdOX1RMp
-	AManI2oygMPwqLToDZ6pWC2GnI3qwxfpwPUcgyBKlk2qYeJCW/FUoZgb7jQkRjN1p1xhJhFaJjz55
-	BaXIzEB+eS8zefZUNStqtnnPSyxtp8ovvi/fqJ8VRb7fS7cTuyROGMA8o7nXwvsjSzcfnuMa7+P07
-	IgiV+RzfPLRcEoTRdRsK/SaTGXVLuPsdZJ6qj6VA6gFqZBfLw7aedqqrcw+VPylemlx9Yxj5kguar
-	H9XF6Y0kMzr4Rp24oBnusLLPHFplKGP3RFBGd1Q45QykKDo3W2lG8gz3YkzBZCJqY6dEWF0KCtQuw
-	tE4QbApXcOPhoZtHyNtQ==;
+	List-Owner; bh=S8fWB2hkd9GCpSh8w6iGv/sgZ8POIjpS7tiaB+myzig=; b=tENIelbQ8vyhtd
+	ieLPA+KmxuHdSV2ioY5fuh0q5leZ1+z0gOW0x4mO6Mgjgk8+6hYjPF6Gjm6VfkGANqgTji2T6rBu8
+	TzKYsob+5GvdU0hQs0FUjZNcXd9CI+THAnOUzkzYTMbazIGgtITWi7/3LHQHoJDzca0yzZAC/qOzg
+	9nlnsfnesnSluCSHZANdqGTpKcc8ZjMQaD9MyhbmdAyBHKpy8eEcmF/+XRBpdYn0hvnNrrUiiTxKL
+	C2qhPzin2ZHBWYQh5ER4ARQLmROeEBWhwpmSLmqQ1jBllh+MRPtb08q7xaUkdYWgN0c0FJgCYh2Mq
+	ph6wnFEPVb1JjLC/wD9w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mW1Dq-00Fkai-VS; Thu, 30 Sep 2021 18:55:58 +0000
+	id 1mW1FE-00FlFB-Ju; Thu, 30 Sep 2021 18:57:24 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mW18y-00FiNF-BF; Thu, 30 Sep 2021 18:50:57 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8841861209;
- Thu, 30 Sep 2021 18:50:49 +0000 (UTC)
+ id 1mW195-00FiRg-LO; Thu, 30 Sep 2021 18:51:05 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 89FA66135D;
+ Thu, 30 Sep 2021 18:50:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1633027856;
- bh=UhBCHbOj9Jl5ZEx32c+R0M1PnzpsDKyF6CtjxvFScPo=;
+ s=k20201202; t=1633027863;
+ bh=tivO3RxhX536I7wMbKedMKNTS477CjzFA9f2OsEnazU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=c2tPiDJenxyQCvMzIY4Em8nsDs+rtaeSgB5mPhO6rdWaZxL8dx3plalQIb93rr+g7
- VQ8cGTHdyEbFp89BNk1xmo9SM+kleGvnBNuMMGt+h3NC2iEs3mimxx37p8Rh1Q49I1
- dICy9rhz40FtM07iwqUokDQc+WAsE9WW38PuHUYN59W32pQcFuBqF49AW2YbxvUmMe
- aml+AvUr5+hgysic8DOhS2c2vDqm1VwkFyfbPUhqrlF8CS9WEcfvcWhLGpQ9MtlfVo
- xwgzIBOzSTgMKLsybKBHHglY8ZfOkRoMe48nKFLqWW35isec2qKzGOkfCDbTRn1Osu
- LXpN7CWI+EqJw==
+ b=rhARG/usd0caltO5GtB0juCqz5hY7xnPMr7IDQAFGz+nbzYYJBkUHPwMW10JpfG1U
+ GOjmrnB4JBMWYoWBbarrDNmo5G26FRM82TfHgLvs9xJG9DYeZ9xwwtdXHJOFYM1+zd
+ broKbyPnESumKB7LYEtfnlnXQTK9RJC7LFGyyQAFNET0qbO8Ui7UyAFT3z68DsrzPC
+ aSlcrogUj2KG46BRCUUxTr+2wozXgwfNdMvU4+UXXJEv8m/I8QC+L5fDpiVv8eqvrz
+ KJRENgprcqiCeomJ3lhZWrrHNbhnG7JAjUXbVddnNblNFrgbfFY2trb2oFu2cP7GBo
+ lH1ruowZhTR2g==
 From: Mike Rapoport <rppt@kernel.org>
 To: linux-kernel@vger.kernel.org
 Cc: Andrew Morton <akpm@linux-foundation.org>,
@@ -59,17 +59,17 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  linux-um@lists.infradead.org, linux-usb@vger.kernel.org,
  linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org,
  xen-devel@lists.xenproject.org
-Subject: [PATCH v2 2/6] xen/x86: free_p2m_page: use memblock_free_ptr() to
- free a virtual pointer
-Date: Thu, 30 Sep 2021 21:50:27 +0300
-Message-Id: <20210930185031.18648-3-rppt@kernel.org>
+Subject: [PATCH v2 3/6] memblock: drop memblock_free_early_nid() and
+ memblock_free_early()
+Date: Thu, 30 Sep 2021 21:50:28 +0300
+Message-Id: <20210930185031.18648-4-rppt@kernel.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210930185031.18648-1-rppt@kernel.org>
 References: <20210930185031.18648-1-rppt@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210930_115056_447049_41A1389A 
-X-CRM114-Status: GOOD (  10.96  )
+X-CRM114-CacheID: sfid-20210930_115103_861679_74D08D82 
+X-CRM114-Status: GOOD (  13.27  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,31 +88,194 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Mike Rapoport <rppt@linux.ibm.com>
 
-free_p2m_page() wrongly passes a virtual pointer to memblock_free() that
-treats it as a physical address.
+memblock_free_early_nid() is unused and memblock_free_early() is an alias
+for memblock_free().
 
-Call memblock_free_ptr() instead that gets a virtual address to free the
-memory.
+Replace calls to memblock_free_early() with calls to memblock_free() and
+remove memblock_free_early() and memblock_free_early_nid().
 
 Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-Reviewed-by: Juergen Gross <jgross@suse.com>
 ---
- arch/x86/xen/p2m.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/mips/mm/init.c                  |  2 +-
+ arch/powerpc/platforms/pseries/svm.c |  3 +--
+ arch/s390/kernel/smp.c               |  2 +-
+ drivers/base/arch_numa.c             |  2 +-
+ drivers/s390/char/sclp_early.c       |  2 +-
+ include/linux/memblock.h             | 12 ------------
+ kernel/dma/swiotlb.c                 |  2 +-
+ lib/cpumask.c                        |  2 +-
+ mm/percpu.c                          |  8 ++++----
+ mm/sparse.c                          |  2 +-
+ 10 files changed, 12 insertions(+), 25 deletions(-)
 
-diff --git a/arch/x86/xen/p2m.c b/arch/x86/xen/p2m.c
-index 5e6e236977c7..141bb9dbd2fb 100644
---- a/arch/x86/xen/p2m.c
-+++ b/arch/x86/xen/p2m.c
-@@ -197,7 +197,7 @@ static void * __ref alloc_p2m_page(void)
- static void __ref free_p2m_page(void *p)
- {
- 	if (unlikely(!slab_is_available())) {
--		memblock_free((unsigned long)p, PAGE_SIZE);
-+		memblock_free_ptr(p, PAGE_SIZE);
- 		return;
- 	}
+diff --git a/arch/mips/mm/init.c b/arch/mips/mm/init.c
+index 19347dc6bbf8..21a5a7ac0037 100644
+--- a/arch/mips/mm/init.c
++++ b/arch/mips/mm/init.c
+@@ -529,7 +529,7 @@ static void * __init pcpu_fc_alloc(unsigned int cpu, size_t size,
  
+ static void __init pcpu_fc_free(void *ptr, size_t size)
+ {
+-	memblock_free_early(__pa(ptr), size);
++	memblock_free(__pa(ptr), size);
+ }
+ 
+ void __init setup_per_cpu_areas(void)
+diff --git a/arch/powerpc/platforms/pseries/svm.c b/arch/powerpc/platforms/pseries/svm.c
+index 87f001b4c4e4..f12229ce7301 100644
+--- a/arch/powerpc/platforms/pseries/svm.c
++++ b/arch/powerpc/platforms/pseries/svm.c
+@@ -56,8 +56,7 @@ void __init svm_swiotlb_init(void)
+ 		return;
+ 
+ 
+-	memblock_free_early(__pa(vstart),
+-			    PAGE_ALIGN(io_tlb_nslabs << IO_TLB_SHIFT));
++	memblock_free(__pa(vstart), PAGE_ALIGN(io_tlb_nslabs << IO_TLB_SHIFT));
+ 	panic("SVM: Cannot allocate SWIOTLB buffer");
+ }
+ 
+diff --git a/arch/s390/kernel/smp.c b/arch/s390/kernel/smp.c
+index 1a04e5bdf655..066efd6d9345 100644
+--- a/arch/s390/kernel/smp.c
++++ b/arch/s390/kernel/smp.c
+@@ -880,7 +880,7 @@ void __init smp_detect_cpus(void)
+ 
+ 	/* Add CPUs present at boot */
+ 	__smp_rescan_cpus(info, true);
+-	memblock_free_early((unsigned long)info, sizeof(*info));
++	memblock_free((unsigned long)info, sizeof(*info));
+ }
+ 
+ /*
+diff --git a/drivers/base/arch_numa.c b/drivers/base/arch_numa.c
+index f6d0efd01188..e28d9dfe3c20 100644
+--- a/drivers/base/arch_numa.c
++++ b/drivers/base/arch_numa.c
+@@ -165,7 +165,7 @@ static void * __init pcpu_fc_alloc(unsigned int cpu, size_t size,
+ 
+ static void __init pcpu_fc_free(void *ptr, size_t size)
+ {
+-	memblock_free_early(__pa(ptr), size);
++	memblock_free(__pa(ptr), size);
+ }
+ 
+ void __init setup_per_cpu_areas(void)
+diff --git a/drivers/s390/char/sclp_early.c b/drivers/s390/char/sclp_early.c
+index f3d5c7f4c13d..f01d942e1c1d 100644
+--- a/drivers/s390/char/sclp_early.c
++++ b/drivers/s390/char/sclp_early.c
+@@ -139,7 +139,7 @@ int __init sclp_early_get_core_info(struct sclp_core_info *info)
+ 	}
+ 	sclp_fill_core_info(info, sccb);
+ out:
+-	memblock_free_early((unsigned long)sccb, length);
++	memblock_free((unsigned long)sccb, length);
+ 	return rc;
+ }
+ 
+diff --git a/include/linux/memblock.h b/include/linux/memblock.h
+index 34de69b3b8ba..fc8183be340c 100644
+--- a/include/linux/memblock.h
++++ b/include/linux/memblock.h
+@@ -441,18 +441,6 @@ static inline void *memblock_alloc_node(phys_addr_t size,
+ 				      MEMBLOCK_ALLOC_ACCESSIBLE, nid);
+ }
+ 
+-static inline void memblock_free_early(phys_addr_t base,
+-					      phys_addr_t size)
+-{
+-	memblock_free(base, size);
+-}
+-
+-static inline void memblock_free_early_nid(phys_addr_t base,
+-						  phys_addr_t size, int nid)
+-{
+-	memblock_free(base, size);
+-}
+-
+ static inline void memblock_free_late(phys_addr_t base, phys_addr_t size)
+ {
+ 	__memblock_free_late(base, size);
+diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+index 87c40517e822..430d2f78d540 100644
+--- a/kernel/dma/swiotlb.c
++++ b/kernel/dma/swiotlb.c
+@@ -247,7 +247,7 @@ swiotlb_init(int verbose)
+ 	return;
+ 
+ fail_free_mem:
+-	memblock_free_early(__pa(tlb), bytes);
++	memblock_free(__pa(tlb), bytes);
+ fail:
+ 	pr_warn("Cannot allocate buffer");
+ }
+diff --git a/lib/cpumask.c b/lib/cpumask.c
+index c3c76b833384..045779446a18 100644
+--- a/lib/cpumask.c
++++ b/lib/cpumask.c
+@@ -188,7 +188,7 @@ EXPORT_SYMBOL(free_cpumask_var);
+  */
+ void __init free_bootmem_cpumask_var(cpumask_var_t mask)
+ {
+-	memblock_free_early(__pa(mask), cpumask_size());
++	memblock_free(__pa(mask), cpumask_size());
+ }
+ #endif
+ 
+diff --git a/mm/percpu.c b/mm/percpu.c
+index e0a986818903..f58318cb04c0 100644
+--- a/mm/percpu.c
++++ b/mm/percpu.c
+@@ -2472,7 +2472,7 @@ struct pcpu_alloc_info * __init pcpu_alloc_alloc_info(int nr_groups,
+  */
+ void __init pcpu_free_alloc_info(struct pcpu_alloc_info *ai)
+ {
+-	memblock_free_early(__pa(ai), ai->__ai_size);
++	memblock_free(__pa(ai), ai->__ai_size);
+ }
+ 
+ /**
+@@ -3134,7 +3134,7 @@ int __init pcpu_embed_first_chunk(size_t reserved_size, size_t dyn_size,
+ out_free:
+ 	pcpu_free_alloc_info(ai);
+ 	if (areas)
+-		memblock_free_early(__pa(areas), areas_size);
++		memblock_free(__pa(areas), areas_size);
+ 	return rc;
+ }
+ #endif /* BUILD_EMBED_FIRST_CHUNK */
+@@ -3256,7 +3256,7 @@ int __init pcpu_page_first_chunk(size_t reserved_size,
+ 		free_fn(page_address(pages[j]), PAGE_SIZE);
+ 	rc = -ENOMEM;
+ out_free_ar:
+-	memblock_free_early(__pa(pages), pages_size);
++	memblock_free(__pa(pages), pages_size);
+ 	pcpu_free_alloc_info(ai);
+ 	return rc;
+ }
+@@ -3286,7 +3286,7 @@ static void * __init pcpu_dfl_fc_alloc(unsigned int cpu, size_t size,
+ 
+ static void __init pcpu_dfl_fc_free(void *ptr, size_t size)
+ {
+-	memblock_free_early(__pa(ptr), size);
++	memblock_free(__pa(ptr), size);
+ }
+ 
+ void __init setup_per_cpu_areas(void)
+diff --git a/mm/sparse.c b/mm/sparse.c
+index 120bc8ea5293..55fea0c2f927 100644
+--- a/mm/sparse.c
++++ b/mm/sparse.c
+@@ -451,7 +451,7 @@ static void *sparsemap_buf_end __meminitdata;
+ static inline void __meminit sparse_buffer_free(unsigned long size)
+ {
+ 	WARN_ON(!sparsemap_buf || size == 0);
+-	memblock_free_early(__pa(sparsemap_buf), size);
++	memblock_free(__pa(sparsemap_buf), size);
+ }
+ 
+ static void __init sparse_buffer_init(unsigned long size, int nid)
 -- 
 2.28.0
 
