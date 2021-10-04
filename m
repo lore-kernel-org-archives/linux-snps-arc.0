@@ -1,51 +1,62 @@
-Return-Path: <SRS0=Y+5a=OV=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=yL/A=OY=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C380C433EF
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 Oct 2021 14:03:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A88AAC433F5
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  4 Oct 2021 09:36:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5D310619F9
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 Oct 2021 14:03:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5D310619F9
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 659B261248
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  4 Oct 2021 09:36:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 659B261248
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=LdNStMgbw6KzmsK016bmRi1LSg+fg/Cl+Vlsg5P7pUY=; b=nilHnxEnhs3VJE
-	zqtVXSoXlhe97Ki+1fc9TtGDWQhzkl0Y0ZgBi7uiv/IDPVB6G1Lpu62r27Wmoj8PB5Iyz+pH6UH4p
-	UGC+CuPcI8rxr1MK2JqsXqxTrUNGeoUNdcUHC2ocUPj1pnfjeezXuNtP4NE4VOoSEVD05VW/L6+kv
-	UhSFMpMP7dzISbnJKf+H+/Zk9O8LK6rkAiGusY9a/J+/9Q/V0g9Iq3cB0CpDL/QXTeFB+2E+yWypR
-	mfMideFgvfx847wpnHRoMgdZIuSYXNQ70J/qVXPT9MELm9p3Uq23evXlx0Fst7OQrl4oAbPIv9+HE
-	3lF+0b6AbVaAwZiUt+SQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=pBwz+jRehjWjgmwd8KYkV3pKM1/sxoEBtoEhiFbZ0gY=; b=a8P0OcNQ38eUJZ
+	sHNDIFDm7qnsNwM0SzzVg0hKPUgzU41gi8hqxu52QS93ZeKly/qSv0mZcMiV9FiWrVA97M6uNjzVU
+	Kp4yVPgG1he1nnzc9FD0/3eEnIo7wA2gW0N1wrA13Lk7QBFHvcQVLVFvirO2fv+rLMuKsEXpo10Xs
+	vFejFcvJpLpH7UM6jwOhZ9hXcYdjy/lOwir2SRM55plkBCovs4FvFIo1rVtCogOvDvGP9CV2BK1Ve
+	Jxylwqv9vnAT+dHm8DHyAa1c5fa9TU18haWhuAIElZHRJY2yvzfNBvgGwm4JhA8633D6b2gWRnS69
+	wE6kYh+H0lzCu/Jmr35Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mWJ8B-000Tdb-UZ; Fri, 01 Oct 2021 14:03:19 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1mXKOZ-005n1L-VB; Mon, 04 Oct 2021 09:36:27 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mWJ87-000Tby-Hz; Fri, 01 Oct 2021 14:03:17 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B184461439;
- Fri,  1 Oct 2021 14:03:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1633096994;
- bh=j7RiikMVul/vm+Prmyx1rYn9xETi77NUVt/50phH7k0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JIchVvHkPwXFrApRkJNJ1jo9dQIfHa2T63ZG1i87FhM0l0ZvtL87mlGvplRQBraes
- vyMIL4dKf6z0JSmVBUSKIGtpiCVW0zfnCqS9jOnbL2dAZNjae538ZVygnqS9nR+eLF
- xHUU2hdOzmpySeLHR8g8uhJ86dXHlY3KzJVFj48iCHOSsm/sFJxKKMIWTwhwBE82+F
- FzjRuTX/sl0Oc1bN9a0bDb8maV8TNilTngNHqHbDe+oFp/6kLeNtnncm2EB6xtvQPd
- RxHjszo7Yuib1/P1V58ChVRmeUZKnKnZO6L+qjCn49PqGMSsJSfKE5Y6LZatW8Cmz/
- K9IirY56cVdeg==
-Date: Fri, 1 Oct 2021 07:03:13 -0700
-From: Mike Rapoport <rppt@kernel.org>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ id 1mXKOT-005mzE-LK
+ for linux-snps-arc@lists.infradead.org; Mon, 04 Oct 2021 09:36:23 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633340180;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hlABN2UfX8mmg4ng0oI/HDWFcaKFWagGNJM8HwtDihg=;
+ b=F7YrK3RBAgnWJ3QDhU3GrNHz022r7yRiR2Glygvs2++J8onyr9icyN6wMidHk+HWb5py3b
+ o+oWaQyjYZB6Z8s4cOhi7GnIErun1YJ1xUvoFSTNAnGzG/DuTykOKL4I1+wQ2RF4GCHble
+ rkUvMMqMu2pa56xQUZZTJ79lDJFfo4A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-560-MDZ8qFBKP2Whbkrt_JF4zg-1; Mon, 04 Oct 2021 05:36:17 -0400
+X-MC-Unique: MDZ8qFBKP2Whbkrt_JF4zg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B143E1006AA4;
+ Mon,  4 Oct 2021 09:36:14 +0000 (UTC)
+Received: from t480s.redhat.com (unknown [10.39.194.159])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 098A9100763D;
+ Mon,  4 Oct 2021 09:36:06 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: David Hildenbrand <david@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
  Michal Hocko <mhocko@suse.com>, Oscar Salvador <osalvador@suse.de>,
  Jianyong Wu <Jianyong.Wu@arm.com>,
  "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
@@ -55,26 +66,19 @@ Cc: linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
  Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>,
- Eric Biederman <ebiederm@xmission.com>,
- Arnd Bergmann <arnd@arndb.de>, linux-snps-arc@lists.infradead.org,
- linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, linux-s390@vger.kernel.org,
- linux-mm@kvack.org, kexec@lists.infradead.org
-Subject: Re: [PATCH v1 3/4] memblock: add MEMBLOCK_DRIVER_MANAGED to mimic
- IORESOURCE_SYSRAM_DRIVER_MANAGED
-Message-ID: <YVcVIej0Wlyd9JAB@kernel.org>
-References: <20210927150518.8607-1-david@redhat.com>
- <20210927150518.8607-4-david@redhat.com>
- <YVSW3uuu7mIcJMm3@kernel.org>
- <830c1670-378b-0fb6-bd5e-208e545fa126@redhat.com>
- <YVYqdN7MFdzBlCVm@kernel.org>
- <0d6c86ba-076b-5d4b-33a8-da267f951a85@redhat.com>
+ Eric Biederman <ebiederm@xmission.com>, Arnd Bergmann <arnd@arndb.de>,
+ linux-snps-arc@lists.infradead.org, linux-ia64@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-mm@kvack.org, kexec@lists.infradead.org
+Subject: [PATCH v2 0/5] mm/memory_hotplug: full support for
+ add_memory_driver_managed() with CONFIG_ARCH_KEEP_MEMBLOCK
+Date: Mon,  4 Oct 2021 11:36:00 +0200
+Message-Id: <20211004093605.5830-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <0d6c86ba-076b-5d4b-33a8-da267f951a85@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211001_070315_677561_B7E31FF4 
-X-CRM114-Status: GOOD (  37.55  )
+X-CRM114-CacheID: sfid-20211004_023621_787478_1D5989DD 
+X-CRM114-Status: GOOD (  11.61  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,84 +95,82 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 01, 2021 at 10:04:24AM +0200, David Hildenbrand wrote:
-> On 30.09.21 23:21, Mike Rapoport wrote:
-> > On Wed, Sep 29, 2021 at 06:54:01PM +0200, David Hildenbrand wrote:
-> > > On 29.09.21 18:39, Mike Rapoport wrote:
-> > > > Hi,
-> > > > 
-> > > > On Mon, Sep 27, 2021 at 05:05:17PM +0200, David Hildenbrand wrote:
-> > > > > Let's add a flag that corresponds to IORESOURCE_SYSRAM_DRIVER_MANAGED.
-> > > > > Similar to MEMBLOCK_HOTPLUG, most infrastructure has to treat such memory
-> > > > > like ordinary MEMBLOCK_NONE memory -- for example, when selecting memory
-> > > > > regions to add to the vmcore for dumping in the crashkernel via
-> > > > > for_each_mem_range().
-> > > > Can you please elaborate on the difference in semantics of MEMBLOCK_HOTPLUG
-> > > > and MEMBLOCK_DRIVER_MANAGED?
-> > > > Unless I'm missing something they both mark memory that can be unplugged
-> > > > anytime and so it should not be used in certain cases. Why is there a need
-> > > > for a new flag?
-> > > 
-> > > In the cover letter I have "Alternative B: Reuse MEMBLOCK_HOTPLUG.
-> > > MEMBLOCK_HOTPLUG serves a different purpose, though.", but looking into the
-> > > details it won't work as is.
-> > > 
-> > > MEMBLOCK_HOTPLUG is used to mark memory early during boot that can later get
-> > > hotunplugged again and should be placed into ZONE_MOVABLE if the
-> > > "movable_node" kernel parameter is set.
-> > > 
-> > > The confusing part is that we talk about "hotpluggable" but really mean
-> > > "hotunpluggable": the reason is that HW flags DIMM slots that can later be
-> > > hotplugged as "hotpluggable" even though there is already something
-> > > hotplugged.
-> > 
-> > MEMBLOCK_HOTPLUG name is indeed somewhat confusing, but still it's core
-> > meaning "this memory may be removed" which does not differ from what
-> > IORESOURCE_SYSRAM_DRIVER_MANAGED means.
-> > 
-> > MEMBLOCK_HOTPLUG regions are indeed placed into ZONE_MOVABLE, but more
-> > importantly, they are avoided when we allocate memory from memblock.
-> > 
-> > So, in my view, both flags mean that the memory may be removed and it
-> > should not be used for certain types of allocations.
-> 
-> The semantics are different:
-> 
-> MEMBLOCK_HOTPLUG: memory is indicated as "System RAM" in the
-> firmware-provided memory map and added to the system early during boot; we
-> want this memory to be managed by ZONE_MOVABLE with "movable_node" set on
-> the kernel command line, because only then we want it to be hotpluggable
-> again. kexec *has to* indicate this memory to the second kernel and can
-> place kexec-images on this memory. After memory hotunplug, kexec has to be
-> re-armed.
-> 
-> MEMBLOCK_DRIVER_MANAGED: memory is not indicated as System RAM" in the
-> firmware-provided memory map; this memory is always detected and added to
-> the system by a driver; memory might not actually be physically
-> hotunpluggable and the ZONE selection does not depend on "movable_core".
-> kexec *must not* indicate this memory to the second kernel and *must not*
-> place kexec-images on this memory.
+Architectures that require CONFIG_ARCH_KEEP_MEMBLOCK=y, such as arm64,
+don't cleanly support add_memory_driver_managed() yet. Most prominently,
+kexec_file can still end up placing kexec images on such driver-managed
+memory, resulting in undesired behavior, for example, having kexec images
+located on memory not part of the firmware-provided memory map.
 
-Ok, this clarifies.
-This explanation should be a part of the changelog. The sentences about the
-zone selection could be probably skipped, because they are less important
-for this case. E.g something like:
+Teaching kexec to not place images on driver-managed memory is especially
+relevant for virtio-mem. Details can be found in commit 7b7b27214bba
+("mm/memory_hotplug: introduce add_memory_driver_managed()").
 
-MEMBLOCK_HOTPLUG: memory is indicated as "System RAM" in the
-firmware-provided memory map and added to the system early during boot;
-kexec *has to* indicate this memory to the second kernel and can place
-kexec-images on this memory. After memory hotunplug, kexec has to be
-re-armed.
+Extend memblock with a new flag and set it from memory hotplug code
+when applicable. This is required to fully support virtio-mem on
+arm64, making also kexec_file behave like on x86-64.
 
-MEMBLOCK_DRIVER_MANAGED: memory is not indicated as "System RAM" in the
-firmware-provided memory map; this memory is always detected and added to
-the system by a driver; memory might not actually be physically
-hotunpluggable.  kexec *must not* indicate this memory to the second kernel
-and *must not* place kexec-images on this memory.
+v1 -> v2:
+- "memblock: improve MEMBLOCK_HOTPLUG documentation"
+-- Added
+- "memblock: add MEMBLOCK_DRIVER_MANAGED to mimic
+   IORESOURCE_SYSRAM_DRIVER_MANAGED"
+-- Improve documentation of MEMBLOCK_DRIVER_MANAGED
+- Refine patch descriptions
 
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Oscar Salvador <osalvador@suse.de>
+Cc: Jianyong Wu <Jianyong.Wu@arm.com>
+Cc: Aneesh Kumar K.V <aneesh.kumar@linux.ibm.com>
+Cc: Vineet Gupta <vgupta@kernel.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Huacai Chen <chenhuacai@kernel.org>
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: Heiko Carstens <hca@linux.ibm.com>
+Cc: Vasily Gorbik <gor@linux.ibm.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: Eric Biederman <ebiederm@xmission.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: linux-snps-arc@lists.infradead.org
+Cc: linux-ia64@vger.kernel.org
+Cc: linux-m68k@lists.linux-m68k.org
+Cc: linux-mips@vger.kernel.org
+Cc: linux-s390@vger.kernel.org
+Cc: linux-mm@kvack.org
+Cc: kexec@lists.infradead.org
+
+David Hildenbrand (5):
+  mm/memory_hotplug: handle memblock_add_node() failures in
+    add_memory_resource()
+  memblock: improve MEMBLOCK_HOTPLUG documentation
+  memblock: allow to specify flags with memblock_add_node()
+  memblock: add MEMBLOCK_DRIVER_MANAGED to mimic
+    IORESOURCE_SYSRAM_DRIVER_MANAGED
+  mm/memory_hotplug: indicate MEMBLOCK_DRIVER_MANAGED with
+    IORESOURCE_SYSRAM_DRIVER_MANAGED
+
+ arch/arc/mm/init.c               |  4 ++--
+ arch/ia64/mm/contig.c            |  2 +-
+ arch/ia64/mm/init.c              |  2 +-
+ arch/m68k/mm/mcfmmu.c            |  3 ++-
+ arch/m68k/mm/motorola.c          |  6 ++++--
+ arch/mips/loongson64/init.c      |  4 +++-
+ arch/mips/sgi-ip27/ip27-memory.c |  3 ++-
+ arch/s390/kernel/setup.c         |  3 ++-
+ include/linux/memblock.h         | 25 +++++++++++++++++++++----
+ include/linux/mm.h               |  2 +-
+ kernel/kexec_file.c              |  5 +++++
+ mm/memblock.c                    | 13 +++++++++----
+ mm/memory_hotplug.c              | 11 +++++++++--
+ 13 files changed, 62 insertions(+), 21 deletions(-)
+
+
+base-commit: 9e1ff307c779ce1f0f810c7ecce3d95bbae40896
 -- 
-Sincerely yours,
-Mike.
+2.31.1
+
 
 _______________________________________________
 linux-snps-arc mailing list
