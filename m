@@ -2,14 +2,14 @@ Return-Path: <SRS0=3pus=PW=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57AF5C433EF
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  3 Nov 2021 20:57:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AD9AC433EF
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  3 Nov 2021 20:57:56 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1944761156
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  3 Nov 2021 20:57:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1944761156
+	by mail.kernel.org (Postfix) with ESMTPS id D0CB36115B
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  3 Nov 2021 20:57:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D0CB36115B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,86 +18,89 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=4i0pkb041Um8K1LFU10qOFf0cdD6y8hrjq2IsDG9Je4=; b=injo9BeRAqPtJT
-	5ZLNjwoPvtuDMAYnSVVr/hJi+EeVHl6khCBfuTbP6Oy4oww08OGeFry6RMeNbwJDB1ZJn3+xXzK2n
-	kxKiZqS0H1aDhIoVXv9koK0JzIQ+ZLJyvTTnm3OaPIiBydNgLQ/g+ycUsYcr/YUEMdOUlceQbD41W
-	SR4vZ/gSgiDTrnY3C4FyE0HvYDMnMv3V3JvY4VaS6hP47ZvVX5inY7O1qF68DLqiHO0EoWwNsV4cE
-	B/NPLp5FamQ5HPrlBRq1qZmSa0HJTTRatyVBVHltYFfaw3e2T1EF55bnGI8WCIBAWQRcmaOoc3g4p
-	2BOuFVx1c1nHrdP9F3og==;
+	List-Owner; bh=m47KQUG+OeqrIjbWvmNicFIrgaTL215XQyoz1dmLAqo=; b=3m8BHntslgNIMz
+	bIwjxeUp6I8D08IO2h1uy9X70dJ9g2L86d49WDHvgYJn9rybyQWC76ktiXKSC14KWX+Rgm3eqPw3W
+	3964Ynj324IHrobOIUf1gwdC3E/k4GKX4EsO7gUCresGe4z4Wlnlx7ECcGdykpwxPaK85MCwJ+KbH
+	zq3jyIwODMJNRIcXFdLOAJAm3UbAUH5JEwb6XW2vrGO/SJT1XDwiQwkCFHIw707iPQ1wZEPRa2KTW
+	XtegxOV4SOq2t8V6QDwgyRfpYAY2t7j0b1R1cSez/iWdFiJ2p4cdHRmhpfQK+3zcI54CDSH450/H8
+	I+89y4fBJ6y3iExmNZZg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1miNKD-006ZID-IT; Wed, 03 Nov 2021 20:57:37 +0000
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+	id 1miNKV-006ZSs-6o; Wed, 03 Nov 2021 20:57:55 +0000
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1miNJq-006Z4b-Ou; Wed, 03 Nov 2021 20:57:17 +0000
-Received: by mail-pl1-x62e.google.com with SMTP id n8so3619031plf.4;
- Wed, 03 Nov 2021 13:57:14 -0700 (PDT)
+ id 1miNJt-006Z60-37; Wed, 03 Nov 2021 20:57:19 +0000
+Received: by mail-pl1-x635.google.com with SMTP id t11so3554963plq.11;
+ Wed, 03 Nov 2021 13:57:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ya576HbrLRTHJlpTTIn6uvE/Uu8BbIxAE7uNusHPtZU=;
- b=GruWqGzzHk/Yvr7D9ohJLA0u1ec7y9ucn1s9iVksyVGHHTT8WQAj776YZCSjmBN94T
- 1zcq6asBxhNhKKScoM8+csLfLxYykCbGBqZ3pgLmAifYR4/2XLjbW49DjYdYQW+Rj59m
- zM3feFsVQoVDrHFicXrEDDObyOy+/+TgbpJf63RvcS5uWcQXq0fLeEJ52rb0YF56bPXP
- v7dtlUJw85/GN88lS0xWNDwrtSOi8bJv9UuUx+L+228oHRbaRwUdqMjzMxWFvLJFzepw
- 8uNhj4II96+I+PaKPy2R95ecNwi/UJO7NFBHnmv9B4SuYrEEGjMlX/ZiOuqgZnr8C+BK
- aGVg==
+ bh=BFDd8LYLL9iLsk41I8B0uvCN8xqAE1pF4tRiEAvVNwE=;
+ b=mU/lV2PDVhzl2apO/sKJObAt5f2aQJwQjF56oeVDNAVFILPaAuxYJqhe1INkvwqK4F
+ LngVqgj0bbkDnnMIpWpgkEg0e1gJ0LjAb+Wa0Zl4FB/D1ubP7uxUhSGpeFZ/UyV3OVDE
+ iboE6h8OZq9FAYalgtPZyloyJkImXmUB4SWh+r+uP5/FsZ736QljFfuaw+xVrDymxAB4
+ N/D/ZuCnmbUzIGKyGSVySnFm/d5mC3XHS9nuPl4FkifJtkOBXUSHWmxEgGxCyGGR9Dhx
+ LaYP4R60y2USvsvPyIpAax1BhdGd55TQ7J+x2lsDtzWDTlNrIBhyOX1s8ltU2lNK8Vw1
+ /8Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ya576HbrLRTHJlpTTIn6uvE/Uu8BbIxAE7uNusHPtZU=;
- b=Wb7hVO3SJ4kJWxtBnSIMzPOEi6skfpnJTGIpRGBWgYC2qlJlEjnYSGl3IaESW5ZFXA
- rcMMbg/eIJQsfALMIfb3abkjDkIld5nS1u4fAmuBsV0I0mwjXyim/4pXRyQM6ClXNG19
- MyqbXyi/wwvRS491o4rAUSnobFwVdnFg2FaQHcom/LE3ea10nCgxNK573Vg/FIjg0Ldf
- 4A4kUu1TcI+rQ4FTI1/SKMb59qexWI3HR2+UFyLYHu+wdeysPl1dHNgspQtYFtngzG7O
- cNb94lIjpBTvSeK/AFoK6dO8ZcRgNqmSjQa6Hix3Yzcyg0A8cgO+HlgDfL5Tkpd/v31I
- ukBw==
-X-Gm-Message-State: AOAM533e3KsTe3+doWVeph4XdhuUm5c5gkcey8C/nRa+Hfb83ROI8S14
- x+YtCm8U5uPlJN2bLP9Dgfo=
-X-Google-Smtp-Source: ABdhPJwZ5vl3X49rGJIYkPToKOxssTP8uxhUU7meD/3RrukCf9RWTxlUIjhZeIkiZhctGzfCRFpWOw==
-X-Received: by 2002:a17:902:bd94:b0:13f:f96c:aa22 with SMTP id
- q20-20020a170902bd9400b0013ff96caa22mr41030782pls.43.1635973034087; 
- Wed, 03 Nov 2021 13:57:14 -0700 (PDT)
+ bh=BFDd8LYLL9iLsk41I8B0uvCN8xqAE1pF4tRiEAvVNwE=;
+ b=ugYTDrGgKiTwYtSJrlWAPPZwzkiX4I4SL6YnXTKgxrmoQOox2O4Vb5IN+FCT2ZmHqF
+ /C8mTjMiYKLKa0Dxt3RGNoHXAOLicsjiW2QknLO2v1zu7wxF2695r76/5rChCExv/o8g
+ j5jv9V7Q/nHykkjj8b+h9agjaaUMl5zVsrSJRBqw2GVW+6tpcm/FGx0hlkVy+lQvO4Lo
+ HYe65sJj3tO/gw1gWAjPKMrJXg+402l5A7EpL0OFCul/NgqkX+AgE5h6/CSTnuAdcMIR
+ C65WWOfP5gmNOwwYCP1/J4dBJkQz4ApkAZtLt85e6ZzA7ezuq+xdhMKhEMJOHVVH2+kO
+ CCFA==
+X-Gm-Message-State: AOAM533VXzd3qViZ1JNg1X/j4mnXXD8f1MICpeYyWLGyac6FCsELxXIB
+ Tg/c+RpfPtSUjqeGMHn7Bds=
+X-Google-Smtp-Source: ABdhPJztIqZLojbQkcG9MLb1IIhhdLW0+uR0uxDfAsAAHrYl0w4LRAN+yau1elpkYyy4Jk6iCHIbXw==
+X-Received: by 2002:a17:903:1c3:b0:142:3ae:5c09 with SMTP id
+ e3-20020a17090301c300b0014203ae5c09mr14720727plh.52.1635973032210; 
+ Wed, 03 Nov 2021 13:57:12 -0700 (PDT)
 Received: from fainelli-desktop.igp.broadcom.net ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id b18sm2554859pjo.31.2021.11.03.13.57.12
+ by smtp.gmail.com with ESMTPSA id b18sm2554859pjo.31.2021.11.03.13.57.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 13:57:13 -0700 (PDT)
+ Wed, 03 Nov 2021 13:57:11 -0700 (PDT)
 From: Florian Fainelli <f.fainelli@gmail.com>
 To: linux-kernel@vger.kernel.org
 Cc: stable@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sasha Levin <sashal@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Stefan Agner <stefan@agner.ch>, Mike Rapoport <rppt@linux.ibm.com>,
- Florian Fainelli <f.fainelli@gmail.com>,
+ Sasha Levin <sashal@kernel.org>,
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ Nitin Gupta <ngupta@vflare.org>, Minchan Kim <minchan@kernel.org>,
+ Andy Lutomirski <luto@amacapital.net>, Borislav Petkov <bp@suse.de>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-mm@kvack.org,
+ Ingo Molnar <mingo@kernel.org>, Florian Fainelli <f.fainelli@gmail.com>,
  Vineet Gupta <vgupta@synopsys.com>, Russell King <linux@armlinux.org.uk>,
  Ralf Baechle <ralf@linux-mips.org>,
  Benjamin Herrenschmidt <benh@kernel.crashing.org>,
  Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- "H. Peter Anvin" <hpa@zytor.com>,
+ Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>,
  x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
- Minchan Kim <minchan@kernel.org>, Nitin Gupta <ngupta@vflare.org>,
- Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ Arnd Bergmann <arnd@arndb.de>, Stefan Agner <stefan@agner.ch>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Mike Rapoport <rppt@linux.ibm.com>,
  linux-snps-arc@lists.infradead.org (open list:SYNOPSYS ARC ARCHITECTURE),
  linux-arm-kernel@lists.infradead.org (moderated list:ARM PORT),
  linux-mips@linux-mips.org (open list:MIPS),
  linuxppc-dev@lists.ozlabs.org (open list:LINUX FOR POWERPC (32-BIT AND
  64-BIT)), 
- linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES),
- linux-mm@kvack.org (open list:ZSMALLOC COMPRESSED SLAB MEMORY ALLOCATOR)
-Subject: [PATCH stable 4.14 2/2] arch: pgtable: define
- MAX_POSSIBLE_PHYSMEM_BITS where needed
-Date: Wed,  3 Nov 2021 13:57:04 -0700
-Message-Id: <20211103205704.374734-3-f.fainelli@gmail.com>
+ linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES)
+Subject: [PATCH stable 4.14 1/2] mm/zsmalloc: Prepare to variable
+ MAX_PHYSMEM_BITS
+Date: Wed,  3 Nov 2021 13:57:03 -0700
+Message-Id: <20211103205704.374734-2-f.fainelli@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211103205704.374734-1-f.fainelli@gmail.com>
 References: <20211103205704.374734-1-f.fainelli@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211103_135714_886552_910739AA 
-X-CRM114-Status: GOOD (  23.84  )
+X-CRM114-CacheID: sfid-20211103_135717_193575_63EDA1F4 
+X-CRM114-Status: GOOD (  16.07  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,192 +117,92 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 
-[ Upstream commit cef397038167ac15d085914493d6c86385773709 ]
+commit 02390b87a9459937cdb299e6b34ff33992512ec7 upstream
 
-Stefan Agner reported a bug when using zsram on 32-bit Arm machines
-with RAM above the 4GB address boundary:
+With boot-time switching between paging mode we will have variable
+MAX_PHYSMEM_BITS.
 
-  Unable to handle kernel NULL pointer dereference at virtual address 00000000
-  pgd = a27bd01c
-  [00000000] *pgd=236a0003, *pmd=1ffa64003
-  Internal error: Oops: 207 [#1] SMP ARM
-  Modules linked in: mdio_bcm_unimac(+) brcmfmac cfg80211 brcmutil raspberrypi_hwmon hci_uart crc32_arm_ce bcm2711_thermal phy_generic genet
-  CPU: 0 PID: 123 Comm: mkfs.ext4 Not tainted 5.9.6 #1
-  Hardware name: BCM2711
-  PC is at zs_map_object+0x94/0x338
-  LR is at zram_bvec_rw.constprop.0+0x330/0xa64
-  pc : [<c0602b38>]    lr : [<c0bda6a0>]    psr: 60000013
-  sp : e376bbe0  ip : 00000000  fp : c1e2921c
-  r10: 00000002  r9 : c1dda730  r8 : 00000000
-  r7 : e8ff7a00  r6 : 00000000  r5 : 02f9ffa0  r4 : e3710000
-  r3 : 000fdffe  r2 : c1e0ce80  r1 : ebf979a0  r0 : 00000000
-  Flags: nZCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment user
-  Control: 30c5383d  Table: 235c2a80  DAC: fffffffd
-  Process mkfs.ext4 (pid: 123, stack limit = 0x495a22e6)
-  Stack: (0xe376bbe0 to 0xe376c000)
+Let's use the maximum variable possible for CONFIG_X86_5LEVEL=y
+configuration to define zsmalloc data structures.
 
-As it turns out, zsram needs to know the maximum memory size, which
-is defined in MAX_PHYSMEM_BITS when CONFIG_SPARSEMEM is set, or in
-MAX_POSSIBLE_PHYSMEM_BITS on the x86 architecture.
+The patch introduces MAX_POSSIBLE_PHYSMEM_BITS to cover such case.
+It also suits well to handle PAE special case.
 
-The same problem will be hit on all 32-bit architectures that have a
-physical address space larger than 4GB and happen to not enable sparsemem
-and include asm/sparsemem.h from asm/pgtable.h.
-
-After the initial discussion, I suggested just always defining
-MAX_POSSIBLE_PHYSMEM_BITS whenever CONFIG_PHYS_ADDR_T_64BIT is
-set, or provoking a build error otherwise. This addresses all
-configurations that can currently have this runtime bug, but
-leaves all other configurations unchanged.
-
-I looked up the possible number of bits in source code and
-datasheets, here is what I found:
-
- - on ARC, CONFIG_ARC_HAS_PAE40 controls whether 32 or 40 bits are used
- - on ARM, CONFIG_LPAE enables 40 bit addressing, without it we never
-   support more than 32 bits, even though supersections in theory allow
-   up to 40 bits as well.
- - on MIPS, some MIPS32r1 or later chips support 36 bits, and MIPS32r5
-   XPA supports up to 60 bits in theory, but 40 bits are more than
-   anyone will ever ship
- - On PowerPC, there are three different implementations of 36 bit
-   addressing, but 32-bit is used without CONFIG_PTE_64BIT
- - On RISC-V, the normal page table format can support 34 bit
-   addressing. There is no highmem support on RISC-V, so anything
-   above 2GB is unused, but it might be useful to eventually support
-   CONFIG_ZRAM for high pages.
-
-Fixes: 61989a80fb3a ("staging: zsmalloc: zsmalloc memory allocation library")
-Fixes: 02390b87a945 ("mm/zsmalloc: Prepare to variable MAX_PHYSMEM_BITS")
-Acked-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Reviewed-by: Stefan Agner <stefan@agner.ch>
-Tested-by: Stefan Agner <stefan@agner.ch>
-Acked-by: Mike Rapoport <rppt@linux.ibm.com>
-Link: https://lore.kernel.org/linux-mm/bdfa44bf1c570b05d6c70898e2bbb0acf234ecdf.1604762181.git.stefan@agner.ch/
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
-[florian: patch arch/powerpc/include/asm/pte-common.h for 4.14.y
-removed arch/riscv/include/asm/pgtable.h which does not exist]
+Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+Reviewed-by: Nitin Gupta <ngupta@vflare.org>
+Acked-by: Minchan Kim <minchan@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>
+Cc: Borislav Petkov <bp@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: linux-mm@kvack.org
+Link: http://lkml.kernel.org/r/20180214111656.88514-3-kirill.shutemov@linux.intel.com
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
 Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
 ---
- arch/arc/include/asm/pgtable.h        |  2 ++
- arch/arm/include/asm/pgtable-2level.h |  2 ++
- arch/arm/include/asm/pgtable-3level.h |  2 ++
- arch/mips/include/asm/pgtable-32.h    |  3 +++
- arch/powerpc/include/asm/pte-common.h |  2 ++
- include/asm-generic/pgtable.h         | 13 +++++++++++++
- 6 files changed, 24 insertions(+)
+ arch/x86/include/asm/pgtable-3level_types.h |  1 +
+ arch/x86/include/asm/pgtable_64_types.h     |  2 ++
+ mm/zsmalloc.c                               | 13 +++++++------
+ 3 files changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
-index 77676e18da69..a31ae69da639 100644
---- a/arch/arc/include/asm/pgtable.h
-+++ b/arch/arc/include/asm/pgtable.h
-@@ -138,8 +138,10 @@
- 
- #ifdef CONFIG_ARC_HAS_PAE40
- #define PTE_BITS_NON_RWX_IN_PD1	(0xff00000000 | PAGE_MASK | _PAGE_CACHEABLE)
-+#define MAX_POSSIBLE_PHYSMEM_BITS 40
- #else
- #define PTE_BITS_NON_RWX_IN_PD1	(PAGE_MASK | _PAGE_CACHEABLE)
-+#define MAX_POSSIBLE_PHYSMEM_BITS 32
- #endif
- 
- /**************************************************************************
-diff --git a/arch/arm/include/asm/pgtable-2level.h b/arch/arm/include/asm/pgtable-2level.h
-index 92fd2c8a9af0..6154902bed83 100644
---- a/arch/arm/include/asm/pgtable-2level.h
-+++ b/arch/arm/include/asm/pgtable-2level.h
-@@ -78,6 +78,8 @@
- #define PTE_HWTABLE_OFF		(PTE_HWTABLE_PTRS * sizeof(pte_t))
- #define PTE_HWTABLE_SIZE	(PTRS_PER_PTE * sizeof(u32))
- 
-+#define MAX_POSSIBLE_PHYSMEM_BITS	32
-+
- /*
-  * PMD_SHIFT determines the size of the area a second-level page table can map
-  * PGDIR_SHIFT determines what a third-level page table entry can map
-diff --git a/arch/arm/include/asm/pgtable-3level.h b/arch/arm/include/asm/pgtable-3level.h
-index 2a029bceaf2f..35807e611b6e 100644
---- a/arch/arm/include/asm/pgtable-3level.h
-+++ b/arch/arm/include/asm/pgtable-3level.h
-@@ -37,6 +37,8 @@
- #define PTE_HWTABLE_OFF		(0)
- #define PTE_HWTABLE_SIZE	(PTRS_PER_PTE * sizeof(u64))
- 
-+#define MAX_POSSIBLE_PHYSMEM_BITS 40
-+
- /*
-  * PGDIR_SHIFT determines the size a top-level page table entry can map.
+diff --git a/arch/x86/include/asm/pgtable-3level_types.h b/arch/x86/include/asm/pgtable-3level_types.h
+index 876b4c77d983..6a59a6d0cc50 100644
+--- a/arch/x86/include/asm/pgtable-3level_types.h
++++ b/arch/x86/include/asm/pgtable-3level_types.h
+@@ -44,5 +44,6 @@ typedef union {
   */
-diff --git a/arch/mips/include/asm/pgtable-32.h b/arch/mips/include/asm/pgtable-32.h
-index 74afe8c76bdd..215fb48f644b 100644
---- a/arch/mips/include/asm/pgtable-32.h
-+++ b/arch/mips/include/asm/pgtable-32.h
-@@ -111,6 +111,7 @@ static inline void pmd_clear(pmd_t *pmdp)
+ #define PTRS_PER_PTE	512
  
- #if defined(CONFIG_XPA)
++#define MAX_POSSIBLE_PHYSMEM_BITS	36
  
-+#define MAX_POSSIBLE_PHYSMEM_BITS 40
- #define pte_pfn(x)		(((unsigned long)((x).pte_high >> _PFN_SHIFT)) | (unsigned long)((x).pte_low << _PAGE_PRESENT_SHIFT))
- static inline pte_t
- pfn_pte(unsigned long pfn, pgprot_t prot)
-@@ -126,6 +127,7 @@ pfn_pte(unsigned long pfn, pgprot_t prot)
+ #endif /* _ASM_X86_PGTABLE_3LEVEL_DEFS_H */
+diff --git a/arch/x86/include/asm/pgtable_64_types.h b/arch/x86/include/asm/pgtable_64_types.h
+index bf6d2692fc60..2bd79b7ae9d6 100644
+--- a/arch/x86/include/asm/pgtable_64_types.h
++++ b/arch/x86/include/asm/pgtable_64_types.h
+@@ -40,6 +40,8 @@ typedef struct { pteval_t pte; } pte_t;
+ #define P4D_SIZE	(_AC(1, UL) << P4D_SHIFT)
+ #define P4D_MASK	(~(P4D_SIZE - 1))
  
- #elif defined(CONFIG_PHYS_ADDR_T_64BIT) && defined(CONFIG_CPU_MIPS32)
++#define MAX_POSSIBLE_PHYSMEM_BITS	52
++
+ #else /* CONFIG_X86_5LEVEL */
  
-+#define MAX_POSSIBLE_PHYSMEM_BITS 36
- #define pte_pfn(x)		((unsigned long)((x).pte_high >> 6))
- 
- static inline pte_t pfn_pte(unsigned long pfn, pgprot_t prot)
-@@ -140,6 +142,7 @@ static inline pte_t pfn_pte(unsigned long pfn, pgprot_t prot)
- 
- #else
- 
-+#define MAX_POSSIBLE_PHYSMEM_BITS 32
- #ifdef CONFIG_CPU_VR41XX
- #define pte_pfn(x)		((unsigned long)((x).pte >> (PAGE_SHIFT + 2)))
- #define pfn_pte(pfn, prot)	__pte(((pfn) << (PAGE_SHIFT + 2)) | pgprot_val(prot))
-diff --git a/arch/powerpc/include/asm/pte-common.h b/arch/powerpc/include/asm/pte-common.h
-index ce142ef99ba7..18ebe9a4728e 100644
---- a/arch/powerpc/include/asm/pte-common.h
-+++ b/arch/powerpc/include/asm/pte-common.h
-@@ -102,8 +102,10 @@ static inline bool pte_user(pte_t pte)
+ /*
+diff --git a/mm/zsmalloc.c b/mm/zsmalloc.c
+index 6ed736ea9b59..633ebcac82f8 100644
+--- a/mm/zsmalloc.c
++++ b/mm/zsmalloc.c
+@@ -83,18 +83,19 @@
+  * This is made more complicated by various memory models and PAE.
   */
- #if defined(CONFIG_PPC32) && defined(CONFIG_PTE_64BIT)
- #define PTE_RPN_MASK	(~((1ULL<<PTE_RPN_SHIFT)-1))
-+#define MAX_POSSIBLE_PHYSMEM_BITS 36
- #else
- #define PTE_RPN_MASK	(~((1UL<<PTE_RPN_SHIFT)-1))
-+#define MAX_POSSIBLE_PHYSMEM_BITS 32
- #endif
  
- /* _PAGE_CHG_MASK masks of bits that are to be preserved across
-diff --git a/include/asm-generic/pgtable.h b/include/asm-generic/pgtable.h
-index cdee19314061..dd65e925f7cf 100644
---- a/include/asm-generic/pgtable.h
-+++ b/include/asm-generic/pgtable.h
-@@ -1069,6 +1069,19 @@ static inline bool arch_has_pfn_modify_check(void)
- 
- #endif /* !__ASSEMBLY__ */
- 
-+#if !defined(MAX_POSSIBLE_PHYSMEM_BITS) && !defined(CONFIG_64BIT)
-+#ifdef CONFIG_PHYS_ADDR_T_64BIT
-+/*
-+ * ZSMALLOC needs to know the highest PFN on 32-bit architectures
-+ * with physical address space extension, but falls back to
-+ * BITS_PER_LONG otherwise.
-+ */
-+#error Missing MAX_POSSIBLE_PHYSMEM_BITS definition
+-#ifndef MAX_PHYSMEM_BITS
+-#ifdef CONFIG_HIGHMEM64G
+-#define MAX_PHYSMEM_BITS 36
+-#else /* !CONFIG_HIGHMEM64G */
++#ifndef MAX_POSSIBLE_PHYSMEM_BITS
++#ifdef MAX_PHYSMEM_BITS
++#define MAX_POSSIBLE_PHYSMEM_BITS MAX_PHYSMEM_BITS
 +#else
-+#define MAX_POSSIBLE_PHYSMEM_BITS 32
-+#endif
-+#endif
+ /*
+  * If this definition of MAX_PHYSMEM_BITS is used, OBJ_INDEX_BITS will just
+  * be PAGE_SHIFT
+  */
+-#define MAX_PHYSMEM_BITS BITS_PER_LONG
++#define MAX_POSSIBLE_PHYSMEM_BITS BITS_PER_LONG
+ #endif
+ #endif
+-#define _PFN_BITS		(MAX_PHYSMEM_BITS - PAGE_SHIFT)
 +
- #ifndef has_transparent_hugepage
- #ifdef CONFIG_TRANSPARENT_HUGEPAGE
- #define has_transparent_hugepage() 1
++#define _PFN_BITS		(MAX_POSSIBLE_PHYSMEM_BITS - PAGE_SHIFT)
+ 
+ /*
+  * Memory for allocating for handle keeps object position by
 -- 
 2.25.1
 
