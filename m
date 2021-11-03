@@ -1,77 +1,95 @@
-Return-Path: <SRS0=oPyE=PS=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=3pus=PW=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27961C433EF
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 30 Oct 2021 17:38:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B45FC433F5
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  3 Nov 2021 20:57:09 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D91F660FE7
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 30 Oct 2021 17:38:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D91F660FE7
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 4605461101
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  3 Nov 2021 20:57:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4605461101
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=a3JL5Ol0m2i9WndKX3SJCXRZsUl4ubEQ/ONdOLRFqfo=; b=qgs4iqvFt0eK6/7ybB8vCtUDVY
-	vErJaRfQyr472aFj7DeUP3SV0xPdtO1fFXYKG3SAvxsQYZqSCWrWTLgfNx+wWW7hAiNRNZMw0ODpA
-	2TVe5ocgHtxrJrN5rQ6suPaqt5AM+JPToJBBboQxw9hfFuCSBi7kJfrVVNFpRMBLkbsGqRSGUvXeb
-	tD0Aq0Vp1H9SmZqwcpUwI6X/PEIhXHTsbXML0W6/GkyUzUKetk8TXb4ytFPsg1iznl/jv09idfH+h
-	A75HnL+XL1jwgcIuOKkH/62BxfKTK3+k+zobu2gIEmpeqAl7Z7s7C7w8ZUy+495zULoNag43umYj2
-	vJin6A1g==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=ygL4O6dG74GrS+YIKHLiiTRA81RyjLNYZlTH7CIGwOU=; b=D1pfLFsEZwEt5U
+	XIMHXTr0qPJp+gsc4TXgWPiduCl2mg+n19t0V1SvvM3BQrSVSdhUW5ko0QUQygzS7zN8oheb+KN5I
+	uVu/EScFmpzH814wTqHrdwE4ijQ+GLqMQXE7IcTZ1yqi5H0/TEj89IKhW1deqbW3w0aG4blj6CSoX
+	Ogkxv0TEvX5p7MgbJGTTmFKxAMpxE+X5yE91uGVwrQ1btTrLteyc+DqfApy1GZN/LgtAp8njwT6Fj
+	gO+GUuHtN0IXm+S4fgrZ8DKMDf48h9YN6514zmQM6XIdxhMrQzsONFuBc93AAq2GBj5riYVSUCorr
+	ieSepWX9EMsTJVlq77iQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mgsIr-00DJ5T-9e; Sat, 30 Oct 2021 17:38:01 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1miNJk-006Z17-Nr; Wed, 03 Nov 2021 20:57:08 +0000
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mgsIo-00DJ4u-Hs
- for linux-snps-arc@lists.infradead.org; Sat, 30 Oct 2021 17:37:59 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 33B8B60720;
- Sat, 30 Oct 2021 17:37:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1635615478;
- bh=BuK/uYqM1dgqKmccHnE/qx/smXW1xtVGEwfHWbKEIGU=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=mFxuCo7j4XOvzrbIXdIJB1HyPYXdiSEk3leCE4+PEQcbph1SBxFy/PViD6McxCGTd
- zM9dh3Z5Fx58Iyv5PzamF7FhsoCJqZ6EXVKFZTVPLHkLkhjQk+CjdNQR2iA3awFIXy
- xTI36J7B5oX0D+oKzAbtLz5S+T+s1g3YuiHFUJWGpiYsBxjplDIVGgatmBzPh74mlY
- x6QTVgFb4oJkb+fCrIIVQGlPNk1YR//975wL0P8aF7B0hCid+dQFow4gyLm6c+ZuGN
- h1SE5/0DSrfBoFYRJrRHl8KDaQUkIbiajPS1sQeAsX2VRHftA4T1qlhLXQfUgof8J9
- oN4MS3g4MPWCg==
-Subject: Re: [PATCH 2/2] futex: remove futex_cmpxchg detection
-To: Arnd Bergmann <arnd@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>,
- Russell King <linux@armlinux.org.uk>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Guo Ren <guoren@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
- Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Chris Zankel <chris@zankel.net>, arcml <linux-snps-arc@lists.infradead.org>
-References: <20211026100432.1730393-1-arnd@kernel.org>
- <20211026100432.1730393-2-arnd@kernel.org>
-From: Vineet Gupta <vgupta@kernel.org>
-Message-ID: <598ea503-6aae-837a-c5fc-b8dfceb04ef8@kernel.org>
-Date: Sat, 30 Oct 2021 10:37:56 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ id 1miNJh-006Yzf-QI; Wed, 03 Nov 2021 20:57:07 +0000
+Received: by mail-pg1-x534.google.com with SMTP id r28so3482015pga.0;
+ Wed, 03 Nov 2021 13:57:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3I3GDUkaGwLHa10nEoqvJAYrCDoo3HMaHtuk4YmB1ZA=;
+ b=ST+g5g6mKtOu4lDsLRBGfBa6q77DZQIvFWS/O1J1HWsE8WTQi8UeHdyn6yZ2ogH9r1
+ Y2JQ+vHab1n03klB9eOmLtW4CqvoLNJgnW7orP1Ec37UJIocjqnFNrJek4TarXsVB+mx
+ bEHz3vLQrY7XKdW//deFLwoARvAP7zkHrL2a8yCFcrudqfzYBgZUsmhV+zgJO5hxah6Y
+ jVdgHqsFUAMVIuMLYz7nwykpMBq4EG0az7SFDO3MaOskQMRw3MA9pqyaKboHqlzuVXWZ
+ IyRJGkjC7Dk7O+uYtDrAE8U11plF86HAGhOZafSNF8fzgyJTeiHIRY+LwYu7OBCnxUaO
+ 0/Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3I3GDUkaGwLHa10nEoqvJAYrCDoo3HMaHtuk4YmB1ZA=;
+ b=G3cAMNIcsOuwJdG3b5vyMqw1qZuQDZ47Xb1mLFA4O8JhmFn9UQoY1u7t5ZZopvxGiW
+ 7LEnFdDuY+vUPhO1yo83jw8E7WgrwdPSLcg5rVq380tue3kIjuQ4Qzb5DlZy7FKGJV+g
+ PM1fWQDmiBa0a7jwcii9+LVfgFGctLRtwQOixpVTjVcznAYzichHvRgTCwjO2H1Jdky9
+ ZdTKS5aOWV0WePTKQ9Wp31EjZUtn3fZvDb9ELhVGGor3TQxeaDulRD/Ns8P+DCUbNYHQ
+ xMh66w97ENU7oDxiNQ9vA4u/7xB/wDO2X75ZmvmSei79KkZdxm1ZfjRdVYFgqf84jgLN
+ BPyw==
+X-Gm-Message-State: AOAM5325AEgFxm8qkV76wuothyFq6ZOubfWeiEwb6C6DrBpBMbXUbBO1
+ tQk0MxmBlYXapJCbdmTC6uU=
+X-Google-Smtp-Source: ABdhPJy0DIfhXrrOqTdDnu15e0UDgTYMs4vaJZyOe9nwd+8rbGkjwTSzOrCXDsxyhFpO8mBXiGAAEw==
+X-Received: by 2002:a63:7803:: with SMTP id t3mr34798749pgc.167.1635973024305; 
+ Wed, 03 Nov 2021 13:57:04 -0700 (PDT)
+Received: from fainelli-desktop.igp.broadcom.net ([192.19.223.252])
+ by smtp.gmail.com with ESMTPSA id g16sm3453385pfj.5.2021.11.03.13.57.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Nov 2021 13:57:03 -0700 (PDT)
+From: Florian Fainelli <f.fainelli@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sasha Levin <sashal@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Stefan Agner <stefan@agner.ch>, Mike Rapoport <rppt@linux.ibm.com>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Vineet Gupta <vgupta@synopsys.com>, Russell King <linux@armlinux.org.uk>,
+ Ralf Baechle <ralf@linux-mips.org>, Paul Burton <paul.burton@mips.com>,
+ James Hogan <jhogan@kernel.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Palmer Dabbelt <palmer@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ linux-snps-arc@lists.infradead.org (open list:SYNOPSYS ARC ARCHITECTURE),
+ linux-arm-kernel@lists.infradead.org (moderated list:ARM PORT),
+ linux-mips@linux-mips.org (open list:MIPS),
+ linuxppc-dev@lists.ozlabs.org (open list:LINUX FOR POWERPC (32-BIT AND
+ 64-BIT)), linux-riscv@lists.infradead.org (open list:RISC-V ARCHITECTURE),
+ linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES)
+Subject: [PATCH stable 4.19 1/1] arch: pgtable: define
+ MAX_POSSIBLE_PHYSMEM_BITS where needed
+Date: Wed,  3 Nov 2021 13:56:56 -0700
+Message-Id: <20211103205656.374678-1-f.fainelli@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20211026100432.1730393-2-arnd@kernel.org>
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211030_103758_650651_E8F9BAEE 
-X-CRM114-Status: GOOD (  10.97  )
+X-CRM114-CacheID: sfid-20211103_135705_887436_83FCC5E9 
+X-CRM114-Status: GOOD (  22.98  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,25 +101,211 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 10/26/21 3:03 AM, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> Now that all architectures have a working futex implementation
-> in any configuration, remove the runtime detection code.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->   arch/arc/Kconfig              |  1 -
+From: Arnd Bergmann <arnd@arndb.de>
 
-Acked-by: Vineet Gupta <vgupta@kernel.org>  #arch/arc
+[ Upstream commit cef397038167ac15d085914493d6c86385773709 ]
 
-Thx,
--Vineet
+Stefan Agner reported a bug when using zsram on 32-bit Arm machines
+with RAM above the 4GB address boundary:
+
+  Unable to handle kernel NULL pointer dereference at virtual address 00000000
+  pgd = a27bd01c
+  [00000000] *pgd=236a0003, *pmd=1ffa64003
+  Internal error: Oops: 207 [#1] SMP ARM
+  Modules linked in: mdio_bcm_unimac(+) brcmfmac cfg80211 brcmutil raspberrypi_hwmon hci_uart crc32_arm_ce bcm2711_thermal phy_generic genet
+  CPU: 0 PID: 123 Comm: mkfs.ext4 Not tainted 5.9.6 #1
+  Hardware name: BCM2711
+  PC is at zs_map_object+0x94/0x338
+  LR is at zram_bvec_rw.constprop.0+0x330/0xa64
+  pc : [<c0602b38>]    lr : [<c0bda6a0>]    psr: 60000013
+  sp : e376bbe0  ip : 00000000  fp : c1e2921c
+  r10: 00000002  r9 : c1dda730  r8 : 00000000
+  r7 : e8ff7a00  r6 : 00000000  r5 : 02f9ffa0  r4 : e3710000
+  r3 : 000fdffe  r2 : c1e0ce80  r1 : ebf979a0  r0 : 00000000
+  Flags: nZCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment user
+  Control: 30c5383d  Table: 235c2a80  DAC: fffffffd
+  Process mkfs.ext4 (pid: 123, stack limit = 0x495a22e6)
+  Stack: (0xe376bbe0 to 0xe376c000)
+
+As it turns out, zsram needs to know the maximum memory size, which
+is defined in MAX_PHYSMEM_BITS when CONFIG_SPARSEMEM is set, or in
+MAX_POSSIBLE_PHYSMEM_BITS on the x86 architecture.
+
+The same problem will be hit on all 32-bit architectures that have a
+physical address space larger than 4GB and happen to not enable sparsemem
+and include asm/sparsemem.h from asm/pgtable.h.
+
+After the initial discussion, I suggested just always defining
+MAX_POSSIBLE_PHYSMEM_BITS whenever CONFIG_PHYS_ADDR_T_64BIT is
+set, or provoking a build error otherwise. This addresses all
+configurations that can currently have this runtime bug, but
+leaves all other configurations unchanged.
+
+I looked up the possible number of bits in source code and
+datasheets, here is what I found:
+
+ - on ARC, CONFIG_ARC_HAS_PAE40 controls whether 32 or 40 bits are used
+ - on ARM, CONFIG_LPAE enables 40 bit addressing, without it we never
+   support more than 32 bits, even though supersections in theory allow
+   up to 40 bits as well.
+ - on MIPS, some MIPS32r1 or later chips support 36 bits, and MIPS32r5
+   XPA supports up to 60 bits in theory, but 40 bits are more than
+   anyone will ever ship
+ - On PowerPC, there are three different implementations of 36 bit
+   addressing, but 32-bit is used without CONFIG_PTE_64BIT
+ - On RISC-V, the normal page table format can support 34 bit
+   addressing. There is no highmem support on RISC-V, so anything
+   above 2GB is unused, but it might be useful to eventually support
+   CONFIG_ZRAM for high pages.
+
+Fixes: 61989a80fb3a ("staging: zsmalloc: zsmalloc memory allocation library")
+Fixes: 02390b87a945 ("mm/zsmalloc: Prepare to variable MAX_PHYSMEM_BITS")
+Acked-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Reviewed-by: Stefan Agner <stefan@agner.ch>
+Tested-by: Stefan Agner <stefan@agner.ch>
+Acked-by: Mike Rapoport <rppt@linux.ibm.com>
+Link: https://lore.kernel.org/linux-mm/bdfa44bf1c570b05d6c70898e2bbb0acf234ecdf.1604762181.git.stefan@agner.ch/
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+[florian: patch arch/powerpc/include/asm/pte-common.h for 4.19.y]
+Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+---
+ arch/arc/include/asm/pgtable.h        |  2 ++
+ arch/arm/include/asm/pgtable-2level.h |  2 ++
+ arch/arm/include/asm/pgtable-3level.h |  2 ++
+ arch/mips/include/asm/pgtable-32.h    |  3 +++
+ arch/powerpc/include/asm/pte-common.h |  2 ++
+ arch/riscv/include/asm/pgtable-32.h   |  2 ++
+ include/asm-generic/pgtable.h         | 13 +++++++++++++
+ 7 files changed, 26 insertions(+)
+
+diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
+index cf4be70d5892..f231963b4011 100644
+--- a/arch/arc/include/asm/pgtable.h
++++ b/arch/arc/include/asm/pgtable.h
+@@ -138,8 +138,10 @@
+ 
+ #ifdef CONFIG_ARC_HAS_PAE40
+ #define PTE_BITS_NON_RWX_IN_PD1	(0xff00000000 | PAGE_MASK | _PAGE_CACHEABLE)
++#define MAX_POSSIBLE_PHYSMEM_BITS 40
+ #else
+ #define PTE_BITS_NON_RWX_IN_PD1	(PAGE_MASK | _PAGE_CACHEABLE)
++#define MAX_POSSIBLE_PHYSMEM_BITS 32
+ #endif
+ 
+ /**************************************************************************
+diff --git a/arch/arm/include/asm/pgtable-2level.h b/arch/arm/include/asm/pgtable-2level.h
+index 12659ce5c1f3..90bf19d99378 100644
+--- a/arch/arm/include/asm/pgtable-2level.h
++++ b/arch/arm/include/asm/pgtable-2level.h
+@@ -78,6 +78,8 @@
+ #define PTE_HWTABLE_OFF		(PTE_HWTABLE_PTRS * sizeof(pte_t))
+ #define PTE_HWTABLE_SIZE	(PTRS_PER_PTE * sizeof(u32))
+ 
++#define MAX_POSSIBLE_PHYSMEM_BITS	32
++
+ /*
+  * PMD_SHIFT determines the size of the area a second-level page table can map
+  * PGDIR_SHIFT determines what a third-level page table entry can map
+diff --git a/arch/arm/include/asm/pgtable-3level.h b/arch/arm/include/asm/pgtable-3level.h
+index 6d50a11d7793..7ba08dd650e3 100644
+--- a/arch/arm/include/asm/pgtable-3level.h
++++ b/arch/arm/include/asm/pgtable-3level.h
+@@ -37,6 +37,8 @@
+ #define PTE_HWTABLE_OFF		(0)
+ #define PTE_HWTABLE_SIZE	(PTRS_PER_PTE * sizeof(u64))
+ 
++#define MAX_POSSIBLE_PHYSMEM_BITS 40
++
+ /*
+  * PGDIR_SHIFT determines the size a top-level page table entry can map.
+  */
+diff --git a/arch/mips/include/asm/pgtable-32.h b/arch/mips/include/asm/pgtable-32.h
+index 74afe8c76bdd..215fb48f644b 100644
+--- a/arch/mips/include/asm/pgtable-32.h
++++ b/arch/mips/include/asm/pgtable-32.h
+@@ -111,6 +111,7 @@ static inline void pmd_clear(pmd_t *pmdp)
+ 
+ #if defined(CONFIG_XPA)
+ 
++#define MAX_POSSIBLE_PHYSMEM_BITS 40
+ #define pte_pfn(x)		(((unsigned long)((x).pte_high >> _PFN_SHIFT)) | (unsigned long)((x).pte_low << _PAGE_PRESENT_SHIFT))
+ static inline pte_t
+ pfn_pte(unsigned long pfn, pgprot_t prot)
+@@ -126,6 +127,7 @@ pfn_pte(unsigned long pfn, pgprot_t prot)
+ 
+ #elif defined(CONFIG_PHYS_ADDR_T_64BIT) && defined(CONFIG_CPU_MIPS32)
+ 
++#define MAX_POSSIBLE_PHYSMEM_BITS 36
+ #define pte_pfn(x)		((unsigned long)((x).pte_high >> 6))
+ 
+ static inline pte_t pfn_pte(unsigned long pfn, pgprot_t prot)
+@@ -140,6 +142,7 @@ static inline pte_t pfn_pte(unsigned long pfn, pgprot_t prot)
+ 
+ #else
+ 
++#define MAX_POSSIBLE_PHYSMEM_BITS 32
+ #ifdef CONFIG_CPU_VR41XX
+ #define pte_pfn(x)		((unsigned long)((x).pte >> (PAGE_SHIFT + 2)))
+ #define pfn_pte(pfn, prot)	__pte(((pfn) << (PAGE_SHIFT + 2)) | pgprot_val(prot))
+diff --git a/arch/powerpc/include/asm/pte-common.h b/arch/powerpc/include/asm/pte-common.h
+index bef56141a549..f740f67ebf98 100644
+--- a/arch/powerpc/include/asm/pte-common.h
++++ b/arch/powerpc/include/asm/pte-common.h
+@@ -110,8 +110,10 @@ static inline bool pte_user(pte_t pte)
+  */
+ #if defined(CONFIG_PPC32) && defined(CONFIG_PTE_64BIT)
+ #define PTE_RPN_MASK	(~((1ULL<<PTE_RPN_SHIFT)-1))
++#define MAX_POSSIBLE_PHYSMEM_BITS 36
+ #else
+ #define PTE_RPN_MASK	(~((1UL<<PTE_RPN_SHIFT)-1))
++#define MAX_POSSIBLE_PHYSMEM_BITS 32
+ #endif
+ 
+ /* _PAGE_CHG_MASK masks of bits that are to be preserved across
+diff --git a/arch/riscv/include/asm/pgtable-32.h b/arch/riscv/include/asm/pgtable-32.h
+index d61974b74182..5cfe5a131867 100644
+--- a/arch/riscv/include/asm/pgtable-32.h
++++ b/arch/riscv/include/asm/pgtable-32.h
+@@ -22,4 +22,6 @@
+ #define PGDIR_SIZE      (_AC(1, UL) << PGDIR_SHIFT)
+ #define PGDIR_MASK      (~(PGDIR_SIZE - 1))
+ 
++#define MAX_POSSIBLE_PHYSMEM_BITS 34
++
+ #endif /* _ASM_RISCV_PGTABLE_32_H */
+diff --git a/include/asm-generic/pgtable.h b/include/asm-generic/pgtable.h
+index 5901b0005929..1544331bec27 100644
+--- a/include/asm-generic/pgtable.h
++++ b/include/asm-generic/pgtable.h
+@@ -1115,6 +1115,19 @@ static inline bool arch_has_pfn_modify_check(void)
+ 
+ #endif /* !__ASSEMBLY__ */
+ 
++#if !defined(MAX_POSSIBLE_PHYSMEM_BITS) && !defined(CONFIG_64BIT)
++#ifdef CONFIG_PHYS_ADDR_T_64BIT
++/*
++ * ZSMALLOC needs to know the highest PFN on 32-bit architectures
++ * with physical address space extension, but falls back to
++ * BITS_PER_LONG otherwise.
++ */
++#error Missing MAX_POSSIBLE_PHYSMEM_BITS definition
++#else
++#define MAX_POSSIBLE_PHYSMEM_BITS 32
++#endif
++#endif
++
+ #ifndef has_transparent_hugepage
+ #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+ #define has_transparent_hugepage() 1
+-- 
+2.25.1
+
 
 _______________________________________________
 linux-snps-arc mailing list
