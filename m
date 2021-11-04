@@ -1,103 +1,66 @@
-Return-Path: <SRS0=3pus=PW=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=DVbr=PX=lists.infradead.org=linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5907DC433F5
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  3 Nov 2021 20:59:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB0FDC433F5
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  4 Nov 2021 08:34:54 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2180961156
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  3 Nov 2021 20:59:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 2180961156
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id B3C8B611CE
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  4 Nov 2021 08:34:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B3C8B611CE
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=97/peUzN71RBGJL+i8Sqd8/DMZPzeEoFtxZgTNyFOTg=; b=m8t/Ho20gHlOiy
-	MNTmKZyvst0J2WIYFmkGm+LyR1+sT2UWy/XkqJltbnnB1eReYPOXEka1r6oGVAlAfLxDiKBPs0RzU
-	skYNAq0PlYKyGRbxaoqdDbLP7MS8m/dysh7uGOTGzKxFRAQ1ccYCHbN3WYD8Htd1ED9g+xni3fobB
-	xQbf+p8WdXiW3dDQl5R1z1PNs9m9s6yFTkytS4EOKBsPMeq/1u0LD5ub+/DT9jJ7D/lemybEQbNSu
-	JhSPKf4N8b1XC7r5ABWNlmPQfiUOv5Gsc8mQlY7EHrbcwsJ8ztd5pzN6idEzqoNxoq0ckbMEUfNqt
-	GsRZyLjvxsygU/yb9aSQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:In-Reply-To:
+	Date:From:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=CvtBhfocEyxA+KKw4Pz8mnNgY2Osvwi6uh9MjUaeqrc=; b=ABq2pNwjoK5+LC
+	YBBfRKdWPTNA3Ni+K21i+HqglDJeU6ioA8Ewi9NNgBsLIWJS2Smb8Vofv3JwqdNaCBC8rfmZ9/wfw
+	46McAsZMzT1o89wq7qCQBMSVFOnxy90vwmSfB7MGp5/IoK/hs3zjngCJeKcT14Ogfh2Rsi8dj0Ss+
+	h9KS4uWmdFhQ6n3lJx2S5DeDpdxB/9YMtGfehBddX7Ahdl4gpuJsANmwzlu8odHn1FQnWJivtV+NP
+	qBlBZqnV1owS2Azcf4mjEr6obbkf4e7pis6tfJFxQBHf8YKsTW7ct06RmqEk4xPTDQ+zxsfiFzoyT
+	KYjiG9cg9BS+/kOTDp+w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1miNLw-006aIT-DN; Wed, 03 Nov 2021 20:59:24 +0000
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+	id 1miYD0-008IvH-6m; Thu, 04 Nov 2021 08:34:54 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1miNKL-006ZMS-1a; Wed, 03 Nov 2021 20:57:47 +0000
-Received: by mail-pl1-x631.google.com with SMTP id y1so3564903plk.10;
- Wed, 03 Nov 2021 13:57:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=gp+q+Dp9Rg8+gbw0JzqtKDIoOTrQCdiRZcY/99hfXto=;
- b=URmpnGWL791dLOnO2PzfX4IQbFW2IlgqhpCLMVShp4wPT6hwXU/zpYC9/2hz5RXQd8
- uFCaD6M6Cu8K7WHuDbHT7S+BcNVOU2S1wK4t0D3FoJYLYYNhJa/7my7Skw3arb387ZSU
- g49Ha2Oc8PcqGVFRw3Qxw9svIWJDiclovUF3/Ql07dJNjheCkir+jDna0JX3BYPplNAl
- P9MoHa8zCt+Hep1au1Cf3SA4GceWH74J23cdFSUkajkIHV1NCKV+gP22KIIhAC7YKyU+
- kqTog0GqtReKoJb2NaJlvQR5LOZ6lHEfk9jfzrNJFG+JJaNFPDACHRAhAacDkvbudy2j
- Bc+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=gp+q+Dp9Rg8+gbw0JzqtKDIoOTrQCdiRZcY/99hfXto=;
- b=6jhULs5ApbnXa7wrzQrCYcup2V9p1I//wQeaoM0SfKrkS4XUcQrGGzaxfEJjSKHuho
- FTglMhKTvR6B1j5oPTJEEr91h/yAxRhM99Aw3QaRZELtW+ebi+N/VVOZEU5lM/6gLQ80
- j0OyksbOn8zm+OFuHqH7QVrVCgYpVIbIeBw4QmiDVV7DvfNvpRSa5I0Ozm/g5YrUYtIN
- 6rlDzrPhgY2Uv+imMrH+NYH1nqKbroq0AZ13LbF88gsdEmXch+yPlN4RgQbsm55q3FYs
- 34ayDvTQZSeffDs/ZZYM/6jWhSQ2HvaRNbt/jnb5Eyu7dJPnqlp9VevPJkI266YvdaAu
- iKlA==
-X-Gm-Message-State: AOAM530+lICd9cMOoUmOogiNNupFsEaZziERNU3NdQwFXiYNIWwgvUH4
- ZavBmXWBPvEKv4yGi9/cjWE=
-X-Google-Smtp-Source: ABdhPJxaQhs3rUPf+5wXCB1IY4jfT140BDfhG5OoHFaRDoUG46SqIjVMSeFPILH71toODyyhkdhUQg==
-X-Received: by 2002:a17:90a:cf85:: with SMTP id
- i5mr17320338pju.101.1635973064168; 
- Wed, 03 Nov 2021 13:57:44 -0700 (PDT)
-Received: from fainelli-desktop.igp.broadcom.net ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id n14sm2512073pgd.68.2021.11.03.13.57.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 13:57:40 -0700 (PDT)
-From: Florian Fainelli <f.fainelli@gmail.com>
-To: linux-kernel@vger.kernel.org
-Cc: stable@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sasha Levin <sashal@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Stefan Agner <stefan@agner.ch>, Mike Rapoport <rppt@linux.ibm.com>,
- Florian Fainelli <f.fainelli@gmail.com>,
- Vineet Gupta <vgupta@synopsys.com>, Russell King <linux@armlinux.org.uk>,
- Ralf Baechle <ralf@linux-mips.org>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- "H. Peter Anvin" <hpa@zytor.com>,
- x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
- Minchan Kim <minchan@kernel.org>, Nitin Gupta <ngupta@vflare.org>,
- Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
- linux-snps-arc@lists.infradead.org (open list:SYNOPSYS ARC ARCHITECTURE),
- linux-arm-kernel@lists.infradead.org (moderated list:ARM PORT),
- linux-mips@linux-mips.org (open list:MIPS),
- linuxppc-dev@lists.ozlabs.org (open list:LINUX FOR POWERPC (32-BIT AND
- 64-BIT)), 
- linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES),
- linux-mm@kvack.org (open list:ZSMALLOC COMPRESSED SLAB MEMORY ALLOCATOR)
-Subject: [PATCH stable 4.9 2/2] arch: pgtable: define
- MAX_POSSIBLE_PHYSMEM_BITS where needed
-Date: Wed,  3 Nov 2021 13:57:14 -0700
-Message-Id: <20211103205714.374801-3-f.fainelli@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211103205714.374801-1-f.fainelli@gmail.com>
-References: <20211103205714.374801-1-f.fainelli@gmail.com>
+ id 1miYCm-008IrK-V3; Thu, 04 Nov 2021 08:34:43 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6B6A0610FC;
+ Thu,  4 Nov 2021 08:34:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1636014880;
+ bh=55aln/7sj59GYMCgR0T0A++FszGtx/Qjba6ZHcPI76Y=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:From;
+ b=S63iroAHEmHUm/OYxGipwMrY49ertwpedf1Ik0SyfBjpI97EFbNgBHUMjw+leozFl
+ VF3upxWfNaRuwCKgpb6euY9dpCiBv+IQKYzKptnUVOBj6hFSoa+AA6MQylW1LVluXK
+ Y7wDusfUi5NxeJh+DQ2CKlu1uIB21aTbDqpsbInQ=
+Subject: Patch "arch: pgtable: define MAX_POSSIBLE_PHYSMEM_BITS where needed"
+ has been added to the 4.9-stable tree
+To: arnd@arndb.de, benh@kernel.crashing.org, f.fainelli@gmail.com,
+ gregkh@linuxfoundation.org, hpa@zytor.com, kirill.shutemov@linux.intel.com,
+ linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
+ linux-mm@kvack.org, linux-snps-arc@lists.infradead.org, linux@armlinux.org.uk,
+ linuxppc-dev@lists.ozlabs.org, minchan@kernel.org, mingo@redhat.com,
+ mpe@ellerman.id.au, ngupta@vflare.org, paulus@samba.org, ralf@linux-mips.org,
+ rppt@linux.ibm.com, sashal@kernel.org, sergey.senozhatsky.work@gmail.com,
+ stefan@agner.ch, tglx@linutronix.de, tsbogend@alpha.franken.de,
+ vgupta@synopsys.com, x86@kernel.org
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Thu, 04 Nov 2021 09:34:37 +0100
+In-Reply-To: <20211103205714.374801-3-f.fainelli@gmail.com>
+Message-ID: <1636014877194230@kroah.com>
 MIME-Version: 1.0
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211103_135745_173177_4E002011 
-X-CRM114-Status: GOOD (  23.67  )
+X-CRM114-CacheID: sfid-20211104_013441_093683_054DD7CE 
+X-CRM114-Status: GOOD (  24.82  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,6 +76,31 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
+
+
+This is a note to let you know that I've just added the patch titled
+
+    arch: pgtable: define MAX_POSSIBLE_PHYSMEM_BITS where needed
+
+to the 4.9-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     arch-pgtable-define-max_possible_physmem_bits-where-needed.patch
+and it can be found in the queue-4.9 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From foo@baz Thu Nov  4 09:33:49 AM CET 2021
+From: Florian Fainelli <f.fainelli@gmail.com>
+Date: Wed,  3 Nov 2021 13:57:14 -0700
+Subject: arch: pgtable: define MAX_POSSIBLE_PHYSMEM_BITS where needed
+To: linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sasha Levin <sashal@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Stefan Agner <stefan@agner.ch>, Mike Rapoport <rppt@linux.ibm.com>, Florian Fainelli <f.fainelli@gmail.com>, Vineet Gupta <vgupta@synopsys.com>, Russell King <linux@armlinux.org.uk>, Ralf Baechle <ralf@linux-mips.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)), Minchan Kim <minchan@kernel.org>, Nitin Gupta <ngupta@vflare.org>, Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>, "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, linux-snps-arc@lists.infradead.org (open list:SYNOPSYS ARC ARCHITECTURE), linux-arm-kernel@lists.infradead.org (mod
+ erated list:ARM PORT), linux-mips@linux-mips.org (open list:MIPS), linuxppc-dev@lists.ozlabs.org (open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)), linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES), linux-mm@kvack.org (open list:ZSMALLOC COMPRESSED SLAB MEMORY ALLOCATOR)
+Message-ID: <20211103205714.374801-3-f.fainelli@gmail.com>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
@@ -183,17 +171,16 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
 [florian: patch arch/powerpc/include/asm/pte-common.h for 4.9.y
 removed arch/riscv/include/asm/pgtable.h which does not exist]
 Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- arch/arc/include/asm/pgtable.h        |  2 ++
- arch/arm/include/asm/pgtable-2level.h |  2 ++
- arch/arm/include/asm/pgtable-3level.h |  2 ++
- arch/mips/include/asm/pgtable-32.h    |  3 +++
- arch/powerpc/include/asm/pte-common.h |  2 ++
- include/asm-generic/pgtable.h         | 13 +++++++++++++
+ arch/arc/include/asm/pgtable.h        |    2 ++
+ arch/arm/include/asm/pgtable-2level.h |    2 ++
+ arch/arm/include/asm/pgtable-3level.h |    2 ++
+ arch/mips/include/asm/pgtable-32.h    |    3 +++
+ arch/powerpc/include/asm/pte-common.h |    2 ++
+ include/asm-generic/pgtable.h         |   13 +++++++++++++
  6 files changed, 24 insertions(+)
 
-diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
-index c10f5cb203e6..81198a6773c6 100644
 --- a/arch/arc/include/asm/pgtable.h
 +++ b/arch/arc/include/asm/pgtable.h
 @@ -137,8 +137,10 @@
@@ -207,8 +194,6 @@ index c10f5cb203e6..81198a6773c6 100644
  #endif
  
  /**************************************************************************
-diff --git a/arch/arm/include/asm/pgtable-2level.h b/arch/arm/include/asm/pgtable-2level.h
-index 92fd2c8a9af0..6154902bed83 100644
 --- a/arch/arm/include/asm/pgtable-2level.h
 +++ b/arch/arm/include/asm/pgtable-2level.h
 @@ -78,6 +78,8 @@
@@ -220,8 +205,6 @@ index 92fd2c8a9af0..6154902bed83 100644
  /*
   * PMD_SHIFT determines the size of the area a second-level page table can map
   * PGDIR_SHIFT determines what a third-level page table entry can map
-diff --git a/arch/arm/include/asm/pgtable-3level.h b/arch/arm/include/asm/pgtable-3level.h
-index 2a029bceaf2f..35807e611b6e 100644
 --- a/arch/arm/include/asm/pgtable-3level.h
 +++ b/arch/arm/include/asm/pgtable-3level.h
 @@ -37,6 +37,8 @@
@@ -233,11 +216,9 @@ index 2a029bceaf2f..35807e611b6e 100644
  /*
   * PGDIR_SHIFT determines the size a top-level page table entry can map.
   */
-diff --git a/arch/mips/include/asm/pgtable-32.h b/arch/mips/include/asm/pgtable-32.h
-index c0be540e83cb..2c6df5a92e1e 100644
 --- a/arch/mips/include/asm/pgtable-32.h
 +++ b/arch/mips/include/asm/pgtable-32.h
-@@ -110,6 +110,7 @@ static inline void pmd_clear(pmd_t *pmdp)
+@@ -110,6 +110,7 @@ static inline void pmd_clear(pmd_t *pmdp
  
  #if defined(CONFIG_XPA)
  
@@ -245,7 +226,7 @@ index c0be540e83cb..2c6df5a92e1e 100644
  #define pte_pfn(x)		(((unsigned long)((x).pte_high >> _PFN_SHIFT)) | (unsigned long)((x).pte_low << _PAGE_PRESENT_SHIFT))
  static inline pte_t
  pfn_pte(unsigned long pfn, pgprot_t prot)
-@@ -125,6 +126,7 @@ pfn_pte(unsigned long pfn, pgprot_t prot)
+@@ -125,6 +126,7 @@ pfn_pte(unsigned long pfn, pgprot_t prot
  
  #elif defined(CONFIG_PHYS_ADDR_T_64BIT) && defined(CONFIG_CPU_MIPS32)
  
@@ -253,7 +234,7 @@ index c0be540e83cb..2c6df5a92e1e 100644
  #define pte_pfn(x)		((unsigned long)((x).pte_high >> 6))
  
  static inline pte_t pfn_pte(unsigned long pfn, pgprot_t prot)
-@@ -139,6 +141,7 @@ static inline pte_t pfn_pte(unsigned long pfn, pgprot_t prot)
+@@ -139,6 +141,7 @@ static inline pte_t pfn_pte(unsigned lon
  
  #else
  
@@ -261,8 +242,6 @@ index c0be540e83cb..2c6df5a92e1e 100644
  #ifdef CONFIG_CPU_VR41XX
  #define pte_pfn(x)		((unsigned long)((x).pte >> (PAGE_SHIFT + 2)))
  #define pfn_pte(pfn, prot)	__pte(((pfn) << (PAGE_SHIFT + 2)) | pgprot_val(prot))
-diff --git a/arch/powerpc/include/asm/pte-common.h b/arch/powerpc/include/asm/pte-common.h
-index 4ba26dd259fd..0d81cd9dd60e 100644
 --- a/arch/powerpc/include/asm/pte-common.h
 +++ b/arch/powerpc/include/asm/pte-common.h
 @@ -101,8 +101,10 @@ static inline bool pte_user(pte_t pte)
@@ -276,11 +255,9 @@ index 4ba26dd259fd..0d81cd9dd60e 100644
  #endif
  
  /* _PAGE_CHG_MASK masks of bits that are to be preserved across
-diff --git a/include/asm-generic/pgtable.h b/include/asm-generic/pgtable.h
-index 0a4c2d4d9f8d..b43fa9d95a7a 100644
 --- a/include/asm-generic/pgtable.h
 +++ b/include/asm-generic/pgtable.h
-@@ -847,6 +847,19 @@ static inline bool arch_has_pfn_modify_check(void)
+@@ -847,6 +847,19 @@ static inline bool arch_has_pfn_modify_c
  #define io_remap_pfn_range remap_pfn_range
  #endif
  
@@ -300,9 +277,12 @@ index 0a4c2d4d9f8d..b43fa9d95a7a 100644
  #ifndef has_transparent_hugepage
  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
  #define has_transparent_hugepage() 1
--- 
-2.25.1
 
+
+Patches currently in stable-queue which might be from f.fainelli@gmail.com are
+
+queue-4.9/mm-zsmalloc-prepare-to-variable-max_physmem_bits.patch
+queue-4.9/arch-pgtable-define-max_possible_physmem_bits-where-needed.patch
 
 _______________________________________________
 linux-snps-arc mailing list
