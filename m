@@ -2,66 +2,73 @@ Return-Path: <SRS0=DVbr=PX=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0667C433EF
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  4 Nov 2021 08:35:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F089CC433F5
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  4 Nov 2021 08:35:50 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8570261212
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  4 Nov 2021 08:35:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 8570261212
+	by mail.kernel.org (Postfix) with ESMTPS id AB9E061213
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  4 Nov 2021 08:35:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org AB9E061213
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:In-Reply-To:
-	Date:From:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=KERdVKb6tFTPQ3jkMCc66DYs7ubnj4ln8KCIUfz54A8=; b=naKNm2uMFTBP9Q
-	wZx5WpJPzU+OoRvP5e1KS4syqbipGN89E4Ul+SrAwFFWmjxVOsnvP6QTCsTpDOBDw1wmlkz4tzB5N
-	hoetoh9D4TmIoEHwhRF+5nzbtbMAL+7UUztll3QKjPNdvO819zbT9QjxQhlY/smJ8u0QX8DyzTjIN
-	yy9BXMo8pOSfUc6vd0uIMkRMKrRgGwbjmatCjBeeQwJfaGWzAdQaV7E4PF9ZBun75M1zEEpn7nss6
-	eI0Z/G0kSfamANnRFX7iCnpSVDu7qrIi+3+Gs/mlRC6ZOMA1E2vxmMQ1NO6IsJWD0hKsFDnu/q4BS
-	Atrd66EUb7iPtm4K41pA==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=/vPcMy618EyVrTL7R8Y+PqojC8AaMuHXpKLcEckde5o=; b=Rx3+cf/E+CAuJo
+	Upxs6oMLayjXU1N541ZjPBm42PFYQWjU3BMYajfEqg+G5kGKUOoLhpYGEjgWrieFqe5AS8W6Dn2AQ
+	vuUHRftThseuMh4qZbVfkw7hd/S4n8KWiRv4q1mIZPEnwrvnXCMCiruG4JlMKTfBohzkBSe0HC+uw
+	tArc1TgR2VLth9m3544o3r0XwjUWv7Ew/N54vNA1ksTFPgk1rEkXHi3peMAnRnTfrWlYKo8akCMi6
+	rf9JONp4rel9ofIsHzxz6nbxsSHBL7UOOaIRSUBsNr+vuBVf5Kcj/cpkRt4urvtU3CUjQMFLj9BXM
+	wD1zsOz26ChL9j+2Xu8w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1miYDd-008JDb-W9; Thu, 04 Nov 2021 08:35:34 +0000
+	id 1miYDu-008JLb-3z; Thu, 04 Nov 2021 08:35:50 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1miYDF-008J14-8v; Thu, 04 Nov 2021 08:35:11 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3EF7961216;
- Thu,  4 Nov 2021 08:35:08 +0000 (UTC)
+ id 1miYDH-008J2d-Os; Thu, 04 Nov 2021 08:35:13 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C5E7D611CB;
+ Thu,  4 Nov 2021 08:35:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1636014908;
- bh=McY9gQ8BqcMk7vs9Z3yJmIcYKviY8ebHfiIPLxeEYfg=;
- h=Subject:To:Cc:From:Date:In-Reply-To:From;
- b=L2hIUVZJC5ixiAN4OCUcLRhkNCWwGRCwv5ZsXPbX0UpJkgBT2HwOuX+Yqla3g61dm
- KhM1aP0lHGRwM7wo7C3IWrIUPTQjVy+DIzARDcFt7LyWvMfe2tvxaqCPOo/uXCZWj/
- 6uz6VABI2LcN4iXF5cAdroklb+0OlCvodXhIgDbU=
-Subject: Patch "mm/zsmalloc: Prepare to variable MAX_PHYSMEM_BITS" has been
- added to the 4.14-stable tree
-To: arnd@arndb.de, benh@kernel.crashing.org, bp@suse.de, f.fainelli@gmail.com,
- gregkh@linuxfoundation.org, hpa@zytor.com, kirill.shutemov@linux.intel.com,
- linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
- linux-mm@kvack.org, linux-snps-arc@lists.infradead.org, linux@armlinux.org.uk,
- linuxppc-dev@lists.ozlabs.org, luto@amacapital.net, minchan@kernel.org,
- mingo@kernel.org, mingo@redhat.com, mpe@ellerman.id.au, ngupta@vflare.org,
- paulus@samba.org, peterz@infradead.org, ralf@linux-mips.org,
- rppt@linux.ibm.com, sashal@kernel.org, sergey.senozhatsky.work@gmail.com,
- stefan@agner.ch, tglx@linutronix.de, torvalds@linux-foundation.org,
- tsbogend@alpha.franken.de, vgupta@synopsys.com, x86@kernel.org
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Thu, 04 Nov 2021 09:34:58 +0100
-In-Reply-To: <20211103205704.374734-2-f.fainelli@gmail.com>
-Message-ID: <163601489811148@kroah.com>
+ s=korg; t=1636014911;
+ bh=+UAkRrFFch22X7642iIOQo7roal4lSmXVN1jw2B0LFA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nlKmrxIcvLo9iKreFITSTsmfNMw9MhZtS/doOEhrynLCh+2S37qiw+DIAvBohsiA+
+ eWJypCbEbb1MKAJ062CqvAWWAw/SGjKjXif9Za0uKL+p+mAMraHDbqkH1tiHqTniG6
+ Tcr4xm5h6661oLizgg1SS8L7eNRaE0rEvJUwERwE=
+Date: Thu, 4 Nov 2021 09:34:58 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Florian Fainelli <f.fainelli@gmail.com>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Sasha Levin <sashal@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Stefan Agner <stefan@agner.ch>, Mike Rapoport <rppt@linux.ibm.com>,
+ Vineet Gupta <vgupta@synopsys.com>, Russell King <linux@armlinux.org.uk>,
+ Ralf Baechle <ralf@linux-mips.org>,
+ Paul Burton <paul.burton@mips.com>, James Hogan <jhogan@kernel.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Palmer Dabbelt <palmer@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+ "open list:MIPS" <linux-mips@linux-mips.org>,
+ "open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)"
+ <linuxppc-dev@lists.ozlabs.org>, 
+ "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
+ "open list:GENERIC INCLUDE/ASM HEADER FILES" <linux-arch@vger.kernel.org>
+Subject: Re: [PATCH stable 4.19 1/1] arch: pgtable: define
+ MAX_POSSIBLE_PHYSMEM_BITS where needed
+Message-ID: <YYObMlXLFi7pAJ83@kroah.com>
+References: <20211103205656.374678-1-f.fainelli@gmail.com>
 MIME-Version: 1.0
-X-stable: commit
-X-Patchwork-Hint: ignore 
+Content-Disposition: inline
+In-Reply-To: <20211103205656.374678-1-f.fainelli@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211104_013509_468530_F415C374 
-X-CRM114-Status: GOOD (  17.13  )
+X-CRM114-CacheID: sfid-20211104_013511_888421_9BA34A70 
+X-CRM114-Status: GOOD (  26.53  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,118 +85,79 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+On Wed, Nov 03, 2021 at 01:56:56PM -0700, Florian Fainelli wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> [ Upstream commit cef397038167ac15d085914493d6c86385773709 ]
+> 
+> Stefan Agner reported a bug when using zsram on 32-bit Arm machines
+> with RAM above the 4GB address boundary:
+> 
+>   Unable to handle kernel NULL pointer dereference at virtual address 00000000
+>   pgd = a27bd01c
+>   [00000000] *pgd=236a0003, *pmd=1ffa64003
+>   Internal error: Oops: 207 [#1] SMP ARM
+>   Modules linked in: mdio_bcm_unimac(+) brcmfmac cfg80211 brcmutil raspberrypi_hwmon hci_uart crc32_arm_ce bcm2711_thermal phy_generic genet
+>   CPU: 0 PID: 123 Comm: mkfs.ext4 Not tainted 5.9.6 #1
+>   Hardware name: BCM2711
+>   PC is at zs_map_object+0x94/0x338
+>   LR is at zram_bvec_rw.constprop.0+0x330/0xa64
+>   pc : [<c0602b38>]    lr : [<c0bda6a0>]    psr: 60000013
+>   sp : e376bbe0  ip : 00000000  fp : c1e2921c
+>   r10: 00000002  r9 : c1dda730  r8 : 00000000
+>   r7 : e8ff7a00  r6 : 00000000  r5 : 02f9ffa0  r4 : e3710000
+>   r3 : 000fdffe  r2 : c1e0ce80  r1 : ebf979a0  r0 : 00000000
+>   Flags: nZCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment user
+>   Control: 30c5383d  Table: 235c2a80  DAC: fffffffd
+>   Process mkfs.ext4 (pid: 123, stack limit = 0x495a22e6)
+>   Stack: (0xe376bbe0 to 0xe376c000)
+> 
+> As it turns out, zsram needs to know the maximum memory size, which
+> is defined in MAX_PHYSMEM_BITS when CONFIG_SPARSEMEM is set, or in
+> MAX_POSSIBLE_PHYSMEM_BITS on the x86 architecture.
+> 
+> The same problem will be hit on all 32-bit architectures that have a
+> physical address space larger than 4GB and happen to not enable sparsemem
+> and include asm/sparsemem.h from asm/pgtable.h.
+> 
+> After the initial discussion, I suggested just always defining
+> MAX_POSSIBLE_PHYSMEM_BITS whenever CONFIG_PHYS_ADDR_T_64BIT is
+> set, or provoking a build error otherwise. This addresses all
+> configurations that can currently have this runtime bug, but
+> leaves all other configurations unchanged.
+> 
+> I looked up the possible number of bits in source code and
+> datasheets, here is what I found:
+> 
+>  - on ARC, CONFIG_ARC_HAS_PAE40 controls whether 32 or 40 bits are used
+>  - on ARM, CONFIG_LPAE enables 40 bit addressing, without it we never
+>    support more than 32 bits, even though supersections in theory allow
+>    up to 40 bits as well.
+>  - on MIPS, some MIPS32r1 or later chips support 36 bits, and MIPS32r5
+>    XPA supports up to 60 bits in theory, but 40 bits are more than
+>    anyone will ever ship
+>  - On PowerPC, there are three different implementations of 36 bit
+>    addressing, but 32-bit is used without CONFIG_PTE_64BIT
+>  - On RISC-V, the normal page table format can support 34 bit
+>    addressing. There is no highmem support on RISC-V, so anything
+>    above 2GB is unused, but it might be useful to eventually support
+>    CONFIG_ZRAM for high pages.
+> 
+> Fixes: 61989a80fb3a ("staging: zsmalloc: zsmalloc memory allocation library")
+> Fixes: 02390b87a945 ("mm/zsmalloc: Prepare to variable MAX_PHYSMEM_BITS")
+> Acked-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+> Reviewed-by: Stefan Agner <stefan@agner.ch>
+> Tested-by: Stefan Agner <stefan@agner.ch>
+> Acked-by: Mike Rapoport <rppt@linux.ibm.com>
+> Link: https://lore.kernel.org/linux-mm/bdfa44bf1c570b05d6c70898e2bbb0acf234ecdf.1604762181.git.stefan@agner.ch/
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> [florian: patch arch/powerpc/include/asm/pte-common.h for 4.19.y]
+> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
 
-This is a note to let you know that I've just added the patch titled
+All now queued up, thanks.
 
-    mm/zsmalloc: Prepare to variable MAX_PHYSMEM_BITS
-
-to the 4.14-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
-
-The filename of the patch is:
-     mm-zsmalloc-prepare-to-variable-max_physmem_bits.patch
-and it can be found in the queue-4.14 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From foo@baz Thu Nov  4 09:33:05 AM CET 2021
-From: Florian Fainelli <f.fainelli@gmail.com>
-Date: Wed,  3 Nov 2021 13:57:03 -0700
-Subject: mm/zsmalloc: Prepare to variable MAX_PHYSMEM_BITS
-To: linux-kernel@vger.kernel.org
-Cc: stable@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sasha Levin <sashal@kernel.org>, "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, Nitin Gupta <ngupta@vflare.org>, Minchan Kim <minchan@kernel.org>, Andy Lutomirski <luto@amacapital.net>, Borislav Petkov <bp@suse.de>, Linus Torvalds <torvalds@linux-foundation.org>, Peter Zijlstra <peterz@infradead.org>, Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, linux-mm@kvack.org, Ingo Molnar <mingo@kernel.org>, Florian Fainelli <f.fainelli@gmail.com>, Vineet Gupta <vgupta@synopsys.com>, Russell King <linux@armlinux.org.uk>, Ralf Baechle <ralf@linux-mips.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>, Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)), Arnd Bergmann <arnd@arndb.de>, Stefan Agner <stefan@agn
- er.ch>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Mike Rapoport <rppt@linux.ibm.com>, linux-snps-arc@lists.infradead.org (open list:SYNOPSYS ARC ARCHITECTURE), linux-arm-kernel@lists.infradead.org (moderated list:ARM PORT), linux-mips@linux-mips.org (open list:MIPS), linuxppc-dev@lists.ozlabs.org (open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)), linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES)
-Message-ID: <20211103205704.374734-2-f.fainelli@gmail.com>
-
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-
-commit 02390b87a9459937cdb299e6b34ff33992512ec7 upstream
-
-With boot-time switching between paging mode we will have variable
-MAX_PHYSMEM_BITS.
-
-Let's use the maximum variable possible for CONFIG_X86_5LEVEL=y
-configuration to define zsmalloc data structures.
-
-The patch introduces MAX_POSSIBLE_PHYSMEM_BITS to cover such case.
-It also suits well to handle PAE special case.
-
-Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-Reviewed-by: Nitin Gupta <ngupta@vflare.org>
-Acked-by: Minchan Kim <minchan@kernel.org>
-Cc: Andy Lutomirski <luto@amacapital.net>
-Cc: Borislav Petkov <bp@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: linux-mm@kvack.org
-Link: http://lkml.kernel.org/r/20180214111656.88514-3-kirill.shutemov@linux.intel.com
-Signed-off-by: Ingo Molnar <mingo@kernel.org>
-Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- arch/x86/include/asm/pgtable-3level_types.h |    1 +
- arch/x86/include/asm/pgtable_64_types.h     |    2 ++
- mm/zsmalloc.c                               |   13 +++++++------
- 3 files changed, 10 insertions(+), 6 deletions(-)
-
---- a/arch/x86/include/asm/pgtable-3level_types.h
-+++ b/arch/x86/include/asm/pgtable-3level_types.h
-@@ -44,5 +44,6 @@ typedef union {
-  */
- #define PTRS_PER_PTE	512
- 
-+#define MAX_POSSIBLE_PHYSMEM_BITS	36
- 
- #endif /* _ASM_X86_PGTABLE_3LEVEL_DEFS_H */
---- a/arch/x86/include/asm/pgtable_64_types.h
-+++ b/arch/x86/include/asm/pgtable_64_types.h
-@@ -40,6 +40,8 @@ typedef struct { pteval_t pte; } pte_t;
- #define P4D_SIZE	(_AC(1, UL) << P4D_SHIFT)
- #define P4D_MASK	(~(P4D_SIZE - 1))
- 
-+#define MAX_POSSIBLE_PHYSMEM_BITS	52
-+
- #else /* CONFIG_X86_5LEVEL */
- 
- /*
---- a/mm/zsmalloc.c
-+++ b/mm/zsmalloc.c
-@@ -83,18 +83,19 @@
-  * This is made more complicated by various memory models and PAE.
-  */
- 
--#ifndef MAX_PHYSMEM_BITS
--#ifdef CONFIG_HIGHMEM64G
--#define MAX_PHYSMEM_BITS 36
--#else /* !CONFIG_HIGHMEM64G */
-+#ifndef MAX_POSSIBLE_PHYSMEM_BITS
-+#ifdef MAX_PHYSMEM_BITS
-+#define MAX_POSSIBLE_PHYSMEM_BITS MAX_PHYSMEM_BITS
-+#else
- /*
-  * If this definition of MAX_PHYSMEM_BITS is used, OBJ_INDEX_BITS will just
-  * be PAGE_SHIFT
-  */
--#define MAX_PHYSMEM_BITS BITS_PER_LONG
-+#define MAX_POSSIBLE_PHYSMEM_BITS BITS_PER_LONG
- #endif
- #endif
--#define _PFN_BITS		(MAX_PHYSMEM_BITS - PAGE_SHIFT)
-+
-+#define _PFN_BITS		(MAX_POSSIBLE_PHYSMEM_BITS - PAGE_SHIFT)
- 
- /*
-  * Memory for allocating for handle keeps object position by
-
-
-Patches currently in stable-queue which might be from f.fainelli@gmail.com are
-
-queue-4.14/mm-zsmalloc-prepare-to-variable-max_physmem_bits.patch
-queue-4.14/arch-pgtable-define-max_possible_physmem_bits-where-needed.patch
+greg k-h
 
 _______________________________________________
 linux-snps-arc mailing list
