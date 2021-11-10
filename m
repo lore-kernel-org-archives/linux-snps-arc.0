@@ -2,15 +2,15 @@ Return-Path: <SRS0=jMKj=P5=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C428C433F5
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 10 Nov 2021 03:07:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ED1AC433F5
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 10 Nov 2021 05:56:12 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2292A61029
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 10 Nov 2021 03:07:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 2292A61029
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=vivo.com
+	by mail.kernel.org (Postfix) with ESMTPS id 1A15760240
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 10 Nov 2021 05:56:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1A15760240
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
@@ -18,119 +18,67 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
 	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=iB+UUMHG7lXFLSHI12A6aqe3zBYSeba44YZxb4Db/lM=; b=NSzv9+p7pkbo8a
-	xEbXWgntRawtCMoc8PAZKb3HwlBdTnRbm1TnKyOSiJjP2ggVofI/NGU3iRrsfmGmroRTp/j/THcwe
-	tNcWRRLeRR0mulLmZzRjvafHFZ+E8broyT5ONPzNm7DJpOIvXIotwgdrtMsjBWa0Rf3L+1cZnHdkV
-	Q57eXwwnkh7ZiacdXeRv6McWNnibkhisd2MDqabcuhMh3jfMQuQTl/xm3SdwscTy7cbIaa2KExrX+
-	SscKNxK7zjkxn0mOXEHglJPv8GIzb6FIwZteat/MrjQcT7reUNL+8l40f4RBcJMWaAqJ/p4it2Cv9
-	zPhlpWemU/gTV8KxZgnQ==;
+	List-Owner; bh=PdEYf0HX7WFpzNfGAWVbG7CytJro/csoQuwos6GXLxc=; b=hSmPdmhj7EgWf5
+	AN8m98TEMREhvSUi+VweIPdQTzcTbXADul2oTDm8wexKTQoZ1Z6AyfVF5qEgAqs/38D0xgNaIN40y
+	rtKfbcoaZRaWGHhWkOnIpXFlP7nHfYUx4jLEEkecdDcGkn3TEu+W2Cih7kambAxgfR23DtqbQGsgX
+	wBLqMPh7FU5uGtnVY5xustwnkc0XzEnQXCBMHlII220Lt84s6YiGmc+S3mlIFzSBaa4rZKAKbJhVq
+	lCgdQfDFdZ3H9uAVo/XykoWIYvlgACU4dOCEf5Ur3yawAz72+2oOPq/R8buBm1A4OgjpoUcFQe4Y+
+	af/p/kFpM1jZGq2xz3Pg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mkdxl-004N0F-Im; Wed, 10 Nov 2021 03:07:49 +0000
-Received: from mail-eopbgr1310102.outbound.protection.outlook.com
- ([40.107.131.102] helo=APC01-SG2-obe.outbound.protection.outlook.com)
+	id 1mkgah-004WYE-36; Wed, 10 Nov 2021 05:56:11 +0000
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mkdxh-004Mza-5N
- for linux-snps-arc@lists.infradead.org; Wed, 10 Nov 2021 03:07:48 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=muFHFQ12k3cMe8TTlVb9hWLLcJONOJUnLxu20lyOvvfF/szQJYiGCp2I7ocTPdpa9sDBqEdEIol0jy3SsTjagEeTodr4oCPvT4jeW4+o8/o3d/sCSjwA6jcSx0G+dfbgEgzkoRCfnFFs2AFqMXd0edVUkxH1+qep4k3gQYmxs2kkygPRD2OQY711iyDSDfq8Euclbdsa4UrBnCpdoxBbf18fZSvIqHwq0+RVF1o+3iUi3Gi6sr0WNLn7U9hyxRB7HtE7F5EqY6kUETbcCXpNNJP+e49TYpzm0MQbXCIDOHB7MbthFu9MrRIYQg1+8x0DsF/bviB8VOVqpsrg0uzoTQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OfHqFRcwXlcoY7H4MdpGQiTSGRw5kl7jSLaniw3ZkBI=;
- b=PRK2YcAXEzuftIyv/97zRziJtOwVYG73yoNr4NtjPOpKmGoto5XsnByhtJRyRbBTY0G3jf2uKih2IHl7smiggs4bckh/KzTB/WgFoHPRN7n2Onu+c6D3FP92HdGpqXm54KxUSmbjvM8ME8Q0kg9KKDANJ0qogLpyWAMPGsPZ6ehsTO1YEoD/0U63YH7ZViuTayJi4YgYOEd0Kj3jYVxlncIAYsi9V8MDcWTkPTCe7z2nRLE1i/Er8r0jzP1fvFMojTGp1LrYOhDZZ5CN8KvbchFm+HhPNiQW0jvEvLZk8sMXZhNn+EDwkDud1Ab+KQXi+UUS/r8pM/piux+k/0JPCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com; 
- s=selector2-vivo0-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OfHqFRcwXlcoY7H4MdpGQiTSGRw5kl7jSLaniw3ZkBI=;
- b=axKiPPdZ2enYESAVJMkDZvfARZ8ksIitMEPmJ3EEG5UOinOV/NW8RrbDRz0UmKJdv153KxQ5eiu5uMIkH3VytyN0rOe0F1KTOJRmvkhGhcHxy61kW/n+NXbLZhal/oZxg1L3Lsict9ShbnV860EYbzF+aeI1NXCCUTTJe+W7LU8=
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=vivo.com;
-Received: from TYZPR06MB4173.apcprd06.prod.outlook.com (2603:1096:400:26::14)
- by TY2PR06MB3536.apcprd06.prod.outlook.com (2603:1096:404:f7::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.13; Wed, 10 Nov
- 2021 03:07:33 +0000
-Received: from TYZPR06MB4173.apcprd06.prod.outlook.com
- ([fe80::5e:78e1:eba3:7d0e]) by TYZPR06MB4173.apcprd06.prod.outlook.com
- ([fe80::5e:78e1:eba3:7d0e%8]) with mapi id 15.20.4669.016; Wed, 10 Nov 2021
- 03:07:33 +0000
-From: Yihao Han <hanyihao@vivo.com>
-To: Vineet Gupta <vgupta@kernel.org>, Yihao Han <hanyihao@vivo.com>,
- Jinchao Wang <wjc@cdjrlc.com>, "dean.yang_cp" <yangdianqing@yulong.com>,
- linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: kernel@vivo.com
-Subject: [PATCH] arc: use swap() to make code cleaner
-Date: Tue,  9 Nov 2021 19:07:12 -0800
-Message-Id: <20211110030715.21681-1-hanyihao@vivo.com>
-X-Mailer: git-send-email 2.17.1
-X-ClientProxiedBy: SG2PR03CA0091.apcprd03.prod.outlook.com
- (2603:1096:4:7c::19) To TYZPR06MB4173.apcprd06.prod.outlook.com
- (2603:1096:400:26::14)
+ id 1mkgac-004WWb-T6
+ for linux-snps-arc@lists.infradead.org; Wed, 10 Nov 2021 05:56:09 +0000
+Received: by mail-pj1-x102e.google.com with SMTP id
+ o6-20020a17090a0a0600b001a64b9a11aeso706776pjo.3
+ for <linux-snps-arc@lists.infradead.org>; Tue, 09 Nov 2021 21:56:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=c9xw6yStoEfjNF/k/c5MSuaBqDAKe3MzsJwqL/ZdYgc=;
+ b=XlQVpXP5KFDNPVOZeglwkgCyknPZBl3oT7RZ1fVhOkxWg5a3gb+QtthfUsGOrkkxVj
+ zRlNlZd7mCGzlmrZT+TulVMkBx/3iuHdvvWvfBHnlLk4EbZmgPH+oFgtBivGlpO981x2
+ ytw7RyD8PAuzcfuKkG6t9zobJgBGh4e4PQVyE4pmAU+heGqcZhlDEr+gNPXssCEsbUow
+ eZV8NzHXGrHpXruAS48J8qQRfhgISkQvZtR89q3cUrAjv3+xiQmkOYvtSqfEPAzMrLWn
+ g9VTlS8d0u1NwobesDguiBSCrO9a66syJypi+UYDZQjgQ8sCVAu6lSIOSxjPQzSVb98B
+ UUUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=c9xw6yStoEfjNF/k/c5MSuaBqDAKe3MzsJwqL/ZdYgc=;
+ b=I43S71zYgUL4MgrRzBdmawxNozocf+XowV/RW1QVokzGvTRHaVVUSqOyIrJnvPrtZ6
+ FXXeP7Ak4G+D38Yw5iwCpeKslYAMEWFVXxAefg0K7+RWMNxhIIEgHcA6iQgfTu8XFKZj
+ pWq4OeeMqzn4sn0iUkAzblpJOokJgqy0tjSHn/GQNoJl/AnSfqJj4X7Ox8r5xurrLbsB
+ PWctPbOtvXmsai/cdnChjmKx0FLLmItxhFhXNSUtc2vmMaEgA0SOu2pou5q8lU2RrZs6
+ QkHRmyod8B9aIUiaWc/Z4n1XoRv/CeMMbaL/4iamVFeYoATpFGTqLja3xDElVegZv6hn
+ uHQQ==
+X-Gm-Message-State: AOAM531DjSlvAWFKkLAJMQikdsapLNnkXcaimYK4httkVAVkaUuUdcp1
+ yCpW+on8D1bOQ5SIGDNmsX4=
+X-Google-Smtp-Source: ABdhPJz0c2CtPUQNTmZOFwIt15jaN5bVclSWRFjEanbxNjbhmANpafrdj1T9Z4DwTQZv0PvVl5TCQA==
+X-Received: by 2002:a17:90b:4a83:: with SMTP id
+ lp3mr14134601pjb.242.1636523766394; 
+ Tue, 09 Nov 2021 21:56:06 -0800 (PST)
+Received: from localhost.localdomain ([193.203.214.57])
+ by smtp.gmail.com with ESMTPSA id b1sm17504691pff.89.2021.11.09.21.56.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Nov 2021 21:56:06 -0800 (PST)
+From: cgel.zte@gmail.com
+X-Google-Original-From: ye.guojin@zte.com.cn
+To: vgupta@kernel.org
+Cc: ye.guojin@zte.com.cn, yangdianqing@yulong.com, wjc@cdjrlc.com,
+ linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH] ARC: dw2 unwind: use swap() to make code cleaner
+Date: Wed, 10 Nov 2021 05:56:02 +0000
+Message-Id: <20211110055602.136926-1-ye.guojin@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received: from ubuntu.localdomain (103.220.76.181) by
- SG2PR03CA0091.apcprd03.prod.outlook.com (2603:1096:4:7c::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4690.7 via Frontend Transport; Wed, 10 Nov 2021 03:07:31 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9bfdd4e0-d388-4ce7-3b67-08d9a3f73d50
-X-MS-TrafficTypeDiagnostic: TY2PR06MB3536:
-X-Microsoft-Antispam-PRVS: <TY2PR06MB3536DE93ABF90F9B5AFF7800A2939@TY2PR06MB3536.apcprd06.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3Wvrhbh/HLu3afbhlQjEn5M/t8wl9qURJkv1gjBufTvcWbkHvRpJVc8PRmUUe9RbB8bG95FF2FImTc3FGMYcnLaTqUxVEv2L0+BEcPVao9wXdnDzrtSEyUaxypNwU13+hU6MVYYEHUMQYSedLqlsGDmzFxoQA1sRidzJhpZlCNcKhDVttSAjp2VHnyRIgE7vuql+od3l8pN1wK5xaFFjUbtMYwKbbOIjxTh1Zh686HuH+Z4cQhwGYqWVoExbb7sDa7LVsN6VEuToJ08D9dDQ9ASV06ITCnK+/tr8a/xiZy53lO9aEYMuCnvDAWyzjhgac9V4oWrESppTUEnJCUrKsrhvXeeWGtFozIh56RjQf/+zNtf+ZryIP3gx/YRqQCEGl0w/BJ9rGKQAbGPJ6EWqnTsGVPisS+llJ1EytOGkn+QgtnxA3kHQDggA51BOGRZHKRSFJF/QLrRcu9kRwmr0+ti/ytmo2zE6HJ34CaLq05lLnxRYXEu1w5LjjsvVSyBrJ7ooSfOmyPk9/sR9een/pLhnzW5uz9hvA07cPb8pchfR67tT8hlaqDpuk4F4cKkwcnoccyrhAS7aifjLvRwGTMcfgcoFud/thL1JUdaVQS4XKucL5xsEaqjBx4z8IsSjoSl32nFv1GhDFw82CuCJrnYztFQLNRfuXYnFiPjs1bMwKfuqI8HDqRKHf9hfu4lO9SUzdQTiuUZdXolYA+bkhQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYZPR06MB4173.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(5660300002)(83380400001)(186003)(2906002)(66556008)(8936002)(66476007)(110136005)(66946007)(26005)(52116002)(508600001)(316002)(107886003)(6512007)(36756003)(1076003)(4744005)(4326008)(8676002)(6506007)(38100700002)(86362001)(38350700002)(6666004)(6486002)(956004)(2616005);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?S6cy6GrAH9Cir6iHEQbb60lqstSIMV+1hSoTk6VL/z7jK1Hoc+SXpSJFAlsO?=
- =?us-ascii?Q?IOVCH4XclyKkQHf6NRlshMroGno7cpFX9gEdk2o6XloY1z+B9d1CNV697Oy6?=
- =?us-ascii?Q?4zCJUA2BHvWrG9PBjRNdgT0o707BFtFFRGB/ajcrJRU625+GKTOvIbltJN6w?=
- =?us-ascii?Q?qv6J1TqCwPwinPLd6JCgDpkxAg3yfn5he9Vr5spHm/91QT8Zy8ZzQSztxR0m?=
- =?us-ascii?Q?as9V6aXPQuxwH11RetOtRwW6j5yxGrTpCRp5si1SPJWnFDQGDd/Ll0O4Scst?=
- =?us-ascii?Q?FqyHLso74GOO05GkZ+33aS31hrVFPmVTtCa74dV/NiD1ArUtLKt5UxTJCWOz?=
- =?us-ascii?Q?qBFoZ5ArStDzd5hUOidkVvVQk5uBijAqCXjAyDowoUy5ge5VuML8y9zMjG80?=
- =?us-ascii?Q?IhoU5QhQqoxUQ+F3CLzV5LdqjDZQa7cFyUctwUyleJ+pNwywYKiUPpfXCoMS?=
- =?us-ascii?Q?RXoJmF358nnivPG945q8gVHQiLLRiV+uRj2iRGDfb0YLwb/MP4baCj6HqfMe?=
- =?us-ascii?Q?okp7pam0995J2wykcXVsH3hWUmNYluqcF2KIMurnO+7E8kXW5iIxry54Sue7?=
- =?us-ascii?Q?eEEyY8JZ1L5wsIxaMPw5qUlDiWjL2m2+NHcz5m/A7ptWm7j3/L1kK3nQupL+?=
- =?us-ascii?Q?MiUwlL9wVzm4uQGkxAzK56eNn9ehBTIC9iF0+0SuPkVR+v+xlX3ADxWqDGR2?=
- =?us-ascii?Q?eckV3+pxDIWRCLJZ+gmDAyI9mq3HhIPyszuARmnoYYOTQfrHR17mDNRuQgnx?=
- =?us-ascii?Q?SKZq0vT+UMg+ln4X4ht5VpYjty7GYGxzV80uLn8ApNYgoCoYtcmpfnM/oEw8?=
- =?us-ascii?Q?FXJHFZ8DnEVwVz6lk9JV7rz2R/gaF3NGWV0bsK1v5/VNHrug39eJPHRtPldZ?=
- =?us-ascii?Q?BnPimZsSukMeD9i4WYRKBkdP89fF4gqUsP/0HyEHWh+JSGm1poFVdfIJ2XzX?=
- =?us-ascii?Q?bFxGdYAhxVRRX+7iPkK/tX4fVWWxY2XRA0CVAfmzEaRFczkY4inncRfU0djq?=
- =?us-ascii?Q?krCNK1scG+kzqak8dsE0TJw5zBnpvx0zLkSe3Z0ZLk2PJ1dGRk/fk7sc2Iob?=
- =?us-ascii?Q?DOi792nUKpWyopGB0J96697BgOsDoY/eQ9cd1VMOEfnn4aemhgho//s97DuM?=
- =?us-ascii?Q?mlQ3iKAvKENlw5qbeIRBAF0qEvoSC5GnWWlu7h48DpRuT+i6ecIUs6bI5s7D?=
- =?us-ascii?Q?om2TDIpZmsT/Hj9l7E+Dc9YCpo2quDEOH/NaGr4LnpiTbmgDJksC4oYSil/Y?=
- =?us-ascii?Q?XxshFhwPzHEt5fdRBC+JTpBVOhbWa6ptdemgacrWcjZxT1BQalQyybwjs8fy?=
- =?us-ascii?Q?SJ33RXEW3DTKaprcmWYyaOAAHsIWOq0gnOlkre/9lNAwnpdxdfKxKux6YlsP?=
- =?us-ascii?Q?pZrMsD8QWaR8oB4U6xuJWlnM/lGpnb+9yzCNMVQWY/EkR2gWX51EqawZpBcb?=
- =?us-ascii?Q?KJCxXDnTFpS9Zio+8ypuIxJf11nrv5ey6uVvtaN+ItvjXKTP1kjmIWuLmJXn?=
- =?us-ascii?Q?6Hgc4AyQ+Sj/Eu+ZM+bYagBV86nMNIrISm5Z0bkdI0BbV6wQmz8Xy2GGY8ek?=
- =?us-ascii?Q?C+YRtMSIJmW8HzSu5hDmfk/1/eET0CgKIy9WN7RcGxtX57M9DuPbYNZeQDOV?=
- =?us-ascii?Q?bWeFopJSJvSWRwqjz+q6FZI=3D?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9bfdd4e0-d388-4ce7-3b67-08d9a3f73d50
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB4173.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2021 03:07:33.2256 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Z/xJusVxJG2SOW1M5x1SN5njgSBecXBNI4o+/GQKeKOsRItNNKAAagq3Wu/7Xs6Wu7hWtyFoKsFddoGbOUvhww==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR06MB3536
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211109_190745_232685_A7646C84 
-X-CRM114-Status: UNSURE (   8.07  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20211109_215606_993397_57406C66 
+X-CRM114-Status: GOOD (  10.36  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -147,19 +95,52 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Use the macro 'swap()' defined in 'include/linux/minmax.h' to avoid
-opencoding it.
+From: Ye Guojin <ye.guojin@zte.com.cn>
 
-Signed-off-by: Yihao Han <hanyihao@vivo.com>
+This was found by coccicheck:
+./arch/arc/kernel/unwind.c, 251, 22-23, WARNING opportunity for swap()
+./arch/arc/kernel/unwind.c, 254, 18-19, WARNING opportunity for swap()
+
+Addtionally, adjust the sequence of header files to be arranged in
+alphabetical order.
+
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Ye Guojin <ye.guojin@zte.com.cn>
 ---
- arch/arc/kernel/unwind.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+ arch/arc/kernel/unwind.c | 26 +++++++++++---------------
+ 1 file changed, 11 insertions(+), 15 deletions(-)
 
 diff --git a/arch/arc/kernel/unwind.c b/arch/arc/kernel/unwind.c
-index 9e28058cdba8..200270a94558 100644
+index 9e28058cdba8..ea795304982a 100644
 --- a/arch/arc/kernel/unwind.c
 +++ b/arch/arc/kernel/unwind.c
-@@ -245,14 +245,9 @@ static void swap_eh_frame_hdr_table_entries(void *p1, void *p2, int size)
+@@ -10,17 +10,18 @@
+  * is not much point in implementing the full Dwarf2 unwind API.
+  */
+ 
+-#include <linux/sched.h>
+-#include <linux/module.h>
++#include <asm/sections.h>
++#include <asm/unaligned.h>
++#include <asm/unwind.h>
+ #include <linux/memblock.h>
+-#include <linux/sort.h>
++#include <linux/minmax.h>
++#include <linux/module.h>
++#include <linux/ptrace.h>
++#include <linux/sched.h>
+ #include <linux/slab.h>
++#include <linux/sort.h>
+ #include <linux/stop_machine.h>
+ #include <linux/uaccess.h>
+-#include <linux/ptrace.h>
+-#include <asm/sections.h>
+-#include <asm/unaligned.h>
+-#include <asm/unwind.h>
+ 
+ extern char __start_unwind[], __end_unwind[];
+ /* extern const u8 __start_unwind_hdr[], __end_unwind_hdr[];*/
+@@ -245,14 +246,9 @@ static void swap_eh_frame_hdr_table_entries(void *p1, void *p2, int size)
  {
  	struct eh_frame_hdr_table_entry *e1 = p1;
  	struct eh_frame_hdr_table_entry *e2 = p2;
@@ -178,7 +159,7 @@ index 9e28058cdba8..200270a94558 100644
  
  static void init_unwind_hdr(struct unwind_table *table,
 -- 
-2.17.1
+2.25.1
 
 
 _______________________________________________
