@@ -2,89 +2,70 @@ Return-Path: <SRS0=g0v4=QG=lists.infradead.org=linux-snps-arc-bounces+linux-snps
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F0BEC433EF
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 19 Nov 2021 08:02:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1DC6C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 19 Nov 2021 10:00:53 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C2C7361B1B
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 19 Nov 2021 08:02:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C2C7361B1B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 708956138D
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 19 Nov 2021 10:00:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 708956138D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=tblGh8NDpE5drEQKh+tdYAnrLtWXGH6OC6/zq9m2/Zs=; b=yL9/gsw3Qky3l5
-	oL2FqIH356ghUzQMGam+jL+nfryA83H+rzFbdYw209dv0z2io6HAnMMfsVRzuxv6Z4HS+aqfoI3SD
-	QzUhn/7yLiWfSXz1ExvxA6qB3Lhy6k8VSOh/SE86LLUIUKYRCpJACciUYuGz+yQNIV2E6nRtQJSo/
-	0XM9d3H92UUZLAbeqG3djkBQisNK2VxD0y/h/CBmnCbKm1AZ+LtcusOA7OcYnfLLNw2i+ZzS3K+RG
-	YGsg8nowN0/xq+ag4VKe10P738YYIbCMzgD23xNk7PjHp0nY2M7L/6ulY13464IzbSUo8mpVI2Fu8
-	4cAp7zPKRsZk302CHWQQ==;
+	List-Owner; bh=EnCEWJTBMUdWEdhGeUsj7m5xsFPEn3ZKMztAoXxUTaE=; b=dkqt5+fGWhgDDH
+	7udbomdJjgnW7rlVazRmg/INGBZf94+Nw3jxfO3BIXuHAujHWYSBRy7SakUicYY5xxOK7ysWhSMqG
+	zYvCEMBE941k4eEM0vbZJ+yxNx77RTxnpgk/vnHXGAh9E41IFzBtWStYNbewhhO3naaeZVquVtTK/
+	xJyXFKjWp3yaMNJHvndRoEv9daThDVblY6KFX9J2aZO4ToRwTYb20NfTLJtz8ZAM0ZojAY6c1h10k
+	5xrFBfzUN2TV1MLyQOi0XWG6wnu9Wydmzr2cF2QUiEngcyfblhRRC7k4/H1NVC5Rf2WtA52Chmy4R
+	5U84SPKPTt6N5fcQ6N7A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mnyql-009gr2-Kd; Fri, 19 Nov 2021 08:02:23 +0000
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+	id 1mo0hQ-00A43E-9S; Fri, 19 Nov 2021 10:00:52 +0000
+Received: from mga02.intel.com ([134.134.136.20])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mnyqh-009gpL-Jy; Fri, 19 Nov 2021 08:02:22 +0000
-Received: by mail-pl1-x633.google.com with SMTP id m24so7517857pls.10;
- Fri, 19 Nov 2021 00:02:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=qOCx5sFVE+zhsZMFm7VYYi5j9KabUFYLGScDeGkNxio=;
- b=nzW89fNZIaeGG7iFC/anmbyYxdYeiIPsY0WyiJL9dBOt/8uw3ODbBglPEFVbBiYTFV
- 0pv6LksmsP2oSI7akfzeUVVDy20WgJ8k3Rv/wn0P8mO0aNHHtrwk7Uq1DAm2tz0pk8FA
- pyHsLEzmZnvO6aptkJL6vJeOlrnGVjQ8DlD967ddxsYJ1T8QRmI3cN0eGcPyOLxdkh7J
- JFWJebETXfh0MEmv7iOioLeT+GLXWL8dQGOU7S+PWH74qRoFtdGbVE6oXI0KrvG0FTVd
- +teDlDj3djGGS3rhXtJn8bFeiCJlF9gtWq6C9oZE6cyVc4LO5QXagcnEvn69nlQBAycU
- pkgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=qOCx5sFVE+zhsZMFm7VYYi5j9KabUFYLGScDeGkNxio=;
- b=0Ah6G8MK28XmVoZEQjpgzn2thUSazgCBFrcTjfrH6P4uJClDhJ+rBNgqKeNKELmiIw
- O6HKO0DTLRsz7ww4wmVRd56LTnsqTJOVjdIBw6zI8/jA/VX3c12+t8k27yMJavk+JwzS
- r4xGX56ILFnOdAuhRACRP6YY/ua9+VJ09C7U0GF5Ye1d1UlvX40JLgPnL2wQrTmT41IL
- kKGaK8/4rH+uW+X0gbDRnYBvprkU0K0RMer31l9huRwjNF55MYzeUIKyTygawlzMUSkV
- 5RoAtI93Dxvbci3VxXHLxH10XHwjLSJXbp80l8NJH2etp2E+3H/QP4ydvRwO/4w8c49p
- SD0A==
-X-Gm-Message-State: AOAM5306R91sD+BNw7A7HxwqKofur0v90u+zbzpvlFBL+pr0M7RttfbU
- E5MDPrvxZzNYPaZymNsvhkE=
-X-Google-Smtp-Source: ABdhPJxD8TG96sq1MtTt8E+2ENWTqJbXT9h5ZtPUFFHaIxmjzzibkl/E4Joc49HUY6kx/0RfviZh7Q==
-X-Received: by 2002:a17:902:f209:b0:141:99d1:7cef with SMTP id
- m9-20020a170902f20900b0014199d17cefmr75711457plc.70.1637308938491; 
- Fri, 19 Nov 2021 00:02:18 -0800 (PST)
-Received: from localhost.localdomain ([103.99.179.247])
- by smtp.gmail.com with ESMTPSA id o6sm1791259pfh.70.2021.11.19.00.01.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 00:02:18 -0800 (PST)
-From: Calvin Zhang <calvinzhang.cool@gmail.com>
-To: Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Guo Ren <guoren@kernel.org>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ id 1mo0hO-00A3r2-Ck; Fri, 19 Nov 2021 10:00:51 +0000
+X-IronPort-AV: E=McAfee;i="6200,9189,10172"; a="221607473"
+X-IronPort-AV: E=Sophos;i="5.87,247,1631602800"; d="scan'208";a="221607473"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Nov 2021 01:58:47 -0800
+X-IronPort-AV: E=Sophos;i="5.87,247,1631602800"; d="scan'208";a="568845492"
+Received: from smile.fi.intel.com ([10.237.72.184])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Nov 2021 01:58:31 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1mo0cr-008Uqj-60; Fri, 19 Nov 2021 11:56:09 +0200
+Date: Fri, 19 Nov 2021 11:56:08 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Calvin Zhang <calvinzhang.cool@gmail.com>
+Cc: Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
  Nick Hu <nickhu@andestech.com>, Greentime Hu <green.hu@gmail.com>,
- Vincent Chen <deanbo422@gmail.com>, Dinh Nguyen <dinguyen@kernel.org>,
- Jonas Bonn <jonas@southpole.se>,
+ Vincent Chen <deanbo422@gmail.com>,
+ Dinh Nguyen <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>,
  Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
  Stafford Horne <shorne@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
  Benjamin Herrenschmidt <benh@kernel.crashing.org>,
  Paul Mackerras <paulus@samba.org>,
  Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Rich Felker <dalias@libc.org>, Chris Zankel <chris@zankel.net>,
- Max Filippov <jcmvbkbc@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>, Mike Rapoport <rppt@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Rich Felker <dalias@libc.org>,
+ Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+ Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
  David Hildenbrand <david@redhat.com>,
  Kefeng Wang <wangkefeng.wang@huawei.com>,
- Vladimir Isaev <isaev@synopsys.com>,
- Calvin Zhang <calvinzhang.cool@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ Vladimir Isaev <isaev@synopsys.com>, Arnd Bergmann <arnd@arndb.de>,
  "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
  "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
  Guenter Roeck <linux@roeck-us.net>, Marc Zyngier <maz@kernel.org>,
@@ -105,14 +86,14 @@ To: Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
  Christophe Leroy <christophe.leroy@c-s.fr>,
  Ganesh Goudar <ganeshgr@linux.ibm.com>,
  Markus Elfring <elfring@users.sourceforge.net>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
  Atish Patra <atish.patra@wdc.com>, Anup Patel <anup.patel@wdc.com>,
  Nick Kossifidis <mick@ics.forth.gr>, Alexandre Ghiti <alex@ghiti.fr>,
- Vitaly Wool <vitaly.wool@konsulko.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Lee Jones <lee.jones@linaro.org>, Guo Ren <guoren@linux.alibaba.com>,
- Rob Herring <robh@kernel.org>, Zhang Yunkai <zhang.yunkai@zte.com.cn>,
+ Vitaly Wool <vitaly.wool@konsulko.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ Guo Ren <guoren@linux.alibaba.com>, Rob Herring <robh@kernel.org>,
+ Zhang Yunkai <zhang.yunkai@zte.com.cn>,
  Palmer Dabbelt <palmerdabbelt@google.com>,
  linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
@@ -120,17 +101,18 @@ Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
  openrisc@lists.librecores.org, linuxppc-dev@lists.ozlabs.org,
  linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
  linux-xtensa@linux-xtensa.org, devicetree@vger.kernel.org
-Subject: [PATCH 2/2] of: reserved_mem: Remove reserved regions count
+Subject: Re: [PATCH 2/2] of: reserved_mem: Remove reserved regions count
  restriction
-Date: Fri, 19 Nov 2021 15:58:19 +0800
-Message-Id: <20211119075844.2902592-3-calvinzhang.cool@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211119075844.2902592-1-calvinzhang.cool@gmail.com>
+Message-ID: <YZd0uEWNH6Def3+8@smile.fi.intel.com>
 References: <20211119075844.2902592-1-calvinzhang.cool@gmail.com>
+ <20211119075844.2902592-3-calvinzhang.cool@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20211119075844.2902592-3-calvinzhang.cool@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211119_000219_696933_D5FC0287 
-X-CRM114-Status: GOOD (  17.95  )
+X-CRM114-CacheID: sfid-20211119_020050_511576_964B43E4 
+X-CRM114-Status: GOOD (  14.76  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -147,446 +129,35 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Change to allocate reserved_mems dynamically. Static reserved regions
-must be reserved before any memblock allocations. The reserved_mems
-array couldn't be allocated until memblock and linear mapping are ready.
+On Fri, Nov 19, 2021 at 03:58:19PM +0800, Calvin Zhang wrote:
+> Change to allocate reserved_mems dynamically. Static reserved regions
+> must be reserved before any memblock allocations. The reserved_mems
+> array couldn't be allocated until memblock and linear mapping are ready.
+> 
+> So move the allocation and initialization of records and reserved memory
+> from early_init_fdt_scan_reserved_mem() to of_reserved_mem_init().
 
-So move the allocation and initialization of records and reserved memory
-from early_init_fdt_scan_reserved_mem() to of_reserved_mem_init().
+>  arch/arc/mm/init.c                 |  3 ++
+>  arch/arm/kernel/setup.c            |  2 +
+>  arch/arm64/kernel/setup.c          |  3 ++
+>  arch/csky/kernel/setup.c           |  3 ++
+>  arch/h8300/kernel/setup.c          |  2 +
+>  arch/mips/kernel/setup.c           |  3 ++
+>  arch/nds32/kernel/setup.c          |  3 ++
+>  arch/nios2/kernel/setup.c          |  2 +
+>  arch/openrisc/kernel/setup.c       |  3 ++
+>  arch/powerpc/kernel/setup-common.c |  3 ++
+>  arch/riscv/kernel/setup.c          |  2 +
+>  arch/sh/kernel/setup.c             |  3 ++
+>  arch/xtensa/kernel/setup.c         |  2 +
 
-Signed-off-by: Calvin Zhang <calvinzhang.cool@gmail.com>
----
- arch/arc/mm/init.c                 |  3 ++
- arch/arm/kernel/setup.c            |  2 +
- arch/arm64/kernel/setup.c          |  3 ++
- arch/csky/kernel/setup.c           |  3 ++
- arch/h8300/kernel/setup.c          |  2 +
- arch/mips/kernel/setup.c           |  3 ++
- arch/nds32/kernel/setup.c          |  3 ++
- arch/nios2/kernel/setup.c          |  2 +
- arch/openrisc/kernel/setup.c       |  3 ++
- arch/powerpc/kernel/setup-common.c |  3 ++
- arch/riscv/kernel/setup.c          |  2 +
- arch/sh/kernel/setup.c             |  3 ++
- arch/xtensa/kernel/setup.c         |  2 +
- drivers/of/fdt.c                   |  1 -
- drivers/of/of_reserved_mem.c       | 66 ++++++++++++++++++++----------
- 15 files changed, 79 insertions(+), 22 deletions(-)
+Isn't x86 missed? Is it on purpose?
+Would be nice to have this in the commit message or fixed accordingly.
 
-diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
-index ce4e939a7f07..a75f0e693f37 100644
---- a/arch/arc/mm/init.c
-+++ b/arch/arc/mm/init.c
-@@ -10,6 +10,7 @@
- #include <linux/initrd.h>
- #endif
- #include <linux/of_fdt.h>
-+#include <linux/of_reserved_mem.h>
- #include <linux/swap.h>
- #include <linux/module.h>
- #include <linux/highmem.h>
-@@ -165,6 +166,8 @@ void __init setup_arch_memory(void)
- 
- #endif /* CONFIG_HIGHMEM */
- 
-+	of_reserved_mem_init();
-+
- 	free_area_init(max_zone_pfn);
- }
- 
-diff --git a/arch/arm/kernel/setup.c b/arch/arm/kernel/setup.c
-index 284a80c0b6e1..e76737effbf4 100644
---- a/arch/arm/kernel/setup.c
-+++ b/arch/arm/kernel/setup.c
-@@ -20,6 +20,7 @@
- #include <linux/kexec.h>
- #include <linux/libfdt.h>
- #include <linux/of_fdt.h>
-+#include <linux/of_reserved_mem.h>
- #include <linux/cpu.h>
- #include <linux/interrupt.h>
- #include <linux/smp.h>
-@@ -1153,6 +1154,7 @@ void __init setup_arch(char **cmdline_p)
- 	early_ioremap_reset();
- 
- 	paging_init(mdesc);
-+	of_reserved_mem_init();
- 	kasan_init();
- 	request_standard_resources(mdesc);
- 
-diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
-index be5f85b0a24d..4624e5193d6e 100644
---- a/arch/arm64/kernel/setup.c
-+++ b/arch/arm64/kernel/setup.c
-@@ -27,6 +27,7 @@
- #include <linux/proc_fs.h>
- #include <linux/memblock.h>
- #include <linux/of_fdt.h>
-+#include <linux/of_reserved_mem.h>
- #include <linux/efi.h>
- #include <linux/psci.h>
- #include <linux/sched/task.h>
-@@ -339,6 +340,8 @@ void __init __no_sanitize_address setup_arch(char **cmdline_p)
- 
- 	paging_init();
- 
-+	of_reserved_mem_init();
-+
- 	acpi_table_upgrade();
- 
- 	/* Parse the ACPI tables for possible boot-time configuration */
-diff --git a/arch/csky/kernel/setup.c b/arch/csky/kernel/setup.c
-index c64e7be2045b..40878906644d 100644
---- a/arch/csky/kernel/setup.c
-+++ b/arch/csky/kernel/setup.c
-@@ -6,6 +6,7 @@
- #include <linux/initrd.h>
- #include <linux/of.h>
- #include <linux/of_fdt.h>
-+#include <linux/of_reserved_mem.h>
- #include <linux/start_kernel.h>
- #include <linux/dma-map-ops.h>
- #include <linux/screen_info.h>
-@@ -64,6 +65,8 @@ static void __init csky_memblock_init(void)
- #endif
- 	memblock_set_current_limit(PFN_PHYS(max_low_pfn));
- 
-+	of_reserved_mem_init();
-+
- 	dma_contiguous_reserve(0);
- 
- 	free_area_init(max_zone_pfn);
-diff --git a/arch/h8300/kernel/setup.c b/arch/h8300/kernel/setup.c
-index 61091a76eb7e..0f0ec72a260e 100644
---- a/arch/h8300/kernel/setup.c
-+++ b/arch/h8300/kernel/setup.c
-@@ -24,6 +24,7 @@
- #include <linux/of.h>
- #include <linux/of_fdt.h>
- #include <linux/of_address.h>
-+#include <linux/of_reserved_mem.h>
- #include <linux/clk-provider.h>
- #include <linux/memblock.h>
- #include <linux/screen_info.h>
-@@ -87,6 +88,7 @@ static void __init bootmem_init(void)
- 
- 	early_init_fdt_reserve_self();
- 	early_init_fdt_scan_reserved_mem();
-+	of_reserved_mem_init();
- 
- 	memblock_dump_all();
- }
-diff --git a/arch/mips/kernel/setup.c b/arch/mips/kernel/setup.c
-index f979adfd4fc2..053a10d80cb9 100644
---- a/arch/mips/kernel/setup.c
-+++ b/arch/mips/kernel/setup.c
-@@ -27,6 +27,7 @@
- #include <linux/dma-map-ops.h>
- #include <linux/decompress/generic.h>
- #include <linux/of_fdt.h>
-+#include <linux/of_reserved_mem.h>
- #include <linux/dmi.h>
- #include <linux/crash_dump.h>
- 
-@@ -776,6 +777,8 @@ void __init setup_arch(char **cmdline_p)
- 	cpu_cache_init();
- 	paging_init();
- 
-+	of_reserved_mem_init();
-+
- 	memblock_dump_all();
- }
- 
-diff --git a/arch/nds32/kernel/setup.c b/arch/nds32/kernel/setup.c
-index b3d34d646652..1054804526c5 100644
---- a/arch/nds32/kernel/setup.c
-+++ b/arch/nds32/kernel/setup.c
-@@ -10,6 +10,7 @@
- #include <linux/dma-mapping.h>
- #include <linux/of_fdt.h>
- #include <linux/of_platform.h>
-+#include <linux/of_reserved_mem.h>
- #include <asm/setup.h>
- #include <asm/sections.h>
- #include <asm/proc-fns.h>
-@@ -301,6 +302,8 @@ void __init setup_arch(char **cmdline_p)
- 	/* paging_init() sets up the MMU and marks all pages as reserved */
- 	paging_init();
- 
-+	of_reserved_mem_init();
-+
- 	/* invalidate all TLB entries because the new mapping is created */
- 	__nds32__tlbop_flua();
- 
-diff --git a/arch/nios2/kernel/setup.c b/arch/nios2/kernel/setup.c
-index 40bc8fb75e0b..7e40e90bc3cd 100644
---- a/arch/nios2/kernel/setup.c
-+++ b/arch/nios2/kernel/setup.c
-@@ -19,6 +19,7 @@
- #include <linux/memblock.h>
- #include <linux/initrd.h>
- #include <linux/of_fdt.h>
-+#include <linux/of_reserved_mem.h>
- #include <linux/screen_info.h>
- 
- #include <asm/mmu_context.h>
-@@ -173,6 +174,7 @@ void __init setup_arch(char **cmdline_p)
- 
- 	early_init_fdt_reserve_self();
- 	early_init_fdt_scan_reserved_mem();
-+	of_reserved_mem_init();
- 
- 	unflatten_and_copy_device_tree();
- 
-diff --git a/arch/openrisc/kernel/setup.c b/arch/openrisc/kernel/setup.c
-index 0cd04d936a7a..6830bd110ac4 100644
---- a/arch/openrisc/kernel/setup.c
-+++ b/arch/openrisc/kernel/setup.c
-@@ -32,6 +32,7 @@
- #include <linux/initrd.h>
- #include <linux/of_fdt.h>
- #include <linux/of.h>
-+#include <linux/of_reserved_mem.h>
- #include <linux/device.h>
- 
- #include <asm/sections.h>
-@@ -299,6 +300,8 @@ void __init setup_arch(char **cmdline_p)
- 	/* paging_init() sets up the MMU and marks all pages as reserved */
- 	paging_init();
- 
-+	of_reserved_mem_init();
-+
- 	*cmdline_p = boot_command_line;
- 
- 	printk(KERN_INFO "OpenRISC Linux -- http://openrisc.io\n");
-diff --git a/arch/powerpc/kernel/setup-common.c b/arch/powerpc/kernel/setup-common.c
-index 4f1322b65760..1902b4472991 100644
---- a/arch/powerpc/kernel/setup-common.c
-+++ b/arch/powerpc/kernel/setup-common.c
-@@ -31,6 +31,7 @@
- #include <linux/percpu.h>
- #include <linux/memblock.h>
- #include <linux/of_platform.h>
-+#include <linux/of_reserved_mem.h>
- #include <linux/hugetlb.h>
- #include <linux/pgtable.h>
- #include <asm/io.h>
-@@ -840,6 +841,8 @@ void __init setup_arch(char **cmdline_p)
- 	/* Set a half-reasonable default so udelay does something sensible */
- 	loops_per_jiffy = 500000000 / HZ;
- 
-+	of_reserved_mem_init();
-+
- 	/* Unflatten the device-tree passed by prom_init or kexec */
- 	unflatten_device_tree();
- 
-diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-index b42bfdc67482..e3a211cdf5e1 100644
---- a/arch/riscv/kernel/setup.c
-+++ b/arch/riscv/kernel/setup.c
-@@ -16,6 +16,7 @@
- #include <linux/screen_info.h>
- #include <linux/of_fdt.h>
- #include <linux/of_platform.h>
-+#include <linux/of_reserved_mem.h>
- #include <linux/sched/task.h>
- #include <linux/smp.h>
- #include <linux/efi.h>
-@@ -273,6 +274,7 @@ void __init setup_arch(char **cmdline_p)
- 
- 	efi_init();
- 	paging_init();
-+	of_reserved_mem_init();
- #if IS_ENABLED(CONFIG_BUILTIN_DTB)
- 	unflatten_and_copy_device_tree();
- #else
-diff --git a/arch/sh/kernel/setup.c b/arch/sh/kernel/setup.c
-index 1fcb6659822a..51e85a17c202 100644
---- a/arch/sh/kernel/setup.c
-+++ b/arch/sh/kernel/setup.c
-@@ -31,6 +31,7 @@
- #include <linux/memblock.h>
- #include <linux/of.h>
- #include <linux/of_fdt.h>
-+#include <linux/of_reserved_mem.h>
- #include <linux/uaccess.h>
- #include <uapi/linux/mount.h>
- #include <asm/io.h>
-@@ -326,6 +327,8 @@ void __init setup_arch(char **cmdline_p)
- 	/* Let earlyprintk output early console messages */
- 	sh_early_platform_driver_probe("earlyprintk", 1, 1);
- 
-+	of_reserved_mem_init();
-+
- #ifdef CONFIG_OF_FLATTREE
- #ifdef CONFIG_USE_BUILTIN_DTB
- 	unflatten_and_copy_device_tree();
-diff --git a/arch/xtensa/kernel/setup.c b/arch/xtensa/kernel/setup.c
-index 8db20cfb44ab..527d425490fd 100644
---- a/arch/xtensa/kernel/setup.c
-+++ b/arch/xtensa/kernel/setup.c
-@@ -25,6 +25,7 @@
- #include <linux/cpu.h>
- #include <linux/of.h>
- #include <linux/of_fdt.h>
-+#include <linux/of_reserved_mem.h>
- 
- #if defined(CONFIG_VGA_CONSOLE) || defined(CONFIG_DUMMY_CONSOLE)
- # include <linux/console.h>
-@@ -356,6 +357,7 @@ void __init setup_arch(char **cmdline_p)
- 	parse_early_param();
- 	bootmem_init();
- 	kasan_init();
-+	of_reserved_mem_init();
- 	unflatten_and_copy_device_tree();
- 
- #ifdef CONFIG_SMP
-diff --git a/drivers/of/fdt.c b/drivers/of/fdt.c
-index 445af4e69300..715ce8ec6ac6 100644
---- a/drivers/of/fdt.c
-+++ b/drivers/of/fdt.c
-@@ -540,7 +540,6 @@ void __init early_init_fdt_scan_reserved_mem(void)
- 	}
- 
- 	fdt_scan_reserved_mem();
--	of_reserved_mem_init();
- 	fdt_reserve_elfcorehdr();
- }
- 
-diff --git a/drivers/of/of_reserved_mem.c b/drivers/of/of_reserved_mem.c
-index 784cfc5cd251..6dc22a1ad472 100644
---- a/drivers/of/of_reserved_mem.c
-+++ b/drivers/of/of_reserved_mem.c
-@@ -26,9 +26,8 @@
- 
- #include "of_private.h"
- 
--#define MAX_RESERVED_REGIONS	64
--static struct reserved_mem reserved_mems[MAX_RESERVED_REGIONS];
--static int reserved_mem_count;
-+static struct reserved_mem *reserved_mems;
-+static int reserved_mem_count, reserved_mem_max_count;
- 
- static int __init early_init_dt_alloc_reserved_memory_arch(phys_addr_t size,
- 	phys_addr_t align, phys_addr_t start, phys_addr_t end, bool nomap,
-@@ -62,7 +61,7 @@ static void __init fdt_reserved_mem_save_node(unsigned long node, const char *un
- {
- 	struct reserved_mem *rmem = &reserved_mems[reserved_mem_count];
- 
--	if (reserved_mem_count == ARRAY_SIZE(reserved_mems)) {
-+	if (reserved_mem_count == reserved_mem_max_count) {
- 		pr_err("not enough space for all defined regions.\n");
- 		return;
- 	}
-@@ -200,13 +199,12 @@ static int __init __reserved_mem_check_root(unsigned long node)
-  * __reserved_mem_reserve_reg() - reserve all memory described in 'reg' property
-  */
- static int __init __reserved_mem_reserve_reg(unsigned long node,
--					     const char *uname)
-+					     const char *uname, bool reserve_only)
- {
- 	int t_len = (dt_root_addr_cells + dt_root_size_cells) * sizeof(__be32);
- 	phys_addr_t base, size;
- 	int len;
- 	const __be32 *prop;
--	int first = 1;
- 	bool nomap;
- 
- 	prop = of_get_flat_dt_prop(node, "reg", &len);
-@@ -225,30 +223,35 @@ static int __init __reserved_mem_reserve_reg(unsigned long node,
- 		base = dt_mem_next_cell(dt_root_addr_cells, &prop);
- 		size = dt_mem_next_cell(dt_root_size_cells, &prop);
- 
--		if (size &&
--		    early_init_dt_reserve_memory_arch(base, size, nomap) == 0)
--			pr_debug("Reserved memory: reserved region for node '%s': base %pa, size %lu MiB\n",
--				uname, &base, (unsigned long)(size / SZ_1M));
--		else
--			pr_info("Reserved memory: failed to reserve memory for node '%s': base %pa, size %lu MiB\n",
--				uname, &base, (unsigned long)(size / SZ_1M));
--
--		len -= t_len;
--		if (first) {
-+		if (reserve_only) {
-+			if (size &&
-+				early_init_dt_reserve_memory_arch(base, size, nomap) == 0)
-+				pr_debug("Reserved memory: reserved region for node '%s': base %pa, size %lu MiB\n",
-+					uname, &base, (unsigned long)(size / SZ_1M));
-+			else
-+				pr_info("Reserved memory: failed to reserve memory for node '%s': base %pa, size %lu MiB\n",
-+					uname, &base, (unsigned long)(size / SZ_1M));
-+		} else {
- 			fdt_reserved_mem_save_node(node, uname, base, size);
--			first = 0;
-+			break;
- 		}
-+		len -= t_len;
- 	}
- 	return 0;
- }
- 
- /*
-- * fdt_scan_reserved_mem() - scan a single FDT node for reserved memory
-+ * fdt_scan_reserved_mem() - scan /reserved-memory node
-+ *
-+ * Get the max count of regions in the first pass. Early allocator is
-+ * not fully available yet. Store information of reserved region to
-+ * reserved_mems array in the second pass.
-  */
- int __init fdt_scan_reserved_mem(void)
- {
--	int node, child;
-+	int node, child, regions = 0;
- 	const void *fdt = initial_boot_params;
-+	static bool first = true;
- 
- 	node = fdt_path_offset(fdt, "/reserved-memory");
- 	if (node < 0)
-@@ -266,12 +269,19 @@ int __init fdt_scan_reserved_mem(void)
- 		if (!of_fdt_device_is_available(fdt, child))
- 			continue;
- 
-+		regions++;
- 		uname = fdt_get_name(fdt, child, NULL);
- 
--		err = __reserved_mem_reserve_reg(child, uname);
--		if (err == -ENOENT && of_get_flat_dt_prop(child, "size", NULL))
-+		err = __reserved_mem_reserve_reg(child, uname, first);
-+		if (err == -ENOENT && of_get_flat_dt_prop(child, "size", NULL) && !first)
- 			fdt_reserved_mem_save_node(child, uname, 0, 0);
- 	}
-+
-+	if (first) {
-+		reserved_mem_max_count = regions;
-+		first = false;
-+	}
-+
- 	return 0;
- }
- 
-@@ -358,6 +368,20 @@ void __init of_reserved_mem_init(void)
- {
- 	int i;
- 
-+	if (!reserved_mem_max_count)
-+		return;
-+
-+	reserved_mems = memblock_alloc(
-+			sizeof(struct reserved_mem) * reserved_mem_max_count,
-+			SMP_CACHE_BYTES);
-+	if (!reserved_mems) {
-+		reserved_mem_max_count = 0;
-+		pr_err("failed to allocate reserved_mems array.\n");
-+		return;
-+	}
-+
-+	fdt_scan_reserved_mem();
-+
- 	/* check for overlapping reserved regions */
- 	__rmem_check_for_overlap();
- 
 -- 
-2.30.2
+With Best Regards,
+Andy Shevchenko
+
 
 
 _______________________________________________
