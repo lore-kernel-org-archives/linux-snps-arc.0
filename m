@@ -4,41 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A330C433F5
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 21 Nov 2021 06:44:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D64EC43217
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 21 Nov 2021 09:01:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=D5nJ0Gy9pcjAoBkxfiVeq1m5/CxjGmjyjKtVMnVtsoM=; b=Fse95kpG0m9lHK
-	RPmn/IMp00Ynrtpew5gsMnPj8lBixgAOUR/ePHm9fFSXF8aqhmIBE24/Hm0ID6Usgwxn+TT73+79/
-	3mkGMLxbPQNhvVVewnJjSNRSIdQnyPkcgahYOLIkrxIFwtaIgkFdkTzI+2zpHgB9iczngiPMjmz3Z
-	ZvKxdayMXoLEEtx46frNYHDMeNlOWxfN9Ony0lBjRiVoks+QR+sxsCTloYeu1O/tQI8Y4gpy8WvSk
-	XicqcJ8Lh17AZnvwlEHbyFpIX1J9Qqi3j6NjhutKGtqxsjjWEvYK6emJ30Q7bkl6nwgZaufTe3LPp
-	btgMQiuhIJfBbWtRNteQ==;
+	List-Owner; bh=QSD/6sw8wSYeVIF6hsaPjSLZpviR73FjXD3S2Tvaqb8=; b=R4QXFuiu4TZkbL
+	FV6mH3Sg2kgrezbcAa/uR5aGNmv40j1axTvB3x6L2fy2e1KUdzqOLmSYekxgBUF9lQklWcRy0XQJb
+	JfBQMygY9ypdpK59ipEzFmtL9AfyHJZIz+3rM761ISj7ilaOrIiManqplkMuNrWDZhaKQgtmT7XCy
+	mcEdKzrpU1DXTox3AhE7kmkC+OtIn13OWQUA52zkPVW1V2cbw17sLNMNXlsa97D0Pz8ReB80g8e1+
+	Z/I2duuWAfr5DDzkZPMkVA+zaNK1Dp9b46wprN27gJP0kYsUa1rXlv/uGCu4qcJex6uT4bVZUJ8dn
+	ZPbCILygjHYlGOZb5ycA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mogaL-00DIz3-Iw; Sun, 21 Nov 2021 06:44:21 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1moij7-00DOiU-Uz; Sun, 21 Nov 2021 09:01:33 +0000
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mogaG-00DIxq-VM; Sun, 21 Nov 2021 06:44:18 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 60B98604AC;
- Sun, 21 Nov 2021 06:43:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637477055;
- bh=fF0qMHEWbaZWbEit/VvNjQKirKtWS4o0c8b9dFvtOFg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=o40YeyKWlss6qPqzIaBC1BRaoNsy8h4lRluMS6PA711BRFcqyhJOnzbksEMtKtJO/
- 8jbTZZa3TfDTwFyR4bB+BvkwZH8B4Lq6zUtBDhL0B4WDBH9OrnY/ZIAuUCLySCed3G
- BY0pW/832nzdNqDcLtde/+ux9ozmIiM3YLALWMwekxe0nZCbZ8Eac9fyNJkYF8xblI
- zzUk/gDwJpgD0wAYRzlFYo+zhx5+msTuR9KF/8/1WOgKdEL1RlhcobAeHzb+LuS7g/
- jBCVo5DEsOze9uLZm95vmKlvgKfjbEPyxEhw1wZAFN+rxMTmDM0V/oXbaGrjJoZ0t1
- JqBkAezCYdBnA==
-Date: Sun, 21 Nov 2021 08:43:47 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Calvin Zhang <calvinzhang.cool@gmail.com>
+ id 1moij6-00DOhQ-9g; Sun, 21 Nov 2021 09:01:33 +0000
+Received: by mail-pl1-x634.google.com with SMTP id p18so11493941plf.13;
+ Sun, 21 Nov 2021 01:01:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=uQeJj6IFfvjTH7tZDTd0bi24dF8RigJdyTH2xVfGgTs=;
+ b=Tgb5Ic+uwSSoM4JZA36HMAnlatkdP+klPPLN5bBR4mKKK7eTLYbvh8o7E0EcmDPq2Q
+ qLbdPM+Vl8mxGeh64K6wzQ+bz31be5sOsZRi7/BFqa+3UZR2mkUMH1od5ApykCQ4oge7
+ PWRsbIqGPWCVfPaQ/9SinTdE1/ZkUXrgz0XtKq4W6GhO2Tqz3W9WDL2YZ864OPwKasYW
+ XOd5tML9uld3R9EbWMfJk2iapJud7W6QS3RAsn8xBt2Px10d2Ru8NLyAcujfPW2JGJIW
+ WoJyuNX3QATWQwrzDElQcMEP/yNoxhjpnku/gWQVFiahs4VyOBv8MikwZLaNOsRVBr4h
+ 1RLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=uQeJj6IFfvjTH7tZDTd0bi24dF8RigJdyTH2xVfGgTs=;
+ b=CZ5HeWO5aDT70rMF5iZnS5CXbWOKSJEZa+AYK+uyuKVVas1N36yYea/Os0eK/+BL88
+ 6rI+0O2a5oT1A2PnvXlhI1u8va/WIncbO6wtuH3fVGSS4k0p+v+xsF5e0T+ubs+E7rxe
+ 1N+duLf47GD83D4brBHRTaNCGOmh6ZfkCYQzBbptdGaKZzEZfXnl430jfqLPR8Hv7w2v
+ RAV5+N470WS61/6kW0HBQDcRYpcXpWimI3jEiFaEGBlaQJrqFNriF/hmOyNoATRBmkfD
+ htK4CdTss3zkDmblmk9CkhP5cikcu+I32zMP5AvNC5YrKetWCMvu2gF5S5YqChV+UKYQ
+ BBwA==
+X-Gm-Message-State: AOAM5329077ubtWx1DvnfSgmGy0VzGyYsslIvXD6FDFN8WwQwEq8/RxU
+ xG/m2P9x+B0kTOjJNps4cfU=
+X-Google-Smtp-Source: ABdhPJzLtHKp3ARITLkl6IEvP9ASH3fdvPyqX2o54+OrpL9oFv6P8ZWeoiFpXMGZlDp44TWDeD62sQ==
+X-Received: by 2002:a17:903:1d2:b0:142:24f1:1213 with SMTP id
+ e18-20020a17090301d200b0014224f11213mr96857331plh.81.1637485290032; 
+ Sun, 21 Nov 2021 01:01:30 -0800 (PST)
+Received: from localhost ([103.99.179.247])
+ by smtp.gmail.com with ESMTPSA id lp12sm4320990pjb.24.2021.11.21.01.01.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 21 Nov 2021 01:01:29 -0800 (PST)
+Date: Sun, 21 Nov 2021 17:01:20 +0800
+From: Calvin Zhang <calvinzhang.cool@gmail.com>
+To: Mike Rapoport <rppt@kernel.org>
 Cc: Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
  Catalin Marinas <catalin.marinas@arm.com>,
  Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
@@ -99,14 +120,15 @@ Cc: Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
  linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
  linux-xtensa@linux-xtensa.org, devicetree@vger.kernel.org
 Subject: Re: [PATCH 0/2] of: remove reserved regions count restriction
-Message-ID: <YZnqo3oA7srQik4N@kernel.org>
+Message-ID: <YZoK4IiBOTPduEyN@debian>
 References: <20211119075844.2902592-1-calvinzhang.cool@gmail.com>
+ <YZnqo3oA7srQik4N@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20211119075844.2902592-1-calvinzhang.cool@gmail.com>
+In-Reply-To: <YZnqo3oA7srQik4N@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211120_224417_052867_D30B80FF 
-X-CRM114-Status: GOOD (  16.72  )
+X-CRM114-CacheID: sfid-20211121_010132_357500_12AFB899 
+X-CRM114-Status: GOOD (  14.85  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,58 +145,35 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, Nov 19, 2021 at 03:58:17PM +0800, Calvin Zhang wrote:
-> The count of reserved regions in /reserved-memory was limited because
-> the struct reserved_mem array was defined statically. This series sorts
-> out reserved memory code and allocates that array from early allocator.
-> 
-> Note: reserved region with fixed location must be reserved before any
-> memory allocation. While struct reserved_mem array should be allocated
-> after allocator is activated. We make early_init_fdt_scan_reserved_mem()
-> do reservation only and add another call to initialize reserved memory.
-> So arch code have to change for it.
+On Sun, Nov 21, 2021 at 08:43:47AM +0200, Mike Rapoport wrote:
+>On Fri, Nov 19, 2021 at 03:58:17PM +0800, Calvin Zhang wrote:
+>> The count of reserved regions in /reserved-memory was limited because
+>> the struct reserved_mem array was defined statically. This series sorts
+>> out reserved memory code and allocates that array from early allocator.
+>> 
+>> Note: reserved region with fixed location must be reserved before any
+>> memory allocation. While struct reserved_mem array should be allocated
+>> after allocator is activated. We make early_init_fdt_scan_reserved_mem()
+>> do reservation only and add another call to initialize reserved memory.
+>> So arch code have to change for it.
+>
+>I think much simpler would be to use the same constant for sizing
+>memblock.reserved and reserved_mem arrays.
+>
+>If there is too much reserved regions in the device tree, reserving them in
+>memblock will fail anyway because memblock also starts with static array
+>for memblock.reserved, so doing one pass with memblock_reserve() and
+>another to set up reserved_mem wouldn't help anyway.
 
-I think much simpler would be to use the same constant for sizing
-memblock.reserved and reserved_mem arrays.
+Yes. This happens only if there are two many fixed reserved regions.
+memblock.reserved can be resized after paging.
 
-If there is too much reserved regions in the device tree, reserving them in
-memblock will fail anyway because memblock also starts with static array
-for memblock.reserved, so doing one pass with memblock_reserve() and
-another to set up reserved_mem wouldn't help anyway.
+I also find another problem. Initializing dynamic reservation after
+paging would fail to mark it no-map because no-map flag works when doing
+direct mapping. This seems to be a circular dependency.
 
-> I'm only familiar with arm and arm64 architectures. Approvals from arch
-> maintainers are required. Thank you all.
-> 
-> Calvin Zhang (2):
->   of: Sort reserved_mem related code
->   of: reserved_mem: Remove reserved regions count restriction
-> 
->  arch/arc/mm/init.c                 |   3 +
->  arch/arm/kernel/setup.c            |   2 +
->  arch/arm64/kernel/setup.c          |   3 +
->  arch/csky/kernel/setup.c           |   3 +
->  arch/h8300/kernel/setup.c          |   2 +
->  arch/mips/kernel/setup.c           |   3 +
->  arch/nds32/kernel/setup.c          |   3 +
->  arch/nios2/kernel/setup.c          |   2 +
->  arch/openrisc/kernel/setup.c       |   3 +
->  arch/powerpc/kernel/setup-common.c |   3 +
->  arch/riscv/kernel/setup.c          |   2 +
->  arch/sh/kernel/setup.c             |   3 +
->  arch/xtensa/kernel/setup.c         |   2 +
->  drivers/of/fdt.c                   | 107 +---------------
->  drivers/of/of_private.h            |  12 +-
->  drivers/of/of_reserved_mem.c       | 189 ++++++++++++++++++++++++-----
->  include/linux/of_reserved_mem.h    |   4 +
->  17 files changed, 207 insertions(+), 139 deletions(-)
-> 
-> -- 
-> 2.30.2
-> 
-
--- 
-Sincerely yours,
-Mike.
+Thank You,
+Calvin
 
 _______________________________________________
 linux-snps-arc mailing list
