@@ -4,131 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D64EC43217
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 21 Nov 2021 09:01:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0F37C433F5
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 26 Nov 2021 22:23:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=QSD/6sw8wSYeVIF6hsaPjSLZpviR73FjXD3S2Tvaqb8=; b=R4QXFuiu4TZkbL
-	FV6mH3Sg2kgrezbcAa/uR5aGNmv40j1axTvB3x6L2fy2e1KUdzqOLmSYekxgBUF9lQklWcRy0XQJb
-	JfBQMygY9ypdpK59ipEzFmtL9AfyHJZIz+3rM761ISj7ilaOrIiManqplkMuNrWDZhaKQgtmT7XCy
-	mcEdKzrpU1DXTox3AhE7kmkC+OtIn13OWQUA52zkPVW1V2cbw17sLNMNXlsa97D0Pz8ReB80g8e1+
-	Z/I2duuWAfr5DDzkZPMkVA+zaNK1Dp9b46wprN27gJP0kYsUa1rXlv/uGCu4qcJex6uT4bVZUJ8dn
-	ZPbCILygjHYlGOZb5ycA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=pY1En/QIVmFHkcx7DaR+rRtxMYmyKigP+u/Hhwb9jb4=; b=QZHw3ioltQq/vL
+	zFZ8duSYu/9Mw5PcTzovyhHoDyKX1qN9NmfmRp1jZZ0aukr9m2p622Iq+wrKEMOEitfbHusuQBEiA
+	e+8VaHWhHVSo6J7RhVGUzjIALTBwZMiFFkgtVv15+EfMyD3HW5ebBxrSKzwSL8LWgip0MGMR2390B
+	opWENFLVo6pO6jJdIvF1H/MnDzY2L+4le9vRBtkDzZYH6F8fRn653D4+dSzyNfnrHLouyE2TRJ9ct
+	wJcd5HPLsSM6DxwC9novikW7n0NwR0Mb9Fthm3Wltz0SZtuN3WpNxMY51dFpIhEBRqhdd7Z6oo3jo
+	+8W3b+Ihg6uC6hsA5Pxw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1moij7-00DOiU-Uz; Sun, 21 Nov 2021 09:01:33 +0000
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+	id 1mqjcj-00Btmo-19; Fri, 26 Nov 2021 22:23:17 +0000
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1moij6-00DOhQ-9g; Sun, 21 Nov 2021 09:01:33 +0000
-Received: by mail-pl1-x634.google.com with SMTP id p18so11493941plf.13;
- Sun, 21 Nov 2021 01:01:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=uQeJj6IFfvjTH7tZDTd0bi24dF8RigJdyTH2xVfGgTs=;
- b=Tgb5Ic+uwSSoM4JZA36HMAnlatkdP+klPPLN5bBR4mKKK7eTLYbvh8o7E0EcmDPq2Q
- qLbdPM+Vl8mxGeh64K6wzQ+bz31be5sOsZRi7/BFqa+3UZR2mkUMH1od5ApykCQ4oge7
- PWRsbIqGPWCVfPaQ/9SinTdE1/ZkUXrgz0XtKq4W6GhO2Tqz3W9WDL2YZ864OPwKasYW
- XOd5tML9uld3R9EbWMfJk2iapJud7W6QS3RAsn8xBt2Px10d2Ru8NLyAcujfPW2JGJIW
- WoJyuNX3QATWQwrzDElQcMEP/yNoxhjpnku/gWQVFiahs4VyOBv8MikwZLaNOsRVBr4h
- 1RLA==
+ id 1mqjch-00BtmT-6J
+ for linux-snps-arc@lists.infradead.org; Fri, 26 Nov 2021 22:23:16 +0000
+Received: by mail-wm1-x32d.google.com with SMTP id
+ d72-20020a1c1d4b000000b00331140f3dc8so7666233wmd.1
+ for <linux-snps-arc@lists.infradead.org>; Fri, 26 Nov 2021 14:23:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Z+4t5OMP+y8asfHJx9yemcdXWelcG0CCFormBoppS2w=;
+ b=Gzxae8UGy2wtl+rrwGkZkZQPrLUDgc0Nc9kSYiZm5VyR4AcHrSzQE1oIXHanuNvRlS
+ 1COJ8mspv1pFLIiNp+fQiWfqN+bt1VwfFl4A53f95zL/Dgz8Nf5Qrbz1TN6DY79QXC5n
+ I1C8c9Vr859QaoU2P23LgpGx2F861z9dHPKs/okYG9jkSjH6NoayVuMnjkw90spw6aSy
+ vd30uuk2MUSBBVJ5oSdHS2ERGWYE3nswWJLhmne6f0d4EM0LhIXvvZSJpJuHvvVKM/Gd
+ W/Pyj6CStsRIcW6pj7SzAE0Z8A7LYK2qnJ65VdusgNkoZisOd6e4qedsS+52/dEtREPr
+ w+Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=uQeJj6IFfvjTH7tZDTd0bi24dF8RigJdyTH2xVfGgTs=;
- b=CZ5HeWO5aDT70rMF5iZnS5CXbWOKSJEZa+AYK+uyuKVVas1N36yYea/Os0eK/+BL88
- 6rI+0O2a5oT1A2PnvXlhI1u8va/WIncbO6wtuH3fVGSS4k0p+v+xsF5e0T+ubs+E7rxe
- 1N+duLf47GD83D4brBHRTaNCGOmh6ZfkCYQzBbptdGaKZzEZfXnl430jfqLPR8Hv7w2v
- RAV5+N470WS61/6kW0HBQDcRYpcXpWimI3jEiFaEGBlaQJrqFNriF/hmOyNoATRBmkfD
- htK4CdTss3zkDmblmk9CkhP5cikcu+I32zMP5AvNC5YrKetWCMvu2gF5S5YqChV+UKYQ
- BBwA==
-X-Gm-Message-State: AOAM5329077ubtWx1DvnfSgmGy0VzGyYsslIvXD6FDFN8WwQwEq8/RxU
- xG/m2P9x+B0kTOjJNps4cfU=
-X-Google-Smtp-Source: ABdhPJzLtHKp3ARITLkl6IEvP9ASH3fdvPyqX2o54+OrpL9oFv6P8ZWeoiFpXMGZlDp44TWDeD62sQ==
-X-Received: by 2002:a17:903:1d2:b0:142:24f1:1213 with SMTP id
- e18-20020a17090301d200b0014224f11213mr96857331plh.81.1637485290032; 
- Sun, 21 Nov 2021 01:01:30 -0800 (PST)
-Received: from localhost ([103.99.179.247])
- by smtp.gmail.com with ESMTPSA id lp12sm4320990pjb.24.2021.11.21.01.01.28
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Z+4t5OMP+y8asfHJx9yemcdXWelcG0CCFormBoppS2w=;
+ b=5r23lEeLmj8dTSRne7plTTHquvzKA3my685YEVdWOPuaWiERRxykHfzNwKwUgTkXBU
+ Cn9+fyGDBlORN5svghpS04Ag4nVT8PaT7ShFEQHaw1d0UVrB61j4snBZbcDz0WaWACyD
+ b0XQzgsh2iALcUVGN68IMRYanoFnW/JpMJRKgSNSwUImlXIkA6yWxr1EpOUo7/Lbl7cu
+ QG9rGoO+snVQrLOuMUWh6r5eo9l9p3B2CZVMw88NKrcgGDaeLo/cPYgtkQLz1UCpJJDn
+ 7anKNn2Zy67Lc9WO5CycnX715YFsWoHXUsjeQRbvu42VyVcyBPj/lI5uieTzUNpT3Mjj
+ qp4w==
+X-Gm-Message-State: AOAM532xGA7E9ASrrFfAwG59II34lvWNSlLDRlaXk/XHi8kGDNaqxTH4
+ 803OExYCC1WJHw==
+X-Google-Smtp-Source: ABdhPJzMntEXDyGjqAPNcqmlryFDYENzBgRQiOuclEM7RYDtf91okuklzP7kFyID/PcFnkVcWS1P5Q==
+X-Received: by 2002:a05:600c:19d1:: with SMTP id
+ u17mr18789968wmq.148.1637965393404; 
+ Fri, 26 Nov 2021 14:23:13 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194])
+ by smtp.gmail.com with ESMTPSA id d7sm6349690wrw.87.2021.11.26.14.23.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Nov 2021 01:01:29 -0800 (PST)
-Date: Sun, 21 Nov 2021 17:01:20 +0800
-From: Calvin Zhang <calvinzhang.cool@gmail.com>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Nick Hu <nickhu@andestech.com>, Greentime Hu <green.hu@gmail.com>,
- Vincent Chen <deanbo422@gmail.com>,
- Dinh Nguyen <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>,
- Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
- Stafford Horne <shorne@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Paul Mackerras <paulus@samba.org>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Rich Felker <dalias@libc.org>,
- Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
- Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
- Kefeng Wang <wangkefeng.wang@huawei.com>,
- Vladimir Isaev <isaev@synopsys.com>,
- "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
- "Kirill A. Shutemov" <kirill.shtuemov@linux.intel.com>,
- Guenter Roeck <linux@roeck-us.net>, Marc Zyngier <maz@kernel.org>,
- David Brazdil <dbrazdil@google.com>,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- Andrey Konovalov <andreyknvl@gmail.com>,
+ Fri, 26 Nov 2021 14:23:13 -0800 (PST)
+From: Colin Ian King <colin.i.king@googlemail.com>
+X-Google-Original-From: Colin Ian King <colin.i.king@gmail.com>
+To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
  Mark Rutland <mark.rutland@arm.com>,
- Souptick Joarder <jrdr.linux@gmail.com>,
- Jinyang He <hejinyang@loongson.cn>,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
- Serge Semin <Sergey.Semin@baikalelectronics.ru>,
- Tiezhu Yang <yangtiezhu@loongson.cn>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Ley Foon Tan <ley.foon.tan@intel.com>,
- Andreas Oetken <andreas.oetken@siemens.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Christophe Leroy <christophe.leroy@c-s.fr>,
- Zhang Yunkai <zhang.yunkai@zte.com.cn>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Markus Elfring <elfring@users.sourceforge.net>,
- Ganesh Goudar <ganeshgr@linux.ibm.com>,
- "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
- Atish Patra <atish.patra@wdc.com>, Anup Patel <anup.patel@wdc.com>,
- Nick Kossifidis <mick@ics.forth.gr>, Alexandre Ghiti <alex@ghiti.fr>,
- Vitaly Wool <vitaly.wool@konsulko.com>,
- Thierry Reding <treding@nvidia.com>, Lee Jones <lee.jones@linaro.org>,
- Guo Ren <guoren@linux.alibaba.com>,
- Alexander Sverdlin <alexander.sverdlin@nokia.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mauri Sandberg <sandberg@mailfence.com>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
- uclinux-h8-devel@lists.sourceforge.jp, linux-mips@vger.kernel.org,
- openrisc@lists.librecores.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
- linux-xtensa@linux-xtensa.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 0/2] of: remove reserved regions count restriction
-Message-ID: <YZoK4IiBOTPduEyN@debian>
-References: <20211119075844.2902592-1-calvinzhang.cool@gmail.com>
- <YZnqo3oA7srQik4N@kernel.org>
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@redhat.com>, Namhyung Kim <namhyung@kernel.org>,
+ Vineet Gupta <vgupta@kernel.org>, linux-perf-users@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ARC: perf: Remove redundant initialization of variable idx
+Date: Fri, 26 Nov 2021 22:23:12 +0000
+Message-Id: <20211126222312.1125594-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <YZnqo3oA7srQik4N@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211121_010132_357500_12AFB899 
-X-CRM114-Status: GOOD (  14.85  )
+X-CRM114-CacheID: sfid-20211126_142315_256962_FEE02D47 
+X-CRM114-Status: GOOD (  13.10  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -145,35 +96,31 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Sun, Nov 21, 2021 at 08:43:47AM +0200, Mike Rapoport wrote:
->On Fri, Nov 19, 2021 at 03:58:17PM +0800, Calvin Zhang wrote:
->> The count of reserved regions in /reserved-memory was limited because
->> the struct reserved_mem array was defined statically. This series sorts
->> out reserved memory code and allocates that array from early allocator.
->> 
->> Note: reserved region with fixed location must be reserved before any
->> memory allocation. While struct reserved_mem array should be allocated
->> after allocator is activated. We make early_init_fdt_scan_reserved_mem()
->> do reservation only and add another call to initialize reserved memory.
->> So arch code have to change for it.
->
->I think much simpler would be to use the same constant for sizing
->memblock.reserved and reserved_mem arrays.
->
->If there is too much reserved regions in the device tree, reserving them in
->memblock will fail anyway because memblock also starts with static array
->for memblock.reserved, so doing one pass with memblock_reserve() and
->another to set up reserved_mem wouldn't help anyway.
+The variable idx is being initialized with a value that is never
+read, it is being updated later on. The assignment is redundant and
+can be removed.
 
-Yes. This happens only if there are two many fixed reserved regions.
-memblock.reserved can be resized after paging.
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ arch/arc/kernel/perf_event.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I also find another problem. Initializing dynamic reservation after
-paging would fail to mark it no-map because no-map flag works when doing
-direct mapping. This seems to be a circular dependency.
+diff --git a/arch/arc/kernel/perf_event.c b/arch/arc/kernel/perf_event.c
+index 145722f80c9b..f5dd799ddb9e 100644
+--- a/arch/arc/kernel/perf_event.c
++++ b/arch/arc/kernel/perf_event.c
+@@ -361,7 +361,7 @@ static int arc_pmu_add(struct perf_event *event, int flags)
+ {
+ 	struct arc_pmu_cpu *pmu_cpu = this_cpu_ptr(&arc_pmu_cpu);
+ 	struct hw_perf_event *hwc = &event->hw;
+-	int idx = hwc->idx;
++	int idx;
+ 
+ 	idx = ffz(pmu_cpu->used_mask[0]);
+ 	if (idx == arc_pmu->n_counters)
+-- 
+2.33.1
 
-Thank You,
-Calvin
 
 _______________________________________________
 linux-snps-arc mailing list
