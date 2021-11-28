@@ -4,61 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C591C433EF
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 28 Nov 2021 06:34:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5AA5CC433EF
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 28 Nov 2021 08:01:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=J1ThttNH0Yzxpye7ltyX8l/am+TCo5Z5rGVggLkI7gc=; b=FcjGiVqdBVqU1a
-	Iw3QBc3Eu54NyVcWN5HcjqVOqE++9yH8XdoCeN2m4593FRT/8hp6kNpX7Fafr6S5GbZRmXYuYCKb4
-	lK9OVxXnRZX16pomOpNWX1QEmPetR83hIciARjLj4RtquD19vB1L0yfki6PrdGSxYl7qdce0tCYU6
-	7Qp0UTx5sl6HptbpUm5soPngNZJD8oCdtzDVbVDQB7UEVNzIjGsOkjUwyPbuZUkJTu2EpYJG2ajmq
-	3mAN2vc7AjHOF/Vk+yDJ+pHS/EfVq5HYEXxd+9JZoUerhkckMhwoMzsrc6Bsq1SYpFggvQiEoljLI
-	UnfIyUn+WzL++Su3iyVg==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=PLiAI8vHLldz0kGaD/OsOIUXtSxy9TtRS25+w7STR7o=; b=OVFBi/qbNeFpRy
+	5x2c1xJDFoos1fNO8AsW8mBiysWgDkY+CRr/v3yBKzUlYmJGDjPZ6aAOyUU7Xm7LZ4c1TdiB8Dbz4
+	rs+0LoFy4SWuq/iFEJ0IJNWwxCLA34xQwSgwavKmlVCAHtAKUr5jTDImp8EB6o+HT3tI9BQPqi17J
+	z+YuKOivttbeg9srUSGNFwGlzlYEGHo6YBppyrjEbhx6fTwMIEVaesKW2pBSk1FTlFCNmSYDuvLLb
+	JjcofOTHhlD0KuqX1h3k5kVJmCB7z5rTPQ6lv1fnrAU6V9/l6BbGParUmNT43wN03AfaZwnXydizH
+	PC/O9E0PtZJWuDG/uRVA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mrDm3-00FCBw-AE; Sun, 28 Nov 2021 06:34:55 +0000
-Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f])
+	id 1mrF8F-00FHWa-7k; Sun, 28 Nov 2021 08:01:55 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mrDly-00FCAS-7w; Sun, 28 Nov 2021 06:34:51 +0000
-Received: by mail-qt1-x82f.google.com with SMTP id o17so13149680qtk.1;
- Sat, 27 Nov 2021 22:34:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=rKuklq8jxCETHcjcAENlFbP3nl/uNBZqDfuGt3bzd1Q=;
- b=N/urFmV2NmOFP42e1LVLW8fwa/hr9KDv3ZUpw+lC8WGtW8rc7tWztvbdFPuGBjub1O
- wspFhVe7cCjM3GiHaTs/o61wPhHvRulBbX8eWk+oUvPHasNmnTk9fguzetRPFqMAMSbw
- NSq70yUrota4HuwP2mw6e4EdU69PrQnC7+N7r+KW5WUjDm+ME76HZpk50UYeWuhhvrtv
- jzlo36RajlwI73FqiorEZUjBdSjpmlO3li6nkrgdjIjD0UyBvsHE9SsWB4qkZCd+owE5
- cwmTSVDOhxhxddNAGQkE0CL6sKvMvIJPhAZNBZoNO0tLt8RIHXr/GUyMzCFG050MR/6f
- IXaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=rKuklq8jxCETHcjcAENlFbP3nl/uNBZqDfuGt3bzd1Q=;
- b=DQoh0aHqlAxx44mZQQmdF+FcKJQHyseMUDcxzYXcwU+3zxDEATvkFOPWk4QDZGRazj
- 4muDBHdybEVyN+Jm85c1M+lPXzOMkf/u4xAWLoxg1aLxCd/lKHALyyvwCr248tV3UyXi
- VT2E1lkdIj5gIdyDE1TN2gLyuFcUCSicvI9Rs+zK63m+G0tMrGdVQ/tcR3PamT67EAQj
- K5nPPJpOqH/oR9XcIIfd5HMNSXcO74Fr834E2D9xLa8O2DnCdAfXTwloaNy1oGrGV5Gx
- 0xjFNjKGUnFGr6nCMAZax7D6/GNBH7t11UeM7+nKuIY8+46lINv1mC0VnR53xeD2xY7Z
- 0oKQ==
-X-Gm-Message-State: AOAM5318/Ac4OmPpvVBaDKGmdWDOOFrJVOkOGDG3UKvijYlH4GQ/UHm7
- M1Gx9T4iT55SmZrdY6lCVeg=
-X-Google-Smtp-Source: ABdhPJyJzVPAC11UsMz+HJsW0TzZJUpS9rijQwW94Vpknlgpg+/mG8cwCXUq1qsThYXJdJN6S8tP7Q==
-X-Received: by 2002:ac8:5fcc:: with SMTP id k12mr35432768qta.346.1638081289128; 
- Sat, 27 Nov 2021 22:34:49 -0800 (PST)
-Received: from localhost ([66.216.211.25])
- by smtp.gmail.com with ESMTPSA id f18sm6419326qko.34.2021.11.27.22.34.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 27 Nov 2021 22:34:48 -0800 (PST)
-Date: Sat, 27 Nov 2021 22:34:47 -0800
-From: Yury Norov <yury.norov@gmail.com>
-To: =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+ id 1mrF89-00FHVO-Kh; Sun, 28 Nov 2021 08:01:51 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id E2F2AB80B54;
+ Sun, 28 Nov 2021 08:01:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E507C004E1;
+ Sun, 28 Nov 2021 08:01:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1638086506;
+ bh=b48YjTY/pVez8afNE+wzU+3WaQKxxQEURvaxADRtwDg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Cf1UpbBDGUG/i+3B7710UJDtWCf5AiS+xYwJdJrswHkaMxwXqtghSrAeHqtG4ZEHm
+ kjNjM7/02WtoShcjN6FHzZa/U5USbrnlhn4XjHsJy9PjfumjC3FQHsmSzJbZZYb97a
+ uqjFGttZAm3d3AQ44noz4515EJlyQkKjujhY+AU0=
+Date: Sun, 28 Nov 2021 09:01:41 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Yury Norov <yury.norov@gmail.com>
 Cc: linux-kernel@vger.kernel.org, "James E.J. Bottomley" <jejb@linux.ibm.com>,
  "Martin K. Petersen" <martin.petersen@oracle.com>,
  "Paul E. McKenney" <paulmck@kernel.org>,
@@ -80,7 +62,6 @@ Cc: linux-kernel@vger.kernel.org, "James E.J. Bottomley" <jejb@linux.ibm.com>,
  Dennis Zhou <dennis@kernel.org>, Dinh Nguyen <dinguyen@kernel.org>,
  Geetha sowjanya <gakula@marvell.com>,
  Geert Uytterhoeven <geert@linux-m68k.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Guo Ren <guoren@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
  Heiko Carstens <hca@linux.ibm.com>, Ian Rogers <irogers@google.com>,
  Ingo Molnar <mingo@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
@@ -122,15 +103,17 @@ Cc: linux-kernel@vger.kernel.org, "James E.J. Bottomley" <jejb@linux.ibm.com>,
  linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
  linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
  linux-snps-arc@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH 7/9] lib/cpumask: add
- num_{possible,present,active}_cpus_{eq,gt,le}
-Message-ID: <20211128063447.GA270945@lapt>
+Subject: Re: [PATCH 3/9] all: replace bitmap_weigth() with
+ bitmap_{empty,full,eq,gt,le}
+Message-ID: <YaM3ZeQS4tHzsRkK@kroah.com>
+References: <20211128035704.270739-1-yury.norov@gmail.com>
+ <20211128035704.270739-4-yury.norov@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <YaMME60Jfiz5BeJF@qmqm.qmqm.pl>
+In-Reply-To: <20211128035704.270739-4-yury.norov@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211127_223450_299611_AA47B6CB 
-X-CRM114-Status: GOOD (  21.90  )
+X-CRM114-CacheID: sfid-20211128_000149_978800_897FD5EF 
+X-CRM114-Status: GOOD (  21.48  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,29 +125,69 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-KHJlc3RvcmUgQ0MgbGlzdCkKCk9uIFN1biwgTm92IDI4LCAyMDIxIGF0IDA1OjU2OjUxQU0gKzAx
-MDAsIE1pY2hhxYIgTWlyb3PFgmF3IHdyb3RlOgo+IE9uIFNhdCwgTm92IDI3LCAyMDIxIGF0IDA3
-OjU3OjAyUE0gLTA4MDAsIFl1cnkgTm9yb3Ygd3JvdGU6Cj4gPiBBZGQgbnVtX3twb3NzaWJsZSxw
-cmVzZW50LGFjdGl2ZX1fY3B1c197ZXEsZ3QsbGV9IGFuZCByZXBsYWNlIG51bV8qX2NwdXMoKQo+
-ID4gd2l0aCBvbmUgb2YgbmV3IGZ1bmN0aW9ucyB3aGVyZSBhcHByb3ByaWF0ZS4gVGhpcyBhbGxv
-d3MgbnVtXypfY3B1c18qKCkKPiA+IHRvIHJldHVybiBlYXJsaWVyIGRlcGVuZGluZyBvbiB0aGUg
-Y29uZGl0aW9uLgo+IFsuLi5dCj4gPiBAQCAtMzE5Myw3ICszMTkzLDcgQEAgaW50IF9faW5pdCBw
-Y3B1X3BhZ2VfZmlyc3RfY2h1bmsoc2l6ZV90IHJlc2VydmVkX3NpemUsCj4gPiAgCj4gPiAgCS8q
-IGFsbG9jYXRlIHBhZ2VzICovCj4gPiAgCWogPSAwOwo+ID4gLQlmb3IgKHVuaXQgPSAwOyB1bml0
-IDwgbnVtX3Bvc3NpYmxlX2NwdXMoKTsgdW5pdCsrKSB7Cj4gPiArCWZvciAodW5pdCA9IDA7IG51
-bV9wb3NzaWJsZV9jcHVzX2d0KHVuaXQpOyB1bml0KyspIHsKPiAKPiBUaGlzIGxvb2tzIGR1Ymlv
-dXMuCgpPbmx5IHRoaXM/Cgo+IFRoZSBvbGQgdmVyc2lvbiBJIGNvdWxkIGhvcGUgdGhlIGNvbXBp
-bGVyIHdvdWxkIGNhbGwKPiBudW1fcG9zc2libGVfY3B1cygpIG9ubHkgb25jZSBpZiBpdCdzIG1h
-cmtlZCBjb25zdCBvciBwdXJlLCBidXQgdGhlCj4gYWx0ZXJuYXRpdmUgaXMgZ29pbmcgdG8gY291
-bnQgdGhlIGJpdHMgZXZlcnkgdGltZSBtYWtpbmcgdGhpcyBhIGd1YXJhbnRlZWQKPiBPKG5eMikg
-ZXZlbiB0aG91Z2ggdGhlIGJpdG1hcCBkb2Vzbid0IGNoYW5nZS4KCm51bV9wb3NzaWJsZV9jcHVz
-KCkgaXMgbm90IGNvbnN0IG5laXRoZXIgcHVyZS4gVGhpcyBpcyBPKG5eMikgYmVmb3JlIGFuZCBh
-ZnRlci4KCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwps
-aW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFk
-Lm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNu
-cHMtYXJjCg==
+On Sat, Nov 27, 2021 at 07:56:58PM -0800, Yury Norov wrote:
+> bitmap_weight() counts all set bits in the bitmap unconditionally.
+> However in some cases we can traverse a part of bitmap when we
+> only need to check if number of set bits is greater, less or equal
+> to some number.
+> 
+> This patch replaces bitmap_weight() with one of
+> bitmap_{empty,full,eq,gt,le), as appropriate.
+> 
+> In some places driver code has been optimized further, where it's
+> trivial.
+> 
+> Signed-off-by: Yury Norov <yury.norov@gmail.com>
+> ---
+>  arch/nds32/kernel/perf_event_cpu.c                 |  4 +---
+>  arch/x86/kernel/cpu/resctrl/rdtgroup.c             |  4 ++--
+>  arch/x86/kvm/hyperv.c                              |  8 ++++----
+>  drivers/crypto/ccp/ccp-dev-v5.c                    |  5 +----
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c           |  2 +-
+>  drivers/iio/adc/mxs-lradc-adc.c                    |  3 +--
+>  drivers/iio/dummy/iio_simple_dummy_buffer.c        |  4 ++--
+>  drivers/iio/industrialio-buffer.c                  |  2 +-
+>  drivers/iio/industrialio-trigger.c                 |  2 +-
+>  drivers/memstick/core/ms_block.c                   |  4 ++--
+>  drivers/net/dsa/b53/b53_common.c                   |  2 +-
+>  drivers/net/ethernet/broadcom/bcmsysport.c         |  6 +-----
+>  drivers/net/ethernet/intel/ice/ice_virtchnl_pf.c   |  4 ++--
+>  drivers/net/ethernet/intel/ixgbe/ixgbe_sriov.c     |  2 +-
+>  .../ethernet/marvell/octeontx2/nic/otx2_ethtool.c  |  2 +-
+>  .../ethernet/marvell/octeontx2/nic/otx2_flows.c    |  8 ++++----
+>  .../net/ethernet/marvell/octeontx2/nic/otx2_pf.c   |  2 +-
+>  drivers/net/ethernet/mellanox/mlx4/cmd.c           | 10 +++-------
+>  drivers/net/ethernet/mellanox/mlx4/eq.c            |  4 ++--
+>  drivers/net/ethernet/mellanox/mlx4/main.c          |  2 +-
+>  .../net/ethernet/mellanox/mlx5/core/en_ethtool.c   |  2 +-
+>  drivers/net/ethernet/qlogic/qed/qed_dev.c          |  3 +--
+>  drivers/net/ethernet/qlogic/qed/qed_rdma.c         |  4 ++--
+>  drivers/net/ethernet/qlogic/qed/qed_roce.c         |  2 +-
+>  drivers/perf/arm-cci.c                             |  2 +-
+>  drivers/perf/arm_pmu.c                             |  4 ++--
+>  drivers/perf/hisilicon/hisi_uncore_pmu.c           |  2 +-
+>  drivers/perf/thunderx2_pmu.c                       |  3 +--
+>  drivers/perf/xgene_pmu.c                           |  2 +-
+>  drivers/pwm/pwm-pca9685.c                          |  2 +-
+>  drivers/staging/media/tegra-video/vi.c             |  2 +-
+>  drivers/thermal/intel/intel_powerclamp.c           | 10 ++++------
+>  fs/ocfs2/cluster/heartbeat.c                       | 14 +++++++-------
+>  33 files changed, 57 insertions(+), 75 deletions(-)
+
+After you get the new functions added to the kernel tree, this patch
+should be broken up into one-patch-per-subsystem and submitted through
+the various subsystem trees.
+
+thanks,
+
+greg k-h
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
