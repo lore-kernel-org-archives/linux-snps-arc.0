@@ -4,59 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1AADEC433EF
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 28 Nov 2021 03:57:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3D23C433F5
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 28 Nov 2021 03:57:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Cc:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=MN6wxPOE27hWXd5PkYlXp9veQJ44oQ6PHYlfb21BpSs=; b=sF+CqIumPoDrpF
-	4Kj40t2NwuhKOzKRKWk74L2y8GaXZZKSOZNOmenroY06/1f+jQZYfzGRVkkJs6JuTQ3OpLTX5I9AR
-	yy9zs3u/nwJ+RXRsWo45UWC9FxY9C2Un1EWlJrZthnN/KaYvXLq9unqTeyJ5vKTfn9Q0Jp777ZHHX
-	ba9DIzWnzmgB7Nr4S9Oz7EjQ7Unk+jvBXlKgICduX2ieLJjjaGSddrq4bzYzkQTmK3ayyr0NtsOFl
-	pmutfrpoGEvALsnxdboR7v8Bp5D/DEjSsg1RnKCe+P2/Ftj+ApjoZwZCz0YVDfoRZjC4HNnMx4S3a
-	sdJscR+Ai7h6Ynm0ZJJg==;
+	List-Owner; bh=JiTLd0sgyORU+gVjc8oUsYhSxzUq4dluZBgsrF9zJvk=; b=RO8s+aPF7NHA9e
+	55ODyUHl2uZG06ZrgBqmIVfLSfky5DRsMJAeB+QbAxPI5rgpFrhdPFQ0w+gbEWBhQIazjtaTYDAzV
+	5rCZHInSNWmkalGxOXy1KiYv8VTICJ4EkNQAYHYkhUS5L3/Qzm5l+WstDbdVCMen7dgrsd1NucCmQ
+	24pZXt4m++QjD2d8Dq4nlWpDJwpgZSjzPuDD9y/V2J/7fOETQN8i2oSNk7MB1W6+FY3jynP1lK4Zx
+	DWiaRX/QDhXozUnKtl6+/4ceAAbY8X+Xq8vUA5IUoDFy3RrASdXUO7D+7O5IlUSMSkcWgEV3jOdpd
+	iRMZYKjgmNc3dkAUi4yQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mrBK2-00Extw-AI; Sun, 28 Nov 2021 03:57:50 +0000
-Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730])
+	id 1mrBK7-00Exyg-Hp; Sun, 28 Nov 2021 03:57:55 +0000
+Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mrBJa-00ExZn-OA; Sun, 28 Nov 2021 03:57:28 +0000
-Received: by mail-qk1-x730.google.com with SMTP id m192so19103886qke.2;
- Sat, 27 Nov 2021 19:57:22 -0800 (PST)
+ id 1mrBJb-00ExbZ-TZ; Sun, 28 Nov 2021 03:57:31 +0000
+Received: by mail-qt1-x835.google.com with SMTP id t34so12906804qtc.7;
+ Sat, 27 Nov 2021 19:57:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=hB7XWgK7LBArYWsovgo0hsN0mrEB+cbVCvcU6LAXOLQ=;
- b=bkO3RJSSz1q8yvgEs+aBx5zXdnHBh9vFE6t8K7gDrhv51/j08hfhIkoHZaR/hn0oT/
- R5HW1Le+kJ7J5+j08nxMmOUbGwurX3jUtdCYh4qnp093YPNTDx3I2obkRNvgb1w4e6pj
- 20cOR+h9Hj8GDzSc89ENg7eJfWrZuKRaBeX9GAKduwkkEgkAkB7qN396A8vk8b/gpptx
- lWvzTq98DWDhCaiZGFj4lz8We1hTY+eK3ZvJ8DsZ97WxcyB1Qm6Iy+DeJcwlAc16vl5d
- v0TmwDCWDRdqoBv9V5pT7/kRMNKnADy/OKnNxEaVc6tfFvf0HsopsZA5YMI6DSLZ3NwQ
- BUew==
+ bh=233QcxxJpVsvwdAL71A0o6E8P9a0fPiFh3UgjrFlGJ0=;
+ b=KkNq74uLi6kOf8pEr8DG98/abjM7uLh7+GECvfSeLoEuajiH9DIy0sW44xrjIjypLN
+ 8Mv9T5QuV1fbsS/shbnr41T65dYJVBAFqsEEBUaXUGRnJGCi0sM//bSWwuEuBQr+tIS2
+ 3wceXjtFBHV5eP+FK911ZtcoYOP9pkOQJm8mVkPx3ngUMkuxLtUBTErX/VOaKFj6rA5D
+ KfQvE2oEDagWRfZWA4DNs+F/Ue4NQgP4MieHvaOOyyCO7gUq0fWrFpqxLzsVuRSYXAhx
+ VbLwESubwEwWJOqwh9/LzV9ZaLM2tajrvj0OKk6cYIU1mArvG8SMDlNXs8NU8IlQAOjA
+ Dg8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hB7XWgK7LBArYWsovgo0hsN0mrEB+cbVCvcU6LAXOLQ=;
- b=LuMhHZo1u2EyswzW6JHmhYtChGqVQpK2YgqA6UahpnTU+0AxsL5M8zqprbj/Q29V31
- NPvNvySarvb23Yz2EwTB2HAp7B2RT3mNnthpdSHAVY86xoXYlLMtvhfRA6RdKcwNJFWi
- 8rzodj4IhAsUQ1rRdF73VS5J23FBxxM7HpeR66h28MD4y8B2bUuVpfHz119cc7LC4Nqd
- MqySkUgOjROghjh2lEDzPvO0FTlC/s4jr+aXQyO1+jfMFbKb/YiNC6An7vroKuz9xlTD
- CbfF8aiRos5wKpithItQzoQ6QnzONrq+eg6M+TBmpxj7QPPM297F38JQ/gfjPefIGEYo
- lgHw==
-X-Gm-Message-State: AOAM531XydwTvpn9phoCpC8rg6Qu7jH3fAuYobZMLt17ncySWbZh7DWn
- +f0Sm9UvHVQB6ippUy3EPsU=
-X-Google-Smtp-Source: ABdhPJyFEyV7d/B7VRKVyGGE2Y5zpuLAq61KyIGr2PtJ6cIeT64BguOqkxtxJnawWvNd51HKw7WvIQ==
-X-Received: by 2002:a05:620a:1713:: with SMTP id
- az19mr31179988qkb.297.1638071841520; 
- Sat, 27 Nov 2021 19:57:21 -0800 (PST)
+ bh=233QcxxJpVsvwdAL71A0o6E8P9a0fPiFh3UgjrFlGJ0=;
+ b=ZJFwk5W8ysoKAKnts7h/V6nBtZV9DLcb7ynPjolywa1tIarv8MpmhJ46IPsyX3qu3v
+ rFPBIdv1E1RCSJ/ZWRmrCNIjVfoua2Zvbg1Z9arziunxhib4ZCSdncmhG60ekDFmsW0w
+ rRDCLiX5dWLz8Iz6vCw5agpSeBBtSiaxs8+3ceMM1mvObBD3fUv+Hxm/NuQsrJ116RdU
+ oX/Vokq/lTD5bHAW9n5M8P37a0Dv3OTzU0imzhptJyodYAp90JsSOEVQPdDOP869/Bb6
+ +aFsPd1dD2+QEfFLPajlp44MSu3uH4va8K0LJVFOZFuRduZHx7MMJvcEVQQoj/3Y/cDn
+ CbxA==
+X-Gm-Message-State: AOAM5303DnlhJbDmuVJLLK15WdxsK3fRLUn17r/zCViKdr2WmbD1Sz4f
+ QK/9g5UW8GSD+w7XtZ+HsIU=
+X-Google-Smtp-Source: ABdhPJxsQdnJHvssLKKi4t7ZQWlUj6IfBjUA+FHPAg6cyFpRPgTUM5nkSD/z388U9c3QtVTPq7Zptw==
+X-Received: by 2002:a05:622a:2d0:: with SMTP id
+ a16mr26433334qtx.520.1638071843082; 
+ Sat, 27 Nov 2021 19:57:23 -0800 (PST)
 Received: from localhost ([66.216.211.25])
- by smtp.gmail.com with ESMTPSA id c11sm6161985qtb.8.2021.11.27.19.57.20
+ by smtp.gmail.com with ESMTPSA id x25sm4914036qkf.91.2021.11.27.19.57.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 27 Nov 2021 19:57:21 -0800 (PST)
+ Sat, 27 Nov 2021 19:57:22 -0800 (PST)
 From: Yury Norov <yury.norov@gmail.com>
 To: linux-kernel@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
  "James E.J. Bottomley" <jejb@linux.ibm.com>,
@@ -120,16 +120,16 @@ To: linux-kernel@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
  linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
  linux-s390@vger.kernel.org, linux-snps-arc@lists.infradead.org,
  linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH 8/9] lib/nodemask: add num_node_state_eq()
-Date: Sat, 27 Nov 2021 19:57:03 -0800
-Message-Id: <20211128035704.270739-9-yury.norov@gmail.com>
+Subject: [PATCH 9/9] MAINTAINERS: add cpumask and nodemask files to BITMAP_API
+Date: Sat, 27 Nov 2021 19:57:04 -0800
+Message-Id: <20211128035704.270739-10-yury.norov@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211128035704.270739-1-yury.norov@gmail.com>
 References: <20211128035704.270739-1-yury.norov@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211127_195722_883672_113B1FFE 
-X-CRM114-Status: GOOD (  17.05  )
+X-CRM114-CacheID: sfid-20211127_195724_033788_C68E16E2 
+X-CRM114-Status: GOOD (  14.78  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -146,44 +146,34 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Add num_node_state_eq() and replace num_node_state() with it in
-page_alloc_init().
+cpumask and nodemask APIs are thin wrappers around basic bitmap API, and
+corresponding files are not formally maintained. This patch adds them to
+BITMAP_API section, so that bitmap folks would have closer look at it.
 
 Signed-off-by: Yury Norov <yury.norov@gmail.com>
 ---
- include/linux/nodemask.h | 5 +++++
- mm/page_alloc.c          | 2 +-
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ MAINTAINERS | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/include/linux/nodemask.h b/include/linux/nodemask.h
-index 3801ec5b06f4..b68ee2a80164 100644
---- a/include/linux/nodemask.h
-+++ b/include/linux/nodemask.h
-@@ -455,6 +455,11 @@ static inline int num_node_state(enum node_states state)
- 	return nodes_weight(node_states[state]);
- }
- 
-+static inline int num_node_state_eq(enum node_states state, unsigned int num)
-+{
-+	return nodes_weight_eq(node_states[state], num);
-+}
-+
- #define for_each_node_state(__node, __state) \
- 	for_each_node_mask((__node), node_states[__state])
- 
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 91c1105a9efe..81d111155ffb 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -8323,7 +8323,7 @@ void __init page_alloc_init(void)
- 	int ret;
- 
- #ifdef CONFIG_NUMA
--	if (num_node_state(N_MEMORY) == 1)
-+	if (num_node_state_eq(N_MEMORY, 1))
- 		hashdist = 0;
- #endif
- 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 00ad0cb5cb05..ceeffcd81fa4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3375,10 +3375,14 @@ R:	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+ R:	Rasmus Villemoes <linux@rasmusvillemoes.dk>
+ S:	Maintained
+ F:	include/linux/bitmap.h
++F:	include/linux/cpumask.h
+ F:	include/linux/find.h
++F:	include/linux/nodemask.h
+ F:	lib/bitmap.c
++F:	lib/cpumask.c
+ F:	lib/find_bit.c
+ F:	lib/find_bit_benchmark.c
++F:	lib/nodemask.c
+ F:	lib/test_bitmap.c
+ F:	tools/include/linux/bitmap.h
+ F:	tools/include/linux/find.h
 -- 
 2.25.1
 
