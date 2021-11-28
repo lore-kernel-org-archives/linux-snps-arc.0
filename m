@@ -4,42 +4,42 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D54F9C433F5
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 28 Nov 2021 18:04:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05D26C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 28 Nov 2021 18:10:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=qC+9dHzMlOMkUfVocDsWmG2C28wSZk4QuRouPHUVeIU=; b=k8Gs/RuoAIWG2D
-	9gRwAJDkjQKvk5y4KOFx9O0Tamx/aXpm7ZUvTccJrJWPxiMA4L8FUCC+xPpwv++s9SsffV/NGgTVW
-	Jf9ysQDDO4OdmO8Q+vEfcKlFUHIB4CUxXQB+WAE73euVuG5OPng+eGtXiezECmQea9airV2NL/wAF
-	yKpeMdUWg1nTUpBW2/xlRCHw1X/vJGAx8J5O0vxOtmwoFlK7sZuJWGvLDwTSt/TPo3eDf7gy1F7bS
-	X/nASfMMrXdWbvY8FoEbuqLcdlQBpepo4tcfuF5+K/ztoH9zupS8tLXXNB/N64xhjXbP4PidXSt9u
-	4Bheej9wsRjmJ9eFaMEw==;
+	List-Owner; bh=wqKO5eSNHVI6/X03GamxQ8qtzYLzaqmwpvlhqRb1C4U=; b=Y6mUmTdnBMsWwa
+	4QMLuopaoCzMXjG0Ta6ierePSFk4IN51bhh3Nm3JChHam15F37e4wp4+HuOwruWhhLtFOK25W1d7B
+	TJF3++8/cDj6cnOpxk/xPY9cIKLViMjqd1qn3OmlFwggg3Yy5pg8vywp1XJGCRtgr1ytjad5q8VwB
+	55/ItUTAbmFKEpftTcqCPOmpK3oXULg9q2NlqeplgB1rvEYO8Pewfyl1ck8UL08blC1/195rm3fu7
+	noWVs8kzKppmLsoyB+AQoX/nhFPZp99t1WwaB3/BLSYy5ZLuHH09v/VLpmGlZ8L69yGS8MGOHLT5Y
+	D++UxHOWIwIHZ4ltBO+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mrOWz-00GQ0c-Bw; Sun, 28 Nov 2021 18:04:05 +0000
+	id 1mrOdD-00GQes-Fg; Sun, 28 Nov 2021 18:10:31 +0000
 Received: from rere.qmqm.pl ([91.227.64.183])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mrOWu-00GPyc-8G; Sun, 28 Nov 2021 18:04:01 +0000
+ id 1mrOd8-00GQdL-HG; Sun, 28 Nov 2021 18:10:27 +0000
 Received: from remote.user (localhost [127.0.0.1])
- by rere.qmqm.pl (Postfix) with ESMTPSA id 4J2GZ84l0lzGX;
- Sun, 28 Nov 2021 19:03:44 +0100 (CET)
+ by rere.qmqm.pl (Postfix) with ESMTPSA id 4J2Gjn33d2zW8;
+ Sun, 28 Nov 2021 19:10:21 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
- t=1638122634; bh=sEqOa0ZEPEWEUlBRSLFAiVwd6iLDymwK+DV3juGIkQI=;
+ t=1638123024; bh=JZhqOAoOJwkFLsUnNQo8o++CiFK7HEGKhePgc/FSOF4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=c8BMIb6Ys1MM9jtnUFS+OzCZESND169gxM1+qoGuDHQxJkjYTnLg1dYXL65SLSeBD
- OptKwwF3f6jjeAWkz8hKGEIpBsOyA7AZLbEyI0Ul8i9xig/dKvGR9NZ6kh+Ny2ulTW
- NSMm5sqIVijexkgrukA2T59koDDkGancK18mcZt702hpU7mgoZQDDZbSDYgNkFc9BO
- VIw8ONHFtRVbVnzFi4YPF5fViRQnoyL8aNWKj0ctBrm3IfLQEgZY5IGVCfNRdmPFM4
- VnIE/zolNmZ9Tr6q4VJbIye3TlVbgURGaBOqFwsRQiEoMGrVw4g28fuRp3xh+IiOQd
- dpDJSAp182XbQ==
+ b=BSqkw57UlW2pW1NXQ5wZ96M5n0daMnNFg3ZZGk4QpT65f28st6tvSbAjCuaDYp0Y0
+ CmyX5dp3fxa/1bsCgFSoiXvYl/Ivrvk/XW5Lhr31jLklN0/6fnKbeszxM4AJMOo6b9
+ hs1WVqqJVnnkAxwtLxudxAhzHN+6r0DPz2i1TcI1//mgPfBMhwBro3m3CGjmkmEKO0
+ zFXYptfKQJ6Xhp//QSGLBmM8xlFJVmHJ9/rNfVpoRczyIK6/HJ5953QI6d4A5Zxyqw
+ UnYVoDxFeKZcNpL0K/UJMA5pXP8gOMjtVWWYJxoXBIppSPMAs/Uq2+pv87S9vD8wOI
+ LfWcTnK2w+pRg==
 X-Virus-Status: Clean
 X-Virus-Scanned: clamav-milter 0.103.3 at mail
-Date: Sun, 28 Nov 2021 19:03:41 +0100
-From: mirq-test@rere.qmqm.pl
+Date: Sun, 28 Nov 2021 19:10:20 +0100
+From: =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
 To: Yury Norov <yury.norov@gmail.com>
 Cc: linux-kernel@vger.kernel.org, "James E.J. Bottomley" <jejb@linux.ibm.com>,
  "Martin K. Petersen" <martin.petersen@oracle.com>,
@@ -104,15 +104,17 @@ Cc: linux-kernel@vger.kernel.org, "James E.J. Bottomley" <jejb@linux.ibm.com>,
  linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
  linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
  linux-snps-arc@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH 0/9] lib/bitmap: optimize bitmap_weight() usage
-Message-ID: <YaPEfZ0t9UFGwpml@qmqm.qmqm.pl>
+Subject: Re: [PATCH 2/9] lib/bitmap: implement bitmap_{empty,full} with
+ bitmap_weight_eq()
+Message-ID: <YaPGDOvBzhiRFcOP@qmqm.qmqm.pl>
 References: <20211128035704.270739-1-yury.norov@gmail.com>
+ <20211128035704.270739-3-yury.norov@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20211128035704.270739-1-yury.norov@gmail.com>
+In-Reply-To: <20211128035704.270739-3-yury.norov@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211128_100400_516650_631E3BCF 
-X-CRM114-Status: GOOD (  18.13  )
+X-CRM114-CacheID: sfid-20211128_101026_758953_BB4D9441 
+X-CRM114-Status: GOOD (  19.63  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -129,79 +131,50 @@ Content-Transfer-Encoding: quoted-printable
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Sat, Nov 27, 2021 at 07:56:55PM -0800, Yury Norov wrote:
-> In many cases people use bitmap_weight()-based functions like this:
+On Sat, Nov 27, 2021 at 07:56:57PM -0800, Yury Norov wrote:
+> Now as we have bitmap_weight_eq(), switch bitmap_full() and
+> bitmap_empty() to using it.
 > =
 
-> 	if (num_present_cpus() > 1)
-> 		do_something();
+> Signed-off-by: Yury Norov <yury.norov@gmail.com>
+> ---
+>  include/linux/bitmap.h | 26 ++++++++++----------------
+>  1 file changed, 10 insertions(+), 16 deletions(-)
 > =
 
-> This may take considerable amount of time on many-cpus machines because
-> num_present_cpus() will traverse every word of underlying cpumask
-> unconditionally.
-> =
+> diff --git a/include/linux/bitmap.h b/include/linux/bitmap.h
+> index 996041f771c8..2d951e4dc814 100644
+> --- a/include/linux/bitmap.h
+> +++ b/include/linux/bitmap.h
+> @@ -386,22 +386,6 @@ static inline int bitmap_subset(const unsigned long =
+*src1,
+>  		return __bitmap_subset(src1, src2, nbits);
+>  }
+>  =
 
-> We can significantly improve on it for many real cases if stop traversing
-> the mask as soon as we count present cpus to any number greater than 1:
-> =
+> -static inline bool bitmap_empty(const unsigned long *src, unsigned nbits)
+> -{
+> -	if (small_const_nbits(nbits))
+> -		return ! (*src & BITMAP_LAST_WORD_MASK(nbits));
+> -
+> -	return find_first_bit(src, nbits) =3D=3D nbits;
+> -}
 
-> 	if (num_present_cpus_gt(1))
-> 		do_something();
-> =
+Since this is supposed to be an optimization, I would go all the way and
+replace this with the trivial implementation instead:
 
-> To implement this idea, the series adds bitmap_weight_{eq,gt,le}
-> functions together with corresponding wrappers in cpumask and nodemask.
-
-Having slept on it I have more structured thoughts:
-
-First, I like substituting bitmap_empty/full where possible - I think
-the change stands on its own, so could be split and sent as is.
-
-I don't like the proposed API very much. One problem is that it hides
-the comparison operator and makes call sites less readable:
-
-	bitmap_weight(...) > N
-
-becomes:
-
-	bitmap_weight_gt(..., N)
-
-and:
-	bitmap_weight(...) <=3D N
-
-becomes:
-
-	bitmap_weight_lt(..., N+1)
-or:
-	!bitmap_weight_gt(..., N)
-
-I'd rather see something resembling memcmp() API that's known enough
-to be easier to grasp. For above examples:
-
-	bitmap_weight_cmp(..., N) > 0
-	bitmap_weight_cmp(..., N) <=3D 0
-	...
-
-This would also make the implementation easier in not having to
-copy and paste the code three times. Could also use a simple
-optimization reducing code size:
-
-#include <linux/overflow.h>
-
-int bitmap_weight_cmp(long *bits, size_t nbits, size_t cmp)
+bool bitmap_empty(long *bits, size_t nbits)
 {
-	for (size_t i =3D 0; i < nbits / BITS_PER_LONG; ++i, ++bits)
-		if (check_sub_overflow(cmp, popcount(*bits), &cmp))
-			return 1;
+	for (; nbits >=3D BITS_PER_LONG; ++bits, nbits -=3D BITS_PER_LONG)
+		if (*bits)
+			return false;
 
-	nbits %=3D BITS_PER_LONG;
-	if (nbits && check_sub_overflow(cmp,
-			popcount(*bits & GENMASK(nbits)), &cmp))
-		return 1;
+	if (nbits && *bits & BITMAP_LAST_WORD_MASK(nbits))
+		return false;
 
-	return cmp ? -1 : 0;
+	return true;
 }
+ =
 
 Best Regards
 Micha=B3 Miros=B3aw
