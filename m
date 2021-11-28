@@ -4,82 +4,129 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0F37C433F5
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 26 Nov 2021 22:23:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F5F0C433F5
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 28 Nov 2021 03:57:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=pY1En/QIVmFHkcx7DaR+rRtxMYmyKigP+u/Hhwb9jb4=; b=QZHw3ioltQq/vL
-	zFZ8duSYu/9Mw5PcTzovyhHoDyKX1qN9NmfmRp1jZZ0aukr9m2p622Iq+wrKEMOEitfbHusuQBEiA
-	e+8VaHWhHVSo6J7RhVGUzjIALTBwZMiFFkgtVv15+EfMyD3HW5ebBxrSKzwSL8LWgip0MGMR2390B
-	opWENFLVo6pO6jJdIvF1H/MnDzY2L+4le9vRBtkDzZYH6F8fRn653D4+dSzyNfnrHLouyE2TRJ9ct
-	wJcd5HPLsSM6DxwC9novikW7n0NwR0Mb9Fthm3Wltz0SZtuN3WpNxMY51dFpIhEBRqhdd7Z6oo3jo
-	+8W3b+Ihg6uC6hsA5Pxw==;
+	List-Owner; bh=EMI/IpzhMVYn8of0xZAHBosPzQmRW2gpIS/V0MO5Y98=; b=zG12bPENR7g6oy
+	+YBeMeHtYTrCUp3JAFq2axpPplOjhzmLHjpPytHt3iwgmFVAEUxATzu/JAa4hxJyGUpRdOz0vrFkc
+	jUdtOX/nzhPxl5mUBTd78B0qoG0ZMlj3pK0XKzCwK2oScDfQXQWa/Zj2QM86kZfq4dvGHLTE2Xz3o
+	03L5mffITgRbggoOdJ8lhXppMAJ1cl0rVyssbGjHLgD3v6cgP4lUb56bXo6mu3aXhWiH6b4F2f/Gr
+	l8RivARkhII14dpFX0CHmWp8UeHBXORvQlumY8yPWuzK32zv25lp9sqBDVqZ8BzMj0HIh0AduLTY4
+	QToeXJGOt5WssfIaRuLg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mqjcj-00Btmo-19; Fri, 26 Nov 2021 22:23:17 +0000
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+	id 1mrBJS-00ExTt-Cy; Sun, 28 Nov 2021 03:57:14 +0000
+Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mqjch-00BtmT-6J
- for linux-snps-arc@lists.infradead.org; Fri, 26 Nov 2021 22:23:16 +0000
-Received: by mail-wm1-x32d.google.com with SMTP id
- d72-20020a1c1d4b000000b00331140f3dc8so7666233wmd.1
- for <linux-snps-arc@lists.infradead.org>; Fri, 26 Nov 2021 14:23:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
+ id 1mrBJN-00ExR1-2K; Sun, 28 Nov 2021 03:57:10 +0000
+Received: by mail-qt1-x834.google.com with SMTP id t34so12906378qtc.7;
+ Sat, 27 Nov 2021 19:57:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Z+4t5OMP+y8asfHJx9yemcdXWelcG0CCFormBoppS2w=;
- b=Gzxae8UGy2wtl+rrwGkZkZQPrLUDgc0Nc9kSYiZm5VyR4AcHrSzQE1oIXHanuNvRlS
- 1COJ8mspv1pFLIiNp+fQiWfqN+bt1VwfFl4A53f95zL/Dgz8Nf5Qrbz1TN6DY79QXC5n
- I1C8c9Vr859QaoU2P23LgpGx2F861z9dHPKs/okYG9jkSjH6NoayVuMnjkw90spw6aSy
- vd30uuk2MUSBBVJ5oSdHS2ERGWYE3nswWJLhmne6f0d4EM0LhIXvvZSJpJuHvvVKM/Gd
- W/Pyj6CStsRIcW6pj7SzAE0Z8A7LYK2qnJ65VdusgNkoZisOd6e4qedsS+52/dEtREPr
- w+Rw==
+ bh=fJ8xfnVA+NPUIa5t4yWgB58hLT4DLWUqrE9DXdtQP+o=;
+ b=a5JTXAi8QEj68vc4ha+mPXa/ak1/OEEuTBec3AMtr1hEzo8fmCz3oIwEmN3K8kvQYB
+ 67gv/rNWFdzwHiZFz09bpXG9HR51wjgigxUHIjdtAoVE4YB1vUAdNadlYIOtRZECxgba
+ qt3C1oVJF96hYIQdDKlDO0FBz0TCdg6G1jktJ3RCIVLkJZMOcXupEqyjZfFMvq2MAme6
+ UgcKwKoiTAaN0noh2ql7FQQ0Jxhmh2WckqBiI0uS0tM+dBCqWKfFUMxoZTvkiS3PR3wT
+ /2lsgPXrHRO/TwsRXE/k4NEjrGiabGxA6/xpgMyYfvSqIbYUO/V0Hzjl329Ng6juxWHT
+ KZPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Z+4t5OMP+y8asfHJx9yemcdXWelcG0CCFormBoppS2w=;
- b=5r23lEeLmj8dTSRne7plTTHquvzKA3my685YEVdWOPuaWiERRxykHfzNwKwUgTkXBU
- Cn9+fyGDBlORN5svghpS04Ag4nVT8PaT7ShFEQHaw1d0UVrB61j4snBZbcDz0WaWACyD
- b0XQzgsh2iALcUVGN68IMRYanoFnW/JpMJRKgSNSwUImlXIkA6yWxr1EpOUo7/Lbl7cu
- QG9rGoO+snVQrLOuMUWh6r5eo9l9p3B2CZVMw88NKrcgGDaeLo/cPYgtkQLz1UCpJJDn
- 7anKNn2Zy67Lc9WO5CycnX715YFsWoHXUsjeQRbvu42VyVcyBPj/lI5uieTzUNpT3Mjj
- qp4w==
-X-Gm-Message-State: AOAM532xGA7E9ASrrFfAwG59II34lvWNSlLDRlaXk/XHi8kGDNaqxTH4
- 803OExYCC1WJHw==
-X-Google-Smtp-Source: ABdhPJzMntEXDyGjqAPNcqmlryFDYENzBgRQiOuclEM7RYDtf91okuklzP7kFyID/PcFnkVcWS1P5Q==
-X-Received: by 2002:a05:600c:19d1:: with SMTP id
- u17mr18789968wmq.148.1637965393404; 
- Fri, 26 Nov 2021 14:23:13 -0800 (PST)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194])
- by smtp.gmail.com with ESMTPSA id d7sm6349690wrw.87.2021.11.26.14.23.12
+ bh=fJ8xfnVA+NPUIa5t4yWgB58hLT4DLWUqrE9DXdtQP+o=;
+ b=KZtbWuhcLaS/LLPxgA8BjV38LI7swDX2st5ds2LduEpr3fDcJCaexqqkad0fYKdBZR
+ OgP7xk4Y2OzT6qwJRQgRdda2EE8yCss8v0y/dZn3M04EnX2vfi3I2Ajkp+MPCS7dgPu1
+ 4M8ZWFrFj3Ei5HeVcUb6R/bcf9ilGtaYW5CvIRoO0x5GTbPKlRr77RLINjGZFCLKwIkk
+ VFGD2TpLznoAzsgMrqvmRv8Bc3ExyV1kzKdJQpHMJEo+lXErNnEIom47mrF6BaDf60vd
+ 89oMNd+KR9HB1o+J+9CoMx/WU2+yTET5YL5TEEaTUQ1sSgEAQC2FdgYVfIUT95mf0eW4
+ zMjg==
+X-Gm-Message-State: AOAM530KgaIn4Ct2rt3tXVb53hRdxgtdLCKq+3tdCeDXCAIN8oRGMRIn
+ SpdnEXCoabkEnKQEUXq5wOA=
+X-Google-Smtp-Source: ABdhPJy1HODbinFYUK0hw6hMtPG5eVjRVeAWjrsAbI29+G07rR15rsN4J5IN8e01ddnXvrZIRqJNZg==
+X-Received: by 2002:ac8:7fc2:: with SMTP id b2mr35277966qtk.114.1638071826940; 
+ Sat, 27 Nov 2021 19:57:06 -0800 (PST)
+Received: from localhost ([66.216.211.25])
+ by smtp.gmail.com with ESMTPSA id x17sm6473647qta.66.2021.11.27.19.57.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Nov 2021 14:23:13 -0800 (PST)
-From: Colin Ian King <colin.i.king@googlemail.com>
-X-Google-Original-From: Colin Ian King <colin.i.king@gmail.com>
-To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
+ Sat, 27 Nov 2021 19:57:06 -0800 (PST)
+From: Yury Norov <yury.norov@gmail.com>
+To: linux-kernel@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
  Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@redhat.com>, Namhyung Kim <namhyung@kernel.org>,
- Vineet Gupta <vgupta@kernel.org>, linux-perf-users@vger.kernel.org,
- linux-snps-arc@lists.infradead.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ARC: perf: Remove redundant initialization of variable idx
-Date: Fri, 26 Nov 2021 22:23:12 +0000
-Message-Id: <20211126222312.1125594-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.33.1
+ Alexey Klimov <aklimov@redhat.com>,
+ Amitkumar Karwar <amitkarwar@gmail.com>, Andi Kleen <ak@linux.intel.com>,
+ Andrew Lunn <andrew@lunn.ch>, Andrew Morton <akpm@linux-foundation.org>,
+ Andy Gross <agross@kernel.org>, Andy Lutomirski <luto@kernel.org>,
+ Andy Shevchenko <andy@infradead.org>, Anup Patel <anup.patel@wdc.com>,
+ Ard Biesheuvel <ardb@kernel.org>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Borislav Petkov <bp@alien8.de>, Catalin Marinas <catalin.marinas@arm.com>,
+ Christoph Hellwig <hch@lst.de>, Christoph Lameter <cl@linux.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Dave Hansen <dave.hansen@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, David Laight <David.Laight@ACULAB.COM>,
+ Dennis Zhou <dennis@kernel.org>, Dinh Nguyen <dinguyen@kernel.org>,
+ Geetha sowjanya <gakula@marvell.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Guo Ren <guoren@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Ian Rogers <irogers@google.com>,
+ Ingo Molnar <mingo@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
+ Jason Wessel <jason.wessel@windriver.com>, Jens Axboe <axboe@fb.com>,
+ Jiri Olsa <jolsa@redhat.com>, Jonathan Cameron <jic23@kernel.org>,
+ Juri Lelli <juri.lelli@redhat.com>, Kalle Valo <kvalo@codeaurora.org>,
+ Kees Cook <keescook@chromium.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Lee Jones <lee.jones@linaro.org>, Marc Zyngier <maz@kernel.org>,
+ Marcin Wojtas <mw@semihalf.com>, Mark Gross <markgross@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ Matti Vaittinen <mazziesaccount@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Mel Gorman <mgorman@suse.de>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Mike Marciniszyn <mike.marciniszyn@cornelisnetworks.com>,
+ Nicholas Piggin <npiggin@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Peter Zijlstra <peterz@infradead.org>, Petr Mladek <pmladek@suse.com>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Roy Pledge <Roy.Pledge@nxp.com>, Russell King <linux@armlinux.org.uk>,
+ Saeed Mahameed <saeedm@nvidia.com>, Sagi Grimberg <sagi@grimberg.me>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Solomon Peachy <pizza@shaftnet.org>, Stephen Boyd <sboyd@kernel.org>,
+ Stephen Rothwell <sfr@canb.auug.org.au>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Subbaraya Sundeep <sbhatta@marvell.com>,
+ Sudeep Holla <sudeep.holla@arm.com>, Sunil Goutham <sgoutham@marvell.com>,
+ Tariq Toukan <tariqt@nvidia.com>, Tejun Heo <tj@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Thomas Gleixner <tglx@linutronix.de>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Vineet Gupta <vgupta@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Vivien Didelot <vivien.didelot@gmail.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>,
+ bcm-kernel-feedback-list@broadcom.com, kvm@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-crypto@vger.kernel.org, linux-csky@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org, linux-mm@kvack.org,
+ linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH 0/9] lib/bitmap: optimize bitmap_weight() usage
+Date: Sat, 27 Nov 2021 19:56:55 -0800
+Message-Id: <20211128035704.270739-1-yury.norov@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211126_142315_256962_FEE02D47 
-X-CRM114-Status: GOOD (  13.10  )
+X-CRM114-CacheID: sfid-20211127_195709_167087_FDA97F61 
+X-CRM114-Status: GOOD (  14.79  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,30 +143,181 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The variable idx is being initialized with a value that is never
-read, it is being updated later on. The assignment is redundant and
-can be removed.
+In many cases people use bitmap_weight()-based functions like this:
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- arch/arc/kernel/perf_event.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+	if (num_present_cpus() > 1)
+		do_something();
 
-diff --git a/arch/arc/kernel/perf_event.c b/arch/arc/kernel/perf_event.c
-index 145722f80c9b..f5dd799ddb9e 100644
---- a/arch/arc/kernel/perf_event.c
-+++ b/arch/arc/kernel/perf_event.c
-@@ -361,7 +361,7 @@ static int arc_pmu_add(struct perf_event *event, int flags)
- {
- 	struct arc_pmu_cpu *pmu_cpu = this_cpu_ptr(&arc_pmu_cpu);
- 	struct hw_perf_event *hwc = &event->hw;
--	int idx = hwc->idx;
-+	int idx;
- 
- 	idx = ffz(pmu_cpu->used_mask[0]);
- 	if (idx == arc_pmu->n_counters)
+This may take considerable amount of time on many-cpus machines because
+num_present_cpus() will traverse every word of underlying cpumask
+unconditionally.
+
+We can significantly improve on it for many real cases if stop traversing
+the mask as soon as we count present cpus to any number greater than 1:
+
+	if (num_present_cpus_gt(1))
+		do_something();
+
+To implement this idea, the series adds bitmap_weight_{eq,gt,le}
+functions together with corresponding wrappers in cpumask and nodemask.
+
+Yury Norov (9):
+  lib/bitmap: add bitmap_weight_{eq,gt,le}
+  lib/bitmap: implement bitmap_{empty,full} with bitmap_weight_eq()
+  all: replace bitmap_weigth() with bitmap_{empty,full,eq,gt,le}
+  tools: sync bitmap_weight() usage with the kernel
+  lib/cpumask: add cpumask_weight_{eq,gt,le}
+  lib/nodemask: add nodemask_weight_{eq,gt,le}
+  lib/cpumask: add num_{possible,present,active}_cpus_{eq,gt,le}
+  lib/nodemask: add num_node_state_eq()
+  MAINTAINERS: add cpumask and nodemask files to BITMAP_API
+
+ MAINTAINERS                                   |  4 ++
+ arch/alpha/kernel/process.c                   |  2 +-
+ arch/arc/kernel/smp.c                         |  2 +-
+ arch/arm/kernel/machine_kexec.c               |  2 +-
+ arch/arm/mach-exynos/exynos.c                 |  2 +-
+ arch/arm/mm/cache-b15-rac.c                   |  2 +-
+ arch/arm64/kernel/smp.c                       |  2 +-
+ arch/arm64/mm/context.c                       |  2 +-
+ arch/csky/mm/asid.c                           |  2 +-
+ arch/csky/mm/context.c                        |  2 +-
+ arch/ia64/kernel/setup.c                      |  2 +-
+ arch/ia64/mm/tlb.c                            |  8 +--
+ arch/mips/cavium-octeon/octeon-irq.c          |  4 +-
+ arch/mips/kernel/crash.c                      |  2 +-
+ arch/mips/kernel/i8253.c                      |  2 +-
+ arch/mips/kernel/perf_event_mipsxx.c          |  4 +-
+ arch/mips/kernel/rtlx-cmp.c                   |  2 +-
+ arch/mips/kernel/smp.c                        |  4 +-
+ arch/mips/kernel/vpe-cmp.c                    |  2 +-
+ .../loongson2ef/common/cs5536/cs5536_mfgpt.c  |  2 +-
+ arch/mips/mm/context.c                        |  2 +-
+ arch/mips/mm/tlbex.c                          |  2 +-
+ arch/nds32/kernel/perf_event_cpu.c            |  4 +-
+ arch/nios2/kernel/cpuinfo.c                   |  2 +-
+ arch/powerpc/kernel/smp.c                     |  2 +-
+ arch/powerpc/kernel/watchdog.c                |  4 +-
+ arch/powerpc/platforms/85xx/smp.c             |  2 +-
+ arch/powerpc/platforms/pseries/hotplug-cpu.c  |  4 +-
+ arch/powerpc/sysdev/mpic.c                    |  2 +-
+ arch/powerpc/xmon/xmon.c                      | 10 +--
+ arch/riscv/kvm/vmid.c                         |  2 +-
+ arch/s390/kernel/perf_cpum_cf.c               |  2 +-
+ arch/sparc/kernel/mdesc.c                     |  6 +-
+ arch/x86/events/amd/core.c                    |  2 +-
+ arch/x86/kernel/alternative.c                 |  8 +--
+ arch/x86/kernel/apic/apic.c                   |  4 +-
+ arch/x86/kernel/apic/apic_flat_64.c           |  2 +-
+ arch/x86/kernel/apic/probe_32.c               |  2 +-
+ arch/x86/kernel/cpu/mce/dev-mcelog.c          |  2 +-
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c        | 18 +++---
+ arch/x86/kernel/hpet.c                        |  2 +-
+ arch/x86/kernel/i8253.c                       |  2 +-
+ arch/x86/kernel/kvm.c                         |  2 +-
+ arch/x86/kernel/kvmclock.c                    |  2 +-
+ arch/x86/kernel/smpboot.c                     |  4 +-
+ arch/x86/kernel/tsc.c                         |  2 +-
+ arch/x86/kvm/hyperv.c                         |  8 +--
+ arch/x86/mm/amdtopology.c                     |  2 +-
+ arch/x86/mm/mmio-mod.c                        |  2 +-
+ arch/x86/mm/numa_emulation.c                  |  4 +-
+ arch/x86/platform/uv/uv_nmi.c                 |  2 +-
+ arch/x86/xen/smp_pv.c                         |  2 +-
+ arch/x86/xen/spinlock.c                       |  2 +-
+ drivers/acpi/numa/srat.c                      |  2 +-
+ drivers/clk/samsung/clk-exynos4.c             |  2 +-
+ drivers/clocksource/ingenic-timer.c           |  3 +-
+ drivers/cpufreq/pcc-cpufreq.c                 |  2 +-
+ drivers/cpufreq/qcom-cpufreq-hw.c             |  2 +-
+ drivers/cpufreq/scmi-cpufreq.c                |  2 +-
+ drivers/crypto/ccp/ccp-dev-v5.c               |  5 +-
+ drivers/dma/mv_xor.c                          |  5 +-
+ drivers/firmware/psci/psci_checker.c          |  2 +-
+ drivers/gpu/drm/i810/i810_drv.c               |  2 +-
+ drivers/gpu/drm/i915/i915_pmu.c               |  2 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c      |  2 +-
+ drivers/hv/channel_mgmt.c                     |  4 +-
+ drivers/iio/adc/mxs-lradc-adc.c               |  3 +-
+ drivers/iio/dummy/iio_simple_dummy_buffer.c   |  4 +-
+ drivers/iio/industrialio-buffer.c             |  2 +-
+ drivers/iio/industrialio-trigger.c            |  2 +-
+ drivers/infiniband/hw/hfi1/affinity.c         | 13 ++--
+ drivers/infiniband/hw/qib/qib_file_ops.c      |  2 +-
+ drivers/infiniband/hw/qib/qib_iba7322.c       |  2 +-
+ drivers/infiniband/sw/siw/siw_main.c          |  3 +-
+ drivers/irqchip/irq-bcm6345-l1.c              |  2 +-
+ drivers/irqchip/irq-gic.c                     |  2 +-
+ drivers/memstick/core/ms_block.c              |  4 +-
+ drivers/net/caif/caif_virtio.c                |  2 +-
+ drivers/net/dsa/b53/b53_common.c              |  2 +-
+ drivers/net/ethernet/broadcom/bcmsysport.c    |  6 +-
+ .../cavium/liquidio/cn23xx_vf_device.c        |  2 +-
+ drivers/net/ethernet/hisilicon/hns/hns_enet.c |  2 +-
+ .../net/ethernet/intel/ice/ice_virtchnl_pf.c  |  4 +-
+ .../net/ethernet/intel/ixgbe/ixgbe_sriov.c    |  2 +-
+ .../net/ethernet/marvell/mvpp2/mvpp2_main.c   |  2 +-
+ .../marvell/octeontx2/nic/otx2_ethtool.c      |  2 +-
+ .../marvell/octeontx2/nic/otx2_flows.c        |  8 +--
+ .../ethernet/marvell/octeontx2/nic/otx2_pf.c  |  2 +-
+ drivers/net/ethernet/mellanox/mlx4/cmd.c      | 10 +--
+ drivers/net/ethernet/mellanox/mlx4/eq.c       |  4 +-
+ drivers/net/ethernet/mellanox/mlx4/main.c     |  2 +-
+ .../ethernet/mellanox/mlx5/core/en_ethtool.c  |  2 +-
+ drivers/net/ethernet/qlogic/qed/qed_dev.c     |  3 +-
+ drivers/net/ethernet/qlogic/qed/qed_rdma.c    |  4 +-
+ drivers/net/ethernet/qlogic/qed/qed_roce.c    |  2 +-
+ drivers/net/wireless/ath/ath9k/hw.c           |  2 +-
+ drivers/net/wireless/marvell/mwifiex/main.c   |  4 +-
+ drivers/net/wireless/st/cw1200/queue.c        |  3 +-
+ drivers/nvdimm/region.c                       |  2 +-
+ drivers/nvme/host/pci.c                       |  2 +-
+ drivers/perf/arm-cci.c                        |  2 +-
+ drivers/perf/arm_pmu.c                        |  6 +-
+ drivers/perf/hisilicon/hisi_uncore_pmu.c      |  2 +-
+ drivers/perf/thunderx2_pmu.c                  |  3 +-
+ drivers/perf/xgene_pmu.c                      |  2 +-
+ .../intel/speed_select_if/isst_if_common.c    |  6 +-
+ drivers/pwm/pwm-pca9685.c                     |  2 +-
+ drivers/scsi/lpfc/lpfc_init.c                 |  2 +-
+ drivers/soc/bcm/brcmstb/biuctrl.c             |  2 +-
+ drivers/soc/fsl/dpio/dpio-service.c           |  4 +-
+ drivers/soc/fsl/qbman/qman_test_stash.c       |  2 +-
+ drivers/spi/spi-dw-bt1.c                      |  2 +-
+ drivers/staging/media/tegra-video/vi.c        |  2 +-
+ drivers/thermal/intel/intel_powerclamp.c      | 10 ++-
+ drivers/virt/acrn/hsm.c                       |  2 +-
+ fs/ocfs2/cluster/heartbeat.c                  | 14 ++---
+ fs/xfs/xfs_sysfs.c                            |  2 +-
+ include/linux/bitmap.h                        | 45 ++++++++++---
+ include/linux/cpumask.h                       | 55 ++++++++++++++++
+ include/linux/kdb.h                           |  2 +-
+ include/linux/nodemask.h                      | 29 +++++++++
+ kernel/debug/kdb/kdb_bt.c                     |  2 +-
+ kernel/irq/affinity.c                         |  2 +-
+ kernel/padata.c                               |  2 +-
+ kernel/printk/printk.c                        |  2 +-
+ kernel/rcu/tree_nocb.h                        |  4 +-
+ kernel/rcu/tree_plugin.h                      |  2 +-
+ kernel/reboot.c                               |  4 +-
+ kernel/sched/core.c                           | 10 +--
+ kernel/sched/topology.c                       |  4 +-
+ kernel/time/clockevents.c                     |  4 +-
+ kernel/time/clocksource.c                     |  2 +-
+ lib/bitmap.c                                  | 63 +++++++++++++++++++
+ mm/mempolicy.c                                |  2 +-
+ mm/page_alloc.c                               |  2 +-
+ mm/percpu.c                                   |  6 +-
+ mm/slab.c                                     |  2 +-
+ mm/vmstat.c                                   |  4 +-
+ tools/include/linux/bitmap.h                  | 42 ++++++++++---
+ tools/lib/bitmap.c                            | 60 ++++++++++++++++++
+ tools/perf/builtin-c2c.c                      |  4 +-
+ tools/perf/util/pmu.c                         |  2 +-
+ 142 files changed, 490 insertions(+), 251 deletions(-)
+
 -- 
-2.33.1
+2.25.1
 
 
 _______________________________________________
