@@ -4,63 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 172A1C433F5
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 29 Nov 2021 21:15:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2884C433F5
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 29 Nov 2021 21:59:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:To
-	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=D/kd/c2dscLFNsFF8ygdCkjHA/cAB8WMDSdHbS4XOhw=; b=gNVIRsA4jELklo
-	OfdfKNkrh8b5N59ztfOWXaCwXPGYWbzAVykIrHzSj1djBVttErr1UtjkUPsRZxj8KrOKjVPHWeju8
-	mFaCbSuy9GX5G7OZrJDbRdaTQB3m7R4lqIswmSDtTvgK9ntaM92cGrwO/ESAQ2OGJEXyw3yxVqIrX
-	1vOxQfRFu+i/X2THfwfXnwJrT+suOiz26ENa6Qh8TbxTtaeyBDxPeHXXRJ240foSg0aR2BSPMC95K
-	gTNpomakZ7xYcK49NI7AUiBlqwAdG5rPm3WG1BopjpJlUPOGkXCR3UiCyK63LrlQcIZaX9sUhdGjk
-	iaDpK3jDNflTYNrwC+zw==;
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References
+	:In-Reply-To:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=KxpL6vNOkWbr1lO3nlL5z6V1+Wq/sC86vfLWlOhm/Ps=; b=Lo9KCS6U3Z5Tya
+	5xjp1m4y7AO1jY9UyJpDlQW747UAqFDIoP/T2yrO3J1gDJscf6miLiByaHGJ8X1WvzH1snhPmKzex
+	9dds4vTu1WD0zfrGmUQvpDL6IBtxTTKsgx08AQv35TptaRXn/b6UHU5PNGQ+/9kNBPAFP7so3bLhv
+	9OesQ4W+Azc0QTP/L2VHz3h3JpQ/75FaZtkHGSC4RBhAumW1e5IMF6y3BOM3Am2vptwlgkPOouYa1
+	Xoe7D3wIhW2j8Tcg6fthT/G3cdZRAYDev80EoJt9AAfv9oJqMrWv2NkhXTl/GSPX5Y8CBdHaAPNBy
+	lz+BxhpFxRwD4vz/yaiA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mrnzK-002f0v-R6; Mon, 29 Nov 2021 21:15:02 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133])
+	id 1mrog1-002qw5-Ga; Mon, 29 Nov 2021 21:59:09 +0000
+Received: from ms.lwn.net ([45.79.88.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mrnOv-002Qc2-UV
- for linux-snps-arc@lists.infradead.org; Mon, 29 Nov 2021 20:37:30 +0000
-Received: from mailhost.synopsys.com (badc-mailhost3.synopsys.com
- [10.192.0.81])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 25A0BC1620;
- Mon, 29 Nov 2021 20:37:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1638218242; bh=6ZxhTYsRGp5j9cuTySOH2waK/dfMvJq+e3ruVeOEP2w=;
- h=From:To:Cc:Subject:Date:From;
- b=JCBfWCw1eE1zl431AimqR0UUdoZ1CZXHPO2krSiKi13M7H55Otz7m1xhfibLgjHUO
- OfbKeXUCzul5CznsL7HTcLNmcXU6L8rN6tRZ3kCfj1IPuEK/l4H2cezWZrF5jA/M1i
- bilPtQCvyiev2Y540eOR7AiZL2eCoWsZJLoQFalrDN9k2mqbPvIov/FSayXEfglTyU
- oofTdUAGEL3jZRw5gTdtwCtElBnSP3OEZDH6tZf4XtvVDpujfff3lRYF72G0Ml6emF
- AVMp3h3il4weNTy75pMVfjyZoW1yevqqpRfbKQRnrQsX0Jrz74tFI9mFYSNWAj8rpM
- gG7jzieU6WBTQ==
-Received: from us01odcres-abrodkin-0009.internal.synopsys.com
- (us01odcres-abrodkin-0009.sg.us01-p01.synopsys.com [10.195.24.123])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client did not present a certificate)
- by mailhost.synopsys.com (Postfix) with ESMTPSA id A42ECA0063;
- Mon, 29 Nov 2021 20:37:17 +0000 (UTC)
-X-SNPS-Relay: synopsys.com
-From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-To: linux-snps-arc@lists.infradead.org
-Cc: linux-perf-users@vger.kernel.org,
- Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Mischa Jonker <Mischa.Jonker@synopsys.com>,
+ id 1mrofy-002qv3-S5
+ for linux-snps-arc@lists.infradead.org; Mon, 29 Nov 2021 21:59:08 +0000
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ms.lwn.net (Postfix) with ESMTPSA id 0F0752D3;
+ Mon, 29 Nov 2021 21:59:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0F0752D3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+ t=1638223142; bh=Lj5RLnSCWzy6Mu2SbVwIEwUbaMwVgT5GO0EA8fW/XPk=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=aoK1C7XM7/Rf0bPnomwmA+oa1AXk9qm+Y54NqdLQ3I/FdUL/F/jjv18ayn/CqJfOf
+ U6VgU4eCcRzzUKaSVGS0knyWbBL/vvcNGMDCK6t6xtc7oxZ/JVpJEC2YTj+LO/mK0H
+ /kFybj4rw18xYyx7aU+3k2O72UA+ivOCprtwSFeYOeQFiyQaZghsntHLdxnpWH9pCn
+ +V0E1IV41N35JmxXN2wlZMpqUs50+FYgeJ362v1lwxPZoXDHfHjktJHBDKYOki8Rx7
+ dzi9o8GQBFmABkPMuvxHiYlzokkf0AjKydtdHEN/632Ms6LKGvZqB+UfW6+pI+6CtK
+ YZyZ77oPqSQvQ==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Alexey Brodkin <Alexey.Brodkin@synopsys.com>, linux-doc@vger.kernel.org
+Cc: linux-snps-arc@lists.infradead.org, Alexey Brodkin
+ <Alexey.Brodkin@synopsys.com>, Randy Dunlap <rdunlap@infradead.org>,
  Vineet Gupta <vgupta@kernel.org>
-Subject: [PATCH] arc: perf: Move static structs to where they're really used
-Date: Mon, 29 Nov 2021 12:37:07 -0800
-Message-Id: <20211129203707.28510-1-abrodkin@synopsys.com>
-X-Mailer: git-send-email 2.16.2
+Subject: Re: [PATCH v2] docs: Add documentation for ARC processors
+In-Reply-To: <20211112065059.7273-1-abrodkin@synopsys.com>
+References: <20211112065059.7273-1-abrodkin@synopsys.com>
+Date: Mon, 29 Nov 2021 14:59:01 -0700
+Message-ID: <87fsresjx6.fsf@meer.lwn.net>
+MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211129_123726_094129_FF566F8C 
-X-CRM114-Status: GOOD (  18.63  )
+X-CRM114-CacheID: sfid-20211129_135906_946029_EB735C9A 
+X-CRM114-Status: GOOD (  32.66  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,388 +65,138 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-It is all well described by Stephen Rothwell who initially spotted that:
------------------------------>8----------------------------
-After merging the origin tree, today's linux-next build (arc
-haps_hs_smp_defconfig+kselftest) produced these warnings:
+Alexey Brodkin <Alexey.Brodkin@synopsys.com> writes:
 
-arch/arc/include/asm/perf_event.h:126:27: warning: 'arc_pmu_cache_map' defined but not used [-Wunused-const-variable=]
-arch/arc/include/asm/perf_event.h:91:27: warning: 'arc_pmu_ev_hw_map' defined but not used [-Wunused-const-variable=]
+> ARC processors are supported in upstream kernel since v3.9
+> and so far there was no documentation about them except some
+> Device Tree bindings.
+>
+> Fixing it with the simples set of docs now:
+> 1. Overview with pointers to other informational resources
+> 2. Autogenerated feature table
+>
+> Note though it's just the very beginning, there will be more
+> for sure given time as there're many things worth documenting
+> and in fact even contents itself is avaialble but just spread
+> in some other places. Now we'll try to keep all here and
+> then maintain it looking forward to match the state of development.
+>
+> Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Vineet Gupta <vgupta@kernel.org>
 
-Introduced by commit 0dd450fe13da ("ARC: Add perf support for ARC700 cores")
+I've applied this set, but I have a couple of quibbles that it would be
+nice to see addressed...
 
-The 2 static arrays should be moved into arch/arc/kernel/perf_event.c
-(the only place that uses them). We get the warning because perf_event.h
-is also included by arch/arc/kernel/unaligned.c.
------------------------------>8----------------------------
+> Changes v1 -> v2:
+>  * Spello "linux" -> "Linux" (Randy Dunlap)
+>
+>  Documentation/arc/arc.rst      | 81 ++++++++++++++++++++++++++++++++++
+>  Documentation/arc/features.rst |  3 ++
+>  Documentation/arc/index.rst    | 17 +++++++
+>  Documentation/arch.rst         |  1 +
+>  MAINTAINERS                    |  1 +
+>  5 files changed, 103 insertions(+)
+>  create mode 100644 Documentation/arc/arc.rst
+>  create mode 100644 Documentation/arc/features.rst
+>  create mode 100644 Documentation/arc/index.rst
+>
+> diff --git a/Documentation/arc/arc.rst b/Documentation/arc/arc.rst
+> new file mode 100644
+> index 000000000000..249d03c6be8e
+> --- /dev/null
+> +++ b/Documentation/arc/arc.rst
+> @@ -0,0 +1,81 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Linux kernel for ARC processors
+> +*******************************
+> +
+> +Other sources of information
+> +############################
+> +
+> +Below are some resources where more information can be found on
+> +ARC processors and relevant open source projects.
+> +
+> +1. `<https://embarc.org/>`_ - Community portal for open source on ARC.
+> +Good place to start to find relevant FOSS projects, toolchain releases,
+> +news items and more.
+> +
+> +2. `<https://github.com/foss-for-synopsys-dwc-arc-processors>`_ -
+> +Home for all development activities regarding open source projects for
+> +ARC processors. Some of the projects are forks of various upstream projects,
+> +where "work in progress" is hosted prior to submission to upstream projects.
+> +Other projects are developed by Synopsys and made available to community
+> +as open source for use on ARC Processors.
+> +
+> +3. `<https://www.synopsys.com/designware-ip/processor-solutions.html>`_ -
+> +Official Synopsys ARC Processors website location, with access to some IP
+> +documentation (Programmer's Reference Manuals, AKA "PRM's", see
+> +`<https://www.synopsys.com/dw/doc.php/ds/cc/programmers-reference-manual-ARC-HS.pdf>`_)
 
-Could be easily reproduced by running make with "W=1" on any up-to-date
-sources, when extra warnings get enabled (in particular
-"-Wunused-const-variable"), otherwise disabled by default in the top-level
-Makefile as "These warnings generated too much noise in a regular build".
+This manual requires registration (with a fair amount of information
+required) to get.  That should at least be mentioned if we can't find a
+less obnoxious version out there.
 
-Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: Mischa Jonker <mjonker@synopsys.com>
-Cc: Vineet Gupta <vgupta@kernel.org>
----
- arch/arc/include/asm/perf_event.h | 162 --------------------------------------
- arch/arc/kernel/perf_event.c      | 162 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 162 insertions(+), 162 deletions(-)
+> +and commercial tools (Free nSIM,
+> +`<https://www.synopsys.com/cgi-bin/dwarcnsim/req1.cgi>`_ and
+> +MetaWare Light Edition, `<https://www.synopsys.com/cgi-bin/arcmwtk_lite/reg1.cgi>`_)
+> +
+> +Important note on ARC processors configurability
+> +################################################
+> +
+> +ARC processors are highly configurable and several configurable options
+> +are supported in Linux. Some options are transparent to software
+> +(i.e cache geometries, some can be detected at runtime and configured
+> +and used accordingly, while some need to be explicitly selected or configured
+> +in the kernel's configuration utility (AKA "make menuconfig").
+> +
+> +However not all configurable options are supported when an ARC processor
+> +is to run Linux. SoC design teams should refer to "Appendix E:
+> +Configuration for ARC Linux" in the ARC HS Databook for configurability
+> +guidelines.
+> +
+> +Following these guidelines and selecting valid configuration options
+> +up front is critical to help prevent any unwanted issues during
+> +SoC bringup and software development in general.
+> +
+> +Building the Linux kernel for ARC processors
+> +############################################
+> +
+> +The process of kernel building for ARC processors is the same as for any other
+> +architecture and could be done in 2 ways:
+> +
+> +1. cross-compilation: process of compiling for ARC targets on a development
+> +host with a different processor architecture (generally x86_64/amd64).
+> +
+> +2. native compilation: process of compiling for ARC on a ARC platform
+> +(hardware board or a simulator like QEMU) with complete development environment
+> +(GNU toolchain, dtc, make etc) installed on the platform.
 
-diff --git a/arch/arc/include/asm/perf_event.h b/arch/arc/include/asm/perf_event.h
-index e1971d34ef30..4c919c0f4b30 100644
---- a/arch/arc/include/asm/perf_event.h
-+++ b/arch/arc/include/asm/perf_event.h
-@@ -63,166 +63,4 @@ struct arc_reg_cc_build {
- 
- #define PERF_COUNT_ARC_HW_MAX	(PERF_COUNT_HW_MAX + 8)
- 
--/*
-- * Some ARC pct quirks:
-- *
-- * PERF_COUNT_HW_STALLED_CYCLES_BACKEND
-- * PERF_COUNT_HW_STALLED_CYCLES_FRONTEND
-- *	The ARC 700 can either measure stalls per pipeline stage, or all stalls
-- *	combined; for now we assign all stalls to STALLED_CYCLES_BACKEND
-- *	and all pipeline flushes (e.g. caused by mispredicts, etc.) to
-- *	STALLED_CYCLES_FRONTEND.
-- *
-- *	We could start multiple performance counters and combine everything
-- *	afterwards, but that makes it complicated.
-- *
-- *	Note that I$ cache misses aren't counted by either of the two!
-- */
--
--/*
-- * ARC PCT has hardware conditions with fixed "names" but variable "indexes"
-- * (based on a specific RTL build)
-- * Below is the static map between perf generic/arc specific event_id and
-- * h/w condition names.
-- * At the time of probe, we loop thru each index and find it's name to
-- * complete the mapping of perf event_id to h/w index as latter is needed
-- * to program the counter really
-- */
--static const char * const arc_pmu_ev_hw_map[] = {
--	/* count cycles */
--	[PERF_COUNT_HW_CPU_CYCLES] = "crun",
--	[PERF_COUNT_HW_REF_CPU_CYCLES] = "crun",
--	[PERF_COUNT_HW_BUS_CYCLES] = "crun",
--
--	[PERF_COUNT_HW_STALLED_CYCLES_FRONTEND] = "bflush",
--	[PERF_COUNT_HW_STALLED_CYCLES_BACKEND] = "bstall",
--
--	/* counts condition */
--	[PERF_COUNT_HW_INSTRUCTIONS] = "iall",
--	/* All jump instructions that are taken */
--	[PERF_COUNT_HW_BRANCH_INSTRUCTIONS] = "ijmptak",
--#ifdef CONFIG_ISA_ARCV2
--	[PERF_COUNT_HW_BRANCH_MISSES] = "bpmp",
--#else
--	[PERF_COUNT_ARC_BPOK]         = "bpok",	  /* NP-NT, PT-T, PNT-NT */
--	[PERF_COUNT_HW_BRANCH_MISSES] = "bpfail", /* NP-T, PT-NT, PNT-T */
--#endif
--	[PERF_COUNT_ARC_LDC] = "imemrdc",	/* Instr: mem read cached */
--	[PERF_COUNT_ARC_STC] = "imemwrc",	/* Instr: mem write cached */
--
--	[PERF_COUNT_ARC_DCLM] = "dclm",		/* D-cache Load Miss */
--	[PERF_COUNT_ARC_DCSM] = "dcsm",		/* D-cache Store Miss */
--	[PERF_COUNT_ARC_ICM] = "icm",		/* I-cache Miss */
--	[PERF_COUNT_ARC_EDTLB] = "edtlb",	/* D-TLB Miss */
--	[PERF_COUNT_ARC_EITLB] = "eitlb",	/* I-TLB Miss */
--
--	[PERF_COUNT_HW_CACHE_REFERENCES] = "imemrdc",	/* Instr: mem read cached */
--	[PERF_COUNT_HW_CACHE_MISSES] = "dclm",		/* D-cache Load Miss */
--};
--
--#define C(_x)			PERF_COUNT_HW_CACHE_##_x
--#define CACHE_OP_UNSUPPORTED	0xffff
--
--static const unsigned int arc_pmu_cache_map[C(MAX)][C(OP_MAX)][C(RESULT_MAX)] = {
--	[C(L1D)] = {
--		[C(OP_READ)] = {
--			[C(RESULT_ACCESS)]	= PERF_COUNT_ARC_LDC,
--			[C(RESULT_MISS)]	= PERF_COUNT_ARC_DCLM,
--		},
--		[C(OP_WRITE)] = {
--			[C(RESULT_ACCESS)]	= PERF_COUNT_ARC_STC,
--			[C(RESULT_MISS)]	= PERF_COUNT_ARC_DCSM,
--		},
--		[C(OP_PREFETCH)] = {
--			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
--			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
--		},
--	},
--	[C(L1I)] = {
--		[C(OP_READ)] = {
--			[C(RESULT_ACCESS)]	= PERF_COUNT_HW_INSTRUCTIONS,
--			[C(RESULT_MISS)]	= PERF_COUNT_ARC_ICM,
--		},
--		[C(OP_WRITE)] = {
--			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
--			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
--		},
--		[C(OP_PREFETCH)] = {
--			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
--			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
--		},
--	},
--	[C(LL)] = {
--		[C(OP_READ)] = {
--			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
--			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
--		},
--		[C(OP_WRITE)] = {
--			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
--			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
--		},
--		[C(OP_PREFETCH)] = {
--			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
--			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
--		},
--	},
--	[C(DTLB)] = {
--		[C(OP_READ)] = {
--			[C(RESULT_ACCESS)]	= PERF_COUNT_ARC_LDC,
--			[C(RESULT_MISS)]	= PERF_COUNT_ARC_EDTLB,
--		},
--			/* DTLB LD/ST Miss not segregated by h/w*/
--		[C(OP_WRITE)] = {
--			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
--			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
--		},
--		[C(OP_PREFETCH)] = {
--			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
--			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
--		},
--	},
--	[C(ITLB)] = {
--		[C(OP_READ)] = {
--			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
--			[C(RESULT_MISS)]	= PERF_COUNT_ARC_EITLB,
--		},
--		[C(OP_WRITE)] = {
--			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
--			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
--		},
--		[C(OP_PREFETCH)] = {
--			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
--			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
--		},
--	},
--	[C(BPU)] = {
--		[C(OP_READ)] = {
--			[C(RESULT_ACCESS)] = PERF_COUNT_HW_BRANCH_INSTRUCTIONS,
--			[C(RESULT_MISS)]	= PERF_COUNT_HW_BRANCH_MISSES,
--		},
--		[C(OP_WRITE)] = {
--			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
--			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
--		},
--		[C(OP_PREFETCH)] = {
--			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
--			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
--		},
--	},
--	[C(NODE)] = {
--		[C(OP_READ)] = {
--			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
--			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
--		},
--		[C(OP_WRITE)] = {
--			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
--			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
--		},
--		[C(OP_PREFETCH)] = {
--			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
--			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
--		},
--	},
--};
--
- #endif /* __ASM_PERF_EVENT_H */
-diff --git a/arch/arc/kernel/perf_event.c b/arch/arc/kernel/perf_event.c
-index 145722f80c9b..07c93ce67774 100644
---- a/arch/arc/kernel/perf_event.c
-+++ b/arch/arc/kernel/perf_event.c
-@@ -17,6 +17,168 @@
- /* HW holds 8 symbols + one for null terminator */
- #define ARCPMU_EVENT_NAME_LEN	9
- 
-+/*
-+ * Some ARC pct quirks:
-+ *
-+ * PERF_COUNT_HW_STALLED_CYCLES_BACKEND
-+ * PERF_COUNT_HW_STALLED_CYCLES_FRONTEND
-+ *	The ARC 700 can either measure stalls per pipeline stage, or all stalls
-+ *	combined; for now we assign all stalls to STALLED_CYCLES_BACKEND
-+ *	and all pipeline flushes (e.g. caused by mispredicts, etc.) to
-+ *	STALLED_CYCLES_FRONTEND.
-+ *
-+ *	We could start multiple performance counters and combine everything
-+ *	afterwards, but that makes it complicated.
-+ *
-+ *	Note that I$ cache misses aren't counted by either of the two!
-+ */
-+
-+/*
-+ * ARC PCT has hardware conditions with fixed "names" but variable "indexes"
-+ * (based on a specific RTL build)
-+ * Below is the static map between perf generic/arc specific event_id and
-+ * h/w condition names.
-+ * At the time of probe, we loop thru each index and find it's name to
-+ * complete the mapping of perf event_id to h/w index as latter is needed
-+ * to program the counter really
-+ */
-+static const char * const arc_pmu_ev_hw_map[] = {
-+	/* count cycles */
-+	[PERF_COUNT_HW_CPU_CYCLES] = "crun",
-+	[PERF_COUNT_HW_REF_CPU_CYCLES] = "crun",
-+	[PERF_COUNT_HW_BUS_CYCLES] = "crun",
-+
-+	[PERF_COUNT_HW_STALLED_CYCLES_FRONTEND] = "bflush",
-+	[PERF_COUNT_HW_STALLED_CYCLES_BACKEND] = "bstall",
-+
-+	/* counts condition */
-+	[PERF_COUNT_HW_INSTRUCTIONS] = "iall",
-+	/* All jump instructions that are taken */
-+	[PERF_COUNT_HW_BRANCH_INSTRUCTIONS] = "ijmptak",
-+#ifdef CONFIG_ISA_ARCV2
-+	[PERF_COUNT_HW_BRANCH_MISSES] = "bpmp",
-+#else
-+	[PERF_COUNT_ARC_BPOK]         = "bpok",	  /* NP-NT, PT-T, PNT-NT */
-+	[PERF_COUNT_HW_BRANCH_MISSES] = "bpfail", /* NP-T, PT-NT, PNT-T */
-+#endif
-+	[PERF_COUNT_ARC_LDC] = "imemrdc",	/* Instr: mem read cached */
-+	[PERF_COUNT_ARC_STC] = "imemwrc",	/* Instr: mem write cached */
-+
-+	[PERF_COUNT_ARC_DCLM] = "dclm",		/* D-cache Load Miss */
-+	[PERF_COUNT_ARC_DCSM] = "dcsm",		/* D-cache Store Miss */
-+	[PERF_COUNT_ARC_ICM] = "icm",		/* I-cache Miss */
-+	[PERF_COUNT_ARC_EDTLB] = "edtlb",	/* D-TLB Miss */
-+	[PERF_COUNT_ARC_EITLB] = "eitlb",	/* I-TLB Miss */
-+
-+	[PERF_COUNT_HW_CACHE_REFERENCES] = "imemrdc",	/* Instr: mem read cached */
-+	[PERF_COUNT_HW_CACHE_MISSES] = "dclm",		/* D-cache Load Miss */
-+};
-+
-+#define C(_x)			PERF_COUNT_HW_CACHE_##_x
-+#define CACHE_OP_UNSUPPORTED	0xffff
-+
-+static const unsigned int arc_pmu_cache_map[C(MAX)][C(OP_MAX)][C(RESULT_MAX)] = {
-+	[C(L1D)] = {
-+		[C(OP_READ)] = {
-+			[C(RESULT_ACCESS)]	= PERF_COUNT_ARC_LDC,
-+			[C(RESULT_MISS)]	= PERF_COUNT_ARC_DCLM,
-+		},
-+		[C(OP_WRITE)] = {
-+			[C(RESULT_ACCESS)]	= PERF_COUNT_ARC_STC,
-+			[C(RESULT_MISS)]	= PERF_COUNT_ARC_DCSM,
-+		},
-+		[C(OP_PREFETCH)] = {
-+			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
-+			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
-+		},
-+	},
-+	[C(L1I)] = {
-+		[C(OP_READ)] = {
-+			[C(RESULT_ACCESS)]	= PERF_COUNT_HW_INSTRUCTIONS,
-+			[C(RESULT_MISS)]	= PERF_COUNT_ARC_ICM,
-+		},
-+		[C(OP_WRITE)] = {
-+			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
-+			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
-+		},
-+		[C(OP_PREFETCH)] = {
-+			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
-+			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
-+		},
-+	},
-+	[C(LL)] = {
-+		[C(OP_READ)] = {
-+			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
-+			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
-+		},
-+		[C(OP_WRITE)] = {
-+			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
-+			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
-+		},
-+		[C(OP_PREFETCH)] = {
-+			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
-+			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
-+		},
-+	},
-+	[C(DTLB)] = {
-+		[C(OP_READ)] = {
-+			[C(RESULT_ACCESS)]	= PERF_COUNT_ARC_LDC,
-+			[C(RESULT_MISS)]	= PERF_COUNT_ARC_EDTLB,
-+		},
-+			/* DTLB LD/ST Miss not segregated by h/w*/
-+		[C(OP_WRITE)] = {
-+			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
-+			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
-+		},
-+		[C(OP_PREFETCH)] = {
-+			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
-+			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
-+		},
-+	},
-+	[C(ITLB)] = {
-+		[C(OP_READ)] = {
-+			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
-+			[C(RESULT_MISS)]	= PERF_COUNT_ARC_EITLB,
-+		},
-+		[C(OP_WRITE)] = {
-+			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
-+			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
-+		},
-+		[C(OP_PREFETCH)] = {
-+			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
-+			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
-+		},
-+	},
-+	[C(BPU)] = {
-+		[C(OP_READ)] = {
-+			[C(RESULT_ACCESS)] = PERF_COUNT_HW_BRANCH_INSTRUCTIONS,
-+			[C(RESULT_MISS)]	= PERF_COUNT_HW_BRANCH_MISSES,
-+		},
-+		[C(OP_WRITE)] = {
-+			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
-+			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
-+		},
-+		[C(OP_PREFETCH)] = {
-+			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
-+			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
-+		},
-+	},
-+	[C(NODE)] = {
-+		[C(OP_READ)] = {
-+			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
-+			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
-+		},
-+		[C(OP_WRITE)] = {
-+			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
-+			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
-+		},
-+		[C(OP_PREFETCH)] = {
-+			[C(RESULT_ACCESS)]	= CACHE_OP_UNSUPPORTED,
-+			[C(RESULT_MISS)]	= CACHE_OP_UNSUPPORTED,
-+		},
-+	},
-+};
-+
- enum arc_pmu_attr_groups {
- 	ARCPMU_ATTR_GR_EVENTS,
- 	ARCPMU_ATTR_GR_FORMATS,
--- 
-2.16.2
+These enumerated lists would render a lot more pleasantly if you
+actually formatted them as RST enumerated lists - with lines after the
+first indented.
 
+> +In both cases, up-to-date GNU toolchain for ARC for the host is needed.
+> +Synopsys offers prebuilt toolchain releases which can be used for this purpose,
+> +available from:
+> +
+> +1. Synopsys GNU toolchain releases:
+> +`<https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/releases>`_
+> +2. Linux kernel compilers collection:
+> +`<https://mirrors.edge.kernel.org/pub/tools/crosstool/>`_
+> +3. Bootlin's toolchain collection: `<https://toolchains.bootlin.com/>`_
+
+These, in particular, render in a pretty ugly way.
+
+Thanks,
+
+jon
 
 _______________________________________________
 linux-snps-arc mailing list
