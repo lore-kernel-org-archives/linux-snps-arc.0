@@ -4,53 +4,160 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04744C433EF
-	for <linux-snps-arc@archiver.kernel.org>; Sat,  4 Dec 2021 18:53:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2DCAC433F5
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  6 Dec 2021 15:03:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=LX19R/dQ3B04BjlPibZiyrrqe5cZ6gdeokMQ/g/GQUk=; b=I+CgM9/wUCUz6u
-	JgO/VGfar8LjTW/3fe+Gw+4fyoIrumrggK7DgelUv8Xdquw8x6i+8iwi4+l3NqNLljYY8uP5v1n7s
-	TRZHaMBSuX10gBq8fRkHqz/tgYBULWX335uh/j2eUIG9imc/NsCXBjFTtI4OIw35CiTEoOxuOEDVw
-	57VRehb2+8ezjFtRUxb/sLe8DrnslVlPMXRSCNeAD8Ph5yQYqEFXwPYm9sq5DumOedwuUQoaW966B
-	H8OtR4uEd8vn0A1inBlRWVjTYfXEcu23fRZTI9e7q/L2QgLXygIYHPQ3q5k+p1qfvSQB9cXQnUQkW
-	tkmGTrMvhmK6OupzS/HQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
+	Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=vcoNhp8glaPzihdDX0c8X5nzTmKL9uzz46L94YQEJVI=; b=Kv3O1pURpkM+mB
+	Cd3zQCHdET7rZbZZn+hUOFCc9d0cHa2ST7eOuNSZs6MsgNlpvUwIPA0nXcvgdS18hdQf0MpM/YgNw
+	o9cATTTSOEy9wmt7O0Wt03sZ7zBEDEdm3ZnUss2x/NoQgWTOpK0xLeBYaDEc8Tl86V8rKMHOPBljj
+	uI1yrqfTBIUlG+C6JQetTkr2V3kqEcG1ZLZCJZJ2OH8aKoTMdN4B6quuwFru+lCbDh3RXTd/z16n4
+	DcBbRzNPiI5N16ES3JfmNJ64wl/2gom7iVdG6a9euwVTJhYvChycbJLxT+8GEdACDe8HZ3JmQYTBk
+	q7T6tdnH4LXMLjncRdNA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mta9g-000fwo-VJ; Sat, 04 Dec 2021 18:53:04 +0000
-Received: from mga17.intel.com ([192.55.52.151])
+	id 1muFWM-004LrE-2P; Mon, 06 Dec 2021 15:03:14 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mta9e-000fwH-Dv
- for linux-snps-arc@lists.infradead.org; Sat, 04 Dec 2021 18:53:04 +0000
-X-IronPort-AV: E=McAfee;i="6200,9189,10188"; a="217827142"
-X-IronPort-AV: E=Sophos;i="5.87,287,1631602800"; d="scan'208";a="217827142"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Dec 2021 10:52:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,287,1631602800"; d="scan'208";a="578524180"
-Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
- by fmsmga004.fm.intel.com with ESMTP; 04 Dec 2021 10:52:58 -0800
-Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1mta9Z-000JK4-Cd; Sat, 04 Dec 2021 18:52:57 +0000
-Date: Sun, 5 Dec 2021 02:52:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vineet Gupta <vgupta@kernel.org>
-Cc: kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
- linux-snps-arc@lists.infradead.org
-Subject: net/ipv4/tcp_cong.c:238:24: sparse: sparse: incorrect type in
- initializer (different address spaces)
-Message-ID: <202112050240.xH7o2MwA-lkp@intel.com>
+ id 1muFWI-004Ll6-6U
+ for linux-snps-arc@lists.infradead.org; Mon, 06 Dec 2021 15:03:11 +0000
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B6Dx42O023237; 
+ Mon, 6 Dec 2021 15:02:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : subject :
+ date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=aU3vYITWYi37m2Y65ddeWBb0nlcFagtDpPUSn7tkP9w=;
+ b=kHt+UzgXll28jszRFpf4Q+ZC6SelNPFg59S1AQxS0MlM17T0H0huG7DNLc6uUrC9zReS
+ 3TC4tV/P4UWVnbih1Z8rXB1ZTENpA9f3SslFj/2gXdtzkB9fYMMI0bz3MFL5raV27MYD
+ +hCFcgZKR1A0S2Z+vLLqxc1IUl5ml+woxqdk/XWsx1I6RX3E8vdIG9JNupiqzbZghOMn
+ AQjtmJPMK+I6oek3g/ELkXVwsc13XaCdbJoEoefJ0EgQR0C6hRl+EZ4HdR6vtjH5Fvn4
+ jFD9eXE++qRQverOI7Wc0UXLzq0JVESYoG4vAvP4oOtboFzihhwFLkqmpW7qF4Pmx2xS qw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3csbbqjrvy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 06 Dec 2021 15:02:56 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1B6Ev63a091928;
+ Mon, 6 Dec 2021 15:02:55 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2101.outbound.protection.outlook.com [104.47.55.101])
+ by userp3030.oracle.com with ESMTP id 3cqwew49s0-2
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 06 Dec 2021 15:02:55 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=i2Z1p1P8uJQ3Kp+K2UWS2Ry9tniqnhsN0o4/F8GT1ytqCXnTX4t4TC075//Bm3AiyEfq71/GH3HMzoJyKScMHWUhBvTLvxFD1TbGX02UPwB+9BbHJ7CmpCPs2HcfdIjDhucMc7EGqaxYzxxjZ5+P6vNjeVqOZy2bzkS/ViV4Tzbn6o9tmcYas+2jY13fDYDjUOAdbEjCskTj3/02VuXPQlSPVj5gMG1CmMFfJ4mQWx6kE0ipS/uACYfMXnnME9gLoz2b5da9HrE7+HKPzsOj77sU9XZ6tXiJEu5UEIx4TjF2MdUcvUHP2Phfz63iUwmxesbsi3bZayWVS3vldFNAMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aU3vYITWYi37m2Y65ddeWBb0nlcFagtDpPUSn7tkP9w=;
+ b=akEoucZlDCE2ETwCCVFVPrvzJqBslJuO8dUYCCB0DCBVIxoyNJiEAC0iiIkF0vfiEB0mQK9/oAVngxeTsWQTjx4OuMNILeGxFa6+7jSZdfuQ7kgPc4iFR/nwGmNcORdrKYMcnBSHObSKQmqsH16dFC/wwjSRpbc+zVdvbKQM3CxYokKk4hB4TTmYtaTxxvP/Exd0VjVB/QQsdNttEequGImn+FyotFtDTJgUUpTUnYcSf7PmFerBmJ7/Rvwo0ZQ5EvnjE3VFUJfBElvIkKvL130mERgzoUqbtIPR1Y/MTNd8rut4UxkBxefPj+9e7KvZMad6nyielRDGaqbgVInYjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aU3vYITWYi37m2Y65ddeWBb0nlcFagtDpPUSn7tkP9w=;
+ b=P8rhB1gBQwD1IM474vTb7+FsudaM/m+7HuPnEcQdbqMeIcOqQFU+yLqUbjJ/bj7kX3qKngpNJ7qdfl9ub1ERLtbv+8UNyM2flYQ2MVcPSivrLjGyRJykObRszTrZcLJS2Dd+23jCZO7n+SVMOdRCmZP2Mx/NivbJLAmoL16zA8E=
+Received: from SN6PR10MB3022.namprd10.prod.outlook.com (2603:10b6:805:d8::25)
+ by SA2PR10MB4556.namprd10.prod.outlook.com (2603:10b6:806:119::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.20; Mon, 6 Dec
+ 2021 15:02:52 +0000
+Received: from SN6PR10MB3022.namprd10.prod.outlook.com
+ ([fe80::3857:3a25:3444:fdd3]) by SN6PR10MB3022.namprd10.prod.outlook.com
+ ([fe80::3857:3a25:3444:fdd3%4]) with mapi id 15.20.4755.022; Mon, 6 Dec 2021
+ 15:02:52 +0000
+From: Liam Howlett <liam.howlett@oracle.com>
+To: Liam Howlett <liam.howlett@oracle.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, Vineet Gupta <vgupta@kernel.org>,
+ "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
+Subject: [RFC PATCH 1/6] ARC: mm/mmap.c: Check length of unmapped area before
+ allowing MAP_FIXED
+Thread-Topic: [RFC PATCH 1/6] ARC: mm/mmap.c: Check length of unmapped area
+ before allowing MAP_FIXED
+Thread-Index: AQHX6rJXf1YQfMIjYUuPLE2D2lg9jA==
+Date: Mon, 6 Dec 2021 15:02:52 +0000
+Message-ID: <20211206150231.2283069-2-Liam.Howlett@oracle.com>
+References: <20211206150231.2283069-1-Liam.Howlett@oracle.com>
+In-Reply-To: <20211206150231.2283069-1-Liam.Howlett@oracle.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: git-send-email 2.30.2
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d8d1d9a5-59c0-43aa-6623-08d9b8c979fb
+x-ms-traffictypediagnostic: SA2PR10MB4556:EE_
+x-microsoft-antispam-prvs: <SA2PR10MB4556A89EA7C30F2328876E87FD6D9@SA2PR10MB4556.namprd10.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: WZi7fI7h4k+MSeTCjZKtYJEK+z3cTu9AffF2+c8Kfj7F+AWgQW/CZEQIsne+RkOHnk92TUeJV9DESMdPLWi1l/g8Ho4V7s5xq8JEh+/riH1acs/K13XlxVPcyunh50qr2s5U/nGbsYD8yC7FRMQJ+04Qc06mDYp28tKiPD1ipBBpvH8Y+onOLco+buH9lEI11KyezXHB9QnGGOm1d3C+X9AW/t+Zy8y9TE/YCiu2Hu4LLUPE8x2lvUdAtLv0xVFeB7HFAy6FfhxvVyE+VBFv/1IydtF3Rrhj7LBSYHNCuhamdIdXjL1bOPPd2tbf6X/4XU9GYJZzU7Ln1GrscnwOcMHs/OtZixr6PfJroIUr+ExSnNvOKQ05CmNXfR39cK+Abks4hOPfxAfWXwNQv2DWyZAXn1Wlq7ikOkN+65dWzFm3e2Oo9YkIrqJHXCET5fidpL5wQgDsPrlk7v6xU8+b4MwVN8HaL2s9vFn7JbLmuh7bS6JHRRNy1TElp9vRhIU296eEc+66McNoyx9isFsgZWhrz2fTlyr7CyfBrL2G2TQ/3qDRvx3iU6P7Sp08l/yzIxCj5Rpkkvo+J32VhlOAoAugH82f24TNYlQ48YPDtHNVd1V7yJU1tdMpwDxD3rokOxSMIYAqTGs8xsTq30PkUfeWSbVw1Q0SUhcpOVmJJWLp7yGF1XYNTHyRoIzAqZ9UVJuMMace9wazmzr0oAnxuA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR10MB3022.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(5660300002)(6486002)(110136005)(71200400001)(6512007)(36756003)(186003)(122000001)(8936002)(1076003)(2906002)(6506007)(508600001)(38100700002)(26005)(38070700005)(8676002)(66556008)(66946007)(2616005)(66446008)(316002)(86362001)(44832011)(64756008)(66476007)(83380400001)(4744005)(91956017)(76116006);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?Y1e8JEaKsnl8zxt8Za9OjP+fMEIkq8eZe2QGWFyadpHCtR4p4d7iYsrQGS?=
+ =?iso-8859-1?Q?xVjKI0UwsZe+u2k105+foY/GWH7NQbKfa9xBttwodKDj0kIJ9ZDJAbTb5m?=
+ =?iso-8859-1?Q?DboDyQMjG5y98UReRgWj7zBIbl6Ab5EwYJ3996ZVVBp4W4PrCDxdAtTWNo?=
+ =?iso-8859-1?Q?HzHvGfPASVTo6hV5oQE5oIdVysb+xcDc6CUb/OhkHfno8O0/5/RaoYmbpK?=
+ =?iso-8859-1?Q?p8OvY0TNakLa11wEin/JiGVs1K3OZgIEN7hBGtr0N8cn8KEkJy++mKG/CY?=
+ =?iso-8859-1?Q?cUz8wsGIEAp9Sag9rHDM7Z7gGZVj59hX0whDPnuLGq/xVswvyQzUxtc04B?=
+ =?iso-8859-1?Q?xVixeEU2e77IQn5JQgKXKK7LKAOOsoMSDdP0xYmg/FZm5fwSzzjxOZRMc6?=
+ =?iso-8859-1?Q?pYzTC1H0dMGzhXh/7y6+c8SjrP04Dvc+H/7/oyvwA+vfPZE2ubhcwMJIhT?=
+ =?iso-8859-1?Q?PnFwnO/lGKemWZQMsLtvNzyiBdU3dmKobSKI0yVBQPMSoThvTVStkeMccU?=
+ =?iso-8859-1?Q?K9NErglww3JV6KZNfhWKHaiom8KjyXg8cwGMZW04RvkGRN9L6o/xzMmeCK?=
+ =?iso-8859-1?Q?Zwpm4LU5mFcXIr165wPAKw0n/w0Hr3pMBbWvM4A6U+DhKQG3SjmQv2WokU?=
+ =?iso-8859-1?Q?Cg9taWQs/oqkQRpfNAbM8J3BZ2Iakifl0yAIUiOGjX7U33kWfr3v6p/IDu?=
+ =?iso-8859-1?Q?Qwg08hTcIJE5OYJ4Iqe0eoxVNAmDbaE2LzgBkq3eYp4QlIizO5hd7ccBCH?=
+ =?iso-8859-1?Q?AC3/Alh0AnBJwz5a7bMzts8w/D0dca5S65wb4KEU1BCKDIltLGlurvkBVG?=
+ =?iso-8859-1?Q?DXLYfbw5wmjbMQFY+ytuEKicyKxWrvQs7TGNMNo1YqZupD5WiymbxNCdhT?=
+ =?iso-8859-1?Q?jW1qnfmh0W2zXSytwfkHDgiDG4RGwqgnGnacskFXS0nhC9/zISC6ojfcky?=
+ =?iso-8859-1?Q?k79Eexavl2fOJARwOV7oE6kkK20VlXLwdZrQlAi8XSpQOByUCaYBFwDBkI?=
+ =?iso-8859-1?Q?oeWwwiIJ+6FgMs98xwYO1xBL9J3tM6fXcnZB9LYcfOE6sLYoOTep77XQ3B?=
+ =?iso-8859-1?Q?Uf+1Vw5zLrHZQ4BB4osgXmoOjjojStPQ4vb73eQ4xNEoF2J8EH2u3WatXE?=
+ =?iso-8859-1?Q?hrCpw1RrXhOLo+M+g4Y/4y1bdfZ3T2h0Z68bLebIvSXM9VwHDzdeUL0ewt?=
+ =?iso-8859-1?Q?aNm77MKoFYovp7XzGTXD3j61fH8YriQU5WzSsNCnIjtqGOBMjIfhy092CY?=
+ =?iso-8859-1?Q?DH9QcbNN+nurUaKHlZ+SZJXiv7U6edTUMFSB1trBU+9v2Ppw86rxfsibTZ?=
+ =?iso-8859-1?Q?siKE0tkqLno48YYJxPudEotARmHWkMtZ1GrsfKMjE/RopQLKxhUAOYVL8o?=
+ =?iso-8859-1?Q?tg+rLpVIjU7cQb+54TcWyI9SyOAHeHyvQxeir7bd2Gqv/n0T6CWsbfi3ct?=
+ =?iso-8859-1?Q?xDwTqfwEQc4LQ3TmCJaY8lHRwuB3QIeyTvu1Ylx7DSKpqei2/I+kxI1PRW?=
+ =?iso-8859-1?Q?I54at4h1lXONMEF5eHgD+MAGInfcthJJuNzpv265kpnA1WlkjmRUDuud6N?=
+ =?iso-8859-1?Q?bdYqnJDmPEnbtgL9Xh5ctSOuN8/pbeddNOWFoWs+DsDzWBfe1/FLHRh11J?=
+ =?iso-8859-1?Q?AarVkVMcAZofsxsqG/G6rqOsE3lqE/fo7And1ySs8IJ/TU0fXlU/lPkDiC?=
+ =?iso-8859-1?Q?02zs9Pj0Lu8i8uSI0lQ=3D?=
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR10MB3022.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8d1d9a5-59c0-43aa-6623-08d9b8c979fb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Dec 2021 15:02:52.3466 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0zDklR4l4BS/Oh6Lnncrk5wF+jQCuQdwkZqHDTTbiykmB1kxBVtMY1IdROOWubGIsO2Gc32vQOEGh/VvlIbgaA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4556
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10189
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ suspectscore=0
+ adultscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112060094
+X-Proofpoint-GUID: mktskCB8dfxCH1j2xL-4gTLRRrStdDWj
+X-Proofpoint-ORIG-GUID: mktskCB8dfxCH1j2xL-4gTLRRrStdDWj
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211204_105302_513396_3BFA26D5 
-X-CRM114-Status: GOOD (  10.33  )
+X-CRM114-CacheID: sfid-20211206_070310_446502_AC62F140 
+X-CRM114-Status: GOOD (  16.82  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,80 +174,42 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bbef3c7a63d2a4cb0f3f839db9e767f168c5e348
-commit: e188f3330a13df904d77003846eafd3edf99009d ARC: cmpxchg/xchg: rewrite as macros to make type safe
-date:   3 months ago
-config: arc-randconfig-s031-20211204 (https://download.01.org/0day-ci/archive/20211205/202112050240.xH7o2MwA-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 11.2.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e188f3330a13df904d77003846eafd3edf99009d
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e188f3330a13df904d77003846eafd3edf99009d
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arc SHELL=/bin/bash net/ipv4/
+arch_get_unmapped_area() could potentially allow a larger than possible
+length when using the MAP_FIXED flag.  The bound check should come
+before the check for MAP_FIXED.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-
-sparse warnings: (new ones prefixed by >>)
->> net/ipv4/tcp_cong.c:238:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct tcp_congestion_ops const [noderef] __rcu *_val_ @@     got struct tcp_congestion_ops *[assigned] ca @@
-   net/ipv4/tcp_cong.c:238:24: sparse:     expected struct tcp_congestion_ops const [noderef] __rcu *_val_
-   net/ipv4/tcp_cong.c:238:24: sparse:     got struct tcp_congestion_ops *[assigned] ca
->> net/ipv4/tcp_cong.c:238:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tcp_congestion_ops const *prev @@     got struct tcp_congestion_ops const [noderef] __rcu *[assigned] _val_ @@
-   net/ipv4/tcp_cong.c:238:22: sparse:     expected struct tcp_congestion_ops const *prev
-   net/ipv4/tcp_cong.c:238:22: sparse:     got struct tcp_congestion_ops const [noderef] __rcu *[assigned] _val_
-
-vim +238 net/ipv4/tcp_cong.c
-
-317a76f9a44b43 Stephen Hemminger 2005-06-23  219  
-317a76f9a44b43 Stephen Hemminger 2005-06-23  220  /* Used by sysctl to change default congestion control */
-6670e152447732 Stephen Hemminger 2017-11-14  221  int tcp_set_default_congestion_control(struct net *net, const char *name)
-317a76f9a44b43 Stephen Hemminger 2005-06-23  222  {
-317a76f9a44b43 Stephen Hemminger 2005-06-23  223  	struct tcp_congestion_ops *ca;
-6670e152447732 Stephen Hemminger 2017-11-14  224  	const struct tcp_congestion_ops *prev;
-6670e152447732 Stephen Hemminger 2017-11-14  225  	int ret;
-317a76f9a44b43 Stephen Hemminger 2005-06-23  226  
-6670e152447732 Stephen Hemminger 2017-11-14  227  	rcu_read_lock();
-6670e152447732 Stephen Hemminger 2017-11-14  228  	ca = tcp_ca_find_autoload(net, name);
-6670e152447732 Stephen Hemminger 2017-11-14  229  	if (!ca) {
-6670e152447732 Stephen Hemminger 2017-11-14  230  		ret = -ENOENT;
-0baf26b0fcd74b Martin KaFai Lau  2020-01-08  231  	} else if (!bpf_try_module_get(ca, ca->owner)) {
-6670e152447732 Stephen Hemminger 2017-11-14  232  		ret = -EBUSY;
-8d432592f30fcc Jonathon Reinhart 2021-05-01  233  	} else if (!net_eq(net, &init_net) &&
-8d432592f30fcc Jonathon Reinhart 2021-05-01  234  			!(ca->flags & TCP_CONG_NON_RESTRICTED)) {
-8d432592f30fcc Jonathon Reinhart 2021-05-01  235  		/* Only init netns can set default to a restricted algorithm */
-8d432592f30fcc Jonathon Reinhart 2021-05-01  236  		ret = -EPERM;
-6670e152447732 Stephen Hemminger 2017-11-14  237  	} else {
-6670e152447732 Stephen Hemminger 2017-11-14 @238  		prev = xchg(&net->ipv4.tcp_congestion_control, ca);
-6670e152447732 Stephen Hemminger 2017-11-14  239  		if (prev)
-0baf26b0fcd74b Martin KaFai Lau  2020-01-08  240  			bpf_module_put(prev, prev->owner);
-317a76f9a44b43 Stephen Hemminger 2005-06-23  241  
-6670e152447732 Stephen Hemminger 2017-11-14  242  		ca->flags |= TCP_CONG_NON_RESTRICTED;
-317a76f9a44b43 Stephen Hemminger 2005-06-23  243  		ret = 0;
-317a76f9a44b43 Stephen Hemminger 2005-06-23  244  	}
-6670e152447732 Stephen Hemminger 2017-11-14  245  	rcu_read_unlock();
-317a76f9a44b43 Stephen Hemminger 2005-06-23  246  
-317a76f9a44b43 Stephen Hemminger 2005-06-23  247  	return ret;
-317a76f9a44b43 Stephen Hemminger 2005-06-23  248  }
-317a76f9a44b43 Stephen Hemminger 2005-06-23  249  
-
-:::::: The code at line 238 was first introduced by commit
-:::::: 6670e152447732ba90626f36dfc015a13fbf150e tcp: Namespace-ify sysctl_tcp_default_congestion_control
-
-:::::: TO: Stephen Hemminger <stephen@networkplumber.org>
-:::::: CC: David S. Miller <davem@davemloft.net>
-
+Fixes: 5bba49f5397c (ARC: [mm] Aliasing VIPT dcache support 4/4)
+Signed-off-by: Liam R. Howlett <Liam.Howlett@oracle.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ arch/arc/mm/mmap.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/arch/arc/mm/mmap.c b/arch/arc/mm/mmap.c
+index 722d26b94307..1d7076406c4e 100644
+--- a/arch/arc/mm/mmap.c
++++ b/arch/arc/mm/mmap.c
+@@ -35,6 +35,9 @@ arch_get_unmapped_area(struct file *filp, unsigned long addr,
+ 	int aliasing = cache_is_vipt_aliasing();
+ 	struct vm_unmapped_area_info info;
+ 
++	if (len > TASK_SIZE)
++		return -ENOMEM;
++
+ 	/*
+ 	 * We only need to do colour alignment if D cache aliases.
+ 	 */
+@@ -51,9 +54,6 @@ arch_get_unmapped_area(struct file *filp, unsigned long addr,
+ 		return addr;
+ 	}
+ 
+-	if (len > TASK_SIZE)
+-		return -ENOMEM;
+-
+ 	if (addr) {
+ 		if (do_align)
+ 			addr = COLOUR_ALIGN(addr, pgoff);
+-- 
+2.30.2
 
 _______________________________________________
 linux-snps-arc mailing list
