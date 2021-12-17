@@ -4,73 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1799C433F5
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 15 Dec 2021 19:17:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 008AFC433EF
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 17 Dec 2021 23:13:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Ex3mDr17302muq18sjlTEhhahePAFDQOeWQUufOcjeU=; b=TSClugFw3C8k7T
-	u750Zhzukv8QbKDfL19sOPrrb9i+GvLK663fpVZNUAn6Cf/ikDWVUGDVSqNcEx4byRHpov2L2eFCu
-	b601SiJSq04u3bQgX89ObdeM/jjedUB1uUFP+JvTPpUKOaiiZaTShoid4fdukZAaQ99BgbJJVLotN
-	5rDB5dpRxmdQyRagejD396Xk/I70QcYI2JoBhN9qPppmLqRvZltblf/U7N6+dLRC6fTUziBq4+H5v
-	zkTr8ADIlKf3HNGQV4pQ/XvC3D297lokoBSbrgt3arAtIX5n8YNBN+9gJ/t2YnvkWCDDYYbjgJOnZ
-	aoY31lclLeFPNgpBA+Qg==;
+	List-Owner; bh=nodIrotAs71pzPxbNoEu/FkiCnQapBqURCSztMw8Uic=; b=lutQpNyWJ11OFx
+	jIljxAJaVXjAwHT2g2xlVUw+h4ZoHg/8XpO5eROiK+Ad1MDyPbl+rix9wak9f5wXLJVTo1AE1SVFU
+	byqBdIzwHhEeCtwnC+9GpKsG4Ue96kSLBxy6NXg2lXbn/tistqdM/QTUOxxtXS6MmFZF69x0KEOpm
+	yR/NXKSHOoZn0+rurLdCaaX8uIQFPSVlp7Bw9epU+Y8dkNBGGvNz0W2ztOMmFfb5R6AhopMowLcew
+	WrGLoftzerK2AUKXSRDKKFL27mXTEf+Bb7HLG5TyhmDe8XXT4uHeNJmqz84RbiVakFb6w7NbG3IGv
+	x0k5iKKlguS4anUADs8Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mxZmc-002N08-A6; Wed, 15 Dec 2021 19:17:46 +0000
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+	id 1myMPe-00CiUB-Pu; Fri, 17 Dec 2021 23:13:18 +0000
+Received: from mail-vk1-xa33.google.com ([2607:f8b0:4864:20::a33])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mxZmZ-002Mxn-DL
- for linux-snps-arc@lists.infradead.org; Wed, 15 Dec 2021 19:17:44 +0000
-Received: by mail-pj1-x102d.google.com with SMTP id
- y14-20020a17090a2b4e00b001a5824f4918so6712pjc.4
- for <linux-snps-arc@lists.infradead.org>; Wed, 15 Dec 2021 11:17:42 -0800 (PST)
+ id 1myMPc-00CiTF-60
+ for linux-snps-arc@lists.infradead.org; Fri, 17 Dec 2021 23:13:17 +0000
+Received: by mail-vk1-xa33.google.com with SMTP id b192so2517903vkf.3
+ for <linux-snps-arc@lists.infradead.org>; Fri, 17 Dec 2021 15:13:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=MpRIgCk4ZJFF/gJ1HZ9vdVtdls/QLNUpGwB7jCQSxBw=;
- b=Uv+JuA27vFuhLd999/sNMMjAcYN5ZKNg+NcPZi4IQZmlR7NmiI07/NjTkoML9ICt0J
- erOe5NfO0cDBsejWpmdJj5Z0Qb4QWD6ixKdbRGkfHbb4WwXaGx8LmQOtnu0BMwzTRpPn
- 8Ps4GO+SWpbfd0MhszStnT3ntE83PeutLQYDc=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=xMXuQ2mw/YMJUNTcLvHlbi5170nrwADHo36ZzSIp49M=;
+ b=WOGbcGhDySrtV8K3K4s+4HuRPRSSZkC1WCbFkA2YqX5SyJFwM9mql2f/1wGoLAuv1c
+ 5kQ/HkOnce/eL6h60HrXRDaAWgWpDN+demDfQkUV+T5sUkzuETFAzXIhQWDWvE55aEVM
+ +8Rr5qiFXCdSox2Flz7rDjiZ0UMc1R9oKtvQQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=MpRIgCk4ZJFF/gJ1HZ9vdVtdls/QLNUpGwB7jCQSxBw=;
- b=vJVD9XQ6nr3G6d2kgrH8TZtUvR93kTYcLluN/817HhgVb0MNAZfMbnXwwNVZKc3sZT
- Ja3cv6LhuiVhglOpkOwHm1Qzz/QYB3zeS6XgwQjphBltIVTWrF3JeJdrX4QHvNPbDvto
- thonXw3pDTlMtVPigi0TZUrG7W4Hj0lZMHJalFaCyvcMKSU5bcN01ds3IkYoVmLAnv/X
- nLgTmhuF0xGqSPjYL8R9jYMtvRzEwjrck6Ddd3HkqmjdmtUZKR/uAwzQrQqIp7y03Qxa
- dG2jB1ulpmcPSNPQQ//De5DBPdwtOVA1u4wH7e8vL5yoq835zLAseNQ9bQ+DOQczK/2D
- cU8Q==
-X-Gm-Message-State: AOAM532V3KO7ibIW81nw5aoUrFpQQPEKtyll0xmziL1eXQsOk+YL0alu
- QIZivX1dslrelLBOY1QLKjMp7llT+BOwfA==
-X-Google-Smtp-Source: ABdhPJxQqy4FmTEIwI7XqlNswZgdMWatFHXVHSW2fc4GQRSVKmKS29lary1WxSUz/TQYr33z2muoxA==
-X-Received: by 2002:a17:902:f54f:b0:148:a2e8:276c with SMTP id
- h15-20020a170902f54f00b00148a2e8276cmr5725798plf.115.1639595861348; 
- Wed, 15 Dec 2021 11:17:41 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id j1sm3700060pfu.47.2021.12.15.11.17.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Dec 2021 11:17:41 -0800 (PST)
-Date: Wed, 15 Dec 2021 11:17:40 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Vineet Gupta <vgupta@synopsys.com>
-Cc: linux-kernel@vger.kernel.org, Alexey Brodkin <abrodkin@synopsys.com>,
- Joe Perches <joe@perches.com>, linux-snps-arc@lists.infradead.org
-Subject: Re: [PATCH] arc: Replace lkml.org links with lore
-Message-ID: <202112151117.804C398D1@keescook>
-References: <20210210232849.1358703-1-keescook@chromium.org>
- <8d0dd35a-4bc2-6762-3ae9-a0bf38961f5a@synopsys.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=xMXuQ2mw/YMJUNTcLvHlbi5170nrwADHo36ZzSIp49M=;
+ b=lA/D1S3xuJzvePQPx9hM30+ooDgYAPoCKaBMBKr+hWYVFETiLrXZhtHAWNpfEpjbsi
+ LsOChO0YYeCRjy24Q3qwOIriXI9UynU9tODHr920BkzOzpuQgMXLaJODSxCc1XbYMVzB
+ p2OUFlazsyZelYJeqDMmWBRlPq8qW3UTCpx5NrHli+7h9WJqI8dQReAVo3/peaQ8fpd9
+ XhnCQwASntpCJ/lXnaBhPSfXLDYHrWF8nLoIIf3wYTGeOS19fdNvABmy3Go3v/z9XJDH
+ GSQIy38luFc6dE4jk59oaWK2/6738oH0x1OaEUp4B5ovk83d67TEXEKikMZTHx3x8IQR
+ OUjg==
+X-Gm-Message-State: AOAM533TCmiW6t8gWHTOw+nlKE/UGQFGdf5cr+X0lLoIESrUr3IIeofW
+ 9XSEOfpH8DO3ivSCaZajTRMhf+PAU7ddXdRbbycaYQ==
+X-Google-Smtp-Source: ABdhPJwxlIeHzucLyeUy0XKoKFP161EDsUT9YKHu347gp8HJy6DSC8WO/IDp2FT181MAhnFeTxEi+ojxgtofIlfOAq4=
+X-Received: by 2002:ac5:c848:: with SMTP id g8mr1703466vkm.3.1639782791146;
+ Fri, 17 Dec 2021 15:13:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <8d0dd35a-4bc2-6762-3ae9-a0bf38961f5a@synopsys.com>
+References: <PH0PR12MB540121CBFD12FF39E5AA576CA1179@PH0PR12MB5401.namprd12.prod.outlook.com>
+In-Reply-To: <PH0PR12MB540121CBFD12FF39E5AA576CA1179@PH0PR12MB5401.namprd12.prod.outlook.com>
+From: Simon Glass <sjg@chromium.org>
+Date: Fri, 17 Dec 2021 16:12:59 -0700
+Message-ID: <CAPnjgZ0z18fq7RUuVdkYYZhL57mVM46BMbXwAQayLe8pgBWw6g@mail.gmail.com>
+Subject: Re: Broken arc toolchain
+To: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
+Cc: Tom Rini <trini@konsulko.com>, U-Boot Mailing List <u-boot@lists.denx.de>, 
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, 
+ Claudiu Zissulescu <Claudiu.Zissulescu@synopsys.com>, 
+ linux-snps-arc <linux-snps-arc@lists.infradead.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211215_111743_496225_16023FA6 
-X-CRM114-Status: GOOD (  10.34  )
+X-CRM114-CacheID: sfid-20211217_151316_249319_D7474576 
+X-CRM114-Status: GOOD (  22.46  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,28 +81,83 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 15, 2021 at 09:03:54PM -0800, Vineet Gupta wrote:
-> On 2/10/21 3:28 PM, Kees Cook wrote:
-> > As started by commit 05a5f51ca566 ("Documentation: Replace lkml.org
-> > links with lore"), replace lkml.org links with lore to better use a
-> > single source that's more likely to stay available long-term.
-> > 
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> 
-> Acked-by: Vineet Gupta <vgupta@synopsys.com>
-> 
-> Let me know if you want me to pick this up.
+Hi Alexey,
 
-Hi!
+On Sat, 10 Jul 2021 at 16:03, Alexey Brodkin
+<Alexey.Brodkin@synopsys.com> wrote:
+>
+> Hi Tom and Simon,
+>
+> So there're a couple of things involved indeed.
+>
+> As Tom correctly mentioned we used to use SNSP pre-built tools for ARC in TravisCI previously. And frankly the reason was we needed something GCC 8.x based while on some other arches such a new GCC triggered extra problems, see https://lists.denx.de/pipermail/u-boot/2018-May/329577.html. So I updated ARC pre-built versions and we kept using it.
+> Now, that particular "mcpu" was never added into upstream GCC because we wanted to re-implement it a bit nicer, thus any up-to-date vanilla GCC won't accept it as opposed to tools built from SNPS' GCC port [which has it https://github.com/foss-for-synopsys-dwc-arc-processors/gcc/commit/84a3ee3844f9967a1b6c5923b9da4e6720c1d5bb].
+> IIRC "-mcpu=hs4x_rel31" is basically an umbrella option for some options combination based on generic "-mcpu=hs4x" so we may probably update HSDK-4xD flags to be buildable by vanialla GGC.
+>
+> But anyways the simples short-term solution is to use our pre-built tools, latest of which are avaialble here https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/releases/tag/arc-2021.03-release. And for U-Boot elf32 version is what I would suggest to use, so please use https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/releases/download/arc-2021.03-release/arc_gnu_2021.03_prebuilt_elf32_le_linux_install.tar.gz.
+>
+> Moreover since by default for ARC we use U-Boot built-in libgcc the same one little-endian toolchain might be safely used for building our big-endian configs equally well.
+>
+> If more info or actions needed, please let me know.
 
-Oops, sorry, I never replied to this. Yes, can you pick this up please?
+Thanks for the instructions. I was able to make it work.
 
-Thanks!
+I hope you can get your toolchain things upstream soon!
 
--Kees
+Regards,
+Simon
 
--- 
-Kees Cook
+
+>
+> -Alexey
+>
+>
+> ________________________________ From: Tom Rini
+> Sent: Saturday, July 10, 2021 11:22 PM
+> To: Simon Glass
+> Cc: U-Boot Mailing List; Alexey Brodkin; Eugeniy Paltsev
+> Subject: Re: Broken arc toolchain
+>
+> On Sat, Jul 10, 2021 at 02:11:30PM -0600, Simon Glass wrote:
+>
+> > Hi,
+> >
+> > I see this:
+> >
+> > $ buildman --fetch-arch arc
+> >
+> > Downloading toolchain for arch 'arc'
+> > Checking: https://www.kernel.org/pub/tools/crosstool/files/bin/x86_64/9.2.0/
+> > Downloading: https://www.kernel.org/pub/tools/crosstool/files/bin/x86_64/9.2.0/x86_64-gcc-9.2.0-nolibc-arc-linux.tar.xz
+> >  Unpacking to: /home/sglass/.buildman-toolchains
+> > Testing
+> >       - looking in
+> > '/home/sglass/.buildman-toolchains/gcc-9.2.0-nolibc/arc-linux/.'
+> >       - looking in
+> > '/home/sglass/.buildman-toolchains/gcc-9.2.0-nolibc/arc-linux/bin'
+> >          - found
+> > '/home/sglass/.buildman-toolchains/gcc-9.2.0-nolibc/arc-linux/bin/arc-linux-gcc'
+> >       - looking in
+> > '/home/sglass/.buildman-toolchains/gcc-9.2.0-nolibc/arc-linux/usr/bin'
+> > Tool chain test:  OK, arch='arc', priority 5
+> >
+> > $ buildman -A hsdk_4xd
+> > /home/sglass/.buildman-toolchains/gcc-9.2.0-nolibc/arc-linux/bin/arc-linux-
+> > $ buildman hsdk_4xd
+> > ...
+> > arc-linux-gcc: error: unrecognized argument in option '-mcpu=hs4x_rel31
+> >
+> >
+> > Do you have any thoughts on what is wrong, please?
+>
+> There's two parts.  The first part is I keep forgetting to update
+> buildman to fetch the latest toolchains from kernel.org, it should be
+> grabbing 11.1.0 now, not 9.2.0.  The second part is that arc, nds32 and
+> xtensa have non-standard toolchain locations, see
+> tools/docker/Dockerfile for where to fetch.
+>
+> --
+> Tom
 
 _______________________________________________
 linux-snps-arc mailing list
