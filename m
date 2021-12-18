@@ -4,60 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFA18C433EF
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 18 Dec 2021 21:21:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC9C9C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 18 Dec 2021 21:21:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Cc:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=QTtrXKebom1nsjYV16+VL9BDuoCNPT/qZ1DtvHd1Bt0=; b=BkUY9P8jxaqQ35
-	V3EpDDFn9JwR4m5bQlBMSLyIGGosc7w7coWmVlwT1HMo0cnk/zGlrofDigKMdW9/yLKANk4bylSMJ
-	fOw1YinSFtuvwXwVmaie32/clJOJU3Xpw+gdjceVk5HlbPzSVclEbTbSgfAR6DFcf28J18fKVZ3mC
-	gee7FNaeBULrE5NPGvR1KRwAnaYkZDFToKg8++sQnm2rGMN2CCtlfSD/I2FwZWv+9FpRK8z0BJ5D9
-	G//UzGDqc/tw2ZTewOMe7cKlGxo2mIfXe8jMl7kIl98E2fqGX3JhSRMI24ogOdP2yZN58kHDR4NcD
-	TQbYUXT0J4/NhzKUHM/A==;
+	List-Owner; bh=ycA5VgnqSTESi+v+g/hysFAWpSLPnEZFLCeuVwiZGpY=; b=NCAQhiwmzjp1/S
+	+U33AgaEVCi37gX0dEavxsQi4gUiz2XtcqsfOQeRcg8tlVE5Ua1Nfh71XlTNubZ1QtmgzLtIlZYfn
+	XCSCvXRPWvREfGERxi3yYzaGwO1zIMUN4BLxhCx8gPQL8CK9kEsecnW9MKfmUwBg1PadJMOHa0vTu
+	QD+biQYdwiPsi9Y7TASqEDa2hhXd7z1XjmSXs5aG8ekyHu1Ho9EVqd4HdJWg5SOrb5Y9+KVscjj5m
+	kGtuchbX69/1dzxIIpO3G6eD+1+T9KAN36gi/mXQH7n8ayuX1NEZOUcYS3oebVB08E8XItnqOKl6y
+	cT/9dGdLs9dIRGJM/FlA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1myh9G-00EkbM-Ps; Sat, 18 Dec 2021 21:21:46 +0000
-Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d])
+	id 1myh9N-00Ekgg-Hc; Sat, 18 Dec 2021 21:21:53 +0000
+Received: from mail-oo1-xc35.google.com ([2607:f8b0:4864:20::c35])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1myh8M-00Ejqy-J0; Sat, 18 Dec 2021 21:20:52 +0000
-Received: by mail-ot1-x32d.google.com with SMTP id
- x3-20020a05683000c300b0057a5318c517so7411800oto.13; 
- Sat, 18 Dec 2021 13:20:50 -0800 (PST)
+ id 1myh8Q-00Ejtp-12; Sat, 18 Dec 2021 21:20:55 +0000
+Received: by mail-oo1-xc35.google.com with SMTP id
+ w15-20020a4a9d0f000000b002c5cfa80e84so1843914ooj.5; 
+ Sat, 18 Dec 2021 13:20:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=CEg5Pz3jzK+yQWJ1b0gYNPIQm++ujg7tBpTQAFfsgrU=;
- b=eHOpKLINiZVw1U8UFLmv4Z4orUsxMHu+htgZlUDET11qp6Xd7CyNXR8JJgc+Do9AtO
- 3GiFTQq1k3gdmq11sXaXRequzZr5JLiN1ST8SltutFMt0Ut4vjnWsFkLx5x/LH+J7CgT
- 9yorXhsUWIRB06dk0K6v5eIPVRBqMJY2Fuz1xiOJvI/LXDTuQVNjNlbnagLP/dEwkxQr
- og7VA+7k41dDowSRrQm1WJKv9RiBZnFc7NtVisoEJRIhXLga9sDmCfszVXjyJtpvXsLX
- jb68zUDuR+zJaayYQ4raYutAZdhAFVDWfd717kmQBxY79TgsQLCen1fY3ep1+UZrNOrO
- LWww==
+ bh=8sQyawONQ80DXJHmSDH3px/iwXnd508qWqR9G9S67zc=;
+ b=Y7D3jg2nDdCluAFdaTzJ62WKeS2c+dtTaPmJUlV/zLE1aSF//0E3P38R+G4jEFET14
+ xlE85wW7isyGuED/jOFVFQvwYzXv8BywpI00ruh0C9/BSkGpvfRpAFWq2F7h9v3+T5Il
+ nblHP1zg9vVDXpyvwm44ndVFUUN5IjDhNlidNZbD5SDaUDw8vepg+0zNLqjNDTZ/05Nb
+ X9u9YW1l3M1V6kBMEhcffptynzQERZgT84KYgY25ZHoJxBBze+XJLuZ0xAF092dd7tRz
+ 6Y9FD4MNstMB4NsMQkO+4hI6cQ1T/LuAF9uOZ/g+OPTNQBpwcWpSAFUUj7M8IYKHH6om
+ iwjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CEg5Pz3jzK+yQWJ1b0gYNPIQm++ujg7tBpTQAFfsgrU=;
- b=m2HqMU15B/Bv8HW+Z2bk2BhW4Pvdq6VIWWSiiJw5lnUYt8niJTG7d/qeEWul2iuw2i
- WLrg2aow35KMOcVu3nOu3tryw22mbQElLcl6duvvW1yjla/Jgg96Lhdqy/rE4SVpcA0K
- bjLID28Bi945H8df6fvZZAWMy7c819bHEWabFBx3mVzIFeqCkDKGamiw3YEusNMhXEqH
- pNx2YBKGerj5nzH68eVZT2smZsitQPSLsxzzgUaeTBuW4eyajgoiE03ImWQqN4jEHUkV
- i+8LIMmiXA/tIs0Elcb8TFAqKXIhJ1vpFaA6XUq5iaLOWpmaKDA+Jqom4ItCxo3eCVkz
- YEIA==
-X-Gm-Message-State: AOAM532K7ulZtvoRl7PZ+y4zUMmodyIHlDQx32Ya+bX4nbMRaGuITGm7
- Mtd1ONyHh2xfju2FWejig6s=
-X-Google-Smtp-Source: ABdhPJxK9/VC1gNfbEAhH6vL5zb84CKz67Dt+OzQwcZipUXmYca9+mYr83AwXXf3kCJEYp4+46HVHA==
-X-Received: by 2002:a05:6830:1d87:: with SMTP id
- y7mr6391393oti.269.1639862449472; 
- Sat, 18 Dec 2021 13:20:49 -0800 (PST)
+ bh=8sQyawONQ80DXJHmSDH3px/iwXnd508qWqR9G9S67zc=;
+ b=Zb1iDbf84KxCVp8S3HusOnqaIy+IZDXUiZqwjJQ1B8lXuCCgEb3FScTlG5FNONUtjH
+ 2OSG8ZiJG+xFnqankgJp6rXoz1t/4EjELtW+VsOVIvrcLKaJW4U5HUtA/znPfLJDBeM0
+ 3kfK5iKQY3u6FySAm+yUxr61HWPRgHMdPhvakSBiFoZwYfAMBbO6NUSiAV9YQpX2Adsz
+ IGN7ic0LvkJLwscPtCQxr+eAozSP8mByxKj2i5D+lIIGGPNXerD9i7Dpqu6/EZtZJuKZ
+ hxACnX+abXJE3FXjbxzzuGf9Aoy4n08nJhtp56ijIzguJiY7ncHRtQO6m6Q8k3acq+4I
+ NWFA==
+X-Gm-Message-State: AOAM53321fxLTAhHSol0n/iyPxuAuXsELOuI3NQpgCoahnAcI9slW8lG
+ ckPHsNdjwRkzIIjP7RqVaFo=
+X-Google-Smtp-Source: ABdhPJzvMncW7wCzGcCD5Uph699Rv7l1timnKLBDwWV9dbECCxOkiUPt5sqsHR2cKsTF/R/b2ELz2Q==
+X-Received: by 2002:a4a:acca:: with SMTP id c10mr5895528oon.1.1639862452856;
+ Sat, 18 Dec 2021 13:20:52 -0800 (PST)
 Received: from localhost (searspoint.nvidia.com. [216.228.112.21])
- by smtp.gmail.com with ESMTPSA id bj8sm2621211oib.51.2021.12.18.13.20.48
+ by smtp.gmail.com with ESMTPSA id q10sm2488824oiw.17.2021.12.18.13.20.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Dec 2021 13:20:49 -0800 (PST)
+ Sat, 18 Dec 2021 13:20:52 -0800 (PST)
 From: Yury Norov <yury.norov@gmail.com>
 To: linux-kernel@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
  "James E.J. Bottomley" <jejb@linux.ibm.com>,
@@ -122,16 +121,16 @@ To: linux-kernel@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
  linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
  linux-s390@vger.kernel.org, linux-snps-arc@lists.infradead.org,
  linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH 10/17] lib/nodemask: add nodemask_weight_{eq,gt,ge,lt,le}
-Date: Sat, 18 Dec 2021 13:20:06 -0800
-Message-Id: <20211218212014.1315894-11-yury.norov@gmail.com>
+Subject: [PATCH 11/17] lib/nodemask: add num_node_state_eq()
+Date: Sat, 18 Dec 2021 13:20:07 -0800
+Message-Id: <20211218212014.1315894-12-yury.norov@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211218212014.1315894-1-yury.norov@gmail.com>
 References: <20211218212014.1315894-1-yury.norov@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211218_132050_673555_39FBCA4A 
-X-CRM114-Status: GOOD (  16.96  )
+X-CRM114-CacheID: sfid-20211218_132054_226030_EF8F7A07 
+X-CRM114-Status: GOOD (  17.13  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -148,96 +147,45 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Kernel code calls nodes_weight() to compare the weight of nodemask with
-a given number. We can do it more efficiently with nodes_weight_{eq, ...}
-because conditional nodes_weight may stop traversing the nodemask earlier,
-as soon as condition is met.
+Kernel code calls num_node_state() to compare number of nodes with a given
+number. The underlying code calls bitmap_weight(), and we can do it more
+efficiently with num_node_state_eq because conditional nodes_weight may
+stop traversing the nodemask earlier, as soon as condition is met.
 
 Signed-off-by: Yury Norov <yury.norov@gmail.com>
 ---
- drivers/acpi/numa/srat.c |  2 +-
- include/linux/nodemask.h | 35 +++++++++++++++++++++++++++++++++++
- mm/mempolicy.c           |  2 +-
- 3 files changed, 37 insertions(+), 2 deletions(-)
+ include/linux/nodemask.h | 5 +++++
+ mm/page_alloc.c          | 2 +-
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/acpi/numa/srat.c b/drivers/acpi/numa/srat.c
-index 66a0142dc78c..484b9307f8cc 100644
---- a/drivers/acpi/numa/srat.c
-+++ b/drivers/acpi/numa/srat.c
-@@ -67,7 +67,7 @@ int acpi_map_pxm_to_node(int pxm)
- 	node = pxm_to_node_map[pxm];
- 
- 	if (node == NUMA_NO_NODE) {
--		if (nodes_weight(nodes_found_map) >= MAX_NUMNODES)
-+		if (nodes_weight_ge(nodes_found_map, MAX_NUMNODES))
- 			return NUMA_NO_NODE;
- 		node = first_unset_node(nodes_found_map);
- 		__acpi_map_pxm_to_node(pxm, node);
 diff --git a/include/linux/nodemask.h b/include/linux/nodemask.h
-index 567c3ddba2c4..197598e075e9 100644
+index 197598e075e9..c5014dbf3cce 100644
 --- a/include/linux/nodemask.h
 +++ b/include/linux/nodemask.h
-@@ -38,6 +38,11 @@
-  * int nodes_empty(mask)		Is mask empty (no bits sets)?
-  * int nodes_full(mask)			Is mask full (all bits sets)?
-  * int nodes_weight(mask)		Hamming weight - number of set bits
-+ * bool nodes_weight_eq(src, nbits, num) Hamming Weight is equal to num
-+ * bool nodes_weight_gt(src, nbits, num) Hamming Weight is greater than num
-+ * bool nodes_weight_ge(src, nbits, num) Hamming Weight is greater than or equal to num
-+ * bool nodes_weight_lt(src, nbits, num) Hamming Weight is less than num
-+ * bool nodes_weight_le(src, nbits, num) Hamming Weight is less than or equal to num
-  *
-  * void nodes_shift_right(dst, src, n)	Shift right
-  * void nodes_shift_left(dst, src, n)	Shift left
-@@ -240,6 +245,36 @@ static inline int __nodes_weight(const nodemask_t *srcp, unsigned int nbits)
- 	return bitmap_weight(srcp->bits, nbits);
+@@ -466,6 +466,11 @@ static inline int num_node_state(enum node_states state)
+ 	return nodes_weight(node_states[state]);
  }
  
-+#define nodes_weight_eq(nodemask, num) __nodes_weight_eq(&(nodemask), MAX_NUMNODES, (num))
-+static inline int __nodes_weight_eq(const nodemask_t *srcp, unsigned int nbits, int num)
++static inline int num_node_state_eq(enum node_states state, int num)
 +{
-+	return bitmap_weight_eq(srcp->bits, nbits, num);
++	return nodes_weight_eq(node_states[state], num);
 +}
 +
-+#define nodes_weight_gt(nodemask, num) __nodes_weight_gt(&(nodemask), MAX_NUMNODES, (num))
-+static inline int __nodes_weight_gt(const nodemask_t *srcp, unsigned int nbits, int num)
-+{
-+	return bitmap_weight_gt(srcp->bits, nbits, num);
-+}
-+
-+#define nodes_weight_ge(nodemask, num) __nodes_weight_ge(&(nodemask), MAX_NUMNODES, (num))
-+static inline int __nodes_weight_ge(const nodemask_t *srcp, unsigned int nbits, int num)
-+{
-+	return bitmap_weight_ge(srcp->bits, nbits, num);
-+}
-+
-+#define nodes_weight_lt(nodemask, num) __nodes_weight_lt(&(nodemask), MAX_NUMNODES, (num))
-+static inline int __nodes_weight_lt(const nodemask_t *srcp, unsigned int nbits, int num)
-+{
-+	return bitmap_weight_lt(srcp->bits, nbits, num);
-+}
-+
-+#define nodes_weight_le(nodemask, num) __nodes_weight_le(&(nodemask), MAX_NUMNODES, (num))
-+static inline int __nodes_weight_le(const nodemask_t *srcp, unsigned int nbits, int num)
-+{
-+	return bitmap_weight_le(srcp->bits, nbits, num);
-+}
-+
- #define nodes_shift_right(dst, src, n) \
- 			__nodes_shift_right(&(dst), &(src), (n), MAX_NUMNODES)
- static inline void __nodes_shift_right(nodemask_t *dstp,
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index a86590b2507d..27817cf2f2a0 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -1157,7 +1157,7 @@ int do_migrate_pages(struct mm_struct *mm, const nodemask_t *from,
- 			 *          [0-7] - > [3,4,5] moves only 0,1,2,6,7.
- 			 */
+ #define for_each_node_state(__node, __state) \
+ 	for_each_node_mask((__node), node_states[__state])
  
--			if ((nodes_weight(*from) != nodes_weight(*to)) &&
-+			if (!nodes_weight_eq(*from, nodes_weight(*to)) &&
- 						(node_isset(s, *to)))
- 				continue;
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index edfd6c81af82..71f5652828b8 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -8323,7 +8323,7 @@ void __init page_alloc_init(void)
+ 	int ret;
+ 
+ #ifdef CONFIG_NUMA
+-	if (num_node_state(N_MEMORY) == 1)
++	if (num_node_state_eq(N_MEMORY, 1))
+ 		hashdist = 0;
+ #endif
  
 -- 
 2.30.2
