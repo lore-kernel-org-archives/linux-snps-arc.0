@@ -4,59 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3B618C4332F
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 18 Dec 2021 21:22:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2F94C433F5
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 18 Dec 2021 21:23:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Cc:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=M/0Lj5pPZ82++V4Lo1Vo4V5EnAVYlRkrAVCDDG66wwg=; b=t4Lk23nOArkF7P
-	v4V6Pl7JFPUPrIOYZlxym20pSZkU56tRej5FIbD42/c64ysRi5MPIfiZ5tZYfot7Rg+YBeFYyV0c3
-	kvVxhtMf3BxH+Pn2ClVrOciVUXQT95s6XsrA8yP+9wxp31LgD8j4olGD26Pmh7P15U8QutCyHb0Cl
-	8nS3eNDsvFePPTURg+/J3JNvQsucz3OOov8YplMz1fIQ4apMltxwfaBy6r/TgVdklwdxHf7GskFL1
-	clpt4hDFrhmZPuYD3D1eUATDYY3GG8YAeHnGV/CIzFCgc6EjE6hTL+o4WF6HLJHTYuLDnLaCeJtJe
-	bhoUrAg5Nj+D8jXhPAjA==;
+	List-Owner; bh=eYzpkiiZVP2QoqjbMsg6IU0PcJGH2VfC2QtdNSRg2Ls=; b=ioY821zl39STKQ
+	YjDME+BZoqmlZqQCj81T0IpwYUxsoTZoJ0R1YBVkdw6pn2Cd3EjDcGHXP8aatlInve0OjcgnsYNP3
+	Ofs494Fa3Lk91dmX2qpoNkAX381A8WoesalZAzWZR4uqt633FIHBEVC/0vqZCKMYnuJwqsn573EBM
+	tzxokTNYrB31ngvVcjS/K8psirx/yk7WUc+BXRK0nX1DIoXgF4hrjmHKVUh/K3BgX4cdw8sz/Nd84
+	wcY/ltvHG85WBGse3aUXU4VFvW9SdJkwIOW3rWYUPpHWB3hjaylS05NNObPXp7P2QxN8xOKMZAALl
+	psjohGX/hsRHD4MqHVUg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1myhAE-00ElHD-CL; Sat, 18 Dec 2021 21:22:46 +0000
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333])
+	id 1myhAR-00ElPt-Sy; Sat, 18 Dec 2021 21:22:59 +0000
+Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1myh8f-00Ek7k-GY; Sat, 18 Dec 2021 21:21:11 +0000
-Received: by mail-ot1-x333.google.com with SMTP id
- r10-20020a056830080a00b0055c8fd2cebdso7463766ots.6; 
- Sat, 18 Dec 2021 13:21:09 -0800 (PST)
+ id 1myh8i-00EkAk-Tm; Sat, 18 Dec 2021 21:21:14 +0000
+Received: by mail-ot1-x32d.google.com with SMTP id
+ w6-20020a9d77c6000000b0055e804fa524so7493619otl.3; 
+ Sat, 18 Dec 2021 13:21:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=cEbjV/8Ctr1QdXazsGfe+PbDs+iZrrBmmo9YNkbLBy0=;
- b=RKeJvy+TVkzSfE1DWFH8SBdk923FOhJaAQ0Dv9PrOLQIHftv5DaeBCB4tNKlvmYIPN
- nbkzjP+1Trtphdpdl224Vn1sYOGVLTg43YwIfJM5nH7KPfFHi7vCRPN0TaIMV0CuMzT2
- orCQwO8bJ9qk1nVA1GCOdVDNRIyHknNBzcXqS9rgvqtOTbjhHhWXGI5No2Z0UTz3TByx
- 0Ag3UOeLtIQjs7s0rKEZ/24IhDlJLiBtoBDajcozUIGSHrQXSkW6AtgOu9kPk/Lq3qoc
- U8VDenhPvveU8b2bWmVJzG2Nt6HLvQlM90dIQDx+rucC4nLouHJTrpPqTNt21VK+DFl2
- nNhg==
+ bh=V/7YV6PuikKJOpufvdQHaOC3eWjf6vds/A3UO3x9gwA=;
+ b=V57np8F0LXhPyF31xZ/98vOSICHl4KXHpMtxMolGaerv0QV2DnMVUnnCvDjQoXdDXo
+ rT1qtHlwGBuPWGVRNCqixnN8odHV5mxxXaYRnJZE3lAFoB3D1ap/tpQo+HN8ZXmqbSiD
+ QIlZkCxHBkKbHcBQjbMxdSmxYOFoc1qPow8X/5CwC8N9sD0V27gZ/pusORn/HCgYlKRO
+ 4dCyLdZCSj6a6p1fhiCiQL21rXALTdc+Z1z5SDYBpicENwRWLWU4V7+P+Kd4ufK9GUr0
+ SoIEC6LNYiFJiLfuFOcDYhiwtUBtAniHb+XKeX3F11JHzTtbiZ9Muu5cZPVqR5GCdbZQ
+ WF1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cEbjV/8Ctr1QdXazsGfe+PbDs+iZrrBmmo9YNkbLBy0=;
- b=loI7MRJKq1LJEXI6DCNShfhUBXEUmT2IVP8m7ew77FU1vEhashEDSnf0cJ5CmsjlQF
- dXRL7AhJrdVrTvKrCEswWMAaFNuolwJ7mvUV7hZbBZ7Y9825WoSCPN7l3m20PYuzaB8v
- gO0ksFROS7UIeeZ7PS9KhYof6f4ogmzdP28pYQ9NQjOL5k4Z2CWuak+WaIE1r4t4CVTp
- sJ7NhaZRfVfl9cGCHge5Vi3j72vrcxJxvloTUHtQjCwzhJMMa4grx7RNoPwk+reQKcGX
- UTEqsibPzfOgG45+BOKJ7vlSA50UDWbCgH9kTMICydCC6j6eeKzQjv56nDArX5+VOVv3
- dMqA==
-X-Gm-Message-State: AOAM533YMpe2qTwq9uQtZtVx9WYHSiCoFqJ0wAstWP566TKXl80yR3Y5
- ikKVwe1VZx1eCLWLC07d59A=
-X-Google-Smtp-Source: ABdhPJwWLUowWO6z/6XzIWLGx6yfCwM40JettYuf4PfjeM7nkzCXO3jf+T1ejyUHBwjqYOIYE68+UA==
-X-Received: by 2002:a9d:82a:: with SMTP id 39mr6499375oty.282.1639862468685;
- Sat, 18 Dec 2021 13:21:08 -0800 (PST)
+ bh=V/7YV6PuikKJOpufvdQHaOC3eWjf6vds/A3UO3x9gwA=;
+ b=sv9yqGgZ+QLPWB691wUCPrbfJgBzRyTumgIypOQC01DnT6WOBQiFqoRS7egxmExQha
+ eJaCosohu+kfpyZ3l7BVh0Jzgz6Z2u5vHLlYY6DpFJBztXruNJAuDaml48iOcHLiqiav
+ k3vSZuUEWxSjGrgU4VktpdTFL9Lp0I437JCQwuQ1pRCvfvBUJpAzUKHREm14+N0UtFbO
+ WYn2gpn486nR/WCPzQa/SSo4zg050nCKgCOyTafID7JXDEn9oAHEap8S1L1BDQMgIy0A
+ 9AN4kRXqbvrRJAtvRF3amh0fyyGre6xcdjnEPi3wXbIKf0BndN7fnO6/ZVK1WjpXepi5
+ Mg6Q==
+X-Gm-Message-State: AOAM5314o0ywPmUs0ngN4schuyhtRavgGCmDBDSPADaEw9T/wIZBN0k/
+ EZ5AJYDncCenZbX/2SRrUWI=
+X-Google-Smtp-Source: ABdhPJzH5A9A4hW9z3Dre/oQXlQB84e2qfNXrrBIp4gUt5IENY4KKyoFB1Xtm1XffBrgUFoESNT5tw==
+X-Received: by 2002:a9d:6d11:: with SMTP id o17mr6686596otp.363.1639862472133; 
+ Sat, 18 Dec 2021 13:21:12 -0800 (PST)
 Received: from localhost (searspoint.nvidia.com. [216.228.112.21])
- by smtp.gmail.com with ESMTPSA id b17sm2560486ots.66.2021.12.18.13.21.07
+ by smtp.gmail.com with ESMTPSA id c3sm2614614oiw.8.2021.12.18.13.21.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Dec 2021 13:21:08 -0800 (PST)
+ Sat, 18 Dec 2021 13:21:11 -0800 (PST)
 From: Yury Norov <yury.norov@gmail.com>
 To: linux-kernel@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
  "James E.J. Bottomley" <jejb@linux.ibm.com>,
@@ -121,16 +121,17 @@ To: linux-kernel@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
  linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
  linux-s390@vger.kernel.org, linux-snps-arc@lists.infradead.org,
  linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH 16/17] tools/bitmap: sync bitmap_weight
-Date: Sat, 18 Dec 2021 13:20:12 -0800
-Message-Id: <20211218212014.1315894-17-yury.norov@gmail.com>
+Subject: [PATCH 17/17] MAINTAINERS: add cpumask and nodemask files to
+ BITMAP_API
+Date: Sat, 18 Dec 2021 13:20:13 -0800
+Message-Id: <20211218212014.1315894-18-yury.norov@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211218212014.1315894-1-yury.norov@gmail.com>
 References: <20211218212014.1315894-1-yury.norov@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211218_132109_619992_7460A5F0 
-X-CRM114-Status: GOOD (  19.24  )
+X-CRM114-CacheID: sfid-20211218_132113_019744_18B3E6FE 
+X-CRM114-Status: GOOD (  14.70  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -147,122 +148,34 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Pull bitmap_weight_{cmp,eq,gt,ge,lt,le} from mother kernel and
-use where applicable.
+cpumask and nodemask APIs are thin wrappers around basic bitmap API, and
+corresponding files are not formally maintained. This patch adds them to
+BITMAP_API section, so that bitmap folks would have closer look at it.
 
 Signed-off-by: Yury Norov <yury.norov@gmail.com>
 ---
- tools/include/linux/bitmap.h | 44 ++++++++++++++++++++++++++++++++++++
- tools/lib/bitmap.c           | 20 ++++++++++++++++
- tools/perf/util/pmu.c        |  2 +-
- 3 files changed, 65 insertions(+), 1 deletion(-)
+ MAINTAINERS | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/tools/include/linux/bitmap.h b/tools/include/linux/bitmap.h
-index ea97804d04d4..e8ae9a85d555 100644
---- a/tools/include/linux/bitmap.h
-+++ b/tools/include/linux/bitmap.h
-@@ -12,6 +12,8 @@
- 	unsigned long name[BITS_TO_LONGS(bits)]
- 
- int __bitmap_weight(const unsigned long *bitmap, int bits);
-+int __bitmap_weight_cmp(const unsigned long *bitmap, unsigned int bits,
-+			 unsigned int num);
- void __bitmap_or(unsigned long *dst, const unsigned long *bitmap1,
- 		 const unsigned long *bitmap2, int bits);
- int __bitmap_and(unsigned long *dst, const unsigned long *bitmap1,
-@@ -68,6 +70,48 @@ static inline int bitmap_weight(const unsigned long *src, unsigned int nbits)
- 	return __bitmap_weight(src, nbits);
- }
- 
-+static __always_inline
-+int bitmap_weight_cmp(const unsigned long *src, unsigned int nbits, int num)
-+{
-+	if (num > (int)nbits || num < 0)
-+		return -num;
-+
-+	if (small_const_nbits(nbits))
-+		return hweight_long(*src & BITMAP_LAST_WORD_MASK(nbits)) - num;
-+
-+	return __bitmap_weight_cmp(src, nbits, num);
-+}
-+
-+static __always_inline
-+bool bitmap_weight_eq(const unsigned long *src, unsigned int nbits, int num)
-+{
-+	return bitmap_weight_cmp(src, nbits, num) == 0;
-+}
-+
-+static __always_inline
-+bool bitmap_weight_gt(const unsigned long *src, unsigned int nbits, int num)
-+{
-+	return bitmap_weight_cmp(src, nbits, num) > 0;
-+}
-+
-+static __always_inline
-+bool bitmap_weight_ge(const unsigned long *src, unsigned int nbits, int num)
-+{
-+	return bitmap_weight_cmp(src, nbits, num - 1) > 0;
-+}
-+
-+static __always_inline
-+bool bitmap_weight_lt(const unsigned long *src, unsigned int nbits, int num)
-+{
-+	return bitmap_weight_cmp(src, nbits, num - 1) <= 0;
-+}
-+
-+static __always_inline
-+bool bitmap_weight_le(const unsigned long *src, unsigned int nbits, int num)
-+{
-+	return bitmap_weight_cmp(src, nbits, num) <= 0;
-+}
-+
- static inline void bitmap_or(unsigned long *dst, const unsigned long *src1,
- 			     const unsigned long *src2, unsigned int nbits)
- {
-diff --git a/tools/lib/bitmap.c b/tools/lib/bitmap.c
-index db466ef7be9d..06e58fee8523 100644
---- a/tools/lib/bitmap.c
-+++ b/tools/lib/bitmap.c
-@@ -18,6 +18,26 @@ int __bitmap_weight(const unsigned long *bitmap, int bits)
- 	return w;
- }
- 
-+int __bitmap_weight_cmp(const unsigned long *bitmap, unsigned int bits, int num)
-+{
-+	unsigned int k, w, lim = bits / BITS_PER_LONG;
-+
-+	for (k = 0, w = 0; k < lim; k++) {
-+		if (w + bits - k * BITS_PER_LONG < num)
-+			goto out;
-+
-+		w += hweight_long(bitmap[k]);
-+
-+		if (w > num)
-+			goto out;
-+	}
-+
-+	if (bits % BITS_PER_LONG)
-+		w += hweight_long(bitmap[k] & BITMAP_LAST_WORD_MASK(bits));
-+out:
-+	return w - num;
-+}
-+
- void __bitmap_or(unsigned long *dst, const unsigned long *bitmap1,
- 		 const unsigned long *bitmap2, int bits)
- {
-diff --git a/tools/perf/util/pmu.c b/tools/perf/util/pmu.c
-index 6ae58406f4fc..015ee1321c7c 100644
---- a/tools/perf/util/pmu.c
-+++ b/tools/perf/util/pmu.c
-@@ -1314,7 +1314,7 @@ static int pmu_config_term(const char *pmu_name,
- 	 */
- 	if (term->type_val == PARSE_EVENTS__TERM_TYPE_NUM) {
- 		if (term->no_value &&
--		    bitmap_weight(format->bits, PERF_PMU_FORMAT_BITS) > 1) {
-+		    bitmap_weight_gt(format->bits, PERF_PMU_FORMAT_BITS, 1)) {
- 			if (err) {
- 				parse_events_error__handle(err, term->err_val,
- 					   strdup("no value assigned for term"),
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5964e047bc04..ecd41988c871 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3392,10 +3392,14 @@ R:	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+ R:	Rasmus Villemoes <linux@rasmusvillemoes.dk>
+ S:	Maintained
+ F:	include/linux/bitmap.h
++F:	include/linux/cpumask.h
+ F:	include/linux/find.h
++F:	include/linux/nodemask.h
+ F:	lib/bitmap.c
++F:	lib/cpumask.c
+ F:	lib/find_bit.c
+ F:	lib/find_bit_benchmark.c
++F:	lib/nodemask.c
+ F:	lib/test_bitmap.c
+ F:	tools/include/linux/bitmap.h
+ F:	tools/include/linux/find.h
 -- 
 2.30.2
 
