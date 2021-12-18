@@ -4,60 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0CF2C433EF
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 18 Dec 2021 21:22:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A62B7C433F5
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 18 Dec 2021 21:22:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Cc:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=jX5z7dG+BVmlm2qJu9eJBBCNBNlOMtYMiwpaNfS1nQw=; b=fZUwllGkS0DZ0e
-	z0QdVXOWTgrfq57te9oT4wawknLtMByGAwq4N+xo8zd7CQ5igNEvwewDsgm1lW/LQdbJYLEH04Ek6
-	cdR5qZjqoyN7M0Uu7CfjYiA9Vp0/4iW3QOxzfWfZQ4UNGvTBmohyCJjcVXt2KrTCLBQNrvGCTS7/q
-	euBBQ4mD8JmSTEMdYoI3tf/CRW1QxVaMNh5WktMMPcR/su1YITGXJOnOwvBAzyeeyckYaYAT8QpLZ
-	7Fm1iTZYwbgt3Yjni80k+rd8pB1gBjZiwSxomFbzAFoAn/evPQkIE9rtG3aF5vpP8rjbEX3iH+z7D
-	Xqakj71ZrubD+MMHx+3w==;
+	List-Owner; bh=oEVMJqFAVS+NnZdZ/XyoNuc6qLmXU8kns6i/llrerCI=; b=Itjm+2vnjak0vE
+	i3h2zMpV8HPkT8ngLQ5BcbetXB3npFaa8eiprJFaek/orgGtVMpNLeAfZFuxOCYwmU0VuGF/CBx8w
+	PpazHeV58rmMHVhq4Ka6WJV29GP8KaRqXnUb9awSXtLZsJ6OW1Zd8v8RyhAXbECIFwQ1/7/xy+RIY
+	WNh8GEkSOuKsad3SK8YuyA5oXYINcJaQAnc4XRMT/31uPISoFtnncm3Ncvpi2PYAqDxLzTVFtIXN/
+	8ItGLJylLbj68L0t9+92+Gp28JxQRJb4qfn0F1IE2RSsOdQyjKfclSUWbfNEvwrzumTv61IMmgrIs
+	+h8uA2QdAyUQHNxq4azA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1myh9a-00EkqZ-Co; Sat, 18 Dec 2021 21:22:06 +0000
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333])
+	id 1myh9j-00Ekwj-Ag; Sat, 18 Dec 2021 21:22:15 +0000
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1myh8W-00Ejyu-93; Sat, 18 Dec 2021 21:21:02 +0000
-Received: by mail-ot1-x333.google.com with SMTP id
- a23-20020a9d4717000000b0056c15d6d0caso7434881otf.12; 
- Sat, 18 Dec 2021 13:20:59 -0800 (PST)
+ id 1myh8Z-00Ek1n-CY; Sat, 18 Dec 2021 21:21:05 +0000
+Received: by mail-oi1-x232.google.com with SMTP id t19so9373515oij.1;
+ Sat, 18 Dec 2021 13:21:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=TtB4s+TeH5Hsx4aMsA8zovfLkC56GGSxZAM2kKc/k+s=;
- b=JpKKkwINU8Ydvnyx9TIa0uTEfLIEeORqwMjlt2cBKjHjbDtmjXYoAYcpkHvWOACNZ+
- JClsTJjPz351JiBL5YkKHmfgQb6Bs9RYm3XbiLNQpBXdxk6fSPpeP/UdvMr1JZgJmzOO
- 3zd+x9XrwW0Ta4OedkblF2OTR3HDwbCAnWpcgXnJtqaKYqgdIUsODPw8Wp+KaP/4tQcA
- 9zIa24wEaUYy2nK+3lrBCplwLyxuKdWlNpxyOXXoiOONLC5fupt6hpsq3NiXG/6pQoSG
- wtOhHaiB3EGda/k0PB3OUJtDVXKKoy2mUG5TqWrYE76xWrWSeHaSuRq4yt4Mp1WKWa5j
- aevA==
+ bh=ZG1Hs62u68C5ALHAshDdD3Z6hgReTGi0eu0fnhr5AEs=;
+ b=IIMnrKu1E+8J4ZeqIVFH4MIk+q707s4MTfXZMSHu7EsoSEaHXz6Xdcyp2j22iBGRbw
+ WVHVFtLogRqg/mGYdxkJxTg1IZGqZrXfKAFHvN0SWyjvRKWVp2T/DFgrLVfndTJrfq2u
+ OwC9HVCN/kSFoZV+Kt3qvSFSLRRXYLNLYsAXekXr654BC7f14NeaRIzjiQBBILSD3qyj
+ HBL/MEAh3jwy7tfBsIQxRy8T/fhSamJaDFD5J49R6eZuWJv1xKEfJ4rEwC5POkESFzri
+ oaICpv9ciOKT7yj04uxRt9vA6WWjGWqFCOU3UqGCbRh1xAC0FuFqTq7fyF8WHavhh7BP
+ l2Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TtB4s+TeH5Hsx4aMsA8zovfLkC56GGSxZAM2kKc/k+s=;
- b=u8KsG2LWIqfjO9JL6/vE+WgLulCmDht4kwo0945uFt3GV7Bme5SMpuxk8TlgN2TagP
- p+HCkDfUZo9NsGALElQkC7DTQJgzuCU9Aj2KovvMQgrQ3eZ/RFWne4rPbC23hxGvQrJ1
- WK2XQMjVrkqLbX1DLLUtLs1l6ApUamaa7/OGQAgrT1YJvpnKbvZJPvVzCQkp2WmqrMJs
- o/kt2Ag0368Ogyl/aZWGXtq8jNVPjZpEIYIJWD8i/sCTMNGxKTKWn5AT0ze1rSqWqGEQ
- x0+sm17QbOu0nOriJu31AZnWCt/8b2f7yixSrCrsl8b49V9R8HkPA3tioa9EfuJnICIy
- fi9w==
-X-Gm-Message-State: AOAM530etmhOd02m97ia4c8aB0a193uGUbukCA92ldupMD2kXJOvBiFi
- zbP39J7IK41uff00SMrpftc=
-X-Google-Smtp-Source: ABdhPJz65aswwCqCKcm3NSepL1No7Bu916BAt7YX/+A7MjCUNmyZSZaKJNIPfs9JYRO4CobDyeY4pQ==
-X-Received: by 2002:a05:6830:10:: with SMTP id
- c16mr6492562otp.79.1639862459100; 
- Sat, 18 Dec 2021 13:20:59 -0800 (PST)
+ bh=ZG1Hs62u68C5ALHAshDdD3Z6hgReTGi0eu0fnhr5AEs=;
+ b=QWp6x0Mof0kcd5J0clz5ehId2lMluamcebrdTmA5nWKLMUoq1f8jezDGrQOSUJjVyF
+ g+W4P3CCT3ExPtKogvnljnpzqNh06c9vOuhBRxmwL8cuHOT1Qfn+Mi1DZxNc6YJu3ooS
+ rzusIRSZhFEbuR5tUR/etLnSDSnNFxdEXkDSqNFAYIOlMpule4QKlvVq6+4cY8wAN7sX
+ UToXuZu9QDzxk7XU2N1ken1eD0stYPirqJN/AVDFa7ZOG1iUWbcDpjO+TLXDeHPxbqB/
+ 10LCS4WD8nzNz7T9/rQSPCRw1h3K+afx3ZIOTrrXNqqSlUU6KZPiF62Ux1Bmn9oVvNTp
+ ogJg==
+X-Gm-Message-State: AOAM533FgCPO/M+JZTsZP8K9/TrNFX/i10z2bb2Rw6eHC8i7c5+6K1E6
+ PzfYaQYmO/tSjegTwaz61dM=
+X-Google-Smtp-Source: ABdhPJzk/ppqcCd39lkFC0tyQzboJ0USG4d79V7IO5XKOSDBVZhakYMUNSWF7GIAyJsgsStLI/YQiw==
+X-Received: by 2002:a54:4e0c:: with SMTP id a12mr6723576oiy.12.1639862462273; 
+ Sat, 18 Dec 2021 13:21:02 -0800 (PST)
 Received: from localhost (searspoint.nvidia.com. [216.228.112.21])
- by smtp.gmail.com with ESMTPSA id e21sm2358431ote.72.2021.12.18.13.20.58
+ by smtp.gmail.com with ESMTPSA id i29sm2386537ots.49.2021.12.18.13.21.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Dec 2021 13:20:58 -0800 (PST)
+ Sat, 18 Dec 2021 13:21:02 -0800 (PST)
 From: Yury Norov <yury.norov@gmail.com>
 To: linux-kernel@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
  "James E.J. Bottomley" <jejb@linux.ibm.com>,
@@ -122,16 +120,16 @@ To: linux-kernel@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
  linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
  linux-s390@vger.kernel.org, linux-snps-arc@lists.infradead.org,
  linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH 13/17] kernel/cpu: add num_possible_cpus counter
-Date: Sat, 18 Dec 2021 13:20:09 -0800
-Message-Id: <20211218212014.1315894-14-yury.norov@gmail.com>
+Subject: [PATCH 14/17] kernel/cpu: add num_present_cpu counter
+Date: Sat, 18 Dec 2021 13:20:10 -0800
+Message-Id: <20211218212014.1315894-15-yury.norov@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211218212014.1315894-1-yury.norov@gmail.com>
 References: <20211218212014.1315894-1-yury.norov@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211218_132100_388236_F437D5C2 
-X-CRM114-Status: GOOD (  21.21  )
+X-CRM114-CacheID: sfid-20211218_132103_459220_841ED39B 
+X-CRM114-Status: GOOD (  20.92  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -148,120 +146,105 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Similarly to the online cpus, the cpu_possible_mask is actively used
-in the kernel. This patch adds a counter for possible cpus, so that
-users that call num_possible_cpus() would know the result immediately,
-instead of calling the bitmap_weight for the mask underlying.
+Similarly to the online cpus, the cpu_present_mask is actively used
+in the kernel. This patch adds a counter for present cpus, so that
+users that call num_present_cpus() would know the result immediately,
+instead of calling the bitmap_weight for the mask.
 
 Suggested-by: Nicholas Piggin <npiggin@gmail.com>
 Signed-off-by: Yury Norov <yury.norov@gmail.com>
 ---
- include/linux/cpumask.h | 30 ++++++++++++++++--------------
- kernel/cpu.c            | 22 ++++++++++++++++++++++
- 2 files changed, 38 insertions(+), 14 deletions(-)
+ include/linux/cpumask.h | 25 +++++++++++++++----------
+ kernel/cpu.c            | 16 ++++++++++++++++
+ 2 files changed, 31 insertions(+), 10 deletions(-)
 
 diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
-index 1906e3225737..0be2504d8e4c 100644
+index 0be2504d8e4c..c2a9d15e2cbd 100644
 --- a/include/linux/cpumask.h
 +++ b/include/linux/cpumask.h
-@@ -99,6 +99,7 @@ extern struct cpumask __cpu_dying_mask;
- #define cpu_dying_mask    ((const struct cpumask *)&__cpu_dying_mask)
+@@ -100,6 +100,7 @@ extern struct cpumask __cpu_dying_mask;
  
  extern atomic_t __num_online_cpus;
-+extern atomic_t __num_possible_cpus;
+ extern atomic_t __num_possible_cpus;
++extern atomic_t __num_present_cpus;
  
  extern cpumask_t cpus_booted_once_mask;
  
-@@ -870,19 +871,8 @@ void init_cpu_present(const struct cpumask *src);
- void init_cpu_possible(const struct cpumask *src);
- void init_cpu_online(const struct cpumask *src);
+@@ -873,15 +874,7 @@ void init_cpu_online(const struct cpumask *src);
  
--static inline void reset_cpu_possible_mask(void)
--{
--	bitmap_zero(cpumask_bits(&__cpu_possible_mask), NR_CPUS);
--}
+ void set_cpu_possible(unsigned int cpu, bool possible);
+ void reset_cpu_possible_mask(void);
 -
 -static inline void
--set_cpu_possible(unsigned int cpu, bool possible)
+-set_cpu_present(unsigned int cpu, bool present)
 -{
--	if (possible)
--		cpumask_set_cpu(cpu, &__cpu_possible_mask);
+-	if (present)
+-		cpumask_set_cpu(cpu, &__cpu_present_mask);
 -	else
--		cpumask_clear_cpu(cpu, &__cpu_possible_mask);
+-		cpumask_clear_cpu(cpu, &__cpu_present_mask);
 -}
-+void set_cpu_possible(unsigned int cpu, bool possible);
-+void reset_cpu_possible_mask(void);
++void set_cpu_present(unsigned int cpu, bool present);
  
- static inline void
- set_cpu_present(unsigned int cpu, bool present)
-@@ -962,7 +952,19 @@ static inline unsigned int num_online_cpus(void)
+ void set_cpu_online(unsigned int cpu, bool online);
+ 
+@@ -965,7 +958,19 @@ static inline unsigned int num_possible_cpus(void)
  {
- 	return atomic_read(&__num_online_cpus);
+ 	return atomic_read(&__num_possible_cpus);
  }
--#define num_possible_cpus()	cpumask_weight(cpu_possible_mask)
+-#define num_present_cpus()	cpumask_weight(cpu_present_mask)
 +
 +/**
-+ * num_possible_cpus() - Read the number of possible CPUs
++ * num_present_cpus() - Read the number of present CPUs
 + *
-+ * Despite the fact that __num_possible_cpus is of type atomic_t, this
++ * Despite the fact that __num_present_cpus is of type atomic_t, this
 + * interface gives only a momentary snapshot and is not protected against
 + * concurrent CPU hotplug operations unless invoked from a cpuhp_lock held
 + * region.
 + */
-+static inline unsigned int num_possible_cpus(void)
++static inline unsigned int num_present_cpus(void)
 +{
-+	return atomic_read(&__num_possible_cpus);
++	return atomic_read(&__num_present_cpus);
 +}
- #define num_present_cpus()	cpumask_weight(cpu_present_mask)
  #define num_active_cpus()	cpumask_weight(cpu_active_mask)
  
+ static inline bool cpu_online(unsigned int cpu)
 diff --git a/kernel/cpu.c b/kernel/cpu.c
-index cd7605204d4d..a0a815911173 100644
+index a0a815911173..1f7ea1bdde1a 100644
 --- a/kernel/cpu.c
 +++ b/kernel/cpu.c
-@@ -2583,10 +2583,13 @@ EXPORT_SYMBOL(cpu_all_bits);
- #ifdef CONFIG_INIT_ALL_POSSIBLE
- struct cpumask __cpu_possible_mask __read_mostly
- 	= {CPU_BITS_ALL};
-+atomic_t __num_possible_cpus __read_mostly = ATOMIC_INIT(NR_CPUS);
- #else
- struct cpumask __cpu_possible_mask __read_mostly;
-+atomic_t __num_possible_cpus __read_mostly;
- #endif
- EXPORT_SYMBOL(__cpu_possible_mask);
-+EXPORT_SYMBOL(__num_possible_cpus);
+@@ -2597,6 +2597,9 @@ EXPORT_SYMBOL(__cpu_online_mask);
+ struct cpumask __cpu_present_mask __read_mostly;
+ EXPORT_SYMBOL(__cpu_present_mask);
  
- struct cpumask __cpu_online_mask __read_mostly;
- EXPORT_SYMBOL(__cpu_online_mask);
-@@ -2611,6 +2614,7 @@ void init_cpu_present(const struct cpumask *src)
- void init_cpu_possible(const struct cpumask *src)
- {
- 	cpumask_copy(&__cpu_possible_mask, src);
-+	atomic_set(&__num_possible_cpus, cpumask_weight(cpu_possible_mask));
- }
- 
- void init_cpu_online(const struct cpumask *src)
-@@ -2640,6 +2644,24 @@ void set_cpu_online(unsigned int cpu, bool online)
- 	}
- }
- 
-+void reset_cpu_possible_mask(void)
-+{
-+	bitmap_zero(cpumask_bits(&__cpu_possible_mask), NR_CPUS);
-+	atomic_set(&__num_possible_cpus, 0);
-+}
++atomic_t __num_present_cpus __read_mostly;
++EXPORT_SYMBOL(__num_present_cpus);
 +
-+void set_cpu_possible(unsigned int cpu, bool possible)
+ struct cpumask __cpu_active_mask __read_mostly;
+ EXPORT_SYMBOL(__cpu_active_mask);
+ 
+@@ -2609,6 +2612,7 @@ EXPORT_SYMBOL(__num_online_cpus);
+ void init_cpu_present(const struct cpumask *src)
+ {
+ 	cpumask_copy(&__cpu_present_mask, src);
++	atomic_set(&__num_present_cpus, cpumask_weight(cpu_present_mask));
+ }
+ 
+ void init_cpu_possible(const struct cpumask *src)
+@@ -2662,6 +2666,18 @@ void set_cpu_possible(unsigned int cpu, bool possible)
+ }
+ EXPORT_SYMBOL(set_cpu_possible);
+ 
++void set_cpu_present(unsigned int cpu, bool present)
 +{
-+	if (possible) {
-+		if (!cpumask_test_and_set_cpu(cpu, &__cpu_possible_mask))
-+			atomic_inc(&__num_possible_cpus);
++	if (present) {
++		if (!cpumask_test_and_set_cpu(cpu, &__cpu_present_mask))
++			atomic_inc(&__num_present_cpus);
 +	} else {
-+		if (cpumask_test_and_clear_cpu(cpu, &__cpu_possible_mask))
-+			atomic_dec(&__num_possible_cpus);
++		if (cpumask_test_and_clear_cpu(cpu, &__cpu_present_mask))
++			atomic_dec(&__num_present_cpus);
 +	}
 +}
-+EXPORT_SYMBOL(set_cpu_possible);
++EXPORT_SYMBOL(set_cpu_present);
 +
  /*
   * Activate the first processor.
