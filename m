@@ -4,78 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2F94C433F5
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 18 Dec 2021 21:23:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67C26C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 18 Dec 2021 22:16:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Cc:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=eYzpkiiZVP2QoqjbMsg6IU0PcJGH2VfC2QtdNSRg2Ls=; b=ioY821zl39STKQ
-	YjDME+BZoqmlZqQCj81T0IpwYUxsoTZoJ0R1YBVkdw6pn2Cd3EjDcGHXP8aatlInve0OjcgnsYNP3
-	Ofs494Fa3Lk91dmX2qpoNkAX381A8WoesalZAzWZR4uqt633FIHBEVC/0vqZCKMYnuJwqsn573EBM
-	tzxokTNYrB31ngvVcjS/K8psirx/yk7WUc+BXRK0nX1DIoXgF4hrjmHKVUh/K3BgX4cdw8sz/Nd84
-	wcY/ltvHG85WBGse3aUXU4VFvW9SdJkwIOW3rWYUPpHWB3hjaylS05NNObPXp7P2QxN8xOKMZAALl
-	psjohGX/hsRHD4MqHVUg==;
+	List-Owner; bh=72HkWGQUOGbgEHCoxNOlQbtvO1S5fUiM39GI5M8OO9I=; b=y6dMRsqlzsqkZV
+	gj5kBQ4bpMVJjUbRef6AsydrO47CKqwM0A4s6/PbO8qnKvRYR/kQRkSYWMU9xZsPdhyCwXugM9q08
+	NevPilOfcMtL7xqC8Ahy+NIsS/w8Cjvsf6x44yOEme8NzTiMHBcTlWs7oS7FuMJ5At6I/kIbf597X
+	7VZaA1SQv8ilPNv0R0aXDcGP9yCvn7x7YL6AA4i4qrv1BuR4TGfh6ZlIpXBZ3+SDHad2yXrCzrWK9
+	Q2pNHlUwNQFBIXAMLgee+GD3KfOux01YaPM3V95S9KtNjB2slENpeur7EUWQ8G3WcmVGsiFw+ACSV
+	6XGfqN9fsyZh6r5O3gLw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1myhAR-00ElPt-Sy; Sat, 18 Dec 2021 21:22:59 +0000
-Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d])
+	id 1myi08-00Esjm-Dj; Sat, 18 Dec 2021 22:16:24 +0000
+Received: from rere.qmqm.pl ([91.227.64.183])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1myh8i-00EkAk-Tm; Sat, 18 Dec 2021 21:21:14 +0000
-Received: by mail-ot1-x32d.google.com with SMTP id
- w6-20020a9d77c6000000b0055e804fa524so7493619otl.3; 
- Sat, 18 Dec 2021 13:21:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=V/7YV6PuikKJOpufvdQHaOC3eWjf6vds/A3UO3x9gwA=;
- b=V57np8F0LXhPyF31xZ/98vOSICHl4KXHpMtxMolGaerv0QV2DnMVUnnCvDjQoXdDXo
- rT1qtHlwGBuPWGVRNCqixnN8odHV5mxxXaYRnJZE3lAFoB3D1ap/tpQo+HN8ZXmqbSiD
- QIlZkCxHBkKbHcBQjbMxdSmxYOFoc1qPow8X/5CwC8N9sD0V27gZ/pusORn/HCgYlKRO
- 4dCyLdZCSj6a6p1fhiCiQL21rXALTdc+Z1z5SDYBpicENwRWLWU4V7+P+Kd4ufK9GUr0
- SoIEC6LNYiFJiLfuFOcDYhiwtUBtAniHb+XKeX3F11JHzTtbiZ9Muu5cZPVqR5GCdbZQ
- WF1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=V/7YV6PuikKJOpufvdQHaOC3eWjf6vds/A3UO3x9gwA=;
- b=sv9yqGgZ+QLPWB691wUCPrbfJgBzRyTumgIypOQC01DnT6WOBQiFqoRS7egxmExQha
- eJaCosohu+kfpyZ3l7BVh0Jzgz6Z2u5vHLlYY6DpFJBztXruNJAuDaml48iOcHLiqiav
- k3vSZuUEWxSjGrgU4VktpdTFL9Lp0I437JCQwuQ1pRCvfvBUJpAzUKHREm14+N0UtFbO
- WYn2gpn486nR/WCPzQa/SSo4zg050nCKgCOyTafID7JXDEn9oAHEap8S1L1BDQMgIy0A
- 9AN4kRXqbvrRJAtvRF3amh0fyyGre6xcdjnEPi3wXbIKf0BndN7fnO6/ZVK1WjpXepi5
- Mg6Q==
-X-Gm-Message-State: AOAM5314o0ywPmUs0ngN4schuyhtRavgGCmDBDSPADaEw9T/wIZBN0k/
- EZ5AJYDncCenZbX/2SRrUWI=
-X-Google-Smtp-Source: ABdhPJzH5A9A4hW9z3Dre/oQXlQB84e2qfNXrrBIp4gUt5IENY4KKyoFB1Xtm1XffBrgUFoESNT5tw==
-X-Received: by 2002:a9d:6d11:: with SMTP id o17mr6686596otp.363.1639862472133; 
- Sat, 18 Dec 2021 13:21:12 -0800 (PST)
-Received: from localhost (searspoint.nvidia.com. [216.228.112.21])
- by smtp.gmail.com with ESMTPSA id c3sm2614614oiw.8.2021.12.18.13.21.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Dec 2021 13:21:11 -0800 (PST)
-From: Yury Norov <yury.norov@gmail.com>
-To: linux-kernel@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ id 1myi02-00Eshm-KU; Sat, 18 Dec 2021 22:16:20 +0000
+Received: from remote.user (localhost [127.0.0.1])
+ by rere.qmqm.pl (Postfix) with ESMTPSA id 4JGgCw0MShzYX;
+ Sat, 18 Dec 2021 23:15:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+ t=1639865771; bh=p9dTd1veiWUw4cfb9+OomK8Wcfce+mkX5nKMW8drZII=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=O71ZaJP5ODxCFPaoR8j66Ikjj4EJrloyQfx49pvi8th2LFY/8l1Q+SCjjVp+gaQ6W
+ tnkNCrMB49ZAk1DXlyYTXcurGZnXEZiY4aZzfabzMlUto6ly6alqMIah+MFnX1p0f9
+ 84z8n8THEbmdF1ajb1sGxeQHQ6cDCJGonzSml/lVMRg0xcU36xIys+6LGgiXwcKgs4
+ JTuYI7KUXZnGY5rNyDBEKe2yAB8dDcMwmd6pm652u9UjcTrQO2cJ9RPun1jw3D+0fo
+ NWqf1Qpy9qliPjmhfZYXnYERdUbDXnnUg7WbDLTcmnqX03ee/kBb9lrEjJpNr9TH/V
+ aAueEb7NrYLKw==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.103.3 at mail
+Date: Sat, 18 Dec 2021 23:15:54 +0100
+From: =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: linux-kernel@vger.kernel.org, "James E.J. Bottomley" <jejb@linux.ibm.com>,
  "Martin K. Petersen" <martin.petersen@oracle.com>,
- =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
  "Paul E. McKenney" <paulmck@kernel.org>,
  "Rafael J. Wysocki" <rafael@kernel.org>,
  Alexander Shishkin <alexander.shishkin@linux.intel.com>,
  Alexey Klimov <aklimov@redhat.com>,
- Amitkumar Karwar <amitkarwar@gmail.com>, Andi Kleen <ak@linux.intel.com>,
- Andrew Lunn <andrew@lunn.ch>, Andrew Morton <akpm@linux-foundation.org>,
+ Amitkumar Karwar <amitkarwar@gmail.com>,
+ Andi Kleen <ak@linux.intel.com>, Andrew Lunn <andrew@lunn.ch>,
+ Andrew Morton <akpm@linux-foundation.org>,
  Andy Gross <agross@kernel.org>, Andy Lutomirski <luto@kernel.org>,
- Andy Shevchenko <andy@infradead.org>, Anup Patel <anup.patel@wdc.com>,
- Ard Biesheuvel <ardb@kernel.org>,
- Arnaldo Carvalho de Melo <acme@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Borislav Petkov <bp@alien8.de>, Catalin Marinas <catalin.marinas@arm.com>,
+ Andy Shevchenko <andy@infradead.org>,
+ Anup Patel <anup.patel@wdc.com>, Ard Biesheuvel <ardb@kernel.org>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+ Catalin Marinas <catalin.marinas@arm.com>,
  Christoph Hellwig <hch@lst.de>, Christoph Lameter <cl@linux.com>,
  Daniel Vetter <daniel@ffwll.ch>, Dave Hansen <dave.hansen@linux.intel.com>,
- David Airlie <airlied@linux.ie>, David Laight <David.Laight@ACULAB.COM>,
+ David Airlie <airlied@linux.ie>, David Laight <David.Laight@aculab.com>,
  Dennis Zhou <dennis@kernel.org>, Emil Renner Berthing <kernel@esmil.dk>,
  Geert Uytterhoeven <geert@linux-m68k.org>,
  Geetha sowjanya <gakula@marvell.com>,
@@ -83,17 +66,17 @@ To: linux-kernel@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
  Guo Ren <guoren@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
  Heiko Carstens <hca@linux.ibm.com>, Ian Rogers <irogers@google.com>,
  Ingo Molnar <mingo@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
- Jason Wessel <jason.wessel@windriver.com>, Jens Axboe <axboe@fb.com>,
- Jiri Olsa <jolsa@redhat.com>, Joe Perches <joe@perches.com>,
- Jonathan Cameron <jic23@kernel.org>, Juri Lelli <juri.lelli@redhat.com>,
- Kees Cook <keescook@chromium.org>,
+ Jason Wessel <jason.wessel@windriver.com>,
+ Jens Axboe <axboe@fb.com>, Jiri Olsa <jolsa@redhat.com>,
+ Joe Perches <joe@perches.com>, Jonathan Cameron <jic23@kernel.org>,
+ Juri Lelli <juri.lelli@redhat.com>, Kees Cook <keescook@chromium.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
  Lee Jones <lee.jones@linaro.org>, Marc Zyngier <maz@kernel.org>,
  Marcin Wojtas <mw@semihalf.com>, Mark Gross <markgross@kernel.org>,
  Mark Rutland <mark.rutland@arm.com>,
  Matti Vaittinen <mazziesaccount@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Mel Gorman <mgorman@suse.de>,
- Michael Ellerman <mpe@ellerman.id.au>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Mel Gorman <mgorman@suse.de>, Michael Ellerman <mpe@ellerman.id.au>,
  Mike Marciniszyn <mike.marciniszyn@cornelisnetworks.com>,
  Nicholas Piggin <npiggin@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
  Peter Zijlstra <peterz@infradead.org>, Petr Mladek <pmladek@suse.com>,
@@ -117,21 +100,20 @@ To: linux-kernel@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
  bcm-kernel-feedback-list@broadcom.com, kvm@vger.kernel.org,
  linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-crypto@vger.kernel.org, linux-csky@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org, linux-mm@kvack.org,
- linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH 17/17] MAINTAINERS: add cpumask and nodemask files to
- BITMAP_API
-Date: Sat, 18 Dec 2021 13:20:13 -0800
-Message-Id: <20211218212014.1315894-18-yury.norov@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211218212014.1315894-1-yury.norov@gmail.com>
+ linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH 01/17] all: don't use bitmap_weight() where possible
+Message-ID: <Yb5dmqlYd3owtH29@qmqm.qmqm.pl>
 References: <20211218212014.1315894-1-yury.norov@gmail.com>
+ <20211218212014.1315894-2-yury.norov@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20211218212014.1315894-2-yury.norov@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211218_132113_019744_18B3E6FE 
-X-CRM114-Status: GOOD (  14.70  )
+X-CRM114-CacheID: sfid-20211218_141618_877840_EE69F013 
+X-CRM114-Status: GOOD (  15.90  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -143,42 +125,28 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-2"
+Content-Transfer-Encoding: quoted-printable
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-cpumask and nodemask APIs are thin wrappers around basic bitmap API, and
-corresponding files are not formally maintained. This patch adds them to
-BITMAP_API section, so that bitmap folks would have closer look at it.
+On Sat, Dec 18, 2021 at 01:19:57PM -0800, Yury Norov wrote:
+> Don't call bitmap_weight() if the following code can get by
+> without it.
+> =
 
-Signed-off-by: Yury Norov <yury.norov@gmail.com>
----
- MAINTAINERS | 4 ++++
- 1 file changed, 4 insertions(+)
+> Signed-off-by: Yury Norov <yury.norov@gmail.com>
+> ---
+>  drivers/net/dsa/b53/b53_common.c           | 6 +-----
+>  drivers/net/ethernet/broadcom/bcmsysport.c | 6 +-----
+>  drivers/thermal/intel/intel_powerclamp.c   | 9 +++------
+>  3 files changed, 5 insertions(+), 16 deletions(-)
+[...]
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5964e047bc04..ecd41988c871 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3392,10 +3392,14 @@ R:	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
- R:	Rasmus Villemoes <linux@rasmusvillemoes.dk>
- S:	Maintained
- F:	include/linux/bitmap.h
-+F:	include/linux/cpumask.h
- F:	include/linux/find.h
-+F:	include/linux/nodemask.h
- F:	lib/bitmap.c
-+F:	lib/cpumask.c
- F:	lib/find_bit.c
- F:	lib/find_bit_benchmark.c
-+F:	lib/nodemask.c
- F:	lib/test_bitmap.c
- F:	tools/include/linux/bitmap.h
- F:	tools/include/linux/find.h
--- 
-2.30.2
+Looks good, but I think this needs to be split per subsystem.
 
+Best Regards
+Micha=B3=A0Miros=B3aw
 
 _______________________________________________
 linux-snps-arc mailing list
