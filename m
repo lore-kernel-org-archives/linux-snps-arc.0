@@ -4,60 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F080C433EF
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 18 Dec 2021 21:21:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 151DBC433F5
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 18 Dec 2021 21:21:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Cc:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=aXfpR0mYG43Wu5dkweC74rw2rPsK6FlcefLUZ2YcXcw=; b=fVDbCmQjSBI6fz
-	s+SGc3UlU4yGveqhjcuCG687b5BPd5tbHVp+rGLwM0RXhsKwCCLgxPqXUjgVJF48FxClzPU3EXC3G
-	k89UNF7ah2gjII8CUPNzcsER7ei2oI5cKT0KqSVpbDUfqALyFqQEZrnx6QHZoYJw9JwN7aPG6EO6P
-	pNhz+Di1KW+dBsjga2ZI4i3tsSdmtM7LmbkeVY1D9+XwgSpiSzpO/7iFxCTyh7LO27DLQkl0QICT7
-	swGzmwZCyrucXr5Fqs8ixauIANKNKfaB41F+XKKM+bTB2JuXQLStd4Nxnmw7uoU8d6cSorCufNs23
-	EoXxadEJTkQIgew0R72w==;
+	List-Owner; bh=pX4wYZhq9Imy+3A2zjHnrht65K6Qd0FkcG64PMLjQBk=; b=3sfv/QYbH0t4cw
+	TVUmmhyN9hikERxwC5Ug8hfT/sHM3diafPoODt3fK2rbF0sL02/PXMdQKTYU4tkk51BwQH7eM1lVm
+	r+0SWZIxjFrRvOCOI8Ssp3HILqARSJtVqV9GOAqVBVucofoYmrLksfGva8CAJNxHpK+OHdXrIWa1B
+	zaGy5Rf13T7xb2X62K94dUAoNollbXLSVlFVjyydjRV8w2xy/4g8ZRNtLz4B1RCto/VE3QwXFhT8Q
+	eYpTQH4ZcE0v96Zc7zWDgLe/RzDlL6KomMvkYFBafbhGSKViPoqqBj4OCWkmQyITFt1+0LM21IM9V
+	zd8qXhdyolK/kyoZQ4Vw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1myh8t-00EkK8-L6; Sat, 18 Dec 2021 21:21:23 +0000
-Received: from mail-oo1-xc2a.google.com ([2607:f8b0:4864:20::c2a])
+	id 1myh90-00EkQ8-Hi; Sat, 18 Dec 2021 21:21:30 +0000
+Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1myh8C-00Ejj1-Nd; Sat, 18 Dec 2021 21:20:43 +0000
-Received: by mail-oo1-xc2a.google.com with SMTP id
- r18-20020a4a7252000000b002c5f52d1834so1864651ooe.0; 
- Sat, 18 Dec 2021 13:20:40 -0800 (PST)
+ id 1myh8F-00Ejm6-Um; Sat, 18 Dec 2021 21:20:47 +0000
+Received: by mail-ot1-x329.google.com with SMTP id
+ v15-20020a9d604f000000b0056cdb373b82so7469957otj.7; 
+ Sat, 18 Dec 2021 13:20:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Y8ExfgOcgrA4CHmSecZvjPn/xavwnyrvtMRh3tqxxrw=;
- b=ky3nIm4VKfqY0Iq4zNauj3NXFN9QLbU64c4NLKd8+eXyY5UHvMFlx9aiNTA/qwjF5p
- 5WEcS0LUjqwMpD0Ly9X7LVxbhmiOR2GbQ+abrUk6bHvx7+Cvj1ungkoH5D46b1QyLWQz
- km2XM/SS0wgiVd0HWTiaIFErZ5cDFzoDijXs35dCpitpd1tSBTdIYvXxDqkzZELiy25H
- 54tm+5ByXHXPQCWtpde4rVewBv2R910Nw8U1BZzohGqANJ92nhEfKoJ9hVS5V3Wa/96H
- D15GnwPbjMyWcfB02PLIxfn7tGI1glt4iKIi7P1KZiLFMB3n2s8o4pHZOlsQnok+/jIH
- ei5Q==
+ bh=yzUNsvJwnd0v47Q5AxP6lhYkyqcCWxa0P2De/g+O3S0=;
+ b=aeyrRdsbMj+T7Uh+RBjZZWB/kA4U6108/E5yXjYzEClA1t4rVOhg/TvjA0URGEfjoS
+ 8yYx9V7mJF6lmAgq1RzTAn0dXWVtCFnCSFSksRA2bCDS1+uiI+TNu4nmPvKC0vculKAb
+ 2vav+lP6DUjfNbJW+bp5U8XrXK8lFMlsnqbY6Zewmwd9n5fAAW+kNcP//A8BmAU23hFg
+ Lq0+BqGt31qmsHiR1/82tonV9twgXObMrhuAwajRpq5K5rv0K69gHMcZp/93pbohASi1
+ adq5kjwvFtWTOSo4i7GJNxLBBtYCHu1eTmkd8vxkfTbiK5L1H6Us5Ch8+PPNqfwfmUKe
+ oUZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Y8ExfgOcgrA4CHmSecZvjPn/xavwnyrvtMRh3tqxxrw=;
- b=kAf5IA5b3amwX5cWNU2HxeR6RbI7Zh8mOEV3/9fp6mgLJdMQztiIeGaecehsdWgQzS
- GOygWaEKt5N7EBbwOdaqateoqTv74/G9k9wWgfH9qmLKCVuTl/rRZmj9Q647vOWhLJTE
- ckNWwn3IBs3KhMU1jFo3ekDYHVP1olovi/RokQNXFcvJimEOo4qd5FZk/Pq4F+sTQIMX
- UaR07yUiJ6hkU5LRJ9LDAUGOyjGtHsBnjPstglhT4elAYFh+hrBrjfPLPqZrper4wLJK
- VFrltmbaMmybemtKrtlHJr8lf1U1CdqoxD0Wj+MiZrGsXzP1kwApXZcJ+0FDc5D/Vfus
- S0fg==
-X-Gm-Message-State: AOAM5319geHoPiDhIk84A0HAzsP5m3l4M1LCWy1KtDqKgXAclriJGiAI
- ifGOQIW2dQoMfouE2nkeep4=
-X-Google-Smtp-Source: ABdhPJxRJAChWm8hZEgKNS5uqGfM1GLlIQqNCNXw8p1t/B+Bt/JWEVwLsC+a2lNQnmWVQu7sh+mn1Q==
-X-Received: by 2002:a05:6820:820:: with SMTP id
- bg32mr5869341oob.10.1639862439949; 
- Sat, 18 Dec 2021 13:20:39 -0800 (PST)
+ bh=yzUNsvJwnd0v47Q5AxP6lhYkyqcCWxa0P2De/g+O3S0=;
+ b=MQamixFYaqD0yg5uoN40rT9wtZIgj9Uvq0JwwugCq//FC3tCGEOm3pVOOUSMxcCyFI
+ PNK8oMa28RPEuzbFgIzSA9unCjkTX9q1DkCWDT9AWOpQzf3ZANqa18ZLCu3MH45uhsY2
+ NKcJYl+7pGhtTsHN6aPuHaQn+boYpRIpm41GGdiVHcn3Kovk23L8YR/8FDIBzh5++Ffw
+ cE7c6R4oMEUFJSAVxSWSRxcbsJmqmBOUK4V3CckKiB2NUtJlnzHt1DO9+mAMze8GCVHc
+ iK9LUlCkGSbZ1oE21OgcKUzkndiFYy2GiinuC8TobczvuCWEcokoEat6hQWiv7k7PyvC
+ Bg/w==
+X-Gm-Message-State: AOAM531Gadi6dN6D8Nwyu+B3E9SzeCpJ7cEtJ8kjMk3H7DYfz3ePily/
+ BBcd5/MBD8oWgFladtInPXY=
+X-Google-Smtp-Source: ABdhPJwfIZ0Qa4eLLyeYlPDfGf2rm+0UPfH1JNF0NiYHXOLlCwWJPU0EMB/YwfrozpLsXV17jLZYCg==
+X-Received: by 2002:a05:6830:2681:: with SMTP id
+ l1mr6437156otu.378.1639862442812; 
+ Sat, 18 Dec 2021 13:20:42 -0800 (PST)
 Received: from localhost (searspoint.nvidia.com. [216.228.112.21])
- by smtp.gmail.com with ESMTPSA id r26sm2292099otn.15.2021.12.18.13.20.39
+ by smtp.gmail.com with ESMTPSA id s1sm2263399ooo.11.2021.12.18.13.20.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Dec 2021 13:20:39 -0800 (PST)
+ Sat, 18 Dec 2021 13:20:42 -0800 (PST)
 From: Yury Norov <yury.norov@gmail.com>
 To: linux-kernel@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
  "James E.J. Bottomley" <jejb@linux.ibm.com>,
@@ -122,17 +122,17 @@ To: linux-kernel@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
  linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
  linux-s390@vger.kernel.org, linux-snps-arc@lists.infradead.org,
  linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH 07/17] lib/bitmap: add bitmap_weight_{cmp, eq, gt, ge, lt,
- le} functions
-Date: Sat, 18 Dec 2021 13:20:03 -0800
-Message-Id: <20211218212014.1315894-8-yury.norov@gmail.com>
+Subject: [PATCH 08/17] all: replace bitmap_weight with bitmap_weight_{eq, gt,
+ ge, lt, le} where appropriate
+Date: Sat, 18 Dec 2021 13:20:04 -0800
+Message-Id: <20211218212014.1315894-9-yury.norov@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211218212014.1315894-1-yury.norov@gmail.com>
 References: <20211218212014.1315894-1-yury.norov@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211218_132040_878811_DAC4618A 
-X-CRM114-Status: GOOD (  23.51  )
+X-CRM114-CacheID: sfid-20211218_132044_155998_987D8371 
+X-CRM114-Status: GOOD (  25.47  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -144,114 +144,248 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-TWFueSBrZXJuZWwgdXNlcnMgdXNlIGJpdG1hcF93ZWlnaHQoKSB0byBjb21wYXJlIHRoZSByZXN1
-bHQgYWdhaW5zdApzb21lIG51bWJlciBvciBleHByZXNzaW9uOgoKCWlmIChiaXRtYXBfd2VpZ2h0
-KC4uLikgPiAxKQoJCWRvX3NvbWV0aGluZygpOwoKSXQgd29ya3MgT0ssIGJ1dCBtYXkgYmUgc2ln
-bmlmaWNhbnRseSBpbXByb3ZlZCBmb3IgbGFyZ2UgYml0bWFwczogaWYKZmlyc3QgZmV3IHdvcmRz
-IGNvdW50IHNldCBiaXRzIHRvIGEgbnVtYmVyIGdyZWF0ZXIgdGhhbiBnaXZlbiwgd2UgY2FuCnN0
-b3AgY291bnRpbmcgYW5kIGltbWVkaWF0ZWx5IHJldHVybi4KClRoZSBzYW1lIGlkZWEgd291bGQg
-d29yayBpbiBvdGhlciBkaXJlY3Rpb246IGlmIHdlIGtub3cgdGhhdCB0aGUgbnVtYmVyCm9mIHNl
-dCBiaXRzIHRoYXQgd2UgY291bnRlZCBzbyBmYXIgaXMgc21hbGwgZW5vdWdoLCBzbyB0aGF0IGl0
-IHdvdWxkIGJlCnNtYWxsZXIgdGhhbiByZXF1aXJlZCBudW1iZXIgZXZlbiBpZiBhbGwgYml0cyBv
-ZiB0aGUgcmVzdCBvZiB0aGUgYml0bWFwCmFyZSBzZXQsIHdlIGNhbiBzdG9wIGNvdW50aW5nIGVh
-cmxpZXIuCgpUaGlzIHBhdGNoIGFkZHMgbmV3IGJpdG1hcF93ZWlnaHRfY21wKCkgYXMgc3VnZ2Vz
-dGVkIGJ5IE1pY2hhxYIgTWlyb3PFgmF3CmFuZCBhIGZhbWlseSBvZiBlcSwgZ3QsIGdlLCBsdCBh
-bmQgbGUgd3JhcHBlcnMgdG8gYWxsb3cgdGhpcyBvcHRpbWl6YXRpb24uClRoZSBmb2xsb3dpbmcg
-cGF0Y2hlcyBhcHBseSBuZXcgZnVuY3Rpb25zIHdoZXJlIGFwcHJvcHJpYXRlLgoKU3VnZ2VzdGVk
-LWJ5OiAiTWljaGHFgiBNaXJvc8WCYXciIDxtaXJxLWxpbnV4QHJlcmUucW1xbS5wbD4gKGZvciBi
-aXRtYXBfd2VpZ2h0X2NtcCkKU2lnbmVkLW9mZi1ieTogWXVyeSBOb3JvdiA8eXVyeS5ub3JvdkBn
-bWFpbC5jb20+Ci0tLQogaW5jbHVkZS9saW51eC9iaXRtYXAuaCB8IDgwICsrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKwogbGliL2JpdG1hcC5jICAgICAgICAgICB8IDIx
-ICsrKysrKysrKysrCiAyIGZpbGVzIGNoYW5nZWQsIDEwMSBpbnNlcnRpb25zKCspCgpkaWZmIC0t
-Z2l0IGEvaW5jbHVkZS9saW51eC9iaXRtYXAuaCBiL2luY2x1ZGUvbGludXgvYml0bWFwLmgKaW5k
-ZXggN2RiYTA4NDc1MTBjLi43MDhlNTdiMzIzNjIgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvbGludXgv
-Yml0bWFwLmgKKysrIGIvaW5jbHVkZS9saW51eC9iaXRtYXAuaApAQCAtNTEsNiArNTEsMTIgQEAg
-c3RydWN0IGRldmljZTsKICAqICBiaXRtYXBfZW1wdHkoc3JjLCBuYml0cykgICAgICAgICAgICAg
-ICAgICAgIEFyZSBhbGwgYml0cyB6ZXJvIGluICpzcmM/CiAgKiAgYml0bWFwX2Z1bGwoc3JjLCBu
-Yml0cykgICAgICAgICAgICAgICAgICAgICBBcmUgYWxsIGJpdHMgc2V0IGluICpzcmM/CiAgKiAg
-Yml0bWFwX3dlaWdodChzcmMsIG5iaXRzKSAgICAgICAgICAgICAgICAgICBIYW1taW5nIFdlaWdo
-dDogbnVtYmVyIHNldCBiaXRzCisgKiAgYml0bWFwX3dlaWdodF9jbXAoc3JjLCBuYml0cykgICAg
-ICAgICAgICAgICBjb21wYXJlIEhhbW1pbmcgV2VpZ2h0IHdpdGggYSBudW1iZXIKKyAqICBiaXRt
-YXBfd2VpZ2h0X2VxKHNyYywgbmJpdHMsIG51bSkgICAgICAgICAgIEhhbW1pbmcgV2VpZ2h0ID09
-IG51bQorICogIGJpdG1hcF93ZWlnaHRfZ3Qoc3JjLCBuYml0cywgbnVtKSAgICAgICAgICAgSGFt
-bWluZyBXZWlnaHQgPiAgbnVtCisgKiAgYml0bWFwX3dlaWdodF9nZShzcmMsIG5iaXRzLCBudW0p
-ICAgICAgICAgICBIYW1taW5nIFdlaWdodCA+PSBudW0KKyAqICBiaXRtYXBfd2VpZ2h0X2x0KHNy
-YywgbmJpdHMsIG51bSkgICAgICAgICAgIEhhbW1pbmcgV2VpZ2h0IDwgIG51bQorICogIGJpdG1h
-cF93ZWlnaHRfbGUoc3JjLCBuYml0cywgbnVtKSAgICAgICAgICAgSGFtbWluZyBXZWlnaHQgPD0g
-bnVtCiAgKiAgYml0bWFwX3NldChkc3QsIHBvcywgbmJpdHMpICAgICAgICAgICAgICAgICBTZXQg
-c3BlY2lmaWVkIGJpdCBhcmVhCiAgKiAgYml0bWFwX2NsZWFyKGRzdCwgcG9zLCBuYml0cykgICAg
-ICAgICAgICAgICBDbGVhciBzcGVjaWZpZWQgYml0IGFyZWEKICAqICBiaXRtYXBfZmluZF9uZXh0
-X3plcm9fYXJlYShidWYsIGxlbiwgcG9zLCBuLCBtYXNrKSAgRmluZCBiaXQgZnJlZSBhcmVhCkBA
-IC0xNjIsNiArMTY4LDcgQEAgaW50IF9fYml0bWFwX2ludGVyc2VjdHMoY29uc3QgdW5zaWduZWQg
-bG9uZyAqYml0bWFwMSwKIGludCBfX2JpdG1hcF9zdWJzZXQoY29uc3QgdW5zaWduZWQgbG9uZyAq
-Yml0bWFwMSwKIAkJICAgIGNvbnN0IHVuc2lnbmVkIGxvbmcgKmJpdG1hcDIsIHVuc2lnbmVkIGlu
-dCBuYml0cyk7CiBpbnQgX19iaXRtYXBfd2VpZ2h0KGNvbnN0IHVuc2lnbmVkIGxvbmcgKmJpdG1h
-cCwgdW5zaWduZWQgaW50IG5iaXRzKTsKK2ludCBfX2JpdG1hcF93ZWlnaHRfY21wKGNvbnN0IHVu
-c2lnbmVkIGxvbmcgKmJpdG1hcCwgdW5zaWduZWQgaW50IGJpdHMsIGludCBudW0pOwogdm9pZCBf
-X2JpdG1hcF9zZXQodW5zaWduZWQgbG9uZyAqbWFwLCB1bnNpZ25lZCBpbnQgc3RhcnQsIGludCBs
-ZW4pOwogdm9pZCBfX2JpdG1hcF9jbGVhcih1bnNpZ25lZCBsb25nICptYXAsIHVuc2lnbmVkIGlu
-dCBzdGFydCwgaW50IGxlbik7CiAKQEAgLTQwMyw2ICs0MTAsNzkgQEAgc3RhdGljIF9fYWx3YXlz
-X2lubGluZSBpbnQgYml0bWFwX3dlaWdodChjb25zdCB1bnNpZ25lZCBsb25nICpzcmMsIHVuc2ln
-bmVkIGludAogCXJldHVybiBfX2JpdG1hcF93ZWlnaHQoc3JjLCBuYml0cyk7CiB9CiAKKy8qKgor
-ICogYml0bWFwX3dlaWdodF9jbXAgLSBjb21wYXJlcyBudW1iZXIgb2Ygc2V0IGJpdHMgaW4gQHNy
-YyB3aXRoIEBudW0uCisgKiBAc3JjOiAgIHNvdXJjZSBiaXRtYXAKKyAqIEBuYml0czogbGVuZ3Ro
-IG9mIGJpdG1hcCBpbiBiaXRzCisgKiBAbnVtOiAgIG51bWJlciB0byBjb21wYXJlIHdpdGgKKyAq
-CisgKiBBcyBvcHBvc2l0ZSB0byBiaXRtYXBfd2VpZ2h0KCkgdGhpcyBmdW5jdGlvbiBkb2Vzbid0
-IG5lY2Vzc2FyaWx5CisgKiB0cmF2ZXJzZSBmdWxsIGJpdG1hcCBhbmQgbWF5IHJldHVybiBlYXJs
-aWVyLgorICoKKyAqIFJldHVybnMgemVybyBpZiB3ZWlnaHQgb2YgQHNyYyBpcyBlcXVhbCB0byBA
-bnVtOworICoJICAgbmVnYXRpdmUgbnVtYmVyIGlmIHdlaWdodCBvZiBAc3JjIGlzIGxlc3MgdGhh
-biBAbnVtOworICoJICAgcG9zaXRpdmUgbnVtYmVyIGlmIHdlaWdodCBvZiBAc3JjIGlzIGdyZWF0
-ZXIgdGhhbiBAbnVtOworICoKKyAqIE5PVEVTCisgKgorICogQmVjYXVzZSBudW1iZXIgb2Ygc2V0
-IGJpdHMgY2Fubm90IGRlY3JlYXNlIHdoaWxlIGNvdW50aW5nLCB3aGVuIHVzZXIKKyAqIHdhbnRz
-IHRvIGtub3cgaWYgdGhlIG51bWJlciBvZiBzZXQgYml0cyBpbiB0aGUgYml0bWFwIGlzIGxlc3Mg
-dGhhbgorICogQG51bSwgY2FsbGluZworICoJYml0bWFwX3dlaWdodF9jbXAoLi4uLCBAbnVtKSA8
-IDAKKyAqIGlzIHBvdGVudGlhbGx5IGxlc3MgZWZmZWN0aXZlIHRoYW4KKyAqCWJpdG1hcF93ZWln
-aHRfY21wKC4uLiwgQG51bSAtIDEpIDw9IDAKKyAqCisgKiBDb25zaWRlciBhbiBleGFtcGxlOgor
-ICogYml0bWFwX3dlaWdodF9jbXAoMTAwMCAwMDAwIDAwMDAgMDAwMCwgMSkgPCAwCisgKgkJCQkg
-ICAgXgorICoJCQkJICAgIHN0b3AgaGVyZQorICoKKyAqIGJpdG1hcF93ZWlnaHRfY21wKDEwMDAg
-MDAwMCAwMDAwIDAwMDAsIDApIDw9IDAKKyAqCQkgICAgIF4KKyAqCQkgICAgIHN0b3AgaGVyZQor
-ICovCitzdGF0aWMgX19hbHdheXNfaW5saW5lCitpbnQgYml0bWFwX3dlaWdodF9jbXAoY29uc3Qg
-dW5zaWduZWQgbG9uZyAqc3JjLCB1bnNpZ25lZCBpbnQgbmJpdHMsIGludCBudW0pCit7CisJaWYg
-KG51bSA+IChpbnQpbmJpdHMgfHwgbnVtIDwgMCkKKwkJcmV0dXJuIC1udW07CisKKwlpZiAoc21h
-bGxfY29uc3RfbmJpdHMobmJpdHMpKQorCQlyZXR1cm4gaHdlaWdodF9sb25nKCpzcmMgJiBCSVRN
-QVBfTEFTVF9XT1JEX01BU0sobmJpdHMpKSAtIG51bTsKKworCXJldHVybiBfX2JpdG1hcF93ZWln
-aHRfY21wKHNyYywgbmJpdHMsIG51bSk7Cit9CisKK3N0YXRpYyBfX2Fsd2F5c19pbmxpbmUKK2Jv
-b2wgYml0bWFwX3dlaWdodF9lcShjb25zdCB1bnNpZ25lZCBsb25nICpzcmMsIHVuc2lnbmVkIGlu
-dCBuYml0cywgaW50IG51bSkKK3sKKwlyZXR1cm4gYml0bWFwX3dlaWdodF9jbXAoc3JjLCBuYml0
-cywgbnVtKSA9PSAwOworfQorCitzdGF0aWMgX19hbHdheXNfaW5saW5lCitib29sIGJpdG1hcF93
-ZWlnaHRfZ3QoY29uc3QgdW5zaWduZWQgbG9uZyAqc3JjLCB1bnNpZ25lZCBpbnQgbmJpdHMsIGlu
-dCBudW0pCit7CisJcmV0dXJuIGJpdG1hcF93ZWlnaHRfY21wKHNyYywgbmJpdHMsIG51bSkgPiAw
-OworfQorCitzdGF0aWMgX19hbHdheXNfaW5saW5lCitib29sIGJpdG1hcF93ZWlnaHRfZ2UoY29u
-c3QgdW5zaWduZWQgbG9uZyAqc3JjLCB1bnNpZ25lZCBpbnQgbmJpdHMsIGludCBudW0pCit7CisJ
-cmV0dXJuIGJpdG1hcF93ZWlnaHRfY21wKHNyYywgbmJpdHMsIG51bSAtIDEpID4gMDsKK30KKwor
-c3RhdGljIF9fYWx3YXlzX2lubGluZQorYm9vbCBiaXRtYXBfd2VpZ2h0X2x0KGNvbnN0IHVuc2ln
-bmVkIGxvbmcgKnNyYywgdW5zaWduZWQgaW50IG5iaXRzLCBpbnQgbnVtKQoreworCXJldHVybiBi
-aXRtYXBfd2VpZ2h0X2NtcChzcmMsIG5iaXRzLCBudW0gLSAxKSA8PSAwOworfQorCitzdGF0aWMg
-X19hbHdheXNfaW5saW5lCitib29sIGJpdG1hcF93ZWlnaHRfbGUoY29uc3QgdW5zaWduZWQgbG9u
-ZyAqc3JjLCB1bnNpZ25lZCBpbnQgbmJpdHMsIGludCBudW0pCit7CisJcmV0dXJuIGJpdG1hcF93
-ZWlnaHRfY21wKHNyYywgbmJpdHMsIG51bSkgPD0gMDsKK30KKwogc3RhdGljIF9fYWx3YXlzX2lu
-bGluZSB2b2lkIGJpdG1hcF9zZXQodW5zaWduZWQgbG9uZyAqbWFwLCB1bnNpZ25lZCBpbnQgc3Rh
-cnQsCiAJCXVuc2lnbmVkIGludCBuYml0cykKIHsKZGlmZiAtLWdpdCBhL2xpYi9iaXRtYXAuYyBi
-L2xpYi9iaXRtYXAuYwppbmRleCA5MjY0MDg4ODM0NTYuLmZiODRjYTcwYzVkOSAxMDA2NDQKLS0t
-IGEvbGliL2JpdG1hcC5jCisrKyBiL2xpYi9iaXRtYXAuYwpAQCAtMzQ4LDYgKzM0OCwyNyBAQCBp
-bnQgX19iaXRtYXBfd2VpZ2h0KGNvbnN0IHVuc2lnbmVkIGxvbmcgKmJpdG1hcCwgdW5zaWduZWQg
-aW50IGJpdHMpCiB9CiBFWFBPUlRfU1lNQk9MKF9fYml0bWFwX3dlaWdodCk7CiAKK2ludCBfX2Jp
-dG1hcF93ZWlnaHRfY21wKGNvbnN0IHVuc2lnbmVkIGxvbmcgKmJpdG1hcCwgdW5zaWduZWQgaW50
-IGJpdHMsIGludCBudW0pCit7CisJdW5zaWduZWQgaW50IGssIHcsIGxpbSA9IGJpdHMgLyBCSVRT
-X1BFUl9MT05HOworCisJZm9yIChrID0gMCwgdyA9IDA7IGsgPCBsaW07IGsrKykgeworCQlpZiAo
-dyArIGJpdHMgLSBrICogQklUU19QRVJfTE9ORyA8IG51bSkKKwkJCWdvdG8gb3V0OworCisJCXcg
-Kz0gaHdlaWdodF9sb25nKGJpdG1hcFtrXSk7CisKKwkJaWYgKHcgPiBudW0pCisJCQlnb3RvIG91
-dDsKKwl9CisKKwlpZiAoYml0cyAlIEJJVFNfUEVSX0xPTkcpCisJCXcgKz0gaHdlaWdodF9sb25n
-KGJpdG1hcFtrXSAmIEJJVE1BUF9MQVNUX1dPUkRfTUFTSyhiaXRzKSk7CitvdXQ6CisJcmV0dXJu
-IHcgLSBudW07Cit9CitFWFBPUlRfU1lNQk9MKF9fYml0bWFwX3dlaWdodF9jbXApOworCiB2b2lk
-IF9fYml0bWFwX3NldCh1bnNpZ25lZCBsb25nICptYXAsIHVuc2lnbmVkIGludCBzdGFydCwgaW50
-IGxlbikKIHsKIAl1bnNpZ25lZCBsb25nICpwID0gbWFwICsgQklUX1dPUkQoc3RhcnQpOwotLSAK
-Mi4zMC4yCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-bGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVh
-ZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1z
-bnBzLWFyYwo=
+Kernel code calls bitmap_weight() to compare the weight of bitmap with
+a given number. We can do it more efficiently with bitmap_weight_{eq, ...}
+because conditional bitmap_weight may stop traversing the bitmap earlier,
+as soon as condition is met.
+
+This patch replaces bitmap_weight with conditional versions where possible,
+except for small bitmaps which size is not configurable and  known at
+constant time. In that case conditional version of bitmap_weight would not
+benefit due to small_const_nbits() optimization; but readability may
+suffer.
+
+Signed-off-by: Yury Norov <yury.norov@gmail.com>
+---
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c                 |  2 +-
+ drivers/iio/dummy/iio_simple_dummy_buffer.c            |  4 ++--
+ drivers/iio/industrialio-trigger.c                     |  2 +-
+ drivers/memstick/core/ms_block.c                       |  4 ++--
+ drivers/net/ethernet/intel/ixgbe/ixgbe_sriov.c         |  2 +-
+ .../net/ethernet/marvell/octeontx2/nic/otx2_ethtool.c  |  2 +-
+ .../net/ethernet/marvell/octeontx2/nic/otx2_flows.c    |  4 ++--
+ drivers/net/ethernet/mellanox/mlx4/cmd.c               | 10 +++-------
+ drivers/net/ethernet/mellanox/mlx4/eq.c                |  4 ++--
+ drivers/net/ethernet/mellanox/mlx4/fw.c                |  4 ++--
+ drivers/net/ethernet/mellanox/mlx4/main.c              |  2 +-
+ drivers/perf/thunderx2_pmu.c                           |  4 ++--
+ drivers/staging/media/tegra-video/vi.c                 |  2 +-
+ 13 files changed, 21 insertions(+), 25 deletions(-)
+
+diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+index e23ff03290b8..9d42e592c1cf 100644
+--- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
++++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+@@ -2752,7 +2752,7 @@ static int __init_one_rdt_domain(struct rdt_domain *d, struct resctrl_schema *s,
+ 	 * bitmap_weight() does not access out-of-bound memory.
+ 	 */
+ 	tmp_cbm = cfg->new_ctrl;
+-	if (bitmap_weight(&tmp_cbm, r->cache.cbm_len) < r->cache.min_cbm_bits) {
++	if (bitmap_weight_lt(&tmp_cbm, r->cache.cbm_len, r->cache.min_cbm_bits)) {
+ 		rdt_last_cmd_printf("No space on %s:%d\n", s->name, d->id);
+ 		return -ENOSPC;
+ 	}
+diff --git a/drivers/iio/dummy/iio_simple_dummy_buffer.c b/drivers/iio/dummy/iio_simple_dummy_buffer.c
+index 59aa60d4ca37..cd2470ddf82b 100644
+--- a/drivers/iio/dummy/iio_simple_dummy_buffer.c
++++ b/drivers/iio/dummy/iio_simple_dummy_buffer.c
+@@ -72,8 +72,8 @@ static irqreturn_t iio_simple_dummy_trigger_h(int irq, void *p)
+ 		int i, j;
+ 
+ 		for (i = 0, j = 0;
+-		     i < bitmap_weight(indio_dev->active_scan_mask,
+-				       indio_dev->masklength);
++		     bitmap_weight_gt(indio_dev->active_scan_mask,
++				       indio_dev->masklength, i);
+ 		     i++, j++) {
+ 			j = find_next_bit(indio_dev->active_scan_mask,
+ 					  indio_dev->masklength, j);
+diff --git a/drivers/iio/industrialio-trigger.c b/drivers/iio/industrialio-trigger.c
+index f504ed351b3e..98c54022fecf 100644
+--- a/drivers/iio/industrialio-trigger.c
++++ b/drivers/iio/industrialio-trigger.c
+@@ -331,7 +331,7 @@ int iio_trigger_detach_poll_func(struct iio_trigger *trig,
+ {
+ 	struct iio_dev_opaque *iio_dev_opaque = to_iio_dev_opaque(pf->indio_dev);
+ 	bool no_other_users =
+-		bitmap_weight(trig->pool, CONFIG_IIO_CONSUMERS_PER_TRIGGER) == 1;
++		bitmap_weight_eq(trig->pool, CONFIG_IIO_CONSUMERS_PER_TRIGGER, 1);
+ 	int ret = 0;
+ 
+ 	if (trig->ops && trig->ops->set_trigger_state && no_other_users) {
+diff --git a/drivers/memstick/core/ms_block.c b/drivers/memstick/core/ms_block.c
+index 0cda6c6baefc..5cdd987e78f7 100644
+--- a/drivers/memstick/core/ms_block.c
++++ b/drivers/memstick/core/ms_block.c
+@@ -155,8 +155,8 @@ static int msb_validate_used_block_bitmap(struct msb_data *msb)
+ 	for (i = 0; i < msb->zone_count; i++)
+ 		total_free_blocks += msb->free_block_count[i];
+ 
+-	if (msb->block_count - bitmap_weight(msb->used_blocks_bitmap,
+-					msb->block_count) == total_free_blocks)
++	if (bitmap_weight_eq(msb->used_blocks_bitmap, msb->block_count,
++				msb->block_count - total_free_blocks))
+ 		return 0;
+ 
+ 	pr_err("BUG: free block counts don't match the bitmap");
+diff --git a/drivers/net/ethernet/intel/ixgbe/ixgbe_sriov.c b/drivers/net/ethernet/intel/ixgbe/ixgbe_sriov.c
+index 214a38de3f41..35297d8a488b 100644
+--- a/drivers/net/ethernet/intel/ixgbe/ixgbe_sriov.c
++++ b/drivers/net/ethernet/intel/ixgbe/ixgbe_sriov.c
+@@ -246,7 +246,7 @@ int ixgbe_disable_sriov(struct ixgbe_adapter *adapter)
+ #endif
+ 
+ 	/* Disable VMDq flag so device will be set in VM mode */
+-	if (bitmap_weight(adapter->fwd_bitmask, adapter->num_rx_pools) == 1) {
++	if (bitmap_weight_eq(adapter->fwd_bitmask, adapter->num_rx_pools, 1)) {
+ 		adapter->flags &= ~IXGBE_FLAG_VMDQ_ENABLED;
+ 		adapter->flags &= ~IXGBE_FLAG_SRIOV_ENABLED;
+ 		rss = min_t(int, ixgbe_max_rss_indices(adapter),
+diff --git a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_ethtool.c b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_ethtool.c
+index d85db90632d6..a55fd1d0c653 100644
+--- a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_ethtool.c
++++ b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_ethtool.c
+@@ -287,7 +287,7 @@ static int otx2_set_channels(struct net_device *dev,
+ 	if (!channel->rx_count || !channel->tx_count)
+ 		return -EINVAL;
+ 
+-	if (bitmap_weight(&pfvf->rq_bmap, pfvf->hw.rx_queues) > 1) {
++	if (bitmap_weight_gt(&pfvf->rq_bmap, pfvf->hw.rx_queues, 1)) {
+ 		netdev_err(dev,
+ 			   "Receive queues are in use by TC police action\n");
+ 		return -EINVAL;
+diff --git a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_flows.c b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_flows.c
+index 80b2d64b4136..55c899a6fcdd 100644
+--- a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_flows.c
++++ b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_flows.c
+@@ -1170,8 +1170,8 @@ int otx2_remove_flow(struct otx2_nic *pfvf, u32 location)
+ 		 * interface mac address and configure CGX/RPM block in
+ 		 * promiscuous mode
+ 		 */
+-		if (bitmap_weight(&flow_cfg->dmacflt_bmap,
+-				  flow_cfg->dmacflt_max_flows) == 1)
++		if (bitmap_weight_eq(&flow_cfg->dmacflt_bmap,
++				     flow_cfg->dmacflt_max_flows, 1))
+ 			otx2_update_rem_pfmac(pfvf, DMAC_ADDR_DEL);
+ 	} else {
+ 		err = otx2_remove_flow_msg(pfvf, flow->entry, false);
+diff --git a/drivers/net/ethernet/mellanox/mlx4/cmd.c b/drivers/net/ethernet/mellanox/mlx4/cmd.c
+index c56d2194cbfc..5bca0c68f00a 100644
+--- a/drivers/net/ethernet/mellanox/mlx4/cmd.c
++++ b/drivers/net/ethernet/mellanox/mlx4/cmd.c
+@@ -2792,9 +2792,8 @@ int mlx4_slave_convert_port(struct mlx4_dev *dev, int slave, int port)
+ {
+ 	unsigned n;
+ 	struct mlx4_active_ports actv_ports = mlx4_get_active_ports(dev, slave);
+-	unsigned m = bitmap_weight(actv_ports.ports, dev->caps.num_ports);
+ 
+-	if (port <= 0 || port > m)
++	if (port <= 0 || bitmap_weight_lt(actv_ports.ports, dev->caps.num_ports, port))
+ 		return -EINVAL;
+ 
+ 	n = find_first_bit(actv_ports.ports, dev->caps.num_ports);
+@@ -3404,10 +3403,6 @@ int mlx4_vf_set_enable_smi_admin(struct mlx4_dev *dev, int slave, int port,
+ 	struct mlx4_priv *priv = mlx4_priv(dev);
+ 	struct mlx4_active_ports actv_ports = mlx4_get_active_ports(
+ 			&priv->dev, slave);
+-	int min_port = find_first_bit(actv_ports.ports,
+-				      priv->dev.caps.num_ports) + 1;
+-	int max_port = min_port - 1 +
+-		bitmap_weight(actv_ports.ports, priv->dev.caps.num_ports);
+ 
+ 	if (slave == mlx4_master_func_num(dev))
+ 		return 0;
+@@ -3417,7 +3412,8 @@ int mlx4_vf_set_enable_smi_admin(struct mlx4_dev *dev, int slave, int port,
+ 	    enabled < 0 || enabled > 1)
+ 		return -EINVAL;
+ 
+-	if (min_port == max_port && dev->caps.num_ports > 1) {
++	if (dev->caps.num_ports > 1 &&
++	    bitmap_weight_eq(actv_ports.ports, priv->dev.caps.num_ports, 1)) {
+ 		mlx4_info(dev, "SMI access disallowed for single ported VFs\n");
+ 		return -EPROTONOSUPPORT;
+ 	}
+diff --git a/drivers/net/ethernet/mellanox/mlx4/eq.c b/drivers/net/ethernet/mellanox/mlx4/eq.c
+index 414e390e6b48..0c09432ff389 100644
+--- a/drivers/net/ethernet/mellanox/mlx4/eq.c
++++ b/drivers/net/ethernet/mellanox/mlx4/eq.c
+@@ -1435,8 +1435,8 @@ int mlx4_is_eq_shared(struct mlx4_dev *dev, int vector)
+ 	if (vector <= 0 || (vector >= dev->caps.num_comp_vectors + 1))
+ 		return -EINVAL;
+ 
+-	return !!(bitmap_weight(priv->eq_table.eq[vector].actv_ports.ports,
+-				dev->caps.num_ports) > 1);
++	return bitmap_weight_gt(priv->eq_table.eq[vector].actv_ports.ports,
++				dev->caps.num_ports, 1);
+ }
+ EXPORT_SYMBOL(mlx4_is_eq_shared);
+ 
+diff --git a/drivers/net/ethernet/mellanox/mlx4/fw.c b/drivers/net/ethernet/mellanox/mlx4/fw.c
+index 42c96c9d7fb1..855aae326ccb 100644
+--- a/drivers/net/ethernet/mellanox/mlx4/fw.c
++++ b/drivers/net/ethernet/mellanox/mlx4/fw.c
+@@ -1300,8 +1300,8 @@ int mlx4_QUERY_DEV_CAP_wrapper(struct mlx4_dev *dev, int slave,
+ 	actv_ports = mlx4_get_active_ports(dev, slave);
+ 	first_port = find_first_bit(actv_ports.ports, dev->caps.num_ports);
+ 	for (slave_port = 0, real_port = first_port;
+-	     real_port < first_port +
+-	     bitmap_weight(actv_ports.ports, dev->caps.num_ports);
++	     bitmap_weight_gt(actv_ports.ports, dev->caps.num_ports,
++			      real_port - first_port);
+ 	     ++real_port, ++slave_port) {
+ 		if (flags & (MLX4_DEV_CAP_FLAG_WOL_PORT1 << real_port))
+ 			flags |= MLX4_DEV_CAP_FLAG_WOL_PORT1 << slave_port;
+diff --git a/drivers/net/ethernet/mellanox/mlx4/main.c b/drivers/net/ethernet/mellanox/mlx4/main.c
+index b187c210d4d6..cfbaa7ac712f 100644
+--- a/drivers/net/ethernet/mellanox/mlx4/main.c
++++ b/drivers/net/ethernet/mellanox/mlx4/main.c
+@@ -1383,7 +1383,7 @@ static int mlx4_mf_bond(struct mlx4_dev *dev)
+ 		   dev->persist->num_vfs + 1);
+ 
+ 	/* only single port vfs are allowed */
+-	if (bitmap_weight(slaves_port_1_2, dev->persist->num_vfs + 1) > 1) {
++	if (bitmap_weight_gt(slaves_port_1_2, dev->persist->num_vfs + 1, 1)) {
+ 		mlx4_warn(dev, "HA mode unsupported for dual ported VFs\n");
+ 		return -EINVAL;
+ 	}
+diff --git a/drivers/perf/thunderx2_pmu.c b/drivers/perf/thunderx2_pmu.c
+index 05378c0fd8f3..ebfa66b212c7 100644
+--- a/drivers/perf/thunderx2_pmu.c
++++ b/drivers/perf/thunderx2_pmu.c
+@@ -623,8 +623,8 @@ static void tx2_uncore_event_start(struct perf_event *event, int flags)
+ 		return;
+ 
+ 	/* Start timer for first event */
+-	if (bitmap_weight(tx2_pmu->active_counters,
+-				tx2_pmu->max_counters) == 1) {
++	if (bitmap_weight_eq(tx2_pmu->active_counters,
++				tx2_pmu->max_counters, 1)) {
+ 		hrtimer_start(&tx2_pmu->hrtimer,
+ 			ns_to_ktime(tx2_pmu->hrtimer_interval),
+ 			HRTIMER_MODE_REL_PINNED);
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index 69d9787d5338..98d878a5ca6b 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -436,7 +436,7 @@ static int tegra_channel_enum_format(struct file *file, void *fh,
+ 	if (!IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+ 		fmts_bitmap = chan->fmts_bitmap;
+ 
+-	if (f->index >= bitmap_weight(fmts_bitmap, MAX_FORMAT_NUM))
++	if (bitmap_weight_le(fmts_bitmap, MAX_FORMAT_NUM, f->index))
+ 		return -EINVAL;
+ 
+ 	for (i = 0; i < f->index + 1; i++, index++)
+-- 
+2.30.2
+
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
