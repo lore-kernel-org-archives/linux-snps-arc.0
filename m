@@ -4,42 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2C39C433EF
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 20 Dec 2021 16:41:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9FC60C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 21 Dec 2021 13:13:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=4MdV8yDwGRbSYtztxUTHziQAbGyjYsY4kli9hsllEY4=; b=3TLAe0DHGzJpMy
-	mKWGIXbJHJS3E4K4AXiHkZQjptyNw0Xc3gEAO9Oh5FvQP20Cx70EXajuZ8vtWCba+kTZxsnzF6cku
-	gtWCoaOB1RGFDs8K1iD/+CqyObAakgvvfmcd2mTEs4geUiCGyeB42TRDPAA24Y6ISnLWD7r4A8GJm
-	iCZl5x7fQ+u3nfSDxWWLwXlhpKNM1Zt3pgJTF2ZmfTQkWWCxqRUncFS1v2huh2exeQbRdbUpabNAA
-	s7O7sV8QOVjTWUe4/X8N+Pygxjn/dauqsKkkr2GHMaWv+XlcuK5tndruXggbwYcF51tCdDq6s1idB
-	JYtMVNwN0Lxh/duHN+yA==;
+	List-Owner; bh=a3oADmBtnpHVcBqbxVRYzxgld9gf2oUszPXMbHhRBZs=; b=XXxdliePCQzlxx
+	HldcgDWhat/9G3XHpFkAczWaUesWFNns1kiEWg+wxw/RgN9DiZVJ2FzxRwTdWHxbuaqubvt6dH1nj
+	IWPgD6fsUhI0gJeE9NwAdVNqI+q5IMnwzHSlS8ChmyUMLMODlkHU10jhuGFhf9suvT0wJ/r4j2sP/
+	lM43BKjcimIKYFBpxEoGjSyFkPNZB5jy/jgf1CvKBvGunFKD3xrl/InrC2I3rCQLixjjLbCQJHfYH
+	jfp2LH3iBDe5M9Z2s9kTATaFmNg2zCT60vfp1AoTvm7Ycgx7ctpgjOUoumgYoWkmupQvZBf+wt41/
+	Rlvmqg8Gy74EfOdlQipw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mzLir-003LFR-9d; Mon, 20 Dec 2021 16:41:13 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1mzexW-006txm-99; Tue, 21 Dec 2021 13:13:38 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mzLil-003LB0-Tf; Mon, 20 Dec 2021 16:41:10 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 500EDB80F98;
- Mon, 20 Dec 2021 16:41:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8EC6C36AE2;
- Mon, 20 Dec 2021 16:41:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1640018465;
- bh=TuP185pT5gdSlNtfNfQ+Kye5lOB+euhTli9+HNxshOM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=enGWQQJij7Gn5KXQIvc6DgLGhW8TsmstPvfbBL0Frpv76daIROB5Wk6RyCml6X1M0
- INr/wU0RVuAcWcOkPbgbi5U7MaR0NTk6+o3rhiyEe0vywSW27g/jS59FjbvlDzhRr3
- ovNt3nB3npaxHStYKaqE8ptag4HrP8L17DKCvcbQ=
-Date: Mon, 20 Dec 2021 17:41:02 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+ id 1mzexS-006twc-EE; Tue, 21 Dec 2021 13:13:34 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=Tyz8PzJg8/A5UQdYT2N7TKnumB0ofZk85H9pQ9LnVsA=; b=AjuA8BQjL7+/rDNZMwZx4pp5q2
+ PysFMI/fv4hFwTTDw4XxEArzWe0ZK5GBiEyp+hDW9HM9+h6/ZQCy4eC6WJX6fq6WowEskId61gItI
+ vRtt7Qm+xnjKQJyFhny8sHZIOa5QhN28flhxt6JyTHAaWzsk++I2u5VmR6FcyYtUF142KdOdzW/ij
+ rsIR+fX912pBnHUo+yxjOsM57rBSDe4DP5Z3xHSWbFiPRhCn7BprBdEc7nvH86sVcXn+TO5h5ewz0
+ QHNZiJS0siLYVEYPdmAnApk4NZVOc9gsKI++PEcz/gWfc9htRxnDddmeKc6liKB4Ie5fC4TDa2Wy7
+ 5PkwJRrg==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100]
+ helo=noisy.programming.kicks-ass.net)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mzexF-002UMD-PZ; Tue, 21 Dec 2021 13:13:21 +0000
+Received: from hirez.programming.kicks-ass.net
+ (hirez.programming.kicks-ass.net [192.168.1.225])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (Client did not present a certificate)
+ by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id AA37C300347;
+ Tue, 21 Dec 2021 14:13:17 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+ id 8DCA2206E66FD; Tue, 21 Dec 2021 14:13:17 +0100 (CET)
+Date: Tue, 21 Dec 2021 14:13:17 +0100
+From: Peter Zijlstra <peterz@infradead.org>
 To: Yury Norov <yury.norov@gmail.com>
 Cc: linux-kernel@vger.kernel.org, "James E.J. Bottomley" <jejb@linux.ibm.com>,
  "Martin K. Petersen" <martin.petersen@oracle.com>,
@@ -62,8 +71,9 @@ Cc: linux-kernel@vger.kernel.org, "James E.J. Bottomley" <jejb@linux.ibm.com>,
  David Airlie <airlied@linux.ie>, David Laight <David.Laight@aculab.com>,
  Dennis Zhou <dennis@kernel.org>, Emil Renner Berthing <kernel@esmil.dk>,
  Geert Uytterhoeven <geert@linux-m68k.org>,
- Geetha sowjanya <gakula@marvell.com>, Guo Ren <guoren@kernel.org>,
- Hans de Goede <hdegoede@redhat.com>,
+ Geetha sowjanya <gakula@marvell.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Guo Ren <guoren@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
  Heiko Carstens <hca@linux.ibm.com>, Ian Rogers <irogers@google.com>,
  Ingo Molnar <mingo@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
  Jason Wessel <jason.wessel@windriver.com>,
@@ -78,8 +88,8 @@ Cc: linux-kernel@vger.kernel.org, "James E.J. Bottomley" <jejb@linux.ibm.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Mel Gorman <mgorman@suse.de>, Michael Ellerman <mpe@ellerman.id.au>,
  Mike Marciniszyn <mike.marciniszyn@cornelisnetworks.com>,
- Nicholas Piggin <npiggin@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Peter Zijlstra <peterz@infradead.org>, Petr Mladek <pmladek@suse.com>,
+ Nicholas Piggin <npiggin@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Petr Mladek <pmladek@suse.com>,
  Randy Dunlap <rdunlap@infradead.org>,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
  Russell King <linux@armlinux.org.uk>, Saeed Mahameed <saeedm@nvidia.com>,
@@ -104,17 +114,13 @@ Cc: linux-kernel@vger.kernel.org, "James E.J. Bottomley" <jejb@linux.ibm.com>,
  linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
  linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
  linux-snps-arc@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH 08/17] all: replace bitmap_weight with
- bitmap_weight_{eq,gt,ge,lt,le} where appropriate
-Message-ID: <YcCyHvr1f+Z8M9M1@kroah.com>
+Subject: Re: [PATCH 15/17] kernel/cpu: add num_active_cpu counter
+Message-ID: <YcHS7c7zWVrLhIfV@hirez.programming.kicks-ass.net>
 References: <20211218212014.1315894-1-yury.norov@gmail.com>
- <20211218212014.1315894-9-yury.norov@gmail.com>
+ <20211218212014.1315894-16-yury.norov@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20211218212014.1315894-9-yury.norov@gmail.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211220_084108_251692_FD8D5370 
-X-CRM114-Status: GOOD (  19.61  )
+In-Reply-To: <20211218212014.1315894-16-yury.norov@gmail.com>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -131,42 +137,18 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Sat, Dec 18, 2021 at 01:20:04PM -0800, Yury Norov wrote:
-> Kernel code calls bitmap_weight() to compare the weight of bitmap with
-> a given number. We can do it more efficiently with bitmap_weight_{eq, ...}
-> because conditional bitmap_weight may stop traversing the bitmap earlier,
-> as soon as condition is met.
-> 
-> This patch replaces bitmap_weight with conditional versions where possible,
-> except for small bitmaps which size is not configurable and  known at
-> constant time. In that case conditional version of bitmap_weight would not
-> benefit due to small_const_nbits() optimization; but readability may
-> suffer.
-> 
-> Signed-off-by: Yury Norov <yury.norov@gmail.com>
-> ---
->  arch/x86/kernel/cpu/resctrl/rdtgroup.c                 |  2 +-
->  drivers/iio/dummy/iio_simple_dummy_buffer.c            |  4 ++--
->  drivers/iio/industrialio-trigger.c                     |  2 +-
->  drivers/memstick/core/ms_block.c                       |  4 ++--
->  drivers/net/ethernet/intel/ixgbe/ixgbe_sriov.c         |  2 +-
->  .../net/ethernet/marvell/octeontx2/nic/otx2_ethtool.c  |  2 +-
->  .../net/ethernet/marvell/octeontx2/nic/otx2_flows.c    |  4 ++--
->  drivers/net/ethernet/mellanox/mlx4/cmd.c               | 10 +++-------
->  drivers/net/ethernet/mellanox/mlx4/eq.c                |  4 ++--
->  drivers/net/ethernet/mellanox/mlx4/fw.c                |  4 ++--
->  drivers/net/ethernet/mellanox/mlx4/main.c              |  2 +-
->  drivers/perf/thunderx2_pmu.c                           |  4 ++--
->  drivers/staging/media/tegra-video/vi.c                 |  2 +-
->  13 files changed, 21 insertions(+), 25 deletions(-)
+On Sat, Dec 18, 2021 at 01:20:11PM -0800, Yury Norov wrote:
+> Similarly to the online cpus, the cpu_active_mask is actively used
+> in the kernel. This patch adds a counter for active cpus, so that
+> users that call num_active_cpus() would know the result immediately,
+> instead of calling the bitmap_weight for the mask.
 
-"all" is not how to submit changes to the kernel.  Please break them up
-into subsystem-specific patches, and send them after your core changes
-are accepted.
+Who cares about num_active_cpus() ?
 
-good luck!
+> +EXPORT_SYMBOL(set_cpu_active);
 
-greg k-h
+NAK, this should *never*ever* be used from a module.
+
 
 _______________________________________________
 linux-snps-arc mailing list
