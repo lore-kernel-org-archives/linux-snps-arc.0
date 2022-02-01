@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3F9EC433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DB912C433FE
 	for <linux-snps-arc@archiver.kernel.org>; Tue,  1 Feb 2022 14:55:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
@@ -12,68 +12,67 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=n3cL4CUZYvIFOdV0IZi2hCPdS7OKCODaYMlEOpxW6jI=; b=rQBcF1kTQHhrRr
-	y0ED6EcTYXfMaD+FO+6X4MEN6a5T9Fx1gT0PvCfFXLm8u8gYygpweC8lmSlIckr1a8vMOU7tVQBkq
-	k/QMkxGSCmQQC8F1igPhV3qaPmoLMxAO/1Yvw8ExTzD7FoZuiHbopkXMcqwQ3UwOcQ/ahaeu9ai9c
-	18EkOeNp8crwI6RM8eA6mQkmMM/gKHEm/8oXC8B4i5paTBjco9olU0raSgtjx82mFAZ7OfBPpGuQP
-	aKwO2abHAZVedl0uufAC3aGrCWYbML/02UsXgYPnRK00IBX6p0OJPSJu7e7NNFtl3mSiFC3kDyWA8
-	k2t0q+hmSVrBioaFpMvg==;
+	List-Owner; bh=yZcsSmoKt1onYDsahSfapShcRXgMj4ZiP1hRVg9OS1Q=; b=Hq5NFQh8Sh7TYF
+	3zNlBHtcQAeaA7UkR29fYpl0VOLjtM8fd4bLwHXSOZIvUYa62XPfegyhMWOU8MLvJExgmt1p1/E6D
+	s5pWyMg+uuxSAg0/LvaGmmVRCdWx8VBwqt4pXrPTkjrV/QqMXmTS+1gMXEjaSrSMMU0PmJALDe7Dy
+	wqTa1UCmb9UXNi5dx/6E6hpIp2uR9eZ3le6AYSUvUmYWKZ7IDkmWpm/PEv1/AdjZzHoukvUqlNWdE
+	qFOJEyyiwynRll/8YU7qsWoVgNC2PpUTbaLesN8iCuzsw1g1+0acUzho61h83Mm8dxCGuVd4smFTc
+	QX0J3CXxrpg4tu+BgsAg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nEuZP-00CUdz-1p; Tue, 01 Feb 2022 14:55:47 +0000
-Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f])
+	id 1nEuZQ-00CUeS-6w; Tue, 01 Feb 2022 14:55:48 +0000
+Received: from mail-lf1-x135.google.com ([2a00:1450:4864:20::135])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nEuZM-00CUcL-Cr
- for linux-snps-arc@lists.infradead.org; Tue, 01 Feb 2022 14:55:45 +0000
-Received: by mail-lf1-x12f.google.com with SMTP id o12so34367279lfg.12
- for <linux-snps-arc@lists.infradead.org>; Tue, 01 Feb 2022 06:55:43 -0800 (PST)
+ id 1nEuZN-00CUcT-Ad
+ for linux-snps-arc@lists.infradead.org; Tue, 01 Feb 2022 14:55:46 +0000
+Received: by mail-lf1-x135.google.com with SMTP id n8so34413176lfq.4
+ for <linux-snps-arc@lists.infradead.org>; Tue, 01 Feb 2022 06:55:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1wbHfx89jouWHWfWZOFmOM4b/vdqSA346FdSEhABOKI=;
- b=FkvTvq1mDZukGDGNdiVRb1BvtsV+jq3oMQDZ+wrQz/EG5k4/9SKiQTwWZ7Qy7kdHts
- 2kx475sTkcnUIk+hd7PX1NDjdSox34kXZLLN6aNUjGRt+29OrZaXCMMoF9nAoJIaKw80
- YOewKqhIHK/EuEOaIL1uNHKT6A+5hrLvcMPLSji4ccn3bvwpP8YOEItSrcRIeapTUr0U
- o46s0oKfUpUG9liDectxqFXCSpbGbbfx4TweuToeGBO64ipxamBynZx5n/jQkR1DNwdX
- Wi74IdnnNxNBZ7hK60JE3F4LySsrfuAq3dZc7+t2juaAL516divq6x8uc1mWU2vCVJa3
- bdzA==
+ bh=JNMRDeIpE+Q8XxSaSff1ozyOTBrSOOJ32w/junrpUcY=;
+ b=IvdjGXW7PT9822qmdXIQKHcLrLqkIqCUSh1QeC8/yieY/4z8unJ2ycKmn0HZC77WVV
+ EVx8FdnMVoUPs28/7rNKzp37VPLtpAyNn44Yj/3c9oqIvzdmX9VOBK2QAcCDZk660zeI
+ dkxfu1MvEhy/sHTHgQ15wEjrakjOfH3FGTx0g96p7FRg3GojvSzy2/uNLMbQMMmqBW/8
+ ZlEc1nJziWyF//EB8unywCEsGwX7XRk19GAbbxDH3ye2uagOXmsELu4anETHAnWVuCbf
+ Vy4m6Ovd8ljsymNA1kcsMLBp4bJkq7V89gpBHfTG9fevJ6nNp+HxnVyFO+3HYgT3ua4y
+ AsNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1wbHfx89jouWHWfWZOFmOM4b/vdqSA346FdSEhABOKI=;
- b=pWFN6ZNUWdFnYtUf0ZAcgImG4+42Gu2njM2Q2ISnom8jJ9VKEL5lYl/qhGtxTJkUI0
- 1yRhht5Wcme2mNOUaNQzU7Wg3SzCx8BcJ5cGe2XHsWCvDQcmU84y1GPrIEtOfY0xB8Nr
- 0zRbELJunivHMKOaRUdz8NM1yeSOArW4c/nWeDAq3EzcRAsp/kNEnaMuvkb5eQ+oml5g
- 04UW9ULCfOtT75JFVqDUOCGVGjZ5plwxnjwpu8r/MOxOlMoiO8oMYsrB7XCifcauOLjo
- 4rdzHvCrm86f3f0EhvRocaYIthVc5Ib1BnQoYhaxaOInL60U94gDjeJs6t5WBDlU7Fv/
- 584g==
-X-Gm-Message-State: AOAM5316xHDqdowFQeKA/LyWw7Q+/PqERcSyiTeAWkovrbZ8ja7MQSGx
- JiaxIfLJiBt3lK/BMQJ1RTfM6/POmfk=
-X-Google-Smtp-Source: ABdhPJwjuzSAIuki6sJhpv8gGBFhYyYfwR6VM7d/CvHn8rKrN7WSt+VvP8KnoXCagrqyY8RKCDB5bA==
-X-Received: by 2002:a05:6512:2342:: with SMTP id
- p2mr19602636lfu.382.1643727342234; 
- Tue, 01 Feb 2022 06:55:42 -0800 (PST)
+ bh=JNMRDeIpE+Q8XxSaSff1ozyOTBrSOOJ32w/junrpUcY=;
+ b=e/tyUkXPJ7sF3rPqial0QGQM0JEJX62Hgzj1VnXRUQ70OifJ6sZi3ELcuTGKAWwSPo
+ xrVSwNQ3GimHdw4rlg7NJTqNVDuuU8xdMEODNbZrmJQHtAEINY9UttE4Ws3kFYs5PicP
+ Ysb78vw3VRuQRudq+iz+FSyugJqm9+4J03iu2GSEACBRLbUvNag8r+KcyikA/wlOk9MI
+ N3ukxhhi+yAxAlfbFCABu8CUTCnj3v60+Id9u9bUyy62FW+fOJoum4uKHckC8evgc8p9
+ dEuOBi+W8LTgPn1Vfy3THdiuL8GZeb4jLAkxuM+Cv5FB3+OW/w4rSRJZv/6LHA3E0mM2
+ fypg==
+X-Gm-Message-State: AOAM532EnLPO1ToK9dWLBPW3muCpW+d5OLrvfJDtO+QbXfIm7L8nptfC
+ vk/T0XLlXwoRa2SoaiKVhuVciX2xmD0=
+X-Google-Smtp-Source: ABdhPJzUDnN2Fbo3LctDhYGjUFAdX4wxC30dpxBXW0nCxzf/GSsMf6MTl1B+CYgD01TU/B3AQI/URA==
+X-Received: by 2002:a05:6512:220e:: with SMTP id
+ h14mr19113079lfu.212.1643727343210; 
+ Tue, 01 Feb 2022 06:55:43 -0800 (PST)
 Received: from localhost.localdomain ([5.188.167.245])
- by smtp.googlemail.com with ESMTPSA id w11sm2492814lfr.201.2022.02.01.06.55.41
+ by smtp.googlemail.com with ESMTPSA id w11sm2492814lfr.201.2022.02.01.06.55.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Feb 2022 06:55:41 -0800 (PST)
+ Tue, 01 Feb 2022 06:55:42 -0800 (PST)
 From: Sergey Matyukevich <geomatsi@gmail.com>
 To: linux-snps-arc@lists.infradead.org
 Cc: Vineet Gupta <vgupta@kernel.org>, Vladimir Isaev <isaev@synopsys.com>,
  Christoph Hellwig <hch@lst.de>, Sergey Matyukevich <geomatsi@gmail.com>,
  Sergey Matyukevich <sergey.matyukevich@synopsys.com>
-Subject: [RFC PATCH 1/3] arc: use BUILD_BUG for invalid sizes in
- get_user/put_user
-Date: Tue,  1 Feb 2022 17:55:36 +0300
-Message-Id: <20220201145538.111192-2-geomatsi@gmail.com>
+Subject: [RFC PATCH 2/3] arc: provide __{get,put}_kernel_nofault
+Date: Tue,  1 Feb 2022 17:55:37 +0300
+Message-Id: <20220201145538.111192-3-geomatsi@gmail.com>
 X-Mailer: git-send-email 2.35.0
 In-Reply-To: <20220201145538.111192-1-geomatsi@gmail.com>
 References: <20220201145538.111192-1-geomatsi@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220201_065544_470282_ACE22DF2 
-X-CRM114-Status: GOOD (  10.81  )
+X-CRM114-CacheID: sfid-20220201_065545_413330_A958862B 
+X-CRM114-Status: GOOD (  10.93  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,34 +91,47 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Sergey Matyukevich <sergey.matyukevich@synopsys.com>
 
-Use BUILD_BUG for compile-time check of invalid sizes passed
-to get_user/put_user functions.
+Implement the non-faulting kernel access helpers directly
+instead of using uaccess routines under set_fs(KERNEL_DS).
 
 Signed-off-by: Sergey Matyukevich <sergey.matyukevich@synopsys.com>
 ---
- arch/arc/include/asm/uaccess.h | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/arc/include/asm/uaccess.h | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/arch/arc/include/asm/uaccess.h b/arch/arc/include/asm/uaccess.h
-index 783bfdb3bfa3..9d1205bf90f1 100644
+index 9d1205bf90f1..c14b692a0a4e 100644
 --- a/arch/arc/include/asm/uaccess.h
 +++ b/arch/arc/include/asm/uaccess.h
-@@ -62,6 +62,7 @@
- 	case 2: __arc_get_user_one(*(k), u, "ldw", __ret); break;	\
- 	case 4: __arc_get_user_one(*(k), u, "ld", __ret);  break;	\
- 	case 8: __arc_get_user_one_64(*(k), u, __ret);     break;	\
-+	default: BUILD_BUG();                                   \
- 	}							\
- 	__ret;							\
- })
-@@ -123,6 +124,7 @@
- 	case 2: __arc_put_user_one(*(k), u, "stw", __ret); break;	\
- 	case 4: __arc_put_user_one(*(k), u, "st", __ret);  break;	\
- 	case 8: __arc_put_user_one_64(*(k), u, __ret);     break;	\
-+	default: BUILD_BUG();                                   \
- 	}							\
- 	__ret;							\
- })
+@@ -657,6 +657,28 @@ static inline unsigned long __arc_clear_user(void __user *to, unsigned long n)
+ 	return res;
+ }
+ 
++#define HAVE_GET_KERNEL_NOFAULT
++
++#define __get_kernel_nofault(dst, src, type, err_label)			\
++	do {								\
++		long __err;						\
++									\
++		__err = __get_user_fn(sizeof(type), (type *)(src),	\
++				      (type *)(dst));			\
++		if (unlikely(__err))					\
++			goto err_label;					\
++	} while (0)
++
++#define __put_kernel_nofault(dst, src, type, err_label)			\
++	do {								\
++		long __err;						\
++									\
++		__err = __put_user_fn(sizeof(type), (type *)(dst),	\
++				      (type *)(src));			\
++		if (unlikely(__err))					\
++			goto err_label;					\
++	} while (0)
++
+ #ifndef CONFIG_CC_OPTIMIZE_FOR_SIZE
+ 
+ #define INLINE_COPY_TO_USER
 -- 
 2.35.0
 
