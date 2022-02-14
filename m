@@ -4,50 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 10322C433FE
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 14 Feb 2022 02:32:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7930C433F5
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 14 Feb 2022 16:36:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=KX3KOc7Xi0n4Yikx20M7wgltCYX6IVitzG0ZJ9gDe0o=; b=NqG7hE92XSwwni
-	GY3x3UzV/HgXmP0GDxcnOfe39nY+knkrOgtSio/R7jiXwCm13Z68BGeYyE7pTosbeJIVb55UmYHqT
-	2QFRQKXJpFXCKpoINfJIRoxV7crg+5iL1UaO5pn0uuslgtBJN2IB+IQEK/wgQoNLqT4ewjrU9GLiU
-	wCqPwz4S4wBlzkBSp6hUUuH21JrQ0uiyllMIMRKG21J1Hbkr7rEaEDtBdAe9ECj+zA7z2VhWzghPL
-	H+HMnHZjSj92CImarHpY7QrrtGx6JV0a+IebgaHKtyYb1AkCtTZPi/HUmQopYloKwDucEluFF8Ro4
-	hzdvjYONOrVAbHNKNjRQ==;
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=uBATSVuDGWN1TDNHdyqsGlib/N3RM4EVo9Jc0XX2iCc=; b=aUenOf0Ve03JG0
+	nUH6tt2OjbGTbmMoFkHqf9jrr1yUTERKWb2WJYZ9kAbZ8xoJPZsqetreWdFqMchCjo3x2Q2587fh1
+	l9K160kOaxwdE2UgLOVaEIG0dMBkWNyTI5slMqxf4OCZP3BTRFiCXYLRKau+5PUOyNwurjxHiIZ8m
+	eJi7MTnw4JwAJ3NKyXWJPTedZvip33rpu2XwXKBI22zHCwoVfjjQEmdnzV3J1CrIOZDOmJpXMDo3o
+	C6iKWKazTsQK0RYhzLzotwOE9tCpE/LZYg03cxYgTjyPQsQdSxFKAfVokGEvyfB2jkk9yETZa5k9a
+	xKWYN/sADBymg2yL5mlg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nJR9l-00D0ei-64; Mon, 14 Feb 2022 02:32:01 +0000
-Received: from foss.arm.com ([217.140.110.172])
- by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nJR9i-00D0cm-Qf
- for linux-snps-arc@lists.infradead.org; Mon, 14 Feb 2022 02:32:00 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2C824106F;
- Sun, 13 Feb 2022 18:31:58 -0800 (PST)
-Received: from p8cg001049571a15.arm.com (unknown [10.163.47.15])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A18BE3F718;
- Sun, 13 Feb 2022 18:31:55 -0800 (PST)
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-To: linux-mm@kvack.org
-Cc: linux-kernel@vger.kernel.org,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- Christoph Hellwig <hch@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>, linux-arch@vger.kernel.org,
- Vineet Gupta <vgupta@kernel.org>, linux-snps-arc@lists.infradead.org
-Subject: [PATCH 18/30] arc/mm: Enable ARCH_HAS_VM_GET_PAGE_PROT
-Date: Mon, 14 Feb 2022 08:00:41 +0530
-Message-Id: <1644805853-21338-19-git-send-email-anshuman.khandual@arm.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1644805853-21338-1-git-send-email-anshuman.khandual@arm.com>
-References: <1644805853-21338-1-git-send-email-anshuman.khandual@arm.com>
+	id 1nJeKV-00G2NN-Sb; Mon, 14 Feb 2022 16:35:59 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
+ by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nJeKF-00G2Hd-IS; Mon, 14 Feb 2022 16:35:46 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 11DFF614EA;
+ Mon, 14 Feb 2022 16:35:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95D20C340E9;
+ Mon, 14 Feb 2022 16:35:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1644856542;
+ bh=NCPtyXY6GSVFAxA9xMH/uI0qVAvzui4f6HWShmHq7S4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=AD+OGCC91QW3gC/dZKsZFSSWI0QKTWjyYSyPe3ESJoZsA18Yxd+6C2XmKbO+BufBV
+ pgOTeKAy/H78mpdds/cyxQ3VhN4bBP5a5vjc0WbkFTjxn+hvTh5aHadh4RocZ3TKWZ
+ eb6b0ouxjuiSDysMNzxh//PeMK4OQFXVj3bLmv5B1B7q8Uq/AO4RDRlThvSeYzr3Ly
+ Gc0VXxNLiJ5WO1pIX67udGR/GCDjJQpiIxvmjGV1mzioNZwxT26v6bU0vORAmaN8AJ
+ nAspwe5m/jH1WNhsqM0Qybjj0jz1yeUDm3LP9c3MsBrk2+9J1cYolEm51L9D0B9ZO/
+ R/tiDrFKWPKmA==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Christoph Hellwig <hch@lst.de>, linux-arch@vger.kernel.org,
+ linux-mm@kvack.org, linux-api@vger.kernel.org, arnd@arndb.de,
+ linux-kernel@vger.kernel.org
+Cc: linux@armlinux.org.uk, will@kernel.org, guoren@kernel.org,
+ bcain@codeaurora.org, geert@linux-m68k.org, monstr@monstr.eu,
+ tsbogend@alpha.franken.de, nickhu@andestech.com, green.hu@gmail.com,
+ dinguyen@kernel.org, shorne@gmail.com, deller@gmx.de, mpe@ellerman.id.au,
+ peterz@infradead.org, mingo@redhat.com, mark.rutland@arm.com,
+ hca@linux.ibm.com, dalias@libc.org, davem@davemloft.net, richard@nod.at,
+ x86@kernel.org, jcmvbkbc@gmail.com, ebiederm@xmission.com,
+ akpm@linux-foundation.org, ardb@kernel.org, linux-alpha@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org
+Subject: [PATCH 00/14] clean up asm/uaccess.h, kill set_fs for good
+Date: Mon, 14 Feb 2022 17:34:38 +0100
+Message-Id: <20220214163452.1568807-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220213_183158_974754_493E777E 
-X-CRM114-Status: UNSURE (   9.74  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220214_083543_696086_AED03A91 
+X-CRM114-Status: GOOD (  17.10  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,118 +81,219 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-This defines and exports a platform specific custom vm_get_page_prot() via
-subscribing ARCH_HAS_VM_GET_PAGE_PROT. Subsequently all __SXXX and __PXXX
-macros can be dropped which are no longer needed.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Cc: Vineet Gupta <vgupta@kernel.org>
-Cc: linux-snps-arc@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
----
- arch/arc/Kconfig                          |  1 +
- arch/arc/include/asm/pgtable-bits-arcv2.h | 17 ----------
- arch/arc/mm/mmap.c                        | 41 +++++++++++++++++++++++
- 3 files changed, 42 insertions(+), 17 deletions(-)
+Christoph Hellwig and a few others spent a huge effort on removing
+set_fs() from most of the important architectures, but about half the
+other architectures were never completed even though most of them don't
+actually use set_fs() at all.
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 3c2a4753d09b..78ff0644b343 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -13,6 +13,7 @@ config ARC
- 	select ARCH_HAS_SETUP_DMA_OPS
- 	select ARCH_HAS_SYNC_DMA_FOR_CPU
- 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
-+	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_SUPPORTS_ATOMIC_RMW if ARC_HAS_LLSC
- 	select ARCH_32BIT_OFF_T
- 	select BUILDTIME_TABLE_SORT
-diff --git a/arch/arc/include/asm/pgtable-bits-arcv2.h b/arch/arc/include/asm/pgtable-bits-arcv2.h
-index 183d23bc1e00..798308f4dbad 100644
---- a/arch/arc/include/asm/pgtable-bits-arcv2.h
-+++ b/arch/arc/include/asm/pgtable-bits-arcv2.h
-@@ -72,23 +72,6 @@
-  *     This is to enable COW mechanism
-  */
- 	/* xwr */
--#define __P000  PAGE_U_NONE
--#define __P001  PAGE_U_R
--#define __P010  PAGE_U_R	/* Pvt-W => !W */
--#define __P011  PAGE_U_R	/* Pvt-W => !W */
--#define __P100  PAGE_U_X_R	/* X => R */
--#define __P101  PAGE_U_X_R
--#define __P110  PAGE_U_X_R	/* Pvt-W => !W and X => R */
--#define __P111  PAGE_U_X_R	/* Pvt-W => !W */
--
--#define __S000  PAGE_U_NONE
--#define __S001  PAGE_U_R
--#define __S010  PAGE_U_W_R	/* W => R */
--#define __S011  PAGE_U_W_R
--#define __S100  PAGE_U_X_R	/* X => R */
--#define __S101  PAGE_U_X_R
--#define __S110  PAGE_U_X_W_R	/* X => R */
--#define __S111  PAGE_U_X_W_R
- 
- #ifndef __ASSEMBLY__
- 
-diff --git a/arch/arc/mm/mmap.c b/arch/arc/mm/mmap.c
-index 722d26b94307..d286894d7359 100644
---- a/arch/arc/mm/mmap.c
-+++ b/arch/arc/mm/mmap.c
-@@ -74,3 +74,44 @@ arch_get_unmapped_area(struct file *filp, unsigned long addr,
- 	info.align_offset = pgoff << PAGE_SHIFT;
- 	return vm_unmapped_area(&info);
- }
-+
-+pgprot_t vm_get_page_prot(unsigned long vm_flags)
-+{
-+	switch (vm_flags & (VM_READ | VM_WRITE | VM_EXEC | VM_SHARED)) {
-+	case VM_NONE:
-+		return PAGE_U_NONE;
-+	case VM_READ:
-+	/* Pvt-W => !W */
-+	case VM_WRITE:
-+	/* Pvt-W => !W */
-+	case VM_WRITE | VM_READ:
-+		return PAGE_U_R;
-+	/* X => R */
-+	case VM_EXEC:
-+	case VM_EXEC | VM_READ:
-+	 /* Pvt-W => !W and X => R */
-+	case VM_EXEC | VM_WRITE:
-+	 /* Pvt-W => !W */
-+	case VM_EXEC | VM_WRITE | VM_READ:
-+		return PAGE_U_X_R;
-+	case VM_SHARED:
-+		return PAGE_U_NONE;
-+	case VM_SHARED | VM_READ:
-+		return PAGE_U_R;
-+	/* W => R */
-+	case VM_SHARED | VM_WRITE:
-+	case VM_SHARED | VM_WRITE | VM_READ:
-+		return PAGE_U_W_R;
-+	 /* X => R */
-+	case VM_SHARED | VM_EXEC:
-+	case VM_SHARED | VM_EXEC | VM_READ:
-+		return PAGE_U_X_R;
-+	/* X => R */
-+	case VM_SHARED | VM_EXEC | VM_WRITE:
-+	case VM_SHARED | VM_EXEC | VM_WRITE | VM_READ:
-+		return PAGE_U_X_W_R;
-+	default:
-+		BUILD_BUG();
-+	}
-+}
-+EXPORT_SYMBOL(vm_get_page_prot);
+I did a patch for microblaze at some point, which turned out to be fairly
+generic, and now ported it to most other architectures, using new generic
+implementations of access_ok() and __{get,put}_kernel_nocheck().
+
+Three architectures (sparc64, ia64, and sh) needed some extra work,
+which I also completed.
+
+The final series contains extra cleanup changes that touch all
+architectures. Please review and test these, so we can merge them
+for v5.18.
+
+The series is available at
+https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/log/?h=set_fs
+for testing.
+
+       Arnd
+
+Arnd Bergmann (14):
+  uaccess: fix integer overflow on access_ok()
+  sparc64: add __{get,put}_kernel_nocheck()
+  nds32: fix access_ok() checks in get/put_user
+  x86: use more conventional access_ok() definition
+  uaccess: add generic __{get,put}_kernel_nofault
+  mips: use simpler access_ok()
+  uaccess: generalize access_ok()
+  arm64: simplify access_ok()
+  m68k: drop custom __access_ok()
+  uaccess: remove most CONFIG_SET_FS users
+  sparc64: remove CONFIG_SET_FS support
+  sh: remove CONFIG_SET_FS support
+  ia64: remove CONFIG_SET_FS support
+  uaccess: drop set_fs leftovers
+
+ arch/Kconfig                              |   3 -
+ arch/alpha/Kconfig                        |   1 -
+ arch/alpha/include/asm/processor.h        |   4 -
+ arch/alpha/include/asm/thread_info.h      |   2 -
+ arch/alpha/include/asm/uaccess.h          |  53 +--------
+ arch/arc/Kconfig                          |   1 -
+ arch/arc/include/asm/segment.h            |  20 ----
+ arch/arc/include/asm/thread_info.h        |   3 -
+ arch/arc/include/asm/uaccess.h            |  30 -----
+ arch/arm/include/asm/uaccess.h            |  22 +---
+ arch/arm/kernel/swp_emulate.c             |   2 +-
+ arch/arm/kernel/traps.c                   |   2 +-
+ arch/arm/lib/uaccess_with_memcpy.c        |  10 --
+ arch/arm64/include/asm/uaccess.h          |  29 +----
+ arch/csky/Kconfig                         |   1 -
+ arch/csky/include/asm/processor.h         |   2 -
+ arch/csky/include/asm/segment.h           |  10 --
+ arch/csky/include/asm/thread_info.h       |   2 -
+ arch/csky/include/asm/uaccess.h           |  12 --
+ arch/csky/kernel/asm-offsets.c            |   1 -
+ arch/csky/kernel/signal.c                 |   2 +-
+ arch/h8300/Kconfig                        |   1 -
+ arch/h8300/include/asm/processor.h        |   1 -
+ arch/h8300/include/asm/segment.h          |  40 -------
+ arch/h8300/include/asm/thread_info.h      |   3 -
+ arch/h8300/kernel/entry.S                 |   1 -
+ arch/h8300/kernel/head_ram.S              |   1 -
+ arch/h8300/mm/init.c                      |   6 -
+ arch/h8300/mm/memory.c                    |   1 -
+ arch/hexagon/Kconfig                      |   1 -
+ arch/hexagon/include/asm/thread_info.h    |   6 -
+ arch/hexagon/include/asm/uaccess.h        |  25 ----
+ arch/hexagon/kernel/process.c             |   1 -
+ arch/ia64/Kconfig                         |   1 -
+ arch/ia64/include/asm/processor.h         |   4 -
+ arch/ia64/include/asm/thread_info.h       |   2 -
+ arch/ia64/include/asm/uaccess.h           |  26 ++---
+ arch/ia64/kernel/unaligned.c              |  60 ++++++----
+ arch/m68k/include/asm/uaccess.h           |  14 +--
+ arch/microblaze/Kconfig                   |   1 -
+ arch/microblaze/include/asm/thread_info.h |   6 -
+ arch/microblaze/include/asm/uaccess.h     |  43 +------
+ arch/microblaze/kernel/asm-offsets.c      |   1 -
+ arch/microblaze/kernel/process.c          |   1 -
+ arch/mips/include/asm/uaccess.h           |  47 +-------
+ arch/nds32/Kconfig                        |   1 -
+ arch/nds32/include/asm/thread_info.h      |   4 -
+ arch/nds32/include/asm/uaccess.h          |  40 +++----
+ arch/nds32/kernel/process.c               |   5 +-
+ arch/nds32/mm/alignment.c                 |   3 -
+ arch/nios2/Kconfig                        |   1 -
+ arch/nios2/include/asm/thread_info.h      |   9 --
+ arch/nios2/include/asm/uaccess.h          |  23 +---
+ arch/nios2/kernel/signal.c                |  20 ++--
+ arch/openrisc/Kconfig                     |   1 -
+ arch/openrisc/include/asm/thread_info.h   |   7 --
+ arch/openrisc/include/asm/uaccess.h       |  42 +------
+ arch/parisc/include/asm/futex.h           |   2 +-
+ arch/parisc/include/asm/uaccess.h         |  11 +-
+ arch/parisc/lib/memcpy.c                  |   2 +-
+ arch/powerpc/include/asm/uaccess.h        |  13 +--
+ arch/powerpc/lib/sstep.c                  |   4 +-
+ arch/riscv/include/asm/uaccess.h          |  33 +-----
+ arch/riscv/kernel/perf_callchain.c        |   2 +-
+ arch/s390/include/asm/uaccess.h           |  13 +--
+ arch/sh/Kconfig                           |   1 -
+ arch/sh/include/asm/processor.h           |   1 -
+ arch/sh/include/asm/segment.h             |  33 ------
+ arch/sh/include/asm/thread_info.h         |   2 -
+ arch/sh/include/asm/uaccess.h             |  24 +---
+ arch/sh/kernel/io_trapped.c               |   9 +-
+ arch/sh/kernel/process_32.c               |   2 -
+ arch/sh/kernel/traps_32.c                 |  30 +++--
+ arch/sparc/Kconfig                        |   1 -
+ arch/sparc/include/asm/processor_32.h     |   6 -
+ arch/sparc/include/asm/processor_64.h     |   4 -
+ arch/sparc/include/asm/switch_to_64.h     |   4 +-
+ arch/sparc/include/asm/thread_info_64.h   |   4 +-
+ arch/sparc/include/asm/uaccess.h          |   3 -
+ arch/sparc/include/asm/uaccess_32.h       |  31 +----
+ arch/sparc/include/asm/uaccess_64.h       | 135 +++++++++++++---------
+ arch/sparc/kernel/process_32.c            |   2 -
+ arch/sparc/kernel/process_64.c            |  12 --
+ arch/sparc/kernel/signal_32.c             |   2 +-
+ arch/sparc/kernel/traps_64.c              |   2 -
+ arch/sparc/lib/NGmemcpy.S                 |   3 +-
+ arch/sparc/mm/init_64.c                   |   3 -
+ arch/um/include/asm/uaccess.h             |   7 +-
+ arch/x86/include/asm/uaccess.h            |  44 ++-----
+ arch/xtensa/Kconfig                       |   1 -
+ arch/xtensa/include/asm/asm-uaccess.h     |  71 ------------
+ arch/xtensa/include/asm/processor.h       |   7 --
+ arch/xtensa/include/asm/thread_info.h     |   3 -
+ arch/xtensa/include/asm/uaccess.h         |  26 +----
+ arch/xtensa/kernel/asm-offsets.c          |   3 -
+ drivers/hid/uhid.c                        |   2 +-
+ drivers/scsi/sg.c                         |   5 -
+ fs/exec.c                                 |   6 -
+ include/asm-generic/access_ok.h           |  51 ++++++++
+ include/asm-generic/uaccess.h             |  46 +-------
+ include/linux/syscalls.h                  |   4 -
+ include/linux/uaccess.h                   |  59 +++-------
+ include/rdma/ib.h                         |   2 +-
+ kernel/events/callchain.c                 |   4 -
+ kernel/events/core.c                      |   3 -
+ kernel/exit.c                             |  14 ---
+ kernel/kthread.c                          |   5 -
+ kernel/stacktrace.c                       |   3 -
+ kernel/trace/bpf_trace.c                  |   4 -
+ mm/maccess.c                              | 119 -------------------
+ mm/memory.c                               |   8 --
+ net/bpfilter/bpfilter_kern.c              |   2 +-
+ 112 files changed, 315 insertions(+), 1239 deletions(-)
+ delete mode 100644 arch/arc/include/asm/segment.h
+ delete mode 100644 arch/csky/include/asm/segment.h
+ delete mode 100644 arch/h8300/include/asm/segment.h
+ delete mode 100644 arch/sh/include/asm/segment.h
+ create mode 100644 include/asm-generic/access_ok.h
+
 -- 
-2.25.1
+2.29.2
 
+Cc: linux@armlinux.org.uk
+Cc: will@kernel.org
+Cc: guoren@kernel.org
+Cc: bcain@codeaurora.org
+Cc: geert@linux-m68k.org
+Cc: monstr@monstr.eu
+Cc: tsbogend@alpha.franken.de
+Cc: nickhu@andestech.com
+Cc: green.hu@gmail.com
+Cc: dinguyen@kernel.org
+Cc: shorne@gmail.com
+Cc: deller@gmx.de
+Cc: mpe@ellerman.id.au
+Cc: peterz@infradead.org
+Cc: mingo@redhat.com
+Cc: mark.rutland@arm.com
+Cc: hca@linux.ibm.com
+Cc: dalias@libc.org
+Cc: davem@davemloft.net
+Cc: richard@nod.at
+Cc: x86@kernel.org
+Cc: jcmvbkbc@gmail.com
+Cc: ebiederm@xmission.com
+Cc: arnd@arndb.de
+Cc: akpm@linux-foundation.org
+Cc: ardb@kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-alpha@vger.kernel.org
+Cc: linux-snps-arc@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-csky@vger.kernel.org
+Cc: linux-hexagon@vger.kernel.org
+Cc: linux-ia64@vger.kernel.org
+Cc: linux-m68k@lists.linux-m68k.org
+Cc: linux-mips@vger.kernel.org
+Cc: openrisc@lists.librecores.org
+Cc: linux-parisc@vger.kernel.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-riscv@lists.infradead.org
+Cc: linux-s390@vger.kernel.org
+Cc: linux-sh@vger.kernel.org
+Cc: sparclinux@vger.kernel.org
+Cc: linux-um@lists.infradead.org
+Cc: linux-xtensa@linux-xtensa.org
+Cc: linux-arch@vger.kernel.org
+Cc: linux-mm@kvack.org
 
 _______________________________________________
 linux-snps-arc mailing list
