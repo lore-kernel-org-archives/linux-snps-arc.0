@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16C44C43219
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 14 Feb 2022 16:36:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1FF64C433FE
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 14 Feb 2022 16:36:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=G/6bkDg0kJI71S/9MGXZvj1Rf4pPcq+Qx9k9s6XKfBk=; b=R0VTyF6ZIE5BLc
-	bvL+iDatng969Yjqddz1pmYS6ocmTc4sZOYv5W3ADwksfzzwlt6erusA/qstnyTEU0IEbQ4htT7KV
-	kMspqlTnNE4I0Y2d+jK+3lrndJPUpS/+bC3PYxHZvnbuUeeaGviN4cYx0qP3gWhxtmSZbp9/pU86D
-	4NxRRlz3B5to/GxSL1XLeVjEsbNjD9J4b6pacMRypYj8Zvsta7NhEqawBy6aIYdHf7VmukIldJIn7
-	6c9EVXD7xjmYjhWBExBGSx2OsYuWy9zMT18prRwP8Mq25b1WYKEBAUL8wTUeb1E9Gf2RHInZSRxxf
-	KqiIZ8++/bJV4EpW1C3w==;
+	List-Owner; bh=J8JTR13mPDQqP6V6ALuoxAkxSuwg4L62MtCrU3XJ2u0=; b=AXr7BSBoMrGmW8
+	Z07Nl4E/Y7Bp65+m3iNRFvjled9lvUcW8QCyXUpgplGGGhSeoQKx8wLo2giLtOwGplcx7UDC98t/g
+	JQpKQz5/TrhF4qKSuNbHWmhQGuW5p8hK4rNHuI/UA06xo86abm1KMiV76OzWz481qhm/FmQSLSplK
+	gIs63KO7axjkj5lK3qNmpJsEupoVCyCbslX5lv/yEfDIasOUXKGfwMCo3DiZud9wdbBMJzvCdG0pA
+	RXi0XofSV9fWBychGysnIa9/B02rrMjS8AXrf0U9s/mjv4cmNFgwknxkO9n7Pqw+4/kqqJ/KHIGe7
+	+4/5ssvbGGduAbtb1+yA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nJeKZ-00G2Ps-1u; Mon, 14 Feb 2022 16:36:03 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1nJeL2-00G2k6-Mk; Mon, 14 Feb 2022 16:36:32 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nJeKQ-00G2KH-1t; Mon, 14 Feb 2022 16:35:56 +0000
+ id 1nJeKc-00G2RW-5I; Mon, 14 Feb 2022 16:36:08 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9A6FB614F1;
+ by sin.source.kernel.org (Postfix) with ESMTPS id AE48ECE19DD;
+ Mon, 14 Feb 2022 16:36:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83CC7C340EE;
  Mon, 14 Feb 2022 16:35:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E10AAC340EF;
- Mon, 14 Feb 2022 16:35:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1644856553;
- bh=rSFbUFHYbR/4za9tBP+uUtPbOSoTyakm57XSAj/Auqo=;
+ s=k20201202; t=1644856563;
+ bh=2pS2EzxZTLC0RofP+LmFDCkJfcLqG3oyKMTlDsmnQjc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OZ4O1gNSNtwwNmiHhjY6IhU0E4BJ5We8XbBhorxEj9WTOfzc8GW6A9wXhW3abITrh
- 5VICuXJSDow6iYHC0e3qjJUZrd0nY+ZxgCA70cKABEhGmYygXnXVotyKfOCbgpbVrm
- pGuK4IQR59nad5NN7zMl26jmakL0tF5IsM3zVKvJuUsbgvtw8ymirj23M7AeUqRAbK
- Nb4ZCpdR7LXfqeDbObSioCUxRgm3spWcYhdjYFVER3t9sUGge35gaIcf4USGqAeqIv
- Op0kZQjMjQu+Uf/UqNmdKlInWq80ZiSg5HRmKlo5FLGvtYFTEQ1arJmMBawI+kUcs8
- VAdmt64TVWmMQ==
+ b=jfoz4OzMYCCZunzrcMopY/CyXCM5x2vWuoQu5cxZQgMKEaVoM/Sr8N71wvtrRgqXL
+ a36+f8T/jsd7M34QjI1qwRfOhWeXJdMvjHj71iiMAKhSF1PXQoTPyu+r3MQFpjzlNY
+ pfj/Fntbr2pKTQjwxeb4E8U2+BwpVepsuV65Y513Xys+mieerEcPbOyhc3jsLYZVF0
+ vhV7u/+LrIj1P+w6AXzskZG9da4m/RTtKbhUOU871uw7Ra1bQtL3Uq9EPOwjYbjRLK
+ 2KVWCc8btF4FXJwm34tAEWsWzKZs63WJsOZ/ydmWQRF1Gp0oAYsx6ehNg5GZx72riS
+ VIrwimliCyZQg==
 From: Arnd Bergmann <arnd@kernel.org>
 To: Linus Torvalds <torvalds@linux-foundation.org>,
  Christoph Hellwig <hch@lst.de>, linux-arch@vger.kernel.org,
@@ -61,18 +61,17 @@ Cc: linux@armlinux.org.uk, will@kernel.org, guoren@kernel.org,
  linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
  linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
  linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
- stable@vger.kernel.org, David Laight <David.Laight@aculab.com>
-Subject: [PATCH 01/14] uaccess: fix integer overflow on access_ok()
-Date: Mon, 14 Feb 2022 17:34:39 +0100
-Message-Id: <20220214163452.1568807-2-arnd@kernel.org>
+ linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org
+Subject: [PATCH 02/14] sparc64: add __{get,put}_kernel_nocheck()
+Date: Mon, 14 Feb 2022 17:34:40 +0100
+Message-Id: <20220214163452.1568807-3-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220214163452.1568807-1-arnd@kernel.org>
 References: <20220214163452.1568807-1-arnd@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220214_083554_200910_C15D6E57 
-X-CRM114-Status: GOOD (  15.92  )
+X-CRM114-CacheID: sfid-20220214_083606_578419_9421FE46 
+X-CRM114-Status: GOOD (  13.61  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,113 +90,120 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-Three architectures check the end of a user access against the
-address limit without taking a possible overflow into account.
-Passing a negative length or another overflow in here returns
-success when it should not.
+sparc64 is one of the architectures that uses separate address
+spaces for kernel and user addresses, so __get_kernel_nofault()
+can not just call into the normal __get_user() without the
+access_ok() check.
 
-Use the most common correct implementation here, which optimizes
-for a constant 'size' argument, and turns the common case into a
-single comparison.
+Instead duplicate __get_user() and __put_user() into their
+in-kernel versions, with minor changes for the calling conventions
+and leaving out the address space modifier on the assembler
+instruction.
 
-Cc: stable@vger.kernel.org
-Fixes: da551281947c ("csky: User access")
-Fixes: f663b60f5215 ("microblaze: Fix uaccess_ok macro")
-Fixes: 7567746e1c0d ("Hexagon: Add user access functions")
-Reported-by: David Laight <David.Laight@aculab.com>
+This could surely be written more elegantly, but duplicating it
+gets the job done.
+
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/csky/include/asm/uaccess.h       |  7 +++----
- arch/hexagon/include/asm/uaccess.h    | 18 +++++++++---------
- arch/microblaze/include/asm/uaccess.h | 19 ++++---------------
- 3 files changed, 16 insertions(+), 28 deletions(-)
+ arch/sparc/include/asm/uaccess_64.h | 78 +++++++++++++++++++++++++++++
+ 1 file changed, 78 insertions(+)
 
-diff --git a/arch/csky/include/asm/uaccess.h b/arch/csky/include/asm/uaccess.h
-index c40f06ee8d3e..ac5a54f57d40 100644
---- a/arch/csky/include/asm/uaccess.h
-+++ b/arch/csky/include/asm/uaccess.h
-@@ -3,14 +3,13 @@
- #ifndef __ASM_CSKY_UACCESS_H
- #define __ASM_CSKY_UACCESS_H
+diff --git a/arch/sparc/include/asm/uaccess_64.h b/arch/sparc/include/asm/uaccess_64.h
+index 30eb4c6414d1..b283798315b1 100644
+--- a/arch/sparc/include/asm/uaccess_64.h
++++ b/arch/sparc/include/asm/uaccess_64.h
+@@ -100,6 +100,42 @@ void __retl_efault(void);
+ struct __large_struct { unsigned long buf[100]; };
+ #define __m(x) ((struct __large_struct *)(x))
  
--#define user_addr_max() \
--	(uaccess_kernel() ? KERNEL_DS.seg : get_fs().seg)
-+#define user_addr_max() (current_thread_info()->addr_limit.seg)
- 
- static inline int __access_ok(unsigned long addr, unsigned long size)
- {
--	unsigned long limit = current_thread_info()->addr_limit.seg;
-+	unsigned long limit = user_addr_max();
- 
--	return ((addr < limit) && ((addr + size) < limit));
-+	return (size <= limit) && (addr <= (limit - size));
- }
- #define __access_ok __access_ok
- 
-diff --git a/arch/hexagon/include/asm/uaccess.h b/arch/hexagon/include/asm/uaccess.h
-index ef5bfef8d490..719ba3f3c45c 100644
---- a/arch/hexagon/include/asm/uaccess.h
-+++ b/arch/hexagon/include/asm/uaccess.h
-@@ -25,17 +25,17 @@
-  * Returns true (nonzero) if the memory block *may* be valid, false (zero)
-  * if it is definitely invalid.
-  *
-- * User address space in Hexagon, like x86, goes to 0xbfffffff, so the
-- * simple MSB-based tests used by MIPS won't work.  Some further
-- * optimization is probably possible here, but for now, keep it
-- * reasonably simple and not *too* slow.  After all, we've got the
-- * MMU for backup.
-  */
-+#define uaccess_kernel() (get_fs().seg == KERNEL_DS.seg)
-+#define user_addr_max() (uaccess_kernel() ? ~0UL : TASK_SIZE)
- 
--#define __access_ok(addr, size) \
--	((get_fs().seg == KERNEL_DS.seg) || \
--	(((unsigned long)addr < get_fs().seg) && \
--	  (unsigned long)size < (get_fs().seg - (unsigned long)addr)))
-+static inline int __access_ok(unsigned long addr, unsigned long size)
-+{
-+	unsigned long limit = TASK_SIZE;
++#define __put_kernel_nofault(dst, src, type, label)			\
++do {									\
++	type *addr = (type __force *)(dst);				\
++	type data = *(type *)src;					\
++	register int __pu_ret;						\
++	switch (sizeof(type)) {						\
++	case 1: __put_kernel_asm(data, b, addr, __pu_ret); break;	\
++	case 2: __put_kernel_asm(data, h, addr, __pu_ret); break;	\
++	case 4: __put_kernel_asm(data, w, addr, __pu_ret); break;	\
++	case 8: __put_kernel_asm(data, x, addr, __pu_ret); break;	\
++	default: __pu_ret = __put_user_bad(); break;			\
++	}								\
++	if (__pu_ret)							\
++		goto label;						\
++} while (0)
 +
-+	return (size <= limit) && (addr <= (limit - size));
-+}
-+#define __access_ok __access_ok
++#define __put_kernel_asm(x, size, addr, ret)				\
++__asm__ __volatile__(							\
++		"/* Put kernel asm, inline. */\n"			\
++	"1:\t"	"st"#size " %1, [%2]\n\t"				\
++		"clr	%0\n"						\
++	"2:\n\n\t"							\
++		".section .fixup,#alloc,#execinstr\n\t"			\
++		".align	4\n"						\
++	"3:\n\t"							\
++		"sethi	%%hi(2b), %0\n\t"				\
++		"jmpl	%0 + %%lo(2b), %%g0\n\t"			\
++		" mov	%3, %0\n\n\t"					\
++		".previous\n\t"						\
++		".section __ex_table,\"a\"\n\t"				\
++		".align	4\n\t"						\
++		".word	1b, 3b\n\t"					\
++		".previous\n\n\t"					\
++	       : "=r" (ret) : "r" (x), "r" (__m(addr)),			\
++		 "i" (-EFAULT))
++
+ #define __put_user_nocheck(data, addr, size) ({			\
+ 	register int __pu_ret;					\
+ 	switch (size) {						\
+@@ -134,6 +170,48 @@ __asm__ __volatile__(							\
  
- /*
-  * When a kernel-mode page fault is taken, the faulting instruction
-diff --git a/arch/microblaze/include/asm/uaccess.h b/arch/microblaze/include/asm/uaccess.h
-index d2a8ef9f8978..5b6e0e7788f4 100644
---- a/arch/microblaze/include/asm/uaccess.h
-+++ b/arch/microblaze/include/asm/uaccess.h
-@@ -39,24 +39,13 @@
+ int __put_user_bad(void);
  
- # define uaccess_kernel()	(get_fs().seg == KERNEL_DS.seg)
- 
--static inline int access_ok(const void __user *addr, unsigned long size)
-+static inline int __access_ok(unsigned long addr, unsigned long size)
- {
--	if (!size)
--		goto ok;
-+	unsigned long limit = user_addr_max();
- 
--	if ((get_fs().seg < ((unsigned long)addr)) ||
--			(get_fs().seg < ((unsigned long)addr + size - 1))) {
--		pr_devel("ACCESS fail at 0x%08x (size 0x%x), seg 0x%08x\n",
--			(__force u32)addr, (u32)size,
--			(u32)get_fs().seg);
--		return 0;
--	}
--ok:
--	pr_devel("ACCESS OK at 0x%08x (size 0x%x), seg 0x%08x\n",
--			(__force u32)addr, (u32)size,
--			(u32)get_fs().seg);
--	return 1;
-+	return (size <= limit) && (addr <= (limit - size));
- }
-+#define access_ok(addr, size) __access_ok((unsigned long)addr, size)
- 
- # define __FIXUP_SECTION	".section .fixup,\"ax\"\n"
- # define __EX_TABLE_SECTION	".section __ex_table,\"a\"\n"
++#define __get_kernel_nofault(dst, src, type, label)			     \
++do {									     \
++	type *addr = (type __force *)(src);		     		     \
++	register int __gu_ret;						     \
++	register unsigned long __gu_val;				     \
++	switch (sizeof(type)) {						     \
++		case 1: __get_kernel_asm(__gu_val, ub, addr, __gu_ret); break; \
++		case 2: __get_kernel_asm(__gu_val, uh, addr, __gu_ret); break; \
++		case 4: __get_kernel_asm(__gu_val, uw, addr, __gu_ret); break; \
++		case 8: __get_kernel_asm(__gu_val, x, addr, __gu_ret); break;  \
++		default:						     \
++			__gu_val = 0;					     \
++			__gu_ret = __get_user_bad();			     \
++			break;						     \
++	} 								     \
++	if (__gu_ret)							     \
++		goto label;						     \
++	*(type *)dst = (__force type) __gu_val;				     \
++} while (0)
++#define __get_kernel_asm(x, size, addr, ret)				\
++__asm__ __volatile__(							\
++		"/* Get kernel asm, inline. */\n"			\
++	"1:\t"	"ld"#size " [%2], %1\n\t"				\
++		"clr	%0\n"						\
++	"2:\n\n\t"							\
++		".section .fixup,#alloc,#execinstr\n\t"			\
++		".align	4\n"						\
++	"3:\n\t"							\
++		"sethi	%%hi(2b), %0\n\t"				\
++		"clr	%1\n\t"						\
++		"jmpl	%0 + %%lo(2b), %%g0\n\t"			\
++		" mov	%3, %0\n\n\t"					\
++		".previous\n\t"						\
++		".section __ex_table,\"a\"\n\t"				\
++		".align	4\n\t"						\
++		".word	1b, 3b\n\n\t"					\
++		".previous\n\t"						\
++	       : "=r" (ret), "=r" (x) : "r" (__m(addr)),		\
++		 "i" (-EFAULT))
++
++#define HAVE_GET_KERNEL_NOFAULT
++
+ #define __get_user_nocheck(data, addr, size, type) ({			     \
+ 	register int __gu_ret;						     \
+ 	register unsigned long __gu_val;				     \
 -- 
 2.29.2
 
