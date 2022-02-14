@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A334CC433FE
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 14 Feb 2022 17:02:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E6DFC433EF
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 14 Feb 2022 17:02:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=V/bQvCAEUSZLiAEA4cOUzWVXyQgrdGBrBq6Ziyl7/YE=; b=0FyjHizSlHiK0r
-	VDL6PtqeLXIACuhMq+v1FdH3PgcbI7EesSQ5oOks0RPQV4RwU824P5zed5zcHqF6tmzI4k54IrBFY
-	bJ20UCMM89pWvxa+suw93cwUKlZAFlTqrvWrR5at8n80seVig6ayLr66WYvEBWLjPIP25297ydW3F
-	C9Zm6ugiLnJFtabGi2dCUicsgfV8mrW2US//C5fK5pg2BppdszaqLKbMi21F1afQ8FXrc0E25QAGw
-	OQmADYYOWfHtctrZ4bcUhs6U17VhxJpr7b2/bBS3mmFvkIb3Xmr35M00WGOMJOP94tFPaBU6qtFAe
-	j/rXZhJo7GYWOck+2guQ==;
+	List-Owner; bh=DAFe1aEIz+amqn3twxmx3wbD1YQFopEIYBcRHS17M5w=; b=1uMuqVzx1m0sxD
+	TFDQOtkfxebCCYD8vHo2/tM4L1iPArxyKuXzeRNjR+aFGDVr1Kj/jQl7Slz5Dl+/fXA2DwfLBX2b2
+	VSocFxqwFJnM0Xe3QNzcZ6E5sk4MtO+3lV4kwcg9ZNMAZSdfEC7VtVHwQMIw3+SlnUKfGp69HI5xJ
+	ViYxoCCVMl1RKyOTpzYQsiYDZ8+q58JpX2gn7xv2PvpjV15aZXvijyCHudV6inNBIvnGa66dS+GX4
+	IjZrep+zNVJSUzJGv0vbeZI2ArYobEbBi4wJKR8a1mn3cDv3RKJrv1YG2vIc5jExK/gn5ee6soDyj
+	Txaxi5/nkX5FAZvCb+YA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nJejy-00GFqx-Oe; Mon, 14 Feb 2022 17:02:18 +0000
+	id 1nJekY-00GGAi-Dt; Mon, 14 Feb 2022 17:02:54 +0000
 Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1nJejt-00GFoH-Dz; Mon, 14 Feb 2022 17:02:13 +0000
-Date: Mon, 14 Feb 2022 09:02:13 -0800
+ Hat Linux)) id 1nJekS-00GG7B-B1; Mon, 14 Feb 2022 17:02:48 +0000
+Date: Mon, 14 Feb 2022 09:02:48 -0800
 From: Christoph Hellwig <hch@infradead.org>
 To: Arnd Bergmann <arnd@kernel.org>
 Cc: Linus Torvalds <torvalds@linux-foundation.org>,
@@ -47,13 +47,13 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  dinguyen@kernel.org, ebiederm@xmission.com, richard@nod.at,
  akpm@linux-foundation.org, linuxppc-dev@lists.ozlabs.org,
  davem@davemloft.net
-Subject: Re: [PATCH 04/14] x86: use more conventional access_ok() definition
-Message-ID: <YgqLFYqIqkIsNC92@infradead.org>
+Subject: Re: [PATCH 05/14] uaccess: add generic __{get,put}_kernel_nofault
+Message-ID: <YgqLONpDAru08JBZ@infradead.org>
 References: <20220214163452.1568807-1-arnd@kernel.org>
- <20220214163452.1568807-5-arnd@kernel.org>
+ <20220214163452.1568807-6-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220214163452.1568807-5-arnd@kernel.org>
+In-Reply-To: <20220214163452.1568807-6-arnd@kernel.org>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,11 +70,9 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 14, 2022 at 05:34:42PM +0100, Arnd Bergmann wrote:
-> +#define __range_not_ok(addr, size, limit)	(!__access_ok(addr, size))
-> +#define __chk_range_not_ok(addr, size, limit)	(!__access_ok((void __user *)addr, size))
+Looks good,
 
-Can we just kill these off insted of letting themm obsfucate the code?
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
 _______________________________________________
 linux-snps-arc mailing list
