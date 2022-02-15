@@ -4,29 +4,29 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45A55C433EF
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Feb 2022 00:38:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1E2F7C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Feb 2022 00:48:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=+Kk70zDQmaSLSt4g6J/COrb7shFrzxkH/tLhG02JT68=; b=zh1NCRcQweYINx
-	qazyFYnomr+vBJR56nt4UbiGu7oGxxjB01H8i+fyV3oEhmcXBpi74w2L+ia+XPuGVwp/2lHPJw7eD
-	9IVtiuRdgmMn2ovcY66dCbF5bKzxylfT2SoufXFTiQ8y6hRBghfTF/6qrxuk8Bc5JCbqdoRtM3LLH
-	UPKWiR5IkUA53sjcma5xL2HqSUJIRQ7w/4VVkHHYy+4ix6Bh847p7FhzodGwGgTRdgzDX3ZFA9x4q
-	j9x5TM/zUNgqpM1NxF0OsEKT8Fstz5uy4RYNoHXkHDvzrY4KEMxcowGijXo8bCSLZBePAqfdip2aT
-	wvy7uPvTd9mwRAfc0GrA==;
+	List-Owner; bh=kr546eQi0SNxCxzwNgyldQ7pITlbkDBxk6jpvqV8xMI=; b=wpPAQnW/bJNezE
+	4y7/RL/FsxwY0pOo+KCSuM/hpyc+TH1LNDUceT4QeBwBz8/ZhkTbcRQQByVZPEKO3DcgpZHtSFNqg
+	mZon//f4cY3rl06e6jREhay6UGpACD4Y/GbdBQONVtjXv25o8hzpFiQYvkRFZoK/39fBQNQwtp9D4
+	eugh+bTPfZmvwGd5rVoJdwO1+rO5DGPiPL16KH2Htr0eI1aPzzVPAMVDQ0MWT3Wbk+g3hgMmpDNXe
+	eRKrOkdjCX3R7PYPQsUrqiSN1uz8m2R1KQNTGMO1q/WYfZy2gHXqbZ2qOuKju55vsutWMLl7+D+9Q
+	1AxYhO+hJi+JU56fOG2Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nJlr6-00HNhB-KS; Tue, 15 Feb 2022 00:38:08 +0000
+	id 1nJm17-00HO8K-SI; Tue, 15 Feb 2022 00:48:29 +0000
 Received: from zeniv-ca.linux.org.uk ([2607:5300:60:148a::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nJlr4-00HNgd-F3; Tue, 15 Feb 2022 00:38:07 +0000
+ id 1nJm15-00HO7q-SR; Tue, 15 Feb 2022 00:48:28 +0000
 Received: from viro by zeniv-ca.linux.org.uk with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1nJlqf-001pf0-Dy; Tue, 15 Feb 2022 00:37:41 +0000
-Date: Tue, 15 Feb 2022 00:37:41 +0000
+ Hat Linux)) id 1nJm0h-001pkI-9F; Tue, 15 Feb 2022 00:48:03 +0000
+Date: Tue, 15 Feb 2022 00:48:03 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: Arnd Bergmann <arnd@kernel.org>
 Cc: Linus Torvalds <torvalds@linux-foundation.org>,
@@ -50,16 +50,17 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
  sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
  linux-xtensa@linux-xtensa.org
-Subject: Re: [PATCH 09/14] m68k: drop custom __access_ok()
-Message-ID: <Ygr11RGjj3C9uAUg@zeniv-ca.linux.org.uk>
+Subject: Re: [PATCH 11/14] sparc64: remove CONFIG_SET_FS support
+Message-ID: <Ygr4Q2/KxfF86ETa@zeniv-ca.linux.org.uk>
 References: <20220214163452.1568807-1-arnd@kernel.org>
- <20220214163452.1568807-10-arnd@kernel.org>
+ <20220214163452.1568807-12-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220214163452.1568807-10-arnd@kernel.org>
+In-Reply-To: <20220214163452.1568807-12-arnd@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220214_163806_514436_0467345B 
-X-CRM114-Status: GOOD (  18.23  )
+X-CRM114-CacheID: sfid-20220214_164827_947197_63B7C862 
+X-CRM114-Status: UNSURE (   9.83  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,54 +77,16 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 14, 2022 at 05:34:47PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> While most m68k platforms use separate address spaces for user
-> and kernel space, at least coldfire does not, and the other
-> ones have a TASK_SIZE that is less than the entire 4GB address
-> range.
-> 
-> Using the generic implementation of __access_ok() stops coldfire
-> user space from trivially accessing kernel memory, and is probably
-> the right thing elsewhere for consistency as well.
+On Mon, Feb 14, 2022 at 05:34:49PM +0100, Arnd Bergmann wrote:
 
-Perhaps simply wrap that sucker into #ifdef CONFIG_CPU_HAS_ADDRESS_SPACES
-(and trim the comment down to "coldfire and 68000 will pick generic
-variant")?
+> -/*
+> - * Sparc64 is segmented, though more like the M68K than the I386.
+> - * We use the secondary ASI to address user memory, which references a
+> - * completely different VM map, thus there is zero chance of the user
+> - * doing something queer and tricking us into poking kernel memory.
 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  arch/m68k/include/asm/uaccess.h | 13 -------------
->  1 file changed, 13 deletions(-)
-> 
-> diff --git a/arch/m68k/include/asm/uaccess.h b/arch/m68k/include/asm/uaccess.h
-> index d6bb5720365a..64914872a5c9 100644
-> --- a/arch/m68k/include/asm/uaccess.h
-> +++ b/arch/m68k/include/asm/uaccess.h
-> @@ -10,19 +10,6 @@
->  #include <linux/compiler.h>
->  #include <linux/types.h>
->  #include <asm/extable.h>
-> -
-> -/* We let the MMU do all checking */
-> -static inline int __access_ok(const void __user *addr,
-> -			    unsigned long size)
-> -{
-> -	/*
-> -	 * XXX: for !CONFIG_CPU_HAS_ADDRESS_SPACES this really needs to check
-> -	 * for TASK_SIZE!
-> -	 * Removing this helper is probably sufficient.
-> -	 */
-> -	return 1;
-> -}
-> -#define __access_ok __access_ok
->  #include <asm-generic/access_ok.h>
->  
->  /*
-> -- 
-> 2.29.2
-> 
+Actually, this part of comment probably ought to stay - it is relevant
+for understanding what's going on (e.g. why is access_ok() always true, etc.)
 
 _______________________________________________
 linux-snps-arc mailing list
