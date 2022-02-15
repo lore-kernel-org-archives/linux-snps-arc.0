@@ -4,97 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 558E1C433F5
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Feb 2022 08:18:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9737FC433EF
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Feb 2022 09:16:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=7wIKS6gjKWFMtnd5CmPFeQ3gR7JZTPLiwSbiAADCIng=; b=zxLsbT/mt0F1hp
-	sn9/jP2s9GtmbdRzLzviah5rixguUlt26eCm+Qu1H73DXBC6wLAAAINiZXVPKtFVpSbTk4tSzlbZH
-	Pk/EZUoiQRlJqLHTAsSCiFMLm3eA/OcM8n+/JH9ygWHf3CAA3yEAFjIdEqpLpTWJ4Qu6Tc/+EUOSn
-	MhGIdp6P4nnyvnEqOAwTciEwu5wLykUoUZhjFHYSCOCSbRlM7CsqWu5qdXp0fJAPvZ8eO+ev4KJkc
-	T/sT0xFs9Ltrs3OBck4G3F0exoDZv+PgrpwgT01xUvtsy9QH7lz+H0FthjfWWAZEAoUMs4vyz3JpE
-	RRgC//wAd9UqKvmuD5+w==;
+	List-Owner; bh=sZl+oDZRHZ5ESj/W20g/ZLXz/88U+K81pXM2mavR2KE=; b=FlEoI3/QVdhGog
+	9F9oIPJjqHxAUCjc1C9dB1jeXQGpbtMmYsUE41858CQyvev9VDMC4Y5Kqbp/zjNNqsBNIkO19QpQM
+	54ZWVnjVx9QvjQsQSgFD/blSnfnZOXqATY5szmi0mUioc6KHigpZBErnymofD00jpy4Gm7Bq45G+j
+	VO7eVhYNVbYYKhfpCXlSLM3US1di+rThmV7xntPOKvHB9fYpFzr/7+R3ASBUXzxTlq99OYASGe3Be
+	Utvzed6Ut04K1qm//XjY4JddgBDljJ2AfBpvAf66cWwTpVzhtWr/COEXvwj0FUXemT6tacu/UGKUm
+	LxDEKPrx0sfAV0ZLjDcA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nJt2U-001cb2-3L; Tue, 15 Feb 2022 08:18:22 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1nJtwR-001yLS-RH; Tue, 15 Feb 2022 09:16:11 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nJt2M-001cW5-2B; Tue, 15 Feb 2022 08:18:15 +0000
+ id 1nJttV-001wur-OQ; Tue, 15 Feb 2022 09:13:11 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4165E61670;
- Tue, 15 Feb 2022 08:18:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16543C340F0;
- Tue, 15 Feb 2022 08:18:13 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3C81661538;
+ Tue, 15 Feb 2022 09:13:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A129EC340F0;
+ Tue, 15 Feb 2022 09:13:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1644913093;
- bh=04jl3xlTAr2mAK86GyJL0xbgNN5b7HtshwArFPtWTHk=;
+ s=k20201202; t=1644916388;
+ bh=nPLs5v71E/xzzKRq/jdD2UxtX1DBSgxHKB2i8EHy1KY=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=stRaKCevAHKdgCmUGBrfhYzWT/8iK3ELaeINBLVStpnUtlgra7KJKB1LPYgCFz1Pz
- +EGWCG7GiscQwxqnR6qJYfTfqIKew2R3ilXdCTdcizcfhkqcFb2TJHt6sjZQfI2a33
- z9c50e3SciQbRuuCC7ZH5imVtHHxU2mhBfrCJWqpha1zoDHYemAFJAhKFnW+HE9Ygj
- VumcFjSy1p4dB9c+6GpPb1xWIMbXv5/9DDjAH5DCfzY/fxC8JQEtfusc6ZaJDHhC5h
- AXGqyPAIzRgK+LIGR73S0GgDLdYFf2jflIjiT0umxwXaCiuWmVS2bzqZo6JrJeQrhm
- 7SbBQn0gB5/3Q==
-Received: by mail-ed1-f45.google.com with SMTP id m17so5908511edc.13;
- Tue, 15 Feb 2022 00:18:13 -0800 (PST)
-X-Gm-Message-State: AOAM531LlpF6Ooa0Lk9idgD1lCRPGbbTeKf3i1PiJy56t1YzNtpcXmBi
- oHqYukPx0WPFQgV5tT2bG+Yfb5IjC7vwIC/ywtk=
-X-Google-Smtp-Source: ABdhPJw4PL6nNrFqa4c6RC8ozuX9Vj+TpXvd1rMYfibECm69yxHe+9RwBgU/na3QadsOPEjyGv1buhx93wXVXPObDfI=
-X-Received: by 2002:a5d:490d:: with SMTP id x13mr2213081wrq.417.1644913080942; 
- Tue, 15 Feb 2022 00:18:00 -0800 (PST)
+ b=CLHePkmHVvog2B9hZC9aG4LabFSm7MI26At0uDw7kKPNYpb3lXWOmUP31vrn/n3jp
+ 21c83PolyTPYs5hRtHSTmetuMdjz8MVwbtB9QE4JUqwfDE9UaiWLco96WTCCiREXeo
+ ierknOIrVYt+cFHPhwjyPUqaAdv+eYt2hib0l9mVhvFWKgaTt9gitGLgKmM8vAP2ER
+ AePVXGloKhok6IjT1wO1H+WVX/SWPGV2/x59O7cRGdhpYbEJd41Qa4hwZk6q55miTE
+ kziCS4wP1Lkxi5K05R+6K/1DypZ1QzcheN727Vb2P8JghtAuyZKDU7SLg9/rJcHwJ6
+ ZWZc1SanLSgow==
+Received: by mail-ed1-f52.google.com with SMTP id g7so14938292edb.5;
+ Tue, 15 Feb 2022 01:13:08 -0800 (PST)
+X-Gm-Message-State: AOAM533N52Qv9nwgBONpZkPKlpKr7FlPvuhNJ8CJjR9TNM1any4MJBlX
+ /6AznJMjamxfzw68Qcc6mE3cPYxAEre/RJtOsJc=
+X-Google-Smtp-Source: ABdhPJwP302M1cXBE3IXsZS/v83gWi9XJR2q13sQJhY9b6tnSpJCd4099durtVh9QEm0yhQ4WeUq4MKNAAS9P/JPfzc=
+X-Received: by 2002:adf:f6ce:: with SMTP id y14mr2380558wrp.219.1644916376776; 
+ Tue, 15 Feb 2022 01:12:56 -0800 (PST)
 MIME-Version: 1.0
 References: <20220214163452.1568807-1-arnd@kernel.org>
  <20220214163452.1568807-9-arnd@kernel.org>
-In-Reply-To: <20220214163452.1568807-9-arnd@kernel.org>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Tue, 15 Feb 2022 09:17:48 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXHixUFjV=4m3tzfGz7AiRWc-VczymbKuZq7dyZZNuLKxQ@mail.gmail.com>
-Message-ID: <CAMj1kXHixUFjV=4m3tzfGz7AiRWc-VczymbKuZq7dyZZNuLKxQ@mail.gmail.com>
+ <CAMj1kXHixUFjV=4m3tzfGz7AiRWc-VczymbKuZq7dyZZNuLKxQ@mail.gmail.com>
+In-Reply-To: <CAMj1kXHixUFjV=4m3tzfGz7AiRWc-VczymbKuZq7dyZZNuLKxQ@mail.gmail.com>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Tue, 15 Feb 2022 10:12:40 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a2VfvDkueaJNTA9SiB+PFsi_Q17AX+aL46ueooW2ahmQw@mail.gmail.com>
+Message-ID: <CAK8P3a2VfvDkueaJNTA9SiB+PFsi_Q17AX+aL46ueooW2ahmQw@mail.gmail.com>
 Subject: Re: [PATCH 08/14] arm64: simplify access_ok()
-To: Arnd Bergmann <arnd@kernel.org>
+To: Ard Biesheuvel <ardb@kernel.org>
 Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  Christoph Hellwig <hch@lst.de>, linux-arch <linux-arch@vger.kernel.org>, 
- Linux Memory Management List <linux-mm@kvack.org>, linux-api@vger.kernel.org, 
- Arnd Bergmann <arnd@arndb.de>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Linux API <linux-api@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
  Russell King <linux@armlinux.org.uk>, Will Deacon <will@kernel.org>,
  Guo Ren <guoren@kernel.org>, 
- Brian Cain <bcain@codeaurora.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- monstr@monstr.eu, 
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Nick Hu <nickhu@andestech.com>,
- Greentime Hu <green.hu@gmail.com>, dinguyen@kernel.org,
- Stafford Horne <shorne@gmail.com>, 
- Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>, 
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
- Mark Rutland <mark.rutland@arm.com>, Heiko Carstens <hca@linux.ibm.com>,
- Rich Felker <dalias@libc.org>, 
+ Brian Cain <bcain@codeaurora.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+ Michal Simek <monstr@monstr.eu>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ Nick Hu <nickhu@andestech.com>, Greentime Hu <green.hu@gmail.com>, 
+ Dinh Nguyen <dinguyen@kernel.org>, Stafford Horne <shorne@gmail.com>,
+ Helge Deller <deller@gmx.de>, 
+ Michael Ellerman <mpe@ellerman.id.au>, Peter Zijlstra <peterz@infradead.org>, 
+ Ingo Molnar <mingo@redhat.com>, Mark Rutland <mark.rutland@arm.com>, 
+ Heiko Carstens <hca@linux.ibm.com>, Rich Felker <dalias@libc.org>, 
  "David S. Miller" <davem@davemloft.net>, Richard Weinberger <richard@nod.at>,
  X86 ML <x86@kernel.org>, 
  Max Filippov <jcmvbkbc@gmail.com>, "Eric W. Biederman" <ebiederm@xmission.com>,
  Andrew Morton <akpm@linux-foundation.org>, alpha <linux-alpha@vger.kernel.org>,
- linux-snps-arc@lists.infradead.org, 
+ "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>, 
  Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-csky@vger.kernel.org, 
- linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org, 
- linux-m68k <linux-m68k@lists.linux-m68k.org>, 
- "open list:MIPS" <linux-mips@vger.kernel.org>, openrisc@lists.librecores.org, 
+ "open list:QUALCOMM HEXAGON..." <linux-hexagon@vger.kernel.org>,
+ linux-ia64@vger.kernel.org, linux-m68k <linux-m68k@lists.linux-m68k.org>, 
+ "open list:MIPS" <linux-mips@vger.kernel.org>,
+ Openrisc <openrisc@lists.librecores.org>, 
  "open list:PARISC ARCHITECTURE" <linux-parisc@vger.kernel.org>, 
  "open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)"
  <linuxppc-dev@lists.ozlabs.org>, 
  linux-riscv <linux-riscv@lists.infradead.org>, 
- "open list:S390" <linux-s390@vger.kernel.org>, linux-sh@vger.kernel.org, 
+ "open list:S390" <linux-s390@vger.kernel.org>,
+ Linux-sh list <linux-sh@vger.kernel.org>, 
  "open list:SPARC + UltraSPARC (sparc/sparc64)" <sparclinux@vger.kernel.org>,
  linux-um <linux-um@lists.infradead.org>, 
  "open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>,
  Robin Murphy <robin.murphy@arm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220215_001814_202633_D24B9ED1 
-X-CRM114-Status: GOOD (  35.30  )
+X-CRM114-CacheID: sfid-20220215_011309_901841_D85876F6 
+X-CRM114-Status: GOOD (  21.48  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,98 +114,38 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, 14 Feb 2022 at 17:37, Arnd Bergmann <arnd@kernel.org> wrote:
+On Tue, Feb 15, 2022 at 9:17 AM Ard Biesheuvel <ardb@kernel.org> wrote:
+> On Mon, 14 Feb 2022 at 17:37, Arnd Bergmann <arnd@kernel.org> wrote:
+> > From: Arnd Bergmann <arnd@arndb.de>
+> >
 >
-> From: Arnd Bergmann <arnd@arndb.de>
+> With set_fs() out of the picture, wouldn't it be sufficient to check
+> that bit #55 is clear? (the bit that selects between TTBR0 and TTBR1)
+> That would also remove the need to strip the tag from the address.
 >
-> arm64 has an inline asm implementation of access_ok() that is derived from
-> the 32-bit arm version and optimized for the case that both the limit and
-> the size are variable. With set_fs() gone, the limit is always constant,
-> and the size usually is as well, so just using the default implementation
-> reduces the check into a comparison against a constant that can be
-> scheduled by the compiler.
+> Something like
 >
-> On a defconfig build, this saves over 28KB of .text.
+>     asm goto("tbnz  %0, #55, %2     \n"
+>              "tbnz  %1, #55, %2     \n"
+>              :: "r"(addr), "r"(addr + size - 1) :: notok);
+>     return 1;
+> notok:
+>     return 0;
 >
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  arch/arm64/include/asm/uaccess.h | 28 +++++-----------------------
->  1 file changed, 5 insertions(+), 23 deletions(-)
->
-> diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
-> index 357f7bd9c981..e8dce0cc5eaa 100644
-> --- a/arch/arm64/include/asm/uaccess.h
-> +++ b/arch/arm64/include/asm/uaccess.h
-> @@ -26,6 +26,8 @@
->  #include <asm/memory.h>
->  #include <asm/extable.h>
->
-> +static inline int __access_ok(const void __user *ptr, unsigned long size);
-> +
->  /*
->   * Test whether a block of memory is a valid user space address.
->   * Returns 1 if the range is valid, 0 otherwise.
-> @@ -33,10 +35,8 @@
->   * This is equivalent to the following test:
->   * (u65)addr + (u65)size <= (u65)TASK_SIZE_MAX
->   */
-> -static inline unsigned long __access_ok(const void __user *addr, unsigned long size)
-> +static inline int access_ok(const void __user *addr, unsigned long size)
->  {
-> -       unsigned long ret, limit = TASK_SIZE_MAX - 1;
-> -
->         /*
->          * Asynchronous I/O running in a kernel thread does not have the
->          * TIF_TAGGED_ADDR flag of the process owning the mm, so always untag
-> @@ -46,27 +46,9 @@ static inline unsigned long __access_ok(const void __user *addr, unsigned long s
->             (current->flags & PF_KTHREAD || test_thread_flag(TIF_TAGGED_ADDR)))
->                 addr = untagged_addr(addr);
->
-> -       __chk_user_ptr(addr);
-> -       asm volatile(
-> -       // A + B <= C + 1 for all A,B,C, in four easy steps:
-> -       // 1: X = A + B; X' = X % 2^64
-> -       "       adds    %0, %3, %2\n"
-> -       // 2: Set C = 0 if X > 2^64, to guarantee X' > C in step 4
-> -       "       csel    %1, xzr, %1, hi\n"
-> -       // 3: Set X' = ~0 if X >= 2^64. For X == 2^64, this decrements X'
-> -       //    to compensate for the carry flag being set in step 4. For
-> -       //    X > 2^64, X' merely has to remain nonzero, which it does.
-> -       "       csinv   %0, %0, xzr, cc\n"
-> -       // 4: For X < 2^64, this gives us X' - C - 1 <= 0, where the -1
-> -       //    comes from the carry in being clear. Otherwise, we are
-> -       //    testing X' - C == 0, subject to the previous adjustments.
-> -       "       sbcs    xzr, %0, %1\n"
-> -       "       cset    %0, ls\n"
-> -       : "=&r" (ret), "+r" (limit) : "Ir" (size), "0" (addr) : "cc");
-> -
-> -       return ret;
-> +       return likely(__access_ok(addr, size));
->  }
-> -#define __access_ok __access_ok
-> +#define access_ok access_ok
->
->  #include <asm-generic/access_ok.h>
->
-> --
-> 2.29.2
->
+> with an additional sanity check on the size which the compiler could
+> eliminate for compile-time constant values.
 
-With set_fs() out of the picture, wouldn't it be sufficient to check
-that bit #55 is clear? (the bit that selects between TTBR0 and TTBR1)
-That would also remove the need to strip the tag from the address.
+That should work, but I don't see it as a clear enough advantage to
+have a custom implementation. For the constant-size case, it probably
+isn't better than a compiler-scheduled comparison against a
+constant limit, but it does hurt maintainability when the next person
+wants to change the behavior of access_ok() globally.
 
-Something like
+If we want to get into micro-optimizing uaccess, I think a better target
+would be a CONFIG_CC_HAS_ASM_GOTO_OUTPUT version
+of __get_user()/__put_user as we have on x86 and powerpc.
 
-    asm goto("tbnz  %0, #55, %2     \n"
-             "tbnz  %1, #55, %2     \n"
-             :: "r"(addr), "r"(addr + size - 1) :: notok);
-    return 1;
-notok:
-    return 0;
-
-with an additional sanity check on the size which the compiler could
-eliminate for compile-time constant values.
+         Arnd
 
 _______________________________________________
 linux-snps-arc mailing list
