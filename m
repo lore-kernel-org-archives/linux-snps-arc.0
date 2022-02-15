@@ -4,100 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9737FC433EF
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Feb 2022 09:16:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7126C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Feb 2022 09:20:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=sZl+oDZRHZ5ESj/W20g/ZLXz/88U+K81pXM2mavR2KE=; b=FlEoI3/QVdhGog
-	9F9oIPJjqHxAUCjc1C9dB1jeXQGpbtMmYsUE41858CQyvev9VDMC4Y5Kqbp/zjNNqsBNIkO19QpQM
-	54ZWVnjVx9QvjQsQSgFD/blSnfnZOXqATY5szmi0mUioc6KHigpZBErnymofD00jpy4Gm7Bq45G+j
-	VO7eVhYNVbYYKhfpCXlSLM3US1di+rThmV7xntPOKvHB9fYpFzr/7+R3ASBUXzxTlq99OYASGe3Be
-	Utvzed6Ut04K1qm//XjY4JddgBDljJ2AfBpvAf66cWwTpVzhtWr/COEXvwj0FUXemT6tacu/UGKUm
-	LxDEKPrx0sfAV0ZLjDcA==;
+	List-Owner; bh=U9GIajW/H0hSnxA/wwyU4IPqQY5TJJUDIvLMl7Eg3As=; b=KXL5QixnaU/X0S
+	jSSLP+FZga4xwwQbecVtxFZFGtFWVIPQ0+Hc3MQUFYpMm9vg0L595h2v+rQZH1dD5lP3QMevBcTl4
+	aTr6pcZnT5aor/3eOjrw8u1wdfS/qqy77kpy71DVtUae6Wkmo1hSKzM3UQkNwqGSNN5u5l/owkdVm
+	lnpJqnOa2jsSfQ72pVLxjYZQg6OLOVPSThLytuWcAMHsArH42dgQ3fql4JOvrTrGT5Q8aj9W/xngL
+	LhMZ1FZFY69ie7UC6fcl+uUTXYGHFc6Fsp6OERAKzqWYspuOcOHg4raOu8qxpLIYd71EEbVQD2dYe
+	IZnEUrAvb3Y4IOYQ4VnA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nJtwR-001yLS-RH; Tue, 15 Feb 2022 09:16:11 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1nJu0B-00207Z-TX; Tue, 15 Feb 2022 09:20:03 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nJttV-001wur-OQ; Tue, 15 Feb 2022 09:13:11 +0000
+ id 1nJtyl-001zT0-VT; Tue, 15 Feb 2022 09:18:38 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 3C81661538;
- Tue, 15 Feb 2022 09:13:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A129EC340F0;
- Tue, 15 Feb 2022 09:13:08 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 1AFD2B81807;
+ Tue, 15 Feb 2022 09:18:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFDBDC340EB;
+ Tue, 15 Feb 2022 09:18:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1644916388;
- bh=nPLs5v71E/xzzKRq/jdD2UxtX1DBSgxHKB2i8EHy1KY=;
+ s=k20201202; t=1644916712;
+ bh=auvbexz8OfCE17jezkrwExlxQUSMdLXG0OAD2bmLs8A=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=CLHePkmHVvog2B9hZC9aG4LabFSm7MI26At0uDw7kKPNYpb3lXWOmUP31vrn/n3jp
- 21c83PolyTPYs5hRtHSTmetuMdjz8MVwbtB9QE4JUqwfDE9UaiWLco96WTCCiREXeo
- ierknOIrVYt+cFHPhwjyPUqaAdv+eYt2hib0l9mVhvFWKgaTt9gitGLgKmM8vAP2ER
- AePVXGloKhok6IjT1wO1H+WVX/SWPGV2/x59O7cRGdhpYbEJd41Qa4hwZk6q55miTE
- kziCS4wP1Lkxi5K05R+6K/1DypZ1QzcheN727Vb2P8JghtAuyZKDU7SLg9/rJcHwJ6
- ZWZc1SanLSgow==
-Received: by mail-ed1-f52.google.com with SMTP id g7so14938292edb.5;
- Tue, 15 Feb 2022 01:13:08 -0800 (PST)
-X-Gm-Message-State: AOAM533N52Qv9nwgBONpZkPKlpKr7FlPvuhNJ8CJjR9TNM1any4MJBlX
- /6AznJMjamxfzw68Qcc6mE3cPYxAEre/RJtOsJc=
-X-Google-Smtp-Source: ABdhPJwP302M1cXBE3IXsZS/v83gWi9XJR2q13sQJhY9b6tnSpJCd4099durtVh9QEm0yhQ4WeUq4MKNAAS9P/JPfzc=
-X-Received: by 2002:adf:f6ce:: with SMTP id y14mr2380558wrp.219.1644916376776; 
- Tue, 15 Feb 2022 01:12:56 -0800 (PST)
+ b=WkCGrtyaPGx2lCQmidRf50Nww49rtYKXGqhrb3/C0e99NEVq0x4+WE9foIS4kUwTy
+ Mg2PS200LzaF04kA9XIMm+68B/HWgDxXUTEMDmtFuo/vuZCLa1nzhj77kQBMW/PnbX
+ ukG7A6NTl1LhUebF+egxWGXBS1bclOmuETqe5/P7P8hYCPMJV01ML09i4Dj7Oc4eam
+ qPGV0kiOvw/HrhOoUIvvr9kVOKBBLAKePRDoLhNMD5z9l8zC/MfMs684bQIAPICifC
+ JNi2hHWCbvRfB0irmZRpMndHoBz4k0WZn3sUQdjIzkz5H4VhtCg1X21uy/aeXseCev
+ i16v7OHaWl0OQ==
+Received: by mail-wr1-f47.google.com with SMTP id w11so30959386wra.4;
+ Tue, 15 Feb 2022 01:18:32 -0800 (PST)
+X-Gm-Message-State: AOAM5331aKR1hPufDKxp24+XoHPsgUFvoCi9Ay06zDFQerk2hCxUSp5m
+ dR9TBKJZccbMNfAikIYXubviUibTR9kVW4yfU9I=
+X-Google-Smtp-Source: ABdhPJytLoTfipZUwnG73E442/QjIxHnERGjQ2aeR9o7LjnpbatwjsLI+Mk7641j6VpHXtVWtwvDTIufUdUsOw5At+o=
+X-Received: by 2002:a5d:5446:: with SMTP id w6mr2390801wrv.12.1644916711299;
+ Tue, 15 Feb 2022 01:18:31 -0800 (PST)
 MIME-Version: 1.0
 References: <20220214163452.1568807-1-arnd@kernel.org>
- <20220214163452.1568807-9-arnd@kernel.org>
- <CAMj1kXHixUFjV=4m3tzfGz7AiRWc-VczymbKuZq7dyZZNuLKxQ@mail.gmail.com>
-In-Reply-To: <CAMj1kXHixUFjV=4m3tzfGz7AiRWc-VczymbKuZq7dyZZNuLKxQ@mail.gmail.com>
+ <20220214163452.1568807-4-arnd@kernel.org>
+ <YgqK1ihlJvRFHJ9h@infradead.org>
+In-Reply-To: <YgqK1ihlJvRFHJ9h@infradead.org>
 From: Arnd Bergmann <arnd@kernel.org>
-Date: Tue, 15 Feb 2022 10:12:40 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a2VfvDkueaJNTA9SiB+PFsi_Q17AX+aL46ueooW2ahmQw@mail.gmail.com>
-Message-ID: <CAK8P3a2VfvDkueaJNTA9SiB+PFsi_Q17AX+aL46ueooW2ahmQw@mail.gmail.com>
-Subject: Re: [PATCH 08/14] arm64: simplify access_ok()
-To: Ard Biesheuvel <ardb@kernel.org>
+Date: Tue, 15 Feb 2022 10:18:15 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a1XkWNQcFEhJQ0+qWzih1YRQDS_N8xiosN7FHn3yoTJpQ@mail.gmail.com>
+Message-ID: <CAK8P3a1XkWNQcFEhJQ0+qWzih1YRQDS_N8xiosN7FHn3yoTJpQ@mail.gmail.com>
+Subject: Re: [PATCH 03/14] nds32: fix access_ok() checks in get/put_user
+To: Christoph Hellwig <hch@infradead.org>
 Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Christoph Hellwig <hch@lst.de>, linux-arch <linux-arch@vger.kernel.org>, 
- Linux Memory Management List <linux-mm@kvack.org>,
- Linux API <linux-api@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- Russell King <linux@armlinux.org.uk>, Will Deacon <will@kernel.org>,
- Guo Ren <guoren@kernel.org>, 
- Brian Cain <bcain@codeaurora.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
- Michal Simek <monstr@monstr.eu>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- Nick Hu <nickhu@andestech.com>, Greentime Hu <green.hu@gmail.com>, 
- Dinh Nguyen <dinguyen@kernel.org>, Stafford Horne <shorne@gmail.com>,
- Helge Deller <deller@gmx.de>, 
- Michael Ellerman <mpe@ellerman.id.au>, Peter Zijlstra <peterz@infradead.org>, 
- Ingo Molnar <mingo@redhat.com>, Mark Rutland <mark.rutland@arm.com>, 
- Heiko Carstens <hca@linux.ibm.com>, Rich Felker <dalias@libc.org>, 
- "David S. Miller" <davem@davemloft.net>, Richard Weinberger <richard@nod.at>,
- X86 ML <x86@kernel.org>, 
- Max Filippov <jcmvbkbc@gmail.com>, "Eric W. Biederman" <ebiederm@xmission.com>,
- Andrew Morton <akpm@linux-foundation.org>, alpha <linux-alpha@vger.kernel.org>,
+ Christoph Hellwig <hch@lst.de>, 
+ linux-arch <linux-arch@vger.kernel.org>, Linux-MM <linux-mm@kvack.org>, 
+ Linux API <linux-api@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, 
+ Rich Felker <dalias@libc.org>, linux-ia64@vger.kernel.org, 
+ Linux-sh list <linux-sh@vger.kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Max Filippov <jcmvbkbc@gmail.com>, Guo Ren <guoren@kernel.org>, 
+ sparclinux <sparclinux@vger.kernel.org>, 
+ "open list:QUALCOMM HEXAGON..." <linux-hexagon@vger.kernel.org>, 
+ linux-riscv <linux-riscv@lists.infradead.org>, Will Deacon <will@kernel.org>, 
+ Ard Biesheuvel <ardb@kernel.org>, linux-s390 <linux-s390@vger.kernel.org>, 
+ Brian Cain <bcain@codeaurora.org>, Helge Deller <deller@gmx.de>, 
+ "the arch/x86 maintainers" <x86@kernel.org>,
+ Russell King - ARM Linux <linux@armlinux.org.uk>, linux-csky@vger.kernel.org, 
+ Ingo Molnar <mingo@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
  "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>, 
- Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-csky@vger.kernel.org, 
- "open list:QUALCOMM HEXAGON..." <linux-hexagon@vger.kernel.org>,
- linux-ia64@vger.kernel.org, linux-m68k <linux-m68k@lists.linux-m68k.org>, 
- "open list:MIPS" <linux-mips@vger.kernel.org>,
- Openrisc <openrisc@lists.librecores.org>, 
- "open list:PARISC ARCHITECTURE" <linux-parisc@vger.kernel.org>, 
- "open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)"
- <linuxppc-dev@lists.ozlabs.org>, 
- linux-riscv <linux-riscv@lists.infradead.org>, 
- "open list:S390" <linux-s390@vger.kernel.org>,
- Linux-sh list <linux-sh@vger.kernel.org>, 
- "open list:SPARC + UltraSPARC (sparc/sparc64)" <sparclinux@vger.kernel.org>,
- linux-um <linux-um@lists.infradead.org>, 
  "open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>,
- Robin Murphy <robin.murphy@arm.com>
+ Heiko Carstens <hca@linux.ibm.com>, 
+ alpha <linux-alpha@vger.kernel.org>, linux-um <linux-um@lists.infradead.org>, 
+ linux-m68k <linux-m68k@lists.linux-m68k.org>,
+ Openrisc <openrisc@lists.librecores.org>, 
+ Greentime Hu <green.hu@gmail.com>, Stafford Horne <shorne@gmail.com>, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Michal Simek <monstr@monstr.eu>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Parisc List <linux-parisc@vger.kernel.org>, 
+ Nick Hu <nickhu@andestech.com>, 
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ "# 3.4.x" <stable@vger.kernel.org>, 
+ Dinh Nguyen <dinguyen@kernel.org>, "Eric W . Biederman" <ebiederm@xmission.com>,
+ Richard Weinberger <richard@nod.at>, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ David Miller <davem@davemloft.net>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220215_011309_901841_D85876F6 
-X-CRM114-Status: GOOD (  21.48  )
+X-CRM114-CacheID: sfid-20220215_011836_410070_5FB35CD8 
+X-CRM114-Status: GOOD (  23.99  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,36 +113,31 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Feb 15, 2022 at 9:17 AM Ard Biesheuvel <ardb@kernel.org> wrote:
-> On Mon, 14 Feb 2022 at 17:37, Arnd Bergmann <arnd@kernel.org> wrote:
+On Mon, Feb 14, 2022 at 6:01 PM Christoph Hellwig <hch@infradead.org> wrote:
+>
+> On Mon, Feb 14, 2022 at 05:34:41PM +0100, Arnd Bergmann wrote:
 > > From: Arnd Bergmann <arnd@arndb.de>
 > >
+> > The get_user()/put_user() functions are meant to check for
+> > access_ok(), while the __get_user()/__put_user() functions
+> > don't.
+> >
+> > This broke in 4.19 for nds32, when it gained an extraneous
+> > check in __get_user(), but lost the check it needs in
+> > __put_user().
 >
-> With set_fs() out of the picture, wouldn't it be sufficient to check
-> that bit #55 is clear? (the bit that selects between TTBR0 and TTBR1)
-> That would also remove the need to strip the tag from the address.
->
-> Something like
->
->     asm goto("tbnz  %0, #55, %2     \n"
->              "tbnz  %1, #55, %2     \n"
->              :: "r"(addr), "r"(addr + size - 1) :: notok);
->     return 1;
-> notok:
->     return 0;
->
-> with an additional sanity check on the size which the compiler could
-> eliminate for compile-time constant values.
+> Can we follow the lead of MIPS (which this was originally copied
+> from I think) and kill the pointless __get/put_user_check wrapper
+> that just obsfucate the code?
 
-That should work, but I don't see it as a clear enough advantage to
-have a custom implementation. For the constant-size case, it probably
-isn't better than a compiler-scheduled comparison against a
-constant limit, but it does hurt maintainability when the next person
-wants to change the behavior of access_ok() globally.
+I had another look, but I think that would be a bigger change than
+I want to have in a fix for stable backports, as nds32 also uses
+the _check versions in __{get,put}_user_error.
 
-If we want to get into micro-optimizing uaccess, I think a better target
-would be a CONFIG_CC_HAS_ASM_GOTO_OUTPUT version
-of __get_user()/__put_user as we have on x86 and powerpc.
+If we instead clean it up in a separate patch, it should be done for
+all eight architectures that do the same thing, but at that point,
+the time seems better spent at coming up with a new set of
+calling conventions that work with asm-goto.
 
          Arnd
 
