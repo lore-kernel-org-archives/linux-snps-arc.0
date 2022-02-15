@@ -4,70 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11C58C433F5
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Feb 2022 09:40:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17332C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Feb 2022 10:04:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=fJmzKNHS3+y6vfhesOrigu4GcMTtthR8ETCQVDcRWjU=; b=rFiWSGExH2FUuw
-	A5l6NluYkXzQrsYGTfXpXApi/Dl4l5mQ5WBm1SKQXxZoN6WLu+YD+6LPRp6X/ahnZLGI0vKvIV4C+
-	bew3YWe5Q66ifE5DB7oOYMYbsFQl/Kd259t7LXkaiVpjAOodCW9w3bMSy1KtLl4E+enLu7JmXegEf
-	U/vxH801KFmH8Hky/PTa5GbrT7wtWIwAAElLb2r38DmN+HccNPs/qn/vx4a5ycJ7BtFS7QmF0wjN5
-	uHaKylkGKDYXKdXqirYKa6AoFdVdQ4JB+MXagf29Q3Q82O8pB3rlnM+OcElGnsOiQ2GFgaML0VXK+
-	MH5UsAyo9jN/P9g/p6Zg==;
+	List-Owner; bh=yG9v9VsfQhsLJuENd6fLXXBZ4tY5rpEdroAs2FNiPIo=; b=FavBEKb9HLu+w3
+	7FjkvTNFbPdq9Lif/LgyTQmG5/7Rt4SytSJxHtWFErPBsr4btsn72wo19iB4jdGFiOgm99aIIlcz9
+	chaYNV75YEgsHF6zOIhlZRbz2ZIz4xUfUyYJIDdAXcsse+s0G4FNhT/79XgvySgJi+yQ63dRLwn8n
+	sCRWqSjDMYTuTLykaiYy3e2la0FVJ3qgODYy0DeCQGoz/Dx4IrTIoOp96KCHEdLLBFMPWFR04YCWR
+	PhuykT5jutQU1EQeqoIwNAM+eoqvh69zhb4+gJFFNBbYMnhKrKPklbmArPd3s3rWwrq3O1EUPZbe8
+	UchjEkM0Z2HAWBhAyMTg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nJuJq-0024Sg-O2; Tue, 15 Feb 2022 09:40:22 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1nJuhR-002DXZ-Cm; Tue, 15 Feb 2022 10:04:45 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nJuJk-0024Qr-Fw; Tue, 15 Feb 2022 09:40:18 +0000
+ id 1nJufQ-002CRw-3U; Tue, 15 Feb 2022 10:02:41 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 7F82AB8180E;
- Tue, 15 Feb 2022 09:40:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36CE0C340EB;
- Tue, 15 Feb 2022 09:40:14 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 83A00612AC;
+ Tue, 15 Feb 2022 10:02:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59491C36AE7;
+ Tue, 15 Feb 2022 10:02:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1644918014;
- bh=hv8AUuEMkapI1zY2x6Wj+fHd7ew8TaKYgsOBPTPrxmw=;
+ s=k20201202; t=1644919359;
+ bh=6OaJO5k8UStns9fCBustiYnW4Ue2uRRTBF363T6I8Z8=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=VHH7CU79U316XDMWHeHJ8++Eh1MMKITXbQSzlZ0DrA6kWekzDktkCy5KhY7hZLGK7
- gfiQHmPbEC7L4AF+NDTP3++2HyxQqgay+CXVkTp1m9wIZSWiRsxhjEsRH76HB3HAb3
- /5H0IwFoMYLMdcVT0XuD8P6Vw9GPBTkN9xgNY7hhrRN337S5eN73tDcRKRPLMOcNTg
- NXwi07ICMcsXTT77IYOqmuFqUW8m3AaA+2IJmg2fkpra1D1NcZ3zVXZBTrXdEvv5Oq
- 0XRwvrersUnw/PUKjeaOsXZQOemvEGElTmz0nKHB8fy3fN/J5cS0vZm5lHkoOpeHoi
- hdacTJ8dWWJzg==
-Received: by mail-wm1-f53.google.com with SMTP id o34so7239867wms.1;
- Tue, 15 Feb 2022 01:40:14 -0800 (PST)
-X-Gm-Message-State: AOAM532KWGGI1v9QHBYYehOSvqeu4d6osBP245bssgXQ0zmdhBgV00nS
- pzEfisydCnKWKaV3IDSKglKI5Y/CKg1I2ZNnyIU=
-X-Google-Smtp-Source: ABdhPJxpFSyo2tIfVZXx6xnWqAN7kXzL0SfiKGeaqLH7fIF3GRmujo8Iug1QC1Z1ypgNgRnGoRSGx0exr14yXtWS6QY=
-X-Received: by 2002:a05:600c:1d27:b0:37c:74bb:2b4d with SMTP id
- l39-20020a05600c1d2700b0037c74bb2b4dmr2314325wms.82.1644918002508; Tue, 15
- Feb 2022 01:40:02 -0800 (PST)
+ b=uvEmspgqpxTxsLVTla+f0SMmX15oCQNrms2B9i0V9ia6kENfVsiE5Bzh7iEU5KPnw
+ q9gpvWdnz7Ekg1lzBDLgsrNBP3KQiT85+nX2ztDJVrZIG/Ujb9BpDyYeBvTJqYuFFy
+ UXxanyBNOo8MHsY34ccoxfMGLS2ZnrQfcuAKTi+R29nIBU60+3+8nE+aoXmDCfLSlj
+ gLzEYCibUm4llc2wyWYPuInOJmc4XldnCXU+p9O2WXaNiWoHF4eSAsm49banFdwhfI
+ qZ3iYDoP+YlMRMdIdv1rAxGAF/9VZx8l+SDbw/WEUswwJYP90PuoNP8rnqj493/bDf
+ pKaaRvX+q+uBA==
+Received: by mail-wm1-f51.google.com with SMTP id
+ q198-20020a1ca7cf000000b0037bb52545c6so1084543wme.1; 
+ Tue, 15 Feb 2022 02:02:39 -0800 (PST)
+X-Gm-Message-State: AOAM533Fk4ibngYeh4jV8izOXB0HGA80w39Xh39uVoE7zqqMd2QYoP3W
+ 9y3K58zxGw5dfVgx3jbqkPvTARnhHnzGYMcbgxU=
+X-Google-Smtp-Source: ABdhPJxXhF5oN8HK5+/UBfeNSuYxeBNAH3pN7Z2cMEK019oVoVAxn2dH7YUg+eieAXhNWJaJdsC0aGcEXS3C4UXMT34=
+X-Received: by 2002:a05:600c:2108:b0:34e:870:966e with SMTP id
+ u8-20020a05600c210800b0034e0870966emr2332972wml.173.1644919346591; Tue, 15
+ Feb 2022 02:02:26 -0800 (PST)
 MIME-Version: 1.0
 References: <20220214163452.1568807-1-arnd@kernel.org>
- <20220214163452.1568807-9-arnd@kernel.org>
- <CAMj1kXHixUFjV=4m3tzfGz7AiRWc-VczymbKuZq7dyZZNuLKxQ@mail.gmail.com>
- <CAK8P3a2VfvDkueaJNTA9SiB+PFsi_Q17AX+aL46ueooW2ahmQw@mail.gmail.com>
- <CAMj1kXGkG0KMD2rnKAJc3V7X9LP1grbcHTNYMnj_q4GiYfG2pQ@mail.gmail.com>
-In-Reply-To: <CAMj1kXGkG0KMD2rnKAJc3V7X9LP1grbcHTNYMnj_q4GiYfG2pQ@mail.gmail.com>
+ <20220214163452.1568807-10-arnd@kernel.org>
+ <Ygr11RGjj3C9uAUg@zeniv-ca.linux.org.uk> <20220215062942.GA12551@lst.de>
+ <YgtSpk0boDjsyjFK@zeniv-ca.linux.org.uk>
+In-Reply-To: <YgtSpk0boDjsyjFK@zeniv-ca.linux.org.uk>
 From: Arnd Bergmann <arnd@kernel.org>
-Date: Tue, 15 Feb 2022 10:39:46 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a0NTqK_m7q909d8FN6is8k4_u3zeckC9XOrjEi7kqSvmg@mail.gmail.com>
-Message-ID: <CAK8P3a0NTqK_m7q909d8FN6is8k4_u3zeckC9XOrjEi7kqSvmg@mail.gmail.com>
-Subject: Re: [PATCH 08/14] arm64: simplify access_ok()
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Christoph Hellwig <hch@lst.de>, linux-arch <linux-arch@vger.kernel.org>, 
- Linux Memory Management List <linux-mm@kvack.org>,
- Linux API <linux-api@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+Date: Tue, 15 Feb 2022 11:02:10 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a0t-dnJXvXH0Mx5L-AeVQe1mYzRi0sQjYxzMQw-mVPv0Q@mail.gmail.com>
+Message-ID: <CAK8P3a0t-dnJXvXH0Mx5L-AeVQe1mYzRi0sQjYxzMQw-mVPv0Q@mail.gmail.com>
+Subject: Re: [PATCH 09/14] m68k: drop custom __access_ok()
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Christoph Hellwig <hch@lst.de>,
+ Linus Torvalds <torvalds@linux-foundation.org>, 
+ linux-arch <linux-arch@vger.kernel.org>, Linux-MM <linux-mm@kvack.org>, 
+ Linux API <linux-api@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- Russell King <linux@armlinux.org.uk>, Will Deacon <will@kernel.org>,
+ Russell King - ARM Linux <linux@armlinux.org.uk>, Will Deacon <will@kernel.org>,
  Guo Ren <guoren@kernel.org>, 
  Brian Cain <bcain@codeaurora.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
  Michal Simek <monstr@monstr.eu>,
@@ -77,30 +77,29 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  Helge Deller <deller@gmx.de>, 
  Michael Ellerman <mpe@ellerman.id.au>, Peter Zijlstra <peterz@infradead.org>, 
  Ingo Molnar <mingo@redhat.com>, Mark Rutland <mark.rutland@arm.com>, 
- Heiko Carstens <hca@linux.ibm.com>, Rich Felker <dalias@libc.org>, 
- "David S. Miller" <davem@davemloft.net>, Richard Weinberger <richard@nod.at>,
- X86 ML <x86@kernel.org>, 
- Max Filippov <jcmvbkbc@gmail.com>, "Eric W. Biederman" <ebiederm@xmission.com>,
- Andrew Morton <akpm@linux-foundation.org>, alpha <linux-alpha@vger.kernel.org>,
+ Heiko Carstens <hca@linux.ibm.com>, Rich Felker <dalias@libc.org>,
+ David Miller <davem@davemloft.net>, Richard Weinberger <richard@nod.at>,
+ "the arch/x86 maintainers" <x86@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>,
+ "Eric W . Biederman" <ebiederm@xmission.com>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Ard Biesheuvel <ardb@kernel.org>, alpha <linux-alpha@vger.kernel.org>, 
  "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>, 
  Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-csky@vger.kernel.org, 
  "open list:QUALCOMM HEXAGON..." <linux-hexagon@vger.kernel.org>,
  linux-ia64@vger.kernel.org, linux-m68k <linux-m68k@lists.linux-m68k.org>, 
- "open list:MIPS" <linux-mips@vger.kernel.org>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
  Openrisc <openrisc@lists.librecores.org>, 
- "open list:PARISC ARCHITECTURE" <linux-parisc@vger.kernel.org>, 
- "open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)"
- <linuxppc-dev@lists.ozlabs.org>, 
- linux-riscv <linux-riscv@lists.infradead.org>, 
- "open list:S390" <linux-s390@vger.kernel.org>,
- Linux-sh list <linux-sh@vger.kernel.org>, 
- "open list:SPARC + UltraSPARC (sparc/sparc64)" <sparclinux@vger.kernel.org>,
+ Parisc List <linux-parisc@vger.kernel.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, 
+ linux-riscv <linux-riscv@lists.infradead.org>,
+ linux-s390 <linux-s390@vger.kernel.org>, 
+ Linux-sh list <linux-sh@vger.kernel.org>,
+ sparclinux <sparclinux@vger.kernel.org>, 
  linux-um <linux-um@lists.infradead.org>, 
- "open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>,
- Robin Murphy <robin.murphy@arm.com>
+ "open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220215_014016_887363_9D09CD0F 
-X-CRM114-Status: GOOD (  15.10  )
+X-CRM114-CacheID: sfid-20220215_020240_245428_C23ECD30 
+X-CRM114-Status: GOOD (  26.00  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,26 +116,51 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Feb 15, 2022 at 10:21 AM Ard Biesheuvel <ardb@kernel.org> wrote:
-> On Tue, 15 Feb 2022 at 10:13, Arnd Bergmann <arnd@kernel.org> wrote:
+On Tue, Feb 15, 2022 at 8:13 AM Al Viro <viro@zeniv.linux.org.uk> wrote:
+> On Tue, Feb 15, 2022 at 07:29:42AM +0100, Christoph Hellwig wrote:
+> > On Tue, Feb 15, 2022 at 12:37:41AM +0000, Al Viro wrote:
+> > > Perhaps simply wrap that sucker into #ifdef CONFIG_CPU_HAS_ADDRESS_SPACES
+> > > (and trim the comment down to "coldfire and 68000 will pick generic
+> > > variant")?
+> >
+> > I wonder if we should invert CONFIG_ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE,
+> > select the separate address space config for s390, sparc64, non-coldfire
+> > m68k and mips with EVA and then just have one single access_ok for
+> > overlapping address space (as added by Arnd) and non-overlapping ones
+> > (always return true).
 >
-> arm64 also has this leading up to the range check, and I think we'd no
-> longer need it:
+> parisc is also such...  How about
 >
->     if (IS_ENABLED(CONFIG_ARM64_TAGGED_ADDR_ABI) &&
->         (current->flags & PF_KTHREAD || test_thread_flag(TIF_TAGGED_ADDR)))
->             addr = untagged_addr(addr);
+>         select ALTERNATE_SPACE_USERLAND
+>
+> for that bunch?
 
-I suspect the expensive part here is checking the two flags, as untagged_addr()
-seems to always just add a sbfx instruction. Would this work?
+Either of those works for me. My current version has this keyed off
+TASK_SIZE_MAX==ULONG_MAX, but a CONFIG_ symbol does
+look more descriptive.
 
-#ifdef CONFIG_ARM64_TAGGED_ADDR_ABI
-#define access_ok(ptr, size) __access_ok(untagged_addr(ptr), (size))
-#else // the else path is the default, this can be left out.
-#define access_ok(ptr, size) __access_ok((ptr), (size))
-#endif
+>  While we are at it, how many unusual access_ok() instances are
+> left after this series?  arm64, itanic, um, anything else?
 
-       Arnd
+x86 adds a WARN_ON_IN_IRQ() check in there. This could be
+made generic, but it's not obvious what exactly the exceptions are
+that other architectures need. The arm64 tagged pointers could
+probably also get integrated into the generic version.
+
+> FWIW, sparc32 has a slightly unusual instance (see uaccess_32.h there); it's
+> obviously cheaper than generic and I wonder if the trick is legitimate (and
+> applicable elsewhere, perhaps)...
+
+Right, a few others have the same, but I wasn't convinced that this
+is actually safe for call possible cases: it's trivial to construct a caller
+that works on other architectures but not this one, if you pass a large
+enough size value and don't access the contents in sequence.
+
+Also, like the ((addr | (addr + size)) & MASK) check on some other
+architectures, it is less portable because it makes assumptions about
+the actual layout beyond a fixed address limit.
+
+        Arnd
 
 _______________________________________________
 linux-snps-arc mailing list
