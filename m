@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8FB7C433EF
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 16 Feb 2022 13:16:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06102C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 16 Feb 2022 13:16:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=6zRCH1Sj6HfxRzUjXSQ+MsioOn31qH0yLZuho1s6RFw=; b=0jNXsWW/I8iCJF
-	9l1TwY8tDIe24uCgmhvQv7aTZkLpDGjgtPbKTmAXgcoKI160qkn9uY0jlANWPtsnoSKHfplQe/cnL
-	fYhvelr1KxDFuGiiBQi+YLt6ZrNk7+hX11OTuZTyjkDhOiSDhbMlylK6z/izwMJ+5G+qyORWZTyeb
-	QQNyYscgotZZB4BXpCHh4602/2m4gSGAXG/fNxxZZ27GHc9xKFKB2qorZVPRTD4j5nNZ2CndzYCWL
-	tUSoXYzqCPh65YJCPachc8G91YEXCxm4l4i1ogJbHBqd8gqGDqMCyMjqV/oDmHzKg8rG3pGU1UhuI
-	XmUioaKtqW5AhA3CnZdQ==;
+	List-Owner; bh=J8JTR13mPDQqP6V6ALuoxAkxSuwg4L62MtCrU3XJ2u0=; b=P/Nk30D+YYzgxQ
+	RXBuAUU1v1sK3CLvbulbx801hJOD2SkubAuqCxqw+3ETO+8imetVyLk+Lyt91XGkUfC8rwyQKPYCf
+	BvOlk1mSUW5SnNGwJ8kc+jpGQQgQWp947Vhw8zpsG3cJ+uTX0Lmu5qiTs4FDkeTRXr17YkxpscBNB
+	yRkEzemtE2l5uhc4MzPyYEEtj/aKUqHxhb6lVAItZASxRBzypXXD7eudkUb76AWUMLAXtMilt3yJ5
+	K6Fu/q8QS75BmHIpZuVXpHxnH3BkW2c4teS7Yv4epmCKRO2bbogUAhbfD6+EL7UuwoHWQdSIcTCWq
+	zxLhnZCpeaQIoiXv9RUg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nKKAN-00757Q-V0; Wed, 16 Feb 2022 13:16:19 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1nKKAb-0075IU-Nx; Wed, 16 Feb 2022 13:16:33 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nKKAI-00752C-7r; Wed, 16 Feb 2022 13:16:15 +0000
+ id 1nKKAV-0075C1-4B; Wed, 16 Feb 2022 13:16:29 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C4F4A61690;
+ by sin.source.kernel.org (Postfix) with ESMTPS id 31B25CE26F2;
+ Wed, 16 Feb 2022 13:16:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19871C340EC;
  Wed, 16 Feb 2022 13:16:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2D7CC004E1;
- Wed, 16 Feb 2022 13:16:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645017373;
- bh=FUHsy4SbKAUYNozm8BPMqbHwV1/3+i881CYSdrE+f4c=;
+ s=k20201202; t=1645017383;
+ bh=2pS2EzxZTLC0RofP+LmFDCkJfcLqG3oyKMTlDsmnQjc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=C3unWCwA5MgDv8fBfemfvwfjvGBTJZsKYlZzOMmGSxWCOv3egbiFfgvi6CZWYIz62
- SqGuR0wjzV94ZlsbXH8YShBv61bKTXHsmJKwfNnJSi4HJBQAdVsCYFbFQbcaYjWab/
- jAEKucXwBpQtGdC077SOUTz4KZTjRYlCivfC6ZNebr6LssQEH2Z1PZ8sjKbXXO+4xO
- V7228/v7+85km2+/m1Pe7WU22HBCYxgzfS1ftOJ3VFgXEwTnGmqW4VM9xWj2N15Prw
- 9+iRP8Nmriy3u7jzXRk+4VwmX64BlsD4oODBGwxfjJOtD+0J43y9gbdz9dd+byQFJ4
- 25FHN4etW4bpg==
+ b=ahf0SuXyLVFK//MzrUojAa1dlV73ds6OjdnYM2wE/mHFjHm+Y2vq2N25tBSaCpFca
+ dE08jwts2dHUzSNi7BJLZ3Kcq7GO8zUpT7H/1MsSUv/XTdGnPK91uDPRKr3kV6Vymm
+ CajpRti7h9jYO3szKwvbjpmEvjI7KjJjsLNVB2ORWzc8ifMHKuyfkUdy6pkiZf7JzY
+ sRAlCtU6+eJwtJ9BFIrRL9+HEZOhHyNuWTHPGcsDOgh784O6BiZrtoO2eS0bbXjNdj
+ AF4ZiT4Oy29k61pG2ChhothCgXSt/Z6vBZXhngFZsPvYH7YB6c13bRUJ05nBWL+7jh
+ F7rtu/pVFh29g==
 From: Arnd Bergmann <arnd@kernel.org>
 To: Linus Torvalds <torvalds@linux-foundation.org>,
  Christoph Hellwig <hch@lst.de>, linux-arch@vger.kernel.org,
@@ -61,17 +61,17 @@ Cc: linux@armlinux.org.uk, will@kernel.org, guoren@kernel.org,
  linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
  linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
  sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
- linux-xtensa@linux-xtensa.org, stable@vger.kernel.org
-Subject: [PATCH v2 03/18] nds32: fix access_ok() checks in get/put_user
-Date: Wed, 16 Feb 2022 14:13:17 +0100
-Message-Id: <20220216131332.1489939-4-arnd@kernel.org>
+ linux-xtensa@linux-xtensa.org
+Subject: [PATCH v2 04/18] sparc64: add __{get,put}_kernel_nocheck()
+Date: Wed, 16 Feb 2022 14:13:18 +0100
+Message-Id: <20220216131332.1489939-5-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220216131332.1489939-1-arnd@kernel.org>
 References: <20220216131332.1489939-1-arnd@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220216_051614_386508_AEA8BD94 
-X-CRM114-Status: GOOD (  13.19  )
+X-CRM114-CacheID: sfid-20220216_051627_552022_13DF1D35 
+X-CRM114-Status: GOOD (  13.78  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,72 +90,120 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The get_user()/put_user() functions are meant to check for
-access_ok(), while the __get_user()/__put_user() functions
-don't.
+sparc64 is one of the architectures that uses separate address
+spaces for kernel and user addresses, so __get_kernel_nofault()
+can not just call into the normal __get_user() without the
+access_ok() check.
 
-This broke in 4.19 for nds32, when it gained an extraneous
-check in __get_user(), but lost the check it needs in
-__put_user().
+Instead duplicate __get_user() and __put_user() into their
+in-kernel versions, with minor changes for the calling conventions
+and leaving out the address space modifier on the assembler
+instruction.
 
-Fixes: 487913ab18c2 ("nds32: Extract the checking and getting pointer to a macro")
-Cc: stable@vger.kernel.org @ v4.19+
+This could surely be written more elegantly, but duplicating it
+gets the job done.
+
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/nds32/include/asm/uaccess.h | 22 +++++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+ arch/sparc/include/asm/uaccess_64.h | 78 +++++++++++++++++++++++++++++
+ 1 file changed, 78 insertions(+)
 
-diff --git a/arch/nds32/include/asm/uaccess.h b/arch/nds32/include/asm/uaccess.h
-index d4cbf069dc22..37a40981deb3 100644
---- a/arch/nds32/include/asm/uaccess.h
-+++ b/arch/nds32/include/asm/uaccess.h
-@@ -70,9 +70,7 @@ static inline void set_fs(mm_segment_t fs)
-  * versions are void (ie, don't return a value as such).
-  */
+diff --git a/arch/sparc/include/asm/uaccess_64.h b/arch/sparc/include/asm/uaccess_64.h
+index 30eb4c6414d1..b283798315b1 100644
+--- a/arch/sparc/include/asm/uaccess_64.h
++++ b/arch/sparc/include/asm/uaccess_64.h
+@@ -100,6 +100,42 @@ void __retl_efault(void);
+ struct __large_struct { unsigned long buf[100]; };
+ #define __m(x) ((struct __large_struct *)(x))
  
--#define get_user	__get_user					\
--
--#define __get_user(x, ptr)						\
-+#define get_user(x, ptr)						\
- ({									\
- 	long __gu_err = 0;						\
- 	__get_user_check((x), (ptr), __gu_err);				\
-@@ -85,6 +83,14 @@ static inline void set_fs(mm_segment_t fs)
- 	(void)0;							\
- })
- 
-+#define __get_user(x, ptr)						\
-+({									\
-+	long __gu_err = 0;						\
-+	const __typeof__(*(ptr)) __user *__p = (ptr);			\
-+	__get_user_err((x), __p, (__gu_err));				\
-+	__gu_err;							\
-+})
++#define __put_kernel_nofault(dst, src, type, label)			\
++do {									\
++	type *addr = (type __force *)(dst);				\
++	type data = *(type *)src;					\
++	register int __pu_ret;						\
++	switch (sizeof(type)) {						\
++	case 1: __put_kernel_asm(data, b, addr, __pu_ret); break;	\
++	case 2: __put_kernel_asm(data, h, addr, __pu_ret); break;	\
++	case 4: __put_kernel_asm(data, w, addr, __pu_ret); break;	\
++	case 8: __put_kernel_asm(data, x, addr, __pu_ret); break;	\
++	default: __pu_ret = __put_user_bad(); break;			\
++	}								\
++	if (__pu_ret)							\
++		goto label;						\
++} while (0)
 +
- #define __get_user_check(x, ptr, err)					\
- ({									\
- 	const __typeof__(*(ptr)) __user *__p = (ptr);			\
-@@ -165,12 +171,18 @@ do {									\
- 		: "r"(addr), "i"(-EFAULT)				\
- 		: "cc")
++#define __put_kernel_asm(x, size, addr, ret)				\
++__asm__ __volatile__(							\
++		"/* Put kernel asm, inline. */\n"			\
++	"1:\t"	"st"#size " %1, [%2]\n\t"				\
++		"clr	%0\n"						\
++	"2:\n\n\t"							\
++		".section .fixup,#alloc,#execinstr\n\t"			\
++		".align	4\n"						\
++	"3:\n\t"							\
++		"sethi	%%hi(2b), %0\n\t"				\
++		"jmpl	%0 + %%lo(2b), %%g0\n\t"			\
++		" mov	%3, %0\n\n\t"					\
++		".previous\n\t"						\
++		".section __ex_table,\"a\"\n\t"				\
++		".align	4\n\t"						\
++		".word	1b, 3b\n\t"					\
++		".previous\n\n\t"					\
++	       : "=r" (ret) : "r" (x), "r" (__m(addr)),			\
++		 "i" (-EFAULT))
++
+ #define __put_user_nocheck(data, addr, size) ({			\
+ 	register int __pu_ret;					\
+ 	switch (size) {						\
+@@ -134,6 +170,48 @@ __asm__ __volatile__(							\
  
--#define put_user	__put_user					\
-+#define put_user(x, ptr)						\
-+({									\
-+	long __pu_err = 0;						\
-+	__put_user_check((x), (ptr), __pu_err);				\
-+	__pu_err;							\
-+})
+ int __put_user_bad(void);
  
- #define __put_user(x, ptr)						\
- ({									\
- 	long __pu_err = 0;						\
--	__put_user_err((x), (ptr), __pu_err);				\
-+	__typeof__(*(ptr)) __user *__p = (ptr);				\
-+	__put_user_err((x), __p, __pu_err);				\
- 	__pu_err;							\
- })
- 
++#define __get_kernel_nofault(dst, src, type, label)			     \
++do {									     \
++	type *addr = (type __force *)(src);		     		     \
++	register int __gu_ret;						     \
++	register unsigned long __gu_val;				     \
++	switch (sizeof(type)) {						     \
++		case 1: __get_kernel_asm(__gu_val, ub, addr, __gu_ret); break; \
++		case 2: __get_kernel_asm(__gu_val, uh, addr, __gu_ret); break; \
++		case 4: __get_kernel_asm(__gu_val, uw, addr, __gu_ret); break; \
++		case 8: __get_kernel_asm(__gu_val, x, addr, __gu_ret); break;  \
++		default:						     \
++			__gu_val = 0;					     \
++			__gu_ret = __get_user_bad();			     \
++			break;						     \
++	} 								     \
++	if (__gu_ret)							     \
++		goto label;						     \
++	*(type *)dst = (__force type) __gu_val;				     \
++} while (0)
++#define __get_kernel_asm(x, size, addr, ret)				\
++__asm__ __volatile__(							\
++		"/* Get kernel asm, inline. */\n"			\
++	"1:\t"	"ld"#size " [%2], %1\n\t"				\
++		"clr	%0\n"						\
++	"2:\n\n\t"							\
++		".section .fixup,#alloc,#execinstr\n\t"			\
++		".align	4\n"						\
++	"3:\n\t"							\
++		"sethi	%%hi(2b), %0\n\t"				\
++		"clr	%1\n\t"						\
++		"jmpl	%0 + %%lo(2b), %%g0\n\t"			\
++		" mov	%3, %0\n\n\t"					\
++		".previous\n\t"						\
++		".section __ex_table,\"a\"\n\t"				\
++		".align	4\n\t"						\
++		".word	1b, 3b\n\n\t"					\
++		".previous\n\t"						\
++	       : "=r" (ret), "=r" (x) : "r" (__m(addr)),		\
++		 "i" (-EFAULT))
++
++#define HAVE_GET_KERNEL_NOFAULT
++
+ #define __get_user_nocheck(data, addr, size, type) ({			     \
+ 	register int __gu_ret;						     \
+ 	register unsigned long __gu_val;				     \
 -- 
 2.29.2
 
