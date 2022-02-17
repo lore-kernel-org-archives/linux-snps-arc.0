@@ -4,46 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A70CFC433F5
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 17 Feb 2022 07:53:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5CF8FC433EF
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 17 Feb 2022 09:25:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=93+NX0y5EDNbo1HDX0DGGJL/m/Lm2C8jb9h812314Ek=; b=04t7WuAAxLDjqV
-	Vkmo4X0Httyo06p0fxkqvH3KOo2/mq+lbuctGjf6Vf03Z6T6esRCJ2SUvvMmUqp2t/d9XDf5d4Fy1
-	EcCCgQ8qrAzxuR1g32cBuQF/2TSZEv1QMANFAivOd881h0Lkh4BtKNCUbV/Xe7fboeGRwFLPsCSgR
-	aRwTA/xrPJcwWeOOCWr5joIiKkqGx6Mu0WT2IMiRAm5YjFcj2r2PTZqYKyL90CCwPwkRoY0bttveS
-	giwIB7TcwuekmkGdgxjJJEJ9YuKWBtRgzKNr7qGUWwHDAFXz22e/SWXQ4RazvpkLUAywZg0lh/2JR
-	XIZSkh92ReppfgeHj0oQ==;
+	List-Owner; bh=blC1J6ZHWiFVyrCdNJoW+7Oe/tSx5O4FFrSUfyjOnbU=; b=K9FZGS9PuDdME0
+	NK8dHC0ubIHBuSZrd/vn2HK11iNL5VWuzinqtgSI6kqMmhAH1SQEVNKgs7LbDdTZ/2k/UppV0M7DR
+	4ogz1qfErHIzkOVrIkcJIEziEQsrfizXjWUp2GjVJ/7AfhtlrAlwxpH6R4bJI1GDn1LIcyjQZ2/EQ
+	P/UqWme3jTMHGR8c9oSfwXcFWvW+Y7GNVbo+3RnRDa6c7JPUweeVXvoCtpREMOrLN8Mc74CUkQEXL
+	6s03ujN4msSXlHzimnWDHe5WLX9YeK5HgzBSb+o31/tjMGNeOq3im9arVYGDkXn6ETgzcBXk6M8Gs
+	SsPVd0FBD8csKMs9x1HQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nKbb4-009HBZ-R6; Thu, 17 Feb 2022 07:53:02 +0000
-Received: from mout.kundenserver.de ([212.227.126.133])
+	id 1nKd2L-009iWY-Ks; Thu, 17 Feb 2022 09:25:17 +0000
+Received: from mout.kundenserver.de ([212.227.126.135])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nKbaz-009H9C-Th; Thu, 17 Feb 2022 07:52:59 +0000
-Received: from mail-wr1-f44.google.com ([209.85.221.44]) by
- mrelayeu.kundenserver.de (mreue012 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MMH2M-1nbZwn2eBC-00JJfv; Thu, 17 Feb 2022 08:52:55 +0100
-Received: by mail-wr1-f44.google.com with SMTP id u1so7416955wrg.11;
- Wed, 16 Feb 2022 23:52:55 -0800 (PST)
-X-Gm-Message-State: AOAM531cmP1ahlfjBhF3Kt+v1RLCE/kPgGnJ3ivWS/eyeqj1ecS8sF8H
- 9lO8jv/1mW6GW1bodWoF7CP4y+8nb4HR7Z1+wEs=
-X-Google-Smtp-Source: ABdhPJwQLFNR2EKsG8wmZOAHPh9E9pyoICR3LxZT862dIjr2W4W3Sw6yF+ayzR5i5e/QGR8IN4+3KhdYVHoGFF4fNyc=
-X-Received: by 2002:adf:ea01:0:b0:1e4:b3e6:1f52 with SMTP id
- q1-20020adfea01000000b001e4b3e61f52mr1268592wrm.317.1645084364936; Wed, 16
- Feb 2022 23:52:44 -0800 (PST)
+ id 1nKd2I-009iVI-B1
+ for linux-snps-arc@lists.infradead.org; Thu, 17 Feb 2022 09:25:16 +0000
+Received: from mail-wm1-f41.google.com ([209.85.128.41]) by
+ mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1MF3U0-1nVeZy3IjY-00FWS3 for <linux-snps-arc@lists.infradead.org>; Thu, 17
+ Feb 2022 10:25:10 +0100
+Received: by mail-wm1-f41.google.com with SMTP id
+ bg21-20020a05600c3c9500b0035283e7a012so3561904wmb.0; 
+ Thu, 17 Feb 2022 01:25:10 -0800 (PST)
+X-Gm-Message-State: AOAM531qnvqncSeSrM0zmX8VeKljxcq+4xSB89B218eJKT1aayAGhHvC
+ kwuCBde5dtV2Ce0Mm81S7UhElQc7strnpDnzcW4=
+X-Google-Smtp-Source: ABdhPJwu2NVHGHLxx29UDj0eC2QtTDz9ABoGgqvKd5FtPXFo3D/c1j3IHxwDsslquGRbQQhg+y3kZFZQ6qJy+rJ75Go=
+X-Received: by 2002:a05:600c:1d27:b0:37c:74bb:2b4d with SMTP id
+ l39-20020a05600c1d2700b0037c74bb2b4dmr4990966wms.82.1645085639420; Thu, 17
+ Feb 2022 00:13:59 -0800 (PST)
 MIME-Version: 1.0
 References: <20220216131332.1489939-1-arnd@kernel.org>
- <20220216131332.1489939-14-arnd@kernel.org>
-In-Reply-To: <20220216131332.1489939-14-arnd@kernel.org>
+In-Reply-To: <20220216131332.1489939-1-arnd@kernel.org>
 From: Arnd Bergmann <arnd@arndb.de>
-Date: Thu, 17 Feb 2022 08:52:29 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a2T1Xr80GeM-3p1riyq=gKDJGeKVz_c5=r5=s14tXimLw@mail.gmail.com>
-Message-ID: <CAK8P3a2T1Xr80GeM-3p1riyq=gKDJGeKVz_c5=r5=s14tXimLw@mail.gmail.com>
-Subject: Re: [PATCH v2 13/18] uaccess: generalize access_ok()
+Date: Thu, 17 Feb 2022 09:13:43 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a3QBWDYjr6VpPdjTBGFg88DdH3SHVgxEowgScgJOkNguQ@mail.gmail.com>
+Message-ID: <CAK8P3a3QBWDYjr6VpPdjTBGFg88DdH3SHVgxEowgScgJOkNguQ@mail.gmail.com>
+Subject: Re: [PATCH v2 00/18] clean up asm/uaccess.h, kill set_fs for good
 To: Linus Torvalds <torvalds@linux-foundation.org>,
  Christoph Hellwig <hch@lst.de>, 
  linux-arch <linux-arch@vger.kernel.org>, Linux-MM <linux-mm@kvack.org>, 
@@ -80,26 +82,26 @@ Cc: Russell King - ARM Linux <linux@armlinux.org.uk>,
  sparclinux <sparclinux@vger.kernel.org>, 
  linux-um <linux-um@lists.infradead.org>, 
  "open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>
-X-Provags-ID: V03:K1:HHb4mXWIKom7XziiJa0+hDg2eyAtY9Ndl1+s2UBdn8VbuXT4C9L
- TRmVYdj3eadPIck81B59kBML9qr0OvRfge86FxVZJA74K6BHhwM/nV4JrR7Y9Aw1rmDvRgf
- +ZB8UdufGSrDGmuMqRmxPB9rRGoxwUTkLwgXAUQUn4UqIcFmhxEQ9Qe/H7rPp5/+701iaS0
- /7FYnKLKXQTkz+8jRXfpQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:vhg5PTDSo78=:Ksuns6hik6DUVcCrL85P9M
- jvHbjTWvs5Bslac72B2XbjcXlqOkd71GLm2/njmGVizGTREYwYmApxb996LnGJKe9ssOYKABn
- HXaosl5Ie88Jgrhjwc2hal0FCSoky9r8J89WC9Fg7GNOPIcoQkHZKQ7Ps5El9UmiGpP42rLjK
- hVJ7wDdRuWE+vtuxV/GYEj6bIaCv+wdtVvgDu9WZWPSUUbyPgRsul9k3+FXnw4HYZgqgxwX9O
- d1g4LSfTF1Ekv74Y2fF5rhspwqn7R9V+0B3H3UzHn0EuL5Yj7o5091Svw6RPnZVnIaIZcb4xb
- +UPkZycNu7RfUSm60tHo71vsJ+3jLS3//pghAra/OxHwAue7eX0g316CK8/DYxYhdI0u4BOGZ
- oY8gSvUYWbEyKgVcJfvKIzJVJCwDzxsS9/z7zKxhYuBiXyCUtz0JserdUu3Oacxw0jl+jeoBr
- fZP4ZNKt0L6fx3AUeUIi4Oy9GUeIEqUlYv8LR8Dqw5PMROXBfrlu0w8SUGdZK3ODP0tGZkz4U
- ptyuq2KS4ukl6Rfcfrgb95jiV14e/D0FsmiIVAfaiy1Qj7RvcdLZ/BJ0U66QUtOdgCUcT2Sy+
- mD/nxHbroS1S1EcfZUlESp3bBMrB8H9TegXCD20l6nXPdrmx4VvcV4ONBxcLF0HU9vE5IeVH9
- wVJ3bPN2pTZZu26SAYBl0HYasTHjOsRzVwznldIyHNs2t4dBLjVbpiQTHHDYagOaOTNC8Cyz6
- ws5xjzjIHwFmwECJP8XD9mXBXlO/CrdQjHV7Fydo3KoHf/5mvPrz3hTWOLvBc/f+in6FdGkHY
- lxZflnvqhapwcTptzliWxFdKojDWjBYlGP8QkhjHJAKhPr9kg8=
+X-Provags-ID: V03:K1:ZqER6QCS7WC7uID6oEtAyZitltO0ST1Kh2U5/VFyflV0gN/YByJ
+ QKizKxBxrpJEDa9cClDtQplBjV6y/dL0uREgYB0B7jmlXnr2OzzZBocF+twGAtOh9ZaYy4L
+ pd2fhNSWQWoR0FuCz3cUTw/RpJZ6pgEgM2MzXub5nDBcsa77kRoE3+msqjPVEJcyEPDXio8
+ 8zoZJiB0bWb1yftsB7x/g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:oKhhGvYNmeU=:WFS9zRfs4QuDIhmd8WQz8i
+ GiPWVpDRDW1rLL67tDlyoXk/5g2mupeF9JCLpYkFGch+0JzqYoctgalOsM6DvmzFm2Kg3xXvU
+ B0r0lr8BrA8rm5JwrxP4UKJQgdick2xQnD+Ggtkz7a6nwl99Uon3AuuSfbv39SUICF00Rxppf
+ RY33YR5lncfnONH3ibHI2VNNvd8w/0djIgQRGtvKcSmfO7IgJTCv8c/R//nNFf9M/Bb7weDdu
+ /JOY9HOBB35fno3MomcPb4K9NG0UjnooCKVCMfG5LgPM8Bgd3wQJJyKO9xdQ+cKbwchKuFrfN
+ ZTtuDyVz0s8GWKWLlUoQYJPNgXfMiWyf3hgB1XdU6gr8Z59Gt+4TdWT/1/Ti5GvnPa52HxYWg
+ sZEieTgfWGfbzCzCggo694+7oAs3Iol6ttxeUz1BY4YfG+GjflngKv0vxP444e0zYPz96ugE4
+ 87arpdQ7BX4YlXX1GKjV5GbqzDB+ub0dnKzZNUPd7gnoyKP0hJXsgCgnJeG2WSqShLhJkO8Bk
+ kX/cnRngiQdvfdCWTGKVYygAxrO9CWQ5eBilPFl0oI6ABsQl/5KvBqMrdbWANmZ+oGFtEAAdL
+ z+fjE5YD6PfwwN3vmGQx/8aXPtU4XsGPcNOqWzjHKV2hdS9iLk2Gi1MYZ7yHFqXHMArA1WyNb
+ +3WihK0LhhevCUQLTBjOlkOJOUPNxnxUR/t4JMHCw0yUBkB3nAQnqmnFdCtPXH7bTZQXvUFqx
+ bGbcA2sh3Uky+KGecrGBu1EIuPYcGGym15IbiAZrJNnsEaqMacSUpFWQj9plX47Mu++SVebGW
+ 7OwCCAQcfWc4EoIa9HmYgsEe6XUiTR6oiVMommBQ8cRZCdEc98=
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220216_235258_259100_E47C0CF3 
-X-CRM114-Status: GOOD (  14.14  )
+X-CRM114-CacheID: sfid-20220217_012514_683151_3451351B 
+X-CRM114-Status: GOOD (  21.11  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,23 +119,33 @@ Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
 On Wed, Feb 16, 2022 at 2:13 PM Arnd Bergmann <arnd@kernel.org> wrote:
+>
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> Christoph Hellwig and a few others spent a huge effort on removing
+> set_fs() from most of the important architectures, but about half the
+> other architectures were never completed even though most of them don't
+> actually use set_fs() at all.
+>
+> I did a patch for microblaze at some point, which turned out to be fairly
+> generic, and now ported it to most other architectures, using new generic
+> implementations of access_ok() and __{get,put}_kernel_nocheck().
+>
+> Three architectures (sparc64, ia64, and sh) needed some extra work,
+> which I also completed.
+>
+> The final series contains extra cleanup changes that touch all
+> architectures. Please review and test these, so we can merge them
+> for v5.18.
+>
+> The series is available at
+> https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/log/?h=set_fs-2
+> for testing.
 
-> + * limit and catch all possible overflows.
-> + * On architectures with separate user address space (m68k, s390, parisc,
-> + * sparc64) or those without an MMU, this should always return true.
-...
-> +static inline int __access_ok(const void __user *ptr, unsigned long size)
-> +{
-> +       unsigned long limit = user_addr_max();
-> +       unsigned long addr = (unsigned long)ptr;
-> +
-> +       if (IS_ENABLED(CONFIG_ALTERNATE_USER_ADDRESS_SPACE))
-> +               return true;
+I've added the updated contents to my asm-generic tree now to put them
+into linux-next.
 
-I noticed that I'm missing the check for !CONFIG_MMU here, despite
-mentioning that in the comment above it. I've added it now.
-
-        Arnd
+         Arnd
 
 _______________________________________________
 linux-snps-arc mailing list
