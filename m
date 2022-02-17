@@ -4,88 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49501C433F5
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 17 Feb 2022 19:15:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A70FC433EF
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 17 Feb 2022 22:37:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=lvccDL4TqmgQpKAFyHFYwKoXrPL6ng/yxDIdrlGEzr4=; b=yqJpSRoJ1dcbt7
-	0yUALGhQRrUJFLj+jN3SA76Ycj+iPD1FujyautcB4EbVztWnCIKsK6GuUsyM/5LDUBmLYm65aO9BJ
-	a1VFuHPtBfU3qJUQ/a0FGzWwMOUQqLiubCQR3jjfMUhtwUCx2L41KFhgGpnm45DqaFEuhsOnZCIgE
-	oHSOT8OIn0hSHPJZoMH5brolbBqYnpL1Tba1bah4LV7daKEPfaDIK7e80/wGw/rJIv2mBfz5msu+P
-	/TlC2/tNgArV7VZhQSegfa23V4q6CRo9nYklxzdkBVUCzT9//AqMjWfaaPyve00Y71LkzLnfcUHvZ
-	tFHjLOMvy+/7qFITyjcg==;
+	List-Archive:List-Unsubscribe:List-Id:Subject:MIME-Version:Message-ID:
+	In-Reply-To:Date:References:Cc:To:From:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=+Nx27V7GQ/IiK1uTEW1Sjg6JsVLQGKmASOdHmjROYD0=; b=N6E6Go6ddm4LltJfaOqddjZfRi
+	EzliE86RmSKqLP5hdV9Fpms84j8mMZKUSiU14bk8SE7cgl7cUVyjTCmaI4Yzk72XN1cjajOcufXcG
+	XU5GttGZORBLtYbfkip8ltYZysiKYRQP6RhehKQ8pf1Ysz1tXksqvMYlPTxBgU1KIv6Wk2aBeoDdQ
+	EjlL9pMUO5jxSfhCAdc8uOQOxqQvehXuY4FKyLlDH6HuPuWgvH9GA7F1IKHhXD+EhdTtCGl1YFWcN
+	vSdsNw2NBgZUCWvymDZ0l6yuJ4g7QDOWIp8IHzY/xogJkwHDs0gNVuLoqkbPPPMbAX8tS9xaC59ia
+	ALiHqW5w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nKmFW-00BrU2-EN; Thu, 17 Feb 2022 19:15:30 +0000
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
+	id 1nKpOn-00CNMc-V1; Thu, 17 Feb 2022 22:37:17 +0000
+Received: from out01.mta.xmission.com ([166.70.13.231])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nKmFR-00BrPK-9g
- for linux-snps-arc@lists.infradead.org; Thu, 17 Feb 2022 19:15:28 +0000
-Received: by mail-ej1-x62a.google.com with SMTP id p14so9505605ejf.11
- for <linux-snps-arc@lists.infradead.org>; Thu, 17 Feb 2022 11:15:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amacapital-net.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+RZ8CAgnGa1bk5gBxds4oezzFjZLQMV+wOvrmesI1Hw=;
- b=aC4vKGs+W+TwIvfSuol31sXb0DdwmBd+7ynpizLCKhXxCJFdEAZpxJvcWGa/FztIyE
- kaM//DxAJXCDh5aNx4GSOgCqArnp/pPXpeZOwL6NCOz09LePB9aHf9rLmhVNdEQhmOfG
- zcHXwBp2FYlRXI6tXnhZ/KCBgXws1BhNZED9tFrHvUNz3V476fnXQSLMeM+Shpqaev6m
- W07DvhrokY4sorGqrqwhi0S/cnzs7UTqO0cIGR6WWEAN8VmZadQ9VO/+zsTblOwHPeWg
- SsUN3Cw66rH7ga20AFYG5KTR6BdWsnByVkv9VANJJ9bhC1jZcqQ2NhN41BgDZLcdhMyk
- TY3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+RZ8CAgnGa1bk5gBxds4oezzFjZLQMV+wOvrmesI1Hw=;
- b=BeQgZwXRy8GguKnFKUWBxZ675qdVRawPbh5AyMihEQRfYCCogb12HhM3IWTN2BrDhf
- kUzqhlRTgmIhBQ2Q4dOSyC9tJd45CziK65Ivkd2QtiTFvon/WvzHPSoelQOL1tEX5/lo
- f/TkTR556raaYVrTJjn5NaE/dtjvglQCPynHAu6+d92ieyadvDyysn/guCc9BaD2Hlwz
- XckA/CvuxjB2TJTourV59/DjLCeJSK8226U1ann3jg9nXIDU+CbO3iXw4qAMeFT4SLrJ
- F+Jg4NLJWI7NGEdZ32GTd1teW0ZTgq7YAT7Dt+3sFZMlolah/OYfoFBr9ViVrA484r7Y
- oQxg==
-X-Gm-Message-State: AOAM533nfZ7FQbiCaCmmOJWnN4WvM1LkR3oiPaof9jyElz8F4q9+2awu
- G4h8UjYNo+jDqcJvD7DTtFwMl7J3FVQXlK1W5KbfOQ==
-X-Google-Smtp-Source: ABdhPJw48Oadf8QR2zY/o5TdRU0UiMjXS1n08+Rvo/jef0cepMooOXBMnDr3m4SH0a9wsDyMLo89s3cuvktj12QRONA=
-X-Received: by 2002:a17:906:4b52:b0:6cd:3863:b35e with SMTP id
- j18-20020a1709064b5200b006cd3863b35emr3488094ejv.415.1645125322737; Thu, 17
- Feb 2022 11:15:22 -0800 (PST)
-MIME-Version: 1.0
-References: <20220216131332.1489939-1-arnd@kernel.org>
- <20220216131332.1489939-14-arnd@kernel.org>
-In-Reply-To: <20220216131332.1489939-14-arnd@kernel.org>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Thu, 17 Feb 2022 11:15:11 -0800
-Message-ID: <CALCETrVOvYPN4_6hS8wpm2v9bGZupZ5x4=vZAseG57OUgvLGfw@mail.gmail.com>
-Subject: Re: [PATCH v2 13/18] uaccess: generalize access_ok()
+ id 1nKpOi-00CNI2-BD; Thu, 17 Feb 2022 22:37:13 +0000
+Received: from in02.mta.xmission.com ([166.70.13.52]:48942)
+ by out01.mta.xmission.com with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
+ (envelope-from <ebiederm@xmission.com>)
+ id 1nKpOJ-001bK3-23; Thu, 17 Feb 2022 15:36:47 -0700
+Received: from ip68-227-174-4.om.om.cox.net ([68.227.174.4]:32906
+ helo=email.froward.int.ebiederm.org.xmission.com)
+ by in02.mta.xmission.com with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
+ (envelope-from <ebiederm@xmission.com>)
+ id 1nKpOG-00GKIm-Md; Thu, 17 Feb 2022 15:36:46 -0700
+From: "Eric W. Biederman" <ebiederm@xmission.com>
 To: Arnd Bergmann <arnd@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Christoph Hellwig <hch@lst.de>, 
- linux-arch@vger.kernel.org, linux-mm@kvack.org, linux-api@vger.kernel.org, 
- arnd@arndb.de, linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk, 
- linux@armlinux.org.uk, will@kernel.org, guoren@kernel.org, 
- bcain@codeaurora.org, geert@linux-m68k.org, monstr@monstr.eu, 
- tsbogend@alpha.franken.de, nickhu@andestech.com, green.hu@gmail.com, 
- dinguyen@kernel.org, shorne@gmail.com, deller@gmx.de, mpe@ellerman.id.au, 
- peterz@infradead.org, mingo@redhat.com, mark.rutland@arm.com, 
- hca@linux.ibm.com, dalias@libc.org, davem@davemloft.net, richard@nod.at, 
- x86@kernel.org, jcmvbkbc@gmail.com, ebiederm@xmission.com, 
- akpm@linux-foundation.org, ardb@kernel.org, linux-alpha@vger.kernel.org, 
- linux-snps-arc@lists.infradead.org, linux-csky@vger.kernel.org, 
- linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org, 
- linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
- openrisc@lists.librecores.org, linux-parisc@vger.kernel.org, 
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
- sparclinux@vger.kernel.org, linux-um@lists.infradead.org, 
- linux-xtensa@linux-xtensa.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,  Christoph Hellwig
+ <hch@lst.de>,  linux-arch@vger.kernel.org,  linux-mm@kvack.org,
+ linux-api@vger.kernel.org,  arnd@arndb.de,  linux-kernel@vger.kernel.org,
+ viro@zeniv.linux.org.uk,  linux@armlinux.org.uk,  will@kernel.org,
+ guoren@kernel.org,  bcain@codeaurora.org,  geert@linux-m68k.org,
+ monstr@monstr.eu,  tsbogend@alpha.franken.de,  nickhu@andestech.com,
+ green.hu@gmail.com,  dinguyen@kernel.org,  shorne@gmail.com,
+ deller@gmx.de,  mpe@ellerman.id.au,  peterz@infradead.org,
+ mingo@redhat.com,  mark.rutland@arm.com,  hca@linux.ibm.com,
+ dalias@libc.org,  davem@davemloft.net,  richard@nod.at,  x86@kernel.org,
+ jcmvbkbc@gmail.com,  akpm@linux-foundation.org,  ardb@kernel.org,
+ linux-alpha@vger.kernel.org,  linux-snps-arc@lists.infradead.org,
+ linux-csky@vger.kernel.org,  linux-hexagon@vger.kernel.org,
+ linux-ia64@vger.kernel.org,  linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org,  openrisc@lists.librecores.org,
+ linux-parisc@vger.kernel.org,  linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org,  linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org,  sparclinux@vger.kernel.org,
+ linux-um@lists.infradead.org,  linux-xtensa@linux-xtensa.org
+References: <20220216131332.1489939-1-arnd@kernel.org>
+ <20220216131332.1489939-19-arnd@kernel.org>
+Date: Thu, 17 Feb 2022 16:36:20 -0600
+In-Reply-To: <20220216131332.1489939-19-arnd@kernel.org> (Arnd Bergmann's
+ message of "Wed, 16 Feb 2022 14:13:32 +0100")
+Message-ID: <8735khi0ij.fsf@email.froward.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+MIME-Version: 1.0
+X-XM-SPF: eid=1nKpOG-00GKIm-Md; ; ;
+ mid=<8735khi0ij.fsf@email.froward.int.ebiederm.org>; ; ;
+ hst=in02.mta.xmission.com; ; ; ip=68.227.174.4; ; ; frm=ebiederm@xmission.com;
+ ; ; spf=neutral
+X-XM-AID: U2FsdGVkX1/V+0C7NWKuSkdwXmdluwhE5ZIu3hq7L5I=
+X-SA-Exim-Connect-IP: 68.227.174.4
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+Subject: Re: [PATCH v2 18/18] uaccess: drop maining CONFIG_SET_FS users
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220217_111525_391310_3DCFFD09 
-X-CRM114-Status: GOOD (  17.23  )
+X-CRM114-CacheID: sfid-20220217_143712_396361_9B9127DD 
+X-CRM114-Status: GOOD (  21.88  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,40 +94,102 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Feb 16, 2022 at 5:19 AM Arnd Bergmann <arnd@kernel.org> wrote:
->
+Arnd Bergmann <arnd@kernel.org> writes:
+
 > From: Arnd Bergmann <arnd@arndb.de>
 >
-> There are many different ways that access_ok() is defined across
-> architectures, but in the end, they all just compare against the
-> user_addr_max() value or they accept anything.
+> There are no remaining callers of set_fs(), so CONFIG_SET_FS
+> can be removed globally, along with the thread_info field and
+> any references to it.
 >
-> Provide one definition that works for most architectures, checking
-> against TASK_SIZE_MAX for user processes or skipping the check inside
-> of uaccess_kernel() sections.
+> This turns access_ok() into a cheaper check against TASK_SIZE_MAX.
 >
-> For architectures without CONFIG_SET_FS(), this should be the fastest
-> check, as it comes down to a single comparison of a pointer against a
-> compile-time constant, while the architecture specific versions tend to
-> do something more complex for historic reasons or get something wrong.
+> With CONFIG_SET_FS gone, so drop all remaining references to
+> set_fs()/get_fs(), mm_segment_t and uaccess_kernel().
 
-This isn't actually optimal.  On x86, TASK_SIZE_MAX is a bizarre
-constant that has a very specific value to work around a bug^Wdesign
-error^Wfeature of Intel CPUs.  TASK_SIZE_MAX is the maximum address at
-which userspace is permitted to allocate memory, but there is a huge
-gap between user and kernel addresses, and any value in the gap would
-be adequate for the comparison.  If we wanted to optimize this, simply
-checking the high bit (which x86 can do without any immediate
-constants at all) would be sufficient and, for an access known to fit
-in 32 bits, one could get even fancier and completely ignore the size
-of the access.  (For accesses not known to fit in 32 bits, I suspect
-some creativity could still come up with a construction that's
-substantially faster than the one in your patch.)
+For the bits I have looked at recently, and think I understand.
 
-So there's plenty of room for optimization here.
+Acked-by: "Eric W. Biederman" <ebiederm@xmission.com>
 
-(This is not in any respect a NAK -- it's just an observation that
-this could be even better.)
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  fs/exec.c                                 |  6 --
+>  kernel/exit.c                             | 14 -----
+>  kernel/kthread.c                          |  5 --
+>
+> diff --git a/fs/exec.c b/fs/exec.c
+> index 79f2c9483302..bc68a0c089ac 100644
+> --- a/fs/exec.c
+> +++ b/fs/exec.c
+> @@ -1303,12 +1303,6 @@ int begin_new_exec(struct linux_binprm * bprm)
+>  	if (retval)
+>  		goto out_unlock;
+>  
+> -	/*
+> -	 * Ensure that the uaccess routines can actually operate on userspace
+> -	 * pointers:
+> -	 */
+> -	force_uaccess_begin();
+> -
+>  	if (me->flags & PF_KTHREAD)
+>  		free_kthread_struct(me);
+>  	me->flags &= ~(PF_RANDOMIZE | PF_FORKNOEXEC | PF_KTHREAD |
+> diff --git a/kernel/exit.c b/kernel/exit.c
+> index b00a25bb4ab9..0884a75bc2f8 100644
+> --- a/kernel/exit.c
+> +++ b/kernel/exit.c
+> @@ -737,20 +737,6 @@ void __noreturn do_exit(long code)
+>  
+>  	WARN_ON(blk_needs_flush_plug(tsk));
+>  
+> -	/*
+> -	 * If do_dead is called because this processes oopsed, it's possible
+> -	 * that get_fs() was left as KERNEL_DS, so reset it to USER_DS before
+> -	 * continuing. Amongst other possible reasons, this is to prevent
+> -	 * mm_release()->clear_child_tid() from writing to a user-controlled
+> -	 * kernel address.
+> -	 *
+> -	 * On uptodate architectures force_uaccess_begin is a noop.  On
+> -	 * architectures that still have set_fs/get_fs in addition to handling
+> -	 * oopses handles kernel threads that run as set_fs(KERNEL_DS) by
+> -	 * default.
+> -	 */
+> -	force_uaccess_begin();
+> -
+>  	kcov_task_exit(tsk);
+>  
+>  	coredump_task_exit(tsk);
+> diff --git a/kernel/kthread.c b/kernel/kthread.c
+> index 38c6dd822da8..16c2275d4b50 100644
+> --- a/kernel/kthread.c
+> +++ b/kernel/kthread.c
+> @@ -55,7 +55,6 @@ struct kthread {
+>  	int result;
+>  	int (*threadfn)(void *);
+>  	void *data;
+> -	mm_segment_t oldfs;
+>  	struct completion parked;
+>  	struct completion exited;
+>  #ifdef CONFIG_BLK_CGROUP
+> @@ -1441,8 +1440,6 @@ void kthread_use_mm(struct mm_struct *mm)
+>  		mmdrop(active_mm);
+>  	else
+>  		smp_mb();
+> -
+> -	to_kthread(tsk)->oldfs = force_uaccess_begin();
+>  }
+>  EXPORT_SYMBOL_GPL(kthread_use_mm);
+>  
+> @@ -1457,8 +1454,6 @@ void kthread_unuse_mm(struct mm_struct *mm)
+>  	WARN_ON_ONCE(!(tsk->flags & PF_KTHREAD));
+>  	WARN_ON_ONCE(!tsk->mm);
+>  
+> -	force_uaccess_end(to_kthread(tsk)->oldfs);
+> -
+>  	task_lock(tsk);
+>  	/*
+>  	 * When a kthread stops operating on an address space, the loop
 
 _______________________________________________
 linux-snps-arc mailing list
