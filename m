@@ -4,104 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5CF8FC433EF
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 17 Feb 2022 09:25:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49501C433F5
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 17 Feb 2022 19:15:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=blC1J6ZHWiFVyrCdNJoW+7Oe/tSx5O4FFrSUfyjOnbU=; b=K9FZGS9PuDdME0
-	NK8dHC0ubIHBuSZrd/vn2HK11iNL5VWuzinqtgSI6kqMmhAH1SQEVNKgs7LbDdTZ/2k/UppV0M7DR
-	4ogz1qfErHIzkOVrIkcJIEziEQsrfizXjWUp2GjVJ/7AfhtlrAlwxpH6R4bJI1GDn1LIcyjQZ2/EQ
-	P/UqWme3jTMHGR8c9oSfwXcFWvW+Y7GNVbo+3RnRDa6c7JPUweeVXvoCtpREMOrLN8Mc74CUkQEXL
-	6s03ujN4msSXlHzimnWDHe5WLX9YeK5HgzBSb+o31/tjMGNeOq3im9arVYGDkXn6ETgzcBXk6M8Gs
-	SsPVd0FBD8csKMs9x1HQ==;
+	List-Owner; bh=lvccDL4TqmgQpKAFyHFYwKoXrPL6ng/yxDIdrlGEzr4=; b=yqJpSRoJ1dcbt7
+	0yUALGhQRrUJFLj+jN3SA76Ycj+iPD1FujyautcB4EbVztWnCIKsK6GuUsyM/5LDUBmLYm65aO9BJ
+	a1VFuHPtBfU3qJUQ/a0FGzWwMOUQqLiubCQR3jjfMUhtwUCx2L41KFhgGpnm45DqaFEuhsOnZCIgE
+	oHSOT8OIn0hSHPJZoMH5brolbBqYnpL1Tba1bah4LV7daKEPfaDIK7e80/wGw/rJIv2mBfz5msu+P
+	/TlC2/tNgArV7VZhQSegfa23V4q6CRo9nYklxzdkBVUCzT9//AqMjWfaaPyve00Y71LkzLnfcUHvZ
+	tFHjLOMvy+/7qFITyjcg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nKd2L-009iWY-Ks; Thu, 17 Feb 2022 09:25:17 +0000
-Received: from mout.kundenserver.de ([212.227.126.135])
+	id 1nKmFW-00BrU2-EN; Thu, 17 Feb 2022 19:15:30 +0000
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nKd2I-009iVI-B1
- for linux-snps-arc@lists.infradead.org; Thu, 17 Feb 2022 09:25:16 +0000
-Received: from mail-wm1-f41.google.com ([209.85.128.41]) by
- mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MF3U0-1nVeZy3IjY-00FWS3 for <linux-snps-arc@lists.infradead.org>; Thu, 17
- Feb 2022 10:25:10 +0100
-Received: by mail-wm1-f41.google.com with SMTP id
- bg21-20020a05600c3c9500b0035283e7a012so3561904wmb.0; 
- Thu, 17 Feb 2022 01:25:10 -0800 (PST)
-X-Gm-Message-State: AOAM531qnvqncSeSrM0zmX8VeKljxcq+4xSB89B218eJKT1aayAGhHvC
- kwuCBde5dtV2Ce0Mm81S7UhElQc7strnpDnzcW4=
-X-Google-Smtp-Source: ABdhPJwu2NVHGHLxx29UDj0eC2QtTDz9ABoGgqvKd5FtPXFo3D/c1j3IHxwDsslquGRbQQhg+y3kZFZQ6qJy+rJ75Go=
-X-Received: by 2002:a05:600c:1d27:b0:37c:74bb:2b4d with SMTP id
- l39-20020a05600c1d2700b0037c74bb2b4dmr4990966wms.82.1645085639420; Thu, 17
- Feb 2022 00:13:59 -0800 (PST)
+ id 1nKmFR-00BrPK-9g
+ for linux-snps-arc@lists.infradead.org; Thu, 17 Feb 2022 19:15:28 +0000
+Received: by mail-ej1-x62a.google.com with SMTP id p14so9505605ejf.11
+ for <linux-snps-arc@lists.infradead.org>; Thu, 17 Feb 2022 11:15:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amacapital-net.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+RZ8CAgnGa1bk5gBxds4oezzFjZLQMV+wOvrmesI1Hw=;
+ b=aC4vKGs+W+TwIvfSuol31sXb0DdwmBd+7ynpizLCKhXxCJFdEAZpxJvcWGa/FztIyE
+ kaM//DxAJXCDh5aNx4GSOgCqArnp/pPXpeZOwL6NCOz09LePB9aHf9rLmhVNdEQhmOfG
+ zcHXwBp2FYlRXI6tXnhZ/KCBgXws1BhNZED9tFrHvUNz3V476fnXQSLMeM+Shpqaev6m
+ W07DvhrokY4sorGqrqwhi0S/cnzs7UTqO0cIGR6WWEAN8VmZadQ9VO/+zsTblOwHPeWg
+ SsUN3Cw66rH7ga20AFYG5KTR6BdWsnByVkv9VANJJ9bhC1jZcqQ2NhN41BgDZLcdhMyk
+ TY3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+RZ8CAgnGa1bk5gBxds4oezzFjZLQMV+wOvrmesI1Hw=;
+ b=BeQgZwXRy8GguKnFKUWBxZ675qdVRawPbh5AyMihEQRfYCCogb12HhM3IWTN2BrDhf
+ kUzqhlRTgmIhBQ2Q4dOSyC9tJd45CziK65Ivkd2QtiTFvon/WvzHPSoelQOL1tEX5/lo
+ f/TkTR556raaYVrTJjn5NaE/dtjvglQCPynHAu6+d92ieyadvDyysn/guCc9BaD2Hlwz
+ XckA/CvuxjB2TJTourV59/DjLCeJSK8226U1ann3jg9nXIDU+CbO3iXw4qAMeFT4SLrJ
+ F+Jg4NLJWI7NGEdZ32GTd1teW0ZTgq7YAT7Dt+3sFZMlolah/OYfoFBr9ViVrA484r7Y
+ oQxg==
+X-Gm-Message-State: AOAM533nfZ7FQbiCaCmmOJWnN4WvM1LkR3oiPaof9jyElz8F4q9+2awu
+ G4h8UjYNo+jDqcJvD7DTtFwMl7J3FVQXlK1W5KbfOQ==
+X-Google-Smtp-Source: ABdhPJw48Oadf8QR2zY/o5TdRU0UiMjXS1n08+Rvo/jef0cepMooOXBMnDr3m4SH0a9wsDyMLo89s3cuvktj12QRONA=
+X-Received: by 2002:a17:906:4b52:b0:6cd:3863:b35e with SMTP id
+ j18-20020a1709064b5200b006cd3863b35emr3488094ejv.415.1645125322737; Thu, 17
+ Feb 2022 11:15:22 -0800 (PST)
 MIME-Version: 1.0
 References: <20220216131332.1489939-1-arnd@kernel.org>
-In-Reply-To: <20220216131332.1489939-1-arnd@kernel.org>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Thu, 17 Feb 2022 09:13:43 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a3QBWDYjr6VpPdjTBGFg88DdH3SHVgxEowgScgJOkNguQ@mail.gmail.com>
-Message-ID: <CAK8P3a3QBWDYjr6VpPdjTBGFg88DdH3SHVgxEowgScgJOkNguQ@mail.gmail.com>
-Subject: Re: [PATCH v2 00/18] clean up asm/uaccess.h, kill set_fs for good
-To: Linus Torvalds <torvalds@linux-foundation.org>,
+ <20220216131332.1489939-14-arnd@kernel.org>
+In-Reply-To: <20220216131332.1489939-14-arnd@kernel.org>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Thu, 17 Feb 2022 11:15:11 -0800
+Message-ID: <CALCETrVOvYPN4_6hS8wpm2v9bGZupZ5x4=vZAseG57OUgvLGfw@mail.gmail.com>
+Subject: Re: [PATCH v2 13/18] uaccess: generalize access_ok()
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  Christoph Hellwig <hch@lst.de>, 
- linux-arch <linux-arch@vger.kernel.org>, Linux-MM <linux-mm@kvack.org>, 
- Linux API <linux-api@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Al Viro <viro@zeniv.linux.org.uk>
-Cc: Russell King - ARM Linux <linux@armlinux.org.uk>,
- Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>, 
- Brian Cain <bcain@codeaurora.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
- Michal Simek <monstr@monstr.eu>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- Nick Hu <nickhu@andestech.com>, Greentime Hu <green.hu@gmail.com>, 
- Dinh Nguyen <dinguyen@kernel.org>, Stafford Horne <shorne@gmail.com>,
- Helge Deller <deller@gmx.de>, 
- Michael Ellerman <mpe@ellerman.id.au>, Peter Zijlstra <peterz@infradead.org>, 
- Ingo Molnar <mingo@redhat.com>, Mark Rutland <mark.rutland@arm.com>, 
- Heiko Carstens <hca@linux.ibm.com>, Rich Felker <dalias@libc.org>,
- David Miller <davem@davemloft.net>, Richard Weinberger <richard@nod.at>,
- "the arch/x86 maintainers" <x86@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>,
- "Eric W . Biederman" <ebiederm@xmission.com>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Ard Biesheuvel <ardb@kernel.org>, alpha <linux-alpha@vger.kernel.org>, 
- "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
- linux-csky@vger.kernel.org, 
- "open list:QUALCOMM HEXAGON..." <linux-hexagon@vger.kernel.org>,
- linux-ia64@vger.kernel.org, linux-m68k <linux-m68k@lists.linux-m68k.org>, 
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- Openrisc <openrisc@lists.librecores.org>, 
- Parisc List <linux-parisc@vger.kernel.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, 
- linux-riscv <linux-riscv@lists.infradead.org>,
- linux-s390 <linux-s390@vger.kernel.org>, 
- Linux-sh list <linux-sh@vger.kernel.org>,
- sparclinux <sparclinux@vger.kernel.org>, 
- linux-um <linux-um@lists.infradead.org>, 
- "open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>
-X-Provags-ID: V03:K1:ZqER6QCS7WC7uID6oEtAyZitltO0ST1Kh2U5/VFyflV0gN/YByJ
- QKizKxBxrpJEDa9cClDtQplBjV6y/dL0uREgYB0B7jmlXnr2OzzZBocF+twGAtOh9ZaYy4L
- pd2fhNSWQWoR0FuCz3cUTw/RpJZ6pgEgM2MzXub5nDBcsa77kRoE3+msqjPVEJcyEPDXio8
- 8zoZJiB0bWb1yftsB7x/g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:oKhhGvYNmeU=:WFS9zRfs4QuDIhmd8WQz8i
- GiPWVpDRDW1rLL67tDlyoXk/5g2mupeF9JCLpYkFGch+0JzqYoctgalOsM6DvmzFm2Kg3xXvU
- B0r0lr8BrA8rm5JwrxP4UKJQgdick2xQnD+Ggtkz7a6nwl99Uon3AuuSfbv39SUICF00Rxppf
- RY33YR5lncfnONH3ibHI2VNNvd8w/0djIgQRGtvKcSmfO7IgJTCv8c/R//nNFf9M/Bb7weDdu
- /JOY9HOBB35fno3MomcPb4K9NG0UjnooCKVCMfG5LgPM8Bgd3wQJJyKO9xdQ+cKbwchKuFrfN
- ZTtuDyVz0s8GWKWLlUoQYJPNgXfMiWyf3hgB1XdU6gr8Z59Gt+4TdWT/1/Ti5GvnPa52HxYWg
- sZEieTgfWGfbzCzCggo694+7oAs3Iol6ttxeUz1BY4YfG+GjflngKv0vxP444e0zYPz96ugE4
- 87arpdQ7BX4YlXX1GKjV5GbqzDB+ub0dnKzZNUPd7gnoyKP0hJXsgCgnJeG2WSqShLhJkO8Bk
- kX/cnRngiQdvfdCWTGKVYygAxrO9CWQ5eBilPFl0oI6ABsQl/5KvBqMrdbWANmZ+oGFtEAAdL
- z+fjE5YD6PfwwN3vmGQx/8aXPtU4XsGPcNOqWzjHKV2hdS9iLk2Gi1MYZ7yHFqXHMArA1WyNb
- +3WihK0LhhevCUQLTBjOlkOJOUPNxnxUR/t4JMHCw0yUBkB3nAQnqmnFdCtPXH7bTZQXvUFqx
- bGbcA2sh3Uky+KGecrGBu1EIuPYcGGym15IbiAZrJNnsEaqMacSUpFWQj9plX47Mu++SVebGW
- 7OwCCAQcfWc4EoIa9HmYgsEe6XUiTR6oiVMommBQ8cRZCdEc98=
+ linux-arch@vger.kernel.org, linux-mm@kvack.org, linux-api@vger.kernel.org, 
+ arnd@arndb.de, linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk, 
+ linux@armlinux.org.uk, will@kernel.org, guoren@kernel.org, 
+ bcain@codeaurora.org, geert@linux-m68k.org, monstr@monstr.eu, 
+ tsbogend@alpha.franken.de, nickhu@andestech.com, green.hu@gmail.com, 
+ dinguyen@kernel.org, shorne@gmail.com, deller@gmx.de, mpe@ellerman.id.au, 
+ peterz@infradead.org, mingo@redhat.com, mark.rutland@arm.com, 
+ hca@linux.ibm.com, dalias@libc.org, davem@davemloft.net, richard@nod.at, 
+ x86@kernel.org, jcmvbkbc@gmail.com, ebiederm@xmission.com, 
+ akpm@linux-foundation.org, ardb@kernel.org, linux-alpha@vger.kernel.org, 
+ linux-snps-arc@lists.infradead.org, linux-csky@vger.kernel.org, 
+ linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org, 
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
+ openrisc@lists.librecores.org, linux-parisc@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
+ linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-um@lists.infradead.org, 
+ linux-xtensa@linux-xtensa.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220217_012514_683151_3451351B 
-X-CRM114-Status: GOOD (  21.11  )
+X-CRM114-CacheID: sfid-20220217_111525_391310_3DCFFD09 
+X-CRM114-Status: GOOD (  17.23  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,34 +102,40 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Feb 16, 2022 at 2:13 PM Arnd Bergmann <arnd@kernel.org> wrote:
+On Wed, Feb 16, 2022 at 5:19 AM Arnd Bergmann <arnd@kernel.org> wrote:
 >
 > From: Arnd Bergmann <arnd@arndb.de>
 >
-> Christoph Hellwig and a few others spent a huge effort on removing
-> set_fs() from most of the important architectures, but about half the
-> other architectures were never completed even though most of them don't
-> actually use set_fs() at all.
+> There are many different ways that access_ok() is defined across
+> architectures, but in the end, they all just compare against the
+> user_addr_max() value or they accept anything.
 >
-> I did a patch for microblaze at some point, which turned out to be fairly
-> generic, and now ported it to most other architectures, using new generic
-> implementations of access_ok() and __{get,put}_kernel_nocheck().
+> Provide one definition that works for most architectures, checking
+> against TASK_SIZE_MAX for user processes or skipping the check inside
+> of uaccess_kernel() sections.
 >
-> Three architectures (sparc64, ia64, and sh) needed some extra work,
-> which I also completed.
->
-> The final series contains extra cleanup changes that touch all
-> architectures. Please review and test these, so we can merge them
-> for v5.18.
->
-> The series is available at
-> https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/log/?h=set_fs-2
-> for testing.
+> For architectures without CONFIG_SET_FS(), this should be the fastest
+> check, as it comes down to a single comparison of a pointer against a
+> compile-time constant, while the architecture specific versions tend to
+> do something more complex for historic reasons or get something wrong.
 
-I've added the updated contents to my asm-generic tree now to put them
-into linux-next.
+This isn't actually optimal.  On x86, TASK_SIZE_MAX is a bizarre
+constant that has a very specific value to work around a bug^Wdesign
+error^Wfeature of Intel CPUs.  TASK_SIZE_MAX is the maximum address at
+which userspace is permitted to allocate memory, but there is a huge
+gap between user and kernel addresses, and any value in the gap would
+be adequate for the comparison.  If we wanted to optimize this, simply
+checking the high bit (which x86 can do without any immediate
+constants at all) would be sufficient and, for an access known to fit
+in 32 bits, one could get even fancier and completely ignore the size
+of the access.  (For accesses not known to fit in 32 bits, I suspect
+some creativity could still come up with a construction that's
+substantially faster than the one in your patch.)
 
-         Arnd
+So there's plenty of room for optimization here.
+
+(This is not in any respect a NAK -- it's just an observation that
+this could be even better.)
 
 _______________________________________________
 linux-snps-arc mailing list
