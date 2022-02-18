@@ -4,81 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 80335C433F5
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Feb 2022 07:16:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 438C3C433F5
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Feb 2022 07:16:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=yot4IOG13k9IOfpJfc+srTMj+BHyaZ+tIy9j2GTnu1o=; b=X3pkFSWQSpgZc6
-	RtdYeRVakbubVh4DZRTmsuVdSr0vMurJxRX/nAv4uoL6buaERXPEvWpYOIx+eMYBRbiiq8fWKBCiU
-	AsFgxxM8XDn1X8Ft/foMHo2umPpdU85uY6N2eVqEWgaJfoUCgUYmu2BNo7RG3RTCL33PcPuI8Mshp
-	W5rI+15oNg/tYkxc2rdrIsWIpaMmmsDu4pHeX5kVuiFwDQAKDVCmdPV9LBMS1HGX6OHolUD8rbBzt
-	yVlrKyIVY6CpxPqvmOYS1DVVHudneOfQrT62TcRuFOg1pCqqp2g+PHOYbjNOjSmhFZkO4Bf62NAT/
-	QYXLBPK6gGPMK31RWG8w==;
+	List-Owner; bh=bln7dmE7pDmq6E4/rwvt7JlkrYnSZoagy5mFC4WLvw4=; b=FSPJwlKja+hcXz
+	IvDR9E2cc+DHwb3sWH3L2YwnYWRjG3P9hq8BgoT4hv/Hi6FRzpAhil3NnwF+6NNC6RoEji7DLJU9D
+	DMHSKuzwWfgHxA7v4F/VFY7vxa3NA+MwzUh8kqRmV4hhbodyw4++RRjLp86KdqrQeJ/pQeqmeGYzs
+	/kaqnlfsnVdewAA3VX4cU8v6hWoneU5/nZXzNoS/zP3GqB3StVsmVwyUuarGRUAvTrPYB6DcW6knn
+	lC2c1+LAvommffXbLeoxf7rPvPF7ObYn7Zp4KYhaUDw6QFg51wTgic2qSCCH0jPFkNiQT0jsXgpW6
+	7peNIfvjz9mRo5zObugA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nKxV2-00DAiF-7D; Fri, 18 Feb 2022 07:16:16 +0000
+	id 1nKxVW-00DAvk-FG; Fri, 18 Feb 2022 07:16:46 +0000
 Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nKxUx-00DAgf-Ld; Fri, 18 Feb 2022 07:16:13 +0000
+ id 1nKxVR-00DAtN-20; Fri, 18 Feb 2022 07:16:42 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 3305261ECF;
- Fri, 18 Feb 2022 07:16:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0367C340EB;
- Fri, 18 Feb 2022 07:16:10 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9256E61ED1;
+ Fri, 18 Feb 2022 07:16:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB628C340F8;
+ Fri, 18 Feb 2022 07:16:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645168570;
- bh=vgWt8lxnjYZUPlvwCFWcIBvafVy+fWmkyAOoKRaWgHQ=;
+ s=k20201202; t=1645168599;
+ bh=q+jKWrJ4jJZ2v7I08P11+5fwNrVng4vZR8KgCaGgNp8=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=brykg3orAWhzT1eShDnIqWiuvTtbNc2QCFkxAh1K7YK/kRc+swoGKo5s8Fy8YLbGr
- hc4KU9yCkTtPzsEFTjEMsUOlO7S4blCchs5ff0ZUeSF1M1MwsdTpKXs8Q722IoumV5
- wWZ/Ud2NirMkJK5Z1ZlptDLHluY0qTABwQmvq83LF0HQ/hLeRKtb2S91h930mt7IMN
- +IVk8tTFexO7cBruFMAUkGnp4XxSmx2qWufMJpXKrZd+rszraON5XmdxGDBB/rBEjq
- qWnAPIR/pKwix5/alY1YcrHjRud91MIX/ezTnOif5FrydE9krKYz++XLye87rDdKA5
- AVW3j7aGhb5Pg==
-Received: by mail-ej1-f41.google.com with SMTP id hw13so12813472ejc.9;
- Thu, 17 Feb 2022 23:16:10 -0800 (PST)
-X-Gm-Message-State: AOAM5313zcFkMhPPqfXxad1Yz09xGxBZOvWv8ftkBnCr5j+lDdhpmhQc
- t5AvQJGg/ajilnh5gN0gRTy2UtzeYrd0XVeJGa0=
-X-Google-Smtp-Source: ABdhPJyN/H83BSKKeXJGtgECPVgYv1w4NoilhoSCj+92CRqaoOjPXRtnkFYRBhAzB91QtgFwdj4YRtpnThbImHSlPPw=
-X-Received: by 2002:adf:90c1:0:b0:1e4:ad27:22b9 with SMTP id
- i59-20020adf90c1000000b001e4ad2722b9mr4972052wri.219.1645168558306; Thu, 17
- Feb 2022 23:15:58 -0800 (PST)
+ b=uRNZZy2+CPWOJuv92dOyd1rHvNKhBILuz7HojVOaF7lOL/BoFj24u43pDTtSwcO2B
+ kS7Pw80lZTXEPfCTL3Z7vghTrC4SlGVuhJo+OTP7MCTgX2G37yx65ofo19RQjnL/RA
+ X1RHeHskgmZa1dqz/hywb50yEcB9u+SOk/d9BB2OqS8LnUJf/8wGrCrwZ7NdDCfC1d
+ WKze8Im+ewzQ4s1dw54fZcQSR5KpeItLpAf4+TQihtipY9ZngwMB0KyPQdQnz8zfKi
+ SziJH9s7tyIY2mWzArtdycjGo1CV8W1cYp0Oo2w7ym11uKexowxQSNg8OfalrjO5tJ
+ GBzjZlGpGhjvA==
+Received: by mail-ej1-f54.google.com with SMTP id lw4so12823132ejb.12;
+ Thu, 17 Feb 2022 23:16:39 -0800 (PST)
+X-Gm-Message-State: AOAM533t1dZZWviwewFnr69by0Kczb6L3JAW3iLjH1G66AUu5d3DNx+C
+ ABmak8PcVa2bhMiT276+hDYehpcLiWOELbyjpPk=
+X-Google-Smtp-Source: ABdhPJzrsD9ZegAYWxopB2Dqyhs5CbptDH37N4ZCxM0ghQnmxjYRVare/kFAwMrZOPIITOhmBYHifd3MXTFISbjy0gQ=
+X-Received: by 2002:adf:c406:0:b0:1e4:a5ae:34a3 with SMTP id
+ v6-20020adfc406000000b001e4a5ae34a3mr5120080wrf.407.1645168587142; Thu, 17
+ Feb 2022 23:16:27 -0800 (PST)
 MIME-Version: 1.0
 References: <20220216131332.1489939-1-arnd@kernel.org>
- <20220216131332.1489939-15-arnd@kernel.org>
- <20220218063549.GJ22576@lst.de>
-In-Reply-To: <20220218063549.GJ22576@lst.de>
+ <20220216131332.1489939-14-arnd@kernel.org>
+ <CALCETrVOvYPN4_6hS8wpm2v9bGZupZ5x4=vZAseG57OUgvLGfw@mail.gmail.com>
+In-Reply-To: <CALCETrVOvYPN4_6hS8wpm2v9bGZupZ5x4=vZAseG57OUgvLGfw@mail.gmail.com>
 From: Arnd Bergmann <arnd@kernel.org>
-Date: Fri, 18 Feb 2022 08:15:42 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a31_zG7npZbPHGixOYL0p28dGzs3f9ku_RB4p1tiEY0Tw@mail.gmail.com>
-Message-ID: <CAK8P3a31_zG7npZbPHGixOYL0p28dGzs3f9ku_RB4p1tiEY0Tw@mail.gmail.com>
-Subject: Re: [PATCH v2 14/18] lib/test_lockup: fix kernel pointer check for
- separate address spaces
-To: Christoph Hellwig <hch@lst.de>
+Date: Fri, 18 Feb 2022 08:16:11 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a2r3zB2G7CjCdXB6cDx1Q7jdOnA8YcCHM+3Q3CybnZ=hQ@mail.gmail.com>
+Message-ID: <CAK8P3a2r3zB2G7CjCdXB6cDx1Q7jdOnA8YcCHM+3Q3CybnZ=hQ@mail.gmail.com>
+Subject: Re: [PATCH v2 13/18] uaccess: generalize access_ok()
+To: Andy Lutomirski <luto@amacapital.net>
 Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- linux-arch <linux-arch@vger.kernel.org>, 
- Linux-MM <linux-mm@kvack.org>, Linux API <linux-api@vger.kernel.org>, 
- Arnd Bergmann <arnd@arndb.de>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- Al Viro <viro@zeniv.linux.org.uk>,
- Russell King - ARM Linux <linux@armlinux.org.uk>, 
- Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
- Brian Cain <bcain@codeaurora.org>, 
- Geert Uytterhoeven <geert@linux-m68k.org>, Michal Simek <monstr@monstr.eu>, 
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Nick Hu <nickhu@andestech.com>,
- Greentime Hu <green.hu@gmail.com>, Dinh Nguyen <dinguyen@kernel.org>, 
- Stafford Horne <shorne@gmail.com>, Helge Deller <deller@gmx.de>,
- Michael Ellerman <mpe@ellerman.id.au>, 
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
- Mark Rutland <mark.rutland@arm.com>, Heiko Carstens <hca@linux.ibm.com>,
- Rich Felker <dalias@libc.org>, 
- David Miller <davem@davemloft.net>, Richard Weinberger <richard@nod.at>, 
+ Christoph Hellwig <hch@lst.de>, 
+ linux-arch <linux-arch@vger.kernel.org>, Linux-MM <linux-mm@kvack.org>, 
+ Linux API <linux-api@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, 
+ Russell King - ARM Linux <linux@armlinux.org.uk>, Will Deacon <will@kernel.org>,
+ Guo Ren <guoren@kernel.org>, 
+ Brian Cain <bcain@codeaurora.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+ Michal Simek <monstr@monstr.eu>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ Nick Hu <nickhu@andestech.com>, Greentime Hu <green.hu@gmail.com>, 
+ Dinh Nguyen <dinguyen@kernel.org>, Stafford Horne <shorne@gmail.com>,
+ Helge Deller <deller@gmx.de>, 
+ Michael Ellerman <mpe@ellerman.id.au>, Peter Zijlstra <peterz@infradead.org>, 
+ Ingo Molnar <mingo@redhat.com>, Mark Rutland <mark.rutland@arm.com>, 
+ Heiko Carstens <hca@linux.ibm.com>, Rich Felker <dalias@libc.org>,
+ David Miller <davem@davemloft.net>, Richard Weinberger <richard@nod.at>,
  "the arch/x86 maintainers" <x86@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>,
  "Eric W . Biederman" <ebiederm@xmission.com>,
  Andrew Morton <akpm@linux-foundation.org>, 
@@ -98,8 +97,8 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  linux-um <linux-um@lists.infradead.org>, 
  "open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220217_231611_800364_14152510 
-X-CRM114-Status: GOOD (  24.56  )
+X-CRM114-CacheID: sfid-20220217_231641_188170_8ED8E5A5 
+X-CRM114-Status: GOOD (  36.17  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,28 +115,59 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, Feb 18, 2022 at 7:35 AM Christoph Hellwig <hch@lst.de> wrote:
+On Thu, Feb 17, 2022 at 8:15 PM Andy Lutomirski <luto@amacapital.net> wrote:
 >
-> On Wed, Feb 16, 2022 at 02:13:28PM +0100, Arnd Bergmann wrote:
+> On Wed, Feb 16, 2022 at 5:19 AM Arnd Bergmann <arnd@kernel.org> wrote:
+> >
 > > From: Arnd Bergmann <arnd@arndb.de>
 > >
-> > test_kernel_ptr() uses access_ok() to figure out if a given address
-> > points to user space instead of kernel space. However on architectures
-> > that set CONFIG_ALTERNATE_USER_ADDRESS_SPACE, a pointer can be valid
-> > for both, and the check always fails because access_ok() returns true.
+> > There are many different ways that access_ok() is defined across
+> > architectures, but in the end, they all just compare against the
+> > user_addr_max() value or they accept anything.
 > >
-> > Make the check for user space pointers conditional on the type of
-> > address space layout.
+> > Provide one definition that works for most architectures, checking
+> > against TASK_SIZE_MAX for user processes or skipping the check inside
+> > of uaccess_kernel() sections.
+> >
+> > For architectures without CONFIG_SET_FS(), this should be the fastest
+> > check, as it comes down to a single comparison of a pointer against a
+> > compile-time constant, while the architecture specific versions tend to
+> > do something more complex for historic reasons or get something wrong.
 >
-> What is this code even trying to do?  It looks extremly broken.
+> This isn't actually optimal.  On x86, TASK_SIZE_MAX is a bizarre
+> constant that has a very specific value to work around a bug^Wdesign
+> error^Wfeature of Intel CPUs.  TASK_SIZE_MAX is the maximum address at
+> which userspace is permitted to allocate memory, but there is a huge
+> gap between user and kernel addresses, and any value in the gap would
+> be adequate for the comparison.  If we wanted to optimize this, simply
+> checking the high bit (which x86 can do without any immediate
+> constants at all) would be sufficient and, for an access known to fit
+> in 32 bits, one could get even fancier and completely ignore the size
+> of the access.  (For accesses not known to fit in 32 bits, I suspect
+> some creativity could still come up with a construction that's
+> substantially faster than the one in your patch.)
+>
+> So there's plenty of room for optimization here.
+>
+> (This is not in any respect a NAK -- it's just an observation that
+> this could be even better.)
 
-As I understand it, this is only meant for debugging, and the module contains
-intentionally broken lock usage to test whether the watchdog and lockup
-detection in the kernel is able to find them.
+Thank you for taking a look!
 
-I did not try that hard to understand how it works though.
+As you can see in the patch that changes the algorithm on x86 [1],
+it was already using TASK_SIZE_MAX as the limit, only the order
+in which the comparison is done, hopefully leading to better code
+already. I have looked at trivial examples on x86 that showed an
+improvement for constant sizes, but only looked at arm64 in detail
+for the overall result.
 
-      Arnd
+It may be worth checking if using LONG_MAX as the limit produces
+better code, but it's probably best to do the optimization in the
+common code in a portable way to keep it from diverging again.
+
+       Arnd
+
+[1] https://lore.kernel.org/lkml/20220216131332.1489939-7-arnd@kernel.org/
 
 _______________________________________________
 linux-snps-arc mailing list
