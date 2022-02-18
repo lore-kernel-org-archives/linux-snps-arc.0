@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 463FCC433EF
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Feb 2022 01:51:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB4C4C433F5
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Feb 2022 02:21:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=jl9742qkPvw8+NYtmfYQ1F8jtB87zTK7hwEtMyWpGGA=; b=3rzVJNsYdBf17V
-	Nvl6Mjb9GRkhrnSECk1a73FU30R5QoCbX24mvNfjlMfD60gsTaiiqf73gBLmjcSu9blsmJeYVjt93
-	Vsy1WLypfX/0/jtZme/fC6IAWUNkubPO8v1rrPWdenQrvta1f8b5S7WaruL9rGXyLPCr5xujuGOeo
-	ILpl1G51fG65aVcogL45+8UiNBt6AQr2o+4TRMYRjAmeZpwfBxHFmdPZpk9vCTjXSEc0TOOpf26rw
-	lhxhGiv5z+P6laZtGr/So3gt7UPAfj9yk45gIX/BAlwkG9uIlralmjzBUEsaaSmmKf+RPbbxH48+u
-	qCv3OBeJiPMtwgAt3nMg==;
+	List-Owner; bh=MxcL2BoKQm+9ri60UHiSViuamAqwkAAalQUATqb98g8=; b=t2b4KYMAtPnuiM
+	DOWdu3RjNHEmBb+PteTlnX4tNuhgNSKqHIPK7gI7AVboSsQbXCTuV6rMBLS143rG2XDJ8Vf+Ls+O4
+	4KABgpc9NZ1FnbtOcnrjXGm2N+BVvjWcSeq1kCqIwwBGGEd+UpeYYNok66UkBAKwB8FHzpqDJPhlj
+	OUNWpKafZWkAGkns4XooeYle4x3K6LcjNunBCvcozFcc8dBnXqs2geqW8ArF2AyYCV4cgBirVEp1E
+	eSTxbrDBm5r/nntSyEmL2dInJ/TlGTFosFiLLTY/IgzT+GL/D50dt2I1ncYetyQJysQR6fUqDcsMq
+	bcgMz2f0BYZDsmaQpoiw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nKsQL-00CfY4-2S; Fri, 18 Feb 2022 01:51:05 +0000
+	id 1nKsta-00ChzR-MT; Fri, 18 Feb 2022 02:21:18 +0000
 Received: from zeniv-ca.linux.org.uk ([2607:5300:60:148a::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nKsQH-00CfXW-5P; Fri, 18 Feb 2022 01:51:02 +0000
+ id 1nKstV-00ChxJ-Tq; Fri, 18 Feb 2022 02:21:15 +0000
 Received: from viro by zeniv-ca.linux.org.uk with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1nKsPs-002csm-Jn; Fri, 18 Feb 2022 01:50:36 +0000
-Date: Fri, 18 Feb 2022 01:50:36 +0000
+ Hat Linux)) id 1nKstJ-002dCt-8P; Fri, 18 Feb 2022 02:21:01 +0000
+Date: Fri, 18 Feb 2022 02:21:01 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: Arnd Bergmann <arnd@kernel.org>,
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>,
  Linus Torvalds <torvalds@linux-foundation.org>,
  Christoph Hellwig <hch@lst.de>,
  "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
@@ -76,16 +76,16 @@ Cc: Arnd Bergmann <arnd@kernel.org>,
  "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
  "davem@davemloft.net" <davem@davemloft.net>
 Subject: Re: [PATCH v2 00/18] clean up asm/uaccess.h, kill set_fs for good
-Message-ID: <Yg77bNZfNhSk0bVQ@zeniv-ca.linux.org.uk>
+Message-ID: <Yg8CjZwjWYIibrsd@zeniv-ca.linux.org.uk>
 References: <20220216131332.1489939-1-arnd@kernel.org>
  <00496df2-f9f2-2547-3ca3-7989e4713d6b@csgroup.eu>
+ <CAK8P3a3_dPbjB23QffnYMtw+5ojfwChrVC8LLMQqNctU7Nh+mQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <00496df2-f9f2-2547-3ca3-7989e4713d6b@csgroup.eu>
+In-Reply-To: <CAK8P3a3_dPbjB23QffnYMtw+5ojfwChrVC8LLMQqNctU7Nh+mQ@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220217_175101_211493_9E362AF7 
-X-CRM114-Status: UNSURE (   8.08  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220217_182113_974237_5CE87B3A 
+X-CRM114-Status: GOOD (  11.00  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,16 +102,26 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 17, 2022 at 07:20:11AM +0000, Christophe Leroy wrote:
+On Thu, Feb 17, 2022 at 08:49:59AM +0100, Arnd Bergmann wrote:
 
-> And we have also 
-> user_access_begin()/user_read_access_begin()/user_write_access_begin() 
-> which call access_ok() then do the real work. Could be made generic with 
-> call to some arch specific __user_access_begin() and friends after the 
-> access_ok() and eventually the might_fault().
+> Same here: architectures can already provide a __put_user_fn()
+> and __get_user_fn(), to get the generic versions of the interface,
+> but few architectures use that. You can actually get all the interfaces
+> by just providing raw_copy_from_user() and raw_copy_to_user(),
+> but the get_user/put_user versions you get from that are fairly
+> inefficient.
 
-Not a good idea, considering the fact that we do not want to invite
-uses of "faster" variants...
+FWIW, __{get,put}_user_{8,16,32,64} would probably make it easier to
+unify.  That's where the really variable part tends to be, anyway.
+IMO __get_user_fn() had been a mistake.
+
+One thing I somewhat dislike about the series is the boilerplate in
+asm/uaccess.h instances - #include <asm-generic/access-ok.h> in
+a lot of them might make sense as a transitory state, but getting
+stuck with those indefinitely...
+
+	BTW, do we need user_addr_max() anymore?  The definition in
+asm-generic/access-ok.h is the only one, so ifndef around it is pointless.
 
 _______________________________________________
 linux-snps-arc mailing list
