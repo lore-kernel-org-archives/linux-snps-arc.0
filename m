@@ -4,64 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9C2CC433F5
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Feb 2022 08:56:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 76195C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Feb 2022 09:01:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=HWV/LtEByZERq+nTsKZzQa0FWFUhzX7SG704c/3oZCQ=; b=NaChSzrwrP2ijg
-	OGJEvWdVfOUPhZHaQzFHcrTNjiKB9fvLbTX56EQdrr2heF2YS4CmSMhiZUMMk/DTAGfdLGra0OAJC
-	gWNY5SA6ZB4GkK7ecJWEKkBXMb4mEi34o5RIXvMug8wG30oISKdacyWmUIih3nTrFHCpTJTvAGxYX
-	254jer/tONT8Wyd5goKZe5iMG6CeQ9F2AMORBTgK2QxNan3hS/IaXvoykFr1BMlDfJkRKI9Yqkd/0
-	OVcQ1S3hM59lw/5NQnMYrmG3gUA8c4spH2s53GmwlYsHtvbzDQB3pDar0ZWA4HqBZGD45lxB3Rvz0
-	4J/7U7Az1Avd+DTsl6mA==;
+	List-Owner; bh=OZcS/VLEzE7g6A5xLCr7EJAjf+I3w1iIImZigT5y07I=; b=s15fwkl6RvZnqV
+	3HSNgHhkro2eeMg2mZVzWf+6ea0hqWtb1If6p6+FinYbd9WuMGzfs3AZk+/fx2WTTPha0m5zX5t8w
+	/yxFzH8Re6IAkopn5GLqU9AKehX57dZ/+8cq1nTomFH6Mp90hX1tjOf2eKkh/xbnsvUVNhbx0WsLe
+	8FzYw55PEm5Ml2YJ393hhUHUDnCBIJkR6NSVbeCiDtS4TnbOfzhWGj5qWotb5mHXtwPLVYndZeCnK
+	TBfaztcYW5cvBAsqQC5seUI6jHi3E0l5NprBZp+GdtfBZcdexFy4uopJbgMAEfEYiFwpF3vtR2jTF
+	YBRbXLW3gh+KOkjQqUBg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nKz3q-00DNGm-Px; Fri, 18 Feb 2022 08:56:18 +0000
-Received: from mail-ua1-f52.google.com ([209.85.222.52])
+	id 1nKz8W-00DOBz-Ik; Fri, 18 Feb 2022 09:01:08 +0000
+Received: from mail-pg1-f175.google.com ([209.85.215.175])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nKz3k-00DNEi-Fw; Fri, 18 Feb 2022 08:56:17 +0000
-Received: by mail-ua1-f52.google.com with SMTP id g15so3936126uap.11;
- Fri, 18 Feb 2022 00:56:09 -0800 (PST)
+ id 1nKz8R-00DOA1-73; Fri, 18 Feb 2022 09:01:06 +0000
+Received: by mail-pg1-f175.google.com with SMTP id f8so7282201pgc.8;
+ Fri, 18 Feb 2022 01:01:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=acpcDWZvSxDwOAzGTb7O2RMIWdslBDMuoEt9Qz/Phu0=;
- b=AmaOhzoSmbz1agfA/EiZiJJmlf1dqTon7c8PWvdB93CT33GedEot2eZlGFO/sDSC9E
- JQhvFXDBs/CpbgBSIRWbjh+28qwkUAuNa1mE74/AcdmHz5zd/RKL8yhX3vZarYNJlXBX
- uGzgGZJ5tdUBrfPg10ENbPJ30nhY/K4WjjKZ7c9jCeTupZdodwyim4RNyrT4GZDa6yGX
- 3MRhyVRrMV39Wb7qWqyCVZD4IPoL14A4Hpb+RalBz3Nr4TFJDlgi47qCyJ+irWb7ux2/
- IV9JgqdY5B9Ek/QYRLEW+Qe0LBLt2BNTn35v/yVCEGjv7O835MeDFgiZv05UW9FLwcP9
- M88A==
-X-Gm-Message-State: AOAM531lq840hsUiSCAzDzQCE8qNvG5z+9G/coJYMOfPGZmkE6qQOtO3
- wJcQDlGyPkXdddviS076xhpt8qATpfsjSA==
-X-Google-Smtp-Source: ABdhPJw0HZwXPcLo//EczcgVXfgCoPygmr1NBFuvYx/x1uW1dl3OMND/B2J+O3qSjPApkjyMTlGdBw==
-X-Received: by 2002:ab0:334f:0:b0:341:d742:9327 with SMTP id
- h15-20020ab0334f000000b00341d7429327mr57341uap.112.1645174567639; 
- Fri, 18 Feb 2022 00:56:07 -0800 (PST)
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com.
- [209.85.217.44])
- by smtp.gmail.com with ESMTPSA id u63sm1014550vke.41.2022.02.18.00.56.07
+ bh=1nYL/qjPVlkIqK+5dnbJ/5QVdVKG9AQSDTVmJuSTxwE=;
+ b=iHCNwCmh5CPdsAOyLx48UqBhJQ8la549mbnQ2nAHwWtBQW3J0siEsMl14e0NW3Gy9c
+ 7ALZupE6t64vujM8z2Zsr+GS38aA+xWg/7rZIPkZKCXOfPJBVYpRxUTrXLewZh/DEers
+ iz/vTeQXYHbrPJcLuyPFgEW+vb6MJVVHWdlZ41wz/PQFpfNZEthzM8EnGWwRnz3l8l/m
+ 4HdirOeegVWTTNoBTRNVc6a5x36XmHnSb95LdOca94xYyc0qWEKGWHKc1JUcQaUBtYqE
+ y6UoBe5+EhGzGFpUpvIN11JrYkxpzZ2lOeySE88+yl2lbZQZIHhH9DG1Hz1n+EPFN74D
+ F+vg==
+X-Gm-Message-State: AOAM530ox//N6Tgsn1aTt6TxGjMuH3zEK+MJNvQ3A5w/Yv71syYTDU2e
+ c6Y+R85iVMJBBpdKHBjCZim5tBziinqixA==
+X-Google-Smtp-Source: ABdhPJyO2jxzlIGTA0hqztucWDeXloLdH9RUuFhaS9bjmWlwoU4rQzGRGAMdIm0TEfMuRbN65wEVrw==
+X-Received: by 2002:a63:4041:0:b0:372:c918:631a with SMTP id
+ n62-20020a634041000000b00372c918631amr5612089pga.370.1645174861629; 
+ Fri, 18 Feb 2022 01:01:01 -0800 (PST)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com.
+ [209.85.216.50])
+ by smtp.gmail.com with ESMTPSA id n13sm4064126pjq.13.2022.02.18.01.01.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Feb 2022 00:56:07 -0800 (PST)
-Received: by mail-vs1-f44.google.com with SMTP id u10so9150360vsu.13;
- Fri, 18 Feb 2022 00:56:07 -0800 (PST)
-X-Received: by 2002:a67:e10e:0:b0:31b:956b:70cf with SMTP id
- d14-20020a67e10e000000b0031b956b70cfmr2916488vsl.77.1645174557092; Fri, 18
- Feb 2022 00:55:57 -0800 (PST)
+ Fri, 18 Feb 2022 01:01:01 -0800 (PST)
+Received: by mail-pj1-f50.google.com with SMTP id m7so8055828pjk.0;
+ Fri, 18 Feb 2022 01:01:01 -0800 (PST)
+X-Received: by 2002:a67:e113:0:b0:30e:303d:d1d6 with SMTP id
+ d19-20020a67e113000000b0030e303dd1d6mr3151546vsl.38.1645174850220; Fri, 18
+ Feb 2022 01:00:50 -0800 (PST)
 MIME-Version: 1.0
 References: <20220216131332.1489939-1-arnd@kernel.org>
- <20220216131332.1489939-9-arnd@kernel.org>
-In-Reply-To: <20220216131332.1489939-9-arnd@kernel.org>
+ <20220216131332.1489939-11-arnd@kernel.org>
+In-Reply-To: <20220216131332.1489939-11-arnd@kernel.org>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 18 Feb 2022 09:55:45 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVtRh5GHutxGf5dzGHBca7G4td3qqDTHM2KgoDr-kJ91Q@mail.gmail.com>
-Message-ID: <CAMuHMdVtRh5GHutxGf5dzGHBca7G4td3qqDTHM2KgoDr-kJ91Q@mail.gmail.com>
-Subject: Re: [PATCH v2 08/18] uaccess: add generic __{get,put}_kernel_nofault
+Date: Fri, 18 Feb 2022 10:00:39 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWMhP5WgZ7CvOz53SyfizaAvLkHbeuds8G+_nZkwzhWWw@mail.gmail.com>
+Message-ID: <CAMuHMdWMhP5WgZ7CvOz53SyfizaAvLkHbeuds8G+_nZkwzhWWw@mail.gmail.com>
+Subject: Re: [PATCH v2 10/18] m68k: fix access_ok for coldfire
 To: Arnd Bergmann <arnd@kernel.org>
 Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  Christoph Hellwig <hch@lst.de>, 
@@ -99,8 +99,8 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  linux-um <linux-um@lists.infradead.org>, 
  "open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220218_005612_539508_81CDF1EA 
-X-CRM114-Status: GOOD (  22.07  )
+X-CRM114-CacheID: sfid-20220218_010105_535493_9BBB163C 
+X-CRM114-Status: GOOD (  28.66  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,22 +117,54 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+Hi Arnd,
+
 On Wed, Feb 16, 2022 at 2:17 PM Arnd Bergmann <arnd@kernel.org> wrote:
 > From: Arnd Bergmann <arnd@arndb.de>
 >
-> Nine architectures are still missing __{get,put}_kernel_nofault:
-> alpha, ia64, microblaze, nds32, nios2, openrisc, sh, sparc32, xtensa.
+> While most m68k platforms use separate address spaces for user
+> and kernel space, at least coldfire does not, and the other
+> ones have a TASK_SIZE that is less than the entire 4GB address
+> range.
 >
-> Add a generic version that lets everything use the normal
-> copy_{from,to}_kernel_nofault() code based on these, removing the last
-> use of get_fs()/set_fs() from architecture-independent code.
+> Using the default implementation of __access_ok() stops coldfire
+> user space from trivially accessing kernel memory.
 >
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
->  arch/m68k/include/asm/uaccess.h     |   2 -
+Thanks for your patch!
 
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> --- a/arch/m68k/include/asm/uaccess.h
+> +++ b/arch/m68k/include/asm/uaccess.h
+> @@ -12,14 +12,21 @@
+>  #include <asm/extable.h>
+>
+>  /* We let the MMU do all checking */
+> -static inline int access_ok(const void __user *addr,
+> +static inline int access_ok(const void __user *ptr,
+>                             unsigned long size)
+>  {
+> +       unsigned long limit = TASK_SIZE;
+> +       unsigned long addr = (unsigned long)ptr;
+> +
+>         /*
+>          * XXX: for !CONFIG_CPU_HAS_ADDRESS_SPACES this really needs to check
+>          * for TASK_SIZE!
+> +        * Removing this helper is probably sufficient.
+>          */
+
+Shouldn't the above comment block be removed completely,
+as this is now implemented below?
+
+> -       return 1;
+> +       if (IS_ENABLED(CONFIG_CPU_HAS_ADDRESS_SPACES))
+> +               return 1;
+> +
+> +       return (size <= limit) && (addr <= (limit - size));
+>  }
+
+Any pesky compilers that warn (or worse with -Werror) about
+"condition always true" for TASK_SIZE = 0xFFFFFFFFUL?
 
 Gr{oetje,eeting}s,
 
