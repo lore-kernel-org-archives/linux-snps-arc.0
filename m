@@ -4,29 +4,29 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8352FC433EF
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Feb 2022 06:31:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6AADAC4332F
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Feb 2022 06:31:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=DAFe1aEIz+amqn3twxmx3wbD1YQFopEIYBcRHS17M5w=; b=gplOnSzqdB/AXW
-	NnfKsArebKWgKwRsb62rAETQIPrRAX3zWJdG9E8usNHSZOuw2VaqKEL4CCOCuoGwLx7EMcUEyJtWg
-	aMfduJOAskq7lxQYT+GhwSkSznat583WP5XbEt9XZssy28rYrEohwZQ8b2YZ/KAJPDwB/QI22KzN/
-	G0Vb1cQu7eSF0dwujYwJlEf7xsPem5mqKZC3EobOhXL7hoi5BBVq0gxWMzFgo3W6WeWVRnoMF56PK
-	dvgleUs1AH/bzMxov5rR8lltXvNhZSawBSmp9K++F6x4GxQDNyREkimZqnf2UwvcgjMhfUW2hQEcV
-	3fm0/brHGlcIJHgBtXXw==;
+	List-Owner; bh=DAFe1aEIz+amqn3twxmx3wbD1YQFopEIYBcRHS17M5w=; b=vs43Mrfey0xy6V
+	XMC1de/oryjP/R4VQWde9Tiokdmq9D9UveZtmkbAlKemqHazV7GTO+4dMpLiMdHEi+QKsHh3RIn+Q
+	l+vzu1j5ongVD3k0BpaTpSXnBOISscebfbYcyhmbYW0eJ4tWJBMItbFxGC6n4Wtx3xdPgeRZZUAsG
+	evXeXEy2EfnUqHKCoDw/NjvZnobbThLs66LH6sQM2Ym/c6cQvb4IOr9M+i1v4S1t7xYWAKSPQYmGj
+	roFEedgt9vBENj+xwwWT6XAAhyCXSeEbZn9nT1QF3Z6he6HY9JsA3/WgmgftYKachuDaAfHjDYCF3
+	L65fHAj7zh9cg8UYvc9w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nKwnD-00D4kY-Vg; Fri, 18 Feb 2022 06:30:59 +0000
+	id 1nKwno-00D516-EL; Fri, 18 Feb 2022 06:31:36 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nKwn7-00D4gG-CI; Fri, 18 Feb 2022 06:30:56 +0000
+ id 1nKwnj-00D4xt-4m; Fri, 18 Feb 2022 06:31:33 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 6D3F568BFE; Fri, 18 Feb 2022 07:30:50 +0100 (CET)
-Date: Fri, 18 Feb 2022 07:30:50 +0100
+ id 3037768BFE; Fri, 18 Feb 2022 07:31:28 +0100 (CET)
+Date: Fri, 18 Feb 2022 07:31:27 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Arnd Bergmann <arnd@kernel.org>
 Cc: Linus Torvalds <torvalds@linux-foundation.org>,
@@ -49,18 +49,20 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
  linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
  linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org
-Subject: Re: [PATCH v2 10/18] m68k: fix access_ok for coldfire
-Message-ID: <20220218063050.GG22576@lst.de>
+ linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+ kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v2 12/18] uaccess: fix type mismatch warnings from
+ access_ok()
+Message-ID: <20220218063127.GH22576@lst.de>
 References: <20220216131332.1489939-1-arnd@kernel.org>
- <20220216131332.1489939-11-arnd@kernel.org>
+ <20220216131332.1489939-13-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220216131332.1489939-11-arnd@kernel.org>
+In-Reply-To: <20220216131332.1489939-13-arnd@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220217_223053_579908_7B3D2DD9 
-X-CRM114-Status: UNSURE (   8.89  )
+X-CRM114-CacheID: sfid-20220217_223131_346557_9CC7BC10 
+X-CRM114-Status: UNSURE (   9.13  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
