@@ -4,72 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BAD45C433F5
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Feb 2022 07:30:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9C2CC433F5
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Feb 2022 08:56:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ca643KFifHUqWSNO0lHrw/Ab4QZsKdwASeSv5jBJtiM=; b=OqFLdJmczlTWEy
-	B5JbOKglwU/wRC5tB9l+AWHPEbUMv/zK0vjZWVOEbeK1ZoeDED80j46jcxzKl15ya24avGDjEl1kR
-	RqvCVgePtP0a1KSEyixP3M/PwcdadJSdJTcYeCfzoMwdEymLGZ/p3UJAWecQmmIY5pfbzhIn9nM6I
-	TezZzZwM+Li0MxaQP887Ev9tUpXtyZQzo2/7RVrOhsVJOZhwQ+1QiaAFFfP+xeRpHRybiP7M6Y+Ds
-	q1awBBINkf3Jw6/sE/KT0K3TcBK6wwhnfuK7LsSaom34Ds+ILgWNr7zTlunw5ont5qcK0BEeXCUzu
-	ETN+Z60H+uqz3CGBMq6A==;
+	List-Owner; bh=HWV/LtEByZERq+nTsKZzQa0FWFUhzX7SG704c/3oZCQ=; b=NaChSzrwrP2ijg
+	OGJEvWdVfOUPhZHaQzFHcrTNjiKB9fvLbTX56EQdrr2heF2YS4CmSMhiZUMMk/DTAGfdLGra0OAJC
+	gWNY5SA6ZB4GkK7ecJWEKkBXMb4mEi34o5RIXvMug8wG30oISKdacyWmUIih3nTrFHCpTJTvAGxYX
+	254jer/tONT8Wyd5goKZe5iMG6CeQ9F2AMORBTgK2QxNan3hS/IaXvoykFr1BMlDfJkRKI9Yqkd/0
+	OVcQ1S3hM59lw/5NQnMYrmG3gUA8c4spH2s53GmwlYsHtvbzDQB3pDar0ZWA4HqBZGD45lxB3Rvz0
+	4J/7U7Az1Avd+DTsl6mA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nKxis-00DCaD-KG; Fri, 18 Feb 2022 07:30:34 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1nKz3q-00DNGm-Px; Fri, 18 Feb 2022 08:56:18 +0000
+Received: from mail-ua1-f52.google.com ([209.85.222.52])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nKxio-00DCZC-Gl; Fri, 18 Feb 2022 07:30:32 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 17E7AB82058;
- Fri, 18 Feb 2022 07:30:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D59BC340FF;
- Fri, 18 Feb 2022 07:30:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645169428;
- bh=4Rk51yI7cy+h8GrR+wkZuFO6d6ZOgVmodthZQla/xGE=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=nfieHdtoc5pDqS5G+Vo+kHzqd26jkrD4pn8k7ivIDT01UdTHxcfE2U323R+wTs95P
- SjXGrQR5t3CflTK8gDO5o1/jpzLh/W0vSfOdjuhK0MIH8MU487qgYRsdXfgKdcQFwx
- Z8DEhvjyyFZMgz9C+eJMrEuZiHjh8LZtvTGanxRtkC8k+PDbRqYpHCGQOKOSBtyZxU
- MyMVskyvUrgBJrO2kGej5iymlF3hkaSLGHXSeI8Kz9+3fQqcMqX4eMOdbLXgfkVQqP
- FGgsr6IvGiXxq/3RTaYxvb7ljrjO/V1YQAzhZqfx99tLC1lGmBpJkwxKHbLeLzEQHs
- QPzG/1NULMG0g==
-Received: by mail-ed1-f51.google.com with SMTP id u18so13905091edt.6;
- Thu, 17 Feb 2022 23:30:28 -0800 (PST)
-X-Gm-Message-State: AOAM533jym1wik01CSTBj4+aZaV3FdJmqfyA28u3IHWxKPYciDGfOeIG
- 7zo0Uihr/ZkZbgp/6lYMAPC+PqwF122vBvoIV5U=
-X-Google-Smtp-Source: ABdhPJz4trlMwdvjT8y0UPggztkdijECp2hMuaf6QP4pGa8b+VYFZp4/tSgCA0YRdkm1OA4dObRIZr3wh6XhtS+RfLY=
-X-Received: by 2002:adf:ea01:0:b0:1e4:b3e6:1f52 with SMTP id
- q1-20020adfea01000000b001e4b3e61f52mr4942117wrm.317.1645169415535; Thu, 17
- Feb 2022 23:30:15 -0800 (PST)
+ id 1nKz3k-00DNEi-Fw; Fri, 18 Feb 2022 08:56:17 +0000
+Received: by mail-ua1-f52.google.com with SMTP id g15so3936126uap.11;
+ Fri, 18 Feb 2022 00:56:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=acpcDWZvSxDwOAzGTb7O2RMIWdslBDMuoEt9Qz/Phu0=;
+ b=AmaOhzoSmbz1agfA/EiZiJJmlf1dqTon7c8PWvdB93CT33GedEot2eZlGFO/sDSC9E
+ JQhvFXDBs/CpbgBSIRWbjh+28qwkUAuNa1mE74/AcdmHz5zd/RKL8yhX3vZarYNJlXBX
+ uGzgGZJ5tdUBrfPg10ENbPJ30nhY/K4WjjKZ7c9jCeTupZdodwyim4RNyrT4GZDa6yGX
+ 3MRhyVRrMV39Wb7qWqyCVZD4IPoL14A4Hpb+RalBz3Nr4TFJDlgi47qCyJ+irWb7ux2/
+ IV9JgqdY5B9Ek/QYRLEW+Qe0LBLt2BNTn35v/yVCEGjv7O835MeDFgiZv05UW9FLwcP9
+ M88A==
+X-Gm-Message-State: AOAM531lq840hsUiSCAzDzQCE8qNvG5z+9G/coJYMOfPGZmkE6qQOtO3
+ wJcQDlGyPkXdddviS076xhpt8qATpfsjSA==
+X-Google-Smtp-Source: ABdhPJw0HZwXPcLo//EczcgVXfgCoPygmr1NBFuvYx/x1uW1dl3OMND/B2J+O3qSjPApkjyMTlGdBw==
+X-Received: by 2002:ab0:334f:0:b0:341:d742:9327 with SMTP id
+ h15-20020ab0334f000000b00341d7429327mr57341uap.112.1645174567639; 
+ Fri, 18 Feb 2022 00:56:07 -0800 (PST)
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com.
+ [209.85.217.44])
+ by smtp.gmail.com with ESMTPSA id u63sm1014550vke.41.2022.02.18.00.56.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Feb 2022 00:56:07 -0800 (PST)
+Received: by mail-vs1-f44.google.com with SMTP id u10so9150360vsu.13;
+ Fri, 18 Feb 2022 00:56:07 -0800 (PST)
+X-Received: by 2002:a67:e10e:0:b0:31b:956b:70cf with SMTP id
+ d14-20020a67e10e000000b0031b956b70cfmr2916488vsl.77.1645174557092; Fri, 18
+ Feb 2022 00:55:57 -0800 (PST)
 MIME-Version: 1.0
 References: <20220216131332.1489939-1-arnd@kernel.org>
- <20220216131332.1489939-6-arnd@kernel.org>
- <20220218062851.GC22576@lst.de>
-In-Reply-To: <20220218062851.GC22576@lst.de>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Fri, 18 Feb 2022 08:29:59 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a1Dhn1Gsap1Wss2xpKBwe3jWLAmMYtL7S1-26tZ5D_2fQ@mail.gmail.com>
-Message-ID: <CAK8P3a1Dhn1Gsap1Wss2xpKBwe3jWLAmMYtL7S1-26tZ5D_2fQ@mail.gmail.com>
-Subject: Re: [PATCH v2 05/18] x86: remove __range_not_ok()
-To: Christoph Hellwig <hch@lst.de>
+ <20220216131332.1489939-9-arnd@kernel.org>
+In-Reply-To: <20220216131332.1489939-9-arnd@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 18 Feb 2022 09:55:45 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVtRh5GHutxGf5dzGHBca7G4td3qqDTHM2KgoDr-kJ91Q@mail.gmail.com>
+Message-ID: <CAMuHMdVtRh5GHutxGf5dzGHBca7G4td3qqDTHM2KgoDr-kJ91Q@mail.gmail.com>
+Subject: Re: [PATCH v2 08/18] uaccess: add generic __{get,put}_kernel_nofault
+To: Arnd Bergmann <arnd@kernel.org>
 Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- linux-arch <linux-arch@vger.kernel.org>, 
- Linux-MM <linux-mm@kvack.org>, Linux API <linux-api@vger.kernel.org>, 
- Arnd Bergmann <arnd@arndb.de>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- Al Viro <viro@zeniv.linux.org.uk>,
- Russell King - ARM Linux <linux@armlinux.org.uk>, 
- Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
- Brian Cain <bcain@codeaurora.org>, 
- Geert Uytterhoeven <geert@linux-m68k.org>, Michal Simek <monstr@monstr.eu>, 
+ Christoph Hellwig <hch@lst.de>, 
+ Linux-Arch <linux-arch@vger.kernel.org>, Linux MM <linux-mm@kvack.org>, 
+ Linux API <linux-api@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, 
+ Russell King <linux@armlinux.org.uk>, Will Deacon <will@kernel.org>,
+ Guo Ren <guoren@kernel.org>, 
+ Brian Cain <bcain@codeaurora.org>, Michal Simek <monstr@monstr.eu>, 
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Nick Hu <nickhu@andestech.com>,
  Greentime Hu <green.hu@gmail.com>, Dinh Nguyen <dinguyen@kernel.org>, 
  Stafford Horne <shorne@gmail.com>, Helge Deller <deller@gmx.de>,
@@ -77,15 +79,15 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
  Mark Rutland <mark.rutland@arm.com>, Heiko Carstens <hca@linux.ibm.com>,
  Rich Felker <dalias@libc.org>, 
- David Miller <davem@davemloft.net>, Richard Weinberger <richard@nod.at>, 
+ "David S. Miller" <davem@davemloft.net>, Richard Weinberger <richard@nod.at>, 
  "the arch/x86 maintainers" <x86@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>,
- "Eric W . Biederman" <ebiederm@xmission.com>,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
  Andrew Morton <akpm@linux-foundation.org>, 
  Ard Biesheuvel <ardb@kernel.org>, alpha <linux-alpha@vger.kernel.org>, 
- "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
- linux-csky@vger.kernel.org, 
- "open list:QUALCOMM HEXAGON..." <linux-hexagon@vger.kernel.org>,
- linux-ia64@vger.kernel.org, linux-m68k <linux-m68k@lists.linux-m68k.org>, 
+ arcml <linux-snps-arc@lists.infradead.org>, linux-csky@vger.kernel.org, 
+ "open list:QUALCOMM HEXAGON..." <linux-hexagon@vger.kernel.org>, 
+ "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
+ linux-m68k <linux-m68k@lists.linux-m68k.org>, 
  "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
  Openrisc <openrisc@lists.librecores.org>, 
  Parisc List <linux-parisc@vger.kernel.org>,
@@ -95,11 +97,10 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  Linux-sh list <linux-sh@vger.kernel.org>,
  sparclinux <sparclinux@vger.kernel.org>, 
  linux-um <linux-um@lists.infradead.org>, 
- "open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>,
- Christoph Hellwig <hch@infradead.org>
+ "open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220217_233030_888422_8EFE5FF5 
-X-CRM114-Status: GOOD (  27.43  )
+X-CRM114-CacheID: sfid-20220218_005612_539508_81CDF1EA 
+X-CRM114-Status: GOOD (  22.07  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,64 +117,33 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, Feb 18, 2022 at 7:28 AM Christoph Hellwig <hch@lst.de> wrote:
-> On Wed, Feb 16, 2022 at 02:13:19PM +0100, Arnd Bergmann wrote:
-> > --- a/arch/x86/events/core.c
-> > +++ b/arch/x86/events/core.c
-> > @@ -2794,7 +2794,7 @@ perf_callchain_kernel(struct perf_callchain_entry_ctx *entry, struct pt_regs *re
-> >  static inline int
-> >  valid_user_frame(const void __user *fp, unsigned long size)
-> >  {
-> > -     return (__range_not_ok(fp, size, TASK_SIZE) == 0);
-> > +     return __access_ok(fp, size);
-> >  }
+On Wed, Feb 16, 2022 at 2:17 PM Arnd Bergmann <arnd@kernel.org> wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> valid_user_frame just need to go away and the following __get_user calls
-> replaced with normal get_user ones.
-
-As I understand it, that would not work here because get_user() calls
-access_ok() rather than __access_ok(), and on x86 that can not be
-called in NMI context.
-
-It is a bit odd that x86 is the only architecture that has this check,
-but adding
-it was clearly intentional, see 7c4788950ba5 ("x86/uaccess, sched/preempt:
-Verify access_ok() context").
-
-> > diff --git a/arch/x86/kernel/dumpstack.c b/arch/x86/kernel/dumpstack.c
-> > index 53de044e5654..da534fb7b5c6 100644
-> > --- a/arch/x86/kernel/dumpstack.c
-> > +++ b/arch/x86/kernel/dumpstack.c
-> > @@ -85,7 +85,7 @@ static int copy_code(struct pt_regs *regs, u8 *buf, unsigned long src,
-> >        * Make sure userspace isn't trying to trick us into dumping kernel
-> >        * memory by pointing the userspace instruction pointer at it.
-> >        */
-> > -     if (__chk_range_not_ok(src, nbytes, TASK_SIZE_MAX))
-> > +     if (!__access_ok((void __user *)src, nbytes))
-> >               return -EINVAL;
+> Nine architectures are still missing __{get,put}_kernel_nofault:
+> alpha, ia64, microblaze, nds32, nios2, openrisc, sh, sparc32, xtensa.
 >
-> This one is not needed at all as copy_from_user_nmi already checks the
-> access range.
-
-Ok, removing this.
-
-> > diff --git a/arch/x86/kernel/stacktrace.c b/arch/x86/kernel/stacktrace.c
-> > index 15b058eefc4e..ee117fcf46ed 100644
-> > --- a/arch/x86/kernel/stacktrace.c
-> > +++ b/arch/x86/kernel/stacktrace.c
-> > @@ -90,7 +90,7 @@ copy_stack_frame(const struct stack_frame_user __user *fp,
-> >  {
-> >       int ret;
-> >
-> > -     if (__range_not_ok(fp, sizeof(*frame), TASK_SIZE))
-> > +     if (!__access_ok(fp, sizeof(*frame)))
-> >               return 0;
+> Add a generic version that lets everything use the normal
+> copy_{from,to}_kernel_nofault() code based on these, removing the last
+> use of get_fs()/set_fs() from architecture-independent code.
 >
-> Just switch the __get_user calls below to get_user instead.
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Same as the first one, I think we can't do this in NMI context.
+>  arch/m68k/include/asm/uaccess.h     |   2 -
 
-         Arnd
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
 _______________________________________________
 linux-snps-arc mailing list
