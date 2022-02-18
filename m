@@ -4,29 +4,29 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CECFFC433FE
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Feb 2022 06:36:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1AD3DC433F5
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Feb 2022 06:37:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=HCUtSd5lKvuIks48sxwzL4nkAnkL8QbndhQ1agJEJWY=; b=QA+B1xvQJX/iu5
-	c8rVJn83ie45ZMrFEOgUkC10DJqvgESfC8yn4ElXbvPkehSEP+oGwZlb4piSDka3dGXz22EUcpVVS
-	n65m4P/ODRKkduTIM0qxuejLTQTz2OAmVXeCx+R8sMOhgmZiQWYZ4yD5gzi9jSTdsEtO3RNzr0Ifm
-	btgwUkZWTsM5IiG17JmtWihuhC1UcIdvRp+c8viprM0QcQA7dnTV7qXHbwKL0Kr5bXOGpxgKysfhd
-	WOMhTwmUgPbKukDRJ++4oIxOf/ZPGHwdI4IHEb5WwkFOt2tONiKZpjvsgn6PsX+/+h7d8AogicEhK
-	LjXMCBRMTsW7EkdRsGyw==;
+	List-Owner; bh=SqXBjQ8VbvguOzC5u0OBgEoYu6lATe2zU+V5Ptabv8w=; b=0mVOX9ik4TYUON
+	AoZB/poDh8Od5trZqeDmlYQr9oAmdeI/7KOnP2h3HFaOKvAjSo0tNx1fsfvGZ91Pgior1JtBgxE1h
+	z8tD4Ya3mezWgigwLCWc+DZfTWNT300+9q37Z1ZkQGu+hn6YSv7jHsZnBrLiBX6bYVoT0cYX/kSea
+	x5vmGGQyw49aDxGMeJGHW1psjFSGgveR2u9YHaoUhQpm6cJDXal874OlvNTnVWSBKUAYjj8REAB9G
+	6cT48vIA+gQ0VKAGorBq1/vKGyuFBIg6WZ/f+J8vt11aNRs1LkHUs+cCdSSlk06b2oxb7g8GwTcfV
+	ScvFY4GJ/X2hclp+3XKw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nKwsd-00D5y6-B3; Fri, 18 Feb 2022 06:36:35 +0000
+	id 1nKwtS-00D6HZ-GP; Fri, 18 Feb 2022 06:37:26 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nKwsP-00D5ql-2h; Fri, 18 Feb 2022 06:36:23 +0000
+ id 1nKwtK-00D6D1-4Y; Fri, 18 Feb 2022 06:37:23 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 0636E68BFE; Fri, 18 Feb 2022 07:36:18 +0100 (CET)
-Date: Fri, 18 Feb 2022 07:36:17 +0100
+ id 342C768BFE; Fri, 18 Feb 2022 07:37:15 +0100 (CET)
+Date: Fri, 18 Feb 2022 07:37:14 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Arnd Bergmann <arnd@kernel.org>
 Cc: Linus Torvalds <torvalds@linux-foundation.org>,
@@ -50,17 +50,17 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
  linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
  linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org
-Subject: Re: [PATCH v2 16/18] sh: remove CONFIG_SET_FS support
-Message-ID: <20220218063617.GK22576@lst.de>
+Subject: Re: [PATCH v2 18/18] uaccess: drop maining CONFIG_SET_FS users
+Message-ID: <20220218063714.GL22576@lst.de>
 References: <20220216131332.1489939-1-arnd@kernel.org>
- <20220216131332.1489939-17-arnd@kernel.org>
+ <20220216131332.1489939-19-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220216131332.1489939-17-arnd@kernel.org>
+In-Reply-To: <20220216131332.1489939-19-arnd@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220217_223621_280435_0AE09847 
-X-CRM114-Status: UNSURE (   7.79  )
+X-CRM114-CacheID: sfid-20220217_223718_339423_5F202FDD 
+X-CRM114-Status: UNSURE (   7.94  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -78,9 +78,18 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+s/maining/remaining/ ?
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Or maybe rather:
+
+uaccess: remove CONFIG_SET_FS
+
+because it is all gone now.
+
+> With CONFIG_SET_FS gone, so drop all remaining references to
+> set_fs()/get_fs(), mm_segment_t and uaccess_kernel().
+
+And this sentence does not parse.
 
 _______________________________________________
 linux-snps-arc mailing list
