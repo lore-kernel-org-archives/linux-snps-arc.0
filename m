@@ -4,29 +4,29 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D674AC433EF
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Feb 2022 06:29:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D0C3C433F5
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Feb 2022 06:29:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=DAFe1aEIz+amqn3twxmx3wbD1YQFopEIYBcRHS17M5w=; b=1Az6sJxEclh/Ns
-	0JB8cOIMXOl/Wy5EAbyJCg/9gu59onRM03Kc+hcyDajprfqKp4V+t0LcSXhNslgFdlzY1NHQoDqtk
-	zOF103UiUpd+s9g27Qti11Q98M3AX1SdSgpPYalpNDsYK2RzyAuG5urDU5NNLlzcrFMIDefb4BN8l
-	AyH8i9dIVw9zSp0/84cHxSKX/fb07bthnPeAYZsky+KhrhDPe82nHhqMXEcJgbi9gVafjV0DTygn3
-	+Z1D/1yuqdqTVPqokdDV4JnU83dr8TBhuHjuKNJvAoEDlDBvOQPCZjrWKBPGVzJYh4Q3a0cZU9rx/
-	HlE8NoIBIwYO2NM/FMoQ==;
+	List-Owner; bh=LTNQm/NHtWlbWuSIzZ8mRM4AYDFfVcsYucTbFvKPR40=; b=r1U5xcNoo1IPYM
+	YqMvTPcgRSNsesNBGOf2BnW+yzED18YN6o0Ll5r2oYGVvWkbIi3YO4ck6wb3Yf4TCyhonQsWaJ/FZ
+	psK7Vqp+DWgHJqexROdcN8Y34vnEadfwPYT5c0VG0oivYSLUEQeAuQngFVSuBLkrYuCMNnMGXD2Ne
+	oQslQEeXiE+eKtt4RA94o4gxs7ZdXxgQ05zSgM1tE7U04lXOl30/u97gejPNIsEami3BezTuR69nY
+	zEizTR3CqoKhFkl7FtAGUhIV9zembSo/5lYFkcyqWEuL9XRFPj8rOh/p34bjcCSLJseckgwe6IrU/
+	agLsK3xrfwNMpyMthW4g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nKwll-00D46s-2Y; Fri, 18 Feb 2022 06:29:29 +0000
+	id 1nKwm8-00D4HZ-ME; Fri, 18 Feb 2022 06:29:52 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nKwlg-00D44H-LD; Fri, 18 Feb 2022 06:29:25 +0000
+ id 1nKwm4-00D4FP-3r; Fri, 18 Feb 2022 06:29:49 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 4C1A567373; Fri, 18 Feb 2022 07:29:21 +0100 (CET)
-Date: Fri, 18 Feb 2022 07:29:21 +0100
+ id 229CB67373; Fri, 18 Feb 2022 07:29:45 +0100 (CET)
+Date: Fri, 18 Feb 2022 07:29:44 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Arnd Bergmann <arnd@kernel.org>
 Cc: Linus Torvalds <torvalds@linux-foundation.org>,
@@ -50,18 +50,17 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
  linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
  linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org
-Subject: Re: [PATCH v2 06/18] x86: use more conventional access_ok() definition
-Message-ID: <20220218062921.GD22576@lst.de>
+Subject: Re: [PATCH v2 07/18] nios2: drop access_ok() check from __put_user()
+Message-ID: <20220218062944.GE22576@lst.de>
 References: <20220216131332.1489939-1-arnd@kernel.org>
- <20220216131332.1489939-7-arnd@kernel.org>
+ <20220216131332.1489939-8-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220216131332.1489939-7-arnd@kernel.org>
+In-Reply-To: <20220216131332.1489939-8-arnd@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220217_222924_851617_8E51F834 
-X-CRM114-Status: UNSURE (   8.55  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220217_222948_317948_B948298C 
+X-CRM114-Status: GOOD (  11.08  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,7 +77,16 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Looks good,
+On Wed, Feb 16, 2022 at 02:13:21PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> Unlike other architectures, the nios2 version of __put_user() has an
+> extra check for access_ok(), preventing it from being used to implement
+> __put_kernel_nofault().
+> 
+> Split up put_user() along the same lines as __get_user()/get_user()
+
+Looks good:
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 
