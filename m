@@ -4,116 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EFB2DC46467
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Feb 2022 18:07:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 893F6C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 21 Feb 2022 06:42:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:List-Subscribe:List-Help:
+	List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=+Mq2+HprDAI52RbE6OToytBDdtYZauNwWDkkl6rXN7c=; b=2cqGfbWeP5ay+H
-	X+rgbq/QEWOyrJmmg4eCYFwiwyjuiBZs2NOaeSYP+DX98pemdO3WKLACdHNO4Q9dJCobTHzB5O7tL
-	65/87el3/LRlGXkZVbV5JHUf+5xMep8XMFrs5wat4ohbMgtFxhcxr5cm2/0COS4gI9l8fezHLX2CU
-	SJuGjRkxT7nVbMe2NXc0ni6P2Lfe2p1p9QKaptoUPvCYoJXsywiy4uf2TL+v54xPOsnv4jYhM2le0
-	Khg0kjLkjkYEom3+dTNJyCdoCG3Q0h4HWutMFgkFaos3meYEKv9TdXtW0uR3gHXEbxRiPmaha1M+n
-	UvY5pYafk57RTZkNm3Kg==;
+	List-Owner; bh=KX3KOc7Xi0n4Yikx20M7wgltCYX6IVitzG0ZJ9gDe0o=; b=1j71e5VcxzVScX
+	oDpjCb2fPtevWD9WV+ORParV6IU2rfYZuDlItkKKbU8U54mgur2LjneAGVgRy+DeKPdnnzy6uCse7
+	sDV0eK7WnumX/8xKURDJkwFpt3OSLgWi67IGnesIVEMkv4h9FRgt90CmWpMIG7CM+3ENV/sE3vAee
+	BIljUhY5F7J172gfZpNqCCJIZxoiFeBjQyo9om/OraAUgnHhcXQfP36/wAcoKA5tcNohiYHegGVY8
+	VdDXdNsesF02owDyx3eZod1qzkX7HGckWXKCC8IEw2d2TQ/IQ+6uZSDo8zIy47lmT+XQ9PihtFr2Q
+	+K+Ux8m0vf3dtqM6xagA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nL7f8-00FSgd-VV; Fri, 18 Feb 2022 18:07:22 +0000
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
- by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nL7f6-00FSee-Os
- for linux-snps-arc@lists.infradead.org; Fri, 18 Feb 2022 18:07:22 +0000
-Received: by mail-ed1-x531.google.com with SMTP id m3so10854377eda.10
- for <linux-snps-arc@lists.infradead.org>; Fri, 18 Feb 2022 10:07:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amacapital-net.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3DIqXxPmp6dtbTijOx2KTFQ/AdtfYUTWecKVh7q3dDI=;
- b=5c/qRto3YK3Y6/Rhnnpp4RzKmf8QhiKseObhkqXIpnLfhpnv2ua8Z7YCExbmjSYUCG
- SbBSycxSpm4FRe5zOaxst92xyRDLRie0B4d4p8x0W6snNr+dG6MghxLfcakTWMQA17Pf
- gOp7JS9gIpdJumtDaMv9IluyX8dB5LI5eLR/YC2U+D7T5N3aQr9NOYHAOP982E02xanw
- SC1uTLhbyKEp3+LiMa1bFSquyveVGLxTCPf/eSvmTiEZzxEI+wIe4AMdv5VgRD2GYf6G
- kO3gnVVxKK1wWuKxjcQ5nhLyDgmj/c1nxTJoqfRQTmuVCBNlEZ4IpVOo74LURbiOVsEg
- CBWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3DIqXxPmp6dtbTijOx2KTFQ/AdtfYUTWecKVh7q3dDI=;
- b=ODTEgMEx5JVvdCsvITLN/nqK92o4gGxwqdsOWX7Lf/JIWJZ+MaC+GO6+cvkKq7IfJO
- lIJ4Wmq2bWoFFXaNmz2Mn0M5VPuCHRmqzYd5p4OxU/+tq2rZlQJm2odloxbPTlXhzkLJ
- I2REIfgZthZ5HorsQSPU0Wg02qDmlrjSGr0lzFXp0j5k+sTfneNf/4XiUWFNkfGWbBTS
- sjjrWBYHbpOn+x1bdw8EzmQjWZANM25R1pHOsF+cJ44z9vlaL3+n2yJ9DHdR9LNrwX7a
- Yx2dg5iJIjwWDO2Z5jMHI4C62GfTjST4+WagWUmtKZhL+L8kfjsHnPoKle+WN9afScb5
- 9dpQ==
-X-Gm-Message-State: AOAM5327SOrF95TChdaBXYQDx6sBr5VjIzFJAxBM5Wg2HLktA+DKjOxn
- JkCurIMjwnO95bkIFKn/lxQser+uTMzXrbL7Uro2Bg==
-X-Google-Smtp-Source: ABdhPJzKi9/dAquBFvy+ZlpESpcVBT1I3X4XtLJClo2SaEqFpqb8kdqwnL9Fphl8e/qcsjqeDfp/tX4JIrAspWajnck=
-X-Received: by 2002:a05:6402:430f:b0:410:a082:c6da with SMTP id
- m15-20020a056402430f00b00410a082c6damr9386454edc.438.1645207638871; Fri, 18
- Feb 2022 10:07:18 -0800 (PST)
-MIME-Version: 1.0
-References: <20220216131332.1489939-1-arnd@kernel.org>
- <20220216131332.1489939-14-arnd@kernel.org>
- <CALCETrVOvYPN4_6hS8wpm2v9bGZupZ5x4=vZAseG57OUgvLGfw@mail.gmail.com>
- <93a1ee797e9d4f789dff85a3c0f0c232@AcuMS.aculab.com>
-In-Reply-To: <93a1ee797e9d4f789dff85a3c0f0c232@AcuMS.aculab.com>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Fri, 18 Feb 2022 10:07:07 -0800
-Message-ID: <CALCETrWTB65vJXsQTPd_o7BRoSU=uqD0pFzKS+r4YgDuiCCqaQ@mail.gmail.com>
-Subject: Re: [PATCH v2 13/18] uaccess: generalize access_ok()
-To: David Laight <David.Laight@aculab.com>
-Cc: Arnd Bergmann <arnd@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>, 
- Christoph Hellwig <hch@lst.de>,
- "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>, 
- "linux-mm@kvack.org" <linux-mm@kvack.org>, 
- "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
- "arnd@arndb.de" <arnd@arndb.de>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
- "linux@armlinux.org.uk" <linux@armlinux.org.uk>, 
- "will@kernel.org" <will@kernel.org>, "guoren@kernel.org" <guoren@kernel.org>, 
- "bcain@codeaurora.org" <bcain@codeaurora.org>,
- "geert@linux-m68k.org" <geert@linux-m68k.org>, 
- "monstr@monstr.eu" <monstr@monstr.eu>,
- "tsbogend@alpha.franken.de" <tsbogend@alpha.franken.de>, 
- "nickhu@andestech.com" <nickhu@andestech.com>,
- "green.hu@gmail.com" <green.hu@gmail.com>, 
- "dinguyen@kernel.org" <dinguyen@kernel.org>,
- "shorne@gmail.com" <shorne@gmail.com>, "deller@gmx.de" <deller@gmx.de>, 
- "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
- "peterz@infradead.org" <peterz@infradead.org>, 
- "mingo@redhat.com" <mingo@redhat.com>,
- "mark.rutland@arm.com" <mark.rutland@arm.com>, 
- "hca@linux.ibm.com" <hca@linux.ibm.com>, "dalias@libc.org" <dalias@libc.org>, 
- "davem@davemloft.net" <davem@davemloft.net>, "richard@nod.at" <richard@nod.at>,
- "x86@kernel.org" <x86@kernel.org>, 
- "jcmvbkbc@gmail.com" <jcmvbkbc@gmail.com>,
- "ebiederm@xmission.com" <ebiederm@xmission.com>, 
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "ardb@kernel.org" <ardb@kernel.org>, 
- "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>, 
- "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>, 
- "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>, 
- "linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>, 
- "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>, 
- "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>, 
- "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>, 
- "openrisc@lists.librecores.org" <openrisc@lists.librecores.org>, 
- "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>, 
- "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>, 
- "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, 
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, 
- "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>, 
- "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>, 
- "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>, 
- "linux-xtensa@linux-xtensa.org" <linux-xtensa@linux-xtensa.org>
+	id 1nM2Ob-003lvZ-M1; Mon, 21 Feb 2022 06:42:05 +0000
+Received: from foss.arm.com ([217.140.110.172])
+ by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nM2MO-003knY-2X
+ for linux-snps-arc@lists.infradead.org; Mon, 21 Feb 2022 06:39:51 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 89E421476;
+ Sun, 20 Feb 2022 22:39:47 -0800 (PST)
+Received: from p8cg001049571a15.arm.com (unknown [10.163.49.67])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 9F2A83F70D;
+ Sun, 20 Feb 2022 22:39:44 -0800 (PST)
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+To: linux-mm@kvack.org,
+	akpm@linux-foundation.org
+Cc: linux-kernel@vger.kernel.org,
+ Anshuman Khandual <anshuman.khandual@arm.com>,
+ Christoph Hellwig <hch@infradead.org>, linux-arch@vger.kernel.org,
+ Vineet Gupta <vgupta@kernel.org>, linux-snps-arc@lists.infradead.org
+Subject: [PATCH V2 18/30] arc/mm: Enable ARCH_HAS_VM_GET_PAGE_PROT
+Date: Mon, 21 Feb 2022 12:08:27 +0530
+Message-Id: <1645425519-9034-19-git-send-email-anshuman.khandual@arm.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1645425519-9034-1-git-send-email-anshuman.khandual@arm.com>
+References: <1645425519-9034-1-git-send-email-anshuman.khandual@arm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220218_100720_906687_4B1CF29B 
-X-CRM114-Status: GOOD (  23.71  )
+X-CRM114-CacheID: sfid-20220220_223948_247932_796894CB 
+X-CRM114-Status: UNSURE (   9.36  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -125,48 +59,118 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, Feb 18, 2022 at 1:30 AM David Laight <David.Laight@aculab.com> wrote:
->
-> From: Andy Lutomirski
-> > Sent: 17 February 2022 19:15
-> ...
-> > This isn't actually optimal.  On x86, TASK_SIZE_MAX is a bizarre
-> > constant that has a very specific value to work around a bug^Wdesign
-> > error^Wfeature of Intel CPUs.  TASK_SIZE_MAX is the maximum address at
-> > which userspace is permitted to allocate memory, but there is a huge
-> > gap between user and kernel addresses, and any value in the gap would
-> > be adequate for the comparison.  If we wanted to optimize this, simply
-> > checking the high bit (which x86 can do without any immediate
-> > constants at all) would be sufficient and, for an access known to fit
-> > in 32 bits, one could get even fancier and completely ignore the size
-> > of the access.  (For accesses not known to fit in 32 bits, I suspect
-> > some creativity could still come up with a construction that's
-> > substantially faster than the one in your patch.)
-> >
-> > So there's plenty of room for optimization here.
-> >
-> > (This is not in any respect a NAK -- it's just an observation that
-> > this could be even better.)
->
-> For 64bit arch that use the top bit to separate user/kernel
-> you can test '(addr | size) >> 62)'.
-> The compiler optimises out constant sizes.
->
-> This has all been mentioned a lot of times.
-> You do get different fault types.
->
-> OTOH an explicit check for constant size (less than something big)
-> can use the cheaper test of the sign bit.
-> Big constant sizes could be compile time errors.
+This defines and exports a platform specific custom vm_get_page_prot() via
+subscribing ARCH_HAS_VM_GET_PAGE_PROT. Subsequently all __SXXX and __PXXX
+macros can be dropped which are no longer needed.
 
-The different fault type issue may well be a real problem.  Right now
-the core x86 fault code reserves the right to grouch if we get #GP
-instead of #PF.  We could change that.
+Cc: Vineet Gupta <vgupta@kernel.org>
+Cc: linux-snps-arc@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+---
+ arch/arc/Kconfig                          |  1 +
+ arch/arc/include/asm/pgtable-bits-arcv2.h | 17 ----------
+ arch/arc/mm/mmap.c                        | 41 +++++++++++++++++++++++
+ 3 files changed, 42 insertions(+), 17 deletions(-)
+
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index 3c2a4753d09b..78ff0644b343 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -13,6 +13,7 @@ config ARC
+ 	select ARCH_HAS_SETUP_DMA_OPS
+ 	select ARCH_HAS_SYNC_DMA_FOR_CPU
+ 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
++	select ARCH_HAS_VM_GET_PAGE_PROT
+ 	select ARCH_SUPPORTS_ATOMIC_RMW if ARC_HAS_LLSC
+ 	select ARCH_32BIT_OFF_T
+ 	select BUILDTIME_TABLE_SORT
+diff --git a/arch/arc/include/asm/pgtable-bits-arcv2.h b/arch/arc/include/asm/pgtable-bits-arcv2.h
+index 183d23bc1e00..798308f4dbad 100644
+--- a/arch/arc/include/asm/pgtable-bits-arcv2.h
++++ b/arch/arc/include/asm/pgtable-bits-arcv2.h
+@@ -72,23 +72,6 @@
+  *     This is to enable COW mechanism
+  */
+ 	/* xwr */
+-#define __P000  PAGE_U_NONE
+-#define __P001  PAGE_U_R
+-#define __P010  PAGE_U_R	/* Pvt-W => !W */
+-#define __P011  PAGE_U_R	/* Pvt-W => !W */
+-#define __P100  PAGE_U_X_R	/* X => R */
+-#define __P101  PAGE_U_X_R
+-#define __P110  PAGE_U_X_R	/* Pvt-W => !W and X => R */
+-#define __P111  PAGE_U_X_R	/* Pvt-W => !W */
+-
+-#define __S000  PAGE_U_NONE
+-#define __S001  PAGE_U_R
+-#define __S010  PAGE_U_W_R	/* W => R */
+-#define __S011  PAGE_U_W_R
+-#define __S100  PAGE_U_X_R	/* X => R */
+-#define __S101  PAGE_U_X_R
+-#define __S110  PAGE_U_X_W_R	/* X => R */
+-#define __S111  PAGE_U_X_W_R
+ 
+ #ifndef __ASSEMBLY__
+ 
+diff --git a/arch/arc/mm/mmap.c b/arch/arc/mm/mmap.c
+index 722d26b94307..d286894d7359 100644
+--- a/arch/arc/mm/mmap.c
++++ b/arch/arc/mm/mmap.c
+@@ -74,3 +74,44 @@ arch_get_unmapped_area(struct file *filp, unsigned long addr,
+ 	info.align_offset = pgoff << PAGE_SHIFT;
+ 	return vm_unmapped_area(&info);
+ }
++
++pgprot_t vm_get_page_prot(unsigned long vm_flags)
++{
++	switch (vm_flags & (VM_READ | VM_WRITE | VM_EXEC | VM_SHARED)) {
++	case VM_NONE:
++		return PAGE_U_NONE;
++	case VM_READ:
++	/* Pvt-W => !W */
++	case VM_WRITE:
++	/* Pvt-W => !W */
++	case VM_WRITE | VM_READ:
++		return PAGE_U_R;
++	/* X => R */
++	case VM_EXEC:
++	case VM_EXEC | VM_READ:
++	 /* Pvt-W => !W and X => R */
++	case VM_EXEC | VM_WRITE:
++	 /* Pvt-W => !W */
++	case VM_EXEC | VM_WRITE | VM_READ:
++		return PAGE_U_X_R;
++	case VM_SHARED:
++		return PAGE_U_NONE;
++	case VM_SHARED | VM_READ:
++		return PAGE_U_R;
++	/* W => R */
++	case VM_SHARED | VM_WRITE:
++	case VM_SHARED | VM_WRITE | VM_READ:
++		return PAGE_U_W_R;
++	 /* X => R */
++	case VM_SHARED | VM_EXEC:
++	case VM_SHARED | VM_EXEC | VM_READ:
++		return PAGE_U_X_R;
++	/* X => R */
++	case VM_SHARED | VM_EXEC | VM_WRITE:
++	case VM_SHARED | VM_EXEC | VM_WRITE | VM_READ:
++		return PAGE_U_X_W_R;
++	default:
++		BUILD_BUG();
++	}
++}
++EXPORT_SYMBOL(vm_get_page_prot);
+-- 
+2.25.1
+
 
 _______________________________________________
 linux-snps-arc mailing list
