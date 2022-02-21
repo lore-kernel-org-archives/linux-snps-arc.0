@@ -4,50 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 893F6C433EF
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 21 Feb 2022 06:42:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B7FDC433EF
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 21 Feb 2022 13:54:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=KX3KOc7Xi0n4Yikx20M7wgltCYX6IVitzG0ZJ9gDe0o=; b=1j71e5VcxzVScX
-	oDpjCb2fPtevWD9WV+ORParV6IU2rfYZuDlItkKKbU8U54mgur2LjneAGVgRy+DeKPdnnzy6uCse7
-	sDV0eK7WnumX/8xKURDJkwFpt3OSLgWi67IGnesIVEMkv4h9FRgt90CmWpMIG7CM+3ENV/sE3vAee
-	BIljUhY5F7J172gfZpNqCCJIZxoiFeBjQyo9om/OraAUgnHhcXQfP36/wAcoKA5tcNohiYHegGVY8
-	VdDXdNsesF02owDyx3eZod1qzkX7HGckWXKCC8IEw2d2TQ/IQ+6uZSDo8zIy47lmT+XQ9PihtFr2Q
-	+K+Ux8m0vf3dtqM6xagA==;
+	List-Owner; bh=2ygL143jKWgwidxf17qSQV3sKGQIBBJTIlP8kylRv8g=; b=FBlGaOCSS0Ck3w
+	r46pglBfrNYl1zJwl+ytFBluNNFqDg/KSTV4f63rTxDDDDI64p8AfW7Nhaq99ZVrfrglgUThPN33Q
+	Wh59fOD6D2wIACo3Bo6jg8lynyCHSYYuo0cRvFRgd14LcdErU+UerFwSgFHVGBCfTlHbMYRLbfQV0
+	oucvaFJAz4VRTQBoxWgL+fhhqtJhg1hC9zMXXmhQJlEpFLa1dFUPUgS+2kUnKPJdjdz3KEiexSTD+
+	dLSKH8lezTQR4JZrSiSjPz1hUSi37nT+7zhwnm4nJfR4MOSVSrBMsyHBAveu0pu9ECjRPOexj0wwG
+	QbV1Na8HG9nN/gapzM7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nM2Ob-003lvZ-M1; Mon, 21 Feb 2022 06:42:05 +0000
-Received: from foss.arm.com ([217.140.110.172])
+	id 1nM990-0063Ou-V2; Mon, 21 Feb 2022 13:54:26 +0000
+Received: from elvis.franken.de ([193.175.24.41])
  by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nM2MO-003knY-2X
- for linux-snps-arc@lists.infradead.org; Mon, 21 Feb 2022 06:39:51 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 89E421476;
- Sun, 20 Feb 2022 22:39:47 -0800 (PST)
-Received: from p8cg001049571a15.arm.com (unknown [10.163.49.67])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 9F2A83F70D;
- Sun, 20 Feb 2022 22:39:44 -0800 (PST)
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-To: linux-mm@kvack.org,
-	akpm@linux-foundation.org
-Cc: linux-kernel@vger.kernel.org,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- Christoph Hellwig <hch@infradead.org>, linux-arch@vger.kernel.org,
- Vineet Gupta <vgupta@kernel.org>, linux-snps-arc@lists.infradead.org
-Subject: [PATCH V2 18/30] arc/mm: Enable ARCH_HAS_VM_GET_PAGE_PROT
-Date: Mon, 21 Feb 2022 12:08:27 +0530
-Message-Id: <1645425519-9034-19-git-send-email-anshuman.khandual@arm.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1645425519-9034-1-git-send-email-anshuman.khandual@arm.com>
-References: <1645425519-9034-1-git-send-email-anshuman.khandual@arm.com>
+ id 1nM8hK-005tkv-1I; Mon, 21 Feb 2022 13:25:54 +0000
+Received: from uucp (helo=alpha)
+ by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
+ id 1nM8h9-0001Eo-00; Mon, 21 Feb 2022 14:25:39 +0100
+Received: by alpha.franken.de (Postfix, from userid 1000)
+ id E4525C25DD; Mon, 21 Feb 2022 14:24:56 +0100 (CET)
+Date: Mon, 21 Feb 2022 14:24:56 +0100
+From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Christoph Hellwig <hch@lst.de>, linux-arch@vger.kernel.org,
+ linux-mm@kvack.org, linux-api@vger.kernel.org, arnd@arndb.de,
+ linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk,
+ linux@armlinux.org.uk, will@kernel.org, guoren@kernel.org,
+ bcain@codeaurora.org, geert@linux-m68k.org, monstr@monstr.eu,
+ nickhu@andestech.com, green.hu@gmail.com, dinguyen@kernel.org,
+ shorne@gmail.com, deller@gmx.de, mpe@ellerman.id.au,
+ peterz@infradead.org, mingo@redhat.com, mark.rutland@arm.com,
+ hca@linux.ibm.com, dalias@libc.org, davem@davemloft.net,
+ richard@nod.at, x86@kernel.org, jcmvbkbc@gmail.com,
+ ebiederm@xmission.com, akpm@linux-foundation.org, ardb@kernel.org,
+ linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org
+Subject: Re: [PATCH v2 09/18] mips: use simpler access_ok()
+Message-ID: <20220221132456.GA7139@alpha.franken.de>
+References: <20220216131332.1489939-1-arnd@kernel.org>
+ <20220216131332.1489939-10-arnd@kernel.org>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20220216131332.1489939-10-arnd@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220220_223948_247932_796894CB 
-X-CRM114-Status: UNSURE (   9.36  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220221_052550_444193_53F5634D 
+X-CRM114-Status: GOOD (  17.13  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,118 +74,67 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-This defines and exports a platform specific custom vm_get_page_prot() via
-subscribing ARCH_HAS_VM_GET_PAGE_PROT. Subsequently all __SXXX and __PXXX
-macros can be dropped which are no longer needed.
+On Wed, Feb 16, 2022 at 02:13:23PM +0100, Arnd Bergmann wrote:
+> 
+> diff --git a/arch/mips/include/asm/uaccess.h b/arch/mips/include/asm/uaccess.h
+> index db9a8e002b62..d7c89dc3426c 100644
+> --- a/arch/mips/include/asm/uaccess.h
+> +++ b/arch/mips/include/asm/uaccess.h
+> @@ -19,6 +19,7 @@
+>  #ifdef CONFIG_32BIT
+>  
+>  #define __UA_LIMIT 0x80000000UL
+> +#define TASK_SIZE_MAX	__UA_LIMIT
+>  
+>  #define __UA_ADDR	".word"
+>  #define __UA_LA		"la"
+> @@ -33,6 +34,7 @@
+>  extern u64 __ua_limit;
+>  
+>  #define __UA_LIMIT	__ua_limit
+> +#define TASK_SIZE_MAX	XKSSEG
 
-Cc: Vineet Gupta <vgupta@kernel.org>
-Cc: linux-snps-arc@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
----
- arch/arc/Kconfig                          |  1 +
- arch/arc/include/asm/pgtable-bits-arcv2.h | 17 ----------
- arch/arc/mm/mmap.c                        | 41 +++++++++++++++++++++++
- 3 files changed, 42 insertions(+), 17 deletions(-)
+this doesn't work. For every access above maximum implemented virtual address
+space of the CPU an address error will be issued, but not a TLB miss.
+And address error isn't able to handle this situation.
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 3c2a4753d09b..78ff0644b343 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -13,6 +13,7 @@ config ARC
- 	select ARCH_HAS_SETUP_DMA_OPS
- 	select ARCH_HAS_SYNC_DMA_FOR_CPU
- 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
-+	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_SUPPORTS_ATOMIC_RMW if ARC_HAS_LLSC
- 	select ARCH_32BIT_OFF_T
- 	select BUILDTIME_TABLE_SORT
-diff --git a/arch/arc/include/asm/pgtable-bits-arcv2.h b/arch/arc/include/asm/pgtable-bits-arcv2.h
-index 183d23bc1e00..798308f4dbad 100644
---- a/arch/arc/include/asm/pgtable-bits-arcv2.h
-+++ b/arch/arc/include/asm/pgtable-bits-arcv2.h
-@@ -72,23 +72,6 @@
-  *     This is to enable COW mechanism
-  */
- 	/* xwr */
--#define __P000  PAGE_U_NONE
--#define __P001  PAGE_U_R
--#define __P010  PAGE_U_R	/* Pvt-W => !W */
--#define __P011  PAGE_U_R	/* Pvt-W => !W */
--#define __P100  PAGE_U_X_R	/* X => R */
--#define __P101  PAGE_U_X_R
--#define __P110  PAGE_U_X_R	/* Pvt-W => !W and X => R */
--#define __P111  PAGE_U_X_R	/* Pvt-W => !W */
--
--#define __S000  PAGE_U_NONE
--#define __S001  PAGE_U_R
--#define __S010  PAGE_U_W_R	/* W => R */
--#define __S011  PAGE_U_W_R
--#define __S100  PAGE_U_X_R	/* X => R */
--#define __S101  PAGE_U_X_R
--#define __S110  PAGE_U_X_W_R	/* X => R */
--#define __S111  PAGE_U_X_W_R
- 
- #ifndef __ASSEMBLY__
- 
-diff --git a/arch/arc/mm/mmap.c b/arch/arc/mm/mmap.c
-index 722d26b94307..d286894d7359 100644
---- a/arch/arc/mm/mmap.c
-+++ b/arch/arc/mm/mmap.c
-@@ -74,3 +74,44 @@ arch_get_unmapped_area(struct file *filp, unsigned long addr,
- 	info.align_offset = pgoff << PAGE_SHIFT;
- 	return vm_unmapped_area(&info);
- }
+With this patch
+
+diff --git a/arch/mips/kernel/unaligned.c b/arch/mips/kernel/unaligned.c
+index df4b708c04a9..3911f1481f3d 100644
+--- a/arch/mips/kernel/unaligned.c
++++ b/arch/mips/kernel/unaligned.c
+@@ -1480,6 +1480,13 @@ asmlinkage void do_ade(struct pt_regs *regs)
+ 	prev_state = exception_enter();
+ 	perf_sw_event(PERF_COUNT_SW_ALIGNMENT_FAULTS,
+ 			1, regs, regs->cp0_badvaddr);
 +
-+pgprot_t vm_get_page_prot(unsigned long vm_flags)
-+{
-+	switch (vm_flags & (VM_READ | VM_WRITE | VM_EXEC | VM_SHARED)) {
-+	case VM_NONE:
-+		return PAGE_U_NONE;
-+	case VM_READ:
-+	/* Pvt-W => !W */
-+	case VM_WRITE:
-+	/* Pvt-W => !W */
-+	case VM_WRITE | VM_READ:
-+		return PAGE_U_R;
-+	/* X => R */
-+	case VM_EXEC:
-+	case VM_EXEC | VM_READ:
-+	 /* Pvt-W => !W and X => R */
-+	case VM_EXEC | VM_WRITE:
-+	 /* Pvt-W => !W */
-+	case VM_EXEC | VM_WRITE | VM_READ:
-+		return PAGE_U_X_R;
-+	case VM_SHARED:
-+		return PAGE_U_NONE;
-+	case VM_SHARED | VM_READ:
-+		return PAGE_U_R;
-+	/* W => R */
-+	case VM_SHARED | VM_WRITE:
-+	case VM_SHARED | VM_WRITE | VM_READ:
-+		return PAGE_U_W_R;
-+	 /* X => R */
-+	case VM_SHARED | VM_EXEC:
-+	case VM_SHARED | VM_EXEC | VM_READ:
-+		return PAGE_U_X_R;
-+	/* X => R */
-+	case VM_SHARED | VM_EXEC | VM_WRITE:
-+	case VM_SHARED | VM_EXEC | VM_WRITE | VM_READ:
-+		return PAGE_U_X_W_R;
-+	default:
-+		BUILD_BUG();
++	/* Are we prepared to handle this kernel fault?	 */
++	if (fixup_exception(regs)) {
++		current->thread.cp0_baduaddr = regs->cp0_badvaddr;
++		return;
 +	}
-+}
-+EXPORT_SYMBOL(vm_get_page_prot);
--- 
-2.25.1
++
+ 	/*
+ 	 * Did we catch a fault trying to load an instruction?
+ 	 */
 
+I at least get my simple test cases fixed, but I'm not sure this is
+correct.
+
+Is there a reason to not also #define TASK_SIZE_MAX   __UA_LIMIT like
+for the 32bit case ?
+
+Thomas.
+
+-- 
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
 
 _______________________________________________
 linux-snps-arc mailing list
