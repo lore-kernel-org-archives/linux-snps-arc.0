@@ -4,75 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 257CFC43219
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 22 Feb 2022 14:15:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6131FC433FE
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 22 Feb 2022 14:15:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=AG1xizrQNcm4tKgaN7JCdPqX30nR2vXQyCa6tihRYrM=; b=FDuZpmI0nopBrH
-	jeiilG3tentZySwgZ18joh++YuuRdmqzNY0KCiWpX2kk7xx8/dwPE1DZvw/V0eyTzrR0SR48aTjbN
-	THoMMtxa5PwsM4MUxfzu+QIacWf9imNEz328B0ZoQnX+o54Po0eEPMzCnJOefxho0Nt5gH10l/WWe
-	aODPKUhXtVMxjo7+xNjclmz+Rf8LJNznzzKZSKdq9dy48k+THsUFrj69yxu9fQIM6x24prhvoBblQ
-	zYJmeU8s0KJQLRWf/xOUUlziRSCQ71YSpeGIAmOgG9r3WQGwpse6kEMwW6YlE5y1sEDqJOfFWu50L
-	KMLAiUd3SOVO4QxTlXMg==;
+	List-Owner; bh=MgPE8W3McjMcvAR0xWtULOOBtXy4mKJJ4TbHxgd7HUM=; b=KEOvLQXmaiD+PY
+	Ejm4R2iTIUnRtwB66AbTcnHJjaSxEsFbo/jUQRVeu/p5zcrTPYkjjUvIqpaFDqLcflTUDBOUbYSzS
+	pSS7aZt8w8am3FN38z/Mwperf3r1p0zBhcMHZ9mJVwx3JZwqli+5KFUV9KNspVSshXG1csABAB4l+
+	IqvzFKIlNKzLPXEfeoA2rSGzH36rXIfDu++sfuP91LtPd78WQQ2Ph0iw+9mSQ2vMIkdj3z0mP6i1e
+	stAeXBrGW7n/DLaiSqJIXzaMOGlgDzSCOUZJRc1Q/6RLpEHcOxKPmVqOhe2/aj3kZPcG5DzofjACM
+	NelRXKgvxzlXoMSEIezA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nMVwo-009qRc-Au; Tue, 22 Feb 2022 14:15:22 +0000
-Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133])
+	id 1nMVwq-009qU2-PI; Tue, 22 Feb 2022 14:15:24 +0000
+Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nMVwl-009qO7-Ky
- for linux-snps-arc@lists.infradead.org; Tue, 22 Feb 2022 14:15:21 +0000
-Received: by mail-lf1-x133.google.com with SMTP id w27so7332548lfa.5
+ id 1nMVwm-009qOX-Ma
+ for linux-snps-arc@lists.infradead.org; Tue, 22 Feb 2022 14:15:22 +0000
+Received: by mail-lj1-x234.google.com with SMTP id 29so10055085ljv.10
  for <linux-snps-arc@lists.infradead.org>; Tue, 22 Feb 2022 06:15:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=x8t2JIdOCUZY3+MmNpF/hNG9rC3kyMMgOKXOEnBcjRQ=;
- b=YDXf1CrJpYqOC8SjnOz98rPDlUkj/zCOyjFP1b4EsBTNSt5Ie3iPORIZPs6FbYKAdN
- mY6BvWxhUy2Y37skqEQQPTiIcseyK8yW5Ru9LUGR2h2qsEa0CG9UH9igWY6YhIzBfBl3
- S0p8n4dMWNgmU7cwV7yk/d83v0cuSQWcYHi9+1AA4Klar18RWR5aaXN3I1VJ2ZOQKInV
- INyOP6/cfFhwTPhtH8xykk/hIxW324svB2w19grYkSGQzUeWv+e1mprWMjcEFkumPx+N
- sTc3XHdNkQ1RzuifeykIA706wakmoIbZ/P5fFzwlWfKw2yVWo0DcYHpQGDGefQSmar0D
- 04Lg==
+ bh=DhKcmFlLBs3GUKBJiCy8mo8MJVs1mw/WvkUvZ7xfLnY=;
+ b=K3ChC0VeViygBvP+fFxDit5E5puNGgXUgv/Lakr3ZKh8Sp/+mJY9NSGWZ/ZfMQcoRo
+ l9JPeLCnYr+tGqBOyuEzDE2DlQlUplrIoRK7IMF0yySk/kgA06wiYrcaP4HgNH6u1UA6
+ iZ5FTfBBGCj7FJVVNyGtYTVHRFaZyL0hXGviTacPR7DA9+TzJKox/+dKe9iw1zioGSLS
+ Lnd4YUUWPDV9AdhQg5bse8RwPEEzj4KHjNO82eqwwBhvOvxEol5eduq1m2N0vYiQOWbW
+ Z3PrcQU+ehRo0cY/C3uBWs3SfJFkZ3CcLwBhNOrd10VisPCHZFl6DEj5LZCD450omOkX
+ /MAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=x8t2JIdOCUZY3+MmNpF/hNG9rC3kyMMgOKXOEnBcjRQ=;
- b=11uPMxbg2uGzNIOZuysssU6D9oJxeqOolGjU2yqFF1xUyLoXTRzzIuXX+OsRmc3ZlW
- z27BOFL9bH56fK/Q607q9T8V+FRZfM0VAhQQ/L+y5yx8ntuq/JVeW0Rb/CIYUDRkADw0
- nQahmGuuSUVMqG+wLzFs+0lVYCROL7dFKLS6fNfAjLA7YRDCM+BlJDnNLILh+OZUU11k
- +InjOmaE8V9e7f/KDS7JcJcEoDvqpyqKENeYSh1feOO+3QLa8WP/R71i5IlmaB4fuofV
- LAsoKtlwYyfWSWc9/BkpGvZgKtdlKtSVU0EaddbrKEEBl1P7haLvpiFRqe1k0GsWDIYD
- MG7w==
-X-Gm-Message-State: AOAM532h/jjrrzJDDCiBoUiXJDdQYUCmQiA6B/q8WTEj9TZ1FGNCQ7MT
- jlnYvUBQrH969ubfKeS1V8nmoFEo9FA=
-X-Google-Smtp-Source: ABdhPJy1a/JIkrI6Jt8O0D5rrBu07e0WC/IwKu7LTu+k56IKUSQ1vfXk13ZcmJLGDqBn4CuM/89CYA==
-X-Received: by 2002:ac2:52aa:0:b0:443:d6f:31cb with SMTP id
- r10-20020ac252aa000000b004430d6f31cbmr16935810lfm.186.1645539317483; 
- Tue, 22 Feb 2022 06:15:17 -0800 (PST)
+ bh=DhKcmFlLBs3GUKBJiCy8mo8MJVs1mw/WvkUvZ7xfLnY=;
+ b=OXUDYP2V0DjkaYPvf0paWHLxzxtrH+bLUrkb5jFlaju2LRFx678uHz7/I/A8YcjECj
+ GGiSBIqqKAIIv0upZ1UnHFJmGCtG0zRJw/42e1TJPms1FyXRVfAvDtPh281I+N4JvIcq
+ zNhKbPp2cXE07/M6KIiEaaHZ2sHv27vtnBNfQSGCGoWKuV4uwtPWs4W7CwDsHKEEY83p
+ d9GKGJYc4KV+Ua5tD4wr247nF/u9ZS4SxHyRxfHsP7qQRuR+nX/KRv+weJ7BbZYYGhY6
+ VqiyrImiPCjNyBVLpL7e2AxbSVXfBC77At71d6GIDaXhpKt4Y+V+rg05kuxAwarn5JLL
+ aH1g==
+X-Gm-Message-State: AOAM530kKlTV9pCAJ8ZeuyHxCVOv9pHjcNCZSORThp9ULWdUaVVMsQdI
+ lBjWt1XWM1rRsJ6l7AySIfzkskGGIc8=
+X-Google-Smtp-Source: ABdhPJyO2Q50O7gG2y8Ocv9hdoDtt1y46m97W7a4pjgz97nGpupVBcKuewDqhtUMtDxXaQQatlFq0A==
+X-Received: by 2002:a2e:8744:0:b0:23b:9301:cbda with SMTP id
+ q4-20020a2e8744000000b0023b9301cbdamr17096137ljj.385.1645539318590; 
+ Tue, 22 Feb 2022 06:15:18 -0800 (PST)
 Received: from localhost.localdomain ([5.188.167.245])
- by smtp.googlemail.com with ESMTPSA id m8sm1707047ljb.131.2022.02.22.06.15.16
+ by smtp.googlemail.com with ESMTPSA id m8sm1707047ljb.131.2022.02.22.06.15.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Feb 2022 06:15:16 -0800 (PST)
+ Tue, 22 Feb 2022 06:15:18 -0800 (PST)
 From: Sergey Matyukevich <geomatsi@gmail.com>
 To: linux-snps-arc@lists.infradead.org
 Cc: Vineet Gupta <vgupta@kernel.org>, Vladimir Isaev <isaev@synopsys.com>,
  Sergey Matyukevich <geomatsi@gmail.com>,
  Sergey Matyukevich <sergey.matyukevich@synopsys.com>
-Subject: [RFC PATCH 02/13] ARC: Kconfig: introduce option to disable ZOL
-Date: Tue, 22 Feb 2022 17:14:55 +0300
-Message-Id: <20220222141506.4003433-3-geomatsi@gmail.com>
+Subject: [RFC PATCH 03/13] ARC: uaccess: drop CC_OPTIMIZE_FOR_SIZE
+Date: Tue, 22 Feb 2022 17:14:56 +0300
+Message-Id: <20220222141506.4003433-4-geomatsi@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220222141506.4003433-1-geomatsi@gmail.com>
 References: <20220222141506.4003433-1-geomatsi@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220222_061519_721811_14D001A9 
-X-CRM114-Status: GOOD (  16.72  )
+X-CRM114-CacheID: sfid-20220222_061520_766989_15F5D8EA 
+X-CRM114-Status: GOOD (  10.24  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,121 +91,66 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Vineet Gupta <vgupta@kernel.org>
 
-Upcoming ARCv3 lacks ZOL support, so provide alternatives
-based on DBNZ instruction inrtroduced in ARCv2.
+Currently ARC uses CC_OPTIMIZE_FOR_PERFORMANCE_O3, which excludes
+CC_OPTIMIZE_FOR_SIZE. So drop unused define branch.
 
 Signed-off-by: Vineet Gupta <vgupta@kernel.org>
 ---
- arch/arc/Kconfig                           | 10 ++++++++
- arch/arc/Makefile                          |  1 +
- arch/arc/include/asm/asm-macro-dbnz-emul.h | 12 +++++++++
- arch/arc/include/asm/asm-macro-dbnz.h      |  8 ++++++
- arch/arc/include/asm/assembler.h           | 29 ++++++++++++++++++++++
- 5 files changed, 60 insertions(+)
- create mode 100644 arch/arc/include/asm/asm-macro-dbnz-emul.h
- create mode 100644 arch/arc/include/asm/asm-macro-dbnz.h
- create mode 100644 arch/arc/include/asm/assembler.h
+ arch/arc/include/asm/uaccess.h | 11 ++---------
+ arch/arc/mm/extable.c          | 11 -----------
+ 2 files changed, 2 insertions(+), 20 deletions(-)
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 3c2a4753d09b..9daef7c763ce 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -341,6 +341,16 @@ config ARC_HAS_SWAPE
+diff --git a/arch/arc/include/asm/uaccess.h b/arch/arc/include/asm/uaccess.h
+index d78aae76831f..9b009e64e79c 100644
+--- a/arch/arc/include/asm/uaccess.h
++++ b/arch/arc/include/asm/uaccess.h
+@@ -615,7 +615,7 @@ raw_copy_to_user(void __user *to, const void *from, unsigned long n)
+ 	return res;
+ }
  
- if ISA_ARCV2
+-static inline unsigned long __arc_clear_user(void __user *to, unsigned long n)
++static inline unsigned long __clear_user(void __user *to, unsigned long n)
+ {
+ 	long res = n;
+ 	unsigned char *d_char = to;
+@@ -657,17 +657,10 @@ static inline unsigned long __arc_clear_user(void __user *to, unsigned long n)
+ 	return res;
+ }
  
-+config ARC_LACKS_ZOL
-+	bool "Disable Zero Delay hardware loops"
-+	help
-+	  ARC CPU historically have had ZOL hardware loop mechanism which
-+	  the ARCv3 ISA drops. Architecturally ZOL provides
-+	    - LPcc instruction
-+	    - LP_COUNT core reg
-+	    - LP_START, LP_END aux regs
-+	  This optional removes any use of ZOL instructions/regs from code
-+
- config ARC_USE_UNALIGNED_MEM_ACCESS
- 	bool "Enable unaligned access in HW"
- 	default y
-diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-index efc54f3e35e0..ec0f672bcee6 100644
---- a/arch/arc/Makefile
-+++ b/arch/arc/Makefile
-@@ -39,6 +39,7 @@ LINUXINCLUDE	+=  -include $(srctree)/arch/arc/include/asm/current.h
- endif
+-#ifndef CONFIG_CC_OPTIMIZE_FOR_SIZE
+-
+ #define INLINE_COPY_TO_USER
+ #define INLINE_COPY_FROM_USER
  
- cflags-y				+= -fsection-anchors
-+cflags-y				+= -Wa,-I$(srctree)/arch/arc/include
+-#define __clear_user(d, n)		__arc_clear_user(d, n)
+-#else
+-extern unsigned long arc_clear_user_noinline(void __user *to,
+-		unsigned long n);
+-#define __clear_user(d, n)		arc_clear_user_noinline(d, n)
+-#endif
++#define __clear_user		__clear_user
  
- cflags-$(CONFIG_ARC_HAS_LLSC)		+= -mlock
- cflags-$(CONFIG_ARC_HAS_SWAPE)		+= -mswape
-diff --git a/arch/arc/include/asm/asm-macro-dbnz-emul.h b/arch/arc/include/asm/asm-macro-dbnz-emul.h
-new file mode 100644
-index 000000000000..8c89f4234408
---- /dev/null
-+++ b/arch/arc/include/asm/asm-macro-dbnz-emul.h
-@@ -0,0 +1,12 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+
-+/*
-+ * DBNZ emulation for ARCompact or earlier ARCv2 cores
-+ * 2 byte short instructions used to keep code size same as 4 byte DBNZ.
-+ * This warrants usage of r0-r3, r12-r15, gas barfs otherwise catching
-+ * offenders immediately
-+ */
-+.macro DBNZR r, lbl
-+	sub_s  \r, \r, 1
-+	brne_s \r, 0, \lbl
-+.endm
-diff --git a/arch/arc/include/asm/asm-macro-dbnz.h b/arch/arc/include/asm/asm-macro-dbnz.h
-new file mode 100644
-index 000000000000..fe658d2eab51
---- /dev/null
-+++ b/arch/arc/include/asm/asm-macro-dbnz.h
-@@ -0,0 +1,8 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+
-+/*
-+ * DBNZ instruction introduced in ARCv2
-+ */
-+.macro DBNZR r, lbl
-+	dbnz  \r, \lbl
-+.endm
-diff --git a/arch/arc/include/asm/assembler.h b/arch/arc/include/asm/assembler.h
-new file mode 100644
-index 000000000000..426488ef27d4
---- /dev/null
-+++ b/arch/arc/include/asm/assembler.h
-@@ -0,0 +1,29 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+
-+#ifndef __ASM_ARC_ASM_H
-+#define __ASM_ARC_ASM_H 1
-+
-+#ifdef __ASSEMBLY__
-+
-+#ifdef CONFIG_ARC_LACKS_ZOL
-+#include <asm/asm-macro-dbnz.h>
-+#else
-+#include <asm/asm-macro-dbnz-emul.h>
-+#endif
-+
-+#else	/* !__ASSEMBLY__ */
-+
-+/*
-+ * ARCv2 cores have both LPcc and DBNZ instructions (starting 3.5a release).
-+ * But in this context, LP present implies DBNZ not available (ARCompact ISA)
-+ * or just not desirable, so emulate DBNZ with base instructions.
-+ */
-+#ifdef CONFIG_ARC_LACKS_ZOL
-+asm(".include \"asm/asm-macro-dbnz.h\"\n");
-+#else
-+asm(".include \"asm/asm-macro-dbnz-emul.h\"\n");
-+#endif
-+
-+#endif	/* __ASSEMBLY__ */
-+
-+#endif
+ #include <asm/segment.h>
+ #include <asm-generic/uaccess.h>
+diff --git a/arch/arc/mm/extable.c b/arch/arc/mm/extable.c
+index 4e14c4244ea2..88fa3a4d4906 100644
+--- a/arch/arc/mm/extable.c
++++ b/arch/arc/mm/extable.c
+@@ -22,14 +22,3 @@ int fixup_exception(struct pt_regs *regs)
+ 
+ 	return 0;
+ }
+-
+-#ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
+-
+-unsigned long arc_clear_user_noinline(void __user *to,
+-		unsigned long n)
+-{
+-	return __arc_clear_user(to, n);
+-}
+-EXPORT_SYMBOL(arc_clear_user_noinline);
+-
+-#endif
 -- 
 2.25.1
 
