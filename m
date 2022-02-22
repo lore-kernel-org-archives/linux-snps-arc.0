@@ -4,84 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0370C433FE
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 21 Feb 2022 15:23:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3029C433FE
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 22 Feb 2022 14:05:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=jIAbYcGq1YynKmPUU8G7P+BY1vS/0+AHMH9H/mbqb7E=; b=DhHbWkCMM8kzQ7
-	wdEu2Uuz9EERFnvfs4TaL6+ktZnNL1QiBy7ndLXvVdqcVxvYXxxb1ewd3rIBRrOGo5NJgvqJNfjzV
-	qXjXJOz9DUKqEIzNDFgyj8EhziN1IvQ1PNiSt04yLM5GN7j16cFX4+yG8NlQ2VW70ljIex2Rv9W8C
-	pnXKTs6P8wz6edrSKihQqa4QqGqYv0ou5RaXJNhtK6ioDW+spKHbYEnf8OysTHoWhX+qlj9lvM0j4
-	o6LqTvOuj3H8ujxoR6MESaK1dE33ZXMpObiVOaDUH2k8A9VS78fbEO8RlP2AqNpriYQkc2wgoCldP
-	Uv4mEPlZJEoOgw0xD9Pw==;
+	List-Owner; bh=jlgoqyBIP9pRAdiFLEShE5/xjIp1azuIpJzMUZm83g8=; b=ZflPhURQNDd+Lo
+	uOTDw/ql0b0KP/7fTGs1hcosk3Wp7BKTGRah2QbTh5nLUQKHeYxS1fPCvSZiUE0ACUxyyR2g43xgP
+	5O6FPCrgbsPu45JARwrN5DX0duazNVrqhZIYQAVlDBOwiCamoA4FeP0cKVjlldsO13SYhOAowEcI+
+	GmslmcOcDP4B9Jrsg93qO+kP+BMMY1Unr10Nn3FEK2o+a2P1Onx5HXcSIgtdlxy942+Xglen9gYlN
+	2U9v5UzhKNKdZd9akgHCFa0d/6X+2s04XzDkneHU//+PIFEbg490J52bS+6GnuUpXGMaIUSG2GMnI
+	bDM+lCe4eZ7jhXb8vOzQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nMAWv-006MwW-2M; Mon, 21 Feb 2022 15:23:13 +0000
-Received: from elvis.franken.de ([193.175.24.41])
- by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nMAWr-006MvD-Gh; Mon, 21 Feb 2022 15:23:11 +0000
-Received: from uucp (helo=alpha)
- by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
- id 1nMAWk-00025w-00; Mon, 21 Feb 2022 16:23:02 +0100
-Received: by alpha.franken.de (Postfix, from userid 1000)
- id 22D4EC25F8; Mon, 21 Feb 2022 16:21:30 +0100 (CET)
-Date: Mon, 21 Feb 2022 16:21:30 +0100
-From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Christoph Hellwig <hch@lst.de>, linux-arch <linux-arch@vger.kernel.org>,
- Linux-MM <linux-mm@kvack.org>, Linux API <linux-api@vger.kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Al Viro <viro@zeniv.linux.org.uk>,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
- Brian Cain <bcain@codeaurora.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Michal Simek <monstr@monstr.eu>, Nick Hu <nickhu@andestech.com>,
- Greentime Hu <green.hu@gmail.com>, Dinh Nguyen <dinguyen@kernel.org>,
- Stafford Horne <shorne@gmail.com>, Helge Deller <deller@gmx.de>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Mark Rutland <mark.rutland@arm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Rich Felker <dalias@libc.org>,
- David Miller <davem@davemloft.net>, Richard Weinberger <richard@nod.at>,
- the arch/x86 maintainers <x86@kernel.org>,
- Max Filippov <jcmvbkbc@gmail.com>,
- "Eric W . Biederman" <ebiederm@xmission.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Ard Biesheuvel <ardb@kernel.org>, alpha <linux-alpha@vger.kernel.org>,
- "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
- linux-csky@vger.kernel.org,
- "open list:QUALCOMM HEXAGON..." <linux-hexagon@vger.kernel.org>,
- linux-ia64@vger.kernel.org, linux-m68k <linux-m68k@lists.linux-m68k.org>,
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- Openrisc <openrisc@lists.librecores.org>,
- Parisc List <linux-parisc@vger.kernel.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- linux-riscv <linux-riscv@lists.infradead.org>,
- linux-s390 <linux-s390@vger.kernel.org>,
- Linux-sh list <linux-sh@vger.kernel.org>,
- sparclinux <sparclinux@vger.kernel.org>,
- linux-um <linux-um@lists.infradead.org>,
- "open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>
-Subject: Re: [PATCH v2 09/18] mips: use simpler access_ok()
-Message-ID: <20220221152130.GA17373@alpha.franken.de>
-References: <20220216131332.1489939-1-arnd@kernel.org>
- <20220216131332.1489939-10-arnd@kernel.org>
- <20220221132456.GA7139@alpha.franken.de>
- <CAK8P3a2usZWPDDDUcscwS0aVKsY6aLXFGFPqYNkm4hcDERim9w@mail.gmail.com>
+	id 1nMVnL-009nhs-5M; Tue, 22 Feb 2022 14:05:35 +0000
+Received: from mail-lj1-x236.google.com ([2a00:1450:4864:20::236])
+ by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nMVnG-009nfI-PS
+ for linux-snps-arc@lists.infradead.org; Tue, 22 Feb 2022 14:05:33 +0000
+Received: by mail-lj1-x236.google.com with SMTP id e17so19706376ljk.5
+ for <linux-snps-arc@lists.infradead.org>; Tue, 22 Feb 2022 06:05:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=zHWONupJWsFGmakaW1lJV/L/TehxNoS195CnP8hwM8A=;
+ b=V9AtcJDhKRVAwPbQHW6Rff3ecRU/g4dGbffUnunMkGdQsYznwnEANwwy8nqU9BVFME
+ YWG0A7WIjekTLonAHlc2f71QroOOcJKzHJOEusOjL/9X/KXHC5BOtf1YN3DfVxybtFsT
+ XzXGB0zpM6b9YOqZifrytdO1MtYyvCljHZLCnW26pFK03qWlwwrJCE+7n+wqRzzW6Abs
+ KYL3dZGNIO6JU3tLxFIvHsMA+6fED8/hUm7jo8oqXUQ2p0Umt1fy8d8e/yPYIz4bziJA
+ 5ylJVsdI2Iw+KxYIiMHYLGcHfRgH4jbdkB1PqDj5YrD6JPXYYwdUW5uGGPOVgKUO4O8V
+ waBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=zHWONupJWsFGmakaW1lJV/L/TehxNoS195CnP8hwM8A=;
+ b=hV545mH9Z7vODROXEn24blC/E9NhZz7POaKjHhjgXSP+eUFEFxJk9uCjnAR7ZCnt7E
+ LgTSSYVvGOSVxW4kBYNKfkstg5RyKDEZhix0eqFwymVwWOhx+CwAV9BemrJh1BCpHFeD
+ +x10EOoCKnuTOi0h52MhrC5P/7DY3oRYztAGZoE0lVCf/lUjuodX6B6KDmc1W80XcWMv
+ AphZglaeu4C14ti2pKBzNHDc/j1UBTmoi3OEDBHhFnGD4Od7bz7TI5HipLEP/FkEYLYI
+ gK6e6Zfj56SJyCyMjTpVhbl9pFFLraSpVnCpHWbN07fqOboitvPm/xi8nYyQ3SXU6vep
+ UyDw==
+X-Gm-Message-State: AOAM5324cH05LCDCRAVboaNtfYA3V1RVrdXvMj/fXxpyKZQUOmPPREUj
+ aguHpKarvDQ4EncEOZKwnyFlUCHknQg=
+X-Google-Smtp-Source: ABdhPJxoFblna7VuX22AmFkC16Xkn9PJd2vk4cWKIpaWE3Q0uyJPdNHloJm2lfhXoeaYiUoZmUUryA==
+X-Received: by 2002:a2e:7218:0:b0:246:4772:1fa0 with SMTP id
+ n24-20020a2e7218000000b0024647721fa0mr3833512ljc.125.1645538729117; 
+ Tue, 22 Feb 2022 06:05:29 -0800 (PST)
+Received: from localhost.localdomain ([5.188.167.245])
+ by smtp.googlemail.com with ESMTPSA id a19sm512003ljq.80.2022.02.22.06.05.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Feb 2022 06:05:28 -0800 (PST)
+From: Sergey Matyukevich <geomatsi@gmail.com>
+To: linux-snps-arc@lists.infradead.org
+Cc: Vineet Gupta <vgupta@kernel.org>, Vladimir Isaev <isaev@synopsys.com>,
+ Sergey Matyukevich <sergey.matyukevich@synopsys.com>
+Subject: [PATCH 1/2] ARC: atomic: cleanup atomic-llsc definitions
+Date: Tue, 22 Feb 2022 17:05:24 +0300
+Message-Id: <20220222140525.4002518-2-geomatsi@gmail.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220222140525.4002518-1-geomatsi@gmail.com>
+References: <20220222140525.4002518-1-geomatsi@gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a2usZWPDDDUcscwS0aVKsY6aLXFGFPqYNkm4hcDERim9w@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220221_072309_921190_633F79A6 
-X-CRM114-Status: GOOD (  32.63  )
+X-CRM114-CacheID: sfid-20220222_060530_847332_2755FF49 
+X-CRM114-Status: UNSURE (   9.75  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,65 +89,87 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 21, 2022 at 03:31:23PM +0100, Arnd Bergmann wrote:
-> On Mon, Feb 21, 2022 at 2:24 PM Thomas Bogendoerfer
-> <tsbogend@alpha.franken.de> wrote:
-> > On Wed, Feb 16, 2022 at 02:13:23PM +0100, Arnd Bergmann wrote:
-> > >
-> > > diff --git a/arch/mips/include/asm/uaccess.h b/arch/mips/include/asm/uaccess.h
-> > > index db9a8e002b62..d7c89dc3426c 100644
-> >
-> > this doesn't work. For every access above maximum implemented virtual address
-> > space of the CPU an address error will be issued, but not a TLB miss.
-> > And address error isn't able to handle this situation.
-> 
-> Ah, so the __ex_table entry only catches TLB misses?
+From: Sergey Matyukevich <sergey.matyukevich@synopsys.com>
 
-no, but there is no __ex_table handling in address error hanlder (yet).
+Remove redundant c_op macro argument. Only asm_op is needed
+to define atomic operations using llock/scond.
 
-> Does this mean it also traps for kernel memory accesses, or do those
-> work again?
+Signed-off-by: Sergey Matyukevich <sergey.matyukevich@synopsys.com>
+---
+ arch/arc/include/asm/atomic-llsc.h | 32 +++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-it will trap for every access.
-
-
-> If the addresses on mips64 are separate like on
-> sparc64 or s390, the entire access_ok() step could be replaced
-> by a fixup code in the exception handler. I suppose this depends on
-> CONFIG_EVA and you still need a limit check at least when EVA is
-> disabled.
-
-only EVA has seperate address spaces for kernel/user.
-
-> > Is there a reason to not also #define TASK_SIZE_MAX   __UA_LIMIT like
-> > for the 32bit case ?
-> >
-> 
-> For 32-bit, the __UA_LIMIT is a compile-time constant, so the check
-> ends up being trivial. On all other architectures, the same thing can
-> be done after the set_fs removal, so I was hoping it would work here
-> as well.
-
-ic
-
-> I suspect doing the generic (size <= limit) && (addr <= (limit - size))
-> check on mips64 with the runtime limit ends up slightly slower
-> than the current code that checks a bit mask instead. If you like,
-> I'll update it this way, otherwise I'd need help in form of a patch
-> that changes the exception handling so __get_user/__put_user
-> also return -EFAULT for an address error.
-
-that's what the patch does. For aligned accesses the patch should
-do the right thing, but it breaks unaligned get_user/put_user.
-Checking if the trapping vaddr is between end of CPU VM space and
-TASK_MAX_SIZE before exception handling should do the trick. I'll
-send a patch, if this works.
-
-Thomas.
-
+diff --git a/arch/arc/include/asm/atomic-llsc.h b/arch/arc/include/asm/atomic-llsc.h
+index 088d348781c1..1b0ffaeee16d 100644
+--- a/arch/arc/include/asm/atomic-llsc.h
++++ b/arch/arc/include/asm/atomic-llsc.h
+@@ -5,7 +5,7 @@
+ 
+ #define arch_atomic_set(v, i) WRITE_ONCE(((v)->counter), (i))
+ 
+-#define ATOMIC_OP(op, c_op, asm_op)					\
++#define ATOMIC_OP(op, asm_op)					\
+ static inline void arch_atomic_##op(int i, atomic_t *v)			\
+ {									\
+ 	unsigned int val;						\
+@@ -21,7 +21,7 @@ static inline void arch_atomic_##op(int i, atomic_t *v)			\
+ 	: "cc");							\
+ }									\
+ 
+-#define ATOMIC_OP_RETURN(op, c_op, asm_op)				\
++#define ATOMIC_OP_RETURN(op, asm_op)				\
+ static inline int arch_atomic_##op##_return_relaxed(int i, atomic_t *v)	\
+ {									\
+ 	unsigned int val;						\
+@@ -42,7 +42,7 @@ static inline int arch_atomic_##op##_return_relaxed(int i, atomic_t *v)	\
+ #define arch_atomic_add_return_relaxed		arch_atomic_add_return_relaxed
+ #define arch_atomic_sub_return_relaxed		arch_atomic_sub_return_relaxed
+ 
+-#define ATOMIC_FETCH_OP(op, c_op, asm_op)				\
++#define ATOMIC_FETCH_OP(op, asm_op)				\
+ static inline int arch_atomic_fetch_##op##_relaxed(int i, atomic_t *v)	\
+ {									\
+ 	unsigned int val, orig;						\
+@@ -69,23 +69,23 @@ static inline int arch_atomic_fetch_##op##_relaxed(int i, atomic_t *v)	\
+ #define arch_atomic_fetch_or_relaxed		arch_atomic_fetch_or_relaxed
+ #define arch_atomic_fetch_xor_relaxed		arch_atomic_fetch_xor_relaxed
+ 
+-#define ATOMIC_OPS(op, c_op, asm_op)					\
+-	ATOMIC_OP(op, c_op, asm_op)					\
+-	ATOMIC_OP_RETURN(op, c_op, asm_op)				\
+-	ATOMIC_FETCH_OP(op, c_op, asm_op)
++#define ATOMIC_OPS(op, asm_op)					\
++	ATOMIC_OP(op, asm_op)					\
++	ATOMIC_OP_RETURN(op, asm_op)				\
++	ATOMIC_FETCH_OP(op, asm_op)
+ 
+-ATOMIC_OPS(add, +=, add)
+-ATOMIC_OPS(sub, -=, sub)
++ATOMIC_OPS(add, add)
++ATOMIC_OPS(sub, sub)
+ 
+ #undef ATOMIC_OPS
+-#define ATOMIC_OPS(op, c_op, asm_op)					\
+-	ATOMIC_OP(op, c_op, asm_op)					\
+-	ATOMIC_FETCH_OP(op, c_op, asm_op)
++#define ATOMIC_OPS(op, asm_op)					\
++	ATOMIC_OP(op, asm_op)					\
++	ATOMIC_FETCH_OP(op, asm_op)
+ 
+-ATOMIC_OPS(and, &=, and)
+-ATOMIC_OPS(andnot, &= ~, bic)
+-ATOMIC_OPS(or, |=, or)
+-ATOMIC_OPS(xor, ^=, xor)
++ATOMIC_OPS(and, and)
++ATOMIC_OPS(andnot, bic)
++ATOMIC_OPS(or, or)
++ATOMIC_OPS(xor, xor)
+ 
+ #define arch_atomic_andnot		arch_atomic_andnot
+ 
 -- 
-Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-good idea.                                                [ RFC1925, 2.3 ]
+2.25.1
+
 
 _______________________________________________
 linux-snps-arc mailing list
