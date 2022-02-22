@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69664C43219
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 695E3C43217
 	for <linux-snps-arc@archiver.kernel.org>; Tue, 22 Feb 2022 14:15:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
@@ -12,67 +12,67 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=fb/WP519o3oHp8vyAZ3u4joXi1XfRLo+/H+tMtXZtfo=; b=VftVaYlen58c8T
-	xpFLN4tW7Nlqk0CfZ/uSnoq/tA/WuiXQlHKeZQW7DxASXtvBiqd9jDl8bAP0xOKDW6ylYViUlssNe
-	T+wdlih3Ceh6vbaekU7IsSlzRTC2oUBCgckZAPu2T2WFH6E2jZWewMe94krgAgmOGBc+D1PNSDY5f
-	InA0i/lDCXShbSwuho/IJlB+7JfdBcvXz560e2lFrAT3tpvtfkVGxKHmKqNh+UdZL+mmiiD3BeuFw
-	QVFqiuZthByuEWPg9Lot9fYNIhR1Ixb1BIWFe83zG88vHj7adLh2IG8YBtC+7aWvJistVZp2jx742
-	YyZT+2ws5yrKZVAR6QjQ==;
+	List-Owner; bh=GzuDL0WzFyHW3qU14X1ORUTHzJEevVxD219/dt6skxo=; b=fvKhhxFqyrckcL
+	vRSd7qBzjiwPoHgIqjoWU2WAZ+QSi0WEDCdh/jvPJxUn6sXrp1CcfjU3NA9aKmj9d0fP2Ztew95oJ
+	PrBUYNaWHiqkBw2o/+mMxvEmSVyUpwGEHPgDBsVHyoBKpcpWsZwHNsb4vkhNNvudGwiflN9c2+kvC
+	FStMPfdHZnYYWfSC9AIAh7pCCMin2BZ1+Ce8XEYZpSfyfOAn0u/CIXQkJa9d5wJio7MOSMeBgkVxb
+	0F0TSQUrykU/URSL1HbECAOGtBFlMYJUrDBfEn2qczfGfGTI+ClC1A2+7EMaKbIyGZ7QEPTiRZJww
+	tmV2LGbnmxOxJvp7K4DA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nMVx9-009qhU-0V; Tue, 22 Feb 2022 14:15:43 +0000
-Received: from mail-lj1-x22d.google.com ([2a00:1450:4864:20::22d])
+	id 1nMVx8-009qhJ-Q5; Tue, 22 Feb 2022 14:15:42 +0000
+Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nMVwq-009qSa-7m
- for linux-snps-arc@lists.infradead.org; Tue, 22 Feb 2022 14:15:28 +0000
-Received: by mail-lj1-x22d.google.com with SMTP id f11so11988162ljq.11
- for <linux-snps-arc@lists.infradead.org>; Tue, 22 Feb 2022 06:15:23 -0800 (PST)
+ id 1nMVwr-009qUF-Sx
+ for linux-snps-arc@lists.infradead.org; Tue, 22 Feb 2022 14:15:27 +0000
+Received: by mail-lj1-x230.google.com with SMTP id e17so19757219ljk.5
+ for <linux-snps-arc@lists.infradead.org>; Tue, 22 Feb 2022 06:15:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iO/u1sA1ai2IOQrlzego8MLm0SGdTqSl2pvOiVgSmFA=;
- b=ZlibMX1vPauELmIIzHZrkQyo8XRWPGz+nGj9kLYN+uxkf2uo3KKzC7Uhfsp2RGLMJ9
- qavEWSUwFxg6eKt5NDahIkpu6jaGmTEzO3UYKPuPDmz3QNtV2N15KUNomD7MKh+bbDhT
- ViULRH47ed9YiKSKZNqcz+gE2VD7lXEe8lvs93wi4H97Y+jUYcs5eGKO2n89BkJWVtE0
- d+t2LHSp4YDPq23JNw8TvNDDnTWeMOJ7d8Dn5NbQFR1/2mWJzZaTI8gv4XTdqgfcSPUO
- tjWddQrTMNvTzvoPzJ6zp68bDI1stMw4yFw23AD89OVjqraJBb8vMiUtoP81dSUEghjk
- xmlg==
+ bh=4gyYEhPeAnSY1Pta4tacguMbnijkVO4Hr+s4Kcce0Wo=;
+ b=oYR9NBawDuRru9we6zFbBzbxjtlH2YEX6nX4P1PdXvmsw1XbyaElLdo8S2oXrHK+A7
+ /QgPJjtGi/aDYLb0gWiTIGoAMNE7SDEHGfJX59m7M7U4xzk4WnCALyAOymPkEaYofu9c
+ 5BizIchWCcEte+fC2er7MOp5zVV3neW1KfHPAkv/O9we5ltz/WA2Hph/o/OU00o+3LbP
+ 7VcPFgF35HQ6hk95GDyib3in8lwSrBq+27Sa1zG723HMBl6ENoJpDJIf/omMFdJELxgb
+ gqwdisTdVZD0RB5mkt9i/s6YXySeOp9CALzJlISMBnVKlq9jajiMXcTThj9jj7vPuLJz
+ VfoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iO/u1sA1ai2IOQrlzego8MLm0SGdTqSl2pvOiVgSmFA=;
- b=VMG4JLmU+skeWufqgJnywHS/WIkmDyd8vtesdZC10UA0uuyduY8HBitSB+y1mSXM8J
- n//JlW4B6jjJowZ9s4AQ/f1bnPXa0AKnQv59J6OOtsfxttAhTRTZVLFAYIrpSIWmSDdZ
- iNxP3DT2kGjRAMlylOSXHU031ciRjI89rzvFMb6DXI9ZbiGc36i9+LT8nswjRkJYeTW/
- 0epUyJ3C3KMshoB45D9ByzLt0i4N1YXsbx/kwCpQh3b1x/KwUDq0wk6pzNEMELlIWHzB
- ZB25Utm4ZmB4EDv5UdkVEoywr1r6kKThpnlxGaW0S2dQUqJNU3v1il+Q2sQ3iyfsuBgR
- 6Pzg==
-X-Gm-Message-State: AOAM533racVVdVNK0kdlMsAQkBBqlSAyi1IG/bsmY5dM0yUwITHQM6Lv
- gUUuMBpkW+wys+19VkY3/s4x1irVt2A=
-X-Google-Smtp-Source: ABdhPJz5ogUUrS1G/o0s34Rii/F5BSO0p8POV56RgwJ+ZwGSSv2hWQ6+j4ZUMEcgbW7vzsmCiOPQFg==
-X-Received: by 2002:a05:651c:d1:b0:246:3708:6e2 with SMTP id
- 17-20020a05651c00d100b00246370806e2mr9586175ljr.109.1645539322528; 
- Tue, 22 Feb 2022 06:15:22 -0800 (PST)
+ bh=4gyYEhPeAnSY1Pta4tacguMbnijkVO4Hr+s4Kcce0Wo=;
+ b=GL+pgd6g1arb5Wh510TD45Nm28o4xLOnSDaml+i2xRHUcccYnk0iSaDTotrHeGk0gt
+ DDc+P4j0tC70ogMT731T5aLI9dzzEjCK8JCm8Mdg8N7rT1JT1SgXoiXydmiOKGDpN0XM
+ tn+Gw0zgsS6oSdCqozv1aabBcPphqwkPZVJRa+B7pGAOhP5EnvBzQJzzrk/kSobSgCj1
+ m5KKQxGG1L9c2v1OI1MRrrklb6BTd52ma82WxwDC4D/MMOvG8jGCq7SGh1dIohZgrilm
+ ITiv0ffAPqEB2Fzy/elI7BjNJToBehybG1VdN/FjIsFlGEbdiT+hfZC0Srp8rfdMRzbK
+ 4gOg==
+X-Gm-Message-State: AOAM532Y2AB6yShKOzpM9WtndDuR21b117/vexDemWXt6Q89JXHmNkdk
+ cPPGVxnPqDzakmwA0y6buhQk82rmEPE=
+X-Google-Smtp-Source: ABdhPJxVbuKZuCOcSSoDAPNVY/gaC7NUA5Xs70uMPenzsyVHp1L3UCgCQseK34nI19KktgDkluVcsw==
+X-Received: by 2002:a05:651c:12c5:b0:23e:1f55:35b4 with SMTP id
+ 5-20020a05651c12c500b0023e1f5535b4mr17046388lje.58.1645539324270; 
+ Tue, 22 Feb 2022 06:15:24 -0800 (PST)
 Received: from localhost.localdomain ([5.188.167.245])
- by smtp.googlemail.com with ESMTPSA id m8sm1707047ljb.131.2022.02.22.06.15.21
+ by smtp.googlemail.com with ESMTPSA id m8sm1707047ljb.131.2022.02.22.06.15.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Feb 2022 06:15:22 -0800 (PST)
+ Tue, 22 Feb 2022 06:15:23 -0800 (PST)
 From: Sergey Matyukevich <geomatsi@gmail.com>
 To: linux-snps-arc@lists.infradead.org
 Cc: Vineet Gupta <vgupta@kernel.org>, Vladimir Isaev <isaev@synopsys.com>,
  Sergey Matyukevich <geomatsi@gmail.com>,
  Sergey Matyukevich <sergey.matyukevich@synopsys.com>
-Subject: [RFC PATCH 08/13] ARC: string: use generic C code if no ZOL support
-Date: Tue, 22 Feb 2022 17:15:01 +0300
-Message-Id: <20220222141506.4003433-9-geomatsi@gmail.com>
+Subject: [RFC PATCH 10/13] ARC: checksum: elide ZOL
+Date: Tue, 22 Feb 2022 17:15:03 +0300
+Message-Id: <20220222141506.4003433-11-geomatsi@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220222141506.4003433-1-geomatsi@gmail.com>
 References: <20220222141506.4003433-1-geomatsi@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220222_061524_354704_CDC6B1D9 
-X-CRM114-Status: GOOD (  13.27  )
+X-CRM114-CacheID: sfid-20220222_061525_985465_E6A13010 
+X-CRM114-Status: GOOD (  13.18  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,91 +91,99 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Vineet Gupta <vgupta@kernel.org>
 
-Switch to generic C code when ZOL is not supported.
-Generic code lacks memzero, so define it.
+Add checksum implementation based on double load/stores
+if ZOL is not supported.
 
 Signed-off-by: Vineet Gupta <vgupta@kernel.org>
 ---
- arch/arc/include/asm/string.h | 15 ++++++++++++++-
- arch/arc/kernel/arcksyms.c    |  2 ++
- arch/arc/lib/Makefile         |  4 ++++
- 3 files changed, 20 insertions(+), 1 deletion(-)
+ arch/arc/include/asm/checksum.h | 58 ++++++++++++++++++++++++++++++---
+ 1 file changed, 53 insertions(+), 5 deletions(-)
 
-diff --git a/arch/arc/include/asm/string.h b/arch/arc/include/asm/string.h
-index 3182ea9dcdde..5cde5226fada 100644
---- a/arch/arc/include/asm/string.h
-+++ b/arch/arc/include/asm/string.h
-@@ -14,6 +14,8 @@
- 
- #include <linux/types.h>
+diff --git a/arch/arc/include/asm/checksum.h b/arch/arc/include/asm/checksum.h
+index 0b485800a392..435017be9900 100644
+--- a/arch/arc/include/asm/checksum.h
++++ b/arch/arc/include/asm/checksum.h
+@@ -29,10 +29,13 @@ static inline __sum16 csum_fold(__wsum s)
+ 	s -= r;
+ 	return s >> 16;
+ }
++#define csum_fold csum_fold
  
 +#ifndef CONFIG_ARC_LACKS_ZOL
-+
- #define __HAVE_ARCH_MEMSET
- #define __HAVE_ARCH_MEMCPY
- #define __HAVE_ARCH_MEMCMP
-@@ -22,7 +24,7 @@
- #define __HAVE_ARCH_STRCMP
- #define __HAVE_ARCH_STRLEN
- 
--extern void *memset(void *ptr, int, __kernel_size_t);
-+extern void *memset(void *, int, __kernel_size_t);
- extern void *memcpy(void *, const void *, __kernel_size_t);
- extern void memzero(void *ptr, __kernel_size_t n);
- extern int memcmp(const void *, const void *, __kernel_size_t);
-@@ -31,4 +33,15 @@ extern char *strcpy(char *dest, const char *src);
- extern int strcmp(const char *cs, const char *ct);
- extern __kernel_size_t strlen(const char *);
+ /*
+- *	This is a version of ip_compute_csum() optimized for IP headers,
+- *	which always checksum on 4 octet boundaries.
++ * This is a version of ip_compute_csum() optimized for IP headers,
++ * which always checksum on 4 octet boundaries.
++ * @ihl comes from IP hdr and is number of 4-byte words
+  */
+ static inline __sum16
+ ip_fast_csum(const void *iph, unsigned int ihl)
+@@ -62,6 +65,54 @@ ip_fast_csum(const void *iph, unsigned int ihl)
+ 	return csum_fold(sum);
+ }
  
 +#else
 +
-+extern void *memset(void *, int, __kernel_size_t);
-+
-+static inline void memzero(void *s, size_t count)
++/*
++ * This is a version of ip_compute_csum() optimized for IP headers,
++ * which always checksum on 4 octet boundaries.
++ * @ihl comes from IP hdr and is number of 4-byte words
++ *  - No loop enterted for canonical 5 words
++ *  - optimized for ARCv2
++ *    - LDL double load for fetching first 16 bytes
++ *    - DBNZ instruction for looping (ZOL not used)
++ */
++static inline __sum16
++ip_fast_csum(const void *iph, unsigned int ihl)
 +{
-+	memset(s, 0, count);
++	unsigned int tmp, sum;
++	u64 dw1, dw2;
++
++	__asm__(
++#ifdef CONFIG_ARC_HAS_LL64
++	"	ldd.ab %0, [%4, 8]	\n"
++	"	ldd.ab %1, [%4, 8]	\n"
++#else
++	"	ld.ab %L0, [%4, 4]	\n"
++	"	ld.ab %H0, [%4, 4]	\n"
++	"	ld.ab %L1, [%4, 4]	\n"
++	"	ld.ab %H1, [%4, 4]	\n"
++#endif
++	"	sub    %5, %5,  4	\n"
++	"	add.f  %3, %L0, %H0	\n"
++	"	adc.f  %3, %3,  %L1	\n"
++	"	adc.f  %3, %3,  %H1	\n"
++	"1:	ld.ab  %2, [%4, 4]	\n"
++	"	adc.f  %3, %3,  %2	\n"
++	"	DBNZR  %5, 1b		\n"
++	"	add.cs %3, %3,  1	\n"
++
++	: "=&r" (dw1), "=&r" (dw2), "=&r" (tmp), "=&r" (sum),
++	  "+&r" (iph), "+&r"(ihl)
++	:
++	: "cc", "memory");
++
++	return csum_fold(sum);
 +}
 +
 +#endif
 +
- #endif /* _ASM_ARC_STRING_H */
-diff --git a/arch/arc/kernel/arcksyms.c b/arch/arc/kernel/arcksyms.c
-index 8851c0a19e09..d682cea639a4 100644
---- a/arch/arc/kernel/arcksyms.c
-+++ b/arch/arc/kernel/arcksyms.c
-@@ -45,6 +45,7 @@ EXPORT_SYMBOL(__floatunsisf);
- EXPORT_SYMBOL(__udivdi3);
- 
- /* ARC optimised assembler routines */
-+#ifndef CONFIG_ARC_LACKS_ZOL
- EXPORT_SYMBOL(memset);
- EXPORT_SYMBOL(memcpy);
- EXPORT_SYMBOL(memcmp);
-@@ -52,3 +53,4 @@ EXPORT_SYMBOL(strchr);
- EXPORT_SYMBOL(strcpy);
- EXPORT_SYMBOL(strcmp);
- EXPORT_SYMBOL(strlen);
-+#endif
-diff --git a/arch/arc/lib/Makefile b/arch/arc/lib/Makefile
-index 87d18f5013dc..28793e1ad1be 100644
---- a/arch/arc/lib/Makefile
-+++ b/arch/arc/lib/Makefile
-@@ -3,6 +3,8 @@
- # Copyright (C) 2004, 2007-2010, 2011-2012 Synopsys, Inc. (www.synopsys.com)
- #
- 
-+ifndef CONFIG_ARC_LACKS_ZOL
++#define ip_fast_csum ip_fast_csum
 +
- lib-y	:= strchr-700.o strcpy-700.o strlen.o memcmp.o
+ /*
+  * TCP pseudo Header is 12 bytes:
+  * SA [4], DA [4], zeroes [1], Proto[1], TCP Seg(hdr+data) Len [2]
+@@ -88,9 +139,6 @@ csum_tcpudp_nofold(__be32 saddr, __be32 daddr, __u32 len,
  
- lib-$(CONFIG_ISA_ARCOMPACT)	+= memcpy-700.o memset.o strcmp.o
-@@ -14,4 +16,6 @@ else
- lib-$(CONFIG_ISA_ARCV2)		+=memcpy-archs.o
- endif
+ 	return sum;
+ }
+-
+-#define csum_fold csum_fold
+-#define ip_fast_csum ip_fast_csum
+ #define csum_tcpudp_nofold csum_tcpudp_nofold
  
-+endif
-+
- lib-$(CONFIG_ARC_LACKS_ZOL)	+= uaccess.o
+ #include <asm-generic/checksum.h>
 -- 
 2.25.1
 
