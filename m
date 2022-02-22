@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7FCDCC4167D
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DACEDC433EF
 	for <linux-snps-arc@archiver.kernel.org>; Tue, 22 Feb 2022 14:15:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
@@ -12,67 +12,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=0kzKJMmNI8/ZF1xHpwOj5ItpI9psPShdBIpS10v8dYY=; b=EWks/bhKZ17HoN
-	330okw1Scsdnq56ba+v6B8ZoAiZZjgs29oNaOqTLn4B3GF9JOIhq4592o4FkbVYynq9HNspaeY14J
-	rAGPl1RbI3mpOsa0KVHht8Zn2VB4Zra+cnuCBG/DRzou9Lu12/2/6F4W6aYfMtsKT1X0ysYVjThcg
-	3aypGcSQojwtYOl/hkDMCIR27RKAtXecXby7U2zLWen30ZqdADlFkeAWHKXFhQZ2bpsoFOcP4+Co2
-	R4k1AW7uPpGjLzLK5Ympc0T8kJnO17iNj8agUiMNbyHWoo38LvzGkyFp7mN2cTZz6u4C0QgbJfRU2
-	25YgntiUNfxFF4gA1SIQ==;
+	List-Owner; bh=Pqo5zceSRCvHkKXmW9EgYNJGYYWdD8fNzX6fs4RgebQ=; b=yGzaK3g2HAFVXP
+	L12qETYnxHXJi0EvLgJHn1Po5twunm6ojhsf3Oo2DLaEHRKXYzACQfQL6OK8/oTc5Q6GfH8o6JFt/
+	z0ipj74Sptyee5xWaDyB8SbBxYL2BpIm7SEL1/M2hZNWLCiRB7MqSbuKY3xrjB6gMq4GT5bTzetcs
+	aa9/mW/WfNclwcjSFNs6oC2W/ohpn3hrS6AbMH7euFvPZuc+2bmHhFdJ8MwAgs1zVlL6dYo3a+vfx
+	dbdq4P67L6uHHpcPXSqRjO64/ionYKUf6y985QHD93tC7kPFvgpQnHiE74GQDBSHy8dYCRJ5Wn9na
+	MKnAlZj8+l7b8h29Cv6w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nMVx9-009qhl-AX; Tue, 22 Feb 2022 14:15:43 +0000
-Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a])
+	id 1nMVxA-009qiS-3X; Tue, 22 Feb 2022 14:15:44 +0000
+Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nMVws-009qV1-IF
- for linux-snps-arc@lists.infradead.org; Tue, 22 Feb 2022 14:15:28 +0000
-Received: by mail-lf1-x12a.google.com with SMTP id b9so25085889lfv.7
- for <linux-snps-arc@lists.infradead.org>; Tue, 22 Feb 2022 06:15:26 -0800 (PST)
+ id 1nMVwu-009qWt-Ky
+ for linux-snps-arc@lists.infradead.org; Tue, 22 Feb 2022 14:15:34 +0000
+Received: by mail-lj1-x232.google.com with SMTP id e2so16348646ljq.12
+ for <linux-snps-arc@lists.infradead.org>; Tue, 22 Feb 2022 06:15:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1bfGZO3qbkT9o7Ckyj5R6TFR89uvj42RXUW0v//exS4=;
- b=kG+GHEaJEFS+qOt7vxpB2NhBAjeJxt8pvA79ZueRg3CkVlSLqQWi7mkJzJ/F23P5u+
- PRrjr8inKKWKDmpyvBEVl+Zb0pX5ZGVtc39P0+f1r+m77wcXYR4aZyb6ejqkmynHTzLR
- qA2K19+QC/TbN4zlrzuKYniTertKMstTfYULxqwuTUN4QS3XZlMqfgJPYQL3/YK0u/nD
- np+Iy161MgSBNPKQjuN0uhIhi8XYlqQ31M5rfedWLzRmcbQF/f+BMjLcOcdmIX5xfRNP
- b6QbxLLpNL3jFexV3iOMfE5uJyu4jA/oF1XD2bZ+pth6uThCB5CQ9/ueNFaECxmvToUL
- 9asQ==
+ bh=O8AnGg6j/6brs8tJZW3EA88ySpYn8dyRUbWEEnyBkjI=;
+ b=GpnXPuQvQyiXdN7cwGSPEv1BXLtEE3oxVSEoQwxL5AnuraPQ9KBCSrQSGwLaPR+n49
+ mG0NI09rkiIeZOKXxHdobf+7leEvCRR3GXe9YMz5L5HehwoC2jjBgcOSNbea9O1OqVUz
+ hop73AweoCxkah2vrwlxF1xZZnIY5X6wCy969TqQ+ANdsD2AWVOm5S1PvX1QALbZR79k
+ xaRLuUwrW2epqyvKHKI9fvGoeAkPTPDS7wvus35RpL7HmDGFpwdm3pmj4cd0XGmoVsLC
+ 7ljM/tE/mH7bbB92jhGv3xewYJKT9KC/T1kdtR4Qx9xOef+FOeyK/67U9uMa3J9QGz49
+ 8IVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1bfGZO3qbkT9o7Ckyj5R6TFR89uvj42RXUW0v//exS4=;
- b=AIvgvyzhXMfUNH50+EWx38MBSEeoCyDdmZOs9bNC2lkWSZ8i9qIu4OlOJ6+R5zWfOh
- AaVIkCb1zvhkmyUUq9DdOGDwDuVtc65g3+jvMX46uXNzT0lkFsV7hjqpBKSluBp3Kc4t
- XKMv82EMVpIQ37ae97+N2mH7eKiUgmvpf8k8mjh6fJ2/JqumSy/2pA/toYhZbvc2tRwU
- LJB7E95+S6XqS9CqdRfCmHqz3912QDtc0yUhqvvdi6Titj7CEle9NhDWDxjQB+ePV2vC
- LY9q5Exxb+daUaACUzXOnGJ8DThoxFFolehWExdleDhWFZ7g0SybR5hiGkngiKNpX9+S
- W1ew==
-X-Gm-Message-State: AOAM530z3rLhkssgikmv36U3f3q7KcrDfV+r90qj/K6o8lHaZoxClJhQ
- SFCx/d1FtE6zDuHND8p3c6yXBLkEReM=
-X-Google-Smtp-Source: ABdhPJyYdQVKllknihFiYQQFegZ7hHJ8FDPPwzCKBKKSNTP3gFHWJ7+Z5fsm71PDXrylrw/xPm99cg==
-X-Received: by 2002:ac2:4e04:0:b0:442:bfb6:c832 with SMTP id
- e4-20020ac24e04000000b00442bfb6c832mr18366656lfr.519.1645539325050; 
- Tue, 22 Feb 2022 06:15:25 -0800 (PST)
+ bh=O8AnGg6j/6brs8tJZW3EA88ySpYn8dyRUbWEEnyBkjI=;
+ b=otfPkf9rPCUyDlQkgpYEbxikgOmYzX6Horhuar1dZ034jS23ewv+Zo7v24JyxnXLPv
+ giyOtYpxBIYtmU1MDfimzLMEdTbC8dBl8lQPCRg+Pvs0ae3ndKt3WuBohMDO8IFKOQSX
+ t0xWxLZUWbbjBovKvgIS3AX1FwWolC7CzFuQG3ul3Sanw/wI4gWQGersCmtZ25xfBr0X
+ FOfnwti7L7SwAbc+fAS4qVp6zyvTKNaB63r2kTB+eP/66n/Kg+FlHbbsu8DMd3lNbnv8
+ V1qqKtUhN4doac2ZCdaHkUFaRNoUjtoryaJrLuQ/0FhU6bAjk2StF/N4UicILltXcFVd
+ h6xw==
+X-Gm-Message-State: AOAM533hD8eeF2aooiEJt71UPcaa7dQHO84JkMRGDS5480sd2snV8+ci
+ Udpxfcj9rnpUvyMXOnsNGgh3BIPmBFw=
+X-Google-Smtp-Source: ABdhPJzcxp3kpxO12vw/WsO8t0bY/SjSz+mRK80qeI9fhiyUaeDhNLx/mco/uQ+kkOQPE20+zg9Myg==
+X-Received: by 2002:a2e:b0f6:0:b0:246:e95:c4ce with SMTP id
+ h22-20020a2eb0f6000000b002460e95c4cemr18055037ljl.142.1645539326454; 
+ Tue, 22 Feb 2022 06:15:26 -0800 (PST)
 Received: from localhost.localdomain ([5.188.167.245])
- by smtp.googlemail.com with ESMTPSA id m8sm1707047ljb.131.2022.02.22.06.15.24
+ by smtp.googlemail.com with ESMTPSA id m8sm1707047ljb.131.2022.02.22.06.15.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Feb 2022 06:15:24 -0800 (PST)
+ Tue, 22 Feb 2022 06:15:26 -0800 (PST)
 From: Sergey Matyukevich <geomatsi@gmail.com>
 To: linux-snps-arc@lists.infradead.org
 Cc: Vineet Gupta <vgupta@kernel.org>, Vladimir Isaev <isaev@synopsys.com>,
  Sergey Matyukevich <geomatsi@gmail.com>,
  Sergey Matyukevich <sergey.matyukevich@synopsys.com>
-Subject: [RFC PATCH 11/13] ARC: head: elide ZOL
-Date: Tue, 22 Feb 2022 17:15:04 +0300
-Message-Id: <20220222141506.4003433-12-geomatsi@gmail.com>
+Subject: [RFC PATCH 13/13] ARC: pt_regs: handle the case when ZOL is not
+ supported
+Date: Tue, 22 Feb 2022 17:15:06 +0300
+Message-Id: <20220222141506.4003433-14-geomatsi@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220222141506.4003433-1-geomatsi@gmail.com>
 References: <20220222141506.4003433-1-geomatsi@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220222_061526_669895_9552B0C8 
-X-CRM114-Status: GOOD (  12.08  )
+X-CRM114-CacheID: sfid-20220222_061528_776538_6AF8BC05 
+X-CRM114-Status: GOOD (  17.24  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,82 +92,268 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Vineet Gupta <vgupta@kernel.org>
 
-Add entry implementation based on double load/stores
-if ZOL is not supported.
+- Entry code (interrupts/exceptions) need not save/restore ZOL regs
+- Any userspace ZOL references (ptrace, signal frame, process start)
+  reworked such that ZOL regs are Zero-on-read, Ingore-on-write since
+  the ptrace ABI need not change
 
 Signed-off-by: Vineet Gupta <vgupta@kernel.org>
 ---
- arch/arc/include/asm/asm-macro-ll64-emul.h | 3 +++
- arch/arc/include/asm/entry.h               | 2 ++
- arch/arc/kernel/head.S                     | 8 +++++++-
- arch/arc/kernel/vmlinux.lds.S              | 2 +-
- 4 files changed, 13 insertions(+), 2 deletions(-)
+ arch/arc/include/asm/entry-arcv2.h |  4 ++++
+ arch/arc/include/asm/ptrace.h      |  4 +++-
+ arch/arc/kernel/asm-offsets.c      |  2 ++
+ arch/arc/kernel/disasm.c           |  2 ++
+ arch/arc/kernel/intc-arcv2.c       |  2 ++
+ arch/arc/kernel/kgdb.c             |  4 ++++
+ arch/arc/kernel/process.c          |  2 ++
+ arch/arc/kernel/ptrace.c           | 12 ++++++++++++
+ arch/arc/kernel/signal.c           |  8 ++++++++
+ arch/arc/kernel/troubleshoot.c     |  3 +++
+ arch/arc/kernel/unaligned.c        |  2 ++
+ 11 files changed, 44 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arc/include/asm/asm-macro-ll64-emul.h b/arch/arc/include/asm/asm-macro-ll64-emul.h
-index 886320cc74ad..417c892d557e 100644
---- a/arch/arc/include/asm/asm-macro-ll64-emul.h
-+++ b/arch/arc/include/asm/asm-macro-ll64-emul.h
-@@ -15,6 +15,9 @@
- 	.ifeqs	"\d", "r6"
- 		st.ab	r7, [\s, \incr / 2]
- 	.endif
-+	.ifeqs	"\d", "0"
-+		st.ab	\d, [\s, \incr / 2]
-+	.endif
- .endm
+diff --git a/arch/arc/include/asm/entry-arcv2.h b/arch/arc/include/asm/entry-arcv2.h
+index 0ff4c0610561..e40a98d2ec29 100644
+--- a/arch/arc/include/asm/entry-arcv2.h
++++ b/arch/arc/include/asm/entry-arcv2.h
+@@ -117,11 +117,13 @@
  
- .macro LD64.ab d, s, incr
-diff --git a/arch/arc/include/asm/entry.h b/arch/arc/include/asm/entry.h
-index fcdd59d77f42..1bc9f730e1e2 100644
---- a/arch/arc/include/asm/entry.h
-+++ b/arch/arc/include/asm/entry.h
-@@ -7,6 +7,8 @@
- #ifndef __ASM_ARC_ENTRY_H
- #define __ASM_ARC_ENTRY_H
+ 	st	blink, [sp, PT_blink]
  
-+#include <asm/asm-offsets.h>
-+#include <asm/assembler.h>
- #include <asm/unistd.h>		/* For NR_syscalls defination */
- #include <asm/arcregs.h>
- #include <asm/ptrace.h>
-diff --git a/arch/arc/kernel/head.S b/arch/arc/kernel/head.S
-index 9152782444b5..17b5426d4ca4 100644
---- a/arch/arc/kernel/head.S
-+++ b/arch/arc/kernel/head.S
-@@ -121,13 +121,19 @@ ENTRY(stext)
- #endif
- 
- 	; Clear BSS before updating any globals
--	; XXX: use ZOL here
- 	mov	r5, __bss_start
- 	sub	r6, __bss_stop, r5
 +#ifndef CONFIG_ARC_LACKS_ZOL
- 	lsr.f	lp_count, r6, 2
- 	lpnz	1f
- 	st.ab   0, [r5, 4]
- 1:
-+#else
-+	lsr	r6, r6, 3
-+1:
-+	ST64.ab	0, r5, 8
-+	DBNZR	r6, 1b
+ 	lr	r10, [lp_end]
+ 	lr	r11, [lp_start]
+ 	ST2	r10, r11, PT_lpe
+ 
+ 	st	lp_count, [sp, PT_lpc]
 +#endif
  
- 	; Uboot - kernel ABI
- 	;    r0 = [0] No uboot interaction, [1] cmdline in r2, [2] DTB in r2
-diff --git a/arch/arc/kernel/vmlinux.lds.S b/arch/arc/kernel/vmlinux.lds.S
-index 529ae50f9fe2..00aeb89bd169 100644
---- a/arch/arc/kernel/vmlinux.lds.S
-+++ b/arch/arc/kernel/vmlinux.lds.S
-@@ -107,7 +107,7 @@ SECTIONS
+ 	; skip JLI, LDI, EI for now
+ .endm
+@@ -205,12 +207,14 @@
  
- 	_edata = .;
+ 	ld	blink, [sp, PT_blink]
  
--	BSS_SECTION(4, 4, 4)
-+	BSS_SECTION(8, 8, 8)
++#ifndef CONFIG_ARC_LACKS_ZOL
+ 	LD2	r10, r11, PT_lpe
+ 	sr	r10, [lp_end]
+ 	sr	r11, [lp_start]
  
- #ifdef CONFIG_ARC_DW2_UNWIND
- 	. = ALIGN(PAGE_SIZE);
+ 	ld	r10, [sp, PT_lpc]	; lp_count can't be target of LD
+ 	mov	lp_count, r10
++#endif
+ 
+ 	LD2	r0,  r1,  PT_r0
+ 	LD2	r2,  r3,  PT_r2
+diff --git a/arch/arc/include/asm/ptrace.h b/arch/arc/include/asm/ptrace.h
+index cca8d6583e31..9d2b1e7ba6a3 100644
+--- a/arch/arc/include/asm/ptrace.h
++++ b/arch/arc/include/asm/ptrace.h
+@@ -94,8 +94,10 @@ struct pt_regs {
+ 	unsigned long r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11;
+ 
+ 	unsigned long blink;
+-	unsigned long lp_end, lp_start, lp_count;
+ 
++#ifndef CONFIG_ARC_LACKS_ZOL
++	unsigned long lp_end, lp_start, lp_count;
++#endif
+ 	unsigned long ei, ldi, jli;
+ 
+ 	unsigned long ret;
+diff --git a/arch/arc/kernel/asm-offsets.c b/arch/arc/kernel/asm-offsets.c
+index 0e884036ab74..e388d3420b3d 100644
+--- a/arch/arc/kernel/asm-offsets.c
++++ b/arch/arc/kernel/asm-offsets.c
+@@ -61,8 +61,10 @@ int main(void)
+ 	DEFINE(PT_r26, offsetof(struct pt_regs, r26));
+ 	DEFINE(PT_ret, offsetof(struct pt_regs, ret));
+ 	DEFINE(PT_blink, offsetof(struct pt_regs, blink));
++#ifndef CONFIG_ARC_LACKS_ZOL
+ 	DEFINE(PT_lpe, offsetof(struct pt_regs, lp_end));
+ 	DEFINE(PT_lpc, offsetof(struct pt_regs, lp_count));
++#endif
+ 	DEFINE(PT_user_r25, offsetof(struct pt_regs, user_r25));
+ 
+ 	DEFINE(SZ_CALLEE_REGS, sizeof(struct callee_regs));
+diff --git a/arch/arc/kernel/disasm.c b/arch/arc/kernel/disasm.c
+index 03f8b1be0c3a..c23d3829aef6 100644
+--- a/arch/arc/kernel/disasm.c
++++ b/arch/arc/kernel/disasm.c
+@@ -523,11 +523,13 @@ int __kprobes disasm_next_pc(unsigned long pc, struct pt_regs *regs,
+ 		*next_pc += instr_d.instr_len;
+ 	 }
+ 
++#ifndef CONFIG_ARC_LACKS_ZOL
+ 	 /* Zero Overhead Loop - end of the loop */
+ 	if (!(regs->status32 & STATUS32_L) && (*next_pc == regs->lp_end)
+ 		&& (regs->lp_count > 1)) {
+ 		*next_pc = regs->lp_start;
+ 	}
++#endif
+ 
+ 	return instr.is_branch;
+ }
+diff --git a/arch/arc/kernel/intc-arcv2.c b/arch/arc/kernel/intc-arcv2.c
+index 5cda19d0aa91..7c1d8b2c4dce 100644
+--- a/arch/arc/kernel/intc-arcv2.c
++++ b/arch/arc/kernel/intc-arcv2.c
+@@ -48,7 +48,9 @@ void arc_init_IRQ(void)
+ #ifndef CONFIG_ARC_IRQ_NO_AUTOSAVE
+ 	ictrl.save_nr_gpr_pairs = 6;	/* r0 to r11 (r12 saved manually) */
+ 	ictrl.save_blink = 1;
++#ifndef CONFIG_ARC_LACKS_ZOL
+ 	ictrl.save_lp_regs = 1;		/* LP_COUNT, LP_START, LP_END */
++#endif
+ 	ictrl.save_u_to_u = 0;		/* user ctxt saved on kernel stack */
+ 	ictrl.save_idx_regs = 1;	/* JLI, LDI, EI */
+ #endif
+diff --git a/arch/arc/kernel/kgdb.c b/arch/arc/kernel/kgdb.c
+index 345a0000554c..6f237fdc6e54 100644
+--- a/arch/arc/kernel/kgdb.c
++++ b/arch/arc/kernel/kgdb.c
+@@ -27,9 +27,11 @@ static void to_gdb_regs(unsigned long *gdb_regs, struct pt_regs *kernel_regs,
+ 	gdb_regs[_BLINK]	= kernel_regs->blink;
+ 	gdb_regs[_RET]		= kernel_regs->ret;
+ 	gdb_regs[_STATUS32]	= kernel_regs->status32;
++#ifndef CONFIG_ARC_LACKS_ZOL
+ 	gdb_regs[_LP_COUNT]	= kernel_regs->lp_count;
+ 	gdb_regs[_LP_END]	= kernel_regs->lp_end;
+ 	gdb_regs[_LP_START]	= kernel_regs->lp_start;
++#endif
+ 	gdb_regs[_BTA]		= kernel_regs->bta;
+ 	gdb_regs[_STOP_PC]	= kernel_regs->ret;
+ }
+@@ -47,9 +49,11 @@ static void from_gdb_regs(unsigned long *gdb_regs, struct pt_regs *kernel_regs,
+ 	kernel_regs->blink	= gdb_regs[_BLINK];
+ 	kernel_regs->ret	= gdb_regs[_RET];
+ 	kernel_regs->status32	= gdb_regs[_STATUS32];
++#ifndef CONFIG_ARC_LACKS_ZOL
+ 	kernel_regs->lp_count	= gdb_regs[_LP_COUNT];
+ 	kernel_regs->lp_end	= gdb_regs[_LP_END];
+ 	kernel_regs->lp_start	= gdb_regs[_LP_START];
++#endif
+ 	kernel_regs->bta	= gdb_regs[_BTA];
+ }
+ 
+diff --git a/arch/arc/kernel/process.c b/arch/arc/kernel/process.c
+index 8e90052f6f05..2de60b74d462 100644
+--- a/arch/arc/kernel/process.c
++++ b/arch/arc/kernel/process.c
+@@ -269,9 +269,11 @@ void start_thread(struct pt_regs *regs, unsigned long pc, unsigned long usp)
+ 
+ 	fpu_init_task(regs);
+ 
++#ifndef CONFIG_ARC_LACKS_ZOL
+ 	/* bogus seed values for debugging */
+ 	regs->lp_start = 0x10;
+ 	regs->lp_end = 0x80;
++#endif
+ }
+ 
+ /*
+diff --git a/arch/arc/kernel/ptrace.c b/arch/arc/kernel/ptrace.c
+index 883391977fdf..d3b98c9749e4 100644
+--- a/arch/arc/kernel/ptrace.c
++++ b/arch/arc/kernel/ptrace.c
+@@ -26,9 +26,15 @@ static int genregs_get(struct task_struct *target,
+ 
+ 	membuf_zero(&to, 4);	// pad
+ 	membuf_store(&to, ptregs->bta);
++#ifndef CONFIG_ARC_LACKS_ZOL
+ 	membuf_store(&to, ptregs->lp_start);
+ 	membuf_store(&to, ptregs->lp_end);
+ 	membuf_store(&to, ptregs->lp_count);
++#else
++	membuf_zero(&to, 4);	// ptregs->lp_start
++	membuf_zero(&to, 4);	// ptregs->lp_end
++	membuf_zero(&to, 4);	// ptregs->lp_count
++#endif
+ 	membuf_store(&to, ptregs->status32);
+ 	membuf_store(&to, ptregs->ret);
+ 	membuf_store(&to, ptregs->blink);
+@@ -107,9 +113,15 @@ static int genregs_set(struct task_struct *target,
+ 	REG_IGNORE_ONE(pad);
+ 
+ 	REG_IN_ONE(scratch.bta, &ptregs->bta);
++#ifndef CONFIG_ARC_LACKS_ZOL
+ 	REG_IN_ONE(scratch.lp_start, &ptregs->lp_start);
+ 	REG_IN_ONE(scratch.lp_end, &ptregs->lp_end);
+ 	REG_IN_ONE(scratch.lp_count, &ptregs->lp_count);
++#else
++	REG_IGNORE_ONE(scratch.lp_start);
++	REG_IGNORE_ONE(scratch.lp_end);
++	REG_IGNORE_ONE(scratch.lp_count);
++#endif
+ 
+ 	REG_IGNORE_ONE(scratch.status32);
+ 
+diff --git a/arch/arc/kernel/signal.c b/arch/arc/kernel/signal.c
+index cb2f88502baf..449a4b0c6453 100644
+--- a/arch/arc/kernel/signal.c
++++ b/arch/arc/kernel/signal.c
+@@ -104,9 +104,15 @@ stash_usr_regs(struct rt_sigframe __user *sf, struct pt_regs *regs,
+ 	struct user_regs_struct uregs;
+ 
+ 	uregs.scratch.bta	= regs->bta;
++#ifndef CONFIG_ARC_LACKS_ZOL
+ 	uregs.scratch.lp_start	= regs->lp_start;
+ 	uregs.scratch.lp_end	= regs->lp_end;
+ 	uregs.scratch.lp_count	= regs->lp_count;
++#else
++	uregs.scratch.lp_start	= 0;
++	uregs.scratch.lp_end	= 0;
++	uregs.scratch.lp_count	= 0;
++#endif
+ 	uregs.scratch.status32	= regs->status32;
+ 	uregs.scratch.ret	= regs->ret;
+ 	uregs.scratch.blink	= regs->blink;
+@@ -157,9 +163,11 @@ static int restore_usr_regs(struct pt_regs *regs, struct rt_sigframe __user *sf)
+ 
+ 	set_current_blocked(&set);
+ 	regs->bta	= uregs.scratch.bta;
++#ifndef CONFIG_ARC_LACKS_ZOL
+ 	regs->lp_start	= uregs.scratch.lp_start;
+ 	regs->lp_end	= uregs.scratch.lp_end;
+ 	regs->lp_count	= uregs.scratch.lp_count;
++#endif
+ 	regs->status32	= uregs.scratch.status32;
+ 	regs->ret	= uregs.scratch.ret;
+ 	regs->blink	= uregs.scratch.blink;
+diff --git a/arch/arc/kernel/troubleshoot.c b/arch/arc/kernel/troubleshoot.c
+index 7654c2e42dc0..acb7ee6c024d 100644
+--- a/arch/arc/kernel/troubleshoot.c
++++ b/arch/arc/kernel/troubleshoot.c
+@@ -22,8 +22,11 @@ static noinline void print_regs_scratch(struct pt_regs *regs)
+ {
+ 	pr_cont("BTA: 0x%08lx\n SP: 0x%08lx  FP: 0x%08lx BLK: %pS\n",
+ 		regs->bta, regs->sp, regs->fp, (void *)regs->blink);
++
++#ifndef CONFIG_ARC_LACKS_ZOL
+ 	pr_cont("LPS: 0x%08lx\tLPE: 0x%08lx\tLPC: 0x%08lx\n",
+ 		regs->lp_start, regs->lp_end, regs->lp_count);
++#endif
+ 
+ 	pr_info("r00: 0x%08lx\tr01: 0x%08lx\tr02: 0x%08lx\n"	\
+ 		"r03: 0x%08lx\tr04: 0x%08lx\tr05: 0x%08lx\n"	\
+diff --git a/arch/arc/kernel/unaligned.c b/arch/arc/kernel/unaligned.c
+index d63ebd81f1c6..0937441bce04 100644
+--- a/arch/arc/kernel/unaligned.c
++++ b/arch/arc/kernel/unaligned.c
+@@ -244,11 +244,13 @@ int misaligned_fixup(unsigned long address, struct pt_regs *regs,
+ 	} else {
+ 		regs->ret += state.instr_len;
+ 
++#ifndef CONFIG_ARC_LACKS_ZOL
+ 		/* handle zero-overhead-loop */
+ 		if ((regs->ret == regs->lp_end) && (regs->lp_count)) {
+ 			regs->ret = regs->lp_start;
+ 			regs->lp_count--;
+ 		}
++#endif
+ 	}
+ 
+ 	perf_sw_event(PERF_COUNT_SW_ALIGNMENT_FAULTS, 1, regs, address);
 -- 
 2.25.1
 
