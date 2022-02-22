@@ -4,75 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12C6AC4321E
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 22 Feb 2022 14:15:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC0C2C4332F
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 22 Feb 2022 14:15:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=/TSuoFxojpoC9URKQuD+ngbISqKKKRIQgeE+AcTrhBE=; b=uT5oKqx6Pj3U0m
-	6KcpfjpuT3lAD/8DSKibnssNWowZ7wEIqzL68VVXYxZ7sgCeGBgd27SJlN968q+EUjO+v10AdwZxy
-	RV0Dp4Sscfz27mJmjSwj69y9RevLZsTvrr0Vg1jHJvoa+/NOTmCKeB8HSuNgi0pNRM37fItPj3EnW
-	tl1Fob9yCVmoNQNFN1x1xAu0LaAKVFj66s3pPBLsipNs1xOK3pLRHhaX8bnnS0SbZjOAWufkPF47H
-	na3/FUlpviqTvdlMxZykdq+mv5xfbDDY5IG/aFeHcUf6IDUhFD/SzNMSHS4G7diKB7C3KKkKBcQBG
-	gPZuvN/Na2yMGRyCt+cw==;
+	List-Owner; bh=rIGShTQpwN2pkp99ltuAqGTPtPi6Ep9VBLVwQdbKAfU=; b=MTRmzwHiRHJFKt
+	bvVs3uExB8mPTI5NqNbwHbdaq/Cyp8OvCUg671WD9WWmy6zXeu8jz7eEwlZqDWsD5Q2X/E7brmZwV
+	Yf/hsb/u34+DUVKugsW5T6Ax5/8B07E2sh3guMfBsDq3lRvChP86b+q/hK7EpHEGxWvgul3KpQMjH
+	l9ENd9yUvU8wOWNSTX0CBtL3CFYWkCE9l4bUGC25tZsBKkSan678iynaBbHuXP/dpus2hBwZNhi6n
+	+/2uCGQnFGNEs3McoXz9Dr4+K0ZRNag7cn3Z7WM9CYBkzYzcpa9v3PNZSyXrycl6Pfni2/i8MX+Bz
+	hVF+dvmq9TOvOh1zH8jg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nMVx9-009qiD-R3; Tue, 22 Feb 2022 14:15:43 +0000
-Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234])
+	id 1nMVx9-009qhu-H1; Tue, 22 Feb 2022 14:15:43 +0000
+Received: from mail-lj1-x22d.google.com ([2a00:1450:4864:20::22d])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nMVwr-009qTk-7j
- for linux-snps-arc@lists.infradead.org; Tue, 22 Feb 2022 14:15:30 +0000
-Received: by mail-lj1-x234.google.com with SMTP id o6so19769628ljp.3
- for <linux-snps-arc@lists.infradead.org>; Tue, 22 Feb 2022 06:15:25 -0800 (PST)
+ id 1nMVwt-009qVo-Cj
+ for linux-snps-arc@lists.infradead.org; Tue, 22 Feb 2022 14:15:28 +0000
+Received: by mail-lj1-x22d.google.com with SMTP id o9so19800588ljq.4
+ for <linux-snps-arc@lists.infradead.org>; Tue, 22 Feb 2022 06:15:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hUTYKvccuj4IaJsEO4evB8LuXdmLKUIPnuyh4uCrZoA=;
- b=hRMqRnBmTbiJBrlMrDN5MLCvU7Rz4Y6OSeqG0dH67wuKJcXNpefarjFlRHFru8/DNX
- NEd76nzfFR2TbFmo2ZKpy9Bsp/DLCXVnCVdfxTAIwnFp+YefzN3O38ks67KyV2DfT2es
- j5C3XDwXx7sOxr4YwrwkMSNMIXVOWJsYHQwH1qmcS2EhdcY4wHw8J73zMvGIKi4pmyp/
- jslRt/NHc2jnqBRgVXaWswB1ADXd4yRjuRSLY+JeB+R+Ko+gK15t6K8zC/JussEeiRku
- Tn/KqvYXJF4JiSrqXyLxJmIvid41WqH5a0yEHQZ4AyXEVi8wUUbYLm6+sRdkZl9RB0zZ
- 0mgg==
+ bh=ykAMrt6VP6qT7O4tYFeDY8h2l1cYAYQkUTlMRYziNiA=;
+ b=mlPa4gQc9ZTGJ1Y+sDCeUpPbjTrsXgFt4Hnw9mjz6FxLh6or98oDnoIuUzyDPqdz2x
+ tpMgKbBP1K4As4i3KhRq8CPeJkQt4K+Loz0Xf2Kql9GkIJHKIKTkX52fGZ0FQdFBFBKj
+ HgAME8j1EHjvCxUJ6sZiIhM59tl0feKHjOGV93BJk8HV7Z/1rib6sFjht7TLHmy/tGrh
+ KLbHo3nTyWCtgg0NsxDT7ldFHSupqOyDcQBOY89uTnD1UndVUdCDd/uidCqP34qqx1Np
+ yD4zwtoIGkzPkq2d8Cf557KD6QVX0THyA0KQFLzaglkZkZJEgvVlhuKtmTD+y3KvIs6L
+ G9kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hUTYKvccuj4IaJsEO4evB8LuXdmLKUIPnuyh4uCrZoA=;
- b=JdIXBUhyDlHMwbKOKAmgwtlb1K7vZM+V7YZuAKBimsd9iSw6IQG6OsR3nOnpvbQLXz
- Tzh/MJYtmPjfTy26EaoQsO9FhTTNvkJwh9gjznWDHJFJy76kncZNrw2tDO3N0P5402E8
- UVtgjvjeA6hsV5tJfi97ASUGXXY+d5YBKuNDtsyNz+jpHPVGRfj+NR5YYUe/T3K148su
- GpvMaj1UaIMFS32vXgrNkw293PAHYfpuo31J2OFpOicyIp4I9xdXDKprRYsEUIFLD75P
- mwOENnJ3rXN0O/PgyFDSesHcTdTlbQSoicTryUjbGzG5LPU0h4NLFJbj+vYAcCtbRmcG
- 1ifA==
-X-Gm-Message-State: AOAM531o4RqXCCqFh4qKh01UlWnDM4Nv+sdCGqd/kbj85QiloHmswgRr
- 46Perq3ZpATmtI6RKTLlmFEkSsfpvOo=
-X-Google-Smtp-Source: ABdhPJyUt0VoWL+8vNcto2x5HFGOSXGC6bQfMx5wwXXuWf2lD8ejvEEJjJ4UgGCgXs8VuyNeVGaHkQ==
-X-Received: by 2002:a05:651c:386:b0:246:c7e:bb1e with SMTP id
- e6-20020a05651c038600b002460c7ebb1emr17871650ljp.161.1645539323491; 
- Tue, 22 Feb 2022 06:15:23 -0800 (PST)
+ bh=ykAMrt6VP6qT7O4tYFeDY8h2l1cYAYQkUTlMRYziNiA=;
+ b=ftBDBrHzbvNp/ZFHP4E/ztn1xSCeBGuJFHEJBlU7/jNDTrrS/xKBafW2j2JBS1hqNi
+ sCPuTSPxvCtl1qsnIqarKbfPl/LYvIGJv2+Chk8P/KXB8gZ+Orr2Zg91Fq6wIYljSmR9
+ wcKxjRtqUIHkUCs9i8ok5T9+NVjgIqgS2tDctlIc/nt0fp+T+STW13zHVmHiLqT8LPkY
+ XjjH/l+bVDaDj5AcGo5mvmZWfumCRFBPPL8X6GtcV+dfDq+OL70D6892vimAblHpAPBy
+ 9VRrmHb9RzDUHDOFa1KWx5TKpAPgsKn/hVsIcAHOgX8mXLvfiNop5zveAl/UsJHtE+U5
+ wdrQ==
+X-Gm-Message-State: AOAM533rGcBSmCEfkkEdysR5x8Zi72QpMoPuaBq5Fiy2oittKimkoyqa
+ UUypnlYTgZ+B50Yg7o99dS4RTnRrRE4=
+X-Google-Smtp-Source: ABdhPJw0GMoDmvtN1S5dQSe05XJVO/GHOo/emvHarIKuB0xCHixLKYnIOuGRnvyC101TJLLTmrFfaQ==
+X-Received: by 2002:a05:651c:1791:b0:243:94bd:d94c with SMTP id
+ bn17-20020a05651c179100b0024394bdd94cmr17460326ljb.468.1645539325770; 
+ Tue, 22 Feb 2022 06:15:25 -0800 (PST)
 Received: from localhost.localdomain ([5.188.167.245])
- by smtp.googlemail.com with ESMTPSA id m8sm1707047ljb.131.2022.02.22.06.15.22
+ by smtp.googlemail.com with ESMTPSA id m8sm1707047ljb.131.2022.02.22.06.15.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Feb 2022 06:15:23 -0800 (PST)
+ Tue, 22 Feb 2022 06:15:25 -0800 (PST)
 From: Sergey Matyukevich <geomatsi@gmail.com>
 To: linux-snps-arc@lists.infradead.org
 Cc: Vineet Gupta <vgupta@kernel.org>, Vladimir Isaev <isaev@synopsys.com>,
  Sergey Matyukevich <geomatsi@gmail.com>,
  Sergey Matyukevich <sergey.matyukevich@synopsys.com>
-Subject: [RFC PATCH 09/13] ARC: delay: elide ZOL
-Date: Tue, 22 Feb 2022 17:15:02 +0300
-Message-Id: <20220222141506.4003433-10-geomatsi@gmail.com>
+Subject: [RFC PATCH 12/13] ARC: build: inhibit ZOL generation by compiler
+Date: Tue, 22 Feb 2022 17:15:05 +0300
+Message-Id: <20220222141506.4003433-13-geomatsi@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220222141506.4003433-1-geomatsi@gmail.com>
 References: <20220222141506.4003433-1-geomatsi@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220222_061525_359606_7B8293BD 
-X-CRM114-Status: GOOD (  10.34  )
+X-CRM114-CacheID: sfid-20220222_061527_493249_E01E97B6 
+X-CRM114-Status: GOOD (  10.26  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,50 +91,28 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Vineet Gupta <vgupta@kernel.org>
 
-Add __delay implementation based on DBNZ if ZOL is not supported.
+Inhibit ZOL generation by compiler if configuration states
+the lack of it. This is done before we remove the ZOL regs
+save/restore in entry code
 
 Signed-off-by: Vineet Gupta <vgupta@kernel.org>
 ---
- arch/arc/include/asm/delay.h | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ arch/arc/Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arc/include/asm/delay.h b/arch/arc/include/asm/delay.h
-index 54db798f0aa0..e061d1c64f24 100644
---- a/arch/arc/include/asm/delay.h
-+++ b/arch/arc/include/asm/delay.h
-@@ -16,9 +16,12 @@
+diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+index ec0f672bcee6..98a03c8d719c 100644
+--- a/arch/arc/Makefile
++++ b/arch/arc/Makefile
+@@ -44,6 +44,8 @@ cflags-y				+= -Wa,-I$(srctree)/arch/arc/include
+ cflags-$(CONFIG_ARC_HAS_LLSC)		+= -mlock
+ cflags-$(CONFIG_ARC_HAS_SWAPE)		+= -mswape
  
- #include <asm-generic/types.h>
- #include <asm/param.h>		/* HZ */
-+#include <asm/assembler.h>
- 
- extern unsigned long loops_per_jiffy;
- 
-+#ifndef CONFIG_ARC_LACKS_ZOL
++cflags-$(CONFIG_ARC_LACKS_ZOL)		+= -fno-branch-count-reg
 +
- static inline void __delay(unsigned long loops)
- {
- 	__asm__ __volatile__(
-@@ -31,6 +34,19 @@ static inline void __delay(unsigned long loops)
-         : "lp_count");
- }
+ ifdef CONFIG_ISA_ARCV2
  
-+#else
-+
-+static inline void __delay(unsigned long loops)
-+{
-+	__asm__ __volatile__(
-+	"	add   %0, %0, 1         \n"
-+	"1:	nop			\n"
-+	"	DBNZR %0, 1b		\n"
-+	: "+r"(loops));
-+}
-+
-+#endif
-+
- extern void __bad_udelay(void);
- 
- /*
+ ifdef CONFIG_ARC_USE_UNALIGNED_MEM_ACCESS
 -- 
 2.25.1
 
