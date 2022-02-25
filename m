@@ -4,49 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7098C433F5
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 25 Feb 2022 04:28:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 720A8C4321E
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 25 Feb 2022 04:30:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
 	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
 	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=LjJrUumDXhTI19ZVhrSjvTV25gscc3rAKsfapvsEeGw=; b=DyzhqnuXq6i2Dz
-	wAzHc5nPcGLhlZjLERUNFrTkmIafKx445NVRS7gucdBnTfDiy+mIGLMrBLpHWUnzHBQg9s02+7EDI
-	ZB0BFlyRQOb6ID8daKHIUECo0xO98hb35URM5GKC111/JHhSwFQCaP6lhtxHzyLxNsI4NaxRnT2+X
-	00MQPWkbMKy/AbQQz8q3CSLPWg9YnCcq09sH2afcahz75gt7+VTiQHtNV08PQXJZrTT/gmFIxaAXx
-	kXT/uMW1eLp7HWyUc6X0OEGnlWvvGEBUmvvbKOJN1N/x7MOHGOFXNG42VJjJ6/irMcSiGZoUpL2gc
-	p17t+8yL3G6v9rJvxEaw==;
+	List-Owner; bh=WYMUZD1f2uFawh/aUm7OZZ18XYZtTjnTXBkZP4QZFRg=; b=kkh9wtutxukU5b
+	UIb76baAOifWjMUDQ9g5uhCdUqJncZiiNrNxl98Q6lw4JPso9roR6ePe/kvplu90ce5IOQBBgLOXh
+	iMt/o4bDwHHnMWrJxzBFPa115vRTjP8CEAER1bYmTLaCmCA2Mqc/y+bMqFzcDiNIPIbppzK39kzyW
+	cnUT71RfSoLRhOSQ4zqsU7zFVcUPJ8au1Bqgu/kw81MCYZ1xOm4V3tOKmAg0OEQTnFGDrvB9Y6yiV
+	i0Kgwo+ydstyPTlhog7E4D6txgXoaVCRyCkZo6UtbVeaYnjrO6PxwQVDOWQXmdNJbg5y7cxXFVJiC
+	GawA8bmqLqOGgdNrsJaQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nNSDo-003I2S-Qt; Fri, 25 Feb 2022 04:28:48 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1nNSFh-003INc-KC; Fri, 25 Feb 2022 04:30:45 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nNSDk-003Hzx-0n; Fri, 25 Feb 2022 04:28:45 +0000
+ id 1nNSFb-003IL1-Ud; Fri, 25 Feb 2022 04:30:42 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2283161879;
- Fri, 25 Feb 2022 04:28:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 905E7C340E8;
- Fri, 25 Feb 2022 04:28:34 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 364CE618C4;
+ Fri, 25 Feb 2022 04:30:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CCC6C340E7;
+ Fri, 25 Feb 2022 04:30:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645763320;
- bh=7SThN/utKX/p0lzUCmG6ocQvEAx3lLFOHF56GsXqmkg=;
+ s=k20201202; t=1645763438;
+ bh=K1RaOpayOFOl9YrWjbFso6AxJRaB7d/hqz1cXZ69p68=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=QDYtR8NlrGKuoQjmYA8kyhZOE9M5T1r29vrwrzKtqeW8ZEboLFyE9tpTLIHZrIsc2
- nruqaf44dOGvL9m0YF8yy/0GnP7bjsDnUbUqIRzmMJPfXE0DXeAhxVhfed4IaeshxM
- 3dBB3rRybvVICiYVW2EwE6UiyRp2P0hHIB0n0MePLyot8SwYrU2i+wAnXsNlJLOQZg
- JdbB1DfWOrhGY/Jb/JrlNhbdzjO74CuLFiFEukShPqlCb0VjpFFv/dEFsnilhkTnnf
- /2HYT2lkEsKGxWybS9oRJ8pGnuvkqQGXNVQBnHCXm5s98tF2QqOVujOWC0O/sTxEOf
- zPy8zKCde1DGg==
-Message-ID: <f6c34635-533f-8b63-b27b-15835b93e6d4@kernel.org>
-Date: Thu, 24 Feb 2022 22:28:32 -0600
+ b=JQKxpsomaZBRaWmc5cvV6ib4A8rCg4TPitG6KtMN/3RrAcjKVTJT4yK2eDFUJ+cMs
+ GGe2lQ0KwF+iTYeA1pEDWDB2RtmKuBiOhrq1UD43RSIKmGPeCxSvHgFkEuaxQ4Olvr
+ 2eAzhesO8mAMjdIVrsZ1nZFTt4sdpEeKUGFwUAwfuxPbqH/Wkgj8BdxrL7OB3VWTTd
+ G6bo95wROzxmQJyLOX4tRd/qfCxU6mfLup3kLD3UTh5ardnvCDEhsvub+4i3ykdyNs
+ K3IteETxgQ/sIy9c1oYc4VbyW0VV1YzXNoLx5Km6wu9MsETEo+EXnMVoPFvUjaAbVy
+ MOmcxBoXdOugg==
+Message-ID: <824a2d98-e992-0406-518f-adcde2a1372a@kernel.org>
+Date: Thu, 24 Feb 2022 22:30:31 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 02/18] uaccess: fix nios2 and microblaze get_user_8()
+Subject: Re: [PATCH v2 12/18] uaccess: fix type mismatch warnings from
+ access_ok()
 Content-Language: en-US
 To: Arnd Bergmann <arnd@kernel.org>,
  Linus Torvalds <torvalds@linux-foundation.org>,
@@ -67,14 +68,15 @@ Cc: linux@armlinux.org.uk, will@kernel.org, guoren@kernel.org,
  linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
  linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
  linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org
+ linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+ kernel test robot <lkp@intel.com>
 References: <20220216131332.1489939-1-arnd@kernel.org>
- <20220216131332.1489939-3-arnd@kernel.org>
+ <20220216131332.1489939-13-arnd@kernel.org>
 From: Dinh Nguyen <dinguyen@kernel.org>
-In-Reply-To: <20220216131332.1489939-3-arnd@kernel.org>
+In-Reply-To: <20220216131332.1489939-13-arnd@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220224_202844_182756_52E2431B 
-X-CRM114-Status: GOOD (  18.67  )
+X-CRM114-CacheID: sfid-20220224_203040_064455_45446F3A 
+X-CRM114-Status: GOOD (  13.67  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,135 +98,22 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 On 2/16/22 07:13, Arnd Bergmann wrote:
 > From: Arnd Bergmann <arnd@arndb.de>
 > 
-> These two architectures implement 8-byte get_user() through
-> a memcpy() into a four-byte variable, which won't fit.
+> On some architectures, access_ok() does not do any argument type
+> checking, so replacing the definition with a generic one causes
+> a few warnings for harmless issues that were never caught before.
 > 
-> Use a temporary 64-bit variable instead here, and use a double
-> cast the way that risc-v and openrisc do to avoid compile-time
-> warnings.
+> Fix the ones that I found either through my own test builds or
+> that were reported by the 0-day bot.
 > 
-> Fixes: 6a090e97972d ("arch/microblaze: support get_user() of size 8 bytes")
-> Fixes: 5ccc6af5e88e ("nios2: Memory management")
+> Reported-by: kernel test robot <lkp@intel.com>
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->   arch/microblaze/include/asm/uaccess.h | 18 +++++++++---------
->   arch/nios2/include/asm/uaccess.h      | 26 ++++++++++++++++----------
->   2 files changed, 25 insertions(+), 19 deletions(-)
-> 
-> diff --git a/arch/microblaze/include/asm/uaccess.h b/arch/microblaze/include/asm/uaccess.h
-> index 5b6e0e7788f4..3fe96979d2c6 100644
-> --- a/arch/microblaze/include/asm/uaccess.h
-> +++ b/arch/microblaze/include/asm/uaccess.h
-> @@ -130,27 +130,27 @@ extern long __user_bad(void);
->   
->   #define __get_user(x, ptr)						\
->   ({									\
-> -	unsigned long __gu_val = 0;					\
->   	long __gu_err;							\
->   	switch (sizeof(*(ptr))) {					\
->   	case 1:								\
-> -		__get_user_asm("lbu", (ptr), __gu_val, __gu_err);	\
-> +		__get_user_asm("lbu", (ptr), x, __gu_err);		\
->   		break;							\
->   	case 2:								\
-> -		__get_user_asm("lhu", (ptr), __gu_val, __gu_err);	\
-> +		__get_user_asm("lhu", (ptr), x, __gu_err);		\
->   		break;							\
->   	case 4:								\
-> -		__get_user_asm("lw", (ptr), __gu_val, __gu_err);	\
-> +		__get_user_asm("lw", (ptr), x, __gu_err);		\
->   		break;							\
-> -	case 8:								\
-> -		__gu_err = __copy_from_user(&__gu_val, ptr, 8);		\
-> -		if (__gu_err)						\
-> -			__gu_err = -EFAULT;				\
-> +	case 8: {							\
-> +		__u64 __x = 0;						\
-> +		__gu_err = raw_copy_from_user(&__x, ptr, 8) ?		\
-> +							-EFAULT : 0;	\
-> +		(x) = (typeof(x))(typeof((x) - (x)))__x;		\
->   		break;							\
-> +	}								\
->   	default:							\
->   		/* __gu_val = 0; __gu_err = -EINVAL;*/ __gu_err = __user_bad();\
->   	}								\
-> -	x = (__force __typeof__(*(ptr))) __gu_val;			\
->   	__gu_err;							\
->   })
->   
-> diff --git a/arch/nios2/include/asm/uaccess.h b/arch/nios2/include/asm/uaccess.h
-> index ba9340e96fd4..ca9285a915ef 100644
-> --- a/arch/nios2/include/asm/uaccess.h
-> +++ b/arch/nios2/include/asm/uaccess.h
-> @@ -88,6 +88,7 @@ extern __must_check long strnlen_user(const char __user *s, long n);
->   /* Optimized macros */
->   #define __get_user_asm(val, insn, addr, err)				\
->   {									\
-> +	unsigned long __gu_val;						\
->   	__asm__ __volatile__(						\
->   	"       movi    %0, %3\n"					\
->   	"1:   " insn " %1, 0(%2)\n"					\
-> @@ -96,14 +97,20 @@ extern __must_check long strnlen_user(const char __user *s, long n);
->   	"       .section __ex_table,\"a\"\n"				\
->   	"       .word 1b, 2b\n"						\
->   	"       .previous"						\
-> -	: "=&r" (err), "=r" (val)					\
-> +	: "=&r" (err), "=r" (__gu_val)					\
->   	: "r" (addr), "i" (-EFAULT));					\
-> +	val = (__force __typeof__(*(addr)))__gu_val;			\
->   }
->   
-> -#define __get_user_unknown(val, size, ptr, err) do {			\
-> +extern void __get_user_unknown(void);
-> +
-> +#define __get_user_8(val, ptr, err) do {				\
-> +	u64 __val = 0;							\
->   	err = 0;							\
-> -	if (__copy_from_user(&(val), ptr, size)) {			\
-> +	if (raw_copy_from_user(&(__val), ptr, sizeof(val))) {		\
->   		err = -EFAULT;						\
-> +	} else {							\
-> +		val = (typeof(val))(typeof((val) - (val)))__val;	\
->   	}								\
->   	} while (0)
->   
-> @@ -119,8 +126,11 @@ do {									\
->   	case 4:								\
->   		__get_user_asm(val, "ldw", ptr, err);			\
->   		break;							\
-> +	case 8:								\
-> +		__get_user_8(val, ptr, err);				\
-> +		break;							\
->   	default:							\
-> -		__get_user_unknown(val, size, ptr, err);		\
-> +		__get_user_unknown();					\
->   		break;							\
->   	}								\
->   } while (0)
-> @@ -129,9 +139,7 @@ do {									\
->   	({								\
->   	long __gu_err = -EFAULT;					\
->   	const __typeof__(*(ptr)) __user *__gu_ptr = (ptr);		\
-> -	unsigned long __gu_val = 0;					\
-> -	__get_user_common(__gu_val, sizeof(*(ptr)), __gu_ptr, __gu_err);\
-> -	(x) = (__force __typeof__(x))__gu_val;				\
-> +	__get_user_common(x, sizeof(*(ptr)), __gu_ptr, __gu_err);	\
->   	__gu_err;							\
->   	})
->   
-> @@ -139,11 +147,9 @@ do {									\
->   ({									\
->   	long __gu_err = -EFAULT;					\
->   	const __typeof__(*(ptr)) __user *__gu_ptr = (ptr);		\
-> -	unsigned long __gu_val = 0;					\
->   	if (access_ok( __gu_ptr, sizeof(*__gu_ptr)))	\
-> -		__get_user_common(__gu_val, sizeof(*__gu_ptr),		\
-> +		__get_user_common(x, sizeof(*__gu_ptr),			\
->   			__gu_ptr, __gu_err);				\
-> -	(x) = (__force __typeof__(x))__gu_val;				\
->   	__gu_err;							\
->   })
->   
+>   arch/arc/kernel/process.c           |  2 +-
+>   arch/arm/kernel/swp_emulate.c       |  2 +-
+>   arch/arm/kernel/traps.c             |  2 +-
+>   arch/csky/kernel/signal.c           |  2 +-
+>   arch/mips/sibyte/common/sb_tbprof.c |  6 +++---
+>   arch/nios2/kernel/signal.c          | 20 +++++++++++---------
 
 Acked-by: Dinh Nguyen <dinguyen@kernel.org>
 
