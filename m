@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E9F7C433F5
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 28 Feb 2022 11:12:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 379F9C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 28 Feb 2022 11:13:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:MIME-Version:List-Subscribe:List-Help:
 	List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=0R6mUTK2yogxvYwCk6hjYeODWRYKB83dzcla5p1/ELg=; b=c5VgsggTkrL/FA
-	NFGqhgESipEGRSYzhdJjgiU0khIJG5rmQQyzB0irA9cecmEqL1jEq6rlfg+RrYmutf5198QmAkNO3
-	bJ54WfLd5DCRNHjrvVhTZJMk2QdZRBiN/UPGjkzvptCFSgBoY4tGFbXSz8ShxA0vXWpWXB1ZHoRcp
-	Oo/+HzHXA82JaygqNJqkcdQjGLSb9RaxMjoxnqhEPtOZjqUDBflbw2lMT2R1+AEGDVc88MCZnACRo
-	MnpMfEeLB/EMTsbvx2equDuVhhT9mJ4JMkpV3DJjQwN7lRR8XCQrQY1nX+i7zuzn2vnQ3uOER+DTX
-	K/BjimFNlWABjoBQkb5w==;
+	List-Owner; bh=BqObht4IpovjK59OBdVW24awj55j281EAqqyawdp2jk=; b=GcwlbXhOxTrkrz
+	8m2CIL/6P/ZCdKKmFA6KzNgmZ/1EF9u2XY85ZS7X1XWDJS2ffsYrLL338JAewnmx+yeFkMj+a4yCW
+	owccHhOXMtpXOJXHCaViq2v+fgwuaKI6wOT1voP9rksB97QPT/YwOsY+XOp553rlC+A/Ev0wHSK0P
+	qM9M1mUCdDPmvF1P4rwVLZp/ONSUTF7PjNmZvu4os1/FFP1Qm4Qz69OxQsURyd4TXeKlwKrpog95c
+	BhuEVKFYz6lHMmvuB5bdVS4pinLvGU9uzUrCihVZf52jYspEhrpDtgwFV+aMYl54qyVNgzBd397GH
+	8WTJ1rs4srNOzmfxtkUw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nOdx4-00BkS1-4B; Mon, 28 Feb 2022 11:12:26 +0000
+	id 1nOdyG-00Bl2R-RP; Mon, 28 Feb 2022 11:13:40 +0000
 Received: from foss.arm.com ([217.140.110.172])
  by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nOddK-00BZEC-FV; Mon, 28 Feb 2022 10:52:04 +0000
+ id 1nOddS-00BZKR-K4; Mon, 28 Feb 2022 10:52:13 +0000
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 76811106F;
- Mon, 28 Feb 2022 02:52:01 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 00A8411FB;
+ Mon, 28 Feb 2022 02:52:10 -0800 (PST)
 Received: from p8cg001049571a15.arm.com (unknown [10.163.47.185])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D85293F73D;
- Mon, 28 Feb 2022 02:51:53 -0800 (PST)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 1303C3F73D;
+ Mon, 28 Feb 2022 02:52:01 -0800 (PST)
 From: Anshuman Khandual <anshuman.khandual@arm.com>
 To: linux-mm@kvack.org,
 	akpm@linux-foundation.org
@@ -44,16 +44,17 @@ Cc: linux-kernel@vger.kernel.org, geert@linux-m68k.org,
  linux-xtensa@linux-xtensa.org, linux-parisc@vger.kernel.org,
  openrisc@lists.librecores.org, linux-um@lists.infradead.org,
  linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
- linux-arch@vger.kernel.org, Jeff Dike <jdike@addtoit.com>
-Subject: [PATCH V3 23/30] um/mm: Enable ARCH_HAS_VM_GET_PAGE_PROT
-Date: Mon, 28 Feb 2022 16:17:46 +0530
-Message-Id: <1646045273-9343-24-git-send-email-anshuman.khandual@arm.com>
+ linux-arch@vger.kernel.org, Michal Simek <monstr@monstr.eu>
+Subject: [PATCH V3 24/30] microblaze/mm: Enable ARCH_HAS_VM_GET_PAGE_PROT
+Date: Mon, 28 Feb 2022 16:17:47 +0530
+Message-Id: <1646045273-9343-25-git-send-email-anshuman.khandual@arm.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1646045273-9343-1-git-send-email-anshuman.khandual@arm.com>
 References: <1646045273-9343-1-git-send-email-anshuman.khandual@arm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220228_025202_690922_8D714BA9 
-X-CRM114-Status: GOOD (  11.53  )
+X-CRM114-CacheID: sfid-20220228_025210_773121_7DFF5DBD 
+X-CRM114-Status: UNSURE (   8.68  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,64 +76,62 @@ This defines and exports a platform specific custom vm_get_page_prot() via
 subscribing ARCH_HAS_VM_GET_PAGE_PROT. Subsequently all __SXXX and __PXXX
 macros can be dropped which are no longer needed.
 
-Cc: Jeff Dike <jdike@addtoit.com>
-Cc: linux-um@lists.infradead.org
+Cc: Michal Simek <monstr@monstr.eu>
 Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
 ---
- arch/um/Kconfig               |  1 +
- arch/um/include/asm/pgtable.h | 17 -----------------
- arch/um/kernel/mem.c          | 35 +++++++++++++++++++++++++++++++++++
- arch/x86/um/mem_32.c          |  2 +-
- 4 files changed, 37 insertions(+), 18 deletions(-)
+ arch/microblaze/Kconfig               |  1 +
+ arch/microblaze/include/asm/pgtable.h | 17 -----------
+ arch/microblaze/mm/init.c             | 41 +++++++++++++++++++++++++++
+ 3 files changed, 42 insertions(+), 17 deletions(-)
 
-diff --git a/arch/um/Kconfig b/arch/um/Kconfig
-index 4d398b80aea8..5836296868a8 100644
---- a/arch/um/Kconfig
-+++ b/arch/um/Kconfig
-@@ -9,6 +9,7 @@ config UML
- 	select ARCH_HAS_KCOV
- 	select ARCH_HAS_STRNCPY_FROM_USER
- 	select ARCH_HAS_STRNLEN_USER
+diff --git a/arch/microblaze/Kconfig b/arch/microblaze/Kconfig
+index 59798e43cdb0..f2c25ba8621e 100644
+--- a/arch/microblaze/Kconfig
++++ b/arch/microblaze/Kconfig
+@@ -7,6 +7,7 @@ config MICROBLAZE
+ 	select ARCH_HAS_GCOV_PROFILE_ALL
+ 	select ARCH_HAS_SYNC_DMA_FOR_CPU
+ 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
 +	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_NO_PREEMPT
- 	select HAVE_ARCH_AUDITSYSCALL
- 	select HAVE_ARCH_SECCOMP_FILTER
-diff --git a/arch/um/include/asm/pgtable.h b/arch/um/include/asm/pgtable.h
-index b9e20bbe2f75..d982622c0708 100644
---- a/arch/um/include/asm/pgtable.h
-+++ b/arch/um/include/asm/pgtable.h
-@@ -68,23 +68,6 @@ extern unsigned long end_iomem;
-  * Also, write permissions imply read permissions. This is the closest we can
-  * get..
+ 	select ARCH_MIGHT_HAVE_PC_PARPORT
+ 	select ARCH_WANT_IPC_PARSE_VERSION
+ 	select BUILDTIME_TABLE_SORT
+diff --git a/arch/microblaze/include/asm/pgtable.h b/arch/microblaze/include/asm/pgtable.h
+index c136a01e467e..6df373077ff2 100644
+--- a/arch/microblaze/include/asm/pgtable.h
++++ b/arch/microblaze/include/asm/pgtable.h
+@@ -204,23 +204,6 @@ extern pte_t *va_to_pte(unsigned long address);
+  * We consider execute permission the same as read.
+  * Also, write permissions imply read permissions.
   */
 -#define __P000	PAGE_NONE
--#define __P001	PAGE_READONLY
+-#define __P001	PAGE_READONLY_X
 -#define __P010	PAGE_COPY
--#define __P011	PAGE_COPY
+-#define __P011	PAGE_COPY_X
 -#define __P100	PAGE_READONLY
--#define __P101	PAGE_READONLY
+-#define __P101	PAGE_READONLY_X
 -#define __P110	PAGE_COPY
--#define __P111	PAGE_COPY
+-#define __P111	PAGE_COPY_X
 -
 -#define __S000	PAGE_NONE
--#define __S001	PAGE_READONLY
+-#define __S001	PAGE_READONLY_X
 -#define __S010	PAGE_SHARED
--#define __S011	PAGE_SHARED
+-#define __S011	PAGE_SHARED_X
 -#define __S100	PAGE_READONLY
--#define __S101	PAGE_READONLY
+-#define __S101	PAGE_READONLY_X
 -#define __S110	PAGE_SHARED
--#define __S111	PAGE_SHARED
+-#define __S111	PAGE_SHARED_X
  
+ #ifndef __ASSEMBLY__
  /*
-  * ZERO_PAGE is a global shared page that is always zero: used
-diff --git a/arch/um/kernel/mem.c b/arch/um/kernel/mem.c
-index 15295c3237a0..37c6c7b9dadc 100644
---- a/arch/um/kernel/mem.c
-+++ b/arch/um/kernel/mem.c
-@@ -197,3 +197,38 @@ void *uml_kmalloc(int size, int flags)
- {
- 	return kmalloc(size, flags);
+diff --git a/arch/microblaze/mm/init.c b/arch/microblaze/mm/init.c
+index 952f35b335b2..68faf7d04faf 100644
+--- a/arch/microblaze/mm/init.c
++++ b/arch/microblaze/mm/init.c
+@@ -280,3 +280,44 @@ void * __ref zalloc_maybe_bootmem(size_t size, gfp_t mask)
+ 
+ 	return p;
  }
 +
 +pgprot_t vm_get_page_prot(unsigned long vm_flags)
@@ -141,47 +140,40 @@ index 15295c3237a0..37c6c7b9dadc 100644
 +	case VM_NONE:
 +		return PAGE_NONE;
 +	case VM_READ:
-+		return PAGE_READONLY;
++		return PAGE_READONLY_X;
 +	case VM_WRITE:
++		return PAGE_COPY;
 +	case VM_WRITE | VM_READ:
-+		return PAGE_COPY;
++		return PAGE_COPY_X;
 +	case VM_EXEC:
-+	case VM_EXEC | VM_READ:
 +		return PAGE_READONLY;
++	case VM_EXEC | VM_READ:
++		return PAGE_READONLY_X;
 +	case VM_EXEC | VM_WRITE:
-+	case VM_EXEC | VM_WRITE | VM_READ:
 +		return PAGE_COPY;
++	case VM_EXEC | VM_WRITE | VM_READ:
++		return PAGE_COPY_X;
 +	case VM_SHARED:
 +		return PAGE_NONE;
 +	case VM_SHARED | VM_READ:
-+		return PAGE_READONLY;
++		return PAGE_READONLY_X;
 +	case VM_SHARED | VM_WRITE:
++		return PAGE_SHARED;
 +	case VM_SHARED | VM_WRITE | VM_READ:
-+		return PAGE_SHARED;
++		return PAGE_SHARED_X;
 +	case VM_SHARED | VM_EXEC:
-+	case VM_SHARED | VM_EXEC | VM_READ:
 +		return PAGE_READONLY;
++	case VM_SHARED | VM_EXEC | VM_READ:
++		return PAGE_READONLY_X;
 +	case VM_SHARED | VM_EXEC | VM_WRITE:
-+	case VM_SHARED | VM_EXEC | VM_WRITE | VM_READ:
 +		return PAGE_SHARED;
++	case VM_SHARED | VM_EXEC | VM_WRITE | VM_READ:
++		return PAGE_SHARED_X;
 +	default:
 +		BUILD_BUG();
 +	}
 +}
 +EXPORT_SYMBOL(vm_get_page_prot);
-diff --git a/arch/x86/um/mem_32.c b/arch/x86/um/mem_32.c
-index 19c5dbd46770..cafd01f730da 100644
---- a/arch/x86/um/mem_32.c
-+++ b/arch/x86/um/mem_32.c
-@@ -17,7 +17,7 @@ static int __init gate_vma_init(void)
- 	gate_vma.vm_start = FIXADDR_USER_START;
- 	gate_vma.vm_end = FIXADDR_USER_END;
- 	gate_vma.vm_flags = VM_READ | VM_MAYREAD | VM_EXEC | VM_MAYEXEC;
--	gate_vma.vm_page_prot = __P101;
-+	gate_vma.vm_page_prot = PAGE_READONLY;
- 
- 	return 0;
- }
 -- 
 2.25.1
 
