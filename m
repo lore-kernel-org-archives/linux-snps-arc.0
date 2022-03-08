@@ -4,51 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48EAEC433F5
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  8 Mar 2022 08:29:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1532CC433EF
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  8 Mar 2022 08:49:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
 	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
 	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=edBz41xXUkxrxVs8dsdC4AFvqSWAxgnXtYHlDLLiHhs=; b=0ZubLxCHBLtksH
-	L+kEe5U+lH4CwGSj2hG0ZxT4PYOfGvBfZ7PB/bpFcooeFjWKcv7fh6BUsVKI+opq/F0Run7mnQ84F
-	eDUhszacb7swtkOHPb6QCzoZCjqNpjz+3VRwEd859BcNxXAPJZId00zpo+ZzMyptZiAsCkmFFWiC3
-	mDJTNFXGHYvGa+0Z/HMQqNvJwXGzsMqosrXLcfGhGhi3FR93jC4JbN/d5IYJZTuyAop5Q1Bnn+C4c
-	Yk/3SsyuDfGRBoVES7sTyNWrULrpxtJZHIfZx7j+aBXbs22dqUPR5qlTn0YnxhCMjIoi7ZODLlh37
-	QKTq/kejP4JC5g/gJ/gg==;
+	List-Owner; bh=4KPnshDarDmSQUnYxzUjioEKzhXTntkVnBIgIAulKYE=; b=qSWKcfI+ogmIlS
+	ApY92YGPcAp0sLHkSXgPekLYJ5+CzttjZLelOnASQV9MoIji+K/5kXZytKxGMGMf2J+Il7gZCDDSK
+	gTAuoMKM1+M+n/7Ja+Ya3ZSEwxjGysHe2qcDYYeNLLpcDMINiWVEHd97snyMV9t8DDbJHzTsxhiEt
+	8C023ne7TWpWGaqEi2gTslBbX/E2JEImYNwI0DdVvjZik3lJJtGtaTfU8uud91VJaQR1sE0nueDe2
+	DEpaFVxKSntgg+SdNX4+cYUpfk2D5NCoPzKu6xYSTB5j5FpoZxhavEaNqlk5tORx9Qx1DJSJ+O9Zi
+	Sah3eqL/89dfjnLXRD9w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nRVED-003GT0-EG; Tue, 08 Mar 2022 08:29:57 +0000
-Received: from mail.twelvesign.pl ([89.221.214.137])
+	id 1nRVWp-003Kod-FL; Tue, 08 Mar 2022 08:49:11 +0000
+Received: from mail.olerise.pl ([46.183.184.59])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nRVEA-003GJd-4D
- for linux-snps-arc@lists.infradead.org; Tue, 08 Mar 2022 08:29:55 +0000
-Received: by mail.twelvesign.pl (Postfix, from userid 1002)
- id A200435771; Tue,  8 Mar 2022 09:29:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=twelvesign.pl;
- s=mail; t=1646728167;
- bh=rqcEvVJQSOmVvt10Vd77A7h4EQ3zL1XaGAodpexDxk8=;
+ id 1nRVWV-003KhM-MV
+ for linux-snps-arc@lists.infradead.org; Tue, 08 Mar 2022 08:48:52 +0000
+Received: by mail.olerise.pl (Postfix, from userid 1001)
+ id DAB8844318; Tue,  8 Mar 2022 09:46:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=olerise.pl; s=mail;
+ t=1646729217; bh=ZNYiuZLXlxCdAPtstEG/gwJieB5RBwA/cHj1SZ3Mpl0=;
  h=Date:From:To:Subject:From;
- b=KyKGIee8Fa+19QrL9symnmEBushObWQbU+dDafRcCm5AUww+C3YEwlT9+qB6NWn17
- HURZhheYk0ny2VkpHoj3cJRePCoSQ0tqLFW9/OS6ym+9KLv1fKhQ0V9fEPnRg5kfsN
- kJnejNB9BqKwjDIPlTNnlZfvPRGKwyhjgvhdRW/aj1QAoIlNxf5iU44IIIeaN6KRer
- 0d3xoGvHNEU0pA1pSdEHgEPNCGnTpsK7W4IWeaN51Ju+lMxN8MM7bo/ziJZY0kn204
- U3u4bs9vh+/nRrWOYfq7ffeKssOpjjFHianlWmUvqahlLUKWW10wrYlg5gJvUfz4BV
- Z2A/KkTzff/5Q==
-Received: by mail.twelvesign.pl for <linux-snps-arc@lists.infradead.org>;
- Tue,  8 Mar 2022 08:29:05 GMT
-Message-ID: <20220308083000-0.1.w.1uxe.0.va4jmb2lc5@twelvesign.pl>
-Date: Tue,  8 Mar 2022 08:29:05 GMT
-From: "Damian Kraska" <damian.kraska@twelvesign.pl>
+ b=nmlhvzu46fL+HB62jUZtQwBjOC2y2KG4vbt18QQyTdmQaQ65AVazepL8VpolvOLF2
+ ksmYEl9KnkWR9zewrB2vkFuxafMGYoLU4jP98iRfMu7GLLsLR65TNHbMMP2tj3fQyg
+ CJso+Jbg/sMn5qw5RezE9u179hTBTlP3eAcWPdu2tMYRxKQdumKXT6HrFXrig1w39o
+ zxnTi4KybCwHUCZvcfpOa9b3EmtvIWtqlU0LgkkJMuwR3+1AxaPhmdXwfOMRoXf/eq
+ SSjV3az2W7rQYiTPEopG1FUirpM7zAHntlEN4DdgkMgIE7GfYZ87NLvm5H2dj3fm/u
+ YCVHpqKG1XIuQ==
+Received: by mail.olerise.pl for <linux-snps-arc@lists.infradead.org>;
+ Tue,  8 Mar 2022 08:45:41 GMT
+Message-ID: <20220308084500-0.1.26.msln.0.f0m7mke89m@olerise.pl>
+Date: Tue,  8 Mar 2022 08:45:41 GMT
+From: =?UTF-8?Q?"Miko=C5=82aj_Rudzik"?= <mikolaj.rudzik@olerise.pl>
 To: <linux-snps-arc@lists.infradead.org>
-Subject: Wycena paneli fotowoltaicznych
-X-Mailer: mail.twelvesign.pl
+Subject: =?UTF-8?Q?Nap=C5=82yw_Klient=C3=B3w_ze_strony?=
+X-Mailer: mail.olerise.pl
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220308_002954_407475_2F7D6745 
-X-CRM114-Status: UNSURE (   1.25  )
+X-CRM114-CacheID: sfid-20220308_004851_918460_F55AEAC2 
+X-CRM114-Status: UNSURE (   1.58  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -66,12 +65,13 @@ Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-RHppZcWEIGRvYnJ5LAoKZG9zdHJ6ZWdhbSBtb8W8bGl3b8WbxIcgd3Nww7PFgnByYWN5IHogUGHF
-hHN0d2EgZmlybcSFLgoKxZp3aWFkY3p5bXkga29tcGxla3Nvd8SFIG9ic8WCdWfEmSBpbndlc3R5
-Y2ppIHcgZm90b3dvbHRhaWvEmSwga3TDs3JhIG9ibmnFvGEga29zenR5IGVuZXJnaWkgZWxla3Ry
-eWN6bmVqIG5hd2V0IG8gOTAlLgoKQ3p5IHPEhSBQYcWEc3R3byB6YWludGVyZXNvd2FuaSB3ZXJ5
-ZmlrYWNqxIUgd3N0xJlwbnljaCBwcm9wb3p5Y2ppPwoKClBvemRyYXdpYW0sCkRhbWlhbiBLcmFz
-a2EKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4
-LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3Jn
-Cmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1h
-cmMK
+RHppZcWEIGRvYnJ5LAoKY2hjaWHFgmJ5bSBwb2luZm9ybW93YcSHIFBhxYRzdHdhIG8gbW/FvGxp
+d2/Fm2NpIHBvenlza2FuaWEgbm93eWNoIHpsZWNlxYQgemUgc3Ryb255IHd3dy4KCldpZHppbXkg
+emFpbnRlcmVzb3dhbmllIHBvdGVuY2phbG55Y2ggS2xpZW50w7N3IFBhxYRzdHdhIGZpcm3EhSwg
+ZGxhdGVnbyBjaMSZdG5pZSBwb21vxbxlbXkgUGHFhHN0d3UgZG90cnplxIcgeiBvZmVydMSFIGRv
+IHdpxJlrc3plZ28gZ3JvbmEgb2RiaW9yY8OzdyBwb3ByemV6IGVmZWt0eXduZSBtZXRvZHkgcG96
+eWNqb25vd2FuaWEgc3Ryb255IHcgR29vZ2xlLgoKQ3p5IG3Ds2fFgmJ5bSBsaWN6ecSHIG5hIGtv
+bnRha3Qgendyb3RueT8KCgpQb3pkcmF3aWFtCk1pa2/FgmFqIFJ1ZHppawoKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtc25wcy1hcmMgbWFpbGlu
+ZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmlu
+ZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
