@@ -4,83 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9761DC433FE
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Mar 2022 11:34:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3CA1DC433EF
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Mar 2022 16:47:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=e8zZLpUeyP3RCy/PyuqYCmzl7LnY7Me2ZiFZSvZ6fF0=; b=lUd8Yy6leGtYNV
-	no7LhtH7CUzIbvx5/yIasBk7d/x7+JKry3pfWXDi2a+BcfWv17XqM/Bea8ZUP3VlD4TIGu6veZAwj
-	Xgx0WDWYZ63IR2fozlAKnapbLUC3TsbP28MLErGoZaicMfqAy9NmsLer6ZH9yZgOmorBjdh/li8Jg
-	I/jNUN6zE1sEO54EfSapH6cMPr1Tbjv+o+Xnyz3lklePdnfN3IbbjWHQh2Plttzgz9HAMGPlLEtfH
-	q3MhR9eCPgJAcRqXD53aI1tYgAYoKK41wHvrLPIiXx/iMGiCPvhKfF/+xU7Ra2it/UAsgohVkG1H/
-	6c0FQKjc/7+a1B6SC2nw==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=Z/qWWVGund9h93A9M96A6XT84+uRNgMYu/3oeTRnGg8=; b=3E1lYzKIMop1P8
+	RiJyEnLqXOhxVdw0hFNaJpxX5HLEvLaeGPJfD6QP6mMgsOJ/7HIutogvEtnXWpaOnit1FOadzu20Z
+	cjTCSItXDB92Qk7W0EGnaro/275RtIt6ZsJKIyxwbmsgZ7Tcw0F15t0rL+33FsFlMG/5ObXclpc4g
+	hZIYT3F85rTBhdMTQ4KfXvh8Gnw7T+VExWNVKy7Epo7mApK3l/zJ6xeRGS/mMoESI5xRlBHtzu1b9
+	RmdpuFxibFcnKfmI9TXygCZSj7bqic0iZHtyT8QvkNYXwL3/clgrsXZj6SKKu41HGTFNVwHrALcsc
+	GRYIwVUr96zJ1t/KBO1A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nRuZq-008Isw-DN; Wed, 09 Mar 2022 11:33:58 +0000
-Received: from foss.arm.com ([217.140.110.172])
- by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nRuZY-008Inh-NB; Wed, 09 Mar 2022 11:33:42 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C45AC1655;
- Wed,  9 Mar 2022 03:33:39 -0800 (PST)
-Received: from [10.163.33.203] (unknown [10.163.33.203])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A3A213FA4D;
- Wed,  9 Mar 2022 03:33:29 -0800 (PST)
-Message-ID: <70a99f28-ea69-58e3-f919-85551943c0a3@arm.com>
-Date: Wed, 9 Mar 2022 17:03:28 +0530
+	id 1nSLwh-00DY5x-NU; Thu, 10 Mar 2022 16:47:23 +0000
+Received: from mga04.intel.com ([192.55.52.120])
+ by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nSLwd-00DY5W-Sd
+ for linux-snps-arc@lists.infradead.org; Thu, 10 Mar 2022 16:47:21 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646930839; x=1678466839;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=+lt5lFj32tlNLLvrEG/HXlx0i8mjc9DRePULl3+S6JQ=;
+ b=EsXCKGkIahVo8igPNFKvKQCl++kMDEPAHe5c0SNHRSxV21S2uffAyogt
+ h0UkVu9KgOk81vcvGO4jPfmB8Blps7120Y0Pj7dwUAIIHLFg4humq+GXO
+ f5IYJnLbgyKmwBaYjIr2Csxi+mXn526pN9Nti9Ua/aoRIs7FlnMBooSBg
+ QeoOJRUgpa4h6SqQFiGeB4RtYUrMAVsBkwO2l8bl7ZkmX2j/1aOmfnTlD
+ bImK0sJs+2UV9eJrWAXLsMlH9S4nPtotaCVPtULPHGGdoSt7KmLi4IzFZ
+ 8pj1kMN2Ec/YkW+oWoIeZ9U965p6xgYXvvMbZLCZUGtgbVnjQ8gfMVS4+ g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="254130895"
+X-IronPort-AV: E=Sophos;i="5.90,171,1643702400"; d="scan'208";a="254130895"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Mar 2022 08:45:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,171,1643702400"; d="scan'208";a="781516956"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+ by fmsmga006.fm.intel.com with ESMTP; 10 Mar 2022 08:45:30 -0800
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nSLus-0005AA-5k; Thu, 10 Mar 2022 16:45:30 +0000
+Date: Fri, 11 Mar 2022 00:44:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vineet Gupta <vgupta@kernel.org>
+Cc: kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org
+Subject: arch/arc/kernel/smp.c:279:18: sparse: sparse: dereference of noderef
+ expression
+Message-ID: <202203110052.4qnkNzyc-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH V3 09/30] arm/mm: Enable ARCH_HAS_VM_GET_PAGE_PROT
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Christophe Leroy <christophe.leroy@csgroup.eu>,
- "Russell King (Oracle)" <linux@armlinux.org.uk>,
- "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
- "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
- "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
- "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
- "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- "linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>,
- "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
- Christoph Hellwig <hch@infradead.org>,
- "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- "linux-xtensa@linux-xtensa.org" <linux-xtensa@linux-xtensa.org>,
- Arnd Bergmann <arnd@arndb.de>,
- "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
- "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>,
- "openrisc@lists.librecores.org" <openrisc@lists.librecores.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
-References: <1646045273-9343-1-git-send-email-anshuman.khandual@arm.com>
- <1646045273-9343-10-git-send-email-anshuman.khandual@arm.com>
- <Yhyqjo/4bozJB6j5@shell.armlinux.org.uk>
- <542fa048-131e-240b-cc3a-fd4fff7ce4ba@arm.com>
- <Yh1pYAOiskEQes3p@shell.armlinux.org.uk>
- <dc3c95a4-de06-9889-ce1e-f660fc9fbb95@csgroup.eu>
- <c3b60de0-38cd-160a-aa15-831349e07e23@arm.com>
- <52866c88-59f9-2d1c-6f5a-5afcaf23f2bb@csgroup.eu>
- <9caa90f5-c10d-75dd-b403-1388b7a3d296@arm.com>
- <CAMuHMdU11kaOzanhHZRH+mLTJzaz-i=PnKdK7NF9V-qx6kp8wg@mail.gmail.com>
- <b1eca2cd-36e6-3a9a-9fe7-70fc0caed7a9@arm.com>
- <CAMuHMdUPw_yBMe9XxQHHuf40it3V5mGuOA10KnMpXt124Ay8Tw@mail.gmail.com>
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <CAMuHMdUPw_yBMe9XxQHHuf40it3V5mGuOA10KnMpXt124Ay8Tw@mail.gmail.com>
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220309_033340_881436_76421664 
-X-CRM114-Status: GOOD (  32.32  )
+X-CRM114-CacheID: sfid-20220310_084719_991799_55D904C2 
+X-CRM114-Status: GOOD (  13.25  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,167 +73,119 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-CgpPbiAzLzIvMjIgMTY6NDQsIEdlZXJ0IFV5dHRlcmhvZXZlbiB3cm90ZToKPiBIaSBBbnNodW1h
-biwKPiAKPiBPbiBXZWQsIE1hciAyLCAyMDIyIGF0IDEyOjA3IFBNIEFuc2h1bWFuIEtoYW5kdWFs
-Cj4gPGFuc2h1bWFuLmtoYW5kdWFsQGFybS5jb20+IHdyb3RlOgo+PiBPbiAzLzIvMjIgMzozNSBQ
-TSwgR2VlcnQgVXl0dGVyaG9ldmVuIHdyb3RlOgo+Pj4gT24gV2VkLCBNYXIgMiwgMjAyMiBhdCAx
-MDo1MSBBTSBBbnNodW1hbiBLaGFuZHVhbAo+Pj4gPGFuc2h1bWFuLmtoYW5kdWFsQGFybS5jb20+
-IHdyb3RlOgo+Pj4+IE9uIDMvMi8yMiAxMjozNSBQTSwgQ2hyaXN0b3BoZSBMZXJveSB3cm90ZToK
-Pj4+Pj4gTGUgMDIvMDMvMjAyMiDDoCAwNDoyMiwgQW5zaHVtYW4gS2hhbmR1YWwgYSDDqWNyaXQg
-Ogo+Pj4+Pj4gT24gMy8xLzIyIDE6NDYgUE0sIENocmlzdG9waGUgTGVyb3kgd3JvdGU6Cj4+Pj4+
-Pj4gTGUgMDEvMDMvMjAyMiDDoCAwMTozMSwgUnVzc2VsbCBLaW5nIChPcmFjbGUpIGEgw6ljcml0
-IDoKPj4+Pj4+Pj4gT24gVHVlLCBNYXIgMDEsIDIwMjIgYXQgMDU6MzA6NDFBTSArMDUzMCwgQW5z
-aHVtYW4gS2hhbmR1YWwgd3JvdGU6Cj4+Pj4+Pj4+PiBPbiAyLzI4LzIyIDQ6MjcgUE0sIFJ1c3Nl
-bGwgS2luZyAoT3JhY2xlKSB3cm90ZToKPj4+Pj4+Pj4+PiBPbiBNb24sIEZlYiAyOCwgMjAyMiBh
-dCAwNDoxNzozMlBNICswNTMwLCBBbnNodW1hbiBLaGFuZHVhbCB3cm90ZToKPj4+Pj4+Pj4+Pj4g
-VGhpcyBkZWZpbmVzIGFuZCBleHBvcnRzIGEgcGxhdGZvcm0gc3BlY2lmaWMgY3VzdG9tIHZtX2dl
-dF9wYWdlX3Byb3QoKSB2aWEKPj4+Pj4+Pj4+Pj4gc3Vic2NyaWJpbmcgQVJDSF9IQVNfVk1fR0VU
-X1BBR0VfUFJPVC4gU3Vic2VxdWVudGx5IGFsbCBfX1NYWFggYW5kIF9fUFhYWAo+Pj4+Pj4+Pj4+
-PiBtYWNyb3MgY2FuIGJlIGRyb3BwZWQgd2hpY2ggYXJlIG5vIGxvbmdlciBuZWVkZWQuCj4+Pj4+
-Pj4+Pj4KPj4+Pj4+Pj4+PiBXaGF0IEkgd291bGQgcmVhbGx5IGxpa2UgdG8ga25vdyBpcyB3aHkg
-aGF2aW5nIHRvIHJ1biBfY29kZV8gdG8gd29yayBvdXQKPj4+Pj4+Pj4+PiB3aGF0IHRoZSBwYWdl
-IHByb3RlY3Rpb25zIG5lZWQgdG8gYmUgaXMgYmV0dGVyIHRoYW4gbG9va2luZyBpdCB1cCBpbiBh
-Cj4+Pj4+Pj4+Pj4gdGFibGUuCj4+Pj4+Pj4+Pj4KPj4+Pj4+Pj4+PiBOb3Qgb25seSBpcyB0aGlz
-IG1vcmUgZXhwZW5zaXZlIGluIHRlcm1zIG9mIENQVSBjeWNsZXMsIGl0IGFsc28gYnJpbmdzCj4+
-Pj4+Pj4+Pj4gYWRkaXRpb25hbCBjb2RlIHNpemUgd2l0aCBpdC4KPj4+Pj4+Pj4+Pgo+Pj4+Pj4+
-Pj4+IEknbSBzdHJ1Z2dsaW5nIHRvIHNlZSB3aGF0IHRoZSBiZW5lZml0IGlzLgo+Pj4+Pj4+Pj4K
-Pj4+Pj4+Pj4+IEN1cnJlbnRseSB2bV9nZXRfcGFnZV9wcm90KCkgaXMgYWxzbyBiZWluZyBfcnVu
-XyB0byBmZXRjaCByZXF1aXJlZCBwYWdlCj4+Pj4+Pj4+PiBwcm90ZWN0aW9uIHZhbHVlcy4gQWx0
-aG91Z2ggdGhhdCBpcyBiZWluZyBydW4gaW4gdGhlIGNvcmUgTU0gYW5kIGZyb20gYQo+Pj4+Pj4+
-Pj4gcGxhdGZvcm0gcGVyc3BlY3RpdmUgX19TWFhYLCBfX1BYWFggYXJlIGp1c3QgYmVpbmcgZXhw
-b3J0ZWQgZm9yIGEgdGFibGUuCj4+Pj4+Pj4+PiBMb29raW5nIGl0IHVwIGluIGEgdGFibGUgKGFu
-ZCBhcHBseWluZyBtb3JlIGNvbnN0cnVjdHMgdGhlcmUgYWZ0ZXIpIGlzCj4+Pj4+Pj4+PiBub3Qg
-bXVjaCBkaWZmZXJlbnQgdGhhbiBhIGNsZWFuIHN3aXRjaCBjYXNlIHN0YXRlbWVudCBpbiB0ZXJt
-cyBvZiBDUFUKPj4+Pj4+Pj4+IHVzYWdlLiBTbyB0aGlzIGlzIG5vdCBtb3JlIGV4cGVuc2l2ZSBp
-biB0ZXJtcyBvZiBDUFUgY3ljbGVzLgo+Pj4+Pj4+Pgo+Pj4+Pj4+PiBJIGRpc2FncmVlLgo+Pj4+
-Pj4+Cj4+Pj4+Pj4gU28gZG8gSS4KPj4+Pj4+Pgo+Pj4+Pj4+Pgo+Pj4+Pj4+PiBIb3dldmVyLCBs
-ZXQncyBiYXNlIHRoaXMgZGlzYWdyZWVtZW50IG9uIHNvbWUgZXZpZGVuY2UuIEhlcmUgaXMgdGhl
-Cj4+Pj4+Pj4+IHByZXNlbnQgMzItYml0IEFSTSBpbXBsZW1lbnRhdGlvbjoKPj4+Pj4+Pj4KPj4+
-Pj4+Pj4gMDAwMDAwNDggPHZtX2dldF9wYWdlX3Byb3Q+Ogo+Pj4+Pj4+PiAgICAgICAgIDQ4OiAg
-ICAgICBlMjAwMDAwZiAgICAgICAgYW5kICAgICByMCwgcjAsICMxNQo+Pj4+Pj4+PiAgICAgICAg
-IDRjOiAgICAgICBlMzAwMzAwMCAgICAgICAgbW92dyAgICByMywgIzAKPj4+Pj4+Pj4gICAgICAg
-ICAgICAgICAgICAgICAgICAgICA0YzogUl9BUk1fTU9WV19BQlNfTkMgICAuTEFOQ0hPUjEKPj4+
-Pj4+Pj4gICAgICAgICA1MDogICAgICAgZTM0MDMwMDAgICAgICAgIG1vdnQgICAgcjMsICMwCj4+
-Pj4+Pj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgNTA6IFJfQVJNX01PVlRfQUJTICAgICAg
-LkxBTkNIT1IxCj4+Pj4+Pj4+ICAgICAgICAgNTQ6ICAgICAgIGU3OTMwMTAwICAgICAgICBsZHIg
-ICAgIHIwLCBbcjMsIHIwLCBsc2wgIzJdCj4+Pj4+Pj4+ICAgICAgICAgNTg6ICAgICAgIGUxMmZm
-ZjFlICAgICAgICBieCAgICAgIGxyCj4+Pj4+Pj4+Cj4+Pj4+Pj4+IFRoYXQgaXMgZml2ZSBpbnN0
-cnVjdGlvbnMgbG9uZy4KPj4+Pj4+Pgo+Pj4+Pj4+IE9uIHBwYzMyIEkgZ2V0Ogo+Pj4+Pj4+Cj4+
-Pj4+Pj4gMDAwMDAwOTQgPHZtX2dldF9wYWdlX3Byb3Q+Ogo+Pj4+Pj4+ICAgICAgICAgOTQ6IDNk
-IDIwIDAwIDAwICAgICBsaXMgICAgIHI5LDAKPj4+Pj4+PiAgICAgICAgICAgICAgICAgICAgIDk2
-OiBSX1BQQ19BRERSMTZfSEEgICAgIC5kYXRhLi5yb19hZnRlcl9pbml0Cj4+Pj4+Pj4gICAgICAg
-ICA5ODogNTQgODQgMTYgYmEgICAgIHJsd2lubSAgcjQscjQsMiwyNiwyOQo+Pj4+Pj4+ICAgICAg
-ICAgOWM6IDM5IDI5IDAwIDAwICAgICBhZGRpICAgIHI5LHI5LDAKPj4+Pj4+PiAgICAgICAgICAg
-ICAgICAgICAgIDllOiBSX1BQQ19BRERSMTZfTE8gICAgIC5kYXRhLi5yb19hZnRlcl9pbml0Cj4+
-Pj4+Pj4gICAgICAgICBhMDogN2QgMjkgMjAgMmUgICAgIGx3enggICAgcjkscjkscjQKPj4+Pj4+
-PiAgICAgICAgIGE0OiA5MSAyMyAwMCAwMCAgICAgc3R3ICAgICByOSwwKHIzKQo+Pj4+Pj4+ICAg
-ICAgICAgYTg6IDRlIDgwIDAwIDIwICAgICBibHIKPj4+Pj4+Pgo+Pj4+Pj4+Cj4+Pj4+Pj4+Cj4+
-Pj4+Pj4+IFBsZWFzZSBzaG93IHRoYXQgeW91ciBuZXcgaW1wbGVtZW50YXRpb24gaXMgbm90IG1v
-cmUgZXhwZW5zaXZlIG9uCj4+Pj4+Pj4+IDMyLWJpdCBBUk0uIFBsZWFzZSBkbyBzbyBieSBidWls
-ZGluZyBhIDMyLWJpdCBrZXJuZWwsIGFuZCBwcm92aWRpbmcKPj4+Pj4+Pj4gdGhlIGRpc2Fzc2Vt
-Ymx5Lgo+Pj4+Pj4+Cj4+Pj4+Pj4gV2l0aCB5b3VyIHNlcmllcyBJIGdldDoKPj4+Pj4+Pgo+Pj4+
-Pj4+IDAwMDAwMDAwIDx2bV9nZXRfcGFnZV9wcm90PjoKPj4+Pj4+PiAgICAgIDA6ICAgICAzZCAy
-MCAwMCAwMCAgICAgbGlzICAgICByOSwwCj4+Pj4+Pj4gICAgICAgICAgICAgICAgICAgICAyOiBS
-X1BQQ19BRERSMTZfSEEgICAgICAucm9kYXRhCj4+Pj4+Pj4gICAgICA0OiAgICAgMzkgMjkgMDAg
-MDAgICAgIGFkZGkgICAgcjkscjksMAo+Pj4+Pj4+ICAgICAgICAgICAgICAgICAgICAgNjogUl9Q
-UENfQUREUjE2X0xPICAgICAgLnJvZGF0YQo+Pj4+Pj4+ICAgICAgODogICAgIDU0IDg0IDE2IGJh
-ICAgICBybHdpbm0gIHI0LHI0LDIsMjYsMjkKPj4+Pj4+PiAgICAgIGM6ICAgICA3ZCA0OSAyMCAy
-ZSAgICAgbHd6eCAgICByMTAscjkscjQKPj4+Pj4+PiAgICAgMTA6ICAgICA3ZCA0YSA0YSAxNCAg
-ICAgYWRkICAgICByMTAscjEwLHI5Cj4+Pj4+Pj4gICAgIDE0OiAgICAgN2QgNDkgMDMgYTYgICAg
-IG10Y3RyICAgcjEwCj4+Pj4+Pj4gICAgIDE4OiAgICAgNGUgODAgMDQgMjAgICAgIGJjdHIKPj4+
-Pj4+PiAgICAgMWM6ICAgICAzOSAyMCAwMyAxNSAgICAgbGkgICAgICByOSw3ODkKPj4+Pj4+PiAg
-ICAgMjA6ICAgICA5MSAyMyAwMCAwMCAgICAgc3R3ICAgICByOSwwKHIzKQo+Pj4+Pj4+ICAgICAy
-NDogICAgIDRlIDgwIDAwIDIwICAgICBibHIKPj4+Pj4+PiAgICAgMjg6ICAgICAzOSAyMCAwMSAx
-NSAgICAgbGkgICAgICByOSwyNzcKPj4+Pj4+PiAgICAgMmM6ICAgICA5MSAyMyAwMCAwMCAgICAg
-c3R3ICAgICByOSwwKHIzKQo+Pj4+Pj4+ICAgICAzMDogICAgIDRlIDgwIDAwIDIwICAgICBibHIK
-Pj4+Pj4+PiAgICAgMzQ6ICAgICAzOSAyMCAwNyAxNSAgICAgbGkgICAgICByOSwxODEzCj4+Pj4+
-Pj4gICAgIDM4OiAgICAgOTEgMjMgMDAgMDAgICAgIHN0dyAgICAgcjksMChyMykKPj4+Pj4+PiAg
-ICAgM2M6ICAgICA0ZSA4MCAwMCAyMCAgICAgYmxyCj4+Pj4+Pj4gICAgIDQwOiAgICAgMzkgMjAg
-MDUgMTUgICAgIGxpICAgICAgcjksMTMwMQo+Pj4+Pj4+ICAgICA0NDogICAgIDkxIDIzIDAwIDAw
-ICAgICBzdHcgICAgIHI5LDAocjMpCj4+Pj4+Pj4gICAgIDQ4OiAgICAgNGUgODAgMDAgMjAgICAg
-IGJscgo+Pj4+Pj4+ICAgICA0YzogICAgIDM5IDIwIDAxIDExICAgICBsaSAgICAgIHI5LDI3Mwo+
-Pj4+Pj4+ICAgICA1MDogICAgIDRiIGZmIGZmIGQwICAgICBiICAgICAgIDIwIDx2bV9nZXRfcGFn
-ZV9wcm90KzB4MjA+Cj4+Pj4+Pj4KPj4+Pj4+Pgo+Pj4+Pj4+IFRoYXQgaXMgZGVmaW5pdGVseSBt
-b3JlIGV4cGVuc2l2ZSwgaXQgaW1wbGVtZW50cyBhIHRhYmxlIG9mIGJyYW5jaGVzLgo+Pj4+Pj4K
-Pj4+Pj4+IE9rYXksIHdpbGwgc3BsaXQgb3V0IHRoZSBQUEMzMiBpbXBsZW1lbnRhdGlvbiB0aGF0
-IHJldGFpbnMgZXhpc3RpbmcKPj4+Pj4+IHRhYmxlIGxvb2sgdXAgbWV0aG9kLiBBbHNvIHBsYW5u
-aW5nIHRvIGtlZXAgdGhhdCBpbnNpZGUgc2FtZSBmaWxlCj4+Pj4+PiAoYXJjaC9wb3dlcnBjL21t
-L21tYXAuYyksIHVubGVzcyB5b3UgaGF2ZSBhIGRpZmZlcmVuY2UgcHJlZmVyZW5jZS4KPj4+Pj4K
-Pj4+Pj4gTXkgcG9pbnQgd2FzIG5vdCB0byBnZXQgc29tZXRoaW5nIHNwZWNpZmljIGZvciBQUEMz
-MiwgYnV0IHRvIGFtcGxpZnkgb24KPj4+Pj4gUnVzc2VsbCdzIG9iamVjdGlvbi4KPj4+Pj4KPj4+
-Pj4gQXMgdGhpcyBpcyBiYWQgZm9yIEFSTSBhbmQgYmFkIGZvciBQUEMzMiwgZG8gd2UgaGF2ZSBh
-bnkgZXZpZGVuY2UgdGhhdAo+Pj4+PiB5b3VyIGNoYW5nZSBpcyBnb29kIGZvciBhbnkgb3RoZXIg
-YXJjaGl0ZWN0dXJlID8KPj4+Pj4KPj4+Pj4gSSBjaGVja2VkIFBQQzY0IGFuZCB0aGVyZSBpcyBl
-eGFjdGx5IHRoZSBzYW1lIGRyYXdiYWNrLiBXaXRoIHRoZSBjdXJyZW50Cj4+Pj4+IGltcGxlbWVu
-dGF0aW9uIGl0IGlzIGEgc21hbGwgZnVuY3Rpb24gcGVyZm9ybWluZyB0YWJsZSByZWFkIHRoZW4g
-YSBmZXcKPj4+Pj4gYWRqdXN0bWVudC4gQWZ0ZXIgeW91ciBjaGFuZ2UgaXQgaXMgYSBiaWdnZXIg
-ZnVuY3Rpb24gaW1wbGVtZW50aW5nIGEKPj4+Pj4gdGFibGUgb2YgYnJhbmNoZXMuCj4+Pj4KPj4+
-PiBJIGFtIHdvbmRlcmluZyBpZiB0aGlzIHdvdWxkIG5vdCBiZSB0aGUgY2FzZSBmb3IgYW55IG90
-aGVyIHN3aXRjaCBjYXNlCj4+Pj4gc3RhdGVtZW50IG9uIHRoZSBwbGF0Zm9ybSA/IElzIHRoZXJl
-IHNvbWV0aGluZyBzcGVjaWZpYy9kaWZmZXJlbnQganVzdAo+Pj4+IG9uIHZtX2dldF9wYWdlX3By
-b3QoKSBpbXBsZW1lbnRhdGlvbiA/IEFyZSB5b3Ugc3VnZ2VzdGluZyB0aGF0IHN3aXRjaAo+Pj4+
-IGNhc2Ugc3RhdGVtZW50cyBzaG91bGQganVzdCBiZSBhdm9pZGVkIGluc3RlYWQgPwo+Pj4+Cj4+
-Pj4+Cj4+Pj4+IFNvLCBhcyByZXF1ZXN0ZWQgYnkgUnVzc2VsbCwgY291bGQgeW91IGxvb2sgYXQg
-dGhlIGRpc2Fzc2VtYmx5IGZvciBvdGhlcgo+Pj4+PiBhcmNoaXRlY3R1cmVzIGFuZCBzaG93IHVz
-IHRoYXQgQVJNIGFuZCBQT1dFUlBDIGFyZSB0aGUgb25seSBvbmVzIGZvcgo+Pj4+PiB3aGljaCB5
-b3VyIGNoYW5nZSBpcyBub3Qgb3B0aW1hbCA/Cj4+Pj4KPj4+PiBCdXQgdGhlIHByaW1hcnkgcHVy
-cG9zZSBvZiB0aGlzIHNlcmllcyBpcyBub3QgdG8gZ3VhcmFudGVlIG9wdGltaXplZAo+Pj4+IGNv
-ZGUgb24gcGxhdGZvcm0gYnkgcGxhdGZvcm0gYmFzaXMsIHdoaWxlIG1pZ3JhdGluZyBmcm9tIGEg
-dGFibGUgYmFzZWQKPj4+PiBsb29rIHVwIG1ldGhvZCBpbnRvIGEgc3dpdGNoIGNhc2Ugc3RhdGVt
-ZW50Lgo+Pj4+Cj4+Pj4gQnV0IGluc3RlYWQsIHRoZSBwdXJwb3NlcyBpcyB0byByZW1vdmUgY3Vy
-cmVudCBsZXZlbHMgb2YgdW5uZWNlc3NhcnkKPj4+PiBhYnN0cmFjdGlvbiB3aGlsZSBjb252ZXJ0
-aW5nIGEgdm1fZmxhZ3MgYWNjZXNzIGNvbWJpbmF0aW9uIGludG8gcGFnZQo+Pj4+IHByb3RlY3Rp
-b24uIFRoZSBzd2l0Y2ggY2FzZSBzdGF0ZW1lbnQgZm9yIHBsYXRmb3JtIGltcGxlbWVudGF0aW9u
-IG9mCj4+Pj4gdm1fZ2V0X3BhZ2VfcHJvdCgpIGp1c3Qgc2VlbWVkIGxvZ2ljYWwgZW5vdWdoLiBD
-aHJpc3RvcGgncyBvcmlnaW5hbAo+Pj4+IHN1Z2dlc3Rpb24gcGF0Y2ggZm9yIHg4NiBoYWQgdGhl
-IHNhbWUgaW1wbGVtZW50YXRpb24gYXMgd2VsbC4KPj4+Pgo+Pj4+IEJ1dCBpZiB0aGUgdGFibGUg
-bG9vayB1cCBpcyBzdGlsbCBiZXR0ZXIvcHJlZmVycmVkIG1ldGhvZCBvbiBjZXJ0YWluCj4+Pj4g
-cGxhdGZvcm1zIGxpa2UgYXJtIG9yIHBwYzMyLCB3aWxsIGJlIGhhcHB5IHRvIHByZXNlcnZlIHRo
-YXQuCj4+Pgo+Pj4gSSBkb3VidCB0aGUgc3dpdGNoKCkgdmFyaWFudCB3b3VsZCBnaXZlIGJldHRl
-ciBjb2RlIG9uIGFueSBwbGF0Zm9ybS4KPj4+Cj4+PiBXaGF0IGFib3V0IHVzaW5nIHRhYmxlcyBl
-dmVyeXdoZXJlLCB1c2luZyBkZXNpZ25hdGVkIGluaXRpYWxpemVycwo+Pj4gdG8gaW1wcm92ZSBy
-ZWFkYWJpbGl0eT8KPj4KPj4gRGVzaWduYXRlZCBpbml0aWFsaXplcnMgPyBDb3VsZCB5b3UgcGxl
-YXNlIGJlIG1vcmUgc3BlY2lmaWMuIEEgdGFibGUgbG9vawo+PiB1cCBvbiBhcm0gcGxhdGZvcm0g
-d291bGQgYmUgc29tZXRoaW5nIGxpa2UgdGhpcyBhbmQgYXJtX3Byb3RlY3Rpb25fbWFwW10KPj4g
-bmVlZHMgdG8gYmUgdXBkYXRlZCB3aXRoIHVzZXJfcGdwcm90IGxpa2UgYmVmb3JlLiBKdXN0IHdv
-bmRlcmluZyBob3cgYQo+PiBkZXNpZ25hdGVkIGluaXRpYWxpemVyIHdpbGwgaGVscCBoZXJlLgo+
-IAo+IEl0J3MgbW9yZSByZWFkYWJsZSB0aGFuIHRoZSBvcmlnaW5hbDoKPiAKPiAgICAgcGdwcm90
-X3QgcHJvdGVjdGlvbl9tYXBbMTZdIF9fcm9fYWZ0ZXJfaW5pdCA9IHsKPiAgICAgICAgICAgICBf
-X1AwMDAsIF9fUDAwMSwgX19QMDEwLCBfX1AwMTEsIF9fUDEwMCwgX19QMTAxLCBfX1AxMTAsIF9f
-UDExMSwKPiAgICAgICAgICAgICBfX1MwMDAsIF9fUzAwMSwgX19TMDEwLCBfX1MwMTEsIF9fUzEw
-MCwgX19TMTAxLCBfX1MxMTAsIF9fUzExMQo+ICAgICB9Owo+IAo+Pgo+PiBzdGF0aWMgcGdwcm90
-X3QgYXJtX3Byb3RlY3Rpb25fbWFwWzE2XSBfX3JvX2FmdGVyX2luaXQgPSB7Cj4+ICAgICAgICBb
-Vk1fTk9ORV0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA9IF9fUEFHRV9O
-T05FLAo+PiAgICAgICAgW1ZNX1JFQURdICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgPSBfX1BBR0VfUkVBRE9OTFksCj4+ICAgICAgICBbVk1fV1JJVEVdICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICA9IF9fUEFHRV9DT1BZLAo+PiAgICAgICAgW1ZNX1dS
-SVRFIHwgVk1fUkVBRF0gICAgICAgICAgICAgICAgICAgICAgICAgICAgPSBfX1BBR0VfQ09QWSwK
-Pj4gICAgICAgIFtWTV9FWEVDXSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ID0gX19QQUdFX1JFQURPTkxZX0VYRUMsCj4+ICAgICAgICBbVk1fRVhFQyB8IFZNX1JFQURdICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICA9IF9fUEFHRV9SRUFET05MWV9FWEVDLAo+PiAgICAg
-ICAgW1ZNX0VYRUMgfCBWTV9XUklURV0gICAgICAgICAgICAgICAgICAgICAgICAgICAgPSBfX1BB
-R0VfQ09QWV9FWEVDLAo+PiAgICAgICAgW1ZNX0VYRUMgfCBWTV9XUklURSB8IFZNX1JFQURdICAg
-ICAgICAgICAgICAgICAgPSBfX1BBR0VfQ09QWV9FWEVDLAo+PiAgICAgICAgW1ZNX1NIQVJFRF0g
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPSBfX1BBR0VfTk9ORSwKPj4gICAg
-ICAgIFtWTV9TSEFSRUQgfCBWTV9SRUFEXSAgICAgICAgICAgICAgICAgICAgICAgICAgID0gX19Q
-QUdFX1JFQURPTkxZLAo+PiAgICAgICAgW1ZNX1NIQVJFRCB8IFZNX1dSSVRFXSAgICAgICAgICAg
-ICAgICAgICAgICAgICAgPSBfX1BBR0VfU0hBUkVELAo+PiAgICAgICAgW1ZNX1NIQVJFRCB8IFZN
-X1dSSVRFIHwgVk1fUkVBRF0gICAgICAgICAgICAgICAgPSBfX1BBR0VfU0hBUkVELAo+PiAgICAg
-ICAgW1ZNX1NIQVJFRCB8IFZNX0VYRUNdICAgICAgICAgICAgICAgICAgICAgICAgICAgPSBfX1BB
-R0VfUkVBRE9OTFlfRVhFQywKPj4gICAgICAgIFtWTV9TSEFSRUQgfCBWTV9FWEVDIHwgVk1fUkVB
-RF0gICAgICAgICAgICAgICAgID0gX19QQUdFX1JFQURPTkxZX0VYRUMsCj4+ICAgICAgICBbVk1f
-U0hBUkVEIHwgVk1fRVhFQyB8IFZNX1dSSVRFXSAgICAgICAgICAgICAgICA9IF9fUEFHRV9TSEFS
-RURfRVhFQywKPj4gICAgICAgIFtWTV9TSEFSRUQgfCBWTV9FWEVDIHwgVk1fV1JJVEUgfCBWTV9S
-RUFEXSAgICAgID0gX19QQUdFX1NIQVJFRF9FWEVDCj4+IH07Cj4gCj4gWWVhaCwgbGlrZSB0aGF0
-Lgo+IAo+IFNlZW1zIGxpa2UgeW91IGFscmVhZHkgbWFkZSBzdWNoIGEgY29udmVyc2lvbiBpbgo+
-IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC8xNjQ1NDI1NTE5LTkwMzQtMy1naXQtc2VuZC1l
-bWFpbC1hbnNodW1hbi5raGFuZHVhbEBhcm0uY29tLwoKV2lsbCByZXdvcmsgdGhlIHNlcmllcyBp
-biB0d28gZGlmZmVyZW50IHBoYXNlcyBhcyBtZW50aW9uZWQgb24gdGhlIG90aGVyIHRocmVhZC4K
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNu
-cHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0
-dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1db333d9a51f3459fba1bcaa564d95befe79f0b3
+commit: e188f3330a13df904d77003846eafd3edf99009d ARC: cmpxchg/xchg: rewrite as macros to make type safe
+date:   7 months ago
+config: arc-randconfig-s032-20220310 (https://download.01.org/0day-ci/archive/20220311/202203110052.4qnkNzyc-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 11.2.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e188f3330a13df904d77003846eafd3edf99009d
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout e188f3330a13df904d77003846eafd3edf99009d
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arc SHELL=/bin/bash arch/arc/kernel/ fs/ kernel/ net/ipv4/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+
+sparse warnings: (new ones prefixed by >>)
+   arch/arc/kernel/smp.c:264:48: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *ipi_data_ptr @@     got unsigned long * @@
+   arch/arc/kernel/smp.c:264:48: sparse:     expected unsigned long [noderef] __percpu *ipi_data_ptr
+   arch/arc/kernel/smp.c:264:48: sparse:     got unsigned long *
+   arch/arc/kernel/smp.c:279:18: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *v @@     got unsigned long [noderef] __percpu *__ai_ptr @@
+   arch/arc/kernel/smp.c:279:18: sparse:     expected void const volatile *v
+   arch/arc/kernel/smp.c:279:18: sparse:     got unsigned long [noderef] __percpu *__ai_ptr
+   arch/arc/kernel/smp.c:277:29: sparse: sparse: cast removes address space '__percpu' of expression
+   arch/arc/kernel/smp.c:413:72: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected void [noderef] __percpu *percpu_dev_id @@     got int *dev @@
+   arch/arc/kernel/smp.c:413:72: sparse:     expected void [noderef] __percpu *percpu_dev_id
+   arch/arc/kernel/smp.c:413:72: sparse:     got int *dev
+>> arch/arc/kernel/smp.c:279:18: sparse: sparse: dereference of noderef expression
+>> arch/arc/kernel/smp.c:279:18: sparse: sparse: dereference of noderef expression
+--
+   fs/file.c:350:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **old_fds @@     got struct file [noderef] __rcu **fd @@
+   fs/file.c:350:17: sparse:     expected struct file **old_fds
+   fs/file.c:350:17: sparse:     got struct file [noderef] __rcu **fd
+   fs/file.c:351:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **new_fds @@     got struct file [noderef] __rcu **fd @@
+   fs/file.c:351:17: sparse:     expected struct file **new_fds
+   fs/file.c:351:17: sparse:     got struct file [noderef] __rcu **fd
+   fs/file.c:366:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/file.c:366:17: sparse:    struct file [noderef] __rcu *
+   fs/file.c:366:17: sparse:    struct file *
+>> fs/file.c:401:54: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu *[assigned] _val_ @@
+   fs/file.c:441:28: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct fdtable [noderef] __rcu *fdt @@     got struct fdtable * @@
+   fs/file.c:608:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu * @@
+   fs/file.c:762:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu * @@
+   fs/file.c:813:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu * @@
+   fs/file.c:1038:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *tofree @@     got struct file [noderef] __rcu * @@
+--
+   net/ipv4/tcp_cong.c:238:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct tcp_congestion_ops const [noderef] __rcu *_val_ @@     got struct tcp_congestion_ops *[assigned] ca @@
+   net/ipv4/tcp_cong.c:238:24: sparse:     expected struct tcp_congestion_ops const [noderef] __rcu *_val_
+   net/ipv4/tcp_cong.c:238:24: sparse:     got struct tcp_congestion_ops *[assigned] ca
+>> net/ipv4/tcp_cong.c:238:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tcp_congestion_ops const *prev @@     got struct tcp_congestion_ops const [noderef] __rcu *[assigned] _val_ @@
+   net/ipv4/tcp_cong.c:238:22: sparse:     expected struct tcp_congestion_ops const *prev
+   net/ipv4/tcp_cong.c:238:22: sparse:     got struct tcp_congestion_ops const [noderef] __rcu *[assigned] _val_
+
+vim +279 arch/arc/kernel/smp.c
+
+41195d236e8445 Vineet Gupta    2013-01-18  261  
+ddf84433f411b6 Vineet Gupta    2013-11-25  262  static void ipi_send_msg_one(int cpu, enum ipi_msg_type msg)
+41195d236e8445 Vineet Gupta    2013-01-18  263  {
+f2a4aa5646687f Vineet Gupta    2013-11-26  264  	unsigned long __percpu *ipi_data_ptr = per_cpu_ptr(&ipi_data, cpu);
+d8e8c7dda11f5d Vineet Gupta    2013-11-28  265  	unsigned long old, new;
+41195d236e8445 Vineet Gupta    2013-01-18  266  	unsigned long flags;
+41195d236e8445 Vineet Gupta    2013-01-18  267  
+f2a4aa5646687f Vineet Gupta    2013-11-26  268  	pr_debug("%d Sending msg [%d] to %d\n", smp_processor_id(), msg, cpu);
+f2a4aa5646687f Vineet Gupta    2013-11-26  269  
+41195d236e8445 Vineet Gupta    2013-01-18  270  	local_irq_save(flags);
+41195d236e8445 Vineet Gupta    2013-01-18  271  
+d8e8c7dda11f5d Vineet Gupta    2013-11-28  272  	/*
+d8e8c7dda11f5d Vineet Gupta    2013-11-28  273  	 * Atomically write new msg bit (in case others are writing too),
+d8e8c7dda11f5d Vineet Gupta    2013-11-28  274  	 * and read back old value
+d8e8c7dda11f5d Vineet Gupta    2013-11-28  275  	 */
+d8e8c7dda11f5d Vineet Gupta    2013-11-28  276  	do {
+6aa7de059173a9 Mark Rutland    2017-10-23  277  		new = old = READ_ONCE(*ipi_data_ptr);
+d8e8c7dda11f5d Vineet Gupta    2013-11-28  278  		new |= 1U << msg;
+d8e8c7dda11f5d Vineet Gupta    2013-11-28 @279  	} while (cmpxchg(ipi_data_ptr, old, new) != old);
+41195d236e8445 Vineet Gupta    2013-01-18  280  
+d8e8c7dda11f5d Vineet Gupta    2013-11-28  281  	/*
+d8e8c7dda11f5d Vineet Gupta    2013-11-28  282  	 * Call the platform specific IPI kick function, but avoid if possible:
+d8e8c7dda11f5d Vineet Gupta    2013-11-28  283  	 * Only do so if there's no pending msg from other concurrent sender(s).
+82a423053eb3cf Changcheng Deng 2021-08-14  284  	 * Otherwise, receiver will see this msg as well when it takes the
+d8e8c7dda11f5d Vineet Gupta    2013-11-28  285  	 * IPI corresponding to that msg. This is true, even if it is already in
+d8e8c7dda11f5d Vineet Gupta    2013-11-28  286  	 * IPI handler, because !@old means it has not yet dequeued the msg(s)
+d8e8c7dda11f5d Vineet Gupta    2013-11-28  287  	 * so @new msg can be a free-loader
+d8e8c7dda11f5d Vineet Gupta    2013-11-28  288  	 */
+d8e8c7dda11f5d Vineet Gupta    2013-11-28  289  	if (plat_smp_ops.ipi_send && !old)
+ddf84433f411b6 Vineet Gupta    2013-11-25  290  		plat_smp_ops.ipi_send(cpu);
+41195d236e8445 Vineet Gupta    2013-01-18  291  
+41195d236e8445 Vineet Gupta    2013-01-18  292  	local_irq_restore(flags);
+41195d236e8445 Vineet Gupta    2013-01-18  293  }
+41195d236e8445 Vineet Gupta    2013-01-18  294  
+
+:::::: The code at line 279 was first introduced by commit
+:::::: d8e8c7dda11f5d5cf90495f2e89d917a83509bc0 ARC: [SMP] optimize IPI send and receive
+
+:::::: TO: Vineet Gupta <vgupta@synopsys.com>
+:::::: CC: Vineet Gupta <vgupta@synopsys.com>
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
