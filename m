@@ -4,64 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8EECC433EF
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 11 Mar 2022 03:06:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AAE61C4332F
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 11 Mar 2022 04:48:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
 	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=qjUpJDtnUDsU1U90LGSc+LXhXCCu0q4ojhzF8SBeYG8=; b=FrJrvkI4JKQe/y
-	lvNPD3iMf2Ems/Yewc3O2uzj64C1SodoZ/LOoZRMWtKM+2+wZPqlngmI75JiX4H+HRGtMWK7C+cS9
-	LDyHqZf91JQd5EeCFjMoQo/chaD2XFUwwizH9lvBHHQnpA2iLWjAGxN2bE3BzlhD3JCrpRvjX0KUY
-	K5ECJmh62NY6c8GSBtOngoosp4qDZ7U44ZVWUynkg2x1VSa2JkVJs34UanJDoAllLBL1xu8YgP3Qq
-	yPtD8mJf+XRyHgxAoBBlA0tTYZxEZOdexi5bxWwSfcqrV45l+/VQIXwgD0GX0OI8nKvOUlPWngjx9
-	BKAar8+x8zPm5Kd8LJwQ==;
+	List-Owner; bh=ZeZYUrv+dNpEBIikAxGVcxAwI6kRJDJW2pVCd3UczvQ=; b=k3D8wm8/ef1/09
+	XNAMA+HIRmWAh0QCihhnN5BkKmp8pv+2SMCzmAUSFhbUku3iL0VsDdOobbKTu5D480WG8u8UUFbIA
+	BFgO2n3xMcdbM+F395dcXE/l726CA3BzlLTP8lTDn/4KAbBnO3Itoo2QARoM5SAZXDGLRXQP/A7EX
+	iWy9v4uAii6+0OnVZY9i6S557Xff5qZUGSK9498ivei2Nfz5IZYtz8cYXhL5aFB3Bx81/LGLOB/wv
+	VKragUSBsiJjgAv8zlhbwrX0MPD6pp6eb64s5xMFHJaJP3RYU42oU0G3vyq6t9IbZH0NGJ0gKjGT1
+	bB7g1gQXjwMuwXZrM9kg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nSVbi-00Er7s-QP; Fri, 11 Mar 2022 03:06:22 +0000
-Received: from mga09.intel.com ([134.134.136.24])
+	id 1nSXCa-00EzVO-7G; Fri, 11 Mar 2022 04:48:32 +0000
+Received: from mga17.intel.com ([192.55.52.151])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nSVbf-00Er6l-5w
- for linux-snps-arc@lists.infradead.org; Fri, 11 Mar 2022 03:06:21 +0000
+ id 1nSXCQ-00EzU9-M8
+ for linux-snps-arc@lists.infradead.org; Fri, 11 Mar 2022 04:48:24 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646967979; x=1678503979;
+ t=1646974102; x=1678510102;
  h=date:from:to:cc:subject:message-id:mime-version;
- bh=1Lqyqm7Fm7LZ9Zgf9Nro6Ch9fX24HO/O/bFeTDIFbnc=;
- b=A3Bm83LjcXSCDLtSLz0flyPWrgxE923DljC3fjmXiXZdG48zVPpPJWfF
- HZiKSnJujiv2qJ8Wuv9rWaaBFQztdX/X+Ngj/a/vZKSACmbNWBlzm/5GG
- s97lnwJefoB7xwItb+c+CNSzWP/POiEXRroL4BJIhB+uwIMn0oMXSz9ve
- mnoHHIiE8CzN6/Sze54hNdwepoqnED/Idcd1+kUTV/5NC0mwiPtSkAbK9
- gF2s+IQkrK1GXScB1bMjrPL0C3cOvZCKQIE0VvSNjkWV7iQqHh5N5WVfV
- RLmRnoOJTlZoov/As9/HMUS8IVWEV1W7tzhPXOxGixyJMEp9Awr1Yk5z9 g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="255221130"
-X-IronPort-AV: E=Sophos;i="5.90,172,1643702400"; d="scan'208";a="255221130"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2022 19:06:18 -0800
+ bh=BWXJeyZK2lkkYrAYdNarq23XQsh3kpjYfKD7o3c+Yh4=;
+ b=VaIf2daCUd99qkZReu+uLqzz1rxo7LnovEyw4T0OGIzC/Yozs91o7AqA
+ 2nFLjglRJMxKTFcZpqbm2JRHewrwgPzM3AEbc7nRAn4YzHaTEEox/bS8S
+ EabSK+/cmfARDYCi7uePDFYpC/6VQdhtZtJ7Q6LdW0XCc9R/EXvybbflc
+ 9rVopEoyvIYeeJYqthsvAEld+yj7d0GIzzSHLDT3dUrGHkCW4J77RXZYc
+ o3IxU2jWM7k7D097gWdoEa/vFHIUsaGCowf+nM9Y3DT8sC3cQuOw3QU18
+ K8CKbFp64vFT3qMbcV1KvIxTgLkMFkCorPajTIsaQjHgBmrbon5KlVMb1 A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="236102374"
+X-IronPort-AV: E=Sophos;i="5.90,172,1643702400"; d="scan'208";a="236102374"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Mar 2022 20:48:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,172,1643702400"; d="scan'208";a="688938790"
+X-IronPort-AV: E=Sophos;i="5.90,172,1643702400"; d="scan'208";a="514375263"
 Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
- by fmsmga001.fm.intel.com with ESMTP; 10 Mar 2022 19:06:16 -0800
+ by orsmga006.jf.intel.com with ESMTP; 10 Mar 2022 20:48:20 -0800
 Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
  (envelope-from <lkp@intel.com>)
- id 1nSVbc-0005kj-7u; Fri, 11 Mar 2022 03:06:16 +0000
-Date: Fri, 11 Mar 2022 11:05:27 +0800
+ id 1nSXCN-0005qY-CF; Fri, 11 Mar 2022 04:48:19 +0000
+Date: Fri, 11 Mar 2022 12:47:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: Vineet Gupta <vgupta@kernel.org>
 Cc: kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
  linux-snps-arc@lists.infradead.org
 Subject: arch/arc/kernel/smp.c:279:18: sparse: sparse: dereference of noderef
  expression
-Message-ID: <202203111015.NjLSlxCA-lkp@intel.com>
+Message-ID: <202203111242.ymso1aTK-lkp@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220310_190619_298255_7CA69683 
-X-CRM114-Status: GOOD (  14.49  )
+X-CRM114-CacheID: sfid-20220310_204822_769263_6125A352 
+X-CRM114-Status: GOOD (  12.66  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,10 +79,10 @@ Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1db333d9a51f3459fba1bcaa564d95befe79f0b3
+head:   dda64ead7e82caa47fafe0edc36067ee64df2203
 commit: e188f3330a13df904d77003846eafd3edf99009d ARC: cmpxchg/xchg: rewrite as macros to make type safe
 date:   7 months ago
-config: arc-randconfig-s032-20220310 (https://download.01.org/0day-ci/archive/20220311/202203111015.NjLSlxCA-lkp@intel.com/config)
+config: arc-randconfig-s032-20220310 (https://download.01.org/0day-ci/archive/20220311/202203111242.ymso1aTK-lkp@intel.com/config)
 compiler: arc-elf-gcc (GCC) 11.2.0
 reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
