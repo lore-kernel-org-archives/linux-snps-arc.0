@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA73FC4332F
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Mar 2022 11:54:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 28E39C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Mar 2022 12:08:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=YSkgvQgZsNo/ZEJVwxdP/Ko7c3GKGfbs+sO8JbePMR8=; b=Rbje9oM3ZRx5uJ
-	Cgv8ISS5l7hbyu9lLoyWVcDhHJOdGOU3YK2bh6HUrP+NMgJs1pZAF58WUmS4Nm7VUCxzdmEugdj+f
-	Tb6Aad/hbSmF87/ms/5N7lEb9i+V3TQTeOF4A31D8/a0hzdlBzQ0u+YvrFsjdpRiHgVlLyWhE9Wcs
-	OMGeCkbh2yrcYapbktDIvTEBWQ1AkOnSy4r6Y/Tn0IaYx9z56KBnbKXqwthEZg8j8GA7YUnxW4YNk
-	NBsdkhKm3Uj47tIGeHUPQThpVrV4VYNKzt4322+1yR93gdiwAc3M1fUtDXZQSrFcmz0WUqA/2uJTa
-	OfOQ2TFu1JRG/LdT4CYA==;
+	List-Owner; bh=b3NatPxm30mUZ/I3s/O7cNewfZaYPVjGlrdRPdogPvQ=; b=V76rOEsAqxZXwo
+	HFUtnP37HBO4tPcN6EcmNuuEc8tb0xrwrX+huFZIcg+zwGtW2jXNoGINm4W9xWEH5nbF88eBjguEe
+	Se/95D7UEKyZiZvVt6Ilu1Vc8vqdV39E1QD5FtPa4tHpgoFHCdf650C3lH7TUrVAbZUVTXyx3ZDfP
+	UAaURRLr0iuXNOJ6i7nuWEeMr357oEBxWAlaykiOqoIE+34f9giRpTfPuUcDbXdjTT6T4A4baYc3D
+	PXbhkF8QiY8ZuvTjcQv9+8c/HjpTjfiHbuXadUCvJg054hp/XE6SV986aOQHxqRF0goZAodeC9v0z
+	TapOTd+Zq1OVL9VkHxXw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nZWtu-00FSc5-0o; Wed, 30 Mar 2022 11:54:10 +0000
+	id 1nZX80-00FZNy-CT; Wed, 30 Mar 2022 12:08:44 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nZWno-00FP68-QS; Wed, 30 Mar 2022 11:47:55 +0000
+ id 1nZWpU-00FQE8-Lb; Wed, 30 Mar 2022 11:49:38 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4D0E46163D;
- Wed, 30 Mar 2022 11:47:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0F71C36AE2;
- Wed, 30 Mar 2022 11:47:48 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2B6B761602;
+ Wed, 30 Mar 2022 11:49:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 229C3C340F2;
+ Wed, 30 Mar 2022 11:49:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1648640871;
- bh=A3c9/gM4bvRWPXkZJSlcmevkqT2fTCwhZzjB3bcywIE=;
+ s=k20201202; t=1648640975;
+ bh=RjSZNy3L3dYQ/G9dL1KwuL4Jezy9ccoFqvzKxe/+VfY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oZlXeAKnat7h8iAIgI2l5ywRnZx9IkOEBsXJ+nDk4aESRrUOGhL9rw27GkIgI5Dvw
- hv2eMrk3HGVyYxTe2Ll1c8l35qgphVeGIZvo0/K62GjJROC9WLxrPkPg944S6VFnbZ
- ojS5d9SsqKlvef9Xg3UVb5UHC5zfWQs3+3d+sYBgstPCLxp4+HgDym9cF9uoGoAmUB
- iS4YTcDV4T2l5PXSMdwGb7iz6d4dGidUC1RC0ddiLiljJMG3Y5E7SmJXJz8Dw2K36e
- 0y/9IulrZH+Ikl50OMFOx44TMJspvW1UT6pa8bjdvdR/yKZkqPYqIXgLqRhjCRVg1z
- spMSJeOmrsOkg==
+ b=DOxj07y+dHMGmUCH59RlkUkRcxMYQHdWJg+4mT7ZFg1lu9af/aWMKqDxn7N05Gbz+
+ r0daUnwsMDa1xCF4qSkfHfucf1HlJK7ApFkSn0m1SmMkCqDuxqwNjhAl7+Xbd0INl2
+ ynuaNN9l0fDq7F4CXRONRj1Zq5ybKTVWjsMdtux0VaY5A4K9T+ibU5cAg5qlLK+SII
+ IZX7qBdnsw6QznUhqr7vGGOoINEBKz/LW9eiQb29nrd+O/52t1POUbhvrMalrqXNqt
+ u/DTFiNGmTLeDLfYDhmTXdeXs2Ns4Nf7o0JLwzV5+NIm+g2EWC80qVDozKUElQHF1y
+ Zkg81ttFVugeg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -50,23 +50,23 @@ Cc: Arnd Bergmann <arnd@arndb.de>, kernel test robot <lkp@intel.com>,
  linux@armlinux.org.uk, peterz@infradead.org, mingo@redhat.com,
  acme@kernel.org, lftan@altera.com, benh@kernel.crashing.org,
  paulus@samba.org, mpe@ellerman.id.au, davem@davemloft.net,
- catalin.marinas@arm.com, rmk+kernel@armlinux.org.uk,
- gregkh@linuxfoundation.org, linux-snps-arc@lists.infradead.org,
+ catalin.marinas@arm.com, gregkh@linuxfoundation.org,
+ rmk+kernel@armlinux.org.uk, linux-snps-arc@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, nios2-dev@lists.rocketboards.org,
  linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.17 41/66] uaccess: fix type mismatch warnings from
+Subject: [PATCH AUTOSEL 5.16 40/59] uaccess: fix type mismatch warnings from
  access_ok()
-Date: Wed, 30 Mar 2022 07:46:20 -0400
-Message-Id: <20220330114646.1669334-41-sashal@kernel.org>
+Date: Wed, 30 Mar 2022 07:48:12 -0400
+Message-Id: <20220330114831.1670235-40-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220330114646.1669334-1-sashal@kernel.org>
-References: <20220330114646.1669334-1-sashal@kernel.org>
+In-Reply-To: <20220330114831.1670235-1-sashal@kernel.org>
+References: <20220330114831.1670235-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220330_044753_000512_FC994653 
-X-CRM114-Status: GOOD (  22.46  )
+X-CRM114-CacheID: sfid-20220330_044936_874137_9E15C01B 
+X-CRM114-Status: GOOD (  22.57  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -139,10 +139,10 @@ index 6166ba38bf99..b74bfcf94fb1 100644
  			 (void *)address);
  		res = -EFAULT;
 diff --git a/arch/arm/kernel/traps.c b/arch/arm/kernel/traps.c
-index cae4a748811f..5d58aee24087 100644
+index 90c887aa67a4..f74460d3bef5 100644
 --- a/arch/arm/kernel/traps.c
 +++ b/arch/arm/kernel/traps.c
-@@ -577,7 +577,7 @@ do_cache_op(unsigned long start, unsigned long end, int flags)
+@@ -575,7 +575,7 @@ do_cache_op(unsigned long start, unsigned long end, int flags)
  	if (end < start || flags)
  		return -EINVAL;
  
@@ -152,7 +152,7 @@ index cae4a748811f..5d58aee24087 100644
  
  	return __do_cache_op(start, end);
 diff --git a/arch/csky/kernel/perf_callchain.c b/arch/csky/kernel/perf_callchain.c
-index 92057de08f4f..1612f4354087 100644
+index 35318a635a5f..75e1f9df5f60 100644
 --- a/arch/csky/kernel/perf_callchain.c
 +++ b/arch/csky/kernel/perf_callchain.c
 @@ -49,7 +49,7 @@ static unsigned long user_backtrace(struct perf_callchain_entry_ctx *entry,
@@ -249,7 +249,7 @@ index 2009ae2d3c3b..386e46443b60 100644
  
  	frame = get_sigframe(ksig, regs, sizeof(*frame));
 diff --git a/arch/powerpc/lib/sstep.c b/arch/powerpc/lib/sstep.c
-index bd3734d5be89..5ed88fbee0db 100644
+index b042fcae3913..66d6f7003b18 100644
 --- a/arch/powerpc/lib/sstep.c
 +++ b/arch/powerpc/lib/sstep.c
 @@ -112,9 +112,9 @@ static nokprobe_inline long address_ok(struct pt_regs *regs,
@@ -265,7 +265,7 @@ index bd3734d5be89..5ed88fbee0db 100644
  		regs->dar = TASK_SIZE_MAX - 1;
  	else
 diff --git a/arch/riscv/kernel/perf_callchain.c b/arch/riscv/kernel/perf_callchain.c
-index 1fc075b8f764..55faa4991b87 100644
+index 8ecfc4c128bc..7052a59c418f 100644
 --- a/arch/riscv/kernel/perf_callchain.c
 +++ b/arch/riscv/kernel/perf_callchain.c
 @@ -15,8 +15,8 @@ static unsigned long user_backtrace(struct perf_callchain_entry_ctx *entry,
