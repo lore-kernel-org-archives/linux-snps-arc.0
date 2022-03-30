@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 581FCC433F5
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Mar 2022 12:21:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 80A48C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Mar 2022 12:28:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=xFoxh1BvBkJP9cTFI+floSzaPP5tD3GOK+yXQLMOU+I=; b=kjCilNfsi4QuMv
-	9zW+9ENe9BuK1yfYhFPaBLxVT3ybo/qtlbcwDST2s/F4XTEqX0EpGi5tpem9UsEKuDnNNDjot96Yj
-	qOXjPNO4arC6c2Et6tAOLO6GgCLmgY4SceQ45aMCDQd1ADCCiY2j/BARSeri+2FAF9glLQB3YjQsr
-	IEsgzlXvsvojjgAQY6KeWe2Z4d+pvWakspxUT3OaMkt7aSUjl2KzHJG8A1Gdlb213akp8Cf8B3EsW
-	OntWkIapH6IgoZ9Ix0Kxs3TtJKJVNZheO//9q38cC67b2oh+qh4dRJmVRXnFMjNKJhV8A+p7KDk2J
-	qHW0vkEXfUbsigTUwP2g==;
+	List-Owner; bh=hpXRakMNxxusyc0WWb0/TxCj05ZiIpOmennysm6c+K8=; b=KjA3f7AK3cRUYT
+	eJLWSzKq9AbtEkQ93wxU5GANevDUw+x6ZMNkRSovuyowAdCHaSxHpDP6Pnd9nuNuTOTxUn81mUZg3
+	jFlZp5SB8eqiTEf9CZ9kdHP8+cre9dg8V1vkdOmHRpWqIA/oYldXp8XtIpjHqVa2HiDXXECVvdJh2
+	jwBypTHKPUKXutWVTSE9csXBnvwBpihf1YCFJDmLQq6eGO/1UcUEfNNUSjRR9gO1h4sshf6s1XuTz
+	0kcYHNXqPxyI+sMmcbyiC+4B2MLxC1Yw6k9yoRg5fZmgFCJ7wPLuRteTULa15jIkD+O1sb2kgwxLl
+	uVesM7mZt4vXKndQ7DgQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nZXJy-00Fekv-JD; Wed, 30 Mar 2022 12:21:06 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1nZXRI-00Fi4Q-9S; Wed, 30 Mar 2022 12:28:40 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nZWqt-00FR6Y-0G; Wed, 30 Mar 2022 11:51:05 +0000
+ id 1nZWrx-00FReC-EZ; Wed, 30 Mar 2022 11:52:14 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 651D861633;
- Wed, 30 Mar 2022 11:51:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62622C340EE;
- Wed, 30 Mar 2022 11:50:59 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id BD1A2615E2;
+ Wed, 30 Mar 2022 11:52:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B7A1C340EE;
+ Wed, 30 Mar 2022 11:52:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1648641061;
- bh=/Mw5Nb0AFbgvN5ev2n4WcdlIdVeKsTSC5UzZMPCI6ZA=;
+ s=k20201202; t=1648641128;
+ bh=VhHDD6RrdMjp5dMDXPfeMmXdEbQklV9mCIfGyFoUl+4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=n2oXMX/zxNy2v0pSWQPMfZEOC9gA4y9GID81d+OIU+H9wST3pySLf5FAPEtXA7jhQ
- 6XYHvrnJ+d7HzMT585MkyDoX/q7T3nObsUs6T4Hn4IO33Am4UoXFmQknsthXQQLoFy
- cyg+hNvujo2c5wXCECA15FfohaJnoAnFM3ICTd8quwre0NJCMoZxRuO8TuzEkyLUcm
- Pui1cx3pK9RVihZFRimwSChwXbf86jaXftBCkh/EyWQVEyTDYFg5GRCPQUYnTtrIG9
- m82yUYlJpImedg7g44q8fa75/4zOGSAeLigep2gNu4SzC/cLUnLFrE0O4jTcpd5QsX
- E7eB/J1HLiXng==
+ b=ov1cINHsPi5Cu/628OLJdB9aQJ9TXrMNi0piwEiW4cSZNEQKXaYy/4j4FINVuKfuA
+ EP8nan4uY1PwUZPMfmm1A0AWtolS5rPGiQRxCCVjbonlVNX63FVEWCl0BFaxcczLLh
+ fpHiLguOFlyQTLx7s02KwGq6B+AJ71URtEvoxfMlAWQudMv0+pwwFQQxnSUGf2iTxG
+ ALd8TX6G1zfzyew+IPY2m0CAWCiGQdW9E+EHz0Fv4Zf3bOEi9SObZAP/xhM8QfkK/K
+ 6+gFwqryCd0NA1+VEWzo+9ENhIH7cWZWt6vEcrmJUWDuTEFFaTS/Zws2g/iBnm3I+o
+ eUgdl/FXAO//A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -50,23 +50,23 @@ Cc: Arnd Bergmann <arnd@arndb.de>, kernel test robot <lkp@intel.com>,
  linux@armlinux.org.uk, peterz@infradead.org, mingo@redhat.com,
  acme@kernel.org, lftan@altera.com, benh@kernel.crashing.org,
  paulus@samba.org, mpe@ellerman.id.au, davem@davemloft.net,
- gregkh@linuxfoundation.org, rmk+kernel@armlinux.org.uk,
- catalin.marinas@arm.com, linux-snps-arc@lists.infradead.org,
+ gregkh@linuxfoundation.org, catalin.marinas@arm.com,
+ rmk+kernel@armlinux.org.uk, linux-snps-arc@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, nios2-dev@lists.rocketboards.org,
  linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 36/50] uaccess: fix type mismatch warnings from
+Subject: [PATCH AUTOSEL 5.10 26/37] uaccess: fix type mismatch warnings from
  access_ok()
-Date: Wed, 30 Mar 2022 07:49:50 -0400
-Message-Id: <20220330115005.1671090-36-sashal@kernel.org>
+Date: Wed, 30 Mar 2022 07:51:11 -0400
+Message-Id: <20220330115122.1671763-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220330115005.1671090-1-sashal@kernel.org>
-References: <20220330115005.1671090-1-sashal@kernel.org>
+In-Reply-To: <20220330115122.1671763-1-sashal@kernel.org>
+References: <20220330115122.1671763-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220330_045103_168498_873C83C2 
-X-CRM114-Status: GOOD (  22.46  )
+X-CRM114-CacheID: sfid-20220330_045209_660141_5AD4C8D4 
+X-CRM114-Status: GOOD (  22.77  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,7 +113,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  10 files changed, 23 insertions(+), 21 deletions(-)
 
 diff --git a/arch/arc/kernel/process.c b/arch/arc/kernel/process.c
-index 8e90052f6f05..5f7f5aab361f 100644
+index 37f724ad5e39..a85e9c625ab5 100644
 --- a/arch/arc/kernel/process.c
 +++ b/arch/arc/kernel/process.c
 @@ -43,7 +43,7 @@ SYSCALL_DEFINE0(arc_gettls)
@@ -139,10 +139,10 @@ index 6166ba38bf99..b74bfcf94fb1 100644
  			 (void *)address);
  		res = -EFAULT;
 diff --git a/arch/arm/kernel/traps.c b/arch/arm/kernel/traps.c
-index 655c4fe0b4d0..54abd8720dde 100644
+index 2d9e72ad1b0f..a531afad87fd 100644
 --- a/arch/arm/kernel/traps.c
 +++ b/arch/arm/kernel/traps.c
-@@ -575,7 +575,7 @@ do_cache_op(unsigned long start, unsigned long end, int flags)
+@@ -589,7 +589,7 @@ do_cache_op(unsigned long start, unsigned long end, int flags)
  	if (end < start || flags)
  		return -EINVAL;
  
@@ -165,7 +165,7 @@ index 35318a635a5f..75e1f9df5f60 100644
  	/* Check accessibility of one struct frame_tail beyond */
  	if (!access_ok(user_frame_tail, sizeof(buftail)))
 diff --git a/arch/csky/kernel/signal.c b/arch/csky/kernel/signal.c
-index c7b763d2f526..8867ddf3e6c7 100644
+index 0ca49b5e3dd3..243228b0aa07 100644
 --- a/arch/csky/kernel/signal.c
 +++ b/arch/csky/kernel/signal.c
 @@ -136,7 +136,7 @@ static inline void __user *get_sigframe(struct ksignal *ksig,
@@ -175,10 +175,10 @@ index c7b763d2f526..8867ddf3e6c7 100644
 -	struct rt_sigframe *frame;
 +	struct rt_sigframe __user *frame;
  	int err = 0;
+ 	struct csky_vdso *vdso = current->mm->context.vdso;
  
- 	frame = get_sigframe(ksig, regs, sizeof(*frame));
 diff --git a/arch/nios2/kernel/signal.c b/arch/nios2/kernel/signal.c
-index 2009ae2d3c3b..386e46443b60 100644
+index cf2dca2ac7c3..e45491d1d3e4 100644
 --- a/arch/nios2/kernel/signal.c
 +++ b/arch/nios2/kernel/signal.c
 @@ -36,10 +36,10 @@ struct rt_sigframe {
@@ -249,10 +249,10 @@ index 2009ae2d3c3b..386e46443b60 100644
  
  	frame = get_sigframe(ksig, regs, sizeof(*frame));
 diff --git a/arch/powerpc/lib/sstep.c b/arch/powerpc/lib/sstep.c
-index d8cc49f39fe4..1a16ad18f9f2 100644
+index 0edebbbffcdc..42701b2f2474 100644
 --- a/arch/powerpc/lib/sstep.c
 +++ b/arch/powerpc/lib/sstep.c
-@@ -112,9 +112,9 @@ static nokprobe_inline long address_ok(struct pt_regs *regs,
+@@ -108,9 +108,9 @@ static nokprobe_inline long address_ok(struct pt_regs *regs,
  {
  	if (!user_mode(regs))
  		return 1;
@@ -265,10 +265,10 @@ index d8cc49f39fe4..1a16ad18f9f2 100644
  		regs->dar = TASK_SIZE_MAX - 1;
  	else
 diff --git a/arch/riscv/kernel/perf_callchain.c b/arch/riscv/kernel/perf_callchain.c
-index 8ecfc4c128bc..7052a59c418f 100644
+index ad3001cbdf61..1aa84b998a11 100644
 --- a/arch/riscv/kernel/perf_callchain.c
 +++ b/arch/riscv/kernel/perf_callchain.c
-@@ -15,8 +15,8 @@ static unsigned long user_backtrace(struct perf_callchain_entry_ctx *entry,
+@@ -19,8 +19,8 @@ static unsigned long user_backtrace(struct perf_callchain_entry_ctx *entry,
  {
  	struct stackframe buftail;
  	unsigned long ra = 0;
@@ -280,7 +280,7 @@ index 8ecfc4c128bc..7052a59c418f 100644
  	/* Check accessibility of one struct frame_tail beyond */
  	if (!access_ok(user_frame_tail, sizeof(buftail)))
 diff --git a/arch/sparc/kernel/signal_32.c b/arch/sparc/kernel/signal_32.c
-index ffab16369bea..74f80443b195 100644
+index 741d0701003a..1da36dd34990 100644
 --- a/arch/sparc/kernel/signal_32.c
 +++ b/arch/sparc/kernel/signal_32.c
 @@ -65,7 +65,7 @@ struct rt_signal_frame {
@@ -293,7 +293,7 @@ index ffab16369bea..74f80443b195 100644
  
  	return false;
 diff --git a/lib/test_lockup.c b/lib/test_lockup.c
-index 906b598740a7..6a0f329a794a 100644
+index f1a020bcc763..07f476317187 100644
 --- a/lib/test_lockup.c
 +++ b/lib/test_lockup.c
 @@ -417,8 +417,8 @@ static bool test_kernel_ptr(unsigned long addr, int size)
