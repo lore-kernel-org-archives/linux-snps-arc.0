@@ -4,77 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A97DCC433F5
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 Apr 2022 15:58:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BEB74C433FE
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 Apr 2022 15:58:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=qqJEX2acMh7nCEz9EHy/Tg/A8utaa5RD+qovFVXaQhc=; b=2UxiN/rIyfUVYZ
-	WlyomhXTr9K2OYQ+5Rphpn2SDGYjTUqzHajdq4dBnyQZW7qah5nD1izypPfkZcxNOlD5hQfC66NyP
-	opUfHmdD/V4uX5HcGvae3ZlNw+rn9dBQ7tZGRxf2zHgbq8JPrbUE+28H6JiI9YeGsFzcWi7qdnrVc
-	eiNcnevcfLECPjNZzLZJzkW4DMaEbP6yHpIbxpZ3n6WQvLXmKke6/4UKyVRigs2RCsLM7uCp/nnTa
-	KGi2HBl+Pncl4hcreJyKCu63/eyxqZkgLxsk+nd60UpAwUbV/wLrWmAn/fMb+aD5mcIsaw2Jqg1Tc
-	JICQCQ2YF7fGu5milWQA==;
+	List-Owner; bh=OBnCf+WJKbU9Qa8XTbEhVV5V9MlTzQhPa0lMcPY+2jI=; b=bICx6dwhDx4VPt
+	zhRJ1vw0dWmmGrvNwOk1ES9t/3D41RK73X/DZgf8xlrTV0VOZ90fayyR1MH1ff73KktmjecbuA4PA
+	movDM2QEuIrEpB0hm44l5y3v/w9ZTP1cnR9Kb+PfCjIFKChMOiF0uQB1oiCE9FmFAc3O0pKbQry0X
+	QryZTzQ2L3QYRA6rpokaY36rZhdSU068qdhdTHA8wZLBOiD4lkCYZYl16mYL0zt+zcLr+CCcpFVDd
+	vNHUohs+ullAdobWEQNOkzOwd2BsaiSnesqJkOLjF82gwNM68XkwzlBiOwHwhym/HjQFfdyjvZ18K
+	+GLNdS9aKPPri1ykWg7Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ncr03-000OAJ-J7; Fri, 08 Apr 2022 15:58:15 +0000
-Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b])
+	id 1ncr04-000OAm-Nz; Fri, 08 Apr 2022 15:58:16 +0000
+Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ncr00-000O7n-UW
- for linux-snps-arc@lists.infradead.org; Fri, 08 Apr 2022 15:58:14 +0000
-Received: by mail-lf1-x12b.google.com with SMTP id p10so15766314lfa.12
- for <linux-snps-arc@lists.infradead.org>; Fri, 08 Apr 2022 08:58:10 -0700 (PDT)
+ id 1ncr02-000O83-1a
+ for linux-snps-arc@lists.infradead.org; Fri, 08 Apr 2022 15:58:15 +0000
+Received: by mail-lj1-x230.google.com with SMTP id bn33so12054766ljb.6
+ for <linux-snps-arc@lists.infradead.org>; Fri, 08 Apr 2022 08:58:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XvDEb1kSlgMhqGp09t8N9I72SookPYjCPsrPupjc6g4=;
- b=kCqA0oiXvb+hsDlJhubbmozQBisraoImmKIB0CC7I+2o+x6MX8+V554o3oHmrbgoVL
- NNvf6j+3rGxyPKQ7EISqY8JKARpGAweLEf/N5XK+HMtib/UGTdeHVXNoKt6N/ChWnvhu
- Hb9mYIo+j7JEQoXlwRWKFk+EKcGHi/zGsZMzYRnUawPSzRTvKcgUUHVvKj4eT8dI1AxS
- G+R4YxWpW37xdtw6D1z2TewbqVHFDA8l6bGA07fj2mKRpY887ntJNdZfXf60EuiPvEDZ
- 87I/QQrlc9u37YPi62zuCaFb6eWbfuTVR4Hqz+TqglFdAwVuF5ONzUL6SaUsFbAKSRrH
- YUug==
+ bh=28vXyj4csP+UjTHmfGT5B5evlTjLgv4LltE4LFcbdQE=;
+ b=Z4o552de9eGoot/AOOXaKVS5O5g9VfDHYrU/rUHXsUmLOC6Yh7/elPMjR9USpjvc/i
+ tjBkV5KPjqVHTs6lUYFw8jxkts4oBAUQ3F6Ak9eKe2RbKwELy5jrBQZ0lvzuypc4sKTk
+ oN6PFpIQhke7TOZ70K3Rtyl2X1HG+Yil9XFsXk6plviS5cMiNggyCsbte0DqNsaCGnHF
+ 0Dsdv+idEqYGfq/s7Vlo2oxQBXnoxygIFETMRwAwnoLcB0IBWywILXpDqsIW6F0sRxQq
+ WzMNGP5yChlEH3Q6TSCrNzwqy2HMd8gBkhGdiL2hi1QIQcK7wFhHsG34+UOoaUjpmSrE
+ ZCGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XvDEb1kSlgMhqGp09t8N9I72SookPYjCPsrPupjc6g4=;
- b=wq27Sh2zlD+T+5L5rNiIsZdOu9Cq1BEOjv9UBSbk2DkrhZV8XrYgPUvd91gAxXAI2M
- HdNlkZHACZ2BsklDWsleHkUWY1wDL3dLLSEOVHKcZA4wtm8IxEx+c1kR88DS3AEXzcB9
- pu3xKpc1o423i5+D/e9m3FJU1tvCQGHqGU3muNX5ZN430rxZD8YQ8+O+YMHG0pAoct5a
- tAPfr6rUGLHZlpH8MqFnyrvROaniPB1MvfztNSKiSI5hyzzdhJYPMEkLEvyBSd5nKlbL
- RDilMp8JZDSU9JvH2G/iI9kbkpaS3QYvD/FYXw08Ii1A9VOQU/139060stAAk7ajmvdf
- 2ckw==
-X-Gm-Message-State: AOAM531ry66V4BfcbTwVYqgEh/D4bpmiEIa0cYTuFqi9jSyfFOVjoTwq
- Ag/xSgfPLIj7dAQ5q2jcxH4tlK/MBDjiGw==
-X-Google-Smtp-Source: ABdhPJwJi/MI0/H1run2b4qAvL032wT8fAFl1aRsVf68jiamk/yOcaNHnLwXHTUHrmho3PEOKWzfgg==
-X-Received: by 2002:a05:6512:4019:b0:45d:cc0f:bfb1 with SMTP id
- br25-20020a056512401900b0045dcc0fbfb1mr13417629lfb.127.1649433488707; 
- Fri, 08 Apr 2022 08:58:08 -0700 (PDT)
+ bh=28vXyj4csP+UjTHmfGT5B5evlTjLgv4LltE4LFcbdQE=;
+ b=D3DE6zXTWNP4y1K3jPN4m+hTQ0aID7kNyYq+H63v62UIIbVwzi+qSaCOABB72yOM6i
+ 2tBDt9QyxrLopFRz537exBMY330XXcebO0CBiERJiGS+d1otIi46vrRYpvTp7HXIxuTK
+ cEDsI3bAt1UCMhPbEsWSGFC2xDab2Iimn40McMLMGhcPK4veVqVPrxrVAKvXMUvKmYP6
+ b8u1SKl6ryMwoYFCiJt2D64ml9cdQ9K34ZxINKNl4kJ1DxyPFK+JYbuBjpB+QinrSmCK
+ 5UCnqk2XO3mx5+ZJh1T+CmbGA/Wv9R5F4Q4v8a34u35nTHpvDDraLpJfk6uki8gbZUID
+ ThqQ==
+X-Gm-Message-State: AOAM533VsHK+CBWZLlxWc0olduwZQvt1CrqaqCKggouXzLNheLHOnXW+
+ 4sAQVipc1SWxVGci/EvGQEHHET+Or5wcVQ==
+X-Google-Smtp-Source: ABdhPJzYnnmA1qDW8XMzOG8v1FMjRB8+FDFYMDdcz7a0wxwMDHFAZpaxKdt4SGU/KnFVBtCq55a50A==
+X-Received: by 2002:a2e:300c:0:b0:24b:4f09:793e with SMTP id
+ w12-20020a2e300c000000b0024b4f09793emr2336310ljw.2.1649433489854; 
+ Fri, 08 Apr 2022 08:58:09 -0700 (PDT)
 Received: from localhost.localdomain ([5.188.167.245])
  by smtp.googlemail.com with ESMTPSA id
- r9-20020a2e9949000000b0024b46eef85bsm461826ljj.127.2022.04.08.08.58.07
+ r9-20020a2e9949000000b0024b46eef85bsm461826ljj.127.2022.04.08.08.58.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Apr 2022 08:58:08 -0700 (PDT)
+ Fri, 08 Apr 2022 08:58:09 -0700 (PDT)
 From: Sergey Matyukevich <geomatsi@gmail.com>
 To: linux-snps-arc@lists.infradead.org
 Cc: Vineet Gupta <vgupta@kernel.org>, Vladimir Isaev <isaev@synopsys.com>,
  Sergey Matyukevich <geomatsi@gmail.com>,
  Sergey Matyukevich <sergey.matyukevich@synopsys.com>
-Subject: [PATCH 1/4] ARC: bpf: define uapi for BPF_PROG_TYPE_PERF_EVENT
- program type
-Date: Fri,  8 Apr 2022 18:58:01 +0300
-Message-Id: <20220408155804.587197-2-geomatsi@gmail.com>
+Subject: [PATCH 2/4] ARC: enable HAVE_REGS_AND_STACK_ACCESS_API feature
+Date: Fri,  8 Apr 2022 18:58:02 +0300
+Message-Id: <20220408155804.587197-3-geomatsi@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220408155804.587197-1-geomatsi@gmail.com>
 References: <20220408155804.587197-1-geomatsi@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220408_085813_019490_E74609B4 
-X-CRM114-Status: GOOD (  13.64  )
+X-CRM114-CacheID: sfid-20220408_085814_149028_3E6714E6 
+X-CRM114-Status: GOOD (  16.05  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,45 +92,222 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Sergey Matyukevich <sergey.matyukevich@synopsys.com>
 
-Define appropriate uapi for the BPF_PROG_TYPE_PERF_EVENT program type
-by exporting the user_regs_struct structure instead of the pt_regs
-structure that is in-kernel only.
+Enable HAVE_REGS_AND_STACK_ACCESS_API feature for ARC architecture,
+including ARCcompact and ARCv2 flavors. Add supporting functions
+and defines.
 
 Signed-off-by: Sergey Matyukevich <sergey.matyukevich@synopsys.com>
 ---
- arch/arc/include/asm/perf_event.h          | 4 ++++
- arch/arc/include/uapi/asm/bpf_perf_event.h | 9 +++++++++
- 2 files changed, 13 insertions(+)
- create mode 100644 arch/arc/include/uapi/asm/bpf_perf_event.h
+ arch/arc/Kconfig              |   1 +
+ arch/arc/include/asm/ptrace.h |  27 ++++++++
+ arch/arc/kernel/ptrace.c      | 119 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 147 insertions(+)
 
-diff --git a/arch/arc/include/asm/perf_event.h b/arch/arc/include/asm/perf_event.h
-index 4c919c0f4b30..d5719a260864 100644
---- a/arch/arc/include/asm/perf_event.h
-+++ b/arch/arc/include/asm/perf_event.h
-@@ -63,4 +63,8 @@ struct arc_reg_cc_build {
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index e0a60a27e14d..3c850d0f431c 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -36,6 +36,7 @@ config ARC
+ 	select HAVE_KERNEL_LZMA
+ 	select HAVE_KPROBES
+ 	select HAVE_KRETPROBES
++	select HAVE_REGS_AND_STACK_ACCESS_API
+ 	select HAVE_MOD_ARCH_SPECIFIC
+ 	select HAVE_PERF_EVENTS
+ 	select IRQ_DOMAIN
+diff --git a/arch/arc/include/asm/ptrace.h b/arch/arc/include/asm/ptrace.h
+index cca8d6583e31..5869a74c0db2 100644
+--- a/arch/arc/include/asm/ptrace.h
++++ b/arch/arc/include/asm/ptrace.h
+@@ -8,6 +8,7 @@
+ #define __ASM_ARC_PTRACE_H
  
- #define PERF_COUNT_ARC_HW_MAX	(PERF_COUNT_HW_MAX + 8)
+ #include <uapi/asm/ptrace.h>
++#include <linux/compiler.h>
  
-+#ifdef CONFIG_PERF_EVENTS
-+#define perf_arch_bpf_user_pt_regs(regs) (struct user_regs_struct *)regs
+ #ifndef __ASSEMBLY__
+ 
+@@ -54,6 +55,9 @@ struct pt_regs {
+ 
+ 	unsigned long user_r25;
+ };
++
++#define MAX_REG_OFFSET offsetof(struct pt_regs, user_r25)
++
+ #else
+ 
+ struct pt_regs {
+@@ -102,6 +106,8 @@ struct pt_regs {
+ 	unsigned long status32;
+ };
+ 
++#define MAX_REG_OFFSET offsetof(struct pt_regs, status32)
++
+ #endif
+ 
+ /* Callee saved registers - need to be saved only when you are scheduled out */
+@@ -154,6 +160,27 @@ static inline void instruction_pointer_set(struct pt_regs *regs,
+ {
+ 	instruction_pointer(regs) = val;
+ }
++
++static inline unsigned long kernel_stack_pointer(struct pt_regs *regs)
++{
++	return regs->sp;
++}
++
++extern int regs_query_register_offset(const char *name);
++extern const char *regs_query_register_name(unsigned int offset);
++extern bool regs_within_kernel_stack(struct pt_regs *regs, unsigned long addr);
++extern unsigned long regs_get_kernel_stack_nth(struct pt_regs *regs,
++					       unsigned int n);
++
++static inline unsigned long regs_get_register(struct pt_regs *regs,
++					      unsigned int offset)
++{
++	if (unlikely(offset > MAX_REG_OFFSET))
++		return 0;
++
++	return *(unsigned long *)((unsigned long)regs + offset);
++}
++
+ #endif /* !__ASSEMBLY__ */
+ 
+ #endif /* __ASM_PTRACE_H */
+diff --git a/arch/arc/kernel/ptrace.c b/arch/arc/kernel/ptrace.c
+index 54b419ac8bda..5fa5bceb83f3 100644
+--- a/arch/arc/kernel/ptrace.c
++++ b/arch/arc/kernel/ptrace.c
+@@ -9,6 +9,89 @@
+ #include <linux/unistd.h>
+ #include <linux/elf.h>
+ 
++struct pt_regs_offset {
++	const char *name;
++	int offset;
++};
++
++#define REG_OFFSET_NAME(r) {.name = #r, .offset = offsetof(struct pt_regs, r)}
++#define REG_OFFSET_END {.name = NULL, .offset = 0}
++
++#ifdef CONFIG_ISA_ARCOMPACT
++static const struct pt_regs_offset regoffset_table[] = {
++	REG_OFFSET_NAME(bta),
++	REG_OFFSET_NAME(lp_start),
++	REG_OFFSET_NAME(lp_end),
++	REG_OFFSET_NAME(lp_count),
++	REG_OFFSET_NAME(status32),
++	REG_OFFSET_NAME(ret),
++	REG_OFFSET_NAME(blink),
++	REG_OFFSET_NAME(fp),
++	REG_OFFSET_NAME(r26),
++	REG_OFFSET_NAME(r12),
++	REG_OFFSET_NAME(r11),
++	REG_OFFSET_NAME(r10),
++	REG_OFFSET_NAME(r9),
++	REG_OFFSET_NAME(r8),
++	REG_OFFSET_NAME(r7),
++	REG_OFFSET_NAME(r6),
++	REG_OFFSET_NAME(r5),
++	REG_OFFSET_NAME(r4),
++	REG_OFFSET_NAME(r3),
++	REG_OFFSET_NAME(r2),
++	REG_OFFSET_NAME(r1),
++	REG_OFFSET_NAME(r0),
++	REG_OFFSET_NAME(sp),
++	REG_OFFSET_NAME(orig_r0),
++	REG_OFFSET_NAME(event),
++	REG_OFFSET_NAME(user_r25),
++	REG_OFFSET_END,
++};
++
++#else
++
++static const struct pt_regs_offset regoffset_table[] = {
++	REG_OFFSET_NAME(orig_r0),
++	REG_OFFSET_NAME(event),
++	REG_OFFSET_NAME(bta),
++	REG_OFFSET_NAME(user_r25),
++	REG_OFFSET_NAME(r26),
++	REG_OFFSET_NAME(fp),
++	REG_OFFSET_NAME(sp),
++	REG_OFFSET_NAME(r12),
++	REG_OFFSET_NAME(r30),
++#ifdef CONFIG_ARC_HAS_ACCL_REGS
++	REG_OFFSET_NAME(r58),
++	REG_OFFSET_NAME(r59),
++#endif
++#ifdef CONFIG_ARC_DSP_SAVE_RESTORE_REGS
++	REG_OFFSET_NAME(DSP_CTRL),
++#endif
++	REG_OFFSET_NAME(r0),
++	REG_OFFSET_NAME(r1),
++	REG_OFFSET_NAME(r2),
++	REG_OFFSET_NAME(r3),
++	REG_OFFSET_NAME(r4),
++	REG_OFFSET_NAME(r5),
++	REG_OFFSET_NAME(r6),
++	REG_OFFSET_NAME(r7),
++	REG_OFFSET_NAME(r8),
++	REG_OFFSET_NAME(r9),
++	REG_OFFSET_NAME(r10),
++	REG_OFFSET_NAME(r11),
++	REG_OFFSET_NAME(blink),
++	REG_OFFSET_NAME(lp_end),
++	REG_OFFSET_NAME(lp_start),
++	REG_OFFSET_NAME(lp_count),
++	REG_OFFSET_NAME(ei),
++	REG_OFFSET_NAME(ldi),
++	REG_OFFSET_NAME(jli),
++	REG_OFFSET_NAME(ret),
++	REG_OFFSET_NAME(status32),
++	REG_OFFSET_END,
++};
 +#endif
 +
- #endif /* __ASM_PERF_EVENT_H */
-diff --git a/arch/arc/include/uapi/asm/bpf_perf_event.h b/arch/arc/include/uapi/asm/bpf_perf_event.h
-new file mode 100644
-index 000000000000..6cb1c2823288
---- /dev/null
-+++ b/arch/arc/include/uapi/asm/bpf_perf_event.h
-@@ -0,0 +1,9 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+#ifndef _UAPI__ASM_BPF_PERF_EVENT_H__
-+#define _UAPI__ASM_BPF_PERF_EVENT_H__
+ static struct callee_regs *task_callee_regs(struct task_struct *tsk)
+ {
+ 	struct callee_regs *tmp = (struct callee_regs *)tsk->thread.callee_reg;
+@@ -267,3 +350,39 @@ asmlinkage void syscall_trace_exit(struct pt_regs *regs)
+ {
+ 	ptrace_report_syscall_exit(regs, 0);
+ }
 +
-+#include <asm/ptrace.h>
++int regs_query_register_offset(const char *name)
++{
++	const struct pt_regs_offset *roff;
 +
-+typedef struct user_regs_struct bpf_user_pt_regs_t;
++	for (roff = regoffset_table; roff->name != NULL; roff++)
++		if (!strcmp(roff->name, name))
++			return roff->offset;
++	return -EINVAL;
++}
 +
-+#endif /* _UAPI__ASM_BPF_PERF_EVENT_H__ */
++const char *regs_query_register_name(unsigned int offset)
++{
++	const struct pt_regs_offset *roff;
++	for (roff = regoffset_table; roff->name != NULL; roff++)
++		if (roff->offset == offset)
++			return roff->name;
++	return NULL;
++}
++
++bool regs_within_kernel_stack(struct pt_regs *regs, unsigned long addr)
++{
++	return (addr & ~(THREAD_SIZE - 1))  ==
++		(kernel_stack_pointer(regs) & ~(THREAD_SIZE - 1));
++}
++
++unsigned long regs_get_kernel_stack_nth(struct pt_regs *regs, unsigned int n)
++{
++	unsigned long *addr = (unsigned long *)kernel_stack_pointer(regs);
++
++	addr += n;
++	if (regs_within_kernel_stack(regs, (unsigned long)addr))
++		return *addr;
++	else
++		return 0;
++}
 -- 
 2.35.1
 
