@@ -4,76 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2D517C433FE
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 Apr 2022 15:58:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82364C433F5
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 11 Apr 2022 15:19:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=FlFMSotRR8QMwMHyuxdUfaZQz0Zqc2UykjolE7b1uvw=; b=gtfL6yQ25iMf5T
-	17giJfNmJOxwan1rFiY9FjL9kqyIuZVMVL2G7IVXbf8bxBOa64HTLEFa8c0BRGGQ+YTXVWXKmmBee
-	2bXfrZ0pYJjF5IxVIZdEpRjnD4dd1cZUnHBzR7OscWzcgYF+aifQZ20b0tl31HB8dBcjkVte4WfqZ
-	/aKLRfXYaEzfRmelIBtpEpfn4qEXk+5VTDYg3MYBz2K1YrEl3GLn8jYiIMH1u4k5WivGgnOevkjqQ
-	D/2gtJtyPPfrlbBWbY+DrYhooT9PYAq3iFq8lezbS+vIGzD48a0oW9BzEmtp07hlxgJuPhdW+BnvO
-	PCVGvi2VPdfkTZqRJSSw==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=idlDdghIKbhkLGpzTQy5TlMFYppD0omV5et/Q22Cxhw=; b=RmWFaektJJGJJ2
+	hSQaLhZoUW8o3jvFGz2hbdM2yLEofqrpAgXkFZ9+LOBDPzpqGM0xxYdDFvN8V6zs+z1YuU0ndddV9
+	Q+r3hgU7SoPXoBwPmYqgL1ObzaJParBP2+VfgyZhcTVuK1twLLUAfEMflWH4XsKELwBChGE7/c+Vw
+	EC1IH44HZctchyc2uGm+BJWQetbggv3LB6oUB1NZwUvmWVp+i6AY/P29w17ltROq0hErIvt6TqozT
+	9FNHqvKArRqk/MLCRYm0hojsAgeaT/zjz9kk1CxvEOOYeiFCyy8JixjPnhD5lNFzmMnUaltD8HQu2
+	uG+SiEbuV+v4jIoT1X8Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ncr07-000OBl-0H; Fri, 08 Apr 2022 15:58:19 +0000
-Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b])
+	id 1ndvp9-009Va0-HX; Mon, 11 Apr 2022 15:19:27 +0000
+Received: from mga12.intel.com ([192.55.52.136])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ncr03-000O8P-51
- for linux-snps-arc@lists.infradead.org; Fri, 08 Apr 2022 15:58:17 +0000
-Received: by mail-lj1-x22b.google.com with SMTP id a30so12010611ljq.13
- for <linux-snps-arc@lists.infradead.org>; Fri, 08 Apr 2022 08:58:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Ok57uHtbOiq3OdGSevyQ4O6t5TDKu9QFX6kVIS2Yuvs=;
- b=ZvWA7UvXH3V6dl8PIQkyNFMwig7IJ9iwScGs2XZ2x/WdIN9nouh6dDINIxzjD5rZTo
- LaTlhJds9lk2lnsvgnImYoqCgnFYEJVVzv75XWTsFSewF9mmL8syp+L2d+Wymb0COJC6
- pqO7DgS+dwrYUI0NT4zXCmMtzV+WntQ2eRC1CXLSnB2cZY7dK53act9A1qXSu9M4Cdnx
- y2brYGdF3CdnZqgRKB5GSXWLKaIV4UAYMEL0npMGvUcZR8hw9fu15NqPokENy7zxl+f6
- 3fF2INWLrDoSO2DOrWX6ZkOc4sbSdfSv4NhKUsuik52WYI3qcyY8xG6tx6sdeWtcFxHg
- IHmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Ok57uHtbOiq3OdGSevyQ4O6t5TDKu9QFX6kVIS2Yuvs=;
- b=IZTMvPbGgXimlKr4VVC87X1+v2k1Ic+85c3JgUcPpYJNH7s6WdXuc5u9Z8XdkxFe9R
- L3uz6oj2cY5jfr/ON2gAg8lprb9JC5mdRYAsoaFHQbJLnFAgyeURiMn9x8DY+CJbrLbY
- /XtnUrBbcfDpCFMDd4E55IB8mvBoiIWI18Mt8Mhz2wXjhe9Xm6K+IbKdNw6UU1QqCtKv
- 15m2NApi0/jHUQGoU/pyceyyicsUFCBO9GPh4uUAUuYVygGtfwwbEw13mEFnhjsGHN4n
- 1DBcHXq45Y0Lf7VM2Mz8/yMo2faYyd2pPKJw32sHUxXMaklHz0sR+kQFgmLcx13gYmcm
- ifOQ==
-X-Gm-Message-State: AOAM530dVWqt8q/fClx3Slg8yRU3Z7JEBcZI45fEgVBOySmjTYLaGCzO
- 7BvHLpqWBnijolu1j8bbqFsHNFmrkjgxDw==
-X-Google-Smtp-Source: ABdhPJw0wcCL2rwcmOW3HH1l8MfxgRORBQRrzPLp3pujUNV9FHkmNa1KCJGgwq3C56GWLGLH2h1R2Q==
-X-Received: by 2002:a2e:b8d6:0:b0:24a:c582:3a19 with SMTP id
- s22-20020a2eb8d6000000b0024ac5823a19mr11937177ljp.195.1649433491567; 
- Fri, 08 Apr 2022 08:58:11 -0700 (PDT)
-Received: from localhost.localdomain ([5.188.167.245])
- by smtp.googlemail.com with ESMTPSA id
- r9-20020a2e9949000000b0024b46eef85bsm461826ljj.127.2022.04.08.08.58.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Apr 2022 08:58:11 -0700 (PDT)
-From: Sergey Matyukevich <geomatsi@gmail.com>
-To: linux-snps-arc@lists.infradead.org
-Cc: Vineet Gupta <vgupta@kernel.org>, Vladimir Isaev <isaev@synopsys.com>,
- Sergey Matyukevich <geomatsi@gmail.com>,
- Sergey Matyukevich <sergey.matyukevich@synopsys.com>
-Subject: [PATCH 4/4] ARC: implement syscall tracepoints
-Date: Fri,  8 Apr 2022 18:58:04 +0300
-Message-Id: <20220408155804.587197-5-geomatsi@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220408155804.587197-1-geomatsi@gmail.com>
-References: <20220408155804.587197-1-geomatsi@gmail.com>
+ id 1ndvp6-009VYi-Bx
+ for linux-snps-arc@lists.infradead.org; Mon, 11 Apr 2022 15:19:26 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649690364; x=1681226364;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=EpXc4mnnhUPNf1SAsOLHkEkBT9oLhamkTLhB7CDZfvE=;
+ b=byjUod3mRZismIPhuTYYBeDnWq9MWXs8jMiu2x0Pk6Qjx7o3NVGpYiJM
+ Ar932F7/FpD3ynxalNAMmRqyaXm+Vfwv/wLPYAOYY24rk9d9DBflMHbYS
+ jCxqPX69n04pymYH0WboA9IyZ02T4TZ5gr4yVjasNggL4jZIiGmYhMPua
+ xbWCSkLG8LZdoHPhZb7OeMyoJH//ezvTFUJg14XaMN7pRzFRjLloI+rCb
+ RUV60r6u2KgT9HI1WR8jHmpJ/aQ8HNoFy4hzCHh/B674qR+6YqZ/dKW6V
+ hCS7RwC62cE+Ed26J8/VKfKMkOYtQWiQx4xLCqqYY6tqtcZxZMrbCE/Ab A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="242080593"
+X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="242080593"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 08:18:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="644120811"
+Received: from lkp-server02.sh.intel.com (HELO d3fc50ef50de) ([10.239.97.151])
+ by FMSMGA003.fm.intel.com with ESMTP; 11 Apr 2022 08:18:48 -0700
+Received: from kbuild by d3fc50ef50de with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1ndvoV-0001w7-Lx;
+ Mon, 11 Apr 2022 15:18:47 +0000
+Date: Mon, 11 Apr 2022 23:17:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vineet Gupta <vgupta@kernel.org>
+Cc: kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org
+Subject: include/linux/compiler_types.h:328:45: error: call to
+ '__compiletime_assert_297' declared with attribute error: BUILD_BUG_ON
+ failed: (PTRS_PER_PGD * sizeof(pgd_t)) > PAGE_SIZE
+Message-ID: <202204112315.2CXKJ59h-lkp@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220408_085815_234241_D54255B6 
-X-CRM114-Status: GOOD (  14.78  )
+X-CRM114-CacheID: sfid-20220411_081924_538801_53E0E261 
+X-CRM114-Status: GOOD (  13.47  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,160 +79,88 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Sergey Matyukevich <sergey.matyukevich@synopsys.com>
+Hi Vineet,
 
-Implement all the bits required to support HAVE_SYSCALL_TRACEPOINTS
-according to Documentation/trace/ftrace-design.rst.
+FYI, the error/warning still remains.
 
-Signed-off-by: Sergey Matyukevich <sergey.matyukevich@synopsys.com>
----
- arch/arc/Kconfig                   |  1 +
- arch/arc/include/asm/syscall.h     |  2 ++
- arch/arc/include/asm/thread_info.h |  5 ++++-
- arch/arc/kernel/entry.S            | 12 ++++++------
- arch/arc/kernel/ptrace.c           | 21 ++++++++++++++++++---
- 5 files changed, 31 insertions(+), 10 deletions(-)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ce522ba9ef7e2d9fb22a39eb3371c0c64e2a433e
+commit: d9820ff76f95fa26d33e412254a89cd65b23142d ARC: mm: switch pgtable_t back to struct page *
+date:   8 months ago
+config: arc-randconfig-r026-20220411 (https://download.01.org/0day-ci/archive/20220411/202204112315.2CXKJ59h-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d9820ff76f95fa26d33e412254a89cd65b23142d
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout d9820ff76f95fa26d33e412254a89cd65b23142d
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arc SHELL=/bin/bash
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 3c850d0f431c..9e3653253ef2 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -39,6 +39,7 @@ config ARC
- 	select HAVE_REGS_AND_STACK_ACCESS_API
- 	select HAVE_MOD_ARCH_SPECIFIC
- 	select HAVE_PERF_EVENTS
-+	select HAVE_SYSCALL_TRACEPOINTS
- 	select IRQ_DOMAIN
- 	select MODULES_USE_ELF_RELA
- 	select OF
-diff --git a/arch/arc/include/asm/syscall.h b/arch/arc/include/asm/syscall.h
-index 94529e89dff0..9709256e31c8 100644
---- a/arch/arc/include/asm/syscall.h
-+++ b/arch/arc/include/asm/syscall.h
-@@ -12,6 +12,8 @@
- #include <asm/unistd.h>
- #include <asm/ptrace.h>		/* in_syscall() */
- 
-+extern void *sys_call_table[];
-+
- static inline long
- syscall_get_nr(struct task_struct *task, struct pt_regs *regs)
- {
-diff --git a/arch/arc/include/asm/thread_info.h b/arch/arc/include/asm/thread_info.h
-index 1e0b2e3914d5..6ba7fe417095 100644
---- a/arch/arc/include/asm/thread_info.h
-+++ b/arch/arc/include/asm/thread_info.h
-@@ -78,9 +78,9 @@ static inline __attribute_const__ struct thread_info *current_thread_info(void)
- #define TIF_SYSCALL_AUDIT	4	/* syscall auditing active */
- #define TIF_NOTIFY_SIGNAL	5	/* signal notifications exist */
- #define TIF_SYSCALL_TRACE	15	/* syscall trace active */
--
- /* true if poll_idle() is polling TIF_NEED_RESCHED */
- #define TIF_MEMDIE		16
-+#define TIF_SYSCALL_TRACEPOINT	17	/* syscall tracepoint instrumentation */
- 
- #define _TIF_SYSCALL_TRACE	(1<<TIF_SYSCALL_TRACE)
- #define _TIF_NOTIFY_RESUME	(1<<TIF_NOTIFY_RESUME)
-@@ -89,11 +89,14 @@ static inline __attribute_const__ struct thread_info *current_thread_info(void)
- #define _TIF_SYSCALL_AUDIT	(1<<TIF_SYSCALL_AUDIT)
- #define _TIF_NOTIFY_SIGNAL	(1<<TIF_NOTIFY_SIGNAL)
- #define _TIF_MEMDIE		(1<<TIF_MEMDIE)
-+#define _TIF_SYSCALL_TRACEPOINT	(1<<TIF_SYSCALL_TRACEPOINT)
- 
- /* work to do on interrupt/exception return */
- #define _TIF_WORK_MASK		(_TIF_NEED_RESCHED | _TIF_SIGPENDING | \
- 				 _TIF_NOTIFY_RESUME | _TIF_NOTIFY_SIGNAL)
- 
-+#define _TIF_SYSCALL_WORK	(_TIF_SYSCALL_TRACE | _TIF_SYSCALL_TRACEPOINT)
-+
- /*
-  * _TIF_ALLWORK_MASK includes SYSCALL_TRACE, but we don't need it.
-  * SYSCALL_TRACE is anyway separately/unconditionally tested right after a
-diff --git a/arch/arc/kernel/entry.S b/arch/arc/kernel/entry.S
-index 66ba549b520f..54e91df678dd 100644
---- a/arch/arc/kernel/entry.S
-+++ b/arch/arc/kernel/entry.S
-@@ -29,8 +29,8 @@ ENTRY(sys_clone_wrapper)
- 	DISCARD_CALLEE_SAVED_USER
- 
- 	GET_CURR_THR_INFO_FLAGS   r10
--	btst r10, TIF_SYSCALL_TRACE
--	bnz  tracesys_exit
-+	and.f 0, r10, _TIF_SYSCALL_WORK
-+	bnz   tracesys_exit
- 
- 	b .Lret_from_system_call
- END(sys_clone_wrapper)
-@@ -41,8 +41,8 @@ ENTRY(sys_clone3_wrapper)
- 	DISCARD_CALLEE_SAVED_USER
- 
- 	GET_CURR_THR_INFO_FLAGS   r10
--	btst r10, TIF_SYSCALL_TRACE
--	bnz  tracesys_exit
-+	and.f 0, r10, _TIF_SYSCALL_WORK
-+	bnz   tracesys_exit
- 
- 	b .Lret_from_system_call
- END(sys_clone3_wrapper)
-@@ -247,8 +247,8 @@ ENTRY(EV_Trap)
- 
- 	; If syscall tracing ongoing, invoke pre-post-hooks
- 	GET_CURR_THR_INFO_FLAGS   r10
--	btst r10, TIF_SYSCALL_TRACE
--	bnz tracesys  ; this never comes back
-+	and.f 0, r10, _TIF_SYSCALL_WORK
-+	bnz   tracesys  ; this never comes back
- 
- 	;============ Normal syscall case
- 
-diff --git a/arch/arc/kernel/ptrace.c b/arch/arc/kernel/ptrace.c
-index 5fa5bceb83f3..da7542cea0d8 100644
---- a/arch/arc/kernel/ptrace.c
-+++ b/arch/arc/kernel/ptrace.c
-@@ -9,6 +9,9 @@
- #include <linux/unistd.h>
- #include <linux/elf.h>
- 
-+#define CREATE_TRACE_POINTS
-+#include <trace/events/syscalls.h>
-+
- struct pt_regs_offset {
- 	const char *name;
- 	int offset;
-@@ -340,15 +343,27 @@ long arch_ptrace(struct task_struct *child, long request,
- 
- asmlinkage int syscall_trace_entry(struct pt_regs *regs)
- {
--	if (ptrace_report_syscall_entry(regs))
--		return ULONG_MAX;
-+	if (test_thread_flag(TIF_SYSCALL_TRACE))
-+		if (ptrace_report_syscall_entry(regs))
-+			return ULONG_MAX;
-+
-+#ifdef CONFIG_HAVE_SYSCALL_TRACEPOINTS
-+	if (test_thread_flag(TIF_SYSCALL_TRACEPOINT))
-+		trace_sys_enter(regs, syscall_get_nr(current, regs));
-+#endif
- 
- 	return regs->r8;
- }
- 
- asmlinkage void syscall_trace_exit(struct pt_regs *regs)
- {
--	ptrace_report_syscall_exit(regs, 0);
-+	if (test_thread_flag(TIF_SYSCALL_TRACE))
-+		ptrace_report_syscall_exit(regs, 0);
-+
-+#ifdef CONFIG_HAVE_SYSCALL_TRACEPOINTS
-+	if (test_thread_flag(TIF_SYSCALL_TRACEPOINT))
-+		trace_sys_exit(regs, regs_return_value(regs));
-+#endif
- }
- 
- int regs_query_register_offset(const char *name)
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   arch/arc/mm/init.c:35:13: warning: no previous prototype for 'arc_get_mem_sz' [-Wmissing-prototypes]
+      35 | long __init arc_get_mem_sz(void)
+         |             ^~~~~~~~~~~~~~
+   arch/arc/mm/init.c:88:13: warning: no previous prototype for 'setup_arch_memory' [-Wmissing-prototypes]
+      88 | void __init setup_arch_memory(void)
+         |             ^~~~~~~~~~~~~~~~~
+   In file included from <command-line>:
+   arch/arc/mm/init.c: In function 'mem_init':
+>> include/linux/compiler_types.h:328:45: error: call to '__compiletime_assert_297' declared with attribute error: BUILD_BUG_ON failed: (PTRS_PER_PGD * sizeof(pgd_t)) > PAGE_SIZE
+     328 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:309:25: note: in definition of macro '__compiletime_assert'
+     309 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:328:9: note: in expansion of macro '_compiletime_assert'
+     328 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/arc/mm/init.c:193:9: note: in expansion of macro 'BUILD_BUG_ON'
+     193 |         BUILD_BUG_ON((PTRS_PER_PGD * sizeof(pgd_t)) > PAGE_SIZE);
+         |         ^~~~~~~~~~~~
+
+
+vim +/__compiletime_assert_297 +328 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  314  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  315  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  316  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  317  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  318  /**
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  319   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  320   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  321   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  322   *
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  323   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  324   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  325   * compiler has support to do so.
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  326   */
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  327  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21 @328  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  329  
+
+:::::: The code at line 328 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
+
 -- 
-2.35.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
 
 _______________________________________________
 linux-snps-arc mailing list
