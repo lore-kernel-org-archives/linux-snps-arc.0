@@ -4,73 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1163DC433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77C54C433EF
 	for <linux-snps-arc@archiver.kernel.org>; Thu, 14 Apr 2022 08:17:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=H0wlqa7tN0FqAXvLNPovKUHtLguEBmVmO4yu35pSB74=; b=RcBz4nRFvgO5Bk
-	xcQuUDFhzgT3/BNZgsUwB92IOHtKmQjtrHsFrnWog+j9zgDDLOe9Z8bmONkStW5L2a8l3l8yU9bun
-	b7dOwM/2Pp5Qn8RYgp7dlWt9/1/IPorGBNotJZMt7GOrt9st4jYqRV8ogdnljfSFSvjk0KcsQ3nrC
-	rj7JfquEaI4aRSJ0Ad9yDWbPCheiYJYaqw2sqvNsFseG9bIIaIhDH77MQzW1QsXq+kr4UDxLVCFuD
-	jfDVSL6S2u99BoqKjGANDGFsJ0ixSTz5k2wgWl8HEw0LUutPGbzA5HCA8WEHguMBmGjujjekbczGa
-	xkIuMICiIMd9O6oobJOQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=tq2ug0uTXy0FhlMJA9VXyxWuyBJA1sUbpKocvVTfd/o=; b=e+5ltZ29BBeDsZ
+	ej8Ccb1T/MQuGReXqZf26h/rWkTH43OZnJwA57Rfij9HMDhZWjQXFl1p+/IS+IrCnTzlLbcT4e+9j
+	NFla6AxGqa9CsjkJAfGTOtbpBVLVFaek9Ep6zNWMbKif538cP7N8RSCYMhl0blvlhURbwbAxsQxJg
+	/U0kgOyG6RUCvW1mTBgM1TMMJZI7s9Dnk85uKm0P3KIg6BLMCZJhSbQtfzn+lrxAMExR5EYqnZpaO
+	ybNQSLeOkdWQfeUhYSKeYJla7iiegxny9XBw9KJmGtnsxoYQBJw2dLaVeJMIYv/1GLYH0Y6GzYHmg
+	GQJ93PhQl3we0M90swlw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1neufW-004VFV-80; Thu, 14 Apr 2022 08:17:34 +0000
-Received: from mail-lj1-x22d.google.com ([2a00:1450:4864:20::22d])
+	id 1neufW-004VFd-H3; Thu, 14 Apr 2022 08:17:34 +0000
+Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1neufS-004VBs-LJ
- for linux-snps-arc@lists.infradead.org; Thu, 14 Apr 2022 08:17:32 +0000
-Received: by mail-lj1-x22d.google.com with SMTP id m8so5066124ljc.7
- for <linux-snps-arc@lists.infradead.org>; Thu, 14 Apr 2022 01:17:28 -0700 (PDT)
+ id 1neufT-004VCY-CO
+ for linux-snps-arc@lists.infradead.org; Thu, 14 Apr 2022 08:17:33 +0000
+Received: by mail-lj1-x234.google.com with SMTP id r18so5121195ljp.0
+ for <linux-snps-arc@lists.infradead.org>; Thu, 14 Apr 2022 01:17:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dv6zk7oLUbQ0xtsRjg4hNj8Ci5wYxzJmIo6HFxaMt7M=;
- b=iwDyQoJ9aKoUw7TIhIiPO7/RXOUDduyPv8d7SC4TDrOA0Aj3rpkkDFv1Jn+Z0KzmyG
- 2HUsXrP5WdCqDRXXvsIVU0DchzuU4ibv4oniCwgA4hRa9YELRTQRDqaWKUbBfgggJYDH
- nTPBFj9RQ+Y9TjJU0SQplKS1h/T2zZVHbPL5uhJENSLOI4pCm8eAj1RHqNuSx44snUKZ
- qpyH7NSQhc0ea2gWpjlQlOQlZmyFkglMTpC9Pi69M3yfFyJXO5+nAp6rzkaxsyhfWWhU
- enX9e5TOO6DXtWtNn/bMv4WKVWO6vA/Yue96lji2hm+9yq7BgCmD6qegK/G8Lgwvi8ky
- 42ng==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=vsc3U53D+n1nJ6txtzC6klGnmN8969CYMnbry2w4dPQ=;
+ b=p0L10nv+OHXd+YPKZG4m+zZf5ju/1TA/nIzrOiS7FNqc3nWR7/vH/B5tyVgMT7oYow
+ GK6GM4YyOJingrqiGKl120ZMgn/o5VF9bNIh044BuJ2g7EVgIjRBETHhmnRRotSx3GjA
+ k9huxWrs3dqlDPi1l+tpl+Ncfqb5uPvdVd1I+vhoduDGVlcx/qrWfSn+xLLTKjDFRG6y
+ 7fjokzWLiyqaathVB5FL7OTYbVSL+DYcdQ4d4UgM7Ukxx3cl2pcqmXy9Z02rxdZzbfvP
+ d7ko02kr4pqJk56wSZcL1VfN35yM5/lZV5cLjDDKI/6fBs9TwlRlPY+7PkgvKDZOs53p
+ ehxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dv6zk7oLUbQ0xtsRjg4hNj8Ci5wYxzJmIo6HFxaMt7M=;
- b=H5og44UKwAzf0CGhZNN2SQc1Z+38aInO8/4O1KYOQVjwfV+3e5ido3rAe9J9ancliE
- tXkeVt3zNaIqZEeVOy0x5zZKLIatIw9eLWhf0xSoeYR9gTBx92c8TYvVV2saNvFGp5Ih
- xpcJySoW65Gk/KhaBE6laOMWf3SqPEuTAG6RV1JO9X7+Svx7s966S+030p8JGtzsq5o0
- UIUNChKhwIl4gBz6yCf3MedOj5thPNOP9dU48+jtMcx+WVdGsuPKabxjnxd7DCtA1mQy
- BuvkywXKDyoJ226usU2mcysKE6gIVTB0Ysmzz9Mp9cv7Sgy1VEm2b4MViE22OawPNgh0
- Bxgw==
-X-Gm-Message-State: AOAM533khjt2LWAj2EcLs4LeGFZ2kiAsq88Ej+OvNK1iHgDAK1gX6nYG
- fcFjGABa/iXeAVbxcD+V4LPy3L7AyA0iHSPD
-X-Google-Smtp-Source: ABdhPJw7hzSAaE40T9LhfF2zX7o9bgdcE7VW/qv+e9sEmXNXZgdvY32obMaA6ynFfYPq1THdqT1ZMA==
-X-Received: by 2002:a2e:3a1a:0:b0:24b:59d4:7006 with SMTP id
- h26-20020a2e3a1a000000b0024b59d47006mr968020lja.392.1649924247030; 
- Thu, 14 Apr 2022 01:17:27 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=vsc3U53D+n1nJ6txtzC6klGnmN8969CYMnbry2w4dPQ=;
+ b=cAK1g6Llu8H7c8qpHHVuomSpj1JxG3FAy3HycomvgiyRn4BypzpNsRll5tIniUL7Kd
+ MDcuVYY5znsqW7ovJ6iWTAZXj9TNc523qskyrJddCJUgIfuqLdLgInA6EoeWgyDOyOvH
+ FRwMXcSzm/WktoKcSqGBp1v8d0Q4kLzTuTvBmNkiMGCCfDMzohd8GuJChrBWaI6dgqP+
+ Crjjykr8j88GCmX53RrDkWHt/u8yFCI+wuQ7lTN7dNlWT9TXKewYmmft7cqvuN+lrr/v
+ zOag9HWwwUmXYtGFjXfbzw6+kB49lU2/G6grFOT09qEG/ZXvCdKPBVjXGmeCipL0EqoD
+ n4hA==
+X-Gm-Message-State: AOAM5317wumYsysDB1ciPIhja2eKGlSn9SgZVf71Mu/n3i+kgDjisBXE
+ U8rL9YlKAvtc7en3kEf/9EFJIW5KtkViqYrB
+X-Google-Smtp-Source: ABdhPJyQEwDeFWy3zNkbzhwH0LXP0rroilSTPl3Ol1vfXSRyfxOiVBbtTTIThxV32Pg2AzqF2mPERA==
+X-Received: by 2002:a2e:b2ce:0:b0:24b:5f39:3124 with SMTP id
+ 14-20020a2eb2ce000000b0024b5f393124mr910119ljz.483.1649924248672; 
+ Thu, 14 Apr 2022 01:17:28 -0700 (PDT)
 Received: from localhost.localdomain ([5.188.167.245])
  by smtp.googlemail.com with ESMTPSA id
- v20-20020a2e87d4000000b0024b638069b1sm117116ljj.39.2022.04.14.01.17.26
+ v20-20020a2e87d4000000b0024b638069b1sm117116ljj.39.2022.04.14.01.17.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Apr 2022 01:17:26 -0700 (PDT)
+ Thu, 14 Apr 2022 01:17:28 -0700 (PDT)
 From: Sergey Matyukevich <geomatsi@gmail.com>
 To: linux-snps-arc@lists.infradead.org
 Cc: Vineet Gupta <vgupta@kernel.org>, Vladimir Isaev <isaev@synopsys.com>,
- Sergey Matyukevich <geomatsi@gmail.com>
-Subject: [PATCH v2 0/4] ARC: add missing bits for better BPF support
-Date: Thu, 14 Apr 2022 11:17:20 +0300
-Message-Id: <20220414081724.3177956-1-geomatsi@gmail.com>
+ Sergey Matyukevich <geomatsi@gmail.com>,
+ Sergey Matyukevich <sergey.matyukevich@synopsys.com>
+Subject: [PATCH v2 2/4] ARC: entry: fix syscall_trace_exit argument
+Date: Thu, 14 Apr 2022 11:17:22 +0300
+Message-Id: <20220414081724.3177956-3-geomatsi@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220414081724.3177956-1-geomatsi@gmail.com>
+References: <20220414081724.3177956-1-geomatsi@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220414_011730_755969_27731651 
-X-CRM114-Status: UNSURE (   9.53  )
+X-CRM114-CacheID: sfid-20220414_011731_507288_8DCCEC5B 
+X-CRM114-Status: UNSURE (   8.44  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -88,39 +91,29 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Vineet and all,
+From: Sergey Matyukevich <sergey.matyukevich@synopsys.com>
 
-Here is the second revision of the patch series implementing
-the following two features for ARC:
-- HAVE_REGS_AND_STACK_ACCESS_API
-- HAVE_SYSCALL_TRACEPOINTS
+Function syscall_trace_exit expects pointer to pt_regs. However
+r0 is also used to keep syscall return value. Restore pointer
+to pt_regs before calling syscall_trace_exit.
 
-Adding these features enables more BPF programs for ARC kernels,
-including KPROBE, TRACEPOINT, PERF_EVENT program types.
+Signed-off-by: Sergey Matyukevich <sergey.matyukevich@synopsys.com>
+---
+ arch/arc/kernel/entry.S | 1 +
+ 1 file changed, 1 insertion(+)
 
-Regards,
-Sergey
-
-v1 -> v2:
-
-- drop path with uapi for BPF_PROG_TYPE_PERF_EVENT program type: send it via bpf mailing list
-- add patch with ARCv2 changes for kprobe disasm
-
-Sergey Matyukevich (4):
-  ARC: enable HAVE_REGS_AND_STACK_ACCESS_API feature
-  ARC: entry: fix syscall_trace_exit argument
-  ARC: implement syscall tracepoints
-  ARC: disasm: handle ARCv2 case in kprobe get/set functions
-
- arch/arc/Kconfig                   |   2 +
- arch/arc/include/asm/ptrace.h      |  27 ++++++
- arch/arc/include/asm/syscall.h     |   2 +
- arch/arc/include/asm/thread_info.h |   5 +-
- arch/arc/kernel/disasm.c           |  64 ++++++++++++-
- arch/arc/kernel/entry.S            |  13 +--
- arch/arc/kernel/ptrace.c           | 140 ++++++++++++++++++++++++++++-
- 7 files changed, 241 insertions(+), 12 deletions(-)
-
+diff --git a/arch/arc/kernel/entry.S b/arch/arc/kernel/entry.S
+index dd77a0c8f740..66ba549b520f 100644
+--- a/arch/arc/kernel/entry.S
++++ b/arch/arc/kernel/entry.S
+@@ -196,6 +196,7 @@ tracesys_exit:
+ 	st  r0, [sp, PT_r0]     ; sys call return value in pt_regs
+ 
+ 	;POST Sys Call Ptrace Hook
++	mov r0, sp		; pt_regs needed
+ 	bl  @syscall_trace_exit
+ 	b   ret_from_exception ; NOT ret_from_system_call at is saves r0 which
+ 	; we'd done before calling post hook above
 -- 
 2.35.1
 
