@@ -4,77 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 570A4C433F5
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 14 Apr 2022 08:17:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D87F7C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 18 Apr 2022 19:10:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=PQaTwmoLJ094h62aXYW+bitoCEWQl46ZovBB6238/Hc=; b=FGmIL8XJMDkZZW
-	ry4oSilR8mFMC3JvAuABjQKqeD+me6nx9bYbZvzdTzzRiG7EkEiCXpF8sTJq9HCXyFLKilBdHeX8/
-	ZgWMt+zv+HQqSSGY1AkIDpykeRLhxwQpYTt0rRkGaD+9FQugsaAW1FZ+3Nlin+hscpJaJC9e4Uu18
-	E/rpXwmyPNt48jJ1VUycsrGjTz3hVNMhtDgks81VK0cC8GUQjFAVLsaauq3XV3O1n+GlJj0VnP2j3
-	4AUtBTWmjxwMBU15Xd+9v1Iotp1Yt86KM9tKRuG9gI1ab8J8eTG0cCnKL1X+zxflBJthjNVOJuBq4
-	AwyozY+2k3YrxTGGU6iA==;
+	List-Owner; bh=qUUAo6He3NBcvH6CPI0thbetGLlnkhS8xJvZkzRWptU=; b=v3MwkxNc/SeSVA
+	2DLflK0EUoaLpfESRkjHRbUshIialxt9A++Tcx06cHLfEyi9nnwjbuPMGwT9yuanRZ9wt2x7Pc9DT
+	qADTCUxWyR3k4G11uTmLtstWxwh/oVLrIQfFQIFSXlNeZr8JIBrsoIKdrNgr14Lt5oqrJ69kxiDCf
+	wbm1nlxsF0SnjdbpEFANo6dmuxdUrXD1sfC6Z2h2LuyC1ON9uTkVdHoKOKCbhGO9/pV6I+BN3HCqD
+	6RTJlkMwG2P8ot3tB6isnWRdYt5qEDEeq+Ju4gfca/0+gNShRd6j2H2AgduM5kYx+AGjfffEkLB6o
+	zG/ClE7yeMUp95IzS4hQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1neufZ-004VHW-L8; Thu, 14 Apr 2022 08:17:37 +0000
-Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131])
+	id 1ngWly-000PJh-RK; Mon, 18 Apr 2022 19:10:54 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1neufV-004VDG-3p
- for linux-snps-arc@lists.infradead.org; Thu, 14 Apr 2022 08:17:35 +0000
-Received: by mail-lf1-x131.google.com with SMTP id u7so7753398lfs.8
- for <linux-snps-arc@lists.infradead.org>; Thu, 14 Apr 2022 01:17:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=NGAvoeVIngOGtPiGuOfhgEMzn/Y4E21SywZv5A/pFlY=;
- b=AIXcXEAgM1T/vvrJgSMg/A+jo5ikcih093elZ80CvifcEQd8fmOkrWzqNqYpUs41+4
- ok6B4OqwrZKTLri20PKFGH68CXrAR8TafBdD/M0anQVAbNYAAcwNaNIzNuXbyUxWRKqO
- RS7Hk2KzVYNHNJDNt5B4lcBs4m6NojBAtw+vKpZjmt1+RIrLhmWRjYsXAeMfGsBUG3kG
- ABRDjGU62vhtvJeCyEYuWg+db1ISZ8Q2gcTxDo/vGUD6SjyIgOUGf/Vs41VlXgaAFkkS
- /MVWYiHF+AU0wNAunxjD2sVJ6Ur0FLeqRWJ2kmESidOT/scVtLemtmIGSkw3csrS0Dnz
- yvtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NGAvoeVIngOGtPiGuOfhgEMzn/Y4E21SywZv5A/pFlY=;
- b=HYTSvjVB6NRx8Io2N9987uQLyhx/aXt77JqGlUDAKbcd/CQcBhfV18hXGw9Nkj+J61
- uiEzlSDJilT1QPYXxwOLRFfBKjW20YFUc5yBAvEuRR8YKNv0IwlNs8gzHcFdbmkQ5bqC
- NaOWLxj5KUITYpgXjFzA5pY9rQSnKavLvmxO5VoJRMuoVUn8guK8A15XaOspQFMaEVe9
- SzL4s4qjGNYviDiA2ExaU6vxruUJeb1hDoO1fiJlYEgQ3iqWng/ZuUHolj12R0yhR3Re
- Ky5/dOPlfx6DGWQMNwmJQHk3nVSiqVcmsPtWHgzk7plG8iJNgDV3MakRBLBWLDtCXeBR
- PGUw==
-X-Gm-Message-State: AOAM531JuAztoitrFsUrIi5yGhTpNl84xEGPJKGY8CR9FC2rueBE4XJR
- D7MyO1m1F/WknwJ8AB8YtJ/zQ3pYK2ySPRi/
-X-Google-Smtp-Source: ABdhPJz7ZaZ1rUlWJmPJsOpRm//9yqTVFgiwKRf/5Pkd7534iAfH7TYGS4wiLBKBjLWJGXNcQH0JHw==
-X-Received: by 2002:a05:6512:13a9:b0:448:9dd3:b84 with SMTP id
- p41-20020a05651213a900b004489dd30b84mr1194703lfa.556.1649924250380; 
- Thu, 14 Apr 2022 01:17:30 -0700 (PDT)
-Received: from localhost.localdomain ([5.188.167.245])
- by smtp.googlemail.com with ESMTPSA id
- v20-20020a2e87d4000000b0024b638069b1sm117116ljj.39.2022.04.14.01.17.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Apr 2022 01:17:30 -0700 (PDT)
-From: Sergey Matyukevich <geomatsi@gmail.com>
-To: linux-snps-arc@lists.infradead.org
-Cc: Vineet Gupta <vgupta@kernel.org>, Vladimir Isaev <isaev@synopsys.com>,
- Sergey Matyukevich <geomatsi@gmail.com>,
- Sergey Matyukevich <sergey.matyukevich@synopsys.com>
-Subject: [PATCH v2 4/4] ARC: disasm: handle ARCv2 case in kprobe get/set
- functions
-Date: Thu, 14 Apr 2022 11:17:24 +0300
-Message-Id: <20220414081724.3177956-5-geomatsi@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220414081724.3177956-1-geomatsi@gmail.com>
-References: <20220414081724.3177956-1-geomatsi@gmail.com>
+ id 1ngWlx-000PJF-3l
+ for linux-snps-arc@lists.infradead.org; Mon, 18 Apr 2022 19:10:54 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 76A23B81002;
+ Mon, 18 Apr 2022 19:10:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC849C385A1;
+ Mon, 18 Apr 2022 19:10:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1650309047;
+ bh=dD7RDBbSMaDLISa/GKbTrF72PK8RV3DWBWq4rPE8His=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=BbgZnHpuMbX+HDadBjj5PiaOQ/zPw/7EjorERPCW2O9XVILXUpGv2ZvxiNV7B4E7Z
+ /MAFftEDxIxySgsWrfm7VIyc4oJ4X75lsyHxHbzk4vyGdaKBuB67SyeyvtJvanZ0m8
+ bJ4p08Hngsact4mafEZoqz9KjDDaMiz915jymU79+5OP22GbgDGpVaGLOgxNfvadI1
+ aehG9+uu64XuiKdNv31j9TFUXINYY+yw1iiKHqn0pEu6dG7BrT1JtaKO7umvxtbqlz
+ 5UfwVd/xjqxwEhfpNI4N96AQqjMuYXsa50uLbZ04lvw6rC/2JGXqMoff0HHFQSB5rg
+ p/OeYRa2kzMuA==
+Message-ID: <b4e56a87-632c-cd91-4c11-f41fd1e86408@kernel.org>
+Date: Mon, 18 Apr 2022 12:10:45 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 0/4] ARC: add missing bits for better BPF support
+Content-Language: en-US
+To: Sergey Matyukevich <geomatsi@gmail.com>, linux-snps-arc@lists.infradead.org
+Cc: Vineet Gupta <vgupta@kernel.org>, Vladimir Isaev <isaev@synopsys.com>
+References: <20220414081724.3177956-1-geomatsi@gmail.com>
+From: Vineet Gupta <vgupta@kernel.org>
+In-Reply-To: <20220414081724.3177956-1-geomatsi@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220414_011733_209489_73C8E47C 
-X-CRM114-Status: GOOD (  13.63  )
+X-CRM114-CacheID: sfid-20220418_121053_350700_0316E06C 
+X-CRM114-Status: GOOD (  13.17  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,133 +68,53 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Sergey Matyukevich <sergey.matyukevich@synopsys.com>
 
-Current implementation of get_reg/set_reg implies ARCompact layout
-of pt_regs structure. Meanwhile pt_regs structure differs between
-ARCompact and ARCv2. Update those functions to handle ARCv2.
 
-Signed-off-by: Sergey Matyukevich <geomatsi@gmail.com>
----
- arch/arc/kernel/disasm.c | 64 ++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 62 insertions(+), 2 deletions(-)
+On 4/14/22 01:17, Sergey Matyukevich wrote:
+> Hi Vineet and all,
+>
+> Here is the second revision of the patch series implementing
+> the following two features for ARC:
+> - HAVE_REGS_AND_STACK_ACCESS_API
+> - HAVE_SYSCALL_TRACEPOINTS
+>
+> Adding these features enables more BPF programs for ARC kernels,
+> including KPROBE, TRACEPOINT, PERF_EVENT program types.
+>
+> Regards,
+> Sergey
 
-diff --git a/arch/arc/kernel/disasm.c b/arch/arc/kernel/disasm.c
-index 03f8b1be0c3a..38f5f8325322 100644
---- a/arch/arc/kernel/disasm.c
-+++ b/arch/arc/kernel/disasm.c
-@@ -434,14 +434,31 @@ long __kprobes get_reg(int reg, struct pt_regs *regs,
- {
- 	long *p;
- 
-+#if defined(CONFIG_ISA_ARCOMPACT)
- 	if (reg <= 12) {
- 		p = &regs->r0;
- 		return p[-reg];
- 	}
-+#else /* CONFIG_ISA_ARCV2 */
-+	if (reg <= 11) {
-+		p = &regs->r0;
-+		return p[reg];
-+	}
- 
-+	if (reg == 12)
-+		return regs->r12;
-+	if (reg == 30)
-+		return regs->r30;
-+#ifdef CONFIG_ARC_HAS_ACCL_REGS
-+	if (reg == 58)
-+		return regs->r58;
-+	if (reg == 59)
-+		return regs->r59;
-+#endif
-+#endif
- 	if (cregs && (reg <= 25)) {
- 		p = &cregs->r13;
--		return p[13-reg];
-+		return p[13 - reg];
- 	}
- 
- 	if (reg == 26)
-@@ -461,6 +478,7 @@ void __kprobes set_reg(int reg, long val, struct pt_regs *regs,
- {
- 	long *p;
- 
-+#if defined(CONFIG_ISA_ARCOMPACT)
- 	switch (reg) {
- 	case 0 ... 12:
- 		p = &regs->r0;
-@@ -469,7 +487,37 @@ void __kprobes set_reg(int reg, long val, struct pt_regs *regs,
- 	case 13 ... 25:
- 		if (cregs) {
- 			p = &cregs->r13;
--			p[13-reg] = val;
-+			p[13 - reg] = val;
-+		}
-+		break;
-+	case 26:
-+		regs->gp = val;
-+		break;
-+	case 27:
-+		regs->fp = val;
-+		break;
-+	case 28:
-+		regs->sp = val;
-+		break;
-+	case 31:
-+		regs->blink = val;
-+		break;
-+	default:
-+		break;
-+	}
-+#else /* CONFIG_ISA_ARCV2 */
-+	switch (reg) {
-+	case 0 ... 11:
-+		p = &regs->r0;
-+		p[reg] = val;
-+		break;
-+	case 12:
-+		regs->r12 = val;
-+		break;
-+	case 13 ... 25:
-+		if (cregs) {
-+			p = &cregs->r13;
-+			p[13 - reg] = val;
- 		}
- 		break;
- 	case 26:
-@@ -481,12 +529,24 @@ void __kprobes set_reg(int reg, long val, struct pt_regs *regs,
- 	case 28:
- 		regs->sp = val;
- 		break;
-+	case 30:
-+		regs->r30 = val;
-+		break;
- 	case 31:
- 		regs->blink = val;
- 		break;
-+#ifdef CONFIG_ARC_HAS_ACCL_REGS
-+	case 58:
-+		regs->r58 = val;
-+		break;
-+	case 59:
-+		regs->r59 = val;
-+		break;
-+#endif
- 	default:
- 		break;
- 	}
-+#endif
- }
- 
- /*
--- 
-2.35.1
+Applied !
+
+Thx,
+-Vineet
+
+>
+> v1 -> v2:
+>
+> - drop path with uapi for BPF_PROG_TYPE_PERF_EVENT program type: send it via bpf mailing list
+> - add patch with ARCv2 changes for kprobe disasm
+>
+> Sergey Matyukevich (4):
+>    ARC: enable HAVE_REGS_AND_STACK_ACCESS_API feature
+>    ARC: entry: fix syscall_trace_exit argument
+>    ARC: implement syscall tracepoints
+>    ARC: disasm: handle ARCv2 case in kprobe get/set functions
+>
+>   arch/arc/Kconfig                   |   2 +
+>   arch/arc/include/asm/ptrace.h      |  27 ++++++
+>   arch/arc/include/asm/syscall.h     |   2 +
+>   arch/arc/include/asm/thread_info.h |   5 +-
+>   arch/arc/kernel/disasm.c           |  64 ++++++++++++-
+>   arch/arc/kernel/entry.S            |  13 +--
+>   arch/arc/kernel/ptrace.c           | 140 ++++++++++++++++++++++++++++-
+>   7 files changed, 241 insertions(+), 12 deletions(-)
+>
 
 
 _______________________________________________
