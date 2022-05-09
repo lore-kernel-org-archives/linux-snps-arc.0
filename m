@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C2BCC433F5
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  9 May 2022 01:37:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6536FC433F5
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  9 May 2022 08:33:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
 	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=VSeZJaZHKz79sdEZXPCa6FUe47CinqVUO55W8JJbY/k=; b=ay2EhGxaP3fiWq
-	N1qKLBqX9Ruvv619RSj1iQ9aFtWKfqH6y0L0hVl8gPVp9sEOc5lUf4Yoqs70k/1Mjq6DXAKjb7Oi9
-	ZkLGtuxUc67HlLq37WmlTrXhKWIaoaMYKuJfVTBV1stauNPSikDb60blp/LYOsPDki4ToXlUq3gic
-	DZVpJU7foLgJVx9vPfRciU0RHM8dygLXzA8uvp9FhLGWpChuQilMr/RlPJe0d2PTsUw3+Hon1wWmN
-	aYZAYgPHbvGjcX0Ppxe4jrBgPqQXGiNma6XNnCzalFxocm6qaGwcfa/75VN5IvSUwmRXIdTvOAD1P
-	DT5IoTPfjnvsB2bmlH4A==;
+	List-Owner; bh=UucudrQbl0V62KzDRHRLiPAjzN5OBY12NlLCww9B+Y0=; b=nyG95AXK0fiQY9
+	zfwrTI88C3ULEcubwRvuG6gOVIWHDDJz5GrW2wuJb7NPx1RmkEzXNb2XjS4xxLGIY2dUmRr8pqHjl
+	DbCAlNzUxzbXmyAsWtJ7FZifrso4AQl4WegPLJOIGDTVOew5GCl9UzOuKUzN5YoLSwUO11rUfqRG6
+	gYLdPJmwDnctITkjM0DT92FzhcwgpO6VuLRLnp+rw9YFO59fSWDVwmxzEywYV2bnoFPIKxvq3BmLK
+	/3vzqemXZ6RBZoAGC4q6HO5gfqcTqp8qIBoGAxXv8PpGz14aXb6O/qNXJJbU5OyncizLKo7c1bONO
+	TGEdJDx8pTpFnEVW0CFQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nnsL6-00Byk7-7h; Mon, 09 May 2022 01:37:32 +0000
-Received: from mga01.intel.com ([192.55.52.88])
+	id 1nnypp-00D7on-N5; Mon, 09 May 2022 08:33:41 +0000
+Received: from mga07.intel.com ([134.134.136.100])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nnsL3-00Byja-Rm
- for linux-snps-arc@lists.infradead.org; Mon, 09 May 2022 01:37:31 +0000
+ id 1nnypm-00D7nl-AD
+ for linux-snps-arc@lists.infradead.org; Mon, 09 May 2022 08:33:40 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652060249; x=1683596249;
+ t=1652085218; x=1683621218;
  h=date:from:to:cc:subject:message-id:mime-version;
- bh=qceWRXkU6iL7pzgXX9c+cKKpLWjsMu5+5mPb88eXB8s=;
- b=RbOJTSc4ed7mP0qoJiWJfmO47wmcESWB1jxaaFlQVjFCqKTFLAUCjzbS
- feF1qc7Q1/dr0qc9msk3rn/nrv7QcXF0cd+8aaoE4wmWtTK9wfFB7xrPI
- GzrjJGOHRaHy1LUPtDo9I0cIMlroMfVhYi0FDgNTgeBzVPRZxw78gKy0f
- uZRewtv2srMzmXN7N0+lxzEbkWqweJRVdXKgf1CkN3Qu/j7vgUyKj1Twz
- uPbFKny05+qJeqYhP0ZewOPw4mqo6p9VGTN9NRBCJopDsZfWWis8w7qh0
- P8fUrX+lCsASoz7ZvbKYDeeu2ffoRyBRSRmcD4dcJNEOOCb6RUR4nvthv A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10341"; a="294128379"
-X-IronPort-AV: E=Sophos;i="5.91,210,1647327600"; d="scan'208";a="294128379"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 May 2022 18:37:27 -0700
+ bh=Mc0tTnWx6k9uMQYMmtTeXr+Sq+mI2wmimhaCxV+JOjc=;
+ b=oFSdLHGT4p8UcNFHgyWRWOw1zzw/WrjxCrC8V/CHlJQBkyC7xJreDzid
+ 1V5WKfep47hV1cWQ7Fble7jMZcXsRQvFyFkXFrL4H99tzo9xLpMPPanWQ
+ xjkbxqe4cR2346PqCenRwtTE6uqXQ/wDSJROE3PlA9crGhXmbz8n4iFjR
+ w0bZhs5dwzbW23FvdVNS9o577PZselURgPehyxMZsXAnSCRyYlXM1EAwI
+ 6WJvi/4huGb1CvGYJyCijTFwtlZciAWzHxYTFp6Kg1TDlC8hzeFuBh7Qf
+ LjaFVQKN9nbAi3nv82GAQicGYhZzQcxbqvR3UzhxyPO/ealhyGOOcOWNs g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10341"; a="332014349"
+X-IronPort-AV: E=Sophos;i="5.91,210,1647327600"; d="scan'208";a="332014349"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2022 01:33:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,210,1647327600"; d="scan'208";a="601725697"
+X-IronPort-AV: E=Sophos;i="5.91,210,1647327600"; d="scan'208";a="710415382"
 Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
- by orsmga001.jf.intel.com with ESMTP; 08 May 2022 18:37:26 -0700
+ by fmsmga001.fm.intel.com with ESMTP; 09 May 2022 01:33:34 -0700
 Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nnsKz-000G4c-H7;
- Mon, 09 May 2022 01:37:25 +0000
-Date: Mon, 9 May 2022 09:36:30 +0800
+ (envelope-from <lkp@intel.com>) id 1nnypi-000GLq-7l;
+ Mon, 09 May 2022 08:33:34 +0000
+Date: Mon, 9 May 2022 16:33:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: Vineet Gupta <vgupta@kernel.org>
 Cc: kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
  linux-snps-arc@lists.infradead.org
 Subject: arch/arc/kernel/smp.c:279:18: sparse: sparse: dereference of noderef
  expression
-Message-ID: <202205090924.E8PT5SCw-lkp@intel.com>
+Message-ID: <202205091601.PVktivQ3-lkp@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220508_183729_953117_AA256913 
-X-CRM114-Status: GOOD (  15.28  )
+X-CRM114-CacheID: sfid-20220509_013338_488006_5E416E5B 
+X-CRM114-Status: GOOD (  13.88  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,7 +81,7 @@ tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git maste
 head:   c5eb0a61238dd6faf37f58c9ce61c9980aaffd7a
 commit: e188f3330a13df904d77003846eafd3edf99009d ARC: cmpxchg/xchg: rewrite as macros to make type safe
 date:   9 months ago
-config: arc-randconfig-s031-20220509 (https://download.01.org/0day-ci/archive/20220509/202205090924.E8PT5SCw-lkp@intel.com/config)
+config: arc-randconfig-s031-20220509 (https://download.01.org/0day-ci/archive/20220509/202205091601.PVktivQ3-lkp@intel.com/config)
 compiler: arc-elf-gcc (GCC) 11.3.0
 reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
@@ -126,7 +126,7 @@ vim +279 arch/arc/kernel/smp.c
 41195d236e8445 Vineet Gupta    2013-01-18  261  
 ddf84433f411b6 Vineet Gupta    2013-11-25  262  static void ipi_send_msg_one(int cpu, enum ipi_msg_type msg)
 41195d236e8445 Vineet Gupta    2013-01-18  263  {
-f2a4aa5646687f Vineet Gupta    2013-11-26 @264  	unsigned long __percpu *ipi_data_ptr = per_cpu_ptr(&ipi_data, cpu);
+f2a4aa5646687f Vineet Gupta    2013-11-26  264  	unsigned long __percpu *ipi_data_ptr = per_cpu_ptr(&ipi_data, cpu);
 d8e8c7dda11f5d Vineet Gupta    2013-11-28  265  	unsigned long old, new;
 41195d236e8445 Vineet Gupta    2013-01-18  266  	unsigned long flags;
 41195d236e8445 Vineet Gupta    2013-01-18  267  
