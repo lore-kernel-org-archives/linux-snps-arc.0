@@ -4,63 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6536FC433F5
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  9 May 2022 08:33:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 457C3C433F5
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 May 2022 08:10:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=UucudrQbl0V62KzDRHRLiPAjzN5OBY12NlLCww9B+Y0=; b=nyG95AXK0fiQY9
-	zfwrTI88C3ULEcubwRvuG6gOVIWHDDJz5GrW2wuJb7NPx1RmkEzXNb2XjS4xxLGIY2dUmRr8pqHjl
-	DbCAlNzUxzbXmyAsWtJ7FZifrso4AQl4WegPLJOIGDTVOew5GCl9UzOuKUzN5YoLSwUO11rUfqRG6
-	gYLdPJmwDnctITkjM0DT92FzhcwgpO6VuLRLnp+rw9YFO59fSWDVwmxzEywYV2bnoFPIKxvq3BmLK
-	/3vzqemXZ6RBZoAGC4q6HO5gfqcTqp8qIBoGAxXv8PpGz14aXb6O/qNXJJbU5OyncizLKo7c1bONO
-	TGEdJDx8pTpFnEVW0CFQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=L+1XPPGGJgFpxo5VWlGgCo2GLlHs74yDN0tPqFywZ/w=; b=zyHi8Ap6B1ZpYP
+	3JsvCFdih4AEy4HFL/5SuHIomeuUsOrBFKaGY+nq/OSF294U43jJwZR/A8N/kGOGWK7xlNhwIUpFc
+	iYBuI1LVt/SPW4KfOQwiSJJ+qLfJoWcUPNlxik92m0V95IhS3JB/TdC252Ff1K5Ks/8edTy9gYVSI
+	qD5zay/FJlcnl74/MhFBzVxD0llaIMqV1ObcGY7FwX7tsvgKiX7+HZSyKh923q+5QY/0HSHExZg1T
+	GExkJcD8E+YYQ6FKTsL8Ba8uuArC8Y6rHXUbPqWBYWy594qy9hru/jIP5XbNV+m92i0Bs1Vaa4SCI
+	tRnMZzda4Uv6MgaSG0Pg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nnypp-00D7on-N5; Mon, 09 May 2022 08:33:41 +0000
-Received: from mga07.intel.com ([134.134.136.100])
+	id 1npQNp-00Eyra-5B; Fri, 13 May 2022 08:10:45 +0000
+Received: from mail.coredeal.pl ([51.75.73.133])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nnypm-00D7nl-AD
- for linux-snps-arc@lists.infradead.org; Mon, 09 May 2022 08:33:40 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652085218; x=1683621218;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=Mc0tTnWx6k9uMQYMmtTeXr+Sq+mI2wmimhaCxV+JOjc=;
- b=oFSdLHGT4p8UcNFHgyWRWOw1zzw/WrjxCrC8V/CHlJQBkyC7xJreDzid
- 1V5WKfep47hV1cWQ7Fble7jMZcXsRQvFyFkXFrL4H99tzo9xLpMPPanWQ
- xjkbxqe4cR2346PqCenRwtTE6uqXQ/wDSJROE3PlA9crGhXmbz8n4iFjR
- w0bZhs5dwzbW23FvdVNS9o577PZselURgPehyxMZsXAnSCRyYlXM1EAwI
- 6WJvi/4huGb1CvGYJyCijTFwtlZciAWzHxYTFp6Kg1TDlC8hzeFuBh7Qf
- LjaFVQKN9nbAi3nv82GAQicGYhZzQcxbqvR3UzhxyPO/ealhyGOOcOWNs g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10341"; a="332014349"
-X-IronPort-AV: E=Sophos;i="5.91,210,1647327600"; d="scan'208";a="332014349"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2022 01:33:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,210,1647327600"; d="scan'208";a="710415382"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
- by fmsmga001.fm.intel.com with ESMTP; 09 May 2022 01:33:34 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nnypi-000GLq-7l;
- Mon, 09 May 2022 08:33:34 +0000
-Date: Mon, 9 May 2022 16:33:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vineet Gupta <vgupta@kernel.org>
-Cc: kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
- linux-snps-arc@lists.infradead.org
-Subject: arch/arc/kernel/smp.c:279:18: sparse: sparse: dereference of noderef
- expression
-Message-ID: <202205091601.PVktivQ3-lkp@intel.com>
+ id 1npQNg-00Eyor-F1
+ for linux-snps-arc@lists.infradead.org; Fri, 13 May 2022 08:10:38 +0000
+Received: by mail.coredeal.pl (Postfix, from userid 1002)
+ id 77A45A523E; Fri, 13 May 2022 08:06:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=coredeal.pl; s=mail;
+ t=1652429250; bh=9KGuIG62LgzC9aYmjKxzocuYLRCVghXg6v9Q1q2LHec=;
+ h=Date:From:To:Subject:From;
+ b=LBdjlMtNGZh6qZSVv6xub7o6u5NfN+LlnDgUtZd3IgbOo13vxDSU6woARWu9ONwp6
+ m+kwIHzc9Dfoc/w5ubn+eG2jo5iTI0hpE14iRjk54jWyom8H2dxqB7eD6wFBRbmww0
+ Ng6x4PNfekwWAVfzWnf0Y1uFKiRVlVwxGyGE8zNYDpQ760utluNoSnl06sTdH23ZkX
+ mdepn3V7o//WUdz9s/j9DoxZzKUlo0+3yjBGoyiSRGAlzOGDE7S422dSagM7uw1kbv
+ 2AP32556d/4je8AlqoKevxQQ376drGqEIm3wga+LJHIine8aYQxYZy08eI90f7cAuq
+ EZNaxcAQw0VoQ==
+Received: by mail.coredeal.pl for <linux-snps-arc@lists.infradead.org>;
+ Fri, 13 May 2022 08:05:55 GMT
+Message-ID: <20220513064500-0.1.33.o0tj.0.jna03om7kj@coredeal.pl>
+Date: Fri, 13 May 2022 08:05:55 GMT
+From: "Krzysztof Maj" <krzysztof.maj@coredeal.pl>
+To: <linux-snps-arc@lists.infradead.org>
+Subject: Biznesowy angielski
+X-Mailer: mail.coredeal.pl
 MIME-Version: 1.0
-Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220509_013338_488006_5E416E5B 
-X-CRM114-Status: GOOD (  13.88  )
+X-CRM114-CacheID: sfid-20220513_011036_719563_394B0748 
+X-CRM114-Status: UNSURE (   0.47  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,103 +60,26 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>, 
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c5eb0a61238dd6faf37f58c9ce61c9980aaffd7a
-commit: e188f3330a13df904d77003846eafd3edf99009d ARC: cmpxchg/xchg: rewrite as macros to make type safe
-date:   9 months ago
-config: arc-randconfig-s031-20220509 (https://download.01.org/0day-ci/archive/20220509/202205091601.PVktivQ3-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 11.3.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e188f3330a13df904d77003846eafd3edf99009d
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e188f3330a13df904d77003846eafd3edf99009d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arc SHELL=/bin/bash arch/arc/kernel/ drivers/misc/ net/ipv4/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-
-sparse warnings: (new ones prefixed by >>)
-   arch/arc/kernel/smp.c:264:48: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *ipi_data_ptr @@     got unsigned long * @@
-   arch/arc/kernel/smp.c:264:48: sparse:     expected unsigned long [noderef] __percpu *ipi_data_ptr
-   arch/arc/kernel/smp.c:264:48: sparse:     got unsigned long *
-   arch/arc/kernel/smp.c:279:18: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *v @@     got unsigned long [noderef] __percpu *__ai_ptr @@
-   arch/arc/kernel/smp.c:279:18: sparse:     expected void const volatile *v
-   arch/arc/kernel/smp.c:279:18: sparse:     got unsigned long [noderef] __percpu *__ai_ptr
-   arch/arc/kernel/smp.c:277:29: sparse: sparse: cast removes address space '__percpu' of expression
-   arch/arc/kernel/smp.c:413:72: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected void [noderef] __percpu *percpu_dev_id @@     got int *dev @@
-   arch/arc/kernel/smp.c:413:72: sparse:     expected void [noderef] __percpu *percpu_dev_id
-   arch/arc/kernel/smp.c:413:72: sparse:     got int *dev
->> arch/arc/kernel/smp.c:279:18: sparse: sparse: dereference of noderef expression
->> arch/arc/kernel/smp.c:279:18: sparse: sparse: dereference of noderef expression
---
-   net/ipv4/tcp_cong.c:238:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct tcp_congestion_ops const [noderef] __rcu *_val_ @@     got struct tcp_congestion_ops *[assigned] ca @@
-   net/ipv4/tcp_cong.c:238:24: sparse:     expected struct tcp_congestion_ops const [noderef] __rcu *_val_
-   net/ipv4/tcp_cong.c:238:24: sparse:     got struct tcp_congestion_ops *[assigned] ca
->> net/ipv4/tcp_cong.c:238:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tcp_congestion_ops const *prev @@     got struct tcp_congestion_ops const [noderef] __rcu *[assigned] _val_ @@
-   net/ipv4/tcp_cong.c:238:22: sparse:     expected struct tcp_congestion_ops const *prev
-   net/ipv4/tcp_cong.c:238:22: sparse:     got struct tcp_congestion_ops const [noderef] __rcu *[assigned] _val_
-
-vim +279 arch/arc/kernel/smp.c
-
-41195d236e8445 Vineet Gupta    2013-01-18  261  
-ddf84433f411b6 Vineet Gupta    2013-11-25  262  static void ipi_send_msg_one(int cpu, enum ipi_msg_type msg)
-41195d236e8445 Vineet Gupta    2013-01-18  263  {
-f2a4aa5646687f Vineet Gupta    2013-11-26  264  	unsigned long __percpu *ipi_data_ptr = per_cpu_ptr(&ipi_data, cpu);
-d8e8c7dda11f5d Vineet Gupta    2013-11-28  265  	unsigned long old, new;
-41195d236e8445 Vineet Gupta    2013-01-18  266  	unsigned long flags;
-41195d236e8445 Vineet Gupta    2013-01-18  267  
-f2a4aa5646687f Vineet Gupta    2013-11-26  268  	pr_debug("%d Sending msg [%d] to %d\n", smp_processor_id(), msg, cpu);
-f2a4aa5646687f Vineet Gupta    2013-11-26  269  
-41195d236e8445 Vineet Gupta    2013-01-18  270  	local_irq_save(flags);
-41195d236e8445 Vineet Gupta    2013-01-18  271  
-d8e8c7dda11f5d Vineet Gupta    2013-11-28  272  	/*
-d8e8c7dda11f5d Vineet Gupta    2013-11-28  273  	 * Atomically write new msg bit (in case others are writing too),
-d8e8c7dda11f5d Vineet Gupta    2013-11-28  274  	 * and read back old value
-d8e8c7dda11f5d Vineet Gupta    2013-11-28  275  	 */
-d8e8c7dda11f5d Vineet Gupta    2013-11-28  276  	do {
-6aa7de059173a9 Mark Rutland    2017-10-23  277  		new = old = READ_ONCE(*ipi_data_ptr);
-d8e8c7dda11f5d Vineet Gupta    2013-11-28  278  		new |= 1U << msg;
-d8e8c7dda11f5d Vineet Gupta    2013-11-28 @279  	} while (cmpxchg(ipi_data_ptr, old, new) != old);
-41195d236e8445 Vineet Gupta    2013-01-18  280  
-d8e8c7dda11f5d Vineet Gupta    2013-11-28  281  	/*
-d8e8c7dda11f5d Vineet Gupta    2013-11-28  282  	 * Call the platform specific IPI kick function, but avoid if possible:
-d8e8c7dda11f5d Vineet Gupta    2013-11-28  283  	 * Only do so if there's no pending msg from other concurrent sender(s).
-82a423053eb3cf Changcheng Deng 2021-08-14  284  	 * Otherwise, receiver will see this msg as well when it takes the
-d8e8c7dda11f5d Vineet Gupta    2013-11-28  285  	 * IPI corresponding to that msg. This is true, even if it is already in
-d8e8c7dda11f5d Vineet Gupta    2013-11-28  286  	 * IPI handler, because !@old means it has not yet dequeued the msg(s)
-d8e8c7dda11f5d Vineet Gupta    2013-11-28  287  	 * so @new msg can be a free-loader
-d8e8c7dda11f5d Vineet Gupta    2013-11-28  288  	 */
-d8e8c7dda11f5d Vineet Gupta    2013-11-28  289  	if (plat_smp_ops.ipi_send && !old)
-ddf84433f411b6 Vineet Gupta    2013-11-25  290  		plat_smp_ops.ipi_send(cpu);
-41195d236e8445 Vineet Gupta    2013-01-18  291  
-41195d236e8445 Vineet Gupta    2013-01-18  292  	local_irq_restore(flags);
-41195d236e8445 Vineet Gupta    2013-01-18  293  }
-41195d236e8445 Vineet Gupta    2013-01-18  294  
-
-:::::: The code at line 279 was first introduced by commit
-:::::: d8e8c7dda11f5d5cf90495f2e89d917a83509bc0 ARC: [SMP] optimize IPI send and receive
-
-:::::: TO: Vineet Gupta <vgupta@synopsys.com>
-:::::: CC: Vineet Gupta <vgupta@synopsys.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+RHppZcWEIGRvYnJ5LCAKCmN6eSByb3p3YcW8YWxpIFBhxYRzdHdvIHJvenfDs2oga3dhbGlmaWth
+Y2ppIGrEmXp5a293eWNoIHN3b2ljaCBwcmFjb3duaWvDs3c/CgpPcHJhY293YWxpxZtteSBrdXJz
+eSBqxJl6eWtvd2UgZGxhIHLDs8W8bnljaCBicmFuxbwsIHcga3TDs3J5Y2gga29uY2VudHJ1amVt
+eSBzacSZIG5hIHBvZG5pZXNpZW5pdSBwb3ppb211IHPFgm93bmljdHdhIGkgamFrb8WbY2kga29t
+dW5pa2Fjamkgd3lrb3J6eXN0dWrEhWMgYXV0b3Jza8SFIG1ldG9kxJksIHN0d29yem9uxIUgc3Bl
+Y2phbG5pZSBkbGEgd3ltYWdhasSFY2VnbyBiaXpuZXN1LiAKCk5pZXN0YW5kYXJkb3d5IGt1cnMg
+b24tbGluZSwgZG9wYXNvd2FueSBkbyBwcm9maWx1IGZpcm15IGkgb2JzemFyw7N3IMWbd2lhZGN6
+b255Y2ggdXPFgnVnLCB3IHN6eWJraW0gY3phc2llIHByenluaWVzaWUgZWZla3R5LCBrdMOzcmUg
+endpxJlrc3rEhSBrb21mb3J0IGkgamFrb8WbxIcgcHJhY3ksIHJvendpamFqxIVjIG1vxbxsaXdv
+xZtjaSBiaXpuZXNvd2UuIAoKWmRhbG5lIHN6a29sZW5pZSBqxJl6eWtvd2UgdG8gbS5pbi4gemFq
+xJljaWEgeiBuYXRpdmUgc3BlYWtlcmFtaSwga3TDs3JlIHcgc3p5YmtpbSBjemFzaWUgbmF1Y3rE
+hSBwcmFjb3duaWvDs3cgcm96bWF3aWHEhyB6YSBwb21vY8SFIGphc25lZ28gaSB6d2nEmXrFgmVn
+byBqxJl6eWthIEJ1c2luZXNzIEVuZ2xpc2guCgpDenkgbcOzZ8WCYnltIHByemVkc3Rhd2nEhyB3
+acSZY2VqIHN6Y3plZ8OzxYLDs3cgaSBvcG93aWVkemllxIcgamFrIGR6aWHFgmFteT8gCgoKUG96
+ZHJhd2lhbQpLcnp5c3p0b2YgTWFqCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNA
+bGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
