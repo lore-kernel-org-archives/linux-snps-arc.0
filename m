@@ -4,60 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A84B6C433F5
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 May 2022 03:40:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70335C433F5
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 26 May 2022 03:41:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
 	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Subject:From:Cc:To:MIME-Version:Date:Message-ID:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=CHQvr645UzISKm5Y1ABQcNjiyiruSHv8bDNcaYi3og0=; b=GyLXo5OW8S+G/3ybHxvaPWTxvk
-	5P4Wk1VlY4w5trgPCaJrmgGg4VBkMhoICL3zOyvj9WaOMLWceM4MvKJiNrxszSI7tSLoii6LW0mUg
-	yWwXs+c7lAOrb/dgugdrLJUo5jdyL1jlbs8b9tcL3mqSq2ox7/IJofaJ1vCYYxqQjVsiooC3MLhom
-	d1mswA8ahyuAgvNty9vzKSSINByPKua+F7SN94z6XtszgSw0fh373qJwxWKJiSCCf4WTja+kO/20i
-	cyONJZC7+1stuxXsl7gqdvGK2UK3kEHrUvU5EyQSpOP03B6+oHFP9It5mq2K+pjtnb55WY+/ZEe1z
-	xN02omgg==;
+	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=kxAX2830Zk/kXiU3eEawy5+KTpxT0m5MhVyEeQRwjDo=; b=DP+7PLnUuLoBUJ
+	deT7CxfVRoSDaKseYgNdq9si6szZvJ0vFeMZ0jm2+T4vOhJui8O5A3UnLA4HqDIkqxGGw03L3pZp/
+	ixiPUxIKXDsASGm27l6AqUOZ9TwqCZVz5q1M1LM/BzTKyXPcc/3lB7Pky2f9rGlpJ7xoQp5xIEYLn
+	wKK1qYJ/hsPoRIZEecLbPbm4Trn/J+i9cMUoUYE3BOxaLpUeYbAdp6/pdbn2JyuS13smbY4FFgBUq
+	FlotLHlV/Tng/PeKpaDUnz/iA0LPUaCSY69DRhmTYwdmEGP2g+i0c4APU+EPFqajxKcW74F1rv7sZ
+	eE9CifhZDVgDzlQQkbcA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nu4Mg-00DOM7-D7; Thu, 26 May 2022 03:40:46 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1nu4Mz-00DOQl-6m; Thu, 26 May 2022 03:41:05 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nu4Md-00DOLa-Kf
-	for linux-snps-arc@lists.infradead.org; Thu, 26 May 2022 03:40:45 +0000
+	id 1nu4Mt-00DOO5-Go; Thu, 26 May 2022 03:41:02 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id A4266B81F11;
-	Thu, 26 May 2022 03:40:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43D65C385B8;
-	Thu, 26 May 2022 03:40:40 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 13040615AC;
+	Thu, 26 May 2022 03:40:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BBA1C385B8;
+	Thu, 26 May 2022 03:40:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1653536440;
-	bh=MgP39NRgoy5EWYmX0BdpJsZYRi3iKh0TwgnObf2cek0=;
-	h=Date:To:Cc:From:Subject:From;
-	b=qqd/vKrpEw6A7UTDY5587KVdzBnBPJCG7wg9kH/v05N1VtN3+206pAHcVUQFs3VI1
-	 ISvAYRMNeTApfp67pjLJh40DWZ07nWIonAoL8XQ3iYQJhk/Kd+RXCXQpnkCGoqO9yw
-	 uCD5B3Dow4e9tAjGsCRCwsE1/gQ+QJqqZWWySrO+DuJqWiX/mYwMPNsUWLN5WpqyAE
-	 oJ5/RYWBVaLnHcP1y6jgzD/J1coFGAgy2W+cxPZ2jxS+M6WbZFcS95qbbjAQakRW0+
-	 kfwNjoOSK+jfT9le0/fDIIiLvAP5W4RDDA03enXU3z1ERff1+VukvxgVStGGNFZ9yc
-	 pQ/mezIkwC5PA==
-Message-ID: <a22af786-288f-92ad-79a0-0f40768cfdbc@kernel.org>
-Date: Wed, 25 May 2022 20:40:39 -0700
+	s=k20201202; t=1653536455;
+	bh=/FC3fRDbTNCC3O7WmAhxUVAkmggWpUFeLv7OpR1lxLg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=hLLrqk/dSj3ABZgHj+oG01SXfcPdfcPLbCPW5c/vtlKKjGhr826rFN6lLQogyE6R+
+	 V4+rLm9jBH6we4JcRrEMO+7ArvhQ4vUukeFX5qG0umNfJEjOVl7t+dToTe7orX2kZK
+	 bSWoDGynO3/vHi04K7UfgRIeRSjHN5GtmmMIX2USGvftGI9pdfeJrjgnAmxrltc5n0
+	 8y833O4MCr4JKKzVPSDGbAvYYjpDQY/dQCqYoM1yOIlCVTJtDFNiHcFx0Vs05+lAF0
+	 ALTHrfJeOAfPcImvCexeRL9L6Mpy6p/bjPRzg8B1971s8Zq8YHz1AyoKFvxIGL0AWO
+	 PHAjKqVSOf5bw==
+Message-ID: <8f6add25-2e8f-4533-fa42-e43db0e32f2d@kernel.org>
+Date: Wed, 25 May 2022 20:40:51 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
+Subject: Re: [PATCH v3] mm: Avoid unnecessary page fault retires on shared
+ memory types
 Content-Language: en-US
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: lkml <linux-kernel@vger.kernel.org>,
- arcml <linux-snps-arc@lists.infradead.org>, abrodkin@synopsys.com,
- "geomatsi@gmail.com" <geomatsi@gmail.com>
+To: Peter Xu <peterx@redhat.com>, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org
+Cc: Richard Henderson <rth@twiddle.net>, David Hildenbrand
+ <david@redhat.com>, Matt Turner <mattst88@gmail.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Michal Simek <monstr@monstr.eu>,
+ Russell King <linux@armlinux.org.uk>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, linux-riscv@lists.infradead.org,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, Jonas Bonn <jonas@southpole.se>,
+ Will Deacon <will@kernel.org>,
+ "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "H . Peter Anvin" <hpa@zytor.com>, Andrea Arcangeli <aarcange@redhat.com>,
+ openrisc@lists.librecores.org, linux-s390@vger.kernel.org,
+ Ingo Molnar <mingo@redhat.com>, linux-m68k@lists.linux-m68k.org,
+ Palmer Dabbelt <palmer@dabbelt.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Chris Zankel <chris@zankel.net>, Peter Zijlstra <peterz@infradead.org>,
+ Alistair Popple <apopple@nvidia.com>, linux-csky@vger.kernel.org,
+ linux-hexagon@vger.kernel.org, Vlastimil Babka <vbabka@suse.cz>,
+ Thomas Gleixner <tglx@linutronix.de>, sparclinux@vger.kernel.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Stafford Horne <shorne@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ x86@kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Paul Mackerras <paulus@samba.org>, linux-arm-kernel@lists.infradead.org,
+ Sven Schnelle <svens@linux.ibm.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ linux-xtensa@linux-xtensa.org, Nicholas Piggin <npiggin@gmail.com>,
+ linux-sh@vger.kernel.org, Vasily Gorbik <gor@linux.ibm.com>,
+ Borislav Petkov <bp@alien8.de>, linux-mips@vger.kernel.org,
+ Max Filippov <jcmvbkbc@gmail.com>, Helge Deller <deller@gmx.de>,
+ Vineet Gupta <vgupta@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, linux-um@lists.infradead.org,
+ linux-alpha@vger.kernel.org, Johannes Berg <johannes@sipsolutions.net>,
+ linux-ia64@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Dinh Nguyen <dinguyen@kernel.org>, Guo Ren <guoren@kernel.org>,
+ linux-snps-arc@lists.infradead.org, Hugh Dickins <hughd@google.com>,
+ Rich Felker <dalias@libc.org>, Andy Lutomirski <luto@kernel.org>,
+ Richard Weinberger <richard@nod.at>, linuxppc-dev@lists.ozlabs.org,
+ Brian Cain <bcain@quicinc.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+ linux-parisc@vger.kernel.org, "David S . Miller" <davem@davemloft.net>
+References: <20220524234531.1949-1-peterx@redhat.com>
 From: Vineet Gupta <vgupta@kernel.org>
-Subject: [GIT PULL] ARC changes for 5.19-rc1
+In-Reply-To: <20220524234531.1949-1-peterx@redhat.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220525_204043_865757_AE684608 
-X-CRM114-Status: UNSURE (   9.65  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220525_204059_666800_783F5EA8 
+X-CRM114-Status: GOOD (  30.80  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,42 +110,77 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-SGkgTGludXMsCgpQbGVhc2UgcHVsbC4KClRoeCwKLVZpbmVldAotLS0tLS0tLS0tLS0tLS0+ClRo
-ZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21taXQgYWYyZDg2MWQ0Y2QyYTRkYTUxMzdmNzk1
-ZWUzNTA5ZTZmOTQ0YTI1YjoKCiDCoCBMaW51eCA1LjE4LXJjNCAoMjAyMi0wNC0yNCAxNDo1MToy
-MiAtMDcwMCkKCmFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0OgoKIMKgIGdp
-dDovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC92Z3VwdGEvYXJjLmdp
-dC8gCnRhZ3MvYXJjLTUuMTktcmMxCgpmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8gNmFh
-OThmNjIxNzg2MTg4OTUyM2UzOGIwMTQxYzhjNzFiMmVmOGE4MzoKCiDCoCBBUkM6IGJwZjogZGVm
-aW5lIHVhcGkgZm9yIEJQRl9QUk9HX1RZUEVfUEVSRl9FVkVOVCBwcm9ncmFtIHR5cGUgCigyMDIy
-LTA0LTI2IDA5OjM1OjI4IC0wNzAwKQoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpBUkMgY2hhbmdlcyBmb3IgNS4xOS1yYzEK
-CiDCoC0gQmFzaWMgZUJQRiBzdXBwb3J0wqAgKFNlcmdleSkKCi0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KU2VyZ2V5IE1hdHl1
-a2V2aWNoICg0KToKIMKgwqDCoMKgwqAgQVJDOiBlbmFibGUgSEFWRV9SRUdTX0FORF9TVEFDS19B
-Q0NFU1NfQVBJIGZlYXR1cmUKIMKgwqDCoMKgwqAgQVJDOiBpbXBsZW1lbnQgc3lzY2FsbCB0cmFj
-ZXBvaW50cwogwqDCoMKgwqDCoCBBUkM6IGRpc2FzbTogaGFuZGxlIEFSQ3YyIGNhc2UgaW4ga3By
-b2JlIGdldC9zZXQgZnVuY3Rpb25zCiDCoMKgwqDCoMKgIEFSQzogYnBmOiBkZWZpbmUgdWFwaSBm
-b3IgQlBGX1BST0dfVFlQRV9QRVJGX0VWRU5UIHByb2dyYW0gdHlwZQoKIMKgYXJjaC9hcmMvS2Nv
-bmZpZ8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-fMKgwqAgMiArCiDCoGFyY2gvYXJjL2luY2x1ZGUvYXNtL3BlcmZfZXZlbnQuaMKgwqDCoMKgwqDC
-oMKgwqDCoCB8wqDCoCA0ICsKIMKgYXJjaC9hcmMvaW5jbHVkZS9hc20vcHRyYWNlLmjCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgMjcgKysrKysrCiDCoGFyY2gvYXJjL2luY2x1ZGUvYXNt
-L3N5c2NhbGwuaMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCAyICsKIMKgYXJjaC9hcmMv
-aW5jbHVkZS9hc20vdGhyZWFkX2luZm8uaMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgNSArLQogwqBh
-cmNoL2FyYy9pbmNsdWRlL3VhcGkvYXNtL2JwZl9wZXJmX2V2ZW50LmggfMKgwqAgOSArKwogwqBh
-cmNoL2FyYy9rZXJuZWwvZGlzYXNtLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgfMKgIDY0ICsrKysrKysrKysrKy0KIMKgYXJjaC9hcmMva2VybmVsL2VudHJ5LlPCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgMTIgKy0tCiDCoGFyY2gvYXJjL2tl
-cm5lbC9wdHJhY2UuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IDE0MCAK
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKy0KIMKgOSBmaWxlcyBjaGFuZ2VkLCAyNTMgaW5z
-ZXJ0aW9ucygrKSwgMTIgZGVsZXRpb25zKC0pCiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBhcmNoL2Fy
-Yy9pbmNsdWRlL3VhcGkvYXNtL2JwZl9wZXJmX2V2ZW50LmgKCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdAps
-aW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQu
-b3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
+
+
+On 5/24/22 16:45, Peter Xu wrote:
+> I observed that for each of the shared file-backed page faults, we're very
+> likely to retry one more time for the 1st write fault upon no page.  It's
+> because we'll need to release the mmap lock for dirty rate limit purpose
+> with balance_dirty_pages_ratelimited() (in fault_dirty_shared_page()).
+>
+> Then after that throttling we return VM_FAULT_RETRY.
+>
+> We did that probably because VM_FAULT_RETRY is the only way we can return
+> to the fault handler at that time telling it we've released the mmap lock.
+>
+> However that's not ideal because it's very likely the fault does not need
+> to be retried at all since the pgtable was well installed before the
+> throttling, so the next continuous fault (including taking mmap read lock,
+> walk the pgtable, etc.) could be in most cases unnecessary.
+>
+> It's not only slowing down page faults for shared file-backed, but also add
+> more mmap lock contention which is in most cases not needed at all.
+>
+> To observe this, one could try to write to some shmem page and look at
+> "pgfault" value in /proc/vmstat, then we should expect 2 counts for each
+> shmem write simply because we retried, and vm event "pgfault" will capture
+> that.
+>
+> To make it more efficient, add a new VM_FAULT_COMPLETED return code just to
+> show that we've completed the whole fault and released the lock.  It's also
+> a hint that we should very possibly not need another fault immediately on
+> this page because we've just completed it.
+>
+> This patch provides a ~12% perf boost on my aarch64 test VM with a simple
+> program sequentially dirtying 400MB shmem file being mmap()ed and these are
+> the time it needs:
+>
+>    Before: 650.980 ms (+-1.94%)
+>    After:  569.396 ms (+-1.38%)
+>
+> I believe it could help more than that.
+>
+> We need some special care on GUP and the s390 pgfault handler (for gmap
+> code before returning from pgfault), the rest changes in the page fault
+> handlers should be relatively straightforward.
+>
+> Another thing to mention is that mm_account_fault() does take this new
+> fault as a generic fault to be accounted, unlike VM_FAULT_RETRY.
+>
+> I explicitly didn't touch hmm_vma_fault() and break_ksm() because they do
+> not handle VM_FAULT_RETRY even with existing code, so I'm literally keeping
+> them as-is.
+>
+> Signed-off-by: Peter Xu<peterx@redhat.com>
+> ---
+>
+> v3:
+> - Rebase to akpm/mm-unstable
+> - Copy arch maintainers
+> ---
+>    arch/arc/mm/fault.c           |  4 ++++
+
+Acked-by: Vineet Gupta <vgupta@kernel.org>
+
+Thx,
+-Vineet
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
