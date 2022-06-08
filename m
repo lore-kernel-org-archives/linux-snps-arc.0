@@ -4,187 +4,159 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 849F6CCA47B
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jun 2022 15:06:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0304C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jun 2022 15:51:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
-	From:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=xQtw97UWXCEN/bt6DLwEJatvR3Nf6W6YkaB46syhi6s=; b=XUthgUQAZ0Bpd/
-	Nvkm6fROGdkcgefNoIENHeZGxTmM+eb+NMLb+6WuO7LH0xi2VL4s/qqE4Lilm/oLbUDZjN1XGQR08
-	ad+SH23OkCWTgwmopZ0cr7jbacMfsWYdQTDv7FrrpAV2o6P99QNfVfbIeUdnGzqAEYlnEigCgkdyh
-	2yyPPZOhXuyJ71tILH23jKwRf+V01q1ikeNXO8qamus5Am1eEiA/T+1MyZABfZHzUAl8MNTpH2zNN
-	gU9SfW/0K3Ru06pQQ8NBAuGhDVrr3YcE7h5GVd5WnURgXq7I99Kcv81UqD0HnA0YJw1pMMtrrvIBI
-	e3lYaKL/X7+4Fdn2FKCw==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=C2mz5ER2qds/mk40J10TOCeNi9JC5BE7oXq4/cKvbA4=; b=D+Guiwmz1D7nsU
+	vIkSiVPj9shQCk6Doyvou/2SWxvrJYnNiBVG4v0YMs3wAGSI19Y5emv5nbRVbcyvfr4zHlwPGCSrY
+	fvMOAUSdTYvJYv8Ah5mZUhJ+8wmmKEBPPMR77w+O5Q0DmcSGdYoHgpR5PeGqjWh6mign5CnaPKGTl
+	3Nggewhz5qrPU8KnjgonySG1JrO1zo2hzYsgEDg90qADK7z+mMQ2Ol/Ictfx+yLCkwIRb2V3x1dZ+
+	+Ob0cD1wHR0fMDRKG5HL8b5YrUcyZTYqOQV6zuV8QN+ghIZEJ59s3bCWfi43V/YuhgM7uCZNi4tg9
+	jxISPcTrdryrUeyCt4Cw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nyxGO-00DuWG-IR; Wed, 08 Jun 2022 15:06:28 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1nyxxr-00E8Fo-6z; Wed, 08 Jun 2022 15:51:23 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nyxGI-00DuKH-Pg; Wed, 08 Jun 2022 15:06:22 +0000
+	id 1nyxvA-00E6uY-3m; Wed, 08 Jun 2022 15:48:36 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:References:
-	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:In-Reply-To;
-	bh=nZ3sIP+AfjwnKNI5o4cLuwY0yE/41XdF+GjWsz9OuTg=; b=rY0rNdiivLzvGTKxHIjKArJtGv
-	JQMkawTJj8SQEqtEJ3xPCf08PRNkIpqEuLBTMQig+GuhSmxqEeLxY3bBYBSL1InjLeSRd7FuiBfFT
-	ff8s0zfY7cn4ya1+C/p5LG6pommI01eYjXpKZ5a0O8ke3WwQmE3MEvmTU5SP1xjU/1b8dlkt8zdBB
-	dfl1YfdLv5JzxR/V9IHBzV1JRXdilUsvPgqYGue8e4FFC4bu+f9F4ROYoUtE/n02AU4fyepgF1L3B
-	VBo784ESh/4eySw45ErTG5Vm1/QFi4Ovz8KTGnWPg9jP5ZuBq92Wq48RzyoKTm6W2zDIfJ6TRHldf
-	0pxIbpdQ==;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=wkrvwwo/ehTnPQ2GyODy/ZpUUMe6HOjJCITHLe45W7c=; b=PhHp+PJmr+2T6rnBijz+YHTCqo
+	Q3sRs0kB+1HF2TzaTXkAa8+nJlCba8qwWkYHuYUvJIz6d+sUwN3QATDRrp6HkFJtxuDUGlK2esQFG
+	B6FqhNDw4mzKWIndiKngqO5+uVumTrnZhLB4eRFSER0mlLEnLKmACyt/N0zRX6B8QnMdEd1jF93Qv
+	+F3wXq8WpQgBGoI9TYubNiobTj3byuz+cOLmJDoCRAcPPkDwjHQiqUYBc/eVlZdt6y9xI16C13ivT
+	9RycLHrYGa8XbNQes8S9gNmrNcQe8ImgWY0Ct9y735wKSNGr9BXQRTA4U6CQXwwbi/h2tLQ2WHupK
+	g4TPoOhQ==;
 Received: from dhcp-077-249-017-003.chello.nl ([77.249.17.3] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nywx6-0066DZ-9s; Wed, 08 Jun 2022 14:46:33 +0000
+	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1nyxuv-00ClXO-Bt; Wed, 08 Jun 2022 15:48:21 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D3AE2302F39;
-	Wed,  8 Jun 2022 16:46:23 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id B05F720C119A8; Wed,  8 Jun 2022 16:46:18 +0200 (CEST)
-Message-ID: <20220608144517.759631860@infradead.org>
-User-Agent: quilt/0.66
-Date: Wed, 08 Jun 2022 16:27:52 +0200
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 1781E301093;
+	Wed,  8 Jun 2022 17:48:17 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+	id F027020C0D33A; Wed,  8 Jun 2022 17:48:16 +0200 (CEST)
+Date: Wed, 8 Jun 2022 17:48:16 +0200
 From: Peter Zijlstra <peterz@infradead.org>
-To: peterz@infradead.org
-Cc: rth@twiddle.net,
- ink@jurassic.park.msu.ru,
- mattst88@gmail.com,
- vgupta@kernel.org,
- linux@armlinux.org.uk,
- ulli.kroll@googlemail.com,
- linus.walleij@linaro.org,
- shawnguo@kernel.org,
- Sascha Hauer <s.hauer@pengutronix.de>,
- kernel@pengutronix.de,
- festevam@gmail.com,
- linux-imx@nxp.com,
- tony@atomide.com,
- khilman@kernel.org,
- catalin.marinas@arm.com,
- will@kernel.org,
- guoren@kernel.org,
- bcain@quicinc.com,
- chenhuacai@kernel.org,
- kernel@xen0n.name,
- geert@linux-m68k.org,
- sammy@sammy.net,
- monstr@monstr.eu,
- tsbogend@alpha.franken.de,
- dinguyen@kernel.org,
- jonas@southpole.se,
- stefan.kristiansson@saunalahti.fi,
- shorne@gmail.com,
- James.Bottomley@HansenPartnership.com,
- deller@gmx.de,
- mpe@ellerman.id.au,
- benh@kernel.crashing.org,
- paulus@samba.org,
- paul.walmsley@sifive.com,
- palmer@dabbelt.com,
- aou@eecs.berkeley.edu,
- hca@linux.ibm.com,
- gor@linux.ibm.com,
- agordeev@linux.ibm.com,
- borntraeger@linux.ibm.com,
- svens@linux.ibm.com,
- ysato@users.sourceforge.jp,
- dalias@libc.org,
- davem@davemloft.net,
- richard@nod.at,
- anton.ivanov@cambridgegreys.com,
- johannes@sipsolutions.net,
- tglx@linutronix.de,
- mingo@redhat.com,
- bp@alien8.de,
- dave.hansen@linux.intel.com,
- x86@kernel.org,
- hpa@zytor.com,
- acme@kernel.org,
- mark.rutland@arm.com,
- alexander.shishkin@linux.intel.com,
- jolsa@kernel.org,
- namhyung@kernel.org,
- jgross@suse.com,
- srivatsa@csail.mit.edu,
- amakhalov@vmware.com,
- pv-drivers@vmware.com,
- boris.ostrovsky@oracle.com,
- chris@zankel.net,
- jcmvbkbc@gmail.com,
- rafael@kernel.org,
- lenb@kernel.org,
- pavel@ucw.cz,
- gregkh@linuxfoundation.org,
- mturquette@baylibre.com,
- sboyd@kernel.org,
- daniel.lezcano@linaro.org,
- lpieralisi@kernel.org,
- sudeep.holla@arm.com,
- agross@kernel.org,
- bjorn.andersson@linaro.org,
- anup@brainfault.org,
- thierry.reding@gmail.com,
- jonathanh@nvidia.com,
- jacob.jun.pan@linux.intel.com,
- Arnd Bergmann <arnd@arndb.de>,
- yury.norov@gmail.com,
- andriy.shevchenko@linux.intel.com,
- linux@rasmusvillemoes.dk,
- rostedt@goodmis.org,
- pmladek@suse.com,
- senozhatsky@chromium.org,
- john.ogness@linutronix.de,
- paulmck@kernel.org,
- frederic@kernel.org,
- quic_neeraju@quicinc.com,
- josh@joshtriplett.org,
- mathieu.desnoyers@efficios.com,
- jiangshanlai@gmail.com,
- joel@joelfernandes.org,
- juri.lelli@redhat.com,
- vincent.guittot@linaro.org,
- dietmar.eggemann@arm.com,
- bsegall@google.com,
- mgorman@suse.de,
- bristot@redhat.com,
- vschneid@redhat.com,
- jpoimboe@kernel.org,
- linux-alpha@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- linux-omap@vger.kernel.org,
- linux-csky@vger.kernel.org,
- linux-hexagon@vger.kernel.org,
- linux-ia64@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org,
- openrisc@lists.librecores.org,
- linux-parisc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org,
- sparclinux@vger.kernel.org,
- linux-um@lists.infradead.org,
- linux-perf-users@vger.kernel.org,
- virtualization@lists.linux-foundation.org,
- xen-devel@lists.xenproject.org,
- linux-xtensa@linux-xtensa.org,
- linux-acpi@vger.kernel.org,
- linux-pm@vger.kernel.org,
- linux-clk@vger.kernel.org,
- linux-arm-msm@vger.kernel.org,
- linux-tegra@vger.kernel.org,
- linux-arch@vger.kernel.org,
- rcu@vger.kernel.org
-Subject: [PATCH 29/36] cpuidle,xenpv: Make more PARAVIRT_XXL noinstr clean
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: rth@twiddle.net, ink@jurassic.park.msu.ru, mattst88@gmail.com,
+	vgupta@kernel.org, Russell King - ARM Linux <linux@armlinux.org.uk>,
+	ulli.kroll@googlemail.com, Linus Walleij <linus.walleij@linaro.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Sascha Hauer <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	dl-linux-imx <linux-imx@nxp.com>, Tony Lindgren <tony@atomide.com>,
+	Kevin Hilman <khilman@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
+	bcain@quicinc.com, Huacai Chen <chenhuacai@kernel.org>,
+	kernel@xen0n.name, Geert Uytterhoeven <geert@linux-m68k.org>,
+	sammy@sammy.net, Michal Simek <monstr@monstr.eu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	dinguyen@kernel.org, jonas@southpole.se,
+	stefan.kristiansson@saunalahti.fi,
+	Stafford Horne <shorne@gmail.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Paul Mackerras <paulus@samba.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>, David Miller <davem@davemloft.net>,
+	Richard Weinberger <richard@nod.at>,
+	anton.ivanov@cambridgegreys.com,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	the arch/x86 maintainers <x86@kernel.org>,
+	"H. Peter Anvin" <hpa@zytor.com>, acme@kernel.org,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	jolsa@kernel.org, namhyung@kernel.org,
+	Juergen Gross <jgross@suse.com>, srivatsa@csail.mit.edu,
+	amakhalov@vmware.com, pv-drivers@vmware.com,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>, chris@zankel.net,
+	jcmvbkbc@gmail.com, Len Brown <lenb@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>, lpieralisi@kernel.org,
+	Sudeep Holla <sudeep.holla@arm.com>, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <bjorn.andersson@linaro.org>,
+	Anup Patel <anup@brainfault.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jon Hunter <jonathanh@nvidia.com>,
+	Jacob Pan <jacob.jun.pan@linux.intel.com>,
+	Arnd Bergmann <arnd@arndb.de>, Yury Norov <yury.norov@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Petr Mladek <pmladek@suse.com>, senozhatsky@chromium.org,
+	John Ogness <john.ogness@linutronix.de>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>, quic_neeraju@quicinc.com,
+	Josh Triplett <josh@joshtriplett.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Benjamin Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Daniel Bristot de Oliveira <bristot@redhat.com>,
+	vschneid@redhat.com, jpoimboe@kernel.org,
+	linux-alpha@vger.kernel.org,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-snps-arc@lists.infradead.org,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	Linux OMAP Mailing List <linux-omap@vger.kernel.org>,
+	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+	linux-ia64@vger.kernel.org,
+	linux-m68k <linux-m68k@lists.linux-m68k.org>,
+	"open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+	openrisc@lists.librecores.org,
+	Parisc List <linux-parisc@vger.kernel.org>,
+	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+	linux-riscv <linux-riscv@lists.infradead.org>,
+	linux-s390@vger.kernel.org,
+	Linux-sh list <linux-sh@vger.kernel.org>,
+	sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+	linux-perf-users@vger.kernel.org,
+	virtualization@lists.linux-foundation.org,
+	xen-devel@lists.xenproject.org, linux-xtensa@linux-xtensa.org,
+	ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+	Linux PM <linux-pm@vger.kernel.org>,
+	linux-clk <linux-clk@vger.kernel.org>,
+	linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+	linux-tegra <linux-tegra@vger.kernel.org>,
+	linux-arch <linux-arch@vger.kernel.org>, rcu@vger.kernel.org
+Subject: Re: [PATCH 04/36] cpuidle,intel_idle: Fix CPUIDLE_FLAG_IRQ_ENABLE
+Message-ID: <YqDEwMDSL1YXdHFH@hirez.programming.kicks-ass.net>
 References: <20220608142723.103523089@infradead.org>
+ <20220608144516.172460444@infradead.org>
+ <CAJZ5v0gW-zD8Mgghy70f3rFz0QoozCwZ9idyrqtFgA6SWHK5XQ@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAJZ5v0gW-zD8Mgghy70f3rFz0QoozCwZ9idyrqtFgA6SWHK5XQ@mail.gmail.com>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -201,141 +173,29 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-vmlinux.o: warning: objtool: acpi_idle_enter_s2idle+0xde: call to wbinvd() leaves .noinstr.text section
-vmlinux.o: warning: objtool: default_idle+0x4: call to arch_safe_halt() leaves .noinstr.text section
-vmlinux.o: warning: objtool: xen_safe_halt+0xa: call to HYPERVISOR_sched_op.constprop.0() leaves .noinstr.text section
+On Wed, Jun 08, 2022 at 05:01:05PM +0200, Rafael J. Wysocki wrote:
+> On Wed, Jun 8, 2022 at 4:47 PM Peter Zijlstra <peterz@infradead.org> wrote:
+> >
+> > Commit c227233ad64c ("intel_idle: enable interrupts before C1 on
+> > Xeons") wrecked intel_idle in two ways:
+> >
+> >  - must not have tracing in idle functions
+> >  - must return with IRQs disabled
+> >
+> > Additionally, it added a branch for no good reason.
+> >
+> > Fixes: c227233ad64c ("intel_idle: enable interrupts before C1 on Xeons")
+> > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> 
+> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> 
+> And do I think correctly that this can be applied without the rest of
+> the series?
 
-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
----
- arch/x86/include/asm/paravirt.h      |    6 ++++--
- arch/x86/include/asm/special_insns.h |    4 ++--
- arch/x86/include/asm/xen/hypercall.h |    2 +-
- arch/x86/kernel/paravirt.c           |   14 ++++++++++++--
- arch/x86/xen/enlighten_pv.c          |    2 +-
- arch/x86/xen/irq.c                   |    2 +-
- 6 files changed, 21 insertions(+), 9 deletions(-)
+Yeah, I don't think this relies on any of the preceding patches. If you
+want to route this through the pm/fixes tree that's fine.
 
---- a/arch/x86/include/asm/paravirt.h
-+++ b/arch/x86/include/asm/paravirt.h
-@@ -168,7 +168,7 @@ static inline void __write_cr4(unsigned
- 	PVOP_VCALL1(cpu.write_cr4, x);
- }
- 
--static inline void arch_safe_halt(void)
-+static __always_inline void arch_safe_halt(void)
- {
- 	PVOP_VCALL0(irq.safe_halt);
- }
-@@ -178,7 +178,9 @@ static inline void halt(void)
- 	PVOP_VCALL0(irq.halt);
- }
- 
--static inline void wbinvd(void)
-+extern noinstr void pv_native_wbinvd(void);
-+
-+static __always_inline void wbinvd(void)
- {
- 	PVOP_ALT_VCALL0(cpu.wbinvd, "wbinvd", ALT_NOT(X86_FEATURE_XENPV));
- }
---- a/arch/x86/include/asm/special_insns.h
-+++ b/arch/x86/include/asm/special_insns.h
-@@ -115,7 +115,7 @@ static inline void wrpkru(u32 pkru)
- }
- #endif
- 
--static inline void native_wbinvd(void)
-+static __always_inline void native_wbinvd(void)
- {
- 	asm volatile("wbinvd": : :"memory");
- }
-@@ -179,7 +179,7 @@ static inline void __write_cr4(unsigned
- 	native_write_cr4(x);
- }
- 
--static inline void wbinvd(void)
-+static __always_inline void wbinvd(void)
- {
- 	native_wbinvd();
- }
---- a/arch/x86/include/asm/xen/hypercall.h
-+++ b/arch/x86/include/asm/xen/hypercall.h
-@@ -382,7 +382,7 @@ MULTI_stack_switch(struct multicall_entr
- }
- #endif
- 
--static inline int
-+static __always_inline int
- HYPERVISOR_sched_op(int cmd, void *arg)
- {
- 	return _hypercall2(int, sched_op, cmd, arg);
---- a/arch/x86/kernel/paravirt.c
-+++ b/arch/x86/kernel/paravirt.c
-@@ -233,6 +233,11 @@ static noinstr void pv_native_set_debugr
- 	native_set_debugreg(regno, val);
- }
- 
-+noinstr void pv_native_wbinvd(void)
-+{
-+	native_wbinvd();
-+}
-+
- static noinstr void pv_native_irq_enable(void)
- {
- 	native_irq_enable();
-@@ -242,6 +247,11 @@ static noinstr void pv_native_irq_disabl
- {
- 	native_irq_disable();
- }
-+
-+static noinstr void pv_native_safe_halt(void)
-+{
-+	native_safe_halt();
-+}
- #endif
- 
- enum paravirt_lazy_mode paravirt_get_lazy_mode(void)
-@@ -273,7 +283,7 @@ struct paravirt_patch_template pv_ops =
- 	.cpu.read_cr0		= native_read_cr0,
- 	.cpu.write_cr0		= native_write_cr0,
- 	.cpu.write_cr4		= native_write_cr4,
--	.cpu.wbinvd		= native_wbinvd,
-+	.cpu.wbinvd		= pv_native_wbinvd,
- 	.cpu.read_msr		= native_read_msr,
- 	.cpu.write_msr		= native_write_msr,
- 	.cpu.read_msr_safe	= native_read_msr_safe,
-@@ -307,7 +317,7 @@ struct paravirt_patch_template pv_ops =
- 	.irq.save_fl		= __PV_IS_CALLEE_SAVE(native_save_fl),
- 	.irq.irq_disable	= __PV_IS_CALLEE_SAVE(pv_native_irq_disable),
- 	.irq.irq_enable		= __PV_IS_CALLEE_SAVE(pv_native_irq_enable),
--	.irq.safe_halt		= native_safe_halt,
-+	.irq.safe_halt		= pv_native_safe_halt,
- 	.irq.halt		= native_halt,
- #endif /* CONFIG_PARAVIRT_XXL */
- 
---- a/arch/x86/xen/enlighten_pv.c
-+++ b/arch/x86/xen/enlighten_pv.c
-@@ -1019,7 +1019,7 @@ static const typeof(pv_ops) xen_cpu_ops
- 
- 		.write_cr4 = xen_write_cr4,
- 
--		.wbinvd = native_wbinvd,
-+		.wbinvd = pv_native_wbinvd,
- 
- 		.read_msr = xen_read_msr,
- 		.write_msr = xen_write_msr,
---- a/arch/x86/xen/irq.c
-+++ b/arch/x86/xen/irq.c
-@@ -24,7 +24,7 @@ noinstr void xen_force_evtchn_callback(v
- 	(void)HYPERVISOR_xen_version(0, NULL);
- }
- 
--static void xen_safe_halt(void)
-+static noinstr void xen_safe_halt(void)
- {
- 	/* Blocking includes an implicit local_irq_enable(). */
- 	if (HYPERVISOR_sched_op(SCHEDOP_block, NULL) != 0)
-
-
+Thanks!
 
 _______________________________________________
 linux-snps-arc mailing list
