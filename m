@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 72E60CCA483
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jun 2022 14:48:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C0B1CCA49B
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jun 2022 14:48:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
 	From:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=3gF+gfgm3ppjmfd9O2ERSv8WSjqhWOl5HoMv60mCP78=; b=byXJdAILBBLufY
-	RJ/C4X0274ZNbhGMW3cBNF1ZVn4PMLCDQm3Nl4wF88n6dXUsLnvXRpdTJTZF2u+Uy6g8euDKVTtjv
-	9uEuMY8syDQwawjtJcFiUYE/zfAQx4l66wkM21uPnVyjiFPFOiS79BZm2/RuiNgBO44fW9JhkayCL
-	rmG1Lx/swolGdZxByvl9kXXrEWfelJ8UobKpiJrnCM7SqwylmJppezI7XLwXU5lepKCG+s1QfoT6L
-	2Ib9qPCcSiFVnsLAiZ6Z27kRP8Gr9Ws/9WPC+F+uS12pYygolzNnff/0+H2u2jAhG4XznkTVKaYuM
-	yFDP3g3kJ4atw8nU1ynw==;
+	List-Owner; bh=GmpNz1nPThOCsVJroqFsnsJ6kIaARUhYH0tV8FaPkaA=; b=qAILsnGYViASBC
+	EV+oztjfZV7pPKet123DuoKb6zPw179XYB2/qk91pnyfP1IvIple/F6Lelh0li/Id96u/1MU7WD/i
+	43tD03rSncKFEZe30H+9mMIhQImq4qYejju/HHzuRIaLFtqzEJrRgBwLO06HgxKJ/mY/ZRPc/C3Pt
+	h5wT6cp+HOJ75fq67riZBFkpJLxMeitKT5tBKqp+rbpbY7RKCBS6APlzu2iHrfiOpTsggKu6vYArD
+	52DUxM+V/lQPqmmKwlrkC1LPCypbV6lBfyfFn7EaajTsjtaYt7CKWBjLOsqJGArxY1Lg0LXYKOZ3J
+	e6A4qFzjzkYtzJWno4fg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nywz4-00DlV6-BD; Wed, 08 Jun 2022 14:48:34 +0000
-Received: from casper.infradead.org ([90.155.50.34])
+	id 1nywz5-00DlW1-2t; Wed, 08 Jun 2022 14:48:35 +0000
+Received: from desiato.infradead.org ([90.155.92.199])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nywxA-00Dk7S-5T; Wed, 08 Jun 2022 14:46:36 +0000
+	id 1nywxD-00DkAn-O6; Wed, 08 Jun 2022 14:46:39 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:References:
+	d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:References:
 	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:In-Reply-To;
-	bh=y6I/0XZeW+SwdAeAR3t2m034incS08IQBnZfBcNKYzA=; b=pV/EkEgKRIpeKvq5HN3+CCEy73
-	r8xSxfvRwX0Hp/RbmQEkGGqgtSQmt2V7wVKm/Dgh7gCxT8VN3Zd3ykv33oYJXDZhFrsOiZzgqwZwN
-	mYfnoNbn4mkY4D0X7knpoC+PXyRY28u9ZWLLFNEC02wY4oKlFNPo5yScw7t5dA1Upkyps4KrRMpkG
-	hdfHf70HVdGxmq1amZj2pji0fv+Uuwf5Bh2HdSJMzH66/m6rsKuia+FhR3TxjdKwxLuBcApt1D03J
-	veIlHyJOTL69bf8GkRxQ0BEOGIuKD5pe0mKmy/Kj0wSR+O/rPyAwmL/tyBM+mm2nltdjhcArwd3n8
-	F0v7I28w==;
+	bh=tnA3wPqNh+XrpwQVOnpJL5IWoR32uxOYSq9ZeZNPVI0=; b=E6cr+j5sSXZ8GGphavK9qnd7+N
+	nSY0hCAsEVgofgOUTaPMjXeH9fBrlzJVRkmzWwePjKPAgQD+c7y/qDFJlPV1JWEjs5+fD3YShsNI1
+	amqZHcD/4E577ioc5qBMYzKqejMRhgd3CALXdnfS65RmjQjuUT0GnljmbHD+8OcdekhOIlhyPeiiK
+	EgjVG7WYEO4Ln23h4oHtnHs6IWQNkcQvoDLhNBYPXyCcxELae17cJVba2SVQa9lUVbBg+lwGZuS0G
+	24S8FrujRWom0XP3cd9BaFyIXDHECD/BF/vy/d1gw8+LeZJSYxH1bc9JwiizKACgIho7RnJP8/1Ao
+	tQpHp77w==;
 Received: from dhcp-077-249-017-003.chello.nl ([77.249.17.3] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nywwz-00ChW4-1y; Wed, 08 Jun 2022 14:46:25 +0000
+	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1nywwz-0066Be-OR; Wed, 08 Jun 2022 14:46:26 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id AC095302D9E;
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id E0912302E3B;
 	Wed,  8 Jun 2022 16:46:22 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id 598CC20C0FC8A; Wed,  8 Jun 2022 16:46:18 +0200 (CEST)
-Message-ID: <20220608144516.426117259@infradead.org>
+	id 71E0D20C10EAA; Wed,  8 Jun 2022 16:46:18 +0200 (CEST)
+Message-ID: <20220608144516.808451191@infradead.org>
 User-Agent: quilt/0.66
-Date: Wed, 08 Jun 2022 16:27:31 +0200
+Date: Wed, 08 Jun 2022 16:27:37 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: rth@twiddle.net,
@@ -182,7 +182,7 @@ Cc: rth@twiddle.net,
  linux-tegra@vger.kernel.org,
  linux-arch@vger.kernel.org,
  rcu@vger.kernel.org
-Subject: [PATCH 08/36] cpuidle,psci: Push RCU-idle into driver
+Subject: [PATCH 14/36] cpuidle: Fix rcu_idle_*() usage
 References: <20220608142723.103523089@infradead.org>
 MIME-Version: 1.0
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -201,54 +201,464 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Doing RCU-idle outside the driver, only to then temporarily enable it
-again, at least twice, before going idle is daft.
+The whole disable-RCU, enable-IRQS dance is very intricate since
+changing IRQ state is traced, which depends on RCU.
+
+Add two helpers for the cpuidle case that mirror the entry code.
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
- drivers/cpuidle/cpuidle-psci.c |    9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ arch/arm/mach-imx/cpuidle-imx6q.c    |    4 +--
+ arch/arm/mach-imx/cpuidle-imx6sx.c   |    4 +--
+ arch/arm/mach-omap2/cpuidle34xx.c    |    4 +--
+ arch/arm/mach-omap2/cpuidle44xx.c    |    8 +++---
+ drivers/acpi/processor_idle.c        |   18 ++++++++------
+ drivers/cpuidle/cpuidle-big_little.c |    4 +--
+ drivers/cpuidle/cpuidle-mvebu-v7.c   |    4 +--
+ drivers/cpuidle/cpuidle-psci.c       |    4 +--
+ drivers/cpuidle/cpuidle-riscv-sbi.c  |    4 +--
+ drivers/cpuidle/cpuidle-tegra.c      |    8 +++---
+ drivers/cpuidle/cpuidle.c            |   11 ++++----
+ include/linux/cpuidle.h              |   37 +++++++++++++++++++++++++---
+ kernel/sched/idle.c                  |   45 ++++++++++-------------------------
+ kernel/time/tick-broadcast.c         |    6 +++-
+ 14 files changed, 90 insertions(+), 71 deletions(-)
 
---- a/drivers/cpuidle/cpuidle-psci.c
-+++ b/drivers/cpuidle/cpuidle-psci.c
-@@ -69,12 +69,12 @@ static int __psci_enter_domain_idle_stat
- 		return -1;
+--- a/arch/arm/mach-imx/cpuidle-imx6q.c
++++ b/arch/arm/mach-imx/cpuidle-imx6q.c
+@@ -24,9 +24,9 @@ static int imx6q_enter_wait(struct cpuid
+ 		imx6_set_lpm(WAIT_UNCLOCKED);
+ 	raw_spin_unlock(&cpuidle_lock);
  
- 	/* Do runtime PM to manage a hierarchical CPU toplogy. */
--	rcu_irq_enter_irqson();
- 	if (s2idle)
- 		dev_pm_genpd_suspend(pd_dev);
- 	else
- 		pm_runtime_put_sync_suspend(pd_dev);
--	rcu_irq_exit_irqson();
+-	rcu_idle_enter();
++	cpuidle_rcu_enter();
+ 	cpu_do_idle();
+-	rcu_idle_exit();
++	cpuidle_rcu_exit();
+ 
+ 	raw_spin_lock(&cpuidle_lock);
+ 	if (num_idle_cpus-- == num_online_cpus())
+--- a/arch/arm/mach-imx/cpuidle-imx6sx.c
++++ b/arch/arm/mach-imx/cpuidle-imx6sx.c
+@@ -47,9 +47,9 @@ static int imx6sx_enter_wait(struct cpui
+ 		cpu_pm_enter();
+ 		cpu_cluster_pm_enter();
+ 
+-		rcu_idle_enter();
++		cpuidle_rcu_enter();
+ 		cpu_suspend(0, imx6sx_idle_finish);
+-		rcu_idle_exit();
++		cpuidle_rcu_exit();
+ 
+ 		cpu_cluster_pm_exit();
+ 		cpu_pm_exit();
+--- a/arch/arm/mach-omap2/cpuidle34xx.c
++++ b/arch/arm/mach-omap2/cpuidle34xx.c
+@@ -133,9 +133,9 @@ static int omap3_enter_idle(struct cpuid
+ 	}
+ 
+ 	/* Execute ARM wfi */
+-	rcu_idle_enter();
++	cpuidle_rcu_enter();
+ 	omap_sram_idle();
+-	rcu_idle_exit();
++	cpuidle_rcu_exit();
+ 
+ 	/*
+ 	 * Call idle CPU PM enter notifier chain to restore
+--- a/arch/arm/mach-omap2/cpuidle44xx.c
++++ b/arch/arm/mach-omap2/cpuidle44xx.c
+@@ -105,9 +105,9 @@ static int omap_enter_idle_smp(struct cp
+ 	}
+ 	raw_spin_unlock_irqrestore(&mpu_lock, flag);
+ 
+-	rcu_idle_enter();
++	cpuidle_rcu_enter();
+ 	omap4_enter_lowpower(dev->cpu, cx->cpu_state);
+-	rcu_idle_exit();
++	cpuidle_rcu_exit();
+ 
+ 	raw_spin_lock_irqsave(&mpu_lock, flag);
+ 	if (cx->mpu_state_vote == num_online_cpus())
+@@ -186,10 +186,10 @@ static int omap_enter_idle_coupled(struc
+ 		}
+ 	}
+ 
+-	rcu_idle_enter();
++	cpuidle_rcu_enter();
+ 	omap4_enter_lowpower(dev->cpu, cx->cpu_state);
+ 	cpu_done[dev->cpu] = true;
+-	rcu_idle_exit();
++	cpuidle_rcu_exit();
+ 
+ 	/* Wakeup CPU1 only if it is not offlined */
+ 	if (dev->cpu == 0 && cpumask_test_cpu(1, cpu_online_mask)) {
+--- a/drivers/acpi/processor_idle.c
++++ b/drivers/acpi/processor_idle.c
+@@ -607,7 +607,7 @@ static DEFINE_RAW_SPINLOCK(c3_lock);
+  * @cx: Target state context
+  * @index: index of target state
+  */
+-static int acpi_idle_enter_bm(struct cpuidle_driver *drv,
++static noinstr int acpi_idle_enter_bm(struct cpuidle_driver *drv,
+ 			       struct acpi_processor *pr,
+ 			       struct acpi_processor_cx *cx,
+ 			       int index)
+@@ -626,6 +626,8 @@ static int acpi_idle_enter_bm(struct cpu
+ 	 */
+ 	bool dis_bm = pr->flags.bm_control;
+ 
++	instrumentation_begin();
 +
-+	rcu_idle_enter();
+ 	/* If we can skip BM, demote to a safe state. */
+ 	if (!cx->bm_sts_skip && acpi_idle_bm_check()) {
+ 		dis_bm = false;
+@@ -647,11 +649,11 @@ static int acpi_idle_enter_bm(struct cpu
+ 		raw_spin_unlock(&c3_lock);
+ 	}
  
- 	state = psci_get_domain_state();
- 	if (!state)
-@@ -82,12 +82,12 @@ static int __psci_enter_domain_idle_stat
+-	rcu_idle_enter();
++	cpuidle_rcu_enter();
  
- 	ret = psci_cpu_suspend_enter(state) ? -1 : idx;
+ 	acpi_idle_do_entry(cx);
  
--	rcu_irq_enter_irqson();
-+	rcu_idle_exit();
+-	rcu_idle_exit();
++	cpuidle_rcu_exit();
+ 
+ 	/* Re-enable bus master arbitration */
+ 	if (dis_bm) {
+@@ -661,11 +663,13 @@ static int acpi_idle_enter_bm(struct cpu
+ 		raw_spin_unlock(&c3_lock);
+ 	}
+ 
++	instrumentation_end();
 +
- 	if (s2idle)
- 		dev_pm_genpd_resume(pd_dev);
- 	else
- 		pm_runtime_get_sync(pd_dev);
--	rcu_irq_exit_irqson();
+ 	return index;
+ }
+ 
+-static int acpi_idle_enter(struct cpuidle_device *dev,
+-			   struct cpuidle_driver *drv, int index)
++static noinstr int acpi_idle_enter(struct cpuidle_device *dev,
++				   struct cpuidle_driver *drv, int index)
+ {
+ 	struct acpi_processor_cx *cx = per_cpu(acpi_cstate[index], dev->cpu);
+ 	struct acpi_processor *pr;
+@@ -693,8 +697,8 @@ static int acpi_idle_enter(struct cpuidl
+ 	return index;
+ }
+ 
+-static int acpi_idle_enter_s2idle(struct cpuidle_device *dev,
+-				  struct cpuidle_driver *drv, int index)
++static noinstr int acpi_idle_enter_s2idle(struct cpuidle_device *dev,
++					  struct cpuidle_driver *drv, int index)
+ {
+ 	struct acpi_processor_cx *cx = per_cpu(acpi_cstate[index], dev->cpu);
+ 
+--- a/drivers/cpuidle/cpuidle-big_little.c
++++ b/drivers/cpuidle/cpuidle-big_little.c
+@@ -126,13 +126,13 @@ static int bl_enter_powerdown(struct cpu
+ 				struct cpuidle_driver *drv, int idx)
+ {
+ 	cpu_pm_enter();
+-	rcu_idle_enter();
++	cpuidle_rcu_enter();
+ 
+ 	cpu_suspend(0, bl_powerdown_finisher);
+ 
+ 	/* signals the MCPM core that CPU is out of low power state */
+ 	mcpm_cpu_powered_up();
+-	rcu_idle_exit();
++	cpuidle_rcu_exit();
  
  	cpu_pm_exit();
  
-@@ -240,6 +240,7 @@ static int psci_dt_cpu_init_topology(str
- 	 * of a shared state for the domain, assumes the domain states are all
- 	 * deeper states.
+--- a/drivers/cpuidle/cpuidle-mvebu-v7.c
++++ b/drivers/cpuidle/cpuidle-mvebu-v7.c
+@@ -36,9 +36,9 @@ static int mvebu_v7_enter_idle(struct cp
+ 	if (drv->states[index].flags & MVEBU_V7_FLAG_DEEP_IDLE)
+ 		deepidle = true;
+ 
+-	rcu_idle_enter();
++	cpuidle_rcu_enter();
+ 	ret = mvebu_v7_cpu_suspend(deepidle);
+-	rcu_idle_exit();
++	cpuidle_rcu_exit();
+ 
+ 	cpu_pm_exit();
+ 
+--- a/drivers/cpuidle/cpuidle-psci.c
++++ b/drivers/cpuidle/cpuidle-psci.c
+@@ -74,7 +74,7 @@ static int __psci_enter_domain_idle_stat
+ 	else
+ 		pm_runtime_put_sync_suspend(pd_dev);
+ 
+-	rcu_idle_enter();
++	cpuidle_rcu_enter();
+ 
+ 	state = psci_get_domain_state();
+ 	if (!state)
+@@ -82,7 +82,7 @@ static int __psci_enter_domain_idle_stat
+ 
+ 	ret = psci_cpu_suspend_enter(state) ? -1 : idx;
+ 
+-	rcu_idle_exit();
++	cpuidle_rcu_exit();
+ 
+ 	if (s2idle)
+ 		dev_pm_genpd_resume(pd_dev);
+--- a/drivers/cpuidle/cpuidle-riscv-sbi.c
++++ b/drivers/cpuidle/cpuidle-riscv-sbi.c
+@@ -121,7 +121,7 @@ static int __sbi_enter_domain_idle_state
+ 	else
+ 		pm_runtime_put_sync_suspend(pd_dev);
+ 
+-	rcu_idle_enter();
++	cpuidle_rcu_enter();
+ 
+ 	if (sbi_is_domain_state_available())
+ 		state = sbi_get_domain_state();
+@@ -130,7 +130,7 @@ static int __sbi_enter_domain_idle_state
+ 
+ 	ret = sbi_suspend(state) ? -1 : idx;
+ 
+-	rcu_idle_exit();
++	cpuidle_rcu_exit();
+ 
+ 	if (s2idle)
+ 		dev_pm_genpd_resume(pd_dev);
+--- a/drivers/cpuidle/cpuidle-tegra.c
++++ b/drivers/cpuidle/cpuidle-tegra.c
+@@ -183,7 +183,7 @@ static int tegra_cpuidle_state_enter(str
+ 	tegra_pm_set_cpu_in_lp2();
+ 	cpu_pm_enter();
+ 
+-	rcu_idle_enter();
++	cpuidle_rcu_enter();
+ 
+ 	switch (index) {
+ 	case TEGRA_C7:
+@@ -199,7 +199,7 @@ static int tegra_cpuidle_state_enter(str
+ 		break;
+ 	}
+ 
+-	rcu_idle_exit();
++	cpuidle_rcu_exit();
+ 
+ 	cpu_pm_exit();
+ 	tegra_pm_clear_cpu_in_lp2();
+@@ -240,10 +240,10 @@ static int tegra_cpuidle_enter(struct cp
+ 
+ 	if (index == TEGRA_C1) {
+ 		if (do_rcu)
+-			rcu_idle_enter();
++			cpuidle_rcu_enter();
+ 		ret = arm_cpuidle_simple_enter(dev, drv, index);
+ 		if (do_rcu)
+-			rcu_idle_exit();
++			cpuidle_rcu_exit();
+ 	} else
+ 		ret = tegra_cpuidle_state_enter(dev, index, cpu);
+ 
+--- a/drivers/cpuidle/cpuidle.c
++++ b/drivers/cpuidle/cpuidle.c
+@@ -13,6 +13,7 @@
+ #include <linux/mutex.h>
+ #include <linux/sched.h>
+ #include <linux/sched/clock.h>
++#include <linux/sched/idle.h>
+ #include <linux/notifier.h>
+ #include <linux/pm_qos.h>
+ #include <linux/cpu.h>
+@@ -150,12 +151,12 @@ static void enter_s2idle_proper(struct c
  	 */
-+	drv->states[state_count - 1].flags |= CPUIDLE_FLAG_RCU_IDLE;
- 	drv->states[state_count - 1].enter = psci_enter_domain_idle_state;
- 	drv->states[state_count - 1].enter_s2idle = psci_enter_s2idle_domain_idle_state;
- 	psci_cpuidle_use_cpuhp = true;
+ 	stop_critical_timings();
+ 	if (!(target_state->flags & CPUIDLE_FLAG_RCU_IDLE))
+-		rcu_idle_enter();
++		cpuidle_rcu_enter();
+ 	target_state->enter_s2idle(dev, drv, index);
+ 	if (WARN_ON_ONCE(!irqs_disabled()))
+-		local_irq_disable();
++		raw_local_irq_disable();
+ 	if (!(target_state->flags & CPUIDLE_FLAG_RCU_IDLE))
+-		rcu_idle_exit();
++		cpuidle_rcu_exit();
+ 	tick_unfreeze();
+ 	start_critical_timings();
+ 
+@@ -233,14 +234,14 @@ int cpuidle_enter_state(struct cpuidle_d
+ 
+ 	stop_critical_timings();
+ 	if (!(target_state->flags & CPUIDLE_FLAG_RCU_IDLE))
+-		rcu_idle_enter();
++		cpuidle_rcu_enter();
+ 
+ 	entered_state = target_state->enter(dev, drv, index);
+ 	if (WARN_ONCE(!irqs_disabled(), "%ps leaked IRQ state", target_state->enter))
+ 		raw_local_irq_disable();
+ 
+ 	if (!(target_state->flags & CPUIDLE_FLAG_RCU_IDLE))
+-		rcu_idle_exit();
++		cpuidle_rcu_exit();
+ 	start_critical_timings();
+ 
+ 	sched_clock_idle_wakeup_event();
+--- a/include/linux/cpuidle.h
++++ b/include/linux/cpuidle.h
+@@ -115,6 +115,35 @@ struct cpuidle_device {
+ DECLARE_PER_CPU(struct cpuidle_device *, cpuidle_devices);
+ DECLARE_PER_CPU(struct cpuidle_device, cpuidle_dev);
+ 
++static __always_inline void cpuidle_rcu_enter(void)
++{
++	lockdep_assert_irqs_disabled();
++	/*
++	 * Idle is allowed to (temporary) enable IRQs. It
++	 * will return with IRQs disabled.
++	 *
++	 * Trace IRQs enable here, then switch off RCU, and have
++	 * arch_cpu_idle() use raw_local_irq_enable(). Note that
++	 * rcu_idle_enter() relies on lockdep IRQ state, so switch that
++	 * last -- this is very similar to the entry code.
++	 */
++	trace_hardirqs_on_prepare();
++	lockdep_hardirqs_on_prepare();
++	instrumentation_end();
++	rcu_idle_enter();
++	lockdep_hardirqs_on(_THIS_IP_);
++}
++
++static __always_inline void cpuidle_rcu_exit(void)
++{
++	/*
++	 * Carefully undo the above.
++	 */
++	lockdep_hardirqs_off(_THIS_IP_);
++	rcu_idle_exit();
++	instrumentation_begin();
++}
++
+ /****************************
+  * CPUIDLE DRIVER INTERFACE *
+  ****************************/
+@@ -282,18 +311,18 @@ extern s64 cpuidle_governor_latency_req(
+ 	int __ret = 0;							\
+ 									\
+ 	if (!idx) {							\
+-		rcu_idle_enter();					\
++		cpuidle_rcu_enter();					\
+ 		cpu_do_idle();						\
+-		rcu_idle_exit();					\
++		cpuidle_rcu_exit();					\
+ 		return idx;						\
+ 	}								\
+ 									\
+ 	if (!is_retention)						\
+ 		__ret =  cpu_pm_enter();				\
+ 	if (!__ret) {							\
+-		rcu_idle_enter();					\
++		cpuidle_rcu_enter();					\
+ 		__ret = low_level_idle_enter(state);			\
+-		rcu_idle_exit();					\
++		cpuidle_rcu_exit();					\
+ 		if (!is_retention)					\
+ 			cpu_pm_exit();					\
+ 	}								\
+--- a/kernel/sched/idle.c
++++ b/kernel/sched/idle.c
+@@ -51,18 +51,22 @@ __setup("hlt", cpu_idle_nopoll_setup);
+ 
+ static noinline int __cpuidle cpu_idle_poll(void)
+ {
++	instrumentation_begin();
+ 	trace_cpu_idle(0, smp_processor_id());
+ 	stop_critical_timings();
+-	rcu_idle_enter();
+-	local_irq_enable();
++	cpuidle_rcu_enter();
+ 
++	raw_local_irq_enable();
+ 	while (!tif_need_resched() &&
+ 	       (cpu_idle_force_poll || tick_check_broadcast_expired()))
+ 		cpu_relax();
++	raw_local_irq_disable();
+ 
+-	rcu_idle_exit();
++	cpuidle_rcu_exit();
+ 	start_critical_timings();
+ 	trace_cpu_idle(PWR_EVENT_EXIT, smp_processor_id());
++	local_irq_enable();
++	instrumentation_end();
+ 
+ 	return 1;
+ }
+@@ -85,44 +89,21 @@ void __weak arch_cpu_idle(void)
+  */
+ void __cpuidle default_idle_call(void)
+ {
+-	if (current_clr_polling_and_test()) {
+-		local_irq_enable();
+-	} else {
+-
++	instrumentation_begin();
++	if (!current_clr_polling_and_test()) {
+ 		trace_cpu_idle(1, smp_processor_id());
+ 		stop_critical_timings();
+ 
+-		/*
+-		 * arch_cpu_idle() is supposed to enable IRQs, however
+-		 * we can't do that because of RCU and tracing.
+-		 *
+-		 * Trace IRQs enable here, then switch off RCU, and have
+-		 * arch_cpu_idle() use raw_local_irq_enable(). Note that
+-		 * rcu_idle_enter() relies on lockdep IRQ state, so switch that
+-		 * last -- this is very similar to the entry code.
+-		 */
+-		trace_hardirqs_on_prepare();
+-		lockdep_hardirqs_on_prepare();
+-		rcu_idle_enter();
+-		lockdep_hardirqs_on(_THIS_IP_);
+-
++		cpuidle_rcu_enter();
+ 		arch_cpu_idle();
+-
+-		/*
+-		 * OK, so IRQs are enabled here, but RCU needs them disabled to
+-		 * turn itself back on.. funny thing is that disabling IRQs
+-		 * will cause tracing, which needs RCU. Jump through hoops to
+-		 * make it 'work'.
+-		 */
+ 		raw_local_irq_disable();
+-		lockdep_hardirqs_off(_THIS_IP_);
+-		rcu_idle_exit();
+-		lockdep_hardirqs_on(_THIS_IP_);
+-		raw_local_irq_enable();
++		cpuidle_rcu_exit();
+ 
+ 		start_critical_timings();
+ 		trace_cpu_idle(PWR_EVENT_EXIT, smp_processor_id());
+ 	}
++	local_irq_enable();
++	instrumentation_end();
+ }
+ 
+ static int call_cpuidle_s2idle(struct cpuidle_driver *drv,
+--- a/kernel/time/tick-broadcast.c
++++ b/kernel/time/tick-broadcast.c
+@@ -622,9 +622,13 @@ struct cpumask *tick_get_broadcast_onesh
+  * to avoid a deep idle transition as we are about to get the
+  * broadcast IPI right away.
+  */
+-int tick_check_broadcast_expired(void)
++noinstr int tick_check_broadcast_expired(void)
+ {
++#ifdef _ASM_GENERIC_BITOPS_INSTRUMENTED_NON_ATOMIC_H
++	return arch_test_bit(smp_processor_id(), cpumask_bits(tick_broadcast_force_mask));
++#else
+ 	return cpumask_test_cpu(smp_processor_id(), tick_broadcast_force_mask);
++#endif
+ }
+ 
+ /*
 
 
 
