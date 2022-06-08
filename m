@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F960CCA47E
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jun 2022 14:48:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 835CBCCA487
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jun 2022 14:48:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
 	From:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=oxtoGiRvDqkuc6CKBrsy4xQZNAnKVc1n5Jy4U+yK+3I=; b=0O5Hkzoh33FTUl
-	wLmWdZkkzhmHb5Xb66XCczW8wUHzCrUr7p7WZ0rSb/OyYRvGtYitj758DMygovaojPoPTBOCdeI1V
-	csFFjKCA0R3CRmt67grMqMf/9U+DdHsqNHFiMd0wbWqcSXCHdGiZmh2p/N4DO9FPbA/4nGPC8pxJU
-	2tzX1QLlSkgkF+7qMsKt+lGl1+nIScjuZfjmZEtnGHjOtstHaeWmE2qMtjqJ6oNGP6D14pjcMD9pb
-	9LME4Re2eSp4ieX1gU1hR7t4QPParkCQdj8zr16yD7tqJfpAyN4L+lTz9RHYZ9gBIP7bntMkGjx5y
-	bKWBUla3YK0kFHbyDqCA==;
+	List-Owner; bh=w3212IFMOYk7Y62j86iSCh91NgULGoQcvjkYCWqmPtM=; b=FJWD5EcTKllRAa
+	ZM3LhvURO8ICWGn4immCUJIDDMfzru5Jc1D8CD7BWhmUEHibp9u+Tgm/WUc//I6VKXbGVwayBVMWE
+	gFjYLsTXT4tpt2xbD0YbuuYF/5/C4wvN0TKk6+PkfubOmVhVzP2zQRQEbjOy1vyhkmS6A0z0W+maO
+	le0J2xp8XZWr2LqXhaS7GZK7hYpd2K/czLGL5YldYT23dBJdIEagp1Zv8AQWeNLgAv8gHsJkHhP5m
+	4E5n7XiZJ7SE7ZbQetPHHhtq3kjIZZgGKWaGOpbu65YaFLWhLJY7opV0gFZ1T9TM7SKQuGTIIZiTB
+	1VJPz9l5KKVOjDH4rvlw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nywyv-00DlO1-N8; Wed, 08 Jun 2022 14:48:25 +0000
-Received: from casper.infradead.org ([90.155.50.34])
+	id 1nywyy-00DlQ0-S9; Wed, 08 Jun 2022 14:48:28 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nywxA-00Dk7P-5U; Wed, 08 Jun 2022 14:46:36 +0000
+	id 1nywx9-00Dk6s-9R; Wed, 08 Jun 2022 14:46:35 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:References:
 	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:In-Reply-To;
-	bh=RgIlqtYjjJdUiI+7wCmxTrS6x1kOK6pzGpl8Q80bmr4=; b=G36djvM6W5RR7vlHVG43A6Iudr
-	2F5NZ1PvnNXbTO0zpliXNxkDUVY5zkHKbOaq03CD5t8mleRv7RSL0O0tO1HwRwQ/MOKZWZwXP94dO
-	OyHTPEvggi7hUK+yhhVFLFdvi4GdvU2f2SC8Nsjn5PVc/OK6YfCwGyHnvXicXlc0Bl51oWzBO7qjr
-	s4lmtFzyLrwIq1biy5jzW2hDxT+rMaooNCcN/ALUDKJ5MfHYSkr4rDMi0HCIPUt8IpmdPh8QLzULX
-	1Pzez9sPHZCsctScaUazcc/wB8wvvc2KcGz1r+hnNxtZlyWfJIlX0d7HYAF/GjFQCHJgoGLPVpXS4
-	rz4KAG3w==;
+	bh=+nBTmu8be4dn87X4h4i4v5hXqWi/FDQJ2e0V2G49JnI=; b=c0sBpB4EJtpUlMJmM1BtzQg1jI
+	4PcdDgJzYOowDoMnmKAFYhNbpvRYzsV7kRFyLJf62+ZuPqPEFAxeBvm38jC9EIzinrmdPRpzRnIth
+	ZjcGrFN3FC2OLDiPw1MQ9GiO/ueu64sxGeUIVMfNNGZ1I6IAzUSGlYS50yZYH/qpVkumUW9sz9ylw
+	NiQ4O2XB8H8Hk/RXSmU/7i/042dpY1RsaqJxDbzJ3hgd+h+vW2daHvNujHxeLDb2O3c/EAvt6fmpH
+	/CT3Hd5fJEQuF8uryywQG23Lx98/8viggcr1njgwvu2L7IHYIVv/w/rdZa7aTRE+XIf9ro7DYS6a3
+	okJs1Mxg==;
 Received: from dhcp-077-249-017-003.chello.nl ([77.249.17.3] helo=noisy.programming.kicks-ass.net)
 	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nywx2-00ChXM-Tb; Wed, 08 Jun 2022 14:46:29 +0000
+	id 1nywx3-00ChYC-JV; Wed, 08 Jun 2022 14:46:29 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A06A8302E95;
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A3BE9302EEA;
 	Wed,  8 Jun 2022 16:46:23 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id 9441920C10EDA; Wed,  8 Jun 2022 16:46:18 +0200 (CEST)
-Message-ID: <20220608144517.380962958@infradead.org>
+	id 9DB8020C10EDE; Wed,  8 Jun 2022 16:46:18 +0200 (CEST)
+Message-ID: <20220608144517.507286638@infradead.org>
 User-Agent: quilt/0.66
-Date: Wed, 08 Jun 2022 16:27:46 +0200
+Date: Wed, 08 Jun 2022 16:27:48 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: rth@twiddle.net,
@@ -182,7 +182,7 @@ Cc: rth@twiddle.net,
  linux-tegra@vger.kernel.org,
  linux-arch@vger.kernel.org,
  rcu@vger.kernel.org
-Subject: [PATCH 23/36] arm64,smp: Remove trace_.*_rcuidle() usage
+Subject: [PATCH 25/36] time/tick-broadcast: Remove RCU_NONIDLE usage
 References: <20220608142723.103523089@infradead.org>
 MIME-Version: 1.0
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -201,34 +201,53 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Ever since commit d3afc7f12987 ("arm64: Allow IPIs to be handled as
-normal interrupts") this function is called in regular IRQ context.
+No callers left that have already disabled RCU.
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
- arch/arm64/kernel/smp.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ kernel/time/tick-broadcast-hrtimer.c |   29 ++++++++++++-----------------
+ 1 file changed, 12 insertions(+), 17 deletions(-)
 
---- a/arch/arm64/kernel/smp.c
-+++ b/arch/arm64/kernel/smp.c
-@@ -865,7 +865,7 @@ static void do_handle_IPI(int ipinr)
- 	unsigned int cpu = smp_processor_id();
- 
- 	if ((unsigned)ipinr < NR_IPI)
--		trace_ipi_entry_rcuidle(ipi_types[ipinr]);
-+		trace_ipi_entry(ipi_types[ipinr]);
- 
- 	switch (ipinr) {
- 	case IPI_RESCHEDULE:
-@@ -914,7 +914,7 @@ static void do_handle_IPI(int ipinr)
- 	}
- 
- 	if ((unsigned)ipinr < NR_IPI)
--		trace_ipi_exit_rcuidle(ipi_types[ipinr]);
-+		trace_ipi_exit(ipi_types[ipinr]);
+--- a/kernel/time/tick-broadcast-hrtimer.c
++++ b/kernel/time/tick-broadcast-hrtimer.c
+@@ -56,25 +56,20 @@ static int bc_set_next(ktime_t expires,
+ 	 * hrtimer callback function is currently running, then
+ 	 * hrtimer_start() cannot move it and the timer stays on the CPU on
+ 	 * which it is assigned at the moment.
++	 */
++	hrtimer_start(&bctimer, expires, HRTIMER_MODE_ABS_PINNED_HARD);
++	/*
++	 * The core tick broadcast mode expects bc->bound_on to be set
++	 * correctly to prevent a CPU which has the broadcast hrtimer
++	 * armed from going deep idle.
+ 	 *
+-	 * As this can be called from idle code, the hrtimer_start()
+-	 * invocation has to be wrapped with RCU_NONIDLE() as
+-	 * hrtimer_start() can call into tracing.
++	 * As tick_broadcast_lock is held, nothing can change the cpu
++	 * base which was just established in hrtimer_start() above. So
++	 * the below access is safe even without holding the hrtimer
++	 * base lock.
+ 	 */
+-	RCU_NONIDLE( {
+-		hrtimer_start(&bctimer, expires, HRTIMER_MODE_ABS_PINNED_HARD);
+-		/*
+-		 * The core tick broadcast mode expects bc->bound_on to be set
+-		 * correctly to prevent a CPU which has the broadcast hrtimer
+-		 * armed from going deep idle.
+-		 *
+-		 * As tick_broadcast_lock is held, nothing can change the cpu
+-		 * base which was just established in hrtimer_start() above. So
+-		 * the below access is safe even without holding the hrtimer
+-		 * base lock.
+-		 */
+-		bc->bound_on = bctimer.base->cpu_base->cpu;
+-	} );
++	bc->bound_on = bctimer.base->cpu_base->cpu;
++
+ 	return 0;
  }
  
- static irqreturn_t ipi_handler(int irq, void *data)
 
 
 
