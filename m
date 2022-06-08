@@ -4,51 +4,187 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 27199CCA47B
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jun 2022 08:15:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B30CCCA47B
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jun 2022 14:48:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=Kupcas9Jah/s4fs/uI5uUFRDCxFO6bWU8wX9W397Ybg=; b=DbdIzu2Jk9TMj1
-	6ahlFxq4p8BSrYWU8oU2qs4yyiFZGwnFhMAlWRwkI/Ve5bffUWGlg/YHD/yf6qd/zA0jubLLtBLMx
-	ziOUS0qZIHKVVnSGlHUM7up6DVpPeWisOi7eagpxblwwy3rV3Xs3TZfB9b6iCAF4FKX3ImkvGc4rB
-	EoowolDwYp9A+15HOStXgNYjEzlfbt2KgMaTiCN7Jam1jevee9OO+uNGkKfnfrgsenuqxl72wYejm
-	JEgmzwDhR/HEXZ1fi1aFxUpL2crqG22u4vDuDfZIzeBwoh7QcNnxiZgO+c1Jn67H5g5llXflt16VV
-	BfBqvTwWxQBAmLQbPXHw==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
+	From:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	List-Owner; bh=NJCva4wpKK+YMalUXi8+Xv5+pDggBdrUGAcTk3HdKe8=; b=2sV1MMLeDZcxzW
+	PgWvUk7vGJKWJL6Hqg3iEhm5yrv4OirTJmWtUgwuHsoD/N1d9NLF63G8WRYRv2cCB1hxL02frrvtS
+	luH0Ha0bC0sj4tUaltdEWGNcc5HnqH2lJIqNjB2vJolcpi3RUn4XD5CB2U24P6z555IEFvsQbAuEp
+	lIn1c3v2XC7Gcof1hM9Ya3UfozCA8lrqwhABPowIeiQjqA0DvNCy0OC7ET9iBN+ZhS36tFVonTvGe
+	0V9PnBZliiJRCRZRr+s6Go+vdcqO5/kux0wi+RM35UsLCNbudl8qO2fBfChopHOHNkQZOXw00Wfny
+	XV67wSd0EoyxPbcUYDWA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nyqqj-00BrqS-BG; Wed, 08 Jun 2022 08:15:33 +0000
-Received: from mail.puregrowthonline.pl ([51.38.124.91])
+	id 1nywys-00DlM3-IR; Wed, 08 Jun 2022 14:48:22 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nyqqf-00Brnt-Sy
-	for linux-snps-arc@lists.infradead.org; Wed, 08 Jun 2022 08:15:31 +0000
-Received: by mail.puregrowthonline.pl (Postfix, from userid 1002)
-	id 8EE6CA2AF1; Wed,  8 Jun 2022 08:15:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puregrowthonline.pl;
-	s=mail; t=1654676128;
-	bh=CSKXLMgcdpWkXuTgJn5+jsCVobtU9JEF4vCnS5z6McM=;
-	h=Date:From:To:Subject:From;
-	b=GyQoqG7B70jMBsk5+qfuvdcvhUpmFvudE1lZoShSJ4JNUDCT3UGWzMv20opuAlztt
-	 oQl0TAhR01wzTgX/oSC/cSEjrXlcHjg/QApTSfXHGbsjnSztR39zyFhpyX1uhCNlPC
-	 UwUjnlfJhdHTIr+mfFOWiSZ7vbbPXoB72r6lMWGRdY0DCgcmwhsm5DZbV4NH6pDyso
-	 6IuKOo/fKyQkkUlybCZSKWbPJgsnvXB1FhPniwbgVpZjKqvAT9+grr3Q+J1DHzDS1p
-	 5WvsxSalcRJrOPaA8+74jHn+1frFeNPHNqyegp9I9TM7ICbgbUDWyrHYsxmAAORX9A
-	 duu50jWWyWwAA==
-Received: by mail.puregrowthonline.pl for <linux-snps-arc@lists.infradead.org>; Wed,  8 Jun 2022 08:15:09 GMT
-Message-ID: <20220608064500-0.1.41.cz2k.0.2xfiu1mfj7@puregrowthonline.pl>
-Date: Wed,  8 Jun 2022 08:15:09 GMT
-From: "Wiktor Nurek" <wiktor.nurek@puregrowthonline.pl>
-To: <linux-snps-arc@lists.infradead.org>
-Subject: =?UTF-8?Q?Nap=C5=82yw_Klient=C3=B3w_ze_strony?=
-X-Mailer: mail.puregrowthonline.pl
+	id 1nywx9-00Dk71-9P; Wed, 08 Jun 2022 14:46:35 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:References:
+	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:In-Reply-To;
+	bh=Gj+eSw46X5SDCGNw8cDv0ubviLBcGEVy5VW0lj+ATKg=; b=PcbQR+3su0P/C8pc1s793bBA2j
+	ktQ235pkDlbAkwOAsWLsW7DM1mrfh1vhIzRbfNYR5F+8ain6CH9jgWYuoxYcl9uL+ocL0b+8XEOXt
+	24PIItx96i9m0jKeLIwsBN7wi+qRRuwgHbXmsn9vkkOSl/hQ6c9MO4xk/n4kODjnZxuF/ldFEvFng
+	RKNgnZ2b45WmOjCX7CJ/vNjd9ZJz2ATMfgbLbqDohT3ILrAVWpvPd1p1QwjA2MxqCCmR1M8FMqgQ/
+	/DAneELoezzt6eDUpdwXCRtAQhyWretA4G2ZWAYAHTi4PqTwawLXUc26HjQgfO3qwapWqCjS2Q5FP
+	3sSC5Q9g==;
+Received: from dhcp-077-249-017-003.chello.nl ([77.249.17.3] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1nywx6-00ChZl-GY; Wed, 08 Jun 2022 14:46:32 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(Client did not present a certificate)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D4501302F3F;
+	Wed,  8 Jun 2022 16:46:23 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
+	id BC41C20C119B1; Wed,  8 Jun 2022 16:46:18 +0200 (CEST)
+Message-ID: <20220608144517.948600553@infradead.org>
+User-Agent: quilt/0.66
+Date: Wed, 08 Jun 2022 16:27:55 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: peterz@infradead.org
+Cc: rth@twiddle.net,
+ ink@jurassic.park.msu.ru,
+ mattst88@gmail.com,
+ vgupta@kernel.org,
+ linux@armlinux.org.uk,
+ ulli.kroll@googlemail.com,
+ linus.walleij@linaro.org,
+ shawnguo@kernel.org,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ kernel@pengutronix.de,
+ festevam@gmail.com,
+ linux-imx@nxp.com,
+ tony@atomide.com,
+ khilman@kernel.org,
+ catalin.marinas@arm.com,
+ will@kernel.org,
+ guoren@kernel.org,
+ bcain@quicinc.com,
+ chenhuacai@kernel.org,
+ kernel@xen0n.name,
+ geert@linux-m68k.org,
+ sammy@sammy.net,
+ monstr@monstr.eu,
+ tsbogend@alpha.franken.de,
+ dinguyen@kernel.org,
+ jonas@southpole.se,
+ stefan.kristiansson@saunalahti.fi,
+ shorne@gmail.com,
+ James.Bottomley@HansenPartnership.com,
+ deller@gmx.de,
+ mpe@ellerman.id.au,
+ benh@kernel.crashing.org,
+ paulus@samba.org,
+ paul.walmsley@sifive.com,
+ palmer@dabbelt.com,
+ aou@eecs.berkeley.edu,
+ hca@linux.ibm.com,
+ gor@linux.ibm.com,
+ agordeev@linux.ibm.com,
+ borntraeger@linux.ibm.com,
+ svens@linux.ibm.com,
+ ysato@users.sourceforge.jp,
+ dalias@libc.org,
+ davem@davemloft.net,
+ richard@nod.at,
+ anton.ivanov@cambridgegreys.com,
+ johannes@sipsolutions.net,
+ tglx@linutronix.de,
+ mingo@redhat.com,
+ bp@alien8.de,
+ dave.hansen@linux.intel.com,
+ x86@kernel.org,
+ hpa@zytor.com,
+ acme@kernel.org,
+ mark.rutland@arm.com,
+ alexander.shishkin@linux.intel.com,
+ jolsa@kernel.org,
+ namhyung@kernel.org,
+ jgross@suse.com,
+ srivatsa@csail.mit.edu,
+ amakhalov@vmware.com,
+ pv-drivers@vmware.com,
+ boris.ostrovsky@oracle.com,
+ chris@zankel.net,
+ jcmvbkbc@gmail.com,
+ rafael@kernel.org,
+ lenb@kernel.org,
+ pavel@ucw.cz,
+ gregkh@linuxfoundation.org,
+ mturquette@baylibre.com,
+ sboyd@kernel.org,
+ daniel.lezcano@linaro.org,
+ lpieralisi@kernel.org,
+ sudeep.holla@arm.com,
+ agross@kernel.org,
+ bjorn.andersson@linaro.org,
+ anup@brainfault.org,
+ thierry.reding@gmail.com,
+ jonathanh@nvidia.com,
+ jacob.jun.pan@linux.intel.com,
+ Arnd Bergmann <arnd@arndb.de>,
+ yury.norov@gmail.com,
+ andriy.shevchenko@linux.intel.com,
+ linux@rasmusvillemoes.dk,
+ rostedt@goodmis.org,
+ pmladek@suse.com,
+ senozhatsky@chromium.org,
+ john.ogness@linutronix.de,
+ paulmck@kernel.org,
+ frederic@kernel.org,
+ quic_neeraju@quicinc.com,
+ josh@joshtriplett.org,
+ mathieu.desnoyers@efficios.com,
+ jiangshanlai@gmail.com,
+ joel@joelfernandes.org,
+ juri.lelli@redhat.com,
+ vincent.guittot@linaro.org,
+ dietmar.eggemann@arm.com,
+ bsegall@google.com,
+ mgorman@suse.de,
+ bristot@redhat.com,
+ vschneid@redhat.com,
+ jpoimboe@kernel.org,
+ linux-alpha@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-omap@vger.kernel.org,
+ linux-csky@vger.kernel.org,
+ linux-hexagon@vger.kernel.org,
+ linux-ia64@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org,
+ openrisc@lists.librecores.org,
+ linux-parisc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org,
+ sparclinux@vger.kernel.org,
+ linux-um@lists.infradead.org,
+ linux-perf-users@vger.kernel.org,
+ virtualization@lists.linux-foundation.org,
+ xen-devel@lists.xenproject.org,
+ linux-xtensa@linux-xtensa.org,
+ linux-acpi@vger.kernel.org,
+ linux-pm@vger.kernel.org,
+ linux-clk@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org,
+ linux-tegra@vger.kernel.org,
+ linux-arch@vger.kernel.org,
+ rcu@vger.kernel.org
+Subject: [PATCH 32/36] ftrace: WARN on rcuidle
+References: <20220608142723.103523089@infradead.org>
 MIME-Version: 1.0
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220608_011530_140351_B6C5BF4A 
-X-CRM114-Status: UNSURE (   0.91  )
-X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,18 +196,69 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-RHppZcWEIGRvYnJ5LAoKY2hjaWHFgmJ5bSBwb2luZm9ybW93YcSHIFBhxYRzdHdhIG8gbW/FvGxp
-d2/Fm2NpIHBvenlza2FuaWEgbm93eWNoIHpsZWNlxYQgemUgc3Ryb255IHd3dy4KCldpZHppbXkg
-emFpbnRlcmVzb3dhbmllIHBvdGVuY2phbG55Y2ggS2xpZW50w7N3IFBhxYRzdHdhIGZpcm3EhSwg
-ZGxhdGVnbyBjaMSZdG5pZSBwb21vxbxlbXkgUGHFhHN0d3UgZG90cnplxIcgeiBvZmVydMSFIGRv
-IHdpxJlrc3plZ28gZ3JvbmEgb2RiaW9yY8OzdyBwb3ByemV6IGVmZWt0eXduZSBtZXRvZHkgcG96
-eWNqb25vd2FuaWEgc3Ryb255IHcgR29vZ2xlLgoKQ3p5IG3Ds2fFgmJ5bSBsaWN6ecSHIG5hIGtv
-bnRha3Qgendyb3RueT8KCgpQb3pkcmF3aWFtIHNlcmRlY3puaWUsCldpa3RvciBOdXJlawoKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtc25wcy1h
-cmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDov
-L2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
+CONFIG_GENERIC_ENTRY disallows any and all tracing when RCU isn't
+enabled.
+
+XXX if s390 (the only other GENERIC_ENTRY user as of this writing)
+isn't comfortable with this, we could switch to
+HAVE_NOINSTR_VALIDATION which is x86_64 only atm.
+
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+---
+ include/linux/tracepoint.h |   13 ++++++++++++-
+ kernel/trace/trace.c       |    3 +++
+ 2 files changed, 15 insertions(+), 1 deletion(-)
+
+--- a/include/linux/tracepoint.h
++++ b/include/linux/tracepoint.h
+@@ -178,6 +178,16 @@ static inline struct tracepoint *tracepo
+ #endif /* CONFIG_HAVE_STATIC_CALL */
+ 
+ /*
++ * CONFIG_GENERIC_ENTRY archs are expected to have sanitized entry and idle
++ * code that disallow any/all tracing/instrumentation when RCU isn't watching.
++ */
++#ifdef CONFIG_GENERIC_ENTRY
++#define RCUIDLE_COND(rcuidle)	(rcuidle)
++#else
++#define RCUIDLE_COND(rcuidle)	(rcuidle && in_nmi())
++#endif
++
++/*
+  * it_func[0] is never NULL because there is at least one element in the array
+  * when the array itself is non NULL.
+  */
+@@ -189,7 +199,8 @@ static inline struct tracepoint *tracepo
+ 			return;						\
+ 									\
+ 		/* srcu can't be used from NMI */			\
+-		WARN_ON_ONCE(rcuidle && in_nmi());			\
++		if (WARN_ON_ONCE(RCUIDLE_COND(rcuidle)))		\
++			return;						\
+ 									\
+ 		/* keep srcu and sched-rcu usage consistent */		\
+ 		preempt_disable_notrace();				\
+--- a/kernel/trace/trace.c
++++ b/kernel/trace/trace.c
+@@ -3104,6 +3104,9 @@ void __trace_stack(struct trace_array *t
+ 		return;
+ 	}
+ 
++	if (WARN_ON_ONCE(IS_ENABLED(CONFIG_GENERIC_ENTRY)))
++		return;
++
+ 	/*
+ 	 * When an NMI triggers, RCU is enabled via rcu_nmi_enter(),
+ 	 * but if the above rcu_is_watching() failed, then the NMI
+
+
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
