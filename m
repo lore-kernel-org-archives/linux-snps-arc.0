@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A463DC19F55
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jun 2022 14:48:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F405FC3F2D4
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jun 2022 14:48:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
 	From:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=Bx2ojZoiJpJ96gETUNEb4pKr21ParOElAEpvDxmmW/Q=; b=v035oXiJPZuJn7
-	BYxaYKBr8PMfT60yO1U6oZdFQxo4qcpXdULpp0LMmITdqjMADGJ5QfKsTAYAHaWYlahsoPPQpJn2T
-	iNHOBanIetsF1Cn8F70icijRUOOGkGCIAQbF14UjOkps2hd1QdGNkifBwH5a5+wlHiEBDkC/Xdokd
-	UqHVXtiMQHE8ER2O6Dj8/FfsJNjTaEJF7tLDklX6lrcP75xMZNtbLQUqcGnO0vaA15QnCDW41HuFF
-	iLyCwlTeVCWL5Oinxc3/p6KVvctrrWMb+sVMFrzWy7hOGt7bjBJ3ojq6ZBGsCvSYBSSJkreMgPOS6
-	3EyLv0/I1BL4EtONuxGg==;
+	List-Owner; bh=Oje57OLMeo9TZlJGhVx2eZ1JdT1lmaCSYcIecTdXFpU=; b=DngYxvnFsp9/wr
+	nIznIVPKPwMxmr6C93gAaTMHEoN1cBbUEheTWkNnc9OXWLVHYdrSUGdiwbHsLaiunbw4JZoGEez1w
+	SdPn/jYVQvm3gpcesrFpvpIGRhwfninqhqzr9v7dsVv0l8v2mUCswGWL5QjJti//YAOyX0fKufaUp
+	PeIwd1Nnx6mhJDtJgk4SPQ+7GFYsZ+5r9gyYpPseZ/sHZu0yBRFHM+/ZvPjMj3FLQtCiMpMoBgOqn
+	IExQrEGn/kxhpjyeFwkeXAaB9D4E41VDcNxrU+4/AOzhee/hkKzm5i/m8Wb/r4blJwnZT0VZYI9DN
+	jWbtJ2FvmlFA/RpkRX8A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nywzP-00Dlp7-BA; Wed, 08 Jun 2022 14:48:55 +0000
+	id 1nywzR-00Dlrr-8I; Wed, 08 Jun 2022 14:48:57 +0000
 Received: from desiato.infradead.org ([90.155.92.199])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nywxD-00DkAl-Oc; Wed, 08 Jun 2022 14:46:39 +0000
+	id 1nywxD-00DkAj-O1; Wed, 08 Jun 2022 14:46:39 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:References:
 	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:In-Reply-To;
-	bh=OtI5HbrqLesCtm4u4WFjeviiqkcvkrIAtN470m5UDAY=; b=YxAxQQTnVMjXt5F5qT80bkgPh5
-	ixluP6Zz3hO7fx8vJIQrj4C5TqUSGKakaJJsFYPkJyX/quow9i3Q1RHxs4fPIHvQqAI4ItoUKSg9H
-	Q96BC3qMYMoqP4qCHwfqrdYRb4hE4ZTb5URJUGq6ct2gnpSWNNz0/tb6QgN8X/3EG+8+Hn8P0Jpfj
-	s1Mx2wUY/shYiCwGx373RWVVV8k86WJZX6RUBzcpDy2OG/HxZoSIcohcw28STfEH3IheSXP1uOHaG
-	ZHJWiPNFWu4NLZ6eL7MRQvDj+sp0KsDvF/li+47ulaB6B0czYcAARGWueTqt7adXuGkZdkHCdgM5d
-	rhVbSspQ==;
+	bh=OtG2eksypqTPnibPh4fnaffiD2hY+EVznlbJ2kHLrow=; b=OVXFxuucL+euI7qJ0DHWP+HSd+
+	K0Ja573cJSNgJwZfmTV/5FSX0IvQJrgOo9v/0uLAq5TdSmJQtXAZyIW9o/35yTdAOleYqjANFEm+E
+	l56+S1viwHvjXO62dxEnDYPCdtMwVOYv/k+oP4A2fDyCb6sOHq4kRNEOvqcsJ/5x/Zoh6zkng8v4u
+	/0d1tlL+++2dqJwM54DkEmGHC+DPLj6jQdLOk++gXXVkvZXV4HarSMkLWNk/RWR6rJjZ3hTgPD+7o
+	fRFAUGoXS/CQX8DE/ix3aPY/jnZckpcWrGai1TDNvAnceUPXNMM/pOlZZ/Tt52+3oavm+6TFmtcmc
+	EkhLqJ7w==;
 Received: from dhcp-077-249-017-003.chello.nl ([77.249.17.3] helo=noisy.programming.kicks-ass.net)
 	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nywx5-0066DR-V8; Wed, 08 Jun 2022 14:46:32 +0000
+	id 1nywwy-0066BS-W1; Wed, 08 Jun 2022 14:46:25 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D41E1302F3B;
-	Wed,  8 Jun 2022 16:46:23 +0200 (CEST)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A8FF730008D;
+	Wed,  8 Jun 2022 16:46:22 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id B77DB20C119AE; Wed,  8 Jun 2022 16:46:18 +0200 (CEST)
-Message-ID: <20220608144517.885263942@infradead.org>
+	id 5313720C0F9B9; Wed,  8 Jun 2022 16:46:18 +0200 (CEST)
+Message-ID: <20220608144516.362668063@infradead.org>
 User-Agent: quilt/0.66
-Date: Wed, 08 Jun 2022 16:27:54 +0200
+Date: Wed, 08 Jun 2022 16:27:30 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: rth@twiddle.net,
@@ -182,7 +182,7 @@ Cc: rth@twiddle.net,
  linux-tegra@vger.kernel.org,
  linux-arch@vger.kernel.org,
  rcu@vger.kernel.org
-Subject: [PATCH 31/36] cpuidle,acpi: Make noinstr clean
+Subject: [PATCH 07/36] cpuidle,tegra: Push RCU-idle into driver
 References: <20220608142723.103523089@infradead.org>
 MIME-Version: 1.0
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -201,60 +201,83 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-vmlinux.o: warning: objtool: io_idle+0xc: call to __inb.isra.0() leaves .noinstr.text section
-vmlinux.o: warning: objtool: acpi_idle_enter+0xfe: call to num_online_cpus() leaves .noinstr.text section
-vmlinux.o: warning: objtool: acpi_idle_enter+0x115: call to acpi_idle_fallback_to_c1.isra.0() leaves .noinstr.text section
+Doing RCU-idle outside the driver, only to then temporarily enable it
+again, at least twice, before going idle is daft.
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
- arch/x86/include/asm/shared/io.h |    4 ++--
- drivers/acpi/processor_idle.c    |    2 +-
- include/linux/cpumask.h          |    4 ++--
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/cpuidle/cpuidle-tegra.c |   21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
 
---- a/arch/x86/include/asm/shared/io.h
-+++ b/arch/x86/include/asm/shared/io.h
-@@ -5,13 +5,13 @@
- #include <linux/types.h>
+--- a/drivers/cpuidle/cpuidle-tegra.c
++++ b/drivers/cpuidle/cpuidle-tegra.c
+@@ -180,9 +180,11 @@ static int tegra_cpuidle_state_enter(str
+ 	}
  
- #define BUILDIO(bwl, bw, type)						\
--static inline void __out##bwl(type value, u16 port)			\
-+static __always_inline void __out##bwl(type value, u16 port)		\
- {									\
- 	asm volatile("out" #bwl " %" #bw "0, %w1"			\
- 		     : : "a"(value), "Nd"(port));			\
- }									\
- 									\
--static inline type __in##bwl(u16 port)					\
-+static __always_inline type __in##bwl(u16 port)				\
- {									\
- 	type value;							\
- 	asm volatile("in" #bwl " %w1, %" #bw "0"			\
---- a/drivers/acpi/processor_idle.c
-+++ b/drivers/acpi/processor_idle.c
-@@ -593,7 +593,7 @@ static int acpi_idle_play_dead(struct cp
- 	return 0;
- }
+ 	local_fiq_disable();
+-	RCU_NONIDLE(tegra_pm_set_cpu_in_lp2());
++	tegra_pm_set_cpu_in_lp2();
+ 	cpu_pm_enter();
  
--static bool acpi_idle_fallback_to_c1(struct acpi_processor *pr)
-+static __always_inline bool acpi_idle_fallback_to_c1(struct acpi_processor *pr)
++	rcu_idle_enter();
++
+ 	switch (index) {
+ 	case TEGRA_C7:
+ 		err = tegra_cpuidle_c7_enter();
+@@ -197,8 +199,10 @@ static int tegra_cpuidle_state_enter(str
+ 		break;
+ 	}
+ 
++	rcu_idle_exit();
++
+ 	cpu_pm_exit();
+-	RCU_NONIDLE(tegra_pm_clear_cpu_in_lp2());
++	tegra_pm_clear_cpu_in_lp2();
+ 	local_fiq_enable();
+ 
+ 	return err ?: index;
+@@ -226,6 +230,7 @@ static int tegra_cpuidle_enter(struct cp
+ 			       struct cpuidle_driver *drv,
+ 			       int index)
  {
- 	return IS_ENABLED(CONFIG_HOTPLUG_CPU) && !pr->flags.has_cst &&
- 		!(acpi_gbl_FADT.flags & ACPI_FADT_C2_MP_SUPPORTED);
---- a/include/linux/cpumask.h
-+++ b/include/linux/cpumask.h
-@@ -908,9 +908,9 @@ static inline const struct cpumask *get_
-  * concurrent CPU hotplug operations unless invoked from a cpuhp_lock held
-  * region.
-  */
--static inline unsigned int num_online_cpus(void)
-+static __always_inline unsigned int num_online_cpus(void)
- {
--	return atomic_read(&__num_online_cpus);
-+	return arch_atomic_read(&__num_online_cpus);
- }
- #define num_possible_cpus()	cpumask_weight(cpu_possible_mask)
- #define num_present_cpus()	cpumask_weight(cpu_present_mask)
++	bool do_rcu = drv->states[index].flags & CPUIDLE_FLAG_RCU_IDLE;
+ 	unsigned int cpu = cpu_logical_map(dev->cpu);
+ 	int ret;
+ 
+@@ -233,9 +238,13 @@ static int tegra_cpuidle_enter(struct cp
+ 	if (dev->states_usage[index].disable)
+ 		return -1;
+ 
+-	if (index == TEGRA_C1)
++	if (index == TEGRA_C1) {
++		if (do_rcu)
++			rcu_idle_enter();
+ 		ret = arm_cpuidle_simple_enter(dev, drv, index);
+-	else
++		if (do_rcu)
++			rcu_idle_exit();
++	} else
+ 		ret = tegra_cpuidle_state_enter(dev, index, cpu);
+ 
+ 	if (ret < 0) {
+@@ -285,7 +294,8 @@ static struct cpuidle_driver tegra_idle_
+ 			.exit_latency		= 2000,
+ 			.target_residency	= 2200,
+ 			.power_usage		= 100,
+-			.flags			= CPUIDLE_FLAG_TIMER_STOP,
++			.flags			= CPUIDLE_FLAG_TIMER_STOP |
++						  CPUIDLE_FLAG_RCU_IDLE,
+ 			.name			= "C7",
+ 			.desc			= "CPU core powered off",
+ 		},
+@@ -295,6 +305,7 @@ static struct cpuidle_driver tegra_idle_
+ 			.target_residency	= 10000,
+ 			.power_usage		= 0,
+ 			.flags			= CPUIDLE_FLAG_TIMER_STOP |
++						  CPUIDLE_FLAG_RCU_IDLE   |
+ 						  CPUIDLE_FLAG_COUPLED,
+ 			.name			= "CC6",
+ 			.desc			= "CPU cluster powered off",
 
 
 
