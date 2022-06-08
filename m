@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B0ACCCA491
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85638CCA494
 	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jun 2022 14:48:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
@@ -12,42 +12,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
 	From:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=pzKMDWmbgnOVhW79JTExhlHyLpPOEa564aLsy+ztumw=; b=SCETe61oONEzua
-	Jdt55tTGe6AgwoI69qw6PcKftZfO64lsW4HealTRP9EUeVQJ6VZPmUjwyfEv02ClaUsATcG5lF/Yr
-	tZkkEOxejOk6OwtR/kGt2j0Ej8TGEZhRXDbc/Y9vX3fXAJD774K1b7oQrBgELL1chElfDSYhVPFf5
-	66X5R40/wFHNuPWxlSqr/UGMlk/MNiweqObixm+CajjybmtAZVvwBl5XLqijRCW0US6desqbEe/pD
-	mxIRgc9sQA36iI1GR0petxaLJUeRHVjjMSZ3hIg9k65wV31zpIY2Fns4soJE1BAndLwsC67n6t+f1
-	W5QPXPE4ZYizHoUVc9Aw==;
+	List-Owner; bh=t7JYV+vkwaxgO48cp2W/D8ouSkR79n4+qQ6rEXoQxY0=; b=rPK+kD4GxaHZyv
+	y792XEHZV+00ka7Sdc9usFaeYQ8I2C1sY93v0Kf6g6QN22KUjLfxw6j9tu5B1VpSFMqVRE1ttL4I/
+	pZrxIXubna71KJ06V+ioPHER8oC/0yTA2947A4ecKlexVOz3VqspHeVAqf9ob7JFVgGjox5pgABw9
+	+njm21+hE7aEg69yAj6/toQKW7f7shhoeCf3ayBrq+xtJGWJvIk1RAqa8fGMpP5QrNeNLmXGuHFAC
+	89hDtcngAV/zCPN4F+FTsPLVo0ee8uNbaamt4/nK0nH09o3r3egiPaRv3HPp6aIlDDemes5EEoFdC
+	T3/XRVmraHtUJxQDRZ5w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nywz1-00DlRh-Bw; Wed, 08 Jun 2022 14:48:31 +0000
+	id 1nywz2-00DlSi-8B; Wed, 08 Jun 2022 14:48:32 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nywx9-00Dk6x-9V; Wed, 08 Jun 2022 14:46:35 +0000
+	id 1nywx9-00Dk6z-9Y; Wed, 08 Jun 2022 14:46:35 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:References:
 	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:In-Reply-To;
-	bh=4bele9ejzKzNd9pnJzXay06BR+7LKyo/8SDE7WF3xHo=; b=tPPYeAWPLLomHQyMVLJ5rPzsHQ
-	RWGF7M0Mce61MT+ddmgb9LEMNk1WL5mudqg073VXtHlq00DAzt78HxCsBAEtKRxkcXavO/85/VZxk
-	St2GqSY9qsP+Xr58sUTFba5HKXMa5app75CuJy9Gj6wZChoH6jBqlb60S6+uDOQ/9uA1CHpCagvMO
-	PjB4e4NnxbHKE12LCbxTxFaNyJdX+xa1TwHy0IYtSD8fTskaneE8elW12I3edyD9ShjEHISc8iDZ4
-	GRPIMTpQEWgfRfkgST/ySyn1wwEnoM5Cgrw7tfhziDkregbr3JBwLs34aQW7JRzuCY0Omo+qRiaQF
-	AQ82XnZw==;
+	bh=cRgbn3QvpupGZaeUDgwKs7FEGzBWq3dUbK0A/YX8NGM=; b=PSLeO/yNb1FdwotZ74TIoxbYsI
+	soiM9zNMO7t19/qdX6p+jhtYuw+jlgRDVggbwYw5y93wJ9B0AEFFNitZiOLiLqvrO6WYzTd3Ks6/N
+	j6ONiLqH02pSUgCxo2FohIp7YpPnZGRJFJTWnKXkMEaG1p9PIY+g1hJZEWjA2DvWqfDzZ864CPgsH
+	JZUmgyUVfTzWlN2taLJ537IYJBncAgv7L7CMo71dRetIsfM+fYr9nFmmPfnAie7VS2DskPrxSiIFO
+	ifFfahGR54R38dhYOg0BWoewZIQRuCcVUmaPuAuM9Fgo4uTkuRaQcDupqqv1VST4cbPCmhIiOv9NB
+	7YdXlpfg==;
 Received: from dhcp-077-249-017-003.chello.nl ([77.249.17.3] helo=noisy.programming.kicks-ass.net)
 	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nywwz-00ChWm-Uq; Wed, 08 Jun 2022 14:46:26 +0000
+	id 1nywwy-00ChW2-V1; Wed, 08 Jun 2022 14:46:25 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 48773302E6B;
-	Wed,  8 Jun 2022 16:46:23 +0200 (CEST)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 9A5BD302D93;
+	Wed,  8 Jun 2022 16:46:22 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id 812DB20C10ECA; Wed,  8 Jun 2022 16:46:18 +0200 (CEST)
-Message-ID: <20220608144517.061583457@infradead.org>
+	id 4EAD120C0F9B6; Wed,  8 Jun 2022 16:46:18 +0200 (CEST)
+Message-ID: <20220608144516.297980240@infradead.org>
 User-Agent: quilt/0.66
-Date: Wed, 08 Jun 2022 16:27:41 +0200
+Date: Wed, 08 Jun 2022 16:27:29 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: rth@twiddle.net,
@@ -182,7 +182,7 @@ Cc: rth@twiddle.net,
  linux-tegra@vger.kernel.org,
  linux-arch@vger.kernel.org,
  rcu@vger.kernel.org
-Subject: [PATCH 18/36] cpuidle: Annotate poll_idle()
+Subject: [PATCH 06/36] cpuidle,riscv: Push RCU-idle into driver
 References: <20220608142723.103523089@infradead.org>
 MIME-Version: 1.0
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -201,36 +201,54 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The __cpuidle functions will become a noinstr class, as such they need
-explicit annotations.
+Doing RCU-idle outside the driver, only to then temporarily enable it
+again, at least twice, before going idle is daft.
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
- drivers/cpuidle/poll_state.c |    6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/cpuidle/cpuidle-riscv-sbi.c |    9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
---- a/drivers/cpuidle/poll_state.c
-+++ b/drivers/cpuidle/poll_state.c
-@@ -13,7 +13,10 @@
- static int __cpuidle poll_idle(struct cpuidle_device *dev,
- 			       struct cpuidle_driver *drv, int index)
- {
--	u64 time_start = local_clock();
-+	u64 time_start;
+--- a/drivers/cpuidle/cpuidle-riscv-sbi.c
++++ b/drivers/cpuidle/cpuidle-riscv-sbi.c
+@@ -116,12 +116,12 @@ static int __sbi_enter_domain_idle_state
+ 		return -1;
+ 
+ 	/* Do runtime PM to manage a hierarchical CPU toplogy. */
+-	rcu_irq_enter_irqson();
+ 	if (s2idle)
+ 		dev_pm_genpd_suspend(pd_dev);
+ 	else
+ 		pm_runtime_put_sync_suspend(pd_dev);
+-	rcu_irq_exit_irqson();
 +
-+	instrumentation_begin();
-+	time_start = local_clock();
++	rcu_idle_enter();
  
- 	dev->poll_time_limit = false;
+ 	if (sbi_is_domain_state_available())
+ 		state = sbi_get_domain_state();
+@@ -130,12 +130,12 @@ static int __sbi_enter_domain_idle_state
  
-@@ -39,6 +42,7 @@ static int __cpuidle poll_idle(struct cp
- 	raw_local_irq_disable();
+ 	ret = sbi_suspend(state) ? -1 : idx;
  
- 	current_clr_polling();
-+	instrumentation_end();
+-	rcu_irq_enter_irqson();
++	rcu_idle_exit();
++
+ 	if (s2idle)
+ 		dev_pm_genpd_resume(pd_dev);
+ 	else
+ 		pm_runtime_get_sync(pd_dev);
+-	rcu_irq_exit_irqson();
  
- 	return index;
- }
+ 	cpu_pm_exit();
+ 
+@@ -246,6 +246,7 @@ static int sbi_dt_cpu_init_topology(stru
+ 	 * of a shared state for the domain, assumes the domain states are all
+ 	 * deeper states.
+ 	 */
++	drv->states[state_count - 1].flags |= CPUIDLE_FLAG_RCU_IDLE;
+ 	drv->states[state_count - 1].enter = sbi_enter_domain_idle_state;
+ 	drv->states[state_count - 1].enter_s2idle =
+ 					sbi_enter_s2idle_domain_idle_state;
 
 
 
