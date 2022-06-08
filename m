@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58EA1C19F56
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jun 2022 14:48:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2FC5CCA485
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jun 2022 14:48:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
 	From:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=E7ByCWkqlRuEutqY0s2IssETlHfNCMjJn4xOwmsHrpA=; b=LVU3eyHZ9sYkkZ
-	JsWtb1ShjTUX4QjdMoAOGRRhv8hQOlLaQdYzZAqEC64d0y/6Ru6TPZBDYei7BRb19iGPDztPwl+hV
-	OEEvXYIT5wMyun13TD0cdFHaLN/lJ52Asnt2B1Hts8AFeBKMe2uJ6HdSa3dmU6FDSC/kmMmjS6cf0
-	O66tQecFtjkGtdXnUFGHCclQwiB1T1AqD1d6TpUPHVm5TLW66oMHQdFlpOuLVN3F1n33ObCzb1L5E
-	dWiYw2L6KhjdaUGF59ejvRWFSB8V3ZbXVdYCriEKLjTXltMuQSllGobp5aQF+CDe9aLQon73gsfXY
-	z3O1u776++VEUztLOE8w==;
+	List-Owner; bh=SMijeCZpHzOIODyv+pvc74ii+tCGFXQ8wpIOPONJfmY=; b=xC1TbpGuLA7nuZ
+	9RL1Ql31TSob3SDNVpJAQ4eiQj7OBaMPDwixdQNg8/z5A4kyhGfpMiEsdeCpgJhfYVxRS5C3QqFmh
+	9GsZ2z7B5+QYKJ01PxtgeYORcedVjBHKFUGkIVwVfCB7XBEaQu82y4Acf4yEWuNRfBS/sXbrSNYWm
+	GcErUOHTsGhzaU2woFrg4CcTAMtprjUkpPixWhc1xu4ppgoVGYiWJf/48fqmX1qyi1zAASukVx8au
+	V5ZUHCk7tNJgScXPa2FImZbpZfcGJEdPF8r68y6atPlAUi1SA1Mpmb3yy4lQq75WASVzeEzbehSfW
+	Rlnf8sC8uXbIq+N5kT3g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nywzO-00DloV-U5; Wed, 08 Jun 2022 14:48:54 +0000
+	id 1nywzP-00Dlpi-Qp; Wed, 08 Jun 2022 14:48:55 +0000
 Received: from desiato.infradead.org ([90.155.92.199])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nywxD-00DkAo-O3; Wed, 08 Jun 2022 14:46:39 +0000
+	id 1nywxD-00DkAk-OX; Wed, 08 Jun 2022 14:46:39 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:References:
 	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:In-Reply-To;
-	bh=n+8kbD5k3joQL4tu1DQuka314sY5HtbiPc/MGM3uXCw=; b=CFsFgByJSeY2PmftE59lIwd61A
-	fjJ72jju0l9GwBYm1tDQavNTQt1uwtfxtPtqec7K6IBFRtI8mUyMjSb23xu2nggDLQ3Izti62YLZ9
-	81i/g9DPcf892kC/BAGwIehJW/W7Fewyul66uCAJh+Bsk0BWV05Jio2VzipiczXpOVQR7AS6M8em5
-	wh3T1DJLe1ciqy+OR6gyRoeQARA3peLCGum9kfZYaXxBeujZ3coueZc7Rw5XccGKhOx8fJer5LVm7
-	DK6L3i+rJEhIKvEmmEfkmunPBAh5TavkMzTbRzPaMqLIGOwpl+o4n2Ge2dXsInCxEuWYARNglpkyB
-	ylWDIb/Q==;
+	bh=9yd1uW/Ha4lFVJl9g3NG8xPj6tkgCPp8FbdRM3bEBHk=; b=fc+lbbvKwwN4ZJ7iUz0gOd6Kw1
+	bWZHe3UXTKQ37VnD0JIa/nKeK2NWAC5dW50BJVMiH1O0g/NAQki27BvHuVbo9/MbJioA+l8bQlAeg
+	l4w6/u19HStC/e7hYn9qn64X+GhFM03qFAT/CAxcvj/R6DIolTBBDV6RBWD9rGeBRWsCeD6c+DPTN
+	hfdniSGhPewVHFKY3H9c5xdzdll1zcPQGSamYV1TPyhmdCITIhSKQrv2bNMKa90Crt7jnx4M6v4J0
+	gzF0aqTx0qtLc4aL7xQtl8DpGTt8VZizoHoOYrXPnJORVcj1rNrY3g+XpMSApiCVfrx62z+2ZhBaT
+	W5Yf5pVQ==;
 Received: from dhcp-077-249-017-003.chello.nl ([77.249.17.3] helo=noisy.programming.kicks-ass.net)
 	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nywx3-0066CO-6k; Wed, 08 Jun 2022 14:46:30 +0000
+	id 1nywwz-0066Bb-Bb; Wed, 08 Jun 2022 14:46:26 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A15F3302ECB;
-	Wed,  8 Jun 2022 16:46:23 +0200 (CEST)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id C3582302E0A;
+	Wed,  8 Jun 2022 16:46:22 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id 8D44D20C10ED6; Wed,  8 Jun 2022 16:46:18 +0200 (CEST)
-Message-ID: <20220608144517.251109029@infradead.org>
+	id 6647820C10EA3; Wed,  8 Jun 2022 16:46:18 +0200 (CEST)
+Message-ID: <20220608144516.614797628@infradead.org>
 User-Agent: quilt/0.66
-Date: Wed, 08 Jun 2022 16:27:44 +0200
+Date: Wed, 08 Jun 2022 16:27:34 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: rth@twiddle.net,
@@ -181,10 +181,8 @@ Cc: rth@twiddle.net,
  linux-arm-msm@vger.kernel.org,
  linux-tegra@vger.kernel.org,
  linux-arch@vger.kernel.org,
- rcu@vger.kernel.org,
- Isaku Yamahata <isaku.yamahata@gmail.com>,
- kirill.shutemov@linux.intel.com
-Subject: [PATCH 21/36] x86/tdx: Remove TDX_HCALL_ISSUE_STI
+ rcu@vger.kernel.org
+Subject: [PATCH 11/36] cpuidle,armada: Push RCU-idle into driver
 References: <20220608142723.103523089@infradead.org>
 MIME-Version: 1.0
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -203,111 +201,59 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Now that arch_cpu_idle() is expected to return with IRQs disabled,
-avoid the useless STI/CLI dance.
+Doing RCU-idle outside the driver, only to then temporarily enable it
+again before going idle is daft.
 
-Per the specs this is supposed to work, but nobody has yet relied up
-this behaviour so broken implementations are possible.
-
-Cc: Isaku Yamahata <isaku.yamahata@gmail.com>
-Cc: kirill.shutemov@linux.intel.com
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
- arch/x86/coco/tdx/tdcall.S        |   13 -------------
- arch/x86/coco/tdx/tdx.c           |   23 ++++-------------------
- arch/x86/include/asm/shared/tdx.h |    1 -
- 3 files changed, 4 insertions(+), 33 deletions(-)
+ drivers/cpuidle/cpuidle-mvebu-v7.c |    7 +++++++
+ 1 file changed, 7 insertions(+)
 
---- a/arch/x86/coco/tdx/tdcall.S
-+++ b/arch/x86/coco/tdx/tdcall.S
-@@ -139,19 +139,6 @@ SYM_FUNC_START(__tdx_hypercall)
+--- a/drivers/cpuidle/cpuidle-mvebu-v7.c
++++ b/drivers/cpuidle/cpuidle-mvebu-v7.c
+@@ -36,7 +36,10 @@ static int mvebu_v7_enter_idle(struct cp
+ 	if (drv->states[index].flags & MVEBU_V7_FLAG_DEEP_IDLE)
+ 		deepidle = true;
  
- 	movl $TDVMCALL_EXPOSE_REGS_MASK, %ecx
++	rcu_idle_enter();
+ 	ret = mvebu_v7_cpu_suspend(deepidle);
++	rcu_idle_exit();
++
+ 	cpu_pm_exit();
  
--	/*
--	 * For the idle loop STI needs to be called directly before the TDCALL
--	 * that enters idle (EXIT_REASON_HLT case). STI instruction enables
--	 * interrupts only one instruction later. If there is a window between
--	 * STI and the instruction that emulates the HALT state, there is a
--	 * chance for interrupts to happen in this window, which can delay the
--	 * HLT operation indefinitely. Since this is the not the desired
--	 * result, conditionally call STI before TDCALL.
--	 */
--	testq $TDX_HCALL_ISSUE_STI, %rsi
--	jz .Lskip_sti
--	sti
--.Lskip_sti:
- 	tdcall
- 
- 	/*
---- a/arch/x86/coco/tdx/tdx.c
-+++ b/arch/x86/coco/tdx/tdx.c
-@@ -124,7 +124,7 @@ static u64 get_cc_mask(void)
- 	return BIT_ULL(gpa_width - 1);
- }
- 
--static u64 __cpuidle __halt(const bool irq_disabled, const bool do_sti)
-+static u64 __cpuidle __halt(const bool irq_disabled)
- {
- 	struct tdx_hypercall_args args = {
- 		.r10 = TDX_HYPERCALL_STANDARD,
-@@ -144,20 +144,14 @@ static u64 __cpuidle __halt(const bool i
- 	 * can keep the vCPU in virtual HLT, even if an IRQ is
- 	 * pending, without hanging/breaking the guest.
- 	 */
--	return __tdx_hypercall(&args, do_sti ? TDX_HCALL_ISSUE_STI : 0);
-+	return __tdx_hypercall(&args, 0);
- }
- 
- static bool handle_halt(void)
- {
--	/*
--	 * Since non safe halt is mainly used in CPU offlining
--	 * and the guest will always stay in the halt state, don't
--	 * call the STI instruction (set do_sti as false).
--	 */
- 	const bool irq_disabled = irqs_disabled();
--	const bool do_sti = false;
- 
--	if (__halt(irq_disabled, do_sti))
-+	if (__halt(irq_disabled))
- 		return false;
- 
- 	return true;
-@@ -165,22 +159,13 @@ static bool handle_halt(void)
- 
- void __cpuidle tdx_safe_halt(void)
- {
--	 /*
--	  * For do_sti=true case, __tdx_hypercall() function enables
--	  * interrupts using the STI instruction before the TDCALL. So
--	  * set irq_disabled as false.
--	  */
- 	const bool irq_disabled = false;
--	const bool do_sti = true;
- 
- 	/*
- 	 * Use WARN_ONCE() to report the failure.
- 	 */
--	if (__halt(irq_disabled, do_sti))
-+	if (__halt(irq_disabled))
- 		WARN_ONCE(1, "HLT instruction emulation failed\n");
--
--	/* XXX I can't make sense of what @do_sti actually does */
--	raw_local_irq_disable();
- }
- 
- static bool read_msr(struct pt_regs *regs)
---- a/arch/x86/include/asm/shared/tdx.h
-+++ b/arch/x86/include/asm/shared/tdx.h
-@@ -8,7 +8,6 @@
- #define TDX_HYPERCALL_STANDARD  0
- 
- #define TDX_HCALL_HAS_OUTPUT	BIT(0)
--#define TDX_HCALL_ISSUE_STI	BIT(1)
- 
- #define TDX_CPUID_LEAF_ID	0x21
- #define TDX_IDENT		"IntelTDX    "
+ 	if (ret)
+@@ -49,6 +52,7 @@ static struct cpuidle_driver armadaxp_id
+ 	.name			= "armada_xp_idle",
+ 	.states[0]		= ARM_CPUIDLE_WFI_STATE,
+ 	.states[1]		= {
++		.flags			= CPUIDLE_FLAG_RCU_IDLE,
+ 		.enter			= mvebu_v7_enter_idle,
+ 		.exit_latency		= 100,
+ 		.power_usage		= 50,
+@@ -57,6 +61,7 @@ static struct cpuidle_driver armadaxp_id
+ 		.desc			= "CPU power down",
+ 	},
+ 	.states[2]		= {
++		.flags			= CPUIDLE_FLAG_RCU_IDLE,
+ 		.enter			= mvebu_v7_enter_idle,
+ 		.exit_latency		= 1000,
+ 		.power_usage		= 5,
+@@ -72,6 +77,7 @@ static struct cpuidle_driver armada370_i
+ 	.name			= "armada_370_idle",
+ 	.states[0]		= ARM_CPUIDLE_WFI_STATE,
+ 	.states[1]		= {
++		.flags			= CPUIDLE_FLAG_RCU_IDLE,
+ 		.enter			= mvebu_v7_enter_idle,
+ 		.exit_latency		= 100,
+ 		.power_usage		= 5,
+@@ -87,6 +93,7 @@ static struct cpuidle_driver armada38x_i
+ 	.name			= "armada_38x_idle",
+ 	.states[0]		= ARM_CPUIDLE_WFI_STATE,
+ 	.states[1]		= {
++		.flags			= CPUIDLE_FLAG_RCU_IDLE,
+ 		.enter			= mvebu_v7_enter_idle,
+ 		.exit_latency		= 10,
+ 		.power_usage		= 5,
 
 
 
