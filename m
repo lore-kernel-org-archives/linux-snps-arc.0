@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4722C43334
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jun 2022 17:24:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C9A1CCA481
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jun 2022 17:24:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=2/Qqc35CWVQ/Gb1pJOcmjrQT5gQXWFJryQi3mGJ2Apo=; b=qJ3T9z3MMG4EU9
-	PFZmfIInRrdwmyqXnGjp7l4eMW9j26YyO8nPzgYYmYucHx2SojNS9tqO3fA3InOwXrI5vHh4lh8+p
-	LJ5Y0XKDmJdWorfUeX/SZr9qSnTiPsRqbzsRanY3bh381dxKfW4AmQF6udA6f6c1ZNcDqk7f2c7i4
-	3CEeTDKrV87ZDPIUp9R1HKRtJpNBzjMOzs2079l48VPcki2g/kPyjO8mqWEt9QRmLiDjw0EYjtOcw
-	FKDTPbWTaMqkVRdtHc5ylELZ7Che56aIkBmZiMoDaCFJwAk/QjQJ1g0SrmvfpaCmVpHCZmRphdWaz
-	pvqpj9pwTVFABmSg9KKQ==;
+	List-Owner; bh=i/mWL6pm3a2QwJnlEdHu9wMyK3dosheuvyvgJTIvDjo=; b=wMrLYhBsB3J+ec
+	PqrhtyMZ+76M1GcSEVcT5Z9j9dD5cQ+WKbfyjAFLnA5RDsT5Qyd8Axt0675smqk9Zo99CGxCUntsE
+	Ap3o0RO7moQOrTwZPsWC8LhX+ICUex9nTU5561wFq+ETkNVd4LD1c0BfsEsr1HCegUukUMTAVIoUy
+	12D1+c7q3ZG6elCwhDfeEYWJQ72DxSN/nO6ijITcHnyIeMuqHxXeSBdPF2hgWZJQiv5aRiwhRTbau
+	s8Orsw3/MMxFIgA/6+cbbYMH1+JULFBGeO/Rbz1JmkHcmzcOh9XSqI8NG5k+vbISyPudlpRstoKOu
+	S4rDYUyII+S2ETfxt6YQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nyzPX-00EUJJ-1X; Wed, 08 Jun 2022 17:24:03 +0000
-Received: from mout.kundenserver.de ([212.227.17.10])
+	id 1nyzQ9-00EUS0-0G; Wed, 08 Jun 2022 17:24:41 +0000
+Received: from mout.kundenserver.de ([212.227.17.13])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nyzPS-00EUH7-Eq; Wed, 08 Jun 2022 17:24:00 +0000
-Received: from mail-yb1-f177.google.com ([209.85.219.177]) by
- mrelayeu.kundenserver.de (mreue109 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1N3bb3-1nZF2u0m8p-010cG0; Wed, 08 Jun 2022 19:23:55 +0200
-Received: by mail-yb1-f177.google.com with SMTP id x187so10092772ybe.2;
-        Wed, 08 Jun 2022 10:23:54 -0700 (PDT)
-X-Gm-Message-State: AOAM530fcH+GUg4RpdmfDm4fRjA+2D3RHyc/q+vk0Iam7C3Pe7fHaPjc
-	nZERp2vRkkxD4/DpQwCzeNKjqwxHOFDRgmBCrrU=
-X-Google-Smtp-Source: ABdhPJzNVjvOg+I4TKoqtI9Mj5r7eGnKl4yZEYVHLzTr22uimte8bgKc1nTgREfDsecVqzQDeuxH8v8jGezndj85u8s=
-X-Received: by 2002:a25:e64b:0:b0:663:ffad:eac5 with SMTP id
- d72-20020a25e64b000000b00663ffadeac5mr3789690ybh.550.1654705730388; Wed, 08
- Jun 2022 09:28:50 -0700 (PDT)
+	id 1nyzQ5-00EUPH-6T; Wed, 08 Jun 2022 17:24:38 +0000
+Received: from mail-ot1-f52.google.com ([209.85.210.52]) by
+ mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1M6VNX-1o5pyg0jMH-006xVW; Wed, 08 Jun 2022 19:24:31 +0200
+Received: by mail-ot1-f52.google.com with SMTP id w19-20020a9d6393000000b0060aeb359ca8so15580915otk.6;
+        Wed, 08 Jun 2022 10:24:30 -0700 (PDT)
+X-Gm-Message-State: AOAM533EUu3BGtj357OwO/WMSp3qm+0CbPWFpJE2+9kr/zVjDj1WkpD+
+	5a38+uXVXBpVGUS687vphLGwbCXYC7lR+l+mdiw=
+X-Google-Smtp-Source: ABdhPJzN5kbTwiXruPcKSpnmqojFIl1cGQUBuhNCCdRneCrpSwm0deMOGKvKLmavgOJ05DHkpAoCHNV4Fm5CQu/QOU4=
+X-Received: by 2002:a0d:efc2:0:b0:2fe:d2b7:da8 with SMTP id
+ y185-20020a0defc2000000b002fed2b70da8mr36982567ywe.42.1654705351589; Wed, 08
+ Jun 2022 09:22:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220608142723.103523089@infradead.org> <20220608144518.010587032@infradead.org>
-In-Reply-To: <20220608144518.010587032@infradead.org>
+References: <20220608142723.103523089@infradead.org> <20220608144517.188449351@infradead.org>
+In-Reply-To: <20220608144517.188449351@infradead.org>
 From: Arnd Bergmann <arnd@arndb.de>
-Date: Wed, 8 Jun 2022 18:28:33 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0g-fNu9=BUECSXcNeWT7XWHQMnSXZE-XYE+5eakHxKxA@mail.gmail.com>
-Message-ID: <CAK8P3a0g-fNu9=BUECSXcNeWT7XWHQMnSXZE-XYE+5eakHxKxA@mail.gmail.com>
-Subject: Re: [PATCH 33/36] cpuidle,omap3: Use WFI for omap3_pm_idle()
+Date: Wed, 8 Jun 2022 18:22:12 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a2y5+nrQFzhjrTTZe+d57Ug261J3kwLNe8Mu8i2qxtG2w@mail.gmail.com>
+Message-ID: <CAK8P3a2y5+nrQFzhjrTTZe+d57Ug261J3kwLNe8Mu8i2qxtG2w@mail.gmail.com>
+Subject: Re: [PATCH 20/36] arch/idle: Change arch_cpu_idle() IRQ behaviour
 To: Peter Zijlstra <peterz@infradead.org>
 Cc: Richard Henderson <rth@twiddle.net>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
 	Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>, 
@@ -111,27 +111,27 @@ Cc: Richard Henderson <rth@twiddle.net>, Ivan Kokshaysky <ink@jurassic.park.msu.
 	linux-clk <linux-clk@vger.kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>, 
 	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
 	rcu@vger.kernel.org
-X-Provags-ID: V03:K1:csB3aTxthwVnChGOYyjFH9CnMzsjh5xSra/CBkHJrbOKjamCKVt
- GPesOK+3RpQaFoFIL8+YF42LFfIpDMTn26n4dNiEu+2j1MYjkbbFJE74h9LBdzpwD89dKP1
- /+zDCKTRvIbDIMEcExJkUH5x3OW3U+k2BC7JzqeER23XsgvpC64UJoFJ9fsEGwVHPSwvf9/
- oEtJnZBvJq9VV1+sEAAQw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:rCbYnsW5E08=:x5DziFA2pvRS4z52or9R6+
- kNDOiKyPGSicyG7RY7x8sDKhAMQbVagkUvk42AhsdINPzCF1iHOtY5GSxZuiifCJdYkRh9/bX
- aG21nvo/LHW5eDa6HIXQlKrkygVfTte6G3nti0E2oPHIiTqoKVS4023up/LVcvsYaXS3sRmA+
- RSY5gb/2qF5Z+MaO97T8RSHMOf699wmLtEaliGL731xI4HUcDnZKQasBU45p0fW3rFtm3s2Xg
- i4u9Hi6uokJRiIRBh/loBO43d2iCxz0rCFn3kIM/C923fMA1411Lwz2npGRJlmetFNZkwI0vJ
- gdZSdVjA9wXQEAu8ULRJmfIVIf69R7aOuVADKUxRl/ed9CIMj5fx5ocuBrjQs2rQ4duoO/5PE
- viD1WMe7EPNiPWE6b88rcetTNKql9jX6XLAZotssXXJvy9U5g98woNyyvczivIuHKyiFbfzF4
- PbJrrd9LKmlgE8HW2IsfB66TFEagI06e9zPnVws5u9QzxrgT9R0vwIwsSoah27jTF3QQcx86P
- HYY0Kys5kZDVYuwfJvN/fMnoYPQIYLIxG9Pf1aexU9yaBO//0VLn102UaI2kLrE+EQSvhkfn/
- vgyMxlpSorKZx3oiDgsva9TZLkvCoHJ9vUd2LF2q3Dj03cSarUKoIk9shVyFCyMWemnzo0iHK
- 4OVOOx+oKzD/+UwW399FkHBzDafsMILhsqlYlHUyZIAE9zW6Xaxg3oE9pXuPDy7zerA7yb4st
- T1Lhodp/soWcnyvF4N0VL90jaEo5Gt5YsRLmMJzFzcsNsd+amIjYZG+OF7R4ki+ZKGdtgvpZE
- GJMYyM4+xnLkNbwJrnz4l9TG/CFe/su+YJLfuDooLVVKvt10wq5J0mVIZZioHijxzNS8rIDHB
- ALBV4ijW4lrtEop7p/ZAtr+rbWkm96vKDSxRi2Pc8=
+X-Provags-ID: V03:K1:f6MAODVQwFkToD8ZGpqqcR3LRuigXpfReJhIPMngEtPmqsMWofe
+ 78RnVl4NShqaQgs/AVTS7tMb2ioFh5aVPt4++vDQxUQcydgxgJBW8TJMd0VgNAgJLo32c/H
+ Jj+a6Fp3ANaCMMz4mkg7xwAKHZp6Udx3k7q4qu0V0Udsj0v7KUfkJrtAFNfJYgQMbtcg/IL
+ HnAjMcOyeHK5HCcpjrAAw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:uT361sUFDfU=:tv7w5GiHwaOr0cKSBewb9p
+ BAWthbAejv9MMjr/CiBGdlOabpK7tgd09zdPLQixsZ9eLvM4uAWLUXoX/XHRwnqzrLuahSl++
+ yXtPnG79HntP7DmRn1+EXts61xmQ4mQhAChPSSMjKotXO1/aDR+4z7Mymp9C6f/aY+BtLp9Bv
+ psoHXmqoNIVzoIRlysvMfOgpEeBe+nFsVAGZmXeK4eb8BsLYnCjdTeV7j8MJkjYtPccLLhB+6
+ 5NBNX3E2OZpiOQcnKd36duk7KVcudKYOh+MHWKx1PIKAo2bID8FbXAzq2EhuFOMlNiBIZ5w6K
+ THGrNRNMayBGlJzY/pktlh1kRcS3uV6IfiytF/gJmxcXot1B9zJIRQyjI76xB9SKfUJLKtPcZ
+ KAB72hULrX/9hybQANLkc8htPOBMBKiK+7YNKXGFaKxLGy+r08Rki4qfFlZGChXooVyJBW7LE
+ BFH0hK/Dl6/dzljp3QRhY6Ce0fJVQhwUZ2TSL07gsNKPEa0d0MiSGo+TuE8/KhRmUZhb3OKzW
+ 3SqmTZ/Eem4Gx0k1Vo3XAa12k7h/RVCkG4HOL9/ZF/qt4P53PD8o3i4Uk0I62Yg900gl5dmo5
+ 55r6Kjqkwg28bjrLgCGaZkYZKlpMRh0pfotbomQFblsW8UG13+qafzmTcRV+CurmXvvvNcRRQ
+ 2KRRWGfCGqIAMBXgaQPmUaUVXHIhEXUSLzvVb1I1B3wZDfUHGqH76FJHhI3m0+emItHMMflvr
+ oCWdD1TQb3RUnsj9A7ObGXCj/fa4+So46APLzOYhQraeKagrekkZjHlj6xIIj9Bgr9v5/bYyT
+ UT/jMXs1db1EW2trQuBHkGJ48AG3eCg8gTlciHXD9WaY681tXUsIm7CmDDvGJvrvDB7XrrZbH
+ TzmXC2ZzRjRuxnTue2uw==
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220608_102358_826572_D7E36820 
-X-CRM114-Status: GOOD (  18.75  )
+X-CRM114-CacheID: sfid-20220608_102437_566568_F248EE33 
+X-CRM114-Status: GOOD (  17.56  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,25 +150,23 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 On Wed, Jun 8, 2022 at 4:27 PM Peter Zijlstra <peterz@infradead.org> wrote:
 >
-> arch_cpu_idle() is a very simple idle interface and exposes only a
-> single idle state and is expected to not require RCU and not do any
-> tracing/instrumentation.
+> Current arch_cpu_idle() is called with IRQs disabled, but will return
+> with IRQs enabled.
 >
-> As such, omap_sram_idle() is not a valid implementation. Replace it
-> with the simple (shallow) omap3_do_wfi() call. Leaving the more
-> complicated idle states for the cpuidle driver.
+> However, the very first thing the generic code does after calling
+> arch_cpu_idle() is raw_local_irq_disable(). This means that
+> architectures that can idle with IRQs disabled end up doing a
+> pointless 'enable-disable' dance.
+>
+> Therefore, push this IRQ disabling into the idle function, meaning
+> that those architectures can avoid the pointless IRQ state flipping.
 >
 > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 
-I see similar code in omap2:
+I think you now need to add the a raw_local_irq_disable(); in loongarch
+as well.
 
-omap2_pm_idle()
- -> omap2_enter_full_retention()
-     -> omap2_sram_suspend()
-
-Is that code path safe to use without RCU or does it need a similar change?
-
-        Arnd
+       Arnd
 
 _______________________________________________
 linux-snps-arc mailing list
