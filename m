@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83948C433EF
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Jun 2022 09:41:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B900C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Jun 2022 09:48:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Cckceo+SS//5WzNZ4mIHeYJBgoDjnHpiB6jbw1fOCz4=; b=hQ6RuBlr7M3so/
-	ydMt4amgVrSgs5d3HEYjNWIq0Qe9WEFpI7Z5DpL/kEo5ekXamVFiR7MeaCS+9uPmYShms+EGVROnO
-	0jJLhKa9SEabNQKdaTkNxcczSwH5zssuVDmrJFrdx5O820OiHc3nsYRR8t27pjXLeJywS5Bua8+lY
-	2q2JhEiHU41R6N6Z1vvE/IUDeQXVxQAU6UK3ak5acrLNZyEcm7fygYW2rBa3/Bc2KZ62ttNgjEVg2
-	4DBggOcluKfMTMyRGa3VS+bzIjTVq8yPxoaly3gsW2+pak5cO6390Q++iRnxex7qakyV/UmrWoU+7
-	VZx8GExfzArqBBP2us6A==;
+	List-Owner; bh=veeXq83x5FQH2oscQNBCCVM5KWUul1JLA4GsjDg7ZJE=; b=JciBtpV1MY52x3
+	y1ZLs8MEM2txxCm3k0LrYlDonDzrwoIaVS6NI1+qnLMZHiHG8DSbNRDIgIVs9KvPFHvrhkwkZzNgF
+	542N97Yn2zeECFLxEkWqve0rYlu+TieMZHb6xGKwWyD8u/TjSSulOxeVf43QZa2W5InCm/eRlK6aW
+	5+GGhttZcQjHyvoO5PgoATTHsXNGIjQxLBPa3ttoJyRqzUSIWVLYyWKoQd3+psyzlK1Pr0LrDUaVr
+	jWPelEkTAHqwxOfPCssI+NMZIqMGqy06rDoSGusN45R/4izWISmFBsWgwt4pQVTeQgoC8OmqXGFOd
+	HuyBHdHbgynKdRM4rBBQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nzEf6-000jA7-LF; Thu, 09 Jun 2022 09:41:08 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1nzElx-000m9p-EX; Thu, 09 Jun 2022 09:48:13 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nzEf4-000j8M-7r; Thu, 09 Jun 2022 09:41:06 +0000
+	id 1nzElv-000m8u-Ck; Thu, 09 Jun 2022 09:48:11 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=jxhFyRA7gcpqWtRQyvyD3abswc2PbVc4FSoswUV5Ukc=; b=eTVis02Li1gUMyvYNvhtQOfPjM
-	7jPK+tlnMQu8YlONdKYuGGzg5f4OtA6n+DLuvaVtWLmmwBKEcjK3gJJFZyuUsx9s+WrgcdXDtEGo5
-	n/0BitYa/9Tv9a5PHDy4FBaJ0usEOIIGYMMcR/SAKx38GPSteGLT2qjJKdgzgVt9Wb+/EeSMk/GCj
-	o7MIldwwpKDLAKlNGDE/FUzTM2RKPEJfDUWHFxb549VYWV718uWBpBWrwfwVc4Y51nI2XmOQdPNke
-	dbtUv13RdN1xprVJqbJ/lLZKhjUqu4j3NGqJXLsSZjtm/Jap7nXVhvEByTNVwWiNq35HcNs4n5id9
-	tqC7XoNQ==;
+	bh=9jA4mchnYQoJ5XaXo73/qgoc6iaW5C3P1k7XaYKsS1U=; b=cB9XFjQVxWqfDyzeN0qaxTZuLD
+	YLcvVXkDGRGNOtMLtEgH+zL1QwGa+jRQrKiDu6o+KwcqUIios781clMIKdQSQtEcXojjpXyjmvj46
+	euyjd4m+n/z+pXAWpiww5AHKVJISuO8dbwfn2kdK+vnbm4iQMh9u58KvobfYp6DKnGfTofnM78Yt0
+	Jz76LJDB6p5dvl91aPCez/Dj+sFAkswEne+HjI0PWGc0G7Uh6QasF9s0y9AlvQ8RjyVaUQ4ilXQ62
+	Z4qivKfe5pGVxrpCjV/g6X6ndctS6ICj5/6oYIabFd8D02kUsNuFDdK3DNDO+pifvTslSQOhwvIep
+	NfI5oq7A==;
 Received: from dhcp-077-249-017-003.chello.nl ([77.249.17.3] helo=worktop.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nzEen-006Kx5-AX; Thu, 09 Jun 2022 09:40:49 +0000
+	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1nzElj-00DR5R-4H; Thu, 09 Jun 2022 09:47:59 +0000
 Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-	id B092F981287; Thu,  9 Jun 2022 11:40:46 +0200 (CEST)
-Date: Thu, 9 Jun 2022 11:40:46 +0200
+	id 100CA981287; Thu,  9 Jun 2022 11:47:58 +0200 (CEST)
+Date: Thu, 9 Jun 2022 11:47:57 +0200
 From: Peter Zijlstra <peterz@infradead.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Richard Henderson <rth@twiddle.net>,
+To: Tony Lindgren <tony@atomide.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Richard Henderson <rth@twiddle.net>,
 	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
 	Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>,
 	Russell King - ARM Linux <linux@armlinux.org.uk>,
@@ -53,7 +53,7 @@ Cc: Richard Henderson <rth@twiddle.net>,
 	Sascha Hauer <kernel@pengutronix.de>,
 	Fabio Estevam <festevam@gmail.com>,
 	NXP Linux Team <linux-imx@nxp.com>,
-	Tony Lindgren <tony@atomide.com>, Kevin Hilman <khilman@kernel.org>,
+	Kevin Hilman <khilman@kernel.org>,
 	Catalin Marinas <catalin.marinas@arm.com>,
 	Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
 	bcain@quicinc.com, Huacai Chen <chenhuacai@kernel.org>,
@@ -151,13 +151,14 @@ Cc: Richard Henderson <rth@twiddle.net>,
 	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
 	linux-arch <linux-arch@vger.kernel.org>, rcu@vger.kernel.org
 Subject: Re: [PATCH 33/36] cpuidle,omap3: Use WFI for omap3_pm_idle()
-Message-ID: <YqHAHpGVe10I8O1z@worktop.programming.kicks-ass.net>
+Message-ID: <YqHBzbAiqaZeoipw@worktop.programming.kicks-ass.net>
 References: <20220608142723.103523089@infradead.org>
  <20220608144518.010587032@infradead.org>
  <CAK8P3a0g-fNu9=BUECSXcNeWT7XWHQMnSXZE-XYE+5eakHxKxA@mail.gmail.com>
+ <YqGjqgSrTRseJW6M@atomide.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAK8P3a0g-fNu9=BUECSXcNeWT7XWHQMnSXZE-XYE+5eakHxKxA@mail.gmail.com>
+In-Reply-To: <YqGjqgSrTRseJW6M@atomide.com>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -174,29 +175,29 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 08, 2022 at 06:28:33PM +0200, Arnd Bergmann wrote:
-> On Wed, Jun 8, 2022 at 4:27 PM Peter Zijlstra <peterz@infradead.org> wrote:
-> >
-> > arch_cpu_idle() is a very simple idle interface and exposes only a
-> > single idle state and is expected to not require RCU and not do any
-> > tracing/instrumentation.
-> >
-> > As such, omap_sram_idle() is not a valid implementation. Replace it
-> > with the simple (shallow) omap3_do_wfi() call. Leaving the more
-> > complicated idle states for the cpuidle driver.
-> >
-> > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+On Thu, Jun 09, 2022 at 10:39:22AM +0300, Tony Lindgren wrote:
+> * Arnd Bergmann <arnd@arndb.de> [220608 18:18]:
+> > On Wed, Jun 8, 2022 at 4:27 PM Peter Zijlstra <peterz@infradead.org> wrote:
+> > >
+> > > arch_cpu_idle() is a very simple idle interface and exposes only a
+> > > single idle state and is expected to not require RCU and not do any
+> > > tracing/instrumentation.
+> > >
+> > > As such, omap_sram_idle() is not a valid implementation. Replace it
+> > > with the simple (shallow) omap3_do_wfi() call. Leaving the more
+> > > complicated idle states for the cpuidle driver.
 > 
-> I see similar code in omap2:
-> 
-> omap2_pm_idle()
->  -> omap2_enter_full_retention()
->      -> omap2_sram_suspend()
-> 
-> Is that code path safe to use without RCU or does it need a similar change?
+> Agreed it makes sense to limit deeper idle states to cpuidle. Hopefully
+> there is some informative splat for attempting to use arch_cpu_ide()
+> for deeper idle states :)
 
-It needs a similar change, clearly I was running on fumes to not have
-found that when grepping around the omap code :/
+The arch_cpu_idle() interface doesn't allow one to express a desire for
+deeper states. I'm not sure how anyone could even attempt this.
+
+But given what OMAP needs to go deeper, this would involve things that
+require RCU, combine that with the follow up patches that rip out all
+the trace_.*_rcuidle() hackery from the power and clock domain code,
+PROVE_RCU should scream if anybody were to attempt it.
 
 _______________________________________________
 linux-snps-arc mailing list
