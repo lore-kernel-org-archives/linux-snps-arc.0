@@ -4,67 +4,152 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7961AC433EF
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Jun 2022 03:56:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 016C4CCA473
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Jun 2022 07:39:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=4QkEcnifpizSKtjgDVveus23jESbzXdWWkf5NU/XmC0=; b=MlwYui0QdXSkej
-	vw1bDgpu8DSsLVG32UFYf5GxincAmG+a5tITQ0zE9c5oRDQeLeT6AHc1OpKpuyzL2+Xynij3zPp8n
-	PCZC9wC1xwMSjFNWl2z+4Uiqway3g7k+mfKNTGyluRteHvJaFb91hBIzU22v+ZDPR71ci2c9fP6gK
-	VCpKbqFMMcl74WkU3RTdIBCyt65+yxdS/aII6unwfknWJA6JwXfjNBGr9hKhUNSSfOnEFOlpzJZJb
-	TbJg0yhTCBNGF2T27lmbTAB+nB74WhSN14ClHzskxNo8N+3gn/7fHdPdQuSKfy2OyaW37NbwqG+yy
-	G4cZksk9+U4ujXt/UtuA==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=bUujQOMN2idux6pjQp6uHhfcsTFdcFHRIk7Cmr76CN0=; b=KdY99gbxMpnkOa
+	YxYiQhFM24IUVQor0PLJA4cUZzNuHh9qVMaMNMIUotBFm5GMHW7llStoGXlMBuDlKWU2g4kIdmgJl
+	LpQ0TcPcMe14ZWu3i6N53ULsbo7K84WqBc8V7J6KXiR00cYQ7vOqH9rpRtV2I5NDgXBP/1Akur4gi
+	4S70p5hoNwtW7DqnfKlN8jyhyBmiKBX2E/UENqyEByzA81SzNbgjCkMPTzgebB2fkCo9UJ3idk2Is
+	d7/QtkJ3p3fCxBgZQk6qak9XH/P74py05p5xbh68ShhhogcwqSeIyIEQBjf5GujEaA0AuKgX+lpWv
+	pKSxw2PPumbeis29L4Gg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nz9HU-00G0u2-4Y; Thu, 09 Jun 2022 03:56:24 +0000
-Received: from mga02.intel.com ([134.134.136.20])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nz9HR-00G0px-IH
-	for linux-snps-arc@lists.infradead.org; Thu, 09 Jun 2022 03:56:23 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1654746981; x=1686282981;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+I/oVCq3xhjdVOnCr/3XZ2G1+Q28DoV50e7XTR1XEyM=;
-  b=g4u0ijGQtFyvHUfHgcGZvTDegA38XKApLcI+BYDSlfXEQAGIsZsRrBjm
-   KftqR7Xg3h5sQNiZQYEFxs37dzZ/RZnOADiVfqUASnuMeoidKiphf7+l7
-   p22jR1dpxARI+9xnhE47FbBLxFmCiC/ihk4wU+2OQT79Sw5PFS6xufPdi
-   jYAJsVTYECJzv444X9jZQJ2qNaXAfbCQf5wRp0R/EsBWqQmgxWiuqpl8x
-   iqcR1DqqoOWwbn+LdCeTzUEBXr5p20a7npVi84QlIJgIiUNdySCj1Wb42
-   97o8iTrNgGkF3xCMLw/lr5SnL5tzjW+GRq+aMjxCNSqWDH2DoEtli6HUF
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10372"; a="265926817"
-X-IronPort-AV: E=Sophos;i="5.91,287,1647327600"; 
-   d="scan'208";a="265926817"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2022 20:56:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,287,1647327600"; 
-   d="scan'208";a="585270617"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 08 Jun 2022 20:56:15 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1nz9HK-000FTR-K9;
-	Thu, 09 Jun 2022 03:56:14 +0000
-Date: Thu, 9 Jun 2022 11:56:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vineet Gupta <vgupta@kernel.org>
-Cc: kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org
-Subject: net/ipv4/tcp_cong.c:238:22: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202206091138.G3gUfGes-lkp@intel.com>
+	id 1nzClS-00HUfQ-G0; Thu, 09 Jun 2022 07:39:34 +0000
+Received: from muru.com ([72.249.23.125])
+	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1nzClN-00HUYZ-BC; Thu, 09 Jun 2022 07:39:30 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by muru.com (Postfix) with ESMTPS id 88FEF80F1;
+	Thu,  9 Jun 2022 07:34:50 +0000 (UTC)
+Date: Thu, 9 Jun 2022 10:39:22 +0300
+From: Tony Lindgren <tony@atomide.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	Richard Henderson <rth@twiddle.net>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>,
+	Russell King - ARM Linux <linux@armlinux.org.uk>,
+	Hans Ulli Kroll <ulli.kroll@googlemail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Sascha Hauer <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Kevin Hilman <khilman@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
+	bcain@quicinc.com, Huacai Chen <chenhuacai@kernel.org>,
+	Xuerui Wang <kernel@xen0n.name>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Sam Creasey <sammy@sammy.net>, Michal Simek <monstr@monstr.eu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Dinh Nguyen <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>,
+	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+	Stafford Horne <shorne@gmail.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Paul Mackerras <paulus@samba.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>, David Miller <davem@davemloft.net>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	the arch/x86 maintainers <x86@kernel.org>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
+	Juergen Gross <jgross@suse.com>, srivatsa@csail.mit.edu,
+	amakhalov@vmware.com, Pv-drivers <pv-drivers@vmware.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
+	Rafael Wysocki <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>, gregkh <gregkh@linuxfoundation.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>, lpieralisi@kernel.org,
+	Sudeep Holla <sudeep.holla@arm.com>, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <bjorn.andersson@linaro.org>,
+	Anup Patel <anup@brainfault.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	jacob.jun.pan@linux.intel.com, Yury Norov <yury.norov@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	John Ogness <john.ogness@linutronix.de>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>, quic_neeraju@quicinc.com,
+	Josh Triplett <josh@joshtriplett.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Daniel Bristot de Oliveira <bristot@redhat.com>,
+	vschneid@redhat.com, jpoimboe@kernel.org,
+	alpha <linux-alpha@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	"open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	linux-omap <linux-omap@vger.kernel.org>, linux-csky@vger.kernel.org,
+	"open list:QUALCOMM HEXAGON..." <linux-hexagon@vger.kernel.org>,
+	"open list:IA64 (Itanium) PLATFORM" <linux-ia64@vger.kernel.org>,
+	linux-m68k <linux-m68k@lists.linux-m68k.org>,
+	"open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+	Openrisc <openrisc@lists.librecores.org>,
+	Parisc List <linux-parisc@vger.kernel.org>,
+	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+	linux-riscv <linux-riscv@lists.infradead.org>,
+	linux-s390 <linux-s390@vger.kernel.org>,
+	Linux-sh list <linux-sh@vger.kernel.org>,
+	sparclinux <sparclinux@vger.kernel.org>,
+	linux-um <linux-um@lists.infradead.org>,
+	linux-perf-users@vger.kernel.org,
+	"open list:DRM DRIVER FOR QEMU'S CIRRUS DEVICE" <virtualization@lists.linux-foundation.org>,
+	xen-devel <xen-devel@lists.xenproject.org>,
+	"open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>,
+	ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+	Linux PM list <linux-pm@vger.kernel.org>,
+	linux-clk <linux-clk@vger.kernel.org>,
+	linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
+	linux-arch <linux-arch@vger.kernel.org>, rcu@vger.kernel.org
+Subject: Re: [PATCH 33/36] cpuidle,omap3: Use WFI for omap3_pm_idle()
+Message-ID: <YqGjqgSrTRseJW6M@atomide.com>
+References: <20220608142723.103523089@infradead.org>
+ <20220608144518.010587032@infradead.org>
+ <CAK8P3a0g-fNu9=BUECSXcNeWT7XWHQMnSXZE-XYE+5eakHxKxA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
+In-Reply-To: <CAK8P3a0g-fNu9=BUECSXcNeWT7XWHQMnSXZE-XYE+5eakHxKxA@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220608_205621_683288_07C59314 
-X-CRM114-Status: UNSURE (   9.73  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220609_003929_466212_134FD227 
+X-CRM114-Status: GOOD (  20.51  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,80 +166,35 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6bfb56e93bcef41859c2d5ab234ffd80b691be35
-commit: e188f3330a13df904d77003846eafd3edf99009d ARC: cmpxchg/xchg: rewrite as macros to make type safe
-date:   10 months ago
-config: arc-randconfig-s032-20220530 (https://download.01.org/0day-ci/archive/20220609/202206091138.G3gUfGes-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 11.3.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-26-gb3cf30ba-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e188f3330a13df904d77003846eafd3edf99009d
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e188f3330a13df904d77003846eafd3edf99009d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arc SHELL=/bin/bash net/ipv4/
+* Arnd Bergmann <arnd@arndb.de> [220608 18:18]:
+> On Wed, Jun 8, 2022 at 4:27 PM Peter Zijlstra <peterz@infradead.org> wrote:
+> >
+> > arch_cpu_idle() is a very simple idle interface and exposes only a
+> > single idle state and is expected to not require RCU and not do any
+> > tracing/instrumentation.
+> >
+> > As such, omap_sram_idle() is not a valid implementation. Replace it
+> > with the simple (shallow) omap3_do_wfi() call. Leaving the more
+> > complicated idle states for the cpuidle driver.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+Agreed it makes sense to limit deeper idle states to cpuidle. Hopefully
+there is some informative splat for attempting to use arch_cpu_ide()
+for deeper idle states :)
 
+> I see similar code in omap2:
+> 
+> omap2_pm_idle()
+>  -> omap2_enter_full_retention()
+>      -> omap2_sram_suspend()
+> 
+> Is that code path safe to use without RCU or does it need a similar change?
 
-sparse warnings: (new ones prefixed by >>)
-   net/ipv4/tcp_cong.c:238:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct tcp_congestion_ops const [noderef] __rcu *_val_ @@     got struct tcp_congestion_ops *[assigned] ca @@
-   net/ipv4/tcp_cong.c:238:24: sparse:     expected struct tcp_congestion_ops const [noderef] __rcu *_val_
-   net/ipv4/tcp_cong.c:238:24: sparse:     got struct tcp_congestion_ops *[assigned] ca
->> net/ipv4/tcp_cong.c:238:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tcp_congestion_ops const *prev @@     got struct tcp_congestion_ops const [noderef] __rcu *[assigned] _val_ @@
-   net/ipv4/tcp_cong.c:238:22: sparse:     expected struct tcp_congestion_ops const *prev
-   net/ipv4/tcp_cong.c:238:22: sparse:     got struct tcp_congestion_ops const [noderef] __rcu *[assigned] _val_
+Seems like a similar change should be done for omap2. Then anybody who
+cares to implement a minimal cpuidle support can do so.
 
-vim +238 net/ipv4/tcp_cong.c
+Regards,
 
-317a76f9a44b43 Stephen Hemminger 2005-06-23  219  
-317a76f9a44b43 Stephen Hemminger 2005-06-23  220  /* Used by sysctl to change default congestion control */
-6670e152447732 Stephen Hemminger 2017-11-14  221  int tcp_set_default_congestion_control(struct net *net, const char *name)
-317a76f9a44b43 Stephen Hemminger 2005-06-23  222  {
-317a76f9a44b43 Stephen Hemminger 2005-06-23  223  	struct tcp_congestion_ops *ca;
-6670e152447732 Stephen Hemminger 2017-11-14  224  	const struct tcp_congestion_ops *prev;
-6670e152447732 Stephen Hemminger 2017-11-14  225  	int ret;
-317a76f9a44b43 Stephen Hemminger 2005-06-23  226  
-6670e152447732 Stephen Hemminger 2017-11-14  227  	rcu_read_lock();
-6670e152447732 Stephen Hemminger 2017-11-14  228  	ca = tcp_ca_find_autoload(net, name);
-6670e152447732 Stephen Hemminger 2017-11-14  229  	if (!ca) {
-6670e152447732 Stephen Hemminger 2017-11-14  230  		ret = -ENOENT;
-0baf26b0fcd74b Martin KaFai Lau  2020-01-08  231  	} else if (!bpf_try_module_get(ca, ca->owner)) {
-6670e152447732 Stephen Hemminger 2017-11-14  232  		ret = -EBUSY;
-8d432592f30fcc Jonathon Reinhart 2021-05-01  233  	} else if (!net_eq(net, &init_net) &&
-8d432592f30fcc Jonathon Reinhart 2021-05-01  234  			!(ca->flags & TCP_CONG_NON_RESTRICTED)) {
-8d432592f30fcc Jonathon Reinhart 2021-05-01  235  		/* Only init netns can set default to a restricted algorithm */
-8d432592f30fcc Jonathon Reinhart 2021-05-01  236  		ret = -EPERM;
-6670e152447732 Stephen Hemminger 2017-11-14  237  	} else {
-6670e152447732 Stephen Hemminger 2017-11-14 @238  		prev = xchg(&net->ipv4.tcp_congestion_control, ca);
-6670e152447732 Stephen Hemminger 2017-11-14  239  		if (prev)
-0baf26b0fcd74b Martin KaFai Lau  2020-01-08  240  			bpf_module_put(prev, prev->owner);
-317a76f9a44b43 Stephen Hemminger 2005-06-23  241  
-6670e152447732 Stephen Hemminger 2017-11-14  242  		ca->flags |= TCP_CONG_NON_RESTRICTED;
-317a76f9a44b43 Stephen Hemminger 2005-06-23  243  		ret = 0;
-317a76f9a44b43 Stephen Hemminger 2005-06-23  244  	}
-6670e152447732 Stephen Hemminger 2017-11-14  245  	rcu_read_unlock();
-317a76f9a44b43 Stephen Hemminger 2005-06-23  246  
-317a76f9a44b43 Stephen Hemminger 2005-06-23  247  	return ret;
-317a76f9a44b43 Stephen Hemminger 2005-06-23  248  }
-317a76f9a44b43 Stephen Hemminger 2005-06-23  249  
-
-:::::: The code at line 238 was first introduced by commit
-:::::: 6670e152447732ba90626f36dfc015a13fbf150e tcp: Namespace-ify sysctl_tcp_default_congestion_control
-
-:::::: TO: Stephen Hemminger <stephen@networkplumber.org>
-:::::: CC: David S. Miller <davem@davemloft.net>
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Tony
 
 _______________________________________________
 linux-snps-arc mailing list
