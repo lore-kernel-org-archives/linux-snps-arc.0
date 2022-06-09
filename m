@@ -4,34 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 016C4CCA473
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Jun 2022 07:39:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83948C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Jun 2022 09:41:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=bUujQOMN2idux6pjQp6uHhfcsTFdcFHRIk7Cmr76CN0=; b=KdY99gbxMpnkOa
-	YxYiQhFM24IUVQor0PLJA4cUZzNuHh9qVMaMNMIUotBFm5GMHW7llStoGXlMBuDlKWU2g4kIdmgJl
-	LpQ0TcPcMe14ZWu3i6N53ULsbo7K84WqBc8V7J6KXiR00cYQ7vOqH9rpRtV2I5NDgXBP/1Akur4gi
-	4S70p5hoNwtW7DqnfKlN8jyhyBmiKBX2E/UENqyEByzA81SzNbgjCkMPTzgebB2fkCo9UJ3idk2Is
-	d7/QtkJ3p3fCxBgZQk6qak9XH/P74py05p5xbh68ShhhogcwqSeIyIEQBjf5GujEaA0AuKgX+lpWv
-	pKSxw2PPumbeis29L4Gg==;
+	List-Owner; bh=Cckceo+SS//5WzNZ4mIHeYJBgoDjnHpiB6jbw1fOCz4=; b=hQ6RuBlr7M3so/
+	ydMt4amgVrSgs5d3HEYjNWIq0Qe9WEFpI7Z5DpL/kEo5ekXamVFiR7MeaCS+9uPmYShms+EGVROnO
+	0jJLhKa9SEabNQKdaTkNxcczSwH5zssuVDmrJFrdx5O820OiHc3nsYRR8t27pjXLeJywS5Bua8+lY
+	2q2JhEiHU41R6N6Z1vvE/IUDeQXVxQAU6UK3ak5acrLNZyEcm7fygYW2rBa3/Bc2KZ62ttNgjEVg2
+	4DBggOcluKfMTMyRGa3VS+bzIjTVq8yPxoaly3gsW2+pak5cO6390Q++iRnxex7qakyV/UmrWoU+7
+	VZx8GExfzArqBBP2us6A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nzClS-00HUfQ-G0; Thu, 09 Jun 2022 07:39:34 +0000
-Received: from muru.com ([72.249.23.125])
-	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nzClN-00HUYZ-BC; Thu, 09 Jun 2022 07:39:30 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by muru.com (Postfix) with ESMTPS id 88FEF80F1;
-	Thu,  9 Jun 2022 07:34:50 +0000 (UTC)
-Date: Thu, 9 Jun 2022 10:39:22 +0300
-From: Tony Lindgren <tony@atomide.com>
+	id 1nzEf6-000jA7-LF; Thu, 09 Jun 2022 09:41:08 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1nzEf4-000j8M-7r; Thu, 09 Jun 2022 09:41:06 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=jxhFyRA7gcpqWtRQyvyD3abswc2PbVc4FSoswUV5Ukc=; b=eTVis02Li1gUMyvYNvhtQOfPjM
+	7jPK+tlnMQu8YlONdKYuGGzg5f4OtA6n+DLuvaVtWLmmwBKEcjK3gJJFZyuUsx9s+WrgcdXDtEGo5
+	n/0BitYa/9Tv9a5PHDy4FBaJ0usEOIIGYMMcR/SAKx38GPSteGLT2qjJKdgzgVt9Wb+/EeSMk/GCj
+	o7MIldwwpKDLAKlNGDE/FUzTM2RKPEJfDUWHFxb549VYWV718uWBpBWrwfwVc4Y51nI2XmOQdPNke
+	dbtUv13RdN1xprVJqbJ/lLZKhjUqu4j3NGqJXLsSZjtm/Jap7nXVhvEByTNVwWiNq35HcNs4n5id9
+	tqC7XoNQ==;
+Received: from dhcp-077-249-017-003.chello.nl ([77.249.17.3] helo=worktop.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1nzEen-006Kx5-AX; Thu, 09 Jun 2022 09:40:49 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+	id B092F981287; Thu,  9 Jun 2022 11:40:46 +0200 (CEST)
+Date: Thu, 9 Jun 2022 11:40:46 +0200
+From: Peter Zijlstra <peterz@infradead.org>
 To: Arnd Bergmann <arnd@arndb.de>
-Cc: Peter Zijlstra <peterz@infradead.org>,
-	Richard Henderson <rth@twiddle.net>,
+Cc: Richard Henderson <rth@twiddle.net>,
 	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
 	Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>,
 	Russell King - ARM Linux <linux@armlinux.org.uk>,
@@ -42,7 +53,7 @@ Cc: Peter Zijlstra <peterz@infradead.org>,
 	Sascha Hauer <kernel@pengutronix.de>,
 	Fabio Estevam <festevam@gmail.com>,
 	NXP Linux Team <linux-imx@nxp.com>,
-	Kevin Hilman <khilman@kernel.org>,
+	Tony Lindgren <tony@atomide.com>, Kevin Hilman <khilman@kernel.org>,
 	Catalin Marinas <catalin.marinas@arm.com>,
 	Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
 	bcain@quicinc.com, Huacai Chen <chenhuacai@kernel.org>,
@@ -140,16 +151,13 @@ Cc: Peter Zijlstra <peterz@infradead.org>,
 	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
 	linux-arch <linux-arch@vger.kernel.org>, rcu@vger.kernel.org
 Subject: Re: [PATCH 33/36] cpuidle,omap3: Use WFI for omap3_pm_idle()
-Message-ID: <YqGjqgSrTRseJW6M@atomide.com>
+Message-ID: <YqHAHpGVe10I8O1z@worktop.programming.kicks-ass.net>
 References: <20220608142723.103523089@infradead.org>
  <20220608144518.010587032@infradead.org>
  <CAK8P3a0g-fNu9=BUECSXcNeWT7XWHQMnSXZE-XYE+5eakHxKxA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
 In-Reply-To: <CAK8P3a0g-fNu9=BUECSXcNeWT7XWHQMnSXZE-XYE+5eakHxKxA@mail.gmail.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220609_003929_466212_134FD227 
-X-CRM114-Status: GOOD (  20.51  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -166,7 +174,7 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-* Arnd Bergmann <arnd@arndb.de> [220608 18:18]:
+On Wed, Jun 08, 2022 at 06:28:33PM +0200, Arnd Bergmann wrote:
 > On Wed, Jun 8, 2022 at 4:27 PM Peter Zijlstra <peterz@infradead.org> wrote:
 > >
 > > arch_cpu_idle() is a very simple idle interface and exposes only a
@@ -176,11 +184,9 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 > > As such, omap_sram_idle() is not a valid implementation. Replace it
 > > with the simple (shallow) omap3_do_wfi() call. Leaving the more
 > > complicated idle states for the cpuidle driver.
-
-Agreed it makes sense to limit deeper idle states to cpuidle. Hopefully
-there is some informative splat for attempting to use arch_cpu_ide()
-for deeper idle states :)
-
+> >
+> > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> 
 > I see similar code in omap2:
 > 
 > omap2_pm_idle()
@@ -189,12 +195,8 @@ for deeper idle states :)
 > 
 > Is that code path safe to use without RCU or does it need a similar change?
 
-Seems like a similar change should be done for omap2. Then anybody who
-cares to implement a minimal cpuidle support can do so.
-
-Regards,
-
-Tony
+It needs a similar change, clearly I was running on fumes to not have
+found that when grepping around the omap code :/
 
 _______________________________________________
 linux-snps-arc mailing list
