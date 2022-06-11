@@ -4,59 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 903E7C43334
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 11 Jun 2022 00:17:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F4F7C43334
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 11 Jun 2022 00:17:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
 	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:References:Cc:To:Subject:From:
 	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=dqtrDo0qMwTWwcCH0FMOiJdmB0IE/PXjujF1tUjYBLo=; b=Mg4IQ3q4eUOVVG
-	0J72Bt5VMnb3kiemvqPiGPJx1uDctlnvGpsZrN7dIrr6BMHhcuiH+kNqKZ/HpagFmabteoApzkukP
-	L2jmsQe8g0YUOkYNe8+tn3jK19TP7EuhmcmwORicmRwqzDxAUHR7pCp7G/If/q3RxisHuBsYjbzHS
-	I9dHCz/A7MkWiOa0EGyLz/V+s1FCkFOj+5BUPUEnv8CD7rT53qm5VbjFQuU7jAB9hpoq9PdgDQSeW
-	X0Uxptns5JODc/dY6Qbhf+Hn31adGbTLqAqXK6JaAUhjyblyQT6IoGmRnPuVhXVuESIMFFvUNhb5M
-	2wlDpDaJTq1qUX+X0UWw==;
+	List-Owner; bh=QBjIl8KVTDaTpwhznKBsMiOTrVX+LCiYrluR5nER1rM=; b=NNn1W7nQfDCwX7
+	3dTkYL1cfSR+4s3eHe8IRXJPBvoK/eUJIZM+31MHdo5rYeg73yN6Sehl48S9zFYuXxo/AmcQ7CDBC
+	8EOxFJzZYqoQKFgLVRoyOkxcUk8ym3+a/a9vo03Qax/bQWGOR5AjOBf6ZF0sUnlt/oqMoU6gwgspu
+	QXvSAH+fiIx7AMI4vvh5itSqBjt+IbEabmyQqZ43awildiiUeOhclFKZegZxXY/Kmg32vjcRPT9h4
+	qddR4zEaf7YIRxL3PJ9MoGzslF4PL4qO3TczYPzn7rYNPeSXKhol/EEaXVnBij4E3wAQTMJNqHjU0
+	iXaTAVg0CNxjpxTpSI+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nzoos-00AcX2-9V; Sat, 11 Jun 2022 00:17:38 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1nzooy-00AcYy-Gb; Sat, 11 Jun 2022 00:17:44 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nzooq-00AcVO-8g
-	for linux-snps-arc@lists.infradead.org; Sat, 11 Jun 2022 00:17:37 +0000
+	id 1nzoov-00AcXB-M1
+	for linux-snps-arc@lists.infradead.org; Sat, 11 Jun 2022 00:17:42 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sin.source.kernel.org (Postfix) with ESMTPS id 35923CE390A;
-	Sat, 11 Jun 2022 00:17:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26924C34114;
-	Sat, 11 Jun 2022 00:17:28 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id DF42661F39;
+	Sat, 11 Jun 2022 00:17:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2A90C34114;
+	Sat, 11 Jun 2022 00:17:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654906648;
-	bh=x+7FaFW/vNwK+pUHUyn6tvqv2InhgiiGULVDA42+Wz8=;
+	s=k20201202; t=1654906658;
+	bh=2ml5aH2i09s2I2s7D5cXnP2grpr7Pt+O8phN4fuXq8w=;
 	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=uO9pdv0rh8LOxhK1rYxPigrLzCjhDVgcb3GNcFeHiyM6Z+xKMIc2Hr69PZcR0VElz
-	 I0rMgj+rfnmxvdU4Ht8yuuASWM+URBqrC9/sMbXwClfWTdHi7bcvnj06Qp2VpUSGzg
-	 2mn5GXRhuciEvmCowekNL6qCY4sbo5/5nCiTcnx0rXPUVLtZNUqsblJE+27NJnwqm5
-	 fGgBXRnxeNEJfGYrBndoW7DjlOlFjX8chxh+UC2iYeKXti58HULiFZcGK6qZNk/rtQ
-	 xGkHevdSE39hPyz/FI74vtel0iX9yRGEZ/TV5+zR4Tk9VXG98TkEoP8txmCydtieVB
-	 dVHa4fjvM6/tg==
-Message-ID: <79570915-c8fe-e3d4-ba61-0647c3d72dd0@kernel.org>
-Date: Fri, 10 Jun 2022 17:17:27 -0700
+	b=hTXECurh8LAHyya8IJJ3T5kwvnnjrTbMFkizReyTJzzNR5kmRElPCSCvi+0+GMz6O
+	 7d2wmWud9VDhdsqwLVqE/4Usg+e/BpUFWT4iSjS8VFSLstPdP5PV415VA8cwGFZgK0
+	 3EX9GufFDdPrNde5pEXkEQleH7m6wnG/MfhCG/quIuWjn+EoMdTIUTO1xxb4ot7R2O
+	 gF3DvAe7EYlT5UYEH8YOHO8dsf0iMT03goQlJpseMY4QFofAVaPynMLEBw/qf/+QDT
+	 vUsE2QyFLFfI7UBva8fzG9rmRDKI7gSgfOy2YxBOhF4Dtyog1LFq1PBlxUQAoGGu69
+	 XGtFHWyNV3QSg==
+Message-ID: <d6582f17-7b0b-67eb-ac02-b88f5185e0b6@kernel.org>
+Date: Fri, 10 Jun 2022 17:17:37 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
 From: Vineet Gupta <vgupta@kernel.org>
-Subject: Re: [PATCH] ARC: Fix syntax errors in comments
-To: Xiang wangx <wangxiang@cdjrlc.com>, vgupta@kernel.org
-Cc: linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20220603130141.6516-1-wangxiang@cdjrlc.com>
+Subject: Re: [PATCH] ARC: Fix comment typo
+To: Jason Wang <wangborong@cdjrlc.com>, vgupta@kernel.org
+Cc: peterz@infradead.org, will@kernel.org, Julia.Lawall@inria.fr,
+ vschneid@redhat.com, deng.changcheng@zte.com.cn, libang.linuxer@gmail.com,
+ linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20220508030224.124797-1-wangborong@cdjrlc.com>
 Content-Language: en-US
-In-Reply-To: <20220603130141.6516-1-wangxiang@cdjrlc.com>
+In-Reply-To: <20220508030224.124797-1-wangborong@cdjrlc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220610_171736_533196_7753B0C7 
-X-CRM114-Status: UNSURE (   6.31  )
+X-CRM114-CacheID: sfid-20220610_171741_783046_E7B876EB 
+X-CRM114-Status: UNSURE (   6.12  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -76,12 +78,10 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 
 
-On 6/3/22 06:01, Xiang wangx wrote:
-> Delete the redundant word 'to'.
-> Delete the redundant word 'since'.
+On 5/7/22 20:02, Jason Wang wrote:
+> Remove one of the repeated 'call' in comment line 396.
 >
-> Signed-off-by: Xiang wangx<wangxiang@cdjrlc.com>
-
+> Signed-off-by: Jason Wang<wangborong@cdjrlc.com>
 
 Thx for the fix. Added to for-curr
 
