@@ -4,120 +4,123 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95390C43334
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 13 Jun 2022 08:26:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C60E0C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 13 Jun 2022 08:41:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=u4cwkv8b57IIv2SZaXL1HHC8PACDoTyUPPpM/5qsV0s=; b=Y78KdhbjydWZO3
-	F5+jTk9+d/9JQJSXxppeR8jfdYqYU6ns3/aWZwdcs6iKoUf5JgefX0QV0uK3CojFSPXxpq7/sbrrB
-	hwfb/M0K8i7eH4apD52z8OeVdFh3CMXSzB44I1vnO9/wEV3VRkLfzhuztm3oPzRrrYOG2lyfiZAxD
-	S/lJHLEqrCjGgroPLy+PJMoKBAvrm9H2M0EFe6TYlBiEWu/IPIuHeogd8i+p3CN0Ag+GKn9tK3SfY
-	U47WfCOpPD+ZAvJ4pznLylwoujdoUjtQx+FVetbSg6UK1SInkuRhPt1yucVfxOGWYOZL2E1TNQZsA
-	ngw1ZMQtNH6cWXhwf/2A==;
+	List-Owner; bh=qOIrgW8LAx880OdN7S30sox4VmeTIiO7qwYs30rM+aY=; b=GTqbmfvBnRjvXr
+	9S/Qa6M9dG5hGoFKSLpQfClj+CI46ifTpCjG9YgP9WmNzK+Q+g4F75LK6KUEU64kygST70YFkZfbm
+	PlmeyOoYmenQvRrXX9mN+MHeLCjKbEY4gbE0UP46UpkItdiqVpqMYZDfD4n1Xz8hb9KvCcJo7CFYn
+	4EpSbYQ66xmGzq4FZswDuVuSXQjLZEFYWWPfyrMeblRHh69theVzlBVdrEWc4JIh/5RpJvBQdqb5h
+	RLocBE/tAUk0SFcOdHZhd9JTpvh/0lq9LiH4KQGrF/RI+01rqxe7S1LhLBIvh0MkFdkwl+/AM+CjJ
+	gCShP0WPE1/RM/RTce+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o0fOu-002GGN-CP; Mon, 13 Jun 2022 08:26:20 +0000
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+	id 1o0fdo-002Ied-WC; Mon, 13 Jun 2022 08:41:45 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o0fOr-002GEQ-0S; Mon, 13 Jun 2022 08:26:18 +0000
-Received: by mail-wm1-x32c.google.com with SMTP id m32-20020a05600c3b2000b0039756bb41f2so2621373wms.3;
-        Mon, 13 Jun 2022 01:26:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3JSggHLDbkXyuZCKaU+uQ7H5KVpBjE3ZWWl/F0t3JyI=;
-        b=hln/7KIUboOODQa9/Iv7zWAXFI8kFLhiLL+AWnA7ZL0itAJaB93eguKFQupB8Lv94a
-         mnMuLqlfVsMy6aSBFmNweaacWKXWw7aT6TScazfBGhspJqqH/PMOPWdnnnaxNLaf842d
-         D+3NPCattkXMe8VyippSy6AVlz1Q90Igxi/lQII1yr2hkIK0YZRpsj0TKs2Px7tXlVgY
-         915w6r1r+N9IHNGMPf7O4C6rOlcjLzR4xSEqc3Zfq8tMbY0ayFsU19Cug+0HkT25Saig
-         zkxTdXbzsbpEfsV6HhW0WtRME3JJZVdyKx57BtFZ0WE2gh0TSNH76QSkgUTVIoEuHNxT
-         f/gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3JSggHLDbkXyuZCKaU+uQ7H5KVpBjE3ZWWl/F0t3JyI=;
-        b=py2ZGcRgnb16PpjO7y3m9gfGNksayo3RpOFSWtj5VvbgPA+6QxgbFf/wkGThEdO5sX
-         v8LmOIzpMS7TnrXhI+kut7Gq8jVwWAo4RQNpvPLw9gj5hoVzaufake+Yk2eCCu0HBhEb
-         K7eHZwfSh7Uk+ZrB2IbYSFKoRyc8MgFSjqQ+tkcAGYLnGXVY3MlsYqJRt2/uM2AdcCKf
-         O8djC+tk51N7OEcDa5StQeMwptEwtJtv4QbjLrjn5MF6VGw8iT4qSi+uImXIDTffoP5w
-         8BUOI5pGW0XGGu7O5gkaf6iq4p30lZiliD1DEIwnx09ayfoGViZ/xbIltSJsy4c31qGm
-         S9Hg==
-X-Gm-Message-State: AOAM532C+aOXoKk5h9yx2BO01O4yHCCH/hmcAfVQPoodjUY8wj8wTDyx
-	E4nQWzmw983Q6ZgnUvG+smPk0YTScihErFYr+Bs=
-X-Google-Smtp-Source: ABdhPJxgJ3qlsWHXb4q5Q9LeHOXh1hQWbFNdZBk/6atfvyd1YyWRPGtuhT6/ZUDmb0vG1CLuyzfEgHlG2xi/itwptM8=
-X-Received: by 2002:a05:600c:1c9a:b0:39c:7db4:90c3 with SMTP id
- k26-20020a05600c1c9a00b0039c7db490c3mr13053942wms.161.1655108772491; Mon, 13
- Jun 2022 01:26:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220608142723.103523089@infradead.org> <20220608144517.251109029@infradead.org>
-In-Reply-To: <20220608144517.251109029@infradead.org>
-From: Lai Jiangshan <jiangshanlai@gmail.com>
-Date: Mon, 13 Jun 2022 16:26:01 +0800
-Message-ID: <CAJhGHyCnu_BsKf5STMMJKMWm0NVZ8qXT8Qh=BhhCjSSgwchL3Q@mail.gmail.com>
+	id 1o0fdn-002Idu-2M; Mon, 13 Jun 2022 08:41:43 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=TBu1hM1Fbte1hrb329bc3ivTNLPSxYZoE9gYu5eRiHg=; b=AYS6grJVD8NMmpEvSXoRmqR/m5
+	NEo85wVpnYAfEDlJuO/EUebdXwmtGi7E1hfXWnzD4xJRKZ83szCruTMmPOs7xBMJ6Aw1UFgllIdA2
+	DrNCgkjyxwSlCkaYvmrnpeyVHjsekjBUo+W+kPzFmB2XaZh0Vpc97VCHNs1UCeL3PGYHI9qxJxVu/
+	DaFylVxmC0fZNsBkd3ExUz+u7t35uoUT8AamFGd6WJIWdTb36E6JQrKM1QWtIzoeKjuNFK4QcGaGj
+	jl+nLLuCaTmbWLVhpIZJqu3xqI2+WRMTvXP48+Wg/el92i2X48vydvI85ds5VF4NfA6ZUW+2+coel
+	hUXUv0FQ==;
+Received: from dhcp-077-249-017-003.chello.nl ([77.249.17.3] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1o0fdb-00Gf1z-43; Mon, 13 Jun 2022 08:41:31 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 600BB300472;
+	Mon, 13 Jun 2022 10:41:27 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 42FA02849859B; Mon, 13 Jun 2022 10:41:27 +0200 (CEST)
+Date: Mon, 13 Jun 2022 10:41:27 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Lai Jiangshan <jiangshanlai@gmail.com>
+Cc: Richard Henderson <rth@twiddle.net>, ink@jurassic.park.msu.ru,
+	mattst88@gmail.com, vgupta@kernel.org, linux@armlinux.org.uk,
+	ulli.kroll@googlemail.com, linus.walleij@linaro.org,
+	shawnguo@kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
+	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+	tony@atomide.com, khilman@kernel.org, catalin.marinas@arm.com,
+	Will Deacon <will@kernel.org>, guoren@kernel.org, bcain@quicinc.com,
+	Huacai Chen <chenhuacai@kernel.org>, kernel@xen0n.name,
+	geert@linux-m68k.org, sammy@sammy.net, monstr@monstr.eu,
+	tsbogend@alpha.franken.de, dinguyen@kernel.org, jonas@southpole.se,
+	stefan.kristiansson@saunalahti.fi, shorne@gmail.com,
+	James.Bottomley@hansenpartnership.com, deller@gmx.de,
+	Michael Ellerman <mpe@ellerman.id.au>, benh@kernel.crashing.org,
+	paulus@samba.org, Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, hca@linux.ibm.com,
+	gor@linux.ibm.com, agordeev@linux.ibm.com,
+	borntraeger@linux.ibm.com, svens@linux.ibm.com,
+	ysato@users.sourceforge.jp, dalias@libc.org, davem@davemloft.net,
+	Richard Weinberger <richard@nod.at>,
+	anton.ivanov@cambridgegreys.com,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, X86 ML <x86@kernel.org>,
+	"H. Peter Anvin" <hpa@zytor.com>, acme <acme@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	jolsa@kernel.org, Namhyung Kim <namhyung@kernel.org>,
+	Juergen Gross <jgross@suse.com>, srivatsa@csail.mit.edu,
+	amakhalov@vmware.com, VMware Inc <pv-drivers@vmware.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>, chris@zankel.net,
+	jcmvbkbc@gmail.com, rafael@kernel.org, lenb@kernel.org,
+	pavel@ucw.cz, gregkh@linuxfoundation.org, mturquette@baylibre.com,
+	sboyd@kernel.org, daniel.lezcano@linaro.org, lpieralisi@kernel.org,
+	sudeep.holla@arm.com, agross@kernel.org, bjorn.andersson@linaro.org,
+	Anup Patel <anup@brainfault.org>, thierry.reding@gmail.com,
+	jonathanh@nvidia.com, jacob.jun.pan@linux.intel.com,
+	Arnd Bergmann <arnd@arndb.de>, yury.norov@gmail.com,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux@rasmusvillemoes.dk, rostedt@goodmis.org, pmladek@suse.com,
+	senozhatsky@chromium.org, john.ogness@linutronix.de,
+	paulmck@kernel.org, frederic@kernel.org, quic_neeraju@quicinc.com,
+	josh@joshtriplett.org, mathieu.desnoyers@efficios.com,
+	joel@joelfernandes.org, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, mgorman@suse.de, bristot@redhat.com,
+	vschneid@redhat.com, jpoimboe@kernel.org,
+	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+	linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-um@lists.infradead.org, linux-perf-users@vger.kernel.org,
+	virtualization@lists.linux-foundation.org,
+	xen-devel@lists.xenproject.org, linux-xtensa@linux-xtensa.org,
+	linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-clk@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-arch@vger.kernel.org,
+	rcu@vger.kernel.org, Isaku Yamahata <isaku.yamahata@gmail.com>,
+	kirill.shutemov@linux.intel.com
 Subject: Re: [PATCH 21/36] x86/tdx: Remove TDX_HCALL_ISSUE_STI
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Richard Henderson <rth@twiddle.net>, ink@jurassic.park.msu.ru, mattst88@gmail.com, 
-	vgupta@kernel.org, linux@armlinux.org.uk, ulli.kroll@googlemail.com, 
-	linus.walleij@linaro.org, shawnguo@kernel.org, 
-	Sascha Hauer <s.hauer@pengutronix.de>, kernel@pengutronix.de, festevam@gmail.com, 
-	linux-imx@nxp.com, tony@atomide.com, khilman@kernel.org, 
-	catalin.marinas@arm.com, Will Deacon <will@kernel.org>, guoren@kernel.org, 
-	bcain@quicinc.com, Huacai Chen <chenhuacai@kernel.org>, kernel@xen0n.name, 
-	geert@linux-m68k.org, sammy@sammy.net, monstr@monstr.eu, 
-	tsbogend@alpha.franken.de, dinguyen@kernel.org, jonas@southpole.se, 
-	stefan.kristiansson@saunalahti.fi, shorne@gmail.com, 
-	James.Bottomley@hansenpartnership.com, deller@gmx.de, 
-	Michael Ellerman <mpe@ellerman.id.au>, benh@kernel.crashing.org, paulus@samba.org, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, hca@linux.ibm.com, gor@linux.ibm.com, 
-	agordeev@linux.ibm.com, borntraeger@linux.ibm.com, svens@linux.ibm.com, 
-	ysato@users.sourceforge.jp, dalias@libc.org, davem@davemloft.net, 
-	Richard Weinberger <richard@nod.at>, anton.ivanov@cambridgegreys.com, 
-	Johannes Berg <johannes@sipsolutions.net>, Thomas Gleixner <tglx@linutronix.de>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, X86 ML <x86@kernel.org>, 
-	"H. Peter Anvin" <hpa@zytor.com>, acme <acme@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, jolsa@kernel.org, 
-	Namhyung Kim <namhyung@kernel.org>, Juergen Gross <jgross@suse.com>, srivatsa@csail.mit.edu, 
-	amakhalov@vmware.com, VMware Inc <pv-drivers@vmware.com>, 
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>, chris@zankel.net, jcmvbkbc@gmail.com, 
-	rafael@kernel.org, lenb@kernel.org, pavel@ucw.cz, gregkh@linuxfoundation.org, 
-	mturquette@baylibre.com, sboyd@kernel.org, daniel.lezcano@linaro.org, 
-	lpieralisi@kernel.org, sudeep.holla@arm.com, agross@kernel.org, 
-	bjorn.andersson@linaro.org, Anup Patel <anup@brainfault.org>, thierry.reding@gmail.com, 
-	jonathanh@nvidia.com, jacob.jun.pan@linux.intel.com, 
-	Arnd Bergmann <arnd@arndb.de>, yury.norov@gmail.com, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, linux@rasmusvillemoes.dk, 
-	rostedt@goodmis.org, pmladek@suse.com, senozhatsky@chromium.org, 
-	john.ogness@linutronix.de, paulmck@kernel.org, frederic@kernel.org, 
-	quic_neeraju@quicinc.com, josh@joshtriplett.org, 
-	mathieu.desnoyers@efficios.com, joel@joelfernandes.org, juri.lelli@redhat.com, 
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com, 
-	mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com, jpoimboe@kernel.org, 
-	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-omap@vger.kernel.org, linux-csky@vger.kernel.org, 
-	linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org, 
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
-	openrisc@lists.librecores.org, linux-parisc@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-um@lists.infradead.org, 
-	linux-perf-users@vger.kernel.org, virtualization@lists.linux-foundation.org, 
-	xen-devel@lists.xenproject.org, linux-xtensa@linux-xtensa.org, 
-	linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, linux-arch@vger.kernel.org, rcu@vger.kernel.org, 
-	Isaku Yamahata <isaku.yamahata@gmail.com>, kirill.shutemov@linux.intel.com
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220613_012617_095696_1539E60F 
-X-CRM114-Status: GOOD (  12.98  )
+Message-ID: <Yqb4N3iwh1X7378o@hirez.programming.kicks-ass.net>
+References: <20220608142723.103523089@infradead.org>
+ <20220608144517.251109029@infradead.org>
+ <CAJhGHyCnu_BsKf5STMMJKMWm0NVZ8qXT8Qh=BhhCjSSgwchL3Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAJhGHyCnu_BsKf5STMMJKMWm0NVZ8qXT8Qh=BhhCjSSgwchL3Q@mail.gmail.com>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,37 +137,41 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 8, 2022 at 10:48 PM Peter Zijlstra <peterz@infradead.org> wrote:
->
-> Now that arch_cpu_idle() is expected to return with IRQs disabled,
-> avoid the useless STI/CLI dance.
->
-> Per the specs this is supposed to work, but nobody has yet relied up
-> this behaviour so broken implementations are possible.
+On Mon, Jun 13, 2022 at 04:26:01PM +0800, Lai Jiangshan wrote:
+> On Wed, Jun 8, 2022 at 10:48 PM Peter Zijlstra <peterz@infradead.org> wrote:
+> >
+> > Now that arch_cpu_idle() is expected to return with IRQs disabled,
+> > avoid the useless STI/CLI dance.
+> >
+> > Per the specs this is supposed to work, but nobody has yet relied up
+> > this behaviour so broken implementations are possible.
+> 
+> I'm totally newbie here.
+> 
+> The point of safe_halt() is that STI must be used and be used
+> directly before HLT to enable IRQ during the halting and stop
+> the halting if there is any IRQ.
 
-I'm totally newbie here.
+Correct; on real hardware. But this is virt...
 
-The point of safe_halt() is that STI must be used and be used
-directly before HLT to enable IRQ during the halting and stop
-the halting if there is any IRQ.
+> In TDX case, STI must be used directly before the hypercall.
+> Otherwise, no IRQ can come and the vcpu would be stalled forever.
+> 
+> Although the hypercall has an "irq_disabled" argument.
+> But the hypervisor doesn't (and can't) touch the IRQ flags no matter
+> what the "irq_disabled" argument is.  The IRQ is not enabled during
+> the halting if the IRQ is disabled before the hypercall even if
+> irq_disabled=false.
 
-In TDX case, STI must be used directly before the hypercall.
-Otherwise, no IRQ can come and the vcpu would be stalled forever.
+All we need the VMM to do is wake the vCPU, and it can do that,
+irrespective of the guest's IF.
 
-Although the hypercall has an "irq_disabled" argument.
-But the hypervisor doesn't (and can't) touch the IRQ flags no matter
-what the "irq_disabled" argument is.  The IRQ is not enabled during
-the halting if the IRQ is disabled before the hypercall even if
-irq_disabled=false.
+So the VMM can (and does) know if there's an interrupt pending, and
+that's all that's needed to wake from this hypercall. Once the vCPU is
+back up and running again, we'll eventually set IF again and the pending
+interrupt will get delivered and all's well.
 
-The "irq_disabled" argument is used for workaround purposes:
-https://lore.kernel.org/kvm/c020ee0b90c424a7010e979c9b32a28e9c488a51.1651774251.git.isaku.yamahata@intel.com/
-
-Hope my immature/incorrect reply elicits a real response from
-others.
-
-Thanks
-Lai
+Think of this like MWAIT with ECX[0] set if you will.
 
 _______________________________________________
 linux-snps-arc mailing list
