@@ -4,167 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA1D5C433EF
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Jun 2022 09:34:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 03E9ECCA480
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Jun 2022 11:20:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
-	References:Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Z/FCS57fVzJC9d2nh4/P5fraqtIzgsAGQO9pg4lNwxA=; b=jmJMdOkz0qLRV5
-	gUGvAX4bF1hO5PjeLoNl8qBagDGAJSpxn1lO5B827JtqrLf0yqlK+18kAMwllxbcLHcNJBWXrAPcg
-	a5s1GX47JAhcWlg3LzNmYPIKOaCJJ/0igF8H1pzDVU6U7fPSwDGoBh8D/JlrWfZpOpLcdHMNO8f7v
-	Zb3q+kXToPdD1qK8ObFQXVTrSjKFUvjKidwmc1ZMeyMQ0Hl1ZA8l7wEhj6mtjMwLtIqtEN41p7miX
-	TLsgnC2vJpNVPFPDCQoz4CpIOWP/wGO2JaaeSgiTz5vl3O6GPeX5pK7mB51y8lyx+veBYHr//+gyy
-	SfqyynxiiMqai43WdApA==;
+	List-Owner; bh=wfSWOeecJpBBkMp6nWF3zGvMmptY6iEPOyPVIPClTW8=; b=4Utf+ypkHjah1z
+	az0RP5F38G/b8g5xUYmqwbkOJdEhZtEdmEhqLKhxRb/czc78C6kTx47l5t03b+DFp7hcZvI8wW7sP
+	IQI/Fhi5sBF3Vc96ekgHX34Ni9creQ42qAp3vnezUjXfOx2rUhD7lHLSOrqaYhQZEXeVY2YReVjb4
+	IJcmnIPKWqJSin0E+zK+g2ypb/linfmp2fnwe3PN5AOK8H0D9A/tbf4uycBNMoXRCgFkm15+r79I+
+	F7jjJH3ne+W4wRynqrhtMhBwaWNjyF4foYvRg1zAjxCQMHCaQTr6IpXl2YGr/M+nxt3PBwQxx85TA
+	nP+iv408uTftt6vSUcfQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o12wN-008mA0-Oe; Tue, 14 Jun 2022 09:34:27 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o12tf-008kc8-Jn
-	for linux-snps-arc@lists.infradead.org; Tue, 14 Jun 2022 09:31:42 +0000
-Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com [10.192.0.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
-	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 3990040C57;
-	Tue, 14 Jun 2022 09:31:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1655199095; bh=rB4SiTF61EBUsK8oCoLcb2Zq8t8wxtmtxVRO4X2Vipc=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=AEF/UolU7Qs3PXgGa9Y0lTJ2mxQyl/QP9dreqiAJA65fHU8tzzramXk4wCayYA3Mg
-	 jIdyNdjViam82qnm/zvRBNM9pqkRpc7Mst7E8iHPbLLRAzbj8Tcwo7zBDWcXcE0IT/
-	 uCeF+t3hsSSHwHXuTnZtWMKBFNjvTGkbt1mVeZQu/n/AQK+f5/3bF7+8c9PKkkHo9V
-	 9EVCPeX6SgF4Bwub7iNb8Uks1SzP3JVLlBlakBg5Isv4jDhTvx46BorsoJwpuyAa+d
-	 TOoorhfdCtC6aPZYBhT2P6u3wluTD++qWLDKVq8LyrbZEdSBn5EgPP3tOuzg9D9a+j
-	 cBOnnjB2EbyUA==
-Received: from o365relay-in.synopsys.com (sv2-o365relay3.synopsys.com [10.202.1.139])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(Client CN "o365relay-in.synopsys.com", Issuer "Entrust Certification Authority - L1K" (verified OK))
-	by mailhost.synopsys.com (Postfix) with ESMTPS id 93DC7A0083;
-	Tue, 14 Jun 2022 09:31:33 +0000 (UTC)
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2168.outbound.protection.outlook.com [104.47.57.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(Client CN "mail.protection.outlook.com", Issuer "DigiCert Cloud Services CA-1" (verified OK))
-	by o365relay-in.synopsys.com (Postfix) with ESMTPS id CF56A4006B;
-	Tue, 14 Jun 2022 09:31:32 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=shahab@synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
-	dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="ekWKiJXA";
-	dkim-atps=neutral
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N/7ks00woPROqjhxxEyiOO+Be6DK7j4ZdkECkdYbxJTKdXopRN7vzpmOinRuBONfihbanWfJEwykJLo7FQ8Y3HFgOo/DDgL7rI6mMYgYMfHeHqM7B2K5j9Pzpdpj2rsOsEFipTADw9GE3WcX+83WQ92V2uppLYNwN/kBl62suexvdXG+EFLnMrgGk40ioy/1zkEiffz8Fkko/JrzXl3yU6o12C6YcSbnS14yk4r9+3y9MQg/njztb3m26SYpdIBcBcF4fFQSnhmClvXb0MZ1k3h77Oukpuz67L+11bPGIDjgqZOMI71OwFbrTVYq+QAgT1gBOZ2hrC6yHm0lKjKq2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rB4SiTF61EBUsK8oCoLcb2Zq8t8wxtmtxVRO4X2Vipc=;
- b=Jhe0bf4V5FvvaCEoPsTtQbTmEBGcKkML48Lp4K3fsjmzgEmXyDJGRsYU4sjBLzLdm8S5NAW/a2MjZzyXttJCLhoBErbVjs/u92/GYHtQseXycw+fAvH3ZsCvoKX3Alk7hsm5m0xDvgtRHNchFMJ+5VOaCkAFRjrusChrkA97345InTPIKrIFTAbuzv6gLt4Gw3pto3rREfOi5sVyNHLq5fPOOlGxvGvoay/AxLgDNNzZegbX0P5ACuiqAk9oEi+1K8PGkLJjoykUKJTKR4H8KYB2ozinPQ/xn/yoOywwo86MZ2mDHtGtf51+Ps8KnrJCQ6JTIAAjljennEvbyrhkZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rB4SiTF61EBUsK8oCoLcb2Zq8t8wxtmtxVRO4X2Vipc=;
- b=ekWKiJXAl685PpOv6iGRiEMQPDYKHXih2iaPt+BRKItV8fq20fzhr4BvkJb9ezUu3NU5qMfdIWiNqLvmRm0rOGj1P40Ni3ow6ERfiKITiVwBHwW4xJ+H3u5qvremFp3Q9vU6jAdrcq2Fur2D387ZaPYuV9+43TdeKJqVjHVqwt0=
-Received: from SN6PR12MB2782.namprd12.prod.outlook.com (2603:10b6:805:73::19)
- by MN2PR12MB3502.namprd12.prod.outlook.com (2603:10b6:208:c9::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.15; Tue, 14 Jun
- 2022 09:31:29 +0000
-Received: from SN6PR12MB2782.namprd12.prod.outlook.com
- ([fe80::887b:e58:cad3:ce9d]) by SN6PR12MB2782.namprd12.prod.outlook.com
- ([fe80::887b:e58:cad3:ce9d%4]) with mapi id 15.20.5332.022; Tue, 14 Jun 2022
- 09:31:29 +0000
-X-SNPS-Relay: synopsys.com
-From: Shahab Vahedi <Shahab.Vahedi@synopsys.com>
-To: "buildroot@buildroot.org" <buildroot@buildroot.org>
-CC: "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
-	Arnout Vandecappelle <arnout@mind.be>
-Subject: Re: [PATCH v3 1/1] package/bpftool: revert bpf_cookie patch to allow
- building
-Thread-Topic: [PATCH v3 1/1] package/bpftool: revert bpf_cookie patch to allow
- building
-Thread-Index: AQHYf9GGNdBPjuX5nkCxwDk0/FmiVA==
-Date: Tue, 14 Jun 2022 09:31:29 +0000
-Message-ID: <3062ce96-7e99-d221-61c8-4b87c87c113b@synopsys.com>
-References: <97ea44bb-58fe-d6cb-6c79-9be0b245f2c6@synopsys.com>
- <38e7fb76-2c07-6429-b803-4fd6ff2b1178@synopsys.com>
-In-Reply-To: <38e7fb76-2c07-6429-b803-4fd6ff2b1178@synopsys.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=synopsys.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5efbfb36-6b4a-4bbc-552e-08da4de8a92d
-x-ms-traffictypediagnostic: MN2PR12MB3502:EE_
-x-microsoft-antispam-prvs:  <MN2PR12MB350289826739A3E9854A7E0CA6AA9@MN2PR12MB3502.namprd12.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  NeYbr+CGLx6JqnaGS6QwKi80BCLK08ET7D8mWv0BiT1QA2ylgBH5bTUICSlgmdINFhoGNwKRiwvGeUR0urBPvTrN1H9H+B+poPjkzYCi5bQA+bzYmcWOJDGYZmkcQA2Nb1isUo57zMPa+65f+3D2at19Zdq3WUgVJxL05wqIiOtx6/PD/6T0zjuLUw5DOtchADiLzwjmKTAewGqx/tXlKnzPUQkPSdfA6CrXMQw5qoWUijizhH+fl+/8axJM58A0BRJyXpbQFW2OY7CCmVIXdHCXkVXL9hzrkZ4Rk09zIgtJbrKdw2ve9I8Wgw0nGWPmqsDho2A0chDuXY3q4ZTAWSW0ltMgeqt2x64TGFTHq/zhzvycIVhPuSzvDPSupZUm0Dn2GeRb3sVIQo7Aq1/pD3ZF0krqny+xAX+JVovOwfsWfB/xwkMjqFapwVUV42LZg8W4bD0B2SkRETYDbR1xk6ILeMuxBrqqcbSWXIv6+KKg7OH9wDUsEiG7EJwik76DGyQxqVRijn4I+XRwE6v1uMcXHFloS6C2Sqq5rO0z/Y8SLDrLYNfwnA1Oecl3OqGs1SAz/kbLRmZUHuKCTnqJfyW/EK4K0QpGfOoTwFip4oCPiRYR1axJpbxx5GyOcA+nhNaYJ/LTSewXNbm8kHalNH63RBgr4skZS19GsTPDNKBhbB9QnaJF14VLiG9q8eSbbCr2HUO3KDgMNFIFuH/2Kat23dQ2yIKufdWzdZ1vMhkq8v6JZrl7Cth7yow1rF59jVzvHJ9GmngrTUBQBJkFZ7uDoZgS1EoYuzPMxcG6C21YLgmJuUf5BxNeoBoIKSk8JAplacOyd86w1n0/g4Lb9OrjLIYAOIb6tgjy3EbhP3M=
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR12MB2782.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(366004)(6916009)(91956017)(54906003)(8936002)(31686004)(36756003)(76116006)(5660300002)(71200400001)(316002)(66946007)(66476007)(66556008)(64756008)(66446008)(38100700002)(2906002)(31696002)(8676002)(4326008)(38070700005)(86362001)(966005)(6486002)(508600001)(6512007)(83380400001)(122000001)(186003)(2616005)(6506007)(45980500001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?U1NWcGE2UVhsU21KN1FPalc0bUN0aVVJc1VPR1pWR0I4M0tlUW9ZVWdFMDFS?=
- =?utf-8?B?eGUrdnYvc0VpOGJ6d0NmZzhSa3hBUS8zU3VQdDd2V3dXcm4vc2k5WVd6UHoz?=
- =?utf-8?B?RVNSZnNaamtEMlhDK0UvTDRLdHNqU0NDSEgrMnp6RXZvVHRnRWpNTnNqZjBD?=
- =?utf-8?B?b3VKUjRzV0ZvMy9kU243emQ1eTVEdWRDUnVIN1Q3UjNwemNGUVJBOWsxYVU1?=
- =?utf-8?B?bHM3WXNKV1ZUOU84MGJqTVNLNHZJNG5xQVFJS0hKY213dGozWUUvNW1XTGE4?=
- =?utf-8?B?U1RrRTdDL1NwalduODZNRUQyaEc2MDlxbGl6Qis2STV5U3NqbUVWYTYwZm1V?=
- =?utf-8?B?bjIwNy9hbHlEbXBXM2NwWWdGNi9abDViUUQyeitPZk40a21CbHZrUG1OeVVR?=
- =?utf-8?B?dEVsLzUxUThCZXFLQVVtR0owbHUxcUY1cjRFZk5aZnJJcEVra1J3SGQxTXZT?=
- =?utf-8?B?OXZmNFB4VnBzSGtHSkdKUGRYalpEQXdIRk13RXdvYnY2UmdNL3U2bHJGdGUr?=
- =?utf-8?B?YmR5WUNkZ09vdmtQaDBzYUJEUXJUMkxuVTFjZnRXcEtjTWRqVGo3V2VmazBU?=
- =?utf-8?B?NXpMakRrclZhemxrQWVidnM4cklRK3Z2QzVLUElBL2xXM0huSGo3c1QvYzhT?=
- =?utf-8?B?MnozL3d4Tm1VUWtZUW5hcmpBYVE2VVc5bGRrQUFlYVZjYjYwNjhIRlJZbUtC?=
- =?utf-8?B?T0YyZjBhQWxzUHh4bU1STHRTZk5zMGRKQnFmbktsNTZQaDNaYXhMa2haKytV?=
- =?utf-8?B?Q3AyTENHZTZDdU85NDh4a1VsU2VzRkxpSTFIaXU1LzliNFpnTjdNSXJHWkIz?=
- =?utf-8?B?K1J6UVF1WC9VQVBBSTJ6TXFucE1JTFU3ZDV5N3BwYW5zcURUVXA0c0hhRS9s?=
- =?utf-8?B?TzZqTk5raVNWWUk0a3dpM0pKNWxHZFZycDFSSDhHUHlaMFZidWFrWmJmOStB?=
- =?utf-8?B?WHNVS1g5N253UHFRUEFMY012RDZNdVoreEhZZ2FqOWplTklxV1pMMWlvdHFy?=
- =?utf-8?B?VjFSNlRmdTJ2MG91KysrTzduak02Sk9yTWRaQjNvNXBSODlEaDJxR0lEU1J5?=
- =?utf-8?B?VGdTVGVhY2pidUM2S1g5Mkg2MXFxWGFGRE5FN1ZOZVpEZ3Rlblo0czZ1NDEr?=
- =?utf-8?B?OFZsS0M0eXJlVmNtdXAwWllKRG00d0tiMFl2YVN1WXZQdGsvUEhocU1CVTdo?=
- =?utf-8?B?ZlZzUzhWbXJQWFpxS1lDbEdzRTJTRUh4ZDVrdEtCenhWRWVQYzBnMmYyU2N3?=
- =?utf-8?B?VW15N2ZGT04zSGtONWFwcWVVbnJlZGw4eWJhRWVVY3RuRnJXc01XMEpoMTlk?=
- =?utf-8?B?NmpyVjNMajc2Ky94dmY1TUZZM29kTldhMCtEQUlIdmYrL0RHanQvWnU3cVVm?=
- =?utf-8?B?d1hsRzdwSUtCYzBKNkdGUEMwZ2hqZENVSDBjUzF5YmprYTQrU3doZXRZVDE3?=
- =?utf-8?B?ZzBpRVU3aDU0aU1qazEvYnY4R3ZaMUx3WHNzdGtmRVBwbG1hU2NlTHhqanky?=
- =?utf-8?B?QXBSNC96bk9ZZm1PYjk1K1VrVjRpUGVmQmMrTk0walBoRlhNR25WNlJHWFY3?=
- =?utf-8?B?TmlGbFZTQ2kxbkdTOFRYSkhDM3kzSWQwMUF5YVhKbHo3NzJydUNFM3VPcjBj?=
- =?utf-8?B?TTA4NmJYRlY2S1NWS05KZG1EYzVmNlpKMVMvbzd2SHpEUkJscVVscWxsT1NZ?=
- =?utf-8?B?ejZwYkhLQU9hblU4OUlYWGZHKzY4aXVRSUgvMmMzZmlwMkUrUW43VTA2WG5w?=
- =?utf-8?B?czZPWFRuSE9maW9sTkdwNnhITDRQby9hRFJsaDFJY0RoKy95UlF6SzN6SXdC?=
- =?utf-8?B?bkw2akkyaFNPQXRoREQreU5KUGZuN212N2UwYk1Ja2Fub2VrUFpjWnV1cy83?=
- =?utf-8?B?a1hGaFdBWS9XM1NRaEpPUGhsbHlhb1ZKYXdPN0EzYkpIVkJZaHhlZk0zQkVl?=
- =?utf-8?B?WkkxQWJaYjkrL2RUcXcxZ0tLVVhQTWN3MVYrczUvUy9XRm0xbjZrQ2dHQTJh?=
- =?utf-8?B?N3lUeXhjZWtKdnF0d1lOVTUrYWdVVkhsODQ5clZPNDc4amRlVUdjREtvekJD?=
- =?utf-8?B?TmUvVUFFZVJ3bWwzd2RwY3BsaVhsZnVRTGJSYjExOHIycXNSaS9YOC82eHYr?=
- =?utf-8?B?S0RVOUpEeHhCa1NDS1cvd1Y3akQrYkk1T1MrcXdPZmxSdVJ5TlNLVDhrMnlI?=
- =?utf-8?B?WE9IYTR3YlplMGZZVlFDNFhsMUtpTjRpTnE2ZmhYVHc3dDFTL0ZqbklDMlIr?=
- =?utf-8?B?MnprZ0RwbW4xY3JFQkRkK3dpMXc3bFhaZmF2NWxNY0tGMGZXU3NWVEVueDhv?=
- =?utf-8?B?VUpON0JXaEFSRHhWbEk5VGZFN1ZmNXd4VDBkaE5lSFdOSWlvcHJjamlsK00z?=
- =?utf-8?Q?C8oQO8PBNUrjvnqg=3D?=
-Content-ID: <EEEA4F496D61C64D94822BD5D19CD234@namprd12.prod.outlook.com>
+	id 1o14ab-009Ezj-Vp; Tue, 14 Jun 2022 11:20:06 +0000
+Received: from foss.arm.com ([217.140.110.172])
+	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1o14aY-009Exf-9u; Tue, 14 Jun 2022 11:20:04 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 223061516;
+	Tue, 14 Jun 2022 04:20:00 -0700 (PDT)
+Received: from FVFF77S0Q05N (unknown [10.57.41.154])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 47D093F73B;
+	Tue, 14 Jun 2022 04:19:42 -0700 (PDT)
+Date: Tue, 14 Jun 2022 12:19:29 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: rth@twiddle.net, ink@jurassic.park.msu.ru, mattst88@gmail.com,
+	vgupta@kernel.org, linux@armlinux.org.uk, ulli.kroll@googlemail.com,
+	linus.walleij@linaro.org, shawnguo@kernel.org,
+	Sascha Hauer <s.hauer@pengutronix.de>, kernel@pengutronix.de,
+	festevam@gmail.com, linux-imx@nxp.com, tony@atomide.com,
+	khilman@kernel.org, catalin.marinas@arm.com, will@kernel.org,
+	guoren@kernel.org, bcain@quicinc.com, chenhuacai@kernel.org,
+	kernel@xen0n.name, geert@linux-m68k.org, sammy@sammy.net,
+	monstr@monstr.eu, tsbogend@alpha.franken.de, dinguyen@kernel.org,
+	jonas@southpole.se, stefan.kristiansson@saunalahti.fi,
+	shorne@gmail.com, James.Bottomley@HansenPartnership.com,
+	deller@gmx.de, mpe@ellerman.id.au, benh@kernel.crashing.org,
+	paulus@samba.org, paul.walmsley@sifive.com, palmer@dabbelt.com,
+	aou@eecs.berkeley.edu, hca@linux.ibm.com, gor@linux.ibm.com,
+	agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
+	svens@linux.ibm.com, ysato@users.sourceforge.jp, dalias@libc.org,
+	davem@davemloft.net, richard@nod.at,
+	anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+	acme@kernel.org, alexander.shishkin@linux.intel.com,
+	jolsa@kernel.org, namhyung@kernel.org, jgross@suse.com,
+	srivatsa@csail.mit.edu, amakhalov@vmware.com, pv-drivers@vmware.com,
+	boris.ostrovsky@oracle.com, chris@zankel.net, jcmvbkbc@gmail.com,
+	rafael@kernel.org, lenb@kernel.org, pavel@ucw.cz,
+	gregkh@linuxfoundation.org, mturquette@baylibre.com,
+	sboyd@kernel.org, daniel.lezcano@linaro.org, lpieralisi@kernel.org,
+	sudeep.holla@arm.com, agross@kernel.org, bjorn.andersson@linaro.org,
+	anup@brainfault.org, thierry.reding@gmail.com, jonathanh@nvidia.com,
+	jacob.jun.pan@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
+	yury.norov@gmail.com, andriy.shevchenko@linux.intel.com,
+	linux@rasmusvillemoes.dk, rostedt@goodmis.org, pmladek@suse.com,
+	senozhatsky@chromium.org, john.ogness@linutronix.de,
+	paulmck@kernel.org, frederic@kernel.org, quic_neeraju@quicinc.com,
+	josh@joshtriplett.org, mathieu.desnoyers@efficios.com,
+	jiangshanlai@gmail.com, joel@joelfernandes.org,
+	juri.lelli@redhat.com, vincent.guittot@linaro.org,
+	dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de,
+	bristot@redhat.com, vschneid@redhat.com, jpoimboe@kernel.org,
+	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+	linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-um@lists.infradead.org, linux-perf-users@vger.kernel.org,
+	virtualization@lists.linux-foundation.org,
+	xen-devel@lists.xenproject.org, linux-xtensa@linux-xtensa.org,
+	linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-clk@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-arch@vger.kernel.org,
+	rcu@vger.kernel.org
+Subject: Re: [PATCH 00/36] cpuidle,rcu: Cleanup the mess
+Message-ID: <YqhuwQjmZyOVSiLI@FVFF77S0Q05N>
+References: <20220608142723.103523089@infradead.org>
 MIME-Version: 1.0
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2782.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5efbfb36-6b4a-4bbc-552e-08da4de8a92d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2022 09:31:29.1949
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KoEbmTBrfDVK79/boJqEpsMM/uhCOdN0jNFUOGvCS0E5N0z3z6ucG8ecfjAU8U3Aq4iuGHCg875CT/zptUBpbQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3502
+Content-Disposition: inline
+In-Reply-To: <20220608142723.103523089@infradead.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220614_023139_950712_95E08CF3 
-X-CRM114-Status: GOOD (  21.50  )
+X-CRM114-CacheID: sfid-20220614_042002_482544_2DBA7A75 
+X-CRM114-Status: GOOD (  20.60  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -181,199 +113,68 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Building bpftool on Debian 11 (bullseye) with kernel v5.10 and clang-11
-fails:
+On Wed, Jun 08, 2022 at 04:27:23PM +0200, Peter Zijlstra wrote:
+> Hi All! (omg so many)
 
------------------------------------8<-----------------------------------
-$ make
-  .
-  .
-  .
-  CLANG    pid_iter.bpf.o
-skeleton/pid_iter.bpf.c:47:14: error: incomplete definition of type
-                               'struct bpf_perf_link'
-        perf_link = container_of(link, struct bpf_perf_link, link);
-  .
-  .
-  .
-skeleton/pid_iter.bpf.c:49:30: error: no member named 'bpf_cookie' in
-                               'struct perf_event'
-        return BPF_CORE_READ(event, bpf_cookie);
-  .
-  .
-  .
-10 errors generated.
-make: *** [Makefile:176: pid_iter.bpf.o] Error 1
------------------------------------>8-----------------------------------
+Hi Peter,
 
-There are changes in bpftool v6.8.0 that assumes the existence of
-particular data structures in generated vmlinux.h that is obtained
-from the host machine. See [1] for further details. This commit adds
-a patch to revert that additional change in v6.8.0.
+Sorry for the delay; my plate has also been rather full recently. I'm beginning
+to page this in now.
 
-There's a patch series pending to be submitted upstream [2]. Hopefully,
-those will take care of the problem if they land in the next release.
+> These here few patches mostly clear out the utter mess that is cpuidle vs rcuidle.
+> 
+> At the end of the ride there's only 2 real RCU_NONIDLE() users left
+> 
+>   arch/arm64/kernel/suspend.c:            RCU_NONIDLE(__cpu_suspend_exit());
+>   drivers/perf/arm_pmu.c:                 RCU_NONIDLE(armpmu_start(event, PERF_EF_RELOAD));
 
-Changelog:
-v1: Initial submission [3]
-v2: Use a full fledged git patch for bpftool [4]
-v3: Fix the snafu that resulted in malformed patch file
+The latter of these is necessary because apparently PM notifiers are called
+with RCU not watching. Is that still the case today (or at the end of this
+series)? If so, that feels like fertile land for more issues (yaey...). If not,
+we should be able to drop this.
 
-[1]
-https://lore.kernel.org/bpf/c47f732d-dba8-2c13-7c72-3a651bf72353@synopsys.com/t/#u
+I can go dig into that some more.
 
-[2]
-https://lore.kernel.org/bpf/20220421003152.339542-1-alobakin@pm.me/
+>   kernel/cfi.c:   RCU_NONIDLE({
+> 
+> (the CFI one is likely dead in the kCFI rewrite) and there's only a hand full
+> of trace_.*_rcuidle() left:
+> 
+>   kernel/trace/trace_preemptirq.c:                        trace_irq_enable_rcuidle(CALLER_ADDR0, CALLER_ADDR1);
+>   kernel/trace/trace_preemptirq.c:                        trace_irq_disable_rcuidle(CALLER_ADDR0, CALLER_ADDR1);
+>   kernel/trace/trace_preemptirq.c:                        trace_irq_enable_rcuidle(CALLER_ADDR0, caller_addr);
+>   kernel/trace/trace_preemptirq.c:                        trace_irq_disable_rcuidle(CALLER_ADDR0, caller_addr);
+>   kernel/trace/trace_preemptirq.c:                trace_preempt_enable_rcuidle(a0, a1);
+>   kernel/trace/trace_preemptirq.c:                trace_preempt_disable_rcuidle(a0, a1);
+> 
+> All of them are in 'deprecated' code that is unused for GENERIC_ENTRY.
 
-[3]
-https://lists.buildroot.org/pipermail/buildroot/2022-June/644819.html
+I think those are also unused on arm64 too?
 
-[4]
-https://lists.buildroot.org/pipermail/buildroot/2022-June/644824.html
+If not, I can go attack that.
 
-Signed-off-by: Shahab Vahedi <shahab@synopsys.com>
----
- .../0002-revert-bpf_cookie-change.patch       | 129 ++++++++++++++++++
- 1 file changed, 129 insertions(+)
- create mode 100644 package/bpftool/0002-revert-bpf_cookie-change.patch
+> I've touched a _lot_ of code that I can't test and likely broken some of it :/
+> In particular, the whole ARM cpuidle stuff was quite involved with OMAP being
+> the absolute 'winner'.
+> 
+> I'm hoping Mark can help me sort the remaining ARM64 bits as he moves that to
+> GENERIC_ENTRY.
 
-diff --git a/package/bpftool/0002-revert-bpf_cookie-change.patch b/package/bpftool/0002-revert-bpf_cookie-change.patch
-new file mode 100644
-index 0000000000..6f9579bd23
---- /dev/null
-+++ b/package/bpftool/0002-revert-bpf_cookie-change.patch
-@@ -0,0 +1,129 @@
-+From d7c78d1e38cde73c85b491a833f0e6e3f0d62654 Mon Sep 17 00:00:00 2001
-+From: Shahab Vahedi <shahab@synopsys.com>
-+Date: Tue, 14 Jun 2022 10:12:21 +0200
-+Subject: [PATCH] Revert commit "bpftool: Add bpf_cookie to link output"
-+
-+Building bpftool on a Debian bullseye with clang-11 fails [1].
-+This patch reverts the offending commit [2]. If clang-11 is not
-+installed, then the "co-re" feature of bpf will not be enabled
-+and the issue remains dormant.
-+
-+[1] Building release 6.8.0 on Debian 11
-+https://lore.kernel.org/bpf/c47f732d-dba8-2c13-7c72-3a651bf72353@synopsys.com/t/#u
-+
-+[2] bpftool: Add bpf_cookie to link output
-+https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git/commit/?id=cbdaf71f
-+
-+Signed-off-by: Shahab Vahedi <shahab@synopsys.com>
-+---
-+ src/main.h                  |  2 --
-+ src/pids.c                  |  8 --------
-+ src/skeleton/pid_iter.bpf.c | 22 ----------------------
-+ src/skeleton/pid_iter.h     |  2 --
-+ 4 files changed, 34 deletions(-)
-+
-+diff --git a/src/main.h b/src/main.h
-+index aa99ffa..2f2b638 100644
-+--- a/src/main.h
-++++ b/src/main.h
-+@@ -111,9 +111,7 @@ struct obj_ref {
-+ 
-+ struct obj_refs {
-+ 	int ref_cnt;
-+-	bool has_bpf_cookie;
-+ 	struct obj_ref *refs;
-+-	__u64 bpf_cookie;
-+ };
-+ 
-+ struct btf;
-+diff --git a/src/pids.c b/src/pids.c
-+index e2d00d3..57f0d1b 100644
-+--- a/src/pids.c
-++++ b/src/pids.c
-+@@ -78,8 +78,6 @@ static void add_ref(struct hashmap *map, struct pid_iter_entry *e)
-+ 	ref->pid = e->pid;
-+ 	memcpy(ref->comm, e->comm, sizeof(ref->comm));
-+ 	refs->ref_cnt = 1;
-+-	refs->has_bpf_cookie = e->has_bpf_cookie;
-+-	refs->bpf_cookie = e->bpf_cookie;
-+ 
-+ 	err = hashmap__append(map, u32_as_hash_field(e->id), refs);
-+ 	if (err)
-+@@ -206,9 +204,6 @@ void emit_obj_refs_json(struct hashmap *map, __u32 id,
-+ 		if (refs->ref_cnt == 0)
-+ 			break;
-+ 
-+-		if (refs->has_bpf_cookie)
-+-			jsonw_lluint_field(json_writer, "bpf_cookie", refs->bpf_cookie);
-+-
-+ 		jsonw_name(json_writer, "pids");
-+ 		jsonw_start_array(json_writer);
-+ 		for (i = 0; i < refs->ref_cnt; i++) {
-+@@ -238,9 +233,6 @@ void emit_obj_refs_plain(struct hashmap *map, __u32 id, const char *prefix)
-+ 		if (refs->ref_cnt == 0)
-+ 			break;
-+ 
-+-		if (refs->has_bpf_cookie)
-+-			printf("\n\tbpf_cookie %llu", (unsigned long long) refs->bpf_cookie);
-+-
-+ 		printf("%s", prefix);
-+ 		for (i = 0; i < refs->ref_cnt; i++) {
-+ 			struct obj_ref *ref = &refs->refs[i];
-+diff --git a/src/skeleton/pid_iter.bpf.c b/src/skeleton/pid_iter.bpf.c
-+index eb05ea5..f70702f 100644
-+--- a/src/skeleton/pid_iter.bpf.c
-++++ b/src/skeleton/pid_iter.bpf.c
-+@@ -38,17 +38,6 @@ static __always_inline __u32 get_obj_id(void *ent, enum bpf_obj_type type)
-+ 	}
-+ }
-+ 
-+-/* could be used only with BPF_LINK_TYPE_PERF_EVENT links */
-+-static __u64 get_bpf_cookie(struct bpf_link *link)
-+-{
-+-	struct bpf_perf_link *perf_link;
-+-	struct perf_event *event;
-+-
-+-	perf_link = container_of(link, struct bpf_perf_link, link);
-+-	event = BPF_CORE_READ(perf_link, perf_file, private_data);
-+-	return BPF_CORE_READ(event, bpf_cookie);
-+-}
-+-
-+ SEC("iter/task_file")
-+ int iter(struct bpf_iter__task_file *ctx)
-+ {
-+@@ -80,19 +69,8 @@ int iter(struct bpf_iter__task_file *ctx)
-+ 	if (file->f_op != fops)
-+ 		return 0;
-+ 
-+-	__builtin_memset(&e, 0, sizeof(e));
-+ 	e.pid = task->tgid;
-+ 	e.id = get_obj_id(file->private_data, obj_type);
-+-
-+-	if (obj_type == BPF_OBJ_LINK) {
-+-		struct bpf_link *link = (struct bpf_link *) file->private_data;
-+-
-+-		if (BPF_CORE_READ(link, type) == BPF_LINK_TYPE_PERF_EVENT) {
-+-			e.has_bpf_cookie = true;
-+-			e.bpf_cookie = get_bpf_cookie(link);
-+-		}
-+-	}
-+-
-+ 	bpf_probe_read_kernel_str(&e.comm, sizeof(e.comm),
-+ 				  task->group_leader->comm);
-+ 	bpf_seq_write(ctx->meta->seq, &e, sizeof(e));
-+diff --git a/src/skeleton/pid_iter.h b/src/skeleton/pid_iter.h
-+index bbb570d..5692cf2 100644
-+--- a/src/skeleton/pid_iter.h
-++++ b/src/skeleton/pid_iter.h
-+@@ -6,8 +6,6 @@
-+ struct pid_iter_entry {
-+ 	__u32 id;
-+ 	int pid;
-+-	__u64 bpf_cookie;
-+-	bool has_bpf_cookie;
-+ 	char comm[16];
-+ };
-+ 
-+-- 
-+2.30.2
-+
--- 
-2.30.2
+Moving to GENERIC_ENTRY as a whole is going to take a tonne of work
+(refactoring both arm64 and the generic portion to be more amenable to each
+other), but we can certainly move closer to that for the bits that matter here.
+
+Maybe we want a STRICT_ENTRY option to get rid of all the deprecated stuff that
+we can select regardless of GENERIC_ENTRY to make that easier.
+
+> I've also got a note that says ARM64 can probably do a WFE based
+> idle state and employ TIF_POLLING_NRFLAG to avoid some IPIs.
+
+Possibly; I'm not sure how much of a win that'll be given that by default we'll
+have a ~10KHz WFE wakeup from the timer, but we could take a peek.
+
+Thanks,
+Mark.
 
 _______________________________________________
 linux-snps-arc mailing list
