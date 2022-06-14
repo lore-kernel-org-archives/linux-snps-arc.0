@@ -4,102 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B5F7C43334
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Jun 2022 17:00:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2115C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Jun 2022 17:05:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=8p4Ov0fWcXEOyITOz+lPpCfwOE02cN2KYMH7K5Xpttc=; b=htIJBcNh3jKioF
-	dB4+Y/oR8JutTWS/GUgkPDweEe11YnlSlvUij5zNYxBkFzk/1tgZzSVUERJj2WRjHu8CC5wII3NiP
-	uycr+HerqKAn4LrIOHF6r36nu5tryzvj/UeKfLFnoT/q8uw6vfP1vIcP6gisXj/LRkRtQ7S4Et0ZH
-	otL098aPSwy1gA4BNbz6NcfEl2ePfqVeSHjrRizDTlQvlSiPOMPNhIOzdYl1Kv4Wogejl1PgiNjki
-	CwGVx3almnrv1Q8hM31lxkp6y9Q7RjBLIsP3os6HF+iGkFGk62Y0sjhrAr/iOBiu5J14F76dRue/I
-	ajto7gmvbhwF5qBnTpew==;
+	List-Owner; bh=GuzpLKK3VuhwyP7xH0jwydQLgjWUZibyCvo98IO/dzw=; b=HklZNxmYcDXZz6
+	ibmKTuwngeqzoQNb3ZudKaEiux0ahCOL3b4dgSOwdp8EUztoEYWa8JgoTNkRg9EINmMCKQb1va6G1
+	Ro/YixIhVmgCA3mbCgYAFxC0pSeUaLq9WdD+ug9xrXhwV+P60IfWBaiTz020oILswuzjdUa2ptYa8
+	acMD8r189Ujh3INenWkX+u3SP3l2yHUSEuYlwMr7GHRwhUyPs+p5sPrYZwedpXeqYwW8ZXsHQ5Lit
+	SQIYxycgg0MG/O0m62m9pWZvGvogyqD2ywZ5yd/uN7TyFA7d5/uPzYPEmmQSt9S4OAVfcoBaK3EDn
+	YEqSU8eIACQKpoS224Bg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o19tm-00AUtX-40; Tue, 14 Jun 2022 17:00:14 +0000
-Received: from foss.arm.com ([217.140.110.172])
-	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o19ti-00AUs3-CJ; Tue, 14 Jun 2022 17:00:11 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 11469175A;
-	Tue, 14 Jun 2022 10:00:08 -0700 (PDT)
-Received: from FVFF77S0Q05N (unknown [10.57.41.154])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4A1F03F66F;
-	Tue, 14 Jun 2022 09:59:50 -0700 (PDT)
-Date: Tue, 14 Jun 2022 17:59:46 +0100
-From: Mark Rutland <mark.rutland@arm.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: rth@twiddle.net, ink@jurassic.park.msu.ru, mattst88@gmail.com,
-	vgupta@kernel.org, linux@armlinux.org.uk, ulli.kroll@googlemail.com,
-	linus.walleij@linaro.org, shawnguo@kernel.org,
-	Sascha Hauer <s.hauer@pengutronix.de>, kernel@pengutronix.de,
-	festevam@gmail.com, linux-imx@nxp.com, tony@atomide.com,
-	khilman@kernel.org, catalin.marinas@arm.com, will@kernel.org,
-	guoren@kernel.org, bcain@quicinc.com, chenhuacai@kernel.org,
-	kernel@xen0n.name, geert@linux-m68k.org, sammy@sammy.net,
-	monstr@monstr.eu, tsbogend@alpha.franken.de, dinguyen@kernel.org,
-	jonas@southpole.se, stefan.kristiansson@saunalahti.fi,
-	shorne@gmail.com, James.Bottomley@hansenpartnership.com,
-	deller@gmx.de, mpe@ellerman.id.au, benh@kernel.crashing.org,
-	paulus@samba.org, paul.walmsley@sifive.com, palmer@dabbelt.com,
-	aou@eecs.berkeley.edu, hca@linux.ibm.com, gor@linux.ibm.com,
-	agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
-	svens@linux.ibm.com, ysato@users.sourceforge.jp, dalias@libc.org,
-	davem@davemloft.net, richard@nod.at,
-	anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-	acme@kernel.org, alexander.shishkin@linux.intel.com,
-	jolsa@kernel.org, namhyung@kernel.org, jgross@suse.com,
-	srivatsa@csail.mit.edu, amakhalov@vmware.com, pv-drivers@vmware.com,
-	boris.ostrovsky@oracle.com, chris@zankel.net, jcmvbkbc@gmail.com,
-	rafael@kernel.org, lenb@kernel.org, pavel@ucw.cz,
-	gregkh@linuxfoundation.org, mturquette@baylibre.com,
-	sboyd@kernel.org, daniel.lezcano@linaro.org, lpieralisi@kernel.org,
-	sudeep.holla@arm.com, agross@kernel.org, bjorn.andersson@linaro.org,
-	anup@brainfault.org, thierry.reding@gmail.com, jonathanh@nvidia.com,
-	jacob.jun.pan@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
-	yury.norov@gmail.com, andriy.shevchenko@linux.intel.com,
-	linux@rasmusvillemoes.dk, rostedt@goodmis.org, pmladek@suse.com,
-	senozhatsky@chromium.org, john.ogness@linutronix.de,
-	paulmck@kernel.org, frederic@kernel.org, quic_neeraju@quicinc.com,
-	josh@joshtriplett.org, mathieu.desnoyers@efficios.com,
-	jiangshanlai@gmail.com, joel@joelfernandes.org,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de,
-	bristot@redhat.com, vschneid@redhat.com, jpoimboe@kernel.org,
-	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-	linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-um@lists.infradead.org, linux-perf-users@vger.kernel.org,
-	virtualization@lists.linux-foundation.org,
-	xen-devel@lists.xenproject.org, linux-xtensa@linux-xtensa.org,
-	linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-arch@vger.kernel.org,
-	rcu@vger.kernel.org
-Subject: Re: [PATCH 14/36] cpuidle: Fix rcu_idle_*() usage
-Message-ID: <Yqi+gg+p0sv0F7Di@FVFF77S0Q05N>
-References: <20220608142723.103523089@infradead.org>
- <20220608144516.808451191@infradead.org>
- <YqiB6YpVqq4wuDtO@FVFF77S0Q05N>
- <Yqi6Fd38ZCsDUnQG@hirez.programming.kicks-ass.net>
+	id 1o19yT-00AWRf-SN; Tue, 14 Jun 2022 17:05:05 +0000
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1o19yQ-00AWPt-T0
+	for linux-snps-arc@lists.infradead.org; Tue, 14 Jun 2022 17:05:04 +0000
+Received: by mail-ej1-x629.google.com with SMTP id o7so18435937eja.1
+        for <linux-snps-arc@lists.infradead.org>; Tue, 14 Jun 2022 10:05:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mind.be; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=8kL31sq09D8Sa9IPjOlG/EUdwJHYr7hqIWtqek4V37I=;
+        b=gaszsaxT7y8DZaogxGvwz74Dd48w/Cp0hg+3ZEm9rSthwUwg0LUknbbmfD8+Q5SgAz
+         oVeNuykUOOUDIksq0j1fkgcnyYwmp3x1w4IEubQaokwhxCysTPAWewSsIfGl4PMRI68K
+         /5+y1aztJKLQTozQrme3GUMNPZYJ2CBvhmBpyweD/evGOF6/YANp8Wk1VBmz5sObc8nK
+         JYqT/TVjshep9bL619phFLLyYBghlf6mLZMCyAtcl9+eT5IVPSd2eALashyjU5KRNUnV
+         UqyrTSw4IjvC6g/JY0H7ucpY/CLONPStGYU6nrqyknQIzFQGTw9qwZ2qUK+wchNAbp9u
+         rjFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=8kL31sq09D8Sa9IPjOlG/EUdwJHYr7hqIWtqek4V37I=;
+        b=WDJInY8uj7xYI5KVX8EtrSuXjsgVbK/fBAtLgt3NMXn6ReL1g+6vxoy5TGgqEKFqMb
+         mqoVtToX51NutKzqcwEntbcbxXdMRn7wqQrSQJ+WYLab7OG+8IZ5xbNLtBOeYCoZmizA
+         8VI2rj2H/FamCHhyeTsQCqzl2PIOvoGzFY0UcN0zBmCjYFcvonEikBw+1U/4mCiA9GoP
+         jlmEGZmHLz9JTu5bg+a27DqRHq1kTin9y443p8DBPuUcrUBEx0UM3iDGErZrY/P1AQAt
+         i+VyMiLyr5VytRGAkkMwvbkt+9zUhEhbW4xeYt7Wmn7M437n/7/i6RugaxRwQa2jFnmi
+         8YvA==
+X-Gm-Message-State: AOAM5322NV+vIJMvu6kbBw3HoA5TGPQPqJwf3n8bBmQeQX2XXK0ePeay
+	P8Pyp5cOr/aKRrUgJgRDZLRcQw==
+X-Google-Smtp-Source: ABdhPJwVZtUjvG9CPUhhM7got9HvwnOjmKdt5doxba25L2l9an3tpx2JhQIYSso0MgPUejnQ1/u8mw==
+X-Received: by 2002:a17:906:fb0f:b0:715:7e23:bbbc with SMTP id lz15-20020a170906fb0f00b007157e23bbbcmr5194439ejb.373.1655226300366;
+        Tue, 14 Jun 2022 10:05:00 -0700 (PDT)
+Received: from [10.1.0.138] (ip-188-118-3-185.reverse.destiny.be. [188.118.3.185])
+        by smtp.gmail.com with ESMTPSA id vr7-20020a170906bfe700b00706c50870a0sm5246559ejb.194.2022.06.14.10.04.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Jun 2022 10:04:59 -0700 (PDT)
+Message-ID: <b38adc9a-7310-2fd7-2124-79942812797c@mind.be>
+Date: Tue, 14 Jun 2022 19:04:58 +0200
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <Yqi6Fd38ZCsDUnQG@hirez.programming.kicks-ass.net>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [Buildroot] [PATCH] package/bpftool: add a patch to fix cross
+ compilation
+Content-Language: en-GB
+To: Shahab Vahedi <Shahab.Vahedi@synopsys.com>,
+ "buildroot@buildroot.org" <buildroot@buildroot.org>
+Cc: "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
+References: <48ac54a1-f946-8f98-42e4-e39d2ab7130d@synopsys.com>
+ <6592891c-1b2d-d1cb-f34b-3e96f23e74cb@mind.be>
+ <fcddbfa3-9d7a-e809-630c-b157b5d6c8bf@synopsys.com>
+From: Arnout Vandecappelle <arnout@mind.be>
+Organization: Essensium/Mind
+In-Reply-To: <fcddbfa3-9d7a-e809-630c-b157b5d6c8bf@synopsys.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220614_100010_558519_F72FAC04 
-X-CRM114-Status: GOOD (  17.63  )
+X-CRM114-CacheID: sfid-20220614_100502_983961_70B50B0F 
+X-CRM114-Status: GOOD (  24.42  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,58 +91,65 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 14, 2022 at 06:40:53PM +0200, Peter Zijlstra wrote:
-> On Tue, Jun 14, 2022 at 01:41:13PM +0100, Mark Rutland wrote:
-> > On Wed, Jun 08, 2022 at 04:27:37PM +0200, Peter Zijlstra wrote:
-> > > --- a/kernel/time/tick-broadcast.c
-> > > +++ b/kernel/time/tick-broadcast.c
-> > > @@ -622,9 +622,13 @@ struct cpumask *tick_get_broadcast_onesh
-> > >   * to avoid a deep idle transition as we are about to get the
-> > >   * broadcast IPI right away.
-> > >   */
-> > > -int tick_check_broadcast_expired(void)
-> > > +noinstr int tick_check_broadcast_expired(void)
-> > >  {
-> > > +#ifdef _ASM_GENERIC_BITOPS_INSTRUMENTED_NON_ATOMIC_H
-> > > +	return arch_test_bit(smp_processor_id(), cpumask_bits(tick_broadcast_force_mask));
-> > > +#else
-> > >  	return cpumask_test_cpu(smp_processor_id(), tick_broadcast_force_mask);
-> > > +#endif
-> > >  }
-> > 
-> > This is somewhat not-ideal. :/
+
+
+On 13/06/2022 22:48, Shahab Vahedi wrote:
+> Arnout,
 > 
-> I'll say.
+> On 6/13/22 22:21, Arnout Vandecappelle wrote:
+>>> The patch file should be git-formatted and have your Signed-off-by.
+>> I simply took the patch from [1] (which has your signoff) and added
+>> the additional Makefile.include changes
 > 
-> > Could we unconditionally do the arch_test_bit() variant, with a comment, or
-> > does that not exist in some cases?
+> Thanks for the tweak. I overlooked the "Sign-off" part. I used "diff"
+> because of what BR's manual suggests [1]:
 > 
-> Loads of build errors ensued, which is how I ended up with this mess ...
+>    If the software is under version control, it is recommended to use
+>    the upstream SCM software to generate the patch set.
+> 
+>    Otherwise, concatenate the header with the output of the
+>    diff -purN ...
+> 
+> The proposed patch was made for a tar ball release that is not under
+> any version control per se. With the hindsight, maybe I should have
+> checked for "v6.8.0" as branch/tag in upstream repo.
 
-Yaey :(
+  Yeah, bpftool is actually a special situation since the real upstream (where 
+you contributed your patch) is a separate repository that gets regularly synced 
+into the bpftool repo. I think that at the time you sent this to Buildroot, it 
+was not yet synced to bpftool.
 
-I see the same is true for the thread flag manipulation too.
+>> (of which I don't really understand BTW why they're relevant for Buildroot).
+> 
+> That extra change (setting "HOSTAR") is necessary, because in upstream
+> that was already taken care of before the patch submission. However, in
+> v6.8.0 release "HOSTAR" is never initialised and the fix is actually
+> using it.
 
-I'll take a look and see if we can layer things so that we can use the arch_*()
-helpers and wrap those consistently so that we don't have to check the CPP
-guard.
+  Since we set it from the .mk file, it doesn't actually *need* to be 
+initialized in Buildroot context.
 
-Ideally we'd have a a better language that allows us to make some
-context-senstive decisions, then we could hide all this gunk in the lower
-levels with somethin like:
+  Also, if that came from a previously applied upstream patch, it's better to 
+backport the actual upstream patch. But that can be complicated as well for 
+something like bpftool, so it's fully understandable to do it like this. It 
+would be nice however in such a case to add a reference to the upstream commit 
+that added it.
 
-	if (!THIS_IS_A_NOINSTR_FUNCTION()) {
-		explicit_instrumentation(...);
-	}
+  Regards,
+  Arnout
 
-... ho hum.
-
-Mark.
+> 
+> [1]
+> https://buildroot.org/downloads/manual/manual.html#_format_and_licensing_of_the_package_patches
+> 
+> 
+> Cheers,
+> Shahab
 
 _______________________________________________
 linux-snps-arc mailing list
