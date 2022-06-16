@@ -4,173 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 587C8C43334
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 16 Jun 2022 08:13:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F4A8C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 16 Jun 2022 12:34:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
-	References:Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Hat6K5mggOt/+V3AI91IGS6zrhPwcSv7fppWANRhMDc=; b=N9ucOZi6UD8BMT
-	op2Cs8AeLsAlcVM54b/sYx6323/wVGwfsDzOhPT/WDdj5/Fwql0yc5Z1RhRl7bGiO54cea/JsTo4v
-	i5GI1qaNEQo9J+WptEGchGS1hV1kfdfa7Gqoy25tp0jeHC2fOeEMIaSu+VraTxXDwdbwLseEVwAch
-	HfTnfuqxd2nn6CgUGZAi9tju2J5IEdFrVPdop9fecCqPLsbsLcikqnQAfvWWh/8yjBZYBudIWYKW+
-	qUCv94SBsYB2QJooddeyL3fNIIFhiHluMZ3aCwGNXZ9pj+hkcVd4PjvEdooDLC6FCtFjGlekzpz6N
-	/K6+npYqDuyHArX8iHVQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=IpheUKvn9Z6LHCAnghpo1jiKs0uhUe3njVADmqZbmmk=; b=cJF+wQE3pExGty
+	D94Tj8PCCUmkqHRV+kIz+y/NacKd5+woYBMt1143QE/Uk1Zcj5H1MZyEibqvyPX5p5kZ5FBf8E36W
+	XcpPGoNEYu6Bl1m9+ZVxcXi9oXn/0wyCqnzq0pE2QLW15+XXlqOiIdSXH+K2CfvmygAC7TYlVaCry
+	tbLjUwnmmOlDus9Pt5ODHeS+1amqRD3BRPUPIoJKOrAFNkvrSIhkx0UlfBcHgh0P8ZGYFaIrTlT+3
+	tWZF1vwUvcmkg1+ULql2ZPOSZWPE5IIu7Wq1ds1Gbpog+nXiXWXcRv1ubrokZ18uIZpNPn5mgFaK4
+	cr7lwP6U2W5Gwy+fx6xw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o1kcl-001Kn4-1e; Thu, 16 Jun 2022 08:13:07 +0000
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133])
+	id 1o1ohJ-002Ivu-Lf; Thu, 16 Jun 2022 12:34:05 +0000
+Received: from mga07.intel.com ([134.134.136.100])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o1kaz-001KAn-Jb
-	for linux-snps-arc@lists.infradead.org; Thu, 16 Jun 2022 08:11:20 +0000
-Received: from mailhost.synopsys.com (us03-mailhost2.synopsys.com [10.4.17.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
-	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 004684649E;
-	Thu, 16 Jun 2022 08:11:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1655367075; bh=kXUSfM5XTPa4uUueYRFy8KPPOKgszVnlvxT+Y7XPekQ=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=GYAOfirBt3wLlFfk7HhD+s6+2LO9/TZpVHR7KXS+XhlP+wOOwIB7xzTY6bobi5qnC
-	 howiTwpZwy+BSUlYP5W7sMGAvAKBGcxjiaL/KdGvX3JxOHsYD5KzgEiIOKESEu/CgO
-	 sa1FfUTt93XdlvyGthwajSV7UI2ZPU7SnuBaTgvGKBwGtIsspF5NsINxpJXuPexfvL
-	 ZBoaLfw6OBw93bT7BbBCGRx90n38BpQs2UOgfSqHr0LLmaN0NURJJ5/Wm4rEcK5LQJ
-	 Pa0SK3txjRsKerrH/QoZ8T98XfEMJ2Oz51Qytz3xFl6t5L3ZBCLhCaPnptzz9AH0A9
-	 Ypay22QbcsG1g==
-Received: from o365relay-in.synopsys.com (sv2-o365relay1.synopsys.com [10.202.1.137])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(Client CN "o365relay-in.synopsys.com", Issuer "Entrust Certification Authority - L1K" (verified OK))
-	by mailhost.synopsys.com (Postfix) with ESMTPS id 2553DA008A;
-	Thu, 16 Jun 2022 08:11:14 +0000 (UTC)
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11lp2169.outbound.protection.outlook.com [104.47.56.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(Client CN "mail.protection.outlook.com", Issuer "DigiCert Cloud Services CA-1" (verified OK))
-	by o365relay-in.synopsys.com (Postfix) with ESMTPS id D3C6640067;
-	Thu, 16 Jun 2022 08:11:09 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=shahab@synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
-	dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="bTPdF01g";
-	dkim-atps=neutral
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YVsQT+TYC5rUeXLN9qqbYOZq6NdwVefpDPtZEwoidvtGcwsyRzvJJz8pGw4VWTca7TzubUDs+E98vxaIWAbKqQZdL0hSxIj188gZHDEtOUBgnckhO2tvn2LhZTjvemKeer3VhbpiISovHV14NnlFc4phX2zHM2YdUi0k09gevZNvRAcBol5ukrp41y5+/uVnO9debsjz2Aw25Mgb4sE6kcmf+nzf+V9EUvnN/9+aIISHdsE2bDWmxh/Poumi7hh9CPOF3KNDhj2wMrNpWxfRYurPK+KFRJfpHx/QRiG8MTZq9WKNjtZfhYzHHFYTTm5mmU9VfgiJp6lOeKcODjxGqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kXUSfM5XTPa4uUueYRFy8KPPOKgszVnlvxT+Y7XPekQ=;
- b=a6RFX29MWTbSDuv8Dd8OV86VRUyw0zhK6MLT+7wDWSK1Yx+9mxT+DD9Vr8SZZKDlVUYCr+TFhMrjQRpH5YglZHrwMmZM7ZPR3n4fiyR8/7WauvPGtkk/R6wN8ToY0LiaHe0bYYosHu/XIKC1YRLz17674rrIgxHK/aj8bJ+BlCMJvvPVUWyVYFqaisox+ZX5Gbu9nqBkcJl+gnJpkeE+oN5J5zqdXgKfW3hrDEJ15DNKXscnIse35bSW2gSq25Cggwcce/3X0elcQCBPXInn413mHnh/oKFKUZhLDiIB0ebXYz3ErZkckjqFLppimOokYXyT6n3Osdb0omSWZ1nGrg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kXUSfM5XTPa4uUueYRFy8KPPOKgszVnlvxT+Y7XPekQ=;
- b=bTPdF01gdWpoKerQIMqJlJwMEt2wt5aaQcHa4hhKJz3OrkA/urPXgpEAYAG8s/u5PsMMeZwc6gWiJQ027NE/J4MBSINW9VYYd4wHDeb19hVlDmzLc5rutTcjg+iZUVbLDrQQdCshiGob0Ni3bEQUcS5MjnrFJvnhZnrdehj/C38=
-Received: from SN6PR12MB2782.namprd12.prod.outlook.com (2603:10b6:805:73::19)
- by MN2PR12MB4333.namprd12.prod.outlook.com (2603:10b6:208:1d3::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.14; Thu, 16 Jun
- 2022 08:11:07 +0000
-Received: from SN6PR12MB2782.namprd12.prod.outlook.com
- ([fe80::887b:e58:cad3:ce9d]) by SN6PR12MB2782.namprd12.prod.outlook.com
- ([fe80::887b:e58:cad3:ce9d%4]) with mapi id 15.20.5332.022; Thu, 16 Jun 2022
- 08:11:07 +0000
-X-SNPS-Relay: synopsys.com
-From: Shahab Vahedi <Shahab.Vahedi@synopsys.com>
-To: James Hilliard <james.hilliard1@gmail.com>,
-	Shahab Vahedi <Shahab.Vahedi@synopsys.com>
-CC: Arnout Vandecappelle <arnout@mind.be>, "buildroot@buildroot.org"
-	<buildroot@buildroot.org>, "linux-snps-arc@lists.infradead.org"
-	<linux-snps-arc@lists.infradead.org>
-Subject: Re: [Buildroot] [PATCH v3 1/1] package/bpftool: revert bpf_cookie
- patch to allow building
-Thread-Topic: [Buildroot] [PATCH v3 1/1] package/bpftool: revert bpf_cookie
- patch to allow building
-Thread-Index: AQHYf9GGNdBPjuX5nkCxwDk0/FmiVK1PJLyAgAEslICAAM35AIAAkluA
-Date: Thu, 16 Jun 2022 08:11:07 +0000
-Message-ID: <40fe53f9-cd74-a19f-e338-2aa4d35a9ec1@synopsys.com>
-References: <97ea44bb-58fe-d6cb-6c79-9be0b245f2c6@synopsys.com>
- <38e7fb76-2c07-6429-b803-4fd6ff2b1178@synopsys.com>
- <3062ce96-7e99-d221-61c8-4b87c87c113b@synopsys.com>
- <e8be91c7-8597-7a7e-9714-9f8045781959@mind.be>
- <aafcf149-d0b9-8c95-751c-64ec4dabf5b5@synopsys.com>
- <CADvTj4qcYpo=UB2Qny7-0mXiqq9R0u6QMBgs+9hXm76SQxvEew@mail.gmail.com>
-In-Reply-To:  <CADvTj4qcYpo=UB2Qny7-0mXiqq9R0u6QMBgs+9hXm76SQxvEew@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=synopsys.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 43aad5ea-d598-4650-4f55-08da4f6fc40a
-x-ms-traffictypediagnostic: MN2PR12MB4333:EE_
-x-microsoft-antispam-prvs:  <MN2PR12MB433352A1D99E8C753B676396A6AC9@MN2PR12MB4333.namprd12.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  79l+OcQ1E4BcWn9abofaRjsXcVUU+ORJt9iaT97mG88Oes6CuuDa3TtkY2EyELHtFfDXbtBsK5CsA8WGNNwppF6bZ3ueAy9K8PIbt90yfLI85a+QuZfu+4J11mHyEJSDBX9CBCsTaTgElFZW7rS9R/awheXEBz7REmRYoCcDfLNr7VjmEpC4JDVpC0YeBUHoXAGB+zbPHCUmxOdN6YdtsyMwr3Ypq0b6Is10HbIezbC6621qyH2ql2dghhfYJ6PuuSL+6egzIBrIKm4wYM93w+pAdsOrG55ak52xHQN1wP7eyjxn+FpeA61u3jvcp802jkU5wPMJ5lmi4pmYB/CYhjNVBZwCOXljFcoY/pLpixtt3yuI39VCWNiVf9yZ2Sba2lhhIhmt8LfminqGTd4WohoOC3A4ILhcLJVmOmARXlz8BEvozdmT0jn/vMTNbmksg2b65dFf4Q62hQJUPeEZ6ROgBfSJeEZ5pcJ5Bb3AbH2amHt97PZ/CZrhTsl9NCYlpOIPOIloBcqEzKGIK86rR6FDPRBsUVt2njfAq/oX3dfJ1izajVGTqTiG8cEepbzanKZGLv+8AHCkNtFiScxCM+RAPEqEwZkjK+X6gv9tU1QqNN0zG6/JpCcFSDfh4ngG4kbWo8JV9UiYj60zrKa1JEpUi0fbkNHlUnFUyTWJwy46j4RjWtcLq0XZ8OlEPT8tkS7+geMfSP/lK4yE/Xgqdef80NrzYFZPRLZBGYMmU/HoWs2VWDOSBkMRJe0qP3aA7Om6yI0HMjOErVue8Pt66nMYD1SnvSAuz+RAzTcgMD5SqsxfBG/xsIEypHIAzjVL
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR12MB2782.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(366004)(6506007)(186003)(316002)(966005)(71200400001)(508600001)(2616005)(6486002)(83380400001)(31686004)(36756003)(54906003)(110136005)(76116006)(38070700005)(66446008)(122000001)(66556008)(2906002)(8676002)(4326008)(91956017)(5660300002)(53546011)(6512007)(66476007)(64756008)(31696002)(86362001)(66946007)(38100700002)(8936002)(45980500001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?dU1QSk16TFQ5cVRlWWNZTjNsMWFHTEJCL25jRkdwOGxPV0pkcFNYUGx4emtH?=
- =?utf-8?B?WksxdGRySXBkTDR0RlM3NE1LR2dMQVN5eCtqbE1LOUhXYUdQOVNyeDRwZkJ5?=
- =?utf-8?B?aTBYazBEb3dkSk5BUThMOWs0UEtkVXBZa2FDZ21KZmNDQisxRlo1S1QyaFdM?=
- =?utf-8?B?bW83MFF6Qy9zMVZDWisrMCtBSEJMWitUL05FSkIvek9vWTNlSzh1bU5STURw?=
- =?utf-8?B?Y2pTWnhFaVNRVHp4azRkbmVwWS83SzZlSDNicWM1TTJHcm5OaUwwbFZCS0pS?=
- =?utf-8?B?eVk4dis2SlpwUGpBOStjYUNRYmJSdysvNUsyRHZhem13YmFaajNFNXVvemZ5?=
- =?utf-8?B?WHRwNmp6WW9idVpHOTY3WWdQMWEvMFdZRnoxdGkzdW1LYlQwTWJZQ3ZvWjFl?=
- =?utf-8?B?Y3piZG1xbllEc3V4emZkR0lLdkI1V1BzSXI4aU1BL1hMTWp1eHRaUG1wQlZi?=
- =?utf-8?B?bVZIY1o1djMxbFhjM1RhY2pCbTRoVVNnTUh3bE9VQ1dvRGVlRllKcEpOY3Mv?=
- =?utf-8?B?WngyRlNrVzRTQmpydnZEYWEvVjFOTEJTa0ZZejJYYWcyVWZwSXVESXRuRExk?=
- =?utf-8?B?TldsMjZjYmtwcTU5Ly8rQzc1OU94clp1NFltb3A3MnB1RGN2cGEzblgvMk5X?=
- =?utf-8?B?d043R1J2cExWQVc4UU1DdWFvR0dzNDdrTklzT2hER0NQMm5qQWNVdTFLVGU5?=
- =?utf-8?B?dk13L0NQQ2pOc2pIWGpsdnRNM1FXaDVnWEtsWjB3cDNYVjhhN0UyUzQ3aklX?=
- =?utf-8?B?QytEQzNlUGZkK3lzb3RkMDM1ZkVDclc1QnJPUFI0WjlzNU8xbW00ZGhEbTNw?=
- =?utf-8?B?WFRtNlpib2hacC9XZnRFTTh2K1BNVE9qVk9kbjhNR1NzUG5BY243OG8zOXp3?=
- =?utf-8?B?NEd2Ym1ONU00ekhTNlFrdnpDZGlJSzFoK0xqSm5vT3FtZTgyMWVUVlRQek85?=
- =?utf-8?B?RXVXSm16Q05aWWdTaUV6OVFPaUxBMCtUZkszWlJrQ0dhQUtGWmR4T0l4RnRj?=
- =?utf-8?B?alcyaEZYQUZpYnFmSkU2ZEUyUWtWQjdIUWRaRWVkaFJONXMzWFBLcHZpRU9U?=
- =?utf-8?B?clB2S2wwL1VQOXEwRUg0b2VtbkNHU3lWeDR0UUFjRTF5QVFzWXdycGliUWo3?=
- =?utf-8?B?bjBBVkZvaFF3TDF1TWFLVjc4T215UUVWTnpaWXRFTnoxWExXUzVEN3ZnMXN0?=
- =?utf-8?B?ZHR4Wk9GRS9vOTN5cW0zYkN5SkxKMlZOUE1tenNyblFlSkU2RjA2aTliUkxv?=
- =?utf-8?B?VFZsa016ZUlha3cvMG1ZeVluYk1xcnBXZFkwY2F6dlZmdzA0aHRLYldqQXBa?=
- =?utf-8?B?YXNtbFFrbWJJeDRFSFN2UmFQZG1sNk5Jdi8xUGIyQUpSSVphSzJKd1VnRitG?=
- =?utf-8?B?T0lZN1NKOEpGUEh0TERMVFJ3NVF0YlJSMk03ckZFSk1pejJRRHpybGlBMmNZ?=
- =?utf-8?B?SEpHb3E2azM3SWUrYUt5OG1OUjQyeWpabExwc2Z5VmNJMEo0ZHFoQ3Nablpi?=
- =?utf-8?B?Wm5VWmIzNTBjZkhOR1AzYndNaFNRRlB5cHE5MGRLLzg5UlNZbjhMT3B2RVo2?=
- =?utf-8?B?QU5vQnlCNUtGdmFOaitMbUNYZU1wam15WGxuampVZVpuODBJYXFUSHRYTEpN?=
- =?utf-8?B?MFFJbW5WTFZBZXFzQ1FEUmpDc0RmRFVDc3JSQlRrK291cTRxSGR2NWhpdE0v?=
- =?utf-8?B?dnd1c3lBWnd2Q3pZL05HSDJvWUgwbHcxSEpWb0JsWWJZVFJpdThveXlaNnZ2?=
- =?utf-8?B?d3JtMUlVMVZ5QWgzcDc5YnR1WENEb2tXc1BqcnVWMHFWcDkvcU8xMTE5UFpl?=
- =?utf-8?B?Y1M0SzZxSVNFQVRVbDFFL251ZGpvbmFwaXJxc3pQTFo5RjhEa2ovU055RUt1?=
- =?utf-8?B?Z1dCM0Q4Q3pvU3Fib0Z5RkpoaElnSHRpelIrRlRLNnViL0k4T0N6RHJIWi9T?=
- =?utf-8?B?MkdUYzEwSmJvVHVlYlNOeWZxZFAvRzB0NnBxZzBadkdRTzlqT3EyNVg3ZUY2?=
- =?utf-8?B?QkpyWVJCNWdqNUhGYkVyUFpobDlkaElkM1J5K0RUL1JXY1REVVN2MVVMMzF4?=
- =?utf-8?B?WFAxdXVIU2V5SWcrM2wrODdISzdhMGVLNGtvK2ltV3l3WitNdERBbjNFK2Na?=
- =?utf-8?B?Z3pNNzUrTkhjMzNFTFJpNzRVYUMrd3FSTStFMlVwb0R2R21GVHlhbit1L3Fz?=
- =?utf-8?B?Wk5sNTJnbHIxRWpKVTdSMDQ5QlNaU0lMelJTODBVanVkVXFYQUtnV2cxcFVr?=
- =?utf-8?B?RmpGZytVM05VNXhSQkFzdEVELzZucTg5bjljSUs1ckhwbG5SZndaejAxY3l3?=
- =?utf-8?B?TEZ6akVDcW9pOHJjcEFEeEhGWEQ2bGcwd0VRZGVDNitYaTFRK095aXpXY1BC?=
- =?utf-8?Q?kNPPjHuPCw616RQg=3D?=
-Content-ID: <36CBD901C8599A439EF9353D40DE3A2B@namprd12.prod.outlook.com>
+	id 1o1ohG-002IvE-HY
+	for linux-snps-arc@lists.infradead.org; Thu, 16 Jun 2022 12:34:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655382842; x=1686918842;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ta/VM6wcR0NLR8ZmbTDHO2IFmcawcFYqymRSGS1up0g=;
+  b=Hn5RviDbz2SccJ5DFXIXLtIeD27f/XvAQwNQ0YLDT6YE+n2DaqrHiikt
+   yfovEUxEW2PKZs+oH82CqqmaLs2b4T2DRDhTSyM4Y8r+6vP9ndAw9aTOd
+   KW6RYzHoB+p0jW4w5/tbV2ga9DJs3IbHw9j36O5rS61nMk4WIKNGr9aow
+   wyN6JkjRa7YjebP+cGgd2dmHInvLp3VWbs5ohNLOLwO7VgpkqBv+mbN4a
+   KoV0GrbL4zE56cHdLd4fo4hqJAKxIIYGTrPFMOICCWDzVKiPm77ZGTDXK
+   ybIslLFXq9gwCCu84yu2QHfoUhrTMngrSlXs6WRZ1+AFGz4hu6BPR+AwL
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="343194969"
+X-IronPort-AV: E=Sophos;i="5.91,305,1647327600"; 
+   d="scan'208";a="343194969"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2022 05:34:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,305,1647327600"; 
+   d="scan'208";a="641520219"
+Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 16 Jun 2022 05:33:59 -0700
+Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
+	(envelope-from <lkp@intel.com>)
+	id 1o1ohD-000ONP-2m;
+	Thu, 16 Jun 2022 12:33:59 +0000
+Date: Thu, 16 Jun 2022 20:33:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vineet Gupta <vgupta@kernel.org>
+Cc: kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org
+Subject: net/ipv4/tcp_cong.c:238:22: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202206162029.baVzc1JE-lkp@intel.com>
 MIME-Version: 1.0
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2782.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43aad5ea-d598-4650-4f55-08da4f6fc40a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jun 2022 08:11:07.4851
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: A+3UHMmlMVvjnmLERMrUfcF5NnbdC1Xb6FZuTIsUBeX/3mV8FHvvVsP+V8AKDpcXPINWn7itrHW7Fj/3/5wTwA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4333
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220616_011117_982113_8223BF70 
-X-CRM114-Status: GOOD (  18.17  )
+X-CRM114-CacheID: sfid-20220616_053402_665738_C1453F3F 
+X-CRM114-Status: UNSURE (   8.40  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -187,39 +81,81 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 6/16/22 01:27, James Hilliard wrote:
-> On Wed, Jun 15, 2022 at 5:10 AM Shahab Vahedi via buildroot
-> <buildroot@buildroot.org> wrote:
->>
->> On 6/14/22 19:14, Arnout Vandecappelle wrote:
->>>
->>> On 14/06/2022 11:31, Shahab Vahedi wrote:
->>>> Building bpftool on Debian 11 (bullseye) with kernel v5.10 and clang-11
->>>
->>>  How do you build host-bpftool with clang in Buildroot context? HOSTCC is set to gcc in the Makefile... Do you supply an explicit HOSTCC= on the Buildroot command line? I'm not sure if we are really interested in carrying fixes for such exotic and not-really-supported situations...
->>
->> No, I don't do any sort of trickery to build bpftool on my end. The
->> bootstrapping, if becomes available for your configuration, uses clang
->> and only clang. I tried to explain this in v4 of the patch [1], the
->> second paragraph of the commit message.
-> 
-> I think clang/llvm support isn't going to work correctly yet since we only have
-> version 9.0.1, there's a series bumping to version 11.1.0 that should fix that:
-> https://patchwork.ozlabs.org/project/buildroot/list/?series=291585
-> 
-> Minimum clang/llvm version for libbpf co-re is version 10:
-> https://github.com/libbpf/libbpf*bpf-co-re-compile-once--run-everywhere
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   30306f6194cadcc29c77f6ddcd416a75bf5c0232
+commit: e188f3330a13df904d77003846eafd3edf99009d ARC: cmpxchg/xchg: rewrite as macros to make type safe
+date:   10 months ago
+config: arc-randconfig-s031-20220616 (https://download.01.org/0day-ci/archive/20220616/202206162029.baVzc1JE-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 11.3.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-30-g92122700-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e188f3330a13df904d77003846eafd3edf99009d
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout e188f3330a13df904d77003846eafd3edf99009d
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arc SHELL=/bin/bash net/ipv4/
 
-You're right about the clang version, but it doesn't have anything to do
-with Buildroot's clang. The build process uses the clang that is installed
-on the host. For Debian bullseye, that is clang 11.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-To emphasise, I am cross-building bpftool for my "arc-linux" target, and yet
-the bootstrap part of bpftool, uses the x86 clang of the Debian machine.
 
+sparse warnings: (new ones prefixed by >>)
+   net/ipv4/tcp_cong.c:238:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct tcp_congestion_ops const [noderef] __rcu *_val_ @@     got struct tcp_congestion_ops *[assigned] ca @@
+   net/ipv4/tcp_cong.c:238:24: sparse:     expected struct tcp_congestion_ops const [noderef] __rcu *_val_
+   net/ipv4/tcp_cong.c:238:24: sparse:     got struct tcp_congestion_ops *[assigned] ca
+>> net/ipv4/tcp_cong.c:238:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tcp_congestion_ops const *prev @@     got struct tcp_congestion_ops const [noderef] __rcu *[assigned] _val_ @@
+   net/ipv4/tcp_cong.c:238:22: sparse:     expected struct tcp_congestion_ops const *prev
+   net/ipv4/tcp_cong.c:238:22: sparse:     got struct tcp_congestion_ops const [noderef] __rcu *[assigned] _val_
+
+vim +238 net/ipv4/tcp_cong.c
+
+317a76f9a44b43 Stephen Hemminger 2005-06-23  219  
+317a76f9a44b43 Stephen Hemminger 2005-06-23  220  /* Used by sysctl to change default congestion control */
+6670e152447732 Stephen Hemminger 2017-11-14  221  int tcp_set_default_congestion_control(struct net *net, const char *name)
+317a76f9a44b43 Stephen Hemminger 2005-06-23  222  {
+317a76f9a44b43 Stephen Hemminger 2005-06-23  223  	struct tcp_congestion_ops *ca;
+6670e152447732 Stephen Hemminger 2017-11-14  224  	const struct tcp_congestion_ops *prev;
+6670e152447732 Stephen Hemminger 2017-11-14  225  	int ret;
+317a76f9a44b43 Stephen Hemminger 2005-06-23  226  
+6670e152447732 Stephen Hemminger 2017-11-14  227  	rcu_read_lock();
+6670e152447732 Stephen Hemminger 2017-11-14  228  	ca = tcp_ca_find_autoload(net, name);
+6670e152447732 Stephen Hemminger 2017-11-14  229  	if (!ca) {
+6670e152447732 Stephen Hemminger 2017-11-14  230  		ret = -ENOENT;
+0baf26b0fcd74b Martin KaFai Lau  2020-01-08  231  	} else if (!bpf_try_module_get(ca, ca->owner)) {
+6670e152447732 Stephen Hemminger 2017-11-14  232  		ret = -EBUSY;
+8d432592f30fcc Jonathon Reinhart 2021-05-01  233  	} else if (!net_eq(net, &init_net) &&
+8d432592f30fcc Jonathon Reinhart 2021-05-01  234  			!(ca->flags & TCP_CONG_NON_RESTRICTED)) {
+8d432592f30fcc Jonathon Reinhart 2021-05-01  235  		/* Only init netns can set default to a restricted algorithm */
+8d432592f30fcc Jonathon Reinhart 2021-05-01  236  		ret = -EPERM;
+6670e152447732 Stephen Hemminger 2017-11-14  237  	} else {
+6670e152447732 Stephen Hemminger 2017-11-14 @238  		prev = xchg(&net->ipv4.tcp_congestion_control, ca);
+6670e152447732 Stephen Hemminger 2017-11-14  239  		if (prev)
+0baf26b0fcd74b Martin KaFai Lau  2020-01-08  240  			bpf_module_put(prev, prev->owner);
+317a76f9a44b43 Stephen Hemminger 2005-06-23  241  
+6670e152447732 Stephen Hemminger 2017-11-14  242  		ca->flags |= TCP_CONG_NON_RESTRICTED;
+317a76f9a44b43 Stephen Hemminger 2005-06-23  243  		ret = 0;
+317a76f9a44b43 Stephen Hemminger 2005-06-23  244  	}
+6670e152447732 Stephen Hemminger 2017-11-14  245  	rcu_read_unlock();
+317a76f9a44b43 Stephen Hemminger 2005-06-23  246  
+317a76f9a44b43 Stephen Hemminger 2005-06-23  247  	return ret;
+317a76f9a44b43 Stephen Hemminger 2005-06-23  248  }
+317a76f9a44b43 Stephen Hemminger 2005-06-23  249  
+
+:::::: The code at line 238 was first introduced by commit
+:::::: 6670e152447732ba90626f36dfc015a13fbf150e tcp: Namespace-ify sysctl_tcp_default_congestion_control
+
+:::::: TO: Stephen Hemminger <stephen@networkplumber.org>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
-Shahab
+0-DAY CI Kernel Test Service
+https://01.org/lkp
+
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
