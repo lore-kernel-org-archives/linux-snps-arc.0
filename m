@@ -4,115 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB350CCA47A
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 16 Jun 2022 21:23:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E45B7C43334
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 19 Jun 2022 15:20:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=8x2NkKGzMEh9t7XTufAPFx24NDP1WwQnhdtkKs9OeIE=; b=bHiH/1ZaC1YmMn
-	RE85toe/lzR7gaBuQpqKFWvGrZd5RcP3zSNDAlBlazzkDXpmN9tkXuJ4Nr7TsyncMhfJkvhhjztvi
-	mk9ycwwvAfU9EJ3kD8Q+Eyh/BUWE5HwKtiSPwbnWhTyNkZ3HZiKxzLHFDBiRHvd5bYYunx6IK8RtI
-	CDKC/7S321yocfwXcyRSN3/tiVjNt8SfU5dHNcugjuzQx2y11ylKWaWp6jghmvxw86OgrwkeMC/b3
-	RJcDCUvZmb3KDmI3Es+j8S8CEH/pegIWFP3tZjEKEKrOt5s04r8uUlAE+giwuP9tMBagyU1oRpPuS
-	KejIwNYJzCx0VVu1K5qA==;
+	List-Owner; bh=EFCQjvcGBITfPCGfof1aLSxdLTNsWo9ppWKFdt6jPU0=; b=iZ/DMVIUxe4SyX
+	UrppP/HhvDZpudL1v6ApLho4O4xVu6EPkZVu6VzuW4gY4X25FhXVerrh0h5SOHjcyPApJJcD1sdo5
+	MqFrq92UDviq19cutZ4aYeNSjelINOPixbVEhiekdsvp8LTlLa44qIKlJqhLtqDp3vJUWGjKLeSJM
+	vCINkYmvQcQTM+5UfN7csd2re4sDWo4kUBAoQ1EnuKNKa4eHGJgOmO7o8BMU9CfnNEvZb5hpfEwYK
+	Bcg8obT2wH5Heg8NUlyzdUfVepcpxUQJ7Pg88O/ZRm/unJb7sTL9z5NsgMgSh7MLM3CWYMiUAv0kw
+	8sxQa2Txhe7f9qjyn6qg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o1wx8-004QLH-7z; Thu, 16 Jun 2022 21:22:58 +0000
-Received: from mga09.intel.com ([134.134.136.24])
+	id 1o2wj5-00EX0B-78; Sun, 19 Jun 2022 15:20:35 +0000
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o1wx4-004QJs-Ug; Thu, 16 Jun 2022 21:22:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655414574; x=1686950574;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=eIVB2Wcg0d4KNkOlM5BOJs0iOIDhUm5jxxQVobMAAIM=;
-  b=BO4odpVxsFwd9mK3R1wMKxkty02aVQSLeG56c8Yf9u9qbSFZMhTgY9i8
-   pMut38rRq/l91hLklKq9lPznZuVpss98WtaIyVUIJMTfuQJ9A6ShJ5C8g
-   h+j94pPZycB4BwSPfLcSw8Ao5IAWqn9FI7nSo9IOKX/8IGQgdJDBeCEEJ
-   dJMkQ6F6Il2SYq77W3ggP32MtLGzus0iYoVESy6hGtz2Y0loOygyGo6uw
-   6Y5FPVGlwbfvjCbEljGfITBfgCHsrExf71qhwoGITHkBsTm5EEg5au1d2
-   J1wJzr7ATowlhyr216YbDFsJdkYJ5hfWbpeRiyQ8ZjHl0m5BQCIT5qjPJ
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="280069487"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="280069487"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2022 14:22:51 -0700
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="560027674"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.198.157])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2022 14:22:51 -0700
-Date: Thu, 16 Jun 2022 14:26:56 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: rth@twiddle.net, ink@jurassic.park.msu.ru, mattst88@gmail.com,
- vgupta@kernel.org, linux@armlinux.org.uk, ulli.kroll@googlemail.com,
- linus.walleij@linaro.org, shawnguo@kernel.org, Sascha Hauer
- <s.hauer@pengutronix.de>, kernel@pengutronix.de, festevam@gmail.com,
- linux-imx@nxp.com, tony@atomide.com, khilman@kernel.org,
- catalin.marinas@arm.com, will@kernel.org, guoren@kernel.org,
- bcain@quicinc.com, chenhuacai@kernel.org, kernel@xen0n.name,
- geert@linux-m68k.org, sammy@sammy.net, monstr@monstr.eu,
- tsbogend@alpha.franken.de, dinguyen@kernel.org, jonas@southpole.se,
- stefan.kristiansson@saunalahti.fi, shorne@gmail.com,
- James.Bottomley@hansenpartnership.com, deller@gmx.de, mpe@ellerman.id.au,
- benh@kernel.crashing.org, paulus@samba.org, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, hca@linux.ibm.com,
- gor@linux.ibm.com, agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
- svens@linux.ibm.com, ysato@users.sourceforge.jp, dalias@libc.org,
- davem@davemloft.net, richard@nod.at, anton.ivanov@cambridgegreys.com,
- johannes@sipsolutions.net, tglx@linutronix.de, mingo@redhat.com,
- bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- acme@kernel.org, mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
- jolsa@kernel.org, namhyung@kernel.org, jgross@suse.com,
- srivatsa@csail.mit.edu, amakhalov@vmware.com, pv-drivers@vmware.com,
- boris.ostrovsky@oracle.com, chris@zankel.net, jcmvbkbc@gmail.com,
- rafael@kernel.org, lenb@kernel.org, pavel@ucw.cz,
- gregkh@linuxfoundation.org, mturquette@baylibre.com, sboyd@kernel.org,
- daniel.lezcano@linaro.org, lpieralisi@kernel.org, sudeep.holla@arm.com,
- agross@kernel.org, bjorn.andersson@linaro.org, anup@brainfault.org,
- thierry.reding@gmail.com, jonathanh@nvidia.com, Arnd Bergmann
- <arnd@arndb.de>, yury.norov@gmail.com, andriy.shevchenko@linux.intel.com,
- linux@rasmusvillemoes.dk, rostedt@goodmis.org, pmladek@suse.com,
- senozhatsky@chromium.org, john.ogness@linutronix.de, paulmck@kernel.org,
- frederic@kernel.org, quic_neeraju@quicinc.com, josh@joshtriplett.org,
- mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
- joel@joelfernandes.org, juri.lelli@redhat.com, vincent.guittot@linaro.org,
- dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de,
- bristot@redhat.com, vschneid@redhat.com, jpoimboe@kernel.org,
- linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-omap@vger.kernel.org, linux-csky@vger.kernel.org,
- linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
- openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
- linux-perf-users@vger.kernel.org,
- virtualization@lists.linux-foundation.org, xen-devel@lists.xenproject.org,
- linux-xtensa@linux-xtensa.org, linux-acpi@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
- linux-arch@vger.kernel.org, rcu@vger.kernel.org,
- jacob.jun.pan@linux.intel.com
-Subject: Re: [PATCH 04/36] cpuidle,intel_idle: Fix CPUIDLE_FLAG_IRQ_ENABLE
-Message-ID: <20220616142656.4b1acc4a@jacob-builder>
-In-Reply-To: <Yqb45vclY2KVL0wZ@hirez.programming.kicks-ass.net>
-References: <20220608142723.103523089@infradead.org>
-	<20220608144516.172460444@infradead.org>
-	<20220609164921.5e61711d@jacob-builder>
-	<Yqb45vclY2KVL0wZ@hirez.programming.kicks-ass.net>
-Organization: OTC
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	id 1o2wiw-00EWsP-Rg
+	for linux-snps-arc@lists.infradead.org; Sun, 19 Jun 2022 15:20:29 +0000
+Received: by mail-ed1-x529.google.com with SMTP id e2so999094edv.3
+        for <linux-snps-arc@lists.infradead.org>; Sun, 19 Jun 2022 08:20:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mind.be; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=ZoUTVmKn87SbxTBnNCyremQb3JSCikfE3BE0UGUljKs=;
+        b=MSM9Z4u8PTmaBgL3oppYz5Ijm0dRPyhNRd4Rt8t9+Kgc45fyYkJHLiTS6XIM9K1WsO
+         SIfqJNq0IrLsuhxxniYAuBauBEF2LPuvuSj3i4W8z6JVMuiTO+9LG8kd+QovNdt7JPMe
+         RCz77FjWfR2/CN3wpe5Oqdoj4tNcL4zb+w+HvPB9/EFqsm0ef5MdFgxt6zEFBoqvQqIn
+         DcCx9Axy4qP+6K8kNW4TLOTa+215nNRo8KvxyLkeL0I8uRDN6fM/jWl3VYlj7KKviuOD
+         iFwhmbcEFsCLsCUCMCSJJyApLL/0vY3ECNO9qpjbxhDcSG2mibXTbggS3adj8C9f6YTm
+         h09A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=ZoUTVmKn87SbxTBnNCyremQb3JSCikfE3BE0UGUljKs=;
+        b=Mw7qOk+jUL/cHUOL4K6RmcjHocFmWlvZpDfBXq1vJtDdXLmXf0nge9dNfWkpYcqvY4
+         SK1VPZ6rTgSktVG6lDGJ4/WIpg5bxL4lc1td7yCXoeQ+0RH7dQx/5Rw32S01l8mOMnt0
+         fh/pG0+9UkBA7ziecl+hDRQXrsUMnnQ/1ISZtlK1P5EI4v9xmkCI79SRU/JM+lzRMk+s
+         Teg+dxHU7hAyudUVU9a97d2g2WdkVjZ52BVYvgegnmZugFzdIuG+XGaDag7Wsu4nAMs8
+         eP8EyuqhCWnL0/VsYOU/8uBfRumCzo+FPvUdw5J4J8u4Y6zeJiwN7eGA8QrQX0/r88J5
+         gy2A==
+X-Gm-Message-State: AJIora/tixbubfdD+wnkUp+FAliIS1A9Px/XTKXU9aMSt1fgXVkYnQvI
+	S6j5VouDZ3RTFrIo4dsVBOSABw==
+X-Google-Smtp-Source: AGRyM1vHwqHbVYiH0TwwztiN1MxRJRaVE43jJH3BGMhCjb4FZZrXQnIYyaMYNn9m/2Nky4pXySgB9A==
+X-Received: by 2002:a05:6402:2753:b0:431:9c8b:5635 with SMTP id z19-20020a056402275300b004319c8b5635mr24164596edd.152.1655652023380;
+        Sun, 19 Jun 2022 08:20:23 -0700 (PDT)
+Received: from ?IPV6:2a02:1811:3a7e:7b00:29c8:f1e0:f17f:3385? (ptr-9fplejngm4eebjbmd8l.18120a2.ip6.access.telenet.be. [2a02:1811:3a7e:7b00:29c8:f1e0:f17f:3385])
+        by smtp.gmail.com with ESMTPSA id 10-20020a170906218a00b006fee98045cdsm4742429eju.10.2022.06.19.08.20.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 19 Jun 2022 08:20:22 -0700 (PDT)
+Message-ID: <8c13892c-a9ed-a016-7043-6794b87a884c@mind.be>
+Date: Sun, 19 Jun 2022 17:20:20 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [Buildroot] [PATCH v3 1/1] package/bpftool: revert bpf_cookie
+ patch to allow building
+Content-Language: en-GB
+To: Shahab Vahedi <Shahab.Vahedi@synopsys.com>,
+ James Hilliard <james.hilliard1@gmail.com>
+Cc: "buildroot@buildroot.org" <buildroot@buildroot.org>,
+ "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
+References: <97ea44bb-58fe-d6cb-6c79-9be0b245f2c6@synopsys.com>
+ <38e7fb76-2c07-6429-b803-4fd6ff2b1178@synopsys.com>
+ <3062ce96-7e99-d221-61c8-4b87c87c113b@synopsys.com>
+ <e8be91c7-8597-7a7e-9714-9f8045781959@mind.be>
+ <aafcf149-d0b9-8c95-751c-64ec4dabf5b5@synopsys.com>
+ <CADvTj4qcYpo=UB2Qny7-0mXiqq9R0u6QMBgs+9hXm76SQxvEew@mail.gmail.com>
+ <40fe53f9-cd74-a19f-e338-2aa4d35a9ec1@synopsys.com>
+From: Arnout Vandecappelle <arnout@mind.be>
+Organization: Essensium/Mind
+In-Reply-To: <40fe53f9-cd74-a19f-e338-2aa4d35a9ec1@synopsys.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220616_142255_113472_64EABAB1 
-X-CRM114-Status: GOOD (  20.04  )
+X-CRM114-CacheID: sfid-20220619_082027_239742_DFA0B568 
+X-CRM114-Status: GOOD (  17.16  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -124,57 +96,56 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Peter,
 
-On Mon, 13 Jun 2022 10:44:22 +0200, Peter Zijlstra <peterz@infradead.org>
-wrote:
 
-> On Thu, Jun 09, 2022 at 04:49:21PM -0700, Jacob Pan wrote:
-> > Hi Peter,
-> > 
-> > On Wed, 08 Jun 2022 16:27:27 +0200, Peter Zijlstra
-> > <peterz@infradead.org> wrote:
-> >   
-> > > Commit c227233ad64c ("intel_idle: enable interrupts before C1 on
-> > > Xeons") wrecked intel_idle in two ways:
-> > > 
-> > >  - must not have tracing in idle functions
-> > >  - must return with IRQs disabled
-> > > 
-> > > Additionally, it added a branch for no good reason.
-> > > 
-> > > Fixes: c227233ad64c ("intel_idle: enable interrupts before C1 on
-> > > Xeons") Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> > > ---
-> > >  drivers/idle/intel_idle.c |   48
-> > > +++++++++++++++++++++++++++++++++++----------- 1 file changed, 37
-> > > insertions(+), 11 deletions(-)
-> > > 
-> > > --- a/drivers/idle/intel_idle.c
-> > > +++ b/drivers/idle/intel_idle.c
-> > > @@ -129,21 +137,37 @@ static unsigned int mwait_substates __in
-> > >   *
-> > >   * Must be called under local_irq_disable().
-> > >   */  
-> > nit: this comment is no long true, right?  
+On 16/06/2022 10:11, Shahab Vahedi wrote:
+> On 6/16/22 01:27, James Hilliard wrote:
+>> On Wed, Jun 15, 2022 at 5:10 AM Shahab Vahedi via buildroot
+>> <buildroot@buildroot.org> wrote:
+>>>
+>>> On 6/14/22 19:14, Arnout Vandecappelle wrote:
+>>>>
+>>>> On 14/06/2022 11:31, Shahab Vahedi wrote:
+>>>>> Building bpftool on Debian 11 (bullseye) with kernel v5.10 and clang-11
+>>>>
+>>>>   How do you build host-bpftool with clang in Buildroot context? HOSTCC is set to gcc in the Makefile... Do you supply an explicit HOSTCC= on the Buildroot command line? I'm not sure if we are really interested in carrying fixes for such exotic and not-really-supported situations...
+>>>
+>>> No, I don't do any sort of trickery to build bpftool on my end. The
+>>> bootstrapping, if becomes available for your configuration, uses clang
+>>> and only clang. I tried to explain this in v4 of the patch [1], the
+>>> second paragraph of the commit message.
+>>
+>> I think clang/llvm support isn't going to work correctly yet since we only have
+>> version 9.0.1, there's a series bumping to version 11.1.0 that should fix that:
+>> https://patchwork.ozlabs.org/project/buildroot/list/?series=291585
+>>
+>> Minimum clang/llvm version for libbpf co-re is version 10:
+>> https://github.com/libbpf/libbpf*bpf-co-re-compile-once--run-everywhere
 > 
-> It still is, all the idle routines are called with interrupts disabled,
-> but must also exit with interrupts disabled.
-> 
-> If the idle method requires interrupts to be enabled, it must be sure to
-> disable them again before returning. Given all the RCU/tracing concerns
-> it must use raw_local_irq_*() for this though.
-Makes sense, it is just little confusing when the immediate caller does
-raw_local_irq_enable() which does not cancel out local_irq_disable().
+> You're right about the clang version, but it doesn't have anything to do
+> with Buildroot's clang. The build process uses the clang that is installed
+> on the host. For Debian bullseye, that is clang 11.
+ >
+> To emphasise, I am cross-building bpftool for my "arc-linux" target, and yet
+> the bootstrap part of bpftool, uses the x86 clang of the Debian machine.
 
-Thanks,
 
-Jacob
+  Hm, that smells like we actually want to build host-clang (after updating it 
+to 11.1.0 of course) so that we are sure a known version of clang is used. 
+Possibly with a check-host-clang check to avoid building it if the installed 
+clang is good enough.
+
+  And we probably want a user-visible option to enable co-re then, because it's 
+going to be expensive to build.
+
+  Regards,
+  Arnout
+
 
 _______________________________________________
 linux-snps-arc mailing list
