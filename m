@@ -4,61 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60AE2C43334
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 23 Jun 2022 02:50:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86252C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 23 Jun 2022 02:51:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
 	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=vY0NwZjj9rvFxF0gO1XmqK1kmRRu3TVBmPlV70RKlpY=; b=oInrISjXyL89gD
-	AdIsISETHIGzA3k4Lh4Omxo2iGMEZwxEGLKBUU4icAI04/bsU8Q47JrTEE9shkBszxL3csPkeCdTK
-	QSVu81rYFz0+veYYmGmMSKor4W+pFTOY4QO02LA8ISfr8Gmxi5vXfvvv2HojBQ/etK9+ixSKfsHjZ
-	CoEec8QOUWjCEyw4+Xj/JkbvPpphyhBSdDM20Dly71Pkieq5nsdP6CbwQhR9astrAxQzpE3xozinD
-	epNSfkvLJXEa3zTG4MRuE9A3tpRZ7bU3+91RTnD8kx9GszrOvggbTqnDQaTUDs1EcWMEbDtRYPcWm
-	VcZVpOHmyRLOr/4rNVXw==;
+	List-Unsubscribe:List-Id:In-Reply-To:From:References:To:Subject:MIME-Version:
+	Date:Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Z4D6l/36EFkdo17LAaw0NDqdQRHFrJ4g5kb8TnkOy7U=; b=4EGPts4pEaHGyjOCwAF86kbcjF
+	/Ey3ONYity+7YzwYP8ks1KnbJtMoKtu6DWkmU3XN7v9bokrV/kkDb3oFZyaUlRdoGGVlmOvtN2qI0
+	YUMCwIkviVRtQFPsYDlSnwhsATpEoSiQKoMqYIeO4Ve9lg8/lAzkFYvQ0DAe5LptoMXlQTi6Te15P
+	YoROzfsBQh94t1QFwa+mSIaSlF34k/XreAiFieaseZcopQZrZhDCA7HkwIQu0afbj0A83B+Gf72g7
+	f1MGn573J2F5c6jj5NRYi6D0P+5bqRx9xXe0ma8/QcWsazjExTCZxiItrHxZVLLWOgUTOY//+wz14
+	c+Mf0owA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4Cvg-00D6Ae-Kp; Thu, 23 Jun 2022 02:50:48 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1o4Cwg-00D6L4-Ef; Thu, 23 Jun 2022 02:51:50 +0000
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4Cvd-00D691-WE
-	for linux-snps-arc@lists.infradead.org; Thu, 23 Jun 2022 02:50:47 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 849ACB821B2;
-	Thu, 23 Jun 2022 02:50:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCE13C3411B;
-	Thu, 23 Jun 2022 02:50:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1655952642;
-	bh=tdjqAoX1yhdrpIxkENpUPLNuE3udmL20asfAlDU2UE8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NR3MzgCn0M9xNzjgxW4DiNcaOfjdT5xFRtXSTrKhRwh1aJwGJKt8OJL/qjU6zyigi
-	 RM3/yl9kLN18sxoibaHEn1e3iQytkmw/XaJ8B/ytfU+jZ5ZfBq+HCN9PkWuRU194wB
-	 j9yTm+cUfV/zhqRESBgpGvydNhFCDiGr3U6PMr1AUWC+JeCVtfl+nhV6arfj0nAnw+
-	 J+rHO7BpVtp6p7MsxJNnGVx1EOghJYS9H++U3TmWfP9txP1vjbDPEzKULbe6m1cF2n
-	 mYGAEq8U30ZG/nnRTeF+P+uHHG6H2gOFl19EAO0mh5482rrfEDVGlnk8kK9bpDhcFb
-	 d+ChdDrBk5fhA==
-Message-ID: <d104124c-5196-bc80-b3e3-0ab55f0cc35e@kernel.org>
-Date: Wed, 22 Jun 2022 19:50:39 -0700
+	id 1o4Cwe-00D6Kf-6B
+	for linux-snps-arc@lists.infradead.org; Thu, 23 Jun 2022 02:51:49 +0000
+Received: by mail-pl1-x62a.google.com with SMTP id q18so5547769pld.13
+        for <linux-snps-arc@lists.infradead.org>; Wed, 22 Jun 2022 19:51:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=lIFW9cAuPlwQZ+C7VMU14IUSbtewdAOYVyCoJAKjzlQ=;
+        b=Puw8ineJwyWfy8K7QUYI04Wr8Nb2t3lWIHkFlB1hQQLzT5swZYV1wxZgu3zdmjVfn/
+         L0HlSvtZI7htiCUE58+bs7E4/4+tXAl4qPsIqzEL5CBx2z2FY3FCEiyOZy4dNWbEFGfJ
+         ublFUOJMhKzwCTubtZVlrCy4E/Nj68znJFRH22pBgRivO+6M2+5YmEof4fmthJB7pQ8J
+         kUm32nyX6wMxLFRWHwDB2kb0DFF1JqhQvwdym6WuLQDI+QPltciJAr3kqmKG3RZ4UMoA
+         yDoPULmJp2SmYl4/CECuVR+sWJJTkK1B1xyYqgojOt/3YvgnoPXmBGlVAYVPTb/tfVNC
+         E1Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=lIFW9cAuPlwQZ+C7VMU14IUSbtewdAOYVyCoJAKjzlQ=;
+        b=cwzbs8e13LVe3+r5YSDeCBGyx594eSEdl0hldQFWNusamREqMDmuLZm1pYfinI1xV3
+         sJge0fE96unvSAhrpUTpMZFBXTNL/SifqIC/mVCfltSivTuQSaTX6gEuhi3XmApKN8ky
+         p5s0kN2nbrgODnzb0AWpwQX2t2E+g5fZ013Q2WApuQ5CBdN2ktfPlkWewYqs/GxHIT1f
+         P3GKhVBNImp7nilcXCsMReGW0xxpOnx2wLuGXvtFzk0VOaXve4YGWMX3zIOC+4YjJd71
+         4dsGLqfir4pDbG5AUl0aG+77Ua+fCXxqFSjWLOolN9d1kGRbMu+qH/N6DBa2Vy/o2dDk
+         KYhg==
+X-Gm-Message-State: AJIora+cFDD6mz1g6IGmDDXwYf8zymBuzEbrXbYF61qPDTNxnedQ48BO
+	GQ+9gO9x/udM4KRpVRSgkF8=
+X-Google-Smtp-Source: AGRyM1tGh13XWNJDm/Ne6cIvj9Kvnz3BzixxtTYVsFdR6x6xDxp58nyO22rT2LXODqdOE+tQ9eT2JA==
+X-Received: by 2002:a17:90a:8d02:b0:1ec:a006:ea13 with SMTP id c2-20020a17090a8d0200b001eca006ea13mr1595429pjo.229.1655952706208;
+        Wed, 22 Jun 2022 19:51:46 -0700 (PDT)
+Received: from [192.168.50.116] (c-24-4-73-83.hsd1.ca.comcast.net. [24.4.73.83])
+        by smtp.gmail.com with ESMTPSA id c18-20020a170902b69200b00166423df3cdsm13510665pls.209.2022.06.22.19.51.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jun 2022 19:51:45 -0700 (PDT)
+Message-ID: <09ae5fd3-2276-5d76-a0bf-46dbffeeeade@gmail.com>
+Date: Wed, 22 Jun 2022 19:51:42 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH] ARC:mm:Fix syntax errors in comments
+Subject: Re: [PATCH] ARC:kernel:Fix typos in comments
 Content-Language: en-US
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Jilin Yuan <yuanjilin@cdjrlc.com>
-Cc: vgupta@kernel.org, Julia.Lawall@inria.fr, rdunlap@infradead.org,
- linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20220622080423.41570-1-yuanjilin@cdjrlc.com>
- <YrLTCXLrr3HB39lv@debian.me>
-From: Vineet Gupta <vgupta@kernel.org>
-In-Reply-To: <YrLTCXLrr3HB39lv@debian.me>
+To: Jilin Yuan <yuanjilin@cdjrlc.com>, linux-snps-arc@lists.infradead.org,
+ linux-kernel@vger.kernel.org, vgupta@kernel.org, Julia.Lawall@inria.fr,
+ deng.changcheng@zte.com.cn, libang.linuxer@gmail.com
+References: <20220622075204.35329-1-yuanjilin@cdjrlc.com>
+From: Vineet Gupta <vineetg76@gmail.com>
+In-Reply-To: <20220622075204.35329-1-yuanjilin@cdjrlc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220622_195046_234328_4E1B2CEF 
-X-CRM114-Status: GOOD (  11.05  )
+X-CRM114-CacheID: sfid-20220622_195148_275352_D3C0EECF 
+X-CRM114-Status: GOOD (  14.51  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,31 +93,30 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 
 
-On 6/22/22 01:30, Bagas Sanjaya wrote:
->> - * If the U-mapping is not congruent to to K-mapping, former needs flushing.
->> + * If the U-mapping is not congruent to K-mapping, former needs flushing.
->>    */
->>   void flush_dcache_page(struct page *page)
->>   {
-> The patch is OK, but its subject is wrong.
+On 6/22/22 00:52, Jilin Yuan wrote:
+> Delete the redundant word 'call'.
+>
+> Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
+> ---
+>   arch/arc/kernel/smp.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/arch/arc/kernel/smp.c b/arch/arc/kernel/smp.c
+> index d947473f1e6d..6c22a53711e9 100644
+> --- a/arch/arc/kernel/smp.c
+> +++ b/arch/arc/kernel/smp.c
+> @@ -393,7 +393,7 @@ irqreturn_t do_IPI(int irq, void *dev_id)
+>    * API called by platform code to hookup arch-common ISR to their IPI IRQ
+>    *
+>    * Note: If IPI is provided by platform (vs. say ARC MCIP), their intc setup/map
+> - * function needs to call call irq_set_percpu_devid() for IPI IRQ, otherwise
+> + * function needs to call irq_set_percpu_devid() for IPI IRQ, otherwise
+>    * request_percpu_irq() below will fail
+>    */
+>   static DEFINE_PER_CPU(int, ipi_dev);
 
-Right.
-
-> The patch above isn't fixing any syntax errors, but rather minor cleanup.
-> The subject should have been "Remove duplicate 'to' in the
-> flush_dcache_page() comment".
-
-I'd just say "ARC: mm: fix typos"
-
-> I think that this kind of cleanup patches (typofixes) are best done
-> as part of **actual** work on the code in question (for example
-> refactoring or fixing build errors).
-
-In an ideal world yes. But sometimes maintainer complain to break 
-whitespacxe fixes and such into independent fix. Also as someone said 
-later in the thread, for somebody just getting into kernel and figuring 
-out patch submission etc this could be a perfect dry run and helps 
-improve the code anyways.
+I'd prefer to have this is the other fix in a single change. No point 
+increasing commits for trivial things.
 
 -Vineet
 
