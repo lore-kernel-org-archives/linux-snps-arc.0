@@ -4,93 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0CE2FC43334
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Jun 2022 20:59:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8476BC43334
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Jun 2022 22:12:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=rXSXfyqlVQFXkO4QJLU2VXH2FM7gbDW4tGiHPNnEejU=; b=Jfwmrj1WrvXj7E
-	GEC3v1YvQCaa1gfWJt33ybEnipacD6WFfFo2g4i0XMwx34wk++rPOEKin5C4pzD9YCyIyEOkT0tWo
-	TJiBdUVFrqmUnwYpqhtJEtVsTp5PjwyorSpZC3KMsL43yyCH9IWwkYlKlQkHdMInKd733WZx/+srR
-	K11z/Rn1TBENHZos7+anpGvtWjGoXSgm958JPp8B5zGz+bXmT1JcocjPAYDRlTauDM1o3jc5nSxyi
-	XzqXZgV94bPeNRT44Wbo6GGlQzquWwLgI6ekCggTq5OQWnE/QvOS9ZDpxwbpj4T1BX3RiCW0UTbFb
-	5MX1HGHvEjRPQ4E3XbRg==;
+	List-Owner; bh=wIx+xqLcq7zXKFt1LIPdX/04ZtHcFMdvuB+oOSbHQTw=; b=q+LAfOhiV/e+/P
+	IT0S1BMN+2Pybi6tsREsVBdqyWxi4zqy+9rYx3X9fwzF+DiJoFvVRF7oZ7FLfC/xW4IWXrQlfOk0C
+	HRDrY8QAuU6mjUhhb3nPN43XUbhGZguwY6jaNuTIPP8+fZLEKqjDTvrEHiXty6e/vA6L+kxuRsZKn
+	F+LpPktqBnaQB8f8DNRrp/JAtgx4j9EvF5hN0V1oae1LNlYHz3g6Y7wguJverLswLT7L3QqF9NL+h
+	HUyMPyT+FZ/n0Szp2JtsJMOTElCIGcEij2P7tVAXSsWC4kypJNSmTuc1Yo3Bp5JFdsSS6INbIKF4/
+	Qg90PLPFcT6kwlTXY11A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4qOc-003o61-Md; Fri, 24 Jun 2022 20:59:18 +0000
-Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b])
+	id 1o4rX2-003y0H-NO; Fri, 24 Jun 2022 22:12:04 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4qOR-003o3g-Rn; Fri, 24 Jun 2022 20:59:09 +0000
-Received: by mail-lj1-x22b.google.com with SMTP id c30so4065955ljr.9;
-        Fri, 24 Jun 2022 13:59:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=eZSZCpbsimxpe8y0nI2vhGyb3S9o4fusHBXGkJK5Cfc=;
-        b=QtMwHvmYMWJKh0ZLqnKgANF/OLV82B74Mco6zvnuZeUejNoYhy3/XMUTG/IZxeWN1g
-         kJdFX7Hjjll5/gBbGDFfE6NZ8Z29REr8unbv/+Rw3EywhBgZrzUKHOFbsy+9hm74n6W9
-         FgxFz9+BxFFugBZ7wGl/0JzWCFktsdwHV3yRMFgHnNXL54N/hJPqiRFrtpAHgfAV26va
-         xmrjOfYjXA5cjt979wG15bgUAfQ9zTnFdadgyXYvvGP+unwebPCQDrxzW6mC4gLjZm8L
-         VBd3ejedJJ834pxFVJIh0zkDdBaoMunu6IPVDte8eqiNoRGsva/W17BJryh5PbVTYkVi
-         zfXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=eZSZCpbsimxpe8y0nI2vhGyb3S9o4fusHBXGkJK5Cfc=;
-        b=J9tIHWVciedvLpkPJUVb5iuzFUUxCRZQvVCNBKOFTT77gPkHWxytopDRpTdtfaty2s
-         EhcdVfv/RInCWUBM8QQ9HYNV2U7Zi6vzBP0lcTrSoAFHuIrjfSzeGILtXfUW5NMk5EID
-         i9NwnB3T/iSjvwM+wVq3a2sQMgGuYtydxKgzxb0L0trTdFxWy3VS76D60CTveN7IApmK
-         PKQXkMKRUf3Oan7BxJvFOixwlQ47DY8sYFPhs9/CjwoFTV90L114KO9c56Rtc+rYYNkb
-         EbrLFAX8xCJn/hSkC4+DUEMxoxAyfVuJE1O5MnOXgo1WYU8lgR8dn+kXH7UG7lYiWBKZ
-         +bPA==
-X-Gm-Message-State: AJIora9CWasoYe9t9k9e2/lmmHJcUH2bnLwBAcD2FWDmIUnB2McA7lXZ
-	NWljj4v5pdRroBDtVSaBct8=
-X-Google-Smtp-Source: AGRyM1v6fuennno+VmySkb2y5X/FFQLPUJh7sXw3iLNDmiKty2pRq4AJTIzsRg4onyEuYZ8fkJyBPA==
-X-Received: by 2002:a05:651c:1617:b0:25a:9e88:af82 with SMTP id f23-20020a05651c161700b0025a9e88af82mr401410ljq.106.1656104345088;
-        Fri, 24 Jun 2022 13:59:05 -0700 (PDT)
-Received: from mobilestation ([95.79.189.214])
-        by smtp.gmail.com with ESMTPSA id 13-20020ac2568d000000b0047fa40b5052sm523338lfr.62.2022.06.24.13.59.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jun 2022 13:59:04 -0700 (PDT)
-Date: Fri, 24 Jun 2022 23:59:02 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Serge Semin <Sergey.Semin@baikalelectronics.ru>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <bjorn.andersson@linaro.org>,
-	Felipe Balbi <balbi@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Alexey Brodkin <abrodkin@synopsys.com>,
-	Vineet Gupta <vgupta@synopsys.com>,
-	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>, linux-usb@vger.kernel.org,
-	Khuong Dinh <khuong@os.amperecomputing.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Patrice Chotard <patrice.chotard@st.com>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Paul Mackerras <paulus@samba.org>, linux-arm-msm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	linux-snps-arc@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v9 5/5] arm64: dts: apm: Harmonize DWC USB3 DT
- nodes name
-Message-ID: <20220624205902.y2un4lr7d3zkc6jx@mobilestation>
-References: <20220624141622.7149-1-Sergey.Semin@baikalelectronics.ru>
- <20220624141622.7149-6-Sergey.Semin@baikalelectronics.ru>
- <eb00b6c3-ae5e-9858-ab5f-fd78229ff436@linaro.org>
+	id 1o4rWs-003xyJ-4T; Fri, 24 Jun 2022 22:11:55 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by sin.source.kernel.org (Postfix) with ESMTPS id A4F20CE2F03;
+	Fri, 24 Jun 2022 22:11:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E99D5C34114;
+	Fri, 24 Jun 2022 22:11:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1656108705;
+	bh=zC/TQWUhx14RtF6bjzwQYVG5JLJVewaK3p4NYDij21Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=BaTjWfs9C735LFyrl6I271K+mk1XSXmVOE143ZHBWY8j6FmF/wAVXr8+zA+cAdbxJ
+	 QNctVsMV6/cWh3ASXWoaaQKStPbnXXOuNhqrkuoX1d7RvXRX4L62nQNeKo1lP4NTwN
+	 xz7NSySEbcp5L7bh6Yca0Nwcm8gfzoB72UVHVKyepN4m+9yljdFYvVTNDT4tmiDVfy
+	 BOOs1fviabeKc64dupMTlq1625dpVgO/jta+R+OOnIupO2vr6DIvq/iNr8vNSvImTL
+	 iU4iv3DB4j9J5teg9ICQ+TUyogCkFBIxcNJR6RQM59IkP/Lm9kVCZFPeYBt/qWFtdZ
+	 WxY8bFVJhLQWw==
+Message-ID: <53402d57-ee3f-59b9-a8dc-59fa659f3662@kernel.org>
+Date: Fri, 24 Jun 2022 15:11:43 -0700
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <eb00b6c3-ae5e-9858-ab5f-fd78229ff436@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH RESEND v9 1/5] arc: dts: Harmonize EHCI/OHCI DT nodes name
+Content-Language: en-US
+To: Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Felipe Balbi <balbi@kernel.org>,
+ Michael Ellerman <mpe@ellerman.id.au>, Vladimir Zapolskiy <vz@mleia.com>,
+ Alexey Brodkin <abrodkin@synopsys.com>, Vineet Gupta <vgupta@synopsys.com>,
+ Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-usb@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Vineet Gupta <vgupta@kernel.org>
+Cc: Serge Semin <fancer.lancer@gmail.com>,
+ Khuong Dinh <khuong@os.amperecomputing.com>,
+ Patrice Chotard <patrice.chotard@st.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Paul Mackerras <paulus@samba.org>, linux-arm-msm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ linux-snps-arc@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20220624141622.7149-1-Sergey.Semin@baikalelectronics.ru>
+ <20220624141622.7149-2-Sergey.Semin@baikalelectronics.ru>
+From: Vineet Gupta <vgupta@kernel.org>
+In-Reply-To: <20220624141622.7149-2-Sergey.Semin@baikalelectronics.ru>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220624_135907_939667_DF47FAC8 
-X-CRM114-Status: GOOD (  25.65  )
+X-CRM114-CacheID: sfid-20220624_151154_406904_38CD994B 
+X-CRM114-Status: UNSURE (   9.84  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,98 +85,27 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jun 24, 2022 at 07:17:53PM +0200, Krzysztof Kozlowski wrote:
-> On 24/06/2022 16:16, Serge Semin wrote:
-> > In accordance with the DWC USB3 bindings the corresponding node
-> > name is suppose to comply with the Generic USB HCD DT schema, which
-> > requires the USB nodes to have the name acceptable by the regexp:
-> > "^usb(@.*)?" . Make sure the "snps,dwc3"-compatible nodes are correctly
-> > named despite of the warning comment about possible backward
-> > compatibility issues.
-> 
 
-> Sometimes node name is exposed to user-space which depends on it. How
-> did you check there is no issue here?
+On 6/24/22 07:16, Serge Semin wrote:
+> In accordance with the Generic EHCI/OHCI bindings the corresponding node
+> name is suppose to comply with the Generic USB HCD DT schema, which
+> requires the USB nodes to have the name acceptable by the regexp:
+> "^usb(@.*)?"  . Make sure the "generic-ehci" and "generic-ohci"-compatible
+> nodes are correctly named.
+>
+> Signed-off-by: Serge Semin<Sergey.Semin@baikalelectronics.ru>
+> Acked-by: Alexey Brodkin<abrodkin@synopsys.com>
+> Acked-by: Krzysztof Kozlowski<krzk@kernel.org>
 
-I well remember the Qcom problem caused by one of my patch:
-https://lore.kernel.org/lkml/CALAqxLX_FNvFndEDWtGbFPjSzuAbfqxQE07diBJFZtftwEJX5A@mail.gmail.com/
+This slipped thru cracks. Now on for-curr.
 
-The next patch caused the same problem, but hasn't been reverted.
-https://lore.kernel.org/lkml/CALAqxLWGujgR7p8Vb5S_RimRVYxwm5XF-c4NkKgMH-43wEBaWg@mail.gmail.com/
-
-As before I am more inclined to thinking that the problem was mainly caused
-by the improper node-name utilization. Anyway John later noted that the
-problem was fixed in the user-space. That why afterwards you were able
-to provide the commit b77a1c4d6b05 ("arm64: dts: qcom: correct DWC3
-node names and unit addresses").
-
-Anyway I am not able to track the way the node-name is used on the
-affected platform and can't make sure that the dts would be still
-working well on that devices. But seeing nobody responded/commented on
-this patch for more than a year we can at least try to merge this in
-and see whether it causes any problem should the denoted platform is
-still in use. If it does we can revert the update back and forget
-about it.
-
--Sergey
-
-> 
-> > 
-> > Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-> > Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
-> > ---
-> >  arch/arm64/boot/dts/apm/apm-shadowcat.dtsi | 4 ++--
-> >  arch/arm64/boot/dts/apm/apm-storm.dtsi     | 6 +++---
-> >  2 files changed, 5 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/arch/arm64/boot/dts/apm/apm-shadowcat.dtsi b/arch/arm64/boot/dts/apm/apm-shadowcat.dtsi
-> > index a83c82c50e29..832dd85b00bd 100644
-> > --- a/arch/arm64/boot/dts/apm/apm-shadowcat.dtsi
-> > +++ b/arch/arm64/boot/dts/apm/apm-shadowcat.dtsi
-> > @@ -597,8 +597,8 @@ serial0: serial@10600000 {
-> >  			interrupts = <0x0 0x4c 0x4>;
-> >  		};
-> >  
-> > -		/* Do not change dwusb name, coded for backward compatibility */
-> > -		usb0: dwusb@19000000 {
-> > +		/* Node-name might need to be coded as dwusb for backward compatibility */
-> > +		usb0: usb@19000000 {
-> >  			status = "disabled";
-> >  			compatible = "snps,dwc3";
-> >  			reg =  <0x0 0x19000000 0x0 0x100000>;
-> > diff --git a/arch/arm64/boot/dts/apm/apm-storm.dtsi b/arch/arm64/boot/dts/apm/apm-storm.dtsi
-> > index 0f37e77f5459..1520a945b7f9 100644
-> > --- a/arch/arm64/boot/dts/apm/apm-storm.dtsi
-> > +++ b/arch/arm64/boot/dts/apm/apm-storm.dtsi
-> > @@ -923,8 +923,8 @@ sata3: sata@1a800000 {
-> >  			phy-names = "sata-phy";
-> >  		};
-> >  
-> > -		/* Do not change dwusb name, coded for backward compatibility */
-> > -		usb0: dwusb@19000000 {
-> > +		/* Node-name might need to be coded as dwusb for backward compatibility */
-> > +		usb0: usb@19000000 {
-> >  			status = "disabled";
-> >  			compatible = "snps,dwc3";
-> >  			reg =  <0x0 0x19000000 0x0 0x100000>;
-> > @@ -933,7 +933,7 @@ usb0: dwusb@19000000 {
-> >  			dr_mode = "host";
-> >  		};
-> >  
-> > -		usb1: dwusb@19800000 {
-> > +		usb1: usb@19800000 {
-> >  			status = "disabled";
-> >  			compatible = "snps,dwc3";
-> >  			reg =  <0x0 0x19800000 0x0 0x100000>;
-> 
-> 
-> Best regards,
-> Krzysztof
+Thx,
+-Vineet
 
 _______________________________________________
 linux-snps-arc mailing list
