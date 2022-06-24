@@ -4,60 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6B5BC433EF
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Jun 2022 20:45:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0CE2FC43334
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Jun 2022 20:59:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=qveDS57kKuR+jhfoFoODejYLChHrKwp+GOwXSb8lzQw=; b=vKN/ltrUuU5Jfv
-	JuxX+SdDWZcSWk0RFOnt5DRF2eK5vwm3YgtC8bkxYL6SRaGMNpSJflWVCTKPkNbeVCGUUuolaG0wp
-	GFhItRHphefuZWKei6h8ZI05qWhmr97NJOmRDss5Y+OpOWn972m4Ui0lZPzORkJ8/Q4CkVfZx8uLA
-	ah83oTpvu2Ttx+aIolK6eowX9mZOt8RLkwI+bckZVWNyL/IxE4XXixJqyYGMf/n57v2ec7zgOUbt/
-	6fp60MS+IxwmMLE9ks08w6NsZOFW6EssepObwT9BtmcJJIPqRkq0Jl+s599tmmWzk2zAYqH0rSXzt
-	vWeBrryw4MuUhjFw6Q1w==;
+	List-Owner; bh=rXSXfyqlVQFXkO4QJLU2VXH2FM7gbDW4tGiHPNnEejU=; b=Jfwmrj1WrvXj7E
+	GEC3v1YvQCaa1gfWJt33ybEnipacD6WFfFo2g4i0XMwx34wk++rPOEKin5C4pzD9YCyIyEOkT0tWo
+	TJiBdUVFrqmUnwYpqhtJEtVsTp5PjwyorSpZC3KMsL43yyCH9IWwkYlKlQkHdMInKd733WZx/+srR
+	K11z/Rn1TBENHZos7+anpGvtWjGoXSgm958JPp8B5zGz+bXmT1JcocjPAYDRlTauDM1o3jc5nSxyi
+	XzqXZgV94bPeNRT44Wbo6GGlQzquWwLgI6ekCggTq5OQWnE/QvOS9ZDpxwbpj4T1BX3RiCW0UTbFb
+	5MX1HGHvEjRPQ4E3XbRg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4qBR-003mEc-KQ; Fri, 24 Jun 2022 20:45:41 +0000
-Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233])
+	id 1o4qOc-003o61-Md; Fri, 24 Jun 2022 20:59:18 +0000
+Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4qBG-003mB6-JY; Fri, 24 Jun 2022 20:45:31 +0000
-Received: by mail-lj1-x233.google.com with SMTP id n15so4039013ljg.8;
-        Fri, 24 Jun 2022 13:45:29 -0700 (PDT)
+	id 1o4qOR-003o3g-Rn; Fri, 24 Jun 2022 20:59:09 +0000
+Received: by mail-lj1-x22b.google.com with SMTP id c30so4065955ljr.9;
+        Fri, 24 Jun 2022 13:59:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=XsPmCVrvWo3jrtNwMSfS5IhEsF2y+irWuQjpTwNLwbU=;
-        b=oL3YFnb6yhUXmkgjjd1lvH+Mnakr/Trrw8Jg/ll0PUnEhMbFLPfG9QsW5HS2vtk3ep
-         s5MCgqPrNa6JWLDOWJHS9foJZq9VLOcRvCxl8Qjrhf4tTLhCB/NJ8HW/lVZHDs9/0Yev
-         +lnsLbW481s52JVKA+OvkBMb20EARlVz9isBn4lOaVq9+5Rv/h2YGA62mJR1JmcSwUpW
-         tbaD/YUz6crNdntJ7OPx4Ixl2Aba0wDUAiErgNloMpKUJqo4sKw8FhZLVTcP6R/zjyaZ
-         R2KA51+tf9x+QNpU94JhsHUzJwX+LA1Tygwxy9BXJ8W17QjAbR2Icwrm1BG1Ths3Qb3b
-         3xTw==
+        bh=eZSZCpbsimxpe8y0nI2vhGyb3S9o4fusHBXGkJK5Cfc=;
+        b=QtMwHvmYMWJKh0ZLqnKgANF/OLV82B74Mco6zvnuZeUejNoYhy3/XMUTG/IZxeWN1g
+         kJdFX7Hjjll5/gBbGDFfE6NZ8Z29REr8unbv/+Rw3EywhBgZrzUKHOFbsy+9hm74n6W9
+         FgxFz9+BxFFugBZ7wGl/0JzWCFktsdwHV3yRMFgHnNXL54N/hJPqiRFrtpAHgfAV26va
+         xmrjOfYjXA5cjt979wG15bgUAfQ9zTnFdadgyXYvvGP+unwebPCQDrxzW6mC4gLjZm8L
+         VBd3ejedJJ834pxFVJIh0zkDdBaoMunu6IPVDte8eqiNoRGsva/W17BJryh5PbVTYkVi
+         zfXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=XsPmCVrvWo3jrtNwMSfS5IhEsF2y+irWuQjpTwNLwbU=;
-        b=hwAUiHSd9KoZqZAvuNT9Dzyky/nomq7bnXzxZLxyGn1f8DGcIl9EGKXG8apKeGetoS
-         D/hf9KelQtU1UjPnnX1xoHXzKh7AF8DHmtLMQ6la+lZ7L5vMyWLis8iEBocbn8347c2m
-         zTx2Hr2GYM9R0bjJ3uqznSF19zpEFDuPpZ1SzsdrkZC7kib1v9y4/8YJE8CClZwJDqjH
-         YvWNivTzxSYL7MQGHI/qahGYmV4LKe6E0ccTGs+4+KmrdSVvROpU8pQ5guUJ3wjKP4Ss
-         7juZVkLZTAP6qDD7O9o5Bb69e7UccOas4V4pszbF1asCa11URgLWfaxFysDLg473WCAZ
-         X8DA==
-X-Gm-Message-State: AJIora8cvFVi/OsiXJBzsI7kmyvIYZrXt2QWCppq8XdbZUGtAfAx78rf
-	FEpRIjB8xff+5PqUpQhzqX8=
-X-Google-Smtp-Source: AGRyM1tHN9ziSmwLX3zRGPZmMV7l77sL9fX++ZZooIG5PTJnyB1ooTxjOOXRrC7+xhc190A83B6bxA==
-X-Received: by 2002:a05:651c:1994:b0:255:aaa3:d02 with SMTP id bx20-20020a05651c199400b00255aaa30d02mr383340ljb.410.1656103528580;
-        Fri, 24 Jun 2022 13:45:28 -0700 (PDT)
+        bh=eZSZCpbsimxpe8y0nI2vhGyb3S9o4fusHBXGkJK5Cfc=;
+        b=J9tIHWVciedvLpkPJUVb5iuzFUUxCRZQvVCNBKOFTT77gPkHWxytopDRpTdtfaty2s
+         EhcdVfv/RInCWUBM8QQ9HYNV2U7Zi6vzBP0lcTrSoAFHuIrjfSzeGILtXfUW5NMk5EID
+         i9NwnB3T/iSjvwM+wVq3a2sQMgGuYtydxKgzxb0L0trTdFxWy3VS76D60CTveN7IApmK
+         PKQXkMKRUf3Oan7BxJvFOixwlQ47DY8sYFPhs9/CjwoFTV90L114KO9c56Rtc+rYYNkb
+         EbrLFAX8xCJn/hSkC4+DUEMxoxAyfVuJE1O5MnOXgo1WYU8lgR8dn+kXH7UG7lYiWBKZ
+         +bPA==
+X-Gm-Message-State: AJIora9CWasoYe9t9k9e2/lmmHJcUH2bnLwBAcD2FWDmIUnB2McA7lXZ
+	NWljj4v5pdRroBDtVSaBct8=
+X-Google-Smtp-Source: AGRyM1v6fuennno+VmySkb2y5X/FFQLPUJh7sXw3iLNDmiKty2pRq4AJTIzsRg4onyEuYZ8fkJyBPA==
+X-Received: by 2002:a05:651c:1617:b0:25a:9e88:af82 with SMTP id f23-20020a05651c161700b0025a9e88af82mr401410ljq.106.1656104345088;
+        Fri, 24 Jun 2022 13:59:05 -0700 (PDT)
 Received: from mobilestation ([95.79.189.214])
-        by smtp.gmail.com with ESMTPSA id s8-20020a056512202800b0047f750ecd8csm519950lfs.67.2022.06.24.13.45.26
+        by smtp.gmail.com with ESMTPSA id 13-20020ac2568d000000b0047fa40b5052sm523338lfr.62.2022.06.24.13.59.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jun 2022 13:45:27 -0700 (PDT)
-Date: Fri, 24 Jun 2022 23:45:24 +0300
+        Fri, 24 Jun 2022 13:59:04 -0700 (PDT)
+Date: Fri, 24 Jun 2022 23:59:02 +0300
 From: Serge Semin <fancer.lancer@gmail.com>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: Serge Semin <Sergey.Semin@baikalelectronics.ru>,
@@ -71,27 +71,26 @@ Cc: Serge Semin <Sergey.Semin@baikalelectronics.ru>,
 	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>, linux-usb@vger.kernel.org,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Khuong Dinh <khuong@os.amperecomputing.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Patrice Chotard <patrice.chotard@st.com>,
 	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
 	Paul Mackerras <paulus@samba.org>, linux-arm-msm@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
 	linux-snps-arc@lists.infradead.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v9 4/5] arm: dts: stih407-family: Harmonize DWC
- USB3 DT nodes name
-Message-ID: <20220624204524.nveittak6ruksuvq@mobilestation>
+Subject: Re: [PATCH RESEND v9 5/5] arm64: dts: apm: Harmonize DWC USB3 DT
+ nodes name
+Message-ID: <20220624205902.y2un4lr7d3zkc6jx@mobilestation>
 References: <20220624141622.7149-1-Sergey.Semin@baikalelectronics.ru>
- <20220624141622.7149-5-Sergey.Semin@baikalelectronics.ru>
- <59d8a34a-a211-d00a-2243-6ad51cfa4204@linaro.org>
+ <20220624141622.7149-6-Sergey.Semin@baikalelectronics.ru>
+ <eb00b6c3-ae5e-9858-ab5f-fd78229ff436@linaro.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <59d8a34a-a211-d00a-2243-6ad51cfa4204@linaro.org>
+In-Reply-To: <eb00b6c3-ae5e-9858-ab5f-fd78229ff436@linaro.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220624_134530_700563_FC78525E 
-X-CRM114-Status: GOOD (  19.06  )
+X-CRM114-CacheID: sfid-20220624_135907_939667_DF47FAC8 
+X-CRM114-Status: GOOD (  25.65  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,40 +107,89 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jun 24, 2022 at 07:18:57PM +0200, Krzysztof Kozlowski wrote:
+On Fri, Jun 24, 2022 at 07:17:53PM +0200, Krzysztof Kozlowski wrote:
 > On 24/06/2022 16:16, Serge Semin wrote:
 > > In accordance with the DWC USB3 bindings the corresponding node
 > > name is suppose to comply with the Generic USB HCD DT schema, which
 > > requires the USB nodes to have the name acceptable by the regexp:
 > > "^usb(@.*)?" . Make sure the "snps,dwc3"-compatible nodes are correctly
-> > named.
-> > 
-> > Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-> > Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
-> > Reviewed-by: Patrice Chotard <patrice.chotard@st.com>
-> > ---
-> >  arch/arm/boot/dts/stih407-family.dtsi | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/arch/arm/boot/dts/stih407-family.dtsi b/arch/arm/boot/dts/stih407-family.dtsi
-> > index 1713f7878117..7ba528315dbe 100644
-> > --- a/arch/arm/boot/dts/stih407-family.dtsi
-> > +++ b/arch/arm/boot/dts/stih407-family.dtsi
-> > @@ -725,7 +725,7 @@ st_dwc3: dwc3@8f94000 {
-> >  
-> >  			status = "disabled";
-> >  
-> > -			dwc3: dwc3@9900000 {
-> > +			dwc3: usb@9900000 {
+> > named despite of the warning comment about possible backward
+> > compatibility issues.
 > 
 
-> This does not apply. What tree is it based on?
+> Sometimes node name is exposed to user-space which depends on it. How
+> did you check there is no issue here?
 
-That's weird. The series has been rebased onto the mainline kernel v5.19-rc3.
-Do you have the stih407 dtsi fixed on your local repo?
+I well remember the Qcom problem caused by one of my patch:
+https://lore.kernel.org/lkml/CALAqxLX_FNvFndEDWtGbFPjSzuAbfqxQE07diBJFZtftwEJX5A@mail.gmail.com/
+
+The next patch caused the same problem, but hasn't been reverted.
+https://lore.kernel.org/lkml/CALAqxLWGujgR7p8Vb5S_RimRVYxwm5XF-c4NkKgMH-43wEBaWg@mail.gmail.com/
+
+As before I am more inclined to thinking that the problem was mainly caused
+by the improper node-name utilization. Anyway John later noted that the
+problem was fixed in the user-space. That why afterwards you were able
+to provide the commit b77a1c4d6b05 ("arm64: dts: qcom: correct DWC3
+node names and unit addresses").
+
+Anyway I am not able to track the way the node-name is used on the
+affected platform and can't make sure that the dts would be still
+working well on that devices. But seeing nobody responded/commented on
+this patch for more than a year we can at least try to merge this in
+and see whether it causes any problem should the denoted platform is
+still in use. If it does we can revert the update back and forget
+about it.
 
 -Sergey
 
+> 
+> > 
+> > Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+> > Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
+> > ---
+> >  arch/arm64/boot/dts/apm/apm-shadowcat.dtsi | 4 ++--
+> >  arch/arm64/boot/dts/apm/apm-storm.dtsi     | 6 +++---
+> >  2 files changed, 5 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/arch/arm64/boot/dts/apm/apm-shadowcat.dtsi b/arch/arm64/boot/dts/apm/apm-shadowcat.dtsi
+> > index a83c82c50e29..832dd85b00bd 100644
+> > --- a/arch/arm64/boot/dts/apm/apm-shadowcat.dtsi
+> > +++ b/arch/arm64/boot/dts/apm/apm-shadowcat.dtsi
+> > @@ -597,8 +597,8 @@ serial0: serial@10600000 {
+> >  			interrupts = <0x0 0x4c 0x4>;
+> >  		};
+> >  
+> > -		/* Do not change dwusb name, coded for backward compatibility */
+> > -		usb0: dwusb@19000000 {
+> > +		/* Node-name might need to be coded as dwusb for backward compatibility */
+> > +		usb0: usb@19000000 {
+> >  			status = "disabled";
+> >  			compatible = "snps,dwc3";
+> >  			reg =  <0x0 0x19000000 0x0 0x100000>;
+> > diff --git a/arch/arm64/boot/dts/apm/apm-storm.dtsi b/arch/arm64/boot/dts/apm/apm-storm.dtsi
+> > index 0f37e77f5459..1520a945b7f9 100644
+> > --- a/arch/arm64/boot/dts/apm/apm-storm.dtsi
+> > +++ b/arch/arm64/boot/dts/apm/apm-storm.dtsi
+> > @@ -923,8 +923,8 @@ sata3: sata@1a800000 {
+> >  			phy-names = "sata-phy";
+> >  		};
+> >  
+> > -		/* Do not change dwusb name, coded for backward compatibility */
+> > -		usb0: dwusb@19000000 {
+> > +		/* Node-name might need to be coded as dwusb for backward compatibility */
+> > +		usb0: usb@19000000 {
+> >  			status = "disabled";
+> >  			compatible = "snps,dwc3";
+> >  			reg =  <0x0 0x19000000 0x0 0x100000>;
+> > @@ -933,7 +933,7 @@ usb0: dwusb@19000000 {
+> >  			dr_mode = "host";
+> >  		};
+> >  
+> > -		usb1: dwusb@19800000 {
+> > +		usb1: usb@19800000 {
+> >  			status = "disabled";
+> >  			compatible = "snps,dwc3";
+> >  			reg =  <0x0 0x19800000 0x0 0x100000>;
 > 
 > 
 > Best regards,
