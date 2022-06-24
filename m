@@ -4,37 +4,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFD49C43334
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Jun 2022 14:17:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A86DC43334
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Jun 2022 14:17:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=SJRho1FHIKmDrI6kgpL4+gVMWIGRLVBbsHttt8wbdak=; b=zUs+3bTsUsHMof
-	UPhLOt31dLjpmQF5cZ6H5U7AM8s44+iaHMmFYod8imLjzcT00HKB0sA7196HpxeBCXzULE7HZlux5
-	ZbFzyPQgXZw1v4T/3ViJyqnPWt+rxFb3nQrwlbnKEMS9wyhDzU4TFE86TuDUw6gqfrwqONgeXTDug
-	8z4995DGBfLXEi5Ak03Jz++QuFq+Of92TxHUThYEGJs42ZMOzzjvTuvvtlXdOcIpFdT6pj4AVbgsO
-	UdPsB4vIOwJ54O+U7oliXVCgEgcEsfpxS/dD8V42UErAl1bERHGjZrr+SLlID4g8GAh6MMr4W+ujJ
-	NT1aBeTdxpZUCcEclCnQ==;
+	List-Owner; bh=0gOjW2PUx8Cee0S4IcKzXyK6Sg/m9dR2gNZDjWnaKb0=; b=0n/uj5UuW4ujiL
+	WnS5lPJMe4gK509FbQ1Gbc8oq4aXjNmantz4XbquQR8fzvrxv1z8KzzsfYJ2Vk8XPYaRH1Z0nss7Y
+	oiizPum81SoeesmcruAfTV2WFJr5Oeli1sRftuqnXTO/vbGZKThl6PhyM2V85oDss2Tz5xQcIADup
+	p9tqiUJ3KZirKx7JkbQUZVHyMInPMX4ZOjfzKGd0L1kG4BOWcEx5Aa0arE+AACpIgLgvD3GtjQMeG
+	/p8jiM8IvINwY8GGRofTriRD8JuRIbZ/nNGSRzUlz2D/tHfLVY4GYbtSItmgkSfr9S+XNzZm8lBo1
+	XE5VBAtyYIbIxmgG7+/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4k7j-002ZPv-QP; Fri, 24 Jun 2022 14:17:27 +0000
+	id 1o4k7x-002ZVn-FY; Fri, 24 Jun 2022 14:17:41 +0000
 Received: from mail.baikalelectronics.com ([87.245.175.230])
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4k75-002ZBB-To; Fri, 24 Jun 2022 14:16:49 +0000
+	id 1o4k78-002ZBx-Np; Fri, 24 Jun 2022 14:16:52 +0000
 Received: from mail (mail.baikal.int [192.168.51.25])
-	by mail.baikalelectronics.com (Postfix) with ESMTP id 9680F16C3;
-	Fri, 24 Jun 2022 17:17:47 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 9680F16C3
+	by mail.baikalelectronics.com (Postfix) with ESMTP id 2CA7216C4;
+	Fri, 24 Jun 2022 17:17:48 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 2CA7216C4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=baikalelectronics.ru; s=mail; t=1656080267;
-	bh=VjyxAcMepOyqZqRyUPoUg9jWo9vWfhMdZZrNXa6WyMQ=;
+	d=baikalelectronics.ru; s=mail; t=1656080268;
+	bh=kDuuhLvgWjwCl2RDg/HQ/klWnKI9hNFxtPsc1NN2N1I=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-	b=L5euMlCpTuEQcfs5UusI5OsW5uZNWnKV33aAJu/oXI9mhXHpPLTEyUGi6SizUaYyj
-	 o0n4kjJlu+4dd+dVue1lN0bp8KZzoQ+rGJ4IPhjNNW1wHZcKDlQ6lqd6//2V7v0J07
-	 4WiHKrdkJSjxbsNREPkv5V622DNb9/4pGZLeUnQE=
+	b=brJscAwWCIlrNbG8lE0uiLSq9rStHDmfsZCrEEjOeeFTYQgm1NYf2JvL7PegwhbR6
+	 oIioDC5oh7ZHvPLrgu823ZwI5mx6sL8OjIl+GwcG4R4aInfAKDC+2JpnxVfUpXqDol
+	 dk6tsEgXLGLIv1+O2zvZI5jxtCktmqpDxUOnfOFU=
 Received: from localhost (192.168.53.207) by mail (192.168.51.25) with
  Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 24 Jun 2022 17:16:28 +0300
 From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
@@ -44,25 +44,26 @@ To: Andy Gross <agross@kernel.org>, Bjorn Andersson
  Brodkin <abrodkin@synopsys.com>, Vineet Gupta <vgupta@synopsys.com>, Rob
  Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>, Greg
  Kroah-Hartman <gregkh@linuxfoundation.org>, Krzysztof Kozlowski
-	<krzk@kernel.org>, <linux-usb@vger.kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Benjamin Herrenschmidt
-	<benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>
+	<krzk@kernel.org>, <linux-usb@vger.kernel.org>, Patrice Chotard
+	<patrice.chotard@foss.st.com>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>
 CC: Serge Semin <Sergey.Semin@baikalelectronics.ru>, Serge Semin
 	<fancer.lancer@gmail.com>, Khuong Dinh <khuong@os.amperecomputing.com>,
-	Patrice Chotard <patrice.chotard@st.com>, <linux-arm-msm@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linuxppc-dev@lists.ozlabs.org>,
-	<linux-snps-arc@lists.infradead.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH RESEND v9 3/5] powerpc: dts: akebono: Harmonize EHCI/OHCI DT nodes name
-Date: Fri, 24 Jun 2022 17:16:19 +0300
-Message-ID: <20220624141622.7149-4-Sergey.Semin@baikalelectronics.ru>
+	Patrice Chotard <patrice.chotard@st.com>, Benjamin Herrenschmidt
+	<benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>,
+	<linux-arm-msm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linuxppc-dev@lists.ozlabs.org>, <linux-snps-arc@lists.infradead.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH RESEND v9 4/5] arm: dts: stih407-family: Harmonize DWC USB3 DT nodes name
+Date: Fri, 24 Jun 2022 17:16:20 +0300
+Message-ID: <20220624141622.7149-5-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20220624141622.7149-1-Sergey.Semin@baikalelectronics.ru>
 References: <20220624141622.7149-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220624_071648_169320_D45A5182 
-X-CRM114-Status: UNSURE (   9.12  )
+X-CRM114-CacheID: sfid-20220624_071651_015803_887205D1 
+X-CRM114-Status: UNSURE (   9.36  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -80,48 +81,32 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-In accordance with the Generic EHCI/OHCI bindings the corresponding node
+In accordance with the DWC USB3 bindings the corresponding node
 name is suppose to comply with the Generic USB HCD DT schema, which
 requires the USB nodes to have the name acceptable by the regexp:
-"^usb(@.*)?" . Make sure the "generic-ehci" and "generic-ohci"-compatible
-nodes are correctly named.
+"^usb(@.*)?" . Make sure the "snps,dwc3"-compatible nodes are correctly
+named.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
+Reviewed-by: Patrice Chotard <patrice.chotard@st.com>
 ---
- arch/powerpc/boot/dts/akebono.dts | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ arch/arm/boot/dts/stih407-family.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/powerpc/boot/dts/akebono.dts b/arch/powerpc/boot/dts/akebono.dts
-index df18f8dc4642..343326c30380 100644
---- a/arch/powerpc/boot/dts/akebono.dts
-+++ b/arch/powerpc/boot/dts/akebono.dts
-@@ -126,7 +126,7 @@ SATA0: sata@30000010000 {
- 			interrupts = <93 2>;
- 		};
+diff --git a/arch/arm/boot/dts/stih407-family.dtsi b/arch/arm/boot/dts/stih407-family.dtsi
+index 1713f7878117..7ba528315dbe 100644
+--- a/arch/arm/boot/dts/stih407-family.dtsi
++++ b/arch/arm/boot/dts/stih407-family.dtsi
+@@ -725,7 +725,7 @@ st_dwc3: dwc3@8f94000 {
  
--		EHCI0: ehci@30010000000 {
-+		EHCI0: usb@30010000000 {
- 			compatible = "ibm,476gtr-ehci", "generic-ehci";
- 			reg = <0x300 0x10000000 0x0 0x10000>;
- 			interrupt-parent = <&MPIC>;
-@@ -140,14 +140,14 @@ SD0: sd@30000000000 {
- 			interrupt-parent = <&MPIC>;
- 		};
+ 			status = "disabled";
  
--		OHCI0: ohci@30010010000 {
-+		OHCI0: usb@30010010000 {
- 			compatible = "ibm,476gtr-ohci", "generic-ohci";
- 			reg = <0x300 0x10010000 0x0 0x10000>;
- 			interrupt-parent = <&MPIC>;
- 			interrupts = <89 1>;
- 			};
- 
--		OHCI1: ohci@30010020000 {
-+		OHCI1: usb@30010020000 {
- 			compatible = "ibm,476gtr-ohci", "generic-ohci";
- 			reg = <0x300 0x10020000 0x0 0x10000>;
- 			interrupt-parent = <&MPIC>;
+-			dwc3: dwc3@9900000 {
++			dwc3: usb@9900000 {
+ 				compatible	= "snps,dwc3";
+ 				reg		= <0x09900000 0x100000>;
+ 				interrupts	= <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
 -- 
 2.35.1
 
