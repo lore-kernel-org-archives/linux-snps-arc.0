@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8911C43334
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Jun 2022 05:12:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB615CCA473
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Jun 2022 05:12:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=HCUtSd5lKvuIks48sxwzL4nkAnkL8QbndhQ1agJEJWY=; b=ClAaHBQ3J8MTIW
-	ZQOYWik9rqEPSHLVngPhz+W6RYDRwOynwfM4WNMvWVnNVRkZ4R3TdLmBl/aySJjPoAxZED7XmBNQ3
-	2RXAn4NT4TQ83HimsINbBGWMJ59XLDtS6IYhqzoU4cuNiME8c3iPBmWDqJYPV/wmckn5tPSEHG+x+
-	Y+UGgaj6qB7d4DTDfZUDX+FO7q+V/sjut0Kb/XoQS25vFQxtAdd3R87wkB40dNdk0MO/foWXvEgci
-	AcbUG7VHu02tRZeU4HPDZHxPC4YuOQJJCCF3K1/Cd6+WtJtbum9OyfyWeAOxMXZZx+/2n6bahHvQI
-	414zB3eY/xDq66ZZo3aA==;
+	List-Owner; bh=fVs0xr6BvU3pgXq3vQ7wlcTobyUcP6iXJvoxmlH1Opw=; b=xY4a6OCd/TCLwb
+	mZoBhXkOrnDP2i3qm2G/Uc546BWNj+ecdE5f+Qzt+vj1rnR1nADdNSuWex0DXDLGyq+3G88g96bVS
+	vbykYozO+Fh892MwCsKCyddihw84c05xOUxT6gDcYoQMcnSR6wixDBKGVBcsDXajOT/ZnawjYpILK
+	RRvojGSyAm2afmJoSC80fpkgCBUWS1tnmVCI880p+YyfLMWzBJb7IyC5zlfIXMl8n2Pc1r2O0FACn
+	KbpKyMxCjyz/rtzs2DovsUxVsrPSgrsr92lRL+sQQWEJuGnOm2/5NKVxbyoDFmABteN+UBgb//EYT
+	sB7xMawXQkvemriNQM5w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4bbv-000Vip-Tf; Fri, 24 Jun 2022 05:12:03 +0000
+	id 1o4bcg-000WCB-0v; Fri, 24 Jun 2022 05:12:50 +0000
 Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4ba2-000UXp-Nf; Fri, 24 Jun 2022 05:10:06 +0000
-Date: Thu, 23 Jun 2022 22:10:06 -0700
+	id 1o4bat-000V4L-M8; Fri, 24 Jun 2022 05:10:59 +0000
+Date: Thu, 23 Jun 2022 22:10:59 -0700
 From: Christoph Hellwig <hch@infradead.org>
 To: Anshuman Khandual <anshuman.khandual@arm.com>
 Cc: linux-mm@kvack.org, hch@infradead.org, christophe.leroy@csgroup.eu,
@@ -38,16 +38,15 @@ Cc: linux-mm@kvack.org, hch@infradead.org, christophe.leroy@csgroup.eu,
 	linux-snps-arc@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org, linux-um@lists.infradead.org,
 	linux-sh@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>
-Subject: Re: [PATCH V4 06/26] x86/mm: Move protection_map[] inside the
- platform
-Message-ID: <YrVHLgHPX2qy+prc@infradead.org>
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>
+Subject: Re: [PATCH V4 16/26] riscv/mm: Enable ARCH_HAS_VM_GET_PAGE_PROT
+Message-ID: <YrVHYwb3z0Wv+vZx@infradead.org>
 References: <20220624044339.1533882-1-anshuman.khandual@arm.com>
- <20220624044339.1533882-7-anshuman.khandual@arm.com>
+ <20220624044339.1533882-17-anshuman.khandual@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220624044339.1533882-7-anshuman.khandual@arm.com>
+In-Reply-To: <20220624044339.1533882-17-anshuman.khandual@arm.com>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,9 +63,18 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+On Fri, Jun 24, 2022 at 10:13:29AM +0530, Anshuman Khandual wrote:
+index d466ec670e1f..f976580500b1 100644
+> --- a/arch/riscv/mm/init.c
+> +++ b/arch/riscv/mm/init.c
+> @@ -288,6 +288,26 @@ static pmd_t __maybe_unused early_dtb_pmd[PTRS_PER_PMD] __initdata __aligned(PAG
+>  #define early_pg_dir           ((pgd_t *)XIP_FIXUP(early_pg_dir))
+>  #endif /* CONFIG_XIP_KERNEL */
+>  
+> +static pgprot_t protection_map[16] __ro_after_init = {
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Can't this be marked const now?
+
 
 _______________________________________________
 linux-snps-arc mailing list
