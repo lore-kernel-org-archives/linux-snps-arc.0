@@ -4,60 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E63CC433EF
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Jun 2022 05:21:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9FE0BC43334
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Jun 2022 05:21:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=MdtBNEBemxhRHJdSduqoxol+9eFPoplsp2Qh5gJF7IE=; b=UsQ3uaoNIR8JDp
-	2Pz5sCxzJ4Utq5y4mKaaMttrvhZcNWvknBIU7LC1TWNm70KCieVXN4GxzDYZB7iJJSsaoUoxjBABN
-	7XS5Kza95XXcz1Crrpz8AnjXpS+H82IUYg5LwIaDcvo7nDpdC/puPWlLB7P5sgeDiicSXjnb5L3tu
-	mPTGB2M3i6GsonQ6KF3X0TamyJBaaOTSF6yaw/R0ctALOAbHVMb27I7zWRQRHWVxwJ6f5DJbXPE6s
-	60tfGlPFd+W7qapYqqUPri+hnfoaDK0/en6i2rpM0s/cWD2THkMvQYl8TmvinKjTybpPf83d9IWM1
-	TvD6f5p1LLaKODfRpbmA==;
+	List-Owner; bh=QZ2GIjiMVVbxiJw6OBy8lFJRe77C6ItWIxSK7lZMeOI=; b=EvLvAc9b0fNpR1
+	0e8DCqGgjZmJW533cK7jgUrpmxpBP+QmglrMOKZtAyRj+rlpey0idXH3VYe/mPsim2Yza6xxdwkpV
+	406FekL1NrdmoA+C82df4QOolQsx0o4NZ9uysoGWM+oEOPJS8Vh/g8rzFNFq0YYy9kmR/3ysW577T
+	YiRH7gfzVjXyRWAHOoBQO+uVg5ARfaOWTyKWwunhbqK9ej3RWy78erTlaVDTP3qJH6fqSM6Q/Wb2W
+	fikJfhaVBj1WKtTxKEp7aXlmqOxzIsY6LNLsne4xuCpqTvlZJEqIa/uAFqSbVo0hSqVaxbgo/c43A
+	BSPqBm2hK8JmlEILsLDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4bkh-000aEA-8F; Fri, 24 Jun 2022 05:21:07 +0000
-Received: from foss.arm.com ([217.140.110.172])
-	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4bkM-000a4r-G8; Fri, 24 Jun 2022 05:20:48 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1BB59176A;
-	Thu, 23 Jun 2022 22:20:44 -0700 (PDT)
-Received: from [10.162.41.7] (unknown [10.162.41.7])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CB2DF3F66F;
-	Thu, 23 Jun 2022 22:20:36 -0700 (PDT)
-Message-ID: <33bdac1e-207a-192b-bf43-818abfa49fe1@arm.com>
-Date: Fri, 24 Jun 2022 10:50:33 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
+	id 1o4blL-000aW4-Ox; Fri, 24 Jun 2022 05:21:47 +0000
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1o4blI-000aUe-MC; Fri, 24 Jun 2022 05:21:44 +0000
+Date: Thu, 23 Jun 2022 22:21:44 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: Christoph Hellwig <hch@infradead.org>, linux-mm@kvack.org,
+	christophe.leroy@csgroup.eu,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org,
+	x86@kernel.org, openrisc@lists.librecores.org,
+	linux-xtensa@linux-xtensa.org, linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org, linux-parisc@vger.kernel.org,
+	linux-alpha@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org, linux-ia64@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-um@lists.infradead.org,
+	linux-sh@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH V4 00/26] mm/mmap: Drop __SXXX/__PXXX macros from across
  platforms
-Content-Language: en-US
-To: Christoph Hellwig <hch@infradead.org>
-Cc: linux-mm@kvack.org, christophe.leroy@csgroup.eu,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- sparclinux@vger.kernel.org, x86@kernel.org, openrisc@lists.librecores.org,
- linux-xtensa@linux-xtensa.org, linux-csky@vger.kernel.org,
- linux-hexagon@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-ia64@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-um@lists.infradead.org, linux-sh@vger.kernel.org,
- linux-kernel@vger.kernel.org
+Message-ID: <YrVJ6GaSzD/4kD6M@infradead.org>
 References: <20220624044339.1533882-1-anshuman.khandual@arm.com>
  <YrVHvv0spuMsC1In@infradead.org>
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <YrVHvv0spuMsC1In@infradead.org>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220623_222046_658546_665AF2EC 
-X-CRM114-Status: UNSURE (   9.80  )
-X-CRM114-Notice: Please train this message.
+ <33bdac1e-207a-192b-bf43-818abfa49fe1@arm.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <33bdac1e-207a-192b-bf43-818abfa49fe1@arm.com>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,25 +64,14 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-
-
-On 6/24/22 10:42, Christoph Hellwig wrote:
-> On Fri, Jun 24, 2022 at 10:13:13AM +0530, Anshuman Khandual wrote:
->> vm_get_page_prot(), in order for it to be reused on platforms that do not
->> require custom implementation. Finally, ARCH_HAS_VM_GET_PAGE_PROT can just
->> be dropped, as all platforms now define and export vm_get_page_prot(), via
->> looking up a private and static protection_map[] array. protection_map[]
->> data type is the following for all platforms without deviation (except the
->> powerpc one which is shared between 32 and 64 bit platforms), keeping it
->> unchanged for now.
->>
->> static pgprot_t protection_map[16] __ro_after_init
+On Fri, Jun 24, 2022 at 10:50:33AM +0530, Anshuman Khandual wrote:
+> > On most architectures this should be const now, only very few ever
+> > modify it.
 > 
-> On most architectures this should be const now, only very few ever
-> modify it.
+> Will make it a 'static const pgprot_t protection_map[16] __ro_after_init'
+> on platforms that do not change the protection_map[] even during boot.
 
-Will make it a 'static const pgprot_t protection_map[16] __ro_after_init'
-on platforms that do not change the protection_map[] even during boot.
+No need for __ro_after_init when it is already declarated const.
 
 _______________________________________________
 linux-snps-arc mailing list
