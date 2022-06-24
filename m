@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54F6CC433EF
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Jun 2022 04:53:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D885C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Jun 2022 04:54:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=9SFLIp/Q0HeN6XOK1p3XvwbyRxVcsv8AK9jNSiFWJMY=; b=uOkpIxJjLs2Dyu
-	ZbAr2ObIZm6UplqucW5tTY3n8nz7EZrLMsyQYnvwLShfDpfE5xZWjsD6wDx62aOhxxQ+zxOS6Dtj4
-	X7vw2/9YoI56NFB7ucwGcCyrEqNJKNIyQGbbRKJfqMNFcAqZm5EtpkAasVfRqXcTV9rryS5JxOlxq
-	7sUKSwwNMt5Gy3KFYkvM2jF30P8MQBTLm6GhZazCkDn0WlsjMWFhdhk4dbc2kPh1PRb2gRX667eba
-	Gnr1kCV3FtCpfzOcsgQEzDz+8zNhAXJGaFu2KVngMlY/o3UsSYu3HPgUqNIQLsDttwTlREwCjSmn7
-	/EpKAnx8zdCsxBaJL9xQ==;
+	List-Owner; bh=KxYmGhWYh0IlvKn+SIRbppdh0i7fQYJwkhfHNtcudSU=; b=cuMhPet/2ho72o
+	aP/g2+iwJsSPD+ginQfc8vAEhhPWok1Bl2uRzFuH865Jb+fHIZum1KqxTNH4Din7Ub7K7ysuKpNyP
+	T3r20chjUbOGVeaZec2KOtgntdc8m5T5Xn1NyG0HsmtIIHQ1b3k7/u0UGhYov7jF7n5bIKz40x3x8
+	TT2xRp0z0lxUearc4J9tpHaxmL5nWKprSwwMNc5h4DC9fjr+C+K+ZEdljBuvrh8PBFaOFUrax6cKA
+	MLottIUsQTCkj33T/vXAa5B4xfNIvRvtIwW+tlJWnMI01Ds9aA3ih+ivgRsFqy/fCxUe0H5HGMq/E
+	wRHIPTVPU4GvKnNRHy5g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4bJu-000Kmb-7n; Fri, 24 Jun 2022 04:53:26 +0000
+	id 1o4bKi-000LHJ-G0; Fri, 24 Jun 2022 04:54:16 +0000
 Received: from foss.arm.com ([217.140.110.172])
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4bCR-000FUn-Mp; Fri, 24 Jun 2022 04:45:47 +0000
+	id 1o4bCZ-000FaK-63; Fri, 24 Jun 2022 04:45:53 +0000
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 99D4A169E;
-	Thu, 23 Jun 2022 21:45:42 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 13757169C;
+	Thu, 23 Jun 2022 21:45:50 -0700 (PDT)
 Received: from a077893.blr.arm.com (unknown [10.162.41.7])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7F3C23F66F;
-	Thu, 23 Jun 2022 21:45:34 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 04DE13F66F;
+	Thu, 23 Jun 2022 21:45:42 -0700 (PDT)
 From: Anshuman Khandual <anshuman.khandual@arm.com>
 To: linux-mm@kvack.org
 Cc: hch@infradead.org,
@@ -55,17 +55,17 @@ Cc: hch@infradead.org,
 	linux-um@lists.infradead.org,
 	linux-sh@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Subject: [PATCH V4 13/26] parisc/mm: Enable ARCH_HAS_VM_GET_PAGE_PROT
-Date: Fri, 24 Jun 2022 10:13:26 +0530
-Message-Id: <20220624044339.1533882-14-anshuman.khandual@arm.com>
+	Richard Henderson <rth@twiddle.net>
+Subject: [PATCH V4 14/26] alpha/mm: Enable ARCH_HAS_VM_GET_PAGE_PROT
+Date: Fri, 24 Jun 2022 10:13:27 +0530
+Message-Id: <20220624044339.1533882-15-anshuman.khandual@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220624044339.1533882-1-anshuman.khandual@arm.com>
 References: <20220624044339.1533882-1-anshuman.khandual@arm.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220623_214543_994762_12FEAF73 
-X-CRM114-Status: UNSURE (   8.48  )
+X-CRM114-CacheID: sfid-20220623_214551_383450_35BFC81E 
+X-CRM114-Status: UNSURE (   8.55  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -88,83 +88,84 @@ vm_get_page_prot() implementation via DECLARE_VM_GET_PAGE_PROT, which looks
 up a private and static protection_map[] array. Subsequently all __SXXX and
 __PXXX macros can be dropped which are no longer needed.
 
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Cc: linux-parisc@vger.kernel.org
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: linux-alpha@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
 ---
- arch/parisc/Kconfig               |  1 +
- arch/parisc/include/asm/pgtable.h | 18 ------------------
- arch/parisc/mm/init.c             | 20 ++++++++++++++++++++
- 3 files changed, 21 insertions(+), 18 deletions(-)
+ arch/alpha/Kconfig               |  1 +
+ arch/alpha/include/asm/pgtable.h | 17 -----------------
+ arch/alpha/mm/init.c             | 22 ++++++++++++++++++++++
+ 3 files changed, 23 insertions(+), 17 deletions(-)
 
-diff --git a/arch/parisc/Kconfig b/arch/parisc/Kconfig
-index 5f2448dc5a2b..90eabc846f81 100644
---- a/arch/parisc/Kconfig
-+++ b/arch/parisc/Kconfig
-@@ -11,6 +11,7 @@ config PARISC
- 	select ARCH_HAS_ELF_RANDOMIZE
- 	select ARCH_HAS_STRICT_KERNEL_RWX
- 	select ARCH_HAS_UBSAN_SANITIZE_ALL
+diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
+index 7d0d26b5b3f5..db1c8b329461 100644
+--- a/arch/alpha/Kconfig
++++ b/arch/alpha/Kconfig
+@@ -2,6 +2,7 @@
+ config ALPHA
+ 	bool
+ 	default y
 +	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_HAS_PTE_SPECIAL
- 	select ARCH_NO_SG_CHAIN
- 	select ARCH_SUPPORTS_HUGETLBFS if PA20
-diff --git a/arch/parisc/include/asm/pgtable.h b/arch/parisc/include/asm/pgtable.h
-index 69765a6dbe89..6a1899a9b420 100644
---- a/arch/parisc/include/asm/pgtable.h
-+++ b/arch/parisc/include/asm/pgtable.h
-@@ -271,24 +271,6 @@ extern void __update_cache(pte_t pte);
+ 	select ARCH_32BIT_USTAT_F_TINODE
+ 	select ARCH_MIGHT_HAVE_PC_PARPORT
+ 	select ARCH_MIGHT_HAVE_PC_SERIO
+diff --git a/arch/alpha/include/asm/pgtable.h b/arch/alpha/include/asm/pgtable.h
+index 170451fde043..3ea9661c09ff 100644
+--- a/arch/alpha/include/asm/pgtable.h
++++ b/arch/alpha/include/asm/pgtable.h
+@@ -116,23 +116,6 @@ struct vm_area_struct;
+  * arch/alpha/mm/fault.c)
   */
- 
- 	 /*xwr*/
--#define __P000  PAGE_NONE
--#define __P001  PAGE_READONLY
--#define __P010  __P000 /* copy on write */
--#define __P011  __P001 /* copy on write */
--#define __P100  PAGE_EXECREAD
--#define __P101  PAGE_EXECREAD
--#define __P110  __P100 /* copy on write */
--#define __P111  __P101 /* copy on write */
+ 	/* xwr */
+-#define __P000	_PAGE_P(_PAGE_FOE | _PAGE_FOW | _PAGE_FOR)
+-#define __P001	_PAGE_P(_PAGE_FOE | _PAGE_FOW)
+-#define __P010	_PAGE_P(_PAGE_FOE)
+-#define __P011	_PAGE_P(_PAGE_FOE)
+-#define __P100	_PAGE_P(_PAGE_FOW | _PAGE_FOR)
+-#define __P101	_PAGE_P(_PAGE_FOW)
+-#define __P110	_PAGE_P(0)
+-#define __P111	_PAGE_P(0)
 -
--#define __S000  PAGE_NONE
--#define __S001  PAGE_READONLY
--#define __S010  PAGE_WRITEONLY
--#define __S011  PAGE_SHARED
--#define __S100  PAGE_EXECREAD
--#define __S101  PAGE_EXECREAD
--#define __S110  PAGE_RWX
--#define __S111  PAGE_RWX
--
+-#define __S000	_PAGE_S(_PAGE_FOE | _PAGE_FOW | _PAGE_FOR)
+-#define __S001	_PAGE_S(_PAGE_FOE | _PAGE_FOW)
+-#define __S010	_PAGE_S(_PAGE_FOE)
+-#define __S011	_PAGE_S(_PAGE_FOE)
+-#define __S100	_PAGE_S(_PAGE_FOW | _PAGE_FOR)
+-#define __S101	_PAGE_S(_PAGE_FOW)
+-#define __S110	_PAGE_S(0)
+-#define __S111	_PAGE_S(0)
  
- extern pgd_t swapper_pg_dir[]; /* declared in init_task.c */
- 
-diff --git a/arch/parisc/mm/init.c b/arch/parisc/mm/init.c
-index 0a81499dd35e..451f20f87711 100644
---- a/arch/parisc/mm/init.c
-+++ b/arch/parisc/mm/init.c
-@@ -871,3 +871,23 @@ void flush_tlb_all(void)
- 	spin_unlock(&sid_lock);
+ /*
+  * pgprot_noncached() is only for infiniband pci support, and a real
+diff --git a/arch/alpha/mm/init.c b/arch/alpha/mm/init.c
+index 7511723b7669..a2350b2f44d0 100644
+--- a/arch/alpha/mm/init.c
++++ b/arch/alpha/mm/init.c
+@@ -280,3 +280,25 @@ mem_init(void)
+ 	high_memory = (void *) __va(max_low_pfn * PAGE_SIZE);
+ 	memblock_free_all();
  }
- #endif
 +
 +static pgprot_t protection_map[16] __ro_after_init = {
-+	[VM_NONE]					= PAGE_NONE,
-+	[VM_READ]					= PAGE_READONLY,
-+	[VM_WRITE]					= PAGE_NONE,
-+	[VM_WRITE | VM_READ]				= PAGE_READONLY,
-+	[VM_EXEC]					= PAGE_EXECREAD,
-+	[VM_EXEC | VM_READ]				= PAGE_EXECREAD,
-+	[VM_EXEC | VM_WRITE]				= PAGE_EXECREAD,
-+	[VM_EXEC | VM_WRITE | VM_READ]			= PAGE_EXECREAD,
-+	[VM_SHARED]					= PAGE_NONE,
-+	[VM_SHARED | VM_READ]				= PAGE_READONLY,
-+	[VM_SHARED | VM_WRITE]				= PAGE_WRITEONLY,
-+	[VM_SHARED | VM_WRITE | VM_READ]		= PAGE_SHARED,
-+	[VM_SHARED | VM_EXEC]				= PAGE_EXECREAD,
-+	[VM_SHARED | VM_EXEC | VM_READ]			= PAGE_EXECREAD,
-+	[VM_SHARED | VM_EXEC | VM_WRITE]		= PAGE_RWX,
-+	[VM_SHARED | VM_EXEC | VM_WRITE | VM_READ]	= PAGE_RWX
++	[VM_NONE]					= _PAGE_P(_PAGE_FOE | _PAGE_FOW |
++								  _PAGE_FOR),
++	[VM_READ]					= _PAGE_P(_PAGE_FOE | _PAGE_FOW),
++	[VM_WRITE]					= _PAGE_P(_PAGE_FOE),
++	[VM_WRITE | VM_READ]				= _PAGE_P(_PAGE_FOE),
++	[VM_EXEC]					= _PAGE_P(_PAGE_FOW | _PAGE_FOR),
++	[VM_EXEC | VM_READ]				= _PAGE_P(_PAGE_FOW),
++	[VM_EXEC | VM_WRITE]				= _PAGE_P(0),
++	[VM_EXEC | VM_WRITE | VM_READ]			= _PAGE_P(0),
++	[VM_SHARED]					= _PAGE_S(_PAGE_FOE | _PAGE_FOW |
++								  _PAGE_FOR),
++	[VM_SHARED | VM_READ]				= _PAGE_S(_PAGE_FOE | _PAGE_FOW),
++	[VM_SHARED | VM_WRITE]				= _PAGE_S(_PAGE_FOE),
++	[VM_SHARED | VM_WRITE | VM_READ]		= _PAGE_S(_PAGE_FOE),
++	[VM_SHARED | VM_EXEC]				= _PAGE_S(_PAGE_FOW | _PAGE_FOR),
++	[VM_SHARED | VM_EXEC | VM_READ]			= _PAGE_S(_PAGE_FOW),
++	[VM_SHARED | VM_EXEC | VM_WRITE]		= _PAGE_S(0),
++	[VM_SHARED | VM_EXEC | VM_WRITE | VM_READ]	= _PAGE_S(0)
 +};
 +DECLARE_VM_GET_PAGE_PROT
 -- 
