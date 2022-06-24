@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98BB1C433EF
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Jun 2022 05:13:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9260FC433EF
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Jun 2022 05:14:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=HCUtSd5lKvuIks48sxwzL4nkAnkL8QbndhQ1agJEJWY=; b=wDoD5w1zF544fl
-	743qB5T9hTgbZnf5PiaE+WtDSnscyX8y9TNRH52n+VhTz0rwTidMHHgA+RCqGeTFcO/q3YHkwm6TP
-	jdUCylMXiro/bAjLk/8FFYyYMQmTGGLEzGPUIzOr6ZcRpyZN5UbnGEi/0wHmvL5pYsmhDCCCByPbv
-	KMway2xn6O721YtnspkBBcS4Jg8IMAnOc8LDSmsnLbmTwJtOiGo0AFfsgG6+J44qpWyk8vYpgUbRE
-	IDmbqEDi5A4Q4aJxHdkfc6pqJmWL+8exmKEGW3S8vj0qPPS/tcaV6siF6UFIDzDqb7Agls7HHWc/D
-	VItEQ+YvKHhaWKCt7iuw==;
+	List-Owner; bh=hOuXMumminxDUUU3clqSWLrw1M4W6n2cLLOblumQpyA=; b=nakbEsh9PqjFjI
+	Q7qXoTDa/SYsm4+8TraF73Ko2CWMlxtmwkiC4xc1ODqMmEHTN5kBspCa4j+SJQ1XPcF4CMp7fEzZW
+	HvzxUjlSjtwDMylBUABm96WBO7ZmodM03BFAf8TMYHa4oYlByqkesWPn464sd7wF2JSmYLTtuDNDr
+	WlkJAWs82GfttzSeqdW5+lb/4dkVmpY5Jrhwohq/gHRq04KTxbId0YrLXseVGmB/Z9FOqivTdus07
+	1uvXZsfN5gtnAeKYbY4VOHk9gnrMAlM2V0vvPVJT5oUnuIZEB2fDy/FT4iYAEkxUjXt4BBDDKJ4mT
+	tiWELWHcwX1rVb5Nxw4w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4bdL-000We4-RR; Fri, 24 Jun 2022 05:13:31 +0000
+	id 1o4beE-000XBY-EK; Fri, 24 Jun 2022 05:14:26 +0000
 Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4bbK-000VKF-OJ; Fri, 24 Jun 2022 05:11:26 +0000
-Date: Thu, 23 Jun 2022 22:11:26 -0700
+	id 1o4bcN-000Vz9-1O; Fri, 24 Jun 2022 05:12:31 +0000
+Date: Thu, 23 Jun 2022 22:12:30 -0700
 From: Christoph Hellwig <hch@infradead.org>
 To: Anshuman Khandual <anshuman.khandual@arm.com>
 Cc: linux-mm@kvack.org, hch@infradead.org, christophe.leroy@csgroup.eu,
@@ -38,13 +38,13 @@ Cc: linux-mm@kvack.org, hch@infradead.org, christophe.leroy@csgroup.eu,
 	linux-snps-arc@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org, linux-um@lists.infradead.org,
 	linux-sh@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V4 26/26] mm/mmap: Drop ARCH_HAS_VM_GET_PAGE_PROT
-Message-ID: <YrVHfuWsRCDq8yWm@infradead.org>
+Subject: Re: [PATCH V4 00/26] mm/mmap: Drop __SXXX/__PXXX macros from across
+ platforms
+Message-ID: <YrVHvv0spuMsC1In@infradead.org>
 References: <20220624044339.1533882-1-anshuman.khandual@arm.com>
- <20220624044339.1533882-27-anshuman.khandual@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220624044339.1533882-27-anshuman.khandual@arm.com>
+In-Reply-To: <20220624044339.1533882-1-anshuman.khandual@arm.com>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,9 +61,19 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+On Fri, Jun 24, 2022 at 10:13:13AM +0530, Anshuman Khandual wrote:
+> vm_get_page_prot(), in order for it to be reused on platforms that do not
+> require custom implementation. Finally, ARCH_HAS_VM_GET_PAGE_PROT can just
+> be dropped, as all platforms now define and export vm_get_page_prot(), via
+> looking up a private and static protection_map[] array. protection_map[]
+> data type is the following for all platforms without deviation (except the
+> powerpc one which is shared between 32 and 64 bit platforms), keeping it
+> unchanged for now.
+> 
+> static pgprot_t protection_map[16] __ro_after_init
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+On most architectures this should be const now, only very few ever
+modify it.
 
 _______________________________________________
 linux-snps-arc mailing list
