@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9FEE5C433EF
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Jun 2022 05:10:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B4E13C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Jun 2022 05:11:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=HCUtSd5lKvuIks48sxwzL4nkAnkL8QbndhQ1agJEJWY=; b=Yj2fMqCV6EhpoM
-	teyEc0E8LmLrZ7RhOV++pja5Slq8Bmh1zyIO+M1MZrcLJhfxJstWDo/bnwq0iiAwNs773aSY1yxdy
-	XVWYIJZhHewhEpdFk8x5t+WvBBfDkn7MDbHHfP/tXytcNjiTR5Zu8PY0e6UgYvcUypHCjpgZNgMsP
-	1Zq+h35E4MKllAg7FmMV7MBlU9t7YQSuFm+MIKTtElghxuq9U9jVwnc/FVtPWe/5rj//0p9mwcw/B
-	TBWijGVDOjWPssjUGoex+CegXCVVYjOm0gzuwRqymSQofXjK8B5iIYKbBBU8rbWVzrORQtjdvpE1y
-	u4A35AT76vLS8yFdA2Lw==;
+	List-Owner; bh=MjkQZIj1EedikZ1WR5vgqytq+DF7Fc8Ax+6QfmTpOwY=; b=1a5urZkc3UDdIW
+	zVpcK5rDdeN9VC7luApTjbZI2uFvy2PR3FkJhwjF0vlWDIXKG3HhIWHqxAUKtEJNR5PbouCNGYv6v
+	xq7cnO+EqMYSjQYjnvWKWN1FKnOszlDseH19L5PDGu9mAGf4Aqzdt/cUIxg2nvxth85mDw4Z8DAmR
+	BZL+O2cmLgyx67v4MPi4VXugnBv5Zo2Jlb0yuw1p3ItM5Yp8uQbBV6mkqxG1SPAErUnP0zY90nEqY
+	Mqy8AxCJUZaImcE52NGeZw4QJX9KkB20P4MzDQ/+AEUOmizh455rUEYL8fB/FnubUH2uT+s4suERq
+	sK6lM+j+Pu60dRjmmMgg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4baS-000Uqj-Tc; Fri, 24 Jun 2022 05:10:32 +0000
+	id 1o4bbH-000VHU-1Y; Fri, 24 Jun 2022 05:11:23 +0000
 Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4bYc-000Ths-6G; Fri, 24 Jun 2022 05:08:38 +0000
-Date: Thu, 23 Jun 2022 22:08:38 -0700
+	id 1o4bZb-000UJf-9K; Fri, 24 Jun 2022 05:09:39 +0000
+Date: Thu, 23 Jun 2022 22:09:39 -0700
 From: Christoph Hellwig <hch@infradead.org>
 To: Anshuman Khandual <anshuman.khandual@arm.com>
 Cc: linux-mm@kvack.org, hch@infradead.org, christophe.leroy@csgroup.eu,
@@ -38,14 +38,13 @@ Cc: linux-mm@kvack.org, hch@infradead.org, christophe.leroy@csgroup.eu,
 	linux-snps-arc@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org, linux-um@lists.infradead.org,
 	linux-sh@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V4 01/26] mm/mmap: Build protect protection_map[] with
- __P000
-Message-ID: <YrVG1hohcGD56pwV@infradead.org>
+Subject: Re: [PATCH V4 02/26] mm/mmap: Define DECLARE_VM_GET_PAGE_PROT
+Message-ID: <YrVHEw6bjUf62Eh5@infradead.org>
 References: <20220624044339.1533882-1-anshuman.khandual@arm.com>
- <20220624044339.1533882-2-anshuman.khandual@arm.com>
+ <20220624044339.1533882-3-anshuman.khandual@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220624044339.1533882-2-anshuman.khandual@arm.com>
+In-Reply-To: <20220624044339.1533882-3-anshuman.khandual@arm.com>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,9 +61,16 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+On Fri, Jun 24, 2022 at 10:13:15AM +0530, Anshuman Khandual wrote:
+> This just converts the generic vm_get_page_prot() implementation into a new
+> macro i.e DECLARE_VM_GET_PAGE_PROT which later can be used across platforms
+> when enabling them with ARCH_HAS_VM_GET_PAGE_PROT. This does not create any
+> functional change.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+mm.h is a huhe header included by almost everything in the kernel.
+I'd rather have it in something only included in a few files.  If we
+can't find anything suitable it might be worth to add a header just
+for this even.
 
 _______________________________________________
 linux-snps-arc mailing list
