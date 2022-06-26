@@ -4,85 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0900C43334
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 25 Jun 2022 04:05:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1133C43334
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 26 Jun 2022 10:42:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=KodZX1yif2eo11ONfEs5t4L9tFhthcWtBHeZzQnZrlw=; b=aRGPHoSmtyp6CV
-	EFeRfgTcgd4dBPjiKzBj0ZI6NL0Oqwm2UD92QKx77W47jcvr6zte3X7oYOBR9UP9tI1JhEjAAlcGZ
-	TlGii/zGM70SWWzzdi/opbXGBsLWrD77C6xyjNr3M4myjBHnR/aNRNUR54vnAX5IsdQhKhzfz11pA
-	G/kX1fx4GoSOpgY4owdC3AmR0+PHUJ/7LfMNuzXj91KCiCr9o0sAqlNBsW8MfreUaHCWHveE0U80y
-	XlqQdzZyVSY+/m7hm9zczqCVI0idlTOeZH/6dM3EtQbB0G9tw35OrC7CekWTPg4/Z3co73DK1rjGE
-	G1R/LH4yvTAsQkSfNI8A==;
+	List-Owner; bh=MDFjvQ5wutjbWocNhCXKdbyEg8hNNDIeoY2MNgqffYI=; b=A3R9Y8GF9JTXLa
+	BxkQDUgm1X0p/evqAfl5YuZlt2Mta7dXvkZESBeLxgtdWlTZkVmun9ELbme5Zh/p3htwthglYl02q
+	q0xtGjCLlcjx9lVZVeeH9yV7jHnyfZUGFx2k71ncO7uLL/u6+DTVMeY38MvFs4L9OPjnjYW24KTu4
+	5aRugexve37nqMeM+22+UyWE06x5xPRaDxQEDn6X591xgZRhCEn4wdTquRAjj6qi0wjlZ+BhxkEtI
+	OfcSZVzkIhjs8/rpLQZ4gypwmQmazMgNIZ9TBpBR+vEF0cL4dyxpKtQfV0TQ8Ye9r+KFtbmbH1gL/
+	LdWiMvOPoXiXX/OU1TrA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4x2g-004ZlF-Mt; Sat, 25 Jun 2022 04:05:06 +0000
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
+	id 1o5PjF-00BFg2-7v; Sun, 26 Jun 2022 10:42:57 +0000
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o4x2b-004Zip-DP; Sat, 25 Jun 2022 04:05:03 +0000
-Received: by mail-pg1-x52e.google.com with SMTP id 184so4069226pga.12;
-        Fri, 24 Jun 2022 21:04:58 -0700 (PDT)
+	id 1o5PjD-00BFcq-4i
+	for linux-snps-arc@lists.infradead.org; Sun, 26 Jun 2022 10:42:56 +0000
+Received: by mail-ed1-x535.google.com with SMTP id o10so9312092edi.1
+        for <linux-snps-arc@lists.infradead.org>; Sun, 26 Jun 2022 03:42:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=WBt/btUb8fidp7Od3hgblEREGwTCWyy1gmQjOCfY3fU=;
-        b=U/9jOhfyin/xPm7/lhb3QQD5hUeqWoso3ZUE4nrDpj+uCxrVZoUa6Nd3Ck/My6d0yi
-         uppYCT29YGR4+ED265rzl5CvHaPa9jAGrevS8NrjQCL2swa/6jIuJFW7ijxN5Kwk3kBm
-         JV3zRaXX17ljjVxLWEmEYneBMjkOzcbgPwAATblJGSLPQW9zrru3NcHlbevjvxhjXf2X
-         4fZUXrqKoxs5SGRwhMih22jCYG6mLHxDBQ9QA+V/Ap/ZmZMWhJBLgf3cIDLH/WvFpZqO
-         6XUFzNOC5pd+9LH1sxuFUCYfWolIKgEMvYZ3auh92ECWjOyrr+qjV1d2Dawwr5UE8zHy
-         fSYQ==
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=+7oDvDolVgyiWCBP1kGvDhx2VojLawcjdaZLLC+Q36w=;
+        b=s6B+CpTs4RD/gcT1faaJi6ASL1l5+sjwqAltmmk46YurGaSsYbCZr16lzlZNTYBFtb
+         CiBnpSMUKdq0DlYTvdb5vsrU1gMOwRt5vsSFFr3TKOMJFbaYyA6TBoktOa+Bn4A5BGiI
+         KahyH4DScCPH6S/oe8Tz6vPR7r9Ewip0HtLcEUKs/mv2CkwDDgL6r5Fa0gpbJ9jJdAQ6
+         YY9DOOdDGKWldDluxU0eVDBwbqLZ1hQ209Pl8DX7SnKoqJy34VLuSqnBYS43673oKJ5Q
+         2ni2cU2cYyt/aoo32PmMZy1ewJOURm6AfBUtUScTZrdsZtx9+kAceYdpH5VwQR+im1ih
+         bATA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=WBt/btUb8fidp7Od3hgblEREGwTCWyy1gmQjOCfY3fU=;
-        b=51qLrMECtYCaDbOEMn+2LHi252voM63h3X9yajjPQgu466LCdP7Sc18l9egfqIIP0R
-         8NcPhlAWTGnMy1wRtmy9Zy/BghxLH1Klgj5L1mX0NwM3z77vJIr7effJi1G54IFEw6+z
-         X9/sgH/DZtdxD3alHY27/fX/MlVgZcEIl4jcLquN9oVyl31k+X6aw+XqTjG3HrRwM8vQ
-         /hw1IZWtslgV60uITGZme3Th5uiMRgwS1qFebe7USXqL2s4ad1ypLhlPcas1FqAhcA1A
-         biDqtvapbX/VC6p/ef+A2CRCmZDCmat9Fnp5Bj9igHaPgyG296XVf8DEkXDleDr0qESO
-         8ddA==
-X-Gm-Message-State: AJIora9usGLhFr/vQU3x4AKCb3bldSVJPDn20W7ZSMJ83NpuWGVzlXDY
-	+Cl+nHwW9ThTZX98DSoQX7s=
-X-Google-Smtp-Source: AGRyM1vLmqY6wDucr+TwoJMOmf3PJcPGDXbsAVQaOC2Ok2+1xpNGLbPuxQdolETx+44LH2D87vYqmw==
-X-Received: by 2002:a63:44:0:b0:40c:9f98:a172 with SMTP id 65-20020a630044000000b0040c9f98a172mr1947422pga.65.1656129897973;
-        Fri, 24 Jun 2022 21:04:57 -0700 (PDT)
-Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
-        by smtp.gmail.com with ESMTPSA id n1-20020a170902e54100b00168adae4eb2sm2579898plf.262.2022.06.24.21.04.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jun 2022 21:04:57 -0700 (PDT)
-Date: Sat, 25 Jun 2022 13:04:55 +0900
-From: Stafford Horne <shorne@gmail.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: linux-mm@kvack.org, linux-ia64@vger.kernel.org,
-	linux-sh@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-csky@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-riscv@lists.infradead.org, Jonas Bonn <jonas@southpole.se>,
-	linux-s390@vger.kernel.org, linux-hexagon@vger.kernel.org,
-	x86@kernel.org, christophe.leroy@csgroup.eu, hch@infradead.org,
-	linux-snps-arc@lists.infradead.org, linux-xtensa@linux-xtensa.org,
-	linux-um@lists.infradead.org, linux-m68k@lists.linux-m68k.org,
-	openrisc@lists.librecores.org, linux-arm-kernel@lists.infradead.org,
-	linux-parisc@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-alpha@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH V4 10/26] openrisc/mm: Enable ARCH_HAS_VM_GET_PAGE_PROT
-Message-ID: <YraJZ7OahapN5Y6z@antec>
-References: <20220624044339.1533882-1-anshuman.khandual@arm.com>
- <20220624044339.1533882-11-anshuman.khandual@arm.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=+7oDvDolVgyiWCBP1kGvDhx2VojLawcjdaZLLC+Q36w=;
+        b=a+M7M4m06ocwMzur5AxEmorv/Isd7TOJRxZs0AjWFiQpqpKjXGosTJQRJczOCNnzj/
+         7Rb/ypB88RxEdvzreRhAX7XI9lBrmutXFCdcoMCMPsASaWg8qXuwos+qUHylQbAjH9Xn
+         4MKxCi2r9RYvWcbtKw+5ZMg3EjWPxnFjG1Y+z99fPW+zQyySZ7RAUMEzw2NMnDm/vv+a
+         Fzs4XiKoc09zSlvgZWeVTrvFbj1pH6rgxkk+besr08yGsFwiRIk7PcaW8zGCahnqk/7H
+         Z+8OXuo/xSsN8fFW9TWJWtPTpE4M44D56pOen9N6/THlAgrXXQE3QERwrgZuFkFR41fS
+         BnFw==
+X-Gm-Message-State: AJIora8dlES5QU1N9x2dB1kt9nJu+8U0LWV29ZYJ6SxcF1IsQp2OECrP
+	jIwRWJsKk/HxRet+3KE1hYtihA==
+X-Google-Smtp-Source: AGRyM1u1d/DmBwJzEStyDHpQojeLaBFX8PgoTatK6v58i5U80IJg6lCXoo9PZ/Lil9R60f4Yaccg6A==
+X-Received: by 2002:a05:6402:2929:b0:435:6dfc:c4f2 with SMTP id ee41-20020a056402292900b004356dfcc4f2mr10120571edb.284.1656240170903;
+        Sun, 26 Jun 2022 03:42:50 -0700 (PDT)
+Received: from [192.168.0.239] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id p22-20020a170906839600b00711d5bc20d5sm3561921ejx.221.2022.06.26.03.42.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 26 Jun 2022 03:42:50 -0700 (PDT)
+Message-ID: <8b384f4e-7114-7afb-98d6-af71709525d6@linaro.org>
+Date: Sun, 26 Jun 2022 12:42:48 +0200
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20220624044339.1533882-11-anshuman.khandual@arm.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH RESEND v9 4/5] arm: dts: stih407-family: Harmonize DWC
+ USB3 DT nodes name
+Content-Language: en-US
+To: Serge Semin <fancer.lancer@gmail.com>
+Cc: Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Felipe Balbi <balbi@kernel.org>,
+ Michael Ellerman <mpe@ellerman.id.au>, Vladimir Zapolskiy <vz@mleia.com>,
+ Alexey Brodkin <abrodkin@synopsys.com>, Vineet Gupta <vgupta@synopsys.com>,
+ Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-usb@vger.kernel.org,
+ Patrice Chotard <patrice.chotard@foss.st.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Khuong Dinh <khuong@os.amperecomputing.com>,
+ Patrice Chotard <patrice.chotard@st.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Paul Mackerras <paulus@samba.org>, linux-arm-msm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ linux-snps-arc@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20220624141622.7149-1-Sergey.Semin@baikalelectronics.ru>
+ <20220624141622.7149-5-Sergey.Semin@baikalelectronics.ru>
+ <59d8a34a-a211-d00a-2243-6ad51cfa4204@linaro.org>
+ <20220624204524.nveittak6ruksuvq@mobilestation>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220624204524.nveittak6ruksuvq@mobilestation>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220624_210501_515481_879A14E6 
-X-CRM114-Status: GOOD (  16.25  )
+X-CRM114-CacheID: sfid-20220626_034255_239568_9D1B504D 
+X-CRM114-Status: GOOD (  15.00  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,96 +110,47 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jun 24, 2022 at 10:13:23AM +0530, Anshuman Khandual wrote:
-> This enables ARCH_HAS_VM_GET_PAGE_PROT on the platform and exports standard
-> vm_get_page_prot() implementation via DECLARE_VM_GET_PAGE_PROT, which looks
-> up a private and static protection_map[] array. Subsequently all __SXXX and
-> __PXXX macros can be dropped which are no longer needed.
+On 24/06/2022 22:45, Serge Semin wrote:
+> On Fri, Jun 24, 2022 at 07:18:57PM +0200, Krzysztof Kozlowski wrote:
+>> On 24/06/2022 16:16, Serge Semin wrote:
+>>> In accordance with the DWC USB3 bindings the corresponding node
+>>> name is suppose to comply with the Generic USB HCD DT schema, which
+>>> requires the USB nodes to have the name acceptable by the regexp:
+>>> "^usb(@.*)?" . Make sure the "snps,dwc3"-compatible nodes are correctly
+>>> named.
+>>>
+>>> Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+>>> Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
+>>> Reviewed-by: Patrice Chotard <patrice.chotard@st.com>
+>>> ---
+>>>  arch/arm/boot/dts/stih407-family.dtsi | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/arch/arm/boot/dts/stih407-family.dtsi b/arch/arm/boot/dts/stih407-family.dtsi
+>>> index 1713f7878117..7ba528315dbe 100644
+>>> --- a/arch/arm/boot/dts/stih407-family.dtsi
+>>> +++ b/arch/arm/boot/dts/stih407-family.dtsi
+>>> @@ -725,7 +725,7 @@ st_dwc3: dwc3@8f94000 {
+>>>  
+>>>  			status = "disabled";
+>>>  
+>>> -			dwc3: dwc3@9900000 {
+>>> +			dwc3: usb@9900000 {
+>>
 > 
-> Cc: Jonas Bonn <jonas@southpole.se>
-> Cc: openrisc@lists.librecores.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> ---
->  arch/openrisc/Kconfig               |  1 +
->  arch/openrisc/include/asm/pgtable.h | 18 ------------------
->  arch/openrisc/mm/init.c             | 20 ++++++++++++++++++++
->  3 files changed, 21 insertions(+), 18 deletions(-)
+>> This does not apply. What tree is it based on?
 > 
-> diff --git a/arch/openrisc/Kconfig b/arch/openrisc/Kconfig
-> index e814df4c483c..fe0dfb50eb86 100644
-> --- a/arch/openrisc/Kconfig
-> +++ b/arch/openrisc/Kconfig
-> @@ -10,6 +10,7 @@ config OPENRISC
->  	select ARCH_HAS_DMA_SET_UNCACHED
->  	select ARCH_HAS_DMA_CLEAR_UNCACHED
->  	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
-> +	select ARCH_HAS_VM_GET_PAGE_PROT
->  	select COMMON_CLK
->  	select OF
->  	select OF_EARLY_FLATTREE
-> diff --git a/arch/openrisc/include/asm/pgtable.h b/arch/openrisc/include/asm/pgtable.h
-> index c3abbf71e09f..dcae8aea132f 100644
-> --- a/arch/openrisc/include/asm/pgtable.h
-> +++ b/arch/openrisc/include/asm/pgtable.h
-> @@ -176,24 +176,6 @@ extern void paging_init(void);
->  	__pgprot(_PAGE_ALL | _PAGE_SRE | _PAGE_SWE \
->  		 | _PAGE_SHARED | _PAGE_DIRTY | _PAGE_EXEC | _PAGE_CI)
->  
-> -#define __P000	PAGE_NONE
-> -#define __P001	PAGE_READONLY_X
-> -#define __P010	PAGE_COPY
-> -#define __P011	PAGE_COPY_X
-> -#define __P100	PAGE_READONLY
-> -#define __P101	PAGE_READONLY_X
-> -#define __P110	PAGE_COPY
-> -#define __P111	PAGE_COPY_X
-> -
-> -#define __S000	PAGE_NONE
-> -#define __S001	PAGE_READONLY_X
-> -#define __S010	PAGE_SHARED
-> -#define __S011	PAGE_SHARED_X
-> -#define __S100	PAGE_READONLY
-> -#define __S101	PAGE_READONLY_X
-> -#define __S110	PAGE_SHARED
-> -#define __S111	PAGE_SHARED_X
-> -
->  /* zero page used for uninitialized stuff */
->  extern unsigned long empty_zero_page[2048];
->  #define ZERO_PAGE(vaddr) (virt_to_page(empty_zero_page))
-> diff --git a/arch/openrisc/mm/init.c b/arch/openrisc/mm/init.c
-> index 3a021ab6f1ae..a654b9dcba91 100644
-> --- a/arch/openrisc/mm/init.c
-> +++ b/arch/openrisc/mm/init.c
-> @@ -208,3 +208,23 @@ void __init mem_init(void)
->  	mem_init_done = 1;
->  	return;
->  }
-> +
-> +static pgprot_t protection_map[16] __ro_after_init = {
-> +	[VM_NONE]					= PAGE_NONE,
-> +	[VM_READ]					= PAGE_READONLY_X,
-> +	[VM_WRITE]					= PAGE_COPY,
-> +	[VM_WRITE | VM_READ]				= PAGE_COPY_X,
-> +	[VM_EXEC]					= PAGE_READONLY,
-> +	[VM_EXEC | VM_READ]				= PAGE_READONLY_X,
-> +	[VM_EXEC | VM_WRITE]				= PAGE_COPY,
-> +	[VM_EXEC | VM_WRITE | VM_READ]			= PAGE_COPY_X,
-> +	[VM_SHARED]					= PAGE_NONE,
-> +	[VM_SHARED | VM_READ]				= PAGE_READONLY_X,
-> +	[VM_SHARED | VM_WRITE]				= PAGE_SHARED,
-> +	[VM_SHARED | VM_WRITE | VM_READ]		= PAGE_SHARED_X,
-> +	[VM_SHARED | VM_EXEC]				= PAGE_READONLY,
-> +	[VM_SHARED | VM_EXEC | VM_READ]			= PAGE_READONLY_X,
-> +	[VM_SHARED | VM_EXEC | VM_WRITE]		= PAGE_SHARED,
-> +	[VM_SHARED | VM_EXEC | VM_WRITE | VM_READ]	= PAGE_SHARED_X
-> +};
-> +DECLARE_VM_GET_PAGE_PROT
+> That's weird. The series has been rebased onto the mainline kernel v5.19-rc3.
+> Do you have the stih407 dtsi fixed on your local repo?
 
-Looks good.
+It conflicts with my change:
+https://lore.kernel.org/all/20220526203632.831039-1-krzysztof.kozlowski@linaro.org/
 
-Acked-by: Stafford Horne <shorne@gmail.com>
+I'll apply with local fixups.
 
+
+Best regards,
+Krzysztof
 
 _______________________________________________
 linux-snps-arc mailing list
