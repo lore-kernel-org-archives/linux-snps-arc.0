@@ -4,97 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2261EC43334
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 26 Jun 2022 10:50:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA124CCA480
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 27 Jun 2022 04:59:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=VRy5Aj7vUM8pLVKd8sPeZMXESMI8dmn63tOEdynUOfg=; b=Ef9TtO/WU/hk4z
-	iXRvesm7CMp++SrYMoPAb0q1AXKS2wK2fe4wXGqM1xwJ4Vg6fMfmDz+sVYpQOc8AyrMqeJhUBajdI
-	iLjhyChcWtxny+bBlMOoEeNrpgw4lANudsTB8bKecncFNsCB4mCzhR861pGflMj3BALGFGMng+zES
-	aUtUHQdUnqjiOPxLHF5VZK40/yJkc0H2poQA4AGxJtF/cf0z33rBEHdvjyjWOXbdB04AMwFRVYXPs
-	wiHyX/9/G/bFlo2kncvu4QY4RQhpQl8Dag+qoLYy8WPLLwqSjLIC1l6PAUSSxhSOigyyzfGl578/c
-	3w1fsDpfBQkwElz8bLkA==;
+	List-Owner; bh=pY5D4zhIqOtKFFOrwwLWN3vIMxrSkg5bR/mqIu029UA=; b=EJ9+Ev30494VXn
+	jvTT0IoDhs2tCCNYYTAvNNen3nKGp5+LjIJtyCFtilRyRX5I6grSLsvFFLYR6LJx8YfVOU2MHkKFL
+	gWp4TUFg8Sprh7ueRnLA2ojwm8KDVDf6X5Nr3OFVggEYTWVHNfSdzHLPLyVtalrYr1AH2DG1VsHkH
+	oh/8N27TNfV0DjOSMMRAOxlZbM2b7ogIoX602dTOFC4SemIDO64y61N3kAYzDNFH1Np3Na4uYbZdo
+	xJ1szE2N0eB57IcHaz702dkhlfCkxQuvD1MEnyBZncOb5f8qphSskBbhDLrMCsgLLswR7CsE2mm3w
+	eDVU3n+TRxwwuDI9jBaw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o5Pqd-00BIXn-0j; Sun, 26 Jun 2022 10:50:35 +0000
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
-	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o5PqR-00BIRb-7o
-	for linux-snps-arc@lists.infradead.org; Sun, 26 Jun 2022 10:50:25 +0000
-Received: by mail-ej1-x629.google.com with SMTP id q6so13294485eji.13
-        for <linux-snps-arc@lists.infradead.org>; Sun, 26 Jun 2022 03:50:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=qm3saVsXQFyYF7XKRzCFxHnQjtvbQdpVuuv8fnV6oQQ=;
-        b=fe1iXci9tCe6L2xFZ3P7p/kc36HTF7DyalYl7LT5YmzKnyaEtnBgqkPALfoSYHafMe
-         5seSCpPDdR8BxgPRyhdnMFqxf3xe7G4yT13IqyEaN+mlk28EoUneItnD88p6ExFLvkMV
-         MLTO5q9Nu7Brxsbf/CaW+QS4TqRzAUsl5UG/Ogcjdy8CNSV3tsDX0u/EoStiY42fXP59
-         xWLSI3Nb67HE3r/kxb+JsRZdbZKmuNsfcQD74UeD3JknRSNoqpiT3xZlxr3mghMP0ORF
-         bdc7eXZCZn4C1vKzMxHkOzBUojeGzfPOKNKXbnFD9KRfG3VJ+nEcBbK9Ccl2Bv+ZLMVZ
-         EIaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=qm3saVsXQFyYF7XKRzCFxHnQjtvbQdpVuuv8fnV6oQQ=;
-        b=6UYJidvBs+AQ9Bhm/iJxLKaP7/dxqKC2wc4bo6+YGxpTB3flxZH4jIkshKfoWyVDO9
-         NMVq6kkgpa8NYGAUmwuUy0/EPnbtG10ePm1fesqEv5r9W3yutea6KRAY4/zEiE3XNCiG
-         TkHdVr9fNOMAIRo1PTsycIpgGezKN+HtFVyd+K9XxMqH3ami7oxiNnMlsT1Z9pMAhl6i
-         sDExIIZVPZkIO2cEyv1Ewz2Cv9VR8fAM5nF/ygrB9wt0D2rjlU8g8f0uM2iowOWo4qjS
-         pNNfuknWpT9c7zohGiTiCaSVkM4Tvk55kcGT9N4lbxWpp01SK878PDWS3me8FTA4TGqA
-         fXXA==
-X-Gm-Message-State: AJIora/RUFLNQICy9Epayd0JbpBhsbDQFJrGWUubEBOXbEQc+KocdD2/
-	Gmh2WG9Y7f3Nn3S4Xwcy4r/qqQ==
-X-Google-Smtp-Source: AGRyM1vsckuhI5W/5/+uG8dWjoP8xYOurUPiiZq7KICxgI9Tk9qBUslJdZ7qw4SBHIubDQ+UPYVtVg==
-X-Received: by 2002:a17:906:99c5:b0:6df:8215:4ccd with SMTP id s5-20020a17090699c500b006df82154ccdmr7281866ejn.684.1656240620912;
-        Sun, 26 Jun 2022 03:50:20 -0700 (PDT)
-Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id x6-20020aa7cd86000000b0043574d27ddasm5623845edv.16.2022.06.26.03.50.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jun 2022 03:50:20 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: bjorn.andersson@linaro.org,
-	mpe@ellerman.id.au,
-	vz@mleia.com,
-	robh@kernel.org,
-	abrodkin@synopsys.com,
-	krzysztof.kozlowski+dt@linaro.org,
-	robh+dt@kernel.org,
-	krzk@kernel.org,
-	balbi@kernel.org,
-	Sergey.Semin@baikalelectronics.ru,
-	agross@kernel.org,
-	gregkh@linuxfoundation.org,
-	vgupta@synopsys.com,
-	khuong@os.amperecomputing.com,
-	linux-usb@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-snps-arc@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	paulus@samba.org,
-	linux-arm-msm@vger.kernel.org,
+	id 1o5gqN-00FT4K-FJ; Mon, 27 Jun 2022 04:59:27 +0000
+Received: from foss.arm.com ([217.140.110.172])
+	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1o5gpx-00FSnP-Bv; Mon, 27 Jun 2022 04:59:02 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 11D5DD6E;
+	Sun, 26 Jun 2022 21:59:00 -0700 (PDT)
+Received: from a077893.blr.arm.com (unknown [10.162.42.6])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id EA3523F5A1;
+	Sun, 26 Jun 2022 21:58:51 -0700 (PDT)
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+To: linux-mm@kvack.org
+Cc: hch@infradead.org,
+	christophe.leroy@csgroup.eu,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
 	linuxppc-dev@lists.ozlabs.org,
-	patrice.chotard@st.com,
-	devicetree@vger.kernel.org,
-	fancer.lancer@gmail.com,
-	benh@kernel.crashing.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: (subset) [PATCH RESEND v9 5/5] arm64: dts: apm: Harmonize DWC USB3 DT nodes name
-Date: Sun, 26 Jun 2022 12:50:18 +0200
-Message-Id: <165624061445.7618.11344979529426500237.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220624141622.7149-6-Sergey.Semin@baikalelectronics.ru>
-References: <20220624141622.7149-1-Sergey.Semin@baikalelectronics.ru> <20220624141622.7149-6-Sergey.Semin@baikalelectronics.ru>
+	sparclinux@vger.kernel.org,
+	x86@kernel.org,
+	openrisc@lists.librecores.org,
+	linux-xtensa@linux-xtensa.org,
+	linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org,
+	linux-parisc@vger.kernel.org,
+	linux-alpha@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-ia64@vger.kernel.org,
+	linux-mips@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-um@lists.infradead.org,
+	linux-sh@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>
+Subject: [PATCH V5 01/26] mm/mmap: Build protect protection_map[] with __P000
+Date: Mon, 27 Jun 2022 10:28:08 +0530
+Message-Id: <20220627045833.1590055-2-anshuman.khandual@arm.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220627045833.1590055-1-anshuman.khandual@arm.com>
+References: <20220627045833.1590055-1-anshuman.khandual@arm.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220626_035023_327219_ED86BF3B 
-X-CRM114-Status: UNSURE (   8.15  )
+X-CRM114-CacheID: sfid-20220626_215901_488660_3DB4D918 
+X-CRM114-Status: UNSURE (   9.56  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -112,24 +83,59 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, 24 Jun 2022 17:16:21 +0300, Serge Semin wrote:
-> In accordance with the DWC USB3 bindings the corresponding node
-> name is suppose to comply with the Generic USB HCD DT schema, which
-> requires the USB nodes to have the name acceptable by the regexp:
-> "^usb(@.*)?" . Make sure the "snps,dwc3"-compatible nodes are correctly
-> named despite of the warning comment about possible backward
-> compatibility issues.
-> 
-> [...]
+Build protect generic protection_map[] array with __P000, so that it can be
+moved inside all the platforms one after the other. Otherwise there will be
+build failures during this process. CONFIG_ARCH_HAS_VM_GET_PAGE_PROT cannot
+be used for this purpose as only certain platforms enable this config now.
 
-Applied, thanks!
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-mm@kvack.org
+Cc: linux-kernel@vger.kernel.org
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Suggested-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+---
+ include/linux/mm.h | 2 ++
+ mm/mmap.c          | 2 ++
+ 2 files changed, 4 insertions(+)
 
-[5/5] arm64: dts: apm: Harmonize DWC USB3 DT nodes name
-      https://git.kernel.org/krzk/linux/c/fcf036a017b251d362559cf7eb0bb6e614ccf842
-
-Best regards,
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index bc8f326be0ce..47bfe038d46e 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -424,7 +424,9 @@ extern unsigned int kobjsize(const void *objp);
+  * mapping from the currently active vm_flags protection bits (the
+  * low four bits) to a page protection mask..
+  */
++#ifdef __P000
+ extern pgprot_t protection_map[16];
++#endif
+ 
+ /*
+  * The default fault flags that should be used by most of the
+diff --git a/mm/mmap.c b/mm/mmap.c
+index 61e6135c54ef..b01f0280bda2 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -101,6 +101,7 @@ static void unmap_region(struct mm_struct *mm,
+  *								w: (no) no
+  *								x: (yes) yes
+  */
++#ifdef __P000
+ pgprot_t protection_map[16] __ro_after_init = {
+ 	[VM_NONE]					= __P000,
+ 	[VM_READ]					= __P001,
+@@ -119,6 +120,7 @@ pgprot_t protection_map[16] __ro_after_init = {
+ 	[VM_SHARED | VM_EXEC | VM_WRITE]		= __S110,
+ 	[VM_SHARED | VM_EXEC | VM_WRITE | VM_READ]	= __S111
+ };
++#endif
+ 
+ #ifndef CONFIG_ARCH_HAS_VM_GET_PAGE_PROT
+ pgprot_t vm_get_page_prot(unsigned long vm_flags)
 -- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+2.25.1
+
 
 _______________________________________________
 linux-snps-arc mailing list
