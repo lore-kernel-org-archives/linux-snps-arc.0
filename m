@@ -4,123 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0CC78C433EF
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 28 Jun 2022 16:17:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A346C43334
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 28 Jun 2022 21:06:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=RvVZRHGDJqqc43PnMxHtQTRTjRdTIEkTf6hnZZMwzUQ=; b=H7hwCmm3wpY7/n
-	6iVyGySBTfQWq80gSuYOFE7/F9wybR26odWBoxVqRJ+KvymD8b5JanVuvDVh6DqQnAYzFHIKrDqVr
-	aGNk0jd4o8j15VTF7/OK5zcsqwB4gkmdcV/XCXqJPS+5dtbMvtnALd5E5gTJwQ4m6pKw1QSTrGhuU
-	/BuTXOWFwB0/Elny7RGJo0toPq7WbD57Pdptjj6nO6/D41GLZOOdz77VGOJXhVN69Bo5SsSCkfItA
-	T5EKkn0olKHAx9oedz9jsPO/AP2cwrmKLIBrTL88hlyFyfQtysJC/z7ZvTcko7GvXrj2yV/N4NYqO
-	Df6TwVj6Ya7umPByhR0Q==;
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:From:Subject:References:
+	Mime-Version:Message-Id:In-Reply-To:Date:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=UVc3/MIQD6pQPMv0xozX8ChMFyklsRKch0/Z4bADwtA=; b=h+dBgTG/QCfYSNm9CK+OD15xNP
+	VqbyVeJPh6/CodTcKxvrM0tMt/k7lXHeHXX1FPo+z6Obdwe1Q5U/rNUruFhN2QzzsvcZ4Zcm6D5Bd
+	j3Y66oVtm0kcMgdwqwQEtl0Az0bbWPebjCnrNsggOrYNjOTus2duwJQtMP4q1iVef2HtU8DxrcJcY
+	SBFO+tPBOqCg7FBYlssEAvZEuArev5zIVY1l52pEZVRLQ+q2dNo7XYQSCiDp0TmZb2Qdks7WMlzLU
+	5MAaNUXYG7UrlinNK2CLdVr7sV0+z1ufZ/gK13Iu7r4SfM0eNjVsHOkoVxHNhMk62QRvRe3JAtaxW
+	Q/xFfXCw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6Dtl-0079iX-OO; Tue, 28 Jun 2022 16:17:09 +0000
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b])
+	id 1o6IPq-008By9-PM; Tue, 28 Jun 2022 21:06:34 +0000
+Received: from mail-yw1-x114a.google.com ([2607:f8b0:4864:20::114a])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6Dti-0079fS-Ny
-	for linux-snps-arc@lists.infradead.org; Tue, 28 Jun 2022 16:17:08 +0000
-Received: by mail-yb1-xb2b.google.com with SMTP id g4so11506987ybg.9
-        for <linux-snps-arc@lists.infradead.org>; Tue, 28 Jun 2022 09:17:01 -0700 (PDT)
+	id 1o6IPi-008BtJ-0j
+	for linux-snps-arc@lists.infradead.org; Tue, 28 Jun 2022 21:06:28 +0000
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-31838c41186so114623197b3.23
+        for <linux-snps-arc@lists.infradead.org>; Tue, 28 Jun 2022 14:06:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=a+P6wSeN2x0ZvD2/JjzHKyqS9/n/5A6tY5jiA6Lhnb8=;
-        b=svPPiUXmjLu4A2+b3rJgoCqrzxWVmAH7KXTvVP4AwaLTDrIN9AN3BtNG2XiV2ycJ8x
-         6Y9oMX5BQlCl6K+KL9J1KxqNRcb1MdTb/c18nJgwvmc5rVyOe8EKUyj+KrCbNC70iJoL
-         OlJOsi9x5Scvw9W8cP8d/OYBAk6luTiA/PE8w/jzj7tOJ+ICpHFzyCnfh2xqrRn3YVLo
-         nvgpT4pJzONw4hikJOgq/y8DRHjrG2lOfrc2hEWRc02ovhuxlfgkK9/gOnTwVGME5DOU
-         4AXMX65QfUYiz76GEkrT/465op3M51kj45IkhJmeQobRe1+J32FVHZumFFaJBd9Gan88
-         /wYA==
+        bh=NBjk3KmSTe6O3r+cvxYAfwMjmFb8XoFUly9qB4s0+Dc=;
+        b=APNpMrpOxLHssUGRCp2dDrS3U6YDR8iMB9nY17tSekazF526G5tnofYcL+GneEuIZq
+         hwfpA5ih5ST2vJUY9ymc30ltjAQjNu9EcZrTXbBErDPAYmqsjCf4FF92zmM57HL6jXsv
+         LHZ2cQ9iGYKfcGfulX5G5FbKv/A86hgHPWTUt91XKAkWDwQtSelnXWA7E961ENKU0wEx
+         HDJqKslHHoT+0dvcREMQQkYnXgN73t/2I+gGC5DCxjw+U19FzS8RsJIOzWKprgGyO0PG
+         yt45zBIWo6DdlPfd6gdbfXGGSKc7Js8tqVdY6qDrumSz9qP5hG8AuDxVr1zlYoK3A6q+
+         V60Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=a+P6wSeN2x0ZvD2/JjzHKyqS9/n/5A6tY5jiA6Lhnb8=;
-        b=HtOhGZ1bRZO1qNPqpD0nR8sMudzOwO+QcPbOARJUmmrL+Is1+zvk5XP89HxrjTTaY7
-         kJva2J8WPwAEu6nwipooicNXdKjvtRW1X2fG9PW1cTGs/3M0hB2uXgKib14YvCRBsF7h
-         IaK3GjLnZE3C7dOjJcqDVLAfku5QbdkhD3UShtkK6Ul7G+l8Sva8mRIlej4H7OvsL9rl
-         qAnYRMqtapllMuRP6uF0M0+cf8NOzPlgMZezpG3CXrJdy5qkSB+R+xEwLqOIg/wiQn4h
-         gyJi0Cv0mdwmXrzYiIqsvnLK9gU//bbHZXkeBnbENdIr7f/+FKZ9p8KVakGHHft7Sg0h
-         72kQ==
-X-Gm-Message-State: AJIora8EXjmMIzBeDzWN/ZXCmgMsXS2w5GFquXpkt1yXHOFTawKCpIKe
-	/sFZXHqk75lG3yXDzDzXOfV+PkEc9y0+yoIftiWo/g==
-X-Google-Smtp-Source: AGRyM1vHa4WRnJlk4sln0xuJGdVhcpu8QS15R2N9PrbVvkglI7Nzwr0PBFdp1lTun6HJ/nUSS1O/TmeoEjFZPidRK0U=
-X-Received: by 2002:a25:5bc3:0:b0:669:b722:beb8 with SMTP id
- p186-20020a255bc3000000b00669b722beb8mr20258885ybb.447.1656433020483; Tue, 28
- Jun 2022 09:17:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220628020110.1601693-1-saravanak@google.com>
- <20220628020110.1601693-3-saravanak@google.com> <20220628140025.qpom64ptru4ub6fu@distanz.ch>
-In-Reply-To: <20220628140025.qpom64ptru4ub6fu@distanz.ch>
-From: Saravana Kannan <saravanak@google.com>
-Date: Tue, 28 Jun 2022 09:16:24 -0700
-Message-ID: <CAGETcx_7jS3H2cphiXdk=NBfmuPzsusEwPBx75n3PrP6YTnjnA@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] serial: Set probe_no_timeout for all DT based drivers
-To: Tobias Klauser <tklauser@distanz.ch>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Laurentiu Tudor <laurentiu.tudor@nxp.com>, Jiri Slaby <jirislaby@kernel.org>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, 
-	Paul Mackerras <paulus@samba.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, 
-	Florian Fainelli <f.fainelli@gmail.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Nicolas Saenz Julienne <nsaenz@kernel.org>, Al Cooper <alcooperx@gmail.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Paul Cercueil <paul@crapouillou.net>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Russell King <linux@armlinux.org.uk>, Vineet Gupta <vgupta@kernel.org>, 
-	Richard Genoud <richard.genoud@gmail.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Claudiu Beznea <claudiu.beznea@microchip.com>, Alexander Shiyan <shc_work@mail.ru>, 
-	Baruch Siach <baruch@tkos.co.il>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
-	Karol Gugala <kgugala@antmicro.com>, Mateusz Holenko <mholenko@antmicro.com>, 
-	Gabriel Somlo <gsomlo@gmail.com>, Neil Armstrong <narmstrong@baylibre.com>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Taichi Sugaya <sugaya.taichi@socionext.com>, Takao Orito <orito.takao@socionext.com>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Andy Gross <agross@kernel.org>, 
-	Bjorn Andersson <bjorn.andersson@linaro.org>, Pali Rohar <pali@kernel.org>, 
-	Andreas Farber <afaerber@suse.de>, Manivannan Sadhasivam <mani@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Laxman Dewangan <ldewangan@nvidia.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang7@gmail.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Patrice Chotard <patrice.chotard@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, "David S. Miller" <davem@davemloft.net>, 
-	Hammer Hsieh <hammerh0314@gmail.com>, Peter Korsgaard <jacmet@sunsite.dk>, Timur Tabi <timur@kernel.org>, 
-	Michal Simek <michal.simek@xilinx.com>, Rob Herring <robh@kernel.org>, 
-	sascha hauer <sha@pengutronix.de>, peng fan <peng.fan@nxp.com>, kevin hilman <khilman@kernel.org>, 
-	ulf hansson <ulf.hansson@linaro.org>, len brown <len.brown@intel.com>, 
-	pavel machek <pavel@ucw.cz>, joerg roedel <joro@8bytes.org>, will deacon <will@kernel.org>, 
-	andrew lunn <andrew@lunn.ch>, heiner kallweit <hkallweit1@gmail.com>, 
-	eric dumazet <edumazet@google.com>, jakub kicinski <kuba@kernel.org>, paolo abeni <pabeni@redhat.com>, 
-	linus walleij <linus.walleij@linaro.org>, hideaki yoshifuji <yoshfuji@linux-ipv6.org>, 
-	david ahern <dsahern@kernel.org>, kernel-team@android.com, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, iommu@lists.linux-foundation.org, 
-	netdev@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-serial@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org, 
-	linux-snps-arc@lists.infradead.org, linux-amlogic@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-actions@lists.infradead.org, 
-	linux-unisoc@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
-	sparclinux@vger.kernel.org, Ahmad Fatoum <a.fatoum@pengutronix.de>
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=NBjk3KmSTe6O3r+cvxYAfwMjmFb8XoFUly9qB4s0+Dc=;
+        b=Bb0lzTl7qiGd6fEG14L6Q71/XRrGk+AD8sd2sIi4kLQ8xDOoVeTNaJFukXgEHj0U84
+         kTOBlcJjGLNvKqPngMDE/W4xCbHY5G1CzcOARb52hpXpxz+mAHtQe6+P36/c5DJKxhmQ
+         iXjZpLmBWxYcdHTQyyyklAVDsAKwy/QYibQjqUsuz3JjYJ2gX2pjUSEEPI2gGOi1hGhe
+         LdaL9PvQcoFmOUWvZmcLFFk0/M/njC0gsROwpZOF6ZD34M9atZCHa4pc8qn7dvVnaJye
+         TRt9ZJA3foZqDl9rjXhBcCwoKs7Y2mK6FRerTzgB/ZlveRAhPj2UaT75/wJ2hhTm0+tw
+         +BvA==
+X-Gm-Message-State: AJIora84IJcXkz3YqWFcuv8COrqHusg/fec3XMv4cRKSxDq5vpzZWLj4
+	9wZNidBWbPKQucL72KvBEciNMnN6Q7HlCtsHN0U=
+X-Google-Smtp-Source: AGRyM1uqbxh15X0ffrMA2K/9ugnCtBuuiODCCvECKPIeqo/pFve31rlV2dvAY//fOQBVv4rrTPbVOCg7ZxjYvEYYrYU=
+X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:fc06:3025:c99d:2af7])
+ (user=ndesaulniers job=sendgmr) by 2002:a25:2185:0:b0:66c:97fb:f6ba with SMTP
+ id h127-20020a252185000000b0066c97fbf6bamr18361471ybh.169.1656450383533; Tue,
+ 28 Jun 2022 14:06:23 -0700 (PDT)
+Date: Tue, 28 Jun 2022 14:04:07 -0700
+In-Reply-To: <CA+55aFz2sNBbZyg-_i8_Ldr2e8o9dfvdSfHHuRzVtP2VMAUWPg@mail.gmail.com>
+Message-Id: <20220628210407.3343118-1-ndesaulniers@google.com>
+Mime-Version: 1.0
+References: <CA+55aFz2sNBbZyg-_i8_Ldr2e8o9dfvdSfHHuRzVtP2VMAUWPg@mail.gmail.com>
+X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=lvO/pmg+aaCb6dPhyGC1GyOCvPueDrrc8Zeso5CaGKE=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1656450247; l=9154;
+ s=20211004; h=from:subject; bh=gvpD1o/b8JZSfOr8fCp8TXjM9bVhNEAdI7IvLmzBEEE=;
+ b=nVhj4qFBlP9ZwYTN7PMDRYc5i+NSY2lfu1PyHgoG7UiKXpO4/BxXiJmVb9CLvzUlW9Ck7UIlIhpn
+ CPuZETO6BScAKn5vPYakOUaU35pM/Wk9wOP/6OzF2BDoriqIdGNb
+X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
+Subject: [PATCH] kbuild: drop support for CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
+From: Nick Desaulniers <ndesaulniers@google.com>
+To: Masahiro Yamada <masahiroy@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>
+Cc: arnd@arndb.de, bigeasy@linutronix.de, chris@chrisdown.name, 
+	dmitry.torokhov@gmail.com, gustavoars@kernel.org, john.ogness@linutronix.de, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	mikoxyzzz@gmail.com, nathan@kernel.org, ndesaulniers@google.com, 
+	oleksandr@redhat.com, quic_eberman@quicinc.com, seanjc@google.com, 
+	tglx@linutronix.de, vbabka@suse.cz, x86@kernel.org, 
+	linux-snps-arc@lists.infradead.org, Vineet Gupta <vgupta@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220628_091706_891544_0907DBB7 
-X-CRM114-Status: GOOD (  17.05  )
+X-CRM114-CacheID: sfid-20220628_140626_140951_ADBFAAA9 
+X-CRM114-Status: GOOD (  14.33  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -137,26 +97,245 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 28, 2022 at 7:00 AM Tobias Klauser <tklauser@distanz.ch> wrote:
->
-> On 2022-06-28 at 04:01:03 +0200, Saravana Kannan <saravanak@google.com> wrote:
-> > diff --git a/drivers/tty/serial/8250/8250_acorn.c b/drivers/tty/serial/8250/8250_acorn.c
-> > index 758c4aa203ab..5a6f2f67de4f 100644
-> > --- a/drivers/tty/serial/8250/8250_acorn.c
-> > +++ b/drivers/tty/serial/8250/8250_acorn.c
-> > @@ -114,7 +114,6 @@ static const struct ecard_id serial_cids[] = {
-> >  static struct ecard_driver serial_card_driver = {
-> >       .probe          = serial_card_probe,
-> >       .remove         = serial_card_remove,
-> > -     .id_table       = serial_cids,
->
-> Is this change intentional? All other drivers are only changed to set
-> .probe_no_time and I don't see anything mentioned in the commit message
-> re. this driver's change.
+The difference in most compilers between `-O3` and `-O2` is mostly down
+to whether loops with statically determinable trip counts are fully
+unrolled vs unrolled to a multiple of SIMD width.
 
-No, that's a mistake. Thanks for catching it! I'll check this patch again.
+This patch is effectively a revert of
+commit 15f5db60a137 ("kbuild,arc: add
+CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3 for ARC") without re-adding
+ARCH_CFLAGS
 
--Saravana
+Ever since
+commit cfdbc2e16e65 ("ARC: Build system: Makefiles, Kconfig, Linker
+script")
+ARC has been built with -O3, though the reason for doing so was not
+specified in inline comments or the commit message. This commit does not
+re-add -O3 to arch/arc/Makefile.
+
+Folks looking to experiment with `-O3` (or any compiler flag for that
+matter) may pass them along to the command line invocation of make:
+
+$ make KCFLAGS=-O3
+
+Code that looks to re-add an explicit Kconfig option for `-O3` should
+provide:
+1. A rigorous and reproducible performance profile of a reasonable
+   userspace workload that demonstrates a hot loop in the kernel that
+   would benefit from `-O3` over `-O2`.
+2. Disassembly of said loop body before and after.
+3. Provides stats on terms of increase in file size.
+
+Link: https://lore.kernel.org/linux-kbuild/CA+55aFz2sNBbZyg-_i8_Ldr2e8o9dfvdSfHHuRzVtP2VMAUWPg@mail.gmail.com/
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+ Makefile                                   | 2 --
+ arch/arc/configs/axs101_defconfig          | 1 -
+ arch/arc/configs/axs103_defconfig          | 1 -
+ arch/arc/configs/axs103_smp_defconfig      | 1 -
+ arch/arc/configs/haps_hs_defconfig         | 1 -
+ arch/arc/configs/haps_hs_smp_defconfig     | 1 -
+ arch/arc/configs/hsdk_defconfig            | 1 -
+ arch/arc/configs/nsim_700_defconfig        | 1 -
+ arch/arc/configs/nsimosci_defconfig        | 1 -
+ arch/arc/configs/nsimosci_hs_defconfig     | 1 -
+ arch/arc/configs/nsimosci_hs_smp_defconfig | 1 -
+ arch/arc/configs/tb10x_defconfig           | 1 -
+ arch/arc/configs/vdk_hs38_defconfig        | 1 -
+ arch/arc/configs/vdk_hs38_smp_defconfig    | 1 -
+ init/Kconfig                               | 7 -------
+ 15 files changed, 22 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 8973b285ce6c..b69f6cd7f2e2 100644
+--- a/Makefile
++++ b/Makefile
+@@ -755,8 +755,6 @@ KBUILD_CFLAGS	+= $(call cc-disable-warning, address-of-packed-member)
+ 
+ ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
+ KBUILD_CFLAGS += -O2
+-else ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
+-KBUILD_CFLAGS += -O3
+ else ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
+ KBUILD_CFLAGS += -Os
+ endif
+diff --git a/arch/arc/configs/axs101_defconfig b/arch/arc/configs/axs101_defconfig
+index 0016149f9583..e31a8ebc3ecc 100644
+--- a/arch/arc/configs/axs101_defconfig
++++ b/arch/arc/configs/axs101_defconfig
+@@ -9,7 +9,6 @@ CONFIG_NAMESPACES=y
+ # CONFIG_UTS_NS is not set
+ # CONFIG_PID_NS is not set
+ CONFIG_BLK_DEV_INITRD=y
+-CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
+ CONFIG_EMBEDDED=y
+ CONFIG_PERF_EVENTS=y
+ # CONFIG_VM_EVENT_COUNTERS is not set
+diff --git a/arch/arc/configs/axs103_defconfig b/arch/arc/configs/axs103_defconfig
+index 5b031582a1cf..e0e8567f0d75 100644
+--- a/arch/arc/configs/axs103_defconfig
++++ b/arch/arc/configs/axs103_defconfig
+@@ -9,7 +9,6 @@ CONFIG_NAMESPACES=y
+ # CONFIG_UTS_NS is not set
+ # CONFIG_PID_NS is not set
+ CONFIG_BLK_DEV_INITRD=y
+-CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
+ CONFIG_EMBEDDED=y
+ CONFIG_PERF_EVENTS=y
+ # CONFIG_VM_EVENT_COUNTERS is not set
+diff --git a/arch/arc/configs/axs103_smp_defconfig b/arch/arc/configs/axs103_smp_defconfig
+index d4eec39e0112..fcbc952bc75b 100644
+--- a/arch/arc/configs/axs103_smp_defconfig
++++ b/arch/arc/configs/axs103_smp_defconfig
+@@ -9,7 +9,6 @@ CONFIG_NAMESPACES=y
+ # CONFIG_UTS_NS is not set
+ # CONFIG_PID_NS is not set
+ CONFIG_BLK_DEV_INITRD=y
+-CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
+ CONFIG_EMBEDDED=y
+ CONFIG_PERF_EVENTS=y
+ # CONFIG_VM_EVENT_COUNTERS is not set
+diff --git a/arch/arc/configs/haps_hs_defconfig b/arch/arc/configs/haps_hs_defconfig
+index 7337cdf4ffdd..d87ad7e88d62 100644
+--- a/arch/arc/configs/haps_hs_defconfig
++++ b/arch/arc/configs/haps_hs_defconfig
+@@ -11,7 +11,6 @@ CONFIG_NAMESPACES=y
+ # CONFIG_UTS_NS is not set
+ # CONFIG_PID_NS is not set
+ CONFIG_BLK_DEV_INITRD=y
+-CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
+ CONFIG_EXPERT=y
+ CONFIG_PERF_EVENTS=y
+ # CONFIG_COMPAT_BRK is not set
+diff --git a/arch/arc/configs/haps_hs_smp_defconfig b/arch/arc/configs/haps_hs_smp_defconfig
+index bc927221afc0..8d82cdb7f86a 100644
+--- a/arch/arc/configs/haps_hs_smp_defconfig
++++ b/arch/arc/configs/haps_hs_smp_defconfig
+@@ -11,7 +11,6 @@ CONFIG_NAMESPACES=y
+ # CONFIG_UTS_NS is not set
+ # CONFIG_PID_NS is not set
+ CONFIG_BLK_DEV_INITRD=y
+-CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
+ CONFIG_EMBEDDED=y
+ CONFIG_PERF_EVENTS=y
+ # CONFIG_VM_EVENT_COUNTERS is not set
+diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
+index aa000075a575..f856b03e0fb5 100644
+--- a/arch/arc/configs/hsdk_defconfig
++++ b/arch/arc/configs/hsdk_defconfig
+@@ -9,7 +9,6 @@ CONFIG_NAMESPACES=y
+ # CONFIG_PID_NS is not set
+ CONFIG_BLK_DEV_INITRD=y
+ CONFIG_BLK_DEV_RAM=y
+-CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
+ CONFIG_EMBEDDED=y
+ CONFIG_PERF_EVENTS=y
+ # CONFIG_VM_EVENT_COUNTERS is not set
+diff --git a/arch/arc/configs/nsim_700_defconfig b/arch/arc/configs/nsim_700_defconfig
+index 326f6cde7826..a1ce12bf5b16 100644
+--- a/arch/arc/configs/nsim_700_defconfig
++++ b/arch/arc/configs/nsim_700_defconfig
+@@ -11,7 +11,6 @@ CONFIG_NAMESPACES=y
+ # CONFIG_UTS_NS is not set
+ # CONFIG_PID_NS is not set
+ CONFIG_BLK_DEV_INITRD=y
+-CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
+ CONFIG_KALLSYMS_ALL=y
+ CONFIG_EMBEDDED=y
+ CONFIG_PERF_EVENTS=y
+diff --git a/arch/arc/configs/nsimosci_defconfig b/arch/arc/configs/nsimosci_defconfig
+index bf39a0091679..ca10f4a2c823 100644
+--- a/arch/arc/configs/nsimosci_defconfig
++++ b/arch/arc/configs/nsimosci_defconfig
+@@ -10,7 +10,6 @@ CONFIG_NAMESPACES=y
+ # CONFIG_UTS_NS is not set
+ # CONFIG_PID_NS is not set
+ CONFIG_BLK_DEV_INITRD=y
+-CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
+ CONFIG_KALLSYMS_ALL=y
+ CONFIG_EMBEDDED=y
+ CONFIG_PERF_EVENTS=y
+diff --git a/arch/arc/configs/nsimosci_hs_defconfig b/arch/arc/configs/nsimosci_hs_defconfig
+index 7121bd71c543..31b6ec3683c6 100644
+--- a/arch/arc/configs/nsimosci_hs_defconfig
++++ b/arch/arc/configs/nsimosci_hs_defconfig
+@@ -10,7 +10,6 @@ CONFIG_NAMESPACES=y
+ # CONFIG_UTS_NS is not set
+ # CONFIG_PID_NS is not set
+ CONFIG_BLK_DEV_INITRD=y
+-CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
+ CONFIG_KALLSYMS_ALL=y
+ CONFIG_EMBEDDED=y
+ CONFIG_PERF_EVENTS=y
+diff --git a/arch/arc/configs/nsimosci_hs_smp_defconfig b/arch/arc/configs/nsimosci_hs_smp_defconfig
+index f9863b294a70..41a0037f48a5 100644
+--- a/arch/arc/configs/nsimosci_hs_smp_defconfig
++++ b/arch/arc/configs/nsimosci_hs_smp_defconfig
+@@ -8,7 +8,6 @@ CONFIG_IKCONFIG_PROC=y
+ # CONFIG_UTS_NS is not set
+ # CONFIG_PID_NS is not set
+ CONFIG_BLK_DEV_INITRD=y
+-CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
+ CONFIG_PERF_EVENTS=y
+ # CONFIG_COMPAT_BRK is not set
+ CONFIG_KPROBES=y
+diff --git a/arch/arc/configs/tb10x_defconfig b/arch/arc/configs/tb10x_defconfig
+index a12656ec0072..d93b65008d4a 100644
+--- a/arch/arc/configs/tb10x_defconfig
++++ b/arch/arc/configs/tb10x_defconfig
+@@ -14,7 +14,6 @@ CONFIG_INITRAMFS_SOURCE="../tb10x-rootfs.cpio"
+ CONFIG_INITRAMFS_ROOT_UID=2100
+ CONFIG_INITRAMFS_ROOT_GID=501
+ # CONFIG_RD_GZIP is not set
+-CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
+ CONFIG_KALLSYMS_ALL=y
+ # CONFIG_AIO is not set
+ CONFIG_EMBEDDED=y
+diff --git a/arch/arc/configs/vdk_hs38_defconfig b/arch/arc/configs/vdk_hs38_defconfig
+index d7c858df520c..0c3b21416819 100644
+--- a/arch/arc/configs/vdk_hs38_defconfig
++++ b/arch/arc/configs/vdk_hs38_defconfig
+@@ -4,7 +4,6 @@ CONFIG_HIGH_RES_TIMERS=y
+ CONFIG_IKCONFIG=y
+ CONFIG_IKCONFIG_PROC=y
+ CONFIG_BLK_DEV_INITRD=y
+-CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
+ CONFIG_EMBEDDED=y
+ CONFIG_PERF_EVENTS=y
+ # CONFIG_VM_EVENT_COUNTERS is not set
+diff --git a/arch/arc/configs/vdk_hs38_smp_defconfig b/arch/arc/configs/vdk_hs38_smp_defconfig
+index 015c1d43889e..f9ad9d3ee702 100644
+--- a/arch/arc/configs/vdk_hs38_smp_defconfig
++++ b/arch/arc/configs/vdk_hs38_smp_defconfig
+@@ -4,7 +4,6 @@ CONFIG_HIGH_RES_TIMERS=y
+ CONFIG_IKCONFIG=y
+ CONFIG_IKCONFIG_PROC=y
+ CONFIG_BLK_DEV_INITRD=y
+-CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
+ CONFIG_EMBEDDED=y
+ CONFIG_PERF_EVENTS=y
+ # CONFIG_VM_EVENT_COUNTERS is not set
+diff --git a/init/Kconfig b/init/Kconfig
+index c7900e8975f1..1b4d8acc3def 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -1401,13 +1401,6 @@ config CC_OPTIMIZE_FOR_PERFORMANCE
+ 	  with the "-O2" compiler flag for best performance and most
+ 	  helpful compile-time warnings.
+ 
+-config CC_OPTIMIZE_FOR_PERFORMANCE_O3
+-	bool "Optimize more for performance (-O3)"
+-	depends on ARC
+-	help
+-	  Choosing this option will pass "-O3" to your compiler to optimize
+-	  the kernel yet more for performance.
+-
+ config CC_OPTIMIZE_FOR_SIZE
+ 	bool "Optimize for size (-Os)"
+ 	help
+-- 
+2.37.0.rc0.161.g10f37bed90-goog
+
 
 _______________________________________________
 linux-snps-arc mailing list
