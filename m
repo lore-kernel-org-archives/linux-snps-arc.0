@@ -4,72 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0AD6CC43334
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 29 Jun 2022 11:09:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33CE0CCA47C
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 29 Jun 2022 12:20:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Gyz0B4Wczv41tH+CGiGLbE3MDqth/UnjG9UBjgbE6nE=; b=tcw0vB7csF0PDP
-	oy+4yrRf2lLIghc+WmuOlxmZQMSHDF2oWxH9Fy7vTKSWiRp/URtzrkRVlyCkrKIQA06eY3SU2EhHs
-	J2rkn/cYM3vtxy9DNZeONdLexVv4fwgqpDuIxN3U2DLSumJJMHSoxq/R+MPrZI67ohoDQqIqV3mDK
-	xVZaB/ZUt7795VrDaLGlQnzwqO7yXT23TnrqQnU/WJVoLi3sTaQDFF64k1ya7epIPKJ4pVQm90r2g
-	znorBOXoUmR1+oBqnsHml2V1Jxo0+fbmt+pUdnGy4Q+NYVgPWPEW5b3h2jGdRZRiMfR3zt8r3/ylS
-	I/yRLS6oXnuRJqTCqnJw==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=JA3Sw4cs/Yjw4vH6lMO/nu2UiXQAX6UQUA/Spp05VXM=; b=KI1PctE+CSuU2X
+	i+OykmilBjCzPuvmffiE4Ed8B8QBak6o9mOg2wM608m8hXcyExAgTnrD7fQZXTx6jmU0AI85j3a12
+	0WKAbTEvRJLe47CqsxoFnjBWVVbnl38xIbQmVzZvj37OH3izP1xKMzNtbk/USTzEKpH7+P+nb7+fJ
+	OBc1LLRRzPpW2Yddj6rJyzpY5++4sBKtQnFpqxIxGyxfxOpKJJLlQR5c0EwJoueIwWxWsX09kfsj1
+	n8y3bbkPga210h+gUjr5U/TmAr2C5JAtkV9z3dIv51llBe7kchlHcptXMGN1BU/FfSG1oqQEODUmt
+	iMY+4QXLsvHxVOo/g00A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6VZ9-00BHIP-5B; Wed, 29 Jun 2022 11:09:03 +0000
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b])
+	id 1o6Wfr-00BlCU-RH; Wed, 29 Jun 2022 12:20:03 +0000
+Received: from mga12.intel.com ([192.55.52.136])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6VFN-00B8vD-6D
-	for linux-snps-arc@lists.infradead.org; Wed, 29 Jun 2022 10:48:38 +0000
-Received: by mail-ed1-x52b.google.com with SMTP id ej4so21606531edb.7
-        for <linux-snps-arc@lists.infradead.org>; Wed, 29 Jun 2022 03:48:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=6LFOwjQrAynhPJz9w2u2YY2RBLCZh4UAS01+RkIiElc=;
-        b=dneHmp6YA1cG3nYmf9UuYKaCuH1hXRFEWx3WTF2ty6a9myUn2eqF9gjXMlXa3La8Gg
-         VC10gpLljqL1ooesc7h7mKvbpvw4hc0lzOguyePMZbTAyJTeHzCIAYaTqUgGd1r8dhWT
-         Kndakzd/rpUwN2ODtK1/UwYdfjYTxOAn92w7+RI4Jxk5julwlXtzRS2sN7B4ZSqOO3pW
-         Ad01BneYF9sAorQLTi1e/j4zfnLe5AfFh1bTHXZmNZ03jidbaYrl0VVPJ58gUFWJSZmh
-         EVlxxoxeco5L7nxDkaUNIzOcKfke+Px3y6xgv/EbCA8o+qxDRs6mco8veT05duUJs/VP
-         Ld6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6LFOwjQrAynhPJz9w2u2YY2RBLCZh4UAS01+RkIiElc=;
-        b=X3NABrWrDs2paOie3liMSZ3bCd0wmgA9sAfPKuH0Rl708a9yRQDFRIhS6VOMTzLEQc
-         fAzu/wE+FX26mUx0kFu15zLJ5tRXdWAsq3gT6r/kS/97d3a/nftDKUZL575qC2FjxaPP
-         /zN2V5u0P4LNP3RJQnCuk0NjK6QfITyEvetJN2WoiNunGK7ifFsOl2pZzm2My16CvNW0
-         LBKSB/wsDRmKHjAvTsf704tMZLEmU/x9auzvWOMgxMioGWpGqptF0upehJz+soGUhom4
-         LCsI/ySoxRrJNN0leXqJJA3q5iCI91CYnKQ4ZfSQPyIXoAT+RbifSwg4AxVaRaCqKZRv
-         KPPw==
-X-Gm-Message-State: AJIora92xdenKievC9zz9pdw+RzlXgYCs5JoDo1iSYR/P0ROS7yS5moW
-	YRuBSqeiKEFtb3PGobXnWUc=
-X-Google-Smtp-Source: AGRyM1vFiCAQXNLCOYQ/qrf/5NU8lfqplEuPbV4uIYv41Kuoos1HAZTnu7lkf/zQzOzHzELE8gkdpQ==
-X-Received: by 2002:a05:6402:3682:b0:435:b12e:57cd with SMTP id ej2-20020a056402368200b00435b12e57cdmr3396614edb.381.1656499714338;
-        Wed, 29 Jun 2022 03:48:34 -0700 (PDT)
-Received: from sakura.myxoz.lan (195-198-44-182-no2390.tbcn.telia.com. [195.198.44.182])
-        by smtp.gmail.com with ESMTPSA id l2-20020a170906078200b006fe89cafc42sm7676800ejc.172.2022.06.29.03.48.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jun 2022 03:48:33 -0700 (PDT)
-From: Miko Larsson <mikoxyzzz@gmail.com>
-To: Masahiro Yamada <masahiroy@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Nick Desaulniers <ndesaulniers@google.com>
-Cc: arnd@arndb.de, bigeasy@linutronix.de, chris@chrisdown.name, dmitry.torokhov@gmail.com, gustavoars@kernel.org, john.ogness@linutronix.de, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, nathan@kernel.org, ndesaulniers@google.com, oleksandr@redhat.com, quic_eberman@quicinc.com, seanjc@google.com, tglx@linutronix.de, vbabka@suse.cz, x86@kernel.org, linux-snps-arc@lists.infradead.org, Vineet Gupta <vgupta@kernel.org>
-Subject: Re: [PATCH] kbuild: drop support for CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
-Date: Wed, 29 Jun 2022 12:48:45 +0200
-Message-ID: <2842572.mvXUDI8C0e@sakura.myxoz.lan>
-In-Reply-To: <20220628210407.3343118-1-ndesaulniers@google.com>
-References: <CA+55aFz2sNBbZyg-_i8_Ldr2e8o9dfvdSfHHuRzVtP2VMAUWPg@mail.gmail.com> <20220628210407.3343118-1-ndesaulniers@google.com>
+	id 1o6Wfo-00Bl9u-Ba
+	for linux-snps-arc@lists.infradead.org; Wed, 29 Jun 2022 12:20:02 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656505200; x=1688041200;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mrHipDU49psuWPBRRqhj53k0wes2BjmJ9RddHbseGRU=;
+  b=Wwnqnjl+V/1YO59AKAOm/W4yhccV2ZpcRLc1DMZMG6GtvzI8sNg+pDkQ
+   d1zugpVHOli8lz/An7S5y1Qt8SjyziBQ+bMM8vvkI+LOY5fGdx+JrizmR
+   T+nU2kDEaOP6sAVpSmt8u18DoD0BZTOVTl4uJma7h3UNMQMIUAdvVprPr
+   BHBLMTxFuCzsL++RTLBYsJi+3ced940JRMzu8ntOcrqgUfTSFk3/ncMPa
+   JLXHBiprzzTspZJ41R+3ikiaYmc1R9U5gzSFE/gnaBovNqy0xs+Oh31Ag
+   svFfpkdhXg1xjdCcCfFmQIf1idcEmfqim3zYozsTgJNwCZHxlD0jeQbUa
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10392"; a="261817025"
+X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; 
+   d="scan'208";a="261817025"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2022 05:19:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; 
+   d="scan'208";a="658534435"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 29 Jun 2022 05:19:57 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+	(envelope-from <lkp@intel.com>)
+	id 1o6Wfk-000BAo-PN;
+	Wed, 29 Jun 2022 12:19:56 +0000
+Date: Wed, 29 Jun 2022 20:19:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vineet Gupta <vgupta@kernel.org>
+Cc: kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org
+Subject: arch/arc/kernel/smp.c:279:18: sparse: sparse: dereference of noderef
+ expression
+Message-ID: <202206292022.SsCP1iGg-lkp@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220629_034837_295628_B74C91FD 
-X-CRM114-Status: GOOD (  16.94  )
+X-CRM114-CacheID: sfid-20220629_052000_444618_0655489E 
+X-CRM114-Status: GOOD (  13.34  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,45 +80,89 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tuesday, 28 June 2022 23:04:07 CEST Nick Desaulniers wrote:
-> The difference in most compilers between `-O3` and `-O2` is mostly down
-> to whether loops with statically determinable trip counts are fully
-> unrolled vs unrolled to a multiple of SIMD width.
-> 
-> This patch is effectively a revert of
-> commit 15f5db60a137 ("kbuild,arc: add
-> CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3 for ARC") without re-adding
-> ARCH_CFLAGS
-> 
-> Ever since
-> commit cfdbc2e16e65 ("ARC: Build system: Makefiles, Kconfig, Linker
-> script")
-> ARC has been built with -O3, though the reason for doing so was not
-> specified in inline comments or the commit message. This commit does not
-> re-add -O3 to arch/arc/Makefile.
-> 
-> Folks looking to experiment with `-O3` (or any compiler flag for that
-> matter) may pass them along to the command line invocation of make:
-> 
-> $ make KCFLAGS=-O3
-> 
-> Code that looks to re-add an explicit Kconfig option for `-O3` should
-> provide:
-> 1. A rigorous and reproducible performance profile of a reasonable
->    userspace workload that demonstrates a hot loop in the kernel that
->    would benefit from `-O3` over `-O2`.
-> 2. Disassembly of said loop body before and after.
-> 3. Provides stats on terms of increase in file size.
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   941e3e7912696b9fbe3586083a7c2e102cee7a87
+commit: e188f3330a13df904d77003846eafd3edf99009d ARC: cmpxchg/xchg: rewrite as macros to make type safe
+date:   10 months ago
+config: arc-randconfig-s031-20220629 (https://download.01.org/0day-ci/archive/20220629/202206292022.SsCP1iGg-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 11.3.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e188f3330a13df904d77003846eafd3edf99009d
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout e188f3330a13df904d77003846eafd3edf99009d
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arc SHELL=/bin/bash arch/arc/kernel/
 
-Might be worth cleaning up the rest of the kernel of instances of -O3,
-too. -O3 used to build lz4 and mips vdso, for instance. Might be a bit
-of a digression, though
-
---
-~miko
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
 
+sparse warnings: (new ones prefixed by >>)
+   arch/arc/kernel/smp.c:264:48: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *ipi_data_ptr @@     got unsigned long * @@
+   arch/arc/kernel/smp.c:264:48: sparse:     expected unsigned long [noderef] __percpu *ipi_data_ptr
+   arch/arc/kernel/smp.c:264:48: sparse:     got unsigned long *
+   arch/arc/kernel/smp.c:279:18: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *v @@     got unsigned long [noderef] __percpu *__ai_ptr @@
+   arch/arc/kernel/smp.c:279:18: sparse:     expected void const volatile *v
+   arch/arc/kernel/smp.c:279:18: sparse:     got unsigned long [noderef] __percpu *__ai_ptr
+   arch/arc/kernel/smp.c:277:29: sparse: sparse: cast removes address space '__percpu' of expression
+   arch/arc/kernel/smp.c:413:72: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected void [noderef] __percpu *percpu_dev_id @@     got int *dev @@
+   arch/arc/kernel/smp.c:413:72: sparse:     expected void [noderef] __percpu *percpu_dev_id
+   arch/arc/kernel/smp.c:413:72: sparse:     got int *dev
+>> arch/arc/kernel/smp.c:279:18: sparse: sparse: dereference of noderef expression
+>> arch/arc/kernel/smp.c:279:18: sparse: sparse: dereference of noderef expression
+
+vim +279 arch/arc/kernel/smp.c
+
+41195d236e84458 Vineet Gupta    2013-01-18  261  
+ddf84433f411b61 Vineet Gupta    2013-11-25  262  static void ipi_send_msg_one(int cpu, enum ipi_msg_type msg)
+41195d236e84458 Vineet Gupta    2013-01-18  263  {
+f2a4aa5646687f9 Vineet Gupta    2013-11-26  264  	unsigned long __percpu *ipi_data_ptr = per_cpu_ptr(&ipi_data, cpu);
+d8e8c7dda11f5d5 Vineet Gupta    2013-11-28  265  	unsigned long old, new;
+41195d236e84458 Vineet Gupta    2013-01-18  266  	unsigned long flags;
+41195d236e84458 Vineet Gupta    2013-01-18  267  
+f2a4aa5646687f9 Vineet Gupta    2013-11-26  268  	pr_debug("%d Sending msg [%d] to %d\n", smp_processor_id(), msg, cpu);
+f2a4aa5646687f9 Vineet Gupta    2013-11-26  269  
+41195d236e84458 Vineet Gupta    2013-01-18  270  	local_irq_save(flags);
+41195d236e84458 Vineet Gupta    2013-01-18  271  
+d8e8c7dda11f5d5 Vineet Gupta    2013-11-28  272  	/*
+d8e8c7dda11f5d5 Vineet Gupta    2013-11-28  273  	 * Atomically write new msg bit (in case others are writing too),
+d8e8c7dda11f5d5 Vineet Gupta    2013-11-28  274  	 * and read back old value
+d8e8c7dda11f5d5 Vineet Gupta    2013-11-28  275  	 */
+d8e8c7dda11f5d5 Vineet Gupta    2013-11-28  276  	do {
+6aa7de059173a98 Mark Rutland    2017-10-23  277  		new = old = READ_ONCE(*ipi_data_ptr);
+d8e8c7dda11f5d5 Vineet Gupta    2013-11-28  278  		new |= 1U << msg;
+d8e8c7dda11f5d5 Vineet Gupta    2013-11-28 @279  	} while (cmpxchg(ipi_data_ptr, old, new) != old);
+41195d236e84458 Vineet Gupta    2013-01-18  280  
+d8e8c7dda11f5d5 Vineet Gupta    2013-11-28  281  	/*
+d8e8c7dda11f5d5 Vineet Gupta    2013-11-28  282  	 * Call the platform specific IPI kick function, but avoid if possible:
+d8e8c7dda11f5d5 Vineet Gupta    2013-11-28  283  	 * Only do so if there's no pending msg from other concurrent sender(s).
+82a423053eb3cf2 Changcheng Deng 2021-08-14  284  	 * Otherwise, receiver will see this msg as well when it takes the
+d8e8c7dda11f5d5 Vineet Gupta    2013-11-28  285  	 * IPI corresponding to that msg. This is true, even if it is already in
+d8e8c7dda11f5d5 Vineet Gupta    2013-11-28  286  	 * IPI handler, because !@old means it has not yet dequeued the msg(s)
+d8e8c7dda11f5d5 Vineet Gupta    2013-11-28  287  	 * so @new msg can be a free-loader
+d8e8c7dda11f5d5 Vineet Gupta    2013-11-28  288  	 */
+d8e8c7dda11f5d5 Vineet Gupta    2013-11-28  289  	if (plat_smp_ops.ipi_send && !old)
+ddf84433f411b61 Vineet Gupta    2013-11-25  290  		plat_smp_ops.ipi_send(cpu);
+41195d236e84458 Vineet Gupta    2013-01-18  291  
+41195d236e84458 Vineet Gupta    2013-01-18  292  	local_irq_restore(flags);
+41195d236e84458 Vineet Gupta    2013-01-18  293  }
+41195d236e84458 Vineet Gupta    2013-01-18  294  
+
+:::::: The code at line 279 was first introduced by commit
+:::::: d8e8c7dda11f5d5cf90495f2e89d917a83509bc0 ARC: [SMP] optimize IPI send and receive
+
+:::::: TO: Vineet Gupta <vgupta@synopsys.com>
+:::::: CC: Vineet Gupta <vgupta@synopsys.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
 
 _______________________________________________
 linux-snps-arc mailing list
