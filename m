@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8B2DC43334
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 30 Jun 2022 05:23:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D05CEC43334
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 30 Jun 2022 05:23:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=VDMtTgsKi741wiUdp0lQ/gYdH94fFNN7j8ulwhF8/QY=; b=XHWT+Vyd8TKoEu
-	eaSdYxdGjdhCWx4LraZwNXKX2VnwlIoRDLd1N8Aqr2iFObMq77ss/UNatq9JzH9xT8FO8NLP6g5kH
-	yj8GvvX1/dA1UOHuWfalTdR6XkChPjnaoYF3QpTUdBugZoadkpo71VkWZZ3sa7WDjuNzEyMq8JKmS
-	FPc839IOwmyhd9k6rb5wbK5ytKofCHz/1qxEc7KmDjE91FuuzMxoDq08JA9uoZbCPF2No1JbyUCYI
-	dk4m42zmYut67SHt37SI88Bvk7axvyodBT+LrHBfHhBQtNf8IzfMAzhFWEi7ey2T1NUZpZcMNWVZN
-	v2AKknIORSo++AWmAq/Q==;
+	List-Owner; bh=QRF4nLV1kiqX6zLB38isxx/HErGeizqYDpZvX5S/0sQ=; b=gS0niG7K6+tPCu
+	smHw9SjO3DGZdajbVi0l71RLSIKuKRL2W4Udlv3hxJ3/IulZFi9eTN2AVN2tMnl4tPZo9Da1tDv8e
+	ullRvLjCzA+mfXf5u5Ysv5qGOVEbqlPrk9zhRW9vpxWz+ZRp0ZpKyCm5iHXDlE2Bv0QKqWz7Jj6nP
+	g2v3FsRQfZ58xJ+KQ+Ju0j1L8ZFVKmoh8aRrrD3DQ+ECvBWKL1Wpk9mG92OioIBM9mDU4eghykNcI
+	b4vGzXqsPCvGNuH2IxOEueQUCrneYZXXPFehnjAtKEw77fFXQz5kEH9H52pLkbFK9cUNHUOI3MQQc
+	OAkp2UnpX7AEvsC3qKoA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6me3-00FAjS-El; Thu, 30 Jun 2022 05:23:15 +0000
+	id 1o6meb-00FB6C-6T; Thu, 30 Jun 2022 05:23:49 +0000
 Received: from foss.arm.com ([217.140.110.172])
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6mZ3-00F7Xx-RA; Thu, 30 Jun 2022 05:18:08 +0000
+	id 1o6mZC-00F7fe-Rw; Thu, 30 Jun 2022 05:18:16 +0000
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EFF6F175D;
-	Wed, 29 Jun 2022 22:18:04 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F2C1A1763;
+	Wed, 29 Jun 2022 22:18:13 -0700 (PDT)
 Received: from a077893.blr.arm.com (unknown [10.162.41.8])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 824DB3F66F;
-	Wed, 29 Jun 2022 22:17:56 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 52FE73F66F;
+	Wed, 29 Jun 2022 22:18:05 -0700 (PDT)
 From: Anshuman Khandual <anshuman.khandual@arm.com>
 To: linux-mm@kvack.org,
 	akpm@linux-foundation.org
@@ -55,18 +55,18 @@ Cc: hch@infradead.org,
 	linux-um@lists.infradead.org,
 	linux-sh@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>
-Subject: [PATCH V6 09/26] loongarch/mm: Enable ARCH_HAS_VM_GET_PAGE_PROT
-Date: Thu, 30 Jun 2022 10:46:13 +0530
-Message-Id: <20220630051630.1718927-10-anshuman.khandual@arm.com>
+	Jonas Bonn <jonas@southpole.se>,
+	Stafford Horne <shorne@gmail.com>
+Subject: [PATCH V6 10/26] openrisc/mm: Enable ARCH_HAS_VM_GET_PAGE_PROT
+Date: Thu, 30 Jun 2022 10:46:14 +0530
+Message-Id: <20220630051630.1718927-11-anshuman.khandual@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220630051630.1718927-1-anshuman.khandual@arm.com>
 References: <20220630051630.1718927-1-anshuman.khandual@arm.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220629_221806_104420_43842E4E 
-X-CRM114-Status: UNSURE (   8.05  )
+X-CRM114-CacheID: sfid-20220629_221815_033950_B348E17D 
+X-CRM114-Status: UNSURE (   8.78  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -89,110 +89,84 @@ vm_get_page_prot() implementation via DECLARE_VM_GET_PAGE_PROT, which looks
 up a private and static protection_map[] array. Subsequently all __SXXX and
 __PXXX macros can be dropped which are no longer needed.
 
-Cc: Huacai Chen <chenhuacai@kernel.org>
-Cc: WANG Xuerui <kernel@xen0n.name>
+Cc: Jonas Bonn <jonas@southpole.se>
+Cc: openrisc@lists.librecores.org
 Cc: linux-kernel@vger.kernel.org
+Acked-by: Stafford Horne <shorne@gmail.com>
 Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
 ---
- arch/loongarch/Kconfig                    |  1 +
- arch/loongarch/include/asm/pgtable-bits.h | 19 ----------
- arch/loongarch/mm/cache.c                 | 46 +++++++++++++++++++++++
- 3 files changed, 47 insertions(+), 19 deletions(-)
+ arch/openrisc/Kconfig               |  1 +
+ arch/openrisc/include/asm/pgtable.h | 18 ------------------
+ arch/openrisc/mm/init.c             | 20 ++++++++++++++++++++
+ 3 files changed, 21 insertions(+), 18 deletions(-)
 
-diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
-index 1920d52653b4..fd07b8e760ee 100644
---- a/arch/loongarch/Kconfig
-+++ b/arch/loongarch/Kconfig
-@@ -9,6 +9,7 @@ config LOONGARCH
- 	select ARCH_HAS_ACPI_TABLE_UPGRADE	if ACPI
- 	select ARCH_HAS_PHYS_TO_DMA
- 	select ARCH_HAS_PTE_SPECIAL
+diff --git a/arch/openrisc/Kconfig b/arch/openrisc/Kconfig
+index e814df4c483c..fe0dfb50eb86 100644
+--- a/arch/openrisc/Kconfig
++++ b/arch/openrisc/Kconfig
+@@ -10,6 +10,7 @@ config OPENRISC
+ 	select ARCH_HAS_DMA_SET_UNCACHED
+ 	select ARCH_HAS_DMA_CLEAR_UNCACHED
+ 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
 +	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
- 	select ARCH_INLINE_READ_LOCK if !PREEMPTION
- 	select ARCH_INLINE_READ_LOCK_BH if !PREEMPTION
-diff --git a/arch/loongarch/include/asm/pgtable-bits.h b/arch/loongarch/include/asm/pgtable-bits.h
-index 3badd112d9ab..9ca147a29bab 100644
---- a/arch/loongarch/include/asm/pgtable-bits.h
-+++ b/arch/loongarch/include/asm/pgtable-bits.h
-@@ -83,25 +83,6 @@
- 				 _PAGE_GLOBAL | _PAGE_KERN |  _CACHE_SUC)
- #define PAGE_KERNEL_WUC __pgprot(_PAGE_PRESENT | __READABLE | __WRITEABLE | \
- 				 _PAGE_GLOBAL | _PAGE_KERN |  _CACHE_WUC)
--
--#define __P000 __pgprot(_CACHE_CC | _PAGE_USER | _PAGE_PROTNONE | _PAGE_NO_EXEC | _PAGE_NO_READ)
--#define __P001 __pgprot(_CACHE_CC | _PAGE_VALID | _PAGE_USER | _PAGE_PRESENT | _PAGE_NO_EXEC)
--#define __P010 __pgprot(_CACHE_CC | _PAGE_VALID | _PAGE_USER | _PAGE_PRESENT | _PAGE_NO_EXEC)
--#define __P011 __pgprot(_CACHE_CC | _PAGE_VALID | _PAGE_USER | _PAGE_PRESENT | _PAGE_NO_EXEC)
--#define __P100 __pgprot(_CACHE_CC | _PAGE_VALID | _PAGE_USER | _PAGE_PRESENT)
--#define __P101 __pgprot(_CACHE_CC | _PAGE_VALID | _PAGE_USER | _PAGE_PRESENT)
--#define __P110 __pgprot(_CACHE_CC | _PAGE_VALID | _PAGE_USER | _PAGE_PRESENT)
--#define __P111 __pgprot(_CACHE_CC | _PAGE_VALID | _PAGE_USER | _PAGE_PRESENT)
--
--#define __S000 __pgprot(_CACHE_CC | _PAGE_USER | _PAGE_PROTNONE | _PAGE_NO_EXEC | _PAGE_NO_READ)
--#define __S001 __pgprot(_CACHE_CC | _PAGE_VALID | _PAGE_USER | _PAGE_PRESENT | _PAGE_NO_EXEC)
--#define __S010 __pgprot(_CACHE_CC | _PAGE_VALID | _PAGE_USER | _PAGE_PRESENT | _PAGE_NO_EXEC | _PAGE_WRITE)
--#define __S011 __pgprot(_CACHE_CC | _PAGE_VALID | _PAGE_USER | _PAGE_PRESENT | _PAGE_NO_EXEC | _PAGE_WRITE)
--#define __S100 __pgprot(_CACHE_CC | _PAGE_VALID | _PAGE_USER | _PAGE_PRESENT)
--#define __S101 __pgprot(_CACHE_CC | _PAGE_VALID | _PAGE_USER | _PAGE_PRESENT)
--#define __S110 __pgprot(_CACHE_CC | _PAGE_VALID | _PAGE_USER | _PAGE_PRESENT | _PAGE_WRITE)
--#define __S111 __pgprot(_CACHE_CC | _PAGE_VALID | _PAGE_USER | _PAGE_PRESENT | _PAGE_WRITE)
--
- #ifndef __ASSEMBLY__
+ 	select COMMON_CLK
+ 	select OF
+ 	select OF_EARLY_FLATTREE
+diff --git a/arch/openrisc/include/asm/pgtable.h b/arch/openrisc/include/asm/pgtable.h
+index c3abbf71e09f..dcae8aea132f 100644
+--- a/arch/openrisc/include/asm/pgtable.h
++++ b/arch/openrisc/include/asm/pgtable.h
+@@ -176,24 +176,6 @@ extern void paging_init(void);
+ 	__pgprot(_PAGE_ALL | _PAGE_SRE | _PAGE_SWE \
+ 		 | _PAGE_SHARED | _PAGE_DIRTY | _PAGE_EXEC | _PAGE_CI)
  
- #define pgprot_noncached pgprot_noncached
-diff --git a/arch/loongarch/mm/cache.c b/arch/loongarch/mm/cache.c
-index 9e5ce5aa73f7..e8c68dcf6ab2 100644
---- a/arch/loongarch/mm/cache.c
-+++ b/arch/loongarch/mm/cache.c
-@@ -139,3 +139,49 @@ void cpu_cache_init(void)
- 
- 	shm_align_mask = PAGE_SIZE - 1;
+-#define __P000	PAGE_NONE
+-#define __P001	PAGE_READONLY_X
+-#define __P010	PAGE_COPY
+-#define __P011	PAGE_COPY_X
+-#define __P100	PAGE_READONLY
+-#define __P101	PAGE_READONLY_X
+-#define __P110	PAGE_COPY
+-#define __P111	PAGE_COPY_X
+-
+-#define __S000	PAGE_NONE
+-#define __S001	PAGE_READONLY_X
+-#define __S010	PAGE_SHARED
+-#define __S011	PAGE_SHARED_X
+-#define __S100	PAGE_READONLY
+-#define __S101	PAGE_READONLY_X
+-#define __S110	PAGE_SHARED
+-#define __S111	PAGE_SHARED_X
+-
+ /* zero page used for uninitialized stuff */
+ extern unsigned long empty_zero_page[2048];
+ #define ZERO_PAGE(vaddr) (virt_to_page(empty_zero_page))
+diff --git a/arch/openrisc/mm/init.c b/arch/openrisc/mm/init.c
+index 3a021ab6f1ae..d531ab82be12 100644
+--- a/arch/openrisc/mm/init.c
++++ b/arch/openrisc/mm/init.c
+@@ -208,3 +208,23 @@ void __init mem_init(void)
+ 	mem_init_done = 1;
+ 	return;
  }
 +
 +static const pgprot_t protection_map[16] = {
-+	[VM_NONE]					= __pgprot(_CACHE_CC | _PAGE_USER |
-+								   _PAGE_PROTNONE | _PAGE_NO_EXEC |
-+								   _PAGE_NO_READ),
-+	[VM_READ]					= __pgprot(_CACHE_CC | _PAGE_VALID |
-+								   _PAGE_USER | _PAGE_PRESENT |
-+								   _PAGE_NO_EXEC),
-+	[VM_WRITE]					= __pgprot(_CACHE_CC | _PAGE_VALID |
-+								   _PAGE_USER | _PAGE_PRESENT |
-+								   _PAGE_NO_EXEC),
-+	[VM_WRITE | VM_READ]				= __pgprot(_CACHE_CC | _PAGE_VALID |
-+								   _PAGE_USER | _PAGE_PRESENT |
-+								   _PAGE_NO_EXEC),
-+	[VM_EXEC]					= __pgprot(_CACHE_CC | _PAGE_VALID |
-+								   _PAGE_USER | _PAGE_PRESENT),
-+	[VM_EXEC | VM_READ]				= __pgprot(_CACHE_CC | _PAGE_VALID |
-+								   _PAGE_USER | _PAGE_PRESENT),
-+	[VM_EXEC | VM_WRITE]				= __pgprot(_CACHE_CC | _PAGE_VALID |
-+								   _PAGE_USER | _PAGE_PRESENT),
-+	[VM_EXEC | VM_WRITE | VM_READ]			= __pgprot(_CACHE_CC | _PAGE_VALID |
-+								   _PAGE_USER | _PAGE_PRESENT),
-+	[VM_SHARED]					= __pgprot(_CACHE_CC | _PAGE_USER |
-+								   _PAGE_PROTNONE | _PAGE_NO_EXEC |
-+								   _PAGE_NO_READ),
-+	[VM_SHARED | VM_READ]				= __pgprot(_CACHE_CC | _PAGE_VALID |
-+								   _PAGE_USER | _PAGE_PRESENT |
-+								   _PAGE_NO_EXEC),
-+	[VM_SHARED | VM_WRITE]				= __pgprot(_CACHE_CC | _PAGE_VALID |
-+								   _PAGE_USER | _PAGE_PRESENT |
-+								   _PAGE_NO_EXEC | _PAGE_WRITE),
-+	[VM_SHARED | VM_WRITE | VM_READ]		= __pgprot(_CACHE_CC | _PAGE_VALID |
-+								   _PAGE_USER | _PAGE_PRESENT |
-+								   _PAGE_NO_EXEC | _PAGE_WRITE),
-+	[VM_SHARED | VM_EXEC]				= __pgprot(_CACHE_CC | _PAGE_VALID |
-+								   _PAGE_USER | _PAGE_PRESENT),
-+	[VM_SHARED | VM_EXEC | VM_READ]			= __pgprot(_CACHE_CC | _PAGE_VALID |
-+								   _PAGE_USER | _PAGE_PRESENT),
-+	[VM_SHARED | VM_EXEC | VM_WRITE]		= __pgprot(_CACHE_CC | _PAGE_VALID |
-+								   _PAGE_USER | _PAGE_PRESENT |
-+								   _PAGE_WRITE),
-+	[VM_SHARED | VM_EXEC | VM_WRITE | VM_READ]	= __pgprot(_CACHE_CC | _PAGE_VALID |
-+								   _PAGE_USER | _PAGE_PRESENT |
-+								   _PAGE_WRITE)
++	[VM_NONE]					= PAGE_NONE,
++	[VM_READ]					= PAGE_READONLY_X,
++	[VM_WRITE]					= PAGE_COPY,
++	[VM_WRITE | VM_READ]				= PAGE_COPY_X,
++	[VM_EXEC]					= PAGE_READONLY,
++	[VM_EXEC | VM_READ]				= PAGE_READONLY_X,
++	[VM_EXEC | VM_WRITE]				= PAGE_COPY,
++	[VM_EXEC | VM_WRITE | VM_READ]			= PAGE_COPY_X,
++	[VM_SHARED]					= PAGE_NONE,
++	[VM_SHARED | VM_READ]				= PAGE_READONLY_X,
++	[VM_SHARED | VM_WRITE]				= PAGE_SHARED,
++	[VM_SHARED | VM_WRITE | VM_READ]		= PAGE_SHARED_X,
++	[VM_SHARED | VM_EXEC]				= PAGE_READONLY,
++	[VM_SHARED | VM_EXEC | VM_READ]			= PAGE_READONLY_X,
++	[VM_SHARED | VM_EXEC | VM_WRITE]		= PAGE_SHARED,
++	[VM_SHARED | VM_EXEC | VM_WRITE | VM_READ]	= PAGE_SHARED_X
 +};
 +DECLARE_VM_GET_PAGE_PROT
 -- 
