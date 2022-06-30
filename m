@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8AD6ECCA47B
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 30 Jun 2022 05:17:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF8FEC43334
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 30 Jun 2022 05:17:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=hL/+vxUgzQmaPWPRdTXgC8PDL0Geu150Ha+YscR7BZ0=; b=2lEMyDT3ju98DL
-	xelGNZVEhvoNyAM2HCWQW78Sb2/mfn1Ui6Brp5OcLOvb3RV3kIJ2njErRm7T7lhqDk+0NABef/nNb
-	WsWCD5LF5ybMefZ41G397sSLmvFtCOTn36MkZQOzdYteMWTX5Xw5yWdKIFxd/uRC1cYcHIV24ByFf
-	PvXAELfDcVULplScyTxcc8gs9gg2nzL2KAmsgzKUDjltFf2xfmemNTlh64y/iyES2N52HRZrgoper
-	sbBmdTA564SbQGPWsm0K72XCEmEbV0RNRVh821fjUW9SyuE12ucV7B7XIxnL75Hw4CBPnIUZZy5FI
-	ZWEbsWj+ppWpUjOcmlxQ==;
+	List-Owner; bh=j4zdGHoK+kOoo4QsbIa1kYN2Bu35CYgHkOLV0IRZy2E=; b=k5wfrzSI7ly5oD
+	MlcCCh8/wSaPHGB2srdiav9G2VFENxYGMGhk0fmbRXvrGs3Y33Kw5tGZyZQD+bzT+1kkunH1A5iik
+	il0FVs+8XrkZsU59Oq+nffbegF5u2uW4T/4sXKk0TNSSDPqW9Fb7LX0YYxlRIHoV6Opj7bGNxiO8V
+	XPvkQzZ09EaowN4ZI6dST3wtlBxfzpcWDGoFwXTe9lxWNmAPqG5/YlAwfUwQIzq7W4itENflW675e
+	qSSpxlLInu0OTOXX7tFMjK4k7X/R7nbTc2scGkYJdWK0akq4z6d+rk0yANVucqsJEStVs4gv8VMA6
+	0k/zkPND199Ae3mrcgDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6mYJ-00F70h-8B; Thu, 30 Jun 2022 05:17:19 +0000
+	id 1o6mYZ-00F7BT-CQ; Thu, 30 Jun 2022 05:17:35 +0000
 Received: from foss.arm.com ([217.140.110.172])
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6mXx-00F6sK-OF; Thu, 30 Jun 2022 05:16:59 +0000
+	id 1o6mY5-00F6tm-4M; Thu, 30 Jun 2022 05:17:06 +0000
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E5BC11480;
-	Wed, 29 Jun 2022 22:16:54 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3A42114BF;
+	Wed, 29 Jun 2022 22:17:03 -0700 (PDT)
 Received: from a077893.blr.arm.com (unknown [10.162.41.8])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C35FE3F66F;
-	Wed, 29 Jun 2022 22:16:46 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 48C723F66F;
+	Wed, 29 Jun 2022 22:16:55 -0700 (PDT)
 From: Anshuman Khandual <anshuman.khandual@arm.com>
 To: linux-mm@kvack.org,
 	akpm@linux-foundation.org
@@ -54,19 +54,17 @@ Cc: hch@infradead.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-um@lists.infradead.org,
 	linux-sh@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>
-Subject: [PATCH V6 01/26] mm/mmap: Build protect protection_map[] with __P000
-Date: Thu, 30 Jun 2022 10:46:05 +0530
-Message-Id: <20220630051630.1718927-2-anshuman.khandual@arm.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH V6 02/26] mm/mmap: Define DECLARE_VM_GET_PAGE_PROT
+Date: Thu, 30 Jun 2022 10:46:06 +0530
+Message-Id: <20220630051630.1718927-3-anshuman.khandual@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220630051630.1718927-1-anshuman.khandual@arm.com>
 References: <20220630051630.1718927-1-anshuman.khandual@arm.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220629_221657_859207_21326410 
-X-CRM114-Status: UNSURE (   9.79  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220629_221705_287697_AC7C2F1E 
+X-CRM114-Status: GOOD (  11.78  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,57 +81,103 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Build protect generic protection_map[] array with __P000, so that it can be
-moved inside all the platforms one after the other. Otherwise there will be
-build failures during this process. CONFIG_ARCH_HAS_VM_GET_PAGE_PROT cannot
-be used for this purpose as only certain platforms enable this config now.
+This just converts the generic vm_get_page_prot() implementation into a new
+macro i.e DECLARE_VM_GET_PAGE_PROT which later can be used across platforms
+when enabling them with ARCH_HAS_VM_GET_PAGE_PROT. This does not create any
+functional change.
 
 Cc: Andrew Morton <akpm@linux-foundation.org>
 Cc: linux-mm@kvack.org
 Cc: linux-kernel@vger.kernel.org
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-Suggested-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+Suggested-by: Christoph Hellwig <hch@infradead.org>
 Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
 ---
- include/linux/mm.h | 2 ++
- mm/mmap.c          | 2 ++
- 2 files changed, 4 insertions(+)
+ include/linux/pgtable.h | 28 ++++++++++++++++++++++++++++
+ mm/mmap.c               | 26 +-------------------------
+ 2 files changed, 29 insertions(+), 25 deletions(-)
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index cf3d0d673f6b..0ff0a1bad091 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -424,7 +424,9 @@ extern unsigned int kobjsize(const void *objp);
-  * mapping from the currently active vm_flags protection bits (the
-  * low four bits) to a page protection mask..
-  */
-+#ifdef __P000
- extern pgprot_t protection_map[16];
-+#endif
+diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+index 3cdc16cfd867..014ee8f0fbaa 100644
+--- a/include/linux/pgtable.h
++++ b/include/linux/pgtable.h
+@@ -1689,4 +1689,32 @@ typedef unsigned int pgtbl_mod_mask;
+ #define MAX_PTRS_PER_P4D PTRS_PER_P4D
+ #endif
  
- /*
-  * The default fault flags that should be used by most of the
++/* description of effects of mapping type and prot in current implementation.
++ * this is due to the limited x86 page protection hardware.  The expected
++ * behavior is in parens:
++ *
++ * map_type	prot
++ *		PROT_NONE	PROT_READ	PROT_WRITE	PROT_EXEC
++ * MAP_SHARED	r: (no) no	r: (yes) yes	r: (no) yes	r: (no) yes
++ *		w: (no) no	w: (no) no	w: (yes) yes	w: (no) no
++ *		x: (no) no	x: (no) yes	x: (no) yes	x: (yes) yes
++ *
++ * MAP_PRIVATE	r: (no) no	r: (yes) yes	r: (no) yes	r: (no) yes
++ *		w: (no) no	w: (no) no	w: (copy) copy	w: (no) no
++ *		x: (no) no	x: (no) yes	x: (no) yes	x: (yes) yes
++ *
++ * On arm64, PROT_EXEC has the following behaviour for both MAP_SHARED and
++ * MAP_PRIVATE (with Enhanced PAN supported):
++ *								r: (no) no
++ *								w: (no) no
++ *								x: (yes) yes
++ */
++#define DECLARE_VM_GET_PAGE_PROT					\
++pgprot_t vm_get_page_prot(unsigned long vm_flags)			\
++{									\
++		return protection_map[vm_flags &			\
++			(VM_READ | VM_WRITE | VM_EXEC | VM_SHARED)];	\
++}									\
++EXPORT_SYMBOL(vm_get_page_prot);
++
+ #endif /* _LINUX_PGTABLE_H */
 diff --git a/mm/mmap.c b/mm/mmap.c
-index 61e6135c54ef..b01f0280bda2 100644
+index b01f0280bda2..b46d5e931bb3 100644
 --- a/mm/mmap.c
 +++ b/mm/mmap.c
-@@ -101,6 +101,7 @@ static void unmap_region(struct mm_struct *mm,
-  *								w: (no) no
-  *								x: (yes) yes
-  */
-+#ifdef __P000
+@@ -81,26 +81,6 @@ static void unmap_region(struct mm_struct *mm,
+ 		struct vm_area_struct *vma, struct vm_area_struct *prev,
+ 		unsigned long start, unsigned long end);
+ 
+-/* description of effects of mapping type and prot in current implementation.
+- * this is due to the limited x86 page protection hardware.  The expected
+- * behavior is in parens:
+- *
+- * map_type	prot
+- *		PROT_NONE	PROT_READ	PROT_WRITE	PROT_EXEC
+- * MAP_SHARED	r: (no) no	r: (yes) yes	r: (no) yes	r: (no) yes
+- *		w: (no) no	w: (no) no	w: (yes) yes	w: (no) no
+- *		x: (no) no	x: (no) yes	x: (no) yes	x: (yes) yes
+- *
+- * MAP_PRIVATE	r: (no) no	r: (yes) yes	r: (no) yes	r: (no) yes
+- *		w: (no) no	w: (no) no	w: (copy) copy	w: (no) no
+- *		x: (no) no	x: (no) yes	x: (no) yes	x: (yes) yes
+- *
+- * On arm64, PROT_EXEC has the following behaviour for both MAP_SHARED and
+- * MAP_PRIVATE (with Enhanced PAN supported):
+- *								r: (no) no
+- *								w: (no) no
+- *								x: (yes) yes
+- */
+ #ifdef __P000
  pgprot_t protection_map[16] __ro_after_init = {
  	[VM_NONE]					= __P000,
- 	[VM_READ]					= __P001,
-@@ -119,6 +120,7 @@ pgprot_t protection_map[16] __ro_after_init = {
- 	[VM_SHARED | VM_EXEC | VM_WRITE]		= __S110,
- 	[VM_SHARED | VM_EXEC | VM_WRITE | VM_READ]	= __S111
- };
-+#endif
+@@ -123,11 +103,7 @@ pgprot_t protection_map[16] __ro_after_init = {
+ #endif
  
  #ifndef CONFIG_ARCH_HAS_VM_GET_PAGE_PROT
- pgprot_t vm_get_page_prot(unsigned long vm_flags)
+-pgprot_t vm_get_page_prot(unsigned long vm_flags)
+-{
+-	return protection_map[vm_flags & (VM_READ|VM_WRITE|VM_EXEC|VM_SHARED)];
+-}
+-EXPORT_SYMBOL(vm_get_page_prot);
++DECLARE_VM_GET_PAGE_PROT
+ #endif	/* CONFIG_ARCH_HAS_VM_GET_PAGE_PROT */
+ 
+ static pgprot_t vm_pgprot_modify(pgprot_t oldprot, unsigned long vm_flags)
 -- 
 2.25.1
 
