@@ -4,68 +4,125 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A51CC43334
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 30 Jun 2022 05:37:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B715FC433EF
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 Jul 2022 02:30:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=3wTNhN9xs02PceiNEq4mL8pbIGdeNg+w8sRxTiN6a9Y=; b=dgNtA+pKzqd4Fn
-	0Cha03TLHbhce86kRT6Evn+pTxJWIszgSSZn2l5d3oRRpJcIQpTEVUA7USq0l+iNUdoEzjLzkSHtr
-	F/n/3TNyMvRMNCbZk1jo0bGY3YwnfTbZC6/hJeFCi5LJZHW011vzXIQd9CrkDUxYg0YdoHSsHKffw
-	Yz0XN0Z3td6+cvjSPBG2r5PNoND/8l1TtNwJHiWA7axrnfdtlLVJ/vhyZ22kHE4onZa/6e11OU5wR
-	WU8pG1oclbLnkMAmYPNQ0O0/AZWtOwAjc3d5jCdDOBNUyEMwFtSTtbH3DOVtDEJknkwM0uG+mFADv
-	6rKUKSBRDJTJEUqP9ExA==;
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:From:Subject:References:
+	Mime-Version:Message-Id:In-Reply-To:Date:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=538z5MvBYdDRZRTAGx8Awtto9urRcTqNg/oXqb2g7Mc=; b=3B/cifrIk7BuHRGd8BUgjwT1kH
+	V0b6S3SI1vpV55L9gm9Aa4vhPgOiYFTeo7tozDRndF9/RzWADgpzny05t+D2x5IE3XrxuvAX5565F
+	6Co4o9E9WDMTJLd8mvnQdz2zZyXNEtJE7sCnB+yP+anodS2U3/jfzAYcKODl2Iz94fLPuGwPY8Nnk
+	Dt49KB/j32JC1z6CZDzuJ4frPHSuiUOHwfUAkCuudnpxon1tuVd4/F3e60BW2+ZamseUtxr4FNCxW
+	EE/g/teQNjobsXgQEZwJ9O4QGykbEV0hrYkrX171QlkQTkvrQ6rBw2+puHA/LUOv5h/v7RHmFBH2+
+	WQ0tN/fw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6mrz-00FIxG-Cw; Thu, 30 Jun 2022 05:37:39 +0000
-Received: from foss.arm.com ([217.140.110.172])
-	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o6mbR-00F9FE-2u; Thu, 30 Jun 2022 05:20:40 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 532E71BC0;
-	Wed, 29 Jun 2022 22:20:32 -0700 (PDT)
-Received: from a077893.blr.arm.com (unknown [10.162.41.8])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D96BE3F66F;
-	Wed, 29 Jun 2022 22:20:23 -0700 (PDT)
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-To: linux-mm@kvack.org,
-	akpm@linux-foundation.org
-Cc: hch@infradead.org,
-	christophe.leroy@csgroup.eu,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	linuxppc-dev@lists.ozlabs.org,
-	sparclinux@vger.kernel.org,
-	x86@kernel.org,
-	openrisc@lists.librecores.org,
-	linux-xtensa@linux-xtensa.org,
-	linux-csky@vger.kernel.org,
-	linux-hexagon@vger.kernel.org,
-	linux-parisc@vger.kernel.org,
-	linux-alpha@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org,
-	linux-ia64@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-um@lists.infradead.org,
-	linux-sh@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>
-Subject: [PATCH V6 26/26] mm/mmap: Drop ARCH_HAS_VM_GET_PAGE_PROT
-Date: Thu, 30 Jun 2022 10:46:30 +0530
-Message-Id: <20220630051630.1718927-27-anshuman.khandual@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220630051630.1718927-1-anshuman.khandual@arm.com>
-References: <20220630051630.1718927-1-anshuman.khandual@arm.com>
-MIME-Version: 1.0
+	id 1o76Qr-002QLY-Ln; Fri, 01 Jul 2022 02:30:57 +0000
+Received: from mail-pg1-x549.google.com ([2607:f8b0:4864:20::549])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1o75Qw-002H5f-8z
+	for linux-snps-arc@lists.infradead.org; Fri, 01 Jul 2022 01:27:02 +0000
+Received: by mail-pg1-x549.google.com with SMTP id r142-20020a632b94000000b0040c978aef47so492309pgr.10
+        for <linux-snps-arc@lists.infradead.org>; Thu, 30 Jun 2022 18:26:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=N2ZBZX0ts4Mk2TYGZHAbQ0+iD2FAHUFhD02Oe5yw0x8=;
+        b=O1+XSLj0oSVLFId1abGtsY3tm0452of7YtoG6NXZHX/e84inEivfhRvPM2mxa0YyIW
+         IVE4lsrSj5BWadwFDlAWpmHnRK/doKl5AOePnDPGsAS+cA+NgfaWURouVPcfJ+UegMnP
+         gFn2YJgYpdS58AkA+jg1y+IJirkP1kEzvd9LDdSLlSQ/Sq4aCkWSKEc/oTe6fZiOhW65
+         BjkrHlyKrTJJXC29sJDuGTXqd5/40GhwO7WCZbDbcQB2MuJGIhtqAJ7KaIiPcGoYN1l9
+         s4fr0zbsiZbvNiOgTU00jLdLs0pkeLRUFjFRS2ioFddA+CNMuoRvkffPzuaP06JwXoHV
+         SNqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=N2ZBZX0ts4Mk2TYGZHAbQ0+iD2FAHUFhD02Oe5yw0x8=;
+        b=kqmjAKjT1C3cdX1YCUxw9o3fxU7rZ3NN8YKf3magkQ8QaNwQD6c3/W3dVrMsC+5xfD
+         8uquCedPOUzFfUxgAKMVCUyh3/2ZS35G0VLWblD7tTI1X0+TqJqhgG+15E95Pjkycnow
+         tJE++TgsrCogDZ+CxNHdf2HH+qNYvfZat2NqmLzS7rRWIeSCasYNBWgo0eS/5pOf8F6d
+         UwFDmQzAXOOnkBdI9LEETjSb+bLTH2GDRvR+vTrNVMqnj2MRWBdHHGk3p0DjjinvVrrt
+         pxfA33+KHDK+uSCq4DEFOE36AY9ZXviw8CiXm02ArgsNZuP59fUBgPxuHcqqv2y+aK47
+         cNgQ==
+X-Gm-Message-State: AJIora+c/j6dYLbN5PH6vYr9A2u50VWMSYH7TM8inxG42Sn5BgnvTCLU
+	u/ZeGNUN6S5ZQrJ55HNsk/kcl2FM0fsN28c=
+X-Google-Smtp-Source: AGRyM1sj2jrR3+blrSHPqJTzLp24osPeSbuJ6WFdrG/ishciKwr2k4mXrnUZAcDZaxDsMilQN7eUGTW8uxdoZkM=
+X-Received: from saravanak.san.corp.google.com ([2620:15c:2d:3:3973:d0f0:34a8:bf61])
+ (user=saravanak job=sendgmr) by 2002:a05:6a00:1995:b0:525:bca8:b062 with SMTP
+ id d21-20020a056a00199500b00525bca8b062mr18860129pfl.26.1656638814784; Thu,
+ 30 Jun 2022 18:26:54 -0700 (PDT)
+Date: Thu, 30 Jun 2022 18:26:39 -0700
+In-Reply-To: <20220701012647.2007122-1-saravanak@google.com>
+Message-Id: <20220701012647.2007122-2-saravanak@google.com>
+Mime-Version: 1.0
+References: <20220701012647.2007122-1-saravanak@google.com>
+X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
+Subject: [PATCH v2 1/2] driver core: Add probe_no_timeout flag for drivers
+From: Saravana Kannan <saravanak@google.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Laurentiu Tudor <laurentiu.tudor@nxp.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, 
+	Paul Mackerras <paulus@samba.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, 
+	Nicolas Saenz Julienne <nsaenz@kernel.org>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Florian Fainelli <f.fainelli@gmail.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, Al Cooper <alcooperx@gmail.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Paul Cercueil <paul@crapouillou.net>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Tobias Klauser <tklauser@distanz.ch>, Russell King <linux@armlinux.org.uk>, 
+	Vineet Gupta <vgupta@kernel.org>, Richard Genoud <richard.genoud@gmail.com>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Claudiu Beznea <claudiu.beznea@microchip.com>, Alexander Shiyan <shc_work@mail.ru>, 
+	Baruch Siach <baruch@tkos.co.il>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+	Karol Gugala <kgugala@antmicro.com>, Mateusz Holenko <mholenko@antmicro.com>, 
+	Gabriel Somlo <gsomlo@gmail.com>, Neil Armstrong <narmstrong@baylibre.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Taichi Sugaya <sugaya.taichi@socionext.com>, Takao Orito <orito.takao@socionext.com>, 
+	Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Andy Gross <agross@kernel.org>, 
+	Bjorn Andersson <bjorn.andersson@linaro.org>, Pali Rohar <pali@kernel.org>, 
+	Andreas Farber <afaerber@suse.de>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Laxman Dewangan <ldewangan@nvidia.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang7@gmail.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Patrice Chotard <patrice.chotard@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, "David S. Miller" <davem@davemloft.net>, 
+	Hammer Hsieh <hammerh0314@gmail.com>, Peter Korsgaard <jacmet@sunsite.dk>, Timur Tabi <timur@kernel.org>, 
+	Michal Simek <michal.simek@xilinx.com>, Saravana Kannan <saravanak@google.com>
+Cc: Rob Herring <robh@kernel.org>, sascha hauer <sha@pengutronix.de>, peng fan <peng.fan@nxp.com>, 
+	kevin hilman <khilman@kernel.org>, ulf hansson <ulf.hansson@linaro.org>, 
+	len brown <len.brown@intel.com>, pavel machek <pavel@ucw.cz>, joerg roedel <joro@8bytes.org>, 
+	will deacon <will@kernel.org>, andrew lunn <andrew@lunn.ch>, heiner kallweit <hkallweit1@gmail.com>, 
+	eric dumazet <edumazet@google.com>, jakub kicinski <kuba@kernel.org>, paolo abeni <pabeni@redhat.com>, 
+	linus walleij <linus.walleij@linaro.org>, hideaki yoshifuji <yoshfuji@linux-ipv6.org>, 
+	david ahern <dsahern@kernel.org>, kernel-team@android.com, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, iommu@lists.linux-foundation.org, 
+	netdev@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-serial@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org, 
+	linux-snps-arc@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-actions@lists.infradead.org, 
+	linux-unisoc@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
+	sparclinux@vger.kernel.org, Ahmad Fatoum <a.fatoum@pengutronix.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220629_222033_319572_4900DE02 
-X-CRM114-Status: GOOD (  11.66  )
+X-CRM114-CacheID: sfid-20220630_182658_348446_E04A52EF 
+X-CRM114-Status: GOOD (  23.04  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,372 +139,153 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Now all the platforms enable ARCH_HAS_GET_PAGE_PROT. They define and export
-own vm_get_page_prot() whether custom or standard DECLARE_VM_GET_PAGE_PROT.
-Hence there is no need for default generic fallback for vm_get_page_prot().
-Just drop this fallback and also ARCH_HAS_GET_PAGE_PROT mechanism.
+This flag only needs to be set for drivers of devices that meet all the
+following conditions:
+- Need to probe successfully before userspace init in started
+- Have optional suppliers
+- Can't wait for deferred_probe_timeout to expire
 
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-mm@kvack.org
-Cc: linux-kernel@vger.kernel.org
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+fw_devlink=on uses this info, as needed, to ignore dependencies on supplier
+devices that have not been added or supplier devices that don't have any
+drivers.  It's still up to the driver to decide which of the missing
+suppliers are optional or not.
+
+Fixes: 71066545b48e ("driver core: Set fw_devlink.strict=1 by default")
+Reported-by: Sascha Hauer <sha@pengutronix.de>
+Reported-by: Peng Fan <peng.fan@nxp.com>
+Reported-by: Fabio Estevam <festevam@gmail.com>
+Reported-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Tested-by: Fabio Estevam <festevam@gmail.com>
+Signed-off-by: Saravana Kannan <saravanak@google.com>
 ---
- arch/alpha/Kconfig      |  1 -
- arch/arc/Kconfig        |  1 -
- arch/arm/Kconfig        |  1 -
- arch/arm64/Kconfig      |  1 -
- arch/csky/Kconfig       |  1 -
- arch/hexagon/Kconfig    |  1 -
- arch/ia64/Kconfig       |  1 -
- arch/loongarch/Kconfig  |  1 -
- arch/m68k/Kconfig       |  1 -
- arch/microblaze/Kconfig |  1 -
- arch/mips/Kconfig       |  1 -
- arch/nios2/Kconfig      |  1 -
- arch/openrisc/Kconfig   |  1 -
- arch/parisc/Kconfig     |  1 -
- arch/powerpc/Kconfig    |  1 -
- arch/riscv/Kconfig      |  1 -
- arch/s390/Kconfig       |  1 -
- arch/sh/Kconfig         |  1 -
- arch/sparc/Kconfig      |  1 -
- arch/um/Kconfig         |  1 -
- arch/x86/Kconfig        |  1 -
- arch/xtensa/Kconfig     |  1 -
- include/linux/mm.h      |  3 ---
- mm/Kconfig              |  3 ---
- mm/mmap.c               | 22 ----------------------
- 25 files changed, 50 deletions(-)
+ drivers/base/base.h           |  1 +
+ drivers/base/core.c           |  7 +++++++
+ drivers/base/dd.c             |  3 +++
+ include/linux/device.h        |  7 +++++++
+ include/linux/device/driver.h | 11 +++++++++++
+ 5 files changed, 29 insertions(+)
 
-diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
-index db1c8b329461..7d0d26b5b3f5 100644
---- a/arch/alpha/Kconfig
-+++ b/arch/alpha/Kconfig
-@@ -2,7 +2,6 @@
- config ALPHA
- 	bool
- 	default y
--	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_32BIT_USTAT_F_TINODE
- 	select ARCH_MIGHT_HAVE_PC_PARPORT
- 	select ARCH_MIGHT_HAVE_PC_SERIO
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 8be56a5d8a9b..9e3653253ef2 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -13,7 +13,6 @@ config ARC
- 	select ARCH_HAS_SETUP_DMA_OPS
- 	select ARCH_HAS_SYNC_DMA_FOR_CPU
- 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
--	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_SUPPORTS_ATOMIC_RMW if ARC_HAS_LLSC
- 	select ARCH_32BIT_OFF_T
- 	select BUILDTIME_TABLE_SORT
-diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-index e153b6d4fc5b..7630ba9cb6cc 100644
---- a/arch/arm/Kconfig
-+++ b/arch/arm/Kconfig
-@@ -24,7 +24,6 @@ config ARM
- 	select ARCH_HAS_SYNC_DMA_FOR_CPU if SWIOTLB || !MMU
- 	select ARCH_HAS_TEARDOWN_DMA_OPS if MMU
- 	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
--	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_HAVE_CUSTOM_GPIO_H
- 	select ARCH_HAVE_NMI_SAFE_CMPXCHG if CPU_V7 || CPU_V7M || CPU_V6K
- 	select ARCH_HAS_GCOV_PROFILE_ALL
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 1652a9800ebe..7030bf3f8d6f 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -45,7 +45,6 @@ config ARM64
- 	select ARCH_HAS_SYSCALL_WRAPPER
- 	select ARCH_HAS_TEARDOWN_DMA_OPS if IOMMU_SUPPORT
- 	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
--	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_HAS_ZONE_DMA_SET if EXPERT
- 	select ARCH_HAVE_ELF_PROT
- 	select ARCH_HAVE_NMI_SAFE_CMPXCHG
-diff --git a/arch/csky/Kconfig b/arch/csky/Kconfig
-index 588b8a9c68ed..21d72b078eef 100644
---- a/arch/csky/Kconfig
-+++ b/arch/csky/Kconfig
-@@ -6,7 +6,6 @@ config CSKY
- 	select ARCH_HAS_GCOV_PROFILE_ALL
- 	select ARCH_HAS_SYNC_DMA_FOR_CPU
- 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
--	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_USE_BUILTIN_BSWAP
- 	select ARCH_USE_QUEUED_RWLOCKS
- 	select ARCH_WANT_FRAME_POINTERS if !CPU_CK610 && $(cc-option,-mbacktrace)
-diff --git a/arch/hexagon/Kconfig b/arch/hexagon/Kconfig
-index bc4ceecd0588..54eadf265178 100644
---- a/arch/hexagon/Kconfig
-+++ b/arch/hexagon/Kconfig
-@@ -6,7 +6,6 @@ config HEXAGON
- 	def_bool y
- 	select ARCH_32BIT_OFF_T
- 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
--	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_NO_PREEMPT
- 	select DMA_GLOBAL_POOL
- 	# Other pending projects/to-do items.
-diff --git a/arch/ia64/Kconfig b/arch/ia64/Kconfig
-index 0510a5737711..cb93769a9f2a 100644
---- a/arch/ia64/Kconfig
-+++ b/arch/ia64/Kconfig
-@@ -12,7 +12,6 @@ config IA64
- 	select ARCH_HAS_DMA_MARK_CLEAN
- 	select ARCH_HAS_STRNCPY_FROM_USER
- 	select ARCH_HAS_STRNLEN_USER
--	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_MIGHT_HAVE_PC_PARPORT
- 	select ARCH_MIGHT_HAVE_PC_SERIO
- 	select ACPI
-diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
-index fd07b8e760ee..1920d52653b4 100644
---- a/arch/loongarch/Kconfig
-+++ b/arch/loongarch/Kconfig
-@@ -9,7 +9,6 @@ config LOONGARCH
- 	select ARCH_HAS_ACPI_TABLE_UPGRADE	if ACPI
- 	select ARCH_HAS_PHYS_TO_DMA
- 	select ARCH_HAS_PTE_SPECIAL
--	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
- 	select ARCH_INLINE_READ_LOCK if !PREEMPTION
- 	select ARCH_INLINE_READ_LOCK_BH if !PREEMPTION
-diff --git a/arch/m68k/Kconfig b/arch/m68k/Kconfig
-index 49aa0cf13e96..936cce42ae9a 100644
---- a/arch/m68k/Kconfig
-+++ b/arch/m68k/Kconfig
-@@ -7,7 +7,6 @@ config M68K
- 	select ARCH_HAS_CURRENT_STACK_POINTER
- 	select ARCH_HAS_DMA_PREP_COHERENT if HAS_DMA && MMU && !COLDFIRE
- 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE if HAS_DMA
--	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_HAVE_NMI_SAFE_CMPXCHG if RMW_INSNS
- 	select ARCH_MIGHT_HAVE_PC_PARPORT if ISA
- 	select ARCH_NO_PREEMPT if !COLDFIRE
-diff --git a/arch/microblaze/Kconfig b/arch/microblaze/Kconfig
-index 15f91ba8a0c4..8cf429ad1c84 100644
---- a/arch/microblaze/Kconfig
-+++ b/arch/microblaze/Kconfig
-@@ -7,7 +7,6 @@ config MICROBLAZE
- 	select ARCH_HAS_GCOV_PROFILE_ALL
- 	select ARCH_HAS_SYNC_DMA_FOR_CPU
- 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
--	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_MIGHT_HAVE_PC_PARPORT
- 	select ARCH_WANT_IPC_PARSE_VERSION
- 	select BUILDTIME_TABLE_SORT
-diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
-index d0b7eb11ec81..db09d45d59ec 100644
---- a/arch/mips/Kconfig
-+++ b/arch/mips/Kconfig
-@@ -14,7 +14,6 @@ config MIPS
- 	select ARCH_HAS_STRNLEN_USER
- 	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
- 	select ARCH_HAS_UBSAN_SANITIZE_ALL
--	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_HAS_GCOV_PROFILE_ALL
- 	select ARCH_KEEP_MEMBLOCK
- 	select ARCH_SUPPORTS_UPROBES
-diff --git a/arch/nios2/Kconfig b/arch/nios2/Kconfig
-index e0459dffd218..4167f1eb4cd8 100644
---- a/arch/nios2/Kconfig
-+++ b/arch/nios2/Kconfig
-@@ -6,7 +6,6 @@ config NIOS2
- 	select ARCH_HAS_SYNC_DMA_FOR_CPU
- 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
- 	select ARCH_HAS_DMA_SET_UNCACHED
--	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_NO_SWAP
- 	select COMMON_CLK
- 	select TIMER_OF
-diff --git a/arch/openrisc/Kconfig b/arch/openrisc/Kconfig
-index fe0dfb50eb86..e814df4c483c 100644
---- a/arch/openrisc/Kconfig
-+++ b/arch/openrisc/Kconfig
-@@ -10,7 +10,6 @@ config OPENRISC
- 	select ARCH_HAS_DMA_SET_UNCACHED
- 	select ARCH_HAS_DMA_CLEAR_UNCACHED
- 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
--	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select COMMON_CLK
- 	select OF
- 	select OF_EARLY_FLATTREE
-diff --git a/arch/parisc/Kconfig b/arch/parisc/Kconfig
-index 891d82393957..fa400055b2d5 100644
---- a/arch/parisc/Kconfig
-+++ b/arch/parisc/Kconfig
-@@ -12,7 +12,6 @@ config PARISC
- 	select ARCH_HAS_STRICT_KERNEL_RWX
- 	select ARCH_HAS_STRICT_MODULE_RWX
- 	select ARCH_HAS_UBSAN_SANITIZE_ALL
--	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_HAS_PTE_SPECIAL
- 	select ARCH_NO_SG_CHAIN
- 	select ARCH_SUPPORTS_HUGETLBFS if PA20
-diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
-index 1035d172c7dd..250b8658b2d4 100644
---- a/arch/powerpc/Kconfig
-+++ b/arch/powerpc/Kconfig
-@@ -140,7 +140,6 @@ config PPC
- 	select ARCH_HAS_TICK_BROADCAST		if GENERIC_CLOCKEVENTS_BROADCAST
- 	select ARCH_HAS_UACCESS_FLUSHCACHE
- 	select ARCH_HAS_UBSAN_SANITIZE_ALL
--	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_HAVE_NMI_SAFE_CMPXCHG
- 	select ARCH_KEEP_MEMBLOCK
- 	select ARCH_MIGHT_HAVE_PC_PARPORT
-diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-index 583389d4e43a..32ffef9f6e5b 100644
---- a/arch/riscv/Kconfig
-+++ b/arch/riscv/Kconfig
-@@ -32,7 +32,6 @@ config RISCV
- 	select ARCH_HAS_STRICT_MODULE_RWX if MMU && !XIP_KERNEL
- 	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
- 	select ARCH_HAS_UBSAN_SANITIZE_ALL
--	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_OPTIONAL_KERNEL_RWX if ARCH_HAS_STRICT_KERNEL_RWX
- 	select ARCH_OPTIONAL_KERNEL_RWX_DEFAULT
- 	select ARCH_STACKWALK
-diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
-index c4481377ca83..91c0b80a8bf0 100644
---- a/arch/s390/Kconfig
-+++ b/arch/s390/Kconfig
-@@ -81,7 +81,6 @@ config S390
- 	select ARCH_HAS_SYSCALL_WRAPPER
- 	select ARCH_HAS_UBSAN_SANITIZE_ALL
- 	select ARCH_HAS_VDSO_DATA
--	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_HAVE_NMI_SAFE_CMPXCHG
- 	select ARCH_INLINE_READ_LOCK
- 	select ARCH_INLINE_READ_LOCK_BH
-diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
-index 91f3ea325388..5f220e903e5a 100644
---- a/arch/sh/Kconfig
-+++ b/arch/sh/Kconfig
-@@ -12,7 +12,6 @@ config SUPERH
- 	select ARCH_HAS_GCOV_PROFILE_ALL
- 	select ARCH_HAS_PTE_SPECIAL
- 	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
--	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_HIBERNATION_POSSIBLE if MMU
- 	select ARCH_MIGHT_HAVE_PC_PARPORT
- 	select ARCH_WANT_IPC_PARSE_VERSION
-diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
-index 09f868613a4d..9c1cce74953a 100644
---- a/arch/sparc/Kconfig
-+++ b/arch/sparc/Kconfig
-@@ -13,7 +13,6 @@ config 64BIT
- config SPARC
- 	bool
- 	default y
--	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_MIGHT_HAVE_PC_PARPORT if SPARC64 && PCI
- 	select ARCH_MIGHT_HAVE_PC_SERIO
- 	select DMA_OPS
-diff --git a/arch/um/Kconfig b/arch/um/Kconfig
-index 7fb43654e5b5..4ec22e156a2e 100644
---- a/arch/um/Kconfig
-+++ b/arch/um/Kconfig
-@@ -10,7 +10,6 @@ config UML
- 	select ARCH_HAS_KCOV
- 	select ARCH_HAS_STRNCPY_FROM_USER
- 	select ARCH_HAS_STRNLEN_USER
--	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_NO_PREEMPT
- 	select HAVE_ARCH_AUDITSYSCALL
- 	select HAVE_ARCH_SECCOMP_FILTER
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index be0b95e51df6..841e4843d0c4 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -94,7 +94,6 @@ config X86
- 	select ARCH_HAS_SYNC_CORE_BEFORE_USERMODE
- 	select ARCH_HAS_SYSCALL_WRAPPER
- 	select ARCH_HAS_UBSAN_SANITIZE_ALL
--	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_HAS_DEBUG_WX
- 	select ARCH_HAS_ZONE_DMA_SET if EXPERT
- 	select ARCH_HAVE_NMI_SAFE_CMPXCHG
-diff --git a/arch/xtensa/Kconfig b/arch/xtensa/Kconfig
-index 4c0d83520ff1..0b0f0172cced 100644
---- a/arch/xtensa/Kconfig
-+++ b/arch/xtensa/Kconfig
-@@ -11,7 +11,6 @@ config XTENSA
- 	select ARCH_HAS_DMA_SET_UNCACHED if MMU
- 	select ARCH_HAS_STRNCPY_FROM_USER if !KASAN
- 	select ARCH_HAS_STRNLEN_USER
--	select ARCH_HAS_VM_GET_PAGE_PROT
- 	select ARCH_USE_MEMTEST
- 	select ARCH_USE_QUEUED_RWLOCKS
- 	select ARCH_USE_QUEUED_SPINLOCKS
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 07b56995e0fe..4ccd29f6828f 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -424,9 +424,6 @@ extern unsigned int kobjsize(const void *objp);
-  * mapping from the currently active vm_flags protection bits (the
-  * low four bits) to a page protection mask..
-  */
--#ifndef CONFIG_ARCH_HAS_VM_GET_PAGE_PROT
--extern pgprot_t protection_map[16];
--#endif
+diff --git a/drivers/base/base.h b/drivers/base/base.h
+index b3a43a164dcd..149822d2086f 100644
+--- a/drivers/base/base.h
++++ b/drivers/base/base.h
+@@ -193,6 +193,7 @@ extern void device_links_no_driver(struct device *dev);
+ extern bool device_links_busy(struct device *dev);
+ extern void device_links_unbind_consumers(struct device *dev);
+ extern void fw_devlink_drivers_done(void);
++extern void fw_devlink_probe_no_timeout(void);
  
- /*
-  * The default fault flags that should be used by most of the
-diff --git a/mm/Kconfig b/mm/Kconfig
-index 169e64192e48..f47d257a053b 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -951,9 +951,6 @@ config ARCH_HAS_CURRENT_STACK_POINTER
- 	  register alias named "current_stack_pointer", this config can be
- 	  selected.
+ /* device pm support */
+ void device_pm_move_to_tail(struct device *dev);
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index ccdd5b4295de..8e18904a1584 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -54,6 +54,7 @@ static unsigned int defer_sync_state_count = 1;
+ static DEFINE_MUTEX(fwnode_link_lock);
+ static bool fw_devlink_is_permissive(void);
+ static bool fw_devlink_drv_reg_done;
++static bool fw_devlink_no_timeout;
+ static bool fw_devlink_best_effort;
  
--config ARCH_HAS_VM_GET_PAGE_PROT
--	bool
--
- config ARCH_HAS_PTE_DEVMAP
- 	bool
- 
-diff --git a/mm/mmap.c b/mm/mmap.c
-index 2cc722e162fa..02d6889f0ef6 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -81,28 +81,6 @@ static void unmap_region(struct mm_struct *mm,
- 		struct vm_area_struct *vma, struct vm_area_struct *prev,
- 		unsigned long start, unsigned long end);
- 
--#ifndef CONFIG_ARCH_HAS_VM_GET_PAGE_PROT
--pgprot_t protection_map[16] __ro_after_init = {
--	[VM_NONE]					= __P000,
--	[VM_READ]					= __P001,
--	[VM_WRITE]					= __P010,
--	[VM_WRITE | VM_READ]				= __P011,
--	[VM_EXEC]					= __P100,
--	[VM_EXEC | VM_READ]				= __P101,
--	[VM_EXEC | VM_WRITE]				= __P110,
--	[VM_EXEC | VM_WRITE | VM_READ]			= __P111,
--	[VM_SHARED]					= __S000,
--	[VM_SHARED | VM_READ]				= __S001,
--	[VM_SHARED | VM_WRITE]				= __S010,
--	[VM_SHARED | VM_WRITE | VM_READ]		= __S011,
--	[VM_SHARED | VM_EXEC]				= __S100,
--	[VM_SHARED | VM_EXEC | VM_READ]			= __S101,
--	[VM_SHARED | VM_EXEC | VM_WRITE]		= __S110,
--	[VM_SHARED | VM_EXEC | VM_WRITE | VM_READ]	= __S111
--};
--DECLARE_VM_GET_PAGE_PROT
--#endif	/* CONFIG_ARCH_HAS_VM_GET_PAGE_PROT */
--
- static pgprot_t vm_pgprot_modify(pgprot_t oldprot, unsigned long vm_flags)
+ /**
+@@ -969,6 +970,7 @@ static void device_links_missing_supplier(struct device *dev)
+ static bool dev_is_best_effort(struct device *dev)
  {
- 	return pgprot_modify(oldprot, vm_get_page_prot(vm_flags));
+ 	return (fw_devlink_best_effort && dev->can_match) ||
++		(fw_devlink_no_timeout && dev->probe_no_timeout) ||
+ 		(dev->fwnode && (dev->fwnode->flags & FWNODE_FLAG_BEST_EFFORT));
+ }
+ 
+@@ -1688,6 +1690,11 @@ void fw_devlink_drivers_done(void)
+ 	device_links_write_unlock();
+ }
+ 
++void fw_devlink_probe_no_timeout(void)
++{
++	fw_devlink_no_timeout = true;
++}
++
+ /**
+  * wait_for_init_devices_probe - Try to probe any device needed for init
+  *
+diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+index 70f79fc71539..943b0363aaab 100644
+--- a/drivers/base/dd.c
++++ b/drivers/base/dd.c
+@@ -324,6 +324,8 @@ static int deferred_probe_initcall(void)
+ 
+ 	if (!IS_ENABLED(CONFIG_MODULES))
+ 		fw_devlink_drivers_done();
++	else
++		fw_devlink_probe_no_timeout();
+ 
+ 	/*
+ 	 * Trigger deferred probe again, this time we won't defer anything
+@@ -734,6 +736,7 @@ static int __driver_probe_device(struct device_driver *drv, struct device *dev)
+ 		return -EBUSY;
+ 
+ 	dev->can_match = true;
++	dev->probe_no_timeout = drv->probe_no_timeout;
+ 	pr_debug("bus: '%s': %s: matched device %s with driver %s\n",
+ 		 drv->bus->name, __func__, dev_name(dev), drv->name);
+ 
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 424b55df0272..e6246b6cf6cf 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -536,6 +536,12 @@ struct device_physical_location {
+  * @can_match:	The device has matched with a driver at least once or it is in
+  *		a bus (like AMBA) which can't check for matching drivers until
+  *		other devices probe successfully.
++ * @probe_no_timeout: Set by driver core to indicate that this device's probe
++ *		can't wait till driver_probe_timeout expires. This information
++ *		is used by fw_devlink=on to avoid deferring the probe of this
++ *		device to wait on supplier devices that haven't been added or
++ *		probed successfully.
++ *		See also: probe_no_timeout in struct driver.
+  * @dma_coherent: this particular device is dma coherent, even if the
+  *		architecture supports non-coherent devices.
+  * @dma_ops_bypass: If set to %true then the dma_ops are bypassed for the
+@@ -642,6 +648,7 @@ struct device {
+ 	bool			of_node_reused:1;
+ 	bool			state_synced:1;
+ 	bool			can_match:1;
++	bool			probe_no_timeout:1;
+ #if defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_DEVICE) || \
+     defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU) || \
+     defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU_ALL)
+diff --git a/include/linux/device/driver.h b/include/linux/device/driver.h
+index 7acaabde5396..2ce60e511504 100644
+--- a/include/linux/device/driver.h
++++ b/include/linux/device/driver.h
+@@ -55,6 +55,15 @@ enum probe_type {
+  * @owner:	The module owner.
+  * @mod_name:	Used for built-in modules.
+  * @suppress_bind_attrs: Disables bind/unbind via sysfs.
++ * @probe_no_timeout: Set to true by drivers that bind to devices that meet all
++ *		these conditions:
++ *		- Need to probe successfully before userspace init in started
++ *		- Have optional suppliers
++ *		- Can't wait for deferred_probe_timeout to expire
++ *		fw_devlink=on uses this info, as needed, to ignore dependencies
++ *		on supplier devices that have not been added or supplier devices
++ *		that don't have any drivers. It's still up to the driver to
++ *		decide which of the missing suppliers are optional or not.
+  * @probe_type:	Type of the probe (synchronous or asynchronous) to use.
+  * @of_match_table: The open firmware table.
+  * @acpi_match_table: The ACPI match table.
+@@ -101,6 +110,8 @@ struct device_driver {
+ 	const char		*mod_name;	/* used for built-in modules */
+ 
+ 	bool suppress_bind_attrs;	/* disables bind/unbind via sysfs */
++	bool probe_no_timeout;
++
+ 	enum probe_type probe_type;
+ 
+ 	const struct of_device_id	*of_match_table;
 -- 
-2.25.1
+2.37.0.rc0.161.g10f37bed90-goog
 
 
 _______________________________________________
