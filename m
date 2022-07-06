@@ -4,72 +4,115 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33402C433EF
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Jul 2022 09:30:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB410C43334
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Jul 2022 10:05:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=tIR/NyzOExQ4G5bei8rp/H2DDpEq+3q1lCbROGAI/Rk=; b=dd5mYEqtsGPWbI
-	Sy5hsSXCMMPRB1svLwAmH0S4u2tsV7ddMRrrJUHoJMSMyOLADF+Cd5x//dbxDpCyCb/FNyUx9pa4E
-	VKaU1NYR532TnpbU02G+pp8s/tWJmT8YhfzYE/UqVr+HFo0vzm5Giv+rGhInzo8R8ggBSuc8xUtqi
-	xMuNZcgJBNJdsmbV0QTy3rFZeIa7guiJQBP4CBRx6/Faa0Mp4CPm1iGlgQ0A7HrIpKew4LQT2k/BE
-	qLFqBGAA4bieN06v7pdeWgSXudmzkl0Pi5B1f+jbzvgIFYgWWd16DFMtrtilegkqadJqyVI+SEi1B
-	BXoCpWWuur8uPwpWsDFg==;
+	List-Owner; bh=ze2y6PTJUtQvTOnE5N2z4o8MI4Ct/MjSVNWpvMkdb98=; b=l6qX1H4bo6Awu5
+	zk4CRtIuvu+3721N3WI0O1NhF/6FQCqXoga4EAzX0Ex5HXxEAKlHVp3uG+Qll0g/Eo5tEHJmCVcsZ
+	Ln2kMp46K9q4lqJVLPDK4UPMy6r0ARdWiVjAL/8oPyhC6geEVLXxiLRiP3puUmJXNYZLmueN24RIP
+	d80DH+d7L5KZ6iF8PylHfEfTFu8E5qUMEl4iPSbxmzUDRPOpkdRaxMzhKWfvdaN9Hrbw/6C0JMHsL
+	E3rfyuQJve0LTapuCWfoIElVavQciGL3u3swea7TBjJ4eVODk4A6E5N1k2P7rIwGsqhdpEQnjZJOE
+	FZ5Us6W6KkcC4DXclvNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o91MT-007ncn-QN; Wed, 06 Jul 2022 09:30:21 +0000
-Received: from mail-qk1-f171.google.com ([209.85.222.171])
+	id 1o91u3-0087zI-9f; Wed, 06 Jul 2022 10:05:03 +0000
+Received: from mail-oa1-f47.google.com ([209.85.160.47])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o91MO-007naT-CH
-	for linux-snps-arc@lists.infradead.org; Wed, 06 Jul 2022 09:30:20 +0000
-Received: by mail-qk1-f171.google.com with SMTP id g1so10587952qkl.9
-        for <linux-snps-arc@lists.infradead.org>; Wed, 06 Jul 2022 02:30:14 -0700 (PDT)
+	id 1o91cP-007udn-Vt; Wed, 06 Jul 2022 09:46:51 +0000
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-10bf634bc50so11664095fac.3;
+        Wed, 06 Jul 2022 02:46:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=X0E6/6svoPI75a545bMY+0MRF9DfMtB/2WCtrH+xzXg=;
-        b=Iol+k/AMoy91geUsjrAV0MZ0ZZ8X/k1g6rffS+MwF3hUlEi+nDYLuYVpW2UT1G1zkk
-         GWUX7OvyCCtZmmPv1QTDqw0IVWfhXB6VPcJUCWksbMjiEWOhP538ML5nmqUCh4HMquek
-         nWIyCKXAQjSteIoThYNfeYWZ8gHMtg9p7CNe/Qcyt8z6WtCyT8mwae+5xCfNgz5fgVic
-         FD2KFZ4RsHG/CXxtBT/REskZF6idqIQ+5GFWWIq9EVeZjxU4OzyJoOtTX6wXd+xiPJzz
-         pcye5oY2Z9IJ/VbOxvrOE057w9IwOnKWasd+oUL2tlys8GuFgvvOjUKGBF62gIlUL+9/
-         YAJQ==
-X-Gm-Message-State: AJIora9pWxiqrDCWs9bOLQDrDKnwZYPMoS8WMr0/fdyx+qkclgQoSobE
-	FL2FOI2idozYXjEPY3qljepT/5Op+fMYQA==
-X-Google-Smtp-Source: AGRyM1vb/HuI/swx4r9ks1AKRXBmj2mduBbiI2vZx/G+MtDPeBsb6IQy9r5LjX7RA1TuyJAGBCCuXQ==
-X-Received: by 2002:a05:620a:101c:b0:6b4:8cb4:6b5a with SMTP id z28-20020a05620a101c00b006b48cb46b5amr4068006qkj.28.1657099813708;
-        Wed, 06 Jul 2022 02:30:13 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id x7-20020ac81207000000b00304e4bbc369sm24157205qti.10.2022.07.06.02.30.13
-        for <linux-snps-arc@lists.infradead.org>
+         :message-id:subject:to:cc;
+        bh=o8jOPstF035V3JBIGTjyEra8xnCZ4RAIho4NrHeIzoU=;
+        b=yidhsGsEBbDkyElgL9qOwbT7oXl8wQMr8JBiaOONqYvnVzbPlv+5p8pgO04S1z7Hjy
+         coSh4ZW4BkaxVT1g8Ecwf7vdXdIbfIrbi5YmNbQv4zXSy35Ix/Buzo7kJztN5SKCIeWl
+         VpcKsho84OpikVrHh1R22iIr7gU5gLjGyLOcctBjtnGHw5pxBGZv44VGVRdajX4k1JtS
+         SikxsS6Ug6cIPtoe/Ru8gS7rIL1fi3swvSUUR0qYo0PtLyMJFjjJFaQ5wX1S6PJUrGUp
+         tJ8D4rrQEjxc+xxJKdiV7pCqsnd5KPb+n2qlQCoIMJHX5k6NAfW8zKqL/zZNLVvc2lm9
+         BIOQ==
+X-Gm-Message-State: AJIora+uSbBouTG7eFKyg9mFv6tSzfoEQJp2RWIHx6gKLDSga+wywRjn
+	oV5Q4dNK5o4TgDnKMFfg1Ijs7cT6b501QTBQ
+X-Google-Smtp-Source: AGRyM1uQ4xn9Ws2tAz7RTLQtlyP4tYL4z3GZk717sV8/lp4mH9/86M7wtBNzOHFBZn8FcrAUJ92H/g==
+X-Received: by 2002:a05:6871:783:b0:101:3d98:ba86 with SMTP id o3-20020a056871078300b001013d98ba86mr25012844oap.132.1657100808256;
+        Wed, 06 Jul 2022 02:46:48 -0700 (PDT)
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com. [209.85.210.46])
+        by smtp.gmail.com with ESMTPSA id n20-20020a056870035400b0010c2c3fa9b4sm94498oaf.50.2022.07.06.02.46.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Jul 2022 02:30:13 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id i14so6615036yba.1
-        for <linux-snps-arc@lists.infradead.org>; Wed, 06 Jul 2022 02:30:13 -0700 (PDT)
-X-Received: by 2002:a05:6902:701:b0:66e:a06d:53d7 with SMTP id
- k1-20020a056902070100b0066ea06d53d7mr788860ybt.604.1657099812787; Wed, 06 Jul
- 2022 02:30:12 -0700 (PDT)
+        Wed, 06 Jul 2022 02:46:47 -0700 (PDT)
+Received: by mail-ot1-f46.google.com with SMTP id 73-20020a9d084f000000b00616b04c7656so11485518oty.3;
+        Wed, 06 Jul 2022 02:46:47 -0700 (PDT)
+X-Received: by 2002:a05:6902:50e:b0:66e:7f55:7a66 with SMTP id
+ x14-20020a056902050e00b0066e7f557a66mr6648581ybs.365.1657100796735; Wed, 06
+ Jul 2022 02:46:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220527115345.2588775-1-amadeuszx.slawinski@linux.intel.com> <20220527115345.2588775-3-amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <20220527115345.2588775-3-amadeuszx.slawinski@linux.intel.com>
+References: <20220608142723.103523089@infradead.org> <20220608144517.124597382@infradead.org>
+In-Reply-To: <20220608144517.124597382@infradead.org>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 6 Jul 2022 11:30:01 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVnXGg4T3j5n9PUg6i60-vza1bjNiVp9wqNSqHccMc=-Q@mail.gmail.com>
-Message-ID: <CAMuHMdVnXGg4T3j5n9PUg6i60-vza1bjNiVp9wqNSqHccMc=-Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] m68k: bitops: Change __fls to return and accept
- unsigned long
-To: =?UTF-8?B?QW1hZGV1c3ogU8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>
-Cc: Vineet Gupta <vgupta@kernel.org>, "David S . Miller" <davem@davemloft.net>, 
-	Guenter Roeck <linux@roeck-us.net>, arcml <linux-snps-arc@lists.infradead.org>, 
-	linux-m68k <linux-m68k@lists.linux-m68k.org>, sparclinux <sparclinux@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Cezary Rojewski <cezary.rojewski@intel.com>
+Date: Wed, 6 Jul 2022 11:46:25 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW4pT+YQfLzLTegFu1M3v9-9vaFDFAama7mc82=x6R__w@mail.gmail.com>
+Message-ID: <CAMuHMdW4pT+YQfLzLTegFu1M3v9-9vaFDFAama7mc82=x6R__w@mail.gmail.com>
+Subject: Re: [PATCH 19/36] objtool/idle: Validate __cpuidle code as noinstr
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Richard Henderson <rth@twiddle.net>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>, 
+	Russell King <linux@armlinux.org.uk>, Hans Ulli Kroll <ulli.kroll@googlemail.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Sascha Hauer <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, tony@atomide.com, 
+	khilman@kernel.org, catalin.marinas@arm.com, will@kernel.org, 
+	guoren@kernel.org, bcain@quicinc.com, chenhuacai@kernel.org, 
+	kernel@xen0n.name, sammy@sammy.net, monstr@monstr.eu, 
+	tsbogend@alpha.franken.de, dinguyen@kernel.org, jonas@southpole.se, 
+	stefan.kristiansson@saunalahti.fi, shorne@gmail.com, 
+	James.Bottomley@hansenpartnership.com, deller@gmx.de, mpe@ellerman.id.au, 
+	benh@kernel.crashing.org, paulus@samba.org, paul.walmsley@sifive.com, 
+	palmer@dabbelt.com, aou@eecs.berkeley.edu, hca@linux.ibm.com, 
+	gor@linux.ibm.com, agordeev@linux.ibm.com, borntraeger@linux.ibm.com, 
+	svens@linux.ibm.com, ysato@users.sourceforge.jp, dalias@libc.org, 
+	davem@davemloft.net, richard@nod.at, anton.ivanov@cambridgegreys.com, 
+	johannes@sipsolutions.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, acme@kernel.org, 
+	mark.rutland@arm.com, alexander.shishkin@linux.intel.com, jolsa@kernel.org, 
+	namhyung@kernel.org, jgross@suse.com, srivatsa@csail.mit.edu, 
+	amakhalov@vmware.com, pv-drivers@vmware.com, boris.ostrovsky@oracle.com, 
+	chris@zankel.net, jcmvbkbc@gmail.com, rafael@kernel.org, lenb@kernel.org, 
+	pavel@ucw.cz, gregkh@linuxfoundation.org, mturquette@baylibre.com, 
+	sboyd@kernel.org, daniel.lezcano@linaro.org, lpieralisi@kernel.org, 
+	sudeep.holla@arm.com, agross@kernel.org, bjorn.andersson@linaro.org, 
+	anup@brainfault.org, thierry.reding@gmail.com, jonathanh@nvidia.com, 
+	jacob.jun.pan@linux.intel.com, Arnd Bergmann <arnd@arndb.de>, yury.norov@gmail.com, 
+	andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk, 
+	rostedt@goodmis.org, pmladek@suse.com, senozhatsky@chromium.org, 
+	john.ogness@linutronix.de, paulmck@kernel.org, frederic@kernel.org, 
+	quic_neeraju@quicinc.com, josh@joshtriplett.org, 
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com, 
+	joel@joelfernandes.org, juri.lelli@redhat.com, vincent.guittot@linaro.org, 
+	dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de, 
+	bristot@redhat.com, vschneid@redhat.com, jpoimboe@kernel.org, 
+	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-omap@vger.kernel.org, linux-csky@vger.kernel.org, 
+	linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org, 
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
+	openrisc@lists.librecores.org, linux-parisc@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-um@lists.infradead.org, 
+	linux-perf-users@vger.kernel.org, virtualization@lists.linux-foundation.org, 
+	xen-devel@lists.xenproject.org, linux-xtensa@linux-xtensa.org, 
+	linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, linux-arch@vger.kernel.org, rcu@vger.kernel.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220706_023016_533725_8E8FE154 
-X-CRM114-Status: GOOD (  15.02  )
+X-CRM114-CacheID: sfid-20220706_024650_084203_1EFBB498 
+X-CRM114-Status: GOOD (  16.69  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,27 +124,36 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-T24gRnJpLCBNYXkgMjcsIDIwMjIgYXQgMTo1MyBQTSBBbWFkZXVzeiBTxYJhd2nFhHNraQo8YW1h
-ZGV1c3p4LnNsYXdpbnNraUBsaW51eC5pbnRlbC5jb20+IHdyb3RlOgo+IEFzIHBlciBhc20tZ2Vu
-ZXJpYyBkZWZpbml0aW9uIGFuZCBvdGhlciBhcmNoaXRlY3R1cmVzIF9fZmxzIHNob3VsZAo+IHJl
-dHVybiBhbmQgYWNjZXB0IHVuc2lnbmVkIGxvbmcgYXMgaXRzIHBhcmFtZXRlci4KPgo+IE5vIGZ1
-bmN0aW9uYWwgY2hhbmdlIGlzIGV4cGVjdGVkIGFzIHJldHVybiB2YWx1ZSBzaG91bGQgZml0IGlu
-IHVuc2lnbmVkCj4gbG9uZy4KPgo+IFJldmlld2VkLWJ5OiBDZXphcnkgUm9qZXdza2kgPGNlemFy
-eS5yb2pld3NraUBpbnRlbC5jb20+Cj4gU2lnbmVkLW9mZi1ieTogQW1hZGV1c3ogU8WCYXdpxYRz
-a2kgPGFtYWRldXN6eC5zbGF3aW5za2lAbGludXguaW50ZWwuY29tPgoKUmV2aWV3ZWQtYnk6IEdl
-ZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnRAbGludXgtbTY4ay5vcmc+CmkuZS4gd2lsbCBxdWV1ZSBp
-biB0aGUgbTY4ayBmb3ItdjUuMjAgYnJhbmNoLgoKR3J7b2V0amUsZWV0aW5nfXMsCgogICAgICAg
-ICAgICAgICAgICAgICAgICBHZWVydAoKLS0KR2VlcnQgVXl0dGVyaG9ldmVuIC0tIFRoZXJlJ3Mg
-bG90cyBvZiBMaW51eCBiZXlvbmQgaWEzMiAtLSBnZWVydEBsaW51eC1tNjhrLm9yZwoKSW4gcGVy
-c29uYWwgY29udmVyc2F0aW9ucyB3aXRoIHRlY2huaWNhbCBwZW9wbGUsIEkgY2FsbCBteXNlbGYg
-YSBoYWNrZXIuIEJ1dAp3aGVuIEknbSB0YWxraW5nIHRvIGpvdXJuYWxpc3RzIEkganVzdCBzYXkg
-InByb2dyYW1tZXIiIG9yIHNvbWV0aGluZyBsaWtlIHRoYXQuCiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgLS0gTGludXMgVG9ydmFsZHMKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1z
-bnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21h
-aWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
+On Wed, Jun 8, 2022 at 4:46 PM Peter Zijlstra <peterz@infradead.org> wrote:
+> Idle code is very like entry code in that RCU isn't available. As
+> such, add a little validation.
+>
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+
+>  arch/m68k/kernel/vmlinux-nommu.lds   |    1 -
+>  arch/m68k/kernel/vmlinux-std.lds     |    1 -
+>  arch/m68k/kernel/vmlinux-sun3.lds    |    1 -
+
+FWIW
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
