@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 63058CCA486
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Jul 2022 13:51:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2AACC433EF
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Jul 2022 13:54:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=f0fpnj9jHz6nZl3ZkFbMQv7p3g3vjDLilZydKyUWRq8=; b=s1NnBYinw+omS0
-	ba45djxheuEaBttr6cyvWEcDL/BVVXD6+i1jKT5SiWRWu7HZycIFi74278tKf/lTk7neBzd1vQci6
-	9YtdkvOGOhUkBmG0rWGUDRZZVFGbLPqaUeaI88Ei1Z6EN9jk1OMmqPSKVFKeuaJwWnJJRwM9cpIWs
-	h4QMQck2aOlD148vntU97KRgnYR2UxlbMT1RSz1fr7a4fukUS9hShxC5uP+eixaw6Z4ZujtwL8cLl
-	v1leM/8BQLR1Fbaw7RxTX+zRYooCTia9k+G8QHJVLfMaS2j3h4i1Rsmaxc4rREiCPK3vl7kks9MS5
-	TrXdmXc6TId9kIvsAa9A==;
+	List-Owner; bh=hfgv68g1hxgcyaR6fBC8eViZfQhJgB6iZN5Y3ziIRjg=; b=N8p8ruVo4crr2D
+	38Vca4pN1GYBQ9d8uD8rNovMbyKpMfI+nHn/InTbbRWEE/Jw5KDHckEuR1GJK9R1k/par+g9xtOPu
+	XsnLykZcvZHCJ+e8Yd3H5eNRwEwWyMxklkVvLpDjQ8rDrPWlqQMdMI9syfoRPObOLgcMUAEq4bV/A
+	8SRSbfONasKE5RrypqVdX1nkXJZISECIYLD63bFb85Y8Pe+/2lrvfs5tEDko96onOYfQelxl+dwF5
+	aftLItWs5pPCt9/KVOWnQMJ7JLO8kcCXYH82DK1ODXs5L+yezGHX3N7FWDbpZCjYr/13nj6QaonLD
+	yuKVxPrf+/8I61fYqX3w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o95R7-00ARP4-1o; Wed, 06 Jul 2022 13:51:25 +0000
-Received: from mail-yw1-f169.google.com ([209.85.128.169])
+	id 1o95UO-00ASn7-3y; Wed, 06 Jul 2022 13:54:48 +0000
+Received: from mail-yb1-f179.google.com ([209.85.219.179])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o95R4-00ARNZ-W8; Wed, 06 Jul 2022 13:51:24 +0000
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-31c8a1e9e33so88372497b3.5;
-        Wed, 06 Jul 2022 06:51:21 -0700 (PDT)
+	id 1o95UL-00ASjs-Cf; Wed, 06 Jul 2022 13:54:46 +0000
+Received: by mail-yb1-f179.google.com with SMTP id c143so18898097ybf.3;
+        Wed, 06 Jul 2022 06:54:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=5SiPC3jj492VC8TfaG5lxiX62rjLNKysidcQlbSYqow=;
-        b=KQoND/Y9xyVnI4BwTU2yE2dPc+gmiWDzyjr9dLk3wa1fueIU7J69PgHPFElKTmrfDd
-         98/OL3ATyL2dvg7CWMqVWnj+JL43nvGDZ9Q5FZIIjInmylFp1DqnS/uPWM+mgqJz/X9v
-         C5iNfKhkHjuQZyOWCOLjcPrq0OoorzpCtUk4/AFn5aAKpY6Up3WPklHuZAjGncUzSCKE
-         frC8MURVTXThjVMxPjoP8emYmq2BgweUFk1XlWjeFnF4VJ+XhyADxVL948C/Ya2c8La5
-         ORTmYxhxIXo2EzIXseDOGbocMmFmNQo1WY0IJbgaPK3wmR8/JmFSmplUdNAkx2sSaQxb
-         PY8A==
-X-Gm-Message-State: AJIora9MRSkH+EWLN/pq4+9YZ5GG4Z/KNEMXyFJhthhTsC5TOjkDt5gR
-	nwWxhZVnY2FTrfIPaOV+gC5Yznm/mnkmlPNrtpM=
-X-Google-Smtp-Source: AGRyM1t2zFLeLAi3TOz/3FKNOaozLIghzMJavy2698E42fvxt6d4SsTob1/anQx1a1kTDZPSEUZEInHEN/JL2sa2rXc=
-X-Received: by 2002:a81:1b97:0:b0:2db:640f:49d8 with SMTP id
- b145-20020a811b97000000b002db640f49d8mr45075306ywb.326.1657115480888; Wed, 06
- Jul 2022 06:51:20 -0700 (PDT)
+        bh=nGlq0tAOl9peVDy+2hDU8oij0psSLrDezDLIhvJH3CU=;
+        b=46U5ZKVUnG0Xtkvo6jYIayQm80DUNOT2vUIPMeDrft8dFQDaj//TPqiW4FsdE38D5S
+         j+JNb5MLnl7p3ltOJwXGhWqpr+PaopdurNturfB8RKwlMLz58U2Gu1smUmJnIXzcjTmZ
+         BwfCUHT/fB3DTncA1JvNxjJWbvQOJwT8Ox82/Zuks4/AL1DozOPA1Px8AwfdOBh5XcBV
+         th6ysDKFuIsmDFqFhVPN9QbLe+7j74BtvqXbA46aSRsHPZ3xa7ekBMJ/nGMgodI/homl
+         eIk2fbXt8c7JArVMQ5jljK9f3k+7y6HOCKrZHVyPg5Tc/KTxZ5ChUR2veUSZF1XpGCf3
+         uJgg==
+X-Gm-Message-State: AJIora/oNOlQJSHTUgXwH6wiAUO4ebTca7O7t6lQTuH6DZ6MBCPuSEg4
+	O/vxr3r3QwP5DQzD5pg89nIlAC6IsQiOJXixtv4=
+X-Google-Smtp-Source: AGRyM1tDetZqwrRScub6Y4Pn1s0tSkry0FvKlyTlHU1qOUr14WujFHx6NLxGPd7DkQtOavHEbmevSefDFcyAl6P8ZZY=
+X-Received: by 2002:a25:fb02:0:b0:66e:3db9:5d49 with SMTP id
+ j2-20020a25fb02000000b0066e3db95d49mr20145358ybe.137.1657115683016; Wed, 06
+ Jul 2022 06:54:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220608142723.103523089@infradead.org> <20220608144516.109792837@infradead.org>
-In-Reply-To: <20220608144516.109792837@infradead.org>
+References: <20220608142723.103523089@infradead.org> <20220608144516.235041924@infradead.org>
+In-Reply-To: <20220608144516.235041924@infradead.org>
 From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 6 Jul 2022 15:51:09 +0200
-Message-ID: <CAJZ5v0jO9+jRSm3d58K15JaO3=kgM2Ueo7W+Smi3WCBPR_VM5Q@mail.gmail.com>
-Subject: Re: [PATCH 03/36] cpuidle/poll: Ensure IRQ state is invariant
+Date: Wed, 6 Jul 2022 15:54:32 +0200
+Message-ID: <CAJZ5v0g0fCNxsc1mg9aL+ieQ1uMVS+RWqesHKoZ_zeL7cx655A@mail.gmail.com>
+Subject: Re: [PATCH 05/36] cpuidle: Move IRQ state validation
 To: Peter Zijlstra <peterz@infradead.org>
 Cc: rth@twiddle.net, ink@jurassic.park.msu.ru, mattst88@gmail.com, 
 	vgupta@kernel.org, Russell King - ARM Linux <linux@armlinux.org.uk>, ulli.kroll@googlemail.com, 
@@ -115,8 +115,8 @@ Cc: rth@twiddle.net, ink@jurassic.park.msu.ru, mattst88@gmail.com,
 	linux-tegra <linux-tegra@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
 	rcu@vger.kernel.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220706_065123_073993_9FCDC7A4 
-X-CRM114-Status: GOOD (  18.41  )
+X-CRM114-CacheID: sfid-20220706_065445_477892_64A630D0 
+X-CRM114-Status: GOOD (  20.92  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,36 +135,50 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 On Wed, Jun 8, 2022 at 4:47 PM Peter Zijlstra <peterz@infradead.org> wrote:
 >
-> cpuidle_state::enter() methods should be IRQ invariant
+> Make cpuidle_enter_state() consistent with the s2idle variant and
+> verify ->enter() always returns with interrupts disabled.
 >
 > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-
-Reviewed-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-
 > ---
->  drivers/cpuidle/poll_state.c |    4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/cpuidle/cpuidle.c |   10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 >
-> --- a/drivers/cpuidle/poll_state.c
-> +++ b/drivers/cpuidle/poll_state.c
-> @@ -17,7 +17,7 @@ static int __cpuidle poll_idle(struct cp
->
->         dev->poll_time_limit = false;
->
-> -       local_irq_enable();
-> +       raw_local_irq_enable();
->         if (!current_set_polling_and_test()) {
->                 unsigned int loop_count = 0;
->                 u64 limit;
-> @@ -36,6 +36,8 @@ static int __cpuidle poll_idle(struct cp
->                         }
->                 }
->         }
-> +       raw_local_irq_disable();
+> --- a/drivers/cpuidle/cpuidle.c
+> +++ b/drivers/cpuidle/cpuidle.c
+> @@ -234,7 +234,11 @@ int cpuidle_enter_state(struct cpuidle_d
+>         stop_critical_timings();
+>         if (!(target_state->flags & CPUIDLE_FLAG_RCU_IDLE))
+>                 rcu_idle_enter();
 > +
->         current_clr_polling();
+>         entered_state = target_state->enter(dev, drv, index);
+> +       if (WARN_ONCE(!irqs_disabled(), "%ps leaked IRQ state", target_state->enter))
+
+I'm not sure if dumping a call trace here is really useful and
+WARN_ON() often gets converted to panic().
+
+I would print an error message with pr_warn_once().
+
+Otherwise LGTM.
+
+> +               raw_local_irq_disable();
+> +
+>         if (!(target_state->flags & CPUIDLE_FLAG_RCU_IDLE))
+>                 rcu_idle_exit();
+>         start_critical_timings();
+> @@ -246,12 +250,8 @@ int cpuidle_enter_state(struct cpuidle_d
+>         /* The cpu is no longer idle or about to enter idle. */
+>         sched_idle_set_state(NULL);
 >
->         return index;
+> -       if (broadcast) {
+> -               if (WARN_ON_ONCE(!irqs_disabled()))
+> -                       local_irq_disable();
+> -
+> +       if (broadcast)
+>                 tick_broadcast_exit();
+> -       }
+>
+>         if (!cpuidle_state_is_coupled(drv, index))
+>                 local_irq_enable();
 >
 >
 
