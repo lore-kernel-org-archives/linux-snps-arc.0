@@ -4,64 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5181C43334
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 11 Jul 2022 20:14:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 076E3C43334
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 11 Jul 2022 20:44:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Mime-Version:References:In-Reply-To:
-	Message-Id:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=RhyIy/Jq3LwxL2+O44m/lBxz7N7nUSzJZl7d2MbVWLA=; b=vXnUgh9LcC0EID
-	nZquL4M3VzAPXRBABTkUdeXoLCG4z4oEQmruIwmireThgc5+SMFoklLrQYzxbx60Cn1H/s0tAbior
-	BgbZ6jFrQZb6oyx9PnslhmzGPRCccbY1sfA81PrZdVAg6f/Z8EhixT940pWWL+yAVgp+kBdICD1Al
-	cv8LbxioBE/p15nqj28y3DTQKSs5m3OSgdGlKfIrJWafEsFa4kZGJzxD2YVmCCEoqpxzrgmCUfs/h
-	segRPOrukAtaklxbiElKmg/OAtbcbunnio+yFs8TvaIkWtl/NLNRv7pvVwbzaPyMlKFcmPYJGMQfz
-	ttgJkiDq4sjdzMsPdeSQ==;
+	List-Owner; bh=bei5kmMhKyJSX736hw7cFZ8GcLH5dlr4Al7tVGaI180=; b=JlX8lqvJflwIDe
+	g+PaSt3BnbKnd222X4HA3+wrIdgjXSWTZYtc5iA4D2LNJyxi1PYEQSwDBwjp7/EN1fLZSL/JVcns9
+	Jyvx28kFStf5IRhxQAM/gHskjArPTO9+TO89fRl+hGNPOW/QCuqDA4ADvaUIPVltGSbA+NAualx0f
+	bQsF6VUXbpQgml8ypAmvf9M54y3y1I2Lky6RKcPaln39Ea2j4Fo5l2cJyl+/m8e/eW2qBPVZttlz6
+	NumHwvaDStc3FdHemPXUpSEFRzlsxM9zsZvaOd4UFHcTtd843NlU1U1t5M645xvSatUKenurozcCA
+	JF2obVEZ+WGKk5bGCAeg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oAznd-004aTL-9z; Mon, 11 Jul 2022 20:14:33 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1oB0GI-004j42-BN; Mon, 11 Jul 2022 20:44:10 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oAznR-004aO5-56; Mon, 11 Jul 2022 20:14:22 +0000
+	id 1oB0G4-004ixJ-9y; Mon, 11 Jul 2022 20:43:58 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 3F26D615E8;
-	Mon, 11 Jul 2022 20:14:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77FB8C34115;
-	Mon, 11 Jul 2022 20:14:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1657570459;
-	bh=Qi9KHdTBSLuKZsaLawDZPDz9HT/wF+gH2hGfQ1b/XB4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=j6XVvkVOWxDOzNjGjTDcj6e6ZY1u9GuvGONiK6EGJe21US8g66C0v4Tv4wCu+5Z3u
-	 T5lr1fQ/vFxEaXWAl9b5zH6sU86TD4i30OcWtJ4fjtKbOuqrDS6Ez0AqW6I2zqbQ9j
-	 6Q9WeeDMfajEfQXiH+eWEM5JFOXvwrthQ0YF7SB8=
-Date: Mon, 11 Jul 2022 13:14:17 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: linux-mm@kvack.org, hch@infradead.org, christophe.leroy@csgroup.eu,
+	by ams.source.kernel.org (Postfix) with ESMTPS id E4E43B81217;
+	Mon, 11 Jul 2022 20:43:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C5BBC341C0;
+	Mon, 11 Jul 2022 20:43:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1657572232;
+	bh=cp41t+VP5zpzqWweFhXlDmnM1wrue4Oj0YaNSsnkppo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=aRG3qlu8UFv6GCt770R2iC1Nn/k2d2ZZkq8YVXrKOSkRIGx/97W21I2Zdpp2kvQZZ
+	 KuyKHJSCwX7fmQ/aRk1bnlNJ8KyGBKAIf6wfLoaj+ZGY/r7YC8F4ZXLbCSIXay8S3U
+	 KO1cCVQmcGHIuoeCVWpgDm8SLn2+onrydiOidsSYmIF+WPeB57GMcSRa0c2AOerTEx
+	 8wJNGlnRymBpEln9x5KoLhRbmS/nGaKmk+GXs/cnV0NfNmMTv8Jcr5e9ZRfkzStYWA
+	 a4l5nSOt+INBze/1hqe2LjRwOeBcCIZslW2jmgjdP8uyldi4q1iH8r9vF36qh/SNmy
+	 6vhOBCbduXcxQ==
+Message-ID: <88328a82-7275-608e-46f2-4203df9d9fe6@kernel.org>
+Date: Mon, 11 Jul 2022 15:43:45 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH V7 15/26] nios2/mm: Enable ARCH_HAS_VM_GET_PAGE_PROT
+Content-Language: en-US
+To: Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org,
+ akpm@linux-foundation.org
+Cc: hch@infradead.org, christophe.leroy@csgroup.eu,
  linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org, x86@kernel.org,
  openrisc@lists.librecores.org, linux-xtensa@linux-xtensa.org,
  linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
  linux-parisc@vger.kernel.org, linux-alpha@vger.kernel.org,
  linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
  linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-m68k@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-m68k@lists.linux-m68k.org, linux-snps-arc@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-um@lists.infradead.org,
  linux-sh@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V7 00/26] mm/mmap: Drop __SXXX/__PXXX macros from across
- platforms
-Message-Id: <20220711131417.9cac57d9b88eea8bbd7d8616@linux-foundation.org>
-In-Reply-To: <20220711070600.2378316-1-anshuman.khandual@arm.com>
 References: <20220711070600.2378316-1-anshuman.khandual@arm.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
+ <20220711070600.2378316-16-anshuman.khandual@arm.com>
+From: Dinh Nguyen <dinguyen@kernel.org>
+In-Reply-To: <20220711070600.2378316-16-anshuman.khandual@arm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220711_131421_265555_FDB8188A 
-X-CRM114-Status: UNSURE (   9.58  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220711_134356_714661_33A3DE46 
+X-CRM114-Status: GOOD (  17.05  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,21 +78,99 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, 11 Jul 2022 12:35:34 +0530 Anshuman Khandual <anshuman.khandual@arm.com> wrote:
 
-> This series drops __SXXX/__PXXX macros from across platforms in the tree.
 
-I've updated mm-unstable to this version, thanks.  I skipped the added-to-mm
-emails to avoid wearing out people's inboxes.
+On 7/11/22 02:05, Anshuman Khandual wrote:
+> This enables ARCH_HAS_VM_GET_PAGE_PROT on the platform and exports standard
+> vm_get_page_prot() implementation via DECLARE_VM_GET_PAGE_PROT, which looks
+> up a private and static protection_map[] array. Subsequently all __SXXX and
+> __PXXX macros can be dropped which are no longer needed.
+> 
+> Cc: Dinh Nguyen <dinguyen@kernel.org>
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+> ---
+>   arch/nios2/Kconfig               |  1 +
+>   arch/nios2/include/asm/pgtable.h | 16 ----------------
+>   arch/nios2/mm/init.c             | 20 ++++++++++++++++++++
+>   3 files changed, 21 insertions(+), 16 deletions(-)
+> 
+> diff --git a/arch/nios2/Kconfig b/arch/nios2/Kconfig
+> index 4167f1eb4cd8..e0459dffd218 100644
+> --- a/arch/nios2/Kconfig
+> +++ b/arch/nios2/Kconfig
+> @@ -6,6 +6,7 @@ config NIOS2
+>   	select ARCH_HAS_SYNC_DMA_FOR_CPU
+>   	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
+>   	select ARCH_HAS_DMA_SET_UNCACHED
+> +	select ARCH_HAS_VM_GET_PAGE_PROT
+>   	select ARCH_NO_SWAP
+>   	select COMMON_CLK
+>   	select TIMER_OF
+> diff --git a/arch/nios2/include/asm/pgtable.h b/arch/nios2/include/asm/pgtable.h
+> index 262d0609268c..470516d4555e 100644
+> --- a/arch/nios2/include/asm/pgtable.h
+> +++ b/arch/nios2/include/asm/pgtable.h
+> @@ -40,24 +40,8 @@ struct mm_struct;
+>    */
+>   
+>   /* Remove W bit on private pages for COW support */
+> -#define __P000	MKP(0, 0, 0)
+> -#define __P001	MKP(0, 0, 1)
+> -#define __P010	MKP(0, 0, 0)	/* COW */
+> -#define __P011	MKP(0, 0, 1)	/* COW */
+> -#define __P100	MKP(1, 0, 0)
+> -#define __P101	MKP(1, 0, 1)
+> -#define __P110	MKP(1, 0, 0)	/* COW */
+> -#define __P111	MKP(1, 0, 1)	/* COW */
+>   
+>   /* Shared pages can have exact HW mapping */
+> -#define __S000	MKP(0, 0, 0)
+> -#define __S001	MKP(0, 0, 1)
+> -#define __S010	MKP(0, 1, 0)
+> -#define __S011	MKP(0, 1, 1)
+> -#define __S100	MKP(1, 0, 0)
+> -#define __S101	MKP(1, 0, 1)
+> -#define __S110	MKP(1, 1, 0)
+> -#define __S111	MKP(1, 1, 1)
+>   
+>   /* Used all over the kernel */
+>   #define PAGE_KERNEL __pgprot(_PAGE_PRESENT | _PAGE_CACHED | _PAGE_READ | \
+> diff --git a/arch/nios2/mm/init.c b/arch/nios2/mm/init.c
+> index 613fcaa5988a..ae24687d12ad 100644
+> --- a/arch/nios2/mm/init.c
+> +++ b/arch/nios2/mm/init.c
+> @@ -124,3 +124,23 @@ const char *arch_vma_name(struct vm_area_struct *vma)
+>   {
+>   	return (vma->vm_start == KUSER_BASE) ? "[kuser]" : NULL;
+>   }
+> +
+> +static const pgprot_t protection_map[16] = {
+> +	[VM_NONE]					= MKP(0, 0, 0),
+> +	[VM_READ]					= MKP(0, 0, 1),
+> +	[VM_WRITE]					= MKP(0, 0, 0),
+> +	[VM_WRITE | VM_READ]				= MKP(0, 0, 1),
+> +	[VM_EXEC]					= MKP(1, 0, 0),
+> +	[VM_EXEC | VM_READ]				= MKP(1, 0, 1),
+> +	[VM_EXEC | VM_WRITE]				= MKP(1, 0, 0),
+> +	[VM_EXEC | VM_WRITE | VM_READ]			= MKP(1, 0, 1),
+> +	[VM_SHARED]					= MKP(0, 0, 0),
+> +	[VM_SHARED | VM_READ]				= MKP(0, 0, 1),
+> +	[VM_SHARED | VM_WRITE]				= MKP(0, 1, 0),
+> +	[VM_SHARED | VM_WRITE | VM_READ]		= MKP(0, 1, 1),
+> +	[VM_SHARED | VM_EXEC]				= MKP(1, 0, 0),
+> +	[VM_SHARED | VM_EXEC | VM_READ]			= MKP(1, 0, 1),
+> +	[VM_SHARED | VM_EXEC | VM_WRITE]		= MKP(1, 1, 0),
+> +	[VM_SHARED | VM_EXEC | VM_WRITE | VM_READ]	= MKP(1, 1, 1)
+> +};
+> +DECLARE_VM_GET_PAGE_PROT
 
-Reissuing a 26-patch series N times is rather noisy.  Please prefer to send incremental
-fixes when changes are minor.  It makes it so much easier for reviewers to see what
-happened.
+Acked-by: Dinh Nguyen <dinguyen@kernel.org>
 
 _______________________________________________
 linux-snps-arc mailing list
