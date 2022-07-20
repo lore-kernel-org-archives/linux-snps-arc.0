@@ -4,68 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9FB08CCA487
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 20 Jul 2022 17:28:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99AB1C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 20 Jul 2022 17:40:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=bgjDKfkoOmp1WFs6deSNVi/zEv7scxwJqHm77ZPJGQU=; b=JGqrzww1R6FGpV
-	EJCc/EuqTUp95l9hkC8jiJjP+3HUYBwAqfROKxaIsGjy9fv8L6BmehCqdNIldT+F77Kq5sxWsjsPG
-	JwPWPsbnVD1NZRNtsT4cWt0hLpyFhDRGt6NHN7pMkL8nH4NEs3GJRbfEJWfu+VeJmnzUBRFuay7Y6
-	4XHoW6PgsevX947Y2FjGz/RCADUpyukTvou6kSHD780zcWwMpPpMNwhoTt5wb0blgnzkNcS2fTPaa
-	NA7vm0H6eZzn9eY9esG3fvHOkbpd1+8qWA3+rd5ZtFG2dfHiVOXkp/bYNEwXgt51jOGkPoPeKBUab
-	IcxvsGxxQc31lV+B1YSA==;
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=uy9Clb7sl9iWivGCRg4GVscP6yYXIubzif8v+dmctkc=; b=bcvYoGnnH3ECi4
+	6Hh0/xy9CyAqSNTN5KKBKmCVfBAG1YdAM1QyS+P4ibUN+ZjirokX2GfhNQMrZ0u/m1aPVXbrdlOJo
+	AYN7D3/fOxTaJ2i5W3n9sih2mSvq4tFBYbp7OJUN/DGYn+P9cfC7oEAhW13/wByU7JwcHoqJeB8zZ
+	/j01d8IYgAlfrZWu5RiwPP8xR5RTWF3bD//j0C3ngcdnN1rifAn0xpiizivR2EkPbF8VJLjiAv5Tf
+	lIA840nGvbZMEsu8kVXdkuG/mharfN3HfJV59yZIOSn0dublL98MlIcFW8lvd3r77YGTr0h1lo3sB
+	sGfqLMvOrNkGl7fHPRJQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oEDUU-008cKY-12; Wed, 20 Jul 2022 17:28:06 +0000
-Received: from mga12.intel.com ([192.55.52.136])
+	id 1oEDgh-008l6g-Fb; Wed, 20 Jul 2022 17:40:43 +0000
+Received: from mail-qt1-f180.google.com ([209.85.160.180])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oEDUP-008cFz-7z
-	for linux-snps-arc@lists.infradead.org; Wed, 20 Jul 2022 17:28:05 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658338081; x=1689874081;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wx5pbREH6bxpflB8DsBBTL6IzTqARz7MsuIJxXZ9uwg=;
-  b=nWZFVvFOfpVfekPVnA8bCOELNgECGFibk7bwke6m6kSK6z392fdRz5IW
-   ctJXvPT1A2e3OvkE/fDygAf1SjQx4eGIZW/fv7Jv5E/riqHS4rvVgiQuP
-   1ZGXGjpg83hyNIUMOZ/EpaPZEkx2UPeJ4kpw7TKA1iNWOYFrvO2LWThhI
-   H5OzHHkaBRBJ+tc9KZy8LiO/PkT4GAAO/+3RsClmUFcQMXqmIPOTZGmUW
-   jV7hGeuoNl5qc025pEDxqmot4nrbqnSRu57OGuc8eRQK19jBN1qsMdlCa
-   dMDglxqvK5HC4vuTpZGskCmfE6megWXhZTPC9YRDHTx38utHhwh0Odx3N
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10414"; a="266616284"
-X-IronPort-AV: E=Sophos;i="5.92,286,1650956400"; 
-   d="scan'208";a="266616284"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2022 10:27:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,286,1650956400"; 
-   d="scan'208";a="573394779"
-Received: from lkp-server01.sh.intel.com (HELO 7dfbdc7c7900) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 20 Jul 2022 10:27:56 -0700
-Received: from kbuild by 7dfbdc7c7900 with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1oEDUJ-0000kr-AX;
-	Wed, 20 Jul 2022 17:27:55 +0000
-Date: Thu, 21 Jul 2022 01:27:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org
-Subject: [arm-integrator:kernel-in-vmalloc-v5.19-rc1 19/35]
- ./include/generated/autoconf.h:908:31: error: passing argument 1 of
- 'virt_to_pfn' makes pointer from integer without a cast
-Message-ID: <202207210127.6KFeFDsE-lkp@intel.com>
+	id 1oEDgf-008l3R-Go; Wed, 20 Jul 2022 17:40:42 +0000
+Received: by mail-qt1-f180.google.com with SMTP id g24so11173012qtu.2;
+        Wed, 20 Jul 2022 10:40:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PmcZJKXW5L1h76Y7jDvbkfD3n85Nfb/cTZUz3jaZfpo=;
+        b=zuDTdlOfrxqZcz5qtoW5JKdTessxURFiUN7Wshz0pPYLhHyd9IXKpdS7rTfRS+N9H3
+         4bhkg89Roy2S7oYd6dHijZbCWkfkn238eJZdLxto0upJLoXH/rp5GRj8tT/3UBlL2/H6
+         LnaRymOi1Ngz46J9/o5t+FDHvAopraUs3ZW6RrnZPmDCjG20Y009T4NZS89JPHjqy8a1
+         jG8Q4V5Fw3U7/C0mzsLRZkFxKeh0+U5cPvvQVgVdFtFFREw9hmNVtDYUwhBpQASK3jcJ
+         spyO/j9akQapM0noOiabgU7lPJR1Kb8banyrquVlCq0Wbww1xIjzHF2xHDQSfj8TDPij
+         Q7IA==
+X-Gm-Message-State: AJIora9XlgPPxH9ZrR+cS/m5wAuYwhwnQynWQtU3b47Wr8w2fBhOOT3s
+	7EynYRa3/LG+0rytzD6mb4N5fAhCcyVD5+Xw
+X-Google-Smtp-Source: AGRyM1uykxZkkxRGFX+bWyLa65XUW94jvtw3xfi8WLz+cHmpu3l9+nG69ZJC2dnIL5QGdPy34S5pdQ==
+X-Received: by 2002:ac8:57c4:0:b0:31f:100:fc59 with SMTP id w4-20020ac857c4000000b0031f0100fc59mr6949831qta.395.1658338839193;
+        Wed, 20 Jul 2022 10:40:39 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id j13-20020ac806cd000000b00304efba3d84sm12616663qth.25.2022.07.20.10.40.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Jul 2022 10:40:38 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id r3so33334836ybr.6;
+        Wed, 20 Jul 2022 10:40:38 -0700 (PDT)
+X-Received: by 2002:a5b:6c1:0:b0:669:a7c3:4c33 with SMTP id
+ r1-20020a5b06c1000000b00669a7c34c33mr36151263ybq.543.1658338827759; Wed, 20
+ Jul 2022 10:40:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
+References: <20220720131934.373932-1-shorne@gmail.com> <20220720131934.373932-3-shorne@gmail.com>
+In-Reply-To: <20220720131934.373932-3-shorne@gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 20 Jul 2022 19:40:16 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX7_CSQd14tGPfL7R7V0h6AwNi7bVDCWhcdNoZV_md4bw@mail.gmail.com>
+Message-ID: <CAMuHMdX7_CSQd14tGPfL7R7V0h6AwNi7bVDCWhcdNoZV_md4bw@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] PCI: Move isa_dma_bridge_buggy out of dma.h
+To: Stafford Horne <shorne@gmail.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Christoph Hellwig <hch@infradead.org>, Richard Henderson <rth@twiddle.net>, 
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+	Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, 
+	Michal Simek <monstr@monstr.eu>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, 
+	Paul Mackerras <paulus@samba.org>, Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
+	Sven Schnelle <svens@linux.ibm.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
+	Rich Felker <dalias@libc.org>, "David S. Miller" <davem@davemloft.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "the arch/x86 maintainers" <x86@kernel.org>, 
+	"H. Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>, 
+	Ian Abbott <abbotti@mev.co.uk>, H Hartley Sweeten <hsweeten@visionengravers.com>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Greg Ungerer <gerg@linux-m68k.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, alpha <linux-alpha@vger.kernel.org>, 
+	arcml <linux-snps-arc@lists.infradead.org>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	"linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>, linux-m68k <linux-m68k@lists.linux-m68k.org>, 
+	"open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>, Parisc List <linux-parisc@vger.kernel.org>, 
+	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, linux-s390 <linux-s390@vger.kernel.org>, 
+	Linux-sh list <linux-sh@vger.kernel.org>, sparclinux <sparclinux@vger.kernel.org>, 
+	"open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>, linux-pci <linux-pci@vger.kernel.org>, 
+	ALSA Development Mailing List <alsa-devel@alsa-project.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220720_102801_393062_9958AED2 
-X-CRM114-Status: UNSURE (   9.55  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220720_104041_573798_E2B67BF1 
+X-CRM114-Status: GOOD (  22.64  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,608 +105,37 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git kernel-in-vmalloc-v5.19-rc1
-head:   144435741b0a6f31403d3084103678da3b4f9d11
-commit: de1bb0b64eb108f2ec8ef6be0cfb632897de5321 [19/35] ARC: mm: Make virt_to_pfn() a static inline
-config: arc-buildonly-randconfig-r005-20220719 (https://download.01.org/0day-ci/archive/20220721/202207210127.6KFeFDsE-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git/commit/?id=de1bb0b64eb108f2ec8ef6be0cfb632897de5321
-        git remote add arm-integrator https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git
-        git fetch --no-tags arm-integrator kernel-in-vmalloc-v5.19-rc1
-        git checkout de1bb0b64eb108f2ec8ef6be0cfb632897de5321
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/net/wireless/broadcom/brcm80211/brcmfmac/ drivers/net/wwan/t7xx/ fs/proc/ lib/
+On Wed, Jul 20, 2022 at 3:20 PM Stafford Horne <shorne@gmail.com> wrote:
+> During recent PCI cleanups we noticed that the isa_dma_bridge_buggy
+> symbol supported by all architectures is actually only used for x86_32.
+>
+> This patch moves the symbol out of all architectures limiting usage to
+> only x86_32.  This is possible because only x86_32 platforms or quirks
+> existing in PCI devices supported on x86_32 ever set this.  A new global
+> header linux/isa-dma.h is added to provide a common place to maintain
+> the definition.
+>
+> Suggested-by: Arnd Bergmann <arnd@arndb.de>
+> Suggested-by: Christoph Hellwig <hch@infradead.org>
+> Signed-off-by: Stafford Horne <shorne@gmail.com>
+> ---
+> Since v3:
+>  - New patch.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+>  arch/m68k/include/asm/dma.h            |  6 ------
 
-All error/warnings (new ones prefixed by >>):
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-   include/asm-generic/memory_model.h:18:53: note: in expansion of macro 'ARCH_PFN_OFFSET'
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                                     ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:53:21: note: in expansion of macro '__pfn_to_page'
-      53 | #define pfn_to_page __pfn_to_page
-         |                     ^~~~~~~~~~~~~
-   include/linux/highmem-internal.h:197:32: note: in expansion of macro 'pfn_to_page'
-     197 |         return kmap_local_page(pfn_to_page(pfn));
-         |                                ^~~~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   include/linux/highmem-internal.h: In function 'kmap_atomic_pfn':
-   ./include/generated/autoconf.h:908:31: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:18:53: note: in expansion of macro 'ARCH_PFN_OFFSET'
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                                     ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:53:21: note: in expansion of macro '__pfn_to_page'
-      53 | #define pfn_to_page __pfn_to_page
-         |                     ^~~~~~~~~~~~~
-   include/linux/highmem-internal.h:224:28: note: in expansion of macro 'pfn_to_page'
-     224 |         return kmap_atomic(pfn_to_page(pfn));
-         |                            ^~~~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   fs/proc/kcore.c: In function 'kclist_add_private':
-   ./include/generated/autoconf.h:908:31: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   arch/arc/include/asm/page.h:103:43: note: in expansion of macro 'ARCH_PFN_OFFSET'
-     103 | #define pfn_valid(pfn)          (((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
-         |                                           ^~~~~~~~~~~~~~~
-   fs/proc/kcore.c:192:14: note: in expansion of macro 'pfn_valid'
-     192 |         if (!pfn_valid(pfn))
-         |              ^~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   ./include/generated/autoconf.h:908:31: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:18:53: note: in expansion of macro 'ARCH_PFN_OFFSET'
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                                     ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:53:21: note: in expansion of macro '__pfn_to_page'
-      53 | #define pfn_to_page __pfn_to_page
-         |                     ^~~~~~~~~~~~~
-   fs/proc/kcore.c:195:13: note: in expansion of macro 'pfn_to_page'
-     195 |         p = pfn_to_page(pfn);
-         |             ^~~~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   ./include/generated/autoconf.h:908:31: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   arch/arc/include/asm/page.h:115:59: note: in definition of macro '__va'
-     115 | #define __va(paddr)             ((void *)((unsigned long)(paddr)))
-         |                                                           ^~~~~
-   include/linux/mm.h:113:30: note: in expansion of macro 'PFN_PHYS'
-     113 | #define page_to_virt(x) __va(PFN_PHYS(page_to_pfn(x)))
-         |                              ^~~~~~~~
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:20:34: note: in expansion of macro 'ARCH_PFN_OFFSET'
-      20 |                                  ARCH_PFN_OFFSET)
-         |                                  ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:52:21: note: in expansion of macro '__page_to_pfn'
-      52 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mm.h:113:39: note: in expansion of macro 'page_to_pfn'
-     113 | #define page_to_virt(x) __va(PFN_PHYS(page_to_pfn(x)))
-         |                                       ^~~~~~~~~~~
-   fs/proc/kcore.c:200:36: note: in expansion of macro 'page_to_virt'
-     200 |         ent->addr = (unsigned long)page_to_virt(p);
-         |                                    ^~~~~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
->> fs/proc/kcore.c:203:33: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
-     203 |         if (!virt_addr_valid(ent->addr))
-         |                              ~~~^~~~~~
-         |                                 |
-         |                                 long unsigned int
-   arch/arc/include/asm/page.h:103:36: note: in definition of macro 'pfn_valid'
-     103 | #define pfn_valid(pfn)          (((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
-         |                                    ^~~
-   fs/proc/kcore.c:203:14: note: in expansion of macro 'virt_addr_valid'
-     203 |         if (!virt_addr_valid(ent->addr))
-         |              ^~~~~~~~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'long unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   ./include/generated/autoconf.h:908:31: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   arch/arc/include/asm/page.h:103:43: note: in expansion of macro 'ARCH_PFN_OFFSET'
-     103 | #define pfn_valid(pfn)          (((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
-         |                                           ^~~~~~~~~~~~~~~
-   arch/arc/include/asm/page.h:130:33: note: in expansion of macro 'pfn_valid'
-     130 | #define virt_addr_valid(kaddr)  pfn_valid(virt_to_pfn(kaddr))
-         |                                 ^~~~~~~~~
-   fs/proc/kcore.c:203:14: note: in expansion of macro 'virt_addr_valid'
-     203 |         if (!virt_addr_valid(ent->addr))
-         |              ^~~~~~~~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   fs/proc/kcore.c: In function 'read_kcore':
-   ./include/generated/autoconf.h:908:31: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   arch/arc/include/asm/page.h:103:43: note: in expansion of macro 'ARCH_PFN_OFFSET'
-     103 | #define pfn_valid(pfn)          (((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
-         |                                           ^~~~~~~~~~~~~~~
-   include/linux/memory_hotplug.h:223:13: note: in expansion of macro 'pfn_valid'
-     223 |         if (pfn_valid(pfn))                     \
-         |             ^~~~~~~~~
-   fs/proc/kcore.c:526:32: note: in expansion of macro 'pfn_to_online_page'
-     526 |                         page = pfn_to_online_page(pfn);
-         |                                ^~~~~~~~~~~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   ./include/generated/autoconf.h:908:31: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:18:53: note: in expansion of macro 'ARCH_PFN_OFFSET'
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                                     ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:53:21: note: in expansion of macro '__pfn_to_page'
-      53 | #define pfn_to_page __pfn_to_page
-         |                     ^~~~~~~~~~~~~
-   include/linux/memory_hotplug.h:224:27: note: in expansion of macro 'pfn_to_page'
-     224 |                 ___page = pfn_to_page(pfn);     \
-         |                           ^~~~~~~~~~~
-   fs/proc/kcore.c:526:32: note: in expansion of macro 'pfn_to_online_page'
-     526 |                         page = pfn_to_online_page(pfn);
-         |                                ^~~~~~~~~~~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
+Gr{oetje,eeting}s,
+
+                        Geert
+
 --
-   In file included from include/linux/kconfig.h:5,
-                    from <command-line>:
-   include/linux/mm.h: In function 'virt_to_head_page':
->> ./include/generated/autoconf.h:908:31: error: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Werror=int-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:18:53: note: in expansion of macro 'ARCH_PFN_OFFSET'
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                                     ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:53:21: note: in expansion of macro '__pfn_to_page'
-      53 | #define pfn_to_page __pfn_to_page
-         |                     ^~~~~~~~~~~~~
-   arch/arc/include/asm/page.h:129:33: note: in expansion of macro 'pfn_to_page'
-     129 | #define virt_to_page(kaddr)     pfn_to_page(virt_to_pfn(kaddr))
-         |                                 ^~~~~~~~~~~
-   include/linux/mm.h:846:29: note: in expansion of macro 'virt_to_page'
-     846 |         struct page *page = virt_to_page(x);
-         |                             ^~~~~~~~~~~~
-   In file included from arch/arc/include/asm/thread_info.h:16,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arc/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:55,
-                    from include/linux/swait.h:7,
-                    from include/linux/completion.h:12,
-                    from drivers/net/wwan/t7xx/t7xx_pci.c:21:
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   include/linux/mm.h: In function 'virt_to_folio':
->> ./include/generated/autoconf.h:908:31: error: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Werror=int-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:18:53: note: in expansion of macro 'ARCH_PFN_OFFSET'
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                                     ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:53:21: note: in expansion of macro '__pfn_to_page'
-      53 | #define pfn_to_page __pfn_to_page
-         |                     ^~~~~~~~~~~~~
-   arch/arc/include/asm/page.h:129:33: note: in expansion of macro 'pfn_to_page'
-     129 | #define virt_to_page(kaddr)     pfn_to_page(virt_to_pfn(kaddr))
-         |                                 ^~~~~~~~~~~
-   include/linux/mm.h:853:29: note: in expansion of macro 'virt_to_page'
-     853 |         struct page *page = virt_to_page(x);
-         |                             ^~~~~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   include/linux/mm.h: In function 'folio_pfn':
->> ./include/generated/autoconf.h:908:31: error: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Werror=int-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:20:34: note: in expansion of macro 'ARCH_PFN_OFFSET'
-      20 |                                  ARCH_PFN_OFFSET)
-         |                                  ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:52:21: note: in expansion of macro '__page_to_pfn'
-      52 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mm.h:1521:16: note: in expansion of macro 'page_to_pfn'
-    1521 |         return page_to_pfn(&folio->page);
-         |                ^~~~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   include/linux/mm.h: In function 'is_pinnable_page':
->> ./include/generated/autoconf.h:908:31: error: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Werror=int-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:20:34: note: in expansion of macro 'ARCH_PFN_OFFSET'
-      20 |                                  ARCH_PFN_OFFSET)
-         |                                  ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:52:21: note: in expansion of macro '__page_to_pfn'
-      52 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mmzone.h:103:39: note: in expansion of macro 'page_to_pfn'
-     103 |         get_pfnblock_flags_mask(page, page_to_pfn(page), MIGRATETYPE_MASK)
-         |                                       ^~~~~~~~~~~
-   include/linux/mm.h:1598:18: note: in expansion of macro 'get_pageblock_migratetype'
-    1598 |         int mt = get_pageblock_migratetype(page);
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
->> ./include/generated/autoconf.h:908:31: error: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Werror=int-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:20:34: note: in expansion of macro 'ARCH_PFN_OFFSET'
-      20 |                                  ARCH_PFN_OFFSET)
-         |                                  ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:52:21: note: in expansion of macro '__page_to_pfn'
-      52 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mm.h:1603:60: note: in expansion of macro 'page_to_pfn'
-    1603 |         return !(is_zone_movable_page(page) || is_zero_pfn(page_to_pfn(page)));
-         |                                                            ^~~~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   include/linux/mm.h: In function 'lowmem_page_address':
->> ./include/generated/autoconf.h:908:31: error: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Werror=int-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   arch/arc/include/asm/page.h:115:59: note: in definition of macro '__va'
-     115 | #define __va(paddr)             ((void *)((unsigned long)(paddr)))
-         |                                                           ^~~~~
-   include/linux/mm.h:113:30: note: in expansion of macro 'PFN_PHYS'
-     113 | #define page_to_virt(x) __va(PFN_PHYS(page_to_pfn(x)))
-         |                              ^~~~~~~~
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:20:34: note: in expansion of macro 'ARCH_PFN_OFFSET'
-      20 |                                  ARCH_PFN_OFFSET)
-         |                                  ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:52:21: note: in expansion of macro '__page_to_pfn'
-      52 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mm.h:113:39: note: in expansion of macro 'page_to_pfn'
-     113 | #define page_to_virt(x) __va(PFN_PHYS(page_to_pfn(x)))
-         |                                       ^~~~~~~~~~~
-   include/linux/mm.h:1729:16: note: in expansion of macro 'page_to_virt'
-    1729 |         return page_to_virt(page);
-         |                ^~~~~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   include/linux/mm.h: In function 'pte_lockptr':
->> ./include/generated/autoconf.h:908:31: error: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Werror=int-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:18:53: note: in expansion of macro 'ARCH_PFN_OFFSET'
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                                     ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:53:21: note: in expansion of macro '__pfn_to_page'
-      53 | #define pfn_to_page __pfn_to_page
-         |                     ^~~~~~~~~~~~~
-   arch/arc/include/asm/page.h:129:33: note: in expansion of macro 'pfn_to_page'
-     129 | #define virt_to_page(kaddr)     pfn_to_page(virt_to_pfn(kaddr))
-         |                                 ^~~~~~~~~~~
-   arch/arc/include/asm/pgtable-levels.h:162:33: note: in expansion of macro 'virt_to_page'
-     162 | #define pmd_page(pmd)           virt_to_page((void *)pmd_page_vaddr(pmd))
-         |                                 ^~~~~~~~~~~~
-   include/linux/mm.h:2291:27: note: in expansion of macro 'pmd_page'
-    2291 |         return ptlock_ptr(pmd_page(*pmd));
-         |                           ^~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   In file included from arch/arc/include/asm/atomic.h:12,
-                    from include/linux/atomic.h:7,
-                    from drivers/net/wwan/t7xx/t7xx_pci.c:19:
-   include/linux/scatterlist.h: In function 'sg_set_buf':
->> ./include/generated/autoconf.h:908:31: error: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Werror=int-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
-      78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/linux/scatterlist.h:160:9: note: in expansion of macro 'BUG_ON'
-     160 |         BUG_ON(!virt_addr_valid(buf));
-         |         ^~~~~~
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   arch/arc/include/asm/page.h:103:43: note: in expansion of macro 'ARCH_PFN_OFFSET'
-     103 | #define pfn_valid(pfn)          (((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
-         |                                           ^~~~~~~~~~~~~~~
-   arch/arc/include/asm/page.h:130:33: note: in expansion of macro 'pfn_valid'
-     130 | #define virt_addr_valid(kaddr)  pfn_valid(virt_to_pfn(kaddr))
-         |                                 ^~~~~~~~~
-   include/linux/scatterlist.h:160:17: note: in expansion of macro 'virt_addr_valid'
-     160 |         BUG_ON(!virt_addr_valid(buf));
-         |                 ^~~~~~~~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
->> ./include/generated/autoconf.h:908:31: error: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Werror=int-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:18:53: note: in expansion of macro 'ARCH_PFN_OFFSET'
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                                     ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:53:21: note: in expansion of macro '__pfn_to_page'
-      53 | #define pfn_to_page __pfn_to_page
-         |                     ^~~~~~~~~~~~~
-   arch/arc/include/asm/page.h:129:33: note: in expansion of macro 'pfn_to_page'
-     129 | #define virt_to_page(kaddr)     pfn_to_page(virt_to_pfn(kaddr))
-         |                                 ^~~~~~~~~~~
-   include/linux/scatterlist.h:162:25: note: in expansion of macro 'virt_to_page'
-     162 |         sg_set_page(sg, virt_to_page(buf), buflen, offset_in_page(buf));
-         |                         ^~~~~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   include/linux/scatterlist.h: In function 'sg_phys':
->> ./include/generated/autoconf.h:908:31: error: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Werror=int-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:20:34: note: in expansion of macro 'ARCH_PFN_OFFSET'
-      20 |                                  ARCH_PFN_OFFSET)
-         |                                  ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:52:21: note: in expansion of macro '__page_to_pfn'
-      52 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   arch/arc/include/asm/io.h:47:42: note: in expansion of macro 'page_to_pfn'
-      47 | #define page_to_phys(page)              (page_to_pfn(page) << PAGE_SHIFT)
-         |                                          ^~~~~~~~~~~
-   include/linux/scatterlist.h:260:16: note: in expansion of macro 'page_to_phys'
-     260 |         return page_to_phys(sg_page(sg)) + sg->offset;
-         |                ^~~~~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   include/linux/dma-mapping.h: In function 'dma_free_noncoherent':
->> ./include/generated/autoconf.h:908:31: error: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Werror=int-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:18:53: note: in expansion of macro 'ARCH_PFN_OFFSET'
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                                     ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:53:21: note: in expansion of macro '__pfn_to_page'
-      53 | #define pfn_to_page __pfn_to_page
-         |                     ^~~~~~~~~~~~~
-   arch/arc/include/asm/page.h:129:33: note: in expansion of macro 'pfn_to_page'
-     129 | #define virt_to_page(kaddr)     pfn_to_page(virt_to_pfn(kaddr))
-         |                                 ^~~~~~~~~~~
-   include/linux/dma-mapping.h:319:35: note: in expansion of macro 'virt_to_page'
-     319 |         dma_free_pages(dev, size, virt_to_page(vaddr), dma_handle, dir);
-         |                                   ^~~~~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   include/linux/dma-mapping.h: In function 'dma_map_single_attrs':
->> ./include/generated/autoconf.h:908:31: error: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Werror=int-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:18:53: note: in expansion of macro 'ARCH_PFN_OFFSET'
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                                     ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:53:21: note: in expansion of macro '__pfn_to_page'
-      53 | #define pfn_to_page __pfn_to_page
-         |                     ^~~~~~~~~~~~~
-   arch/arc/include/asm/page.h:129:33: note: in expansion of macro 'pfn_to_page'
-     129 | #define virt_to_page(kaddr)     pfn_to_page(virt_to_pfn(kaddr))
-         |                                 ^~~~~~~~~~~
-   include/linux/dma-mapping.h:330:40: note: in expansion of macro 'virt_to_page'
-     330 |         return dma_map_page_attrs(dev, virt_to_page(ptr), offset_in_page(ptr),
-         |                                        ^~~~~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   include/linux/highmem-internal.h: In function 'kmap_to_page':
->> ./include/generated/autoconf.h:908:31: error: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Werror=int-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:18:53: note: in expansion of macro 'ARCH_PFN_OFFSET'
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                                     ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:53:21: note: in expansion of macro '__pfn_to_page'
-      53 | #define pfn_to_page __pfn_to_page
-         |                     ^~~~~~~~~~~~~
-   arch/arc/include/asm/page.h:129:33: note: in expansion of macro 'pfn_to_page'
-     129 | #define virt_to_page(kaddr)     pfn_to_page(virt_to_pfn(kaddr))
-         |                                 ^~~~~~~~~~~
-   include/linux/highmem-internal.h:161:16: note: in expansion of macro 'virt_to_page'
-     161 |         return virt_to_page(addr);
-         |                ^~~~~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   include/linux/highmem-internal.h: In function 'kmap_local_pfn':
->> ./include/generated/autoconf.h:908:31: error: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Werror=int-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:18:53: note: in expansion of macro 'ARCH_PFN_OFFSET'
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                                     ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:53:21: note: in expansion of macro '__pfn_to_page'
-      53 | #define pfn_to_page __pfn_to_page
-         |                     ^~~~~~~~~~~~~
-   include/linux/highmem-internal.h:197:32: note: in expansion of macro 'pfn_to_page'
-     197 |         return kmap_local_page(pfn_to_page(pfn));
-         |                                ^~~~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   include/linux/highmem-internal.h: In function 'kmap_atomic_pfn':
->> ./include/generated/autoconf.h:908:31: error: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Werror=int-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:18:53: note: in expansion of macro 'ARCH_PFN_OFFSET'
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                                     ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:53:21: note: in expansion of macro '__pfn_to_page'
-      53 | #define pfn_to_page __pfn_to_page
-         |                     ^~~~~~~~~~~~~
-   include/linux/highmem-internal.h:224:28: note: in expansion of macro 'pfn_to_page'
-     224 |         return kmap_atomic(pfn_to_page(pfn));
-         |                            ^~~~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   include/linux/skbuff.h: In function 'skb_pp_recycle':
->> ./include/generated/autoconf.h:908:31: error: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Werror=int-conversion]
-     908 | #define CONFIG_LINUX_RAM_BASE 0x80000000
-         |                               ^~~~~~~~~~
-         |                               |
-         |                               unsigned int
-   arch/arc/include/asm/page.h:102:45: note: in expansion of macro 'CONFIG_LINUX_RAM_BASE'
-     102 | #define ARCH_PFN_OFFSET         virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-         |                                             ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:18:53: note: in expansion of macro 'ARCH_PFN_OFFSET'
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                                     ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:53:21: note: in expansion of macro '__pfn_to_page'
-      53 | #define pfn_to_page __pfn_to_page
-         |                     ^~~~~~~~~~~~~
-   arch/arc/include/asm/page.h:129:33: note: in expansion of macro 'pfn_to_page'
-     129 | #define virt_to_page(kaddr)     pfn_to_page(virt_to_pfn(kaddr))
-         |                                 ^~~~~~~~~~~
-   include/linux/skbuff.h:5156:42: note: in expansion of macro 'virt_to_page'
-    5156 |         return page_pool_return_skb_page(virt_to_page(data));
-         |                                          ^~~~~~~~~~~~
-   arch/arc/include/asm/page.h:124:53: note: expected 'const void *' but argument is of type 'unsigned int'
-     124 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
-   cc1: all warnings being treated as errors
-..
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
 _______________________________________________
 linux-snps-arc mailing list
