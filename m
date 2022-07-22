@@ -4,53 +4,138 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D219C43334
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 21 Jul 2022 19:55:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E99D6C433EF
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 22 Jul 2022 21:50:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=y4VP7ePl3nBsKbco19/vkHvfjMjQ98KtIJaF3gJThM4=; b=TcYDbH5QMh26nH
-	BLS/C+fvA/AE+IYiXVozcH1/+R5HEbtpSovQXtvIl9wWj6DCPk5TO4O4mse4TEAVIcz6iVwsx3yz5
-	8E72/9dhmpGj67yzTsgmw7zRcxM2PfOu9z61KKc1fjC+GAXx/rzFRT+25cOa8wExSA0RCGRTEf6uX
-	RYfkfRciF3dmNbMmV5dMJ+zRTAphglkHMc+NMJqrNh0RKKxwxsbp7xsnO6VtEfoa46C9aMkgdfaYk
-	/yQcXoiyfX60/Y03QQiU33se8g/qXEI1JAN9gom2Snkt1/sW6Q+dO/GLAphDhqCP/vgszCh055C49
-	wqdiGWeVAMOP+5CiAn5Q==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=FULwJURDomDr2NV00YMK5keVYr2kXJ4D4sbosWkyLgE=; b=dHn1D/pi7JPnq9
+	d7ewGbks6c2ilj/Iaa9pUMzajfSeDklOXRHnGs7kKqtLFDtcfMtTzlLbBZ4beek5KzIyXr+/Qd5HN
+	5rFBjnYWSwRiR2D3349MaBNjFWm/DbxsuHUs87SJ5qmDn7gcKOxos0CBal3BYEKPls+zCMQPGpL2X
+	7XwOtW3rhXvSg4hzI9JTFMaXm1FtVyc+0yMdYa+5GojUiTA+Q2NE6x5vax9BpGPBGd8UhIzfG5l3Q
+	nRLF+5CDK2sLdGx+XocRdp5lCUAdSxZEVrzgB4MaA/nKhzHI6g/4Ke2qFmd8Z2ZTeMnEVrngvDl01
+	XQNddVPyZ8WOTasU66Zg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oEcGj-00Bu6Y-Fc; Thu, 21 Jul 2022 19:55:33 +0000
-Received: from cpc152649-stkp13-2-0-cust121.10-2.cable.virginm.net ([86.15.83.122] helo=luna)
+	id 1oF0Xs-00Bf3H-HH; Fri, 22 Jul 2022 21:50:52 +0000
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oEcGV-00Bu10-Iy; Thu, 21 Jul 2022 19:55:22 +0000
-Received: from ben by luna with local (Exim 4.96)
-	(envelope-from <ben@luna.fluff.org>)
-	id 1oEcGM-001knS-0y;
-	Thu, 21 Jul 2022 20:55:10 +0100
-From: Ben Dooks <ben-linux@fluff.org>
-To: linux-kernel@vger.kernel.org
-Cc: sparclinux@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-parisc@vger.kernel.org,
-	openrisc@lists.librecores.org,
-	linux-ia64@vger.kernel.org,
-	linux-hexagon@vger.kernel.org,
-	linux-csky@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-snps-arc@lists.infradead.org,
+	id 1oF0Xa-00Benu-Uo; Fri, 22 Jul 2022 21:50:37 +0000
+Received: by mail-pl1-x62f.google.com with SMTP id p8so5576525plq.13;
+        Fri, 22 Jul 2022 14:50:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=OADkcHozi0zw9guWpLkCVU1WOEgrISzvL779aT4L73c=;
+        b=RrqkGckl6+5jwhqfCdHSlRLiDHuvKtxQZmWTHV1xpMGQzPowA5pV9VtYPmNNdaHoMq
+         EB5jjeAmCcSDKe9weXdnLxIt5DoF+OTOMGCr7QaxGIrVFoWFXxt7q2yA8PYDQSrPzFGY
+         R9NSAGhFANc9Lq2NhByP4mZqvNKwvkAufKMNC22WGKieW8qpZ/SBUh2Fhu9qjF332AD0
+         lhbVAXyplecZ67p58Fa/FDXT0H2ZoA41iHXQU5hu9UEU8MgghSwN+4J4Iyp348v1rGAO
+         QEFXcP7LAW0txl7xHi6dsY1VZNSAFz3Rs/J/hgED+i5Uf6xMBHWF4gsRc2tHzlM8ShrL
+         2ppA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=OADkcHozi0zw9guWpLkCVU1WOEgrISzvL779aT4L73c=;
+        b=se3xjwLcwyjD/TIbKOCZnXUveNwxFHkF0AV6SG01KvDalModhO0/yI7sXO6hH9bGKI
+         JVssQf7MtbN83gncdGDjRdBCvjocMNd6qIOeRWT3g+dVbn89ZzKn2pOBbAS3LOOCgkY3
+         Zb6PfA004D08ek0lJPih7heE4IYnE5HHorYNGap9v5I3x9WwW+NyS+W0C1pHeTnrlPQV
+         YAGzhGNJ0qxrPOu34Yg1cvmL47j4Wk87jcXDvrWeje1o7Vv9DwJ1zEBpRFNCQj147Iom
+         a2bMU6EjI3SULCbVfJkTIud8NzbO3yVisg3Ee70p33KyST8usmfbyPTl1mh4HMpWxslC
+         1jtg==
+X-Gm-Message-State: AJIora97q/PnL6Wn8X7ZUm2sqCDayXYt+wt+74iIbMkPvJqD+hsaVWM0
+	HQSjYd+B2wvwxuzcBjPTwi0=
+X-Google-Smtp-Source: AGRyM1tPjD9k7bdf6OyeS2d/1a+gMpFEL8be1sqi13Yh7fLK+L01oBgE8JsMcLiQX4gx0qdWDS7BOw==
+X-Received: by 2002:a17:902:e552:b0:16c:571d:fc08 with SMTP id n18-20020a170902e55200b0016c571dfc08mr1459937plf.151.1658526632589;
+        Fri, 22 Jul 2022 14:50:32 -0700 (PDT)
+Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
+        by smtp.gmail.com with ESMTPSA id n33-20020a635c61000000b0041229183c8esm3861086pgm.8.2022.07.22.14.50.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Jul 2022 14:50:32 -0700 (PDT)
+From: Stafford Horne <shorne@gmail.com>
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Stafford Horne <shorne@gmail.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Vineet Gupta <vgupta@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Guo Ren <guoren@kernel.org>,
+	Michal Simek <monstr@monstr.eu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	Helge Deller <deller@gmx.de>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Paul Mackerras <paulus@samba.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Chris Zankel <chris@zankel.net>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Ian Abbott <abbotti@mev.co.uk>,
+	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Pierre Morel <pmorel@linux.ibm.com>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Greg Ungerer <gerg@linux-m68k.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-alpha@vger.kernel.org,
-	akpm@linux-foundation.org,
-	Ben Dooks <ben-linux@fluff.org>
-Subject: [PATCH] profile: setup_profiling_timer() is moslty not implemented
-Date: Thu, 21 Jul 2022 20:55:09 +0100
-Message-Id: <20220721195509.418205-1-ben-linux@fluff.org>
-X-Mailer: git-send-email 2.35.1
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-csky@vger.kernel.org,
+	linux-ia64@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: [PATCH v6 2/4] PCI: Move isa_dma_bridge_buggy out of dma.h
+Date: Sat, 23 Jul 2022 06:49:42 +0900
+Message-Id: <20220722214944.831438-3-shorne@gmail.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220722214944.831438-1-shorne@gmail.com>
+References: <20220722214944.831438-1-shorne@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220721_125519_894296_517E855E 
-X-CRM114-Status: GOOD (  15.58  )
+X-CRM114-CacheID: sfid-20220722_145035_161184_CFC1BFF9 
+X-CRM114-Status: GOOD (  21.94  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,317 +152,420 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The setup_profiling_timer() is mostly un-implemented by many
-architectures. In many places it isn't guarded by CONFIG_PROFILE
-which is needed for it to be used. Make it a weak symbol in
-kernel/profile.c and remove the 'return -EINVAL' implementations
-from the kenrel.
+During recent PCI cleanups we noticed that the isa_dma_bridge_buggy
+symbol supported by all architectures is actually only used for x86_32.
 
-There are a couple of architectures which do return 0 from
-the setup_profiling_timer() function but they don't seem to
-do anything else with it. To keep the /proc compatibility for
-now, leave these for a future update or removal.
+This patch moves the symbol out of all architectures limiting usage to
+only x86_32.  This is possible because only x86_32 platforms or quirks
+existing in PCI devices supported on x86_32 ever set this.  A new global
+header linux/isa-dma.h is added to provide a common place to maintain
+the definition.
 
-On ARM, this fixes the following sparse warning:
-arch/arm/kernel/smp.c:793:5: warning: symbol 'setup_profiling_timer' was not declared. Should it be static?
-
-Signed-off-by: Ben Dooks <ben-linux@fluff.org>
+Suggested-by: Arnd Bergmann <arnd@arndb.de>
+Suggested-by: Christoph Hellwig <hch@infradead.org>
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Stafford Horne <shorne@gmail.com>
 ---
- arch/alpha/kernel/smp.c     | 6 ------
- arch/arc/kernel/smp.c       | 8 --------
- arch/arm/kernel/smp.c       | 8 --------
- arch/arm64/kernel/smp.c     | 8 --------
- arch/csky/kernel/smp.c      | 5 -----
- arch/hexagon/kernel/smp.c   | 5 -----
- arch/ia64/kernel/smp.c      | 6 ------
- arch/openrisc/kernel/smp.c  | 6 ------
- arch/parisc/kernel/smp.c    | 7 -------
- arch/powerpc/kernel/smp.c   | 7 -------
- arch/riscv/kernel/smp.c     | 6 ------
- arch/sparc/kernel/smp_32.c  | 5 -----
- arch/sparc/kernel/smp_64.c  | 6 ------
- arch/x86/include/asm/apic.h | 2 --
- arch/x86/kernel/apic/apic.c | 5 -----
- kernel/profile.c            | 8 ++++++--
- 16 files changed, 6 insertions(+), 92 deletions(-)
+ arch/alpha/include/asm/dma.h           |  9 ---------
+ arch/arc/include/asm/dma.h             |  5 -----
+ arch/arm/include/asm/dma.h             |  6 ------
+ arch/arm64/include/asm/pci.h           |  2 --
+ arch/csky/include/asm/pci.h            |  2 --
+ arch/ia64/include/asm/dma.h            |  2 --
+ arch/m68k/include/asm/dma.h            |  6 ------
+ arch/microblaze/include/asm/dma.h      |  6 ------
+ arch/mips/include/asm/dma.h            |  8 --------
+ arch/parisc/include/asm/dma.h          |  6 ------
+ arch/powerpc/include/asm/dma.h         |  6 ------
+ arch/riscv/include/asm/pci.h           |  2 --
+ arch/s390/include/asm/dma.h            |  6 ------
+ arch/sh/include/asm/dma.h              |  6 ------
+ arch/sparc/include/asm/dma.h           |  8 --------
+ arch/um/include/asm/pci.h              |  2 --
+ arch/x86/include/asm/dma.h             |  8 --------
+ arch/xtensa/include/asm/dma.h          |  7 -------
+ drivers/comedi/drivers/comedi_isadma.c |  2 +-
+ drivers/pci/pci.c                      |  2 ++
+ drivers/pci/quirks.c                   |  4 +++-
+ include/linux/isa-dma.h                | 14 ++++++++++++++
+ sound/core/isadma.c                    |  2 +-
+ 23 files changed, 21 insertions(+), 100 deletions(-)
+ create mode 100644 include/linux/isa-dma.h
 
-diff --git a/arch/alpha/kernel/smp.c b/arch/alpha/kernel/smp.c
-index cb64e4797d2a..f4e20f75438f 100644
---- a/arch/alpha/kernel/smp.c
-+++ b/arch/alpha/kernel/smp.c
-@@ -497,12 +497,6 @@ smp_cpus_done(unsigned int max_cpus)
- 	       ((bogosum + 2500) / (5000/HZ)) % 100);
- }
+diff --git a/arch/alpha/include/asm/dma.h b/arch/alpha/include/asm/dma.h
+index 28610ea7786d..a04d76b96089 100644
+--- a/arch/alpha/include/asm/dma.h
++++ b/arch/alpha/include/asm/dma.h
+@@ -365,13 +365,4 @@ extern void free_dma(unsigned int dmanr);	/* release it again */
+ #define KERNEL_HAVE_CHECK_DMA
+ extern int check_dma(unsigned int dmanr);
  
--int
--setup_profiling_timer(unsigned int multiplier)
--{
--	return -EINVAL;
--}
+-/* From PCI */
 -
- static void
- send_ipi_message(const struct cpumask *to_whom, enum ipi_message_type operation)
- {
-diff --git a/arch/arc/kernel/smp.c b/arch/arc/kernel/smp.c
-index d947473f1e6d..ab9e75e90f72 100644
---- a/arch/arc/kernel/smp.c
-+++ b/arch/arc/kernel/smp.c
-@@ -232,14 +232,6 @@ int __cpu_up(unsigned int cpu, struct task_struct *idle)
- 	return 0;
- }
- 
--/*
-- * not supported here
-- */
--int setup_profiling_timer(unsigned int multiplier)
--{
--	return -EINVAL;
--}
--
- /*****************************************************************************/
- /*              Inter Processor Interrupt Handling                           */
- /*****************************************************************************/
-diff --git a/arch/arm/kernel/smp.c b/arch/arm/kernel/smp.c
-index 73fc645fc4c7..978db2d96b44 100644
---- a/arch/arm/kernel/smp.c
-+++ b/arch/arm/kernel/smp.c
-@@ -787,14 +787,6 @@ void panic_smp_self_stop(void)
- 		cpu_relax();
- }
- 
--/*
-- * not supported here
-- */
--int setup_profiling_timer(unsigned int multiplier)
--{
--	return -EINVAL;
--}
--
- #ifdef CONFIG_CPU_FREQ
- 
- static DEFINE_PER_CPU(unsigned long, l_p_j_ref);
-diff --git a/arch/arm64/kernel/smp.c b/arch/arm64/kernel/smp.c
-index 62ed361a4376..ffc5d76cf695 100644
---- a/arch/arm64/kernel/smp.c
-+++ b/arch/arm64/kernel/smp.c
-@@ -1078,14 +1078,6 @@ bool smp_crash_stop_failed(void)
- }
- #endif
- 
--/*
-- * not supported here
-- */
--int setup_profiling_timer(unsigned int multiplier)
--{
--	return -EINVAL;
--}
--
- static bool have_cpu_die(void)
- {
- #ifdef CONFIG_HOTPLUG_CPU
-diff --git a/arch/csky/kernel/smp.c b/arch/csky/kernel/smp.c
-index 6bb38bc2f39b..4b605aa2e1d6 100644
---- a/arch/csky/kernel/smp.c
-+++ b/arch/csky/kernel/smp.c
-@@ -243,11 +243,6 @@ void __init smp_cpus_done(unsigned int max_cpus)
- {
- }
- 
--int setup_profiling_timer(unsigned int multiplier)
--{
--	return -EINVAL;
--}
--
- void csky_start_secondary(void)
- {
- 	struct mm_struct *mm = &init_mm;
-diff --git a/arch/hexagon/kernel/smp.c b/arch/hexagon/kernel/smp.c
-index 619c56420aa0..4ba93e59370c 100644
---- a/arch/hexagon/kernel/smp.c
-+++ b/arch/hexagon/kernel/smp.c
-@@ -240,11 +240,6 @@ void arch_send_call_function_ipi_mask(const struct cpumask *mask)
- 	send_ipi(mask, IPI_CALL_FUNC);
- }
- 
--int setup_profiling_timer(unsigned int multiplier)
--{
--	return -EINVAL;
--}
--
- void smp_start_cpus(void)
- {
- 	int i;
-diff --git a/arch/ia64/kernel/smp.c b/arch/ia64/kernel/smp.c
-index 7b7b64eb3129..e2cc59db86bc 100644
---- a/arch/ia64/kernel/smp.c
-+++ b/arch/ia64/kernel/smp.c
-@@ -333,9 +333,3 @@ smp_send_stop (void)
- {
- 	send_IPI_allbutself(IPI_CPU_STOP);
- }
--
--int
--setup_profiling_timer (unsigned int multiplier)
--{
--	return -EINVAL;
--}
-diff --git a/arch/openrisc/kernel/smp.c b/arch/openrisc/kernel/smp.c
-index 27041db2c8b0..e1419095a6f0 100644
---- a/arch/openrisc/kernel/smp.c
-+++ b/arch/openrisc/kernel/smp.c
-@@ -197,12 +197,6 @@ void smp_send_stop(void)
- 	smp_call_function(stop_this_cpu, NULL, 0);
- }
- 
--/* not supported, yet */
--int setup_profiling_timer(unsigned int multiplier)
--{
--	return -EINVAL;
--}
--
- void __init set_smp_cross_call(void (*fn)(const struct cpumask *, unsigned int))
- {
- 	smp_cross_call = fn;
-diff --git a/arch/parisc/kernel/smp.c b/arch/parisc/kernel/smp.c
-index 24d0744c3b3a..7dbd92cafae3 100644
---- a/arch/parisc/kernel/smp.c
-+++ b/arch/parisc/kernel/smp.c
-@@ -513,10 +513,3 @@ void __cpu_die(unsigned int cpu)
- 
- 	pdc_cpu_rendezvous_unlock();
- }
--
--#ifdef CONFIG_PROC_FS
--int setup_profiling_timer(unsigned int multiplier)
--{
--	return -EINVAL;
--}
--#endif
-diff --git a/arch/powerpc/kernel/smp.c b/arch/powerpc/kernel/smp.c
-index bcefab484ea6..c037c26540dd 100644
---- a/arch/powerpc/kernel/smp.c
-+++ b/arch/powerpc/kernel/smp.c
-@@ -1674,13 +1674,6 @@ void start_secondary(void *unused)
- 	BUG();
- }
- 
--#ifdef CONFIG_PROFILING
--int setup_profiling_timer(unsigned int multiplier)
--{
--	return 0;
--}
+-#ifdef CONFIG_PCI
+-extern int isa_dma_bridge_buggy;
+-#else
+-#define isa_dma_bridge_buggy 	(0)
 -#endif
 -
- static void __init fixup_topology(void)
- {
- 	int i;
-diff --git a/arch/riscv/kernel/smp.c b/arch/riscv/kernel/smp.c
-index b5d30ea92292..441d0ceb80ad 100644
---- a/arch/riscv/kernel/smp.c
-+++ b/arch/riscv/kernel/smp.c
-@@ -64,12 +64,6 @@ bool arch_match_cpu_phys_id(int cpu, u64 phys_id)
- 	return phys_id == cpuid_to_hartid_map(cpu);
- }
- 
--/* Unsupported */
--int setup_profiling_timer(unsigned int multiplier)
--{
--	return -EINVAL;
--}
 -
- static void ipi_stop(void)
- {
- 	set_cpu_online(smp_processor_id(), false);
-diff --git a/arch/sparc/kernel/smp_32.c b/arch/sparc/kernel/smp_32.c
-index 22b148e5a5f8..ad8094d955eb 100644
---- a/arch/sparc/kernel/smp_32.c
-+++ b/arch/sparc/kernel/smp_32.c
-@@ -174,11 +174,6 @@ void smp_call_function_interrupt(void)
- 	irq_exit();
- }
+ #endif /* _ASM_DMA_H */
+diff --git a/arch/arc/include/asm/dma.h b/arch/arc/include/asm/dma.h
+index 5b744f4b10a7..02431027ed2f 100644
+--- a/arch/arc/include/asm/dma.h
++++ b/arch/arc/include/asm/dma.h
+@@ -7,10 +7,5 @@
+ #define ASM_ARC_DMA_H
  
--int setup_profiling_timer(unsigned int multiplier)
--{
--	return -EINVAL;
--}
--
- void __init smp_prepare_cpus(unsigned int max_cpus)
- {
- 	int i, cpuid, extra;
-diff --git a/arch/sparc/kernel/smp_64.c b/arch/sparc/kernel/smp_64.c
-index a1f78e9ddaf3..a55295d1b924 100644
---- a/arch/sparc/kernel/smp_64.c
-+++ b/arch/sparc/kernel/smp_64.c
-@@ -1186,12 +1186,6 @@ void __irq_entry smp_penguin_jailcell(int irq, struct pt_regs *regs)
- 	preempt_enable();
- }
+ #define MAX_DMA_ADDRESS 0xC0000000
+-#ifdef CONFIG_PCI
+-extern int isa_dma_bridge_buggy;
+-#else
+-#define isa_dma_bridge_buggy	0
+-#endif
  
--/* /proc/profile writes can call this, don't __init it please. */
--int setup_profiling_timer(unsigned int multiplier)
--{
--	return -EINVAL;
--}
--
- void __init smp_prepare_cpus(unsigned int max_cpus)
- {
- }
-diff --git a/arch/x86/include/asm/apic.h b/arch/x86/include/asm/apic.h
-index bd8ae0a7010a..3415321c8240 100644
---- a/arch/x86/include/asm/apic.h
-+++ b/arch/x86/include/asm/apic.h
-@@ -98,8 +98,6 @@ static inline bool apic_from_smp_config(void)
- #include <asm/paravirt.h>
  #endif
+diff --git a/arch/arm/include/asm/dma.h b/arch/arm/include/asm/dma.h
+index a81dda65c576..907d139be431 100644
+--- a/arch/arm/include/asm/dma.h
++++ b/arch/arm/include/asm/dma.h
+@@ -143,10 +143,4 @@ extern int  get_dma_residue(unsigned int chan);
  
--extern int setup_profiling_timer(unsigned int);
+ #endif /* CONFIG_ISA_DMA_API */
+ 
+-#ifdef CONFIG_PCI
+-extern int isa_dma_bridge_buggy;
+-#else
+-#define isa_dma_bridge_buggy    (0)
+-#endif
 -
- static inline void native_apic_mem_write(u32 reg, u32 v)
+ #endif /* __ASM_ARM_DMA_H */
+diff --git a/arch/arm64/include/asm/pci.h b/arch/arm64/include/asm/pci.h
+index 0aebc3488c32..682c922b5658 100644
+--- a/arch/arm64/include/asm/pci.h
++++ b/arch/arm64/include/asm/pci.h
+@@ -20,8 +20,6 @@
+ #define arch_can_pci_mmap_wc() 1
+ #define ARCH_GENERIC_PCI_MMAP_RESOURCE	1
+ 
+-extern int isa_dma_bridge_buggy;
+-
+ #ifdef CONFIG_PCI
+ static inline int pci_proc_domain(struct pci_bus *bus)
  {
- 	volatile u32 *addr = (volatile u32 *)(APIC_BASE + reg);
-diff --git a/arch/x86/kernel/apic/apic.c b/arch/x86/kernel/apic/apic.c
-index 189d3a5e471a..df764ceac2c8 100644
---- a/arch/x86/kernel/apic/apic.c
-+++ b/arch/x86/kernel/apic/apic.c
-@@ -1115,11 +1115,6 @@ DEFINE_IDTENTRY_SYSVEC(sysvec_apic_timer_interrupt)
- 	set_irq_regs(old_regs);
- }
+diff --git a/arch/csky/include/asm/pci.h b/arch/csky/include/asm/pci.h
+index 0535f1aaae38..5c02454ec724 100644
+--- a/arch/csky/include/asm/pci.h
++++ b/arch/csky/include/asm/pci.h
+@@ -15,8 +15,6 @@
+ /* C-SKY shim does not initialize PCI bus */
+ #define pcibios_assign_all_busses() 1
  
--int setup_profiling_timer(unsigned int multiplier)
--{
--	return -EINVAL;
--}
+-extern int isa_dma_bridge_buggy;
 -
- /*
-  * Local APIC start and shutdown
+ #ifdef CONFIG_PCI
+ static inline int pci_proc_domain(struct pci_bus *bus)
+ {
+diff --git a/arch/ia64/include/asm/dma.h b/arch/ia64/include/asm/dma.h
+index 59625e9c1f9c..eaed2626ffda 100644
+--- a/arch/ia64/include/asm/dma.h
++++ b/arch/ia64/include/asm/dma.h
+@@ -12,8 +12,6 @@
+ 
+ extern unsigned long MAX_DMA_ADDRESS;
+ 
+-extern int isa_dma_bridge_buggy;
+-
+ #define free_dma(x)
+ 
+ #endif /* _ASM_IA64_DMA_H */
+diff --git a/arch/m68k/include/asm/dma.h b/arch/m68k/include/asm/dma.h
+index f6c5e0dfb4e5..1c8d9c5bc2fa 100644
+--- a/arch/m68k/include/asm/dma.h
++++ b/arch/m68k/include/asm/dma.h
+@@ -6,10 +6,4 @@
+    bootmem allocator (but this should do it for this) */
+ #define MAX_DMA_ADDRESS PAGE_OFFSET
+ 
+-#ifdef CONFIG_PCI
+-extern int isa_dma_bridge_buggy;
+-#else
+-#define isa_dma_bridge_buggy    (0)
+-#endif
+-
+ #endif /* _M68K_DMA_H */
+diff --git a/arch/microblaze/include/asm/dma.h b/arch/microblaze/include/asm/dma.h
+index f801582be912..7484c9eb66c4 100644
+--- a/arch/microblaze/include/asm/dma.h
++++ b/arch/microblaze/include/asm/dma.h
+@@ -9,10 +9,4 @@
+ /* Virtual address corresponding to last available physical memory address.  */
+ #define MAX_DMA_ADDRESS (CONFIG_KERNEL_START + memory_size - 1)
+ 
+-#ifdef CONFIG_PCI
+-extern int isa_dma_bridge_buggy;
+-#else
+-#define isa_dma_bridge_buggy     (0)
+-#endif
+-
+ #endif /* _ASM_MICROBLAZE_DMA_H */
+diff --git a/arch/mips/include/asm/dma.h b/arch/mips/include/asm/dma.h
+index be726b943530..d6186e6bea7e 100644
+--- a/arch/mips/include/asm/dma.h
++++ b/arch/mips/include/asm/dma.h
+@@ -307,12 +307,4 @@ static __inline__ int get_dma_residue(unsigned int dmanr)
+ extern int request_dma(unsigned int dmanr, const char * device_id);	/* reserve a DMA channel */
+ extern void free_dma(unsigned int dmanr);	/* release it again */
+ 
+-/* From PCI */
+-
+-#ifdef CONFIG_PCI
+-extern int isa_dma_bridge_buggy;
+-#else
+-#define isa_dma_bridge_buggy	(0)
+-#endif
+-
+ #endif /* _ASM_DMA_H */
+diff --git a/arch/parisc/include/asm/dma.h b/arch/parisc/include/asm/dma.h
+index eea80ed34e6d..9e8c101de902 100644
+--- a/arch/parisc/include/asm/dma.h
++++ b/arch/parisc/include/asm/dma.h
+@@ -176,10 +176,4 @@ static __inline__ void set_dma_count(unsigned int dmanr, unsigned int count)
+ 
+ #define free_dma(dmanr)
+ 
+-#ifdef CONFIG_PCI
+-extern int isa_dma_bridge_buggy;
+-#else
+-#define isa_dma_bridge_buggy 	(0)
+-#endif
+-
+ #endif /* _ASM_DMA_H */
+diff --git a/arch/powerpc/include/asm/dma.h b/arch/powerpc/include/asm/dma.h
+index 6161a9596196..d97c66d9ae34 100644
+--- a/arch/powerpc/include/asm/dma.h
++++ b/arch/powerpc/include/asm/dma.h
+@@ -340,11 +340,5 @@ extern int request_dma(unsigned int dmanr, const char *device_id);
+ /* release it again */
+ extern void free_dma(unsigned int dmanr);
+ 
+-#ifdef CONFIG_PCI
+-extern int isa_dma_bridge_buggy;
+-#else
+-#define isa_dma_bridge_buggy	(0)
+-#endif
+-
+ #endif /* __KERNEL__ */
+ #endif	/* _ASM_POWERPC_DMA_H */
+diff --git a/arch/riscv/include/asm/pci.h b/arch/riscv/include/asm/pci.h
+index a7b8f0d0df7f..f904df586c03 100644
+--- a/arch/riscv/include/asm/pci.h
++++ b/arch/riscv/include/asm/pci.h
+@@ -20,8 +20,6 @@
+ 
+ #define ARCH_GENERIC_PCI_MMAP_RESOURCE 1
+ 
+-extern int isa_dma_bridge_buggy;
+-
+ #ifdef CONFIG_PCI
+ static inline int pci_proc_domain(struct pci_bus *bus)
+ {
+diff --git a/arch/s390/include/asm/dma.h b/arch/s390/include/asm/dma.h
+index 6f26f35d4a71..dec1c4ce628c 100644
+--- a/arch/s390/include/asm/dma.h
++++ b/arch/s390/include/asm/dma.h
+@@ -11,10 +11,4 @@
   */
-diff --git a/kernel/profile.c b/kernel/profile.c
-index 37640a0bd8a3..244aa255c488 100644
---- a/kernel/profile.c
-+++ b/kernel/profile.c
-@@ -418,6 +418,12 @@ read_profile(struct file *file, char __user *buf, size_t count, loff_t *ppos)
- 	return read;
- }
+ #define MAX_DMA_ADDRESS         0x80000000
  
-+/* default is to not implement this call */
-+int __weak setup_profiling_timer(unsigned mult)
-+{
-+	return -EINVAL;
-+}
-+
- /*
-  * Writing to /proc/profile resets the counters
-  *
-@@ -428,8 +434,6 @@ static ssize_t write_profile(struct file *file, const char __user *buf,
- 			     size_t count, loff_t *ppos)
- {
- #ifdef CONFIG_SMP
--	extern int setup_profiling_timer(unsigned int multiplier);
+-#ifdef CONFIG_PCI
+-extern int isa_dma_bridge_buggy;
+-#else
+-#define isa_dma_bridge_buggy	(0)
+-#endif
 -
- 	if (count == sizeof(int)) {
- 		unsigned int multiplier;
+ #endif /* _ASM_S390_DMA_H */
+diff --git a/arch/sh/include/asm/dma.h b/arch/sh/include/asm/dma.h
+index 17d23ae98c77..c8bee3f985a2 100644
+--- a/arch/sh/include/asm/dma.h
++++ b/arch/sh/include/asm/dma.h
+@@ -137,10 +137,4 @@ extern int register_chan_caps(const char *dmac, struct dma_chan_caps *capslist);
+ extern int dma_create_sysfs_files(struct dma_channel *, struct dma_info *);
+ extern void dma_remove_sysfs_files(struct dma_channel *, struct dma_info *);
  
+-#ifdef CONFIG_PCI
+-extern int isa_dma_bridge_buggy;
+-#else
+-#define isa_dma_bridge_buggy	(0)
+-#endif
+-
+ #endif /* __ASM_SH_DMA_H */
+diff --git a/arch/sparc/include/asm/dma.h b/arch/sparc/include/asm/dma.h
+index 462e7c794a09..08043f35b110 100644
+--- a/arch/sparc/include/asm/dma.h
++++ b/arch/sparc/include/asm/dma.h
+@@ -82,14 +82,6 @@
+ #define DMA_BURST64      0x40
+ #define DMA_BURSTBITS    0x7f
+ 
+-/* From PCI */
+-
+-#ifdef CONFIG_PCI
+-extern int isa_dma_bridge_buggy;
+-#else
+-#define isa_dma_bridge_buggy 	(0)
+-#endif
+-
+ #ifdef CONFIG_SPARC32
+ struct device;
+ 
+diff --git a/arch/um/include/asm/pci.h b/arch/um/include/asm/pci.h
+index 26b96c02ef61..1211855aff34 100644
+--- a/arch/um/include/asm/pci.h
++++ b/arch/um/include/asm/pci.h
+@@ -9,8 +9,6 @@
+ 
+ #define pcibios_assign_all_busses() 1
+ 
+-extern int isa_dma_bridge_buggy;
+-
+ #ifdef CONFIG_PCI_DOMAINS
+ static inline int pci_proc_domain(struct pci_bus *bus)
+ {
+diff --git a/arch/x86/include/asm/dma.h b/arch/x86/include/asm/dma.h
+index 8e95aa4b0d17..8ae6e0e11b8b 100644
+--- a/arch/x86/include/asm/dma.h
++++ b/arch/x86/include/asm/dma.h
+@@ -307,12 +307,4 @@ extern int request_dma(unsigned int dmanr, const char *device_id);
+ extern void free_dma(unsigned int dmanr);
+ #endif
+ 
+-/* From PCI */
+-
+-#ifdef CONFIG_PCI
+-extern int isa_dma_bridge_buggy;
+-#else
+-#define isa_dma_bridge_buggy	(0)
+-#endif
+-
+ #endif /* _ASM_X86_DMA_H */
+diff --git a/arch/xtensa/include/asm/dma.h b/arch/xtensa/include/asm/dma.h
+index bb099a373b5a..172644539032 100644
+--- a/arch/xtensa/include/asm/dma.h
++++ b/arch/xtensa/include/asm/dma.h
+@@ -52,11 +52,4 @@
+ extern int request_dma(unsigned int dmanr, const char * device_id);
+ extern void free_dma(unsigned int dmanr);
+ 
+-#ifdef CONFIG_PCI
+-extern int isa_dma_bridge_buggy;
+-#else
+-#define isa_dma_bridge_buggy 	(0)
+-#endif
+-
+-
+ #endif
+diff --git a/drivers/comedi/drivers/comedi_isadma.c b/drivers/comedi/drivers/comedi_isadma.c
+index 700982464c53..020b3d1e1ac0 100644
+--- a/drivers/comedi/drivers/comedi_isadma.c
++++ b/drivers/comedi/drivers/comedi_isadma.c
+@@ -8,7 +8,7 @@
+ #include <linux/slab.h>
+ #include <linux/delay.h>
+ #include <linux/dma-mapping.h>
+-#include <asm/dma.h>
++#include <linux/isa-dma.h>
+ #include <linux/comedi/comedidev.h>
+ #include <linux/comedi/comedi_isadma.h>
+ 
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index cfaf40a540a8..60c55d2cb2cc 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -41,8 +41,10 @@ const char *pci_power_names[] = {
+ };
+ EXPORT_SYMBOL_GPL(pci_power_names);
+ 
++#ifdef CONFIG_X86_32
+ int isa_dma_bridge_buggy;
+ EXPORT_SYMBOL(isa_dma_bridge_buggy);
++#endif
+ 
+ int pci_pci_problems;
+ EXPORT_SYMBOL(pci_pci_problems);
+diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+index 41aeaa235132..6fc64509eee7 100644
+--- a/drivers/pci/quirks.c
++++ b/drivers/pci/quirks.c
+@@ -17,6 +17,7 @@
+ #include <linux/kernel.h>
+ #include <linux/export.h>
+ #include <linux/pci.h>
++#include <linux/isa-dma.h> /* isa_dma_bridge_buggy */
+ #include <linux/init.h>
+ #include <linux/delay.h>
+ #include <linux/acpi.h>
+@@ -30,7 +31,6 @@
+ #include <linux/pm_runtime.h>
+ #include <linux/suspend.h>
+ #include <linux/switchtec.h>
+-#include <asm/dma.h>	/* isa_dma_bridge_buggy */
+ #include "pci.h"
+ 
+ static ktime_t fixup_debug_start(struct pci_dev *dev,
+@@ -239,6 +239,7 @@ static void quirk_passive_release(struct pci_dev *dev)
+ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL,	PCI_DEVICE_ID_INTEL_82441,	quirk_passive_release);
+ DECLARE_PCI_FIXUP_RESUME(PCI_VENDOR_ID_INTEL,	PCI_DEVICE_ID_INTEL_82441,	quirk_passive_release);
+ 
++#ifdef CONFIG_X86_32
+ /*
+  * The VIA VP2/VP3/MVP3 seem to have some 'features'. There may be a
+  * workaround but VIA don't answer queries. If you happen to have good
+@@ -265,6 +266,7 @@ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_AL,	PCI_DEVICE_ID_AL_M1533,		quirk_isa_dma
+ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NEC,	PCI_DEVICE_ID_NEC_CBUS_1,	quirk_isa_dma_hangs);
+ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NEC,	PCI_DEVICE_ID_NEC_CBUS_2,	quirk_isa_dma_hangs);
+ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NEC,	PCI_DEVICE_ID_NEC_CBUS_3,	quirk_isa_dma_hangs);
++#endif
+ 
+ /*
+  * Intel NM10 "TigerPoint" LPC PM1a_STS.BM_STS must be clear
+diff --git a/include/linux/isa-dma.h b/include/linux/isa-dma.h
+new file mode 100644
+index 000000000000..61504a8c1b9e
+--- /dev/null
++++ b/include/linux/isa-dma.h
+@@ -0,0 +1,14 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#ifndef __LINUX_ISA_DMA_H
++#define __LINUX_ISA_DMA_H
++
++#include <asm/dma.h>
++
++#if defined(CONFIG_PCI) && defined(CONFIG_X86_32)
++extern int isa_dma_bridge_buggy;
++#else
++#define isa_dma_bridge_buggy	(0)
++#endif
++
++#endif /* __LINUX_ISA_DMA_H */
+diff --git a/sound/core/isadma.c b/sound/core/isadma.c
+index 1f45ede023b4..18a86212e3a8 100644
+--- a/sound/core/isadma.c
++++ b/sound/core/isadma.c
+@@ -12,8 +12,8 @@
+ #undef HAVE_REALLY_SLOW_DMA_CONTROLLER
+ 
+ #include <linux/export.h>
++#include <linux/isa-dma.h>
+ #include <sound/core.h>
+-#include <asm/dma.h>
+ 
+ /**
+  * snd_dma_program - program an ISA DMA transfer
 -- 
-2.35.1
+2.36.1
 
 
 _______________________________________________
