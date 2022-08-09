@@ -4,79 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F24B0C19F2D
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  9 Aug 2022 09:47:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A922AC19F2D
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  9 Aug 2022 22:59:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Qizeorw0XOaEbmkF63+t90zC+qCcgl3L2DL9nm8VpSM=; b=b0+MaQXKCSGuLm
-	dn58+rcwsJ23XjELGhzmwhM36wULdGFDoC+D5NFwN0I5kfV3ZuAeNn5eu+JJbmB2kib1ZKfkcFr2A
-	iBr6v0q3Njng77R1jWERiWQw+QTnYGJqDf9qo8eVbKHhFaV9Vi1IeMmAwqcP3lMFVuGoohSf1GvMf
-	ONeJqK3+h80V2tDMpVGRzSFKdudGeP/oKMJAaEGAdKmmNlS3Dvee9n7r/O/G8qaicWWjr/3wl5Kb8
-	V4yf/vnappCqqdwn7abu5R9KgVuOhUZVmWwt6n3ZEJlX0R+tFNYGVGdCtZ7bTcTFClp+Nzv6tZVNa
-	r/ns41P6LPIX3O2qdHjw==;
+	List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Date:CC:To:From:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=+MostY7hZl/d6pi6svTPe5NMror/52RBIj6lPPDn41w=; b=CMnq+OTfU332jx
+	4kNuWvfLWWc4WMV3kB9VeezsgriI4fvXdEAbUp5nMXrqTVYME8dakyO33eG4iKA21GhP21vNX1fPB
+	OqFFJAG8rvMNmvuneWGzNmkhn/A+Gxc8IRQf3q5X85WEXBrU7Obt6L8bfzbSAWTxhYoDPYE9JYQGk
+	ts6WwV3sdyKSzI8bLXHvWGCFdf2fll7wFylzeOPWwIhrHq4PGteiE57+u2Nx3SI4peTU78BO0AUQv
+	TtAN29yODlUJHCAQah9MQa+KMQBsRLOi8OjXEvnMPJigcY52MqA5v4yGj+wjLf0UJA0ciUnfHqSQg
+	SKW6ZQnYqkwVa+a2y/9Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oLLpV-0037dW-Ky; Tue, 09 Aug 2022 09:47:17 +0000
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
+	id 1oLYCO-007Bmx-2q; Tue, 09 Aug 2022 22:59:44 +0000
+Received: from mail-bn7nam10on2052.outbound.protection.outlook.com ([40.107.92.52] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oLLpS-0037cD-S7
-	for linux-snps-arc@lists.infradead.org; Tue, 09 Aug 2022 09:47:16 +0000
-Received: by mail-pg1-x536.google.com with SMTP id f65so10872857pgc.12
-        for <linux-snps-arc@lists.infradead.org>; Tue, 09 Aug 2022 02:47:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc;
-        bh=H2ncUIt9g3r0ICP+2gisvV/bU56Sq8RpyLlL25w33JE=;
-        b=LmRtuZsVl4SuOGhaO3aHe3na/6Gyg+zhdMgL1EYgTc54tlqL8iM0J5aaRqM8kJRG12
-         8X66/byi4xBpsCeQw9kVwvHfcs6XroDtW7/maSkebMSGYi+olGUNArWR6struKB32yYn
-         Wo7kG1W2NOno0uEXGvY2/Gk6ypOCUWia/22FUEYWPk713Ta0h7NGfQ6aNqMaWngFn/ZO
-         w4cbTjVgMtdHfBzPenk58w/7ipjArozGO5f2ruX1xbyWIrvKtDRIYXAWXa+E/fsAMbBt
-         5pKRdET+opg94fehjRG8MML5+vghRxNSCHPfkvwI7I8Se4AnhQPcAR3dqx2O4XT3XdiR
-         ZH5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=H2ncUIt9g3r0ICP+2gisvV/bU56Sq8RpyLlL25w33JE=;
-        b=SHJMOWJDz5teFN1F0wq4faA/m3BirZU/78RVZxksnO8Jg4z7PoIHzCfWH0zN4xz9Ok
-         O9mvzBwa7VsdyonPQ/fy7lU4Y7sW7wUkdWnFL5Cegkhv84dMqmFfj9vbeHIHIfRjOHmR
-         c5w+8v+MtuL2v5yLgkFZvxJWvqgjwPgd/KiV+lpML38IArp2Ap7xa/c6AKh6oWEwEJoG
-         orGlpHNDxs1IWCsa5nrlCkRfhPjoujJZZZknIwQy+2gCmV4vatAjpWIv8SMJAwZCxdMi
-         SZYvKc13yZPtp7aSE7MfV/N95PyNjiGoQRNO9K24ueElVBIYwf4ESzexJwlB9tsF0CJ8
-         sYRA==
-X-Gm-Message-State: ACgBeo0CO++fXzU+Pe+pqAtSG89dKf8dIIEnZupb+os2pkXmszmNKLYm
-	B/NAAuCFQgUQ/aW6HzOk7vGDPonhfNmgCgtPmXQ=
-X-Google-Smtp-Source: AA6agR6ZUMSxuZqKDOF76hFepyNSt/BxzSUaKnzNAsqYBDkDfSmEkIKjLBtN59132ytKrD9Q1KjWTbxBTPsEpC4oeUg=
-X-Received: by 2002:a05:6a00:138a:b0:52d:979a:b640 with SMTP id
- t10-20020a056a00138a00b0052d979ab640mr22666184pfg.8.1660038432349; Tue, 09
- Aug 2022 02:47:12 -0700 (PDT)
+	id 1oLYCK-007Bkn-Ry
+	for linux-snps-arc@lists.infradead.org; Tue, 09 Aug 2022 22:59:42 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HNNNflAe/FWdgVT7FN9jGy3gRmKGO3dgvDKez+XBuD3YvKxiGiNK5iuBfCLNfvTKs4lMd5hIyTj6Xu5iKnqigUtQlFqtsqSVmkZojJZM/7Mu9TAu2mGYFjKBNHz0kIJ2bkEH8zr4ICUDSaz6UHnv+Z+zJvWy6Wds+jqjaUfqQHp/xVu56EoUC3791ZvraNvJwUhZdK3RLowrIQlepAIoLrfJHTQB1vBO3ekBw0LEHWOZID5uUDZcCISQWWV+1C0bBfdXCewsrCCdt2e5XH1n6og/eaXlAKkQ9uSYrgxTKNMmhePlx/l2V/mmwEN2QNppgAv5e1nKcVUk0MjpMeerWQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uC63H69Y4RmnfeqZFa7l9XBZ8H1RINrXnDA9173rAZc=;
+ b=Z7WuTRsgsvOh+T27hX+IpL32Pi5wR3NKOLATJtBctoyNHedYBIfMqQQWyAY3n34qU3U32L7gCRM92AItq54Oq7Js/7CgrsiVbUH5XGp1XCCH725GMNIraGIWs5PaRgXvTgMxPOw7gQb4F72mILPTUzx0/hTuYHPmUQDKnzMnPv65ktcsJ/tqWegLoRzLJbU83FgsKE6Ub7Bqw2Y6OlgCWbRhyIJzyhlf9BSelUdLdJcyzjvva9UuyocvbymlnxB5CJ9i4AuFOG4CqVkKA8smStxjMTxlvhUHnGS0FvTwo+TYKrwYZjs4t9Dwkb/nClsXYrNnwVKVX5UnTHdW8DsTZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 64.136.252.176) smtp.rcpttodomain=lists.infradead.org
+ smtp.mailfrom=stryker.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
+ action=none header.from=stryker.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stryker.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uC63H69Y4RmnfeqZFa7l9XBZ8H1RINrXnDA9173rAZc=;
+ b=IFF8CHIuCIfeppiatWe4FYG3NiNkHBTkswSfb0QB6vxB1zblxzb74wLLhPElE/gwVBVO/ZTqqCHw2m4LiCrLXZtOYrBNcj+YYbBRJ4/WTGiC1yqtDeXCOahNhV/7pTB1j0DN7jucysgrKOEZp3gSDJ85WvTG3hI58FHmbZ0mEHyezMy5xh4WliSgPuKsGh88nHFADMPjfFKMdeTeoqS+qyJO2xO7vanjy3ONhGYN36+Y7alM1GZq0oOgug0hQDnqWOpfRn+Mr02Equ97yjVl/Un4n6wpkiHbmTOkDP+dr6U2hZctPiaQYFtjt1mVp1TybzdGZxlrZof9nGWVIFWggA==
+Received: from BN9PR03CA0874.namprd03.prod.outlook.com (2603:10b6:408:13c::9)
+ by SA1PR01MB7390.prod.exchangelabs.com (2603:10b6:806:1f9::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5504.15; Tue, 9 Aug 2022 22:59:35 +0000
+Received: from BN8NAM11FT028.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:13c:cafe::da) by BN9PR03CA0874.outlook.office365.com
+ (2603:10b6:408:13c::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.15 via Frontend
+ Transport; Tue, 9 Aug 2022 22:59:35 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 64.136.252.176)
+ smtp.mailfrom=stryker.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=stryker.com;
+Received-SPF: Pass (protection.outlook.com: domain of stryker.com designates
+ 64.136.252.176 as permitted sender) receiver=protection.outlook.com;
+ client-ip=64.136.252.176; helo=kzoex10b.strykercorp.com; pr=C
+Received: from kzoex10b.strykercorp.com (64.136.252.176) by
+ BN8NAM11FT028.mail.protection.outlook.com (10.13.176.225) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5525.11 via Frontend Transport; Tue, 9 Aug 2022 22:59:34 +0000
+Received: from bldsmtp01.strykercorp.com (10.50.110.114) by
+ kzoex10b.strykercorp.com (10.60.0.53) with Microsoft SMTP Server id
+ 14.3.498.0; Tue, 9 Aug 2022 18:59:27 -0400
+Received: from bldwoapp11 ([192.168.131.10]) by bldsmtp01.strykercorp.com with
+ Microsoft SMTPSVC(8.5.9600.16384);	 Tue, 9 Aug 2022 16:59:23 -0600
 MIME-Version: 1.0
-References: <97ea44bb-58fe-d6cb-6c79-9be0b245f2c6@synopsys.com>
- <38e7fb76-2c07-6429-b803-4fd6ff2b1178@synopsys.com> <3062ce96-7e99-d221-61c8-4b87c87c113b@synopsys.com>
- <e8be91c7-8597-7a7e-9714-9f8045781959@mind.be> <aafcf149-d0b9-8c95-751c-64ec4dabf5b5@synopsys.com>
- <CADvTj4qcYpo=UB2Qny7-0mXiqq9R0u6QMBgs+9hXm76SQxvEew@mail.gmail.com>
- <40fe53f9-cd74-a19f-e338-2aa4d35a9ec1@synopsys.com> <8c13892c-a9ed-a016-7043-6794b87a884c@mind.be>
- <CADvTj4rPGVpbbZTXO9J0NT6PLbT_Q8jDHhDwhH6u0jMDc4aJCg@mail.gmail.com>
- <ac05ab10-5b36-619c-3ccc-a619d6c0c0da@mind.be> <CADvTj4rFeH6m+vq+nrM8O61UJ4d6yyifJ6NdTadxkU-kGvOCMQ@mail.gmail.com>
- <5132079e-acaa-323e-88c2-2237be612159@mind.be>
-In-Reply-To: <5132079e-acaa-323e-88c2-2237be612159@mind.be>
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Tue, 9 Aug 2022 03:46:59 -0600
-Message-ID: <CADvTj4q+UsNLzXwwmS=ThdpG41_R0Qyv6E6HyU2V52_newfe7g@mail.gmail.com>
-Subject: Re: [Buildroot] [PATCH v3 1/1] package/bpftool: revert bpf_cookie
- patch to allow building
-To: Arnout Vandecappelle <arnout@mind.be>
-Cc: Shahab Vahedi <Shahab.Vahedi@synopsys.com>, 
-	"buildroot@buildroot.org" <buildroot@buildroot.org>, 
-	"linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
+From: <noreply@stryker.com>
+To: <wos@stryker.com>
+CC: <linux-snps-arc@lists.infradead.org>
+Date: Wed, 10 Aug 2022 06:59:22 +0800
+Subject: Bitcoin wird Sie zum Milliardar machen
+Message-ID: <BLDSMTP01u59Vvjvxo6001452b7@bldsmtp01.strykercorp.com>
+X-OriginalArrivalTime: 09 Aug 2022 22:59:23.0666 (UTC) FILETIME=[AADA7720:01D8AC43]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5f2df793-78fa-4eca-2b13-08da7a5ad421
+X-MS-TrafficTypeDiagnostic: SA1PR01MB7390:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	vAKjam+LqWJ4xAFElKVkXcUxoEx2X2LgekbIZRrrzcFR0vZSO8uySDJ0Y2MCXgb/vC9rp8e8uY+mD0U+HsS+AzvVutXJH9TelR+kj1lGREzHRThWOOGlNkA6sieBxH75GnPyXEc1gzSrXpWYYVQjF7E27klGHgU0jWhWl432hmTm8KeOOTqe6g3Kh5CYphfwAn0Q2zPmN/T5NjhEqBpD6SWjW2XVhKVjmvb8gUAsLFhLOa5VN357jjgsJisd5km2fa7RWSp1RrrTC5hOTLGgabH3YOEwPe8lsXQZSPC6luV6in/5wyYQYDCtOKC7b8iPm/YlnL3aJ7T6SD7/cp8z7PFzaY3zU4NGeJTtPILoJxScjtzVf6UCYUPyJgCkD2YPCpFqgu1xYLiQtUjdSNwdT2JDjssTihT3KzLcCZP2YfMXdY1D8Qc4jektFhWmP+7uxpad+IbyAgn4po57Jg4yRXywHKYcD6ye3dmFlwjHC/p4ty3c6GSgq+RElDiv4H2ZINbdoe8sxKKOJG3cYWz5qLP1EB+MXd7xTW/EHuGK2RDwRHO5tNAFXpd3pvfIOsA+MNJqnEDwmIe2qt370YsSRUICM3QiMgd4bVgYPCEZ9BDrRUubrKsFGrvhHCQevzWj90zkwLCvMfEHiT/JcfZHCdgcy5DB7sps2ROdInQkM8YcbvvurkvWQNS04oLEUyBzw92l9hF07DMyXqter0S30LGzuMVTVTf7/KwRRLyX/ZQABLWhPlxUvulJBYrq6zh4Kv/e7CQt5m59bu2jq9t8CjTRL+skU99VkdmpIdsqkf/y803jqTbSfxTNR4uFlZZp
+X-Forefront-Antispam-Report: 	CIP:64.136.252.176;CTRY:US;LANG:de;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:kzoex10b.strykercorp.com;PTR:ip176-252-136-64.static.ctstelecom.net;CAT:NONE;SFS:(13230016)(4636009)(346002)(136003)(39860400002)(376002)(396003)(40470700004)(46966006)(36840700001)(9686003)(356005)(2876002)(26005)(82740400003)(478600001)(5660300002)(336012)(41300700001)(40480700001)(2906002)(81166007)(8936002)(82310400005)(4326008)(966005)(70206006)(8676002)(6862004)(36860700001)(86362001)(6636002)(40460700003)(70586007)(186003)(558084003)(316002)(47076005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: stryker.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2022 22:59:34.9216
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f2df793-78fa-4eca-2b13-08da7a5ad421
+X-MS-Exchange-CrossTenant-Id: 4e9dbbfb-394a-4583-8810-53f81f819e3b
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=4e9dbbfb-394a-4583-8810-53f81f819e3b;Ip=[64.136.252.176];Helo=[kzoex10b.strykercorp.com]
+X-MS-Exchange-CrossTenant-AuthSource: 	BN8NAM11FT028.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR01MB7390
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220809_024714_936919_CC2C1370 
-X-CRM114-Status: GOOD (  48.56  )
+X-CRM114-CacheID: sfid-20220809_155941_143832_8A5D2840 
+X-CRM114-Status: UNSURE (   2.77  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,174 +107,16 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jun 20, 2022 at 12:27 PM Arnout Vandecappelle <arnout@mind.be> wrote:
->
->
->
-> On 20/06/2022 11:17, James Hilliard wrote:
-> > On Mon, Jun 20, 2022 at 12:45 AM Arnout Vandecappelle <arnout@mind.be> wrote:
-> >>
-> >>
-> >>
-> >> On 20/06/2022 01:19, James Hilliard wrote:
-> >>> On Sun, Jun 19, 2022 at 9:20 AM Arnout Vandecappelle <arnout@mind.be> wrote:
-> >>>>
-> >>>>
-> >>>>
-> >>>> On 16/06/2022 10:11, Shahab Vahedi wrote:
-> >>>>> On 6/16/22 01:27, James Hilliard wrote:
-> >>>>>> On Wed, Jun 15, 2022 at 5:10 AM Shahab Vahedi via buildroot
-> >>>>>> <buildroot@buildroot.org> wrote:
-> >>>>>>>
-> >>>>>>> On 6/14/22 19:14, Arnout Vandecappelle wrote:
-> >>>>>>>>
-> >>>>>>>> On 14/06/2022 11:31, Shahab Vahedi wrote:
-> >>>>>>>>> Building bpftool on Debian 11 (bullseye) with kernel v5.10 and clang-11
-> >>>>>>>>
-> >>>>>>>>     How do you build host-bpftool with clang in Buildroot context? HOSTCC is set to gcc in the Makefile... Do you supply an explicit HOSTCC= on the Buildroot command line? I'm not sure if we are really interested in carrying fixes for such exotic and not-really-supported situations...
-> >>>>>>>
-> >>>>>>> No, I don't do any sort of trickery to build bpftool on my end. The
-> >>>>>>> bootstrapping, if becomes available for your configuration, uses clang
-> >>>>>>> and only clang. I tried to explain this in v4 of the patch [1], the
-> >>>>>>> second paragraph of the commit message.
-> >>>>>>
-> >>>>>> I think clang/llvm support isn't going to work correctly yet since we only have
-> >>>>>> version 9.0.1, there's a series bumping to version 11.1.0 that should fix that:
-> >>>>>> https://patchwork.ozlabs.org/project/buildroot/list/?series=291585
-> >>>>>>
-> >>>>>> Minimum clang/llvm version for libbpf co-re is version 10:
-> >>>>>> https://github.com/libbpf/libbpf*bpf-co-re-compile-once--run-everywhere
-> >>>>>
-> >>>>> You're right about the clang version, but it doesn't have anything to do
-> >>>>> with Buildroot's clang. The build process uses the clang that is installed
-> >>>>> on the host. For Debian bullseye, that is clang 11.
-> >>>>    >
-> >>>>> To emphasise, I am cross-building bpftool for my "arc-linux" target, and yet
-> >>>>> the bootstrap part of bpftool, uses the x86 clang of the Debian machine.
-> >>>>
-> >>>>
-> >>>>     Hm, that smells like we actually want to build host-clang (after updating it
-> >>>> to 11.1.0 of course) so that we are sure a known version of clang is used.
-> >>>> Possibly with a check-host-clang check to avoid building it if the installed
-> >>>> clang is good enough.
-> >>>
-> >>> Dealing with multiple external clang versions may be a bit tricky and difficult
-> >>
-> >>    We do it for GCC, so we can do something similar for clang.
-> >>
-> >>> to test properly, we don't really want to use the system clang/llvm although
-> >>> clang/llvm external toolchain support may be desirable here as those could
-> >>> be tested by the autobuilders.
-> >>
-> >>    For GCC, the host toolchain is completely unrelated to the target toolchain.
-> >> With clang, it's true that it's possible to use the target compiler for host
-> >> builds as well, but don't we still need binutils? So in my mind, there would be
-> >> a separate host clang toolchain and target clang toolchain.
-> >
-> > BPF is kinda weird...for both clang and GCC. It's sorta a separate
-> > architecture in
-> > the compiler...but is also sorta not architecture specific in what it
-> > builds for.
->
->   Ah! I understood from Shahab's message that host-clang was used to build a
-> host tool that is then used to build the target package. But it's actually used
-> as a cross-compiler then, just with a different target.
->
->
-> >>> It would be good to get clang/llvm updated soon as systemd is now using bpf for
-> >>> some service security/isolation features that we currently aren't able
-> >>> to support
-> >>> due to clang/llvm being too old.
-> >>
-> >>    Unfortunately your series is rather large and has no Reviewed or Acked by
-> >> tags... So it tends to languish on patchwork.
-> >
-> > The tested-by for the v12 series ended up in the wrong thread I think:
-> > https://lore.kernel.org/buildroot/BN2P110MB16408DC4537E54EF7ECC7906F21A9@BN2P110MB1640.NAMP110.PROD.OUTLOOK.COM/
->
->   All right, I'll look into it!
->
->
-> >>>>     And we probably want a user-visible option to enable co-re then, because it's
-> >>>> going to be expensive to build.
-> >>>
-> >>> We may want to make llvm/clang part of the pre-built toolchains
-> >>> eventually, but for
-> >>> now I'd say we should just conditionally enable co-re here if we are
-> >>> already building
-> >>> a clang/llvm toolchain.
-> >>
-> >>    Although I'm usually in favour of automatic dependencies, in this case I'd say
-> >> it's worth adding an explicit config option.
-> >>
-> >>
-> >>> There's some early GCC support for co-re in 12.1 which I was experimenting with
-> >>
-> >>    But then it would depend on both host and target GCC >= 12...
-> >
-> > I thought we don't support GCC on the target.
->
->   Yeah, terminology is difficult... With "host gcc" I meant "the gcc that builds
-> for the host, i.e. the native gcc" and with "target gcc" I meant "the gcc that
-> builds for the target, i.e. the cross-gcc".
->
-> > We would essentially have a 2 architecture cross-toolchain(one real
-> > target arch, and the
-> > BPF virtual architecture compiler/assemblers and such).
->
->
->   Yeah, that makes sense... So the idea is that we build GCC with bpf support,
-> similar like how we build it with Fortran support, right?
-
-Well it's a bit different in how we build the toolchain, but it's more
-or less used like
-a separate language when building packages that need BPF.
-
-I sent an initial series adding BPF support:
-https://lore.kernel.org/buildroot/20220809094109.2279598-1-james.hilliard1@gmail.com/
-
->
->
->   Regards,
->   Arnout
->
-> >>> as well which may reduce the need for a llvm/clang toolchain for co-re. The GCC
-> >>> toolchain BPF support build process is a bit complex however as one needs to
-> >>> sorta do a hybrid multitarget build with GCC and binutils since GCC
-> >>> treats BPF as
-> >>> a separate target(and since GCC along with the binutils GAS assembler
-> >>> don't natively
-> >>> handle multi-target toolchain builds themselves).
-> >>
-> >>    Ouch, so we still can't reuse the existing host toolchain for the host parts?
-> >> then it doesn't help that much, does it?
-> >
-> > We can create a GCC toolchain that can target both BPF and the normal target
-> > architecture...but it's sorta a strange multiarch style toolchain.
-> >
-> >>
-> >>    Regards,
-> >>    Arnout
-> >>
-> >>>
-> >>> I have an experimental branch for that here:
-> >>> https://github.com/buildroot/buildroot/compare/master...jameshilliard:ebpf
-> >>>
-> >>> I'll try and clean that up a bit once the GCC 12.1 series it is based
-> >>> on is merged:
-> >>> https://patchwork.ozlabs.org/project/buildroot/list/?series=302389
-> >>>
-> >>>>
-> >>>>     Regards,
-> >>>>     Arnout
-> >>>>
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+SW4gZGVyIFN0YWR0IEJvbm4gd3VyZGVuIG1laHIgYWxzIDQ3MyBNZW5zY2hlbiBNaWxsaW9uYXJl
+IGh0dHBzOi8vdGVsZWdyYS5waC9QYXNzaXZlcy1FaW5rb21tZW4tdW5kLTc1MDAwMDAtRXVyby1h
+dWYtS3J5cHRvd9CTwqRocnVuZy0yMzM4NDgtMDgtMDkNCkZvbGxvdyB0aGlzIGxpbmsgdG8gcmVh
+ZCBvdXIgUHJpdmFjeSBTdGF0ZW1lbnQ8aHR0cHM6Ly93d3cuc3RyeWtlci5jb20vY29udGVudC9z
+dHJ5a2VyL2diL2VuL2xlZ2FsL2dsb2JhbC1wb2xpY3ktc3RhdGVtZW50Lmh0bWwvPg0KX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtc25wcy1hcmMg
+bWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xp
+c3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
