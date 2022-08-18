@@ -4,78 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EE683C25B08
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 17 Aug 2022 06:37:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6EA38C00140
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 18 Aug 2022 08:11:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References
-	:In-Reply-To:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=W529HrURfM+1f+xjjbscV642P2FyEHSwpZtAUeDgILo=; b=Ux3yOOcRaAy/9O
-	UUHoUMw/g1wZUAniLR0WygLujyGbG3N6emxlkuJ3mbRJyEKjY6z70W1KL+Y/yVzSUL5a3plDDtwPq
-	wh6/GGJtts8j/hpSXqk82BKwqV4GU2C0OBoPIXXFCIryN1DhIux3vi7Kn+wVZAGAQuPdJvJdCcg/6
-	T8hvPNFppSNNZW+/tLjV+b/MfAFUf9kuA/981TIlGoUwlZ9BnjM7b+eE6I9fXtyhB5o1ckaKDPHiQ
-	L8d1U+WJ/FwQdzMf4bkWlhZS9WP3KdRjvU0Obf7FokK15ss1EPpip+5ZV+NijxU6d09wnZpYQ7QXO
-	GPfNeXToh26vzEvV15SA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=ijV+tBOH3CAg1O8TBC1OMUay4ooftQQ9KDcuGVZaEZ0=; b=iML0Dj80tYccGD
+	78+BbEJfcY1LkZYbZgtQKLgnYfKI8yZkkHUXr5BPrDCoNK93MxFQcR2FL5kqB3Eu7yPIVQkhripFe
+	9deR32onLZyS4Fp6zl2/7M/o62iNcL4O3CeWOGZURVKmlnkNNueLXMQEv+km5gfTlamlpcvn+gwNz
+	OS8yEisR6OqLzPrQfclbtQYOvOfg+kw5EhwkVgg38yxco557UnQaxWLlyj9zngJca3+IV3sySajO+
+	M7ToHEfVUYTLaWxT8/dVhzPErDnfz9iYCcVnUcD6JBjrYllWIXFe2YfElqO09uhmcmwdl+sJQ4aqc
+	Q4+ac/PL9oS4AsCEIsag==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oOCgH-00C3JD-2g; Wed, 17 Aug 2022 06:37:33 +0000
-Received: from gandalf.ozlabs.org ([150.107.74.76])
+	id 1oOacj-000cua-St; Thu, 18 Aug 2022 08:11:29 +0000
+Received: from mail.fadrush.pl ([54.37.225.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oOCg5-00C35D-BU; Wed, 17 Aug 2022 06:37:22 +0000
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4M6ywr2Fflz4x3w;
-	Wed, 17 Aug 2022 16:36:59 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1660718232;
-	bh=5lvMCowArwqyA9jSE0Pt5Ze40kYbuyRJPhxadHGIwKI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=V5KRJdowJmJQRJnS7vKpdn3ZRXD54gk+olJ2P9NPfjmi7kMUASVQ2UXCdDQyrJ2l4
-	 iCeFUua0EzB2yY0V/Z2I6yNQvrzfQPnJW1W5hxs27Vmfkv+k2UjzPlcs8lpiwhfw0s
-	 rXEgyRzix9FElmstXFR+laxsxOuSRDwwsndo9tYxJEmh/ZBPqWv8VEb8et3MiTTUHN
-	 x10j5udzl/wNVZu2HvSBSJ+AMCucLU+aGNDpNcmlYlO+lqwPbmi66mdTVNq3+seiCv
-	 ALvJpMs3moLPQf8qL2I07gi/1+uKcpDS0UK8SnIKfeX71p9KEinWWl/Ojv6Y5XtZQh
-	 hNA8dcj2NpgRA==
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Zi Yan <zi.yan@sent.com>, linux-mm@kvack.org
-Cc: Zi Yan <ziy@nvidia.com>, David Hildenbrand <david@redhat.com>, Matthew
- Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@suse.cz>, "Kirill A
- . Shutemov" <kirill.shutemov@linux.intel.com>, Mike Kravetz
- <mike.kravetz@oracle.com>, John Hubbard <jhubbard@nvidia.com>, Yang Shi
- <shy828301@gmail.com>, David Rientjes <rientjes@google.com>, James
- Houghton <jthoughton@google.com>, Mike Rapoport <rppt@kernel.org>,
- linux-kernel@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>, Vineet
- Gupta <vgupta@synopsys.com>, Shawn Guo <shawnguo@kernel.org>, Taichi
- Sugaya <sugaya.taichi@socionext.com>, Neil Armstrong
- <narmstrong@baylibre.com>, Qin Jian <qinjian@cqplus1.com>, Catalin Marinas
- <catalin.marinas@arm.com>, Guo Ren <guoren@kernel.org>, Huacai Chen
- <chenhuacai@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Thomas
- Bogendoerfer <tsbogend@alpha.franken.de>, Dinh Nguyen
- <dinguyen@kernel.org>, Christophe Leroy <christophe.leroy@csgroup.eu>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, "David S. Miller"
- <davem@davemloft.net>, Chris Zankel <chris@zankel.net>, Arnd Bergmann
- <arnd@arndb.de>, Ley Foon Tan <ley.foon.tan@intel.com>, Andrew Morton
- <akpm@linux-foundation.org>, NXP Linux Team <linux-imx@nxp.com>,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-oxnas@groups.io, linux-csky@vger.kernel.org,
- linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
- linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org
-Subject: Re: [PATCH] arch: mm: rename FORCE_MAX_ZONEORDER to
- ARCH_FORCE_MAX_ORDER
-In-Reply-To: <20220815143959.1511278-1-zi.yan@sent.com>
-References: <20220815143959.1511278-1-zi.yan@sent.com>
-Date: Wed, 17 Aug 2022 16:36:57 +1000
-Message-ID: <87tu6bv0ja.fsf@mpe.ellerman.id.au>
+	id 1oOach-000csC-Lk
+	for linux-snps-arc@lists.infradead.org; Thu, 18 Aug 2022 08:11:28 +0000
+Received: by mail.fadrush.pl (Postfix, from userid 1002)
+	id 524F723057; Thu, 18 Aug 2022 08:11:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fadrush.pl; s=mail;
+	t=1660810286; bh=bD6j9gIFU6CLTaCGl0Ow9oeIxtirvTfMeNZSfLEZQ+I=;
+	h=Date:From:To:Subject:From;
+	b=RD31wYV2TASCKeHIDaywACqc2JO+KmtSPT7C5ASCOL+lP2YU9v8ifqVxpjGx4ANmn
+	 e07AK5LmYntwYsMwj2gQfoxYVs0haNFaa0t25DE3MJFBe3kqKHYHTNxe0klcg52J1L
+	 XyXOGmBwyqOd7jHSnYx49Np3sBN5FLzhBL7MRYszWJ0fjD6psehkmHPCaiaK4L6R7y
+	 /R/zuD0kCixlk2yWQ+5yFhnk3eFE05HeK1N2YifwT9JC2SSg1XgAs9s56HK58aiXqA
+	 E0K/hJiu1QaC7vBAyvAmqqoH+2tcm0981UGwkwrDAcLbhNIQ29+BTiONaB7cwVTnZ0
+	 +MeOTJwP6/e9A==
+Received: by mail.fadrush.pl for <linux-snps-arc@lists.infradead.org>; Thu, 18 Aug 2022 08:11:03 GMT
+Message-ID: <20220818064500-0.1.13.598z.0.q49tldvll6@fadrush.pl>
+Date: Thu, 18 Aug 2022 08:11:03 GMT
+From: "Jakub Olejniczak" <jakub.olejniczak@fadrush.pl>
+To: <linux-snps-arc@lists.infradead.org>
+Subject: =?UTF-8?Q?Zwi=C4=99kszenie_p=C5=82ynno=C5=9Bci_finansowej?=
+X-Mailer: mail.fadrush.pl
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220816_233721_588159_BEC5D575 
-X-CRM114-Status: UNSURE (   6.39  )
+X-CRM114-CacheID: sfid-20220818_011127_881807_92B97313 
+X-CRM114-Status: UNSURE (   0.84  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -88,29 +59,24 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Zi Yan <zi.yan@sent.com> writes:
-> From: Zi Yan <ziy@nvidia.com>
->
-> This Kconfig option is used by individual arch to set its desired
-> MAX_ORDER. Rename it to reflect its actual use.
->
-> Acked-by: Mike Rapoport <rppt@linux.ibm.com>
-> Signed-off-by: Zi Yan <ziy@nvidia.com>
-...
->  arch/powerpc/Kconfig                         | 2 +-
->  arch/powerpc/configs/85xx/ge_imp3a_defconfig | 2 +-
->  arch/powerpc/configs/fsl-emb-nonhw.config    | 2 +-
-
-Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
-
-cheers
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+RHppZcWEIGRvYnJ5LAoKa29udGFrdHVqxJkgc2nEmSB6IFBhxYRzdHdlbSwgcG9uaWV3YcW8IGNo
+Y2lhxYJieW0gemFwcm9wb25vd2HEhyB3eWdvZG5lIHJvendpxIV6YW5pZSwga3TDs3JlIHVtb8W8
+bGl3aSBQYcWEc3R3YSBmaXJtaWUgc3RhYmlsbnkgcm96d8Ozai4gCgpLb25rdXJlbmN5am5lIG90
+b2N6ZW5pZSB3eW1hZ2EgY2nEhWfFgmVnbyB1bGVwc3phbmlhIGkgcG9zemVyemVuaWEgb2ZlcnR5
+LCBjbyB6IGtvbGVpIHdpxIXFvGUgc2nEmSB6IGtvbmllY3pub8WbY2nEhSBpbndlc3Rvd2FuaWEu
+IEJyYWsgb2Rwb3dpZWRuaWVnbyBrYXBpdGHFgnUgcG93YcW8bmllIG9ncmFuaWN6YSB0ZW1wbyBy
+b3p3b2p1IGZpcm15LgoKT2Qgd2llbHUgbGF0IHogcG93b2R6ZW5pZW0gcG9tYWdhbSBmaXJtb20g
+dyB1enlza2FuaXUgbmFqbGVwc3plaiBmb3JteSBmaW5hbnNvd2FuaWEgeiBiYW5rdSBvcmF6IFVF
+LiBNYW0gc3RhxYJ5Y2ggS2xpZW50w7N3LCBrdMOzcnp5IG5hZGFsIGNoxJl0bmllIGtvcnp5c3Rh
+asSFIHogbW9pY2ggdXPFgnVnLCBhIHRha8W8ZSBwb2xlY2FqxIUgamUgaW5ueW0uCgpDenkgY2hj
+aWVsaWJ5IFBhxYRzdHdvIHNrb3J6eXN0YcSHIHogcG9tb2N5IHd5a3dhbGlmaWtvd2FuZWdvIGkg
+ZG/Fm3dpYWRjem9uZWdvIGRvcmFkY3kgZmluYW5zb3dlZ28/CgoKUG96ZHJhd2lhbQpKYWt1YiBP
+bGVqbmljemFrCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFk
+ZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4
+LXNucHMtYXJjCg==
