@@ -4,123 +4,117 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F369EC32793
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 24 Aug 2022 01:34:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3423BECAAA1
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 25 Aug 2022 21:01:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=7hvyLZjD6jRJmpmFryXj/7Rd3fAc0QZYYyuCEHhbxmE=; b=qjk6WyDUoLEBJx
-	1AGCgOU7bPEUOSbcGFVIdcnVg1ITQSk7eHghVhvteyEPPBaZZyfEwktbFFaT5J997huyHRSdB+XXx
-	A5FhmawNEW09XBUlrXXiatD6M5v1F967hU3MpLI0vPb1vYmRgvYsic96Vinadx5RKH0J5gcDBJqdT
-	0XKqwfhiqpz62mj2kDdlD7tRsg7oRdfTDPkcDdnSp8bEUvCoGnaAZkJGsl0wmpKINIOtuAn9ag0Db
-	Ca6Bn9PyOHkRzT1pgLcEV6YWYnSDJT/sBBv6aCEJ/ZWqZZ5GhXfaprGCwT8rL3Aa/hr8iWbLBETCY
-	4uLYD1aEkJi+PzfQ+Chw==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=nPxL0rnYglyinJCzMXrKX0y3fqAbn5R+CLWRzTU+HPg=; b=hkgIl+UXpdWn8B
+	XyKFeCQ3BaCsirLx0rCvtNL+B29YjTPs2VpzYd83F/AVBgz6Id9e5qItX6KQ7QZ8leaef6p27wPJj
+	HzjX+t7WCLAH/Yzuqz6dI7YQNI/9rXqZrt0/l1a5fdWnx9PX/9AhfrrImQq/k5edZVn9e1T68dTsd
+	Fd9SgQnusPiynvrSkT+yhRr8+i5CETbtnaqHyhcEy1y4AYmqqEEsYOHh+cUqAawpksveeX/gmQdLV
+	AdN5yvNE8V3nA5T1GwOqRlPvXthFvrO2q6XHeiQS+F+9+Jw9h+cfcE51P8CUJylyPWnmMplNw9Kvt
+	emtHartpqO38MHeuPc5Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oQfHM-009qQO-CN; Wed, 24 Aug 2022 01:34:00 +0000
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d])
+	id 1oRJyl-003IV3-Vg; Thu, 25 Aug 2022 21:01:31 +0000
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oQfHB-009qHL-Te
-	for linux-snps-arc@lists.infradead.org; Wed, 24 Aug 2022 01:33:58 +0000
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-33387bf0c4aso423784187b3.11
-        for <linux-snps-arc@lists.infradead.org>; Tue, 23 Aug 2022 18:33:45 -0700 (PDT)
+	id 1oRJyh-003ISA-MZ
+	for linux-snps-arc@lists.infradead.org; Thu, 25 Aug 2022 21:01:29 +0000
+Received: by mail-wr1-x429.google.com with SMTP id bq11so19498092wrb.12
+        for <linux-snps-arc@lists.infradead.org>; Thu, 25 Aug 2022 14:01:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=15+zFGICN73u7PZkuVftuGFAaRqO2hNiuUPbcuB/iDw=;
-        b=ammrl+ffQIbxpXELKnFxaurs3Fbe2bx9R/IRI2+J5pQAM/wfjFh1aSFzyWG/E1RD5I
-         rshOZlmvK+Bt4a2MNbUFbSpkCeSrrxRT3zaVTQqLRUMz4elzDZb4CyvIvtQzq4jGwi+1
-         HBILJXTenmBL8ezDV/XzSltMyRVW8N5pGLVc6ZMhlIDEvl+mrwxpUc5n+db5z5Pfve4k
-         jWbqAzYB3Hyg5oa2ZHgXfW73ElDNxOwcp7mMt28pojnFNBEyD2+0HttoLOb68bdPn3gz
-         h+F5uqyOw5Q9oI+0N52Nr3XEpZ0TzyQMzlW05rWkdP3Hj3nW89n+8r+x6EjcJTcjYaCu
-         dSgA==
+        d=conchuod.ie; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=Z63zwi7cGAuKiNoBIs10Ekj9CC9KQ4p8G+KukTWva3I=;
+        b=SJaPKdEKD3cZ4U2ILmGJ7YYl8jrjkW+umstaVhULXfth/8eB87EBEKn/1mLbA1W76X
+         PzwduEhBRnRX4YqA+aiPXjDTcwdjcfx/3gAU9DBS4WBTJpRmqny0NPSmw9G9ochTOInu
+         2WeWfYenhoC74R53yv/Z0OwTJEtmrKUx6FM/amJ0sZsda7+BI8NV+YKEpXHvhWWUIQjL
+         jIvX/rug3aVUgMdrWNpc6nGPjyF4/U1BUWb17IFkiyO/CnXUmbpjEQXfrqIv9bH9Ityb
+         Jo9HX3MLhnjEaryWcsPgu/zFHTD87Za/Foj2KTeWLFsfxj4oLiPHVvekJWAPqw55D4IJ
+         wP5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=15+zFGICN73u7PZkuVftuGFAaRqO2hNiuUPbcuB/iDw=;
-        b=x3oG78SscwgF0BRdB6Y1WkG7gjeLAgb68nBHnLcS4pDXYrjrVyV+/5wuB8QncoggKR
-         FIJS1QlRtbBNt2O/doqFM52K5/nVY6Sn+pNDTavTF2300a6wGerGLy/ipJJn40s9Bw8c
-         5AfrtqhqXdipCV9lccd4rOydi6VF+MYK6V9pivOhsr0sLEVE+5hyKgnaFHzXQ0BUhU0A
-         QaY41xyadk6nIZk4Kd6COsxyr3M9DUR75nOFO6McQGPPkKFpmHOx3hQC6NcrbmBw7eFf
-         nCyfEN/Yi+TzZqqzdWCHiJNh96dsPexcdAPMD+yumvb2NqRVJz1Oy78lue4o5pr7mlfl
-         umOQ==
-X-Gm-Message-State: ACgBeo1AeGUziP4G5oy2y7SFLom5H0Wiu4qi3zmwRR1K7DT+Sn8S0ban
-	tNHnBphoJzNOrDJPSIo6fq/LBFPn1yYu+pWN30F+hg==
-X-Google-Smtp-Source: AA6agR5VUVZnLczkpHKFOKrnd+Tscg/SlOlcCZoOHfOkTvdY9LhPO1gaSJJ+tW/v5A56NSwT8mnZVrMApq5J4jdaQcY=
-X-Received: by 2002:a25:1546:0:b0:68f:8758:7348 with SMTP id
- 67-20020a251546000000b0068f87587348mr24825887ybv.563.1661304824786; Tue, 23
- Aug 2022 18:33:44 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=Z63zwi7cGAuKiNoBIs10Ekj9CC9KQ4p8G+KukTWva3I=;
+        b=4PR5qMxLu3U1NxEpZHCYAUoBWKA77dSYi0J8Qdrmgeyz/uZGrI11tDfwWhhrw9GnNw
+         4ipVFzAbUjHg7/gH9rFD2jE48MC7KPSv98MOgMYsGcWQEs21PffFh5yjIRgx9zOHqUXN
+         fFOU4frsLrBXe2lDBtJBvfxOImMLmfCZS8LzK+3xPu2MJatbwWAUgIGKwKpPqSoURJGa
+         sKWDNcuXepQyOc6jG7ADy0kBknRBq441Zvvw6TtAq62jn5eXdGeNpTkqroWRuQ7GwXUd
+         fMocq0fJ8dwfYx2wHHetkC1iox0DdPHVuEdzguJp94PlYNG69ks3VKwZCf6AXI6C7wq8
+         aE0Q==
+X-Gm-Message-State: ACgBeo2mQ9ESRfHZTo6Hd6ql2H03Q353eMwhgPU14D/AirLQ6lTKIGq8
+	tSWiJF/NtIDA03ooAMhdY1in4Q==
+X-Google-Smtp-Source: AA6agR6CHzaozIjR/7Q20mq4qiXqh3OzKi41CUQLkIeloF4Lpy2xCkUYlbFCvfPNRwRzxYHUk2X5VA==
+X-Received: by 2002:a5d:5b19:0:b0:225:3ed4:ff64 with SMTP id bx25-20020a5d5b19000000b002253ed4ff64mr3336331wrb.537.1661461285500;
+        Thu, 25 Aug 2022 14:01:25 -0700 (PDT)
+Received: from henark71.. ([51.37.149.245])
+        by smtp.gmail.com with ESMTPSA id i14-20020adffdce000000b00225213fd4a9sm220877wrs.33.2022.08.25.14.01.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Aug 2022 14:01:24 -0700 (PDT)
+From: Conor Dooley <mail@conchuod.ie>
+To: arnd@arndb.de,
+	linux-arch@vger.kernel.org
+Cc: richard.henderson@linaro.org,
+	mattst88@gmail.com,
+	vgupta@kernel.org,
+	linux@armlinux.org.uk,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	guoren@kernel.org,
+	bcain@quicinc.com,
+	chenhuacai@kernel.org,
+	geert@linux-m68k.org,
+	gerg@linux-m68k.org,
+	monstr@monstr.eu,
+	tsbogend@alpha.franken.de,
+	dinguyen@kernel.org,
+	shorne@gmail.com,
+	deller@gmx.de,
+	mpe@ellerman.id.au,
+	palmer@dabbelt.com,
+	hca@linux.ibm.com,
+	ysato@users.sourceforge.jp,
+	dalias@libc.org,
+	davem@davemloft.net,
+	richard@nod.at,
+	x86@kernel.org,
+	jcmvbkbc@gmail.com,
+	linux-alpha@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org,
+	linux-ia64@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org,
+	openrisc@lists.librecores.org,
+	linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	linux-xtensa@linux-xtensa.org,
+	linux-fsdevel@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v2] include/linux: declare cpuinfo_op in processor.h
+Date: Thu, 25 Aug 2022 21:59:43 +0100
+Message-Id: <20220825205942.1713914-1-mail@conchuod.ie>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-References: <20220701012647.2007122-1-saravanak@google.com> <YwS5J3effuHQJRZ5@kroah.com>
-In-Reply-To: <YwS5J3effuHQJRZ5@kroah.com>
-From: Saravana Kannan <saravanak@google.com>
-Date: Tue, 23 Aug 2022 18:33:07 -0700
-Message-ID: <CAGETcx8C_Hw588J_DsDELp2rS-UNnezpqqqvUixqGR7m2wDKaA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] Fix console probe delay when stdout-path isn't set
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Laurentiu Tudor <laurentiu.tudor@nxp.com>, 
-	Jiri Slaby <jirislaby@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>, 
-	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, 
-	Nicolas Saenz Julienne <nsaenz@kernel.org>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Florian Fainelli <f.fainelli@gmail.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, Al Cooper <alcooperx@gmail.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Paul Cercueil <paul@crapouillou.net>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Tobias Klauser <tklauser@distanz.ch>, Russell King <linux@armlinux.org.uk>, 
-	Vineet Gupta <vgupta@kernel.org>, Richard Genoud <richard.genoud@gmail.com>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Claudiu Beznea <claudiu.beznea@microchip.com>, Alexander Shiyan <shc_work@mail.ru>, 
-	Baruch Siach <baruch@tkos.co.il>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
-	Karol Gugala <kgugala@antmicro.com>, Mateusz Holenko <mholenko@antmicro.com>, 
-	Gabriel Somlo <gsomlo@gmail.com>, Neil Armstrong <narmstrong@baylibre.com>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Taichi Sugaya <sugaya.taichi@socionext.com>, Takao Orito <orito.takao@socionext.com>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Andy Gross <agross@kernel.org>, 
-	Bjorn Andersson <bjorn.andersson@linaro.org>, Pali Rohar <pali@kernel.org>, 
-	Andreas Farber <afaerber@suse.de>, Manivannan Sadhasivam <mani@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Laxman Dewangan <ldewangan@nvidia.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang7@gmail.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Patrice Chotard <patrice.chotard@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, "David S. Miller" <davem@davemloft.net>, 
-	Hammer Hsieh <hammerh0314@gmail.com>, Peter Korsgaard <jacmet@sunsite.dk>, Timur Tabi <timur@kernel.org>, 
-	Michal Simek <michal.simek@xilinx.com>, Rob Herring <robh@kernel.org>, 
-	sascha hauer <sha@pengutronix.de>, peng fan <peng.fan@nxp.com>, kevin hilman <khilman@kernel.org>, 
-	ulf hansson <ulf.hansson@linaro.org>, len brown <len.brown@intel.com>, 
-	pavel machek <pavel@ucw.cz>, joerg roedel <joro@8bytes.org>, will deacon <will@kernel.org>, 
-	andrew lunn <andrew@lunn.ch>, heiner kallweit <hkallweit1@gmail.com>, 
-	eric dumazet <edumazet@google.com>, jakub kicinski <kuba@kernel.org>, paolo abeni <pabeni@redhat.com>, 
-	linus walleij <linus.walleij@linaro.org>, hideaki yoshifuji <yoshfuji@linux-ipv6.org>, 
-	david ahern <dsahern@kernel.org>, kernel-team@android.com, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, iommu@lists.linux-foundation.org, 
-	netdev@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-serial@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org, 
-	linux-snps-arc@lists.infradead.org, linux-amlogic@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-actions@lists.infradead.org, 
-	linux-unisoc@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
-	sparclinux@vger.kernel.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220823_183349_968190_F8944E7F 
-X-CRM114-Status: GOOD (  15.09  )
+X-CRM114-CacheID: sfid-20220825_140127_748013_0A2CF294 
+X-CRM114-Status: GOOD (  15.83  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -137,22 +131,439 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 23, 2022 at 4:25 AM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Thu, Jun 30, 2022 at 06:26:38PM -0700, Saravana Kannan wrote:
-> > These patches are on top of driver-core-next.
-> >
-> > Even if stdout-path isn't set in DT, this patch should take console
-> > probe times back to how they were before the deferred_probe_timeout
-> > clean up series[1].
->
-> Now dropped from my queue due to lack of a response to other reviewer's
-> questions.
+From: Conor Dooley <conor.dooley@microchip.com>
 
-Sorry, I somehow missed those emails. I'll respond later today/tomorrow.
+RISC-V is missing a prototype for cpuinfo_op, triggering complaints
+from sparse. Rather than adding yet another `extern const struct
+seq_operations cpuinfo_op;` to an arch specific header file, create a
+generic variant and include it across the board.
 
--Saravana
+Several archs already have a declaration in asm/processor.h - migrate
+these to include linux/processor.h instead. Most archs do not declare
+cpuinfo_op so one sparse complaint off their books.
+
+Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+---
+Changes since v1:
+- Per Geert, use linux/processor.h & include it on all archs &
+- Squash to a single patch
+
+I pushed it out for LKP to take a look at, and was all good there.
+Only added one person per arch & the mailing lists to stay within a
+1024 character CC list. Please scream if I picked the wrong person.
+---
+ arch/alpha/kernel/setup.c               | 1 +
+ arch/arc/kernel/setup.c                 | 1 +
+ arch/arm/kernel/setup.c                 | 1 +
+ arch/arm64/kernel/cpuinfo.c             | 1 +
+ arch/csky/kernel/cpu-probe.c            | 1 +
+ arch/hexagon/kernel/setup.c             | 1 +
+ arch/ia64/kernel/setup.c                | 1 +
+ arch/loongarch/kernel/proc.c            | 1 +
+ arch/m68k/kernel/setup_mm.c             | 1 +
+ arch/m68k/kernel/setup_no.c             | 1 +
+ arch/microblaze/include/asm/processor.h | 2 --
+ arch/microblaze/kernel/cpu/mb.c         | 1 +
+ arch/mips/kernel/proc.c                 | 1 +
+ arch/nios2/kernel/cpuinfo.c             | 1 +
+ arch/openrisc/kernel/setup.c            | 1 +
+ arch/parisc/kernel/setup.c              | 1 +
+ arch/powerpc/kernel/setup-common.c      | 1 +
+ arch/riscv/kernel/cpu.c                 | 3 ++-
+ arch/s390/include/asm/processor.h       | 2 +-
+ arch/s390/kernel/processor.c            | 1 +
+ arch/sh/include/asm/processor.h         | 1 -
+ arch/sh/kernel/cpu/proc.c               | 1 +
+ arch/sparc/include/asm/cpudata.h        | 2 --
+ arch/sparc/kernel/cpu.c                 | 1 +
+ arch/um/kernel/um_arch.c                | 1 +
+ arch/x86/include/asm/processor.h        | 2 --
+ arch/x86/kernel/cpu/proc.c              | 1 +
+ arch/xtensa/kernel/setup.c              | 1 +
+ fs/proc/cpuinfo.c                       | 3 +--
+ include/linux/processor.h               | 2 ++
+ 30 files changed, 28 insertions(+), 11 deletions(-)
+
+diff --git a/arch/alpha/kernel/setup.c b/arch/alpha/kernel/setup.c
+index b4fbbba30aa2..d2c2546e9b1a 100644
+--- a/arch/alpha/kernel/setup.c
++++ b/arch/alpha/kernel/setup.c
+@@ -46,6 +46,7 @@
+ #include <asm/io.h>
+ #include <linux/log2.h>
+ #include <linux/export.h>
++#include <linux/processor.h>
+ 
+ static int alpha_panic_event(struct notifier_block *, unsigned long, void *);
+ static struct notifier_block alpha_panic_block = {
+diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+index 41f07b3e594e..b681bdd21a0c 100644
+--- a/arch/arc/kernel/setup.c
++++ b/arch/arc/kernel/setup.c
+@@ -17,6 +17,7 @@
+ #include <linux/of_fdt.h>
+ #include <linux/of.h>
+ #include <linux/cache.h>
++#include <linux/processor.h>
+ #include <uapi/linux/mount.h>
+ #include <asm/sections.h>
+ #include <asm/arcregs.h>
+diff --git a/arch/arm/kernel/setup.c b/arch/arm/kernel/setup.c
+index 1e8a50a97edf..83240c3c0463 100644
+--- a/arch/arm/kernel/setup.c
++++ b/arch/arm/kernel/setup.c
+@@ -29,6 +29,7 @@
+ #include <linux/compiler.h>
+ #include <linux/sort.h>
+ #include <linux/psci.h>
++#include <linux/processor.h>
+ 
+ #include <asm/unified.h>
+ #include <asm/cp15.h>
+diff --git a/arch/arm64/kernel/cpuinfo.c b/arch/arm64/kernel/cpuinfo.c
+index d7702f39b4d3..4c1b12918aed 100644
+--- a/arch/arm64/kernel/cpuinfo.c
++++ b/arch/arm64/kernel/cpuinfo.c
+@@ -20,6 +20,7 @@
+ #include <linux/personality.h>
+ #include <linux/preempt.h>
+ #include <linux/printk.h>
++#include <linux/processor.h>
+ #include <linux/seq_file.h>
+ #include <linux/sched.h>
+ #include <linux/smp.h>
+diff --git a/arch/csky/kernel/cpu-probe.c b/arch/csky/kernel/cpu-probe.c
+index 5f15ca31d3e8..62580f5d0d74 100644
+--- a/arch/csky/kernel/cpu-probe.c
++++ b/arch/csky/kernel/cpu-probe.c
+@@ -5,6 +5,7 @@
+ #include <linux/init.h>
+ #include <linux/seq_file.h>
+ #include <linux/memblock.h>
++#include <linux/processor.h>
+ 
+ #include <abi/reg_ops.h>
+ 
+diff --git a/arch/hexagon/kernel/setup.c b/arch/hexagon/kernel/setup.c
+index 1880d9beaf2b..395d2930dbd1 100644
+--- a/arch/hexagon/kernel/setup.c
++++ b/arch/hexagon/kernel/setup.c
+@@ -13,6 +13,7 @@
+ #include <linux/seq_file.h>
+ #include <linux/console.h>
+ #include <linux/of_fdt.h>
++#include <linux/processor.h>
+ #include <asm/io.h>
+ #include <asm/sections.h>
+ #include <asm/setup.h>
+diff --git a/arch/ia64/kernel/setup.c b/arch/ia64/kernel/setup.c
+index fd6301eafa9d..973725c4ce1e 100644
+--- a/arch/ia64/kernel/setup.c
++++ b/arch/ia64/kernel/setup.c
+@@ -52,6 +52,7 @@
+ #include <linux/cpufreq.h>
+ #include <linux/kexec.h>
+ #include <linux/crash_dump.h>
++#include <linux/processor.h>
+ 
+ #include <asm/mca.h>
+ #include <asm/meminit.h>
+diff --git a/arch/loongarch/kernel/proc.c b/arch/loongarch/kernel/proc.c
+index 5c67cc4fd56d..a8cbebe839e2 100644
+--- a/arch/loongarch/kernel/proc.c
++++ b/arch/loongarch/kernel/proc.c
+@@ -6,6 +6,7 @@
+ #include <linux/kernel.h>
+ #include <linux/sched.h>
+ #include <linux/seq_file.h>
++#include <linux/processor.h>
+ #include <asm/bootinfo.h>
+ #include <asm/cpu.h>
+ #include <asm/cpu-features.h>
+diff --git a/arch/m68k/kernel/setup_mm.c b/arch/m68k/kernel/setup_mm.c
+index e62fa8f2149b..45d82a4839fc 100644
+--- a/arch/m68k/kernel/setup_mm.c
++++ b/arch/m68k/kernel/setup_mm.c
+@@ -25,6 +25,7 @@
+ #include <linux/module.h>
+ #include <linux/nvram.h>
+ #include <linux/initrd.h>
++#include <linux/processor.h>
+ 
+ #include <asm/bootinfo.h>
+ #include <asm/byteorder.h>
+diff --git a/arch/m68k/kernel/setup_no.c b/arch/m68k/kernel/setup_no.c
+index cb6def585851..86dd4b47ff43 100644
+--- a/arch/m68k/kernel/setup_no.c
++++ b/arch/m68k/kernel/setup_no.c
+@@ -33,6 +33,7 @@
+ #include <linux/initrd.h>
+ #include <linux/root_dev.h>
+ #include <linux/rtc.h>
++#include <linux/processor.h>
+ 
+ #include <asm/setup.h>
+ #include <asm/bootinfo.h>
+diff --git a/arch/microblaze/include/asm/processor.h b/arch/microblaze/include/asm/processor.h
+index 7e9e92670df3..c5877c91116a 100644
+--- a/arch/microblaze/include/asm/processor.h
++++ b/arch/microblaze/include/asm/processor.h
+@@ -15,8 +15,6 @@
+ #include <asm/current.h>
+ 
+ # ifndef __ASSEMBLY__
+-/* from kernel/cpu/mb.c */
+-extern const struct seq_operations cpuinfo_op;
+ 
+ # define cpu_relax()		barrier()
+ 
+diff --git a/arch/microblaze/kernel/cpu/mb.c b/arch/microblaze/kernel/cpu/mb.c
+index 9581d194d9e4..33f5be916121 100644
+--- a/arch/microblaze/kernel/cpu/mb.c
++++ b/arch/microblaze/kernel/cpu/mb.c
+@@ -14,6 +14,7 @@
+ #include <linux/seq_file.h>
+ #include <linux/cpu.h>
+ #include <linux/initrd.h>
++#include <linux/processor.h>
+ 
+ #include <linux/bug.h>
+ #include <asm/cpuinfo.h>
+diff --git a/arch/mips/kernel/proc.c b/arch/mips/kernel/proc.c
+index 8eba5a1ed664..54a4226cff84 100644
+--- a/arch/mips/kernel/proc.c
++++ b/arch/mips/kernel/proc.c
+@@ -8,6 +8,7 @@
+ #include <linux/kernel.h>
+ #include <linux/sched.h>
+ #include <linux/seq_file.h>
++#include <linux/processor.h>
+ #include <asm/bootinfo.h>
+ #include <asm/cpu.h>
+ #include <asm/cpu-features.h>
+diff --git a/arch/nios2/kernel/cpuinfo.c b/arch/nios2/kernel/cpuinfo.c
+index 203870c4b86d..9641ca55377e 100644
+--- a/arch/nios2/kernel/cpuinfo.c
++++ b/arch/nios2/kernel/cpuinfo.c
+@@ -12,6 +12,7 @@
+ #include <linux/seq_file.h>
+ #include <linux/string.h>
+ #include <linux/of.h>
++#include <linux/processor.h>
+ #include <asm/cpuinfo.h>
+ 
+ struct cpuinfo cpuinfo;
+diff --git a/arch/openrisc/kernel/setup.c b/arch/openrisc/kernel/setup.c
+index 0cd04d936a7a..a628c928941b 100644
+--- a/arch/openrisc/kernel/setup.c
++++ b/arch/openrisc/kernel/setup.c
+@@ -33,6 +33,7 @@
+ #include <linux/of_fdt.h>
+ #include <linux/of.h>
+ #include <linux/device.h>
++#include <linux/processor.h>
+ 
+ #include <asm/sections.h>
+ #include <asm/types.h>
+diff --git a/arch/parisc/kernel/setup.c b/arch/parisc/kernel/setup.c
+index f005ddedb50e..d00488507f49 100644
+--- a/arch/parisc/kernel/setup.c
++++ b/arch/parisc/kernel/setup.c
+@@ -25,6 +25,7 @@
+ #include <linux/sched.h>
+ #include <linux/sched/clock.h>
+ #include <linux/start_kernel.h>
++#include <linux/processor.h>
+ 
+ #include <asm/cacheflush.h>
+ #include <asm/processor.h>
+diff --git a/arch/powerpc/kernel/setup-common.c b/arch/powerpc/kernel/setup-common.c
+index dd98f43bd685..12ddcb1401be 100644
+--- a/arch/powerpc/kernel/setup-common.c
++++ b/arch/powerpc/kernel/setup-common.c
+@@ -34,6 +34,7 @@
+ #include <linux/of_platform.h>
+ #include <linux/hugetlb.h>
+ #include <linux/pgtable.h>
++#include <linux/processor.h>
+ #include <asm/io.h>
+ #include <asm/paca.h>
+ #include <asm/processor.h>
+diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
+index 0be8a2403212..f28ec528d54a 100644
+--- a/arch/riscv/kernel/cpu.c
++++ b/arch/riscv/kernel/cpu.c
+@@ -4,8 +4,9 @@
+  */
+ 
+ #include <linux/init.h>
+-#include <linux/seq_file.h>
+ #include <linux/of.h>
++#include <linux/processor.h>
++#include <linux/seq_file.h>
+ #include <asm/hwcap.h>
+ #include <asm/smp.h>
+ #include <asm/pgtable.h>
+diff --git a/arch/s390/include/asm/processor.h b/arch/s390/include/asm/processor.h
+index bd66f8e34949..55fbb4f7f7f6 100644
+--- a/arch/s390/include/asm/processor.h
++++ b/arch/s390/include/asm/processor.h
+@@ -33,6 +33,7 @@
+ #include <linux/cpumask.h>
+ #include <linux/linkage.h>
+ #include <linux/irqflags.h>
++#include <linux/processor.h>
+ #include <asm/cpu.h>
+ #include <asm/page.h>
+ #include <asm/ptrace.h>
+@@ -80,7 +81,6 @@ void s390_adjust_jiffies(void);
+ void s390_update_cpu_mhz(void);
+ void cpu_detect_mhz_feature(void);
+ 
+-extern const struct seq_operations cpuinfo_op;
+ extern void execve_tail(void);
+ extern void __bpon(void);
+ unsigned long vdso_size(void);
+diff --git a/arch/s390/kernel/processor.c b/arch/s390/kernel/processor.c
+index a194611ba88c..267886605902 100644
+--- a/arch/s390/kernel/processor.c
++++ b/arch/s390/kernel/processor.c
+@@ -17,6 +17,7 @@
+ #include <linux/mm_types.h>
+ #include <linux/delay.h>
+ #include <linux/cpu.h>
++#include <linux/processor.h>
+ 
+ #include <asm/diag.h>
+ #include <asm/facility.h>
+diff --git a/arch/sh/include/asm/processor.h b/arch/sh/include/asm/processor.h
+index 85a6c1c3c16e..10c4b4b9af46 100644
+--- a/arch/sh/include/asm/processor.h
++++ b/arch/sh/include/asm/processor.h
+@@ -123,7 +123,6 @@ extern unsigned int mem_init_done;
+ 
+ /* arch/sh/kernel/setup.c */
+ const char *get_cpu_subtype(struct sh_cpuinfo *c);
+-extern const struct seq_operations cpuinfo_op;
+ 
+ /* thread_struct flags */
+ #define SH_THREAD_UAC_NOPRINT	(1 << 0)
+diff --git a/arch/sh/kernel/cpu/proc.c b/arch/sh/kernel/cpu/proc.c
+index a306bcd6b341..f373a21c6705 100644
+--- a/arch/sh/kernel/cpu/proc.c
++++ b/arch/sh/kernel/cpu/proc.c
+@@ -2,6 +2,7 @@
+ #include <linux/seq_file.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
++#include <linux/processor.h>
+ #include <asm/machvec.h>
+ #include <asm/processor.h>
+ 
+diff --git a/arch/sparc/include/asm/cpudata.h b/arch/sparc/include/asm/cpudata.h
+index d213165ee713..f7e690a7860b 100644
+--- a/arch/sparc/include/asm/cpudata.h
++++ b/arch/sparc/include/asm/cpudata.h
+@@ -7,8 +7,6 @@
+ #include <linux/threads.h>
+ #include <linux/percpu.h>
+ 
+-extern const struct seq_operations cpuinfo_op;
+-
+ #endif /* !(__ASSEMBLY__) */
+ 
+ #if defined(__sparc__) && defined(__arch64__)
+diff --git a/arch/sparc/kernel/cpu.c b/arch/sparc/kernel/cpu.c
+index 79cd6ccfeac0..ffdc7a825b80 100644
+--- a/arch/sparc/kernel/cpu.c
++++ b/arch/sparc/kernel/cpu.c
+@@ -12,6 +12,7 @@
+ #include <linux/smp.h>
+ #include <linux/threads.h>
+ #include <linux/pgtable.h>
++#include <linux/processor.h>
+ 
+ #include <asm/spitfire.h>
+ #include <asm/oplib.h>
+diff --git a/arch/um/kernel/um_arch.c b/arch/um/kernel/um_arch.c
+index e0de60e503b9..4034f5b959f7 100644
+--- a/arch/um/kernel/um_arch.c
++++ b/arch/um/kernel/um_arch.c
+@@ -9,6 +9,7 @@
+ #include <linux/ctype.h>
+ #include <linux/module.h>
+ #include <linux/panic_notifier.h>
++#include <linux/processor.h>
+ #include <linux/seq_file.h>
+ #include <linux/string.h>
+ #include <linux/utsname.h>
+diff --git a/arch/x86/include/asm/processor.h b/arch/x86/include/asm/processor.h
+index 356308c73951..08ccd453ec4f 100644
+--- a/arch/x86/include/asm/processor.h
++++ b/arch/x86/include/asm/processor.h
+@@ -188,8 +188,6 @@ DECLARE_PER_CPU_READ_MOSTLY(struct cpuinfo_x86, cpu_info);
+ #define cpu_data(cpu)		boot_cpu_data
+ #endif
+ 
+-extern const struct seq_operations cpuinfo_op;
+-
+ #define cache_line_size()	(boot_cpu_data.x86_cache_alignment)
+ 
+ extern void cpu_detect(struct cpuinfo_x86 *c);
+diff --git a/arch/x86/kernel/cpu/proc.c b/arch/x86/kernel/cpu/proc.c
+index 099b6f0d96bd..5a0699d9ff7d 100644
+--- a/arch/x86/kernel/cpu/proc.c
++++ b/arch/x86/kernel/cpu/proc.c
+@@ -4,6 +4,7 @@
+ #include <linux/string.h>
+ #include <linux/seq_file.h>
+ #include <linux/cpufreq.h>
++#include <linux/processor.h>
+ 
+ #include "cpu.h"
+ 
+diff --git a/arch/xtensa/kernel/setup.c b/arch/xtensa/kernel/setup.c
+index 9191738f9941..d4417a174887 100644
+--- a/arch/xtensa/kernel/setup.c
++++ b/arch/xtensa/kernel/setup.c
+@@ -25,6 +25,7 @@
+ #include <linux/cpu.h>
+ #include <linux/of.h>
+ #include <linux/of_fdt.h>
++#include <linux/processor.h>
+ 
+ #if defined(CONFIG_VGA_CONSOLE) || defined(CONFIG_DUMMY_CONSOLE)
+ # include <linux/console.h>
+diff --git a/fs/proc/cpuinfo.c b/fs/proc/cpuinfo.c
+index f38bda5b83ec..ca3065dfecd9 100644
+--- a/fs/proc/cpuinfo.c
++++ b/fs/proc/cpuinfo.c
+@@ -3,10 +3,9 @@
+ #include <linux/fs.h>
+ #include <linux/init.h>
+ #include <linux/proc_fs.h>
++#include <linux/processor.h>
+ #include <linux/seq_file.h>
+ 
+-extern const struct seq_operations cpuinfo_op;
+-
+ static int cpuinfo_open(struct inode *inode, struct file *file)
+ {
+ 	return seq_open(file, &cpuinfo_op);
+diff --git a/include/linux/processor.h b/include/linux/processor.h
+index dc78bdc7079a..71bdf8626874 100644
+--- a/include/linux/processor.h
++++ b/include/linux/processor.h
+@@ -59,4 +59,6 @@ do {								\
+ 
+ #endif
+ 
++extern const struct seq_operations cpuinfo_op;
++
+ #endif /* _LINUX_PROCESSOR_H */
+-- 
+2.37.1
+
 
 _______________________________________________
 linux-snps-arc mailing list
