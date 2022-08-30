@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54154ECAAD8
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 30 Aug 2022 06:55:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2DE03ECAAD8
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 30 Aug 2022 06:56:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=kQmR4okYMcTnwyEKk7i9R8EIkpOeYCxvDhijJ9jP5FM=; b=GHuTBRyZrciQGq
-	KIhNySXSCjshqrFiYpXXnCZkk4XiXLkk21qJoZYQhRo80V+QPLD2pEgKSS2bE5r47IbR3h78dmjKf
-	8vgarU0bptE/Q+toIkf+/hgMUI6J3DT4k6NR7KzCeL5WBAYit4J/44IyFbZrQKm4zQLzIG10CJiVp
-	mbJTmWo1w28BHlCQBfrDIsFYcK0inZL/8NnvE6Xnh2YXusCsx0N+g01auPSFVFdbBirnabi8tuqQd
-	tz8HfTVw25ZiDY8EIBK8cvN5G03DVBk4MXaJoWaKkkkqUR3JlTnTRc+Rg+Ymv+bjCaJH/LEXIOem2
-	XTUKJzltxZBHM3rZyrsg==;
+	List-Owner; bh=0OQ8ypkdEPMR1uAHNAr+SV+Bi53H/sc5EAFXzbQAh0A=; b=Fos34/4EgXxxbm
+	oW2AtZGvmk8k9drgBQD7oQoH+rTuyWQ3abL8wH6Fw+8W7XDOcnvAqBITx5bCPl99eJSxptogbwZTK
+	fxU+NgTwWwykDPwe0+yZdjGodTG71iqJjowswnrKML/YvuMMnqTjGMnm6gtfRB2o+Jdshv4HTdv+p
+	adbwHYr9VNH7X1iuoOA6Zg3OiApxXrH2Pb1yRkR4i7M+cM5kpi+9DWHfgltWUVkIirkhrlKOuhbZW
+	Up8vcd+tCL6Z5pA4zdJH09OdPoC222MlcMUaT1qTexhiX+UL69tfxz5s54p7fNS0x98QF8DRK+IBE
+	mwktJrZpHQL3B4SbenhQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oSv9W-00EZyy-A0; Tue, 30 Aug 2022 06:55:14 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1oSvAL-00EaPQ-At; Tue, 30 Aug 2022 06:56:05 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oSv85-00EZDt-R6; Tue, 30 Aug 2022 06:53:47 +0000
+	id 1oSv8A-00EZGA-Nj; Tue, 30 Aug 2022 06:53:59 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 689E9B815D1;
-	Tue, 30 Aug 2022 06:53:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95177C43141;
-	Tue, 30 Aug 2022 06:53:37 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 06ECF6146E;
+	Tue, 30 Aug 2022 06:53:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5161C433D6;
+	Tue, 30 Aug 2022 06:53:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1661842423;
-	bh=6jVazXBqfWdKpxDWhL1vnDZxpkMfN57CDtGrBVFvRs4=;
+	s=k20201202; t=1661842429;
+	bh=wxIJahY4bNgAXVbpWaC9W2nMSDfpOu3ZSd8EuV6xsso=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=F5PrLREEw9ieJXHk2T6r8fNSMm4hqpEggsRJrXPWuFPl7+oJKfH/xBCo0A6FJO0y2
-	 t9K5uxEE398h542YOD7o2yTfT4WHu83D6O1abG132Tc4bQAupCKANNBSa193HMsikz
-	 4M3nENDu9L/3n8h3C0uJfXqbSAkKm+orfEcMHOgDUj056bJn4i+7AKEbgu317hT+U3
-	 3aqhj2tDhdw86//1qF+BA6svknF5okzAHkY4nNxbm4KxsHyWfDR9AJ+3fwLF8hBKQj
-	 DIDDu38CXvQN9Ac3hF/lVAAzTDYfnjIUHHuFPh1gUncCU4gVLx3CzOPt9r0MIDKxVd
-	 ZacRoVho/xM/A==
+	b=Kpjay5YsyYfycs7ZTlN911Ki+d8mT0EfwjtiLpalFcYQh9VpfuE8febThdR3WlnSH
+	 UOKGnoa4Hq0l+0R0LxhjKYOaEwb/eRa6LsEMQc16RMRgrKMy3HBQNx25b6nmcLNktt
+	 pBiDHwH1u9nGpTGlAnoOiEEXCOJIDJuzm8Dx5CJh1hQq/XtcnYKJbcLssjhuFvP+Fa
+	 7K9DNxIZ5S51MuwUHRlxLRm8Fie5EEEQwcURimXekqg5sJNst6Qsfvh7tGwUNBBldG
+	 3tkthmrYK1VdUoucu3Vf5fK+K5aMvwCzvWuO8xUsFXooEjAYyFicx6dANpQa1aKAl3
+	 +q9Qfe43KkXTQ==
 From: guoren@kernel.org
 To: oleg@redhat.com,
 	vgupta@kernel.org,
@@ -60,17 +60,16 @@ Cc: linux-arch@vger.kernel.org,
 	sparclinux@vger.kernel.org,
 	openrisc@lists.librecores.org,
 	Guo Ren <guoren@linux.alibaba.com>
-Subject: [PATCH 2/3] openrisc: ptrace: Remove duplicate operation
-Date: Tue, 30 Aug 2022 02:53:15 -0400
-Message-Id: <20220830065316.3924938-3-guoren@kernel.org>
+Subject: [PATCH 3/3] arch: ptrace: Cleanup ptrace_disable
+Date: Tue, 30 Aug 2022 02:53:16 -0400
+Message-Id: <20220830065316.3924938-4-guoren@kernel.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220830065316.3924938-1-guoren@kernel.org>
 References: <20220830065316.3924938-1-guoren@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220829_235346_076772_AF524F2A 
-X-CRM114-Status: UNSURE (   9.14  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220829_235357_445991_AF662309 
+X-CRM114-Status: GOOD (  14.83  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,29 +88,161 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Guo Ren <guoren@linux.alibaba.com>
 
-The TIF_SYSCALL_TRACE is controlled by a common code, see
-kernel/ptrace.c and include/linux/thread.h.
-
-clear_task_syscall_work(child, SYSCALL_TRACE);
+Add a weak empty function in common and remove architectures' duplicated
+ones.
 
 Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
 Signed-off-by: Guo Ren <guoren@kernel.org>
 ---
- arch/openrisc/kernel/ptrace.c | 1 -
- 1 file changed, 1 deletion(-)
+ arch/arc/kernel/ptrace.c        |  4 ----
+ arch/arm/kernel/ptrace.c        |  8 --------
+ arch/microblaze/kernel/ptrace.c |  5 -----
+ arch/nios2/kernel/ptrace.c      |  5 -----
+ arch/riscv/kernel/ptrace.c      |  4 ----
+ arch/sparc/kernel/ptrace_32.c   | 10 ----------
+ arch/sparc/kernel/ptrace_64.c   | 10 ----------
+ kernel/ptrace.c                 |  8 ++++++++
+ 8 files changed, 8 insertions(+), 46 deletions(-)
 
-diff --git a/arch/openrisc/kernel/ptrace.c b/arch/openrisc/kernel/ptrace.c
-index b971740fc2aa..cc53fa676706 100644
---- a/arch/openrisc/kernel/ptrace.c
-+++ b/arch/openrisc/kernel/ptrace.c
-@@ -132,7 +132,6 @@ void ptrace_disable(struct task_struct *child)
- 	pr_debug("ptrace_disable(): TODO\n");
- 
- 	user_disable_single_step(child);
--	clear_tsk_thread_flag(child, TIF_SYSCALL_TRACE);
+diff --git a/arch/arc/kernel/ptrace.c b/arch/arc/kernel/ptrace.c
+index da7542cea0d8..c227e145fede 100644
+--- a/arch/arc/kernel/ptrace.c
++++ b/arch/arc/kernel/ptrace.c
+@@ -317,10 +317,6 @@ const struct user_regset_view *task_user_regset_view(struct task_struct *task)
+ 	return &user_arc_view;
  }
  
+-void ptrace_disable(struct task_struct *child)
+-{
+-}
+-
+ long arch_ptrace(struct task_struct *child, long request,
+ 		 unsigned long addr, unsigned long data)
+ {
+diff --git a/arch/arm/kernel/ptrace.c b/arch/arm/kernel/ptrace.c
+index bfe88c6e60d5..b85f5bdc56ef 100644
+--- a/arch/arm/kernel/ptrace.c
++++ b/arch/arm/kernel/ptrace.c
+@@ -186,14 +186,6 @@ put_user_reg(struct task_struct *task, int offset, long data)
+ 	return ret;
+ }
+ 
+-/*
+- * Called by kernel/ptrace.c when detaching..
+- */
+-void ptrace_disable(struct task_struct *child)
+-{
+-	/* Nothing to do. */
+-}
+-
+ /*
+  * Handle hitting a breakpoint.
+  */
+diff --git a/arch/microblaze/kernel/ptrace.c b/arch/microblaze/kernel/ptrace.c
+index 5234d0c1dcaa..72e3eece72aa 100644
+--- a/arch/microblaze/kernel/ptrace.c
++++ b/arch/microblaze/kernel/ptrace.c
+@@ -162,8 +162,3 @@ asmlinkage void do_syscall_trace_leave(struct pt_regs *regs)
+ 	if (step || test_thread_flag(TIF_SYSCALL_TRACE))
+ 		ptrace_report_syscall_exit(regs, step);
+ }
+-
+-void ptrace_disable(struct task_struct *child)
+-{
+-	/* nothing to do */
+-}
+diff --git a/arch/nios2/kernel/ptrace.c b/arch/nios2/kernel/ptrace.c
+index cd62f310778b..de5f4199c45f 100644
+--- a/arch/nios2/kernel/ptrace.c
++++ b/arch/nios2/kernel/ptrace.c
+@@ -117,11 +117,6 @@ const struct user_regset_view *task_user_regset_view(struct task_struct *task)
+ 	return &nios2_user_view;
+ }
+ 
+-void ptrace_disable(struct task_struct *child)
+-{
+-
+-}
+-
  long arch_ptrace(struct task_struct *child, long request, unsigned long addr,
+ 		 unsigned long data)
+ {
+diff --git a/arch/riscv/kernel/ptrace.c b/arch/riscv/kernel/ptrace.c
+index 44f4b1ca315d..19e4d8057e24 100644
+--- a/arch/riscv/kernel/ptrace.c
++++ b/arch/riscv/kernel/ptrace.c
+@@ -210,10 +210,6 @@ unsigned long regs_get_kernel_stack_nth(struct pt_regs *regs, unsigned int n)
+ 		return 0;
+ }
+ 
+-void ptrace_disable(struct task_struct *child)
+-{
+-}
+-
+ long arch_ptrace(struct task_struct *child, long request,
+ 		 unsigned long addr, unsigned long data)
+ {
+diff --git a/arch/sparc/kernel/ptrace_32.c b/arch/sparc/kernel/ptrace_32.c
+index e7db48acb838..f6df84e12739 100644
+--- a/arch/sparc/kernel/ptrace_32.c
++++ b/arch/sparc/kernel/ptrace_32.c
+@@ -29,16 +29,6 @@
+ 
+ /* #define ALLOW_INIT_TRACING */
+ 
+-/*
+- * Called by kernel/ptrace.c when detaching..
+- *
+- * Make sure single step bits etc are not set.
+- */
+-void ptrace_disable(struct task_struct *child)
+-{
+-	/* nothing to do */
+-}
+-
+ enum sparc_regset {
+ 	REGSET_GENERAL,
+ 	REGSET_FP,
+diff --git a/arch/sparc/kernel/ptrace_64.c b/arch/sparc/kernel/ptrace_64.c
+index 86a7eb5c27ba..b20a16ebe533 100644
+--- a/arch/sparc/kernel/ptrace_64.c
++++ b/arch/sparc/kernel/ptrace_64.c
+@@ -83,16 +83,6 @@ static const struct pt_regs_offset regoffset_table[] = {
+ 	REG_OFFSET_END,
+ };
+ 
+-/*
+- * Called by kernel/ptrace.c when detaching..
+- *
+- * Make sure single step bits etc are not set.
+- */
+-void ptrace_disable(struct task_struct *child)
+-{
+-	/* nothing to do */
+-}
+-
+ /* To get the necessary page struct, access_process_vm() first calls
+  * get_user_pages().  This has done a flush_dcache_page() on the
+  * accessed page.  Then our caller (copy_{to,from}_user_page()) did
+diff --git a/kernel/ptrace.c b/kernel/ptrace.c
+index 1893d909e45c..77299bb65d97 100644
+--- a/kernel/ptrace.c
++++ b/kernel/ptrace.c
+@@ -579,6 +579,14 @@ static bool __ptrace_detach(struct task_struct *tracer, struct task_struct *p)
+ 	return dead;
+ }
+ 
++__weak void ptrace_disable(struct task_struct *child)
++{
++	/*
++	 * Nothing to do.., some architectures would replace it with
++	 * their own function.
++	 */
++}
++
+ static int ptrace_detach(struct task_struct *child, unsigned int data)
+ {
+ 	if (!valid_signal(data))
 -- 
 2.36.1
 
