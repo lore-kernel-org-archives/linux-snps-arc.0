@@ -4,79 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1CA38ECAAA1
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 30 Aug 2022 07:34:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B135ECAAA1
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 30 Aug 2022 14:20:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=P/6vhmDtIeX/El9lKjRA797U4yT3KBgyZWRcjttuPxw=; b=fItu1MQazLXvTO
-	nivn4e8OGxnUZPw/KKEioduEBBStm8FfvXlCZnTjK8gTuds8bTFqiO6vRoazukgOSI0F1As8EIbLI
-	A9OOR6hXNQlUWoyS1ZMV+UAPUqNFcUTwRUP2fsTtZRVVk7Tn+T2ta51AQD/f4RXjjVcJBtEegFdZQ
-	T2z7cudB3JJx3v1fdA8jZVZE/gh1ddQiqN0l9NHkfxuNiqecfEl/Fp4sJzUdIu7qnR6xHYPxyDjrF
-	y6Dm8lz/6zR6X5PlPNMei3uhcljfFQK7zvQ7UpuTEdzaaqhkaXc2588Pu/Vu9cHTzdmXo7Fo1N+lC
-	7wYAMhyFqtOJHBw5eGXA==;
+	List-Owner; bh=OXGrOnMyxA1hpk8K+IBhcGKabf3hfvslYM+HjRh2QHs=; b=ALhpdzEOCS6kTi
+	01FSX1WtZyGvrXFefGzKFlKkMPg8WrxVwyuO7zrftXH+7Kl9fE14PCJxo3c8IrxCMQk+mNCgDALiY
+	wJTh/8982Qy94nfjmx8cOGwEonkY9OnX7pON7+YjoOxLT1dADOINjkV9oBizUbjklXz1DvowhBSAZ
+	ZQxTF/yBAMHkshMDjzsQsvRSdB7+FHwj4TrHNw16C3EgG2bNogkcrNrPjFWQW90fo8E/WtmqW40jk
+	6oGMPAz3uUHil2m3XOaGawYpAXoDlN3BWn6wr0by28GefGFPij5BbqoFSA1namPzj64PQKB2cSFqw
+	7UMRPEC4V4MPkMPwDXKg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oSvlJ-00EnDL-FV; Tue, 30 Aug 2022 07:34:17 +0000
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+	id 1oT26Q-00HYTa-Ss; Tue, 30 Aug 2022 14:20:30 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oSvky-00Emyb-IO; Tue, 30 Aug 2022 07:33:58 +0000
-Received: by mail-wr1-x436.google.com with SMTP id u18so309546wrq.10;
-        Tue, 30 Aug 2022 00:33:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=AkyiwZAyTL+qEnClAJjmshzXLVaiiWcOqi2bEVx9lPg=;
-        b=aRJmmvilCx9hvnJwsqFDPwUjBgxD5a6DXdivTL+SL6hBqXqSgsQY6k4ALeR8FvREBs
-         29wLOX4jEh7pKEjjJOucUsyR6KsAsGxnleJB90+lIKMn0lwehPN+a28RBx4XSP0JcCpb
-         tP05S/5Bl9i9PsRfB/mpmNAHJebhPrkZO8+cqakoCF0UxM+jgP8F9hdJ7m0dJy9698Hk
-         +ix5Kdnbdj6A9npKn848lfV0UW/d3if+lSSi0fLHWNgF4jDqVxiaJ2yKNijxt2ctV/jF
-         s4qgeh3LyJrpPG0ORO8pKTQBjeYKw1FdHIWS+bg0J/Hp8DM6+qamo3RDZENkCPnTqP40
-         OTEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=AkyiwZAyTL+qEnClAJjmshzXLVaiiWcOqi2bEVx9lPg=;
-        b=T+D4YqEsw2H/zEijwsECWdrkYssFc5M+1G/et2dBTJQCNTpGCsO/+vykK/2cW0WFy8
-         kZUF3BLTFn8CdzVvm6n/kCfme9tUeQdAqsSU3Qq8oBQaYELK74Wf/u7s3YXfDAy9/KPO
-         tthX/gA6Hqx2FgFvbc8YnAAi9TCkXJinwq2JSRiITOWNPkutipR2G2cdYLlazp81IYkp
-         q2A7bTsSxVjZaIWn15Wp1qief5mCJ8lQWUdWRvWiUpPCqW0LBFQh6JAjeviHwJvXpCCu
-         T1AaKk9g7RBuU5tGvtWS8RYu4RaXYpqfFaX/qt4KScIjajSyaQcWm/UzaFrvEex92uIU
-         llDg==
-X-Gm-Message-State: ACgBeo1fwfWGIEkQuNOnLW+JPtInT0lmt9u33r7H5c3Wz2i2s7eermwE
-	fcX5+ECrxGX6J78uiWmgudRPFfN9zFsIhg==
-X-Google-Smtp-Source: AA6agR7M6K5NpAKHxyoBknJxWk60gWpGtre/xWrzuWyDehqu9BTVBu8aAalG/O21/110w8lPoNr+Bg==
-X-Received: by 2002:a5d:59a2:0:b0:226:e6c3:a6c2 with SMTP id p2-20020a5d59a2000000b00226e6c3a6c2mr258841wrr.236.1661844832254;
-        Tue, 30 Aug 2022 00:33:52 -0700 (PDT)
-Received: from localhost ([2a03:b0c0:1:d0::dee:c001])
-        by smtp.gmail.com with ESMTPSA id l17-20020a7bc351000000b003a5ee64cc98sm10920055wmj.33.2022.08.30.00.33.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Aug 2022 00:33:51 -0700 (PDT)
-Date: Tue, 30 Aug 2022 07:33:51 +0000
-From: Stafford Horne <shorne@gmail.com>
-To: guoren@kernel.org
-Cc: oleg@redhat.com, vgupta@kernel.org, linux@armlinux.org.uk,
-	monstr@monstr.eu, dinguyen@kernel.org, palmer@dabbelt.com,
-	davem@davemloft.net, arnd@arndb.de, linux-arch@vger.kernel.org,
+	id 1oT26M-00HYPK-8s
+	for linux-snps-arc@lists.infradead.org; Tue, 30 Aug 2022 14:20:27 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1661869221;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tORAGdOuIEyxqy7Xiz8FX0cV5xzTMMZWt6i8kmL4jMo=;
+	b=Ie6LLXdKPMlRPG6sI8f3ZImWdaktUnwW5IXK0FvgeMk3j9rsONoKwo26+XjieoWvrU3i8W
+	Av+Qfsvn6y+n4ufuTmzaY2eNnDCZ2T7yXj0j2eyQRkbCEK1qhdG6BTUJuqIq8eu+SEBpXt
+	xZzR0oEvH6YRa65mjQBUIgZLmeF2NSo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-516-l7kwZy8tMv2HEIQ0v8HnPw-1; Tue, 30 Aug 2022 10:20:17 -0400
+X-MC-Unique: l7kwZy8tMv2HEIQ0v8HnPw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 897F1101A54E;
+	Tue, 30 Aug 2022 14:20:12 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.40.192.123])
+	by smtp.corp.redhat.com (Postfix) with SMTP id 8D16B492C3B;
+	Tue, 30 Aug 2022 14:20:08 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Tue, 30 Aug 2022 16:20:12 +0200 (CEST)
+Date: Tue, 30 Aug 2022 16:20:07 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: guoren@kernel.org, Andrew Morton <akpm@linux-foundation.org>
+Cc: vgupta@kernel.org, linux@armlinux.org.uk, monstr@monstr.eu,
+	dinguyen@kernel.org, palmer@dabbelt.com, davem@davemloft.net,
+	arnd@arndb.de, shorne@gmail.com, linux-arch@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-snps-arc@lists.infradead.org, sparclinux@vger.kernel.org,
 	openrisc@lists.librecores.org, Guo Ren <guoren@linux.alibaba.com>
-Subject: Re: [PATCH 2/3] openrisc: ptrace: Remove duplicate operation
-Message-ID: <Yw29XwOoUY1Foze/@oscomms1>
+Subject: Re: [PATCH 0/3] arch: ptrace: Cleanup ptrace_disable
+Message-ID: <20220830142006.GA20935@redhat.com>
 References: <20220830065316.3924938-1-guoren@kernel.org>
- <20220830065316.3924938-3-guoren@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220830065316.3924938-3-guoren@kernel.org>
+In-Reply-To: <20220830065316.3924938-1-guoren@kernel.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220830_003356_693344_8976D2D0 
-X-CRM114-Status: GOOD (  14.40  )
+X-CRM114-CacheID: sfid-20220830_072026_423132_827BE634 
+X-CRM114-Status: GOOD (  10.85  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,38 +86,31 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 30, 2022 at 02:53:15AM -0400, guoren@kernel.org wrote:
+On 08/30, guoren@kernel.org wrote:
+>
 > From: Guo Ren <guoren@linux.alibaba.com>
-> 
-> The TIF_SYSCALL_TRACE is controlled by a common code, see
-> kernel/ptrace.c and include/linux/thread.h.
-> 
-> clear_task_syscall_work(child, SYSCALL_TRACE);
-> 
-> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
-> Signed-off-by: Guo Ren <guoren@kernel.org>
+>
+> This series cleanup ptrace_disable() in arch/*. Some architectures
+> are duplicate clearing SYSCALL TRACE.
+>
+> Guo Ren (3):
+>   riscv: ptrace: Remove duplicate operation
+>   openrisc: ptrace: Remove duplicate operation
+>   arch: ptrace: Cleanup ptrace_disable
+>
+>  arch/arc/kernel/ptrace.c        |  4 ----
+>  arch/arm/kernel/ptrace.c        |  8 --------
+>  arch/microblaze/kernel/ptrace.c |  5 -----
+>  arch/nios2/kernel/ptrace.c      |  5 -----
+>  arch/openrisc/kernel/ptrace.c   |  1 -
+>  arch/riscv/kernel/ptrace.c      |  5 -----
+>  arch/sparc/kernel/ptrace_32.c   | 10 ----------
+>  arch/sparc/kernel/ptrace_64.c   | 10 ----------
+>  kernel/ptrace.c                 |  8 ++++++++
+>  9 files changed, 8 insertions(+), 48 deletions(-)
 
-Acked-by: Stafford Horne <shorne@gmail.com>
+Reviewed-by: Oleg Nesterov <oleg@redhat.com>
 
-> ---
->  arch/openrisc/kernel/ptrace.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/arch/openrisc/kernel/ptrace.c b/arch/openrisc/kernel/ptrace.c
-> index b971740fc2aa..cc53fa676706 100644
-> --- a/arch/openrisc/kernel/ptrace.c
-> +++ b/arch/openrisc/kernel/ptrace.c
-> @@ -132,7 +132,6 @@ void ptrace_disable(struct task_struct *child)
->  	pr_debug("ptrace_disable(): TODO\n");
->  
->  	user_disable_single_step(child);
-> -	clear_tsk_thread_flag(child, TIF_SYSCALL_TRACE);
->  }
->  
->  long arch_ptrace(struct task_struct *child, long request, unsigned long addr,
-> -- 
-> 2.36.1
-> 
 
 _______________________________________________
 linux-snps-arc mailing list
