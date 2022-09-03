@@ -4,49 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1BFA4ECAAD1
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  1 Sep 2022 07:49:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 295DEECAAD4
+	for <linux-snps-arc@archiver.kernel.org>; Sat,  3 Sep 2022 16:23:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=ijV+tBOH3CAg1O8TBC1OMUay4ooftQQ9KDcuGVZaEZ0=; b=Ss6awwrvfsDqnn
-	rT1kZ9y0TSQw0rbnEqkFdxMf2kwlw0ZbWB1nM00CNbZsr6wdNH0ieErryGOv/McAPiYkKZPK7zoM4
-	VZQ/AwJbuplCH4K5YasCkTHYUg9VcCIoDfYHlvTVjycxcPm04lfInbPKJ8T75rdXDcEOtOC1JzJTT
-	apGaWi/LMg8Q2G75YgBhzxJice1tkcYF9V9ZQGiSzbIwrhLu5KpDL+GPoKKtHaV+O3r7DpgFcFjoU
-	QaEog/MywvJBz9ovGHXlQUFuwGuvrpkf/ZsfLBHFc5PCqp+ibQSrfRS4J/lVBrKaAX1NbvUos31Wz
-	RYlKTG3tMlzFMbI6JgJQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=Cyo4/jEdBa5Fm2CFVfPs+kSum/joF7Kl4UFPcFaZyvM=; b=b9g8s2ghUOcwx7
+	e01cd+nr3eEQrbciZ7SitPoPH7pHo8k1ch3Wy8bMLtgHnYBydKDtbZ+0XVUHpcY22EpNH5/2z2EZq
+	6yaM0Sk6IBSD2IEhIrGxYMlkCb4U2M0bnVfs5beDu6cNXmUCdr7DQZWMIP3uKYI4WM1yvkudpU5rd
+	X6lZFFmChdsX3Hf9P3nVwu8m/iqD0vgPb++M8YgoZ5lfiKpbaElXGMBzSX50/Jf1nFsemW5FvVJHX
+	KbAkUAqxL9kg3KaJa+UR3PS1hPn5vMTJy7TN6tcLPMUyx6oxLLlERP4cWXIY0G54WrnwlRocygkUW
+	J5bxELBjQ3AAIzlQ06UA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oTexN-00AOxB-Q2; Thu, 01 Sep 2022 07:49:45 +0000
-Received: from mail.fadrush.pl ([54.37.225.211])
+	id 1oUVw1-00DXNb-MC; Sat, 03 Sep 2022 16:23:53 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oTexL-00AOvv-A9
-	for linux-snps-arc@lists.infradead.org; Thu, 01 Sep 2022 07:49:44 +0000
-Received: by mail.fadrush.pl (Postfix, from userid 1002)
-	id 080B522713; Thu,  1 Sep 2022 07:41:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fadrush.pl; s=mail;
-	t=1662018132; bh=bD6j9gIFU6CLTaCGl0Ow9oeIxtirvTfMeNZSfLEZQ+I=;
-	h=Date:From:To:Subject:From;
-	b=XA0zqPpNZT/HgTB+qWx4fNQFG8RFxdHRA4wEQYKSO4T7OOCEF/V2EmPR+VIi9YxDn
-	 0BGCUuvr0QyRVIkMDFo/Mt4BpFeNSraAI3x264w/Z3owkss7FE8HH+gO5JOSnIqK93
-	 VrNonF2lYj8Fuit315jgrB1IQkzLLaFz95vjqSLqwBiDnNA1CReTKYl2+Rk10LCKwZ
-	 9iAEvdEULgDqD/FxnZUVxOgwxBoP6uStxXFvojBBiQDvTUpTfwygxf0RXgDhHV1crc
-	 AZkKsXsnsnC38iWZLb3fGnYVkqWCpfaiL0/vLd6hhHE4MgUZQkxNMqO4oykMm53sKk
-	 knOBYz5AqEg8A==
-Received: by mail.fadrush.pl for <linux-snps-arc@lists.infradead.org>; Thu,  1 Sep 2022 07:41:15 GMT
-Message-ID: <20220901064500-0.1.1d.bp22.0.0rmjrx2jmi@fadrush.pl>
-Date: Thu,  1 Sep 2022 07:41:15 GMT
-From: "Jakub Olejniczak" <jakub.olejniczak@fadrush.pl>
-To: <linux-snps-arc@lists.infradead.org>
-Subject: =?UTF-8?Q?Zwi=C4=99kszenie_p=C5=82ynno=C5=9Bci_finansowej?=
-X-Mailer: mail.fadrush.pl
+	id 1oUVvp-00DXAI-Tz; Sat, 03 Sep 2022 16:23:43 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 7382B6010E;
+	Sat,  3 Sep 2022 16:23:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 357BAC433D6;
+	Sat,  3 Sep 2022 16:23:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1662222219;
+	bh=VwwOXJImNZSacIylO5PCh0kYdKDhH9SoS9a2my6P4Y4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=N3TNQZmCWEBrVbWy6swUqBf+C2W/wMtI95XWC8cOmI4MvR5NcTE6h51nWCrIjSlBO
+	 cmcarQ2uFFwOtZifMPk0GLORkQCmJxK+an5f3aFQR8Xz6wY+I/IezDM0TpKfLzw0hJ
+	 wJQPenP0cWUS9RaDccXxnVUi2pcRli0rZ4BUzxHZrylvlQngPiJeyyA1LhonssVpDn
+	 OjymH9H4a1BoHKcdZqh9EBdo5M1Z4eUHm71+/COidRP9+EcdPfXFkCehqa6IXnUlbr
+	 Vmh7U0EMYSQE51Blweln3ZN7yW74dvqqsgoWAew74j6xsDRbcIj3ziwvSTQdXlmR1c
+	 7l3d1nifZ2bfQ==
+From: guoren@kernel.org
+To: oleg@redhat.com,
+	vgupta@kernel.org,
+	linux@armlinux.org.uk,
+	monstr@monstr.eu,
+	dinguyen@kernel.org,
+	palmer@dabbelt.com,
+	davem@davemloft.net,
+	arnd@arndb.de,
+	shorne@gmail.com,
+	guoren@kernel.org
+Cc: linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-snps-arc@lists.infradead.org,
+	sparclinux@vger.kernel.org,
+	openrisc@lists.librecores.org,
+	Guo Ren <guoren@linux.alibaba.com>
+Subject: [PATCH V2 0/3] arch: Cleanup ptrace_disable
+Date: Sat,  3 Sep 2022 12:23:24 -0400
+Message-Id: <20220903162328.1952477-1-guoren@kernel.org>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220901_004943_502525_76786C24 
-X-CRM114-Status: UNSURE (   1.40  )
+X-CRM114-CacheID: sfid-20220903_092342_047844_263312A1 
+X-CRM114-Status: UNSURE (   8.99  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -59,24 +80,41 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-RHppZcWEIGRvYnJ5LAoKa29udGFrdHVqxJkgc2nEmSB6IFBhxYRzdHdlbSwgcG9uaWV3YcW8IGNo
-Y2lhxYJieW0gemFwcm9wb25vd2HEhyB3eWdvZG5lIHJvendpxIV6YW5pZSwga3TDs3JlIHVtb8W8
-bGl3aSBQYcWEc3R3YSBmaXJtaWUgc3RhYmlsbnkgcm96d8Ozai4gCgpLb25rdXJlbmN5am5lIG90
-b2N6ZW5pZSB3eW1hZ2EgY2nEhWfFgmVnbyB1bGVwc3phbmlhIGkgcG9zemVyemVuaWEgb2ZlcnR5
-LCBjbyB6IGtvbGVpIHdpxIXFvGUgc2nEmSB6IGtvbmllY3pub8WbY2nEhSBpbndlc3Rvd2FuaWEu
-IEJyYWsgb2Rwb3dpZWRuaWVnbyBrYXBpdGHFgnUgcG93YcW8bmllIG9ncmFuaWN6YSB0ZW1wbyBy
-b3p3b2p1IGZpcm15LgoKT2Qgd2llbHUgbGF0IHogcG93b2R6ZW5pZW0gcG9tYWdhbSBmaXJtb20g
-dyB1enlza2FuaXUgbmFqbGVwc3plaiBmb3JteSBmaW5hbnNvd2FuaWEgeiBiYW5rdSBvcmF6IFVF
-LiBNYW0gc3RhxYJ5Y2ggS2xpZW50w7N3LCBrdMOzcnp5IG5hZGFsIGNoxJl0bmllIGtvcnp5c3Rh
-asSFIHogbW9pY2ggdXPFgnVnLCBhIHRha8W8ZSBwb2xlY2FqxIUgamUgaW5ueW0uCgpDenkgY2hj
-aWVsaWJ5IFBhxYRzdHdvIHNrb3J6eXN0YcSHIHogcG9tb2N5IHd5a3dhbGlmaWtvd2FuZWdvIGkg
-ZG/Fm3dpYWRjem9uZWdvIGRvcmFkY3kgZmluYW5zb3dlZ28/CgoKUG96ZHJhd2lhbQpKYWt1YiBP
-bGVqbmljemFrCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFk
-ZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4
-LXNucHMtYXJjCg==
+From: Guo Ren <guoren@linux.alibaba.com>
+
+This series cleanup ptrace_disable() in arch/*. Some architectures
+are duplicate clearing SYSCALL TRACE.
+
+Changes in V2:
+ - Rebase on linux-6.0-rc3
+ - Add Reviewed-by tags.
+
+Guo Ren (3):
+  riscv: ptrace: Remove duplicate operation
+  openrisc: ptrace: Remove duplicate operation
+  arch: ptrace: Cleanup ptrace_disable
+
+ arch/arc/kernel/ptrace.c        |  4 ----
+ arch/arm/kernel/ptrace.c        |  8 --------
+ arch/microblaze/kernel/ptrace.c |  5 -----
+ arch/nios2/kernel/ptrace.c      |  5 -----
+ arch/openrisc/kernel/ptrace.c   |  1 -
+ arch/riscv/kernel/ptrace.c      |  5 -----
+ arch/sparc/kernel/ptrace_32.c   | 10 ----------
+ arch/sparc/kernel/ptrace_64.c   | 10 ----------
+ kernel/ptrace.c                 |  8 ++++++++
+ 9 files changed, 8 insertions(+), 48 deletions(-)
+
+-- 
+2.36.1
+
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
