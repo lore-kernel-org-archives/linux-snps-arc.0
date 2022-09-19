@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6BF02C6FA92
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26BCBC6FA91
 	for <linux-snps-arc@archiver.kernel.org>; Mon, 19 Sep 2022 11:05:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
@@ -12,42 +12,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
 	From:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=Sa3WYpC3WJeewGyQc96fBfCIK3BmB41ST0taH0/ZE0Q=; b=f2jhpY2HapEor3
-	+xx7jHS4uWveEnjbwMi074356FibI01LSGGI1MnP8p7FdxxtSyROTqnAztQHnPIWF+xcWjXLPysUo
-	tl6CA5xuV/zKJ7EkR9HkQ/lPVjJ8HnlCGGKMfW33LsXDWeLrmIUWWE+fniDQak5+kDetyWKLFoVZz
-	5j1qSH8kI34+zwVbamBVOD+Yf4OOzPKfOWrE8c/JP2UxwzXFVoT9q/YlgQAzuGPpaEftaSBp7PRj8
-	koKH/uwkpZWG69fsxv1NBOr7ZDZXO3qK1wOorPyItwNB7iZLaiLuSfkOh2V+kKBziOUp5V3H3USq6
-	HAE+AC+F8+wcMLmNNjJg==;
+	List-Owner; bh=twXJnrkYQgEjUYgdF/Hr0gGBUUJoKFAFaABJT64ZN6U=; b=Q1ZHri5PGkw+sZ
+	5CIr4XB6+GsSEqldtE4ggr1pcsLko8VWLPYD/dydjBIC22Ht5lRvFIabpwXtP7HO3EPjo383TOocr
+	Pqibp4ky1rYoWqP8JGD+/WzJT/jEGgMTCBlEfsTWWQ+lovCOTywKr7CNYkW/cysJUorb9vQkHXxqh
+	HF7HklUiLpJc6uMU8f/wzIz6pzi7bkhcN8yhmn8sheK8JHUzz109FeSeiX8pMJ+7y2zzO/+Q1h//g
+	J7xsBWLyiDjv0V3MP/2ujn5aCHlianQz2kSlm3hQxIS/ic9RzJuPbYbfryc02oc+BSodUMl+mj1Iv
+	XlwoteiTi+Esoc58OAuw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaEaw-00BRtI-NP; Mon, 19 Sep 2022 11:05:46 +0000
+	id 1oaEaw-00BRsy-Gj; Mon, 19 Sep 2022 11:05:46 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaEat-00BRm8-9D; Mon, 19 Sep 2022 11:05:43 +0000
+	id 1oaEas-00BRm8-Nd; Mon, 19 Sep 2022 11:05:42 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:References:
 	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:In-Reply-To;
-	bh=Vr6T2clVTCKzoOuqPun2LzaBPyz9xLY6Bd2T3LwNb5Y=; b=gTZLKFFU3PbNHuvpqf0alW/moq
-	WOJRsM9nfFYtxQhk8/r9783KstgkIz0J20zUv+apeasAoT/KNpZOts0MEPuEXsKAe63jIxl+gnu4R
-	vdgOuoAadYbF2F2SnwryK/X0i1QUOT4m0mvB4vcooIDyFsKwvCzVBm8KFtDDsip/DD3lmlIFf3qdA
-	kL5bMozrRw6qeDh120irB034YQuLmYNU3ADFfzdC7TNMaFTr491d09ceDRkWsZyuzRynwQ0Wp0CTE
-	GRzN4zPve/iD+BmNJ4sy0CEgduJOwYp162kynxT1aWCbKNKZ/RB4bCDVP6NkUodDbM4SZ0sG4PwqK
-	rXFgvylw==;
+	bh=YOWU43M4IjsvcmJXQwOIFJh+WuCbnSytdcIdnv65DkY=; b=AlyUL2n21Ay/eo4jzhxLVHbjtT
+	UQyURrUAFbSeZXMu+qSEhGh5tsE0SavJsEpBS1K1IB5BR2w0cqpFKFUfHSoscIwaG1ohk66JX0VfJ
+	mLJwvAXSiH7Gt28S3XByOnqo3uEOTiM0P9sWLADHW7udnoML9bRxDpBpb3wcuoeOVqMcXphlfL21A
+	my5k9xukM3nRKLIX0+tEddJpYBIiN6NUySN7jnWjWc6oY49Xk2EEzfYF2TBITi40qvcU6x6hpac+t
+	3G1ys0gAkcnegE95WH6F0JTlIbD+ZqauWXPqFE9mdWImdtoBd2u5kmXCBlZVlWagaRZnaojLqXDwM
+	xgmg5ltg==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
 	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaDq3-00E2Aw-UN; Mon, 19 Sep 2022 10:17:21 +0000
+	id 1oaDpA-00E28l-Ry; Mon, 19 Sep 2022 10:17:17 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 28186302F1E;
-	Mon, 19 Sep 2022 12:16:25 +0200 (CEST)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id ED9F430067B;
+	Mon, 19 Sep 2022 12:16:21 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id 4AD7D2BA9210F; Mon, 19 Sep 2022 12:16:22 +0200 (CEST)
-Message-ID: <20220919101521.953707131@infradead.org>
+	id C4C3D2BA49036; Mon, 19 Sep 2022 12:16:21 +0200 (CEST)
+Message-ID: <20220919101520.399971897@infradead.org>
 User-Agent: quilt/0.66
-Date: Mon, 19 Sep 2022 12:00:03 +0200
+Date: Mon, 19 Sep 2022 11:59:40 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: richard.henderson@linaro.org,
@@ -185,9 +185,8 @@ Cc: richard.henderson@linaro.org,
  linux-arm-msm@vger.kernel.org,
  linux-tegra@vger.kernel.org,
  linux-arch@vger.kernel.org,
- kasan-dev@googlegroups.com,
- Marc Zyngier <maz@kernel.org>
-Subject: [PATCH v2 24/44] arm64,smp: Remove trace_.*_rcuidle() usage
+ kasan-dev@googlegroups.com
+Subject: [PATCH v2 01/44] x86/perf/amd: Remove tracing from perf_lopwr_cb()
 References: <20220919095939.761690562@infradead.org>
 MIME-Version: 1.0
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -206,36 +205,60 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Ever since commit d3afc7f12987 ("arm64: Allow IPIs to be handled as
-normal interrupts") this function is called in regular IRQ context.
+The perf_lopwr_cb() is called from the idle routines; there is no RCU
+there, we must not enter tracing.
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Acked-by: Mark Rutland <mark.rutland@arm.com>
-Acked-by: Marc Zyngier <maz@kernel.org>
 ---
- arch/arm64/kernel/smp.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/x86/events/amd/brs.c         |   13 +++++--------
+ arch/x86/include/asm/perf_event.h |    2 +-
+ 2 files changed, 6 insertions(+), 9 deletions(-)
 
---- a/arch/arm64/kernel/smp.c
-+++ b/arch/arm64/kernel/smp.c
-@@ -865,7 +865,7 @@ static void do_handle_IPI(int ipinr)
- 	unsigned int cpu = smp_processor_id();
- 
- 	if ((unsigned)ipinr < NR_IPI)
--		trace_ipi_entry_rcuidle(ipi_types[ipinr]);
-+		trace_ipi_entry(ipi_types[ipinr]);
- 
- 	switch (ipinr) {
- 	case IPI_RESCHEDULE:
-@@ -914,7 +914,7 @@ static void do_handle_IPI(int ipinr)
- 	}
- 
- 	if ((unsigned)ipinr < NR_IPI)
--		trace_ipi_exit_rcuidle(ipi_types[ipinr]);
-+		trace_ipi_exit(ipi_types[ipinr]);
+--- a/arch/x86/events/amd/brs.c
++++ b/arch/x86/events/amd/brs.c
+@@ -41,18 +41,15 @@ static inline unsigned int brs_to(int id
+ 	return MSR_AMD_SAMP_BR_FROM + 2 * idx + 1;
  }
  
- static irqreturn_t ipi_handler(int irq, void *data)
+-static inline void set_debug_extn_cfg(u64 val)
++static __always_inline void set_debug_extn_cfg(u64 val)
+ {
+ 	/* bits[4:3] must always be set to 11b */
+-	wrmsrl(MSR_AMD_DBG_EXTN_CFG, val | 3ULL << 3);
++	__wrmsr(MSR_AMD_DBG_EXTN_CFG, val | 3ULL << 3, val >> 32);
+ }
+ 
+-static inline u64 get_debug_extn_cfg(void)
++static __always_inline u64 get_debug_extn_cfg(void)
+ {
+-	u64 val;
+-
+-	rdmsrl(MSR_AMD_DBG_EXTN_CFG, val);
+-	return val;
++	return __rdmsr(MSR_AMD_DBG_EXTN_CFG);
+ }
+ 
+ static bool __init amd_brs_detect(void)
+@@ -338,7 +335,7 @@ void amd_pmu_brs_sched_task(struct perf_
+  * called from ACPI processor_idle.c or acpi_pad.c
+  * with interrupts disabled
+  */
+-void perf_amd_brs_lopwr_cb(bool lopwr_in)
++void noinstr perf_amd_brs_lopwr_cb(bool lopwr_in)
+ {
+ 	struct cpu_hw_events *cpuc = this_cpu_ptr(&cpu_hw_events);
+ 	union amd_debug_extn_cfg cfg;
+--- a/arch/x86/include/asm/perf_event.h
++++ b/arch/x86/include/asm/perf_event.h
+@@ -554,7 +554,7 @@ extern void perf_amd_brs_lopwr_cb(bool l
+ 
+ DECLARE_STATIC_CALL(perf_lopwr_cb, perf_amd_brs_lopwr_cb);
+ 
+-static inline void perf_lopwr_cb(bool lopwr_in)
++static __always_inline void perf_lopwr_cb(bool lopwr_in)
+ {
+ 	static_call_mod(perf_lopwr_cb)(lopwr_in);
+ }
 
 
 
