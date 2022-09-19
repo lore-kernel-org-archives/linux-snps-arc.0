@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 156ACC6FA90
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 19 Sep 2022 11:05:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51140C54EE9
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 19 Sep 2022 11:06:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
-	From:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=P4acqZU1UmYCNEPr4RT7CxJL53Ry9ovWAKoyxhifc5U=; b=hTzMmuwYOdxfNs
-	nE/F4RlGIjeH0MFQwB9YJ2qY6/HllqSiRWgFasNKg10porNHGvrhAGYaTDMEtBvlTrPnX2LM+owfA
-	At2SMGhzOl330sFOYlSfLQHPOM+8XhKM/871uxEFAFWgGT1EDdnsM3rh6SswH0DqT8f8HO4M5SjXa
-	eA6Z8UOLnzLFTQQr5ov949dcV8oyBsiR9s+FFoEj6PNi2vBCJbFgn3dUU9PBubCj5jEroSD33q8GP
-	UcE6/qt+b5/d54voTUuebIPYeKRgOxNqRbpoSS+HbTnwftk8Pk2kFZOn+ZmnZj1HsFoChxsR9uM2z
-	Is2Hm8ARbJgSMnw4XEHw==;
+	Content-Transfer-Encoding:Content-Type:MIME-Version:List-Subscribe:List-Help:
+	List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:Cc:To:From:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=2Bhxp+piDJaqdUpyrRxMQoRpU5r6ijKjRwJnSRgDexc=; b=IlNRu4OvLQCH4d
+	Zp27BI7nSRK83Wve9qOInqBNz+z+b1B66FWPzxwzqtAyfGBVt4uRIMx6HlAFq0wQe+vvo25i5nbj3
+	VouvGvsR7kK4BCx6J0mdk9COysAxgfrQb0kSbwPJ9FRtvEv4A9sogtJx130SmdKBKZ03mnM4qboro
+	XAIxc++gDdqbwlE9TspPNLLGf51/QHtmzWTfPDUjkIG00IGvMkIg0DrwFU5X38ygHMFwqmFyXEcXg
+	CDFLMpMRUCpFuyFLiGK4MDjwZv52S2cqKOVVvg/LUkN+kVws/VbtBkDJ36lnxb6PR4jSwCOtE/H+q
+	ZUO+uGwiF25tFH5CxIiw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaEb6-00BS5a-MM; Mon, 19 Sep 2022 11:05:56 +0000
+	id 1oaEb8-00BS78-SU; Mon, 19 Sep 2022 11:05:58 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaEay-00BRm8-Ob; Mon, 19 Sep 2022 11:05:48 +0000
+	id 1oaEaz-00BRm8-9W; Mon, 19 Sep 2022 11:05:49 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:References:
-	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:In-Reply-To;
-	bh=QoMAr3LApQWawpgafmfgLtjlo5s7sxEjoowggy+JX/o=; b=WLGHjeKc/BMYqns1qUsWRZUaSt
-	Tofg6rifY75OG/LDEJW9VOB+NIgkufdCrkbxq1v+SrRaHNBJMpyCyEfxqhfG01AmqVvJ1AB34pydJ
-	jWmfba2WKyUMYvUchvTu0KMuRygDJE7MoDyNt3XpDo4R3j4+68w/YWPJcAFfvyqT7zdUozhlp2VrJ
-	ev7eU0mOg+ggSNPE92jTJlv4fbP8+GL0CErpKOVSRb9V9MrPPgJyG1Trd4TiJLfKRmfnCYIBHcKhB
-	kheMCWNvDAUtvFyllnDb0Kx9l5NNdUV4tdE5x4BcQVEDblgVOaGiHd3SJlMcsNl4SfP41J7i2TeFx
-	M9uI0mbQ==;
+	d=infradead.org; s=desiato.20200630; h=Subject:Cc:To:From:Date:Message-ID:
+	Sender:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=D+MsKiHRvmSvqyjrleqvhdKjdXvjkJhvT05d1tF3TYc=; b=UQsvU8nlB76xZeTRu6KbAZ5g4A
+	v21ezpBG4aDzfKkxxCb9GpmlADJppCf+KVyodO/TEoyudKbqBLCyLdtwrbFAxb0aJ5fwHbEPQQ1N5
+	EmuvzVJrRo7TykFnlJ+oN15NWd2VLfXjixEytfV45kWCvhMnssNkUfZVmK3eHsT83TmhrkAy+1rWL
+	dSaGj0mA5cA9DiUGq8Uf3dsk4uEicB4ZuKl7D0T57Yf0eK8IdpHZoEAhNRMLiW4K3HehEHlB8w53i
+	worbn3yXyIb3FqjM/nTkOkRImrnF50v+k8ux+BswwsADI0NLv4ntoM+CNvwAF6XnPH12b3dM+N70J
+	YkBwTAqw==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
 	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaDq8-00E2C5-Kw; Mon, 19 Sep 2022 10:17:25 +0000
+	id 1oaDpA-00E28m-SP; Mon, 19 Sep 2022 10:17:17 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A6CEE302F91;
-	Mon, 19 Sep 2022 12:16:25 +0200 (CEST)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id E11F930035F;
+	Mon, 19 Sep 2022 12:16:21 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id AFEB12BABC0C7; Mon, 19 Sep 2022 12:16:22 +0200 (CEST)
-Message-ID: <20220919101523.312333837@infradead.org>
+	id BF8DF2BA49033; Mon, 19 Sep 2022 12:16:21 +0200 (CEST)
+Message-ID: <20220919095939.761690562@infradead.org>
 User-Agent: quilt/0.66
-Date: Mon, 19 Sep 2022 12:00:23 +0200
+Date: Mon, 19 Sep 2022 11:59:39 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: richard.henderson@linaro.org,
@@ -186,9 +186,7 @@ Cc: richard.henderson@linaro.org,
  linux-tegra@vger.kernel.org,
  linux-arch@vger.kernel.org,
  kasan-dev@googlegroups.com
-Subject: [PATCH v2 44/44] arm64,riscv,perf: Remove RCU_NONIDLE() usage
-References: <20220919095939.761690562@infradead.org>
-MIME-Version: 1.0
+Subject: [PATCH v2 00/44] cpuidle,rcu: Clean up the mess
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -200,60 +198,173 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The PM notifiers should no longer be ran with RCU disabled (per the
-previous patches), as such this hack is no longer required either.
+Hi All!
 
-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+At long last, a respin of the cpuidle vs rcu cleanup patches.
+
+v1: https://lkml.kernel.org/r/20220608142723.103523089@infradead.org
+
+These here patches clean up the mess that is cpuidle vs rcuidle.
+
+At the end of the ride there's only on RCU_NONIDLE user left:
+
+  arch/arm64/kernel/suspend.c:            RCU_NONIDLE(__cpu_suspend_exit());
+
+and 'one' trace_*_rcuidle() user:
+
+  kernel/trace/trace_preemptirq.c:                        trace_irq_enable_rcuidle(CALLER_ADDR0, CALLER_ADDR1);
+  kernel/trace/trace_preemptirq.c:                        trace_irq_disable_rcuidle(CALLER_ADDR0, CALLER_ADDR1);
+  kernel/trace/trace_preemptirq.c:                        trace_irq_enable_rcuidle(CALLER_ADDR0, caller_addr);
+  kernel/trace/trace_preemptirq.c:                        trace_irq_disable_rcuidle(CALLER_ADDR0, caller_addr);
+  kernel/trace/trace_preemptirq.c:                trace_preempt_enable_rcuidle(a0, a1);
+  kernel/trace/trace_preemptirq.c:                trace_preempt_disable_rcuidle(a0, a1);
+
+However this last is all in deprecated code that should be unused for GENERIC_ENTRY.
+
+I've touched a lot of code that I can't test and I might've broken something by
+accident. In particular the whole ARM cpuidle stuff was quite involved.
+
+Please all; have a look where you haven't already.
+
+
+New since v1:
+
+ - rebase on top of Frederic's rcu-context-tracking rename fest
+ - more omap goodness as per the last discusion (thanks Tony!)
+ - removed one more RCU_NONIDLE() from arm64/risc-v perf code
+ - ubsan/kasan fixes
+ - intel_idle module-param for testing
+ - a bunch of extra __always_inline, because compilers are silly.
+
 ---
- drivers/perf/arm_pmu.c       |   11 +----------
- drivers/perf/riscv_pmu_sbi.c |    8 +-------
- 2 files changed, 2 insertions(+), 17 deletions(-)
-
---- a/drivers/perf/arm_pmu.c
-+++ b/drivers/perf/arm_pmu.c
-@@ -762,17 +762,8 @@ static void cpu_pm_pmu_setup(struct arm_
- 		case CPU_PM_ENTER_FAILED:
- 			 /*
- 			  * Restore and enable the counter.
--			  * armpmu_start() indirectly calls
--			  *
--			  * perf_event_update_userpage()
--			  *
--			  * that requires RCU read locking to be functional,
--			  * wrap the call within RCU_NONIDLE to make the
--			  * RCU subsystem aware this cpu is not idle from
--			  * an RCU perspective for the armpmu_start() call
--			  * duration.
- 			  */
--			RCU_NONIDLE(armpmu_start(event, PERF_EF_RELOAD));
-+			armpmu_start(event, PERF_EF_RELOAD);
- 			break;
- 		default:
- 			break;
---- a/drivers/perf/riscv_pmu_sbi.c
-+++ b/drivers/perf/riscv_pmu_sbi.c
-@@ -747,14 +747,8 @@ static int riscv_pm_pmu_notify(struct no
- 		case CPU_PM_ENTER_FAILED:
- 			/*
- 			 * Restore and enable the counter.
--			 *
--			 * Requires RCU read locking to be functional,
--			 * wrap the call within RCU_NONIDLE to make the
--			 * RCU subsystem aware this cpu is not idle from
--			 * an RCU perspective for the riscv_pmu_start() call
--			 * duration.
- 			 */
--			RCU_NONIDLE(riscv_pmu_start(event, PERF_EF_RELOAD));
-+			riscv_pmu_start(event, PERF_EF_RELOAD);
- 			break;
- 		default:
- 			break;
-
+ arch/alpha/kernel/process.c               |  1 -
+ arch/alpha/kernel/vmlinux.lds.S           |  1 -
+ arch/arc/kernel/process.c                 |  3 ++
+ arch/arc/kernel/vmlinux.lds.S             |  1 -
+ arch/arm/include/asm/vmlinux.lds.h        |  1 -
+ arch/arm/kernel/process.c                 |  1 -
+ arch/arm/kernel/smp.c                     |  6 +--
+ arch/arm/mach-gemini/board-dt.c           |  3 +-
+ arch/arm/mach-imx/cpuidle-imx6q.c         |  4 +-
+ arch/arm/mach-imx/cpuidle-imx6sx.c        |  5 ++-
+ arch/arm/mach-omap2/common.h              |  6 ++-
+ arch/arm/mach-omap2/cpuidle34xx.c         | 16 +++++++-
+ arch/arm/mach-omap2/cpuidle44xx.c         | 29 +++++++-------
+ arch/arm/mach-omap2/omap-mpuss-lowpower.c | 12 +++++-
+ arch/arm/mach-omap2/pm.h                  |  2 +-
+ arch/arm/mach-omap2/pm24xx.c              | 51 +-----------------------
+ arch/arm/mach-omap2/pm34xx.c              | 14 +++++--
+ arch/arm/mach-omap2/pm44xx.c              |  2 +-
+ arch/arm/mach-omap2/powerdomain.c         | 10 ++---
+ arch/arm64/kernel/idle.c                  |  1 -
+ arch/arm64/kernel/smp.c                   |  4 +-
+ arch/arm64/kernel/vmlinux.lds.S           |  1 -
+ arch/csky/kernel/process.c                |  1 -
+ arch/csky/kernel/smp.c                    |  2 +-
+ arch/csky/kernel/vmlinux.lds.S            |  1 -
+ arch/hexagon/kernel/process.c             |  1 -
+ arch/hexagon/kernel/vmlinux.lds.S         |  1 -
+ arch/ia64/kernel/process.c                |  1 +
+ arch/ia64/kernel/vmlinux.lds.S            |  1 -
+ arch/loongarch/kernel/idle.c              |  1 +
+ arch/loongarch/kernel/vmlinux.lds.S       |  1 -
+ arch/m68k/kernel/vmlinux-nommu.lds        |  1 -
+ arch/m68k/kernel/vmlinux-std.lds          |  1 -
+ arch/m68k/kernel/vmlinux-sun3.lds         |  1 -
+ arch/microblaze/kernel/process.c          |  1 -
+ arch/microblaze/kernel/vmlinux.lds.S      |  1 -
+ arch/mips/kernel/idle.c                   |  8 ++--
+ arch/mips/kernel/vmlinux.lds.S            |  1 -
+ arch/nios2/kernel/process.c               |  1 -
+ arch/nios2/kernel/vmlinux.lds.S           |  1 -
+ arch/openrisc/kernel/process.c            |  1 +
+ arch/openrisc/kernel/vmlinux.lds.S        |  1 -
+ arch/parisc/kernel/process.c              |  2 -
+ arch/parisc/kernel/vmlinux.lds.S          |  1 -
+ arch/powerpc/kernel/idle.c                |  5 +--
+ arch/powerpc/kernel/vmlinux.lds.S         |  1 -
+ arch/riscv/kernel/process.c               |  1 -
+ arch/riscv/kernel/vmlinux-xip.lds.S       |  1 -
+ arch/riscv/kernel/vmlinux.lds.S           |  1 -
+ arch/s390/kernel/idle.c                   |  1 -
+ arch/s390/kernel/vmlinux.lds.S            |  1 -
+ arch/sh/kernel/idle.c                     |  1 +
+ arch/sh/kernel/vmlinux.lds.S              |  1 -
+ arch/sparc/kernel/leon_pmc.c              |  4 ++
+ arch/sparc/kernel/process_32.c            |  1 -
+ arch/sparc/kernel/process_64.c            |  3 +-
+ arch/sparc/kernel/vmlinux.lds.S           |  1 -
+ arch/um/kernel/dyn.lds.S                  |  1 -
+ arch/um/kernel/process.c                  |  1 -
+ arch/um/kernel/uml.lds.S                  |  1 -
+ arch/x86/boot/compressed/vmlinux.lds.S    |  1 +
+ arch/x86/coco/tdx/tdcall.S                | 15 +------
+ arch/x86/coco/tdx/tdx.c                   | 25 ++++--------
+ arch/x86/events/amd/brs.c                 | 13 +++----
+ arch/x86/include/asm/fpu/xcr.h            |  4 +-
+ arch/x86/include/asm/irqflags.h           | 11 ++----
+ arch/x86/include/asm/mwait.h              | 14 +++----
+ arch/x86/include/asm/nospec-branch.h      |  2 +-
+ arch/x86/include/asm/paravirt.h           |  6 ++-
+ arch/x86/include/asm/perf_event.h         |  2 +-
+ arch/x86/include/asm/shared/io.h          |  4 +-
+ arch/x86/include/asm/shared/tdx.h         |  1 -
+ arch/x86/include/asm/special_insns.h      |  8 ++--
+ arch/x86/include/asm/xen/hypercall.h      |  2 +-
+ arch/x86/kernel/cpu/bugs.c                |  2 +-
+ arch/x86/kernel/fpu/core.c                |  4 +-
+ arch/x86/kernel/paravirt.c                | 14 ++++++-
+ arch/x86/kernel/process.c                 | 65 +++++++++++++++----------------
+ arch/x86/kernel/vmlinux.lds.S             |  1 -
+ arch/x86/lib/memcpy_64.S                  |  5 +--
+ arch/x86/lib/memmove_64.S                 |  4 +-
+ arch/x86/lib/memset_64.S                  |  4 +-
+ arch/x86/xen/enlighten_pv.c               |  2 +-
+ arch/x86/xen/irq.c                        |  2 +-
+ arch/xtensa/kernel/process.c              |  1 +
+ arch/xtensa/kernel/vmlinux.lds.S          |  1 -
+ drivers/acpi/processor_idle.c             | 36 ++++++++++-------
+ drivers/base/power/runtime.c              | 24 ++++++------
+ drivers/clk/clk.c                         |  8 ++--
+ drivers/cpuidle/cpuidle-arm.c             |  1 +
+ drivers/cpuidle/cpuidle-big_little.c      |  8 +++-
+ drivers/cpuidle/cpuidle-mvebu-v7.c        |  7 ++++
+ drivers/cpuidle/cpuidle-psci.c            | 10 +++--
+ drivers/cpuidle/cpuidle-qcom-spm.c        |  1 +
+ drivers/cpuidle/cpuidle-riscv-sbi.c       | 10 +++--
+ drivers/cpuidle/cpuidle-tegra.c           | 21 +++++++---
+ drivers/cpuidle/cpuidle.c                 | 21 +++++-----
+ drivers/cpuidle/dt_idle_states.c          |  2 +-
+ drivers/cpuidle/poll_state.c              | 10 ++++-
+ drivers/idle/intel_idle.c                 | 19 +++++----
+ drivers/perf/arm_pmu.c                    | 11 +-----
+ drivers/perf/riscv_pmu_sbi.c              |  8 +---
+ include/asm-generic/vmlinux.lds.h         |  9 ++---
+ include/linux/compiler_types.h            |  8 +++-
+ include/linux/cpu.h                       |  3 --
+ include/linux/cpuidle.h                   | 34 ++++++++++++++++
+ include/linux/cpumask.h                   |  4 +-
+ include/linux/percpu-defs.h               |  2 +-
+ include/linux/sched/idle.h                | 40 ++++++++++++++-----
+ include/linux/thread_info.h               | 18 ++++++++-
+ include/linux/tracepoint.h                | 13 ++++++-
+ kernel/cpu_pm.c                           |  9 -----
+ kernel/printk/printk.c                    |  2 +-
+ kernel/sched/idle.c                       | 47 +++++++---------------
+ kernel/time/tick-broadcast-hrtimer.c      | 29 ++++++--------
+ kernel/time/tick-broadcast.c              |  6 ++-
+ kernel/trace/trace.c                      |  3 ++
+ lib/ubsan.c                               |  5 ++-
+ mm/kasan/kasan.h                          |  4 ++
+ mm/kasan/shadow.c                         | 38 ++++++++++++++++++
+ tools/objtool/check.c                     | 17 ++++++++
+ 121 files changed, 511 insertions(+), 420 deletions(-)
 
 
 _______________________________________________
