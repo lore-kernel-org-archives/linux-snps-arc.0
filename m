@@ -4,46 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A3E6ECAAD3
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 19 Sep 2022 15:27:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01D05C54EE9
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 19 Sep 2022 15:28:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=fTQypg8eRBbmq8Ne+9bB+QHoCqmm9mxQs/tMUrBoG6U=; b=BNGjNAXVIsYafc
-	owKNtN1FZfN2wTKLLfYHwMCqxAnSa71+btEBOt0wh83tVvO51i1vwJ60VBOu6cKG+kUrVPhMsUfoi
-	3gwNALyrMl9gW4EJbGM3++Fhtjn6TsCd5ccRMK+RBMM7tYSt6sJjan52mvH6+srAqxQoAh52u/9lJ
-	L3CWlvtdsJlSuvjM14MWtIje9/6KYhoEZGRz2EVRFidvxcylP8TLmD+oyKeXCRp4byElEu3Cc7sBy
-	hR94MhsKiL+NCeehHLs6xnQNgeV0a+Gt3YPkdWCCMDkHuD1FPMr7hanslAUm+fQyn02s1F7aQWoBt
-	tyZQJR5DpGcF/Zxl5zEQ==;
+	List-Owner; bh=qdDGC/jx0Ew7ZUVHfMqPHlrzG5XbCRjshlfE+qGz8Hw=; b=twwspe4KiQg8qN
+	EkYHTYDuVUrAfAAEXvsJqLyt03ujRTnDfnJGc1xmHYnhHdOxBjegeMILV/NQAK4PX3lTSY1JQrcnT
+	1C+gbpN74iBQwV2ijTy5pyIbJqdDo2KzKFXS/xkUBH2F5J9cOTpjlraRQ0CsEeUdKvFtfxbzRghSX
+	USyF2Sl/CMM02qUJ2dcGfa+GgngK7vSQFrjxSy2AKxDpXLZPwAgUAy40lyk5A7MVDhFXj+ZCDdUzj
+	To2hbHZ4nPW+37Dt/jVaw5LDIypEa/eDW4rnjnQ8epxNw+bzPUnKTcXLOvq9ixSRrx3C+AfRuFPLN
+	7/h48PYMEjqgj5Q07+IQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaIfm-00CRsZ-Bh; Mon, 19 Sep 2022 15:27:02 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1oaIhG-00CSdp-Im; Mon, 19 Sep 2022 15:28:34 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaIWi-00CMSO-Lq; Mon, 19 Sep 2022 15:17:42 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 2B61BB81622;
-	Mon, 19 Sep 2022 15:17:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D47AEC433D6;
-	Mon, 19 Sep 2022 15:17:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1663600657;
-	bh=SGRWSsWxhYnFNcVdXVanCp7r8VhObbFain7vrJ2pf9o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fxVxz+v2ZKRYGR2RcB+jwqcdhOAyWFuA63mrtcEpyRTpMkbyS6WHs4N4WpL6wD55y
-	 MEw4vseCOHKlzHluXBoBp/tNbhBozucjByJQwggqB8cSL766iSR/fB5p7HP2XX3V5a
-	 W432aviHiF1CtVbY9+02lVZyqI6r7f0Y+oEmkgLbQeCLJ6mZ8QHUtL9Cb1Rt7pnsGN
-	 oU9BgJeognmYR5a7tpyKmtArG/qTrOVW6g6oNhiIq3bF6GOaiMj1jdkgNeNp7u/R+2
-	 PWnZiOvApDwvdE77MAQCyvfpVSOU+ZSH1CmsYL840fIy4Yva2osOuqdAr10RKbdLw3
-	 uLMmSqj+LM5sA==
-Date: Mon, 19 Sep 2022 17:17:34 +0200
-From: Frederic Weisbecker <frederic@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
+	id 1oaIYE-00CNg8-5X; Mon, 19 Sep 2022 15:19:14 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=jX68leu2S48Jr9/Ow8JXapSFFP60f/i61NXz6aPsf+I=; b=XPfGWCYBJlDbJ5lJcPaNDE6xyf
+	Oko/uZ8RNini73nyposkKJ862RPOu3iJTh8zG5Pep4a2VS0ERxBpWJvvYT8T14rg88H9wegspg5bu
+	9yb2vdL1erAt0tTaRycHKMCoHV1yhzX6AKI/cj+ny97aRfzpr5jWq/LiOBfEwvZYLisXl+Yo5byp9
+	Uk9NM6k+rmDmbbvvXH1mJtohRq1/Mc/o3s0t/ScSKJIDftdo6lQTij50ttW7F88bRo1TeESDSO6Qa
+	lgAptah2KzLlw6pLcJo2JiZ0q/deK2kHiqFB9rLjmKuXizDSL1Hi2Yh+pFPur3R2mMtDZOGx295rw
+	A79DBNeg==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oaIY7-00E6tS-2Q; Mon, 19 Sep 2022 15:19:07 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(Client did not present a certificate)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 0906D30035F;
+	Mon, 19 Sep 2022 17:19:06 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+	id DAFB72BAC7759; Mon, 19 Sep 2022 17:19:05 +0200 (CEST)
+Date: Mon, 19 Sep 2022 17:19:05 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Frederic Weisbecker <frederic@kernel.org>
 Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
 	mattst88@gmail.com, vgupta@kernel.org, linux@armlinux.org.uk,
 	ulli.kroll@googlemail.com, linus.walleij@linaro.org,
@@ -102,18 +106,14 @@ Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
 	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
 	linux-arch@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH v2 08/44] cpuidle,imx6: Push RCU-idle into driver
-Message-ID: <20220919151734.GB62211@lothringen>
+Subject: Re: [PATCH v2 09/44] cpuidle,omap3: Push RCU-idle into driver
+Message-ID: <YyiIaeQY8STLK0d0@hirez.programming.kicks-ass.net>
 References: <20220919095939.761690562@infradead.org>
- <20220919101520.869531945@infradead.org>
- <20220919144941.GA62211@lothringen>
- <YyiEqDSJVOZrQYg8@hirez.programming.kicks-ass.net>
+ <20220919101520.936337959@infradead.org>
+ <20220919143142.GA61009@lothringen>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <YyiEqDSJVOZrQYg8@hirez.programming.kicks-ass.net>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220919_081741_038005_6B720A2C 
-X-CRM114-Status: GOOD (  19.06  )
+In-Reply-To: <20220919143142.GA61009@lothringen>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -130,49 +130,18 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, Sep 19, 2022 at 05:03:04PM +0200, Peter Zijlstra wrote:
-> On Mon, Sep 19, 2022 at 04:49:41PM +0200, Frederic Weisbecker wrote:
-> > On Mon, Sep 19, 2022 at 11:59:47AM +0200, Peter Zijlstra wrote:
-> > > Doing RCU-idle outside the driver, only to then temporarily enable it
-> > > again, at least twice, before going idle is daft.
-> > > 
-> > > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> > > ---
-> > >  arch/arm/mach-imx/cpuidle-imx6sx.c |    5 ++++-
-> > >  1 file changed, 4 insertions(+), 1 deletion(-)
-> > > 
-> > > --- a/arch/arm/mach-imx/cpuidle-imx6sx.c
-> > > +++ b/arch/arm/mach-imx/cpuidle-imx6sx.c
-> > > @@ -47,7 +47,9 @@ static int imx6sx_enter_wait(struct cpui
-> > >  		cpu_pm_enter();
-> > >  		cpu_cluster_pm_enter();
-> > >  
-> > > +		ct_idle_enter();
-> > >  		cpu_suspend(0, imx6sx_idle_finish);
-> > > +		ct_idle_exit();
-> > >  
-> > >  		cpu_cluster_pm_exit();
-> > >  		cpu_pm_exit();
-> > > @@ -87,7 +89,8 @@ static struct cpuidle_driver imx6sx_cpui
-> > >  			 */
-> > >  			.exit_latency = 300,
-> > >  			.target_residency = 500,
-> > > -			.flags = CPUIDLE_FLAG_TIMER_STOP,
-> > > +			.flags = CPUIDLE_FLAG_TIMER_STOP |
-> > > +				 CPUIDLE_FLAG_RCU_IDLE,
-> > >  			.enter = imx6sx_enter_wait,
-> > 
-> > There is a second one below that also uses imx6sx_enter_wait.
+On Mon, Sep 19, 2022 at 04:31:42PM +0200, Frederic Weisbecker wrote:
+> On Mon, Sep 19, 2022 at 11:59:48AM +0200, Peter Zijlstra wrote:
+> > Doing RCU-idle outside the driver, only to then teporarily enable it
+> > again before going idle is daft.
 > 
-> Oh, above you mean; but only @index==2 gets us into the whole PM crud.
-> @index==1 is fine afaict.
+> That doesn't tell where those calls are.
 
-Ah ok, got it, hence why you didn't touch cpu_do_idle()...
-May need to comment that somewhere...
+cpu_pm_enter/exit and the power domain stuff, possibly also the clock
+domain stuff. It's all over :/
 
-Reviewed-by: Frederic Weisbecker <frederic@kernel.org>
-
-Thanks!
+I suppose I can add a blub and copy/paste it around the various patches
+if you want.
 
 _______________________________________________
 linux-snps-arc mailing list
