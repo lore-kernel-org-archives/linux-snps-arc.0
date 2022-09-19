@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7FCD4C54EE9
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 19 Sep 2022 14:05:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C3B1C54EE9
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 19 Sep 2022 14:12:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=1KjTENqdR7M2BNHTCUfQKA1rsuj1p4kdbQ0nqab1Xv4=; b=ZPJsFKLmW5sKhj
-	4x2O4NKYFwuWkqrgNjYoOghoaU2YwUMOmCAeZzqtEj/q+zORv5nWMpQ9rFYcuzlJX7Gb+b0pyPMIH
-	DzKoWoaFoEdUlUJHuKawIrHB/7rnYcgW+dH6WEs8PcB7e6flZOLafeYAMfG/EH0oIfBPuhi95dRGa
-	FH8RXuPBbqNM40bFHOoYQAT9yfYnOcuCbGRpGno9BBhTypDnFNWB4kfrn2IEAOePTAVqUK4OQFrn4
-	2bhpJXMnI8jKWT20lL1N75fOXpZNzIZB1nnUGjiUCwdLg7lCTi6FGE+dlJCd2ZllsdXbMsUBfLWet
-	IyHB2J+/ggMt316GW8MA==;
+	List-Owner; bh=EAI7pWkrTrbq0jR1yR0RYCEZudD5Bt7FIq9AnQq5OJs=; b=IPoo2TkDM53Hl1
+	HTd2WhVGwHusl6nVmFXAlYDZ5a4+7+CNJtdvmJFbkqQhMaftIX1TvbLZ9Pw2t9GN4Fpz2JOODikmb
+	1AWyLJD1GcdTPj1B6XKds/X9ULCDj3suTqy53Yk2Tz71JyoV2xtkpX3NzDBpX2d8UrNfCHJfk9bgF
+	K9wq7Rk/bYFkwkENf8N2QxXEHHBoCT5rFfx/UivRTYA7hQ+OmuwbiNAkS5VJpvNZ5IX0BhsL6DeE0
+	Gs8/CCI7wtuDyi6b7Ug32v/HV9M2fLRb0I59rvq9Ey2gwh5FV956iGrYaWlaBlDwiPdbAi0+3TSTl
+	KdogxlMH41QFeu/i64Og==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaHPB-00BzzT-Am; Mon, 19 Sep 2022 14:05:54 +0000
+	id 1oaHVA-00C1zk-Ha; Mon, 19 Sep 2022 14:12:00 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaHOu-00BzwD-Tn; Mon, 19 Sep 2022 14:05:34 +0000
+	id 1oaHV5-00C1x9-HC; Mon, 19 Sep 2022 14:11:58 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 093E361717;
-	Mon, 19 Sep 2022 14:05:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61C24C433D6;
-	Mon, 19 Sep 2022 14:05:30 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id D9C176170E;
+	Mon, 19 Sep 2022 14:11:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D756C43470;
+	Mon, 19 Sep 2022 14:11:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1663596331;
-	bh=hqpQnG/rjRJ81hfuIK0S1DY9cC3WlcP1cwCcwyGmRYo=;
+	s=k20201202; t=1663596714;
+	bh=jFC8Ee/B68Lt0N7gS8RRayFaddE97lbLbiTesOHxN7A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GHvlWwU9iLcICr4GA0wvbFMtZRycSkePLGuwn0Wq5plVfbx/Tii0XIdCQwikDrLjw
-	 8Ks+UtynxkCYfDfznCu4vxoy6lrN/1pyw4n452OCoSaGSHU6rwFAge3K0QhIyFLOSR
-	 JGneRdFLQ3rSxrl3hkt0tqmVBZ/aZlW7qNuV1GyRpm6KCN+WFHSxCwjpjeba7CsIOP
-	 Yz5MJFMiZIm1WV9KbMnzB0jGhj2MtGbU+l9tyWqJP0PDtWjbgH1Du9ac2P3Fhm8B0Z
-	 Kpv3AlVh+w6otMGKiyBZUitW8Nu9ZoBDlKme+nShAv6Iz6s/fxHg30/YEVxKu5MA6Y
-	 P0mCOXh99bXNQ==
-Date: Mon, 19 Sep 2022 16:05:27 +0200
+	b=IzEUztO2cOw2WGBqf2psEpxOvRZWujFXNz5ZdjgSX/J4eeWt8peadleymWnVJq9yH
+	 miv2FuTQ3EjwDSKX3MkzxozzcAWGP1+Tn47GbA/6EOK95uuXO7VoAg5QvEO/dNmdNm
+	 uM6gyiWTngHj5i/4Z4zRvF+6+ClWxzmiN+yu6JnsWI4IJqhvqrR2iIxxSEoq1plzY2
+	 L9vaQjVUCB9xGl9OxM10M1znA53Mq55FwVxosD+eK8A/NXKEsCWXssqcS46ftjtLuN
+	 3597C4YqcCzPUlYbazDmbh0TuPASDcDk4+kR+qL/xPPX4Pfu/x9UK+QueTPRhI9KKc
+	 hgtQWNHwmsxxg==
+Date: Mon, 19 Sep 2022 16:11:51 +0200
 From: Frederic Weisbecker <frederic@kernel.org>
 To: Peter Zijlstra <peterz@infradead.org>
 Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
@@ -102,16 +102,16 @@ Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
 	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
 	linux-arch@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH v2 06/44] cpuidle,tegra: Push RCU-idle into driver
-Message-ID: <20220919140527.GC58444@lothringen>
+Subject: Re: [PATCH v2 07/44] cpuidle,psci: Push RCU-idle into driver
+Message-ID: <20220919141151.GD58444@lothringen>
 References: <20220919095939.761690562@infradead.org>
- <20220919101520.736563806@infradead.org>
+ <20220919101520.802976773@infradead.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220919101520.736563806@infradead.org>
+In-Reply-To: <20220919101520.802976773@infradead.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220919_070533_160219_E3388298 
-X-CRM114-Status: UNSURE (   9.79  )
+X-CRM114-CacheID: sfid-20220919_071155_682529_E819A464 
+X-CRM114-Status: UNSURE (   9.61  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -129,7 +129,7 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, Sep 19, 2022 at 11:59:45AM +0200, Peter Zijlstra wrote:
+On Mon, Sep 19, 2022 at 11:59:46AM +0200, Peter Zijlstra wrote:
 > Doing RCU-idle outside the driver, only to then temporarily enable it
 > again, at least twice, before going idle is daft.
 > 
