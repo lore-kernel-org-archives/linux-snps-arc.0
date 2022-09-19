@@ -4,48 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 469B5C54EE9
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 19 Sep 2022 15:01:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2FD3BECAAD3
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 19 Sep 2022 15:03:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=waP4WGC8N1aVXRsRjtl0vZakt5jakoRjryzOjP5O0vk=; b=ugCRi/AUsvjY+7
-	CBe9F5DOj8lFDIvp+U3VvGyLGYIaQyZW8s1dRAa1/Igu4PNDSAVxvFwiSPlyMussGYXQVUZcpW/Kv
-	8UnxXW2bhFXaxDqZz/ku3i9ZNk5lBzSycwYp6VKhzsdWGcYFbA/nkqSDPpMvGKszr1kVSvbZDIgBn
-	qQcmggAYo1fxBKkhHR+9YDOhZ4hYIJCtwRtiZiwz1l9kKcaSEUqC2houeG0B7qbB+VsvtxgTJ0KeM
-	NCUMwec4oez5y0jG1BNtth80EyCTpCFKMwvE45RLIdaVtzPhTWklhpqE7FxMT6MTr19T/5ZlDysCv
-	JhE7FsqfJ9BXv51FtFAQ==;
+	List-Owner; bh=hwd2F+2JyagEuO2un8dGCF4/Oq7ZpcyAljjmIqnvnyQ=; b=Q9Gjiyk5c6G3Go
+	RXP5+gRft9gfCJO6iYHgfia6+3rR++3xzT8qwmkrvpNLj0AJuHYQk7jD8jFWcFqRY+1Y3im1EnDmE
+	CWlCXYxxL5pVK5zQiqRntDU8EGJ5a64G9b+fiu10k4FLzgeZN5e+hxYv8hzN+B76YryhnnHZoNUtW
+	82C/2YPHTqQkyR/TAy4oyYslqZzjBqsRo8YeoeMQLt/B1uSZOEzH7LlYwZ53pyUeDVv3SlK8xXV1O
+	uS8iLgHseMLcL/ZdS79/oNSRlTVb59yIgW8Qe99G8Q2p/tcwR1jbFhtjMcHCl5vcFbGnS6pFC2Q17
+	5AIpnxNOMDJ4ZvTKaaOQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaIGn-00CDPO-I0; Mon, 19 Sep 2022 15:01:13 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1oaIIo-00CEFD-G9; Mon, 19 Sep 2022 15:03:18 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaIGl-00CDMg-2N; Mon, 19 Sep 2022 15:01:11 +0000
+	id 1oaIIl-00CEEb-W3; Mon, 19 Sep 2022 15:03:15 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=GQT9ZKmQZViLafATQeaZBpdND2gP4uRG0ahM2YMYtd8=; b=g/io43RigyyT41y2dFYusHC91i
-	FN11xGh8i9tSF+EoWlo1zpG/7kAtBGSI2HmZByL4Oe8pG3bEgJ+0ROI7nYO0NOnc1TY5oprLEKNsP
-	0s07QhQQGBqOQpI9GMDgINY/2CjS57svuapajwEVoK2R5yc4GAMJp+DMGuZKJlfslCqnDHrafRUiw
-	jORg8zwhWlWojJALVxpQjQFiL2JzpT9CaEaqFUVxHoyqBPjNzU9yff7QlldALoQgVvDBY1b6Bykv7
-	bVtAcUpYMDOJ65BerD+Uz9pEW8t4LuzSWPRPEzSY89wpLArsaujZiDHsp5Um+PEFfzZR6oEfgqVwd
-	v4kzfEww==;
+	bh=8W4ANpZZg81bkZotlJvZ4fg4qiAvSnY5PZyc1BTsWP4=; b=TgoDTVhWtKioMAysMtRZaz+Ed4
+	3iL0je6K5Ai9n6tiQwv/cwXv6NOP0BwrMkHno/osPxg/RShHq5xAhp+fMX5Yy1LaTFzQyD2PKiDDa
+	IDcRLh7Ei/snb4+/2+Rx+mnplXAYQmJsQxndGbb/87NfjvASOxocT/vko3Dsiv0YDdWBWm40GCYOU
+	BqfYSOsgVZdJmPddNOZCBOqDrZGRZ7l78tr1pd1q85g8jMuq2dLOS9jwOybdzQXTlcFirzTSFh1Mf
+	CwHwwRhI7n9Qk6BduqR2uRJ2T8bbcCN4Pdh8GIPZSoE0DqIl0HQ8n6rVimdaBjWyxLbUZ/OLSG7Cy
+	vJU3fjyg==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaIGj-00E6aZ-6M; Mon, 19 Sep 2022 15:01:09 +0000
+	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oaIId-004nY8-EL; Mon, 19 Sep 2022 15:03:07 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id C25EF30035F;
-	Mon, 19 Sep 2022 17:01:08 +0200 (CEST)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 86D5B30035F;
+	Mon, 19 Sep 2022 17:03:04 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id A79C82BA49026; Mon, 19 Sep 2022 17:01:08 +0200 (CEST)
-Date: Mon, 19 Sep 2022 17:01:08 +0200
+	id 5DBEE2BAC7A31; Mon, 19 Sep 2022 17:03:04 +0200 (CEST)
+Date: Mon, 19 Sep 2022 17:03:04 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: Frederic Weisbecker <frederic@kernel.org>
 Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
@@ -107,7 +107,7 @@ Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
 	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
 	linux-arch@vger.kernel.org, kasan-dev@googlegroups.com
 Subject: Re: [PATCH v2 08/44] cpuidle,imx6: Push RCU-idle into driver
-Message-ID: <YyiENIiiw0lx4z3l@hirez.programming.kicks-ass.net>
+Message-ID: <YyiEqDSJVOZrQYg8@hirez.programming.kicks-ass.net>
 References: <20220919095939.761690562@infradead.org>
  <20220919101520.869531945@infradead.org>
  <20220919144941.GA62211@lothringen>
@@ -163,7 +163,8 @@ On Mon, Sep 19, 2022 at 04:49:41PM +0200, Frederic Weisbecker wrote:
 > 
 > There is a second one below that also uses imx6sx_enter_wait.
 
-Duh, thanks!
+Oh, above you mean; but only @index==2 gets us into the whole PM crud.
+@index==1 is fine afaict.
 
 _______________________________________________
 linux-snps-arc mailing list
