@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13E11C6FA82
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 19 Sep 2022 11:06:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1731CECAAD3
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 19 Sep 2022 11:30:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
 	From:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=iB45NasoHdrQ34Wglf9sbzI5Y2BB4/GiTc3TTozh4V0=; b=z47h1cyHd4gvZK
-	Ie4ACDx0aPdoKSxS+taV92lMnPvy7cftZ8znnCl95ka+OM4WQqp8FDJWYviwlKoFF+if5qADjCn4E
-	R4XGPEcFMrr9MPIF70R59jO8kLM9PotV1A19xu/gh2rwwx/bTcoRtycKArUA5urGpwe4ogkV2vE4Q
-	UBE2vOo/KUfNQuc9aWXB0XY/VU05GYWMBPWnsRm/RHkeHAohVLCWs+luXL+BxWdC7b4wimJQ7vKeE
-	0LRTbfHcLAMzCYoIsLG0seFZAeea2y1y6SVQJmZkf753BgCbwuPh9Tof1JHam+hSCgZWuBoCtmsGZ
-	lSew80qWh+89pJCFKFvw==;
+	List-Owner; bh=x3gjoD3WU7/wf2xdbqedD2bWHMdrc0/wf66fyC3+pvI=; b=e1XyAqiBUGfuGx
+	a/Vj3CLcDcn7o/wrJzjFs7Ugtt+Zw/YMyN4l7yx3i5+j36ZGGYck8xGnMiQvNgRjkE6dRiDhGWlN9
+	rUePTgu9l8TxvD8Pvb1pvz0J9e7xSvU3mFPKrd1F7MC+sXPYukkFgLbj9bKm9AFXQRxYZnyt6nYR5
+	cDHP+nBeNJ0frgH4uCHZigHZom+oNHDGgBanR4GSJh6mNZLQE/RVF9gABlOzOn+kIsDMbl+FLIkGP
+	AmPhqJ304C7HXaiQ27+J6KGh+Y1Rnsnn5D0I2MHbgJucvcDu5N26bHs49CV2l5jWrKy1r90jhwhHX
+	368Z1obaANpb/4LtKCYw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaEbA-00BS8v-Sz; Mon, 19 Sep 2022 11:06:00 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1oaEyu-00BW7X-H4; Mon, 19 Sep 2022 11:30:32 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaEb0-00BRm8-C8; Mon, 19 Sep 2022 11:05:50 +0000
+	id 1oaDq5-00BGYC-Ht; Mon, 19 Sep 2022 10:17:21 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:References:
+	d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:References:
 	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:In-Reply-To;
-	bh=mpoCVwwSlcWMSbFc2ASY4TLxAbRobKK8wUXUoaGZ7qA=; b=gtfdf8L6gVyevRGMR3eZu3f8N0
-	zWufH7vcSU1x26RRVr7ayAtV4E5cQIJoYbE4C6CeSVWNQ7hNoKjtXt3R8UGfMv5WAYlHaeINfopoY
-	ZULORscKoNxVfR08GoydnWuXdwmVP9E68XJLQNl22iBoLakcwMXbbeH/izd6JAhsn/t9bscwlA9Bk
-	XAVLYGKcAcZkf5rVwfioZhxprY0N3Z02WDZJG0OMDKTp90Ttdh/A8/En/Ti9AGYVqIdDRQVhWGxmM
-	Ua7N8r2k1nrFncinnNqzxA5aKzla6Ri5rgGBp647+u7hslBhRpO/0hIxfbFx+qJnhtuG/vLoNGoEa
-	D8BAw/jQ==;
+	bh=/I1E7kMyDvpkyM4o9FUteLnfSJJBslYUHIxNSMQuhnw=; b=gujJ230tU9CLtH0B9MYtj6NuYS
+	Xzk4KbitxXbowNKoBV5sqsPHGC6klQGeC0vfrq72vjzXizu2+jdZyL6htRNtNZx9+IGuppQZzhe11
+	Ti8DZU/TTVPMCvZBPtXq7K87NylGUQ9DGns8+lKty/KA9gDfLz4qlNcNtBPC3GSXdtRffz09zzfDV
+	peHq1itRMOzwelNcnfC8kzoqshMBt8q7rKMpyFgJo6O4oc/X9CIExVjdDDD6ejw008ZHy1dGqz5wv
+	NCFBlUNFgfDKlVUUUPt9jYD1uAZkGepVsQO+eF1NDX3CbpB4KLsK0KWCEqlH2nUkO1JYNjFtcY5Vr
+	5HzIDA+A==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaDq4-00E2Az-8U; Mon, 19 Sep 2022 10:17:21 +0000
+	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oaDq5-004b83-Vs; Mon, 19 Sep 2022 10:17:22 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 3D5A8302F2C;
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 1D2F9302F12;
 	Mon, 19 Sep 2022 12:16:25 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id 55BCB2BAC75A1; Mon, 19 Sep 2022 12:16:22 +0200 (CEST)
-Message-ID: <20220919101522.089180678@infradead.org>
+	id 3E8432BABB0C8; Mon, 19 Sep 2022 12:16:22 +0200 (CEST)
+Message-ID: <20220919101521.813876881@infradead.org>
 User-Agent: quilt/0.66
-Date: Mon, 19 Sep 2022 12:00:05 +0200
+Date: Mon, 19 Sep 2022 12:00:01 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: richard.henderson@linaro.org,
@@ -186,7 +186,7 @@ Cc: richard.henderson@linaro.org,
  linux-tegra@vger.kernel.org,
  linux-arch@vger.kernel.org,
  kasan-dev@googlegroups.com
-Subject: [PATCH v2 26/44] time/tick-broadcast: Remove RCU_NONIDLE usage
+Subject: [PATCH v2 22/44] x86/tdx: Remove TDX_HCALL_ISSUE_STI
 References: <20220919095939.761690562@infradead.org>
 MIME-Version: 1.0
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -205,54 +205,109 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-No callers left that have already disabled RCU.
+Now that arch_cpu_idle() is expected to return with IRQs disabled,
+avoid the useless STI/CLI dance.
+
+Per the specs this is supposed to work, but nobody has yet relied up
+this behaviour so broken implementations are possible.
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Acked-by: Mark Rutland <mark.rutland@arm.com>
 ---
- kernel/time/tick-broadcast-hrtimer.c |   29 ++++++++++++-----------------
- 1 file changed, 12 insertions(+), 17 deletions(-)
+ arch/x86/coco/tdx/tdcall.S        |   13 -------------
+ arch/x86/coco/tdx/tdx.c           |   23 ++++-------------------
+ arch/x86/include/asm/shared/tdx.h |    1 -
+ 3 files changed, 4 insertions(+), 33 deletions(-)
 
---- a/kernel/time/tick-broadcast-hrtimer.c
-+++ b/kernel/time/tick-broadcast-hrtimer.c
-@@ -56,25 +56,20 @@ static int bc_set_next(ktime_t expires,
- 	 * hrtimer callback function is currently running, then
- 	 * hrtimer_start() cannot move it and the timer stays on the CPU on
- 	 * which it is assigned at the moment.
-+	 */
-+	hrtimer_start(&bctimer, expires, HRTIMER_MODE_ABS_PINNED_HARD);
-+	/*
-+	 * The core tick broadcast mode expects bc->bound_on to be set
-+	 * correctly to prevent a CPU which has the broadcast hrtimer
-+	 * armed from going deep idle.
- 	 *
--	 * As this can be called from idle code, the hrtimer_start()
--	 * invocation has to be wrapped with RCU_NONIDLE() as
--	 * hrtimer_start() can call into tracing.
-+	 * As tick_broadcast_lock is held, nothing can change the cpu
-+	 * base which was just established in hrtimer_start() above. So
-+	 * the below access is safe even without holding the hrtimer
-+	 * base lock.
- 	 */
--	RCU_NONIDLE( {
--		hrtimer_start(&bctimer, expires, HRTIMER_MODE_ABS_PINNED_HARD);
--		/*
--		 * The core tick broadcast mode expects bc->bound_on to be set
--		 * correctly to prevent a CPU which has the broadcast hrtimer
--		 * armed from going deep idle.
--		 *
--		 * As tick_broadcast_lock is held, nothing can change the cpu
--		 * base which was just established in hrtimer_start() above. So
--		 * the below access is safe even without holding the hrtimer
--		 * base lock.
--		 */
--		bc->bound_on = bctimer.base->cpu_base->cpu;
--	} );
-+	bc->bound_on = bctimer.base->cpu_base->cpu;
-+
- 	return 0;
+--- a/arch/x86/coco/tdx/tdcall.S
++++ b/arch/x86/coco/tdx/tdcall.S
+@@ -139,19 +139,6 @@ SYM_FUNC_START(__tdx_hypercall)
+ 
+ 	movl $TDVMCALL_EXPOSE_REGS_MASK, %ecx
+ 
+-	/*
+-	 * For the idle loop STI needs to be called directly before the TDCALL
+-	 * that enters idle (EXIT_REASON_HLT case). STI instruction enables
+-	 * interrupts only one instruction later. If there is a window between
+-	 * STI and the instruction that emulates the HALT state, there is a
+-	 * chance for interrupts to happen in this window, which can delay the
+-	 * HLT operation indefinitely. Since this is the not the desired
+-	 * result, conditionally call STI before TDCALL.
+-	 */
+-	testq $TDX_HCALL_ISSUE_STI, %rsi
+-	jz .Lskip_sti
+-	sti
+-.Lskip_sti:
+ 	tdcall
+ 
+ 	/*
+--- a/arch/x86/coco/tdx/tdx.c
++++ b/arch/x86/coco/tdx/tdx.c
+@@ -169,7 +169,7 @@ static int ve_instr_len(struct ve_info *
+ 	}
  }
  
+-static u64 __cpuidle __halt(const bool irq_disabled, const bool do_sti)
++static u64 __cpuidle __halt(const bool irq_disabled)
+ {
+ 	struct tdx_hypercall_args args = {
+ 		.r10 = TDX_HYPERCALL_STANDARD,
+@@ -189,20 +189,14 @@ static u64 __cpuidle __halt(const bool i
+ 	 * can keep the vCPU in virtual HLT, even if an IRQ is
+ 	 * pending, without hanging/breaking the guest.
+ 	 */
+-	return __tdx_hypercall(&args, do_sti ? TDX_HCALL_ISSUE_STI : 0);
++	return __tdx_hypercall(&args, 0);
+ }
+ 
+ static int handle_halt(struct ve_info *ve)
+ {
+-	/*
+-	 * Since non safe halt is mainly used in CPU offlining
+-	 * and the guest will always stay in the halt state, don't
+-	 * call the STI instruction (set do_sti as false).
+-	 */
+ 	const bool irq_disabled = irqs_disabled();
+-	const bool do_sti = false;
+ 
+-	if (__halt(irq_disabled, do_sti))
++	if (__halt(irq_disabled))
+ 		return -EIO;
+ 
+ 	return ve_instr_len(ve);
+@@ -210,22 +204,13 @@ static int handle_halt(struct ve_info *v
+ 
+ void __cpuidle tdx_safe_halt(void)
+ {
+-	 /*
+-	  * For do_sti=true case, __tdx_hypercall() function enables
+-	  * interrupts using the STI instruction before the TDCALL. So
+-	  * set irq_disabled as false.
+-	  */
+ 	const bool irq_disabled = false;
+-	const bool do_sti = true;
+ 
+ 	/*
+ 	 * Use WARN_ONCE() to report the failure.
+ 	 */
+-	if (__halt(irq_disabled, do_sti))
++	if (__halt(irq_disabled))
+ 		WARN_ONCE(1, "HLT instruction emulation failed\n");
+-
+-	/* XXX I can't make sense of what @do_sti actually does */
+-	raw_local_irq_disable();
+ }
+ 
+ static int read_msr(struct pt_regs *regs, struct ve_info *ve)
+--- a/arch/x86/include/asm/shared/tdx.h
++++ b/arch/x86/include/asm/shared/tdx.h
+@@ -8,7 +8,6 @@
+ #define TDX_HYPERCALL_STANDARD  0
+ 
+ #define TDX_HCALL_HAS_OUTPUT	BIT(0)
+-#define TDX_HCALL_ISSUE_STI	BIT(1)
+ 
+ #define TDX_CPUID_LEAF_ID	0x21
+ #define TDX_IDENT		"IntelTDX    "
 
 
 
