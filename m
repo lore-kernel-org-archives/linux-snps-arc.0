@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E05EAC6FA9C
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 19 Sep 2022 10:18:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51CA0C54EE9
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 19 Sep 2022 10:25:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
 	From:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=GONoLlWQ9Av3bop6orwVkSCZGV2vip1r6f6i5pG4Hxs=; b=UNLkzQppI1CxFI
-	997fI41Tb3FHYdxjZIw1fEsHndm/hSe8+J9g3k5eppCewiG5CpN+knVfCQocO7XdBzFFaPXVPAGF3
-	5tTK5Jhx0T1zBUZn/dsqFSPcGBATI6E9whC9s3PvGd8qWNVzT5UYJPVGUBVSskM+IS0KWyyiiIEv+
-	v1kSUDfEMAvhMKoAeHxFptEh7m/oLPx3Gq9q6gYC4ud4Qo6GBHZH+cY114C1MneIjwdXHkugMhoEs
-	8/xgHFEf1O/Wst0K2XkUIpOxfgO79GYAYLbcGKwRReQ4SuteEOPk44V2BIfIFjieiTmndgcXLwTQI
-	PB4haZfjC9n+UP6kII6Q==;
+	List-Owner; bh=xox4ITiZP9Ylu9NhxSnVREmPOzCLhA1Kj7qnQkaazss=; b=G09daNcowt/Yu8
+	ZIG4AkhtYoAh5HHtn0ba+OaEtkrh88DsSsyfYmYB4lEPBT1qKKIxdCQi8QdMQAc3Xzu++zZ685qN4
+	LSU1oEOjfzf4eTpJXoowUyhjhBz07wCIMyp1SlhrvZloi4mget33KbLXZsTZUqswv2jzyZypQrvna
+	wTyKLKWtB0ja95zsLFkOf+b1w2qmwSYjihkGoUnvGD+sIV2TQLkfzeLrxGYa2z1eZHWwz+N78lnul
+	GHrhxDc7TgAU16DO1EBqfJJZ5KS1F532OKct+0709oczWkvP9hoBlOuyr8AB+F7CJhM9OCl7UXMdj
+	i97y0ItxiECdtWb0xBOw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaDqg-00BHDN-6Z; Mon, 19 Sep 2022 10:17:58 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1oaDxl-00BKhr-LS; Mon, 19 Sep 2022 10:25:17 +0000
+Received: from casper.infradead.org ([90.155.50.34])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaDqA-00BGe4-8y; Mon, 19 Sep 2022 10:17:26 +0000
+	id 1oaDxk-00BKh3-3z; Mon, 19 Sep 2022 10:25:16 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:References:
 	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:In-Reply-To;
-	bh=eYoUngVW9N27gIhULqYrRlt6uLJ7xBInAkMSAu6ULjk=; b=Ij73wphXljMJWUVviTKuDqPZhp
-	17e2HpP2XUZvIm72WBG7HRFIFj+7gfL8MzcE2u8uVZa75Ug0NOLh6Jo9K0OzCAAbmFXzQGTGsr3no
-	wU+nQSRqmaoK4oh5m7eCdzV4ayTPQhHWh3bXZszmdpw53MzLGQ4TxfnnDnyOMCth1WFLh9R8fUYmK
-	/6EYCH2gb/vXiihmgHFnsduufEMZY5OcI61sbS6ewGPmyKgeJRB221D8HstksAgGk6ZaxYB5igHxB
-	K5S7A+j6jWOoio3pKI4So9hGF/Yc4sXdIGfZhqJOma/Bv6Afx77/wHaFynD9cIU0w6i7MArAN9NVa
-	lRcOIM+A==;
+	bh=TtR3uUdCvUM2x08kEUTStDUmM7q30GrToBg+SVCjhcg=; b=fLDVs7Aj5IsIPSbZ9uP3HlZv74
+	R1FNtQJlesBxAxH20mHNFNgOi8G6TmGVOm5kCWSGYGCB5XCLfek8ukDXCokb4M95Qey5bvuBemxOS
+	ayf2Hz8jVxaa+UdCsN2M+JsvmocP7hT7U4zQX/I8/SkpoO/u2sDYpO7XPma83d29iRVaDA0JKwh4E
+	VsvAYSpF1zBGa91ou16CzDlsAEWHbzim3R/hTq8m21hDIAD5uDuU44K4U+KHjOOoVT+Xw98aS4z5a
+	DJJebX6DOGcVtgCldMCuc57B643drdf0+M3/9iRspyBGJLKy6BbxD63UeybB6Mz5t5DmzixjdXksJ
+	GYRNmgPQ==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
 	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaDqB-004bEk-2s; Mon, 19 Sep 2022 10:17:27 +0000
+	id 1oaDq9-004bBp-6s; Mon, 19 Sep 2022 10:17:25 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A3C95302F83;
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 75DB7302F5D;
 	Mon, 19 Sep 2022 12:16:25 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id ABA4E2BAC75B6; Mon, 19 Sep 2022 12:16:22 +0200 (CEST)
-Message-ID: <20220919101523.244550344@infradead.org>
+	id 883CE2BAC75B8; Mon, 19 Sep 2022 12:16:22 +0200 (CEST)
+Message-ID: <20220919101522.775353582@infradead.org>
 User-Agent: quilt/0.66
-Date: Mon, 19 Sep 2022 12:00:22 +0200
+Date: Mon, 19 Sep 2022 12:00:15 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: richard.henderson@linaro.org,
@@ -186,7 +186,7 @@ Cc: richard.henderson@linaro.org,
  linux-tegra@vger.kernel.org,
  linux-arch@vger.kernel.org,
  kasan-dev@googlegroups.com
-Subject: [PATCH v2 43/44] sched: Always inline __this_cpu_preempt_check()
+Subject: [PATCH v2 36/44] cpuidle,omap4: Push RCU-idle into omap4_enter_lowpower()
 References: <20220919095939.761690562@infradead.org>
 MIME-Version: 1.0
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -205,34 +205,127 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-vmlinux.o: warning: objtool: in_entry_stack+0x9: call to __this_cpu_preempt_check() leaves .noinstr.text section
-vmlinux.o: warning: objtool: default_do_nmi+0x10: call to __this_cpu_preempt_check() leaves .noinstr.text section
-vmlinux.o: warning: objtool: fpu_idle_fpregs+0x41: call to __this_cpu_preempt_check() leaves .noinstr.text section
-vmlinux.o: warning: objtool: kvm_read_and_reset_apf_flags+0x1: call to __this_cpu_preempt_check() leaves .noinstr.text section
-vmlinux.o: warning: objtool: lockdep_hardirqs_on+0xb0: call to __this_cpu_preempt_check() leaves .noinstr.text section
-vmlinux.o: warning: objtool: lockdep_hardirqs_off+0xae: call to __this_cpu_preempt_check() leaves .noinstr.text section
-vmlinux.o: warning: objtool: irqentry_nmi_enter+0x69: call to __this_cpu_preempt_check() leaves .noinstr.text section
-vmlinux.o: warning: objtool: irqentry_nmi_exit+0x32: call to __this_cpu_preempt_check() leaves .noinstr.text section
-vmlinux.o: warning: objtool: acpi_processor_ffh_cstate_enter+0x9: call to __this_cpu_preempt_check() leaves .noinstr.text section
-vmlinux.o: warning: objtool: acpi_idle_enter+0x43: call to __this_cpu_preempt_check() leaves .noinstr.text section
-vmlinux.o: warning: objtool: acpi_idle_enter_s2idle+0x45: call to __this_cpu_preempt_check() leaves .noinstr.text section
+From: Tony Lindgren <tony@atomide.com>
 
+OMAP4 uses full SoC suspend modes as idle states, as such it needs the
+whole power-domain and clock-domain code from the idle path.
+
+All that code is not suitable to run with RCU disabled, as such push
+RCU-idle deeper still.
+
+Signed-off-by: Tony Lindgren <tony@atomide.com>
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Link: https://lkml.kernel.org/r/Yqcv6crSNKuSWoTu@atomide.com
 ---
- include/linux/percpu-defs.h |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm/mach-omap2/common.h              |    6 ++++--
+ arch/arm/mach-omap2/cpuidle44xx.c         |    8 ++------
+ arch/arm/mach-omap2/omap-mpuss-lowpower.c |   12 +++++++++++-
+ arch/arm/mach-omap2/pm44xx.c              |    2 +-
+ 4 files changed, 18 insertions(+), 10 deletions(-)
 
---- a/include/linux/percpu-defs.h
-+++ b/include/linux/percpu-defs.h
-@@ -310,7 +310,7 @@ extern void __bad_size_call_parameter(vo
- #ifdef CONFIG_DEBUG_PREEMPT
- extern void __this_cpu_preempt_check(const char *op);
- #else
--static inline void __this_cpu_preempt_check(const char *op) { }
-+static __always_inline void __this_cpu_preempt_check(const char *op) { }
- #endif
+--- a/arch/arm/mach-omap2/common.h
++++ b/arch/arm/mach-omap2/common.h
+@@ -284,11 +284,13 @@ extern u32 omap4_get_cpu1_ns_pa_addr(voi
  
- #define __pcpu_size_call_return(stem, variable)				\
+ #if defined(CONFIG_SMP) && defined(CONFIG_PM)
+ extern int omap4_mpuss_init(void);
+-extern int omap4_enter_lowpower(unsigned int cpu, unsigned int power_state);
++extern int omap4_enter_lowpower(unsigned int cpu, unsigned int power_state,
++				bool rcuidle);
+ extern int omap4_hotplug_cpu(unsigned int cpu, unsigned int power_state);
+ #else
+ static inline int omap4_enter_lowpower(unsigned int cpu,
+-					unsigned int power_state)
++					unsigned int power_state,
++					bool rcuidle)
+ {
+ 	cpu_do_idle();
+ 	return 0;
+--- a/arch/arm/mach-omap2/cpuidle44xx.c
++++ b/arch/arm/mach-omap2/cpuidle44xx.c
+@@ -105,9 +105,7 @@ static int omap_enter_idle_smp(struct cp
+ 	}
+ 	raw_spin_unlock_irqrestore(&mpu_lock, flag);
+ 
+-	ct_cpuidle_enter();
+-	omap4_enter_lowpower(dev->cpu, cx->cpu_state);
+-	ct_cpuidle_exit();
++	omap4_enter_lowpower(dev->cpu, cx->cpu_state, true);
+ 
+ 	raw_spin_lock_irqsave(&mpu_lock, flag);
+ 	if (cx->mpu_state_vote == num_online_cpus())
+@@ -186,10 +184,8 @@ static int omap_enter_idle_coupled(struc
+ 		}
+ 	}
+ 
+-	ct_cpuidle_enter();
+-	omap4_enter_lowpower(dev->cpu, cx->cpu_state);
++	omap4_enter_lowpower(dev->cpu, cx->cpu_state, true);
+ 	cpu_done[dev->cpu] = true;
+-	ct_cpuidle_exit();
+ 
+ 	/* Wakeup CPU1 only if it is not offlined */
+ 	if (dev->cpu == 0 && cpumask_test_cpu(1, cpu_online_mask)) {
+--- a/arch/arm/mach-omap2/omap-mpuss-lowpower.c
++++ b/arch/arm/mach-omap2/omap-mpuss-lowpower.c
+@@ -33,6 +33,7 @@
+  * and first to wake-up when MPUSS low power states are excercised
+  */
+ 
++#include <linux/cpuidle.h>
+ #include <linux/kernel.h>
+ #include <linux/io.h>
+ #include <linux/errno.h>
+@@ -214,6 +215,7 @@ static void __init save_l2x0_context(voi
+  * of OMAP4 MPUSS subsystem
+  * @cpu : CPU ID
+  * @power_state: Low power state.
++ * @rcuidle: RCU needs to be idled
+  *
+  * MPUSS states for the context save:
+  * save_state =
+@@ -222,7 +224,8 @@ static void __init save_l2x0_context(voi
+  *	2 - CPUx L1 and logic lost + GIC lost: MPUSS OSWR
+  *	3 - CPUx L1 and logic lost + GIC + L2 lost: DEVICE OFF
+  */
+-int omap4_enter_lowpower(unsigned int cpu, unsigned int power_state)
++int omap4_enter_lowpower(unsigned int cpu, unsigned int power_state,
++			 bool rcuidle)
+ {
+ 	struct omap4_cpu_pm_info *pm_info = &per_cpu(omap4_pm_info, cpu);
+ 	unsigned int save_state = 0, cpu_logic_state = PWRDM_POWER_RET;
+@@ -268,6 +271,10 @@ int omap4_enter_lowpower(unsigned int cp
+ 	cpu_clear_prev_logic_pwrst(cpu);
+ 	pwrdm_set_next_pwrst(pm_info->pwrdm, power_state);
+ 	pwrdm_set_logic_retst(pm_info->pwrdm, cpu_logic_state);
++
++	if (rcuidle)
++		ct_cpuidle_enter();
++
+ 	set_cpu_wakeup_addr(cpu, __pa_symbol(omap_pm_ops.resume));
+ 	omap_pm_ops.scu_prepare(cpu, power_state);
+ 	l2x0_pwrst_prepare(cpu, save_state);
+@@ -283,6 +290,9 @@ int omap4_enter_lowpower(unsigned int cp
+ 	if (IS_PM44XX_ERRATUM(PM_OMAP4_ROM_SMP_BOOT_ERRATUM_GICD) && cpu)
+ 		gic_dist_enable();
+ 
++	if (rcuidle)
++		ct_cpuidle_exit();
++
+ 	/*
+ 	 * Restore the CPUx power state to ON otherwise CPUx
+ 	 * power domain can transitions to programmed low power
+--- a/arch/arm/mach-omap2/pm44xx.c
++++ b/arch/arm/mach-omap2/pm44xx.c
+@@ -76,7 +76,7 @@ static int omap4_pm_suspend(void)
+ 	 * domain CSWR is not supported by hardware.
+ 	 * More details can be found in OMAP4430 TRM section 4.3.4.2.
+ 	 */
+-	omap4_enter_lowpower(cpu_id, cpu_suspend_state);
++	omap4_enter_lowpower(cpu_id, cpu_suspend_state, false);
+ 
+ 	/* Restore next powerdomain state */
+ 	list_for_each_entry(pwrst, &pwrst_list, node) {
 
 
 
