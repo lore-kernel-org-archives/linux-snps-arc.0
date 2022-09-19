@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3BAEC54EE9
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 19 Sep 2022 11:05:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8FFF5C6FA82
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 19 Sep 2022 11:05:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
 	From:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=2vkmadn/N9ME0/gg+0eC9it2xTfMBZEICsIeKaSNX8s=; b=2E/uRBWS9ZHDvF
-	jGtHov9wuuhQ9gidF0PGAQLh/yi3SKGAvKb25MeXBvcU8f5yUjEFY73LuOJP2qyBlOzBUqfLOngqv
-	XnZWV0RdaP6MU5s7/+jnzsg9rVVw+jjEyNf5vcA49y8SnhYYGrxqI4bZkj29o28HUHiH5CY8l8Fmn
-	NxfeB/n22TBVwKO80FAnjq25rZolkZlfMI8VqxH33SLCnPOzEhkF8PF616iiFMtJVi/MkDYEyVFhh
-	34MfySOZylWNsJo/K3qQ+Wij7k3Rm9ocE/GOT4sORJq7Ew7ux44XoQ1FMH2esDpzJDpCMcnxXyPO3
-	ao/fsEtjLj25Ody4VYmQ==;
+	List-Owner; bh=cQ4Rybi2uaiw+q5hL8vgw4L5L6aEMbyI0CB3LWEBt2c=; b=jEgXUUkaTamPbK
+	CKddaBrLvOCWbXFO0xg02ITjHNEaNK29qIJQirKehm1OT72zQBvxcsy9hteAvSqgpKBSd46WAh6hV
+	LJ3t5089zep17fA1MNl6aP/oUj9lfFlSwO24mPA8mS4kf8hwb6SWu+vCZHGayZmgs7+tLz5D4P+Og
+	LtzwW0GyFPkVWPmfaMTebkOYzx9DPMFkSYLq62ETawrUv9BPFx0kgZh53vGEgUhAKBVM0S34wp3Zq
+	LOPfc1zY2p50/tAGbnZbc317W2fkp1HRxoOKSxdjGD2u4o7XaNFahb7LhnBXK50GX+GkyHJ5rFzX/
+	42wiatMdzTGQCG4yNd+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaEaq-00BRn0-LL; Mon, 19 Sep 2022 11:05:40 +0000
+	id 1oaEas-00BRoD-9m; Mon, 19 Sep 2022 11:05:42 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaEao-00BRm8-J1; Mon, 19 Sep 2022 11:05:38 +0000
+	id 1oaEaq-00BRm8-KD; Mon, 19 Sep 2022 11:05:40 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:References:
 	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:In-Reply-To;
-	bh=pxqjaMyXYMAIciLaWxKe0qnmRXZim+cyW3iOuZrk594=; b=pJappe5zW7K5a0uM2up4iM5Wnb
-	/MjE8rbu9WAnugdJ3vNctbRmg6M6msdadl7GrRu8gtVBhdKcEL1q01gUbAuGRo0F0P7TCfvPJh4j2
-	OEm2Vu3lZCTKtlIjZJSadch35O1K0Zbwq+z8RJTY6sDBfrl7cZthsF+xPgMYt5cDvWZZf4P4AlFVc
-	zdM/BHKKGCIjNj47BoFPAVho93RY3tnAP/cuTaLSHb+Kf058fSlXO4SLAuEKfsIyz0WEgg5U4frRu
-	X+6ypv7mNDlcFlPVnLutEGlC5ervzvG7OJqcv/JCTvTdx7I88hj7iNzDWL0LLFMDZwMu/BFg/DVkL
-	/eEjmWnw==;
+	bh=jlMVapcDkKa+q5r/dVIZrQzWqwQOPh4aNsx9pv05CFo=; b=buhX52S0N8GfdrpPROTvjfDI65
+	vo2N72F8ANzTI8iX5yZu4448eTVjHyPggkwJJfRKxs1txYZ+DUykF1keHi9dJ3FYJIVgjO+Dv7BtO
+	JXYwk6PDa0+sp3kc5Rvvb8/Ozy1R5v2F0Ol45g7fuR3UdZWhBnqCsW78Po84SfQbz64I7hort1cFr
+	g13XSo10LkBMNLAyuExTJtjyY46T4cXU/beQLLdxRHU6aP5d+5hLJXADRxRrHdk/ecdvH0VaVvyLT
+	ehnX8ZndOukmUSwZ46v+BOtBKQRM0tk1W3kROcANilt30UO816DEUkSwR0/b0qiDh5Is5urKmLXW+
+	Bw+kCTLg==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
 	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaDq5-00E2B6-Tl; Mon, 19 Sep 2022 10:17:23 +0000
+	id 1oaDq3-00E2Ai-EI; Mon, 19 Sep 2022 10:17:20 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 4659D302F3C;
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 17458302F05;
 	Mon, 19 Sep 2022 12:16:25 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id 6042A2BA49034; Mon, 19 Sep 2022 12:16:22 +0200 (CEST)
-Message-ID: <20220919101522.224759912@infradead.org>
+	id 29E9C2BA7B0FB; Mon, 19 Sep 2022 12:16:22 +0200 (CEST)
+Message-ID: <20220919101521.609602902@infradead.org>
 User-Agent: quilt/0.66
-Date: Mon, 19 Sep 2022 12:00:07 +0200
+Date: Mon, 19 Sep 2022 11:59:58 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: richard.henderson@linaro.org,
@@ -186,7 +186,7 @@ Cc: richard.henderson@linaro.org,
  linux-tegra@vger.kernel.org,
  linux-arch@vger.kernel.org,
  kasan-dev@googlegroups.com
-Subject: [PATCH v2 28/44] cpuidle,mwait: Make noinstr clean
+Subject: [PATCH v2 19/44] cpuidle,intel_idle: Fix CPUIDLE_FLAG_INIT_XSTATE
 References: <20220919095939.761690562@infradead.org>
 MIME-Version: 1.0
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -205,77 +205,64 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-vmlinux.o: warning: objtool: intel_idle_s2idle+0x6e: call to __monitor.constprop.0() leaves .noinstr.text section
-vmlinux.o: warning: objtool: intel_idle_irq+0x8c: call to __monitor.constprop.0() leaves .noinstr.text section
-vmlinux.o: warning: objtool: intel_idle+0x73: call to __monitor.constprop.0() leaves .noinstr.text section
-
-vmlinux.o: warning: objtool: mwait_idle+0x88: call to clflush() leaves .noinstr.text section
+vmlinux.o: warning: objtool: intel_idle_s2idle+0xd5: call to fpu_idle_fpregs() leaves .noinstr.text section
+vmlinux.o: warning: objtool: intel_idle_xstate+0x11: call to fpu_idle_fpregs() leaves .noinstr.text section
+vmlinux.o: warning: objtool: fpu_idle_fpregs+0x9: call to xfeatures_in_use() leaves .noinstr.text section
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
- arch/x86/include/asm/mwait.h         |   12 ++++++------
+ arch/x86/include/asm/fpu/xcr.h       |    4 ++--
  arch/x86/include/asm/special_insns.h |    2 +-
- 2 files changed, 7 insertions(+), 7 deletions(-)
+ arch/x86/kernel/fpu/core.c           |    4 ++--
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
---- a/arch/x86/include/asm/mwait.h
-+++ b/arch/x86/include/asm/mwait.h
-@@ -25,7 +25,7 @@
- #define TPAUSE_C01_STATE		1
- #define TPAUSE_C02_STATE		0
+--- a/arch/x86/include/asm/fpu/xcr.h
++++ b/arch/x86/include/asm/fpu/xcr.h
+@@ -5,7 +5,7 @@
+ #define XCR_XFEATURE_ENABLED_MASK	0x00000000
+ #define XCR_XFEATURE_IN_USE_MASK	0x00000001
  
--static inline void __monitor(const void *eax, unsigned long ecx,
-+static __always_inline void __monitor(const void *eax, unsigned long ecx,
- 			     unsigned long edx)
+-static inline u64 xgetbv(u32 index)
++static __always_inline u64 xgetbv(u32 index)
  {
- 	/* "monitor %eax, %ecx, %edx;" */
-@@ -33,7 +33,7 @@ static inline void __monitor(const void
- 		     :: "a" (eax), "c" (ecx), "d"(edx));
- }
+ 	u32 eax, edx;
  
--static inline void __monitorx(const void *eax, unsigned long ecx,
-+static __always_inline void __monitorx(const void *eax, unsigned long ecx,
- 			      unsigned long edx)
- {
- 	/* "monitorx %eax, %ecx, %edx;" */
-@@ -41,7 +41,7 @@ static inline void __monitorx(const void
- 		     :: "a" (eax), "c" (ecx), "d"(edx));
- }
- 
--static inline void __mwait(unsigned long eax, unsigned long ecx)
-+static __always_inline void __mwait(unsigned long eax, unsigned long ecx)
- {
- 	mds_idle_clear_cpu_buffers();
- 
-@@ -76,8 +76,8 @@ static inline void __mwait(unsigned long
-  * EAX                     (logical) address to monitor
-  * ECX                     #GP if not zero
+@@ -27,7 +27,7 @@ static inline void xsetbv(u32 index, u64
+  *
+  * Callers should check X86_FEATURE_XGETBV1.
   */
--static inline void __mwaitx(unsigned long eax, unsigned long ebx,
--			    unsigned long ecx)
-+static __always_inline void __mwaitx(unsigned long eax, unsigned long ebx,
-+				     unsigned long ecx)
+-static inline u64 xfeatures_in_use(void)
++static __always_inline u64 xfeatures_in_use(void)
  {
- 	/* No MDS buffer clear as this is AMD/HYGON only */
- 
-@@ -86,7 +86,7 @@ static inline void __mwaitx(unsigned lon
- 		     :: "a" (eax), "b" (ebx), "c" (ecx));
+ 	return xgetbv(XCR_XFEATURE_IN_USE_MASK);
  }
- 
--static inline void __sti_mwait(unsigned long eax, unsigned long ecx)
-+static __always_inline void __sti_mwait(unsigned long eax, unsigned long ecx)
- {
- 	mds_idle_clear_cpu_buffers();
- 	/* "mwait %eax, %ecx;" */
 --- a/arch/x86/include/asm/special_insns.h
 +++ b/arch/x86/include/asm/special_insns.h
-@@ -196,7 +196,7 @@ static inline void load_gs_index(unsigne
+@@ -295,7 +295,7 @@ static inline int enqcmds(void __iomem *
+ 	return 0;
+ }
  
- #endif /* CONFIG_PARAVIRT_XXL */
- 
--static inline void clflush(volatile void *__p)
-+static __always_inline void clflush(volatile void *__p)
+-static inline void tile_release(void)
++static __always_inline void tile_release(void)
  {
- 	asm volatile("clflush %0" : "+m" (*(volatile char __force *)__p));
+ 	/*
+ 	 * Instruction opcode for TILERELEASE; supported in binutils
+--- a/arch/x86/kernel/fpu/core.c
++++ b/arch/x86/kernel/fpu/core.c
+@@ -856,12 +856,12 @@ int fpu__exception_code(struct fpu *fpu,
+  * Initialize register state that may prevent from entering low-power idle.
+  * This function will be invoked from the cpuidle driver only when needed.
+  */
+-void fpu_idle_fpregs(void)
++noinstr void fpu_idle_fpregs(void)
+ {
+ 	/* Note: AMX_TILE being enabled implies XGETBV1 support */
+ 	if (cpu_feature_enabled(X86_FEATURE_AMX_TILE) &&
+ 	    (xfeatures_in_use() & XFEATURE_MASK_XTILE)) {
+ 		tile_release();
+-		fpregs_deactivate(&current->thread.fpu);
++		__this_cpu_write(fpu_fpregs_owner_ctx, NULL);
+ 	}
  }
 
 
