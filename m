@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A3A0C6FA93
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 20 Sep 2022 10:53:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40DC8C54EE9
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 20 Sep 2022 12:31:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=1fjCqZUSNYttogcfBVl458zTOwKimga1uYS16nF4JVw=; b=UjIzSr4jVegmQt
-	20fQoB8In9fVoPvShBZEw0KnGFcyPWNVymnajv6ZRRWIJFY0NCrRMx2nD0Hn/1xJyOgWo7DBq7tFk
-	+lf7pi95BWLrVW2eCxCfFOTgRRfNGMfvViYbINdSY/FULF0vg/IuzbprrHt9ecG21z465JWYqeBRx
-	amXDL7jjdjhMa34yW8UXVJGCU/5ykEjWhmraDjcybNLsrJntwD67TvCQYkKNR7hKKIJUIKY1m+945
-	cX+fNdtS/jkYGYpumpDaVPo8Kl6jaX82lUD0uqNVuRnmC/w7pKQjEKbvHF27dHCoq832IUV0Vvm85
-	f1R4Kz8AjQE46wgPI+ZA==;
+	List-Owner; bh=agrSyDhSB8KAsWd95Ef6Nu8hez7PFHdGErXbrMcCSWk=; b=OxAlg36VT7lwXg
+	ZXGIe88Qm1omPFPr+5xXdBqU6OkW2uYY9URinc4Hwr+WCNETXlnkal/t1c7uOMZHifG2eqkosYOOt
+	OunA2ODITj3GEW3RTGvMNs6Io49sJDMFzn03Byxqa7m8/yS8UgF+SsosA/DfoJx2/r4j8XLqHBzbn
+	XMOXeT9C/KIucOER7eEu0sP6l1f655yS2j18XBH4cqGWkAVAppQT2QSO2Y1iyXtdB0bJPpAR6NJVM
+	GjOiYiExYFINCzyH77sOrUPna9+so+8lT+agvu8nOCCNziF0+h1PAy58LqyuO4E0Dh+z/9d/ZvoOu
+	YSe5jQsZ5rfMxm89m4tQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaasy-00372Z-Lu; Tue, 20 Sep 2022 10:53:52 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1oacPo-003im5-Gq; Tue, 20 Sep 2022 12:31:52 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaast-00370R-VS; Tue, 20 Sep 2022 10:53:50 +0000
+	id 1oacPl-003ijd-WA; Tue, 20 Sep 2022 12:31:51 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id D9876B81C6D;
-	Tue, 20 Sep 2022 10:53:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AB41C433D6;
-	Tue, 20 Sep 2022 10:53:43 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 22B15620CB;
+	Tue, 20 Sep 2022 12:31:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74CCCC433D6;
+	Tue, 20 Sep 2022 12:31:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1663671224;
-	bh=1uzaYeWYbymD/f+i/QytZhu6oKO9BM7m7uKIAm7/1aY=;
+	s=k20201202; t=1663677108;
+	bh=i2971qM7wlevODiVHlQWVkeQKCoULSDtCivyYa6BY3w=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kwUuVl6qzzyQ8/M60E4GBJaDSvCCIGZsWXd6EWoe6ETg4UPGRSPJSpODGC89bVoml
-	 D8yMcp2L8SqglVlcwPjBx0kwWsmuhxSt4A6MHMYEdl8sw5Zt0+i8CPGg6TTK40x4my
-	 mHRIDutJuMJ3kECm4eorV/KO7XWDkJoFt5Xcko5DBOFQuad34F85DOuPGJQOkcR3nN
-	 x3i3rl+wBIvgbXn74nt/EudGishy0lWfyQwIhjZzzOrS/gzl1GIHezRYRweYZnMwZB
-	 mX8bZPz/2M6J4eYsqVrIj88f6cgWd9NcoOu5bfu6upfEe+DnQeaKeleng7SJXqBrye
-	 EQG2xv/JeiBzw==
-Date: Tue, 20 Sep 2022 12:53:41 +0200
+	b=Q359WuuE7X8iHPUglRgZ6umBriKE4r+Hq60s0D7bZenVvQZ4nI53Q/0IHEDWUvL08
+	 uO1lUj+/+gsUuHABZ0IUgFE9VpucvwIQJdQ0+o+qLceGFQWOjTx274Wv0QgoQwQqDB
+	 Bq6B/yj6zX6+ne9r87JfQG1DqPPHAUwk/5wBhBEUUm5zmwQcKDqLTClYTCw1gL+EWj
+	 y+co7RjqxrjwqgzVQOyvkrVOgNfaKYqf/Dnk/7RydhOFfw29XBhF+VqBugULRYy6nW
+	 kGdHmx4EM6/oydyvS6EAGcuvFJCcs2df/Ji6kGzIJMqPXxrjzmWTkMGZJXBpD98pEC
+	 ZvljhnwREUPvw==
+Date: Tue, 20 Sep 2022 14:31:45 +0200
 From: Frederic Weisbecker <frederic@kernel.org>
 To: Peter Zijlstra <peterz@infradead.org>
 Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
@@ -102,16 +102,15 @@ Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
 	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
 	linux-arch@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH v2 11/44] cpuidle,omap4: Push RCU-idle into driver
-Message-ID: <20220920105341.GB72346@lothringen>
+Subject: Re: [PATCH v2 00/44] cpuidle,rcu: Clean up the mess
+Message-ID: <20220920123145.GC72346@lothringen>
 References: <20220919095939.761690562@infradead.org>
- <20220919101521.072508494@infradead.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220919101521.072508494@infradead.org>
+In-Reply-To: <20220919095939.761690562@infradead.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220920_035349_639095_176B8BFC 
-X-CRM114-Status: GOOD (  10.00  )
+X-CRM114-CacheID: sfid-20220920_053150_136007_A7DEAC6B 
+X-CRM114-Status: GOOD (  16.85  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -128,15 +127,50 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, Sep 19, 2022 at 11:59:50AM +0200, Peter Zijlstra wrote:
-> Doing RCU-idle outside the driver, only to then temporarily enable it
-> again, some *four* times, before going idle is daft.
+On Mon, Sep 19, 2022 at 11:59:39AM +0200, Peter Zijlstra wrote:
+> Hi All!
 > 
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> Reviewed-by: Tony Lindgren <tony@atomide.com>
-> Tested-by: Tony Lindgren <tony@atomide.com>
+> At long last, a respin of the cpuidle vs rcu cleanup patches.
+> 
+> v1: https://lkml.kernel.org/r/20220608142723.103523089@infradead.org
+> 
+> These here patches clean up the mess that is cpuidle vs rcuidle.
+> 
+> At the end of the ride there's only on RCU_NONIDLE user left:
+> 
+>   arch/arm64/kernel/suspend.c:            RCU_NONIDLE(__cpu_suspend_exit());
+> 
+> and 'one' trace_*_rcuidle() user:
+> 
+>   kernel/trace/trace_preemptirq.c:                        trace_irq_enable_rcuidle(CALLER_ADDR0, CALLER_ADDR1);
+>   kernel/trace/trace_preemptirq.c:                        trace_irq_disable_rcuidle(CALLER_ADDR0, CALLER_ADDR1);
+>   kernel/trace/trace_preemptirq.c:                        trace_irq_enable_rcuidle(CALLER_ADDR0, caller_addr);
+>   kernel/trace/trace_preemptirq.c:                        trace_irq_disable_rcuidle(CALLER_ADDR0, caller_addr);
+>   kernel/trace/trace_preemptirq.c:                trace_preempt_enable_rcuidle(a0, a1);
+>   kernel/trace/trace_preemptirq.c:                trace_preempt_disable_rcuidle(a0, a1);
+> 
+> However this last is all in deprecated code that should be unused for GENERIC_ENTRY.
+> 
+> I've touched a lot of code that I can't test and I might've broken something by
+> accident. In particular the whole ARM cpuidle stuff was quite involved.
+> 
+> Please all; have a look where you haven't already.
+> 
+> 
+> New since v1:
+> 
+>  - rebase on top of Frederic's rcu-context-tracking rename fest
+>  - more omap goodness as per the last discusion (thanks Tony!)
+>  - removed one more RCU_NONIDLE() from arm64/risc-v perf code
+>  - ubsan/kasan fixes
+>  - intel_idle module-param for testing
+>  - a bunch of extra __always_inline, because compilers are silly.
 
-Reviewed-by: Frederic Weisbecker <frederic@kernel.org>
+Except for those I have already tagged as Reviewed:
+
+Acked-by: Frederic Weisbecker <frederic@kernel.org>
+
+Thanks for the hard work!
 
 _______________________________________________
 linux-snps-arc mailing list
