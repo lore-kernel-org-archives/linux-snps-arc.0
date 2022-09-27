@@ -4,59 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F09EC54EE9
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Sep 2022 12:18:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 41D55C6FA83
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Sep 2022 12:40:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=M2ybd5rKgIeneXVt5F1VQTWt5ifb/XuTirPYFTMvM0g=; b=O26Kgz3FR6Teos
-	JRkN++vl+D1AfT6ujjTnJpgWYCdt1FmFwn1ZOeK7foV2FiGOmt9esqSOF1H9hZZpIWl3Cd7yn4AvR
-	20qdigm1/5jOZRgnzrlBPhgUb/d8302nGd2Mw5uaJ3lKPcm29tULrVXx7G/fv/5kZ5uSGtLh4M8PO
-	L8N4eq7J2TmlHO/RWmXvPfCw815ZbW8qy6cHpFQDOVrnUfhp3wTuCbywVpZ7CrKIWzgk+HtaSz6ql
-	YOuZmllW/8oB8FRv4l2HjC4Co/R86nFS6AEjQbme7UZ37NpZachr0F0yYhFwDsswqej1DTNv25P1T
-	VFKkXOuhNetKL2pEJe3w==;
+	List-Owner; bh=dT5/RpkrDFiOkWiy0eMIEHwIcsEdElMHo/4T8RweCE8=; b=pzINmAg48Kr1sP
+	jCDHyD9ixFtB/aoQ/ALJj0j8Pq7dE91Z7EoEsf3fvUxucbJTYwYGOEtoE1shA5UneH5gr1q0sB/3X
+	NnOqG+kn/bQXlj65vnt3nIkq7gopiZjzl82iDF8FipkUzfZTR2lDTUnq8SNpwrVRQmMXm7kj/kLIy
+	ulyKM8OqWy16LAuGQktoxOLes0gwHVD3xurxJW9fDuQwxe7aS9/FiWnE1LI6hbrdLUbET5HX3+ozn
+	hetI87aeup1nDn5t8lktVOXJkQNXmRMHniHDTmY069CKUocIiYKvuMEBzIuUqleiOEkNOWr/cH6Jj
+	EyiEDcYiuukvy9nKzOVg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1od9Xp-00ARyX-MA; Tue, 27 Sep 2022 12:18:37 +0000
-Received: from mga05.intel.com ([192.55.52.43])
+	id 1od9sc-00AXq8-7Y; Tue, 27 Sep 2022 12:40:06 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1od9Xk-00ARub-IF; Tue, 27 Sep 2022 12:18:34 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664281112; x=1695817112;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OFIxxBkiaCDaU7hdmWCgva7sjv3x1WGTNlqGM1oQtNQ=;
-  b=mgeFQ8LOqPlJRWaIAz9xnerY0TQ+4pad4hxrWOTPJzG3+DsDFtsCa0aN
-   8eA4FQWHsGFRdER4eZ04fmchDDcZgfn4bPBwi+lG6uSnfkTcfrjm7J22Q
-   6wCKLdrnK7kBjf+jMt2ZeyvMSpLaKTkX+QxyO0wH1g9b8AvduO6jnrHPf
-   A/anAKlmTNGgL+DsK+XayD6OMsLlp6X7mBOWF7/IDpmg/+fQylBSC0qu9
-   u41o6KboRr4XY1bA2bqpyTvlDeIRituRLuQjiGXiwOkcp/9nSHXxQXvOd
-   msQ2oiy7rBycCmRZlSt20dScOqrEZWHWSHu/qxpUrstOH3NvybpvYp3xr
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="387589446"
-X-IronPort-AV: E=Sophos;i="5.93,349,1654585200"; 
-   d="scan'208";a="387589446"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2022 05:18:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="616810246"
-X-IronPort-AV: E=Sophos;i="5.93,349,1654585200"; 
-   d="scan'208";a="616810246"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga007.jf.intel.com with ESMTP; 27 Sep 2022 05:18:06 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1od9XD-008RHv-1p;
-	Tue, 27 Sep 2022 15:17:59 +0300
-Date: Tue, 27 Sep 2022 15:17:59 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Rob Herring <robh@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Olof Johansson <olof@lixom.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	id 1od9sW-00AXn1-C3; Tue, 27 Sep 2022 12:40:02 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id C8C1BB81BBB;
+	Tue, 27 Sep 2022 12:39:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15663C433C1;
+	Tue, 27 Sep 2022 12:39:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1664282397;
+	bh=37yDCTtTXKSMe/LNxUNskIHnOhgXH3MxP0BfzMXipSc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oDLkAAZAK9fwuZt7LKXM8ftnzMYuqEX16TQ7tEzyFmrIv30ofSaafC4Y6LcrceyD7
+	 V+zHm07PGvSaenwVeBW7ozfKT0qc6eaS4RIQDezd00apiD/wzViERNkpjWxNMuSu3T
+	 TKNCo/J23ajBzpoO84jGyHvI9aryn0jwbsbvfsIQ=
+Date: Tue, 27 Sep 2022 14:39:53 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Rob Herring <robh@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+	Olof Johansson <olof@lixom.net>,
 	Saravana Kannan <saravanak@google.com>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Laurentiu Tudor <laurentiu.tudor@nxp.com>,
@@ -146,20 +132,20 @@ Cc: Olof Johansson <olof@lixom.net>,
 	linux-stm32@st-md-mailman.stormreply.com,
 	sparclinux@vger.kernel.org
 Subject: Re: [PATCH v2 0/2] Fix console probe delay when stdout-path isn't set
-Message-ID: <YzLp9yXgoJmy5YU8@smile.fi.intel.com>
+Message-ID: <YzLvGXjP8+W0X/1s@kroah.com>
 References: <20220701012647.2007122-1-saravanak@google.com>
  <YwS5J3effuHQJRZ5@kroah.com>
  <CAOesGMivJ5Q-jdeGKw32yhjmNiYctHjpEAnoMMRghYqWD2m2tw@mail.gmail.com>
  <YygsEtxKz8dsEstc@kroah.com>
  <CAOesGMh5GHCONTQ9M1Ro7zW-hkL_1F7Xt=xRV0vYSfPY=7LYkQ@mail.gmail.com>
  <CAL_JsqK7auA8coB3DCqSDKw1ept_yQihVs-Me3bvU923os23xg@mail.gmail.com>
+ <YzLp9yXgoJmy5YU8@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAL_JsqK7auA8coB3DCqSDKw1ept_yQihVs-Me3bvU923os23xg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <YzLp9yXgoJmy5YU8@smile.fi.intel.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220927_051832_629608_54F3B23B 
-X-CRM114-Status: GOOD (  45.12  )
+X-CRM114-CacheID: sfid-20220927_054000_719718_2CE9C5E9 
+X-CRM114-Status: GOOD (  51.29  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -176,82 +162,92 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, Sep 26, 2022 at 01:25:05PM -0500, Rob Herring wrote:
-> On Mon, Sep 19, 2022 at 5:56 PM Olof Johansson <olof@lixom.net> wrote:
-> >
-> > On Mon, Sep 19, 2022 at 1:44 AM Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
+On Tue, Sep 27, 2022 at 03:17:59PM +0300, Andy Shevchenko wrote:
+> On Mon, Sep 26, 2022 at 01:25:05PM -0500, Rob Herring wrote:
+> > On Mon, Sep 19, 2022 at 5:56 PM Olof Johansson <olof@lixom.net> wrote:
 > > >
-> > > On Sun, Sep 18, 2022 at 08:44:27PM -0700, Olof Johansson wrote:
-> > > > On Tue, Aug 23, 2022 at 8:37 AM Greg Kroah-Hartman
-> > > > <gregkh@linuxfoundation.org> wrote:
-> > > > >
-> > > > > On Thu, Jun 30, 2022 at 06:26:38PM -0700, Saravana Kannan wrote:
-> > > > > > These patches are on top of driver-core-next.
+> > > On Mon, Sep 19, 2022 at 1:44 AM Greg Kroah-Hartman
+> > > <gregkh@linuxfoundation.org> wrote:
+> > > >
+> > > > On Sun, Sep 18, 2022 at 08:44:27PM -0700, Olof Johansson wrote:
+> > > > > On Tue, Aug 23, 2022 at 8:37 AM Greg Kroah-Hartman
+> > > > > <gregkh@linuxfoundation.org> wrote:
 > > > > > >
-> > > > > > Even if stdout-path isn't set in DT, this patch should take console
-> > > > > > probe times back to how they were before the deferred_probe_timeout
-> > > > > > clean up series[1].
+> > > > > > On Thu, Jun 30, 2022 at 06:26:38PM -0700, Saravana Kannan wrote:
+> > > > > > > These patches are on top of driver-core-next.
+> > > > > > >
+> > > > > > > Even if stdout-path isn't set in DT, this patch should take console
+> > > > > > > probe times back to how they were before the deferred_probe_timeout
+> > > > > > > clean up series[1].
+> > > > > >
+> > > > > > Now dropped from my queue due to lack of a response to other reviewer's
+> > > > > > questions.
 > > > > >
-> > > > > Now dropped from my queue due to lack of a response to other reviewer's
-> > > > > questions.
+> > > > > What happened to this patch? I have a 10 second timeout on console
+> > > > > probe on my SiFive Unmatched, and I don't see this flag being set for
+> > > > > the serial driver. In fact, I don't see it anywhere in-tree. I can't
+> > > > > seem to locate another patchset from Saravana around this though, so
+> > > > > I'm not sure where to look for a missing piece for the sifive serial
+> > > > > driver.
+> > > > >
+> > > > > This is the second boot time regression (this one not fatal, unlike
+> > > > > the Layerscape PCIe one) from the fw_devlink patchset.
+> > > > >
+> > > > > Greg, can you revert the whole set for 6.0, please? It's obviously
+> > > > > nowhere near tested enough to go in and I expect we'll see a bunch of
+> > > > > -stable fixups due to this if we let it remain in.
 > > > >
-> > > > What happened to this patch? I have a 10 second timeout on console
-> > > > probe on my SiFive Unmatched, and I don't see this flag being set for
-> > > > the serial driver. In fact, I don't see it anywhere in-tree. I can't
-> > > > seem to locate another patchset from Saravana around this though, so
-> > > > I'm not sure where to look for a missing piece for the sifive serial
-> > > > driver.
-> > > >
-> > > > This is the second boot time regression (this one not fatal, unlike
-> > > > the Layerscape PCIe one) from the fw_devlink patchset.
-> > > >
-> > > > Greg, can you revert the whole set for 6.0, please? It's obviously
-> > > > nowhere near tested enough to go in and I expect we'll see a bunch of
-> > > > -stable fixups due to this if we let it remain in.
+> > > > What exactly is "the whole set"?  I have the default option fix queued
+> > > > up and will send that to Linus later this week (am traveling back from
+> > > > Plumbers still), but have not heard any problems about any other issues
+> > > > at all other than your report.
 > > >
-> > > What exactly is "the whole set"?  I have the default option fix queued
-> > > up and will send that to Linus later this week (am traveling back from
-> > > Plumbers still), but have not heard any problems about any other issues
-> > > at all other than your report.
-> >
-> > I stand corrected in this case, the issue on the Hifive Unmatched was
-> > a regression due to a PWM clock change -- I just sent a patch for that
-> > (serial driver fix).
-> >
-> > So it seems like as long as the fw_devlink.strict=1 patch is reverted,
-> > things are back to a working state here.
-> >
-> > I still struggle with how the fw_devlink patchset is expected to work
-> > though, since DT is expected to describe the hardware configuration,
-> > and it has no knowledge of whether there are drivers that will be
-> > bound to any referenced supplier devnodes. It's not going to work well
-> > to assume that they will always be bound, and to add 10 second
-> > timeouts for those cases isn't a good solution. Seems like the number
-> > of special cases will keep adding up.
+> > > I stand corrected in this case, the issue on the Hifive Unmatched was
+> > > a regression due to a PWM clock change -- I just sent a patch for that
+> > > (serial driver fix).
+> > >
+> > > So it seems like as long as the fw_devlink.strict=1 patch is reverted,
+> > > things are back to a working state here.
+> > >
+> > > I still struggle with how the fw_devlink patchset is expected to work
+> > > though, since DT is expected to describe the hardware configuration,
+> > > and it has no knowledge of whether there are drivers that will be
+> > > bound to any referenced supplier devnodes. It's not going to work well
+> > > to assume that they will always be bound, and to add 10 second
+> > > timeouts for those cases isn't a good solution. Seems like the number
+> > > of special cases will keep adding up.
+> > 
+> > Since the introduction of deferred probe, the kernel has always
+> > assumed if there is a device described, then there is or will be a
+> > driver for it. The result is you can't use new DTs (if they add
+> > providers) with older kernels.
+> > 
+> > We've ended up with a timeout because no one has come up with a better
+> > way to handle it. What the kernel needs is userspace saying "I'm done
+> > loading modules", but it's debatable whether that's a good solution
+> > too.
 > 
-> Since the introduction of deferred probe, the kernel has always
-> assumed if there is a device described, then there is or will be a
-> driver for it. The result is you can't use new DTs (if they add
-> providers) with older kernels.
+> In my opinion the deferred probe is a big hack and that is the root
+> cause of the issues we have here and there. It has to be redesigned
+> to be mathematically robust. It was an attempt by Andrzej Hajda to
+> solve this [1].
 > 
-> We've ended up with a timeout because no one has come up with a better
-> way to handle it. What the kernel needs is userspace saying "I'm done
-> loading modules", but it's debatable whether that's a good solution
-> too.
+> [1]: https://events19.linuxfoundation.org/wp-content/uploads/2017/12/Deferred-Problem-Issues-With-Complex-Dependencies-Between-Devices-in-Linux-Kernel-Andrzej-Hajda-Samsung.pdf
 
-In my opinion the deferred probe is a big hack and that is the root
-cause of the issues we have here and there. It has to be redesigned
-to be mathematically robust. It was an attempt by Andrzej Hajda to
-solve this [1].
+deferred probe has _ALWAYS_ been known to be a hack, way back when we
+accepted it, but it was the best hack we had to solve a real problem
+that we had, so it was accepted.
 
-[1]: https://events19.linuxfoundation.org/wp-content/uploads/2017/12/Deferred-Problem-Issues-With-Complex-Dependencies-Between-Devices-in-Linux-Kernel-Andrzej-Hajda-Samsung.pdf
+It's been polished over the years, but yes, it does break down at times,
+due to the crazy complexity of hardware systems that we have no control
+over.
 
--- 
-With Best Regards,
-Andy Shevchenko
+If you have concrete solutions for how to solve the issue, wonderful,
+please submit patches :)
 
+thanks,
 
+greg k-h
 
 _______________________________________________
 linux-snps-arc mailing list
