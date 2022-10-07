@@ -4,102 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70598C433F5
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  4 Oct 2022 17:20:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5BD32C433FE
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  7 Oct 2022 02:31:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=f9xZUYXO3R3vtdutwhEywZQTbbIZQdLroLJpKddp7ik=; b=L/FRwapQB5iRP5
-	kflgldz09hvy0nrqoj8YC+xkP1aF1CY4WFmqNaHTLnsz2tbSfeeVSOsFMZcGVy+vsH1VYs7IAOzq3
-	2RyAuhsluIgCHh4S46NBavk1tEjYI0OOdbNxHrdhl4qe9yqCJWdF77XbyTwxa8vpcIlJrM8bQcNGM
-	76alj71K3N1x4ov7AtxZbh4CAB5tEbOrO9WPFWmji/NHrzKZixeYHbY5TK+KNz4afAiAoruchJhye
-	1fZLLYbVuvHKcM2OedlsKft5BgqG+cek4jwX8DXgMVS9i2RyBQyRDwC9Jil+aDcEGmNvbx2HCokcr
-	EjGmSCg9BM2IL+y6Xf+Q==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:Mime-Version:Message-ID:To:From:CC:In-Reply-To:
+	Subject:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:List-Owner;
+	bh=k8+x/KZDQVtNiZsm38Ez2L7t9s0nub/nxhSMHGpyIgc=; b=JFO5sgQSX251ooIy50PZ7sStNE
+	JKelKsJE/e4Qh073IkAMKiQS0knzVG7ko/62s4348KgKw9SRaf3olAdBC40ha1eKHzMWVsFfmT6Vl
+	U6vw8Gk3kZcCCqznMxJ5TY87bwjkxilxCsK1Gj2P9jtealZCuMLDIWq+5wxBhzO/5hqDXarghONCB
+	sBS5nPNw9g/ZFdk72iRrwuIX3CD4f6ycE5OBsJwg45n4KxccZMKGLT1+22REHea6MdOcnwMHuJX9m
+	T/CynwBoLYCIdVGiUtquH6PSXlX60+MesrFz5C/aEyg0ZFOndRtQpXCPlwSX35n16mAeTRxRFlYoM
+	y7exIaWA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oflaJ-00AHQD-M8; Tue, 04 Oct 2022 17:19:59 +0000
-Received: from foss.arm.com ([217.140.110.172])
-	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oflaG-00AHPX-Fz; Tue, 04 Oct 2022 17:19:57 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9B6F111FB;
-	Tue,  4 Oct 2022 10:20:00 -0700 (PDT)
-Received: from FVFF77S0Q05N.cambridge.arm.com (FVFF77S0Q05N.cambridge.arm.com [10.1.38.139])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2E7683F792;
-	Tue,  4 Oct 2022 10:19:38 -0700 (PDT)
-Date: Tue, 4 Oct 2022 18:19:33 +0100
-From: Mark Rutland <mark.rutland@arm.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
-	mattst88@gmail.com, vgupta@kernel.org, linux@armlinux.org.uk,
-	ulli.kroll@googlemail.com, linus.walleij@linaro.org,
-	shawnguo@kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
-	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-	tony@atomide.com, khilman@kernel.org, catalin.marinas@arm.com,
-	will@kernel.org, guoren@kernel.org, bcain@quicinc.com,
-	chenhuacai@kernel.org, kernel@xen0n.name, geert@linux-m68k.org,
-	sammy@sammy.net, monstr@monstr.eu, tsbogend@alpha.franken.de,
-	dinguyen@kernel.org, jonas@southpole.se,
-	stefan.kristiansson@saunalahti.fi, shorne@gmail.com,
-	James.Bottomley@HansenPartnership.com, deller@gmx.de,
-	mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
-	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
-	hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com,
-	borntraeger@linux.ibm.com, svens@linux.ibm.com,
-	ysato@users.sourceforge.jp, dalias@libc.org, davem@davemloft.net,
-	richard@nod.at, anton.ivanov@cambridgegreys.com,
-	johannes@sipsolutions.net, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, acme@kernel.org, alexander.shishkin@linux.intel.com,
-	jolsa@kernel.org, namhyung@kernel.org, jgross@suse.com,
-	srivatsa@csail.mit.edu, amakhalov@vmware.com, pv-drivers@vmware.com,
-	boris.ostrovsky@oracle.com, chris@zankel.net, jcmvbkbc@gmail.com,
-	rafael@kernel.org, lenb@kernel.org, pavel@ucw.cz,
-	gregkh@linuxfoundation.org, mturquette@baylibre.com,
-	sboyd@kernel.org, daniel.lezcano@linaro.org, lpieralisi@kernel.org,
-	sudeep.holla@arm.com, agross@kernel.org, bjorn.andersson@linaro.org,
-	konrad.dybcio@somainline.org, anup@brainfault.org,
-	thierry.reding@gmail.com, jonathanh@nvidia.com,
-	jacob.jun.pan@linux.intel.com, atishp@atishpatra.org,
-	Arnd Bergmann <arnd@arndb.de>, yury.norov@gmail.com,
-	andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
-	dennis@kernel.org, tj@kernel.org, cl@linux.com, rostedt@goodmis.org,
-	pmladek@suse.com, senozhatsky@chromium.org,
-	john.ogness@linutronix.de, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	bsegall@google.com, mgorman@suse.de, bristot@redhat.com,
-	vschneid@redhat.com, fweisbec@gmail.com, ryabinin.a.a@gmail.com,
-	glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
-	vincenzo.frascino@arm.com,
-	Andrew Morton <akpm@linux-foundation.org>, jpoimboe@kernel.org,
-	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org, linux-omap@vger.kernel.org,
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-	linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-	openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-	linux-perf-users@vger.kernel.org,
-	virtualization@lists.linux-foundation.org,
-	linux-xtensa@linux-xtensa.org, linux-acpi@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-arch@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH v2 33/44] ftrace: WARN on rcuidle
-Message-ID: <YzxrJYjKxy/vUc5n@FVFF77S0Q05N.cambridge.arm.com>
-References: <20220919095939.761690562@infradead.org>
- <20220919101522.573936213@infradead.org>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20220919101522.573936213@infradead.org>
+	id 1ogd8u-006fFX-66; Fri, 07 Oct 2022 02:31:16 +0000
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1ogd8i-006fCV-Ux
+	for linux-snps-arc@lists.infradead.org; Fri, 07 Oct 2022 02:31:06 +0000
+Received: by mail-pl1-x633.google.com with SMTP id c24so3340222pls.9
+        for <linux-snps-arc@lists.infradead.org>; Thu, 06 Oct 2022 19:31:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9oXX1ToddAdjCT7RrejoF1gtgX9gXH4OgxAoTE01pKk=;
+        b=CoIUIlp/l30nI9b/o2YjTZvVwciHUnvYi5SK6ywag4/a/mcM6KppbWz3KG3F4//vFl
+         bMqA96n9dGXj+ileOiyC3XdJ68h6UoSjqU1idAlEXpkIchHHXywDqsIilE6dXFxDNARW
+         NtBLKvxwl4fxQfXNrre7UJChNy6Vo3bE4ijrP3epqwzH/YL+htGdUQOR96BxodrCR6KT
+         2al3u4KWt/1aPXEAVWZlplrfopo19Tgye9BhgGJO/02xU5IU1lGy0sQR1+uWJ3xx/ysr
+         2wfcfGs4Gp4y2Rb8LNxGCkrhQNTDlj3PSjiC8+7t3cjcArXERmYuC/zhL0RuJOgLcqLO
+         TinA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9oXX1ToddAdjCT7RrejoF1gtgX9gXH4OgxAoTE01pKk=;
+        b=ryVuacZgaICQcpEhLqsXXa2L05PhUQdG+cnbvNgjz3aRq0l6vkDxz61IopXoicfI73
+         JAB7BeSuSpZTjOG+qxwF0VMj0EBp0lPMvkKYhUkoIi6eiDp//ow9pL9Dr63B/MP4ux3X
+         XpHI+kyXzRB0YRZ+FpLKtS9MF+iqQmeBA1tMXIfwWOwH9kxbVhDTJHNX62zK1OYoFDTL
+         8uZxlg1Z8mk7Zx7E1zbDs0KXTRokGMF4UB3IYV1iMdJGqcEluP8K5A4qfZ7Ke8bk6nBl
+         k4/LJWNnEuOYg2q0l+E7mKU1metHtsgObGTm5QSCwTL9JqgXcNRiVuhXTqCr9to7NS0b
+         yp/w==
+X-Gm-Message-State: ACrzQf1MoZtySXgs9CMmeBpaRcYERou3X/t9w6g0vHWNUdO9g35Nc28O
+	/1irq/yYNrorAPEoi6ZXaiFiJQ==
+X-Google-Smtp-Source: AMsMyM4kchN+uqfbU5gVp8zmvTg52VKf0+O3238fnLuQ4FqZxuadQCVq4nUrE/VsX2pSjMg0cIFJAw==
+X-Received: by 2002:a17:902:c950:b0:178:4544:55c1 with SMTP id i16-20020a170902c95000b00178454455c1mr2537890pla.168.1665109862049;
+        Thu, 06 Oct 2022 19:31:02 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id p8-20020a170902780800b001743ba85d39sm318593pll.110.2022.10.06.19.31.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Oct 2022 19:31:01 -0700 (PDT)
+Date: Thu, 06 Oct 2022 19:31:01 -0700 (PDT)
+X-Google-Original-Date: Thu, 06 Oct 2022 19:30:58 PDT (-0700)
+Subject: Re: [PATCH] RISC-V: Add STACKLEAK erasing the kernel stack at the end of syscalls
+In-Reply-To: <6c48657c-04df-132d-6167-49ed293dea44@microchip.com>
+CC: guoren@kernel.org, oleg@redhat.com, vgupta@kernel.org, linux@armlinux.org.uk,
+  monstr@monstr.eu, dinguyen@kernel.org, davem@davemloft.net, Arnd Bergmann <arnd@arndb.de>,
+  shorne@gmail.com, Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
+  ardb@kernel.org, heiko@sntech.de, daolu@rivosinc.com, linux-arch@vger.kernel.org,
+  linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+  linux-snps-arc@lists.infradead.org, sparclinux@vger.kernel.org, openrisc@lists.librecores.org,
+  xianting.tian@linux.alibaba.com, linux-efi@vger.kernel.org
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: Conor.Dooley@microchip.com
+Message-ID: <mhng-8c3bb2e7-e84e-4aaa-bce8-3e8054255a2c@palmer-ri-x1c9>
+Mime-Version: 1.0 (MHng)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221004_101956_650451_9CE7C987 
-X-CRM114-Status: GOOD (  22.06  )
+X-CRM114-CacheID: sfid-20221006_193105_044498_C5D9E7B1 
+X-CRM114-Status: GOOD (  22.67  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,76 +89,85 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, Sep 19, 2022 at 12:00:12PM +0200, Peter Zijlstra wrote:
-> CONFIG_GENERIC_ENTRY disallows any and all tracing when RCU isn't
-> enabled.
+On Tue, 06 Sep 2022 10:35:10 PDT (-0700), Conor.Dooley@microchip.com wrote:
+> On 03/09/2022 17:23, guoren@kernel.org wrote:
+>> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+>> 
+>> From: Xianting Tian <xianting.tian@linux.alibaba.com>
+>> 
+>> This adds support for the STACKLEAK gcc plugin to RISC-V and disables
+>> the plugin in EFI stub code, which is out of scope for the protection.
+>> 
+>> For the benefits of STACKLEAK feature, please check the commit
+>> afaef01c0015 ("x86/entry: Add STACKLEAK erasing the kernel stack at the end of syscalls")
+>> 
+>> Performance impact (tested on qemu env with 1 riscv64 hart, 1GB mem)
+>>     hackbench -s 512 -l 200 -g 15 -f 25 -P
+>>     2.0% slowdown
+>> 
+>> Signed-off-by: Xianting Tian <xianting.tian@linux.alibaba.com>
 > 
-> XXX if s390 (the only other GENERIC_ENTRY user as of this writing)
-> isn't comfortable with this, we could switch to
-> HAVE_NOINSTR_VALIDATION which is x86_64 only atm.
+> What changed since Xianting posted it himself a week ago:
+> https://lore.kernel.org/linux-riscv/20220828135407.3897717-1-xianting.tian@linux.alibaba.com/
 > 
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> ---
->  include/linux/tracepoint.h |   13 ++++++++++++-
->  kernel/trace/trace.c       |    3 +++
->  2 files changed, 15 insertions(+), 1 deletion(-)
+> There's an older patch from Du Lao adding STACKLEAK too:
+> https://lore.kernel.org/linux-riscv/20220615213834.3116135-1-daolu@rivosinc.com/
 > 
-> --- a/include/linux/tracepoint.h
-> +++ b/include/linux/tracepoint.h
-> @@ -178,6 +178,16 @@ static inline struct tracepoint *tracepo
->  #endif /* CONFIG_HAVE_STATIC_CALL */
->  
->  /*
-> + * CONFIG_GENERIC_ENTRY archs are expected to have sanitized entry and idle
-> + * code that disallow any/all tracing/instrumentation when RCU isn't watching.
-> + */
-> +#ifdef CONFIG_GENERIC_ENTRY
-> +#define RCUIDLE_COND(rcuidle)	(rcuidle)
-> +#else
-> +#define RCUIDLE_COND(rcuidle)	(rcuidle && in_nmi())
-> +#endif
+> But since there's been no activity there since June...
 
-Could we make this depend on ARCH_WANTS_NO_INSTR instead?
+Looks like the only issues were some commit log wording stuff, and that 
+there's a test suite that should be run.  It's not clear from the 
+commits that anyone has done that, I'm fine with the patch if it passes 
+the tests but don't really know how to run them.
 
-That'll allow arm64 to check this even though we're not using the generic entry
-code (and there's lots of work necessary to make that possible...).
+Has anyone run the tests?
 
-Thanks,
-Mark.
-
-> +
-> +/*
->   * it_func[0] is never NULL because there is at least one element in the array
->   * when the array itself is non NULL.
->   */
-> @@ -189,7 +199,8 @@ static inline struct tracepoint *tracepo
->  			return;						\
->  									\
->  		/* srcu can't be used from NMI */			\
-> -		WARN_ON_ONCE(rcuidle && in_nmi());			\
-> +		if (WARN_ON_ONCE(RCUIDLE_COND(rcuidle)))		\
-> +			return;						\
->  									\
->  		/* keep srcu and sched-rcu usage consistent */		\
->  		preempt_disable_notrace();				\
-> --- a/kernel/trace/trace.c
-> +++ b/kernel/trace/trace.c
-> @@ -3104,6 +3104,9 @@ void __trace_stack(struct trace_array *t
->  		return;
->  	}
->  
-> +	if (WARN_ON_ONCE(IS_ENABLED(CONFIG_GENERIC_ENTRY)))
-> +		return;
-> +
->  	/*
->  	 * When an NMI triggers, RCU is enabled via ct_nmi_enter(),
->  	 * but if the above rcu_is_watching() failed, then the NMI
 > 
+>> ---
+>>  arch/riscv/Kconfig                    | 1 +
+>>  arch/riscv/include/asm/processor.h    | 4 ++++
+>>  arch/riscv/kernel/entry.S             | 3 +++
+>>  drivers/firmware/efi/libstub/Makefile | 2 +-
+>>  4 files changed, 9 insertions(+), 1 deletion(-)
+>> 
+>> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+>> index ed66c31e4655..61fd0dad4463 100644
+>> --- a/arch/riscv/Kconfig
+>> +++ b/arch/riscv/Kconfig
+>> @@ -85,6 +85,7 @@ config RISCV
+>>         select ARCH_ENABLE_THP_MIGRATION if TRANSPARENT_HUGEPAGE
+>>         select HAVE_ARCH_THREAD_STRUCT_WHITELIST
+>>         select HAVE_ARCH_VMAP_STACK if MMU && 64BIT
+>> +       select HAVE_ARCH_STACKLEAK
+>>         select HAVE_ASM_MODVERSIONS
+>>         select HAVE_CONTEXT_TRACKING_USER
+>>         select HAVE_DEBUG_KMEMLEAK
+>> diff --git a/drivers/firmware/efi/libstub/Makefile b/drivers/firmware/efi/libstub/Makefile
+>> index d0537573501e..5e1fc4f82883 100644
+>> --- a/drivers/firmware/efi/libstub/Makefile
+>> +++ b/drivers/firmware/efi/libstub/Makefile
+>> @@ -25,7 +25,7 @@ cflags-$(CONFIG_ARM)          := $(subst $(CC_FLAGS_FTRACE),,$(KBUILD_CFLAGS)) \
+>>                                    -fno-builtin -fpic \
+>>                                    $(call cc-option,-mno-single-pic-base)
+>>  cflags-$(CONFIG_RISCV)         := $(subst $(CC_FLAGS_FTRACE),,$(KBUILD_CFLAGS)) \
+>> -                                  -fpic
+>> +                                  -fpic $(DISABLE_STACKLEAK_PLUGIN)
+>> 
+>>  cflags-$(CONFIG_EFI_GENERIC_STUB) += -I$(srctree)/scripts/dtc/libfdt
+>> 
+>> --
+>> 2.17.1
+>> 
+>> 
+>> _______________________________________________
+>> linux-riscv mailing list
+>> linux-riscv@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-riscv
 > 
 
 _______________________________________________
