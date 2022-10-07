@@ -4,58 +4,115 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61C8DC433FE
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  7 Oct 2022 11:30:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 973A2C433FE
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  7 Oct 2022 15:43:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=eFlhwJE9XLXctxCOtPnVnK0eZJvIAZQ/UR8DzWMYV1w=; b=H8DBD9gxUdAZWg
-	ClMJCp/XvZNkCQYE6wayIUkzdCO5DYIhCeKYpq+mzV1JzVrgR5jMmiynEuU9f1O7qAnW+86jem9nz
-	LJTwZJSVR/6MzQzOe4DUAgRZKlT6bs29Sev6HeSlYgG5p4pXzVAe1o6BTQwXYjcliHZA1KgWNuViu
-	V1k2zj5Y4o7umhig9ND7tG8UkTzqMSw8C2jWyr3AK5GWpl2fojtud31w5qH+iylABaXexJViu6Y3X
-	xX8LD+MuJtUJnQ5ouW/vgpt6F17zhyzN4GYvAYU7V5mNh+lFJYUoPgicZ10uyK85T3pHWKSN2Ah6r
-	TZpJSq5TMCuD7UafXNDw==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=tm9LoCHmLUP3gtRTYqyRgnl7Xt6nl8ADHdFEuXXBAKw=; b=XEUsoF8hwCFzhE
+	o3g1E5QOdR7eFldVgYUT1iCLGGXe4cR2fTvTJ/yOw+VDr/4EXM2ecAKHTZbfdTdnKTlNaUssX3g5H
+	OGFHEQmOwuSUrfUOuKySiODjgH4QC/1/MW55C2ocBrbSjwo/DykNyuZDjRFxq2UWZmd3I1kfvMl2h
+	Pm5pSkX2ZV/MLkGHZXLaQ/6txwvZPpZBnS0eXkKOXdkRLdTsvsmG7jjn2GSzPw79msqH8U0nXHPLb
+	e0Bdl8aBTzmVDM7NR9btQ1eoOw3OTi6vq1sw/xgxD7yAZm8l8PmODHt8VRfRsZZp535CSxYMuFjdH
+	oTHLZ+DBUwEYfBdzQ/Ow==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oglYe-008h6W-TF; Fri, 07 Oct 2022 11:30:24 +0000
-Received: from foss.arm.com ([217.140.110.172])
-	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oglYQ-008h4e-Go; Fri, 07 Oct 2022 11:30:12 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 746711063;
-	Fri,  7 Oct 2022 04:30:10 -0700 (PDT)
-Received: from FVFF77S0Q05N (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 695033F792;
-	Fri,  7 Oct 2022 04:30:00 -0700 (PDT)
-Date: Fri, 7 Oct 2022 12:29:49 +0100
-From: Mark Rutland <mark.rutland@arm.com>
-To: Palmer Dabbelt <palmer@dabbelt.com>
-Cc: Conor.Dooley@microchip.com, guoren@kernel.org, oleg@redhat.com,
-	vgupta@kernel.org, linux@armlinux.org.uk, monstr@monstr.eu,
-	dinguyen@kernel.org, davem@davemloft.net,
-	Arnd Bergmann <arnd@arndb.de>, shorne@gmail.com,
-	Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
-	ardb@kernel.org, heiko@sntech.de, daolu@rivosinc.com,
-	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
+	id 1ogpVD-009WwD-GX; Fri, 07 Oct 2022 15:43:07 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1ogpUw-009Wi0-Ff
+	for linux-snps-arc@lists.infradead.org; Fri, 07 Oct 2022 15:42:55 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1665157367;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=1lKCnBjxRPjgpNNPlEylbLIMLTQ3r/0aTk3SgXwAPQE=;
+	b=RTYsVGOzuYOLxxOgPcB22jHCKIMe0B3vT4UbACL6nVXY5gZ+QlCYMM7K3CqWHutTzUh+l0
+	KwQCW8seMeMMQLaxLp+q02f+FgZBstSe3oApzwBE1Kl35zQzjn/aR8DgM5BFF10tg7Itek
+	bCYWDPtWbkMKx0+w0d6sJ7wIWQPRQT8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-623-rI_hmjg7O_yvhaCx5e6CjA-1; Fri, 07 Oct 2022 11:42:45 -0400
+X-MC-Unique: rI_hmjg7O_yvhaCx5e6CjA-1
+Received: by mail-wm1-f69.google.com with SMTP id c130-20020a1c3588000000b003b56be513e1so2866920wma.0
+        for <linux-snps-arc@lists.infradead.org>; Fri, 07 Oct 2022 08:42:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1lKCnBjxRPjgpNNPlEylbLIMLTQ3r/0aTk3SgXwAPQE=;
+        b=KD07u8UPvEo+12F0X2YzJDVIvOF9vp+fOtasOuavsIH5vCm8APK3wTi2WiD+/gbwAh
+         O0+CZuqfsD7YdCty0thQATgy4+NIbw7OHsTzofEv9bhGOw7e7OtJJO2E3eHRNnOvxuk+
+         jpPM3PzHFidoD2UMqGP+gdzWcVgMobi7jjHz7/kzuX8J1nVQXYVoNGs6jOJK192Hk5s8
+         rcG6u+ornYeqQ4ocYt+N/zl1EreRPw4ZQlb4SWD5iiLt8lkmMNm5iMbDwPqFOE8nmBC2
+         UecMIYIWTuSqGYTJm7ZzhprnasFxXzVm1S7ICVgJeaVAY7NKmMOkS75mJMNBsA/xumVQ
+         1SNQ==
+X-Gm-Message-State: ACrzQf2x32q6SFeSEoe5lumxrWiuvd5FSoBIK2OblhGtT8FrOYACpsF7
+	IkkIYCHGDaj6IWgh9eTqXlS+Js6hWjdo7jl4Ppzq2CZKMCztTEPOx2XNsYKFLLkdEwJ0Jr3nPWc
+	OKxJZ69jLiWcynrafL9OQRNM5OiRO+0Ft
+X-Received: by 2002:a5d:5010:0:b0:22a:cb71:9493 with SMTP id e16-20020a5d5010000000b0022acb719493mr3770663wrt.514.1665157361754;
+        Fri, 07 Oct 2022 08:42:41 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7Tr05uM1rtU5aj/QWiT6cTirx56otcH3SojWjYuAUChmPHRHcJ6HatWEhyYipO7y3unWYaxQ==
+X-Received: by 2002:a5d:5010:0:b0:22a:cb71:9493 with SMTP id e16-20020a5d5010000000b0022acb719493mr3770632wrt.514.1665157361532;
+        Fri, 07 Oct 2022 08:42:41 -0700 (PDT)
+Received: from vschneid.remote.csb ([149.71.65.94])
+        by smtp.gmail.com with ESMTPSA id e1-20020a5d5941000000b0022af865810esm2307021wri.75.2022.10.07.08.42.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Oct 2022 08:42:40 -0700 (PDT)
+From: Valentin Schneider <vschneid@redhat.com>
+To: linux-alpha@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-snps-arc@lists.infradead.org, sparclinux@vger.kernel.org,
-	openrisc@lists.librecores.org, xianting.tian@linux.alibaba.com,
-	linux-efi@vger.kernel.org
-Subject: Re: [PATCH] RISC-V: Add STACKLEAK erasing the kernel stack at the
- end of syscalls
-Message-ID: <Y0ANrYa2IQCg8UTd@FVFF77S0Q05N>
-References: <6c48657c-04df-132d-6167-49ed293dea44@microchip.com>
- <mhng-8c3bb2e7-e84e-4aaa-bce8-3e8054255a2c@palmer-ri-x1c9>
+	linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org,
+	linux-ia64@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-mips@vger.kernel.org,
+	openrisc@lists.librecores.org,
+	linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org,
+	linux-xtensa@linux-xtensa.org,
+	x86@kernel.org
+Cc: "Paul E. McKenney" <paulmck@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Daniel Bristot de Oliveira <bristot@redhat.com>,
+	Marcelo Tosatti <mtosatti@redhat.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Guo Ren <guoren@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>
+Subject: [RFC PATCH 0/5] Generic IPI sending tracepoint
+Date: Fri,  7 Oct 2022 16:41:40 +0100
+Message-Id: <20221007154145.1877054-1-vschneid@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <mhng-8c3bb2e7-e84e-4aaa-bce8-3e8054255a2c@palmer-ri-x1c9>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221007_043010_670709_FE4431A3 
-X-CRM114-Status: GOOD (  21.21  )
+X-CRM114-CacheID: sfid-20221007_084250_612944_997179AC 
+X-CRM114-Status: GOOD (  17.16  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,95 +129,121 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu, Oct 06, 2022 at 07:31:01PM -0700, Palmer Dabbelt wrote:
-> On Tue, 06 Sep 2022 10:35:10 PDT (-0700), Conor.Dooley@microchip.com wrote:
-> > On 03/09/2022 17:23, guoren@kernel.org wrote:
-> > > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> > > 
-> > > From: Xianting Tian <xianting.tian@linux.alibaba.com>
-> > > 
-> > > This adds support for the STACKLEAK gcc plugin to RISC-V and disables
-> > > the plugin in EFI stub code, which is out of scope for the protection.
-> > > 
-> > > For the benefits of STACKLEAK feature, please check the commit
-> > > afaef01c0015 ("x86/entry: Add STACKLEAK erasing the kernel stack at the end of syscalls")
-> > > 
-> > > Performance impact (tested on qemu env with 1 riscv64 hart, 1GB mem)
-> > >     hackbench -s 512 -l 200 -g 15 -f 25 -P
-> > >     2.0% slowdown
-> > > 
-> > > Signed-off-by: Xianting Tian <xianting.tian@linux.alibaba.com>
-> > 
-> > What changed since Xianting posted it himself a week ago:
-> > https://lore.kernel.org/linux-riscv/20220828135407.3897717-1-xianting.tian@linux.alibaba.com/
-> > 
-> > There's an older patch from Du Lao adding STACKLEAK too:
-> > https://lore.kernel.org/linux-riscv/20220615213834.3116135-1-daolu@rivosinc.com/
-> > 
-> > But since there's been no activity there since June...
-> 
-> Looks like the only issues were some commit log wording stuff, and that
-> there's a test suite that should be run.  It's not clear from the commits
-> that anyone has done that, I'm fine with the patch if it passes the tests
-> but don't really know how to run them.
+Background
+==========
 
-Enable CONFIG_LKDTM, and do:
+Detecting IPI *reception* is relatively easy, e.g. using
+trace_irq_handler_{entry,exit} or even just function-trace
+flush_smp_call_function_queue() for SMP calls.  
 
-  echo STACKLEAK_ERASING > /sys/kernel/debug/provoke-crash/DIRECT
+Figuring out their *origin*, is trickier as there is no generic tracepoint tied
+to e.g. smp_call_function():
 
-Example GOOD/BAD output below, taken from:
+o AFAIA x86 has no tracepoint tied to sending IPIs, only receiving them
+  (cf. trace_call_function{_single}_entry()).
+o arm/arm64 do have trace_ipi_raise(), which gives us the target cpus but also a
+  mostly useless string (smp_calls will all be "Function call interrupts").
+o Other architectures don't seem to have any IPI-sending related tracepoint.  
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/misc/lkdtm/stackleak.c?id=72b61896f2b47fa4b98e86184bc0e6ddbd1a8db1
+I believe one reason those tracepoints used by arm/arm64 ended up as they were
+is because these archs used to handle IPIs differently from regular interrupts
+(the IRQ driver would directly invoke an IPI-handling routine), which meant they 
+never showed up in trace_irq_handler_{entry, exit}. The trace_ipi_{entry,exit}
+tracepoints gave a way to trace IPI reception but those have become redundant as
+of: 
 
-GOOD result on x86_64:
+      56afcd3dbd19 ("ARM: Allow IPIs to be handled as normal interrupts")
+      d3afc7f12987 ("arm64: Allow IPIs to be handled as normal interrupts")
 
-| # echo STACKLEAK_ERASING > /sys/kernel/debug/provoke-crash/DIRECT
-| lkdtm: Performing direct entry STACKLEAK_ERASING
-| lkdtm: stackleak stack usage:
-|   high offset: 168 bytes
-|   current:     336 bytes
-|   lowest:      656 bytes
-|   tracked:     656 bytes
-|   untracked:   400 bytes
-|   poisoned:    15152 bytes
-|   low offset:  8 bytes
-| lkdtm: OK: the rest of the thread stack is properly erased
+which gave IPIs a "proper" handler function used through
+generic_handle_domain_irq(), which makes them show up via
+trace_irq_handler_{entry, exit}.
 
-GOOD result on arm64:
+Changing stuff up
+=================
 
-| # echo STACKLEAK_ERASING > /sys/kernel/debug/provoke-crash/DIRECT
-| lkdtm: Performing direct entry STACKLEAK_ERASING
-| lkdtm: stackleak stack usage:
-|   high offset: 336 bytes
-|   current:     656 bytes
-|   lowest:      1232 bytes
-|   tracked:     1232 bytes
-|   untracked:   672 bytes
-|   poisoned:    14136 bytes
-|   low offset:  8 bytes
-| lkdtm: OK: the rest of the thread stack is properly erased
+Per the above, it would make sense to reshuffle trace_ipi_raise() and move it
+into generic code. This also came up during Daniel's talk on Osnoise at the CPU
+isolation MC of LPC 2022 [1]. 
 
-BAD result on arm64:
+Now, to be useful, such a tracepoint needs to export:
+o targeted CPU(s)
+o calling context
 
-| # echo STACKLEAK_ERASING > /sys/kernel/debug/provoke-crash/DIRECT
-| lkdtm: Performing direct entry STACKLEAK_ERASING
-| lkdtm: FAIL: non-poison value 24 bytes below poison boundary: 0x0
-| lkdtm: FAIL: non-poison value 32 bytes below poison boundary: 0xffff8000083dbc00
-...
-| lkdtm: FAIL: non-poison value 1912 bytes below poison boundary: 0x78b4b9999e8cb15
-| lkdtm: FAIL: non-poison value 1920 bytes below poison boundary: 0xffff8000083db400
-| lkdtm: stackleak stack usage:
-|   high offset: 336 bytes
-|   current:     688 bytes
-|   lowest:      1232 bytes
-|   tracked:     576 bytes
-|   untracked:   288 bytes
-|   poisoned:    15176 bytes
-|   low offset:  8 bytes
-| lkdtm: FAIL: the thread stack is NOT properly erased!
-| lkdtm: Unexpected! This kernel (5.18.0-rc1-00013-g1f7b1f1e29e0-dirty aarch64) was built with CONFIG_GCC_PLUGIN_STACKLEAK=y
+The only way to get the calling context with trace_ipi_raise() is to trigger a
+stack dump, e.g. $(trace-cmd -e ipi* -T echo 42).
 
-Mark.
+As for the targeted CPUs, the existing tracepoint does export them, albeit in
+cpumask form, which is quite inconvenient from a tooling perspective. For
+instance, as far as I'm aware, it's not possible to do event filtering on a
+cpumask via trace-cmd.
+
+Because of the above points, this is introducing a new tracepoint.
+
+Patches
+=======
+
+This results in having trace events for:
+
+o smp_call_function*()
+o smp_send_reschedule()
+o irq_work_queue*()
+
+This is incomplete, just looking at arm64 there's more IPI types that aren't covered:
+
+  IPI_CPU_STOP,
+  IPI_CPU_CRASH_STOP,
+  IPI_TIMER,
+  IPI_WAKEUP,
+
+... But it feels like a good starting point.
+
+Another thing worth mentioning is that depending on the callsite, the _RET_IP_
+fed to the tracepoint is not always useful - generic_exec_single() doesn't tell
+you much about the actual callback being sent via IPI, so there might be value
+in exploding the single tracepoint into at least one variant for smp_calls.
+
+Links
+=====
+
+[1]: https://youtu.be/5gT57y4OzBM?t=14234
+
+Valentin Schneider (5):
+  trace: Add trace_ipi_send_{cpu, cpumask}
+  sched, smp: Trace send_call_function_single_ipi()
+  smp: Add a multi-CPU variant to send_call_function_single_ipi()
+  irq_work: Trace calls to arch_irq_work_raise()
+  treewide: Rename and trace arch-definitions of smp_send_reschedule()
+
+ arch/alpha/kernel/smp.c          |  2 +-
+ arch/arc/kernel/smp.c            |  2 +-
+ arch/arm/kernel/smp.c            |  5 +----
+ arch/arm64/kernel/smp.c          |  3 +--
+ arch/csky/kernel/smp.c           |  2 +-
+ arch/hexagon/kernel/smp.c        |  2 +-
+ arch/ia64/kernel/smp.c           |  4 ++--
+ arch/loongarch/include/asm/smp.h |  2 +-
+ arch/mips/include/asm/smp.h      |  2 +-
+ arch/openrisc/kernel/smp.c       |  2 +-
+ arch/parisc/kernel/smp.c         |  4 ++--
+ arch/powerpc/kernel/smp.c        |  4 ++--
+ arch/riscv/kernel/smp.c          |  4 ++--
+ arch/s390/kernel/smp.c           |  2 +-
+ arch/sh/kernel/smp.c             |  2 +-
+ arch/sparc/kernel/smp_32.c       |  2 +-
+ arch/sparc/kernel/smp_64.c       |  2 +-
+ arch/x86/include/asm/smp.h       |  2 +-
+ arch/xtensa/kernel/smp.c         |  2 +-
+ include/linux/smp.h              |  1 +
+ include/trace/events/ipi.h       | 27 +++++++++++++++++++++++++++
+ kernel/irq_work.c                | 12 +++++++++++-
+ kernel/sched/core.c              |  7 +++++--
+ kernel/smp.c                     | 18 +++++++++++++++++-
+ 24 files changed, 84 insertions(+), 31 deletions(-)
+
+--
+2.31.1
+
 
 _______________________________________________
 linux-snps-arc mailing list
