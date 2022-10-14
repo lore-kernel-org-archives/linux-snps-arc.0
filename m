@@ -4,75 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E9D0C433FE
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 13 Oct 2022 09:51:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0C91C4332F
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 14 Oct 2022 21:23:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=F/CAIdkB6oohNT22jkF30reAmVk+uEDE05Ipit/Y0eM=; b=NiZErV6Ba8XIkF
-	mWMQ5/gU0K2Tdy10TiyVqIUB7bVJ7deXRi75JWvF5V2S5qZzN8KUHEgDgvpQlIJn/2ByRe5mYeaXV
-	sJ8xR4Xqp2jDbXv0UGKpvytGr3BGnVGoPvIPunjp7LsmT2Zt9NliejJ4lq+0/V5YfTGRchd2RS2Kf
-	rqRvnY+NAhwFxkHJMSWrwWFO8lrEfWhbZKrXCgJOUSnpFxIO85FaDRtMje/D64PWjPksV24jKtj/3
-	a7d/l9ju17OnT1NuhJrSGjta6PwPgH+F8U7U51L8aDwUIqc4AqZ1z2NWrCLU5LpY1O0EADBzyf80c
-	+AkUzw3fNrJkvlNVeQYQ==;
+	List-Owner; bh=VoBnjet91KQkm65fFBVnLG49AwQSj72QD8eo0w8nYIM=; b=Kyqqjdk6xt48M9
+	lc+LiIizt3aAvONag7DiAzww64MjNzcVqLzq/56KlPrVSdSdcQcPtAsrsyKTUGHY2jLN2pvfpvgb3
+	qSyM2675uGsGcfMF0pzIVtM9bajJIhhsfkE30WjvNsWCHmfS0YOBwjIH4N6r33FMFPJ3pZZt89qjT
+	S9qZDihuoQrbOTcsFdN3ED9AKBWFZha3a5cy4MfftJSx9AFvp6OQgY7wG2+8Ya0JqwD86oIpIBYzu
+	FZyFUHI66VC5Qb0ZyzTGeOXNyW6d+Nzo2yyoD9aKHjbobhBzdKfV5MJcZm1I419h73s3uiI5+bQUQ
+	ebake/C/45/x6s8Cimow==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oiusX-00BLsD-1C; Thu, 13 Oct 2022 09:51:49 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1ojS9A-00Fzl6-GA; Fri, 14 Oct 2022 21:23:12 +0000
+Received: from mx01.omp.ru ([90.154.21.10])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oiusT-00BLqF-Gf
-	for linux-snps-arc@lists.infradead.org; Thu, 13 Oct 2022 09:51:47 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1665654704;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PnamMLehA6c/ZrC5mAWlH7KtTngXqnj6RvbTVflM5BA=;
-	b=Oc8afIjBCBl1bY92gNehSf+oxNO97C/xhSPBKP5S7QEtkGh9ztASNw0VW4nQ7w3VSy2WaB
-	nYIinj7VNdMWaLEXlO7/woRvAf5rLWxxjlhTplrdN3FI1BUj6i/NoVQJlfXeFx4hZxGplA
-	15OKT4lbnxSEj63+YSPDutkLPL22dGs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-120-wzSYpi1QPaKmyhZ3WPMPtQ-1; Thu, 13 Oct 2022 05:51:39 -0400
-X-MC-Unique: wzSYpi1QPaKmyhZ3WPMPtQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD804185A794;
-	Thu, 13 Oct 2022 09:51:38 +0000 (UTC)
-Received: from localhost (ovpn-12-120.pek2.redhat.com [10.72.12.120])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 136CB1121314;
-	Thu, 13 Oct 2022 09:51:36 +0000 (UTC)
-Date: Thu, 13 Oct 2022 17:51:33 +0800
-From: Baoquan He <bhe@redhat.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"hch@infradead.org" <hch@infradead.org>,
-	"agordeev@linux.ibm.com" <agordeev@linux.ibm.com>,
-	"wangkefeng.wang@huawei.com" <wangkefeng.wang@huawei.com>,
-	"schnelle@linux.ibm.com" <schnelle@linux.ibm.com>,
-	"David.Laight@ACULAB.COM" <David.Laight@aculab.com>,
-	"shorne@gmail.com" <shorne@gmail.com>,
-	Vineet Gupta <vgupta@kernel.org>,
-	"linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
-Subject: Re: [PATCH v3 05/11] arc: mm: Convert to GENERIC_IOREMAP
-Message-ID: <Y0ffpSdpAcvbXDGK@MiWiFi-R3L-srv>
-References: <20221009103114.149036-1-bhe@redhat.com>
- <20221009103114.149036-6-bhe@redhat.com>
- <bbfa1fd5-3dae-2d00-0421-5f1e627eb8f7@csgroup.eu>
+	id 1ojS8z-00FzfM-2e
+	for linux-snps-arc@lists.infradead.org; Fri, 14 Oct 2022 21:23:02 +0000
+Received: from localhost.localdomain (178.176.75.138) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Sat, 15 Oct
+ 2022 00:22:47 +0300
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+To: Oleg Nesterov <oleg@redhat.com>, Vineet Gupta <vgupta@kernel.org>,
+	<linux-snps-arc@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH 01/13] arc: ptrace: user_regset_copyin_ignore() always returns 0
+Date: Sat, 15 Oct 2022 00:22:23 +0300
+Message-ID: <20221014212235.10770-2-s.shtylyov@omp.ru>
+X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20221014212235.10770-1-s.shtylyov@omp.ru>
+References: <20221014212235.10770-1-s.shtylyov@omp.ru>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <bbfa1fd5-3dae-2d00-0421-5f1e627eb8f7@csgroup.eu>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Originating-IP: [178.176.75.138]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 10/14/2022 21:00:39
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 173137 [Oct 14 2022]
+X-KSE-AntiSpam-Info: Version: 5.9.20.0
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 500 500 6cc86d8f5638d79810308830d98d6b6279998c49
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: 	omp.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+X-KSE-AntiSpam-Info: {rdns complete}
+X-KSE-AntiSpam-Info: {fromrtbl complete}
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.75.138
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=none header.from=omp.ru;spf=none
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 10/14/2022 21:03:00
+X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 10/14/2022 3:23:00 PM
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221013_025145_636604_B9233264 
-X-CRM114-Status: GOOD (  14.68  )
+X-CRM114-CacheID: sfid-20221014_142301_154216_6048D356 
+X-CRM114-Status: UNSURE (   8.07  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,44 +95,29 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 10/12/22 at 10:17am, Christophe Leroy wrote:
-......
-> > -/*
-> > - * ioremap with access flags
-> > - * Cache semantics wise it is same as ioremap - "forced" uncached.
-> > - * However unlike vanilla ioremap which bypasses ARC MMU for addresses in
-> > - * ARC hardware uncached region, this one still goes thru the MMU as caller
-> > - * might need finer access control (R/W/X)
-> > - */
-> > -void __iomem *ioremap_prot(phys_addr_t paddr, unsigned long size,
-> > -			   unsigned long flags)
-> > +void __iomem *
-> > +arch_ioremap(phys_addr_t *paddr, size_t size, unsigned long *prot_val)
-> >   {
-> > -	unsigned int off;
-> > -	unsigned long vaddr;
-> > -	struct vm_struct *area;
-> > -	phys_addr_t end;
-> > -	pgprot_t prot = __pgprot(flags);
-> > -
-> > -	/* Don't allow wraparound, zero size */
-> > -	end = paddr + size - 1;
-> > -	if ((!size) || (end < paddr))
-> > -		return NULL;
-> > -
-> >   	/* An early platform driver might end up here */
-> >   	if (!slab_is_available())
-> > -		return NULL;
-> > +		return IOMEM_ERR_PTR(-EINVAL);
-> 
-> I think the slab_is_available() check should be done in the generic 
-> functions. On all architectures SLAB must be available before you can 
-> use get_vm_area_caller() and vunmap()
+user_regset_copyin_ignore() always returns 0, so checking its result seems
+pointless -- don't do this anymore...
 
-Tend to agree.
+Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+---
+ arch/arc/kernel/ptrace.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-W/o slab initialized, the get_vm_area_caller() calling definitely will
-fail. The arch's early ioremap code could call into this.
+diff --git a/arch/arc/kernel/ptrace.c b/arch/arc/kernel/ptrace.c
+index da7542cea0d8..2abdcd9b09e8 100644
+--- a/arch/arc/kernel/ptrace.c
++++ b/arch/arc/kernel/ptrace.c
+@@ -185,7 +185,7 @@ static int genregs_set(struct task_struct *target,
+ 
+ #define REG_IGNORE_ONE(LOC)		\
+ 	if (!ret)			\
+-		ret = user_regset_copyin_ignore(&pos, &count, &kbuf, &ubuf, \
++		user_regset_copyin_ignore(&pos, &count, &kbuf, &ubuf, \
+ 			offsetof(struct user_regs_struct, LOC), \
+ 			offsetof(struct user_regs_struct, LOC) + 4);
+ 
+-- 
+2.26.3
 
 
 _______________________________________________
