@@ -4,50 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA2CAC4332F
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 17 Oct 2022 08:01:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31B15C433FE
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 17 Oct 2022 16:13:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=ijV+tBOH3CAg1O8TBC1OMUay4ooftQQ9KDcuGVZaEZ0=; b=s3tmcMbDp0b/SE
-	BkgJNKly3Ug5ltYJtR6Tg6I8SpEiuucTy9pEHPYQnw4os1IHAa/E6GtYOaGlQfMhLfEM06Th/Xcc6
-	DVtY9IwcFnNidfnv15kjPPQj8Ftds9qWiF7h84NdBJXNQRlXDNP8AsH8GEzrHWs5YDmIT5ptiTnDa
-	P0LJvhAKx4UL0pgIdKr51EtGcx2gASbCefRG3Pyd9UrqUYzltkhN/xVLUt36Z/IIz6Kpnc5uU8aXa
-	O11C1vrzMEMeb/RqnnNOO7OMAMmtG0EjAic76QSsw63Hi+koRNR0wHQPBVft4FtjeiafQhnYKwhpq
-	MXRx8tCkO/LnHOolxqEA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=PvTma12kmbnz/E/1aovcbDCQGmV/dGMVrA0Tr+RXp/c=; b=0rjnfEfjy2wJjz
+	07NrNIY7VlzbHRb4+tfLsshvotR8FJvwfpaFPOjsJxdf5dVmKhCLujLatS4h6gHmq0PmSUgg7DCGz
+	yy5acPXq8xzCFzfP6K5GKrp3VNn3w6tK13kpK/sXXJqEDPfJnhPeFJU2wMovFCC1B9PVxQR04ev2h
+	+rf2cJd/i+tpEBanFAFQR8wbceMzV9eDTRXwG4TQ5Ppjn/3BCQ3ydxOnNdRevufms7jeLziY1dQxm
+	FhvHo87jhDSwNw68pRURgl6Gj2nEAgKN0y9J9s5TIoyzU5Taskqyqmsag/6/4WRB3iawot3WN9DQ3
+	5msjujUL36d/IUIFXv6Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1okL3q-008o9F-N2; Mon, 17 Oct 2022 08:01:22 +0000
-Received: from mail.fadrush.pl ([54.37.225.211])
+	id 1okSjd-00Dit7-VW; Mon, 17 Oct 2022 16:13:01 +0000
+Received: from mx0a-00230701.pphosted.com ([148.163.156.19])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1okL3o-008ntC-Cu
-	for linux-snps-arc@lists.infradead.org; Mon, 17 Oct 2022 08:01:21 +0000
-Received: by mail.fadrush.pl (Postfix, from userid 1002)
-	id 66BFE227AA; Mon, 17 Oct 2022 08:00:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fadrush.pl; s=mail;
-	t=1665993668; bh=bD6j9gIFU6CLTaCGl0Ow9oeIxtirvTfMeNZSfLEZQ+I=;
-	h=Date:From:To:Subject:From;
-	b=gShZm8eCiR0oOSfeAMIFazctJ1zImCeqz1HJSCEJhf49DqXwGY+6R4fUhTHV+fmeO
-	 prKvYo/npqQ6gHSgv/hn0VyzTvsFfXhdsBznZliTSwpXTWuvgN/fMkuuC/wLCFw7sm
-	 br3R/MfCxUgBSZVaf7jEoQEP55QsXvGsaiXZAPgW4rIx0fNebe07+4YGgH9PUJ3J88
-	 I8rPDkH1h/f26WrEARprnd/tLihr5QQCWhSgTPW2c5uSMD5SNFEp5h9PoOEqRrtVaN
-	 EVlVrcWVoCC9fF9+SvotEusggS31Ozs/loCYBCHFP2Nr3jHquBnNQz8hNRvwdDLnbP
-	 WBULLtsadzCWw==
-Received: by mail.fadrush.pl for <linux-snps-arc@lists.infradead.org>; Mon, 17 Oct 2022 08:00:39 GMT
-Message-ID: <20221017064500-0.1.29.mjv4.0.doeoygrw35@fadrush.pl>
-Date: Mon, 17 Oct 2022 08:00:39 GMT
-From: "Jakub Olejniczak" <jakub.olejniczak@fadrush.pl>
-To: <linux-snps-arc@lists.infradead.org>
-Subject: =?UTF-8?Q?Zwi=C4=99kszenie_p=C5=82ynno=C5=9Bci_finansowej?=
-X-Mailer: mail.fadrush.pl
+	id 1okSjZ-00Diky-QO
+	for linux-snps-arc@lists.infradead.org; Mon, 17 Oct 2022 16:13:00 +0000
+Received: from pps.filterd (m0297266.ppops.net [127.0.0.1])
+	by mx0a-00230701.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29HF8XxM026263;
+	Mon, 17 Oct 2022 09:12:44 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=pfptdkimsnps; bh=s0XINOAQXbIBhI7TzY3k8hGNCjNSg/n9SIwYo7AVQ9Q=;
+ b=L3gJfnx1uspFWtlTnJXbAXn4/PqqgaMmTdmkKTBdL79elMRRbKr/GrgI0bdlTKpAy+vE
+ mQf08m19v2QIROpZcAKssXra+iwFYKG+JepiYbvv+kbSDSiI0E7a+aq+Bz8l8OQPJDHS
+ WR7D/ZzrB/MAIAsXLp5tQVxGBRLrPDdgKnB8D1UVqkYcgr9XXPq/YLd/dsQSIpX5y7uK
+ /0zDSotckV3JGXyBp3/KxUGBTsq/dbVwWSwvddyvjJXY7uqxGpzbI5SI4C4laKhtGZE2
+ tszVtWPlDZrG2uV3nYP/DHfvG4GHKb1L6Iyhc+FV8/mLXyim8/UQdlBwwONW10lFiCxk Eg== 
+Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.87.133])
+	by mx0a-00230701.pphosted.com (PPS) with ESMTPS id 3k7v452hh8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 17 Oct 2022 09:12:44 -0700
+Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com [10.205.2.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 40639C0103;
+	Mon, 17 Oct 2022 16:12:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1666023163; bh=p5wijw1rO0bbKpnIWS6HHP+bomgJdjtj0aFWkbKLQUo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=JOIa4HI8Kx7W7w7e+/MHRLjMAt7Ndnlr/tXiIsjuFZ4bZ92iAmp+bm9CS7Wb9BFq0
+	 UYoN89s+UgJSZ2YoekQgG5nOv7x0dBtQKsLe0Rsw5G1Upc0S3YRjUNRtqp6Gma0Nge
+	 HKATY3QeQMVL6fpANFVZAARa/Yzf27rbUQo7CHelcYoURE0dzfXiOywblhMrbTzUDX
+	 PtR3d9GpItBcEgsgEHuL8D5TUhJgPiJsE9UwUn4Buzll4SzQeki0dmIECwY026YbAt
+	 TQvw1J0nDBHe6QLzqKMwYG2nYWYQvbekGhRcXEHDaOAyXJxLimtWrPF/5JFEgWpyFf
+	 Kjiq3sz82BTyQ==
+Received: from SNPS-o0WHuHJU73.internal.synopsys.com (snps-o0whuhju73.internal.synopsys.com [10.116.107.23])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(Client did not present a certificate)
+	by mailhost.synopsys.com (Postfix) with ESMTPSA id 43F09A0078;
+	Mon, 17 Oct 2022 16:12:38 +0000 (UTC)
+X-SNPS-Relay: synopsys.com
+From: Pavel.Kozlov@synopsys.com
+To: linux-snps-arc@lists.infradead.org
+Cc: Pavel Kozlov <Pavel.Kozlov@synopsys.com>, Vineet Gupta <vgupta@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>, stable@vger.kernel.org
+Subject: [PATCH] ARC: mm: fix leakage of memory allocated for PTE
+Date: Mon, 17 Oct 2022 20:11:27 +0400
+Message-Id: <20221017161127.24351-1-kozlov@synopsys.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+X-Proofpoint-GUID: NHSJDF_iY1PTgTcLq7tfPEjkQ6vgUwHo
+X-Proofpoint-ORIG-GUID: NHSJDF_iY1PTgTcLq7tfPEjkQ6vgUwHo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-17_13,2022-10-17_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam policy=outbound_active_cloned score=0
+ priorityscore=1501 adultscore=0 clxscore=1011 malwarescore=0 bulkscore=0
+ mlxlogscore=999 mlxscore=0 lowpriorityscore=0 phishscore=0 spamscore=0
+ suspectscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2209130000 definitions=main-2210170094
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221017_010120_630370_C1F26AC2 
-X-CRM114-Status: UNSURE (   0.78  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221017_091257_916884_10763172 
+X-CRM114-Status: GOOD (  20.46  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,24 +93,58 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-RHppZcWEIGRvYnJ5LAoKa29udGFrdHVqxJkgc2nEmSB6IFBhxYRzdHdlbSwgcG9uaWV3YcW8IGNo
-Y2lhxYJieW0gemFwcm9wb25vd2HEhyB3eWdvZG5lIHJvendpxIV6YW5pZSwga3TDs3JlIHVtb8W8
-bGl3aSBQYcWEc3R3YSBmaXJtaWUgc3RhYmlsbnkgcm96d8Ozai4gCgpLb25rdXJlbmN5am5lIG90
-b2N6ZW5pZSB3eW1hZ2EgY2nEhWfFgmVnbyB1bGVwc3phbmlhIGkgcG9zemVyemVuaWEgb2ZlcnR5
-LCBjbyB6IGtvbGVpIHdpxIXFvGUgc2nEmSB6IGtvbmllY3pub8WbY2nEhSBpbndlc3Rvd2FuaWEu
-IEJyYWsgb2Rwb3dpZWRuaWVnbyBrYXBpdGHFgnUgcG93YcW8bmllIG9ncmFuaWN6YSB0ZW1wbyBy
-b3p3b2p1IGZpcm15LgoKT2Qgd2llbHUgbGF0IHogcG93b2R6ZW5pZW0gcG9tYWdhbSBmaXJtb20g
-dyB1enlza2FuaXUgbmFqbGVwc3plaiBmb3JteSBmaW5hbnNvd2FuaWEgeiBiYW5rdSBvcmF6IFVF
-LiBNYW0gc3RhxYJ5Y2ggS2xpZW50w7N3LCBrdMOzcnp5IG5hZGFsIGNoxJl0bmllIGtvcnp5c3Rh
-asSFIHogbW9pY2ggdXPFgnVnLCBhIHRha8W8ZSBwb2xlY2FqxIUgamUgaW5ueW0uCgpDenkgY2hj
-aWVsaWJ5IFBhxYRzdHdvIHNrb3J6eXN0YcSHIHogcG9tb2N5IHd5a3dhbGlmaWtvd2FuZWdvIGkg
-ZG/Fm3dpYWRjem9uZWdvIGRvcmFkY3kgZmluYW5zb3dlZ28/CgoKUG96ZHJhd2lhbQpKYWt1YiBP
-bGVqbmljemFrCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFk
-ZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4
-LXNucHMtYXJjCg==
+From: Pavel Kozlov <pavel.kozlov@synopsys.com>
+
+Since commit d9820ff ("ARC: mm: switch pgtable_t back to struct page *")
+a memory leakage problem occurs. Memory allocated for page table entries
+not released during process termination. This issue can be reproduced by
+a small program that allocates a large amount of memory. After several
+runs, you'll see that the amount of free memory has reduced and will
+continue to reduce after each run. All ARC CPUs are effected by this
+issue. The issue was introduced since the kernel stable release v5.15-rc1.
+
+As described in commit d9820ff after switch pgtable_t back to struct
+page *, a pointer to "struct page" and appropriate functions are used to
+allocate and free a memory page for PTEs, but the pmd_pgtable macro hasn't
+changed and returns the direct virtual address from the PMD (PGD) entry.
+Than this address used as a parameter in the __pte_free() and as a result
+this function couldn't release memory page allocated for PTEs.
+
+Fix this issue by changing the pmd_pgtable macro and returning pointer to
+struct page.
+
+Fixes: d9820ff76f95 ("ARC: mm: switch pgtable_t back to struct page *")
+Signed-off-by: Pavel Kozlov <pavel.kozlov@synopsys.com>
+Cc: Vineet Gupta <vgupta@kernel.org>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: <stable@vger.kernel.org> # 4.15.x
+---
+ arch/arc/include/asm/pgtable-levels.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arc/include/asm/pgtable-levels.h b/arch/arc/include/asm/pgtable-levels.h
+index 64ca25d199be..ef68758b69f7 100644
+--- a/arch/arc/include/asm/pgtable-levels.h
++++ b/arch/arc/include/asm/pgtable-levels.h
+@@ -161,7 +161,7 @@
+ #define pmd_pfn(pmd)		((pmd_val(pmd) & PAGE_MASK) >> PAGE_SHIFT)
+ #define pmd_page(pmd)		virt_to_page(pmd_page_vaddr(pmd))
+ #define set_pmd(pmdp, pmd)	(*(pmdp) = pmd)
+-#define pmd_pgtable(pmd)	((pgtable_t) pmd_page_vaddr(pmd))
++#define pmd_pgtable(pmd)	((pgtable_t) pmd_page(pmd))
+ 
+ /*
+  * 4th level paging: pte
+-- 
+2.25.1
+
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
