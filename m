@@ -4,66 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B8D84C433FE
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 26 Oct 2022 19:20:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3E6BC4332F
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  1 Nov 2022 17:47:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:Date:Message-Id:
-	References:In-Reply-To:From:Subject:Reply-To:Content-ID:Content-Description:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=zbyL1WAToL/soTsZuWshgHSNobMmyYllxJFWHK43czs=; b=iJFyszoF0oSRIp
-	DFKaTOzg9GVljF+U5morD5dPnUPo7XgolOruC3q4KAWH2HqJqgIruKNGhmnzBXeuOtlvt5SAaWO2I
-	5WeJ9v0X9xdATqwvkEVpwa2//CM2bu4V8/3rCTp/IbTo+JozQwmERwz6h1+CRZ87+lYjuWm8flEbA
-	Spr9QiFFJDEyZwOwFAdm7ofF3kM5x76g55g7StAGZKyTeMq6DG9H5J3gWWBLhCNozVNmMvDsy1Ly7
-	G5JM7uKVIWiB8B5o3mfwFwIj5mCivSZNgmHE05yv4GmsRtkWQu7l/rGKKozNIx/3pD49XCukJpFyW
-	MMFscFaB7Rh5L//Xeemg==;
+	List-Owner; bh=sSFaxEda3IxOqVeeG/UanArroskjZpM0HqFmVGcXY3E=; b=jGXJOnFSQlfB3v
+	N3BIjsEfGER/Lq4PGB7UL1FhHZGgLerMb3chfa13evnZ1irgOBDvPWItSfxkJvh/Uc574RewWGzdG
+	KpPNcKO3Q32u3FlN7GjmtEQi3uCjE8sm0QT6zXbnfpsY+voqo5fbtP1uEL8hu+FrKp0q9PF+SJHbn
+	jehJiKYtVrgCdk1SIQwXXshR8HtotNXm6rOG4/Q0Kr9NGIqJGeH3hHU57TMII8D0haZK/8rwtviKe
+	XWqi2DBi6BMA3ak2uX8TIta4Lhiv9nmJzpb4k2uB7CpzH3CSnuZmqjUriBGzlbrfC/zGHyeS+WQdR
+	fXldo5Tg9dXLjsBMcZCQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onlx3-00Akx2-Tn; Wed, 26 Oct 2022 19:20:33 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1opvMA-006MRa-Ev; Tue, 01 Nov 2022 17:47:22 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1onllJ-00Aghd-Oa
-	for linux-snps-arc@lists.infradead.org; Wed, 26 Oct 2022 19:08:30 +0000
+	id 1opvM6-006MP9-3u; Tue, 01 Nov 2022 17:47:19 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 77233B8241F;
-	Wed, 26 Oct 2022 19:08:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1E6F1C433D7;
-	Wed, 26 Oct 2022 19:08:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1666811302;
-	bh=P3L3cdGLMXd0xVqvo/dx7s/uOxH51JWvUkupryq4KJk=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=WjJ7tChHSmjjiWPpdacbl2rUDcmABaF8hozC/DJ1pTgbjCci892N4waYjdvTsilkQ
-	 pluGYQKK7+jZ/XD4hCNw42auNnlZBZOjQ2GR+vRXGrsbhpe5Kb5foPDPxkgluQySus
-	 S1Jk9rKZAQJZ7YowUK+iDJpsLzbwcKqpNxV1+WPqX50/OIdRlCqkgjFF9Q304W6Zft
-	 6EWQozfRROP509/omKlhAmfhYB+scMOiTJi16iryZJ9WWGDxNIGapUZ+37p5ZsYRU+
-	 E4f4IwzSE1KTSmECOyKjjKKIKne7LduH/JamJ0eQwT/NUqSSaE8AvyoeiFizYCjqtO
-	 l4Nt6LW5Y3USw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0B625E270DC;
-	Wed, 26 Oct 2022 19:08:22 +0000 (UTC)
-Subject: Re: [GIT PULL] ARC updates for 6.1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <9ad919b3-b450-8e22-c422-371957c41391@kernel.org>
-References: <9ad919b3-b450-8e22-c422-371957c41391@kernel.org>
-X-PR-Tracked-List-Id: Linux on Synopsys ARC Processors <linux-snps-arc.lists.infradead.org>
-X-PR-Tracked-Message-Id: <9ad919b3-b450-8e22-c422-371957c41391@kernel.org>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-6.1-fixes
-X-PR-Tracked-Commit-Id: 4fd9df10cb7a9289fbd22d669f9f98164d95a1ce
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 98555239e4c3aab1810d84073166eef6d54eeb3d
-Message-Id: <166681130203.7871.1414736923787179270.pr-tracker-bot@kernel.org>
-Date: Wed, 26 Oct 2022 19:08:22 +0000
-To: Vineet Gupta <vgupta@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, lkml <linux-kernel@vger.kernel.org>, arcml <linux-snps-arc@lists.infradead.org>, =?UTF-8?Q?Amadeusz_S=c5=82awi=c5=84ski?= <amadeuszx.slawinski@linux.intel.com>, Jilin Yuan <yuanjilin@cdjrlc.com>, Pavel.Kozlov@synopsys.com, Randy Dunlap <rdunlap@infradead.org>, Serge Semin <fancer.lancer@gmail.com>, Zhang Jiaming <jiaming@nfschina.com>
+	by dfw.source.kernel.org (Postfix) with ESMTPS id DE9F2616A8;
+	Tue,  1 Nov 2022 17:47:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CD53C433D6;
+	Tue,  1 Nov 2022 17:47:05 +0000 (UTC)
+Date: Tue, 1 Nov 2022 17:47:01 +0000
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Kefeng Wang <wangkefeng.wang@huawei.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-alpha@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+	linux-fsdevel@vger.kernel.org,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>,
+	Russell King <linux@armlinux.org.uk>, Will Deacon <will@kernel.org>,
+	Guo Ren <guoren@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Greg Ungerer <gerg@linux-m68k.org>, Michal Simek <monstr@monstr.eu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Dinh Nguyen <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>,
+	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+	Stafford Horne <shorne@gmail.com>,
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>
+Subject: Re: [PATCH] mm: remove kern_addr_valid() completely
+Message-ID: <Y2FblZlz2LIGh5qH@arm.com>
+References: <20221018074014.185687-1-wangkefeng.wang@huawei.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20221018074014.185687-1-wangkefeng.wang@huawei.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221026_120825_985897_C31EA927 
-X-CRM114-Status: UNSURE (   4.82  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221101_104718_212746_2FA9E425 
+X-CRM114-Status: GOOD (  12.81  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,24 +102,23 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The pull request you sent on Tue, 25 Oct 2022 21:05:17 -0700:
+On Tue, Oct 18, 2022 at 03:40:14PM +0800, Kefeng Wang wrote:
+> Most architectures(except arm64/x86/sparc) simply return 1 for
+> kern_addr_valid(), which is only used in read_kcore(), and it
+> calls copy_from_kernel_nofault() which could check whether the
+> address is a valid kernel address, so no need kern_addr_valid(),
+> let's remove unneeded kern_addr_valid() completely.
+> 
+> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-6.1-fixes
+For arm64:
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/98555239e4c3aab1810d84073166eef6d54eeb3d
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
 
 _______________________________________________
 linux-snps-arc mailing list
