@@ -4,41 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0CA82C4332F
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  2 Nov 2022 03:43:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5092C4332F
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  2 Nov 2022 03:46:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=AH7qF0AlG/ucJIsLNW4Y6YGxEHCH4RJlQwcFYCTjcB8=; b=IOo8N6f6G6+1JR
-	wJeMbJIm2/1WBaCa79HR5vLLKH3pa0CB70cfr6q0HPao/qz9g0oIOB9viZj1lLnBHGVamUxKCkOhA
-	N0MCz4Ed0Jqft7Bp8CSBPmIRHMZZntcnsmSBlsZUoizYpS7/EhbjWV0wGDU/k43j4UdZGApPFQJba
-	LSReI3dVM559+ySWsJ8Nf8fuFidc+3tRriBc5G01EwFrsjLcCkF9lC9vG78tQhC+pDONVRUlrlhXK
-	+lYhPTRJwE58tanspof2ED76H9aHM1ksJ8p2WYMyhB1Q9myBEPO11fx6ZaFFuy2fsKqL7Sme/qyVf
-	wCF/Z+oLaXd+piHYJHNw==;
+	List-Owner; bh=AH7qF0AlG/ucJIsLNW4Y6YGxEHCH4RJlQwcFYCTjcB8=; b=kNVbs9+8uSU+47
+	yGsNx+GovUaIGs7t7b3Pky8Dtpo14zrVbWjAPL6BlkFEr4RG6yDNBnxrjvXUlLByBVpMwZutWXcfC
+	GXKuF49Dant/2Db7GHiPWy329ak/mrFqEFB95MDTnTPNZ26AtEXZEk500vzItnOtBpMigFi8DMqdY
+	mNMBayB6waSiYVJJNW+VO6Lbrhti99wLiy3G+DkAz8jy2VtE37GB4l9Q23EcRNHH8HlefNk4DlRsI
+	kTvCMCvOu6zCIGOTf+oQILdTeBuC6JYXKyjrH18sDc7AC6moPj0MquDslIvpBsSDOVnTHkFsVlHDx
+	5nivYy3Hs/JIOUiYg+qw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oq4eo-0088qF-H3; Wed, 02 Nov 2022 03:43:14 +0000
+	id 1oq4hn-00896c-UD; Wed, 02 Nov 2022 03:46:19 +0000
 Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oq4el-0088pZ-6L
-	for linux-snps-arc@lists.infradead.org; Wed, 02 Nov 2022 03:43:12 +0000
+	id 1oq4hl-00895L-VT
+	for linux-snps-arc@lists.infradead.org; Wed, 02 Nov 2022 03:46:19 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id D8CCEB8205C;
-	Wed,  2 Nov 2022 03:43:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2A8EC433D7;
-	Wed,  2 Nov 2022 03:43:07 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTPS id A6D77B82071;
+	Wed,  2 Nov 2022 03:46:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 902CDC433D6;
+	Wed,  2 Nov 2022 03:46:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1667360588;
+	s=korg; t=1667360774;
 	bh=EGgt/f4egVDDTJ1p5uzb0miQFFnQ4Z5q5N2Epy+h1h8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sQOrrLfxywjUeSYRF/2+opNseCuYNDUQ//33oY9/xCQWg4php9Su0+5wOqoF5KJp2
-	 DDH2S909h+PdJZPkUjr/AQMmI3hVJAMa2lQbq8POjViSgF8Wkz9G5VV1i7h1renH4A
-	 DmPR1pdyy0qGeCOu6MRWYBMyQDU1xTNsOx1ii5fw=
+	b=QkLc66za0XzNaDbcCvcGkRJOLWWq5Vmim+jpJROir2/B47KtDxZzAY27lMAYzG5bt
+	 9stdklLWv3oVBgzyPuTuoVwZNhaJ77/tChHxzNhPjv9zzfKjdaZZ9mx7rC0p5bsUwX
+	 FewlIztBKfbdhGdrHhtM0/gFNDDxXi4sbYUjszOM=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -48,16 +48,16 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-snps-arc@lists.infradead.org,
 	Arnd Bergmann <arnd@arndb.de>,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.14 37/60] arc: iounmap() arg is volatile
-Date: Wed,  2 Nov 2022 03:34:58 +0100
-Message-Id: <20221102022052.291402518@linuxfoundation.org>
+Subject: [PATCH 4.9 27/44] arc: iounmap() arg is volatile
+Date: Wed,  2 Nov 2022 03:35:13 +0100
+Message-Id: <20221102022050.019523678@linuxfoundation.org>
 X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221102022051.081761052@linuxfoundation.org>
-References: <20221102022051.081761052@linuxfoundation.org>
+In-Reply-To: <20221102022049.017479464@linuxfoundation.org>
+References: <20221102022049.017479464@linuxfoundation.org>
 User-Agent: quilt/0.67
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221101_204311_384871_97FF05B5 
+X-CRM114-CacheID: sfid-20221101_204618_164885_2B981CFF 
 X-CRM114-Status: GOOD (  14.84  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
