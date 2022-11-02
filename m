@@ -4,41 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12A6AC433FE
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  2 Nov 2022 03:17:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AA63C4332F
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  2 Nov 2022 03:23:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=X8FWy842Njktc2GSYiBU9Y1keaCc69PykhA9udPQ/fU=; b=WJFpQAGx8TWC2P
-	gtnM4FAXO4ttZZIcJ+WBq58HU7sODFMuS89CAfVfQoG8Ix6Pfs4Iq2BDm0EJ+L1FJyJSdp6wuF5X6
-	AxjTV8oEuxmPoqRxiPEOjICwdwDZFk1kyI7KmAaU4aplzpzvMQlaxOqSmzZPB7ynH4+4DwtvnPWc2
-	6epDjubgGu5UZHYkfJ/kuy0ytCdsVPA6JcVMsa9BMUPb8JUAsMAmz/bAcW7unrv9b2+COzmnDF/Vv
-	UgeOFTgnL22/NfYsv02j6L8PIVKSMzQKe0d4faNGhqYyq5lbqtnCxUaZzka0FFgHlxtkWc3ZgkZNF
-	UnHX/ABwWEhUQd4cA+xw==;
+	List-Owner; bh=2PKN9YQneAktHPlcDPGv5lQkX8+rt0gjMtuqIyklY14=; b=bYV86ea8zsAMrP
+	lzGnDb8wqzcaaY8VKOtPmUl//iPvzvI5fSVXUkRWrbG/OvroynASR3iicJPJ42ck21N7iL5/t33gm
+	QVFPOPJSqmR8QfoVD1Nl1qcnZI/KJphF+5DaVVfqQQIdAv6K/NrFJBUtL+XQRTqJoejdax6Uktsmh
+	SNCaNfIpPsG3d3pGiDKbaWVQCGd/8dZs1Z60BnDQPtUh3uln0Qm22G8UzKeKIs344cfgj223RZYmp
+	reh9XzdbyKndXX8Yce9FSngLb5R0T/nkkOqzme7sEYrBPqI8Q/GcIqU8a+KDjC4SRecinDJA95SGg
+	OwtShKCjf10K7kxtoOWA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oq4Fu-0085o3-0d; Wed, 02 Nov 2022 03:17:30 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1oq4Lg-0086nY-Ee; Wed, 02 Nov 2022 03:23:28 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oq4Fr-0085mS-39
-	for linux-snps-arc@lists.infradead.org; Wed, 02 Nov 2022 03:17:28 +0000
+	id 1oq4Ld-0086lg-Mb
+	for linux-snps-arc@lists.infradead.org; Wed, 02 Nov 2022 03:23:27 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 6996AB82062;
-	Wed,  2 Nov 2022 03:17:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43B64C433D6;
-	Wed,  2 Nov 2022 03:17:22 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id D6C9D61799;
+	Wed,  2 Nov 2022 03:23:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD5E1C433C1;
+	Wed,  2 Nov 2022 03:23:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1667359044;
-	bh=Htpbd74/gnOpNzZFZ33MrrXIwKHFRPdEFe2DJm9mTnA=;
+	s=korg; t=1667359404;
+	bh=mGeXFue0RJ9wI2V7koNOKJKOoK75ZqyOGehA6YPdnec=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nP0XJdRMqDGLMin96ThbVL9CLFCivr1UgYQdzLnbExrQh5TjWVx2cEMGbvmA9Zv4y
-	 2gS0vPKgf7SmAd+HqnUaYQiM3/jc9WAhAXDLojyzqocHwagUe+MFlPUYWwze3Tkp4z
-	 Ot3CNTHqBnxjIx+wEweE6BOUgMxOzV9xOjXkWaG8=
+	b=MOMgvYou8huALYMLgDmjD8UPadJmLEdWUOvkjnJ9I/sP5V/Pf7D2CriB0SFayuZaW
+	 bf0flFGTb0LA/Me10OHO189kROIbscxkNpsmXBnkLvoN8MVE/5Q1GeHjrlJQI2F8jC
+	 xSXaoBHsvVnJS0cLjUytSYSDPoJFmrenViO6tM1g=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -48,17 +48,17 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-snps-arc@lists.infradead.org,
 	Arnd Bergmann <arnd@arndb.de>,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.10 40/91] arc: iounmap() arg is volatile
-Date: Wed,  2 Nov 2022 03:33:23 +0100
-Message-Id: <20221102022056.172902522@linuxfoundation.org>
+Subject: [PATCH 5.4 33/64] arc: iounmap() arg is volatile
+Date: Wed,  2 Nov 2022 03:33:59 +0100
+Message-Id: <20221102022052.890559342@linuxfoundation.org>
 X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221102022055.039689234@linuxfoundation.org>
-References: <20221102022055.039689234@linuxfoundation.org>
+In-Reply-To: <20221102022051.821538553@linuxfoundation.org>
+References: <20221102022051.821538553@linuxfoundation.org>
 User-Agent: quilt/0.67
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221101_201727_307312_5E10525B 
-X-CRM114-Status: GOOD (  15.05  )
+X-CRM114-CacheID: sfid-20221101_202325_779668_17813FBB 
+X-CRM114-Status: GOOD (  14.84  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,7 +101,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/arch/arc/include/asm/io.h b/arch/arc/include/asm/io.h
-index 8f777d6441a5..80347382a380 100644
+index 72f7929736f8..94ef71b38b69 100644
 --- a/arch/arc/include/asm/io.h
 +++ b/arch/arc/include/asm/io.h
 @@ -32,7 +32,7 @@ static inline void ioport_unmap(void __iomem *addr)
@@ -111,8 +111,8 @@ index 8f777d6441a5..80347382a380 100644
 -extern void iounmap(const void __iomem *addr);
 +extern void iounmap(const volatile void __iomem *addr);
  
- /*
-  * io{read,write}{16,32}be() macros
+ #define ioremap_nocache(phy, sz)	ioremap(phy, sz)
+ #define ioremap_wc(phy, sz)		ioremap(phy, sz)
 diff --git a/arch/arc/mm/ioremap.c b/arch/arc/mm/ioremap.c
 index 95c649fbc95a..d3b1ea16e9cd 100644
 --- a/arch/arc/mm/ioremap.c
