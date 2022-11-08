@@ -4,49 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF2BCC4332F
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  8 Nov 2022 09:06:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C766FC43217
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  8 Nov 2022 13:44:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=3MEYLqzPTvQprpiLLJa/pkOBg3VWMsUT7NPdc1077d4=; b=xwZma4FVd9YV30
-	mYpq0jTTnUZunhoSwn24Gld/72pvmGenM2MoF3/2zJwyX/iSGl8f8UZOA6Zx2kBMm5gcC1vXtgLyZ
-	QmFvl4D/SACj3kEhMQHjMIzdP7kvVJid+J+4mcWUJjHAbumiDgUHfMBVPQ7K2NP7L0l/kdiGiPs6C
-	vYglQaOI/Vc0ZatK2onWt4cr1TUF7OTtsNPqNYkKXwv/k6nDzX9ShRB8MDFmaF4H3L9a2U+2D3DAH
-	YBClWrbf3Anvcv8w6ybnRF6AkOWJVpKpF8etAbaI1Y5STmasE+3fwB+L4cNWX3h7jamlh69B/5ov2
-	L8kjUhzDITOa4kzad4aA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:CC
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=EVv8+x6sQPbWT+ZnXJ6BQj1lBSkqqpOxZA31VPezW/o=; b=xZYy9uQaWKnFHd
+	Z3Ds4S7yx7KLlCx+cGiO3ZAf/WVaeh2UFzkgj5NMuFwLNNQMHl5W9xKMEmHOP58nbIZo9u6rNzHu1
+	FltUs350MqC5+KyWadGctAVlOfAx8LG0LuGM4oo4jSBzsk3FBaJX4Uc5+hU241dhTCR9SxCsy21jq
+	MSoV+3DkBoC83O6iLcqlzbIYbhVHarEmtTVFxiB29tIKi7rzi5kNTsAxfjEotO4AU+6XvagaoCSdU
+	KaO0o1uKkUIVgrL6PUx7bCZco3Ygih7ET08m8XO92FEuI8Rid0MV1d8505cWi6RCFBZlaVvPoaSId
+	BMHR68xMuax6D5x6sUyQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osKYf-003xDO-32; Tue, 08 Nov 2022 09:06:13 +0000
-Received: from mail.lokoho.com ([217.61.105.98])
+	id 1osOtT-005gXU-4w; Tue, 08 Nov 2022 13:43:59 +0000
+Received: from szxga03-in.huawei.com ([45.249.212.189])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osKYd-003xD4-B7
-	for linux-snps-arc@lists.infradead.org; Tue, 08 Nov 2022 09:06:12 +0000
-Received: by mail.lokoho.com (Postfix, from userid 1001)
-	id AAD2882703; Tue,  8 Nov 2022 09:06:00 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
-	t=1667898368; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
-	h=Date:From:To:Subject:From;
-	b=ItpPvFEaaAb/eltV2dE31Q/IcIFWAV/1XjOPeXrK2CQ5/mHAPhQIUcYNR4FLT9YLQ
-	 MVTCAPC45CFWLM5lRC0aav3ol0/5n+8bKpQuHkcBoHg/793BfiJFQbclRjOWjEO5Sw
-	 0yCDS5cQfTisaJ9qbnIlzjQMPvCD0gMN/HGTppCD/A7zITY2nL5Sni61nwF06QfYyz
-	 /wWi+k1vDn+Kqmzo2v4qEy/MnzgrlhSoAsA3zblMezNMglLoqB9+xJWKc7Unbl35P5
-	 R1imEovSkTMwfJ6CwEAiWcVNdzUdphu3d9Y+LiA26ET2/jaifL9uoYGGZrOD6erRsS
-	 9J01cCFS1PAUQ==
-Received: by mail.lokoho.com for <linux-snps-arc@lists.infradead.org>; Tue,  8 Nov 2022 09:05:50 GMT
-Message-ID: <20221108074500-0.1.24.5okq.0.vqwvz0tcml@lokoho.com>
-Date: Tue,  8 Nov 2022 09:05:50 GMT
-From: "Adam Charachuta" <adam.charachuta@lokoho.com>
-To: <linux-snps-arc@lists.infradead.org>
-Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
-X-Mailer: mail.lokoho.com
+	id 1osOtQ-005gVf-07
+	for linux-snps-arc@lists.infradead.org; Tue, 08 Nov 2022 13:43:57 +0000
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.56])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4N68PW4N4jzHqLF;
+	Tue,  8 Nov 2022 21:40:47 +0800 (CST)
+Received: from dggpemm500008.china.huawei.com (7.185.36.136) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 8 Nov 2022 21:43:47 +0800
+Received: from huawei.com (10.67.174.191) by dggpemm500008.china.huawei.com
+ (7.185.36.136) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 8 Nov
+ 2022 21:43:47 +0800
+From: Chen Hui <judy.chenhui@huawei.com>
+To: <vgupta@kernel.org>, <Vladislav.Zakharov@synopsys.com>
+CC: <linux-snps-arc@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<judy.chenhui@huawei.com>
+Subject: [PATCH] arch: arc: Fix memory leak in show_cpuinfo()
+Date: Tue, 8 Nov 2022 22:12:41 +0800
+Message-ID: <20221108141241.42007-1-judy.chenhui@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
+X-Originating-IP: [10.67.174.191]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500008.china.huawei.com (7.185.36.136)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221108_010611_530213_8DA0848B 
-X-CRM114-Status: UNSURE (   1.31  )
+X-CRM114-CacheID: sfid-20221108_054356_241491_D89F06E5 
+X-CRM114-Status: UNSURE (   7.11  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -59,19 +64,37 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-RHppZcWEIGRvYnJ5LAoKemFwb3puYcWCZW0gc2nEmSB6IFBhxYRzdHdhIG9mZXJ0xIUgaSB6IHBy
-enlqZW1ub8WbY2nEhSBwcnp5em5hasSZLCDFvGUgcHJ6eWNpxIVnYSB1d2FnxJkgaSB6YWNoxJlj
-YSBkbyBkYWxzenljaCByb3ptw7N3LiAKClBvbXnFm2xhxYJlbSwgxbxlIG1vxbxlIG3Ds2fFgmJ5
-bSBtaWXEhyBzd8OzaiB3a8WCYWQgdyBQYcWEc3R3YSByb3p3w7NqIGkgcG9tw7NjIGRvdHJ6ZcSH
-IHogdMSFIG9mZXJ0xIUgZG8gd2nEmWtzemVnbyBncm9uYSBvZGJpb3Jjw7N3LiBQb3p5Y2pvbnVq
-xJkgc3Ryb255IHd3dywgZHppxJlraSBjemVtdSBnZW5lcnVqxIUgxZt3aWV0bnkgcnVjaCB3IHNp
-ZWNpLgoKTW/FvGVteSBwb3Jvem1hd2lhxIcgdyBuYWpibGnFvHN6eW0gY3phc2llPwoKClBvemRy
-YXdpYW0KQWRhbSBDaGFyYWNodXRhCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNA
-bGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
+The "cpu_clk" resource is malloced by clk_get(),
+it is not released when the function return.
+
+Fixes: 7f35144cea21 ("ARC: get rate from clk driver instead of reading device tree")
+Signed-off-by: Chen Hui <judy.chenhui@huawei.com>
+---
+ arch/arc/kernel/setup.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+index 41f07b3e594e..9457c7ad8707 100644
+--- a/arch/arc/kernel/setup.c
++++ b/arch/arc/kernel/setup.c
+@@ -637,6 +637,7 @@ static int show_cpuinfo(struct seq_file *m, void *v)
+ 			   cpu_id);
+ 	} else {
+ 		freq = clk_get_rate(cpu_clk);
++		clk_put(cpu_clk);
+ 	}
+ 	if (freq)
+ 		seq_printf(m, "CPU speed\t: %lu.%02lu Mhz\n",
+-- 
+2.17.1
+
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
