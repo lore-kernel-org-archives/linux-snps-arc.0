@@ -4,116 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C649EC433FE
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 16 Nov 2022 15:45:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D17B6C43219
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 17 Nov 2022 09:08:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=2YO8H7UnjDKE7GAzZVFhWxIagimSzea9Eqs1IAGtML0=; b=233n+J6Um//UR3
-	YNpSJw6L2Q2NVPLTrGk/q2g22j9qLGyiljLXOX7hprmD5F2oIsBN5iLALOXynt6glwni017fYWPsn
-	zZSAvmm5+RP23Y6lhetKirasuelBO1Fkkqv9wmK/75HuQAQrAmRKIkvB/90evuKCISrw6JyJmiVUQ
-	MIuJXYS8/Uqg5YbFahvJC7peLvkPy9mNsChB7prUfKydwxSgLYEB0zZixahF/v8aJaZiQ32P9PGMK
-	1RqOkpIQ6pS/Bq/yFdriIA1oo6fBXltfsXKlSsi1GJZrpyu0+HqicseC56z4ooHUMfZFHGQvV5gjs
-	r88VmfBpv5EbO3nanyFg==;
+	List-Owner; bh=wffBAxw8vu0bzl8JEugV937kudAX4Vb+dkBDPygjwBM=; b=tYYDeIt02soeiq
+	RJFS6BoOYLqKV3aeXr+4sY/1skDFZIr4h5hqB8Wwm5klFusIKvM/qijFw/uC8MppXj7+pZCJ4Tmxi
+	oJMUFEUKwIJ411aY1O7b9aVbx7q85U+incddoWi8ITZ4fcp9vhLNAbMFxTmZ73H8uLBZdv/asSmSg
+	4Sa7wDf7PjBhxLiTrwPD7zgN+fn5yJfefsT1BbihsWyliQyHa7fhtcCuf/A5Y7ilkLJs4+HkEJB8z
+	W8jywzMpY6bJhRSDfvIK0YUaH475aczlv5ekOT6lNo1b0jHdl548Ij+BChN1sIeONZd02xOdx/Vh5
+	hJWfBk43KDL3fpdJStzg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ovKbo-005Yeb-2x; Wed, 16 Nov 2022 15:45:52 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1ovasu-00Bwld-Fi; Thu, 17 Nov 2022 09:08:36 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ovKbm-005Yac-Ki; Wed, 16 Nov 2022 15:45:50 +0000
+	id 1ovasj-00BwjM-Mk; Thu, 17 Nov 2022 09:08:25 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=4XDB6ZbR3Awa7mOslon9xFqMWj0psrdiARhozQeRyJA=; b=ojmz8ZQZRjWLwoZ+ZS6FE8f3wJ
-	CK/Bfmqct5VYOUjRLjwRUWfkj35XZefJ6rca1+nPPtygcRUJXw3oJxKETAjWhIaiftafRsk0CMEh/
-	J5wMjH2Yp5CEFUqc/1mDEFzmv3Mdc0yTnj+SwdQ0sRpQuWbK4I02ssc+mSnaitRZ9Z5Pb/uIPVtsU
-	st8GbHUXc6nOUdEUbfkWcYSrzPEq8tBNp8Q5TCrMo7R2Ryh6BF7TlrqxiIkBjw+Pw8cZuNB/6D6gn
-	mTk80fyh/EA5plmymKut6SRYIZtv3PlZQv81WS10aMHXoX+xNjxLwlZaIoKttXuf1J3/ppa8RmuTu
-	XBGgqr+w==;
+	bh=aQk2rEVdOyLC8MBnXpxdsdOtZKvioHnImfV1oOS2Xtg=; b=I3xClU65IacOMLf2bWeSauP7FF
+	FV50Hi48EBk2WK6Yehcm6XtdcO6hf4dsN2DMpSf1Q8J+ZcUcJOT8oIO1945EQRsvfdc4JvICopd0l
+	Ui4r6qLsEQxO7P9sxXUeh9gS9sZqkCJSKZK2ctS17TuNst0NjO4G5IjBK7pt6TA2UoyWMLe7JrlZ4
+	3rVanZNI9MF1KBvk8SzTNZKx8hjhh1qDV56hj7OC6Wv8JNJ6ypUqg8KZLLfwkKn7jGczcYvLbevRx
+	fdi5hL+kowpdqhlUAfa1HbfNoACRcwrRe8SG0NXXobWd3RkjDM5DSjIiSED2Yxip/fi/HuoFKOMRj
+	0mZtwn6g==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ovKLd-001NF8-IY; Wed, 16 Nov 2022 15:29:09 +0000
+	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1ovasi-000qMs-De; Thu, 17 Nov 2022 09:08:24 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id CE5513006A4;
-	Wed, 16 Nov 2022 16:29:05 +0100 (CET)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D7E6F30002E;
+	Thu, 17 Nov 2022 10:08:15 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id A500120832696; Wed, 16 Nov 2022 16:29:05 +0100 (CET)
-Date: Wed, 16 Nov 2022 16:29:05 +0100
+	id C282320B670CB; Thu, 17 Nov 2022 10:08:15 +0100 (CET)
+Date: Thu, 17 Nov 2022 10:08:15 +0100
 From: Peter Zijlstra <peterz@infradead.org>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: juri.lelli@redhat.com, rafael@kernel.org, catalin.marinas@arm.com,
-	linus.walleij@linaro.org, bsegall@google.com, guoren@kernel.org,
-	pavel@ucw.cz, agordeev@linux.ibm.com, linux-arch@vger.kernel.org,
-	vincent.guittot@linaro.org, mpe@ellerman.id.au,
-	chenhuacai@kernel.org, christophe.leroy@csgroup.eu,
-	linux-acpi@vger.kernel.org, agross@kernel.org, geert@linux-m68k.org,
-	linux-imx@nxp.com, vgupta@kernel.org, mattst88@gmail.com,
-	mturquette@baylibre.com, sammy@sammy.net, pmladek@suse.com,
-	linux-pm@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
-	linux-um@lists.infradead.org, npiggin@gmail.com, tglx@linutronix.de,
-	linux-omap@vger.kernel.org, dietmar.eggemann@arm.com,
-	andreyknvl@gmail.com, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
-	senozhatsky@chromium.org, svens@linux.ibm.com, jolsa@kernel.org,
-	tj@kernel.org, Andrew Morton <akpm@linux-foundation.org>,
-	mark.rutland@arm.com, linux-ia64@vger.kernel.org,
-	dave.hansen@linux.intel.com,
-	virtualization@lists.linux-foundation.org,
-	James.Bottomley@hansenpartnership.com, jcmvbkbc@gmail.com,
-	thierry.reding@gmail.com, kernel@xen0n.name, cl@linux.com,
-	linux-s390@vger.kernel.org, vschneid@redhat.com,
-	john.ogness@linutronix.de, ysato@users.sourceforge.jp,
-	linux-sh@vger.kernel.org, festevam@gmail.com, deller@gmx.de,
-	daniel.lezcano@linaro.org, jonathanh@nvidia.com, dennis@kernel.org,
-	lenb@kernel.org, linux-xtensa@linux-xtensa.org,
-	kernel@pengutronix.de, gor@linux.ibm.com,
-	linux-arm-msm@vger.kernel.org, linux-alpha@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
-	shorne@gmail.com, chris@zankel.net, sboyd@kernel.org,
-	dinguyen@kernel.org, bristot@redhat.com,
-	alexander.shishkin@linux.intel.com, fweisbec@gmail.com,
-	lpieralisi@kernel.org, atishp@atishpatra.org,
-	linux@rasmusvillemoes.dk, kasan-dev@googlegroups.com,
-	will@kernel.org, boris.ostrovsky@oracle.com, khilman@kernel.org,
-	linux-csky@vger.kernel.org, pv-drivers@vmware.com,
-	linux-snps-arc@lists.infradead.org, mgorman@suse.de,
-	jacob.jun.pan@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
-	ulli.kroll@googlemail.com, linux-clk@vger.kernel.org,
-	rostedt@goodmis.org, ink@jurassic.park.msu.ru, bcain@quicinc.com,
-	tsbogend@alpha.franken.de, linux-parisc@vger.kernel.org,
-	ryabinin.a.a@gmail.com, sudeep.holla@arm.com, shawnguo@kernel.org,
-	davem@davemloft.net, dalias@libc.org, tony@atomide.com,
-	amakhalov@vmware.com, konrad.dybcio@somainline.org,
-	bjorn.andersson@linaro.org, glider@google.com, hpa@zytor.com,
-	sparclinux@vger.kernel.org, linux-hexagon@vger.kernel.org,
-	linux-riscv@lists.infradead.org, vincenzo.frascino@arm.com,
-	anton.ivanov@cambridgegreys.com, jonas@southpole.se,
-	yury.norov@gmail.com, richard@nod.at, x86@kernel.org,
-	linux@armlinux.org.uk, mingo@redhat.com, aou@eecs.berkeley.edu,
-	hca@linux.ibm.com, richard.henderson@linaro.org,
-	stefan.kristiansson@saunalahti.fi, openrisc@lists.librecores.org,
-	acme@kernel.org, paul.walmsley@sifive.com,
-	linux-tegra@vger.kernel.org, namhyung@kernel.org,
-	andriy.shevchenko@linux.intel.com, jpoimboe@kernel.org,
-	dvyukov@google.com, jgross@suse.com, monstr@monstr.eu,
-	linux-mips@vger.kernel.org, palmer@dabbelt.com, anup@brainfault.org,
-	bp@alien8.de, johannes@sipsolutions.net,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v2 12/44] cpuidle,dt: Push RCU-idle into driver
-Message-ID: <Y3UBwYNY15ETUKy9@hirez.programming.kicks-ass.net>
-References: <20220919095939.761690562@infradead.org>
- <20220919101521.139727471@infradead.org>
- <CAPDyKFqTWd4W5Ofk76CtC4X43dxBTNHtmY9YzN355-vpviLsPw@mail.gmail.com>
+To: Valentin Schneider <vschneid@redhat.com>
+Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+	openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+	x86@kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Daniel Bristot de Oliveira <bristot@redhat.com>,
+	Marcelo Tosatti <mtosatti@redhat.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Marc Zyngier <maz@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Nicholas Piggin <npiggin@gmail.com>, Guo Ren <guoren@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>
+Subject: Re: [RFC PATCH v2 4/8] smp: Trace IPIs sent via
+ arch_send_call_function_ipi_mask()
+Message-ID: <Y3X5/65o8127DgZl@hirez.programming.kicks-ass.net>
+References: <20221102182949.3119584-1-vschneid@redhat.com>
+ <20221102183336.3120536-3-vschneid@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAPDyKFqTWd4W5Ofk76CtC4X43dxBTNHtmY9YzN355-vpviLsPw@mail.gmail.com>
+In-Reply-To: <20221102183336.3120536-3-vschneid@redhat.com>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -130,173 +96,36 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-
-Sorry; things keep getting in the way of finishing this :/
-
-As such, I need a bit of time to get on-track again..
-
-On Tue, Oct 04, 2022 at 01:03:57PM +0200, Ulf Hansson wrote:
-
-> > --- a/drivers/acpi/processor_idle.c
-> > +++ b/drivers/acpi/processor_idle.c
-> > @@ -1200,6 +1200,8 @@ static int acpi_processor_setup_lpi_stat
-> >                 state->target_residency = lpi->min_residency;
-> >                 if (lpi->arch_flags)
-> >                         state->flags |= CPUIDLE_FLAG_TIMER_STOP;
-> > +               if (lpi->entry_method == ACPI_CSTATE_FFH)
-> > +                       state->flags |= CPUIDLE_FLAG_RCU_IDLE;
+On Wed, Nov 02, 2022 at 06:33:32PM +0000, Valentin Schneider wrote:
+> This simply wraps around the arch function and prepends it with a
+> tracepoint, similar to send_call_function_single_ipi().
 > 
-> I assume the state index here will never be 0?
+> Signed-off-by: Valentin Schneider <vschneid@redhat.com>
+> ---
+>  kernel/smp.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 > 
-> If not, it may lead to that acpi_processor_ffh_lpi_enter() may trigger
-> CPU_PM_CPU_IDLE_ENTER_PARAM() to call ct_cpuidle_enter|exit() for an
-> idle-state that doesn't have the CPUIDLE_FLAG_RCU_IDLE bit set.
+> diff --git a/kernel/smp.c b/kernel/smp.c
+> index e2ca1e2f31274..c4d561cf50d45 100644
+> --- a/kernel/smp.c
+> +++ b/kernel/smp.c
+> @@ -160,6 +160,13 @@ void __init call_function_init(void)
+>  	smpcfd_prepare_cpu(smp_processor_id());
+>  }
+>  
+> +static inline void
 
-I'm not quite sure I see how. AFAICT this condition above implies
-acpi_processor_ffh_lpi_enter() gets called, no?
+Given the use of _RET_IP_, I would strongly recommend you use
+__always_inline.
 
-Which in turn is an unconditional __CPU_PM_CPU_IDLE_ENTER() user, so
-even if idx==0, it ends up in ct_idle_{enter,exit}().
+> +send_call_function_ipi_mask(const struct cpumask *mask)
+> +{
+> +	trace_ipi_send_cpumask(mask, _RET_IP_, func);
 
-> 
-> >                 state->enter = acpi_idle_lpi_enter;
-> >                 drv->safe_state_index = i;
-> >         }
-> > --- a/drivers/cpuidle/cpuidle-arm.c
-> > +++ b/drivers/cpuidle/cpuidle-arm.c
-> > @@ -53,6 +53,7 @@ static struct cpuidle_driver arm_idle_dr
-> >          * handler for idle state index 0.
-> >          */
-> >         .states[0] = {
-> > +               .flags                  = CPUIDLE_FLAG_RCU_IDLE,
-> 
-> Comparing arm64 and arm32 idle-states/idle-drivers, the $subject
-> series ends up setting the CPUIDLE_FLAG_RCU_IDLE for the ARM WFI idle
-> state (state zero), but only for the arm64 and psci cases (mostly
-> arm64). For arm32 we would need to update the ARM_CPUIDLE_WFI_STATE
-> too, as that is what most arm32 idle-drivers are using. My point is,
-> the code becomes a bit inconsistent.
+What's func?
 
-True.
-
-> Perhaps it's easier to avoid setting the CPUIDLE_FLAG_RCU_IDLE bit for
-> all of the ARM WFI idle states, for both arm64 and arm32?
-
-As per the below?
-
-> 
-> >                 .enter                  = arm_enter_idle_state,
-> >                 .exit_latency           = 1,
-> >                 .target_residency       = 1,
-
-> > --- a/include/linux/cpuidle.h
-> > +++ b/include/linux/cpuidle.h
-> > @@ -282,14 +282,18 @@ extern s64 cpuidle_governor_latency_req(
-> >         int __ret = 0;                                                  \
-> >                                                                         \
-> >         if (!idx) {                                                     \
-> > +               ct_idle_enter();                                        \
-> 
-> According to my comment above, we should then drop these calls to
-> ct_idle_enter and ct_idle_exit() here. Right?
-
-Yes, if we ensure idx==0 never has RCU_IDLE set then these must be
-removed.
-
-> >                 cpu_do_idle();                                          \
-> > +               ct_idle_exit();                                         \
-> >                 return idx;                                             \
-> >         }                                                               \
-> >                                                                         \
-> >         if (!is_retention)                                              \
-> >                 __ret =  cpu_pm_enter();                                \
-> >         if (!__ret) {                                                   \
-> > +               ct_idle_enter();                                        \
-> >                 __ret = low_level_idle_enter(state);                    \
-> > +               ct_idle_exit();                                         \
-> >                 if (!is_retention)                                      \
-> >                         cpu_pm_exit();                                  \
-> >         }                                                               \
-> >
-
-So the basic premise is that everything that needs RCU inside the idle
-callback must set CPUIDLE_FLAG_RCU_IDLE and by doing that promise to
-call ct_idle_{enter,exit}() themselves.
-
-Setting RCU_IDLE is required when there is RCU usage, however even if
-there is no RCU usage, setting RCU_IDLE is fine, as long as
-ct_idle_{enter,exit}() then get called.
-
-
-So does the below (delta) look better to you?
-
---- a/drivers/acpi/processor_idle.c
-+++ b/drivers/acpi/processor_idle.c
-@@ -1218,7 +1218,7 @@ static int acpi_processor_setup_lpi_stat
- 		state->target_residency = lpi->min_residency;
- 		if (lpi->arch_flags)
- 			state->flags |= CPUIDLE_FLAG_TIMER_STOP;
--		if (lpi->entry_method == ACPI_CSTATE_FFH)
-+		if (i != 0 && lpi->entry_method == ACPI_CSTATE_FFH)
- 			state->flags |= CPUIDLE_FLAG_RCU_IDLE;
- 		state->enter = acpi_idle_lpi_enter;
- 		drv->safe_state_index = i;
---- a/drivers/cpuidle/cpuidle-arm.c
-+++ b/drivers/cpuidle/cpuidle-arm.c
-@@ -53,7 +53,7 @@ static struct cpuidle_driver arm_idle_dr
- 	 * handler for idle state index 0.
- 	 */
- 	.states[0] = {
--		.flags			= CPUIDLE_FLAG_RCU_IDLE,
-+		.flags			= 0,
- 		.enter                  = arm_enter_idle_state,
- 		.exit_latency           = 1,
- 		.target_residency       = 1,
---- a/drivers/cpuidle/cpuidle-psci.c
-+++ b/drivers/cpuidle/cpuidle-psci.c
-@@ -357,7 +357,7 @@ static int psci_idle_init_cpu(struct dev
- 	 * PSCI idle states relies on architectural WFI to be represented as
- 	 * state index 0.
- 	 */
--	drv->states[0].flags = CPUIDLE_FLAG_RCU_IDLE;
-+	drv->states[0].flags = 0;
- 	drv->states[0].enter = psci_enter_idle_state;
- 	drv->states[0].exit_latency = 1;
- 	drv->states[0].target_residency = 1;
---- a/drivers/cpuidle/cpuidle-qcom-spm.c
-+++ b/drivers/cpuidle/cpuidle-qcom-spm.c
-@@ -72,7 +72,7 @@ static struct cpuidle_driver qcom_spm_id
- 	.owner = THIS_MODULE,
- 	.states[0] = {
- 		.enter			= spm_enter_idle_state,
--		.flags			= CPUIDLE_FLAG_RCU_IDLE,
-+		.flags			= 0,
- 		.exit_latency		= 1,
- 		.target_residency	= 1,
- 		.power_usage		= UINT_MAX,
---- a/drivers/cpuidle/cpuidle-riscv-sbi.c
-+++ b/drivers/cpuidle/cpuidle-riscv-sbi.c
-@@ -337,7 +337,7 @@ static int sbi_cpuidle_init_cpu(struct d
- 	drv->cpumask = (struct cpumask *)cpumask_of(cpu);
- 
- 	/* RISC-V architectural WFI to be represented as state index 0. */
--	drv->states[0].flags = CPUIDLE_FLAG_RCU_IDLE;
-+	drv->states[0].flags = 0;
- 	drv->states[0].enter = sbi_cpuidle_enter_state;
- 	drv->states[0].exit_latency = 1;
- 	drv->states[0].target_residency = 1;
---- a/include/linux/cpuidle.h
-+++ b/include/linux/cpuidle.h
-@@ -282,9 +282,7 @@ extern s64 cpuidle_governor_latency_req(
- 	int __ret = 0;							\
- 									\
- 	if (!idx) {							\
--		ct_idle_enter();					\
- 		cpu_do_idle();						\
--		ct_idle_exit();						\
- 		return idx;						\
- 	}								\
- 									\
+> +	arch_send_call_function_ipi_mask(mask);
+> +}
 
 _______________________________________________
 linux-snps-arc mailing list
