@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71DBDC47090
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  6 Dec 2022 14:48:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 300E2C4708C
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  6 Dec 2022 14:48:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=u0vcNW0JL4nTFYAL70tc2DBxSXvcSf6pJNapVRaFFvI=; b=Tj5iKQo5XHBjgd
-	eLy5yoYc3LjMo+eCvt2N9ZjAudLasNoKOrinwRpFM1KempTKCM2kZ/50lklIaWD+EGp1PJrEVKnfK
-	WL9QkB0OagUpm6wBwrhMW0pHi/pky3YUZjteO2tLfnA0hcqpYQRkhyES1x9uL+/7UqdW15gPiQMS6
-	2HASTSLgi0zvliRy/EnlJh3Sgc/Xj/ZmHbopOW+Wu1pLi/6XDs0M6t1v92BuQTlGQn1lpy/kck4ly
-	Oa7JqTn3NaWcw+82PHgBd6sRHJLVfi7OHZUqurTv8zZXAdZ1gEN0KX/FK1Vr0apu3ipsbbj+WJbyz
-	m+LFy42ez2fzRpQPom9Q==;
+	List-Owner; bh=zVMAre13zkWZyiG0XfIQiTXzK6MCkWAFKgd3B0Fold4=; b=E0EGwrmPcE5G7C
+	tcqs/BU3woS6SPB4Ne8uh92v9sqOOJ/GMklbXlFQ7TU5e7mqsl9sz3cUziiy5CAqkEs/FFtj/JKHl
+	ZDUDrHHw+NvI5gAd7l1S5VpdgHGb2yHAmaUNr5tGf90tOXHb6ouLCWJKLinNwKbLVdoPZh8kJPAS2
+	xNKh4P07u2ej+STQ/jnuRTyLkPDioWXReIcp64XvRO8n62WkRORY0gSKIMZ+7/9YD0e5BgBUsMJVv
+	RavdqGHkdLe4LTorvOIJ/gYStvWQpowbvpvW04Es4BWAoqe21lRqsc1L7xbsp47QFF5CEqFsTAQlZ
+	85PDHYr+lRJ0QG4HrOig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2ZEs-00Bgh8-OF; Tue, 06 Dec 2022 14:48:06 +0000
+	id 1p2ZFD-00Bgxu-W7; Tue, 06 Dec 2022 14:48:28 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2ZEq-00Bgf8-7b
-	for linux-snps-arc@lists.infradead.org; Tue, 06 Dec 2022 14:48:05 +0000
+	id 1p2ZEy-00BglR-94
+	for linux-snps-arc@lists.infradead.org; Tue, 06 Dec 2022 14:48:16 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1670338083;
+	s=mimecast20190719; t=1670338091;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/J/bI9dhyjQ/usSRNhI5biIirU1QHLlTc54Jeh9AEr0=;
-	b=D0Cvm4wMMHIkOSo5WNSMXO3cup7qynROjTiglh0zzP4Vby2y4LqR/wSLVPzz5UKMJiH23D
-	cyHXRUvt8u7cUjedfKTooma5Sz0Utbb34tbtSPgqXGB+l6FA0lK2Ah4AwINJt2Gd8APmgT
-	5k5STRziX30Q8gdVyfzQm489DlmN3bo=
+	bh=JBNIGuT912oU9TwfpgZYupWQSbPpBbUlZPF7ZwOTGnM=;
+	b=ffVbQ+TbSRhW3mzxRqUS5QSHzPnTU27L0ipz/Pnh7PVhUaLtIeAQBBFKzv7aVV98N95ZtC
+	ZPuJPRngbVdTGBsREe+vOUaVvHAIdhIaWrQJx8nrQQh0V1PJwXdoInNIrIy21SYCcmBZyv
+	z8YWO/KRo9Xvfuk6Crk/qNJIXecwFqU=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-149-8CVFD73pPtiuCMFV0N15hg-1; Tue, 06 Dec 2022 09:48:01 -0500
-X-MC-Unique: 8CVFD73pPtiuCMFV0N15hg-1
+ us-mta-583-gIoZIcZUN1WLrQ1bmp6zdQ-1; Tue, 06 Dec 2022 09:48:08 -0500
+X-MC-Unique: gIoZIcZUN1WLrQ1bmp6zdQ-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0E4EA38164C3;
-	Tue,  6 Dec 2022 14:48:00 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 940CC38164DA;
+	Tue,  6 Dec 2022 14:48:06 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.193.173])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 3A3F6492B04;
-	Tue,  6 Dec 2022 14:47:54 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 7633B492B04;
+	Tue,  6 Dec 2022 14:48:00 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: Andrew Morton <akpm@linux-foundation.org>,
@@ -80,17 +80,20 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	sparclinux@vger.kernel.org,
 	linux-um@lists.infradead.org,
 	linux-xtensa@linux-xtensa.org,
-	David Hildenbrand <david@redhat.com>
-Subject: [PATCH mm-unstable RFC 01/26] mm/debug_vm_pgtable: more pte_swp_exclusive() sanity checks
-Date: Tue,  6 Dec 2022 15:47:05 +0100
-Message-Id: <20221206144730.163732-2-david@redhat.com>
+	David Hildenbrand <david@redhat.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>
+Subject: [PATCH mm-unstable RFC 02/26] alpha/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+Date: Tue,  6 Dec 2022 15:47:06 +0100
+Message-Id: <20221206144730.163732-3-david@redhat.com>
 In-Reply-To: <20221206144730.163732-1-david@redhat.com>
 References: <20221206144730.163732-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221206_064804_367742_A76778F4 
-X-CRM114-Status: GOOD (  12.82  )
+X-CRM114-CacheID: sfid-20221206_064812_399095_BF0BD6DA 
+X-CRM114-Status: GOOD (  15.66  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,62 +110,91 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-We want to implement __HAVE_ARCH_PTE_SWP_EXCLUSIVE on all architectures.
-Let's extend our sanity checks, especially testing that our PTE bit
-does not affect:
-* is_swap_pte() -> pte_present() and pte_none()
-* the swap entry + type
-* pte_swp_soft_dirty()
+Let's support __HAVE_ARCH_PTE_SWP_EXCLUSIVE by stealing one bit
+from the type. Generic MM currently only uses 5 bits for the type
+(MAX_SWAPFILES_SHIFT), so the stolen bit is effectively unused.
 
-Especially, the pfn_pte() is dodgy when the swap PTE layout differs
-heavily from ordinary PTEs. Let's properly construct a swap PTE from
-swap type+offset.
+While at it, mask the type in mk_swap_pte() as well.
 
+Note that 32bit alpha has 64bit PTEs but only 32bit swap entries. So the
+lower 32bit are zero in a swap PTE and we could have taken a bit in
+there as well.
+
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+Cc: Matt Turner <mattst88@gmail.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- mm/debug_vm_pgtable.c | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+ arch/alpha/include/asm/pgtable.h | 41 ++++++++++++++++++++++++++++----
+ 1 file changed, 37 insertions(+), 4 deletions(-)
 
-diff --git a/mm/debug_vm_pgtable.c b/mm/debug_vm_pgtable.c
-index c631ade3f1d2..0506622016d9 100644
---- a/mm/debug_vm_pgtable.c
-+++ b/mm/debug_vm_pgtable.c
-@@ -807,13 +807,34 @@ static void __init pmd_swap_soft_dirty_tests(struct pgtable_debug_args *args) {
- static void __init pte_swap_exclusive_tests(struct pgtable_debug_args *args)
- {
- #ifdef __HAVE_ARCH_PTE_SWP_EXCLUSIVE
--	pte_t pte = pfn_pte(args->fixed_pte_pfn, args->page_prot);
-+	unsigned long max_swapfile_size = generic_max_swapfile_size();
-+	swp_entry_t entry, entry2;
-+	pte_t pte;
+diff --git a/arch/alpha/include/asm/pgtable.h b/arch/alpha/include/asm/pgtable.h
+index 9e45f6735d5d..970abf511b13 100644
+--- a/arch/alpha/include/asm/pgtable.h
++++ b/arch/alpha/include/asm/pgtable.h
+@@ -74,6 +74,9 @@ struct vm_area_struct;
+ #define _PAGE_DIRTY	0x20000
+ #define _PAGE_ACCESSED	0x40000
  
- 	pr_debug("Validating PTE swap exclusive\n");
++/* We borrow bit 39 to store the exclusive marker in swap PTEs. */
++#define _PAGE_SWP_EXCLUSIVE	0x8000000000UL
 +
-+	/* Create a swp entry with all possible bits set */
-+	entry = swp_entry((1 << MAX_SWAPFILES_SHIFT) - 1,
-+			  max_swapfile_size - 1);
-+
-+	pte = swp_entry_to_pte(entry);
-+	WARN_ON(pte_swp_exclusive(pte));
-+	WARN_ON(!is_swap_pte(pte));
-+	entry2 = pte_to_swp_entry(pte);
-+	WARN_ON(memcmp(&entry, &entry2, sizeof(entry)));
-+
- 	pte = pte_swp_mkexclusive(pte);
- 	WARN_ON(!pte_swp_exclusive(pte));
-+	WARN_ON(!is_swap_pte(pte));
-+	WARN_ON(pte_swp_soft_dirty(pte));
-+	entry2 = pte_to_swp_entry(pte);
-+	WARN_ON(memcmp(&entry, &entry2, sizeof(entry)));
-+
- 	pte = pte_swp_clear_exclusive(pte);
- 	WARN_ON(pte_swp_exclusive(pte));
-+	WARN_ON(!is_swap_pte(pte));
-+	entry2 = pte_to_swp_entry(pte);
-+	WARN_ON(memcmp(&entry, &entry2, sizeof(entry)));
- #endif /* __HAVE_ARCH_PTE_SWP_EXCLUSIVE */
+ /*
+  * NOTE! The "accessed" bit isn't necessarily exact:  it can be kept exactly
+  * by software (use the KRE/URE/KWE/UWE bits appropriately), but I'll fake it.
+@@ -301,18 +304,48 @@ extern inline void update_mmu_cache(struct vm_area_struct * vma,
  }
  
+ /*
+- * Non-present pages:  high 24 bits are offset, next 8 bits type,
+- * low 32 bits zero.
++ * Encode/decode swap entries and swap PTEs. Swap PTEs are all PTEs that
++ * are !pte_none() && !pte_present().
++ *
++ * Format of swap PTEs:
++ *
++ *   6 6 6 6 5 5 5 5 5 5 5 5 5 5 4 4 4 4 4 4 4 4 4 4 3 3 3 3 3 3 3 3
++ *   3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2
++ *   <------------------- offset ------------------> E <--- type -->
++ *
++ *   3 3 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1
++ *   1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
++ *   <--------------------------- zeroes -------------------------->
++ *
++ *   E is the exclusive marker that is not stored in swap entries.
+  */
+ extern inline pte_t mk_swap_pte(unsigned long type, unsigned long offset)
+-{ pte_t pte; pte_val(pte) = (type << 32) | (offset << 40); return pte; }
++{ pte_t pte; pte_val(pte) = ((type & 0x7f) << 32) | (offset << 40); return pte; }
+ 
+-#define __swp_type(x)		(((x).val >> 32) & 0xff)
++#define __swp_type(x)		(((x).val >> 32) & 0x7f)
+ #define __swp_offset(x)		((x).val >> 40)
+ #define __swp_entry(type, off)	((swp_entry_t) { pte_val(mk_swap_pte((type), (off))) })
+ #define __pte_to_swp_entry(pte)	((swp_entry_t) { pte_val(pte) })
+ #define __swp_entry_to_pte(x)	((pte_t) { (x).val })
+ 
++#define __HAVE_ARCH_PTE_SWP_EXCLUSIVE
++static inline int pte_swp_exclusive(pte_t pte)
++{
++	return pte_val(pte) & _PAGE_SWP_EXCLUSIVE;
++}
++
++static inline pte_t pte_swp_mkexclusive(pte_t pte)
++{
++	pte_val(pte) |= _PAGE_SWP_EXCLUSIVE;
++	return pte;
++}
++
++static inline pte_t pte_swp_clear_exclusive(pte_t pte)
++{
++	pte_val(pte) &= ~_PAGE_SWP_EXCLUSIVE;
++	return pte;
++}
++
+ #define pte_ERROR(e) \
+ 	printk("%s:%d: bad pte %016lx.\n", __FILE__, __LINE__, pte_val(e))
+ #define pmd_ERROR(e) \
 -- 
 2.38.1
 
