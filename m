@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4E45C4708C
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  6 Dec 2022 14:53:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40002C352A1
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  6 Dec 2022 14:54:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=kG8Npt2Xv2TXCAxv0zwtO53/9Q1xLHR+x+d2fjsby4A=; b=l0ZneH8sJpdrVc
-	5qCAv46+vNzWRsXXhQGb4niVNk6Xkg/1XHDTzZmBtBsXp1C4mYI86vXF08GtOx2cFlsLd8k0jmuax
-	B5jXKcE4M9frPXPLIgr7U/1+5uoRnXAq/dJNB7kFy5m55cwgIzxuOPPD1v/OHgU5RCtMkfgMXjrBu
-	+mOrjR8rK+sAlGianbkVyVazl1Hp37ySWXD1QSLFjsULPlniEAtOt8nTjQl5r63jzb/VQ87rV2L5m
-	mYkyNxqQ8B/XZsCWRO54vxmGC4xb3JHaW6YRa2Ydjh2W/TpoduxxYbXqxG6a8mUNgLY5LT3/znpDB
-	FWQlbgWl3TPeU7bg+hug==;
+	List-Owner; bh=PPWIYx88InxUUF62aao7oMc5KfrEpWA9GC20QBe2Y3c=; b=qq2+3fyFGjdY7D
+	y3IQo2FlxubBkllT8T35e2LasgiPnlZyVUo5PDGEOP7+PFBCaL4VLIaGT9NQibIaVuZVb6+hVTf0G
+	JsYseI9/WEhgFcGVjW7EQnylT1a4ZPgmpBzvrZ7P2yHkgDWXvseNyNO5OlMJh5+lGwgE+nvr/06Ic
+	EbOyQtN449LWLwzxv/9+rrKcYirYhRCYgzWWbZ6GEr+gVoHkiGjjDAHCfo6CAHpvTUxn1vTgzTPQq
+	y1LirU7fNQoQKivlTCx3adPHKBAelA7VrGpy5IPAymYh0oYhfI0FPWn7CxuYplkCFs3MiXZfBzfVX
+	GBGd5JgFalsRCSOXmOkA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2ZKC-00BmQX-Ft; Tue, 06 Dec 2022 14:53:36 +0000
+	id 1p2ZLI-00Bnjg-F5; Tue, 06 Dec 2022 14:54:45 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p2ZFr-00BhXA-7e
-	for linux-snps-arc@lists.infradead.org; Tue, 06 Dec 2022 14:49:10 +0000
+	id 1p2ZFz-00BheS-D9
+	for linux-snps-arc@lists.infradead.org; Tue, 06 Dec 2022 14:49:19 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1670338146;
+	s=mimecast20190719; t=1670338154;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Gp7J1aj46K+Jiodg/5tOgmeBM9jveIu5Jwx68YS0wlE=;
-	b=IxhXbRw40bxfY+M3YDwCBifRxsRBMNhhTmcHUHwzoH/qc27LI0Lspl31+bEHRcKUCex5PN
-	CQf8xdP6M8+vidAIdGqrBn3Zmgj/GWiH8IALN4JJgfRao3drx0UTraf6+pU9+iAJLU3Y0+
-	YK7jyGJjHp6y0E05MpMMtsD+0I4aJHI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=S55iuEpc5qfmZI4kjI1L5Xd1aSq5tK8vVuUg2fWhjB8=;
+	b=Uc7FhPURjsOs9LsafcqzFRn6A9ypovIH2AzJ1aX7NLjfBQc1C1KzHjoZ+VQKcQDDk6SNol
+	gxgBo5YKdJ5MUs30H6zEBB39rRsZhAVZ5cp3CqsuvGLzUXam6Ha0MRldADq7xgEfVm19rn
+	2pofbaXECYVyxVAJ08LycVfbUXgDAxY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-457-d7BTe5ycNsuXlrhGuVypYQ-1; Tue, 06 Dec 2022 09:49:03 -0500
-X-MC-Unique: d7BTe5ycNsuXlrhGuVypYQ-1
+ us-mta-653-XPdnQXyyME2wCbAHNgP7hg-1; Tue, 06 Dec 2022 09:49:10 -0500
+X-MC-Unique: XPdnQXyyME2wCbAHNgP7hg-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3DE343C02B79;
-	Tue,  6 Dec 2022 14:49:02 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 90E00800159;
+	Tue,  6 Dec 2022 14:49:08 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.193.173])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 2F1FA492B04;
-	Tue,  6 Dec 2022 14:48:56 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 9CE0B492B0D;
+	Tue,  6 Dec 2022 14:49:02 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: Andrew Morton <akpm@linux-foundation.org>,
@@ -83,17 +83,16 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	David Hildenbrand <david@redhat.com>,
 	Geert Uytterhoeven <geert@linux-m68k.org>,
 	Greg Ungerer <gerg@linux-m68k.org>
-Subject: [PATCH mm-unstable RFC 09/26] m68k/mm: remove dummy __swp definitions for nommu
-Date: Tue,  6 Dec 2022 15:47:13 +0100
-Message-Id: <20221206144730.163732-10-david@redhat.com>
+Subject: [PATCH mm-unstable RFC 10/26] m68k/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+Date: Tue,  6 Dec 2022 15:47:14 +0100
+Message-Id: <20221206144730.163732-11-david@redhat.com>
 In-Reply-To: <20221206144730.163732-1-david@redhat.com>
 References: <20221206144730.163732-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221206_064907_412426_21C7C119 
-X-CRM114-Status: UNSURE (   9.71  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20221206_064915_556434_74AF325E 
+X-CRM114-Status: GOOD (  16.78  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,32 +109,201 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The definitions are not required, let's remove them.
+Let's support __HAVE_ARCH_PTE_SWP_EXCLUSIVE by stealing one bit
+from the type. Generic MM currently only uses 5 bits for the type
+(MAX_SWAPFILES_SHIFT), so the stolen bit is effectively unused.
+
+While at it, make sure for sun3 that the valid bit never gets set by
+properly masking it off and mask the type in __swp_entry().
 
 Cc: Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: Greg Ungerer <gerg@linux-m68k.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- arch/m68k/include/asm/pgtable_no.h | 6 ------
- 1 file changed, 6 deletions(-)
+ arch/m68k/include/asm/mcf_pgtable.h      | 36 ++++++++++++++++++++--
+ arch/m68k/include/asm/motorola_pgtable.h | 38 +++++++++++++++++++++--
+ arch/m68k/include/asm/sun3_pgtable.h     | 39 ++++++++++++++++++++++--
+ 3 files changed, 104 insertions(+), 9 deletions(-)
 
-diff --git a/arch/m68k/include/asm/pgtable_no.h b/arch/m68k/include/asm/pgtable_no.h
-index fed58da3a6b6..fc044df52b96 100644
---- a/arch/m68k/include/asm/pgtable_no.h
-+++ b/arch/m68k/include/asm/pgtable_no.h
-@@ -31,12 +31,6 @@
- extern void paging_init(void);
- #define swapper_pg_dir ((pgd_t *) 0)
+diff --git a/arch/m68k/include/asm/mcf_pgtable.h b/arch/m68k/include/asm/mcf_pgtable.h
+index b619b22823f8..3f8f4d0e66dd 100644
+--- a/arch/m68k/include/asm/mcf_pgtable.h
++++ b/arch/m68k/include/asm/mcf_pgtable.h
+@@ -46,6 +46,9 @@
+ #define _CACHEMASK040		(~0x060)
+ #define _PAGE_GLOBAL040		0x400   /* 68040 global bit, used for kva descs */
  
--#define __swp_type(x)		(0)
--#define __swp_offset(x)		(0)
--#define __swp_entry(typ,off)	((swp_entry_t) { ((typ) | ((off) << 7)) })
--#define __pte_to_swp_entry(pte)	((swp_entry_t) { pte_val(pte) })
--#define __swp_entry_to_pte(x)	((pte_t) { (x).val })
--
++/* We borrow bit 7 to store the exclusive marker in swap PTEs. */
++#define _PAGE_SWP_EXCLUSIVE	0x080
++
  /*
-  * ZERO_PAGE is a global shared page that is always zero: used
-  * for zero-mapped memory areas etc..
+  * Externally used page protection values.
+  */
+@@ -254,15 +257,42 @@ static inline pte_t pte_mkcache(pte_t pte)
+ extern pgd_t kernel_pg_dir[PTRS_PER_PGD];
+ 
+ /*
+- * Encode and de-code a swap entry (must be !pte_none(e) && !pte_present(e))
++ * Encode/decode swap entries and swap PTEs. Swap PTEs are all PTEs that
++ * are !pte_none() && !pte_present().
++ *
++ * Format of swap PTEs:
++ *
++ *   3 3 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1
++ *   1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
++ *   <------------------ offset -------------> 0 0 0 E <-- type --->
++ *
++ *   E is the exclusive marker that is not stored in swap entries.
+  */
+-#define __swp_type(x)		((x).val & 0xFF)
++#define __swp_type(x)		((x).val & 0x7f)
+ #define __swp_offset(x)		((x).val >> 11)
+-#define __swp_entry(typ, off)	((swp_entry_t) { (typ) | \
++#define __swp_entry(typ, off)	((swp_entry_t) { ((typ) & 0x7f) | \
+ 					(off << 11) })
+ #define __pte_to_swp_entry(pte)	((swp_entry_t) { pte_val(pte) })
+ #define __swp_entry_to_pte(x)	(__pte((x).val))
+ 
++#define __HAVE_ARCH_PTE_SWP_EXCLUSIVE
++static inline int pte_swp_exclusive(pte_t pte)
++{
++	return pte_val(pte) & _PAGE_SWP_EXCLUSIVE;
++}
++
++static inline pte_t pte_swp_mkexclusive(pte_t pte)
++{
++	pte_val(pte) |= _PAGE_SWP_EXCLUSIVE;
++	return pte;
++}
++
++static inline pte_t pte_swp_clear_exclusive(pte_t pte)
++{
++	pte_val(pte) &= ~_PAGE_SWP_EXCLUSIVE;
++	return pte;
++}
++
+ #define pmd_pfn(pmd)		(pmd_val(pmd) >> PAGE_SHIFT)
+ #define pmd_page(pmd)		(pfn_to_page(pmd_val(pmd) >> PAGE_SHIFT))
+ 
+diff --git a/arch/m68k/include/asm/motorola_pgtable.h b/arch/m68k/include/asm/motorola_pgtable.h
+index 7ac3d64c6b33..02896027c781 100644
+--- a/arch/m68k/include/asm/motorola_pgtable.h
++++ b/arch/m68k/include/asm/motorola_pgtable.h
+@@ -41,6 +41,9 @@
+ 
+ #define _PAGE_PROTNONE	0x004
+ 
++/* We borrow bit 11 to store the exclusive marker in swap PTEs. */
++#define _PAGE_SWP_EXCLUSIVE	0x800
++
+ #ifndef __ASSEMBLY__
+ 
+ /* This is the cache mode to be used for pages containing page descriptors for
+@@ -169,12 +172,41 @@ static inline pte_t pte_mkcache(pte_t pte)
+ #define swapper_pg_dir kernel_pg_dir
+ extern pgd_t kernel_pg_dir[128];
+ 
+-/* Encode and de-code a swap entry (must be !pte_none(e) && !pte_present(e)) */
+-#define __swp_type(x)		(((x).val >> 4) & 0xff)
++/*
++ * Encode/decode swap entries and swap PTEs. Swap PTEs are all PTEs that
++ * are !pte_none() && !pte_present().
++ *
++ * Format of swap PTEs:
++ *
++ *   3 3 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1
++ *   1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
++ *   <----------------- offset ------------> E <-- type ---> 0 0 0 0
++ *
++ *   E is the exclusive marker that is not stored in swap entries.
++ */
++#define __swp_type(x)		(((x).val >> 4) & 0x7f)
+ #define __swp_offset(x)		((x).val >> 12)
+-#define __swp_entry(type, offset) ((swp_entry_t) { ((type) << 4) | ((offset) << 12) })
++#define __swp_entry(type, offset) ((swp_entry_t) { (((type) & 0x7f) << 4) | ((offset) << 12) })
+ #define __pte_to_swp_entry(pte)	((swp_entry_t) { pte_val(pte) })
+ #define __swp_entry_to_pte(x)	((pte_t) { (x).val })
+ 
++#define __HAVE_ARCH_PTE_SWP_EXCLUSIVE
++static inline int pte_swp_exclusive(pte_t pte)
++{
++	return pte_val(pte) & _PAGE_SWP_EXCLUSIVE;
++}
++
++static inline pte_t pte_swp_mkexclusive(pte_t pte)
++{
++	pte_val(pte) |= _PAGE_SWP_EXCLUSIVE;
++	return pte;
++}
++
++static inline pte_t pte_swp_clear_exclusive(pte_t pte)
++{
++	pte_val(pte) &= ~_PAGE_SWP_EXCLUSIVE;
++	return pte;
++}
++
+ #endif	/* !__ASSEMBLY__ */
+ #endif /* _MOTOROLA_PGTABLE_H */
+diff --git a/arch/m68k/include/asm/sun3_pgtable.h b/arch/m68k/include/asm/sun3_pgtable.h
+index 90d57e537eb1..5e03ce4fd8d5 100644
+--- a/arch/m68k/include/asm/sun3_pgtable.h
++++ b/arch/m68k/include/asm/sun3_pgtable.h
+@@ -71,6 +71,9 @@
+ #define SUN3_PMD_MASK	(0x0000003F)
+ #define SUN3_PMD_MAGIC	(0x0000002B)
+ 
++/* We borrow bit 6 to store the exclusive marker in swap PTEs. */
++#define _PAGE_SWP_EXCLUSIVE	0x040
++
+ #ifndef __ASSEMBLY__
+ 
+ /*
+@@ -152,12 +155,42 @@ static inline pte_t pte_mkcache(pte_t pte)	{ return pte; }
+ extern pgd_t swapper_pg_dir[PTRS_PER_PGD];
+ extern pgd_t kernel_pg_dir[PTRS_PER_PGD];
+ 
+-/* Macros to (de)construct the fake PTEs representing swap pages. */
+-#define __swp_type(x)		((x).val & 0x7F)
++/*
++ * Encode/decode swap entries and swap PTEs. Swap PTEs are all PTEs that
++ * are !pte_none() && !pte_present().
++ *
++ * Format of swap PTEs:
++ *
++ *   3 3 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1
++ *   1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
++ *   0 <--------------------- offset ----------------> E <- type -->
++ *
++ *   E is the exclusive marker that is not stored in swap entries.
++ */
++#define __swp_type(x)		((x).val & 0x3f)
+ #define __swp_offset(x)		(((x).val) >> 7)
+-#define __swp_entry(type,offset) ((swp_entry_t) { ((type) | ((offset) << 7)) })
++#define __swp_entry(type,offset) ((swp_entry_t) { (((type) & 0x3f) | \
++						  (((offset) << 7) & ~SUN3_PAGE_VALID)) })
+ #define __pte_to_swp_entry(pte)	((swp_entry_t) { pte_val(pte) })
+ #define __swp_entry_to_pte(x)	((pte_t) { (x).val })
+ 
++#define __HAVE_ARCH_PTE_SWP_EXCLUSIVE
++static inline int pte_swp_exclusive(pte_t pte)
++{
++	return pte_val(pte) & _PAGE_SWP_EXCLUSIVE;
++}
++
++static inline pte_t pte_swp_mkexclusive(pte_t pte)
++{
++	pte_val(pte) |= _PAGE_SWP_EXCLUSIVE;
++	return pte;
++}
++
++static inline pte_t pte_swp_clear_exclusive(pte_t pte)
++{
++	pte_val(pte) &= ~_PAGE_SWP_EXCLUSIVE;
++	return pte;
++}
++
+ #endif	/* !__ASSEMBLY__ */
+ #endif	/* !_SUN3_PGTABLE_H */
 -- 
 2.38.1
 
