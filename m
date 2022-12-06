@@ -4,59 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7C8A0C4321E
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  2 Dec 2022 16:04:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ADB15C4708E
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  6 Dec 2022 14:48:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Vr3xpznU3VsfPxgEn3F5yqd4KCd2QekfTBewUz+eCbM=; b=WcMTdSVL9cnfkY
-	LRVw06K4dsp21Jx0tRjWLpQ1DnJzUPw130Ot3CnEOtvkUTkdI2d1fcjibDNUIBbzdA8NAbLvr6pBn
-	UE0XsOnx6dKu0Q0q9LePp1DhWQiSOGZ2X87V1PYWBZhnl3DJNPFxKOZLaICMoZV2piNYkfhhJ8a/7
-	Tvqk51sVZs+LNFynrV5d2FQubzahJ84NcW1bQrLTo6Mj7D/ojR83DIA4M9hRUsA/owKUupS5fsUaG
-	PwAljmWrzLhcI2AceZXgQ3dzpHxKTVSatFI2FcQpo3ogeaJbflE4ccWu5l0LE4MIyWJrEC/CsCuO1
-	Oj0/c0jyub3uWmjYkuGg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=xCqXy2n9/d4/FR98YWvGGfJHDLnf4kct6owbGEyJw3E=; b=PUdU+sjhjJ/0oP
+	xpxM/af2/2oLuOpAE6R0bPdeaEmZQR8SvMwJQ/FGhyvBlbb7SUBoN5+FsDSJyq9BGj5Vc1t7jxdjc
+	PL8RgJcjeXqccJtblMvO5M785iRxj5x32O2z3NEZzXDzm4QqeJFo6CYyn54ikxh8IBR4X0Vnnbsvd
+	2U5/XJGPOjfKrZjmCpPz+oj73Ldzh7YGaEZzj7ReuFPi66BGGc2pmri2etvNdt9BZcHgu81n2p8cB
+	iZD4E+Qp4Ts8p/DTuUSOJptYj+UqTCUfMjEHObFcn/y+TCE2sgRkHXNp2vGHEHoeyuHioNOxsMgcY
+	F5TLdkhJf22f2Nfk8fJw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p18W9-00HIVS-NO; Fri, 02 Dec 2022 16:04:01 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1p2ZEp-00BgfA-Ul; Tue, 06 Dec 2022 14:48:03 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p18Ru-00HFKv-DY
-	for linux-snps-arc@lists.infradead.org; Fri, 02 Dec 2022 15:59:40 +0000
+	id 1p2ZEm-00BgdV-GP
+	for linux-snps-arc@lists.infradead.org; Tue, 06 Dec 2022 14:48:02 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1669996777;
+	s=mimecast20190719; t=1670338079;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=imKWtJjnLxywPeyj1k0cz/LH0f5N0UttG38/bDrYO7s=;
-	b=OGTYtMYDai2MnSTnwAWdvYrDo16Y1yABFT3uv47HaE8jd1wML2HMqWR9TOOXk2TR3HPX/S
-	csklx+AmjCspOoXEt+t9TFYjxriiyIlc/fe5ZuvtiKyaecmHEDgceoJjoiWw28dfN/YE2t
-	+z3Ydh9pRnuR0ceG9sKSWko8BMdoZV4=
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=iUuXMOHVf03Vb0qMF+Y5euIKjDZHBS53BDQPdht/P5M=;
+	b=JzF1BFCXrs090Cy3I08q9Xzn67hr6Win3sKz4MFPclP3k6RtfEx7aQYKeu6rjtVakc5gT5
+	2soU6O+zQlFW6+/TlUbXHYuWOdtWoMJZ8rn4hJSsUCEs0DVrguN68QgeRVgRdVEWiwmGgK
+	xJQGDGqrOxgXn5SN6/gZNDgFaiHSwJQ=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-232-AJnbpNZiOu2OJHlZZZSQxA-1; Fri, 02 Dec 2022 10:59:32 -0500
-X-MC-Unique: AJnbpNZiOu2OJHlZZZSQxA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+ us-mta-335-3aNaSZDWPJGBU0cwaoxK0w-1; Tue, 06 Dec 2022 09:47:56 -0500
+X-MC-Unique: 3aNaSZDWPJGBU0cwaoxK0w-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1D316833A09;
-	Fri,  2 Dec 2022 15:59:31 +0000 (UTC)
-Received: from vschneid.remote.csb (unknown [10.33.36.77])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id AD20020290A5;
-	Fri,  2 Dec 2022 15:59:26 +0000 (UTC)
-From: Valentin Schneider <vschneid@redhat.com>
-To: linux-alpha@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D08958027F5;
+	Tue,  6 Dec 2022 14:47:53 +0000 (UTC)
+Received: from t480s.redhat.com (unknown [10.39.193.173])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 6E89C492B04;
+	Tue,  6 Dec 2022 14:47:33 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Hugh Dickins <hughd@google.com>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Mike Rapoport <rppt@linux.ibm.com>,
+	Yang Shi <shy828301@gmail.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Nadav Amit <namit@vmware.com>,
+	Andrea Arcangeli <aarcange@redhat.com>,
+	Peter Xu <peterx@redhat.com>,
+	linux-mm@kvack.org,
+	x86@kernel.org,
+	linux-alpha@vger.kernel.org,
 	linux-snps-arc@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-csky@vger.kernel.org,
 	linux-hexagon@vger.kernel.org,
 	linux-ia64@vger.kernel.org,
 	loongarch@lists.linux.dev,
+	linux-m68k@lists.linux-m68k.org,
 	linux-mips@vger.kernel.org,
 	openrisc@lists.librecores.org,
 	linux-parisc@vger.kernel.org,
@@ -65,37 +77,56 @@ To: linux-alpha@vger.kernel.org,
 	linux-s390@vger.kernel.org,
 	linux-sh@vger.kernel.org,
 	sparclinux@vger.kernel.org,
+	linux-um@lists.infradead.org,
 	linux-xtensa@linux-xtensa.org,
-	x86@kernel.org
-Cc: "Paul E. McKenney" <paulmck@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Daniel Bristot de Oliveira <bristot@redhat.com>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
+	David Hildenbrand <david@redhat.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
 	Borislav Petkov <bp@alien8.de>,
+	Brian Cain <bcain@quicinc.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Chris Zankel <chris@zankel.net>,
 	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Marc Zyngier <maz@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Nicholas Piggin <npiggin@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Greg Ungerer <gerg@linux-m68k.org>,
 	Guo Ren <guoren@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>
-Subject: [PATCH v3 8/8] sched, smp: Trace smp callback causing an IPI
-Date: Fri,  2 Dec 2022 15:58:17 +0000
-Message-Id: <20221202155817.2102944-9-vschneid@redhat.com>
-In-Reply-To: <20221202155817.2102944-1-vschneid@redhat.com>
-References: <20221202155817.2102944-1-vschneid@redhat.com>
+	Helge Deller <deller@gmx.de>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Matt Turner <mattst88@gmail.com>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Michal Simek <monstr@monstr.eu>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Richard Weinberger <richard@nod.at>,
+	Rich Felker <dalias@libc.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Stafford Horne <shorne@gmail.com>,
+	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vineet Gupta <vgupta@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>
+Subject: [PATCH mm-unstable RFC 00/26] mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE on all architectures with swap PTEs
+Date: Tue,  6 Dec 2022 15:47:04 +0100
+Message-Id: <20221206144730.163732-1-david@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221202_075938_585080_895DE25F 
-X-CRM114-Status: GOOD (  32.93  )
+X-CRM114-CacheID: sfid-20221206_064800_631393_2D36D488 
+X-CRM114-Status: GOOD (  15.58  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,219 +143,146 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Context
-=======
+This is the follow-up on [1]:
+	[PATCH v2 0/8] mm: COW fixes part 3: reliable GUP R/W FOLL_GET of
+	anonymous pages
 
-The newly-introduced ipi_send_cpumask tracepoint has a "callback" parameter
-which so far has only been fed with NULL.
+After we implemented __HAVE_ARCH_PTE_SWP_EXCLUSIVE on most prominent
+enterprise architectures, implement __HAVE_ARCH_PTE_SWP_EXCLUSIVE on all
+remaining architectures that support swap PTEs.
 
-While CSD_TYPE_SYNC/ASYNC and CSD_TYPE_IRQ_WORK share a similar backing
-struct layout (meaning their callback func can be accessed without caring
-about the actual CSD type), CSD_TYPE_TTWU doesn't even have a function
-attached to its struct. This means we need to check the type of a CSD
-before eventually dereferencing its associated callback.
+This makes sure that exclusive anonymous pages will stay exclusive, even
+after they were swapped out -- for example, making GUP R/W FOLL_GET of
+anonymous pages reliable. Details can be found in [1].
 
-This isn't as trivial as it sounds: the CSD type is stored in
-__call_single_node.u_flags, which get cleared right before the callback is
-executed via csd_unlock(). This implies checking the CSD type before it is
-enqueued on the call_single_queue, as the target CPU's queue can be flushed
-before we get to sending an IPI.
+This primarily fixes remaining known O_DIRECT memory corruptions that can
+happen on concurrent swapout, whereby we can lose DMA reads to a page
+(modifying the user page by writing to it).
 
-Furthermore, send_call_function_single_ipi() only has a CPU parameter, and
-would need to have an additional argument to trickle down the invoked
-function. This is somewhat silly, as the extra argument will always be
-pushed down to the function even when nothing is being traced, which is
-unnecessary overhead.
+To verify, there are two test cases (requiring swap space, obviously):
+(1) The O_DIRECT+swapout test case [2] from Andrea. This test case tries
+    triggering a race condition.
+(2) My vmsplice() test case [3] that tries to detect if the exclusive
+    marker was lost during swapout, not relying on a race condition.
 
-Changes
-=======
 
-send_call_function_single_ipi() is only used by smp.c, and is defined in
-sched/core.c as it contains scheduler-specific ops (set_nr_if_polling() of
-a CPU's idle task).
+For example, on 32bit x86 (with and without PAE), my test case fails
+without these patches:
+	$ ./test_swp_exclusive
+	FAIL: page was replaced during COW
+But succeeds with these patches:
+	$ ./test_swp_exclusive 
+	PASS: page was not replaced during COW
 
-Split it into two parts: the scheduler bits remain in sched/core.c, and the
-actual IPI emission is moved into smp.c. This lets us define an
-__always_inline helper function that can take the related callback as
-parameter without creating useless register pressure in the non-traced path
-which only gains a (disabled) static branch.
 
-Do the same thing for the multi IPI case.
+Why implement __HAVE_ARCH_PTE_SWP_EXCLUSIVE for all architectures, even
+the ones where swap support might be in a questionable state? This is the
+first step towards removing "readable_exclusive" migration entries, and
+instead using pte_swp_exclusive() also with (readable) migration entries
+instead (as suggested by Peter). The only missing piece for that is
+supporting pmd_swp_exclusive() on relevant architectures with THP
+migration support.
 
-Signed-off-by: Valentin Schneider <vschneid@redhat.com>
----
- kernel/sched/core.c | 18 +++++++-----
- kernel/sched/smp.h  |  2 +-
- kernel/smp.c        | 72 +++++++++++++++++++++++++++++++++------------
- 3 files changed, 66 insertions(+), 26 deletions(-)
+As all relevant architectures now implement __HAVE_ARCH_PTE_SWP_EXCLUSIVE,,
+we can drop __HAVE_ARCH_PTE_SWP_EXCLUSIVE in the last patch.
 
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 40587b0d99329..e59aac936dcb9 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -3743,16 +3743,20 @@ void sched_ttwu_pending(void *arg)
- 	rq_unlock_irqrestore(rq, &rf);
- }
- 
--void send_call_function_single_ipi(int cpu)
-+/*
-+ * Prepare the scene for sending an IPI for a remote smp_call
-+ *
-+ * Returns true if the caller can proceed with sending the IPI.
-+ * Returns false otherwise.
-+ */
-+bool call_function_single_prep_ipi(int cpu)
- {
--	struct rq *rq = cpu_rq(cpu);
--
--	if (!set_nr_if_polling(rq->idle)) {
--		trace_ipi_send_cpumask(cpumask_of(cpu), _RET_IP_, NULL);
--		arch_send_call_function_single_ipi(cpu);
--	} else {
-+	if (set_nr_if_polling(cpu_rq(cpu)->idle)) {
- 		trace_sched_wake_idle_without_ipi(cpu);
-+		return false;
- 	}
-+
-+	return true;
- }
- 
- /*
-diff --git a/kernel/sched/smp.h b/kernel/sched/smp.h
-index 2eb23dd0f2856..21ac44428bb02 100644
---- a/kernel/sched/smp.h
-+++ b/kernel/sched/smp.h
-@@ -6,7 +6,7 @@
- 
- extern void sched_ttwu_pending(void *arg);
- 
--extern void send_call_function_single_ipi(int cpu);
-+extern bool call_function_single_prep_ipi(int cpu);
- 
- #ifdef CONFIG_SMP
- extern void flush_smp_call_function_queue(void);
-diff --git a/kernel/smp.c b/kernel/smp.c
-index 821b5986721ac..5cd680a7e78ef 100644
---- a/kernel/smp.c
-+++ b/kernel/smp.c
-@@ -161,9 +161,18 @@ void __init call_function_init(void)
- }
- 
- static __always_inline void
--send_call_function_ipi_mask(const struct cpumask *mask)
-+send_call_function_single_ipi(int cpu, smp_call_func_t func)
- {
--	trace_ipi_send_cpumask(mask, _RET_IP_, NULL);
-+	if (call_function_single_prep_ipi(cpu)) {
-+		trace_ipi_send_cpumask(cpumask_of(cpu), _RET_IP_, func);
-+		arch_send_call_function_single_ipi(cpu);
-+	}
-+}
-+
-+static __always_inline void
-+send_call_function_ipi_mask(const struct cpumask *mask, smp_call_func_t func)
-+{
-+	trace_ipi_send_cpumask(mask, _RET_IP_, func);
- 	arch_send_call_function_ipi_mask(mask);
- }
- 
-@@ -430,12 +439,16 @@ static void __smp_call_single_queue_debug(int cpu, struct llist_node *node)
- 	struct cfd_seq_local *seq = this_cpu_ptr(&cfd_seq_local);
- 	struct call_function_data *cfd = this_cpu_ptr(&cfd_data);
- 	struct cfd_percpu *pcpu = per_cpu_ptr(cfd->pcpu, cpu);
-+	struct __call_single_data *csd;
-+
-+	csd = container_of(node, call_single_data_t, node.llist);
-+	WARN_ON_ONCE(!(CSD_TYPE(csd) & (CSD_TYPE_SYNC | CSD_TYPE_ASYNC)));
- 
- 	cfd_seq_store(pcpu->seq_queue, this_cpu, cpu, CFD_SEQ_QUEUE);
- 	if (llist_add(node, &per_cpu(call_single_queue, cpu))) {
- 		cfd_seq_store(pcpu->seq_ipi, this_cpu, cpu, CFD_SEQ_IPI);
- 		cfd_seq_store(seq->ping, this_cpu, cpu, CFD_SEQ_PING);
--		send_call_function_single_ipi(cpu);
-+		send_call_function_single_ipi(cpu, csd->func);
- 		cfd_seq_store(seq->pinged, this_cpu, cpu, CFD_SEQ_PINGED);
- 	} else {
- 		cfd_seq_store(pcpu->seq_noipi, this_cpu, cpu, CFD_SEQ_NOIPI);
-@@ -477,6 +490,25 @@ static __always_inline void csd_unlock(struct __call_single_data *csd)
- 	smp_store_release(&csd->node.u_flags, 0);
- }
- 
-+static __always_inline void
-+raw_smp_call_single_queue(int cpu, struct llist_node *node, smp_call_func_t func)
-+{
-+	/*
-+	 * The list addition should be visible to the target CPU when it pops
-+	 * the head of the list to pull the entry off it in the IPI handler
-+	 * because of normal cache coherency rules implied by the underlying
-+	 * llist ops.
-+	 *
-+	 * If IPIs can go out of order to the cache coherency protocol
-+	 * in an architecture, sufficient synchronisation should be added
-+	 * to arch code to make it appear to obey cache coherency WRT
-+	 * locking and barrier primitives. Generic code isn't really
-+	 * equipped to do the right thing...
-+	 */
-+	if (llist_add(node, &per_cpu(call_single_queue, cpu)))
-+		send_call_function_single_ipi(cpu, func);
-+}
-+
- static DEFINE_PER_CPU_SHARED_ALIGNED(call_single_data_t, csd_data);
- 
- void __smp_call_single_queue(int cpu, struct llist_node *node)
-@@ -493,21 +525,25 @@ void __smp_call_single_queue(int cpu, struct llist_node *node)
- 		}
- 	}
- #endif
--
- 	/*
--	 * The list addition should be visible to the target CPU when it pops
--	 * the head of the list to pull the entry off it in the IPI handler
--	 * because of normal cache coherency rules implied by the underlying
--	 * llist ops.
--	 *
--	 * If IPIs can go out of order to the cache coherency protocol
--	 * in an architecture, sufficient synchronisation should be added
--	 * to arch code to make it appear to obey cache coherency WRT
--	 * locking and barrier primitives. Generic code isn't really
--	 * equipped to do the right thing...
-+	 * We have to check the type of the CSD before queueing it, because
-+	 * once queued it can have its flags cleared by
-+	 *   flush_smp_call_function_queue()
-+	 * even if we haven't sent the smp_call IPI yet (e.g. the stopper
-+	 * executes migration_cpu_stop() on the remote CPU).
- 	 */
--	if (llist_add(node, &per_cpu(call_single_queue, cpu)))
--		send_call_function_single_ipi(cpu);
-+	if (trace_ipi_send_cpumask_enabled()) {
-+		call_single_data_t *csd;
-+		smp_call_func_t func;
-+
-+		csd = container_of(node, call_single_data_t, node.llist);
-+		func = CSD_TYPE(csd) == CSD_TYPE_TTWU ?
-+			sched_ttwu_pending : csd->func;
-+
-+		raw_smp_call_single_queue(cpu, node, func);
-+	} else {
-+		raw_smp_call_single_queue(cpu, node, NULL);
-+	}
- }
- 
- /*
-@@ -976,9 +1012,9 @@ static void smp_call_function_many_cond(const struct cpumask *mask,
- 		 * provided mask.
- 		 */
- 		if (nr_cpus == 1)
--			send_call_function_single_ipi(last_cpu);
-+			send_call_function_single_ipi(last_cpu, func);
- 		else if (likely(nr_cpus > 1))
--			send_call_function_ipi_mask(cfd->cpumask_ipi);
-+			send_call_function_ipi_mask(cfd->cpumask_ipi, func);
- 
- 		cfd_seq_store(this_cpu_ptr(&cfd_seq_local)->pinged, this_cpu, CFD_SEQ_NOCPU, CFD_SEQ_PINGED);
- 	}
+
+RFC because some of the swap PTE layouts are really tricky and I really
+need some feedback related to deciphering these layouts and "using yet
+unused PTE bits in swap PTEs". I tried cross-compiling all relevant setups
+(phew, I might only miss some power/nohash variants), but only tested on
+x86 so far.
+
+CCing arch maintainers only on this cover letter and on the respective
+patch(es).
+
+
+[1] https://lkml.kernel.org/r/20220329164329.208407-1-david@redhat.com
+[2] https://gitlab.com/aarcange/kernel-testcases-for-v5.11/-/blob/main/page_count_do_wp_page-swap.c
+[3] https://gitlab.com/davidhildenbrand/scratchspace/-/blob/main/test_swp_exclusive.c
+
+David Hildenbrand (26):
+  mm/debug_vm_pgtable: more pte_swp_exclusive() sanity checks
+  alpha/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  arc/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  arm/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  csky/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  hexagon/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  ia64/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  loongarch/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  m68k/mm: remove dummy __swp definitions for nommu
+  m68k/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  microblaze/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  mips/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  nios2/mm: refactor swap PTE layout
+  nios2/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  openrisc/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  parisc/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  powerpc/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE on 32bit book3s
+  powerpc/nohash/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  riscv/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  sh/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  sparc/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE on 32bit
+  sparc/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE on 64bit
+  um/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  x86/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE also on 32bit
+  xtensa/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  mm: remove __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+
+ arch/alpha/include/asm/pgtable.h              | 40 ++++++++-
+ arch/arc/include/asm/pgtable-bits-arcv2.h     | 26 +++++-
+ arch/arm/include/asm/pgtable-2level.h         |  3 +
+ arch/arm/include/asm/pgtable-3level.h         |  3 +
+ arch/arm/include/asm/pgtable.h                | 34 ++++++--
+ arch/arm64/include/asm/pgtable.h              |  1 -
+ arch/csky/abiv1/inc/abi/pgtable-bits.h        | 13 ++-
+ arch/csky/abiv2/inc/abi/pgtable-bits.h        | 19 ++--
+ arch/csky/include/asm/pgtable.h               | 17 ++++
+ arch/hexagon/include/asm/pgtable.h            | 36 ++++++--
+ arch/ia64/include/asm/pgtable.h               | 31 ++++++-
+ arch/loongarch/include/asm/pgtable-bits.h     |  4 +
+ arch/loongarch/include/asm/pgtable.h          | 38 +++++++-
+ arch/m68k/include/asm/mcf_pgtable.h           | 35 +++++++-
+ arch/m68k/include/asm/motorola_pgtable.h      | 37 +++++++-
+ arch/m68k/include/asm/pgtable_no.h            |  6 --
+ arch/m68k/include/asm/sun3_pgtable.h          | 38 +++++++-
+ arch/microblaze/include/asm/pgtable.h         | 44 +++++++---
+ arch/mips/include/asm/pgtable-32.h            | 86 ++++++++++++++++---
+ arch/mips/include/asm/pgtable-64.h            | 23 ++++-
+ arch/mips/include/asm/pgtable.h               | 35 ++++++++
+ arch/nios2/include/asm/pgtable-bits.h         |  3 +
+ arch/nios2/include/asm/pgtable.h              | 37 ++++++--
+ arch/openrisc/include/asm/pgtable.h           | 40 +++++++--
+ arch/parisc/include/asm/pgtable.h             | 40 ++++++++-
+ arch/powerpc/include/asm/book3s/32/pgtable.h  | 37 ++++++--
+ arch/powerpc/include/asm/book3s/64/pgtable.h  |  1 -
+ arch/powerpc/include/asm/nohash/32/pgtable.h  | 22 +++--
+ arch/powerpc/include/asm/nohash/32/pte-40x.h  |  6 +-
+ arch/powerpc/include/asm/nohash/32/pte-44x.h  | 18 +---
+ arch/powerpc/include/asm/nohash/32/pte-85xx.h |  4 +-
+ arch/powerpc/include/asm/nohash/64/pgtable.h  | 24 +++++-
+ arch/powerpc/include/asm/nohash/pgtable.h     | 15 ++++
+ arch/powerpc/include/asm/nohash/pte-e500.h    |  1 -
+ arch/riscv/include/asm/pgtable-bits.h         |  3 +
+ arch/riscv/include/asm/pgtable.h              | 28 ++++--
+ arch/s390/include/asm/pgtable.h               |  1 -
+ arch/sh/include/asm/pgtable_32.h              | 53 +++++++++---
+ arch/sparc/include/asm/pgtable_32.h           | 26 +++++-
+ arch/sparc/include/asm/pgtable_64.h           | 37 +++++++-
+ arch/sparc/include/asm/pgtsrmmu.h             | 14 +--
+ arch/um/include/asm/pgtable.h                 | 36 +++++++-
+ arch/x86/include/asm/pgtable-2level.h         | 26 ++++--
+ arch/x86/include/asm/pgtable-3level.h         | 26 +++++-
+ arch/x86/include/asm/pgtable.h                |  3 -
+ arch/xtensa/include/asm/pgtable.h             | 31 +++++--
+ include/linux/pgtable.h                       | 29 -------
+ mm/debug_vm_pgtable.c                         | 25 +++++-
+ mm/memory.c                                   |  4 -
+ mm/rmap.c                                     | 11 ---
+ 50 files changed, 943 insertions(+), 227 deletions(-)
+
 -- 
-2.31.1
+2.38.1
 
 
 _______________________________________________
