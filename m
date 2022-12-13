@@ -4,66 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4437DC4332F
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 13 Dec 2022 10:26:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 80967C4332F
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 13 Dec 2022 16:18:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gomtaEQIqB+gRTh6JnezTOg9w/eK6goNaHXpVaFWHlU=; b=AklDtJkyaHFC11KMokl1VirGhl
-	ejzEXiPeIZZP2K5i6k7KdmGRn3+WCfXN9Blgdm338NApz/lK++l3VqrH4v8+5MjzEjCIF9Up8zYIT
-	MUr6/6zA0ayRJ4GS+djoFj81DEKzGecP0Ao+mwHAPNEx+m3CayRjvglQ6uHoPXYROV1t5KqmoCMOA
-	dHHD0C10a9Kxmk9kOx5KN/K5hTvul/oSs2r9qRyY+R0Cwid7QUpdej3ZAmSmNhsq+fmzXCZwaHONJ
-	zoSam9BYNqwNfoCBDNR126A8Z21kqBGWTMaFU1E7oEWbC2nnW7Ihlh5kaWZ+9CTKOniiAN2fzDbmg
-	TEFEe31Q==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:Mime-Version:Message-ID:To:From:CC:In-Reply-To:
+	Subject:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:List-Owner;
+	bh=SFfqRRaFLJ/5iA3xz+smwkUhHbrOU8NdIblcsKtwrX0=; b=a3L7tiRFlC7P4JOrMF0EjYdO/s
+	O1i847bDNgFmlDfotA4U4dQgAedel00lKj/5B7mj6ZCG+icER1njMBZYFW2xzUST2h1Rp4keBr3oD
+	xUK2pOEY8+LhCG1Az2NipP6EX8wT6KV1bD1vJgcycyImmbmwJaU3EBiE0Ik224uwDDgiIa6Cenh4z
+	qeBrZj5tAUj5RC8sEDPWv1CEbEDHLesn75CKpLmGwnmhLBCJohbzzML+6Pl136hv2Wpgt8PS94+rk
+	4Wm7VIvmCuICJnfSRu8oIxhhX7Y60TcFgWclrjxpxifEkkoaGW+BLVVrA6EK6BJa2jEGuj0EoIRL9
+	VOA0e5kA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p52Uq-00FYVh-5m; Tue, 13 Dec 2022 10:26:48 +0000
-Received: from mga05.intel.com ([192.55.52.43])
+	id 1p57z2-002l52-5r; Tue, 13 Dec 2022 16:18:20 +0000
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p52Un-00FYUA-2T
-	for linux-snps-arc@lists.infradead.org; Tue, 13 Dec 2022 10:26:46 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670927205; x=1702463205;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=Ah5SZVY2fxhzaYLbtqGp5de0N+/yQQjIpznbkipHIEk=;
-  b=gBsU0rsEeWI593Q6vev0/7X8SM1eDodxT/fdLPwGb4HRCZypJVOkxh12
-   2uf3kBpxWy4fvMK5QeCQgvn7NC/HzUWsahMqY7qOAvByG2Fpcj5BGQodf
-   XQKZ9nrmH0PnMVGr72JFGsuQxL7PhXCT6yWxjVJK+z0ZZ2/edQZksDQeL
-   mgh0pDge8JStIAodg7FzXs0k8Y/CpQub7q2yXfXbyxufheYQ198OVHe4+
-   htnGkKoR8utQC/IQti7l2xcZqInKS+NN9960gBBRnnGdtR6QrlBBpmgED
-   /iNRg/8VcLvU66SWI3XaXcUsX5KRuScqPqbPslYCQfJj5ufv/sH/yLUUl
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="404354167"
-X-IronPort-AV: E=Sophos;i="5.96,241,1665471600"; 
-   d="scan'208";a="404354167"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2022 02:26:38 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="712023652"
-X-IronPort-AV: E=Sophos;i="5.96,241,1665471600"; 
-   d="scan'208";a="712023652"
-Received: from myegin-mobl1.ger.corp.intel.com ([10.251.216.20])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2022 02:26:36 -0800
-Date: Tue, 13 Dec 2022 12:26:33 +0200 (EET)
-From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: =?ISO-8859-15?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-cc: Vineet Gupta <vgupta@kernel.org>, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    Jiri Slaby <jirislaby@kernel.org>, linux-snps-arc@lists.infradead.org, 
-    linux-serial <linux-serial@vger.kernel.org>, kernel@pengutronix.de
-Subject: Re: [PATCH] serial: arc_uart: Drop empty platform remove function
-In-Reply-To: <20221212212037.3773636-1-u.kleine-koenig@pengutronix.de>
-Message-ID: <2260aed-5ad1-a67-13b9-17b3ad8b3377@linux.intel.com>
-References: <20221212212037.3773636-1-u.kleine-koenig@pengutronix.de>
-MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-159833375-1670927198=:1741"
+	id 1p57yx-002l37-Vn
+	for linux-snps-arc@lists.infradead.org; Tue, 13 Dec 2022 16:18:18 +0000
+Received: by mail-pj1-x102b.google.com with SMTP id t17so3903769pjo.3
+        for <linux-snps-arc@lists.infradead.org>; Tue, 13 Dec 2022 08:18:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wj/NGKhLAYwhK6Lvw/Db918GBFSie4zjOTu3uFrT1gA=;
+        b=NkSnMp/V8AsX4vC30wzvTBDvSWE+M7qqraskr+aX6eDcBuYgYQHiZpd5PHFEtwmlex
+         b9sLXADwP2UKefS8URj7BbPzAGmqFf6Sql8Lry6ArNmBxIQqSRNMuMWf8z5+Hg1gJY0V
+         G/j7FdqVWjtps7jKHZujuEhFxXfcZ0TNsoRlDztocQW2ESX1R86PBEikNrfuO5gPc7mJ
+         6/Qoufhc+OUK8D5gU0LfvQQ/f14L5j2fbz4FLayl4GcS/rdSdchyCT6nat7Pvthexifo
+         5a34Jkw09BPh2fSzhpIrcgjFsOBxfZOpzDvRra+RnQyxHfSXNAOYkh3mU13qpd7fHBn3
+         z4dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wj/NGKhLAYwhK6Lvw/Db918GBFSie4zjOTu3uFrT1gA=;
+        b=ciGyWs8tsT5hRX1Y4xH91vBuijNyhUErlQwUh2Y5SI6TLdSUwc+f7n+O4BXJNcpKwQ
+         PHoZ9v1kkc6AvS/rnjoz3fyTngnqwNoD+OUJZzTKdAtzhNiVUw+xRvqLghVOWfJPywzF
+         mYFUsm9FoCPZIW7uOogkym/22VzYtPM55UFpvSdNOvD0u9CoRNfekMe+i+4eUetzM0HE
+         T4TXc+/3ZitNUmKIlWvLq4cPUNV1RGKXTcf8Hybl5ZBmhT5Q52AzYLCl5AUk0cXdRX7j
+         OlKQeDlmAjD73VZYRdbvo+DwrnrBYXKjMGMkfKhQ0KMnGRs6c/pXOW1mR1sTPnA7G464
+         7zVg==
+X-Gm-Message-State: ANoB5pl+T/MZcjmpBN/qATB7z9PHVkKRUrrxp6NMe1zh+h6ZU2eusYeO
+	7AZtM6ZTRZj4w8Xb8/h3CJ+cGg==
+X-Google-Smtp-Source: AA0mqf6JTPFlbgzI8iGusijASEg0Bt+tpHInO5Z4ANoXa2VKfVyLMA6BDQNt3aTd/y7ttlWwr47bgg==
+X-Received: by 2002:a17:902:ccc8:b0:188:640f:f41e with SMTP id z8-20020a170902ccc800b00188640ff41emr24115756ple.4.1670948294373;
+        Tue, 13 Dec 2022 08:18:14 -0800 (PST)
+Received: from localhost ([135.180.226.51])
+        by smtp.gmail.com with ESMTPSA id 13-20020a170902c24d00b001898ca438fcsm39047plg.282.2022.12.13.08.18.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Dec 2022 08:18:13 -0800 (PST)
+Date: Tue, 13 Dec 2022 08:18:13 -0800 (PST)
+X-Google-Original-Date: Tue, 13 Dec 2022 08:18:09 PST (-0800)
+Subject: Re: [PATCH v3 0/8] Generic IPI sending tracepoint
+In-Reply-To: <20221202155817.2102944-1-vschneid@redhat.com>
+CC: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+  linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+  linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
+  linux-mips@vger.kernel.org, openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
+  linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+  linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org, x86@kernel.org,
+  paulmck@kernel.org, rostedt@goodmis.org, peterz@infradead.org, tglx@linutronix.de,
+  bigeasy@linutronix.de, juri.lelli@redhat.com, bristot@redhat.com, mtosatti@redhat.com,
+  frederic@kernel.org, mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
+  Marc Zyngier <maz@kernel.org>, mark.rutland@arm.com, linux@armlinux.org.uk, npiggin@gmail.com,
+  guoren@kernel.org, davem@davemloft.net
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: vschneid@redhat.com
+Message-ID: <mhng-ed30efdc-5b5b-40fa-8661-f99d4e2991ed@palmer-ri-x1c9>
+Mime-Version: 1.0 (MHng)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221213_022645_143765_2583B1F8 
-X-CRM114-Status: GOOD (  17.84  )
+X-CRM114-CacheID: sfid-20221213_081816_269652_09253BF5 
+X-CRM114-Status: GOOD (  33.90  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,69 +93,186 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Fri, 02 Dec 2022 07:58:09 PST (-0800), vschneid@redhat.com wrote:
+> Background
+> ==========
+>
+> Detecting IPI *reception* is relatively easy, e.g. using
+> trace_irq_handler_{entry,exit} or even just function-trace
+> flush_smp_call_function_queue() for SMP calls.
+>
+> Figuring out their *origin*, is trickier as there is no generic tracepoint tied
+> to e.g. smp_call_function():
+>
+> o AFAIA x86 has no tracepoint tied to sending IPIs, only receiving them
+>   (cf. trace_call_function{_single}_entry()).
+> o arm/arm64 do have trace_ipi_raise(), which gives us the target cpus but also a
+>   mostly useless string (smp_calls will all be "Function call interrupts").
+> o Other architectures don't seem to have any IPI-sending related tracepoint.
+>
+> I believe one reason those tracepoints used by arm/arm64 ended up as they were
+> is because these archs used to handle IPIs differently from regular interrupts
+> (the IRQ driver would directly invoke an IPI-handling routine), which meant they
+> never showed up in trace_irq_handler_{entry, exit}. The trace_ipi_{entry,exit}
+> tracepoints gave a way to trace IPI reception but those have become redundant as
+> of:
+>
+>       56afcd3dbd19 ("ARM: Allow IPIs to be handled as normal interrupts")
+>       d3afc7f12987 ("arm64: Allow IPIs to be handled as normal interrupts")
+>
+> which gave IPIs a "proper" handler function used through
+> generic_handle_domain_irq(), which makes them show up via
+> trace_irq_handler_{entry, exit}.
+>
+> Changing stuff up
+> =================
+>
+> Per the above, it would make sense to reshuffle trace_ipi_raise() and move it
+> into generic code. This also came up during Daniel's talk on Osnoise at the CPU
+> isolation MC of LPC 2022 [1].
+>
+> Now, to be useful, such a tracepoint needs to export:
+> o targeted CPU(s)
+> o calling context
+>
+> The only way to get the calling context with trace_ipi_raise() is to trigger a
+> stack dump, e.g. $(trace-cmd -e ipi* -T echo 42).
+>
+> This is instead introducing a new tracepoint which exports the relevant context
+> (callsite, and requested callback for when the callsite isn't helpful), and is
+> usable by all architectures as it sits in generic code.
+>
+> Another thing worth mentioning is that depending on the callsite, the _RET_IP_
+> fed to the tracepoint is not always useful - generic_exec_single() doesn't tell
+> you much about the actual callback being sent via IPI, which is why the new
+> tracepoint also has a @callback argument.
+>
+> Patches
+> =======
+>
+> o Patch 1 is included for convenience and will be merged independently. FYI I
+>   have libtraceevent patches [2] to improve the
+>   pretty-printing of cpumasks using the new type, which look like:
+>   <...>-3322  [021]   560.402583: ipi_send_cpumask:     cpumask=14,17,21 callsite=on_each_cpu_cond_mask+0x40 callback=flush_tlb_func+0x0
+>   <...>-187   [010]   562.590584: ipi_send_cpumask:     cpumask=0-23 callsite=on_each_cpu_cond_mask+0x40 callback=do_sync_core+0x0
+>
+> o Patches 2-6 spread out the tracepoint across relevant sites.
+>   Patch 6 ends up sprinkling lots of #include <trace/events/ipi.h> which I'm not
+>   the biggest fan of, but is the least horrible solution I've been able to come
+>   up with so far.
+>
+> o Patch 8 is trying to be smart about tracing the callback associated with the
+>   IPI.
+>
+> This results in having IPI trace events for:
+>
+> o smp_call_function*()
+> o smp_send_reschedule()
+> o irq_work_queue*()
+> o standalone uses of __smp_call_single_queue()
+>
+> This is incomplete, just looking at arm64 there's more IPI types that aren't
+> covered:
+>
+>   IPI_CPU_STOP,
+>   IPI_CPU_CRASH_STOP,
+>   IPI_TIMER,
+>   IPI_WAKEUP,
+>
+> ... But it feels like a good starting point.
+>
+> Links
+> =====
+>
+> [1]: https://youtu.be/5gT57y4OzBM?t=14234
+> [2]: https://lore.kernel.org/all/20221116144154.3662923-1-vschneid@redhat.com/
+>
+> Revisions
+> =========
+>
+> v2 -> v3
+> ++++++++
+>
+> o Dropped the generic export of smp_send_reschedule(), turned it into a macro
+>   and a bunch of imports
+> o Dropped the send_call_function_single_ipi() macro madness, split it into sched
+>   and smp bits using some of Peter's suggestions
+>
+> v1 -> v2
+> ++++++++
+>
+> o Ditched single-CPU tracepoint
+> o Changed tracepoint signature to include callback
+> o Changed tracepoint callsite field to void *; the parameter is still UL to save
+>   up on casts due to using _RET_IP_.
+> o Fixed linking failures due to not exporting smp_send_reschedule()
+>
+> Steven Rostedt (Google) (1):
+>   tracing: Add __cpumask to denote a trace event field that is a
+>     cpumask_t
+>
+> Valentin Schneider (7):
+>   trace: Add trace_ipi_send_cpumask()
+>   sched, smp: Trace IPIs sent via send_call_function_single_ipi()
+>   smp: Trace IPIs sent via arch_send_call_function_ipi_mask()
+>   irq_work: Trace self-IPIs sent via arch_irq_work_raise()
+>   treewide: Trace IPIs sent via smp_send_reschedule()
+>   smp: reword smp call IPI comment
+>   sched, smp: Trace smp callback causing an IPI
+>
+>  arch/alpha/kernel/smp.c                      |  2 +-
+>  arch/arc/kernel/smp.c                        |  2 +-
+>  arch/arm/kernel/smp.c                        |  5 +-
+>  arch/arm/mach-actions/platsmp.c              |  2 +
+>  arch/arm64/kernel/smp.c                      |  3 +-
+>  arch/csky/kernel/smp.c                       |  2 +-
+>  arch/hexagon/kernel/smp.c                    |  2 +-
+>  arch/ia64/kernel/smp.c                       |  4 +-
+>  arch/loongarch/include/asm/smp.h             |  2 +-
+>  arch/mips/include/asm/smp.h                  |  2 +-
+>  arch/mips/kernel/rtlx-cmp.c                  |  2 +
+>  arch/openrisc/kernel/smp.c                   |  2 +-
+>  arch/parisc/kernel/smp.c                     |  4 +-
+>  arch/powerpc/kernel/smp.c                    |  6 +-
+>  arch/powerpc/kvm/book3s_hv.c                 |  3 +
+>  arch/powerpc/platforms/powernv/subcore.c     |  2 +
+>  arch/riscv/kernel/smp.c                      |  4 +-
+>  arch/s390/kernel/smp.c                       |  2 +-
+>  arch/sh/kernel/smp.c                         |  2 +-
+>  arch/sparc/kernel/smp_32.c                   |  2 +-
+>  arch/sparc/kernel/smp_64.c                   |  2 +-
+>  arch/x86/include/asm/smp.h                   |  2 +-
+>  arch/x86/kvm/svm/svm.c                       |  4 +
+>  arch/x86/kvm/x86.c                           |  2 +
+>  arch/xtensa/kernel/smp.c                     |  2 +-
+>  include/linux/smp.h                          |  8 +-
+>  include/trace/bpf_probe.h                    |  6 ++
+>  include/trace/events/ipi.h                   | 22 ++++++
+>  include/trace/perf.h                         |  6 ++
+>  include/trace/stages/stage1_struct_define.h  |  6 ++
+>  include/trace/stages/stage2_data_offsets.h   |  6 ++
+>  include/trace/stages/stage3_trace_output.h   |  6 ++
+>  include/trace/stages/stage4_event_fields.h   |  6 ++
+>  include/trace/stages/stage5_get_offsets.h    |  6 ++
+>  include/trace/stages/stage6_event_callback.h | 20 +++++
+>  include/trace/stages/stage7_class_define.h   |  2 +
+>  kernel/irq_work.c                            | 14 +++-
+>  kernel/sched/core.c                          | 19 +++--
+>  kernel/sched/smp.h                           |  2 +-
+>  kernel/smp.c                                 | 78 ++++++++++++++++----
+>  samples/trace_events/trace-events-sample.c   |  2 +-
+>  samples/trace_events/trace-events-sample.h   | 34 +++++++--
+>  virt/kvm/kvm_main.c                          |  1 +
+>  43 files changed, 250 insertions(+), 61 deletions(-)
 
---8323329-159833375-1670927198=:1741
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-
-On Mon, 12 Dec 2022, Uwe Kleine-König wrote:
-
-> A remove callback just returning 0 is equivalent to no remove callback
-> at all. So drop the useless function.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-
--- 
- i.
-
-> ---
->  drivers/tty/serial/arc_uart.c | 7 -------
->  1 file changed, 7 deletions(-)
-> 
-> diff --git a/drivers/tty/serial/arc_uart.c b/drivers/tty/serial/arc_uart.c
-> index 2a65ea2660e1..f1b6034addda 100644
-> --- a/drivers/tty/serial/arc_uart.c
-> +++ b/drivers/tty/serial/arc_uart.c
-> @@ -632,12 +632,6 @@ static int arc_serial_probe(struct platform_device *pdev)
->  	return uart_add_one_port(&arc_uart_driver, &arc_uart_ports[dev_id].port);
->  }
->  
-> -static int arc_serial_remove(struct platform_device *pdev)
-> -{
-> -	/* This will never be called */
-> -	return 0;
-> -}
-> -
->  static const struct of_device_id arc_uart_dt_ids[] = {
->  	{ .compatible = "snps,arc-uart" },
->  	{ /* Sentinel */ }
-> @@ -646,7 +640,6 @@ MODULE_DEVICE_TABLE(of, arc_uart_dt_ids);
->  
->  static struct platform_driver arc_platform_driver = {
->  	.probe = arc_serial_probe,
-> -	.remove = arc_serial_remove,
->  	.driver = {
->  		.name = DRIVER_NAME,
->  		.of_match_table  = arc_uart_dt_ids,
-> 
-
---8323329-159833375-1670927198=:1741
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Acked-by: Palmer Dabbelt <palmer@rivosinc.com> # riscv
 
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-snps-arc
-
---8323329-159833375-1670927198=:1741--
-
