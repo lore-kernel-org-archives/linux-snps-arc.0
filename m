@@ -4,88 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C4E8C001B2
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Dec 2022 13:29:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A147FC4332F
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Dec 2022 13:51:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=8YNB9u9iBB+ng+YJmXbmovhy0LWnk7ZDHKEWurQFQHA=; b=W62wRBayhCEq4A
-	tvj7KkYSuCP34dsjrGb4J4Hm2Ga25iFl+muRx4Th05P1evzJHZhSnVo4J9+OQ23j9EZ4xUHjcfzKr
-	t85TtbSaCDLwavpwwHMzk0hqYvW8CwWmVVDd9iXp0xIPokVYdi/6PpqVgFYQIBG47iAQhGq636qYc
-	sI5xpDk98mUJHzqoiaCOuTaUWwDGSn91hzygXuZzA1pLg2Qhmfq7/FtQUIK1MQFafveZRPRInWzwb
-	mwZi8xEmF2fiYctHNBhuakEkOHc8HG7UjqAEXBVO+bZ3gucNqpOjS36dF/fY5+0uKgcY7ROVwVCva
-	a1S9dwONW7yfHaduqFLQ==;
+	List-Owner; bh=YxNEQNQxn7O+IVJffwEgNrpI2Nj5PV5k+QGnMCaZOrU=; b=cho/doro99Z/2/
+	U3Ll4rcZQFGzvlcWGZY/xuKY+/nXcGxvsTP5GEooVSaNsS+fF8bSsBvkY1DsSDHHO/0FCTBhKMKIf
+	XZcnbeL9wf36euP127AayWqFCbzewzOfKdzXAhKTlEh4HOrBHTMGv7VCbguF6MHvLQz3CmF0OioBn
+	5VDlk6xYjefxLYOlHHAS1E1VWpjqAia/m1ioAGtW4UmZqNGMO1pgTVGgF7TFN1n4aqNWXvI5rTUCA
+	DRxRaisxbhSDWtV9KoAdY3gXcJfkzEcNpuEuWiJ5o5JsEV9j1goDJHrZd0U5kDsq++iM99AiWoDl3
+	GU+8B/8L/7RNjNH0aSCQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p8Ldn-00CPRi-Rs; Thu, 22 Dec 2022 13:29:43 +0000
-Received: from mga04.intel.com ([192.55.52.120])
+	id 1p8LzF-00CcTt-SI; Thu, 22 Dec 2022 13:51:53 +0000
+Received: from mga03.intel.com ([134.134.136.65])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p8K47-00BWcu-CM; Thu, 22 Dec 2022 11:48:57 +0000
+	id 1p8KzM-00C2Bm-Q1; Thu, 22 Dec 2022 12:47:58 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671709727; x=1703245727;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=F9SleecBAnyNkNrMFTTvSCZSu7ImUGAg65gwiv6wE30=;
-  b=OJrmugniV8E9wyKvYCD1rNrTXQBMu2CfMCg87yR0wVRTcxdxfsigwufM
-   AFj3nU1G65hzONtWcmrUPGU15sz9+rBDDmCIg1I7BoXTtlcCsGQ/vcDt7
-   fma5OiVTiBEblgVefI9qZxXW/pPIaMcGzsFD/9u0ofw2uRGaDIzE6WACd
-   XLh26cuSk1SXgipFi7T6tBy+jAVdziPZgpXIjOpUHjUk5O4EtqfhWWmUy
-   CMMsYn9SzurFB3dmyud3VG5Ioqv7N2t5rspCVo30fRECFw6+ZZMu3ceC2
-   GQOepCocRADBoQjdtewHIwoZ+dLdMSdKSoGbxLDqsvWskEB6oqmt6T4Mb
+  t=1671713276; x=1703249276;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UPM8RDFaM30ZmFrIb8CKMZ1JANhWUp662jbH45qLr6M=;
+  b=K2etaX872S+4MUR9/eIj4wJsmme9tOOLNeERDeBxFXkNeqawDUM/WuSn
+   usZwU+wyzttHHtW5gO4j1iOXRXmLzGYc3o3sDnHXDtRLL5h4QtCFOgRko
+   gBs4ZO3/yH6Dq2ict8r+HkIx/n5EDCuxIt7OUdE0ehzYxiN1hClBz5XWv
+   WzlynD5sEqa8QwqVtWgN+9IyI6G6RL4TJK9U/nGNTLxTgsUljl5cdFGPI
+   OBfOfX/qbmzFnNzhEbygBpCC7jubYjKiv3IG1kPk+QZmOsxfXioXYwD7g
+   KWZa4R/5MAMpRmndig3VsyHq0xdbH6DEcKhH8dDjcMOzTx1djO4NgW2hV
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="318804800"
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="322031546"
 X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; 
-   d="scan'208";a="318804800"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2022 03:48:42 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="629504822"
+   d="scan'208";a="322031546"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2022 04:47:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="897213732"
 X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; 
-   d="scan'208";a="629504822"
-Received: from lab-ah.igk.intel.com ([10.91.215.196])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2022 03:48:36 -0800
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-To: linux-alpha@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+   d="scan'208";a="897213732"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga006.fm.intel.com with ESMTP; 22 Dec 2022 04:47:45 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1p8Kz8-00Duf4-1e;
+	Thu, 22 Dec 2022 14:47:42 +0200
+Date: Thu, 22 Dec 2022 14:47:42 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-snps-arc@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-hexagon@vger.kernel.org,
-	linux-ia64@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org,
-	openrisc@lists.librecores.org,
-	linux-parisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	linux-xtensa@linux-xtensa.org,
-	intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+	linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org,
+	linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+	openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
 	Arnd Bergmann <arnd@arndb.de>,
 	Rodrigo Vivi <rodrigo.vivi@intel.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Peter Zijlstra <peterz@infradead.org>,
 	Boqun Feng <boqun.feng@gmail.com>,
 	Mark Rutland <mark.rutland@arm.com>
-Subject: [PATCH 13/19] arch/riscv: rename internal name __xchg to __arch_xchg
-Date: Thu, 22 Dec 2022 12:46:29 +0100
-Message-Id: <20221222114635.1251934-14-andrzej.hajda@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221222114635.1251934-1-andrzej.hajda@intel.com>
+Subject: Re: [PATCH 18/19] linux/include: add non-atomic version of xchg
+Message-ID: <Y6RR7hPZUN22ytap@smile.fi.intel.com>
 References: <20221222114635.1251934-1-andrzej.hajda@intel.com>
+ <20221222114635.1251934-19-andrzej.hajda@intel.com>
 MIME-Version: 1.0
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+Content-Disposition: inline
+In-Reply-To: <20221222114635.1251934-19-andrzej.hajda@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221222_034855_269526_7BA0254A 
-X-CRM114-Status: GOOD (  10.29  )
+X-CRM114-CacheID: sfid-20221222_044756_970198_A5956BCB 
+X-CRM114-Status: GOOD (  18.97  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,51 +98,54 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-__xchg will be used for non-atomic xchg macro.
+On Thu, Dec 22, 2022 at 12:46:34PM +0100, Andrzej Hajda wrote:
+> The pattern of setting variable with new value and returning old
+> one is very common in kernel. Usually atomicity of the operation
+> is not required, so xchg seems to be suboptimal and confusing in
+> such cases.
 
-Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
----
- arch/riscv/include/asm/atomic.h  | 2 +-
- arch/riscv/include/asm/cmpxchg.h | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+FWIW,
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-diff --git a/arch/riscv/include/asm/atomic.h b/arch/riscv/include/asm/atomic.h
-index 0dfe9d857a762b..bba472928b5393 100644
---- a/arch/riscv/include/asm/atomic.h
-+++ b/arch/riscv/include/asm/atomic.h
-@@ -261,7 +261,7 @@ c_t arch_atomic##prefix##_xchg_release(atomic##prefix##_t *v, c_t n)	\
- static __always_inline							\
- c_t arch_atomic##prefix##_xchg(atomic##prefix##_t *v, c_t n)		\
- {									\
--	return __xchg(&(v->counter), n, size);				\
-+	return __arch_xchg(&(v->counter), n, size);			\
- }									\
- static __always_inline							\
- c_t arch_atomic##prefix##_cmpxchg_relaxed(atomic##prefix##_t *v,	\
-diff --git a/arch/riscv/include/asm/cmpxchg.h b/arch/riscv/include/asm/cmpxchg.h
-index 12debce235e52d..2f4726d3cfcc25 100644
---- a/arch/riscv/include/asm/cmpxchg.h
-+++ b/arch/riscv/include/asm/cmpxchg.h
-@@ -114,7 +114,7 @@
- 					    _x_, sizeof(*(ptr)));	\
- })
- 
--#define __xchg(ptr, new, size)						\
-+#define __arch_xchg(ptr, new, size)					\
- ({									\
- 	__typeof__(ptr) __ptr = (ptr);					\
- 	__typeof__(new) __new = (new);					\
-@@ -143,7 +143,7 @@
- #define arch_xchg(ptr, x)						\
- ({									\
- 	__typeof__(*(ptr)) _x_ = (x);					\
--	(__typeof__(*(ptr))) __xchg((ptr), _x_, sizeof(*(ptr)));	\
-+	(__typeof__(*(ptr))) __arch_xchg((ptr), _x_, sizeof(*(ptr)));	\
- })
- 
- #define xchg32(ptr, x)							\
+> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> ---
+>  include/linux/non-atomic/xchg.h | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+>  create mode 100644 include/linux/non-atomic/xchg.h
+> 
+> diff --git a/include/linux/non-atomic/xchg.h b/include/linux/non-atomic/xchg.h
+> new file mode 100644
+> index 00000000000000..f7fa5dd746f37d
+> --- /dev/null
+> +++ b/include/linux/non-atomic/xchg.h
+> @@ -0,0 +1,19 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef _LINUX_NON_ATOMIC_XCHG_H
+> +#define _LINUX_NON_ATOMIC_XCHG_H
+> +
+> +/**
+> + * __xchg - set variable pointed by @ptr to @val, return old value
+> + * @ptr: pointer to affected variable
+> + * @val: value to be written
+> + *
+> + * This is non-atomic variant of xchg.
+> + */
+> +#define __xchg(ptr, val) ({		\
+> +	__auto_type __ptr = ptr;	\
+> +	__auto_type __t = *__ptr;	\
+> +	*__ptr = (val);			\
+> +	__t;				\
+> +})
+> +
+> +#endif
+> -- 
+> 2.34.1
+> 
+
 -- 
-2.34.1
+With Best Regards,
+Andy Shevchenko
+
 
 
 _______________________________________________
