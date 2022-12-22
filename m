@@ -4,49 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1E3C7C4332F
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Dec 2022 12:13:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BC6B1C001B2
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Dec 2022 12:13:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=Vs6LEbdwDSY2dgPF55YKtgugVI8KfgWv45altwOrPEU=; b=NWkW5dRrTLijFh
-	xSev+r2ksQh8h3IDDNLVOeGm+B0FmIjmvx/xHrpCIjfVX8CgqNAESq9qDAd7AShwS9wqti+NCiKMG
-	HTbkPTRFUTUgwV2MoKb6kfek7HzgWLu1BkcGpV9LcOB8PhpKoQrBi4F9+ZqZp28ltfQ7SFsYxHiHp
-	fpnEPK4o84YtupXs/KI7WO+yjGv0+cC7Ye8NuGJfFEl0Gaktzze1rZUeeAdwPBYXtEeSFd2Z95d4R
-	/M0h7RjrfQ7IuQd51DmvZ8Nuqr4Z/qXTtncrOcuw35vN3elmVy2l91pMA5WlqeUX3KfPogYEkwlYX
-	Vo79gOujHwiXPHRlIqdA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=Iwwr2lvuuroFmhHjwWT+gTIPJCPQ41nhURkxq/SHsNA=; b=lKUuJpICiCmtrS
+	q/I1s6G9UrYfEy88L1sMQFbd7nlxasqZfWU9OwHpBEgMHwVofyit9yzzK0Il+X6QXgdtTy12GemKW
+	JyfNy1VOzrPPuHV7f28vZB4SvvcRf3BIuc7HOty5K7wBVHk8ZOrb3YHrbHcATBLZUkEpo9/RFX4n9
+	yNAVdypdjFvh+5yBk6kIrFyMmZi5mTZcsMAd7hU9KnX3eCwazzvrAtvyubxzEfHExTmISp90NgJjC
+	R+6f5weaJs1EeDkX+yKLCqt2ikk/aAxxvrLD9eOM9zkFdxDV8k7LrjLKI4ZsR6mw6PCFRL/9UX6k5
+	RNgZmmM+avoVUpAnlzwg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p8KSN-00Bjn9-96; Thu, 22 Dec 2022 12:13:51 +0000
+	id 1p8KSP-00BjoS-Ew; Thu, 22 Dec 2022 12:13:53 +0000
 Received: from mga04.intel.com ([192.55.52.120])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p8K2o-00BWNQ-GK; Thu, 22 Dec 2022 11:47:28 +0000
+	id 1p8K3C-00BWSb-SF; Thu, 22 Dec 2022 11:47:52 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671709646; x=1703245646;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=jJG0WtbR+rCKPAOFXgAECJpdIQA2qxIhAt/9hS9GHCs=;
-  b=X7cQOIwbsLdTXqF8W49rcNWKbcLv3iE14Tb+FaJWQjK01uz6nE4X7m51
-   yIwZ+k9YNEZAmUt7I12hR4iym9Mpl0MDiQX08l2rSDwOdR5g7qaQIWoaB
-   zZ9VudGGBJx8AaVVa96fNZpRPk5niEU5OFGK7F9HwCX9AAB7NBZDlzz77
-   V+lJbQdYLy0WuIKEJlpe52k85aM9h2FocZtp9IcJshrkmG6mHcXwjvyQH
-   D+wksE5j9/TmrCgxNJ/9dHM05ovvwsAcSYpw3RpJbHSVDLudEPLgjA+XP
-   LrTCrFRQLNrWLaz2M/Wj2yuqxxzgW2ymMn+zLPPDQ0RaBOhfDaNFwybpM
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="318804420"
+  t=1671709670; x=1703245670;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=/UDTi8Vls0g/+nnPnB+HCzMyNgpTxrVUoGQF5kbhC34=;
+  b=RM+cLECTApjcbeEPy2Y02ig+ua3YBZn6pmQwfduf8vnVuJhSa7Rw5gWl
+   Dxr2yQqdFoCiDeY1aA59pW3O2Y56zXrY7jkA2ZeYh5mToatywOfvEymnt
+   vc9kg+YXFxLOYcijmF8uA7sLRblHvA81hWEyHNMevNv6u2pOFd87IVk/e
+   VUSQ/H5JclvDzIRxJxcsg/wOjppY9lk9gJBiBKM64Bw7dBJYNVngkMmEY
+   iKYA3ojpjAFvWTv+Rc4MKE/FDk+6dR7rEfbKWHKaYmM8AsS5BGW6uUv6J
+   DgEbbJcsS6MsK7vfOJoM0MOO9eYI+vmWZpVoUxN2jPi7GkcqfHe3TJ2SJ
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="318804486"
 X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; 
-   d="scan'208";a="318804420"
+   d="scan'208";a="318804486"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2022 03:47:24 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="629504298"
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2022 03:47:36 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="629504368"
 X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; 
-   d="scan'208";a="629504298"
+   d="scan'208";a="629504368"
 Received: from lab-ah.igk.intel.com ([10.91.215.196])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2022 03:47:18 -0800
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2022 03:47:30 -0800
 From: Andrzej Hajda <andrzej.hajda@intel.com>
 To: linux-alpha@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -75,15 +75,18 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
 	Peter Zijlstra <peterz@infradead.org>,
 	Boqun Feng <boqun.feng@gmail.com>,
 	Mark Rutland <mark.rutland@arm.com>
-Subject: [PATCH 00/19] Introduce __xchg, non-atomic xchg
-Date: Thu, 22 Dec 2022 12:46:16 +0100
-Message-Id: <20221222114635.1251934-1-andrzej.hajda@intel.com>
+Subject: [PATCH 02/19] arch/arc: rename internal name __xchg to __arch_xchg
+Date: Thu, 22 Dec 2022 12:46:18 +0100
+Message-Id: <20221222114635.1251934-3-andrzej.hajda@intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221222114635.1251934-1-andrzej.hajda@intel.com>
+References: <20221222114635.1251934-1-andrzej.hajda@intel.com>
 MIME-Version: 1.0
 Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221222_034726_688371_6785FDEF 
-X-CRM114-Status: GOOD (  13.76  )
+X-CRM114-CacheID: sfid-20221222_034750_967450_CE318D31 
+X-CRM114-Status: UNSURE (   9.78  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,123 +103,35 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+__xchg will be used for non-atomic xchg macro.
 
-I hope there will be place for such tiny helper in kernel.
-Quick cocci analyze shows there is probably few thousands places
-where it could be useful.
-I am not sure who is good person to review/ack such patches,
-so I've used my intuition to construct to/cc lists, sorry for mistakes.
-This is the 2nd approach of the same idea, with comments addressed[0].
+Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+---
+ arch/arc/include/asm/cmpxchg.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-The helper is tiny and there are advices we can leave without it, so
-I want to present few arguments why it would be good to have it:
-
-1. Code readability/simplification/number of lines:
-
-Real example from drivers/net/ethernet/mellanox/mlx5/core/esw/qos.c:
--       previous_min_rate = evport->qos.min_rate;
--       evport->qos.min_rate = min_rate;
-+       previous_min_rate = __xchg(evport->qos.min_rate, min_rate);
-
-For sure the code is more compact, and IMHO more readable.
-
-2. Presence of similar helpers in other somehow related languages/libs:
-
-a) Rust[1]: 'replace' from std::mem module, there is also 'take'
-    helper (__xchg(&x, 0)), which is the same as private helper in
-    i915 - fetch_and_zero, see latest patch.
-b) C++ [2]: 'exchange' from utility header.
-
-If the idea is OK there are still 2 qestions to answer:
-
-1. Name of the helper, __xchg follows kernel conventions,
-    but for me Rust names are also OK.
-2. Where to put the helper:
-a) as in this patchset include/linux/non-atomic/xchg.h,
-    proposed by Andy Shevchenko,
-b) include/linux/utils.h ? any better name? Some kind
-    of container for simple helpers.
-
-Structure of the patchset:
-17 patches releasing __xchg name from arch files
-1 patch adding __xchg
-1 patch adding users of __xchg
-
-Arnd thanks for convienient set of cross compilers, it was very helpful.
-
-So many words for so small helper :)
-
-[0]: https://lore.kernel.org/lkml/Y5OFSvaYbv4XCxhE@smile.fi.intel.com/T/
-[1]: https://doc.rust-lang.org/std/mem/index.html
-[2]: https://en.cppreference.com/w/cpp/header/utility
-
-Regards
-Andrzej
-
-Andrzej Hajda (19):
-  arch/alpha: rename internal name __xchg to __arch_xchg
-  arch/arc: rename internal name __xchg to __arch_xchg
-  arch/arm: rename internal name __xchg to __arch_xchg
-  arch/arm64: rename internal name __xchg to __arch_xchg
-  arch/hexagon: rename internal name __xchg to __arch_xchg
-  arch/ia64: rename internal name __xchg to __arch_xchg
-  arch/loongarch: rename internal name __xchg to __arch_xchg
-  arch/m68k: rename internal name __xchg to __arch_xchg
-  arch/mips: rename internal name __xchg to __arch_xchg
-  arch/openrisc: rename internal name __xchg to __arch_xchg
-  arch/parisc: rename internal name __xchg to __arch_xchg
-  arch/powerpc: correct logged function names in xchg helpers
-  arch/riscv: rename internal name __xchg to __arch_xchg
-  arch/s390: rename internal name __xchg to __arch_xchg
-  arch/sh: rename internal name __xchg to __arch_xchg
-  arch/sparc: rename internal name __xchg to __arch_xchg
-  arch/xtensa: rename internal name __xchg to __arch_xchg
-  linux/include: add non-atomic version of xchg
-  drm/i915/gt: use __xchg instead of internal helper
-
- arch/alpha/include/asm/cmpxchg.h              |  6 +++---
- arch/arc/include/asm/cmpxchg.h                |  4 ++--
- arch/arm/include/asm/cmpxchg.h                |  4 ++--
- arch/arm64/include/asm/cmpxchg.h              |  4 ++--
- arch/hexagon/include/asm/cmpxchg.h            |  6 +++---
- arch/ia64/include/asm/cmpxchg.h               |  2 +-
- arch/ia64/include/uapi/asm/cmpxchg.h          |  4 ++--
- arch/loongarch/include/asm/cmpxchg.h          |  4 ++--
- arch/m68k/include/asm/cmpxchg.h               |  6 +++---
- arch/mips/include/asm/cmpxchg.h               |  4 ++--
- arch/openrisc/include/asm/cmpxchg.h           |  4 ++--
- arch/parisc/include/asm/cmpxchg.h             |  4 ++--
- arch/powerpc/include/asm/cmpxchg.h            |  4 ++--
- arch/riscv/include/asm/atomic.h               |  2 +-
- arch/riscv/include/asm/cmpxchg.h              |  4 ++--
- arch/s390/include/asm/cmpxchg.h               |  4 ++--
- arch/sh/include/asm/cmpxchg.h                 |  4 ++--
- arch/sparc/include/asm/cmpxchg_32.h           |  4 ++--
- arch/sparc/include/asm/cmpxchg_64.h           |  4 ++--
- arch/xtensa/include/asm/cmpxchg.h             |  4 ++--
- drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  2 +-
- .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |  4 ++--
- .../drm/i915/gt/intel_execlists_submission.c  |  4 ++--
- drivers/gpu/drm/i915/gt/intel_ggtt.c          |  4 ++--
- drivers/gpu/drm/i915/gt/intel_gsc.c           |  2 +-
- drivers/gpu/drm/i915/gt/intel_gt.c            |  4 ++--
- drivers/gpu/drm/i915/gt/intel_gt_pm.c         |  2 +-
- drivers/gpu/drm/i915/gt/intel_lrc.c           |  6 +++---
- drivers/gpu/drm/i915/gt/intel_migrate.c       |  2 +-
- drivers/gpu/drm/i915/gt/intel_rc6.c           |  2 +-
- drivers/gpu/drm/i915/gt/intel_rps.c           |  2 +-
- drivers/gpu/drm/i915/gt/selftest_context.c    |  2 +-
- .../drm/i915/gt/selftest_ring_submission.c    |  2 +-
- drivers/gpu/drm/i915/gt/selftest_timeline.c   |  2 +-
- drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c     |  2 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  2 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  2 +-
- drivers/gpu/drm/i915/i915_utils.h             |  1 +
- include/linux/non-atomic/xchg.h               | 19 +++++++++++++++++++
- 39 files changed, 84 insertions(+), 64 deletions(-)
- create mode 100644 include/linux/non-atomic/xchg.h
-
+diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
+index c5b544a5fe8106..e138fde067dea5 100644
+--- a/arch/arc/include/asm/cmpxchg.h
++++ b/arch/arc/include/asm/cmpxchg.h
+@@ -85,7 +85,7 @@
+  */
+ #ifdef CONFIG_ARC_HAS_LLSC
+ 
+-#define __xchg(ptr, val)						\
++#define __arch_xchg(ptr, val)						\
+ ({									\
+ 	__asm__ __volatile__(						\
+ 	"	ex  %0, [%1]	\n"	/* set new value */	        \
+@@ -102,7 +102,7 @@
+ 									\
+ 	switch(sizeof(*(_p_))) {					\
+ 	case 4:								\
+-		_val_ = __xchg(_p_, _val_);				\
++		_val_ = __arch_xchg(_p_, _val_);			\
+ 		break;							\
+ 	default:							\
+ 		BUILD_BUG();						\
 -- 
 2.34.1
 
