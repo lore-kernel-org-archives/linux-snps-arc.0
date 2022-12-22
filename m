@@ -4,49 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 030F3C4332F
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Dec 2022 12:13:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC73FC4332F
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Dec 2022 12:13:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=uQPtjYsdasrMYiXiLmMJ9DpdHGFRAAX9s4CFQ+4EauQ=; b=gDTzBju5/SR5hk
-	LJrlpphJmCv4miqwhM2IEIXvzu1BuXGNSAABs9w3ioA2GkYvloxETCggp7togDQs9Sh/7LEElkne3
-	oAZQEJPygcbFrfmV2n1QUImO0jwBAh4Qqe4R9fQSlP0Nyn4pb7mml0a/xlw838+NJ+Azo07ZY9xCd
-	krmRlgxH7J3McJRr01VSbJG61w9Hky2vlNhnSQD7j4zYJnzm/EFJZpWQeHupCnGxOXL81JNN3cnbq
-	ZrhtLYRKPUPx8zlWP8EmMuUL1SKjEhGveU1Rc3jHRoqa5STHVDoqVPIqiKzrUOvy9aU/In32i0BWA
-	P+KmENuhwDfixrIcwa1Q==;
+	List-Owner; bh=Y8oiOY9hDFTtcsI5TcFUcdrnLfMtHc265mvl1PEvU+E=; b=KJBJD1jXR5izbR
+	9YL7mzZZH0AyvUZes2ZbIcnrLNzQRQlY9W1G3oSRah+b9FENfCUZ1W1f/NjqGWVwCxtfGk285eJP2
+	J0Us7r0M6qbBwalQP/Vn6eLMtdSW6HjxyIztOqOOeP/IDy2zmMNEsLbk2Yi2Zqjy1cF9YJwvrKQ5O
+	C3IZAqq810CTi7i1rH0jxQawO0YkB/sHBrj1VgCcpujGg8/Iq/PN1sEoPJCvTxKorqDHslo90IPdm
+	ON/D+hHr8R1BiOEOhqJMo54t76QFd6NIbwBO0ELom6xtnjYcPu64XuuJi79U6Rb9l6dzbwBofnvJv
+	wUTu75yKkCg8DmUnec9A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p8KSJ-00BjkI-Ml; Thu, 22 Dec 2022 12:13:47 +0000
+	id 1p8KSL-00BjlG-9e; Thu, 22 Dec 2022 12:13:49 +0000
 Received: from mga04.intel.com ([192.55.52.120])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p8K3O-00BWWm-2e; Thu, 22 Dec 2022 11:48:03 +0000
+	id 1p8K3l-00BWcu-4O; Thu, 22 Dec 2022 11:48:45 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671709682; x=1703245682;
+  t=1671709705; x=1703245705;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=P1D9tmgH8/CSHAiLVPcpQPpEF0wSUpHitFyM9Wwb9a4=;
-  b=Mef8LhX4d1SdZfmmnpOHr8Ge+X4jZDExLYmenGSMWJ6aK+aOMW3IyaUK
-   5z0IKI3CAkgUkESxA9QhTxoQTcMrLR+VQ4igwH+AqX/z6o79rGg6XOW9D
-   QB5uPTptbJ0ui80S/qIfUhq8B9NKFyYkMD1HbYRipyn0CF/aMpU3E6Wrj
-   ewb+zkrIpubOTY2I4O/HFK63UhdlqSZ20i+88KJr+aG5D36SlA+fftx9w
-   igHJn3RBcc+DrLydq00H5OGywatm3daCrSJwygDvBEEvZ06XY26U1cz8L
-   vVS3YoEod5Mjt2SrS4GeavwGwFoF+jXQr9roV6li0t5I7jzeOQned5qIg
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="318804602"
+  bh=TghWz/7dE4JZXKAzYoxxWMMVMnrM6ngZWB0OqEIPnYA=;
+  b=DuS2QF5sxVpKkjNlWCyR7OIq0b8qko3KfIbfPwiuuIQ1cv0fViHHa19K
+   UeZzEUtmgo7VRpZwdLwQUqmc73s8N8tmPvQbEooY6rXfZsx0n9rovmXL2
+   nW3PiygcASjytf4LBEeVngKmb/I2c5cRAxrpzVDdcmgiEsfsVWUzEGQyS
+   GcqhW8cq+5rfaaxV0DVCgXiS41E4y8nW/1sep2KPhQSMESioFxjWeq6nd
+   B6bt4IxLNp7yxswBJ0zMt0PjI0wRFWuEzbBHPBM5Nnuqn20tHr5SevsmK
+   xYfSQ53PXnaUouhFmEvaqt/kib9i2UB6E2mZLOge3kDpz2kic2Y7TueV1
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="318804732"
 X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; 
-   d="scan'208";a="318804602"
+   d="scan'208";a="318804732"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2022 03:48:00 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="629504567"
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2022 03:48:24 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="629504752"
 X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; 
-   d="scan'208";a="629504567"
+   d="scan'208";a="629504752"
 Received: from lab-ah.igk.intel.com ([10.91.215.196])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2022 03:47:54 -0800
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2022 03:48:18 -0800
 From: Andrzej Hajda <andrzej.hajda@intel.com>
 To: linux-alpha@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -75,17 +75,17 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
 	Peter Zijlstra <peterz@infradead.org>,
 	Boqun Feng <boqun.feng@gmail.com>,
 	Mark Rutland <mark.rutland@arm.com>
-Subject: [PATCH 06/19] arch/ia64: rename internal name __xchg to __arch_xchg
-Date: Thu, 22 Dec 2022 12:46:22 +0100
-Message-Id: <20221222114635.1251934-7-andrzej.hajda@intel.com>
+Subject: [PATCH 10/19] arch/openrisc: rename internal name __xchg to __arch_xchg
+Date: Thu, 22 Dec 2022 12:46:26 +0100
+Message-Id: <20221222114635.1251934-11-andrzej.hajda@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221222114635.1251934-1-andrzej.hajda@intel.com>
 References: <20221222114635.1251934-1-andrzej.hajda@intel.com>
 MIME-Version: 1.0
 Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221222_034802_171554_34AAFC01 
-X-CRM114-Status: GOOD (  10.32  )
+X-CRM114-CacheID: sfid-20221222_034831_944093_C8DC8C84 
+X-CRM114-Status: GOOD (  10.06  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,45 +106,31 @@ __xchg will be used for non-atomic xchg macro.
 
 Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
 ---
- arch/ia64/include/asm/cmpxchg.h      | 2 +-
- arch/ia64/include/uapi/asm/cmpxchg.h | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ arch/openrisc/include/asm/cmpxchg.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/ia64/include/asm/cmpxchg.h b/arch/ia64/include/asm/cmpxchg.h
-index 94ef844298431a..8b2e644ef6a14e 100644
---- a/arch/ia64/include/asm/cmpxchg.h
-+++ b/arch/ia64/include/asm/cmpxchg.h
-@@ -5,7 +5,7 @@
- #include <uapi/asm/cmpxchg.h>
+diff --git a/arch/openrisc/include/asm/cmpxchg.h b/arch/openrisc/include/asm/cmpxchg.h
+index 79fd16162ccb6d..5725e22e10683b 100644
+--- a/arch/openrisc/include/asm/cmpxchg.h
++++ b/arch/openrisc/include/asm/cmpxchg.h
+@@ -147,7 +147,7 @@ static inline unsigned long __cmpxchg(volatile void *ptr, unsigned long old,
+ extern unsigned long __xchg_called_with_bad_pointer(void)
+ 	__compiletime_error("Bad argument size for xchg");
  
- #define arch_xchg(ptr, x)	\
--({(__typeof__(*(ptr))) __xchg((unsigned long) (x), (ptr), sizeof(*(ptr)));})
-+({(__typeof__(*(ptr))) __arch_xchg((unsigned long) (x), (ptr), sizeof(*(ptr)));})
+-static inline unsigned long __xchg(volatile void *ptr, unsigned long with,
++static inline unsigned long __arch_xchg(volatile void *ptr, unsigned long with,
+ 		int size)
+ {
+ 	switch (size) {
+@@ -163,7 +163,7 @@ static inline unsigned long __xchg(volatile void *ptr, unsigned long with,
  
- #define arch_cmpxchg(ptr, o, n)		cmpxchg_acq((ptr), (o), (n))
- #define arch_cmpxchg64(ptr, o, n)	cmpxchg_acq((ptr), (o), (n))
-diff --git a/arch/ia64/include/uapi/asm/cmpxchg.h b/arch/ia64/include/uapi/asm/cmpxchg.h
-index ca2e0268534384..3fec9b037051bb 100644
---- a/arch/ia64/include/uapi/asm/cmpxchg.h
-+++ b/arch/ia64/include/uapi/asm/cmpxchg.h
-@@ -27,7 +27,7 @@
-  */
- extern void ia64_xchg_called_with_bad_pointer(void);
- 
--#define __xchg(x, ptr, size)						\
-+#define __arch_xchg(x, ptr, size)					\
- ({									\
- 	unsigned long __xchg_result;					\
- 									\
-@@ -55,7 +55,7 @@ extern void ia64_xchg_called_with_bad_pointer(void);
- 
- #ifndef __KERNEL__
- #define xchg(ptr, x)							\
--({(__typeof__(*(ptr))) __xchg((unsigned long) (x), (ptr), sizeof(*(ptr)));})
-+({(__typeof__(*(ptr))) __arch_xchg((unsigned long) (x), (ptr), sizeof(*(ptr)));})
- #endif
- 
- /*
+ #define arch_xchg(ptr, with) 						\
+ 	({								\
+-		(__typeof__(*(ptr))) __xchg((ptr),			\
++		(__typeof__(*(ptr))) __arch_xchg((ptr),			\
+ 					    (unsigned long)(with),	\
+ 					    sizeof(*(ptr)));		\
+ 	})
 -- 
 2.34.1
 
