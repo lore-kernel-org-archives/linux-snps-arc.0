@@ -4,49 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91403C4332F
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Dec 2022 12:13:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4CB8C4167B
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Dec 2022 12:13:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=eys/xVfmWdZeUE4UjZEoVf8ocdIPIy/ex1W1THeGLHo=; b=BUSgQhgO6MeSsr
-	0gjp7ZRkCZ3VluJakAs9+gDkXlEWSzwLd/lZf1JE8jN3UDZuDDJRzY6QOBNo+zB4q6oGEDIzhZqHl
-	/FDxDGNiJeDL1Qqi+f8DaIkEo11mGa+7qQLf1xO4IWknSmr5ZauelZbprqq29R08c7GIV5VpKrm9w
-	usq8lLzETWlqrUo4POFOmJVoaD3M4lqdxAq9few+dJz+2pcUTbef3MEzE+nZW/Ef9OEbl1IYCFyqD
-	kcuyE9b0/GLgzKoNUkd+D4dFxoch7So0TEF6dXZZ0zmk39DUFayNddr5+Yywg/f1lVUkp2Dsz8maD
-	MTTQNPuA1b/kIIs7Wyeg==;
+	List-Owner; bh=F+u2N1TE8B1UWXXcWd+lMv3Lb5WS88Fo+RIq/9CtonE=; b=fq7zZGkYTG0spJ
+	y2LILVY0GICI35pW6SX/CowpSTbL3L8ePb4mXmlZAg3TsnoW0LqCNx4sSpF0S5RGL6MgHvmJHm9ZD
+	BYcoJ7hxsA9uxsQqjNU1uqbZC2jpE4VmKEoRdkQ+9WdqVQ+pF9bGO7qqoWiMcSybdlowKWMlyjrPJ
+	nu9Xp5d8vfwiDXkpgNu7YD/aEQ/dIVtCa566QcEP65AQTXfIaSDBR8EiKTkWKxbnA0dMuWlmDeGvd
+	2BQWN9hwOEUsomGi77G8Wt+5N3OtFrBAGjBExn6bkjO2j5pXv5LYswWhlp+htwwJX7yKxCFoPklee
+	aVMSqfpWIiNiBXAayMzg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p8KSA-00BjdV-41; Thu, 22 Dec 2022 12:13:38 +0000
+	id 1p8KSB-00BjeL-SB; Thu, 22 Dec 2022 12:13:39 +0000
 Received: from mga04.intel.com ([192.55.52.120])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p8K49-00BWWm-7c; Thu, 22 Dec 2022 11:48:57 +0000
+	id 1p8K3Z-00BWWm-He; Thu, 22 Dec 2022 11:48:26 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671709729; x=1703245729;
+  t=1671709693; x=1703245693;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=DkmV3GJS9Tl7SCqcbYCFpqWizdAnQdaBoGDZyzrrlMs=;
-  b=U0BmhAephbtLYyf0Vjz6msALEi6SYPY8giKxBYL6+m2y9mr+vNYTSCZi
-   Z/vj+JFBLOSdLI4nKJ+DhnZ7m6IqIpV929IjZNKfePm0h5s18LIfWbbjZ
-   wo5ac6rAINNCd9T/rYl4/aU5l3JdkMsv8JhgSEkXC2fB2jvFAOClWIVGO
-   umFVzsfNbPH71v42mISt0w98Qz3plkmLQUhmFjchytxQWDlAZUt2pf926
-   jinEYfu2JL6CEZKqzvHRClk85PNyb+LFKzS5soIUk3okqabwRYR7fJmAr
-   yRw/ikvLSwKrJ82hmZOk57ilEsNdFiPJCu6zyHpjVwt1RC+PiUqABlsWO
+  bh=o4h93ABh3+zAq8TlgfcDXo1RyDlG18z2IRLWJiiWgBI=;
+  b=ToJ6Z3ALVY0fBMX7SiR/G3HF6QHQopuWz+PUR+HJUFunYtJwUUA7v5q7
+   cOolppLXPi/YeN8nl8f1sPhZHKof27dpkoQP/8acCqWGLpO5a+ibUdvea
+   VJVYyegrMeL5esDoGuXUQppQ8M/2DHp4mwXdUV5UXTKMY8z3OzKU9HLcF
+   NlERuLtbFHniEm93iHEBfArw1E7kGMTYdbpwGwq5d9sEPiocjSerOFWZQ
+   2N97AbEx/vv1xNuHGRI/AFNzij4kHzjtMiER/K2hTPjQasi9AQF2lbpc3
+   qv0o4K55QOgTP1LPbEvXTqjT7qpDPcLpeCYIIVjUWs+YbVGVz43d/2IcM
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="318804834"
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="318804689"
 X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; 
-   d="scan'208";a="318804834"
+   d="scan'208";a="318804689"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2022 03:48:48 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="629504846"
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2022 03:48:13 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="629504710"
 X-IronPort-AV: E=Sophos;i="5.96,265,1665471600"; 
-   d="scan'208";a="629504846"
+   d="scan'208";a="629504710"
 Received: from lab-ah.igk.intel.com ([10.91.215.196])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2022 03:48:42 -0800
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2022 03:48:06 -0800
 From: Andrzej Hajda <andrzej.hajda@intel.com>
 To: linux-alpha@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -75,17 +75,17 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
 	Peter Zijlstra <peterz@infradead.org>,
 	Boqun Feng <boqun.feng@gmail.com>,
 	Mark Rutland <mark.rutland@arm.com>
-Subject: [PATCH 14/19] arch/s390: rename internal name __xchg to __arch_xchg
-Date: Thu, 22 Dec 2022 12:46:30 +0100
-Message-Id: <20221222114635.1251934-15-andrzej.hajda@intel.com>
+Subject: [PATCH 08/19] arch/m68k: rename internal name __xchg to __arch_xchg
+Date: Thu, 22 Dec 2022 12:46:24 +0100
+Message-Id: <20221222114635.1251934-9-andrzej.hajda@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221222114635.1251934-1-andrzej.hajda@intel.com>
 References: <20221222114635.1251934-1-andrzej.hajda@intel.com>
 MIME-Version: 1.0
 Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20221222_034855_298689_4D44A9F0 
-X-CRM114-Status: UNSURE (   9.90  )
+X-CRM114-CacheID: sfid-20221222_034822_265576_745D4F5D 
+X-CRM114-Status: UNSURE (   9.45  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -107,31 +107,40 @@ __xchg will be used for non-atomic xchg macro.
 
 Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
 ---
- arch/s390/include/asm/cmpxchg.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/m68k/include/asm/cmpxchg.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/s390/include/asm/cmpxchg.h b/arch/s390/include/asm/cmpxchg.h
-index 84c3f0d576c5b1..efc16f4aac8643 100644
---- a/arch/s390/include/asm/cmpxchg.h
-+++ b/arch/s390/include/asm/cmpxchg.h
-@@ -14,7 +14,7 @@
+diff --git a/arch/m68k/include/asm/cmpxchg.h b/arch/m68k/include/asm/cmpxchg.h
+index 6cf464cdab067e..d7f3de9c5d6f79 100644
+--- a/arch/m68k/include/asm/cmpxchg.h
++++ b/arch/m68k/include/asm/cmpxchg.h
+@@ -9,7 +9,7 @@
+ extern unsigned long __invalid_xchg_size(unsigned long, volatile void *, int);
  
- void __xchg_called_with_bad_pointer(void);
- 
--static __always_inline unsigned long __xchg(unsigned long x,
-+static __always_inline unsigned long __arch_xchg(unsigned long x,
- 					    unsigned long address, int size)
+ #ifndef CONFIG_RMW_INSNS
+-static inline unsigned long __xchg(unsigned long x, volatile void * ptr, int size)
++static inline unsigned long __arch_xchg(unsigned long x, volatile void * ptr, int size)
  {
- 	unsigned long old;
-@@ -77,7 +77,7 @@ static __always_inline unsigned long __xchg(unsigned long x,
- 	__typeof__(*(ptr)) __ret;					\
- 									\
- 	__ret = (__typeof__(*(ptr)))					\
--		__xchg((unsigned long)(x), (unsigned long)(ptr),	\
-+		__arch_xchg((unsigned long)(x), (unsigned long)(ptr),	\
- 		       sizeof(*(ptr)));					\
- 	__ret;								\
- })
+ 	unsigned long flags, tmp;
+ 
+@@ -40,7 +40,7 @@ static inline unsigned long __xchg(unsigned long x, volatile void * ptr, int siz
+ 	return x;
+ }
+ #else
+-static inline unsigned long __xchg(unsigned long x, volatile void * ptr, int size)
++static inline unsigned long __arch_xchg(unsigned long x, volatile void * ptr, int size)
+ {
+ 	switch (size) {
+ 	case 1:
+@@ -75,7 +75,7 @@ static inline unsigned long __xchg(unsigned long x, volatile void * ptr, int siz
+ }
+ #endif
+ 
+-#define arch_xchg(ptr,x) ({(__typeof__(*(ptr)))__xchg((unsigned long)(x),(ptr),sizeof(*(ptr)));})
++#define arch_xchg(ptr,x) ({(__typeof__(*(ptr)))__arch_xchg((unsigned long)(x),(ptr),sizeof(*(ptr)));})
+ 
+ #include <asm-generic/cmpxchg-local.h>
+ 
 -- 
 2.34.1
 
