@@ -4,59 +4,107 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65CD8C4708E
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Jan 2023 08:22:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B665C3DA7D
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Jan 2023 10:31:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=A25HSH0sZcsdV6in1vJRNm+vVoGBRKnvt5FR3dC76U0=; b=RKY4pp+8BwPJmA
-	9p16qlQ0Ot2Kksk2kv5Z09LbcPnalPF0XCRWBT4YgbDPhJzwOCzAJEHL1qGsYcV+7xKaN+d0kWFyl
-	a+0Q//Hol96QwmKLtTzgvP78pXxSIxliviE+pgUrfgmHtQctPrOCSdFXzAxvUYqecqIlLRyZKRDZB
-	RVONIwbLI9cbmTe+s9xTv0x9LUWRDVxSQcQQJDWqGurO+k6JT7HdIQ8punnXUsmPhrM3cgwNKOTqN
-	jDFQpTIai1aYhIHtBc2BrrhPj5SjzhNlXHzZ9KSC8GFxS1o7PyapfBUdJzzwaHWt8IuhgTNxMjAwN
-	lBbRFWWtcCDSDfKgEjFg==;
+	List-Owner; bh=/Jao15peMDSrmRO+0FQL8KweUaUZdrJDMPpAlzEG58g=; b=dvdx2HUYx9Iv1b
+	5t38gG0KsWqDQcFtSayixyq+stiGmEZCMq35UflrKKa2JULhImcbPDsEh5f/ssSxQBKsTO8eQoM6D
+	4QT9btKNbX2ZyDp4dsMf0janCyXHL5vFmF1lFwyxZ5ouOBDG7Y+7KqsO3Ehf2xw70/YOqIxGj/wxh
+	BB7SAyZNuJkvsH4xOqRd+xZSw3cRIxm80K6JqKVMCHTzmNrWlbMlaDKaWaglufvSKpj5gzkr/ZCu8
+	ObZIs0y96W5QsQTor/sWydXQGY5skTgBNVgvZ19jYTkH/N8RkW7YdPaIpcpcmnBe5erg5yfyS4x4p
+	GsE8tjvwet3saF3JcCbg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pCcYs-00093K-SJ; Tue, 03 Jan 2023 08:22:19 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1pCeZs-000j4k-VA; Tue, 03 Jan 2023 10:31:29 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pCcT3-0007Q7-9o
-	for linux-snps-arc@lists.infradead.org; Tue, 03 Jan 2023 08:16:18 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id AD8C2611DD;
-	Tue,  3 Jan 2023 08:16:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E6A0C433EF;
-	Tue,  3 Jan 2023 08:16:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1672733776;
-	bh=vil6BYasED75jkWjAbJEHnhmMUqKl6TcRjI4ZiApwMI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=wiDSU32rKc1XBuc+PTG4wRyz2OcdsWNFlICQYrrE6wEIXWUwYRoTFrxlxFT4hwsi0
-	 FEhAN5Y/gat2ZpBAmjnDkGhwFOVgW1P0uReCpK8SwnZmFXVLb2qUIjXFQ6AzDFYff+
-	 qj9s/2KRQ0/2B1gEFVoiVBEC0sFVTfppHyW2dZd8=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	patches@lists.linux.dev,
-	linux-snps-arc@lists.infradead.org,
-	Vineet Gupta <vgupta@synopsys.com>,
-	Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 5.10 18/63] arc: add support for TIF_NOTIFY_SIGNAL
-Date: Tue,  3 Jan 2023 09:13:48 +0100
-Message-Id: <20230103081309.660230284@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230103081308.548338576@linuxfoundation.org>
-References: <20230103081308.548338576@linuxfoundation.org>
-User-Agent: quilt/0.67
+	id 1pCeAr-000bz2-Hj; Tue, 03 Jan 2023 10:05:39 +0000
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3037hcSP015068;
+	Tue, 3 Jan 2023 10:02:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=dMHVtFosqWThDyY5SftMoOPjqDlLusCntZAFShOz2mY=;
+ b=KQ8gHflm592WlbRAgwdQmZyTRlHDWh9M3ZAPFV+EMcsIOXJ461PiMpCp5cUVt9BL1e6j
+ zqllDR5Fb/gxAm41jRkoRbn7AyAsUGSUMf7knMuu/spo09IOUdLrV2GM4nc+OlkQbkE7
+ IJzG4uvffHGaWIteJBPi+B7FHAqQUQN3AtsThHUAZCqJQIQDHXbgZuAeeqSo9WeDmPJj
+ eEQnkInKW+xzSa/aKKaqEDcmxJK5+xsGNpjiHiXPohV0tqVjzNS2xI1QFRZv2I9KIldN
+ wQ9mkHaOJ5pKdofCP9qAqPj5s8umAAK+tXrV9dZ+20maLxpkr4T38HkHLw9ablzK3SFk /w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mvbt6xp9k-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 03 Jan 2023 10:02:20 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3039LwDp027251;
+	Tue, 3 Jan 2023 10:02:19 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com [159.122.73.71])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mvbt6xp8p-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 03 Jan 2023 10:02:19 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+	by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 302CL8aj017444;
+	Tue, 3 Jan 2023 10:02:16 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3mtcq6tmts-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 03 Jan 2023 10:02:16 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 303A2EKB49938694
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 3 Jan 2023 10:02:14 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3B14420071;
+	Tue,  3 Jan 2023 10:02:14 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F230A20069;
+	Tue,  3 Jan 2023 10:02:12 +0000 (GMT)
+Received: from osiris (unknown [9.171.83.23])
+	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Tue,  3 Jan 2023 10:02:12 +0000 (GMT)
+Date: Tue, 3 Jan 2023 11:02:09 +0100
+From: Heiko Carstens <hca@linux.ibm.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org,
+        linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        Arnd Bergmann <arnd@arndb.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>, Mark Rutland <mark.rutland@arm.com>
+Subject: Re: [PATCH v3] arch: rename all internal names __xchg to __arch_xchg
+Message-ID: <Y7P9IcR7/jgYWMcq@osiris>
+References: <202212300642.6pdgegGO-lkp@intel.com>
+ <20221230141552.128508-1-andrzej.hajda@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20221230141552.128508-1-andrzej.hajda@intel.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: JUKgavQnlJumrUvi-CztUW8Qob9IZFEg
+X-Proofpoint-GUID: 0ZquoQ4B0WHjt8os5pwnxRNooiQSYFH8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-03_01,2023-01-03_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 clxscore=1011
+ lowpriorityscore=0 mlxlogscore=712 priorityscore=1501 bulkscore=0
+ spamscore=0 adultscore=0 phishscore=0 suspectscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301030088
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230103_001617_429139_2931C45A 
-X-CRM114-Status: GOOD (  13.55  )
+X-CRM114-CacheID: sfid-20230103_020537_643434_26937A87 
+X-CRM114-Status: GOOD (  21.05  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,71 +121,43 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Jens Axboe <axboe@kernel.dk>
+On Fri, Dec 30, 2022 at 03:15:52PM +0100, Andrzej Hajda wrote:
+> __xchg will be used for non-atomic xchg macro.
+> 
+> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> v2: squashed all arch patches into one
+> v3: fixed alpha/xchg_local, thx to lkp@intel.com
+> ---
+...
+>  arch/s390/include/asm/cmpxchg.h      | 4 ++--
+> diff --git a/arch/s390/include/asm/cmpxchg.h b/arch/s390/include/asm/cmpxchg.h
+> index 84c3f0d576c5b1..efc16f4aac8643 100644
+> --- a/arch/s390/include/asm/cmpxchg.h
+> +++ b/arch/s390/include/asm/cmpxchg.h
+> @@ -14,7 +14,7 @@
+>  
+>  void __xchg_called_with_bad_pointer(void);
+>  
+> -static __always_inline unsigned long __xchg(unsigned long x,
+> +static __always_inline unsigned long __arch_xchg(unsigned long x,
+>  					    unsigned long address, int size)
 
-[ Upstream commit 53855e12588743ea128ee31f913d1c6e2f1d32c8 ]
+Please adjust the alignment of the second line.
 
-Wire up TIF_NOTIFY_SIGNAL handling for arc.
+> @@ -77,7 +77,7 @@ static __always_inline unsigned long __xchg(unsigned long x,
+>  	__typeof__(*(ptr)) __ret;					\
+>  									\
+>  	__ret = (__typeof__(*(ptr)))					\
+> -		__xchg((unsigned long)(x), (unsigned long)(ptr),	\
+> +		__arch_xchg((unsigned long)(x), (unsigned long)(ptr),	\
+>  		       sizeof(*(ptr)));					\
 
-Cc: linux-snps-arc@lists.infradead.org
-Acked-by: Vineet Gupta <vgupta@synopsys.com>
-Signed-off-by: Jens Axboe <axboe@kernel.dk>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- arch/arc/include/asm/thread_info.h |    4 +++-
- arch/arc/kernel/entry.S            |    3 ++-
- arch/arc/kernel/signal.c           |    2 +-
- 3 files changed, 6 insertions(+), 3 deletions(-)
+Same here.
 
---- a/arch/arc/include/asm/thread_info.h
-+++ b/arch/arc/include/asm/thread_info.h
-@@ -79,6 +79,7 @@ static inline __attribute_const__ struct
- #define TIF_SIGPENDING		2	/* signal pending */
- #define TIF_NEED_RESCHED	3	/* rescheduling necessary */
- #define TIF_SYSCALL_AUDIT	4	/* syscall auditing active */
-+#define TIF_NOTIFY_SIGNAL	5	/* signal notifications exist */
- #define TIF_SYSCALL_TRACE	15	/* syscall trace active */
- 
- /* true if poll_idle() is polling TIF_NEED_RESCHED */
-@@ -89,11 +90,12 @@ static inline __attribute_const__ struct
- #define _TIF_SIGPENDING		(1<<TIF_SIGPENDING)
- #define _TIF_NEED_RESCHED	(1<<TIF_NEED_RESCHED)
- #define _TIF_SYSCALL_AUDIT	(1<<TIF_SYSCALL_AUDIT)
-+#define _TIF_NOTIFY_SIGNAL	(1<<TIF_NOTIFY_SIGNAL)
- #define _TIF_MEMDIE		(1<<TIF_MEMDIE)
- 
- /* work to do on interrupt/exception return */
- #define _TIF_WORK_MASK		(_TIF_NEED_RESCHED | _TIF_SIGPENDING | \
--				 _TIF_NOTIFY_RESUME)
-+				 _TIF_NOTIFY_RESUME | _TIF_NOTIFY_SIGNAL)
- 
- /*
-  * _TIF_ALLWORK_MASK includes SYSCALL_TRACE, but we don't need it.
---- a/arch/arc/kernel/entry.S
-+++ b/arch/arc/kernel/entry.S
-@@ -308,7 +308,8 @@ resume_user_mode_begin:
- 	mov r0, sp	; pt_regs for arg to do_signal()/do_notify_resume()
- 
- 	GET_CURR_THR_INFO_FLAGS   r9
--	bbit0  r9, TIF_SIGPENDING, .Lchk_notify_resume
-+	and.f  0,  r9, TIF_SIGPENDING|TIF_NOTIFY_SIGNAL
-+	bz .Lchk_notify_resume
- 
- 	; Normal Trap/IRQ entry only saves Scratch (caller-saved) regs
- 	; in pt_reg since the "C" ABI (kernel code) will automatically
---- a/arch/arc/kernel/signal.c
-+++ b/arch/arc/kernel/signal.c
-@@ -405,7 +405,7 @@ void do_signal(struct pt_regs *regs)
- 
- 	restart_scall = in_syscall(regs) && syscall_restartable(regs);
- 
--	if (get_signal(&ksig)) {
-+	if (test_thread_flag(TIF_SIGPENDING) && get_signal(&ksig)) {
- 		if (restart_scall) {
- 			arc_restart_syscall(&ksig.ka, regs);
- 			syscall_wont_restart(regs);	/* No more restarts */
-
-
+The same is true for a couple of other architectures - not sure if
+they care however.
 
 _______________________________________________
 linux-snps-arc mailing list
