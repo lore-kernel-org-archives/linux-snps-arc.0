@@ -4,77 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9195C5479D
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  9 Jan 2023 08:26:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0DFDCC61DB3
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  9 Jan 2023 19:02:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References
+	:In-Reply-To:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=kMP41VH3ussGfQGeSe+Vy+TSDsL9cKRMhBz+bbRfoaQ=; b=dcq+gZQtO10EPB
-	XkTs8PD+zjQyVoFMrYjzych8Yly2df9tcyg4HAUUek5/Renxn1XeHalLCeOylv20AZGHTy8nit3HK
-	KCMiOrxzQc3/ppwftFOQqveQCzIwpYWp14jyZEaN/t6GLzd2qJsAmyRNMn9GIL5JALB76ipHQGnO6
-	lMaAcbWpXM/cN5/G34G7A1DACUjhR7Obck/UpupOUrQQcJ4GOpYcIetQ5b30m/R+Zo6J12p9luLOt
-	Y5XjCJGDF7M4bFS72eD6QNA/qzlhWeYCbNqE0Sj9KoiThYs8sU2G0V0Q8SHaPDgk2mF/nZP/16a6+
-	t/eXBhgpwUSaOT1Dh2ZA==;
+	List-Owner; bh=ITiURmjQhMUIgygNqGKw3aarnLZJar7KLIQ4WnrPoDM=; b=q+sITvYXfyN1x0
+	1GGG9wb2EvsURaUEPf8k8Vxu3TOUvXGG+GcsND6iS58RW4+MNXkaKFgzSwS+O1SvzVt55sm4IecnV
+	svk222HQ9ypTUn4d3ZhLrcFvVrf//RM4aA1Fm/MMGgeyhh+R9qsgKf9e1UVrI4rk7fX/DN61ibRo8
+	KBWsM48p7+S4LT3sY2CWgYpBkHGsMhrEwiWK/EBT8GLCyYGmWyYiyj8Q1ikbW9P3+tgqLBQISxqri
+	p0nBnhZzGtDw27WUX6go2Crk8pfsEBMZWnHdKithDQB6kNIOvX7Ks8vpeeKzLutDznVh268+J8uYE
+	MKCGw/v6CXH6blN5AXqQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pEnU6-000NyN-7q; Mon, 09 Jan 2023 08:26:22 +0000
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+	id 1pExPR-003VLa-T0; Mon, 09 Jan 2023 19:02:13 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pEnU2-000NxN-N2
-	for linux-snps-arc@lists.infradead.org; Mon, 09 Jan 2023 08:26:20 +0000
-Received: by mail-wm1-x32c.google.com with SMTP id k22-20020a05600c1c9600b003d1ee3a6289so5962652wms.2
-        for <linux-snps-arc@lists.infradead.org>; Mon, 09 Jan 2023 00:26:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GtUHkTRRfiNW5TLc5bwX/ucBfvpI6oGzoNoxA/kdcb4=;
-        b=PX/Re6EXO5D5x2aOrBoI7eA99YcH6y0uQW4Vy4O2TGXKH6hdNRvrsHnBZ+Ubcv6tiQ
-         TXL+WU+PKwozsVIYHmrowUrubNx4OdxGGBXm6FVfKXw/LCApwYZoSbyIsca39fx+QV1E
-         3ZxqQvtEQCEoLV/2KlNULgPiCnKnr+TvOMtU57t0W/50RjnVAUjWgJD4D+dA59AVoKWh
-         GEf+f2o1uqAtruBo7es8ttxLoVYaE+bRhLQe3VRGhpiyVNwe01Snp693OaYjzSAdrzV4
-         j9VOFaaboM1rMGg1fsBk8OrP0MfGOgOoXRKaV7Ugk8swmNYtUZuiZKCDU98Ui/EnhUWr
-         TFLw==
+	id 1pExOl-003V3y-R0
+	for linux-snps-arc@lists.infradead.org; Mon, 09 Jan 2023 19:01:35 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1673290890;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bU+svoPcyEEDaWYmIcNec69dTXz5hTgyu3b7xJNjXUQ=;
+	b=NOt/j2pQ30uerawH0+X7lv3BSG0Q3QRQQsO+laAminXxtRnPi2sg78vn5sD1X5W/JQZ/wk
+	0vrdhSxMdz6Zkf0FkB6B+1pfrxT5KiIVObpRjx1suFyhCq2iSKh8FGm7ldA2B781ExMm/g
+	46U0I+4WWQwnC0hmBH36ZGXRSz6BK1c=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-607-4t4PHCWUOLm6oPy1W1QiFw-1; Mon, 09 Jan 2023 14:01:28 -0500
+X-MC-Unique: 4t4PHCWUOLm6oPy1W1QiFw-1
+Received: by mail-qt1-f199.google.com with SMTP id a13-20020ac8610d000000b003a8151cadebso4289378qtm.10
+        for <linux-snps-arc@lists.infradead.org>; Mon, 09 Jan 2023 11:01:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GtUHkTRRfiNW5TLc5bwX/ucBfvpI6oGzoNoxA/kdcb4=;
-        b=m7eGipO+YG89ugkYVrOq6KnRCA5y9I7u5cOyAqn7qDvRBKSR3BEoMy9fXGyHDTrwhl
-         kd1vb6k1BCQWf24djO6LYF3jvPnXFFv7fbCgwIhBHjYXECG57QpeY++uxyD5K/mP5GUb
-         kOp/mOEqZiBJHf9LAoVNiUH1QuKD8XRatL9Ebz85mk6ULE5TT7+CHU0vGIJtHe3li3UH
-         vufsfrA/KqgbGrLBUDj+EOOWv8HDMB/u9YQyyYaXaNBeWAEB6QTc9Zb0xzn/m+ep3ljM
-         x4JpjQznkkqfaKOAWolwEJp7Ft1A5FnhSJx65XTFgTK/6ntVYOcgFdu78mLHpPYW9nM9
-         bxOw==
-X-Gm-Message-State: AFqh2kqony8wzY3FYNqexVlt7ELdiNtLpek48UkYj/RrXZVf1wPPvsGm
-	k4sglraSVAx3bdNk/cwpjcw=
-X-Google-Smtp-Source: AMrXdXuAKMUeskJfUuvD8C9z9OcPka00Get8EuUaW0pYUVKXK+LmkvJIxuFXAbNoY9jOuXApvBte+A==
-X-Received: by 2002:a05:600c:3b82:b0:3cf:900c:de6b with SMTP id n2-20020a05600c3b8200b003cf900cde6bmr45739129wms.15.1673252776288;
-        Mon, 09 Jan 2023 00:26:16 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id i6-20020a05600c4b0600b003d9e91cd08dsm5605620wmp.4.2023.01.09.00.26.13
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bU+svoPcyEEDaWYmIcNec69dTXz5hTgyu3b7xJNjXUQ=;
+        b=tNY2m+58iQp/4bOAdWBiKjtwB4br/IYCtApPyNDwayPQZmvBJDRBVXhCz5H1j5+/9Q
+         d9RVrdqrfQnCxoynfsLybpLKngBgI1fD/uookGV67oJGHfPEqfWoicdqARHQwZXMy1Ip
+         AApEXgKVqxnQBNIpAXq3vOvdXzuP2Skh4cSh3c8FRWb4mExYXMopHPl8VLAj9GSiI0m1
+         fGNIIt71rEz9n8MJX6AUmVO+JKMhyNt/ehlEJ8gNzyOeLKHGRi4OUe6/EnDLPx9WyN7g
+         OhWjeWu8jwPI5mAm5ugbckkMeJzrvXbhnz5AO/2YnMQzJ2OFCCqcz9YMtYvpbJmol+Ug
+         meLA==
+X-Gm-Message-State: AFqh2krEGhK/YDFgK6yC1ieckDBSABpardVhvC4Fkrmz/n6UR5eOrx51
+	hkLVpZEcgI111ymfScsZZLB6quMGHp8jFGjKhfarbc252KmkWabT1ZOTvvzEJ6c9Opwh52DrHjE
+	fByi1dAFaYFKs7y4sHI40TZBA94KbRWOn
+X-Received: by 2002:ac8:7395:0:b0:3a7:ed31:a618 with SMTP id t21-20020ac87395000000b003a7ed31a618mr91336706qtp.7.1673290888079;
+        Mon, 09 Jan 2023 11:01:28 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXseRLv5+JCaBFPqzT7E7Yv2YOrloRSyhYUUSWRG6zA8srvH9gyrV5oV35teC9nwwkDxbanAYA==
+X-Received: by 2002:ac8:7395:0:b0:3a7:ed31:a618 with SMTP id t21-20020ac87395000000b003a7ed31a618mr91336646qtp.7.1673290887764;
+        Mon, 09 Jan 2023 11:01:27 -0800 (PST)
+Received: from vschneid.remote.csb ([154.57.232.159])
+        by smtp.gmail.com with ESMTPSA id cj12-20020a05622a258c00b0039cc0fbdb61sm4985479qtb.53.2023.01.09.11.01.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jan 2023 00:26:15 -0800 (PST)
-Date: Mon, 9 Jan 2023 11:26:05 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Vineet Gupta <vgupta@kernel.org>,
-	linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] bit_spinlock: Include <asm/processor.h>
-Message-ID: <Y7vPnXaUBXPwO0Bj@kadam>
-References: <8b81101d59a31f4927016c17e49be96754a23380.1673204461.git.christophe.jaillet@wanadoo.fr>
+        Mon, 09 Jan 2023 11:01:27 -0800 (PST)
+From: Valentin Schneider <vschneid@redhat.com>
+To: Huacai Chen <chenhuacai@kernel.org>
+Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-xtensa@linux-xtensa.org, x86@kernel.org, Guo Ren
+ <guoren@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Peter Zijlstra <peterz@infradead.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>, Juri Lelli <juri.lelli@redhat.com>, Daniel
+ Bristot de Oliveira <bristot@redhat.com>, Marcelo Tosatti
+ <mtosatti@redhat.com>, Frederic Weisbecker <frederic@kernel.org>, Ingo
+ Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Marc
+ Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Russell
+ King <linux@armlinux.org.uk>, Nicholas Piggin <npiggin@gmail.com>, "David
+ S. Miller" <davem@davemloft.net>
+Subject: Re: [PATCH v3 6/8] treewide: Trace IPIs sent via smp_send_reschedule()
+In-Reply-To: <CAAhV-H6Oii6t-4aHFjgPkCgFAd+LcVVg+7jMu_w4mEa0Ecuwaw@mail.gmail.com>
+References: <20221202155817.2102944-1-vschneid@redhat.com>
+ <20221202155817.2102944-7-vschneid@redhat.com>
+ <CAAhV-H6Oii6t-4aHFjgPkCgFAd+LcVVg+7jMu_w4mEa0Ecuwaw@mail.gmail.com>
+Date: Mon, 09 Jan 2023 19:01:22 +0000
+Message-ID: <xhsmh5ydfedml.mognet@vschneid.remote.csb>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <8b81101d59a31f4927016c17e49be96754a23380.1673204461.git.christophe.jaillet@wanadoo.fr>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230109_002618_837766_D0FA32E8 
-X-CRM114-Status: GOOD (  13.34  )
+X-CRM114-CacheID: sfid-20230109_110132_432924_7DBC3392 
+X-CRM114-Status: GOOD (  12.02  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,33 +115,23 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Sun, Jan 08, 2023 at 08:04:44PM +0100, Christophe JAILLET wrote:
-> In an attempt to simplify some includes in <include/dcache.h>, it
-> appeared, when compiling fs/ecryptfs/dentry.c, that <linux/bit_spinlock.h>
-> was relying on other includes to get the definition of cpu_relax().
-> (see [1])
-> 
-> It broke on arc.
-> 
-> Include <asm/processor.h> in <linux/bit_spinlock.h> to fix the issue.
-> This will help remove some un-needed includes from <include/dcache.h>.
-> 
-> [1]: https://lore.kernel.org/all/202301082130.LXMj5qkD-lkp@intel.com/
-> 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
-> Not sure who to send this to.
-> get_maintainer.pl is of no help, and the file is untouched from a too long
-> time.
-> 
-> Greg? Dan? Any pointer?
+On 08/01/23 20:17, Huacai Chen wrote:
+> Hi, Valentin,
+>
+> On Fri, Dec 2, 2022 at 11:59 PM Valentin Schneider <vschneid@redhat.com> wrote:
+>> @@ -83,7 +83,7 @@ extern void show_ipi_list(struct seq_file *p, int prec);
+>>   * it goes straight through and wastes no time serializing
+>>   * anything. Worst case is that we lose a reschedule ...
+>>   */
+>> -static inline void smp_send_reschedule(int cpu)
+>> +static inline void arch_smp_send_reschedule(int cpu)
+>>  {
+>>         loongson_send_ipi_single(cpu, SMP_RESCHEDULE);
+>>  }
+> This function has been moved to arch/loongarch/kernel/smp.c since 6.2.
+>
 
-Andrew Morton is the maintainer of last resort.  Plus spinlocks seem
-like something he would be interested in.  Otherwise Ingo, Peter Z and
-the x86 team.
-
-regards,
-dan carpenter
+Thanks! I'll make sure to rerun the coccinelle script for the next version.
 
 
 _______________________________________________
