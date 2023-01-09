@@ -4,102 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB80EC5479D
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  9 Jan 2023 19:02:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C916AC54EBD
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  9 Jan 2023 22:46:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References
-	:In-Reply-To:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Mime-Version:References:In-Reply-To:
+	Message-Id:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ikCfNmewNq2mmzOxPkY5lxswweTAfNl4CaFMDacQZ98=; b=xb7mvsBOBWn+/x
-	Ey+Dhyn5l8rd26T6tcQS55rwBLI+aGc8AQLIdpHdhOwlnCiFTFhbx4MZOOt402DhSAyjSdma82uzA
-	878Key+uyv4TG2GF5VlTeTkkoUhoxfL0SYg0uaGH1KX7fU+QXio04NrXVaKAKPVRlR8ZJfJAi6+6f
-	yMf1PfGwGhIXwMcZQ13eTX99xDWVCmP1eV11ANszTx/hmcRyRzQovaRpf/mXwKxNvmxifjr5n7M5l
-	1oNDIXzhKtldTMk3167GSCerK9DcVAfzcXzDKpUyRpyY/fm+EUWxy9KYmzzpb6rmEeXDynTHvUtrC
-	j/r0o9uCXbnKZcYYzpKg==;
+	List-Owner; bh=zFETfGpSD+pKbiu8NdXNlqRjKkWQPUJ4oNqIU3ePL8c=; b=yt+z+g4b7J6NJz
+	fYmZQAhm9Q2dxlUIJ9h8MX5pqh47BSsmmxd7yUo0K0wJVpRRlJXovZHhbOi4uZOmwDwSfuwiAR1oY
+	vsjw6RX3Y4HF+G8xOFIR5yfgfUDKZryz4VOSflpsjOHt2nLQiaG2SKqKUOLeFqs2UgIxR94QjONa3
+	ieijKiT88D3AXuhw7PvswOrZH9ZeuKtl5VxfzK5Q/PhaTO/cAY5bT6wsCoTOnpgRb2VT4gv11aaXo
+	6/V8abMZR3r+69J7+NGbf6oUwmQl272YHea90V3BWHThRd2ltDW6kIb+oj4aKqFU2zHcWKxYsKgxm
+	B1yCXgl3/BIkb2oBhhGg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pExQ5-003VdJ-9I; Mon, 09 Jan 2023 19:02:53 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1pF0uD-004XHZ-6A; Mon, 09 Jan 2023 22:46:13 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pExPW-003VNR-1z
-	for linux-snps-arc@lists.infradead.org; Mon, 09 Jan 2023 19:02:19 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1673290937;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mHlpuxTK3Q4mXdtUEAjHx/X4tIty+fqRI+m6xngZY9c=;
-	b=iYLzfX/+x0gg809zW0TTeakmRwaUF0lw64Q6nF8en1Uul5QIM1GCu8sbmRnTHfpB3HFrp6
-	oxhdcO7uTCXXXxk7EsQgQVC/pVAGqjSG9jgNDQdmVvz9akY9LbE16OWkdEv69rUibGbcws
-	LgFQhXQxiRIFhsuNJsoft1bsRTeAWt8=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-524-AsDDfU14PxGBIX6NPU6VQw-1; Mon, 09 Jan 2023 14:02:16 -0500
-X-MC-Unique: AsDDfU14PxGBIX6NPU6VQw-1
-Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-4bdeb1bbeafso100726167b3.4
-        for <linux-snps-arc@lists.infradead.org>; Mon, 09 Jan 2023 11:02:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mHlpuxTK3Q4mXdtUEAjHx/X4tIty+fqRI+m6xngZY9c=;
-        b=tEjq7qIhptQCeAGipz7cbq7v6jUA4FBkxPRocO2cax8MUF6dZ5bAKVM7xbZFnoL+qw
-         KuTCuQ1x6y+NrFeTUfB/O2KhJhdkFru2wU9ZwqN8IW8BKbbb0JhwbUnXWtlMGcWBXKQD
-         8Zrr6GMJK3qqHJAORfglbsjn648b5mfJ/AmrH2Cm8DCd11vKshAxlJayU6kLQNRsA6Ev
-         ORj/beDa8EuV7nQK1XPCqO2Q4zWmBsJfSU/vMuFs3LWsaFS81ZOFJRUfaIZxshvpij7u
-         IjDc1VIezbfRdlBeSB03hdzXi0DiSYOT4JwhLHwQjtIoTzfl5YvJ3aEvveEuOAhdBnxD
-         /MBA==
-X-Gm-Message-State: AFqh2krjDkeC9vAkGVYsmE69IEzJOiQflNjZwa70GWbSmohL+tlm25h4
-	aKqIhOCsZOgSixjkOhf/p7yxImxeT36IDgr9yPL8Mq2HfLb0WCQ/iavZsKhqdXMVBe8NFfpwjwQ
-	eCV7EXKUH2sOvBsEfCKfqDc9OwaOXpQGD
-X-Received: by 2002:a05:7500:5c96:b0:f0:f14:b4f6 with SMTP id fh22-20020a0575005c9600b000f00f14b4f6mr1334336gab.55.1673290935396;
-        Mon, 09 Jan 2023 11:02:15 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvpgx9uVCbTytxfSzpNGAx1CCCprwK9dYT+w5TdWAjmS9/Yvcm6uASOc9C3qqyAspkLlpcI4w==
-X-Received: by 2002:a05:7500:5c96:b0:f0:f14:b4f6 with SMTP id fh22-20020a0575005c9600b000f00f14b4f6mr1334309gab.55.1673290934985;
-        Mon, 09 Jan 2023 11:02:14 -0800 (PST)
-Received: from vschneid.remote.csb ([154.57.232.159])
-        by smtp.gmail.com with ESMTPSA id az31-20020a05620a171f00b006fbbdc6c68fsm5795671qkb.68.2023.01.09.11.02.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jan 2023 11:02:14 -0800 (PST)
-From: Valentin Schneider <vschneid@redhat.com>
-To: Ingo Molnar <mingo@kernel.org>
-Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
- linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
- linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-xtensa@linux-xtensa.org, x86@kernel.org, Steven Rostedt
- <rostedt@goodmis.org>, "Paul E. McKenney" <paulmck@kernel.org>, Peter
- Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Juri Lelli
- <juri.lelli@redhat.com>, Daniel Bristot de Oliveira <bristot@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Frederic Weisbecker
- <frederic@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
- <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter
- Anvin" <hpa@zytor.com>, Marc Zyngier <maz@kernel.org>, Mark Rutland
- <mark.rutland@arm.com>, Russell King <linux@armlinux.org.uk>, Nicholas
- Piggin <npiggin@gmail.com>, Guo Ren <guoren@kernel.org>, "David S. Miller"
- <davem@davemloft.net>
-Subject: Re: [PATCH v3 3/8] sched, smp: Trace IPIs sent via
- send_call_function_single_ipi()
-In-Reply-To: <Y7lRz7oCaAmAhoqS@gmail.com>
-References: <20221202155817.2102944-1-vschneid@redhat.com>
- <20221202155817.2102944-4-vschneid@redhat.com>
- <Y7lRz7oCaAmAhoqS@gmail.com>
-Date: Mon, 09 Jan 2023 19:02:08 +0000
-Message-ID: <xhsmh4jszedlb.mognet@vschneid.remote.csb>
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+	id 1pF0uA-004XGu-SM
+	for linux-snps-arc@lists.infradead.org; Mon, 09 Jan 2023 22:46:12 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 5858561447;
+	Mon,  9 Jan 2023 22:46:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 520AAC433EF;
+	Mon,  9 Jan 2023 22:46:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1673304368;
+	bh=Smpr3DrhasTIUOdQUCkLW1n6OMxtHjQcAGkhZhSSagU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=NrWnulaBpJswTJNHy51afCrsavlOnbtuYkpyeTJoDlBMYqgN/PeSkGKExpci/qM4d
+	 WbVIfcvQBMqAan8/zukuIIu+2yZRT6exWCBTwZTobsdkdh/s1Hh1WFo5VfhgHYzcQG
+	 3eOWgRys64FEGm9Cl9Ky5N+bwLQTBYBZ7fNjiufo=
+Date: Mon, 9 Jan 2023 14:46:07 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Vineet Gupta
+ <vgupta@kernel.org>, Dan Carpenter <error27@gmail.com>,
+ linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] bit_spinlock: Include <asm/processor.h>
+Message-Id: <20230109144607.02edd319f9b5e25ee774f9a5@linux-foundation.org>
+In-Reply-To: <8b81101d59a31f4927016c17e49be96754a23380.1673204461.git.christophe.jaillet@wanadoo.fr>
+References: <8b81101d59a31f4927016c17e49be96754a23380.1673204461.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230109_110218_217604_0827CEDE 
-X-CRM114-Status: GOOD (  19.12  )
+X-CRM114-CacheID: sfid-20230109_144610_984187_B389B62A 
+X-CRM114-Status: GOOD (  13.36  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,61 +71,34 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 07/01/23 12:04, Ingo Molnar wrote:
-> * Valentin Schneider <vschneid@redhat.com> wrote:
+On Sun,  8 Jan 2023 20:04:44 +0100 Christophe JAILLET <christophe.jaillet@wanadoo.fr> wrote:
+
+> In an attempt to simplify some includes in <include/dcache.h>, it
+> appeared, when compiling fs/ecryptfs/dentry.c, that <linux/bit_spinlock.h>
+> was relying on other includes to get the definition of cpu_relax().
+> (see [1])
+> 
+> It broke on arc.
+> 
+> Include <asm/processor.h> in <linux/bit_spinlock.h> to fix the issue.
+> This will help remove some un-needed includes from <include/dcache.h>.
+> 
+> [1]: https://lore.kernel.org/all/202301082130.LXMj5qkD-lkp@intel.com/
+> 
+> ...
 >
->> send_call_function_single_ipi() is the thing that sends IPIs at the bottom
->> of smp_call_function*() via either generic_exec_single() or
->> smp_call_function_many_cond(). Give it an IPI-related tracepoint.
->> 
->> Note that this ends up tracing any IPI sent via __smp_call_single_queue(),
->> which covers __ttwu_queue_wakelist() and irq_work_queue_on() "for free".
->> 
->> Signed-off-by: Valentin Schneider <vschneid@redhat.com>
->> Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
->
-> Acked-by: Ingo Molnar <mingo@kernel.org>
->
-> Patch series logistics:
->
->  - No objections from the scheduler side, this feature looks pretty useful.
->
+> --- a/include/linux/bit_spinlock.h
+> +++ b/include/linux/bit_spinlock.h
+> @@ -2,6 +2,7 @@
+>  #ifndef __LINUX_BIT_SPINLOCK_H
+>  #define __LINUX_BIT_SPINLOCK_H
+>  
+> +#include <asm/processor.h>
+>  #include <linux/kernel.h>
+>  #include <linux/preempt.h>
+>  #include <linux/atomic.h>
 
-Thanks!
-
->  - Certain patches are incomplete, others are noted as being merged 
->    separately, so I presume you'll send an updated/completed series 
->    eventually?
->
-
-The first patch from Steve is now in, so can drop it.
-
-The other patches are complete, though I need to rebase them and regenerate
-the treewide patch to catch any changes that came with 6.2. I'll do that
-this week.
-
-The "incompleteness" pointed out in the cover letter is about the types of
-IPIs that can be traced. This series covers the ones that end up invoking
-some core code (coincidentally those are the most common ones), others such
-as e.g. tick_broadcast() for arm, arm64, riscv and hexagon remain
-unaffected.
-
-I'm not that much interested in these (other than maybe the tick broadcast
-one they are all fairly unfrequent), but I'm happy to have a shot at them
-for the sake of completeness - either in that series or in a followup, up
-to you.  
-
->  - We can merge this via the scheduler tree I suspect, as most callbacks 
->    affected relate to tip:sched/core and tmp:smp/core - but if you have 
->    some other preferred tree that's fine too.
->
-
-Either sound good to me.
-
-> Thanks,
->
-> 	Ingo
-
+linux/processor.h would be preferable, rather than diving straight into asm/?
 
 _______________________________________________
 linux-snps-arc mailing list
