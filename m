@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7C177C678D4
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5666AC677F1
 	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Jan 2023 20:25:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
@@ -12,42 +12,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
 	From:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=u7+nDhSpkIyispbdfsCpP5tFr3UIie2aZUTOOFF7DO4=; b=i/sh+1Jyj3hmFc
-	zuQdsNJKbqGmgGMNTKOCc52UTCC2GqN/1XhP3rFxgrs3yyEKtYqvePdhPNMY7KgM+9Uqnt7Ku8S/R
-	/AHPUXasFfANe/m1EvtDFG68PZgHmYFNLJfH9HzgdMAmA/IjyA8o+P24UZFwY6zR6OBQxRRn3sDdm
-	me2bMDJS2H6nX9/Nlz2C2TNv2CPPmUSU1lX6Vee9vdtjdezQ+14SkzVrWNz7EjU33/HeTFAk5qgwz
-	gY4QeraCMLKVHo+UjwwzlSrBfp014abIBJGMhEkyKxMaPlU08hSWNQa2LrSo1P5gIjeojJ5VsIPF1
-	n7dz2QVQbEaMRD6M8b2w==;
+	List-Owner; bh=zu1YfMqxpNKrP7Ocs1ctvjy3Pef78nUsMmFyDN08W+w=; b=izYMAtf+LYEA2D
+	6B7+rMoxrjdMYYZMESodTGVljcZvcvdmjCVJR1TOvuZgzMEmQjMrClKwlIvZKvqDVL2Vm48KWgpDl
+	Lyw7lqtbqVjc5V38ijx90BTNGhdcsGQjIlt7J3DJgLMJfHrEoV9prKEXMADiTSyiHYTYs69PwisPE
+	DEDvDqd8NRoQtj43qy3h+zTpusQ07HQqQuzl0JGO58fme6UeEkS2A6fPEs3K/6BGUhaULS5k2fnW0
+	9J+ZtV2ypBTE3W0hbb4X7Uls74Z6Loe5sKrW/Nc8bkeAi7JV9kLugKgju490s1rdZjREXpQ39N4YR
+	ezMY/Z83p1lWKXJJbQOw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG48G-00GsyB-Uo; Thu, 12 Jan 2023 20:25:04 +0000
+	id 1pG48H-00Gsyb-R3; Thu, 12 Jan 2023 20:25:05 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG3hP-00GgiQ-GY; Thu, 12 Jan 2023 19:57:19 +0000
+	id 1pG3hR-00GgjP-04; Thu, 12 Jan 2023 19:57:21 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:References:
 	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:In-Reply-To;
-	bh=zetob5Egrh+4xSqY+h3U8eHRaaU6Xv/VYHG/8LvUn9U=; b=XY7SfD4JzAJJbveELIvdat/cbW
-	E+yFFn4aNWAgBawJ26SoENVk9HjgjCyHK9vtm0DJHnuC5VDdB61ndo4h4/i7Q5MSw1rkqiTic4+xR
-	3Y4D5MUptZ7ITQwdJ+rd2ao7vl1gTwOWK6Sx7WR4lsMotsDZ0CjhwtIvhpsU+NDMSFoT0g5aNyvGa
-	iMi4QJBO85DnX+Mw7tQFfzfNeRIKSpTPmFw5CM4c/Zo+olx5lzudeaiJOWa1G7jKsVRtgbLWqFUp2
-	QH+tfhDjHvNHMqws27xY0eX//Ypm8qtyiO7rXUI4Q4fOaQ8sTUtjWWcBaaRXjx9gG6YdwAkHM+oGP
-	31LcvOtQ==;
+	bh=Y7pmXu6dfTZxDcbDXfqgJM0mS6VL3mXOpIjOPL8GveM=; b=qX6YjF7gO/MPwPtcPx0NhV1Ufk
+	GyzKfoLIeIvjnz6bfozXzUoKsEK7V2vnIb67mqT6Dg07dD6w91/Q3MGHYIJzuj+4tzeyXzg8pRv4u
+	G8kEMdIkxoEbfIr3MD19nyv9bg//wyY0H6+1G7ZI4FkOT+PhsWXDz9wI5QT+NsArvq+tJXaAEkhfy
+	Yv3IUv0DQB87nGRwUvNNkcQTSs8WtB+6ASOtNGWFiIRpgcr4zBjlMxURErvmkpmDKjXUiZr8q8oo+
+	h+3ZbWqMHYHHCuauv0XHmOXQLZRHtrlpCFzHxEL7Pb1UBeBcLn+OxSKbAhCD9OnyRl2BKR2vES4dC
+	JAZ8H1lQ==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
 	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG3hW-005OcC-5Z; Thu, 12 Jan 2023 19:57:26 +0000
+	id 1pG3hc-005Oeg-8f; Thu, 12 Jan 2023 19:57:32 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 9F135302D60;
-	Thu, 12 Jan 2023 20:57:11 +0100 (CET)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 9804A30343C;
+	Thu, 12 Jan 2023 20:57:13 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id 956222CCF1F48; Thu, 12 Jan 2023 20:57:07 +0100 (CET)
-Message-ID: <20230112195539.515253662@infradead.org>
+	id 1D1292CCF62B1; Thu, 12 Jan 2023 20:57:08 +0100 (CET)
+Message-ID: <20230112195541.050542952@infradead.org>
 User-Agent: quilt/0.66
-Date: Thu, 12 Jan 2023 20:43:17 +0100
+Date: Thu, 12 Jan 2023 20:43:42 +0100
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: richard.henderson@linaro.org,
@@ -197,7 +197,7 @@ Cc: richard.henderson@linaro.org,
  kasan-dev@googlegroups.com,
  "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
  Ulf Hansson <ulf.hansson@linaro.org>
-Subject: [PATCH v3 03/51] cpuidle/poll: Ensure IRQ state is invariant
+Subject: [PATCH v3 28/51] cpuidle,mwait: Make noinstr clean
 References: <20230112194314.845371875@infradead.org>
 MIME-Version: 1.0
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -216,40 +216,82 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-cpuidle_state::enter() methods should be IRQ invariant.
+vmlinux.o: warning: objtool: intel_idle_s2idle+0x6e: call to __monitor.constprop.0() leaves .noinstr.text section
+vmlinux.o: warning: objtool: intel_idle_irq+0x8c: call to __monitor.constprop.0() leaves .noinstr.text section
+vmlinux.o: warning: objtool: intel_idle+0x73: call to __monitor.constprop.0() leaves .noinstr.text section
 
-Additionally make sure to use raw_local_irq_*() methods since this
-cpuidle callback will be called with RCU already disabled.
+vmlinux.o: warning: objtool: mwait_idle+0x88: call to clflush() leaves .noinstr.text section
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Reviewed-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-Reviewed-by: Frederic Weisbecker <frederic@kernel.org>
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Acked-by: Frederic Weisbecker <frederic@kernel.org>
 Tested-by: Tony Lindgren <tony@atomide.com>
 Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
 ---
- drivers/cpuidle/poll_state.c |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ arch/x86/include/asm/mwait.h         |   12 ++++++------
+ arch/x86/include/asm/special_insns.h |    2 +-
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
---- a/drivers/cpuidle/poll_state.c
-+++ b/drivers/cpuidle/poll_state.c
-@@ -17,7 +17,7 @@ static int __cpuidle poll_idle(struct cp
+--- a/arch/x86/include/asm/mwait.h
++++ b/arch/x86/include/asm/mwait.h
+@@ -25,7 +25,7 @@
+ #define TPAUSE_C01_STATE		1
+ #define TPAUSE_C02_STATE		0
  
- 	dev->poll_time_limit = false;
+-static inline void __monitor(const void *eax, unsigned long ecx,
++static __always_inline void __monitor(const void *eax, unsigned long ecx,
+ 			     unsigned long edx)
+ {
+ 	/* "monitor %eax, %ecx, %edx;" */
+@@ -33,7 +33,7 @@ static inline void __monitor(const void
+ 		     :: "a" (eax), "c" (ecx), "d"(edx));
+ }
  
--	local_irq_enable();
-+	raw_local_irq_enable();
- 	if (!current_set_polling_and_test()) {
- 		unsigned int loop_count = 0;
- 		u64 limit;
-@@ -36,6 +36,8 @@ static int __cpuidle poll_idle(struct cp
- 			}
- 		}
- 	}
-+	raw_local_irq_disable();
-+
- 	current_clr_polling();
+-static inline void __monitorx(const void *eax, unsigned long ecx,
++static __always_inline void __monitorx(const void *eax, unsigned long ecx,
+ 			      unsigned long edx)
+ {
+ 	/* "monitorx %eax, %ecx, %edx;" */
+@@ -41,7 +41,7 @@ static inline void __monitorx(const void
+ 		     :: "a" (eax), "c" (ecx), "d"(edx));
+ }
  
- 	return index;
+-static inline void __mwait(unsigned long eax, unsigned long ecx)
++static __always_inline void __mwait(unsigned long eax, unsigned long ecx)
+ {
+ 	mds_idle_clear_cpu_buffers();
+ 
+@@ -76,8 +76,8 @@ static inline void __mwait(unsigned long
+  * EAX                     (logical) address to monitor
+  * ECX                     #GP if not zero
+  */
+-static inline void __mwaitx(unsigned long eax, unsigned long ebx,
+-			    unsigned long ecx)
++static __always_inline void __mwaitx(unsigned long eax, unsigned long ebx,
++				     unsigned long ecx)
+ {
+ 	/* No MDS buffer clear as this is AMD/HYGON only */
+ 
+@@ -86,7 +86,7 @@ static inline void __mwaitx(unsigned lon
+ 		     :: "a" (eax), "b" (ebx), "c" (ecx));
+ }
+ 
+-static inline void __sti_mwait(unsigned long eax, unsigned long ecx)
++static __always_inline void __sti_mwait(unsigned long eax, unsigned long ecx)
+ {
+ 	mds_idle_clear_cpu_buffers();
+ 	/* "mwait %eax, %ecx;" */
+--- a/arch/x86/include/asm/special_insns.h
++++ b/arch/x86/include/asm/special_insns.h
+@@ -196,7 +196,7 @@ static inline void load_gs_index(unsigne
+ 
+ #endif /* CONFIG_PARAVIRT_XXL */
+ 
+-static inline void clflush(volatile void *__p)
++static __always_inline void clflush(volatile void *__p)
+ {
+ 	asm volatile("clflush %0" : "+m" (*(volatile char __force *)__p));
+ }
 
 
 
