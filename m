@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 267FCC678D7
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Jan 2023 20:25:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0052EC61DB3
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Jan 2023 20:25:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
 	From:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=4ztNFAikcS2wM9HNBlQPmKULmrQmVswmGeEi/p4nsCQ=; b=gHv1kCuzpBUI07
-	kbeiXkjazsO/X8TGMZFGNx+RXpohYJg7WLjZuRmc8w+c2BMk7ptzXYI7aEFveYE2uFFNWMVeWPCeb
-	D8CZBOJnezSdVBGxe4y9ZorkCRHtLrYIxd0OjVmJiG9LRNmDtL9ssaoQdu/qNPc/fvUcZMUsTG5CF
-	nHHEgG/fph2mxsFqJcfhgSsP05ngB3IxRCcLtHhQgpfHh3yI+T8bFtFgeSnFGnD7VumS16nL2yOR8
-	grgTqB/wpFJ597FMCETscACT8EdjgaI1J7AawgjaFfNxP5E9Rr5yCQBUJd2qVKsbwRiChhA6X75oQ
-	DAzqyEybtQfGVUYue3Fw==;
+	List-Owner; bh=YCgHoNbtq0n7nE8ApHXLUuqx24foF4HkTpCQwB4dH2E=; b=zhO4c1vbEQ35Rf
+	Czo1y6pKJ25UgUBdPE2RPHJWfT0WDIQxbnqCEhJ4V33EkTYVlbeXNtmtjxdDS4S3tf72SvmEU1ogn
+	4i6j/t3aq3PeDGolkTFMDUCyLQuIaxabSnIzoxWKN9k5VNTrsntFuwfPqhh+TykrvY011ztcRMmrX
+	ZVyleOoPW9WemNxuG2trJt5dzkjY8xdcuWWWsc3LrZH/yH5UXYwr1yqJkwfdhqknEXaBmzPbyrV+5
+	niH7zLkmwXU3+0ZE8R2kqZIB3GI7Lm2Nke+ogmRj8HgAfg7J6BGn6B3UVJ7r25uscbTZqSQrJlaKn
+	4Uh+mFwZDS1BLv+0hUcA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG48i-00GtO7-DF; Thu, 12 Jan 2023 20:25:32 +0000
+	id 1pG48h-00GtMw-2v; Thu, 12 Jan 2023 20:25:31 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG3ha-00Ggmm-GL; Thu, 12 Jan 2023 19:57:30 +0000
+	id 1pG3hV-00Ggmn-HP; Thu, 12 Jan 2023 19:57:25 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:References:
 	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:In-Reply-To;
-	bh=K+6/dwXz2WKb5RxNLU2q+chP38k8rKZMVN0FbUJ4gys=; b=AsVrq9wT/PXJk0qR4yYeRmw2Z1
-	sFGHg+aIPPyDTboHjpqLWy3X1T8UQB/O6PTb8R0zTtvwDN0yQS3aIcfBsuE/iWvY6nds+s1WuvFv3
-	aNBBQ4zar+ZFrynYU6+MbnFhyaLGBsOTsPM4ZYNVix4uO+OhmsgT/kUOAnbP2Mcc52m3QWLGGYtZX
-	1L7dr5kPMZibWpkerKF7Fmbrlol4brSBcxyJg6biKltchaWjpjjcglDEjpuGTK9bo4Ytgcqw2yN0D
-	1pUqiaV0oLyLNqyJvkzl3dQZtJxguFzo9JHpk+jpR0u1rOr2V/4ymL5sYskJ6n7f/yKV2b4XR2SmP
-	uU7TgixQ==;
+	bh=NQmAgIg3861PdWRPD/+8zQmqygF5xIi/7qaj1X27QYY=; b=FKLIwXsLqSMTkfdrjYpRPs50iC
+	/dZ8/rA7866IY1bP7MOMwGhQbwW0iJuXrxREmjWWzVcbzOSaZlDGTrUePB2nwarC2Yh1+X6s4N3V9
+	6cu76+LFHrZw0YNXmRxk7duxL9iqjz4iP0/30O/+/kXmWBYebdlus1yGQHEgBjwu8/3IhcMSjrE1/
+	5igyOlZ7sKcztcJOY8on0ND65FJOhkbkvb0J6fFhWMzAqiflihKu/CriWYb93+MxlnQrAbdaq6Dkq
+	GjWpP25XbP5Xvw0SdnOMreWPCRBsKKxhe+LwtJ+c/LTLhtbM/XP+ep478hFz3O2SEuR/27ZTMra+B
+	xSlHMQYQ==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
 	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1pG3hB-0045nr-0B;
-	Thu, 12 Jan 2023 19:57:05 +0000
+	id 1pG3hD-0045oH-1K;
+	Thu, 12 Jan 2023 19:57:08 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id B880E300C50;
-	Thu, 12 Jan 2023 20:57:07 +0100 (CET)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 23977303405;
+	Thu, 12 Jan 2023 20:57:13 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id 8D9992CCF1F4A; Thu, 12 Jan 2023 20:57:07 +0100 (CET)
-Message-ID: <20230112195539.392862891@infradead.org>
+	id BF3F52CCF1F5E; Thu, 12 Jan 2023 20:57:07 +0100 (CET)
+Message-ID: <20230112195540.068981667@infradead.org>
 User-Agent: quilt/0.66
-Date: Thu, 12 Jan 2023 20:43:15 +0100
+Date: Thu, 12 Jan 2023 20:43:26 +0100
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: richard.henderson@linaro.org,
@@ -198,7 +198,7 @@ Cc: richard.henderson@linaro.org,
  kasan-dev@googlegroups.com,
  "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
  Ulf Hansson <ulf.hansson@linaro.org>
-Subject: [PATCH v3 01/51] x86/perf/amd: Remove tracing from perf_lopwr_cb()
+Subject: [PATCH v3 12/51] cpuidle,dt: Push RCU-idle into driver
 References: <20230112194314.845371875@infradead.org>
 MIME-Version: 1.0
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -217,8 +217,11 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The perf_lopwr_cb() is called from the idle routines; there is no RCU
-there, we must not enter tracing.
+Doing RCU-idle outside the driver, only to then temporarily enable it
+again before going idle is daft.
+
+Notably: this converts all dt_init_idle_driver() and
+__CPU_PM_CPU_IDLE_ENTER() users for they are inextrably intertwined.
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
@@ -226,55 +229,86 @@ Acked-by: Frederic Weisbecker <frederic@kernel.org>
 Tested-by: Tony Lindgren <tony@atomide.com>
 Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
 ---
- arch/x86/events/amd/brs.c         |   13 +++++--------
- arch/x86/include/asm/perf_event.h |    2 +-
- 2 files changed, 6 insertions(+), 9 deletions(-)
+ drivers/acpi/processor_idle.c        |    2 ++
+ drivers/cpuidle/cpuidle-arm.c        |    1 +
+ drivers/cpuidle/cpuidle-big_little.c |    8 ++++++--
+ drivers/cpuidle/cpuidle-psci.c       |    1 +
+ drivers/cpuidle/cpuidle-qcom-spm.c   |    1 +
+ drivers/cpuidle/cpuidle-riscv-sbi.c  |    1 +
+ drivers/cpuidle/dt_idle_states.c     |    2 +-
+ include/linux/cpuidle.h              |    2 ++
+ 8 files changed, 15 insertions(+), 3 deletions(-)
 
---- a/arch/x86/events/amd/brs.c
-+++ b/arch/x86/events/amd/brs.c
-@@ -41,18 +41,15 @@ static inline unsigned int brs_to(int id
- 	return MSR_AMD_SAMP_BR_FROM + 2 * idx + 1;
- }
- 
--static inline void set_debug_extn_cfg(u64 val)
-+static __always_inline void set_debug_extn_cfg(u64 val)
+--- a/drivers/acpi/processor_idle.c
++++ b/drivers/acpi/processor_idle.c
+@@ -1219,6 +1219,8 @@ static int acpi_processor_setup_lpi_stat
+ 		state->target_residency = lpi->min_residency;
+ 		if (lpi->arch_flags)
+ 			state->flags |= CPUIDLE_FLAG_TIMER_STOP;
++		if (i != 0 && lpi->entry_method == ACPI_CSTATE_FFH)
++			state->flags |= CPUIDLE_FLAG_RCU_IDLE;
+ 		state->enter = acpi_idle_lpi_enter;
+ 		drv->safe_state_index = i;
+ 	}
+--- a/drivers/cpuidle/cpuidle-big_little.c
++++ b/drivers/cpuidle/cpuidle-big_little.c
+@@ -64,7 +64,8 @@ static struct cpuidle_driver bl_idle_lit
+ 		.enter			= bl_enter_powerdown,
+ 		.exit_latency		= 700,
+ 		.target_residency	= 2500,
+-		.flags			= CPUIDLE_FLAG_TIMER_STOP,
++		.flags			= CPUIDLE_FLAG_TIMER_STOP |
++					  CPUIDLE_FLAG_RCU_IDLE,
+ 		.name			= "C1",
+ 		.desc			= "ARM little-cluster power down",
+ 	},
+@@ -85,7 +86,8 @@ static struct cpuidle_driver bl_idle_big
+ 		.enter			= bl_enter_powerdown,
+ 		.exit_latency		= 500,
+ 		.target_residency	= 2000,
+-		.flags			= CPUIDLE_FLAG_TIMER_STOP,
++		.flags			= CPUIDLE_FLAG_TIMER_STOP |
++					  CPUIDLE_FLAG_RCU_IDLE,
+ 		.name			= "C1",
+ 		.desc			= "ARM big-cluster power down",
+ 	},
+@@ -124,11 +126,13 @@ static int bl_enter_powerdown(struct cpu
+ 				struct cpuidle_driver *drv, int idx)
  {
- 	/* bits[4:3] must always be set to 11b */
--	wrmsrl(MSR_AMD_DBG_EXTN_CFG, val | 3ULL << 3);
-+	__wrmsr(MSR_AMD_DBG_EXTN_CFG, val | 3ULL << 3, val >> 32);
- }
+ 	cpu_pm_enter();
++	ct_idle_enter();
  
--static inline u64 get_debug_extn_cfg(void)
-+static __always_inline u64 get_debug_extn_cfg(void)
- {
--	u64 val;
--
--	rdmsrl(MSR_AMD_DBG_EXTN_CFG, val);
--	return val;
-+	return __rdmsr(MSR_AMD_DBG_EXTN_CFG);
- }
+ 	cpu_suspend(0, bl_powerdown_finisher);
  
- static bool __init amd_brs_detect(void)
-@@ -338,7 +335,7 @@ void amd_pmu_brs_sched_task(struct perf_
-  * called from ACPI processor_idle.c or acpi_pad.c
-  * with interrupts disabled
-  */
--void perf_amd_brs_lopwr_cb(bool lopwr_in)
-+void noinstr perf_amd_brs_lopwr_cb(bool lopwr_in)
- {
- 	struct cpu_hw_events *cpuc = this_cpu_ptr(&cpu_hw_events);
- 	union amd_debug_extn_cfg cfg;
---- a/arch/x86/include/asm/perf_event.h
-+++ b/arch/x86/include/asm/perf_event.h
-@@ -554,7 +554,7 @@ extern void perf_amd_brs_lopwr_cb(bool l
+ 	/* signals the MCPM core that CPU is out of low power state */
+ 	mcpm_cpu_powered_up();
++	ct_idle_exit();
  
- DECLARE_STATIC_CALL(perf_lopwr_cb, perf_amd_brs_lopwr_cb);
+ 	cpu_pm_exit();
  
--static inline void perf_lopwr_cb(bool lopwr_in)
-+static __always_inline void perf_lopwr_cb(bool lopwr_in)
- {
- 	static_call_mod(perf_lopwr_cb)(lopwr_in);
- }
+--- a/drivers/cpuidle/dt_idle_states.c
++++ b/drivers/cpuidle/dt_idle_states.c
+@@ -77,7 +77,7 @@ static int init_state_node(struct cpuidl
+ 	if (err)
+ 		desc = state_node->name;
+ 
+-	idle_state->flags = 0;
++	idle_state->flags = CPUIDLE_FLAG_RCU_IDLE;
+ 	if (of_property_read_bool(state_node, "local-timer-stop"))
+ 		idle_state->flags |= CPUIDLE_FLAG_TIMER_STOP;
+ 	/*
+--- a/include/linux/cpuidle.h
++++ b/include/linux/cpuidle.h
+@@ -289,7 +289,9 @@ extern s64 cpuidle_governor_latency_req(
+ 	if (!is_retention)						\
+ 		__ret =  cpu_pm_enter();				\
+ 	if (!__ret) {							\
++		ct_idle_enter();					\
+ 		__ret = low_level_idle_enter(state);			\
++		ct_idle_exit();						\
+ 		if (!is_retention)					\
+ 			cpu_pm_exit();					\
+ 	}								\
 
 
 
