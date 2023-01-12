@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1E21C61DB3
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Jan 2023 20:25:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 66350C54EBE
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Jan 2023 20:25:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
 	From:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=RYK6eah1aFqnypV8sJQscR3uWLQbqj7eOZ+ceMfxaeQ=; b=hxQWZYMEnzwU+b
-	4YlHEVTpDzWbxKquySEyJfSUH0HPjMwWKDDtGzjNnHUkstCR17Ig+KXP5u82PA8RXdfDZHiQhHebX
-	E1j/jzG65804Nl4PwFZbpf6t527p2Kaeh+OGwMj6J1Dta9gNb5Wyzg87CmDB/52Sf0g1Eco4klfY0
-	DuKfMUwvM3jnfNGy+IdlNVaGYTDigS8XDPXmjYsRHbab7AF2bYElEMkYyj4uQr3yP8Ae2g3CUzfll
-	MxLePT7mZ0uQC5zaRhu1TIqzSbXaPw3oVTzDACN3xMclo+pWNmwIY81Hnje5JdRVN3QlygWGIabSm
-	zOyAf6wk+UWjSkRzfdYA==;
+	List-Owner; bh=BzippND5jVGwQB1DYVjA2I7jhFTeCIRgJ/7wviqnwHY=; b=vyyhrDBrBGnCST
+	f2cZO5zvlOS/cm3lQ6J9bIBGhP/YuYgFdyYglP8XcUCOKaTIRmpfAxXZ1nBDzMggT8MsTXDc71DDO
+	c2oTlFa/hhJ91+tRufI2wh7bsopCW5e9AqsAB6MABXy0khXI1kWcm+BJwZ6/2+COYYFfRZM6r+NEk
+	zduiN549TuUlp+6Sa0o/APlaX3D50/qxbs93NnnvXsBK1hoBZ4dIhMslSgILaPrvv28Jh+9L+CqX4
+	G6ULIF3ZlI/1ci+moZI9qdryPVdCjWpvyDQ4jsffnHQ6gscdEJ4lyC68gsSRqjYqOBoeQjwUp7f96
+	wBdQDFRhxGvrntUAT05g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG48B-00Gssv-Ix; Thu, 12 Jan 2023 20:24:59 +0000
+	id 1pG48C-00GstT-By; Thu, 12 Jan 2023 20:25:00 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG3hP-00GgiN-HG; Thu, 12 Jan 2023 19:57:19 +0000
+	id 1pG3hP-00GgiS-Fn; Thu, 12 Jan 2023 19:57:19 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:References:
 	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:In-Reply-To;
-	bh=N/LoJ6QokuvkgqrdUyeUyAC9uk5r3NGpRlHTjN0UEk8=; b=T8OnHc73dEliAoWK/xch6i2J7U
-	UMPcH7C3wey9SZCz29M3TnVGeV/W9jC6hfvxLiKRMqnquFKPM6nid5EbmG5dczPvuD2DZ3rsJb8bh
-	1B5YEftBb1n98ERVSHO05+IatfdS4u87KvvQGiPoj8rifuEdsA4srZC4wIENwPRAVZsXaUzY4luW4
-	Zenh892eKzf2pgbhojQV6wJdtmIWgpRiTZY36OvBCfqI5tc8YiwERNFtaxcfar59LGMt3V5FwEWxd
-	1IYeXc/xNHpxnwh58Sqsesvu7xJ/zUZBM+XUWlSRPervhZPQ3w6Fk9QTn2mJpsRI+pQDUPSrD9z7J
-	4u6HFEyw==;
+	bh=Xy9+JvHHctWh2TNOLRKTbmGfpkTQoSEdFlJnj8l2Ws0=; b=FtR6V7iBnq/tJFzxTCM/j78unY
+	/49Ec+SxLqZvSLDvUDxP80BJ6CshhnFTYKUGLWe52tbZI+g3IT66NcxuF4QJLpXQFqUnB8IYsx7tx
+	rvkkcM1E63xXLT0vxkkEUcwCp+mVujqeEfWYa0bi1HB5/HtroXhr9t67Q2WalkYHntgPdGa+81VAW
+	CoQSxFuXnJjq3lUVUMtBhxrXycskxIxMnWpscRtmQgQtCtsvQQolDB8Is0Qb3ixSa2+dLSsu8VyyZ
+	Ux3DSJ5librNMIilmqzR2tChKdku7Xq+k9WLJD67Xsi7/M3iylmdycXuodbdivvM3FwM/ipJb4qqQ
+	fc1Tmr7Q==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
 	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG3hZ-005Oda-BM; Thu, 12 Jan 2023 19:57:29 +0000
+	id 1pG3hX-005OcM-HX; Thu, 12 Jan 2023 19:57:27 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 3E0CF303417;
-	Thu, 12 Jan 2023 20:57:13 +0100 (CET)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id E0BF73033B9;
+	Thu, 12 Jan 2023 20:57:12 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id D46292CCF1F75; Thu, 12 Jan 2023 20:57:07 +0100 (CET)
-Message-ID: <20230112195540.251666856@infradead.org>
+	id 996452CCF1F4C; Thu, 12 Jan 2023 20:57:07 +0100 (CET)
+Message-ID: <20230112195539.576412812@infradead.org>
 User-Agent: quilt/0.66
-Date: Thu, 12 Jan 2023 20:43:29 +0100
+Date: Thu, 12 Jan 2023 20:43:18 +0100
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: richard.henderson@linaro.org,
@@ -197,7 +197,7 @@ Cc: richard.henderson@linaro.org,
  kasan-dev@googlegroups.com,
  "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
  Ulf Hansson <ulf.hansson@linaro.org>
-Subject: [PATCH v3 15/51] acpi_idle: Remove tracing
+Subject: [PATCH v3 04/51] cpuidle: Move IRQ state validation
 References: <20230112194314.845371875@infradead.org>
 MIME-Version: 1.0
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -216,10 +216,8 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-All the idle routines are called with RCU disabled, as such there must
-not be any tracing inside.
-
-While there; clean-up the io-port idle thing.
+Make cpuidle_enter_state() consistent with the s2idle variant and
+verify ->enter() always returns with interrupts disabled.
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
@@ -227,56 +225,37 @@ Acked-by: Frederic Weisbecker <frederic@kernel.org>
 Tested-by: Tony Lindgren <tony@atomide.com>
 Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
 ---
- drivers/acpi/processor_idle.c |   16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/cpuidle/cpuidle.c |   10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
---- a/drivers/acpi/processor_idle.c
-+++ b/drivers/acpi/processor_idle.c
-@@ -109,8 +109,8 @@ static const struct dmi_system_id proces
- static void __cpuidle acpi_safe_halt(void)
- {
- 	if (!tif_need_resched()) {
--		safe_halt();
--		local_irq_disable();
-+		raw_safe_halt();
-+		raw_local_irq_disable();
- 	}
- }
- 
-@@ -525,8 +525,11 @@ static int acpi_idle_bm_check(void)
- 	return bm_status;
- }
- 
--static void wait_for_freeze(void)
-+static __cpuidle void io_idle(unsigned long addr)
- {
-+	/* IO port based C-state */
-+	inb(addr);
+--- a/drivers/cpuidle/cpuidle.c
++++ b/drivers/cpuidle/cpuidle.c
+@@ -236,7 +236,11 @@ int cpuidle_enter_state(struct cpuidle_d
+ 	stop_critical_timings();
+ 	if (!(target_state->flags & CPUIDLE_FLAG_RCU_IDLE))
+ 		ct_idle_enter();
 +
- #ifdef	CONFIG_X86
- 	/* No delay is needed if we are in guest */
- 	if (boot_cpu_has(X86_FEATURE_HYPERVISOR))
-@@ -571,9 +574,7 @@ static void __cpuidle acpi_idle_do_entry
- 	} else if (cx->entry_method == ACPI_CSTATE_HALT) {
- 		acpi_safe_halt();
- 	} else {
--		/* IO port based C-state */
--		inb(cx->address);
--		wait_for_freeze();
-+		io_idle(cx->address);
- 	}
+ 	entered_state = target_state->enter(dev, drv, index);
++	if (WARN_ONCE(!irqs_disabled(), "%ps leaked IRQ state", target_state->enter))
++		raw_local_irq_disable();
++
+ 	if (!(target_state->flags & CPUIDLE_FLAG_RCU_IDLE))
+ 		ct_idle_exit();
+ 	start_critical_timings();
+@@ -248,12 +252,8 @@ int cpuidle_enter_state(struct cpuidle_d
+ 	/* The cpu is no longer idle or about to enter idle. */
+ 	sched_idle_set_state(NULL);
  
- 	perf_lopwr_cb(false);
-@@ -595,8 +596,7 @@ static int acpi_idle_play_dead(struct cp
- 		if (cx->entry_method == ACPI_CSTATE_HALT)
- 			safe_halt();
- 		else if (cx->entry_method == ACPI_CSTATE_SYSTEMIO) {
--			inb(cx->address);
--			wait_for_freeze();
-+			io_idle(cx->address);
- 		} else
- 			return -ENODEV;
+-	if (broadcast) {
+-		if (WARN_ON_ONCE(!irqs_disabled()))
+-			local_irq_disable();
+-
++	if (broadcast)
+ 		tick_broadcast_exit();
+-	}
  
+ 	if (!cpuidle_state_is_coupled(drv, index))
+ 		local_irq_enable();
 
 
 
