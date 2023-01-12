@@ -4,60 +4,203 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17A52C46467
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 10 Jan 2023 21:23:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25107C61DB3
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Jan 2023 20:24:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=nxsF2oLdUonWc1/l+28j6I65ztbeYk6m3q+IcLuRsaI=; b=ACLieM92DFPD0u
-	OPFUHs1n8NJlAThRP8Zz4g2sz21t/YsJXYo5gTJmcZ02hzDi9s1QmEgtsKroAQ5ggjzEslsPqtMqk
-	yr72W/3kGuJsmsGvRwEU4pzjiycJr8lg06bEe36TOZ6s+SYlGf20DbRZSZO2BLZ6SoW73ftqu7qkF
-	NKRDXjZHPhIkYJPntapkvdmRysEg2myKseLW6b4+Yd2KTQsf0HQc5dbZd275t2ePSdSbBg6hEfEmp
-	PguOSYZQpRET5IEk4fM+nZrTteOh1oSQ+YksXFakiUk8JG9EOoRXBFaNuWe1tR1w8+9CAyeMtq6QH
-	qXo3aiVyTD6BHuyVM/eA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
+	From:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	List-Owner; bh=D/Hd/CiuB9YJXpmMNXRmCYNEMMv65HrsIzmyzA+XS7E=; b=UwMK5Y8i+7eEX6
+	eBGY20mLJjaiNXj/d5Vy+6IliTNg0eKwyWai0a/a3a+nwwVcdlgBC4jcF83LoLWNVbV8OBaObaFjE
+	f1vh9iK4m2hDt/1P7ZI1lLV5ABldcw1MrHllU1C9NTagInjQEx7qZnGRFK0OIyIqbUnz5FxnCPnNX
+	r6pffof6UoWUsEDveYBGO60Et6131Qh0E+HvLqn7zm3+ibNW7GEaQdNvTTfzs2fVkqERFTSYdKmvd
+	TtKIDZWaw3wuHbDuVNBah3p7AE6fuEaeRNkC5CpRvBHwn5h66qfdSU2VL8JeigfVZSOGhQzyKgiKl
+	dwXaQpYpq4HlTpZXBzOw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pFM64-008blt-3d; Tue, 10 Jan 2023 21:23:52 +0000
-Received: from zeniv.linux.org.uk ([2a03:a000:7:0:5054:ff:fe1c:15ff])
+	id 1pG483-00Gsog-RS; Thu, 12 Jan 2023 20:24:51 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pFM60-008bl9-7e
-	for linux-snps-arc@lists.infradead.org; Tue, 10 Jan 2023 21:23:50 +0000
+	id 1pG3hP-00GgiO-GX; Thu, 12 Jan 2023 19:57:19 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description;
-	bh=HMyMBFRESow/WM9ygWpCSGTusSEWJqvkUIysz1wv1dE=; b=mBx0U3jxjMHQOE0pq78Ghngrd6
-	yL+fwmUmdLpuk6/N8DUP3Ml3v2eqOkcgxNaHxpQLlzVliLQCofMrqhy/q0LOU8mkNjB7xWpGqa/sl
-	Rhla/vldS+0AFV/FnfPE06TGlKpKwZBlYqFRMzRClUHtzOMfJdRGiPi1fwHkn2GaOyuLbB05+rk9D
-	cdbNO4XlKpHIQLouUWyIGxHgoITsEEbEU2dYkwJWZNB+o4GmY/FzqqdeSH1xmFgud0iw3P3QTtXCx
-	saQMvF9oFMKPydfH0i5SgQYHhTM3wvmBJ9KYgiHHZ5dyOatOjcLSFmCmNjeu+5gUP8uQfwK4Q4D91
-	qNG3QIQw==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1pFM5n-0014fx-21;
-	Tue, 10 Jan 2023 21:23:35 +0000
-Date: Tue, 10 Jan 2023 21:23:35 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: Vineet Gupta <vgupta@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Carpenter <error27@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] bit_spinlock: Include <asm/processor.h>
-Message-ID: <Y73XV1SRtcpJQ1Vq@ZenIV>
-References: <8b81101d59a31f4927016c17e49be96754a23380.1673204461.git.christophe.jaillet@wanadoo.fr>
- <b5e0bd90-ff29-d301-30ca-2f12028109ce@kernel.org>
- <f4aa7f0d-50a9-b5e0-e980-1e8e779b48bc@wanadoo.fr>
+	d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:References:
+	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:In-Reply-To;
+	bh=REiFsq8Cu55BI5UIL8KISCBnMH5PlDDv/02JyaHCfws=; b=jacsBVtew76U0uVdyT/s4IP8jr
+	GtFJuqoX/fTEhe6iRFRexCm1jXkTxzLVYW/jcOvJ0fcg1GH3zJ0VOMMq38KNB3hYcQO6ydqU6Pi8T
+	aQIWbAT4z6h98bNMpozlieRMTrJMS4S6RqhrEff1G1lvb6/Qj0ZJ2PZTCoqJhHzSexCsbfft31Kgl
+	nDOmzt618M5lwlBtRFllX/uUp9iZXSp1lY72+9iiVyi9YVVjwG/UBK+Nt2D8rJ5EvFjqmWDoGKlr0
+	4J2aw5Y8AHSjp5K9dnsERD/LPM5LxvNw6Y1oo53MnwCdNqbBPY8YqRl2QQ8k5x/NM/tBOT4vkOt1U
+	dTYOfX1g==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1pG3hX-005OcO-JK; Thu, 12 Jan 2023 19:57:27 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(Client did not present a certificate)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 016403033E9;
+	Thu, 12 Jan 2023 20:57:13 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
+	id A81F92CCF1F5A; Thu, 12 Jan 2023 20:57:07 +0100 (CET)
+Message-ID: <20230112195539.760296658@infradead.org>
+User-Agent: quilt/0.66
+Date: Thu, 12 Jan 2023 20:43:21 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: peterz@infradead.org
+Cc: richard.henderson@linaro.org,
+ ink@jurassic.park.msu.ru,
+ mattst88@gmail.com,
+ vgupta@kernel.org,
+ linux@armlinux.org.uk,
+ nsekhar@ti.com,
+ brgl@bgdev.pl,
+ ulli.kroll@googlemail.com,
+ linus.walleij@linaro.org,
+ shawnguo@kernel.org,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ kernel@pengutronix.de,
+ festevam@gmail.com,
+ linux-imx@nxp.com,
+ tony@atomide.com,
+ khilman@kernel.org,
+ krzysztof.kozlowski@linaro.org,
+ alim.akhtar@samsung.com,
+ catalin.marinas@arm.com,
+ will@kernel.org,
+ guoren@kernel.org,
+ bcain@quicinc.com,
+ chenhuacai@kernel.org,
+ kernel@xen0n.name,
+ geert@linux-m68k.org,
+ sammy@sammy.net,
+ monstr@monstr.eu,
+ tsbogend@alpha.franken.de,
+ dinguyen@kernel.org,
+ jonas@southpole.se,
+ stefan.kristiansson@saunalahti.fi,
+ shorne@gmail.com,
+ James.Bottomley@HansenPartnership.com,
+ deller@gmx.de,
+ mpe@ellerman.id.au,
+ npiggin@gmail.com,
+ christophe.leroy@csgroup.eu,
+ paul.walmsley@sifive.com,
+ palmer@dabbelt.com,
+ aou@eecs.berkeley.edu,
+ hca@linux.ibm.com,
+ gor@linux.ibm.com,
+ agordeev@linux.ibm.com,
+ borntraeger@linux.ibm.com,
+ svens@linux.ibm.com,
+ ysato@users.sourceforge.jp,
+ dalias@libc.org,
+ davem@davemloft.net,
+ richard@nod.at,
+ anton.ivanov@cambridgegreys.com,
+ johannes@sipsolutions.net,
+ tglx@linutronix.de,
+ mingo@redhat.com,
+ bp@alien8.de,
+ dave.hansen@linux.intel.com,
+ x86@kernel.org,
+ hpa@zytor.com,
+ acme@kernel.org,
+ mark.rutland@arm.com,
+ alexander.shishkin@linux.intel.com,
+ jolsa@kernel.org,
+ namhyung@kernel.org,
+ jgross@suse.com,
+ srivatsa@csail.mit.edu,
+ amakhalov@vmware.com,
+ pv-drivers@vmware.com,
+ boris.ostrovsky@oracle.com,
+ chris@zankel.net,
+ jcmvbkbc@gmail.com,
+ rafael@kernel.org,
+ lenb@kernel.org,
+ pavel@ucw.cz,
+ gregkh@linuxfoundation.org,
+ mturquette@baylibre.com,
+ sboyd@kernel.org,
+ daniel.lezcano@linaro.org,
+ lpieralisi@kernel.org,
+ sudeep.holla@arm.com,
+ agross@kernel.org,
+ andersson@kernel.org,
+ konrad.dybcio@linaro.org,
+ anup@brainfault.org,
+ thierry.reding@gmail.com,
+ jonathanh@nvidia.com,
+ jacob.jun.pan@linux.intel.com,
+ atishp@atishpatra.org,
+ Arnd Bergmann <arnd@arndb.de>,
+ yury.norov@gmail.com,
+ andriy.shevchenko@linux.intel.com,
+ linux@rasmusvillemoes.dk,
+ dennis@kernel.org,
+ tj@kernel.org,
+ cl@linux.com,
+ rostedt@goodmis.org,
+ mhiramat@kernel.org,
+ frederic@kernel.org,
+ paulmck@kernel.org,
+ pmladek@suse.com,
+ senozhatsky@chromium.org,
+ john.ogness@linutronix.de,
+ juri.lelli@redhat.com,
+ vincent.guittot@linaro.org,
+ dietmar.eggemann@arm.com,
+ bsegall@google.com,
+ mgorman@suse.de,
+ bristot@redhat.com,
+ vschneid@redhat.com,
+ ryabinin.a.a@gmail.com,
+ glider@google.com,
+ andreyknvl@gmail.com,
+ dvyukov@google.com,
+ vincenzo.frascino@arm.com,
+ Andrew Morton <akpm@linux-foundation.org>,
+ jpoimboe@kernel.org,
+ linux-alpha@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org,
+ linux-omap@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org,
+ linux-csky@vger.kernel.org,
+ linux-hexagon@vger.kernel.org,
+ linux-ia64@vger.kernel.org,
+ loongarch@lists.linux.dev,
+ linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org,
+ openrisc@lists.librecores.org,
+ linux-parisc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org,
+ sparclinux@vger.kernel.org,
+ linux-um@lists.infradead.org,
+ linux-perf-users@vger.kernel.org,
+ virtualization@lists.linux-foundation.org,
+ linux-xtensa@linux-xtensa.org,
+ linux-acpi@vger.kernel.org,
+ linux-pm@vger.kernel.org,
+ linux-clk@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org,
+ linux-tegra@vger.kernel.org,
+ linux-arch@vger.kernel.org,
+ linux-mm@kvack.org,
+ linux-trace-kernel@vger.kernel.org,
+ kasan-dev@googlegroups.com,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ Kajetan Puchalski <kajetan.puchalski@arm.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>
+Subject: [PATCH v3 07/51] cpuidle,psci: Push RCU-idle into driver
+References: <20230112194314.845371875@infradead.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <f4aa7f0d-50a9-b5e0-e980-1e8e779b48bc@wanadoo.fr>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230110_132348_570145_7F61B0BB 
-X-CRM114-Status: GOOD (  20.07  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,76 +212,70 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jan 10, 2023 at 07:08:33PM +0100, Christophe JAILLET wrote:
-> Le 10/01/2023 =E0 08:19, Vineet Gupta a =E9crit=A0:
-> > =
+Doing RCU-idle outside the driver, only to then temporarily enable it
+again, at least twice, before going idle is daft.
 
-> > On 1/8/23 11:04, Christophe JAILLET wrote:
-> > > In an attempt to simplify some includes in <include/dcache.h>, it
-> > > appeared, when compiling fs/ecryptfs/dentry.c, that
-> > > <linux/bit_spinlock.h>
-> > > was relying on other includes to get the definition of cpu_relax().
-> > > (see [1])
-> > > =
+Notably once implicitly through the cpu_pm_*() calls and once
+explicitly doing ct_irq_*_irqon().
 
-> > > It broke on arc.
-> > =
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Reviewed-by: Frederic Weisbecker <frederic@kernel.org>
+Reviewed-by: Guo Ren <guoren@kernel.org>
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Tested-by: Kajetan Puchalski <kajetan.puchalski@arm.com>
+Tested-by: Tony Lindgren <tony@atomide.com>
+Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
+---
+ drivers/cpuidle/cpuidle-psci.c |    9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-> > It its just ARC that broke, maybe we can do something there ?
-> =
+--- a/drivers/cpuidle/cpuidle-psci.c
++++ b/drivers/cpuidle/cpuidle-psci.c
+@@ -69,12 +69,12 @@ static int __psci_enter_domain_idle_stat
+ 		return -1;
+ 
+ 	/* Do runtime PM to manage a hierarchical CPU toplogy. */
+-	ct_irq_enter_irqson();
+ 	if (s2idle)
+ 		dev_pm_genpd_suspend(pd_dev);
+ 	else
+ 		pm_runtime_put_sync_suspend(pd_dev);
+-	ct_irq_exit_irqson();
++
++	ct_idle_enter();
+ 
+ 	state = psci_get_domain_state();
+ 	if (!state)
+@@ -82,12 +82,12 @@ static int __psci_enter_domain_idle_stat
+ 
+ 	ret = psci_cpu_suspend_enter(state) ? -1 : idx;
+ 
+-	ct_irq_enter_irqson();
++	ct_idle_exit();
++
+ 	if (s2idle)
+ 		dev_pm_genpd_resume(pd_dev);
+ 	else
+ 		pm_runtime_get_sync(pd_dev);
+-	ct_irq_exit_irqson();
+ 
+ 	cpu_pm_exit();
+ 
+@@ -240,6 +240,7 @@ static int psci_dt_cpu_init_topology(str
+ 	 * of a shared state for the domain, assumes the domain states are all
+ 	 * deeper states.
+ 	 */
++	drv->states[state_count - 1].flags |= CPUIDLE_FLAG_RCU_IDLE;
+ 	drv->states[state_count - 1].enter = psci_enter_domain_idle_state;
+ 	drv->states[state_count - 1].enter_s2idle = psci_enter_s2idle_domain_idle_state;
+ 	psci_cpuidle_use_cpuhp = true;
 
-> Hi,
-> =
 
-> It is all what build-bots have spotted so far :)
-> =
-
-> I don't think that "fixing" it in ARC is the right approach, unless I mis=
-sed
-> something.
-> =
-
-> <linux/bit_spinlock.h> does use cpu_relax(), so it should include what is
-> need for that, and not rely on other black magic.
-
-Umm...  That's not obvious - it only uses cpu_relax() in macros, so missing
-include would not cause problems if all actual users of those macros happen
-to pull the needed header by other means.
-
-Said that, we have
-
-1) defined directly in asm/processor.h, using nothing but the stuff provide=
-d by
-compiler.h:
-	alpha, arc, csky, loongarch, m68k, microblaze, nios2,
-	openrisc, parisc, s390, sh, xtensa
-2) same, using something in headers pulled by asm/processor.h itself:
-	ia64 (needs asm/intrinsic.h)
-	hexagon (needs asm/hexagon_vm.h)
-	um (needs arch/um/include/linux/time-internal.h)
-3) same, but defined in something pulled by asm/processor.h rather than
-in asm/processor.h itself; asm/vdso/processor.h is the common location -
-those are the cases when we share the same definition for kernel and
-vdso builds
-	sparc (asm/processor_32.h or asm/processor_64.h)
-	arm (asm/vdso/processor.h)
-	arm64 (asm/vdso/processor.h)
-	powerpc (asm/vdso/processor.h)
-	x86 (asm/vdso/processor.h)
-	riscv (asm/vdso/processor.h; needs several headers included there -
-jump_label.h, etc.)
-	mips (asm/vdso/processor.h, needs asm/barrier.h, pulled from asm/processor=
-.h
-by way of linux/atomic.h -> asm/atomic.h -> asm/barrier.h)
-
-So asm/processor.h is sufficient for working cpu_relax() and if some
-arch-independent code wants cpu_relax() it should pull either
-asm/processor.h or linux/processor.h
 
 _______________________________________________
 linux-snps-arc mailing list
