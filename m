@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 162B5C61DB3
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Jan 2023 21:19:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98B9CC54EBE
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Jan 2023 21:19:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
 	From:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=mb+n8gLAM9A62qfrT8sCiAouCWtFwk0pTmobz0k2IYo=; b=A2Pxyv1v1leZz/
-	5z81YRqt853MY0t9khPp3NNT26XxjBNCbrbEwRZ8yK8DAgd0QVMBe33B5OvFhiXar2JLWuOieuJqK
-	kI6RNogDccyItuc0xVY6G1G42K74kKGW+/gopINnE68/jlHowWaFSnsrQjwjGSo32uofu3JtcvQwD
-	2DFgFxSq0MFNad8X86x4njJLxKuVZbJrn7YLzv1vrIaFXDWnNFB7Kx940S8ZxZZ98v9RCrTHIST3j
-	69e/hZb6uWrD7Wf42rHWqOefs2VpDnEoIkPDqkWN7Rxrhb5fZ9OSTyTkIK7wRl3pMzaNmmLPnaKim
-	DEWLBBScGMp/mno05VWw==;
+	List-Owner; bh=S4ORJICvwGoqtn+Dvq7RyhwqOBhgNUzQLTA8hsK1nGE=; b=3oWqCPBv6JhfsN
+	PmFfanYQfiqz7gPySWy4by7Oxv2pEJDqSyNd0hwKKz65xI8XDXIEJ5ASdsLwBQblLtln1WFQBrn+F
+	1jon7JvZ2KmhiRfIRDEltv26bBv+ua5Q13HtVn9XRVETUZrVk59wdyD7J/Pa4Gqgwn4sPU3XcLHmx
+	kNKTZvbP9vxXoL1tMPxFV/ya3C2lPj6w/qq0Ax0nwiGqLg3aLrE0/lngHwaEnAlheUMwNI4gDQvfv
+	G4+0D7ZyXEUIlNSCz6VM+PUJaFsJdun1MPohQEW8oT6RevRpIUZFpNWVZqU6PFupB+BvJWvs6fGv6
+	ED+XoZ4bmob1eNWR0DNA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG4yS-00H79e-Hw; Thu, 12 Jan 2023 21:19:00 +0000
+	id 1pG4yU-00H7Ac-2k; Thu, 12 Jan 2023 21:19:02 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG4yR-00H797-50; Thu, 12 Jan 2023 21:18:59 +0000
+	id 1pG4yS-00H79b-PF; Thu, 12 Jan 2023 21:19:00 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:References:
 	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:In-Reply-To;
-	bh=Un035BTYhsjREpZ4dpy/MHkkoifcKtLiH3nYidAuKL8=; b=Cm0cZvx68fOfy3spcfZv1mTyVN
-	I+8nrlfsPTd1YX3ddHPT1tHDaXW6BjutPk9wWpEkW/bLt/CWl0wIYVqUtY/RdgLL1CXyaqx22TN13
-	FVZ1Pu0U/vSbCFKDZV31A7dnMTEMlJVmC5JGl3kdM1NWuU5ROH7eP9w1vfRDaocn4JsSLc4YrPw5Q
-	92CcZo9NDx6pgppJhIre9PG6+hEZcTjM22p8n4v6T0CGJXpMaxOqy0BIl6Hi1HTM4//PS/Q9GRA+r
-	r+JvkRTeh7iePDi9/CdHQ2TT4CowIVH97n1vCAGs/Zkz6o47jhi7eL2nyxXG48k7aP4oDQHY9NYIK
-	bJ7NrLVg==;
+	bh=dY+sZF8zXVTImEusizdFam+mvD2uBaZ1sCttd0zpvx8=; b=Zvs6hw3dC5vZ9/e3RVPulXa4vo
+	0LGVycD5ek8na8AFjgsGQDoJWr/GILDhDZZRLr5jcFSKcCvqgSV1b0VFMw8bgB2ismeu3VWWkJ8fT
+	iOKXjPhSfP3BdrVt2KEx/AK1uUamJSxIAfVV8e3ZVtl5XXXBjts18yo5G52OU+rSmciaSR1qJTQOp
+	jrcY4VRNY3AgQZacZ+/mcgJwzOUsYcfiXdjCWRnrFGw8rdAFr9f26ET+gY1q1gut10GpU+iYN1B13
+	B3mDdBlf4EOS02q8DY62DSvt/0WRC0IcizLnoP75ZxAWdBkF7dWM1rEkjziDX2zFcPQkr7kw9pR2z
+	NdL9gE2Q==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
 	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1pG3hZ-0045wj-2V;
-	Thu, 12 Jan 2023 19:57:33 +0000
+	id 1pG3hJ-0045pY-0x;
+	Thu, 12 Jan 2023 19:57:21 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 4DBD1300293;
-	Thu, 12 Jan 2023 20:57:14 +0100 (CET)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id CAC91303456;
+	Thu, 12 Jan 2023 20:57:13 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id 7C19A2CD066F8; Thu, 12 Jan 2023 20:57:08 +0100 (CET)
-Message-ID: <20230112195542.397238052@infradead.org>
+	id 3A2002CCF62BF; Thu, 12 Jan 2023 20:57:08 +0100 (CET)
+Message-ID: <20230112195541.477416709@infradead.org>
 User-Agent: quilt/0.66
-Date: Thu, 12 Jan 2023 20:44:04 +0100
+Date: Thu, 12 Jan 2023 20:43:49 +0100
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: richard.henderson@linaro.org,
@@ -196,7 +196,7 @@ Cc: richard.henderson@linaro.org,
  linux-mm@kvack.org,
  linux-trace-kernel@vger.kernel.org,
  kasan-dev@googlegroups.com
-Subject: [PATCH v3 50/51] cpuidle: Comments about noinstr/__cpuidle
+Subject: [PATCH v3 35/51] trace,hardirq: No moar _rcuidle() tracing
 References: <20230112194314.845371875@infradead.org>
 MIME-Version: 1.0
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -215,54 +215,76 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Add a few words on noinstr / __cpuidle usage.
+Robot reported that trace_hardirqs_{on,off}() tickle the forbidden
+_rcuidle() tracepoint through local_irq_{en,dis}able().
+
+For 'sane' configs, these calls will only happen with RCU enabled and
+as such can use the regular tracepoint. This also means it's possible
+to trace them from NMI context again.
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
- drivers/cpuidle/cpuidle.c      |   12 ++++++++++++
- include/linux/compiler_types.h |   10 ++++++++++
- 2 files changed, 22 insertions(+)
+ kernel/trace/trace_preemptirq.c |   21 +++++++++++++--------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
 
---- a/drivers/cpuidle/cpuidle.c
-+++ b/drivers/cpuidle/cpuidle.c
-@@ -252,6 +252,18 @@ noinstr int cpuidle_enter_state(struct c
- 		instrumentation_begin();
+--- a/kernel/trace/trace_preemptirq.c
++++ b/kernel/trace/trace_preemptirq.c
+@@ -20,6 +20,15 @@
+ static DEFINE_PER_CPU(int, tracing_irq_cpu);
+ 
+ /*
++ * ...
++ */
++#ifdef CONFIG_ARCH_WANTS_NO_INSTR
++#define trace(point)	trace_##point
++#else
++#define trace(point)	if (!in_nmi()) trace_##point##_rcuidle
++#endif
++
++/*
+  * Like trace_hardirqs_on() but without the lockdep invocation. This is
+  * used in the low level entry code where the ordering vs. RCU is important
+  * and lockdep uses a staged approach which splits the lockdep hardirq
+@@ -28,8 +37,7 @@ static DEFINE_PER_CPU(int, tracing_irq_c
+ void trace_hardirqs_on_prepare(void)
+ {
+ 	if (this_cpu_read(tracing_irq_cpu)) {
+-		if (!in_nmi())
+-			trace_irq_enable(CALLER_ADDR0, CALLER_ADDR1);
++		trace(irq_enable)(CALLER_ADDR0, CALLER_ADDR1);
+ 		tracer_hardirqs_on(CALLER_ADDR0, CALLER_ADDR1);
+ 		this_cpu_write(tracing_irq_cpu, 0);
+ 	}
+@@ -40,8 +48,7 @@ NOKPROBE_SYMBOL(trace_hardirqs_on_prepar
+ void trace_hardirqs_on(void)
+ {
+ 	if (this_cpu_read(tracing_irq_cpu)) {
+-		if (!in_nmi())
+-			trace_irq_enable_rcuidle(CALLER_ADDR0, CALLER_ADDR1);
++		trace(irq_enable)(CALLER_ADDR0, CALLER_ADDR1);
+ 		tracer_hardirqs_on(CALLER_ADDR0, CALLER_ADDR1);
+ 		this_cpu_write(tracing_irq_cpu, 0);
+ 	}
+@@ -63,8 +70,7 @@ void trace_hardirqs_off_finish(void)
+ 	if (!this_cpu_read(tracing_irq_cpu)) {
+ 		this_cpu_write(tracing_irq_cpu, 1);
+ 		tracer_hardirqs_off(CALLER_ADDR0, CALLER_ADDR1);
+-		if (!in_nmi())
+-			trace_irq_disable(CALLER_ADDR0, CALLER_ADDR1);
++		trace(irq_disable)(CALLER_ADDR0, CALLER_ADDR1);
  	}
  
-+	/*
-+	 * NOTE!!
-+	 *
-+	 * For cpuidle_state::enter() methods that do *NOT* set
-+	 * CPUIDLE_FLAG_RCU_IDLE RCU will be disabled here and these functions
-+	 * must be marked either noinstr or __cpuidle.
-+	 *
-+	 * For cpuidle_state::enter() methods that *DO* set
-+	 * CPUIDLE_FLAG_RCU_IDLE this isn't required, but they must mark the
-+	 * function calling ct_cpuidle_enter() as noinstr/__cpuidle and all
-+	 * functions called within the RCU-idle region.
-+	 */
- 	entered_state = target_state->enter(dev, drv, index);
- 
- 	if (WARN_ONCE(!irqs_disabled(), "%ps leaked IRQ state", target_state->enter))
---- a/include/linux/compiler_types.h
-+++ b/include/linux/compiler_types.h
-@@ -233,6 +233,16 @@ struct ftrace_likely_data {
- 
- #define noinstr __noinstr_section(".noinstr.text")
- 
-+/*
-+ * The __cpuidle section is used twofold:
-+ *
-+ *  1) the original use -- identifying if a CPU is 'stuck' in idle state based
-+ *     on it's instruction pointer. See cpu_in_idle().
-+ *
-+ *  2) supressing instrumentation around where cpuidle disables RCU; where the
-+ *     function isn't strictly required for #1, this is interchangeable with
-+ *     noinstr.
-+ */
- #define __cpuidle __noinstr_section(".cpuidle.text")
- 
- #endif /* __KERNEL__ */
+ }
+@@ -78,8 +84,7 @@ void trace_hardirqs_off(void)
+ 	if (!this_cpu_read(tracing_irq_cpu)) {
+ 		this_cpu_write(tracing_irq_cpu, 1);
+ 		tracer_hardirqs_off(CALLER_ADDR0, CALLER_ADDR1);
+-		if (!in_nmi())
+-			trace_irq_disable_rcuidle(CALLER_ADDR0, CALLER_ADDR1);
++		trace(irq_disable)(CALLER_ADDR0, CALLER_ADDR1);
+ 	}
+ }
+ EXPORT_SYMBOL(trace_hardirqs_off);
 
 
 
