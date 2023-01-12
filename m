@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0F47C678D6
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Jan 2023 20:25:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 267FCC678D7
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Jan 2023 20:25:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
 	From:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=LG/FfVrDyksX1EYd1YeWjP/NflCjFflSmF1UzB+6b1g=; b=X7QhDhGlMUIpak
-	Tnt/hR+M7XO0NtQXGdtFxPGq66E2hE9e08fdFUtLBnTYtJgaHpvLme3Ny9hk/QtSrgiTA7UIbc3e1
-	tiSKkY9eOkt1qTtxqX1G8yS03vduNm13S7eRFaBQpOEHrR4M6TAXPhwdVLxddvwc1nxfGAfDE3q6g
-	RNeLvkNNqy4T08iy+QxpV2BCfZo2iSsCDqLwqF0V9b5hEVz6/6N9Iq/7E3D70kqdiuDvm4ltqxMyP
-	ERqWVX4lfGp0yjLGuTb3HIjzVfpu6cQiT/6FDpUoCR8ei/OxrEfl1JmCWHR7tSfX59KJthJj/W1FT
-	7eVvKArowTeldEGIa7zw==;
+	List-Owner; bh=4ztNFAikcS2wM9HNBlQPmKULmrQmVswmGeEi/p4nsCQ=; b=gHv1kCuzpBUI07
+	kbeiXkjazsO/X8TGMZFGNx+RXpohYJg7WLjZuRmc8w+c2BMk7ptzXYI7aEFveYE2uFFNWMVeWPCeb
+	D8CZBOJnezSdVBGxe4y9ZorkCRHtLrYIxd0OjVmJiG9LRNmDtL9ssaoQdu/qNPc/fvUcZMUsTG5CF
+	nHHEgG/fph2mxsFqJcfhgSsP05ngB3IxRCcLtHhQgpfHh3yI+T8bFtFgeSnFGnD7VumS16nL2yOR8
+	grgTqB/wpFJ597FMCETscACT8EdjgaI1J7AawgjaFfNxP5E9Rr5yCQBUJd2qVKsbwRiChhA6X75oQ
+	DAzqyEybtQfGVUYue3Fw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG48h-00GtNZ-Sa; Thu, 12 Jan 2023 20:25:31 +0000
+	id 1pG48i-00GtO7-DF; Thu, 12 Jan 2023 20:25:32 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG3hV-00Ggmo-Hl; Thu, 12 Jan 2023 19:57:25 +0000
+	id 1pG3ha-00Ggmm-GL; Thu, 12 Jan 2023 19:57:30 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:References:
 	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:In-Reply-To;
-	bh=tPOdw9LFGiPCDTfwXmDjC03yH+Atd2yWpwgqK4SP6Bs=; b=MCFGk/zfAQ1MOxe655CfrxSndB
-	KMsj8OM47QEIEF+dE7LPbkmxg/PQAts31gFJ5Xz3no3m62IuisxdrSXrLN8SYgr1mtDIwtR8p1Foy
-	vgMnbz7h6ch5F50b53yunuqk9MFEuX5uEMORRcRhTqQRFnQzXIgNjlWLrzQ8IyZodgjiEI5j/hfm2
-	jtsLGmSu2xYww6Em1c+Sd7XPqSMSM0BgTy1Y9iUSaQMsmpIltEMs2Z+FvPcdV8LPGTs0uCR8XY70j
-	Jdml4OVol/2E06Nb6eijodGglka4wn0K9TaSFCWA1YgF/306McxeUsk6Jgniwje3STV7G1K2gesSb
-	SZObcOlw==;
+	bh=K+6/dwXz2WKb5RxNLU2q+chP38k8rKZMVN0FbUJ4gys=; b=AsVrq9wT/PXJk0qR4yYeRmw2Z1
+	sFGHg+aIPPyDTboHjpqLWy3X1T8UQB/O6PTb8R0zTtvwDN0yQS3aIcfBsuE/iWvY6nds+s1WuvFv3
+	aNBBQ4zar+ZFrynYU6+MbnFhyaLGBsOTsPM4ZYNVix4uO+OhmsgT/kUOAnbP2Mcc52m3QWLGGYtZX
+	1L7dr5kPMZibWpkerKF7Fmbrlol4brSBcxyJg6biKltchaWjpjjcglDEjpuGTK9bo4Ytgcqw2yN0D
+	1pUqiaV0oLyLNqyJvkzl3dQZtJxguFzo9JHpk+jpR0u1rOr2V/4ymL5sYskJ6n7f/yKV2b4XR2SmP
+	uU7TgixQ==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
 	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1pG3hB-0045nq-0A;
+	id 1pG3hB-0045nr-0B;
 	Thu, 12 Jan 2023 19:57:05 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 5F208300F30;
-	Thu, 12 Jan 2023 20:57:11 +0100 (CET)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id B880E300C50;
+	Thu, 12 Jan 2023 20:57:07 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id 9180D2CCF0C22; Thu, 12 Jan 2023 20:57:07 +0100 (CET)
-Message-ID: <20230112195539.453613251@infradead.org>
+	id 8D9992CCF1F4A; Thu, 12 Jan 2023 20:57:07 +0100 (CET)
+Message-ID: <20230112195539.392862891@infradead.org>
 User-Agent: quilt/0.66
-Date: Thu, 12 Jan 2023 20:43:16 +0100
+Date: Thu, 12 Jan 2023 20:43:15 +0100
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: richard.henderson@linaro.org,
@@ -198,7 +198,7 @@ Cc: richard.henderson@linaro.org,
  kasan-dev@googlegroups.com,
  "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
  Ulf Hansson <ulf.hansson@linaro.org>
-Subject: [PATCH v3 02/51] x86/idle: Replace x86_idle with a static_call
+Subject: [PATCH v3 01/51] x86/perf/amd: Remove tracing from perf_lopwr_cb()
 References: <20230112194314.845371875@infradead.org>
 MIME-Version: 1.0
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -217,120 +217,64 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Typical boot time setup; no need to suffer an indirect call for that.
+The perf_lopwr_cb() is called from the idle routines; there is no RCU
+there, we must not enter tracing.
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Reviewed-by: Frederic Weisbecker <frederic@kernel.org>
-Reviewed-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Acked-by: Frederic Weisbecker <frederic@kernel.org>
 Tested-by: Tony Lindgren <tony@atomide.com>
 Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
 ---
- arch/x86/kernel/process.c |   50 +++++++++++++++++++++++++---------------------
- 1 file changed, 28 insertions(+), 22 deletions(-)
+ arch/x86/events/amd/brs.c         |   13 +++++--------
+ arch/x86/include/asm/perf_event.h |    2 +-
+ 2 files changed, 6 insertions(+), 9 deletions(-)
 
---- a/arch/x86/kernel/process.c
-+++ b/arch/x86/kernel/process.c
-@@ -24,6 +24,7 @@
- #include <linux/cpuidle.h>
- #include <linux/acpi.h>
- #include <linux/elf-randomize.h>
-+#include <linux/static_call.h>
- #include <trace/events/power.h>
- #include <linux/hw_breakpoint.h>
- #include <asm/cpu.h>
-@@ -692,7 +693,23 @@ void __switch_to_xtra(struct task_struct
- unsigned long boot_option_idle_override = IDLE_NO_OVERRIDE;
- EXPORT_SYMBOL(boot_option_idle_override);
+--- a/arch/x86/events/amd/brs.c
++++ b/arch/x86/events/amd/brs.c
+@@ -41,18 +41,15 @@ static inline unsigned int brs_to(int id
+ 	return MSR_AMD_SAMP_BR_FROM + 2 * idx + 1;
+ }
  
--static void (*x86_idle)(void);
-+/*
-+ * We use this if we don't have any better idle routine..
-+ */
-+void __cpuidle default_idle(void)
-+{
-+	raw_safe_halt();
-+}
-+#if defined(CONFIG_APM_MODULE) || defined(CONFIG_HALTPOLL_CPUIDLE_MODULE)
-+EXPORT_SYMBOL(default_idle);
-+#endif
-+
-+DEFINE_STATIC_CALL_NULL(x86_idle, default_idle);
-+
-+static bool x86_idle_set(void)
-+{
-+	return !!static_call_query(x86_idle);
-+}
+-static inline void set_debug_extn_cfg(u64 val)
++static __always_inline void set_debug_extn_cfg(u64 val)
+ {
+ 	/* bits[4:3] must always be set to 11b */
+-	wrmsrl(MSR_AMD_DBG_EXTN_CFG, val | 3ULL << 3);
++	__wrmsr(MSR_AMD_DBG_EXTN_CFG, val | 3ULL << 3, val >> 32);
+ }
  
- #ifndef CONFIG_SMP
- static inline void play_dead(void)
-@@ -715,28 +732,17 @@ void arch_cpu_idle_dead(void)
- /*
-  * Called from the generic idle code.
-  */
--void arch_cpu_idle(void)
--{
--	x86_idle();
--}
+-static inline u64 get_debug_extn_cfg(void)
++static __always_inline u64 get_debug_extn_cfg(void)
+ {
+-	u64 val;
 -
--/*
-- * We use this if we don't have any better idle routine..
-- */
--void __cpuidle default_idle(void)
-+void __cpuidle arch_cpu_idle(void)
+-	rdmsrl(MSR_AMD_DBG_EXTN_CFG, val);
+-	return val;
++	return __rdmsr(MSR_AMD_DBG_EXTN_CFG);
+ }
+ 
+ static bool __init amd_brs_detect(void)
+@@ -338,7 +335,7 @@ void amd_pmu_brs_sched_task(struct perf_
+  * called from ACPI processor_idle.c or acpi_pad.c
+  * with interrupts disabled
+  */
+-void perf_amd_brs_lopwr_cb(bool lopwr_in)
++void noinstr perf_amd_brs_lopwr_cb(bool lopwr_in)
  {
--	raw_safe_halt();
-+	static_call(x86_idle)();
- }
--#if defined(CONFIG_APM_MODULE) || defined(CONFIG_HALTPOLL_CPUIDLE_MODULE)
--EXPORT_SYMBOL(default_idle);
--#endif
+ 	struct cpu_hw_events *cpuc = this_cpu_ptr(&cpu_hw_events);
+ 	union amd_debug_extn_cfg cfg;
+--- a/arch/x86/include/asm/perf_event.h
++++ b/arch/x86/include/asm/perf_event.h
+@@ -554,7 +554,7 @@ extern void perf_amd_brs_lopwr_cb(bool l
  
- #ifdef CONFIG_XEN
- bool xen_set_default_idle(void)
+ DECLARE_STATIC_CALL(perf_lopwr_cb, perf_amd_brs_lopwr_cb);
+ 
+-static inline void perf_lopwr_cb(bool lopwr_in)
++static __always_inline void perf_lopwr_cb(bool lopwr_in)
  {
--	bool ret = !!x86_idle;
-+	bool ret = x86_idle_set();
- 
--	x86_idle = default_idle;
-+	static_call_update(x86_idle, default_idle);
- 
- 	return ret;
+ 	static_call_mod(perf_lopwr_cb)(lopwr_in);
  }
-@@ -859,20 +865,20 @@ void select_idle_routine(const struct cp
- 	if (boot_option_idle_override == IDLE_POLL && smp_num_siblings > 1)
- 		pr_warn_once("WARNING: polling idle and HT enabled, performance may degrade\n");
- #endif
--	if (x86_idle || boot_option_idle_override == IDLE_POLL)
-+	if (x86_idle_set() || boot_option_idle_override == IDLE_POLL)
- 		return;
- 
- 	if (boot_cpu_has_bug(X86_BUG_AMD_E400)) {
- 		pr_info("using AMD E400 aware idle routine\n");
--		x86_idle = amd_e400_idle;
-+		static_call_update(x86_idle, amd_e400_idle);
- 	} else if (prefer_mwait_c1_over_halt(c)) {
- 		pr_info("using mwait in idle threads\n");
--		x86_idle = mwait_idle;
-+		static_call_update(x86_idle, mwait_idle);
- 	} else if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST)) {
- 		pr_info("using TDX aware idle routine\n");
--		x86_idle = tdx_safe_halt;
-+		static_call_update(x86_idle, tdx_safe_halt);
- 	} else
--		x86_idle = default_idle;
-+		static_call_update(x86_idle, default_idle);
- }
- 
- void amd_e400_c1e_apic_setup(void)
-@@ -925,7 +931,7 @@ static int __init idle_setup(char *str)
- 		 * To continue to load the CPU idle driver, don't touch
- 		 * the boot_option_idle_override.
- 		 */
--		x86_idle = default_idle;
-+		static_call_update(x86_idle, default_idle);
- 		boot_option_idle_override = IDLE_HALT;
- 	} else if (!strcmp(str, "nomwait")) {
- 		/*
 
 
 
