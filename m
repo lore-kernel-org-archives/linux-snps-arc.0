@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46F3DC63797
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Jan 2023 20:25:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1BD1FC54EBE
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Jan 2023 20:25:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
 	From:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=yO+qieqDI2JriMtmrToYbLy0yDMgC8CIDEqECmZevn8=; b=frS2bw2c2ttY9D
-	lm9jTArkCL9SKKytSPZZuQcm/EAMGY/JDMBW45gj3ZP0sBI05+bg9GS0XJFXcR9of3mF8m7Gi+4ST
-	xoTKwtLAh2TYhtv9DFsV/qVNe/SD8sXBbZEV1nQC6S01EuYjJUMPbQLJAi7M3bY4ckiIpyTZatd85
-	jWyD+8FpfneWQOEsxQzGvALF2oUcheuOQFq00q7YvUou9HiAQVsP6rUvFnuWSwKLXg6cdOs0hfHXX
-	KnLZ6hTLZbFvwM7O1uK76clGIymrzOftZzxGrHktxF3rqR4qsDTnk26TOsc1dHlAm4Kguxe0HvaaS
-	2EC3WqBZsk8oI1PvfQpg==;
+	List-Owner; bh=a5uzMu/93JO+U3aSga/yKTJePjI3oulChRC4RH3nOjI=; b=TcNHgFKtFV+Ayf
+	A+xC5Fsjb58J7JT4QIzoQAUhnvgpyroIx8a4JzFy37alAHQfOKptHSUhADLAwx5pq8wGFCcnHfIxa
+	3V89tjQd+nCz12kjWT7nMNzYnA7zYNBrok0TNf5zPxqpPsEJ7kNwLlM+cTF62OI55XO2ikJozSWym
+	IWz1JjCTM0pO/6nmlBXLniqDwMxtUAssrXfFk1VwFSIL4bUCa3NzHeMT6J8J8hkO302CVbQ9LTpjm
+	qIztjzEaORlXmDqx0E28EHAdjQVptMP6oOz0PlzFeBCfSB2eLmLF2ny9BfFys0liICBEkexB6eRep
+	XzTTfv7gU8/JHyxGVRaA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG48f-00GtLK-6H; Thu, 12 Jan 2023 20:25:29 +0000
+	id 1pG48f-00GtLv-SY; Thu, 12 Jan 2023 20:25:29 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG3hV-00Ggmk-Hp; Thu, 12 Jan 2023 19:57:25 +0000
+	id 1pG3hV-00Ggms-HQ; Thu, 12 Jan 2023 19:57:25 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:References:
 	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:In-Reply-To;
-	bh=mHHfLn3ZXDs7+W84iYI4l64Hgzvzv2j66VWrzu7dGbw=; b=kYTEx0rzU1SllruehA0y8yHATb
-	IJE4wnYq/dRbQHRcZnpN0OXGHrGk0U7J3N0VBj+JSbpdQwQu+8TKRK5iCmxygpxvyweDkZe5UIvKY
-	MwOlwaQnkBOYRnYTKRZAqS1YnWNOV444ewGH4wdgTge715r6fQsvhW/ij5f47Qprmcr4wA7JNnstB
-	e/bXihOVRgcSCgn0rMMHufr9/fNUf4QdhZFePtfdiRCc6x7c+0SOJjOnT1sc/ENafw33wlDFA9nsH
-	0IaR/32BenV0BuTP4t5UZWueg7KT2qaj1MvjhfzmYn2Z4T4bkLiG8Dkn01Xo2lHx6f+yFLnWfJon6
-	ooD7L92g==;
+	bh=nPi2VaSnukDemWiv4/ra3+urtWJi7QCVP16nY4QbOXo=; b=CDjE30SHxh/MHeshq7LcxCyRnB
+	pAloIyE5xsjlMTbeKB6u/sxCgYnoL1p+OYgspBL5pFU5mK2BmQ486B/NcumbPG/RDRvRocqku+/+w
+	9uMl5zfVPVAo7sN1COzJFktYLeZ5aZ36fFLW3kVxdMQ9rGWvI/TrmA4iM2REwC6E89NJG4BtwXdYh
+	Cf3lKWPZyztC126H0PkFylComcCFMahDJ0ywksznJkEyMohG+lfLKIpWv0CU/+S3YKvbiUVd/D8wg
+	UbT7ahOD8OTpISXQDxoK1saIUM6+KxGwdAqH9AqOxzOt3IA8iSNroHtgP/sEIC13R1sHdOMtNIcT9
+	tVhxTauA==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
 	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1pG3hG-0045ox-1D;
-	Thu, 12 Jan 2023 19:57:11 +0000
+	id 1pG3hG-0045oz-1Q;
+	Thu, 12 Jan 2023 19:57:12 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 862C3303434;
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 8DF5D303438;
 	Thu, 12 Jan 2023 20:57:13 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id 11A262CCF62AB; Thu, 12 Jan 2023 20:57:08 +0100 (CET)
-Message-ID: <20230112195540.865735001@infradead.org>
+	id 156E92CCF62AD; Thu, 12 Jan 2023 20:57:08 +0100 (CET)
+Message-ID: <20230112195540.927904612@infradead.org>
 User-Agent: quilt/0.66
-Date: Thu, 12 Jan 2023 20:43:39 +0100
+Date: Thu, 12 Jan 2023 20:43:40 +0100
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: richard.henderson@linaro.org,
@@ -198,7 +198,7 @@ Cc: richard.henderson@linaro.org,
  kasan-dev@googlegroups.com,
  "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
  Ulf Hansson <ulf.hansson@linaro.org>
-Subject: [PATCH v3 25/51] printk: Remove trace_.*_rcuidle() usage
+Subject: [PATCH v3 26/51] time/tick-broadcast: Remove RCU_NONIDLE usage
 References: <20230112194314.845371875@infradead.org>
 MIME-Version: 1.0
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -217,34 +217,58 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The problem, per commit fc98c3c8c9dc ("printk: use rcuidle console
-tracepoint"), was printk usage from the cpuidle path where RCU was
-already disabled.
-
-Per the patches earlier in this series, this is no longer the case.
+No callers left that have already disabled RCU.
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-Acked-by: Petr Mladek <pmladek@suse.com>
+Acked-by: Mark Rutland <mark.rutland@arm.com>
 Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 Acked-by: Frederic Weisbecker <frederic@kernel.org>
 Tested-by: Tony Lindgren <tony@atomide.com>
 Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
 ---
- kernel/printk/printk.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ kernel/time/tick-broadcast-hrtimer.c |   29 ++++++++++++-----------------
+ 1 file changed, 12 insertions(+), 17 deletions(-)
 
---- a/kernel/printk/printk.c
-+++ b/kernel/printk/printk.c
-@@ -2238,7 +2238,7 @@ static u16 printk_sprint(char *text, u16
- 		}
- 	}
- 
--	trace_console_rcuidle(text, text_len);
-+	trace_console(text, text_len);
- 
- 	return text_len;
+--- a/kernel/time/tick-broadcast-hrtimer.c
++++ b/kernel/time/tick-broadcast-hrtimer.c
+@@ -56,25 +56,20 @@ static int bc_set_next(ktime_t expires,
+ 	 * hrtimer callback function is currently running, then
+ 	 * hrtimer_start() cannot move it and the timer stays on the CPU on
+ 	 * which it is assigned at the moment.
++	 */
++	hrtimer_start(&bctimer, expires, HRTIMER_MODE_ABS_PINNED_HARD);
++	/*
++	 * The core tick broadcast mode expects bc->bound_on to be set
++	 * correctly to prevent a CPU which has the broadcast hrtimer
++	 * armed from going deep idle.
+ 	 *
+-	 * As this can be called from idle code, the hrtimer_start()
+-	 * invocation has to be wrapped with RCU_NONIDLE() as
+-	 * hrtimer_start() can call into tracing.
++	 * As tick_broadcast_lock is held, nothing can change the cpu
++	 * base which was just established in hrtimer_start() above. So
++	 * the below access is safe even without holding the hrtimer
++	 * base lock.
+ 	 */
+-	RCU_NONIDLE( {
+-		hrtimer_start(&bctimer, expires, HRTIMER_MODE_ABS_PINNED_HARD);
+-		/*
+-		 * The core tick broadcast mode expects bc->bound_on to be set
+-		 * correctly to prevent a CPU which has the broadcast hrtimer
+-		 * armed from going deep idle.
+-		 *
+-		 * As tick_broadcast_lock is held, nothing can change the cpu
+-		 * base which was just established in hrtimer_start() above. So
+-		 * the below access is safe even without holding the hrtimer
+-		 * base lock.
+-		 */
+-		bc->bound_on = bctimer.base->cpu_base->cpu;
+-	} );
++	bc->bound_on = bctimer.base->cpu_base->cpu;
++
+ 	return 0;
  }
+ 
 
 
 
