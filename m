@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95E2EC67871
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Jan 2023 17:11:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB858C3DA78
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Jan 2023 17:13:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=WXTZZ+7sUo6EurQhQF8IsWfLJg4AeYYnfAibsZhZlyU=; b=TQ3ojytlP5u7yG
-	tuGvVSMM57cjHS6dXqRJxdEiUEWivxOmKVytTThi53eCCVXc7it+vi+1605npY1vYPy7MgMhFYT+n
-	PXZXzS0Sk3ZJyxzYyyRa0FrxHPODIJptP7itMjoYnxp8NtcbO8wrLR5jsSheQK8VOFez4WCLVn6EC
-	BLxAwsXVsJRO7kzimTOfP43PRjiw0NcgjB256DHkvMYKQihoW7cJbd5urU3YVX9emXCq+od7x84Ub
-	V1E+RYCo8raIbrxEePEUlzm3lsW9k3L35AbT6sFyVf+wKBJ0KJTQnUeWfjtsoq+eP+7oFgxy3DlU0
-	Pb3Ctr8/GmEYRK+yAQBw==;
+	List-Owner; bh=HUe0PAUIf0tU9ztCRdm62RnYVeRY1M+SQmNd8ZEBl5M=; b=dFfKwk4zSUsmG7
+	TCa4Efa9yQs8VWIpz/BamUnMpEpnFsyw7D0Wmx07+eEIgS14lh5VS3Rb0KWchCyooz6kog37iY7Gf
+	DRlfBO/2CKoteDJyzPRFaTv20zQIefrh6arhC0ips+HmyS1YGYEhbQIQTOJIdwxNRCUCzeFiJNNA8
+	0Z0HZequNFaaYqXRQvXeliw3SRijtvul2yrE9kLbpMCA6Y2fMxcFAHoLqByUl5aKvxovnKBJLeECl
+	B5dPOtTIoerHT+AGhuG1EVSjPFZuUb129mWvt2Xx3zX+gdXLgzdLgVSL12cb3qTWlganeEFF+lzf7
+	8NvJJi0LzjDDWIqa3nfQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pGNau-003acu-Jo; Fri, 13 Jan 2023 17:11:56 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1pGNcX-003brE-O5; Fri, 13 Jan 2023 17:13:37 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pGNaJ-003a9P-SG
-	for linux-snps-arc@lists.infradead.org; Fri, 13 Jan 2023 17:11:22 +0000
+	id 1pGNaa-003aO6-CE
+	for linux-snps-arc@lists.infradead.org; Fri, 13 Jan 2023 17:11:40 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1673629879;
+	s=mimecast20190719; t=1673629895;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tZj4FS3+eH3k8U+2o1kgh0Nnr8qiKFynHsnxPGTLDn0=;
-	b=ZilBbA3BWtwbLvRPYsaBZwbbklGFwWUsRwWN+9ze9I2m13hW0CIalKEYctXmdjGYrnhRTy
-	Eo9gt08ZYdwKjgDVQhl2yj59qlQsH5tseyyb9oRyKp8/lZdbc2P4apoTv8jgI3fK8Uxio/
-	BSX+lqXcxnyaSRAX3XIa4go+msXK06c=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=7Tra/8OvEB/D6RZgFaJhZ/NUp8ml8r1Zefl0IpfbRbo=;
+	b=R0KXRaYnRHsv70keuzy9GJHA5psuRWQYwOLvaA0+5s1cVfuEG5SL+lXFm82ckkh9BWcn47
+	2PR+QLF7HmivRTI/wKl4cSJpjjhl/Qr2F1ptvUuzcwpkqyOCHUKGpp8loI2e3QJF00tOZL
+	f5xWjjhdqonLe+qQbveyy1ZFnjyhsUo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-104-hBWEIBOUMXubvNcoEzKBLg-1; Fri, 13 Jan 2023 12:11:15 -0500
-X-MC-Unique: hBWEIBOUMXubvNcoEzKBLg-1
+ us-mta-655-XLgqcdLfMlOTpMhM2wlwUA-1; Fri, 13 Jan 2023 12:11:29 -0500
+X-MC-Unique: XLgqcdLfMlOTpMhM2wlwUA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8299E101A55E;
-	Fri, 13 Jan 2023 17:11:14 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BD677281DE79;
+	Fri, 13 Jan 2023 17:11:27 +0000 (UTC)
 Received: from t480s.fritz.box (unknown [10.39.193.196])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 121D440C2064;
-	Fri, 13 Jan 2023 17:11:06 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 1DDA340C2064;
+	Fri, 13 Jan 2023 17:11:21 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: Andrew Morton <akpm@linux-foundation.org>,
@@ -81,17 +81,17 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	linux-um@lists.infradead.org,
 	linux-xtensa@linux-xtensa.org,
 	David Hildenbrand <david@redhat.com>,
-	Russell King <linux@armlinux.org.uk>
-Subject: [PATCH mm-unstable v1 04/26] arm/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
-Date: Fri, 13 Jan 2023 18:10:04 +0100
-Message-Id: <20230113171026.582290-5-david@redhat.com>
+	Brian Cain <bcain@quicinc.com>
+Subject: [PATCH mm-unstable v1 06/26] hexagon/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+Date: Fri, 13 Jan 2023 18:10:06 +0100
+Message-Id: <20230113171026.582290-7-david@redhat.com>
 In-Reply-To: <20230113171026.582290-1-david@redhat.com>
 References: <20230113171026.582290-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230113_091120_031350_F928CDA1 
-X-CRM114-Status: GOOD (  17.49  )
+X-CRM114-CacheID: sfid-20230113_091136_529024_8B004904 
+X-CRM114-Status: GOOD (  16.60  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,110 +109,91 @@ Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
 Let's support __HAVE_ARCH_PTE_SWP_EXCLUSIVE by stealing one bit from the
-offset. This reduces the maximum swap space per file to 64 GiB (was 128
+offset. This reduces the maximum swap space per file to 16 GiB (was 32
 GiB).
 
-While at it drop the PTE_TYPE_FAULT from __swp_entry_to_pte() which is
-defined to be 0 and is rather confusing because we should be dealing
-with "Linux PTEs" not "hardware PTEs". Also, properly mask the type in
-__swp_entry().
+While at it, mask the type in __swp_entry().
 
-Cc: Russell King <linux@armlinux.org.uk>
+Cc: Brian Cain <bcain@quicinc.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- arch/arm/include/asm/pgtable-2level.h |  3 +++
- arch/arm/include/asm/pgtable-3level.h |  3 +++
- arch/arm/include/asm/pgtable.h        | 35 +++++++++++++++++++++------
- 3 files changed, 34 insertions(+), 7 deletions(-)
+ arch/hexagon/include/asm/pgtable.h | 37 +++++++++++++++++++++++++-----
+ 1 file changed, 31 insertions(+), 6 deletions(-)
 
-diff --git a/arch/arm/include/asm/pgtable-2level.h b/arch/arm/include/asm/pgtable-2level.h
-index 92abd4cd8ca2..ce543cd9380c 100644
---- a/arch/arm/include/asm/pgtable-2level.h
-+++ b/arch/arm/include/asm/pgtable-2level.h
-@@ -126,6 +126,9 @@
- #define L_PTE_SHARED		(_AT(pteval_t, 1) << 10)	/* shared(v6), coherent(xsc3) */
- #define L_PTE_NONE		(_AT(pteval_t, 1) << 11)
+diff --git a/arch/hexagon/include/asm/pgtable.h b/arch/hexagon/include/asm/pgtable.h
+index f7048c18b6f9..7eb008e477c8 100644
+--- a/arch/hexagon/include/asm/pgtable.h
++++ b/arch/hexagon/include/asm/pgtable.h
+@@ -61,6 +61,9 @@ extern unsigned long empty_zero_page;
+  * So we'll put up with a bit of inefficiency for now...
+  */
  
-+/* We borrow bit 7 to store the exclusive marker in swap PTEs. */
-+#define L_PTE_SWP_EXCLUSIVE	L_PTE_RDONLY
++/* We borrow bit 6 to store the exclusive marker in swap PTEs. */
++#define _PAGE_SWP_EXCLUSIVE	(1<<6)
 +
  /*
-  * These are the memory types, defined to be compatible with
-  * pre-ARMv6 CPUs cacheable and bufferable bits: n/a,n/a,C,B
-diff --git a/arch/arm/include/asm/pgtable-3level.h b/arch/arm/include/asm/pgtable-3level.h
-index eabe72ff7381..106049791500 100644
---- a/arch/arm/include/asm/pgtable-3level.h
-+++ b/arch/arm/include/asm/pgtable-3level.h
-@@ -76,6 +76,9 @@
- #define L_PTE_NONE		(_AT(pteval_t, 1) << 57)	/* PROT_NONE */
- #define L_PTE_RDONLY		(_AT(pteval_t, 1) << 58)	/* READ ONLY */
- 
-+/* We borrow bit 7 to store the exclusive marker in swap PTEs. */
-+#define L_PTE_SWP_EXCLUSIVE	(_AT(pteval_t, 1) << 7)
-+
- #define L_PMD_SECT_VALID	(_AT(pmdval_t, 1) << 0)
- #define L_PMD_SECT_DIRTY	(_AT(pmdval_t, 1) << 55)
- #define L_PMD_SECT_NONE		(_AT(pmdval_t, 1) << 57)
-diff --git a/arch/arm/include/asm/pgtable.h b/arch/arm/include/asm/pgtable.h
-index f049072b2e85..886c275995a2 100644
---- a/arch/arm/include/asm/pgtable.h
-+++ b/arch/arm/include/asm/pgtable.h
-@@ -271,27 +271,48 @@ static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
- }
+  * Top "FOURTH" level (pgd), which for the Hexagon VM is really
+  * only the second from the bottom, pgd and pud both being collapsed.
+@@ -359,9 +362,12 @@ static inline unsigned long pmd_page_vaddr(pmd_t pmd)
+ #define ZERO_PAGE(vaddr) (virt_to_page(&empty_zero_page))
  
  /*
-- * Encode and decode a swap entry.  Swap entries are stored in the Linux
-- * page tables as follows:
 + * Encode/decode swap entries and swap PTEs. Swap PTEs are all PTEs that
 + * are !pte_none() && !pte_present().
 + *
-+ * Format of swap PTEs:
+  * Swap/file PTE definitions.  If _PAGE_PRESENT is zero, the rest of the PTE is
+  * interpreted as swap information.  The remaining free bits are interpreted as
+- * swap type/offset tuple.  Rather than have the TLB fill handler test
++ * listed below.  Rather than have the TLB fill handler test
+  * _PAGE_PRESENT, we're going to reserve the permissions bits and set them to
+  * all zeros for swap entries, which speeds up the miss handler at the cost of
+  * 3 bits of offset.  That trade-off can be revisited if necessary, but Hexagon
+@@ -371,9 +377,10 @@ static inline unsigned long pmd_page_vaddr(pmd_t pmd)
+  * Format of swap PTE:
+  *	bit	0:	Present (zero)
+  *	bits	1-5:	swap type (arch independent layer uses 5 bits max)
+- *	bits	6-9:	bits 3:0 of offset
++ *	bit	6:	exclusive marker
++ *	bits	7-9:	bits 2:0 of offset
+  *	bits	10-12:	effectively _PAGE_PROTNONE (all zero)
+- *	bits	13-31:  bits 22:4 of swap offset
++ *	bits	13-31:  bits 21:3 of swap offset
   *
-  *   3 3 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1
-  *   1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
-- *   <--------------- offset ------------------------> < type -> 0 0
-+ *   <------------------- offset ------------------> E < type -> 0 0
-+ *
-+ *   E is the exclusive marker that is not stored in swap entries.
-  *
-- * This gives us up to 31 swap files and 128GB per swap file.  Note that
-+ * This gives us up to 31 swap files and 64GB per swap file.  Note that
-  * the offset field is always non-zero.
-  */
- #define __SWP_TYPE_SHIFT	2
- #define __SWP_TYPE_BITS		5
- #define __SWP_TYPE_MASK		((1 << __SWP_TYPE_BITS) - 1)
--#define __SWP_OFFSET_SHIFT	(__SWP_TYPE_BITS + __SWP_TYPE_SHIFT)
-+#define __SWP_OFFSET_SHIFT	(__SWP_TYPE_BITS + __SWP_TYPE_SHIFT + 1)
+  * The split offset makes some of the following macros a little gnarly,
+  * but there's plenty of precedent for this sort of thing.
+@@ -383,11 +390,29 @@ static inline unsigned long pmd_page_vaddr(pmd_t pmd)
+ #define __swp_type(swp_pte)		(((swp_pte).val >> 1) & 0x1f)
  
- #define __swp_type(x)		(((x).val >> __SWP_TYPE_SHIFT) & __SWP_TYPE_MASK)
- #define __swp_offset(x)		((x).val >> __SWP_OFFSET_SHIFT)
--#define __swp_entry(type,offset) ((swp_entry_t) { ((type) << __SWP_TYPE_SHIFT) | ((offset) << __SWP_OFFSET_SHIFT) })
-+#define __swp_entry(type, offset) ((swp_entry_t) { (((type) & __SWP_TYPE_BITS) << __SWP_TYPE_SHIFT) | \
-+						   ((offset) << __SWP_OFFSET_SHIFT) })
+ #define __swp_offset(swp_pte) \
+-	((((swp_pte).val >> 6) & 0xf) | (((swp_pte).val >> 9) & 0x7ffff0))
++	((((swp_pte).val >> 7) & 0x7) | (((swp_pte).val >> 10) & 0x3ffff8))
  
- #define __pte_to_swp_entry(pte)	((swp_entry_t) { pte_val(pte) })
--#define __swp_entry_to_pte(swp)	__pte((swp).val | PTE_TYPE_FAULT)
-+#define __swp_entry_to_pte(swp)	__pte((swp).val)
+ #define __swp_entry(type, offset) \
+ 	((swp_entry_t)	{ \
+-		((type << 1) | \
+-		 ((offset & 0x7ffff0) << 9) | ((offset & 0xf) << 6)) })
++		(((type & 0x1f) << 1) | \
++		 ((offset & 0x3ffff8) << 10) | ((offset & 0x7) << 7)) })
 +
 +#define __HAVE_ARCH_PTE_SWP_EXCLUSIVE
 +static inline int pte_swp_exclusive(pte_t pte)
 +{
-+	return pte_isset(pte, L_PTE_SWP_EXCLUSIVE);
++	return pte_val(pte) & _PAGE_SWP_EXCLUSIVE;
 +}
 +
 +static inline pte_t pte_swp_mkexclusive(pte_t pte)
 +{
-+	return set_pte_bit(pte, __pgprot(L_PTE_SWP_EXCLUSIVE));
++	pte_val(pte) |= _PAGE_SWP_EXCLUSIVE;
++	return pte;
 +}
 +
 +static inline pte_t pte_swp_clear_exclusive(pte_t pte)
 +{
-+	return clear_pte_bit(pte, __pgprot(L_PTE_SWP_EXCLUSIVE));
++	pte_val(pte) &= ~_PAGE_SWP_EXCLUSIVE;
++	return pte;
 +}
  
- /*
-  * It is an error for the kernel to have more swap files than we can
+ #endif
 -- 
 2.39.0
 
