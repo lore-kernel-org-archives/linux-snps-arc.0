@@ -4,118 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38D68C677F1
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Jan 2023 18:06:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6DCC3C54EBD
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Jan 2023 18:13:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Reply-To:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Content-ID:Content-Description:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=X4hCyP29gapkLxsd+lPFRuPsRkM6m95gXqNxC/fSDXc=; b=DrpfXWoz7GjdTB
-	B/EDAEXVynMxV4igmQw39bUWLqUXeyLOfGzUvKFgXQOZbkyg/YZ3E2IZTQjDmHwGS/sG2iAPy1qeS
-	EhLpOBux2KfV0hCmnkHmEAmf9xwnHYVJHDmqK04iBBUBlTYxcdMcigVpxjGSHSIA0Vbf6vGq3mPW/
-	/n6biUDLjqX5lZgz6JZ2d7wQ7Q6NtbwYYtYOv0dWp+3O+os3L9Qd6zdkr7B+Vk4aVPZomZng8pUmH
-	KzGx2Vaej3KjjqZCJrZUT/Lz+xDUETzEU8K0pVQ/dhbzo6Id/Zl45mHHVO0pUzFJHLifmh8JDFU/Q
-	5gGwOAOzjlJ1fP2ZbvsQ==;
+	List-Owner; bh=HUAz7cDoCkv8NuEiYZP2scgkYkaL+Il/GpBzIA0IvIA=; b=MpRPqWvNhjomEV
+	+BQkIARdZHKGJM1Tc56ctkFmjay0w76M8BMbMoEWF1eQC1qezVXWip+NVwbgt5dydl1KhU5Ieqj4D
+	FsgaJQ4BnWWojfntwNjx+YjRu1AUCCLiF+t0OJp0SGBfjB9n9+emR92YDocG8a0LJvdTVLt7l8xjP
+	Vy7qHA/r2ZeFtbnCU+AK96s+WO381hWffo6+j053yFHytI5yjU8xMTYBJGW5xFSI7QX68+TWUp6UQ
+	zJoD4T34tGcRNSzBNarQ+iLv1CMAVSDqBesRx8rQjgJdxW82u+GitTvmcjE6Vn7nUQ8sd5Hkii9QJ
+	Polj8mupi61KYaD/RRpA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pGORw-003xZX-Qu; Fri, 13 Jan 2023 18:06:44 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1pGOYg-00405q-NF; Fri, 13 Jan 2023 18:13:42 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pGORq-003xUv-Ai; Fri, 13 Jan 2023 18:06:41 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	id 1pGOYe-00404W-H7
+	for linux-snps-arc@bombadil.infradead.org; Fri, 13 Jan 2023 18:13:40 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=l/pOewF7neptUo6af+r5FxFOsv+W3FPHbMBwYM5K1LM=; b=owQR3mrCwHjQGLtsB9gN0tUk4z
+	tU6Z2UxM56wHv1D6WHZlBXBDyt1t+zz2HN/qNNqO0H0ZdMpu/jf21KvcoqI0btHZ5nX9XNZElY8kx
+	g6GWk9Se3IiaVEVQZB0vX8+AZVOEMyr2AeOJKgYk0AT5Dk+MrlGHtMHP9iy80LlzDI7TjRrsoL1cs
+	jlF2epT4EDw4P01MBXAwNw2FCDwTeKW46FELH1CjDiaAKgWBC8Gn0AgmO/oixKYdIH3hs/8ooYxP+
+	GG5o+AjkZOTw/NU3wZJRhre1PINiZpD+wMgJUnOVI3svvKYxmjrAIKHnlT9Dx9x1/zwII3JXa2N9W
+	N3LvTr+w==;
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	by desiato.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
+	id 1pGNbh-004Q05-2m
+	for linux-snps-arc@lists.infradead.org;
+	Fri, 13 Jan 2023 17:12:48 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1673629973;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=l/pOewF7neptUo6af+r5FxFOsv+W3FPHbMBwYM5K1LM=;
+	b=RzvTFnZg4EEv9kwBcu/LCMBk7Uq08D/lu+P9hoZVkOpAA2j8SwY/b/ZXziwprclPnYy1e6
+	Rvs3lgLZEYRO9DEgas6OsiBP79ww0rpX+2k1X4CkbAyIr4dRiB4bvOCidKvpsP/yGQhHre
+	T6MthQSWM+I37Do7m6YD37oxselMvK0=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1673629973;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=l/pOewF7neptUo6af+r5FxFOsv+W3FPHbMBwYM5K1LM=;
+	b=RzvTFnZg4EEv9kwBcu/LCMBk7Uq08D/lu+P9hoZVkOpAA2j8SwY/b/ZXziwprclPnYy1e6
+	Rvs3lgLZEYRO9DEgas6OsiBP79ww0rpX+2k1X4CkbAyIr4dRiB4bvOCidKvpsP/yGQhHre
+	T6MthQSWM+I37Do7m6YD37oxselMvK0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-524-EGasiiu4MBSUSDxxLJu0-g-1; Fri, 13 Jan 2023 12:12:47 -0500
+X-MC-Unique: EGasiiu4MBSUSDxxLJu0-g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 991B16225C;
-	Fri, 13 Jan 2023 18:06:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 483FCC433EF;
-	Fri, 13 Jan 2023 18:06:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673633197;
-	bh=9JM2l3wQvAeTEYaZAWr5I3gZoNrgDAq2iaamsrQXne0=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=d/TyPrfu3TMN3RDQxpqP5fajACgLxUzrO1o0lviquPae0CCREqyfMhbNaFpmIDnAD
-	 gc9rcn8tXi7SZ4Sa6feTIN2Ae1ZeCBFbV5dmTzybf+txFmSo/tzOIYxAQ5C/w8Dqvn
-	 lUFscWLbHB7PxSvBS0qnt6QQanZXshhTtjgmZdd4dd7UYrIROlbOAFQjGgiw28eaXg
-	 ZWAP2DT2ukYPCwIGpUnzoCfZFD2NIBDmWoE7vSQ2LoozWiuoZLz82Zhhis8k4Jr+Bj
-	 yNgUqYimkNr/a2hjrvrPsnsWtLyOCrg7bz13Vy3HC3zIgb+UrU6VBUs4Zs2yFiDWYy
-	 hI2RWs0YaghDg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id D78905C06D0; Fri, 13 Jan 2023 10:06:36 -0800 (PST)
-Date: Fri, 13 Jan 2023 10:06:36 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
-	mattst88@gmail.com, vgupta@kernel.org, linux@armlinux.org.uk,
-	nsekhar@ti.com, brgl@bgdev.pl, ulli.kroll@googlemail.com,
-	linus.walleij@linaro.org, shawnguo@kernel.org,
-	Sascha Hauer <s.hauer@pengutronix.de>, kernel@pengutronix.de,
-	festevam@gmail.com, linux-imx@nxp.com, tony@atomide.com,
-	khilman@kernel.org, krzysztof.kozlowski@linaro.org,
-	alim.akhtar@samsung.com, catalin.marinas@arm.com, will@kernel.org,
-	guoren@kernel.org, bcain@quicinc.com, chenhuacai@kernel.org,
-	kernel@xen0n.name, geert@linux-m68k.org, sammy@sammy.net,
-	monstr@monstr.eu, tsbogend@alpha.franken.de, dinguyen@kernel.org,
-	jonas@southpole.se, stefan.kristiansson@saunalahti.fi,
-	shorne@gmail.com, James.Bottomley@HansenPartnership.com,
-	deller@gmx.de, mpe@ellerman.id.au, npiggin@gmail.com,
-	christophe.leroy@csgroup.eu, paul.walmsley@sifive.com,
-	palmer@dabbelt.com, aou@eecs.berkeley.edu, hca@linux.ibm.com,
-	gor@linux.ibm.com, agordeev@linux.ibm.com,
-	borntraeger@linux.ibm.com, svens@linux.ibm.com,
-	ysato@users.sourceforge.jp, dalias@libc.org, davem@davemloft.net,
-	richard@nod.at, anton.ivanov@cambridgegreys.com,
-	johannes@sipsolutions.net, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, acme@kernel.org, mark.rutland@arm.com,
-	alexander.shishkin@linux.intel.com, jolsa@kernel.org,
-	namhyung@kernel.org, jgross@suse.com, srivatsa@csail.mit.edu,
-	amakhalov@vmware.com, pv-drivers@vmware.com,
-	boris.ostrovsky@oracle.com, chris@zankel.net, jcmvbkbc@gmail.com,
-	rafael@kernel.org, lenb@kernel.org, pavel@ucw.cz,
-	gregkh@linuxfoundation.org, mturquette@baylibre.com,
-	sboyd@kernel.org, daniel.lezcano@linaro.org, lpieralisi@kernel.org,
-	sudeep.holla@arm.com, agross@kernel.org, andersson@kernel.org,
-	konrad.dybcio@linaro.org, anup@brainfault.org,
-	thierry.reding@gmail.com, jonathanh@nvidia.com,
-	jacob.jun.pan@linux.intel.com, atishp@atishpatra.org,
-	Arnd Bergmann <arnd@arndb.de>, yury.norov@gmail.com,
-	andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
-	dennis@kernel.org, tj@kernel.org, cl@linux.com, rostedt@goodmis.org,
-	mhiramat@kernel.org, frederic@kernel.org, pmladek@suse.com,
-	senozhatsky@chromium.org, john.ogness@linutronix.de,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de,
-	bristot@redhat.com, vschneid@redhat.com, ryabinin.a.a@gmail.com,
-	glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
-	vincenzo.frascino@arm.com,
-	Andrew Morton <akpm@linux-foundation.org>, jpoimboe@kernel.org,
-	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org, linux-omap@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org, linux-csky@vger.kernel.org,
-	linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-um@lists.infradead.org, linux-perf-users@vger.kernel.org,
-	virtualization@lists.linux-foundation.org,
-	linux-xtensa@linux-xtensa.org, linux-acpi@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH v3 00/51] cpuidle,rcu: Clean up the mess
-Message-ID: <20230113180636.GA4028633@paulmck-ThinkPad-P17-Gen-1>
-References: <20230112194314.845371875@infradead.org>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF64E3C0254D;
+	Fri, 13 Jan 2023 17:12:46 +0000 (UTC)
+Received: from t480s.fritz.box (unknown [10.39.193.196])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 068BC40C2064;
+	Fri, 13 Jan 2023 17:12:38 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Hugh Dickins <hughd@google.com>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Mike Rapoport <rppt@linux.ibm.com>,
+	Yang Shi <shy828301@gmail.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Nadav Amit <namit@vmware.com>,
+	Andrea Arcangeli <aarcange@redhat.com>,
+	Peter Xu <peterx@redhat.com>,
+	linux-mm@kvack.org,
+	x86@kernel.org,
+	linux-alpha@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org,
+	linux-ia64@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org,
+	openrisc@lists.librecores.org,
+	linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	linux-xtensa@linux-xtensa.org,
+	David Hildenbrand <david@redhat.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>
+Subject: [PATCH mm-unstable v1 17/26] powerpc/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE on 32bit book3s
+Date: Fri, 13 Jan 2023 18:10:17 +0100
+Message-Id: <20230113171026.582290-18-david@redhat.com>
+In-Reply-To: <20230113171026.582290-1-david@redhat.com>
+References: <20230113171026.582290-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20230112194314.845371875@infradead.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230113_100638_505131_F5C66223 
-X-CRM114-Status: GOOD (  25.49  )
+X-CRM114-CacheID: sfid-20230113_171246_120949_EF7AE846 
+X-CRM114-Status: GOOD (  16.42  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -127,197 +130,94 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jan 12, 2023 at 08:43:14PM +0100, Peter Zijlstra wrote:
-> Hi All!
-> 
-> The (hopefully) final respin of cpuidle vs rcu cleanup patches. Barring any
-> objections I'll be queueing these patches in tip/sched/core in the next few
-> days.
-> 
-> v2: https://lkml.kernel.org/r/20220919095939.761690562@infradead.org
-> 
-> These here patches clean up the mess that is cpuidle vs rcuidle.
-> 
-> At the end of the ride there's only on RCU_NONIDLE user left:
-> 
->   arch/arm64/kernel/suspend.c:            RCU_NONIDLE(__cpu_suspend_exit());
-> 
-> And I know Mark has been prodding that with something sharp.
-> 
-> The last version was tested by a number of people and I'm hoping to not have
-> broken anything in the meantime ;-)
-> 
-> 
-> Changes since v2:
+We already implemented support for 64bit book3s in commit bff9beaa2e80
+("powerpc/pgtable: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE for book3s")
 
-150 rcutorture hours on each of the default scenarios passed.  This
-is qemu/KVM on x86:
+Let's support __HAVE_ARCH_PTE_SWP_EXCLUSIVE also in 32bit by reusing yet
+unused LSB 2 / MSB 29. There seems to be no real reason why that bit cannot
+be used, and reusing it avoids having to steal one bit from the swap
+offset.
 
-Tested-by: Paul E. McKenney <paulmck@kernel.org>
+While at it, mask the type in __swp_entry().
 
->  - rebased to v6.2-rc3; as available at:
->      git://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/idle
-> 
->  - folded: https://lkml.kernel.org/r/Y3UBwYNY15ETUKy9@hirez.programming.kicks-ass.net
->    which makes the ARM cpuidle index 0 consistently not use
->    CPUIDLE_FLAG_RCU_IDLE, as requested by Ulf.
-> 
->  - added a few more __always_inline to empty stub functions as found by the
->    robot.
-> 
->  - Used _RET_IP_ instead of _THIS_IP_ in a few placed because of:
->    https://github.com/ClangBuiltLinux/linux/issues/263
-> 
->  - Added new patches to address various robot reports:
-> 
->      #35:  trace,hardirq: No moar _rcuidle() tracing
->      #47:  cpuidle: Ensure ct_cpuidle_enter() is always called from noinstr/__cpuidle
->      #48:  cpuidle,arch: Mark all ct_cpuidle_enter() callers __cpuidle
->      #49:  cpuidle,arch: Mark all regular cpuidle_state::enter methods __cpuidle
->      #50:  cpuidle: Comments about noinstr/__cpuidle
->      #51:  context_tracking: Fix noinstr vs KASAN
-> 
-> 
-> ---
->  arch/alpha/kernel/process.c               |  1 -
->  arch/alpha/kernel/vmlinux.lds.S           |  1 -
->  arch/arc/kernel/process.c                 |  3 ++
->  arch/arc/kernel/vmlinux.lds.S             |  1 -
->  arch/arm/include/asm/vmlinux.lds.h        |  1 -
->  arch/arm/kernel/cpuidle.c                 |  4 +-
->  arch/arm/kernel/process.c                 |  1 -
->  arch/arm/kernel/smp.c                     |  6 +--
->  arch/arm/mach-davinci/cpuidle.c           |  4 +-
->  arch/arm/mach-gemini/board-dt.c           |  3 +-
->  arch/arm/mach-imx/cpuidle-imx5.c          |  4 +-
->  arch/arm/mach-imx/cpuidle-imx6q.c         |  8 ++--
->  arch/arm/mach-imx/cpuidle-imx6sl.c        |  4 +-
->  arch/arm/mach-imx/cpuidle-imx6sx.c        |  9 ++--
->  arch/arm/mach-imx/cpuidle-imx7ulp.c       |  4 +-
->  arch/arm/mach-omap2/common.h              |  6 ++-
->  arch/arm/mach-omap2/cpuidle34xx.c         | 16 ++++++-
->  arch/arm/mach-omap2/cpuidle44xx.c         | 29 +++++++------
->  arch/arm/mach-omap2/omap-mpuss-lowpower.c | 12 +++++-
->  arch/arm/mach-omap2/pm.h                  |  2 +-
->  arch/arm/mach-omap2/pm24xx.c              | 51 +---------------------
->  arch/arm/mach-omap2/pm34xx.c              | 14 +++++--
->  arch/arm/mach-omap2/pm44xx.c              |  2 +-
->  arch/arm/mach-omap2/powerdomain.c         | 10 ++---
->  arch/arm/mach-s3c/cpuidle-s3c64xx.c       |  5 +--
->  arch/arm64/kernel/cpuidle.c               |  2 +-
->  arch/arm64/kernel/idle.c                  |  1 -
->  arch/arm64/kernel/smp.c                   |  4 +-
->  arch/arm64/kernel/vmlinux.lds.S           |  1 -
->  arch/csky/kernel/process.c                |  1 -
->  arch/csky/kernel/smp.c                    |  2 +-
->  arch/csky/kernel/vmlinux.lds.S            |  1 -
->  arch/hexagon/kernel/process.c             |  1 -
->  arch/hexagon/kernel/vmlinux.lds.S         |  1 -
->  arch/ia64/kernel/process.c                |  1 +
->  arch/ia64/kernel/vmlinux.lds.S            |  1 -
->  arch/loongarch/kernel/idle.c              |  1 +
->  arch/loongarch/kernel/vmlinux.lds.S       |  1 -
->  arch/m68k/kernel/vmlinux-nommu.lds        |  1 -
->  arch/m68k/kernel/vmlinux-std.lds          |  1 -
->  arch/m68k/kernel/vmlinux-sun3.lds         |  1 -
->  arch/microblaze/kernel/process.c          |  1 -
->  arch/microblaze/kernel/vmlinux.lds.S      |  1 -
->  arch/mips/kernel/idle.c                   | 14 +++----
->  arch/mips/kernel/vmlinux.lds.S            |  1 -
->  arch/nios2/kernel/process.c               |  1 -
->  arch/nios2/kernel/vmlinux.lds.S           |  1 -
->  arch/openrisc/kernel/process.c            |  1 +
->  arch/openrisc/kernel/vmlinux.lds.S        |  1 -
->  arch/parisc/kernel/process.c              |  2 -
->  arch/parisc/kernel/vmlinux.lds.S          |  1 -
->  arch/powerpc/kernel/idle.c                |  5 +--
->  arch/powerpc/kernel/vmlinux.lds.S         |  1 -
->  arch/riscv/kernel/process.c               |  1 -
->  arch/riscv/kernel/vmlinux-xip.lds.S       |  1 -
->  arch/riscv/kernel/vmlinux.lds.S           |  1 -
->  arch/s390/kernel/idle.c                   |  1 -
->  arch/s390/kernel/vmlinux.lds.S            |  1 -
->  arch/sh/kernel/idle.c                     |  1 +
->  arch/sh/kernel/vmlinux.lds.S              |  1 -
->  arch/sparc/kernel/leon_pmc.c              |  4 ++
->  arch/sparc/kernel/process_32.c            |  1 -
->  arch/sparc/kernel/process_64.c            |  3 +-
->  arch/sparc/kernel/vmlinux.lds.S           |  1 -
->  arch/um/kernel/dyn.lds.S                  |  1 -
->  arch/um/kernel/process.c                  |  1 -
->  arch/um/kernel/uml.lds.S                  |  1 -
->  arch/x86/boot/compressed/vmlinux.lds.S    |  1 +
->  arch/x86/coco/tdx/tdcall.S                | 15 +------
->  arch/x86/coco/tdx/tdx.c                   | 25 ++++-------
->  arch/x86/events/amd/brs.c                 | 13 +++---
->  arch/x86/include/asm/fpu/xcr.h            |  4 +-
->  arch/x86/include/asm/irqflags.h           | 11 ++---
->  arch/x86/include/asm/mwait.h              | 14 +++----
->  arch/x86/include/asm/nospec-branch.h      |  2 +-
->  arch/x86/include/asm/paravirt.h           |  6 ++-
->  arch/x86/include/asm/perf_event.h         |  2 +-
->  arch/x86/include/asm/shared/io.h          |  4 +-
->  arch/x86/include/asm/shared/tdx.h         |  1 -
->  arch/x86/include/asm/special_insns.h      |  8 ++--
->  arch/x86/include/asm/xen/hypercall.h      |  2 +-
->  arch/x86/kernel/cpu/bugs.c                |  2 +-
->  arch/x86/kernel/fpu/core.c                |  4 +-
->  arch/x86/kernel/paravirt.c                | 14 ++++++-
->  arch/x86/kernel/process.c                 | 65 ++++++++++++++--------------
->  arch/x86/kernel/vmlinux.lds.S             |  1 -
->  arch/x86/lib/memcpy_64.S                  |  5 +--
->  arch/x86/lib/memmove_64.S                 |  4 +-
->  arch/x86/lib/memset_64.S                  |  4 +-
->  arch/x86/xen/enlighten_pv.c               |  2 +-
->  arch/x86/xen/irq.c                        |  2 +-
->  arch/xtensa/kernel/process.c              |  1 +
->  arch/xtensa/kernel/vmlinux.lds.S          |  1 -
->  drivers/acpi/processor_idle.c             | 28 ++++++++-----
->  drivers/base/power/runtime.c              | 24 +++++------
->  drivers/clk/clk.c                         |  8 ++--
->  drivers/cpuidle/cpuidle-arm.c             |  4 +-
->  drivers/cpuidle/cpuidle-big_little.c      | 12 ++++--
->  drivers/cpuidle/cpuidle-mvebu-v7.c        | 13 ++++--
->  drivers/cpuidle/cpuidle-psci.c            | 26 +++++-------
->  drivers/cpuidle/cpuidle-qcom-spm.c        |  4 +-
->  drivers/cpuidle/cpuidle-riscv-sbi.c       | 19 +++++----
->  drivers/cpuidle/cpuidle-tegra.c           | 31 +++++++++-----
->  drivers/cpuidle/cpuidle.c                 | 70 ++++++++++++++++++++++---------
->  drivers/cpuidle/dt_idle_states.c          |  2 +-
->  drivers/cpuidle/poll_state.c              | 10 ++++-
->  drivers/idle/intel_idle.c                 | 19 ++++-----
->  drivers/perf/arm_pmu.c                    | 11 +----
->  drivers/perf/riscv_pmu_sbi.c              |  8 +---
->  include/asm-generic/vmlinux.lds.h         |  9 ++--
->  include/linux/clockchips.h                |  4 +-
->  include/linux/compiler_types.h            | 18 +++++++-
->  include/linux/cpu.h                       |  3 --
->  include/linux/cpuidle.h                   | 32 ++++++++++++++
->  include/linux/cpumask.h                   |  4 +-
->  include/linux/percpu-defs.h               |  2 +-
->  include/linux/sched/idle.h                | 40 +++++++++++++-----
->  include/linux/thread_info.h               | 18 +++++++-
->  include/linux/tracepoint.h                | 15 ++++++-
->  kernel/context_tracking.c                 | 12 +++---
->  kernel/cpu_pm.c                           |  9 ----
->  kernel/printk/printk.c                    |  2 +-
->  kernel/sched/idle.c                       | 47 ++++++---------------
->  kernel/time/tick-broadcast-hrtimer.c      | 29 ++++++-------
->  kernel/time/tick-broadcast.c              |  6 ++-
->  kernel/trace/trace.c                      |  3 ++
->  kernel/trace/trace_preemptirq.c           | 50 ++++++----------------
->  lib/ubsan.c                               |  5 ++-
->  mm/kasan/kasan.h                          |  4 ++
->  mm/kasan/shadow.c                         | 38 +++++++++++++++++
->  tools/objtool/check.c                     | 17 ++++++++
->  131 files changed, 617 insertions(+), 523 deletions(-)
-> 
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Nicholas Piggin <npiggin@gmail.com>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ arch/powerpc/include/asm/book3s/32/pgtable.h | 38 +++++++++++++++++---
+ 1 file changed, 33 insertions(+), 5 deletions(-)
+
+diff --git a/arch/powerpc/include/asm/book3s/32/pgtable.h b/arch/powerpc/include/asm/book3s/32/pgtable.h
+index 75823f39e042..0ecb3a58f23f 100644
+--- a/arch/powerpc/include/asm/book3s/32/pgtable.h
++++ b/arch/powerpc/include/asm/book3s/32/pgtable.h
+@@ -42,6 +42,9 @@
+ #define _PMD_PRESENT_MASK (PAGE_MASK)
+ #define _PMD_BAD	(~PAGE_MASK)
+ 
++/* We borrow the _PAGE_USER bit to store the exclusive marker in swap PTEs. */
++#define _PAGE_SWP_EXCLUSIVE	_PAGE_USER
++
+ /* And here we include common definitions */
+ 
+ #define _PAGE_KERNEL_RO		0
+@@ -363,17 +366,42 @@ static inline void __ptep_set_access_flags(struct vm_area_struct *vma,
+ #define pmd_page(pmd)		pfn_to_page(pmd_pfn(pmd))
+ 
+ /*
+- * Encode and decode a swap entry.
+- * Note that the bits we use in a PTE for representing a swap entry
+- * must not include the _PAGE_PRESENT bit or the _PAGE_HASHPTE bit (if used).
+- *   -- paulus
++ * Encode/decode swap entries and swap PTEs. Swap PTEs are all PTEs that
++ * are !pte_none() && !pte_present().
++ *
++ * Format of swap PTEs (32bit PTEs):
++ *
++ *                         1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3
++ *   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++ *   <----------------- offset --------------------> < type -> E H P
++ *
++ *   E is the exclusive marker that is not stored in swap entries.
++ *   _PAGE_PRESENT (P) and __PAGE_HASHPTE (H) must be 0.
++ *
++ * For 64bit PTEs, the offset is extended by 32bit.
+  */
+ #define __swp_type(entry)		((entry).val & 0x1f)
+ #define __swp_offset(entry)		((entry).val >> 5)
+-#define __swp_entry(type, offset)	((swp_entry_t) { (type) | ((offset) << 5) })
++#define __swp_entry(type, offset)	((swp_entry_t) { ((type) & 0x1f) | ((offset) << 5) })
+ #define __pte_to_swp_entry(pte)		((swp_entry_t) { pte_val(pte) >> 3 })
+ #define __swp_entry_to_pte(x)		((pte_t) { (x).val << 3 })
+ 
++#define __HAVE_ARCH_PTE_SWP_EXCLUSIVE
++static inline int pte_swp_exclusive(pte_t pte)
++{
++	return pte_val(pte) & _PAGE_SWP_EXCLUSIVE;
++}
++
++static inline pte_t pte_swp_mkexclusive(pte_t pte)
++{
++	return __pte(pte_val(pte) | _PAGE_SWP_EXCLUSIVE);
++}
++
++static inline pte_t pte_swp_clear_exclusive(pte_t pte)
++{
++	return __pte(pte_val(pte) & ~_PAGE_SWP_EXCLUSIVE);
++}
++
+ /* Generic accessors to PTE bits */
+ static inline int pte_write(pte_t pte)		{ return !!(pte_val(pte) & _PAGE_RW);}
+ static inline int pte_read(pte_t pte)		{ return 1; }
+-- 
+2.39.0
+
 
 _______________________________________________
 linux-snps-arc mailing list
