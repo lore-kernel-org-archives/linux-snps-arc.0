@@ -4,203 +4,129 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7ACECC54EBE
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Jan 2023 21:25:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B3BCC54EBE
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Jan 2023 17:10:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
-	From:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=4YQIyqL3dysUkauH8CesUbtCwxHrKkdwP1sMt0sFC8k=; b=W5AV9e86hFUJw0
-	NcfzzDVkFVuPYj9j7j/0AhzzVJ6M95I8/b5xPkVMeDtGAxC6zK+676vIxSNOiNxmn1scU+n2V1gPs
-	SQP1uJ2JpdRJw/BIOAasE5Q+qncuHYXt0KVQDsLq/jC5KM4h/0lcNbX8CclmFr9aBtliB4iZzn+co
-	+IJIgFVN/QBO1Cw5AQV+EEshHbm8BxsPPkFF0HrovfnDjdMZgWIUAMUNxMAnSySPxOqvf/0vyt+qc
-	UGlC/pi0tMi8iq9T3EdzfttmCEbxezw2Dupzey/e+V7uncuE6WRmKq/jX/ohvWosex/lydlDW/9qQ
-	2K7gJo0BD0QKH4y5eJgw==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=O6UeOO/yWXoOToPQmDxBFw/tOfTHjABZeBmA+eh3DkQ=; b=N3CZad74hrwrLH
+	A+Eb/z7bszASZRwqeExceuigzyIowZucJzqOaIycUgP7YPLjZd6qi9RYTxyTUzgF0KYiG5hdR6xZ7
+	2YOIizzz1FVGnI6P+9DwAk3KX/Ze9iERRFNhvCkakYJxGOtPiaurcpAJfjM/WSVnRF2mR471Rsrkt
+	tRc2EBXfL0RJZCv7XkpE8PdnzzArlraVPrlo35vwhfn5GlmDnzIpr4p+l6VrMhlyjULOnUh/dQviM
+	D1M29SeXlW0fM/K4eidV7DzQUe14vV+VvIndRXOBho+MhBGm+MDlqINIeefw+rpDR3RaBdHtNER8X
+	NDMF98aenFnyxyZqZxgQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG54Q-00H871-E9; Thu, 12 Jan 2023 21:25:10 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1pGNZu-003ZsD-MB; Fri, 13 Jan 2023 17:10:54 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG54N-00H86U-T2; Thu, 12 Jan 2023 21:25:08 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:References:
-	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:In-Reply-To;
-	bh=4aFpXbTN+2q/sQWoIhQXRuBIzQdX59WKAp/kjFjx5nI=; b=EXFl9MaMND0FkMicNKlfspElVB
-	huiMp2O7+Fvk4uwlSWk2b77yH7f4axNULDLOvrmgF2stY4NTNGRJ25ZSpXd9goBg/VkJdWWaXP+Gr
-	Of7rP+CRWQSMlE+dfMMiwNu6KPhGmNs+/4kt/1x2eSDBQGLkb7G0JxjG3bjP6egK+5K3BYl2NDXSI
-	EWmjrlA8t5XxbT818dX7+Vt3AqBBUhu093wyPACd2zLypjFT7H2JDrsNcfcD/XHM7W3wj7ZN5Nh6N
-	zG0q4ipZCd55Lg30zpCT0GHj8smeXMq8oSjlRgA598BxbO+Tnb+HSoRDuOLJvyhSzEi1pRgNhbbQw
-	1dyt/7Iw==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1pG3hL-0045pl-2Y;
-	Thu, 12 Jan 2023 19:57:28 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id F297C303465;
-	Thu, 12 Jan 2023 20:57:13 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id 4EBB62CD066D0; Thu, 12 Jan 2023 20:57:08 +0100 (CET)
-Message-ID: <20230112195541.782536366@infradead.org>
-User-Agent: quilt/0.66
-Date: Thu, 12 Jan 2023 20:43:54 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: peterz@infradead.org
-Cc: richard.henderson@linaro.org,
- ink@jurassic.park.msu.ru,
- mattst88@gmail.com,
- vgupta@kernel.org,
- linux@armlinux.org.uk,
- nsekhar@ti.com,
- brgl@bgdev.pl,
- ulli.kroll@googlemail.com,
- linus.walleij@linaro.org,
- shawnguo@kernel.org,
- Sascha Hauer <s.hauer@pengutronix.de>,
- kernel@pengutronix.de,
- festevam@gmail.com,
- linux-imx@nxp.com,
- tony@atomide.com,
- khilman@kernel.org,
- krzysztof.kozlowski@linaro.org,
- alim.akhtar@samsung.com,
- catalin.marinas@arm.com,
- will@kernel.org,
- guoren@kernel.org,
- bcain@quicinc.com,
- chenhuacai@kernel.org,
- kernel@xen0n.name,
- geert@linux-m68k.org,
- sammy@sammy.net,
- monstr@monstr.eu,
- tsbogend@alpha.franken.de,
- dinguyen@kernel.org,
- jonas@southpole.se,
- stefan.kristiansson@saunalahti.fi,
- shorne@gmail.com,
- James.Bottomley@HansenPartnership.com,
- deller@gmx.de,
- mpe@ellerman.id.au,
- npiggin@gmail.com,
- christophe.leroy@csgroup.eu,
- paul.walmsley@sifive.com,
- palmer@dabbelt.com,
- aou@eecs.berkeley.edu,
- hca@linux.ibm.com,
- gor@linux.ibm.com,
- agordeev@linux.ibm.com,
- borntraeger@linux.ibm.com,
- svens@linux.ibm.com,
- ysato@users.sourceforge.jp,
- dalias@libc.org,
- davem@davemloft.net,
- richard@nod.at,
- anton.ivanov@cambridgegreys.com,
- johannes@sipsolutions.net,
- tglx@linutronix.de,
- mingo@redhat.com,
- bp@alien8.de,
- dave.hansen@linux.intel.com,
- x86@kernel.org,
- hpa@zytor.com,
- acme@kernel.org,
- mark.rutland@arm.com,
- alexander.shishkin@linux.intel.com,
- jolsa@kernel.org,
- namhyung@kernel.org,
- jgross@suse.com,
- srivatsa@csail.mit.edu,
- amakhalov@vmware.com,
- pv-drivers@vmware.com,
- boris.ostrovsky@oracle.com,
- chris@zankel.net,
- jcmvbkbc@gmail.com,
- rafael@kernel.org,
- lenb@kernel.org,
- pavel@ucw.cz,
- gregkh@linuxfoundation.org,
- mturquette@baylibre.com,
- sboyd@kernel.org,
- daniel.lezcano@linaro.org,
- lpieralisi@kernel.org,
- sudeep.holla@arm.com,
- agross@kernel.org,
- andersson@kernel.org,
- konrad.dybcio@linaro.org,
- anup@brainfault.org,
- thierry.reding@gmail.com,
- jonathanh@nvidia.com,
- jacob.jun.pan@linux.intel.com,
- atishp@atishpatra.org,
- Arnd Bergmann <arnd@arndb.de>,
- yury.norov@gmail.com,
- andriy.shevchenko@linux.intel.com,
- linux@rasmusvillemoes.dk,
- dennis@kernel.org,
- tj@kernel.org,
- cl@linux.com,
- rostedt@goodmis.org,
- mhiramat@kernel.org,
- frederic@kernel.org,
- paulmck@kernel.org,
- pmladek@suse.com,
- senozhatsky@chromium.org,
- john.ogness@linutronix.de,
- juri.lelli@redhat.com,
- vincent.guittot@linaro.org,
- dietmar.eggemann@arm.com,
- bsegall@google.com,
- mgorman@suse.de,
- bristot@redhat.com,
- vschneid@redhat.com,
- ryabinin.a.a@gmail.com,
- glider@google.com,
- andreyknvl@gmail.com,
- dvyukov@google.com,
- vincenzo.frascino@arm.com,
- Andrew Morton <akpm@linux-foundation.org>,
- jpoimboe@kernel.org,
- linux-alpha@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- linux-snps-arc@lists.infradead.org,
- linux-omap@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org,
- linux-csky@vger.kernel.org,
- linux-hexagon@vger.kernel.org,
- linux-ia64@vger.kernel.org,
- loongarch@lists.linux.dev,
- linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org,
- openrisc@lists.librecores.org,
- linux-parisc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org,
- sparclinux@vger.kernel.org,
- linux-um@lists.infradead.org,
- linux-perf-users@vger.kernel.org,
- virtualization@lists.linux-foundation.org,
- linux-xtensa@linux-xtensa.org,
- linux-acpi@vger.kernel.org,
- linux-pm@vger.kernel.org,
- linux-clk@vger.kernel.org,
- linux-arm-msm@vger.kernel.org,
- linux-tegra@vger.kernel.org,
- linux-arch@vger.kernel.org,
- linux-mm@kvack.org,
- linux-trace-kernel@vger.kernel.org,
- kasan-dev@googlegroups.com,
- Ulf Hansson <ulf.hansson@linaro.org>,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-Subject: [PATCH v3 40/51] cpuidle,powerdomain: Remove trace_.*_rcuidle()
-References: <20230112194314.845371875@infradead.org>
+	id 1pGNZq-003Zqa-43
+	for linux-snps-arc@lists.infradead.org; Fri, 13 Jan 2023 17:10:51 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1673629848;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ckKqRBtsefZM1JDfoCvf0Xxq+48ay8EjXnX8re+vcnw=;
+	b=bh3+fWj+W1pOqlGfxCXW9baXt9+K5sP1zIX/JtwO/CmebvH8faN09916QeSXSor+sNCrSI
+	dVnpy/JbDKIHmHSOZmmI/ifa0FbrQxO/VYpJ7S416mVDLY+NY0ou7cpFQW1LJusjMpc7lM
+	XEian7ZGjH1cikBQz3mvNNuxbuDC3TQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-635-5aW6yfX9M-KUiM6jBqS-tg-1; Fri, 13 Jan 2023 12:10:47 -0500
+X-MC-Unique: 5aW6yfX9M-KUiM6jBqS-tg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 25354811E9C;
+	Fri, 13 Jan 2023 17:10:44 +0000 (UTC)
+Received: from t480s.fritz.box (unknown [10.39.193.196])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 2951C40C2064;
+	Fri, 13 Jan 2023 17:10:27 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Hugh Dickins <hughd@google.com>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Mike Rapoport <rppt@linux.ibm.com>,
+	Yang Shi <shy828301@gmail.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Nadav Amit <namit@vmware.com>,
+	Andrea Arcangeli <aarcange@redhat.com>,
+	Peter Xu <peterx@redhat.com>,
+	linux-mm@kvack.org,
+	x86@kernel.org,
+	linux-alpha@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org,
+	linux-ia64@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org,
+	openrisc@lists.librecores.org,
+	linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	linux-xtensa@linux-xtensa.org,
+	David Hildenbrand <david@redhat.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Brian Cain <bcain@quicinc.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Chris Zankel <chris@zankel.net>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Greg Ungerer <gerg@linux-m68k.org>,
+	Guo Ren <guoren@kernel.org>,
+	Helge Deller <deller@gmx.de>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Matt Turner <mattst88@gmail.com>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Michal Simek <monstr@monstr.eu>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Richard Weinberger <richard@nod.at>,
+	Rich Felker <dalias@libc.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Stafford Horne <shorne@gmail.com>,
+	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vineet Gupta <vgupta@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>
+Subject: [PATCH mm-unstable v1 00/26] mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE on all architectures with swap PTEs
+Date: Fri, 13 Jan 2023 18:10:00 +0100
+Message-Id: <20230113171026.582290-1-david@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20230113_091050_262148_374DA0E0 
+X-CRM114-Status: GOOD (  15.90  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -217,156 +143,148 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-OMAP was the one and only user.
+This is the follow-up on [1]:
+	[PATCH v2 0/8] mm: COW fixes part 3: reliable GUP R/W FOLL_GET of
+	anonymous pages
 
-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-Acked-by: Frederic Weisbecker <frederic@kernel.org>
-Tested-by: Tony Lindgren <tony@atomide.com>
-Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
----
- arch/arm/mach-omap2/powerdomain.c |   10 +++++-----
- drivers/base/power/runtime.c      |   24 ++++++++++++------------
- 2 files changed, 17 insertions(+), 17 deletions(-)
+After we implemented __HAVE_ARCH_PTE_SWP_EXCLUSIVE on most prominent
+enterprise architectures, implement __HAVE_ARCH_PTE_SWP_EXCLUSIVE on all
+remaining architectures that support swap PTEs.
 
---- a/arch/arm/mach-omap2/powerdomain.c
-+++ b/arch/arm/mach-omap2/powerdomain.c
-@@ -187,9 +187,9 @@ static int _pwrdm_state_switch(struct po
- 			trace_state = (PWRDM_TRACE_STATES_FLAG |
- 				       ((next & OMAP_POWERSTATE_MASK) << 8) |
- 				       ((prev & OMAP_POWERSTATE_MASK) << 0));
--			trace_power_domain_target_rcuidle(pwrdm->name,
--							  trace_state,
--							  raw_smp_processor_id());
-+			trace_power_domain_target(pwrdm->name,
-+						  trace_state,
-+						  raw_smp_processor_id());
- 		}
- 		break;
- 	default:
-@@ -541,8 +541,8 @@ int pwrdm_set_next_pwrst(struct powerdom
- 
- 	if (arch_pwrdm && arch_pwrdm->pwrdm_set_next_pwrst) {
- 		/* Trace the pwrdm desired target state */
--		trace_power_domain_target_rcuidle(pwrdm->name, pwrst,
--						  raw_smp_processor_id());
-+		trace_power_domain_target(pwrdm->name, pwrst,
-+					  raw_smp_processor_id());
- 		/* Program the pwrdm desired target state */
- 		ret = arch_pwrdm->pwrdm_set_next_pwrst(pwrdm, pwrst);
- 	}
---- a/drivers/base/power/runtime.c
-+++ b/drivers/base/power/runtime.c
-@@ -442,7 +442,7 @@ static int rpm_idle(struct device *dev,
- 	int (*callback)(struct device *);
- 	int retval;
- 
--	trace_rpm_idle_rcuidle(dev, rpmflags);
-+	trace_rpm_idle(dev, rpmflags);
- 	retval = rpm_check_suspend_allowed(dev);
- 	if (retval < 0)
- 		;	/* Conditions are wrong. */
-@@ -481,7 +481,7 @@ static int rpm_idle(struct device *dev,
- 			dev->power.request_pending = true;
- 			queue_work(pm_wq, &dev->power.work);
- 		}
--		trace_rpm_return_int_rcuidle(dev, _THIS_IP_, 0);
-+		trace_rpm_return_int(dev, _THIS_IP_, 0);
- 		return 0;
- 	}
- 
-@@ -493,7 +493,7 @@ static int rpm_idle(struct device *dev,
- 	wake_up_all(&dev->power.wait_queue);
- 
-  out:
--	trace_rpm_return_int_rcuidle(dev, _THIS_IP_, retval);
-+	trace_rpm_return_int(dev, _THIS_IP_, retval);
- 	return retval ? retval : rpm_suspend(dev, rpmflags | RPM_AUTO);
- }
- 
-@@ -557,7 +557,7 @@ static int rpm_suspend(struct device *de
- 	struct device *parent = NULL;
- 	int retval;
- 
--	trace_rpm_suspend_rcuidle(dev, rpmflags);
-+	trace_rpm_suspend(dev, rpmflags);
- 
-  repeat:
- 	retval = rpm_check_suspend_allowed(dev);
-@@ -708,7 +708,7 @@ static int rpm_suspend(struct device *de
- 	}
- 
-  out:
--	trace_rpm_return_int_rcuidle(dev, _THIS_IP_, retval);
-+	trace_rpm_return_int(dev, _THIS_IP_, retval);
- 
- 	return retval;
- 
-@@ -760,7 +760,7 @@ static int rpm_resume(struct device *dev
- 	struct device *parent = NULL;
- 	int retval = 0;
- 
--	trace_rpm_resume_rcuidle(dev, rpmflags);
-+	trace_rpm_resume(dev, rpmflags);
- 
-  repeat:
- 	if (dev->power.runtime_error) {
-@@ -925,7 +925,7 @@ static int rpm_resume(struct device *dev
- 		spin_lock_irq(&dev->power.lock);
- 	}
- 
--	trace_rpm_return_int_rcuidle(dev, _THIS_IP_, retval);
-+	trace_rpm_return_int(dev, _THIS_IP_, retval);
- 
- 	return retval;
- }
-@@ -1081,7 +1081,7 @@ int __pm_runtime_idle(struct device *dev
- 		if (retval < 0) {
- 			return retval;
- 		} else if (retval > 0) {
--			trace_rpm_usage_rcuidle(dev, rpmflags);
-+			trace_rpm_usage(dev, rpmflags);
- 			return 0;
- 		}
- 	}
-@@ -1119,7 +1119,7 @@ int __pm_runtime_suspend(struct device *
- 		if (retval < 0) {
- 			return retval;
- 		} else if (retval > 0) {
--			trace_rpm_usage_rcuidle(dev, rpmflags);
-+			trace_rpm_usage(dev, rpmflags);
- 			return 0;
- 		}
- 	}
-@@ -1202,7 +1202,7 @@ int pm_runtime_get_if_active(struct devi
- 	} else {
- 		retval = atomic_inc_not_zero(&dev->power.usage_count);
- 	}
--	trace_rpm_usage_rcuidle(dev, 0);
-+	trace_rpm_usage(dev, 0);
- 	spin_unlock_irqrestore(&dev->power.lock, flags);
- 
- 	return retval;
-@@ -1566,7 +1566,7 @@ void pm_runtime_allow(struct device *dev
- 	if (ret == 0)
- 		rpm_idle(dev, RPM_AUTO | RPM_ASYNC);
- 	else if (ret > 0)
--		trace_rpm_usage_rcuidle(dev, RPM_AUTO | RPM_ASYNC);
-+		trace_rpm_usage(dev, RPM_AUTO | RPM_ASYNC);
- 
-  out:
- 	spin_unlock_irq(&dev->power.lock);
-@@ -1635,7 +1635,7 @@ static void update_autosuspend(struct de
- 			atomic_inc(&dev->power.usage_count);
- 			rpm_resume(dev, 0);
- 		} else {
--			trace_rpm_usage_rcuidle(dev, 0);
-+			trace_rpm_usage(dev, 0);
- 		}
- 	}
- 
+This makes sure that exclusive anonymous pages will stay exclusive, even
+after they were swapped out -- for example, making GUP R/W FOLL_GET of
+anonymous pages reliable. Details can be found in [1].
 
+This primarily fixes remaining known O_DIRECT memory corruptions that can
+happen on concurrent swapout, whereby we can lose DMA reads to a page
+(modifying the user page by writing to it).
+
+To verify, there are two test cases (requiring swap space, obviously):
+(1) The O_DIRECT+swapout test case [2] from Andrea. This test case tries
+    triggering a race condition.
+(2) My vmsplice() test case [3] that tries to detect if the exclusive
+    marker was lost during swapout, not relying on a race condition.
+
+
+For example, on 32bit x86 (with and without PAE), my test case fails
+without these patches:
+	$ ./test_swp_exclusive
+	FAIL: page was replaced during COW
+But succeeds with these patches:
+	$ ./test_swp_exclusive
+	PASS: page was not replaced during COW
+
+
+Why implement __HAVE_ARCH_PTE_SWP_EXCLUSIVE for all architectures, even
+the ones where swap support might be in a questionable state? This is the
+first step towards removing "readable_exclusive" migration entries, and
+instead using pte_swp_exclusive() also with (readable) migration entries
+instead (as suggested by Peter). The only missing piece for that is
+supporting pmd_swp_exclusive() on relevant architectures with THP
+migration support.
+
+As all relevant architectures now implement __HAVE_ARCH_PTE_SWP_EXCLUSIVE,,
+we can drop __HAVE_ARCH_PTE_SWP_EXCLUSIVE in the last patch.
+
+I tried cross-compiling all relevant setups and tested on x86 and sparc64
+so far.
+
+CCing arch maintainers only on this cover letter and on the respective
+patch(es).
+
+[1] https://lkml.kernel.org/r/20220329164329.208407-1-david@redhat.com
+[2] https://gitlab.com/aarcange/kernel-testcases-for-v5.11/-/blob/main/page_count_do_wp_page-swap.c
+[3] https://gitlab.com/davidhildenbrand/scratchspace/-/blob/main/test_swp_exclusive.c
+
+
+RFC -> v1:
+* Some smaller comment+patch description changes
+* "powerpc/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE on 32bit book3s"
+ -> Fixup swap PTE description
+
+
+David Hildenbrand (26):
+  mm/debug_vm_pgtable: more pte_swp_exclusive() sanity checks
+  alpha/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  arc/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  arm/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  csky/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  hexagon/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  ia64/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  loongarch/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  m68k/mm: remove dummy __swp definitions for nommu
+  m68k/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  microblaze/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  mips/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  nios2/mm: refactor swap PTE layout
+  nios2/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  openrisc/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  parisc/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  powerpc/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE on 32bit book3s
+  powerpc/nohash/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  riscv/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  sh/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  sparc/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE on 32bit
+  sparc/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE on 64bit
+  um/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  x86/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE also on 32bit
+  xtensa/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+  mm: remove __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+
+ arch/alpha/include/asm/pgtable.h              | 40 ++++++++-
+ arch/arc/include/asm/pgtable-bits-arcv2.h     | 26 +++++-
+ arch/arm/include/asm/pgtable-2level.h         |  3 +
+ arch/arm/include/asm/pgtable-3level.h         |  3 +
+ arch/arm/include/asm/pgtable.h                | 34 +++++--
+ arch/arm64/include/asm/pgtable.h              |  1 -
+ arch/csky/abiv1/inc/abi/pgtable-bits.h        | 13 ++-
+ arch/csky/abiv2/inc/abi/pgtable-bits.h        | 19 ++--
+ arch/csky/include/asm/pgtable.h               | 17 ++++
+ arch/hexagon/include/asm/pgtable.h            | 36 ++++++--
+ arch/ia64/include/asm/pgtable.h               | 31 ++++++-
+ arch/loongarch/include/asm/pgtable-bits.h     |  4 +
+ arch/loongarch/include/asm/pgtable.h          | 38 +++++++-
+ arch/m68k/include/asm/mcf_pgtable.h           | 35 +++++++-
+ arch/m68k/include/asm/motorola_pgtable.h      | 37 +++++++-
+ arch/m68k/include/asm/pgtable_no.h            |  6 --
+ arch/m68k/include/asm/sun3_pgtable.h          | 38 +++++++-
+ arch/microblaze/include/asm/pgtable.h         | 44 +++++++---
+ arch/mips/include/asm/pgtable-32.h            | 88 ++++++++++++++++---
+ arch/mips/include/asm/pgtable-64.h            | 23 ++++-
+ arch/mips/include/asm/pgtable.h               | 35 ++++++++
+ arch/nios2/include/asm/pgtable-bits.h         |  3 +
+ arch/nios2/include/asm/pgtable.h              | 37 ++++++--
+ arch/openrisc/include/asm/pgtable.h           | 40 +++++++--
+ arch/parisc/include/asm/pgtable.h             | 40 ++++++++-
+ arch/powerpc/include/asm/book3s/32/pgtable.h  | 37 ++++++--
+ arch/powerpc/include/asm/book3s/64/pgtable.h  |  1 -
+ arch/powerpc/include/asm/nohash/32/pgtable.h  | 22 +++--
+ arch/powerpc/include/asm/nohash/32/pte-40x.h  |  6 +-
+ arch/powerpc/include/asm/nohash/32/pte-44x.h  | 18 +---
+ arch/powerpc/include/asm/nohash/32/pte-85xx.h |  4 +-
+ arch/powerpc/include/asm/nohash/64/pgtable.h  | 24 ++++-
+ arch/powerpc/include/asm/nohash/pgtable.h     | 15 ++++
+ arch/powerpc/include/asm/nohash/pte-e500.h    |  1 -
+ arch/riscv/include/asm/pgtable-bits.h         |  3 +
+ arch/riscv/include/asm/pgtable.h              | 28 ++++--
+ arch/s390/include/asm/pgtable.h               |  1 -
+ arch/sh/include/asm/pgtable_32.h              | 53 ++++++++---
+ arch/sparc/include/asm/pgtable_32.h           | 26 +++++-
+ arch/sparc/include/asm/pgtable_64.h           | 37 +++++++-
+ arch/sparc/include/asm/pgtsrmmu.h             | 14 +--
+ arch/um/include/asm/pgtable.h                 | 36 +++++++-
+ arch/x86/include/asm/pgtable-2level.h         | 26 ++++--
+ arch/x86/include/asm/pgtable-3level.h         | 26 +++++-
+ arch/x86/include/asm/pgtable.h                |  3 -
+ arch/xtensa/include/asm/pgtable.h             | 31 +++++--
+ include/linux/pgtable.h                       | 29 ------
+ mm/debug_vm_pgtable.c                         | 25 +++++-
+ mm/memory.c                                   |  4 -
+ mm/rmap.c                                     | 11 ---
+ 50 files changed, 944 insertions(+), 228 deletions(-)
+
+-- 
+2.39.0
 
 
 _______________________________________________
