@@ -4,117 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AEC4C63797
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 17 Jan 2023 10:26:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73C67C63797
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 17 Jan 2023 12:12:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=0AlyrbcL4gKv2oYwZ+3+GFgFMrFrmmj655C3RsPrMy8=; b=ojDKRbdgbDOaW+
-	EpTWPRaFlfbpeSBK69ebjomDlxworRHu0OlC3/FPlJknnbeLTS642TK5eeslDtYmrqXCpWJXctnLH
-	0tBWin4XrjiJD3l0JrSk/mwkmCiRA2lV6LSZhEItb+eVjIgVjLgzp/7+yyVetKXjTLpnboZJaFBvE
-	YNBpJSjF44f5qej2P3SlQFWDTDdmhIY4YKorphCApWronILRpAw4s9hHNz3sRCWnGfUQvbd1Ohsrc
-	f2jXH2alClDTixWqK2sFKtinmp8Dg+nWQlMWdwSrTwsLMXuC+ch/bItBHtOdE257uDtLGpGLY4bIH
-	ZPbedgf4lqHfcxhBytBg==;
+	List-Owner; bh=crtuElf20PB0xgwD2Ne8se7nwX8W/iZTcd8zxOWeAnI=; b=wfEDYOq6Yhpl0D
+	X4QLHdEE6jHXNyxm/vXGd1xZIHZpjTS9aXG405brUKJ9JqdQTHzXOcqu4yv3r+m3NzTS2xtfurJNp
+	rfkRtywPw42rE2al84Q8xGtVroPgmbb7ch9LUVcqp/vI/sHZHFcJuuKGm/5ihI7ZBel5aZIh9Y4cg
+	kh84IareA5FJSzq+Vcc63dWfC0s1F5/KLcWk62S5YY5sG7En1Tt3QQXQv24yd1aKpsquSfIwouu9e
+	bCQpWZQ9PQ2fU6zDULWwmGx+NCIp7ezGTAjobSMv7rbvPSbtta17w+sHuxDrZvUnuKtvC7/HzR3nt
+	Y6wRygcrdNneNXo/MxDw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHjAx-00DkKK-MU; Tue, 17 Jan 2023 10:26:43 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1pHkpk-00E9Nv-KD; Tue, 17 Jan 2023 12:12:56 +0000
+Received: from mx0b-00230701.pphosted.com ([148.163.158.9])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHjAv-00DkJp-V9; Tue, 17 Jan 2023 10:26:42 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=oxrJBZkAaCeFAHBiyHLFWLeqn2s4gXmFVHT68O/MsFk=; b=GQsHqdtN/iREDQ8vi1O4Be1MrZ
-	rseA9/3ogzxQ6xZE4SqLUZG4sV/QDZjvMovg65N0xIIgCnRPbkND1+nwy51nHnBc5DWNJS4XUBAN9
-	DGhO4XvtgUfXh3DGTlKQTq1yWaZoEocA9mKp7m7181bsUQeP0yUWn9Ocr+1xM7l1a0UxxyRm82Zw+
-	z3mRAtrbo2NEuxCbyqDel031QfZM7HOcrBLOGqBY1RekqMov5sENJSTJquxMwFQpH1Z5aFuaq2SxP
-	yues13giahhBFOzG58JwmbeFuKGXFy4M+qN2H/Xcy0ClAmlPum6BOEWDZwYNw11AStmRYs4JMNKUo
-	mE/sBfbw==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHjB0-009alj-Ie; Tue, 17 Jan 2023 10:26:46 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	id 1pHkpf-00E9L3-9E
+	for linux-snps-arc@lists.infradead.org; Tue, 17 Jan 2023 12:12:55 +0000
+Received: from pps.filterd (m0297265.ppops.net [127.0.0.1])
+	by mx0a-00230701.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30HC3CLn018233;
+	Tue, 17 Jan 2023 04:12:40 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pfptdkimsnps;
+ bh=sxQZjLChGNlOqM5V0vjAUah7pyIvaGaoWUN4Z6I4DF0=;
+ b=glcrAMVnNvlIIPD6qx4aKzaJhEr0GNHRzLpw2IHYwWSBHdkm1wkbGMOrip1zEw1pLXn6
+ LXWQy68WnKvGHj2DF2CM7DSViw2Q/ok2nl8cEos2YsMnU0sBGFHHKyrzLcFQHbG84gxl
+ 0BTtxUF9EnuP8MWpNF6tUG06lrA/skmjuQv6WDfLP8p1Z8kbyfSMRs8MefC96m/0rU+c
+ 3r3BQ/SN3Zu5RPJHMR4aMHcFp8+9CfVW5RPpW4S1iwrHaSxytqJZ9riRl3YcVPVW+jpz
+ Kgm8RMV94fW98d1jWhvyy2uOKLYLShIer+SqodfEnpPrCW4BILjDi2lI0wFOqOq2mrgc bQ== 
+Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.87.133])
+	by mx0a-00230701.pphosted.com (PPS) with ESMTPS id 3n3v71ehc4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Jan 2023 04:12:40 -0800
+Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com [10.205.2.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 5BBBBC2339;
+	Tue, 17 Jan 2023 12:12:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1673957559; bh=MWlVv2bNaMqgQxDPJxSKxlmTWOLR6TjQntQIh4cnyqI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=hkZazC6kBh5aR4ZiSA4+DDkBofdhu+/pPa01n3s+Fxgf3qxvZqWJp4QexEVeFkd9q
+	 9o/u8NNnTMwmhC6oZlmLjm/HjVerIhQR81CxnJmoXKx63p3TMlZL6QQFkM/u+Z6RNZ
+	 bDr7OrcNgE/DydprGWn2J6wWsKYwZSNS61DOof/LBmKR5LJErOIQRPvx1Dq4ppm8So
+	 Lokdrz6cPtPvD+mtCUZbf+d2alg6lalivMyo471HXh3DuW1y0r+7FxBkfu8YwdUAQ1
+	 wRuWt4YVHJL+LTihoXtpGaHV7BKaOb8UTUb1l9rDdz/hKBCxVFhXNjdOGkIolrroT0
+	 3soqln4jlXIhg==
+Received: from SNPS-o0WHuHJU73.internal.synopsys.com (snps-o0whuhju73.internal.synopsys.com [10.116.104.120])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id E6A7A300129;
-	Tue, 17 Jan 2023 11:26:29 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id C3475201C94B3; Tue, 17 Jan 2023 11:26:29 +0100 (CET)
-Date: Tue, 17 Jan 2023 11:26:29 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
-	mattst88@gmail.com, vgupta@kernel.org, linux@armlinux.org.uk,
-	nsekhar@ti.com, brgl@bgdev.pl, ulli.kroll@googlemail.com,
-	linus.walleij@linaro.org, shawnguo@kernel.org,
-	Sascha Hauer <s.hauer@pengutronix.de>, kernel@pengutronix.de,
-	festevam@gmail.com, linux-imx@nxp.com, tony@atomide.com,
-	khilman@kernel.org, krzysztof.kozlowski@linaro.org,
-	alim.akhtar@samsung.com, catalin.marinas@arm.com, will@kernel.org,
-	guoren@kernel.org, bcain@quicinc.com, chenhuacai@kernel.org,
-	kernel@xen0n.name, geert@linux-m68k.org, sammy@sammy.net,
-	monstr@monstr.eu, tsbogend@alpha.franken.de, dinguyen@kernel.org,
-	jonas@southpole.se, stefan.kristiansson@saunalahti.fi,
-	shorne@gmail.com, James.Bottomley@hansenpartnership.com,
-	deller@gmx.de, mpe@ellerman.id.au, npiggin@gmail.com,
-	christophe.leroy@csgroup.eu, paul.walmsley@sifive.com,
-	palmer@dabbelt.com, aou@eecs.berkeley.edu, hca@linux.ibm.com,
-	gor@linux.ibm.com, agordeev@linux.ibm.com,
-	borntraeger@linux.ibm.com, svens@linux.ibm.com,
-	ysato@users.sourceforge.jp, dalias@libc.org, davem@davemloft.net,
-	richard@nod.at, anton.ivanov@cambridgegreys.com,
-	johannes@sipsolutions.net, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, acme@kernel.org, alexander.shishkin@linux.intel.com,
-	jolsa@kernel.org, namhyung@kernel.org, jgross@suse.com,
-	srivatsa@csail.mit.edu, amakhalov@vmware.com, pv-drivers@vmware.com,
-	boris.ostrovsky@oracle.com, chris@zankel.net, jcmvbkbc@gmail.com,
-	rafael@kernel.org, lenb@kernel.org, pavel@ucw.cz,
-	gregkh@linuxfoundation.org, mturquette@baylibre.com,
-	sboyd@kernel.org, daniel.lezcano@linaro.org, lpieralisi@kernel.org,
-	sudeep.holla@arm.com, agross@kernel.org, andersson@kernel.org,
-	konrad.dybcio@linaro.org, anup@brainfault.org,
-	thierry.reding@gmail.com, jonathanh@nvidia.com,
-	jacob.jun.pan@linux.intel.com, atishp@atishpatra.org,
-	Arnd Bergmann <arnd@arndb.de>, yury.norov@gmail.com,
-	andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
-	dennis@kernel.org, tj@kernel.org, cl@linux.com, rostedt@goodmis.org,
-	mhiramat@kernel.org, frederic@kernel.org, paulmck@kernel.org,
-	pmladek@suse.com, senozhatsky@chromium.org,
-	john.ogness@linutronix.de, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	bsegall@google.com, mgorman@suse.de, bristot@redhat.com,
-	vschneid@redhat.com, ryabinin.a.a@gmail.com, glider@google.com,
-	andreyknvl@gmail.com, dvyukov@google.com, vincenzo.frascino@arm.com,
-	Andrew Morton <akpm@linux-foundation.org>, jpoimboe@kernel.org,
-	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org, linux-omap@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org, linux-csky@vger.kernel.org,
-	linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-um@lists.infradead.org, linux-perf-users@vger.kernel.org,
-	virtualization@lists.linux-foundation.org,
-	linux-xtensa@linux-xtensa.org, linux-acpi@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH v3 00/51] cpuidle,rcu: Clean up the mess
-Message-ID: <Y8Z31UbzG3LJgAXE@hirez.programming.kicks-ass.net>
-References: <20230112194314.845371875@infradead.org>
- <Y8WCWAuQSHN651dA@FVFF77S0Q05N.cambridge.arm.com>
+	by mailhost.synopsys.com (Postfix) with ESMTPSA id 57631A0073;
+	Tue, 17 Jan 2023 12:12:35 +0000 (UTC)
+X-SNPS-Relay: synopsys.com
+From: Pavel.Kozlov@synopsys.com
+To: libc-alpha@sourceware.org
+Cc: linux-snps-arc@lists.infradead.org,
+        Pavel Kozlov <Pavel.Kozlov@synopsys.com>
+Subject: [PATCH v2] ARC:fpu: add extra capability check before use of sqrt and fma builtins
+Date: Tue, 17 Jan 2023 16:12:23 +0400
+Message-Id: <20230117121223.2635-1-kozlov@synopsys.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221221162849.12301-1-kozlov@synopsys.com>
+References: <20221221162849.12301-1-kozlov@synopsys.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <Y8WCWAuQSHN651dA@FVFF77S0Q05N.cambridge.arm.com>
+X-Proofpoint-GUID: NLPQKlDXwnQjWmR5hTSlyyFUvzYPIw_I
+X-Proofpoint-ORIG-GUID: NLPQKlDXwnQjWmR5hTSlyyFUvzYPIw_I
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-17_05,2023-01-17_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam policy=outbound_active_cloned score=0
+ lowpriorityscore=0 spamscore=0 priorityscore=1501 malwarescore=0
+ impostorscore=0 mlxlogscore=630 phishscore=0 mlxscore=0 adultscore=0
+ bulkscore=0 clxscore=1011 suspectscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301170101
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20230117_041251_514789_EB0052CE 
+X-CRM114-Status: GOOD (  18.85  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -131,206 +102,78 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jan 16, 2023 at 04:59:04PM +0000, Mark Rutland wrote:
+From: Pavel Kozlov <pavel.kozlov@synopsys.com>
 
-> I'm sorry to have to bear some bad news on that front. :(
+Add extra check for compiler definitions to ensure that compiler provides
+sqrt and fma hw fpu instructions else use software implementation.
 
-Moo, something had to give..
+As divide/sqrt and FMA hw support from CPU side is optional,
+the compiler can be configured by options to generate hw FPU instructions,
+but without use of FDDIV, FDSQRT, FSDIV, FSSQRT, FDMADD and FSMADD
+instructions. In this case __builtin_sqrt and __builtin_sqrtf provided by
+compiler can't be used inside the glibc code, as these builtins are used
+in implementations of sqrt() and sqrtf() functions but at the same time
+these builtins unfold to sqrt() and sqrtf(). So it is possible to receive
+code like that:
 
+0001c4b4 <__ieee754_sqrtf>:
+   1c4b4:    0001 0000      b     0         ;1c4b4 <__ieee754_sqrtf>
 
-> IIUC what's happenign here is the PSCI cpuidle driver has entered idle and RCU
-> is no longer watching when arm64's cpu_suspend() manipulates DAIF. Our
-> local_daif_*() helpers poke lockdep and tracing, hence the call to
-> trace_hardirqs_off() and the RCU usage.
-
-Right, strictly speaking not needed at this point, IRQs should have been
-traced off a long time ago.
-
-> I think we need RCU to be watching all the way down to cpu_suspend(), and it's
-> cpu_suspend() that should actually enter/exit idle context. That and we need to
-> make cpu_suspend() and the low-level PSCI invocation noinstr.
-> 
-> I'm not sure whether 32-bit will have a similar issue or not.
-
-I'm not seeing 32bit or Risc-V have similar issues here, but who knows,
-maybe I missed somsething.
-
-In any case, the below ought to cure the ARM64 case and remove that last
-known RCU_NONIDLE() user as a bonus.
+The same is also true for __builtin_fma and __builtin_fmaf.
 
 ---
-diff --git a/arch/arm64/kernel/cpuidle.c b/arch/arm64/kernel/cpuidle.c
-index 41974a1a229a..42e19fff40ee 100644
---- a/arch/arm64/kernel/cpuidle.c
-+++ b/arch/arm64/kernel/cpuidle.c
-@@ -67,10 +67,10 @@ __cpuidle int acpi_processor_ffh_lpi_enter(struct acpi_lpi_state *lpi)
- 	u32 state = lpi->address;
- 
- 	if (ARM64_LPI_IS_RETENTION_STATE(lpi->arch_flags))
--		return CPU_PM_CPU_IDLE_ENTER_RETENTION_PARAM(psci_cpu_suspend_enter,
-+		return CPU_PM_CPU_IDLE_ENTER_RETENTION_PARAM_RCU(psci_cpu_suspend_enter,
- 						lpi->index, state);
- 	else
--		return CPU_PM_CPU_IDLE_ENTER_PARAM(psci_cpu_suspend_enter,
-+		return CPU_PM_CPU_IDLE_ENTER_PARAM_RCU(psci_cpu_suspend_enter,
- 					     lpi->index, state);
- }
- #endif
-diff --git a/arch/arm64/kernel/suspend.c b/arch/arm64/kernel/suspend.c
-index e7163f31f716..0fbdf5fe64d8 100644
---- a/arch/arm64/kernel/suspend.c
-+++ b/arch/arm64/kernel/suspend.c
-@@ -4,6 +4,7 @@
- #include <linux/slab.h>
- #include <linux/uaccess.h>
- #include <linux/pgtable.h>
-+#include <linux/cpuidle.h>
- #include <asm/alternative.h>
- #include <asm/cacheflush.h>
- #include <asm/cpufeature.h>
-@@ -104,6 +105,10 @@ int cpu_suspend(unsigned long arg, int (*fn)(unsigned long))
- 	 * From this point debug exceptions are disabled to prevent
- 	 * updates to mdscr register (saved and restored along with
- 	 * general purpose registers) from kernel debuggers.
-+	 *
-+	 * Strictly speaking the trace_hardirqs_off() here is superfluous,
-+	 * hardirqs should be firmly off by now. This really ought to use
-+	 * something like raw_local_daif_save().
- 	 */
- 	flags = local_daif_save();
- 
-@@ -120,6 +125,8 @@ int cpu_suspend(unsigned long arg, int (*fn)(unsigned long))
- 	 */
- 	arm_cpuidle_save_irq_context(&context);
- 
-+	ct_cpuidle_enter();
+Changes in v2:
+ - Fixed macros definitions for FMA
+
+ sysdeps/arc/fpu/math-use-builtins-fma.h  | 14 ++++++++++++--
+ sysdeps/arc/fpu/math-use-builtins-sqrt.h | 14 ++++++++++++--
+ 2 files changed, 24 insertions(+), 4 deletions(-)
+
+diff --git a/sysdeps/arc/fpu/math-use-builtins-fma.h b/sysdeps/arc/fpu/math-use-builtins-fma.h
+index eede75aa41be..2acd8113ce2c 100644
+--- a/sysdeps/arc/fpu/math-use-builtins-fma.h
++++ b/sysdeps/arc/fpu/math-use-builtins-fma.h
+@@ -1,4 +1,14 @@
+-#define USE_FMA_BUILTIN 1
+-#define USE_FMAF_BUILTIN 1
++#if defined __ARC_FPU_DP_FMA__
++# define USE_FMA_BUILTIN 1
++#else
++# define USE_FMA_BUILTIN 0
++#endif
 +
- 	if (__cpu_suspend_enter(&state)) {
- 		/* Call the suspend finisher */
- 		ret = fn(arg);
-@@ -133,8 +140,11 @@ int cpu_suspend(unsigned long arg, int (*fn)(unsigned long))
- 		 */
- 		if (!ret)
- 			ret = -EOPNOTSUPP;
++#if defined __ARC_FPU_SP_FMA__
++# define USE_FMAF_BUILTIN 1
++#else
++# define USE_FMAF_BUILTIN 0
++#endif
 +
-+		ct_cpuidle_exit();
- 	} else {
--		RCU_NONIDLE(__cpu_suspend_exit());
-+		ct_cpuidle_exit();
-+		__cpu_suspend_exit();
- 	}
- 
- 	arm_cpuidle_restore_irq_context(&context);
-diff --git a/drivers/cpuidle/cpuidle-psci.c b/drivers/cpuidle/cpuidle-psci.c
-index 4fc4e0381944..312a34ef28dc 100644
---- a/drivers/cpuidle/cpuidle-psci.c
-+++ b/drivers/cpuidle/cpuidle-psci.c
-@@ -69,16 +69,12 @@ static __cpuidle int __psci_enter_domain_idle_state(struct cpuidle_device *dev,
- 	else
- 		pm_runtime_put_sync_suspend(pd_dev);
- 
--	ct_cpuidle_enter();
--
- 	state = psci_get_domain_state();
- 	if (!state)
- 		state = states[idx];
- 
- 	ret = psci_cpu_suspend_enter(state) ? -1 : idx;
- 
--	ct_cpuidle_exit();
--
- 	if (s2idle)
- 		dev_pm_genpd_resume(pd_dev);
- 	else
-@@ -192,7 +188,7 @@ static __cpuidle int psci_enter_idle_state(struct cpuidle_device *dev,
- {
- 	u32 *state = __this_cpu_read(psci_cpuidle_data.psci_states);
- 
--	return CPU_PM_CPU_IDLE_ENTER_PARAM(psci_cpu_suspend_enter, idx, state[idx]);
-+	return CPU_PM_CPU_IDLE_ENTER_PARAM_RCU(psci_cpu_suspend_enter, idx, state[idx]);
- }
- 
- static const struct of_device_id psci_idle_state_match[] = {
-diff --git a/drivers/firmware/psci/psci.c b/drivers/firmware/psci/psci.c
-index e7bcfca4159f..f3a044fa4652 100644
---- a/drivers/firmware/psci/psci.c
-+++ b/drivers/firmware/psci/psci.c
-@@ -462,11 +462,22 @@ int psci_cpu_suspend_enter(u32 state)
- 	if (!psci_power_state_loses_context(state)) {
- 		struct arm_cpuidle_irq_context context;
- 
-+		ct_cpuidle_enter();
- 		arm_cpuidle_save_irq_context(&context);
- 		ret = psci_ops.cpu_suspend(state, 0);
- 		arm_cpuidle_restore_irq_context(&context);
-+		ct_cpuidle_exit();
- 	} else {
-+		/*
-+		 * ARM64 cpu_suspend() wants to do ct_cpuidle_*() itself.
-+		 */
-+		if (!IS_ENABLED(CONFIG_ARM64))
-+			ct_cpuidle_enter();
+ #define USE_FMAL_BUILTIN 0
+ #define USE_FMAF128_BUILTIN 0
+diff --git a/sysdeps/arc/fpu/math-use-builtins-sqrt.h b/sysdeps/arc/fpu/math-use-builtins-sqrt.h
+index e94c915ba66a..a449bc609295 100644
+--- a/sysdeps/arc/fpu/math-use-builtins-sqrt.h
++++ b/sysdeps/arc/fpu/math-use-builtins-sqrt.h
+@@ -1,4 +1,14 @@
+-#define USE_SQRT_BUILTIN 1
+-#define USE_SQRTF_BUILTIN 1
++#if defined __ARC_FPU_DP_DIV__
++# define USE_SQRT_BUILTIN 1
++#else
++# define USE_SQRT_BUILTIN 0
++#endif
 +
- 		ret = cpu_suspend(state, psci_suspend_finisher);
++#if defined __ARC_FPU_SP_DIV__
++# define USE_SQRTF_BUILTIN 1
++#else
++# define USE_SQRTF_BUILTIN 0
++#endif
 +
-+		if (!IS_ENABLED(CONFIG_ARM64))
-+			ct_cpuidle_exit();
- 	}
- 
- 	return ret;
-diff --git a/include/linux/cpuidle.h b/include/linux/cpuidle.h
-index 630c879143c7..3183aeb7f5b4 100644
---- a/include/linux/cpuidle.h
-+++ b/include/linux/cpuidle.h
-@@ -307,7 +307,7 @@ extern s64 cpuidle_governor_latency_req(unsigned int cpu);
- #define __CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter,			\
- 				idx,					\
- 				state,					\
--				is_retention)				\
-+				is_retention, is_rcu)			\
- ({									\
- 	int __ret = 0;							\
- 									\
-@@ -319,9 +319,11 @@ extern s64 cpuidle_governor_latency_req(unsigned int cpu);
- 	if (!is_retention)						\
- 		__ret =  cpu_pm_enter();				\
- 	if (!__ret) {							\
--		ct_cpuidle_enter();					\
-+		if (!is_rcu)						\
-+			ct_cpuidle_enter();				\
- 		__ret = low_level_idle_enter(state);			\
--		ct_cpuidle_exit();					\
-+		if (!is_rcu)						\
-+			ct_cpuidle_exit();				\
- 		if (!is_retention)					\
- 			cpu_pm_exit();					\
- 	}								\
-@@ -330,15 +332,21 @@ extern s64 cpuidle_governor_latency_req(unsigned int cpu);
- })
- 
- #define CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter, idx)	\
--	__CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter, idx, idx, 0)
-+	__CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter, idx, idx, 0, 0)
- 
- #define CPU_PM_CPU_IDLE_ENTER_RETENTION(low_level_idle_enter, idx)	\
--	__CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter, idx, idx, 1)
-+	__CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter, idx, idx, 1, 0)
- 
- #define CPU_PM_CPU_IDLE_ENTER_PARAM(low_level_idle_enter, idx, state)	\
--	__CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter, idx, state, 0)
-+	__CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter, idx, state, 0, 0)
-+
-+#define CPU_PM_CPU_IDLE_ENTER_PARAM_RCU(low_level_idle_enter, idx, state)	\
-+	__CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter, idx, state, 0, 1)
- 
- #define CPU_PM_CPU_IDLE_ENTER_RETENTION_PARAM(low_level_idle_enter, idx, state)	\
--	__CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter, idx, state, 1)
-+	__CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter, idx, state, 1, 0)
-+
-+#define CPU_PM_CPU_IDLE_ENTER_RETENTION_PARAM_RCU(low_level_idle_enter, idx, state)	\
-+	__CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter, idx, state, 1, 1)
- 
- #endif /* _LINUX_CPUIDLE_H */
+ #define USE_SQRTL_BUILTIN 0
+ #define USE_SQRTF128_BUILTIN 0
+-- 
+2.25.1
+
 
 _______________________________________________
 linux-snps-arc mailing list
