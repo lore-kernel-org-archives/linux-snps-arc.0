@@ -4,83 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5515C636D3
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Feb 2023 20:27:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC741C05027
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Feb 2023 05:08:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References
+	:In-Reply-To:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=xY10ZoYGlobXfLlsyAgNHxYPWSSAbxfGGvrLobuCsxw=; b=tJWTj8mcIlZJH8
-	cC4sCAedJRhOWVCr93ia7Xgl2NbYf5IkPoX28FILKRywNgP8wqVrYqbTRBMetnvxzLeFrUtpu2vtZ
-	T5WiQSE/ngBiDmv0UD6dfn80UlwP56PfLswmAfqf36FKzvtnIXE2eisUm9z7TvD51FWLeupwuIhvX
-	n0y60vWflDJAoJGhSf1irdbAUV03xkk9vikwUjPbPBlHKE+6SNDZmvNeZ8wkp27uux+xXt675zb3P
-	gDUkz5+T9HglCzXrfuTPNyvURJ0pNb+aVNjFy2Q8reOkxQ+wX4URMJL6yvAsHEED/oMp0DWQsigl1
-	c/CPNV3XMMQk06m3WRgQ==;
+	List-Owner; bh=tN+EZGSBxNtzBgT0jQNXdFaw/z4+obn8C1RCkb88uJw=; b=FJd7Qgef3MpYtz
+	cNPC4A1z/tQDzjWdTH2WbSpN348unGnxdE3xJZCo0WAO/tsvJnIv29WzrC1rn+6wmOGvfPRMbAuTM
+	cDD/OYoTcLLKA1fDB8u4LrKSvLgDVrQOg1Kpf8IgCy4Dr5I98zoFRh5t0cOjW1IdaFovkO3WcMxO2
+	/lsCXa9+u/66e8mPMZJcGmoMG6fAYS5dNAsqSNXpGBjGB8WmkXlGQip6qoiTtQxhKgdo9hkTOq7ze
+	cEEzbD/CfqZxx4MPLXLPauTjY4mdV93Y9eM5CEcgkPwocLbqLHRvLw4BgpKHXo2AZY66zLnFJ9T/S
+	sIjYmRsFiX8Ih/Ceentw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pQDVs-003Ame-DM; Thu, 09 Feb 2023 20:27:24 +0000
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
+	id 1pQLeE-004FyS-SD; Fri, 10 Feb 2023 05:08:34 +0000
+Received: from gandalf.ozlabs.org ([150.107.74.76])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pQDVp-003Alx-C3
-	for linux-snps-arc@lists.infradead.org; Thu, 09 Feb 2023 20:27:23 +0000
-Received: by mail-ej1-x634.google.com with SMTP id sa10so10008153ejc.9
-        for <linux-snps-arc@lists.infradead.org>; Thu, 09 Feb 2023 12:27:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mind.be; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qEALyU5EV7ylzVMhoUpQlEL/wKddDK6XCXjgoHqa0GQ=;
-        b=ied3T99VQUAeM07nAKuUTDRK1pC3x1ciw+ml7lbI4KTLs4ZJiCsmQr29h8eyUrl0on
-         KOG4IRg4rqykYzA3HVBqFZWCluWzQRNmj08OL6UjyKUj8ohCVLHEqOa+URneD7xt2Lo7
-         AEwLIE6j8Z9Gxu7PwGhm07D4LTp77j7aRGe3dIHQAsLKrxsYBep3U7aioFCywpgdE5Zy
-         QLUsT9IpP5YGOl8yNJotp55kmHqQOCnEUJx7m4yDSVn0EyEou0D9y3QO9NH4Vk1A76+P
-         BRz+NqSrqBT6lBdG18/lky/RdxAQv71WNOUmJKUHkEci8w8axNt+4p6HqV2k6V2FP+rG
-         z7UA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qEALyU5EV7ylzVMhoUpQlEL/wKddDK6XCXjgoHqa0GQ=;
-        b=yJdSUnjxRS6W2QRyDo3hRu5UC7IsC3JJt9oMD4HjcDlX2RE8Y/PBTCGmZIIaj55yLE
-         cjTHfoqhoP2rdNYWzn48VUOfLXKeonedhlI0ruK/C47mNyhVwrjnvqDXht5nrXXiSc5j
-         rqWt018MytuyuTiG6nigMPQSE8t0pMIQKhBvwDGRwQSvvFrZXZOyDcar6IunBIIUcFEh
-         EamW0+w/RQ12erSgUDRvhI35RuzSb12eXWYOXFnw+JUgXQf4SoIpHXIuPQqjXsup3Asn
-         EtCTcOWL2y/nGyqLbJd4y0nUmK6B4W9R4d4BYYYXFjY2GdG11H+L6I/gyaFbkyyrprGt
-         4Nfw==
-X-Gm-Message-State: AO0yUKWZc4zAnFmf/rf2CI2QRyegg3QSy5EDGCPYR8Ffh72znz/BWd6R
-	vVrHA9wHbAqRTDXoDhk3zvq/mWyYDQYAiKSg
-X-Google-Smtp-Source: AK7set8gPSV4WH7n2FCjZr2MvGml9wtJwglPw9Ivt/MmC1HbLpPIKWh/8ldjL8QXQyDpVhZjPk1mbg==
-X-Received: by 2002:a17:907:6e1f:b0:8aa:502c:44d3 with SMTP id sd31-20020a1709076e1f00b008aa502c44d3mr15054781ejc.41.1675974435834;
-        Thu, 09 Feb 2023 12:27:15 -0800 (PST)
-Received: from ?IPV6:2a02:1811:3a7e:7b00:29c8:f1e0:f17f:3385? (ptr-9fplejngm4eebjbmd8l.18120a2.ip6.access.telenet.be. [2a02:1811:3a7e:7b00:29c8:f1e0:f17f:3385])
-        by smtp.gmail.com with ESMTPSA id kt5-20020a170906aac500b007c1633cea13sm1339028ejb.12.2023.02.09.12.27.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Feb 2023 12:27:13 -0800 (PST)
-Message-ID: <1750a14f-36a1-fe51-1452-3a72b84979c5@mind.be>
-Date: Thu, 9 Feb 2023 21:27:11 +0100
+	id 1pQLe2-004FvL-PB; Fri, 10 Feb 2023 05:08:24 +0000
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4PChZj6hzVz4xwy;
+	Fri, 10 Feb 2023 16:08:13 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+	s=201909; t=1676005696;
+	bh=gjOEhpmQ4QzYiJxNRSCplO6mzBIo8CgdHMudas4f4m4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=VzBHDakF5oapgbqSwyCXW4NlOxuhWIXgHT5bnjksmwxnwzB2j77QlwtNy9auFKO5k
+	 R5zuzvTLv5v6JR0g4zAQSDALbGO0+HtyCcaxIv+XCmtUOUNdsZXpr/60HJ8m0se9Ac
+	 HCqPfRmHl1K9cRm2zGL0JLt1dLbvDoohuA4JmvWcFN0J1XTPyIZXfr0n3q8zPBgbwM
+	 2KTETWI8PkOX6ZP5se3LmuOaFIoUbfwmRFq7s/gffXRM+ntl6Tsz8s7uIuoBncovYH
+	 169scsrJUZSYlGwI60JQl2lk38JbvV/eRPo8tLjsBgWQeltv5kZiHwGm5Gqurl9z/4
+	 hTaeq+aYRbc4A==
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins
+ <hughd@google.com>, John Hubbard <jhubbard@nvidia.com>, Jason Gunthorpe
+ <jgg@nvidia.com>, Mike Rapoport <rppt@linux.ibm.com>, Yang Shi
+ <shy828301@gmail.com>, Vlastimil Babka <vbabka@suse.cz>, Nadav Amit
+ <namit@vmware.com>, Andrea Arcangeli <aarcange@redhat.com>, Peter Xu
+ <peterx@redhat.com>, linux-mm@kvack.org, x86@kernel.org,
+ linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+ linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org, David
+ Hildenbrand <david@redhat.com>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>
+Subject: Re: [PATCH mm-unstable v1 17/26] powerpc/mm: support
+ __HAVE_ARCH_PTE_SWP_EXCLUSIVE on 32bit book3s
+In-Reply-To: <20230113171026.582290-18-david@redhat.com>
+References: <20230113171026.582290-1-david@redhat.com>
+ <20230113171026.582290-18-david@redhat.com>
+Date: Fri, 10 Feb 2023 16:08:07 +1100
+Message-ID: <87cz6iw1jc.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [Buildroot] [PATCH v4 1/1] package/bpftool: revert bpf_cookie
- patch to allow building
-Content-Language: en-GB
-To: Shahab Vahedi <Shahab.Vahedi@synopsys.com>
-Cc: "buildroot@buildroot.org" <buildroot@buildroot.org>,
- "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-References: <97ea44bb-58fe-d6cb-6c79-9be0b245f2c6@synopsys.com>
- <29d2a8c7-44cd-da42-5fed-f17ec0f8ccf2@synopsys.com>
- <fce2f167-bd7a-8b93-41ec-c7c339ec070f@mind.be>
- <b98c7a16-ea21-c398-4045-0edbf46caa40@synopsys.com>
-From: Arnout Vandecappelle <arnout@mind.be>
-In-Reply-To: <b98c7a16-ea21-c398-4045-0edbf46caa40@synopsys.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230209_122721_730652_98039475 
-X-CRM114-Status: GOOD (  21.05  )
+X-CRM114-CacheID: sfid-20230209_210823_230868_E61C58F8 
+X-CRM114-Status: GOOD (  24.58  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,64 +81,108 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+David Hildenbrand <david@redhat.com> writes:
+> We already implemented support for 64bit book3s in commit bff9beaa2e80
+> ("powerpc/pgtable: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE for book3s")
+>
+> Let's support __HAVE_ARCH_PTE_SWP_EXCLUSIVE also in 32bit by reusing yet
+> unused LSB 2 / MSB 29. There seems to be no real reason why that bit cannot
+> be used, and reusing it avoids having to steal one bit from the swap
+> offset.
+>
+> While at it, mask the type in __swp_entry().
+>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Nicholas Piggin <npiggin@gmail.com>
+> Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  arch/powerpc/include/asm/book3s/32/pgtable.h | 38 +++++++++++++++++---
+>  1 file changed, 33 insertions(+), 5 deletions(-)
 
+I gave this a quick test on a ppc32 machine, everything seems fine.
 
-On 09/02/2023 13:23, Shahab Vahedi wrote:
-> Hi Arnout,
-> 
-> On 2/8/23 17:36, Arnout Vandecappelle wrote:
->>
->> It's not clear to me why you did a revert of the cookie feature rather than
->> using those patches. I think the first two or three should be sufficient to
->> fix your issue?
-> 
-> Ideally, the correct way would be applying that pending series. But since
-> there were comments that some of the patches might need reworking [1], I did
+Your test_swp_exclusive.c passes, and an LTP run looks normal.
 
-  I don't see anything in that thread about rework being needed, only some 
-complaints about some mail gateway encrypting messages so they can't be read by 
-some recipients...
+Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
 
-> not feel confident to add them. Therefore, I tried to keep my solution minimal
-> and solve it by eliminating the problem. I know, it is not appealing.
+cheers
 
-  The problem with your patch is that it is very difficult to decide if it 
-should be kept or not when bumping the version. Plus, some people (or other 
-packages) may rely on the feature that you remove.
-
-  Regards,
-  Arnout
-
-> 
->> For the time being, I marked this as Changes Requested. If the upstream
->> patches are not sufficient, please send a mail upstream (as a reply to that
->> series) explaining the problem (again), and re-send this patch to
->> Buildroot. If it does fix things, please send a mail upstream to ask to
->> move the series forward (explaining the issue you have), and send a patch
->> to Buildroot that adds the needed patches.
-> 
-> They (re)confirmed the issue to me in the past [2] and are aware that its
-> solution is missing from all the releases onward (see the first point of
-> "Known bugs" in the release page [3]).
-> 
-> [1]
-> https://lore.kernel.org/bpf/20220421003152.339542-3-alobakin@pm.me/T/#rb9ce86e9f25b2d097b88d87af8ffdfa401d63c68
-> 
-> [2]
-> https://lore.kernel.org/bpf/b1a604e1-be09-ac0b-ff22-b194ae9ce886@isovalent.com/
-> 
-> [3]
-> https://github.com/libbpf/bpftool/releases
-> 
-> --
-> Shahab
-> 
-> 
+> diff --git a/arch/powerpc/include/asm/book3s/32/pgtable.h b/arch/powerpc/include/asm/book3s/32/pgtable.h
+> index 75823f39e042..0ecb3a58f23f 100644
+> --- a/arch/powerpc/include/asm/book3s/32/pgtable.h
+> +++ b/arch/powerpc/include/asm/book3s/32/pgtable.h
+> @@ -42,6 +42,9 @@
+>  #define _PMD_PRESENT_MASK (PAGE_MASK)
+>  #define _PMD_BAD	(~PAGE_MASK)
+>  
+> +/* We borrow the _PAGE_USER bit to store the exclusive marker in swap PTEs. */
+> +#define _PAGE_SWP_EXCLUSIVE	_PAGE_USER
+> +
+>  /* And here we include common definitions */
+>  
+>  #define _PAGE_KERNEL_RO		0
+> @@ -363,17 +366,42 @@ static inline void __ptep_set_access_flags(struct vm_area_struct *vma,
+>  #define pmd_page(pmd)		pfn_to_page(pmd_pfn(pmd))
+>  
+>  /*
+> - * Encode and decode a swap entry.
+> - * Note that the bits we use in a PTE for representing a swap entry
+> - * must not include the _PAGE_PRESENT bit or the _PAGE_HASHPTE bit (if used).
+> - *   -- paulus
+> + * Encode/decode swap entries and swap PTEs. Swap PTEs are all PTEs that
+> + * are !pte_none() && !pte_present().
+> + *
+> + * Format of swap PTEs (32bit PTEs):
+> + *
+> + *                         1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3
+> + *   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+> + *   <----------------- offset --------------------> < type -> E H P
+> + *
+> + *   E is the exclusive marker that is not stored in swap entries.
+> + *   _PAGE_PRESENT (P) and __PAGE_HASHPTE (H) must be 0.
+> + *
+> + * For 64bit PTEs, the offset is extended by 32bit.
+>   */
+>  #define __swp_type(entry)		((entry).val & 0x1f)
+>  #define __swp_offset(entry)		((entry).val >> 5)
+> -#define __swp_entry(type, offset)	((swp_entry_t) { (type) | ((offset) << 5) })
+> +#define __swp_entry(type, offset)	((swp_entry_t) { ((type) & 0x1f) | ((offset) << 5) })
+>  #define __pte_to_swp_entry(pte)		((swp_entry_t) { pte_val(pte) >> 3 })
+>  #define __swp_entry_to_pte(x)		((pte_t) { (x).val << 3 })
+>  
+> +#define __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+> +static inline int pte_swp_exclusive(pte_t pte)
+> +{
+> +	return pte_val(pte) & _PAGE_SWP_EXCLUSIVE;
+> +}
+> +
+> +static inline pte_t pte_swp_mkexclusive(pte_t pte)
+> +{
+> +	return __pte(pte_val(pte) | _PAGE_SWP_EXCLUSIVE);
+> +}
+> +
+> +static inline pte_t pte_swp_clear_exclusive(pte_t pte)
+> +{
+> +	return __pte(pte_val(pte) & ~_PAGE_SWP_EXCLUSIVE);
+> +}
+> +
+>  /* Generic accessors to PTE bits */
+>  static inline int pte_write(pte_t pte)		{ return !!(pte_val(pte) & _PAGE_RW);}
+>  static inline int pte_read(pte_t pte)		{ return 1; }
+> -- 
+> 2.39.0
+>
+>
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
 
 _______________________________________________
 linux-snps-arc mailing list
