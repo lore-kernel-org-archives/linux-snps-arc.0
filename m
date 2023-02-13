@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B47DDC636D7
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 13 Feb 2023 01:16:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36F36C636D7
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 13 Feb 2023 01:27:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=weR96aNYwzlUQVX9B07nk1ljLo6JxfSYgl7tc9v7Pqw=; b=gZ5UXMCAXzrYaa
-	4pqbh5mtaH0rFKVrJVpfbZ4L/MSpr+z4sf+VCxEQd3gpRYIvA5DOmJKKkQo30WDjlf6tT49y/DenO
-	90prijGGbbuE/3CfGnmyh7VOMRsyObF0faps8q2eppBt0sI7F7x5cMc1BtuqH1J7zZQTCQW5zdDiL
-	5jKeWtNFf9Kyth68Q9ugVtD5AVPJEHJSQLU/MS7FDjwSXATwMAC38flqCMC4Cpk2jykQVu//wt/Uc
-	1CA1XByCSkZ2DxhRDejq8cs4ol3CDsPHMtFw7BIm4zGM5mw0kfvxCA2MppHnv+8UnQry0Z/4QBgGa
-	pMbLscSzCN9KYkktazMw==;
+	List-Owner; bh=aLCNCjXWxqKseKw0yabr4PWEtmzXZxmKP0aGlHV9ff8=; b=p2k8UqNFOv6J1a
+	3b0CyBJLPuJfo/2c5nkJbrVAF9ZQd89UHf6jvarv0vCgzHnO/vZ5jZuPqE64PWTEnr5hNafwmS88u
+	0+u0Al5PqChuD+rwjiCFwDn19T43POCqjfzB1Enm9PvyeT36YkjKVxJN9VIDg3UOrLLXf2AP29aVE
+	dF6bH15jUjgy9FwyEq9fUdIHfOuL34QFKq6Fg7qrQvs8kaX0ch0m6KBpbfc09uVI/u4a5WO5RXOes
+	u1gppByN0gpHj46scNdTMKyiuXD4EP7hHY0TwjLXVV9CIx1e/gYduBUpQpI1po6Q9cx2LNc4EUcsA
+	SbGnbwKbXk/xtj4lG08g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pRNRl-00CjfL-OK; Mon, 13 Feb 2023 01:15:57 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1pRNct-00Cl7F-AR; Mon, 13 Feb 2023 01:27:27 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pRNRX-00CjcU-GW; Mon, 13 Feb 2023 01:15:45 +0000
+	id 1pRNch-00Cl2w-HU; Mon, 13 Feb 2023 01:27:17 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id C2FA3B80DE4;
-	Mon, 13 Feb 2023 01:15:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B8BDC433D2;
-	Mon, 13 Feb 2023 01:15:28 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id B0A5B60DF5;
+	Mon, 13 Feb 2023 01:27:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CC29C433D2;
+	Mon, 13 Feb 2023 01:26:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1676250940;
-	bh=6xoS4EH/AvrMxo4l4vmXuR4AQHVc+FNzj7T1N0mRmNE=;
+	s=k20201202; t=1676251624;
+	bh=pgBUeo8liI0s6ek7TqeHWnNdId7/PxzL//1niqaJld4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bKep+A7+xJ/92/b5KLIU8b6MYcaWdBzqmXK2ccWLreI9FGxL9egqBJn5q9Vph791j
-	 puzGhxH7ZpaphtMdqK+3u3KsDuIEgHvlXlfLgmHHLQNOyillSnmjqnmwiGzCbHWjb2
-	 2krsDHjlf6yqyGqww3UHLRxAwb0QSBHd/9sygOcwxOdkSqrf1/TVIPBqYAN5wMsPzT
-	 PnV7iDcLnk7lrEiGPpJTZccklii69bbqjJq5C+ceXe3xFjyi/KyqxO5SmsQLDNoU+D
-	 LBpxjUIf9Bd02MtBnZ2ZZuuQW+pyfJ5367aFv0T2s55DZVNFbZYgmjmloY7QF6OTXd
-	 vYxO5PxdceqiA==
-Date: Mon, 13 Feb 2023 03:15:17 +0200
+	b=k2F0Wjc3QZMPuc5srm1Uo6lh7DtJEgv5IlU00OIY/g3/oDmwNPK6vJ5mQLe6zmVrZ
+	 U7Qf9xDiV06Q1jflce9qkhXfkc1L6KRYpke8THr9inSs6C0A1otBnGQNf8uF3cegrG
+	 0EmGevUaEIDKsnNmf8ZIAVce1Z4AArOyR1csZlUiMjSIKmKH8MO7Hyaem7TY9a1GEj
+	 /SbSFhoFkx3AJUFAXowUvw9JrdQQfq+lGUITVEsyDg1W74fq+wDnkm3XGeS8Pklcvf
+	 5Csxvk8nJ+MA2NJIxi5jp+cpyC0bXkipJo3PVapLRiTQVfyphFUD+Ia9usI95Mzr9H
+	 V7q1GNDMLixEg==
+Date: Mon, 13 Feb 2023 03:26:39 +0200
 From: Mike Rapoport <rppt@kernel.org>
 To: Guenter Roeck <linux@roeck-us.net>
 Cc: Andrew Morton <akpm@linux-foundation.org>,
@@ -71,19 +71,19 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
 	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
 	openrisc@lists.librecores.org, sparclinux@vger.kernel.org,
-	x86@kernel.org
-Subject: Re: [PATCH v2 2/4] m68k: use asm-generic/memory_model.h for both MMU
- and !MMU
-Message-ID: <Y+mPJYpVBk1YutDL@kernel.org>
+	x86@kernel.org, Huacai Chen <chenhuacai@loongson.cn>
+Subject: Re: [PATCH v2 4/4] mm, arch: add generic implementation of
+ pfn_valid() for FLATMEM
+Message-ID: <Y+mRz6Wfocopv9jw@kernel.org>
 References: <20230129124235.209895-1-rppt@kernel.org>
- <20230129124235.209895-3-rppt@kernel.org>
- <20230212173513.GA4052259@roeck-us.net>
+ <20230129124235.209895-5-rppt@kernel.org>
+ <20230212161320.GA3784076@roeck-us.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20230212173513.GA4052259@roeck-us.net>
+In-Reply-To: <20230212161320.GA3784076@roeck-us.net>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230212_171543_853197_EEE67DE4 
-X-CRM114-Status: GOOD (  23.91  )
+X-CRM114-CacheID: sfid-20230212_172715_671026_442D6752 
+X-CRM114-Status: GOOD (  18.40  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,52 +100,38 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi,
-
-On Sun, Feb 12, 2023 at 09:35:13AM -0800, Guenter Roeck wrote:
-> Hi,
-> 
-> On Sun, Jan 29, 2023 at 02:42:33PM +0200, Mike Rapoport wrote:
+On Sun, Feb 12, 2023 at 08:13:20AM -0800, Guenter Roeck wrote:
+> On Sun, Jan 29, 2023 at 02:42:35PM +0200, Mike Rapoport wrote:
 > > From: "Mike Rapoport (IBM)" <rppt@kernel.org>
 > > 
-> > The MMU variant uses generic definitions of page_to_pfn() and
-> > pfn_to_page(), but !MMU defines them in include/asm/page_no.h for no
-> > good reason.
+> > Every architecture that supports FLATMEM memory model defines its own
+> > version of pfn_valid() that essentially compares a pfn to max_mapnr.
 > > 
-> > Include asm-generic/memory_model.h in the common include/asm/page.h and
-> > drop redundant definitions.
+> > Use mips/powerpc version implemented as static inline as a generic
+> > implementation of pfn_valid() and drop its per-architecture definitions.
 > > 
-> > Signed-off-by: Mike Rapoport (IBM) <rppt@kernel.org>
-> > Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> > Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 > 
-> This patch results in a boot failure when trying to boot the mcf5208evb qemu
-> emulation. Reverting it together with "mm, arch: add generic implementation
-> of pfn_valid() for FLATMEM" fixes the problem. There is no error log - the
-> emulation hangs silently until aborted.
+> With this patch in the tree, sh4 and sh4eb qemu emulations no longer boot.
+> Reverting this patch fixes the problem.
 
-With the patch below I was able to get to the mount of the root file system,
-but I don't have one, so I couldn't test the boot properly.
+This should be a better fix than a revert:
 
-diff --git a/arch/m68k/include/asm/page_no.h b/arch/m68k/include/asm/page_no.h
-index 43ff6b109ebb..060e4c0e7605 100644
---- a/arch/m68k/include/asm/page_no.h
-+++ b/arch/m68k/include/asm/page_no.h
-@@ -28,6 +28,8 @@ extern unsigned long memory_end;
- #define	virt_addr_valid(kaddr)	(((unsigned long)(kaddr) >= PAGE_OFFSET) && \
- 				((unsigned long)(kaddr) < memory_end))
+diff --git a/arch/sh/mm/init.c b/arch/sh/mm/init.c
+index 506784702430..bf1b54055316 100644
+--- a/arch/sh/mm/init.c
++++ b/arch/sh/mm/init.c
+@@ -301,6 +301,7 @@ void __init paging_init(void)
+ 	 */
+ 	max_low_pfn = max_pfn = memblock_end_of_DRAM() >> PAGE_SHIFT;
+ 	min_low_pfn = __MEMORY_START >> PAGE_SHIFT;
++	set_max_mapnr(max_low_pfn - min_low_pfn);
  
-+#define ARCH_PFN_OFFSET PHYS_PFN(PAGE_OFFSET_RAW)
-+
- #endif /* __ASSEMBLY__ */
+ 	nodes_clear(node_online_map);
  
- #endif /* _M68K_PAGE_NO_H */
  
 > Guenter
 > 
 > ---
-> bisect log:
-> 
 > # bad: [6ba8a227fd19d19779005fb66ad7562608e1df83] Add linux-next specific files for 20230210
 > # good: [4ec5183ec48656cec489c49f989c508b68b518e3] Linux 6.2-rc7
 > git bisect start 'HEAD' 'v6.2-rc7'
@@ -173,11 +159,9 @@ index 43ff6b109ebb..060e4c0e7605 100644
 > git bisect bad b704c765b08cabe82adf76a4d1a74f3688eee410
 > # bad: [e5734c8b0edfd2a053a5c256189586a3b1e9f63d] mm, arch: add generic implementation of pfn_valid() for FLATMEM
 > git bisect bad e5734c8b0edfd2a053a5c256189586a3b1e9f63d
-> # bad: [ad8aecea034c591b9754bc5908da9719853aa7fa] mips: drop definition of pfn_valid() for DISCONTIGMEM
-> git bisect bad ad8aecea034c591b9754bc5908da9719853aa7fa
-> # bad: [1f6271a0dfdf952c2e3981f424784d48f243a2be] m68k: use asm-generic/memory_model.h for both MMU and !MMU
-> git bisect bad 1f6271a0dfdf952c2e3981f424784d48f243a2be
-> # first bad commit: [1f6271a0dfdf952c2e3981f424784d48f243a2be] m68k: use asm-generic/memory_model.h for both MMU and !MMU
+> # good: [ad8aecea034c591b9754bc5908da9719853aa7fa] mips: drop definition of pfn_valid() for DISCONTIGMEM
+> git bisect good ad8aecea034c591b9754bc5908da9719853aa7fa
+> # first bad commit: [e5734c8b0edfd2a053a5c256189586a3b1e9f63d] mm, arch: add generic implementation of pfn_valid() for FLATMEM
 
 -- 
 Sincerely yours,
