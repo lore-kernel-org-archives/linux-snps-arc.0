@@ -4,62 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4EC4C6379F
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Feb 2023 07:56:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04BF7C05027
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Feb 2023 07:57:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=5nZ9yhyDy4lKiaUOfT6CBeDUSuc1hFgOxJ2sYRxvvUE=; b=OLLRg7nJYwzFHV
-	5gL4WsckuF2x1yn6QHBBB8wH93BznsBX7x02vyHlTt8RTZSIJ1lIqrUkEgf90PgR8YyLFDyMmOkH1
-	D32cF503pPeiraLu5bbphqX6kF0SfjhBOTFoPNKOfWMAJBWMNPtd3UUutjkINJC5++04BYvuXEKF2
-	/r8hDk+geR4Pl1VpSYVDxE+QhJTFfCw0lUa7acCk937En+mWA5GNm3VVBgJ2ltHPeNn6MGzPdEwfs
-	Tvy1Qel8ugANBMbUuHNo1KX/BslCdoCeBcWkrMCxMIPkCUcIyaC9vSCBbjCVOPcn1ga40ldR+tnS2
-	X8Te6BPvFAJQcGHc4e2Q==;
+	List-Owner; bh=YDkp1MzQP1KE7iT7oAjrXjFMVV+Q72/JF95VsahGfCQ=; b=MVpDXo5nJrYJyv
+	OM1Re7JN9/ajdZuOn/regSKSgNpi/o5rb0uJk0cC0bOYAUiQv2J7Ezr2gAOLEGvLTjhV+OA1e7vq8
+	mSCrvAHGj9KapWUjjwVjm6y+S6JqttRVhOFE0nJsyNEjLG+iF+x3PAQ3B/edJBXqHHRriyGjXKgAD
+	aF/TjDCsL+WVP8g9P7H1CYNotOoiuWfHMTvMqyKZiGPvMylVT3BW04djvG5hcRyKTGxEmS14MIQaM
+	V29z7WywzvAcToTeml5dLYP+u7+cbiq3Prcg4efPXVMvasDtUCJOeDKTG6H/Oc8yFrSGcThahO+6F
+	wz1FexzZlsnfzfpHrRpg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pRqAs-000Niw-0X; Tue, 14 Feb 2023 07:56:26 +0000
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+	id 1pRqBh-000OB6-I3; Tue, 14 Feb 2023 07:57:17 +0000
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pRqAb-000NYx-NV
-	for linux-snps-arc@lists.infradead.org; Tue, 14 Feb 2023 07:56:11 +0000
-Received: by mail-wm1-x334.google.com with SMTP id s13-20020a05600c45cd00b003ddca7a2bcbso5491915wmo.3
-        for <linux-snps-arc@lists.infradead.org>; Mon, 13 Feb 2023 23:56:09 -0800 (PST)
+	id 1pRqBd-000O7n-V6
+	for linux-snps-arc@lists.infradead.org; Tue, 14 Feb 2023 07:57:15 +0000
+Received: by mail-wr1-x435.google.com with SMTP id m14so14671388wrg.13
+        for <linux-snps-arc@lists.infradead.org>; Mon, 13 Feb 2023 23:57:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZhdZ6IBARLttHQe1cf2NcgGY75q7JNAgsxtr1kT5kgY=;
-        b=WUnQautY0C4VnR179UT3EoCgDMh692PX4JIH++p5EPvA1yrRO/fl+UiJJROeSG56Yd
-         auQNeE8xqAyEf2IHwlM8Mj9jimF0w+QT0uVnsG4fXjaKwWGWrlEj1LzF57NiupT0LR6o
-         bmTpD6Q5aa1n+5RVS1uxfUzvjrBt7j3ahNAKmewc/SJFd0wUI235VxB1hzncC1Zwofn4
-         iTxWoEUEDV/EgpiqiXMLeqy9nMGNFgyZOQKozpWaPfsGJXr8kf9J4mLtVL7bqCZOI0Sa
-         86d5rOYBfoFKhmFjCdMHzcpyZzXumz+WTxxqPTlVAK+W5T/30s7a7qUBT+LxpqB5vQJs
-         GczQ==
+        bh=fWjLqsc+NkWMLFdHmbfFb0dn9xRzmwLOXd3uaLGqwBY=;
+        b=caX8aWQ8DZKo96HIEXErccmSqQeGKRpDuSdr6010va+fd6heZz1VBNqHbYUWTHczq8
+         mezb+8HbIfzaNI36qGubajDNLCzRQzt4Hbgq7MFFxEJGNk3bEGAMc043qE5rdYn342sz
+         zVKvXF9BRRNZYR6lWJOn/JnI+PgnmHZPBcTAowttzA8jjfTIqHHQZ+ERkinvG9qHEEWV
+         rovUNsOO1j9tz1zELCVd7W981MDmvC6qTN+tjlfDMf18pIEV94eGlS2sYxoOgQ3HkWuh
+         MK0V0bkixcCwiYoT3zYKuN+arx2XpkArqn0BbZInm5/TMzCXdMsPWy4n//p8ONoMyppz
+         QTdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZhdZ6IBARLttHQe1cf2NcgGY75q7JNAgsxtr1kT5kgY=;
-        b=Tf39Yu8JAMBeyCxkf6HfS+ZeJxv1GXjjgJSlwK2NVkHovqzrb9HVT1hMUS7ozOeBEk
-         M20ZUEgBj71Is4KX1hpriUfH6bmmXYoQwMhHjgO8SIzveQBn4iRNb9XLAR2eX7L9GVcn
-         OGE/xyvQQsQ+krAn1srlirpzWOFDuLOKbJZatIduQ7x7MnyYi43XWU+rW9wu5yGig8SC
-         ERzW2He9UB6svbdpjFUlyfrWgogq/SxJVVLdhsP8K+YD7uwVNeCNyMDfh9N0IQBito8T
-         vfzfkAUOpUMhwhsi2lVBf1ACuYLY2B/vGafURk7o2eEPmx6XBSOMvBztKeD0vPMfay4/
-         yr+Q==
-X-Gm-Message-State: AO0yUKWPBfy+4LX5IpfhVizdAFpYosmVzfQJUBmR+dAjHU+28mWGGG+x
-	E/cUlghT1GxnGJkVdslSvVVSKA==
-X-Google-Smtp-Source: AK7set+5svVjdMsSqau0ZmaI2FYzntenTemQL7K+vXqbwh34mh13dF3yJpt5o+d+QGqy0l0pY1qf1g==
-X-Received: by 2002:a05:600c:a29e:b0:3da:1e35:dfec with SMTP id hu30-20020a05600ca29e00b003da1e35dfecmr1257049wmb.4.1676361368417;
-        Mon, 13 Feb 2023 23:56:08 -0800 (PST)
+        bh=fWjLqsc+NkWMLFdHmbfFb0dn9xRzmwLOXd3uaLGqwBY=;
+        b=nKId77mVQ4qEvR3rHyljyolP3DqPAo+NjybczJvfFv4y81Cb+3OCvYW7MgPIHAgq+V
+         4+3SosAZXzM4QMCbgH8Kroq3bap9EBsgEezFSGP1NvHe2MBXUdhdm8XOOCZ4pzvJSC+c
+         8hX39SoV+oJ4QZ7VUGCsUJi/MkYKfg0t5Y26dPK+z6UbcHTUrSTlWbSJOMpMUdjj4Su8
+         qyHmxpUWQAwlYndqmfInLp4sJJ9s4DTMQkjOBP8GlMY/NCFaofVSEYBDQk3fS1BuSj+W
+         pLrouEgaipbwCWwn3rP66FWi0frAS577qZJF1t6DhKntUWBORxhC1EbneSutLLrhmCcj
+         PdHw==
+X-Gm-Message-State: AO0yUKXuBs3iyqfjgqg+53JcOpVWh5FMMnWOCeiLz8P8Yhk63+eSu27U
+	JYCqg+QVoeYhH1Sn4DSEc18wfQ==
+X-Google-Smtp-Source: AK7set+iS2kYtSEJxwa0DIBeh1AY3bbZg7Y7IAN8bCjXkQu8bp7LWnEg4bsVRpj28otCWhsJxiywzQ==
+X-Received: by 2002:a5d:58d9:0:b0:2bf:c0e4:1bc5 with SMTP id o25-20020a5d58d9000000b002bfc0e41bc5mr943365wrf.56.1676361430168;
+        Mon, 13 Feb 2023 23:57:10 -0800 (PST)
 Received: from alex-rivos.ba.rivosinc.com (lfbn-lyo-1-450-160.w2-7.abo.wanadoo.fr. [2.7.42.160])
-        by smtp.gmail.com with ESMTPSA id q14-20020a05600c46ce00b003db12112fcfsm17947356wmo.4.2023.02.13.23.56.07
+        by smtp.gmail.com with ESMTPSA id s12-20020adfdb0c000000b002c3ec1fbc0bsm12232660wri.94.2023.02.13.23.57.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Feb 2023 23:56:08 -0800 (PST)
+        Mon, 13 Feb 2023 23:57:09 -0800 (PST)
 From: Alexandre Ghiti <alexghiti@rivosinc.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Richard Henderson <richard.henderson@linaro.org>,
@@ -117,16 +117,16 @@ To: Jonathan Corbet <corbet@lwn.net>,
 	linux-xtensa@linux-xtensa.org,
 	linux-arch@vger.kernel.org
 Cc: Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [PATCH v3 06/24] microblaze: Remove COMMAND_LINE_SIZE from uapi
-Date: Tue, 14 Feb 2023 08:49:07 +0100
-Message-Id: <20230214074925.228106-7-alexghiti@rivosinc.com>
+Subject: [PATCH v3 07/24] mips: Remove COMMAND_LINE_SIZE from uapi
+Date: Tue, 14 Feb 2023 08:49:08 +0100
+Message-Id: <20230214074925.228106-8-alexghiti@rivosinc.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230214074925.228106-1-alexghiti@rivosinc.com>
 References: <20230214074925.228106-1-alexghiti@rivosinc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230213_235609_840043_4ABC9E30 
-X-CRM114-Status: GOOD (  11.66  )
+X-CRM114-CacheID: sfid-20230213_235714_102778_6080DCED 
+X-CRM114-Status: GOOD (  12.20  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,36 +150,36 @@ be part of the user-visible API.
 
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- arch/microblaze/include/asm/setup.h      | 2 +-
- arch/microblaze/include/uapi/asm/setup.h | 2 --
- 2 files changed, 1 insertion(+), 3 deletions(-)
+ arch/mips/include/asm/setup.h      | 3 ++-
+ arch/mips/include/uapi/asm/setup.h | 3 ---
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/arch/microblaze/include/asm/setup.h b/arch/microblaze/include/asm/setup.h
-index a06cc1f97aa9..2becbf3b8baf 100644
---- a/arch/microblaze/include/asm/setup.h
-+++ b/arch/microblaze/include/asm/setup.h
-@@ -7,7 +7,7 @@
- #ifndef _ASM_MICROBLAZE_SETUP_H
- #define _ASM_MICROBLAZE_SETUP_H
+diff --git a/arch/mips/include/asm/setup.h b/arch/mips/include/asm/setup.h
+index 8c56b862fd9c..a13b9259b476 100644
+--- a/arch/mips/include/asm/setup.h
++++ b/arch/mips/include/asm/setup.h
+@@ -3,7 +3,8 @@
+ #define _MIPS_SETUP_H
  
+ #include <linux/types.h>
 -#include <uapi/asm/setup.h>
-+#define COMMAND_LINE_SIZE	256
++
++#define COMMAND_LINE_SIZE	4096
  
- # ifndef __ASSEMBLY__
- extern char cmd_line[COMMAND_LINE_SIZE];
-diff --git a/arch/microblaze/include/uapi/asm/setup.h b/arch/microblaze/include/uapi/asm/setup.h
-index 6831794e6f2c..51aed65880e7 100644
---- a/arch/microblaze/include/uapi/asm/setup.h
-+++ b/arch/microblaze/include/uapi/asm/setup.h
-@@ -12,8 +12,6 @@
- #ifndef _UAPI_ASM_MICROBLAZE_SETUP_H
- #define _UAPI_ASM_MICROBLAZE_SETUP_H
+ extern void prom_putchar(char);
+ extern void setup_early_printk(void);
+diff --git a/arch/mips/include/uapi/asm/setup.h b/arch/mips/include/uapi/asm/setup.h
+index 7d48c433b0c2..157c3c392fb4 100644
+--- a/arch/mips/include/uapi/asm/setup.h
++++ b/arch/mips/include/uapi/asm/setup.h
+@@ -2,7 +2,4 @@
+ #ifndef _UAPI_MIPS_SETUP_H
+ #define _UAPI_MIPS_SETUP_H
  
--#define COMMAND_LINE_SIZE	256
+-#define COMMAND_LINE_SIZE	4096
 -
- # ifndef __ASSEMBLY__
- 
- # endif /* __ASSEMBLY__ */
+-
+ #endif /* _UAPI_MIPS_SETUP_H */
 -- 
 2.37.2
 
