@@ -4,64 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 832E9C05027
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Feb 2023 12:57:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6CEAC61DA4
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Feb 2023 13:10:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=nteEpxMt/miwRGGK4XTDdpve3axhu7UsGlOaPCCeTeA=; b=fyCLo+BDjrQMif
-	673LUgfapqPqblg9K/67tOQpztI35henPxrG1MeNf4kYc4XrOfgqgcSRsGMeVBeP4p9ww9urKpmvg
-	mQG2sVWhKTQFnwTUoJOmZsHIMam831pjI9b9Mua+BGZrf+2pqRNrvHiyrs0q96G44pwGCvJFArwyn
-	4pGkagtdOdOIpuN2BXnIO9hX/EDFLrqRlknZ8/aNmFH99eawK6qmxk5Ys/Y94X37+hP+QE7KQaW2a
-	kE6+CE/s0WAU6VCsRVkh0VVcVggTCFuM7g2Je4kB0NWaSz39MkrnvZaA8nBrdOHiA0HNaZBPueVkk
-	/YwWmIk2xsG/ATYevpZw==;
+	List-Owner; bh=s003p0JzNVuads6CW18NFFSFeS1avHNjkCzSTDOdXM4=; b=QojEMzE/IXqLZE
+	seLH/wN81PrCB7XSmAENPALFbLCibkepEJpLBzq6qQKGwQSTiBqcXKRkGNXZO0+nRo3hAEsQeBoGM
+	+fOcH/Uz5QTMGYoB547lr3X8ySGWcRLENOONRY2K7fflAYEG4JEMnM9L+c1qOMQx2Dy4GhN0mpnw1
+	Hgz+FcmcEv8efopLFYLA7eNyCMYJqdB3JUBGO8siyBHQcyRzJ3wIr5siA1fHA1ldwsEpCr47QDgCz
+	605cHJI9VNdoat+0fIens3Ju0e7MG/1v/BeUSklbf9q0oguYAEB6vjgCym9Ju8h3Il0v3uc4mKmH3
+	umAeOQj6K/X3NESxITBA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pRus9-001e9j-LZ; Tue, 14 Feb 2023 12:57:25 +0000
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+	id 1pRv4x-001gTC-Q4; Tue, 14 Feb 2023 13:10:39 +0000
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pRuru-001e80-Qs; Tue, 14 Feb 2023 12:57:12 +0000
-Received: by mail-pj1-x1036.google.com with SMTP id d13-20020a17090ad3cd00b0023127b2d602so15370424pjw.2;
-        Tue, 14 Feb 2023 04:57:08 -0800 (PST)
+	id 1pRv4u-001gS3-QF; Tue, 14 Feb 2023 13:10:38 +0000
+Received: by mail-pj1-x1030.google.com with SMTP id z14-20020a17090abd8e00b00233bb9d6bdcso10205602pjr.4;
+        Tue, 14 Feb 2023 05:10:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LvbvVZeDxlmyQ+MKMrDf7Zww7VWZ6K77IBbIyuFkUUM=;
-        b=WJdnIzCNdsEVhQsGHsWOO7yTWXr+pWI+PtbYUorKW2BchHqmwSwOGYAdoPufsKo0lJ
-         bXDPWjxdhH0QnGSePHf16V7IoRXQeuhXlPcWmkxu8rZSjSr3Sh7jD3eqfhHEY8D454AL
-         h9BqNX+KCkb4XJj5QiYoEyv/SXP+BeQ/BY4l0AmplspY3uh+sSGXDRYM23x/cN3z17v4
-         7mVXCjohMU5LW8N+7VSWMBw+LVgUYmGtE+fRcUV+X7h/ZuXCVclocMVqOgQVU0PU1ZT/
-         Iaxkx1YKf72wvTPUawYrrDuiNA9tC+Rro4eK9+FeLt6f2iRUNM5NC3UOCLKbbbVT0kzB
-         CWuQ==
+        bh=/UCnR+z6gmAvcqmKIJeLEMH14WiUbQ57wKTFDt5pcJ8=;
+        b=AroULSWko9Zr7eGEPpWTPA6D2mG8vKfAIsqG1/UHiZHP3HX3PbVp0qrMJ+FuAJsbWS
+         v05+kTojvExJxZ8W+9yB21D5w8vexFjRyphDjBsOddEZTMVdttkVBNXjxWFQ3Iqwojqw
+         +DKSZuOkQRuVKSaqQXL+bh2B50zxlDW7/k12RIgkMnOVm0uYI6LnfzeI25mloiCklp33
+         VHHtIf4Dpr/qSsDgSQMEDKRS4lg6TE80G2m56Li8ak7Mi6jrTmPyCPMKDQkClT1hFcFO
+         HozC1z+zsQ4VmKCtjiLNbcQm7z7g/V4D6C2WAOwQT8Y+WTTuWkSjrC9wQJ19rS06uj77
+         A7tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LvbvVZeDxlmyQ+MKMrDf7Zww7VWZ6K77IBbIyuFkUUM=;
-        b=8PuUGROfM7c/e6CWfaS5FRSduM9lpC5mbOcRDHZt6m5TV2oyX50BZEfF1YO9QAMlzV
-         zF+ef8CdgmTofauEg+lku0I5FsAYM+Rst5RzXEQBIaiQAxFL/V9dOfNj1Hr08uHlO4ju
-         VYdO2tSZavrWUnKUwpMYoxxLnjPFluVmM4ZiZvGGe7WtnTR7NuCeYcwUf47nBqIV6MXu
-         icSFNzxYlaaJ2Gfofdkj6c5ufI6vVwhykipC4cDq5+Z+M6yFfuZ51hHNM7m1MbwXjvJq
-         68HCKHStJcuRAVjon9jwAHIL1Ch7dvL7FRYyPnyaV38p/f1HgsUsJVjNHgAunC9DDIpb
-         uWAg==
-X-Gm-Message-State: AO0yUKWQ43xLduoWSqhX04unCwaeweODyBAYMWoVN0BRG58LPHtlNUEf
-	XyPcG3Lgu3fkyVRSCDe/B1snO4yJdu33JF++gMs=
-X-Google-Smtp-Source: AK7set8VxH7lwiKYZQHjj1alCNiwWZsomKyHPncWio7rYDiPFQWyD3jSnBu7216hvtJHxDxHzVWwlnilO9YoLshnmQM=
+        bh=/UCnR+z6gmAvcqmKIJeLEMH14WiUbQ57wKTFDt5pcJ8=;
+        b=UwAKQIjV8rYbS+NGmP7x8w4KasNH6BCX1ej9c5kR4xcOhwjfp2/HDmIBCs+VjVz5TI
+         B9rnDj4oScQY8nHSB0be9BTo0k3+8ivvBwVzQwZKJoivFHdpCfPbyo3b0OrBW0za2vhc
+         vkuhSOcojTdS0kOf0V0164mqi0LK5aUkND7Ik8Lsy4LdL5h18/qsMtLcXUlSyjUNvlWY
+         /NWNMdpv3zBc2fAAlls82cjxFouZ9qy/0cU1VQdnf9luACO39eTSMOr838//VGj9VlV7
+         Uk789vAxHOkrocnaa1Y+a7t+F9qNTy0h+C06K6aH0cIoGJms0s2AjMaMrzQqgjys57kr
+         NpSw==
+X-Gm-Message-State: AO0yUKWtlE4V28xXK34DBRi9ZleBT7ejEngLGV06MJlqMUuaKDqgsLge
+	bIeTngmJM+YUcE8/Bt4ESl9B+jovZOAGPFCTCFA=
+X-Google-Smtp-Source: AK7set8wnbcla18BA65mD0tF+YGFQZaLOi1vF6MNFPYgJ+xCNbkwNuOA5gg0rl8sjl7Hw+xmx/asisuFdRpgxW5I32w=
 X-Received: by 2002:a17:90a:d486:b0:233:c720:e6d5 with SMTP id
- s6-20020a17090ad48600b00233c720e6d5mr2292500pju.94.1676379427739; Tue, 14 Feb
- 2023 04:57:07 -0800 (PST)
+ s6-20020a17090ad48600b00233c720e6d5mr2301551pju.94.1676380235318; Tue, 14 Feb
+ 2023 05:10:35 -0800 (PST)
 MIME-Version: 1.0
-References: <20230214074925.228106-1-alexghiti@rivosinc.com> <20230214074925.228106-12-alexghiti@rivosinc.com>
-In-Reply-To: <20230214074925.228106-12-alexghiti@rivosinc.com>
+References: <20230214074925.228106-1-alexghiti@rivosinc.com> <20230214074925.228106-22-alexghiti@rivosinc.com>
+In-Reply-To: <20230214074925.228106-22-alexghiti@rivosinc.com>
 From: Max Filippov <jcmvbkbc@gmail.com>
-Date: Tue, 14 Feb 2023 04:56:56 -0800
-Message-ID: <CAMo8BfJ_RF2C7EkZJusFuVPh0-7zpgNaj1pDf079CSKzRBrQjg@mail.gmail.com>
-Subject: Re: [PATCH v3 11/24] xtensa: Remove COMMAND_LINE_SIZE from uapi
+Date: Tue, 14 Feb 2023 05:10:24 -0800
+Message-ID: <CAMo8BfLCDbYWBWfF7ZJtG_U7E846RmJLF5OFdWpaFOv8ydo0Eg@mail.gmail.com>
+Subject: Re: [PATCH v3 21/24] xtensa: Remove empty <uapi/asm/setup.h>
 To: Alexandre Ghiti <alexghiti@rivosinc.com>
 Cc: Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
 	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
@@ -91,8 +91,9 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linar
 	sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org, 
 	linux-arch@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230214_045710_879963_51B05021 
-X-CRM114-Status: GOOD (  12.87  )
+X-CRM114-CacheID: sfid-20230214_051036_892168_853AC4DA 
+X-CRM114-Status: UNSURE (   9.39  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,19 +110,15 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Feb 14, 2023 at 12:01 AM Alexandre Ghiti <alexghiti@rivosinc.com> wrote:
+On Tue, Feb 14, 2023 at 12:11 AM Alexandre Ghiti <alexghiti@rivosinc.com> wrote:
 >
 > From: Palmer Dabbelt <palmer@rivosinc.com>
 >
-> As far as I can tell this is not used by userspace and thus should not
-> be part of the user-visible API.
->
 > Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 > ---
->  arch/xtensa/include/asm/setup.h      | 17 +++++++++++++++++
->  arch/xtensa/include/uapi/asm/setup.h |  2 --
->  2 files changed, 17 insertions(+), 2 deletions(-)
->  create mode 100644 arch/xtensa/include/asm/setup.h
+>  arch/xtensa/include/uapi/asm/setup.h | 15 ---------------
+>  1 file changed, 15 deletions(-)
+>  delete mode 100644 arch/xtensa/include/uapi/asm/setup.h
 
 Acked-by: Max Filippov <jcmvbkbc@gmail.com>
 
