@@ -4,62 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 63CDFC61DA4
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Feb 2023 07:53:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 151F7C64ED9
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Feb 2023 07:54:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=20negyUzbwzAOPu+S/QB/6S/c1KcuwsG/tp6R/8b3Jc=; b=RS2TT2zwOcjZUt
-	BShNDW0PmuJG5xCbur29fxLrTq+RVjdWTkuLwgLEZiecH7p/600zAVOWZZEOBm6u64lO4Be5mewI0
-	Q1w5J+soI8lvSzk+Olt7G58E1dg9G5GNDKf99c54OgR7IWECN2zOnGshc659kLnKZxmLYkMm3DIzI
-	vIa0zZbR9UizoxGUzE4Mrrfw3JnOsbPxsiw1J+B1OdnoKJ2pPDuhQ2EBtsGeKg3GshU6QNxm1ti3x
-	VHuiMxt2grmZKw2McjcWziygayJjDAc3UfMD1qM8ljyRqfw5mJVIU7zBMu/xQz1TGBlKvETVWOL5a
-	zG8IwcBO/xDGmRWmMj0A==;
+	List-Owner; bh=GRbTc+JGrHz2fb3f2D7VxfWG+7OHqYF7+FhFg/CHGaw=; b=murtd+zX6qowUb
+	N2ijrk5BIJYm6womhiGLsHpBkL3/gWJYl2ET/y/dbv9+TxkyHdUyjR4UvyY0e2HA/zRr4t8sSLg0t
+	ShQIPYfyp3MtD/MqmFa2g7xZb1Z+C6NMki/BxmUNvgh4gOgEmVGWctLVK2XyhUdo7Br1qtDn70tDX
+	c2j3OJVd9P516q7qAeQqFxkHcfMibVL27kHw0bnIzPvjvLs2OeMURz6kuzxGJuzoqvl7H4CA5ojN+
+	83ZG3ACL2uw8t6R5ZY8cZ43PYmepu5MbZoeit5a9I4jlNoEeJ2IMufFHaCRVLNXj61ZwlbIccbhOK
+	WN7C5BlHYbH3dj2aT/1A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pRq7p-000MHw-1u; Tue, 14 Feb 2023 07:53:17 +0000
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+	id 1pRq8h-000MgS-GO; Tue, 14 Feb 2023 07:54:11 +0000
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pRq7c-000MCe-KV
-	for linux-snps-arc@lists.infradead.org; Tue, 14 Feb 2023 07:53:07 +0000
-Received: by mail-wm1-x330.google.com with SMTP id m20-20020a05600c3b1400b003e1e754657aso4576880wms.2
-        for <linux-snps-arc@lists.infradead.org>; Mon, 13 Feb 2023 23:53:04 -0800 (PST)
+	id 1pRq8c-000MdY-Gi
+	for linux-snps-arc@lists.infradead.org; Tue, 14 Feb 2023 07:54:08 +0000
+Received: by mail-wm1-x335.google.com with SMTP id k8-20020a05600c1c8800b003dc57ea0dfeso13047515wms.0
+        for <linux-snps-arc@lists.infradead.org>; Mon, 13 Feb 2023 23:54:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6DeOLRVEJw2sfJI9qGhq/0LGJxW9LKFzi0kTd/R8USc=;
-        b=6En8tdEtEE2yL3ckaGlXW3X8IQF8Oidpm5CEN86wGeiTSRAoieRepn+r4rC5ddJwkT
-         R7z+fNhI1jTwzCKC1qEthBZ7fy0C8HXkbpCrS0h8EKEvU+R1uQHwrcO5/Ir3XPZl0Cxi
-         qvQrVaQw2cM+ZrnU7ySm4xsvlyMxy2SCR4WjRYH73U8D5COPFpkQbsk/KyNbZp+52EPE
-         pxSn+Zf6U5s/1WbezYC7kxAfU3IlzhAkmUB3ryL/U0YPH8JDn8kDVh/7RVpooyefQALn
-         5nTTBqhr5EASjx8oFrM02zf9aUd7huvqzvu7C822aHmXHbhXiBANbSxBOxQ2g99ZQuhx
-         NDcg==
+        bh=CISuzHFPlWEL0+BckqkuDR3KPCbCkgyxsx0yLTYCfgQ=;
+        b=TbwsWG1Sn+sWyFPn93RQ/E8FmcL5js4qcQYMxtbZXz+Vuq/lOwgnwszhywHHgoFdy2
+         7+VWbilZfSUk+bbREGoM2Esjrn4SEdqWACckKJIxPYE/hCT0HqSJI4v1hwL5gwiFv+P8
+         9Wh4x2D8Q9jU/jJEdL6p7FteTGz8eAd5CjtUvl05zpXbipeHr9ppDsTmp+Iqjh63V5oJ
+         DqPmjcjAdehZFmnqAZxvgwTTbUt47kEA6Eua6Dljyl1PxvepgZOg3k3QaUD9vs/nV/G8
+         D29m2UsrBWY7AG3VIwTVeQB1nAYkz8se+m7qFSN2ubp3C+Qxjjv67nhupuqOhscVsQxC
+         7oKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6DeOLRVEJw2sfJI9qGhq/0LGJxW9LKFzi0kTd/R8USc=;
-        b=Hu9iLDK2hJ3HIyLpR13GKD7sgfJh/r21oKx0AaBqD9S+MumcLG8cEFQpN5H57QjMHz
-         sPllBWGjDlOUnFjkUNq5BLnYarf5BAoqC/+fA921/evhH6PjaEvxvaVMZ7cuFNGZl5xn
-         SWD5VLBoZlCNCNijUUwg5VYcdAc/pMW1Qdt1ERYqUVdgv4SpCSuEIASQ5d93yP+k9wBC
-         cK5FEsKOMIWmpz4AGxSWW/LBAcjGLVnwejBchKGdoilWQpIhehub2wJ6F39L+hDlv+2R
-         tBHDW1CT2QMshVmX4NCSir95RFhYAO8JEXfhDlwxFyjC1k8CGg/Sm/9m5YQKzkrb+Ru7
-         PtXw==
-X-Gm-Message-State: AO0yUKVwTynTFVZ/JoUvrCf2YWrax1YkYIejhuiJgPPfbeuItOmZ+s0W
-	ePw4jXaQ/UyZ6uSavLj6BHVp0w==
-X-Google-Smtp-Source: AK7set98ypC2QKiebUDI9vIcpmaeqJoN5nCZYHjsCTsTkPxxmAu0Y14ja5TgZ/XhdzRBgxqEZEckPA==
-X-Received: by 2002:a05:600c:4383:b0:3dc:d5b:5f73 with SMTP id e3-20020a05600c438300b003dc0d5b5f73mr1279751wmn.19.1676361183239;
-        Mon, 13 Feb 2023 23:53:03 -0800 (PST)
+        bh=CISuzHFPlWEL0+BckqkuDR3KPCbCkgyxsx0yLTYCfgQ=;
+        b=kS2WiSOf702m+XCBfL7t97Lm95oWoK5bcv3auHqhgGGvxW5EIlF81N7IgWfmzGgbyc
+         lKbsTuaWR48y10dQb/K46CMdfkVlO2Mtbm/pm62cNyjP8htAVUNtmLaChK/QYPP9623/
+         mWf9x8npCNxqoX5qpR+CdETrxetFK8F3BbAsers3Wudnclj+SH3uth9wZYazmhK4unfa
+         C9arsNiu+IuG+ATOtRUoDcARoTJGnKl9RyklDt4o1FND/D3jvzBQDhF17/fUnG5aLAb9
+         aVTizcPmx5oo+cW27QoWteEv8xecxQEU61EWM0F+f5NC9pXzANIRVPVxjhf3rreVCBnQ
+         V3YA==
+X-Gm-Message-State: AO0yUKW4wvu+5vP9KWbXexKlUNFDVechyxAIvraCVnZeLQdZ6SCIGcQL
+	KODaLhMBcs6HvFQhbxe9ENcidA==
+X-Google-Smtp-Source: AK7set9BzCtqV+RYkgGgKe564EJVd05WyCH1yfNfnKO1SUr9SI4GuO9h1eq0NzoXBm8eLk/pvUJNSQ==
+X-Received: by 2002:a7b:c855:0:b0:3db:742:cfe9 with SMTP id c21-20020a7bc855000000b003db0742cfe9mr1711836wml.34.1676361244922;
+        Mon, 13 Feb 2023 23:54:04 -0800 (PST)
 Received: from alex-rivos.ba.rivosinc.com (lfbn-lyo-1-450-160.w2-7.abo.wanadoo.fr. [2.7.42.160])
-        by smtp.gmail.com with ESMTPSA id y6-20020a05600c364600b003df7b40f99fsm18631615wmq.11.2023.02.13.23.53.01
+        by smtp.gmail.com with ESMTPSA id f24-20020a05600c491800b003dc0cb5e3f1sm15292695wmp.46.2023.02.13.23.54.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Feb 2023 23:53:02 -0800 (PST)
+        Mon, 13 Feb 2023 23:54:04 -0800 (PST)
 From: Alexandre Ghiti <alexghiti@rivosinc.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Richard Henderson <richard.henderson@linaro.org>,
@@ -117,16 +117,16 @@ To: Jonathan Corbet <corbet@lwn.net>,
 	linux-xtensa@linux-xtensa.org,
 	linux-arch@vger.kernel.org
 Cc: Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [PATCH v3 03/24] arm: Remove COMMAND_LINE_SIZE from uapi
-Date: Tue, 14 Feb 2023 08:49:04 +0100
-Message-Id: <20230214074925.228106-4-alexghiti@rivosinc.com>
+Subject: [PATCH v3 04/24] ia64: Remove COMMAND_LINE_SIZE from uapi
+Date: Tue, 14 Feb 2023 08:49:05 +0100
+Message-Id: <20230214074925.228106-5-alexghiti@rivosinc.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230214074925.228106-1-alexghiti@rivosinc.com>
 References: <20230214074925.228106-1-alexghiti@rivosinc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230213_235304_733112_6DDE96AC 
-X-CRM114-Status: GOOD (  12.08  )
+X-CRM114-CacheID: sfid-20230213_235406_608154_BA03D83C 
+X-CRM114-Status: GOOD (  14.59  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,35 +150,42 @@ be part of the user-visible API.
 
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- arch/arm/include/asm/setup.h      | 1 +
- arch/arm/include/uapi/asm/setup.h | 2 --
- 2 files changed, 1 insertion(+), 2 deletions(-)
+ arch/ia64/include/asm/setup.h      | 10 ++++++++++
+ arch/ia64/include/uapi/asm/setup.h |  6 ++----
+ 2 files changed, 12 insertions(+), 4 deletions(-)
+ create mode 100644 arch/ia64/include/asm/setup.h
 
-diff --git a/arch/arm/include/asm/setup.h b/arch/arm/include/asm/setup.h
-index ba0872a8dcda..8a1e4f804d1b 100644
---- a/arch/arm/include/asm/setup.h
-+++ b/arch/arm/include/asm/setup.h
-@@ -13,6 +13,7 @@
- 
- #include <uapi/asm/setup.h>
- 
-+#define COMMAND_LINE_SIZE 1024
- 
- #define __tag __used __section(".taglist.init")
- #define __tagtable(tag, fn) \
-diff --git a/arch/arm/include/uapi/asm/setup.h b/arch/arm/include/uapi/asm/setup.h
-index 25ceda63b284..87a4f4af28e1 100644
---- a/arch/arm/include/uapi/asm/setup.h
-+++ b/arch/arm/include/uapi/asm/setup.h
-@@ -17,8 +17,6 @@
- 
- #include <linux/types.h>
- 
--#define COMMAND_LINE_SIZE 1024
+diff --git a/arch/ia64/include/asm/setup.h b/arch/ia64/include/asm/setup.h
+new file mode 100644
+index 000000000000..0b19338ea3ec
+--- /dev/null
++++ b/arch/ia64/include/asm/setup.h
+@@ -0,0 +1,10 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++
++#ifndef __IA64_SETUP_H
++#define __IA64_SETUP_H
++
++#include <uapi/asm/setup.h>
++
++#define COMMAND_LINE_SIZE	2048
++
++#endif
+diff --git a/arch/ia64/include/uapi/asm/setup.h b/arch/ia64/include/uapi/asm/setup.h
+index 8d13ce8fb03a..bcbb2b242ded 100644
+--- a/arch/ia64/include/uapi/asm/setup.h
++++ b/arch/ia64/include/uapi/asm/setup.h
+@@ -1,8 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+-#ifndef __IA64_SETUP_H
+-#define __IA64_SETUP_H
 -
- /* The list ends with an ATAG_NONE node. */
- #define ATAG_NONE	0x00000000
+-#define COMMAND_LINE_SIZE	2048
++#ifndef __UAPI_IA64_SETUP_H
++#define __UAPI_IA64_SETUP_H
  
+ extern struct ia64_boot_param {
+ 	__u64 command_line;		/* physical address of command line arguments */
 -- 
 2.37.2
 
