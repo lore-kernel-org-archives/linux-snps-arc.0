@@ -4,98 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09746C05027
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Feb 2023 15:03:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 02880C636D4
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 15 Feb 2023 05:22:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References
-	:In-Reply-To:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=KrwSi5ZUMypQVqPS7I6i9iPmihuSnwfurhuzR7nf5y8=; b=l1DXr1Rn8YsDc3
-	zr/SaC+AfVd9CcIe+/Apw77Fls+MYKWeQnNUWrxfCYACXTa3fBBVHRveFx2wKXtJ2xQGI2vBCDDiD
-	p6gnLP4qPN7YGrwSw7lQ+DQER/DTW0oFWa8EUnUZBuNnJydo8GoijhZr0kcSbqCkwMkuaYRWY1faL
-	Oiv9tNYRhfOR1oHEcMnujz8t6Dpxce/u3re3v+3HUhaM0bw+8/PUPnq7u3L3YG8MscrcmjQsOf9pB
-	5Wh5Txbbz5ZuqR+g7pgzcQalNIypP+iAdKDBDcium88NIBBmVt4Hx2IH3mH+Z2bVQdQ/HOjeWKavb
-	YtHS6OYPBlOYCWP+gX4g==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:Mime-Version:Message-ID:To:From:CC:In-Reply-To:
+	Subject:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:List-Owner;
+	bh=jn2GOdBuD4BkTSCWisgVPTRMJCGt3/RKJ7C+3SiajR4=; b=jOWKYEUwn8LDsOomg9uPyMq1jX
+	nSU6im0aOQ5/YkqnbiOGyOJej+vDiI9J2LwD0nl9FmYdfFmWVY7hTgaz0H0acTJwNbHRc/7HCY3n9
+	3kC28Zlng3mM7q8oWGMvS8S+w4eOYKBJABhwU/afyTJ6OfatQ7GDj1iATr7yoBwKo6UkcviaeXEKP
+	bVHAY8+5Be8xWzyOGp2lcgJMUPMmXt3Nx8xNiRGS3ovtibxCiTEJjxUR4u01VNqpVxPsAYjeqEpAR
+	slTdNJYaATwSXd3QqwYJu2Qu30H9cVg1F4WVyQi904UkKkFp/XdVxYdiv5vOmUGT4RJvuelBCo8Lf
+	Na5CrEhg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pRwpx-002NP8-IF; Tue, 14 Feb 2023 15:03:17 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1pSAFe-004mAp-MK; Wed, 15 Feb 2023 05:22:42 +0000
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pRw7m-0024s9-BZ
-	for linux-snps-arc@lists.infradead.org; Tue, 14 Feb 2023 14:17:39 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1676384256;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7edBYp6qpX/SlmDw/QknJtcx6m2SrqGm1x4V+hfCBb4=;
-	b=if/8bxJ1YFDlQdo61jr8v53vQ8zz1PRXM6iM024oMboqn8LvFcrM9wob6j6t18Hd1OgLIN
-	Xxu7iAFCkYsEczlTovqWCPigwkyF3p649lSghSQHlTtDbdi+RrhvLyBvZkWUee+vXWgeXB
-	/7caWgd8QiQz6LU7OKnCPrIVxKQVH3o=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-515-VNIOtyHOPGKdKZ7zO7cP7A-1; Tue, 14 Feb 2023 09:10:50 -0500
-X-MC-Unique: VNIOtyHOPGKdKZ7zO7cP7A-1
-Received: by mail-qv1-f69.google.com with SMTP id f6-20020a0cc306000000b0056e96f4fd64so6204948qvi.15
-        for <linux-snps-arc@lists.infradead.org>; Tue, 14 Feb 2023 06:10:50 -0800 (PST)
+	id 1pSAFT-004m6f-ED
+	for linux-snps-arc@lists.infradead.org; Wed, 15 Feb 2023 05:22:33 +0000
+Received: by mail-pf1-x429.google.com with SMTP id 16so11812051pfo.8
+        for <linux-snps-arc@lists.infradead.org>; Tue, 14 Feb 2023 21:22:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tV+nl5/6nbPk/6HA5pQX/rHuTHF5S4E9f4KJMF/h5x0=;
+        b=fhWxOvSg47bnqh1vlUb0tg8U7zRfENd11uhGOf5Jsz/ZocWHFEI68pLXo5d9vBVXvT
+         wSDFNO3/CV6QVriW/uJf7uSjBsTIo2nfhwr90ljf0Mtrv3l+ZNz03APZ/NoeYJxIi8AS
+         eT1BnG6scYkTL0mRsKAhicVLLfSox5xFSJlK+m4CcZ2f/19AZeBmn0TeLDNpHHUJ+j//
+         pNGe52xRL7NHFqYuRqi8NBAMhHiUAqm3krXcV9gB6lQ+ZUL8htkaq+hcUOto2vJWmQ/P
+         1t61ly6hek8z31+cUX+0shb1PAvYlU/KvbO9KdB05jwbmNe1/Zq0XZpFJiImeu8sqMJC
+         uFRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7edBYp6qpX/SlmDw/QknJtcx6m2SrqGm1x4V+hfCBb4=;
-        b=hoOtP8Hk9TT2INE2cqx4j1ba14fDUNaNNtgRNblkN6iuGjT1GBpv25lQFSpSmDA+Jv
-         S/jWqujyJxQdsKUvbsEaUBBnAgr8Y6AVQAfr0YoTNuaK4lF08uk3EtZX5k7leXLc/p8C
-         p2y77byc4OPiscmO6lplTGDz4yHESV04FNMxapNOpRCpUwwU5jO5HHq0FfXph8TxYXYi
-         QA9YzzEr1fzxwbWf8ri5axSz7rAiWluYCGV7ig3Za7ixkXJh8GgDmWKd5Muny5humnk2
-         WNa/YRtVidt1nqyL7ISZ1n6vB/be+1Tysh/lZpq6M9S0AnYAilvz+lpZtdSHDdD3u9QR
-         67FQ==
-X-Gm-Message-State: AO0yUKW6D2YaiXDRI5InrM6z/S8e21mWOzL2JAQaxQypxwgIXZcH2xmu
-	FNc++xnPQ6VST1LervXT8B0jyr1wprLuRvdSGedKv7CNDzGQ7aNN71OFItqNel6W49jQX64fqyT
-	YaRdy85+DCTX6vz10FP4ODS0mbVj8LEQ0
-X-Received: by 2002:a05:622a:50:b0:3b8:691f:271 with SMTP id y16-20020a05622a005000b003b8691f0271mr3386028qtw.63.1676383850319;
-        Tue, 14 Feb 2023 06:10:50 -0800 (PST)
-X-Google-Smtp-Source: AK7set98OEMKfsGkU19OgnlE6heJ9O6LLo1g6QDlcHkAXfWHsX591p7/3MvgrPqMUwlWB9z0tPx4tA==
-X-Received: by 2002:a05:622a:50:b0:3b8:691f:271 with SMTP id y16-20020a05622a005000b003b8691f0271mr3385969qtw.63.1676383849978;
-        Tue, 14 Feb 2023 06:10:49 -0800 (PST)
-Received: from vschneid.remote.csb ([154.57.232.159])
-        by smtp.gmail.com with ESMTPSA id s184-20020ae9dec1000000b0073b38652b9csm4892065qkf.122.2023.02.14.06.10.43
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tV+nl5/6nbPk/6HA5pQX/rHuTHF5S4E9f4KJMF/h5x0=;
+        b=3cSEfj+a/uvs+KxtoQ6ae7IObcMMlFIpw65wx7Gw8UvinvwCQt3pxQJ+Mhfnry3+/Y
+         K8Ba0svxLM6r85kuHESY39XS9eaxVSPB4P3asvFl8M2uKdKaJ7DNb/iU3mM5V2elTfFP
+         OM9ZaTQCjuIGDb/BgSsF/rpfbM1IafgQ7Fxsk98GNZ/YpSg44qNEDkttkdb8tNr684rs
+         CDOwIZrskYSTeIiUiZYmAslqVHr3LYAJJ6EORXkA9+VG1NVVB/CJ2XD0r9OsGTleQg08
+         X+UQptJ4RBO+UF8SbJFsnHlsv43+eezR6yBZBDUsj15GLX4P2cEs24LeXXFlY3dValEn
+         D0Gg==
+X-Gm-Message-State: AO0yUKWffB3OBmfbWJ+FkJTqUD3UT49KsP3mJKfOJOFQeqfSm//J3jzc
+	SP9jny00Bw5SBu5Y4Jj0QFM4bQ==
+X-Google-Smtp-Source: AK7set/rdrNLm8tItidqjsvagDbtl5rYMULe1MueAmQXNPzlIf4+Jxy35EVuWqAlcqe6sRrK/ndqkQ==
+X-Received: by 2002:aa7:9f85:0:b0:577:272f:fdb with SMTP id z5-20020aa79f85000000b00577272f0fdbmr600755pfr.29.1676438545117;
+        Tue, 14 Feb 2023 21:22:25 -0800 (PST)
+Received: from localhost ([135.180.226.51])
+        by smtp.gmail.com with ESMTPSA id n14-20020aa78a4e000000b005a8d396ae27sm2788868pfa.8.2023.02.14.21.22.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Feb 2023 06:10:49 -0800 (PST)
-From: Valentin Schneider <vschneid@redhat.com>
-To: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
- linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
- linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-xtensa@linux-xtensa.org, x86@kernel.org
-Cc: "Paul E. McKenney" <paulmck@kernel.org>, Steven Rostedt
- <rostedt@goodmis.org>, Peter Zijlstra <peterz@infradead.org>, Thomas
- Gleixner <tglx@linutronix.de>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Juri Lelli <juri.lelli@redhat.com>, Daniel
- Bristot de Oliveira <bristot@redhat.com>, Marcelo Tosatti
- <mtosatti@redhat.com>, Frederic Weisbecker <frederic@kernel.org>, Ingo
- Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Marc
- Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Russell
- King <linux@armlinux.org.uk>, Nicholas Piggin <npiggin@gmail.com>, Guo Ren
- <guoren@kernel.org>, "David S. Miller" <davem@davemloft.net>
-Subject: Re: [PATCH v4 0/7] Generic IPI sending tracepoint
-In-Reply-To: <20230119143619.2733236-1-vschneid@redhat.com>
-References: <20230119143619.2733236-1-vschneid@redhat.com>
-Date: Tue, 14 Feb 2023 14:10:43 +0000
-Message-ID: <xhsmhh6voqqvw.mognet@vschneid.remote.csb>
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+        Tue, 14 Feb 2023 21:22:24 -0800 (PST)
+Date: Tue, 14 Feb 2023 21:22:24 -0800 (PST)
+X-Google-Original-Date: Tue, 14 Feb 2023 21:22:11 PST (-0800)
+Subject: Re: [PATCH 13/19] arch/riscv: rename internal name __xchg to __arch_xchg
+In-Reply-To: <20221222114635.1251934-14-andrzej.hajda@intel.com>
+CC: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+  linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org,
+  linux-ia64@vger.kernel.org, loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+  linux-mips@vger.kernel.org, openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
+  linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+  linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, andrzej.hajda@intel.com,
+  Arnd Bergmann <arnd@arndb.de>, rodrigo.vivi@intel.com, akpm@linux-foundation.org,
+  andriy.shevchenko@linux.intel.com, peterz@infradead.org, boqun.feng@gmail.com, mark.rutland@arm.com
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: andrzej.hajda@intel.com
+Message-ID: <mhng-e75808d7-21de-4ef8-a606-b7c652a1f38e@palmer-ri-x1c9>
+Mime-Version: 1.0 (MHng)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230214_061738_487951_C1173756 
-X-CRM114-Status: GOOD (  11.83  )
+X-CRM114-CacheID: sfid-20230214_212231_693478_6E80806F 
+X-CRM114-Status: GOOD (  15.52  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,37 +91,57 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+On Thu, 22 Dec 2022 03:46:29 PST (-0800), andrzej.hajda@intel.com wrote:
+> __xchg will be used for non-atomic xchg macro.
+>
+> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> ---
+>  arch/riscv/include/asm/atomic.h  | 2 +-
+>  arch/riscv/include/asm/cmpxchg.h | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/arch/riscv/include/asm/atomic.h b/arch/riscv/include/asm/atomic.h
+> index 0dfe9d857a762b..bba472928b5393 100644
+> --- a/arch/riscv/include/asm/atomic.h
+> +++ b/arch/riscv/include/asm/atomic.h
+> @@ -261,7 +261,7 @@ c_t arch_atomic##prefix##_xchg_release(atomic##prefix##_t *v, c_t n)	\
+>  static __always_inline							\
+>  c_t arch_atomic##prefix##_xchg(atomic##prefix##_t *v, c_t n)		\
+>  {									\
+> -	return __xchg(&(v->counter), n, size);				\
+> +	return __arch_xchg(&(v->counter), n, size);			\
+>  }									\
+>  static __always_inline							\
+>  c_t arch_atomic##prefix##_cmpxchg_relaxed(atomic##prefix##_t *v,	\
+> diff --git a/arch/riscv/include/asm/cmpxchg.h b/arch/riscv/include/asm/cmpxchg.h
+> index 12debce235e52d..2f4726d3cfcc25 100644
+> --- a/arch/riscv/include/asm/cmpxchg.h
+> +++ b/arch/riscv/include/asm/cmpxchg.h
+> @@ -114,7 +114,7 @@
+>  					    _x_, sizeof(*(ptr)));	\
+>  })
+>
+> -#define __xchg(ptr, new, size)						\
+> +#define __arch_xchg(ptr, new, size)					\
+>  ({									\
+>  	__typeof__(ptr) __ptr = (ptr);					\
+>  	__typeof__(new) __new = (new);					\
+> @@ -143,7 +143,7 @@
+>  #define arch_xchg(ptr, x)						\
+>  ({									\
+>  	__typeof__(*(ptr)) _x_ = (x);					\
+> -	(__typeof__(*(ptr))) __xchg((ptr), _x_, sizeof(*(ptr)));	\
+> +	(__typeof__(*(ptr))) __arch_xchg((ptr), _x_, sizeof(*(ptr)));	\
+>  })
+>
+>  #define xchg32(ptr, x)							\
 
-Hey folks,
-
-On 19/01/23 14:36, Valentin Schneider wrote:
-> Patches
-> =======
->
-> o Patches 1-5 spread out the tracepoint across relevant sites.
->   Patch 5 ends up sprinkling lots of #include <trace/events/ipi.h> which I'm not
->   the biggest fan of, but is the least horrible solution I've been able to come
->   up with so far.
->
-> o Patch 7 is trying to be smart about tracing the callback associated with the
->   IPI.
->
-> This results in having IPI trace events for:
->
-> o smp_call_function*()
-> o smp_send_reschedule()
-> o irq_work_queue*()
-> o standalone uses of __smp_call_single_queue()
->
-
-This still rebases cleanly on top of the latest tip/sched/core, any
-objections to parking it there?
-
+Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
 
 _______________________________________________
 linux-snps-arc mailing list
