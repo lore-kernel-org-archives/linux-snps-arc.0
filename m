@@ -4,126 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB2C3C636D4
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 15 Feb 2023 13:05:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71FF3C636CC
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 16 Feb 2023 04:59:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Subject:Cc:To:From:Date:References:
-	In-Reply-To:Message-Id:Mime-Version:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:Cc:From:References:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=IuTVa8FBcgtE032SJpxaPOnfYa31ZGdcZWpu7AfjPLk=; b=W2CwogfLHTf6ya
-	XNUEIBspg/PsFn7OtOutdCxTT2mHw46Lg+Zr4GQGjZzvjjj+UgGBpXF0FCV6PZl+2PYI7+0yXRwsn
-	8b/awYK0KBw4XwwvL6elbivh958qh9CXFNofEmUk4tMhw1g5To7V8GhuwjPoXJGlmKI4iLy8LtGhZ
-	vEP3aA7YrZNV+sgpEt4HZBY46tUwPfEv2VeqMsaQcfS/VUisSnMv6cDasjRH6NN3oQi2LTrpy7sHz
-	moEYBaVssdemMQmBaL9oZgsrxeamLebus96RQJCjMRAbgeYYk9fNp672isexI+gSzTAkVtSrpRXI3
-	cKtRbJmzAhEeTg9faq2g==;
+	List-Owner; bh=plpcAgCIJ0F4zLHaL14qSgJDPQqls1IWVb59n7Ae/s0=; b=2G9r7QUqpKP8cx
+	Bk6xF56EgcnCSl4TCDzKzdGJbHbP+AYDc6s7YIrdI7H28Al7ea3Eztf1dciEkDjoW/RiybizgahC2
+	bbH08LphaN6H8at9oKHcC5u/iUcZszzfOu2bLrBgD9fQqld5cefh5fheYw982pft1pU+I3gB5XCPr
+	0YkAlyKTBRPx9Y32a+dTlsQB5crLgaXyexQV8bcXkDOoIaG4NDZnJ5B8oE0ZO3RynGNi+HavhzK+K
+	iLFyj6pUmirJDwFvFLfYdWK76uz6icHi9wYa6B/RmLifF6PZuhAh/o9bVHLld0gvJrwik8B6wxXLv
+	TPSspogpBKyd7viy4yEA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pSHTW-005uZY-5x; Wed, 15 Feb 2023 13:05:30 +0000
-Received: from new2-smtp.messagingengine.com ([66.111.4.224])
+	id 1pSWMi-008UEf-1I; Thu, 16 Feb 2023 04:59:28 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pSHTQ-005uWY-Pm; Wed, 15 Feb 2023 13:05:26 +0000
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 2D40B582003;
-	Wed, 15 Feb 2023 08:05:20 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Wed, 15 Feb 2023 08:05:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1676466320; x=1676473520; bh=NzdIn9sEy/
-	TdUrl/ZdBVY4dMEk2Tnlph7NyUne+YOMM=; b=PPD6X7vdu8v5pQCFFeEkwZ+xGH
-	hQxkzIm/THMwEiH6lmaNEBYbBzt3pargJVOdi2J1QMA6KHvLC9K1XeMABvJeeUMa
-	lTPgSxuAXiTHnvnPs7+H7Vr/fKIWrN+XZApp3CpAC5yE5WgT9W327fh6++AuDJlF
-	B9gywk5zLcSwCMvFm6irNxbf5/UMEQOklyQcP+yNMbxqWsOqNEYHAAgGHFLNZqZS
-	WLgt7CmsFbv+vqD/Mh8pW6i09fttS8BnRngWkrvO1YOvB+eqJf9YBCzB8hRdQL8g
-	Zrmyq7fkrOXYnHgcPd99guxknzQGmfAMstEvWh3k4ZTVkZadU+R5weMlaG7A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1676466320; x=1676473520; bh=NzdIn9sEy/TdUrl/ZdBVY4dMEk2T
-	nlph7NyUne+YOMM=; b=Tp/P1vDtiwaXsxOOvmxonT9LDeiFaEudeIfZX0AV5xmw
-	X3ENq+2GlESFOAR7xURKTITb3Q9/bLEcQhyKkak30WygkBgQXOUwH+1TEYwAnfSW
-	VN79grgOoloKlVxQxKg9d/GE/aNuuNhUwV2IHK4xpJLpSY9XO1XpwbGHxBbR0DF/
-	IjnWEESEaF5s9xx5Zj0yYZVtiwtJOFrRCp6Vfpm8unxAKwLTF76Egia3fqB+SRTf
-	HhmCGeRY4V0PNJ2mo3ZpzkurciWsN1Fx3VZnNvLG3nNn/NwNqCwiyIzXTWlmQOpN
-	G3WAp6KoO5IxE4n9w+AW7QNxTKU5fRGQe3g4//HLhw==
-X-ME-Sender: <xms:jdjsY_Wh-8LcQ3nmLEwGZ7X-cUO_UZrmKOzBi9pl67XX_YGZ0IXNyA>
-    <xme:jdjsY3kveCSQ-Laj-6oAgDyXLkBUjq7fx_C7UYY5m4XU_HQAFhNFJiZGPFSylztsR
-    Jx6pcGWaR_WFw62yQQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeihedggeduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:jdjsY7ZEvyr4y1ulYt1S1iPqX3mkImnPSdU2AD0rfL5VPKqJb7xP1w>
-    <xmx:jdjsY6Ux13tFNHeawURlV0JH7DjSnY4lgf_B232j8MtUR1dl7xMefQ>
-    <xmx:jdjsY5klmieqtEjUAp2jmIMBcwIQHQA6TF9wkqBiRc9-j4DSJjfhdQ>
-    <xmx:kNjsY5_DeMdprgdbaWkVv0vgYRqpvs9Cxn7CSU6n-WZIW-e7MJJXrA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 79450B60086; Wed, 15 Feb 2023 08:05:17 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-156-g081acc5ed5-fm-20230206.001-g081acc5e
-Mime-Version: 1.0
-Message-Id: <f3e1585c-0d9d-4709-9b21-74a63d8cc9ac@app.fastmail.com>
-In-Reply-To: <Y+zXIgwO5wteLQZ5@shell.armlinux.org.uk>
-References: <20230214074925.228106-1-alexghiti@rivosinc.com>
- <20230214074925.228106-4-alexghiti@rivosinc.com>
- <Y+zXIgwO5wteLQZ5@shell.armlinux.org.uk>
-Date: Wed, 15 Feb 2023 14:04:59 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Russell King" <linux@armlinux.org.uk>,
- "Alexandre Ghiti" <alexghiti@rivosinc.com>
-Cc: "Jonathan Corbet" <corbet@lwn.net>,
- "Richard Henderson" <richard.henderson@linaro.org>,
- "Ivan Kokshaysky" <ink@jurassic.park.msu.ru>,
- "Matt Turner" <mattst88@gmail.com>, "Vineet Gupta" <vgupta@kernel.org>,
- "Catalin Marinas" <catalin.marinas@arm.com>,
- "Will Deacon" <will@kernel.org>, "Huacai Chen" <chenhuacai@kernel.org>,
- "WANG Xuerui" <kernel@xen0n.name>,
- "Geert Uytterhoeven" <geert@linux-m68k.org>,
- "Michal Simek" <monstr@monstr.eu>,
- "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Helge Deller" <deller@gmx.de>, "Michael Ellerman" <mpe@ellerman.id.au>,
- "Nicholas Piggin" <npiggin@gmail.com>,
- "Christophe Leroy" <christophe.leroy@csgroup.eu>,
- "Paul Walmsley" <paul.walmsley@sifive.com>,
- "Palmer Dabbelt" <palmer@dabbelt.com>,
- "Albert Ou" <aou@eecs.berkeley.edu>,
- "Heiko Carstens" <hca@linux.ibm.com>,
- "Vasily Gorbik" <gor@linux.ibm.com>,
- "Alexander Gordeev" <agordeev@linux.ibm.com>,
- "Christian Borntraeger" <borntraeger@linux.ibm.com>,
- "Sven Schnelle" <svens@linux.ibm.com>,
- "Yoshinori Sato" <ysato@users.sourceforge.jp>,
- "Rich Felker" <dalias@libc.org>,
- "David S . Miller" <davem@davemloft.net>,
- "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
- "Borislav Petkov" <bp@alien8.de>,
- "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, "Chris Zankel" <chris@zankel.net>,
- "Max Filippov" <jcmvbkbc@gmail.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
- linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-xtensa@linux-xtensa.org, Linux-Arch <linux-arch@vger.kernel.org>,
- "Palmer Dabbelt" <palmer@rivosinc.com>
-Subject: Re: [PATCH v3 03/24] arm: Remove COMMAND_LINE_SIZE from uapi
+	id 1pSWMe-008UE6-ES
+	for linux-snps-arc@lists.infradead.org; Thu, 16 Feb 2023 04:59:25 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 874EEB8231A;
+	Thu, 16 Feb 2023 04:59:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F407C433EF;
+	Thu, 16 Feb 2023 04:59:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1676523560;
+	bh=QJv3xCjoWw/L1nefGYFtQZN89JBCKJRk4k8zlY33beQ=;
+	h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
+	b=AYiVDdjzV/zQN5Odqz3m9JzdRkLr7fGvBO+Hi/kT6KTXQrjy7KLCibAOPNSZBe6uH
+	 qibnIAVOT4YUPoAJzaO0G3vN2DdUxu3r9MDoTH0pwztBa+8yNPMkK7o+wEn7O/rt0r
+	 1F9F6QaXAFuhJzq0COaLEGc0Qs9aZ5ZU9BXh+xYtu0ctwDY8RjxhilJdLGU7JvEK5S
+	 sBfyGKTCPeIBvwhFa6WmWA2RI1/yc8efAKlrXFES91XobA4mDSpflUXUKTjPNQifnv
+	 4i6GdI+U980i/21rqxH9/TQzGrrc62q4w5CNoSdJc244pQtWvH1fnS4QpOsPzld8EA
+	 fbidPMi+Nb7MQ==
+Message-ID: <4ebe9300-c694-5a49-7180-ca6c14ec11b6@kernel.org>
+Date: Wed, 15 Feb 2023 20:59:18 -0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: How many colours does the ARC cache have?
+Content-Language: en-US
+To: Matthew Wilcox <willy@infradead.org>, linux-snps-arc@lists.infradead.org
+References: <Y+Z5nuY/PaINgW0v@casper.infradead.org>
+From: Vineet Gupta <vgupta@kernel.org>
+Cc: Alexey Brodkin <abrodkin@synopsys.com>
+In-Reply-To: <Y+Z5nuY/PaINgW0v@casper.infradead.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230215_050524_925973_87489415 
-X-CRM114-Status: GOOD (  11.68  )
+X-CRM114-CacheID: sfid-20230215_205924_685826_F34112CC 
+X-CRM114-Status: GOOD (  12.12  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,30 +68,46 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Feb 15, 2023, at 13:59, Russell King (Oracle) wrote:
-> On Tue, Feb 14, 2023 at 08:49:04AM +0100, Alexandre Ghiti wrote:
->> From: Palmer Dabbelt <palmer@rivosinc.com>
->> 
->> As far as I can tell this is not used by userspace and thus should not
->> be part of the user-visible API.
->> 
->> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+On 2/10/23 09:06, Matthew Wilcox wrote:
+> I see a discrepancy here ...
 >
-> Looks good to me. What's the merge plan for this?
+> arch/arc/include/asm/shmparam.h:
+> /* Handle upto 2 cache bins */
+> #define SHMLBA  (2 * PAGE_SIZE)
+>
+> arch/arc/include/asm/cacheflush.h:
+> #define CACHE_COLORS_NUM        4
 
-The easiest way is probably if I merge it through the whole
-series through the asm-generic tree. The timing is a bit
-unfortunate as we're just ahead of the merge window, so unless
-we really need this in 6.3, I'd suggest that Alexandre resend
-the series to me in two weeks with the Acks added in and I'll
-pick it up for 6.4.
+The initial aliasing dcache support assumed 2 colors but was later 
+bumped to 4, w/o making the adjustment in shmparam.h
 
-     Arnd
+> (there are some other problems with the arc cache flushing code;
+
+The VIPT aliasing config (which is pretty much dead and unused) or 
+regular parts ?
+
+
+> I'm working on patches to address them, but those are things I understand a
+> little better.  I know nothing about the ARC architecture itself)
+
+Legacy ARC700 cpus had VIPT D$. The cache size was configurable by Soc 
+builder and the specific geometry could yield an aliasing configuration 
+(e.g. standard page size 8K, 4 way set associative D$: so D$ > 32K were 
+aliasing and needed CONFIG_ARC_CACHE_VIPT_ALIASING). Although there was 
+ever only 1 customer who taped out an aliasing cache config.
+
+The newer ARC HS cores have PIPT D$ and thus don't need the aliasing 
+support.
+
+FWIW we could rip out all the VIPT aliasing code as I don't think it is 
+needed anymore. @Alexey can you confirm ?
+
+-Vineet
 
 _______________________________________________
 linux-snps-arc mailing list
