@@ -4,79 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17BA4C61DA4
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 22 Feb 2023 10:40:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ADDC0C636D6
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 22 Feb 2023 17:04:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=qcSJs+NaO+TVsGIWgPXmeEuyG2HBuNh1ro4h9mOQ4J0=; b=RyzcOGzXd6lvj9
-	/mjHzKVTRrb7kwHQ7ju4Z3QQgfL6DThz25rC83v4DrEo43fPUqh7DVdMMWy7tXEPOIt2HN2P/ld79
-	GmeHSDUdpqtUcHSNthshR3scsVjipYcoGiiqt8uUBTGTjNuB2AFLFI2PXtGIqQqYOpXfPsH2be3Cv
-	kCagFyBVJlggXpQra+obqt1LiWxGNPnzJUFYZBR9TTaPfR8EmizMbU1gTHXP7ejl6o/IRlh56jg4W
-	yhqXyfrS9dfkw+/1DCXlaSzYCg048MI9fdnRfDl4IN67jdFk4hggGAf8aOLC5OH9QAhttf3tW4WDu
-	4ThEOtquimXfIzlqwB3Q==;
+	List-Owner; bh=77+ZDwZpEpDKsdH7daXPGa21h7/EAok9GS6BE2ao37c=; b=N9NySXo9pjvllW
+	IsHkD97KTAnC74mJ6bcS/ve+lK0VPNqHXHTaFeKii3xRgZ/GOfNoDcpHQfzmiqWsIYLaeTbfaNIZp
+	RGMci4NEZJC+nMqf2gM5lTzs9bTrtSTOoi673duJcLLVMEojrzNUwsynkv5myMvM5DJSayOkuZnHf
+	NCnpMupwqgg98MvhggELqVe+51uyPsIiNXPKqMOI/C54Nt5ASxP6QjmZephJTSsl8QmGhwrcFFe6a
+	T4xeEfeQrJaiBSiUF0pl0vzSnR02BYOwyibABiDtXOVXjisLWDXRkf+V12rfe8iz3C0JSolP0OJUa
+	zRVlY2swLtWGJZyXFVug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pUmXi-00C0vp-Hg; Wed, 22 Feb 2023 10:40:10 +0000
-Received: from mga02.intel.com ([134.134.136.20])
+	id 1pUsY3-00D8ec-Bj; Wed, 22 Feb 2023 17:04:55 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pUmUA-00BzCQ-UM; Wed, 22 Feb 2023 10:36:35 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677062190; x=1708598190;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=ofUmRpvhNVTg3+A6hyPOFASnnH8za9ygTzj8N8YfXSk=;
-  b=Rn+bG29OzO0Ku544lsZXwuSERahg8CmlzDEQKVldyBNqdrj4Ar0aOO/X
-   c3FOFNrBSWFiJ8j3TfKq0/h2U4/ZbQkO2eL4hnSzNBFZZepLRlzguZn0u
-   DZQ6aQ1OwkKNKen+AMMu9BCcjGF7lH2uDQ9VvIZ6WZ6eYkY5bpuPJPHhl
-   tRMqbD9UhYq10UpPRf2MPe9Kxh5QlMwtlWMee+GGdAqgw857wNp09MJzm
-   4T8EWvZOtqh+hGmbZrZRKdAyWgN4FFkBfXz2jLGVoubxnSpS4bQpB73z2
-   KUwbWGBFySJXdeh5Axcwzlsew0DyHUyBkoD2R5TSA66/WUgfMiykiWs9f
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="321031750"
-X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; 
-   d="scan'208";a="321031750"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 02:36:25 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="781379853"
-X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; 
-   d="scan'208";a="781379853"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.26.51]) ([10.213.26.51])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 02:36:19 -0800
-Message-ID: <50c1806b-f153-da48-ddf4-53923fa90334@intel.com>
-Date: Wed, 22 Feb 2023 11:36:17 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.8.0
-Subject: Re: [Intel-gfx] [PATCH v5 0/7] Introduce __xchg, non-atomic xchg
-Content-Language: en-US
-To: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
- loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-xtensa@linux-xtensa.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: Mark Rutland <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>,
- Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+	id 1pUsXs-00D8Zs-Ff; Wed, 22 Feb 2023 17:04:44 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=8seSikIduHdwWlxLKvtsNdKihKZpOnnG/byEzPIYqpo=; b=Y1ljMAsEbY1xeALhV24P6D+VB8
+	W1bdI7nU0WhWoHx4NgJjUs1eL4F579QHnU+VRNoxr0EmxLBTqZ3vOKnmHpwMB+Sofv3xiO5BeF6WD
+	1LD1NvVLmJ2+7rgSzEr2KFdkQGbvBYCsMTfz8sZqwESBDJCLccPcpvy9GuBpXxB4wGZyirHyFJlTf
+	gndmj7kqHoQ049GccgXjz/BpbKTlsy/A8I1wozGsWIJRtFjTTw2VRwpq8mSkA9UdnUdhM7yIf7jgi
+	NcbLaUrNNJrkpHmN4j4xvoM8KhBnKHeFAYPSNMidGw19ugtisIBpD9l0VLYU1g+Tbm+Yn6Ihuibqi
+	eg9uba3g==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1pUsXk-00CbPL-05;
+	Wed, 22 Feb 2023 17:04:36 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 58890300446;
+	Wed, 22 Feb 2023 18:04:32 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 0DE9520DD8076; Wed, 22 Feb 2023 18:04:32 +0100 (CET)
+Date: Wed, 22 Feb 2023 18:04:31 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org,
+	linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+	openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	Arnd Bergmann <arnd@arndb.de>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Mark Rutland <mark.rutland@arm.com>
+Subject: Re: [PATCH v5 0/7] Introduce __xchg, non-atomic xchg
+Message-ID: <Y/ZLH5F8LA3H10aL@hirez.programming.kicks-ass.net>
 References: <20230118153529.57695-1-andrzej.hajda@intel.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
+MIME-Version: 1.0
+Content-Disposition: inline
 In-Reply-To: <20230118153529.57695-1-andrzej.hajda@intel.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230222_023631_183755_E9D062F1 
-X-CRM114-Status: GOOD (  25.20  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,131 +82,28 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi,
+On Wed, Jan 18, 2023 at 04:35:22PM +0100, Andrzej Hajda wrote:
 
-Ping on the series.
-Arnd, Andrew is there anything more I can do to push the process forward?
-
-Regards
-Andrzej
-
-
-On 18.01.2023 16:35, Andrzej Hajda wrote:
-> Hi all,
-> 
-> The helper is tiny and there are advices we can live without it, so
-> I want to present few arguments why it would be good to have it:
-> 
-> 1. Code readability/simplification/number of lines:
->    - decreases number of lines,
->    - it often eliminates local variables,
->    - for real examples see patches 3+.
-> 
-> 2. Presence of similar helpers in other somehow related languages/libs:
-> 
-> a) Rust[1]: 'replace' from std::mem module, there is also 'take'
->      helper (__xchg(&x, 0)), which is the same as private helper in
->      i915 - fetch_and_zero, see latest patch.
-> b) C++ [2]: 'exchange' from utility header.
-> 
-> If the idea is OK there are still 2 questions to answer:
-> 
-> 1. Name of the helper, __xchg follows kernel conventions,
->      but for me Rust names are also OK.
-> 2. Where to put the helper:
-> a) as in this patchset include/linux/non-atomic/xchg.h,
->      proposed by Andy Shevchenko,
-> b) include/linux/utils.h ? any better name? Some kind
->      of container for simple helpers.
-> 
-> All __xchg conversions were performed using cocci script,
-> then manually adjusted if necessary.
-> 
-> There is lot of places it can be used in, I have just chosen
-> some of them. I can provide cocci script to detect others (not all),
-> if necessary.
-> 
-> Changes:
-> v2: squashed all __xchg -> __arch_xchg t one patch (Arnd)
-> v3: fixed alpha/xchg_local (lkp@intel.com)
-> v4: adjusted indentation (Heiko)
-> v5: added more __xchg conversions - patches 3-6, added tags
-> 
-> [1]: https://doc.rust-lang.org/std/mem/index.html
-> [2]: https://en.cppreference.com/w/cpp/header/utility
-> 
-> Regards
-> Andrzej
-> 
 > Andrzej Hajda (7):
->    arch: rename all internal names __xchg to __arch_xchg
->    linux/include: add non-atomic version of xchg
->    arch/*/uprobes: simplify arch_uretprobe_hijack_return_addr
->    llist: simplify __llist_del_all
->    io_uring: use __xchg if possible
->    qed: use __xchg if possible
->    drm/i915/gt: use __xchg instead of internal helper
-> 
->   arch/alpha/include/asm/cmpxchg.h              | 10 +++++-----
->   arch/arc/include/asm/cmpxchg.h                |  4 ++--
->   arch/arm/include/asm/cmpxchg.h                |  7 ++++---
->   arch/arm/probes/uprobes/core.c                |  8 ++------
->   arch/arm64/include/asm/cmpxchg.h              |  7 +++----
->   arch/arm64/kernel/probes/uprobes.c            |  9 ++-------
->   arch/csky/kernel/probes/uprobes.c             |  9 ++-------
->   arch/hexagon/include/asm/cmpxchg.h            | 10 +++++-----
->   arch/ia64/include/asm/cmpxchg.h               |  2 +-
->   arch/ia64/include/uapi/asm/cmpxchg.h          |  4 ++--
->   arch/loongarch/include/asm/cmpxchg.h          |  4 ++--
->   arch/m68k/include/asm/cmpxchg.h               |  6 +++---
->   arch/mips/include/asm/cmpxchg.h               |  4 ++--
->   arch/mips/kernel/uprobes.c                    | 10 ++--------
->   arch/openrisc/include/asm/cmpxchg.h           | 10 +++++-----
->   arch/parisc/include/asm/cmpxchg.h             |  4 ++--
->   arch/powerpc/include/asm/cmpxchg.h            |  4 ++--
->   arch/powerpc/kernel/uprobes.c                 | 10 ++--------
->   arch/riscv/include/asm/atomic.h               |  2 +-
->   arch/riscv/include/asm/cmpxchg.h              |  4 ++--
->   arch/riscv/kernel/probes/uprobes.c            |  9 ++-------
->   arch/s390/include/asm/cmpxchg.h               |  8 ++++----
->   arch/s390/kernel/uprobes.c                    |  7 ++-----
->   arch/sh/include/asm/cmpxchg.h                 |  4 ++--
->   arch/sparc/include/asm/cmpxchg_32.h           |  4 ++--
->   arch/sparc/include/asm/cmpxchg_64.h           |  6 +++---
->   arch/sparc/kernel/uprobes.c                   |  7 ++-----
->   arch/xtensa/include/asm/cmpxchg.h             |  4 ++--
->   drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  2 +-
->   .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |  4 ++--
->   .../drm/i915/gt/intel_execlists_submission.c  |  4 ++--
->   drivers/gpu/drm/i915/gt/intel_ggtt.c          |  4 ++--
->   drivers/gpu/drm/i915/gt/intel_gsc.c           |  2 +-
->   drivers/gpu/drm/i915/gt/intel_gt.c            |  4 ++--
->   drivers/gpu/drm/i915/gt/intel_gt_pm.c         |  2 +-
->   drivers/gpu/drm/i915/gt/intel_lrc.c           |  6 +++---
->   drivers/gpu/drm/i915/gt/intel_migrate.c       |  2 +-
->   drivers/gpu/drm/i915/gt/intel_rc6.c           |  2 +-
->   drivers/gpu/drm/i915/gt/intel_rps.c           |  2 +-
->   drivers/gpu/drm/i915/gt/selftest_context.c    |  2 +-
->   .../drm/i915/gt/selftest_ring_submission.c    |  2 +-
->   drivers/gpu/drm/i915/gt/selftest_timeline.c   |  2 +-
->   drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c     |  2 +-
->   drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  2 +-
->   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  2 +-
->   drivers/gpu/drm/i915/i915_utils.h             |  1 +
->   include/linux/llist.h                         |  6 ++----
->   include/linux/non-atomic/xchg.h               | 19 +++++++++++++++++++
->   include/linux/qed/qed_chain.h                 | 19 +++++++------------
->   io_uring/io_uring.c                           |  7 ++-----
->   io_uring/slist.h                              |  6 ++----
->   51 files changed, 126 insertions(+), 155 deletions(-)
->   create mode 100644 include/linux/non-atomic/xchg.h
-> 
+>   arch: rename all internal names __xchg to __arch_xchg
+>   linux/include: add non-atomic version of xchg
+>   arch/*/uprobes: simplify arch_uretprobe_hijack_return_addr
+>   llist: simplify __llist_del_all
+>   io_uring: use __xchg if possible
+>   qed: use __xchg if possible
+>   drm/i915/gt: use __xchg instead of internal helper
 
+Nothing crazy in here I suppose, I somewhat wonder why you went through
+the trouble, but meh.
+
+You want me to take this through te locking tree (for the next cycle,
+not this one) where I normally take atomic things or does someone else
+want this?
 
 _______________________________________________
 linux-snps-arc mailing list
