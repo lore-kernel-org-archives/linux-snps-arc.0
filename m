@@ -4,73 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ADDC0C636D6
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 22 Feb 2023 17:04:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4408BC636D6
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 22 Feb 2023 17:52:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:Cc:To:From:
+	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=77+ZDwZpEpDKsdH7daXPGa21h7/EAok9GS6BE2ao37c=; b=N9NySXo9pjvllW
-	IsHkD97KTAnC74mJ6bcS/ve+lK0VPNqHXHTaFeKii3xRgZ/GOfNoDcpHQfzmiqWsIYLaeTbfaNIZp
-	RGMci4NEZJC+nMqf2gM5lTzs9bTrtSTOoi673duJcLLVMEojrzNUwsynkv5myMvM5DJSayOkuZnHf
-	NCnpMupwqgg98MvhggELqVe+51uyPsIiNXPKqMOI/C54Nt5ASxP6QjmZephJTSsl8QmGhwrcFFe6a
-	T4xeEfeQrJaiBSiUF0pl0vzSnR02BYOwyibABiDtXOVXjisLWDXRkf+V12rfe8iz3C0JSolP0OJUa
-	zRVlY2swLtWGJZyXFVug==;
+	List-Owner; bh=TukocWGKGTLa3e0trslHJp/7TJt/XIpUAW2zh8sZUMA=; b=osnt/oqzVTFVZf
+	ef2VCPnwn26cz39bIFpdeAhD6IOZN5cJUxpPUren2h2IseM8zBEOAozSbcn54tHwxElWV51JB9koB
+	deDrlTMwVKlEKVEdeG7Ljuv+SjyxCsrOfeeke6ts+ql3x+2dv51yG9b4ePeY5XiSNOI43iJgj+gq6
+	zrAZEgj/58vEio24KNplF7T58RCddnVec677pVV+S8TKW1bDavBk7Wwo28VdDmhmYMSUvRlF5f04N
+	WxpjU9OGEqM2V528Ba754hDGrDX1AV6kLOwrNucuW59XQoGavzZFuEegbJKqpTBPXNq37q3DIgAtA
+	QewbJ3jTwZ8Phj7tBj4Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pUsY3-00D8ec-Bj; Wed, 22 Feb 2023 17:04:55 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1pUtHx-00DJNS-3V; Wed, 22 Feb 2023 17:52:21 +0000
+Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pUsXs-00D8Zs-Ff; Wed, 22 Feb 2023 17:04:44 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=8seSikIduHdwWlxLKvtsNdKihKZpOnnG/byEzPIYqpo=; b=Y1ljMAsEbY1xeALhV24P6D+VB8
-	W1bdI7nU0WhWoHx4NgJjUs1eL4F579QHnU+VRNoxr0EmxLBTqZ3vOKnmHpwMB+Sofv3xiO5BeF6WD
-	1LD1NvVLmJ2+7rgSzEr2KFdkQGbvBYCsMTfz8sZqwESBDJCLccPcpvy9GuBpXxB4wGZyirHyFJlTf
-	gndmj7kqHoQ049GccgXjz/BpbKTlsy/A8I1wozGsWIJRtFjTTw2VRwpq8mSkA9UdnUdhM7yIf7jgi
-	NcbLaUrNNJrkpHmN4j4xvoM8KhBnKHeFAYPSNMidGw19ugtisIBpD9l0VLYU1g+Tbm+Yn6Ihuibqi
-	eg9uba3g==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1pUsXk-00CbPL-05;
-	Wed, 22 Feb 2023 17:04:36 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 58890300446;
-	Wed, 22 Feb 2023 18:04:32 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 0DE9520DD8076; Wed, 22 Feb 2023 18:04:32 +0100 (CET)
-Date: Wed, 22 Feb 2023 18:04:31 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org,
-	linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-	openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	Arnd Bergmann <arnd@arndb.de>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Mark Rutland <mark.rutland@arm.com>
-Subject: Re: [PATCH v5 0/7] Introduce __xchg, non-atomic xchg
-Message-ID: <Y/ZLH5F8LA3H10aL@hirez.programming.kicks-ass.net>
-References: <20230118153529.57695-1-andrzej.hajda@intel.com>
+	id 1pUtHt-00DJMS-Sn
+	for linux-snps-arc@lists.infradead.org; Wed, 22 Feb 2023 17:52:19 +0000
+Received: by mail-oa1-x32.google.com with SMTP id 586e51a60fabf-1722c48a773so7697379fac.2
+        for <linux-snps-arc@lists.infradead.org>; Wed, 22 Feb 2023 09:52:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1677088335;
+        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=F/jG87kUoBvkNv8coXkRd9nRRp/+2UTFIKi3V6srr4M=;
+        b=GeLrYLW9c7VSTbtIchdHSxhGRDNOEns7CSDQinXXwa7kpW5J5cQMyLh+iVU4ZCdrXm
+         gHL/Fv4fNAXKn1nffqkYxDGYUqkZUA0IPVo2PYUYg/hPCDpS3tsR66UZGVXRUob+FFG5
+         MohTzmJSc4DQn5vzVswJROZFPneHNJqsHg4yb5/bFvPY/ZP/HBnm3d9o7GA2RygQG6+R
+         ArQvdTnuWyGC2q3Go/mT53/q/ydFKAH4A81xfe8wfcTOy88dVp4Ycn1x2Upr5E7VG90+
+         9uIk0jaxyvGXSHICBx4HJsaqZPfXbv7OoBvrh3H+i9R+hQgOd1jaLs/1QrnBFAKcgsrR
+         dhTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677088335;
+        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=F/jG87kUoBvkNv8coXkRd9nRRp/+2UTFIKi3V6srr4M=;
+        b=rMTUs7afj6xtM7FkaGBamZ5wxyeDJDDUN+0QhcWKRSruLyaUI8AVzp7qPwHkTiuNYt
+         /UcxfXIS/KBE4CYQemRngX+oZGmgj81ltqStdJ1jVRxkLsWvEBfY5BI4fvOXx/HO4mFY
+         Cz9JmfQAjaAPlcFseWgLICynVE37P9X/l2HE7q4UH4qSFLVdXmNdHPoaoxt1n5ywLZFC
+         cXGj4vXaw3HWUFgmHUS0m0FxFzUu9ZYqb9BGP+geEKGYz/0DUk7CqCvORyeZDNoXRlhc
+         sf2XJeKb8L914Br3P+luBpg/hahpVyhXXI/CQcohexgPh7JQ13ZHgue6Ig1rVTa0cqFx
+         4wmw==
+X-Gm-Message-State: AO0yUKUl1LopOmW/y813CVNyVnC480vyla7xA4D0TLpc2iVnwll3sQ4l
+	LmvNYG+kd6NVQSMHUeK7hV+Gso0aEummDRRzJq4=
+X-Google-Smtp-Source: AK7set/rh9llKjL/rIAIhkhzk3/9SYme/ybnWgjmUeutBzqfh4fvwCu6A5oAriStD6oG9sPRXvT98w==
+X-Received: by 2002:a05:6870:391e:b0:16e:862:6085 with SMTP id b30-20020a056870391e00b0016e08626085mr10684007oap.16.1677088334815;
+        Wed, 22 Feb 2023 09:52:14 -0800 (PST)
+Received: from [192.168.15.100] (201-43-82-10.dsl.telesp.net.br. [201.43.82.10])
+        by smtp.gmail.com with ESMTPSA id zq47-20020a0568718eaf00b0016df97ab05bsm6281198oab.31.2023.02.22.09.52.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Feb 2023 09:52:14 -0800 (PST)
+Message-ID: <9f959842-ced5-327b-5893-829019bfc205@linaro.org>
+Date: Wed, 22 Feb 2023 14:52:11 -0300
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20230118153529.57695-1-andrzej.hajda@intel.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: Pavel new maintainer of ARC port
+Content-Language: en-US
+From: Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>
+To: Pavel Kozlov <Pavel.Kozlov@synopsys.com>,
+ "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>
+Cc: "linux-snps-arc@lists.infradead.org"
+ <linux-snps-arc@lists.infradead.org>, Vineet Gupta <vineet.gupta@linux.dev>
+References: <DM6PR12MB3146B975395D8A9BC4B13F3FBCA59@DM6PR12MB3146.namprd12.prod.outlook.com>
+ <816b6a43-6b23-cfd7-266f-e65b8830b542@linaro.org>
+Organization: Linaro
+In-Reply-To: <816b6a43-6b23-cfd7-266f-e65b8830b542@linaro.org>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20230222_095217_983313_522DDD9E 
+X-CRM114-Status: GOOD (  13.13  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,23 +96,43 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jan 18, 2023 at 04:35:22PM +0100, Andrzej Hajda wrote:
 
-> Andrzej Hajda (7):
->   arch: rename all internal names __xchg to __arch_xchg
->   linux/include: add non-atomic version of xchg
->   arch/*/uprobes: simplify arch_uretprobe_hijack_return_addr
->   llist: simplify __llist_del_all
->   io_uring: use __xchg if possible
->   qed: use __xchg if possible
->   drm/i915/gt: use __xchg instead of internal helper
 
-Nothing crazy in here I suppose, I somewhat wonder why you went through
-the trouble, but meh.
+On 21/02/23 15:59, Adhemerval Zanella Netto wrote:
+> 
+> 
+> On 21/02/23 10:55, Pavel Kozlov via Libc-alpha wrote:
+>> Hi all,
+>>
+>> I'm excited to introduce myself and become a part of the community. 
+>>
+>> I'm a software engineer in Synopsys and member of a team working to enhance 
+>> support for ARC CPUs in the GNU Linux ecosystem.
+>>
+>> I would appreciate any guidance or advice on how I can get involved and 
+>> contribute to the community. I'm always looking for opportunities to connect 
+>> with other developers and learn from their experiences.
+>>
+>> As a final step of setup, I've updated wiki and added myself as ARC 
+>> maintainer. Also, thanks Carlos, for help with my setup.
+>>
+>> Best regards,
+>> Pavel Kozlov
+> 
+> Hi Pavel,
+> 
+> Carlos might already brought to your attention, but we have a weekly
+> call [1] where we discuss the current patchwork status [2], any blocker
+> someone might have, future work, or to discuss bug report or any other
+> issue.  So fell free to hop in if you have anything to discuss.
+> 
+> [1] https://sourceware.org/glibc/wiki/PatchworkReviewMeetings
+> [2] https://patchwork.sourceware.org/project/glibc/list/
 
-You want me to take this through te locking tree (for the next cycle,
-not this one) where I normally take atomic things or does someone else
-want this?
+Another thing you might want to check is to do some triage on the
+ARC failures reported by on the 2.37 release page. Some might be
+just due timeout issues (test taking to long), however some might
+require some work (the test-float64-trunc for instance).
 
 _______________________________________________
 linux-snps-arc mailing list
