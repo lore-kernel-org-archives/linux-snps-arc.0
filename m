@@ -4,81 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3CE1C61DA3
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 21 Feb 2023 18:59:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1BFDC64EC4
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 22 Feb 2023 08:36:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=F/LRV+RUgk5MbFHG64/oftT9vLBhfxlYD3uxOpnR+Ew=; b=qAbZup52qOVIQJ
-	YmOKPBKL1eN8veoukJJuP9/vKa0+cxXrm8PJ75hEu/Iv6EgqWBVPj/CFhP1LMG062+OZyIZCcjNXU
-	HRKp++pz3AmqNlasQ3Bw6xJ230K4jOuqRcVUfm94biwNTzsTBf/RQdpdsr6VGcPlFHnMuIVy5p+Pg
-	UkxMb3lwTKjZbW6DQhXv5lFzj0cb8i5MznLuzNs1HsLlIY/62s3yjLfnXPvh033mxRksk92nqSaXs
-	dwapJm9zbtaUxwD2LuDJuDuElN/5z5O933KWE44b6c3Ks5EGd3PiOA5Jfe53ggb3aNIa8HevkHMMH
-	2Wd31bUjsEj9fIKDPXBQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=HV2UAZ46ME1b4BkaDeq65/pr0NgdbnBDMYKGzeCcIww=; b=1EyWVbfxZtsyuQ
+	tQzqKHdVoDw0VT4BKlf4G10cPkBgFAN7Cn14o+Jom2nHgoHvzNRRA82IYSfOkn3DV6zLrA13RwnKv
+	Z8+C+Q/juxoAN0vC9siYyXiyD1Rduv4Lt8Ei5cKKn2d7OPJsRZrznZ7dzkHsUjLHoCF+I+j7yg4Pl
+	IQJSVpyHNjUnUyAXrYEvfojmVDumoqSRvOIH4arCpQRKytvOoIgUN/Nw3xZyK7nrp2is1lqMFLV1h
+	ebZuOMqjodzUhPWDTyGYHw4E9HKn+GG6Xss0b1qVbIfL4NCCS8pGaFwhiF/zljvA+7a14wkykIwt9
+	0ZexQ1TebF1R6NKmFkLg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pUXrZ-009Svp-BX; Tue, 21 Feb 2023 18:59:41 +0000
-Received: from mail-oo1-xc2d.google.com ([2607:f8b0:4864:20::c2d])
+	id 1pUkcF-00BFY7-OA; Wed, 22 Feb 2023 08:36:43 +0000
+Received: from mail.corrib.pl ([185.58.226.145])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pUXrN-009Ss7-Tz
-	for linux-snps-arc@lists.infradead.org; Tue, 21 Feb 2023 18:59:31 +0000
-Received: by mail-oo1-xc2d.google.com with SMTP id 26-20020a4ae1ba000000b005200f75cb0cso603585ooy.6
-        for <linux-snps-arc@lists.infradead.org>; Tue, 21 Feb 2023 10:59:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1677005967;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=KE/02dPKqgZjMT700xTUU/M9dprKRYf+i1HpGQh+2Rw=;
-        b=yKTd663L2P8YQHtmpV7oj2k/fBmoBVSUPlDzqppMkzyhT1bmv+9vomXygrZ3jWyBj7
-         cnAaOvhP1aA2wOBP9L5X5TwjAxPQ1tndZ7rwan9+gpp7CM+Tn5/gRszF2SKqdW0Fhc57
-         BoweTkRbAk8s3kDAu98zZbSZ71OBWyYKUHYgQRIz5k161MiUfZZhey3G+H7Pjsv5X2YJ
-         8Fq9lo6YMAtHevgrL38ELFLTWhs3JsWl7Y0URBBuxKh4VCNrBQpxggetLZgx7W10lZ4R
-         P6/oyLoZFan7KzHCcEsLmzYCrNmd0tUKCd4r8hyEN4SnKPT7Ve3Gi9jDWAKnJXBuHCx3
-         33bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677005967;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KE/02dPKqgZjMT700xTUU/M9dprKRYf+i1HpGQh+2Rw=;
-        b=4e4uuEwhZLN6uzAtzLDCLcdyWpaXwZm7x1Xn0sKxai9+8l8ajvjylR6k9fPBAbP8Ki
-         /unmHVmq7php3hhO551g5joIV5uadelktwXwNRAPsb5JnRUhRpaB7BOKT++TMewBYcoy
-         IGk9fNKQvIPp0ajxJIERxKmqby+zFoGQjUeTMW1FA3T7Jein3B0ncMXdCss2uWRnlFST
-         hVhyGaKPZTQBEItga5yWC7EdSsVPnILV7p7O9hSfAC+R+xaACIB+b/FWKYtVjAouPnRG
-         zApnTPt2e/nbgbmH3daG2dKd4qmSNrdBP5fBqCC12ZM3n+RjxAYTfuS3xHkN763hw4bf
-         VTZQ==
-X-Gm-Message-State: AO0yUKXWV7hUN9mFFTF/QmJ6R88T92vg6LwMDiehWa+23l3cniItxvkh
-	BW7aZfOpyQ7qkIstJMia4rO08Dz9J9akntyP4Fc=
-X-Google-Smtp-Source: AK7set899RbR3gBI6XvZ9+UNCMaAJP6jw98KLS10Di9PaMFdxf2bwqrlDAgauT6z66pC+aHZyFvKKA==
-X-Received: by 2002:a4a:33c8:0:b0:51a:ac9:775 with SMTP id q191-20020a4a33c8000000b0051a0ac90775mr2900697ooq.6.1677005967091;
-        Tue, 21 Feb 2023 10:59:27 -0800 (PST)
-Received: from ?IPV6:2804:1b3:a7c3:3a5:a0:9596:f951:7d30? ([2804:1b3:a7c3:3a5:a0:9596:f951:7d30])
-        by smtp.gmail.com with ESMTPSA id k23-20020a056820017700b005250c840e64sm272016ood.3.2023.02.21.10.59.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Feb 2023 10:59:26 -0800 (PST)
-Message-ID: <816b6a43-6b23-cfd7-266f-e65b8830b542@linaro.org>
-Date: Tue, 21 Feb 2023 15:59:24 -0300
+	id 1pUkcD-00BFQp-GN
+	for linux-snps-arc@lists.infradead.org; Wed, 22 Feb 2023 08:36:42 +0000
+Received: by mail.corrib.pl (Postfix, from userid 1001)
+	id A71B5A445E; Wed, 22 Feb 2023 08:35:45 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corrib.pl; s=mail;
+	t=1677054951; bh=X6IEpSISwJiYlJ3uA866lskXve3r+4o2hf4z7VM6m5o=;
+	h=Date:From:To:Subject:From;
+	b=EwxUNhe9/Lj95mwEiexiHUXcOTVwqpYs15cx66H0ar6m+Z2RrHHOhUjn3TAglrjOI
+	 /TJKi5rYTCYT30CyelJCZ0bSuVVwtpvwWfgOdplUzo1LgXo3szc5QYPt9bll3XxrO5
+	 xHxFo9SO+2HuaCg0FokXPK+E21GnGfBwxkd7YCtShrUwAxJaVeKve7PW2JS7FVVrAr
+	 6+dRuS+oOKNhzOdAUylf/ofWE1FqbNa6NmVhuMLT8Xh/hSrB+Z0o2DKa37XaP+4hcV
+	 4wBdbOCKZLeFNbysE58YkgbCLAFs2bdFZdu0RK62JAewxIV9S2Yirpp8HfxK/jiG/M
+	 q0hL72Drl3QOg==
+Received: by mail.corrib.pl for <linux-snps-arc@lists.infradead.org>; Wed, 22 Feb 2023 08:35:44 GMT
+Message-ID: <20230222074502-0.1.5n.fiir.0.q52ido2e3h@corrib.pl>
+Date: Wed, 22 Feb 2023 08:35:44 GMT
+From: =?UTF-8?Q?"Szczepan_Kie=C5=82basa"?= <szczepan.kielbasa@corrib.pl>
+To: <linux-snps-arc@lists.infradead.org>
+Subject: Faktoring
+X-Mailer: mail.corrib.pl
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: Pavel new maintainer of ARC port
-Content-Language: en-US
-To: Pavel Kozlov <Pavel.Kozlov@synopsys.com>,
- "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>
-Cc: "linux-snps-arc@lists.infradead.org"
- <linux-snps-arc@lists.infradead.org>, Vineet Gupta <vineet.gupta@linux.dev>
-References: <DM6PR12MB3146B975395D8A9BC4B13F3FBCA59@DM6PR12MB3146.namprd12.prod.outlook.com>
-From: Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>
-Organization: Linaro
-In-Reply-To: <DM6PR12MB3146B975395D8A9BC4B13F3FBCA59@DM6PR12MB3146.namprd12.prod.outlook.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230221_105929_997455_B1D83B79 
-X-CRM114-Status: GOOD (  12.41  )
+X-CRM114-CacheID: sfid-20230222_003641_720647_77659E25 
+X-CRM114-Status: UNSURE (   1.46  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,42 +59,20 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-
-
-On 21/02/23 10:55, Pavel Kozlov via Libc-alpha wrote:
-> Hi all,
-> 
-> I'm excited to introduce myself and become a part of the community. 
-> 
-> I'm a software engineer in Synopsys and member of a team working to enhance 
-> support for ARC CPUs in the GNU Linux ecosystem.
-> 
-> I would appreciate any guidance or advice on how I can get involved and 
-> contribute to the community. I'm always looking for opportunities to connect 
-> with other developers and learn from their experiences.
-> 
-> As a final step of setup, I've updated wiki and added myself as ARC 
-> maintainer. Also, thanks Carlos, for help with my setup.
-> 
-> Best regards,
-> Pavel Kozlov
-
-Hi Pavel,
-
-Carlos might already brought to your attention, but we have a weekly
-call [1] where we discuss the current patchwork status [2], any blocker
-someone might have, future work, or to discuss bug report or any other
-issue.  So fell free to hop in if you have anything to discuss.
-
-[1] https://sourceware.org/glibc/wiki/PatchworkReviewMeetings
-[2] https://patchwork.sourceware.org/project/glibc/list/
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+RHppZcWEIGRvYnJ5LAoKcm96d2HFvGFsaSBQYcWEc3R3byB3eWLDs3IgZmluYW5zb3dhbmlhLCBr
+dMOzcmUgc3BlxYJuaSBwb3RyemVieSBmaXJteSwgemFwZXduaWFqxIVjIG5hdHljaG1pYXN0b3d5
+IGRvc3TEmXAgZG8gZ290w7N3a2ksIGJleiB6YsSZZG55Y2ggcHJ6ZXN0b2rDs3c/IAoKUHJ6eWdv
+dG93YWxpxZtteSByb3p3acSFemFuaWEgZmFrdG9yaW5nb3dlIGRvcGFzb3dhbmUgZG8gUGHFhHN0
+d2EgYnJhbsW8eSBpIHdpZWxrb8WbY2kgZmlybXksIGR6acSZa2kga3TDs3J5bSwgbmllIG11c3rE
+hSBQYcWEc3R3byBtYXJ0d2nEhyBzacSZIG8gbmlld3lwxYJhY2Fsbm/Fm8SHIGtvbnRyYWhlbnTD
+s3csIHBvbmlld2HFvCB0cmFuc2FrY2plIHPEhSB6YWJlenBpZWN6b25lIGkgcG9zaWFkYWrEhSBn
+d2FyYW5jasSZIHNwxYJhdHkuIApDaGPEhSBQYcWEc3R3byBwcnplYW5hbGl6b3dhxIcgZG9zdMSZ
+cG5lIG9wY2plPwoKClBvemRyYXdpYW0KU3pjemVwYW4gS2llxYJiYXNhCgpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5n
+IGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5m
+cmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
