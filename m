@@ -4,50 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1BFDC64EC4
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 22 Feb 2023 08:36:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17BA4C61DA4
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 22 Feb 2023 10:40:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=HV2UAZ46ME1b4BkaDeq65/pr0NgdbnBDMYKGzeCcIww=; b=1EyWVbfxZtsyuQ
-	tQzqKHdVoDw0VT4BKlf4G10cPkBgFAN7Cn14o+Jom2nHgoHvzNRRA82IYSfOkn3DV6zLrA13RwnKv
-	Z8+C+Q/juxoAN0vC9siYyXiyD1Rduv4Lt8Ei5cKKn2d7OPJsRZrznZ7dzkHsUjLHoCF+I+j7yg4Pl
-	IQJSVpyHNjUnUyAXrYEvfojmVDumoqSRvOIH4arCpQRKytvOoIgUN/Nw3xZyK7nrp2is1lqMFLV1h
-	ebZuOMqjodzUhPWDTyGYHw4E9HKn+GG6Xss0b1qVbIfL4NCCS8pGaFwhiF/zljvA+7a14wkykIwt9
-	0ZexQ1TebF1R6NKmFkLg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=qcSJs+NaO+TVsGIWgPXmeEuyG2HBuNh1ro4h9mOQ4J0=; b=RyzcOGzXd6lvj9
+	/mjHzKVTRrb7kwHQ7ju4Z3QQgfL6DThz25rC83v4DrEo43fPUqh7DVdMMWy7tXEPOIt2HN2P/ld79
+	GmeHSDUdpqtUcHSNthshR3scsVjipYcoGiiqt8uUBTGTjNuB2AFLFI2PXtGIqQqYOpXfPsH2be3Cv
+	kCagFyBVJlggXpQra+obqt1LiWxGNPnzJUFYZBR9TTaPfR8EmizMbU1gTHXP7ejl6o/IRlh56jg4W
+	yhqXyfrS9dfkw+/1DCXlaSzYCg048MI9fdnRfDl4IN67jdFk4hggGAf8aOLC5OH9QAhttf3tW4WDu
+	4ThEOtquimXfIzlqwB3Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pUkcF-00BFY7-OA; Wed, 22 Feb 2023 08:36:43 +0000
-Received: from mail.corrib.pl ([185.58.226.145])
+	id 1pUmXi-00C0vp-Hg; Wed, 22 Feb 2023 10:40:10 +0000
+Received: from mga02.intel.com ([134.134.136.20])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pUkcD-00BFQp-GN
-	for linux-snps-arc@lists.infradead.org; Wed, 22 Feb 2023 08:36:42 +0000
-Received: by mail.corrib.pl (Postfix, from userid 1001)
-	id A71B5A445E; Wed, 22 Feb 2023 08:35:45 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corrib.pl; s=mail;
-	t=1677054951; bh=X6IEpSISwJiYlJ3uA866lskXve3r+4o2hf4z7VM6m5o=;
-	h=Date:From:To:Subject:From;
-	b=EwxUNhe9/Lj95mwEiexiHUXcOTVwqpYs15cx66H0ar6m+Z2RrHHOhUjn3TAglrjOI
-	 /TJKi5rYTCYT30CyelJCZ0bSuVVwtpvwWfgOdplUzo1LgXo3szc5QYPt9bll3XxrO5
-	 xHxFo9SO+2HuaCg0FokXPK+E21GnGfBwxkd7YCtShrUwAxJaVeKve7PW2JS7FVVrAr
-	 6+dRuS+oOKNhzOdAUylf/ofWE1FqbNa6NmVhuMLT8Xh/hSrB+Z0o2DKa37XaP+4hcV
-	 4wBdbOCKZLeFNbysE58YkgbCLAFs2bdFZdu0RK62JAewxIV9S2Yirpp8HfxK/jiG/M
-	 q0hL72Drl3QOg==
-Received: by mail.corrib.pl for <linux-snps-arc@lists.infradead.org>; Wed, 22 Feb 2023 08:35:44 GMT
-Message-ID: <20230222074502-0.1.5n.fiir.0.q52ido2e3h@corrib.pl>
-Date: Wed, 22 Feb 2023 08:35:44 GMT
-From: =?UTF-8?Q?"Szczepan_Kie=C5=82basa"?= <szczepan.kielbasa@corrib.pl>
-To: <linux-snps-arc@lists.infradead.org>
-Subject: Faktoring
-X-Mailer: mail.corrib.pl
+	id 1pUmUA-00BzCQ-UM; Wed, 22 Feb 2023 10:36:35 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677062190; x=1708598190;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=ofUmRpvhNVTg3+A6hyPOFASnnH8za9ygTzj8N8YfXSk=;
+  b=Rn+bG29OzO0Ku544lsZXwuSERahg8CmlzDEQKVldyBNqdrj4Ar0aOO/X
+   c3FOFNrBSWFiJ8j3TfKq0/h2U4/ZbQkO2eL4hnSzNBFZZepLRlzguZn0u
+   DZQ6aQ1OwkKNKen+AMMu9BCcjGF7lH2uDQ9VvIZ6WZ6eYkY5bpuPJPHhl
+   tRMqbD9UhYq10UpPRf2MPe9Kxh5QlMwtlWMee+GGdAqgw857wNp09MJzm
+   4T8EWvZOtqh+hGmbZrZRKdAyWgN4FFkBfXz2jLGVoubxnSpS4bQpB73z2
+   KUwbWGBFySJXdeh5Axcwzlsew0DyHUyBkoD2R5TSA66/WUgfMiykiWs9f
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="321031750"
+X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; 
+   d="scan'208";a="321031750"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 02:36:25 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="781379853"
+X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; 
+   d="scan'208";a="781379853"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.26.51]) ([10.213.26.51])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 02:36:19 -0800
+Message-ID: <50c1806b-f153-da48-ddf4-53923fa90334@intel.com>
+Date: Wed, 22 Feb 2023 11:36:17 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.8.0
+Subject: Re: [Intel-gfx] [PATCH v5 0/7] Introduce __xchg, non-atomic xchg
+Content-Language: en-US
+To: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-xtensa@linux-xtensa.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: Mark Rutland <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>,
+ Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <20230118153529.57695-1-andrzej.hajda@intel.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20230118153529.57695-1-andrzej.hajda@intel.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230222_003641_720647_77659E25 
-X-CRM114-Status: UNSURE (   1.46  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230222_023631_183755_E9D062F1 
+X-CRM114-Status: GOOD (  25.20  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,20 +88,133 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-RHppZcWEIGRvYnJ5LAoKcm96d2HFvGFsaSBQYcWEc3R3byB3eWLDs3IgZmluYW5zb3dhbmlhLCBr
-dMOzcmUgc3BlxYJuaSBwb3RyemVieSBmaXJteSwgemFwZXduaWFqxIVjIG5hdHljaG1pYXN0b3d5
-IGRvc3TEmXAgZG8gZ290w7N3a2ksIGJleiB6YsSZZG55Y2ggcHJ6ZXN0b2rDs3c/IAoKUHJ6eWdv
-dG93YWxpxZtteSByb3p3acSFemFuaWEgZmFrdG9yaW5nb3dlIGRvcGFzb3dhbmUgZG8gUGHFhHN0
-d2EgYnJhbsW8eSBpIHdpZWxrb8WbY2kgZmlybXksIGR6acSZa2kga3TDs3J5bSwgbmllIG11c3rE
-hSBQYcWEc3R3byBtYXJ0d2nEhyBzacSZIG8gbmlld3lwxYJhY2Fsbm/Fm8SHIGtvbnRyYWhlbnTD
-s3csIHBvbmlld2HFvCB0cmFuc2FrY2plIHPEhSB6YWJlenBpZWN6b25lIGkgcG9zaWFkYWrEhSBn
-d2FyYW5jasSZIHNwxYJhdHkuIApDaGPEhSBQYcWEc3R3byBwcnplYW5hbGl6b3dhxIcgZG9zdMSZ
-cG5lIG9wY2plPwoKClBvemRyYXdpYW0KU3pjemVwYW4gS2llxYJiYXNhCgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5n
-IGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5m
-cmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
+Hi,
+
+Ping on the series.
+Arnd, Andrew is there anything more I can do to push the process forward?
+
+Regards
+Andrzej
+
+
+On 18.01.2023 16:35, Andrzej Hajda wrote:
+> Hi all,
+> 
+> The helper is tiny and there are advices we can live without it, so
+> I want to present few arguments why it would be good to have it:
+> 
+> 1. Code readability/simplification/number of lines:
+>    - decreases number of lines,
+>    - it often eliminates local variables,
+>    - for real examples see patches 3+.
+> 
+> 2. Presence of similar helpers in other somehow related languages/libs:
+> 
+> a) Rust[1]: 'replace' from std::mem module, there is also 'take'
+>      helper (__xchg(&x, 0)), which is the same as private helper in
+>      i915 - fetch_and_zero, see latest patch.
+> b) C++ [2]: 'exchange' from utility header.
+> 
+> If the idea is OK there are still 2 questions to answer:
+> 
+> 1. Name of the helper, __xchg follows kernel conventions,
+>      but for me Rust names are also OK.
+> 2. Where to put the helper:
+> a) as in this patchset include/linux/non-atomic/xchg.h,
+>      proposed by Andy Shevchenko,
+> b) include/linux/utils.h ? any better name? Some kind
+>      of container for simple helpers.
+> 
+> All __xchg conversions were performed using cocci script,
+> then manually adjusted if necessary.
+> 
+> There is lot of places it can be used in, I have just chosen
+> some of them. I can provide cocci script to detect others (not all),
+> if necessary.
+> 
+> Changes:
+> v2: squashed all __xchg -> __arch_xchg t one patch (Arnd)
+> v3: fixed alpha/xchg_local (lkp@intel.com)
+> v4: adjusted indentation (Heiko)
+> v5: added more __xchg conversions - patches 3-6, added tags
+> 
+> [1]: https://doc.rust-lang.org/std/mem/index.html
+> [2]: https://en.cppreference.com/w/cpp/header/utility
+> 
+> Regards
+> Andrzej
+> 
+> Andrzej Hajda (7):
+>    arch: rename all internal names __xchg to __arch_xchg
+>    linux/include: add non-atomic version of xchg
+>    arch/*/uprobes: simplify arch_uretprobe_hijack_return_addr
+>    llist: simplify __llist_del_all
+>    io_uring: use __xchg if possible
+>    qed: use __xchg if possible
+>    drm/i915/gt: use __xchg instead of internal helper
+> 
+>   arch/alpha/include/asm/cmpxchg.h              | 10 +++++-----
+>   arch/arc/include/asm/cmpxchg.h                |  4 ++--
+>   arch/arm/include/asm/cmpxchg.h                |  7 ++++---
+>   arch/arm/probes/uprobes/core.c                |  8 ++------
+>   arch/arm64/include/asm/cmpxchg.h              |  7 +++----
+>   arch/arm64/kernel/probes/uprobes.c            |  9 ++-------
+>   arch/csky/kernel/probes/uprobes.c             |  9 ++-------
+>   arch/hexagon/include/asm/cmpxchg.h            | 10 +++++-----
+>   arch/ia64/include/asm/cmpxchg.h               |  2 +-
+>   arch/ia64/include/uapi/asm/cmpxchg.h          |  4 ++--
+>   arch/loongarch/include/asm/cmpxchg.h          |  4 ++--
+>   arch/m68k/include/asm/cmpxchg.h               |  6 +++---
+>   arch/mips/include/asm/cmpxchg.h               |  4 ++--
+>   arch/mips/kernel/uprobes.c                    | 10 ++--------
+>   arch/openrisc/include/asm/cmpxchg.h           | 10 +++++-----
+>   arch/parisc/include/asm/cmpxchg.h             |  4 ++--
+>   arch/powerpc/include/asm/cmpxchg.h            |  4 ++--
+>   arch/powerpc/kernel/uprobes.c                 | 10 ++--------
+>   arch/riscv/include/asm/atomic.h               |  2 +-
+>   arch/riscv/include/asm/cmpxchg.h              |  4 ++--
+>   arch/riscv/kernel/probes/uprobes.c            |  9 ++-------
+>   arch/s390/include/asm/cmpxchg.h               |  8 ++++----
+>   arch/s390/kernel/uprobes.c                    |  7 ++-----
+>   arch/sh/include/asm/cmpxchg.h                 |  4 ++--
+>   arch/sparc/include/asm/cmpxchg_32.h           |  4 ++--
+>   arch/sparc/include/asm/cmpxchg_64.h           |  6 +++---
+>   arch/sparc/kernel/uprobes.c                   |  7 ++-----
+>   arch/xtensa/include/asm/cmpxchg.h             |  4 ++--
+>   drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  2 +-
+>   .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |  4 ++--
+>   .../drm/i915/gt/intel_execlists_submission.c  |  4 ++--
+>   drivers/gpu/drm/i915/gt/intel_ggtt.c          |  4 ++--
+>   drivers/gpu/drm/i915/gt/intel_gsc.c           |  2 +-
+>   drivers/gpu/drm/i915/gt/intel_gt.c            |  4 ++--
+>   drivers/gpu/drm/i915/gt/intel_gt_pm.c         |  2 +-
+>   drivers/gpu/drm/i915/gt/intel_lrc.c           |  6 +++---
+>   drivers/gpu/drm/i915/gt/intel_migrate.c       |  2 +-
+>   drivers/gpu/drm/i915/gt/intel_rc6.c           |  2 +-
+>   drivers/gpu/drm/i915/gt/intel_rps.c           |  2 +-
+>   drivers/gpu/drm/i915/gt/selftest_context.c    |  2 +-
+>   .../drm/i915/gt/selftest_ring_submission.c    |  2 +-
+>   drivers/gpu/drm/i915/gt/selftest_timeline.c   |  2 +-
+>   drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c     |  2 +-
+>   drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  2 +-
+>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  2 +-
+>   drivers/gpu/drm/i915/i915_utils.h             |  1 +
+>   include/linux/llist.h                         |  6 ++----
+>   include/linux/non-atomic/xchg.h               | 19 +++++++++++++++++++
+>   include/linux/qed/qed_chain.h                 | 19 +++++++------------
+>   io_uring/io_uring.c                           |  7 ++-----
+>   io_uring/slist.h                              |  6 ++----
+>   51 files changed, 126 insertions(+), 155 deletions(-)
+>   create mode 100644 include/linux/non-atomic/xchg.h
+> 
+
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
