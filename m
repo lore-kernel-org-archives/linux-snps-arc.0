@@ -4,81 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0306C64ED6
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 26 Feb 2023 20:13:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CC9DBC64ED8
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 27 Feb 2023 09:53:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=A6VMmO9bm8amt1JIXasTefEnCMkav9AQhO2/nAc6fv0=; b=hDhkSVZ9rxWIfs
-	nAyvEg9LSWu8MOa4NnBHLyssds2XMCV08csheEfjWygAxu0j8UfQLRlYsI1F/WVMkJgEOIbbi2hA1
-	A4g/sAg7dchIo9BfB3o4N5xcFjRZyjUzbya3Or18IjCJPd3vnIg16dEJEM9Ae8385Dywdn4OjyZOZ
-	yMsNP8tIi9f3oazd6eS4UWlxKsG9eBOx/uFc37i5Wp1ThRWfcdqc08pYdOncrqeTAxfKUaNjrM+Hb
-	r8kai6ezwGE2SaQGYzbzpZ+fDyIdJxIysRjzKbBv5Oj1Mkchve9fWFCLhjbqvV3i875halUopcF5o
-	OzK6ZftxIbnIxJIsqx2Q==;
+	List-Owner; bh=tMnEj8mEWBe4C8xU6bGicMdTeW9qU1I4JCliHRFnnnw=; b=F1tMVutgCvnIV8
+	2GKCWF4ur0akVPr1S1oeO+amSYgh0K3Od8QNbumD5p1wc0iEwbjIYlpFcgbEHqe1hNM4f3sgNq4q0
+	wOoh3o8v4sAJqKfyQaX9VuLnKBiNSc1M54Mb/j8WsDoGAhKym461lo1gn+b5S9nDYrDSkIEKDJsyp
+	Z/K23IaopRrN/Gi9DOq+/UFU6NGNYrsUsQaGVlte9FuANjSZDSlqj+Et9KXIB9DdDbVxL9ddhckIF
+	0JRKX+Dhid8xZFASf0rJRMX9ebWWg28iLHJO9aNTwO86/fN83vAy/bh2UPGmlhsjbPYjNafTjoQES
+	AzQf6Ag8qjMaWNv5yu0A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pWNP8-007p8N-Sn; Sun, 26 Feb 2023 20:13:54 +0000
-Received: from mail-qt1-f170.google.com ([209.85.160.170])
+	id 1pWaCI-0095xq-RX; Mon, 27 Feb 2023 09:53:30 +0000
+Received: from mga03.intel.com ([134.134.136.65])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pWNP5-007p7n-GL; Sun, 26 Feb 2023 20:13:53 +0000
-Received: by mail-qt1-f170.google.com with SMTP id z6so4833852qtv.0;
-        Sun, 26 Feb 2023 12:13:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Gg5lD1thnSOjSPD2ugSmhhuDJpRIfjxQ4WV4ji/sEm4=;
-        b=y1Zuj55AI7B+5CrT9T76on3GLiRX/6I6Op6adO0Cb+qCbstUz5+rtsAlRp9eNU3ZXc
-         8qgQPZ5Kyq6JKlVPtIxs2q5ZFgOmKnq6iQe7p/hsANdVRfYhXR8LxFNvh4OLkeNbMaRO
-         /r+JGrptRoXl8xPh37H8fsjNBkRjKD9k79LmOx/25Ca8GGOSChlTSb22VqAGvHX8+PKP
-         epjAz6pGIRWjlp7Cy/WcZWXLqnuDvWptLqlYPVo4u5k+jf1thDej7ABYKupjMZv9VkTt
-         9pA+IBAfJcd7wcoMbMtc2OYQhmInIgVc+Tr0nfYGBjAm5MV9YSUKiCNMHxeUP/zxYFpq
-         egbQ==
-X-Gm-Message-State: AO0yUKXFUvcvGNzLD5lsh9uAJaNOC9uUYjenKpgZX2nqPB7Xdt9vd72x
-	/rhQCVpcZ53EiqdxVT/K7p8nmGzl53jYJw==
-X-Google-Smtp-Source: AK7set9dp2lp9Emkt0gIkvF4cwIlKa43iqEFDAWM2FMmoJJwK47nQclHvzWGTBT7uQdDO1eBofiyBA==
-X-Received: by 2002:ac8:7f15:0:b0:3bd:607:434e with SMTP id f21-20020ac87f15000000b003bd0607434emr38898578qtk.55.1677442428954;
-        Sun, 26 Feb 2023 12:13:48 -0800 (PST)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id h20-20020ac85154000000b0039cc0fbdb61sm3384311qtn.53.2023.02.26.12.13.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Feb 2023 12:13:47 -0800 (PST)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-536b7ffdd34so123334547b3.6;
-        Sun, 26 Feb 2023 12:13:47 -0800 (PST)
-X-Received: by 2002:a81:af5f:0:b0:536:38b4:f51 with SMTP id
- x31-20020a81af5f000000b0053638b40f51mr8731562ywj.5.1677442427017; Sun, 26 Feb
- 2023 12:13:47 -0800 (PST)
+	id 1pWaC6-0095u9-6d; Mon, 27 Feb 2023 09:53:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677491598; x=1709027598;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dwUo3BFORgMJVeDfksL8jP7HkkuWEuVDbhgyCpyAFqs=;
+  b=MtwkTam2FpXDlthKfc5/A8GReacYd7JQDOaZzdeL0ZxelNVOJyjByTaL
+   yilA9/D1YCmvxchWqjZUv5V1/ibkGNqXXJTiRBtsG1q9/TQ5XZnU4ZX3p
+   NKpat0DgaNMpB5wEGx9fkys46Sc6C7+k9le69nYotpG4sONiZCahG4lTv
+   mUgVuwL/e2ZjwZ/aAuSKBLaGnw7X6apODo2dj/tZvQHBm1oPn30riqbsc
+   w/sBOM3RCxan7hDZZzmW2DJ38ZL0ipOt0hfwxbADFaXMX0lKsqcSCrK9M
+   he/b2N+a2BzJ4qlWnukfKRULTB6zNK+z0gtb7b7WsWTGbPPGclIRZjAQC
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="336101819"
+X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; 
+   d="scan'208";a="336101819"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 01:53:15 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="847756370"
+X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; 
+   d="scan'208";a="847756370"
+Received: from jrissane-mobl2.ger.corp.intel.com (HELO intel.com) ([10.249.41.42])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 01:53:07 -0800
+Date: Mon, 27 Feb 2023 10:53:03 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org,
+	linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+	openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	Mark Rutland <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH v5 1/7] arch: rename all internal names
+ __xchg to __arch_xchg
+Message-ID: <Y/x9fxS1cFsa1ylP@ashyti-mobl2.lan>
+References: <20230118153529.57695-1-andrzej.hajda@intel.com>
+ <20230118154450.73842-1-andrzej.hajda@intel.com>
 MIME-Version: 1.0
-References: <20230113171026.582290-1-david@redhat.com> <20230113171026.582290-12-david@redhat.com>
-In-Reply-To: <20230113171026.582290-12-david@redhat.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Sun, 26 Feb 2023 21:13:33 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX-FDga8w=pgg1myskEx6wp+oyZifhPPPFnWrc1zW7ZpQ@mail.gmail.com>
-Message-ID: <CAMuHMdX-FDga8w=pgg1myskEx6wp+oyZifhPPPFnWrc1zW7ZpQ@mail.gmail.com>
-Subject: Re: [PATCH mm-unstable v1 11/26] microblaze/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
-	Hugh Dickins <hughd@google.com>, John Hubbard <jhubbard@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, 
-	Mike Rapoport <rppt@linux.ibm.com>, Yang Shi <shy828301@gmail.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, Nadav Amit <namit@vmware.com>, 
-	Andrea Arcangeli <aarcange@redhat.com>, Peter Xu <peterx@redhat.com>, linux-mm@kvack.org, 
-	x86@kernel.org, linux-alpha@vger.kernel.org, 
-	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
-	linux-ia64@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
-	openrisc@lists.librecores.org, linux-parisc@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-um@lists.infradead.org, 
-	linux-xtensa@linux-xtensa.org, Michal Simek <monstr@monstr.eu>
+Content-Disposition: inline
+In-Reply-To: <20230118154450.73842-1-andrzej.hajda@intel.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230226_121351_584886_1E43BA8C 
-X-CRM114-Status: GOOD (  32.36  )
+X-CRM114-CacheID: sfid-20230227_015318_324485_FE9DCDA8 
+X-CRM114-Status: UNSURE (   7.87  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,97 +96,20 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi David,
+Hi Andrzej,
 
-On Fri, Jan 13, 2023 at 6:16 PM David Hildenbrand <david@redhat.com> wrote:
-> Let's support __HAVE_ARCH_PTE_SWP_EXCLUSIVE by stealing one bit
-> from the type. Generic MM currently only uses 5 bits for the type
-> (MAX_SWAPFILES_SHIFT), so the stolen bit is effectively unused.
->
-> The shift by 2 when converting between PTE and arch-specific swap entry
-> makes the swap PTE layout a little bit harder to decipher.
->
-> While at it, drop the comment from paulus---copy-and-paste leftover
-> from powerpc where we actually have _PAGE_HASHPTE---and mask the type in
-> __swp_entry_to_pte() as well.
->
-> Cc: Michal Simek <monstr@monstr.eu>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+On Wed, Jan 18, 2023 at 04:44:44PM +0100, Andrzej Hajda wrote:
+> __xchg will be used for non-atomic xchg macro.
+> 
+> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+> Acked-by: Geert Uytterhoeven <geert@linux-m68k.org> [m68k]
+> Acked-by: Palmer Dabbelt <palmer@rivosinc.com> [riscv]
 
-Thanks for your patch, which is now commit b5c88f21531c3457
-("microblaze/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE") in
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
->  arch/m68k/include/asm/mcf_pgtable.h   |  4 +--
-
-What is this m68k change doing here?
-Sorry for not noticing this earlier.
-
-Furthermore, several things below look strange to me...
-
->  arch/microblaze/include/asm/pgtable.h | 45 +++++++++++++++++++++------
->  2 files changed, 37 insertions(+), 12 deletions(-)
->
-> diff --git a/arch/m68k/include/asm/mcf_pgtable.h b/arch/m68k/include/asm/mcf_pgtable.h
-> index 3f8f4d0e66dd..e573d7b649f7 100644
-> --- a/arch/m68k/include/asm/mcf_pgtable.h
-> +++ b/arch/m68k/include/asm/mcf_pgtable.h
-> @@ -46,8 +46,8 @@
->  #define _CACHEMASK040          (~0x060)
->  #define _PAGE_GLOBAL040                0x400   /* 68040 global bit, used for kva descs */
->
-> -/* We borrow bit 7 to store the exclusive marker in swap PTEs. */
-> -#define _PAGE_SWP_EXCLUSIVE    0x080
-> +/* We borrow bit 24 to store the exclusive marker in swap PTEs. */
-> +#define _PAGE_SWP_EXCLUSIVE    CF_PAGE_NOCACHE
-
-CF_PAGE_NOCACHE is 0x80, so this is still bit 7, thus the new comment
-is wrong?
-
->
->  /*
->   * Externally used page protection values.
-> diff --git a/arch/microblaze/include/asm/pgtable.h b/arch/microblaze/include/asm/pgtable.h
-> index 42f5988e998b..7e3de54bf426 100644
-> --- a/arch/microblaze/include/asm/pgtable.h
-> +++ b/arch/microblaze/include/asm/pgtable.h
-> @@ -131,10 +131,10 @@ extern pte_t *va_to_pte(unsigned long address);
->   * of the 16 available.  Bit 24-26 of the TLB are cleared in the TLB
->   * miss handler.  Bit 27 is PAGE_USER, thus selecting the correct
->   * zone.
-> - * - PRESENT *must* be in the bottom two bits because swap cache
-> - * entries use the top 30 bits.  Because 4xx doesn't support SMP
-> - * anyway, M is irrelevant so we borrow it for PAGE_PRESENT.  Bit 30
-> - * is cleared in the TLB miss handler before the TLB entry is loaded.
-> + * - PRESENT *must* be in the bottom two bits because swap PTEs use the top
-> + * 30 bits.  Because 4xx doesn't support SMP anyway, M is irrelevant so we
-> + * borrow it for PAGE_PRESENT.  Bit 30 is cleared in the TLB miss handler
-> + * before the TLB entry is loaded.
-
-So the PowerPC 4xx comment is still here?
-
->   * - All other bits of the PTE are loaded into TLBLO without
->   *  * modification, leaving us only the bits 20, 21, 24, 25, 26, 30 for
->   * software PTE bits.  We actually use bits 21, 24, 25, and
-> @@ -155,6 +155,9 @@ extern pte_t *va_to_pte(unsigned long address);
->  #define _PAGE_ACCESSED 0x400   /* software: R: page referenced */
->  #define _PMD_PRESENT   PAGE_MASK
->
-> +/* We borrow bit 24 to store the exclusive marker in swap PTEs. */
-> +#define _PAGE_SWP_EXCLUSIVE    _PAGE_DIRTY
-
-_PAGE_DIRTY is 0x80, so this is also bit 7, thus the new comment is
-wrong?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks,
+Andi
 
 _______________________________________________
 linux-snps-arc mailing list
