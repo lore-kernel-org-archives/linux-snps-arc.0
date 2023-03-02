@@ -4,88 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A360DC678D4
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  2 Mar 2023 16:12:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 225EAC6FA8E
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  2 Mar 2023 19:54:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:References:
+	In-Reply-To:Subject:CC:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=7TX8LQg19ONKeBRVfcVhoLumuddF+AbbAdh0PZvGt1Q=; b=viDiibId78r+5x
-	5DWjDv/ewvWQHaLxtc7/YrixDQC16LOEX7sqbCcGWYfPxeF5dGll7VX4RJu/3Wn/ta5bnXiFqsjtt
-	iQO9/dMAbyXFfDfIPxBicIohM4wDaoKtmxttC9QYFXi4qOobbBvhs54udhf0AQZcYdLfxpCbPhh5O
-	Ej3xzVMROiPsj6jMMDHuAo+TQ1Y9YfY5GvF9OEybMBJwMEkaI5e6zeG3NE8YnHVVBHb6XZZhg+w7k
-	BHBXkIkVfh4XIDkQ+Trwix04KV0sH5Uo/tucP1pJmjacJFi6P0QZaHG5fIwn2nK4s8IWsFWzLeW8h
-	70DFaomVin8R2SduLzKw==;
+	List-Owner; bh=nkwQYirZ2oBUSNg9iWHjuIf4R8xv8D0qKkLx+zgtgD0=; b=4jlZmOcGs8DLMk
+	5794xbQ6iOOaNiz3QxnBAUDhPImNB5Qic0hcpg4DxY85tvAToESHkTMZhDRtBmzjjYUByZkRvii3Y
+	ihATZ+1DaRODnYIWV8bbIoYObGH0vTuxqTgiLPq3TS48vxWgP5/roxZq2AtpP4VwVsGiubNRerQM4
+	o2+i+8DH76eghGfB9mxBFL9unnUTQbEX/DB/asUkE0pgnsr0ladwIBWA30O1EdtsakOjoIEu9eFc5
+	c/eRP1HMAbFOV35G7MS1n8oxnxfPsOxnaQw0hqPUJIw1sEwX89Ogvp2Q3zhnPr3haYBTOY9NRH44a
+	cL+d+bEiIw3utA0nQ+pg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pXlXb-002mhV-Sq; Thu, 02 Mar 2023 16:12:23 +0000
-Received: from mx0a-00230701.pphosted.com ([148.163.156.19])
+	id 1pXp0V-003CT8-6O; Thu, 02 Mar 2023 19:54:27 +0000
+Received: from [2607:7c80:54:3::138] (helo=mail.zytor.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pXlXY-002mgZ-Kb
-	for linux-snps-arc@lists.infradead.org; Thu, 02 Mar 2023 16:12:21 +0000
-Received: from pps.filterd (m0297266.ppops.net [127.0.0.1])
-	by mx0a-00230701.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 322G51Lb010064;
-	Thu, 2 Mar 2023 08:12:20 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pfptdkimsnps;
- bh=Vg249BbTkvNkrtiiv3LWdoFEvaTjamFxVm9+45KaJvc=;
- b=PI5UMxTQi0aJhPBs3PexwF4b7KNOjZxncevBSMAy/RUy8yRi6XZA9tVToC5KwmhARsOQ
- F/5qW1bWqMtvR7bnRAN9j5vGnoI3gfjycwJJ30eoHp13iSRt8DvMwiLiyQJDYs5TZQJ3
- nVghV/ccjl6CIwTKBeewzmrZVXDQRscUTemvDrF1Q1T0KYEIbvry5t84Wcdr7BmjWxPi
- Z3HXu5yT0jNT9uJup3q7NOvuBmkcSPE46SMv1GXoEStILTK61Yel6nA7rYBcgAIjKER0
- v1V34In3l4hYJtrJZqnD2etPIlTiTY0PIOPEPXyIcUAAyHxIB0dnpeJ6JZAWir2V35T9 nQ== 
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.87.133])
-	by mx0a-00230701.pphosted.com (PPS) with ESMTPS id 3nyjfdwbnq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 02 Mar 2023 08:12:20 -0800
-Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com [10.205.2.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
-	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id D279DC00AF;
-	Thu,  2 Mar 2023 16:12:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1677773539; bh=ef2VQ9QkBlki0vk0yTeJwqC+VlwKiBF/Qb9jA+N3Jts=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lqMsLOZLUurkl6w7OLQFM9gkg2yfU4LqIWB6bzT7HSZZOA5WWSOQmRUdvSBOgYPUq
-	 b9MgAQ9PDAAatNBzm3JMTRxmK4grto+6WgHT3kbGWreX5v573gl3vFslcWLJg1BoxE
-	 qMwftf3e/4sYTtiz1xjppLp0rU/ff1ehLr5V2Y4fZDM+JS/KIUUp3Czrxn5F43Hz0P
-	 yexTZgRb0CGumF6IRMK33C9AKeyRhiuXdmw09YmB6TyHv74FPdlJ8MYkYsTRinvhC6
-	 czWc2+xXJhJPLAdcBRukFx9BLwIWjUiZvJB6Nbzt0of70bTirKWSovmYwrVeWeQuHt
-	 NFE6736n8crnQ==
-Received: from SNPS-o0WHuHJU73.internal.synopsys.com (snps-o0whuhju73.internal.synopsys.com [10.116.105.29])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(Client did not present a certificate)
-	by mailhost.synopsys.com (Postfix) with ESMTPSA id E173AA006D;
-	Thu,  2 Mar 2023 16:12:16 +0000 (UTC)
-X-SNPS-Relay: synopsys.com
-From: Pavel.Kozlov@synopsys.com
-To: libc-alpha@sourceware.org
-Cc: linux-snps-arc@lists.infradead.org,
-        Pavel Kozlov <Pavel.Kozlov@synopsys.com>
-Subject: [PATCH 2/2] ARC: run child from the separate start block in __clone
-Date: Thu,  2 Mar 2023 20:10:19 +0400
-Message-Id: <20230302161019.27192-2-kozlov@synopsys.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230302161019.27192-1-kozlov@synopsys.com>
-References: <20230302161019.27192-1-kozlov@synopsys.com>
+	id 1pXp0R-003CSB-HE; Thu, 02 Mar 2023 19:54:24 +0000
+Received: from [127.0.0.1] ([73.223.221.228])
+	(authenticated bits=0)
+	by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 322JolfB1654568
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Thu, 2 Mar 2023 11:50:48 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 322JolfB1654568
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2023020601; t=1677786658;
+	bh=n/GRsm1pImWCPNm4dPoe5zec7Kp4K3JReb8gPrI8/mc=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=EoMqj2NrvtdnnKP1K3ZY31x6mzZLyhmRVv+AfJ7wKdoAJbCxWwA+q2O/5sMmJVAVH
+	 CBl1NaM0Y8H4KZuzvQjbNwKYV6dXCiIfmDalzvbDgGVmn+bMayegSv6UvQXFNOV7kH
+	 d/WVC69GzUYAENKo48YQjfv0/LuQNbAN20Le/uIDHGiGr9P8B8oHP2fS95eG5xB58F
+	 uasUM1VqxwzDuwffGGAapL9uswmgoHxhnTzGnsDohaOFjOu2pxA/e5nnYVugsNl2zn
+	 98XlC/4jazJIi0XM8kFrS6seI0EpKbWqSgJdlLGlfl4yBTPVtfQW74gM369HHmiIcn
+	 4YRgUzYFXGcXg==
+Date: Thu, 02 Mar 2023 11:50:45 -0800
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Palmer Dabbelt <palmer@dabbelt.com>, hca@linux.ibm.com
+CC: geert@linux-m68k.org, alexghiti@rivosinc.com, corbet@lwn.net,
+        Richard Henderson <richard.henderson@linaro.org>,
+        ink@jurassic.park.msu.ru, mattst88@gmail.com, vgupta@kernel.org,
+        linux@armlinux.org.uk, Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, chenhuacai@kernel.org,
+        kernel@xen0n.name, monstr@monstr.eu, tsbogend@alpha.franken.de,
+        James.Bottomley@hansenpartnership.com, deller@gmx.de,
+        mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
+        Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
+        gor@linux.ibm.com, agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
+        svens@linux.ibm.com, ysato@users.osdn.me, dalias@libc.org,
+        davem@davemloft.net, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        chris@zankel.net, jcmvbkbc@gmail.com, Arnd Bergmann <arnd@arndb.de>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        loongarch@lists.linux.dev, linux-m68k@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-arch@vger.kernel.org
+Subject: Re: [PATCH v3 00/24] Remove COMMAND_LINE_SIZE from uapi
+User-Agent: K-9 Mail for Android
+In-Reply-To: <mhng-e8b09772-24e5-4729-a0bf-01a9e4c76636@palmer-ri-x1c9a>
+References: <mhng-e8b09772-24e5-4729-a0bf-01a9e4c76636@palmer-ri-x1c9a>
+Message-ID: <21F95EC4-71EA-4154-A7DC-8A5BA54F174B@zytor.com>
 MIME-Version: 1.0
-X-Proofpoint-GUID: YlCzq_bxQPRvZ3PwhbDVJxRjvxzMUMw8
-X-Proofpoint-ORIG-GUID: YlCzq_bxQPRvZ3PwhbDVJxRjvxzMUMw8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-02_09,2023-03-02_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam policy=outbound_active_cloned score=0
- lowpriorityscore=0 phishscore=0 suspectscore=0 priorityscore=1501
- mlxscore=0 clxscore=1015 malwarescore=0 adultscore=0 mlxlogscore=944
- impostorscore=0 bulkscore=0 spamscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2303020140
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230302_081220_721412_046796FF 
-X-CRM114-Status: GOOD (  15.92  )
+X-CRM114-CacheID: sfid-20230302_115423_600925_2CCC5F1F 
+X-CRM114-Status: GOOD (  29.17  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,82 +91,56 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Pavel Kozlov <pavel.kozlov@synopsys.com>
+On March 1, 2023 7:17:18 PM PST, Palmer Dabbelt <palmer@dabbelt.com> wrote:
+>On Tue, 14 Feb 2023 01:19:02 PST (-0800), hca@linux.ibm.com wrote:
+>> On Tue, Feb 14, 2023 at 09:58:17AM +0100, Geert Uytterhoeven wrote:
+>>> Hi Heiko,
+>>> 
+>>> On Tue, Feb 14, 2023 at 9:39 AM Heiko Carstens <hca@linux.ibm.com> wrote:
+>>> > On Tue, Feb 14, 2023 at 08:49:01AM +0100, Alexandre Ghiti wrote:
+>>> > > This all came up in the context of increasing COMMAND_LINE_SIZE in the
+>>> > > RISC-V port.  In theory that's a UABI break, as COMMAND_LINE_SIZE is the
+>>> > > maximum length of /proc/cmdline and userspace could staticly rely on
+>>> > > that to be correct.
+>>> > >
+>>> > > Usually I wouldn't mess around with changing this sort of thing, but
+>>> > > PowerPC increased it with a5980d064fe2 ("powerpc: Bump COMMAND_LINE_SIZE
+>>> > > to 2048").  There are also a handful of examples of COMMAND_LINE_SIZE
+>>> > > increasing, but they're from before the UAPI split so I'm not quite sure
+>>> > > what that means: e5a6a1c90948 ("powerpc: derive COMMAND_LINE_SIZE from
+>>> > > asm-generic"), 684d2fd48e71 ("[S390] kernel: Append scpdata to kernel
+>>> > > boot command line"), 22242681cff5 ("MIPS: Extend COMMAND_LINE_SIZE"),
+>>> > > and 2b74b85693c7 ("sh: Derive COMMAND_LINE_SIZE from
+>>> > > asm-generic/setup.h.").
+>>> > >
+>>> > > It seems to me like COMMAND_LINE_SIZE really just shouldn't have been
+>>> > > part of the uapi to begin with, and userspace should be able to handle
+>>> > > /proc/cmdline of whatever length it turns out to be.  I don't see any
+>>> > > references to COMMAND_LINE_SIZE anywhere but Linux via a quick Google
+>>> > > search, but that's not really enough to consider it unused on my end.
+>>> > >
+>>> > > The feedback on the v1 seemed to indicate that COMMAND_LINE_SIZE really
+>>> > > shouldn't be part of uapi, so this now touches all the ports.  I've
+>>> > > tried to split this all out and leave it bisectable, but I haven't
+>>> > > tested it all that aggressively.
+>>> >
+>>> > Just to confirm this assumption a bit more: that's actually the same
+>>> > conclusion that we ended up with when commit 3da0243f906a ("s390: make
+>>> > command line configurable") went upstream.
+>
+>Thanks, I guess I'd missed that one.  At some point I think there was some discussion of making this a Kconfig for everyone, which seems reasonable to me -- our use case for this being extended is syzkaller, but we're sort of just picking a value that's big enough for now and running with it.
+>
+>Probably best to get it out of uapi first, though, as that way at least it's clear that it's not uABI.
+>
+>>> Commit 622021cd6c560ce7 ("s390: make command line configurable"),
+>>> I assume?
+>> 
+>> Yes, sorry for that. I got distracted while writing and used the wrong
+>> branch to look this up.
+>
+>Alex: Probably worth adding that to the list in the cover letter as it looks like you were planning on a v4 anyway (which I guess you now have to do, given that I just added the issue to RISC-V).
 
-For better debug experience use separate code block with extra
-cfi_* directives to run child (same as in __clone3).
----
- sysdeps/unix/sysv/linux/arc/clone.S | 40 ++++++++++++++++++-----------
- 1 file changed, 25 insertions(+), 15 deletions(-)
-
-diff --git a/sysdeps/unix/sysv/linux/arc/clone.S b/sysdeps/unix/sysv/linux/arc/clone.S
-index 766649625658..0029aaeb8170 100644
---- a/sysdeps/unix/sysv/linux/arc/clone.S
-+++ b/sysdeps/unix/sysv/linux/arc/clone.S
-@@ -20,9 +20,6 @@
- #include <sysdep.h>
- #define _ERRNO_H	1
- #include <bits/errno.h>
--#include <tcb-offsets.h>
--
--#define CLONE_SETTLS		0x00080000
- 
- /* int clone(int (*fn)(void *), void *child_stack,
-            int flags, void *arg, ...
-@@ -63,19 +60,9 @@ ENTRY (__clone)
- 	ARC_TRAP_INSN
- 
- 	cmp	r0, 0		/* return code : 0 new process, !0 parent.  */
-+	beq	thread_start_clone
- 	blt	L (__sys_err2)	/* < 0 (signed) error.  */
--	jnz	[blink]		/* Parent returns.  */
--
--	/* child jumps off to @fn with @arg as argument
--           TP register already set by kernel.  */
--	jl.d	[r10]
--	mov	r0, r11
--
--	/* exit() with result from @fn (already in r0).  */
--	mov	r8, __NR_exit
--	ARC_TRAP_INSN
--	/* In case it ever came back.  */
--	flag	1
-+	j	[blink]		/* Parent returns.  */
- 
- L (__sys_err):
- 	mov	r0, -EINVAL
-@@ -89,5 +76,28 @@ L (__sys_err2):
- 	       position independent.  */
- 	b   __syscall_error
- PSEUDO_END (__clone)
-+
-+
-+	.align 4
-+	.type thread_start_clone, %function
-+thread_start_clone:
-+	cfi_startproc
-+	/* Terminate call stack by noting ra is undefined.  */
-+	cfi_undefined (blink)
-+
-+	/* Child jumps off to @fn with @arg as argument.  */
-+	jl.d	[r10]
-+	mov	r0, r11
-+
-+	/* exit() with result from @fn (already in r0).  */
-+	mov	r8, __NR_exit
-+	ARC_TRAP_INSN
-+
-+	/* In case it ever came back.  */
-+	flag	1
-+
-+	cfi_endproc
-+	.size thread_start_clone, .-thread_start_clone
-+
- libc_hidden_def (__clone)
- weak_alias (__clone, clone)
--- 
-2.25.1
-
+The only use that is uapi is the *default* length of the command line if the kernel header doesn't include it (in the case of x86, it is in the bzImage header, but that is atchitecture- or even boot format-specific.)
 
 _______________________________________________
 linux-snps-arc mailing list
