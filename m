@@ -4,91 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD754C678D4
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  2 Mar 2023 09:00:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21FEFC678D4
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  2 Mar 2023 09:35:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=8D1WadvLzocqq7CuYkvIVpeSyFLzIPSEdfOBIKi0TMQ=; b=ZvbSi+jN4S3c+U
-	ghBh69yhAEW2JKVce9NcimflohijjQT2jHQStDXdiVIHqRX3aHe10KRVIS5US87G82cZrxSjES/nx
-	LmB0p78Y02z/Gub1WPvvDbtUFsxnNskB/dxsN5hyfZpwLBu4+cxHTUcJHyzG+ryGgQbAt1j4fCEIG
-	DdW24kwIkmGwDn7A5u4fR0+tfl16dOGiX1UUcvsuwFquIQKCFQ4uA2+LrL4jY4mffjTPn77aTUvQs
-	8uZnW4Ic09qZoCQdkg0spseTz93T0gyfIHvxK58/7DURgn3CUXEXUbKIl5wqGGgjFMmn8nwO3lxIF
-	w6rR9or+t1DjkuARmFcA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=bvk+vP9b4CRLfo5NgsznS6wpxDtXeky800mYG0XD8LU=; b=tbJbHUAw7Qfpyb
+	/F1hIAviTe8mzhHQ345LMZTxdEgknnMIYHpL1Uf/q+SV1b7a77wihfYkH1mxMeSsqcBhvNyT/bvS3
+	hTb0tQfAtuQmHSxKOMEtuucaWjPDe5kxxeXxy0Pza7cZGOmx29y6xvMdMbUavOUhKgnMBX5RBEXrm
+	SKY7mh8QMlJ4qTRTwLJwEXWp8fXzQDiRX3eIt+M5Y0XmWu+iT/u5XJgFUNWRI+DTUTdOmDfLXvhYh
+	N14mSlnmRVYjp7fSrXjgtLzOcdGZQsgZ2GYA/nUzxVepZbS/Rp1OKwQ1mne7UrQ3NM0V3ZbERW6Zg
+	S2zq84+xJyrgWhAPpp2A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pXenr-001LTS-R9; Thu, 02 Mar 2023 09:00:43 +0000
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+	id 1pXfLr-001R1p-LK; Thu, 02 Mar 2023 09:35:51 +0000
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pXdoZ-001Coh-BR
-	for linux-snps-arc@lists.infradead.org; Thu, 02 Mar 2023 07:57:26 +0000
-Received: by mail-wm1-x333.google.com with SMTP id o11-20020a05600c4fcb00b003eb33ea29a8so957049wmq.1
-        for <linux-snps-arc@lists.infradead.org>; Wed, 01 Mar 2023 23:57:20 -0800 (PST)
+	id 1pXfLn-001Qxs-Kp
+	for linux-snps-arc@lists.infradead.org; Thu, 02 Mar 2023 09:35:49 +0000
+Received: by mail-wm1-x32d.google.com with SMTP id j19-20020a05600c191300b003eb3e1eb0caso1250802wmq.1
+        for <linux-snps-arc@lists.infradead.org>; Thu, 02 Mar 2023 01:35:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677743839;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3gGlmdrxpk12L0HtiU5R9bJeUayhxQ74GXgfAq6meuw=;
-        b=pn+DJn+k9uImMGeBMXuwnMQE1biMNzy71Plo8H7DOI3fKK/ceps9rgGUxc/bmw8s6L
-         4TQMSud9TXFc8/r2OEOEiAKv5SApxcJ1Yd/LQHA0imhiw3qi8hrsJYLIdS7LaNAmBH1O
-         AbgLlGVWFn2hf8BkmR90At5+g3zqQ61Ankq9cGuBB9WgQfAsyn4JZulcRbW71gf7ZeYz
-         oRP4F6/LxUTL9nxCbjnWUdwQSV0fTcnbx/sIcDMk8fB8xQ9dJ6UAQMnDD3HBbCn+Qr4a
-         fIykdIwuX5WmEnYpwkBvfu6oXc7MDCcdwlfNYOa5JGNIdVdo8Hubuxh+Kfco99U7Z89i
-         QfaQ==
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677749742;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0+QyJbOcIEmK/h00N9XPuc9p7Y446r7FCIJpaEpb2y0=;
+        b=GSZPDYNuLgx/8mLBXcWrYDn7canNDaRtfx/thmlw+ZEBHPI0HYu1zL9LQFCizwcrca
+         TsKITKLC0vDpyHBESTzecaxvZI4+8ls2wjItm2Pt/uxbbqQ0iKB0xHThPFn5cHy8g/mJ
+         y9OD1hXrn5nc4Q2EZaQPwPA3ne0cIzPME9LqnyO6K/L7WEPGkJVeZOAkCNfuTzDGKLV3
+         /5/Ofu4+aOhWWfFMVIN2YY9VqSSWA+OsdGSkgKWVxcBzI+N21V9PPC5mATDOgJC7aibv
+         nuJNa9uPLqwVsGG4Y11KwSu5HX6ff6be1CREj0CQTZPl1a4u3/kbBq6+Gy5wWVRsPZ7x
+         9i+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677743839;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3gGlmdrxpk12L0HtiU5R9bJeUayhxQ74GXgfAq6meuw=;
-        b=67qKs61lvgpCmzaiCZvQwW0KkVt6yBmAdElfUZkksxRQAITTRBqgbZPq00fKZcDGhZ
-         MSGwMgeOeBm2i4ustKS+i/QxbGjD9XUOyZurXC+TKezVr//koeXaCVFHdaZ+C97kfMAf
-         5gzBcl2r1FrKQHhLWk4st3nQTKSQgoXDdfqlAGf2rgk7AvqmK3fisgOmcySvSHC7spKF
-         4jrib6Z5W+GmQi5/7IlJiUl9VQgOkXCaUjkfdN0fDfhMgtyShcxUYvWMvgiwF1WFn2Ml
-         7cFGnWMxENetcN/CwV02G9oXyn8SXS7wvKvJFdJ7LK8Rf5eb67QpwjPPqFQVtBOiIZqS
-         BlEw==
-X-Gm-Message-State: AO0yUKWWxxVtzJy5PLELDxxcA/M4WSuRdlLLbbPPuYLoSU8+zzd1xhry
-	43YeQ4/VHOLlT6GPAq+9m4u9gl06VkclEakWweNx9A==
-X-Google-Smtp-Source: AK7set8WtHYe+gEo1Fgs1pSlJqsnM2tCvgsXzdB6/J3n+P8FnRw3jetc5Yrjj9TAlqQSjPmyeFZCYlu44lotg0az/Sk=
-X-Received: by 2002:a05:600c:4591:b0:3ea:8ed9:8e4b with SMTP id
- r17-20020a05600c459100b003ea8ed98e4bmr2655128wmo.6.1677743839531; Wed, 01 Mar
- 2023 23:57:19 -0800 (PST)
-MIME-Version: 1.0
-References: <Y+tSBlSsQBQF/Ro2@osiris> <mhng-e8b09772-24e5-4729-a0bf-01a9e4c76636@palmer-ri-x1c9a>
-In-Reply-To: <mhng-e8b09772-24e5-4729-a0bf-01a9e4c76636@palmer-ri-x1c9a>
+        d=1e100.net; s=20210112; t=1677749742;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0+QyJbOcIEmK/h00N9XPuc9p7Y446r7FCIJpaEpb2y0=;
+        b=XnhYhdmxvNN4eYQmyZrv1z7fFn9P8kXZxYwLW9kF/LYz9XAYDGRn/B0rJ+euNDhaMI
+         y0VvT8uCs9G0hDNxqKKQn+mHF8O5ZHE8zzq8YJB5801gKQ/JFGozWWgE+yT9P2v3lbbe
+         qK+rM1qOlAt6kE9pVtfgDY5GM8I4VzsHp1DwPGPVZB97dXLr2dvCh4b36JSU9JZ4q2cr
+         d4mPqZ/Mrbly0Kmxq0pMpt+GK+cWcRiLHb0PHPHCG201sTIQqQHiNpt6cs+EIk6xTqKe
+         NmgW6op4K/5Si0FHlqJwAoPxUbPFcYfhmH5v7waEKSgkzRpGpQkyh3XR8tVSzoIO46M2
+         2hhg==
+X-Gm-Message-State: AO0yUKU2D8SWK4FW8UWWJeRfmHNN60GEn1CSCpqjWwAeHyp0hW2zw8dt
+	egnRns1AHiUefsM2X3JPoUp4Ww==
+X-Google-Smtp-Source: AK7set82JqkGhDygh6pR2mSF0/c3yM6dikmWvSRMvxrqnIL2EUb/yJbhzMLscJ56hDRKKxkME8A6dw==
+X-Received: by 2002:a05:600c:1708:b0:3d0:6a57:66a5 with SMTP id c8-20020a05600c170800b003d06a5766a5mr7384393wmn.0.1677749742062;
+        Thu, 02 Mar 2023 01:35:42 -0800 (PST)
+Received: from alex-rivos.home (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
+        by smtp.gmail.com with ESMTPSA id l10-20020a7bc44a000000b003e21dcccf9fsm2223136wmi.16.2023.03.02.01.35.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Mar 2023 01:35:41 -0800 (PST)
 From: Alexandre Ghiti <alexghiti@rivosinc.com>
-Date: Thu, 2 Mar 2023 08:57:08 +0100
-Message-ID: <CAHVXubgdr_NrLPnZ6NhuDt8uZYZD+R_swpCVGoLDxnD+eOJcuA@mail.gmail.com>
-Subject: Re: [PATCH v3 00/24] Remove COMMAND_LINE_SIZE from uapi
-To: Palmer Dabbelt <palmer@dabbelt.com>
-Cc: hca@linux.ibm.com, geert@linux-m68k.org, corbet@lwn.net, 
-	Richard Henderson <richard.henderson@linaro.org>, ink@jurassic.park.msu.ru, mattst88@gmail.com, 
-	vgupta@kernel.org, linux@armlinux.org.uk, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, chenhuacai@kernel.org, 
-	kernel@xen0n.name, monstr@monstr.eu, tsbogend@alpha.franken.de, 
-	James.Bottomley@hansenpartnership.com, deller@gmx.de, mpe@ellerman.id.au, 
-	npiggin@gmail.com, christophe.leroy@csgroup.eu, 
-	Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu, gor@linux.ibm.com, 
-	agordeev@linux.ibm.com, borntraeger@linux.ibm.com, svens@linux.ibm.com, 
-	ysato@users.sourceforge.jp, dalias@libc.org, davem@davemloft.net, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, chris@zankel.net, 
-	jcmvbkbc@gmail.com, Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-ia64@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-xtensa@linux-xtensa.org, linux-arch@vger.kernel.org
+To: Jonathan Corbet <corbet@lwn.net>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Vineet Gupta <vgupta@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Michal Simek <monstr@monstr.eu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+	Helge Deller <deller@gmx.de>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Chris Zankel <chris@zankel.net>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-alpha@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-ia64@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org,
+	linux-xtensa@linux-xtensa.org,
+	linux-arch@vger.kernel.org
+Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: [PATCH v4 00/24] Remove COMMAND_LINE_SIZE from uapi
+Date: Thu,  2 Mar 2023 10:35:15 +0100
+Message-Id: <20230302093539.372962-1-alexghiti@rivosinc.com>
+X-Mailer: git-send-email 2.37.2
+MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230301_235723_656615_310430D2 
-X-CRM114-Status: GOOD (  36.14  )
+X-CRM114-CacheID: sfid-20230302_013547_715432_2E27852C 
+X-CRM114-Status: GOOD (  19.40  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,65 +135,133 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-T24gVGh1LCBNYXIgMiwgMjAyMyBhdCA0OjE34oCvQU0gUGFsbWVyIERhYmJlbHQgPHBhbG1lckBk
-YWJiZWx0LmNvbT4gd3JvdGU6Cj4KPiBPbiBUdWUsIDE0IEZlYiAyMDIzIDAxOjE5OjAyIFBTVCAo
-LTA4MDApLCBoY2FAbGludXguaWJtLmNvbSB3cm90ZToKPiA+IE9uIFR1ZSwgRmViIDE0LCAyMDIz
-IGF0IDA5OjU4OjE3QU0gKzAxMDAsIEdlZXJ0IFV5dHRlcmhvZXZlbiB3cm90ZToKPiA+PiBIaSBI
-ZWlrbywKPiA+Pgo+ID4+IE9uIFR1ZSwgRmViIDE0LCAyMDIzIGF0IDk6MzkgQU0gSGVpa28gQ2Fy
-c3RlbnMgPGhjYUBsaW51eC5pYm0uY29tPiB3cm90ZToKPiA+PiA+IE9uIFR1ZSwgRmViIDE0LCAy
-MDIzIGF0IDA4OjQ5OjAxQU0gKzAxMDAsIEFsZXhhbmRyZSBHaGl0aSB3cm90ZToKPiA+PiA+ID4g
-VGhpcyBhbGwgY2FtZSB1cCBpbiB0aGUgY29udGV4dCBvZiBpbmNyZWFzaW5nIENPTU1BTkRfTElO
-RV9TSVpFIGluIHRoZQo+ID4+ID4gPiBSSVNDLVYgcG9ydC4gIEluIHRoZW9yeSB0aGF0J3MgYSBV
-QUJJIGJyZWFrLCBhcyBDT01NQU5EX0xJTkVfU0laRSBpcyB0aGUKPiA+PiA+ID4gbWF4aW11bSBs
-ZW5ndGggb2YgL3Byb2MvY21kbGluZSBhbmQgdXNlcnNwYWNlIGNvdWxkIHN0YXRpY2x5IHJlbHkg
-b24KPiA+PiA+ID4gdGhhdCB0byBiZSBjb3JyZWN0Lgo+ID4+ID4gPgo+ID4+ID4gPiBVc3VhbGx5
-IEkgd291bGRuJ3QgbWVzcyBhcm91bmQgd2l0aCBjaGFuZ2luZyB0aGlzIHNvcnQgb2YgdGhpbmcs
-IGJ1dAo+ID4+ID4gPiBQb3dlclBDIGluY3JlYXNlZCBpdCB3aXRoIGE1OTgwZDA2NGZlMiAoInBv
-d2VycGM6IEJ1bXAgQ09NTUFORF9MSU5FX1NJWkUKPiA+PiA+ID4gdG8gMjA0OCIpLiAgVGhlcmUg
-YXJlIGFsc28gYSBoYW5kZnVsIG9mIGV4YW1wbGVzIG9mIENPTU1BTkRfTElORV9TSVpFCj4gPj4g
-PiA+IGluY3JlYXNpbmcsIGJ1dCB0aGV5J3JlIGZyb20gYmVmb3JlIHRoZSBVQVBJIHNwbGl0IHNv
-IEknbSBub3QgcXVpdGUgc3VyZQo+ID4+ID4gPiB3aGF0IHRoYXQgbWVhbnM6IGU1YTZhMWM5MDk0
-OCAoInBvd2VycGM6IGRlcml2ZSBDT01NQU5EX0xJTkVfU0laRSBmcm9tCj4gPj4gPiA+IGFzbS1n
-ZW5lcmljIiksIDY4NGQyZmQ0OGU3MSAoIltTMzkwXSBrZXJuZWw6IEFwcGVuZCBzY3BkYXRhIHRv
-IGtlcm5lbAo+ID4+ID4gPiBib290IGNvbW1hbmQgbGluZSIpLCAyMjI0MjY4MWNmZjUgKCJNSVBT
-OiBFeHRlbmQgQ09NTUFORF9MSU5FX1NJWkUiKSwKPiA+PiA+ID4gYW5kIDJiNzRiODU2OTNjNyAo
-InNoOiBEZXJpdmUgQ09NTUFORF9MSU5FX1NJWkUgZnJvbQo+ID4+ID4gPiBhc20tZ2VuZXJpYy9z
-ZXR1cC5oLiIpLgo+ID4+ID4gPgo+ID4+ID4gPiBJdCBzZWVtcyB0byBtZSBsaWtlIENPTU1BTkRf
-TElORV9TSVpFIHJlYWxseSBqdXN0IHNob3VsZG4ndCBoYXZlIGJlZW4KPiA+PiA+ID4gcGFydCBv
-ZiB0aGUgdWFwaSB0byBiZWdpbiB3aXRoLCBhbmQgdXNlcnNwYWNlIHNob3VsZCBiZSBhYmxlIHRv
-IGhhbmRsZQo+ID4+ID4gPiAvcHJvYy9jbWRsaW5lIG9mIHdoYXRldmVyIGxlbmd0aCBpdCB0dXJu
-cyBvdXQgdG8gYmUuICBJIGRvbid0IHNlZSBhbnkKPiA+PiA+ID4gcmVmZXJlbmNlcyB0byBDT01N
-QU5EX0xJTkVfU0laRSBhbnl3aGVyZSBidXQgTGludXggdmlhIGEgcXVpY2sgR29vZ2xlCj4gPj4g
-PiA+IHNlYXJjaCwgYnV0IHRoYXQncyBub3QgcmVhbGx5IGVub3VnaCB0byBjb25zaWRlciBpdCB1
-bnVzZWQgb24gbXkgZW5kLgo+ID4+ID4gPgo+ID4+ID4gPiBUaGUgZmVlZGJhY2sgb24gdGhlIHYx
-IHNlZW1lZCB0byBpbmRpY2F0ZSB0aGF0IENPTU1BTkRfTElORV9TSVpFIHJlYWxseQo+ID4+ID4g
-PiBzaG91bGRuJ3QgYmUgcGFydCBvZiB1YXBpLCBzbyB0aGlzIG5vdyB0b3VjaGVzIGFsbCB0aGUg
-cG9ydHMuICBJJ3ZlCj4gPj4gPiA+IHRyaWVkIHRvIHNwbGl0IHRoaXMgYWxsIG91dCBhbmQgbGVh
-dmUgaXQgYmlzZWN0YWJsZSwgYnV0IEkgaGF2ZW4ndAo+ID4+ID4gPiB0ZXN0ZWQgaXQgYWxsIHRo
-YXQgYWdncmVzc2l2ZWx5Lgo+ID4+ID4KPiA+PiA+IEp1c3QgdG8gY29uZmlybSB0aGlzIGFzc3Vt
-cHRpb24gYSBiaXQgbW9yZTogdGhhdCdzIGFjdHVhbGx5IHRoZSBzYW1lCj4gPj4gPiBjb25jbHVz
-aW9uIHRoYXQgd2UgZW5kZWQgdXAgd2l0aCB3aGVuIGNvbW1pdCAzZGEwMjQzZjkwNmEgKCJzMzkw
-OiBtYWtlCj4gPj4gPiBjb21tYW5kIGxpbmUgY29uZmlndXJhYmxlIikgd2VudCB1cHN0cmVhbS4K
-Pgo+IFRoYW5rcywgSSBndWVzcyBJJ2QgbWlzc2VkIHRoYXQgb25lLiAgQXQgc29tZSBwb2ludCBJ
-IHRoaW5rIHRoZXJlIHdhcwo+IHNvbWUgZGlzY3Vzc2lvbiBvZiBtYWtpbmcgdGhpcyBhIEtjb25m
-aWcgZm9yIGV2ZXJ5b25lLCB3aGljaCBzZWVtcwo+IHJlYXNvbmFibGUgdG8gbWUgLS0gb3VyIHVz
-ZSBjYXNlIGZvciB0aGlzIGJlaW5nIGV4dGVuZGVkIGlzIHN5emthbGxlciwKPiBidXQgd2UncmUg
-c29ydCBvZiBqdXN0IHBpY2tpbmcgYSB2YWx1ZSB0aGF0J3MgYmlnIGVub3VnaCBmb3Igbm93IGFu
-ZAo+IHJ1bm5pbmcgd2l0aCBpdC4KPgo+IFByb2JhYmx5IGJlc3QgdG8gZ2V0IGl0IG91dCBvZiB1
-YXBpIGZpcnN0LCB0aG91Z2gsIGFzIHRoYXQgd2F5IGF0IGxlYXN0Cj4gaXQncyBjbGVhciB0aGF0
-IGl0J3Mgbm90IHVBQkkuCj4KPiA+PiBDb21taXQgNjIyMDIxY2Q2YzU2MGNlNyAoInMzOTA6IG1h
-a2UgY29tbWFuZCBsaW5lIGNvbmZpZ3VyYWJsZSIpLAo+ID4+IEkgYXNzdW1lPwo+ID4KPiA+IFll
-cywgc29ycnkgZm9yIHRoYXQuIEkgZ290IGRpc3RyYWN0ZWQgd2hpbGUgd3JpdGluZyBhbmQgdXNl
-ZCB0aGUgd3JvbmcKPiA+IGJyYW5jaCB0byBsb29rIHRoaXMgdXAuCj4KPiBBbGV4OiBQcm9iYWJs
-eSB3b3J0aCBhZGRpbmcgdGhhdCB0byB0aGUgbGlzdCBpbiB0aGUgY292ZXIgbGV0dGVyIGFzIGl0
-Cj4gbG9va3MgbGlrZSB5b3Ugd2VyZSBwbGFubmluZyBvbiBhIHY0IGFueXdheSAod2hpY2ggSSBn
-dWVzcyB5b3Ugbm93IGhhdmUKPiB0byBkbywgZ2l2ZW4gdGhhdCBJIGp1c3QgYWRkZWQgdGhlIGlz
-c3VlIHRvIFJJU0MtVikuCgpZZXAsIEkgd2lsbCA6KQoKVGhhbmtzLAoKQWxleAoKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtc25wcy1hcmMgbWFp
-bGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3Rz
-LmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
+This all came up in the context of increasing COMMAND_LINE_SIZE in the
+RISC-V port.  In theory that's a UABI break, as COMMAND_LINE_SIZE is the
+maximum length of /proc/cmdline and userspace could staticly rely on
+that to be correct.
+
+Usually I wouldn't mess around with changing this sort of thing, but
+PowerPC increased it with a5980d064fe2 ("powerpc: Bump COMMAND_LINE_SIZE
+to 2048").  There are also a handful of examples of COMMAND_LINE_SIZE
+increasing, but they're from before the UAPI split so I'm not quite sure
+what that means: e5a6a1c90948 ("powerpc: derive COMMAND_LINE_SIZE from
+asm-generic"), 684d2fd48e71 ("[S390] kernel: Append scpdata to kernel
+boot command line"), 22242681cff5 ("MIPS: Extend COMMAND_LINE_SIZE"),
+and 2b74b85693c7 ("sh: Derive COMMAND_LINE_SIZE from
+asm-generic/setup.h.").
+
+It seems to me like COMMAND_LINE_SIZE really just shouldn't have been
+part of the uapi to begin with, and userspace should be able to handle
+/proc/cmdline of whatever length it turns out to be.  I don't see any
+references to COMMAND_LINE_SIZE anywhere but Linux via a quick Google
+search, but that's not really enough to consider it unused on my end.
+
+This issue was already considered in s390 and they reached the same
+conclusion in commit 622021cd6c56 ("s390: make command line
+configurable").
+
+The feedback on the v1 seemed to indicate that COMMAND_LINE_SIZE really
+shouldn't be part of uapi, so this now touches all the ports.  I've
+tried to split this all out and leave it bisectable, but I haven't
+tested it all that aggressively.
+
+Changes since v3 <https://lore.kernel.org/all/20230214074925.228106-1-alexghiti@rivosinc.com/>:
+* Added RB/AB
+* Added a mention to commit 622021cd6c56 ("s390: make command line
+  configurable") in the cover letter
+
+Changes since v2 <https://lore.kernel.org/all/20221211061358.28035-1-palmer@rivosinc.com/>:
+* Fix sh, csky and ia64 builds, as reported by kernel test robot
+
+Changes since v1 <https://lore.kernel.org/all/20210423025545.313965-1-palmer@dabbelt.com/>:
+* Touches every arch.
+
+base-commit-tag: next-20230207
+
+Palmer Dabbelt (24):
+  alpha: Remove COMMAND_LINE_SIZE from uapi
+  arm64: Remove COMMAND_LINE_SIZE from uapi
+  arm: Remove COMMAND_LINE_SIZE from uapi
+  ia64: Remove COMMAND_LINE_SIZE from uapi
+  m68k: Remove COMMAND_LINE_SIZE from uapi
+  microblaze: Remove COMMAND_LINE_SIZE from uapi
+  mips: Remove COMMAND_LINE_SIZE from uapi
+  parisc: Remove COMMAND_LINE_SIZE from uapi
+  powerpc: Remove COMMAND_LINE_SIZE from uapi
+  sparc: Remove COMMAND_LINE_SIZE from uapi
+  xtensa: Remove COMMAND_LINE_SIZE from uapi
+  asm-generic: Remove COMMAND_LINE_SIZE from uapi
+  alpha: Remove empty <uapi/asm/setup.h>
+  arc: Remove empty <uapi/asm/setup.h>
+  m68k: Remove empty <uapi/asm/setup.h>
+  arm64: Remove empty <uapi/asm/setup.h>
+  microblaze: Remove empty <uapi/asm/setup.h>
+  sparc: Remove empty <uapi/asm/setup.h>
+  parisc: Remove empty <uapi/asm/setup.h>
+  x86: Remove empty <uapi/asm/setup.h>
+  xtensa: Remove empty <uapi/asm/setup.h>
+  powerpc: Remove empty <uapi/asm/setup.h>
+  mips: Remove empty <uapi/asm/setup.h>
+  s390: Remove empty <uapi/asm/setup.h>
+
+ .../admin-guide/kernel-parameters.rst         |  2 +-
+ arch/alpha/include/asm/setup.h                |  4 +--
+ arch/alpha/include/uapi/asm/setup.h           |  7 -----
+ arch/arc/include/asm/setup.h                  |  1 -
+ arch/arc/include/uapi/asm/setup.h             |  6 -----
+ arch/arm/include/asm/setup.h                  |  1 +
+ arch/arm/include/uapi/asm/setup.h             |  2 --
+ arch/arm64/include/asm/setup.h                |  3 ++-
+ arch/arm64/include/uapi/asm/setup.h           | 27 -------------------
+ arch/ia64/include/asm/setup.h                 | 10 +++++++
+ arch/ia64/include/uapi/asm/setup.h            |  6 ++---
+ arch/loongarch/include/asm/setup.h            |  2 +-
+ arch/m68k/include/asm/setup.h                 |  3 +--
+ arch/m68k/include/uapi/asm/setup.h            | 17 ------------
+ arch/microblaze/include/asm/setup.h           |  2 +-
+ arch/microblaze/include/uapi/asm/setup.h      | 20 --------------
+ arch/mips/include/asm/setup.h                 |  3 ++-
+ arch/mips/include/uapi/asm/setup.h            |  8 ------
+ arch/parisc/include/{uapi => }/asm/setup.h    |  0
+ arch/powerpc/include/asm/setup.h              |  2 +-
+ arch/powerpc/include/uapi/asm/setup.h         |  7 -----
+ arch/s390/include/asm/setup.h                 |  1 -
+ arch/s390/include/uapi/asm/setup.h            |  1 -
+ arch/sh/include/asm/setup.h                   |  2 +-
+ arch/sparc/include/asm/setup.h                |  6 ++++-
+ arch/sparc/include/uapi/asm/setup.h           | 16 -----------
+ arch/x86/include/asm/setup.h                  |  2 --
+ arch/x86/include/uapi/asm/setup.h             |  1 -
+ arch/xtensa/include/{uapi => }/asm/setup.h    |  0
+ include/asm-generic/Kbuild                    |  1 +
+ include/{uapi => }/asm-generic/setup.h        |  0
+ include/uapi/asm-generic/Kbuild               |  1 -
+ 32 files changed, 31 insertions(+), 133 deletions(-)
+ delete mode 100644 arch/alpha/include/uapi/asm/setup.h
+ delete mode 100644 arch/arc/include/uapi/asm/setup.h
+ delete mode 100644 arch/arm64/include/uapi/asm/setup.h
+ create mode 100644 arch/ia64/include/asm/setup.h
+ delete mode 100644 arch/m68k/include/uapi/asm/setup.h
+ delete mode 100644 arch/microblaze/include/uapi/asm/setup.h
+ delete mode 100644 arch/mips/include/uapi/asm/setup.h
+ rename arch/parisc/include/{uapi => }/asm/setup.h (100%)
+ delete mode 100644 arch/powerpc/include/uapi/asm/setup.h
+ delete mode 100644 arch/s390/include/uapi/asm/setup.h
+ delete mode 100644 arch/sparc/include/uapi/asm/setup.h
+ delete mode 100644 arch/x86/include/uapi/asm/setup.h
+ rename arch/xtensa/include/{uapi => }/asm/setup.h (100%)
+ rename include/{uapi => }/asm-generic/setup.h (100%)
+
+-- 
+2.37.2
+
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
