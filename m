@@ -4,62 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 08B7CC6FA8E
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  2 Mar 2023 09:56:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70FAAC678D4
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  2 Mar 2023 09:57:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=YD4GzZpyroslTpf6vMRy2XcCZN2n5pLpT3ct7i3uFMY=; b=J2FIV9iJ599a5b
-	s99jETelKMhLrHRzJF6IwFUTnxW1gnwhCjz4OWeDFwccJ/5PmPPNnMH2GXz55RLM7KKCV6QEwYrbL
-	nJrJEp/EmfLLA+oWRiyUCeR/B9z5A0KgiC5qPOa/nzZN12UDdANOZwRn7xmJdYIo3wJav/rwtW3jA
-	a6ODml4staz1NvIRCBBGvvwuQd1wfxAG0jQzyQ//IOvUy6FA2wvq3rpfXWVS0Dx6HTOqq6812JqxK
-	dx7TjlyeTVVvuw+ChuWUm0YLJOYbpg5kRPe7nEhUaTxMUe/AfBKcd6oXdGFFT5HrUukql9dveKUAi
-	6EIy/DsnPOu/T7c9jvAQ==;
+	List-Owner; bh=+svT33RzvbiBox03wzPaZM3aVvF4c49ZhO7Qe+nlMPo=; b=Df41/y6aK94/kq
+	ojUQRT3clQbvBs440tlssX8E7BvLAJc9YKIE3fwnSJ9sRfo1pS7WRikndlkeuxiS8dwxTRQPCWpwj
+	92iraHxRfeNvQtWai0BJ8mpy9liRTOgMgbbL/2IwnIIYy2v6Pb0z86arMbY/basf43OaFTzzbqk6h
+	nD/H4HKwYgufXQHfuhA15mq3wqfSsqvWuYECuObPR+L+3gcojYWn6NkidKTHuQgFJyM2caSTkcFRh
+	fvFfFCpz2XmVpE9dzaFxTZY70brTmWaZFET7LQ/8r9YmF3xqXVnMOXKKH15SqG0woR3zMMFNSyFVY
+	/oriREAZy0oGA/s3M+Zg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pXffh-001Y8L-MC; Thu, 02 Mar 2023 09:56:21 +0000
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+	id 1pXfgj-001YfT-4n; Thu, 02 Mar 2023 09:57:25 +0000
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pXffe-001Y6O-DW
-	for linux-snps-arc@lists.infradead.org; Thu, 02 Mar 2023 09:56:19 +0000
-Received: by mail-wr1-x42f.google.com with SMTP id q16so15934640wrw.2
-        for <linux-snps-arc@lists.infradead.org>; Thu, 02 Mar 2023 01:56:17 -0800 (PST)
+	id 1pXfge-001Yc8-0M
+	for linux-snps-arc@lists.infradead.org; Thu, 02 Mar 2023 09:57:22 +0000
+Received: by mail-wr1-x433.google.com with SMTP id bw19so15878903wrb.13
+        for <linux-snps-arc@lists.infradead.org>; Thu, 02 Mar 2023 01:57:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677750976;
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677751038;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nEs3yIz8iEmRFY8PICbSYz9IDFM/n81OtFDX6/s/AEc=;
-        b=knISX1iT2rRR106GIUlbJC06fpznhY3A4dilwlF3bmeod/OcRdwY77WLBaAulDxb61
-         Pk0zUhuXMaIpdVWHqDXDoQZZ3D3QzpQ3Ruhv1clqcbP74yLjtq6jpqGX6eesH+6oHzeO
-         3cFNkLpsLel0/ACtssFKIJ3XeqH1VIntoI5WTyMPUBcqLkiJqxc6DyFl45oy9ffoLcB6
-         I5E/cyonnx/gqVU4jjtrDPhZyMePqvpZyhm7gZHvwM1XibslkBs+UwOXQFGzPPAsdzYb
-         KpDXTSzIiVWdMGKpc9SW2D4U9Q+S2OqdMYO+45EVoUwJ0dpEVpNAY2jfr0NIemdeGfl+
-         h4Eg==
+        bh=mbWJMLbW9/e/jUg8R3Gl59aPCKpvLB2ljblArfmNMkc=;
+        b=D2ZYUezj7aXly01/SHVyB+eFeXkneR6Cc8J1my71IdSLnhhdqJGVfRRuNkgwlJ1qTN
+         XUUF4gwOhKXYNFbCGsPQC/fmmm1CJhuz26LBixBplzOx/7FJFh6PFoLAIUEiL//BV7/Y
+         05yc1sH5U/bYE6lmFIKXOjlBADocSoL/FEYlfqKZv7cm3nfJkD6F5h36pt/Z2SLu/6qL
+         Q4UPcDTpDkTK02yhFZFBAya3cYKbiMxizDybGbQOWT1w/zioAktweZfsaacnK76n8rs+
+         hsQvLkRQmO2Fk5KV27RZdUHPghO6NZZTRFh8sElYxJrDsC3pGWp7EiGwSf9BKEnHMDqz
+         Mp/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677750976;
+        d=1e100.net; s=20210112; t=1677751038;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nEs3yIz8iEmRFY8PICbSYz9IDFM/n81OtFDX6/s/AEc=;
-        b=WITShQqbUXiUUJ5lYxPmz0HODLGalcPWyorsIg1cEY7DwYzQ1t+f7YUSrlPC1ha8Bc
-         VWmBNFOdBaXpgOAgqSVZI/o/w4dQJ2c1sef3gMuZYA0xcyzM04NI1Yi9b2EXFk04H1FL
-         26GqHK4PzvINKeZ4PvezyHrxe3Mwmoaa/TZpa+cbbILLjz7tEM1XtREuPakVCbMLB5QP
-         MJuwXLK6RKygSA1WRU+x2ZuqF5Id0JrY53zVeuD6aUR21wSdcDQiXParMP4yYgmtFSXW
-         8ORfLFwz2GFnoNNz03hRIUqtjdICJ30nsYgPk/ErODZSHQczckSx1kJ4tYa8IJSM88EJ
-         5Jbw==
-X-Gm-Message-State: AO0yUKV0P7zHUsLt6fgaYUkacOsJb8BKWaHCfU7jIfqI9hz9Y+Nj0Ssx
-	ZXu0ELppnnWMCnnJ7ZXs+/rL6w==
-X-Google-Smtp-Source: AK7set+NmzGCXmV49Z+yuGoqtBuUh6WsMHapZ5sjWJvg1AxjPSuRMcddn6CMUFtPpYXviamzMTzYwg==
-X-Received: by 2002:a5d:4845:0:b0:2c7:7b7:ee94 with SMTP id n5-20020a5d4845000000b002c707b7ee94mr6581157wrs.13.1677750976700;
-        Thu, 02 Mar 2023 01:56:16 -0800 (PST)
+        bh=mbWJMLbW9/e/jUg8R3Gl59aPCKpvLB2ljblArfmNMkc=;
+        b=18+7bD4XAiHe+4gY92W+lOvUKujVvJJyN6poznSkdGOsy+x4TdJgWyzN/weuRShyLZ
+         U5oAoaxEP9WxU27Y6nDHPBXwVFsKlNllB8VcJ+ms20JcVmZdpK39NC6iShk+rY4lSsKt
+         2bkqd0YjflsuZOqE0FLdC6JJz60WnrpJIRta5r3DUfSrRfwFznAb3qq405O/f1AgX7V5
+         ig9iKyLGMqpgbwJR1gY4KvSRJhXdAqR2lasgYgNABvwwwUiiekVEVHq0m8In2KUECUT/
+         nxpaH2eTCO5XBiyvMjzj7MfnayO59SoSTb+U/BepUgz7hK6TlS/9o82wKI5yKk4z3jQc
+         2xHQ==
+X-Gm-Message-State: AO0yUKUCF/FsDfJJy9LtjExAUDFXb9k87nmnKhUOmle08/kN4d/dvecU
+	T+NttOLZOfZOLI2KlZ5s/YaJ2Q==
+X-Google-Smtp-Source: AK7set+UVLLQy3pDYpEgdjukHVt3/WbXJ1ubEMzbQOj5ZYV5HNP6MY5JJcqxoBmTXacmF2llU10eSw==
+X-Received: by 2002:adf:f4c9:0:b0:2c9:8a3c:9fc5 with SMTP id h9-20020adff4c9000000b002c98a3c9fc5mr6437471wrp.41.1677751038459;
+        Thu, 02 Mar 2023 01:57:18 -0800 (PST)
 Received: from alex-rivos.home (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
-        by smtp.gmail.com with ESMTPSA id e15-20020a5d594f000000b002c5d3f0f737sm14703514wri.30.2023.03.02.01.56.15
+        by smtp.gmail.com with ESMTPSA id l7-20020a5d5267000000b002c8ed82c56csm14784474wrc.116.2023.03.02.01.57.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Mar 2023 01:56:16 -0800 (PST)
+        Thu, 02 Mar 2023 01:57:18 -0800 (PST)
 From: Alexandre Ghiti <alexghiti@rivosinc.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Richard Henderson <richard.henderson@linaro.org>,
@@ -116,18 +116,17 @@ To: Jonathan Corbet <corbet@lwn.net>,
 	sparclinux@vger.kernel.org,
 	linux-xtensa@linux-xtensa.org,
 	linux-arch@vger.kernel.org
-Cc: Palmer Dabbelt <palmer@rivosinc.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v4 20/24] x86: Remove empty <uapi/asm/setup.h>
-Date: Thu,  2 Mar 2023 10:35:35 +0100
-Message-Id: <20230302093539.372962-21-alexghiti@rivosinc.com>
+Cc: Palmer Dabbelt <palmer@rivosinc.com>
+Subject: [PATCH v4 21/24] xtensa: Remove empty <uapi/asm/setup.h>
+Date: Thu,  2 Mar 2023 10:35:36 +0100
+Message-Id: <20230302093539.372962-22-alexghiti@rivosinc.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230302093539.372962-1-alexghiti@rivosinc.com>
 References: <20230302093539.372962-1-alexghiti@rivosinc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230302_015618_499783_1CD3ECC9 
-X-CRM114-Status: GOOD (  11.03  )
+X-CRM114-CacheID: sfid-20230302_015720_117738_9219A7F3 
+X-CRM114-Status: GOOD (  11.26  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -139,27 +138,46 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-RnJvbTogUGFsbWVyIERhYmJlbHQgPHBhbG1lckByaXZvc2luYy5jb20+CgpTaWduZWQtb2ZmLWJ5
-OiBQYWxtZXIgRGFiYmVsdCA8cGFsbWVyQHJpdm9zaW5jLmNvbT4KUmV2aWV3ZWQtYnk6IFBoaWxp
-cHBlIE1hdGhpZXUtRGF1ZMOpIDxwaGlsbWRAbGluYXJvLm9yZz4KLS0tCiBhcmNoL3g4Ni9pbmNs
-dWRlL2FzbS9zZXR1cC5oICAgICAgfCAyIC0tCiBhcmNoL3g4Ni9pbmNsdWRlL3VhcGkvYXNtL3Nl
-dHVwLmggfCAxIC0KIDIgZmlsZXMgY2hhbmdlZCwgMyBkZWxldGlvbnMoLSkKIGRlbGV0ZSBtb2Rl
-IDEwMDY0NCBhcmNoL3g4Ni9pbmNsdWRlL3VhcGkvYXNtL3NldHVwLmgKCmRpZmYgLS1naXQgYS9h
-cmNoL3g4Ni9pbmNsdWRlL2FzbS9zZXR1cC5oIGIvYXJjaC94ODYvaW5jbHVkZS9hc20vc2V0dXAu
-aAppbmRleCBmMzdjYmZmNzM1NGMuLjQ0OWI1MGEyZjM5MCAxMDA2NDQKLS0tIGEvYXJjaC94ODYv
-aW5jbHVkZS9hc20vc2V0dXAuaAorKysgYi9hcmNoL3g4Ni9pbmNsdWRlL2FzbS9zZXR1cC5oCkBA
-IC0yLDggKzIsNiBAQAogI2lmbmRlZiBfQVNNX1g4Nl9TRVRVUF9ICiAjZGVmaW5lIF9BU01fWDg2
-X1NFVFVQX0gKIAotI2luY2x1ZGUgPHVhcGkvYXNtL3NldHVwLmg+Ci0KICNkZWZpbmUgQ09NTUFO
-RF9MSU5FX1NJWkUgMjA0OAogCiAjaW5jbHVkZSA8bGludXgvbGlua2FnZS5oPgpkaWZmIC0tZ2l0
-IGEvYXJjaC94ODYvaW5jbHVkZS91YXBpL2FzbS9zZXR1cC5oIGIvYXJjaC94ODYvaW5jbHVkZS91
-YXBpL2FzbS9zZXR1cC5oCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCA3OWE5NjI2YjU1
-MDAuLjAwMDAwMDAwMDAwMAotLS0gYS9hcmNoL3g4Ni9pbmNsdWRlL3VhcGkvYXNtL3NldHVwLmgK
-KysrIC9kZXYvbnVsbApAQCAtMSArMCwwIEBACi0vKiAqLwotLSAKMi4zNy4yCgoKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtc25wcy1hcmMgbWFp
-bGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3Rz
-LmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
+From: Palmer Dabbelt <palmer@rivosinc.com>
+
+Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+Acked-by: Max Filippov <jcmvbkbc@gmail.com>
+---
+ arch/xtensa/include/uapi/asm/setup.h | 15 ---------------
+ 1 file changed, 15 deletions(-)
+ delete mode 100644 arch/xtensa/include/uapi/asm/setup.h
+
+diff --git a/arch/xtensa/include/uapi/asm/setup.h b/arch/xtensa/include/uapi/asm/setup.h
+deleted file mode 100644
+index 6f982394684a..000000000000
+--- a/arch/xtensa/include/uapi/asm/setup.h
++++ /dev/null
+@@ -1,15 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+-/*
+- * include/asm-xtensa/setup.h
+- *
+- * This file is subject to the terms and conditions of the GNU General Public
+- * License.  See the file "COPYING" in the main directory of this archive
+- * for more details.
+- *
+- * Copyright (C) 2001 - 2005 Tensilica Inc.
+- */
+-
+-#ifndef _XTENSA_SETUP_H
+-#define _XTENSA_SETUP_H
+-
+-#endif
+-- 
+2.37.2
+
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
