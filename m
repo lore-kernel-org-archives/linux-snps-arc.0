@@ -4,61 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21FEFC678D4
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  2 Mar 2023 09:35:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2E1AC678D4
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  2 Mar 2023 09:36:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=bvk+vP9b4CRLfo5NgsznS6wpxDtXeky800mYG0XD8LU=; b=tbJbHUAw7Qfpyb
-	/F1hIAviTe8mzhHQ345LMZTxdEgknnMIYHpL1Uf/q+SV1b7a77wihfYkH1mxMeSsqcBhvNyT/bvS3
-	hTb0tQfAtuQmHSxKOMEtuucaWjPDe5kxxeXxy0Pza7cZGOmx29y6xvMdMbUavOUhKgnMBX5RBEXrm
-	SKY7mh8QMlJ4qTRTwLJwEXWp8fXzQDiRX3eIt+M5Y0XmWu+iT/u5XJgFUNWRI+DTUTdOmDfLXvhYh
-	N14mSlnmRVYjp7fSrXjgtLzOcdGZQsgZ2GYA/nUzxVepZbS/Rp1OKwQ1mne7UrQ3NM0V3ZbERW6Zg
-	S2zq84+xJyrgWhAPpp2A==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=YCSupiIiSin4N5T0ae5S22Alng951tz3ZAnQgUGB9mY=; b=ZlHL9YGAPzhrw7
+	OBLs2YGepi5XCnsgCTtQ120nIzCWPXpW/zGGtwhLSbgFbboV2ZwVaxWzatVH9nX0yKOxQdYistz0G
+	wVDLx9QY3ozWC7DAYJWQN3eaxzYvTiOMSZUOyRScWRUMOKJImaQwLGxPUoYb2cl4sQBatW4l1yo1Q
+	xBxUCimKuOfQQlu9epJGfp2jXWbUTTbeP0XjbTv+013nf8vgvmbVXTwomVLzd2NPtG42I4MgsWpNJ
+	kjWNQFS9IIr9h7D+d8oohley6MhSC2OYZi9+HpRokmDT9WIxEBlnH3Y3ZC2mWleF31Z8ZYTeaYopX
+	/k6Rxnbe8kEejLKWlZiw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pXfLr-001R1p-LK; Thu, 02 Mar 2023 09:35:51 +0000
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+	id 1pXfMr-001RUn-Hp; Thu, 02 Mar 2023 09:36:53 +0000
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pXfLn-001Qxs-Kp
-	for linux-snps-arc@lists.infradead.org; Thu, 02 Mar 2023 09:35:49 +0000
-Received: by mail-wm1-x32d.google.com with SMTP id j19-20020a05600c191300b003eb3e1eb0caso1250802wmq.1
-        for <linux-snps-arc@lists.infradead.org>; Thu, 02 Mar 2023 01:35:44 -0800 (PST)
+	id 1pXfMl-001RPZ-Kp
+	for linux-snps-arc@lists.infradead.org; Thu, 02 Mar 2023 09:36:49 +0000
+Received: by mail-wr1-x434.google.com with SMTP id j2so15835999wrh.9
+        for <linux-snps-arc@lists.infradead.org>; Thu, 02 Mar 2023 01:36:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677749742;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0+QyJbOcIEmK/h00N9XPuc9p7Y446r7FCIJpaEpb2y0=;
-        b=GSZPDYNuLgx/8mLBXcWrYDn7canNDaRtfx/thmlw+ZEBHPI0HYu1zL9LQFCizwcrca
-         TsKITKLC0vDpyHBESTzecaxvZI4+8ls2wjItm2Pt/uxbbqQ0iKB0xHThPFn5cHy8g/mJ
-         y9OD1hXrn5nc4Q2EZaQPwPA3ne0cIzPME9LqnyO6K/L7WEPGkJVeZOAkCNfuTzDGKLV3
-         /5/Ofu4+aOhWWfFMVIN2YY9VqSSWA+OsdGSkgKWVxcBzI+N21V9PPC5mATDOgJC7aibv
-         nuJNa9uPLqwVsGG4Y11KwSu5HX6ff6be1CREj0CQTZPl1a4u3/kbBq6+Gy5wWVRsPZ7x
-         9i+g==
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677749804;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fzM+xDlvnOMEGzjeXRPSkpQm3q8SwokJ4gg6O0qi4nk=;
+        b=2pKwrvWIyRi1OpIA1AfAvL3QfUnAmkzXMVZnDdYszZoGfKVRU7Y7Cg00FyqlVMAfzR
+         8KlQggPnGWQzsGSEwXZKdlUAPPE/CzI6mENSGPUNC7TJzGm4piwA2sFuDu6AZk3OrPZ5
+         jUTsjMfkhZt2pEIwEO00Long7JrfP10J+5zHSxBm8gOp+WEHDzueNJcprrOdnrLd9geN
+         /fMRarw42gqFzn7wEDXX9VYME2EGY62hMrCuB2dGWNTpfH+fHchkHWK7Xi84tVLWepzD
+         ug8wKExaiT/HyV/tIIiv8zBp3497WkVWRWojXOWeIiWOgBYuevFlPmQ47yK7c/rvtU27
+         cpFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677749742;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0+QyJbOcIEmK/h00N9XPuc9p7Y446r7FCIJpaEpb2y0=;
-        b=XnhYhdmxvNN4eYQmyZrv1z7fFn9P8kXZxYwLW9kF/LYz9XAYDGRn/B0rJ+euNDhaMI
-         y0VvT8uCs9G0hDNxqKKQn+mHF8O5ZHE8zzq8YJB5801gKQ/JFGozWWgE+yT9P2v3lbbe
-         qK+rM1qOlAt6kE9pVtfgDY5GM8I4VzsHp1DwPGPVZB97dXLr2dvCh4b36JSU9JZ4q2cr
-         d4mPqZ/Mrbly0Kmxq0pMpt+GK+cWcRiLHb0PHPHCG201sTIQqQHiNpt6cs+EIk6xTqKe
-         NmgW6op4K/5Si0FHlqJwAoPxUbPFcYfhmH5v7waEKSgkzRpGpQkyh3XR8tVSzoIO46M2
-         2hhg==
-X-Gm-Message-State: AO0yUKU2D8SWK4FW8UWWJeRfmHNN60GEn1CSCpqjWwAeHyp0hW2zw8dt
-	egnRns1AHiUefsM2X3JPoUp4Ww==
-X-Google-Smtp-Source: AK7set82JqkGhDygh6pR2mSF0/c3yM6dikmWvSRMvxrqnIL2EUb/yJbhzMLscJ56hDRKKxkME8A6dw==
-X-Received: by 2002:a05:600c:1708:b0:3d0:6a57:66a5 with SMTP id c8-20020a05600c170800b003d06a5766a5mr7384393wmn.0.1677749742062;
-        Thu, 02 Mar 2023 01:35:42 -0800 (PST)
+        d=1e100.net; s=20210112; t=1677749804;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fzM+xDlvnOMEGzjeXRPSkpQm3q8SwokJ4gg6O0qi4nk=;
+        b=6s+q/aXVi0uz8bLavhPmfEvO/W8JkzauUdmHuUE1ghqJForHvq3wt+jp1oHOEP75eX
+         ZSuFotSjhAYeW/bNXVYiyLhfkUlYUDu/Bz20WvvAVyoYyrLdtnJUatE44jjH3zTnB9n4
+         WVAMpPwhB4graFTPUbBRJPwUZ8Pnt5PM3bu6HF2TfHJiZJsblB1d3i1IBphQycHq25x0
+         yrVmUvfO3cH9XY6DI6qfYDyS7kqMkqpTwLCsFLtu9bmuGUtQs/rOyjEV2NVmmPOqAqn8
+         jb9hVbV2bSJg0Ko9/jd9HDoy3ulhTXug7hLSppYUazfyD8vatSHtD+tCeDuzApMq371C
+         6cnw==
+X-Gm-Message-State: AO0yUKUdEXOhdf00koTfPBcOPsP3053RP8egtjeVqPBBEqG+tR5AcH86
+	dHOFVQc6K8g9hACK1AEL2/Qx8A==
+X-Google-Smtp-Source: AK7set9S0WvRgB6m8Y5j9Er6rP20ohMkWZVlQ7kaeMx2hJnOK1ueaGS8lSOcB0Pgql0gAxTneTtghw==
+X-Received: by 2002:a5d:4708:0:b0:2c7:658:f835 with SMTP id y8-20020a5d4708000000b002c70658f835mr8108283wrq.33.1677749803806;
+        Thu, 02 Mar 2023 01:36:43 -0800 (PST)
 Received: from alex-rivos.home (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
-        by smtp.gmail.com with ESMTPSA id l10-20020a7bc44a000000b003e21dcccf9fsm2223136wmi.16.2023.03.02.01.35.40
+        by smtp.gmail.com with ESMTPSA id p8-20020adfcc88000000b002c55b0e6ef1sm15340416wrj.4.2023.03.02.01.36.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Mar 2023 01:35:41 -0800 (PST)
+        Thu, 02 Mar 2023 01:36:43 -0800 (PST)
 From: Alexandre Ghiti <alexghiti@rivosinc.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Richard Henderson <richard.henderson@linaro.org>,
@@ -115,15 +116,18 @@ To: Jonathan Corbet <corbet@lwn.net>,
 	sparclinux@vger.kernel.org,
 	linux-xtensa@linux-xtensa.org,
 	linux-arch@vger.kernel.org
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH v4 00/24] Remove COMMAND_LINE_SIZE from uapi
-Date: Thu,  2 Mar 2023 10:35:15 +0100
-Message-Id: <20230302093539.372962-1-alexghiti@rivosinc.com>
+Cc: Palmer Dabbelt <palmer@rivosinc.com>,
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v4 01/24] alpha: Remove COMMAND_LINE_SIZE from uapi
+Date: Thu,  2 Mar 2023 10:35:16 +0100
+Message-Id: <20230302093539.372962-2-alexghiti@rivosinc.com>
 X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20230302093539.372962-1-alexghiti@rivosinc.com>
+References: <20230302093539.372962-1-alexghiti@rivosinc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230302_013547_715432_2E27852C 
-X-CRM114-Status: GOOD (  19.40  )
+X-CRM114-CacheID: sfid-20230302_013647_778744_CC7AEF49 
+X-CRM114-Status: GOOD (  13.75  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,133 +139,37 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-This all came up in the context of increasing COMMAND_LINE_SIZE in the
-RISC-V port.  In theory that's a UABI break, as COMMAND_LINE_SIZE is the
-maximum length of /proc/cmdline and userspace could staticly rely on
-that to be correct.
-
-Usually I wouldn't mess around with changing this sort of thing, but
-PowerPC increased it with a5980d064fe2 ("powerpc: Bump COMMAND_LINE_SIZE
-to 2048").  There are also a handful of examples of COMMAND_LINE_SIZE
-increasing, but they're from before the UAPI split so I'm not quite sure
-what that means: e5a6a1c90948 ("powerpc: derive COMMAND_LINE_SIZE from
-asm-generic"), 684d2fd48e71 ("[S390] kernel: Append scpdata to kernel
-boot command line"), 22242681cff5 ("MIPS: Extend COMMAND_LINE_SIZE"),
-and 2b74b85693c7 ("sh: Derive COMMAND_LINE_SIZE from
-asm-generic/setup.h.").
-
-It seems to me like COMMAND_LINE_SIZE really just shouldn't have been
-part of the uapi to begin with, and userspace should be able to handle
-/proc/cmdline of whatever length it turns out to be.  I don't see any
-references to COMMAND_LINE_SIZE anywhere but Linux via a quick Google
-search, but that's not really enough to consider it unused on my end.
-
-This issue was already considered in s390 and they reached the same
-conclusion in commit 622021cd6c56 ("s390: make command line
-configurable").
-
-The feedback on the v1 seemed to indicate that COMMAND_LINE_SIZE really
-shouldn't be part of uapi, so this now touches all the ports.  I've
-tried to split this all out and leave it bisectable, but I haven't
-tested it all that aggressively.
-
-Changes since v3 <https://lore.kernel.org/all/20230214074925.228106-1-alexghiti@rivosinc.com/>:
-* Added RB/AB
-* Added a mention to commit 622021cd6c56 ("s390: make command line
-  configurable") in the cover letter
-
-Changes since v2 <https://lore.kernel.org/all/20221211061358.28035-1-palmer@rivosinc.com/>:
-* Fix sh, csky and ia64 builds, as reported by kernel test robot
-
-Changes since v1 <https://lore.kernel.org/all/20210423025545.313965-1-palmer@dabbelt.com/>:
-* Touches every arch.
-
-base-commit-tag: next-20230207
-
-Palmer Dabbelt (24):
-  alpha: Remove COMMAND_LINE_SIZE from uapi
-  arm64: Remove COMMAND_LINE_SIZE from uapi
-  arm: Remove COMMAND_LINE_SIZE from uapi
-  ia64: Remove COMMAND_LINE_SIZE from uapi
-  m68k: Remove COMMAND_LINE_SIZE from uapi
-  microblaze: Remove COMMAND_LINE_SIZE from uapi
-  mips: Remove COMMAND_LINE_SIZE from uapi
-  parisc: Remove COMMAND_LINE_SIZE from uapi
-  powerpc: Remove COMMAND_LINE_SIZE from uapi
-  sparc: Remove COMMAND_LINE_SIZE from uapi
-  xtensa: Remove COMMAND_LINE_SIZE from uapi
-  asm-generic: Remove COMMAND_LINE_SIZE from uapi
-  alpha: Remove empty <uapi/asm/setup.h>
-  arc: Remove empty <uapi/asm/setup.h>
-  m68k: Remove empty <uapi/asm/setup.h>
-  arm64: Remove empty <uapi/asm/setup.h>
-  microblaze: Remove empty <uapi/asm/setup.h>
-  sparc: Remove empty <uapi/asm/setup.h>
-  parisc: Remove empty <uapi/asm/setup.h>
-  x86: Remove empty <uapi/asm/setup.h>
-  xtensa: Remove empty <uapi/asm/setup.h>
-  powerpc: Remove empty <uapi/asm/setup.h>
-  mips: Remove empty <uapi/asm/setup.h>
-  s390: Remove empty <uapi/asm/setup.h>
-
- .../admin-guide/kernel-parameters.rst         |  2 +-
- arch/alpha/include/asm/setup.h                |  4 +--
- arch/alpha/include/uapi/asm/setup.h           |  7 -----
- arch/arc/include/asm/setup.h                  |  1 -
- arch/arc/include/uapi/asm/setup.h             |  6 -----
- arch/arm/include/asm/setup.h                  |  1 +
- arch/arm/include/uapi/asm/setup.h             |  2 --
- arch/arm64/include/asm/setup.h                |  3 ++-
- arch/arm64/include/uapi/asm/setup.h           | 27 -------------------
- arch/ia64/include/asm/setup.h                 | 10 +++++++
- arch/ia64/include/uapi/asm/setup.h            |  6 ++---
- arch/loongarch/include/asm/setup.h            |  2 +-
- arch/m68k/include/asm/setup.h                 |  3 +--
- arch/m68k/include/uapi/asm/setup.h            | 17 ------------
- arch/microblaze/include/asm/setup.h           |  2 +-
- arch/microblaze/include/uapi/asm/setup.h      | 20 --------------
- arch/mips/include/asm/setup.h                 |  3 ++-
- arch/mips/include/uapi/asm/setup.h            |  8 ------
- arch/parisc/include/{uapi => }/asm/setup.h    |  0
- arch/powerpc/include/asm/setup.h              |  2 +-
- arch/powerpc/include/uapi/asm/setup.h         |  7 -----
- arch/s390/include/asm/setup.h                 |  1 -
- arch/s390/include/uapi/asm/setup.h            |  1 -
- arch/sh/include/asm/setup.h                   |  2 +-
- arch/sparc/include/asm/setup.h                |  6 ++++-
- arch/sparc/include/uapi/asm/setup.h           | 16 -----------
- arch/x86/include/asm/setup.h                  |  2 --
- arch/x86/include/uapi/asm/setup.h             |  1 -
- arch/xtensa/include/{uapi => }/asm/setup.h    |  0
- include/asm-generic/Kbuild                    |  1 +
- include/{uapi => }/asm-generic/setup.h        |  0
- include/uapi/asm-generic/Kbuild               |  1 -
- 32 files changed, 31 insertions(+), 133 deletions(-)
- delete mode 100644 arch/alpha/include/uapi/asm/setup.h
- delete mode 100644 arch/arc/include/uapi/asm/setup.h
- delete mode 100644 arch/arm64/include/uapi/asm/setup.h
- create mode 100644 arch/ia64/include/asm/setup.h
- delete mode 100644 arch/m68k/include/uapi/asm/setup.h
- delete mode 100644 arch/microblaze/include/uapi/asm/setup.h
- delete mode 100644 arch/mips/include/uapi/asm/setup.h
- rename arch/parisc/include/{uapi => }/asm/setup.h (100%)
- delete mode 100644 arch/powerpc/include/uapi/asm/setup.h
- delete mode 100644 arch/s390/include/uapi/asm/setup.h
- delete mode 100644 arch/sparc/include/uapi/asm/setup.h
- delete mode 100644 arch/x86/include/uapi/asm/setup.h
- rename arch/xtensa/include/{uapi => }/asm/setup.h (100%)
- rename include/{uapi => }/asm-generic/setup.h (100%)
-
--- 
-2.37.2
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+RnJvbTogUGFsbWVyIERhYmJlbHQgPHBhbG1lckByaXZvc2luYy5jb20+CgpBcyBmYXIgYXMgSSBj
+YW4gdGVsbCB0aGlzIGlzIG5vdCB1c2VkIGJ5IHVzZXJzcGFjZSBhbmQgdGh1cyBzaG91bGQgbm90
+CmJlIHBhcnQgb2YgdGhlIHVzZXItdmlzaWJsZSBBUEkuCgpTaWduZWQtb2ZmLWJ5OiBQYWxtZXIg
+RGFiYmVsdCA8cGFsbWVyQHJpdm9zaW5jLmNvbT4KUmV2aWV3ZWQtYnk6IFBoaWxpcHBlIE1hdGhp
+ZXUtRGF1ZMOpIDxwaGlsbWRAbGluYXJvLm9yZz4KLS0tCiBhcmNoL2FscGhhL2luY2x1ZGUvYXNt
+L3NldHVwLmggICAgICB8IDQgKystLQogYXJjaC9hbHBoYS9pbmNsdWRlL3VhcGkvYXNtL3NldHVw
+LmggfCAyIC0tCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMo
+LSkKCmRpZmYgLS1naXQgYS9hcmNoL2FscGhhL2luY2x1ZGUvYXNtL3NldHVwLmggYi9hcmNoL2Fs
+cGhhL2luY2x1ZGUvYXNtL3NldHVwLmgKaW5kZXggMjYyYWFiOTllMzkxLi5lYTA4Y2E0NWVmYTgg
+MTAwNjQ0Ci0tLSBhL2FyY2gvYWxwaGEvaW5jbHVkZS9hc20vc2V0dXAuaAorKysgYi9hcmNoL2Fs
+cGhhL2luY2x1ZGUvYXNtL3NldHVwLmgKQEAgLTIsOCArMiw2IEBACiAjaWZuZGVmIF9fQUxQSEFf
+U0VUVVBfSAogI2RlZmluZSBfX0FMUEhBX1NFVFVQX0gKIAotI2luY2x1ZGUgPHVhcGkvYXNtL3Nl
+dHVwLmg+Ci0KIC8qCiAgKiBXZSBsZWF2ZSBvbmUgcGFnZSBmb3IgdGhlIGluaXRpYWwgc3RhY2sg
+cGFnZSwgYW5kIG9uZSBwYWdlIGZvcgogICogdGhlIGluaXRpYWwgcHJvY2VzcyBzdHJ1Y3R1cmUu
+IEFsc28sIHRoZSBjb25zb2xlIGVhdHMgMyBNQiBmb3IKQEAgLTE0LDYgKzEyLDggQEAKIC8qIFJl
+bW92ZSB3aGVuIG9mZmljaWFsIE1JTE8gc291cmNlcyBoYXZlIEVMRiBzdXBwb3J0OiAqLwogI2Rl
+ZmluZSBCT09UX1NJWkUJKDE2KjEwMjQpCiAKKyNkZWZpbmUgQ09NTUFORF9MSU5FX1NJWkUJMjU2
+CisKICNpZmRlZiBDT05GSUdfQUxQSEFfTEVHQUNZX1NUQVJUX0FERFJFU1MKICNkZWZpbmUgS0VS
+TkVMX1NUQVJUX1BIWVMJMHgzMDAwMDAgLyogT2xkIGJvb3Rsb2FkZXJzIGhhcmRjb2RlZCB0aGlz
+LiAgKi8KICNlbHNlCmRpZmYgLS1naXQgYS9hcmNoL2FscGhhL2luY2x1ZGUvdWFwaS9hc20vc2V0
+dXAuaCBiL2FyY2gvYWxwaGEvaW5jbHVkZS91YXBpL2FzbS9zZXR1cC5oCmluZGV4IGY4ODFlYTU5
+NDdjYi4uOWIzYjViYTM5YjFkIDEwMDY0NAotLS0gYS9hcmNoL2FscGhhL2luY2x1ZGUvdWFwaS9h
+c20vc2V0dXAuaAorKysgYi9hcmNoL2FscGhhL2luY2x1ZGUvdWFwaS9hc20vc2V0dXAuaApAQCAt
+Miw2ICsyLDQgQEAKICNpZm5kZWYgX1VBUElfX0FMUEhBX1NFVFVQX0gKICNkZWZpbmUgX1VBUElf
+X0FMUEhBX1NFVFVQX0gKIAotI2RlZmluZSBDT01NQU5EX0xJTkVfU0laRQkyNTYKLQogI2VuZGlm
+IC8qIF9VQVBJX19BTFBIQV9TRVRVUF9IICovCi0tIAoyLjM3LjIKCgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxp
+c3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFk
+ZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
