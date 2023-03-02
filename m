@@ -4,78 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 510CFC7EE30
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  2 Mar 2023 13:45:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3761C6FA8E
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  2 Mar 2023 16:12:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:References:To:From:Subject:MIME-Version:
-	Date:Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RhDQJ0VJ1sdK4w48uPZjbWIJcjRl/H9gwIfEhIgr54Y=; b=P3wZ+nTQFZygdqUUW3SyQTOPme
-	WTeiqjnACwtjSpzQalxTR4+Fv2FkcQifPjjzX+eeCflnktxB3AawCr7YIwz2MXkfaLKdNfQASAJu8
-	HBIZusmOD+bu1cMANvB1e6/KH8Ci+xYpd9iX+CNu7McSoiH8Ai221kETe43L2ZzicXfAQcIP54vBn
-	MeZqWhBwZf4hVpGf+e6nOKH3+t8IiJEYn1Vhy4H5s8pUdw4lO3cG4035ar9C2IGcpJaXS+sFP12+8
-	YkkoCcTXKn/2xTfa1Fb/OLOmZJooDc2GtqoN6Y876Dm03on+E69loziNVVn1zATy8pUmWRdSFXjRt
-	aLSCOyoQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=vIypbPisOkMq1ne5veYMB4ZC12sH0P9R1a3tFFPojuA=; b=pgMmY8fQKHkTnN
+	3ZPgkNI61y0YP7FMO20xqub99KSsJH1F+zRiE47dPBeO6Aaap/tqda3EHXCQKBnenNsEMoJTbAMpk
+	yDG679bFsghBbGkxKlmpQdZ13zgPzceaWCnZc5d0iQjvWLupnMhjdbf0mkAM3VqegCLYfIqaxklUo
+	7G7ZLhkKOAMx1/SSR6egcBYU4aGIWHbiL+HB7QF9+Duy31a15fLruIRm60o62CrZDNNIthuRhms9e
+	sYXfMZtNKspzxDLGSIItffsMJ0O/UCOY7EEf+64Ajb/mrKkyXxppuw/TxLNrM/psbFuZp92gOgPs9
+	oZw8Sjsf6+MQPeSddRKQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pXjFi-002MsF-33; Thu, 02 Mar 2023 13:45:46 +0000
-Received: from relay3-d.mail.gandi.net ([217.70.183.195])
+	id 1pXlXV-002mfb-FA; Thu, 02 Mar 2023 16:12:17 +0000
+Received: from mx0a-00230701.pphosted.com ([148.163.156.19])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pXiD7-002BUp-KM; Thu, 02 Mar 2023 12:39:04 +0000
-Received: (Authenticated sender: alex@ghiti.fr)
-	by mail.gandi.net (Postfix) with ESMTPSA id B7D6960008;
-	Thu,  2 Mar 2023 12:38:45 +0000 (UTC)
-Message-ID: <6b206e38-2e2e-0236-1b7d-96a537d0038e@ghiti.fr>
-Date: Thu, 2 Mar 2023 13:38:45 +0100
+	id 1pXlXS-002mex-Vo
+	for linux-snps-arc@lists.infradead.org; Thu, 02 Mar 2023 16:12:16 +0000
+Received: from pps.filterd (m0098571.ppops.net [127.0.0.1])
+	by mx0a-00230701.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 322Cf2Rc008287;
+	Thu, 2 Mar 2023 08:12:12 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=pfptdkimsnps; bh=py+Fqw2tjK/aZNs2IDeKGyQlA+DTg6Eb96RLbxmlo7Q=;
+ b=dvGFyjFE6EkRUaYXhsHSVWaSDBA8IkFtaGaujpZopj6zfM+IT56LiPNVuS53mN+Akslg
+ xvpNR56+IkdkTO6AOg85RVKD4CUEcZnu7dIlk9ndvl8VvKYP2tX8qsKlgjDFPDRRK9Rh
+ NJq9Z9KF14nAoEnMWZYjgMznEvhLYs0UjkezvsPe5iCfAdBS3LPXXxBYSoLZNXyi0MMh
+ EMze1JDuLRVr6n3T3aj1mgV8Ct0r5GH8F8V2G0SHUZRSWgPulGF0LYy2/2he37VAGBde
+ Mu7N+rK9L4laTyozMicGbh8igajQBk61oZxJSroCKGyWTsLuFkyhq/hK2TbEA3VJEBHV Gg== 
+Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.73.133])
+	by mx0a-00230701.pphosted.com (PPS) with ESMTPS id 3nyj7uumh1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 02 Mar 2023 08:12:12 -0800
+Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com [10.205.2.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id C7FBD4007B;
+	Thu,  2 Mar 2023 16:12:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1677773532; bh=KKDkXBAKX8wzDBNtB+0zPTtijqWg+Ew/ylrwF17hlfw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Gw2QQUmC2i90P3QeMEcggra6gDPVNzN2998ufoj3YDLycRv978tHWomDNzZk4vb5j
+	 B2phqV80f86Zx6tPDTkg9PzMF5qS5GrRnFrxtmSrlsbqRj0Wyg0kZI3j4Um8/mbhSF
+	 eOteQ/i3BzfLFTAO6ThHUCTG7HLqnMA/FNzgmyakDy3u1GaXrnrcca/UNxZd9whMlc
+	 1DaJEoRs/kD3tI0Wk5ttVbc5Hu7PpclB+jQhKhFlgoER4HqLwGUmCdIpWXrdwVELGt
+	 q3VhRufBJz0qWvlN7BNIwNnNYoUcRgXT5xOHSOABcEaMQCWm1tyRS6726sDxJjSmQT
+	 Pa/hg4eaCmL2Q==
+Received: from SNPS-o0WHuHJU73.internal.synopsys.com (snps-o0whuhju73.internal.synopsys.com [10.116.105.29])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(Client did not present a certificate)
+	by mailhost.synopsys.com (Postfix) with ESMTPSA id B54A1A006D;
+	Thu,  2 Mar 2023 16:12:07 +0000 (UTC)
+X-SNPS-Relay: synopsys.com
+From: Pavel.Kozlov@synopsys.com
+To: libc-alpha@sourceware.org
+Cc: linux-snps-arc@lists.infradead.org,
+        Pavel Kozlov <Pavel.Kozlov@synopsys.com>
+Subject: [PATCH 1/2] ARC: Add the clone3 wrapper
+Date: Thu,  2 Mar 2023 20:10:18 +0400
+Message-Id: <20230302161019.27192-1-kozlov@synopsys.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v4 00/24] Remove COMMAND_LINE_SIZE from uapi
-Content-Language: en-US
-From: Alexandre Ghiti <alex@ghiti.fr>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>, Jonathan Corbet
- <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>,
- Russell King <linux@armlinux.org.uk>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Michal Simek <monstr@monstr.eu>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>,
- Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
- "David S . Miller" <davem@davemloft.net>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
- linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-xtensa@linux-xtensa.org, linux-arch@vger.kernel.org,
- =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-References: <20230302093539.372962-1-alexghiti@rivosinc.com>
- <040104fc-81b7-fd45-b268-111e39f2927f@ghiti.fr>
-In-Reply-To: <040104fc-81b7-fd45-b268-111e39f2927f@ghiti.fr>
+X-Proofpoint-GUID: MUDGHryKDFWlja64VYxhY7_gXthZk4de
+X-Proofpoint-ORIG-GUID: MUDGHryKDFWlja64VYxhY7_gXthZk4de
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-02_09,2023-03-02_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam policy=outbound_active_cloned score=0
+ phishscore=0 impostorscore=0 mlxscore=0 lowpriorityscore=0 mlxlogscore=999
+ clxscore=1015 spamscore=0 suspectscore=0 priorityscore=1501 bulkscore=0
+ malwarescore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2303020140
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230302_043901_971357_D969AD78 
-X-CRM114-Status: GOOD (  25.39  )
+X-CRM114-CacheID: sfid-20230302_081215_101734_D5FF8728 
+X-CRM114-Status: GOOD (  23.72  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,140 +93,147 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Ck9uIDMvMi8yMyAxMTowNiwgQWxleGFuZHJlIEdoaXRpIHdyb3RlOgo+IEhpIEFybmQsCj4KPiBP
-biAzLzIvMjMgMTA6MzUsIEFsZXhhbmRyZSBHaGl0aSB3cm90ZToKPj4gVGhpcyBhbGwgY2FtZSB1
-cCBpbiB0aGUgY29udGV4dCBvZiBpbmNyZWFzaW5nIENPTU1BTkRfTElORV9TSVpFIGluIHRoZQo+
-PiBSSVNDLVYgcG9ydC7CoCBJbiB0aGVvcnkgdGhhdCdzIGEgVUFCSSBicmVhaywgYXMgQ09NTUFO
-RF9MSU5FX1NJWkUgaXMgdGhlCj4+IG1heGltdW0gbGVuZ3RoIG9mIC9wcm9jL2NtZGxpbmUgYW5k
-IHVzZXJzcGFjZSBjb3VsZCBzdGF0aWNseSByZWx5IG9uCj4+IHRoYXQgdG8gYmUgY29ycmVjdC4K
-Pj4KPj4gVXN1YWxseSBJIHdvdWxkbid0IG1lc3MgYXJvdW5kIHdpdGggY2hhbmdpbmcgdGhpcyBz
-b3J0IG9mIHRoaW5nLCBidXQKPj4gUG93ZXJQQyBpbmNyZWFzZWQgaXQgd2l0aCBhNTk4MGQwNjRm
-ZTIgKCJwb3dlcnBjOiBCdW1wIENPTU1BTkRfTElORV9TSVpFCj4+IHRvIDIwNDgiKS7CoCBUaGVy
-ZSBhcmUgYWxzbyBhIGhhbmRmdWwgb2YgZXhhbXBsZXMgb2YgQ09NTUFORF9MSU5FX1NJWkUKPj4g
-aW5jcmVhc2luZywgYnV0IHRoZXkncmUgZnJvbSBiZWZvcmUgdGhlIFVBUEkgc3BsaXQgc28gSSdt
-IG5vdCBxdWl0ZSBzdXJlCj4+IHdoYXQgdGhhdCBtZWFuczogZTVhNmExYzkwOTQ4ICgicG93ZXJw
-YzogZGVyaXZlIENPTU1BTkRfTElORV9TSVpFIGZyb20KPj4gYXNtLWdlbmVyaWMiKSwgNjg0ZDJm
-ZDQ4ZTcxICgiW1MzOTBdIGtlcm5lbDogQXBwZW5kIHNjcGRhdGEgdG8ga2VybmVsCj4+IGJvb3Qg
-Y29tbWFuZCBsaW5lIiksIDIyMjQyNjgxY2ZmNSAoIk1JUFM6IEV4dGVuZCBDT01NQU5EX0xJTkVf
-U0laRSIpLAo+PiBhbmQgMmI3NGI4NTY5M2M3ICgic2g6IERlcml2ZSBDT01NQU5EX0xJTkVfU0la
-RSBmcm9tCj4+IGFzbS1nZW5lcmljL3NldHVwLmguIikuCj4+Cj4+IEl0IHNlZW1zIHRvIG1lIGxp
-a2UgQ09NTUFORF9MSU5FX1NJWkUgcmVhbGx5IGp1c3Qgc2hvdWxkbid0IGhhdmUgYmVlbgo+PiBw
-YXJ0IG9mIHRoZSB1YXBpIHRvIGJlZ2luIHdpdGgsIGFuZCB1c2Vyc3BhY2Ugc2hvdWxkIGJlIGFi
-bGUgdG8gaGFuZGxlCj4+IC9wcm9jL2NtZGxpbmUgb2Ygd2hhdGV2ZXIgbGVuZ3RoIGl0IHR1cm5z
-IG91dCB0byBiZS7CoCBJIGRvbid0IHNlZSBhbnkKPj4gcmVmZXJlbmNlcyB0byBDT01NQU5EX0xJ
-TkVfU0laRSBhbnl3aGVyZSBidXQgTGludXggdmlhIGEgcXVpY2sgR29vZ2xlCj4+IHNlYXJjaCwg
-YnV0IHRoYXQncyBub3QgcmVhbGx5IGVub3VnaCB0byBjb25zaWRlciBpdCB1bnVzZWQgb24gbXkg
-ZW5kLgo+Pgo+PiBUaGlzIGlzc3VlIHdhcyBhbHJlYWR5IGNvbnNpZGVyZWQgaW4gczM5MCBhbmQg
-dGhleSByZWFjaGVkIHRoZSBzYW1lCj4+IGNvbmNsdXNpb24gaW4gY29tbWl0IDYyMjAyMWNkNmM1
-NiAoInMzOTA6IG1ha2UgY29tbWFuZCBsaW5lCj4+IGNvbmZpZ3VyYWJsZSIpLgo+Pgo+PiBUaGUg
-ZmVlZGJhY2sgb24gdGhlIHYxIHNlZW1lZCB0byBpbmRpY2F0ZSB0aGF0IENPTU1BTkRfTElORV9T
-SVpFIHJlYWxseQo+PiBzaG91bGRuJ3QgYmUgcGFydCBvZiB1YXBpLCBzbyB0aGlzIG5vdyB0b3Vj
-aGVzIGFsbCB0aGUgcG9ydHMuIEkndmUKPj4gdHJpZWQgdG8gc3BsaXQgdGhpcyBhbGwgb3V0IGFu
-ZCBsZWF2ZSBpdCBiaXNlY3RhYmxlLCBidXQgSSBoYXZlbid0Cj4+IHRlc3RlZCBpdCBhbGwgdGhh
-dCBhZ2dyZXNzaXZlbHkuCj4+Cj4+IENoYW5nZXMgc2luY2UgdjMgCj4+IDxodHRwczovL2xvcmUu
-a2VybmVsLm9yZy9hbGwvMjAyMzAyMTQwNzQ5MjUuMjI4MTA2LTEtYWxleGdoaXRpQHJpdm9zaW5j
-LmNvbS8+Ogo+PiAqIEFkZGVkIFJCL0FCCj4+ICogQWRkZWQgYSBtZW50aW9uIHRvIGNvbW1pdCA2
-MjIwMjFjZDZjNTYgKCJzMzkwOiBtYWtlIGNvbW1hbmQgbGluZQo+PiDCoMKgIGNvbmZpZ3VyYWJs
-ZSIpIGluIHRoZSBjb3ZlciBsZXR0ZXIKPj4KPj4gQ2hhbmdlcyBzaW5jZSB2MiAKPj4gPGh0dHBz
-Oi8vbG9yZS5rZXJuZWwub3JnL2FsbC8yMDIyMTIxMTA2MTM1OC4yODAzNS0xLXBhbG1lckByaXZv
-c2luYy5jb20vPjoKPj4gKiBGaXggc2gsIGNza3kgYW5kIGlhNjQgYnVpbGRzLCBhcyByZXBvcnRl
-ZCBieSBrZXJuZWwgdGVzdCByb2JvdAo+Pgo+PiBDaGFuZ2VzIHNpbmNlIHYxIAo+PiA8aHR0cHM6
-Ly9sb3JlLmtlcm5lbC5vcmcvYWxsLzIwMjEwNDIzMDI1NTQ1LjMxMzk2NS0xLXBhbG1lckBkYWJi
-ZWx0LmNvbS8+Ogo+PiAqIFRvdWNoZXMgZXZlcnkgYXJjaC4KPj4KPj4gYmFzZS1jb21taXQtdGFn
-OiBuZXh0LTIwMjMwMjA3Cj4+Cj4+IFBhbG1lciBEYWJiZWx0ICgyNCk6Cj4+IMKgwqAgYWxwaGE6
-IFJlbW92ZSBDT01NQU5EX0xJTkVfU0laRSBmcm9tIHVhcGkKPj4gwqDCoCBhcm02NDogUmVtb3Zl
-IENPTU1BTkRfTElORV9TSVpFIGZyb20gdWFwaQo+PiDCoMKgIGFybTogUmVtb3ZlIENPTU1BTkRf
-TElORV9TSVpFIGZyb20gdWFwaQo+PiDCoMKgIGlhNjQ6IFJlbW92ZSBDT01NQU5EX0xJTkVfU0la
-RSBmcm9tIHVhcGkKPj4gwqDCoCBtNjhrOiBSZW1vdmUgQ09NTUFORF9MSU5FX1NJWkUgZnJvbSB1
-YXBpCj4+IMKgwqAgbWljcm9ibGF6ZTogUmVtb3ZlIENPTU1BTkRfTElORV9TSVpFIGZyb20gdWFw
-aQo+PiDCoMKgIG1pcHM6IFJlbW92ZSBDT01NQU5EX0xJTkVfU0laRSBmcm9tIHVhcGkKPj4gwqDC
-oCBwYXJpc2M6IFJlbW92ZSBDT01NQU5EX0xJTkVfU0laRSBmcm9tIHVhcGkKPj4gwqDCoCBwb3dl
-cnBjOiBSZW1vdmUgQ09NTUFORF9MSU5FX1NJWkUgZnJvbSB1YXBpCj4+IMKgwqAgc3BhcmM6IFJl
-bW92ZSBDT01NQU5EX0xJTkVfU0laRSBmcm9tIHVhcGkKPj4gwqDCoCB4dGVuc2E6IFJlbW92ZSBD
-T01NQU5EX0xJTkVfU0laRSBmcm9tIHVhcGkKPj4gwqDCoCBhc20tZ2VuZXJpYzogUmVtb3ZlIENP
-TU1BTkRfTElORV9TSVpFIGZyb20gdWFwaQo+PiDCoMKgIGFscGhhOiBSZW1vdmUgZW1wdHkgPHVh
-cGkvYXNtL3NldHVwLmg+Cj4+IMKgwqAgYXJjOiBSZW1vdmUgZW1wdHkgPHVhcGkvYXNtL3NldHVw
-Lmg+Cj4+IMKgwqAgbTY4azogUmVtb3ZlIGVtcHR5IDx1YXBpL2FzbS9zZXR1cC5oPgo+PiDCoMKg
-IGFybTY0OiBSZW1vdmUgZW1wdHkgPHVhcGkvYXNtL3NldHVwLmg+Cj4+IMKgwqAgbWljcm9ibGF6
-ZTogUmVtb3ZlIGVtcHR5IDx1YXBpL2FzbS9zZXR1cC5oPgo+PiDCoMKgIHNwYXJjOiBSZW1vdmUg
-ZW1wdHkgPHVhcGkvYXNtL3NldHVwLmg+Cj4+IMKgwqAgcGFyaXNjOiBSZW1vdmUgZW1wdHkgPHVh
-cGkvYXNtL3NldHVwLmg+Cj4+IMKgwqAgeDg2OiBSZW1vdmUgZW1wdHkgPHVhcGkvYXNtL3NldHVw
-Lmg+Cj4+IMKgwqAgeHRlbnNhOiBSZW1vdmUgZW1wdHkgPHVhcGkvYXNtL3NldHVwLmg+Cj4+IMKg
-wqAgcG93ZXJwYzogUmVtb3ZlIGVtcHR5IDx1YXBpL2FzbS9zZXR1cC5oPgo+PiDCoMKgIG1pcHM6
-IFJlbW92ZSBlbXB0eSA8dWFwaS9hc20vc2V0dXAuaD4KPj4gwqDCoCBzMzkwOiBSZW1vdmUgZW1w
-dHkgPHVhcGkvYXNtL3NldHVwLmg+Cj4+Cj4+IMKgIC4uLi9hZG1pbi1ndWlkZS9rZXJuZWwtcGFy
-YW1ldGVycy5yc3TCoMKgwqDCoMKgwqDCoMKgIHzCoCAyICstCj4+IMKgIGFyY2gvYWxwaGEvaW5j
-bHVkZS9hc20vc2V0dXAuaMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgNCArLS0K
-Pj4gwqAgYXJjaC9hbHBoYS9pbmNsdWRlL3VhcGkvYXNtL3NldHVwLmjCoMKgwqDCoMKgwqDCoMKg
-wqDCoCB8wqAgNyAtLS0tLQo+PiDCoCBhcmNoL2FyYy9pbmNsdWRlL2FzbS9zZXR1cC5owqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgMSAtCj4+IMKgIGFyY2gvYXJjL2luY2x1
-ZGUvdWFwaS9hc20vc2V0dXAuaMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgNiAtLS0tLQo+
-PiDCoCBhcmNoL2FybS9pbmNsdWRlL2FzbS9zZXR1cC5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCB8wqAgMSArCj4+IMKgIGFyY2gvYXJtL2luY2x1ZGUvdWFwaS9hc20vc2V0dXAu
-aMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgMiAtLQo+PiDCoCBhcmNoL2FybTY0L2luY2x1
-ZGUvYXNtL3NldHVwLmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDMgKystCj4+
-IMKgIGFyY2gvYXJtNjQvaW5jbHVkZS91YXBpL2FzbS9zZXR1cC5owqDCoMKgwqDCoMKgwqDCoMKg
-wqAgfCAyNyAtLS0tLS0tLS0tLS0tLS0tLS0tCj4+IMKgIGFyY2gvaWE2NC9pbmNsdWRlL2FzbS9z
-ZXR1cC5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAxMCArKysrKysrCj4+IMKg
-IGFyY2gvaWE2NC9pbmNsdWRlL3VhcGkvYXNtL3NldHVwLmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IHzCoCA2ICsrLS0tCj4+IMKgIGFyY2gvbG9vbmdhcmNoL2luY2x1ZGUvYXNtL3NldHVwLmjCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAyICstCj4+IMKgIGFyY2gvbTY4ay9pbmNsdWRlL2FzbS9z
-ZXR1cC5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDMgKy0tCj4+IMKgIGFy
-Y2gvbTY4ay9pbmNsdWRlL3VhcGkvYXNtL3NldHVwLmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwg
-MTcgLS0tLS0tLS0tLS0tCj4+IMKgIGFyY2gvbWljcm9ibGF6ZS9pbmNsdWRlL2FzbS9zZXR1cC5o
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDIgKy0KPj4gwqAgYXJjaC9taWNyb2JsYXplL2luY2x1
-ZGUvdWFwaS9hc20vc2V0dXAuaMKgwqDCoMKgwqAgfCAyMCAtLS0tLS0tLS0tLS0tLQo+PiDCoCBh
-cmNoL21pcHMvaW5jbHVkZS9hc20vc2V0dXAuaMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIHzCoCAzICsrLQo+PiDCoCBhcmNoL21pcHMvaW5jbHVkZS91YXBpL2FzbS9zZXR1cC5owqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgOCAtLS0tLS0KPj4gwqAgYXJjaC9wYXJpc2MvaW5jbHVk
-ZS97dWFwaSA9PiB9L2FzbS9zZXR1cC5owqDCoMKgIHzCoCAwCj4+IMKgIGFyY2gvcG93ZXJwYy9p
-bmNsdWRlL2FzbS9zZXR1cC5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDIgKy0KPj4g
-wqAgYXJjaC9wb3dlcnBjL2luY2x1ZGUvdWFwaS9hc20vc2V0dXAuaMKgwqDCoMKgwqDCoMKgwqAg
-fMKgIDcgLS0tLS0KPj4gwqAgYXJjaC9zMzkwL2luY2x1ZGUvYXNtL3NldHVwLmjCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgMSAtCj4+IMKgIGFyY2gvczM5MC9pbmNsdWRlL3Vh
-cGkvYXNtL3NldHVwLmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAxIC0KPj4gwqAgYXJjaC9z
-aC9pbmNsdWRlL2FzbS9zZXR1cC5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IHzCoCAyICstCj4+IMKgIGFyY2gvc3BhcmMvaW5jbHVkZS9hc20vc2V0dXAuaMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgNiArKysrLQo+PiDCoCBhcmNoL3NwYXJjL2luY2x1ZGUv
-dWFwaS9hc20vc2V0dXAuaMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgMTYgLS0tLS0tLS0tLS0KPj4g
-wqAgYXJjaC94ODYvaW5jbHVkZS9hc20vc2V0dXAuaMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgfMKgIDIgLS0KPj4gwqAgYXJjaC94ODYvaW5jbHVkZS91YXBpL2FzbS9zZXR1cC5o
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAxIC0KPj4gwqAgYXJjaC94dGVuc2EvaW5jbHVk
-ZS97dWFwaSA9PiB9L2FzbS9zZXR1cC5owqDCoMKgIHzCoCAwCj4+IMKgIGluY2x1ZGUvYXNtLWdl
-bmVyaWMvS2J1aWxkwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDEg
-Kwo+PiDCoCBpbmNsdWRlL3t1YXBpID0+IH0vYXNtLWdlbmVyaWMvc2V0dXAuaMKgwqDCoMKgwqDC
-oMKgIHzCoCAwCj4+IMKgIGluY2x1ZGUvdWFwaS9hc20tZ2VuZXJpYy9LYnVpbGTCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAxIC0KPj4gwqAgMzIgZmlsZXMgY2hhbmdlZCwgMzEgaW5z
-ZXJ0aW9ucygrKSwgMTMzIGRlbGV0aW9ucygtKQo+PiDCoCBkZWxldGUgbW9kZSAxMDA2NDQgYXJj
-aC9hbHBoYS9pbmNsdWRlL3VhcGkvYXNtL3NldHVwLmgKPj4gwqAgZGVsZXRlIG1vZGUgMTAwNjQ0
-IGFyY2gvYXJjL2luY2x1ZGUvdWFwaS9hc20vc2V0dXAuaAo+PiDCoCBkZWxldGUgbW9kZSAxMDA2
-NDQgYXJjaC9hcm02NC9pbmNsdWRlL3VhcGkvYXNtL3NldHVwLmgKPj4gwqAgY3JlYXRlIG1vZGUg
-MTAwNjQ0IGFyY2gvaWE2NC9pbmNsdWRlL2FzbS9zZXR1cC5oCj4+IMKgIGRlbGV0ZSBtb2RlIDEw
-MDY0NCBhcmNoL202OGsvaW5jbHVkZS91YXBpL2FzbS9zZXR1cC5oCj4+IMKgIGRlbGV0ZSBtb2Rl
-IDEwMDY0NCBhcmNoL21pY3JvYmxhemUvaW5jbHVkZS91YXBpL2FzbS9zZXR1cC5oCj4+IMKgIGRl
-bGV0ZSBtb2RlIDEwMDY0NCBhcmNoL21pcHMvaW5jbHVkZS91YXBpL2FzbS9zZXR1cC5oCj4+IMKg
-IHJlbmFtZSBhcmNoL3BhcmlzYy9pbmNsdWRlL3t1YXBpID0+IH0vYXNtL3NldHVwLmggKDEwMCUp
-Cj4+IMKgIGRlbGV0ZSBtb2RlIDEwMDY0NCBhcmNoL3Bvd2VycGMvaW5jbHVkZS91YXBpL2FzbS9z
-ZXR1cC5oCj4+IMKgIGRlbGV0ZSBtb2RlIDEwMDY0NCBhcmNoL3MzOTAvaW5jbHVkZS91YXBpL2Fz
-bS9zZXR1cC5oCj4+IMKgIGRlbGV0ZSBtb2RlIDEwMDY0NCBhcmNoL3NwYXJjL2luY2x1ZGUvdWFw
-aS9hc20vc2V0dXAuaAo+PiDCoCBkZWxldGUgbW9kZSAxMDA2NDQgYXJjaC94ODYvaW5jbHVkZS91
-YXBpL2FzbS9zZXR1cC5oCj4+IMKgIHJlbmFtZSBhcmNoL3h0ZW5zYS9pbmNsdWRlL3t1YXBpID0+
-IH0vYXNtL3NldHVwLmggKDEwMCUpCj4+IMKgIHJlbmFtZSBpbmNsdWRlL3t1YXBpID0+IH0vYXNt
-LWdlbmVyaWMvc2V0dXAuaCAoMTAwJSkKPj4KPiBCasO2cm4gbm90aWNlZCB0aGF0IEkgc2hvdWxk
-IGFsc28gcmVtb3ZlIHRoZSBjb21tYW5kIGxpbmUgc2l6ZSBmb3IgCj4gcmlzY3Ygc2luY2UgaXQg
-d2FzIHBpY2tlZCB1cCBpbiA2LjMgYnkgUGFsbWVyLi4uSSBzZW5kIGEgdjYgcmlnaHQgbm93LCAK
-PiBzb3JyeSBhYm91dCB0aGF0Lgo+Cj4gQWxleAo+CgpIbW1tIHdoZW4gaW1wbGVtZW50aW5nIHRo
-ZSByaXNjdiBwYXRjaCwgSSBub3RpY2VkIHRoYXQgdGhlIHBhdGNoZXMgdGhhdCAKaW50cm9kdWNl
-IGEgbmV3IGluY2x1ZGUvYXNtL3NldHVwLmggZmlsZSBhZGQgdGhlIGZvbGxvd2luZyBTUERYIGhl
-YWRlcjoKCi8qIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wIFdJVEggTGludXgtc3lz
-Y2FsbC1ub3RlICovCgpUbyBtZSB3ZSBzaG91bGQgbm90IGFkZCAiV0lUSCBMaW51eC1zeXNjYWxs
-LW5vdGUiIGFzIHRoaXMgaGVhZGVyIGlzIG5vdCAKcGFydCBvZiB0aGUgdXNlciB2aXNpYmxlIGhl
-YWRlcnM6IGFueSBvcGluaW9uIGJlZm9yZSBJIHNlbmQgdGhlIHY1PwoKVGhhbmtzLAoKQWxleAoK
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNu
-cHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0
-dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
+From: Pavel Kozlov <pavel.kozlov@synopsys.com>
+
+Use the clone3 wrapper on ARC. It doesn't care about stack alignment.
+All callers should provide an aligned stack.
+It follows the internal signature:
+
+extern int clone3 (struct clone_args *__cl_args, size_t __size,
+ int (*__func) (void *__arg), void *__arg);
+---
+Checked on arc-linux-gnu. Previously observed tst-misaling-clone-internal
+test fail was because I used outdated master branch.
+Full testsuite runs without regressions.
+But I also see fail of the new tst-spawn7, as already repoted at [1].
+
+[1]
+https://sourceware.org/pipermail/libc-alpha/2023-February/145937.html
+
+ sysdeps/unix/sysv/linux/arc/clone3.S | 90 ++++++++++++++++++++++++++++
+ sysdeps/unix/sysv/linux/arc/sysdep.h |  2 +
+ 2 files changed, 92 insertions(+)
+ create mode 100644 sysdeps/unix/sysv/linux/arc/clone3.S
+
+diff --git a/sysdeps/unix/sysv/linux/arc/clone3.S b/sysdeps/unix/sysv/linux/arc/clone3.S
+new file mode 100644
+index 000000000000..87a8272a3977
+--- /dev/null
++++ b/sysdeps/unix/sysv/linux/arc/clone3.S
+@@ -0,0 +1,90 @@
++/* The clone3 syscall wrapper.  Linux/arc version.
++   Copyright (C) 2023 Free Software Foundation, Inc.
++
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#include <sysdep.h>
++#define _ERRNO_H	1
++#include <bits/errno.h>
++
++/* The userland implementation is:
++   int clone3 (struct clone_args *cl_args, size_t size,
++               int (*func)(void *arg), void *arg);
++
++   the kernel entry is:
++   int clone3 (struct clone_args *cl_args, size_t size);
++
++   The parameters are passed in registers from userland:
++   r0: cl_args
++   r1: size
++   r2: func
++   r3: arg  */
++
++ENTRY(__clone3)
++
++	/* Save args for the child.  */
++	mov	r10, r0		/* cl_args  */
++	mov	r11, r2		/* func	 */
++	mov	r12, r3		/* args  */
++
++	/* Sanity check args.  */
++	breq	r10, 0, L (__sys_err)	/* No NULL cl_args pointer.  */
++	breq	r11, 0, L (__sys_err)	/* No NULL function pointer.  */
++
++	/* Do the system call, the kernel expects:
++	   r8: system call number
++	   r0: cl_args
++	   r1: size  */
++	mov	r0, r10
++	mov	r8, __NR_clone3
++	ARC_TRAP_INSN
++
++	cmp	r0, 0
++	beq	thread_start_clone3	/* Child returns.  */
++	blt	L (__sys_err2)
++	j	[blink]			/* Parent returns.  */
++
++L (__sys_err):
++	mov	r0, -EINVAL
++L (__sys_err2):
++	b	__syscall_error
++PSEUDO_END (__clone3)
++
++
++	.align 4
++	.type thread_start_clone3, %function
++thread_start_clone3:
++	cfi_startproc
++	/* Terminate call stack by noting ra is undefined.  */
++	cfi_undefined (blink)
++
++	/* Child jumps off to @fn with @arg as argument.  */
++	jl.d	[r11]
++	mov	r0, r12
++
++	/* exit() with result from @fn (already in r0).  */
++	mov	r8, __NR_exit
++	ARC_TRAP_INSN
++
++	/* In case it ever came back.  */
++	flag	1
++
++	cfi_endproc
++	.size thread_start_clone3, .-thread_start_clone3
++
++libc_hidden_def (__clone3)
++weak_alias (__clone3, clone3)
+diff --git a/sysdeps/unix/sysv/linux/arc/sysdep.h b/sysdeps/unix/sysv/linux/arc/sysdep.h
+index dd6fe73445f9..88dc1dff017f 100644
+--- a/sysdeps/unix/sysv/linux/arc/sysdep.h
++++ b/sysdeps/unix/sysv/linux/arc/sysdep.h
+@@ -141,6 +141,8 @@ hidden_proto (__syscall_error)
+ 
+ # define ARC_TRAP_INSN	"trap_s 0	\n\t"
+ 
++# define HAVE_CLONE3_WRAPPER	1
++
+ # undef INTERNAL_SYSCALL_NCS
+ # define INTERNAL_SYSCALL_NCS(number, nr_args, args...)	\
+   ({								\
+-- 
+2.25.1
+
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
