@@ -4,62 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 10FFFC678D4
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  6 Mar 2023 10:16:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0BA56C678D4
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  6 Mar 2023 10:17:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Exb/eCeY+kIUESQNYaU/IKq3B15uQ8hM/MFiDKSAJfk=; b=3E2JVadWHPp7wH
-	BTw4w5yfHRiedw00lYf640X+1BvEMDZmH8lAuDMlVGxBbfQiuq/C05bL9bVbGSRwlHIeY6VrzVIz3
-	ArBbxrDNNY47j/ie4NaFORtBxjeeds2bl2ACUYxeU7BISc5UGLpYR0hLnORQ9u77JW9SAB2kQ6mSy
-	+NONJ2/14viSMPSlK0XpaepYapkx4hMcS+D2o8pgBBKOznTzLwcdG4WB26/OwCNjFqiSNP7Iqm3+8
-	IrHOxnnFKyXVBTXDV+q5Ye1omaLUWehB5dw+80cZ8an8GCUNeRnwHf8UOJFfrvwcNwcHkEek3KW8J
-	Hf7v548XHHcua7IFT98g==;
+	List-Owner; bh=08/mv7KahXPHG8kXF1vxe0eTsrgCoAaCcn340c/6VA4=; b=3OsPvv5eE9rON8
+	9uN1VKbUpROAV7OyAjXtwuLvGvdYUIJkTkQQUit3RyhJLlfWFC514DEPs2zZP9o4rm7lswxEIcOEn
+	oShG2EwfIrHNNWkv5ZqH3+K0dMvnDC8JtMHgw8qLYLajQnviGuiKsrEG3iIDV8yp+NIV/mCZqoKBB
+	O0BJUje9jJDe7oYyBZmPUkXcXOjljIEtnk5+2gUroocgCIvGHa7J02Pmn2mC7e2WtBZIt1NNGV6cb
+	smj+GH6+iW//ShRL5k0owOqvXpEN8+FWYGW3EG5DCqxhDcprR0iYryVe/IUQRGoJgD+8NOc1JAkft
+	06nIUTnboDhZfoaYNLIw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pZ7sz-00CGd5-HU; Mon, 06 Mar 2023 10:16:05 +0000
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+	id 1pZ7u1-00CGuy-Dt; Mon, 06 Mar 2023 10:17:09 +0000
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pZ7sw-00CGaw-JT
-	for linux-snps-arc@lists.infradead.org; Mon, 06 Mar 2023 10:16:04 +0000
-Received: by mail-wr1-x42e.google.com with SMTP id j2so8185573wrh.9
-        for <linux-snps-arc@lists.infradead.org>; Mon, 06 Mar 2023 02:16:02 -0800 (PST)
+	id 1pZ7tz-00CGsQ-Ep
+	for linux-snps-arc@lists.infradead.org; Mon, 06 Mar 2023 10:17:08 +0000
+Received: by mail-wr1-x429.google.com with SMTP id bw19so8174643wrb.13
+        for <linux-snps-arc@lists.infradead.org>; Mon, 06 Mar 2023 02:17:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1678097761;
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1678097823;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/zH6sM/JGTppOg6WAbFRYz9bSKKl0zrCh7Zhv5eLLuQ=;
-        b=4vl12bWdvUk4c3KAESQbo+g6mVesFr4wgqkb3+X6pPrgEWTgrFPuyBano55RYbymx3
-         xGj56sY7qkd+J7CaAul/FiN0to1w+XEmibsLrWawFVzTfagBs+sf5tx+lIRSseQVkaUw
-         irL0C2jNR+e/Sc6BXFxWCu5DlmqnXzvE0wMuR9CWoulWp4Cn6Z/hdTv+CytKL3S08FDr
-         wm/a1Fo1CtFumDHv51cxHEyaCeZ0LuGrDosbJv/u3u5hgO7iEI3IQtZAKeoMUne7201U
-         yXWSRZQo+n7/yxkCaOzMzbqJmgcX8kyxkO/U6wVCWrZ3tx9isX0LCi1TIz1nnf9UQDFK
-         lYbA==
+        bh=1DzeLm98x2KlxW+99+p+QT5JJuywxTn9f4r8Pp0eFvI=;
+        b=4cSW/LQ5s9Et6MID8LgfRx1uyewkB5JqgFPfFl7Op/JLO/S2L3Mkfcb+VkGrqRkrlV
+         ipMmbloNieFRtHwlqLJ4wEgJ+DHEUg+f4rZlaQ825a2jPl5kuFx9bdykF8SeFf1dBXyj
+         jFU2ntNuLC74CPhN41uv3CYij8LjnMFic4arj03r9hBLrJ4kqJP3sCkOjMj+lilz1UPA
+         8oi/ajLkTvRxJSWP+dhqRh7nnLh0Vn1CDDbc4Ctnz8zButcnXL33rNCZbDBae8zlOcw9
+         cVDxTwvnfbc6IeX0EDHwG19xMT2lIFgQO1B5c6hbn8cuKzRWV0IVtY5rqz7wIcIT2M+u
+         GR5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678097761;
+        d=1e100.net; s=20210112; t=1678097823;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/zH6sM/JGTppOg6WAbFRYz9bSKKl0zrCh7Zhv5eLLuQ=;
-        b=xSC5DymtUsRq0fJHzeC+bcLxXRy0pZ6Y8E3oKNthll49LhpLpmtJVgR3u5WOrqZN7X
-         aNAoa3ijoHobvdD+1gCKVmGLpv5MVstUwkHbd0U59DX9vaAEJJ3CW1Q7h5vq3MNXkwwu
-         EehVC+Cb7P7qU9t/Dw/8jxZeOCP+o2w/r8Il2rHvYaTZyUkYtZ4Qtr8XSu4alwW4efHV
-         kNOGtJNNmJLrufuwO9v/IKLEOjNWjwlXkyB/73CGGNrYVC6XXnjf0BZEcTOg8AdZ6d1V
-         aMQZmxONXwKhQ1A9oTBFjiHewdBma0+Q43N4P1DbUB6d9j6osyrbIybJtL4MGe+JHL41
-         GELA==
-X-Gm-Message-State: AO0yUKVe/8c4O+4ziJs2I8gHsv1XTdR0AfuNAWSlgHB6FFVldjbUiTZ8
-	afBdwL2z94BByGvuO2ALd4aykQ==
-X-Google-Smtp-Source: AK7set9QzgEz/C8uA0NlmNMHen68Ax9bRKn4lj3aSWLUzeNtL2LQdG4l4s1yU3qcchzv8/XlF/U2lA==
-X-Received: by 2002:a5d:560f:0:b0:2ce:506a:d956 with SMTP id l15-20020a5d560f000000b002ce506ad956mr4143451wrv.34.1678097761282;
-        Mon, 06 Mar 2023 02:16:01 -0800 (PST)
+        bh=1DzeLm98x2KlxW+99+p+QT5JJuywxTn9f4r8Pp0eFvI=;
+        b=BB7jAbyAcMwL4N/6EL4+116y3PGTTLcklroTi9gLJ7lbZNlN6onR9Jv1P0m07zlnad
+         WMOprgQmXa7oGHUxHRjM+PUOO99tOuHv7uRopKOpe/bzajqG6L91J1/bdlUeBzZePh9z
+         X+iZLF7Vt3Lg0Z1buRv18IiWFGbhuinbADuAnJJb6SwzpwBtu+LLMwC/KdYSoW52gDr9
+         DeI6jqUliTlTfXWYzd5r6Bz5booO75YDcVJETfe8D8yNrBrx9Fz2lfCGKtrkiOtspOqS
+         kdVVgu7ohqkEDRwDhPHtNYkM/tBrzd/+e3pWPJrxrgr9Gg18gMQ7LDZJ73Ru/Y2R9LEC
+         1OTA==
+X-Gm-Message-State: AO0yUKV7IlrQwr1ZAPfECC3bK1LD0sukOvIpEtcYGYapAYMPaeAwGjkQ
+	XnqefIaWLnsi2msWN6yGelWBGg==
+X-Google-Smtp-Source: AK7set87MHg0/YFlXuaC+GjFPo/tzKFyPd2BNWIQb0qhZu4XveM0MX+k2JiDtlPsTxXRUM06ojldcg==
+X-Received: by 2002:adf:f151:0:b0:2c5:617a:5023 with SMTP id y17-20020adff151000000b002c5617a5023mr6281664wro.71.1678097822928;
+        Mon, 06 Mar 2023 02:17:02 -0800 (PST)
 Received: from alex-rivos.ba.rivosinc.com (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
-        by smtp.gmail.com with ESMTPSA id p7-20020a5d4e07000000b002c5694aef92sm9505807wrt.21.2023.03.06.02.15.59
+        by smtp.gmail.com with ESMTPSA id q9-20020a5d61c9000000b002c54911f50bsm9443931wrv.84.2023.03.06.02.17.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Mar 2023 02:16:01 -0800 (PST)
+        Mon, 06 Mar 2023 02:17:02 -0800 (PST)
 From: Alexandre Ghiti <alexghiti@rivosinc.com>
 To: Greg KH <gregkh@linuxfoundation.org>,
 	Jonathan Corbet <corbet@lwn.net>,
@@ -119,16 +119,16 @@ To: Greg KH <gregkh@linuxfoundation.org>,
 	linux-arch@vger.kernel.org
 Cc: Palmer Dabbelt <palmer@rivosinc.com>,
 	Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH v5 10/26] sparc: Remove COMMAND_LINE_SIZE from uapi
-Date: Mon,  6 Mar 2023 11:04:52 +0100
-Message-Id: <20230306100508.1171812-11-alexghiti@rivosinc.com>
+Subject: [PATCH v5 11/26] xtensa: Remove COMMAND_LINE_SIZE from uapi
+Date: Mon,  6 Mar 2023 11:04:53 +0100
+Message-Id: <20230306100508.1171812-12-alexghiti@rivosinc.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230306100508.1171812-1-alexghiti@rivosinc.com>
 References: <20230306100508.1171812-1-alexghiti@rivosinc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230306_021602_667988_5DCE13DD 
-X-CRM114-Status: GOOD (  11.55  )
+X-CRM114-CacheID: sfid-20230306_021707_578330_93178C4D 
+X-CRM114-Status: GOOD (  16.45  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -152,44 +152,47 @@ be part of the user-visible API.
 
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+Acked-by: Max Filippov <jcmvbkbc@gmail.com>
 ---
- arch/sparc/include/asm/setup.h      | 6 +++++-
- arch/sparc/include/uapi/asm/setup.h | 7 -------
- 2 files changed, 5 insertions(+), 8 deletions(-)
+ arch/xtensa/include/asm/setup.h      | 17 +++++++++++++++++
+ arch/xtensa/include/uapi/asm/setup.h |  2 --
+ 2 files changed, 17 insertions(+), 2 deletions(-)
+ create mode 100644 arch/xtensa/include/asm/setup.h
 
-diff --git a/arch/sparc/include/asm/setup.h b/arch/sparc/include/asm/setup.h
-index 72205684e51e..d1384ed92547 100644
---- a/arch/sparc/include/asm/setup.h
-+++ b/arch/sparc/include/asm/setup.h
-@@ -7,7 +7,11 @@
- 
- #include <linux/interrupt.h>
- 
--#include <uapi/asm/setup.h>
-+#if defined(__sparc__) && defined(__arch64__)
-+# define COMMAND_LINE_SIZE 2048
-+#else
-+# define COMMAND_LINE_SIZE 256
+diff --git a/arch/xtensa/include/asm/setup.h b/arch/xtensa/include/asm/setup.h
+new file mode 100644
+index 000000000000..0fc3ad86e0a5
+--- /dev/null
++++ b/arch/xtensa/include/asm/setup.h
+@@ -0,0 +1,17 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * include/asm-xtensa/setup.h
++ *
++ * This file is subject to the terms and conditions of the GNU General Public
++ * License.  See the file "COPYING" in the main directory of this archive
++ * for more details.
++ *
++ * Copyright (C) 2001 - 2005 Tensilica Inc.
++ */
++
++#ifndef _XTENSA_SETUP_H
++#define _XTENSA_SETUP_H
++
++#define COMMAND_LINE_SIZE	256
++
 +#endif
+diff --git a/arch/xtensa/include/uapi/asm/setup.h b/arch/xtensa/include/uapi/asm/setup.h
+index 5356a5fd4d17..6f982394684a 100644
+--- a/arch/xtensa/include/uapi/asm/setup.h
++++ b/arch/xtensa/include/uapi/asm/setup.h
+@@ -12,6 +12,4 @@
+ #ifndef _XTENSA_SETUP_H
+ #define _XTENSA_SETUP_H
  
- extern char reboot_command[];
- 
-diff --git a/arch/sparc/include/uapi/asm/setup.h b/arch/sparc/include/uapi/asm/setup.h
-index 3c208a4dd464..c3cf1b0d30b3 100644
---- a/arch/sparc/include/uapi/asm/setup.h
-+++ b/arch/sparc/include/uapi/asm/setup.h
-@@ -6,11 +6,4 @@
- #ifndef _UAPI_SPARC_SETUP_H
- #define _UAPI_SPARC_SETUP_H
- 
--#if defined(__sparc__) && defined(__arch64__)
--# define COMMAND_LINE_SIZE 2048
--#else
--# define COMMAND_LINE_SIZE 256
--#endif
+-#define COMMAND_LINE_SIZE	256
 -
--
- #endif /* _UAPI_SPARC_SETUP_H */
+ #endif
 -- 
 2.37.2
 
