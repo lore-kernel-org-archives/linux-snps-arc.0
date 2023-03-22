@@ -4,91 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36D85C6FD1F
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 22 Mar 2023 18:22:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36FC3C6FD1F
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 22 Mar 2023 23:14:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References
-	:In-Reply-To:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=9bN5G+CDzYv9x0jnIFEcaqJZaJjJnRrTYgLVC2EZU2I=; b=LXWCefdKCrcy6y
-	160z35dg4vytGmQGYutZYZfsM/SBwnHmC0R+ovvQDDgl7T2FaozlyuAqaKHEjti6srLN2t+8DwR+t
-	2LVf1FOPfIwyJCnAk0xvyLtD544vyVPnDeRYHuvjt0vPsEIbfWW6He6tC7/EvAVfWd1os0hHnp0cp
-	HEfwU3jVnhB8TRelITQT5IlN9uveKvHvpBmlzGo9/dmZB4hBdlmZbltpSkKqEd9zZZklR9RnHUcdC
-	YXqkAU2niEGOr37KMFeDMR6dM212ukqwruc8sGQ307nrfNvUeVg0fW6JqldCWJn4BlIxN9oJODqdv
-	09Jja5xaYTUEbEr3QKLg==;
+	List-Owner; bh=1pNap5LAWnMymvH6RIYfxNfOEWL0pz1YXOi8V/uJ+EM=; b=2OiaokJt48Ywq+
+	SaIUbYVhJDeBPLyPL7iHfh5cbBzmFGUkwfIBB4nkGniwJ0vv2uINiBSNazooBZiFhxlzsRR0/emfs
+	6yP1K8fl4ciUsIQG1s7e53qSO7cCCTs5g6o4W8nkZ2w/8UwbFMk2DWGM/6rAsqSDNr0d8UpzzM+Ib
+	szRxvybTzgtxcj5DzssKGSjdfkSzTW0tXeHSfrQ5Bly1jvm4Z8BmkragbwMa36gOFZuejPMZowxC3
+	dpoXn0W97FOgg4Nk3P2KQ5kTXwi3dj1Hx+IstX7JzcIjeL/nIPtQ9gyR9C4xPqpFSZ2t1AML+VizC
+	ZYH5SpyIB4mzG4GG4B0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pf36i-00H0FM-08;
-	Wed, 22 Mar 2023 18:22:44 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1pf7fI-0005YJ-2k;
+	Wed, 22 Mar 2023 23:14:44 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pf36d-00H0D0-37
-	for linux-snps-arc@lists.infradead.org;
-	Wed, 22 Mar 2023 18:22:41 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1679509358;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AQmTyEbfymjzRNtIW6wpo43MqQOqbzqrZwvZwgWkUpU=;
-	b=QuheHb3eWxy26Fnn/izIEgc1U4tzVaSflpr7m1ovhBLauyTNhFkQ8P+j+9OJXDZYgh2iVk
-	XRyLwI2DtoFdGDo6yjMdnVXygBBNuOw0e7i86D9RLv8M6SW8mofgCyP7fXRsMWwgQJ9++j
-	SJlDGvcVk2gJDLKZYnczbu5BZdeHpIs=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-68-8fc99G4zN8qjGhaWWnmU7g-1; Wed, 22 Mar 2023 14:22:37 -0400
-X-MC-Unique: 8fc99G4zN8qjGhaWWnmU7g-1
-Received: by mail-qk1-f200.google.com with SMTP id d72-20020ae9ef4b000000b007467a30076fso5325186qkg.18
-        for <linux-snps-arc@lists.infradead.org>; Wed, 22 Mar 2023 11:22:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679509357;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AQmTyEbfymjzRNtIW6wpo43MqQOqbzqrZwvZwgWkUpU=;
-        b=hXZhEnuV+yz8R3m8HtNsM9qLzE6cXiwH+5RVTftWNIfMLTuIW9hdt5qGgiSnc7IrbU
-         BBR4n8wMLTsR/QhtQHbX/rocuGWROLQtiHWmZ/h+EKAxrE/+i5AHEJGgcKkwqhBuHt87
-         T7I/2Rk5KQqBz2azoCFBO8jtYAnDOolLcxFNV9AFmWoi+5Z6VDOcqjyj2Rd/DR7ppGmb
-         gkIjhZKFivO1vrzyjRn89n+zi1ES2g9M+ayVD7ZWnVPqe5+gTFfG3rT9gCgxIMKq5imE
-         4HmaaDSvotXxayfgmpcSEG/IrmgrQ+jjkbOwMNm+etFBC8kNeLrsioagtOrdlDPQWftR
-         U3TA==
-X-Gm-Message-State: AO0yUKWH6K3Xbba5JSdJwmOxwpt7QnFUmjR9zfzocUmg9BK2Qj1gULE7
-	7Niw5i/83X/LyzAERQLNhwpKceqnrD/Pv7U5YLAG5KwiONNkwtEdKNA/160vHhbZuHX29mzLOte
-	LxqQwpbahruM0+eOtcH4zwcJx+X7u7SZA
-X-Received: by 2002:ac8:594a:0:b0:3e3:7e53:9a8f with SMTP id 10-20020ac8594a000000b003e37e539a8fmr7511741qtz.50.1679509356919;
-        Wed, 22 Mar 2023 11:22:36 -0700 (PDT)
-X-Google-Smtp-Source: AK7set+t7wmz3/x7URy1IAcP9apu1JV9+38nhf9A/nHJ2ae3E1Cp8z62mk26+NWh6ExaxyxmUk07Nw==
-X-Received: by 2002:ac8:594a:0:b0:3e3:7e53:9a8f with SMTP id 10-20020ac8594a000000b003e37e539a8fmr7511693qtz.50.1679509356631;
-        Wed, 22 Mar 2023 11:22:36 -0700 (PDT)
-Received: from vschneid.remote.csb ([154.57.232.159])
-        by smtp.gmail.com with ESMTPSA id j23-20020ac86657000000b003e0c29112b6sm6351465qtp.7.2023.03.22.11.22.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Mar 2023 11:22:36 -0700 (PDT)
-From: Valentin Schneider <vschneid@redhat.com>
-To: Peter Zijlstra <peterz@infradead.org>
+	id 1pf7fF-0005XK-1g;
+	Wed, 22 Mar 2023 23:14:41 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=hKMA4pE4ZC1WEjwlMS0oahB5WbuLzi761bi+OVXv/X8=; b=k4/hIANBdxC2Z8c++HmkBPk16F
+	hq1n4vi1aFY7d/izKMGpm0/zkTd++0c77IZs+Q5bV257Gjkiy34yMSDd8L7TKq46+CV0zDSHb27H+
+	4KSIRSylcgYZ2OMei78Bb1gC7STjWled8MJkcwhhG29tpOAa6HtPIFWPyA9seeGrRiJr3vWUYPsTp
+	3Vu3FPyPpiLcCMVxhaxuIGSboSf1mmZy7nxDek09nDmg/P6bBJA5M4EMw//9ErW/pvBC1TxeGCDAY
+	4DGmD2DpR96GbtKoxaTV3TYyxFMIuFbNKoIU/LaGvb2xuytoT+Rk3V4s2DX53haN44indyDWk1fXo
+	N1G/mBcw==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1pf7f5-004hB6-38;
+	Wed, 22 Mar 2023 23:14:32 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 9046D30035F;
+	Thu, 23 Mar 2023 00:14:28 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 73D47202F7F60; Thu, 23 Mar 2023 00:14:28 +0100 (CET)
+Date: Thu, 23 Mar 2023 00:14:28 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Valentin Schneider <vschneid@redhat.com>
 Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
- linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
- linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-xtensa@linux-xtensa.org, x86@kernel.org, "Paul E. McKenney"
- <paulmck@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Thomas
- Gleixner <tglx@linutronix.de>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Juri Lelli <juri.lelli@redhat.com>, Daniel
- Bristot de Oliveira <bristot@redhat.com>, Marcelo Tosatti
- <mtosatti@redhat.com>, Frederic Weisbecker <frederic@kernel.org>, Ingo
- Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Marc
- Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Russell
- King <linux@armlinux.org.uk>, Nicholas Piggin <npiggin@gmail.com>, Guo Ren
- <guoren@kernel.org>, "David S. Miller" <davem@davemloft.net>
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+	openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+	x86@kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Daniel Bristot de Oliveira <bristot@redhat.com>,
+	Marcelo Tosatti <mtosatti@redhat.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Marc Zyngier <maz@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Nicholas Piggin <npiggin@gmail.com>, Guo Ren <guoren@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>
 Subject: Re: [PATCH v5 7/7] sched, smp: Trace smp callback causing an IPI
-In-Reply-To: <20230322172242.GH2357380@hirez.programming.kicks-ass.net>
+Message-ID: <20230322231428.GV2017917@hirez.programming.kicks-ass.net>
 References: <20230307143558.294354-1-vschneid@redhat.com>
  <20230307143558.294354-8-vschneid@redhat.com>
  <20230322095329.GS2017917@hirez.programming.kicks-ass.net>
@@ -96,14 +84,10 @@ References: <20230307143558.294354-1-vschneid@redhat.com>
  <20230322140434.GC2357380@hirez.programming.kicks-ass.net>
  <xhsmhjzz8d8km.mognet@vschneid.remote.csb>
  <20230322172242.GH2357380@hirez.programming.kicks-ass.net>
-Date: Wed, 22 Mar 2023 18:22:28 +0000
-Message-ID: <xhsmhh6ucd4t7.mognet@vschneid.remote.csb>
+ <xhsmhh6ucd4t7.mognet@vschneid.remote.csb>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230322_112240_102513_CE2A3F9A 
-X-CRM114-Status: GOOD (  28.19  )
+Content-Disposition: inline
+In-Reply-To: <xhsmhh6ucd4t7.mognet@vschneid.remote.csb>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,77 +104,70 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 22/03/23 18:22, Peter Zijlstra wrote:
-> On Wed, Mar 22, 2023 at 05:01:13PM +0000, Valentin Schneider wrote:
->
->> > So I was thinking something like this:
->
->> Hm, this does get rid of the func being passed down the helpers, but this
->> means the trace events are now stateful, i.e. I need the first and last
->> events in a CSD stack to figure out which one actually caused the IPI.
->
-> Isn't much of tracing stateful? I mean, why am I always writing awk
-> programs to parse trace output?
->
-> The one that is directly followed by
-> generic_smp_call_function_single_interrupt() (horrible name that), is
-> the one that tripped the IPI.
->
+On Wed, Mar 22, 2023 at 06:22:28PM +0000, Valentin Schneider wrote:
+> On 22/03/23 18:22, Peter Zijlstra wrote:
 
-Right.
+> >>        hackbench-157   [001]    10.894320: ipi_send_cpu:         cpu=3 callsite=check_preempt_curr+0x37 callback=0x0
+> >
+> > Arguably we should be setting callback to scheduler_ipi(), except
+> > ofcourse, that's not an actual function...
+> >
+> > Maybe we can do "extern inline" for the actual users and provide a dummy
+> > function for the symbol when tracing.
+> >
+> 
+> Huh, I wasn't aware that was an option, I'll look into that. I did scribble
+> down a comment next to smp_send_reschedule(), but having a decodable
+> function name would be better!
 
->> It also requires whoever is looking at the trace to be aware of which IPIs
->> are attached to a CSD, and which ones aren't. ATM that's only the resched
->> IPI, but per the cover letter there's more to come (e.g. tick_broadcast()
->> for arm64/riscv and a few others). For instance:
->> 
->>        hackbench-157   [001]    10.894320: ipi_send_cpu:         cpu=3 callsite=check_preempt_curr+0x37 callback=0x0
->
-> Arguably we should be setting callback to scheduler_ipi(), except
-> ofcourse, that's not an actual function...
->
-> Maybe we can do "extern inline" for the actual users and provide a dummy
-> function for the symbol when tracing.
->
+So clang-15 builds the below (and generates the expected code), but
+gcc-12 vomits nonsense about a non-static inline calling a static inline
+or somesuch bollocks :-/
 
-Huh, I wasn't aware that was an option, I'll look into that. I did scribble
-down a comment next to smp_send_reschedule(), but having a decodable
-function name would be better!
-
->>        hackbench-157   [001]    10.895068: ipi_send_cpu:         cpu=3 callsite=try_to_wake_up+0x29e callback=sched_ttwu_pending+0x0
->>        hackbench-157   [001]    10.895068: ipi_send_cpu:         cpu=3 callsite=try_to_wake_up+0x29e callback=generic_smp_call_function_single_interrupt+0x0
->> 
->> That first one sent a RESCHEDULE IPI, the second one a CALL_FUNCTION one,
->> but you really have to know what you're looking at...
->
-> But you have to know that anyway, you can't do tracing and not know wtf
-> you're doing. Or rather, if you do, I don't give a crap and you can keep
-> the pieces :-)
->
-> Grepping the callback should be pretty quick resolution at to what trips
-> it, no?
->
-> (also, if you *realllllly* can't manage, we can always add yet another
-> argument that gives a type thingy)
->
-
-Ah, I was a bit unclear here - I don't care too much about the IPI type
-being used, but rather being able to figure out on IRQ entry where that IPI
-came from - thinking some more about now, I don't think logging *all* CSDs
-causes an issue there, as you'd look at the earliest-not-seen-yet event
-targeting this CPU anyway.
-
-That'll be made easy once I get to having cpumask filters for ftrace, so
-I can just issue something like:
-
-  trace-cmd record -e 'ipi_send_cpu' -f "cpu == 3" -e 'ipi_send_cpumask' -f "cpus \in {3}" -T hackbench 
-
-(it's somewhere on the todolist...)
-
-TL;DR: I *think* I've convinced myself logging all of them isn't an issue -
-I'm going to play with this on something "smarter" than just hackbench
-under QEMU just to drill it in.
-
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1991,7 +1991,7 @@ extern char *__get_task_comm(char *to, s
+ })
+ 
+ #ifdef CONFIG_SMP
+-static __always_inline void scheduler_ipi(void)
++extern __always_inline void scheduler_ipi(void)
+ {
+ 	/*
+ 	 * Fold TIF_NEED_RESCHED into the preempt_count; anybody setting
+--- a/include/linux/smp.h
++++ b/include/linux/smp.h
+@@ -130,9 +130,9 @@ extern void arch_smp_send_reschedule(int
+  * scheduler_ipi() is inline so can't be passed as callback reason, but the
+  * callsite IP should be sufficient for root-causing IPIs sent from here.
+  */
+-#define smp_send_reschedule(cpu) ({		  \
+-	trace_ipi_send_cpu(cpu, _RET_IP_, NULL);  \
+-	arch_smp_send_reschedule(cpu);		  \
++#define smp_send_reschedule(cpu) ({				\
++	trace_ipi_send_cpu(cpu, _RET_IP_, &scheduler_ipi);	\
++	arch_smp_send_reschedule(cpu);				\
+ })
+ 
+ /*
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -3790,6 +3790,15 @@ static int ttwu_runnable(struct task_str
+ }
+ 
+ #ifdef CONFIG_SMP
++void scheduler_ipi(void)
++{
++	/*
++	 * Actual users should end up using the extern inline, this is only
++	 * here for the symbol.
++	 */
++	BUG();
++}
++
+ void sched_ttwu_pending(void *arg)
+ {
+ 	struct llist_node *llist = arg;
 
 _______________________________________________
 linux-snps-arc mailing list
