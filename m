@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65DDBC6FD1C
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 22 Mar 2023 09:40:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 605DDC6FD1F
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 22 Mar 2023 09:53:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=R5o4mYi/QSOHmnKHwFuwbhArMylKTjt53RrqDny5Uh8=; b=5DSpADRhihNuQB
-	9BAlD2WZBVEJ8pXQcAPRx+z8HqK7qkn+MhorpfJwUbXLvDU+8PnEzOoqNA/9QN+2tQI3gjrkLfWGI
-	OEQSSRKXa1Psfd/SQs8bC5JbgbiizxtLP3GEoU7z8Jap0ROmwLLpBVFkjhDLCvjzqORTcmhnMhaei
-	1GuIkZYxkJQ3Q6cxy2oOqgh4ALR43n4RRgCUVYmw0gfhXoY25MRg42WusxqKgo5Kp/BQqHOX4x6Ki
-	DIgrTJuhLXFFvjpfPYL7aVCX1Jxiot1gkSSMZMWS1aczrEMaqYnEzYe4s40lQgH8ODpPVOeo1vCTy
-	qDkPLLpC5oRO1oSE19vw==;
+	List-Owner; bh=3HR/PBAdLrJFXoxKlq7CLogjCn6pCk8mowx8ybyA2q0=; b=lasBr6cmI+PcDd
+	7Z2PJ77NCrMa+xdKf8nRFiADXq8SPMN4kT3o+pRlimt6w4i49bzeXtH/wP6pjiE6t7k++YZ4puP1/
+	1HOffFJWj6j3LpvQkgPpVE8Xm17Zox761Q/Wzn4uzgKEKLx6bniOsY00cUwe5pFHD08Q40hMrRXrL
+	FZQtByRxEJJvpXnDO+gL3R5uHBIeoVuui7Ha6vDK2Y+gQ2gsibuENRk8zeJaobuiGOKQTzFP0nJFV
+	/KriDNY0FxAtIOfoD/Xn/lQM3RwGHty6nR/gJsyaChnlB40Yan/rHaA0OXjAmpWu2Aj4QNY1em+/s
+	qvNglwBhjpUEpFbkdtAg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1peux0-00FTa2-0Q;
-	Wed, 22 Mar 2023 09:40:10 +0000
+	id 1pevA1-00FXm4-1C;
+	Wed, 22 Mar 2023 09:53:37 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1peuwx-00FTYm-24;
-	Wed, 22 Mar 2023 09:40:07 +0000
+	id 1pev9y-00FXlS-05;
+	Wed, 22 Mar 2023 09:53:34 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=NIAHg4If27BetC+4UZobAV0PxBnmTt3z+fWts2bKQWA=; b=rgS/CEWAlsTurPe5ucKBiXaDhr
-	ew26BoXauCH9lin/sWfYKxjLJe0WysSt1P4iOSDXV1qfu4JSoUQNAlogwxNIDbcZw5jKIurC6wBP0
-	+/+Z8kdUTp/ZyyNP9QPql3dhW8rHV0QqkfTXWuMoE0vryMGgt+T+aOFFPTKbmbiRK5T84YLaG6C4t
-	iRHD6M2ZFvI2kES3RCcIFI7D2yWW07o0ZjcKw1qqr5MTJddfTUE9AHHetindb2rqkUVxpV/GEVyQu
-	B4Z/fkelloNxIIEvBXXKz9pvL88Uc5JVf1N0nCKJVM3jEC4cK78BNevAeHHN3c0k/dy9sGC9ChrU5
-	42+coITw==;
+	bh=dfqJs0p1KTlCgT/AzQPPoQtSmUdmtzuztLmCgmrMzTI=; b=CzzNDRhr38Kip/OFg6dq3dQ4EV
+	+GktrtbeR8GTSIKCXFNIi+R0Uog/v4u3G/O25UfC/mgZT3ndlGcMabgm6LrFN6fGis9ydvHcppxLT
+	VwY3AmsL8HPpn5zrgxUXGj6CeuAuLVZoJ7UhzkhlIInAFBW3QLRk/B/v7JvwmMujV1bNxp++Hjosy
+	wZt5vtgdBxpEoKGx18nO98pgqPhFFQBy0Pj+s5w9JmrOA97n6Bu/+USPMl8ce2eWJVbxbyQjTP6hs
+	mqyM/HOaIsbNgCi2gGUWk2nA/SAiwaMSIlKMsEneUn3H6IgrNoG7/6DpUd9PIcenBZzlTeCjIrCVD
+	xEhMpymQ==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
 	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1peuwq-002t99-FB; Wed, 22 Mar 2023 09:40:00 +0000
+	id 1pev9u-002tfl-CF; Wed, 22 Mar 2023 09:53:30 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 7E63F3001F7;
-	Wed, 22 Mar 2023 10:39:56 +0100 (CET)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id B96773001F7;
+	Wed, 22 Mar 2023 10:53:29 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 16170205D08C3; Wed, 22 Mar 2023 10:39:56 +0100 (CET)
-Date: Wed, 22 Mar 2023 10:39:55 +0100
+	id A09DA205D08C3; Wed, 22 Mar 2023 10:53:29 +0100 (CET)
+Date: Wed, 22 Mar 2023 10:53:29 +0100
 From: Peter Zijlstra <peterz@infradead.org>
 To: Valentin Schneider <vschneid@redhat.com>
 Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -59,8 +59,8 @@ Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
 	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
 	sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-	x86@kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
+	x86@kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Juri Lelli <juri.lelli@redhat.com>,
@@ -74,13 +74,13 @@ Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Russell King <linux@armlinux.org.uk>,
 	Nicholas Piggin <npiggin@gmail.com>, Guo Ren <guoren@kernel.org>,
 	"David S. Miller" <davem@davemloft.net>
-Subject: Re: [PATCH v5 1/7] trace: Add trace_ipi_send_cpumask()
-Message-ID: <20230322093955.GR2017917@hirez.programming.kicks-ass.net>
+Subject: Re: [PATCH v5 7/7] sched, smp: Trace smp callback causing an IPI
+Message-ID: <20230322095329.GS2017917@hirez.programming.kicks-ass.net>
 References: <20230307143558.294354-1-vschneid@redhat.com>
- <20230307143558.294354-2-vschneid@redhat.com>
+ <20230307143558.294354-8-vschneid@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20230307143558.294354-2-vschneid@redhat.com>
+In-Reply-To: <20230307143558.294354-8-vschneid@redhat.com>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,55 +97,64 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 07, 2023 at 02:35:52PM +0000, Valentin Schneider wrote:
-> trace_ipi_raise() is unsuitable for generically tracing IPI sources due to
-> its "reason" argument being an uninformative string (on arm64 all you get
-> is "Function call interrupts" for SMP calls).
-> 
-> Add a variant of it that exports a target cpumask, a callsite and a callback.
-> 
-> Signed-off-by: Valentin Schneider <vschneid@redhat.com>
-> Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
-> ---
->  include/trace/events/ipi.h | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
-> diff --git a/include/trace/events/ipi.h b/include/trace/events/ipi.h
-> index 0be71dad6ec03..b1125dc27682c 100644
-> --- a/include/trace/events/ipi.h
-> +++ b/include/trace/events/ipi.h
-> @@ -35,6 +35,28 @@ TRACE_EVENT(ipi_raise,
->  	TP_printk("target_mask=%s (%s)", __get_bitmask(target_cpus), __entry->reason)
->  );
+On Tue, Mar 07, 2023 at 02:35:58PM +0000, Valentin Schneider wrote:
+
+> @@ -477,6 +490,25 @@ static __always_inline void csd_unlock(struct __call_single_data *csd)
+>  	smp_store_release(&csd->node.u_flags, 0);
+>  }
 >  
-> +TRACE_EVENT(ipi_send_cpumask,
+> +static __always_inline void
+> +raw_smp_call_single_queue(int cpu, struct llist_node *node, smp_call_func_t func)
+> +{
+> +	/*
+> +	 * The list addition should be visible to the target CPU when it pops
+> +	 * the head of the list to pull the entry off it in the IPI handler
+> +	 * because of normal cache coherency rules implied by the underlying
+> +	 * llist ops.
+> +	 *
+> +	 * If IPIs can go out of order to the cache coherency protocol
+> +	 * in an architecture, sufficient synchronisation should be added
+> +	 * to arch code to make it appear to obey cache coherency WRT
+> +	 * locking and barrier primitives. Generic code isn't really
+> +	 * equipped to do the right thing...
+> +	 */
+> +	if (llist_add(node, &per_cpu(call_single_queue, cpu)))
+> +		send_call_function_single_ipi(cpu, func);
+> +}
 > +
-> +	TP_PROTO(const struct cpumask *cpumask, unsigned long callsite, void *callback),
+>  static DEFINE_PER_CPU_SHARED_ALIGNED(call_single_data_t, csd_data);
+>  
+>  void __smp_call_single_queue(int cpu, struct llist_node *node)
+> @@ -493,21 +525,25 @@ void __smp_call_single_queue(int cpu, struct llist_node *node)
+>  		}
+>  	}
+>  #endif
+>  	/*
+> +	 * We have to check the type of the CSD before queueing it, because
+> +	 * once queued it can have its flags cleared by
+> +	 *   flush_smp_call_function_queue()
+> +	 * even if we haven't sent the smp_call IPI yet (e.g. the stopper
+> +	 * executes migration_cpu_stop() on the remote CPU).
+>  	 */
+> +	if (trace_ipi_send_cpumask_enabled()) {
+> +		call_single_data_t *csd;
+> +		smp_call_func_t func;
 > +
-> +	TP_ARGS(cpumask, callsite, callback),
+> +		csd = container_of(node, call_single_data_t, node.llist);
+> +		func = CSD_TYPE(csd) == CSD_TYPE_TTWU ?
+> +			sched_ttwu_pending : csd->func;
 > +
-> +	TP_STRUCT__entry(
-> +		__cpumask(cpumask)
-> +		__field(void *, callsite)
-> +		__field(void *, callback)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_cpumask(cpumask, cpumask_bits(cpumask));
-> +		__entry->callsite = (void *)callsite;
-> +		__entry->callback = callback;
-> +	),
-> +
-> +	TP_printk("cpumask=%s callsite=%pS callback=%pS",
-> +		  __get_cpumask(cpumask), __entry->callsite, __entry->callback)
-> +);
+> +		raw_smp_call_single_queue(cpu, node, func);
+> +	} else {
+> +		raw_smp_call_single_queue(cpu, node, NULL);
+> +	}
+>  }
 
-Would it make sense to add a variant like: ipi_send_cpu() that records a
-single cpu instead of a cpumask. A lot of sites seems to do:
-cpumask_of(cpu) for that first argument, and it seems to me it is quite
-daft to have to memcpy a full multi-word cpumask in those cases.
+Hurmph... so we only really consume @func when we IPI. Would it not be
+more useful to trace this thing for *every* csd enqeued?
 
-Remember, nr_possible_cpus > 64 is quite common these days.
+
+
 
 _______________________________________________
 linux-snps-arc mailing list
