@@ -4,52 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2579AC6FD19
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 16 Mar 2023 08:57:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65DDBC6FD1C
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 22 Mar 2023 09:40:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=HV2UAZ46ME1b4BkaDeq65/pr0NgdbnBDMYKGzeCcIww=; b=IP7baC8Y7Saw1C
-	wO73xU/I+7loUVGYGlgohJlFhYe5kQ29lLbqUEuYh44oO7J8Tb5pswTYtOXz40kp8poKydHpKMRzE
-	PPkv4lTEJPTEJP5qulIG3cKg3ECg6lngsWceFPLSz/+u4LgpJ9E1dBN6JBx5jPxgQX8IdFmh811zf
-	DDHUM0UtA0XwvEo64iayW/d+FyogPeo4kOSlIN1AX6QU+wpjjWO/vmX3fK0nKsVEuwP5PjOG7NjTx
-	56PKKeCW+pndaalqaUxOWmZ/23yu5h0FLnYGXW9CG3PlfFRMRwsGmCK8lsVb5ob+dYYz5GJb/Vjx8
-	c9V1CwHDXhQjQuqomfzQ==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=R5o4mYi/QSOHmnKHwFuwbhArMylKTjt53RrqDny5Uh8=; b=5DSpADRhihNuQB
+	9BAlD2WZBVEJ8pXQcAPRx+z8HqK7qkn+MhorpfJwUbXLvDU+8PnEzOoqNA/9QN+2tQI3gjrkLfWGI
+	OEQSSRKXa1Psfd/SQs8bC5JbgbiizxtLP3GEoU7z8Jap0ROmwLLpBVFkjhDLCvjzqORTcmhnMhaei
+	1GuIkZYxkJQ3Q6cxy2oOqgh4ALR43n4RRgCUVYmw0gfhXoY25MRg42WusxqKgo5Kp/BQqHOX4x6Ki
+	DIgrTJuhLXFFvjpfPYL7aVCX1Jxiot1gkSSMZMWS1aczrEMaqYnEzYe4s40lQgH8ODpPVOeo1vCTy
+	qDkPLLpC5oRO1oSE19vw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pcjQ4-00FnIB-1L;
-	Thu, 16 Mar 2023 08:57:08 +0000
-Received: from mail.corrib.pl ([185.58.226.145])
+	id 1peux0-00FTa2-0Q;
+	Wed, 22 Mar 2023 09:40:10 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pcjQ1-00FnHJ-2H
-	for linux-snps-arc@lists.infradead.org;
-	Thu, 16 Mar 2023 08:57:06 +0000
-Received: by mail.corrib.pl (Postfix, from userid 1001)
-	id 04081A2A69; Thu, 16 Mar 2023 08:56:16 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corrib.pl; s=mail;
-	t=1678957004; bh=X6IEpSISwJiYlJ3uA866lskXve3r+4o2hf4z7VM6m5o=;
-	h=Date:From:To:Subject:From;
-	b=g1fRXuQ0e/pT0QGS457tosMVdAoF6SuFib0Jx2r0hVZftqT5bTcVg5B4HBo1B4faP
-	 +otPKI3/lEYOtvwxyrlF15HN0Ls9ogkmPRy0J31hPmD2DAdIgrdlXO47WtUO6MSbo6
-	 bRNTdFDT/pDnpmePBuDKXjIS86Tet0WFehPpT/ECKJAjKVqXlbyRxsV9QM4Cir1THe
-	 zutOoQXpTFtsNroe7scZIm6YX4h1GijEkfDOQYXZ9cuK4MnaI4e5M8cpQ1/GRZHZba
-	 r0y+yDG1fyEXoD3dBMZoMDJ0h+ELJzN8oDpYwTG1dX9F2ojsmGoFkYpdSWUpqHUosQ
-	 OKlDPsaHK+qcw==
-Received: by mail.corrib.pl for <linux-snps-arc@lists.infradead.org>; Thu, 16 Mar 2023 08:56:02 GMT
-Message-ID: <20230316074501-0.1.63.j07t.0.9gv8yrpj40@corrib.pl>
-Date: Thu, 16 Mar 2023 08:56:02 GMT
-From: =?UTF-8?Q?"Szczepan_Kie=C5=82basa"?= <szczepan.kielbasa@corrib.pl>
-To: <linux-snps-arc@lists.infradead.org>
-Subject: Faktoring
-X-Mailer: mail.corrib.pl
+	id 1peuwx-00FTYm-24;
+	Wed, 22 Mar 2023 09:40:07 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=NIAHg4If27BetC+4UZobAV0PxBnmTt3z+fWts2bKQWA=; b=rgS/CEWAlsTurPe5ucKBiXaDhr
+	ew26BoXauCH9lin/sWfYKxjLJe0WysSt1P4iOSDXV1qfu4JSoUQNAlogwxNIDbcZw5jKIurC6wBP0
+	+/+Z8kdUTp/ZyyNP9QPql3dhW8rHV0QqkfTXWuMoE0vryMGgt+T+aOFFPTKbmbiRK5T84YLaG6C4t
+	iRHD6M2ZFvI2kES3RCcIFI7D2yWW07o0ZjcKw1qqr5MTJddfTUE9AHHetindb2rqkUVxpV/GEVyQu
+	B4Z/fkelloNxIIEvBXXKz9pvL88Uc5JVf1N0nCKJVM3jEC4cK78BNevAeHHN3c0k/dy9sGC9ChrU5
+	42+coITw==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1peuwq-002t99-FB; Wed, 22 Mar 2023 09:40:00 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 7E63F3001F7;
+	Wed, 22 Mar 2023 10:39:56 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 16170205D08C3; Wed, 22 Mar 2023 10:39:56 +0100 (CET)
+Date: Wed, 22 Mar 2023 10:39:55 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Valentin Schneider <vschneid@redhat.com>
+Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+	openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+	x86@kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Daniel Bristot de Oliveira <bristot@redhat.com>,
+	Marcelo Tosatti <mtosatti@redhat.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Marc Zyngier <maz@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Nicholas Piggin <npiggin@gmail.com>, Guo Ren <guoren@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>
+Subject: Re: [PATCH v5 1/7] trace: Add trace_ipi_send_cpumask()
+Message-ID: <20230322093955.GR2017917@hirez.programming.kicks-ass.net>
+References: <20230307143558.294354-1-vschneid@redhat.com>
+ <20230307143558.294354-2-vschneid@redhat.com>
 MIME-Version: 1.0
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230316_015705_895175_3265E72E 
-X-CRM114-Status: UNSURE (   0.84  )
-X-CRM114-Notice: Please train this message.
+Content-Disposition: inline
+In-Reply-To: <20230307143558.294354-2-vschneid@redhat.com>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,20 +92,62 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-RHppZcWEIGRvYnJ5LAoKcm96d2HFvGFsaSBQYcWEc3R3byB3eWLDs3IgZmluYW5zb3dhbmlhLCBr
-dMOzcmUgc3BlxYJuaSBwb3RyemVieSBmaXJteSwgemFwZXduaWFqxIVjIG5hdHljaG1pYXN0b3d5
-IGRvc3TEmXAgZG8gZ290w7N3a2ksIGJleiB6YsSZZG55Y2ggcHJ6ZXN0b2rDs3c/IAoKUHJ6eWdv
-dG93YWxpxZtteSByb3p3acSFemFuaWEgZmFrdG9yaW5nb3dlIGRvcGFzb3dhbmUgZG8gUGHFhHN0
-d2EgYnJhbsW8eSBpIHdpZWxrb8WbY2kgZmlybXksIGR6acSZa2kga3TDs3J5bSwgbmllIG11c3rE
-hSBQYcWEc3R3byBtYXJ0d2nEhyBzacSZIG8gbmlld3lwxYJhY2Fsbm/Fm8SHIGtvbnRyYWhlbnTD
-s3csIHBvbmlld2HFvCB0cmFuc2FrY2plIHPEhSB6YWJlenBpZWN6b25lIGkgcG9zaWFkYWrEhSBn
-d2FyYW5jasSZIHNwxYJhdHkuIApDaGPEhSBQYcWEc3R3byBwcnplYW5hbGl6b3dhxIcgZG9zdMSZ
-cG5lIG9wY2plPwoKClBvemRyYXdpYW0KU3pjemVwYW4gS2llxYJiYXNhCgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5n
-IGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5m
-cmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
+On Tue, Mar 07, 2023 at 02:35:52PM +0000, Valentin Schneider wrote:
+> trace_ipi_raise() is unsuitable for generically tracing IPI sources due to
+> its "reason" argument being an uninformative string (on arm64 all you get
+> is "Function call interrupts" for SMP calls).
+> 
+> Add a variant of it that exports a target cpumask, a callsite and a callback.
+> 
+> Signed-off-by: Valentin Schneider <vschneid@redhat.com>
+> Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+> ---
+>  include/trace/events/ipi.h | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+> 
+> diff --git a/include/trace/events/ipi.h b/include/trace/events/ipi.h
+> index 0be71dad6ec03..b1125dc27682c 100644
+> --- a/include/trace/events/ipi.h
+> +++ b/include/trace/events/ipi.h
+> @@ -35,6 +35,28 @@ TRACE_EVENT(ipi_raise,
+>  	TP_printk("target_mask=%s (%s)", __get_bitmask(target_cpus), __entry->reason)
+>  );
+>  
+> +TRACE_EVENT(ipi_send_cpumask,
+> +
+> +	TP_PROTO(const struct cpumask *cpumask, unsigned long callsite, void *callback),
+> +
+> +	TP_ARGS(cpumask, callsite, callback),
+> +
+> +	TP_STRUCT__entry(
+> +		__cpumask(cpumask)
+> +		__field(void *, callsite)
+> +		__field(void *, callback)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__assign_cpumask(cpumask, cpumask_bits(cpumask));
+> +		__entry->callsite = (void *)callsite;
+> +		__entry->callback = callback;
+> +	),
+> +
+> +	TP_printk("cpumask=%s callsite=%pS callback=%pS",
+> +		  __get_cpumask(cpumask), __entry->callsite, __entry->callback)
+> +);
+
+Would it make sense to add a variant like: ipi_send_cpu() that records a
+single cpu instead of a cpumask. A lot of sites seems to do:
+cpumask_of(cpu) for that first argument, and it seems to me it is quite
+daft to have to memcpy a full multi-word cpumask in those cases.
+
+Remember, nr_possible_cpus > 64 is quite common these days.
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
