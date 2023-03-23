@@ -4,90 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36FC3C6FD1F
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 22 Mar 2023 23:14:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71920C6FD1C
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 23 Mar 2023 13:40:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=1pNap5LAWnMymvH6RIYfxNfOEWL0pz1YXOi8V/uJ+EM=; b=2OiaokJt48Ywq+
-	SaIUbYVhJDeBPLyPL7iHfh5cbBzmFGUkwfIBB4nkGniwJ0vv2uINiBSNazooBZiFhxlzsRR0/emfs
-	6yP1K8fl4ciUsIQG1s7e53qSO7cCCTs5g6o4W8nkZ2w/8UwbFMk2DWGM/6rAsqSDNr0d8UpzzM+Ib
-	szRxvybTzgtxcj5DzssKGSjdfkSzTW0tXeHSfrQ5Bly1jvm4Z8BmkragbwMa36gOFZuejPMZowxC3
-	dpoXn0W97FOgg4Nk3P2KQ5kTXwi3dj1Hx+IstX7JzcIjeL/nIPtQ9gyR9C4xPqpFSZ2t1AML+VizC
-	ZYH5SpyIB4mzG4GG4B0w==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=XTQqPJYIvCgSIJd40FDRgKX8aMS90BBNnBFdzAW4Qi4=; b=ejDogDhd3GCHfL
+	5XAdsaILAEdSfjZ87Hx10LMOvWaEVbjFFUMQCSRkZOprOxRzp6IP2TBoBaNXpCru9AAp0Ij17etjs
+	DtjWuxQ4vqp4fCKCfdzWbKX1kkjIQb8jAM6TjMP8gnh3HIZN3RvIkRdIWOLzzRkBwOE+AMnXvcjZA
+	FJPYjh7/tMjArmRgXu9z34M11OYIUj16EsqHDlpuN1CFg5sDTQENwf/K2gjnYi5k3XmY9iHul2lV5
+	/j0O7UFmw7gzpCLPy08TaaIzJx6/ZSRZHSY+6v3pQW4wGE7oAAbSsYlvEsDbhFouElBvGOKbWb2Wt
+	5WvFiXRKXUin7AA8O/oQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pf7fI-0005YJ-2k;
-	Wed, 22 Mar 2023 23:14:44 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1pfLBJ-002401-1u;
+	Thu, 23 Mar 2023 13:40:41 +0000
+Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pf7fF-0005XK-1g;
-	Wed, 22 Mar 2023 23:14:41 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=hKMA4pE4ZC1WEjwlMS0oahB5WbuLzi761bi+OVXv/X8=; b=k4/hIANBdxC2Z8c++HmkBPk16F
-	hq1n4vi1aFY7d/izKMGpm0/zkTd++0c77IZs+Q5bV257Gjkiy34yMSDd8L7TKq46+CV0zDSHb27H+
-	4KSIRSylcgYZ2OMei78Bb1gC7STjWled8MJkcwhhG29tpOAa6HtPIFWPyA9seeGrRiJr3vWUYPsTp
-	3Vu3FPyPpiLcCMVxhaxuIGSboSf1mmZy7nxDek09nDmg/P6bBJA5M4EMw//9ErW/pvBC1TxeGCDAY
-	4DGmD2DpR96GbtKoxaTV3TYyxFMIuFbNKoIU/LaGvb2xuytoT+Rk3V4s2DX53haN44indyDWk1fXo
-	N1G/mBcw==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1pf7f5-004hB6-38;
-	Wed, 22 Mar 2023 23:14:32 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 9046D30035F;
-	Thu, 23 Mar 2023 00:14:28 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 73D47202F7F60; Thu, 23 Mar 2023 00:14:28 +0100 (CET)
-Date: Thu, 23 Mar 2023 00:14:28 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Valentin Schneider <vschneid@redhat.com>
-Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
-	linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
-	openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-	x86@kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Daniel Bristot de Oliveira <bristot@redhat.com>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Marc Zyngier <maz@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Nicholas Piggin <npiggin@gmail.com>, Guo Ren <guoren@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>
-Subject: Re: [PATCH v5 7/7] sched, smp: Trace smp callback causing an IPI
-Message-ID: <20230322231428.GV2017917@hirez.programming.kicks-ass.net>
-References: <20230307143558.294354-1-vschneid@redhat.com>
- <20230307143558.294354-8-vschneid@redhat.com>
- <20230322095329.GS2017917@hirez.programming.kicks-ass.net>
- <xhsmhmt45c703.mognet@vschneid.remote.csb>
- <20230322140434.GC2357380@hirez.programming.kicks-ass.net>
- <xhsmhjzz8d8km.mognet@vschneid.remote.csb>
- <20230322172242.GH2357380@hirez.programming.kicks-ass.net>
- <xhsmhh6ucd4t7.mognet@vschneid.remote.csb>
+	id 1pfLBG-0023yT-2r
+	for linux-snps-arc@lists.infradead.org;
+	Thu, 23 Mar 2023 13:40:40 +0000
+Received: by mail-lf1-x130.google.com with SMTP id x17so27793299lfu.5
+        for <linux-snps-arc@lists.infradead.org>; Thu, 23 Mar 2023 06:40:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1679578835;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9TeKkKuY/b7j2FNb4zlTCj8CxrbWwdEzxFSjzpUVSyQ=;
+        b=Lp20LgdemxeHB/C/5ft8NncQJTDqx/hj8fkSl5a7IzC1dD++NFeG1CRZAibm9inyMD
+         DkbqybUVtA99rA9zlvFFdrJvCbTLNVc43RmM8/uvkK4/mUMqn9EzrqCaNIwos58perWY
+         5SUULHsrox2tC1A/O266ruDQexr7cYbvFGxxFNkb/YmKPfHm2/3jDun43DYzAU9obNR5
+         v47x9ga5enHwqaQNikP5Fjo/F6D7aUiQO3xStpTQ8om+WmBz5daz+hRVsZkleGsBAh1I
+         eWuPRVJsyD/tR9VPQK8d10rC5Lba6TswvUrs3AUHS7NePdq5Jy9ZbDpebsnr1RuxSSPr
+         z5+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679578835;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9TeKkKuY/b7j2FNb4zlTCj8CxrbWwdEzxFSjzpUVSyQ=;
+        b=5RF5YIL4woVLsNHOcrIYo67xDOZhDGbQAYqs7lgtG+hYOb97LxIzWYB7BfLLaKtuAA
+         tGVWIjnHiXEzD9OYbKxbTuOAvEUCqy87kU+kiHgoVnYz0ZOwNEQz94BIYVn7C1N3B3We
+         cVKjfuK3lmJaFbWSftugTXuVtfnq+fV8x0PvlWN+1kfATdmkHqdPyz2TFF/8uk1GPNy4
+         tNlFbPLq8TnQYmSzegkt7SPq75A4+GqPzTFg5IuEHZ1Tj3Scdk00D3Ue4ah13aI681tu
+         P4Cuy805s6i0ZxpfCCcoMhWFE2Az+Ie0IZ4SDWlhojuMHxRhOM0OVRJ3eZzn8synjNpv
+         ErvQ==
+X-Gm-Message-State: AO0yUKXe2dsyZsUAAw9YyQEKRBC6p/U52Wl9Q49sYnZThnZr5xNCobwf
+	y3YBl7VgS6QxOIXK7RMO5G9xXQ==
+X-Google-Smtp-Source: AK7set/VO3MIYghsSix3ZVroRwsEQYk28CWTDbRmr1tlyDjCoZ/l2yBKL0vntxglTVRVAqMxofBdEQ==
+X-Received: by 2002:ac2:5d4e:0:b0:4dc:537c:9229 with SMTP id w14-20020ac25d4e000000b004dc537c9229mr3685850lfd.30.1679578834957;
+        Thu, 23 Mar 2023 06:40:34 -0700 (PDT)
+Received: from fedora.. ([85.235.12.219])
+        by smtp.gmail.com with ESMTPSA id f26-20020ac2533a000000b004eafa060a6fsm434744lfh.145.2023.03.23.06.40.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Mar 2023 06:40:34 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: Vineet Gupta <vgupta@kernel.org>,
+	linux-snps-arc@lists.infradead.org
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH] ARC: init: Pass a pointer to virt_to_pfn() in init
+Date: Thu, 23 Mar 2023 14:40:31 +0100
+Message-Id: <20230323134031.679656-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <xhsmhh6ucd4t7.mognet@vschneid.remote.csb>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20230323_064038_922023_ADA24FC1 
+X-CRM114-Status: GOOD (  11.22  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,70 +89,37 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 22, 2023 at 06:22:28PM +0000, Valentin Schneider wrote:
-> On 22/03/23 18:22, Peter Zijlstra wrote:
+Functions that work on a pointer to virtual memory such as
+virt_to_pfn() and users of that function such as
+virt_to_page() are supposed to pass a pointer to virtual
+memory, ideally a (void *) or other pointer. However since
+many architectures implement virt_to_pfn() as a macro,
+this function becomes polymorphic and accepts both a
+(unsigned long) and a (void *).
 
-> >>        hackbench-157   [001]    10.894320: ipi_send_cpu:         cpu=3 callsite=check_preempt_curr+0x37 callback=0x0
-> >
-> > Arguably we should be setting callback to scheduler_ipi(), except
-> > ofcourse, that's not an actual function...
-> >
-> > Maybe we can do "extern inline" for the actual users and provide a dummy
-> > function for the symbol when tracing.
-> >
-> 
-> Huh, I wasn't aware that was an option, I'll look into that. I did scribble
-> down a comment next to smp_send_reschedule(), but having a decodable
-> function name would be better!
+Fix up the offending call in arch/arc with an explicit cast.
 
-So clang-15 builds the below (and generates the expected code), but
-gcc-12 vomits nonsense about a non-static inline calling a static inline
-or somesuch bollocks :-/
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ arch/arc/mm/init.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -1991,7 +1991,7 @@ extern char *__get_task_comm(char *to, s
- })
+diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
+index ce4e939a7f07..d8688f61c61b 100644
+--- a/arch/arc/mm/init.c
++++ b/arch/arc/mm/init.c
+@@ -92,7 +92,7 @@ void __init setup_arch_memory(void)
+ 	setup_initial_init_mm(_text, _etext, _edata, _end);
  
- #ifdef CONFIG_SMP
--static __always_inline void scheduler_ipi(void)
-+extern __always_inline void scheduler_ipi(void)
- {
- 	/*
- 	 * Fold TIF_NEED_RESCHED into the preempt_count; anybody setting
---- a/include/linux/smp.h
-+++ b/include/linux/smp.h
-@@ -130,9 +130,9 @@ extern void arch_smp_send_reschedule(int
-  * scheduler_ipi() is inline so can't be passed as callback reason, but the
-  * callsite IP should be sufficient for root-causing IPIs sent from here.
-  */
--#define smp_send_reschedule(cpu) ({		  \
--	trace_ipi_send_cpu(cpu, _RET_IP_, NULL);  \
--	arch_smp_send_reschedule(cpu);		  \
-+#define smp_send_reschedule(cpu) ({				\
-+	trace_ipi_send_cpu(cpu, _RET_IP_, &scheduler_ipi);	\
-+	arch_smp_send_reschedule(cpu);				\
- })
+ 	/* first page of system - kernel .vector starts here */
+-	min_low_pfn = virt_to_pfn(CONFIG_LINUX_RAM_BASE);
++	min_low_pfn = virt_to_pfn((void *)CONFIG_LINUX_RAM_BASE);
  
- /*
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -3790,6 +3790,15 @@ static int ttwu_runnable(struct task_str
- }
- 
- #ifdef CONFIG_SMP
-+void scheduler_ipi(void)
-+{
-+	/*
-+	 * Actual users should end up using the extern inline, this is only
-+	 * here for the symbol.
-+	 */
-+	BUG();
-+}
-+
- void sched_ttwu_pending(void *arg)
- {
- 	struct llist_node *llist = arg;
+ 	/* Last usable page of low mem */
+ 	max_low_pfn = max_pfn = PFN_DOWN(low_mem_start + low_mem_sz);
+-- 
+2.34.1
+
 
 _______________________________________________
 linux-snps-arc mailing list
