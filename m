@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9E64C76195
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 27 Mar 2023 12:16:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 27F50C7619A
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 27 Mar 2023 12:17:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=8g8qK84aozYhcZ85cs73Ih7WUpCi4WVzhKm2v+Ph5z8=; b=wmFIHgnn+rMuRg
-	Q62EAt80nIn4v/j9VbC1rO9Cx45+Qe/bRokv0gq0k9DpWjHMvyzqbxBcONAex42yiBQTPScTcqJWz
-	0yStfSzLSbeea6UWaIVu34xprtjgHn0IRfWIwQL4JiHrpKWbXSdzcz31p74fvOY1whgwqMNhR2DYe
-	asdjvLtj9sw+cGTnJ8cNTcjznvdcUrjQesj5k48GNLdJdFfsKwfgifgsByfOmhv6lyUR2yMw3fHSg
-	1qy+UrFpt/EmLmW5zQqK3OVhrntzY6/Lb3/qpE8iCvpEuGFIkLA8GBqXYLdOU3irVmNmZchC/ye8J
-	nBMwul0Ym1AJPIA9m1jw==;
+	List-Owner; bh=0A4Kma/OE4yyD7BYO8aP6tojkpYcDhVWStHjL81lbAY=; b=x5YQqYMrMWGYBD
+	2khnG0qvBbJNl6WCC2pMV36oDNzJ4LnOLPFMVj478DTNzSNEYmPmc7ThT1s+/9S279tjENwLtD3I/
+	s7LS1EwkPoZuMbDVFxo7L9B2LU++bx6bTy2J7nLUZquTIozEQDPGpWCMzWysoUC7jVA63iypKfC6E
+	7UP8k8ElC8ZBQRsecwEYm30EXUbgzSaSdC3sgakaNwOdn+I3tg2iIenVCfg2Nlqo8OOJDmkFbAJB9
+	xSNpKsJ510uGFwKvs28fhu6uMcsrN/ovQv34Rf0QzfItCUYMs8WuZ7VpTlyVODRbQOP81i6fPdnBE
+	xa/sBhlyAA1DeiGqoLYg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pglmI-00Askf-0J;
-	Mon, 27 Mar 2023 12:16:46 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1pglmm-00At8a-1v;
+	Mon, 27 Mar 2023 12:17:16 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pgllR-00As0I-0u;
-	Mon, 27 Mar 2023 12:15:55 +0000
+	id 1pgllY-00As6z-0d;
+	Mon, 27 Mar 2023 12:16:02 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id C6BE7B80D0C;
-	Mon, 27 Mar 2023 12:15:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C656C4339B;
-	Mon, 27 Mar 2023 12:15:42 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 9E646611E3;
+	Mon, 27 Mar 2023 12:15:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D68CCC433A8;
+	Mon, 27 Mar 2023 12:15:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679919350;
-	bh=WcyJUuclgspkZHSwVclV5Jksx+zy3hY89ahpztaj0hM=;
+	s=k20201202; t=1679919359;
+	bh=dXkVBSHFZo75+7tpVyAnh5gU/93Of01AyIY3GkfM5Xo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gF/2rqKM1LHnyfHfzF1g693XZNfrbHBqd2oKlgoQ2jGFc8xTOws4qsH2njENSW1Si
-	 OGeqBCL1Lt3BSCm5fmGZhO1H6HKEoKzetUEYMk3Soh/1yhM8nZtCol16EHntqcT8Er
-	 pM+o9uzAgZL1iYBAWUy3z6yGzIeoUU0K+TXymgHYz7EqbCIvcrn8MMo6RRjBuEtKTx
-	 6l+8vcM3FOZ1WkoHQ1Wlf6+gyjrHJP0Ci4xI/sPZptxVi/W3OXZggPcMTH3OeaOXte
-	 UVzqZh+or7dDyFm/ogv6Vz88DYJfSiZ34SmQ2duChP+VAO1veqEJjztWBBm3dd9c41
-	 y9Yt0CcmM/sAw==
+	b=LxcGBomvsroLU/soGwnnpht+OmpwZ+CQiYPJxIKYSMNj00PvVbGR5doPLu7Ta51zU
+	 A4AjXgBFUoaToan99cxpW2tpzSfzmbx7CfucJpx/cZmN4J82wZvf5lGWjPr1irkWI4
+	 eZp949vYHz5uXoUdFNeW62DfrFW7AYO5kKpo+/0YEhvvJIUHP4VPFskv3Eqs77XyrF
+	 Xs9EDnGZ3aZvKZmOae+ULTgqTWW5PJS6Wpz4iR9tqX40bYNm1DPxfkANwAHMeIL88M
+	 53CkbdMXPh+FND6MhgUZQGkY9ycD9t2Azpib43BAHfEe1LeuLFcS8ozxudjpxtNHkD
+	 yYFa2ciLpv92A==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-kernel@vger.kernel.org
 Cc: Arnd Bergmann <arnd@arndb.de>,
@@ -86,16 +86,16 @@ Cc: Arnd Bergmann <arnd@arndb.de>,
 	linux-sh@vger.kernel.org,
 	sparclinux@vger.kernel.org,
 	linux-xtensa@linux-xtensa.org
-Subject: [PATCH 13/21] arc: dma-mapping: skip invalidating before bidirectional DMA
-Date: Mon, 27 Mar 2023 14:13:09 +0200
-Message-Id: <20230327121317.4081816-14-arnd@kernel.org>
+Subject: [PATCH 14/21] parisc: dma-mapping: use regular flush/invalidate ops
+Date: Mon, 27 Mar 2023 14:13:10 +0200
+Message-Id: <20230327121317.4081816-15-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230327121317.4081816-1-arnd@kernel.org>
 References: <20230327121317.4081816-1-arnd@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230327_051553_681774_E6C4B908 
-X-CRM114-Status: GOOD (  14.79  )
+X-CRM114-CacheID: sfid-20230327_051600_319276_762EF63B 
+X-CRM114-Status: GOOD (  19.32  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,44 +114,92 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-Some architectures that need to invalidate buffers after bidirectional
-DMA because of speculative prefetching only do a simpler writeback
-before that DMA, while architectures that don't need to do the second
-invalidate tend to have a combined writeback+invalidate before the
-DMA.
+non-coherent devices on parisc traditionally use a full flush+invalidate
+before and after each DMA, which is more expensive that what we do on
+other architectures.
 
-arc is one of the architectures that does both, which seems unnecessary.
+Before transfers to a device, the cache only has to be written back,
+but apparently there is no operation for this on parisc. There is no
+need to flush it again after the transfer though.
 
-Change it to behave like arm/arm64/xtensa instead, and use just a
-writeback before the DMA when we do the invalidate afterwards.
+After transfers from a device, the second writeback can be skipped because
+the CPU was not allowed to write to the buffer anyway, instead a purge
+(invalidate without flush) can be used.
 
+The DMA_FROM_DEVICE is handled differently across architectures,
+most use only an invalidate (purge) operation, but some have moved
+to flush in order to preserve dirty data when the device does not
+write to the buffer, see the link below. As parisc already did the
+full flush here, keep that behavior.
+
+Link: https://lore.kernel.org/all/20220606152150.GA31568@willie-the-truck/
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arc/mm/dma.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I'm not really sure I understand the semantics of the 'flush'
+and 'purge' operations on parisc correctly, please double-check that
+this makes sense in the context of this architecture.
+---
+ arch/parisc/include/asm/cacheflush.h |  6 +++++-
+ arch/parisc/kernel/pci-dma.c         | 25 +++++++++++++++++++++++--
+ 2 files changed, 28 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arc/mm/dma.c b/arch/arc/mm/dma.c
-index 2a7fbbb83b70..ddb96786f765 100644
---- a/arch/arc/mm/dma.c
-+++ b/arch/arc/mm/dma.c
-@@ -40,7 +40,7 @@ void arch_dma_prep_coherent(struct page *page, size_t size)
-  *          |----------------------------------------------------------------
-  * TO_DEV   |   writeback        writeback      |   none          none
-  * FROM_DEV |   invalidate       invalidate     |   invalidate*   invalidate*
-- * BIDIR    |   writeback+inv    writeback+inv  |   invalidate    invalidate
-+ * BIDIR    |   writeback        writeback      |   invalidate    invalidate
-  *
-  *     [*] needed for CPU speculative prefetches
-  *
-@@ -61,7 +61,7 @@ void arch_sync_dma_for_device(phys_addr_t paddr, size_t size,
- 		break;
+diff --git a/arch/parisc/include/asm/cacheflush.h b/arch/parisc/include/asm/cacheflush.h
+index 0bdee6724132..a4c5042f1821 100644
+--- a/arch/parisc/include/asm/cacheflush.h
++++ b/arch/parisc/include/asm/cacheflush.h
+@@ -33,8 +33,12 @@ void flush_cache_mm(struct mm_struct *mm);
  
- 	case DMA_BIDIRECTIONAL:
--		dma_cache_wback_inv(paddr, size);
-+		dma_cache_wback(paddr, size);
- 		break;
+ void flush_kernel_dcache_page_addr(const void *addr);
  
- 	default:
++#define clean_kernel_dcache_range(start,size) \
++	flush_kernel_dcache_range((start), (size))
+ #define flush_kernel_dcache_range(start,size) \
+-	flush_kernel_dcache_range_asm((start), (start)+(size));
++	flush_kernel_dcache_range_asm((start), (start)+(size))
++#define purge_kernel_dcache_range(start,size) \
++	purge_kernel_dcache_range_asm((start), (start)+(size))
+ 
+ #define ARCH_IMPLEMENTS_FLUSH_KERNEL_VMAP_RANGE 1
+ void flush_kernel_vmap_range(void *vaddr, int size);
+diff --git a/arch/parisc/kernel/pci-dma.c b/arch/parisc/kernel/pci-dma.c
+index ba87f791323b..6d3d3cffb316 100644
+--- a/arch/parisc/kernel/pci-dma.c
++++ b/arch/parisc/kernel/pci-dma.c
+@@ -446,11 +446,32 @@ void arch_dma_free(struct device *dev, size_t size, void *vaddr,
+ void arch_sync_dma_for_device(phys_addr_t paddr, size_t size,
+ 		enum dma_data_direction dir)
+ {
+-	flush_kernel_dcache_range((unsigned long)phys_to_virt(paddr), size);
++	unsigned long virt = (unsigned long)phys_to_virt(paddr);
++
++	switch (dir) {
++	case DMA_TO_DEVICE:
++		clean_kernel_dcache_range(virt, size);
++		break;
++	case DMA_FROM_DEVICE:
++		clean_kernel_dcache_range(virt, size);
++		break;
++	case DMA_BIDIRECTIONAL:
++		flush_kernel_dcache_range(virt, size);
++		break;
++	}
+ }
+ 
+ void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
+ 		enum dma_data_direction dir)
+ {
+-	flush_kernel_dcache_range((unsigned long)phys_to_virt(paddr), size);
++	unsigned long virt = (unsigned long)phys_to_virt(paddr);
++
++	switch (dir) {
++	case DMA_TO_DEVICE:
++		break;
++	case DMA_FROM_DEVICE:
++	case DMA_BIDIRECTIONAL:
++		purge_kernel_dcache_range(virt, size);
++		break;
++	}
+ }
 -- 
 2.39.2
 
