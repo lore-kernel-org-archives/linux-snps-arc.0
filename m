@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 211CAC7619A
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 27 Mar 2023 12:15:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0AEA1C77B6F
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 27 Mar 2023 12:16:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=DuWgp9GK9js2WS7G3Iy3/+AFY3ImZyi4Y2jX6B2dhCc=; b=rAD/E27kasX+42
-	aJiiWPMk6YU9G54IcIQ/PWdAkTqv4dB6KLZH5gwKsaaaytZGUsnDxEN4rUrDvM68tD7fFb7bUpBzq
-	2tNQCabO1cSF6jvcnMVol0Lzn47m7TzgWOyLutDK2dW1UepMBV6jGSmQplWBFJW4aurePHOAeZ3hl
-	zGXLGk+Y0Roh1iNIDjTPqKz/x1b/cdYxj1siavcu2bj6u683PXnRJy1BJqUezG28VbZ3CzLDoIyow
-	5m7DHIVSHruV+o4R2BYB81tb4BV0EnfiRXwIrMKl/ZRs+wYvnfpQrCfy+4Lt3IGqSd3G1yqF0VnSW
-	jFSmfZm+ABkRmYdwA0eQ==;
+	List-Owner; bh=fsFHvM+L1/vN2jw+1lrrH+AYiTRKTRc/qsK53En3VmM=; b=hlAxM4hWg9xDkU
+	zX3GxoEozWJOFTwHJbDN04VeR/yoHOtkw4Ts+c+KRUgmEK8dx/5/HQm0dDTUXEHuQRM7E5250U8Y5
+	+hPa/AqHtmMaRqtsVfG5UpY+3uiS/2ZphLc8m28mwXRZ4utBnmoi+TPPmFr9sSkO3JUXxdrtvE8xS
+	SwLrEwK/9W2vOMnhCtobsBsguq4us1+X+SDjUKFo4srxuNenDvHKsQVA47+I6z8OgPVF7ZmtIzK1h
+	Xhb5n6JUccH2C6WAxVNhFav6cQ5rquyX42eYubQ2UbcRKDSJCk5D1BGy0T1E9VHirw9NrThYsrwt+
+	DIJ4yH7PQMJFzuGbYqmw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pgllP-00ArzF-04;
-	Mon, 27 Mar 2023 12:15:51 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1pglla-00As9A-10;
+	Mon, 27 Mar 2023 12:16:02 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pglks-00ArYX-2e;
-	Mon, 27 Mar 2023 12:15:21 +0000
+	id 1pglkz-00AreK-0d;
+	Mon, 27 Mar 2023 12:15:27 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 39A3DB8117E;
-	Mon, 27 Mar 2023 12:15:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7D8DC4339B;
-	Mon, 27 Mar 2023 12:15:07 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id A573B611CE;
+	Mon, 27 Mar 2023 12:15:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56A3DC433A4;
+	Mon, 27 Mar 2023 12:15:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679919315;
-	bh=gK+eQNvNHVtgIlRiu3kF6HYH3yBsX0klGJL13i4k/aU=;
+	s=k20201202; t=1679919324;
+	bh=X7ixDT/eME8zr2M/ikt5bC5rQoS3uASy2IlC1ftIdSM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sMy3k5gM2XS604J4ArMuSWvMXzgs2AlKyYx4fCZS7J/lWvOZ2Yw/Z/jrtMa5gIHU9
-	 FjlooO1xQTngsA6hbEvqN4tEnshVSie7B+AEJaU1Cy1oTWuJpEfFFlaRXS3tq+GwRJ
-	 er3cljYGerTP/ivX+B9p913oVNSRI6mJdCnknZw/+Go9C3u3Axj27xDUpsuC4nBj8r
-	 bgnEtVHNKaiAki6GHJ1OFvO5x00a1gCx3DhHWTCMKP7Wv9fwGxJu8GpPhhiTKRkk1x
-	 zZRoP0hNRHHFBO8EoUedx3N9IqVzTMyc60Fp/OWdtgr6CAuRCyXfSdikQcmkzRIL2M
-	 hyE6lbMlfVtJQ==
+	b=Y2ffntjZwCcvJ7ZjcddqfIzivLJJTiZqbCBMhicCNOoftlZSKr8SZk1bt+v6QBdJ3
+	 AqWhwmcTeaS96y4RUjpqI9FGKTqNfAOz/7RBt+ymuWQLCwljPJr+H8JgdNwFdqMXwE
+	 J72tIuLXAnxcA7lDtjwg32UTtKQ0DkssHKQnBWYb3L+gXkApRayP0Mte6XTqD4QU75
+	 zUBFdzaO9TiPGVooVFe2U07En2yoiRB9h1tj51608yH2BmWke6vfUVRIXO9jhZyAf0
+	 Nifety/7HWh8t+jBWCaVsZT7PH2v1d96plBTbAk5HzBMivkiokDHTCIu3jr6mGkPTw
+	 a3+V9R9fKm3ag==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-kernel@vger.kernel.org
 Cc: Arnd Bergmann <arnd@arndb.de>,
@@ -86,16 +86,16 @@ Cc: Arnd Bergmann <arnd@arndb.de>,
 	linux-sh@vger.kernel.org,
 	sparclinux@vger.kernel.org,
 	linux-xtensa@linux-xtensa.org
-Subject: [PATCH 09/21] riscv: dma-mapping: skip invalidation before bidirectional DMA
-Date: Mon, 27 Mar 2023 14:13:05 +0200
-Message-Id: <20230327121317.4081816-10-arnd@kernel.org>
+Subject: [PATCH 10/21] csky: dma-mapping: skip invalidating before DMA from device
+Date: Mon, 27 Mar 2023 14:13:06 +0200
+Message-Id: <20230327121317.4081816-11-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230327121317.4081816-1-arnd@kernel.org>
 References: <20230327121317.4081816-1-arnd@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230327_051519_026702_B7D445EF 
-X-CRM114-Status: GOOD (  14.66  )
+X-CRM114-CacheID: sfid-20230327_051525_339805_721CFB2E 
+X-CRM114-Status: GOOD (  13.01  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,31 +114,38 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-For a DMA_BIDIRECTIONAL transfer, the caches have to be cleaned
-first to let the device see data written by the CPU, and invalidated
-after the transfer to let the CPU see data written by the device.
+csky is the only architecture that does a full flush for the
+dma_sync_*_for_device(..., DMA_FROM_DEVICE) operation. The requirement
+is only make sure there are no dirty cache lines for the buffer,
+which can be either done through an invalidate operation (as on most
+architectures including arm32, mips and arc), or a writeback (as on
+arm64 and riscv). The cache also has to be invalidated eventually but
+csky already does that after the transfer.
 
-riscv also invalidates the caches before the transfer, which does
-not appear to serve any purpose.
+Use a 'clean' operation here for consistency with arm64 and riscv.
 
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/riscv/mm/dma-noncoherent.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/csky/mm/dma-mapping.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/arch/riscv/mm/dma-noncoherent.c b/arch/riscv/mm/dma-noncoherent.c
-index 640f4c496d26..69c80b2155a1 100644
---- a/arch/riscv/mm/dma-noncoherent.c
-+++ b/arch/riscv/mm/dma-noncoherent.c
-@@ -25,7 +25,7 @@ void arch_sync_dma_for_device(phys_addr_t paddr, size_t size,
- 		ALT_CMO_OP(clean, vaddr, size, riscv_cbom_block_size);
- 		break;
+diff --git a/arch/csky/mm/dma-mapping.c b/arch/csky/mm/dma-mapping.c
+index 82447029feb4..c90f912e2822 100644
+--- a/arch/csky/mm/dma-mapping.c
++++ b/arch/csky/mm/dma-mapping.c
+@@ -60,11 +60,9 @@ void arch_sync_dma_for_device(phys_addr_t paddr, size_t size,
+ {
+ 	switch (dir) {
+ 	case DMA_TO_DEVICE:
+-		cache_op(paddr, size, dma_wb_range);
+-		break;
+ 	case DMA_FROM_DEVICE:
  	case DMA_BIDIRECTIONAL:
--		ALT_CMO_OP(flush, vaddr, size, riscv_cbom_block_size);
-+		ALT_CMO_OP(clean, vaddr, size, riscv_cbom_block_size);
+-		cache_op(paddr, size, dma_wbinv_range);
++		cache_op(paddr, size, dma_wb_range);
  		break;
  	default:
- 		break;
+ 		BUG();
 -- 
 2.39.2
 
