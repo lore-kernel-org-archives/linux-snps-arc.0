@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3701C7619A
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 27 Mar 2023 12:14:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F343EC7619A
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 27 Mar 2023 12:14:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=2YXMym2HYT06uVwTWQLKq6lDizoy3pg6yTK0NcUYmBQ=; b=XS/RB0HTcn/5E+
-	Ubop4MA+mI3xbvZhZRXZRf4JYbQlhrPUrMhJ3Lzhg4g9ZqLq7gcVtJubKIb2h7jBVU2HV8ODZj6X2
-	WJYhou9XigRVBztleHbnlF+rTGoNBifsmbCR0nC4F5v5XVsIY8mZrHFPWEfyNzKis0A0DLWy4dxW0
-	LVTXlJ/hAg0wylR+EXVRCyKzmrotxCdQRTFpLcUUTUKsyuRt1FxxH0gFgiwz7iXz0Mt7Cjyun5OgJ
-	hUCNuPG7thVevXSap8CBhjMhsLEkN1ZUy7cPrFpx6+E1g13okScydR2BB+M8AiTOwUep3hEcIUnoH
-	9tfQrYqKfMSuhp6Q5bAQ==;
+	List-Owner; bh=Qk6tvu0x/HuH5ef/bnNoo8R68Dd89PLQI081WizI49U=; b=gG7ffK0ik3CJUG
+	w69zG0tUb3yfML1QFw/YtC6/eHh2fY765v+EIiqRksaa9IVzjBD1IsZwhVetuJgXoFdu3JCf51stx
+	DgJOC2d22pRfRAnTrsuTUjG/WQcXI+TZlMPVVBUVvBa7TEyxfOtTVFWsBQiVJCbBVqsv9GN8JIpI/
+	wS3a9kImLTgfiOfpt3gM0cN2Flbtv3evUeQwiHI8Om3QabzUevBlgk15FFyQFb06fTX3zXN0kMslf
+	rrLwKIfc/pFUPnSVm0UpngYODLUe8JOp0Ke8hMofcY+/bYsFcYAweCdSTbNHmb1ZYE0NVflIQISmM
+	0V2MvYuv9SJsbR4EBXww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pglkG-00Ar7O-0A;
-	Mon, 27 Mar 2023 12:14:40 +0000
+	id 1pglkR-00ArES-0W;
+	Mon, 27 Mar 2023 12:14:51 +0000
 Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pglk1-00Aqx2-1D;
-	Mon, 27 Mar 2023 12:14:26 +0000
+	id 1pglk9-00Ar2m-1M;
+	Mon, 27 Mar 2023 12:14:36 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 95DAD611E6;
+	by dfw.source.kernel.org (Postfix) with ESMTPS id CD90D611ED;
+	Mon, 27 Mar 2023 12:14:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B9C0C433EF;
 	Mon, 27 Mar 2023 12:14:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D461BC433A4;
-	Mon, 27 Mar 2023 12:14:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679919264;
-	bh=/zMPyAlfGd5fpJsITtg1RxPyUHI2dqVyx+YefpHkWXQ=;
+	s=k20201202; t=1679919272;
+	bh=ZhYG8JNUwjljPv9OKiF3eMGP7VJHxmj1d7o6guSf4No=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=d1KUM73yCUytmr56IfxXPD1HZ5UAmAKM+0CBBY3u49w6bNCyrB2sEPtREvafbUkjb
-	 CFGZfI0FCfmknT0h+L+eXyaIpkkJwi4v3Z4EgaKViz+/z9QPPlnu3v9F3flYQ26Q7U
-	 q3EOb110zv0M3qi2mMyrlqEWXlVpt/VQQyKgll7QY7/XsuTxEM/ZKlPsmMjjXqmTMk
-	 uGUPoZTe4WHm4gicfHvkF72XI2puokOkW3TeQ/sk06+15hCStezZtavWZrwr2jQs/G
-	 iy1gH+XnYUCVyfsVu1+ZP4/ApT59WEmDcash0EKA5e1KL8ASTdihabMg2li4cEac/w
-	 6iZEB7B78CFDw==
+	b=PBdwMSfV6WhGkWO4GD6yfcHOXcUpefrDC/+txqBn1K1TXjh6vtxTQLHjgNJ0FEkt0
+	 8kEYArEe0oN6TTz55A/ouqhYMm5G10akCJmXzW/muCfT8GBSGN5Uni+3VEARUH4Auc
+	 H3B65ricYeSXsGj53UrQTCcr95NZtYK/45G5qbsvcFbKhYxNglRYB3Jv/RHrFzHtks
+	 DVdr6HivllSdF2l5dgd1hATA9JZvKqwXHc1koDjA6e60zts4nydXjlN/RqoC6otSSa
+	 Tq0Qb2MNzDbHG7RwE+Edr/TKARawLeFdDNo+IyVrlawBJzvWe5xP0tuqDo6AiiQKTk
+	 Trtj2/d6VSosQ==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-kernel@vger.kernel.org
 Cc: Arnd Bergmann <arnd@arndb.de>,
@@ -86,16 +86,16 @@ Cc: Arnd Bergmann <arnd@arndb.de>,
 	linux-sh@vger.kernel.org,
 	sparclinux@vger.kernel.org,
 	linux-xtensa@linux-xtensa.org
-Subject: [PATCH 03/21] sparc32: flush caches in dma_sync_*for_device
-Date: Mon, 27 Mar 2023 14:12:59 +0200
-Message-Id: <20230327121317.4081816-4-arnd@kernel.org>
+Subject: [PATCH 04/21] microblaze: dma-mapping: skip extra DMA flushes
+Date: Mon, 27 Mar 2023 14:13:00 +0200
+Message-Id: <20230327121317.4081816-5-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230327121317.4081816-1-arnd@kernel.org>
 References: <20230327121317.4081816-1-arnd@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230327_051425_492392_816344F0 
-X-CRM114-Status: GOOD (  14.78  )
+X-CRM114-CacheID: sfid-20230327_051433_563082_9B47865A 
+X-CRM114-Status: GOOD (  13.54  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,46 +114,65 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-Leon has a very minimalistic cache that has no range operations
-and requires being flushed entirely to deal with noncoherent
-DMA. Most in-order architectures do their cache management in
-the dma_sync_*for_device() operations rather than dma_sync_*for_cpu.
+The microblaze dma_sync_* implementation uses the same function
+for both _for_cpu() and _for_device(), which is inconsistent
+with other architectures and slightly more expensive.
 
-Since the cache is write-through only, both should have the same
-effect, so change it for consistency with the other architectures.
+Split it up into separate functions and skip the parts that
+are not needed:
+
+ - on dma_sync_*_for_cpu(..., DMA_TO_DEVICE), skip the second
+   writeback, which does nothing.
+
+ - on dma_sync_*_for_cpu(..., DMA_BIDIRECTIONAL), only invalidate
+   the cache to clear out cache lines that got loaded speculatively,
+   but skip the extraneous writeback.
 
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/sparc/Kconfig         | 2 +-
- arch/sparc/kernel/ioport.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ arch/microblaze/kernel/dma.c | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
-index 84437a4c6545..637da50e236c 100644
---- a/arch/sparc/Kconfig
-+++ b/arch/sparc/Kconfig
-@@ -51,7 +51,7 @@ config SPARC
- config SPARC32
- 	def_bool !64BIT
- 	select ARCH_32BIT_OFF_T
--	select ARCH_HAS_SYNC_DMA_FOR_CPU
-+	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
- 	select CLZ_TAB
- 	select DMA_DIRECT_REMAP
- 	select GENERIC_ATOMIC64
-diff --git a/arch/sparc/kernel/ioport.c b/arch/sparc/kernel/ioport.c
-index 4e4f3d3263e4..4f3d26066ec2 100644
---- a/arch/sparc/kernel/ioport.c
-+++ b/arch/sparc/kernel/ioport.c
-@@ -306,7 +306,7 @@ arch_initcall(sparc_register_ioport);
-  * On LEON systems without cache snooping, the entire D-CACHE must be flushed to
-  * make DMA to cacheable memory coherent.
-  */
--void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
+diff --git a/arch/microblaze/kernel/dma.c b/arch/microblaze/kernel/dma.c
+index 04d091ade417..b4c4e45fd45e 100644
+--- a/arch/microblaze/kernel/dma.c
++++ b/arch/microblaze/kernel/dma.c
+@@ -14,8 +14,8 @@
+ #include <linux/bug.h>
+ #include <asm/cacheflush.h>
+ 
+-static void __dma_sync(phys_addr_t paddr, size_t size,
+-		enum dma_data_direction direction)
 +void arch_sync_dma_for_device(phys_addr_t paddr, size_t size,
++		enum dma_data_direction dir)
+ {
+ 	switch (direction) {
+ 	case DMA_TO_DEVICE:
+@@ -30,14 +30,16 @@ static void __dma_sync(phys_addr_t paddr, size_t size,
+ 	}
+ }
+ 
+-void arch_sync_dma_for_device(phys_addr_t paddr, size_t size,
+-		enum dma_data_direction dir)
+-{
+-	__dma_sync(paddr, size, dir);
+-}
+-
+ void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
  		enum dma_data_direction dir)
  {
- 	if (dir != DMA_TO_DEVICE &&
+-	__dma_sync(paddr, size, dir);
+-}
++	switch (direction) {
++	case DMA_TO_DEVICE:
++		break;
++	case DMA_BIDIRECTIONAL:
++	case DMA_FROM_DEVICE:
++		invalidate_dcache_range(paddr, paddr + size);
++		break;
++	default:
++		BUG();
++	}}
 -- 
 2.39.2
 
