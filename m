@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF5DCC7619A
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 27 Mar 2023 12:16:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4496C761A6
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 27 Mar 2023 12:16:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Rwni5wg2GUDj1CpxPBao/VzixxBN7lXFlZt5wv2Br0o=; b=0E4cg0ZMqVBDQf
-	/eTtNAlaP7mTunybvlm3p90a+jjyzEKbo98UxQjOcv2Pe2QJQe69JWenb8fd4WlA9yXXrxlLxCHBK
-	HQEeEFhhFF24IjWWGyzL5i+9z6UHGODwdjqIwlOX3t9TQvTPZXoplRlngrQ32JxxkSJqJ5uwOuZ0W
-	1MQOKDQhTpn86kqkz3K1shTHqWIOKC7xQ9+nRMrYi8KqWqOfYd1YSyhfpYATd1cP+mPya6FWAPG1t
-	8Hl5oH/8xsJdpsiadcMmO/Q1OZYlrp7FFdZo6PyVCWM6zEthRD2H2k9UP1mA+Z8nitam8cKNlU0eM
-	m0++zakcMicJ3BJ10W7A==;
+	List-Owner; bh=vX7hWqoxgncTX4lpp8pLG6yCC8Fz9+ucRO1RefW5Qc4=; b=fNds3I+R7fqDDl
+	g9/5EqJrYAh0uFXM6LKwYtIuiBj6g/599tSE6Kri1PM77bs3m8vjFEKoLi50H+pxEyZoCS1EA+N8Z
+	wN6wamiVPgm08XdKBuS0GmHmSl6rIRjMFaovRTZ5FEpMjis8vRisMslrkhOm5dN5oX0UDcAJBSnsC
+	kd9VGvzxN4K+M9yf538dGXRAcff/DCl3j3KImxItf8Iyy0S2QYm5BkC8QDDRwf7NDOeaIVKhXpRFh
+	QrCSLjClVzpBLiAsRtq/Y+1KDZkbVW/pZz7rQGGea4WBpxUzr5Psv7M1TNSHFPEDVSj2vFNfx2RxT
+	nRqXWHr5w91/cXPKaDdA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pgllo-00AsLN-0q;
-	Mon, 27 Mar 2023 12:16:16 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1pglm0-00AsVf-1L;
+	Mon, 27 Mar 2023 12:16:28 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pgll8-00Arls-35;
-	Mon, 27 Mar 2023 12:15:36 +0000
+	id 1pgllI-00ArtK-1c;
+	Mon, 27 Mar 2023 12:15:46 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 71337611F1;
-	Mon, 27 Mar 2023 12:15:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECBF0C433EF;
-	Mon, 27 Mar 2023 12:15:24 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 19650B81184;
+	Mon, 27 Mar 2023 12:15:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97FBDC433A0;
+	Mon, 27 Mar 2023 12:15:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679919333;
-	bh=1A9PPhpjfn5VxBSmEZUVZ96wOnXUnzHwhEr/+6UxMII=;
+	s=k20201202; t=1679919341;
+	bh=uohG58os+YPGsAoIvHYZEyGIjYTpK/zcJikKrAX9FPU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZTcyGdTSTyjUcBoLSVeACST/PtG6gZO3O0XJKQPppvSvNB4NDcy90mHMF4gJPiNS6
-	 dNtpCw1Tg4EZtsG9wUbybuw0872LTI9FUQllw/7Q76rCvz6Crnc81KUI9Kj4chNtUZ
-	 csalhGjvFzfmW3DiLJ6yzIpVXX+f5lcRxoFKXzIm876A40pKei6+o+8NXVAEYBZqzo
-	 s4oPjpuA8RpmeGU6lv0FlQ6gA3tl8++a/WzT9oNtEmsVj2YTsrbo7DHFpEIVM4/NkV
-	 v133TD824709IDedq8WaO7uGv2weYLR4T+0csPE1290Z1QSEI0fkOubzH+lLl8W9RM
-	 VLW1WwaNQGF9g==
+	b=hBanRUO40otZWpiIlwJ2ahlYI2/SU8zPpLT3Qw57jJE40woaJrRwcvRFQpLc/CmtF
+	 0htU6ckgOgXVZH2DE+dJDcgxfjuUFxw2l8Pn5C7OdFGFsmKKCazqxQQraKNSB0q9Xu
+	 8oHDYMJBaw55+tzbreH4Ndmiz3clXO5/H+FcYDQe1iQ34jySEQMALNvOHQCQFHA7Lk
+	 5/v6eq8R2opwH5aOlgYkRDsOvBF62H+KLqxeGyv9U6ps8rklWRlmbETlf8xD0OymSe
+	 8y75Z9XzlD5evRjJOnI7bZLIIgFEQA8+P2HCk/nt22ZXSqKgj7kPcjr6CG0psnqbOe
+	 EFkVwSkNAqLQw==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-kernel@vger.kernel.org
 Cc: Arnd Bergmann <arnd@arndb.de>,
@@ -86,16 +86,16 @@ Cc: Arnd Bergmann <arnd@arndb.de>,
 	linux-sh@vger.kernel.org,
 	sparclinux@vger.kernel.org,
 	linux-xtensa@linux-xtensa.org
-Subject: [PATCH 11/21] mips: dma-mapping: skip invalidating before bidirectional DMA
-Date: Mon, 27 Mar 2023 14:13:07 +0200
-Message-Id: <20230327121317.4081816-12-arnd@kernel.org>
+Subject: [PATCH 12/21] mips: dma-mapping: split out cache operation logic
+Date: Mon, 27 Mar 2023 14:13:08 +0200
+Message-Id: <20230327121317.4081816-13-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230327121317.4081816-1-arnd@kernel.org>
 References: <20230327121317.4081816-1-arnd@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230327_051535_090174_B93C64C9 
-X-CRM114-Status: GOOD (  15.15  )
+X-CRM114-CacheID: sfid-20230327_051544_854975_EA778CC1 
+X-CRM114-Status: GOOD (  15.47  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,42 +114,128 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-Some architectures that need to invalidate buffers after bidirectional
-DMA because of speculative prefetching only do a simpler writeback
-before that DMA, while architectures that don't need to do the second
-invalidate tend to have a combined writeback+invalidate before the
-DMA.
-
-The behavior on mips is slightly inconsistent, as it always
-does the invalidation before bidirectional DMA and conditionally
-does it a second time.
-
-In order to make the behavior the same as the rest, change it
-so that there is exactly one invalidation here, either before
-or after the DMA.
+The mips arch_sync_dma_for_device()/arch_sync_dma_for_cpu() functions
+behave the same way as on other architectures, but in order to unify
+the implementations, the code needs to be rearranged to pick the type
+of cache operation in the outermost function.
 
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/mips/mm/dma-noncoherent.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ arch/mips/mm/dma-noncoherent.c | 75 ++++++++++++++--------------------
+ 1 file changed, 30 insertions(+), 45 deletions(-)
 
 diff --git a/arch/mips/mm/dma-noncoherent.c b/arch/mips/mm/dma-noncoherent.c
-index 3c4fc97b9f39..b4350faf4f1e 100644
+index b4350faf4f1e..b9d68bcc5d53 100644
 --- a/arch/mips/mm/dma-noncoherent.c
 +++ b/arch/mips/mm/dma-noncoherent.c
-@@ -65,7 +65,11 @@ static inline void dma_sync_virt_for_device(void *addr, size_t size,
- 		dma_cache_inv((unsigned long)addr, size);
- 		break;
- 	case DMA_BIDIRECTIONAL:
--		dma_cache_wback_inv((unsigned long)addr, size);
+@@ -54,50 +54,13 @@ void *arch_dma_set_uncached(void *addr, size_t size)
+ 	return (void *)(__pa(addr) + UNCAC_BASE);
+ }
+ 
+-static inline void dma_sync_virt_for_device(void *addr, size_t size,
+-		enum dma_data_direction dir)
+-{
+-	switch (dir) {
+-	case DMA_TO_DEVICE:
+-		dma_cache_wback((unsigned long)addr, size);
+-		break;
+-	case DMA_FROM_DEVICE:
+-		dma_cache_inv((unsigned long)addr, size);
+-		break;
+-	case DMA_BIDIRECTIONAL:
+-		if (IS_ENABLED(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU) &&
+-		    cpu_needs_post_dma_flush())
+-			dma_cache_wback((unsigned long)addr, size);
+-		else
+-			dma_cache_wback_inv((unsigned long)addr, size);
+-		break;
+-	default:
+-		BUG();
+-	}
+-}
+-
+-static inline void dma_sync_virt_for_cpu(void *addr, size_t size,
+-		enum dma_data_direction dir)
+-{
+-	switch (dir) {
+-	case DMA_TO_DEVICE:
+-		break;
+-	case DMA_FROM_DEVICE:
+-	case DMA_BIDIRECTIONAL:
+-		dma_cache_inv((unsigned long)addr, size);
+-		break;
+-	default:
+-		BUG();
+-	}
+-}
+-
+ /*
+  * A single sg entry may refer to multiple physically contiguous pages.  But
+  * we still need to process highmem pages individually.  If highmem is not
+  * configured then the bulk of this loop gets optimized out.
+  */
+ static inline void dma_sync_phys(phys_addr_t paddr, size_t size,
+-		enum dma_data_direction dir, bool for_device)
++		void(*cache_op)(unsigned long start, unsigned long size))
+ {
+ 	struct page *page = pfn_to_page(paddr >> PAGE_SHIFT);
+ 	unsigned long offset = paddr & ~PAGE_MASK;
+@@ -113,10 +76,7 @@ static inline void dma_sync_phys(phys_addr_t paddr, size_t size,
+ 		}
+ 
+ 		addr = kmap_atomic(page);
+-		if (for_device)
+-			dma_sync_virt_for_device(addr + offset, len, dir);
+-		else
+-			dma_sync_virt_for_cpu(addr + offset, len, dir);
++		cache_op((unsigned long)addr + offset, len);
+ 		kunmap_atomic(addr);
+ 
+ 		offset = 0;
+@@ -128,15 +88,40 @@ static inline void dma_sync_phys(phys_addr_t paddr, size_t size,
+ void arch_sync_dma_for_device(phys_addr_t paddr, size_t size,
+ 		enum dma_data_direction dir)
+ {
+-	dma_sync_phys(paddr, size, dir, true);
++	switch (dir) {
++	case DMA_TO_DEVICE:
++		dma_sync_phys(paddr, size, _dma_cache_wback);
++		break;
++	case DMA_FROM_DEVICE:
++		dma_sync_phys(paddr, size, _dma_cache_inv);
++		break;
++	case DMA_BIDIRECTIONAL:
 +		if (IS_ENABLED(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU) &&
 +		    cpu_needs_post_dma_flush())
-+			dma_cache_wback((unsigned long)addr, size);
++			dma_sync_phys(paddr, size, _dma_cache_wback);
 +		else
-+			dma_cache_wback_inv((unsigned long)addr, size);
- 		break;
- 	default:
- 		BUG();
++			dma_sync_phys(paddr, size, _dma_cache_wback_inv);
++		break;
++	default:
++		break;
++	}
+ }
+ 
+ #ifdef CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU
+ void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
+ 		enum dma_data_direction dir)
+ {
+-	if (cpu_needs_post_dma_flush())
+-		dma_sync_phys(paddr, size, dir, false);
++	switch (dir) {
++	case DMA_TO_DEVICE:
++		break;
++	case DMA_FROM_DEVICE:
++	case DMA_BIDIRECTIONAL:
++		if (cpu_needs_post_dma_flush())
++			dma_sync_phys(paddr, size, _dma_cache_inv);
++		break;
++	default:
++		break;
++	}
+ }
+ #endif
+ 
 -- 
 2.39.2
 
