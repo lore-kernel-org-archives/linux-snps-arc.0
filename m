@@ -4,75 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D303AC6FD1D
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 27 Mar 2023 22:25:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21E7BC761A6
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 28 Mar 2023 07:43:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=qVOCb6+f9Rrq/j2QlZ6usUdtMk5HvVBoPWL5xemgYTw=; b=mve8tRZ1FJcAr/
-	ttk7WfD6WWpNVXRVJClFhcDI+G8RoxKRnqqmUJlazVXg+HJ9OHpsITkn2YBS1YCqkmzOM7mRhfDVb
-	6w5WPN6n7QZvmID5Z5EMMcmG7hWV9rdMCRf5ltq+/dff/7oLmj90mubkZZKaOyJSzP43Lls6xtENN
-	L5T/Ynt8dGEp5Zrdgdk7xBchw6A7amMlHEdhg/nvE5WQzoqjBGctME29wH6uODgH/ARxlzXB3rNTw
-	ynnMTbYiUr5ZHOPQTFnwVZ34ZhuWJGpHJRoYpugzSWdFboUMZgiXVEZUVZjHv+qDzjDhBDG3luO+C
-	lCxmJxQnzszbDNGFwxEg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=3MEYLqzPTvQprpiLLJa/pkOBg3VWMsUT7NPdc1077d4=; b=mM5kvZcZ1BLco2
+	135V1jo7Ej2s2eLicag2vTsNOqTYZ3M9KYx5XW+R4U6VdyBmu5nzHcnFuZSoTH4sVE6ZabljQ/idY
+	ZrViaDavfyOaHUhVPfKwjnUlut0+XqYu7yBDqBoFmujKkSLB/t8OGpyCd/gTABiftBaNwBIt6gEbk
+	u+rNedxxSP+jzEHtakdQkbp6B2qIXsREYC5QynUcuDbEZWBpmKROm+wI845OeOAtDgkLu7OJ/K4PG
+	fF0HgGn5rGnyRMTJ+vR38l6RkreImtQIU4nbrdz4mcFrtO5/radNxzmf/2lkfnhgkkHH0ZxahkMT/
+	Wro7kcgsuqDWVZA6JBhg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pgvHQ-00CXpx-2h;
-	Mon, 27 Mar 2023 22:25:32 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1ph3yz-00DVn9-12;
+	Tue, 28 Mar 2023 07:43:05 +0000
+Received: from mail.lokoho.com ([217.61.105.98])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pgvHM-00CXnY-1W;
-	Mon, 27 Mar 2023 22:25:30 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 31BF267373; Tue, 28 Mar 2023 00:25:15 +0200 (CEST)
-Date: Tue, 28 Mar 2023 00:25:15 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-	Vineet Gupta <vgupta@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
-	Brian Cain <bcain@quicinc.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Michal Simek <monstr@monstr.eu>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Stafford Horne <shorne@gmail.com>, Helge Deller <deller@gmx.de>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>, Rich Felker <dalias@libc.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Max Filippov <jcmvbkbc@gmail.com>, Christoph Hellwig <hch@lst.de>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	linux-snps-arc@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-oxnas@groups.io,
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-xtensa@linux-xtensa.org
-Subject: Re: [PATCH 21/21] dma-mapping: replace custom code with generic
- implementation
-Message-ID: <20230327222514.GA17904@lst.de>
-References: <20230327121317.4081816-1-arnd@kernel.org> <20230327121317.4081816-22-arnd@kernel.org>
+	id 1ph3yw-00DVmD-2q
+	for linux-snps-arc@lists.infradead.org;
+	Tue, 28 Mar 2023 07:43:04 +0000
+Received: by mail.lokoho.com (Postfix, from userid 1001)
+	id 2947683FDF; Tue, 28 Mar 2023 08:41:51 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
+	t=1679989381; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
+	h=Date:From:To:Subject:From;
+	b=YWtDjDdaxzwuNVJlw+vnB8z9+d6n7RCNiQW36oK5G//06fh+VmrW8YaR8jvrvX51Z
+	 dLdl53aeXzlViT6KMVM+UQCvZyVNu4W8IHljEkkxTfI844qe9fypKC/Uz2sug8enLU
+	 MQDxjRl+Y+q90xjcJKFEPGiFuVpMjgsfZBBHifnPc8YGreX3RubWt0hG51g4mjAq1y
+	 w18ULOrGWkwiQPTG2UzM8rB82dvIrx0oFXv1y2nDr+FuUa723iESwhj/cjL3Xu89VP
+	 XQeFEZXIYKpL2AnLA/s7a4l37mdm0pW0nOkofPU0HwFISCGTJwGfqnw2XwI1xeSftq
+	 fRhXPo/FP/EoQ==
+Received: by mail.lokoho.com for <linux-snps-arc@lists.infradead.org>; Tue, 28 Mar 2023 07:40:50 GMT
+Message-ID: <20230328074501-0.1.4x.1mzpe.0.lxfd9oj6b4@lokoho.com>
+Date: Tue, 28 Mar 2023 07:40:50 GMT
+From: "Adam Charachuta" <adam.charachuta@lokoho.com>
+To: <linux-snps-arc@lists.infradead.org>
+Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
+X-Mailer: mail.lokoho.com
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20230327121317.4081816-22-arnd@kernel.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230327_152528_678256_D4D1CFA1 
-X-CRM114-Status: GOOD (  18.20  )
+X-CRM114-CacheID: sfid-20230328_004303_059122_FCCF24E7 
+X-CRM114-Status: UNSURE (   1.51  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,60 +61,19 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-> +static inline void arch_dma_cache_wback(phys_addr_t paddr, size_t size)
->  {
-> +	dma_cache_wback(paddr, size);
-> +}
->  
-> +static inline void arch_dma_cache_inv(phys_addr_t paddr, size_t size)
-> +{
-> +	dma_cache_inv(paddr, size);
->  }
-
-> +static inline void arch_dma_cache_wback_inv(phys_addr_t paddr, size_t size)
->  {
-> +	dma_cache_wback_inv(paddr, size);
-> +}
-
-There are the only calls for the three functions for each of the
-involved functions.  So I'd rather rename the low-level symbols
-(and drop the pointless exports for two of them) rather than adding
-these wrapppers.
-
-The same is probably true for many other architectures.
-
-> +static inline bool arch_sync_dma_clean_before_fromdevice(void)
-> +{
-> +	return false;
-> +}
->  
-> +static inline bool arch_sync_dma_cpu_needs_post_dma_flush(void)
-> +{
-> +	return true;
->  }
-
-Is there a way to cut down on this boilerplate code by just having
-sane default, and Kconfig options to override them if they are not
-runtime decisions?
-
-> +#include <linux/dma-sync.h>
-
-I can't really say I like the #include version here despite your
-rationale in the commit log.  I can probably live with it if you
-think it is absolutely worth it, but I'm really not in favor of it.
-
-> +config ARCH_DMA_MARK_DCACHE_CLEAN
-> +	def_bool y
-
-What do we need this symbol for?  Unless I'm missing something it is
-always enable for arm32, and only used in arm32 code.
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+RHppZcWEIGRvYnJ5LAoKemFwb3puYcWCZW0gc2nEmSB6IFBhxYRzdHdhIG9mZXJ0xIUgaSB6IHBy
+enlqZW1ub8WbY2nEhSBwcnp5em5hasSZLCDFvGUgcHJ6eWNpxIVnYSB1d2FnxJkgaSB6YWNoxJlj
+YSBkbyBkYWxzenljaCByb3ptw7N3LiAKClBvbXnFm2xhxYJlbSwgxbxlIG1vxbxlIG3Ds2fFgmJ5
+bSBtaWXEhyBzd8OzaiB3a8WCYWQgdyBQYcWEc3R3YSByb3p3w7NqIGkgcG9tw7NjIGRvdHJ6ZcSH
+IHogdMSFIG9mZXJ0xIUgZG8gd2nEmWtzemVnbyBncm9uYSBvZGJpb3Jjw7N3LiBQb3p5Y2pvbnVq
+xJkgc3Ryb255IHd3dywgZHppxJlraSBjemVtdSBnZW5lcnVqxIUgxZt3aWV0bnkgcnVjaCB3IHNp
+ZWNpLgoKTW/FvGVteSBwb3Jvem1hd2lhxIcgdyBuYWpibGnFvHN6eW0gY3phc2llPwoKClBvemRy
+YXdpYW0KQWRhbSBDaGFyYWNodXRhCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNA
+bGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
