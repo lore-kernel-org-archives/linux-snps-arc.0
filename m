@@ -4,52 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21E7BC761A6
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 28 Mar 2023 07:43:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC7C5C6FD18
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 29 Mar 2023 20:16:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=3MEYLqzPTvQprpiLLJa/pkOBg3VWMsUT7NPdc1077d4=; b=mM5kvZcZ1BLco2
-	135V1jo7Ej2s2eLicag2vTsNOqTYZ3M9KYx5XW+R4U6VdyBmu5nzHcnFuZSoTH4sVE6ZabljQ/idY
-	ZrViaDavfyOaHUhVPfKwjnUlut0+XqYu7yBDqBoFmujKkSLB/t8OGpyCd/gTABiftBaNwBIt6gEbk
-	u+rNedxxSP+jzEHtakdQkbp6B2qIXsREYC5QynUcuDbEZWBpmKROm+wI845OeOAtDgkLu7OJ/K4PG
-	fF0HgGn5rGnyRMTJ+vR38l6RkreImtQIU4nbrdz4mcFrtO5/radNxzmf/2lkfnhgkkHH0ZxahkMT/
-	Wro7kcgsuqDWVZA6JBhg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	In-Reply-To:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date
+	:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=q4T0JLNfzfWDX53XgFIlGHtVMg6UYOFtzpiJdE1Utek=; b=WSAsjFmyKOcZiL94hE2TZe4/zh
+	hfswe+X5S8JgEUvlkB/utgBObH6r/H4E4vATpRVzphbkrYUJdR28iLJcM4zQMuBOH2DWhbhuvbxNL
+	+mjEYFupaoVUVh0WACFnun4xKkfEsUEtI74sA/zI7e9/SbZENOZnRHdWu1rznxbiplCW0lPatCFaw
+	sgQ1Qd2WLWjwyylezFTjwLL4/+EdpgpBkyZhPRO6LgyvAO1p7IXGF4rkFzqxIg5oCGJxOjr7c7U2o
+	dejHjoquQczjMtv317wmIC/MLCue21RtrZHkan1sbZIbHV5sXdFWwpyqJEkkW498uOllKLU85L8p8
+	4Le3bNBg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1ph3yz-00DVn9-12;
-	Tue, 28 Mar 2023 07:43:05 +0000
-Received: from mail.lokoho.com ([217.61.105.98])
+	id 1phcDa-001kCN-2c;
+	Wed, 29 Mar 2023 20:16:26 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1ph3yw-00DVmD-2q
-	for linux-snps-arc@lists.infradead.org;
-	Tue, 28 Mar 2023 07:43:04 +0000
-Received: by mail.lokoho.com (Postfix, from userid 1001)
-	id 2947683FDF; Tue, 28 Mar 2023 08:41:51 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
-	t=1679989381; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
-	h=Date:From:To:Subject:From;
-	b=YWtDjDdaxzwuNVJlw+vnB8z9+d6n7RCNiQW36oK5G//06fh+VmrW8YaR8jvrvX51Z
-	 dLdl53aeXzlViT6KMVM+UQCvZyVNu4W8IHljEkkxTfI844qe9fypKC/Uz2sug8enLU
-	 MQDxjRl+Y+q90xjcJKFEPGiFuVpMjgsfZBBHifnPc8YGreX3RubWt0hG51g4mjAq1y
-	 w18ULOrGWkwiQPTG2UzM8rB82dvIrx0oFXv1y2nDr+FuUa723iESwhj/cjL3Xu89VP
-	 XQeFEZXIYKpL2AnLA/s7a4l37mdm0pW0nOkofPU0HwFISCGTJwGfqnw2XwI1xeSftq
-	 fRhXPo/FP/EoQ==
-Received: by mail.lokoho.com for <linux-snps-arc@lists.infradead.org>; Tue, 28 Mar 2023 07:40:50 GMT
-Message-ID: <20230328074501-0.1.4x.1mzpe.0.lxfd9oj6b4@lokoho.com>
-Date: Tue, 28 Mar 2023 07:40:50 GMT
-From: "Adam Charachuta" <adam.charachuta@lokoho.com>
-To: <linux-snps-arc@lists.infradead.org>
-Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
-X-Mailer: mail.lokoho.com
+	id 1phcDW-001kBA-1S;
+	Wed, 29 Mar 2023 20:16:23 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 0ABA761DEE;
+	Wed, 29 Mar 2023 20:16:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAEB3C433D2;
+	Wed, 29 Mar 2023 20:16:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1680120980;
+	bh=GQ/BnFe9Q8YTrp9m/Oja+3F+vgOfqDylgmr9jLCscRs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=P5U564E993rrDoh13ZYMd/KR6rZkNdIdAbkwy4AMMyuaZ2UnsINcIgdKLJGQbZT1R
+	 zUAUZnpQCzF0TlpEQXZmdxZiDMl23kcqvk8c8s2jxRsSMekf7FDxCi9gR1oX2Da8hi
+	 aag+2sE6WG2TyEHXWa4HzYKbVaDqQKSeZs+SUyrFuRdRhxxhHTm9szdrtMzu032YBF
+	 pnLWBxLnUyF1yY234OeM4zx5JvWcQ8+nbW2h2BxGSx1xSG/83/MuR/yVSH7mdi1xg2
+	 0jWbdD9E6OkE4eGUQzkyJv6rP5bdfMAHDI8/GyVgtoddbv/rL55kO33CXzMD08MgAw
+	 CkixnBQ6Xb9Yw==
+Date: Wed, 29 Mar 2023 21:16:10 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+	Vineet Gupta <vgupta@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
+	Brian Cain <bcain@quicinc.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Michal Simek <monstr@monstr.eu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Stafford Horne <shorne@gmail.com>, Helge Deller <deller@gmx.de>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Max Filippov <jcmvbkbc@gmail.com>, Christoph Hellwig <hch@lst.de>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-oxnas@groups.io,
+	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-xtensa@linux-xtensa.org
+Subject: Re: [PATCH 09/21] riscv: dma-mapping: skip invalidation before
+ bidirectional DMA
+Message-ID: <764e8d2f-ed98-49dc-8fdb-112d59359148@spud>
+References: <20230327121317.4081816-1-arnd@kernel.org>
+ <20230327121317.4081816-10-arnd@kernel.org>
 MIME-Version: 1.0
+In-Reply-To: <20230327121317.4081816-10-arnd@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230328_004303_059122_FCCF24E7 
-X-CRM114-Status: UNSURE (   1.51  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230329_131622_586482_53F1E608 
+X-CRM114-Status: GOOD (  15.04  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,19 +98,61 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============3857275007612832951=="
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-RHppZcWEIGRvYnJ5LAoKemFwb3puYcWCZW0gc2nEmSB6IFBhxYRzdHdhIG9mZXJ0xIUgaSB6IHBy
-enlqZW1ub8WbY2nEhSBwcnp5em5hasSZLCDFvGUgcHJ6eWNpxIVnYSB1d2FnxJkgaSB6YWNoxJlj
-YSBkbyBkYWxzenljaCByb3ptw7N3LiAKClBvbXnFm2xhxYJlbSwgxbxlIG1vxbxlIG3Ds2fFgmJ5
-bSBtaWXEhyBzd8OzaiB3a8WCYWQgdyBQYcWEc3R3YSByb3p3w7NqIGkgcG9tw7NjIGRvdHJ6ZcSH
-IHogdMSFIG9mZXJ0xIUgZG8gd2nEmWtzemVnbyBncm9uYSBvZGJpb3Jjw7N3LiBQb3p5Y2pvbnVq
-xJkgc3Ryb255IHd3dywgZHppxJlraSBjemVtdSBnZW5lcnVqxIUgxZt3aWV0bnkgcnVjaCB3IHNp
-ZWNpLgoKTW/FvGVteSBwb3Jvem1hd2lhxIcgdyBuYWpibGnFvHN6eW0gY3phc2llPwoKClBvemRy
-YXdpYW0KQWRhbSBDaGFyYWNodXRhCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNA
-bGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
+
+--===============3857275007612832951==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="2LJh6dsRB07q9YeN"
+Content-Disposition: inline
+
+
+--2LJh6dsRB07q9YeN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Mar 27, 2023 at 02:13:05PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>=20
+> For a DMA_BIDIRECTIONAL transfer, the caches have to be cleaned
+> first to let the device see data written by the CPU, and invalidated
+> after the transfer to let the CPU see data written by the device.
+>=20
+> riscv also invalidates the caches before the transfer, which does
+> not appear to serve any purpose.
+
+Rationale makes sense to me..
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+
+Thanks for working on all of this Arnd!
+
+--2LJh6dsRB07q9YeN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZCScigAKCRB4tDGHoIJi
+0jHpAP47kMhf2uxHoGKhD+jHsEYnFgTHptLnAfIJV6N+QeFoOAD/YxG6hd8qhesW
+6Tw9EqBEW/4auX2CLsbK7xE8fP5A9wg=
+=os1C
+-----END PGP SIGNATURE-----
+
+--2LJh6dsRB07q9YeN--
+
+
+--===============3857275007612832951==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+
+--===============3857275007612832951==--
+
