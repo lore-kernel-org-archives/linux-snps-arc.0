@@ -4,60 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59136C761A6
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 30 Mar 2023 11:52:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09C08C761AF
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 30 Mar 2023 12:59:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=90qgS6qoGzU/6y0WRiwpeF0p+qV5mOE8Wff1VyU84wU=; b=R/U6GAtDT4Fbzq
-	Y/GVB/qU83dh0066zao83Gclhg1N7uk55I1laChSP5SDKnPUoVr97KG12UAwz7nzXkLDR9yCVYrDM
-	klsVUDGCjoQ3jG015rwNe/QneFfW9r4+/1f0fSRnscGFCv38iQmj/UnV409z6/7mthPFQm2gp0OtU
-	N684mhwtk06Yxs54Z7DPE9gZzwguUCPOH6uQdyzhovZP535IGozhAppkfk4yF6F+iWXOq2Tvhc9Va
-	dU9kiSnfoyaf/EoRJPr/4r+tnJeJKgxYsTHOgxaEkq4YoUqndrjhduu/d7BtHxbZjJx6MidoZYYIW
-	YIDQzgW7tN4dX7ztBGpw==;
+	List-Owner; bh=ehHcoGOER3YLXxrX8wNScfzTeoQrTfBITN9eXh0UtpU=; b=B9jrbB6gW9tnfk
+	FIH/lvwQWvmAygcBNfiR0YAMPvUWPDjyavIeJWbF26eIBL19vVDqcD10JOZYJ9Crrk05HFFHZByLL
+	d8KP7UGlEf4152b7yOUyMlhkiiuUhZYNREDjSfEyosIs4t9f4kRN4Wlm0B3u/mrDYDMBI1jeolNkz
+	k0ldhFEZOxn5IiksFdU+RXD/Dh3OgidkA7dY61+angQQnevyoSXMAKWwtI4S0vwPi3SdVQpIzaZkf
+	A3lr/qid76Kmizhw3GI6YZ9NbJJFQVEKxc0zcjyoca19/d7la/rWVcYKwpJHyft2y8L//fyVQjqfa
+	s/T5LUYWNp+8Mr5wsM8A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1phqpW-003gv9-0l;
-	Thu, 30 Mar 2023 11:52:34 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1phrsO-003oWO-2w;
+	Thu, 30 Mar 2023 12:59:37 +0000
+Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1phqpR-003gu4-1y;
-	Thu, 30 Mar 2023 11:52:31 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 10327B8287A;
-	Thu, 30 Mar 2023 11:52:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2866C433EF;
-	Thu, 30 Mar 2023 11:52:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680177146;
-	bh=Lg8Woq7ScP2NFdPayLKkYeMtRMZwMJRAR9+KtXakJhE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=RZipPa0Ma88cpwApm0Td+Y0hkbkQIILnwFNQiwuNoLfKzZn1t1N2RWebuO5MmOdWR
-	 lQtcg7+hOj2+xkyHWlgIoVZbU8l/ColoV4uTbiTmPZpGMjP4+5b5KL+k1PATzLy9Rp
-	 ne1YU23rrq+LQ/aY1hx5aVq6JaiwH990blyhsz8dbOuarS9Dyli23+YzGF/f36+HG8
-	 eJWfg6HhHG23+Gjz87NUmJCRzsfOcEHVVMSrZcSvvVaSn3bHZUCJGXYVhIzkM552zo
-	 58hqYF8ul49kdxkY2muTd2AEDgWpic6fO2hGOkAcvaSEivLLlgKYSKrkNwb4+H7X43
-	 TxbpI+NG3HS5w==
-Received: by mail-ed1-f51.google.com with SMTP id w9so75394069edc.3;
-        Thu, 30 Mar 2023 04:52:26 -0700 (PDT)
-X-Gm-Message-State: AAQBX9ehGnZJqMzjiPkDk8lRrV4DoZ8OpT9rdO408uKrXbCnUiuIHzcR
-	7yUKJWMX/1etsPwIHTm5wJB9viZjQpyoYCGHCbY=
-X-Google-Smtp-Source: AKy350aaxBOgSqlP959KpS9cfZAsDCsvbSuFf+7QcLc+VlamdgSrDzoUdXNjAn81KSsW2remp6yjeVooIQhT3qtniP0=
-X-Received: by 2002:a19:f007:0:b0:4db:b4:c8d7 with SMTP id p7-20020a19f007000000b004db00b4c8d7mr1755725lfc.2.1680177124990;
- Thu, 30 Mar 2023 04:52:04 -0700 (PDT)
+	id 1phrsM-003oVm-2G;
+	Thu, 30 Mar 2023 12:59:36 +0000
+Received: by mail-io1-xd2a.google.com with SMTP id m22so8235063ioy.4;
+        Thu, 30 Mar 2023 05:59:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680181172; x=1682773172;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=db58zgLapT4+5eM+e2dEcRQMOxpl02qLJJqJynMawPw=;
+        b=gvyLOSrV5NqLHUuxidIYczTpyccsUd898Kt8qAjGZCJm8EQYH5JcTmwLqg57uC0cvB
+         j7U0x9dcm2RsX8dLxVGcboGq4Pdvm6cDFGIifVhW5LUG0BZhpnkLq+12fDfUITmPUgDN
+         KJqbUWD1A1NNvcxlD8Va+DklQ7yRgA9v4iGNa+yDzNCF8hz/BAHOp1sivo3m/ett+i3j
+         AtVwEXoZrtByosb2V89SvT6DgwFv0o1YJU+4lunFRTh6XWRbkQcRhcsLjusSr3Liunwq
+         utzWcTAPvMsNoessMz8HZ9Y6dfPH5hnImowquLEBicF67L5RSN3ovwZ4QUhqVrtpFGVk
+         CyWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680181172; x=1682773172;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=db58zgLapT4+5eM+e2dEcRQMOxpl02qLJJqJynMawPw=;
+        b=r+gDtNul+EZGvAkxt75eMMQmIxSYVjNlo9Cabrid0ppnPiwHnn9wIHL3IhZmhcnPDP
+         xhR5N7PgJlm550elAd7xoq51DRX7b29t+uT5pukJY7dvkEt9YcfkW9eCF3Xmn7MwWuu8
+         88oYuB8YHqO+J8h3NcLDSMSPvKR1Su4dtF7r0s42knGr2+RVEbRaEnoPgbywXyQ/CKX1
+         cEHKI8j1sGTdmUx7ssVSlwpZ2Nw76ZFXGRCmI4SuOwrn/intgBeVXe5lYr4ReQcExvq5
+         VlF0yem1n1GxJBIrh4Z5M3CBTzCO6xOYGFZQEAiLAtVPctMDLTnU58lTauZS/8kZIKPj
+         oc6w==
+X-Gm-Message-State: AAQBX9eeEeF8LMyAVx9ixvsQpP9vNZwAaCkvnzFVOMseq8HzcS9WqiJO
+	JS9dCCSKInOWaUmA0GDDnABiBav1R5H9tLQzefs=
+X-Google-Smtp-Source: AKy350Yt7w4HDnt8ZzJ1OA1g5OCPUWPp6heQMoQ57xTct+y1JPFpMNsPMtx4N97vitPklV5i5ccLJReO6yCW0ia7/Oo=
+X-Received: by 2002:a02:95c3:0:b0:3eb:3166:9da4 with SMTP id
+ b61-20020a0295c3000000b003eb31669da4mr2710421jai.2.1680181172425; Thu, 30 Mar
+ 2023 05:59:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230327121317.4081816-1-arnd@kernel.org> <20230327121317.4081816-19-arnd@kernel.org>
-In-Reply-To: <20230327121317.4081816-19-arnd@kernel.org>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Thu, 30 Mar 2023 13:51:53 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXGNjrmTr1R+-09UYtHSgvT6fSgZxvpbEOfeTFxhWtgGcQ@mail.gmail.com>
-Message-ID: <CAMj1kXGNjrmTr1R+-09UYtHSgvT6fSgZxvpbEOfeTFxhWtgGcQ@mail.gmail.com>
-Subject: Re: [PATCH 18/21] ARM: drop SMP support for ARM11MPCore
+References: <20230327121317.4081816-1-arnd@kernel.org> <20230327121317.4081816-9-arnd@kernel.org>
+In-Reply-To: <20230327121317.4081816-9-arnd@kernel.org>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 30 Mar 2023 13:59:06 +0100
+Message-ID: <CA+V-a8v--RqxFJYTZ04vVgiA69VJsFWk=r=TvRvokhpAV-famg@mail.gmail.com>
+Subject: Re: [PATCH 08/21] riscv: dma-mapping: only invalidate after DMA, not flush
 To: Arnd Bergmann <arnd@kernel.org>
 Cc: linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
 	Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, 
@@ -79,10 +86,10 @@ Cc: linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
 	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
 	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
 	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-xtensa@linux-xtensa.org, Daniel Golle <daniel@makrotopia.org>
+	linux-xtensa@linux-xtensa.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230330_045229_989651_72E4FC78 
-X-CRM114-Status: GOOD (  28.31  )
+X-CRM114-CacheID: sfid-20230330_055934_756403_5DF78AB7 
+X-CRM114-Status: GOOD (  18.42  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,56 +101,37 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, 27 Mar 2023 at 14:18, Arnd Bergmann <arnd@kernel.org> wrote:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> The cache management operations for noncoherent DMA on ARMv6 work
-> in two different ways:
->
->  * When CONFIG_DMA_CACHE_RWFO is set, speculative prefetches on in-flight
->    DMA buffers lead to data corruption when the prefetched data is written
->    back on top of data from the device.
->
->  * When CONFIG_DMA_CACHE_RWFO is disabled, a cache flush on one CPU
->    is not seen by the other core(s), leading to inconsistent contents
->    accross the system.
->
-> As a consequence, neither configuration is actually safe to use in a
-> general-purpose kernel that is used on both MPCore systems and ARM1176
-> with prefetching enabled.
->
-> We could add further workarounds to make the behavior more dynamic based
-> on the system, but realistically, there are close to zero remaining
-> users on any ARM11MPCore anyway, and nobody seems too interested in it,
-> compared to the more popular ARM1176 used in BMC2835 and AST2500.
->
-> The Oxnas platform has some minimal support in OpenWRT, but most of the
-> drivers and dts files never made it into the mainline kernel, while the
-> Arm Versatile/Realview platform mainly serves as a reference system but
-> is not necessary to be kept working once all other ARM11MPCore are gone.
->
-> Take the easy way out here and drop support for multiprocessing on
-> ARMv6, along with the CONFIG_DMA_CACHE_RWFO option and the cache
-> management implementation for it. This also helps with other ARMv6
-> issues, but for the moment leaves the ability to build a kernel that
-> can run on both ARMv7 SMP and single-processor ARMv6, which we probably
-> want to stop supporting as well, but not as part of this series.
->
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Daniel Golle <daniel@makrotopia.org>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: linux-oxnas@groups.io
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gTW9uLCBNYXIgMjcsIDIwMjMgYXQgMToxNuKAr1BNIEFybmQgQmVyZ21hbm4gPGFybmRAa2Vy
+bmVsLm9yZz4gd3JvdGU6Cj4KPiBGcm9tOiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPgo+
+Cj4gTm8gb3RoZXIgYXJjaGl0ZWN0dXJlIGludGVudGlvbmFsbHkgd3JpdGVzIGJhY2sgZGlydHkg
+Y2FjaGUgbGluZXMgaW50bwo+IGEgYnVmZmVyIHRoYXQgYSBkZXZpY2UgaGFzIGp1c3QgZmluaXNo
+ZWQgd3JpdGluZyBpbnRvLiBJZiB0aGUgY2FjaGUgaXMKPiBjbGVhbiwgdGhpcyBoYXMgbm8gZWZm
+ZWN0IGF0IGFsbCwgYnV0IGlmIGEgY2FjaGVsaW5lIGluIHRoZSBidWZmZXIgaGFzCj4gYWN0dWFs
+bHkgYmVlbiB3cml0dGVuIGJ5IHRoZSBDUFUsICB0aGVyZSBpcyBhIGRyaXZlIGJ1ZyB0aGF0IGlz
+IGxpa2VseQo+IG1hZGUgd29yc2UgYnkgb3ZlcndyaXRpbmcgdGhhdCBidWZmZXIuCj4KPiBTaWdu
+ZWQtb2ZmLWJ5OiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPgo+IC0tLQo+ICBhcmNoL3Jp
+c2N2L21tL2RtYS1ub25jb2hlcmVudC5jIHwgMiArLQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNl
+cnRpb24oKyksIDEgZGVsZXRpb24oLSkKPgoKUmV2aWV3ZWQtYnk6IExhZCBQcmFiaGFrYXIgPHBy
+YWJoYWthci5tYWhhZGV2LWxhZC5yakBicC5yZW5lc2FzLmNvbT4KCkNoZWVycywKUHJhYmhha2Fy
+Cgo+IGRpZmYgLS1naXQgYS9hcmNoL3Jpc2N2L21tL2RtYS1ub25jb2hlcmVudC5jIGIvYXJjaC9y
+aXNjdi9tbS9kbWEtbm9uY29oZXJlbnQuYwo+IGluZGV4IGQ5MTllZmFiNmViYS4uNjQwZjRjNDk2
+ZDI2IDEwMDY0NAo+IC0tLSBhL2FyY2gvcmlzY3YvbW0vZG1hLW5vbmNvaGVyZW50LmMKPiArKysg
+Yi9hcmNoL3Jpc2N2L21tL2RtYS1ub25jb2hlcmVudC5jCj4gQEAgLTQyLDcgKzQyLDcgQEAgdm9p
+ZCBhcmNoX3N5bmNfZG1hX2Zvcl9jcHUocGh5c19hZGRyX3QgcGFkZHIsIHNpemVfdCBzaXplLAo+
+ICAgICAgICAgICAgICAgICBicmVhazsKPiAgICAgICAgIGNhc2UgRE1BX0ZST01fREVWSUNFOgo+
+ICAgICAgICAgY2FzZSBETUFfQklESVJFQ1RJT05BTDoKPiAtICAgICAgICAgICAgICAgQUxUX0NN
+T19PUChmbHVzaCwgdmFkZHIsIHNpemUsIHJpc2N2X2Nib21fYmxvY2tfc2l6ZSk7Cj4gKyAgICAg
+ICAgICAgICAgIEFMVF9DTU9fT1AoaW52YWwsIHZhZGRyLCBzaXplLCByaXNjdl9jYm9tX2Jsb2Nr
+X3NpemUpOwo+ICAgICAgICAgICAgICAgICBicmVhazsKPiAgICAgICAgIGRlZmF1bHQ6Cj4gICAg
+ICAgICAgICAgICAgIGJyZWFrOwo+IC0tCj4gMi4zOS4yCj4KPgo+IF9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gbGludXgtcmlzY3YgbWFpbGluZyBsaXN0
+Cj4gbGludXgtcmlzY3ZAbGlzdHMuaW5mcmFkZWFkLm9yZwo+IGh0dHA6Ly9saXN0cy5pbmZyYWRl
+YWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtcmlzY3YKCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdAps
+aW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQu
+b3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
