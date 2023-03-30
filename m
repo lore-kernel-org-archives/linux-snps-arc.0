@@ -4,92 +4,120 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC606C6FD1D
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 30 Mar 2023 08:12:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52B97C761A6
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 30 Mar 2023 10:04:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Subject:Cc:To:From:Date:References:
+	In-Reply-To:Message-Id:Mime-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=nibyahjAmxcEXaUFXtLky08HQ0qM0cX2e7YibI83Q0Y=; b=i/BMJ/i8oY5FtS
-	saCd9ddRIlcGTr+2W0yko2YKwiHScYs2e8sf7rOz23iS2h05FYdpNbkTUJlsDMjdBeHYXsCozLwto
-	N8GP6JDd6pJMX7XbsELRPVyF46JXtjEhSCn0G63zuF7kpcFGw2O6k71qCdE2jwePiScYNwlP0aqmU
-	j7BFjUpD811keQ7W/tOWbITmZpKA/mAxgpD7ebCdAo4R8wlJE3UmxT5eR45+VjXikoFG83upvRIxL
-	sPXiNHcZDRsKxz5dS8ZD1MNDeP6JN1h+3EHSKGaQhAtKuFwS0FcRjFFvG9QBbl/vXfPOpex3T2t/D
-	O0gpJcX09UWJRxImNgzw==;
+	List-Owner; bh=tRBH1GuJtHIrbtIyOqsVfx1SrYNFP+l3pvI8QLc9snA=; b=zIfFEjCc7bssqi
+	be3GJq5z3kvXUGCdSJuYnyO2pdl5iJkDpAiEZAHggoiV3ZkQp8EfYNQCrrhmXZ1YEx5oBmZ+LnL3J
+	gFl6J5aycvDlL2dChbQoSmRjsD1TmMPMCGRE4BYaUcvZiPRXqFMP68QLgTgAPcBAY/gyaQGsaEbKz
+	i+eGKg27UUqN6p9CTr/qFhlANuTO1OZLGWUbsC5uwaMSyjBA3U4U8RumqNY8ySPbsoc0rc9xXxoIM
+	pZczBId70TCPkzeeCu8Zmr70kKOZblPMjvWz9kNtE/tvU8cd7dVzoFT7o5Yu+sdCnQ9SaMi/RSEzt
+	QeAE7fkgNqzrT12fB33g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1phnOL-0032IQ-0b;
-	Thu, 30 Mar 2023 08:12:17 +0000
-Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e])
+	id 1php8V-003OLI-2W;
+	Thu, 30 Mar 2023 10:04:03 +0000
+Received: from new3-smtp.messagingengine.com ([66.111.4.229])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1phnOG-0032GK-39
-	for linux-snps-arc@lists.infradead.org;
-	Thu, 30 Mar 2023 08:12:15 +0000
-Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-5445009c26bso340424607b3.8
-        for <linux-snps-arc@lists.infradead.org>; Thu, 30 Mar 2023 01:12:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680163931;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LQCYgbZHrv29At0jbIiZAbPjoR2bcYIsz7/d6inu7f8=;
-        b=ExPqwkg7v1NJaAb/s/k5m0AsXdPeqWANvICm34UN83+g91kLHVNxTL6wIK95elgwZ0
-         BsoWOOEBJNZZMuzO0jd9e5ZnX+piu95PYHJc8aCAeb74EZLSXYYZcUnjlcrwcSx9uUSn
-         +ZylXYodLpHskZhPbl4FteqkYPSevcOTC9viahsIQVrxIIJjVrJEKuNvoC6mbX+9pqR3
-         89vqEOP7c1GfiVA/eOXrKlUJ2J9zGfYuC7KwccmlIyO2J0GIlDQpCElJBkH4Lwj1h0sT
-         ooCHH5PYBMyLFmPU8W7WigILMi6/95wflgUZh1w0ygoWmHzMdYahkSPYjw44g9lyJXD6
-         gNjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680163931;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LQCYgbZHrv29At0jbIiZAbPjoR2bcYIsz7/d6inu7f8=;
-        b=ovuV1IDSZkOBL7lZX5QOSRXlz061X8F9eErAsbEwJ5t1ovczW7c1TibwLzXtKlMJ6r
-         xS+Zzd7qTPuBy6kg4KrsiQ2GcJ058/YO9nKdg0qr1pipkoeKgsdCaRlidQU7UiLFt1ZU
-         ExJ4/QeQQ3+rGwdO3CXF3V9isFnPvgxz0GXwe8K3AOcrGJvETspZRnfSWz+9QjQGxx8l
-         tQA7vF3BuWuXGakifU84SF8JwCHKAYK21KZF4rJG9uHUftVJtsd+pAK71W9uxUQW5jb/
-         rtjhzw/YEYbvQV3jGQeH30uiOCeSyXRGL4KeD1rer4f4tzBLs6c7A5Rave9XmlV9wsKb
-         gvbA==
-X-Gm-Message-State: AAQBX9fwaCJO/jHX0MRfiOPxM/O/yOzCaeYUDf6GDZdAgwqhXd/Keggk
-	KErmJ8dGKtKSa/nTuCVltahPEYOLnep2O6tmp9I/vw==
-X-Google-Smtp-Source: AKy350a/1aBIXwj5sRzvro+POKQZrQ8u1qzHA9lYRVf8cH3+kLmmcEZ591QzYhrOYx7KtYdusctEvAjdnpZqGPXhdtA=
-X-Received: by 2002:a81:c84a:0:b0:541:753d:32f9 with SMTP id
- k10-20020a81c84a000000b00541753d32f9mr10995359ywl.9.1680163931243; Thu, 30
- Mar 2023 01:12:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230327121317.4081816-1-arnd@kernel.org> <20230327121317.4081816-19-arnd@kernel.org>
-In-Reply-To: <20230327121317.4081816-19-arnd@kernel.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 30 Mar 2023 10:12:00 +0200
-Message-ID: <CACRpkdYuyzkvSQY0sQJei39d9ZoGM_DbJQ5LxUg3sXsBmzJyaQ@mail.gmail.com>
+	id 1php8Q-003OIf-29;
+	Thu, 30 Mar 2023 10:04:00 +0000
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailnew.nyi.internal (Postfix) with ESMTP id A6E105821FE;
+	Thu, 30 Mar 2023 06:03:53 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Thu, 30 Mar 2023 06:03:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm1; t=1680170633; x=1680177833; bh=gF
+	qXqcYMWSKuJaGFIiy50Zf8Mul16NUlD8xgems2xkg=; b=JxPZOVxjXCuuUFnz8g
+	uR2No3WKokB1kYnBVGLyuNTT1GHbSx7HcllmOlx7WL73MRjvBNY1Jz63nwSIuXZm
+	fARBRkt2EgiPXJLAvasiK+94JN9Rp7qIpeg/c8F9us28ZAmzX4a12l/FSLzGWeAf
+	GP7Lhb+lkhGzU3GXPlwLR10V758pcgH1ojqXsjwkdVyUvwtO9WMqdgRyfQ7u3ctM
+	W7sU+9bMDjJx0q1aRSpQBmyxejDAdo7VNGKwjccZfKKub+cgQ2ZTm/zkP2y/rRlx
+	wYI35VSqJc9OdGsxpiyx9Lz/h6dHQyx/rbychak5+lhcx20ykt8JwaYwQzyk90NH
+	m/JA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1680170633; x=1680177833; bh=gFqXqcYMWSKuJ
+	aGFIiy50Zf8Mul16NUlD8xgems2xkg=; b=o3ayTuAjbuBu4DPifrxB/HOOZRdO1
+	xb065wIqst9K32LE2zIFvIgvo3yv5lHodsQ9WEQeJOnQ4UcFBj18pN027eK8euOR
+	PtcZaxUi42xyTMd+sbBNtRmY12wtqYj80lCZcTZsq6sg8WYonLY5xmdrshZ5C44/
+	jXjWmEhQ68ThFXZ/SV/69f9njMopwi7kUxCVm+NBkbrrBCIP7mBID23rgx/hkVub
+	HQT4TO9CRtSmC/0UwEYJhKoIxPA5B3sXRdQjC9d5SuBSM3xeOdM9GqWhROqUG5n+
+	6gfH5c9KmTWNqq/meniN7YOfy58761x7eNGJpjVNO+ni0u9AywZLJQEUQ==
+X-ME-Sender: <xms:h14lZP2P6-1WML0tnHU0HdMdtZK3G6AdboBJze6kLEnEZTHVfufW-A>
+    <xme:h14lZOG421saOUxl3VTrr1QErXRPxmod2xdJenKYhBULtUD7d6J8ovO92D02wTAv1
+    7ZDE3mwId6_yOeP8ic>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehkedgvddvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:h14lZP41dAmtiVu4ty1E8BBZ-9reNxwryxuQCN8Se8vdMAwQTZcBkg>
+    <xmx:h14lZE2dCL5QmCe3baeT7FUMFxbuJwcm88C-9hfhLub0UJvmYVxYPg>
+    <xmx:h14lZCHsPaycpm9MVz5soXkltYLZMmnIjjAwPs6W0AlziFmXAZIfJA>
+    <xmx:iV4lZI76poFBm_RbGrZvSm-s7BW_iB7cNPqH9WgtDueAW0AKJy54Lg>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 423AFB60086; Thu, 30 Mar 2023 06:03:51 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-238-g746678b8b6-fm-20230329.001-g746678b8
+Mime-Version: 1.0
+Message-Id: <6a5bd3a3-87e0-4a24-89ca-d265b0817a95@app.fastmail.com>
+In-Reply-To: <d7f36a28-0cae-a035-791b-363754aefeee@linaro.org>
+References: <20230327121317.4081816-1-arnd@kernel.org>
+ <20230327121317.4081816-19-arnd@kernel.org>
+ <d7f36a28-0cae-a035-791b-363754aefeee@linaro.org>
+Date: Thu, 30 Mar 2023 12:03:16 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Arnd Bergmann" <arnd@kernel.org>, linux-kernel@vger.kernel.org
+Cc: "Vineet Gupta" <vgupta@kernel.org>,
+ "Russell King" <linux@armlinux.org.uk>,
+ "Linus Walleij" <linus.walleij@linaro.org>,
+ "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Will Deacon" <will@kernel.org>, guoren <guoren@kernel.org>,
+ "Brian Cain" <bcain@quicinc.com>,
+ "Geert Uytterhoeven" <geert@linux-m68k.org>,
+ "Michal Simek" <monstr@monstr.eu>,
+ "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+ "Dinh Nguyen" <dinguyen@kernel.org>, "Stafford Horne" <shorne@gmail.com>,
+ "Helge Deller" <deller@gmx.de>, "Michael Ellerman" <mpe@ellerman.id.au>,
+ "Christophe Leroy" <christophe.leroy@csgroup.eu>,
+ "Paul Walmsley" <paul.walmsley@sifive.com>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>, "Rich Felker" <dalias@libc.org>,
+ "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Max Filippov" <jcmvbkbc@gmail.com>, "Christoph Hellwig" <hch@lst.de>,
+ "Robin Murphy" <robin.murphy@arm.com>, "Lad,
+ Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "Conor.Dooley" <conor.dooley@microchip.com>,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ "linux-oxnas@groups.io" <linux-oxnas@groups.io>,
+ "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
+ linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org,
+ "linux-openrisc@vger.kernel.org" <linux-openrisc@vger.kernel.org>,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+ "Daniel Golle" <daniel@makrotopia.org>
 Subject: Re: [PATCH 18/21] ARM: drop SMP support for ARM11MPCore
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
-	Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>, Brian Cain <bcain@quicinc.com>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Michal Simek <monstr@monstr.eu>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Dinh Nguyen <dinguyen@kernel.org>, 
-	Stafford Horne <shorne@gmail.com>, Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Rich Felker <dalias@libc.org>, 
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, "David S. Miller" <davem@davemloft.net>, 
-	Max Filippov <jcmvbkbc@gmail.com>, Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Conor Dooley <conor.dooley@microchip.com>, linux-snps-arc@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-oxnas@groups.io, 
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
-	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-xtensa@linux-xtensa.org, Daniel Golle <daniel@makrotopia.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230330_011213_021858_797999DD 
-X-CRM114-Status: GOOD (  25.61  )
+X-CRM114-CacheID: sfid-20230330_030359_221671_7C58E8D5 
+X-CRM114-Status: GOOD (  19.29  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,49 +129,61 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-T24gTW9uLCBNYXIgMjcsIDIwMjMgYXQgMjoxNuKAr1BNIEFybmQgQmVyZ21hbm4gPGFybmRAa2Vy
-bmVsLm9yZz4gd3JvdGU6Cgo+IEZyb206IEFybmQgQmVyZ21hbm4gPGFybmRAYXJuZGIuZGU+Cj4K
-PiBUaGUgY2FjaGUgbWFuYWdlbWVudCBvcGVyYXRpb25zIGZvciBub25jb2hlcmVudCBETUEgb24g
-QVJNdjYgd29yawo+IGluIHR3byBkaWZmZXJlbnQgd2F5czoKPgo+ICAqIFdoZW4gQ09ORklHX0RN
-QV9DQUNIRV9SV0ZPIGlzIHNldCwgc3BlY3VsYXRpdmUgcHJlZmV0Y2hlcyBvbiBpbi1mbGlnaHQK
-PiAgICBETUEgYnVmZmVycyBsZWFkIHRvIGRhdGEgY29ycnVwdGlvbiB3aGVuIHRoZSBwcmVmZXRj
-aGVkIGRhdGEgaXMgd3JpdHRlbgo+ICAgIGJhY2sgb24gdG9wIG9mIGRhdGEgZnJvbSB0aGUgZGV2
-aWNlLgo+Cj4gICogV2hlbiBDT05GSUdfRE1BX0NBQ0hFX1JXRk8gaXMgZGlzYWJsZWQsIGEgY2Fj
-aGUgZmx1c2ggb24gb25lIENQVQo+ICAgIGlzIG5vdCBzZWVuIGJ5IHRoZSBvdGhlciBjb3JlKHMp
-LCBsZWFkaW5nIHRvIGluY29uc2lzdGVudCBjb250ZW50cwo+ICAgIGFjY3Jvc3MgdGhlIHN5c3Rl
-bS4KPgo+IEFzIGEgY29uc2VxdWVuY2UsIG5laXRoZXIgY29uZmlndXJhdGlvbiBpcyBhY3R1YWxs
-eSBzYWZlIHRvIHVzZSBpbiBhCj4gZ2VuZXJhbC1wdXJwb3NlIGtlcm5lbCB0aGF0IGlzIHVzZWQg
-b24gYm90aCBNUENvcmUgc3lzdGVtcyBhbmQgQVJNMTE3Ngo+IHdpdGggcHJlZmV0Y2hpbmcgZW5h
-YmxlZC4KPgo+IFdlIGNvdWxkIGFkZCBmdXJ0aGVyIHdvcmthcm91bmRzIHRvIG1ha2UgdGhlIGJl
-aGF2aW9yIG1vcmUgZHluYW1pYyBiYXNlZAo+IG9uIHRoZSBzeXN0ZW0sIGJ1dCByZWFsaXN0aWNh
-bGx5LCB0aGVyZSBhcmUgY2xvc2UgdG8gemVybyByZW1haW5pbmcKPiB1c2VycyBvbiBhbnkgQVJN
-MTFNUENvcmUgYW55d2F5LCBhbmQgbm9ib2R5IHNlZW1zIHRvbyBpbnRlcmVzdGVkIGluIGl0LAo+
-IGNvbXBhcmVkIHRvIHRoZSBtb3JlIHBvcHVsYXIgQVJNMTE3NiB1c2VkIGluIEJNQzI4MzUgYW5k
-IEFTVDI1MDAuCj4KPiBUaGUgT3huYXMgcGxhdGZvcm0gaGFzIHNvbWUgbWluaW1hbCBzdXBwb3J0
-IGluIE9wZW5XUlQsIGJ1dCBtb3N0IG9mIHRoZQo+IGRyaXZlcnMgYW5kIGR0cyBmaWxlcyBuZXZl
-ciBtYWRlIGl0IGludG8gdGhlIG1haW5saW5lIGtlcm5lbCwgd2hpbGUgdGhlCj4gQXJtIFZlcnNh
-dGlsZS9SZWFsdmlldyBwbGF0Zm9ybSBtYWlubHkgc2VydmVzIGFzIGEgcmVmZXJlbmNlIHN5c3Rl
-bSBidXQKPiBpcyBub3QgbmVjZXNzYXJ5IHRvIGJlIGtlcHQgd29ya2luZyBvbmNlIGFsbCBvdGhl
-ciBBUk0xMU1QQ29yZSBhcmUgZ29uZS4KPgo+IFRha2UgdGhlIGVhc3kgd2F5IG91dCBoZXJlIGFu
-ZCBkcm9wIHN1cHBvcnQgZm9yIG11bHRpcHJvY2Vzc2luZyBvbgo+IEFSTXY2LCBhbG9uZyB3aXRo
-IHRoZSBDT05GSUdfRE1BX0NBQ0hFX1JXRk8gb3B0aW9uIGFuZCB0aGUgY2FjaGUKPiBtYW5hZ2Vt
-ZW50IGltcGxlbWVudGF0aW9uIGZvciBpdC4gVGhpcyBhbHNvIGhlbHBzIHdpdGggb3RoZXIgQVJN
-djYKPiBpc3N1ZXMsIGJ1dCBmb3IgdGhlIG1vbWVudCBsZWF2ZXMgdGhlIGFiaWxpdHkgdG8gYnVp
-bGQgYSBrZXJuZWwgdGhhdAo+IGNhbiBydW4gb24gYm90aCBBUk12NyBTTVAgYW5kIHNpbmdsZS1w
-cm9jZXNzb3IgQVJNdjYsIHdoaWNoIHdlIHByb2JhYmx5Cj4gd2FudCB0byBzdG9wIHN1cHBvcnRp
-bmcgYXMgd2VsbCwgYnV0IG5vdCBhcyBwYXJ0IG9mIHRoaXMgc2VyaWVzLgo+Cj4gQ2M6IE5laWwg
-QXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPgo+IENjOiBEYW5pZWwgR29sbGUg
-PGRhbmllbEBtYWtyb3RvcGlhLm9yZz4KPiBDYzogTGludXMgV2FsbGVpaiA8bGludXMud2FsbGVp
-akBsaW5hcm8ub3JnPgo+IENjOiBsaW51eC1veG5hc0Bncm91cHMuaW8KPiBTaWduZWQtb2ZmLWJ5
-OiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPgoKWWVhaCwgd2UgZGlzY3Vzc2VkIHRoaXMg
-ZWFybGllciwgbGV0J3MganVzdCBkcm9wIGl0LiBOb3Qgd29ydGggdGhlIGVmZm9ydC4KQWNrZWQt
-Ynk6IExpbnVzIFdhbGxlaWogPGxpbnVzLndhbGxlaWpAbGluYXJvLm9yZz4KCllvdXJzLApMaW51
-cyBXYWxsZWlqCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFk
-ZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4
-LXNucHMtYXJjCg==
+On Thu, Mar 30, 2023, at 09:48, Neil Armstrong wrote:
+> On 27/03/2023 14:13, Arnd Bergmann wrote:
+>> From: Arnd Bergmann <arnd@arndb.de>
+>> 
+>> The cache management operations for noncoherent DMA on ARMv6 work
+>> in two different ways:
+>> 
+>>   * When CONFIG_DMA_CACHE_RWFO is set, speculative prefetches on in-flight
+>>     DMA buffers lead to data corruption when the prefetched data is written
+>>     back on top of data from the device.
+>> 
+>>   * When CONFIG_DMA_CACHE_RWFO is disabled, a cache flush on one CPU
+>>     is not seen by the other core(s), leading to inconsistent contents
+>>     accross the system.
+>> 
+>> As a consequence, neither configuration is actually safe to use in a
+>> general-purpose kernel that is used on both MPCore systems and ARM1176
+>> with prefetching enabled.
+>> 
+>> We could add further workarounds to make the behavior more dynamic based
+>> on the system, but realistically, there are close to zero remaining
+>> users on any ARM11MPCore anyway, and nobody seems too interested in it,
+>> compared to the more popular ARM1176 used in BMC2835 and AST2500.
+>> 
+>> The Oxnas platform has some minimal support in OpenWRT, but most of the
+>> drivers and dts files never made it into the mainline kernel, while the
+>> Arm Versatile/Realview platform mainly serves as a reference system but
+>> is not necessary to be kept working once all other ARM11MPCore are gone.
+>
+> Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+>
+> It's sad but it's the reality, there's no chance full OXNAS support will
+> ever come upstream and no real work has been done for years.
+>
+> I think OXNAS support can be programmed for removal for next release,
+> it would need significant work to rework current support to make it acceptable
+> before trying to upstream missing bits anyway.
+
+Ok, thanks for your reply!
+
+To clarify, do you think we should plan for removal after the next
+stable release (6.3, removed in 6.4), or after the next LTS
+release (probably 6.6, removed in 6.7)? As far as I understand,
+the next OpenWRT release (23.x) will be based on linux-5.15,
+and the one after that (24.x) would likely still use 6.1, unless
+they skip an LTS kernel.
+
+     Arnd
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
