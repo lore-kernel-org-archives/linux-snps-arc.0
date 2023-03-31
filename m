@@ -4,79 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D708C761A6
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 31 Mar 2023 15:13:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC808C761A6
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 31 Mar 2023 15:55:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=bI9PjXNSrpAOUTCGq7r1WfKIaLX8cCITSSDH6pWUtYg=; b=KpHvQCEK4XI3Z+
-	XoM42rkz6OCz74blT7CJWIwQW2iuiGWKRhOuT3XmJ0mTb0SsvbpOpXInR8gWydfGzCrlWStlpgWT3
-	STvgIehqaGDiB/XTIa/ZAWSBTFcR3rQmp0AqVWQVm3LGLWBe6AiPJDR+QJ9XU/7TR8Cl6aqptM1Qb
-	CC6m5a1p4+nqVBZWdR0/n16GQRTjPtFdBOf5M8YFT0KaDkr0hp/sJiCk/eOz4Z2Bbf7j2s4hReWsi
-	HxPwIlT32l1ug7AFR40+nfB+sAY2sCJR9+Vdx76/cjcJKOF55uiIU1GKpu/qPh/eGJMNwc1FoQdgS
-	Exm4uHwLfDQwE1SaRmbw==;
+	List-Owner; bh=H3udgr6ea/3uldVHUrVVhdU2eblu1pgKjIwOfMvslJ4=; b=nKBLCOAB44+j0H
+	pmgcgUVxZ9PNgjjId8DjYB9Oiu+fhEoSEjA3A53sW0Fy09nvlqi+d0gXqtiV554Is/JXughS+/pmN
+	w+26uxcqTMncsUE84aORrUW0dN+B9tZcICJs0SE+6jfkY5OUTOhCctJNgDexATPul5ba4VPeMemmk
+	V9Ck3Sf8QcF6hWHimtRC5xZZDeve+qNRNYP9GyvWQHbb523o4w+mvLezw6knsxlRQARVECTBqf84K
+	hxyPj52eYE565hl8e/DLNJfhhab42T85qQeOyFwsFOgQE+GpciW+Jemyplltjvu+yAVln2U8ZiAZV
+	Fz/NhD4+0ohbRcQQx+Cg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1piGR1-007s4a-2K;
-	Fri, 31 Mar 2023 15:12:59 +0000
-Received: from foss.arm.com ([217.140.110.172])
-	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1piGQv-007s1D-2G;
-	Fri, 31 Mar 2023 15:12:55 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C21D02F4;
-	Fri, 31 Mar 2023 08:13:33 -0700 (PDT)
-Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7E8D83F6C4;
-	Fri, 31 Mar 2023 08:12:37 -0700 (PDT)
-Message-ID: <cc3a78b6-b126-226f-b41a-061716aacd15@arm.com>
-Date: Fri, 31 Mar 2023 16:12:32 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
+	id 1piH63-007zAF-2k;
+	Fri, 31 Mar 2023 15:55:23 +0000
+Received: from pandora.armlinux.org.uk ([2001:4d48:ad52:32c8:5054:ff:fe00:142])
+	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
+	id 1piH60-007z8w-16;
+	Fri, 31 Mar 2023 15:55:22 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=gUELt2K1QKph0U/mDlh4dwcj3jRy49Fgp81dawItijs=; b=F86J/lODgmEA0uwbHcY3bvQDIg
+	TgPZqAN80ItsKKu+iPQcuv/pts9DIvFXJeSEZcyq0SOfARV88djehGMYXJuDHo94xmNoUdc8so8TQ
+	lO3DlUKNl0JE1n5lC4OQRNQJ3a+9RGNNtr5VJSUX9rNMXskzfjoEtNIzNUj9gswxqSmuoQ2K/eCd1
+	sHbsLGLpmn7B5oFOttF1NlFGM73bvkK8EdPHfxwwzdfF3QwqoSTJnWaOA3vfMNEshnYYvIU/akmQr
+	wtBcESnlgj18abmkEesn3hmvJxyBrWubIThmP6qLXHE/lCCqgaePhuHTPqwc712P40mYINjGZoZVl
+	F0iXSnJA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:60182)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1piH5K-0005f8-U5; Fri, 31 Mar 2023 16:54:38 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1piH5B-0001I3-3X; Fri, 31 Mar 2023 16:54:29 +0100
+Date: Fri, 31 Mar 2023 16:54:29 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Arnd Bergmann <arnd@kernel.org>, linux-kernel@vger.kernel.org,
+	Vineet Gupta <vgupta@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, guoren <guoren@kernel.org>,
+	Brian Cain <bcain@quicinc.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Michal Simek <monstr@monstr.eu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Stafford Horne <shorne@gmail.com>, Helge Deller <deller@gmx.de>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	"David S . Miller" <davem@davemloft.net>,
+	Max Filippov <jcmvbkbc@gmail.com>, Christoph Hellwig <hch@lst.de>,
+	Robin Murphy <robin.murphy@arm.com>,
+	"Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	"Conor.Dooley" <conor.dooley@microchip.com>,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	"linux-oxnas@groups.io" <linux-oxnas@groups.io>,
+	"linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
+	linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org,
+	"linux-openrisc@vger.kernel.org" <linux-openrisc@vger.kernel.org>,
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org
 Subject: Re: [PATCH 20/21] ARM: dma-mapping: split out arch_dma_mark_clean()
  helper
-To: Arnd Bergmann <arnd@arndb.de>, Arnd Bergmann <arnd@kernel.org>,
- linux-kernel@vger.kernel.org
-Cc: Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- guoren <guoren@kernel.org>, Brian Cain <bcain@quicinc.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Michal Simek <monstr@monstr.eu>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Dinh Nguyen <dinguyen@kernel.org>, Stafford Horne <shorne@gmail.com>,
- Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Rich Felker <dalias@libc.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- "David S . Miller" <davem@davemloft.net>, Max Filippov <jcmvbkbc@gmail.com>,
- Christoph Hellwig <hch@lst.de>,
- "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "Conor.Dooley" <conor.dooley@microchip.com>,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- "linux-oxnas@groups.io" <linux-oxnas@groups.io>,
- "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
- linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org,
- "linux-openrisc@vger.kernel.org" <linux-openrisc@vger.kernel.org>,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org
+Message-ID: <ZCcCNXyb9TZvA8wD@shell.armlinux.org.uk>
 References: <20230327121317.4081816-1-arnd@kernel.org>
  <20230327121317.4081816-21-arnd@kernel.org>
- <cb9367fb-0897-244d-15b6-fdfafde2a1c0@arm.com>
- <df6340c8-6ac2-4459-a9e5-c411020962d6@app.fastmail.com>
-Content-Language: en-GB
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <df6340c8-6ac2-4459-a9e5-c411020962d6@app.fastmail.com>
+ <ZCGv18wnEtoFvtfM@shell.armlinux.org.uk>
+ <1be05746-9deb-49cb-b106-71b2db8318cd@app.fastmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1be05746-9deb-49cb-b106-71b2db8318cd@app.fastmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230331_081253_834848_395F53CC 
-X-CRM114-Status: GOOD (  26.12  )
+X-CRM114-CacheID: sfid-20230331_085520_384406_49B6CEC6 
+X-CRM114-Status: GOOD (  28.69  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,76 +105,82 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 31/03/2023 3:00 pm, Arnd Bergmann wrote:
-> On Mon, Mar 27, 2023, at 14:48, Robin Murphy wrote:
->> On 2023-03-27 13:13, Arnd Bergmann wrote:
->>>
->>> [ HELP NEEDED: can anyone confirm that it is a correct assumption
->>>     on arm that a cache-coherent device writing to a page always results
->>>     in it being in a PG_dcache_clean state like on ia64, or can a device
->>>     write directly into the dcache?]
->>
->> In AMBA at least, if a snooping write hits in a cache then the data is
->> most likely going to get routed directly into that cache. If it has
->> write-back write-allocate attributes it could also land in any cache
->> along its normal path to RAM; it wouldn't have to go all the way.
->>
->> Hence all the fun we have where treating a coherent device as
->> non-coherent can still be almost as broken as the other way round :)
+On Fri, Mar 31, 2023 at 04:06:37PM +0200, Arnd Bergmann wrote:
+> On Mon, Mar 27, 2023, at 17:01, Russell King (Oracle) wrote:
+> > On Mon, Mar 27, 2023 at 02:13:16PM +0200, Arnd Bergmann wrote:
+> >> From: Arnd Bergmann <arnd@arndb.de>
+> >> 
+> >> The arm version of the arch_sync_dma_for_cpu() function annotates pages as
+> >> PG_dcache_clean after a DMA, but no other architecture does this here.
+> >
+> > ... because this is an arm32 specific feature. Generically, it's
+> > PG_arch_1, which is a page flag free for architecture use. On arm32
+> > we decided to use this to mark whether we can skip dcache writebacks
+> > when establishing a PTE - and thus it was decided to call it
+> > PG_dcache_clean to reflect how arm32 decided to use that bit.
+> >
+> > This isn't just a DMA thing, there are other places that we update
+> > the bit, such as flush_dcache_page() and copy_user_highpage().
+> >
+> > So thinking that the arm32 PG_dcache_clean is something for DMA is
+> > actually wrong.
+> >
+> > Other architectures are free to do their own other optimisations
+> > using that bit, and their implementations may be DMA-centric.
 > 
-> Ok, thanks for the information. I'm still not sure whether this can
-> result in the situation where PG_dcache_clean is wrong though.
+> The flag is used the same way on most architectures, though some
+> use the opposite polarity and call it PG_dcache_dirty. The only
+> other architecture that uses it for DMA is ia64, with the difference
+> being that this also marks the page as clean even for coherent
+> DMA, not just when doing a flush as part of noncoherent DMA.
 > 
-> Specifically, the question is whether a DMA to a coherent buffer
-> can end up in a dirty L1 dcache of one core and require to write
-> back the dcache before invalidating the icache for that page.
-> 
-> On ia64, this is not the case, the optimization here is to
-> only flush the icache after a coherent DMA into an executable
-> user page, while Arm only does this for noncoherent DMA but not
-> coherent DMA.
-> 
->  From your explanation it sounds like this might happen,
-> even though that would mean that "coherent" DMA is slightly
-> less coherent than it is elsewhere.
-> 
-> To be on the safe side, I'd have to pass a flag into
-> arch_dma_mark_clean() about coherency, to let the arm
-> implementation still require the extra dcache flush
-> for coherent DMA, while ia64 can ignore that flag.
+> Based on Robin's reply it sounds that this is not a valid assumption
+> on Arm, if a coherent DMA can target a dirty dcache line without
+> cleaning it.
 
-Coherent DMA on Arm is assumed to be inner-shareable, so a coherent DMA 
-write should be pretty much equivalent to a coherent write by another 
-CPU (or indeed the local CPU itself) - nothing says that it *couldn't* 
-dirty a line in a data cache above the level of unification, so in 
-general the assumption must be that, yes, if coherent DMA is writing 
-data intended to be executable, then it's going to want a Dcache clean 
-to PoU and an Icache invalidate to PoU before trying to execute it. By 
-comparison, a non-coherent DMA transfer will inherently have to 
-invalidate the Dcache all the way to PoC in its dma_unmap, thus cannot 
-leave dirty data above the PoU, so only the Icache maintenance is 
-required in the executable case.
+The other thing to note here is that PG_dcache_clean doesn't have
+much meaning on modern CPUs with PIPT caches. For these,
+cache_is_vipt_nonaliasing() will be true, and
+cache_ops_need_broadcast() will be false.
 
-(FWIW I believe the Armv8 IDC/DIC features can safely be considered 
-irrelevant to 32-bit kernels)
+Firstly, if we're using coherent DMA, then PG_dcache_clean is
+intentionally not touched, because the data cache isn't cleaned
+in any way by DMA operations.
 
-I don't know a great deal about IA-64, but it appears to be using its 
-PG_arch_1 flag in a subtly different manner to Arm, namely to optimise 
-out the *Icache* maintenance. So if anything, it seems IA-64 is the 
-weirdo here (who'd have guessed?) where DMA manages to be *more* 
-coherent than the CPUs themselves :)
+flush_dcache_page() turns into a no-op apart from clearing
+PG_dcache_clean if it was set.
 
-This is all now making me think we need some careful consideration of 
-whether the benefits of consolidating code outweigh the confusion of 
-conflating multiple different meanings of "clean" together...
+__sync_icache_dcache() will do nothing for non-executable pages,
+but will write-back a page that isn't marked PG_dcache_clean to
+ensure that it is visible to the instruction stream. This is only
+used to ensure that a the instructions are visible to a newly
+established executable mapping when e.g. the page has been DMA'd
+in. The default state of PG_dcache_clean is zero on any new
+allocation, so this has the effect of causing any executable page
+to be flushed such that the instruction stream can see the
+instructions, but only for the first establishment of the mapping.
+That means that e.g. libc text pages don't keep getting flushed on
+the start of every program.
 
-Thanks,
-Robin.
+update_mmu_cache() isn't compiled, so it's use of PG_dcache_clean
+is irrelevant.
+
+v6_copy_user_highpage_aliasing() won't be called because we're not
+using an aliasing cache.
+
+So, for modern ARM systems with DMA-coherent PG_dcache_clean only
+serves for the __sync_icache_dcache() optimisation.
+
+ARMs use of this remains valid in this circumstance.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
 _______________________________________________
 linux-snps-arc mailing list
