@@ -4,97 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 514F3C761AF
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 31 Mar 2023 11:02:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BEF2DC76196
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 31 Mar 2023 11:09:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=mrNpPPHWZen6cMzoj9FRkSyYb39LUH/h+Tj43rcfMi0=; b=CpjV4lZ5gcbeLM
-	oNKCoeibqKqUsal5vakI0OfIxvVvlri496xIT2d8089PGiXXJZuAgzGFqg+p2EjcxrRqqH2eW2PBS
-	ylf38BqrrVzu749cI3h+pdkHM8LxC4SrTk5hbnnEBtC719TmAYIcPsSTm7xYgxaGv9LXJhFiy5iZ0
-	+NhIqqwE9+lu1TRTuxgM8hz4mtWqdDiS2CMsPWyMffjoK+c7WZ9HtrYTGamU85NBEKYiszJiTXP10
-	7CfhwkeC0he8kgYnaVscPjSPbKczXPFYFAYLQmKheTaziLTuI4ewf83mHMmA+mmAfMWNxdklfRd/D
-	f+cZWpQl9JuC2EyGnOKg==;
+	List-Owner; bh=H4HOsz7KHhOAZ4blf3zOFs/GLgLFbnh438ewWE8qvRo=; b=1NnWVNk2d+R3+1
+	LKRPmncNmzBJ8MdNR25cFfE4LenFe5u/7r8gcsEaAb9xX3AJ5NUB0UjlfQndHSVBpOuB8qkq/+ziZ
+	/BB92/5fYqzXGsfoQlMcNtDfQjnkFI0rKurx5jjnW+Ri7F1LzyRSKAdrLQlVrXcC8O6F0lh+AgoHj
+	PBbq4vXBHA7mvO75G8vRcl634X/8S+C+0xeCHxDJINcLl0rm8IkeZq2iAN3CArmD2d0RcLjrkezd6
+	d9jrFYIJPijQ+1P+6B216bXwpHpA5g17T1aoG1mn/UKb5/LeDFDIz+gy2oXc0BUKiVOLzKP3oeLm2
+	hL59rJ5FmMKZrmighenQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1piCWP-0072Fl-15;
-	Fri, 31 Mar 2023 11:02:17 +0000
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151])
+	id 1piCct-0074T3-1b;
+	Fri, 31 Mar 2023 11:08:59 +0000
+Received: from pandora.armlinux.org.uk ([2001:4d48:ad52:32c8:5054:ff:fe00:142])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1piCWM-0072C6-0d
-	for linux-snps-arc@lists.infradead.org;
-	Fri, 31 Mar 2023 11:02:15 +0000
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-61-KKeVLz0_Nn2s0KMUR0InMw-1; Fri, 31 Mar 2023 12:02:05 +0100
-X-MC-Unique: KKeVLz0_Nn2s0KMUR0InMw-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Fri, 31 Mar
- 2023 12:01:54 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Fri, 31 Mar 2023 12:01:54 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Arnd Bergmann' <arnd@arndb.de>, Russell King <linux@armlinux.org.uk>,
-	Arnd Bergmann <arnd@kernel.org>
-CC: Rich Felker <dalias@libc.org>, "linux-sh@vger.kernel.org"
-	<linux-sh@vger.kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, "Linus
- Walleij" <linus.walleij@linaro.org>, John Paul Adrian Glaubitz
-	<glaubitz@physik.fu-berlin.de>, "linux-mips@vger.kernel.org"
-	<linux-mips@vger.kernel.org>, Max Filippov <jcmvbkbc@gmail.com>, Conor.Dooley
-	<conor.dooley@microchip.com>, guoren <guoren@kernel.org>,
+	id 1piCcq-0074RJ-0S;
+	Fri, 31 Mar 2023 11:08:58 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=FP8lga4DIdHpNC0kamUnt9iIXQ9vJ47gtBSwTDmI4Fo=; b=PPtcwauT+B3dG8oaJ+oVdcoVVI
+	Axs1VUpRIhHVBk9kjzqXMf0BxMrU5nUcHd9wiJiPpSiyvB4EBHKxgx0LwGEdU3MHUbLiQvurk3Ir2
+	jHUABX6iK7+/X6xdVRn0mIdNwpBVhvETlCEgtUG2TQNB9WaBH9+FoZ9lEESLeT40IgtxFK61dNkqh
+	CGuhr72PZEeuC1v0GBxu1Vb+6ktcbsiZbA0C7dSMDpKGCtFWqsJdkm95qZx845fdHVPwOaRMNoKh5
+	ts0jTf0R1kbKjCH8KJbtEBZ48A8fhDIK9vhNHV11ebVTkEld3z53CFg/6yoghmin0tW1vUHWWnjoW
+	uxWmZ3Uw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:42490)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1piCcE-0004q2-Uz; Fri, 31 Mar 2023 12:08:18 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1piCc2-00015p-1q; Fri, 31 Mar 2023 12:08:06 +0100
+Date: Fri, 31 Mar 2023 12:08:06 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Arnd Bergmann <arnd@kernel.org>, linux-kernel@vger.kernel.org,
+	Vineet Gupta <vgupta@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, guoren <guoren@kernel.org>,
+	Brian Cain <bcain@quicinc.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Michal Simek <monstr@monstr.eu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Stafford Horne <shorne@gmail.com>, Helge Deller <deller@gmx.de>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	"David S . Miller" <davem@davemloft.net>,
+	Max Filippov <jcmvbkbc@gmail.com>, Christoph Hellwig <hch@lst.de>,
+	Robin Murphy <robin.murphy@arm.com>,
+	"Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	"Conor.Dooley" <conor.dooley@microchip.com>,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	"linux-oxnas@groups.io" <linux-oxnas@groups.io>,
 	"linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
-	"sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, "Will
- Deacon" <will@kernel.org>, Christoph Hellwig <hch@lst.de>, Helge Deller
-	<deller@gmx.de>, Geert Uytterhoeven <geert@linux-m68k.org>, Vineet Gupta
-	<vgupta@kernel.org>, "linux-snps-arc@lists.infradead.org"
-	<linux-snps-arc@lists.infradead.org>, "linux-xtensa@linux-xtensa.org"
-	<linux-xtensa@linux-xtensa.org>, Brian Cain <bcain@quicinc.com>, "Lad,
- Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>, "Paul
- Walmsley" <paul.walmsley@sifive.com>, Stafford Horne <shorne@gmail.com>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, Neil Armstrong
-	<neil.armstrong@linaro.org>, Michal Simek <monstr@monstr.eu>, "Thomas
- Bogendoerfer" <tsbogend@alpha.franken.de>, "linux-parisc@vger.kernel.org"
-	<linux-parisc@vger.kernel.org>, "linux-openrisc@vger.kernel.org"
-	<linux-openrisc@vger.kernel.org>, "linuxppc-dev@lists.ozlabs.org"
-	<linuxppc-dev@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, Dinh Nguyen <dinguyen@kernel.org>, "Palmer
- Dabbelt" <palmer@dabbelt.com>, "linux-hexagon@vger.kernel.org"
-	<linux-hexagon@vger.kernel.org>, "linux-oxnas@groups.io"
-	<linux-oxnas@groups.io>, Robin Murphy <robin.murphy@arm.com>, "David S .
- Miller" <davem@davemloft.net>
-Subject: RE: [PATCH 15/21] ARM: dma-mapping: always invalidate WT caches
+	linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org,
+	"linux-openrisc@vger.kernel.org" <linux-openrisc@vger.kernel.org>,
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org
+Subject: Re: [PATCH 15/21] ARM: dma-mapping: always invalidate WT caches
  before DMA
-Thread-Topic: [PATCH 15/21] ARM: dma-mapping: always invalidate WT caches
- before DMA
-Thread-Index: AQHZY70jODQmP+MmIk+VbheoRzXsQa8Ut5Vg
-Date: Fri, 31 Mar 2023 11:01:54 +0000
-Message-ID: <a5f226ee509b4968a4c85784aedbedf4@AcuMS.aculab.com>
+Message-ID: <ZCa/FlTVT/GSl1af@shell.armlinux.org.uk>
 References: <20230327121317.4081816-1-arnd@kernel.org>
  <20230327121317.4081816-16-arnd@kernel.org>
  <ZCai0FmZiOqsMkzc@shell.armlinux.org.uk>
  <ZCapXlrqMOpRxkSu@shell.armlinux.org.uk>
  <a8a90181-a003-47a1-8257-fcbf55752249@app.fastmail.com>
-In-Reply-To: <a8a90181-a003-47a1-8257-fcbf55752249@app.fastmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <a8a90181-a003-47a1-8257-fcbf55752249@app.fastmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230331_040214_590556_1D9CDDC3 
-X-CRM114-Status: UNSURE (   9.53  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230331_040856_176559_3DFBAB3F 
+X-CRM114-Status: GOOD (  34.73  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,31 +111,99 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Arnd Bergmann
-> Sent: 31 March 2023 11:39
-...
-> Most architectures that have write-through caches (m68k,
-> microblaze) or write-back caches but no speculation (all other
-> armv4/armv5, hexagon, openrisc, sh, most mips, later xtensa)
-> only invalidate before DMA but not after.
+On Fri, Mar 31, 2023 at 12:38:45PM +0200, Arnd Bergmann wrote:
+> On Fri, Mar 31, 2023, at 11:35, Russell King (Oracle) wrote:
+> > On Fri, Mar 31, 2023 at 10:07:28AM +0100, Russell King (Oracle) wrote:
+> >> On Mon, Mar 27, 2023 at 02:13:11PM +0200, Arnd Bergmann wrote:
+> >> > From: Arnd Bergmann <arnd@arndb.de>
+> >> > 
+> >> > Most ARM CPUs can have write-back caches and that require
+> >> > cache management to be done in the dma_sync_*_for_device()
+> >> > operation. This is typically done in both writeback and
+> >> > writethrough mode.
+> >> > 
+> >> > The cache-v4.S (arm720/740/7tdmi/9tdmi) and cache-v4wt.S
+> >> > (arm920t, arm940t) implementations are the exception here,
+> >> > and only do the cache management after the DMA is complete,
+> >> > in the dma_sync_*_for_cpu() operation.
+> >> > 
+> >> > Change this for consistency with the other platforms. This
+> >> > should have no user visible effect.
+> >> 
+> >> NAK...
+> >> 
+> >> The reason we do cache management _after_ is to ensure that there
+> >> is no stale data. The kernel _has_ (at the very least in the past)
+> >> performed DMA to data structures that are embedded within other
+> >> data structures, resulting in cache lines being shared. If one of
+> >> those cache lines is touched while DMA is progressing, then we
+> >> must to cache management _after_ the DMA operation has completed.
+> >> Doing it before is no good.
 > 
+> What I'm trying to address here is the inconsistency between
+> implementations. If we decide that we always want to invalidate
+> after FROM_DEVICE, I can do that as part of the series, but then
+> I have to change most of the other arm implementations.
+
+Why?
+
+First thing to say is that DMA to buffers where the cache lines are
+shared with data the CPU may be accessing need to be outlawed - they
+are a recipe for data corruption - always have been. Sadly, some folk
+don't see it that way because of a passed "x86 just works and we demand
+that all architectures behave like x86!" attitude. The SCSI sense
+buffer has historically been a big culpret for that.
+
+
+For WT, FROM_DEVICE, invalidating after DMA is the right thing to do,
+because we want to ensure that the DMA'd data is properly readable upon
+completion of the DMA. If overlapping cache lines have been touched
+while DMA is progressing, and we invalidate before DMA, then the cache
+will contain stale data that will remain in the cache after DMA has
+completed. Invalidating a WT cache does not destroy any data, so is
+safe to do. So the safest approach is to invalidate after DMA has
+completed in this instance.
+
+
+For WB, FROM_DEVICE, we have the problem of dirty cache lines which
+we have to get rid of. For the overlapping cache lines, we have to
+clean those before DMA begins to ensure that data written to the
+non-DMA-buffer part is preserved. All other cache lines need to be
+invalidated before DMA begins to ensure that writebacks do not
+corrupt data from the device. Hence why it's different.
+
+
+And hence why the ARM implementation is based around buffer ownership.
+And hence why they're called dma_map_area()/dma_unmap_area() rather
+than the cache operations themselves. This is an intentional change,
+one that was done when ARMv6 came along.
+
 > OTOH, most machines that are actually in use today (armv6+,
 > powerpc, later mips, microblaze, riscv, nios2) also have to
 > deal with speculative accesses, so they end up having to
 > invalidate or flush both before and after a DMA_FROM_DEVICE
 > and DMA_BIDIRECTIONAL.
 
-nios2 is a simple in-order cpu with a short pipeline
-(it is a soft-cpu made from normal fpga logic elements).
-Definitely doesn't do speculative accesses.
-OTOH any one trying to run Linux on it needs their head examined.
+Again, these are implementation details of the cache, and this is
+precisely why having the map/unmap interface is so much better than
+having generic code explicitly call "clean" and "invalidate"
+interfaces into arch code.
 
-	David
+If we treat everything as a speculative cache, then we're doing
+needless extra work for those caches that aren't speculative. So,
+ARM would have to step through every cache line for every DMA
+buffer at 32-byte intervals performing cache maintenance whether
+the cache is speculative or not. That is expensive, and hurts
+performance.
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+I put a lot of thought into this when I updated the ARM DMA
+implementation when we started seeing these different cache types
+particularly when ARMv6 came along. I really don't want that work
+wrecked.
 
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
 
 _______________________________________________
 linux-snps-arc mailing list
