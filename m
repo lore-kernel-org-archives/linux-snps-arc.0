@@ -4,60 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D7EAC77B71
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 31 Mar 2023 13:04:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78DA7C76196
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 31 Mar 2023 14:00:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Subject:Cc:To:From:Date:References:
 	In-Reply-To:Message-Id:Mime-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ULVxDfK2a1VwANF/Rr7ODnnvkosT4qe7FC/RNIXcziM=; b=oYSHsnxarFAs0e
-	poznZQZz+J4czw3dIMsJuR/5T1lyIL0L/eCJWx2zGLCA90h/3TUhxrWuYeJ+OeXQYmSoGji4I5eso
-	pR4ejlicJrRDjNQl0Bu7NdITJBheCYFouY7hXQPpcFovMBgBA1EKhY+9w9ZeNEwq5zTftkiFGjU4F
-	LI7kAqKb1iM48iWvaKcmf1LGmfbOt+7WmIm2rV/ilW+DLFBzI1dEJ66Z6Hitf65V7IvFC0LzTO6vF
-	LyuBc4pROxstGWXoz6Eao2imMX6Vh0MkRdAJNxwoCW6OVw70xRF+T42faxCnHSu22tX2Xh/fzwFKx
-	Q+eVMbWp3aFCyPTqJvxQ==;
+	List-Owner; bh=Y+SZx/1OIpQSSuLEouAFgOvEv2qc14pIe/4AdqiKVlk=; b=kjeQ/DzQJ31+Kk
+	ZYeRtWW2znEhorW3/IYmbDC8/MZL4G/vHOIiCc1J4XsmFn56JXyFFF6FVWjrxtCax4lg/hJFHuV2M
+	BvOPCIc7uGZ10FVABQ16nCkscHRlGnu3xB5ad9Wahc+66tqEcukmgVfdoo5nKjZ3hbr8UB7M+AALi
+	WOWtoXRGCFa/jMDkvd5HnFiqpwFS34BcY+YYRk+n6W26kXYKziOLF5s1B2OCNiO+i4seojI35KYFe
+	fkmR2aOzYidyS417NMfj4HqEMPFvVDkl++IDjY3KMd3H1w30N14vAcOs9mQknZeLkeY4e84/6VDbl
+	E3ANrUdV/aZ41mzvSoiw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1piER1-007TJU-0X;
-	Fri, 31 Mar 2023 13:04:51 +0000
+	id 1piFJ2-007caQ-0s;
+	Fri, 31 Mar 2023 14:00:40 +0000
 Received: from new1-smtp.messagingengine.com ([66.111.4.221])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1piEQw-007TI8-2q;
-	Fri, 31 Mar 2023 13:04:48 +0000
+	id 1piFIx-007cZB-2d;
+	Fri, 31 Mar 2023 14:00:37 +0000
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailnew.nyi.internal (Postfix) with ESMTP id BE5C8582670;
-	Fri, 31 Mar 2023 09:04:45 -0400 (EDT)
+	by mailnew.nyi.internal (Postfix) with ESMTP id 567AF58268C;
+	Fri, 31 Mar 2023 10:00:32 -0400 (EDT)
 Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Fri, 31 Mar 2023 09:04:45 -0400
+  by compute6.internal (MEProxy); Fri, 31 Mar 2023 10:00:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
 	:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm1; t=1680267885; x=1680275085; bh=Yf
-	6BPXqc5+4lmQ5wl2xtIuAGvUiY5BeudyAFy0EZ0G8=; b=uZNEHaxzYCVqJlOAFe
-	QyTGIrtKOzaG3cycJ6z13gjgQTZlhniIOf1HqwjYjO+LKgEQjawzudKts8yI8F6C
-	s8uj/7ZqVN8UGH5ZgZFIXMyd5b75HqrmeNrZ8vsEJBVSpi2J3ZWlL4UkN8mHXtQA
-	GGAWo9PRgMqmoTCuDthWrNh+w6KhXBpQbLLxMJMKAnJljfVDgqgBdZYQ1YQkl+H6
-	LZF9xoMeCYQEcBMHzHxAdJ1E4ywnG504K4JuUFuXrw0flCzwupmtajEoLwVwD19b
-	WT1JJ6Nt4Zmjo8gqjmpMMSo4dacmgE9f6vIbQ+V6NrcMdQ2gozhdVyKm6v87HBEM
-	ZV+g==
+	:subject:subject:to:to; s=fm1; t=1680271232; x=1680278432; bh=N4
+	WD590DO+hPCMhWnriCpuvGtJsGQmYQ3+9FXgeZTtc=; b=REpduR9CC3w/0FF9Iv
+	EBH9KHHpZAkRv+W9aThRognDHqxxXErt1hEf262htgmfU1y7J8I/og12pQbF1QY9
+	z/0+3+/Bf2oK+XUqQ1up2zoCUTbBItrTDBxbm/DdhVRyQkbfie0xE3OFe/uFVR+g
+	bks9fZAGQKmrcGDNEtLT86tfn4Wms5mpNyxZklg1B0YWQfy7g9hvGDntPvsCkCeJ
+	wLqLsQR9c7xNiHy3PDZ3zK2RyfRwh8d+h+Q+id4O9QFBuDiG38QiGwFwY4W/6byQ
+	pNhd/J6qIoDVk9dy/Mdw+8Tf65QdzUWqpPIiUv5wn3AR7WW2l24R3SQbLghgPyUF
+	F7gg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
 	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1680267885; x=1680275085; bh=Yf6BPXqc5+4lm
-	Q5wl2xtIuAGvUiY5BeudyAFy0EZ0G8=; b=KUzHmHuPZ/ods4YSgTzEfYrM3rPW4
-	wY1sW3YIixU8cPi3ERC0CqbsRY1SanLUJ0aZrBgOR4qWoyaz63HiFfoH3UAybnQT
-	l28FyLxSxhC8yvKK0U29T5xndO1MnAOFIprhP3Ccq4nl8DZqPNjxy1R1RtNY8tPM
-	10Qj7i/N0QTRDJZBhjBFHWgb2R8ePLqUj5cPixNs1c/I5cS8MzaXIOWn+kPofhss
-	o5aXvgsWtBzOhKzG5Xt8hpy17hyFm2BD/GRH9jCAvBdUli4r8v/AMdn17Lkc1Dnf
-	2N0OT3xREpdvfAtCeC38I5tHCQLbXD8KwEF4WisGqz7N4lPVjlEATH8EA==
-X-ME-Sender: <xms:a9omZJiVtEYr1gohWls37IVQ9CF9nCvR52uadevxUFI1_ahiwQbGsQ>
-    <xme:a9omZOBdYFlhmVUP9ZBAqzcVv6dLmbnpmpoT8ZWMWWFuha-Upa5ii3-9dUxiHVJ0i
-    DLrKcmmak_QunOyTR0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiuddgheeiucetufdoteggodetrfdotf
+	:x-sasl-enc; s=fm2; t=1680271232; x=1680278432; bh=N4WD590DO+hPC
+	MhWnriCpuvGtJsGQmYQ3+9FXgeZTtc=; b=i3D+2hFUqX2bGpzs9rCNqcr3CpE2N
+	rt7cbXlRcTHCWGo/szfA6As2ip+aj8s1suA1RYGH89iU3g1ca7fdoQJNHyYwLXNr
+	WC1WRAlkGPS93OO7BATELyF5zFYGJWHyOuPym1F/LtRkCwUjFR6xo7so3vFgV9vY
+	IVCo8mq7pf1tL4yq8LWAbqZdlON6KFVL3Sapxm6koAA4gN8G5B28UEccNxYiAtHQ
+	dvIbN7+ejsM+GITaw6ebr/XqJrMfO1ez3Qm4YcHOOMz99mIsNZvq856hdCwflb78
+	BjnKIQ+2qfc2YpkHszA6wodj1J2AgunOKqhhPHInMSpLYh9uMkriYgwXQ==
+X-ME-Sender: <xms:fecmZCPw2k0WFSiszAjxauKOayaTiHCGBi32kM44TXaFV2BHsjDyMA>
+    <xme:fecmZA_NMdzB6aDZzwfF-uMmNEuqPyfkq2LjSDyiaL-SuJ9PAODPdoOWMVJQGZfSu
+    RbTsP31nEFUHDqIAlg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiuddgieejucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
@@ -65,24 +65,26 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiuddgheeiucetufdoteggod
     htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
     teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
     hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:a9omZJGQP2SDLfTdlNtHU58KujmMjCCPjp2MYZCkx8VxOoIam26ptg>
-    <xmx:a9omZOQ_ghP1D54G9gFIpRX34_QWI9HuBF_xpFDLUfbARzYmsBB3BQ>
-    <xmx:a9omZGzQTy4b94FH_vNyNLKxzInd5lNSDOVNKdl-OYMtJ2YLHoMEew>
-    <xmx:bdomZGimMTY80mozuQ0VHFtNe8ro8DDcPyeY5KEc4gKNnNfwg49O4A>
+X-ME-Proxy: <xmx:fecmZJQhpIILzpcdD_xrCsjH7l6FjkrLtyxwa_ai5mBKaMgvipDDUw>
+    <xmx:fecmZCuwYKd2Df_H4rBh_fLvS9zA0ETUOaGqv1ZZCjcnlhkXxmP3UA>
+    <xmx:fecmZKdoWRB2Q6l5_A5sNhUbdy-jv6JeyG7Yd6afjSO5tFxo2aX65Q>
+    <xmx:gOcmZNdii8AAZvnO0o6gFFummVS7dXiShnWCiEYYWDOp-MlzOf1x5w>
 Feedback-ID: i56a14606:Fastmail
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 6B754B6008D; Fri, 31 Mar 2023 09:04:43 -0400 (EDT)
+	id 2063AB60092; Fri, 31 Mar 2023 10:00:29 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.9.0-alpha0-238-g746678b8b6-fm-20230329.001-g746678b8
 Mime-Version: 1.0
-Message-Id: <f25d74a0-9e61-44df-b4c7-f495462fa648@app.fastmail.com>
-In-Reply-To: <20230327222514.GA17904@lst.de>
+Message-Id: <df6340c8-6ac2-4459-a9e5-c411020962d6@app.fastmail.com>
+In-Reply-To: <cb9367fb-0897-244d-15b6-fdfafde2a1c0@arm.com>
 References: <20230327121317.4081816-1-arnd@kernel.org>
- <20230327121317.4081816-22-arnd@kernel.org> <20230327222514.GA17904@lst.de>
-Date: Fri, 31 Mar 2023 15:04:23 +0200
+ <20230327121317.4081816-21-arnd@kernel.org>
+ <cb9367fb-0897-244d-15b6-fdfafde2a1c0@arm.com>
+Date: Fri, 31 Mar 2023 16:00:07 +0200
 From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Christoph Hellwig" <hch@lst.de>, "Arnd Bergmann" <arnd@kernel.org>
-Cc: linux-kernel@vger.kernel.org, "Vineet Gupta" <vgupta@kernel.org>,
+To: "Robin Murphy" <robin.murphy@arm.com>, "Arnd Bergmann" <arnd@kernel.org>,
+ linux-kernel@vger.kernel.org
+Cc: "Vineet Gupta" <vgupta@kernel.org>,
  "Russell King" <linux@armlinux.org.uk>,
  "Neil Armstrong" <neil.armstrong@linaro.org>,
  "Linus Walleij" <linus.walleij@linaro.org>,
@@ -99,9 +101,8 @@ Cc: linux-kernel@vger.kernel.org, "Vineet Gupta" <vgupta@kernel.org>,
  "Palmer Dabbelt" <palmer@dabbelt.com>, "Rich Felker" <dalias@libc.org>,
  "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
  "David S . Miller" <davem@davemloft.net>,
- "Max Filippov" <jcmvbkbc@gmail.com>,
- "Robin Murphy" <robin.murphy@arm.com>, "Lad,
- Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "Max Filippov" <jcmvbkbc@gmail.com>, "Christoph Hellwig" <hch@lst.de>,
+ "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  "Conor.Dooley" <conor.dooley@microchip.com>,
  linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  "linux-oxnas@groups.io" <linux-oxnas@groups.io>,
@@ -112,10 +113,10 @@ Cc: linux-kernel@vger.kernel.org, "Vineet Gupta" <vgupta@kernel.org>,
  linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
  linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
  sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org
-Subject: Re: [PATCH 21/21] dma-mapping: replace custom code with generic implementation
+Subject: Re: [PATCH 20/21] ARM: dma-mapping: split out arch_dma_mark_clean() helper
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230331_060446_992117_8E1AB109 
-X-CRM114-Status: GOOD (  21.75  )
+X-CRM114-CacheID: sfid-20230331_070035_945759_7E5D3228 
+X-CRM114-Status: GOOD (  17.06  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -132,79 +133,44 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 28, 2023, at 00:25, Christoph Hellwig wrote:
->> +static inline void arch_dma_cache_wback(phys_addr_t paddr, size_t size)
->>  {
->> +	dma_cache_wback(paddr, size);
->> +}
->>  
->> +static inline void arch_dma_cache_inv(phys_addr_t paddr, size_t size)
->> +{
->> +	dma_cache_inv(paddr, size);
->>  }
+On Mon, Mar 27, 2023, at 14:48, Robin Murphy wrote:
+> On 2023-03-27 13:13, Arnd Bergmann wrote:
+>> 
+>> [ HELP NEEDED: can anyone confirm that it is a correct assumption
+>>    on arm that a cache-coherent device writing to a page always results
+>>    in it being in a PG_dcache_clean state like on ia64, or can a device
+>>    write directly into the dcache?]
 >
->> +static inline void arch_dma_cache_wback_inv(phys_addr_t paddr, size_t size)
->>  {
->> +	dma_cache_wback_inv(paddr, size);
->> +}
+> In AMBA at least, if a snooping write hits in a cache then the data is 
+> most likely going to get routed directly into that cache. If it has 
+> write-back write-allocate attributes it could also land in any cache 
+> along its normal path to RAM; it wouldn't have to go all the way.
 >
-> There are the only calls for the three functions for each of the
-> involved functions.  So I'd rather rename the low-level symbols
-> (and drop the pointless exports for two of them) rather than adding
-> these wrapppers.
->
-> The same is probably true for many other architectures.
+> Hence all the fun we have where treating a coherent device as 
+> non-coherent can still be almost as broken as the other way round :)
 
-Ok, done that now.
+Ok, thanks for the information. I'm still not sure whether this can
+result in the situation where PG_dcache_clean is wrong though.
 
->> +static inline bool arch_sync_dma_clean_before_fromdevice(void)
->> +{
->> +	return false;
->> +}
->>  
->> +static inline bool arch_sync_dma_cpu_needs_post_dma_flush(void)
->> +{
->> +	return true;
->>  }
->
-> Is there a way to cut down on this boilerplate code by just having
-> sane default, and Kconfig options to override them if they are not
-> runtime decisions?
+Specifically, the question is whether a DMA to a coherent buffer
+can end up in a dirty L1 dcache of one core and require to write
+back the dcache before invalidating the icache for that page.
 
-I've changed arch_sync_dma_clean_before_fromdevice() to a
-Kconfig symbol now, as this is never a runtime decision.
+On ia64, this is not the case, the optimization here is to
+only flush the icache after a coherent DMA into an executable
+user page, while Arm only does this for noncoherent DMA but not
+coherent DMA.
 
-For arch_sync_dma_cpu_needs_post_dma_flush(), I have this
-version now in common code, which lets mips and arm have
-their own logic and has the same effect elsewhere:
+From your explanation it sounds like this might happen,
+even though that would mean that "coherent" DMA is slightly
+less coherent than it is elsewhere.
 
-+#ifndef arch_sync_dma_cpu_needs_post_dma_flush
-+static inline bool arch_sync_dma_cpu_needs_post_dma_flush(void)
-+{
-+       return IS_ENABLED(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU);
-+}
-+#endif
+To be on the safe side, I'd have to pass a flag into
+arch_dma_mark_clean() about coherency, to let the arm
+implementation still require the extra dcache flush
+for coherent DMA, while ia64 can ignore that flag.
 
->> +#include <linux/dma-sync.h>
->
-> I can't really say I like the #include version here despite your
-> rationale in the commit log.  I can probably live with it if you
-> think it is absolutely worth it, but I'm really not in favor of it.
->
->> +config ARCH_DMA_MARK_DCACHE_CLEAN
->> +	def_bool y
->
-> What do we need this symbol for?  Unless I'm missing something it is
-> always enable for arm32, and only used in arm32 code.
-
-This was left over from an earlier draft and accidentally duplicates
-the thing that I have in the Arm version for the existing
-ARCH_HAS_DMA_MARK_CLEAN. I dropped this one and the
-generic copy of the arch_dma_mark_dcache_clean() function
-now, but still need to revisit the arm version, as it sounds
-like it has slightly different semantics from the ia64 version.
-
-     Arnd
+    Arnd
 
 _______________________________________________
 linux-snps-arc mailing list
