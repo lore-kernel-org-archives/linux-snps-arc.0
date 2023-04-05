@@ -4,94 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 847E8C761AF
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  5 Apr 2023 16:17:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C388CC7619A
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  5 Apr 2023 18:34:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Y4oF7C6XGFTwj+iecql1oydAPh/77ZOVZ1SRryq91+c=; b=mXWU08+EJfjY1I
-	V+knmsyUL4rFQMg86ipUAgsPVPLw52olzZsglrZHlYiSGjLfozgvKovZ+KlOc8HNcokw47+aCx2dX
-	/VmHDkK4OTwNVk7LVhYSxBF7Yo2kpJcJAsK+iMbWgFLujL9rr7j3LimVpcZ2U3JKnleiI2E3T9P87
-	r0SAQnXwUpOoLrXP2xHQBEVXpTeS/xGJAQ91uMZEzCxvUZaALX2lZm7f5vLMbvyp+5Wn08DC2xuqX
-	Qu6wfxU3XdIW6XQs17RJmrbur82DLEe2Aa7lZjCoQkMmWIhLLiNT2kShTHNLEi8+x4cBEouLh+9z0
-	91E9sqfiuGx66KnkTamA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date
+	:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=l1NWq3bw6JW4xgKFL8XBsW1pWfXhzyHzt1HHbybHkP4=; b=yV3cyxs4nG73AZvnWwFsPDc0wp
+	oWjtxuqK6o8TIiAsf4OsahI8SziuaSlc5VuBBh8/TK0TdKZ6/bju72ft9Y00I+PviaQRDt9ZoDroc
+	G3L76BNLiY7a8zfLUe3NiIYVzCK5VGbwE1ubrPSK7Eis2M+7fgFGS0uLrGx+QUA2AQ4GfpnrHy93F
+	ISgU22C410PiAPGJX9I2nUJblR2MSypwrJ2W51b8jnV8pTCa5ee885d+2BnZQIHuKlGPSmNYgAgdy
+	/yiJpkuzEpXUsEYrKe52VSUp0q9MpHL+LVL+mLr8uN3KLCRvHc0OdTnCFFHevI9YpzGTMnpGV5Ft5
+	uDzjSIjw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pk5pG-0055ZY-0Q;
-	Wed, 05 Apr 2023 16:17:34 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1pk7xK-005PIu-17;
+	Wed, 05 Apr 2023 18:34:02 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pk4i4-004lDY-0j;
-	Wed, 05 Apr 2023 15:06:08 +0000
+	id 1pk7xE-005PGh-09;
+	Wed, 05 Apr 2023 18:33:59 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 583AF1FD86;
-	Wed,  5 Apr 2023 15:05:58 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 274AC22388;
+	Wed,  5 Apr 2023 18:33:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1680707158; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	t=1680719631; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CcTf8mY7ntiATzAyouTm9w0tlFjDMPAv2gX2WMGu6rY=;
-	b=TZXoC9Tc9asKOSDiLT8A4tyzs9yv6RL0qTxKUbYlapBfIqym6Kb8DFLZewVwcjMnY4sxHZ
-	o4xbCl2xTmPNnIqTmbdJgCygQ/ZtZlu+xXYmC1iYq94aqnQJSOHI9J2mNz3ymbowXdopXw
-	tvB4wNWyF4qpMe1JvVJ9nQRsmcs5DHo=
+	bh=aKm+2KnGcfadUGufvWlUYTOWO8wYUF/m6w9EgTd+Yxg=;
+	b=AY9ehin0RCIs0Z/tUz5CKDnk5hMcYELqfYZsQf6JezYbYgl6N+MUriBP2y4z/HS/u2p4uV
+	vUpEjY29QAk2ubCGTL9muUVgDVI9nLeBUNgGl3cXLFVPYaIg+72dyNHTO+LDRdjUlU8VdL
+	nd1HL6uwb/bGPH2YvPQKvg4RXUfpPNo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1680707158;
+	s=susede2_ed25519; t=1680719631;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CcTf8mY7ntiATzAyouTm9w0tlFjDMPAv2gX2WMGu6rY=;
-	b=qHURCE7KZgCagHrMHb7gbQv13HAZDnHLCR0bsbcvSksvT0pi3WU3s8w20ErHfpFBhmYFNn
-	qyw83l+h4DmWvnCA==
+	bh=aKm+2KnGcfadUGufvWlUYTOWO8wYUF/m6w9EgTd+Yxg=;
+	b=UfgF0YRnUz9dpmsQ4gm6okcJLQEX7z9ep+Kr7HyJzwDq82jBBbfBGRO9qN7DSGXIQELO1T
+	DjJ7TAxa27NsccAw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EE4A713A92;
-	Wed,  5 Apr 2023 15:05:57 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BD06F13A31;
+	Wed,  5 Apr 2023 18:33:50 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id OJVTOVWOLWTPIAAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Wed, 05 Apr 2023 15:05:57 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: arnd@arndb.de,
-	daniel.vetter@ffwll.ch,
-	deller@gmx.de,
-	javierm@redhat.com,
-	gregkh@linuxfoundation.org
-Cc: linux-arch@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-ia64@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org,
-	linux-parisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	x86@kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 01/18] fbdev: Prepare generic architecture helpers
-Date: Wed,  5 Apr 2023 17:05:37 +0200
-Message-Id: <20230405150554.30540-2-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230405150554.30540-1-tzimmermann@suse.de>
-References: <20230405150554.30540-1-tzimmermann@suse.de>
+	id 6kDPLA6/LWSPBwAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Wed, 05 Apr 2023 18:33:50 +0000
+Message-ID: <769a46bd-0c35-f61f-6d68-b982fc25cb55@suse.de>
+Date: Wed, 5 Apr 2023 20:33:50 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 01/18] fbdev: Prepare generic architecture helpers
+Content-Language: en-US
+To: Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-sh@vger.kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
+ sparclinux@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+References: <20230405150554.30540-1-tzimmermann@suse.de>
+ <20230405150554.30540-2-tzimmermann@suse.de>
+ <92fe3838-41f0-4e27-8467-161553ff724f@app.fastmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <92fe3838-41f0-4e27-8467-161553ff724f@app.fastmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230405_080604_410070_EA1D95D0 
-X-CRM114-Status: GOOD (  12.58  )
+X-CRM114-CacheID: sfid-20230405_113356_232420_2422EEA3 
+X-CRM114-Status: GOOD (  26.09  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,69 +94,123 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============8680811450292790211=="
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Generic implementations of fb_pgprotect() and fb_is_primary_device()
-have been in the source code for a long time. Prepare the header file
-to make use of them.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============8680811450292790211==
+Content-Language: en-US
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------PH6RE0bdaBjJFU6C368NRApK"
 
-Improve the code by using an inline function for fb_pgprotect() and
-by removing include statements.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------PH6RE0bdaBjJFU6C368NRApK
+Content-Type: multipart/mixed; boundary="------------PnZlrreMxn0zLzAk4t4Das5u";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-sh@vger.kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
+ sparclinux@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Message-ID: <769a46bd-0c35-f61f-6d68-b982fc25cb55@suse.de>
+Subject: Re: [PATCH 01/18] fbdev: Prepare generic architecture helpers
+References: <20230405150554.30540-1-tzimmermann@suse.de>
+ <20230405150554.30540-2-tzimmermann@suse.de>
+ <92fe3838-41f0-4e27-8467-161553ff724f@app.fastmail.com>
+In-Reply-To: <92fe3838-41f0-4e27-8467-161553ff724f@app.fastmail.com>
 
-Symbols are protected by preprocessor guards. Architectures that
-provide a symbol need to define a preprocessor token of the same
-name and value. Otherwise the header file will provide a generic
-implementation. This pattern has been taken from <asm/io.h>.
+--------------PnZlrreMxn0zLzAk4t4Das5u
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- include/asm-generic/fb.h | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+SGkNCg0KQW0gMDUuMDQuMjMgdW0gMTc6NTMgc2NocmllYiBBcm5kIEJlcmdtYW5uOg0KPiBP
+biBXZWQsIEFwciA1LCAyMDIzLCBhdCAxNzowNSwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6
+DQo+PiBHZW5lcmljIGltcGxlbWVudGF0aW9ucyBvZiBmYl9wZ3Byb3RlY3QoKSBhbmQgZmJf
+aXNfcHJpbWFyeV9kZXZpY2UoKQ0KPj4gaGF2ZSBiZWVuIGluIHRoZSBzb3VyY2UgY29kZSBm
+b3IgYSBsb25nIHRpbWUuIFByZXBhcmUgdGhlIGhlYWRlciBmaWxlDQo+PiB0byBtYWtlIHVz
+ZSBvZiB0aGVtLg0KPj4NCj4+IEltcHJvdmUgdGhlIGNvZGUgYnkgdXNpbmcgYW4gaW5saW5l
+IGZ1bmN0aW9uIGZvciBmYl9wZ3Byb3RlY3QoKSBhbmQNCj4+IGJ5IHJlbW92aW5nIGluY2x1
+ZGUgc3RhdGVtZW50cy4NCj4+DQo+PiBTeW1ib2xzIGFyZSBwcm90ZWN0ZWQgYnkgcHJlcHJv
+Y2Vzc29yIGd1YXJkcy4gQXJjaGl0ZWN0dXJlcyB0aGF0DQo+PiBwcm92aWRlIGEgc3ltYm9s
+IG5lZWQgdG8gZGVmaW5lIGEgcHJlcHJvY2Vzc29yIHRva2VuIG9mIHRoZSBzYW1lDQo+PiBu
+YW1lIGFuZCB2YWx1ZS4gT3RoZXJ3aXNlIHRoZSBoZWFkZXIgZmlsZSB3aWxsIHByb3ZpZGUg
+YSBnZW5lcmljDQo+PiBpbXBsZW1lbnRhdGlvbi4gVGhpcyBwYXR0ZXJuIGhhcyBiZWVuIHRh
+a2VuIGZyb20gPGFzbS9pby5oPi4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmlt
+bWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4gDQo+IE1vdmluZyB0aGlzIGludG8g
+Z2VuZXJpYyBjb2RlIGlzIGdvb2QsIGJ1dCBJJ20gbm90IHN1cmUNCj4gYWJvdXQgdGhlIGRl
+ZmF1bHQgZm9yIGZiX3BncHJvdGVjdCgpOg0KPiANCj4+ICsNCj4+ICsjaWZuZGVmIGZiX3Bn
+cHJvdGVjdA0KPj4gKyNkZWZpbmUgZmJfcGdwcm90ZWN0IGZiX3BncHJvdGVjdA0KPj4gK3N0
+YXRpYyBpbmxpbmUgdm9pZCBmYl9wZ3Byb3RlY3Qoc3RydWN0IGZpbGUgKmZpbGUsIHN0cnVj
+dCB2bV9hcmVhX3N0cnVjdCAqdm1hLA0KPj4gKwkJCQl1bnNpZ25lZCBsb25nIG9mZikNCj4+
+ICt7IH0NCj4+ICsjZW5kaWYNCj4gDQo+IEkgdGhpbmsgbW9zdCBhcmNoaXRlY3R1cmVzIHdp
+bGwgd2FudCB0aGUgdmVyc2lvbiB3ZSBoYXZlIG9uDQo+IGFyYywgYXJtLCBhcm02NCwgbG9v
+bmdhcmNoLCBhbmQgc2ggYWxyZWFkeToNCj4gDQo+IHN0YXRpYyBpbmxpbmUgdm9pZCBmYl9w
+Z3Byb3RlY3Qoc3RydWN0IGZpbGUgKmZpbGUsIHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1h
+LA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1bnNpZ25lZCBsb25nIG9m
+ZikNCj4gew0KPiAgICAgICAgIHZtYS0+dm1fcGFnZV9wcm90ID0gcGdwcm90X3dyaXRlY29t
+YmluZSh2bWEtPnZtX3BhZ2VfcHJvdCk7DQo+IH0NCj4gDQo+IHNvIEknZCBzdWdnZXN0IG1h
+a2luZyB0aGF0IHZlcnNpb24gdGhlIGRlZmF1bHQsIGFuZCB0cmVhdGluZyB0aGUNCj4gZW1w
+dHkgb25lcyAobTY4a25vbW11LCBzcGFyYzMyKSBhcyBhcmNoaXRlY3R1cmUgc3BlY2lmaWMN
+Cj4gd29ya2Fyb3VuZHMuDQoNCk1ha2Ugc2Vuc2UsIHRoYW5rcyBmb3IgdGhlIGZlZWRiYWNr
+LiBJJ2xsIHNlbmQgb3V0IGFuIHVwZGF0ZSBzb29uLg0KDQpCZXN0IHJlZ2FyZHMNClRob21h
+cw0KDQo+IA0KPiBJIHNlZSB0aGF0IHNwYXJjNjQgYW5kIHBhcmlzYyB1c2UgcGdwcm90X3Vu
+Y2FjaGVkIGhlcmUsIGJ1dCBhcw0KPiB0aGV5IGRvbid0IGRlZmluZSBhIGN1c3RvbSBwZ3By
+b3Rfd3JpdGVjb21iaW5lLCB0aGlzIGVuZHMgdXAgYmVpbmcNCj4gdGhlIHNhbWUsIGFuZCB0
+aGV5IGNhbiB1c2UgdGhlIGFib3ZlIGRlZmluaXRpb24gYXMgd2VsbC4NCj4gDQo+IG1pcHMg
+ZGVmaW5lcyBwZ3Byb3Rfd3JpdGVjb21iaW5lIGJ1dCB1c2VzIHBncHJvdF9ub25jYWNoZWQN
+Cj4gaW4gZmJfcGdwcm90ZWN0KCksIHdoaWNoIGlzIHByb2JhYmx5IGEgbWlzdGFrZSBhbmQg
+c2hvdWxkIGhhdmUNCj4gYmVlbiB1cGRhdGVkIGFzIHBhcnQgb2YgY29tbWl0IDRiMDUwYmE3
+YTY2YyAoIk1JUFM6IHBndGFibGUuaDoNCj4gSW1wbGVtZW50IHRoZSBwZ3Byb3Rfd3JpdGVj
+b21iaW5lIGZ1bmN0aW9uIGZvciBNSVBTIikuDQo+IA0KPiAgICAgIEFybmQNCg0KLS0gDQpU
+aG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0
+d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xy
+bmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNm
+w7xocmVyOiBJdm8gVG90ZXYNCg==
 
-diff --git a/include/asm-generic/fb.h b/include/asm-generic/fb.h
-index f9f18101ed36..cb42166e7e11 100644
---- a/include/asm-generic/fb.h
-+++ b/include/asm-generic/fb.h
-@@ -1,13 +1,29 @@
- /* SPDX-License-Identifier: GPL-2.0 */
-+
- #ifndef __ASM_GENERIC_FB_H_
- #define __ASM_GENERIC_FB_H_
--#include <linux/fb.h>
- 
--#define fb_pgprotect(...) do {} while (0)
-+/*
-+ * Only include this header file from your architecture's <asm/fb.h>.
-+ */
-+
-+struct fb_info;
-+struct file;
-+struct vm_area_struct;
-+
-+#ifndef fb_pgprotect
-+#define fb_pgprotect fb_pgprotect
-+static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
-+				unsigned long off)
-+{ }
-+#endif
- 
-+#ifndef fb_is_primary_device
-+#define fb_is_primary_device fb_is_primary_device
- static inline int fb_is_primary_device(struct fb_info *info)
- {
- 	return 0;
- }
-+#endif
- 
- #endif /* __ASM_GENERIC_FB_H_ */
--- 
-2.40.0
+--------------PnZlrreMxn0zLzAk4t4Das5u--
 
+--------------PH6RE0bdaBjJFU6C368NRApK
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQtvw4FAwAAAAAACgkQlh/E3EQov+B8
+SA//S9QvzhCGuS3p6cljiL3iXZKRa6QAzsmTs3qxsBZJVBbAx2oX35juNiYn+llSA4KM2AWgFRYq
+Chdjg/0Vxe5/Nl4HGfHpvKLVmZIg1kHtRRwixJ04p4ws8EPfiZN87MeLecWlQo5x9ewt0yCmBeoA
+j0eLKDz3kN88NbEuFuTqP3y/H5VaDJUZeqCX2OXBVFPCttZjWgkJ77r5CFvMexzh6fMQ+QP/EKbh
+EDDsfHUqq0YKCQobH2KcnEEX+CKJeVR+45+SwdaolfgGzBQ9TFKWnagaJahppLWfzFtg1Tj12NAE
+A+Lcrd395eNy1L4TVf3rVDNiWaUGudPY/iAhQ4ivmvj1Rb3esoRkjN4zmSek590XUZ8jZShkgTig
+dSgkdgKIWTi/lDCB5NgCZgPpsk6TDcc6Kyj99h6UqYzZiYN3GAaXfP1qgPCPI5el9PphHxaXhOH0
+e6PhctJWfsuRVWseHjFXi5M+svclBMYk6bOBvo5K9DYF8PTb5pCSRjk3+P9xqW2DeJfoBQClb5HF
+JBrMpw8SyQYttizA3bYrXaib4c+t6gvbtaV1bbSzpzZx8vueBtvFY9RB7V5k9sThNULfdsnNc4Ke
+CERFDV8vqaQmPTxLxiFvMGuxGysMG8sljev95fD3tcAQIuWY/QA8bnPq3b1pueBR7t7lp+IQ/e26
+RHI=
+=NHDz
+-----END PGP SIGNATURE-----
+
+--------------PH6RE0bdaBjJFU6C368NRApK--
+
+
+--===============8680811450292790211==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+
+--===============8680811450292790211==--
+
