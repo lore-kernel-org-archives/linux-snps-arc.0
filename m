@@ -4,70 +4,235 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 199A3C761AF
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  4 Apr 2023 14:16:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EE34FC7619A
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  5 Apr 2023 09:07:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=A/zRQHak7b9N/tDs8hfZP+rqyBi2scbFbTBrmOGlnsc=; b=fzD41En8QnOi/M
-	s1CmknI/DQqMTg/EXZxLb57STRZzPNedDg18eoHpvuxyljtCMDR7z16HV66HdAyi/zM2/TDcRo6a/
-	JEhf9M/CqwfCiVxCPfGaaazZ4TWLNwIht+GBGqfeJUl5HZi9l4L4psT379pJxZrOAkAnG39vO4MsY
-	Ql14d16w/nna3e//4QsaXVmndAsioev3H/BV7LiUZt6109Gs7V+RXpQVCawjZOSxSFa6gH1ibjeC8
-	8IW7VjdsADu2WOmlXg4fAerS1vNYjt9Oi0TUvIPB14uc7As/l2En6ZOldHv9ZGZ8Hm1U+49LBzFQo
-	rPY8+C6+Od5L6VbnpgJQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=/JdV0J3spB0r7I5pzpU4hmfOF3MRc2KMK+Ml2bFHNWY=; b=tLnVFZ7L/w2Zre
+	kldWuSeSO2t0pn2vteDGMnUK7bwR9EQ++PV2yvoUJGfFvnl2JW1IOvooDu+VdGoU6q8fWjZqP7EIQ
+	sae+/oqyrVBtQqhX8h86RuUBEZvepzWGDS9Y2XTiNjbj+YafJ1vrnJOLB7andMUFO6o7F/cgQK5i7
+	vBu+8e80Yc18f9vzwAG2v1nSh6d1TaQtXK5S78URDDWMRaUZq5myIQ4gOwjTteaqEeA+7Y2hliAtr
+	BuMUWLTZLqylyrUlIfpNHxhqkrl34mNWAu3kR9RNRU3C1IImKdNF8UfA7jPE3HLvDbBJrrArE0XNg
+	4UyUszQ5JTIAgLFolO1w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pjhSe-001lH9-1M;
-	Tue, 04 Apr 2023 14:16:36 +0000
-Received: from mga02.intel.com ([134.134.136.20])
+	id 1pjz6m-003tWj-3C;
+	Wed, 05 Apr 2023 09:07:12 +0000
+Received: from mx0a-00230701.pphosted.com ([148.163.156.19])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pjhSb-001lGB-0d
-	for linux-snps-arc@lists.infradead.org;
-	Tue, 04 Apr 2023 14:16:34 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680617793; x=1712153793;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+Lr4OBPNnOJQUr++Peg5qVBTzEWUdgPwSRxcu2iQmrA=;
-  b=mKzm235pP+IY8T5ZA6bxRo1hTPeM9VjezsZDBMSqN7/BdL6upado+uAS
-   X9XCBv9TcUwcQ15EMm4gNO/8G98cJsDuWFzvpjM4rnACs+s8KIFj8BVIs
-   Ne69gp+Jd+VvFHceiNSm0wXVTZwihzLc0tvlf9tf3BAejtsPUt5EfNXqf
-   syCj7PrQr+X/QBNS40zCEdJ2xwyPHzO8VJ1nD2Cx2D5FVTvE9/2nb2lu9
-   2yMrO3h7b1QuFtL0lJW6vtRJjn0RDTPjy3MkQfz8EY4DcHx/C8Y5UStFp
-   FAMQil+mBEIlz1cyKkxC4oSdJ07CSPpKsRIYcmALykGembGHPXg9dxNbm
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="330783786"
-X-IronPort-AV: E=Sophos;i="5.98,317,1673942400"; 
-   d="scan'208";a="330783786"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 07:16:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="829992721"
-X-IronPort-AV: E=Sophos;i="5.98,317,1673942400"; 
-   d="scan'208";a="829992721"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 04 Apr 2023 07:16:29 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pjhSW-000PlK-2G;
-	Tue, 04 Apr 2023 14:16:28 +0000
-Date: Tue, 4 Apr 2023 22:15:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vineet Gupta <vgupta@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org
-Subject: include/linux/compiler_types.h:328:45: error: call to
- '__compiletime_assert_313' declared with attribute error: BUILD_BUG_ON
- failed: (PTRS_PER_PTE * sizeof(pte_t)) > PAGE_SIZE
-Message-ID: <202304042243.qmBldZFx-lkp@intel.com>
+	id 1pjz6j-003tWC-36;
+	Wed, 05 Apr 2023 09:07:11 +0000
+Received: from pps.filterd (m0297266.ppops.net [127.0.0.1])
+	by mx0a-00230701.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3357drGX000366;
+	Wed, 5 Apr 2023 02:06:36 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : content-type : content-id :
+ content-transfer-encoding : mime-version; s=pfptdkimsnps;
+ bh=ReqYqEFOjfuTqt/VjZhyGVsgGgmcNi1jIl8ioq7f+3A=;
+ b=De7DJhErRYBb+RY1PIY6aOQ3qxaJsbDdA7IOGWHNaYuREqERbj4uAGH5Hs6m7MHv0CFx
+ 16sv6WbY/vvPCLs3xp2XLExgZ5xFdrkacpm2+6zz9HrDWgaqrBtO2tQWNFaEqnx5JCpq
+ nVoaN1iULqWs8HbMMhz0dvUub4FrDelwAynxYMlJ1ceWf8oYHT4t/qmPgja0couGUPMn
+ oTRaQxo8oMPlORsCVRq81RHQ/weXzYTBS3bAZ3M0XfKWI81yGUbtWgZLjqMpv0Agu252
+ zZDHsB9v9bVAUo0+BLFSjIUaJZa3Y0wZIE7bQLmIJ0zQzoWkNzWDQgJ3JMqwPTL2dRKq og== 
+Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.87.133])
+	by mx0a-00230701.pphosted.com (PPS) with ESMTPS id 3ppkv92v0u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 05 Apr 2023 02:06:36 -0700
+Received: from mailhost.synopsys.com (badc-mailhost4.synopsys.com [10.192.0.82])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id CA153C0445;
+	Wed,  5 Apr 2023 09:06:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1680685595; bh=ReqYqEFOjfuTqt/VjZhyGVsgGgmcNi1jIl8ioq7f+3A=;
+	h=From:To:CC:Subject:Date:In-Reply-To:From;
+	b=jG1TXPC8TP+fW0T13DNmUyffXvVZRRt6/wp6jJUywdu2Ct7URvkgIWhWiAV9yVphb
+	 VYd8dfGtkywe14Rn0Y40jTtFOz9eG6quMsNZ/SZq9syysZ/sKM5OXPnjxlK6PHFeXW
+	 x0NRZjqbIiNtj/UB98i7JlzQrT0YA9/XHUGDuVht5esq4Mx7/5ytadlF8ChJcWONRb
+	 qN5t30nb0JTT1RckCW9BgOc8PYiU8QPvWr6/pCjeYfAEQk5gP+whDksoQm+39SHq6o
+	 5Ng1BY7Skqt5vXQS3nET+YqZdMDVmOZcypl46vcoPK499BKWQhWAMxEDsvoj2lmEl/
+	 HBS/s5KYdoflA==
+Received: from o365relay-in.synopsys.com (sv2-o365relay1.synopsys.com [10.202.1.137])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(Client CN "o365relay-in.synopsys.com", Issuer "Entrust Certification Authority - L1K" (verified OK))
+	by mailhost.synopsys.com (Postfix) with ESMTPS id DC934A00A6;
+	Wed,  5 Apr 2023 09:06:29 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2047.outbound.protection.outlook.com [104.47.66.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client CN "mail.protection.outlook.com", Issuer "DigiCert Cloud Services CA-1" (verified OK))
+	by o365relay-in.synopsys.com (Postfix) with ESMTPS id A9FC140066;
+	Wed,  5 Apr 2023 09:06:26 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=shahab@synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+	dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="LxF8YtNF";
+	dkim-atps=neutral
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ck/kw2/ayz/ETwisZTBimSSmz6+I6JXFewUSCQvdJrPMmEhn9X5wKReT6kemwf3AYDbehsYK0pcI2M5/NltoY0cUXkAg/iaalIHi/jN1AZg1Rwnd38biufEckkTKBZFkIFwgg/VL34bbrdz+BAo3LEgz3jfZYKqep3Fz/UJjV9akULOv1pbuvtGZHaRI0CvMV6HI97PoAWl4DlbjedFrstN/mnmPrEpFlx5d0gy0aEtNhqo4lUz12lJXZVg7WkrgVRqkEdnRLiJ+Mp4v68ridMPlv9ppRpoLSba8gk5bLExON/riJieU1kInTDxvDTayZmINYtZ8I369e6EnxHqJZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ReqYqEFOjfuTqt/VjZhyGVsgGgmcNi1jIl8ioq7f+3A=;
+ b=Q4xi8GhwE0x6t5sEzpmBB0KeS0OKksu8RDEIvJjfuOPamOeEvcCrrw4Y59MaIct5cPoogNJ+uEl+XLtxXSw6qI1mmdZ/vXo5OtZ1onb3bDpPNyCeklHqXocGwrOE49xmI9LHePcG2vX3gaIFPpk8dTqEzYz/LX/nMX6c+B+lMTrYg+JpIHKwjzKSdEGukabCmD1YyX0orkFu225f2LKs2U4BqsWOiVHlIm0w+GgFXORhPvNniLb7T/yTn6uCFgw8g4Vg+JwcfC1SDyl5sfIrSL1shCqn8DOJA6Kq+R99fEdkjYiXwZTP05ajoXIhrNPT6FyioTZZXrFpk/S0J5wN2A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ReqYqEFOjfuTqt/VjZhyGVsgGgmcNi1jIl8ioq7f+3A=;
+ b=LxF8YtNFA5NVh16AouQEuWUzblrhuzddZ4w6QKt9sL15nzWKkXL2ggkSIBVe8hI7ydjaHHA5EprJjdc04g3IKa/JLUQysYVBGyeRsyCFm2AzN9UuBi90lV5DJ2XZgvUt6iBEHXR5KRP53ALxgDNh3P3t6W2Bwzw9WA1ekRn+rAI=
+Received: from SN6PR12MB2782.namprd12.prod.outlook.com (2603:10b6:805:73::19)
+ by MN0PR12MB5786.namprd12.prod.outlook.com (2603:10b6:208:375::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.35; Wed, 5 Apr
+ 2023 09:06:24 +0000
+Received: from SN6PR12MB2782.namprd12.prod.outlook.com
+ ([fe80::16ef:a4:a1eb:6c6]) by SN6PR12MB2782.namprd12.prod.outlook.com
+ ([fe80::16ef:a4:a1eb:6c6%4]) with mapi id 15.20.6254.035; Wed, 5 Apr 2023
+ 09:06:24 +0000
+X-SNPS-Relay: synopsys.com
+From: Shahab Vahedi <Shahab.Vahedi@synopsys.com>
+To: Michael Sit Wei Hong <michael.wei.hong.sit@intel.com>
+CC: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Vineet Gupta <vgupta@kernel.org>,
+        "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
+        "andrew@lunn.ch" <andrew@lunn.ch>,
+        "boon.leong.ong@intel.com" <boon.leong.ong@intel.com>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "hong.aun.looi@intel.com" <hong.aun.looi@intel.com>,
+        Jose Abreu <Jose.Abreu@synopsys.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "peppe.cavallaro@st.com" <peppe.cavallaro@st.com>,
+        "peter.jun.ann.lai@intel.com" <peter.jun.ann.lai@intel.com>,
+        "weifeng.voon@intel.com" <weifeng.voon@intel.com>
+Subject: Re: [PATCH net v5 2/3] net: stmmac: check if MAC needs to attach to a
+ PHY
+Thread-Topic: [PATCH net v5 2/3] net: stmmac: check if MAC needs to attach to
+ a PHY
+Thread-Index: AQHZZ53t562vZwfErk6r9bP/RDaizQ==
+Date: Wed, 5 Apr 2023 09:06:23 +0000
+Message-ID: <f32d74cf-22e6-7c03-c9c9-a51eb5d10db6@synopsys.com>
+In-Reply-To: <20230403212434.296975-1-martin.blumenstingl@googlemail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN6PR12MB2782:EE_|MN0PR12MB5786:EE_
+x-ms-office365-filtering-correlation-id: 4b0816d3-ec3b-4226-70f4-08db35b5079c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  llK1j00tgkOeIiBvHzn6i20YfuNqD4GCmKawDFtQ+PhPUrii9BNEjUuSdVLN1+M0pkRxCikz19T7apjF2eZn+PJ5JjWhgeMtJ95Zoxrf9ZJ3fExiicI3VlJjXD8Y0uTRuYdcSuDGw3684QzNAuyPzPTdqF+DncaoZzHbfBuqImioj7K3oTDF29l/E5IaBNDhV+l0Rpc5eIVcqwQvdQqk/LQBADmiP9IwP1FTomgEczONKmaSCaLh+/tTtgaM4GBjTAoUf/m7EEJvdSF0SaC6Gzcf3Q8aavPw0nTHU3AlZt98LIfzz0YzL1gcv5aMiJxUpOVzm287zZHLbYjsoGJR+8KsG2v2o1DXucANGTgwBJzeAF7RNesaZj1ump7f842pHRCVGNT2rdfxeQDUsNYc9FennXdOCNQoYFbhVhP64oOHGfLl8EhmmQDfuE/qhbulZ06pJFUCq8XNv/9i6I+NPBkQv85WAgoDD4ynkgWnOI7rmOzWzYUKxoi8enImLwqxdfS5FdGzvu/+klaqCo/ugBnW7wD8YGVlGCpCBCeyvjs74Iz28lrl70oQI2zub/udw3TjT21DOy0Z6NO9WTrH3qhzAHcQ/0rkAXKZOzNNa1+yVRZhjYiqCNx3S8q2S5jLzGwRB2P2Tuuyjz5FSy0Chg==
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR12MB2782.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(39860400002)(346002)(376002)(136003)(366004)(396003)(451199021)(6486002)(71200400001)(83380400001)(36756003)(2616005)(31696002)(86362001)(38100700002)(38070700005)(55236004)(6512007)(6506007)(26005)(122000001)(186003)(54906003)(2906002)(316002)(5660300002)(7416002)(31686004)(91956017)(8936002)(41300700001)(66946007)(64756008)(66446008)(6916009)(4326008)(8676002)(66476007)(66556008)(76116006)(478600001)(45980500001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?K0NZOWlheXAzZ0JPTmRURklKSFNpZmlNby9wb0IxV3NMaGpJbWd4WHFDc1Rq?=
+ =?utf-8?B?VHFoL0FBT2I3K1FyUUJjcUs3UE4yTkZkYzQ2Q1RBa3psR2lOWW0zVXA2dHR6?=
+ =?utf-8?B?bU94MmlZNnVHSndqL1NtT0owcmNFVzA0STgyUWxicWZORis4eWZqWnZYVmoz?=
+ =?utf-8?B?OEJ2WlU5YkxVRG9JR0lMc1V5QVd5M2d6NWxXY3l4MUNtK1FHVFZ1aHpnNHUy?=
+ =?utf-8?B?UThBd2MxZ2hzZktENFNwL080S3ZwN2NPM2hETTc0a0hNenJUYVpRZkxZb2Va?=
+ =?utf-8?B?Ulk3Z0E5cU5uVDh1TThzdHJ6SkJKRFFWKzl2a2xDdTZoS2cxaWZvUmU4LzFE?=
+ =?utf-8?B?ZysrVUNNY1dtN3p0c0paNVpGQ1Z2RDJEUU8veDlsN01TZm1hMDZzbWlIMnFD?=
+ =?utf-8?B?b1BqQ2lkclhjcis5eGQxbFlLams2SkxzZC8rdWhDVkszSTRoQ01uZTVYSWd2?=
+ =?utf-8?B?SENLdEVaMUtZbm9lWjA1b1p5eWtOa0dQVEJlRVcvdmpmRzFNVk8xcERSUS9y?=
+ =?utf-8?B?YU42N1dhcWZKb3BMQmIvZzJXakFWV1lUd3BCMW13dlBpUEwwbUZoNFo3RWZW?=
+ =?utf-8?B?b0NDQVR1Q0ZzVEJ4Q2pTWVVONkdaZDI1bGZ6dW8ySlZ0S0Y1Rjl5dXpHZHIx?=
+ =?utf-8?B?anY3c2pIcWNudU1lVFFRdGowY2l5Mmdob2RvaUVBbS9ZbEYvZlpocHB5akwy?=
+ =?utf-8?B?MkF4QmNtTjFLK0w4RWdXRjBrT0VFZGhoQWpMd3NzWVVuSnZlRjZzWHJhRnlL?=
+ =?utf-8?B?TTZ1aEJXQnZxa2p4eWxReUU0T25DSk9DSEdyQ2Z3anlDRWtQUjlPdXZvTWp4?=
+ =?utf-8?B?c1dxNnRxSDl0azZUQjcxOFdnMmE4NTQ0c09FL0hxN0J0Mm9kNXEybVc1ZFBC?=
+ =?utf-8?B?OTlLS3NYYzFKeFBYQlVlTXVZaFdWU3ZZSDU5MzRzZzRaaFZyRGRqRXExamZS?=
+ =?utf-8?B?aFpDOXZ3QkIrVEhhb3N3elR0cWRwMno1UUhlM1lDbitEQ0E5bEVZM0tWMXYy?=
+ =?utf-8?B?Rlh2MUZIdnRiMlNOQWk0emtOM0NNL3RBbFRkZXBIWnZVRmM0T0xsclYraGF6?=
+ =?utf-8?B?WitCOU54QTJPb2d2ZGVTdmtxbzQ2NXN5bHpiUnAyWUhPRG5pTnhpQlBzbkdx?=
+ =?utf-8?B?anR4ZzZ1Q2hGbDkzc0tJaEsxeW1INjJYVGdrVGVLV1NZUU5ZYk5XSXl4SUlO?=
+ =?utf-8?B?NHVCNTNmbWJXQXRxeWE2VEtNdEFyWjlERGhQM082ODRBTDk3SjR3MVBaY1Aw?=
+ =?utf-8?B?eUtMMU5KNVBsTlJ5N1FsUXlsQlJkZFlhb3dScE1ZYU9naVN2dk1FSlVTSjhj?=
+ =?utf-8?B?SThTbTBqMEg1eDVWMTlBSWNUMUNRL1BvSlVOampadU83aEUybXdnWDhheFQ5?=
+ =?utf-8?B?TFBOMHovdk1YZ3pVdmZEOWhrMi80WWpPOFdnbFZwT0NjNTgxSERvS0NTUWNx?=
+ =?utf-8?B?a2pUR3U0bG1GR082OVl5SlpiM2xPUk5wekhwMm5yUkZrQWFDelU1NHFrejUz?=
+ =?utf-8?B?ZXhkcm5yQXlyaU00VWNLRUFtbHNFMnlJMUtBTVZqWHlBZVlSUzdZSGVqZW8w?=
+ =?utf-8?B?NlZCQTkrRzF2b2dVOEpkWnpnc1ZNNmE2Y0FPSGNHbmErdHIxSi9yc0tNUDAv?=
+ =?utf-8?B?dWZvb1RTRDlwdWE5RkJ6RDNNdzBNNkl4YnNndEMycmp2TmI3a3ZlV1l5aWsw?=
+ =?utf-8?B?L1ZjSG10WUF4ZzNTSHBtZmYvNDBDK1RacVQvS0NwLzNCajJ6eS9OYlY3alZS?=
+ =?utf-8?B?OFBvSDdyckpXOXVpWnh3OTU3QWphVU9QRmxZU0Y1UDNuU2dKUU9DQmpQWDlr?=
+ =?utf-8?B?WUJ5TkprbmttUFZpWXBNSDZQbVk1MnNGdmo3NzhDeTVEV1gyK0pnMWxRY2ZY?=
+ =?utf-8?B?QnVhYXQ2R0Vsa3BlM0gzbXExOVdjdkV3THphTDkxV1lYclY1TUhFck9kVi9y?=
+ =?utf-8?B?SlU0TWNFMHRWNExJbGxXd3JXMGZyaTA2SHZWbUF3Q0V1UFFBTXpsamVUMGVN?=
+ =?utf-8?B?TUlwdTVGeEdaNUNyNnVMQnE3b05hOVdEbFhHWnNVaGZ0QlZ0aDV2K1BuTzNk?=
+ =?utf-8?B?aWR4QXN4L3gwdmwycXVnR2gzbnVnMXFiMVlrb1hsSW5HNXpBR3FjSVJlRk81?=
+ =?utf-8?Q?KvXM=3D?=
+Content-ID: <754087DFBF4CA54E8A10DECCD3912A59@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-Content-Disposition: inline
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 	=?utf-8?B?TEJYRnFLenF6L3V3TTNxQlptcVNibXZsN1VjdC9XTjZENE9YdEk1NktuSTl3?=
+ =?utf-8?B?c2ZlN0tEZ2tHbXhRYXlzUHlBelU2NmlucVdtNWlJck9QSk5iZURlUHhZUlpF?=
+ =?utf-8?B?UkRvc2hTQk9LUE5mZmJhc2pGazBDRi9KQVBjMDNpNld0VnMwMEdDMDgrRlpT?=
+ =?utf-8?B?SjM4VHpKWDZDTGNDUUc2TVdvcytGNjAzeVpXZDVVMHZ6ZW56dHZsKzJ0eG81?=
+ =?utf-8?B?M1E5RnVYdDhRTWJkZ1hDZXpJeFhmYzFzWUt5RnZVQU1hZ0RYdlRsQ2ZYbzdR?=
+ =?utf-8?B?Sk5kaHQwelNuSTFEMGxqMk1uRVR4N0U0aDZ6aXBNL2daVmVUQmVwbjFUU1RH?=
+ =?utf-8?B?Q3U4OEJZeTRnYmlENWhjRUlXVXhRQjV1ajNTa0RSRm40YjFZV1Q0N1RNa3g1?=
+ =?utf-8?B?cUtXeUN3a1Vyb05PbkhrYXd5QlhpZWVHY0JaVWlkS1luV0lacXRmZEIxalVH?=
+ =?utf-8?B?cWF2NW9PNm01Z2MvcFB5VVEyY0Q0YndJbnYzS2tyL1o3eFdGMUdOY3FZVGlu?=
+ =?utf-8?B?NTdEaUJJMEo0ek8rZ1oyUnJvcVVnUUUxY0R4dTNnNk1ObXc3ODkvaXMvRzY5?=
+ =?utf-8?B?RVMzYUlJQ0xwUmlLbC9LN2NZRmsrWmZIRHhlR2ZQeGVpaEl1SFBwcFNZM1Zl?=
+ =?utf-8?B?RkxqN2ZZLzUzMTY5RGRrRG4yNDgwQ1B3QWtNaGxiaWpoYlVxa2FFblpqTEM1?=
+ =?utf-8?B?Wjk3ZzJ4ZjZLYWExenpuS2phQmtVc1pPcTUyc2NIajJxMURCOUxpdFVaWlRT?=
+ =?utf-8?B?YnNwWDQxUHV0MkdKMWkwMFFUd3JMYkdIWjExUXBodFIxUFhNZGswazhjUWtX?=
+ =?utf-8?B?UWlNbEd1ZkE1dkVlZXZtSDliYTNvdEZzWXF0Ty9zN21tcFlrallFZllmbEd0?=
+ =?utf-8?B?T21IV3U4bjYrNHVTVDVQcFR6MTJkelAzdHg0aTlPWjl0L2ZuRFhwcDQ2cmxV?=
+ =?utf-8?B?L3hsKzhqRGYzOGhTblA3bTdUQnFJKy92V3prRXVNUHZCamppcGh0L2QyUysw?=
+ =?utf-8?B?Z2xHSzlNTGEvSzRkNmlSTkhpWmozcGFSeFcrYWprSFg5MUxVZHVxWVFsMThZ?=
+ =?utf-8?B?WTh0Q2U2NEE0bXUrcGFTeGVVOFV3czVPQ1dBWWpLem4wOE9LTTd3b1VSQmxM?=
+ =?utf-8?B?VW1yeENJbUZKa2tKa0FneXp4TnlrYnZJbVVaUzgvM2hOZTNEcjNOSlZ3RXEv?=
+ =?utf-8?B?UXNtNS9ZQ20zQmdJMnhmQjhPbzBHMTNMVlJJUU5QRHFrenl2SFF3QkVjYU9v?=
+ =?utf-8?B?cHZMR3k1ZlRnR1RWdjJJUmlQZVpvT2dudGRvb093SzhvazhnN3ZpTGJQaGxX?=
+ =?utf-8?B?amRmaGtDaldtNkRZdVVVc25hcXU5T0p3VjNnNloyMTNhMTNtdXZWVS9ZUC85?=
+ =?utf-8?B?dzZZdXhNVUZFVi8vRE5WNit4K2d1UzZkTHhQdGo5b3JQM0Nzcm9EcUVSZXhr?=
+ =?utf-8?B?VGhvS2Rwb1U3YnNiWDZCZy8rVkgzRUQxZzd3dzF2MnhtOVRaWXRMLzhSZ0hW?=
+ =?utf-8?B?ajltcDNsZy94eXNNeWlVb0ZzaG9DUXFLRFZPN3dhTGllR3orQmpTeXU5bW9v?=
+ =?utf-8?B?MUdpYWZFd1d4R1BsSXBWeFNuZTlUSTQ0NnNMSWx0bnR4aXlrZElZQkVQckg2?=
+ =?utf-8?B?bTNXYjBHQURCMW56VEdHUER5YTVKZUo1ZVZ5Y3FUdXBuMGRZT2lVR2NqUW03?=
+ =?utf-8?Q?VVIEWC9z6p6Y5EMeBWiW?=
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2782.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b0816d3-ec3b-4226-70f4-08db35b5079c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Apr 2023 09:06:23.5920
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rmEdkPX/nz5fjyAlOW/9v1n1WMXJs04D96sKJ0rnrINxksad74HojiuBo8uClrP4IYDmQp3VLdoLPGRFqjfdZg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5786
+X-Proofpoint-ORIG-GUID: QDKm9g-AMFC0pbh5Ttj1R396yGu_x-Il
+X-Proofpoint-GUID: QDKm9g-AMFC0pbh5Ttj1R396yGu_x-Il
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-05_05,2023-04-04_05,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam policy=outbound_active_cloned score=0
+ suspectscore=0 mlxscore=0 adultscore=0 clxscore=1011 lowpriorityscore=0
+ priorityscore=1501 spamscore=0 bulkscore=0 impostorscore=0 mlxlogscore=232
+ phishscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2303200000 definitions=main-2304050084
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230404_071633_295756_FDD98A03 
-X-CRM114-Status: GOOD (  14.06  )
+X-CRM114-CacheID: sfid-20230405_020710_060607_9490A9B4 
+X-CRM114-Status: GOOD (  14.02  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,91 +249,62 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Vineet,
+Fixing the CC header. Apologies for the inconvenience.
 
-FYI, the error/warning still remains.
+------
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   148341f0a2f53b5e8808d093333d85170586a15d
-commit: d9820ff76f95fa26d33e412254a89cd65b23142d ARC: mm: switch pgtable_t back to struct page *
-date:   1 year, 7 months ago
-config: arc-randconfig-r043-20230403 (https://download.01.org/0day-ci/archive/20230404/202304042243.qmBldZFx-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d9820ff76f95fa26d33e412254a89cd65b23142d
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout d9820ff76f95fa26d33e412254a89cd65b23142d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
+Same happens on ARC HSDK [1]:
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304042243.qmBldZFx-lkp@intel.com/
+# dmesg | grep stmmaceth
+  stmmaceth f0008000.ethernet: use coherent DMA ops
+  stmmaceth f0008000.ethernet: IRQ eth_wake_irq not found
+  stmmaceth f0008000.ethernet: IRQ eth_lpi not found
+  stmmaceth f0008000.ethernet: PTP uses main clock
+  stmmaceth f0008000.ethernet: User ID: 0x10, Synopsys ID: 0x37
+  stmmaceth f0008000.ethernet:    DWMAC1000
+  stmmaceth f0008000.ethernet: DMA HW capability register supported
+  stmmaceth f0008000.ethernet: RX Checksum Offload Engine supported
+  stmmaceth f0008000.ethernet: COE Type 2
+  stmmaceth f0008000.ethernet: TX Checksum insertion supported
+  stmmaceth f0008000.ethernet: Normal descriptors
+  stmmaceth f0008000.ethernet: Ring mode enabled
+  stmmaceth f0008000.ethernet: Enable RX Mitigation via HW Watchdog Timer
+  stmmaceth f0008000.ethernet: device MAC address 7e:14:df:5f:b8:78
+  stmmaceth f0008000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
+  stmmaceth f0008000.ethernet eth0: PHY [stmmac-0:00] driver [Micrel KSZ9031 Gigabit PHY] (irq=POLL)
+  stmmaceth f0008000.ethernet eth0: no phy found
+  stmmaceth f0008000.ethernet eth0: __stmmac_open: Cannot attach to PHY (error: -19)
 
-All errors (new ones prefixed by >>):
+After reverting this patch:
 
-   arch/arc/mm/init.c:35:13: warning: no previous prototype for 'arc_get_mem_sz' [-Wmissing-prototypes]
-      35 | long __init arc_get_mem_sz(void)
-         |             ^~~~~~~~~~~~~~
-   arch/arc/mm/init.c:88:13: warning: no previous prototype for 'setup_arch_memory' [-Wmissing-prototypes]
-      88 | void __init setup_arch_memory(void)
-         |             ^~~~~~~~~~~~~~~~~
-   In file included from <command-line>:
-   arch/arc/mm/init.c: In function 'mem_init':
->> include/linux/compiler_types.h:328:45: error: call to '__compiletime_assert_313' declared with attribute error: BUILD_BUG_ON failed: (PTRS_PER_PTE * sizeof(pte_t)) > PAGE_SIZE
-     328 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:309:25: note: in definition of macro '__compiletime_assert'
-     309 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:328:9: note: in expansion of macro '_compiletime_assert'
-     328 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   arch/arc/mm/init.c:194:9: note: in expansion of macro 'BUILD_BUG_ON'
-     194 |         BUILD_BUG_ON((PTRS_PER_PTE * sizeof(pte_t)) > PAGE_SIZE);
-         |         ^~~~~~~~~~~~
+# dmesg | grep stmmaceth
+  stmmaceth f0008000.ethernet: use coherent DMA ops
+  stmmaceth f0008000.ethernet: IRQ eth_wake_irq not found
+  stmmaceth f0008000.ethernet: IRQ eth_lpi not found
+  stmmaceth f0008000.ethernet: PTP uses main clock
+  stmmaceth f0008000.ethernet: User ID: 0x10, Synopsys ID: 0x37
+  stmmaceth f0008000.ethernet:    DWMAC1000
+  stmmaceth f0008000.ethernet: DMA HW capability register supported
+  stmmaceth f0008000.ethernet: RX Checksum Offload Engine supported
+  stmmaceth f0008000.ethernet: COE Type 2
+  stmmaceth f0008000.ethernet: TX Checksum insertion supported
+  stmmaceth f0008000.ethernet: Normal descriptors
+  stmmaceth f0008000.ethernet: Ring mode enabled
+  stmmaceth f0008000.ethernet: Enable RX Mitigation via HW Watchdog Timer
+  stmmaceth f0008000.ethernet: device MAC address 26:05:ea:c0:66:16
+  stmmaceth f0008000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
+  stmmaceth f0008000.ethernet eth0: PHY [stmmac-0:00] driver [Micrel KSZ9031
+  Gigabit PHY] (irq=POLL)
+  stmmaceth f0008000.ethernet eth0: No Safety Features support found
+  stmmaceth f0008000.ethernet eth0: PTP not supported by HW
+  stmmaceth f0008000.ethernet eth0: configuring for phy/rgmii-id link mode
+  stmmaceth f0008000.ethernet eth0: Link is Up - 1Gbps/Full - flow control off
 
-
-vim +/__compiletime_assert_313 +328 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  314  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  315  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  316  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  317  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  318  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  319   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  320   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  321   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  322   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  323   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  324   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  325   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  326   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  327  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @328  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  329  
-
-:::::: The code at line 328 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+[1]
+arch/arc/boot/dts/hsdk.dts
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
-
+Shahab
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
