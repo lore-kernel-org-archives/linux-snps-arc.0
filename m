@@ -4,60 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 814EBC76196
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  6 Apr 2023 14:44:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36792C77B72
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  6 Apr 2023 14:51:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Subject:Cc:To:From:Date:References:
 	In-Reply-To:Message-Id:Mime-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=R8Xdjv/hNBZLHPLWEtXLa8FTP4HIMw07PdUVJ5p9ynY=; b=guLNBeGEoU04iq
-	PyU/sxZiTx4cB8b1EZt5aW8Z+Gu/UJH96zULC0LP5bzenSQld8TeDqZZfrYQenve4mX/RIWC6CCG8
-	ykAYu7AYqHwBNYFXMmhjREEanxdkfPoLq5W+Pd7k8XV/kJ5qMEWJAf7k/zNLRj6OYDixza6gjkDPW
-	y4xNujvGdoDBs1t0zuwAERxpaPLZn0eAsQChqnbH2ero5UqVpY6CO6clnsYwyaL5qTrrLiLnVGHaR
-	rj31BvfemGvup8YvEjbHDe12VlHi4V+DXtsqWg40ZwMMydh6BvkPUs3PR0yrfO1T+BxqXxMLB0dnH
-	5GoI7XZVblw0c0uCi8HA==;
+	List-Owner; bh=DsHu2EKAIpu9t2j8N3VIgi7iEBQ3g+cjQ6e4fxYMilA=; b=k9WEvxRQs5+Z1i
+	hQwvNIpUJsAuKyOO7FXQncq7J0w1mq9PlPo6grct4T3qdk+o057LNPSmuIMIg2kPUGcAKJ26EM8TM
+	Xb+UIxyj6LuJZiiXdlrEqWcgmu2p3wX6NfCA2X6wuOju12ZFFhkPeDHkiSux677pJlsOPyrklg1hH
+	FAf36NFzcgzhKwR7PKJH7fzjHFYfICKDlABgafQcBZh0wxgjedqwivPWpyL/K8J86w4u5pdQT1Hg6
+	5CaoWNmhtnbjvWZFRzXoVoPkLPcREv39LrXWJ8km5zj2DUTd0yG9w/a54Pl5QAaHXnxeUs60zPAkV
+	fB21k9X0PGbC1zbPbneA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pkQqs-007gTD-1u;
-	Thu, 06 Apr 2023 14:44:38 +0000
+	id 1pkQxi-007hij-0e;
+	Thu, 06 Apr 2023 14:51:42 +0000
 Received: from wnew3-smtp.messagingengine.com ([64.147.123.17])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pkQql-007gPv-03;
-	Thu, 06 Apr 2023 14:44:36 +0000
+	id 1pkQxe-007hhc-0t;
+	Thu, 06 Apr 2023 14:51:39 +0000
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailnew.west.internal (Postfix) with ESMTP id 888492B06973;
-	Thu,  6 Apr 2023 10:44:17 -0400 (EDT)
+	by mailnew.west.internal (Postfix) with ESMTP id C99D82B06973;
+	Thu,  6 Apr 2023 10:51:35 -0400 (EDT)
 Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Thu, 06 Apr 2023 10:44:19 -0400
+  by compute6.internal (MEProxy); Thu, 06 Apr 2023 10:51:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
 	:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1680792257; x=1680799457; bh=Va
-	G4DIeiqknCp5VUw5TWbqr8Q6Xy/qs0760D+gB2/CE=; b=EWWMukw3BXb4Q/h2C/
-	YS7dzTsU0Ar5/xROCa1/7bm3aePP1XNH9H2e8o71Ztok9LPbZQQCzO/hHG6ZPM1p
-	GoCeoL832i+xKeNkS0KXU8c0WXOWNUN02App/G+QHK5CjSeDsvT54IC+UKLq5y0W
-	7Bj0u+pXCcYRPzXBsUqe5DlmO1VzXH5ZTLEgPjdccmXA/6z2kb2GzEFUrIuyZoJL
-	JE205jnLgaiETXL15uw4jCFU3tP+QRZn/8HvPxiftfXcO7a3UgEoiBimB5zsyODA
-	rh1xpm67rsR3MA5GCAtJVR1sPuC6xq0Wqfo86Rjl+6m1rQKEicJ8/hOQkK2gfgKs
-	SXRQ==
+	:subject:subject:to:to; s=fm2; t=1680792695; x=1680799895; bh=Pv
+	VeZJF1LUSrqLOZVN7G2amPFlD1uKLgk4hVw/5gFkk=; b=SAvTW0KPiUiO6nJkgF
+	hXZ6OppFeDIVldU5nH5Nk87ZkoYm0QSz5etEIyB9L3eiPRe38qOn7Yay2vgGarg1
+	5sJwAO+fTphyJMnizGXGMZA7MS5VH44wwWkJ1MrHruWcMBzAdQsbwr/HG8Ar2/6h
+	ssfgDaEh1nygQh/jhR37h09WkE3hI3ETItSeiXNozl3KXDBURktHhmDVxZ7Wdzy/
+	n7mzlrgcvLLYYl4GB0Jixsnnu33HHsW0S8bOvegaRFpXUzyUpg1Wrf+HHQe3JHm6
+	yvJTSISUw4ZJyAl6RHWKH0+KTevm+bV6eZ5nm+FcceTSwKUlPuUP8ZQUE6Rf/952
+	Fm7A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
 	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1680792257; x=1680799457; bh=VaG4DIeiqknCp
-	5VUw5TWbqr8Q6Xy/qs0760D+gB2/CE=; b=rUv6i+tWNj90SnYvslS0D9SQvYEia
-	hbth2DWbO6XoNOCPL0tQo0K5pGEzOxLlpTdzm9k/1tZklpQW57yikfYIpTuH0Oen
-	FpzdiO+ssCVt7O1z6Q5P4IqYIp15PFvYkqBOqnKQnnSdL+YWBrv3O/8kPg6TB3Ty
-	nP4AQs+RY8jkA8BD2EQMS9JAiQfaha8PDirIUX5DMjBpFPvO43av/mIe+ypzD/Mq
-	rQI6lRY09fj7bETJ5kpUkImmWeeGn82AK+9+PegtKb4qJiuKwD1VSSkpLgKQq5Je
-	QuhTYv5sbksq2vqZt7Ajex2obQmTZjZX/Zb5y96hPatPiMCd+y2OEMZZg==
-X-ME-Sender: <xms:wNouZNHPa0TYmwB2r--5RtnOLRPAja0qtAEYACVjkTGVAgZvDkZu9w>
-    <xme:wNouZCVePxlYaemLqrpfpWGxVOOM4y1dgc5cEsXgXvS0KUHqiJTJHrD2ayxERgDtu
-    LARQW9FlguB3_hH47w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdejfedgjeejucetufdoteggodetrfdotf
+	:x-sasl-enc; s=fm2; t=1680792695; x=1680799895; bh=PvVeZJF1LUSrq
+	LOZVN7G2amPFlD1uKLgk4hVw/5gFkk=; b=JPS0WnF6RsH6+Xmuz649TIwf6ULqn
+	iR7dqMhGcWUzrcWDkP1wJOBg+pHwmqt0HjkWV3uYIx/iYEHGdo34iUw0sMt7lXAF
+	TCiFGvS91OUTZmU8mGXL1ZAIYc+2wcAVLuiGns+9hZ9Q3u+wIDdzJwLYP/GBb0jY
+	PipBM8nu/zuG+9luvqZ8Jihpwj/glGEHTGAsmTUO/OhJ+2KiMp2ZX3fbsikDkl9X
+	CYmcVn5Qz5pgqlithu+GeIWG615/DhpktzMk+iHq+vbMD1i48CEcdpePaPEsYSg+
+	/NqG6gY4RjzahVDTu3l6p6nPXr1gPCO41q3EMcyeoONEMlvZajqF4chSg==
+X-ME-Sender: <xms:dtwuZISp_urJ8m5y_mrgBVrKzfVtV7jyqafaPhhnLlaMLrxVu-zOdQ>
+    <xme:dtwuZFzhYOAHcjhP_UJhiFjuMOrAhWGolGLd007OLGuh7HLcDq44kr2pBY-nRsouX
+    s_u4XRoQiKraC7XyvE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdejfedgjeelucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
@@ -65,21 +65,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdejfedgjeejucetufdoteggod
     htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
     teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
     hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:wdouZPKrDIYPd5_lNpIWwD1dm3PopYDH_mzSp_r4l6k3ItjXO9cK3g>
-    <xmx:wdouZDEO3BmqQX8s9GpXZv_fvUkhsmGasqLZB0SmcMu_589oaCj0Kg>
-    <xmx:wdouZDXV4YbtggYa_LRgP3NzenKzP1-bmca0EJqhagkOthPGPz6iNg>
-    <xmx:wdouZKMF_xP1FnBqI73ZlUYXbIcQL6US9hEkrDdfk3w-HL8Jt1308E982bM>
+X-ME-Proxy: <xmx:dtwuZF306BOOE6te4r8pL4BLeM6iLePYsvNvQT3RmqPvhsiPWIJBkw>
+    <xmx:dtwuZMAFW_bz-t7uH1fIUNzgL7C4poUL5vgpabFNXqjqsotT3NYUJg>
+    <xmx:dtwuZBi3L7XVmnFUihWDoER0dw0JdG93uknsbqbi8fYB_9UR12Cn-w>
+    <xmx:d9wuZKZ3_VssJzan2b5oOIi7ZSLdwGBHtiVEVQK6f1B3PNR-RJRUt7wGRy0>
 Feedback-ID: i56a14606:Fastmail
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id E83EBB60093; Thu,  6 Apr 2023 10:44:16 -0400 (EDT)
+	id D73D5B6009B; Thu,  6 Apr 2023 10:51:34 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.9.0-alpha0-334-g8c072af647-fm-20230330.001-g8c072af6
 Mime-Version: 1.0
-Message-Id: <27c1210f-4e40-4bbc-905b-155427465e00@app.fastmail.com>
-In-Reply-To: <20230406143019.6709-3-tzimmermann@suse.de>
+Message-Id: <cfa36e9a-7e19-4c43-b9b4-1ae4f9ef51c3@app.fastmail.com>
+In-Reply-To: <20230406143019.6709-10-tzimmermann@suse.de>
 References: <20230406143019.6709-1-tzimmermann@suse.de>
- <20230406143019.6709-3-tzimmermann@suse.de>
-Date: Thu, 06 Apr 2023 16:43:56 +0200
+ <20230406143019.6709-10-tzimmermann@suse.de>
+Date: Thu, 06 Apr 2023 16:51:14 +0200
 From: "Arnd Bergmann" <arnd@arndb.de>
 To: "Thomas Zimmermann" <tzimmermann@suse.de>,
  "Daniel Vetter" <daniel.vetter@ffwll.ch>, "Helge Deller" <deller@gmx.de>,
@@ -92,11 +92,11 @@ Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
  linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
  linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
  linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, x86@kernel.org,
- "Vineet Gupta" <vgupta@kernel.org>
-Subject: Re: [PATCH v2 02/19] arch/arc: Implement <asm/fb.h> with generic helpers
+ "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>
+Subject: Re: [PATCH v2 09/19] arch/mips: Implement <asm/fb.h> with generic helpers
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230406_074431_087150_EC4B2C76 
-X-CRM114-Status: UNSURE (   7.58  )
+X-CRM114-CacheID: sfid-20230406_075138_339783_514C6239 
+X-CRM114-Status: UNSURE (   7.25  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -115,22 +115,23 @@ Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
 On Thu, Apr 6, 2023, at 16:30, Thomas Zimmermann wrote:
-> +
->  static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
->  				unsigned long off)
->  {
->  	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
->  }
-> +#define fb_pgprotect fb_pgprotect
+> Replace the architecture's fb_is_primary_device() with the generic
+> one from <asm-generic/fb.h>. No functional changes.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
 
-I still feel that for architectures like arc that don't have
-pgprot_writecombine(), it would b best to go with the
-generic implementation that currently behaves the exact
-same way. If pgprot_writecombine() gets added in the future,
-it would cause the architecture to behave as expected rather
-than introducing the same bug that mips has.
+I think you should at least mention that the existing
+fb_pgprotect() function is probably incorrect and should
+be replaced with the generic version.
 
-      Arnd
+For reference, the fb_pgprotect function using pgprot_uncached()
+was introduced in 2.6.22 along with all the other ones, but
+the pgprot_writecombine function was only added in commit
+4b050ba7a66c ("MIPS: pgtable.h: Implement the pgprot_writecombine
+function for MIPS") for 3.18.
+
+     Arnd
 
 _______________________________________________
 linux-snps-arc mailing list
