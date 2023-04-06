@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 10432C7618D
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  6 Apr 2023 14:31:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7975C761A6
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  6 Apr 2023 14:31:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Ni+BwC6LPFXXq3BBB9X3JkMjsB3u2c2EorxkNs2NsTY=; b=lbOS4kewyHzQMa
-	Gzi10Oovyynn8SEt3MurESyUH2zYDrKHUqVm/giOE3I7ixsIe3AYRcimKihgvMN3uuEjLE5mfv1Ru
-	7ycNzzK9vas7+bMOb7fEvgUUMPzkjxUnd0q40PFoNYYL6h8Id6gZ6L+KsVcw3htJodHRvlTYilxRF
-	z3iDp5k5s0C0bso2N3HcUrpKc5BcveE2/qYf9zR5ybTDZraF6l2JkGyYxgmz3PusnZC40Jq7XEUMP
-	wdIXgckjBpk8kDLsIublJUs4Da4JVyWWVmWEWoM8hdvNdbfhlHJId81VqDV6ZB0SbpoiR+zRCEq77
-	OUxjOsZEsADt79tvkRLA==;
+	List-Owner; bh=BkJEXoHPIWmeBZrVPqxpXXaCttVx+NtWcyut6h27Uxw=; b=u6Y1fhyqeyChbw
+	ZGhsjdr6j+HBnNPCSM3bNX9aDXMtWTJvz+ujRPYzsFTV+NQXteZnj3GjLMdu+IS5g5vVO4e0WHDjL
+	jMphhYngg1XBW1WgrszzVI0QJoVjybbKmDQ16gAOq2mrvQJW9r2WyKsorTy+TG+y04+KEIFE7F68n
+	Ay4OpxsAfs1KfF3K45Dyy3N0WroogDS+Zz2RSZt4oKmQe8ntWnU9M3/FdQ7noNzLuf/0HCWnc//oD
+	2DKBtDedC8rEfUATNM7dZt6Fc7u0OI3x5X4Nt8QYJboMbORru4B20/1r7F51Hrg8hZPV4E+5Z5Ko/
+	vYX7ZTNj+z6s4a8ocTWg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pkQeO-007bkd-38;
-	Thu, 06 Apr 2023 14:31:44 +0000
+	id 1pkQeP-007blg-2n;
+	Thu, 06 Apr 2023 14:31:45 +0000
 Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pkQdC-007aUU-2w;
+	id 1pkQdC-007aUT-2w;
 	Thu, 06 Apr 2023 14:30:35 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7374122778;
-	Thu,  6 Apr 2023 14:30:28 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 75E252277D;
+	Thu,  6 Apr 2023 14:30:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1680791428; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1680791427; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/rz0KVXgl7eygxSOZmb7rFdY5CLJi8hQKmbruW8U1YU=;
-	b=BxgYle6lCFlI9LG4wwyxRk8JjByFMYDE05ntDs/+3lCByHu3LSwXqx7Fxtth+7eKvb/xTM
-	G+YjqqnoRkE0S/CW05o3MnqOoYEGnv8ql4/t6JEAbVJv3FYw5LekYKLXp0jcI7J7bFlq6J
-	Ax/Dp9T40zv2BkfFWUZkBQ+SdzF68D0=
+	bh=q+mpH3lWZVvZZw0GybWkLSjYq5BHB3GhQ0nOupAiXow=;
+	b=UxnzXeFODMJJDuqjyoc1E+ZiDj0weNshjPMaS+iJ3CCTdva4+xgdFRYRli8iX+/x0t6/Fk
+	sGUdfOGT3Up18RS/0rfJPblcXVqHU6HmxEH5051pVV1Ojic8HcKm7PvteZOpKpDZWovCrv
+	viJdQGq3yzKLlAPoXafQOPBF97xacWE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1680791428;
+	s=susede2_ed25519; t=1680791427;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/rz0KVXgl7eygxSOZmb7rFdY5CLJi8hQKmbruW8U1YU=;
-	b=sO51GWW37aP7igi4ArliUC5lhnHNsTSeWxf4/7DO9NqAn3tzTgpF/0dJVBnO12rKSCbsEB
-	pYUrFjo1LADLThDg==
+	bh=q+mpH3lWZVvZZw0GybWkLSjYq5BHB3GhQ0nOupAiXow=;
+	b=iO1KHIOvtsxPbMNd0a/ZQZhpo74giMMe6Hue8jyuBgHhKEbIhoT0UwDGX4J3iuP+WaHmcQ
+	KqO9jBNOG1lT6hAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F202F13A1D;
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 113A013A1D;
 	Thu,  6 Apr 2023 14:30:27 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id gCszOoPXLmS4LgAAMHmgww
+	id kPIVA4PXLmS4LgAAMHmgww
 	(envelope-from <tzimmermann@suse.de>); Thu, 06 Apr 2023 14:30:27 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: arnd@arndb.de,
@@ -82,17 +82,20 @@ Cc: linux-arch@vger.kernel.org,
 	sparclinux@vger.kernel.org,
 	x86@kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	"David S. Miller" <davem@davemloft.net>
-Subject: [PATCH v2 17/19] arch/sparc: Implement fb_is_primary_device() in source file
-Date: Thu,  6 Apr 2023 16:30:17 +0200
-Message-Id: <20230406143019.6709-18-tzimmermann@suse.de>
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>
+Subject: [PATCH v2 15/19] arch/powerpc: Implement <asm/fb.h> with generic helpers
+Date: Thu,  6 Apr 2023 16:30:15 +0200
+Message-Id: <20230406143019.6709-16-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230406143019.6709-1-tzimmermann@suse.de>
 References: <20230406143019.6709-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230406_073031_103521_63A523A6 
-X-CRM114-Status: GOOD (  17.28  )
+X-CRM114-CacheID: sfid-20230406_073031_149237_61D3136C 
+X-CRM114-Status: UNSURE (   9.88  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,117 +112,44 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Other architectures implment fb_is_primary_device() in a source
-file. Do the same on sparc. No functional changes, but allows to
-remove several include statement from <asm/fb.h>.
-
-v2:
-	* don't include <asm/prom.h> in header file
+Replace the architecture's fb_is_primary_device() with the generic
+one from <asm-generic/fb.h>. No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Nicholas Piggin <npiggin@gmail.com>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
 ---
- arch/sparc/Makefile         |  1 +
- arch/sparc/include/asm/fb.h | 23 +++++------------------
- arch/sparc/video/Makefile   |  3 +++
- arch/sparc/video/fbdev.c    | 24 ++++++++++++++++++++++++
- 4 files changed, 33 insertions(+), 18 deletions(-)
- create mode 100644 arch/sparc/video/Makefile
- create mode 100644 arch/sparc/video/fbdev.c
+ arch/powerpc/include/asm/fb.h | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/arch/sparc/Makefile b/arch/sparc/Makefile
-index a4ea5b05f288..95a9211e48e3 100644
---- a/arch/sparc/Makefile
-+++ b/arch/sparc/Makefile
-@@ -60,6 +60,7 @@ libs-y                 += arch/sparc/prom/
- libs-y                 += arch/sparc/lib/
+diff --git a/arch/powerpc/include/asm/fb.h b/arch/powerpc/include/asm/fb.h
+index 6541ab77c5b9..5f1a2e5f7654 100644
+--- a/arch/powerpc/include/asm/fb.h
++++ b/arch/powerpc/include/asm/fb.h
+@@ -2,8 +2,8 @@
+ #ifndef _ASM_FB_H_
+ #define _ASM_FB_H_
  
- drivers-$(CONFIG_PM) += arch/sparc/power/
-+drivers-$(CONFIG_FB) += arch/sparc/video/
- 
- boot := arch/sparc/boot
- 
-diff --git a/arch/sparc/include/asm/fb.h b/arch/sparc/include/asm/fb.h
-index f699962e9ddf..28609f7a965c 100644
---- a/arch/sparc/include/asm/fb.h
-+++ b/arch/sparc/include/asm/fb.h
-@@ -1,11 +1,12 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- #ifndef _SPARC_FB_H_
- #define _SPARC_FB_H_
--#include <linux/console.h>
 -#include <linux/fb.h>
-+
  #include <linux/fs.h>
 +
  #include <asm/page.h>
--#include <asm/prom.h>
-+
-+struct fb_info;
  
  static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
- 				unsigned long off)
-@@ -15,20 +16,6 @@ static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
- #endif
+@@ -13,10 +13,8 @@ static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
+ 						 vma->vm_end - vma->vm_start,
+ 						 vma->vm_page_prot);
  }
++#define fb_pgprotect fb_pgprotect
  
 -static inline int fb_is_primary_device(struct fb_info *info)
 -{
--	struct device *dev = info->device;
--	struct device_node *node;
--
--	if (console_set_on_cmdline)
--		return 0;
--
--	node = dev->of_node;
--	if (node &&
--	    node == of_console_device)
--		return 1;
--
 -	return 0;
 -}
-+int fb_is_primary_device(struct fb_info *info);
++#include <asm-generic/fb.h>
  
- #endif /* _SPARC_FB_H_ */
-diff --git a/arch/sparc/video/Makefile b/arch/sparc/video/Makefile
-new file mode 100644
-index 000000000000..6baddbd58e4d
---- /dev/null
-+++ b/arch/sparc/video/Makefile
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+obj-$(CONFIG_FB) += fbdev.o
-diff --git a/arch/sparc/video/fbdev.c b/arch/sparc/video/fbdev.c
-new file mode 100644
-index 000000000000..dadd5799fbb3
---- /dev/null
-+++ b/arch/sparc/video/fbdev.c
-@@ -0,0 +1,24 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/console.h>
-+#include <linux/fb.h>
-+#include <linux/module.h>
-+
-+#include <asm/fb.h>
-+#include <asm/prom.h>
-+
-+int fb_is_primary_device(struct fb_info *info)
-+{
-+	struct device *dev = info->device;
-+	struct device_node *node;
-+
-+	if (console_set_on_cmdline)
-+		return 0;
-+
-+	node = dev->of_node;
-+	if (node && node == of_console_device)
-+		return 1;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(fb_is_primary_device);
+ #endif /* _ASM_FB_H_ */
 -- 
 2.40.0
 
