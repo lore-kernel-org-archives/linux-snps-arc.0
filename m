@@ -4,77 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C996AC7619A
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 11 Apr 2023 08:20:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0DCFC77B7A
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 12 Apr 2023 06:18:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References
+	:In-Reply-To:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=/3dDFv6n21m68FH+VkXSZDp1otflPA7VB1+7BlIXAkc=; b=DCFWOSww5p+VJC
-	j23VYrgEnaWdEPdqGwe/0sIK+6RpkETcjHAn8IjiipaKVe5bzryZX0tBh8tJRymWlFWjob/H6Vp2u
-	mRbpQYX+SSJfkayaee57B/7mvhrCi0mxYMyPglNGZYlaee9ZX7O4jpr4RqFSj5NkdRQVE5mwfu7gC
-	byHT7FQN5GRne7cL6mTTH6fE6Xi0RphjWcixmKNKYN4TVIj8zSTjySdM8iHpCcvWeuVTnb+54BSLD
-	UgkS/+nZO48Ikxn56oBKdYspTVas52J1DZko5YqSwo+QOVny/x+aNdy0CHZuPnT65P8Q1zAv8FogM
-	0o+sDUtHSnk8ykZwFmdw==;
+	List-Owner; bh=yNuYDDh+n9Al4nobXffsueipAf5EIW8QxnRvopYfOhs=; b=GCOnUbGX3p8g5s
+	m6sF20WDns7MrUbT0wtsKDscXiLtB54X74zMRa88InySddUEFbMcSpCErLo6TMj/MqQSxEw0Xk7fC
+	nPyP9H0fUJfLzTMhweLMiJey4fChtzZkXkVMySnis/Z1kTMm7J/R1ESLzheVlByEVa4F/hW71MqdW
+	7QjIWjjCfnjpuhZTcYy08QGJmG4op4NBGd0w58PwotlRkkrdDbOOgjzhk68v4CFhqsYHemKWQ1SUR
+	evIPNqr8D/AUlzmCGRFlZL5GM9maBwsRP6QCiLi+mWM5jPgmSLBrjwj2JFz8xSDuzadefOBbQV8cf
+	tFxSxCu5RHv+EIuYeX7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pm9Es-00GpCz-34;
-	Tue, 11 Apr 2023 08:20:30 +0000
-Received: from mail-yb1-f182.google.com ([209.85.219.182])
+	id 1pmTo7-001vLo-2K;
+	Wed, 12 Apr 2023 06:18:15 +0000
+Received: from gandalf.ozlabs.org ([150.107.74.76])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pm9Eo-00Gp67-1L;
-	Tue, 11 Apr 2023 08:20:28 +0000
-Received: by mail-yb1-f182.google.com with SMTP id 72so7293248ybe.6;
-        Tue, 11 Apr 2023 01:20:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681201215;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KOXdqLxEHLBZ7hy/2mM/9REbA1X5ZreSZtF+7etv6Sw=;
-        b=SWOROTS9Y8cYMHof8VhPdh7XwQq7taM8lDiGwztlapSIn/DBCLyDGyHWYGVLb3MvGN
-         FfoQ1xFF1I0AtUePpn0GIjWpVvBzdQizPzBK9db4AMC82VgeCQ6o1EJtoXlFd/7eynJM
-         NkEnsPQl07tFy+7X+9hOuCqOxOa7JugLeSWcLA+UWrl+A+O8GTXswgT52QtZgPiCBpln
-         KVDG5idQy0J1aNXamsDjxBE0QREi9ijDyZHW3figV9PBPoY5zHcBLt1kQBr/4ROSBMCb
-         Ajkba2RiH6474wpnNn5ODz3OageJovMMnO/Esp7PfWPjrnh3CnMsOW8PXACVr3hZRefz
-         fqDg==
-X-Gm-Message-State: AAQBX9ffjYsMcPkSxz6Ly1fWjOgF6iHb9uJEyIz1YF78ABP02TZ0i/6F
-	G7vO1Wo0Vibk19XoDTOefex3Y3E/vebWUw==
-X-Google-Smtp-Source: AKy350bQxn1epK/mlYXd1sJVPHN1M/v1mjdLx4uH0FbO7HTbunDWUlj0lqij+1+XbImmF/04656b8w==
-X-Received: by 2002:a25:424a:0:b0:b8b:ec36:1bf2 with SMTP id p71-20020a25424a000000b00b8bec361bf2mr1194311yba.60.1681201215226;
-        Tue, 11 Apr 2023 01:20:15 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id h185-20020a25d0c2000000b00b7767ca746asm3532488ybg.7.2023.04.11.01.20.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Apr 2023 01:20:13 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id v7so5702702ybi.0;
-        Tue, 11 Apr 2023 01:20:13 -0700 (PDT)
-X-Received: by 2002:a25:d447:0:b0:b75:9519:dbcd with SMTP id
- m68-20020a25d447000000b00b759519dbcdmr960089ybf.12.1681201212819; Tue, 11 Apr
- 2023 01:20:12 -0700 (PDT)
+	id 1pmTo4-001vJa-0W;
+	Wed, 12 Apr 2023 06:18:13 +0000
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4PxCF401xjz4xFj;
+	Wed, 12 Apr 2023 16:17:59 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+	s=201909; t=1681280282;
+	bh=mVus6VBYhH8GmWv60JhlJfNhVtxbImSRmEm6BDRrW3s=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=lTZEAUAJ2QZsc9UPHGoexeIDhivQg0OZP2tQ8N178oguDiIOjU/GS5yjDEkHA0ZQY
+	 UoSdL/mLxTXV/wa3HPEVjblwcxsdx2c+OnuyDK5Tv1Pbg7hiKGkpXXQYiHyY9ZXKUK
+	 6CSwY02DKtu+cGQJMahEUbmjJakfBQLvnLNWdj1LScutIwzO/9mPiHZFRCutiHgFFy
+	 LDNwBaVtxl/OmcZoIc9q0YGGvsTAR4vPp6o9KxvHWYHacDs55AZq5ZD42D7HmgmLSM
+	 12TeMwxecBFtXBTtmtuIhlm5OkckoQGJYZdQPchk2E7CbMKkKzVuJ/odBCPWTELN7l
+	 5ijFDMn/S4fVA==
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Thomas Zimmermann <tzimmermann@suse.de>, arnd@arndb.de,
+ daniel.vetter@ffwll.ch, deller@gmx.de, javierm@redhat.com,
+ gregkh@linuxfoundation.org
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-snps-arc@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, x86@kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Nicholas Piggin
+ <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>
+Subject: Re: [PATCH v2 15/19] arch/powerpc: Implement <asm/fb.h> with
+ generic helpers
+In-Reply-To: <20230406143019.6709-16-tzimmermann@suse.de>
+References: <20230406143019.6709-1-tzimmermann@suse.de>
+ <20230406143019.6709-16-tzimmermann@suse.de>
+Date: Wed, 12 Apr 2023 16:17:59 +1000
+Message-ID: <87r0spipyg.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-References: <20230406143019.6709-1-tzimmermann@suse.de> <20230406143019.6709-9-tzimmermann@suse.de>
-In-Reply-To: <20230406143019.6709-9-tzimmermann@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 11 Apr 2023 10:20:00 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVmZ2GRKqEnZgQKzJ1-Hy-Cz8yoUOhD0TMMqZriH82-tQ@mail.gmail.com>
-Message-ID: <CAMuHMdVmZ2GRKqEnZgQKzJ1-Hy-Cz8yoUOhD0TMMqZriH82-tQ@mail.gmail.com>
-Subject: Re: [PATCH v2 08/19] arch/m68k: Implement <asm/fb.h> with generic helpers
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: arnd@arndb.de, daniel.vetter@ffwll.ch, deller@gmx.de, javierm@redhat.com, 
-	gregkh@linuxfoundation.org, linux-arch@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org, 
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org, 
-	sparclinux@vger.kernel.org, x86@kernel.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230411_012026_452776_CACDEA99 
-X-CRM114-Status: GOOD (  13.66  )
+X-CRM114-CacheID: sfid-20230411_231812_362188_62E85EE0 
+X-CRM114-Status: GOOD (  12.11  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,25 +77,60 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-T24gVGh1LCBBcHIgNiwgMjAyMyBhdCA0OjMw4oCvUE0gVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
-ZXJtYW5uQHN1c2UuZGU+IHdyb3RlOgo+IFJlcGxhY2UgdGhlIGFyY2hpdGVjdHVyZSdzIGZiX2lz
-X3ByaW1hcnlfZGV2aWNlKCkgd2l0aCB0aGUgZ2VuZXJpYwo+IG9uZSBmcm9tIDxhc20tZ2VuZXJp
-Yy9mYi5oPi4gTm8gZnVuY3Rpb25hbCBjaGFuZ2VzLgo+Cj4gdjI6Cj4gICAgICAgICAqIHByb3Zp
-ZGUgZW1wdHkgZmJfcGdwcm90ZWN0KCkgb24gbm9uLU1NVSBzeXN0ZW1zCj4KPiBTaWduZWQtb2Zm
-LWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KPiBDYzogR2VlcnQg
-VXl0dGVyaG9ldmVuIDxnZWVydEBsaW51eC1tNjhrLm9yZz4KCkFja2VkLWJ5OiBHZWVydCBVeXR0
-ZXJob2V2ZW4gPGdlZXJ0QGxpbnV4LW02OGsub3JnPgoKR3J7b2V0amUsZWV0aW5nfXMsCgogICAg
-ICAgICAgICAgICAgICAgICAgICBHZWVydAoKLS0KR2VlcnQgVXl0dGVyaG9ldmVuIC0tIFRoZXJl
-J3MgbG90cyBvZiBMaW51eCBiZXlvbmQgaWEzMiAtLSBnZWVydEBsaW51eC1tNjhrLm9yZwoKSW4g
-cGVyc29uYWwgY29udmVyc2F0aW9ucyB3aXRoIHRlY2huaWNhbCBwZW9wbGUsIEkgY2FsbCBteXNl
-bGYgYSBoYWNrZXIuIEJ1dAp3aGVuIEknbSB0YWxraW5nIHRvIGpvdXJuYWxpc3RzIEkganVzdCBz
-YXkgInByb2dyYW1tZXIiIG9yIHNvbWV0aGluZyBsaWtlIHRoYXQuCiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgLS0gTGludXMgVG9ydmFsZHMKCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51
-eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3Jn
-L21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
+Thomas Zimmermann <tzimmermann@suse.de> writes:
+> Replace the architecture's fb_is_primary_device() with the generic
+> one from <asm-generic/fb.h>. No functional changes.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Nicholas Piggin <npiggin@gmail.com>
+> Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+> ---
+>  arch/powerpc/include/asm/fb.h | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+
+Looks fine.
+
+Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
+
+cheers
+
+> diff --git a/arch/powerpc/include/asm/fb.h b/arch/powerpc/include/asm/fb.h
+> index 6541ab77c5b9..5f1a2e5f7654 100644
+> --- a/arch/powerpc/include/asm/fb.h
+> +++ b/arch/powerpc/include/asm/fb.h
+> @@ -2,8 +2,8 @@
+>  #ifndef _ASM_FB_H_
+>  #define _ASM_FB_H_
+>  
+> -#include <linux/fb.h>
+>  #include <linux/fs.h>
+> +
+>  #include <asm/page.h>
+>  
+>  static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
+> @@ -13,10 +13,8 @@ static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
+>  						 vma->vm_end - vma->vm_start,
+>  						 vma->vm_page_prot);
+>  }
+> +#define fb_pgprotect fb_pgprotect
+>  
+> -static inline int fb_is_primary_device(struct fb_info *info)
+> -{
+> -	return 0;
+> -}
+> +#include <asm-generic/fb.h>
+>  
+>  #endif /* _ASM_FB_H_ */
+> -- 
+> 2.40.0
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
