@@ -4,129 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 80843C77B61
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 13 Apr 2023 12:52:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 270B5C77B70
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 14 Apr 2023 08:04:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Subject:Cc:To:From:Date:References:
-	In-Reply-To:Message-Id:Mime-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=YgVXKF5126rk7sIMt/QLOre7UgxDKC8gAK9fv2geVQ0=; b=kF/4GMWQZZtRsR
-	oIsMHyEoF+OApLUeA/G3QvpJbzML38u5E8M1u6w4kOTVH29ZjjIwpW+FbsNw2S6+8hGfws6EBUO9X
-	avolovzomwD+zgr/x+qlpbvX2ZNUER9+ZYQBSeVjRYh0IzLy6Esqgc0mlS08rLfBPEKNcA0dWTzar
-	GI98WliHO6iaRH4lxPQJ57CyN8niNhM0ALMpgkvA57OO2x/bOkkvmRwjOImfd/Cq5qiFRFUrWqDAR
-	ZFn4yjMr2vRWbotZi/rpHRfC2ZAzb0DyyNJrOHSkVIRS2thWsM8UQaXzlRhb1Wi4NzoOIejIsr8LG
-	3cWZ6q43yPysKNdPxNuQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=QSbiUd7kuH/sqLEYkNcePrNhbbtID4EMQeqtXUtK2H8=; b=Lwr8oQTc/VP002
+	ZktJsyCyx3kCJPxOSYfC3oKOfM+QxDKzZRHX/8C4j+uZ6iEUWcoRntihuIZOm459dTUtUelSVK9yG
+	T78LTseucVa7F1iQSMwB3qWfcqlNIFoaSQPiSWcaVg0a+S52TP9zpY5VLSE6nsVk6pMCxH0fAcmIc
+	756rPDUYrO2fS4e/rAS0FS6XuXld+IG4jY6z9p0RxcOnbk8IWGobu3C2dYrNO/f26TWASvjAmFClB
+	KfxfJZR75MZPXhJCe3yogIlB+ocnzhgRLb5LcuVRqGZqmOUx4rSMhEIEgU4jzFY5g7tEwI8UULCpa
+	LRcK9hlAXjXzMm+nn1xA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmwQy-006Arm-1o;
-	Thu, 13 Apr 2023 12:52:16 +0000
-Received: from wnew4-smtp.messagingengine.com ([64.147.123.18])
+	id 1pnEQ1-008dI5-2q;
+	Fri, 14 Apr 2023 08:04:29 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pmwQu-006AoO-15;
-	Thu, 13 Apr 2023 12:52:13 +0000
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailnew.west.internal (Postfix) with ESMTP id 5A7EC2B066F8;
-	Thu, 13 Apr 2023 08:52:03 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Thu, 13 Apr 2023 08:52:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1681390322; x=1681397522; bh=NR
-	7qDHxvmrn4O6C7ghCGmkwcCMB9CqvbPSwmBqWhNIE=; b=ZXclSBnVVRa8vpoYG+
-	Nh7NGI1Sfo/+IhOueSX6qtWqFgLpX1O7kGpe874+9lPVAkHB/MzUC6Ip3Qt5J4S1
-	bo+Igz4vPJgrOb5hGwvGzYSyD9RAM686r7y8aQw66DlT4Mt340zXnCYSOX2rluiN
-	l6kWpyNhBIXZQ/WjHlR82CZljPrL2zeVzs/VKz/0NnIUPr0YWmnDYjaoDj48NIs+
-	UFfZMJaZFIZIs03gVqCq4iH3pg/lZtVMlR8XIkQ70K5m2tAxwHrPsotuz4IugI93
-	6XX70k3nZhX+AhqXZznQyr38x7nSAEkpDTOnIVRV2ikChkz1k3AGDfv3Jf0wEK6q
-	B4Qw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1681390322; x=1681397522; bh=NR7qDHxvmrn4O
-	6C7ghCGmkwcCMB9CqvbPSwmBqWhNIE=; b=gqOA+P8sXOuT1JOfKkqGPELz//AFF
-	f2eiDN24y3pX47Aau9zsWL6E8P7Knx1xYRVsUHNfPuY3xLBDKbzMqkoi7VrJfZ+o
-	W2mfsUlFecf2kgDULdtR2hU7Te44ccwG0sZJJ62Vj9KlDW/g2YbNj73dSar7sZor
-	Lalym6dR+k04Z8y/YiYW1TKtaKYCSHw8QkHRYjo8Tdd4ZZV+YIE/S2VHOdNo6IMp
-	Z1kBRS94su8sb72OzoxxZQuCPo8irGFKsthakuC3qSU4fnAaIq/6lBOlIe4lj5le
-	uqmU2YzZXlg34GD8AxHkIBUzub0qWgTia98RBKzwE2Iz+p4RVnYEoo8Ig==
-X-ME-Sender: <xms:8fo3ZIGGcweoBIf29WNloFKKsICMp7uD7W3WGDtwvAzEbureoRK3kQ>
-    <xme:8fo3ZBVH6htlD2rv7m0KIlRDqt5H_xpJqhWk8H5XXhJ6hTi8Y46KqzYekT6ZEcvP-
-    iySV_XAsUXsef2fpLI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekkedgheekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:8fo3ZCJ6WRNY0qBjN-s19TED1hDYTi9JrZ1EWdX72x5Uz5tiomDupw>
-    <xmx:8fo3ZKH4DvlQ_zzGPiQu2mlSLPVJsJocFs7o5u97ykj5S3RFQKqVIQ>
-    <xmx:8fo3ZOVGcI2r7KyDnkTbNlptbOhRxQn3piCwIrpYa2EmmVt1L7apJg>
-    <xmx:8vo3ZLLx-tSRguyqR96OdIBkL35NPK3OPhvrjBvWAq6rBkTuILKinq3Ygk0>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 3A89EB60086; Thu, 13 Apr 2023 08:52:01 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-334-g8c072af647-fm-20230330.001-g8c072af6
-Mime-Version: 1.0
-Message-Id: <66899d69-1339-4a61-8612-6f8e452b0b26@app.fastmail.com>
-In-Reply-To:  <OS0PR01MB5922EDAFCD6DA0313DB99C5E86989@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230327121317.4081816-1-arnd@kernel.org>
- <20230327121317.4081816-22-arnd@kernel.org>
- <OS0PR01MB5922EDAFCD6DA0313DB99C5E86989@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Date: Thu, 13 Apr 2023 14:51:40 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Biju Das" <biju.das.jz@bp.renesas.com>,
- "Arnd Bergmann" <arnd@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: "Vineet Gupta" <vgupta@kernel.org>,
- "Russell King" <linux@armlinux.org.uk>,
- "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Linus Walleij" <linus.walleij@linaro.org>,
- "Catalin Marinas" <catalin.marinas@arm.com>,
- "Will Deacon" <will@kernel.org>, guoren <guoren@kernel.org>,
- "Brian Cain" <bcain@quicinc.com>,
- "Geert Uytterhoeven" <geert@linux-m68k.org>,
- "Michal Simek" <monstr@monstr.eu>,
- "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
- "Dinh Nguyen" <dinguyen@kernel.org>, "Stafford Horne" <shorne@gmail.com>,
- "Helge Deller" <deller@gmx.de>, "Michael Ellerman" <mpe@ellerman.id.au>,
- "Christophe Leroy" <christophe.leroy@csgroup.eu>,
- "Paul Walmsley" <paul.walmsley@sifive.com>,
- "Palmer Dabbelt" <palmer@dabbelt.com>, "Rich Felker" <dalias@libc.org>,
- "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
- "David S . Miller" <davem@davemloft.net>,
- "Max Filippov" <jcmvbkbc@gmail.com>, "Christoph Hellwig" <hch@lst.de>,
- "Robin Murphy" <robin.murphy@arm.com>, "Lad,
- Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "Conor.Dooley" <conor.dooley@microchip.com>,
- "linux-snps-arc@lists.infradead.org"
- <linux-snps-arc@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-oxnas@groups.io" <linux-oxnas@groups.io>,
- "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
- "linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>,
- "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>,
- "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
- "linux-openrisc@vger.kernel.org" <linux-openrisc@vger.kernel.org>,
- "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
- "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
- "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
- "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
- "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
- "linux-xtensa@linux-xtensa.org" <linux-xtensa@linux-xtensa.org>
-Subject: Re: [PATCH 21/21] dma-mapping: replace custom code with generic implementation
+	id 1pnEPz-008dHS-0a
+	for linux-snps-arc@lists.infradead.org;
+	Fri, 14 Apr 2023 08:04:28 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id E905B61509;
+	Fri, 14 Apr 2023 08:04:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1904C433D2;
+	Fri, 14 Apr 2023 08:04:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1681459465;
+	bh=kIJ6lK/Lc6cAvvvb9aZuILfOuK0T9xQHpTLzt8A9dFI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=e6CSSlSynnb8/8SQwximjDYsEgO3iB37cizeXObEuBX6UeZi8PxJbes/BFDKFHl1r
+	 J845+gmamcoMiwEHZXspDymX/EUrJ1c0x2LpLkUaRUwb6c4sSDKK9Lu9lzza8abojD
+	 RuKF8Ji5sBj5MXlRir50HWDq3CKnkFPF18u8iPwydZ2QdJMV1Oc4gP38WMyZgvAFAw
+	 bSzc8eH4UpRLtxV1eCsP8mnq61xV61x6SEdQd8P0WPIzpHETQ62DyT0FuRhFfBlMA8
+	 VFn8ZB8lzhZGvQZooZ11s139afw6PGuEVJO6I/2qXWP+S+ACcTnOg0CGC4JK84r2mZ
+	 5BgtQeI+xEWQQ==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Vineet Gupta <vgupta@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	David Hildenbrand <david@redhat.com>,
+	Vlastimil Babka <vbabka@suse.cz>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	llvm@lists.linux.dev,
+	Tom Rix <trix@redhat.com>,
+	"Liam R. Howlett" <Liam.Howlett@Oracle.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Naoya Horiguchi <naoya.horiguchi@nec.com>,
+	linux-snps-arc@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH] mm: make arch_has_descending_max_zone_pfns() static
+Date: Fri, 14 Apr 2023 10:03:53 +0200
+Message-Id: <20230414080418.110236-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230413_055212_682367_9A472630 
-X-CRM114-Status: UNSURE (   7.27  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230414_010427_497763_F27CF2C2 
+X-CRM114-Status: GOOD (  14.74  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -143,19 +86,77 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 13, 2023, at 14:13, Biju Das wrote:
-> Hi all,
->
-> FYI, this patch breaks on RZ/G2L SMARC EVK board and Arnd will send V2 
-> for fixing this issue.
->
-> [10:53] <biju> [    3.384408] Unable to handle kernel paging request at 
-> virtual address 000000004afb0080
+From: Arnd Bergmann <arnd@arndb.de>
 
-Right, sorry about this, I accidentally removed the 'phys_to_virt()'
-conversion on arm64.
+clang produces a build failure on x86 for some randconfig builds
+after a change that moves around code to mm/mm_init.c:
 
-     Arnd
+Cannot find symbol for section 2: .text.
+mm/mm_init.o: failed
+
+I have not been able to figure out why this happens, but the __weak
+annotation on arch_has_descending_max_zone_pfns() is the trigger here.
+
+Removing the weak function in favor of an open-coded Kconfig option
+check avoids the problem and becomes clearer as well as better to
+optimize by the compiler.
+
+Fixes: 9420f89db2dd ("mm: move most of core MM initialization to mm/mm_init.c")
+Cc: llvm@lists.linux.dev
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ arch/arc/mm/init.c | 5 -----
+ include/linux/mm.h | 1 -
+ mm/mm_init.c       | 4 ++--
+ 3 files changed, 2 insertions(+), 8 deletions(-)
+
+diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
+index ce4e939a7f07..2b89b6c53801 100644
+--- a/arch/arc/mm/init.c
++++ b/arch/arc/mm/init.c
+@@ -74,11 +74,6 @@ void __init early_init_dt_add_memory_arch(u64 base, u64 size)
+ 		base, TO_MB(size), !in_use ? "Not used":"");
+ }
+ 
+-bool arch_has_descending_max_zone_pfns(void)
+-{
+-	return !IS_ENABLED(CONFIG_ARC_HAS_PAE40);
+-}
+-
+ /*
+  * First memory setup routine called from setup_arch()
+  * 1. setup swapper's mm @init_mm
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index ada57b11bb5a..a13cc121841d 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -3061,7 +3061,6 @@ extern void setup_per_cpu_pageset(void);
+ extern int min_free_kbytes;
+ extern int watermark_boost_factor;
+ extern int watermark_scale_factor;
+-extern bool arch_has_descending_max_zone_pfns(void);
+ 
+ /* nommu.c */
+ extern atomic_long_t mmap_pages_allocated;
+diff --git a/mm/mm_init.c b/mm/mm_init.c
+index 35302b7bca83..f6165747fd3e 100644
+--- a/mm/mm_init.c
++++ b/mm/mm_init.c
+@@ -1754,9 +1754,9 @@ static void __init free_area_init_memoryless_node(int nid)
+  * Some architectures, e.g. ARC may have ZONE_HIGHMEM below ZONE_NORMAL. For
+  * such cases we allow max_zone_pfn sorted in the descending order
+  */
+-bool __weak arch_has_descending_max_zone_pfns(void)
++static bool arch_has_descending_max_zone_pfns(void)
+ {
+-	return false;
++	return !IS_ENABLED(CONFIG_ARC_HAS_PAE40);
+ }
+ 
+ /**
+-- 
+2.39.2
+
 
 _______________________________________________
 linux-snps-arc mailing list
