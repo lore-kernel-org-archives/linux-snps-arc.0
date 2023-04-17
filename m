@@ -4,62 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6535C7EE2E
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 17 Apr 2023 12:57:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1DD8C77B7D
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 17 Apr 2023 12:58:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Ni+BwC6LPFXXq3BBB9X3JkMjsB3u2c2EorxkNs2NsTY=; b=OkBl8PUgTE3MQH
-	txSOlHeGGmfojM0PdKAvKsY+pLLYsIFOKrIGiFIuY+zZ5treDtfK98QwQQCRIb128K95jT/X9Xp8M
-	TmlBV9lNH7ZC48GQix7QSih7digbvG8XDRcoUvmDcxtGPUp1zZdGsLZpJc+fnN5sW7MqdaWb9GwCl
-	Fr1gWTUxv7sRrmWRSBlPPsM7bCKVjr8sEDtn2bGM9dfmoKezZv5+/jrDEottX5/CxOXNTDmwUFH1c
-	ab9DP7XVXthhs+SmdxAExmY6AlmwneSz5iwL94qWhjHvxJXCKBF8cRvrSgIA3fvbGP9xn/crE9SWx
-	UhvibVArwxzzuscosUSw==;
+	List-Owner; bh=GMS3GTcD/SIEJKQbyCKL+6jki2k54rETKhFD+I2NbIQ=; b=uJE5KPAsFOBKHs
+	qxDRZMEgjFghWxvHyB9fv0bQRI6xStz2iHmtzFRrDsZ0IEiKOguxv4J+NXiI3q+C71In5W0PxZmgg
+	S/9bMF53LNjQD5tZ6Ngla6Uu4uo1Ur3Zxt2tvXrK3dDw9Ei1bXimIQkdSTmrsGoXtxL499HeGSNMI
+	9FtTgYyRCFPgdLtMhP4zHBeweboLra+bJsBa6mEBfHcQjMYi4OfINmBLFzWaXUCvjIWsV3KZt0kt3
+	PMAjllshvxyxYZGxydLHeQhBRVlHTJ7oHniP4rmn65ET6w2ger9cB8C1liNW2ky8iyjX5FsCdWf6C
+	laG2TJAs+w/O65OBjFIw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1poOQQ-00GELS-1s;
-	Mon, 17 Apr 2023 12:57:42 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1poOQi-00GEcV-07;
+	Mon, 17 Apr 2023 12:58:00 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1poOPr-00GDkN-1T;
-	Mon, 17 Apr 2023 12:57:11 +0000
+	id 1poOPs-00GDlO-1c;
+	Mon, 17 Apr 2023 12:57:13 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BC4EA1FE0F;
-	Mon, 17 Apr 2023 12:57:05 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8889D21A8D;
+	Mon, 17 Apr 2023 12:57:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1681736225; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1681736223; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/rz0KVXgl7eygxSOZmb7rFdY5CLJi8hQKmbruW8U1YU=;
-	b=VpHvENwZHnBCyXjOULTtGXZdYAugTWqnh+HTkbLLExQWCyu+/FN1J7BdzAaO6YDeoE7GW4
-	HP8VXSA0tIb8XdH7qNsiW6OXkFbCtAecOY7mH5fW7wFCalLfaXTBxPHiiarpzxr3+IYs9w
-	vtGN25+04Ttm7vFolaDi1M+V0AQnU3o=
+	bh=j7KSwiPY7uLbw1IME3LYZuU9gFambIBR3xxySUb2+TI=;
+	b=EfZYCUikP7bFiNVo5+l9qXrLzuxm2Vd3abksrEEnDoxsTQKrhmiPbfen097LrHvWAM4+2N
+	hvSPGmsd3aqhq6Swk9I4wii/qrsWDOLjj66Z2oOHT2uS34IU1rDb6gSAYfzFLAV2vYcJUp
+	sM8Y7ypvS+J4jf5RJJSoUO+pCRa8IMk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1681736225;
+	s=susede2_ed25519; t=1681736223;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/rz0KVXgl7eygxSOZmb7rFdY5CLJi8hQKmbruW8U1YU=;
-	b=BXMcHuKHts+WrGo+6uxSH+bF2kXeTa35zcDAx3h7WJADV68Zx7N+ICQonVWeTSPJg7atE7
-	I9Yhhfsyb2mxfEAQ==
+	bh=j7KSwiPY7uLbw1IME3LYZuU9gFambIBR3xxySUb2+TI=;
+	b=GES//T+c07G1kTuk+ODN7ny3Jx1Olpmf4YaP5QQcvnNoRxo1fi6wdSBmLQGZ2qX11j7LTb
+	pVVnwMbi1ajtMGAw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 639721390E;
-	Mon, 17 Apr 2023 12:57:05 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1FADA1390E;
+	Mon, 17 Apr 2023 12:57:03 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id MO3fFiFCPWToWwAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 17 Apr 2023 12:57:05 +0000
+	id 8Ou9Bh9CPWToWwAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 17 Apr 2023 12:57:03 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: arnd@arndb.de,
 	daniel.vetter@ffwll.ch,
@@ -82,17 +82,18 @@ Cc: linux-arch@vger.kernel.org,
 	sparclinux@vger.kernel.org,
 	x86@kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	"David S. Miller" <davem@davemloft.net>
-Subject: [PATCH v3 17/19] arch/sparc: Implement fb_is_primary_device() in source file
-Date: Mon, 17 Apr 2023 14:56:49 +0200
-Message-Id: <20230417125651.25126-18-tzimmermann@suse.de>
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+Subject: [PATCH v3 12/19] arch/parisc: Remove trailing whitespaces
+Date: Mon, 17 Apr 2023 14:56:44 +0200
+Message-Id: <20230417125651.25126-13-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230417125651.25126-1-tzimmermann@suse.de>
 References: <20230417125651.25126-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230417_055707_680060_AE5F220D 
-X-CRM114-Status: GOOD (  17.26  )
+X-CRM114-CacheID: sfid-20230417_055708_729447_8BE11E19 
+X-CRM114-Status: UNSURE (   9.68  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,117 +110,28 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Other architectures implment fb_is_primary_device() in a source
-file. Do the same on sparc. No functional changes, but allows to
-remove several include statement from <asm/fb.h>.
-
-v2:
-	* don't include <asm/prom.h> in header file
+Fix trailing whitespaces. No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: "David S. Miller" <davem@davemloft.net>
+Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+Cc: Helge Deller <deller@gmx.de>
 ---
- arch/sparc/Makefile         |  1 +
- arch/sparc/include/asm/fb.h | 23 +++++------------------
- arch/sparc/video/Makefile   |  3 +++
- arch/sparc/video/fbdev.c    | 24 ++++++++++++++++++++++++
- 4 files changed, 33 insertions(+), 18 deletions(-)
- create mode 100644 arch/sparc/video/Makefile
- create mode 100644 arch/sparc/video/fbdev.c
+ arch/parisc/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/sparc/Makefile b/arch/sparc/Makefile
-index a4ea5b05f288..95a9211e48e3 100644
---- a/arch/sparc/Makefile
-+++ b/arch/sparc/Makefile
-@@ -60,6 +60,7 @@ libs-y                 += arch/sparc/prom/
- libs-y                 += arch/sparc/lib/
+diff --git a/arch/parisc/Makefile b/arch/parisc/Makefile
+index a2d8600521f9..0d049a6f6a60 100644
+--- a/arch/parisc/Makefile
++++ b/arch/parisc/Makefile
+@@ -11,7 +11,7 @@
+ # Copyright (C) 1994 by Linus Torvalds
+ # Portions Copyright (C) 1999 The Puffin Group
+ #
+-# Modified for PA-RISC Linux by Paul Lahaie, Alex deVries, 
++# Modified for PA-RISC Linux by Paul Lahaie, Alex deVries,
+ # Mike Shaver, Helge Deller and Martin K. Petersen
+ #
  
- drivers-$(CONFIG_PM) += arch/sparc/power/
-+drivers-$(CONFIG_FB) += arch/sparc/video/
- 
- boot := arch/sparc/boot
- 
-diff --git a/arch/sparc/include/asm/fb.h b/arch/sparc/include/asm/fb.h
-index f699962e9ddf..28609f7a965c 100644
---- a/arch/sparc/include/asm/fb.h
-+++ b/arch/sparc/include/asm/fb.h
-@@ -1,11 +1,12 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- #ifndef _SPARC_FB_H_
- #define _SPARC_FB_H_
--#include <linux/console.h>
--#include <linux/fb.h>
-+
- #include <linux/fs.h>
-+
- #include <asm/page.h>
--#include <asm/prom.h>
-+
-+struct fb_info;
- 
- static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
- 				unsigned long off)
-@@ -15,20 +16,6 @@ static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
- #endif
- }
- 
--static inline int fb_is_primary_device(struct fb_info *info)
--{
--	struct device *dev = info->device;
--	struct device_node *node;
--
--	if (console_set_on_cmdline)
--		return 0;
--
--	node = dev->of_node;
--	if (node &&
--	    node == of_console_device)
--		return 1;
--
--	return 0;
--}
-+int fb_is_primary_device(struct fb_info *info);
- 
- #endif /* _SPARC_FB_H_ */
-diff --git a/arch/sparc/video/Makefile b/arch/sparc/video/Makefile
-new file mode 100644
-index 000000000000..6baddbd58e4d
---- /dev/null
-+++ b/arch/sparc/video/Makefile
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+obj-$(CONFIG_FB) += fbdev.o
-diff --git a/arch/sparc/video/fbdev.c b/arch/sparc/video/fbdev.c
-new file mode 100644
-index 000000000000..dadd5799fbb3
---- /dev/null
-+++ b/arch/sparc/video/fbdev.c
-@@ -0,0 +1,24 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/console.h>
-+#include <linux/fb.h>
-+#include <linux/module.h>
-+
-+#include <asm/fb.h>
-+#include <asm/prom.h>
-+
-+int fb_is_primary_device(struct fb_info *info)
-+{
-+	struct device *dev = info->device;
-+	struct device_node *node;
-+
-+	if (console_set_on_cmdline)
-+		return 0;
-+
-+	node = dev->of_node;
-+	if (node && node == of_console_device)
-+		return 1;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(fb_is_primary_device);
 -- 
 2.40.0
 
