@@ -4,109 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 406BCC77B70
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 17 Apr 2023 13:45:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B8020C77B77
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 17 Apr 2023 13:46:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Date:Cc:To:From:Subject:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=nWwS7Z6TEH1deYlwbwSbcuzC60iJRnfLfgoksrG45Wk=; b=sqoLhkSLhGg+69
-	838O3WXZ24JseYYdv+iVJtQAHCpGsjBzgg9vCZuZpo6wkdJm5LBi8sEevIFe07/N0zFC0wbC269/p
-	56MbQknLBG6dEprQytG0oa2we2OdpzV8GihyqF3MZttPwNWevT+pg4rbo1OGkEKGrwxKREfIsWW5k
-	/W0kgz6OA/m5Tzyqki67NEYlTLeMJi7tzc+feFUJUNuSuXiunduuc8AzaV39nvH/Ltzc8ZgcfzfiD
-	eQnzejI2AW21QPCNpDvtuPOoDsPwW6VH9w7Rte6o7itRPefdAzo7VfzZPsnEMmp8ZoIX3tKkIkY3t
-	yBWJvnCDLdiBG9NkWwmQ==;
+	List-Owner; bh=NsOijCKa/q52ZG/FtLNPg7mYqRS0rH2JSlQKmPhIxm8=; b=xpb2bewnk/GFFS
+	dwP3bi6z7vc9FLzeBOGwCzNZg/apKbtTG9EX8w6oEHgXOtjnDvE/bUJvr4I2vXs3kqdgxwHGs4M1c
+	vUs2RBSBt5TOF9B8YpQMLg6wmQZpYLFKrSgSFgNnPoQ8lESBp8Ypq85vj6HuRjlgJ2Qzdm/EpjHkc
+	Qz9gCpcBUEn3f3Y3/37K6WOGKcrXegqB6k5KRSOGoKljALdYNiXdz3i8SBW10l72K/ulE0gKDEZDh
+	3dUMrb5tfWAC4FntT7pohhqVuBmzPNR1Mj+AYPEUwGXjXNPEXl4sZcG0W45RDwhB3A2nez7x+BVYX
+	aw/9xjnTirZjcilqlHlQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1poPAh-00GS47-1s;
-	Mon, 17 Apr 2023 13:45:31 +0000
+	id 1poPBZ-00GSLy-1D;
+	Mon, 17 Apr 2023 13:46:25 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1poPAe-00GS39-01;
-	Mon, 17 Apr 2023 13:45:28 +0000
+	id 1poPBY-00GSLe-2E;
+	Mon, 17 Apr 2023 13:46:24 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=clUDjDH/bPWQSIzDszYi3/oWFwNxlrGwwLdQNX68Lw4=; b=DDzAq40yzdKWxD9HL+oTPFI3ki
-	HGSYTUnDi+Oo85SfyxFG4pWSsfUQ/vJNOBJI3Ww9tdhrLp3z2sAYHsBCNC5K9poKb8b9zogc6ide6
-	33IKdZd9v39VVhAXORqEUQy0bcd8suSi+7Q/n5wSJ1cz0BVqFfV1iqidXWxJnan96E2rMlNGTou8O
-	rs2LiEUw46xGEVYAw8OWK20RJ3gNQmHTrFL3YI/5rgG/1Bak8WN9USCnIaN08rY1tyigkbjiIEf6X
-	U/BKCCLEWqktVQnamN7ExyLaXQvxJ3ccEXiupSQzO1H0fKWW/TFNk7U/9dWtQHhAlPzjf4O57BryP
-	0Fp5Is9w==;
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	d=infradead.org; s=desiato.20200630; h=MIME-Version:Content-Transfer-Encoding
+	:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=tYckX7iE2DZQWjb4C4RjN1ggljERFqmorKQV6fcmZLY=; b=R23ezUjjfqFbzxFHLdzwsq01Lq
+	/OZBeLL5hlBSAropOpV5rKOe+bTT1vAPiflAN8zxEpP0jlGubBnOududWDojLEp2wva8XPVL47Vdv
+	9OCgSl3C6cdiCbZxpmr753HgIZXGXTtLmlUE6MSxuxKvOpoxeTnh8I1WDn0v3qky5EoOuqSecqBGB
+	dExtHwMAPKWGT+SXr+HRWUY/pQX2g9L+LdcCz1QlVYbqCjrdsTt4mtnITMaeoJSr2ga2z9Whu4Pzl
+	UPN0f2nT5P6Y1xTyXGCGN5qsZRg4ckS/jFsUnN6EBUaJhxLUZEOC7C4+r4O7AvJodIYDJYsK144aa
+	wLRydN2A==;
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
 	by desiato.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1poOPv-00HJmW-0K;
-	Mon, 17 Apr 2023 12:57:14 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id EE88921A8E;
-	Mon, 17 Apr 2023 12:57:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1681736223; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=clUDjDH/bPWQSIzDszYi3/oWFwNxlrGwwLdQNX68Lw4=;
-	b=sFsu/btvzBzKBTdHfoh9f7gkzVBKnILRtZD+kCJlEMjDjzMNkXKXygZ9jYgmbibyQbJsL6
-	ouw4hAWjPH1AAEGek+OihtCjyCyqdsP/q9hEoijffbZglV0Ke+yUyZWWIDOWqDhIkVkEYE
-	PI+Ypb39XIiS8JMssB8rKjFIK94lwrw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1681736223;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=clUDjDH/bPWQSIzDszYi3/oWFwNxlrGwwLdQNX68Lw4=;
-	b=DEhNa/mlpAMmKlm1givPI/g/HB0ECPTaXd4BfaOzWxB90gRjkNnpoRi6MHY/m3Dz1e2PZh
-	kmr7r65eRj2RJWDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8CD061391A;
-	Mon, 17 Apr 2023 12:57:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id sP5mIR9CPWToWwAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 17 Apr 2023 12:57:03 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: arnd@arndb.de,
-	daniel.vetter@ffwll.ch,
-	deller@gmx.de,
-	javierm@redhat.com,
+	id 1poOaG-00HKDM-2r;
+	Mon, 17 Apr 2023 13:07:55 +0000
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.95)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1poOUm-001XyT-HU; Mon, 17 Apr 2023 15:02:12 +0200
+Received: from p5b13a017.dip0.t-ipconnect.de ([91.19.160.23] helo=[192.168.178.81])
+          by inpost2.zedat.fu-berlin.de (Exim 4.95)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1poOUm-003hGd-9V; Mon, 17 Apr 2023 15:02:12 +0200
+Message-ID: <3c188e948506dc97112dcc070cf16e36209c6cc5.camel@physik.fu-berlin.de>
+Subject: Re: [PATCH v3 16/19] arch/sh: Implement <asm/fb.h> with generic
+ helpers
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>, arnd@arndb.de, 
+	daniel.vetter@ffwll.ch, deller@gmx.de, javierm@redhat.com, 
 	gregkh@linuxfoundation.org
-Cc: linux-arch@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-ia64@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org,
-	linux-parisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	x86@kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Subject: [PATCH v3 13/19] arch/parisc: Implement fb_is_primary_device() under arch/parisc
-Date: Mon, 17 Apr 2023 14:56:45 +0200
-Message-Id: <20230417125651.25126-14-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230417125651.25126-1-tzimmermann@suse.de>
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-snps-arc@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-ia64@vger.kernel.org, loongarch@lists.linux.dev, 
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, x86@kernel.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>
+Date: Mon, 17 Apr 2023 15:02:11 +0200
+In-Reply-To: <20230417125651.25126-17-tzimmermann@suse.de>
 References: <20230417125651.25126-1-tzimmermann@suse.de>
+	 <20230417125651.25126-17-tzimmermann@suse.de>
+User-Agent: Evolution 3.48.0 
 MIME-Version: 1.0
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 91.19.160.23
+X-ZEDAT-Hint: PO
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230417_135711_273431_0573A1E4 
-X-CRM114-Status: GOOD (  18.44  )
+X-CRM114-CacheID: sfid-20230417_140753_057570_9AE8DE78 
+X-CRM114-Status: GOOD (  14.09  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,146 +95,61 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Move PARISC's implementation of fb_is_primary_device() into the
-architecture directory. This the place of the declaration and
-where other architectures implement this function. No functional
-changes.
+Hi Thomas!
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Cc: Helge Deller <deller@gmx.de>
----
- arch/parisc/Makefile         |  2 ++
- arch/parisc/include/asm/fb.h |  2 +-
- arch/parisc/video/Makefile   |  3 +++
- arch/parisc/video/fbdev.c    | 27 +++++++++++++++++++++++++++
- drivers/video/sticore.c      | 19 -------------------
- include/video/sticore.h      |  2 ++
- 6 files changed, 35 insertions(+), 20 deletions(-)
- create mode 100644 arch/parisc/video/Makefile
- create mode 100644 arch/parisc/video/fbdev.c
+On Mon, 2023-04-17 at 14:56 +0200, Thomas Zimmermann wrote:
+> Replace the architecture's fbdev helpers with the generic
+> ones from <asm-generic/fb.h>. No functional changes.
+> 
+> v2:
+> 	* use default implementation for fb_pgprotect() (Arnd)
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Cc: Rich Felker <dalias@libc.org>
+> Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+> ---
+>  arch/sh/include/asm/fb.h | 15 +--------------
+>  1 file changed, 1 insertion(+), 14 deletions(-)
+> 
+> diff --git a/arch/sh/include/asm/fb.h b/arch/sh/include/asm/fb.h
+> index 9a0bca2686fd..19df13ee9ca7 100644
+> --- a/arch/sh/include/asm/fb.h
+> +++ b/arch/sh/include/asm/fb.h
+> @@ -2,19 +2,6 @@
+>  #ifndef _ASM_FB_H_
+>  #define _ASM_FB_H_
+>  
+> -#include <linux/fb.h>
+> -#include <linux/fs.h>
+> -#include <asm/page.h>
+> -
+> -static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
+> -				unsigned long off)
+> -{
+> -	vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
+> -}
 
-diff --git a/arch/parisc/Makefile b/arch/parisc/Makefile
-index 0d049a6f6a60..968ebe17494c 100644
---- a/arch/parisc/Makefile
-+++ b/arch/parisc/Makefile
-@@ -119,6 +119,8 @@ export LIBGCC
- 
- libs-y	+= arch/parisc/lib/ $(LIBGCC)
- 
-+drivers-y += arch/parisc/video/
-+
- boot	:= arch/parisc/boot
- 
- PALO := $(shell if (which palo 2>&1); then : ; \
-diff --git a/arch/parisc/include/asm/fb.h b/arch/parisc/include/asm/fb.h
-index 55d29c4f716e..0b9a38ced5c8 100644
---- a/arch/parisc/include/asm/fb.h
-+++ b/arch/parisc/include/asm/fb.h
-@@ -12,7 +12,7 @@ static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
- 	pgprot_val(vma->vm_page_prot) |= _PAGE_NO_CACHE;
- }
- 
--#if defined(CONFIG_FB_STI)
-+#if defined(CONFIG_STI_CORE)
- int fb_is_primary_device(struct fb_info *info);
- #else
- static inline int fb_is_primary_device(struct fb_info *info)
-diff --git a/arch/parisc/video/Makefile b/arch/parisc/video/Makefile
-new file mode 100644
-index 000000000000..16a73cce4661
---- /dev/null
-+++ b/arch/parisc/video/Makefile
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+obj-$(CONFIG_STI_CORE) += fbdev.o
-diff --git a/arch/parisc/video/fbdev.c b/arch/parisc/video/fbdev.c
-new file mode 100644
-index 000000000000..4a0ae08fc75b
---- /dev/null
-+++ b/arch/parisc/video/fbdev.c
-@@ -0,0 +1,27 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2000 Philipp Rumpf <prumpf@tux.org>
-+ * Copyright (C) 2001-2020 Helge Deller <deller@gmx.de>
-+ * Copyright (C) 2001-2002 Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-+ */
-+
-+#include <linux/module.h>
-+
-+#include <asm/fb.h>
-+
-+#include <video/sticore.h>
-+
-+int fb_is_primary_device(struct fb_info *info)
-+{
-+	struct sti_struct *sti;
-+
-+	sti = sti_get_rom(0);
-+
-+	/* if no built-in graphics card found, allow any fb driver as default */
-+	if (!sti)
-+		return true;
-+
-+	/* return true if it's the default built-in framebuffer driver */
-+	return (sti->info == info);
-+}
-+EXPORT_SYMBOL(fb_is_primary_device);
-diff --git a/drivers/video/sticore.c b/drivers/video/sticore.c
-index f8aaedea437d..7eb925f2ba9c 100644
---- a/drivers/video/sticore.c
-+++ b/drivers/video/sticore.c
-@@ -30,7 +30,6 @@
- #include <asm/pdc.h>
- #include <asm/cacheflush.h>
- #include <asm/grfioctl.h>
--#include <asm/fb.h>
- 
- #include <video/sticore.h>
- 
-@@ -1148,24 +1147,6 @@ int sti_call(const struct sti_struct *sti, unsigned long func,
- 	return ret;
- }
- 
--#if defined(CONFIG_FB_STI)
--/* check if given fb_info is the primary device */
--int fb_is_primary_device(struct fb_info *info)
--{
--	struct sti_struct *sti;
--
--	sti = sti_get_rom(0);
--
--	/* if no built-in graphics card found, allow any fb driver as default */
--	if (!sti)
--		return true;
--
--	/* return true if it's the default built-in framebuffer driver */
--	return (sti->info == info);
--}
--EXPORT_SYMBOL(fb_is_primary_device);
--#endif
--
- MODULE_AUTHOR("Philipp Rumpf, Helge Deller, Thomas Bogendoerfer");
- MODULE_DESCRIPTION("Core STI driver for HP's NGLE series graphics cards in HP PARISC machines");
- MODULE_LICENSE("GPL v2");
-diff --git a/include/video/sticore.h b/include/video/sticore.h
-index c0879352cde4..fbb78d7e7565 100644
---- a/include/video/sticore.h
-+++ b/include/video/sticore.h
-@@ -2,6 +2,8 @@
- #ifndef STICORE_H
- #define STICORE_H
- 
-+struct fb_info;
-+
- /* generic STI structures & functions */
- 
- #define MAX_STI_ROMS 4		/* max no. of ROMs which this driver handles */
+Looking at the macro in asm-generic/fb.h, fb_pgprotect() is being replaced with
+a no-op function. Is that intentional? Can you briefly explain the background
+for this change?
+
+> -static inline int fb_is_primary_device(struct fb_info *info)
+> -{
+> -	return 0;
+> -}
+> +#include <asm-generic/fb.h>
+>  
+>  #endif /* _ASM_FB_H_ */
+
+Thanks,
+Adrian
+
 -- 
-2.40.0
-
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
 _______________________________________________
 linux-snps-arc mailing list
