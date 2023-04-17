@@ -4,58 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 032DDC7EE20
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 17 Apr 2023 12:57:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B6B7C7EE26
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 17 Apr 2023 12:57:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=Jt9jrT+VK64Kd+YMBoVnXBtubHcpJvbsRRgopG32D/w=; b=mAfW06CCmOqp9k
-	2MnTi5C8ZzYdAVF5+mOsWqo2JuTF9w2+K96rbNpD6BuvEMLetV6iHkKVJEyCZOtFrVmAjH9Y+y7qn
-	bfD/CzjdjB/mGVPVIAkHova73ZuIRJigtCGTz7Df830DaHo0jmx6A2sRGOYQTJCcRKknYK+OZn+0L
-	qezQiWzofxNY+oqFgb1930ok1R7BGvfXUeuKLk3NwmsuXJNdrlCLaAKUUcgd3t1XSZ57ePc0yPB1W
-	o052TJGMO838HgOwr51I6tH2De5NVVh0M6Gjicma+8wXSHCIw2wXIR8P7AU4W56TVKIMxKa0Xy15e
-	lB9GJjycRfaI7HklWdZA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=ljYyz7g9WiDA6/2k7OHrIyw3H3ljCTPEjZFHBux0mdM=; b=Z7ouqJs0rXHG+p
+	69ZHGyIMmhpI6Xf/GZIkY5RSLgikVcXQaDH1rfKiZK3Vr2J14LiZljUytMQx35at2akd/TC0UQSFH
+	UfktT9dxJGQf/Et2+PvzDW50kZMfwI/paIh73FjX4mzTJg3XSsTkX4EQgZYOLWYiUyYvGXTAZIRGw
+	4xXlBCNtbTjgAR556AMAjfVlYWC2tJi5Dwd+ErvL2xbhzRfE+fxkFl4+gs0on/ULaIuTD3OLEUh0H
+	MYqGR2dc9ZHViivwVKKYzR9ZKcx2loOtpjEY+FgMgpRYPFaiSOuNoeeI4eGqwQIpTQoaok0XmiLUh
+	TEgA9PL6gif06zDynt3Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1poOQ3-00GDuo-10;
-	Mon, 17 Apr 2023 12:57:19 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1poOQ6-00GDy9-1M;
+	Mon, 17 Apr 2023 12:57:22 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1poOPm-00GDfU-39;
-	Mon, 17 Apr 2023 12:57:06 +0000
+	id 1poOPn-00GDfe-0P;
+	Mon, 17 Apr 2023 12:57:07 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 65ACA1F86C;
-	Mon, 17 Apr 2023 12:56:58 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3617F21A36;
+	Mon, 17 Apr 2023 12:56:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1681736218; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=TjKFT65nFde0KHYwvUCAIbizOxCNdL0ntslOVRl87lE=;
-	b=qU6w2kY5MzqEXwd8TMNs58RhCH9e5hAM3giF5jjQmYT6lBuIWGXS/c+WHrP5T+pN3SY2vp
-	NA5N6GTN/+zI0Nkuz0JjvVnZJyhucRMUl5SOITpu5xAQg48nvBBYq194+Km0t5IwM18z2J
-	BTyIpDo3bUNDxPWIkyVoQeOFNoGNWP4=
+	t=1681736219; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zUYLC4uhmtflr00NGTa/M7WWZW7Zg6mEZje1csDZSbg=;
+	b=Nx7XxVCGfybfcP82ngmmN5XPviF4nVs//wabElCmnJpmfJNjr3j3+CZrnN/1eS7aYwJRt0
+	jTt448NR1th+FobN3lHBNqq4FMavSnR8C43OAwIxee/f3oh80QSaGlWNXOXkeoksVNdg1X
+	ynhJszCSodQZpYSgDZFwdb6W31kT3js=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1681736218;
+	s=susede2_ed25519; t=1681736219;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=TjKFT65nFde0KHYwvUCAIbizOxCNdL0ntslOVRl87lE=;
-	b=oVQCEIp+Zsfrb6hp9far1l809Ib3e3nbzdCxJOOQ2f8MndGptEVdK0mKoxA4OcCHq1YcqT
-	IcKcAyErDVaEE+AQ==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zUYLC4uhmtflr00NGTa/M7WWZW7Zg6mEZje1csDZSbg=;
+	b=fLvXJ8uBcoVNqsIpnDGODEggTRPI4GyO19iFICzgJIK/btgzYfN+XgRm5b5X0WiaMjzBg9
+	Ixpgh4PHffQ2e8Cg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E43D31390E;
-	Mon, 17 Apr 2023 12:56:57 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C532C1390E;
+	Mon, 17 Apr 2023 12:56:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id yBGhNhlCPWToWwAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 17 Apr 2023 12:56:57 +0000
+	id 8PZXLxpCPWToWwAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 17 Apr 2023 12:56:58 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: arnd@arndb.de,
 	daniel.vetter@ffwll.ch,
@@ -77,15 +81,19 @@ Cc: linux-arch@vger.kernel.org,
 	linux-sh@vger.kernel.org,
 	sparclinux@vger.kernel.org,
 	x86@kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 00/19] arch: Consolidate <asm/fb.h>
-Date: Mon, 17 Apr 2023 14:56:32 +0200
-Message-Id: <20230417125651.25126-1-tzimmermann@suse.de>
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Vineet Gupta <vgupta@kernel.org>
+Subject: [PATCH v3 02/19] arch/arc: Implement <asm/fb.h> with generic helpers
+Date: Mon, 17 Apr 2023 14:56:34 +0200
+Message-Id: <20230417125651.25126-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230417125651.25126-1-tzimmermann@suse.de>
+References: <20230417125651.25126-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230417_055703_173702_9BD5F719 
-X-CRM114-Status: GOOD (  12.78  )
+X-CRM114-CacheID: sfid-20230417_055703_341221_C54A91A3 
+X-CRM114-Status: UNSURE (   9.93  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,98 +110,46 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Various architectures provide <asm/fb.h> with helpers for fbdev
-framebuffer devices. Share the contained code where possible. There
-is already <asm-generic/fb.h>, which implements generic (as in
-'empty') functions of the fbdev helpers. The header was added in
-commit aafe4dbed0bf ("asm-generic: add generic versions of common
-headers"), but never used.
-
-Each per-architecture header file declares and/or implements fbdev
-helpers and defines a preprocessor token for each. The generic
-header then provides the remaining helpers. It works like the I/O
-helpers in <asm/io.h>.
-
-For PARISC, the architecture helpers are mixed up with helpers
-for the system's STI graphics firmware. We first move the STI code
-to appropriate locations under video/ and then move the architecture
-helper under arch/parisc.
-
-For Sparc, there's an additional patch that moves the implementation
-from the header into a source file. This allows to avoid some include
-statements in the header file.
-
-Built on arm, arm64, m68k, mips, parisc, powerpc, sparc and x86.
+Replace the architecture's fbdev helpers with the generic ones from
+<asm-generic/fb.h>. On arc, pgprot_writecombine() and pgprot_noncached()
+are the same; hence no functional changes.
 
 v3:
-	* use default fb_pgprotect() on arc, parisc, sparc64 (Arnd)
-	* fix includes in generic fb.h
-v2:
-	* make writecombine the default mapping mode (Arnd)
-	* rework fb_pgprotect() on m68k
+	* use default implementation for fb_pgprotect() (Arnd)
 
-Thomas Zimmermann (19):
-  fbdev: Prepare generic architecture helpers
-  arch/arc: Implement <asm/fb.h> with generic helpers
-  arch/arm: Implement <asm/fb.h> with generic helpers
-  arch/arm64: Implement <asm/fb.h> with generic helpers
-  arch/ia64: Implement <asm/fb.h> with generic helpers
-  arch/loongarch: Implement <asm/fb.h> with generic helpers
-  arch/m68k: Merge variants of fb_pgprotect() into single function
-  arch/m68k: Implement <asm/fb.h> with generic helpers
-  arch/mips: Implement <asm/fb.h> with generic helpers
-  video: Remove trailing whitespaces
-  video: Move HP PARISC STI core code to shared location
-  arch/parisc: Remove trailing whitespaces
-  arch/parisc: Implement fb_is_primary_device() under arch/parisc
-  arch/parisc: Implement <asm/fb.h> with generic helpers
-  arch/powerpc: Implement <asm/fb.h> with generic helpers
-  arch/sh: Implement <asm/fb.h> with generic helpers
-  arch/sparc: Implement fb_is_primary_device() in source file
-  arch/sparc: Implement <asm/fb.h> with generic helpers
-  arch/x86: Implement <asm/fb.h> with generic helpers
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Vineet Gupta <vgupta@kernel.org>
+---
+ arch/arc/include/asm/fb.h | 16 ++--------------
+ 1 file changed, 2 insertions(+), 14 deletions(-)
 
- arch/arc/include/asm/fb.h                     |  16 +-
- arch/arm/include/asm/fb.h                     |  15 +-
- arch/arm64/include/asm/fb.h                   |  15 +-
- arch/ia64/include/asm/fb.h                    |  11 +-
- arch/loongarch/include/asm/fb.h               |  15 +-
- arch/m68k/include/asm/fb.h                    |  22 +--
- arch/mips/include/asm/fb.h                    |  10 +-
- arch/parisc/Makefile                          |   4 +-
- arch/parisc/include/asm/fb.h                  |  20 +--
- arch/parisc/video/Makefile                    |   3 +
- arch/parisc/video/fbdev.c                     |  27 +++
- arch/powerpc/include/asm/fb.h                 |   8 +-
- arch/sh/include/asm/fb.h                      |  15 +-
- arch/sparc/Makefile                           |   1 +
- arch/sparc/include/asm/fb.h                   |  33 ++--
- arch/sparc/video/Makefile                     |   3 +
- arch/sparc/video/fbdev.c                      |  24 +++
- arch/x86/include/asm/fb.h                     |  11 +-
- drivers/video/Kconfig                         |   7 +
- drivers/video/Makefile                        |   1 +
- drivers/video/console/Kconfig                 |   1 +
- drivers/video/console/Makefile                |   4 +-
- drivers/video/console/sticon.c                |   6 +-
- drivers/video/fbdev/Kconfig                   |   3 +-
- drivers/video/fbdev/stifb.c                   | 158 +++++++++---------
- drivers/video/{console => }/sticore.c         | 123 ++++++--------
- include/asm-generic/fb.h                      |  24 ++-
- .../video/fbdev => include/video}/sticore.h   |  16 +-
- 28 files changed, 285 insertions(+), 311 deletions(-)
- create mode 100644 arch/parisc/video/Makefile
- create mode 100644 arch/parisc/video/fbdev.c
- create mode 100644 arch/sparc/video/Makefile
- create mode 100644 arch/sparc/video/fbdev.c
- rename drivers/video/{console => }/sticore.c (95%)
- rename {drivers/video/fbdev => include/video}/sticore.h (99%)
-
-
-base-commit: c7cfe0c7215db9556ffe7ce33d1f60f768336cfd
-prerequisite-patch-id: 0aa359f6144c4015c140c8a6750be19099c676fb
-prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
-prerequisite-patch-id: cbc453ee02fae02af22fbfdce56ab732c7a88c36
+diff --git a/arch/arc/include/asm/fb.h b/arch/arc/include/asm/fb.h
+index dc2e303cdbbb..9c2383d29cbb 100644
+--- a/arch/arc/include/asm/fb.h
++++ b/arch/arc/include/asm/fb.h
+@@ -1,20 +1,8 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
++
+ #ifndef _ASM_FB_H_
+ #define _ASM_FB_H_
+ 
+-#include <linux/fb.h>
+-#include <linux/fs.h>
+-#include <asm/page.h>
+-
+-static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
+-				unsigned long off)
+-{
+-	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
+-}
+-
+-static inline int fb_is_primary_device(struct fb_info *info)
+-{
+-	return 0;
+-}
++#include <asm-generic/fb.h>
+ 
+ #endif /* _ASM_FB_H_ */
 -- 
 2.40.0
 
