@@ -4,62 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C86BCC77B7E
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 17 Apr 2023 12:57:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 28283C7EE2C
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 17 Apr 2023 12:57:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=HkkVS7iKYHVPx65jBOXPLdIkLj22KzX8cmlTZ3hyd7A=; b=tW0+oXjy/jCGL+
-	TSorD2tpJ4Wbbr3xRw70NxdZs7VOb4M8Uk0l64O4lYwoQh+qZnmQ+Gi61Gk3ogcWVnWoXBLQVCKZT
-	lzQ9gXpgKxqhQMCMdtCFTSM4CnNqBd+78ExpKtHogrd3tP6c+ms1Ze91lip5bKu9vRUmhPWTj5qzh
-	mT5W891x9RNKjInb1owssPOtazMTMwKcODOTgklVTNEM1xXArBQsR8LJdXaCRFruVaOQeNoMlTDFJ
-	YcGAdpsCEYUxNN6tJEKX496su5qIUMacDBnWBLIplcZh5pyqjIumdVa2ebhSvpOTbu05Jg9sW09eG
-	FTiu7vxICDqIkp07HKfQ==;
+	List-Owner; bh=Gv1edguHpUNehg2FiWfkOpztDpuUQjIy78kHuEzwxpY=; b=G3B4ijnN8bo/ta
+	B6F+TZ+WR8Mzl7uYFd0DILApDanUIPiLtVZIoTcX5kn/tQra8P4MJm2pWWVwbMfpCUSBpHFGjyCbj
+	RwGn3JeWUHDfx+rOlbpqp1mfUH35iLeaBP6zDgP7JJz6/OK3Uz4Xx0pUD2+6BsvxWI6QW1qR1iW2q
+	wiDqpKgyplLVcFZjpMXtdZd4BBmTNkPc9tnkjb8ie7Gderd4EniW87VMJ7vH9yG3SY3eD1pM2zWZh
+	Qjq1rfeN68G37WwR/p+00st4Z0s1j0sopYVM8nGAnZvIHA6UPGgwAdPfT53vQe1GZLIVJJ/zjIoE4
+	+7Ntt6gWzkq2ioNxY0tA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1poOQH-00GE9h-0h;
-	Mon, 17 Apr 2023 12:57:33 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1poOQR-00GEMJ-1o;
+	Mon, 17 Apr 2023 12:57:43 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1poOPo-00GDfr-18;
-	Mon, 17 Apr 2023 12:57:09 +0000
+	id 1poOPr-00GDkM-1Z;
+	Mon, 17 Apr 2023 12:57:11 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9BC4321A6C;
-	Mon, 17 Apr 2023 12:56:59 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5DBB41FE0E;
+	Mon, 17 Apr 2023 12:57:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1681736219; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1681736225; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bCoxmdX4y9ul4c4sc0AlrMWrTF+cPW9BA1U+6LtQKlA=;
-	b=GSewjm+lEW8KBZyq6k2kHcGgK7IVj1O6cUb/UnHesd4WUcP7GuBJTN6h2i+p/ApVcrRAO2
-	aXt7SsAQcV5Dnpwc7lbeInZDr/Nbcsxpr7rVRudBxOBu/YR1sBikVNkfgn+dweeEsKvK9N
-	qpBOjgJ5jYDyXyhCQf4UMDZe2rS0yG0=
+	bh=hepg0DYWNoVEgtpeRDHDiVGtL4xg3TH+o2QLAezNHu8=;
+	b=tI0oQFqoKUAA8WFS40foN8rYwvxbBA+b5zDBMMl4+Cb//2aIRffA3cYa4yXk46WaEfonpT
+	NIP0M/Tx5M+/ODPd3R+TPg51R2LmL/NAGBjhjWQrgGLIoDReqKG2NqODSh8N+oYbyazwv8
+	50bf6n4bBl1OT4tnA1y0cayQavBYnxI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1681736219;
+	s=susede2_ed25519; t=1681736225;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bCoxmdX4y9ul4c4sc0AlrMWrTF+cPW9BA1U+6LtQKlA=;
-	b=cfmVavCcQEqGvbkXWkP5NEynV36t0+zLxVkYn1UhBRPB+CvAWHKcsMiK7EjeLCA4CIv2uh
-	fkJs0ADU+y2AK0Bg==
+	bh=hepg0DYWNoVEgtpeRDHDiVGtL4xg3TH+o2QLAezNHu8=;
+	b=Hfx5Pt0nbEOeS/7kKF8y9bT0wJ8sHUaAHTL3WRPoANqHZdl5oxBcv8NATEsT5orAIoY3Et
+	FTRYsiaDxvQaH2Bw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3A9221391A;
-	Mon, 17 Apr 2023 12:56:59 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E09951390E;
+	Mon, 17 Apr 2023 12:57:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 2OtqDRtCPWToWwAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 17 Apr 2023 12:56:59 +0000
+	id 6LTXNSBCPWToWwAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 17 Apr 2023 12:57:04 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: arnd@arndb.de,
 	daniel.vetter@ffwll.ch,
@@ -82,17 +82,19 @@ Cc: linux-arch@vger.kernel.org,
 	sparclinux@vger.kernel.org,
 	x86@kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	Russell King <linux@armlinux.org.uk>
-Subject: [PATCH v3 03/19] arch/arm: Implement <asm/fb.h> with generic helpers
-Date: Mon, 17 Apr 2023 14:56:35 +0200
-Message-Id: <20230417125651.25126-4-tzimmermann@suse.de>
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Subject: [PATCH v3 16/19] arch/sh: Implement <asm/fb.h> with generic helpers
+Date: Mon, 17 Apr 2023 14:56:48 +0200
+Message-Id: <20230417125651.25126-17-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230417125651.25126-1-tzimmermann@suse.de>
 References: <20230417125651.25126-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230417_055704_577608_FA20D182 
-X-CRM114-Status: UNSURE (   9.78  )
+X-CRM114-CacheID: sfid-20230417_055707_712836_64B235BD 
+X-CRM114-Status: UNSURE (   9.42  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -117,16 +119,18 @@ v2:
 	* use default implementation for fb_pgprotect() (Arnd)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Russell King <linux@armlinux.org.uk>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Rich Felker <dalias@libc.org>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 ---
- arch/arm/include/asm/fb.h | 15 +--------------
+ arch/sh/include/asm/fb.h | 15 +--------------
  1 file changed, 1 insertion(+), 14 deletions(-)
 
-diff --git a/arch/arm/include/asm/fb.h b/arch/arm/include/asm/fb.h
-index d92e99cd8c8a..ce20a43c3033 100644
---- a/arch/arm/include/asm/fb.h
-+++ b/arch/arm/include/asm/fb.h
-@@ -1,19 +1,6 @@
+diff --git a/arch/sh/include/asm/fb.h b/arch/sh/include/asm/fb.h
+index 9a0bca2686fd..19df13ee9ca7 100644
+--- a/arch/sh/include/asm/fb.h
++++ b/arch/sh/include/asm/fb.h
+@@ -2,19 +2,6 @@
  #ifndef _ASM_FB_H_
  #define _ASM_FB_H_
  
