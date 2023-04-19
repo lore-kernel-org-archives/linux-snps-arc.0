@@ -4,70 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 273EBC77B78
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 18 Apr 2023 20:19:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 90B0BC77B73
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 19 Apr 2023 14:22:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=I1mx+CD9Glwxv7A+N5WvjxQrYHQxOYLV6LCVIAwv3yc=; b=hpHXrgSNTHnaZC
-	ulMc2femGtkC6GnvMwpguV+eTZOiKa6Ro/5T33lNv1ZFYC/pLlJOBUH7Lp56avg50hmLjDTnsry78
-	lJUTjxj1clAiX08H21tyUwcj1DIbbMoGjZjORDpNkYnmvkm1HFGHnwUwcRROdcB1e8rUxv36jiG+G
-	RZGul5mdB2CdSJvn/y4EpzJgy2mAdmTTP8UA13cIVr5gnTXbtXKTkwK0cxnEERldWMbGyokhfNCKD
-	osrrMqYwSAcBQ8YsJyyKALcw7VLIu13SfkmzPch1ZWRQiwsbP7PA4t91u/QUTGiKPiei1VrAzeJbR
-	itMwO60TCimczW/k0DnQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:Mime-Version:Message-ID:To:From:CC:In-Reply-To:
+	Subject:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:List-Owner;
+	bh=0fVA580PLnnAsXCej5ipYg5sjMSxrfGc7PGuESs7kzE=; b=mpowbYL1nHELI22DkGhM77cvMl
+	FmQRTYT3x8AHJnqkuzrmckAbBlyi2ZcVpVExeVaaYky9YAxubbig8Tqz+Giqcc88/DqBLnuqVWv4/
+	YhB+mKB05dJwREA3cO5IDFMceUQ/BOU2eOaJqJ0AKO6On/XtWZdVu+xNrOwKfIcZvGCYme6SHtCiT
+	Xfzp/+fR/NwAdxXffGzxGaMrWmlH8KfMRZGJRcOk9ndUhW1T/hvdmArMClBcjiXDwACzy2nSMklBX
+	1xsd0WFIO3icw7JYJg5mYyjFtKaq9BEa9Hm9bdgcsK1+Zr5/QWwGay7pdyO5Nq0iJBkuo8ykwZwpd
+	J0oES/xA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pornL-003GUS-0c;
-	Tue, 18 Apr 2023 20:19:19 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1pp8i0-005e41-1c;
+	Wed, 19 Apr 2023 14:22:56 +0000
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pornH-003GTn-2g
+	id 1pp8hw-005dyb-3A
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 18 Apr 2023 20:19:18 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id BED3063579;
-	Tue, 18 Apr 2023 20:19:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A15BC433D2;
-	Tue, 18 Apr 2023 20:19:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1681849154;
-	bh=818LBOx4Bv0tTU4R6fF/F8RgUh8+pLOLseVWoDF04Mc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VxSWuETwBuSPN7KR5ksPL4CeNNoZaPHeQX9xFxsbjuYNY5Ibx/tYwBgIBdeXos4eL
-	 vPl28hymPjO/NUqY86TbVyQWGIB/CmkfSreKYBqT8iNF8khdSUiLIdE8IzNfimQcsq
-	 0bN1VLPGn4Ep/JH8ndPdU71z/NImVpjwWdQxQrS2dcpLHVBLhQC4etDmwIIhNzJbQ8
-	 84h3wrJ1IjbkrHmI0PAt62hXXRb9+VpGeAMGdVwz0tEiGK+g1l4rVbpCjKKNsh3cgD
-	 uyxfXEY+DqY0UpASqoouTKWRLY3yN2FsBocpC8eSkpukcgNyZQqcOc6cJresUq6vMu
-	 bMp6aAz/r716A==
-Date: Tue, 18 Apr 2023 23:18:58 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Arnd Bergmann <arnd@arndb.de>, llvm@lists.linux.dev,
-	Vineet Gupta <vgupta@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Tom Rix <trix@redhat.com>, David Hildenbrand <david@redhat.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Naoya Horiguchi <naoya.horiguchi@nec.com>,
-	linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH] [v2] mm: make arch_has_descending_max_zone_pfns() static
-Message-ID: <ZD77Mh58MVMVdLrT@kernel.org>
-References: <20230415081904.969049-1-arnd@kernel.org>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20230415081904.969049-1-arnd@kernel.org>
+	Wed, 19 Apr 2023 14:22:54 +0000
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-63b62d2f729so2471177b3a.1
+        for <linux-snps-arc@lists.infradead.org>; Wed, 19 Apr 2023 07:22:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20221208.gappssmtp.com; s=20221208; t=1681914171; x=1684506171;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PqMbvZWHdx/umNn2GDsuDcOtpXqKSdzh2puSjeFvGNg=;
+        b=BQQfPjXj9RjzqoAPS+lEslGY5dDcNNPEbJrUbMfagQ00SpueZWLcpYAadUOn4K2r/7
+         h4HdkG7hv1lk/JwJJQYCK1kCSiFRuTmkN44fcy7kPteadqn38MkQ3ndJHP2Mc9t7NrZL
+         nmp1DYP7b7nPYrKCi/AHIrNyGwWhrPzKd1bjeAAqOo6tX3/AL+K+6SRGBPhAsfYsDgSs
+         dPS/aO0HTzlFjGLxzQlmfHBIIf93KsDsbdHG4ySz5E0QxtwHAyLnkpkj20M9cIgvdPfV
+         aEw0KFtyNn5lgDQSa9YMyBJglZh/UHtAgTzAA5ieEsZiecFBH/5j299y8tclByk2q0hU
+         dWkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681914171; x=1684506171;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PqMbvZWHdx/umNn2GDsuDcOtpXqKSdzh2puSjeFvGNg=;
+        b=avQWUXL87kuXJub3R6sfUyAaUrVWsKdWSdka5CE5wawDf4iJpf3bNh441nz28Pg68q
+         Gmq0kRcMqey8Ny3bTSKOHa/naGhhSRuLeDejyJ/2Tf+WfDwRllU9BQG7ec8J4HhW3msu
+         XQ/yMINCanISu1oR/dyD+jjuIpoevAwo9MbVkP+hwi9+Loa6zK8hQ3sIgh9urqEQ5KM8
+         xrdSOTowXVz+l7FRY9oGoMGaC7kUY0PdPLxXTKRMyBTlRTvVYPSWpEux88MaJl9xs6Q+
+         1299EiFPkTK8BBT3y6STyP3QCk31NPjJJ09j7hXjleVjxv/kogmTyjBwOTQauE14TVBv
+         sSDg==
+X-Gm-Message-State: AAQBX9e8vFyZc/TVmzz/kwPSUyhe/1LkiDxr+ZSBH0bDK7n5gZFQW3WP
+	t8vz9s24DTKrZr8IRZPbwLF4gg==
+X-Google-Smtp-Source: AKy350bZHj+5SLgwTf96Z4FllovZ8h4/H1ZYpgVXzzdS4Hiiw7gNLDstVjX8e8aaqlbpRvsz3GY15A==
+X-Received: by 2002:a05:6a00:2355:b0:63b:8778:99f7 with SMTP id j21-20020a056a00235500b0063b877899f7mr4656389pfj.9.1681914170729;
+        Wed, 19 Apr 2023 07:22:50 -0700 (PDT)
+Received: from localhost ([135.180.227.0])
+        by smtp.gmail.com with ESMTPSA id j7-20020aa78dc7000000b0063b806b111csm7467077pfr.169.2023.04.19.07.22.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Apr 2023 07:22:50 -0700 (PDT)
+Date: Wed, 19 Apr 2023 07:22:50 -0700 (PDT)
+X-Google-Original-Date: Wed, 19 Apr 2023 07:22:40 PDT (-0700)
+Subject: Re: [PATCH 08/21] riscv: dma-mapping: only invalidate after DMA, not flush
+In-Reply-To: <20230327121317.4081816-9-arnd@kernel.org>
+CC: linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, vgupta@kernel.org,
+  linux@armlinux.org.uk, neil.armstrong@linaro.org, linus.walleij@linaro.org,
+  Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, guoren@kernel.org, bcain@quicinc.com,
+  geert@linux-m68k.org, monstr@monstr.eu, tsbogend@alpha.franken.de, dinguyen@kernel.org,
+  shorne@gmail.com, deller@gmx.de, mpe@ellerman.id.au, christophe.leroy@csgroup.eu,
+  Paul Walmsley <paul.walmsley@sifive.com>, dalias@libc.org, glaubitz@physik.fu-berlin.de, davem@davemloft.net,
+  jcmvbkbc@gmail.com, Christoph Hellwig <hch@lst.de>, robin.murphy@arm.com,
+  prabhakar.mahadev-lad.rj@bp.renesas.com, Conor Dooley <conor.dooley@microchip.com>, linux-snps-arc@lists.infradead.org,
+  linux-arm-kernel@lists.infradead.org, linux-oxnas@groups.io, linux-csky@vger.kernel.org,
+  linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+  linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+  linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+  linux-xtensa@linux-xtensa.org
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: arnd@kernel.org
+Message-ID: <mhng-158f3971-b108-426f-b3e2-4f3c02a2199d@palmer-ri-x1c9>
+Mime-Version: 1.0 (MHng)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230418_131915_962610_6F0953E6 
-X-CRM114-Status: GOOD (  25.15  )
+X-CRM114-CacheID: sfid-20230419_072253_020137_2425800C 
+X-CRM114-Status: GOOD (  18.82  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,93 +97,40 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Sat, Apr 15, 2023 at 10:18:20AM +0200, Arnd Bergmann wrote:
+On Mon, 27 Mar 2023 05:13:04 PDT (-0700), arnd@kernel.org wrote:
 > From: Arnd Bergmann <arnd@arndb.de>
-> 
-> clang produces a build failure on x86 for some randconfig builds
-> after a change that moves around code to mm/mm_init.c:
-> 
-> Cannot find symbol for section 2: .text.
-> mm/mm_init.o: failed
-> 
-> I have not been able to figure out why this happens, but the __weak
-> annotation on arch_has_descending_max_zone_pfns() is the trigger here.
-> 
-> Removing the weak function in favor of an open-coded Kconfig option
-> check avoids the problem and becomes clearer as well as better to
-> optimize by the compiler.
-> 
-> Fixes: 9420f89db2dd ("mm: move most of core MM initialization to mm/mm_init.c")
-> Cc: llvm@lists.linux.dev
+>
+> No other architecture intentionally writes back dirty cache lines into
+> a buffer that a device has just finished writing into. If the cache is
+> clean, this has no effect at all, but if a cacheline in the buffer has
+> actually been written by the CPU,  there is a drive bug that is likely
+> made worse by overwriting that buffer.
+>
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-
-Acked-by: Mike Rapoport (IBM) <rppt@kernel.org>
-
 > ---
-> v2: fix logic bug reported-by: kernel test robot <oliver.sang@intel.com>,
-> see https://lore.kernel.org/oe-lkp/202304151422.5e4d380b-oliver.sang@intel.com
-> ---
->  arch/arc/mm/init.c | 5 -----
->  include/linux/mm.h | 1 -
->  mm/mm_init.c       | 4 ++--
->  3 files changed, 2 insertions(+), 8 deletions(-)
-> 
-> diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
-> index ce4e939a7f07..2b89b6c53801 100644
-> --- a/arch/arc/mm/init.c
-> +++ b/arch/arc/mm/init.c
-> @@ -74,11 +74,6 @@ void __init early_init_dt_add_memory_arch(u64 base, u64 size)
->  		base, TO_MB(size), !in_use ? "Not used":"");
->  }
->  
-> -bool arch_has_descending_max_zone_pfns(void)
-> -{
-> -	return !IS_ENABLED(CONFIG_ARC_HAS_PAE40);
-> -}
-> -
->  /*
->   * First memory setup routine called from setup_arch()
->   * 1. setup swapper's mm @init_mm
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 63acf4a598fe..75d8adce0aee 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -3061,7 +3061,6 @@ extern void setup_per_cpu_pageset(void);
->  extern int min_free_kbytes;
->  extern int watermark_boost_factor;
->  extern int watermark_scale_factor;
-> -extern bool arch_has_descending_max_zone_pfns(void);
->  
->  /* nommu.c */
->  extern atomic_long_t mmap_pages_allocated;
-> diff --git a/mm/mm_init.c b/mm/mm_init.c
-> index 35302b7bca83..7f7f9c677854 100644
-> --- a/mm/mm_init.c
-> +++ b/mm/mm_init.c
-> @@ -1754,9 +1754,9 @@ static void __init free_area_init_memoryless_node(int nid)
->   * Some architectures, e.g. ARC may have ZONE_HIGHMEM below ZONE_NORMAL. For
->   * such cases we allow max_zone_pfn sorted in the descending order
->   */
-> -bool __weak arch_has_descending_max_zone_pfns(void)
-> +static bool arch_has_descending_max_zone_pfns(void)
->  {
-> -	return false;
-> +	return IS_ENABLED(CONFIG_ARC) && !IS_ENABLED(CONFIG_ARC_HAS_PAE40);
->  }
->  
->  /**
-> -- 
-> 2.39.2
-> 
+>  arch/riscv/mm/dma-noncoherent.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/arch/riscv/mm/dma-noncoherent.c b/arch/riscv/mm/dma-noncoherent.c
+> index d919efab6eba..640f4c496d26 100644
+> --- a/arch/riscv/mm/dma-noncoherent.c
+> +++ b/arch/riscv/mm/dma-noncoherent.c
+> @@ -42,7 +42,7 @@ void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
+>  		break;
+>  	case DMA_FROM_DEVICE:
+>  	case DMA_BIDIRECTIONAL:
+> -		ALT_CMO_OP(flush, vaddr, size, riscv_cbom_block_size);
+> +		ALT_CMO_OP(inval, vaddr, size, riscv_cbom_block_size);
+>  		break;
+>  	default:
+>  		break;
 
--- 
-Sincerely yours,
-Mike.
+Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
 
 _______________________________________________
 linux-snps-arc mailing list
