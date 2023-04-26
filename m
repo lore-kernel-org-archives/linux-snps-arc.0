@@ -4,52 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A83D0C77B7C
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 26 Apr 2023 01:28:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE4E6C7EE24
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 26 Apr 2023 13:04:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=d7Ea2aKgmPbXNilg4LssSD2GsMtb5nL2W+xkW51o1LU=; b=DxL90yDJw3+R/V
-	N6lM/JVolgD4IQ1i9sjfKqSW9tXEOVqXXg/tISGVsEEivNIWUoAA9k7NLao15GuHRaiOv/3rmWR4r
-	cSEoSg0ogwwlbncghR9ZdQlRAFcLQvF1B2UOnSsCJ6L5BAu2UA0lvuznAcPvRvHFqxmrQKvEm9fxS
-	v9t5bjvGmns1Y/iwlE77629WM1LIXtTxc4H1oM4Um3rnhTjpSPzkdynEvXooaSu2ekfsse+8hQiGG
-	Q7MnKnYjx4HlV4xn1hUnrSiDUArVjyVjBXyYT94qiyXGuKFyHiVpmkxgbx2lXs8sqT/vE2hhvNs13
-	VbZoYKYodgFMnnSNUWqg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=bmpRKYvXaV7HL67SNWPXAiVjpTJItf9OBnhAkpBNkOU=; b=kRCq6RJuyO2zHx
+	oYjk9vyGe9XzT2Qg+fwP0Ye+3NKZoLU15ZgddpwkmAJInSvs9t4sDmRvLd4JKbTJSVzAlQ48o0fXq
+	nBC9g+7yu8QyaCV11fIe/Dxuakl5B23YHoaHYYr4aUfhHOAsoC9WZMOfR1SjjXsUlhJ+Q8B3i1tEp
+	T2dMwDJP03MFl8jKHZLDwZJOr3JiDho9yYsZHCWaCQoMW2LZzoWdnRMLkX0jNlIhi2U0VEeGUPlB6
+	YgnhwunFdvW104U4OQA7pw2UCe4ePjVRlQezNR/Z7T2CdmK0T9bFbxnCEF8K4kttXTpCJb326cby1
+	n7HEnM5a7LT7FXehbUPA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1prTxB-002aPy-0H;
-	Wed, 26 Apr 2023 01:28:17 +0000
-Received: from [202.114.0.240] (helo=hust.edu.cn)
+	id 1preoz-0040cr-2q;
+	Wed, 26 Apr 2023 13:04:33 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1prTwv-002aHC-0C
-	for linux-snps-arc@lists.infradead.org;
-	Wed, 26 Apr 2023 01:28:14 +0000
-Received: from localhost.localdomain ([172.16.0.254])
-	(user=m202171830@hust.edu.cn mech=LOGIN bits=0)
-	by mx1.hust.edu.cn  with ESMTP id 33Q1RO6N006360-33Q1RO6O006360
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-	Wed, 26 Apr 2023 09:27:29 +0800
-From: Ke Zhang <m202171830@hust.edu.cn>
-To: Vineet Gupta <vgupta@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh@kernel.org>
-Cc: hust-os-kernel-patches@googlegroups.com, Ke Zhang <m202171830@hust.edu.cn>,
-        Dongliang Mu <dzm91@hust.edu.cn>,
-        Vineet Gupta <Vineet.Gupta1@synopsys.com>,
-        linux-snps-arc@lists.infradead.org, linux-serial@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] serial: arc_uart: fix of_iomap leak in `arc_serial_probe`
-Date: Wed, 26 Apr 2023 09:27:20 +0800
-Message-Id: <20230426012721.6856-1-m202171830@hust.edu.cn>
-X-Mailer: git-send-email 2.25.1
+	id 1preou-0040XN-0M;
+	Wed, 26 Apr 2023 13:04:29 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D0A5321A11;
+	Wed, 26 Apr 2023 13:04:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1682514263; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5KXNAfxrgjDbycBxJlcxj0+DCvoEkkhJjhkxPG9M5Sg=;
+	b=NwBBSZ+sIWvlLSEV1noZVWkCzKwhBP1LWjHA3TdwVqPtYOmWCx6rbx4iL173w8DxsPiU5c
+	tFr5keLaQkWKFThw6WIT92EFrTMmb7ZVjMoE/jUHhCAiqIclKt5e50DEBBtgmsUjWy/EWc
+	0qbAWdTfzSHLy9vVqDWSma4ZlbTMFUk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1682514263;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5KXNAfxrgjDbycBxJlcxj0+DCvoEkkhJjhkxPG9M5Sg=;
+	b=5Jz50+oRo7p9oXYA2tB/+pAVATegFkXtHlnJ8I3a6DTwHInQ4S8pRqY/r/fLOJ+9pLJ3Me
+	Hoe43uU6vTc/LrCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5C534138F0;
+	Wed, 26 Apr 2023 13:04:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id KNOyFVchSWSBMgAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Wed, 26 Apr 2023 13:04:23 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: deller@gmx.de,
+	geert@linux-m68k.org,
+	javierm@redhat.com,
+	daniel@ffwll.ch,
+	vgupta@kernel.org,
+	chenhuacai@kernel.org,
+	kernel@xen0n.name,
+	davem@davemloft.net,
+	James.Bottomley@HansenPartnership.com,
+	arnd@arndb.de
+Cc: linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arch@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-ia64@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-m68k@lists.linux-m68k.org,
+	sparclinux@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-parisc@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 2/5] ipu-v3: Include <linux/io.h>
+Date: Wed, 26 Apr 2023 15:04:17 +0200
+Message-Id: <20230426130420.19942-3-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230426130420.19942-1-tzimmermann@suse.de>
+References: <20230426130420.19942-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-X-FEAS-AUTH-USER: m202171830@hust.edu.cn
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230425_182803_221389_2BEBE523 
-X-CRM114-Status: GOOD (  11.14  )
+X-CRM114-CacheID: sfid-20230426_060428_292541_D67FEE29 
+X-CRM114-Status: UNSURE (   8.52  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,45 +110,28 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Smatch reports:
+The code uses readl() and writel(). Include the header file to
+get the declarations.
 
-drivers/tty/serial/arc_uart.c:631 arc_serial_probe() warn:
-'port->membase' from of_iomap() not released on lines: 631.
-
-In arc_serial_probe(), if uart_add_one_port() fails,
-port->membase is not released, which would cause a resource leak.
-
-To fix this, I replace of_iomap with devm_of_iomap.
-
-Fixes: 8dbe1d5e09a7 ("serial/arc: inline the probe helper")
-Signed-off-by: Ke Zhang <m202171830@hust.edu.cn>
-Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
-This issue is found by static analysis and remains untested.
----
- drivers/tty/serial/arc_uart.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/ipu-v3/ipu-prv.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/tty/serial/arc_uart.c b/drivers/tty/serial/arc_uart.c
-index 59e25f2b6632..be1f3c379382 100644
---- a/drivers/tty/serial/arc_uart.c
-+++ b/drivers/tty/serial/arc_uart.c
-@@ -606,10 +606,11 @@ static int arc_serial_probe(struct platform_device *pdev)
- 	}
- 	uart->baud = val;
+diff --git a/drivers/gpu/ipu-v3/ipu-prv.h b/drivers/gpu/ipu-v3/ipu-prv.h
+index 291ac1bab66d..d4621b1ea7f1 100644
+--- a/drivers/gpu/ipu-v3/ipu-prv.h
++++ b/drivers/gpu/ipu-v3/ipu-prv.h
+@@ -8,6 +8,7 @@
  
--	port->membase = of_iomap(np, 0);
--	if (!port->membase)
-+	port->membase = devm_of_iomap(&pdev->dev, np, 0, NULL);
-+	if (IS_ERR(port->membase)) {
- 		/* No point of dev_err since UART itself is hosed here */
- 		return -ENXIO;
-+	}
+ struct ipu_soc;
  
- 	port->irq = irq_of_parse_and_map(np, 0);
- 
++#include <linux/io.h>
+ #include <linux/types.h>
+ #include <linux/device.h>
+ #include <linux/clk.h>
 -- 
-2.25.1
+2.40.0
 
 
 _______________________________________________
