@@ -4,61 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B4257C7618E
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 26 Apr 2023 13:04:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D761DC77B60
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 26 Apr 2023 13:04:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=oPx7G1dUgWFCfZ+2MxiCp6ae+EIn8/qfLsOyi8uSJnY=; b=QaAhgPZoFeC3l/
-	KoKwBY0o3iISVv9vGIAwPYb9kZz/bf752ikexNh7HmcQ67vkspkNxmNrGNXjcPIZa2gERceV2WiO3
-	KRs38i1+rs/I8AdTpjR5po9i7K7D4f6nd3OeKrzGq5wuLph0dU/UYvv9lxJi1gRRtO1KhNMwfmtKD
-	znT9HtaT/+FRAUJTdYmCicwWr+IvtwKGruTllKVf7yASqIZuWPHqnJSOZRmf9PaaGNlRSwpjctLnH
-	v03wkfT3mz4SyZ9XiIx5Q2O8m8Bz7posRIXjEvi0bgAN9f20peZq2rxdaRS0l+tC9/Ao0+N3UeG8l
-	abGfWvbWyz5MSCDQZ0xA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=f2V+3BYVGoO/WhFhqsGvEFqXWOtDPnYQIEjsdeQ3zJg=; b=lC1LWVL4pwzGQC
+	WDJ656QCUEo42LovgtqWrWohOYWrYoFR4nH4g/7WcUTq2UeT3LzIwTSqTdgm5w/2kjK43u9htxWV+
+	XigbjODhU1qO8YUdD/9S7axNjg9HhKD94wouNj8wn33cabYP2gRUtJ2AiBvUKwkoNe2dBGW/M/Xlp
+	60NPbQug7kgVa5Kek3ckzwKu9iJqd4BlIUcE4P5imrKtDvmawoQbaaWq71J5UblDoPsVG1yCLVEId
+	r7qjslFd7WdcbwqRoscXe2513zqODeNM2z/6+qrQDq56ynpYS7rG1nSOhNeYHXj+dMghxIavrWp1D
+	DCtbfe0SWKcDadNdHQ1g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1prep0-0040dO-0w;
-	Wed, 26 Apr 2023 13:04:34 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1prepB-0040jA-0C;
+	Wed, 26 Apr 2023 13:04:45 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1preou-0040XO-0N;
-	Wed, 26 Apr 2023 13:04:29 +0000
+	id 1preou-0040XP-2L;
+	Wed, 26 Apr 2023 13:04:30 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5779E219F4;
-	Wed, 26 Apr 2023 13:04:23 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F2B2A1FDC9;
+	Wed, 26 Apr 2023 13:04:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1682514263; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R/tS9JBmx3EXdW6NzCCqF9BfBp/DOJu84iEDqCwvGtE=;
-	b=pf2jdoQuLXLEmqU0sFXMpKFlJCsTHHwRDYNU4BNnvQXTkA98WPu2gzDm6GA3ypel97nzLP
-	9EjbIDTu6Un6+cs2RDQ9WFelQ9dL9mptO3vVobXz0AgPfI46Q+VRyHv+wC5rqCATwb8HP/
-	4cbChpgnK0KFjiKQvoMPDl7/SD/moLc=
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=ZvaBzh3f/aiqD52UlKjdoNF7+qwuUVn7MUgqdP2D7Nw=;
+	b=UUB5WwTLuJwXSoCTJ3K7FRWI3bAowE0MAQQnTQ8Woqr9jGn3KSm4fv+l+btYHt/SEzCsD6
+	E6Tz3qvcxaYsO0Ane3YO3a66YgThKstJIJ4Lgjadjm2nGBl3KNTyxPMpou9Mnyuqc/adAL
+	KiMTTGQM90NhVMGC3ytJZ9AIyukntHg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1682514263;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R/tS9JBmx3EXdW6NzCCqF9BfBp/DOJu84iEDqCwvGtE=;
-	b=Yq01Y2RNfXK+Co8xkAY+279QKnS5BApZr1Ak7VpGfxLqwix/BjGADfnv7n56T+c39oiB2M
-	zjBphhE/2LbMnxBg==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=ZvaBzh3f/aiqD52UlKjdoNF7+qwuUVn7MUgqdP2D7Nw=;
+	b=5Y5kjboljw7Gn1Hlnhprb8RfDWvqxVjp+TudZAikLk9S5eG7QO9FJaa/ij7yCLSwcYk6Zr
+	niVmZqqNbyCVxQAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id ECD0B1390E;
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 86AF6138F0;
 	Wed, 26 Apr 2023 13:04:22 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id WOjqOFYhSWSBMgAAMHmgww
+	id eEa6H1YhSWSBMgAAMHmgww
 	(envelope-from <tzimmermann@suse.de>); Wed, 26 Apr 2023 13:04:22 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
@@ -83,16 +79,14 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-parisc@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 1/5] fbdev/matrox: Remove trailing whitespaces
-Date: Wed, 26 Apr 2023 15:04:16 +0200
-Message-Id: <20230426130420.19942-2-tzimmermann@suse.de>
+Subject: [PATCH 0/5] fbdev: Move framebuffer I/O helpers to <asm/fb.h>
+Date: Wed, 26 Apr 2023 15:04:15 +0200
+Message-Id: <20230426130420.19942-1-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230426130420.19942-1-tzimmermann@suse.de>
-References: <20230426130420.19942-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230426_060428_293973_9D55E1BD 
-X-CRM114-Status: GOOD (  13.32  )
+X-CRM114-CacheID: sfid-20230426_060428_912192_F5085A72 
+X-CRM114-Status: GOOD (  11.51  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,61 +103,74 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Fix coding style. No functional changes.
+Fbdev provides helpers for framebuffer I/O, such as fb_readl(),
+fb_writel() or fb_memcpy_to_fb(). The implementation of each helper
+depends on the architecture. It's still all located in fbdev's main
+header file <linux/fb.h>. Move all of it into each archtecture's
+<asm/fb.h>, with shared code in <asm-generic/fb.h>.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/video/fbdev/matrox/matroxfb_accel.c | 6 +++---
- drivers/video/fbdev/matrox/matroxfb_base.h  | 4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
+The first patch a simple whitespace cleanup.
 
-diff --git a/drivers/video/fbdev/matrox/matroxfb_accel.c b/drivers/video/fbdev/matrox/matroxfb_accel.c
-index 9cb0685feddd..ce51227798a1 100644
---- a/drivers/video/fbdev/matrox/matroxfb_accel.c
-+++ b/drivers/video/fbdev/matrox/matroxfb_accel.c
-@@ -88,7 +88,7 @@
- 
- static inline void matrox_cfb4_pal(u_int32_t* pal) {
- 	unsigned int i;
--	
-+
- 	for (i = 0; i < 16; i++) {
- 		pal[i] = i * 0x11111111U;
- 	}
-@@ -96,7 +96,7 @@ static inline void matrox_cfb4_pal(u_int32_t* pal) {
- 
- static inline void matrox_cfb8_pal(u_int32_t* pal) {
- 	unsigned int i;
--	
-+
- 	for (i = 0; i < 16; i++) {
- 		pal[i] = i * 0x01010101U;
- 	}
-@@ -482,7 +482,7 @@ static void matroxfb_1bpp_imageblit(struct matrox_fb_info *minfo, u_int32_t fgx,
- 			/* Tell... well, why bother... */
- 			while (height--) {
- 				size_t i;
--				
-+
- 				for (i = 0; i < step; i += 4) {
- 					/* Hope that there are at least three readable bytes beyond the end of bitmap */
- 					fb_writel(get_unaligned((u_int32_t*)(chardata + i)),mmio.vaddr);
-diff --git a/drivers/video/fbdev/matrox/matroxfb_base.h b/drivers/video/fbdev/matrox/matroxfb_base.h
-index 958be6805f87..c93c69bbcd57 100644
---- a/drivers/video/fbdev/matrox/matroxfb_base.h
-+++ b/drivers/video/fbdev/matrox/matroxfb_base.h
-@@ -301,9 +301,9 @@ struct matrox_altout {
- 	int		(*verifymode)(void* altout_dev, u_int32_t mode);
- 	int		(*getqueryctrl)(void* altout_dev,
- 					struct v4l2_queryctrl* ctrl);
--	int		(*getctrl)(void* altout_dev, 
-+	int		(*getctrl)(void *altout_dev,
- 				   struct v4l2_control* ctrl);
--	int		(*setctrl)(void* altout_dev, 
-+	int		(*setctrl)(void *altout_dev,
- 				   struct v4l2_control* ctrl);
- };
- 
+Until now, <linux/fb.h> contained an include of <asm/io.h>. As this
+will go away patches 2 to 4 prepare include statements in the various
+drivers. Source files that use regular I/O helpers, such as readl(),
+now include <linux/io.h>. Source files that use framebuffer I/O
+helpers, such as fb_readl(), now include <asm/fb.h>. The latter now
+includes <linux/io.h> internally.
+
+Patch 5 moves the framebuffer I/O helpers from <linux/fb.h> into
+the various architecture headers. The common case, where the framebuffer
+is located in I/O memory, serves as the generic implemenation.
+
+The patchset has been built for a variety of platforms, such as x86-64,
+arm, aarch64, ppc64, parisc, m64k, mips and sparc.
+
+Thomas Zimmermann (5):
+  fbdev/matrox: Remove trailing whitespaces
+  ipu-v3: Include <linux/io.h>
+  fbdev: Include <linux/io.h> in various drivers
+  fbdev: Include <linux/io.h> via <asm/fb.h>
+  fbdev: Move framebuffer I/O helpers into <asm/fb.h>
+
+ arch/arc/include/asm/fb.h                   | 29 +++++++
+ arch/ia64/include/asm/fb.h                  | 28 +++++++
+ arch/loongarch/include/asm/fb.h             | 29 +++++++
+ arch/m68k/include/asm/fb.h                  | 29 +++++++
+ arch/sparc/include/asm/fb.h                 | 77 +++++++++++++++++
+ drivers/gpu/ipu-v3/ipu-prv.h                |  1 +
+ drivers/video/fbdev/arcfb.c                 |  1 +
+ drivers/video/fbdev/arkfb.c                 |  2 +
+ drivers/video/fbdev/aty/atyfb.h             |  2 +
+ drivers/video/fbdev/aty/mach64_cursor.c     |  2 +-
+ drivers/video/fbdev/chipsfb.c               |  1 +
+ drivers/video/fbdev/cirrusfb.c              |  2 +
+ drivers/video/fbdev/core/cfbcopyarea.c      |  2 +-
+ drivers/video/fbdev/core/cfbfillrect.c      |  1 +
+ drivers/video/fbdev/core/cfbimgblt.c        |  1 +
+ drivers/video/fbdev/core/svgalib.c          |  3 +-
+ drivers/video/fbdev/cyber2000fb.c           |  2 +
+ drivers/video/fbdev/ep93xx-fb.c             |  2 +
+ drivers/video/fbdev/hgafb.c                 |  3 +-
+ drivers/video/fbdev/hitfb.c                 |  2 +-
+ drivers/video/fbdev/kyro/fbdev.c            |  3 +-
+ drivers/video/fbdev/matrox/matroxfb_accel.c |  8 +-
+ drivers/video/fbdev/matrox/matroxfb_base.h  |  6 +-
+ drivers/video/fbdev/pm2fb.c                 |  3 +
+ drivers/video/fbdev/pm3fb.c                 |  2 +
+ drivers/video/fbdev/pvr2fb.c                |  2 +
+ drivers/video/fbdev/s3fb.c                  |  2 +
+ drivers/video/fbdev/sm712fb.c               |  2 +
+ drivers/video/fbdev/sstfb.c                 |  2 +-
+ drivers/video/fbdev/stifb.c                 |  2 +
+ drivers/video/fbdev/tdfxfb.c                |  3 +-
+ drivers/video/fbdev/tridentfb.c             |  2 +
+ drivers/video/fbdev/vga16fb.c               |  3 +-
+ drivers/video/fbdev/vt8623fb.c              |  2 +
+ drivers/video/fbdev/wmt_ge_rops.c           |  2 +
+ include/asm-generic/fb.h                    | 93 +++++++++++++++++++++
+ include/linux/fb.h                          | 53 ------------
+ 37 files changed, 340 insertions(+), 69 deletions(-)
+
 -- 
 2.40.0
 
