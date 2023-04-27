@@ -4,75 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A26AC77B61
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 27 Apr 2023 17:17:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD3D8C77B61
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 27 Apr 2023 22:00:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=dT5KaCeRlib0T8HIRcoVilAzm7XytjIfa/k1Qv/g9B0=; b=q0AbSGUpkuwpjD
-	JIVt/twca2xXOuMZ8A9NckC6F5rD/qlrq1VpLl9osYLAGRMRt5Ly4T12KQRl7Mwz6teilmR9HfptY
-	X0/Hi4GDQY/6CNT7u+qkIZdeaFKXMLbC4jNP4Oj0if1RWTV4bwflLfy+fFCFyH8k1gI+q0m/M/Ovv
-	TyzQeZ4yKS6h1BoY2BVQ7XkPhtoVeg9fmvYxcP09qIupRdXmvNGBezZoIps21Db4EmC3Ezagn/LDj
-	n9ZtcBEJndraNJsNApfwsjgmMCRWPUI6mOWfCQa4ymI/HyssfbkoXr1+7mn2/6PM1G3ar1fHrn7l5
-	VNTEkwr3jmqmaesBd1BQ==;
+	List-Owner; bh=AtIYEfN1M0WcmEI17zo/Hw08o3Hx7u0NWo85arCYwlM=; b=soVCUiheGzzVGs
+	EDTQ1QQUwzeeGd214SvxVcfUkWRmGePgCEjzz0VWfAnDkqiVgQVxwJn499sUvZc01t04wHgMzXTj0
+	aY+0C093VqvBYxjjav+XFn11qGGtjxLYVd2BXWUnXstZVAkbkcO4AtDuyT+GHnv3GFZxrczlx/y1O
+	aUJwm9IKHTu1AMlLs+uhXq4VuEBtdlJBXqWulAvKyAq2kFwYiy77CT0ofrhW9ksi8/n64Tc4bNDyb
+	JcIz6NtWUPtoPzqxLMUzYBGh2AHNhjiH1S9v0V9Ok0TL+ujRt0clGpG/9xeP54rjOzmolWItwDFz3
+	GgKvyQ+7JG6ZxWtXNYyw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1ps5FX-0075Kj-0Z;
-	Thu, 27 Apr 2023 17:17:43 +0000
-Received: from mailrelay5-1.pub.mailoutpod2-cph3.one.com ([2a02:2350:5:404::1])
+	id 1ps9et-007eSq-0V;
+	Thu, 27 Apr 2023 22:00:11 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1ps5FS-0075H4-0C
+	id 1ps9eq-007eRj-1T
 	for linux-snps-arc@lists.infradead.org;
-	Thu, 27 Apr 2023 17:17:41 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=rsa1;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=3aPWmuilP5wLRilofoqbOrLGxKBwB7pAtJ4SXkaLvoc=;
-	b=TLJMIi0RX8F2D4MECviwMXYvEcVb0lEsEy3+u8aUlSP8SU8rlCRGlNNmsB/nVOCzgK5pBrkqJQZ1F
-	 4Pk0P0hLFN1/gQl0wOoX80yo5LMFFkY8AFk8tIjenbcNtBTjLcrXTVOu35BU0ZgXdWnnSf7qi6nZ3E
-	 orNHCnRqwI7LiLkgzVpEQaOMbxTZLeop5dV4q915EpZK5kidlhmu8EBhfMffenaiZSY9k7inpdXkTU
-	 Jqtqf/GAdMoncZ0gbyd6bbDaxV/c7d0xakYFi8MhdcA4DCSizJdUq7VgNEnQ2ErW0+f+L1lpNilWl3
-	 /TH/k1Te5r34DMQFVMUEym1QgkeLrjQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=ed1;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=3aPWmuilP5wLRilofoqbOrLGxKBwB7pAtJ4SXkaLvoc=;
-	b=G5LZPAqKFgpnZqaJfT/ouJ07IZWuTH9E70Iw4lwAnH6U6PTleuFBBWfBI+H0sNsJGesQJZYrDGZOe
-	 rwUJGIwDg==
-X-HalOne-ID: 62b9268b-e51f-11ed-ad1f-231b2edd0ed2
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-	by mailrelay5 (Halon) with ESMTPSA
-	id 62b9268b-e51f-11ed-ad1f-231b2edd0ed2;
-	Thu, 27 Apr 2023 17:17:31 +0000 (UTC)
-Date: Thu, 27 Apr 2023 19:17:29 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: deller@gmx.de, geert@linux-m68k.org, javierm@redhat.com,
-	daniel@ffwll.ch, vgupta@kernel.org, chenhuacai@kernel.org,
-	kernel@xen0n.name, davem@davemloft.net,
-	James.Bottomley@hansenpartnership.com, arnd@arndb.de,
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-arch@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	sparclinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-parisc@vger.kernel.org
-Subject: Re: [PATCH 0/5] fbdev: Move framebuffer I/O helpers to <asm/fb.h>
-Message-ID: <20230427171729.GA3899979@ravnborg.org>
-References: <20230426130420.19942-1-tzimmermann@suse.de>
- <20230426192110.GA3791243@ravnborg.org>
- <3e33ab1d-b478-fdf5-6fbe-6580000182d1@suse.de>
+	Thu, 27 Apr 2023 22:00:09 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 74A2463FD1
+	for <linux-snps-arc@lists.infradead.org>; Thu, 27 Apr 2023 22:00:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5707C4339E
+	for <linux-snps-arc@lists.infradead.org>; Thu, 27 Apr 2023 22:00:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1682632806;
+	bh=XAJcs9Tq27uSYzyxKqynry6iOShK22+/4P+2nWhnVG4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=nmduOKFPBzQZKl9iACWKsy1r+NBRkDCvE/gjaOt5trThiFnAgRb8ApVPqQ0ai4ZPg
+	 HQjeNRXos8H2zB0tzul+TrvMaJLKJPFD7Arn6gxSppALgIY6tZoA+FdQNyafXACfCn
+	 GnqJ8rHXfVt0zO6R94Olgc+uj2Gz7pXBzJLqX7Pu4NTScksSQ+2PGAGKNnc/igsH5P
+	 oYlklycCDK4Mz1CbFvMdZ51p84cmb1Knv6tjca3gxDes3I/9V/noC1AxlX7m4uwL+O
+	 gtKlVxu8YvXn5/Jg4l7aEhtCPvgGQbJA9+lz5Ka8i1Gk93fRyhIm7ijtbHE3ehJs75
+	 KL12Joi/HBsvw==
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-b8f510fecf4so13756576276.1
+        for <linux-snps-arc@lists.infradead.org>; Thu, 27 Apr 2023 15:00:06 -0700 (PDT)
+X-Gm-Message-State: AC+VfDwlOjQVDof1SevEslIq9lhOgxRt0rwyK4s632abjmTVNe2/Or0/
+	MnG4mmLjKo09vEqrRghDCYxcZIr++EjDIXesbg==
+X-Google-Smtp-Source: ACHHUZ7mW/EfaNcdgWrWRr2AEvbTi7Q+LlVB+H74Yy1MlvvgiGwV1CSsI0Flt3OOunhIdUkchExT6Rm/BmnFgYyRSHM=
+X-Received: by 2002:a05:6902:18c8:b0:b8f:3781:248e with SMTP id
+ ck8-20020a05690218c800b00b8f3781248emr2890576ybb.51.1682632805841; Thu, 27
+ Apr 2023 15:00:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <3e33ab1d-b478-fdf5-6fbe-6580000182d1@suse.de>
+References: <20230426012721.6856-1-m202171830@hust.edu.cn>
+In-Reply-To: <20230426012721.6856-1-m202171830@hust.edu.cn>
+From: Rob Herring <robh@kernel.org>
+Date: Thu, 27 Apr 2023 16:59:54 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLR_REJWVn_dO8R4ngkrqL=E_ksNr=jS0qRmdpmAaD8hQ@mail.gmail.com>
+Message-ID: <CAL_JsqLR_REJWVn_dO8R4ngkrqL=E_ksNr=jS0qRmdpmAaD8hQ@mail.gmail.com>
+Subject: Re: [PATCH] serial: arc_uart: fix of_iomap leak in `arc_serial_probe`
+To: Ke Zhang <m202171830@hust.edu.cn>
+Cc: Vineet Gupta <vgupta@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, hust-os-kernel-patches@googlegroups.com, 
+	Dongliang Mu <dzm91@hust.edu.cn>, Vineet Gupta <Vineet.Gupta1@synopsys.com>, 
+	linux-snps-arc@lists.infradead.org, linux-serial@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230427_101739_608749_38EB90FC 
-X-CRM114-Status: GOOD (  27.34  )
+X-CRM114-CacheID: sfid-20230427_150008_575465_96670BB7 
+X-CRM114-Status: GOOD (  20.20  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,62 +80,39 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Thomas,
-
-On Thu, Apr 27, 2023 at 09:22:47AM +0200, Thomas Zimmermann wrote:
-> Hi Sam
-> 
-> Am 26.04.23 um 21:21 schrieb Sam Ravnborg:
-> > Hi Thomas.
-> > 
-> > On Wed, Apr 26, 2023 at 03:04:15PM +0200, Thomas Zimmermann wrote:
-> > > Fbdev provides helpers for framebuffer I/O, such as fb_readl(),
-> > > fb_writel() or fb_memcpy_to_fb(). The implementation of each helper
-> > > depends on the architecture. It's still all located in fbdev's main
-> > > header file <linux/fb.h>. Move all of it into each archtecture's
-> > > <asm/fb.h>, with shared code in <asm-generic/fb.h>.
-> > 
-> > For once I think this cleanup is moving things in the wrong direction.
-> > 
-> > The fb_* helpers predates the generic io.h support and try to
-> > add a generic layer for read read / write operations.
-> > 
-> > The right fix would be to migrate fb_* to use the io helpers
-> > we have today - so we use the existing way to handle the architecture
-> > specific details.
-> 
-> I looked through the existing versions of the fb_() I/O helpers. They can
-> apparently be implemented with the regular helpers of similar names.
-> 
-> I'm not sure, but even Sparc looks compatible. At least these sbus_
-> functions seem to be equivalent to the __raw_() I/O helpers of similar
-> names.
-
-> Do you still have that Sparc emulator?
-I used qemu the last time I played with sparc and saved the instructions
-somewhere how to redo it - but that would use to bohcs driver only I think.
-I have saprc machines, but none of these are easy to get operational.
-We can always ask on sparclinux to get some testing feedback.
-
-> 
-> > 
-> >  From a quick look there seems to be some challenges but the current
-> > helpers that re-do part of io.h is not the way forward and hiding them
-> > in arch/include/asm/fb.h seems counter productive.
-> 
-> Which challenges did you see?
-sparc was the main thing - but maybe I did not look close enough.
-And then I tried to map the macros to some of the more highlevel ones
-from io.h, but as Arnd says the __raw* is the way to go here.
-
-	Sam
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gVHVlLCBBcHIgMjUsIDIwMjMgYXQgODoyN+KAr1BNIEtlIFpoYW5nIDxtMjAyMTcxODMwQGh1
+c3QuZWR1LmNuPiB3cm90ZToKPgo+IFNtYXRjaCByZXBvcnRzOgo+Cj4gZHJpdmVycy90dHkvc2Vy
+aWFsL2FyY191YXJ0LmM6NjMxIGFyY19zZXJpYWxfcHJvYmUoKSB3YXJuOgo+ICdwb3J0LT5tZW1i
+YXNlJyBmcm9tIG9mX2lvbWFwKCkgbm90IHJlbGVhc2VkIG9uIGxpbmVzOiA2MzEuCj4KPiBJbiBh
+cmNfc2VyaWFsX3Byb2JlKCksIGlmIHVhcnRfYWRkX29uZV9wb3J0KCkgZmFpbHMsCj4gcG9ydC0+
+bWVtYmFzZSBpcyBub3QgcmVsZWFzZWQsIHdoaWNoIHdvdWxkIGNhdXNlIGEgcmVzb3VyY2UgbGVh
+ay4KPgo+IFRvIGZpeCB0aGlzLCBJIHJlcGxhY2Ugb2ZfaW9tYXAgd2l0aCBkZXZtX29mX2lvbWFw
+LgoKSG93IGFib3V0IHVzZSBkZXZtX3BsYXRmb3JtX2lvcmVtYXBfcmVzb3VyY2UoKSBpbnN0ZWFk
+IChvciBhbnkgaW9yZW1hcAp2YXJpYW50KSBhcyB0aGF0IGlzIHByZWZlcnJlZCBvdmVyIG9mX2lv
+bWFwKCkuCgpSb2IKCj4KPiBGaXhlczogOGRiZTFkNWUwOWE3ICgic2VyaWFsL2FyYzogaW5saW5l
+IHRoZSBwcm9iZSBoZWxwZXIiKQo+IFNpZ25lZC1vZmYtYnk6IEtlIFpoYW5nIDxtMjAyMTcxODMw
+QGh1c3QuZWR1LmNuPgo+IFJldmlld2VkLWJ5OiBEb25nbGlhbmcgTXUgPGR6bTkxQGh1c3QuZWR1
+LmNuPgo+IC0tLQo+IFRoaXMgaXNzdWUgaXMgZm91bmQgYnkgc3RhdGljIGFuYWx5c2lzIGFuZCBy
+ZW1haW5zIHVudGVzdGVkLgo+IC0tLQo+ICBkcml2ZXJzL3R0eS9zZXJpYWwvYXJjX3VhcnQuYyB8
+IDUgKysrLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMo
+LSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3R0eS9zZXJpYWwvYXJjX3VhcnQuYyBiL2RyaXZl
+cnMvdHR5L3NlcmlhbC9hcmNfdWFydC5jCj4gaW5kZXggNTllMjVmMmI2NjMyLi5iZTFmM2MzNzkz
+ODIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy90dHkvc2VyaWFsL2FyY191YXJ0LmMKPiArKysgYi9k
+cml2ZXJzL3R0eS9zZXJpYWwvYXJjX3VhcnQuYwo+IEBAIC02MDYsMTAgKzYwNiwxMSBAQCBzdGF0
+aWMgaW50IGFyY19zZXJpYWxfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKPiAg
+ICAgICAgIH0KPiAgICAgICAgIHVhcnQtPmJhdWQgPSB2YWw7Cj4KPiAtICAgICAgIHBvcnQtPm1l
+bWJhc2UgPSBvZl9pb21hcChucCwgMCk7Cj4gLSAgICAgICBpZiAoIXBvcnQtPm1lbWJhc2UpCj4g
+KyAgICAgICBwb3J0LT5tZW1iYXNlID0gZGV2bV9vZl9pb21hcCgmcGRldi0+ZGV2LCBucCwgMCwg
+TlVMTCk7Cj4gKyAgICAgICBpZiAoSVNfRVJSKHBvcnQtPm1lbWJhc2UpKSB7Cj4gICAgICAgICAg
+ICAgICAgIC8qIE5vIHBvaW50IG9mIGRldl9lcnIgc2luY2UgVUFSVCBpdHNlbGYgaXMgaG9zZWQg
+aGVyZSAqLwo+ICAgICAgICAgICAgICAgICByZXR1cm4gLUVOWElPOwoKSWYgYW4gZXJybm8gd2Fz
+IHJldHVybmVkLCB5b3Ugc2hvdWxkIHJldHVybiB0aGF0IGVycm5vIGFuZCBub3QgYSBkaWZmZXJl
+bnQgb25lLgoKUm9iCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5m
+cmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xp
+bnV4LXNucHMtYXJjCg==
