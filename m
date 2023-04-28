@@ -4,60 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3999AC77B61
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 28 Apr 2023 12:19:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12CF5C77B61
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 28 Apr 2023 12:27:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=AsupUt3fFGiansjnFFcwCl5BFCpLLxIOhEUlWPylhMg=; b=SsCi8p3ehKoLVo
-	U3zeKmNNY/z/wNJpk3hoDSD/JnXOpWvaRrMR9B2/KPdOQRHw9v62BplQflu+qHNeVU6jhYZzSvjBV
-	jP0HhZ7aJ1XbXwbqUsMzl89lXztCM+ouIhFQSMtZcrmMjJmsQuUGKsKW5bmswf0zXL8lJFREKK0Z/
-	4MYjFX+CXJQTYCNXp24CH8I8P3OuimRekNaZc1z4or/5JSdXvLnDfikaAm5ktXjohjcGIxCTBN2I+
-	PqfuHwGO3bFjVIiMS3kt5LhfmLxo1Z3ziGG9ZN/TWpvT8PGzX7J4qDvsPH2xs0ICWzIqNZbWfkdYQ
-	kTcHXeArfcQG3El1Bj6w==;
+	List-Owner; bh=FMTVwxV5/0DdLFjrtptQRUdLwGBYIL6IGAR0JYLr/Aw=; b=d9F/PfBudAPTR5
+	1xczuHT5bB4idYID54h7k4hl+CsK+ceKnmusQm/v+ao455aLIttte5KU7uOnUWypThUzAt5OfVwvq
+	B1SsBLVyamegGxYKtt6MPnjG9U/ad9d+izTh7g+WGnYoiSaIGEeaeetcVUarDmZf6y9PLLWsKFyot
+	U0kOzM1zLh+zx/Xibq6wxRBiYMtvb23DBtED6DBd59j1W617w8oe4RhSOZUzi6dNoMR+gluXKcE0R
+	udXlEWUzfK0NZwh+g78s7ZaQB9r0tQ/7pN38ZjTVfuCBPvu/Q5OBza01QQPPIjQb0KUB88lo7SNG6
+	59yictDhmYREEJh+Tc/Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1psN42-009hUs-2s;
-	Fri, 28 Apr 2023 12:19:02 +0000
-Received: from foss.arm.com ([217.140.110.172])
-	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1psN3v-009hNS-0A;
-	Fri, 28 Apr 2023 12:18:56 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C037CC14;
-	Fri, 28 Apr 2023 05:19:35 -0700 (PDT)
-Received: from [10.57.21.5] (unknown [10.57.21.5])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D12E73F5A1;
-	Fri, 28 Apr 2023 05:18:47 -0700 (PDT)
-Message-ID: <430c73f0-45f4-f81e-6506-bc8cc955d936@arm.com>
-Date: Fri, 28 Apr 2023 13:18:42 +0100
+	id 1psNCC-009nfG-2t;
+	Fri, 28 Apr 2023 12:27:28 +0000
+Received: from mail-yw1-f173.google.com ([209.85.128.173])
+	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
+	id 1psNCA-009nbV-0S;
+	Fri, 28 Apr 2023 12:27:27 +0000
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-555d2b43a23so112888317b3.2;
+        Fri, 28 Apr 2023 05:27:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682684841; x=1685276841;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XDsEdn6WDxg314v0qLuVGHvJOHZvS1YLN0vYRrRrPEc=;
+        b=WWpovWC1/7g8WT+vAKQAY+LlmnP24NKPJbHFFj0EWuVrJTxuMKtJgreQ6vJi3p+2lE
+         g+uSMfeyYa3363Gk5H2YSZLYFvXB8X7+A3osIXp+zWTCZu8HNDU1faTC8Qve5dBHCzjq
+         +BCHm0OOA6KuYTPcB2CZ8EEiOcrTZlRbIsho7N2SFJHTd9Wiv3UvlJJ8weI1u21DNQqM
+         Sn5jTltEvPWGH6mRwnwqsU7NuXY6WKrOqpZyqTvHL6G1iY7wSEXxSlVA7IeNHBkhQHo8
+         /TRijlCdiIqYNZtz0iMPJAaBmHknHU1e68w7WWpcBPB2RT+FVz9IifSmnaD1uzp5eHic
+         XQgw==
+X-Gm-Message-State: AC+VfDxIzKoCwjO0rGBnkfhCLRphPfTCHZt18xA0vvlw0BPRfYO9zASF
+	oX2gwyaVu4i/dn19MpTdlZr8mga/Au/++g==
+X-Google-Smtp-Source: ACHHUZ6Un+errl7u/4YfKXZAY3APUDKtrspCv5iBsGUhmcIFF5+S1KdgO+VO1x3ocyVdjF0ovvCZfA==
+X-Received: by 2002:a0d:cb0c:0:b0:54f:a23a:7bd2 with SMTP id n12-20020a0dcb0c000000b0054fa23a7bd2mr3884038ywd.2.1682684841533;
+        Fri, 28 Apr 2023 05:27:21 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id e64-20020a0df543000000b00545b02d4af5sm4650913ywf.48.2023.04.28.05.27.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Apr 2023 05:27:20 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-555d2b43a23so112887167b3.2;
+        Fri, 28 Apr 2023 05:27:19 -0700 (PDT)
+X-Received: by 2002:a81:8a01:0:b0:544:69f5:fadc with SMTP id
+ a1-20020a818a01000000b0054469f5fadcmr3593096ywg.6.1682684839491; Fri, 28 Apr
+ 2023 05:27:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH v2 5/5] fbdev: Define framebuffer I/O from Linux' I/O
- functions
-Content-Language: en-GB
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
- geert@linux-m68k.org, javierm@redhat.com, daniel@ffwll.ch,
- vgupta@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
- davem@davemloft.net, James.Bottomley@HansenPartnership.com, arnd@arndb.de,
- sam@ravnborg.org
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arch@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org,
- loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
- sparclinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-parisc@vger.kernel.org
-References: <20230428092711.406-1-tzimmermann@suse.de>
- <20230428092711.406-6-tzimmermann@suse.de>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20230428092711.406-6-tzimmermann@suse.de>
+References: <20230428092711.406-1-tzimmermann@suse.de> <20230428092711.406-6-tzimmermann@suse.de>
+ <430c73f0-45f4-f81e-6506-bc8cc955d936@arm.com>
+In-Reply-To: <430c73f0-45f4-f81e-6506-bc8cc955d936@arm.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 28 Apr 2023 14:27:05 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUGjtiAR37L4_e0_p8ee2=gxoUj7+e7rqMLTBK+vpV4yw@mail.gmail.com>
+Message-ID: <CAMuHMdUGjtiAR37L4_e0_p8ee2=gxoUj7+e7rqMLTBK+vpV4yw@mail.gmail.com>
+Subject: Re: [PATCH v2 5/5] fbdev: Define framebuffer I/O from Linux' I/O functions
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, javierm@redhat.com, daniel@ffwll.ch, 
+	vgupta@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name, 
+	davem@davemloft.net, James.Bottomley@hansenpartnership.com, arnd@arndb.de, 
+	sam@ravnborg.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-arch@vger.kernel.org, 
+	linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-ia64@vger.kernel.org, loongarch@lists.linux.dev, 
+	linux-m68k@lists.linux-m68k.org, sparclinux@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230428_051855_207026_4895138D 
-X-CRM114-Status: GOOD (  20.61  )
+X-CRM114-CacheID: sfid-20230428_052726_186809_68D6E045 
+X-CRM114-Status: GOOD (  32.70  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,138 +87,77 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 2023-04-28 10:27, Thomas Zimmermann wrote:
-> Implement framebuffer I/O helpers, such as fb_read*() and fb_write*()
-> with Linux' regular I/O functions. Remove all ifdef cases for the
-> various architectures.
-> 
-> Most of the supported architectures use __raw_() I/O functions or treat
-> framebuffer memory like regular memory. This is also implemented by the
-> architectures' I/O function, so we can use them instead.
-> 
-> Sparc uses SBus to connect to framebuffer devices. It provides respective
-> implementations of the framebuffer I/O helpers. The involved sbus_()
-> I/O helpers map to the same code as Sparc's regular I/O functions. As
-> with other platforms, we can use those instead.
-> 
-> We leave a TODO item to replace all fb_() functions with their regular
-> I/O counterparts throughout the fbdev drivers.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->   include/linux/fb.h | 63 +++++++++++-----------------------------------
->   1 file changed, 15 insertions(+), 48 deletions(-)
-> 
-> diff --git a/include/linux/fb.h b/include/linux/fb.h
-> index 08cb47da71f8..4aa9e90edd17 100644
-> --- a/include/linux/fb.h
-> +++ b/include/linux/fb.h
-> @@ -15,7 +15,6 @@
->   #include <linux/list.h>
->   #include <linux/backlight.h>
->   #include <linux/slab.h>
-> -#include <asm/io.h>
->   
->   struct vm_area_struct;
->   struct fb_info;
-> @@ -511,58 +510,26 @@ struct fb_info {
->    */
->   #define STUPID_ACCELF_TEXT_SHIT
->   
-> -// This will go away
-> -#if defined(__sparc__)
-> -
-> -/* We map all of our framebuffers such that big-endian accesses
-> - * are what we want, so the following is sufficient.
-> +/*
-> + * TODO: Update fbdev drivers to call the I/O helpers directly and
-> + *       remove the fb_() tokens.
->    */
-> -
-> -// This will go away
-> -#define fb_readb sbus_readb
-> -#define fb_readw sbus_readw
-> -#define fb_readl sbus_readl
-> -#define fb_readq sbus_readq
-> -#define fb_writeb sbus_writeb
-> -#define fb_writew sbus_writew
-> -#define fb_writel sbus_writel
-> -#define fb_writeq sbus_writeq
-> -#define fb_memset sbus_memset_io
-> -#define fb_memcpy_fromfb sbus_memcpy_fromio
-> -#define fb_memcpy_tofb sbus_memcpy_toio
-> -
-> -#elif defined(__i386__) || defined(__alpha__) || defined(__x86_64__) ||	\
-> -	defined(__hppa__) || defined(__sh__) || defined(__powerpc__) ||	\
-> -	defined(__arm__) || defined(__aarch64__) || defined(__mips__)
-> -
-> -#define fb_readb __raw_readb
-> -#define fb_readw __raw_readw
-> -#define fb_readl __raw_readl
-> -#define fb_readq __raw_readq
-> -#define fb_writeb __raw_writeb
-> -#define fb_writew __raw_writew
-> -#define fb_writel __raw_writel
-> -#define fb_writeq __raw_writeq
-
-Note that on at least some architectures, the __raw variants are 
-native-endian, whereas the regular accessors are explicitly 
-little-endian, so there is a slight risk of inadvertently changing 
-behaviour on big-endian systems (MIPS most likely, but a few old ARM 
-platforms run BE as well).
-
-> +#define fb_readb readb
-> +#define fb_readw readw
-> +#define fb_readl readl
-> +#if defined(CONFIG_64BIT)
-> +#define fb_readq readq
-> +#endif
-
-You probably don't need to bother making these conditional - 32-bit 
-architectures aren't forbidden from providing readq/writeq if they 
-really want to, and drivers can also use the io-64-nonatomic headers for 
-portability. The build will still fail in a sufficiently obvious manner 
-if neither is true.
-
-Thanks,
-Robin.
-
-> +#define fb_writeb writeb
-> +#define fb_writew writew
-> +#define fb_writel writel
-> +#if defined(CONFIG_64BIT)
-> +#define fb_writeq writeq
-> +#endif
->   #define fb_memset memset_io
->   #define fb_memcpy_fromfb memcpy_fromio
->   #define fb_memcpy_tofb memcpy_toio
->   
-> -#else
-> -
-> -#define fb_readb(addr) (*(volatile u8 *) (addr))
-> -#define fb_readw(addr) (*(volatile u16 *) (addr))
-> -#define fb_readl(addr) (*(volatile u32 *) (addr))
-> -#define fb_readq(addr) (*(volatile u64 *) (addr))
-> -#define fb_writeb(b,addr) (*(volatile u8 *) (addr) = (b))
-> -#define fb_writew(b,addr) (*(volatile u16 *) (addr) = (b))
-> -#define fb_writel(b,addr) (*(volatile u32 *) (addr) = (b))
-> -#define fb_writeq(b,addr) (*(volatile u64 *) (addr) = (b))
-> -#define fb_memset memset
-> -#define fb_memcpy_fromfb memcpy
-> -#define fb_memcpy_tofb memcpy
-> -
-> -#endif
-> -
->   #define FB_LEFT_POS(p, bpp)          (fb_be_math(p) ? (32 - (bpp)) : 0)
->   #define FB_SHIFT_HIGH(p, val, bits)  (fb_be_math(p) ? (val) >> (bits) : \
->   						      (val) << (bits))
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gRnJpLCBBcHIgMjgsIDIwMjMgYXQgMjoxOOKAr1BNIFJvYmluIE11cnBoeSA8cm9iaW4ubXVy
+cGh5QGFybS5jb20+IHdyb3RlOgo+IE9uIDIwMjMtMDQtMjggMTA6MjcsIFRob21hcyBaaW1tZXJt
+YW5uIHdyb3RlOgo+ID4gSW1wbGVtZW50IGZyYW1lYnVmZmVyIEkvTyBoZWxwZXJzLCBzdWNoIGFz
+IGZiX3JlYWQqKCkgYW5kIGZiX3dyaXRlKigpCj4gPiB3aXRoIExpbnV4JyByZWd1bGFyIEkvTyBm
+dW5jdGlvbnMuIFJlbW92ZSBhbGwgaWZkZWYgY2FzZXMgZm9yIHRoZQo+ID4gdmFyaW91cyBhcmNo
+aXRlY3R1cmVzLgo+ID4KPiA+IE1vc3Qgb2YgdGhlIHN1cHBvcnRlZCBhcmNoaXRlY3R1cmVzIHVz
+ZSBfX3Jhd18oKSBJL08gZnVuY3Rpb25zIG9yIHRyZWF0Cj4gPiBmcmFtZWJ1ZmZlciBtZW1vcnkg
+bGlrZSByZWd1bGFyIG1lbW9yeS4gVGhpcyBpcyBhbHNvIGltcGxlbWVudGVkIGJ5IHRoZQo+ID4g
+YXJjaGl0ZWN0dXJlcycgSS9PIGZ1bmN0aW9uLCBzbyB3ZSBjYW4gdXNlIHRoZW0gaW5zdGVhZC4K
+PiA+Cj4gPiBTcGFyYyB1c2VzIFNCdXMgdG8gY29ubmVjdCB0byBmcmFtZWJ1ZmZlciBkZXZpY2Vz
+LiBJdCBwcm92aWRlcyByZXNwZWN0aXZlCj4gPiBpbXBsZW1lbnRhdGlvbnMgb2YgdGhlIGZyYW1l
+YnVmZmVyIEkvTyBoZWxwZXJzLiBUaGUgaW52b2x2ZWQgc2J1c18oKQo+ID4gSS9PIGhlbHBlcnMg
+bWFwIHRvIHRoZSBzYW1lIGNvZGUgYXMgU3BhcmMncyByZWd1bGFyIEkvTyBmdW5jdGlvbnMuIEFz
+Cj4gPiB3aXRoIG90aGVyIHBsYXRmb3Jtcywgd2UgY2FuIHVzZSB0aG9zZSBpbnN0ZWFkLgo+ID4K
+PiA+IFdlIGxlYXZlIGEgVE9ETyBpdGVtIHRvIHJlcGxhY2UgYWxsIGZiXygpIGZ1bmN0aW9ucyB3
+aXRoIHRoZWlyIHJlZ3VsYXIKPiA+IEkvTyBjb3VudGVycGFydHMgdGhyb3VnaG91dCB0aGUgZmJk
+ZXYgZHJpdmVycy4KPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHpp
+bW1lcm1hbm5Ac3VzZS5kZT4KPiA+IC0tLQo+ID4gICBpbmNsdWRlL2xpbnV4L2ZiLmggfCA2MyAr
+KysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gPiAgIDEgZmls
+ZSBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCspLCA0OCBkZWxldGlvbnMoLSkKPiA+Cj4gPiBkaWZm
+IC0tZ2l0IGEvaW5jbHVkZS9saW51eC9mYi5oIGIvaW5jbHVkZS9saW51eC9mYi5oCj4gPiBpbmRl
+eCAwOGNiNDdkYTcxZjguLjRhYTllOTBlZGQxNyAxMDA2NDQKPiA+IC0tLSBhL2luY2x1ZGUvbGlu
+dXgvZmIuaAo+ID4gKysrIGIvaW5jbHVkZS9saW51eC9mYi5oCj4gPiBAQCAtMTUsNyArMTUsNiBA
+QAo+ID4gICAjaW5jbHVkZSA8bGludXgvbGlzdC5oPgo+ID4gICAjaW5jbHVkZSA8bGludXgvYmFj
+a2xpZ2h0Lmg+Cj4gPiAgICNpbmNsdWRlIDxsaW51eC9zbGFiLmg+Cj4gPiAtI2luY2x1ZGUgPGFz
+bS9pby5oPgo+ID4KPiA+ICAgc3RydWN0IHZtX2FyZWFfc3RydWN0Owo+ID4gICBzdHJ1Y3QgZmJf
+aW5mbzsKPiA+IEBAIC01MTEsNTggKzUxMCwyNiBAQCBzdHJ1Y3QgZmJfaW5mbyB7Cj4gPiAgICAq
+Lwo+ID4gICAjZGVmaW5lIFNUVVBJRF9BQ0NFTEZfVEVYVF9TSElUCj4gPgo+ID4gLS8vIFRoaXMg
+d2lsbCBnbyBhd2F5Cj4gPiAtI2lmIGRlZmluZWQoX19zcGFyY19fKQo+ID4gLQo+ID4gLS8qIFdl
+IG1hcCBhbGwgb2Ygb3VyIGZyYW1lYnVmZmVycyBzdWNoIHRoYXQgYmlnLWVuZGlhbiBhY2Nlc3Nl
+cwo+ID4gLSAqIGFyZSB3aGF0IHdlIHdhbnQsIHNvIHRoZSBmb2xsb3dpbmcgaXMgc3VmZmljaWVu
+dC4KPiA+ICsvKgo+ID4gKyAqIFRPRE86IFVwZGF0ZSBmYmRldiBkcml2ZXJzIHRvIGNhbGwgdGhl
+IEkvTyBoZWxwZXJzIGRpcmVjdGx5IGFuZAo+ID4gKyAqICAgICAgIHJlbW92ZSB0aGUgZmJfKCkg
+dG9rZW5zLgo+ID4gICAgKi8KPiA+IC0KPiA+IC0vLyBUaGlzIHdpbGwgZ28gYXdheQo+ID4gLSNk
+ZWZpbmUgZmJfcmVhZGIgc2J1c19yZWFkYgo+ID4gLSNkZWZpbmUgZmJfcmVhZHcgc2J1c19yZWFk
+dwo+ID4gLSNkZWZpbmUgZmJfcmVhZGwgc2J1c19yZWFkbAo+ID4gLSNkZWZpbmUgZmJfcmVhZHEg
+c2J1c19yZWFkcQo+ID4gLSNkZWZpbmUgZmJfd3JpdGViIHNidXNfd3JpdGViCj4gPiAtI2RlZmlu
+ZSBmYl93cml0ZXcgc2J1c193cml0ZXcKPiA+IC0jZGVmaW5lIGZiX3dyaXRlbCBzYnVzX3dyaXRl
+bAo+ID4gLSNkZWZpbmUgZmJfd3JpdGVxIHNidXNfd3JpdGVxCj4gPiAtI2RlZmluZSBmYl9tZW1z
+ZXQgc2J1c19tZW1zZXRfaW8KPiA+IC0jZGVmaW5lIGZiX21lbWNweV9mcm9tZmIgc2J1c19tZW1j
+cHlfZnJvbWlvCj4gPiAtI2RlZmluZSBmYl9tZW1jcHlfdG9mYiBzYnVzX21lbWNweV90b2lvCj4g
+PiAtCj4gPiAtI2VsaWYgZGVmaW5lZChfX2kzODZfXykgfHwgZGVmaW5lZChfX2FscGhhX18pIHx8
+IGRlZmluZWQoX194ODZfNjRfXykgfHwgICAgICBcCj4gPiAtICAgICBkZWZpbmVkKF9faHBwYV9f
+KSB8fCBkZWZpbmVkKF9fc2hfXykgfHwgZGVmaW5lZChfX3Bvd2VycGNfXykgfHwgXAo+ID4gLSAg
+ICAgZGVmaW5lZChfX2FybV9fKSB8fCBkZWZpbmVkKF9fYWFyY2g2NF9fKSB8fCBkZWZpbmVkKF9f
+bWlwc19fKQo+ID4gLQo+ID4gLSNkZWZpbmUgZmJfcmVhZGIgX19yYXdfcmVhZGIKPiA+IC0jZGVm
+aW5lIGZiX3JlYWR3IF9fcmF3X3JlYWR3Cj4gPiAtI2RlZmluZSBmYl9yZWFkbCBfX3Jhd19yZWFk
+bAo+ID4gLSNkZWZpbmUgZmJfcmVhZHEgX19yYXdfcmVhZHEKPiA+IC0jZGVmaW5lIGZiX3dyaXRl
+YiBfX3Jhd193cml0ZWIKPiA+IC0jZGVmaW5lIGZiX3dyaXRldyBfX3Jhd193cml0ZXcKPiA+IC0j
+ZGVmaW5lIGZiX3dyaXRlbCBfX3Jhd193cml0ZWwKPiA+IC0jZGVmaW5lIGZiX3dyaXRlcSBfX3Jh
+d193cml0ZXEKPgo+IE5vdGUgdGhhdCBvbiBhdCBsZWFzdCBzb21lIGFyY2hpdGVjdHVyZXMsIHRo
+ZSBfX3JhdyB2YXJpYW50cyBhcmUKPiBuYXRpdmUtZW5kaWFuLCB3aGVyZWFzIHRoZSByZWd1bGFy
+IGFjY2Vzc29ycyBhcmUgZXhwbGljaXRseQo+IGxpdHRsZS1lbmRpYW4sIHNvIHRoZXJlIGlzIGEg
+c2xpZ2h0IHJpc2sgb2YgaW5hZHZlcnRlbnRseSBjaGFuZ2luZwo+IGJlaGF2aW91ciBvbiBiaWct
+ZW5kaWFuIHN5c3RlbXMgKE1JUFMgbW9zdCBsaWtlbHksIGJ1dCBhIGZldyBvbGQgQVJNCj4gcGxh
+dGZvcm1zIHJ1biBCRSBhcyB3ZWxsKS4KCkFsc28gb24gbTY4aywgd2hlbiBJU0Egb3IgUENJIGFy
+ZSBlbmFibGVkLgoKSW4gYWRkaXRpb24sIHRoZSBub24tcmF3IHZhcmlhbnRzIG1heSBkbyBzb21l
+IGV4dHJhcyB0byBndWFyYW50ZWUKb3JkZXJpbmcsIHdoaWNoIHlvdSBkbyBub3QgbmVlZCBvbiBh
+IGZyYW1lIGJ1ZmZlci4KClNvIEknZCBnbyBmb3IgdGhlIF9fcmF3XyooKSB2YXJpYW50cyBldmVy
+eXdoZXJlLgoKR3J7b2V0amUsZWV0aW5nfXMsCgogICAgICAgICAgICAgICAgICAgICAgICBHZWVy
+dAoKLS0gCkdlZXJ0IFV5dHRlcmhvZXZlbiAtLSBUaGVyZSdzIGxvdHMgb2YgTGludXggYmV5b25k
+IGlhMzIgLS0gZ2VlcnRAbGludXgtbTY4ay5vcmcKCkluIHBlcnNvbmFsIGNvbnZlcnNhdGlvbnMg
+d2l0aCB0ZWNobmljYWwgcGVvcGxlLCBJIGNhbGwgbXlzZWxmIGEgaGFja2VyLiBCdXQKd2hlbiBJ
+J20gdGFsa2luZyB0byBqb3VybmFsaXN0cyBJIGp1c3Qgc2F5ICJwcm9ncmFtbWVyIiBvciBzb21l
+dGhpbmcgbGlrZSB0aGF0LgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC0tIExpbnVz
+IFRvcnZhbGRzCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFk
+ZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4
+LXNucHMtYXJjCg==
