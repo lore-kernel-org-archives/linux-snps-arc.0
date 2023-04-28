@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B4FB3C77B61
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 28 Apr 2023 09:27:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59FB1C77B60
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 28 Apr 2023 09:27:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=u2q7AnlExhjqnJtSZN6ZODGHtJcJOCCS2AH2SlZOdRA=; b=dWpxeCRoFjVH+o
-	CQXKRG3E+bDCqWCoslA32ssvjPlOQSskPFvTFueNALCAf3l7y1fIdd1KmFmGn1gTO0AmiEx10idgN
-	nOQE4tuXqRo8CLfMC2uMyvN4pJClb2U+IuNSL8z40Z30cnCslitSn52a5xCc0HRNXwYss/ljicLaD
-	SPG3NHC/s/JdQrQJWB1d79P4sPDFsa3VoYD5mhZ/ec/Qq7yOajYOnRKaW8nnWeu8CzHgsaNRT3zIX
-	w+KgMpEk6YyWER9z8w0670MRJmwZCgkwY7A9Lce0n5GdH/T9XuYyL2iRq1tqmG/HNDn8Gg4eyJbp5
-	rfb2TtUrBq4mG2kstgaw==;
+	List-Owner; bh=uOGYla0TmGCBeh82+almbSEZehdH4TR7VEygJ5Y0mHI=; b=FVwr3a63vW5L50
+	u6qhd1eYFX8hcfm+rJLIso6KIqpg1/mnJqGdpgwvoh9AWwJoAqzxZS+8Jn9J4M+E0wQ9cDNgp/7tL
+	8nGGd/DnHiSebCSpYcUj8J5FJ6R8I5FIfytOdswOZeeczMZ3OOnuIC1chm2E/qGxY6OhBZvxRV2kp
+	COCh7hdJV7WuuVd2MoA0VTDsQPbAKUEW9n87VxFkYf/H4UXeKhLMJ69xy4R2lxeBLTfVHYGWBessd
+	82hVmWao4BVy5dEy2fipa7JExy4c+PCKOiYIqs4EoFMqD6I1rLe8XaEGFEloXWOFHsuiMHs9A+vr0
+	UFnNyFKR1a+iCwW6dWHA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1psKO5-008db4-30;
-	Fri, 28 Apr 2023 09:27:33 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1psKOH-008di6-1P;
+	Fri, 28 Apr 2023 09:27:45 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1psKNr-008dRD-1u;
-	Fri, 28 Apr 2023 09:27:21 +0000
+	id 1psKNr-008dRN-1v;
+	Fri, 28 Apr 2023 09:27:22 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7CC0021ED0;
-	Fri, 28 Apr 2023 09:27:14 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 580052002E;
+	Fri, 28 Apr 2023 09:27:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1682674034; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1682674035; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=a8LPWjgILTwzCXTnxMyf3UL56Gir03CTrjJ1dELdifc=;
-	b=tRo1idc8eAw28xQnhXge5LpcgaCy669Sugd/BNEdm7s3GLfWrCbBTjXbbSEkFDdISLmjSi
-	cQ/jjoC8nKyYtlUnCFrg6ParOvcuZvVLzy6WCsyDi31rBZ63MMDcTI5eoh1D7Ad8JddjB2
-	XzUr10eifrCblQWbIcFJ524QcrmlVx8=
+	bh=5VYWy/AvbpTwYMUvgq/Qf7JvO1LdK29uHbuVPQM8w+I=;
+	b=GVDAylSdFB2aC8MzuHMzQQpnFsJO4b+FYu4OUDiHDHTyD+mATNULQ82rwHCWtJJ2n7oa4O
+	wmtSxgAGOys9EGQlQlyGj32QskSRu6EmzTrpvbR8TcTaUiGEWxITGrBNjm9U13oGsvKd9E
+	L3rjOzqF3CBsko70lonU/BQKqTYWGMo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1682674034;
+	s=susede2_ed25519; t=1682674035;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=a8LPWjgILTwzCXTnxMyf3UL56Gir03CTrjJ1dELdifc=;
-	b=xqvICC3yxUxO4V40p4AlY8i+Sklalw+AWg9U3mY/gt0gtsNV6ltII7GNv4PS2+IQhVAGzn
-	VARzQeB6fUGupIDQ==
+	bh=5VYWy/AvbpTwYMUvgq/Qf7JvO1LdK29uHbuVPQM8w+I=;
+	b=OVW7mKvhPqZ91zi25yBTo9BJR5O4Kqqzh5IohkbwFTzfRAquwndXbRpfe1BoyZ0d8UJeDt
+	2gGjf0nPmiJngkBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 21913139C3;
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EE31E139C3;
 	Fri, 28 Apr 2023 09:27:14 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id iH1rB3KRS2ReFwAAMHmgww
+	id 0HViOXKRS2ReFwAAMHmgww
 	(envelope-from <tzimmermann@suse.de>); Fri, 28 Apr 2023 09:27:14 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
@@ -84,17 +84,16 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-parisc@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 3/5] fbdev: Include <linux/io.h> in various drivers
-Date: Fri, 28 Apr 2023 11:27:09 +0200
-Message-Id: <20230428092711.406-4-tzimmermann@suse.de>
+Subject: [PATCH v2 5/5] fbdev: Define framebuffer I/O from Linux' I/O functions
+Date: Fri, 28 Apr 2023 11:27:11 +0200
+Message-Id: <20230428092711.406-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230428092711.406-1-tzimmermann@suse.de>
 References: <20230428092711.406-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230428_022720_156479_13AE1962 
-X-CRM114-Status: UNSURE (   9.76  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230428_022720_167562_20E43523 
+X-CRM114-Status: GOOD (  12.80  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,57 +110,113 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The code uses writel() and similar I/O-memory helpers. Include
-the header file to get the declarations.
+Implement framebuffer I/O helpers, such as fb_read*() and fb_write*()
+with Linux' regular I/O functions. Remove all ifdef cases for the
+various architectures.
+
+Most of the supported architectures use __raw_() I/O functions or treat
+framebuffer memory like regular memory. This is also implemented by the
+architectures' I/O function, so we can use them instead.
+
+Sparc uses SBus to connect to framebuffer devices. It provides respective
+implementations of the framebuffer I/O helpers. The involved sbus_()
+I/O helpers map to the same code as Sparc's regular I/O functions. As
+with other platforms, we can use those instead.
+
+We leave a TODO item to replace all fb_() functions with their regular
+I/O counterparts throughout the fbdev drivers.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/arcfb.c       | 1 +
- drivers/video/fbdev/aty/atyfb.h   | 2 ++
- drivers/video/fbdev/wmt_ge_rops.c | 2 ++
- 3 files changed, 5 insertions(+)
+ include/linux/fb.h | 63 +++++++++++-----------------------------------
+ 1 file changed, 15 insertions(+), 48 deletions(-)
 
-diff --git a/drivers/video/fbdev/arcfb.c b/drivers/video/fbdev/arcfb.c
-index 45e64016db32..d631d53f42ad 100644
---- a/drivers/video/fbdev/arcfb.c
-+++ b/drivers/video/fbdev/arcfb.c
-@@ -41,6 +41,7 @@
- #include <linux/vmalloc.h>
- #include <linux/delay.h>
- #include <linux/interrupt.h>
-+#include <linux/io.h>
- #include <linux/fb.h>
- #include <linux/init.h>
- #include <linux/arcfb.h>
-diff --git a/drivers/video/fbdev/aty/atyfb.h b/drivers/video/fbdev/aty/atyfb.h
-index 465f55beb97f..30da3e82ed3c 100644
---- a/drivers/video/fbdev/aty/atyfb.h
-+++ b/drivers/video/fbdev/aty/atyfb.h
-@@ -3,8 +3,10 @@
-  *  ATI Frame Buffer Device Driver Core Definitions
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index 08cb47da71f8..4aa9e90edd17 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -15,7 +15,6 @@
+ #include <linux/list.h>
+ #include <linux/backlight.h>
+ #include <linux/slab.h>
+-#include <asm/io.h>
+ 
+ struct vm_area_struct;
+ struct fb_info;
+@@ -511,58 +510,26 @@ struct fb_info {
   */
+ #define STUPID_ACCELF_TEXT_SHIT
  
-+#include <linux/io.h>
- #include <linux/spinlock.h>
- #include <linux/wait.h>
-+
-     /*
-      *  Elements of the hardware specific atyfb_par structure
-      */
-diff --git a/drivers/video/fbdev/wmt_ge_rops.c b/drivers/video/fbdev/wmt_ge_rops.c
-index 42255d27a1db..99c7b0aea615 100644
---- a/drivers/video/fbdev/wmt_ge_rops.c
-+++ b/drivers/video/fbdev/wmt_ge_rops.c
-@@ -9,7 +9,9 @@
+-// This will go away
+-#if defined(__sparc__)
+-
+-/* We map all of our framebuffers such that big-endian accesses
+- * are what we want, so the following is sufficient.
++/*
++ * TODO: Update fbdev drivers to call the I/O helpers directly and
++ *       remove the fb_() tokens.
+  */
+-
+-// This will go away
+-#define fb_readb sbus_readb
+-#define fb_readw sbus_readw
+-#define fb_readl sbus_readl
+-#define fb_readq sbus_readq
+-#define fb_writeb sbus_writeb
+-#define fb_writew sbus_writew
+-#define fb_writel sbus_writel
+-#define fb_writeq sbus_writeq
+-#define fb_memset sbus_memset_io
+-#define fb_memcpy_fromfb sbus_memcpy_fromio
+-#define fb_memcpy_tofb sbus_memcpy_toio
+-
+-#elif defined(__i386__) || defined(__alpha__) || defined(__x86_64__) ||	\
+-	defined(__hppa__) || defined(__sh__) || defined(__powerpc__) ||	\
+-	defined(__arm__) || defined(__aarch64__) || defined(__mips__)
+-
+-#define fb_readb __raw_readb
+-#define fb_readw __raw_readw
+-#define fb_readl __raw_readl
+-#define fb_readq __raw_readq
+-#define fb_writeb __raw_writeb
+-#define fb_writew __raw_writew
+-#define fb_writel __raw_writel
+-#define fb_writeq __raw_writeq
++#define fb_readb readb
++#define fb_readw readw
++#define fb_readl readl
++#if defined(CONFIG_64BIT)
++#define fb_readq readq
++#endif
++#define fb_writeb writeb
++#define fb_writew writew
++#define fb_writel writel
++#if defined(CONFIG_64BIT)
++#define fb_writeq writeq
++#endif
+ #define fb_memset memset_io
+ #define fb_memcpy_fromfb memcpy_fromio
+ #define fb_memcpy_tofb memcpy_toio
  
- #include <linux/module.h>
- #include <linux/fb.h>
-+#include <linux/io.h>
- #include <linux/platform_device.h>
-+
- #include "core/fb_draw.h"
- #include "wmt_ge_rops.h"
- 
+-#else
+-
+-#define fb_readb(addr) (*(volatile u8 *) (addr))
+-#define fb_readw(addr) (*(volatile u16 *) (addr))
+-#define fb_readl(addr) (*(volatile u32 *) (addr))
+-#define fb_readq(addr) (*(volatile u64 *) (addr))
+-#define fb_writeb(b,addr) (*(volatile u8 *) (addr) = (b))
+-#define fb_writew(b,addr) (*(volatile u16 *) (addr) = (b))
+-#define fb_writel(b,addr) (*(volatile u32 *) (addr) = (b))
+-#define fb_writeq(b,addr) (*(volatile u64 *) (addr) = (b))
+-#define fb_memset memset
+-#define fb_memcpy_fromfb memcpy
+-#define fb_memcpy_tofb memcpy
+-
+-#endif
+-
+ #define FB_LEFT_POS(p, bpp)          (fb_be_math(p) ? (32 - (bpp)) : 0)
+ #define FB_SHIFT_HIGH(p, val, bits)  (fb_be_math(p) ? (val) >> (bits) : \
+ 						      (val) << (bits))
 -- 
 2.40.0
 
