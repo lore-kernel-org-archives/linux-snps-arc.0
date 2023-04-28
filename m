@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 765EAC77B60
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 28 Apr 2023 13:01:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19D7FC77B60
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 28 Apr 2023 13:01:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=YsFR6kWowYrR78N1S2PfGrRZLyK9qL9qmkfcChUllJU=; b=nfMUOrEUUH173I
-	JxO1nUwXrS3eDiiy9+rURjkJ5n4c7eooJAxzDNezss+opcgbNej2ikKedTyAnnfcPQoYLHHzRRl4D
-	Ql3tXOl+AVMLiy95HxCb93D7WzfmA4I/NqDVCvgl/o+TlbdzXGYyGAElyvd8XOO996RfcenCY3pb/
-	zqXHXqi5ALDOz20TlfKDdaLKYxeQbp5qjjIhMJWsmViztYXhdjP5MaUX5Y3/3Eo7avYT1QLS+DL/5
-	QpD+YDUByGoMwZRlA7rXrA9IRG/iB3EObiLIX94tt4r/vI1B4X82Ly9u0igchWRTsZwMuRdx9Vzbv
-	lZNt2YQ+dMUCxkAypMMg==;
+	List-Owner; bh=dO9elj37zm0TCcQLVfyaHutnrYhn2BtXPiRCD52paUE=; b=sTCaz2DIIcjlt/
+	oXKOlIicNYqtAB2au9xeiWDqsOgFlPxrTUvK4ApDW4Zo2C93hkUqLjWhIb4vSVAznslgi+7vLH2li
+	dh844XBThs1n2Dqf76uwyljOjraV/2tQ/GgyF5AOgGrYz//W2PJii9GrLpsjcdkJrIqKJ0/8+aQ0Q
+	tdWImFlln43ezwEDRIUhTe2u+45TRzpLqHuKsM1XfXwvBpkLucFCu8MiNF+kPUlsKDCHA0aiQ27WB
+	lNoMbqXSEr8WdqU8g2lZcLlN3L0aYJG31l7x6olsNC23hS4PXcgYbCrf9kPqA8LRcy/hJLXP5ckCX
+	bVg/5eVwU1/t9k0n9q4Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1psNil-00A86y-09;
-	Fri, 28 Apr 2023 13:01:07 +0000
-Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com ([2a02:2350:5:400::1])
+	id 1psNit-00A8Cp-07;
+	Fri, 28 Apr 2023 13:01:15 +0000
+Received: from mailrelay3-1.pub.mailoutpod2-cph3.one.com ([2a02:2350:5:402::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1psNie-00A7xs-2S
+	id 1psNip-00A874-0L
 	for linux-snps-arc@lists.infradead.org;
-	Fri, 28 Apr 2023 13:01:04 +0000
+	Fri, 28 Apr 2023 13:01:12 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ravnborg.org; s=rsa1;
 	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
 	 from:date:from;
-	bh=PpcTclKxx1k/EfVG4yQr41oM9QVmOB40SVMjWl/npqE=;
-	b=k3xZbk49OVdA8HAM23WQf7QvCAkY6osK5NwKaYOCelNTZEEDAi5JLJORKG53rPRLHF2UsEnaWjci2
-	 UleSovMJWsiI88ObSwz3BFTTOjC+dvZXpyhqmAh22eCaseqhpMutcTvgyACjthLZQisPTD+USiia7s
-	 6ImH25NiJgbL2Q/PjF4KyEFzSNpy8jfrpmufZNF/jOHLpQUWwx5qYXdybf4Iwxxx7/NKm+hQtW2Q3P
-	 cyW5mCcjWaxt6Qws7WctuxhcfLpL4nVXl+aSBhVeYilixYQs5Of8ZBVeTVmtKS710j6TwnXUPrNgeF
-	 4/I0ffLZ6Zgg+oztlcjlnHxl/TX6E/w==
+	bh=Hja6mt7zd/g4QdMBdU1sqO6/W7qq91iso0TdUVxgpZQ=;
+	b=FxfRtv4FrRk4Em92uXUdUOu+IzM4DLCaYbYTGf0HmoGt55Bw+sEDY7TE7lz25gy/jeDTUEKsXBIZ/
+	 6+/zEuHGM6MqT00hmyBIg4svWcWHFrXwM8Ddrqtbaonvw9PdH+q0F8N7NYRpiffg+snlE1k52haCEP
+	 Q5CLkzLprcKd2tpvL5TwuLWb8MO1adRNdXCSqIA1/a3O5zHg7QtYD1c+FIlAyfLETigqdlU+VTKWGI
+	 FixF6eXVaBb1j4cTQTrA12WO3TjCdZOGf/zxTjk9tA4KClER8AvaYJP1R9DtG68UpLgbxbewXtHQEG
+	 jrGTR/pTMVQQqT50i1/ZzQ9wb/svLNw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
 	d=ravnborg.org; s=ed1;
 	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
 	 from:date:from;
-	bh=PpcTclKxx1k/EfVG4yQr41oM9QVmOB40SVMjWl/npqE=;
-	b=OoYC+n7ssdxw6mi4jodInt4BWBrg7fNY89ixy7jkhAqbElGIdulre1GkkC01oXDeMYsAhMsN5uwCw
-	 PnTA6SfBw==
-X-HalOne-ID: b3232d4d-e5c4-11ed-9b54-99461c6a3fe8
+	bh=Hja6mt7zd/g4QdMBdU1sqO6/W7qq91iso0TdUVxgpZQ=;
+	b=xAKiE2HHYG+XEwajJ/cdBLZ5+XTobzra1m18RoIFmhS7CdvnYyld6dy+28/utM3Xy/8iXqxSekCsh
+	 CbQ0bBPDw==
+X-HalOne-ID: baf7db08-e5c4-11ed-b748-b90637070a9d
 Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-	by mailrelay1 (Halon) with ESMTPSA
-	id b3232d4d-e5c4-11ed-9b54-99461c6a3fe8;
-	Fri, 28 Apr 2023 13:00:52 +0000 (UTC)
-Date: Fri, 28 Apr 2023 15:00:50 +0200
+	by mailrelay3 (Halon) with ESMTPSA
+	id baf7db08-e5c4-11ed-b748-b90637070a9d;
+	Fri, 28 Apr 2023 13:01:06 +0000 (UTC)
+Date: Fri, 28 Apr 2023 15:01:04 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: deller@gmx.de, geert@linux-m68k.org, javierm@redhat.com,
@@ -62,17 +62,16 @@ Cc: deller@gmx.de, geert@linux-m68k.org, javierm@redhat.com,
 	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
 	sparclinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-parisc@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] fbdev/matrox: Remove trailing whitespaces
-Message-ID: <20230428130050.GA3995435@ravnborg.org>
+Subject: Re: [PATCH v2 2/5] ipu-v3: Include <linux/io.h>
+Message-ID: <20230428130104.GB3995435@ravnborg.org>
 References: <20230428092711.406-1-tzimmermann@suse.de>
- <20230428092711.406-2-tzimmermann@suse.de>
+ <20230428092711.406-3-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20230428092711.406-2-tzimmermann@suse.de>
+In-Reply-To: <20230428092711.406-3-tzimmermann@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230428_060101_308074_DF4BAE11 
-X-CRM114-Status: UNSURE (   6.32  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230428_060111_327788_A4246FD4 
+X-CRM114-Status: GOOD (  13.32  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,13 +88,30 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 28, 2023 at 11:27:07AM +0200, Thomas Zimmermann wrote:
-> Fix coding style. No functional changes.
+On Fri, Apr 28, 2023 at 11:27:08AM +0200, Thomas Zimmermann wrote:
+> The code uses readl() and writel(). Include the header file to
+> get the declarations.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-
-	Sam
+> ---
+>  drivers/gpu/ipu-v3/ipu-prv.h | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/ipu-v3/ipu-prv.h b/drivers/gpu/ipu-v3/ipu-prv.h
+> index 291ac1bab66d..d4621b1ea7f1 100644
+> --- a/drivers/gpu/ipu-v3/ipu-prv.h
+> +++ b/drivers/gpu/ipu-v3/ipu-prv.h
+> @@ -8,6 +8,7 @@
+>  
+>  struct ipu_soc;
+>  
+> +#include <linux/io.h>
+>  #include <linux/types.h>
+>  #include <linux/device.h>
+>  #include <linux/clk.h>
+> -- 
+> 2.40.0
 
 _______________________________________________
 linux-snps-arc mailing list
