@@ -4,87 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58B0BC77B61
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 28 Apr 2023 13:11:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 08952C77B61
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 28 Apr 2023 13:12:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date
-	:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aCRVFmNn7jA70CAwJ+p3H230XAX7I/MI5T1sVMSB6Dg=; b=k0bqpYgJ/Dm10owU73ZDjnkabj
-	OGhiP1ez65jTLnCztWhVSvOJoqVD2cX8iRnptll3HlkHEWLrRk1FjxswU5QLU09enxVLZOJ66xZK0
-	9GIWJ9G9uEZzPeXSrpmljuoAxinMrEDp0siBvXvTQEUtZvylNu+FSIAnI6w9rlj+yVSNVJGAexpCD
-	eg0SsR0zZ7rSu8XWbB6dJjyCHbN+seaOw3c4TMvtUaXfEsvA3Nd0eedGyWQzVPGISyH1+O4UubL3j
-	pxPcKxQj82zf8/+/vYH3MgJ07gek0BgTZ+2jCYyesq1ao9CyKLYh6uLAw/L9LkwLDm/HgNIPEQjQY
-	iyD/cq1A==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=zXVauILrEF/IzBuYOiNex0b2pF1l2dKBoquMGZVQ9DI=; b=AZGHcBrZBeMRhk
+	PhOdt/+9YTi2sRnVjwpaX3JAMJpgxEoXK8uqWWM1fO2tBiSQB30MqkZ0gGwBfT4TVr7nG/RYegRes
+	GObKn5BKPU11LYbmC0MZp/vT2vDBj0o0/MKnMPsMA0EglNoY9Bkbi+0aPjybIa4MDLZ8UPlvt8TDx
+	gBXW2YGveSE8Vxv66xni1FfLtVs2zntjS59BHrx3E8Lms5m2W0Gv+H/tAwNCUytB63Vkzx37mCtLh
+	XI8Ui+csdksl5/yXAlNVDwEbUcfv9Y5y51qMyCyIk2S5jW5S/VnqGXxwG+D9wWhMyFnR6qwhnHG4S
+	9Vj7r7ryKmsx0obX4CAg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1psNsP-00AEnQ-13;
-	Fri, 28 Apr 2023 13:11:05 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1psNtl-00AFjP-1m;
+	Fri, 28 Apr 2023 13:12:29 +0000
+Received: from mailrelay2-1.pub.mailoutpod2-cph3.one.com ([2a02:2350:5:401::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1psNsL-00AEjU-1m;
-	Fri, 28 Apr 2023 13:11:02 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C2B4521F7C;
-	Fri, 28 Apr 2023 13:10:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1682687458; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FRqrMM19p3HeUciJL3I7cDdZrio595+aLz1J7KWfSA0=;
-	b=ZPs7qKes2T1eM8QLZc4CBCc9IEZJpUBytScxV/o9Bh+rEAs67iN0DU5yVo7hbKa9QTOv9C
-	mK9UA2fpsV9/fE5LE9veGn7yCrV7IaFCxUpWwuy3SmkM3OCqiVq6NQUWULZn/USK1C9jXI
-	FmG26ubpmb55xF+alDKjaZ+FFr28Xy0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1682687458;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FRqrMM19p3HeUciJL3I7cDdZrio595+aLz1J7KWfSA0=;
-	b=i8YJ+nJI6i6artOXs3jnB9Wd77oBrGUmtkYzoZ/Bvc3CbhbnzduEnZIED+jMtqxj6ajFPE
-	A0fsZO0Bs1ztTdDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4F99A138FA;
-	Fri, 28 Apr 2023 13:10:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id Lth9EeLFS2R/EwAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Fri, 28 Apr 2023 13:10:58 +0000
-Message-ID: <b9a67217-4665-0d31-378d-ade1d50fe5f1@suse.de>
-Date: Fri, 28 Apr 2023 15:10:57 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
+	id 1psNti-00AFen-1Z
+	for linux-snps-arc@lists.infradead.org;
+	Fri, 28 Apr 2023 13:12:28 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=rsa1;
+	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+	 from:date:from;
+	bh=kmbigf8ZVmooEPRLcPWea0C5h/tG8tqKZ9j5z66PqBY=;
+	b=eF1EsYiPJqXNskjn8lLNQ9+SL1ozu7DWmdUJ0wcEG54JzKFiSjRAPjbhy8H0+ZeYNmOBVGFyCGbxz
+	 1DqXAIXpm/M1j1pEPlF21UxeOY9nSl8/Iap7s1D3yCRgky5Tf80L/WY954alIRbLpoRtvZVhxcohcH
+	 gZD+6fQpR0DA7lwuphoh9i3Dd/maumGn+Tt03U+E+G1J826wfTSa+oaLhdKuvV7O3rOy6M3AH/bTVT
+	 eeFuoeTpNjqcA1avBxePv+IBiCUAGPqV57NpcpjKAT9+Yl5+7MpsaighKpk8/33r2f8BLL2Qa32pZL
+	 7l5szrsw+UlNB1/m+sTEJZXBaipCRvA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=ed1;
+	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+	 from:date:from;
+	bh=kmbigf8ZVmooEPRLcPWea0C5h/tG8tqKZ9j5z66PqBY=;
+	b=4Jlvbtvr17/0MN2lAZB4KR0YNvraiUSF3TAKjdHVbDRCCaeKQbtDwZJbVZrTzY+ezyqRT4rd+YKPh
+	 HNdg4s7Ag==
+X-HalOne-ID: 4f01baa5-e5c6-11ed-95e5-13111ccb208d
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+	by mailrelay2 (Halon) with ESMTPSA
+	id 4f01baa5-e5c6-11ed-95e5-13111ccb208d;
+	Fri, 28 Apr 2023 13:12:23 +0000 (UTC)
+Date: Fri, 28 Apr 2023 15:12:21 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: deller@gmx.de, geert@linux-m68k.org, javierm@redhat.com,
+	daniel@ffwll.ch, vgupta@kernel.org, chenhuacai@kernel.org,
+	kernel@xen0n.name, davem@davemloft.net,
+	James.Bottomley@hansenpartnership.com, arnd@arndb.de,
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-arch@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+	sparclinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-parisc@vger.kernel.org
 Subject: Re: [PATCH v2 5/5] fbdev: Define framebuffer I/O from Linux' I/O
  functions
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Robin Murphy <robin.murphy@arm.com>
-Cc: linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org,
- dri-devel@lists.freedesktop.org, James.Bottomley@hansenpartnership.com,
- sparclinux@vger.kernel.org, kernel@xen0n.name, sam@ravnborg.org,
- linux-arch@vger.kernel.org, deller@gmx.de, chenhuacai@kernel.org,
- javierm@redhat.com, vgupta@kernel.org, linux-snps-arc@lists.infradead.org,
- arnd@arndb.de, linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, davem@davemloft.net
+Message-ID: <20230428131221.GE3995435@ravnborg.org>
 References: <20230428092711.406-1-tzimmermann@suse.de>
  <20230428092711.406-6-tzimmermann@suse.de>
- <430c73f0-45f4-f81e-6506-bc8cc955d936@arm.com>
- <CAMuHMdUGjtiAR37L4_e0_p8ee2=gxoUj7+e7rqMLTBK+vpV4yw@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAMuHMdUGjtiAR37L4_e0_p8ee2=gxoUj7+e7rqMLTBK+vpV4yw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20230428092711.406-6-tzimmermann@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230428_061101_787316_43A876B2 
-X-CRM114-Status: GOOD (  12.93  )
+X-CRM114-CacheID: sfid-20230428_061226_744555_8EA75004 
+X-CRM114-Status: GOOD (  22.99  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,99 +84,70 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1380440522849613874=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1380440522849613874==
-Content-Language: en-US
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------DtzGj0U2BDprAWf4ov3bjWMb"
+Hi Thomas,
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------DtzGj0U2BDprAWf4ov3bjWMb
-Content-Type: multipart/mixed; boundary="------------QqwzqE2k5QMQXDVM2QKm13co";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Robin Murphy <robin.murphy@arm.com>
-Cc: linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org,
- dri-devel@lists.freedesktop.org, James.Bottomley@hansenpartnership.com,
- sparclinux@vger.kernel.org, kernel@xen0n.name, sam@ravnborg.org,
- linux-arch@vger.kernel.org, deller@gmx.de, chenhuacai@kernel.org,
- javierm@redhat.com, vgupta@kernel.org, linux-snps-arc@lists.infradead.org,
- arnd@arndb.de, linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, davem@davemloft.net
-Message-ID: <b9a67217-4665-0d31-378d-ade1d50fe5f1@suse.de>
-Subject: Re: [PATCH v2 5/5] fbdev: Define framebuffer I/O from Linux' I/O
- functions
-References: <20230428092711.406-1-tzimmermann@suse.de>
- <20230428092711.406-6-tzimmermann@suse.de>
- <430c73f0-45f4-f81e-6506-bc8cc955d936@arm.com>
- <CAMuHMdUGjtiAR37L4_e0_p8ee2=gxoUj7+e7rqMLTBK+vpV4yw@mail.gmail.com>
-In-Reply-To: <CAMuHMdUGjtiAR37L4_e0_p8ee2=gxoUj7+e7rqMLTBK+vpV4yw@mail.gmail.com>
+On Fri, Apr 28, 2023 at 11:27:11AM +0200, Thomas Zimmermann wrote:
+> Implement framebuffer I/O helpers, such as fb_read*() and fb_write*()
+> with Linux' regular I/O functions. Remove all ifdef cases for the
+> various architectures.
+> 
+> Most of the supported architectures use __raw_() I/O functions or treat
+> framebuffer memory like regular memory. This is also implemented by the
+> architectures' I/O function, so we can use them instead.
+> 
+> Sparc uses SBus to connect to framebuffer devices. It provides respective
+> implementations of the framebuffer I/O helpers. The involved sbus_()
+> I/O helpers map to the same code as Sparc's regular I/O functions. As
+> with other platforms, we can use those instead.
+> 
+> We leave a TODO item to replace all fb_() functions with their regular
+> I/O counterparts throughout the fbdev drivers.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  include/linux/fb.h | 63 +++++++++++-----------------------------------
+>  1 file changed, 15 insertions(+), 48 deletions(-)
+> 
+> diff --git a/include/linux/fb.h b/include/linux/fb.h
+> index 08cb47da71f8..4aa9e90edd17 100644
+> --- a/include/linux/fb.h
+> +++ b/include/linux/fb.h
+> @@ -15,7 +15,6 @@
+>  #include <linux/list.h>
+>  #include <linux/backlight.h>
+>  #include <linux/slab.h>
+> -#include <asm/io.h>
+>  
+>  struct vm_area_struct;
+>  struct fb_info;
+> @@ -511,58 +510,26 @@ struct fb_info {
+>   */
+>  #define STUPID_ACCELF_TEXT_SHIT
+>  
+> -// This will go away
+> -#if defined(__sparc__)
+> -
+> -/* We map all of our framebuffers such that big-endian accesses
+> - * are what we want, so the following is sufficient.
+> +/*
+> + * TODO: Update fbdev drivers to call the I/O helpers directly and
+> + *       remove the fb_() tokens.
+>   */
+When the __raw_* variants are used, as Geert points out, then I think
+the memcpy / memset can be replaced, but the rest seems fine to keep.
 
---------------QqwzqE2k5QMQXDVM2QKm13co
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+My personal opinion is that __raw_* is for macro use etc, and not
+something to use everywhere. So I like the fb_read/fb_write macros.
+But that is just my color of the bikeshed.
 
-SGkNCg0KQW0gMjguMDQuMjMgdW0gMTQ6Mjcgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
-DQpbLi4uXQ0KPiANCj4gSW4gYWRkaXRpb24sIHRoZSBub24tcmF3IHZhcmlhbnRzIG1heSBk
-byBzb21lIGV4dHJhcyB0byBndWFyYW50ZWUNCj4gb3JkZXJpbmcsIHdoaWNoIHlvdSBkbyBu
-b3QgbmVlZCBvbiBhIGZyYW1lIGJ1ZmZlci4NCg0KR2l2ZW4gdGhpcyBjb21tZW50LCBzaG91
-bGQgd2UgZGVjbGFyZSB0aGUgZmJfKCkgaGVscGVycyBpbiANCjxhc20tZ2VuZXJpYy9pby5o
-PiBvciA8bGludXgvaW8uaD4/DQoNCkkgc3RpbGwgZG9uJ3QgbGlrZSB0aGUgaWRlYSBvZiBo
-YXZpbmcgdGhlIGZ1bmN0aW9ucyBpbiA8bGludXgvZmIuaD4uIFdlIA0KaGF2ZSBjb2RlIGlu
-IERSTSB0aGF0IGFsc28gYWNjZXNzZXMgZnJhbWVidWZmZXIgbWVtb3J5ICh2aWEgDQptZW1j
-cHlfdG9pbygpKS4gSXQgd291bGQgbWFrZSBzZW5zZSB0byB1c2UgdGhlIGZiXygpIGhlbHBl
-cnMsIGlmIHRoZXkgDQphcmUgdGFpbG9yZWQgdG93YXJkcyB0aGlzIHVzZWNhc2UuDQoNCkJl
-c3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IFNvIEknZCBnbyBmb3IgdGhlIF9fcmF3Xyoo
-KSB2YXJpYW50cyBldmVyeXdoZXJlLg0KPiANCj4gR3J7b2V0amUsZWV0aW5nfXMsDQo+IA0K
-PiAgICAgICAgICAgICAgICAgICAgICAgICAgR2VlcnQNCj4gDQoNCi0tIA0KVGhvbWFzIFpp
-bW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29s
-dXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJl
-cmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9u
-YWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
-
---------------QqwzqE2k5QMQXDVM2QKm13co--
-
---------------DtzGj0U2BDprAWf4ov3bjWMb
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRLxeEFAwAAAAAACgkQlh/E3EQov+BG
-IxAArW6Y0YDQCNr1aySTx/07IbAHS0y+vhIgCiTpfq5oowyVudzNjdBxnedCiRjYWsZfBCjMsdfr
-SxG+xgQzdSfWxn5NIwDqE0oEckroWqzuCJYMPzjc8Y1+bJnGiNzVRI12YWtNY0GpaCjcKmUE75ex
-6c6loZmjjSiohO5mMQbUKZ2H9VchlqkPVkvuCZb5CdwzMgrMkfcfq9almxX7WdOigfXMpbg2Fk7p
-WudCvuFuCIVRRrLIsCowogRjWVN0SL7GwJUN/rHec1FCkBipWrUazGk7oTPG1AXrpOXBSSj6mRCn
-H2jj7DsWTgPHaHBBLJelQDwgN3qjA94odDVKgKWGQoncs0+x5pEhkhn1HsOdBNPq6/KpozQPMoGz
-QmooLt+AuV98nZyhlHWOxudGcY7/M1ERukgQLYzRVlHeaeQaQb+wbCBkV7Tm8ih99q64LpVwaSS/
-Nfv/k/Zfq4yu4mQv24CdUqjlH1aA/XGzlmXlAgEiPpAfAUHgHy3Yoo+tZDtA837yssImYcvhwr2y
-0cz3duc61je5Odls9Q9CS1szkJkhFpy9ctg0FrXQbv0IivBLnoxJiK7iES2y0NhXxUK/L9o+L/zc
-FEc2JYYMJyNIGFM5dtmBMo6kmUoE5FbGeuwX6Ao4p2q/IoYK7MQ29bcKMRx28VoSCpPON+jpQ95S
-M4s=
-=GGjv
------END PGP SIGNATURE-----
-
---------------DtzGj0U2BDprAWf4ov3bjWMb--
-
-
---===============1380440522849613874==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+	Sam
 
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-snps-arc
-
---===============1380440522849613874==--
-
