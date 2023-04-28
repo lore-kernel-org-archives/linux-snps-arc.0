@@ -4,104 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC69AC77B7C
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 28 Apr 2023 13:17:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 15F4CC77B60
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 28 Apr 2023 14:18:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Subject:Cc:To:From:Date:References:
-	In-Reply-To:Message-Id:Mime-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=b8RycfxROdg4LlHSFplojlRRIaSoV34Z66f8XCF5NLs=; b=dJj2xO7sE4epNp
-	8wvMvfYff/c3tychnSTWgb29eDtx2gLoxmXbQHpb/ekdqBjJ43baGITi9sM8AvT7d0PWXfOjSkEJ2
-	SyNyEeEcqRbZ87zkkeVxbI9FgNvKwRQmi67tSAYEANcfsmUxNWUz+cdsDf7FZoftrklxBnaX3FpMD
-	UEkIlz627OUA7ObD/AHW35J00Gs5OBQ8WB7mwKNUBYK51O5v+/6b+KidB31ltROh0ID8Vhf7BhHNP
-	RkEEGt7BtYZBX/GiTxnsp0FAN+aGw12beqda0cW9GqCFh6FZIqjcCRVtf1ehkkw+DhVKO0lSHUWqX
-	bP7D6yz02vcjx4HPBD5A==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date
+	:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=FIhR5j33WBphtJ7Ipaz2ovUEpOoSUI3jSVcs9edqd/U=; b=lGUtiBUK/hdA0jCeilFpaN7F79
+	mnghWWC043+Z6jPyuLUbMo583i9y4skfN1TviqIXo/pR7aUEx7XN6D5uIPq3Rry80d1yn/r7GHeS8
+	HgEeV3fodaZk346QR7QARVWbc19pWPr6jAUugMAlLAgWnlyu37DfMyuTSZwQcgTN4ssBl279Lbk3K
+	mtxTGpo9Qg3wF78uDV0E1XKimD6nHU7xK5llrWnNNjcOiVq++U22EYGrIY5sE9Z1OsU45+td4yvCy
+	CevLrWgpbofzNjIPmsCUM1dRRVzPVlN6eIeRplWrWahxGzHHvFs/QGIvOjF6By7TpIRMdQBfcFdI5
+	Qe0fnT8Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1psNyb-00AJ1a-1Y;
-	Fri, 28 Apr 2023 13:17:29 +0000
-Received: from out4-smtp.messagingengine.com ([66.111.4.28])
+	id 1psOvv-00AtRO-31;
+	Fri, 28 Apr 2023 14:18:47 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1psNyW-00AIsT-1l;
-	Fri, 28 Apr 2023 13:17:26 +0000
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.nyi.internal (Postfix) with ESMTP id AB7305C00BE;
-	Fri, 28 Apr 2023 09:17:17 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Fri, 28 Apr 2023 09:17:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to; s=fm2; t=
-	1682687837; x=1682774237; bh=PcHVTECY0DTSklc3ILW7xV/aJ7/Nau9fSJX
-	oavdaK3A=; b=eUdK2nJGUj2ojcq/iN8+k9NH/YFehW26tD8EuLHi59mfHw77XBh
-	fsxNlrmYAQkqxYxfq6y27vgAktDmUq34FmXwMFdqTfPO9loKN1XNr+UVkGw680qV
-	BX4/DYfgCMWrAxE4Wow3ZwgWlN0ZNzHHEAtYzaMI7xLQjVEHla6fM+TZ1yvnzX8P
-	E9OEYJ2zcL1QVyo974JDoFI3uCjuLc0KDC60ytqogt91Vrtguy8dOzwcDADe8Q8K
-	wwGN7a6AzKt12/FKaJ6yE4xZxx1mfSbCRrBkh1w9kOWf+J/cSrAHTesLpKGIXn3y
-	r/ezr2uqH7xDgE1v6IYlgXMzGM/v2wMUp7w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1682687837; x=1682774237; bh=PcHVTECY0DTSklc3ILW7xV/aJ7/Nau9fSJX
-	oavdaK3A=; b=UHAR/6bgsNPLLEMAvooCE2Mz7rvShUkiKAolMysUv1eAD0G8pRJ
-	Axt2cEsFq+HL0Sk84JLCYXyIoo4UY6iWfrU5QyWSoznl6Dl9up0oJPS8fmgZCkKN
-	EmUFVujWaEm9kpXEdbpvXC1srFotbipILlqEP+BJC/wZA/MRDDmTDOObpyzAXcfr
-	P5fPwPdeW2skiNrFbXI8pS1Fet/chSbd2eiKQ8NJCdOODy4lMW1yCHqd7i+2kw0m
-	kkAAHSUBJawkS7oRrDqwSvWgWl0YC4FGX0wEe7mqbkV7MbyF4ZFqT2f9EaWXdta5
-	UEG6fShDzo25wuyIzYe0uuavmo6nS5Qe20w==
-X-ME-Sender: <xms:W8dLZGx3L9IVhQ2Z-Dm1gEY_dwHGXe32-QXDVpGxL4oZOrgre8krDA>
-    <xme:W8dLZCT9BitiC8iWSIbkWjDY3CQ3ktYEHuCqF4lu4DEpLRIH__A8UyQjFfr8K3-Q_
-    Hql-wi5bFWVO6i97bQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfedukedgieefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
-    gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:W8dLZIV4-CWeJ_MAEkYa-T1q9H3_MDecIqHVzquAXQO4y7Xxr-G-sA>
-    <xmx:W8dLZMg6khyrtIk2_xVeJ0jwab7q97YJj0EgH88Gpq1BMDBeqvzniA>
-    <xmx:W8dLZIB7tmcXPfPCpXuu_s8_Ujf8-kwPj0DVIS5NrKHqzYp1SN7Ggg>
-    <xmx:XcdLZPBenYiA6kEk2QhVgO0DBNH2txmCkaSu9NuYz9QpUDkjGGj7IA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id A158DB60086; Fri, 28 Apr 2023 09:17:15 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-374-g72c94f7a42-fm-20230417.001-g72c94f7a
-Mime-Version: 1.0
-Message-Id: <f612c682-5767-4a58-82f6-f4a4d1b592a1@app.fastmail.com>
-In-Reply-To:  <CAMuHMdUGjtiAR37L4_e0_p8ee2=gxoUj7+e7rqMLTBK+vpV4yw@mail.gmail.com>
+	id 1psOvs-00AtLr-0E;
+	Fri, 28 Apr 2023 14:18:45 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id ADA71200BD;
+	Fri, 28 Apr 2023 14:18:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1682691519; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bHwqI9LusReiqtzsVrh14x6d8mBbcXqTxS97UaAPiJc=;
+	b=w05GEg59ITc0jlfwD4MCtuN0X72pz6Dk79yupOH8T8y0GjYzKjf4ilyl4+c4bi2EFISZQ5
+	JnCP5A+fTZuLpKwrFZ+mB3ypDk4/RdMbY5fKYsvUQmf9MzviVugGveRNn50bUaBa6UAzb7
+	CxycaLnOid56K6kuD3pQ2q58UTiCr/Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1682691519;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bHwqI9LusReiqtzsVrh14x6d8mBbcXqTxS97UaAPiJc=;
+	b=LLqe0uZG2Qvr6GOce5R8FBohJvmwxtL6Iyv9cM0nb0Y30o/x/QZL8Repm+uPk0JnFqKETT
+	6ZDEdP0fwM6gfaAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3ADFB1390E;
+	Fri, 28 Apr 2023 14:18:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 2ldADb/VS2QLOQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Fri, 28 Apr 2023 14:18:39 +0000
+Message-ID: <900eaf1c-4d29-2c26-c220-6b4e089d9b94@suse.de>
+Date: Fri, 28 Apr 2023 16:18:38 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 5/5] fbdev: Define framebuffer I/O from Linux' I/O
+ functions
+Content-Language: en-US
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: deller@gmx.de, geert@linux-m68k.org, javierm@redhat.com, daniel@ffwll.ch,
+ vgupta@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
+ davem@davemloft.net, James.Bottomley@hansenpartnership.com, arnd@arndb.de,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arch@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ sparclinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-parisc@vger.kernel.org
 References: <20230428092711.406-1-tzimmermann@suse.de>
  <20230428092711.406-6-tzimmermann@suse.de>
- <430c73f0-45f4-f81e-6506-bc8cc955d936@arm.com>
- <CAMuHMdUGjtiAR37L4_e0_p8ee2=gxoUj7+e7rqMLTBK+vpV4yw@mail.gmail.com>
-Date: Fri, 28 Apr 2023 14:17:24 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Geert Uytterhoeven" <geert@linux-m68k.org>,
- "Robin Murphy" <robin.murphy@arm.com>
-Cc: "Thomas Zimmermann" <tzimmermann@suse.de>, "Helge Deller" <deller@gmx.de>,
- "Javier Martinez Canillas" <javierm@redhat.com>,
- "Daniel Vetter" <daniel@ffwll.ch>, "Vineet Gupta" <vgupta@kernel.org>,
- "Huacai Chen" <chenhuacai@kernel.org>, "WANG Xuerui" <kernel@xen0n.name>,
- "David S . Miller" <davem@davemloft.net>,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Sam Ravnborg" <sam@ravnborg.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Linux-Arch <linux-arch@vger.kernel.org>,
- linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
- linux-m68k@lists.linux-m68k.org, sparclinux@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org
-Subject: Re: [PATCH v2 5/5] fbdev: Define framebuffer I/O from Linux' I/O functions
+ <20230428131221.GE3995435@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230428131221.GE3995435@ravnborg.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230428_061724_892458_BD1F12A0 
-X-CRM114-Status: GOOD (  11.57  )
+X-CRM114-CacheID: sfid-20230428_071844_251780_E7E05E77 
+X-CRM114-Status: GOOD (  24.85  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,39 +95,134 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============3264800234299332747=="
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-T24gRnJpLCBBcHIgMjgsIDIwMjMsIGF0IDEzOjI3LCBHZWVydCBVeXR0ZXJob2V2ZW4gd3JvdGU6
-Cj4gT24gRnJpLCBBcHIgMjgsIDIwMjMgYXQgMjoxOOKAr1BNIFJvYmluIE11cnBoeSA8cm9iaW4u
-bXVycGh5QGFybS5jb20+IHdyb3RlOgo+PiBPbiAyMDIzLTA0LTI4IDEwOjI3LCBUaG9tYXMgWmlt
-bWVybWFubiB3cm90ZToKCj4+ID4gLQo+PiA+IC0jZWxpZiBkZWZpbmVkKF9faTM4Nl9fKSB8fCBk
-ZWZpbmVkKF9fYWxwaGFfXykgfHwgZGVmaW5lZChfX3g4Nl82NF9fKSB8fCAgICAgIFwKPj4gPiAt
-ICAgICBkZWZpbmVkKF9faHBwYV9fKSB8fCBkZWZpbmVkKF9fc2hfXykgfHwgZGVmaW5lZChfX3Bv
-d2VycGNfXykgfHwgXAo+PiA+IC0gICAgIGRlZmluZWQoX19hcm1fXykgfHwgZGVmaW5lZChfX2Fh
-cmNoNjRfXykgfHwgZGVmaW5lZChfX21pcHNfXykKPj4gPiAtCj4+ID4gLSNkZWZpbmUgZmJfcmVh
-ZGIgX19yYXdfcmVhZGIKPj4gPiAtI2RlZmluZSBmYl9yZWFkdyBfX3Jhd19yZWFkdwo+PiA+IC0j
-ZGVmaW5lIGZiX3JlYWRsIF9fcmF3X3JlYWRsCj4+ID4gLSNkZWZpbmUgZmJfcmVhZHEgX19yYXdf
-cmVhZHEKPj4gPiAtI2RlZmluZSBmYl93cml0ZWIgX19yYXdfd3JpdGViCj4+ID4gLSNkZWZpbmUg
-ZmJfd3JpdGV3IF9fcmF3X3dyaXRldwo+PiA+IC0jZGVmaW5lIGZiX3dyaXRlbCBfX3Jhd193cml0
-ZWwKPj4gPiAtI2RlZmluZSBmYl93cml0ZXEgX19yYXdfd3JpdGVxCj4+Cj4+IE5vdGUgdGhhdCBv
-biBhdCBsZWFzdCBzb21lIGFyY2hpdGVjdHVyZXMsIHRoZSBfX3JhdyB2YXJpYW50cyBhcmUKPj4g
-bmF0aXZlLWVuZGlhbiwgd2hlcmVhcyB0aGUgcmVndWxhciBhY2Nlc3NvcnMgYXJlIGV4cGxpY2l0
-bHkKPj4gbGl0dGxlLWVuZGlhbiwgc28gdGhlcmUgaXMgYSBzbGlnaHQgcmlzayBvZiBpbmFkdmVy
-dGVudGx5IGNoYW5naW5nCj4+IGJlaGF2aW91ciBvbiBiaWctZW5kaWFuIHN5c3RlbXMgKE1JUFMg
-bW9zdCBsaWtlbHksIGJ1dCBhIGZldyBvbGQgQVJNCj4+IHBsYXRmb3JtcyBydW4gQkUgYXMgd2Vs
-bCkuCj4KPiBBbHNvIG9uIG02OGssIHdoZW4gSVNBIG9yIFBDSSBhcmUgZW5hYmxlZC4KPgo+IElu
-IGFkZGl0aW9uLCB0aGUgbm9uLXJhdyB2YXJpYW50cyBtYXkgZG8gc29tZSBleHRyYXMgdG8gZ3Vh
-cmFudGVlCj4gb3JkZXJpbmcsIHdoaWNoIHlvdSBkbyBub3QgbmVlZCBvbiBhIGZyYW1lIGJ1ZmZl
-ci4KPgo+IFNvIEknZCBnbyBmb3IgdGhlIF9fcmF3XyooKSB2YXJpYW50cyBldmVyeXdoZXJlLgoK
-VGhlIG9ubHkgaW1wbGVtZW50YXRpb25zIGluIGZiZGV2IGFyZQoKIDEpIHNwYXJjIHNidXMKIDIp
-IF9fcmF3X3dyaXRlbAogMykgZGlyZWN0IHBvaW50ZXIgZGVyZWZlcmVuY2UKCkJ1dCBub25lIHVz
-ZSB0aGUgYnl0ZS1zd2FwcGluZyB3cml0ZWwoKSBpbXBsZW1lbnRhdGlvbnMsIGFuZAp0aGUgb25s
-eSBvbmVzIHRoYXQgdXNlIHRoZSBkaXJlY3QgcG9pbnRlciBkZXJlZmVyZW5jZSBvciBzYnVzCmFy
-ZSB0aGUgb25lcyBvbiB3aGljaCB0aGVzZSBhcmUgZGVmaW5lZCB0aGUgc2FtZSBhcyBfX3Jhd193
-cml0ZWwKCiAgICAgIEFybmQKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0
-cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGlu
-Zm8vbGludXgtc25wcy1hcmMK
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============3264800234299332747==
+Content-Language: en-US
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------c0F146zPaNsO7viNjr1zOXUQ"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------c0F146zPaNsO7viNjr1zOXUQ
+Content-Type: multipart/mixed; boundary="------------Zz5vCKFZk2N0vxBo31k95sox";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: deller@gmx.de, geert@linux-m68k.org, javierm@redhat.com, daniel@ffwll.ch,
+ vgupta@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
+ davem@davemloft.net, James.Bottomley@hansenpartnership.com, arnd@arndb.de,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arch@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ sparclinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-parisc@vger.kernel.org
+Message-ID: <900eaf1c-4d29-2c26-c220-6b4e089d9b94@suse.de>
+Subject: Re: [PATCH v2 5/5] fbdev: Define framebuffer I/O from Linux' I/O
+ functions
+References: <20230428092711.406-1-tzimmermann@suse.de>
+ <20230428092711.406-6-tzimmermann@suse.de>
+ <20230428131221.GE3995435@ravnborg.org>
+In-Reply-To: <20230428131221.GE3995435@ravnborg.org>
+
+--------------Zz5vCKFZk2N0vxBo31k95sox
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+SGkNCg0KQW0gMjguMDQuMjMgdW0gMTU6MTIgc2NocmllYiBTYW0gUmF2bmJvcmc6DQo+IEhp
+IFRob21hcywNCj4gDQo+IE9uIEZyaSwgQXByIDI4LCAyMDIzIGF0IDExOjI3OjExQU0gKzAy
+MDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gSW1wbGVtZW50IGZyYW1lYnVmZmVy
+IEkvTyBoZWxwZXJzLCBzdWNoIGFzIGZiX3JlYWQqKCkgYW5kIGZiX3dyaXRlKigpDQo+PiB3
+aXRoIExpbnV4JyByZWd1bGFyIEkvTyBmdW5jdGlvbnMuIFJlbW92ZSBhbGwgaWZkZWYgY2Fz
+ZXMgZm9yIHRoZQ0KPj4gdmFyaW91cyBhcmNoaXRlY3R1cmVzLg0KPj4NCj4+IE1vc3Qgb2Yg
+dGhlIHN1cHBvcnRlZCBhcmNoaXRlY3R1cmVzIHVzZSBfX3Jhd18oKSBJL08gZnVuY3Rpb25z
+IG9yIHRyZWF0DQo+PiBmcmFtZWJ1ZmZlciBtZW1vcnkgbGlrZSByZWd1bGFyIG1lbW9yeS4g
+VGhpcyBpcyBhbHNvIGltcGxlbWVudGVkIGJ5IHRoZQ0KPj4gYXJjaGl0ZWN0dXJlcycgSS9P
+IGZ1bmN0aW9uLCBzbyB3ZSBjYW4gdXNlIHRoZW0gaW5zdGVhZC4NCj4+DQo+PiBTcGFyYyB1
+c2VzIFNCdXMgdG8gY29ubmVjdCB0byBmcmFtZWJ1ZmZlciBkZXZpY2VzLiBJdCBwcm92aWRl
+cyByZXNwZWN0aXZlDQo+PiBpbXBsZW1lbnRhdGlvbnMgb2YgdGhlIGZyYW1lYnVmZmVyIEkv
+TyBoZWxwZXJzLiBUaGUgaW52b2x2ZWQgc2J1c18oKQ0KPj4gSS9PIGhlbHBlcnMgbWFwIHRv
+IHRoZSBzYW1lIGNvZGUgYXMgU3BhcmMncyByZWd1bGFyIEkvTyBmdW5jdGlvbnMuIEFzDQo+
+PiB3aXRoIG90aGVyIHBsYXRmb3Jtcywgd2UgY2FuIHVzZSB0aG9zZSBpbnN0ZWFkLg0KPj4N
+Cj4+IFdlIGxlYXZlIGEgVE9ETyBpdGVtIHRvIHJlcGxhY2UgYWxsIGZiXygpIGZ1bmN0aW9u
+cyB3aXRoIHRoZWlyIHJlZ3VsYXINCj4+IEkvTyBjb3VudGVycGFydHMgdGhyb3VnaG91dCB0
+aGUgZmJkZXYgZHJpdmVycy4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVy
+bWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4+IC0tLQ0KPj4gICBpbmNsdWRlL2xpbnV4
+L2ZiLmggfCA2MyArKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tDQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCspLCA0OCBkZWxldGlv
+bnMoLSkNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9mYi5oIGIvaW5jbHVk
+ZS9saW51eC9mYi5oDQo+PiBpbmRleCAwOGNiNDdkYTcxZjguLjRhYTllOTBlZGQxNyAxMDA2
+NDQNCj4+IC0tLSBhL2luY2x1ZGUvbGludXgvZmIuaA0KPj4gKysrIGIvaW5jbHVkZS9saW51
+eC9mYi5oDQo+PiBAQCAtMTUsNyArMTUsNiBAQA0KPj4gICAjaW5jbHVkZSA8bGludXgvbGlz
+dC5oPg0KPj4gICAjaW5jbHVkZSA8bGludXgvYmFja2xpZ2h0Lmg+DQo+PiAgICNpbmNsdWRl
+IDxsaW51eC9zbGFiLmg+DQo+PiAtI2luY2x1ZGUgPGFzbS9pby5oPg0KPj4gICANCj4+ICAg
+c3RydWN0IHZtX2FyZWFfc3RydWN0Ow0KPj4gICBzdHJ1Y3QgZmJfaW5mbzsNCj4+IEBAIC01
+MTEsNTggKzUxMCwyNiBAQCBzdHJ1Y3QgZmJfaW5mbyB7DQo+PiAgICAqLw0KPj4gICAjZGVm
+aW5lIFNUVVBJRF9BQ0NFTEZfVEVYVF9TSElUDQo+PiAgIA0KPj4gLS8vIFRoaXMgd2lsbCBn
+byBhd2F5DQo+PiAtI2lmIGRlZmluZWQoX19zcGFyY19fKQ0KPj4gLQ0KPj4gLS8qIFdlIG1h
+cCBhbGwgb2Ygb3VyIGZyYW1lYnVmZmVycyBzdWNoIHRoYXQgYmlnLWVuZGlhbiBhY2Nlc3Nl
+cw0KPj4gLSAqIGFyZSB3aGF0IHdlIHdhbnQsIHNvIHRoZSBmb2xsb3dpbmcgaXMgc3VmZmlj
+aWVudC4NCj4+ICsvKg0KPj4gKyAqIFRPRE86IFVwZGF0ZSBmYmRldiBkcml2ZXJzIHRvIGNh
+bGwgdGhlIEkvTyBoZWxwZXJzIGRpcmVjdGx5IGFuZA0KPj4gKyAqICAgICAgIHJlbW92ZSB0
+aGUgZmJfKCkgdG9rZW5zLg0KPj4gICAgKi8NCj4gV2hlbiB0aGUgX19yYXdfKiB2YXJpYW50
+cyBhcmUgdXNlZCwgYXMgR2VlcnQgcG9pbnRzIG91dCwgdGhlbiBJIHRoaW5rDQo+IHRoZSBt
+ZW1jcHkgLyBtZW1zZXQgY2FuIGJlIHJlcGxhY2VkLCBidXQgdGhlIHJlc3Qgc2VlbXMgZmlu
+ZSB0byBrZWVwLg0KDQpJJ2QgZWl0aGVyIHdhbnQgdGhlIHJlZ3VsYXIgSS9PIGZ1bmN0aW9u
+cyBvciB0aGUgZmJfKCkgd3JhcHBlcnMsIGJ1dCBub3QgDQp0aGUgX19yYXdfKCkgZnVuY3Rp
+b24uIEknZCBhbHNvIHByZWZlciB0byBrZWVwIGZiXyBpbiBmcm9udCBvZiBtZW1zZXQgDQph
+bmQgbWVtY3B5LiAgSSdkIGJlIGhhcHB5IHRvIGhhdmUgZmJfKCkgd3JhcHBlcnMgdGhhdCBh
+cmUgSS9PIGhlbHBlcnMgDQp3aXRob3V0IG9yZGVyaW5nIGd1YXJhbnRlZXMuIEknZCBqdXN0
+IHdvdWxkbid0IHdhbnQgdGhlbSBpbiA8bGludXgvZmIuaD4NCg0KQmVzdCByZWdhcmRzDQpU
+aG9tYXMNCg0KPiANCj4gTXkgcGVyc29uYWwgb3BpbmlvbiBpcyB0aGF0IF9fcmF3XyogaXMg
+Zm9yIG1hY3JvIHVzZSBldGMsIGFuZCBub3QNCj4gc29tZXRoaW5nIHRvIHVzZSBldmVyeXdo
+ZXJlLiBTbyBJIGxpa2UgdGhlIGZiX3JlYWQvZmJfd3JpdGUgbWFjcm9zLg0KPiBCdXQgdGhh
+dCBpcyBqdXN0IG15IGNvbG9yIG9mIHRoZSBiaWtlc2hlZC4NCj4gDQo+IAlTYW0NCg0KLS0g
+DQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBT
+b2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkw
+NDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBB
+bmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJl
+cmcpDQo=
+
+--------------Zz5vCKFZk2N0vxBo31k95sox--
+
+--------------c0F146zPaNsO7viNjr1zOXUQ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRL1b4FAwAAAAAACgkQlh/E3EQov+Ds
+HA/9FboYwhheuV2afpQ/SaP1wYDQp07GWmCD6BrWFr+zcYG0SXAkFjvnnZwIE5sxgx63yJaTIS2k
+HClkJ6q89fGY/8XISiOhMZDZMO01vbT54iMD9/d/ARiq3sbP6le7jGjhQNf4qQxwChm75nPiRNuk
+3DrW9Rd5y5V7zBu5S66Qc+Qa5froBkkkdK6SxeCWHI7IN7uQ/SaA7+MIhoWf6nsShyJIgfXr6Ari
+pUx/2n169Cxc34R3ftRVWrInl5pACavFjtXeW9uWHV7HNVWCPby74kN8FYS4SX2V0jDpwiCCMZmd
+i2dSuHltV+jyQxEnMhwLRUstXz7n+hnpsIt1qffv8sW5hS2Vz7FIJV1Uf5OQ6Kj+J3iqI6mmb3eW
+EtaFwAfj4LB2EaD3pKcZ9M3WjfiXC6+cVQR+cf6jJDJWoJGfbr3KpDFIEa1mMjWrPBM8QGGIGtqv
+IfD1TrCQNzo0rb14BPTt0S7UVt8VSCGbLeyZpmiAczti8t6t0rkFS5eCHCfW1rBcRdg0Tn1BsQqm
+aE+xNNstqNLpPRpGSvL7AFAbTbpzLJQAeeg58YkytjUB+xq7gQl4Ssff+c99NZZSCKKQM+wRrCpz
+nlUyb+lA/nVwARQwrCNXHhxtG9aKcmQ5UcwCWDLGzrPcdLtptct1CdM0YwJqKl6++eigX63ysIgT
++1c=
+=t+WE
+-----END PGP SIGNATURE-----
+
+--------------c0F146zPaNsO7viNjr1zOXUQ--
+
+
+--===============3264800234299332747==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+
+--===============3264800234299332747==--
+
