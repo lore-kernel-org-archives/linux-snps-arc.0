@@ -4,87 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E1B5C77B60
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 28 Apr 2023 12:59:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 765EAC77B60
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 28 Apr 2023 13:01:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date
-	:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=J2T16mzrC42XzSrc7Pr3HQGmfn86ssG0TAhm9fT5dNU=; b=CjNI1m0v0BEkmgOyFjRoJgYEyA
-	Y0V5b+aQtJIVsH1GAg+ZB/kICWESXmBHDIXfVeNUVLQwtjgleqBWP+7NLSM99U6FdUgY1NnodoQou
-	mZnacnd8wZ5WYoVqoUwje0TZZ7Q1XxQmto6IBLGJB01YDCVmAyme4LnHv9gZ1dtVjdsoempFNlfoR
-	EDEqNAfSt+GreS7K6n8X1N8lH07UOz7uBnD+FR33qUdxe6B4Mboi342ojjTakjH0ZenMn9QwBFixz
-	dOKXZQPFxzy0O8J3UVe9xoB3NlT2snGPexCqgHttrrz2b1FqXNOhCrdUe8U0y08Y+/VQYWtzbJv9J
-	OgHFO/oA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=YsFR6kWowYrR78N1S2PfGrRZLyK9qL9qmkfcChUllJU=; b=nfMUOrEUUH173I
+	JxO1nUwXrS3eDiiy9+rURjkJ5n4c7eooJAxzDNezss+opcgbNej2ikKedTyAnnfcPQoYLHHzRRl4D
+	Ql3tXOl+AVMLiy95HxCb93D7WzfmA4I/NqDVCvgl/o+TlbdzXGYyGAElyvd8XOO996RfcenCY3pb/
+	zqXHXqi5ALDOz20TlfKDdaLKYxeQbp5qjjIhMJWsmViztYXhdjP5MaUX5Y3/3Eo7avYT1QLS+DL/5
+	QpD+YDUByGoMwZRlA7rXrA9IRG/iB3EObiLIX94tt4r/vI1B4X82Ly9u0igchWRTsZwMuRdx9Vzbv
+	lZNt2YQ+dMUCxkAypMMg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1psNhO-00A7EM-0F;
-	Fri, 28 Apr 2023 12:59:42 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1psNil-00A86y-09;
+	Fri, 28 Apr 2023 13:01:07 +0000
+Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com ([2a02:2350:5:400::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1psNhI-00A77n-28;
-	Fri, 28 Apr 2023 12:59:38 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 04AD821A72;
-	Fri, 28 Apr 2023 12:59:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1682686773; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DOHva8/g0e3KXvU8cu2iVqtSznfT7AgOGR+s4nqZR1I=;
-	b=LexiP+Jd9kxc3WCeMxN/5rz7hNn9gEEenHUWJCkq+CSvWM3zUVCRO0y0QkpBLoeY6UNnTN
-	0a/Yqh2oTZRSXjEwZsidaaqcPkdeJ9Wx2jMHJSW6gpDyJWTQ1VYLJxpNnxQ7cFULSkj8Ry
-	qqYuuZqg2ncEw3jHWmZrThebiBxI0FM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1682686773;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DOHva8/g0e3KXvU8cu2iVqtSznfT7AgOGR+s4nqZR1I=;
-	b=fuPUSiqbmzHaACmAk2lBEDPauY7ziXYZoVbj8FO0dBXjWu9QbQGTjIuP0BztVeW4B3zd/7
-	ZzUKvia2Hfsgr0Bg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8A6FF1390E;
-	Fri, 28 Apr 2023 12:59:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id ssPvIDTDS2TlDAAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Fri, 28 Apr 2023 12:59:32 +0000
-Message-ID: <7f5daedd-0006-b412-ace9-f3f4a9b48931@suse.de>
-Date: Fri, 28 Apr 2023 14:59:32 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 5/5] fbdev: Define framebuffer I/O from Linux' I/O
- functions
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Robin Murphy <robin.murphy@arm.com>
-Cc: linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org,
- dri-devel@lists.freedesktop.org, James.Bottomley@hansenpartnership.com,
- sparclinux@vger.kernel.org, kernel@xen0n.name, sam@ravnborg.org,
- linux-arch@vger.kernel.org, deller@gmx.de, chenhuacai@kernel.org,
- javierm@redhat.com, vgupta@kernel.org, linux-snps-arc@lists.infradead.org,
- arnd@arndb.de, linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, davem@davemloft.net
+	id 1psNie-00A7xs-2S
+	for linux-snps-arc@lists.infradead.org;
+	Fri, 28 Apr 2023 13:01:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=rsa1;
+	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+	 from:date:from;
+	bh=PpcTclKxx1k/EfVG4yQr41oM9QVmOB40SVMjWl/npqE=;
+	b=k3xZbk49OVdA8HAM23WQf7QvCAkY6osK5NwKaYOCelNTZEEDAi5JLJORKG53rPRLHF2UsEnaWjci2
+	 UleSovMJWsiI88ObSwz3BFTTOjC+dvZXpyhqmAh22eCaseqhpMutcTvgyACjthLZQisPTD+USiia7s
+	 6ImH25NiJgbL2Q/PjF4KyEFzSNpy8jfrpmufZNF/jOHLpQUWwx5qYXdybf4Iwxxx7/NKm+hQtW2Q3P
+	 cyW5mCcjWaxt6Qws7WctuxhcfLpL4nVXl+aSBhVeYilixYQs5Of8ZBVeTVmtKS710j6TwnXUPrNgeF
+	 4/I0ffLZ6Zgg+oztlcjlnHxl/TX6E/w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=ed1;
+	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+	 from:date:from;
+	bh=PpcTclKxx1k/EfVG4yQr41oM9QVmOB40SVMjWl/npqE=;
+	b=OoYC+n7ssdxw6mi4jodInt4BWBrg7fNY89ixy7jkhAqbElGIdulre1GkkC01oXDeMYsAhMsN5uwCw
+	 PnTA6SfBw==
+X-HalOne-ID: b3232d4d-e5c4-11ed-9b54-99461c6a3fe8
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+	by mailrelay1 (Halon) with ESMTPSA
+	id b3232d4d-e5c4-11ed-9b54-99461c6a3fe8;
+	Fri, 28 Apr 2023 13:00:52 +0000 (UTC)
+Date: Fri, 28 Apr 2023 15:00:50 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: deller@gmx.de, geert@linux-m68k.org, javierm@redhat.com,
+	daniel@ffwll.ch, vgupta@kernel.org, chenhuacai@kernel.org,
+	kernel@xen0n.name, davem@davemloft.net,
+	James.Bottomley@hansenpartnership.com, arnd@arndb.de,
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-arch@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+	sparclinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-parisc@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] fbdev/matrox: Remove trailing whitespaces
+Message-ID: <20230428130050.GA3995435@ravnborg.org>
 References: <20230428092711.406-1-tzimmermann@suse.de>
- <20230428092711.406-6-tzimmermann@suse.de>
- <430c73f0-45f4-f81e-6506-bc8cc955d936@arm.com>
- <CAMuHMdUGjtiAR37L4_e0_p8ee2=gxoUj7+e7rqMLTBK+vpV4yw@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAMuHMdUGjtiAR37L4_e0_p8ee2=gxoUj7+e7rqMLTBK+vpV4yw@mail.gmail.com>
+ <20230428092711.406-2-tzimmermann@suse.de>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20230428092711.406-2-tzimmermann@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230428_055936_865848_3C41A2CC 
-X-CRM114-Status: GOOD (  21.78  )
+X-CRM114-CacheID: sfid-20230428_060101_308074_DF4BAE11 
+X-CRM114-Status: UNSURE (   6.32  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,158 +84,20 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0726670290504812557=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0726670290504812557==
-Content-Language: en-US
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------9vTZXEQMf5PD7pb3rF0sqz18"
+On Fri, Apr 28, 2023 at 11:27:07AM +0200, Thomas Zimmermann wrote:
+> Fix coding style. No functional changes.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------9vTZXEQMf5PD7pb3rF0sqz18
-Content-Type: multipart/mixed; boundary="------------gFxfHJxEW03j1ssJGn8N0Y6F";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Robin Murphy <robin.murphy@arm.com>
-Cc: linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org,
- dri-devel@lists.freedesktop.org, James.Bottomley@hansenpartnership.com,
- sparclinux@vger.kernel.org, kernel@xen0n.name, sam@ravnborg.org,
- linux-arch@vger.kernel.org, deller@gmx.de, chenhuacai@kernel.org,
- javierm@redhat.com, vgupta@kernel.org, linux-snps-arc@lists.infradead.org,
- arnd@arndb.de, linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, davem@davemloft.net
-Message-ID: <7f5daedd-0006-b412-ace9-f3f4a9b48931@suse.de>
-Subject: Re: [PATCH v2 5/5] fbdev: Define framebuffer I/O from Linux' I/O
- functions
-References: <20230428092711.406-1-tzimmermann@suse.de>
- <20230428092711.406-6-tzimmermann@suse.de>
- <430c73f0-45f4-f81e-6506-bc8cc955d936@arm.com>
- <CAMuHMdUGjtiAR37L4_e0_p8ee2=gxoUj7+e7rqMLTBK+vpV4yw@mail.gmail.com>
-In-Reply-To: <CAMuHMdUGjtiAR37L4_e0_p8ee2=gxoUj7+e7rqMLTBK+vpV4yw@mail.gmail.com>
-
---------------gFxfHJxEW03j1ssJGn8N0Y6F
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-
-SGkgUm9iaW4sIEdlZXJ0DQoNCkFtIDI4LjA0LjIzIHVtIDE0OjI3IHNjaHJpZWIgR2VlcnQg
-VXl0dGVyaG9ldmVuOg0KPiBPbiBGcmksIEFwciAyOCwgMjAyMyBhdCAyOjE44oCvUE0gUm9i
-aW4gTXVycGh5IDxyb2Jpbi5tdXJwaHlAYXJtLmNvbT4gd3JvdGU6DQo+PiBPbiAyMDIzLTA0
-LTI4IDEwOjI3LCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+PiBJbXBsZW1lbnQgZnJh
-bWVidWZmZXIgSS9PIGhlbHBlcnMsIHN1Y2ggYXMgZmJfcmVhZCooKSBhbmQgZmJfd3JpdGUq
-KCkNCj4+PiB3aXRoIExpbnV4JyByZWd1bGFyIEkvTyBmdW5jdGlvbnMuIFJlbW92ZSBhbGwg
-aWZkZWYgY2FzZXMgZm9yIHRoZQ0KPj4+IHZhcmlvdXMgYXJjaGl0ZWN0dXJlcy4NCj4+Pg0K
-Pj4+IE1vc3Qgb2YgdGhlIHN1cHBvcnRlZCBhcmNoaXRlY3R1cmVzIHVzZSBfX3Jhd18oKSBJ
-L08gZnVuY3Rpb25zIG9yIHRyZWF0DQo+Pj4gZnJhbWVidWZmZXIgbWVtb3J5IGxpa2UgcmVn
-dWxhciBtZW1vcnkuIFRoaXMgaXMgYWxzbyBpbXBsZW1lbnRlZCBieSB0aGUNCj4+PiBhcmNo
-aXRlY3R1cmVzJyBJL08gZnVuY3Rpb24sIHNvIHdlIGNhbiB1c2UgdGhlbSBpbnN0ZWFkLg0K
-Pj4+DQo+Pj4gU3BhcmMgdXNlcyBTQnVzIHRvIGNvbm5lY3QgdG8gZnJhbWVidWZmZXIgZGV2
-aWNlcy4gSXQgcHJvdmlkZXMgcmVzcGVjdGl2ZQ0KPj4+IGltcGxlbWVudGF0aW9ucyBvZiB0
-aGUgZnJhbWVidWZmZXIgSS9PIGhlbHBlcnMuIFRoZSBpbnZvbHZlZCBzYnVzXygpDQo+Pj4g
-SS9PIGhlbHBlcnMgbWFwIHRvIHRoZSBzYW1lIGNvZGUgYXMgU3BhcmMncyByZWd1bGFyIEkv
-TyBmdW5jdGlvbnMuIEFzDQo+Pj4gd2l0aCBvdGhlciBwbGF0Zm9ybXMsIHdlIGNhbiB1c2Ug
-dGhvc2UgaW5zdGVhZC4NCj4+Pg0KPj4+IFdlIGxlYXZlIGEgVE9ETyBpdGVtIHRvIHJlcGxh
-Y2UgYWxsIGZiXygpIGZ1bmN0aW9ucyB3aXRoIHRoZWlyIHJlZ3VsYXINCj4+PiBJL08gY291
-bnRlcnBhcnRzIHRocm91Z2hvdXQgdGhlIGZiZGV2IGRyaXZlcnMuDQo+Pj4NCj4+PiBTaWdu
-ZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4+
-PiAtLS0NCj4+PiAgICBpbmNsdWRlL2xpbnV4L2ZiLmggfCA2MyArKysrKysrKysrKy0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+Pj4gICAgMSBmaWxlIGNoYW5nZWQs
-IDE1IGluc2VydGlvbnMoKyksIDQ4IGRlbGV0aW9ucygtKQ0KPj4+DQo+Pj4gZGlmZiAtLWdp
-dCBhL2luY2x1ZGUvbGludXgvZmIuaCBiL2luY2x1ZGUvbGludXgvZmIuaA0KPj4+IGluZGV4
-IDA4Y2I0N2RhNzFmOC4uNGFhOWU5MGVkZDE3IDEwMDY0NA0KPj4+IC0tLSBhL2luY2x1ZGUv
-bGludXgvZmIuaA0KPj4+ICsrKyBiL2luY2x1ZGUvbGludXgvZmIuaA0KPj4+IEBAIC0xNSw3
-ICsxNSw2IEBADQo+Pj4gICAgI2luY2x1ZGUgPGxpbnV4L2xpc3QuaD4NCj4+PiAgICAjaW5j
-bHVkZSA8bGludXgvYmFja2xpZ2h0Lmg+DQo+Pj4gICAgI2luY2x1ZGUgPGxpbnV4L3NsYWIu
-aD4NCj4+PiAtI2luY2x1ZGUgPGFzbS9pby5oPg0KPj4+DQo+Pj4gICAgc3RydWN0IHZtX2Fy
-ZWFfc3RydWN0Ow0KPj4+ICAgIHN0cnVjdCBmYl9pbmZvOw0KPj4+IEBAIC01MTEsNTggKzUx
-MCwyNiBAQCBzdHJ1Y3QgZmJfaW5mbyB7DQo+Pj4gICAgICovDQo+Pj4gICAgI2RlZmluZSBT
-VFVQSURfQUNDRUxGX1RFWFRfU0hJVA0KPj4+DQo+Pj4gLS8vIFRoaXMgd2lsbCBnbyBhd2F5
-DQo+Pj4gLSNpZiBkZWZpbmVkKF9fc3BhcmNfXykNCj4+PiAtDQo+Pj4gLS8qIFdlIG1hcCBh
-bGwgb2Ygb3VyIGZyYW1lYnVmZmVycyBzdWNoIHRoYXQgYmlnLWVuZGlhbiBhY2Nlc3Nlcw0K
-Pj4+IC0gKiBhcmUgd2hhdCB3ZSB3YW50LCBzbyB0aGUgZm9sbG93aW5nIGlzIHN1ZmZpY2ll
-bnQuDQo+Pj4gKy8qDQo+Pj4gKyAqIFRPRE86IFVwZGF0ZSBmYmRldiBkcml2ZXJzIHRvIGNh
-bGwgdGhlIEkvTyBoZWxwZXJzIGRpcmVjdGx5IGFuZA0KPj4+ICsgKiAgICAgICByZW1vdmUg
-dGhlIGZiXygpIHRva2Vucy4NCj4+PiAgICAgKi8NCj4+PiAtDQo+Pj4gLS8vIFRoaXMgd2ls
-bCBnbyBhd2F5DQo+Pj4gLSNkZWZpbmUgZmJfcmVhZGIgc2J1c19yZWFkYg0KPj4+IC0jZGVm
-aW5lIGZiX3JlYWR3IHNidXNfcmVhZHcNCj4+PiAtI2RlZmluZSBmYl9yZWFkbCBzYnVzX3Jl
-YWRsDQo+Pj4gLSNkZWZpbmUgZmJfcmVhZHEgc2J1c19yZWFkcQ0KPj4+IC0jZGVmaW5lIGZi
-X3dyaXRlYiBzYnVzX3dyaXRlYg0KPj4+IC0jZGVmaW5lIGZiX3dyaXRldyBzYnVzX3dyaXRl
-dw0KPj4+IC0jZGVmaW5lIGZiX3dyaXRlbCBzYnVzX3dyaXRlbA0KPj4+IC0jZGVmaW5lIGZi
-X3dyaXRlcSBzYnVzX3dyaXRlcQ0KPj4+IC0jZGVmaW5lIGZiX21lbXNldCBzYnVzX21lbXNl
-dF9pbw0KPj4+IC0jZGVmaW5lIGZiX21lbWNweV9mcm9tZmIgc2J1c19tZW1jcHlfZnJvbWlv
-DQo+Pj4gLSNkZWZpbmUgZmJfbWVtY3B5X3RvZmIgc2J1c19tZW1jcHlfdG9pbw0KPj4+IC0N
-Cj4+PiAtI2VsaWYgZGVmaW5lZChfX2kzODZfXykgfHwgZGVmaW5lZChfX2FscGhhX18pIHx8
-IGRlZmluZWQoX194ODZfNjRfXykgfHwgICAgICBcDQo+Pj4gLSAgICAgZGVmaW5lZChfX2hw
-cGFfXykgfHwgZGVmaW5lZChfX3NoX18pIHx8IGRlZmluZWQoX19wb3dlcnBjX18pIHx8IFwN
-Cj4+PiAtICAgICBkZWZpbmVkKF9fYXJtX18pIHx8IGRlZmluZWQoX19hYXJjaDY0X18pIHx8
-IGRlZmluZWQoX19taXBzX18pDQo+Pj4gLQ0KPj4+IC0jZGVmaW5lIGZiX3JlYWRiIF9fcmF3
-X3JlYWRiDQo+Pj4gLSNkZWZpbmUgZmJfcmVhZHcgX19yYXdfcmVhZHcNCj4+PiAtI2RlZmlu
-ZSBmYl9yZWFkbCBfX3Jhd19yZWFkbA0KPj4+IC0jZGVmaW5lIGZiX3JlYWRxIF9fcmF3X3Jl
-YWRxDQo+Pj4gLSNkZWZpbmUgZmJfd3JpdGViIF9fcmF3X3dyaXRlYg0KPj4+IC0jZGVmaW5l
-IGZiX3dyaXRldyBfX3Jhd193cml0ZXcNCj4+PiAtI2RlZmluZSBmYl93cml0ZWwgX19yYXdf
-d3JpdGVsDQo+Pj4gLSNkZWZpbmUgZmJfd3JpdGVxIF9fcmF3X3dyaXRlcQ0KPj4NCj4+IE5v
-dGUgdGhhdCBvbiBhdCBsZWFzdCBzb21lIGFyY2hpdGVjdHVyZXMsIHRoZSBfX3JhdyB2YXJp
-YW50cyBhcmUNCj4+IG5hdGl2ZS1lbmRpYW4sIHdoZXJlYXMgdGhlIHJlZ3VsYXIgYWNjZXNz
-b3JzIGFyZSBleHBsaWNpdGx5DQo+PiBsaXR0bGUtZW5kaWFuLCBzbyB0aGVyZSBpcyBhIHNs
-aWdodCByaXNrIG9mIGluYWR2ZXJ0ZW50bHkgY2hhbmdpbmcNCj4+IGJlaGF2aW91ciBvbiBi
-aWctZW5kaWFuIHN5c3RlbXMgKE1JUFMgbW9zdCBsaWtlbHksIGJ1dCBhIGZldyBvbGQgQVJN
-DQo+PiBwbGF0Zm9ybXMgcnVuIEJFIGFzIHdlbGwpLg0KPiANCj4gQWxzbyBvbiBtNjhrLCB3
-aGVuIElTQSBvciBQQ0kgYXJlIGVuYWJsZWQuDQo+IA0KPiBJbiBhZGRpdGlvbiwgdGhlIG5v
-bi1yYXcgdmFyaWFudHMgbWF5IGRvIHNvbWUgZXh0cmFzIHRvIGd1YXJhbnRlZQ0KPiBvcmRl
-cmluZywgd2hpY2ggeW91IGRvIG5vdCBuZWVkIG9uIGEgZnJhbWUgYnVmZmVyLg0KPiANCj4g
-U28gSSdkIGdvIGZvciB0aGUgX19yYXdfKigpIHZhcmlhbnRzIGV2ZXJ5d2hlcmUuDQoNCk9r
-LCBtYWtlcyBzZW5zZS4gQnV0IGl0IGFsc28gbWVhbnMgdGhhdCB3ZSB3b24ndCBiZSBhYmxl
-IHRvIHJlbW92ZSB0aGUgDQpmYl8oKSBoZWxwZXJzLiBJZiB3ZSBnbyB3aXRoIHRoaXMgcHJv
-cG9zYWwsIEknbGwgYWRkIHlvdXIgY29tbWVudHMgdG8gDQp0aGUgaGVhZGVyIGZpbGUsIHNv
-IGl0J3MgY2xlYXIgd2h5IHRoZXkncmUgc3RpbGwgdGhlcmUuDQoNCkJlc3QgcmVnYXJkcw0K
-VGhvbWFzDQoNCj4gDQo+IEdye29ldGplLGVldGluZ31zLA0KPiANCj4gICAgICAgICAgICAg
-ICAgICAgICAgICAgIEdlZXJ0DQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFw
-aGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55
-IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpH
-RjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBN
-b2VybWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
-
---------------gFxfHJxEW03j1ssJGn8N0Y6F--
-
---------------9vTZXEQMf5PD7pb3rF0sqz18
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRLwzQFAwAAAAAACgkQlh/E3EQov+B+
-qw//R9K862VucVEoeHQ+G55XwVS6dlyCgHLUP6khfTfdNdi2e/YxEKm6zWEPxutuYpxL89u1jA2N
-jw3/6HCvu9+/LvrhUWuCHMB8MHW/HUZbJBpACW6sQ0CrNKOCf6IbEFSO3wlf0dwxWOb3gPONSBar
-C7wLfeiqHlNTFUcCxboJGkzgQt7GHRxSiG6XOmHu4RrMS3eZSKEQ8JxyBG7b+7f60sIqD4UoVQZ7
-yZ3ffdjcZCK+D/n0NgGr4u95Opx63ThmC2AggTbRWaGxd3SWssKqRPphcDOS4GdqCDbuBmoohmAw
-o6Eo03ErV4a5dOCXxOc9sjI9Tff8E1naMlmR42dKQjVFtgqdeSbp0ox0joZxs9J90Ufi+nMUq4KN
-tZP8l/rlkb69sdr2DtF1x0NeLHornodWFKx4vWRzK/yw7cJggTDha51Nx24AjGzjhCd2TPMH/TT7
-xcT3F/Uu7cdgDuAxqWqObJpsjdtk7sANjfrt1GIvg8W63c9sIKqNUAsNvgXBj9g1trKYRdLapxHb
-Jaq/bCwqi+JaVpkI3tatnRmgVlG85l67eLdPSimvFLIznbAqn4A9ank7ZIg2k+0D6T8/3PoT8YI/
-3MJbmwaMCpBU2VPgnaeZhewBDXvjhIxb6jXdgWRKuXjgp6KkdLAqJKdii8ExQHnVJhiPgaiPLUWC
-rm8=
-=cKk+
------END PGP SIGNATURE-----
-
---------------9vTZXEQMf5PD7pb3rF0sqz18--
-
-
---===============0726670290504812557==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+	Sam
 
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-snps-arc
-
---===============0726670290504812557==--
-
