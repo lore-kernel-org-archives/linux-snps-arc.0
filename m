@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6C9D9C7EE2D
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  2 May 2023 19:54:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99276C7EE25
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  2 May 2023 20:03:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=sZouhDzHqFp6zs4L+G1FqGWPJ4ZWOO+T/Tm95o+Mtmw=; b=1Q2pKy1Ver5JlX
-	kiwxyp1w53q8mk2Pzyf8t1zAoLkFKOT+zrriwRqcAWqzh0HRuTrfgUoKFtufVRY8Xz8Cr/OmP0Kxy
-	KzZiCC2U/H58HTFiveouAx5EfPhiGt/MwsVTlusLxEcA0VAQstQzCz+rTT7Rw0VF/aFSwwP2S2q7/
-	OjN27REu9fKipj9GAQOE0swNEZN9Bjb76vjgmJuMVVVmK7VlMgHvabDeKoXIlR3dmoBse/0ReEmOC
-	WzsyXbL1q7YL6YhTXP1Now6yf7LyHrr2j+MOEBQaIeKkUaz+X4jX7pOR1BsTblzxuF4AErDi4FweW
-	Snlt5ssZGbJ+JxiMfeeg==;
+	List-Owner; bh=9tgHMqc3q2rrsfumpkoYxGuW+PYnaT4T+OgyqSzu3lA=; b=VlTGohZvdcLIQ2
+	UAqP6p5kT6ySrg9nxaKq/3ad35xlBd0u4n7/5p34BjxndMyPQuvJXbSopd+x4/MnlFOghWRuvNje0
+	Rv6q87FDJpt2U2o+X8VAru8cotUg5QCkBKmTh4FmV/7VJ81zkFXudUEkF3mf07xLMaXqqWZbkJHOz
+	4Sz6QHhbQCw8m/QTF5HochhQnd6qPizokrtEeMZWyrAJLorJltk1UBi8w9NtPGgYNVjjYNCYkLm4r
+	UKoL/UZtQVfa/Tv0UxVLxl4w03M/JuxnEAuX6SKP3lbO4HgRabT93io/HKzTStl7dXWyvOUmRwD5a
+	/+B4ldAjXas5EEie6x7g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1ptw5E-002V9I-29;
-	Tue, 02 May 2023 19:54:44 +0000
+	id 1ptwDN-002W9x-1e;
+	Tue, 02 May 2023 20:03:09 +0000
 Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com ([2a02:2350:5:400::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1ptw5A-002V7V-1d
+	id 1ptwDJ-002W7z-2a
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 02 May 2023 19:54:43 +0000
+	Tue, 02 May 2023 20:03:07 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ravnborg.org; s=rsa1;
 	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
 	 from:date:from;
-	bh=w8AYFc45O0NSET2uKXuZttSIHO5lI9T1X8bLU49ivoE=;
-	b=kInIw482HDfm6bpoAz1sLMDMLP3rOIWNjuMerayf0RvX4o3BuEimQ3bxRyGbsxcPj19euojDP5y4e
-	 Z/JS3LV4PcZPRg4llnFz7WOs7qYBOlWL9Qf1JOf7n6zwdAYH4X7tMXg/6lWf4i+0yy8oczAga7SZVc
-	 BtQ/fUaOxi2SuFKuF3gv/SCPYAX4AKaifz3JHL7M4lvV31utXuXH890fO8n+9P8Ao0Mqy845bRh15e
-	 aA3ka1TvnQRm1gh6VorcOUp9qudNzF86fqTll2cC6eRr7owW+f28KAr5tMS3vAtLDHf4hmoBC9ITSv
-	 rzSnX266wUy3E2fdGJyKO9JjLxQLpkQ==
+	bh=KtZNQ58vZ5N98TWm6M5w+L57kPYXNb5tAf0VlF8Flpc=;
+	b=Xah1/oyErMFNpxOGfQEez/E+8w0LLHZXJKtrW/ScT0xAhSKJyU1eZ3frWCdrdSF0GTGRRpJhPQrZs
+	 I+uBJafShd3l9pu/kBATSdEVDgpUVD6i+FYH+AM1xPvyJ0UmNqbSnLpRvHzxNrVSMZzfiNM1KvbeUW
+	 KGgXkpysLgZ/zewOpQiKznhcJPVatUQuOeymT5kBhkjt9Eq3PGZFnXDKGHoufHpJA6S/rh+SALRC4U
+	 RIFwlrXy7znYTkNSqweLa/0D/HwYv9u4U6krbhYlJX7lMOSK5LXpPTdXhRVtOt8FJyFPUh9YDeusba
+	 Gl27IKREH5sEcHLYQw1s+yrcHZiZ1BQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
 	d=ravnborg.org; s=ed1;
 	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
 	 from:date:from;
-	bh=w8AYFc45O0NSET2uKXuZttSIHO5lI9T1X8bLU49ivoE=;
-	b=C1LvBG55q+HMla4pI7wcdYeyi9TR37VaVBIFhPId1l2slSful+bcYpB9k+shRarpk0DSh6j/kaMLO
-	 A51lTJFCg==
-X-HalOne-ID: 2612f7da-e923-11ed-94d1-99461c6a3fe8
+	bh=KtZNQ58vZ5N98TWm6M5w+L57kPYXNb5tAf0VlF8Flpc=;
+	b=7QUNa4Iy2G7XUqb7b772O2zddt3FyCgHB/im3Jp8IwJy6rF7WzgO5eusroyZ9PEtznHxDPL5De33H
+	 tmENBvLCg==
+X-HalOne-ID: 56af12f5-e924-11ed-94e2-99461c6a3fe8
 Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
 	by mailrelay1 (Halon) with ESMTPSA
-	id 2612f7da-e923-11ed-94d1-99461c6a3fe8;
-	Tue, 02 May 2023 19:54:30 +0000 (UTC)
-Date: Tue, 2 May 2023 21:54:29 +0200
+	id 56af12f5-e924-11ed-94e2-99461c6a3fe8;
+	Tue, 02 May 2023 20:03:02 +0000 (UTC)
+Date: Tue, 2 May 2023 22:03:00 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: deller@gmx.de, geert@linux-m68k.org, javierm@redhat.com,
@@ -62,16 +62,17 @@ Cc: deller@gmx.de, geert@linux-m68k.org, javierm@redhat.com,
 	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
 	sparclinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-parisc@vger.kernel.org
-Subject: Re: [PATCH v3 4/6] fbdev: Include <linux/io.h> via <asm/fb.h>
-Message-ID: <20230502195429.GA319489@ravnborg.org>
+Subject: Re: [PATCH v3 5/6] fbdev: Move framebuffer I/O helpers into
+ <asm/fb.h>
+Message-ID: <20230502200300.GB319489@ravnborg.org>
 References: <20230502130223.14719-1-tzimmermann@suse.de>
- <20230502130223.14719-5-tzimmermann@suse.de>
+ <20230502130223.14719-6-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20230502130223.14719-5-tzimmermann@suse.de>
+In-Reply-To: <20230502130223.14719-6-tzimmermann@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230502_125441_646510_4ED09FCB 
-X-CRM114-Status: GOOD (  15.46  )
+X-CRM114-CacheID: sfid-20230502_130305_990501_61087BE2 
+X-CRM114-Status: GOOD (  24.92  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,48 +91,73 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 Hi Thomas,
 
-On Tue, May 02, 2023 at 03:02:21PM +0200, Thomas Zimmermann wrote:
-> Fbdev's main header file, <linux/fb.h>, includes <asm/io.h> to get
-> declarations for I/O helper functions. From these declarations, it
-> later defines framebuffer I/O helpers, such as fb_{read,write}[bwlq]()
-> or fb_memset().
+On Tue, May 02, 2023 at 03:02:22PM +0200, Thomas Zimmermann wrote:
+> Implement framebuffer I/O helpers, such as fb_read*() and fb_write*(),
+> in the architecture's <asm/fb.h> header file or the generic one.
+
+In reality they are now all implemented in the generic one.
+
 > 
-> The framebuffer I/O helpers depend on the system architecture and
-> will therefore be moved into <asm/fb.h>. Prepare this change by first
-> adding an include statement for <linux/io.h> to <asm-generic/fb.h>.
-> Include <asm/fb.h> in all source files that use the framebuffer I/O
-> helpers, so that they still get the necessary I/O functions.
+> The common case has been the use of regular I/O functions, such as
+> __raw_readb() or memset_io(). A few architectures used plain system-
+> memory reads and writes. Sparc used helpers for its SBus.
 > 
-...
+> The architectures that used special cases provide the same code in
+> their __raw_*() I/O helpers. So the patch replaces this code with the
+> __raw_*() functions and moves it to <asm-generic/fb.h> for all
+> architectures.
+Which is also documented here.
+
 > 
-> diff --git a/drivers/video/fbdev/arkfb.c b/drivers/video/fbdev/arkfb.c
-> index 60a96fdb5dd8..fd38e8a073b8 100644
-> --- a/drivers/video/fbdev/arkfb.c
-> +++ b/drivers/video/fbdev/arkfb.c
-> @@ -27,6 +27,8 @@
->  #include <linux/console.h> /* Why should fb driver call console functions? because console_lock() */
->  #include <video/vga.h>
+> v3:
+> 	* implement all architectures with generic helpers
+> 	* support reordering and native byte order (Geert, Arnd)
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  include/asm-generic/fb.h | 101 +++++++++++++++++++++++++++++++++++++++
+>  include/linux/fb.h       |  53 --------------------
+>  2 files changed, 101 insertions(+), 53 deletions(-)
+> 
+> diff --git a/include/asm-generic/fb.h b/include/asm-generic/fb.h
+> index 6922dd248c51..0540eccdbeca 100644
+> --- a/include/asm-generic/fb.h
+> +++ b/include/asm-generic/fb.h
+> @@ -31,4 +31,105 @@ static inline int fb_is_primary_device(struct fb_info *info)
+>  }
+>  #endif
 >  
-> +#include <asm/fb.h>
+> +/*
+> + * I/O helpers for the framebuffer. Prefer these functions over their
+> + * regular counterparts. The regular I/O functions provide in-order
+> + * access and swap bytes to/from little-endian ordering. Neither is
+> + * required for framebuffers. Instead, the helpers read and write
+> + * raw framebuffer data. Independent operations can be reordered for
+> + * improved performance.
+> + */
+> +
+> +#ifndef fb_readb
+> +static inline u8 fb_readb(const volatile void __iomem *addr)
+> +{
+> +	return __raw_readb(addr);
+> +}
+> +#define fb_readb fb_readb
+> +#endif
 
-When we have a header like linux/fb.h - it is my understanding that it is
-preferred to include that file, and not the asm/fb.h variant.
+When we need to provide an architecture specific variant the
+#ifndef foo
+...
+#define foo foo
+can be added. Right now it is just noise as no architectures provide
+their own variants.
 
-This is assuming the linux/fb.h contains the generic stuff, and includes
-asm/fb.h for the architecture specific parts.
+But I am missing something somewhere as I cannot see how this builds.
+asm-generic now provide the fb_read/fb_write helpers.
+But for example sparc has an architecture specifc fb.h so it will not
+use the asm-generic variant. So I wonder how sparc get hold of the
+asm-generic fb.h file?
 
-So drivers will include linux/fb.h and then they automatically get the
-architecture specific parts from asm/fb.h.
-
-In other words, drivers are not supposed to include asm/fb.h, if
-linux.fb.h exists - and linux/fb.h shall include the asm/fb.h.
-
-If the above holds true, then it is wrong and not needed to add asm/fb.h
-as seen above.
-
-
-There are countless examples where the above are not followed,
-but to my best understanding the above it the preferred way to do it.
+Maybe it is obvious, but I miss it.
 
 	Sam
 
