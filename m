@@ -4,77 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93476C7EE22
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  3 May 2023 08:22:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6BBCCC77B75
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  3 May 2023 08:53:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Subject:Cc:To:From:Date:References:
+	In-Reply-To:Message-Id:Mime-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=4sB8Yqd0QcOehyxaeEB8NEaOLwCepqZxgl8GXgdvsXc=; b=pGsPwHyebjYegr
-	Shjg0F2kPITUbojASSI5/PEXv2gjEFCTj9IUR0j9NRL7QZGbrda+Keesjw8d3tAfdPKatbAZwkR/B
-	3JL3E748aDRI5C/X9bBgpYTCzxNxXTc7EDpdOta6HAR0U1sxTvGeBwhnhUrjlrw3lDk5pHl7DCdmF
-	n0pDRJibNp+yaRvI8zeeMwT6Zso6O0SV1ggRaWaajTTsTbDmiC8nRSSUo1igingtLaB3iNESXg7nR
-	UmvAzKT4+1BWno72pt9fbceAMGAQMEszaixGJO9pT3Ei/RM5RR1BDfUEPmUIvHdfgg7icS01iR/qI
-	rEL+zEyelPtCYZ812J9w==;
+	List-Owner; bh=aKrs0pflikqefndrJmmlgNiYNA1SY73B20tnvNCoIco=; b=EZlT1S0+ABmAau
+	A2P2UmdguBwHQiKaTib1OaZPNhMuoZWd1fg20iMez564bbajQnTw19q7CeJZB0Xtf/T8W24j8mqtT
+	nAFtCHGL5tMSG2XIV2S3KPYiRqP7BQk3NI5mH70GRrn9ZGkfT1s1Vh/Fp69MVdn8ctN8pD9Rq2S0M
+	tlLL5g73XLMSFSYI8kinILHFaal7j4xY2TlwHM2xm/q450XVMcS+NVe2OD0ceJjSK2OQNffjgt/Tr
+	PvExw7WVzlM8z0VAfaF9CYZ1iZVfpmePbdzFWjiYR6NoPx/bT7Emmqq7z4BrwhYnaREBvgDKfFKVy
+	M3CsHLPTMuHDz6peFuNg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pu7kW-003pJD-2D;
-	Wed, 03 May 2023 08:22:08 +0000
-Received: from mail-yw1-f178.google.com ([209.85.128.178])
+	id 1pu8EU-003vjm-2C;
+	Wed, 03 May 2023 08:53:06 +0000
+Received: from wnew2-smtp.messagingengine.com ([64.147.123.27])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pu7kT-003pH5-1x;
-	Wed, 03 May 2023 08:22:07 +0000
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-55a8019379fso24760007b3.0;
-        Wed, 03 May 2023 01:22:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683102123; x=1685694123;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yf0nQOOKHL0GEtmAgACXt9/1DKDkHK6ft7tmYSYGTKo=;
-        b=SexG16TPOx+pxvk8+I/VaPlLcI2qv9nzNlMWEg8yaIt3jjHJm5dM1SFxMwsQsDe4BW
-         U/+PZhMgrTtncGSb6Hvrv91hQDcFcDfyXfVbQKrbt1a09zzIVfqZ2UOlJd42A1QHK5x4
-         QktjFZUCRY45pQb+5iRmJzEaNyG0nEJPMFu5dabtL8kt3s8YDP6y9Coi+ijnpqJ8+jTI
-         WHuU5+fJk19/VPOhg1K0wGjQesRvFAc5HnIY/LCXTUsQW1QTinmh+8dFucxICM431DU3
-         vNMnPOCct5qyrswkYT7tiORgWvVB+0CIBRk6cmEqTDaozNJZF7uQn9hq57gpkt+kQi+i
-         xc0Q==
-X-Gm-Message-State: AC+VfDyIOLy4CJya++qWJdr6loWI/hp4NZnO6v9psBb3/NjD/jgr0fMj
-	ow70SroNFkjbQ4yEJ5YWaxmvNT7EPAsj0A==
-X-Google-Smtp-Source: ACHHUZ5iFCS/cu/2YZvsyF3uvSmD0jd4es++yAD2vXpDN7UvUVkofnSw3MAJfDuJvuvDyEGHnWSiEw==
-X-Received: by 2002:a0d:df10:0:b0:55a:26cf:33e with SMTP id i16-20020a0ddf10000000b0055a26cf033emr10827349ywe.42.1683102123285;
-        Wed, 03 May 2023 01:22:03 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id f129-20020a816a87000000b00545a08184edsm8509444ywc.125.2023.05.03.01.22.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 May 2023 01:22:02 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-55a8019379fso24759717b3.0;
-        Wed, 03 May 2023 01:22:02 -0700 (PDT)
-X-Received: by 2002:a25:240f:0:b0:b9d:d5dc:596c with SMTP id
- k15-20020a25240f000000b00b9dd5dc596cmr11998230ybk.12.1683102122353; Wed, 03
- May 2023 01:22:02 -0700 (PDT)
-MIME-Version: 1.0
+	id 1pu8EQ-003vhE-2B;
+	Wed, 03 May 2023 08:53:04 +0000
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailnew.west.internal (Postfix) with ESMTP id E927C2B0695E;
+	Wed,  3 May 2023 04:52:55 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Wed, 03 May 2023 04:52:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm3; t=1683103975; x=1683111175; bh=IS
+	4EM5wdsuSjV61ICnK1JWQzvfZmpsEGvr2M9gQsBDg=; b=xFunroi/7DC9ShYZYF
+	0mkS1O4uFFPq6Ixts8x5XfA1TtFTRvtgFMSPwmY/QxmzmL4BwSEk1AAGZOWlkaw8
+	G/Qp1sWYevvX+sFvbpTZcf3rjLOBulkJ8Uiuvi16V7J3DjTqeQNEK8iP4a9KjnGf
+	AZFDczkFoeVbNFRXPynwrYtDmJgetJTY2yHzUYvc3J0ZzuF1bobFPZSiPlRGEuYf
+	3e67ij/DjoLjlsBxu1+3uM5MYZv9w2R9m7KD9LMhSly7TtZLqeq0jrg0Gls3kupf
+	1G1xcF49uh5fi9NgbQILKNzf3cG1mEsLRM3xpKbKP5GH0OST4rDQ5eyIyIPDKIcL
+	OBAQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1683103975; x=1683111175; bh=IS4EM5wdsuSjV
+	61ICnK1JWQzvfZmpsEGvr2M9gQsBDg=; b=fOZ/xI4I2hlVOsmaVXohE0GxuJ/WQ
+	5W+sIMqjJ3nKPDW8LmKpdh2luVCCtpTNFkUrKdi1fAsUK6C/2B6+1tLefS1ddRsr
+	MmMAFZgcqtocNbZny1ua3NZ6+E5xbqP8/5bWqckB5cYLDA5DGxh9x+UY8Pw2fq+p
+	S79jlVyAhJjFWrlrypp8EpWc1dMwsc5a9hw/oePA/lCbQIxkR5ZeY/6Xsftlhc+l
+	Htz3SpG1C/s3uhEXjE4MxVAJDLcu8PvU5jAfsiTFb/NVUr9dk100g0e4uViCzcCf
+	84BNNVhGsrK57sej9W1I7Khq+NtVWqm5iYASgfRGRnF5bgsaTBk7l9gdA==
+X-ME-Sender: <xms:5iBSZB6waEbkoZSuAcdjwPbQtxZjM_QjNWuH9Z89bJoEVoKZECP9XQ>
+    <xme:5iBSZO4MbLBKe8qyXRGJZconrK-wkSHbbvOY5Nn3ucu39n3eNmHGgS9BbDQks5mVi
+    9deu1Go1vvXng1b94w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfedvkedgtdekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:5iBSZIetZ3io1_WwWrG5A5y-vWMtX6jG-iRLHYUbU3H91u2JRZxyIg>
+    <xmx:5iBSZKKYY7kwklx5HX9jBu4cyX4FKYnhz1QuC9yZ8w_mnITQhCunaw>
+    <xmx:5iBSZFJNJdiIT89CdIrMdBTAeYA7OFOs9bKV0VCjpS-TfgXa9njB7Q>
+    <xmx:5yBSZKCtfTyRWweziCf0h6B7K9kpLs7LYO6VLyOu5dz5_qpxplsAo3N_Uvk>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 45BA2B60086; Wed,  3 May 2023 04:52:54 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-386-g2404815117-fm-20230425.001-g24048151
+Mime-Version: 1.0
+Message-Id: <0ecbc92c-7e42-4958-988b-abc265f039bf@app.fastmail.com>
+In-Reply-To: <97bbdb2f-6245-caf2-c0f6-d628873bd6db@suse.de>
 References: <20230502130223.14719-1-tzimmermann@suse.de>
-In-Reply-To: <20230502130223.14719-1-tzimmermann@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 3 May 2023 10:21:50 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV06LN17KzOh42vjyF504myT=D=a-zz3MduOmQPEmv5SA@mail.gmail.com>
-Message-ID: <CAMuHMdV06LN17KzOh42vjyF504myT=D=a-zz3MduOmQPEmv5SA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/6] fbdev: Move framebuffer I/O helpers to <asm/fb.h>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: deller@gmx.de, javierm@redhat.com, daniel@ffwll.ch, vgupta@kernel.org, 
-	chenhuacai@kernel.org, kernel@xen0n.name, davem@davemloft.net, 
-	James.Bottomley@hansenpartnership.com, arnd@arndb.de, sam@ravnborg.org, 
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-arch@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org, 
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, 
-	sparclinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-parisc@vger.kernel.org
+ <20230502130223.14719-5-tzimmermann@suse.de>
+ <20230502195429.GA319489@ravnborg.org>
+ <563673c0-799d-e353-974c-91b1ab881a22@suse.de>
+ <87354dyj9i.fsf@minerva.mail-host-address-is-not-set>
+ <97bbdb2f-6245-caf2-c0f6-d628873bd6db@suse.de>
+Date: Wed, 03 May 2023 10:52:34 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "Javier Martinez Canillas" <javierm@redhat.com>,
+ "Sam Ravnborg" <sam@ravnborg.org>
+Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
+ "Helge Deller" <deller@gmx.de>, "Huacai Chen" <chenhuacai@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ linux-m68k@lists.linux-m68k.org, "Geert Uytterhoeven" <geert@linux-m68k.org>,
+ loongarch@lists.linux.dev, "Vineet Gupta" <vgupta@kernel.org>,
+ sparclinux@vger.kernel.org, "WANG Xuerui" <kernel@xen0n.name>,
+ linux-snps-arc@lists.infradead.org, "David S . Miller" <davem@davemloft.net>,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 4/6] fbdev: Include <linux/io.h> via <asm/fb.h>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230503_012205_640469_C0C5C4A5 
-X-CRM114-Status: GOOD (  22.53  )
+X-CRM114-CacheID: sfid-20230503_015303_109427_53CC4571 
+X-CRM114-Status: UNSURE (   9.93  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,48 +114,35 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-SGkgVGhvbWFzLAoKT24gVHVlLCBNYXkgMiwgMjAyMyBhdCAzOjAy4oCvUE0gVGhvbWFzIFppbW1l
-cm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOgo+ICh3YXM6IGZiZGV2OiBVc2UgcmVn
-dWxhciBJL08gZnVuY3Rpb24gZm9yIGZyYW1lYnVmZmVycykKPgo+IEZiZGV2IHByb3ZpZGVzIGhl
-bHBlcnMgZm9yIGZyYW1lYnVmZmVyIEkvTywgc3VjaCBhcyBmYl9yZWFkbCgpLAo+IGZiX3dyaXRl
-bCgpIG9yIGZiX21lbWNweV90b19mYigpLiBUaGUgaW1wbGVtZW50YXRpb24gb2YgZWFjaCBoZWxw
-ZXIKPiBkZXBlbmRzIG9uIHRoZSBhcmNoaXRlY3R1cmUsIGJ1dCB0aGV5IGFyZSBhbGwgZXF1aXZh
-bGVudCB0byByZWd1bGFyCj4gSS9PIGZ1bmN0aW9ucyBvZiBzaW1pbGFyIG5hbWVzLiBTbyB1c2Ug
-cmVndWxhciBmdW5jdGlvbnMgaW5zdGVhZCBhbmQKPiBtb3ZlIGFsbCBoZWxwZXJzIGludG8gPGFz
-bS1nZW5lcmljL2ZiLmg+Cj4KPiBUaGUgZmlyc3QgcGF0Y2ggYSBzaW1wbGUgd2hpdGVzcGFjZSBj
-bGVhbnVwLgo+Cj4gVW50aWwgbm93LCA8bGludXgvZmIuaD4gY29udGFpbmVkIGFuIGluY2x1ZGUg
-b2YgPGFzbS9pby5oPi4gQXMgdGhpcwo+IHdpbGwgZ28gYXdheSBwYXRjaGVzIDIgdG8gNCBwcmVw
-YXJlIGluY2x1ZGUgc3RhdGVtZW50cyBpbiB0aGUgdmFyaW91cwo+IGRyaXZlcnMuIFNvdXJjZSBm
-aWxlcyB0aGF0IHVzZSByZWd1bGFyIEkvTyBoZWxwZXJzLCBzdWNoIGFzIHJlYWRsKCksCj4gbm93
-IGluY2x1ZGUgPGxpbnV4L2lvLmg+LiBTb3VyY2UgZmlsZXMgdGhhdCB1c2UgZnJhbWVidWZmZXIg
-SS9PCj4gaGVscGVycywgc3VjaCBhcyBmYl9yZWFkbCgpLCBhbHNvIGluY2x1ZGUgPGFzbS9mYi5o
-Pi4KPgo+IFBhdGNoIDUgcmVwbGFjZXMgdGhlIGFyY2hpdGVjdHVyZS1iYXNlZCBpZi1lbHNlIGJy
-YW5jaGluZyBpbgo+IDxsaW51eC9mYi5oPiBieSBoZWxwZXJzIGluIDxhc20tZ2VuZXJpYy9mYi5o
-Pi4gQWxsIGhlbHBlcnMgdXNlIExpbnV4Jwo+IGV4aXN0aW5nIEkvTyBmdW5jdGlvbnMuCj4KPiBQ
-YXRjaCA2IGhhcm1vbml6ZXMgbmFtaW5nIGFtb25nIGZiZGV2IGFuZCBleGlzdGluZyBJL08gZnVu
-Y3Rpb25zLgo+Cj4gVGhlIHBhdGNoc2V0IGhhcyBiZWVuIGJ1aWx0IGZvciBhIHZhcmlldHkgb2Yg
-cGxhdGZvcm1zLCBzdWNoIGFzIHg4Ni02NCwKPiBhcm0sIGFhcmNoNjQsIHBwYzY0LCBwYXJpc2Ms
-IG02NGssIG1pcHMgYW5kIHNwYXJjLgo+Cj4gdjM6Cj4gICAgICAgICAqIGFkZCB0aGUgbmV3IGhl
-bHBlcnMgaW4gPGFzbS1nZW5lcmljL2ZiLmg+Cj4gICAgICAgICAqIHN1cHBvcnQgcmVvcmRlcmlu
-ZyBhbmQgbmF0aXZlIGJ5dGUgb3JkZXIgKEdlZXJ0LCBBcm5kKQoKVGhhbmtzLCB0aGlzIGZpeGVz
-IHRoZSBtYW5nbGVkIGRpc3BsYXkgSSB3YXMgc2VlaW5nIG9uIEFSQW55TQp3aXRoIGJwcD0xNi4K
-CkJUVywgdGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBtaXhlZCBkZXBlbmRlbmNpZXM6IHRoZSBj
-aGFuZ2UKdG8gaW5jbHVkZS9hc20tZ2VuZXJpYy9mYi5oIGRlcGVuZHMgb24gIltQQVRDSCB2MyAw
-MC8xOV0gYXJjaDoKQ29uc29saWRhdGUgPGFzbS9mYi5oPiJbMV0sIGJ1dCB3aXRoIHRoYXQgYXBw
-bGllZCwgSSBoYWQgdG8gbWFudWFsbHkKZml4dXAgZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2Zi
-X2NmYl9mb3BzLmMuCgpbMV0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYWxsLzIwMjMwNDE3MTI1
-NjUxLjI1MTI2LTEtdHppbW1lcm1hbm5Ac3VzZS5kZSwKCkdye29ldGplLGVldGluZ31zLAoKICAg
-ICAgICAgICAgICAgICAgICAgICAgR2VlcnQKCi0tIApHZWVydCBVeXR0ZXJob2V2ZW4gLS0gVGhl
-cmUncyBsb3RzIG9mIExpbnV4IGJleW9uZCBpYTMyIC0tIGdlZXJ0QGxpbnV4LW02OGsub3JnCgpJ
-biBwZXJzb25hbCBjb252ZXJzYXRpb25zIHdpdGggdGVjaG5pY2FsIHBlb3BsZSwgSSBjYWxsIG15
-c2VsZiBhIGhhY2tlci4gQnV0CndoZW4gSSdtIHRhbGtpbmcgdG8gam91cm5hbGlzdHMgSSBqdXN0
-IHNheSAicHJvZ3JhbW1lciIgb3Igc29tZXRoaW5nIGxpa2UgdGhhdC4KICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAtLSBMaW51cyBUb3J2YWxkcwoKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0Cmxp
-bnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
+On Wed, May 3, 2023, at 10:12, Thomas Zimmermann wrote:
+> Am 03.05.23 um 09:19 schrieb Javier Martinez Canillas:
+>> Thomas Zimmermann <tzimmermann@suse.de> writes:
+>>>>
+>>>> There are countless examples where the above are not followed,
+>>>> but to my best understanding the above it the preferred way to do it.
+>>>
+>>> Where did youher this? I only know about this in the case of asm/io.h
+>>> vs. linux/io.h.
+>>>
+>> 
+>> I understand that's the case too. I believe even checkpatch.pl complains
+>> about it? (not that the script always get right, but just as an example).
+>
+> Do you know if that's the general rule? If so, we might want to 
+> repurpose <asm/fbio.h> for the framebuffer I/O functions.
+
+It's certainly the general trend across all of the kernel to have
+drivers prefer including linux/*.h, and to move stuff from asm/*.h
+to linux/*.h as it gets generalized across architectures.
+
+     Arnd
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
