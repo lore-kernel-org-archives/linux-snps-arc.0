@@ -4,97 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4D81C77B7C
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 10 May 2023 11:06:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA631C77B7C
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 10 May 2023 12:34:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=xYGusSjiRx+5Yp5z64j62GLauiW4ezyyezshneNCobo=; b=Y9UzwFZGAoi3A1
-	j896ZXpmU37F2AEpsTRvByp+8OKPbEeaLvchlvRJOC3/qGaswgRjb7g90zkDN7UZ6S4Co2dJ1qpCq
-	8psF5502WGnADbvuqnfR2FrYzmqyZiSq5nOSbaMFzVSjbyWua9/R//iv7AMu7CllmUYk4IkAqvutJ
-	OkgpDsb4dps0EcjiKrmKEFbmHhHA22/wjHzc6yWSkEaJlIVEG0/hDYQCKbGOE/6LErELdx5s0Qoas
-	LqpVzZkkT0XokeqNmzwgvr7iywARhUoOCxnMVHmU/Qnf9RzcxmlXMP8VTBjGmylPduBAdCFl9wNT1
-	a6HC0c2miUnri9DB6yCQ==;
+	List-Owner; bh=PRItQJC4cBmdGSbToMRhqxypkEBf1c22WIuyo6XUkkc=; b=fSYGWRvEYBMlSZ
+	kMPpNTyrlF7bhexA6e9wGmoTDvva5qHdKJLFdkE+wC/HwNyZHJfKc9EA4+FKBezRr8YCHvpoknfdX
+	p3eAIN8z3Ow2SI5pA2yQZXaLDCoUrTz4BR3TWqXZEWffLsr3gDHU8w45tBBRjQoeEQ0Sq7iZok+op
+	A5s/1oaaAbcbUoNF7trbrlqkwzYhfysbWRgFt3Flnep0GTtHCRpWzgp4qmV/GHEvcaurS/eUoOq1u
+	waXwFyT4Or7QIrummFOzFsKRO+n74eRrI6/HI6kjIoiKacFob/B+kHA6iL4E01yI6aYsye839XBKU
+	oM6Pan8R6/Tn1mvnwE6w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pwheR-005yEY-1c;
-	Wed, 10 May 2023 11:06:31 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1pwj1x-0069PI-0v;
+	Wed, 10 May 2023 12:34:53 +0000
+Received: from mail-yw1-f173.google.com ([209.85.128.173])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pwhe8-005xy8-0M;
-	Wed, 10 May 2023 11:06:16 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C81E92196E;
-	Wed, 10 May 2023 11:06:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1683716767; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=L3Z0W/8h/vzm79+MFZ3S+00cayEi6igqIR5fXFpBq98=;
-	b=vxnH5X2epzw0GEgW2Th0zcikyNVDCDZcF3b/xv9HeWxPIxhMwJf4VdvdYJbJ8Bkm6HyGy8
-	HQwveyIcjQrLx44KyFMVEtSBBF/YteRQNWlceBiEa3tW+WhWsKJx25bwtF8qP6KxAViYY/
-	vvu3/e4dW4GcvCRiTuETY2l7q7LZyyw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1683716767;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=L3Z0W/8h/vzm79+MFZ3S+00cayEi6igqIR5fXFpBq98=;
-	b=cXtsAI3CYi2pf0bI1FxwhR3TfdPo1UFimMrnyArtt15PCOV5ipZGEHLHa6wCd6YaXvlmny
-	NffQ8x297/5H2gBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 67E9F138F0;
-	Wed, 10 May 2023 11:06:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 0LKMGJ96W2QfRAAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Wed, 10 May 2023 11:06:07 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: deller@gmx.de,
-	geert@linux-m68k.org,
-	javierm@redhat.com,
-	daniel@ffwll.ch,
-	vgupta@kernel.org,
-	chenhuacai@kernel.org,
-	kernel@xen0n.name,
-	davem@davemloft.net,
-	James.Bottomley@HansenPartnership.com,
-	arnd@arndb.de,
-	sam@ravnborg.org,
-	suijingfeng@loongson.cn
-Cc: linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-arch@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-ia64@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-m68k@lists.linux-m68k.org,
-	sparclinux@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-parisc@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
-Date: Wed, 10 May 2023 13:05:56 +0200
-Message-Id: <20230510110557.14343-6-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230510110557.14343-1-tzimmermann@suse.de>
-References: <20230510110557.14343-1-tzimmermann@suse.de>
+	id 1pwj1t-0069Op-2p;
+	Wed, 10 May 2023 12:34:51 +0000
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-559de1d36a9so103568127b3.1;
+        Wed, 10 May 2023 05:34:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683722086; x=1686314086;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kGY/0htSfGIvsVgPn7bx+ykp3agguIOsAu0irnl44Xg=;
+        b=UxMV/Aar31KGgWQ0xyO6TDQbFQEZFfCw3GxIah/PLXhrAgNmDKd/1Ard8aa+PCDALT
+         ZwI2LLumZ7dAS9isrjgDcnXTVc5hmkkIdF7pejcLvIzqVy9oGRHefYTRFbTnpuPXYIN5
+         W/BmSxOveV+GNmUnqKEOjpy4Ztzh3rN7CWwRwtBzTcE6NK0hvRw1RwcjeG/i3rk4MjAe
+         3sTY6T6nMrMowXjPBERK0Zu2bVFPVdDzBnxk3/M4uY2SlBu8yFms/BVGOBNqMnNAYIWp
+         Y5sl2M3rnzBmTnfUgvQJHoJFQD85oel2Zt39HP5kQ84+QBs3Lc3wfu2SdY4skYJQvUnS
+         REkw==
+X-Gm-Message-State: AC+VfDzuOBn9VX015VzW3PUK290U3QVYw1zLT15mGykENTy6Kke4fNZ3
+	y8A/AFlfipJUbVKnpBo78RBZkhKgGU8U0Q==
+X-Google-Smtp-Source: ACHHUZ5U4CFPFUF/NGknM5K+QrRCuU24hhjjBy1RhQvLWmWL2RgPbCd/uADaT09W+AdEp/HwcGhv1g==
+X-Received: by 2002:a81:9c06:0:b0:55d:6fe1:8ce5 with SMTP id m6-20020a819c06000000b0055d6fe18ce5mr20545668ywa.6.1683722086255;
+        Wed, 10 May 2023 05:34:46 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id q7-20020a0de707000000b00545a08184f8sm4071162ywe.136.2023.05.10.05.34.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 May 2023 05:34:45 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-559e53d1195so103598477b3.2;
+        Wed, 10 May 2023 05:34:45 -0700 (PDT)
+X-Received: by 2002:a0d:ead7:0:b0:55a:ae08:163f with SMTP id
+ t206-20020a0dead7000000b0055aae08163fmr22367018ywe.32.1683722085095; Wed, 10
+ May 2023 05:34:45 -0700 (PDT)
 MIME-Version: 1.0
+References: <20230510110557.14343-1-tzimmermann@suse.de> <20230510110557.14343-6-tzimmermann@suse.de>
+In-Reply-To: <20230510110557.14343-6-tzimmermann@suse.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 10 May 2023 14:34:33 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVV-MQV3C_o6JxPj23h3zo0kMmsn9ZEWJxsrzr6YpKmyg@mail.gmail.com>
+Message-ID: <CAMuHMdVV-MQV3C_o6JxPj23h3zo0kMmsn9ZEWJxsrzr6YpKmyg@mail.gmail.com>
+Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: deller@gmx.de, javierm@redhat.com, daniel@ffwll.ch, vgupta@kernel.org, 
+	chenhuacai@kernel.org, kernel@xen0n.name, davem@davemloft.net, 
+	James.Bottomley@hansenpartnership.com, arnd@arndb.de, sam@ravnborg.org, 
+	suijingfeng@loongson.cn, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-arch@vger.kernel.org, 
+	linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-ia64@vger.kernel.org, loongarch@lists.linux.dev, 
+	linux-m68k@lists.linux-m68k.org, sparclinux@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230510_040612_449759_7DEDC310 
-X-CRM114-Status: GOOD (  15.73  )
+X-CRM114-CacheID: sfid-20230510_053449_931266_BB4F774A 
+X-CRM114-Status: GOOD (  24.92  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,384 +86,57 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Implement framebuffer I/O helpers, such as fb_read*() and fb_write*(),
-in the architecture's <asm/fb.h> header file or the generic one.
-
-The common case has been the use of regular I/O functions, such as
-__raw_readb() or memset_io(). A few architectures used plain system-
-memory reads and writes. Sparc used helpers for its SBus.
-
-The architectures that used special cases provide the same code in
-their __raw_*() I/O helpers. So the patch replaces this code with the
-__raw_*() functions and moves it to <asm-generic/fb.h> for all
-architectures.
-
-v6:
-	* fix fb_readq()/fb_writeq() on 64-bit mips (kernel test robot)
-v5:
-	* include <linux/io.h> in <asm-generic/fb>; fix s390 build
-v4:
-	* ia64, loongarch, sparc64: add fb_mem*() to arch headers
-	  to keep current semantics (Arnd)
-v3:
-	* implement all architectures with generic helpers
-	* support reordering and native byte order (Geert, Arnd)
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
-Reviewed-by: Arnd Bergmann <arnd@arndb.de>
-
-add mips fb_q()
----
- arch/ia64/include/asm/fb.h      |  20 +++++++
- arch/loongarch/include/asm/fb.h |  21 +++++++
- arch/mips/include/asm/fb.h      |  22 +++++++
- arch/sparc/include/asm/fb.h     |  20 +++++++
- include/asm-generic/fb.h        | 102 ++++++++++++++++++++++++++++++++
- include/linux/fb.h              |  53 -----------------
- 6 files changed, 185 insertions(+), 53 deletions(-)
-
-diff --git a/arch/ia64/include/asm/fb.h b/arch/ia64/include/asm/fb.h
-index 0208f64a0da0..bcf982043a5c 100644
---- a/arch/ia64/include/asm/fb.h
-+++ b/arch/ia64/include/asm/fb.h
-@@ -2,7 +2,9 @@
- #ifndef _ASM_FB_H_
- #define _ASM_FB_H_
- 
-+#include <linux/compiler.h>
- #include <linux/efi.h>
-+#include <linux/string.h>
- 
- #include <asm/page.h>
- 
-@@ -18,6 +20,24 @@ static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
- }
- #define fb_pgprotect fb_pgprotect
- 
-+static inline void fb_memcpy_fromfb(void *to, const volatile void __iomem *from, size_t n)
-+{
-+	memcpy(to, (void __force *)from, n);
-+}
-+#define fb_memcpy_fromfb fb_memcpy_fromfb
-+
-+static inline void fb_memcpy_tofb(volatile void __iomem *to, const void *from, size_t n)
-+{
-+	memcpy((void __force *)to, from, n);
-+}
-+#define fb_memcpy_tofb fb_memcpy_tofb
-+
-+static inline void fb_memset(volatile void __iomem *addr, int c, size_t n)
-+{
-+	memset((void __force *)addr, c, n);
-+}
-+#define fb_memset fb_memset
-+
- #include <asm-generic/fb.h>
- 
- #endif /* _ASM_FB_H_ */
-diff --git a/arch/loongarch/include/asm/fb.h b/arch/loongarch/include/asm/fb.h
-index ff82f20685c8..c6fc7ef374a4 100644
---- a/arch/loongarch/include/asm/fb.h
-+++ b/arch/loongarch/include/asm/fb.h
-@@ -5,6 +5,27 @@
- #ifndef _ASM_FB_H_
- #define _ASM_FB_H_
- 
-+#include <linux/compiler.h>
-+#include <linux/string.h>
-+
-+static inline void fb_memcpy_fromfb(void *to, const volatile void __iomem *from, size_t n)
-+{
-+	memcpy(to, (void __force *)from, n);
-+}
-+#define fb_memcpy_fromfb fb_memcpy_fromfb
-+
-+static inline void fb_memcpy_tofb(volatile void __iomem *to, const void *from, size_t n)
-+{
-+	memcpy((void __force *)to, from, n);
-+}
-+#define fb_memcpy_tofb fb_memcpy_tofb
-+
-+static inline void fb_memset(volatile void __iomem *addr, int c, size_t n)
-+{
-+	memset((void __force *)addr, c, n);
-+}
-+#define fb_memset fb_memset
-+
- #include <asm-generic/fb.h>
- 
- #endif /* _ASM_FB_H_ */
-diff --git a/arch/mips/include/asm/fb.h b/arch/mips/include/asm/fb.h
-index 6bda0a81d8ca..18b7226403ba 100644
---- a/arch/mips/include/asm/fb.h
-+++ b/arch/mips/include/asm/fb.h
-@@ -12,6 +12,28 @@ static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
- }
- #define fb_pgprotect fb_pgprotect
- 
-+/*
-+ * MIPS doesn't define __raw_ I/O macros, so the helpers
-+ * in <asm-generic/fb.h> don't generate fb_readq() and
-+ * fb_write(). We have to provide them here.
-+ *
-+ * TODO: Convert MIPS to generic I/O. The helpers below can
-+ *       then be removed.
-+ */
-+#ifdef CONFIG_64BIT
-+static inline u64 fb_readq(const volatile void __iomem *addr)
-+{
-+	return __raw_readq(addr);
-+}
-+#define fb_readq fb_readq
-+
-+static inline void fb_writeq(u64 b, volatile void __iomem *addr)
-+{
-+	__raw_writeq(b, addr);
-+}
-+#define fb_writeq fb_writeq
-+#endif
-+
- #include <asm-generic/fb.h>
- 
- #endif /* _ASM_FB_H_ */
-diff --git a/arch/sparc/include/asm/fb.h b/arch/sparc/include/asm/fb.h
-index 689ee5c60054..077da91aeba1 100644
---- a/arch/sparc/include/asm/fb.h
-+++ b/arch/sparc/include/asm/fb.h
-@@ -2,6 +2,8 @@
- #ifndef _SPARC_FB_H_
- #define _SPARC_FB_H_
- 
-+#include <linux/io.h>
-+
- struct fb_info;
- struct file;
- struct vm_area_struct;
-@@ -16,6 +18,24 @@ static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
- int fb_is_primary_device(struct fb_info *info);
- #define fb_is_primary_device fb_is_primary_device
- 
-+static inline void fb_memcpy_fromfb(void *to, const volatile void __iomem *from, size_t n)
-+{
-+	sbus_memcpy_fromio(to, from, n);
-+}
-+#define fb_memcpy_fromfb fb_memcpy_fromfb
-+
-+static inline void fb_memcpy_tofb(volatile void __iomem *to, const void *from, size_t n)
-+{
-+	sbus_memcpy_toio(to, from, n);
-+}
-+#define fb_memcpy_tofb fb_memcpy_tofb
-+
-+static inline void fb_memset(volatile void __iomem *addr, int c, size_t n)
-+{
-+	sbus_memset_io(addr, c, n);
-+}
-+#define fb_memset fb_memset
-+
- #include <asm-generic/fb.h>
- 
- #endif /* _SPARC_FB_H_ */
-diff --git a/include/asm-generic/fb.h b/include/asm-generic/fb.h
-index c8af99f5a535..0540eccdbeca 100644
---- a/include/asm-generic/fb.h
-+++ b/include/asm-generic/fb.h
-@@ -7,6 +7,7 @@
-  * Only include this header file from your architecture's <asm/fb.h>.
-  */
- 
-+#include <linux/io.h>
- #include <linux/mm_types.h>
- #include <linux/pgtable.h>
- 
-@@ -30,4 +31,105 @@ static inline int fb_is_primary_device(struct fb_info *info)
- }
- #endif
- 
-+/*
-+ * I/O helpers for the framebuffer. Prefer these functions over their
-+ * regular counterparts. The regular I/O functions provide in-order
-+ * access and swap bytes to/from little-endian ordering. Neither is
-+ * required for framebuffers. Instead, the helpers read and write
-+ * raw framebuffer data. Independent operations can be reordered for
-+ * improved performance.
-+ */
-+
-+#ifndef fb_readb
-+static inline u8 fb_readb(const volatile void __iomem *addr)
-+{
-+	return __raw_readb(addr);
-+}
-+#define fb_readb fb_readb
-+#endif
-+
-+#ifndef fb_readw
-+static inline u16 fb_readw(const volatile void __iomem *addr)
-+{
-+	return __raw_readw(addr);
-+}
-+#define fb_readw fb_readw
-+#endif
-+
-+#ifndef fb_readl
-+static inline u32 fb_readl(const volatile void __iomem *addr)
-+{
-+	return __raw_readl(addr);
-+}
-+#define fb_readl fb_readl
-+#endif
-+
-+#ifndef fb_readq
-+#if defined(__raw_readq)
-+static inline u64 fb_readq(const volatile void __iomem *addr)
-+{
-+	return __raw_readq(addr);
-+}
-+#define fb_readq fb_readq
-+#endif
-+#endif
-+
-+#ifndef fb_writeb
-+static inline void fb_writeb(u8 b, volatile void __iomem *addr)
-+{
-+	__raw_writeb(b, addr);
-+}
-+#define fb_writeb fb_writeb
-+#endif
-+
-+#ifndef fb_writew
-+static inline void fb_writew(u16 b, volatile void __iomem *addr)
-+{
-+	__raw_writew(b, addr);
-+}
-+#define fb_writew fb_writew
-+#endif
-+
-+#ifndef fb_writel
-+static inline void fb_writel(u32 b, volatile void __iomem *addr)
-+{
-+	__raw_writel(b, addr);
-+}
-+#define fb_writel fb_writel
-+#endif
-+
-+#ifndef fb_writeq
-+#if defined(__raw_writeq)
-+static inline void fb_writeq(u64 b, volatile void __iomem *addr)
-+{
-+	__raw_writeq(b, addr);
-+}
-+#define fb_writeq fb_writeq
-+#endif
-+#endif
-+
-+#ifndef fb_memcpy_fromfb
-+static inline void fb_memcpy_fromfb(void *to, const volatile void __iomem *from, size_t n)
-+{
-+	memcpy_fromio(to, from, n);
-+}
-+#define fb_memcpy_fromfb fb_memcpy_fromfb
-+#endif
-+
-+#ifndef fb_memcpy_tofb
-+static inline void fb_memcpy_tofb(volatile void __iomem *to, const void *from, size_t n)
-+{
-+	memcpy_toio(to, from, n);
-+}
-+#define fb_memcpy_tofb fb_memcpy_tofb
-+#endif
-+
-+#ifndef fb_memset
-+static inline void fb_memset(volatile void __iomem *addr, int c, size_t n)
-+{
-+	memset_io(addr, c, n);
-+}
-+#define fb_memset fb_memset
-+#endif
-+
- #endif /* __ASM_GENERIC_FB_H_ */
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 4b4d9a5d200a..2cf8efcb9e32 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -17,7 +17,6 @@
- #include <linux/slab.h>
- 
- #include <asm/fb.h>
--#include <asm/io.h>
- 
- struct vm_area_struct;
- struct fb_info;
-@@ -513,58 +512,6 @@ struct fb_info {
-  */
- #define STUPID_ACCELF_TEXT_SHIT
- 
--// This will go away
--#if defined(__sparc__)
--
--/* We map all of our framebuffers such that big-endian accesses
-- * are what we want, so the following is sufficient.
-- */
--
--// This will go away
--#define fb_readb sbus_readb
--#define fb_readw sbus_readw
--#define fb_readl sbus_readl
--#define fb_readq sbus_readq
--#define fb_writeb sbus_writeb
--#define fb_writew sbus_writew
--#define fb_writel sbus_writel
--#define fb_writeq sbus_writeq
--#define fb_memset sbus_memset_io
--#define fb_memcpy_fromfb sbus_memcpy_fromio
--#define fb_memcpy_tofb sbus_memcpy_toio
--
--#elif defined(__i386__) || defined(__alpha__) || defined(__x86_64__) ||	\
--	defined(__hppa__) || defined(__sh__) || defined(__powerpc__) ||	\
--	defined(__arm__) || defined(__aarch64__) || defined(__mips__)
--
--#define fb_readb __raw_readb
--#define fb_readw __raw_readw
--#define fb_readl __raw_readl
--#define fb_readq __raw_readq
--#define fb_writeb __raw_writeb
--#define fb_writew __raw_writew
--#define fb_writel __raw_writel
--#define fb_writeq __raw_writeq
--#define fb_memset memset_io
--#define fb_memcpy_fromfb memcpy_fromio
--#define fb_memcpy_tofb memcpy_toio
--
--#else
--
--#define fb_readb(addr) (*(volatile u8 *) (addr))
--#define fb_readw(addr) (*(volatile u16 *) (addr))
--#define fb_readl(addr) (*(volatile u32 *) (addr))
--#define fb_readq(addr) (*(volatile u64 *) (addr))
--#define fb_writeb(b,addr) (*(volatile u8 *) (addr) = (b))
--#define fb_writew(b,addr) (*(volatile u16 *) (addr) = (b))
--#define fb_writel(b,addr) (*(volatile u32 *) (addr) = (b))
--#define fb_writeq(b,addr) (*(volatile u64 *) (addr) = (b))
--#define fb_memset memset
--#define fb_memcpy_fromfb memcpy
--#define fb_memcpy_tofb memcpy
--
--#endif
--
- #define FB_LEFT_POS(p, bpp)          (fb_be_math(p) ? (32 - (bpp)) : 0)
- #define FB_SHIFT_HIGH(p, val, bits)  (fb_be_math(p) ? (val) >> (bits) : \
- 						      (val) << (bits))
--- 
-2.40.1
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+SGkgVGhvbWFzLAoKT24gV2VkLCBNYXkgMTAsIDIwMjMgYXQgMTowNuKAr1BNIFRob21hcyBaaW1t
+ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPiB3cm90ZToKPiBJbXBsZW1lbnQgZnJhbWVidWZm
+ZXIgSS9PIGhlbHBlcnMsIHN1Y2ggYXMgZmJfcmVhZCooKSBhbmQgZmJfd3JpdGUqKCksCj4gaW4g
+dGhlIGFyY2hpdGVjdHVyZSdzIDxhc20vZmIuaD4gaGVhZGVyIGZpbGUgb3IgdGhlIGdlbmVyaWMg
+b25lLgo+Cj4gVGhlIGNvbW1vbiBjYXNlIGhhcyBiZWVuIHRoZSB1c2Ugb2YgcmVndWxhciBJL08g
+ZnVuY3Rpb25zLCBzdWNoIGFzCj4gX19yYXdfcmVhZGIoKSBvciBtZW1zZXRfaW8oKS4gQSBmZXcg
+YXJjaGl0ZWN0dXJlcyB1c2VkIHBsYWluIHN5c3RlbS0KPiBtZW1vcnkgcmVhZHMgYW5kIHdyaXRl
+cy4gU3BhcmMgdXNlZCBoZWxwZXJzIGZvciBpdHMgU0J1cy4KPgo+IFRoZSBhcmNoaXRlY3R1cmVz
+IHRoYXQgdXNlZCBzcGVjaWFsIGNhc2VzIHByb3ZpZGUgdGhlIHNhbWUgY29kZSBpbgo+IHRoZWly
+IF9fcmF3XyooKSBJL08gaGVscGVycy4gU28gdGhlIHBhdGNoIHJlcGxhY2VzIHRoaXMgY29kZSB3
+aXRoIHRoZQo+IF9fcmF3XyooKSBmdW5jdGlvbnMgYW5kIG1vdmVzIGl0IHRvIDxhc20tZ2VuZXJp
+Yy9mYi5oPiBmb3IgYWxsCj4gYXJjaGl0ZWN0dXJlcy4KPgo+IHY2Ogo+ICAgICAgICAgKiBmaXgg
+ZmJfcmVhZHEoKS9mYl93cml0ZXEoKSBvbiA2NC1iaXQgbWlwcyAoa2VybmVsIHRlc3Qgcm9ib3Qp
+Cj4gdjU6Cj4gICAgICAgICAqIGluY2x1ZGUgPGxpbnV4L2lvLmg+IGluIDxhc20tZ2VuZXJpYy9m
+Yj47IGZpeCBzMzkwIGJ1aWxkCj4gdjQ6Cj4gICAgICAgICAqIGlhNjQsIGxvb25nYXJjaCwgc3Bh
+cmM2NDogYWRkIGZiX21lbSooKSB0byBhcmNoIGhlYWRlcnMKPiAgICAgICAgICAgdG8ga2VlcCBj
+dXJyZW50IHNlbWFudGljcyAoQXJuZCkKPiB2MzoKPiAgICAgICAgICogaW1wbGVtZW50IGFsbCBh
+cmNoaXRlY3R1cmVzIHdpdGggZ2VuZXJpYyBoZWxwZXJzCj4gICAgICAgICAqIHN1cHBvcnQgcmVv
+cmRlcmluZyBhbmQgbmF0aXZlIGJ5dGUgb3JkZXIgKEdlZXJ0LCBBcm5kKQo+Cj4gU2lnbmVkLW9m
+Zi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+Cj4gVGVzdGVkLWJ5
+OiBTdWkgSmluZ2ZlbmcgPHN1aWppbmdmZW5nQGxvb25nc29uLmNuPgo+IFJldmlld2VkLWJ5OiBB
+cm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPgo+Cj4gYWRkIG1pcHMgZmJfcSgpCgo+IC0tLSBh
+L2FyY2gvbWlwcy9pbmNsdWRlL2FzbS9mYi5oCj4gKysrIGIvYXJjaC9taXBzL2luY2x1ZGUvYXNt
+L2ZiLmgKPiBAQCAtMTIsNiArMTIsMjggQEAgc3RhdGljIGlubGluZSB2b2lkIGZiX3BncHJvdGVj
+dChzdHJ1Y3QgZmlsZSAqZmlsZSwgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEsCj4gIH0KPiAg
+I2RlZmluZSBmYl9wZ3Byb3RlY3QgZmJfcGdwcm90ZWN0Cj4KPiArLyoKPiArICogTUlQUyBkb2Vz
+bid0IGRlZmluZSBfX3Jhd18gSS9PIG1hY3Jvcywgc28gdGhlIGhlbHBlcnMKPiArICogaW4gPGFz
+bS1nZW5lcmljL2ZiLmg+IGRvbid0IGdlbmVyYXRlIGZiX3JlYWRxKCkgYW5kCj4gKyAqIGZiX3dy
+aXRlKCkuIFdlIGhhdmUgdG8gcHJvdmlkZSB0aGVtIGhlcmUuCgpNSVBTIGRvZXMgbm90IGluY2x1
+ZGUgPGFzbS1nZW5lcmljL2lvLmg+LCAgbm9yIGRlZmluZSBpdHMgb3duCl9fcmF3X3JlYWRxKCkg
+YW5kIF9fcmF3X3dyaXRlcSgpLi4uCgo+ICsgKgo+ICsgKiBUT0RPOiBDb252ZXJ0IE1JUFMgdG8g
+Z2VuZXJpYyBJL08uIFRoZSBoZWxwZXJzIGJlbG93IGNhbgo+ICsgKiAgICAgICB0aGVuIGJlIHJl
+bW92ZWQuCj4gKyAqLwo+ICsjaWZkZWYgQ09ORklHXzY0QklUCj4gK3N0YXRpYyBpbmxpbmUgdTY0
+IGZiX3JlYWRxKGNvbnN0IHZvbGF0aWxlIHZvaWQgX19pb21lbSAqYWRkcikKPiArewo+ICsgICAg
+ICAgcmV0dXJuIF9fcmF3X3JlYWRxKGFkZHIpOwoKLi4uIHNvIGhvdyBjYW4gdGhpcyBjYWxsIHdv
+cms/Cgo+ICt9Cj4gKyNkZWZpbmUgZmJfcmVhZHEgZmJfcmVhZHEKPiArCj4gK3N0YXRpYyBpbmxp
+bmUgdm9pZCBmYl93cml0ZXEodTY0IGIsIHZvbGF0aWxlIHZvaWQgX19pb21lbSAqYWRkcikKPiAr
+ewo+ICsgICAgICAgX19yYXdfd3JpdGVxKGIsIGFkZHIpOwo+ICt9Cj4gKyNkZWZpbmUgZmJfd3Jp
+dGVxIGZiX3dyaXRlcQo+ICsjZW5kaWYKPiArCj4gICNpbmNsdWRlIDxhc20tZ2VuZXJpYy9mYi5o
+PgoKR3J7b2V0amUsZWV0aW5nfXMsCgogICAgICAgICAgICAgICAgICAgICAgICBHZWVydAoKLS0g
+CkdlZXJ0IFV5dHRlcmhvZXZlbiAtLSBUaGVyZSdzIGxvdHMgb2YgTGludXggYmV5b25kIGlhMzIg
+LS0gZ2VlcnRAbGludXgtbTY4ay5vcmcKCkluIHBlcnNvbmFsIGNvbnZlcnNhdGlvbnMgd2l0aCB0
+ZWNobmljYWwgcGVvcGxlLCBJIGNhbGwgbXlzZWxmIGEgaGFja2VyLiBCdXQKd2hlbiBJJ20gdGFs
+a2luZyB0byBqb3VybmFsaXN0cyBJIGp1c3Qgc2F5ICJwcm9ncmFtbWVyIiBvciBzb21ldGhpbmcg
+bGlrZSB0aGF0LgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC0tIExpbnVzIFRvcnZh
+bGRzCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51
+eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9y
+ZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNucHMt
+YXJjCg==
