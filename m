@@ -4,79 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 10AAFC7EE26
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 11 May 2023 17:01:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59CCDC77B7C
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 11 May 2023 17:03:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:Subject:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=SA353663+zXNso9p/gor0is7etl7YWuO7AqXZxhT5b8=; b=wbuSm57E5Qxz5t
-	QdpOs0ztXwE1JX9ba4MbQS1jLaCfqL8Ey3ydLEL28/l9hdSxNCnEM1I1JnlXLwvxtohpo/gailVK+
-	QJ/PljH055o4ZZ/WzVgsSaPdNN7+hcIGfG4hAEc/WmKQESLcbJiJ9f62Kxe+JXsvyC4PERPhiBryZ
-	/ctZ2sb5xKL9FkdrwuYl6LY2nSlpzfBD1dIE9vDfLKOo2lNddEJ2VNs4WOjaskXb6E2ii2EqKmQum
-	1Eig/n/t6HFeHhxcAt7VcOjR7xTBIRSCDhUtd6ukOyaIP1trDqZPU3YFiBFCKAq3suUCiYo2UEmkX
-	K5iY069BMMmX56fWyuiQ==;
+	List-Owner; bh=qeJMhe0Idl1hsq1X+LcT2nbl9gznegKSw+gnjI2xyAc=; b=JVpQD/CRAtejMk
+	5GpWeet0oSK81qCt2sDfui+5Hy41uYAfs6LXBBUUbWxhEJeHG8fhuvmVikPMlKXT/RN8uDxNtrwob
+	4zZ292nlLMQwtV+9Oa6grC13uI5+miSKjBtH0mtCQ2BpBUISLplIRoVodlD5CNC8hvQJ5xQ1U9AU2
+	4SU9c60vLO5Wg5nViQMR0KUagwhQZ1nEgqHbTFUzFwTtWplbBJlHLq00mBsUCSIOcJ3WLt2Q8mQAb
+	C3JITYqCBQUhwWURORhc8A6r7AQkIfo1otNMh7htyGRmIr3BNxuIBjKyswiYRT9+JEJBDi9jAgurK
+	VE3ejBsLlKTzolbKZG6g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1px9ft-009Sch-0x;
-	Thu, 11 May 2023 17:01:53 +0000
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+	id 1px9h5-009Swv-3D;
+	Thu, 11 May 2023 17:03:08 +0000
+Received: from mout.gmx.net ([212.227.17.20])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1px9fr-009Saa-0E
-	for linux-snps-arc@lists.infradead.org;
-	Thu, 11 May 2023 17:01:52 +0000
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1ab14cb3aaeso63265845ad.2
-        for <linux-snps-arc@lists.infradead.org>; Thu, 11 May 2023 10:01:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683824508; x=1686416508;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UKRsLL7kNvDroaLyrSRYU4DWIMyOnhELN3sSuXXaYCw=;
-        b=Ty701zaQ1O4E399AdK72ImGSMYCz9q+3WiRXQgKA+1W0+3aTflaknqlI3jM94oQXlS
-         iA5WQsfGiwkRe0UagRwLLK4DAZII5krsUpBO4oFq6AE+gBwGHdhyLSyQ8dKUa9hh/43i
-         nJJebk+wL2VCpf9fE2t8sQUBlcDpiYdQoVdR0BV5l1OI4zcHq2vQfrbgJhiPtD+Y0aXK
-         v9TfsA1ZCmllXyroxNH6ilkRU66/sMBwB3BLmVEVaIb15Jgl9soi/dEaBJf5ANePbnpD
-         HAihUbzICcvKkz9NDD6eZhAat9VkI4Kp8GbSrmmjI8JjiyPZRj48IAlZRHDE6XCG8r2g
-         QbnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683824508; x=1686416508;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UKRsLL7kNvDroaLyrSRYU4DWIMyOnhELN3sSuXXaYCw=;
-        b=AmUGYcN6VKI6NzViHsl/Ri8MNkKe1jgC6pQNHR3tQEXFy1QnaFqCdQDjGliN8RKiwv
-         i1PnZfn87baYrG9hcXKUbRbQadzS4b+S0ikVjCA0GZ2+BcztbZ1Z6PMFiAcPCGk4UKO5
-         VujljaR2oLnlr1fF1wvNTa7RHO4auGPYff83EQwhXiAYaME976+tD4y3abb2JThWCznO
-         pFMSKobP+TR+fCIvOdoF4KenNReo07Kz+UqfqD1e+QgSPyJgcIUw+G9kInc+BYAWcJIC
-         ZTaizca6TBiHwdO9Hlfe91pStAJ6iwTBr1WoyBBYwc2Jj+12ZpdwCESQzvCU5CtukH95
-         iZMQ==
-X-Gm-Message-State: AC+VfDykTViBUDIa+tCGSCraYPk1ry4OjgisxkFgzf5kPhvTA5QN5M7T
-	xKvlPMil2/6EjLI3MSPpfIY=
-X-Google-Smtp-Source: ACHHUZ4HQ8nm3POZqJ0DmhNQPity9dUWPiwy5DrVMia0WSQEfmrcqGF0baIfP6K8PEO1PMzoifNcOw==
-X-Received: by 2002:a17:902:7e84:b0:1a6:f755:a4a0 with SMTP id z4-20020a1709027e8400b001a6f755a4a0mr19604683pla.58.1683824508009;
-        Thu, 11 May 2023 10:01:48 -0700 (PDT)
-Received: from ubuntu777.domain.name (36-228-94-72.dynamic-ip.hinet.net. [36.228.94.72])
-        by smtp.gmail.com with ESMTPSA id r7-20020a170902be0700b001ab0083c6c9sm6156240pls.261.2023.05.11.10.01.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 10:01:47 -0700 (PDT)
-From: Min-Hua Chen <minhuadotchen@gmail.com>
-To: Vineet Gupta <vgupta@kernel.org>
-Cc: Min-Hua Chen <minhuadotchen@gmail.com>,
-	linux-snps-arc@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] ARC: rename 16KSTACKS to DEBUG_STACKS
-Date: Fri, 12 May 2023 01:01:39 +0800
-Message-Id: <20230511170139.343434-3-minhuadotchen@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230511170139.343434-1-minhuadotchen@gmail.com>
-References: <20230511170139.343434-1-minhuadotchen@gmail.com>
+	id 1px9h0-009Stg-1M;
+	Thu, 11 May 2023 17:03:06 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+	t=1683824541; i=deller@gmx.de;
+	bh=TUfys7E+944TFOkISLZBtPQGBgxCF4KtXqESXjvmNFU=;
+	h=X-UI-Sender-Class:Date:To:Cc:References:From:Subject:In-Reply-To;
+	b=scv9qxT93PJ7A0UpCn69G+Ly5nTi+CXfVcQmXYY0h5U3YKxRkMjuKYktk2on7nOFP
+	 +AXaTie+FVz84ad9703BT/WeO4aZ7ptb8tnaiPfzz6ORJatrz384WE4XZ8i9GYVhna
+	 7KmGx8EJWaX1F5XLWgxdLVx7/8Nv5MzpRCysPIfOrdmu9U/LbeEaZxifvRcrDJL3fS
+	 tL8aoUk5gGBorCdu0HZi7DBndQn+2pRPNZBWktrMw3KCcIZEMSqDrxjeC3V6adWcZu
+	 etqXIWGauT8+6v/BDBVW/JNiEzv+ZuzNug/MObZqzswP6TaulVmOafXNvyFot1jhf6
+	 L9qea8qKFiFcA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.146.253]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MiJZO-1qRW5D0kr8-00fRyc; Thu, 11
+ May 2023 19:02:21 +0200
+Message-ID: <1c7ca6d3-76d7-047b-42ac-716e12946f90@gmx.de>
+Date: Thu, 11 May 2023 19:02:19 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Content-Language: en-US
+To: Thomas Zimmermann <tzimmermann@suse.de>, Sui Jingfeng
+ <15330273260@189.cn>, geert@linux-m68k.org, javierm@redhat.com,
+ daniel@ffwll.ch, vgupta@kernel.org, chenhuacai@kernel.org,
+ kernel@xen0n.name, davem@davemloft.net, arnd@arndb.de, sam@ravnborg.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arch@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ sparclinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-parisc@vger.kernel.org
+References: <20230510110557.14343-1-tzimmermann@suse.de>
+ <20230510110557.14343-2-tzimmermann@suse.de>
+ <0e13efbf-9a48-6e70-fdf3-8290f28c6dc7@189.cn>
+ <a2315b9a-0747-1f0f-1f0a-1c6773931db4@suse.de>
+ <15fe1489-f0fa-bbf6-ec08-a270bd4f1559@gmx.de>
+ <e7bd021c-1a6b-6e47-143a-36ae2fd2fe6b@suse.de>
+From: Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH v6 1/6] fbdev/matrox: Remove trailing whitespaces
+In-Reply-To: <e7bd021c-1a6b-6e47-143a-36ae2fd2fe6b@suse.de>
+X-Provags-ID: V03:K1:ufxNy/weZGscP6z1+yJxtdDriOq+3MhqVBYT0w/Jb/4wi8A99Ir
+ q3ByFzMRRO4dUqy7hFc+cC6yNkkK2QSqIE54t5POprgelcLfG2ncw6s4alEeJ111FqnqJFa
+ 8Kp05TDsMboSk///SW2zrtsgTJUrfeLaADKzc6qnZG/Mlam9qihDJzKya1HMoK80D71UubL
+ wAcLsIQy/lrxpKfcj/x1Q==
+UI-OutboundReport: notjunk:1;M01:P0:1SaGdAIIpdA=;9AItiyXmKn/Gp7RMlGxwmCRodmr
+ CWgfSrtW37wCM0eDyOgjgDthyt7iwvZxUQNOKI/GSiLUf5QrDOLS3fBoliHuMG2JxPPo3p6zW
+ ys7XBwtkfXF6888crwuYFTFYt6DOu8MUXAPTy5QpV1zcCkbORuigAI4JMNScZW9U4R6zwl608
+ lDCYZHTHDaoX1sFBFD/F7hSovTMkxooObtEJe3lLBtrcj02z+3iC9IaPTZp1Dk+u0NTRLhOc2
+ p3Ni45n755W/QPjVeW64D5nwYN+WN0c1NM4Q0E/Zy0inYF4QmTAnINJ42+nqRIXzOp4CDefOD
+ TahZjko9NbIqPwZDlv2ca65IJISU4ZXxyl0CwIfRWK3PrPROxY5R4Qp28iMuzuMl2GEZrdS8n
+ gxXGsBtGQhWh6PPcbDeZ6EEzWeoZDZOdAXsNpXnd1lNQpvUyx4Yed/88XM/rafMboYdnaJmBY
+ orb7xp1ZfLXqbaGCUzGh02pxQ/oBKek13pI6o6sB4sZ/ZnO/43dbfdpvjILnA6kV6O0V1Jhx/
+ YofcmeYIg9H1KJgoIkTdN1KELUR9kzilR4xETfVWMdC8dkXeqUh1AGaOqag3iU97brNv/ilLD
+ n2NltCLggIAu4psorNUxCx705HkK2uFfOWi6B3r4RbX5V4/D0CMzUIpSEwd6oB7ORk+5BY8qN
+ e2LFmWrtkGd55nGb+MBbTFccLE6jNdNW/qAolaxEYq21PiSA+WwkPnW3Toelu0Y2EjDlaO/mD
+ VB2IIkHuaI15Ctzb5wVa613FEyt2c6/6K9hRfXtRGn8O5pItAxtb4okfEUTgdd+jMOxNy4zAb
+ UoaCQv8l1eBXdWgQwQ0m1Z3zIDXeLrJODqLk2XTzGJxg+WyWQTzHJtHIVuSSxfkyhT2wdwEBA
+ ic+AnpERUoBaWMpNmC2aEGeMMWq6Qnz4FCozkmhRStfC1q501JfllQvAz40v6a9zMa+ZE9N4b
+ eVR7qc1FPZIoBv1aUAH2VDqh+Ww=
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230511_100151_109913_9E06A7EA 
-X-CRM114-Status: GOOD (  13.30  )
+X-CRM114-CacheID: sfid-20230511_100302_766799_1624BB07 
+X-CRM114-Status: GOOD (  32.75  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,84 +98,102 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Rename 16KSTACKS to DEBUG_STACKS.
+On 5/11/23 16:27, Thomas Zimmermann wrote:
+>>> But the work I do within fbdev is mostly for improving DRM.
+>>
+>> Sure.
+>>
+>>> For the
+>>> other issues in this file, I don't think that matroxfb should even be
+>>> around any longer. Fbdev has been deprecated for a long time. But a
+>>> small number of drivers are still in use and we still need its
+>>> framebuffer console. So someone should either put significant effort
+>>> into maintaining fbdev, or it should be phased out. But neither is
+>>> happening.
+>>
+>> You're wrong.
+>
 
-arch/arc/Kconfig.debug says that the default stack size is 8KB
-and it will become 16KB stack if 16KSTACKS is set.
+> I'm not. I don't claim that these drivers are all broken. But fbdev
+> as a whole is bit-rotting and no one attempts to address this. There
+> are several recent examples of this:
+>
+> * I recently send out a 100-patches series to improve parameter
+> parsing and avoid memory leaks. That got shot down. I didn't attempt
+> to support parameter parsing for module builds.
 
-However, the stack size is based on PAGE_SIZE, and it is
-configurable by CONFIG_ARC_PAGE_SIZE_16K or CONFIG_ARC_PAGE_SIZE_4K.
+Your work is appreciated and it wasn't shot down, but it wasn't perfect either.
 
-See arch/arc/include/uapi/asm/page.h:
-/* PAGE_SHIFT determines the page size */
-\#if defined(CONFIG_ARC_PAGE_SIZE_16K)
-\#define PAGE_SHIFT 14
-\#elif defined(CONFIG_ARC_PAGE_SIZE_4K)
-\#define PAGE_SHIFT 12
-\#else
-\#define PAGE_SHIFT 13
-\#endif
+> * There's been a 15-yrs old bug in fbdev's read/write where they
+> return an incorrect value.
 
-See arch/arc/include/asm/thread_info.h:
-\#ifdef CONFIG_DEBUG_STACKS
-\#define THREAD_SIZE_ORDER 1
-\#else
-\#define THREAD_SIZE_ORDER 0
-\#endif
+?
 
-\#define THREAD_SIZE     (PAGE_SIZE << THREAD_SIZE_ORDER)
-\#define THREAD_SHIFT	(PAGE_SHIFT + THREAD_SIZE_ORDER)
+> * See the other discussion on this patchset on the state of hitfb.
+>
+> * The fbdev code I recently cleaned up had bugs in how it uses some
+> of fbdev's basic building blocks (see the screen_base/screen_buffer
+> confusion).
 
-To make CONFIG_16KSTACKS less confusing, rename it to DEBUG_STACKS
-(as it is defined in Kconfig.debug) and modify the Kconfig
-description. No functional changes intended.
+As you said... some (little-used/outdated) drivers may have issues
+which of course show up if one starts to clean up, as you do.
+On a per-driver basis it can make sense to drop a specific driver.
 
-Signed-off-by: Min-Hua Chen <minhuadotchen@gmail.com>
----
- arch/arc/Kconfig.debug             | 7 ++++---
- arch/arc/include/asm/thread_info.h | 2 +-
- 2 files changed, 5 insertions(+), 4 deletions(-)
+> * <asm-generic/fb.h> has been in the tree since 2009 and no one
+> attempted to include it until now.
+>
+> None of this is a sign of good maintenance.
+> As I've worked on DRM's fbdev emulation a lot, I try to be a good
+> kernel citizen and clean up in fbdev as well when I see a problem.> But I'd really like to see most of these drivers being moved into
+> staging and deleted soon afterwards. Users will complain about those
+> drivers that are really still required. Those might be worth to spend
+> effort on.
 
-diff --git a/arch/arc/Kconfig.debug b/arch/arc/Kconfig.debug
-index 45add86decd5..9a1e140605c4 100644
---- a/arch/arc/Kconfig.debug
-+++ b/arch/arc/Kconfig.debug
-@@ -1,10 +1,11 @@
- # SPDX-License-Identifier: GPL-2.0
- 
--config 16KSTACKS
--	bool "Use 16Kb for kernel stacks instead of 8Kb"
-+config DEBUG_STACKS
-+	bool "Use double sized kernel stacks"
- 	help
--	  If you say Y here the kernel will use a  16Kb stacksize for the
-+	  If you say Y here the kernel will use a double sized stack for the
- 	  kernel stack attached to each process/thread. The default is 8K.
-+	  (depends on CONFIG_ARC_PAGE_SIZE_16K or CONFIG_ARC_PAGE_SIZE_4K)
- 	  This increases the resident kernel footprint and will cause less
- 	  threads to run on the system and also increase the pressure
- 	  on the VM subsystem for higher order allocations.
-diff --git a/arch/arc/include/asm/thread_info.h b/arch/arc/include/asm/thread_info.h
-index 9f9dd021501c..a7358d1225a6 100644
---- a/arch/arc/include/asm/thread_info.h
-+++ b/arch/arc/include/asm/thread_info.h
-@@ -15,7 +15,7 @@
- 
- #include <asm/page.h>
- 
--#ifdef CONFIG_16KSTACKS
-+#ifdef CONFIG_DEBUG_STACKS
- #define THREAD_SIZE_ORDER 1
- #else
- #define THREAD_SIZE_ORDER 0
--- 
-2.34.1
+I'd really like to see a way forward and get the required drivers over to
+DRM, e.g. based on your simpledrm driver.
+If there is a way to get basic on-screen 2D bitblt and fillrect support,
+it would drop the need for most of the fbdev drivers.
+The current way of bitblt'ing from a buffer on regular basis istoo slow for such older cards. Even on new hardware in emulators there
+is a big slowdown visible.
 
+>> You don't mention that for most older machines DRM isn't an
+>> acceptable way to go due to it's limitations, e.g. it's low-speed
+>> due to missing 2D-acceleration for older cards and and it's
+>> incapability to change screen resolution at runtime (just to name
+>> two of the bigger limitations here).
+>
+> You can change resolution at runtime; just not through fbdev ioctls.
+> There's no technical limitation here. No one found any use for this,
+> so it's not there.
+
+fbdev drivers would need that when ported to DRM.
+>> So, unless we somehow find a good way to move such drivers over to
+>> DRM (with a set of minimal 2D acceleration), they are still
+>> important.
+>
+> 2d acceleration is mostly useful for the framebuffer console.
+
+and X11
+
+> You can
+> do that with DRM and drivers have (nouveau). It just didn't make a
+> meaningful difference in most cases.
+
+if nouveau got it, can't it be done for simpledrm in a generic way too?
+
+>> Actually, I just did test matroxfb and pm2fb successfully a few
+>> days back, and they worked. For some smaller issues I've prepared
+>> patches, which are on hold due conflicts with your latest
+>> file-move-around- and whitespace-changes which are partly in
+>> drm-misc. And I do have some upcoming additional patches for
+>> console support.
+
+Helge
 
 _______________________________________________
 linux-snps-arc mailing list
