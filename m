@@ -4,92 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7DB6DC7EE22
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 11 May 2023 13:12:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B654FC7EE22
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 11 May 2023 13:22:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date
-	:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=W9zhfmjXBx56PWw6/6YCPMq0Pf7ts6cEMuNkiYdxwrQ=; b=WKuzxcXAOASuxfMkVWIpbm6mO+
-	x01L1q5J7LiRrohTIRJWIQK2CPlHHXLhcPAXhMsWtcXAtomP6ai7p1a2flTqSx4xgcb+mHjB40EAr
-	GaocbDv9ludyVfoGkfSk/PYKOAmIlYjpdL5qlL/zFQPkMwfN4iayLfkE1UlMtnpShPclUau4VR37W
-	PGWDyLNEBawkqXw/QZ1KEyda6SrZl1ej7AT9TozGtdyAhCNoaLsewtX2mnEaSR6umxLTzZfxoFZ76
-	PkGUkRMz5qwqndtjLTcLr2EPyMGnW18cS1wndmns+zNtJtZVN+6GY/oIfl0IelK7JBvdmUcktAwJu
-	iLhZrgZg==;
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:Message-ID:References:In-Reply-To:Subject:Cc:To:From
+	:Date:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+fJss1BUmzNgekJo7pITbPe2G8w3BLGn+3b8hAvzUuY=; b=hdKvb0264JrUhIPE6IuhUVnnz9
+	xtKB474DE9k9bahhBdpKpB2mWBtENf503B9nyufp1XS5PGPgm4LvMWp2hTqqAaDmWQYYmY8WszqIZ
+	y01k7dNp+uVzIkL9kixk8LA32E1GQ9e0CS2BAMGtnyOBwi3BF3oIAN/1eRjUPpuVxa6AjbcZXSDK9
+	g/kj3kWriGgb86RGpL32Y2dJMNYaOIMWoV+P2Pk8MefmbBVGlqDaPSXfMKcMRUOcVayNvDAit5lkf
+	xd3/VgzPojrY4zdipN5o3bUteqj8yfxOGQ63s/W2z6QmjVU3o2LdPgj1m93cGzbYkrVb3em0ru9aO
+	mvtG40OQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1px65g-008pKp-1e;
-	Thu, 11 May 2023 13:12:16 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1px6Fc-008rFL-1r;
+	Thu, 11 May 2023 13:22:32 +0000
+Received: from relay7-d.mail.gandi.net ([2001:4b98:dc4:8::227])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1px65c-008pIl-1O;
-	Thu, 11 May 2023 13:12:14 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 73A6621C6F;
-	Thu, 11 May 2023 13:12:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1683810727; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ohHx0dB5stZHxx1QwNPGIYWhm6cQbAfXveuQMp0Xhok=;
-	b=Ab7WVuywszEo8kd4WGaZFjxb5VfJAu+Wm5pjJ9tFqnmLgyO3tRAFFzZCTZ1NG0NMo++9rZ
-	twcnx/lHKLyzEf9Sli3EIkwn4BLWo8Zs+w/4CdT7BnN4+/curF3+QARGk1UnkC5Xs9izLu
-	nMY8ZBUbUJyfjosb4kcuZTavVJ2/GSs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1683810727;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ohHx0dB5stZHxx1QwNPGIYWhm6cQbAfXveuQMp0Xhok=;
-	b=Eufw4Qi7idm6pzo+V0V5fVyhSYo8QqX3kj50NGgnzQa1YVEyo2+GLC5czjqkbtS04rdD4d
-	VTvOaH9dbWSUzCCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EAE3F138FA;
-	Thu, 11 May 2023 13:12:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id z6fnN6bpXGR8HQAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Thu, 11 May 2023 13:12:06 +0000
-Message-ID: <cee24e80-cc41-00bc-06a2-37f1e2cad8ef@suse.de>
-Date: Thu, 11 May 2023 15:12:06 +0200
+	id 1px6FY-008rEd-1f;
+	Thu, 11 May 2023 13:22:30 +0000
+Received: (Authenticated sender: contact@artur-rojek.eu)
+	by mail.gandi.net (Postfix) with ESMTPA id AC3D220007;
+	Thu, 11 May 2023 13:22:13 +0000 (UTC)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into
- <asm/fb.h>
-Content-Language: en-US
-To: Arnd Bergmann <arnd@arndb.de>, kernel test robot <lkp@intel.com>,
- Helge Deller <deller@gmx.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, Vineet Gupta <vgupta@kernel.org>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- "David S . Miller" <davem@davemloft.net>,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- Sam Ravnborg <sam@ravnborg.org>, suijingfeng@loongson.cn
-Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
+Date: Thu, 11 May 2023 15:22:13 +0200
+From: Artur Rojek <contact@artur-rojek.eu>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Thomas Zimmermann <tzimmermann@suse.de>,
+ kernel test robot <lkp@intel.com>, Helge Deller <deller@gmx.de>, Javier
+ Martinez Canillas <javierm@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Vineet Gupta <vgupta@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, WANG
+ Xuerui <kernel@xen0n.name>, "David S . Miller" <davem@davemloft.net>, "James
+ E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, Sam Ravnborg
+ <sam@ravnborg.org>, suijingfeng@loongson.cn, oe-kbuild-all@lists.linux.dev,
+ Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
  linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, sparclinux@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+ sparclinux@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into
+ <asm/fb.h>
+In-Reply-To: <CAMuHMdVvR1jdbZS8KoMf4R3zhLRWKv9XbG61iBGOGGZPHB+taA@mail.gmail.com>
 References: <20230510110557.14343-6-tzimmermann@suse.de>
  <202305102136.eMjTSPwH-lkp@intel.com>
  <f6b2d541-d235-4e98-afcc-9137fb8afa35@app.fastmail.com>
  <49684d58-c19d-b147-5e9f-2ac526dd50f0@suse.de>
  <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
+ <CAMuHMdVvR1jdbZS8KoMf4R3zhLRWKv9XbG61iBGOGGZPHB+taA@mail.gmail.com>
+Message-ID: <9c4be198444e9987c826c87b592e9dc6@artur-rojek.eu>
+X-Sender: contact@artur-rojek.eu
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230511_061212_644151_CE5B15BA 
-X-CRM114-Status: GOOD (  25.03  )
+X-CRM114-CacheID: sfid-20230511_062228_882749_73E2C97B 
+X-CRM114-Status: GOOD (  26.01  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,132 +71,65 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============3015040291637596190=="
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============3015040291637596190==
-Content-Language: en-US
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------csNkQJKshpNqf00r4DiJQ5jr"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------csNkQJKshpNqf00r4DiJQ5jr
-Content-Type: multipart/mixed; boundary="------------fYR0XvuIElrjcrLGf1ubCpxL";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Arnd Bergmann <arnd@arndb.de>, kernel test robot <lkp@intel.com>,
- Helge Deller <deller@gmx.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, Vineet Gupta <vgupta@kernel.org>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- "David S . Miller" <davem@davemloft.net>,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- Sam Ravnborg <sam@ravnborg.org>, suijingfeng@loongson.cn
-Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, sparclinux@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org
-Message-ID: <cee24e80-cc41-00bc-06a2-37f1e2cad8ef@suse.de>
-Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into
- <asm/fb.h>
-References: <20230510110557.14343-6-tzimmermann@suse.de>
- <202305102136.eMjTSPwH-lkp@intel.com>
- <f6b2d541-d235-4e98-afcc-9137fb8afa35@app.fastmail.com>
- <49684d58-c19d-b147-5e9f-2ac526dd50f0@suse.de>
- <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
-In-Reply-To: <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
-
---------------fYR0XvuIElrjcrLGf1ubCpxL
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-
-SGkNCg0KQW0gMTAuMDUuMjMgdW0gMTc6NTQgc2NocmllYiBBcm5kIEJlcmdtYW5uOg0KPiBP
-biBXZWQsIE1heSAxMCwgMjAyMywgYXQgMTY6MjcsIFRob21hcyBaaW1tZXJtYW5uIHdyb3Rl
-Og0KPj4gQW0gMTAuMDUuMjMgdW0gMTY6MTUgc2NocmllYiBBcm5kIEJlcmdtYW5uOg0KPj4+
-IE9uIFdlZCwgTWF5IDEwLCAyMDIzLCBhdCAxNjowMywga2VybmVsIHRlc3Qgcm9ib3Qgd3Jv
-dGU6DQo+ICAgDQo+Pj4gSSB0aGluayB0aGF0J3MgYSBwcmVleGlzdGluZyBidWcgYW5kIEkg
-aGF2ZSBubyBpZGVhIHdoYXQgdGhlDQo+Pj4gY29ycmVjdCBzb2x1dGlvbiBpcy4gTG9va2lu
-ZyBmb3IgSEQ2NDQ2MSBzaG93cyBpdCBiZWluZyB1c2VkDQo+Pj4gYm90aCB3aXRoIGludy9v
-dXR3IGFuZCByZWFkdy93cml0ZXcsIHNvIHRoZXJlIGlzIG5vIHdheSB0byBoYXZlDQo+Pj4g
-dGhlIGNvcnJlY3QgdHlwZS4gVGhlIHNoIF9fcmF3X3JlYWR3KCkgZGVmaW5pdGlvbiBoaWRl
-cyB0aGlzIGJ1ZywNCj4+PiBidXQgdGhhdCBpcyBhIHByb2JsZW0gd2l0aCBhcmNoL3NoIGFu
-ZCBpdCBwcm9iYWJseSBoaWRlcyBvdGhlcnMNCj4+PiBhcyB3ZWxsLg0KPj4NCj4+IFRoZSBj
-b25zdGFudCBIRDY0NDYxX0lPQkFTRSBpcyBkZWZpbmVkIGFzIGludGVnZXIgYXQNCj4+DQo+
-Pg0KPj4gaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvbGF0ZXN0L3NvdXJjZS9h
-cmNoL3NoL2luY2x1ZGUvYXNtL2hkNjQ0NjEuaCNMMTcNCj4+DQo+PiBidXQgZmJfcmVhZHco
-KSBleHBlY3RzIGEgdm9sYXRpbGUtdm9pZCBwb2ludGVyLiBJIGd1ZXNzIHdlIGNvdWxkIGFk
-ZCBhDQo+PiBjYXN0IHNvbWV3aGVyZSB0byBzaWxlbmNlIHRoZSBwcm9ibGVtLiBJbiB0aGUg
-Y3VycmVudCB1cHN0cmVhbSBjb2RlLA0KPj4gdGhhdCBhcHBlYXJzIHRvIGJlIGRvbmUgYnkg
-c2gncyBfX3Jhd19yZWFkdygpIGludGVybmFsbHk6DQo+Pg0KPj4NCj4+IGh0dHBzOi8vZWxp
-eGlyLmJvb3RsaW4uY29tL2xpbnV4L2xhdGVzdC9zb3VyY2UvYXJjaC9zaC9pbmNsdWRlL2Fz
-bS9pby5oI0wzNQ0KPiANCj4gU3VyZSwgdGhhdCB3b3VsZCBtYWtlIGl0IGJ1aWxkIGFnYWlu
-LCBidXQgdGhhdCBzdGlsbCBkb2Vzbid0IG1ha2UgdGhlDQo+IGNvZGUgY29ycmVjdCwgc2lu
-Y2UgaXQncyBjb21wbGV0ZWx5IHVuY2xlYXIgd2hhdCBiYXNlIGFkZHJlc3MgdGhlDQo+IEhE
-NjQ0NjFfSU9CQVNFIGlzIHJlbGF0aXZlIHRvLiBUaGUgaHA2eHggcGxhdGZvcm0gY29kZSBv
-bmx5IHBhc3NlcyBpdA0KPiB0aHJvdWdoIGludygpL291dHcoKSwgd2hpY2ggdGFrZSBhbiBv
-ZmZzZXQgcmVsYXRpdmUgdG8gc2hfaW9fcG9ydF9iYXNlLA0KPiBidXQgdGhhdCBpcyBub3Qg
-aW5pdGlhbGl6ZWQgb24gaHA2eHguIEkgdHJpZWQgdG8gZmluZCBpbiB0aGUgaGlzdG9yeQ0K
-PiB3aGVuIGl0IGJyb2tlLCBhcHBhcmVudGx5IHRoYXQgd2FzIGluIDIwMDcgY29tbWl0IDM0
-YTc4MGEwYWZlYiAoInNoOg0KPiBocDZ4eCBwYXRhX3BsYXRmb3JtIHN1cHBvcnQuIiksIHdo
-aWNoIHJlbW92ZWQgdGhlIGN1c3RvbSBpbncvb3V0dw0KPiBpbXBsZW1lbnRhdGlvbnMuDQoN
-Ckl0IGp1c3Qgb2NjdXJlZCB0byBtZSB0aGF0IHRoZXNlIGZiX3JlYWQgYW5kIGZiX3dyaXRl
-IGNhbGxzIGFyZSBwcm9iYWJseSANCmFsbCB3cm9uZy4gVGhlIGZiXyBpbnRlcmZhY2VzIGFy
-ZSBmb3IgZnJhbWVidWZmZXIgSS9PIG1lbW9yeS4gVGhlIGRyaXZlciANCnVzZXMgdGhlbSB0
-byBhY2Nlc3MgdGhlIHJlZ3VsYXIgc3RhdGUgcmVnaXN0ZXJzLiBUaGUgd3JpdGV3KCkgb24g
-c2ggaXMgDQpkZWZpbml0ZWx5IGRpZmZlcmVudC4gWzFdDQoNCkkgYXNzdW1lIHRoYXQgaXQg
-b25seSB3b3JrcyBiZWNhdXNlIENPTkZJR19TV0FQX0lPX1NQQUNFIFsyXSBpcyBub3Qgc2V0
-IA0KaW4gaHA2eHhfZGVmY29uZmlnLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQpbMV0g
-DQpodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51eC9sYXRlc3Qvc291cmNlL2FyY2gv
-c2gvaW5jbHVkZS9hc20vaW8uaCNMNTUNClsyXSANCmh0dHBzOi8vZWxpeGlyLmJvb3RsaW4u
-Y29tL2xpbnV4L2xhdGVzdC9zb3VyY2UvYXJjaC9zaC9pbmNsdWRlL21hY2gtY29tbW9uL21h
-Y2gvbWFuZ2xlLXBvcnQuaCNMMjINCg0KPiANCj4gICAgICAgIEFybmQNCg0KLS0gDQpUaG9t
-YXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2Fy
-ZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51
-ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcg
-TWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
-
-
---------------fYR0XvuIElrjcrLGf1ubCpxL--
-
---------------csNkQJKshpNqf00r4DiJQ5jr
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRc6aYFAwAAAAAACgkQlh/E3EQov+Ag
-uw//fVmGD3oa58g/+yOsfKrcscQpscH8H8HRvjfJLYMo1MNUxYFCVGF+MD0cfXp9q2mAGFgoT/0C
-aOd66yxyWdJTps9gvIlIoBpZn5mFh9K+DnHQddH4K0ARbwumRFLBo1GyLS39hh4MITD2ekJvbH2Z
-mdxsGu9YydDbcFosLyBPc9iPJa9kBLST+x36w8OF2+Sf9ca13zB4D2INGJAWwr5DDr76qY4EBsHw
-GVLP/XQ0laeDmfS+x86TydjDgCE+tZkOsrLGvRJecERjlR+Oba2rERyXKtFlGDS3X9fkVuE2MEfF
-+dexHckNzfvDsWupYZZG3yOpEFBS//c001IxHevFQtEbViBEZRPvnUIUEdRQaZQg+UaFwNmp6qS3
-6fzR84hU1xviP3PMr4Obm/VgvU9GraY3pD/JhIelEsUVSBIHWUS/uGVWBf2uMFXfXImswNHZoSFc
-d+3orJO9EVQj5U8deI13WhU/1R+obpZJeYETPKSPsg0MUHSYydmvMjNIKAoYlXewpezQRFdxrmti
-qtuR4dNYl5vq5y/B6vtYMuydBtII0LQN5jRD/yKjM0hdo+ga7+FEtBqumqSONljzXqSrVuC4ryKj
-pNJQJgFM0aHZq0FVVy4PC4+pBDGPt8hoPxfvAlsKpwz4BZUGSg3WxGZwPu1ZAe9bvl4GH00DZ1r1
-nUo=
-=e+Ht
------END PGP SIGNATURE-----
-
---------------csNkQJKshpNqf00r4DiJQ5jr--
-
-
---===============3015040291637596190==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
-
---===============3015040291637596190==--
-
+T24gMjAyMy0wNS0xMSAxNDozNSwgR2VlcnQgVXl0dGVyaG9ldmVuIHdyb3RlOgo+IEhpIEFybmQs
+Cj4gCj4gQ0MgQXJ0dXIsIHdobydzIHdvcmtpbmcgb24gSFAgSm9ybmFkYSA2ODAuClRoYW5rcyBm
+b3IgQ0MnaW5nIG1lIC0gSSBmYWNlZCB0aGlzIGV4YWN0IGlzc3VlIHdoaWxlIHdvcmtpbmcgb24g
+bXkKKHN0aWxsIG5vdCB1cHN0cmVhbWVkKSBoZDY0NDZ4IFBDTUNJQSBjb250cm9sbGVyIGRyaXZl
+ci4gVGhlIFBDTUNJQQpzdWJzeXN0ZW0gdXNlcyBgaW5iL291dGJgLCB3aGljaCBleHBlY3QgdGhl
+IGBzaF9pb19wb3J0X2Jhc2VgIHRvIGJlIHNldAp0byBzb21ldGhpbmcgZWxzZSB0aGFuIHRoZSBk
+ZWZhdWx0IGAtMWAuIEF0IGZpcnN0IEkgdHJpZWQgdG8gc2V0IGl0IHRvCmAweGEwMDAwMDAwYCwg
+c28gdGhhdCBhbGwgSS9PIGdvZXMgdGhyb3VnaCB0aGUgZml4ZWQsIG5vbi1jYWNoZWFibGUgUDIK
+YXJlYS4gVGhhdCBob3dldmVyIGJyb2tlIHNvbWUgb3RoZXIgZHJpdmVyIGNvZGUgKEkgaGFkIG5v
+IHRpbWUgdG8gZGVidWcKd2hpY2ggb25lKS4gRXZlbnR1YWxseSBJIGVuZGVkIHVwIHRha2luZyBh
+IHN1Z2dlc3Rpb24gZnJvbSBhIE1JUFMgUENNQ0lBCmRyaXZlciBbMV0gYW5kIHNpbXBseSBzdWJz
+dHJhY3QgdGhlIGJyb2tlbiBgc2hfaW9fcG9ydF9iYXNlYCBhZGRyZXNzCmZyb20gYEhENjQ0NjFf
+SU9CQVNFYCwgYXMgdGhlIGJhc2UgZm9yIGBzb2NrZXQuaW9fb2Zmc2V0YC4gVGhpcyB3YXkgYWxs
+CnRoZSBQQ01DSUEgYGluYi9vdXRiYCBhY2Nlc3NlcyBhcmUgYWJzb2x1dGUsIG5vIG1hdHRlciB3
+aGF0IHRoZQpgc2hfaW9fcG9ydF9iYXNlYCBpcyBzZXQgdG8uIFRoaXMgb2YgY291cnNlIGlzIGEg
+dmVyeSB1Z2x5IHNvbHV0aW9uIGFuZAp3ZSBzaG91bGQgaW5zdGVhZCBmaXggdGhlIHJvb3QgY2F1
+c2Ugb2YgdGhpcyBtZXNzLiBJIHdpbGwgaGF2ZSBhIGJldHRlcgpsb29rIGF0IHRoaXMgcGF0Y2gg
+c2V0IGFuZCB0aGUgcHJvYmxlbSBhdCBoYW5kIGF0IGEgbGF0ZXIgZGF0ZS4KCkNoZWVycywKQXJ0
+dXIKClsxXSAKaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQv
+dG9ydmFsZHMvbGludXguZ2l0L3RyZWUvZHJpdmVycy9wY21jaWEvZGIxeHh4X3NzLmM/aD12Ni40
+LXJjMSNuNTI3Cgo+IAo+IE9uIFdlZCwgTWF5IDEwLCAyMDIzIGF0IDU6NTXigK9QTSBBcm5kIEJl
+cmdtYW5uIDxhcm5kQGFybmRiLmRlPiB3cm90ZToKPj4gT24gV2VkLCBNYXkgMTAsIDIwMjMsIGF0
+IDE2OjI3LCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToKPj4gPiBBbSAxMC4wNS4yMyB1bSAxNjox
+NSBzY2hyaWViIEFybmQgQmVyZ21hbm46Cj4+ID4+IE9uIFdlZCwgTWF5IDEwLCAyMDIzLCBhdCAx
+NjowMywga2VybmVsIHRlc3Qgcm9ib3Qgd3JvdGU6Cj4+IAo+PiA+PiBJIHRoaW5rIHRoYXQncyBh
+IHByZWV4aXN0aW5nIGJ1ZyBhbmQgSSBoYXZlIG5vIGlkZWEgd2hhdCB0aGUKPj4gPj4gY29ycmVj
+dCBzb2x1dGlvbiBpcy4gTG9va2luZyBmb3IgSEQ2NDQ2MSBzaG93cyBpdCBiZWluZyB1c2VkCj4+
+ID4+IGJvdGggd2l0aCBpbncvb3V0dyBhbmQgcmVhZHcvd3JpdGV3LCBzbyB0aGVyZSBpcyBubyB3
+YXkgdG8gaGF2ZQo+PiA+PiB0aGUgY29ycmVjdCB0eXBlLiBUaGUgc2ggX19yYXdfcmVhZHcoKSBk
+ZWZpbml0aW9uIGhpZGVzIHRoaXMgYnVnLAo+PiA+PiBidXQgdGhhdCBpcyBhIHByb2JsZW0gd2l0
+aCBhcmNoL3NoIGFuZCBpdCBwcm9iYWJseSBoaWRlcyBvdGhlcnMKPj4gPj4gYXMgd2VsbC4KPj4g
+Pgo+PiA+IFRoZSBjb25zdGFudCBIRDY0NDYxX0lPQkFTRSBpcyBkZWZpbmVkIGFzIGludGVnZXIg
+YXQKPj4gPgo+PiA+Cj4+ID4gaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvbGF0ZXN0
+L3NvdXJjZS9hcmNoL3NoL2luY2x1ZGUvYXNtL2hkNjQ0NjEuaCNMMTcKPj4gPgo+PiA+IGJ1dCBm
+Yl9yZWFkdygpIGV4cGVjdHMgYSB2b2xhdGlsZS12b2lkIHBvaW50ZXIuIEkgZ3Vlc3Mgd2UgY291
+bGQgYWRkIGEKPj4gPiBjYXN0IHNvbWV3aGVyZSB0byBzaWxlbmNlIHRoZSBwcm9ibGVtLiBJbiB0
+aGUgY3VycmVudCB1cHN0cmVhbSBjb2RlLAo+PiA+IHRoYXQgYXBwZWFycyB0byBiZSBkb25lIGJ5
+IHNoJ3MgX19yYXdfcmVhZHcoKSBpbnRlcm5hbGx5Ogo+PiA+Cj4+ID4KPj4gPiBodHRwczovL2Vs
+aXhpci5ib290bGluLmNvbS9saW51eC9sYXRlc3Qvc291cmNlL2FyY2gvc2gvaW5jbHVkZS9hc20v
+aW8uaCNMMzUKPj4gCj4+IFN1cmUsIHRoYXQgd291bGQgbWFrZSBpdCBidWlsZCBhZ2FpbiwgYnV0
+IHRoYXQgc3RpbGwgZG9lc24ndCBtYWtlIHRoZQo+PiBjb2RlIGNvcnJlY3QsIHNpbmNlIGl0J3Mg
+Y29tcGxldGVseSB1bmNsZWFyIHdoYXQgYmFzZSBhZGRyZXNzIHRoZQo+PiBIRDY0NDYxX0lPQkFT
+RSBpcyByZWxhdGl2ZSB0by4gVGhlIGhwNnh4IHBsYXRmb3JtIGNvZGUgb25seSBwYXNzZXMgaXQK
+Pj4gdGhyb3VnaCBpbncoKS9vdXR3KCksIHdoaWNoIHRha2UgYW4gb2Zmc2V0IHJlbGF0aXZlIHRv
+IAo+PiBzaF9pb19wb3J0X2Jhc2UsCj4+IGJ1dCB0aGF0IGlzIG5vdCBpbml0aWFsaXplZCBvbiBo
+cDZ4eC4gSSB0cmllZCB0byBmaW5kIGluIHRoZSBoaXN0b3J5Cj4+IHdoZW4gaXQgYnJva2UsIGFw
+cGFyZW50bHkgdGhhdCB3YXMgaW4gMjAwNyBjb21taXQgMzRhNzgwYTBhZmViICgic2g6Cj4+IGhw
+Nnh4IHBhdGFfcGxhdGZvcm0gc3VwcG9ydC4iKSwgd2hpY2ggcmVtb3ZlZCB0aGUgY3VzdG9tIGlu
+dy9vdXR3Cj4+IGltcGxlbWVudGF0aW9ucy4KPiAKPiBTZWUgYWxzbyBjb21taXQgNGFhZmFlMjdk
+MGNlNzNmOCAoInNoOiBoZDY0NDYxIHRpZHlpbmcuIiksIHdoaWNoCj4gY2xhaW1zIHRoZXkgYXJl
+IG5vIGxvbmdlciBuZWVkZWQuCj4gCj4gRG9uJ3QgdGhlIEkvTyBwb3J0IG1hY3JvcyBqdXN0IHRy
+ZWF0IHRoZSBwb3J0IGFzIGFuIGFic29sdXRlIGJhc2UgCj4gYWRkcmVzcwo+IHdoZW4gc2hfaW9f
+cG9ydF9iYXNlIGlzbid0IHNldD8KPiAKPiBHcntvZXRqZSxlZXRpbmd9cywKPiAKPiAgICAgICAg
+ICAgICAgICAgICAgICAgICBHZWVydAoKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1h
+cmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
