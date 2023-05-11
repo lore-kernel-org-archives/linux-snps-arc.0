@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 988ADC7EE30
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5464C7EE22
 	for <linux-snps-arc@archiver.kernel.org>; Thu, 11 May 2023 11:59:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
@@ -12,61 +12,61 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References:Message-Id
 	:MIME-Version:Subject:Date:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=nJ9pQWY8A/5tMopOtVnN7CRPyqUtZUjp2Fwbf1kTPDk=; b=qubxYLqeCUuR5U
-	rBDOLU0K7UXXe+t+b+l5nzBl0uzZw+ol2OpuwTbq117F+3Ochz8dV1EwzaFCI0vE02hAICuS6Wicq
-	3u9RMIq9pW1VoF4qUQ3no1KjTUdZhCPEHBjyNTrZhODplyAvIkvzgklaadY0FuldJZIX1qgPlYvdC
-	G2VkKKg+mSu2Rm7iIXmaonlCN5dCuHDwyou+h0yAOA6yU4peCAhEVQ7elmud5NqD0cyUXFYrQ3cki
-	+DxB3WL59H5ljrnyMTJxTjAmBwgk8mmzEweE5amavGpvH2p03eURIYG140Xz3+FdgYzoUSOIsZUkb
-	GkK4P0E+VovmlJqf4J9g==;
+	List-Owner; bh=S8c4K/pvXMARlP06nLeQmPJqg4PPJ7tmNDPfusSkhH4=; b=enycg0Ye6sZT3J
+	Sbxz46htoEeb3L6R0HP5SadoS0EAmL7UWuPjfcHKbzBHuIo0EFJEiAd2ALtaKipOokA7Xe2jOJUsG
+	rwIMfTB772I3IEUkmYOtzN1q4cBfytknV5eVGGm4wQQQUvGIg5FuFIDWgPyYSXejwvyaaENj1YJDS
+	KvzEQh+ylxG0mcOvjBs9Mnr9wZbARrtEtTYGudKtFnF5UvFj8yY4tXHTafHP37aOZMHSayob4Kc5e
+	JoZhTIAQzO78Q/xNS++kOe/ldrLGmm6XiftmpG+jKLoeo6Jzlm7nlFDvufx0drNioPhNO/kOCfLsp
+	5IV1qACv3sL/FRPwVbWA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1px4xf-008hBk-1K;
+	id 1px4xf-008hCl-2M;
 	Thu, 11 May 2023 11:59:55 +0000
-Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d])
+Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1px4xa-008h73-2M
+	id 1px4xa-008h7J-2C
 	for linux-snps-arc@lists.infradead.org;
 	Thu, 11 May 2023 11:59:53 +0000
-Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-4f14468ef54so9688749e87.0
-        for <linux-snps-arc@lists.infradead.org>; Thu, 11 May 2023 04:59:48 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-4f26f437b30so501130e87.1
+        for <linux-snps-arc@lists.infradead.org>; Thu, 11 May 2023 04:59:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683806387; x=1686398387;
+        d=linaro.org; s=google; t=1683806389; x=1686398389;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hYHNj4xOB3A9+sRrGGyA+CHl8mr8r8wePJEdzxz75NA=;
-        b=R4Y4sQ/pkhaXoYZ0Rmd1wl/WLm/7drgJkx1KJxPtPNk0U7/Mys/EiSrRg/aC1csD6H
-         9Ih1YKeabZAcuvs/HS424EWEMpleCMYQeT/9LVkHgdtK69kZNs2zwBtMRLphBYzVZ/hs
-         aDZyGK/fBqbFH5SMwvxg9nukw0XnauWw2q9+PpZDsge/KbQ2l9ENpY6j04woB9CnctYG
-         SPFNfSpIoDlrAPu//AN94SEgou0j1PTsONUBEXvBRqckAwnYGE3ExGqk3OteELdlGjFO
-         m/1lITxVQiGV5penGZwLpZYGrjuIrRpYLPFetkUBHAziQ1sTCIuJGSXa/TrJ+B8c4VmB
-         RtOA==
+        bh=2CPc/Vm/Ur0JOy8kF/L6fs0qWXc+VKBrwCqiZQE3hiQ=;
+        b=us1qr2gpwQ3bBAky0xvbHlSTRCtb1nydasm8z39XkazIJzESLaqNzEYvSDrqWvBqBX
+         4xcES64hit/N9fYugYwoV5W3g4eBVSitwsbnnifZ0lNM9KhPgKlQsFulFvXvE2t+KR4U
+         ORQ5OFqloYcfrHKwTO12OVVscWtd5hVcDmECRKCgjTthI9wyAS5zhkAj5RdT8DId2mTE
+         5+ejX9H2q5kq1KWIA7iOUhoaa7GyZwuQHvQ3gEGe/NTiXYuogO2QROPtUakEjm0CnwbK
+         kvsZHLKeUbzU9xoleFgHTrQZPpPyif74SXwCAcrOuKmxwemz6uMXGapYyPfo5nL/aCgI
+         pNdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683806387; x=1686398387;
+        d=1e100.net; s=20221208; t=1683806389; x=1686398389;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hYHNj4xOB3A9+sRrGGyA+CHl8mr8r8wePJEdzxz75NA=;
-        b=Os7dWH88fsIIkG/NJATS3ZnSs0ESfZMc55c31kDc2DxMFqH5SGwIQZerKmJ6MKCD7N
-         WF1XERr1AWS4/iSMZkVlzuYOXGPjEgU1gQG2Ktu00jw4KLAIj4xgLW70IWLRVBriv25V
-         ErV3xOAb6YPFCkTiYX2ipZUF9qrcWv5li51T/sKIA6ko6SDLio2JuXCFQREBMc6F/wbv
-         qm1VYZp2kZLpvxfGLQz02M7hGfpu2L5GJjaWeb6JnT607jItLVQiA3tbiq8GlCwEgFxa
-         Mb/LUSZhO3ESp0cr8v37p4x4F/WLkEjsn7X9+dvBolEU9QdpUtIk7H1gU009dCa6VOGl
-         UFlA==
-X-Gm-Message-State: AC+VfDyw9dywPSTxF3MnPbJJ/IyWDc1zCK0cByBGv8KSSPU2WQD15FM1
-	HzZcH/raSSCul7aSQW+v8sfOBw==
-X-Google-Smtp-Source: ACHHUZ77sxt7O279jjcWgP97akxP8WNE4SSfCZuV++STuG/v7BFEHGC1ImpffMxABw9Zm5xLGsx0aA==
-X-Received: by 2002:a05:6512:48f:b0:4f1:3ca4:a57f with SMTP id v15-20020a056512048f00b004f13ca4a57fmr2625276lfq.54.1683806387473;
-        Thu, 11 May 2023 04:59:47 -0700 (PDT)
+        bh=2CPc/Vm/Ur0JOy8kF/L6fs0qWXc+VKBrwCqiZQE3hiQ=;
+        b=Gik4wCn/hsPH0oHbKGlthiUDqLyqQimPfg7Yt3aBkmSFMs6iR84sdqdGsAmxZsi86O
+         sDpet2pJGUfP//opB/rjJ4jCJ56vl33b9swdAEHeAxCMXi215mv+QZkZoL+5boAWVj1J
+         U+FZRdh/SHZGaP3rX50RxV8fXHP6/gHIHXks23CTCj9V1bUhdlu+RoALb2GJuyXxuY9J
+         ffX5EY0Mx++d9nplmhs9Bzis5XoEKs84nYK9mqK4cNtyKGSgHzNNF0mhDdi1gmI0E1Cd
+         ZRopjL68MOp3DWCXt2aqEAJTg9/6dQn5IbCaKtr0G66CzzTk9vVvPC/rvlxD/vEaitjn
+         7g5w==
+X-Gm-Message-State: AC+VfDwOXWw2s8DBXELEFBqBY87eQHZkeHq1ovy29fcvW7JQDBnUqlKx
+	r7JilZ2oE674zt6pTIza4+DeYg==
+X-Google-Smtp-Source: ACHHUZ4QkE8eS3TpZoQ27rQu2+0fhZ0L6/1Hi4I8nOp2Q9+9XqczCBc3KV8aWbi1HyhYGQflHWz/3A==
+X-Received: by 2002:ac2:5fae:0:b0:4ea:fa07:1182 with SMTP id s14-20020ac25fae000000b004eafa071182mr2670102lfe.14.1683806389365;
+        Thu, 11 May 2023 04:59:49 -0700 (PDT)
 Received: from [127.0.1.1] ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id f16-20020ac25090000000b004cb23904bd9sm1100841lfm.144.2023.05.11.04.59.46
+        by smtp.gmail.com with ESMTPSA id f16-20020ac25090000000b004cb23904bd9sm1100841lfm.144.2023.05.11.04.59.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 04:59:47 -0700 (PDT)
+        Thu, 11 May 2023 04:59:49 -0700 (PDT)
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 11 May 2023 13:59:18 +0200
-Subject: [PATCH 01/12] fs/proc/kcore.c: Pass a pointer to virt_addr_valid()
+Date: Thu, 11 May 2023 13:59:20 +0200
+Subject: [PATCH 03/12] ARC: init: Pass a pointer to virt_to_pfn() in init
 MIME-Version: 1.0
-Message-Id: <20230503-virt-to-pfn-v6-4-rc1-v1-1-6c4698dcf9c8@linaro.org>
+Message-Id: <20230503-virt-to-pfn-v6-4-rc1-v1-3-6c4698dcf9c8@linaro.org>
 References: <20230503-virt-to-pfn-v6-4-rc1-v1-0-6c4698dcf9c8@linaro.org>
 In-Reply-To: <20230503-virt-to-pfn-v6-4-rc1-v1-0-6c4698dcf9c8@linaro.org>
 To: Geert Uytterhoeven <geert@linux-m68k.org>, 
@@ -80,8 +80,8 @@ Cc: linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
  Linus Walleij <linus.walleij@linaro.org>
 X-Mailer: b4 0.12.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230511_045950_769180_BAC94195 
-X-CRM114-Status: GOOD (  11.30  )
+X-CRM114-CacheID: sfid-20230511_045950_776703_F389123F 
+X-CRM114-Status: GOOD (  11.66  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,29 +98,34 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The virt_addr_valid() should be passed a pointer, the current
-code passing a long unsigned int is just exploiting the
-unintentional polymorphism of these calls being implemented
-as preprocessor macros.
+Functions that work on a pointer to virtual memory such as
+virt_to_pfn() and users of that function such as
+virt_to_page() are supposed to pass a pointer to virtual
+memory, ideally a (void *) or other pointer. However since
+many architectures implement virt_to_pfn() as a macro,
+this function becomes polymorphic and accepts both a
+(unsigned long) and a (void *).
+
+Fix up the offending call in arch/arc with an explicit cast.
 
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- fs/proc/kcore.c | 2 +-
+ arch/arc/mm/init.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/proc/kcore.c b/fs/proc/kcore.c
-index 25b44b303b35..75708c66527f 100644
---- a/fs/proc/kcore.c
-+++ b/fs/proc/kcore.c
-@@ -199,7 +199,7 @@ kclist_add_private(unsigned long pfn, unsigned long nr_pages, void *arg)
- 	ent->addr = (unsigned long)page_to_virt(p);
- 	ent->size = nr_pages << PAGE_SHIFT;
+diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
+index 2b89b6c53801..9f64d729c9f8 100644
+--- a/arch/arc/mm/init.c
++++ b/arch/arc/mm/init.c
+@@ -87,7 +87,7 @@ void __init setup_arch_memory(void)
+ 	setup_initial_init_mm(_text, _etext, _edata, _end);
  
--	if (!virt_addr_valid(ent->addr))
-+	if (!virt_addr_valid((void *)ent->addr))
- 		goto free_out;
+ 	/* first page of system - kernel .vector starts here */
+-	min_low_pfn = virt_to_pfn(CONFIG_LINUX_RAM_BASE);
++	min_low_pfn = virt_to_pfn((void *)CONFIG_LINUX_RAM_BASE);
  
- 	/* cut not-mapped area. ....from ppc-32 code. */
+ 	/* Last usable page of low mem */
+ 	max_low_pfn = max_pfn = PFN_DOWN(low_mem_start + low_mem_sz);
 
 -- 
 2.34.1
