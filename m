@@ -4,62 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC970C77B75
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 12 May 2023 10:25:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23733C7EE2A
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 12 May 2023 10:25:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=whdRsOOTkZtpeevkQGk/l3XadYM8ZhG0F0bTW3hLovU=; b=48Wv/CVfEYymdy
-	Ych5942BYOm72pybIh0GWcaKsb32bY3/FkOWZzISBjr+zimhRpUmu1Kr3L0lnNdZExzj1grSZsGrX
-	cVM6/bAOqgfnV9dx1W/inT+YxcOR2iW+L100XYP7DvuuUTZcCVByaTBeYVriLHFTtdG8Bj8r4gtjP
-	ofD7Cjtphg2m6V39zZL/biHnnbPjUYd7Sm4jhWQdo5aGnZi/VTudh7KoIBmoTxx051a7jH0ItkRWZ
-	MVHaShSqhk3bxUcXXhAuZ5Dls8OQfkXLU5XxGPVSZbQSAXK4ReiHotS5L55G6M37DeLLnpPOLV3OK
-	I+XlwtPuLgrht97vEFsQ==;
+	List-Owner; bh=pnl328pppyTGx6WrC2Is/YwqYPjmkmXjNnwmjYtLqu4=; b=xT3dWPKSztilCi
+	nzl3B9yTruX/IkLu+5b8K+q/xOKhq9T3gCBmXNj0ttLJTlWDWy2Ho7+yqjzv0ElKj5qICbcyZWkcP
+	c70qtY1176FSwJiq2ZOYJW5tRTFDDw/BsPt6R6pLG62a+kgl0nMwYuwTnr6XJaS+quU0eL20WdhcP
+	fv8Kgy48SEM57qo99OpOgbeZQEWaqdC5gEGUWcT/JCFUDkGOcoFEXzXyomIzCvRfzSMehC82uNZHU
+	+J8gyJ/ijbOLY7+w3u4UGSLxgu8YadjHDA8tlFW/9+IpRupeAUZhhkUo26r2Zw2YX9S0Qg3pV5YDV
+	zbaYGPUUOH3NYOR4XrVg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pxPxO-00Bb1x-31;
-	Fri, 12 May 2023 10:25:02 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1pxPxR-00Bb5T-1y;
+	Fri, 12 May 2023 10:25:05 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pxPxF-00Bas2-0i;
-	Fri, 12 May 2023 10:24:55 +0000
+	id 1pxPxH-00Bars-1y;
+	Fri, 12 May 2023 10:24:57 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 83B312285A;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 13F4C22851;
 	Fri, 12 May 2023 10:24:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1683887088; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bA1S89nbzVLJGpGGldE0x8rS0sK8N4zBkW2yX9arAtU=;
-	b=1uTjhIHEjfNTWYf4lgDAOxlEPKnEhylVRe6RLH32i7Dw975VGJNUzJ/w/Owz6Gaqx17Kxe
-	oBskYAsvrZiv5vu2jWj+/6+QHvWzklmVgji5p8N15BItA5fuAMcu5Pikxy/7++VK1l5yw4
-	YHMZ4HyDQkjqGhnlISXwPnUVz7uMutM=
+	bh=03FKWvzl+iydak6zPBgn3CINrXf9q24laH3mFu/UDVA=;
+	b=efQrtDvcMNmdx7Lf3hPzhgO+haLQO8FFkihKcR4RW6GMgCizKSa5taKF1ivd1Wul2WlBI7
+	yYifZlqYEWZuns6ICOgPip0ZAIkz+iqMb/X5lFqeg3aUpxwXTGXlSM2T8bQb667IYIXy29
+	YzTfy8QYFhxTNGBrbeCFATtgp+Hl1Vs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1683887088;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bA1S89nbzVLJGpGGldE0x8rS0sK8N4zBkW2yX9arAtU=;
-	b=g5iIwwIgCpT5twwQb6iRhT2oHOhdkNEYFF73nowGTAupCuyndXcLJSbGq5MONotUa8xnKT
-	rMQ86V4iWTac/7DQ==
+	bh=03FKWvzl+iydak6zPBgn3CINrXf9q24laH3mFu/UDVA=;
+	b=u/CCArIGXSgjvSc67gCWzgTlB6iJbsD6FCzIRHoAlgiPiMEcmDNuRKIugzjo0RGV4tSzoT
+	EK3HhoeWHRS2vbBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 18D0413A0A;
-	Fri, 12 May 2023 10:24:48 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A7E5213466;
+	Fri, 12 May 2023 10:24:47 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id mDA3BfATXmS5XwAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Fri, 12 May 2023 10:24:48 +0000
+	id 2EAjKO8TXmS5XwAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Fri, 12 May 2023 10:24:47 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	geert@linux-m68k.org,
@@ -85,16 +85,17 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-parisc@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v7 5/7] fbdev: Include <linux/fb.h> instead of <asm/fb.h>
-Date: Fri, 12 May 2023 12:24:42 +0200
-Message-Id: <20230512102444.5438-6-tzimmermann@suse.de>
+Subject: [PATCH v7 4/7] fbdev: Include <linux/io.h> in various drivers
+Date: Fri, 12 May 2023 12:24:41 +0200
+Message-Id: <20230512102444.5438-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230512102444.5438-1-tzimmermann@suse.de>
 References: <20230512102444.5438-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230512_032453_412405_DC392293 
-X-CRM114-Status: GOOD (  12.03  )
+X-CRM114-CacheID: sfid-20230512_032455_799324_A554FA03 
+X-CRM114-Status: UNSURE (   9.98  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,118 +112,60 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Replace include statements for <asm/fb.h> with <linux/fb.h>. Fixes
-the coding style: if a header is available in asm/ and linux/, it
-is preferable to include the header from linux/. This only affects
-a few source files, most of which already include <linux/fb.h>.
+The code uses writel() and similar I/O-memory helpers. Include
+the header file to get the declarations.
 
-Suggested-by: Sam Ravnborg <sam@ravnborg.org>
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Arnd Bergmann <arnd@arndb.de>
-Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
 ---
- arch/parisc/video/fbdev.c        | 3 +--
- arch/sparc/video/fbdev.c         | 1 -
- arch/x86/video/fbdev.c           | 2 --
- drivers/staging/sm750fb/sm750.c  | 2 +-
- drivers/video/fbdev/core/fbcon.c | 1 -
- drivers/video/fbdev/core/fbmem.c | 2 --
- include/linux/fb.h               | 2 ++
- 7 files changed, 4 insertions(+), 9 deletions(-)
+ drivers/video/fbdev/arcfb.c       | 1 +
+ drivers/video/fbdev/aty/atyfb.h   | 2 ++
+ drivers/video/fbdev/wmt_ge_rops.c | 2 ++
+ 3 files changed, 5 insertions(+)
 
-diff --git a/arch/parisc/video/fbdev.c b/arch/parisc/video/fbdev.c
-index 4a0ae08fc75b..137561d98246 100644
---- a/arch/parisc/video/fbdev.c
-+++ b/arch/parisc/video/fbdev.c
-@@ -5,10 +5,9 @@
-  * Copyright (C) 2001-2002 Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-  */
- 
-+#include <linux/fb.h>
- #include <linux/module.h>
- 
--#include <asm/fb.h>
--
- #include <video/sticore.h>
- 
- int fb_is_primary_device(struct fb_info *info)
-diff --git a/arch/sparc/video/fbdev.c b/arch/sparc/video/fbdev.c
-index dadd5799fbb3..25837f128132 100644
---- a/arch/sparc/video/fbdev.c
-+++ b/arch/sparc/video/fbdev.c
-@@ -4,7 +4,6 @@
- #include <linux/fb.h>
- #include <linux/module.h>
- 
--#include <asm/fb.h>
- #include <asm/prom.h>
- 
- int fb_is_primary_device(struct fb_info *info)
-diff --git a/arch/x86/video/fbdev.c b/arch/x86/video/fbdev.c
-index 57ee3c158f97..f41a17ebac48 100644
---- a/arch/x86/video/fbdev.c
-+++ b/arch/x86/video/fbdev.c
-@@ -7,8 +7,6 @@
-  *
-  */
- 
--#include <asm/fb.h>
--
- #include <linux/fb.h>
- #include <linux/module.h>
- #include <linux/pci.h>
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 22ace3168723..55e302a27847 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -16,7 +16,7 @@
- #include <linux/pagemap.h>
- #include <linux/screen_info.h>
- #include <linux/console.h>
--#include <asm/fb.h>
-+
- #include "sm750.h"
- #include "sm750_accel.h"
- #include "sm750_cursor.h"
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index eb565a10e5cd..c6c9d040bdec 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -75,7 +75,6 @@
+diff --git a/drivers/video/fbdev/arcfb.c b/drivers/video/fbdev/arcfb.c
+index 7750e020839e..ace104850e50 100644
+--- a/drivers/video/fbdev/arcfb.c
++++ b/drivers/video/fbdev/arcfb.c
+@@ -41,6 +41,7 @@
+ #include <linux/vmalloc.h>
+ #include <linux/delay.h>
  #include <linux/interrupt.h>
- #include <linux/crc32.h> /* For counting font checksums */
- #include <linux/uaccess.h>
--#include <asm/fb.h>
- #include <asm/irq.h>
++#include <linux/io.h>
+ #include <linux/fb.h>
+ #include <linux/init.h>
+ #include <linux/arcfb.h>
+diff --git a/drivers/video/fbdev/aty/atyfb.h b/drivers/video/fbdev/aty/atyfb.h
+index 465f55beb97f..30da3e82ed3c 100644
+--- a/drivers/video/fbdev/aty/atyfb.h
++++ b/drivers/video/fbdev/aty/atyfb.h
+@@ -3,8 +3,10 @@
+  *  ATI Frame Buffer Device Driver Core Definitions
+  */
  
- #include "fbcon.h"
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index 700b9f7e1bb8..d5f897b5ba54 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -37,8 +37,6 @@
- #include <linux/mem_encrypt.h>
- #include <linux/pci.h>
- 
--#include <asm/fb.h>
--
- #include <video/nomodeset.h>
- #include <video/vga.h>
- 
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index ec978a4969a9..4b4d9a5d200a 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -15,6 +15,8 @@
- #include <linux/list.h>
- #include <linux/backlight.h>
- #include <linux/slab.h>
++#include <linux/io.h>
+ #include <linux/spinlock.h>
+ #include <linux/wait.h>
 +
-+#include <asm/fb.h>
- #include <asm/io.h>
+     /*
+      *  Elements of the hardware specific atyfb_par structure
+      */
+diff --git a/drivers/video/fbdev/wmt_ge_rops.c b/drivers/video/fbdev/wmt_ge_rops.c
+index 3ed143457d22..b70961901683 100644
+--- a/drivers/video/fbdev/wmt_ge_rops.c
++++ b/drivers/video/fbdev/wmt_ge_rops.c
+@@ -9,7 +9,9 @@
  
- struct vm_area_struct;
+ #include <linux/module.h>
+ #include <linux/fb.h>
++#include <linux/io.h>
+ #include <linux/platform_device.h>
++
+ #include "core/fb_draw.h"
+ #include "wmt_ge_rops.h"
+ 
 -- 
 2.40.1
 
