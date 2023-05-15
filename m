@@ -4,70 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9513AC77B7A
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 13 May 2023 17:43:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 76519C7EE22
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 15 May 2023 09:10:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=8XDzEo5J8xJsAT0ai7cdz+czCl5r6DfUg1E6S78i4lc=; b=EuTmmhhabWV01b
-	6ZjZ5VuF8SE/l74LxAOFbi2eEEZ4/lorOUb03k2YnHjy2rxpsODnOaUSVIEYv9gvYqEjL0LaY4A2j
-	06a+WI+VUiFBp+NhRTIhrFuUh/N6e69rzXog+RfJ1mjtog8v+X0tZKEvs2I2UnE8MVIyxMZ5kjhuG
-	keRxlHfjYaZ7cFd1I39tHOQcGJMNHWrJw9k69y2hdjxVoIpbF1cSz0np9bzmaeKjDmOc26oS64ZdK
-	rXuv+9m+Lg3kUFFWXjVCyatXorDve778ob0NPUi++3imEZF7uhEGGtOLCAF+oxmgb4CEMKjL/lB+F
-	HQljg7L3FSiS4CbJHcAg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=u3bbeNv2BhNUJzm4BZYMJPuodBImPKNwEfpPHQ+Emug=; b=etstWq2SvbwhEW
+	IjXT87/gzI3KURYeccQ0Xc9yI0w1pYBRbFmcIOUuKBaBIKLltohpL7JrxCoHxoyT1bSZjY9NBxQ/T
+	EXBjpIudgWl08uAMjM8YDu4lKPw4ae0YUYYWf0ZNGlbTr0BRj1N/2sNmpa+Rmq9J9825gZCPTLggH
+	68n/Ua4hc1hhpx5d9hraZWmcMWat0taKtJcdL+JtGw9SteGPl81q0c1XfCnJckqVSHlrjoL7dPE0f
+	n7/E4C1qB81xtNeYVtp5TujSt438KTLdA9sXO0MdwMbusBtOOusIm2dJ3SpSeg/naBnKGicgdZcCb
+	aPc9OAUb+1IryX37YIbQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pxtH7-00FVER-0m;
-	Sat, 13 May 2023 17:43:21 +0000
-Received: from mga12.intel.com ([192.55.52.136])
+	id 1pyUDS-001VES-2k;
+	Mon, 15 May 2023 09:10:02 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pxtH4-00FVDq-32
+	id 1pyUDP-001VD2-2y
 	for linux-snps-arc@lists.infradead.org;
-	Sat, 13 May 2023 17:43:20 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683999798; x=1715535798;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=88jyIMp6SlH8QBy+dqsdhN23w/LtxLvndTg8Q9XNfM4=;
-  b=B4KiXV5X0sbXz/zO6m0noqUcdqIwV9xYF9oYA+65gpF1Rsybl1WYq97W
-   2kOa/nFnw3ciE8161SAlcbV/KRj7o76XIDYpBbMvSvPTo8ePAHdbb0fJ0
-   XYKaTuWp+PhzNoiW2SxFAl6OqxUxxA5Me6zSfGkrjZftQpSw1/Gk6D/xF
-   3WUUrfV1ZxRElU+T8aVyTHApn3zq8wSBfSCIy+gmW9p16rNrlzUdxAYdq
-   N0ziiZ9R7CBuxE8N8n3+2TgYKkLYJCRIbocUd1kXvAaS+EYGJcicwlEXe
-   CJaWC5O4RKiNu1AG3lGSPMkywiW5YF5GzmfMq2EcdbDDi+3Xi9ul1LvcE
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="330593772"
-X-IronPort-AV: E=Sophos;i="5.99,272,1677571200"; 
-   d="scan'208";a="330593772"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2023 10:43:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="694569206"
-X-IronPort-AV: E=Sophos;i="5.99,272,1677571200"; 
-   d="scan'208";a="694569206"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 13 May 2023 10:43:15 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pxtH0-0005cW-1F;
-	Sat, 13 May 2023 17:43:14 +0000
-Date: Sun, 14 May 2023 01:43:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bang Li <libang.linuxer@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	Vineet Gupta <vgupta@kernel.org>
-Subject: arch/arc/kernel/smp.c:277:30: sparse: sparse: dereference of noderef
- expression
-Message-ID: <202305140134.BC2YZdG1-lkp@intel.com>
+	Mon, 15 May 2023 09:10:01 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1684141799;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kDNjnaCpF+GTSorypbQb9IveRvDAN3hj4EIuzc2cJxI=;
+	b=ZPJTmQsZ8b0OAXK48PM5Y7IHrY3ypJvUhez2wx4/ZtDtZJpz/LJxhZ9S/P7mYHgOC5x5dr
+	ybvzU5omVCrq2FudMcPHb1DzUMx6Su1WAIHGQdTOqIFoYjFC47qXoa6A9Kxi0hrk1kxikh
+	RFrQpmGtPVPbhuKsvgtYMrOfeMx+rro=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-659-pMEw_n4HMayxwlRnEJbtBg-1; Mon, 15 May 2023 05:09:54 -0400
+X-MC-Unique: pMEw_n4HMayxwlRnEJbtBg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B45E73814945;
+	Mon, 15 May 2023 09:09:53 +0000 (UTC)
+Received: from MiWiFi-R3L-srv.redhat.com (ovpn-12-32.pek2.redhat.com [10.72.12.32])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id D2F0940C2063;
+	Mon, 15 May 2023 09:09:46 +0000 (UTC)
+From: Baoquan He <bhe@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-arch@vger.kernel.org,
+	linux-mm@kvack.org,
+	arnd@arndb.de,
+	christophe.leroy@csgroup.eu,
+	hch@infradead.org,
+	agordeev@linux.ibm.com,
+	wangkefeng.wang@huawei.com,
+	schnelle@linux.ibm.com,
+	David.Laight@ACULAB.COM,
+	shorne@gmail.com,
+	willy@infradead.org,
+	deller@gmx.de,
+	Baoquan He <bhe@redhat.com>,
+	Vineet Gupta <vgupta@kernel.org>,
+	linux-snps-arc@lists.infradead.org
+Subject: [PATCH v5 RESEND 07/17] arc: mm: Convert to GENERIC_IOREMAP
+Date: Mon, 15 May 2023 17:08:38 +0800
+Message-Id: <20230515090848.833045-8-bhe@redhat.com>
+In-Reply-To: <20230515090848.833045-1-bhe@redhat.com>
+References: <20230515090848.833045-1-bhe@redhat.com>
 MIME-Version: 1.0
-Content-Disposition: inline
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230513_104319_034518_22C7771C 
-X-CRM114-Status: GOOD (  11.44  )
+X-CRM114-CacheID: sfid-20230515_021000_033440_D342F2CA 
+X-CRM114-Status: GOOD (  16.62  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,82 +93,153 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d4d58949a6eac1c45ab022562c8494725e1ac094
-commit: c6ed4d84a2c49de7d6f490144cca7b4a4831fb6e ARC: remove redundant READ_ONCE() in cmpxchg loop
-date:   1 year, 1 month ago
-config: arc-randconfig-s041-20230513 (https://download.01.org/0day-ci/archive/20230514/202305140134.BC2YZdG1-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c6ed4d84a2c49de7d6f490144cca7b4a4831fb6e
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout c6ed4d84a2c49de7d6f490144cca7b4a4831fb6e
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arc SHELL=/bin/bash arch/arc/kernel/
+By taking GENERIC_IOREMAP method, the generic generic_ioremap_prot(),
+generic_iounmap(), and their generic wrapper ioremap_prot(), ioremap()
+and iounmap() are all visible and available to arch. Arch needs to
+provide wrapper functions to override the generic versions if there's
+arch specific handling in its ioremap_prot(), ioremap() or iounmap().
+This change will simplify implementation by removing duplicated codes
+with generic_ioremap_prot() and generic_iounmap(), and has the equivalent
+functioality as before.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305140134.BC2YZdG1-lkp@intel.com/
+Here, add wrapper functions ioremap_prot() and iounmap() for arc's
+special operation when ioremap_prot() and iounmap().
 
-sparse warnings: (new ones prefixed by >>)
-   arch/arc/kernel/smp.c:264:48: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *ipi_data_ptr @@     got unsigned long * @@
-   arch/arc/kernel/smp.c:264:48: sparse:     expected unsigned long [noderef] __percpu *ipi_data_ptr
-   arch/arc/kernel/smp.c:264:48: sparse:     got unsigned long *
-   arch/arc/kernel/smp.c:279:18: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *v @@     got unsigned long [noderef] __percpu *__ai_ptr @@
-   arch/arc/kernel/smp.c:279:18: sparse:     expected void const volatile *v
-   arch/arc/kernel/smp.c:279:18: sparse:     got unsigned long [noderef] __percpu *__ai_ptr
-   arch/arc/kernel/smp.c:413:72: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected void [noderef] __percpu *percpu_dev_id @@     got int *dev @@
-   arch/arc/kernel/smp.c:413:72: sparse:     expected void [noderef] __percpu *percpu_dev_id
-   arch/arc/kernel/smp.c:413:72: sparse:     got int *dev
->> arch/arc/kernel/smp.c:277:30: sparse: sparse: dereference of noderef expression
+Signed-off-by: Baoquan He <bhe@redhat.com>
+Cc: Vineet Gupta <vgupta@kernel.org>
+Cc: linux-snps-arc@lists.infradead.org
+---
+ arch/arc/Kconfig          |  1 +
+ arch/arc/include/asm/io.h |  7 +++---
+ arch/arc/mm/ioremap.c     | 49 ++++-----------------------------------
+ 3 files changed, 8 insertions(+), 49 deletions(-)
 
-vim +277 arch/arc/kernel/smp.c
-
-   261	
-   262	static void ipi_send_msg_one(int cpu, enum ipi_msg_type msg)
-   263	{
- > 264		unsigned long __percpu *ipi_data_ptr = per_cpu_ptr(&ipi_data, cpu);
-   265		unsigned long old, new;
-   266		unsigned long flags;
-   267	
-   268		pr_debug("%d Sending msg [%d] to %d\n", smp_processor_id(), msg, cpu);
-   269	
-   270		local_irq_save(flags);
-   271	
-   272		/*
-   273		 * Atomically write new msg bit (in case others are writing too),
-   274		 * and read back old value
-   275		 */
-   276		do {
- > 277			new = old = *ipi_data_ptr;
-   278			new |= 1U << msg;
-   279		} while (cmpxchg(ipi_data_ptr, old, new) != old);
-   280	
-   281		/*
-   282		 * Call the platform specific IPI kick function, but avoid if possible:
-   283		 * Only do so if there's no pending msg from other concurrent sender(s).
-   284		 * Otherwise, receiver will see this msg as well when it takes the
-   285		 * IPI corresponding to that msg. This is true, even if it is already in
-   286		 * IPI handler, because !@old means it has not yet dequeued the msg(s)
-   287		 * so @new msg can be a free-loader
-   288		 */
-   289		if (plat_smp_ops.ipi_send && !old)
-   290			plat_smp_ops.ipi_send(cpu);
-   291	
-   292		local_irq_restore(flags);
-   293	}
-   294	
-
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index ab6d701365bb..3a666ee0c0bc 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -26,6 +26,7 @@ config ARC
+ 	select GENERIC_PENDING_IRQ if SMP
+ 	select GENERIC_SCHED_CLOCK
+ 	select GENERIC_SMP_IDLE_THREAD
++	select GENERIC_IOREMAP
+ 	select HAVE_ARCH_KGDB
+ 	select HAVE_ARCH_TRACEHOOK
+ 	select HAVE_ARCH_TRANSPARENT_HUGEPAGE if ARC_MMU_V4
+diff --git a/arch/arc/include/asm/io.h b/arch/arc/include/asm/io.h
+index 80347382a380..4fdb7350636c 100644
+--- a/arch/arc/include/asm/io.h
++++ b/arch/arc/include/asm/io.h
+@@ -21,8 +21,9 @@
+ #endif
+ 
+ extern void __iomem *ioremap(phys_addr_t paddr, unsigned long size);
+-extern void __iomem *ioremap_prot(phys_addr_t paddr, unsigned long size,
+-				  unsigned long flags);
++#define ioremap ioremap
++#define ioremap_prot ioremap_prot
++#define iounmap iounmap
+ static inline void __iomem *ioport_map(unsigned long port, unsigned int nr)
+ {
+ 	return (void __iomem *)port;
+@@ -32,8 +33,6 @@ static inline void ioport_unmap(void __iomem *addr)
+ {
+ }
+ 
+-extern void iounmap(const volatile void __iomem *addr);
+-
+ /*
+  * io{read,write}{16,32}be() macros
+  */
+diff --git a/arch/arc/mm/ioremap.c b/arch/arc/mm/ioremap.c
+index 712c2311daef..b07004d53267 100644
+--- a/arch/arc/mm/ioremap.c
++++ b/arch/arc/mm/ioremap.c
+@@ -8,7 +8,6 @@
+ #include <linux/module.h>
+ #include <linux/io.h>
+ #include <linux/mm.h>
+-#include <linux/slab.h>
+ #include <linux/cache.h>
+ 
+ static inline bool arc_uncached_addr_space(phys_addr_t paddr)
+@@ -25,13 +24,6 @@ static inline bool arc_uncached_addr_space(phys_addr_t paddr)
+ 
+ void __iomem *ioremap(phys_addr_t paddr, unsigned long size)
+ {
+-	phys_addr_t end;
+-
+-	/* Don't allow wraparound or zero size */
+-	end = paddr + size - 1;
+-	if (!size || (end < paddr))
+-		return NULL;
+-
+ 	/*
+ 	 * If the region is h/w uncached, MMU mapping can be elided as optim
+ 	 * The cast to u32 is fine as this region can only be inside 4GB
+@@ -51,55 +43,22 @@ EXPORT_SYMBOL(ioremap);
+  * ARC hardware uncached region, this one still goes thru the MMU as caller
+  * might need finer access control (R/W/X)
+  */
+-void __iomem *ioremap_prot(phys_addr_t paddr, unsigned long size,
++void __iomem *ioremap_prot(phys_addr_t paddr, size_t size,
+ 			   unsigned long flags)
+ {
+-	unsigned int off;
+-	unsigned long vaddr;
+-	struct vm_struct *area;
+-	phys_addr_t end;
+ 	pgprot_t prot = __pgprot(flags);
+ 
+-	/* Don't allow wraparound, zero size */
+-	end = paddr + size - 1;
+-	if ((!size) || (end < paddr))
+-		return NULL;
+-
+-	/* An early platform driver might end up here */
+-	if (!slab_is_available())
+-		return NULL;
+-
+ 	/* force uncached */
+-	prot = pgprot_noncached(prot);
+-
+-	/* Mappings have to be page-aligned */
+-	off = paddr & ~PAGE_MASK;
+-	paddr &= PAGE_MASK_PHYS;
+-	size = PAGE_ALIGN(end + 1) - paddr;
+-
+-	/*
+-	 * Ok, go for it..
+-	 */
+-	area = get_vm_area(size, VM_IOREMAP);
+-	if (!area)
+-		return NULL;
+-	area->phys_addr = paddr;
+-	vaddr = (unsigned long)area->addr;
+-	if (ioremap_page_range(vaddr, vaddr + size, paddr, prot)) {
+-		vunmap((void __force *)vaddr);
+-		return NULL;
+-	}
+-	return (void __iomem *)(off + (char __iomem *)vaddr);
++	return generic_ioremap_prot(paddr, size, pgprot_noncached(prot));
+ }
+ EXPORT_SYMBOL(ioremap_prot);
+ 
+-
+-void iounmap(const volatile void __iomem *addr)
++void iounmap(volatile void __iomem *addr)
+ {
+ 	/* weird double cast to handle phys_addr_t > 32 bits */
+ 	if (arc_uncached_addr_space((phys_addr_t)(u32)addr))
+ 		return;
+ 
+-	vfree((void *)(PAGE_MASK & (unsigned long __force)addr));
++	generic_iounmap(addr);
+ }
+ EXPORT_SYMBOL(iounmap);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.34.1
+
 
 _______________________________________________
 linux-snps-arc mailing list
