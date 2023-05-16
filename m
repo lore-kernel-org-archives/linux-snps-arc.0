@@ -4,79 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 76519C7EE22
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 15 May 2023 09:10:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BCB95C77B75
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 16 May 2023 00:53:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:
+	In-Reply-To:Subject:cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=u3bbeNv2BhNUJzm4BZYMJPuodBImPKNwEfpPHQ+Emug=; b=etstWq2SvbwhEW
-	IjXT87/gzI3KURYeccQ0Xc9yI0w1pYBRbFmcIOUuKBaBIKLltohpL7JrxCoHxoyT1bSZjY9NBxQ/T
-	EXBjpIudgWl08uAMjM8YDu4lKPw4ae0YUYYWf0ZNGlbTr0BRj1N/2sNmpa+Rmq9J9825gZCPTLggH
-	68n/Ua4hc1hhpx5d9hraZWmcMWat0taKtJcdL+JtGw9SteGPl81q0c1XfCnJckqVSHlrjoL7dPE0f
-	n7/E4C1qB81xtNeYVtp5TujSt438KTLdA9sXO0MdwMbusBtOOusIm2dJ3SpSeg/naBnKGicgdZcCb
-	aPc9OAUb+1IryX37YIbQ==;
+	List-Owner; bh=NU9p5j+Zv1iXcqfRnP7ksR9nItwPVHgK2Hxfw6f4u5Y=; b=1DejcPYjjwV4O4
+	kW05EMlPlwD5LxfwpD3IkJ45habpesSHaUUUTqhAS2fiyzAuBsvWRzg3cwKCE8F+Kz8R2Lcj2LlBT
+	ld4AParEHxg0Kqg4nliBt5BG+qrwCQm6xoBeiY8PyCz/oF+cHHYBxW8+mSs3OTJ7RqmNsCjUPx+UQ
+	3a0RaNqX9vukIsx2qkuwYewbV3vaO59T3CabeGHs9AzKQ1PDF7p9rGPxudcsjkAW44erNCLD/jxxh
+	2UFHl9UPfFOnxg+qQHgsWyfok31GvwE3xHY6DySK5hiZbXmznYh5Jbyk2LmGwKUo44D4roQ5HTuwB
+	wgb9RaXVk51obdqG6yDw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pyUDS-001VES-2k;
-	Mon, 15 May 2023 09:10:02 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
-	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pyUDP-001VD2-2y
-	for linux-snps-arc@lists.infradead.org;
-	Mon, 15 May 2023 09:10:01 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1684141799;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kDNjnaCpF+GTSorypbQb9IveRvDAN3hj4EIuzc2cJxI=;
-	b=ZPJTmQsZ8b0OAXK48PM5Y7IHrY3ypJvUhez2wx4/ZtDtZJpz/LJxhZ9S/P7mYHgOC5x5dr
-	ybvzU5omVCrq2FudMcPHb1DzUMx6Su1WAIHGQdTOqIFoYjFC47qXoa6A9Kxi0hrk1kxikh
-	RFrQpmGtPVPbhuKsvgtYMrOfeMx+rro=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-659-pMEw_n4HMayxwlRnEJbtBg-1; Mon, 15 May 2023 05:09:54 -0400
-X-MC-Unique: pMEw_n4HMayxwlRnEJbtBg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B45E73814945;
-	Mon, 15 May 2023 09:09:53 +0000 (UTC)
-Received: from MiWiFi-R3L-srv.redhat.com (ovpn-12-32.pek2.redhat.com [10.72.12.32])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id D2F0940C2063;
-	Mon, 15 May 2023 09:09:46 +0000 (UTC)
-From: Baoquan He <bhe@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-arch@vger.kernel.org,
-	linux-mm@kvack.org,
-	arnd@arndb.de,
-	christophe.leroy@csgroup.eu,
-	hch@infradead.org,
-	agordeev@linux.ibm.com,
-	wangkefeng.wang@huawei.com,
-	schnelle@linux.ibm.com,
-	David.Laight@ACULAB.COM,
-	shorne@gmail.com,
-	willy@infradead.org,
-	deller@gmx.de,
-	Baoquan He <bhe@redhat.com>,
-	Vineet Gupta <vgupta@kernel.org>,
-	linux-snps-arc@lists.infradead.org
-Subject: [PATCH v5 RESEND 07/17] arc: mm: Convert to GENERIC_IOREMAP
-Date: Mon, 15 May 2023 17:08:38 +0800
-Message-Id: <20230515090848.833045-8-bhe@redhat.com>
-In-Reply-To: <20230515090848.833045-1-bhe@redhat.com>
-References: <20230515090848.833045-1-bhe@redhat.com>
+	id 1pyiwu-003zMZ-1T;
+	Tue, 16 May 2023 00:53:56 +0000
+Received: from angie.orcam.me.uk ([2001:4190:8020::34])
+	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
+	id 1pyiwp-003zLB-1o;
+	Tue, 16 May 2023 00:53:53 +0000
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+	id 9D7EE92009C; Tue, 16 May 2023 02:53:45 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by angie.orcam.me.uk (Postfix) with ESMTP id 9709492009B;
+	Tue, 16 May 2023 01:53:45 +0100 (BST)
+Date: Tue, 16 May 2023 01:53:45 +0100 (BST)
+From: "Maciej W. Rozycki" <macro@orcam.me.uk>
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+cc: Greg KH <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+    Richard Henderson <richard.henderson@linaro.org>, 
+    Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+    Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>, 
+    Russell King <linux@armlinux.org.uk>, 
+    Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+    Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
+    Geert Uytterhoeven <geert@linux-m68k.org>, Michal Simek <monstr@monstr.eu>, 
+    Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+    "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>, 
+    Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>, 
+    Nicholas Piggin <npiggin@gmail.com>, 
+    Christophe Leroy <christophe.leroy@csgroup.eu>, 
+    Paul Walmsley <paul.walmsley@sifive.com>, 
+    Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+    Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+    Alexander Gordeev <agordeev@linux.ibm.com>, 
+    Christian Borntraeger <borntraeger@linux.ibm.com>, 
+    Sven Schnelle <svens@linux.ibm.com>, 
+    Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
+    "David S . Miller" <davem@davemloft.net>, 
+    Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+    Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+    x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>, 
+    Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>, 
+    Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org, 
+    linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+    linux-ia64@vger.kernel.org, loongarch@lists.linux.dev, 
+    linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
+    linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+    linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
+    linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, 
+    linux-xtensa@linux-xtensa.org, linux-arch@vger.kernel.org, 
+    Palmer Dabbelt <palmer@rivosinc.com>
+Subject: Re: [PATCH v5 14/26] alpha: Remove empty <uapi/asm/setup.h>
+In-Reply-To: <20230306100508.1171812-15-alexghiti@rivosinc.com>
+Message-ID: <alpine.DEB.2.21.2305160147100.11892@angie.orcam.me.uk>
+References: <20230306100508.1171812-1-alexghiti@rivosinc.com> <20230306100508.1171812-15-alexghiti@rivosinc.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230515_021000_033440_D342F2CA 
-X-CRM114-Status: GOOD (  16.62  )
+X-CRM114-CacheID: sfid-20230515_175351_785302_B84AC354 
+X-CRM114-Status: GOOD (  11.21  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,153 +94,29 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-By taking GENERIC_IOREMAP method, the generic generic_ioremap_prot(),
-generic_iounmap(), and their generic wrapper ioremap_prot(), ioremap()
-and iounmap() are all visible and available to arch. Arch needs to
-provide wrapper functions to override the generic versions if there's
-arch specific handling in its ioremap_prot(), ioremap() or iounmap().
-This change will simplify implementation by removing duplicated codes
-with generic_ioremap_prot() and generic_iounmap(), and has the equivalent
-functioality as before.
+On Mon, 6 Mar 2023, Alexandre Ghiti wrote:
 
-Here, add wrapper functions ioremap_prot() and iounmap() for arc's
-special operation when ioremap_prot() and iounmap().
+> diff --git a/arch/alpha/include/uapi/asm/setup.h b/arch/alpha/include/uapi/asm/setup.h
+> deleted file mode 100644
+> index 9b3b5ba39b1d..000000000000
+> --- a/arch/alpha/include/uapi/asm/setup.h
+> +++ /dev/null
+> @@ -1,5 +0,0 @@
+> -/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> -#ifndef _UAPI__ALPHA_SETUP_H
+> -#define _UAPI__ALPHA_SETUP_H
+> -
+> -#endif /* _UAPI__ALPHA_SETUP_H */
 
-Signed-off-by: Baoquan He <bhe@redhat.com>
-Cc: Vineet Gupta <vgupta@kernel.org>
-Cc: linux-snps-arc@lists.infradead.org
----
- arch/arc/Kconfig          |  1 +
- arch/arc/include/asm/io.h |  7 +++---
- arch/arc/mm/ioremap.c     | 49 ++++-----------------------------------
- 3 files changed, 8 insertions(+), 49 deletions(-)
+ You can't just remove a UAPI header like this, something will break; cf. 
+arch/arc/include/uapi/asm/setup.h, or arch/x86/include/uapi/asm/setup.h if 
+you want it brief.
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index ab6d701365bb..3a666ee0c0bc 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -26,6 +26,7 @@ config ARC
- 	select GENERIC_PENDING_IRQ if SMP
- 	select GENERIC_SCHED_CLOCK
- 	select GENERIC_SMP_IDLE_THREAD
-+	select GENERIC_IOREMAP
- 	select HAVE_ARCH_KGDB
- 	select HAVE_ARCH_TRACEHOOK
- 	select HAVE_ARCH_TRANSPARENT_HUGEPAGE if ARC_MMU_V4
-diff --git a/arch/arc/include/asm/io.h b/arch/arc/include/asm/io.h
-index 80347382a380..4fdb7350636c 100644
---- a/arch/arc/include/asm/io.h
-+++ b/arch/arc/include/asm/io.h
-@@ -21,8 +21,9 @@
- #endif
- 
- extern void __iomem *ioremap(phys_addr_t paddr, unsigned long size);
--extern void __iomem *ioremap_prot(phys_addr_t paddr, unsigned long size,
--				  unsigned long flags);
-+#define ioremap ioremap
-+#define ioremap_prot ioremap_prot
-+#define iounmap iounmap
- static inline void __iomem *ioport_map(unsigned long port, unsigned int nr)
- {
- 	return (void __iomem *)port;
-@@ -32,8 +33,6 @@ static inline void ioport_unmap(void __iomem *addr)
- {
- }
- 
--extern void iounmap(const volatile void __iomem *addr);
--
- /*
-  * io{read,write}{16,32}be() macros
-  */
-diff --git a/arch/arc/mm/ioremap.c b/arch/arc/mm/ioremap.c
-index 712c2311daef..b07004d53267 100644
---- a/arch/arc/mm/ioremap.c
-+++ b/arch/arc/mm/ioremap.c
-@@ -8,7 +8,6 @@
- #include <linux/module.h>
- #include <linux/io.h>
- #include <linux/mm.h>
--#include <linux/slab.h>
- #include <linux/cache.h>
- 
- static inline bool arc_uncached_addr_space(phys_addr_t paddr)
-@@ -25,13 +24,6 @@ static inline bool arc_uncached_addr_space(phys_addr_t paddr)
- 
- void __iomem *ioremap(phys_addr_t paddr, unsigned long size)
- {
--	phys_addr_t end;
--
--	/* Don't allow wraparound or zero size */
--	end = paddr + size - 1;
--	if (!size || (end < paddr))
--		return NULL;
--
- 	/*
- 	 * If the region is h/w uncached, MMU mapping can be elided as optim
- 	 * The cast to u32 is fine as this region can only be inside 4GB
-@@ -51,55 +43,22 @@ EXPORT_SYMBOL(ioremap);
-  * ARC hardware uncached region, this one still goes thru the MMU as caller
-  * might need finer access control (R/W/X)
-  */
--void __iomem *ioremap_prot(phys_addr_t paddr, unsigned long size,
-+void __iomem *ioremap_prot(phys_addr_t paddr, size_t size,
- 			   unsigned long flags)
- {
--	unsigned int off;
--	unsigned long vaddr;
--	struct vm_struct *area;
--	phys_addr_t end;
- 	pgprot_t prot = __pgprot(flags);
- 
--	/* Don't allow wraparound, zero size */
--	end = paddr + size - 1;
--	if ((!size) || (end < paddr))
--		return NULL;
--
--	/* An early platform driver might end up here */
--	if (!slab_is_available())
--		return NULL;
--
- 	/* force uncached */
--	prot = pgprot_noncached(prot);
--
--	/* Mappings have to be page-aligned */
--	off = paddr & ~PAGE_MASK;
--	paddr &= PAGE_MASK_PHYS;
--	size = PAGE_ALIGN(end + 1) - paddr;
--
--	/*
--	 * Ok, go for it..
--	 */
--	area = get_vm_area(size, VM_IOREMAP);
--	if (!area)
--		return NULL;
--	area->phys_addr = paddr;
--	vaddr = (unsigned long)area->addr;
--	if (ioremap_page_range(vaddr, vaddr + size, paddr, prot)) {
--		vunmap((void __force *)vaddr);
--		return NULL;
--	}
--	return (void __iomem *)(off + (char __iomem *)vaddr);
-+	return generic_ioremap_prot(paddr, size, pgprot_noncached(prot));
- }
- EXPORT_SYMBOL(ioremap_prot);
- 
--
--void iounmap(const volatile void __iomem *addr)
-+void iounmap(volatile void __iomem *addr)
- {
- 	/* weird double cast to handle phys_addr_t > 32 bits */
- 	if (arc_uncached_addr_space((phys_addr_t)(u32)addr))
- 		return;
- 
--	vfree((void *)(PAGE_MASK & (unsigned long __force)addr));
-+	generic_iounmap(addr);
- }
- EXPORT_SYMBOL(iounmap);
--- 
-2.34.1
+ I suggest that you fold it into 01/26 (it makes no sense to have empty 
+multiple inclusion protection), and likewise for the relevant remaining 
+headers.
 
+  Maciej
 
 _______________________________________________
 linux-snps-arc mailing list
