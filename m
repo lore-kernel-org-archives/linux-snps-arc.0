@@ -4,84 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6659C7EE2E
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 22 May 2023 07:01:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 395DBC77B75
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 22 May 2023 07:01:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References:Message-Id
 	:MIME-Version:Subject:Date:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ImyzVDnoPp1+QID6Xxuj5o09rhKRMKkHxm5Dtk2YwmU=; b=34+5fKOeO8k3YZ
-	wIyJxUfzOVIeVHQ45jolCdgwvOIrMv93UFzX+ztcZj5hBI4oMPBxmFZHPmdlacCjkDlHVEuzsfnPo
-	GGsjNljOcs09mAwK6kKndtb6tLPzYlZl4jOPTyFSXXr5uqc+GpcnsSfPbfZEQRI1+OIb9ImeaUyRd
-	Y69kBKcTEhGgm5T8E8t7qZqAWBoXo6mOs0epYvHA9AtscQCPDioAhE3Fruv/UhgFS6Zan3jUyatkh
-	HNa0WdZ6RpeCOTSQKITULjKZ/uSbjG6Yrvbfo6wh+9PDamo5LwSkTzwQymkv4iSgIybxFe1UUX6BY
-	OxqCgbol79AXXzE923Xw==;
+	List-Owner; bh=f4ufsj5FOyA/Fv1jLVAaLysvuYzYKyRPPVquoTl1MfA=; b=QSHlvSYM5xnuK8
+	zr9VUr5pG75/B5KTwLFdqqxYI7UOZFYGXSj/0WwfG8fK50/+yY3vgF/iLExpWpzjaMfIsD6jnKyPA
+	lwqlBSrNaMHPTMrV2cvpq3kIgZM2htbQcXYFYFVL7/yNhuyHeDk1ij+1GEcb6rKfbshCbYOWEBHKJ
+	KAMyoPppCugBv+2ygegsBIedwZOVy5ZVh1X50f+tc0QPhkBjKsggik9DEb7R+BxNgqQ9FExo+alf4
+	CBj4SsHLQgDp7rgvsb+S4L3oxKo19nll8Nrx/5OXDC0AUMCEGFsbn47PYUkmoGBiNJHsmpuzlOQdl
+	QC14A7s7dingvF2HsFng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q0zXg-005ZYY-2y;
-	Mon, 22 May 2023 07:01:16 +0000
-Received: from desiato.infradead.org ([90.155.92.199])
+	id 1q0zXm-005ZdE-1J;
+	Mon, 22 May 2023 07:01:22 +0000
+Received: from mail-lj1-f180.google.com ([209.85.208.180])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q0zXM-005ZNb-26
-	for linux-snps-arc@bombadil.infradead.org;
-	Mon, 22 May 2023 07:00:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Sender:Reply-To:Content-ID:Content-Description;
-	bh=cbjvTSrc7JXib/jYCtsnbT8Pj+twUmj4f7HYrh8lbjo=; b=k0LS7qM9XoqjdhDChWiIkLuhd/
-	q40PHH0Ufxksm6tT7gFq9vN5WRkziraeqUy1nTX9B5KGlLYOSHkdhgocczBVcMO0bFmD1nEsPN6oN
-	XQmQgWeQYPodrixt4lOtNhmL+TFryYkHX5/RrIg4IMs5jryKjTH8SsEUGk9YPZ8AiE1XDXFZQElTk
-	recirEjHnRUYBxcEpRMj21Koh4liqgNiD7dGyrtqyom6Q/mkjuBmQQ4TvdjeSFxeMYwOsyAYC//RK
-	sSe8DKwUYWTIcD/riI19+vastL888oAGBjGRpNzuPlzBuhrohEdA3J8sgw6xfzmFwHoOMorU9MVmG
-	1WSmqZOw==;
-Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232])
-	by desiato.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q0zXD-001xbn-3D
+	id 1q0zXL-005ZLO-14
 	for linux-snps-arc@lists.infradead.org;
-	Mon, 22 May 2023 07:00:55 +0000
-Received: by mail-lj1-x232.google.com with SMTP id 38308e7fff4ca-2af28a07be9so31001771fa.2
-        for <linux-snps-arc@lists.infradead.org>; Mon, 22 May 2023 00:00:47 -0700 (PDT)
+	Mon, 22 May 2023 07:00:57 +0000
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2af177f12d1so51129771fa.0
+        for <linux-snps-arc@lists.infradead.org>; Mon, 22 May 2023 00:00:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684738846; x=1687330846;
+        d=linaro.org; s=google; t=1684738852; x=1687330852;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cbjvTSrc7JXib/jYCtsnbT8Pj+twUmj4f7HYrh8lbjo=;
-        b=mY0aNW1/EfjKDkZ/iGL1m6Zy8Fuo6cIs8D94rSpcZbEbpG1ej+LIXwwg8IjfW1ubMf
-         naeqWo2Tcv4U7TJhz9Le9MuCuBLyv4D3QBwlIS3zm4uuM0sDBiKrRy1hwX60LW4us3Fy
-         lkizvvt3WsoYNWJw4yNFIDsi+sL5v4YZ3faevgqnaAPtaHVH/NygExxLIfBKibX15pwh
-         tHGJ8JNozxqi8y1yMVmjsLj2PaJE+bFjBQdfzX3wucmA58zcUBePI0oa6lqw7Yl8bVB9
-         VaJ8pSouLbJ41Y6QU3Shc7N4h3wuDh4QnygF5tReoR09XiD0FLth1k8KkiUU3nySSVUd
-         z1oA==
+        bh=XXvb5TDUzvESWFR9QC/PoBRtJqf1+F8aU7D/u9pREy0=;
+        b=OtttQP9k8xlpdHUIJVQBj8OckJ52gXzjAKfZrO75yaomv2Kiy+b4fjJvIwaykOdpkr
+         usJaUK3rXE5surL3MPXnlE1TEJwwCby96MhbkYqN1mF6zVB6zp2XsGhjdCbv4XVJE6/s
+         T4ni/jV8YaVyRAd6JB8iNtxkvmPyKAInGhO77viNGA33qHHTOTMSjoPo6kYmfoiQK12j
+         iDtwhnWm7qBIe6BJff5uUa9Mw7T989YyEmwWpkc6B/+u6Lc+aAkLc1d4kRY6SMY63VU7
+         hmiPvpMUPJTmQnqUoOO6sf1NrZ+OQ4se37lsy0EYUsaGwaOuyi19yVC4YL6wRFmh7WLu
+         cHJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684738846; x=1687330846;
+        d=1e100.net; s=20221208; t=1684738852; x=1687330852;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cbjvTSrc7JXib/jYCtsnbT8Pj+twUmj4f7HYrh8lbjo=;
-        b=YQcYePRIqn1fIApd0Qr5h/leTbGRmIiAD9/gCsB5x6WbaRJFp3N9iQ+sXlY6OOfBnS
-         PvVRGaIf3IUpnfzMmFgdL3zFWOm2WIauMCnbbBt6hx1FxZcWtWuJL/pSkSdiFx4W7/3n
-         qexIfwMKdEE57ArSQBIlmbLc7NwZnu5QdCSeXKTWgO6HG46GA5/SQrLX+W9ECuP8xQUC
-         8lshgCGtjLxjtstwv7lYUro/d87/jR55xzEJtsjZQfW6aLp/m3K2dYozC+a5N1WVCkqz
-         UX3MtUUGYHT5VoC7/zQ+3O+q4KDZmGw0WKyRVJhFFxC3n+g1RBpZ5KRbT/hq2ObwWLpB
-         CS0g==
-X-Gm-Message-State: AC+VfDyhIEZFvgSFABmmPNiDmzE3gYtA4lKDn9MAunBWiITXQ9ZghMfO
-	TcAWsOCsX8pGt9kFDwBuDkDdTA==
-X-Google-Smtp-Source: ACHHUZ4bp1LXNo/+2W/IeTUTw0QnGh8DL7r/PmOoEgOM0R51k/v0tTn2gSTtsQZtS0itui0SFJl/Iw==
-X-Received: by 2002:a2e:88d1:0:b0:2a9:9e99:a508 with SMTP id a17-20020a2e88d1000000b002a99e99a508mr3233749ljk.53.1684738845921;
-        Mon, 22 May 2023 00:00:45 -0700 (PDT)
+        bh=XXvb5TDUzvESWFR9QC/PoBRtJqf1+F8aU7D/u9pREy0=;
+        b=RM7cjLi+M/UGwq5Gk1urCx6tejhLkEUEenmHqf0YuVfsx5CRLbeiy6b7XBT6tkon8c
+         mnBSlWSzWUjCPriFXZ9drF1s0LVvaXOPEcjSpCUX/53KwRMGAFEQrnv06/6P1b87QCkP
+         dcaycdmGnhHsqqhweFFdTmSTwx+3PWzUNru3E8ltuCZ99MIyNE7h2F4HVxdltTuqJ3Tp
+         ldftGRf4/UyGF9SmjBzwe74oUvGSh0wI0sy8qtjPoE9c4XXH2p4Y63Nrdk/Qd13cUMLR
+         g6IOYkOjJ/usjBtthddYBcwNW1GeGcKP0Y0Gh4gBB6GlnYKyH05+gClmKHXmMpjYAorT
+         qEWQ==
+X-Gm-Message-State: AC+VfDxxTgeo4oqJR40eJUOzqFMkZ0eLQoTSBcCYpVUTXRyQj/mV+u8w
+	arNDXf4sJjqXZTULm0K7Ms/PpQ==
+X-Google-Smtp-Source: ACHHUZ6viiMuZL/2m9fCattsKp8aF3UuUuFyad4eQQVghG4ZKIS+G1y5wT7bo/adt7XE6wIs5M+wEw==
+X-Received: by 2002:a2e:9f42:0:b0:2af:19dd:ecda with SMTP id v2-20020a2e9f42000000b002af19ddecdamr3543683ljk.45.1684738851937;
+        Mon, 22 May 2023 00:00:51 -0700 (PDT)
 Received: from [127.0.1.1] ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id q4-20020a2e8744000000b002adb98fdf81sm1010187ljj.7.2023.05.22.00.00.44
+        by smtp.gmail.com with ESMTPSA id q4-20020a2e8744000000b002adb98fdf81sm1010187ljj.7.2023.05.22.00.00.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 May 2023 00:00:45 -0700 (PDT)
+        Mon, 22 May 2023 00:00:51 -0700 (PDT)
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 22 May 2023 09:00:42 +0200
-Subject: [PATCH v2 07/12] netfs: Pass a pointer to virt_to_page()
+Date: Mon, 22 May 2023 09:00:47 +0200
+Subject: [PATCH v2 12/12] m68k/mm: Make pfn accessors static inlines
 MIME-Version: 1.0
-Message-Id: <20230503-virt-to-pfn-v6-4-rc1-v2-7-0948d38bddab@linaro.org>
+Message-Id: <20230503-virt-to-pfn-v6-4-rc1-v2-12-0948d38bddab@linaro.org>
 References: <20230503-virt-to-pfn-v6-4-rc1-v2-0-0948d38bddab@linaro.org>
 In-Reply-To: <20230503-virt-to-pfn-v6-4-rc1-v2-0-0948d38bddab@linaro.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -96,8 +81,8 @@ Cc: linux-mm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arch@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>
 X-Mailer: b4 0.12.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230522_080053_786097_1EAC1134 
-X-CRM114-Status: GOOD (  11.98  )
+X-CRM114-CacheID: sfid-20230522_000055_396656_A63DD0B5 
+X-CRM114-Status: GOOD (  10.18  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,33 +99,65 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Like the other calls in this function virt_to_page() expects
-a pointer, not an integer.
+Making virt_to_pfn() a static inline taking a strongly typed
+(const void *) makes the contract of a passing a pointer of that
+type to the function explicit and exposes any misuse of the
+macro virt_to_pfn() acting polymorphic and accepting many types
+such as (void *), (unitptr_t) or (unsigned long) as arguments
+without warnings.
 
-However since many architectures implement virt_to_pfn() as
-a macro, this function becomes polymorphic and accepts both a
-(unsigned long) and a (void *).
-
-Fix this up with an explicit cast.
+For symmetry, do the same with pfn_to_virt().
 
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- fs/netfs/iterator.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/m68k/include/asm/page_mm.h | 11 +++++++++--
+ arch/m68k/include/asm/page_no.h | 11 +++++++++--
+ 2 files changed, 18 insertions(+), 4 deletions(-)
 
-diff --git a/fs/netfs/iterator.c b/fs/netfs/iterator.c
-index 8a4c86687429..0431ec4a7298 100644
---- a/fs/netfs/iterator.c
-+++ b/fs/netfs/iterator.c
-@@ -240,7 +240,7 @@ static ssize_t netfs_extract_kvec_to_sg(struct iov_iter *iter,
- 			if (is_vmalloc_or_module_addr((void *)kaddr))
- 				page = vmalloc_to_page((void *)kaddr);
- 			else
--				page = virt_to_page(kaddr);
-+				page = virt_to_page((void *)kaddr);
+diff --git a/arch/m68k/include/asm/page_mm.h b/arch/m68k/include/asm/page_mm.h
+index 3903db2e8da7..363aa0f9ba8a 100644
+--- a/arch/m68k/include/asm/page_mm.h
++++ b/arch/m68k/include/asm/page_mm.h
+@@ -121,8 +121,15 @@ static inline void *__va(unsigned long x)
+  * TODO: implement (fast) pfn<->pgdat_idx conversion functions, this makes lots
+  * of the shifts unnecessary.
+  */
+-#define virt_to_pfn(kaddr)	(__pa(kaddr) >> PAGE_SHIFT)
+-#define pfn_to_virt(pfn)	__va((pfn) << PAGE_SHIFT)
++static inline unsigned long virt_to_pfn(const void *kaddr)
++{
++	return __pa(kaddr) >> PAGE_SHIFT;
++}
++
++static inline void *pfn_to_virt(unsigned long pfn)
++{
++	return __va(pfn << PAGE_SHIFT);
++}
  
- 			sg_set_page(sg, page, len, off);
- 			sgtable->nents++;
+ extern int m68k_virt_to_node_shift;
+ 
+diff --git a/arch/m68k/include/asm/page_no.h b/arch/m68k/include/asm/page_no.h
+index 060e4c0e7605..af3a10973233 100644
+--- a/arch/m68k/include/asm/page_no.h
++++ b/arch/m68k/include/asm/page_no.h
+@@ -19,8 +19,15 @@ extern unsigned long memory_end;
+ #define __pa(vaddr)		((unsigned long)(vaddr))
+ #define __va(paddr)		((void *)((unsigned long)(paddr)))
+ 
+-#define virt_to_pfn(kaddr)	(__pa(kaddr) >> PAGE_SHIFT)
+-#define pfn_to_virt(pfn)	__va((pfn) << PAGE_SHIFT)
++static inline unsigned long virt_to_pfn(const void *kaddr)
++{
++	return __pa(kaddr) >> PAGE_SHIFT;
++}
++
++static inline void *pfn_to_virt(unsigned long pfn)
++{
++	return __va(pfn << PAGE_SHIFT);
++}
+ 
+ #define virt_to_page(addr)	(mem_map + (((unsigned long)(addr)-PAGE_OFFSET) >> PAGE_SHIFT))
+ #define page_to_virt(page)	__va(((((page) - mem_map) << PAGE_SHIFT) + PAGE_OFFSET))
 
 -- 
 2.34.1
