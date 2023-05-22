@@ -4,69 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6FC40C7EE26
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 22 May 2023 07:01:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3973CC77B75
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 22 May 2023 07:01:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References:Message-Id
 	:MIME-Version:Subject:Date:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ed8Xgc2bZZL/iKgoyxZ6D60joCbdRwnzFo0ADNNmJzc=; b=LyMlId2OGndO1H
-	DJg5XGs6A0tAAcKjnqBFgwNNPpIgA5bBgNZNZEUAIrOH2xzeHwgPfD+p0HKB/jZ2ZcDBVUxAHUKdE
-	HfanXVvaNvqOtSj+vozXYNTp2zfOTr6e4uu0Vzw1gncwuzP1Qy41YWA/qaGRisgcNpAGUexQnONzA
-	R43p9XDwNHVevT1/P0dVp5TU0ChSSPOC9fLa7O/050u4DyJl2kg6goqi90ZQvPghxqg1joFnR/8Nh
-	chkt2pd8gfpGk1xaGNvPuewxFwrbWtlmUaQ/d8cTI+EhqEohgKTBT3h40pgeJlWxKv7vLsnraF+0g
-	nzKcq0J4AZtOf14KWnuw==;
+	List-Owner; bh=ZEE6tsuQ73z5tRx4dfU+sOXyX+r+tduPo4cmBSef4YA=; b=RGmEgIdTaHTHqc
+	c9k0BnSix1aBqBs8MITJgRM1jZ0oFhQ39reBu9mo7DMvo3ngBbqGv8BtIRW249Jgt+TJtA6QmSXrG
+	feFwci6rLJbkvj3w+vUlptnJk8heWR8ePsgfe/JWwAuX099F0bLz2e84bFUYJk0o8TfVMfvM1yopk
+	2gItUClZlYqV8ZHUpLVTLN3LYF+QXSAflTaIO+y2ltlRbFKzLcLlsburwx+Uriu6TGA0vGV/kMajh
+	2DMHqsYhovrTTU4UeoOrJFZwlLKUGMFpRSRbrsfMuuEU3dHeciZWcH920+sbWEOnYADZxBhDeeHgf
+	JhQRYPBfKa3cYGOS6J2g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q0zXV-005ZR5-0L;
-	Mon, 22 May 2023 07:01:05 +0000
-Received: from mail-lj1-f172.google.com ([209.85.208.172])
+	id 1q0zXb-005ZTA-0Q;
+	Mon, 22 May 2023 07:01:11 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q0zXC-005ZEb-1B
+	id 1q0zXH-005ZIr-2C
+	for linux-snps-arc@bombadil.infradead.org;
+	Mon, 22 May 2023 07:00:51 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Cc:To:In-Reply-To:References:
+	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	From:Sender:Reply-To:Content-ID:Content-Description;
+	bh=SZOtWVS1lCOxds2QCY7M+hAIKv6XvV3Hqis31ERV0mU=; b=dmoOPWeczO3uul7iHJ9JTRI7Xz
+	klgTZM+zvP0ByQ0Rw10Nh4ecMPo4qWRHtmkTKdtbAJ14qRayEmkVZAJwKE5TY4dj7/Gdw0RA2lXQ7
+	yLJnHVd1I3ER1yLAV/s0h+kkXvTuf02vzVd2AxTS+sWFO/qvVF/i6P/faZQJFQDSslIkZsKK1kUTn
+	/C1VlVZQ3VpSS/Of3XEumG/rWaHfNEZ+3p1yuFflI5TNn0AHoVDJit8MQEM5cyix+cMKkhrhNl/DR
+	D/TuUslC79G2DhFTZ+9LXWzgHY5N/5ngzqP47ClL+qHy4nWB1Rv9rAqokaBiHrcrskEVEBNtIkbJr
+	npendrWA==;
+Received: from mail-lj1-x22d.google.com ([2a00:1450:4864:20::22d])
+	by desiato.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
+	id 1q0zXD-001xbh-1L
 	for linux-snps-arc@lists.infradead.org;
-	Mon, 22 May 2023 07:00:47 +0000
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2af2e908163so21148841fa.2
-        for <linux-snps-arc@lists.infradead.org>; Mon, 22 May 2023 00:00:45 -0700 (PDT)
+	Mon, 22 May 2023 07:00:49 +0000
+Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2af2db78b38so22152531fa.3
+        for <linux-snps-arc@lists.infradead.org>; Mon, 22 May 2023 00:00:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684738843; x=1687330843;
+        d=linaro.org; s=google; t=1684738842; x=1687330842;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=b/3885L94lN4KFkmIG4KL0Z1VLtyVywWWWjhcZ8AdCI=;
-        b=msJmmXilknfX0gustXHQKSFGoGGpP7zNrDPXSF8hGlzB+iOnAsG/9I6PNDaTC7tpuP
-         LHrjj4nADiOaY1JF8IDevtTJnrfZzdlukdM5EjxmOQMluBLXF00uxSCrlJ7fF0ejN4JD
-         Q4LwkNUmpBY3r0XYmP3BaT5xUCGJ3H0IrrWD/2ui8jqMelbfiq8VPrnWpZSMsASEmnHp
-         U8ckmtBg7/nb/4CIadFGBoWiB71MX9sNNtt3ZXZuNUZ4nD1NSR0DTjKbTfHDFJKiWu3S
-         oI2KEw+qKpXMHbdxZKQDP3RSyQcxiJeCdJJD4p+woUWbiPjn42x6zslxWBMZPoVgpmY0
-         MXjw==
+        bh=SZOtWVS1lCOxds2QCY7M+hAIKv6XvV3Hqis31ERV0mU=;
+        b=HPynyF9dBnm8kzZsPMGuzG4tGQ0wQ3Xr3WZ6xD7T/LfVcLe2V89yhp9749clY9crPm
+         qG+Ir4rpDSBK6txtleKSHHAoDkcHodUiVZEGspM78lo5oN/1e608teWeY9dzCA81mmGY
+         3yD/wym5h4WqSG+LrMozqn4fKUqn/qUP59x8v5zFk9cHktPKlbrYTkPbim+gsAhI7K0m
+         5w8V6qXvcsdSkuS2CIyEV8/smObrHzuoNcRONSSEORXDMznpyIH08pgdb9ej7EcewhPn
+         nAN3lOIxQfwpuzpgrFnVMITkhgAvyIakdv0L6ph868VTBX1lS5f2Q1HzQjhTiA+la9hW
+         2/zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684738843; x=1687330843;
+        d=1e100.net; s=20221208; t=1684738842; x=1687330842;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=b/3885L94lN4KFkmIG4KL0Z1VLtyVywWWWjhcZ8AdCI=;
-        b=dTj7SDxS5RcYpowDWYAIkaOtW6UMs2cLTKFfBGrMCa7+P178AY/SKuETZ9GokKT7iM
-         kOaO6+e3hatkr+AJsWvrevkSTJ+BPVLD17SL0Ti8dgn3y0OoDkjW2oiTCuZgohYli1Su
-         0WLwxf0gHRAz/6ccNaAIfvcwa/syNGSZhwfSHGZdyit4H7HdelZ9yQ2XemKy7tU+N8cI
-         jmpSONlkE4D4MNgAiSXQfWwBSJacU6MBqFAtjCNpJnSPueOxpEqJyRLb+ha0OodRB0Wd
-         woZGaNj24Tx0zkXHB5fLizVrE4AaRh/a7N7O4SOcxh9jZlsCyxzhsECimf3JGneNnHjQ
-         /N5g==
-X-Gm-Message-State: AC+VfDw9jjfPMm0p5OoCdowVj9pzSp1n0QiYVQsdg31klmPrRUktUAly
-	YmsAN/T7tZBTpw4iDjPZXOkEsQ==
-X-Google-Smtp-Source: ACHHUZ5h73hBaOd7t5s+aJ2lUS5QT6SygNvWWhdVE3CS8JGYJhqyww8xpReCDW9EkuzhCaG9HMhk0A==
-X-Received: by 2002:a2e:9081:0:b0:2ac:8486:e318 with SMTP id l1-20020a2e9081000000b002ac8486e318mr3451294ljg.35.1684738843518;
-        Mon, 22 May 2023 00:00:43 -0700 (PDT)
+        bh=SZOtWVS1lCOxds2QCY7M+hAIKv6XvV3Hqis31ERV0mU=;
+        b=C+WxTM2rjPDj6vz+l7AHFOQk3ZIvMLdG66n7gRSaHLtkav3U16pgi8SrCOdd3u1k0r
+         CIguOLTk8JXKi3SAGHudcqDqk2V4qtzJyDvGZbx2r18ZBpu/9+/JRSX6WogaPY+SC/UD
+         1Yz/CmHFicfVKucJZUeP1XTgsu77yPtbJ0nhL29KO31mDXQF9tgRdi1ADFix9yhpXBRM
+         mDwB0F46Yl4aCz2LslZVa0Gg9s77maYy5IXvPF5OZ4Nc+GZiKikDXv5Wz61y/08Q844u
+         q3ItvjbHNfRBcCEd0mCNDzNVobU3G9RXOXZoVccfHj61v9rrIotcp6dQ1QBhIEcHV+JQ
+         H0wg==
+X-Gm-Message-State: AC+VfDx/11ngT+GA/XQWEj8WHqPHZqSCWl2no9HbAduC8VFyK8kLi8Xc
+	ddfbEKXH7wZqiVTw3gjldqpWVuJ/pQYfXqmgl9Q=
+X-Google-Smtp-Source: ACHHUZ5zHTlDIUBFfM+ANh6yrJchD5XWnUCxgGUoFmdvR1n+C8XuEEFdLcvym28BDAgE2gGiolXH+A==
+X-Received: by 2002:a2e:a40d:0:b0:2a8:bd1f:a377 with SMTP id p13-20020a2ea40d000000b002a8bd1fa377mr3256924ljn.20.1684738842484;
+        Mon, 22 May 2023 00:00:42 -0700 (PDT)
 Received: from [127.0.1.1] ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id q4-20020a2e8744000000b002adb98fdf81sm1010187ljj.7.2023.05.22.00.00.42
+        by smtp.gmail.com with ESMTPSA id q4-20020a2e8744000000b002adb98fdf81sm1010187ljj.7.2023.05.22.00.00.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 May 2023 00:00:43 -0700 (PDT)
+        Mon, 22 May 2023 00:00:41 -0700 (PDT)
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 22 May 2023 09:00:40 +0200
-Subject: [PATCH v2 05/12] cifs: Pass a pointer to virt_to_page()
+Date: Mon, 22 May 2023 09:00:39 +0200
+Subject: [PATCH v2 04/12] riscv: mm: init: Pass a pointer to virt_to_page()
 MIME-Version: 1.0
-Message-Id: <20230503-virt-to-pfn-v6-4-rc1-v2-5-0948d38bddab@linaro.org>
+Message-Id: <20230503-virt-to-pfn-v6-4-rc1-v2-4-0948d38bddab@linaro.org>
 References: <20230503-virt-to-pfn-v6-4-rc1-v2-0-0948d38bddab@linaro.org>
 In-Reply-To: <20230503-virt-to-pfn-v6-4-rc1-v2-0-0948d38bddab@linaro.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -79,11 +94,11 @@ Cc: linux-mm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-fsdevel@vger.kernel.org, linux-cifs@vger.kernel.org, 
  samba-technical@lists.samba.org, linux-arm-kernel@lists.infradead.org, 
  linux-arch@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>, 
- Tom Talpey <tom@talpey.com>
+ Alexandre Ghiti <alexghiti@rivosinc.com>
 X-Mailer: b4 0.12.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230522_000046_421048_FE39E13B 
-X-CRM114-Status: GOOD (  12.34  )
+X-CRM114-CacheID: sfid-20230522_080048_168247_14232529 
+X-CRM114-Status: GOOD (  12.65  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,34 +115,45 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Like the other calls in this function virt_to_page() expects
-a pointer, not an integer.
-
-However since many architectures implement virt_to_pfn() as
-a macro, this function becomes polymorphic and accepts both a
+Functions that work on a pointer to virtual memory such as
+virt_to_pfn() and users of that function such as
+virt_to_page() are supposed to pass a pointer to virtual
+memory, ideally a (void *) or other pointer. However since
+many architectures implement virt_to_pfn() as a macro,
+this function becomes polymorphic and accepts both a
 (unsigned long) and a (void *).
 
-Fix this up with an explicit cast.
+Fix this in the RISCV mm init code, so we can implement
+a strongly typed virt_to_pfn().
 
-Acked-by: Tom Talpey <tom@talpey.com>
+Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- fs/cifs/smbdirect.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/riscv/mm/init.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/fs/cifs/smbdirect.c b/fs/cifs/smbdirect.c
-index 0362ebd4fa0f..964f07375a8d 100644
---- a/fs/cifs/smbdirect.c
-+++ b/fs/cifs/smbdirect.c
-@@ -2500,7 +2500,7 @@ static ssize_t smb_extract_kvec_to_rdma(struct iov_iter *iter,
- 			if (is_vmalloc_or_module_addr((void *)kaddr))
- 				page = vmalloc_to_page((void *)kaddr);
- 			else
--				page = virt_to_page(kaddr);
-+				page = virt_to_page((void *)kaddr);
+diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+index 747e5b1ef02d..2f7a7c345a6a 100644
+--- a/arch/riscv/mm/init.c
++++ b/arch/riscv/mm/init.c
+@@ -356,7 +356,7 @@ static phys_addr_t __init alloc_pte_late(uintptr_t va)
+ 	unsigned long vaddr;
  
- 			if (!smb_set_sge(rdma, page, off, seg))
- 				return -EIO;
+ 	vaddr = __get_free_page(GFP_KERNEL);
+-	BUG_ON(!vaddr || !pgtable_pte_page_ctor(virt_to_page(vaddr)));
++	BUG_ON(!vaddr || !pgtable_pte_page_ctor(virt_to_page((void *)vaddr)));
+ 
+ 	return __pa(vaddr);
+ }
+@@ -439,7 +439,7 @@ static phys_addr_t __init alloc_pmd_late(uintptr_t va)
+ 	unsigned long vaddr;
+ 
+ 	vaddr = __get_free_page(GFP_KERNEL);
+-	BUG_ON(!vaddr || !pgtable_pmd_page_ctor(virt_to_page(vaddr)));
++	BUG_ON(!vaddr || !pgtable_pmd_page_ctor(virt_to_page((void *)vaddr)));
+ 
+ 	return __pa(vaddr);
+ }
 
 -- 
 2.34.1
