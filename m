@@ -4,86 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1CD8DC7EE2D
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 23 May 2023 15:20:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61250C7EE29
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 24 May 2023 00:29:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References:Message-Id
-	:MIME-Version:Subject:Date:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:
+	In-Reply-To:Subject:cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ZEE6tsuQ73z5tRx4dfU+sOXyX+r+tduPo4cmBSef4YA=; b=H9DOJAkuZpudrP
-	oO3ur88Lhhhzs/I95XGWuq8u4jhv97VtLm5rmC3AmGWMNZ5pFyY2yZDxqxtZRxo2kNn5GRsn4U8Zc
-	n89q7+glqppHO/cql12cDNLciO44ZgyVr0jDfFXaHSjHI1tK0D046upI5dZtTeBPY0PYUScLC1UrX
-	FlLT+cJUJmvDRavUrvhz51rozEsT3AG4enrxUKdbiaFxFEQLJ5R72MRQqoSbiluIeE9m3xzjaCgSP
-	jEubd7P5g4K+mukGJKsrxs5Z7ffqHGpDfrY+saIgBLxnIkH8ouHfKH9SIM6sORZf2xQPHWJSqoOfA
-	JB0bs6+AhYe4KpDesWQg==;
+	List-Owner; bh=kJxLAPO3IrErFlHr5uaTYZFavLJd6QM22bQLIwT6xUI=; b=YltQ4vgsazalb3
+	KityIScWprDxSpxpA0lILoIYBpk+3p1+oRAegiKFDU5F0jKhLVgMvqovzNid/yqYplZ5EtSOA3T0B
+	YIoUuX2+xvNPZlkz+WpI8DdQODTh/mDNsDhBD5x33LQIlzUaU9LE14t3Bq/agzXaKJX3tw+Va7HgJ
+	mGCpO7pIMSapOkCcnc2Kw2g8degSogArv70ZDDcxVXfy6RSdtNqf+ScpHzJ8YkwZyNIWdYQmFk9Xn
+	psRBKVhBfHXQma/ipq4MSU5CodwdOdNU0vreE32CHSzNt2Bs01pKSa4S699+yyJEqrLdtz0Pqmmoq
+	q/KPEAoyoz6g3O6wLNSA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q1Tnv-00AcP4-20;
-	Tue, 23 May 2023 15:20:03 +0000
-Received: from mail-lf1-f47.google.com ([209.85.167.47])
+	id 1q1cNX-00Buke-0t;
+	Wed, 24 May 2023 00:29:23 +0000
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q1Sf5-00ASLG-0H
+	id 1q1cNU-00BujC-1D
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 23 May 2023 14:06:52 +0000
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-4f3bb395e69so3564108e87.2
-        for <linux-snps-arc@lists.infradead.org>; Tue, 23 May 2023 07:06:50 -0700 (PDT)
+	Wed, 24 May 2023 00:29:21 +0000
+Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1ae64580e9fso6785ad.1
+        for <linux-snps-arc@lists.infradead.org>; Tue, 23 May 2023 17:29:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684850749; x=1687442749;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SZOtWVS1lCOxds2QCY7M+hAIKv6XvV3Hqis31ERV0mU=;
-        b=jQFz6Zi2QlqzFhgg609+OdU2cVzXhTGama6kh7r3qdlPmt1t9W7hOhsu94u+OwaOb4
-         qZCyO9HFjWxC1UNvj7aH4gjawmqX/FfvnrnEMqAdWBJ1gKgK3OsCh2be1l8goABkGeca
-         4qq5vjGppvB0Ff3wZVKpQwbjqPgJrSjep7pLQRAqJ0vCR1bSNUwj/9E5GGjNWZG6UBIQ
-         laVwoCR2Q+OLiyyzutCe6jstO9ARgNPtspYX4FMnjz5PkCuGHkQ+phxAPeufD6G8i1or
-         2yIWRKaSDcAN6pWjBjwXMvm/DRKg3Ys05cggpxTJlPQbn2mQmxpWJNhzydJrgvcQ4AmW
-         jBKw==
+        d=google.com; s=20221208; t=1684888159; x=1687480159;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=p+iGDu91GXvHaUJ4/GkDIwXiVromlKTEDnrVX/jdHHE=;
+        b=oCPd/VMBzehzBIwxKD0CUQlcv9XnCqSIGnZFpfNhT9159UiXp4+4s0dt1T5T+r2N8u
+         ejdMVEW9GWrQK3u8D/R+OgCl4fi8an2VY0K+/eeCPWT2cGGSET/E3kHkr5iqimXeopNz
+         1LhLEfNIl9101bv8HdubYyq2hpbrF89XLwyNahFvZOtnckCP7CoEZsh2L+2+OK9q9Yjc
+         K9vC86dI9TWXu3/6r3ILFI/gvIY8hkiVXH1FcP052iNl13PiuUL4NAyi+n5JDzxUMMjc
+         YVmWP+V4GT0WZnv89R5QJMFswFGyufptXG7L83ZUIfYIL/yWyXKcEjeZvi21gEBg088G
+         o5Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684850749; x=1687442749;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SZOtWVS1lCOxds2QCY7M+hAIKv6XvV3Hqis31ERV0mU=;
-        b=KmLm7pzKAI82r6h69+R8pW32yE6lMTmQZNhpady056zZ0yzAdf+Y2JaQuZBKRisECw
-         Qjft/96xmVThMCngu7CdChQ3bFD1bMT1FzpLnIXCrSsIIwPXyolMgOYL7QqFor6u2ukM
-         u6OPo7CMdMUYKb5Y9UxNQ8yKSLJIVyRfhTqzL3JAFJwMDbBN+HlIQqiWmRhJVPntLEVE
-         z/TzFc8aV/k0hq3lpVpLfG0dv8uAieNQnqD0LXSh3S4YFh3fSNmXiMC2hjGW/yOB0B1C
-         dRchO/xfzF/kjbTEDk668wjF2SK+okV+KFElehTw/eo6MPcBHzdHlICsjowAB1dt0Bu1
-         LdEQ==
-X-Gm-Message-State: AC+VfDwGioihIJc4eV4Y7K/nUwSlgmKr/6IFI3QJ0/+rx7bfnkEZ4Zvu
-	gEOxeHwYmr+26bWkkVtMxjxidw==
-X-Google-Smtp-Source: ACHHUZ7//7IWxqZNm6Gka+LjfJMyuUS9SSINKAocHmPnom7yVCqmEeps0sj76NQaN9sPKxOw8HiGaQ==
-X-Received: by 2002:ac2:593c:0:b0:4f3:b588:48d0 with SMTP id v28-20020ac2593c000000b004f3b58848d0mr3291847lfi.14.1684850749081;
-        Tue, 23 May 2023 07:05:49 -0700 (PDT)
-Received: from [127.0.1.1] ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id h28-20020ac2597c000000b004e9bf853c27sm1346562lfp.70.2023.05.23.07.05.48
+        d=1e100.net; s=20221208; t=1684888159; x=1687480159;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=p+iGDu91GXvHaUJ4/GkDIwXiVromlKTEDnrVX/jdHHE=;
+        b=hHla3R3pCzjYdFp9AY1BRB5HNY+N3ZnpY2CCs6XVG8Xq6blPDXAPDiGPy7U/bAB1S/
+         KRb7zA/FaHXcRpNKWcUNCeZYQqGyxxH3UKVvGAUk3X0pagtot/z/VR3ZviEC6g26djqv
+         bxMwblUv6vAFE7xmjxQ1wHw6tIDPoFPdlg3Tbb0oWLWuoXzRIopXY/v8cU7tXcIlfgI4
+         Sd+6AIGRxloeWEqaUELp9i/VojwJDGbJTYWtGrUF9uhFtLz1OgFuFV3xsL2OGghRmfic
+         134Kho/eaTZBridN+jqjNN97MYi/MB2/NipTTki1xs7CfQhpoEYWkGk9krQSXBxvVQyj
+         ASZA==
+X-Gm-Message-State: AC+VfDw/F5ssulwcs+q2k+sZG+S2xsT4684w5f0Q9UzDMrXPEc/zZLOQ
+	XnRnQskkzLdCdvQabqNfwJuIwA==
+X-Google-Smtp-Source: ACHHUZ4WC86fv/HCojVq6Z7bo1LnEN2P8Qa/JJdhSbqAvm7x1JKXoIG4BePTyVsmdwlyiuzkRQj4Vw==
+X-Received: by 2002:a17:902:e847:b0:1af:90ce:5263 with SMTP id t7-20020a170902e84700b001af90ce5263mr107385plg.26.1684888158675;
+        Tue, 23 May 2023 17:29:18 -0700 (PDT)
+Received: from [2620:0:1008:11:c789:c1fb:6667:1766] ([2620:0:1008:11:c789:c1fb:6667:1766])
+        by smtp.gmail.com with ESMTPSA id n20-20020a17090a929400b0024de0de6ec8sm137193pjo.17.2023.05.23.17.29.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 May 2023 07:05:48 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 23 May 2023 16:05:28 +0200
-Subject: [PATCH v3 04/12] riscv: mm: init: Pass a pointer to virt_to_page()
+        Tue, 23 May 2023 17:29:18 -0700 (PDT)
+Date: Tue, 23 May 2023 17:29:17 -0700 (PDT)
+From: David Rientjes <rientjes@google.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+cc: Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>, 
+    Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
+    Roman Gushchin <roman.gushchin@linux.dev>, 
+    Hyeonggon Yoo <42.hyeyoo@gmail.com>, Shawn Guo <shawnguo@kernel.org>, 
+    Sascha Hauer <s.hauer@pengutronix.de>, Vladimir Zapolskiy <vz@mleia.com>, 
+    Andrew Lunn <andrew@lunn.ch>, 
+    Gregory Clement <gregory.clement@bootlin.com>, 
+    Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
+    Tony Lindgren <tony@atomide.com>, Qin Jian <qinjian@cqplus1.com>, 
+    Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+    Dinh Nguyen <dinguyen@kernel.org>, 
+    "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, 
+    Helge Deller <deller@gmx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
+    Rich Felker <dalias@libc.org>, 
+    John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+    "David S . Miller" <davem@davemloft.net>, 
+    Richard Weinberger <richard@nod.at>, 
+    Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
+    Johannes Berg <johannes@sipsolutions.net>, 
+    Andrew Morton <akpm@linux-foundation.org>, 
+    linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+    linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+    linux-tegra@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
+    linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+    linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org, 
+    sparclinux@vger.kernel.org, linux-um@lists.infradead.org, 
+    linux-mm@kvack.org
+Subject: Re: [PATCH] mm/slab: rename CONFIG_SLAB to CONFIG_SLAB_DEPRECATED
+In-Reply-To: <20230523091139.21449-1-vbabka@suse.cz>
+Message-ID: <be109b49-8510-5887-72ae-738db9945619@google.com>
+References: <20230523091139.21449-1-vbabka@suse.cz>
 MIME-Version: 1.0
-Message-Id: <20230503-virt-to-pfn-v6-4-rc1-v3-4-a16c19c03583@linaro.org>
-References: <20230503-virt-to-pfn-v6-4-rc1-v3-0-a16c19c03583@linaro.org>
-In-Reply-To: <20230503-virt-to-pfn-v6-4-rc1-v3-0-a16c19c03583@linaro.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- Geert Uytterhoeven <geert@linux-m68k.org>, Vineet Gupta <vgupta@kernel.org>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Arnd Bergmann <arnd@arndb.de>, Russell King <linux@armlinux.org.uk>, 
- Greg Ungerer <gerg@linux-m68k.org>
-Cc: linux-mm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-m68k@lists.linux-m68k.org, linux-snps-arc@lists.infradead.org, 
- linux-fsdevel@vger.kernel.org, linux-cifs@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-arch@vger.kernel.org, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Alexandre Ghiti <alexghiti@rivosinc.com>
-X-Mailer: b4 0.12.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230523_070651_148210_09C8E99A 
-X-CRM114-Status: GOOD (  13.14  )
+X-CRM114-CacheID: sfid-20230523_172920_421281_55218229 
+X-CRM114-Status: GOOD (  12.90  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,49 +114,31 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Functions that work on a pointer to virtual memory such as
-virt_to_pfn() and users of that function such as
-virt_to_page() are supposed to pass a pointer to virtual
-memory, ideally a (void *) or other pointer. However since
-many architectures implement virt_to_pfn() as a macro,
-this function becomes polymorphic and accepts both a
-(unsigned long) and a (void *).
+On Tue, 23 May 2023, Vlastimil Babka wrote:
 
-Fix this in the RISCV mm init code, so we can implement
-a strongly typed virt_to_pfn().
+> As discussed at LSF/MM [1] [2] and with no objections raised there,
+> deprecate the SLAB allocator. Rename the user-visible option so that
+> users with CONFIG_SLAB=y get a new prompt with explanation during make
+> oldconfig, while make olddefconfig will just switch to SLUB.
+> 
+> In all defconfigs with CONFIG_SLAB=y remove the line so those also
+> switch to SLUB. Regressions due to the switch should be reported to
+> linux-mm and slab maintainers.
+> 
+> [1] https://lore.kernel.org/all/4b9fc9c6-b48c-198f-5f80-811a44737e5f@suse.cz/
+> [2] https://lwn.net/Articles/932201/
+> 
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 
-Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- arch/riscv/mm/init.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Acked-by: David Rientjes <rientjes@google.com>
 
-diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-index 747e5b1ef02d..2f7a7c345a6a 100644
---- a/arch/riscv/mm/init.c
-+++ b/arch/riscv/mm/init.c
-@@ -356,7 +356,7 @@ static phys_addr_t __init alloc_pte_late(uintptr_t va)
- 	unsigned long vaddr;
- 
- 	vaddr = __get_free_page(GFP_KERNEL);
--	BUG_ON(!vaddr || !pgtable_pte_page_ctor(virt_to_page(vaddr)));
-+	BUG_ON(!vaddr || !pgtable_pte_page_ctor(virt_to_page((void *)vaddr)));
- 
- 	return __pa(vaddr);
- }
-@@ -439,7 +439,7 @@ static phys_addr_t __init alloc_pmd_late(uintptr_t va)
- 	unsigned long vaddr;
- 
- 	vaddr = __get_free_page(GFP_KERNEL);
--	BUG_ON(!vaddr || !pgtable_pmd_page_ctor(virt_to_page(vaddr)));
-+	BUG_ON(!vaddr || !pgtable_pmd_page_ctor(virt_to_page((void *)vaddr)));
- 
- 	return __pa(vaddr);
- }
-
--- 
-2.34.1
-
+The Kconfig option says that SLAB will be removed in a few cycles.  I 
+think we should wait until at least the next LTS kernel is forked at the 
+end of the year so that users who upgrade to only the LTS releases can be 
+prompted for this change and surface any concerns.  Slab allocation is a 
+critical subsystem, so I presume this is the safest and most responsible 
+way to do the SLAB deprecation.  Hopefully that timeline works for 
+everybody.
 
 _______________________________________________
 linux-snps-arc mailing list
