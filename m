@@ -4,94 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20ACCC7EE2E
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 13 Jun 2023 07:20:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B123C7EE29
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 13 Jun 2023 07:44:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=YS0oGLmqU8jdBjx6LBEpgoZ94fafKZA8VTn2SgcfdwY=; b=nA8JYyWB6psr+E
-	6gPiwR2jKLItFigTEhiDraan/bPl3QBjh3zGJaXoGA/XWi2ruBj8Ae+sHjTalpf9h4nILgc3Qe/DN
-	LJiuorR+MYqtKJiJBhhe7cD9UGHWGR4JqU/oG00B+7low9f2v4+HGDdxe83AKcr0jd+9cHdv0sVhf
-	mOSuuId6Mp4jOCnnydgrvKEdg7GHcdDsxfb/a3gp8fPlxxOq8YL0vOfDZLgGsGZYcHK1yN92Ar08Y
-	aPBHFZVm9AxvTYDxXOUNkFcqYj1Qc2fsYV3K5jNucjkaQfwLsnI/ZigvU2ESxcbmDg2neOYG29wnW
-	1v4OcoElHEzZW74HhzsQ==;
+	List-Owner; bh=fKudgEL6Wwn1w9VwWOADIDdX8luKcDDSRwfSQkpPdEc=; b=wzKCr779abcHCl
+	lGAwMtQxAG15DJiIaQ10QMr56ALkHKeEHldnh0mRdhXpMj72HNi94ivVcswpHyFevfzO6RpjGG1pi
+	RW6nQkaTZ+xtncFOPzJ4heaT8nI6ku1HjIpT7L11n9gAnvPlzXLaBVefmkFoLJMN9E+wQtNWitCwF
+	xJYxBq0HuVDpDd6yT6XXoNoWCyJZZcAxm37dtFABkSVyPbrNihLnx7VgCrBUVW/83jiNtjiJoJc3j
+	GH44BTAUUTeyK/iM+T3KRh2mePq5eWO4AoA7wTwo1p8Tq+2DdSEgAG6XBLQZctV/0k0OxK3JfTHg0
+	FvW+SXo3AaXgJLLswbdA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q8yK2-007CJA-17;
-	Tue, 13 Jun 2023 07:20:10 +0000
-Received: from mail-yw1-f173.google.com ([209.85.128.173])
+	id 1q8yhg-007Fwr-1e;
+	Tue, 13 Jun 2023 07:44:36 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q8yJz-007CIU-2E;
-	Tue, 13 Jun 2023 07:20:09 +0000
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-56cf34a3c72so33025867b3.1;
-        Tue, 13 Jun 2023 00:20:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686640806; x=1689232806;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Fbl6hTPLrmpSWav/3sGvPZAOIrvUN7WR7CUdowhVquE=;
-        b=dmYOqD7fTsDnK7bXev4RkWwaSrza/zxJZAwKaXiJxPXWHYibblal3rTCLjvQnJkjvD
-         Fp/wyRLbh781vNEh9HNSrkch9z/TxE6ER4IZ39YAtzSu8LDL4xvIi86w54RyF0uudlFk
-         zMz0zASOXoHhqvN6uYXWE70noePD9qW6soCC3uS05IgyUbQEfTyyrMKjDEevC2yvLz78
-         +1WVo2bYtkGnNSoqPiEwVDLccUbfgmb5FqloXbZPzQM77n66jTgN32Bch01EzNMYPq64
-         sE+YiFxTrQSEYqNw/gsT1R0nZC2axXx64ZbOH4/0t0z57jMxxXYQWoGGbvDC1qpa8MGH
-         SGKg==
-X-Gm-Message-State: AC+VfDz06rTy1pXTy5SO5tiJeiXuZTV5SEaPw/X49QEwL9X+4JaaPh6u
-	IdBl4P6m6JVWwTMCP/Pdo0sJxBDNwReVeatL
-X-Google-Smtp-Source: ACHHUZ4C1kc2uUECzKCkuBdvkEjVhrIFdlTq6LuTGJTmqrfjUTm51nr6peuOyLi21WG2VgLgtDlAHA==
-X-Received: by 2002:a81:fd02:0:b0:56c:f371:557b with SMTP id g2-20020a81fd02000000b0056cf371557bmr1053715ywn.19.1686640806200;
-        Tue, 13 Jun 2023 00:20:06 -0700 (PDT)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id d5-20020a816805000000b00565374c5962sm3035703ywc.98.2023.06.13.00.20.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Jun 2023 00:20:05 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-bc4651e3838so3370730276.2;
-        Tue, 13 Jun 2023 00:20:05 -0700 (PDT)
-X-Received: by 2002:a25:b191:0:b0:ba8:3bc0:4d19 with SMTP id
- h17-20020a25b191000000b00ba83bc04d19mr680890ybj.28.1686640784641; Tue, 13 Jun
- 2023 00:19:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com> <20230613001108.3040476-2-rick.p.edgecombe@intel.com>
-In-Reply-To: <20230613001108.3040476-2-rick.p.edgecombe@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 13 Jun 2023 09:19:32 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX7K-9gXuOM3KkFieM_W2-Sbb3AVZ-sR65abRMdSBux5A@mail.gmail.com>
-Message-ID: <CAMuHMdX7K-9gXuOM3KkFieM_W2-Sbb3AVZ-sR65abRMdSBux5A@mail.gmail.com>
-Subject: Re: [PATCH v9 01/42] mm: Rename arch pte_mkwrite()'s to pte_mkwrite_novma()
+	id 1q8yhb-007Fux-2V;
+	Tue, 13 Jun 2023 07:44:33 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 5069B6132D;
+	Tue, 13 Jun 2023 07:44:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E078FC433D2;
+	Tue, 13 Jun 2023 07:44:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1686642270;
+	bh=ez0I+RKRhMdZt82NML91fPb7fzRC4/NkCFA3IdK3cEg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HyA2VS9kwVTQsYOWOuof1Z4qJ92ct0+rpQ0B5SIAzOL2Mz6wp6NoYwA7DcLYOqzj9
+	 Q8Z9RGOQt5lsRA8Nc33tC8G7SiwN9ipBSdD03bBdhpX4MycI3Vh7vOT7ypJVtsouWv
+	 8Bsg5dlRSFLhnsq+PWCSJc5VolYLva+SeDgrT92N096TEl0/uLmsJvVPLGz9OK3/dz
+	 OYm6tEkeVT/cDyaIgk5UyxE5b/W7hyDcldGwNesOYI9EZOqwD7xGIveZKNt/lp9izm
+	 uoBjmwxoGZjGvj7XWF9lQv7iNjjhyG9sIxFni/WcE8h+xW9r48P7ifrawWGz2rEEWN
+	 FKciDs53eQHeQ==
+Date: Tue, 13 Jun 2023 10:43:47 +0300
+From: Mike Rapoport <rppt@kernel.org>
 To: Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc: x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, linux-arch@vger.kernel.org, linux-api@vger.kernel.org, 
-	Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>, Balbir Singh <bsingharora@gmail.com>, 
-	Borislav Petkov <bp@alien8.de>, Cyrill Gorcunov <gorcunov@gmail.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Eugene Syromiatnikov <esyr@redhat.com>, 
-	Florian Weimer <fweimer@redhat.com>, "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>, 
-	Mike Kravetz <mike.kravetz@oracle.com>, Nadav Amit <nadav.amit@gmail.com>, 
-	Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>, Peter Zijlstra <peterz@infradead.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Weijiang Yang <weijiang.yang@intel.com>, 
-	"Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, John Allen <john.allen@amd.com>, kcc@google.com, 
-	eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com, 
-	dethoma@microsoft.com, akpm@linux-foundation.org, Andrew.Cooper3@citrix.com, 
-	christina.schimpe@intel.com, david@redhat.com, debug@rivosinc.com, 
-	szabolcs.nagy@arm.com, torvalds@linux-foundation.org, broonie@kernel.org, 
-	linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org, 
-	linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org, 
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, 
-	Michal Simek <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>, linux-mips@vger.kernel.org, 
-	openrisc@lists.librecores.org, linux-parisc@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-um@lists.infradead.org, 
+Cc: x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+	Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>,
+	Balbir Singh <bsingharora@gmail.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Cyrill Gorcunov <gorcunov@gmail.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Eugene Syromiatnikov <esyr@redhat.com>,
+	Florian Weimer <fweimer@redhat.com>,
+	"H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+	Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>,
+	Mike Kravetz <mike.kravetz@oracle.com>,
+	Nadav Amit <nadav.amit@gmail.com>, Oleg Nesterov <oleg@redhat.com>,
+	Pavel Machek <pavel@ucw.cz>, Peter Zijlstra <peterz@infradead.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Weijiang Yang <weijiang.yang@intel.com>,
+	"Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+	John Allen <john.allen@amd.com>, kcc@google.com, eranian@google.com,
+	jamorris@linux.microsoft.com, dethoma@microsoft.com,
+	akpm@linux-foundation.org, Andrew.Cooper3@citrix.com,
+	christina.schimpe@intel.com, david@redhat.com, debug@rivosinc.com,
+	szabolcs.nagy@arm.com, torvalds@linux-foundation.org,
+	broonie@kernel.org, linux-alpha@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+	Michal Simek <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>,
+	linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-um@lists.infradead.org,
 	Linus Torvalds <torvalds@linuxfoundation.org>
+Subject: Re: [PATCH v9 01/42] mm: Rename arch pte_mkwrite()'s to
+ pte_mkwrite_novma()
+Message-ID: <20230613074347.GR52412@kernel.org>
+References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
+ <20230613001108.3040476-2-rick.p.edgecombe@intel.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20230613001108.3040476-2-rick.p.edgecombe@intel.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230613_002007_733428_6AF6564C 
-X-CRM114-Status: GOOD (  29.39  )
+X-CRM114-CacheID: sfid-20230613_004431_913022_A193AC1D 
+X-CRM114-Status: GOOD (  24.58  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,72 +105,80 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-T24gVHVlLCBKdW4gMTMsIDIwMjMgYXQgMjoxM+KAr0FNIFJpY2sgRWRnZWNvbWJlCjxyaWNrLnAu
-ZWRnZWNvbWJlQGludGVsLmNvbT4gd3JvdGU6Cj4gVGhlIHg4NiBTaGFkb3cgc3RhY2sgZmVhdHVy
-ZSBpbmNsdWRlcyBhIG5ldyB0eXBlIG9mIG1lbW9yeSBjYWxsZWQgc2hhZG93Cj4gc3RhY2suIFRo
-aXMgc2hhZG93IHN0YWNrIG1lbW9yeSBoYXMgc29tZSB1bnVzdWFsIHByb3BlcnRpZXMsIHdoaWNo
-IHJlcXVpcmVzCj4gc29tZSBjb3JlIG1tIGNoYW5nZXMgdG8gZnVuY3Rpb24gcHJvcGVybHkuCj4K
-PiBPbmUgb2YgdGhlc2UgdW51c3VhbCBwcm9wZXJ0aWVzIGlzIHRoYXQgc2hhZG93IHN0YWNrIG1l
-bW9yeSBpcyB3cml0YWJsZSwKPiBidXQgb25seSBpbiBsaW1pdGVkIHdheXMuIFRoZXNlIGxpbWl0
-cyBhcmUgYXBwbGllZCB2aWEgYSBzcGVjaWZpYyBQVEUKPiBiaXQgY29tYmluYXRpb24uIE5ldmVy
-dGhlbGVzcywgdGhlIG1lbW9yeSBpcyB3cml0YWJsZSwgYW5kIGNvcmUgbW0gY29kZQo+IHdpbGwg
-bmVlZCB0byBhcHBseSB0aGUgd3JpdGFibGUgcGVybWlzc2lvbnMgaW4gdGhlIHR5cGljYWwgcGF0
-aHMgdGhhdAo+IGNhbGwgcHRlX21rd3JpdGUoKS4gRnV0dXJlIHBhdGNoZXMgd2lsbCBtYWtlIHB0
-ZV9ta3dyaXRlKCkgdGFrZSBhIFZNQSwgc28KPiB0aGF0IHRoZSB4ODYgaW1wbGVtZW50YXRpb24g
-b2YgaXQgY2FuIGtub3cgd2hldGhlciB0byBjcmVhdGUgcmVndWxhcgo+IHdyaXRhYmxlIG1lbW9y
-eSBvciBzaGFkb3cgc3RhY2sgbWVtb3J5Lgo+Cj4gQnV0IHRoZXJlIGFyZSBhIGNvdXBsZSBvZiBj
-aGFsbGVuZ2VzIHRvIHRoaXMuIE1vZGlmeWluZyB0aGUgc2lnbmF0dXJlcyBvZgo+IGVhY2ggYXJj
-aCBwdGVfbWt3cml0ZSgpIGltcGxlbWVudGF0aW9uIHdvdWxkIGJlIGVycm9yIHByb25lIGJlY2F1
-c2Ugc29tZQo+IGFyZSBnZW5lcmF0ZWQgd2l0aCBtYWNyb3MgYW5kIHdvdWxkIG5lZWQgdG8gYmUg
-cmUtaW1wbGVtZW50ZWQuIEFsc28sIHNvbWUKPiBwdGVfbWt3cml0ZSgpIGNhbGxlcnMgb3BlcmF0
-ZSBvbiBrZXJuZWwgbWVtb3J5IHdpdGhvdXQgYSBWTUEuCj4KPiBTbyB0aGlzIGNhbiBiZSBkb25l
-IGluIGEgdGhyZWUgc3RlcCBwcm9jZXNzLiBGaXJzdCBwdGVfbWt3cml0ZSgpIGNhbiBiZQo+IHJl
-bmFtZWQgdG8gcHRlX21rd3JpdGVfbm92bWEoKSBpbiBlYWNoIGFyY2gsIHdpdGggYSBnZW5lcmlj
-IHB0ZV9ta3dyaXRlKCkKPiBhZGRlZCB0aGF0IGp1c3QgY2FsbHMgcHRlX21rd3JpdGVfbm92bWEo
-KS4gTmV4dCBjYWxsZXJzIHdpdGhvdXQgYSBWTUEgY2FuCj4gYmUgbW92ZWQgdG8gcHRlX21rd3Jp
-dGVfbm92bWEoKS4gQW5kIGxhc3RseSwgcHRlX21rd3JpdGUoKSBhbmQgYWxsIGNhbGxlcnMKPiBj
-YW4gYmUgY2hhbmdlZCB0byB0YWtlL3Bhc3MgYSBWTUEuCj4KPiBTdGFydCB0aGUgcHJvY2VzcyBi
-eSByZW5hbWluZyBwdGVfbWt3cml0ZSgpIHRvIHB0ZV9ta3dyaXRlX25vdm1hKCkgYW5kCj4gYWRk
-aW5nIHRoZSBwdGVfbWt3cml0ZSgpIHdyYXBwZXIgaW4gbGludXgvcGd0YWJsZS5oLiBBcHBseSB0
-aGUgc2FtZQo+IHBhdHRlcm4gZm9yIHBtZF9ta3dyaXRlKCkuIFNpbmNlIG5vdCBhbGwgYXJjaHMg
-aGF2ZSBhIHBtZF9ta3dyaXRlX25vdm1hKCksCj4gY3JlYXRlIGEgbmV3IGFyY2ggY29uZmlnIEhB
-U19IVUdFX1BBR0UgdGhhdCBjYW4gYmUgdXNlZCB0byB0ZWxsIGlmCj4gcG1kX21rd3JpdGUoKSBz
-aG91bGQgYmUgZGVmaW5lZC4gT3RoZXJ3aXNlIGluIHRoZSAhSEFTX0hVR0VfUEFHRSBjYXNlcyB0
-aGUKPiBjb21waWxlciB3b3VsZCBub3QgYmUgYWJsZSB0byBmaW5kIHBtZF9ta3dyaXRlX25vdm1h
-KCkuCj4KPiBObyBmdW5jdGlvbmFsIGNoYW5nZS4KPgo+IENjOiBsaW51eC1kb2NAdmdlci5rZXJu
-ZWwub3JnCj4gQ2M6IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcKPiBDYzogbGludXgtYWxw
-aGFAdmdlci5rZXJuZWwub3JnCj4gQ2M6IGxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5v
-cmcKPiBDYzogbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnCj4gQ2M6IGxpbnV4
-LWNza3lAdmdlci5rZXJuZWwub3JnCj4gQ2M6IGxpbnV4LWhleGFnb25Admdlci5rZXJuZWwub3Jn
-Cj4gQ2M6IGxpbnV4LWlhNjRAdmdlci5rZXJuZWwub3JnCj4gQ2M6IGxvb25nYXJjaEBsaXN0cy5s
-aW51eC5kZXYKPiBDYzogbGludXgtbTY4a0BsaXN0cy5saW51eC1tNjhrLm9yZwo+IENjOiBNaWNo
-YWwgU2ltZWsgPG1vbnN0ckBtb25zdHIuZXU+Cj4gQ2M6IERpbmggTmd1eWVuIDxkaW5ndXllbkBr
-ZXJuZWwub3JnPgo+IENjOiBsaW51eC1taXBzQHZnZXIua2VybmVsLm9yZwo+IENjOiBvcGVucmlz
-Y0BsaXN0cy5saWJyZWNvcmVzLm9yZwo+IENjOiBsaW51eC1wYXJpc2NAdmdlci5rZXJuZWwub3Jn
-Cj4gQ2M6IGxpbnV4cHBjLWRldkBsaXN0cy5vemxhYnMub3JnCj4gQ2M6IGxpbnV4LXJpc2N2QGxp
-c3RzLmluZnJhZGVhZC5vcmcKPiBDYzogbGludXgtczM5MEB2Z2VyLmtlcm5lbC5vcmcKPiBDYzog
-bGludXgtc2hAdmdlci5rZXJuZWwub3JnCj4gQ2M6IHNwYXJjbGludXhAdmdlci5rZXJuZWwub3Jn
-Cj4gQ2M6IGxpbnV4LXVtQGxpc3RzLmluZnJhZGVhZC5vcmcKPiBDYzogbGludXgtYXJjaEB2Z2Vy
-Lmtlcm5lbC5vcmcKPiBDYzogbGludXgtbW1Aa3ZhY2sub3JnCj4gU3VnZ2VzdGVkLWJ5OiBMaW51
-cyBUb3J2YWxkcyA8dG9ydmFsZHNAbGludXhmb3VuZGF0aW9uLm9yZz4KPiBTaWduZWQtb2ZmLWJ5
-OiBSaWNrIEVkZ2Vjb21iZSA8cmljay5wLmVkZ2Vjb21iZUBpbnRlbC5jb20+Cj4gTGluazogaHR0
-cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGttbC9DQUhrLT13aVpqU3U3YzlzRllaYjNxMDQxMDhzdGdI
-ZmYyd2Zib2tHQ0NnVzdyaXorOFFAbWFpbC5nbWFpbC5jb20vCgo+ICBhcmNoL202OGsvaW5jbHVk
-ZS9hc20vbWNmX3BndGFibGUuaCAgICAgICAgICB8ICAyICstCj4gIGFyY2gvbTY4ay9pbmNsdWRl
-L2FzbS9tb3Rvcm9sYV9wZ3RhYmxlLmggICAgIHwgIDIgKy0KPiAgYXJjaC9tNjhrL2luY2x1ZGUv
-YXNtL3N1bjNfcGd0YWJsZS5oICAgICAgICAgfCAgMiArLQoKQWNrZWQtYnk6IEdlZXJ0IFV5dHRl
-cmhvZXZlbiA8Z2VlcnRAbGludXgtbTY4ay5vcmc+CgpHcntvZXRqZSxlZXRpbmd9cywKCiAgICAg
-ICAgICAgICAgICAgICAgICAgIEdlZXJ0CgotLSAKR2VlcnQgVXl0dGVyaG9ldmVuIC0tIFRoZXJl
-J3MgbG90cyBvZiBMaW51eCBiZXlvbmQgaWEzMiAtLSBnZWVydEBsaW51eC1tNjhrLm9yZwoKSW4g
-cGVyc29uYWwgY29udmVyc2F0aW9ucyB3aXRoIHRlY2huaWNhbCBwZW9wbGUsIEkgY2FsbCBteXNl
-bGYgYSBoYWNrZXIuIEJ1dAp3aGVuIEknbSB0YWxraW5nIHRvIGpvdXJuYWxpc3RzIEkganVzdCBz
-YXkgInByb2dyYW1tZXIiIG9yIHNvbWV0aGluZyBsaWtlIHRoYXQuCiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgLS0gTGludXMgVG9ydmFsZHMKCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51
-eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3Jn
-L21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
+On Mon, Jun 12, 2023 at 05:10:27PM -0700, Rick Edgecombe wrote:
+> The x86 Shadow stack feature includes a new type of memory called shadow
+> stack. This shadow stack memory has some unusual properties, which requires
+> some core mm changes to function properly.
+> 
+> One of these unusual properties is that shadow stack memory is writable,
+> but only in limited ways. These limits are applied via a specific PTE
+> bit combination. Nevertheless, the memory is writable, and core mm code
+> will need to apply the writable permissions in the typical paths that
+> call pte_mkwrite(). Future patches will make pte_mkwrite() take a VMA, so
+> that the x86 implementation of it can know whether to create regular
+> writable memory or shadow stack memory.
+
+Nit:                            ^ mapping?
+
+> But there are a couple of challenges to this. Modifying the signatures of
+> each arch pte_mkwrite() implementation would be error prone because some
+> are generated with macros and would need to be re-implemented. Also, some
+> pte_mkwrite() callers operate on kernel memory without a VMA.
+> 
+> So this can be done in a three step process. First pte_mkwrite() can be
+> renamed to pte_mkwrite_novma() in each arch, with a generic pte_mkwrite()
+> added that just calls pte_mkwrite_novma(). Next callers without a VMA can
+> be moved to pte_mkwrite_novma(). And lastly, pte_mkwrite() and all callers
+> can be changed to take/pass a VMA.
+> 
+> Start the process by renaming pte_mkwrite() to pte_mkwrite_novma() and
+> adding the pte_mkwrite() wrapper in linux/pgtable.h. Apply the same
+> pattern for pmd_mkwrite(). Since not all archs have a pmd_mkwrite_novma(),
+> create a new arch config HAS_HUGE_PAGE that can be used to tell if
+> pmd_mkwrite() should be defined. Otherwise in the !HAS_HUGE_PAGE cases the
+> compiler would not be able to find pmd_mkwrite_novma().
+> 
+> No functional change.
+> 
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-alpha@vger.kernel.org
+> Cc: linux-snps-arc@lists.infradead.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-csky@vger.kernel.org
+> Cc: linux-hexagon@vger.kernel.org
+> Cc: linux-ia64@vger.kernel.org
+> Cc: loongarch@lists.linux.dev
+> Cc: linux-m68k@lists.linux-m68k.org
+> Cc: Michal Simek <monstr@monstr.eu>
+> Cc: Dinh Nguyen <dinguyen@kernel.org>
+> Cc: linux-mips@vger.kernel.org
+> Cc: openrisc@lists.librecores.org
+> Cc: linux-parisc@vger.kernel.org
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Cc: linux-riscv@lists.infradead.org
+> Cc: linux-s390@vger.kernel.org
+> Cc: linux-sh@vger.kernel.org
+> Cc: sparclinux@vger.kernel.org
+> Cc: linux-um@lists.infradead.org
+> Cc: linux-arch@vger.kernel.org
+> Cc: linux-mm@kvack.org
+> Suggested-by: Linus Torvalds <torvalds@linuxfoundation.org>
+> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Link: https://lore.kernel.org/lkml/CAHk-=wiZjSu7c9sFYZb3q04108stgHff2wfbokGCCgW7riz+8Q@mail.gmail.com/
+
+Reviewed-by: Mike Rapoport (IBM) <rppt@kernel.org>
+
+-- 
+Sincerely yours,
+Mike.
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
