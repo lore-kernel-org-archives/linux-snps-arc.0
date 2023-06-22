@@ -4,70 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52CE6EB64DB
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 20 Jun 2023 15:13:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5DF81EB64D8
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 22 Jun 2023 19:11:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=PQeVcDFw4e4w86LEJDi5I8Ekns/TU4upVvjuAs9C6WI=; b=hmR8HsW0igaNcr
-	2DFC8q35bWYHhs8HrTxludjyJTpi17XhQO1enVLC54wpZ9r/DJccfdvblnXSj4wyzTnoF9j/KgR4V
-	PsXrmLwkbFDHJcNOAjxtpLm6GLs9uLK76MpRkdsIpTP1XixUHlyhLze/CFNhn6wasTM9W1JHWeolw
-	b9DRDoSQUr1krLS01nrzJDtk/InlZWxfd+uUZwmp7wZtSUnU+3i9f8NMp3pg5ZGAwg4Iehh+eUSYW
-	AplHPvl0K6z8oGHY6DzqjqBiLZTFVt+9QIM0aYkBCye1sB563AuluH9irV3V41k0nDooCjxjrJG5X
-	r61BUsZjEejmmgb4ZG7w==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=APDUxgbCXbf0UUmIHHKnYrXWx61itIUiQmUa+16RymI=; b=FQYWq0VZ3QcRVB
+	a75yUquJIH+S66JIEdXX7WS3k4Fzm7ZR+kCDX6JDcHVs+vNeysu/e3xK47/sxeYZwccwLKY2935fQ
+	YYYi4dccdQkDU3oYMpsntWLIELPCRKSQ9Z4HT9IwHlNRL+zUIDzkjELzkLgl1roLdyb+6WhNmQFDS
+	wY7mKU+u2XDShLNiS3UqqEent21cDi3+oR3Z0m6lXlRchNwfOLVXdJBDk3m4djdsDVz9BcZQI/dt7
+	lwJOIXeB9FgU/UEBrbNsT+BJjKKeEiuiTT6iajGVmXNka5xTtPC0jXpU88L6k8iTeKSHGtRW9WetR
+	xYrOueFb3CqbXkZCjxoQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBd2v-00BdtY-1r;
-	Tue, 20 Jun 2023 15:13:29 +0000
-Received: from mga09.intel.com ([134.134.136.24])
+	id 1qCPiN-001X5q-1K;
+	Thu, 22 Jun 2023 19:11:31 +0000
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBd2t-00BdsV-0W
+	id 1qCPiJ-001X4U-2c
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 20 Jun 2023 15:13:28 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687274007; x=1718810007;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Jv7N3+UOnU6LfAuE6+HMUh9wH6S2fOFtywIqN5vu1xk=;
-  b=V8j8flVj1eE5ucqmVL2Bby80lCGUV2V216a5+WJjGPMV9g6H+zHYAjnH
-   W8YbUa5Vsrd8ku0jCqBWt3S27B3EQ+wHyBoXP3825MdVxJt6RoZtCC7I8
-   BiFmMV93qtDAP3CSczxLaw5NxmzqCvuWL1OhBk14w4yT9JGH7KmDdhpNU
-   6pvpkFhuR1UHmmimmw2s58r0YHveOlZyW9i7ZtJN3Blh1tr8U4TedsDbU
-   as5pj3+5ge0iBt5YIYlHe2Zco/o7xpniWioLJE+/mkiHuLj8lCVTM15yq
-   SJyUEhDqWzX6jOtvms4LQ6s3zepapWzzvYsvDqtvufR9ZJdluz3q9z8Dl
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="362426636"
-X-IronPort-AV: E=Sophos;i="6.00,257,1681196400"; 
-   d="scan'208";a="362426636"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 08:13:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="779468445"
-X-IronPort-AV: E=Sophos;i="6.00,257,1681196400"; 
-   d="scan'208";a="779468445"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 20 Jun 2023 08:13:23 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qBd2p-0005zY-07;
-	Tue, 20 Jun 2023 15:13:23 +0000
-Date: Tue, 20 Jun 2023 23:12:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vineet Gupta <vgupta@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Thu, 22 Jun 2023 19:11:29 +0000
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.west.internal (Postfix) with ESMTP id 838203200583;
+	Thu, 22 Jun 2023 15:11:25 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Thu, 22 Jun 2023 15:11:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	joshtriplett.org; h=cc:cc:content-type:content-type:date:date
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to; s=fm1; t=
+	1687461085; x=1687547485; bh=yyY/dDd3tvUCahRRqoC7g6pyVZrYiHcN7zY
+	pSqNwxsw=; b=CCLGmyLWdac+LsnQUf9Qqh1h3zTLhsgQiZmaaqOeysEf0xZDsMW
+	u0k9GiqGFJtFW73vHY/cQnHmDHnex6t2v57f6//jd2ICOFco7zinccAvvXziqr89
+	NoWptFjJdvo6k/WhKj50xo/mGLocg2jBPot9Uj1tolFlPi2zwwYrjz3ojkUVcmHa
+	f3NB4//YtMkG6BiIN12bHN6rayVxb9Z8vN3kJXzgoFFnOBiivcKyFO1CdbCJA8qV
+	Sc/WKkxKbceTf1RQNOFHmDGfLWB7zgdNIuZh2VPdLcxAK14LLpo9EFTfFhCDjCQf
+	/umvgxCDNyVsz9hHr+lH/mDV+1labBriXaQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1687461085; x=1687547485; bh=yyY/dDd3tvUCa
+	hRRqoC7g6pyVZrYiHcN7zYpSqNwxsw=; b=BysV2FBqN+cX2CP3/Hdt8+oU+aQMW
+	cpxrjDIxwLTX2J2JgYl1dmDqXNONwqyLssVK7KLdJY5mb9pQ5m0aZKVJfEhf6nBe
+	eP0u7WxUh5GY7y6QSrjpxr+74vE5SUfK1lP7yaUcql1QxocGAhwHu1fYP8BrhB8s
+	hS5hVbL9pOME5gmTcM6Gl/nyAeVLGC1uXd6hufq/jRKy5KcFjbVuo68YqTlOXEMG
+	vV8ySil/4jeDVCD+qUmHRM9rBevfcc7UuZYXQcF2Y5EvnY+ULg6rGOM258Ycwetc
+	qdIv5+XX8ec8D+skmsr3uRQN73NkCDQipQ1G1feEvv2BsbnaICXr4O5Pw==
+X-ME-Sender: <xms:25yUZMjefGgtO263i2ESiGguwkf4hdN7ApztZqyf2ae04LfCZ5CEfQ>
+    <xme:25yUZFCnqMUokSDuEQX9buwfAbOROtbk4Aacmq5su6h0AYWJAXqxxeTSeWPAy_9po
+    bv6rbUF5x3k_vpu2S4>
+X-ME-Received: <xmr:25yUZEF1QUT2_OJQQMmtNWCAUfaDYShHwav1jsbWLKsaY1nCMfJEVPtsQg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeeguddgudefgecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeflohhs
+    hhcuvfhrihhplhgvthhtuceojhhoshhhsehjohhshhhtrhhiphhlvghtthdrohhrgheqne
+    cuggftrfgrthhtvghrnhepvdekleffgfetfeeijedtieehtdeuhfegueejkeevueeileff
+    gfduleffjeffuddvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjohhshhesjhhoshhhthhr
+    ihhplhgvthhtrdhorhhg
+X-ME-Proxy: <xmx:25yUZNS-BprHtfLibC1L6fPHPIxvdS63woeikjb0QkVdH499v5KfSQ>
+    <xmx:25yUZJx8BaQ4duPXkGxilgm_nLcws4PuGQxPLyQuYB2wCyAP1TS-4Q>
+    <xmx:25yUZL7SAG1c4VWGamr8pJwklFBWASxYwAm10nECwGQB-VIe_Qyzlw>
+    <xmx:3ZyUZAmGfx9pivW41mbNoGe3NJDVQWDWg6i20c0LHfYi4fCgsbSBZA>
+Feedback-ID: i83e94755:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 22 Jun 2023 15:11:22 -0400 (EDT)
+Date: Thu, 22 Jun 2023 12:11:21 -0700
+From: Josh Triplett <josh@joshtriplett.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Ben Hutchings <ben@decadent.org.uk>,
 	linux-snps-arc@lists.infradead.org
-Subject: include/linux/compiler_types.h:328:45: error: call to
- '__compiletime_assert_319' declared with attribute error: BUILD_BUG_ON
- failed: (PTRS_PER_PGD * sizeof(pgd_t)) > PAGE_SIZE
-Message-ID: <202306202300.pRQqZNHr-lkp@intel.com>
+Subject: Re: [PATCH] kbuild: make modules_install copy
+ modules.builtin(.modinfo)
+Message-ID: <ZJSc2QFJq+KIUR+E@localhost>
+References: <20230615111743.883891-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
+In-Reply-To: <20230615111743.883891-1-masahiroy@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230620_081327_262029_B03E0B7C 
-X-CRM114-Status: GOOD (  12.05  )
+X-CRM114-CacheID: sfid-20230622_121128_078145_37236BA1 
+X-CRM114-Status: GOOD (  10.15  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,81 +110,33 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Vineet,
+On Thu, Jun 15, 2023 at 08:17:43PM +0900, Masahiro Yamada wrote:
+> Josh Triplett reports that initramfs-tools needs modules.builtin and
+> modules.builtin.modinfo to create a working initramfs for a non-modular
+> kernel.
+> 
+> If this is a general tooling issue not limited to Debian, I think it
+> makes sense to change modules_install.
+> 
+> This commit changes the targets as follows when CONFIG_MODULES=n.
+> 
+> In-tree builds:
+>   make modules          -> no-op
+>   make modules_install  -> install modules.builtin(.modinfo)
+> 
+> External module builds:
+>   make modules          -> show error message like before
+>   make modules_install  -> show error message like before
+> 
+> Link: https://lore.kernel.org/lkml/36a4014c73a52af27d930d3ca31d362b60f4461c.1686356364.git.josh@joshtriplett.org/
+> Reported-by: Josh Triplett <josh@joshtriplett.org>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-FYI, the error/warning still remains.
+Reviewed-by: Josh Triplett <josh@joshtriplett.org>
+Tested-by: Josh Triplett <josh@joshtriplett.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   692b7dc87ca6d55ab254f8259e6f970171dc9d01
-commit: d9820ff76f95fa26d33e412254a89cd65b23142d ARC: mm: switch pgtable_t back to struct page *
-date:   1 year, 10 months ago
-config: arc-randconfig-r006-20230620 (https://download.01.org/0day-ci/archive/20230620/202306202300.pRQqZNHr-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230620/202306202300.pRQqZNHr-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306202300.pRQqZNHr-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   arch/arc/mm/init.c:35:13: warning: no previous prototype for 'arc_get_mem_sz' [-Wmissing-prototypes]
-      35 | long __init arc_get_mem_sz(void)
-         |             ^~~~~~~~~~~~~~
-   arch/arc/mm/init.c:88:13: warning: no previous prototype for 'setup_arch_memory' [-Wmissing-prototypes]
-      88 | void __init setup_arch_memory(void)
-         |             ^~~~~~~~~~~~~~~~~
-   In file included from <command-line>:
-   arch/arc/mm/init.c: In function 'mem_init':
->> include/linux/compiler_types.h:328:45: error: call to '__compiletime_assert_319' declared with attribute error: BUILD_BUG_ON failed: (PTRS_PER_PGD * sizeof(pgd_t)) > PAGE_SIZE
-     328 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:309:25: note: in definition of macro '__compiletime_assert'
-     309 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:328:9: note: in expansion of macro '_compiletime_assert'
-     328 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   arch/arc/mm/init.c:193:9: note: in expansion of macro 'BUILD_BUG_ON'
-     193 |         BUILD_BUG_ON((PTRS_PER_PGD * sizeof(pgd_t)) > PAGE_SIZE);
-         |         ^~~~~~~~~~~~
-
-
-vim +/__compiletime_assert_319 +328 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  314  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  315  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  316  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  317  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  318  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  319   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  320   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  321   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  322   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  323   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  324   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  325   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  326   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  327  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @328  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  329  
-
-:::::: The code at line 328 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I'll send a followup patch that makes the Debian packaging script use
+`make modules_install` unconditionally.
 
 _______________________________________________
 linux-snps-arc mailing list
