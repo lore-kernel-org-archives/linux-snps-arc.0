@@ -4,51 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8BCC0EB64DA
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 28 Jun 2023 07:54:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD8E3EB64D7
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 28 Jun 2023 10:02:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=3MEYLqzPTvQprpiLLJa/pkOBg3VWMsUT7NPdc1077d4=; b=bZ0kjkWJX1w6pq
-	MNVoILz9r5xAaiPpF2o1LOMsm6UOAl+wgiANU9d9ZYVKDtaJd0w7xxtNvJSYZq9fl9H5wXI1xI/ZS
-	MdXUZL3CQuH+p7f/IJgqJf/HUzOK6fRdCJtn6MGh/GT6aofhh3kS5gx3IU2xsQEcPNCWXv9k5tf1e
-	PI647U9EvT46xT4ViKP9Oda4CtKCbb6y9yZyBC2Zh0KQkFBfWJOe1AFJPOyE4unWws+2ychjshRBG
-	DQKENJIAaPfLL3EASWBvmzkymtPe1S68IiyEfEqJy9v/pnB6DF8rrNs8FKQTAG6q3HSTINR/Z8vaD
-	Y8YFlZJ97zpocygXje4w==;
+	List-Archive:List-Unsubscribe:List-Id:Subject:Cc:To:From:Date:References:
+	In-Reply-To:Message-Id:Mime-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=FVlnJxx6zK5GhqKImKfBoIeei6BiiH7Dh/l7llo5OxY=; b=gec6fQBxvY1yqX
+	foOJ0Z3t5JmZw7cNXy/lDBJkRujphVIutB+n4sBhcRt6Mw+wjx42gn7b9skQTqiwZYo3/XHoDpjRA
+	CFNxRG41lA3cGenyhKhcyoiuSJFubFrt2qZmUzmjUZ0aFD9Mqe+oFXqFamUqJc28H4aVIkltsphGY
+	blrEHltMt2qSMFI0ZWfUFCSjXK/H8j+vK65g0ISgsinG6KBIZGFEiPx7c5f6Chl1bpq3DXyEA0Zgu
+	qk7osAZngQ6vQ2MIcpfJtWCrJ87IJzGBzqqhwn6mdV/A8Yh3nhY8YJAC5VwNoWD9m8tdZQ07MZj5b
+	w8qhAaIF1D7BC8GDcbXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qEQ0L-00F6EO-2p;
-	Wed, 28 Jun 2023 07:54:22 +0000
-Received: from mail.lokoho.com ([217.61.105.98])
+	id 1qES0Y-00FJEr-2G;
+	Wed, 28 Jun 2023 10:02:42 +0000
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qEQ0J-00F6Cd-0Z
-	for linux-snps-arc@lists.infradead.org;
-	Wed, 28 Jun 2023 07:54:20 +0000
-Received: by mail.lokoho.com (Postfix, from userid 1001)
-	id BEB49884EE; Wed, 28 Jun 2023 08:52:38 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
-	t=1687938760; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
-	h=Date:From:To:Subject:From;
-	b=SjcfiFeFb2GLUDUZM7Yh8W0pxpKNuj4cPBJMASXQc/Bb9kEn9425TFNxbnPGpS6Hg
-	 rDPh8xs5rfOEPJpKyQrq94dwrauEPVQJTCHys+PblL82uNl1hwS/aRntTcJnWuT94R
-	 0FjT2jhnBVhtIBmfJem1TJYFk7pjIb5otL1XG5+3a0TnZ9dvDWX0pOZQt2DiZijYME
-	 p30rvnyAOh956e6ZkBdc9+mvKekuaW4U0aPxlmCuyzDRLiBz7oHcD6m5JO767FnnWL
-	 5TuAwDfwS2n3uNiI7vn5useMeLBmrGy2+dvHFxmcyGjdgxpOAK8PALl6P2/AAwoOAj
-	 HG3kp4xwzQ/0A==
-Received: by mail.lokoho.com for <linux-snps-arc@lists.infradead.org>; Wed, 28 Jun 2023 07:50:51 GMT
-Message-ID: <20230628074502-0.1.6x.2sifu.0.oihbk3grgc@lokoho.com>
-Date: Wed, 28 Jun 2023 07:50:51 GMT
-From: "Adam Charachuta" <adam.charachuta@lokoho.com>
-To: <linux-snps-arc@lists.infradead.org>
-Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
-X-Mailer: mail.lokoho.com
-MIME-Version: 1.0
+	id 1qES0V-00FJCH-1t;
+	Wed, 28 Jun 2023 10:02:41 +0000
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.west.internal (Postfix) with ESMTP id CBDC43200065;
+	Wed, 28 Jun 2023 06:02:21 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Wed, 28 Jun 2023 06:02:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm1; t=1687946541; x=1688032941; bh=jr
+	26aMNCJW0isrXg6UfE/c6yGNQaJhjRzD6v2gyhJiU=; b=go17TU7pTv/88ZkN9V
+	azy1f3TEVC4eh2cFjnlQc2THDkHBS+hRIb/NP5smWX8p6PlBu7xeOqAwlNdA81xY
+	TUkBeDN7zTDh3o36eA21ZlUjbEU5candTuxAFq3YHskdZd/8uzhKvCwlBRFaGmdd
+	aw1DR0kZe/ksoI20WFqSBO+gM8dqlB2IUHdEh7hlP+DT2hdznnJW574L5g0d9Vwg
+	D5GtZjfLSEZm7snNwyXu0b74sIjEKF42ZMc7wLhJUDcHtrRk1pCpLasCCyCNEkNH
+	gV3ANc4YxQxjgWGLghO3x/mfFHkqhgIEr6KQRrJWV7koAkLG/LAXcn4K1lzvyzUI
+	urqw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1687946541; x=1688032941; bh=jr26aMNCJW0is
+	rXg6UfE/c6yGNQaJhjRzD6v2gyhJiU=; b=gu+CZY1l55I1TAbIiJdtfb7gL+Up+
+	PXTJtGjBdA7pyur7SHIEFhf45EIjdwgUuG47YxZDuzXjF4zqkDy4OiEdtckEj+KR
+	hT3c4gY9Y8Zbs1P5SY8EHl0lfEF5tOTz1ibyRcHsSCjras6I5fLzCyyxANm9O9rU
+	FVjvcx80F96DvBDGL+up2UfzkUD00xBJwSuVlTnkAORCl20tNBC0S4IY68yWazFd
+	sRTsJIk0gTG0ZZ6ABFprGWXtT33+zqf8wgcxS5IQc5dg10rRJNJvCtnze0zHHTMT
+	BP1xXByoUkKMsH9aQ8m1uEdksBkSYB7QcQVWzSEgMwfeR+G/jQ51lOkLA==
+X-ME-Sender: <xms:LAWcZED4fNZxTlKrdjBmHxJP-sckGwx35hV9UkqQISEoQIfhRmo-JQ>
+    <xme:LAWcZGhPNT2BfytOOn8bcbgj-iEhpLaDXkzpKrTalDsNK6BfgCbkrCcgQAl4ySoEj
+    TpHsdXpmtJtJ4PC5BI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrtddvgddvudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeevhfffledtgeehfeffhfdtgedvheejtdfgkeeuvefgudffteettdekkeeufeeh
+    udenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:LAWcZHmXSlCpeeyNoZE7_0LnoPbJ74fdoPhH1-tEgZSeUBVdS7LK5g>
+    <xmx:LAWcZKygSArf1RXeJy6o-saV1OnxLw5eXJf69NNMxU3YltpCM4robQ>
+    <xmx:LAWcZJS1GiS98HbAAxa5aqyjTH6zrMIgmdtULLLD7yJ2KFbTG__paQ>
+    <xmx:LQWcZIAyk7e_edqPJYxvNmmrL7ukerO_p8vou2sRrc2B0RKlJg_Qaw>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 2F7CEB6008D; Wed, 28 Jun 2023 06:02:20 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-499-gf27bbf33e2-fm-20230619.001-gf27bbf33
+Mime-Version: 1.0
+Message-Id: <afe5194e-fd49-4cc9-9a8c-e7671c55d664@app.fastmail.com>
+In-Reply-To: <d9ffc44c-c4ae-4f01-bc0b-ee5359a24a0a@app.fastmail.com>
+References: <20230417125651.25126-18-tzimmermann@suse.de>
+ <c525adc9-6623-4660-8718-e0c9311563b8@roeck-us.net>
+ <55130a50-d129-4336-99ce-3be4229b1c7d@app.fastmail.com>
+ <d4156e51-102f-36b4-e42c-938268b4b608@roeck-us.net>
+ <d9ffc44c-c4ae-4f01-bc0b-ee5359a24a0a@app.fastmail.com>
+Date: Wed, 28 Jun 2023 12:01:58 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Guenter Roeck" <linux@roeck-us.net>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>
+Cc: "Daniel Vetter" <daniel.vetter@ffwll.ch>, "Helge Deller" <deller@gmx.de>,
+ "Javier Martinez Canillas" <javierm@redhat.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-sh@vger.kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
+ sparclinux@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>,
+ linux-arm-kernel@lists.infradead.org, "Mark Rutland" <mark.rutland@arm.com>,
+ "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+ "KKees Cook" <keescook@chromium.org>, "ees Cook" <keescook@chromium.org>
+Subject: Re: [v3,17/19] arch/sparc: Implement fb_is_primary_device() in source file
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230628_005419_358464_78B9B9CD 
-X-CRM114-Status: UNSURE (   1.56  )
+X-CRM114-CacheID: sfid-20230628_030239_651474_6CF442F7 
+X-CRM114-Status: UNSURE (   9.56  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -61,19 +115,36 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-RHppZcWEIGRvYnJ5LAoKemFwb3puYcWCZW0gc2nEmSB6IFBhxYRzdHdhIG9mZXJ0xIUgaSB6IHBy
-enlqZW1ub8WbY2nEhSBwcnp5em5hasSZLCDFvGUgcHJ6eWNpxIVnYSB1d2FnxJkgaSB6YWNoxJlj
-YSBkbyBkYWxzenljaCByb3ptw7N3LiAKClBvbXnFm2xhxYJlbSwgxbxlIG1vxbxlIG3Ds2fFgmJ5
-bSBtaWXEhyBzd8OzaiB3a8WCYWQgdyBQYcWEc3R3YSByb3p3w7NqIGkgcG9tw7NjIGRvdHJ6ZcSH
-IHogdMSFIG9mZXJ0xIUgZG8gd2nEmWtzemVnbyBncm9uYSBvZGJpb3Jjw7N3LiBQb3p5Y2pvbnVq
-xJkgc3Ryb255IHd3dywgZHppxJlraSBjemVtdSBnZW5lcnVqxIUgxZt3aWV0bnkgcnVjaCB3IHNp
-ZWNpLgoKTW/FvGVteSBwb3Jvem1hd2lhxIcgdyBuYWpibGnFvHN6eW0gY3phc2llPwoKClBvemRy
-YXdpYW0KQWRhbSBDaGFyYWNodXRhCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNA
-bGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
+On Sat, Jun 24, 2023, at 16:21, Arnd Bergmann wrote:
+> On Sat, Jun 24, 2023, at 15:26, Guenter Roeck wrote:
+>> On 6/24/23 02:27, Arnd Bergmann wrote:
+>>> On Sat, Jun 24, 2023, at 03:55, Guenter Roeck wrote:
+>>>>
+>>>> ERROR: modpost: "__xchg_called_with_bad_pointer" [lib/atomic64_test.ko]
+>>>> undefined!
+>>> 
+>>> These all look like old bugs that would be trivially fixed if
+>>> anyone cared about sparc.
+>>> 
+>>
+>> Odd argument, given that this _is_ a sparc patch. Those may be old
+>> bugs, but at least in 6.4-rc7 sparc64:allmodconfig does at least compile.
+>
+> I think we clearly want to fix the fbdev regression you found, and
+> maybe bisect the atomic64_test as well to see if that was caused by
+> a recent patch to get it into a working state again.
+
+I have bisected this as well now and sent a trivial fix, see
+https://lore.kernel.org/lkml/20230628094938.2318171-1-arnd@kernel.org/
+
+      Arnd
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
