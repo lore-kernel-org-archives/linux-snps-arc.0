@@ -4,66 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31DADC001DC
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 14 Jul 2023 17:40:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC64DEB64DC
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 14 Jul 2023 22:57:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=rwkGbFBXtrT6kQqnbAKbB2uyTsM7MsOwkbyMtlrFfMk=; b=p9H8+cM8qNGNuu
-	NFJ+Vx1TD05ZwXgjYstC9/UGY0re80ancH9Q7kQWC/NUk6BPK4ns08ffJi5/D9Yh+0wYrt/J/dO5r
-	/mF9Z3XnTElY2IKaDrYrIAf/Nlr8b5HUNCpr84CVdqdUv2WVC+LTvZ+Bax7A/ihwkKgs+McMFvmxx
-	jzIHY+UlBxU1JZ0kcQ03BPJogq8SKTU7s+8Tp4y4U8lwJPcdhn8twFcEcZ7g0qJee9Wj6qHqwoCo0
-	vYkx4uNKf33peLc/EcgqgOzjGEQkudJV8YMXCPus3jUuEaIDqQ3EMK7Ho2Y8dEM/hu4KgHML0rYvi
-	byNFePkrOo3ZFQEgHQNg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	In-Reply-To:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date
+	:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=b2xIvnBHo/SfeQwAGJav8JPUCjhNtKQy55Hl14142is=; b=OlhfIm8j269ZBI7BWOghr9o6CY
+	UXs4CeVgdjFBsSlWQ6LjxLN7idCnKZD4L5ON4x7qcf7oyQ6PF50E33XMgvQ/S6Pyil/LuDOxfHBbH
+	tuvvsYt2AZN5KdSJQRw3mPgo9vMoAvKI65amZibUEtnjBOOCTYUw4UVVHGwzWU0SoElQCQln5LIj+
+	nNJVxDB9wEev8Bxc3JGbYyP/g6BChM3gxqd6pw+jjOZAZlQyq2xGkLqxiFEcnFqzK6R2ZqiMYWCyL
+	6sHYPcKS3FGRbubmIqgR8XVBW+ZYLlgufC0xSOmlIjQW0sYn1id5Qbx+PF6L0TH6fdE5sqjWIh/3G
+	WTzuHw/g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qKMmC-006m84-2y;
-	Fri, 14 Jul 2023 17:40:20 +0000
-Received: from mail-il1-f177.google.com ([209.85.166.177])
+	id 1qKRj7-007PGK-1Z;
+	Fri, 14 Jul 2023 22:57:29 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qKMmA-006m7W-27
-	for linux-snps-arc@lists.infradead.org;
-	Fri, 14 Jul 2023 17:40:19 +0000
-Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-3465bd756afso10302605ab.3
-        for <linux-snps-arc@lists.infradead.org>; Fri, 14 Jul 2023 10:40:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689356415; x=1691948415;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0wG/8q5xFWyXnYo87cfTZCB7vaY55UNr931bp9kogVs=;
-        b=jZMdGgpmc+FZuhb+DEbHBJ4YWLWSR0t2iuSCtAY9OICnyYweD4INFkt25Ll+iXsf5f
-         brpreHh4WVi8INwb9vRdfnOLmMKV09QHqhC0cDz5Qs1363MBE9lfxY+o4M7CU1K3E65v
-         +xunCsQwpPOdzYFGRPlEa48vX7ZTzIfI2J4/wMDVrxCkplpcpTOJTEyFX2IWEh8kRdlY
-         yCi52IMpx0U9vCTzQFRedwErumMWgblBeD4blch/nSTh7Zzm8OgME8FT7bmMKFv9saSX
-         KA75o0KhdfCjq+sEj4j/6+57Un0MzgadmtAXTu27vPUHVf/olcVb5Ik7LpUIawXg93Ku
-         tnrQ==
-X-Gm-Message-State: ABy/qLYDq+GuRffjmdz/zcHcei0hVogyIQUvFe8EDorZ+Pn3jwu24u/s
-	ItmY7nX25GK1Nrky87ptbBfDOS+ryw==
-X-Google-Smtp-Source: APBJJlH1ABKviOQ3klyYs/5okEJaPdSwOXPl2VLR63HMBrNOvjmqi4zLogp8x+sOD3uU5HMEnSlIHQ==
-X-Received: by 2002:a05:6e02:148:b0:33b:c0d8:26af with SMTP id j8-20020a056e02014800b0033bc0d826afmr4984504ilr.7.1689356415616;
-        Fri, 14 Jul 2023 10:40:15 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id s7-20020a92d907000000b00345950d7e94sm2888274iln.20.2023.07.14.10.40.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 10:40:14 -0700 (PDT)
-Received: (nullmailer pid 4039516 invoked by uid 1000);
-	Fri, 14 Jul 2023 17:40:13 -0000
-From: Rob Herring <robh@kernel.org>
-To: Alexey Brodkin <abrodkin@synopsys.com>, Vineet Gupta <vgupta@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] arc: Explicitly include correct DT includes
-Date: Fri, 14 Jul 2023 11:39:49 -0600
-Message-Id: <20230714173949.4038981-1-robh@kernel.org>
-X-Mailer: git-send-email 2.40.1
+	id 1qKRj3-007PET-28;
+	Fri, 14 Jul 2023 22:57:26 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id B29F661DF2;
+	Fri, 14 Jul 2023 22:57:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73C28C433C8;
+	Fri, 14 Jul 2023 22:57:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1689375444;
+	bh=P8clI5KtqQRzgFfns22g81I3g6E4+6MLCwEqWyZYU68=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qjATGNeW2AnMB8iSVCidFlZhH9OfkN7bAt2p7ldacOlxk00MBC0K43n0wGgdC/kES
+	 5er615dq9DLL0q9cE1VNLaWlbFSi2IfYsicV7umDzTZyH4W2s60ky3l5tGI2zapesZ
+	 a6IFRb5wsW2IyAbgdPu3qj324ZAqxXKa5uD5MSOHkbg0ycP0RX1WKos7Wx9s9h14c7
+	 mr09nK6DvKTxBa912H2K859rBf/1exfAJQyuctMgVjw5UcRvPGqHIzg/7kZ1W2WHDS
+	 fPdS6OedIvs2Ff2PDWFgTKxBrTglm+398FEIc7xd983iXS7+gUDgWarryvZetDtEg3
+	 d1Xp1VJIV7NTA==
+Date: Fri, 14 Jul 2023 23:57:06 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc: x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+	Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>,
+	Balbir Singh <bsingharora@gmail.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Cyrill Gorcunov <gorcunov@gmail.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Eugene Syromiatnikov <esyr@redhat.com>,
+	Florian Weimer <fweimer@redhat.com>,
+	"H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+	Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>,
+	Mike Kravetz <mike.kravetz@oracle.com>,
+	Nadav Amit <nadav.amit@gmail.com>, Oleg Nesterov <oleg@redhat.com>,
+	Pavel Machek <pavel@ucw.cz>, Peter Zijlstra <peterz@infradead.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Weijiang Yang <weijiang.yang@intel.com>,
+	"Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+	John Allen <john.allen@amd.com>, kcc@google.com, eranian@google.com,
+	rppt@kernel.org, jamorris@linux.microsoft.com,
+	dethoma@microsoft.com, akpm@linux-foundation.org,
+	Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+	david@redhat.com, debug@rivosinc.com, szabolcs.nagy@arm.com,
+	torvalds@linux-foundation.org, linux-alpha@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+	Michal Simek <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>,
+	linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	Linus Torvalds <torvalds@linuxfoundation.org>
+Subject: Re: [PATCH v9 01/42] mm: Rename arch pte_mkwrite()'s to
+ pte_mkwrite_novma()
+Message-ID: <b389274a-abed-40dc-8e33-7ce922ea9b61@sirena.org.uk>
+References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
+ <20230613001108.3040476-2-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
+In-Reply-To: <20230613001108.3040476-2-rick.p.edgecombe@intel.com>
+X-Cookie: Preserve the old, but know the new.
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230714_104018_712315_016D5C3E 
-X-CRM114-Status: UNSURE (   9.19  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230714_155725_810157_3D560970 
+X-CRM114-Status: GOOD (  13.74  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,42 +106,70 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============4992817768622838126=="
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The DT of_device.h and of_platform.h date back to the separate
-of_platform_bus_type before it as merged into the regular platform bus.
-As part of that merge prepping Arm DT support 13 years ago, they
-"temporarily" include each other. They also include platform_device.h
-and of.h. As a result, there's a pretty much random mix of those include
-files used throughout the tree. In order to detangle these headers and
-replace the implicit includes with struct declarations, users need to
-explicitly include the correct includes.
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- arch/arc/plat-axs10x/axs10x.c | 1 -
- 1 file changed, 1 deletion(-)
+--===============4992817768622838126==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Om+vkuYZS0OLKEiC"
+Content-Disposition: inline
 
-diff --git a/arch/arc/plat-axs10x/axs10x.c b/arch/arc/plat-axs10x/axs10x.c
-index b821df7b0089..1feb990a56bc 100644
---- a/arch/arc/plat-axs10x/axs10x.c
-+++ b/arch/arc/plat-axs10x/axs10x.c
-@@ -6,7 +6,6 @@
-  */
- 
- #include <linux/of_fdt.h>
--#include <linux/of_platform.h>
- #include <linux/libfdt.h>
- 
- #include <asm/asm-offsets.h>
--- 
-2.40.1
 
+--Om+vkuYZS0OLKEiC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Mon, Jun 12, 2023 at 05:10:27PM -0700, Rick Edgecombe wrote:
+> The x86 Shadow stack feature includes a new type of memory called shadow
+> stack. This shadow stack memory has some unusual properties, which requires
+> some core mm changes to function properly.
+
+This seems to break sparc64_defconfig when applied on top of v6.5-rc1:
+
+In file included from /home/broonie/git/bisect/include/linux/mm.h:29,
+                 from /home/broonie/git/bisect/net/core/skbuff.c:40:
+/home/broonie/git/bisect/include/linux/pgtable.h: In function 'pmd_mkwrite':
+/home/broonie/git/bisect/include/linux/pgtable.h:528:9: error: implicit declaration of function 'pmd_mkwrite_novma'; did you mean 'pte_mkwrite_novma'? [-Werror=implicit-function-declaration]
+  return pmd_mkwrite_novma(pmd);
+         ^~~~~~~~~~~~~~~~~
+         pte_mkwrite_novma
+/home/broonie/git/bisect/include/linux/pgtable.h:528:9: error: incompatible types when returning type 'int' but 'pmd_t' {aka 'struct <anonymous>'} was expected
+  return pmd_mkwrite_novma(pmd);
+         ^~~~~~~~~~~~~~~~~~~~~~
+
+The same issue seems to apply with the version that was in -next based
+on v6.4-rc4 too.
+
+--Om+vkuYZS0OLKEiC
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSx0sEACgkQJNaLcl1U
+h9Cgsgf+I5DDysBO4SJ+jmxeXww6HYCycJsoc6oA/wVf/wO7aTv89RFcAPpwMOoq
+jZKiD/xiUtCMUcNE+ZtCQIYVymIrK1BBcNPzgflt5fa50gm53Hp2mcNFaUeriWjC
+x2DfyH1wsfgAjwv14aKu1m59Y7xdhIQWZ4HTezaEFND/3GQTrvGy8tHMDL07GKWz
+qL1gMkJ7kYVKEAf86IsSwbDBcSa/SV5cLbsL4S5GEm5K/hQcLwUqSw4WYuMLfNip
+Eb4Napl5JYGKJcb/IQIm/PGQbmnKgijPg7mR0lvF6RWZk39wCFxKQizahf6cRCwv
+HSMmlXJHILeOK57vaStYZJvapWZzdg==
+=/plS
+-----END PGP SIGNATURE-----
+
+--Om+vkuYZS0OLKEiC--
+
+
+--===============4992817768622838126==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+
+--===============4992817768622838126==--
+
