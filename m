@@ -4,70 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49BAFEB64DA
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 20 Jul 2023 17:38:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93644C04A94
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 31 Jul 2023 08:38:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=Fj34F4EzioBfdShxXPB2wwQGj8jKKrMI9sSHVWp76/A=; b=nkwtbtjpxYY/J0
-	9LAhuDr10lp4OhOGRpT1CFW7rSQCHKDo8a34s50z9MrrDb4vnuLLDrw7LjHf/HAywQxH5/bjwlXB/
-	MEEGsuit+w4urqvRfuymDzDoRmWE/3et2L0Uq/XkbRlhvPC3ZZ04ihv1R6R7suObwT1q5gBhRepGv
-	nHCPK2qZKiuRnDXUVnSin+fHqiZrxmpuCqCgI2Sz80GSkq1Ibxm5Dt1oaKoyAIONbF0GbzDDOx/U8
-	K2mkpJQl5NdL2CavnaSmBus70ehtwxXCEUK7hynvE5mxcffoxqI0z1eE63kAuBjv9dH3vP1Qx8VQD
-	PKXiJuIrIvAGfH75gN5Q==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=c2TSIl2vhz7v74fQsrbTNMBzo+xoJrF4JP+BTJ4IHHQ=; b=TI6rNAeDFLkLVQ
+	mz3XbEQl0LFuoRcjc0NAcw3zAlxt0VM4/uEQ7/TKx9f7+5rK0DqCB+QB/PEhULLABSP4qpRszdhBs
+	0wUVviTgqGTpjpkdc4hux9M0lZrnq9NoG9gn4QlmOktOUTPLKtFPW4LDqCDbpR/FRVlgQz2xlqPJS
+	HPujWLjaEMDQ1pSy5cefU6heHvrWSp9NdBC9OgYIWwkQ89cZ5xyOSWSXB8UTxZ+mmkKTTpU+JRBbj
+	KvjFYCbiICkmjMhv6dCEHX2I2WxycUTjX+5Yt+bzJdBhryRNQbTyMm2eSyl1bxextar9P7g8EbPEN
+	7qpYQRDzttEAZgkw/XYw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qMXbe-00BoGA-34;
-	Thu, 20 Jul 2023 17:38:26 +0000
-Received: from mga07.intel.com ([134.134.136.100])
+	id 1qQOQX-00EZ78-1f;
+	Mon, 31 Jul 2023 08:38:53 +0000
+Received: from mail.cothiafon.pl ([217.61.106.23])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qMXbb-00BoFY-33
+	id 1qQOQC-00EYwQ-33
 	for linux-snps-arc@lists.infradead.org;
-	Thu, 20 Jul 2023 17:38:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689874703; x=1721410703;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=deBOvTeII7hbzJ6MM2i8mI3IXlmLFekUZCFAL/jP414=;
-  b=Zz0fyfXloavXmBC4rSUStGXw3vcsZfLVgnG2wpGFXFx0gSI8c29215tY
-   CSWfyZg2nTcdmC6R1nr38XVMDEJT/sD5f78niGbTeeJaG63y0TS8X7EkL
-   0Wxqh+NoAxi3r03LhBCZk3GzdoSG/cmTq0MmOhuiNjNgIYwTRvWcFZukf
-   LJe2xkRAYpYQc5oxV7iRCsBO68zs58YL4hmudC0UCZL0xzlXp9UA7NnTl
-   HTTLISmQcgZxy3iIVuYl7QDhui4U4yGr88xjo2JcarvMgEvH7sAwbkuyw
-   Hwv5DQpxFm8gwhJChSvD60kor2/ikHEQe9irbvd5sAFtOuujrfq5+5bfC
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="433037074"
-X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; 
-   d="scan'208";a="433037074"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 10:35:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="718511340"
-X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; 
-   d="scan'208";a="718511340"
-Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 20 Jul 2023 10:35:28 -0700
-Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qMXYk-0006KR-2R;
-	Thu, 20 Jul 2023 17:35:26 +0000
-Date: Fri, 21 Jul 2023 01:35:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vineet Gupta <vgupta@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org
-Subject: include/linux/compiler_types.h:328:45: error: call to
- '__compiletime_assert_312' declared with attribute error: BUILD_BUG_ON
- failed: (PTRS_PER_PGD * sizeof(pgd_t)) > PAGE_SIZE
-Message-ID: <202307210114.a8lhJ4rl-lkp@intel.com>
+	Mon, 31 Jul 2023 08:38:35 +0000
+Received: by mail.cothiafon.pl (Postfix, from userid 1002)
+	id 9DFD582F23; Mon, 31 Jul 2023 10:35:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=cothiafon.pl; s=mail;
+	t=1690792552; bh=dwoca0X6C9VXklO/zRgFQCPapTk5LFz4tKaENdvy6Po=;
+	h=Date:From:To:Subject:From;
+	b=GuSuJ4Zzq2kBb+u/m78vyoUF3xsSzAipk6bAJtmvBNu9nBlBifxW7mWPgQ3HsQdw2
+	 qv0zfanIvENvLIGLmlsid1T2pAiYKabHOx/uapUw9lxf50Q9oX46avJBmwBrHRF9ZS
+	 HhXqBBtIj5teEMuzESsVw8IdvK2nBPmdLytiuZ2+IbQnms0NhAgizFH9UFqEGwHyrN
+	 cRfE7+2AJ0gFE9xTpdCVhX8GiSVQgguQzULO36tCKzFscs4fVJIDo5X//NUE30+jta
+	 DHlv0wZhEepIrgRn8EUzRw4XigXEtosKQy9bnTRBatfUVibOm8ZiYTNrVsqO8XqTRk
+	 FwTYcUqj9CL1Q==
+Received: by mail.cothiafon.pl for <linux-snps-arc@lists.infradead.org>; Mon, 31 Jul 2023 08:35:48 GMT
+Message-ID: <20230731095940-0.1.28.omi7.0.xor5h3jrxz@cothiafon.pl>
+Date: Mon, 31 Jul 2023 08:35:48 GMT
+From: =?UTF-8?Q?"Rados=C5=82aw_Grabowski"?= <radoslaw.grabowski@cothiafon.pl>
+To: <linux-snps-arc@lists.infradead.org>
+Subject: W sprawie samochodu
+X-Mailer: mail.cothiafon.pl
 MIME-Version: 1.0
-Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230720_103824_031265_4635F486 
-X-CRM114-Status: GOOD (  11.58  )
+X-CRM114-CacheID: sfid-20230731_013833_715278_834AF3D1 
+X-CRM114-Status: UNSURE (   0.31  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,88 +61,23 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Vineet,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   46670259519f4ee4ab378dc014798aabe77c5057
-commit: d9820ff76f95fa26d33e412254a89cd65b23142d ARC: mm: switch pgtable_t back to struct page *
-date:   1 year, 11 months ago
-config: arc-randconfig-r014-20230720 (https://download.01.org/0day-ci/archive/20230721/202307210114.a8lhJ4rl-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210114.a8lhJ4rl-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307210114.a8lhJ4rl-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   arch/arc/mm/init.c:35:13: warning: no previous prototype for 'arc_get_mem_sz' [-Wmissing-prototypes]
-      35 | long __init arc_get_mem_sz(void)
-         |             ^~~~~~~~~~~~~~
-   arch/arc/mm/init.c:88:13: warning: no previous prototype for 'setup_arch_memory' [-Wmissing-prototypes]
-      88 | void __init setup_arch_memory(void)
-         |             ^~~~~~~~~~~~~~~~~
-   In file included from <command-line>:
-   arch/arc/mm/init.c: In function 'mem_init':
->> include/linux/compiler_types.h:328:45: error: call to '__compiletime_assert_312' declared with attribute error: BUILD_BUG_ON failed: (PTRS_PER_PGD * sizeof(pgd_t)) > PAGE_SIZE
-     328 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:309:25: note: in definition of macro '__compiletime_assert'
-     309 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:328:9: note: in expansion of macro '_compiletime_assert'
-     328 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   arch/arc/mm/init.c:193:9: note: in expansion of macro 'BUILD_BUG_ON'
-     193 |         BUILD_BUG_ON((PTRS_PER_PGD * sizeof(pgd_t)) > PAGE_SIZE);
-         |         ^~~~~~~~~~~~
-
-
-vim +/__compiletime_assert_312 +328 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  314  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  315  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  316  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  317  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  318  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  319   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  320   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  321   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  322   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  323   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  324   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  325   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  326   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  327  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @328  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  329  
-
-:::::: The code at line 328 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+RHppZcWEIGRvYnJ5LAoKY2hjaWVsaWJ5xZtteSB6YXBld25pxIcgUGHFhHN0d3Uga29tcGxla3Nv
+d2Ugcm96d2nEhXphbmlhLCBqZcWbbGkgY2hvZHppIG8gc3lzdGVtIG1vbml0b3Jpbmd1IEdQUy4K
+ClByZWN5enlqbmUgbW9uaXRvcm93YW5pZSBwb2phemTDs3cgbmEgbWFwYWNoIGN5ZnJvd3ljaCwg
+xZtsZWR6ZW5pZSBpY2ggcGFyYW1ldHLDs3cgZWtzcGxvYXRhY3lqbnljaCB3IGN6YXNpZSByemVj
+enl3aXN0eW0gb3JheiBrb250cm9sYSBwYWxpd2EgdG8ga2x1Y3pvd2UgZnVua2Nqb25hbG5vxZtj
+aSBuYXN6ZWdvIHN5c3RlbXUuIAoKT3JnYW5pem93YW5pZSBwcmFjeSBwcmFjb3duaWvDs3cgamVz
+dCBkemnEmWtpIHRlbXUgcHJvc3RzemUgaSBiYXJkemllaiBlZmVrdHl3bmUsIGEgb3N6Y3rEmWRu
+b8WbY2kgaSBvcHR5bWFsaXphY2phIHcgemFrcmVzaWUgcG9ub3N6b255Y2gga29zenTDs3csIG1h
+asSFIGRsYSBrYcW8ZGVnbyBwcnplZHNpxJliaW9yY3kgb2dyb21uZSB6bmFjemVuaWUuCgpEb3Bh
+c3VqZW15IG5hc3rEhSBvZmVydMSZIGRvIFBhxYRzdHdhIG9jemVraXdhxYQgaSBwb3RyemViIG9y
+Z2FuaXphY2ppLiBDenkgbW9nbGliecWbbXkgcG9yb3ptYXdpYcSHIG8gbmFzemVqIHByb3Bvenlj
+amk/CgoKUG96ZHJhd2lhbQpSYWRvc8WCYXcgR3JhYm93c2tpCgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QK
+bGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFk
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
