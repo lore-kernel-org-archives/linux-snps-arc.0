@@ -4,69 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05736C001DB
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  8 Aug 2023 08:26:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 585E6C04A94
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  8 Aug 2023 08:26:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References:Message-Id
 	:MIME-Version:Subject:Date:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=cOmgAiToDpG1kqKIrHHbW3WhcAXaFX76P6uyn6UxTjE=; b=EDjxjatVPHobSj
-	XvC57LNrxF8lPa70U8BOxHePr2Sa1bPja3yLQX7vvRTRLTxPW3uYMU9HnqIvLSmhyb4aQtzyxAeEU
-	kQNcxN9JIATUc7K/oqBaT5K789tMEoKbrA1cwgCw4zpz5ObVzZDlEa8CySlHfNU5+poq0g+OXgWZr
-	GClXaoLKxcOfm3FncHMpDsen0T22Ikcw2nsTLqcPx5EnFZfaNnqt6MIvRyFgomwCSFCdEnKwDN4zK
-	Pq31ecM3GuhnWFa+iREQcUpH8GZUDQ6D0lj3sbfpMaVH9ZCR44M8YLJwohpiZ2OWSYFpzQ4dRoO80
-	b3wI/C97PPngq0eC0wzA==;
+	List-Owner; bh=n0XlBzx6KBzeRR482RQfBk3e92YgMsCu83ipaurHSPE=; b=hGIW4Fdac2UJNQ
+	L7lWhS/LCc7cWp7cqA0193C3OzVhB2rgpPDuKSQsEl59RBnD1JWsl/SFApwfLWGlPFEaQ36mvpbQF
+	qNPHm8N7VPCNasyk4vf6iSOUkFMys+GifviwMP1mTgVdbFqgGmFIUeHM/C6ct3YWxc+NjE12QqYKN
+	4yXejHbjGsdyOy7hYqs1z15CwNWglxS2klxDkUUoXXf6eMo5qUQBfJviAh561SLbwtdYKkte3yztx
+	qlodpcF8fL6Q3hSgxDbHnJPcFyCt5fXvypIRTDzLNJHATyAitQ9k9QJlha8Am+eNVkT3plt66s8CO
+	dzAGphgPwV0lJb88HIjA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTI2i-0020Zb-2Z;
-	Tue, 08 Aug 2023 08:26:16 +0000
-Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e])
+	id 1qTI2k-0020aF-1K;
+	Tue, 08 Aug 2023 08:26:18 +0000
+Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTI2g-0020Y2-1Y
+	id 1qTI2g-0020Y0-2g
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 08 Aug 2023 08:26:15 +0000
-Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-4fe28f92d8eso8484635e87.1
-        for <linux-snps-arc@lists.infradead.org>; Tue, 08 Aug 2023 01:26:06 -0700 (PDT)
+	Tue, 08 Aug 2023 08:26:16 +0000
+Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-4fe383c1a26so8810491e87.1
+        for <linux-snps-arc@lists.infradead.org>; Tue, 08 Aug 2023 01:26:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691483164; x=1692087964;
+        d=linaro.org; s=google; t=1691483163; x=1692087963;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bRPNurCVUK+kZN7q7E8TsOpZ2X9nLclQ5Lcqn45M43Y=;
-        b=hz7inHqPMxQys07qT3nqlSEPLWx15tKX1J/eGUpHcE+EVO86JTXa730w5Woq02rxPz
-         CtorclF+1/jQQZb75qnphEJXS0HUq7jqACvhPNFCUAd9KJdltGqIwo+lDNugxOOxGpCx
-         Bdpp6ryI56DMCAXsR3J3xK8DfK4OZaSYKgLV5JiGNXUhb9iKZhFn8scYjyHdZTEBCTge
-         r8/Rz8WaUo0wfD/viAKzR2IdhyMJOpV74XLReoy/73N0Xb/1E7Q7zBXMzkJIaCgYm/OM
-         h0Kw6zb5DXrz0Q68YDt9qOmJ7p5TCeTTyRNyBJxv+QiSAmrU+3sH7l+u2JXwT9kt8Yv9
-         q5Ew==
+        bh=J6m3K/inEtRmdGEBBt/pEMpMfJWtxVrjJEBC47w+pHA=;
+        b=poS32QQW6rxur8wMYSQ1qs+nmxmlma555jq7qWtu82oIIbILOTk6f+fZXxCv6BxbSw
+         gPZYrZdfRYij6NVdM4nhlJghZ4wLmNiuur1F4oRBrvjsb8Nv6V5oiNVEceTDzq1DlpvC
+         x8mv0oB+7KtwR+JNbX0/kqa9AYBVDy7eb0I6auWSlxGUH/dm9Vz3fQAJAEgQ3ZuZyPGk
+         tLrA0viV/HsSml+wHJJMJwsH3IvUpk5Clddo3YwEUThnEFvrMy0QSpfgN88fz/nyVtgz
+         Z1a7msd635NK1egLm0QKZsms8/yVzutMhK3wcJTJmLyYbMC8uuzPsvKIU9sBF/YDvOBO
+         8sBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691483164; x=1692087964;
+        d=1e100.net; s=20221208; t=1691483163; x=1692087963;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bRPNurCVUK+kZN7q7E8TsOpZ2X9nLclQ5Lcqn45M43Y=;
-        b=WKA683QgmCg/ZqNgaPNZMtDRVC0fNd1lLBozIOtsAjzzRnC4QkZordy2oItBQJfxjc
-         WfsdqkJmYNKbZkPI8ZAlphIGivX0Q4mIWZ0x4qL7sDgb02w3hqHglO2v0+m/in5D1RQr
-         CaFEgzAxZs56Upy081r7R/Qtp0KFk1VfA8okRXE2r+FwkgfmHexJL8ocIgkGnpQYiEIh
-         KBKNro4wXVBy7+X4+M76R/rxDoEjatEn+fzUkID95VTiMw2GfHXs0pp1K6mJED3wIx3J
-         Je81O+szQFBVwpoYEErdZwTW2bOssFgb2qDH41/+lI2AT0EUN+BD/fBE4qKI0QcyEcJE
-         4UDA==
-X-Gm-Message-State: AOJu0YyIy7SXzFTKhVN/hzV75uYFm8aP0gRL184sf/9qAtE2Jt3XA7c5
-	LMnDGULhOC/dQYzLNL29xsJoG42uqdNuoxv5W8c=
-X-Google-Smtp-Source: AGHT+IFcKitgCUMDjTXmYFgGTjati7nhjKf1RmPJEXoKcYA78VEzCeeOhe2OLLR3Pt79LBJFdpGryg==
-X-Received: by 2002:a05:6512:358b:b0:4fd:d4b4:faba with SMTP id m11-20020a056512358b00b004fdd4b4fabamr7004297lfr.51.1691483164349;
-        Tue, 08 Aug 2023 01:26:04 -0700 (PDT)
-Received: from [127.0.1.1] ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id t13-20020a19ad0d000000b004fbae18984dsm1787087lfc.255.2023.08.08.01.26.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=J6m3K/inEtRmdGEBBt/pEMpMfJWtxVrjJEBC47w+pHA=;
+        b=H3pbidOLnlfXqelG20mr1KD1vRmEqDNvzC2O1zyTA02C2W/lxBeoqAMx/DrPbRdQMw
+         ryQqaomHJ0nU0enMmYWTS+yu2oNpPtmeNOTxP9mXquMge6S/EckHtFdZviwr2vT8KIHg
+         YvBgN4haERA0mmeCPn0Uavq+zYc1hcp6TZxnj4e/AGcN3y3BDWH10h/P3dmUZnL2jlfK
+         54Xyc2zH8nNHUlFpWHCl6ouCuh9H5SJbaYPvoYaTpGlv8BujbtpJEmAvlDb3+EqHq7Ni
+         jiprnEXNyxiVctOpiOh0JPcYykVuon54GnjAO8bX1MZ0yWL8SC7hQau8z7uYRflqGsHy
+         /roA==
+X-Gm-Message-State: AOJu0YxMf+E+ABql2ABKOu/oIlyal0QPOe2QQbT2eEN9sA5lWG4dJthM
+	T0V2y34hwi10tvzj2SkzE29XqlJwRdB9sdQtDEo=
+X-Google-Smtp-Source: AGHT+IHxDCh1uiQfUmmrydV7nAhXgfZ1Kwvcz0RMY0OKmPWNtnQhD201bB37ZY0n1WH7gHW98TyYVg==
+X-Received: by 2002:a05:6512:ad5:b0:4fb:9050:1d92 with SMTP id n21-20020a0565120ad500b004fb90501d92mr8131994lfu.51.1691483163361;
         Tue, 08 Aug 2023 01:26:03 -0700 (PDT)
+Received: from [127.0.1.1] ([85.235.12.238])
+        by smtp.gmail.com with ESMTPSA id t13-20020a19ad0d000000b004fbae18984dsm1787087lfc.255.2023.08.08.01.26.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Aug 2023 01:26:02 -0700 (PDT)
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 08 Aug 2023 10:25:56 +0200
-Subject: [PATCH 2/2] csky: Make pfn accessors static inlines
+Date: Tue, 08 Aug 2023 10:25:55 +0200
+Subject: [PATCH 1/2] csky: Cast argument to virt_to_pfn() to (void *)
 MIME-Version: 1.0
-Message-Id: <20230808-csky-virt-to-phys-v1-2-ac727f8def2f@linaro.org>
+Message-Id: <20230808-csky-virt-to-phys-v1-1-ac727f8def2f@linaro.org>
 References: <20230808-csky-virt-to-phys-v1-0-ac727f8def2f@linaro.org>
 In-Reply-To: <20230808-csky-virt-to-phys-v1-0-ac727f8def2f@linaro.org>
 To: Vineet Gupta <vgupta@kernel.org>, Guo Ren <guoren@kernel.org>
@@ -74,9 +74,8 @@ Cc: linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-csky@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>
 X-Mailer: b4 0.12.3
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230808_012614_545608_2ABCBDEF 
-X-CRM114-Status: UNSURE (   9.90  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230808_012614_889420_6C5EA52B 
+X-CRM114-Status: GOOD (  10.91  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,56 +92,28 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Making virt_to_pfn() a static inline taking a strongly typed
-(const void *) makes the contract of a passing a pointer of that
-type to the function explicit and exposes any misuse of the
-macro virt_to_pfn() acting polymorphic and accepting many types
-such as (void *), (unitptr_t) or (unsigned long) as arguments
-without warnings.
-
-For symmetry to the same thing with pfn_to_virt().
-
-In order to do this we move the virt_to_phys() and
-phys_to_virt() below the definitions of the __pa()
-and __va() macros so it compiles. The macro version was also
-able to do recursive symbol resolution.
+The virt_to_pfn() function takes a (void *) as argument, fix
+this up to avoid exploiting the unintended polymorphism of
+virt_to_pfn.
 
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- arch/csky/include/asm/page.h | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ arch/arc/include/asm/page.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/csky/include/asm/page.h b/arch/csky/include/asm/page.h
-index b23e3006a9e0..80da7e96a8fa 100644
---- a/arch/csky/include/asm/page.h
-+++ b/arch/csky/include/asm/page.h
-@@ -34,9 +34,6 @@
+diff --git a/arch/arc/include/asm/page.h b/arch/arc/include/asm/page.h
+index e43fe27ec54d..02b53ad811fb 100644
+--- a/arch/arc/include/asm/page.h
++++ b/arch/arc/include/asm/page.h
+@@ -108,7 +108,7 @@ extern int pfn_valid(unsigned long pfn);
  
- #include <linux/pfn.h>
+ #else /* CONFIG_HIGHMEM */
  
--#define virt_to_pfn(kaddr)      (__pa(kaddr) >> PAGE_SHIFT)
--#define pfn_to_virt(pfn)        __va((pfn) << PAGE_SHIFT)
--
- #define virt_addr_valid(kaddr)  ((void *)(kaddr) >= (void *)PAGE_OFFSET && \
- 			(void *)(kaddr) < high_memory)
+-#define ARCH_PFN_OFFSET		virt_to_pfn(CONFIG_LINUX_RAM_BASE)
++#define ARCH_PFN_OFFSET		virt_to_pfn((void *)CONFIG_LINUX_RAM_BASE)
  
-@@ -80,6 +77,16 @@ extern unsigned long va_pa_offset;
+ #endif /* CONFIG_HIGHMEM */
  
- #define __pa_symbol(x)	__pa(RELOC_HIDE((unsigned long)(x), 0))
- 
-+static inline unsigned long virt_to_pfn(const void *kaddr)
-+{
-+	return __pa(kaddr) >> PAGE_SHIFT;
-+}
-+
-+static inline void * pfn_to_virt(unsigned long pfn)
-+{
-+	return __va(pfn) << PAGE_SHIFT;
-+}
-+
- #define MAP_NR(x)	PFN_DOWN((unsigned long)(x) - PAGE_OFFSET - \
- 				 PHYS_OFFSET_OFFSET)
- #define virt_to_page(x)	(mem_map + MAP_NR(x))
 
 -- 
 2.34.1
