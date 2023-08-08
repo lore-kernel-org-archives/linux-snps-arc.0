@@ -4,78 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 585E6C04A94
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4C47C001DF
 	for <linux-snps-arc@archiver.kernel.org>; Tue,  8 Aug 2023 08:26:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References:Message-Id
-	:MIME-Version:Subject:Date:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=n0XlBzx6KBzeRR482RQfBk3e92YgMsCu83ipaurHSPE=; b=hGIW4Fdac2UJNQ
-	L7lWhS/LCc7cWp7cqA0193C3OzVhB2rgpPDuKSQsEl59RBnD1JWsl/SFApwfLWGlPFEaQ36mvpbQF
-	qNPHm8N7VPCNasyk4vf6iSOUkFMys+GifviwMP1mTgVdbFqgGmFIUeHM/C6ct3YWxc+NjE12QqYKN
-	4yXejHbjGsdyOy7hYqs1z15CwNWglxS2klxDkUUoXXf6eMo5qUQBfJviAh561SLbwtdYKkte3yztx
-	qlodpcF8fL6Q3hSgxDbHnJPcFyCt5fXvypIRTDzLNJHATyAitQ9k9QJlha8Am+eNVkT3plt66s8CO
-	dzAGphgPwV0lJb88HIjA==;
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:MIME-Version:Message-Id:Date:
+	Subject:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=EDFCCKj/PkiGPP5Mp37uJ9eHXvlSXUFi/nF1XFku87Y=; b=qjy/M7HFQPSvev
+	76FRt9s5C10nk7sBQgFJGTL+jOnGn8fdCJl34/X+o8IIIPvDX4FYBptE7NyAxSKBcEoE82S2eC0k5
+	Pcg/oB3RqdVVEYIXHwEASsjS+PTqaWkP78eNFCMdVTuFOKLAaB+to//R59g/QQmRfW9gWPT+1zMzw
+	+XEvzgQQP0jDdvyva2isTx3slypeIY0E+w6IohJHKswpTOTZALxySGyJOgQUtBha+YfAqIr/YwENj
+	XpAcUKGiSJA0J4I4T1fzSEiiD6c5Np0ZZWv+RbRO2oq8NBScmUkVjsZcbL8N9qhD1OzgakjpxGt5e
+	VS0ovoy/Xvo3V9T2y0mg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTI2k-0020aF-1K;
+	id 1qTI2k-0020a5-0Q;
 	Tue, 08 Aug 2023 08:26:18 +0000
 Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTI2g-0020Y0-2g
+	id 1qTI2g-0020Xy-2g
 	for linux-snps-arc@lists.infradead.org;
 	Tue, 08 Aug 2023 08:26:16 +0000
-Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-4fe383c1a26so8810491e87.1
+Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-4fe48a2801bso8837148e87.1
         for <linux-snps-arc@lists.infradead.org>; Tue, 08 Aug 2023 01:26:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691483163; x=1692087963;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=J6m3K/inEtRmdGEBBt/pEMpMfJWtxVrjJEBC47w+pHA=;
-        b=poS32QQW6rxur8wMYSQ1qs+nmxmlma555jq7qWtu82oIIbILOTk6f+fZXxCv6BxbSw
-         gPZYrZdfRYij6NVdM4nhlJghZ4wLmNiuur1F4oRBrvjsb8Nv6V5oiNVEceTDzq1DlpvC
-         x8mv0oB+7KtwR+JNbX0/kqa9AYBVDy7eb0I6auWSlxGUH/dm9Vz3fQAJAEgQ3ZuZyPGk
-         tLrA0viV/HsSml+wHJJMJwsH3IvUpk5Clddo3YwEUThnEFvrMy0QSpfgN88fz/nyVtgz
-         Z1a7msd635NK1egLm0QKZsms8/yVzutMhK3wcJTJmLyYbMC8uuzPsvKIU9sBF/YDvOBO
-         8sBg==
+        d=linaro.org; s=google; t=1691483162; x=1692087962;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fKaXpSlwUGOFKYnA0/ujGgP0b2CVx1lfhbc608RRtk4=;
+        b=rnz+0XPRB2sHtMy6nbW8pZ9GjDYrGLEbNQoEVJAihnnljaMNBtDusEI345r287ae30
+         ZM2Cn81F4Ta6au3gUvUFq6q4tc9EXGK9jffv4ItxVRLItuPrx92LVpOEnB9shG7CSR1d
+         HmSR0/cSw1Ed2HeD59yLI2SMMjIJyr1DqUFi33HtJ95izeJAwGTUQUIS4PMpQeCMVqAc
+         gMS+FU/AG6MvCWH449A/0pFfOpcNvO0b0eSzNiUva4bVhVYxwTB60mSCJEkD14mXUxyS
+         gdp5aDzpu99SRjlqcHOAkQt4QEt328+Vut50ZbrN/MRqdti86EfoF7qcv5/H+A4Jg0X5
+         5QNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691483163; x=1692087963;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=J6m3K/inEtRmdGEBBt/pEMpMfJWtxVrjJEBC47w+pHA=;
-        b=H3pbidOLnlfXqelG20mr1KD1vRmEqDNvzC2O1zyTA02C2W/lxBeoqAMx/DrPbRdQMw
-         ryQqaomHJ0nU0enMmYWTS+yu2oNpPtmeNOTxP9mXquMge6S/EckHtFdZviwr2vT8KIHg
-         YvBgN4haERA0mmeCPn0Uavq+zYc1hcp6TZxnj4e/AGcN3y3BDWH10h/P3dmUZnL2jlfK
-         54Xyc2zH8nNHUlFpWHCl6ouCuh9H5SJbaYPvoYaTpGlv8BujbtpJEmAvlDb3+EqHq7Ni
-         jiprnEXNyxiVctOpiOh0JPcYykVuon54GnjAO8bX1MZ0yWL8SC7hQau8z7uYRflqGsHy
-         /roA==
-X-Gm-Message-State: AOJu0YxMf+E+ABql2ABKOu/oIlyal0QPOe2QQbT2eEN9sA5lWG4dJthM
-	T0V2y34hwi10tvzj2SkzE29XqlJwRdB9sdQtDEo=
-X-Google-Smtp-Source: AGHT+IHxDCh1uiQfUmmrydV7nAhXgfZ1Kwvcz0RMY0OKmPWNtnQhD201bB37ZY0n1WH7gHW98TyYVg==
-X-Received: by 2002:a05:6512:ad5:b0:4fb:9050:1d92 with SMTP id n21-20020a0565120ad500b004fb90501d92mr8131994lfu.51.1691483163361;
-        Tue, 08 Aug 2023 01:26:03 -0700 (PDT)
-Received: from [127.0.1.1] ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id t13-20020a19ad0d000000b004fbae18984dsm1787087lfc.255.2023.08.08.01.26.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        d=1e100.net; s=20221208; t=1691483162; x=1692087962;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fKaXpSlwUGOFKYnA0/ujGgP0b2CVx1lfhbc608RRtk4=;
+        b=FNql9nghcxzBouVvhRfSd3eS7Oie1CFGkVGSg5Rydz9zA7tkPbZ6FSIbPwDgss/A7L
+         U/L6HmiTpKhUG2nUwsqwHieA4rZ8Lji7yAlhlMUp6vWgo31LSyjfrwqZiViDF5FugKp2
+         qKZ3gnBuTIuvJBmRVxXzhy7IOQ7qK3cfhByZh4v/s1kqg4LxsTfTNHXhrCsiWk9dI8a2
+         PXKRCq+tOTHewjDQG/uyaB0FtTiNMEJ9XFnVuKFXRLkWBt+a/GczRW5dm3SzsnFHvDxF
+         L2ST9Mu8TXF1AsYVp/d5SWkdViVurJ9YH/v2ZtcVIUF8BCIOn5MiN85FJNg06Ollm+Is
+         cvMw==
+X-Gm-Message-State: AOJu0YxDLEzk6u73o39gK1SVUsSU/uR4HKzQueeToofu2z9P+vwpHjfE
+	QvTtoZjGmgpiGAED1yz0SM7sbFAiK7Vj11RH5xg=
+X-Google-Smtp-Source: AGHT+IGwuIaXMoIESGfMjXZqvgjAKYGfq+7lPk9/u4u6+4RfcqSnKW8XNmPB5gwM67RaOJssLaTogw==
+X-Received: by 2002:ac2:5b89:0:b0:4fb:7888:7e6d with SMTP id o9-20020ac25b89000000b004fb78887e6dmr7043859lfn.46.1691483162463;
         Tue, 08 Aug 2023 01:26:02 -0700 (PDT)
+Received: from [127.0.1.1] ([85.235.12.238])
+        by smtp.gmail.com with ESMTPSA id t13-20020a19ad0d000000b004fbae18984dsm1787087lfc.255.2023.08.08.01.26.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Aug 2023 01:26:01 -0700 (PDT)
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 08 Aug 2023 10:25:55 +0200
-Subject: [PATCH 1/2] csky: Cast argument to virt_to_pfn() to (void *)
+Subject: [PATCH 0/2] csky: Convert memory accessors to static inlines
+Date: Tue, 08 Aug 2023 10:25:54 +0200
+Message-Id: <20230808-csky-virt-to-phys-v1-0-ac727f8def2f@linaro.org>
 MIME-Version: 1.0
-Message-Id: <20230808-csky-virt-to-phys-v1-1-ac727f8def2f@linaro.org>
-References: <20230808-csky-virt-to-phys-v1-0-ac727f8def2f@linaro.org>
-In-Reply-To: <20230808-csky-virt-to-phys-v1-0-ac727f8def2f@linaro.org>
+X-B4-Tracking: v=1; b=H4sIABL80WQC/x3MPQqAMAxA4atIZgP9GaxeRRykphoElaYUpXh3i
+ +M3vFdAKDIJDE2BSJmFz6NCtw34bT5WQl6qwShjlVMOvewPZo4J04nX9gjaxSmvO6N16KF2V6T
+ A9/8cp/f9ALLAmCNjAAAA
 To: Vineet Gupta <vgupta@kernel.org>, Guo Ren <guoren@kernel.org>
 Cc: linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org, 
  linux-csky@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>
 X-Mailer: b4 0.12.3
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230808_012614_889420_6C5EA52B 
-X-CRM114-Status: GOOD (  10.91  )
+X-CRM114-CacheID: sfid-20230808_012614_889596_0220A2B7 
+X-CRM114-Status: UNSURE (   6.29  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,31 +93,26 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The virt_to_pfn() function takes a (void *) as argument, fix
-this up to avoid exploiting the unintended polymorphism of
-virt_to_pfn.
+This converts the virt_to_pfn and pfn_to_virt macros
+into static inlines so we get proper type checking on
+the pointers passed in.
 
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- arch/arc/include/asm/page.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Linus Walleij (2):
+      csky: Cast argument to virt_to_pfn() to (void *)
+      csky: Make pfn accessors static inlines
 
-diff --git a/arch/arc/include/asm/page.h b/arch/arc/include/asm/page.h
-index e43fe27ec54d..02b53ad811fb 100644
---- a/arch/arc/include/asm/page.h
-+++ b/arch/arc/include/asm/page.h
-@@ -108,7 +108,7 @@ extern int pfn_valid(unsigned long pfn);
- 
- #else /* CONFIG_HIGHMEM */
- 
--#define ARCH_PFN_OFFSET		virt_to_pfn(CONFIG_LINUX_RAM_BASE)
-+#define ARCH_PFN_OFFSET		virt_to_pfn((void *)CONFIG_LINUX_RAM_BASE)
- 
- #endif /* CONFIG_HIGHMEM */
- 
+ arch/arc/include/asm/page.h  |  2 +-
+ arch/csky/include/asm/page.h | 13 ++++++++++---
+ 2 files changed, 11 insertions(+), 4 deletions(-)
+---
+base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
+change-id: 20230808-csky-virt-to-phys-3d80c17211f9
 
+Best regards,
 -- 
-2.34.1
+Linus Walleij <linus.walleij@linaro.org>
 
 
 _______________________________________________
