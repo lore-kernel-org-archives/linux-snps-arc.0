@@ -4,73 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9B65C04A6A
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Aug 2023 06:03:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85313C0015E
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Aug 2023 15:12:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=fq+5ld6bC1m1IxuYYqijYDu5OeeWo2mY5Fx8R0RtXz4=; b=imXrVi5Es9l13K
-	A/4CiWQtVqP+2ork9FDpkjv8hAapxnOFmnA0oMlslvi4gl9yntX9KmmHn//UZU9jtSyOoMJCP8Oi/
-	xCvV0Akmcd7nDt1Og22eXAaoQtoyTV2z/cYu8ZwZGlfYkvMoiuLc/Honga/vuXNvKOlIJHgJGccQX
-	xt/8nYOgmYADM5vUsQkP/NFPF6sXz7TBpiKHmsFqVFjWz9Zw97SlV0+WPydKwdoHFSYRkBLJeureb
-	NHBPnnTxRvckzDzZslC/yM0n4IzCZcpoRp+qbg+WCCO4apEG0LsOmhc0dLM+VnGRa1olZKD2d/S1+
-	CNk5q6vnmm+xGcHMu2IQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=5wqJyX0KiO03oIByg3s3KTq9rWGIkUAnwK2TSpuzkWg=; b=nZNgqfzMJK7Asg
+	8JZz28BrL0fsILlEBmGl32vp64aW49wRxzgyhA7cmFqSMQwfrYEM8lfCV176AmK7RF41Q59NtljGV
+	bR7UC0gbmK8LW9ShM3lQdBw+cZjuU4tz8KG9/UVKW+ZsRf8W5uep6RprQnSt7yPUIDqXQXTrbdrPj
+	bvt1vsVxKbR8LefKt2k0CR2uK4CKbfHGHA2R7QSHrjaq64Z8H8qD79Aed95yA/G7EfaAqiVqA8eS9
+	xCmfrl3jAygUjleubNKqok6gH59C1ROXcgTn5ifSFmib2mRUyk193b2VeFEafwMea1ckWh/E2nJfC
+	xBsFZDbjL42KqKYinhNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qVn9k-000xfx-31;
-	Tue, 15 Aug 2023 06:03:52 +0000
-Received: from mgamail.intel.com ([134.134.136.24])
+	id 1qVvii-001pLD-33;
+	Tue, 15 Aug 2023 15:12:32 +0000
+Received: from mx0b-00230701.pphosted.com ([148.163.158.9])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qVn9h-000xfQ-1T
+	id 1qVvif-001pKG-2B
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 15 Aug 2023 06:03:51 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692079429; x=1723615429;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fmWL8148XO8APcqd77xkkyCD6Kn5Ec7FeYc5z5PSGyw=;
-  b=SksXtDYHQBfQQ739v08NWTfGQnNJ6CzvtV3csOLIn3odGxDqZmN/rG+Z
-   pZXXw0UjhmUVtJpUoX7551ZnyqgyvY5C0+Hape+pJeWVabyD6TcFx9zRT
-   rM4urRiLEYhyfcYbRtlBE9OShLP2gyURnWxj+vqdUYds3KZk3zosrYKdo
-   GZ8Iq07+7FJdmE5WvVQFMsNZajON9tY0ZjfvCyGUQOP+2pVPho3vosJly
-   vuqvyOWddvENnEB1+dSORuim57tzplKjYWufBEhxz3sOfdhRNfLwvrMOz
-   YwYb8+HpmN0hz2jW7LvtYIohVe6nMlYulyeSrISPaQ95Ft4Y5sSUFpD/P
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="374980278"
-X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
-   d="scan'208";a="374980278"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 23:03:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="823728116"
-X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
-   d="scan'208";a="823728116"
-Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 14 Aug 2023 23:03:35 -0700
-Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qVn9S-0000hb-2G;
-	Tue, 15 Aug 2023 06:03:34 +0000
-Date: Tue, 15 Aug 2023 14:03:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vineet Gupta <vgupta@kernel.org>, linux-snps-arc@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Shahab Vahedi <Shahab.Vahedi@synopsys.com>,
-	Alexey Brodkin <abrodkin@synopsys.com>,
-	Vineet Gupta <vgupta@kernel.org>
-Subject: Re: [PATCH 20/20] ARC: pt_regs: create seperate type for ecr
-Message-ID: <202308151342.ROQ9Urvv-lkp@intel.com>
-References: <20230815004813.555115-21-vgupta@kernel.org>
+	Tue, 15 Aug 2023 15:12:31 +0000
+Received: from pps.filterd (m0098572.ppops.net [127.0.0.1])
+	by mx0b-00230701.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37FDjmUu006792;
+	Tue, 15 Aug 2023 08:12:20 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=pfptdkimsnps; bh=n84xbQoUW83vqJus6c8czr5VRDIzztj+K2pbIYP91R0=;
+ b=fxbzpxR3/TwkP0vzQjPg6lzrnfx3v3AVHC5PZMy3z7WYL60oRry84Udg+STyJREXmOHu
+ cwLFSMtZqBbw8jNkhOj0VTQLzKzugYNjfUzTw2v7AEbSskTrisTwmMj0MKPyIu7kdCRR
+ XsDdsHdnM/eK1ofGZRkUDtpXXRF1y9TuRIyPUt8hW2tl+6LgCS381QFDmy3EB5/cssuR
+ Upzqv9ZxRJbmb6/VP41FkzmElKN073UK5pGLvBe+5NCS3wH52iB9WKwo4lVQqu8zPI2H
+ Ep9Cg97mohDVCf8iiEpi2QoVnZS8CwGLdR7cUz0GLl5TGbgF1HoYNQGSh7mflB3LkOZC JA== 
+Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.87.133])
+	by mx0b-00230701.pphosted.com (PPS) with ESMTPS id 3se8qd6rbc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Aug 2023 08:12:19 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1692112338; bh=vMpHfhpzpfw50BBq390znIY3g/XxaVW9isAEYbS6FH8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=hWT3uAuvL4cxJ76D5v0h4Ly1IHrYHhXyIHXrHtSGXHylbY4bnhagCFk5KkSMGiTXP
+	 rVMbkt04d+c5jOC4EB5FxS5cfBvnZu6NQFmj2FpvF+nszG8ISsEIsPtXQNyCCNfVNW
+	 y/g4m9w2pRcsHOq1uv/RHwMElGHO3lAJQBKuI0iKS+kdCCDi7VUXPyXAg/QpPeEksy
+	 XUD89Fgc1j5hqC68dX3oYT0tdOpSHbYFs8Bkv+TX/12l83qJsD2M2gpWU/avmnoacN
+	 jCToaH6lhEoVjG7hGD6bnh/ECRFaGq2Q8d3/jvhPOTSGOeTk1MDP1EZraETSnTZx/J
+	 K4jPh1Njq27dA==
+Received: from mailhost.synopsys.com (mdc-mailhost1.synopsys.com [10.225.0.209])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (2048 bits) client-digest SHA256)
+	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 4837040149;
+	Tue, 15 Aug 2023 15:12:18 +0000 (UTC)
+Received: from SNPS-o0WHuHJU73.internal.synopsys.com (snps-o0whuhju73.internal.synopsys.com [10.116.106.73])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(Client did not present a certificate)
+	by mailhost.synopsys.com (Postfix) with ESMTPSA id 0A303A005D;
+	Tue, 15 Aug 2023 15:12:13 +0000 (UTC)
+X-SNPS-Relay: synopsys.com
+From: Pavel.Kozlov@synopsys.com
+To: linux-snps-arc@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, vgupta@kernel.org,
+        Pavel Kozlov <Pavel.Kozlov@synopsys.com>, stable@vger.kernel.org
+Subject: [PATCH] ARC: avoid unwanted gcc optimizations in atomic operations
+Date: Tue, 15 Aug 2023 19:11:36 +0400
+Message-Id: <20230815151136.2220588-1-kozlov@synopsys.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20230815004813.555115-21-vgupta@kernel.org>
+X-Proofpoint-ORIG-GUID: kcK-i6Ujx8QPu7hMhdv0YPEL1p1xD9J4
+X-Proofpoint-GUID: kcK-i6Ujx8QPu7hMhdv0YPEL1p1xD9J4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-15_16,2023-08-15_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam policy=outbound_active_cloned score=0
+ suspectscore=0 mlxlogscore=781 spamscore=0 adultscore=0 mlxscore=0
+ malwarescore=0 clxscore=1011 impostorscore=0 bulkscore=0
+ priorityscore=1501 lowpriorityscore=0 phishscore=0 classifier=spam
+ adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2308150135
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230814_230349_595375_0987C8B1 
-X-CRM114-Status: GOOD (  11.55  )
+X-CRM114-CacheID: sfid-20230815_081229_882268_DA8115FB 
+X-CRM114-Status: GOOD (  18.07  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,69 +103,100 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Vineet,
+From: Pavel Kozlov <pavel.kozlov@synopsys.com>
 
-kernel test robot noticed the following build errors:
+Notify a compiler about write operations and prevent unwanted
+optimizations. Add the "memory" clobber to the clobber list.
 
-[auto build test ERROR on vgupta-arc/for-curr]
-[cannot apply to vgupta-arc/for-next linus/master v6.5-rc6 next-20230809]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+An obvious problem with unwanted compiler optimizations appeared after
+the cpumask optimization commit 596ff4a09b89 ("cpumask: re-introduce
+constant-sized cpumask optimizations").
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vineet-Gupta/ARC-uaccess-remove-arc-specific-out-of-line-handles-for-Os/20230815-085308
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git for-curr
-patch link:    https://lore.kernel.org/r/20230815004813.555115-21-vgupta%40kernel.org
-patch subject: [PATCH 20/20] ARC: pt_regs: create seperate type for ecr
-config: arc-randconfig-r043-20230815 (https://download.01.org/0day-ci/archive/20230815/202308151342.ROQ9Urvv-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230815/202308151342.ROQ9Urvv-lkp@intel.com/reproduce)
+After this commit the SMP kernels for ARC no longer loads because of
+failed assert in the percpu allocator initialization routine:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308151342.ROQ9Urvv-lkp@intel.com/
+percpu: BUG: failure at mm/percpu.c:2981/pcpu_build_alloc_info()!
 
-All errors (new ones prefixed by >>):
+The write operation performed by the scond instruction in the atomic
+inline asm code is not properly passed to the compiler. The compiler
+cannot correctly optimize a nested loop that runs through the cpumask
+in the pcpu_build_alloc_info() function.
 
-   In file included from arch/arc/include/asm/ptrace.h:11,
-                    from arch/arc/include/asm/bug.h:11,
-                    from include/linux/bug.h:5,
-                    from include/linux/page-flags.h:10,
-                    from kernel/bounds.c:10:
-   arch/arc/include/asm/ptrace.h: In function 'regs_get_register':
->> include/linux/stddef.h:16:33: error: 'struct pt_regs' has no member named 'event'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   arch/arc/include/asm/ptrace.h:57:24: note: in expansion of macro 'offsetof'
-      57 | #define MAX_REG_OFFSET offsetof(struct pt_regs, event)
-         |                        ^~~~~~~~
-   arch/arc/include/asm/ptrace.h:164:31: note: in expansion of macro 'MAX_REG_OFFSET'
-     164 |         if (unlikely(offset > MAX_REG_OFFSET))
-         |                               ^~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:116: kernel/bounds.s] Error 1 shuffle=716081594
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1287: prepare0] Error 2 shuffle=716081594
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=716081594
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2 shuffle=716081594
-   make: Target 'prepare' not remade because of errors.
+Add the "memory" clobber to fix this.
 
+Link: https://github.com/foss-for-synopsys-dwc-arc-processors/linux/issues/135
+Cc: <stable@vger.kernel.org> # v6.3+
+Signed-off-by: Pavel Kozlov <pavel.kozlov@synopsys.com>
+---
+ arch/arc/include/asm/atomic-llsc.h    | 6 +++---
+ arch/arc/include/asm/atomic64-arcv2.h | 6 +++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-vim +16 include/linux/stddef.h
-
-6e218287432472 Richard Knutsson 2006-09-30  14  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  15  #undef offsetof
-14e83077d55ff4 Rasmus Villemoes 2022-03-23 @16  #define offsetof(TYPE, MEMBER)	__builtin_offsetof(TYPE, MEMBER)
-3876488444e712 Denys Vlasenko   2015-03-09  17  
-
+diff --git a/arch/arc/include/asm/atomic-llsc.h b/arch/arc/include/asm/atomic-llsc.h
+index 1b0ffaeee16d..5258cb81a16b 100644
+--- a/arch/arc/include/asm/atomic-llsc.h
++++ b/arch/arc/include/asm/atomic-llsc.h
+@@ -18,7 +18,7 @@ static inline void arch_atomic_##op(int i, atomic_t *v)			\
+ 	: [val]	"=&r"	(val) /* Early clobber to prevent reg reuse */	\
+ 	: [ctr]	"r"	(&v->counter), /* Not "m": llock only supports reg direct addr mode */	\
+ 	  [i]	"ir"	(i)						\
+-	: "cc");							\
++	: "cc", "memory");						\
+ }									\
+ 
+ #define ATOMIC_OP_RETURN(op, asm_op)				\
+@@ -34,7 +34,7 @@ static inline int arch_atomic_##op##_return_relaxed(int i, atomic_t *v)	\
+ 	: [val]	"=&r"	(val)						\
+ 	: [ctr]	"r"	(&v->counter),					\
+ 	  [i]	"ir"	(i)						\
+-	: "cc");							\
++	: "cc", "memory");						\
+ 									\
+ 	return val;							\
+ }
+@@ -56,7 +56,7 @@ static inline int arch_atomic_fetch_##op##_relaxed(int i, atomic_t *v)	\
+ 	  [orig] "=&r" (orig)						\
+ 	: [ctr]	"r"	(&v->counter),					\
+ 	  [i]	"ir"	(i)						\
+-	: "cc");							\
++	: "cc", "memory");						\
+ 									\
+ 	return orig;							\
+ }
+diff --git a/arch/arc/include/asm/atomic64-arcv2.h b/arch/arc/include/asm/atomic64-arcv2.h
+index 6b6db981967a..9b5791b85471 100644
+--- a/arch/arc/include/asm/atomic64-arcv2.h
++++ b/arch/arc/include/asm/atomic64-arcv2.h
+@@ -60,7 +60,7 @@ static inline void arch_atomic64_##op(s64 a, atomic64_t *v)		\
+ 	"	bnz     1b		\n"				\
+ 	: "=&r"(val)							\
+ 	: "r"(&v->counter), "ir"(a)					\
+-	: "cc");							\
++	: "cc", "memory");						\
+ }									\
+ 
+ #define ATOMIC64_OP_RETURN(op, op1, op2)		        	\
+@@ -77,7 +77,7 @@ static inline s64 arch_atomic64_##op##_return_relaxed(s64 a, atomic64_t *v)	\
+ 	"	bnz     1b		\n"				\
+ 	: [val] "=&r"(val)						\
+ 	: "r"(&v->counter), "ir"(a)					\
+-	: "cc");	/* memory clobber comes from smp_mb() */	\
++	: "cc", "memory");						\
+ 									\
+ 	return val;							\
+ }
+@@ -99,7 +99,7 @@ static inline s64 arch_atomic64_fetch_##op##_relaxed(s64 a, atomic64_t *v)	\
+ 	"	bnz     1b		\n"				\
+ 	: "=&r"(orig), "=&r"(val)					\
+ 	: "r"(&v->counter), "ir"(a)					\
+-	: "cc");	/* memory clobber comes from smp_mb() */	\
++	: "cc", "memory");						\
+ 									\
+ 	return orig;							\
+ }
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
+
 
 _______________________________________________
 linux-snps-arc mailing list
