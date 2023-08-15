@@ -4,63 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A9E4C04FE0
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Aug 2023 00:48:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9B65C04A6A
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Aug 2023 06:03:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=TwJIcoqTdfeBbwEzVUxXgKvipLvO1SW6xzHwp+47uGY=; b=1S/cYKu4Z4a+FX
-	rRbmpXFPHGklUHFNnQKrNS5aBuVX5ueFBwc79nBxZgIrc6Ew+RboNzTl3yZTkuhFPXg8FicsJtvXN
-	I+s0nFQQ5dAcLeflfUrfYKGqpfpkkL+VslIWOfQY/BmT7mLMfH8USRYmzfs7SRgdSGbNoZFuYRCuk
-	5Lv0FuXTNusU+hwj5kwL3NM1QMcB3xTGtqfZVCM5yE9w0DPyQ0Ip9VGKEjNOSwbld9T1vOwKrOJYG
-	fcY6X0g99miBg6AW/pcM+OlZ+Q2p/enVgkuQmdaejK3w7LTLcqs1SBC4y1j4ZsLUQ0wIh4b7FXKD5
-	skla6iDRElfBFS+1mvAQ==;
+	List-Owner; bh=fq+5ld6bC1m1IxuYYqijYDu5OeeWo2mY5Fx8R0RtXz4=; b=imXrVi5Es9l13K
+	A/4CiWQtVqP+2ork9FDpkjv8hAapxnOFmnA0oMlslvi4gl9yntX9KmmHn//UZU9jtSyOoMJCP8Oi/
+	xCvV0Akmcd7nDt1Og22eXAaoQtoyTV2z/cYu8ZwZGlfYkvMoiuLc/Honga/vuXNvKOlIJHgJGccQX
+	xt/8nYOgmYADM5vUsQkP/NFPF6sXz7TBpiKHmsFqVFjWz9Zw97SlV0+WPydKwdoHFSYRkBLJeureb
+	NHBPnnTxRvckzDzZslC/yM0n4IzCZcpoRp+qbg+WCCO4apEG0LsOmhc0dLM+VnGRa1olZKD2d/S1+
+	CNk5q6vnmm+xGcHMu2IQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qViEc-000cht-0S;
-	Tue, 15 Aug 2023 00:48:34 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1qVn9k-000xfx-31;
+	Tue, 15 Aug 2023 06:03:52 +0000
+Received: from mgamail.intel.com ([134.134.136.24])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qViEV-000cUd-12
+	id 1qVn9h-000xfQ-1T
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 15 Aug 2023 00:48:30 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 0EF7C64582;
-	Tue, 15 Aug 2023 00:48:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DF11C433C9;
-	Tue, 15 Aug 2023 00:48:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1692060506;
-	bh=QEDl/IHEChN9kap/CMDzsElMt/XGCzh6+0rqR7kcifs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SbX1hBMpvpq0DzM119asALPJPEMun258wift5k5TvzhnFzI6aenEsMcZYv8vWj9pg
-	 fD0tSYaAoc7RbF53FWrdropZrPKXIDgPH+gulFKX1ojHO0Fu1PCdr2sOWR/HZpQLBw
-	 uBYdGVN9ovqgsZnV+m6Myr4LqayiDKlJn0YsajAwC6B9oxJ1vr9s/gZ/Evhyb7BBNW
-	 zD0KTZm58jDqgjBPpIOBC7N67F5TVzXX2hqoM14MgWut6/E4D+jJo0xvj/ajnHzwxe
-	 U5q3BnbcQoIvinTHvROJblhjEB368NYhZjstiWkz3CNFM+AOfIyIDdd2ega+ssESYc
-	 QAmUSXGfzkFLw==
-From: Vineet Gupta <vgupta@kernel.org>
-To: linux-snps-arc@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
+	Tue, 15 Aug 2023 06:03:51 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692079429; x=1723615429;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fmWL8148XO8APcqd77xkkyCD6Kn5Ec7FeYc5z5PSGyw=;
+  b=SksXtDYHQBfQQ739v08NWTfGQnNJ6CzvtV3csOLIn3odGxDqZmN/rG+Z
+   pZXXw0UjhmUVtJpUoX7551ZnyqgyvY5C0+Hape+pJeWVabyD6TcFx9zRT
+   rM4urRiLEYhyfcYbRtlBE9OShLP2gyURnWxj+vqdUYds3KZk3zosrYKdo
+   GZ8Iq07+7FJdmE5WvVQFMsNZajON9tY0ZjfvCyGUQOP+2pVPho3vosJly
+   vuqvyOWddvENnEB1+dSORuim57tzplKjYWufBEhxz3sOfdhRNfLwvrMOz
+   YwYb8+HpmN0hz2jW7LvtYIohVe6nMlYulyeSrISPaQ95Ft4Y5sSUFpD/P
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="374980278"
+X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
+   d="scan'208";a="374980278"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 23:03:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="823728116"
+X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
+   d="scan'208";a="823728116"
+Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 14 Aug 2023 23:03:35 -0700
+Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qVn9S-0000hb-2G;
+	Tue, 15 Aug 2023 06:03:34 +0000
+Date: Tue, 15 Aug 2023 14:03:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vineet Gupta <vgupta@kernel.org>, linux-snps-arc@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Shahab Vahedi <Shahab.Vahedi@synopsys.com>,
 	Alexey Brodkin <abrodkin@synopsys.com>,
 	Vineet Gupta <vgupta@kernel.org>
-Subject: [PATCH 20/20] ARC: pt_regs: create seperate type for ecr
-Date: Mon, 14 Aug 2023 17:48:13 -0700
-Message-Id: <20230815004813.555115-21-vgupta@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230815004813.555115-1-vgupta@kernel.org>
-References: <20230815004813.555115-1-vgupta@kernel.org>
+Subject: Re: [PATCH 20/20] ARC: pt_regs: create seperate type for ecr
+Message-ID: <202308151342.ROQ9Urvv-lkp@intel.com>
+References: <20230815004813.555115-21-vgupta@kernel.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20230815004813.555115-21-vgupta@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230814_174827_459550_09B763B6 
-X-CRM114-Status: GOOD (  18.85  )
+X-CRM114-CacheID: sfid-20230814_230349_595375_0987C8B1 
+X-CRM114-Status: GOOD (  11.55  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,221 +87,69 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Reduces duplication in each ISA specific pt_regs
+Hi Vineet,
 
-Signed-off-by: Vineet Gupta <vgupta@kernel.org>
----
- arch/arc/include/asm/ptrace.h  | 45 +++++++++++++---------------------
- arch/arc/kernel/asm-offsets.c  |  2 +-
- arch/arc/kernel/kgdb.c         |  2 +-
- arch/arc/kernel/ptrace.c       |  4 +--
- arch/arc/kernel/traps.c        |  4 +--
- arch/arc/kernel/troubleshoot.c | 13 +++++-----
- arch/arc/mm/fault.c            |  6 ++---
- 7 files changed, 32 insertions(+), 44 deletions(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/arch/arc/include/asm/ptrace.h b/arch/arc/include/asm/ptrace.h
-index 3a054b695f28..724e3fe31ed5 100644
---- a/arch/arc/include/asm/ptrace.h
-+++ b/arch/arc/include/asm/ptrace.h
-@@ -12,6 +12,17 @@
- 
- #ifndef __ASSEMBLY__
- 
-+typedef union {
-+	struct {
-+#ifdef CONFIG_CPU_BIG_ENDIAN
-+		unsigned long state:8, vec:8, cause:8, param:8;
-+#else
-+		unsigned long param:8, cause:8, vec:8, state:8;
-+#endif
-+	};
-+	unsigned long full;
-+} ecr_reg;
-+
- /* THE pt_regs: Defines how regs are saved during entry into kernel */
- 
- #ifdef CONFIG_ISA_ARCOMPACT
-@@ -40,18 +51,7 @@ struct pt_regs {
- 	 * 	Last word used by Linux for extra state mgmt (syscall-restart)
- 	 * For interrupts, use artificial ECR values to note current prio-level
- 	 */
--	union {
--		struct {
--#ifdef CONFIG_CPU_BIG_ENDIAN
--			unsigned long state:8, ecr_vec:8,
--				      ecr_cause:8, ecr_param:8;
--#else
--			unsigned long ecr_param:8, ecr_cause:8,
--				      ecr_vec:8, state:8;
--#endif
--		};
--		unsigned long event;
--	};
-+	ecr_reg ecr;
- };
- 
- #define MAX_REG_OFFSET offsetof(struct pt_regs, event)
-@@ -62,18 +62,7 @@ struct pt_regs {
- 
- 	unsigned long orig_r0;
- 
--	union {
--		struct {
--#ifdef CONFIG_CPU_BIG_ENDIAN
--			unsigned long state:8, ecr_vec:8,
--				      ecr_cause:8, ecr_param:8;
--#else
--			unsigned long ecr_param:8, ecr_cause:8,
--				      ecr_vec:8, state:8;
--#endif
--		};
--		unsigned long event;
--	};
-+	ecr_reg ecr;		/* Exception Cause Reg */
- 
- 	unsigned long bta;	/* erbta */
- 
-@@ -131,13 +120,13 @@ struct callee_regs {
- /* return 1 if PC in delay slot */
- #define delay_mode(regs) ((regs->status32 & STATUS_DE_MASK) == STATUS_DE_MASK)
- 
--#define in_syscall(regs)    ((regs->ecr_vec == ECR_V_TRAP) && !regs->ecr_param)
--#define in_brkpt_trap(regs) ((regs->ecr_vec == ECR_V_TRAP) && regs->ecr_param)
-+#define in_syscall(regs)    ((regs->ecr.vec == ECR_V_TRAP) && !regs->ecr.param)
-+#define in_brkpt_trap(regs) ((regs->ecr.vec == ECR_V_TRAP) && regs->ecr.param)
- 
- #define STATE_SCALL_RESTARTED	0x01
- 
--#define syscall_wont_restart(reg) (reg->state |= STATE_SCALL_RESTARTED)
--#define syscall_restartable(reg) !(reg->state &  STATE_SCALL_RESTARTED)
-+#define syscall_wont_restart(regs) (regs->ecr.state |= STATE_SCALL_RESTARTED)
-+#define syscall_restartable(regs) !(regs->ecr.state &  STATE_SCALL_RESTARTED)
- 
- #define current_pt_regs()					\
- ({								\
-diff --git a/arch/arc/kernel/asm-offsets.c b/arch/arc/kernel/asm-offsets.c
-index 478768c88f46..f77deb799175 100644
---- a/arch/arc/kernel/asm-offsets.c
-+++ b/arch/arc/kernel/asm-offsets.c
-@@ -46,7 +46,7 @@ int main(void)
- 	BLANK();
- 
- 	DEFINE(PT_status32, offsetof(struct pt_regs, status32));
--	DEFINE(PT_event, offsetof(struct pt_regs, event));
-+	DEFINE(PT_event, offsetof(struct pt_regs, ecr));
- 	DEFINE(PT_bta, offsetof(struct pt_regs, bta));
- 	DEFINE(PT_sp, offsetof(struct pt_regs, sp));
- 	DEFINE(PT_r0, offsetof(struct pt_regs, r0));
-diff --git a/arch/arc/kernel/kgdb.c b/arch/arc/kernel/kgdb.c
-index 345a0000554c..4f2b5951454f 100644
---- a/arch/arc/kernel/kgdb.c
-+++ b/arch/arc/kernel/kgdb.c
-@@ -175,7 +175,7 @@ void kgdb_trap(struct pt_regs *regs)
- 	 * with trap_s 4 (compiled) breakpoints, continuation needs to
- 	 * start after the breakpoint.
- 	 */
--	if (regs->ecr_param == 3)
-+	if (regs->ecr.param == 3)
- 		instruction_pointer(regs) -= BREAK_INSTR_SIZE;
- 
- 	kgdb_handle_exception(1, SIGTRAP, 0, regs);
-diff --git a/arch/arc/kernel/ptrace.c b/arch/arc/kernel/ptrace.c
-index 14ea7406f5cd..e0c233c178b1 100644
---- a/arch/arc/kernel/ptrace.c
-+++ b/arch/arc/kernel/ptrace.c
-@@ -46,7 +46,7 @@ static const struct pt_regs_offset regoffset_table[] = {
- 	REG_OFFSET_NAME(r0),
- 	REG_OFFSET_NAME(sp),
- 	REG_OFFSET_NAME(orig_r0),
--	REG_OFFSET_NAME(event),
-+	REG_OFFSET_NAME(ecr),
- 	REG_OFFSET_END,
- };
- 
-@@ -54,7 +54,7 @@ static const struct pt_regs_offset regoffset_table[] = {
- 
- static const struct pt_regs_offset regoffset_table[] = {
- 	REG_OFFSET_NAME(orig_r0),
--	REG_OFFSET_NAME(event),
-+	REG_OFFSET_NAME(ecr),
- 	REG_OFFSET_NAME(bta),
- 	REG_OFFSET_NAME(r26),
- 	REG_OFFSET_NAME(fp),
-diff --git a/arch/arc/kernel/traps.c b/arch/arc/kernel/traps.c
-index 2f7eb786695b..9b9570b79362 100644
---- a/arch/arc/kernel/traps.c
-+++ b/arch/arc/kernel/traps.c
-@@ -110,9 +110,7 @@ void do_machine_check_fault(unsigned long address, struct pt_regs *regs)
-  */
- void do_non_swi_trap(unsigned long address, struct pt_regs *regs)
- {
--	unsigned int param = regs->ecr_param;
--
--	switch (param) {
-+	switch (regs->ecr.param) {
- 	case 1:
- 		trap_is_brkpt(address, regs);
- 		break;
-diff --git a/arch/arc/kernel/troubleshoot.c b/arch/arc/kernel/troubleshoot.c
-index 7654c2e42dc0..d5b3ed2c58f5 100644
---- a/arch/arc/kernel/troubleshoot.c
-+++ b/arch/arc/kernel/troubleshoot.c
-@@ -115,8 +115,8 @@ static void show_ecr_verbose(struct pt_regs *regs)
- 	/* For Data fault, this is data address not instruction addr */
- 	address = current->thread.fault_address;
- 
--	vec = regs->ecr_vec;
--	cause_code = regs->ecr_cause;
-+	vec = regs->ecr.vec;
-+	cause_code = regs->ecr.cause;
- 
- 	/* For DTLB Miss or ProtV, display the memory involved too */
- 	if (vec == ECR_V_DTLB_MISS) {
-@@ -154,7 +154,7 @@ static void show_ecr_verbose(struct pt_regs *regs)
- 		pr_cont("Misaligned r/w from 0x%08lx\n", address);
- #endif
- 	} else if (vec == ECR_V_TRAP) {
--		if (regs->ecr_param == 5)
-+		if (regs->ecr.param == 5)
- 			pr_cont("gcc generated __builtin_trap\n");
- 	} else {
- 		pr_cont("Check Programmer's Manual\n");
-@@ -184,9 +184,10 @@ void show_regs(struct pt_regs *regs)
- 	if (user_mode(regs))
- 		show_faulting_vma(regs->ret); /* faulting code, not data */
- 
--	pr_info("ECR: 0x%08lx EFA: 0x%08lx ERET: 0x%08lx\nSTAT: 0x%08lx",
--		regs->event, current->thread.fault_address, regs->ret,
--		regs->status32);
-+	pr_info("ECR: 0x%08lx EFA: 0x%08lx ERET: 0x%08lx\n",
-+		regs->ecr.full, current->thread.fault_address, regs->ret);
-+
-+	pr_info("STAT32: 0x%08lx", regs->status32);
- 
- #define STS_BIT(r, bit)	r->status32 & STATUS_##bit##_MASK ? #bit" " : ""
- 
-diff --git a/arch/arc/mm/fault.c b/arch/arc/mm/fault.c
-index 26e5823c5710..95119a5e7761 100644
---- a/arch/arc/mm/fault.c
-+++ b/arch/arc/mm/fault.c
-@@ -100,10 +100,10 @@ void do_page_fault(unsigned long address, struct pt_regs *regs)
- 	if (faulthandler_disabled() || !mm)
- 		goto no_context;
- 
--	if (regs->ecr_cause & ECR_C_PROTV_STORE)	/* ST/EX */
-+	if (regs->ecr.cause & ECR_C_PROTV_STORE)	/* ST/EX */
- 		write = 1;
--	else if ((regs->ecr_vec == ECR_V_PROTV) &&
--	         (regs->ecr_cause == ECR_C_PROTV_INST_FETCH))
-+	else if ((regs->ecr.vec == ECR_V_PROTV) &&
-+	         (regs->ecr.cause == ECR_C_PROTV_INST_FETCH))
- 		exec = 1;
- 
- 	flags = FAULT_FLAG_DEFAULT;
+[auto build test ERROR on vgupta-arc/for-curr]
+[cannot apply to vgupta-arc/for-next linus/master v6.5-rc6 next-20230809]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vineet-Gupta/ARC-uaccess-remove-arc-specific-out-of-line-handles-for-Os/20230815-085308
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git for-curr
+patch link:    https://lore.kernel.org/r/20230815004813.555115-21-vgupta%40kernel.org
+patch subject: [PATCH 20/20] ARC: pt_regs: create seperate type for ecr
+config: arc-randconfig-r043-20230815 (https://download.01.org/0day-ci/archive/20230815/202308151342.ROQ9Urvv-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230815/202308151342.ROQ9Urvv-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308151342.ROQ9Urvv-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/arc/include/asm/ptrace.h:11,
+                    from arch/arc/include/asm/bug.h:11,
+                    from include/linux/bug.h:5,
+                    from include/linux/page-flags.h:10,
+                    from kernel/bounds.c:10:
+   arch/arc/include/asm/ptrace.h: In function 'regs_get_register':
+>> include/linux/stddef.h:16:33: error: 'struct pt_regs' has no member named 'event'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   arch/arc/include/asm/ptrace.h:57:24: note: in expansion of macro 'offsetof'
+      57 | #define MAX_REG_OFFSET offsetof(struct pt_regs, event)
+         |                        ^~~~~~~~
+   arch/arc/include/asm/ptrace.h:164:31: note: in expansion of macro 'MAX_REG_OFFSET'
+     164 |         if (unlikely(offset > MAX_REG_OFFSET))
+         |                               ^~~~~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:116: kernel/bounds.s] Error 1 shuffle=716081594
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1287: prepare0] Error 2 shuffle=716081594
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=716081594
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2 shuffle=716081594
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +16 include/linux/stddef.h
+
+6e218287432472 Richard Knutsson 2006-09-30  14  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  15  #undef offsetof
+14e83077d55ff4 Rasmus Villemoes 2022-03-23 @16  #define offsetof(TYPE, MEMBER)	__builtin_offsetof(TYPE, MEMBER)
+3876488444e712 Denys Vlasenko   2015-03-09  17  
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
 _______________________________________________
 linux-snps-arc mailing list
