@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62927C001E0
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Aug 2023 00:48:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E273C04A6A
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Aug 2023 00:48:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=RsPwuRdZhIBYSM/Ks1IA0+Nv/qoXZtA5DAYWbtz6J7w=; b=QjiMYNCnXTaB2N
-	mWCXnD+7KHI+2v7HlxOlSyt/qJ8VoyjmZuOszkRqlyYewELZMhkhpCxb0D5UqyhncdglZTir8mYfn
-	4yuVFjOvEnzZ4rciDjgU3PEdIwCVEVcuRcGa42W7lwQPy0Nby2a6nnGeNS2BC5JEALH33U15EcXu7
-	6HM3y9m0JgMXjQQ93mKKDy3N/H0xfX51zqtTLdxwSRDsWvGJRtk3wHDqeyNIq2FYMQm1HHuLTwak2
-	TmSp0I7tkUn8CLmDE5XU+tWDjQM2vjZW6Q5ghrN2Q0v8fCJTlQPq86OdOTwyfFk/AuA7Av9Wa4P5L
-	CEhGg9guD7GIR7s26/dA==;
+	List-Owner; bh=4hjfbQ8rFklgw1guMlZtZzByEE6DDD0dkJRf8Q70/EM=; b=ufLyLcxpWPzO7N
+	ZkwwmMpNJwSLtSYGOf/NsBsoZz5xtb047VHEUp1SspHIkugNMZfbsZ/aw1m1V2s/NAEO8ZxpzhcNU
+	fZqfkWKV5jWTeg0T9R9x606iGw7zcXs5KGEAG11/9ZTKg92JoijmFr/SPbixN/Jq0NTX0NhaKoyjO
+	s/deQaHgxWq/17xIG11/EVyZYe9xMDIv+lJsVbub/q0+4omwkOd8MYxSfegETzpJWr398tBi9meIV
+	4S1zS7sV1LSGZeoW5EcreckULfW4HcwUuLz134tq7NMb1Wc7q6YC3gQ5dzyoBT48DoMPUliaLsSn/
+	nB6xs5Ejj5IAhJIAU5yw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qViEV-000cbT-0g;
-	Tue, 15 Aug 2023 00:48:27 +0000
+	id 1qViEW-000cca-0l;
+	Tue, 15 Aug 2023 00:48:28 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qViEP-000cUb-2t
+	id 1qViER-000cUd-23
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 15 Aug 2023 00:48:24 +0000
+	Tue, 15 Aug 2023 00:48:26 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 6DB9E63EF6;
-	Tue, 15 Aug 2023 00:48:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CE69C433CA;
-	Tue, 15 Aug 2023 00:48:20 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 6D64E63956;
+	Tue, 15 Aug 2023 00:48:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BAD4C433C9;
+	Tue, 15 Aug 2023 00:48:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1692060500;
-	bh=qJhz5HZk3a2z6HLY6Omtsh1bvWUP5b6b9jSQlFYUi88=;
+	s=k20201202; t=1692060502;
+	bh=Bg9dTJaDB6ft5D9/0UBWehGD1kWgD8ZN9J/FDF/TexY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RepP7PpGxF7xtsdAuxnk2hkCRD+ZQNMd32rkSghTliLyWIUdiA4zyK5+uM3G8tT70
-	 2r8axp88W8OIKiiEO/X4HJQOIMiG7DLSyCWdpJf54miqkalBpkkC2zjBYnQeozgWN/
-	 uSIeTbJ14uhmVpTcdRtghJklZ9ZYjBbaFkkBgC+aMvHEvvBmN3kVrVhrUMMhz7Ycaa
-	 zBa3elptRKvyTTPjsxcqlr+Kzbe05s/FrRLWj2jkNNivgCd1qv06uimFrCsmvSQNNy
-	 4fp0PQDcqxQE46n3vvVkpFrWrAaa1RyLHFHHD98vDFHgrnehV6fsb9Lawarxg6MQIA
-	 GshihXUuKkyfQ==
+	b=f0cdlB7IicBynG/qM4sTxEVOSTdMqLrjvgygkSRWeDxiSQVm6aGL/vSZWhbf5gwj6
+	 VpqkhER5twL2nqdsvmQQXXWvCV+9JCgP30NZhmDJFLZP8EQ1mGb2UWffn/cbCnMQen
+	 sVI8wBWduzinxevKV9DMEkdEckfD4loVlNHOO0XwPC6nF48xHpKu8kZ6+3AZvqIfKU
+	 BO8P9/lO06sfyv57ylwaKc9SuV9jmvrOYD5/NltdjdIHIMJNldLZq02+FEq45YYOxM
+	 y5bxdb0nbAAxbUX5qbIsgpiXkBmOUx582BK5Y0NFtROCl9XwndpV08Db/BNL9TDt8d
+	 9krxZe8PUhp7A==
 From: Vineet Gupta <vgupta@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
 	Shahab Vahedi <Shahab.Vahedi@synopsys.com>,
 	Alexey Brodkin <abrodkin@synopsys.com>,
 	Vineet Gupta <vgupta@kernel.org>
-Subject: [PATCH 06/20] ARC: boot log: eliminate struct cpuinfo_arc #2: cache
-Date: Mon, 14 Aug 2023 17:47:59 -0700
-Message-Id: <20230815004813.555115-7-vgupta@kernel.org>
+Subject: [PATCH 11/20] ARC: __switch_to: asm with dwarf ops (vs. inline asm)
+Date: Mon, 14 Aug 2023 17:48:04 -0700
+Message-Id: <20230815004813.555115-12-vgupta@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230815004813.555115-1-vgupta@kernel.org>
 References: <20230815004813.555115-1-vgupta@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230814_174822_023544_18BF3153 
-X-CRM114-Status: GOOD (  23.61  )
+X-CRM114-CacheID: sfid-20230814_174823_773789_93C84FED 
+X-CRM114-Status: GOOD (  20.47  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,385 +77,307 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+__switch_to() is final step of context switch, swapping kernel modes
+stack (and callee regs) of outgoing task with next task.
+
+It is also the starting point of stack unwinging of a sleeping task and
+captures SP, FP, BLINK and the corresponding dwarf info. Back when
+dinosaurs still roamed around, ARC gas didn't support CFI pseudo ops and
+gcc was responsible for generating dwarf info. Thus it had to be written
+in "C" with inline asm to do the hand crafting of stack. The function
+prologue (and crucial saving of blink etc) was still gcc generated but
+not visible in code. Likewise dwarf info was missing.
+
+Now with modern tools, we can make things more obvious by writing the
+code in asm and adding approproate dwarf cfi pseudo ops.
+
+This is mostly non functional change, except for slight chnages to asm
+
+ - ARCompact doesn't support MOV_S fp, sp, so we use MOV
+
 Signed-off-by: Vineet Gupta <vgupta@kernel.org>
 ---
- arch/arc/include/asm/arcregs.h |  37 ++++++-
- arch/arc/include/asm/setup.h   |   1 -
- arch/arc/kernel/setup.c        |   3 +-
- arch/arc/mm/cache.c            | 171 ++++++++++++---------------------
- 4 files changed, 97 insertions(+), 115 deletions(-)
+ arch/arc/include/asm/dwarf.h |  32 +++++++----
+ arch/arc/kernel/Makefile     |   9 +--
+ arch/arc/kernel/ctx_sw.c     | 103 -----------------------------------
+ arch/arc/kernel/ctx_sw_asm.S |  72 +++++++++++++-----------
+ 4 files changed, 61 insertions(+), 155 deletions(-)
+ delete mode 100644 arch/arc/kernel/ctx_sw.c
 
-diff --git a/arch/arc/include/asm/arcregs.h b/arch/arc/include/asm/arcregs.h
-index af00cbe9b850..cb1ad1bb4ece 100644
---- a/arch/arc/include/asm/arcregs.h
-+++ b/arch/arc/include/asm/arcregs.h
-@@ -206,6 +206,38 @@ struct bcr_mmu_4 {
- #endif
- };
+diff --git a/arch/arc/include/asm/dwarf.h b/arch/arc/include/asm/dwarf.h
+index 5f4de05bd4ee..a0d5ebe1bc3f 100644
+--- a/arch/arc/include/asm/dwarf.h
++++ b/arch/arc/include/asm/dwarf.h
+@@ -10,23 +10,31 @@
  
-+struct bcr_cache {
-+#ifdef CONFIG_CPU_BIG_ENDIAN
-+	unsigned int pad:12, line_len:4, sz:4, config:4, ver:8;
-+#else
-+	unsigned int ver:8, config:4, sz:4, line_len:4, pad:12;
-+#endif
-+};
+ #ifdef ARC_DW2_UNWIND_AS_CFI
+ 
+-#define CFI_STARTPROC	.cfi_startproc
+-#define CFI_ENDPROC	.cfi_endproc
+-#define CFI_DEF_CFA	.cfi_def_cfa
+-#define CFI_REGISTER	.cfi_register
+-#define CFI_REL_OFFSET	.cfi_rel_offset
+-#define CFI_UNDEFINED	.cfi_undefined
++#define CFI_STARTPROC		.cfi_startproc
++#define CFI_ENDPROC		.cfi_endproc
++#define CFI_DEF_CFA		.cfi_def_cfa
++#define CFI_DEF_CFA_OFFSET	.cfi_def_cfa_offset
++#define CFI_DEF_CFA_REGISTER	.cfi_def_cfa_register
++#define CFI_OFFSET		.cfi_offset
++#define CFI_REL_OFFSET		.cfi_rel_offset
++#define CFI_REGISTER		.cfi_register
++#define CFI_RESTORE		.cfi_restore
++#define CFI_UNDEFINED		.cfi_undefined
+ 
+ #else
+ 
+ #define CFI_IGNORE	#
+ 
+-#define CFI_STARTPROC	CFI_IGNORE
+-#define CFI_ENDPROC	CFI_IGNORE
+-#define CFI_DEF_CFA	CFI_IGNORE
+-#define CFI_REGISTER	CFI_IGNORE
+-#define CFI_REL_OFFSET	CFI_IGNORE
+-#define CFI_UNDEFINED	CFI_IGNORE
++#define CFI_STARTPROC		CFI_IGNORE
++#define CFI_ENDPROC		CFI_IGNORE
++#define CFI_DEF_CFA		CFI_IGNORE
++#define CFI_DEF_CFA_OFFSET	CFI_IGNORE
++#define CFI_DEF_CFA_REGISTER	CFI_IGNORE
++#define CFI_OFFSET		CFI_IGNORE
++#define CFI_REL_OFFSET		CFI_IGNORE
++#define CFI_REGISTER		CFI_IGNORE
++#define CFI_RESTORE		CFI_IGNORE
++#define CFI_UNDEFINED		CFI_IGNORE
+ 
+ #endif	/* !ARC_DW2_UNWIND_AS_CFI */
+ 
+diff --git a/arch/arc/kernel/Makefile b/arch/arc/kernel/Makefile
+index 0723d888ac44..95fbf9364c67 100644
+--- a/arch/arc/kernel/Makefile
++++ b/arch/arc/kernel/Makefile
+@@ -5,6 +5,8 @@
+ 
+ obj-y	:= head.o arcksyms.o setup.o irq.o reset.o ptrace.o process.o devtree.o
+ obj-y	+= signal.o traps.o sys.o troubleshoot.o stacktrace.o disasm.o
++obj-y	+= ctx_sw_asm.o
 +
-+struct bcr_slc_cfg {
-+#ifdef CONFIG_CPU_BIG_ENDIAN
-+	unsigned int pad:24, way:2, lsz:2, sz:4;
-+#else
-+	unsigned int sz:4, lsz:2, way:2, pad:24;
-+#endif
-+};
-+
-+struct bcr_clust_cfg {
-+#ifdef CONFIG_CPU_BIG_ENDIAN
-+	unsigned int pad:7, c:1, num_entries:8, num_cores:8, ver:8;
-+#else
-+	unsigned int ver:8, num_cores:8, num_entries:8, c:1, pad:7;
-+#endif
-+};
-+
-+struct bcr_volatile {
-+#ifdef CONFIG_CPU_BIG_ENDIAN
-+	unsigned int start:4, limit:4, pad:22, order:1, disable:1;
-+#else
-+	unsigned int disable:1, order:1, pad:22, limit:4, start:4;
-+#endif
-+};
-+
- struct bcr_mpy {
- #ifdef CONFIG_CPU_BIG_ENDIAN
- 	unsigned int pad:8, x1616:8, dsp:4, cycles:2, type:2, ver:8;
-@@ -328,10 +360,6 @@ struct bcr_generic {
-  * Generic structures to hold build configuration used at runtime
-  */
+ obj-$(CONFIG_ISA_ARCOMPACT)		+= entry-compact.o intc-compact.o
+ obj-$(CONFIG_ISA_ARCV2)			+= entry-arcv2.o intc-arcv2.o
  
--struct cpuinfo_arc_cache {
--	unsigned int sz_k:14, line_len:8, assoc:4, alias:1, vipt:1, pad:4;
--};
+@@ -24,11 +26,4 @@ ifdef CONFIG_ISA_ARCOMPACT
+ CFLAGS_fpu.o   += -mdpfp
+ endif
+ 
+-ifdef CONFIG_ARC_DW2_UNWIND
+-CFLAGS_ctx_sw.o += -fno-omit-frame-pointer
+-obj-y += ctx_sw.o
+-else
+-obj-y += ctx_sw_asm.o
+-endif
 -
- struct cpuinfo_arc_bpu {
- 	unsigned int ver, full, num_cache, num_pred, ret_stk;
- };
-@@ -341,7 +369,6 @@ struct cpuinfo_arc_ccm {
- };
- 
- struct cpuinfo_arc {
--	struct cpuinfo_arc_cache icache, dcache, slc;
- 	struct cpuinfo_arc_bpu bpu;
- 	struct bcr_identity core;
- 	struct bcr_isa_arcv2 isa;
-diff --git a/arch/arc/include/asm/setup.h b/arch/arc/include/asm/setup.h
-index 76443f198778..4c0bacd0ff5c 100644
---- a/arch/arc/include/asm/setup.h
-+++ b/arch/arc/include/asm/setup.h
-@@ -39,7 +39,6 @@ extern char *arc_mmu_mumbojumbo(int cpu_id, char *buf, int len);
- 
- extern void arc_cache_init(void);
- extern char *arc_cache_mumbojumbo(int cpu_id, char *buf, int len);
--extern void read_decode_cache_bcr(void);
- 
- extern void __init handle_uboot_args(void);
- 
-diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
-index 094461540f8a..3ea834941c1f 100644
---- a/arch/arc/kernel/setup.c
-+++ b/arch/arc/kernel/setup.c
-@@ -186,8 +186,6 @@ static void read_arc_build_cfg_regs(void)
- 	/* Read CCM BCRs for boot reporting even if not enabled in Kconfig */
- 	read_decode_ccm_bcr(cpu);
- 
--	read_decode_cache_bcr();
--
- 	if (is_isa_arcompact()) {
- 		struct bcr_fp_arcompact sp, dp;
- 		struct bcr_bpu_arcompact bpu;
-@@ -463,6 +461,7 @@ void setup_processor(void)
- 
- 	pr_info("%s", arc_cpu_mumbojumbo(cpu_id, str, sizeof(str)));
- 	pr_info("%s", arc_mmu_mumbojumbo(cpu_id, str, sizeof(str)));
-+	pr_info("%s", arc_cache_mumbojumbo(cpu_id, str, sizeof(str)));
- 
- 	arc_mmu_init();
- 	arc_cache_init();
-diff --git a/arch/arc/mm/cache.c b/arch/arc/mm/cache.c
-index bdaa4aa40947..7197bb845a40 100644
---- a/arch/arc/mm/cache.c
-+++ b/arch/arc/mm/cache.c
-@@ -28,6 +28,10 @@ int slc_enable = 1, ioc_enable = 1;
- unsigned long perip_base = ARC_UNCACHED_ADDR_SPACE; /* legacy value for boot */
- unsigned long perip_end = 0xFFFFFFFF; /* legacy value */
- 
-+static struct cpuinfo_arc_cache {
-+	unsigned int sz_k, line_len, colors;
-+} ic_info, dc_info, slc_info;
-+
- void (*_cache_line_loop_ic_fn)(phys_addr_t paddr, unsigned long vaddr,
- 			       unsigned long sz, const int op, const int full_page);
- 
-@@ -35,78 +39,24 @@ void (*__dma_cache_wback_inv)(phys_addr_t start, unsigned long sz);
- void (*__dma_cache_inv)(phys_addr_t start, unsigned long sz);
- void (*__dma_cache_wback)(phys_addr_t start, unsigned long sz);
- 
--char *arc_cache_mumbojumbo(int c, char *buf, int len)
-+static char *read_decode_cache_bcr_arcv2(int c, char *buf, int len)
- {
--	int n = 0;
--	struct cpuinfo_arc_cache *p;
--
--#define PR_CACHE(p, cfg, str)						\
--	if (!(p)->line_len)						\
--		n += scnprintf(buf + n, len - n, str"\t\t: N/A\n");	\
--	else								\
--		n += scnprintf(buf + n, len - n,			\
--			str"\t\t: %uK, %dway/set, %uB Line, %s%s%s\n",	\
--			(p)->sz_k, (p)->assoc, (p)->line_len,		\
--			(p)->vipt ? "VIPT" : "PIPT",			\
--			(p)->alias ? " aliasing" : "",			\
--			IS_USED_CFG(cfg));
--
--	PR_CACHE(&cpuinfo_arc700[c].icache, CONFIG_ARC_HAS_ICACHE, "I-Cache");
--	PR_CACHE(&cpuinfo_arc700[c].dcache, CONFIG_ARC_HAS_DCACHE, "D-Cache");
--
--	p = &cpuinfo_arc700[c].slc;
--	if (p->line_len)
--		n += scnprintf(buf + n, len - n,
--			       "SLC\t\t: %uK, %uB Line%s\n",
--			       p->sz_k, p->line_len, IS_USED_RUN(slc_enable));
--
--	n += scnprintf(buf + n, len - n, "Peripherals\t: %#lx%s%s\n",
--		       perip_base,
--		       IS_AVAIL3(ioc_exists, ioc_enable, ", IO-Coherency (per-device) "));
--
--	return buf;
--}
--
+ extra-y := vmlinux.lds
+diff --git a/arch/arc/kernel/ctx_sw.c b/arch/arc/kernel/ctx_sw.c
+deleted file mode 100644
+index 40d89440b7e4..000000000000
+--- a/arch/arc/kernel/ctx_sw.c
++++ /dev/null
+@@ -1,103 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
 -/*
-- * Read the Cache Build Confuration Registers, Decode them and save into
-- * the cpuinfo structure for later use.
-- * No Validation done here, simply read/convert the BCRs
+- * Copyright (C) 2004, 2007-2010, 2011-2012 Synopsys, Inc. (www.synopsys.com)
+- *
+- * Vineetg: Aug 2009
+- *  -"C" version of lowest level context switch asm macro called by schedular
+- *   gcc doesn't generate the dward CFI info for hand written asm, hence can't
+- *   backtrace out of it (e.g. tasks sleeping in kernel).
+- *   So we cheat a bit by writing almost similar code in inline-asm.
+- *  -This is a hacky way of doing things, but there is no other simple way.
+- *   I don't want/intend to extend unwinding code to understand raw asm
 - */
--static void read_decode_cache_bcr_arcv2(int cpu)
+-
+-#include <asm/asm-offsets.h>
+-#include <asm/switch_to.h>
+-#include <linux/sched/debug.h>
+-
+-#define KSP_WORD_OFF 	((TASK_THREAD + THREAD_KSP) / 4)
+-
+-struct task_struct *__sched
+-__switch_to(struct task_struct *prev_task, struct task_struct *next_task)
 -{
--	struct cpuinfo_arc_cache *p_slc = &cpuinfo_arc700[cpu].slc;
-+	struct cpuinfo_arc_cache *p_slc = &slc_info;
-+	struct bcr_identity ident;
- 	struct bcr_generic sbcr;
+-	unsigned int tmp;
+-	unsigned int prev = (unsigned int)prev_task;
+-	unsigned int next = (unsigned int)next_task;
 -
--	struct bcr_slc_cfg {
--#ifdef CONFIG_CPU_BIG_ENDIAN
--		unsigned int pad:24, way:2, lsz:2, sz:4;
+-	__asm__ __volatile__(
+-		/* FP/BLINK save generated by gcc (standard function prologue */
+-		"st.a    r13, [sp, -4]   \n\t"
+-		"st.a    r14, [sp, -4]   \n\t"
+-		"st.a    r15, [sp, -4]   \n\t"
+-		"st.a    r16, [sp, -4]   \n\t"
+-		"st.a    r17, [sp, -4]   \n\t"
+-		"st.a    r18, [sp, -4]   \n\t"
+-		"st.a    r19, [sp, -4]   \n\t"
+-		"st.a    r20, [sp, -4]   \n\t"
+-		"st.a    r21, [sp, -4]   \n\t"
+-		"st.a    r22, [sp, -4]   \n\t"
+-		"st.a    r23, [sp, -4]   \n\t"
+-		"st.a    r24, [sp, -4]   \n\t"
+-		"st.a    r25, [sp, -4]   \n\t"
+-
+-		/* set ksp of outgoing task in tsk->thread.ksp */
+-#if KSP_WORD_OFF <= 255
+-		"st.as   sp, [%3, %1]    \n\t"
 -#else
--		unsigned int sz:4, lsz:2, way:2, pad:24;
+-		/*
+-		 * Workaround for NR_CPUS=4k
+-		 * %1 is bigger than 255 (S9 offset for st.as)
+-		 */
+-		"add2    r24, %3, %1     \n\t"
+-		"st      sp, [r24]       \n\t"
 -#endif
--	} slc_cfg;
 -
--	struct bcr_clust_cfg {
--#ifdef CONFIG_CPU_BIG_ENDIAN
--		unsigned int pad:7, c:1, num_entries:8, num_cores:8, ver:8;
+-		/*
+-		 * setup _current_task with incoming tsk.
+-		 * optionally, set caching reg to that as well
+-		 * For SMP extra work to get to &_current_task[cpu]
+-		 * (open coded SET_CURR_TASK_ON_CPU)
+-		 */
+-#ifndef CONFIG_SMP
+-		"st  %2, [@_current_task]	\n\t"
 -#else
--		unsigned int ver:8, num_cores:8, num_entries:8, c:1, pad:7;
+-		"lr   r24, [identity]		\n\t"
+-		"lsr  r24, r24, 8		\n\t"
+-		"bmsk r24, r24, 7		\n\t"
+-		"add2 r24, @_current_task, r24	\n\t"
+-		"st   %2,  [r24]		\n\t"
 -#endif
--	} cbcr;
--
--	struct bcr_volatile {
--#ifdef CONFIG_CPU_BIG_ENDIAN
--		unsigned int start:4, limit:4, pad:22, order:1, disable:1;
--#else
--		unsigned int disable:1, order:1, pad:22, limit:4, start:4;
+-#ifdef CONFIG_ARC_CURR_IN_REG
+-		"mov gp, %2   \n\t"
 -#endif
--	} vol;
 -
-+	struct bcr_clust_cfg cbcr;
-+	struct bcr_volatile vol;
-+	int n = 0;
- 
- 	READ_BCR(ARC_REG_SLC_BCR, sbcr);
- 	if (sbcr.ver) {
-+		struct bcr_slc_cfg  slc_cfg;
- 		READ_BCR(ARC_REG_SLC_CFG, slc_cfg);
- 		p_slc->sz_k = 128 << slc_cfg.sz;
- 		l2_line_sz = p_slc->line_len = (slc_cfg.lsz == 0) ? 128 : 64;
-+		n += scnprintf(buf + n, len - n,
-+			       "SLC\t\t: %uK, %uB Line%s\n",
-+			       p_slc->sz_k, p_slc->line_len, IS_USED_RUN(slc_enable));
- 	}
- 
- 	READ_BCR(ARC_REG_CLUSTER_BCR, cbcr);
-@@ -129,70 +79,83 @@ static void read_decode_cache_bcr_arcv2(int cpu)
- 		ioc_enable = 0;
- 	}
- 
-+	READ_BCR(AUX_IDENTITY, ident);
-+
- 	/* HS 2.0 didn't have AUX_VOL */
--	if (cpuinfo_arc700[cpu].core.family > 0x51) {
-+	if (ident.family > 0x51) {
- 		READ_BCR(AUX_VOL, vol);
- 		perip_base = vol.start << 28;
- 		/* HS 3.0 has limit and strict-ordering fields */
--		if (cpuinfo_arc700[cpu].core.family > 0x52)
-+		if (ident.family > 0x52)
- 			perip_end = (vol.limit << 28) - 1;
- 	}
-+
-+	n += scnprintf(buf + n, len - n, "Peripherals\t: %#lx%s%s\n",
-+		       perip_base,
-+		       IS_AVAIL3(ioc_exists, ioc_enable, ", IO-Coherency (per-device) "));
-+
-+	return buf;
- }
- 
--void read_decode_cache_bcr(void)
-+char *arc_cache_mumbojumbo(int c, char *buf, int len)
- {
--	struct cpuinfo_arc_cache *p_ic, *p_dc;
--	unsigned int cpu = smp_processor_id();
--	struct bcr_cache {
--#ifdef CONFIG_CPU_BIG_ENDIAN
--		unsigned int pad:12, line_len:4, sz:4, config:4, ver:8;
--#else
--		unsigned int ver:8, config:4, sz:4, line_len:4, pad:12;
--#endif
--	} ibcr, dbcr;
-+	struct cpuinfo_arc_cache *p_ic = &ic_info, *p_dc = &dc_info;
-+	struct bcr_cache ibcr, dbcr;
-+	int vipt, assoc;
-+	int n = 0;
- 
--	p_ic = &cpuinfo_arc700[cpu].icache;
- 	READ_BCR(ARC_REG_IC_BCR, ibcr);
+-		/* get ksp of incoming task from tsk->thread.ksp */
+-		"ld.as  sp, [%2, %1]   \n\t"
 -
- 	if (!ibcr.ver)
- 		goto dc_chk;
- 
--	if (ibcr.ver <= 3) {
-+	if (is_isa_arcompact() && (ibcr.ver <= 3)) {
- 		BUG_ON(ibcr.config != 3);
--		p_ic->assoc = 2;		/* Fixed to 2w set assoc */
--	} else if (ibcr.ver >= 4) {
--		p_ic->assoc = 1 << ibcr.config;	/* 1,2,4,8 */
-+		assoc = 2;		/* Fixed to 2w set assoc */
-+	} else if (is_isa_arcv2() && (ibcr.ver >= 4)) {
-+		assoc = 1 << ibcr.config;	/* 1,2,4,8 */
- 	}
- 
- 	p_ic->line_len = 8 << ibcr.line_len;
- 	p_ic->sz_k = 1 << (ibcr.sz - 1);
--	p_ic->vipt = 1;
--	p_ic->alias = p_ic->sz_k/p_ic->assoc/TO_KB(PAGE_SIZE) > 1;
-+	p_ic->colors = p_ic->sz_k/assoc/TO_KB(PAGE_SIZE);
-+
-+	n += scnprintf(buf + n, len - n,
-+			"I-Cache\t\t: %uK, %dway/set, %uB Line, VIPT%s%s\n",
-+			p_ic->sz_k, assoc, p_ic->line_len,
-+			p_ic->colors > 1 ? " aliasing" : "",
-+			IS_USED_CFG(CONFIG_ARC_HAS_ICACHE));
- 
- dc_chk:
--	p_dc = &cpuinfo_arc700[cpu].dcache;
- 	READ_BCR(ARC_REG_DC_BCR, dbcr);
+-		/* start loading it's CALLEE reg file */
+-		"ld.ab   r25, [sp, 4]   \n\t"
+-		"ld.ab   r24, [sp, 4]   \n\t"
+-		"ld.ab   r23, [sp, 4]   \n\t"
+-		"ld.ab   r22, [sp, 4]   \n\t"
+-		"ld.ab   r21, [sp, 4]   \n\t"
+-		"ld.ab   r20, [sp, 4]   \n\t"
+-		"ld.ab   r19, [sp, 4]   \n\t"
+-		"ld.ab   r18, [sp, 4]   \n\t"
+-		"ld.ab   r17, [sp, 4]   \n\t"
+-		"ld.ab   r16, [sp, 4]   \n\t"
+-		"ld.ab   r15, [sp, 4]   \n\t"
+-		"ld.ab   r14, [sp, 4]   \n\t"
+-		"ld.ab   r13, [sp, 4]   \n\t"
 -
- 	if (!dbcr.ver)
- 		goto slc_chk;
- 
--	if (dbcr.ver <= 3) {
-+	if (is_isa_arcompact() && (dbcr.ver <= 3)) {
- 		BUG_ON(dbcr.config != 2);
--		p_dc->assoc = 4;		/* Fixed to 4w set assoc */
--		p_dc->vipt = 1;
--		p_dc->alias = p_dc->sz_k/p_dc->assoc/TO_KB(PAGE_SIZE) > 1;
--	} else if (dbcr.ver >= 4) {
--		p_dc->assoc = 1 << dbcr.config;	/* 1,2,4,8 */
--		p_dc->vipt = 0;
--		p_dc->alias = 0;		/* PIPT so can't VIPT alias */
-+		vipt = 1;
-+		assoc = 4;		/* Fixed to 4w set assoc */
-+		p_dc->colors = p_dc->sz_k/assoc/TO_KB(PAGE_SIZE);
-+	} else if (is_isa_arcv2() && (dbcr.ver >= 4)) {
-+		vipt = 0;
-+		assoc = 1 << dbcr.config;	/* 1,2,4,8 */
-+		p_dc->colors = 1;		/* PIPT so can't VIPT alias */
- 	}
- 
- 	p_dc->line_len = 16 << dbcr.line_len;
- 	p_dc->sz_k = 1 << (dbcr.sz - 1);
- 
-+	n += scnprintf(buf + n, len - n,
-+			"D-Cache\t\t: %uK, %dway/set, %uB Line, %s%s%s\n",
-+			p_dc->sz_k, assoc, p_dc->line_len,
-+			vipt ? "VIPT" : "PIPT",
-+			p_dc->colors > 1 ? " aliasing" : "",
-+			IS_USED_CFG(CONFIG_ARC_HAS_DCACHE));
-+
- slc_chk:
- 	if (is_isa_arcv2())
--                read_decode_cache_bcr_arcv2(cpu);
-+		read_decode_cache_bcr_arcv2(c, buf + n, len - n);
-+
-+	return buf;
- }
- 
- /*
-@@ -1133,10 +1096,8 @@ static noinline void __init arc_ioc_setup(void)
-  */
- static noinline void __init arc_cache_init_master(void)
- {
--	unsigned int __maybe_unused cpu = smp_processor_id();
+-		/* last (ret value) = prev : although for ARC it mov r0, r0 */
+-		"mov     %0, %3        \n\t"
 -
- 	if (IS_ENABLED(CONFIG_ARC_HAS_ICACHE)) {
--		struct cpuinfo_arc_cache *ic = &cpuinfo_arc700[cpu].icache;
-+		struct cpuinfo_arc_cache *ic = &ic_info;
- 
- 		if (!ic->line_len)
- 			panic("cache support enabled but non-existent cache\n");
-@@ -1149,14 +1110,14 @@ static noinline void __init arc_cache_init_master(void)
- 		 * In MMU v4 (HS38x) the aliasing icache config uses IVIL/PTAG
- 		 * pair to provide vaddr/paddr respectively, just as in MMU v3
- 		 */
--		if (is_isa_arcv2() && ic->alias)
-+		if (is_isa_arcv2() && ic->colors > 1)
- 			_cache_line_loop_ic_fn = __cache_line_loop_v3;
- 		else
- 			_cache_line_loop_ic_fn = __cache_line_loop;
- 	}
- 
- 	if (IS_ENABLED(CONFIG_ARC_HAS_DCACHE)) {
--		struct cpuinfo_arc_cache *dc = &cpuinfo_arc700[cpu].dcache;
-+		struct cpuinfo_arc_cache *dc = &dc_info;
- 
- 		if (!dc->line_len)
- 			panic("cache support enabled but non-existent cache\n");
-@@ -1168,14 +1129,13 @@ static noinline void __init arc_cache_init_master(void)
- 		/* check for D-Cache aliasing on ARCompact: ARCv2 has PIPT */
- 		if (is_isa_arcompact()) {
- 			int handled = IS_ENABLED(CONFIG_ARC_CACHE_VIPT_ALIASING);
--			int num_colors = dc->sz_k/dc->assoc/TO_KB(PAGE_SIZE);
- 
--			if (dc->alias) {
-+			if (dc->colors > 1) {
- 				if (!handled)
- 					panic("Enable CONFIG_ARC_CACHE_VIPT_ALIASING\n");
--				if (CACHE_COLORS_NUM != num_colors)
-+				if (CACHE_COLORS_NUM != dc->colors)
- 					panic("CACHE_COLORS_NUM not optimized for config\n");
--			} else if (!dc->alias && handled) {
-+			} else if (handled && dc->colors == 1) {
- 				panic("Disable CONFIG_ARC_CACHE_VIPT_ALIASING\n");
- 			}
- 		}
-@@ -1218,9 +1178,6 @@ static noinline void __init arc_cache_init_master(void)
- void __ref arc_cache_init(void)
- {
- 	unsigned int __maybe_unused cpu = smp_processor_id();
--	char str[256];
+-		/* FP/BLINK restore generated by gcc (standard func epilogue */
 -
--	pr_info("%s", arc_cache_mumbojumbo(0, str, sizeof(str)));
+-		: "=r"(tmp)
+-		: "n"(KSP_WORD_OFF), "r"(next), "r"(prev)
+-		: "blink"
+-	);
+-
+-	return (struct task_struct *)tmp;
+-}
+diff --git a/arch/arc/kernel/ctx_sw_asm.S b/arch/arc/kernel/ctx_sw_asm.S
+index 95cba6265e2b..59d779004e64 100644
+--- a/arch/arc/kernel/ctx_sw_asm.S
++++ b/arch/arc/kernel/ctx_sw_asm.S
+@@ -13,48 +13,54 @@
  
- 	if (!cpu)
- 		arc_cache_init_master();
+ #define KSP_WORD_OFF 	((TASK_THREAD + THREAD_KSP) / 4)
+ 
+-;################### Low Level Context Switch ##########################
++; IN
++;  - r0: prev task (also current)
++;  - r1: next task
++; OUT
++;  - r0: prev task (so r0 not touched)
+ 
+ 	.section .sched.text,"ax",@progbits
+-	.align 4
+-	.global __switch_to
+-	.type   __switch_to, @function
+-__switch_to:
+-	CFI_STARTPROC
+-
+-	/* Save regs on kernel mode stack of task */
+-	st.a    blink, [sp, -4]
+-	st.a    fp, [sp, -4]
++ENTRY_CFI(__switch_to)
++
++	/* save kernel stack frame regs of @prev task */
++	push	blink
++	CFI_DEF_CFA_OFFSET 4
++	CFI_OFFSET r31, -4
++
++	push	fp
++	CFI_DEF_CFA_OFFSET 8
++	CFI_OFFSET r27, -8
++
++	mov	fp, sp
++	CFI_DEF_CFA_REGISTER r27
++
++	/* kernel mode callee regs of @prev */
+ 	SAVE_CALLEE_SAVED_KERNEL
+ 
+-	/* Save the now KSP in task->thread.ksp */
++	/* save final SP to @prev->thread.ksp */
+ #if KSP_WORD_OFF  <= 255
+ 	st.as  sp, [r0, KSP_WORD_OFF]
+ #else
+ 	/* Workaround for NR_CPUS=4k as ST.as can only take s9 offset */
+-	add2	r24, r0, KSP_WORD_OFF
+-	st	sp, [r24]
++	add2	r10, r0, KSP_WORD_OFF
++	st	sp, [r10]
+ #endif
+-	/*
+-	* Return last task in r0 (return reg)
+-	* On ARC, Return reg = First Arg reg = r0.
+-	* Since we already have last task in r0,
+-	* don't need to do anything special to return it
+-	*/
+-
+-	/*
+-	 * switch to new task, contained in r1
+-	 * Temp reg r3 is required to get the ptr to store val
+-	 */
+-	SET_CURR_TASK_ON_CPU  r1, r3
+-
+-	/* reload SP with kernel mode stack pointer in task->thread.ksp */
+-	ld.as  sp, [r1, KSP_WORD_OFF]
+-
+-	/* restore the registers */
++	/* update @next in _current_task[] and GP register caching it */
++	SET_CURR_TASK_ON_CPU  r1, r10
++
++	/* load SP from @next->thread.ksp */
++	ld.as	sp, [r1, KSP_WORD_OFF]
++
++	/* restore callee regs, stack frame regs of @next */
+ 	RESTORE_CALLEE_SAVED_KERNEL
+-	ld.ab   fp, [sp, 4]
+-	ld.ab   blink, [sp, 4]
+-	j       [blink]
+ 
++	pop	fp
++	CFI_RESTORE r27
++	CFI_DEF_CFA r28, 4
++
++	pop	blink
++	CFI_RESTORE r31
++	CFI_DEF_CFA_OFFSET 0
++
++	j      [blink]
+ END_CFI(__switch_to)
 -- 
 2.34.1
 
