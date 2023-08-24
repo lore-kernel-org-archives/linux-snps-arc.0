@@ -4,185 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D188AC27C40
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 23 Aug 2023 20:43:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A7D4C3DA66
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 24 Aug 2023 01:04:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ndzq9Q1SVKqDEUoqWSjR4kgj0mnnC43uGUI0sEYSYAQ=; b=CjYiWsfnZhtd60
-	5xEfaGZHKXyE3zlMlZt5yo0JfoWpRnj2azW32kqZaoAuRqaYEsDvhOa2pQ5HlFR9Kt/7QeZNYVIB5
-	ER3XZdegMH+w/uwM8XdJKQNdfwvf5HRAy1rYNi8AHJJ6Atj+Lg06FVcdD03jkXjrOFcMWuRs9mLbV
-	m6PkoQZXAgw1lGwo5PSBaaNBChMlx9qk9V3FcDqvKdeGWF2It7G+0gmutVWFKOq1Gj2iaLKuu1BqK
-	E6bZHVH9Z2zEcl6GWsXzXK/tukn0weSp7L83jqS8wIMmaWqPjNt828X4Uke3y3bPx0vtn8TEl1/xm
-	H3BVjUPIYra0j0OCg1BQ==;
+	List-Owner; bh=9uHFjS3vLrjJBAND0dSiVYjIaFcVcoXrHce5GNzUNVs=; b=KXPrgZsPn4I4QP
+	VrbH+BpD01ucfjTSiKVQeen0YPJVN4wLUHgkUgkH1CRnMDo1qAb1JmONmtDtxRiUwwWuC2uL9Qct4
+	kgvsK3GSjcKjK4AfBPZu+qXe0WCDf/A096Hz9E/wyXFi6/9rF78IxB1IFhwfVWG1JwcENDo4w4OzE
+	uvNxeAPKmAq+dm2ntt7zjaylO7SOHAZ5LyQMNKMx142L4GILfAksrCluVtAPCnq2BsoV3VQupHILd
+	1vNvm2FnR1G5QFRAbGBCUSo0QONl68WnbW2+RjyV9HjSHeYVoqHjqZ2qjks8vexswnOPqRRki4rDA
+	hdJCpArGQuygBO7jMajQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qYuhX-001W2v-24;
-	Wed, 23 Aug 2023 20:43:39 +0000
-Received: from mx0b-00230701.pphosted.com ([148.163.158.9])
+	id 1qYymL-001r1f-2o;
+	Thu, 24 Aug 2023 01:04:53 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qYuhU-001W0v-01
+	id 1qYymI-001r1G-33
 	for linux-snps-arc@lists.infradead.org;
-	Wed, 23 Aug 2023 20:43:37 +0000
-Received: from pps.filterd (m0098572.ppops.net [127.0.0.1])
-	by mx0b-00230701.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37NGk44U022973;
-	Wed, 23 Aug 2023 13:43:29 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pfptdkimsnps;
- bh=p2kKjdyek0BIiv8gc1qzl3VTJQnR4ZSR8k2A1uFowqA=;
- b=RGTZoIYppzpln1NYq2L3MA5iUDHtQrumIUD7sWZwCdI5G+S+jRz1etWgTEGoYx4ZjbGQ
- KYnPX9WNp/L2EFAAvcxW/n5t5YfIVxidkUGpXa4muxG0FA392Zv7P2cfedvJWHpY9uTn
- 9qx4zOXugaqMiB6s2Pds5gXoUwpvbfzPvScAbKZYeRWroZ+gcPvZL8fr7vWQATRPdE/u
- wncHE7tONJ+cAoffgh4Ig5N1yEoWhj9EmwkMKeKgpGPl8OILFjRoYoMkyOLAFVTG26uD
- g7lpWWVR/esY5Ix/fLD0nrCaymlh5+gn6C3Z8cPrKqo6wcLWxUZXOJbnEztR4Ms0SShZ rA== 
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.73.133])
-	by mx0b-00230701.pphosted.com (PPS) with ESMTPS id 3sn20uervk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 23 Aug 2023 13:43:29 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1692823404; bh=Rs6X79pdS5RdmPEklE+G2aeK9PO6T1utz8HrkiIL2pQ=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=E+CoEoux3btu+mpvz+IBLjfhpXxw5lH9Ab+xdy/VmcdFNYZXE76vPK8hZcizwyVxV
-	 uMXDsJpX35xzkEnIFBxQdm7FlalkLycn3OIKu5H7riKkukBpFT48JVj/i2BrTSNb6G
-	 IJRjuLesnQ8GhKR+FrSRWrqANDBaNrTiBsC5Q3mHnt5wyuwTY+3zSi0gxUtWHi+HoQ
-	 bnaOxOQ2MPMPqjJcmA07LBQ5rbG3UhyZA5HtQakXEYVf3BE3s7WjQvZCvmT+WN/In1
-	 mhD9aBYDi7WQPaazmBLuGdsh5mKt+17ojDcxbId775JzrKbbumeexEh9w+Wck+bosm
-	 ZoZUTuBoncaog==
-Received: from mailhost.synopsys.com (sv1-mailhost1.synopsys.com [10.205.2.131])
+	Thu, 24 Aug 2023 01:04:52 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
-	 client-signature RSA-PSS (2048 bits))
-	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
-	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 4A9D040145;
-	Wed, 23 Aug 2023 20:43:23 +0000 (UTC)
-Received: from o365relay-in.synopsys.com (us03-o365relay1.synopsys.com [10.4.161.137])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(Client CN "o365relay-in.synopsys.com", Issuer "Entrust Certification Authority - L1K" (verified OK))
-	by mailhost.synopsys.com (Postfix) with ESMTPS id CAA88A005F;
-	Wed, 23 Aug 2023 20:43:21 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
-	dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=PUPIHjzJ;
-	dkim-atps=neutral
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2040.outbound.protection.outlook.com [104.47.66.40])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(Client CN "mail.protection.outlook.com", Issuer "DigiCert Cloud Services CA-1" (verified OK))
-	by o365relay-in.synopsys.com (Postfix) with ESMTPS id 0980A4013F;
-	Wed, 23 Aug 2023 20:43:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JhFYI19JqPBNCvdcvW1n70qmHgJTQ/OpdyYe1kRvBWIs+5WlAzk1EJPGmhuPcvbAIQrus6uYlDHJOg2qmpL4bB6QuLtt/AXRZn83GeOD0aDyx9MC9waPlomBsoSZiW1wQJak+z6OhTI+Haton/p/ny1y8szD3eRW6LLSUkyhwMn0kGEfxmyPgIWUf8M+ZkJjdbxn2Embs7AW9VHOA7s0yIUGCPFITBKObFow5BxDVXjJSRVjtIydCH3RM1lbTrETOaC6OLL0EaH1bJHlX+3t/SzspPKYsNZ2jVohwUoabE+Lig9uQ1S+qTAdQzAMfA8OE4Be2MwOuAxUdrig95VOYQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p2kKjdyek0BIiv8gc1qzl3VTJQnR4ZSR8k2A1uFowqA=;
- b=Ruo/tT7b9DG1vry94G9OwpYH/PKrH5A39iW5+r0a75SDuY6pjfTp0MLNC4tiYqaDnRFwK7sk057LPKOP7vGIH1VFejMrWURuLDr34859XwRDXgaIo50J6GfYmEXd4nwkGVSXEdUZ7FCntnJ0b5kroDxEn7NJcV3YvfzYN75V7YIbHDDJPYFjgd03uFLkqrhnkoYtvhxoLh4FFagM0VeHO2tbkVNSEugsGqHFvihkt5S8Kj3C47jRWJO8ACc4PzHYJvlACu6g/Fmw8CWmw/HnpaVnJeHggJNuXp6xclVkvjrcPMKQ1F2ujqrhOm+6UY2DK01XIpiBJZgGip2EPvoG4A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p2kKjdyek0BIiv8gc1qzl3VTJQnR4ZSR8k2A1uFowqA=;
- b=PUPIHjzJJ3rbhbt0lzUiYUb9P4TDluBh1Ky0dUjzC3LTel5wBoqOCuk9j4BDdSKHEDG80H7yAPDGZPzSb2p4Z92TrD2wakp6LQFeRUPybL7Hauy6hVU0gsK5ta7WKlnsB5hIDSuGSc2+Z2wMfR0F9xMB90gg9fy9eSRatzSylxc=
-Received: from DS7PR12MB9041.namprd12.prod.outlook.com (2603:10b6:8:ea::19) by
- DM4PR12MB6423.namprd12.prod.outlook.com (2603:10b6:8:bd::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6699.24; Wed, 23 Aug 2023 20:43:17 +0000
-Received: from DS7PR12MB9041.namprd12.prod.outlook.com
- ([fe80::d13e:94be:b491:40c3]) by DS7PR12MB9041.namprd12.prod.outlook.com
- ([fe80::d13e:94be:b491:40c3%5]) with mapi id 15.20.6699.026; Wed, 23 Aug 2023
- 20:43:17 +0000
-X-SNPS-Relay: synopsys.com
-From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-To: Rob Herring <robh@kernel.org>
-CC: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Vineet Gupta
-	<vgupta@kernel.org>
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 93CD763B9C;
+	Thu, 24 Aug 2023 01:04:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B88F3C433C8;
+	Thu, 24 Aug 2023 01:04:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1692839089;
+	bh=7irFKvrUWbJgoOVMhkGNrs8wK7fU9Q7/eAW1MtLZD04=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=L/lXJxXVeDNTcbKQBh4sv4dkc3q1Z24uD5UlD/Q5z7FtGdyuIfP0/BVrP0kWAaspT
+	 bJoi+y+eO8HzqWepPd1aEyORf82sOEBnLqz3TVwIOILb0+wT1SphTiwzCTI3E+TJwo
+	 7Z8bokSCtQTkCtNt1+/JlVAIjSHJOtT/gG6gMGPu0+WwQGe0SUuFp7CV6gzHpkFw4z
+	 Xi+GdTjYNBJ4ny0jc95SHUdMiyaKUofgn4NoSpcdhLM4+xmaLES1koXDT1zJ7Hfj2w
+	 k7pFxEChrsYUvv9hAvqKNC7OYHXIm6+J5n4rG81xHGMxjKDpYNTyelWfNCt+HF4nty
+	 CsAoDizZDem2w==
+Message-ID: <e304f322-bda7-a28a-1c4d-86480fcc606a@kernel.org>
+Date: Wed, 23 Aug 2023 18:04:48 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
 Subject: Re: [PATCH] arc: Explicitly include correct DT includes
-Thread-Topic: [PATCH] arc: Explicitly include correct DT includes
-Thread-Index: AQHZtnpD54rdQx1ml0KYeICwmilFg6/4WaqAgAA+Gxc=
-Date: Wed, 23 Aug 2023 20:43:16 +0000
-Message-ID: <DS7PR12MB90416779F78229EDD1750A33A11CA@DS7PR12MB9041.namprd12.prod.outlook.com>
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>, Alexey Brodkin <abrodkin@synopsys.com>,
+ Vineet Gupta <vgupta@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-kernel@vger.kernel.org
 References: <20230714173949.4038981-1-robh@kernel.org>
  <20230823170025.GA2470216-robh@kernel.org>
+From: Vineet Gupta <vgupta@kernel.org>
 In-Reply-To: <20230823170025.GA2470216-robh@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DS7PR12MB9041:EE_|DM4PR12MB6423:EE_
-x-ms-office365-filtering-correlation-id: bee06e60-9469-4a92-e973-08dba4199430
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: NCotwNnIysyyjA03v4GVQgsfywH52RDoy1+v31/FjzOR9QrFnNKA3YyAiLQZwkufYhRA8/zJIwvinK65JsOkADsHCLil5lg1Eg31MqOKT/CKlHleY7QjAhX/1qa0Q8/PxrpC0UREoPSLvIKzWT/KEDoo+Tqj+obzc1Wlc9/yO/bjmAYLp6z0hf0+tFcWyNERp3G0LCf1kuR7vC2hxdufQTojZSgQNYKR/clVFEMr66T5xPrdg/GCglWUOeHraFktt34jYkZewZ/r1Sk7NLA3yWusYwemWOMgkQJMZdFs5oBd3xPNpE4jNNqSIX9rtn/vPjQSTDCT0x2OTIksNRK8M8TXtDPBgp0V7AL1kGwQefiEy0EQWrRMYL5aB762NcrCLB/Z5+KeehWljyx14uAKF5aLGZuOP+NtAiuHaVsLyxest6RixPj0w+00v1FadeZCb5hwsclKl92C0XPrgJWRsw9xr1CvwyFZA8d57iLhMVWQYvasR+M1UtR/czthECPud+WaYXo0+f2wd1DFwTCaiGnVcWe0T4CfnuE4vz7X3iCFIohgQ0tlV/7rAN7+DyVT69k/mebw8EeOZUex4VmMJSwFWJ9MuU3FRLCRkLrZ7ZjUhDexBMYesIJXS6okERk0
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9041.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(39860400002)(376002)(366004)(346002)(186009)(1800799009)(451199024)(54906003)(76116006)(66476007)(6916009)(66446008)(66946007)(9686003)(64756008)(316002)(66556008)(91956017)(8676002)(8936002)(4326008)(41300700001)(478600001)(55016003)(122000001)(71200400001)(38100700002)(6506007)(38070700005)(83380400001)(2906002)(7696005)(86362001)(5660300002)(52536014)(26005)(33656002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?ULhwstZMl5hvXr0guq5bIORwboaWve+cAVbACSeMtsB0H5C94d9ihwATvA?=
- =?iso-8859-1?Q?lehseZsEpipmw6leYaKEY72MhBfbxMd3CWjQg8talu0QLjalObTB5w8X2j?=
- =?iso-8859-1?Q?9XRFvAKpWNlFRqFRdVgX+RDVTEvFgM5I3EZ9Sgeg5p7yKCiaNWtw0PbLDw?=
- =?iso-8859-1?Q?iw8aeeqaiWHambWNvJYYeAbYuY2Xzz1leAsA7q+WO9550jZ3kV3gSfsSGm?=
- =?iso-8859-1?Q?jGWEQvNJ+dpEGekVsbWQtDnXAYzfAkFecQ9/zFfDWRUjdpWdohH4ppkXZ2?=
- =?iso-8859-1?Q?rJY/0TR8VLq+IAnmXiShVNIEZvO6uk5vwX8tMEvu6KoWfsPwElhR1ea4gE?=
- =?iso-8859-1?Q?xzKxj+grE0up1rJzcBvwgLDkM+gTKU9o1e2AfTtqkvd/xIDvKJwGma+4XK?=
- =?iso-8859-1?Q?6YgCIClLbQpqKZnPJAq533c1ChXHzGhbnRp2oRYqkAKxFmTLbtAnrLwwoN?=
- =?iso-8859-1?Q?W5//hJo13Fyi71MU7bawihBeMDwX7XXHvt0McLPni5/0qvxvZOgJR8sQZQ?=
- =?iso-8859-1?Q?FnZuNIfSn+3eVkmP1Rgjdll/j6rQRGiYWHY90NXUEsWTMpf5KqAPDhx++3?=
- =?iso-8859-1?Q?JyyOEoSQgkac9IUVW2ULvegBSe4uqb2oD8meAFnzAjHtG5csJqhR5ofag1?=
- =?iso-8859-1?Q?BE5iQgNBgkiadbSJ9Mao7R774O7nwuBo6t8WoJe85xgEf3Yfz+W6gzGqtT?=
- =?iso-8859-1?Q?YZo1xSCgSm2MCMPrVlTyBDp32i2kAezub1SvOxibEmEWev8TcQYWvSRh/j?=
- =?iso-8859-1?Q?W2fdbx1s4jKiDa4zY24pWC987S02ssweZ2VhKv91iplLo+TihPCT9YUbcW?=
- =?iso-8859-1?Q?fUO7d/9zgvLW4UDJtMzBLG7oXyfd52u18mESrdSk7mk6aqbtisa1E6/mDr?=
- =?iso-8859-1?Q?TAfJv5SwO8VpY/MGaXfZDsaCODtwlrHN52ZP7WCWOZnu8u4ZhEO3ZWp+4C?=
- =?iso-8859-1?Q?qqDBtuuwvHfdhPyAuOZrigGPmGeL3LtkMv6WC3KqAPfnD+77ZtTCECxDxn?=
- =?iso-8859-1?Q?Nl8cEe9Q9RLyQYXSg7F4C8uOUiHZh+1PnLIE+RpmTQZn3w2CRiHaAL2Qbc?=
- =?iso-8859-1?Q?FjLH9zq/3TlCYyeCp6x3bVxv+YihIqfjAb2VWcI2pO2LUF6ZrkEEb7FgIA?=
- =?iso-8859-1?Q?5pAz7tm+AbmAWWRJ6xh8CPwfMyYnaFsgNSmgGybSl8eU8ZoBxVISO+Olvo?=
- =?iso-8859-1?Q?fYz1kyF3IJ/77wFftkvyxf2I3VF3OJTX2Rg676GymUPZAI9sG4DW7kGMh/?=
- =?iso-8859-1?Q?Yx3cb4H/ptztEiYtTIzELGqHLkq17V8LyHWRazHAv+vZSlurXYEUg7MvoS?=
- =?iso-8859-1?Q?OHAi76ugRt6J4N3iTQ0uwJ0WkLZ0UV3VUk30ajjeQCHjEWQJaZAZEwrgwn?=
- =?iso-8859-1?Q?72ejCblQ8QZDBmZ/8ByN5DPcueKHekbWxusQXvXLQeEYtLIuKoMR6LkTkp?=
- =?iso-8859-1?Q?un8a/8oxk/waAnKI/j8jqhAxCz5tgqVj3SQs9ZBu7x7nOfgZ8QuPb8TPlT?=
- =?iso-8859-1?Q?gVIA63I+dZ3ASU2zOkTRMm8vWolzWv/+ky6/5X+LhKtdmYX+ULeYeRDtwz?=
- =?iso-8859-1?Q?87Bkh59K+gRCpSeeMxEyGmhbu9+Jyg8lyF3IiMFWDlenId8l1KrvLCWetS?=
- =?iso-8859-1?Q?sxN6lb3AJVie2KqQT6mk9A+TvR+VLgRngE?=
-MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 1RHdoNsTCYdtx9CfuUu30omWOV5IAn4GWmL9fZ+mzMU7NoXanH9r/o10pAm9rCl1s1zrnejH9siaBgDRC/UjOY/SA5Fm7HLc7U5GxDmFf2KXhns3BxFM++lh49wa7MpRmlDIMkJH3EKnFkZpshQqJ7S1gXoHYTa9dkdvQb8ExeF12pRXZ681ZK6I6qm8K9ejSt+lZU4ZBnwRuMy+Z/418P+jUxbPjFzyomeAehV1/D+Pj3+du/MQIOLP2/8NK5SuoxcBY4TUehPAxarPm8PpAfjPNJgNE112zEAqdrqPa7zNJo+Wr1YQTsU0V/lt4t9a73MEQSW7rzeMj1AauNZfPjTSZFrAjoqfyVw57Bi4xoYqpGrzPv0mooJBoRu+I0F2pd9Ur9l1K5K9pnc8aVFY0mJ28cMp4XBOgZsS/Ya/rwTwhCa0UJsp04hHxpyZmwStqG2rBvtXt2C9BCZ4CFr/ZatTtPGzzh9mlhIgMqf8o7zRydzGSkBaRFVwUEgIYBmYB2mnbi/N4APTa0GpLUCirpulH4QNX/FSH9z42a1XaOE9cwYCO5gXOeu/Z9mrCICQPgzPWoPyJNHxIJVEbeeNRkd6p9Pj+zEWBptI5IMQLaEAiKi6FZUEEXS4I24krcIqm2xklS05IyH7Yox78Tngc3M7caZOP9F+tud17loXJsxzJUmtt1jHsKe/RAcC4PYxy0ukOEBSd2MonEnUeRztcOtGdDlhoA1NVwmv393d27xzQWleX8BPjsIcDdbNoXGyes5mr6KLYVmaBX7X5vF2EC7aaa+yX6Ppv0L1CO9ABCUMyWb4yO0EpIWauivgCApwefh/me/DQOS2IQZpZ3hz3SR8osH4aQpY/zCwgdKSzrFMpSP5TsjIfm/8swSYWIqo
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9041.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bee06e60-9469-4a92-e973-08dba4199430
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Aug 2023 20:43:16.9844
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vPEndfn+wvTkxP1DjdzDX5Is04Z+wuV7e4ieJQJIbPL40mgI92qoBgl1Y5RIA1hs+7R0HFQvterscJTQ9zE4Bw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6423
-X-Proofpoint-GUID: tRk-WFjICJxUj9MHFb1GOPu3EG-2Zp76
-X-Proofpoint-ORIG-GUID: tRk-WFjICJxUj9MHFb1GOPu3EG-2Zp76
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-23_14,2023-08-22_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam policy=outbound_active_cloned score=0
- bulkscore=0 adultscore=0 impostorscore=0 phishscore=0 suspectscore=0
- priorityscore=1501 lowpriorityscore=0 mlxlogscore=882 spamscore=0
- mlxscore=0 malwarescore=0 clxscore=1011 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2308100000
- definitions=main-2308230188
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230823_134336_271792_70E40883 
-X-CRM114-Status: GOOD (  21.13  )
+X-CRM114-CacheID: sfid-20230823_180451_044997_A31F24F1 
+X-CRM114-Status: GOOD (  11.63  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -194,51 +74,35 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Rob,
 
+
+On 8/23/23 10:00, Rob Herring wrote:
 > On Fri, Jul 14, 2023 at 11:39:49AM -0600, Rob Herring wrote:
-> > The DT of_device.h and of_platform.h date back to the separate
-> > of_platform_bus_type before it as merged into the regular platform bus.
-> > As part of that merge prepping Arm DT support 13 years ago, they
-> > "temporarily" include each other. They also include platform_device.h
-> > and of.h. As a result, there's a pretty much random mix of those include
-> > files used throughout the tree. In order to detangle these headers and
-> > replace the implicit includes with struct declarations, users need to
-> > explicitly include the correct includes.
-> >
-> > Signed-off-by: Rob Herring <robh@kernel.org>
-> > ---
-> >  arch/arc/plat-axs10x/axs10x.c | 1 -
-> >  1 file changed, 1 deletion(-)
-> 
+>> The DT of_device.h and of_platform.h date back to the separate
+>> of_platform_bus_type before it as merged into the regular platform bus.
+>> As part of that merge prepping Arm DT support 13 years ago, they
+>> "temporarily" include each other. They also include platform_device.h
+>> and of.h. As a result, there's a pretty much random mix of those include
+>> files used throughout the tree. In order to detangle these headers and
+>> replace the implicit includes with struct declarations, users need to
+>> explicitly include the correct includes.
+>>
+>> Signed-off-by: Rob Herring <robh@kernel.org>
+>> ---
+>>   arch/arc/plat-axs10x/axs10x.c | 1 -
+>>   1 file changed, 1 deletion(-)
 > Ping!
 
-Thanks for the enhancement!
+Sorry this fell through cracks, added to for-curr now !
 
-Tested-by: Alexey Brodkin <abrodkin@synopsys.com>
+Thx,
+-Vineet
 
-> 
-> >
-> > diff --git a/arch/arc/plat-axs10x/axs10x.c b/arch/arc/plat-axs10x/axs10x.c
-> > index b821df7b0089..1feb990a56bc 100644
-> > --- a/arch/arc/plat-axs10x/axs10x.c
-> > +++ b/arch/arc/plat-axs10x/axs10x.c
-> > @@ -6,7 +6,6 @@
-> >   */
-> > 
-> >  #include <linux/of_fdt.h>
-> > -#include <linux/of_platform.h>
-> >  #include <linux/libfdt.h>
-> > 
-> >  #include <asm/asm-offsets.h>
-> > --
-> > 2.40.1
-> >
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
