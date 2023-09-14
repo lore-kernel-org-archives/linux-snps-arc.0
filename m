@@ -4,70 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1FFC6EEB565
-	for <linux-snps-arc@archiver.kernel.org>; Sat,  9 Sep 2023 00:53:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B1569EDE988
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 14 Sep 2023 06:31:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Message-Id:MIME-Version:Subject:
+	Date:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=xEiaYWyAUNYoYjS69o4v27AnnjaWz9ZvLHD8KRERCas=; b=RlrOd4yXbYjRxZ
-	biW/LKS3CRoruRWhc3zbPXE3upkw4v0eN9WpEhwYvT3WXUFb8oe8oSjfvAg856N102uKlomEqTvV7
-	3j1UHUQ4+9qejx6szETHS5f7g330vmcqGOcHqNvK5lPImHLwdy1mVRkydx+gYNxS7okymUbAHTwR+
-	dsoH2U0Gq2ed60lqUBuOHQjqoJ8U2ENfsSY5cc7ezcU4fIMIIAjg+/2JAWc63R9JgE+iYOEjw+/MX
-	ZKvvEutu8kIj0XGA0NoCBBzazICXM/YUAGP3ZTMKYbHQOIHEyal0HFDyIM0CC1QiI6y+3q50TriFI
-	dXVMngjze6x4yB16gALw==;
+	List-Owner; bh=DvrhjOFbELl7lZvXZamdYE1GxarSGexghwG+obE/PJw=; b=hLyGZxJ8iJ+5tc
+	hUq2nRCd/UZAIeKyc3YtUwGrS/W917kcHGR/nKZjEm8GU5beqxyOGohRsXH3v9U7baKqDXRJHcAmJ
+	nOf8pGzLSMmpROQKt19gobNsAv4LXv+I37m7KsxayD75FTl9eKquyT73/K0Zn6fHRmBhE8PaQvalZ
+	7HxJIbm5LYI9pTqkjQQkvY2jGmAraTjoEn/6i96Hl0EiIlH7RiiTlLx8IyHppEb+5lpcUoD03DGlp
+	T4vaYEDt5lhgS8K0XOQ3JoJikP8rjumhbNbnDuTdPzyKejGIHDHfzS1kXr9MlqLc5iyxQzsgeplhk
+	47PqVYC2ZnidhDA1MVzA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qemDo-00Eoef-1s;
-	Sat, 09 Sep 2023 00:53:12 +0000
-Received: from mgamail.intel.com ([192.55.52.136])
+	id 1qgftA-007W6R-0R;
+	Thu, 14 Sep 2023 06:31:44 +0000
+Received: from mail-lf1-x135.google.com ([2a00:1450:4864:20::135])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qemDk-00EoeK-1y
+	id 1qgft6-007W62-26
 	for linux-snps-arc@lists.infradead.org;
-	Sat, 09 Sep 2023 00:53:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694220788; x=1725756788;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SgLx2PeCWloRvN+iXOhfgsEnSo7etUw2fSbm0rpTy6M=;
-  b=Mxp6YfCNO7O8KG2NNcJDKdG5HfIbPkqtvT67IbRYBej7WK55iSWw3cMh
-   HRYv/Q/IEg9PY48XQOmbib3iMID5rZ6zXgNThWFByKs0k7xKbi3MhtIG1
-   2D9mlYfOkw+hbzKCRN5egDybacmvYTYPWM9q+ZvN3J5OTbP2DBmt4pTW4
-   rxAzPQxxsMwxJWp6gn/Gto7zrr5QCyGU8uVGzZjnMW1dlwKsYIE9UMfEl
-   K5kvBaRgG+aT9CNzCcZxhCaTviiPvvBrwoajTEXLPQDGW5Uit5cmFA6Lt
-   4h58lI+IWXGISmgFzeJIjGUaQ0XlG+bCwcz0MDYAYGWZjhskmEYUxk0io
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="357242066"
-X-IronPort-AV: E=Sophos;i="6.02,238,1688454000"; 
-   d="scan'208";a="357242066"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2023 17:52:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="745788836"
-X-IronPort-AV: E=Sophos;i="6.02,238,1688454000"; 
-   d="scan'208";a="745788836"
-Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 08 Sep 2023 17:52:37 -0700
-Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qemDD-0002mV-2T;
-	Sat, 09 Sep 2023 00:52:35 +0000
-Date: Sat, 9 Sep 2023 08:52:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vineet Gupta <vgupta@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org
-Subject: ERROR: modpost: "__ld_r13_to_r25_ret" [lib/zstd/zstd_decompress.ko]
- undefined!
-Message-ID: <202309090835.rHqW4kav-lkp@intel.com>
+	Thu, 14 Sep 2023 06:31:42 +0000
+Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-502d9ce31cbso925096e87.3
+        for <linux-snps-arc@lists.infradead.org>; Wed, 13 Sep 2023 23:31:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694673097; x=1695277897; darn=lists.infradead.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=V9y3W4w8Vrvb3itSQ1aZxY0flcAM2wszFYoNzBZyBoc=;
+        b=KVYUjnNptiWXdOAB1RqigBSSsaey2m8M6fSJv6EdVHJEJYKUWeL7Ym87q8bbP4Eba2
+         qalKGmPdGysmkNNF/7sKS7fxV4dJcMnEUAC6zaSEv8wN4Rj8xhbh5M2cVe3UQRLDoL5D
+         TMqBpn2OXwUB3mh6bRRkXS1J/3kQM0PcootQJhnWKY5Z6tly5nkm7/fw+dNoTDtwQipP
+         FJzSBd/14lWq5Ugh7B5hFCmd83ybMiMoGKZXWAk9UU5DXDGvk1CwU31m98K5YUFhQYwU
+         bzvGiQEtzZQM8rmjgGS3oI1soZsmu1gjc23eNB5Me5rMot8h/Xg7Wo7rj2UehSG1stmS
+         zYmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694673097; x=1695277897;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=V9y3W4w8Vrvb3itSQ1aZxY0flcAM2wszFYoNzBZyBoc=;
+        b=eShr/hx1sLmWbVpnjr+UYWB4pcz/5vQZc18pNz1oezCgiR8hqNaU6VS/q60WRtuKBr
+         JmZDbK1r6aTDnTjmy0yDnBSEh//eiuRlmPUy5uBaBSwL2iIGVtqoKlFHqpkJlH9GQWff
+         X5n78+HDx58jrHy2vu3I0Ce4QdvwuPzIUHHiGnO/FMO5UYp1nt26o2HOTn5KKPZc8oNe
+         lfeKf8rdlSADr/0lHXZIf160ww1ldnWSdInDKhyfzD1XTeKIWu+wbVMg5t2WT/bttNxW
+         3ezJhIL8A/o5F57jFOdlmdn5afdrKZcDpzOTwLpspDyLGQ4IfNlxw4z44efQ0gubw2YP
+         Pvxg==
+X-Gm-Message-State: AOJu0Yxcm8r37kLIUUGBEbip29l6Cnow7f/r0CbR2hhY7q95wc1UuZym
+	4cqdecy37de4DLDfVRY1PmiAmg==
+X-Google-Smtp-Source: AGHT+IEZbGELgFj+ivRiRQ+TIEYto5EpOmtl+6TCMIpbdj0vBdu2MWWww5vUgZ71rmW/zJdr3albrg==
+X-Received: by 2002:a05:6512:2311:b0:500:7cab:efc3 with SMTP id o17-20020a056512231100b005007cabefc3mr4731734lfu.11.1694673096532;
+        Wed, 13 Sep 2023 23:31:36 -0700 (PDT)
+Received: from [127.0.1.1] ([85.235.12.238])
+        by smtp.gmail.com with ESMTPSA id a26-20020a056512021a00b004ffad0ec2d5sm145003lfo.111.2023.09.13.23.31.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Sep 2023 23:31:36 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 14 Sep 2023 08:31:35 +0200
+Subject: [PATCH] ARC: mm: Make virt_to_pfn() a static inline
 MIME-Version: 1.0
-Content-Disposition: inline
+Message-Id: <20230914-virt-to-phys-arc-v1-1-9dc0008dc0b0@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAMaoAmUC/x3MQQqAIBBA0avErBvQBMmuEi3SppxNxRhRiHdPW
+ r7F/xkSCVOCockgdHPiY6/QbQMhzvtGyEs1dKozymmDN8uF14FnfBPOEtArb7UJtndeQc1OoZW
+ ffzlOpXwV57JzYgAAAA==
+To: Vineet Gupta <vgupta@kernel.org>
+Cc: linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Linus Walleij <linus.walleij@linaro.org>
+X-Mailer: b4 0.12.3
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230908_175308_669535_E8F6920B 
-X-CRM114-Status: UNSURE (   7.02  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230913_233140_712509_5C9C37AA 
+X-CRM114-Status: GOOD (  14.34  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,130 +92,85 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Vineet,
+Making virt_to_pfn() a static inline taking a strongly typed
+(const void *) makes the contract of a passing a pointer of that
+type to the function explicit and exposes any misuse of the
+macro virt_to_pfn() acting polymorphic and accepting many types
+such as (void *), (unitptr_t) or (unsigned long) as arguments
+without warnings.
 
-First bad commit (maybe != root cause):
+In order to do this we move the virt_to_phys() and
+below the definition of the __pa() and __va() macros so it
+compiles. The macro version was also able to do recursive
+symbol resolution.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   32bf43e4efdb87e0f7e90ba3883e07b8522322ad
-commit: cfca4b5abe0cc13f9d9f45f760efd8260e31200f ARC: entry: use gp to cache task pointer (vs. r25)
-date:   3 weeks ago
-config: arc-randconfig-r001-20210930 (https://download.01.org/0day-ci/archive/20230909/202309090835.rHqW4kav-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230909/202309090835.rHqW4kav-lkp@intel.com/reproduce)
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ arch/arc/include/asm/page.h           | 21 ++++++++++++---------
+ arch/arc/include/asm/pgtable-levels.h |  2 +-
+ 2 files changed, 13 insertions(+), 10 deletions(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309090835.rHqW4kav-lkp@intel.com/
+diff --git a/arch/arc/include/asm/page.h b/arch/arc/include/asm/page.h
+index 02b53ad811fb..def0dfb95b43 100644
+--- a/arch/arc/include/asm/page.h
++++ b/arch/arc/include/asm/page.h
+@@ -84,15 +84,6 @@ typedef struct {
+ 
+ typedef struct page *pgtable_t;
+ 
+-/*
+- * Use virt_to_pfn with caution:
+- * If used in pte or paddr related macros, it could cause truncation
+- * in PAE40 builds
+- * As a rule of thumb, only use it in helpers starting with virt_
+- * You have been warned !
+- */
+-#define virt_to_pfn(kaddr)	(__pa(kaddr) >> PAGE_SHIFT)
+-
+ /*
+  * When HIGHMEM is enabled we have holes in the memory map so we need
+  * pfn_valid() that takes into account the actual extents of the physical
+@@ -122,6 +113,18 @@ extern int pfn_valid(unsigned long pfn);
+ #define __pa(vaddr)  		((unsigned long)(vaddr))
+ #define __va(paddr)  		((void *)((unsigned long)(paddr)))
+ 
++/*
++ * Use virt_to_pfn with caution:
++ * If used in pte or paddr related macros, it could cause truncation
++ * in PAE40 builds
++ * As a rule of thumb, only use it in helpers starting with virt_
++ * You have been warned !
++ */
++static inline unsigned long virt_to_pfn(const void *kaddr)
++{
++	return __pa(kaddr) >> PAGE_SHIFT;
++}
++
+ #define virt_to_page(kaddr)	pfn_to_page(virt_to_pfn(kaddr))
+ #define virt_addr_valid(kaddr)  pfn_valid(virt_to_pfn(kaddr))
+ 
+diff --git a/arch/arc/include/asm/pgtable-levels.h b/arch/arc/include/asm/pgtable-levels.h
+index fc417c75c24d..86e148226463 100644
+--- a/arch/arc/include/asm/pgtable-levels.h
++++ b/arch/arc/include/asm/pgtable-levels.h
+@@ -159,7 +159,7 @@
+ #define pmd_clear(xp)		do { pmd_val(*(xp)) = 0; } while (0)
+ #define pmd_page_vaddr(pmd)	(pmd_val(pmd) & PAGE_MASK)
+ #define pmd_pfn(pmd)		((pmd_val(pmd) & PAGE_MASK) >> PAGE_SHIFT)
+-#define pmd_page(pmd)		virt_to_page(pmd_page_vaddr(pmd))
++#define pmd_page(pmd)		virt_to_page((void *)pmd_page_vaddr(pmd))
+ #define set_pmd(pmdp, pmd)	(*(pmdp) = pmd)
+ #define pmd_pgtable(pmd)	((pgtable_t) pmd_page(pmd))
+ 
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+---
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+change-id: 20230913-virt-to-phys-arc-b0b613c689b0
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cdrom/cdrom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/common/usb-otg-fsm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x-control.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/ohci-exynos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/isight_firmware.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/class/usbtmc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb_debug.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/mxuport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/navman.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/qcaux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/chipidea/ci_hdrc_msm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/libcomposite.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_acm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_serial.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_serial.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_obex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_ether.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ecm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ecm_subset.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_rndis.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_mass_storage.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_fs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_tcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/lib_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/rtc-omap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/omap_wdt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-aureal.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-betopff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-bigbenff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-chicony.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elecom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ezkey.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gyration.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-kbd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-mouse.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ite.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kye.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lenovo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lg-g15.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ntrig.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-redragon.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-retrode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-samsung.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-semitek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steelseries.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gaff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tmff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tivo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-topseed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-twinhan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-uclogic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-waltop.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mailbox/mtk-cmdq-mailbox.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/ata/sata_gemini.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/spmi-pmic-arb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_netx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_mf624.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/core/dev_addr_lists_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
-ERROR: modpost: "__st_r13_to_r25" [lib/zstd/zstd_decompress.ko] undefined!
->> ERROR: modpost: "__ld_r13_to_r25_ret" [lib/zstd/zstd_decompress.ko] undefined!
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Linus Walleij <linus.walleij@linaro.org>
+
 
 _______________________________________________
 linux-snps-arc mailing list
