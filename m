@@ -4,108 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE4FCC4332F
-	for <linux-snps-arc@archiver.kernel.org>; Sat,  4 Nov 2023 00:48:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4FFF7C4167B
+	for <linux-snps-arc@archiver.kernel.org>; Sat,  4 Nov 2023 09:16:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=UWnb7w/LaOs2f7wnZMEs68eURF5sP+OhNQHa9p4tqqg=; b=tn1MijJn4buXBH
-	5Di4zpXESU1OGlMKN49/ACnrmhJLy0/jW/KA2qe3krx1y7Yuvwo1Co80prAQrZdi5ZXNpqwcNO0xB
-	7MoJ5alG4lQ2HSWU2RIH6HZfNWyMMLCMZwYM8erAqKew0fys0tjcjpwbSpcUuPfEFtIRl/og6J+yP
-	9otZD3q2alIyo1It0MyEWuesneyDxZQSLEXSBZBXACdOjpxOfHYC/VUlq9r0+a+wdVbhqaGa+kp5w
-	Exml9A9nNYoieG/UaHtDs8hRaGubQaAfOQDZb60sFW2AbLTwzJ1yOaBBGvkKsMNasTRywri8eFTc5
-	S0bM7ZtWCUAZ8ijRZqDw==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=2+KsAPNk2MctUE4vdEv7vAERn29Y5rI2QguquebIo4g=; b=vdojsCDAdDItrA
+	dUkEaB5lA21ZM4HLhnwaLFnkyEsgq3HyvjKKOeQjWyxVlBfqaH0F815mxyFDEAKRK11VLmOYQy38h
+	mZscTWeLtwD3MJuhcDdcBiKN378LOPMYoIBbf1hfJI1ahoPx2G45BjNyZd5FqFWUHhPPNunVrqE/G
+	5Hd80evdFjKer+/ZUTKvvrVBZNseNogDtrvVrCWJ/Z7M02Ot+BgxZkUOlk0+jhAXsMJk44BlReEbn
+	mceMuiGNH790X/oFbNnWClKbRqv2JdQivGBDRMHu9cbMAZHGXfSQ0/TwCUdjTwz0TYqeL+hKl7bWM
+	KVFnDSoeh6gYvuXmw9lA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qz4pe-00CPPU-2O;
-	Sat, 04 Nov 2023 00:48:10 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1qzClh-00CxjW-2q;
+	Sat, 04 Nov 2023 09:16:37 +0000
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qz4pc-00CPNz-1G
+	id 1qzCle-00Cxir-1a
 	for linux-snps-arc@lists.infradead.org;
-	Sat, 04 Nov 2023 00:48:09 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1699058887;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mWMUyNNUnPsRLjoGsaCfd4VrJc7Ffw/kOlF19kCtm60=;
-	b=dD5GlHUiQzmymUVI966xfWvX1xbKMXd1Jo7daOWQM37jLQoHVGHa4rNDOHluSlhAmP952K
-	agy7FsG5Ht8Vl0FOMce2Ve14BhJc+vpJFSJ9m6atO/g16PbEjsrIXOXFJ+1KN3te/982e6
-	Qyjs4levQw1lPVYCvS9EQcHSWMgNSwQ=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-313-hWxvWsgSNwy0hH564-LCLA-1; Fri, 03 Nov 2023 20:48:04 -0400
-X-MC-Unique: hWxvWsgSNwy0hH564-LCLA-1
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-3b3e82429edso3627859b6e.2
-        for <linux-snps-arc@lists.infradead.org>; Fri, 03 Nov 2023 17:48:04 -0700 (PDT)
+	Sat, 04 Nov 2023 09:16:36 +0000
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1cc1e1e74beso25464795ad.1
+        for <linux-snps-arc@lists.infradead.org>; Sat, 04 Nov 2023 02:16:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1699089387; x=1699694187; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SLNQXwvsmuV3fVIiwVg4eaHyhonWOyCC10q8MYVA8E8=;
+        b=gSt37XP4JKsxgkOKQtE0HHoN76GSQ91M+zjjRPItZtu3/djVUKbFOJpGyuqB+/k++0
+         PMZlfQQj1/XpvSWjNNgpHDTuc87vABjhLJ53M+uG/58ZgGw0k1lG0xiMmRFCUKJV6/Qm
+         sYTFbgONTYeMNnN2TJI89LSLyqKEpyebhFzWWc/HnI2mkOcF9vXAu5nyF5nRLuKC+smn
+         WuL83P5qDo27AjQBe+4EqHlYxAwNfX+U2Yf0z9znfZydlr72BmqPOSPJeT7phi0OgmgB
+         r2uUnomopOLflmo4FPzqSlBFFa0yPEQ6ChBgLLuOmhofpRBsEdNAagQlHw0kgpIveaBd
+         HbIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699058883; x=1699663683;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mWMUyNNUnPsRLjoGsaCfd4VrJc7Ffw/kOlF19kCtm60=;
-        b=QHclOka7InZv/9crzix2L1G0FG+l9ASrqRRJC6F5R+mJUbsN/iX7zhii9zCDbOPSXp
-         MOzQjZkl2MHS7RjPHZkN5hA+cI6nOC+TSDaUG7AW0UrPHRbLnaM7rBAuAwUIqKh/zBm8
-         JwgwUomRpGkD3GiVE/vyqC6psDFe82gsgqYOmo6nIBJxPEF7XnXX6pfo5KRkQwV7OvDx
-         R+wi8wvHcp0bOZlA41saaEdxFnx+f2yyYzP0t3xLqG4OsLhb6N5CUa2/B9WWJITA/JbV
-         w4UEwhsIis+I4RpimjWkWWQoYnx3jBtQC5EtSvOTm4RJj9bsS4qI1+iCMlQdz3KjCJg7
-         ypDQ==
-X-Gm-Message-State: AOJu0YwVDCVSC4CwBiJ0oJV29cIyu+diGeWtwFt3c2zhrZ47K6yno1an
-	Vs/dqwX1KFW4fttsd5hAUAYUFazHMOS33336ITDQwBVNmFX7ubBNmNEV45Qd4k2jdIGaRw9PT//
-	rKL0NMaEL4ebPhNOb97Z/2kwBbqee74Eq
-X-Received: by 2002:a05:6808:2e90:b0:3b5:95eb:f76e with SMTP id gt16-20020a0568082e9000b003b595ebf76emr2039986oib.24.1699058883444;
-        Fri, 03 Nov 2023 17:48:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHbl3cnWwz1S+869RAlRQHhIhHXgs+QsQ+oiCvUWDqrKYbBZJdPrVYEi95zUnZ7fv/l03IwvA==
-X-Received: by 2002:a05:6808:2e90:b0:3b5:95eb:f76e with SMTP id gt16-20020a0568082e9000b003b595ebf76emr2039947oib.24.1699058883200;
-        Fri, 03 Nov 2023 17:48:03 -0700 (PDT)
-Received: from localhost (ip98-179-76-75.ph.ph.cox.net. [98.179.76.75])
-        by smtp.gmail.com with ESMTPSA id n23-20020a635c57000000b005b458aa0541sm1838143pgm.15.2023.11.03.17.48.02
+        d=1e100.net; s=20230601; t=1699089387; x=1699694187;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SLNQXwvsmuV3fVIiwVg4eaHyhonWOyCC10q8MYVA8E8=;
+        b=k5RMp/RmK0amXsAgPu0vSR83wqdNqoptTzlnu1GtlQw1VRpbBHPJ2bGc0g/WVtDkM3
+         sQU+D1wNCZBytIOB6sUW/iQ80RwWtmkSaq8sIHabTQGcNJRag+MgWGpCuXbn/HFM4J0Q
+         hxCeeLB5WM+nRbk0dNZqonqI4AUjSIfB7C3k4IaogqWN6ddyXc9G7KwYcMFj3KPTXvfN
+         le40oM96GKEGfy7iCyGWk37lRvzQXeVcRrWPn8IuO7NjFR499ZkL1Y3jMpWxJ0ruur/I
+         9trF/IIhTIv7XRw5SIg4fMMEhZKHRF2ZBh2ZdFASlYMuzPxHYWsNy4pIUlGDblZwti7Z
+         FXvw==
+X-Gm-Message-State: AOJu0YwnA7jJ83iZatX7kloYhMcEfWjHf+UvGa7D/pUxQ/dlF97ygaCZ
+	uRALSTQNbjYC3cTEKM1AavrgcQ==
+X-Google-Smtp-Source: AGHT+IHbBh3J3IRfyxckxOWlsKX9sadU7+kPzJ+J9v34NvpVCI+Bhzyj9lMKHXCD1k0j5ZNgkIMKOQ==
+X-Received: by 2002:a17:902:f213:b0:1bc:6c8:cded with SMTP id m19-20020a170902f21300b001bc06c8cdedmr22211228plc.67.1699089387534;
+        Sat, 04 Nov 2023 02:16:27 -0700 (PDT)
+Received: from devz1.bytedance.net ([203.208.167.147])
+        by smtp.gmail.com with ESMTPSA id d4-20020a170903230400b001cc54202429sm2585127plh.288.2023.11.04.02.16.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Nov 2023 17:48:02 -0700 (PDT)
-Date: Fri, 3 Nov 2023 17:48:01 -0700
-From: Jerry Snitselaar <jsnitsel@redhat.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: acpica-devel@lists.linuxfoundation.org, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev, 
-	Lu Baolu <baolu.lu@linux.intel.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Dexuan Cui <decui@microsoft.com>, devicetree@vger.kernel.org, 
-	David Woodhouse <dwmw2@infradead.org>, Frank Rowand <frowand.list@gmail.com>, 
-	Hanjun Guo <guohanjun@huawei.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
-	Christoph Hellwig <hch@lst.de>, iommu@lists.linux.dev, 
-	Jean-Philippe Brucker <jean-philippe@linaro.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Joerg Roedel <joro@8bytes.org>, "K. Y. Srinivasan" <kys@microsoft.com>, 
-	Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-hyperv@vger.kernel.org, linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-snps-arc@lists.infradead.org, linux-tegra@vger.kernel.org, 
-	Russell King <linux@armlinux.org.uk>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Hector Martin <marcan@marcan.st>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Robert Moore <robert.moore@intel.com>, 
-	Rob Herring <robh+dt@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
-	Sudeep Holla <sudeep.holla@arm.com>, Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>, 
-	Sven Peter <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Krishna Reddy <vdumpa@nvidia.com>, 
-	Vineet Gupta <vgupta@kernel.org>, virtualization@lists.linux-foundation.org, 
-	Wei Liu <wei.liu@kernel.org>, Will Deacon <will@kernel.org>, 
-	Zhenhua Huang <quic_zhenhuah@quicinc.com>
-Subject: Re: [PATCH RFC 04/17] acpi: Do not return struct iommu_ops from
- acpi_iommu_configure_id()
-Message-ID: <xvgdxrlcpvafst6qypgwehtleaihsedgoiat6akv6au2j4xrjw@rk4dl4xbnq6o>
-References: <0-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
- <4-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
+        Sat, 04 Nov 2023 02:16:27 -0700 (PDT)
+From: "wuqiang.matt" <wuqiang.matt@bytedance.com>
+To: vgupta@kernel.org,
+	bcain@quicinc.com,
+	jonas@southpole.se,
+	stefan.kristiansson@saunalahti.fi,
+	shorne@gmail.com,
+	geert@linux-m68k.org,
+	andi.shyti@linux.intel.com,
+	mingo@kernel.org,
+	palmer@rivosinc.com,
+	andrzej.hajda@intel.com,
+	arnd@arndb.de,
+	peterz@infradead.orgm,
+	mhiramat@kernel.org
+Cc: linux-snps-arc@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-hexagon@vger.kernel.org,
+	linux-openrisc@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	mattwu@163.com,
+	linux@roeck-us.ne,
+	"wuqiang.matt" <wuqiang.matt@bytedance.com>
+Subject: [PATCH v2 0/4] locking/atomic: arch_cmpxchg[64]_local undefined
+Date: Sat,  4 Nov 2023 17:16:11 +0800
+Message-Id: <20231104091615.4884-1-wuqiang.matt@bytedance.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-In-Reply-To: <4-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231103_174808_527222_57A1802D 
-X-CRM114-Status: GOOD (  16.51  )
+X-CRM114-CacheID: sfid-20231104_021634_535013_24431D9E 
+X-CRM114-Status: UNSURE (   5.59  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -122,54 +108,27 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, Nov 03, 2023 at 01:44:49PM -0300, Jason Gunthorpe wrote:
-> Nothing needs this pointer. Return a normal error code with the usual
-> IOMMU semantic that ENODEV means 'there is no IOMMU driver'.
-> 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  drivers/acpi/scan.c | 24 +++++++++++++++---------
->  1 file changed, 15 insertions(+), 9 deletions(-)
-> 
+This patch series implement arch_cmpxchg[64]_local for arc,
+openrisc and hexagon.
 
-...
+For architectures that support native cmpxchg, we'd like to
+implement arch_cmpxchg[64]_local with the native variants of
+supported data size. If not, the generci_cmpxchg[64]_local
+will be used.
 
->  #else /* !CONFIG_IOMMU_API */
-> @@ -1623,7 +1624,7 @@ static const struct iommu_ops *acpi_iommu_configure_id(struct device *dev,
->  int acpi_dma_configure_id(struct device *dev, enum dev_dma_attr attr,
->  			  const u32 *input_id)
->  {
-> -	const struct iommu_ops *iommu;
-> +	int ret;
->  
->  	if (attr == DEV_DMA_NOT_SUPPORTED) {
->  		set_dma_ops(dev, &dma_dummy_ops);
-> @@ -1632,10 +1633,15 @@ int acpi_dma_configure_id(struct device *dev, enum dev_dma_attr attr,
->  
->  	acpi_arch_dma_setup(dev);
->  
-> -	iommu = acpi_iommu_configure_id(dev, input_id);
-> -	if (PTR_ERR(iommu) == -EPROBE_DEFER)
-> +	ret = acpi_iommu_configure_id(dev, input_id);
-> +	if (ret == -EPROBE_DEFER)
->  		return -EPROBE_DEFER;
->  
-                return ret; ?
+wuqiang.matt (4):
+  locking/atomic: arc: data size checking in arch_cmpxchg
+  locking/atomic: arc: arch_cmpxchg[64]_local undefined
+  locking/atomic: openrisc: arch_cmpxchg[64]_local undefined
+  locking/atomic: hexagon: arch_cmpxchg[64]_local undefined
 
-> +	/*
-> +	 * Historically this routine doesn't fail driver probing due to errors
-> +	 * in acpi_iommu_configure()
+ arch/arc/include/asm/cmpxchg.h      | 40 ++++++++++++++++++----
+ arch/hexagon/include/asm/cmpxchg.h  | 51 ++++++++++++++++++++++++++++-
+ arch/openrisc/include/asm/cmpxchg.h |  6 ++++
+ 3 files changed, 90 insertions(+), 7 deletions(-)
 
-              acpi_iommu_configure_id()
-
-> +	 */
-> +
->  	arch_setup_dma_ops(dev, 0, U64_MAX, attr == DEV_DMA_COHERENT);
->  
->  	return 0;
-> -- 
-> 2.42.0
-> 
+-- 
+2.40.1
 
 
 _______________________________________________
