@@ -4,97 +4,157 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B474C4167D
-	for <linux-snps-arc@archiver.kernel.org>; Sat,  4 Nov 2023 09:17:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D74DC4332F
+	for <linux-snps-arc@archiver.kernel.org>; Sun,  5 Nov 2023 13:24:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Nw4P5Vo653Xp6oDiCA+R24gqKb+1nPeosqQivFqGrA8=; b=w4QVTPAsMnyHuW
-	M7LK4rrD2G1wi/QLtN0zDwrWqzWGCjO5E/Ioc76uhDI2i4xPfVbPy76SU47OKzRwRn0cf4b0RDwun
-	PtQc1nx4fZFjNGzVTJRiNEgu35UsuwZW8imZnATMhg6oy6fpDNwJuaSQyfNoYi7EFvnK4UPRUhK38
-	QLx7gEIK1kYrtDpseBppnFF7LqqPiWQL/IyxLtga/jAOK+JS22UdFckzWllbW2V6Sb5oANE9izaDD
-	77FjVxBy6oLgMftA9Tki/BMHHeQNpCYhENluggFUM2o8Inhkf/d1ljP2zyd3ZBLe7Ewa2k/qHKf5u
-	tOb/AF+kdUMSGo/hQl7Q==;
+	List-Owner; bh=iTQlHlKvjvxPYlS+wmsOYvyyROkZzD/2sh1R9HkuEVU=; b=vweBv+MpT1/am/
+	iK6PksArfrNkvL65V7h3u8lY/5SZSpICt3AVJBw3Am9byxrfEB06RAdbGozW8qBCKFGgHEr8CGHvW
+	Rl2mKq5XPjXwCD4D4Pow5pbaE5KjzdRFLeh+qd5TSpGg6b8TAVC+MhA6MKKt3PBMvrIRDhJt+TpGO
+	Z8ysP2XA1ePbCrJqgmVgBI5XleRZL7BgecGj78kAZ53qhfpH1QoBwR/3+sZPKXFnRM+R+00YM1ADz
+	yq+E4ZdHmWfFKHWjwv1ukutQ3RM7JyBx+tNb/qMqCsF85WiFD8CBauZFN5++VQTBz3+AlrlFbiZX3
+	dY31/ZQpXuZWcLHe5xkA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qzCm2-00Cxna-3D;
-	Sat, 04 Nov 2023 09:16:58 +0000
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+	id 1qzd6z-00EzV8-1w;
+	Sun, 05 Nov 2023 13:24:21 +0000
+Received: from mail-co1nam11on20603.outbound.protection.outlook.com ([2a01:111:f400:7eab::603] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qzCm0-00Cxmr-0o
-	for linux-snps-arc@lists.infradead.org;
-	Sat, 04 Nov 2023 09:16:57 +0000
-Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1c9b7c234a7so25799975ad.3
-        for <linux-snps-arc@lists.infradead.org>; Sat, 04 Nov 2023 02:16:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1699089416; x=1699694216; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ca5+RMX27tK8Pble5rnmjXYY/wcc9M5C/f3DXh2ZNs0=;
-        b=bGELYESDUEvUpa/1ePGawapvOaCmx2sIuqhrnKQ9Rf81uLJquHih/l5sb+6AMFGJxh
-         ClwumOHTbWmZYLiOftIVd/no2xuDp9jvVN21gaZOIQwgnoGM/nXKpvSNJpUStDp+GmV+
-         +9BlP0dSuXkmKHQZrxe2HoBmrWPl8Iid1QTxpXqudDqEubg3jGB0AquXnOaZaPkOmGg8
-         5YnC+Tcm8UPpEXXVl3yFPn/DCjbs3sOWM0APILCYzL3o5DYhoTuchdjKezb62MXUcVnH
-         PfLfPxdQ5TO4S398PtxRkDhJZEAnlALlXivfFNCPeJf2qD3he77yWvu+PIccq+C5WAwh
-         WzSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699089416; x=1699694216;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ca5+RMX27tK8Pble5rnmjXYY/wcc9M5C/f3DXh2ZNs0=;
-        b=R6CPWjW2PjIT8tY3iMHBneBihlEhFJ7uNHlrTi0O4WR9moMg6jPmy1l6FuE7B0S+c4
-         0P9zrRD/WrYyg8n5BkK70uk3yI3uvzHFYEVMLy4fmUf68Di7olZjedhEH+mrVoGobEWC
-         C+21i8oKPnKkYi933Zk1FPAte2QiAhi0zgVsvlJ9h4DoNDkgBkJ88eHAw481XyotJEoZ
-         8+TI432KleYVazUpwhwxQY0TpSnzsj4a6iNjXBPqEAEGCjH2c3RiCV5sWIq6NVag+6y5
-         iJ7uDAIdhdDxiKT1dvvpBxue0uAPJWULjY04HcGmHhZK15X9MbshQWOAVA2BdVwjGU9A
-         e7cQ==
-X-Gm-Message-State: AOJu0Yz4NJoBrBH7Qn1z6/FuIucrEVI69c1XbAchiKuqJuemOqTwaUE7
-	lj8ODMYcLjHGRYvXlMHRowQrPQ==
-X-Google-Smtp-Source: AGHT+IHU3BXym51NNkU7o64tWd3Rm0m4CMV06Kghzo1NlAS/cJ7uQGkFro/CIvwdK6Bs6cg+zccvjA==
-X-Received: by 2002:a17:902:e88f:b0:1cc:5b5a:62a5 with SMTP id w15-20020a170902e88f00b001cc5b5a62a5mr18228857plg.9.1699089415812;
-        Sat, 04 Nov 2023 02:16:55 -0700 (PDT)
-Received: from devz1.bytedance.net ([203.208.167.147])
-        by smtp.gmail.com with ESMTPSA id d4-20020a170903230400b001cc54202429sm2585127plh.288.2023.11.04.02.16.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Nov 2023 02:16:55 -0700 (PDT)
-From: "wuqiang.matt" <wuqiang.matt@bytedance.com>
-To: vgupta@kernel.org,
-	bcain@quicinc.com,
-	jonas@southpole.se,
-	stefan.kristiansson@saunalahti.fi,
-	shorne@gmail.com,
-	geert@linux-m68k.org,
-	andi.shyti@linux.intel.com,
-	mingo@kernel.org,
-	palmer@rivosinc.com,
-	andrzej.hajda@intel.com,
-	arnd@arndb.de,
-	peterz@infradead.orgm,
-	mhiramat@kernel.org
-Cc: linux-snps-arc@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-hexagon@vger.kernel.org,
-	linux-openrisc@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	mattwu@163.com,
-	linux@roeck-us.ne,
-	"wuqiang.matt" <wuqiang.matt@bytedance.com>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH v2 4/4] locking/atomic: hexagon: arch_cmpxchg[64]_local undefined
-Date: Sat,  4 Nov 2023 17:16:15 +0800
-Message-Id: <20231104091615.4884-5-wuqiang.matt@bytedance.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231104091615.4884-1-wuqiang.matt@bytedance.com>
-References: <20231104091615.4884-1-wuqiang.matt@bytedance.com>
+	id 1qzd6x-00EzU8-0h;
+	Sun, 05 Nov 2023 13:24:20 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dO8n/KFdEeSWGWrNsU+XKASoPB0CHHX+oWCvXYVz2Fw94HIHNTBfru3tQJKTACXSZyGZOK1Z6+CAic6I3D1WBwb6bzrLymx5BepejYAahyL1PtB1nsujNOtr1ro51Vk65SaCQglVyfKnEJV2Y4PKI4WbSEIzU7iYbJg80moi71dVMwg8bOL64RiY05U89eCNlH1iV8vC6iM75BE5PpBTfFCgUgcgifPua0SbdlDyEXvzjYqtZ4tf+yu6xq89hdrPzoPPx5ZaQ+SW9VC0qqYMA09kw7swNIN9d49F52DAJd++Tah3mW1HYeVP1znbh/RrVC4FXI8LPiZlG87369HRpA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZJGcIVHL4bL8SzYqo1X4zLKcEwTvMdnL/1kA9Gi+Z+s=;
+ b=dfTWPDc18yVJlLasQ+w1mmL3UYQvyTZctPqsqLpD7cPTPs9LOY6v/Du/RhbG6x+CbVJnKVAqtMYPbUZ+rLjKd+WIwYqa7HdokBov2Y57yKNAbJHf4g78CeAvdCnQWmaBwBSytvKxEjpKni574igkTiWFG8x6Dx6VnqoxYZtJcB2dbeY5qDwRF0eALVzeK5XZ8z2CS+YPEdtXcMeI1aIyKbG7kCjBhBfDAIWmUdmJfWh9q4RI0bVe+r7WXEWIEq/ss/wF6XIl+P0EHeilgAtgCsVmpnZ6qrgeTazmUd/LAutd7bp5KcakaE2ehKSf7qcFVcfvStwPQmZhInLPuGoz2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZJGcIVHL4bL8SzYqo1X4zLKcEwTvMdnL/1kA9Gi+Z+s=;
+ b=b4xrEyCraUgRPgixMA7hYyeEOiun6AJB7uTmw1tSi5sIsTCmBgSNO2BT1+UBPWoZfJ+mcvjWOdg107FVElfekTxo6BJFzJrZhiWiWUjlz26acUM1o2CcrL6scBi1NVYwxOanH+ncAYFgrz5sB07IWObxKqojrmRmhWvKzn+z70FC9DrVK4Iqx2rmvEp+uAWwEmVH9m+FcyqFHnq8AyUe7m6V+QgNTL7LB1JlR2/vItIOusdFMP9iDkIPrRlo1WNHVXMSgvfFQaIzqPLA25wMPuHyOqF6H+GNIhS+jNcxiDgJxK6OI9PV/6DM9Dr+V4Pg6/JLNUhhkD1SafL/UJsFNw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by DM4PR12MB7718.namprd12.prod.outlook.com (2603:10b6:8:102::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.25; Sun, 5 Nov
+ 2023 13:24:10 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::b53a:1092:9be2:cfb9]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::b53a:1092:9be2:cfb9%5]) with mapi id 15.20.6954.027; Sun, 5 Nov 2023
+ 13:24:09 +0000
+Date: Sun, 5 Nov 2023 09:24:09 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Jerry Snitselaar <jsnitsel@redhat.com>
+Cc: acpica-devel@lists.linuxfoundation.org,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dexuan Cui <decui@microsoft.com>, devicetree@vger.kernel.org,
+	David Woodhouse <dwmw2@infradead.org>,
+	Frank Rowand <frowand.list@gmail.com>,
+	Hanjun Guo <guohanjun@huawei.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Christoph Hellwig <hch@lst.de>, iommu@lists.linux.dev,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	"K. Y. Srinivasan" <kys@microsoft.com>, Len Brown <lenb@kernel.org>,
+	linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-hyperv@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-snps-arc@lists.infradead.org,
+	linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Hector Martin <marcan@marcan.st>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Robert Moore <robert.moore@intel.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Krishna Reddy <vdumpa@nvidia.com>, Vineet Gupta <vgupta@kernel.org>,
+	virtualization@lists.linux-foundation.org,
+	Wei Liu <wei.liu@kernel.org>, Will Deacon <will@kernel.org>,
+	Zhenhua Huang <quic_zhenhuah@quicinc.com>
+Subject: Re: [PATCH RFC 04/17] acpi: Do not return struct iommu_ops from
+ acpi_iommu_configure_id()
+Message-ID: <20231105132409.GA258408@nvidia.com>
+References: <0-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
+ <4-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
+ <xvgdxrlcpvafst6qypgwehtleaihsedgoiat6akv6au2j4xrjw@rk4dl4xbnq6o>
+Content-Disposition: inline
+In-Reply-To: <xvgdxrlcpvafst6qypgwehtleaihsedgoiat6akv6au2j4xrjw@rk4dl4xbnq6o>
+X-ClientProxiedBy: MN2PR05CA0025.namprd05.prod.outlook.com
+ (2603:10b6:208:c0::38) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|DM4PR12MB7718:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4d544610-48a5-4e21-4f60-08dbde027e8b
+X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: OA5zLbuDMR7GEVYsSdVdBzUObO0soht4nGiXOagg4upmNJX87q1nmscQG1D+q8EuVvU2dEZW2qndG+jsl0zoD1dAtglFd4yUli8Mghh/vFNIyI7kZR7LdzXm9AFPZzsBS4aksDhL9EKTVjFagzqA31IpzyzA7nTz5b9QgoJ5G9jX0/Ohh/VPzGteQ1Qh3RVTww4gcEe1MMnU5AO6wQ+rqn8MIgv9rNSJ/BxKeAm5XsBL+UuibUBQCcnaR7VG+fvV3g7gZEYDQsXqct+Vy547WLgpa0usIB3SjxE3Pnq1Mwsa8is45rp68or9XKznrfKtVqLIcmpLpTqfUaHO/U2q9GMtDPbqavIwrC5vyn38InvsjHgSdhBCsd7enesRZVA2DUKoK8ZjWal+HtaIVwXeI3e4EYpQrn+8kXsxJy550EToEC+tAl5OB69bPjqHOU6UHR2dhgYOvDcLnGU2sLtg9XrfVVtjAPsrHdIcWmaZGGQGVig1Tdzdj8csOiyDr1yn35MJkljdkYaa90Xp6/ndUICSYn9gg65QnXJuOcjCfuzVHWQvi55tQInu5rh+pSEmmufehDQ/B6j35W6cazRGXLmuTkJ0YgTG57jzyKjsaoQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(136003)(39850400004)(376002)(366004)(346002)(230922051799003)(451199024)(64100799003)(1800799009)(186009)(1076003)(2616005)(6512007)(26005)(33656002)(86362001)(36756003)(38100700002)(8676002)(2906002)(7416002)(4744005)(5660300002)(7406005)(6506007)(478600001)(54906003)(8936002)(66556008)(66476007)(4326008)(66946007)(316002)(6916009)(41300700001)(6486002)(27376004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?cKCmRmh8DlYfv8jlZuEzz4zBpBeMKc83w0N+FaeS4VN59dMOdW3o5MMaMgLM?=
+ =?us-ascii?Q?FudtMLkbY6tJomLw8YAUVqhtR6sHJduow9au+EIOkXfRBXSpvMl99hTORKz9?=
+ =?us-ascii?Q?RY6wKk4JDnfV+lX2YmEYCTtTiecfw7KRK3uj98l6dH1Qnhn2GgLFcKvBSmRz?=
+ =?us-ascii?Q?aG2I8UN4ouPSD+kbUvRIXbBCFpjqSfNBjULcSkvqc6xroy/4bzMQ6vGeqSE2?=
+ =?us-ascii?Q?aZ5U/2VEI3jVlC8JX2qDo3dn7xJwUsxen/ohZtsHYnBZ8e6uXiOdDAVp5BWL?=
+ =?us-ascii?Q?o7CLRRIxNOOc1ca2PiGpuoZZB8NuuiJqd2QQRwLdWyrZbmsBPjTjpiERZrB5?=
+ =?us-ascii?Q?CV50gHdLkKg1gYl6yNdMV9pBnqHwfYLDCNiz4ODUqi6YEedJe85/WzODMfw2?=
+ =?us-ascii?Q?B20nCzVQIdTXI68mJeOdFjbl+oUr6NjP0KxnRG7b/p0KuveUTXQb7BixwxIT?=
+ =?us-ascii?Q?BixtGEF0peZb7TFh6RRriEpf0kANgEhf/2LZx8UYSbFwpGOH55spXRffnZ7z?=
+ =?us-ascii?Q?GTkLu3llmueIHHsWzaMXjRHvBmL268avbktkI3yTpRkVWD+TQdzxzxLBuyzF?=
+ =?us-ascii?Q?CD7bx77QwUHUVpMPBs3IoqMMIAs/KSu2JzbqKRnqP6iFknDY854tK2xelVfO?=
+ =?us-ascii?Q?ijq+3MWJjg/4F1Z0zbUmmd75qEMRXQm42MLbVgC4qkniO/3upHgprPQm+l7u?=
+ =?us-ascii?Q?PWCj2dAD0rlbjKNq6RoVnfxhYTbo05s7Kg1+uCPRPpV9pbEH/AXzkWwzqpIW?=
+ =?us-ascii?Q?vNiRiUYCEaskZ2ANJw2K6ZctAQVLJItGlGEpIVVbocc/L3X3GcgsLEJpgLH7?=
+ =?us-ascii?Q?SXRElSclnaWlEPMw5U5TpGxpROSO2Q9+KG8e/CMYsmfRNmzs3yNSWLyCnGHX?=
+ =?us-ascii?Q?oTahBJqIu7y8lzfVYwav6e2fAramdTjgxA3gE9amqqoE4KMWrmJqg83vh9lD?=
+ =?us-ascii?Q?AQYGvCIXSTvQpCoAAIN109haZ6ZpgzFBKmudOiqihfPXtPmS2W5S0lhoF5zy?=
+ =?us-ascii?Q?gPAzIf8sZRTepQ36vAzZoZNPocT34cKoIwszpjw2YV/SX9eo60MDXZlqjhw9?=
+ =?us-ascii?Q?9IV6a6jNOtCDcUWiDWLoAql9MG45Hi9eaG2bbc4ZkktAtDrV1oQlSjuUqC/7?=
+ =?us-ascii?Q?+Cx/o2Dcl6bf0Z/cGqfTxmPVmR4g8Bzr4dN+iW2jso4/uvKHBez/CC+3KaO6?=
+ =?us-ascii?Q?MThp1+H9ZaDiCr3twnDKH+/unTutoIIydrbWQ29bvULievbOnFL0SJVgmwDH?=
+ =?us-ascii?Q?LJsE0hlJf3G7CNOYxfTcWOPm9cYIYMl7oZgWwHCPAVdqq4tEPOY6OmCGBv5l?=
+ =?us-ascii?Q?1QlrnmoUf6M5fqA+BM9e7fPhm33xk+JKUivbuCQ0lVmImv1t8pxu1OIN500x?=
+ =?us-ascii?Q?RlkWk5iI8+DU5JOPoUxF5bo1frWV87HxHq0TVpEk7UegG6puMvkQJs9derl2?=
+ =?us-ascii?Q?vruaRI/ciJHMaepjg3MqTxRzaCXh4icjZ/NMHeGYEP0i/ttjyfWsUqdHb9TE?=
+ =?us-ascii?Q?aqjrKY8ZR0pihUN61Ogg9t5Gs3fS0oKFE19COzOl1fsmDJ3hUKr53Jtbn2sK?=
+ =?us-ascii?Q?beIhil/k7OU5xhh9g1U=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4d544610-48a5-4e21-4f60-08dbde027e8b
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2023 13:24:09.9055
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: o3acQt56HK1M8G96tzZpcmrgB7ASIa6w82k54v+IkYC+ECinQC1vdYIqsgPLWaSb
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7718
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231104_021656_288854_C03BE51E 
-X-CRM114-Status: GOOD (  10.67  )
+X-CRM114-CacheID: sfid-20231105_052419_401038_A2A7BD95 
+X-CRM114-Status: GOOD (  10.88  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,102 +171,30 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-For architectures that support native cmpxchg, we'd like to
-implement arch_cmpxchg[64]_local with the native variants of
-supported data size. If not, the generci_cmpxchg[64]_local
-will be used.
+On Fri, Nov 03, 2023 at 05:48:01PM -0700, Jerry Snitselaar wrote:
+> > @@ -1632,10 +1633,15 @@ int acpi_dma_configure_id(struct device *dev, enum dev_dma_attr attr,
+> >  
+> >  	acpi_arch_dma_setup(dev);
+> >  
+> > -	iommu = acpi_iommu_configure_id(dev, input_id);
+> > -	if (PTR_ERR(iommu) == -EPROBE_DEFER)
+> > +	ret = acpi_iommu_configure_id(dev, input_id);
+> > +	if (ret == -EPROBE_DEFER)
+> >  		return -EPROBE_DEFER;
+> >  
+>                 return ret; ?
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202310272207.tLPflya4-lkp@intel.com/
+Maybe? Like this seemed to be a pattern in this code so I left it
 
-Signed-off-by: wuqiang.matt <wuqiang.matt@bytedance.com>
----
- arch/hexagon/include/asm/cmpxchg.h | 51 +++++++++++++++++++++++++++++-
- 1 file changed, 50 insertions(+), 1 deletion(-)
+> > +	/*
+> > +	 * Historically this routine doesn't fail driver probing due to errors
+> > +	 * in acpi_iommu_configure()
+> 
+>               acpi_iommu_configure_id()
 
-diff --git a/arch/hexagon/include/asm/cmpxchg.h b/arch/hexagon/include/asm/cmpxchg.h
-index bf6cf5579cf4..2b5e5bbaf807 100644
---- a/arch/hexagon/include/asm/cmpxchg.h
-+++ b/arch/hexagon/include/asm/cmpxchg.h
-@@ -8,6 +8,8 @@
- #ifndef _ASM_CMPXCHG_H
- #define _ASM_CMPXCHG_H
- 
-+#include <linux/build_bug.h>
-+
- /*
-  * __arch_xchg - atomically exchange a register and a memory location
-  * @x: value to swap
-@@ -51,13 +53,15 @@ __arch_xchg(unsigned long x, volatile void *ptr, int size)
-  *  variable casting.
-  */
- 
--#define arch_cmpxchg(ptr, old, new)				\
-+#define __cmpxchg_32(ptr, old, new)				\
- ({								\
- 	__typeof__(ptr) __ptr = (ptr);				\
- 	__typeof__(*(ptr)) __old = (old);			\
- 	__typeof__(*(ptr)) __new = (new);			\
- 	__typeof__(*(ptr)) __oldval = 0;			\
- 								\
-+	BUILD_BUG_ON(sizeof(*(ptr)) != 4);			\
-+								\
- 	asm volatile(						\
- 		"1:	%0 = memw_locked(%1);\n"		\
- 		"	{ P0 = cmp.eq(%0,%2);\n"		\
-@@ -72,4 +76,49 @@ __arch_xchg(unsigned long x, volatile void *ptr, int size)
- 	__oldval;						\
- })
- 
-+#define __cmpxchg(ptr, old, val, size)				\
-+({								\
-+	__typeof__(*(ptr)) oldval;				\
-+								\
-+	switch (size) {						\
-+	case 4:							\
-+		oldval = __cmpxchg_32(ptr, old, val);		\
-+		break;						\
-+	default:						\
-+		BUILD_BUG();					\
-+		oldval = val;					\
-+		break;						\
-+	}							\
-+								\
-+	oldval;							\
-+})
-+
-+#define arch_cmpxchg(ptr, o, n)	__cmpxchg((ptr), (o), (n), sizeof(*(ptr)))
-+
-+/*
-+ * always make arch_cmpxchg[64]_local available, native cmpxchg
-+ * will be used if available, then generic_cmpxchg[64]_local
-+ */
-+#include <asm-generic/cmpxchg-local.h>
-+
-+#define arch_cmpxchg_local(ptr, old, val)			\
-+({								\
-+	__typeof__(*(ptr)) retval;				\
-+	int size = sizeof(*(ptr));				\
-+								\
-+	switch (size) {						\
-+	case 4:							\
-+		retval = __cmpxchg_32(ptr, old, val);		\
-+		break;						\
-+	default:						\
-+		retval = __generic_cmpxchg_local(ptr, old,	\
-+						 val, size);	\
-+		break;						\
-+	}							\
-+								\
-+	retval;							\
-+})
-+
-+#define arch_cmpxchg64_local(ptr, o, n) __generic_cmpxchg64_local((ptr), (o), (n))
-+
- #endif /* _ASM_CMPXCHG_H */
--- 
-2.40.1
+Thanks
 
+Jason
 
 _______________________________________________
 linux-snps-arc mailing list
