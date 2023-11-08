@@ -4,59 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A399C04E83
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Nov 2023 08:01:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA7AAC4332F
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Nov 2023 08:18:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
 	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:From:References:To:Subject:Cc:
 	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=e628/O43iybU3I6zdKU/V4uklVsXptmxE6T6oFvrBQ4=; b=nMhKtyWBYPPwG7
-	XTKJuvCTXi0/RcYlxDqZ2bCZRHLKGVoBz+NSGxSiYvkwhMV3yPXBazx4DtgwboJvPOXR9Ej6z5FfG
-	TERjNEBNAS3jusVD3w3ZhaAuNc/s8vwcy/M1xZQjJxEG0erKxgNMvXjU1DDIgCrzRZ/psT9r3h9Dq
-	9DbTcacgLjhFRP+UR5/oQVPO5zksz4rRcwvI8WeRR3y4rWwxbHSTXxqQNbVr6LdNJYKVBDKF5rAWO
-	si74KrrNgE78sgl0q0OKzE7i75gr0RsU9jO4BDNk1duZvSAJy/gHxw/dtffHItA9CoM6UhKimO4Ri
-	V7MdHZ3BxgLMkqs8QNqw==;
+	List-Owner; bh=JFnbPfpTmk1BnPgBBfue/TDljj9915XGmKMBbGJ31ys=; b=wNkZrPKhGvGZTm
+	kJ3C4LOFmG1Uc8Qs+2opaji6MErPgd5wcd12T1WqRQHEACrUV+nUcpSNvDq36lEOj1nu6C5Hn2HAk
+	fPjoE4BdF325xYgJ9f6uEUoo0FgnyY6YZbOU5rKC92/VLZmmoEvRX2VdbBqdorwRSgojvr1kOXX5k
+	HF2vzgSjzbX8J4oB/mrzIsNg1vxkY0r1OzmmtJ/BwcPK8Mzq0MJzs17RaFbA/9cYlCxOslXLKyR8v
+	r4wP15TIYO3B8h+n7mSUpH1laRjddEH62vZymb1YDlMG6poEE3BBkBoT+NU8xne/fLqaVEGAJAlJY
+	5gBZRcc7pdm/G+33gKAw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r0dUz-003EAC-2B;
-	Wed, 08 Nov 2023 08:01:17 +0000
-Received: from mgamail.intel.com ([192.55.52.136])
+	id 1r0dm4-003GZ0-0a;
+	Wed, 08 Nov 2023 08:18:56 +0000
+Received: from mgamail.intel.com ([192.55.52.88])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r0dUx-003E9H-29;
-	Wed, 08 Nov 2023 08:01:16 +0000
+	id 1r0dm0-003GXA-2M;
+	Wed, 08 Nov 2023 08:18:54 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699430475; x=1730966475;
+  t=1699431532; x=1730967532;
   h=message-id:date:mime-version:cc:subject:to:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=waktInfzOKtDW0E1oxAKk3EhbspNu0YVHIgYOQNzgfM=;
-  b=nhgobI02NELjyDeeYprk7jdexSTuK1sET+Iue3s2JER4ytUTH4YbTqMf
-   1lT95v3WC1IT2UUgeC4+btBDDRrF41/eszP1fUfpC2I8WMNEQCZT0GDi+
-   LcOSaIJcPjcNAnVrI2L0RaPY6TcfvYnw0cmbJu/oumMgp/jW9W41W3pmK
-   DUysrCaROgf5qx2xfOi5inf+8B0+12XZoeO46qQkoSoWNp0O0anukltht
-   rMTS9QKERVBKaQu9lsH7exPLAeA+4SRslAwqUmQAt2JIcpUMuH2+jA1r3
-   cJbeMq7jGEoLGLVAf0HKmobgdxUVld1rUKYCeZ3KQE4ok/uAV+H9CjqcE
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="369050186"
+  bh=o4b+vqtKY9OOVsB1rEVpRTkAptYNaJoA44xLfvE+DI0=;
+  b=Quu8QugOE4Cv9TYmdnDyRrA8nVedqC3uIIXwW6uwAZIj/wmTXV6KP8lu
+   z0j//AUxn8eIVW5qlfxODVzTtXrXqYwBdPcTpuXaipAT2Wov07Cjjt/b4
+   AEuRQyEmiyPey8PZSObJ+OGQRSZGXeAUgExRWivGeWxTSrMikKc8J5D17
+   ohziUPO0G6Zf561DE6Dbc2JC9Rd3Quie+7SMqXLgDedfJox8yE6MH17pb
+   vmPQ0UCIgqvD5uZ9B1FaALg/Yipu09YKZAh6KHtzlSopsx+irKfjIVMTB
+   sAWlRBr+v5YQt9N+bidNxLtZ5ehFrRCAeb9dnyNlFwHwggx7g+RifTHco
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="420823093"
 X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
-   d="scan'208";a="369050186"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 00:01:13 -0800
+   d="scan'208";a="420823093"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 00:18:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="833411924"
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="828883803"
 X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
-   d="scan'208";a="833411924"
+   d="scan'208";a="828883803"
 Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.254.215.63]) ([10.254.215.63])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 00:01:01 -0800
-Message-ID: <99edf0cf-a570-43de-a79a-a040a403607e@linux.intel.com>
-Date: Wed, 8 Nov 2023 16:01:00 +0800
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 00:18:32 -0800
+Message-ID: <f7e69801-e651-471d-9768-43ddf1702f91@linux.intel.com>
+Date: Wed, 8 Nov 2023 16:18:30 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Cc: baolu.lu@linux.intel.com, Zhenhua Huang <quic_zhenhuah@quicinc.com>
-Subject: Re: [PATCH RFC 01/17] iommu: Remove struct iommu_ops *iommu from
- arch_setup_dma_ops()
+Subject: Re: [PATCH RFC 17/17] iommu: Mark dev_iommu_priv_set() with a lockdep
+Content-Language: en-US
 To: Jason Gunthorpe <jgg@nvidia.com>, acpica-devel@lists.linuxfoundation.org,
  Alyssa Rosenzweig <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>,
  asahi@lists.linux.dev, Catalin Marinas <catalin.marinas@arm.com>,
@@ -84,13 +84,12 @@ To: Jason Gunthorpe <jgg@nvidia.com>, acpica-devel@lists.linuxfoundation.org,
  Krishna Reddy <vdumpa@nvidia.com>, Vineet Gupta <vgupta@kernel.org>,
  virtualization@lists.linux-foundation.org, Wei Liu <wei.liu@kernel.org>,
  Will Deacon <will@kernel.org>
-References: <1-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
-Content-Language: en-US
+References: <17-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
 From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <1-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
+In-Reply-To: <17-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231108_000115_723141_B34970A1 
-X-CRM114-Status: GOOD (  11.36  )
+X-CRM114-CacheID: sfid-20231108_001852_786760_485263C0 
+X-CRM114-Status: GOOD (  13.36  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,25 +106,30 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 2023/11/4 0:44, Jason Gunthorpe wrote:
-> This is not being used to pass ops, it is just a way to tell if an
-> iommu driver was probed. These days this can be detected directly via
-> device_iommu_mapped(). Call device_iommu_mapped() in the two places that
-> need to check it and remove the iommu parameter everywhere.
+On 2023/11/4 0:45, Jason Gunthorpe wrote:
+> A perfect driver would only call dev_iommu_priv_set() from its probe
+> callback. We've made it functionally correct to call it from the of_xlate
+> by adding a lock around that call.
+> 
+> lockdep assert that iommu_probe_device_lock is held to discourage misuse.
+> 
+> Exclude PPC kernels with CONFIG_FSL_PAMU turned on because FSL_PAMU uses a
+> global static for its priv and abuses priv for its domain.
+> 
+> Remove the pointless stores of NULL, all these are on paths where the core
+> code will free dev->iommu after the op returns.
 > 
 > Signed-off-by: Jason Gunthorpe<jgg@nvidia.com>
 > ---
->   arch/arc/mm/dma.c               |  2 +-
->   arch/arm/mm/dma-mapping-nommu.c |  2 +-
->   arch/arm/mm/dma-mapping.c       | 10 +++++-----
->   arch/arm64/mm/dma-mapping.c     |  4 ++--
->   arch/mips/mm/dma-noncoherent.c  |  2 +-
->   arch/riscv/mm/dma-noncoherent.c |  2 +-
->   drivers/acpi/scan.c             |  3 +--
->   drivers/hv/hv_common.c          |  2 +-
->   drivers/of/device.c             |  2 +-
->   include/linux/dma-map-ops.h     |  4 ++--
->   10 files changed, 16 insertions(+), 17 deletions(-)
+>   drivers/iommu/amd/iommu.c                   | 2 --
+>   drivers/iommu/apple-dart.c                  | 1 -
+>   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 1 -
+>   drivers/iommu/arm/arm-smmu/arm-smmu.c       | 1 -
+>   drivers/iommu/intel/iommu.c                 | 2 --
+>   drivers/iommu/iommu.c                       | 9 +++++++++
+>   drivers/iommu/omap-iommu.c                  | 1 -
+>   include/linux/iommu.h                       | 5 +----
+>   8 files changed, 10 insertions(+), 12 deletions(-)
 
 Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
 
