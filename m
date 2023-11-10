@@ -4,114 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D688EC4167D
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Nov 2023 12:23:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6657CC4167D
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Nov 2023 10:17:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References
-	:In-Reply-To:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=OKMDbRhjoJSRfBwJCnMfrG/+gEvzTo9nNKuC0WApZHA=; b=GCggqZOVZax0CY
-	Y6eq+mLtwtcx1LLmUOQ6UMrMrT5zxe6LrpErDYW6sODqFqPmoLqzTLbGdO2AUpALcuOBEnq6BDWx5
-	FplsTaP28x5MuITkxRnRwBML54x0CobJii9n+JKCcjOlLCbZcn9zvObERvVf+bC4wxFQHMrnnpvTn
-	7nf+a8/J5h+BLikYD5XDwFi9Krbf7CDRZvcj8oKw1sgo9fekMEXLvP+8lO7e9m+kvNs3FkgM7vcsP
-	+ybs2vA8yNmVRwQ++tzvGgkgYmyDSptZv5WmURrJtXtfcyLSFc9Pa4L6r+46Xkqas8H4H6gMy1Joc
-	Im+XjdjQrbzMZ2qhIxAw==;
+	List-Owner; bh=dG6SvNF+b9fITnTLpw3KmzYnvzAVfqKwQbuAfB8vcyA=; b=X9PYXw39fj9CDP
+	sKpzc+dijA1miCPdpzZXJb5DmqKKXOS9ID9KnuXPOdtAqdUUt4ZbWJrTdvCacvRC6W1WoKuGKCErk
+	JNC4zBsYV4jVaoks5LV0LJ0/W6079w3MCBB+vtUs+oSMez0Hbv9hylAZ3jucdPUvVgWeJlnbfpaWs
+	JjNUPOr7Svp8H+3Pihao6N9/GbJP5OfEJkyLwTC2IuOLjR4fuaVedu6Xwgpqooa2x9IkUYkiVjPDK
+	XYiXC16iSLzB9Nb2ahyTClgypAz0Y7UXubY9Evibrr+zGsAxfWqJEz80AzTWPG5z/ERLOL1u7R7hY
+	owXJewpeVOzDWeMxal7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r144S-006J5V-1S;
-	Thu, 09 Nov 2023 12:23:40 +0000
-Received: from gandalf.ozlabs.org ([150.107.74.76])
-	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r144M-006J33-0z;
-	Thu, 09 Nov 2023 12:23:36 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1699532610;
-	bh=R2IIgl4ZRFgwipCQ4ZBWquxZCbtnLxeQT8yMzVcSClk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=JOE+Y96nQb0g0fD7YjgIsTtXOrsQ0zdJ9Xit6bae239vdgrtE8Xe20tGEjOEwp6b5
-	 bBGasTtN2qhciM6Vxj5gO1APMLHXfhhNabxTTxDpDoDz6AXcIv0hdu9+rRXuZNmSj3
-	 PriUuPEOny5OCaNxYhuQeMYyhW0D7Uuip11fA5kii4KmxM9zaRV2MnEviCDpMHy6zq
-	 fUfZ9elCA6bj44/a3P1CQqNaCruTVzrNA2B2UxDQEd/EBpaSM5DHluHgXy74J1JLYp
-	 rlgnpTfcT5fdD0htnPYkbVFENF7DqxPzxI5N3NUPYBgm/lUlPDoiySV3dJVovZ01Br
-	 M0UtCQNJ+RaEQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4SR1MD6jtmz4wd2;
-	Thu,  9 Nov 2023 23:23:20 +1100 (AEDT)
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>, Arnd Bergmann
- <arnd@arndb.de>, Arnd
- Bergmann <arnd@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Masahiro
- Yamada <masahiroy@kernel.org>, "linux-kbuild@vger.kernel.org"
- <linux-kbuild@vger.kernel.org>
-Cc: Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>,
- Russell King <linux@armlinux.org.uk>, Catalin Marinas
- <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Steven Rostedt
- <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, Mark
- Rutland <mark.rutland@arm.com>, guoren <guoren@kernel.org>, Peter Zijlstra
- <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, Huacai Chen
- <chenhuacai@kernel.org>, Greg Ungerer <gerg@linux-m68k.org>, Michal Simek
- <monstr@monstr.eu>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Dinh
- Nguyen <dinguyen@kernel.org>, Nicholas Piggin <npiggin@gmail.com>, Geoff
- Levand <geoff@infradead.org>, Palmer Dabbelt <palmer@dabbelt.com>, Heiko
- Carstens <hca@linux.ibm.com>, John Paul Adrian Glaubitz
- <glaubitz@physik.fu-berlin.de>, "David S . Miller" <davem@davemloft.net>,
- Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo
- Molnar <mingo@redhat.com>, "x86@kernel.org" <x86@kernel.org>, Helge Deller
- <deller@gmx.de>, Sudip Mukherjee <sudipm.mukherjee@gmail.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Timur Tabi <timur@kernel.org>,
- Kent Overstreet <kent.overstreet@linux.dev>, David Woodhouse
- <dwmw2@infradead.org>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Anil
- S
- Keshavamurthy <anil.s.keshavamurthy@intel.com>, Kees Cook
- <keescook@chromium.org>, Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Juri
- Lelli <juri.lelli@redhat.com>, Vincent Guittot
- <vincent.guittot@linaro.org>, Nathan Chancellor <nathan@kernel.org>, Nick
- Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?=
- <u.kleine-koenig@pengutronix.de>, "linux-alpha@vger.kernel.org"
- <linux-alpha@vger.kernel.org>, "linux-snps-arc@lists.infradead.org"
- <linux-snps-arc@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>,
- "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
- "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
- "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>,
- "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
- "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
- "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
- "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>, Netdev
- <netdev@vger.kernel.org>, "linux-parisc@vger.kernel.org"
- <linux-parisc@vger.kernel.org>, "linux-usb@vger.kernel.org"
- <linux-usb@vger.kernel.org>, "linux-fbdev@vger.kernel.org"
- <linux-fbdev@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-bcachefs@vger.kernel.org"
- <linux-bcachefs@vger.kernel.org>, "linux-mtd@lists.infradead.org"
- <linux-mtd@lists.infradead.org>
+	id 1r1OZk-008HEF-0A;
+	Fri, 10 Nov 2023 10:17:20 +0000
+Received: from foss.arm.com ([217.140.110.172])
+	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
+	id 1r1OZe-008HCC-0g;
+	Fri, 10 Nov 2023 10:17:16 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6DC7712FC;
+	Fri, 10 Nov 2023 02:17:56 -0800 (PST)
+Received: from [192.168.4.21] (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2EC783F6C4;
+	Fri, 10 Nov 2023 02:16:58 -0800 (PST)
+Message-ID: <8288a2e5-afa3-462a-9470-0b010e4bc5bc@arm.com>
+Date: Fri, 10 Nov 2023 10:16:46 +0000
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 15/22] arch: vdso: consolidate gettime prototypes
-In-Reply-To: <886df4e4-9fc2-ca52-e7e9-53688e6e821a@csgroup.eu>
+To: Arnd Bergmann <arnd@kernel.org>, Andrew Morton
+ <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>, Matt Turner <mattst88@gmail.com>,
+ Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Guo Ren <guoren@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ Greg Ungerer <gerg@linux-m68k.org>, Michal Simek <monstr@monstr.eu>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Dinh Nguyen <dinguyen@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Geoff Levand <geoff@infradead.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Heiko Carstens <hca@linux.ibm.com>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ "David S. Miller" <davem@davemloft.net>, Andy Lutomirski <luto@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ x86@kernel.org, Helge Deller <deller@gmx.de>,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Timur Tabi <timur@kernel.org>, Kent Overstreet <kent.overstreet@linux.dev>,
+ David Woodhouse <dwmw2@infradead.org>,
+ "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+ Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+ Kees Cook <keescook@chromium.org>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ Nicolas Schier <nicolas@fjasle.eu>, Al Viro <viro@zeniv.linux.org.uk>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
+ linux-csky@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+ sparclinux@vger.kernel.org, netdev@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-bcachefs@vger.kernel.org, linux-mtd@lists.infradead.org
 References: <20231108125843.3806765-1-arnd@kernel.org>
  <20231108125843.3806765-16-arnd@kernel.org>
- <ecedb0f1-9543-35c6-18bd-723e6bf21173@csgroup.eu>
- <d94de5b8-db92-4055-9484-f2666973c02a@app.fastmail.com>
- <87o7g3qlf5.fsf@mail.lhotse>
- <886df4e4-9fc2-ca52-e7e9-53688e6e821a@csgroup.eu>
-Date: Thu, 09 Nov 2023 23:23:20 +1100
-Message-ID: <87il6bqfnr.fsf@mail.lhotse>
-MIME-Version: 1.0
+Content-Language: en-US
+From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+In-Reply-To: <20231108125843.3806765-16-arnd@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231109_042334_629165_AB6EA76B 
-X-CRM114-Status: GOOD (  17.21  )
+X-CRM114-CacheID: sfid-20231110_021714_369379_981E542D 
+X-CRM114-Status: GOOD (  28.79  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,56 +99,313 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Q2hyaXN0b3BoZSBMZXJveSA8Y2hyaXN0b3BoZS5sZXJveUBjc2dyb3VwLmV1PiB3cml0ZXM6Cj4g
-TGUgMDkvMTEvMjAyMyDDoCAxMToxOCwgTWljaGFlbCBFbGxlcm1hbiBhIMOpY3JpdMKgOgo+PiAi
-QXJuZCBCZXJnbWFubiIgPGFybmRAYXJuZGIuZGU+IHdyaXRlczoKPj4+IE9uIFdlZCwgTm92IDgs
-IDIwMjMsIGF0IDE5OjMxLCBDaHJpc3RvcGhlIExlcm95IHdyb3RlOgo+Pj4+IExlIDA4LzExLzIw
-MjMgw6AgMTM6NTgsIEFybmQgQmVyZ21hbm4gYSDDqWNyaXTCoDoKPj4+Cj4+Pj4gcG93ZXJwYyBo
-YXMgZnVuY3Rpb25zIGRvaW5nIG1vcmUgb3IgbGVzcyB0aGUgc2FtZSwgdGhleSBhcmUgY2FsbGVk
-Cj4+Pj4gX19jX2tlcm5lbF9jbG9ja19nZXR0aW1lKCkgYW5kIGFsaWtlIHdpdGggdGhlaXIgcHJv
-dG90eXBlcyBzaXRpbmcgaW4KPj4+PiBhcmNoL3Bvd2VycGMvaW5jbHVkZS9hc20vdmRzby9nZXR0
-aW1lb2ZkYXkuaAo+Pj4+Cj4+Pj4gU2hvdWxkIHRob3NlIHByb3RvdHlwZXMgYmUgbW92ZWQgdG8g
-aW5jbHVkZS92ZHNvL2dldHRpbWUuaCB0b28gYW5kCj4+Pj4gZXZlbnR1YWxseSByZW5hbWVkLCBv
-ciBhcmUgdGhleSBjb25zaWRlcmVkIHRvbyBwb3dlcnBjIHNwZWNpZmljID8KPj4+Cj4+PiBJIGRv
-bid0IGFjdHVhbGx5IGtub3csIG15IGluaXRpYWwgaW50ZXJwcmV0YXRpb24gd2FzIHRoYXQKPj4+
-IHRoZXNlIGZ1bmN0aW9uIG5hbWVzIGFyZSBwYXJ0IG9mIHRoZSB1c2VyIEFCSSBmb3IgdGhlIHZk
-c28sCj4+PiBidXQgSSBuZXZlciBsb29rZWQgY2xvc2VseSBlbm91Z2ggYXQgaG93IHZkc28gd29y
-a3MgdG8KPj4+IGJlIHN1cmUgd2hhdCB0aGUgYWN0dWFsIEFCSSBpcy4KPj4gCj4+IEFGQUlLIHRo
-ZSBBQkkgaXMganVzdCB0aGUgc3ltYm9scyB3ZSBleHBvcnQsIGFzIGRlZmluZWQgaW4gdGhlIGxp
-bmtlcgo+PiBzY3JpcHQ6Cj4+IAo+PiAvKgo+PiAgICogVGhpcyBjb250cm9scyB3aGF0IHN5bWJv
-bHMgd2UgZXhwb3J0IGZyb20gdGhlIERTTy4KPj4gICAqLwo+PiBWRVJTSU9OCj4+IHsKPj4gCVZE
-U09fVkVSU0lPTl9TVFJJTkcgewo+PiAJZ2xvYmFsOgo+PiAJCV9fa2VybmVsX2dldF9zeXNjYWxs
-X21hcDsKPj4gCQlfX2tlcm5lbF9nZXR0aW1lb2ZkYXk7Cj4+IAkJX19rZXJuZWxfY2xvY2tfZ2V0
-dGltZTsKPj4gCQlfX2tlcm5lbF9jbG9ja19nZXRyZXM7Cj4+IAkJX19rZXJuZWxfZ2V0X3RiZnJl
-cTsKPj4gCQlfX2tlcm5lbF9zeW5jX2RpY2FjaGU7Cj4+IAkJX19rZXJuZWxfc2lndHJhbXBfcnQ2
-NDsKPj4gCQlfX2tlcm5lbF9nZXRjcHU7Cj4+IAkJX19rZXJuZWxfdGltZTsKPj4gCj4+IGh0dHBz
-Oi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4
-LmdpdC90cmVlL2FyY2gvcG93ZXJwYy9rZXJuZWwvdmRzby92ZHNvNjQubGRzLlM/aD12Ni42JiNu
-MTE3Cj4+IAo+Pj4gSWYgX19jX2tlcm5lbF9jbG9ja19nZXR0aW1lKCkgZXRjIGFyZSBub3QgcGFy
-dCBvZiB0aGUgdXNlci1mYWNpbmcKPj4+IEFCSSwgSSB0aGluayByZW5hbWluZyB0aGVtIGZvciBj
-b25zaXN0ZW5jeSB3aXRoIHRoZSBvdGhlcgo+Pj4gYXJjaGl0ZWN0dXJlcyB3b3VsZCBiZSBiZXN0
-Lgo+PiAKPj4gVGhlIF9fYyBzeW1ib2xzIGFyZSBub3QgcGFydCBvZiB0aGUgQUJJLCBzbyB3ZSBj
-b3VsZCByZW5hbWUgdGhlbS4KPj4gCj4+IEF0IHRoZSBtb21lbnQgdGhvdWdoIHRoZXkgZG9uJ3Qg
-aGF2ZSB0aGUgc2FtZSBwcm90b3R5cGUgYXMgdGhlIGdlbmVyaWMKPj4gdmVyc2lvbnMsIGJlY2F1
-c2Ugd2UgZmluZCB0aGUgVkRTTyBkYXRhIGluIGFzbSBhbmQgcGFzcyBpdCB0byB0aGUgQwo+PiBm
-dW5jdGlvbnMsIGVnOgo+PiAKPj4gaW50IF9fY19rZXJuZWxfZ2V0dGltZW9mZGF5KHN0cnVjdCBf
-X2tlcm5lbF9vbGRfdGltZXZhbCAqdHYsIHN0cnVjdCB0aW1lem9uZSAqdHosCj4+IAkJCSAgICBj
-b25zdCBzdHJ1Y3QgdmRzb19kYXRhICp2ZCk7Cj4+IAo+PiBJIHRoaW5rIHdlIGNhbiByZXdvcmsg
-dGhhdCB0aG91Z2gsIGJ5IGltcGxlbWVudGluZwo+PiBfX2FyY2hfZ2V0X3Zkc29fZGF0YSgpIGFu
-ZCBnZXR0aW5nIHRoZSB2ZHNvX2RhdGEgaW4gQy4gVGhlbiB3ZSdkIGJlIGFibGUKPj4gdG8gc2hh
-cmUgdGhlIHByb3RvdHlwZXMuCj4KPiBJIHRoaW5rIGl0IHdvdWxkIG5vdCBhIGJlZW4gZ29vZCBp
-ZGVhLCBpdCB3b3VsZCBiZSBsZXNzIHBlcmZvcm1hbnQsIGZvciAKPiBleHBsYW5hdGlvbiBzZWUg
-Y29tbWl0IAo+IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0
-L3RvcnZhbGRzL2xpbnV4LmdpdC9jb21taXQvP2lkPWU4NzZmMGI2OWRjOTkzZTg2Y2E3Nzk1ZTYz
-ZTk4Mzg1YWE5YTdlZjMKCkFoIHRoYW5rcy4gSSB3YXMgd29uZGVyaW5nIHdoeSB5b3UgaGFkIGRv
-bmUgaXQgaW4gYXNtLgoKSXQncyBhIHBpdHkgYnV0IHlvdSdyZSByaWdodCB0aGF0J3MgcHJvYmFi
-bHkgYSBtZWFzdXJhYmxlIHBlcmZvcm1hbmNlCmhpdCBmb3Igc29tZSBvZiB0aG9zZSBjYWxscy4K
-CmNoZWVycwoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-bGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVh
-ZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1z
-bnBzLWFyYwo=
+Hi Arnd,
+
+On 11/8/23 12:58, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The VDSO functions are defined as globals in the kernel sources but intended
+> to be called from userspace, so there is no need to declare them in a kernel
+> side header.
+> 
+> Without a prototype, this now causes warnings such as
+> 
+> arch/mips/vdso/vgettimeofday.c:14:5: error: no previous prototype for '__vdso_clock_gettime' [-Werror=missing-prototypes]
+> arch/mips/vdso/vgettimeofday.c:28:5: error: no previous prototype for '__vdso_gettimeofday' [-Werror=missing-prototypes]
+> arch/mips/vdso/vgettimeofday.c:36:5: error: no previous prototype for '__vdso_clock_getres' [-Werror=missing-prototypes]
+> arch/mips/vdso/vgettimeofday.c:42:5: error: no previous prototype for '__vdso_clock_gettime64' [-Werror=missing-prototypes]
+> arch/sparc/vdso/vclock_gettime.c:254:1: error: no previous prototype for '__vdso_clock_gettime' [-Werror=missing-prototypes]
+> arch/sparc/vdso/vclock_gettime.c:282:1: error: no previous prototype for '__vdso_clock_gettime_stick' [-Werror=missing-prototypes]
+> arch/sparc/vdso/vclock_gettime.c:307:1: error: no previous prototype for '__vdso_gettimeofday' [-Werror=missing-prototypes]
+> arch/sparc/vdso/vclock_gettime.c:343:1: error: no previous prototype for '__vdso_gettimeofday_stick' [-Werror=missing-prototypes]
+> 
+> Most architectures have already added workarounds for these by adding
+> declarations somewhere, but since these are all compatible, we should
+> really just have one copy, with an #ifdef check for the 32-bit vs
+> 64-bit variant and use that everywhere.
+> 
+
+I agree, it is a good idea to have a single header for this purpose.
+
+> Unfortunately, the sparc version is currently incompatible since
+> that never added support for __vdso_clock_gettime64() in 32-bit
+> userland. For the moment, I'm leaving this one out, as I can't
+> easily test it and it requires a larger rework.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+
+Reviewed-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+
+> ---
+>  arch/arm/include/asm/vdso.h              |  5 -----
+>  arch/arm/vdso/vgettimeofday.c            |  1 +
+>  arch/arm64/kernel/vdso32/vgettimeofday.c |  1 +
+>  arch/csky/kernel/vdso/vgettimeofday.c    | 11 +----------
+>  arch/loongarch/vdso/vgettimeofday.c      |  7 +------
+>  arch/mips/vdso/vgettimeofday.c           |  1 +
+>  arch/riscv/kernel/vdso/vgettimeofday.c   |  7 +------
+>  arch/x86/entry/vdso/vclock_gettime.c     | 10 +---------
+>  arch/x86/include/asm/vdso/gettimeofday.h |  2 --
+>  arch/x86/um/vdso/um_vdso.c               |  1 +
+>  include/vdso/gettime.h                   | 23 +++++++++++++++++++++++
+>  11 files changed, 31 insertions(+), 38 deletions(-)
+>  create mode 100644 include/vdso/gettime.h
+> 
+> diff --git a/arch/arm/include/asm/vdso.h b/arch/arm/include/asm/vdso.h
+> index 422c3afa806a..5b85889f82ee 100644
+> --- a/arch/arm/include/asm/vdso.h
+> +++ b/arch/arm/include/asm/vdso.h
+> @@ -24,11 +24,6 @@ static inline void arm_install_vdso(struct mm_struct *mm, unsigned long addr)
+>  
+>  #endif /* CONFIG_VDSO */
+>  
+> -int __vdso_clock_gettime(clockid_t clock, struct old_timespec32 *ts);
+> -int __vdso_clock_gettime64(clockid_t clock, struct __kernel_timespec *ts);
+> -int __vdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz);
+> -int __vdso_clock_getres(clockid_t clock_id, struct old_timespec32 *res);
+> -
+>  #endif /* __ASSEMBLY__ */
+>  
+>  #endif /* __KERNEL__ */
+> diff --git a/arch/arm/vdso/vgettimeofday.c b/arch/arm/vdso/vgettimeofday.c
+> index a003beacac76..3554aa35f1ba 100644
+> --- a/arch/arm/vdso/vgettimeofday.c
+> +++ b/arch/arm/vdso/vgettimeofday.c
+> @@ -8,6 +8,7 @@
+>  #include <linux/types.h>
+>  #include <asm/vdso.h>
+>  #include <asm/unwind.h>
+> +#include <vdso/gettime.h>
+>  
+>  int __vdso_clock_gettime(clockid_t clock,
+>  			 struct old_timespec32 *ts)
+> diff --git a/arch/arm64/kernel/vdso32/vgettimeofday.c b/arch/arm64/kernel/vdso32/vgettimeofday.c
+> index 5acff29c5991..e23c7f4ef26b 100644
+> --- a/arch/arm64/kernel/vdso32/vgettimeofday.c
+> +++ b/arch/arm64/kernel/vdso32/vgettimeofday.c
+> @@ -5,6 +5,7 @@
+>   * Copyright (C) 2018 ARM Limited
+>   *
+>   */
+> +#include <vdso/gettime.h>
+>  
+>  int __vdso_clock_gettime(clockid_t clock,
+>  			 struct old_timespec32 *ts)
+> diff --git a/arch/csky/kernel/vdso/vgettimeofday.c b/arch/csky/kernel/vdso/vgettimeofday.c
+> index c4831145eed5..55af30e83752 100644
+> --- a/arch/csky/kernel/vdso/vgettimeofday.c
+> +++ b/arch/csky/kernel/vdso/vgettimeofday.c
+> @@ -2,36 +2,27 @@
+>  
+>  #include <linux/time.h>
+>  #include <linux/types.h>
+> +#include <vdso/gettime.h>
+>  
+>  extern
+> -int __vdso_clock_gettime(clockid_t clock,
+> -			 struct old_timespec32 *ts);
+>  int __vdso_clock_gettime(clockid_t clock,
+>  			 struct old_timespec32 *ts)
+>  {
+>  	return __cvdso_clock_gettime32(clock, ts);
+>  }
+>  
+> -int __vdso_clock_gettime64(clockid_t clock,
+> -			   struct __kernel_timespec *ts);
+>  int __vdso_clock_gettime64(clockid_t clock,
+>  			   struct __kernel_timespec *ts)
+>  {
+>  	return __cvdso_clock_gettime(clock, ts);
+>  }
+>  
+> -extern
+> -int __vdso_gettimeofday(struct __kernel_old_timeval *tv,
+> -			struct timezone *tz);
+>  int __vdso_gettimeofday(struct __kernel_old_timeval *tv,
+>  			struct timezone *tz)
+>  {
+>  	return __cvdso_gettimeofday(tv, tz);
+>  }
+>  
+> -extern
+> -int __vdso_clock_getres(clockid_t clock_id,
+> -			struct old_timespec32 *res);
+>  int __vdso_clock_getres(clockid_t clock_id,
+>  			struct old_timespec32 *res)
+>  {
+> diff --git a/arch/loongarch/vdso/vgettimeofday.c b/arch/loongarch/vdso/vgettimeofday.c
+> index 8f22863bd7ea..0885c1f3a89d 100644
+> --- a/arch/loongarch/vdso/vgettimeofday.c
+> +++ b/arch/loongarch/vdso/vgettimeofday.c
+> @@ -5,23 +5,18 @@
+>   * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
+>   */
+>  #include <linux/types.h>
+> +#include <vdso/gettime.h>
+>  
+> -extern
+> -int __vdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts);
+>  int __vdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts)
+>  {
+>  	return __cvdso_clock_gettime(clock, ts);
+>  }
+>  
+> -extern
+> -int __vdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz);
+>  int __vdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz)
+>  {
+>  	return __cvdso_gettimeofday(tv, tz);
+>  }
+>  
+> -extern
+> -int __vdso_clock_getres(clockid_t clock_id, struct __kernel_timespec *res);
+>  int __vdso_clock_getres(clockid_t clock_id, struct __kernel_timespec *res)
+>  {
+>  	return __cvdso_clock_getres(clock_id, res);
+> diff --git a/arch/mips/vdso/vgettimeofday.c b/arch/mips/vdso/vgettimeofday.c
+> index 6b83b6376a4b..604afea3f336 100644
+> --- a/arch/mips/vdso/vgettimeofday.c
+> +++ b/arch/mips/vdso/vgettimeofday.c
+> @@ -9,6 +9,7 @@
+>   */
+>  #include <linux/time.h>
+>  #include <linux/types.h>
+> +#include <vdso/gettime.h>
+>  
+>  #if _MIPS_SIM != _MIPS_SIM_ABI64
+>  int __vdso_clock_gettime(clockid_t clock,
+> diff --git a/arch/riscv/kernel/vdso/vgettimeofday.c b/arch/riscv/kernel/vdso/vgettimeofday.c
+> index cc0d80699c31..b35057802584 100644
+> --- a/arch/riscv/kernel/vdso/vgettimeofday.c
+> +++ b/arch/riscv/kernel/vdso/vgettimeofday.c
+> @@ -8,23 +8,18 @@
+>  
+>  #include <linux/time.h>
+>  #include <linux/types.h>
+> +#include <vdso/gettime.h>
+>  
+> -extern
+> -int __vdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts);
+>  int __vdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts)
+>  {
+>  	return __cvdso_clock_gettime(clock, ts);
+>  }
+>  
+> -extern
+> -int __vdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz);
+>  int __vdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz)
+>  {
+>  	return __cvdso_gettimeofday(tv, tz);
+>  }
+>  
+> -extern
+> -int __vdso_clock_getres(clockid_t clock_id, struct __kernel_timespec *res);
+>  int __vdso_clock_getres(clockid_t clock_id, struct __kernel_timespec *res)
+>  {
+>  	return __cvdso_clock_getres(clock_id, res);
+> diff --git a/arch/x86/entry/vdso/vclock_gettime.c b/arch/x86/entry/vdso/vclock_gettime.c
+> index 7d70935b6758..0debc194bd78 100644
+> --- a/arch/x86/entry/vdso/vclock_gettime.c
+> +++ b/arch/x86/entry/vdso/vclock_gettime.c
+> @@ -11,12 +11,10 @@
+>  #include <linux/time.h>
+>  #include <linux/kernel.h>
+>  #include <linux/types.h>
+> +#include <vdso/gettime.h>
+>  
+>  #include "../../../../lib/vdso/gettimeofday.c"
+>  
+> -extern int __vdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz);
+> -extern __kernel_old_time_t __vdso_time(__kernel_old_time_t *t);
+> -
+>  int __vdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz)
+>  {
+>  	return __cvdso_gettimeofday(tv, tz);
+> @@ -35,9 +33,6 @@ __kernel_old_time_t time(__kernel_old_time_t *t)	__attribute__((weak, alias("__v
+>  
+>  #if defined(CONFIG_X86_64) && !defined(BUILD_VDSO32_64)
+>  /* both 64-bit and x32 use these */
+> -extern int __vdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts);
+> -extern int __vdso_clock_getres(clockid_t clock, struct __kernel_timespec *res);
+> -
+>  int __vdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts)
+>  {
+>  	return __cvdso_clock_gettime(clock, ts);
+> @@ -56,9 +51,6 @@ int clock_getres(clockid_t, struct __kernel_timespec *)
+>  
+>  #else
+>  /* i386 only */
+> -extern int __vdso_clock_gettime(clockid_t clock, struct old_timespec32 *ts);
+> -extern int __vdso_clock_getres(clockid_t clock, struct old_timespec32 *res);
+> -
+>  int __vdso_clock_gettime(clockid_t clock, struct old_timespec32 *ts)
+>  {
+>  	return __cvdso_clock_gettime32(clock, ts);
+> diff --git a/arch/x86/include/asm/vdso/gettimeofday.h b/arch/x86/include/asm/vdso/gettimeofday.h
+> index c81858d903dc..a46edb0e0cf7 100644
+> --- a/arch/x86/include/asm/vdso/gettimeofday.h
+> +++ b/arch/x86/include/asm/vdso/gettimeofday.h
+> @@ -337,8 +337,6 @@ u64 vdso_calc_delta(u64 cycles, u64 last, u64 mask, u32 mult)
+>  }
+>  #define vdso_calc_delta vdso_calc_delta
+>  
+> -int __vdso_clock_gettime64(clockid_t clock, struct __kernel_timespec *ts);
+> -
+>  #endif /* !__ASSEMBLY__ */
+>  
+>  #endif /* __ASM_VDSO_GETTIMEOFDAY_H */
+> diff --git a/arch/x86/um/vdso/um_vdso.c b/arch/x86/um/vdso/um_vdso.c
+> index ff0f3b4b6c45..63768dd347ce 100644
+> --- a/arch/x86/um/vdso/um_vdso.c
+> +++ b/arch/x86/um/vdso/um_vdso.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/time.h>
+>  #include <linux/getcpu.h>
+>  #include <asm/unistd.h>
+> +#include <vdso/gettime.h>
+>  
+>  int __vdso_clock_gettime(clockid_t clock, struct __kernel_old_timespec *ts)
+>  {
+> diff --git a/include/vdso/gettime.h b/include/vdso/gettime.h
+> new file mode 100644
+> index 000000000000..c50d152e7b3e
+> --- /dev/null
+> +++ b/include/vdso/gettime.h
+> @@ -0,0 +1,23 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef _VDSO_GETTIME_H
+> +#define _VDSO_GETTIME_H
+> +
+> +#include <linux/types.h>
+> +
+> +struct __kernel_timespec;
+> +struct timezone;
+> +
+> +#if !defined(CONFIG_64BIT) || defined(BUILD_VDSO32_64)
+> +struct old_timespec32;
+> +int __vdso_clock_getres(clockid_t clock, struct old_timespec32 *res);
+> +int __vdso_clock_gettime(clockid_t clock, struct old_timespec32 *ts);
+> +#else
+> +int __vdso_clock_getres(clockid_t clock, struct __kernel_timespec *res);
+> +int __vdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts);
+> +#endif
+> +
+> +__kernel_old_time_t __vdso_time(__kernel_old_time_t *t);
+> +int __vdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz);
+> +int __vdso_clock_gettime64(clockid_t clock, struct __kernel_timespec *ts);
+> +
+> +#endif
+
+-- 
+Regards,
+Vincenzo
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
