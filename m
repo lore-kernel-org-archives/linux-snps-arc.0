@@ -4,70 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B1BCC54FB9
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 15 Nov 2023 14:43:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93ECFC5ACB2
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 15 Nov 2023 14:45:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=idSt1J8B448bTYM/OyIPp9GCwRbTiwC5r70wUJDS1wM=; b=1AvAa8ykAWSLjD
-	/97ujCtF3Vs0QSMPe5eWMULG9jXTQOkYc2AK+k0S94hUfeLzxkc3BFX3HfuoPM7Xw4rpRDSw1AVb4
-	hWx4kkY80mPznfLt1tHVr1QAZssT5AqeEcWiQNPhIr+P3anUp148cBudnDi8SvI1J2qqIM1sdVHmO
-	UkzRrVb9IUZzyUb4K57dcEMsutS/UE9EMhDFaLp5fP27Zbd3IdJmrnHC2iHArHL0zhUxsYiJOv2gu
-	XdT1AiB2L+ZK4O0tZ0kW6F97sHjWFsjM+Nd1u0+kiauvjbt0jHbniMd+NGI1+TZXGtKP8j9kPGECh
-	IMDAcZHZrdQstbaxkvbg==;
+	List-Owner; bh=idSt1J8B448bTYM/OyIPp9GCwRbTiwC5r70wUJDS1wM=; b=lDIePhYo+YKjjB
+	O4oPYgpV5z5LpDHfUKEl+JI5PDtN5yB9CwXTTSWws3Q7+afPjCfWQtw0dqDpaYpPL5UEopwAVffSo
+	o5uQ73TjNKZK0P/TYxgS2K/n08/5EIH2nEUIhE7KdKvMWKAT3ggcO4+vqlIZ8FRO7mW4A0BeCwJ0d
+	SeUPrboxgO0YwybIcAp3FQj4mvqMHQsOQFggbFwKFcL2GAJQy3p/85q3N6HCVAtc+Pl7x66Gx2XyV
+	XJygoCtLnM/sylRBtqsdOHpqEuRtbZ/Jilo2xRI4GzLXaFnpKhm8q1BgL155/W5YaA2aRUckMbC25
+	sSn/9rKypoyYRQru91/g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r3H6k-0013iP-0s;
-	Wed, 15 Nov 2023 14:43:10 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1r3H9I-0014Ki-37;
+	Wed, 15 Nov 2023 14:45:48 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r3H6f-0013fT-2O
+	id 1r3H9G-0014Ih-1N
 	for linux-snps-arc@lists.infradead.org;
-	Wed, 15 Nov 2023 14:43:07 +0000
+	Wed, 15 Nov 2023 14:45:47 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700059383;
+	s=mimecast20190719; t=1700059545;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
 	bh=sqWGwV812/CXYndzj2W50PA7KOMPm+tHC+e+xjD2/M0=;
-	b=GDDrK/IUxJxyaD9Eesf2xMM34fW5yMAURIvUv5FeWryyArZuABKnsc08VlSvE/LsL5ov3M
-	eOIxokebuzQpJYfcIRFoDSh0grb1Y2UFS1ZiiEhnIv2pCEfMHiKv0O/zGGuax4GABgeBF/
-	io3r2J3JvVfANMV4AbK41AWfNGr+3tI=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+	b=eMisUO8GETcoW33XgbVvGFoZSGvcs6sr8qGR7HdNuy6l7n+3b1r3cCgVaaTc4rmVnvIdFs
+	esAP0rORkrKtXky+DkVYgB6FJ4yK+vA/nAux7Gys3mK38+iEZ1SFTozp/AS0YvkuyBj+qC
+	QN055SZdG2DH06ofT8KRCvBNYieATAE=
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
+ [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-332-9K4l5d0XO0uPvIBhiAwT4w-1; Wed, 15 Nov 2023 09:43:01 -0500
-X-MC-Unique: 9K4l5d0XO0uPvIBhiAwT4w-1
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-77bc625a8a2so717355585a.0
-        for <linux-snps-arc@lists.infradead.org>; Wed, 15 Nov 2023 06:43:01 -0800 (PST)
+ us-mta-605-1qCOTuCFPv6ODZlaOHLiPg-1; Wed, 15 Nov 2023 09:45:44 -0500
+X-MC-Unique: 1qCOTuCFPv6ODZlaOHLiPg-1
+Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-3b2e6189e6aso7991693b6e.3
+        for <linux-snps-arc@lists.infradead.org>; Wed, 15 Nov 2023 06:45:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700059381; x=1700664181;
+        d=1e100.net; s=20230601; t=1700059543; x=1700664343;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
         bh=sqWGwV812/CXYndzj2W50PA7KOMPm+tHC+e+xjD2/M0=;
-        b=la1022CL6CtpxjSjNq4JVvKRk2bRCsQP3QMvQ6Wk9slA5DD3pZCcPDQ3oPcd3BqX17
-         IOg5PBj0OF2eYgtsTmJxyGI3x3Shtluzt75p+wv9XmDyULvpCJyD/UHDqmYKyLc4/oiV
-         ofCARu/ebQkYJkI2J5jTqyRZyGGJ1ifMB7Q+wC8YCH/qceZ8YC4NsOl18T0VB4G+kWfH
-         wyLb6v0dKIxI/eXPKDyvfYG/Ok314IVGEgpshZytBJjsXNPj7LG5ZBkT/CDgjf9Z1wA4
-         N1/sJ4ZTD8OjZ0zqWQpc161+1ARWVaMyISzhGpQhz8MXBW2sY1QgBLG0rGja6hS5dQ+E
-         Rj9w==
-X-Gm-Message-State: AOJu0YzVEEivCMUbpLTIasXe7NQHLitY+UfTHP4c6hoTzKJvK07IBdVj
-	7f0SwNpewQPg+cr1xLN6cLTR6zHL2VZsJdJQiRv5JFFGqf6O/iQ1mNaWzZr+UlbJDbI2J8vLHam
-	lusKevgeSeUZ1r+4DNA7sTrZZSrsl2M92
-X-Received: by 2002:a0c:c3cf:0:b0:66d:1100:7b81 with SMTP id p15-20020a0cc3cf000000b0066d11007b81mr5491023qvi.18.1700059380973;
-        Wed, 15 Nov 2023 06:43:00 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF0jpQrK9oJO86ojMSo1dc0KOCSp7+RBS164Fh6GwHlgBAjmWNWgSHBdIgtMHXFSNVSzkNNdA==
-X-Received: by 2002:a0c:c3cf:0:b0:66d:1100:7b81 with SMTP id p15-20020a0cc3cf000000b0066d11007b81mr5491005qvi.18.1700059380669;
-        Wed, 15 Nov 2023 06:43:00 -0800 (PST)
+        b=myzH3RSqrplXcLOanvDFw3WRQoP7xjB6tMVDamXVs0r5DS//FYL9zO+IsmjGdjdKgf
+         oiCePzjNithljrDCmgbpt3/mtJEMVWshMM0qKnsHbKOu0V6TggyNCAbB3SQuyVwfksov
+         MB1L8vvvx9ZfFYRBhl5B+ryfobzwqVaRfqlK6XKvyBy2rJiov8DPW2eS+ZUHBbOcqVeP
+         0Zzn0Vl3G0JT4BJFBUcg2AATC/MO7H85Y1troQ9SR6HnoyKyhgody0R+NH4bXjFosbnw
+         LhojSAxEF8co0fn2b4ajvCXmlVeV8YfsMO7+w2bkmjmeNg+gfrknueCvWgR2udfP/mrM
+         R/3w==
+X-Gm-Message-State: AOJu0YwJ4LZGpq9LHp77tQ7uw2qKOmeKvqkFStea8qCCwjR2dIw+xP6g
+	EVsi3o0CiaDpKAT/HG+VWFYhp0zU46T28z8uwWsyOKVLoEgK6xLbTpVfbYRHgLxhgMUWH4gAff6
+	vzL7o0GYTa0wuO9DJDT5eFBmgPS9FNGEQ
+X-Received: by 2002:a05:6358:919a:b0:16b:c64b:5dad with SMTP id j26-20020a056358919a00b0016bc64b5dadmr7077897rwa.10.1700059543253;
+        Wed, 15 Nov 2023 06:45:43 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHcJVORPEWxErQUmTJ/FpxcV4QjvJjDEY7Ir6ZH3gFB8P/4S+/kGnZXTGDIbciHJXITaJ6Zhw==
+X-Received: by 2002:a05:6358:919a:b0:16b:c64b:5dad with SMTP id j26-20020a056358919a00b0016bc64b5dadmr7077772rwa.10.1700059540988;
+        Wed, 15 Nov 2023 06:45:40 -0800 (PST)
 Received: from localhost (ip98-179-76-75.ph.ph.cox.net. [98.179.76.75])
-        by smtp.gmail.com with ESMTPSA id u2-20020a05621411a200b00674a45499dcsm578681qvv.88.2023.11.15.06.42.59
+        by smtp.gmail.com with ESMTPSA id v10-20020a0cf90a000000b00655d6d31470sm577985qvn.43.2023.11.15.06.45.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Nov 2023 06:43:00 -0800 (PST)
-Date: Wed, 15 Nov 2023 07:42:58 -0700
+        Wed, 15 Nov 2023 06:45:40 -0800 (PST)
+Date: Wed, 15 Nov 2023 07:45:39 -0700
 From: Jerry Snitselaar <jsnitsel@redhat.com>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: acpica-devel@lists.linux.dev, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
@@ -94,19 +94,19 @@ Cc: acpica-devel@lists.linux.dev, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	Christoph Hellwig <hch@lst.de>, Moritz Fischer <mdf@kernel.org>, 
 	Zhenhua Huang <quic_zhenhuah@quicinc.com>, "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, 
 	Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 03/17] iommu/of: Use -ENODEV consistently in
- of_iommu_configure()
-Message-ID: <jtgj4qfpqzj5zowqwmcniaxd77kqvirspm2a7jkgg6vgmo2scy@5jpoatxkrkid>
+Subject: Re: [PATCH v2 04/17] acpi: Do not return struct iommu_ops from
+ acpi_iommu_configure_id()
+Message-ID: <qmb2wshxcq75o43xikgw3ks6d72yyiranapupkwmwcm5b4vkgp@mgm36neokikv>
 References: <0-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
- <3-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
+ <4-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <3-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
+In-Reply-To: <4-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231115_064305_875699_41DC4E47 
-X-CRM114-Status: UNSURE (   7.57  )
+X-CRM114-CacheID: sfid-20231115_064546_539556_6AF10BD3 
+X-CRM114-Status: UNSURE (   7.64  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
