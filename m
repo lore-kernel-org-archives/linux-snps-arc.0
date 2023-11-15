@@ -4,129 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5F931C4167D
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Nov 2023 04:57:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F838C48BFA
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 15 Nov 2023 13:28:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:From:References:To:Subject:MIME-Version:
-	Date:Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lRP9VtvU52yW3gOTT/R3OpIN9ib9uN8OYcSP7Z7nLos=; b=XTmaxa1IJeUJUJVFqvFCKHRkZ6
-	N3XeEpyyZsVq+nrX6IUb1yCtWdW3tw56VvF2k/d9Tyhp8MBPQf5p09hMTEVdYgKf1F9U+qV/vO3DC
-	yffEpGTPyAGZZLQhn13F7ui3NTsw8i5seuqPlXWSTeUHGDOqVWb0aIuAZ4fx8KadlM5nAFJTCprBt
-	PQIiHKrEoknih+zLh6hJbMlLf5+jLHI31Kv2lknkuziM0fkYXI3FfgsARWmTRA0/EK/jFujbb9mrL
-	7Hqjr7mwS45tM20aRTSS/ae06eSBAUu1JreWxtboXgMw4GvDQ6vDyZj/1KKkM0ZHGjhQ8lqh3xFT/
-	rcjZDWyA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:MIME-Version:Message-Id:Date:
+	Subject:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=/7BrUh1mjGz2reiIiChoIlO4Lz/LbB1TrR1ehv/BFpQ=; b=xXLLMiXFjBcb2u
+	qxYJ3UOTs1tf+qIltnZ25z40QcwXDghGgEdOG6pos0Sn1/tHoMxHgEbaH+SHtZE26OqCCsGEnAcDU
+	ctjX2UuumAizLmVO6bLb3qfCjlfY0Jn75pREooFZxkz0Bt4myU4cvC08mNNApAhCCmmOpX1GsLzk2
+	ALkTvnrhPN9elsY1KjMinTSFCCsqxECYHH/m7nXknsu+og6+GFe+KzuFM+As4WtMSrwPCz9mx1zv0
+	07/lEmMvOyoo7KP8lb9mY8n7D3QT4iYS9HD5fXGXWa9y2jDQ6zdutBp48KNRv8MZW2/J/tHDms5aL
+	tubWOFvv+4VSvgm7gP3A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r2lUZ-00FB0p-0B;
-	Tue, 14 Nov 2023 04:57:39 +0000
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
+	id 1r3FwM-000s33-09;
+	Wed, 15 Nov 2023 13:28:22 +0000
+Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r2lUV-00FB0N-2a;
-	Tue, 14 Nov 2023 04:57:37 +0000
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AE4dQxp015496;
-	Tue, 14 Nov 2023 04:57:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=Ut+LP/oQgS6AHmq27TArlkMKu8wbNEjr6zcLsTELHGU=;
- b=P4U9JNsZ9twinkAM6crKSroq7yTQNIGWmkH2jnosKDAz9K5IrD0KC+OFma4jfeDqxQq+
- Jios5YHkR/P1oDpeARKJM2+nQJAHIoy/AU39G733GUA7X/t+IfSA/Um81F8A6iCtQL26
- XG4dtUswJSuAwmlGjkGcZuNFHb330V24H5OqAeBwm6fW/02agttPnGwa8mYMhC8YNPDL
- TSKl5hj7Y9fOX8//4nAwpHHKR4ae/Pebp5Zv8rijSDAyEzEk9K9W2+AIslRM+tKCuR55
- lfIA8BS+uF4K4AD8r57Ipm+m83CMrPvY4hiFvL9PLI1Y49qIQrtqpSe+/TUS76UcnzFQ vA== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ubuswrmww-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Nov 2023 04:57:04 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AE4v2nN010730
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Nov 2023 04:57:02 GMT
-Received: from [10.239.132.245] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 13 Nov
- 2023 20:56:53 -0800
-Message-ID: <ee647939-3f47-4b82-b1e4-a0c9414a1e8e@quicinc.com>
-Date: Tue, 14 Nov 2023 12:56:43 +0800
+	id 1r3FwI-000rxt-0c
+	for linux-snps-arc@lists.infradead.org;
+	Wed, 15 Nov 2023 13:28:19 +0000
+Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-50930f126b1so9024556e87.3
+        for <linux-snps-arc@lists.infradead.org>; Wed, 15 Nov 2023 05:28:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700054896; x=1700659696; darn=lists.infradead.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IwN4XVt8yK1X3+YfAI5MPsrSuan+JzWxqjLblP1tQKk=;
+        b=u4prM+o8Jmi4Wtchmp5pajoAAbL57qqVT2cAHyZhDuL5lpb93LBrD+q/3aNDJbpS25
+         dXo0/wtVnvYwMDDk/PVklLS2dyH51CGljuh3jetAQPOaQVUj4xKWR72TvSjoEPAoviqC
+         vNcrSXLgWcpJw0u+qqVZOqrSzkp54F/Q64+NhyLT25ZTy1rb0uZo/R59Hse6KY2XfmvS
+         5Fn2/F1ARgSU9W1R2hHRkRopPpP01MiuQJxMDzFcay7YIos4d0o2H0SKQApsHRdVvOE2
+         I87N6icjbJLP4gbYg85JSrz6UkEvEZyx49At3gzxi2mJM0EUBDNnAPxKCEM/RQcCAM4L
+         TW/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700054896; x=1700659696;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IwN4XVt8yK1X3+YfAI5MPsrSuan+JzWxqjLblP1tQKk=;
+        b=pQ9mkjdKVmpCSP9TtIuyjIKav4SLL3KLOZuOBWoRbz7T1IgiGM8uIEBFWMv90WnPxm
+         nG4WWQC0TeUly28kWIwTnvrajwWT81ssq+F7f2duJe9m8R0uTRE3fpUujVOhjegZ5Dzr
+         EuIyEG4sNi8ADTUF7dzug0tSvSkePYYVAdKN736hOTerByNXOU8r7qdf198nlWIHgFZU
+         tKqn+k+dn28lA2NzCvglL7zQCsB6SXfqQUk6M2rRaYbpYtaYR2ai1xb9MH8bi0qz+FO+
+         cfph/Pv+07PXo7Hp9ejfYsu7ygxIA2vb/rx4RNl59p81mu9kRaTKel5CcEc0iR/TvEcj
+         AgKg==
+X-Gm-Message-State: AOJu0YzbQjBd/0UamZR975/LTcqY/LDDzpAdFQ1qlFq5MjH1K4w+CzbQ
+	LSfyhkejfwFw0y4rhgcYH+iHVuV7QY3tC+r2uWw=
+X-Google-Smtp-Source: AGHT+IF6FsX84+Bpu5NsuR9YTgjgvPm5Ii4b6DzTvo5LXdZ+KTsK38zulfyHnqY8V8cYq+V7VMdbJg==
+X-Received: by 2002:a05:6512:3e1e:b0:509:4b8a:b65f with SMTP id i30-20020a0565123e1e00b005094b8ab65fmr10675082lfv.60.1700054895757;
+        Wed, 15 Nov 2023 05:28:15 -0800 (PST)
+Received: from [127.0.1.1] ([85.235.12.238])
+        by smtp.gmail.com with ESMTPSA id l12-20020a19c20c000000b00507b1da672bsm1648705lfc.174.2023.11.15.05.28.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Nov 2023 05:28:15 -0800 (PST)
+From: Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH 0/2] arch: Virt to phys to static inlines
+Date: Wed, 15 Nov 2023 14:28:13 +0100
+Message-Id: <20231115-virt-to-phy-arch-tree-v1-0-8b61296eae73@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 00/17] Solve iommu probe races around iommu_fwspec
-Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>, <acpica-devel@lists.linuxfoundation.org>,
-        Alyssa Rosenzweig
-	<alyssa@rosenzweig.io>,
-        Albert Ou <aou@eecs.berkeley.edu>, <asahi@lists.linux.dev>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Catalin Marinas
-	<catalin.marinas@arm.com>,
-        Dexuan Cui <decui@microsoft.com>, <devicetree@vger.kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Frank
- Rowand <frowand.list@gmail.com>,
-        Hanjun Guo <guohanjun@huawei.com>,
-        Haiyang
- Zhang <haiyangz@microsoft.com>,
-        Christoph Hellwig <hch@lst.de>, <iommu@lists.linux.dev>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
-        "K.
- Y. Srinivasan" <kys@microsoft.com>, Len Brown <lenb@kernel.org>,
-        <linux-acpi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-hyperv@vger.kernel.org>, <linux-mips@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>,
-        <linux-snps-arc@lists.infradead.org>, <linux-tegra@vger.kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Lorenzo
- Pieralisi <lpieralisi@kernel.org>,
-        Marek Szyprowski
-	<m.szyprowski@samsung.com>,
-        Hector Martin <marcan@marcan.st>, Palmer Dabbelt
-	<palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        "Rafael J.
- Wysocki" <rafael@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Rob
- Herring <robh+dt@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Sudeep
- Holla <sudeep.holla@arm.com>,
-        Suravee Suthikulpanit
-	<suravee.suthikulpanit@amd.com>,
-        Sven Peter <sven@svenpeter.dev>,
-        Thierry
- Reding <thierry.reding@gmail.com>,
-        Thomas Bogendoerfer
-	<tsbogend@alpha.franken.de>,
-        Krishna Reddy <vdumpa@nvidia.com>, Vineet Gupta
-	<vgupta@kernel.org>,
-        <virtualization@lists.linux-foundation.org>,
-        Wei Liu
-	<wei.liu@kernel.org>, Will Deacon <will@kernel.org>
-References: <0-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
-From: Zhenhua Huang <quic_zhenhuah@quicinc.com>
-In-Reply-To: <0-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: W9mLspwTBqhYvV5ajR8gt_t_BuX4RknD
-X-Proofpoint-ORIG-GUID: W9mLspwTBqhYvV5ajR8gt_t_BuX4RknD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-14_03,2023-11-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 clxscore=1011 mlxlogscore=917
- impostorscore=0 adultscore=0 spamscore=0 phishscore=0 lowpriorityscore=0
- mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311140037
+X-B4-Tracking: v=1; b=H4sIAG3HVGUC/x3MPQqAMAxA4atIZgON/3gVcdAabRaVtBRFvLvF8
+ Rvee8CzCnvosweUo3g59gTKM7Bu2jdGWZKhMEVJRDVG0YDhwNPdOKl1GJQZqWxn27Wmapggtaf
+ yKtf/Hcb3/QD/9wbVZwAAAA==
+To: Arnd Bergmann <arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>, 
+ Brian Cain <bcain@quicinc.com>
+Cc: linux-arch@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-hexagon@vger.kernel.org, 
+ Linus Walleij <linus.walleij@linaro.org>
+X-Mailer: b4 0.12.4
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231113_205735_860121_F2B576DB 
-X-CRM114-Status: GOOD (  14.26  )
+X-CRM114-CacheID: sfid-20231115_052818_256118_A19FF2AF 
+X-CRM114-Status: UNSURE (   8.55  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -138,26 +90,39 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Thanks Jason.
+Some architectures have been given patches to switch their
+virt_to_phys()/phys_to_virt() or underlying *pfn etc functions
+over to static inlines.
 
-On 2023/11/4 0:44, Jason Gunthorpe wrote:
-> This is a more complete solution that the first attempt here:
-> https://lore.kernel.org/r/1698825902-10685-1-git-send-email-quic_zhenhuah@quicinc.com
-> 
-> I haven't been able to test this on any HW that touches these paths, so if
-> some people with HW can help get it in shape it can become non-RFC.
+Some patches have been ignored or have no maintained arch
+tree.
 
-Thank you for addressing it quickly with a thorough way. I have 
-backported it to Android common kernel 6.1 and tested basic sanity well.
-I will share these to OEMs and see if they can reproduce further, thanks.
+This set includes patches that I suggest to simply be applied
+to the arch tree so they get in.
 
-Thanks,
-Zhenhua
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+Linus Walleij (2):
+      ARC: mm: Make virt_to_pfn() a static inline
+      Hexagon: Make pfn accessors statics inlines
+
+ arch/arc/include/asm/page.h           | 21 ++++++++++++---------
+ arch/arc/include/asm/pgtable-levels.h |  2 +-
+ arch/hexagon/include/asm/page.h       | 15 +++++++++++++--
+ 3 files changed, 26 insertions(+), 12 deletions(-)
+---
+base-commit: b85ea95d086471afb4ad062012a4d73cd328fa86
+change-id: 20231115-virt-to-phy-arch-tree-137bc87046e1
+
+Best regards,
+-- 
+Linus Walleij <linus.walleij@linaro.org>
+
 
 _______________________________________________
 linux-snps-arc mailing list
