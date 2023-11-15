@@ -4,71 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F838C48BFA
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 15 Nov 2023 13:28:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4C06C48BFA
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 15 Nov 2023 13:28:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:MIME-Version:Message-Id:Date:
-	Subject:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=/7BrUh1mjGz2reiIiChoIlO4Lz/LbB1TrR1ehv/BFpQ=; b=xXLLMiXFjBcb2u
-	qxYJ3UOTs1tf+qIltnZ25z40QcwXDghGgEdOG6pos0Sn1/tHoMxHgEbaH+SHtZE26OqCCsGEnAcDU
-	ctjX2UuumAizLmVO6bLb3qfCjlfY0Jn75pREooFZxkz0Bt4myU4cvC08mNNApAhCCmmOpX1GsLzk2
-	ALkTvnrhPN9elsY1KjMinTSFCCsqxECYHH/m7nXknsu+og6+GFe+KzuFM+As4WtMSrwPCz9mx1zv0
-	07/lEmMvOyoo7KP8lb9mY8n7D3QT4iYS9HD5fXGXWa9y2jDQ6zdutBp48KNRv8MZW2/J/tHDms5aL
-	tubWOFvv+4VSvgm7gP3A==;
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References:Message-Id
+	:MIME-Version:Subject:Date:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=CrhZVZxLFrI4F9SNUjdonfRYTj2AsfPkYFzLqwPu8Fs=; b=YJYtE2+REeQHVR
+	5yhGTuMqT337aVYj1MSNaNb9vnoZrKeFpB6AT4L+l9UtxlWwpx+WQjdT5zTcyybjiOvVR8qhY2pme
+	xLCS0KkCXqM51YsT7GZIVvm7umAGV8T69mGKdaM5NGxEIEUF/X5seXHi71gNZRPTDXcKDl34wfwNm
+	OU4JrmY250nNQbmK3DIL235Neyt/wyC57vha2XPUTawVaTFcDuGbsQp4WMMusC5zhQimoUYguE5Ay
+	6Lb+emSHivC7E3xc0IaEj+QffsgxlsLyFS2X01aBBDay0px4aThe6jJep0Q1ffq5TOzlJAEFVdnGo
+	budSHwGS0zcogd+cEqDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r3FwM-000s33-09;
-	Wed, 15 Nov 2023 13:28:22 +0000
-Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d])
+	id 1r3FwS-000s9K-2u;
+	Wed, 15 Nov 2023 13:28:28 +0000
+Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r3FwI-000rxt-0c
+	id 1r3FwI-000rya-39
 	for linux-snps-arc@lists.infradead.org;
-	Wed, 15 Nov 2023 13:28:19 +0000
-Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-50930f126b1so9024556e87.3
-        for <linux-snps-arc@lists.infradead.org>; Wed, 15 Nov 2023 05:28:17 -0800 (PST)
+	Wed, 15 Nov 2023 13:28:21 +0000
+Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-507a55302e0so9579150e87.0
+        for <linux-snps-arc@lists.infradead.org>; Wed, 15 Nov 2023 05:28:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700054896; x=1700659696; darn=lists.infradead.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IwN4XVt8yK1X3+YfAI5MPsrSuan+JzWxqjLblP1tQKk=;
-        b=u4prM+o8Jmi4Wtchmp5pajoAAbL57qqVT2cAHyZhDuL5lpb93LBrD+q/3aNDJbpS25
-         dXo0/wtVnvYwMDDk/PVklLS2dyH51CGljuh3jetAQPOaQVUj4xKWR72TvSjoEPAoviqC
-         vNcrSXLgWcpJw0u+qqVZOqrSzkp54F/Q64+NhyLT25ZTy1rb0uZo/R59Hse6KY2XfmvS
-         5Fn2/F1ARgSU9W1R2hHRkRopPpP01MiuQJxMDzFcay7YIos4d0o2H0SKQApsHRdVvOE2
-         I87N6icjbJLP4gbYg85JSrz6UkEvEZyx49At3gzxi2mJM0EUBDNnAPxKCEM/RQcCAM4L
-         TW/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700054896; x=1700659696;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linaro.org; s=google; t=1700054897; x=1700659697; darn=lists.infradead.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=IwN4XVt8yK1X3+YfAI5MPsrSuan+JzWxqjLblP1tQKk=;
-        b=pQ9mkjdKVmpCSP9TtIuyjIKav4SLL3KLOZuOBWoRbz7T1IgiGM8uIEBFWMv90WnPxm
-         nG4WWQC0TeUly28kWIwTnvrajwWT81ssq+F7f2duJe9m8R0uTRE3fpUujVOhjegZ5Dzr
-         EuIyEG4sNi8ADTUF7dzug0tSvSkePYYVAdKN736hOTerByNXOU8r7qdf198nlWIHgFZU
-         tKqn+k+dn28lA2NzCvglL7zQCsB6SXfqQUk6M2rRaYbpYtaYR2ai1xb9MH8bi0qz+FO+
-         cfph/Pv+07PXo7Hp9ejfYsu7ygxIA2vb/rx4RNl59p81mu9kRaTKel5CcEc0iR/TvEcj
-         AgKg==
-X-Gm-Message-State: AOJu0YzbQjBd/0UamZR975/LTcqY/LDDzpAdFQ1qlFq5MjH1K4w+CzbQ
-	LSfyhkejfwFw0y4rhgcYH+iHVuV7QY3tC+r2uWw=
-X-Google-Smtp-Source: AGHT+IF6FsX84+Bpu5NsuR9YTgjgvPm5Ii4b6DzTvo5LXdZ+KTsK38zulfyHnqY8V8cYq+V7VMdbJg==
-X-Received: by 2002:a05:6512:3e1e:b0:509:4b8a:b65f with SMTP id i30-20020a0565123e1e00b005094b8ab65fmr10675082lfv.60.1700054895757;
-        Wed, 15 Nov 2023 05:28:15 -0800 (PST)
+        bh=HrVNEt2cc/SjP2EDNi8Ypx4BpRW+YQfrsXMUopTWpaU=;
+        b=l9hZOfTd3fVMQiWvGQMV+oeSlAHr95hLlHSpsHY5m8p5asT0H+cXra8CRIxRlQgAX1
+         fl7xuFngpKl8+jtsjEbR315H1x7QUL33TIP+4ikGH45ab72RHCd9IcPZoOWp3ysDaQID
+         5Wf0aRyXp+fgrCJP/azaxk4NHIHUeM+OkK9Sl0v4FCQ4BdHUF3gGIVBnNrgyH0O97aiQ
+         m2z96s2kDkgt0Z75DTR89V0AujLQzdNOamwilTwr+WQrGol2Z+zNgWiJwpQeHS3tntrA
+         GYPqBexOkfRYrVWC3f3j6NB4KK6xthQIzUjT1dQXMwJQUaaJHBovH0RBNpGNqTTSsHzi
+         hwLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700054897; x=1700659697;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HrVNEt2cc/SjP2EDNi8Ypx4BpRW+YQfrsXMUopTWpaU=;
+        b=MO45R53geoGCXusBGTx1XALYXmM00qSt/tAzxcjSgX2ISlzbGQlE35+6UIREpjOiFK
+         V5jTsPddoaVhJf/xOzKPBIqQCClOvVBaF77XKEBH7a5mz94O6mpWMHvB2rrBbULInO+x
+         O58VIHiPubJw4eGu2JCSfnj5zxnbc6Yz86nB35cwPUX0UXEZaCXCxKOVSS6WmiVfScky
+         H5hbzKuzqFkWvKZd5fK/U5YRMECS6qohOHRHa2+Bz9zy0s46BcKlEj7FSml73cARmZ4I
+         rANTg4EYABU3F+/yg9t7ibUtaeksSzD+ay194Yz2lP08CTl9g0LqL0B9C2fX6AvcpJY2
+         GcfQ==
+X-Gm-Message-State: AOJu0Yx+i4e5Fblj09yi5McIyXLNFygLVwAA/9PkVR1WqWKxuTt95zeO
+	w1uxn/W21yF5rGjOPM+GygqyAA==
+X-Google-Smtp-Source: AGHT+IEZfdzsNM4pOVpdQmBfJck2ud0jjVkPzsGxSYAG5htEb3fgmCm3DK8SVrja4wL8Daoz/Qy5GA==
+X-Received: by 2002:a05:6512:4846:b0:507:9702:8e09 with SMTP id ep6-20020a056512484600b0050797028e09mr8331107lfb.2.1700054896889;
+        Wed, 15 Nov 2023 05:28:16 -0800 (PST)
 Received: from [127.0.1.1] ([85.235.12.238])
         by smtp.gmail.com with ESMTPSA id l12-20020a19c20c000000b00507b1da672bsm1648705lfc.174.2023.11.15.05.28.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Nov 2023 05:28:15 -0800 (PST)
+        Wed, 15 Nov 2023 05:28:16 -0800 (PST)
 From: Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH 0/2] arch: Virt to phys to static inlines
-Date: Wed, 15 Nov 2023 14:28:13 +0100
-Message-Id: <20231115-virt-to-phy-arch-tree-v1-0-8b61296eae73@linaro.org>
+Date: Wed, 15 Nov 2023 14:28:14 +0100
+Subject: [PATCH 1/2] ARC: mm: Make virt_to_pfn() a static inline
 MIME-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAG3HVGUC/x3MPQqAMAxA4atIZgON/3gVcdAabRaVtBRFvLvF8
- Rvee8CzCnvosweUo3g59gTKM7Bu2jdGWZKhMEVJRDVG0YDhwNPdOKl1GJQZqWxn27Wmapggtaf
- yKtf/Hcb3/QD/9wbVZwAAAA==
+Message-Id: <20231115-virt-to-phy-arch-tree-v1-1-8b61296eae73@linaro.org>
+References: <20231115-virt-to-phy-arch-tree-v1-0-8b61296eae73@linaro.org>
+In-Reply-To: <20231115-virt-to-phy-arch-tree-v1-0-8b61296eae73@linaro.org>
 To: Arnd Bergmann <arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>, 
  Brian Cain <bcain@quicinc.com>
 Cc: linux-arch@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
@@ -76,9 +76,8 @@ Cc: linux-arch@vger.kernel.org, linux-snps-arc@lists.infradead.org,
  Linus Walleij <linus.walleij@linaro.org>
 X-Mailer: b4 0.12.4
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231115_052818_256118_A19FF2AF 
-X-CRM114-Status: UNSURE (   8.55  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231115_052819_036942_A2E31F25 
+X-CRM114-Status: GOOD (  14.98  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,33 +94,79 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Some architectures have been given patches to switch their
-virt_to_phys()/phys_to_virt() or underlying *pfn etc functions
-over to static inlines.
+Making virt_to_pfn() a static inline taking a strongly typed
+(const void *) makes the contract of a passing a pointer of that
+type to the function explicit and exposes any misuse of the
+macro virt_to_pfn() acting polymorphic and accepting many types
+such as (void *), (unitptr_t) or (unsigned long) as arguments
+without warnings.
 
-Some patches have been ignored or have no maintained arch
-tree.
-
-This set includes patches that I suggest to simply be applied
-to the arch tree so they get in.
+In order to do this we move the virt_to_phys() and
+below the definition of the __pa() and __va() macros so it
+compiles. The macro version was also able to do recursive
+symbol resolution.
 
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
-Linus Walleij (2):
-      ARC: mm: Make virt_to_pfn() a static inline
-      Hexagon: Make pfn accessors statics inlines
-
  arch/arc/include/asm/page.h           | 21 ++++++++++++---------
  arch/arc/include/asm/pgtable-levels.h |  2 +-
- arch/hexagon/include/asm/page.h       | 15 +++++++++++++--
- 3 files changed, 26 insertions(+), 12 deletions(-)
----
-base-commit: b85ea95d086471afb4ad062012a4d73cd328fa86
-change-id: 20231115-virt-to-phy-arch-tree-137bc87046e1
+ 2 files changed, 13 insertions(+), 10 deletions(-)
 
-Best regards,
+diff --git a/arch/arc/include/asm/page.h b/arch/arc/include/asm/page.h
+index 02b53ad811fb..def0dfb95b43 100644
+--- a/arch/arc/include/asm/page.h
++++ b/arch/arc/include/asm/page.h
+@@ -84,15 +84,6 @@ typedef struct {
+ 
+ typedef struct page *pgtable_t;
+ 
+-/*
+- * Use virt_to_pfn with caution:
+- * If used in pte or paddr related macros, it could cause truncation
+- * in PAE40 builds
+- * As a rule of thumb, only use it in helpers starting with virt_
+- * You have been warned !
+- */
+-#define virt_to_pfn(kaddr)	(__pa(kaddr) >> PAGE_SHIFT)
+-
+ /*
+  * When HIGHMEM is enabled we have holes in the memory map so we need
+  * pfn_valid() that takes into account the actual extents of the physical
+@@ -122,6 +113,18 @@ extern int pfn_valid(unsigned long pfn);
+ #define __pa(vaddr)  		((unsigned long)(vaddr))
+ #define __va(paddr)  		((void *)((unsigned long)(paddr)))
+ 
++/*
++ * Use virt_to_pfn with caution:
++ * If used in pte or paddr related macros, it could cause truncation
++ * in PAE40 builds
++ * As a rule of thumb, only use it in helpers starting with virt_
++ * You have been warned !
++ */
++static inline unsigned long virt_to_pfn(const void *kaddr)
++{
++	return __pa(kaddr) >> PAGE_SHIFT;
++}
++
+ #define virt_to_page(kaddr)	pfn_to_page(virt_to_pfn(kaddr))
+ #define virt_addr_valid(kaddr)  pfn_valid(virt_to_pfn(kaddr))
+ 
+diff --git a/arch/arc/include/asm/pgtable-levels.h b/arch/arc/include/asm/pgtable-levels.h
+index fc417c75c24d..86e148226463 100644
+--- a/arch/arc/include/asm/pgtable-levels.h
++++ b/arch/arc/include/asm/pgtable-levels.h
+@@ -159,7 +159,7 @@
+ #define pmd_clear(xp)		do { pmd_val(*(xp)) = 0; } while (0)
+ #define pmd_page_vaddr(pmd)	(pmd_val(pmd) & PAGE_MASK)
+ #define pmd_pfn(pmd)		((pmd_val(pmd) & PAGE_MASK) >> PAGE_SHIFT)
+-#define pmd_page(pmd)		virt_to_page(pmd_page_vaddr(pmd))
++#define pmd_page(pmd)		virt_to_page((void *)pmd_page_vaddr(pmd))
+ #define set_pmd(pmdp, pmd)	(*(pmdp) = pmd)
+ #define pmd_pgtable(pmd)	((pgtable_t) pmd_page(pmd))
+ 
+
 -- 
-Linus Walleij <linus.walleij@linaro.org>
+2.34.1
 
 
 _______________________________________________
