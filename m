@@ -4,54 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31804C531B3
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 15 Nov 2023 14:06:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16AEEC48BF9
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 15 Nov 2023 14:06:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=YBIXF3wPS2ZhPUEk32OcZbxD4DeivAXeJAOgqYzLduE=; b=3Bhd6pk9/SJ1VM
-	vIeqDeubsBHVRlAooIAxwaYLKPBA/Ar/zRUpyLjLgjT9K54/qAmEie3opKWNj8LncJM4tA6ce13pi
-	2J8z4jvLi9F+9eGxpG+7OJXVZKDDctdt6jVO1jnGT8LbUJaRjfN/Lg1brysHA8d+AW+UR9N7OnHwU
-	iQFoL8Fs9fQ4p5PoVau/pUggzv9Ep4vydTunIvezMmEhkBBP4Vf2dEl3HHEbX7ejSvPk0JDr1JR+E
-	MCffWaudDOdsLsUyGZM2KkTSjZOjpJB/OhZ6bfbJXY4TfeJQT2t5cKB0l65tvMuyw1MoekoBk6MYk
-	S6KJYiiW9VyNNRZPEFAQ==;
+	List-Owner; bh=epkZIcMtOQI8cHJ/qRrKlUoXhpGR4uP3rTUzh2Dww34=; b=KFrm145jWThrYm
+	sklTlnUdMhTFxveiqmizkpp7RJ+pZLWmCs+hxUPPd7819qwhEckd5d5OBrNNrE761DTgph/K7BqkH
+	obXM0rGsAQdWywiaIPUUYMKdgAQEm3ARJ9ek51hmLQlmrbNAsSvrohsDQS3DoEHAgmg76lDMGycCd
+	m1bL7TCoExVo4VX7o6OzYKOFiaQT15LUZtQwM/Ze0dLSqjDHBdmOAQhkj3y9HtJkPRi1MkD8uxhZP
+	UpKBURSbCuyGnDcVK2gsasKy5mPE7/WTGU20wZWJj3fCHLXj2F6qQCpFAaYEts5vHf1TzluYVWqva
+	3qidF7fxNoKBoqpvNBng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r3GX7-000wSP-1S;
-	Wed, 15 Nov 2023 14:06:21 +0000
+	id 1r3GXB-000wVu-0s;
+	Wed, 15 Nov 2023 14:06:25 +0000
 Received: from mail-mw2nam12on20614.outbound.protection.outlook.com ([2a01:111:f400:fe5a::614] helo=NAM12-MW2-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r3GX2-000wPc-2J;
-	Wed, 15 Nov 2023 14:06:18 +0000
+	id 1r3GX4-000wPc-2f;
+	Wed, 15 Nov 2023 14:06:20 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T2m3n1lAzivhQlx99aJdx8OKn0X5RfjZFcdS6VhdsmpHLsiaUlJ0Bdde4++CPvs8+laAAZWslyZ+JNTocLBuwWxu8vAFthSMryHF3f5i2YDzsdhJ44x7q4uN6blVI/DlkkgXth3r0cbbOqF2VS1VKcyBr+aURPWLj9lAjwNCKTHhLoQPayD3bbNwJjrPeap5c9oXgFSOGENJ+P+ggiVIMXSuZpVTgqrBmwE2Mob+zIeqeiDUgRL/JafA5APrr4TVd96P3sMST8vrmqzXatx+Mig23pdUAL0/NQIsAWB4eInNUhTJsygcZGEua8aat2Q35yFU6e5/0zLqsLPUYskE6g==
+ b=esCQDfezoD/VowsiDoFIDFZyUy5Kvi47d3kcy88MqKuJ3iNEhpzftEv90pOsrzoIa2WaDaCbLkOly+xcp6lDpdEjHoeO3yWZmX6i42i0J8/AA7+mMOHnMpFAoDNj1fRG7mZua1Xy3IRqOAFxpSNkUF1t1v3Yojl8Zl3zrH+YzNOOsYTNLxI8UPSwcQObvpNPgyRDUw0A6NB7aHPk6rswpS/MH3XdF0VV1T8RAQHpHLYF8tfiWyo+WI9NBQBhM628I2ZZfOdcz1fdeUmlaQQP7kCE54fZHTeJjz3JPdxx1g9nIRzMY4ZGBLUBK3AG141WpQAaTGSeuYnpnaS7yHNzkQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2Cg0L7AKccOs0U4ZynPRAV7esL8tk+X5jnUDyQcs/B8=;
- b=Cs8DAY0SiTOzKhKB2P+jAWgffrKr/syAe9YnBPugk/CoC5R7U6REnoA+TbEZctwz69M/pRP9uwrDrLlWvpbM5C0oIkN54TRv/mg6LawbdLQya2t/t6kmAkfPDhaJ5YX4CRuxlfxcCEpRkkFRpwV1y4WnixkqTdztL8usAxbJIQPUx82qj6cTvFjCg2KSV4Yo2ya6MjdnoiBTTZWvCI7axugfhGEhjxiZoHzeY0NkrJCxv0+JGMyvTY3MvbLjXHmHxkvTzJfPhw7G9aewQ1mgBMX/h9ID0A7gcmx/dCM6z9O5S0Y9X7HiQoxP07UIPetr1FkCzpokCI8VWFh5nEBwSg==
+ bh=Xnk8VZMJeEWOu5/vrLtngXrQwOVU8fsBgD1gDrSstNg=;
+ b=hhL32thCbRSMBhwKhXLJBSlM/qLCqLjiwbvJwC0FICwY9AOSiH6A8T52d2MoAnp0o1jzdrTKk++GbrgiGB7T+0Cb5UKoSW4yN/FDYDEdqM3Nl5rEhEIF5c2kHDEQAXLL9Ks6VidyY+3pO8liiOf2+I5OBaiEbWlWZkoXbDO3XbM76mDL3FMwJ0xdf9C4st5yPqwArGStmgu3fihgtUrqhp/4kAcuTx0JGHe/DpKQ5NR1bH/SWjp7KJ3b++WNwGPmtAJDnZe5NW9DLV2vUGwJUhYknmbzimDhsCeVh9va7PRHSl5rrD6IvBJ7XNuBX2c+wcUacVcBF3aUfSMNZ65CCQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2Cg0L7AKccOs0U4ZynPRAV7esL8tk+X5jnUDyQcs/B8=;
- b=gw/2BqJhTByyrCGvW46kx8CVO//kuFJFfUC9RFW+tYgx+/yw2zWpykJ7i0pz95DmAsO42eCXjFYFAmMmJr9G+F58K+U2dzvYW0i9yLMfJU/PQWEzPsd/PYg8tFKgSkGBXuPgT5puGSXZlYrDCGWKtm2K5vLXxC8cQbpXlpQSj3CcGhmiMq7ryk0AArWcRh3JXH+dUVbm8VFZgPigEgH06zM/MzQT2eRL+uyOdALE+8NcroFOu2sABz8D7iammWfSn5zS8+a1pBiI5AfqMENqqmUAa0aU+NwFOeiG46wdjCbSFlnMFFId8NRdaAOqEADwVZXFvieAloxkFLpv4MJeGg==
+ bh=Xnk8VZMJeEWOu5/vrLtngXrQwOVU8fsBgD1gDrSstNg=;
+ b=PWvxn6xoAvVBp7nUkVIxZh/9XH3NFYA25gN1ORSA93SSAQw6O9ygDCQTNp4z2J2q+4wU4MBFgWF6yMs/2mkhzwZXMXdkU/v31moRm+JR1YhPImn06CieWgGjIloT+IyivxwIFOflFRmGDF7Lyxu7qzv0aOV8xfhpd/hF/9PSCPnNA9Y3RCxObljhaf8nsUVFk7rAY+/Ia0PR22kRxbEIHFbVn3daJMZixpagv3ynLgvLB9WzxBINxyUZeQyEKi91p2N1eaOqTucxFx5o2UoZjhjeCGWzzWfxuZbHaRv9cQ17svI+5VXrtz+/QZrT6yTKekVlDQAosZ2qL0vy3VHaCQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
  by SJ0PR12MB7007.namprd12.prod.outlook.com (2603:10b6:a03:486::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31; Wed, 15 Nov
- 2023 14:06:10 +0000
+ 2023 14:06:11 +0000
 Received: from LV2PR12MB5869.namprd12.prod.outlook.com
  ([fe80::60d4:c1e3:e1aa:8f93]) by LV2PR12MB5869.namprd12.prod.outlook.com
  ([fe80::60d4:c1e3:e1aa:8f93%4]) with mapi id 15.20.6977.029; Wed, 15 Nov 2023
- 14:06:09 +0000
+ 14:06:11 +0000
 From: Jason Gunthorpe <jgg@nvidia.com>
 To: acpica-devel@lists.linux.dev,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
@@ -106,66 +106,66 @@ Cc: =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
 	Zhenhua Huang <quic_zhenhuah@quicinc.com>,
 	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
 	Rob Herring <robh@kernel.org>
-Subject: [PATCH v2 04/17] acpi: Do not return struct iommu_ops from acpi_iommu_configure_id()
-Date: Wed, 15 Nov 2023 10:05:55 -0400
-Message-ID: <4-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
+Subject: [PATCH v2 01/17] iommu: Remove struct iommu_ops *iommu from arch_setup_dma_ops()
+Date: Wed, 15 Nov 2023 10:05:52 -0400
+Message-ID: <1-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
 In-Reply-To: <0-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
 References: 
-X-ClientProxiedBy: BLAPR03CA0117.namprd03.prod.outlook.com
- (2603:10b6:208:32a::32) To LV2PR12MB5869.namprd12.prod.outlook.com
+X-ClientProxiedBy: MN2PR15CA0030.namprd15.prod.outlook.com
+ (2603:10b6:208:1b4::43) To LV2PR12MB5869.namprd12.prod.outlook.com
  (2603:10b6:408:176::16)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|SJ0PR12MB7007:EE_
-X-MS-Office365-Filtering-Correlation-Id: cf7309fe-f1c9-4419-4a9f-08dbe5e40483
+X-MS-Office365-Filtering-Correlation-Id: 529d66cd-e412-498d-4a9f-08dbe5e40483
 X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ePTi3F+oZbUMQCUcsp2v6wREhVh00swp1NKNuUMA+WByeY6evt7aCVb5o7P+kKM+17tuVIcqtnhkfc/s9UviyPhvZjIGoq+dVwV3dSnIX/mAhnHLgbWFHX4aUcs/ikXVaDRVzhFRZSSjViTy1KYNYtvzAVrwPYThjo3EblJVfb6X+w8cCbzBh8Q9jIC3btPT0DqCAQ4SCHzkOBEESoBI+vjIcAU5Rp8QZ2eeVGHQOqz4/tLeAe+bFTtTq/LTq3rlfE8P4RKFg+58FUYpOAnzKS1VLTk8ARWSSs31+zZbCCiK/UPlH1XFKRBcETqDyzb3JNaX6FKbe6sgRpdIg2D3EFulaqE/9ICeNLdVoGpdiHK/6nW+8nA5uRXPG0Gs+w60xK6xgyI+R2SpRWF2Uq/9xcSLeHDLwH18JwWIVFtVcjpe0wmMoGFnCJTzH+7fIYP3aj1gtVhETh9V2svW9ui/0unvRrDbxndthSrMFiQ2Y0jZP1mARSgiAE+Wp3lhwcrt6EJibDEryo4PpXFTmpsIhI3/nvt3PNu8DTp/FJGy4eOUbUlEPfsjo4kCyASFVUECQy8nlW+ufAsQHB9BsYiBt5aO+MsPNEanlUSsdmNTNouA4AV9k8ArzArid/Bys72z
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(376002)(366004)(39860400002)(396003)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(7406005)(6666004)(6506007)(2616005)(6512007)(83380400001)(7416002)(41300700001)(8676002)(5660300002)(4326008)(7366002)(8936002)(478600001)(2906002)(6486002)(66476007)(54906003)(110136005)(66946007)(66556008)(316002)(86362001)(36756003)(38100700002)(26005)(921008)(4216001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 0gCY+Ym8EtLaXF0idmv8eBZsOt0ZR2YAsRF660hQrp3EIl0O6FwmkLEeAzh9gegD1+OZViyptSfLDyCVZ8826Rth4QZlWhd+DnRy4kP/CuhXiDB/QZQEINH480RqnKTQff7ttp4NOtw0+5IH1aXRIRuBom3NfUm0fJatj6B3CfHOcHYbKJS4GyFdNVzfQN3vSNPD73aZ73Ja4Vg76QdBaKMKcCu9lL43i75SRNA0dzF3vzMJMIev0UA3oNh4A4tCyH96r7y9lKRLKfS/a1DR1KjkmfbcbaAfeK7IAPKW+1RZ4sG9wcejEwIVqFiG0QoFDhO8RL4navaXuJTgiApDtTTBt3Y+gpr8XhFXgOiwqlGwMuKKOt5wqFF3oLdtOcBMhCaNU54UJwiIiGne4QlSWd8hLLOX3oDmFyaqcOKHYHqfinluOSfKLc9qEGQLjLqIArX0J2CYFy5OmbRN2aeQeKOn+4/aM48mFhxw44hEamovQnxVB/150REIRW3RGxu4eSmTRTkx75rOmbkT+3wtG8IYfMbBhbB3r07nGac0dRDwPhC5wjsBQrbV2IFsOUK3tB0FOTYx5zK0mM2RyDjTw86EkkSUj4Td872gA/iE+ESsdJcPJeje9OhZyLXbsHHW
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(376002)(366004)(39860400002)(396003)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(7406005)(6666004)(6506007)(2616005)(6512007)(83380400001)(7416002)(41300700001)(8676002)(5660300002)(4326008)(7366002)(8936002)(478600001)(2906002)(6486002)(66476007)(54906003)(110136005)(66946007)(66556008)(316002)(86362001)(36756003)(38100700002)(26005)(921008)(66899024)(4216001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YRGOVSeiGcR8haEtk0a6r13M2MCGQQsWdOny4DOIvVSG9ekISERiqrl+BlI1?=
- =?us-ascii?Q?Ae+gJE8O1HTogKTeSHzE6OTE0p2AkumI8sIcY+iTSTITfyLr7lVSpVUSbBMy?=
- =?us-ascii?Q?C6H87OGYuQmjc8EYjrzoAJScq09BHnia1WL45L8MZSyUfEJ0hu8xwnh+pqRE?=
- =?us-ascii?Q?KcmYbiEjG//ahYcTUgBo7uGGI26okf0sUM8+3+pDA6pImrzgxPgLOkWwKaR/?=
- =?us-ascii?Q?a/0MR83StkkZd4ihyV4sqT4TcqJdFdSHo+25KBvLMX4Kq6KoTaZB36LpOrEw?=
- =?us-ascii?Q?3XSlkFwiML4H0hdmmwoeOtiO3YIwYPy56yJRtF/a5VOIIS0Bm5nwGmdwQidE?=
- =?us-ascii?Q?8g6VnqJTc1n2DdCFVsZdCQeWpcd1x3Y8OA+W2geb4DMNuz26atSMxDcEwEzf?=
- =?us-ascii?Q?S5r/GP84o1pCWe6E2awafcnCvNIxXt1SkhTW3Yq2ISnG6Hu2QzGb7X2u5kzd?=
- =?us-ascii?Q?23wV+HO698CtKN+31tUtypC1YPkGKEvBwplgwKOH+Mwidxx4BKL1D0YNhn+o?=
- =?us-ascii?Q?pephCQmnNRTEbITJAPig09IKMMvz9uT4A7DNaDZDy/gTGqtQo4QU3qmGABAg?=
- =?us-ascii?Q?d4MtLW81p8xMmX+HEtwlogNS8LdtfxeKf0VCfMXblq11+wfrsFOVJ1rJN3/S?=
- =?us-ascii?Q?tH4ENxSXoh4M9k1rkm5WCPnydV+mghKHpp3R1eGpkpo6hbAjjapQAWuhX/7H?=
- =?us-ascii?Q?McF5EHUC4G+jcl+/KSf7TWUAyse243nOgFaa9D43GXy/CaHwJbYXv3BoegqB?=
- =?us-ascii?Q?qQQlE0Y319KErjlvD1tGDyKrfAFyP3fgTiwXfEXTxV+bGa3S7EvihU/WPPXd?=
- =?us-ascii?Q?gBdX/2HH0DMzV7yny3tOqZLR7TgYq3uv68McslMtdU6CJbVP7Vn/HiP7QL8A?=
- =?us-ascii?Q?5d7QJhf6a0RJqrnmga+kPimv/aOsY6WUSciPxevPUH+bBwm74k35PfG2bQfN?=
- =?us-ascii?Q?A0nbr1J6Jjx3ONzS6oY9OPtSnywOLZLaW/g9XcYmNBSBEP099YYLpwBAEltq?=
- =?us-ascii?Q?s3Xl/vInVXNbge40xVHxbHnE6azBbHSVtow2A0lBnSkNN30oawDIDxtuwL9F?=
- =?us-ascii?Q?3EWcugJ1y42MiNBCN2TwsKKlhUbC1079un9s5gZpFNiBjVnDTZ1X0WlEiftb?=
- =?us-ascii?Q?JpZGFmO19fVaXmkjexrUbC20yQI4Rv/2TWGFgP6WmZUITxwYEAaRssI62nU5?=
- =?us-ascii?Q?W+HLDJa6eRv1xvH4ay+4GSZ7MXB61Wa6raAXbRslTAKSuERkoDDxDN/mZT1S?=
- =?us-ascii?Q?tAfxd0Fhln8mOK9i9cBGT+Or4AjCI8/upadts+ETqz8PA0/RcRDZFqJAe1c5?=
- =?us-ascii?Q?lalq0t2Rc9P+2U8jwgUBGeqk20B842DwLzyvDjXs89oLnNdR1yfEYjZaxyh/?=
- =?us-ascii?Q?S2NE+pwBFXUXUNRpaz44ddQ2Um94KcnKCiMtLJtS9lUDEiQZkLlNDr0M92O0?=
- =?us-ascii?Q?kR5uC55ICGSocsKBCDQ9lvUq99D3cPWBfcupepb/diJlN8CZ/l5NJQqfJRyC?=
- =?us-ascii?Q?ZX6diU345QGBnl5QYvH7LFOdyKC647XMVcUpNrdpSaDNfj8eQfO/jH81usxX?=
- =?us-ascii?Q?F+LlrXAdBO0HJ7DGb+4=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zxicClb42zqzzbk5CRq5SS7TF8hlGviEoIfKZmp6AgFTjqC5x1+eWNO5F+1W?=
+ =?us-ascii?Q?nS3wdz01ItY/EugCvFGcRQAu2TC2IbZ4m2ZBtfZ2Zm5lF2CHVtyXeisYO8kj?=
+ =?us-ascii?Q?jLF8ENUZKTnoWSesByLNpqwHpEoMgodKMg0CaXWMGnEEdi4YhhkqhHB7p5+G?=
+ =?us-ascii?Q?TXTrYN6VEX3wVMXKyihQ/MtJoGJfOWya6V01IYIHASaskSfSsKHxHYCwDc2/?=
+ =?us-ascii?Q?KqqTVJpHd8Kwx6qcRKtwCOKNRM69hfeFDL35sk1QpHLTsjtiWetB0IpMXPyW?=
+ =?us-ascii?Q?j+q6u7UUD7aB0ZFmBJRusUov6Mh/kw7H06Q1Blbhstp26d07pYLnoGJkv/VR?=
+ =?us-ascii?Q?42IHhV9YKu8UO+PlbRmXO3s7FAydcESyMPVf468UnVSKXIR9f/5kd10JFa4o?=
+ =?us-ascii?Q?6Sra1Dkoj/gWIQBu/kjHHpZ0Q4pnRRztX0TP4oNDu1g4hWIavPT9ZAlx8qnY?=
+ =?us-ascii?Q?uvSemJ2FR44oJLXomAv/XS9AOJ2XRBEL77o/OF72yDBbSAfd6aH6RT6BQ7iO?=
+ =?us-ascii?Q?1f8Vsv6U/QwNsX6FaDaEgccTjlXFtYWXGt7nfrxbBarmWGANR+fvKsI9pO26?=
+ =?us-ascii?Q?STUhuPiOjT7WEQsty6ynUQVF2MJmUDjorDz4tfJHmzKwKQBGyL5kH+c87usv?=
+ =?us-ascii?Q?0T/UrOFsq1PSkaiywEHKrTqCDc08IVc3dwCfrAGGMy1/xtrBAR01ZtZ5e1Dc?=
+ =?us-ascii?Q?B1zX/EyApueplcWvJc7KoCD8T+Ckhi+r9LtsZjj9XK9Y5sEiTLbp1Y1TCuN8?=
+ =?us-ascii?Q?w/PEjz6AOblp3G6PvhA7rj7jeAUskLYxAbffGqdJUluIAbu5mU6qGA1eZast?=
+ =?us-ascii?Q?n019VYVA/Ksw878amMLRS+OEpcSTHR8Pk6UlZgR59rhhITaco7ETJ/LBL3zp?=
+ =?us-ascii?Q?PubBxuF5rRm4hbjuv5Tr5bGDAXsNYq4Xt9/DDemMUu4vvB3qIko0cVLIYWpF?=
+ =?us-ascii?Q?7RLiFIOypmYYOfUqCu7VauGdWITuHs93PyQAKT5Y+mwTRIIRGi2wrCobmY3L?=
+ =?us-ascii?Q?VbAvjZniYQWgOBLrEzlsoKDEmZCJAUBjH4oFHwwMBlWvJ6xrtAncye6pdUn8?=
+ =?us-ascii?Q?QRdZREplARwrBiioqwZPeWo4NjT3lWJ5++7V3yIWez5SZ5buENfpg8riphhQ?=
+ =?us-ascii?Q?8NeR7rR9wgK8+cqEPR4cfeC6wnU6ProrTmBzgBnYhuc+cos4h+Q7zRDvieuT?=
+ =?us-ascii?Q?EFyV03JT5y3sq0/C32JrKLixaQz1f3WL8vLB4fewt7bKTiuAe8wD6sBB3y27?=
+ =?us-ascii?Q?g/+NdDdzXGmKUT8HirHguuE6r0DLEtSvW6550cZtodI7c/VBkWEJLvCHrTja?=
+ =?us-ascii?Q?3sPePhFX5TNrePplqjO1n65CNEiyjhL1tHUCbnZIcKCqWyiMgvwLDIcDnn5A?=
+ =?us-ascii?Q?UD6VeSJEUgL91FvvgfgfLszrPjOQshwSxaV1NfZYW1LtYFO0Rfn6vwGOBFjm?=
+ =?us-ascii?Q?5TwjhF7yj+MsFqsXnxZSnV7dczgUcEKcg7GND92FYHLcAi2mMGKXpcWSOuqf?=
+ =?us-ascii?Q?i/DJ3Z5yvfU8jj8I62ulcRWljZb9s3dxl6ShDCdxe20AjBrMItTLNtqVRZVX?=
+ =?us-ascii?Q?g1pc8nrYBpCUZFXIQsY=3D?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf7309fe-f1c9-4419-4a9f-08dbe5e40483
+X-MS-Exchange-CrossTenant-Network-Message-Id: 529d66cd-e412-498d-4a9f-08dbe5e40483
 X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2023 14:06:09.6989
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2023 14:06:09.7177
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lYuiPds6pWGE/2wRJv4qtFqt3GYu5J5zYrSN0uxlcZZflI5NSJ/YZMpaAd6xWKg9
+X-MS-Exchange-CrossTenant-UserPrincipalName: hTHc7Zw1a9Fani+aerdNTNjb/5AZQI3t2tk74t7C6SUiSrPZbqsYPslwg7m2DeSN
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB7007
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231115_060616_754947_0236C130 
-X-CRM114-Status: GOOD (  14.91  )
+X-CRM114-CacheID: sfid-20231115_060618_924005_0710F09F 
+X-CRM114-Status: GOOD (  18.24  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -182,83 +182,203 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Nothing needs this pointer. Return a normal error code with the usual
-IOMMU semantic that ENODEV means 'there is no IOMMU driver'.
+This is not being used to pass ops, it is just a way to tell if an
+iommu driver was probed. These days this can be detected directly via
+device_iommu_mapped(). Call device_iommu_mapped() in the two places that
+need to check it and remove the iommu parameter everywhere.
 
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Reviewed-by: Jerry Snitselaar <jsnitsel@redhat.com>
+Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+Reviewed-by: Moritz Fischer <mdf@kernel.org>
+Acked-by: Christoph Hellwig <hch@lst.de>
+Acked-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- drivers/acpi/scan.c | 24 +++++++++++++++---------
- 1 file changed, 15 insertions(+), 9 deletions(-)
+ arch/arc/mm/dma.c               |  2 +-
+ arch/arm/mm/dma-mapping-nommu.c |  2 +-
+ arch/arm/mm/dma-mapping.c       | 10 +++++-----
+ arch/arm64/mm/dma-mapping.c     |  4 ++--
+ arch/mips/mm/dma-noncoherent.c  |  2 +-
+ arch/riscv/mm/dma-noncoherent.c |  2 +-
+ drivers/acpi/scan.c             |  3 +--
+ drivers/hv/hv_common.c          |  2 +-
+ drivers/of/device.c             |  2 +-
+ include/linux/dma-map-ops.h     |  4 ++--
+ 10 files changed, 16 insertions(+), 17 deletions(-)
 
+diff --git a/arch/arc/mm/dma.c b/arch/arc/mm/dma.c
+index 2a7fbbb83b7056..197707bc765889 100644
+--- a/arch/arc/mm/dma.c
++++ b/arch/arc/mm/dma.c
+@@ -91,7 +91,7 @@ void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
+  * Plug in direct dma map ops.
+  */
+ void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+-			const struct iommu_ops *iommu, bool coherent)
++			bool coherent)
+ {
+ 	/*
+ 	 * IOC hardware snoops all DMA traffic keeping the caches consistent
+diff --git a/arch/arm/mm/dma-mapping-nommu.c b/arch/arm/mm/dma-mapping-nommu.c
+index cfd9c933d2f09c..b94850b579952a 100644
+--- a/arch/arm/mm/dma-mapping-nommu.c
++++ b/arch/arm/mm/dma-mapping-nommu.c
+@@ -34,7 +34,7 @@ void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
+ }
+ 
+ void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+-			const struct iommu_ops *iommu, bool coherent)
++			bool coherent)
+ {
+ 	if (IS_ENABLED(CONFIG_CPU_V7M)) {
+ 		/*
+diff --git a/arch/arm/mm/dma-mapping.c b/arch/arm/mm/dma-mapping.c
+index 5409225b4abc06..6c359a3af8d9c7 100644
+--- a/arch/arm/mm/dma-mapping.c
++++ b/arch/arm/mm/dma-mapping.c
+@@ -1713,7 +1713,7 @@ void arm_iommu_detach_device(struct device *dev)
+ EXPORT_SYMBOL_GPL(arm_iommu_detach_device);
+ 
+ static void arm_setup_iommu_dma_ops(struct device *dev, u64 dma_base, u64 size,
+-				    const struct iommu_ops *iommu, bool coherent)
++				    bool coherent)
+ {
+ 	struct dma_iommu_mapping *mapping;
+ 
+@@ -1748,7 +1748,7 @@ static void arm_teardown_iommu_dma_ops(struct device *dev)
+ #else
+ 
+ static void arm_setup_iommu_dma_ops(struct device *dev, u64 dma_base, u64 size,
+-				    const struct iommu_ops *iommu, bool coherent)
++				    bool coherent)
+ {
+ }
+ 
+@@ -1757,7 +1757,7 @@ static void arm_teardown_iommu_dma_ops(struct device *dev) { }
+ #endif	/* CONFIG_ARM_DMA_USE_IOMMU */
+ 
+ void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+-			const struct iommu_ops *iommu, bool coherent)
++			bool coherent)
+ {
+ 	/*
+ 	 * Due to legacy code that sets the ->dma_coherent flag from a bus
+@@ -1776,8 +1776,8 @@ void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+ 	if (dev->dma_ops)
+ 		return;
+ 
+-	if (iommu)
+-		arm_setup_iommu_dma_ops(dev, dma_base, size, iommu, coherent);
++	if (device_iommu_mapped(dev))
++		arm_setup_iommu_dma_ops(dev, dma_base, size, coherent);
+ 
+ 	xen_setup_dma_ops(dev);
+ 	dev->archdata.dma_ops_setup = true;
+diff --git a/arch/arm64/mm/dma-mapping.c b/arch/arm64/mm/dma-mapping.c
+index 3cb101e8cb29ba..61886e43e3a10f 100644
+--- a/arch/arm64/mm/dma-mapping.c
++++ b/arch/arm64/mm/dma-mapping.c
+@@ -47,7 +47,7 @@ void arch_teardown_dma_ops(struct device *dev)
+ #endif
+ 
+ void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+-			const struct iommu_ops *iommu, bool coherent)
++			bool coherent)
+ {
+ 	int cls = cache_line_size_of_cpu();
+ 
+@@ -58,7 +58,7 @@ void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+ 		   ARCH_DMA_MINALIGN, cls);
+ 
+ 	dev->dma_coherent = coherent;
+-	if (iommu)
++	if (device_iommu_mapped(dev))
+ 		iommu_setup_dma_ops(dev, dma_base, dma_base + size - 1);
+ 
+ 	xen_setup_dma_ops(dev);
+diff --git a/arch/mips/mm/dma-noncoherent.c b/arch/mips/mm/dma-noncoherent.c
+index 3c4fc97b9f394b..0f3cec663a12cd 100644
+--- a/arch/mips/mm/dma-noncoherent.c
++++ b/arch/mips/mm/dma-noncoherent.c
+@@ -138,7 +138,7 @@ void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
+ 
+ #ifdef CONFIG_ARCH_HAS_SETUP_DMA_OPS
+ void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+-		const struct iommu_ops *iommu, bool coherent)
++		bool coherent)
+ {
+ 	dev->dma_coherent = coherent;
+ }
+diff --git a/arch/riscv/mm/dma-noncoherent.c b/arch/riscv/mm/dma-noncoherent.c
+index 4e4e469b8dd66c..843107f834b231 100644
+--- a/arch/riscv/mm/dma-noncoherent.c
++++ b/arch/riscv/mm/dma-noncoherent.c
+@@ -129,7 +129,7 @@ void arch_dma_prep_coherent(struct page *page, size_t size)
+ }
+ 
+ void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+-		const struct iommu_ops *iommu, bool coherent)
++			bool coherent)
+ {
+ 	WARN_TAINT(!coherent && riscv_cbom_block_size > ARCH_DMA_MINALIGN,
+ 		   TAINT_CPU_OUT_OF_SPEC,
 diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
-index 9682291188c49c..d171d193f2a51c 100644
+index fa5dd71a80fad9..9682291188c49c 100644
 --- a/drivers/acpi/scan.c
 +++ b/drivers/acpi/scan.c
-@@ -1562,8 +1562,7 @@ static inline const struct iommu_ops *acpi_iommu_fwspec_ops(struct device *dev)
- 	return fwspec ? fwspec->ops : NULL;
- }
- 
--static const struct iommu_ops *acpi_iommu_configure_id(struct device *dev,
--						       const u32 *id_in)
-+static int acpi_iommu_configure_id(struct device *dev, const u32 *id_in)
- {
- 	int err;
- 	const struct iommu_ops *ops;
-@@ -1574,7 +1573,7 @@ static const struct iommu_ops *acpi_iommu_configure_id(struct device *dev,
- 	 */
- 	ops = acpi_iommu_fwspec_ops(dev);
- 	if (ops)
--		return ops;
-+		return 0;
- 
- 	err = iort_iommu_configure_id(dev, id_in);
- 	if (err && err != -EPROBE_DEFER)
-@@ -1589,12 +1588,14 @@ static const struct iommu_ops *acpi_iommu_configure_id(struct device *dev,
- 
- 	/* Ignore all other errors apart from EPROBE_DEFER */
- 	if (err == -EPROBE_DEFER) {
--		return ERR_PTR(err);
-+		return err;
- 	} else if (err) {
- 		dev_dbg(dev, "Adding to IOMMU failed: %d\n", err);
--		return NULL;
-+		return -ENODEV;
- 	}
--	return acpi_iommu_fwspec_ops(dev);
-+	if (!acpi_iommu_fwspec_ops(dev))
-+		return -ENODEV;
-+	return 0;
- }
- 
- #else /* !CONFIG_IOMMU_API */
-@@ -1623,7 +1624,7 @@ static const struct iommu_ops *acpi_iommu_configure_id(struct device *dev,
- int acpi_dma_configure_id(struct device *dev, enum dev_dma_attr attr,
- 			  const u32 *input_id)
- {
--	const struct iommu_ops *iommu;
-+	int ret;
- 
- 	if (attr == DEV_DMA_NOT_SUPPORTED) {
- 		set_dma_ops(dev, &dma_dummy_ops);
-@@ -1632,10 +1633,15 @@ int acpi_dma_configure_id(struct device *dev, enum dev_dma_attr attr,
- 
- 	acpi_arch_dma_setup(dev);
- 
--	iommu = acpi_iommu_configure_id(dev, input_id);
--	if (PTR_ERR(iommu) == -EPROBE_DEFER)
-+	ret = acpi_iommu_configure_id(dev, input_id);
-+	if (ret == -EPROBE_DEFER)
+@@ -1636,8 +1636,7 @@ int acpi_dma_configure_id(struct device *dev, enum dev_dma_attr attr,
+ 	if (PTR_ERR(iommu) == -EPROBE_DEFER)
  		return -EPROBE_DEFER;
  
-+	/*
-+	 * Historically this routine doesn't fail driver probing due to errors
-+	 * in acpi_iommu_configure_id()
-+	 */
-+
- 	arch_setup_dma_ops(dev, 0, U64_MAX, attr == DEV_DMA_COHERENT);
+-	arch_setup_dma_ops(dev, 0, U64_MAX,
+-				iommu, attr == DEV_DMA_COHERENT);
++	arch_setup_dma_ops(dev, 0, U64_MAX, attr == DEV_DMA_COHERENT);
  
  	return 0;
+ }
+diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+index 4372f5d146ab22..0285a74363b3d1 100644
+--- a/drivers/hv/hv_common.c
++++ b/drivers/hv/hv_common.c
+@@ -488,7 +488,7 @@ void hv_setup_dma_ops(struct device *dev, bool coherent)
+ 	 * Hyper-V does not offer a vIOMMU in the guest
+ 	 * VM, so pass 0/NULL for the IOMMU settings
+ 	 */
+-	arch_setup_dma_ops(dev, 0, 0, NULL, coherent);
++	arch_setup_dma_ops(dev, 0, 0, coherent);
+ }
+ EXPORT_SYMBOL_GPL(hv_setup_dma_ops);
+ 
+diff --git a/drivers/of/device.c b/drivers/of/device.c
+index 1ca42ad9dd159d..65c71be71a8d45 100644
+--- a/drivers/of/device.c
++++ b/drivers/of/device.c
+@@ -193,7 +193,7 @@ int of_dma_configure_id(struct device *dev, struct device_node *np,
+ 	dev_dbg(dev, "device is%sbehind an iommu\n",
+ 		iommu ? " " : " not ");
+ 
+-	arch_setup_dma_ops(dev, dma_start, size, iommu, coherent);
++	arch_setup_dma_ops(dev, dma_start, size, coherent);
+ 
+ 	if (!iommu)
+ 		of_dma_set_restricted_buffer(dev, np);
+diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+index f2fc203fb8a1a2..2cb98a12c50348 100644
+--- a/include/linux/dma-map-ops.h
++++ b/include/linux/dma-map-ops.h
+@@ -426,10 +426,10 @@ bool arch_dma_unmap_sg_direct(struct device *dev, struct scatterlist *sg,
+ 
+ #ifdef CONFIG_ARCH_HAS_SETUP_DMA_OPS
+ void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+-		const struct iommu_ops *iommu, bool coherent);
++		bool coherent);
+ #else
+ static inline void arch_setup_dma_ops(struct device *dev, u64 dma_base,
+-		u64 size, const struct iommu_ops *iommu, bool coherent)
++		u64 size, bool coherent)
+ {
+ }
+ #endif /* CONFIG_ARCH_HAS_SETUP_DMA_OPS */
 -- 
 2.42.0
 
