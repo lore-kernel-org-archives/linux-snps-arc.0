@@ -4,151 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07A7AC54E76
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 19 Nov 2023 14:13:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD48CC54FB9
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 21 Nov 2023 06:48:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=l5iOQMeNxzEz2yyrW0KdU6By0qLDhf1qct/UBOyQ1Ms=; b=Guz6zU50WHKFYJ
-	kU1c/4GbaYj8DHQUb9EVM1o45BMQe6SveTVCVkLsCrVqxp47yBpjSOsnAMrZD11f3U9puFMT75Ya/
-	BjmIQu9w7qlO3P/3VVF9D4msDieiS2mpVkshFCPzH/N7kOA9h9uYJ/bf3X6ZG5Fxo4ke+WZuVsiE2
-	d5LUD7C5iYOWQIkb+BOdYZMJXqts6yXLWakQpq7RFIqMEkskSe53Gsm7KR/62JoIDimeZ+IEnZctj
-	g/Vb3oLwuhBbUQeD+Jo9B0Mxjr5rATXQSVmCxo4K9GC9mqAtPIU+dND+jlHcsbzM2cEC9yPAtua5w
-	p+ZODbse8uZOD2insQCg==;
+	List-Owner; bh=uMFtdIbcK1WT0HTuFrHo3+GTEb8sbOTvwuhY0wrcFm4=; b=itZJfjlNRrwEDP
+	7UXMcNsmnN/ThXXGuS2zi6gfDTcpZhsO5eZndEbtCkWRJhkT7L1icwVRwe/KKOEYBL40nkaPO5IGl
+	2xstwnTrHT9DcmEJhKjMjBmji0NOE05uhYe4MMYI5gYN381/X2IJI/hUEQ+xafuT9OwxJ1QOfTvUE
+	L6ofJcQQOPolqp9MfCc8cXT4didUOheJhoRBCGUOnk+nSLokTFTn6dvySAPVxrKx0iNfRQ+oQ4IMr
+	WhTQb+2ChuF5P5p4op31lgnoGdUwJa6tsOagj8d4seiRyLRy8n9YKSiLyvztCsBd5wLnD8YBi7sM4
+	bnYPB6z2bdMq7PS6G6Vw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r4iYQ-00AGvZ-33;
-	Sun, 19 Nov 2023 14:13:42 +0000
-Received: from mail-mw2nam10on2060b.outbound.protection.outlook.com ([2a01:111:f400:7e89::60b] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+	id 1r5KYU-00Fq9o-1f;
+	Tue, 21 Nov 2023 06:48:18 +0000
+Received: from marcansoft.com ([212.63.210.85] helo=mail.marcansoft.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r4iYN-00AGuS-2h;
-	Sun, 19 Nov 2023 14:13:41 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KDJdCVQKhgHow4m9ACdREzQ3uyTiHFB0sQxyIqM3a3/aTqrZ3ucqwqm08qjHy7MQ3ukeQNYgldv38wjOyMCj5wS6JgMe4e0PF50ReysQUPxnylbHgqEoSt2GvDqN6RAj7OftPw4evMEO98rWPOQ8Ahb00hTAwsRp2XcZuHVkW7CaxqXqwwBV/rz6s6eOEItie8RoiTaqr40ItoebGsvbV2M3wkyqEnimx+b2cDjO+IIaPyE7vniIfZusYtAAeV7Dw9HHhk0B3YsJeCiGpSq8coV2wqdMrsJhBOdkRkqsn8kgILDIa0COeLlPvc8OayQeveAJzzkyRo8YWsf5MMEjZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aGEUo9PDUlWFAuTno779R2YJn2Bmf2Y16bplzn7RseI=;
- b=ZjbtW/3rBwQq4eY5YhWdPxuqO7LlwfnZEarEnylD9oLY6HASA9ETZrgEJ/FL/pq9uYk6kW07f8BDUJ0mFetK9ZnWSJWMAAb7uuBbapFUezMomfIncOQHMlqC61Dr1BQ3e7WrVhlEis18Yj8DvkoiYziA7YjWJHx/pPcO6co8OivhPHJbCVfn6lMp0nSUqUEzVBatenGO7rLavLNqhdyy35piaAY+pR5GV/LxW7Q/AAkl4X6c+H1kPR3A7wYPeo8/G6YZwr+WIObKOnd7fdpbDnwjTJhCpgnKy+jckqwkjBREgMt9J/WKceY5RVj6kD45Q0tirgIteiD2twKX3GX2mw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aGEUo9PDUlWFAuTno779R2YJn2Bmf2Y16bplzn7RseI=;
- b=YJVA7NzlDtSi15RwNPkyivUij5QQTaSfhKIH3ZxFVDb0Nh0l1KXEhIU8Z0AausRAO7VUyiut0ycEOgCUsns+phf/ezPlqwa91u0DcR/tWtf0kVNta/NPjriOKsIzZTB5JDW4g+XygiIHZ9yQzqfoLwxQVOjVPGjx3G4ygmHM2neb3nZ1GfNCWcBpsHaZpyH8a7LsrOcd5yNA9HguGyIi/e92QcIp7kITqsPQfRwd5ePcjuIB/ZAzm/+VLysD0XB1i5VSTIVaelSkC8ZE7plsYElqhz8xgcc+i8cu7XCL/IZqM54gEMcwk0umZai1sMEi24IZtDUOoqV++gbeFCrQZg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by SJ0PR12MB5455.namprd12.prod.outlook.com (2603:10b6:a03:3ba::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.26; Sun, 19 Nov
- 2023 14:13:30 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::60d4:c1e3:e1aa:8f93]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::60d4:c1e3:e1aa:8f93%4]) with mapi id 15.20.7002.026; Sun, 19 Nov 2023
- 14:13:30 +0000
-Date: Sun, 19 Nov 2023 10:13:29 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: acpica-devel@lists.linux.dev, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dexuan Cui <decui@microsoft.com>, devicetree@vger.kernel.org,
-	David Woodhouse <dwmw2@infradead.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Hanjun Guo <guohanjun@huawei.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>, iommu@lists.linux.dev,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	"K. Y. Srinivasan" <kys@microsoft.com>, Len Brown <lenb@kernel.org>,
-	linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-hyperv@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-snps-arc@lists.infradead.org,
-	linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>, patches@lists.linux.dev,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Robert Moore <robert.moore@intel.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Krishna Reddy <vdumpa@nvidia.com>, Vineet Gupta <vgupta@kernel.org>,
-	virtualization@lists.linux.dev, Wei Liu <wei.liu@kernel.org>,
-	Will Deacon <will@kernel.org>
+	id 1r5KYQ-00Fq7f-0j;
+	Tue, 21 Nov 2023 06:48:16 +0000
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id EDDAF42137;
+	Tue, 21 Nov 2023 06:47:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1700549281; bh=ujaYq3QQkb3U4N6JNFFQq4uH4QKQpO8RJp9aJVbB0w0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=yBZ7Udel893+M2pzDMgdTushmaUgXq0nIf/5xxASROF107adcyenfoQIJKpJop3QE
+	 1+yTIUhVbWxOP7swSXHE/1waIz+ytnfqIeOR+pXsrjnxJ9YDy9OcehudknnZZfDU0W
+	 yBoxtsLq/eITHB2A8C7zHMk/QpuQDhn54/ueeppNZr5bacp1NBly8id6vI/+HcZLF9
+	 Y3o89xan9Av9novKYwloiJeRxCXK4RdvbSm3KrREtUx62PnuC+h7WkJf1goRn4PDd/
+	 8BaauSYV42Ok4T8UBbrfnw8aItI789XfEb5enuqF6bZ2I7QNWWCAUkdCy2CTlvEfD+
+	 wJAB4I2ql495A==
+Message-ID: <90855bbf-e845-4e4d-a713-df71d1e477d2@marcan.st>
+Date: Tue, 21 Nov 2023 15:47:48 +0900
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 06/17] iommu: Add iommu_fwspec_alloc/dealloc()
-Message-ID: <20231119141329.GA6083@nvidia.com>
+Content-Language: en-US
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: acpica-devel@lists.linux.dev, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
+ Catalin Marinas <catalin.marinas@arm.com>, Dexuan Cui <decui@microsoft.com>,
+ devicetree@vger.kernel.org, David Woodhouse <dwmw2@infradead.org>,
+ Frank Rowand <frowand.list@gmail.com>, Hanjun Guo <guohanjun@huawei.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, iommu@lists.linux.dev,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+ "K. Y. Srinivasan" <kys@microsoft.com>, Len Brown <lenb@kernel.org>,
+ linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-hyperv@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-snps-arc@lists.infradead.org,
+ linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, patches@lists.linux.dev,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Robert Moore <robert.moore@intel.com>, Rob Herring <robh+dt@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Sudeep Holla <sudeep.holla@arm.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Sven Peter <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Krishna Reddy <vdumpa@nvidia.com>, Vineet Gupta <vgupta@kernel.org>,
+ virtualization@lists.linux.dev, Wei Liu <wei.liu@kernel.org>,
+ Will Deacon <will@kernel.org>
 References: <6-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
  <20a7ef6d-a8ca-4bd8-ad7e-11856db617a2@marcan.st>
  <1eb12c35-e64e-4c32-af99-8743dc2ec266@marcan.st>
-Content-Disposition: inline
-In-Reply-To: <1eb12c35-e64e-4c32-af99-8743dc2ec266@marcan.st>
-X-ClientProxiedBy: BLAPR03CA0133.namprd03.prod.outlook.com
- (2603:10b6:208:32e::18) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|SJ0PR12MB5455:EE_
-X-MS-Office365-Filtering-Correlation-Id: 39e6d866-1c61-4009-4f3f-08dbe909b4e8
-X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6D44wF75CHELzMqh2h9insgdr197qsLVOIPD4vq6Uwsri8hjkgrkoC3S0BDptP/kmh9uXtWpJZzHoH+NPfa/2uUz9nt2BPNBP/BBrcINoALmAudCl6Dnkjg+mE62RHRxOZJVY0of8F3W8FHjjohih8NKr+VXQF+TAdwzSryX6kTJX3N/DPL6xhwNvUldvVRXdlRvD31eOUAot0IMoQqDGSv2nojbbf0orVMgkGA6/bFNyOvw5qL0Vs3JwQ2yxULmkFUDmtIquCVUd+RbLySM5LPq8xxEhzhgNGxiUjsQkmjDOC03OEJ7NQUHMOYNJEiDJrqdEOoYcQAmvWBLbSEXtI+dLxkawwg+cJkxVZBwCRN8WRJW6/QIywJShPs49FWgoM2/xNGKO9pRGxBcjXQAD6I69EleT3LfoEIwKocYHe54O48frFsw9APlnWK0WKUfaAji0g4XScrEBUDiGBjIB6E20B283tDLvdCXGJQxxijpOG478oX1bqX/cX9oqyCDPgEPYWcPI9v2+7FEwyJCI74ZmqClAp1vQeLu00goPkQqe12FOx6FtgDJXqecu35o
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(376002)(136003)(346002)(396003)(39860400002)(230922051799003)(1800799012)(64100799003)(186009)(451199024)(83380400001)(478600001)(6506007)(26005)(6486002)(6512007)(316002)(66476007)(66556008)(6916009)(66946007)(54906003)(2616005)(1076003)(8936002)(38100700002)(4326008)(8676002)(5660300002)(7416002)(7406005)(2906002)(33656002)(41300700001)(86362001)(36756003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Xvbsrw7T3QmG5I+4QyrLfqgCvZKhW94XnnOGamieipdlbDzEHTXhVg7HM4y3?=
- =?us-ascii?Q?Ewh7DuGnplmc+d4+FxBqwWP1hebcACRbnYrLk5hF3wDCvA++2s2Zm6n5Upzi?=
- =?us-ascii?Q?KkAneJHJbdUuMwXBfXNHNd3/LuGpUEQzthbFLmHbaCPhUVigher/eGU8mC8V?=
- =?us-ascii?Q?8hP8Sd7m0PPj/hF0gO8qqcaiQySykAkp3m1KfBYuGFSYGHhXvtXNoEjYqShB?=
- =?us-ascii?Q?8qqEOL0acuzNBdKY+Vjnwslvl4kM6oAdgNC+n0ZqjVikbb74l3Y9zxic930g?=
- =?us-ascii?Q?wEYFQtuvNeOUqT1T14ofM2TXmWT4vh8KTIchDMRRox8z1PVvs7lYFmwCFZuL?=
- =?us-ascii?Q?lxBcEhvlCRw4d2LRCuT4yj0PvD1okM/5zAGth7zpNyy3Drq8J0pufiXUImTw?=
- =?us-ascii?Q?pnkdu+EdBVGPC0p0v0CP2dpKxepn7PDDLCKZBqe8TdWzt6txp6QZo/neR36j?=
- =?us-ascii?Q?0OkbFQLZkmdD253GqtgK1JFlw1Kbp6q+iYBIyOknCSixPnsg3xNpbnOYU8J3?=
- =?us-ascii?Q?wojPfxmQW88N8YfVjj9VCckcEJIV4lVMNY34/JiEDZTcIWqD3zigpHn5OA2c?=
- =?us-ascii?Q?sZ7hRLLQCo8kypqpKCg2ZLrmxbPsSWcYYmC1/hvd4q181CCsWBVpgM5wpvBp?=
- =?us-ascii?Q?+vz7yLhRgpP7W9OLDHVHVLIycqAD7jpjh51uRAy51n8vr8F6xEf76aEQYk5F?=
- =?us-ascii?Q?uDpWuMl8uXx0OWFqq6itpr3DpEA+9AM5fIB1fJiWKSht8U/lNAg586ES2pBu?=
- =?us-ascii?Q?lEg6vrzOwgBmjhej6rPslsvoUCd67y/5y1bM2eJ9lqEIFtGFC/9kDKTQN5Lk?=
- =?us-ascii?Q?YPV7loUW2PoBz2Tj1S1bspKiYV08UrFBBO48aMFF0IlSV2rfcj2JDWcre725?=
- =?us-ascii?Q?pWHJUXg6l2xZj0IMEtplBfuYp7V6y0Ynhltd8WXAR7tN4pz48iJdk/3wRPFm?=
- =?us-ascii?Q?5DpushqFFEGmCdarvzi1mcfKyjGCASngF6QeHNgiwKm1wHv1PEqSdooMAklm?=
- =?us-ascii?Q?rZweqycYLXTUWwwUtXajM9N35UlbPut56uejAKOTW6cZZkUy+b/U0idsNHNh?=
- =?us-ascii?Q?AyXmSGo4D4f6tpml5MiBGI1MwpZ0UB/0xoZvj3cNbefYJnoQquJPWjVQZm7d?=
- =?us-ascii?Q?VH7UpIneR4XDqLB7C0XNvjUlv85hgjS6GId8RpExerWyA/I9GJdLmE7tv53l?=
- =?us-ascii?Q?1aAc6rZqbMGRF0iUI0q3FDmV2+7A6lUnkeYMWw6MD21mRufj6C5ZL2EryM22?=
- =?us-ascii?Q?Ro5TDFxiCb6nTn/te5uP6AkVhwnTNcYvhbUNPikktXtq3t5DA+6DuWoDsLP6?=
- =?us-ascii?Q?RdbqQNCRbIxx5Gf9TZPDVc/f3yKKkA+V4KRe+jaf9bgD2g/rCGKnxoRIZ0SW?=
- =?us-ascii?Q?GNZPMRCBJOHhb6EsEXp24U7t8+xZRSNbvtq4uLqy4z/JeN+SJk44NFbtiFAt?=
- =?us-ascii?Q?eMAoeMmhRgFD+1oUQ7F6AiY0uMkWQzYPzHSlrsB8OfC6Ojj8vzS0Gsh8qy4Y?=
- =?us-ascii?Q?jbEeHm+kpdcV8bhGppExbBCAt63ZRW5Hn0fxl3o+g+TEAM/h8feSeK8nLhLR?=
- =?us-ascii?Q?mg2kNRBabg8N+oYqD3k1iiVFRPL6Uoc2K1KShXKH?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39e6d866-1c61-4009-4f3f-08dbe909b4e8
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2023 14:13:30.3949
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zt1BI/YhRelM+47lp8t3bs7HJc4kJYQv31We5/glreHyOurQngYTTbpIjbcji4H3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5455
+ <20231119141329.GA6083@nvidia.com>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <20231119141329.GA6083@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231119_061340_073179_EDBA508E 
-X-CRM114-Status: GOOD (  27.53  )
+X-CRM114-CacheID: sfid-20231120_224814_432152_E2377F46 
+X-CRM114-Status: GOOD (  28.31  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -165,82 +100,104 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Sun, Nov 19, 2023 at 06:19:43PM +0900, Hector Martin wrote:
-> >> +static int iommu_fwspec_assign_iommu(struct iommu_fwspec *fwspec,
-> >> +				     struct device *dev,
-> >> +				     struct fwnode_handle *iommu_fwnode)
-> >> +{
-> >> +	const struct iommu_ops *ops;
-> >> +
-> >> +	if (fwspec->iommu_fwnode) {
-> >> +		/*
-> >> +		 * fwspec->iommu_fwnode is the first iommu's fwnode. In the rare
-> >> +		 * case of multiple iommus for one device they must point to the
-> >> +		 * same driver, checked via same ops.
-> >> +		 */
-> >> +		ops = iommu_ops_from_fwnode(iommu_fwnode);
-> > 
-> > This carries over a related bug from the original code: If a device has
-> > two IOMMUs and the first one probes but the second one defers, ops will
-> > be NULL here and the check will fail with EINVAL.
-> > 
-> > Adding a check for that case here fixes it:
-> > 
-> > 		if (!ops)
-> > 			return driver_deferred_probe_check_state(dev);
 
-Yes!
 
-> > With that, for the whole series:
-> > 
-> > Tested-by: Hector Martin <marcan@marcan.st>
-> > 
-> > I can't specifically test for the probe races the series intends to fix
-> > though, since that bug we only hit extremely rarely. I'm just testing
-> > that nothing breaks.
+On 2023/11/19 23:13, Jason Gunthorpe wrote:
+> On Sun, Nov 19, 2023 at 06:19:43PM +0900, Hector Martin wrote:
+>>>> +static int iommu_fwspec_assign_iommu(struct iommu_fwspec *fwspec,
+>>>> +				     struct device *dev,
+>>>> +				     struct fwnode_handle *iommu_fwnode)
+>>>> +{
+>>>> +	const struct iommu_ops *ops;
+>>>> +
+>>>> +	if (fwspec->iommu_fwnode) {
+>>>> +		/*
+>>>> +		 * fwspec->iommu_fwnode is the first iommu's fwnode. In the rare
+>>>> +		 * case of multiple iommus for one device they must point to the
+>>>> +		 * same driver, checked via same ops.
+>>>> +		 */
+>>>> +		ops = iommu_ops_from_fwnode(iommu_fwnode);
+>>>
+>>> This carries over a related bug from the original code: If a device has
+>>> two IOMMUs and the first one probes but the second one defers, ops will
+>>> be NULL here and the check will fail with EINVAL.
+>>>
+>>> Adding a check for that case here fixes it:
+>>>
+>>> 		if (!ops)
+>>> 			return driver_deferred_probe_check_state(dev);
 > 
-> Actually no, this fix is not sufficient. If the first IOMMU is ready
-> then the xlate path allocates dev->iommu, which then
-> __iommu_probe_device takes as a sign that all IOMMUs are ready and does
-> the device init.
+> Yes!
+> 
+>>> With that, for the whole series:
+>>>
+>>> Tested-by: Hector Martin <marcan@marcan.st>
+>>>
+>>> I can't specifically test for the probe races the series intends to fix
+>>> though, since that bug we only hit extremely rarely. I'm just testing
+>>> that nothing breaks.
+>>
+>> Actually no, this fix is not sufficient. If the first IOMMU is ready
+>> then the xlate path allocates dev->iommu, which then
+>> __iommu_probe_device takes as a sign that all IOMMUs are ready and does
+>> the device init.
+> 
+> It doesn't.. The code there is:
+> 
+> 	if (!fwspec && dev->iommu)
+> 		fwspec = dev->iommu->fwspec;
+> 	if (fwspec)
+> 		ops = fwspec->ops;
+> 	else
+> 		ops = dev->bus->iommu_ops;
+> 	if (!ops) {
+> 		ret = -ENODEV;
+> 		goto out_unlock;
+> 	}
+> 
+> Which is sensitive only to !NULL fwspec, and if EPROBE_DEFER is
+> returned fwspec will be freed and dev->iommu->fwspec will be NULL
+> here.
+> 
+> In the NULL case it does a 'bus probe' with a NULL fwspec and all the
+> fwspec drivers return immediately from their probe functions.
+> 
+> Did I miss something?
 
-It doesn't.. The code there is:
+apple_dart is not a fwspec driver and doesn't do that :-)
 
-	if (!fwspec && dev->iommu)
-		fwspec = dev->iommu->fwspec;
-	if (fwspec)
-		ops = fwspec->ops;
-	else
-		ops = dev->bus->iommu_ops;
-	if (!ops) {
-		ret = -ENODEV;
-		goto out_unlock;
-	}
+> 
+>> Then when the xlate comes along again after suceeding
+>> with the second IOMMU, __iommu_probe_device sees the device is already
+>> in a group and never initializes the second IOMMU, leaving the device
+>> with only one IOMMU.
+> 
+> This should be fixed by the first hunk to check every iommu and fail?
+> 
+> BTW, do you have a systems with same device attached to multiple
+> iommus?
 
-Which is sensitive only to !NULL fwspec, and if EPROBE_DEFER is
-returned fwspec will be freed and dev->iommu->fwspec will be NULL
-here.
+Yes, Apple ARM64 machines all have multiple ganged IOMMUs for certain
+devices (USB and ISP). We also attach all display IOMMUs to the global
+virtual display-subsystem device to handle framebuffer mappings, instead
+of trying to dynamically map them to a bunch of individual display
+controllers (which is a lot more painful). That last one is what
+reliably reproduces this problem, display breaks without both previous
+patches ever since we started supporting more than one display output.
+The first one is not enough.
 
-In the NULL case it does a 'bus probe' with a NULL fwspec and all the
-fwspec drivers return immediately from their probe functions.
+> I've noticed another bug here, many drivers don't actually support
+> differing iommu instances and nothing seems to check it..
 
-Did I miss something?
+apple-dart does (as long as all the IOMMUs are using that driver).
 
-> Then when the xlate comes along again after suceeding
-> with the second IOMMU, __iommu_probe_device sees the device is already
-> in a group and never initializes the second IOMMU, leaving the device
-> with only one IOMMU.
+> 
+> Thanks,
+> Jason
+> 
+> 
 
-This should be fixed by the first hunk to check every iommu and fail?
-
-BTW, do you have a systems with same device attached to multiple
-iommus?
-
-I've noticed another bug here, many drivers don't actually support
-differing iommu instances and nothing seems to check it..
-
-Thanks,
-Jason
+- Hector
 
 _______________________________________________
 linux-snps-arc mailing list
