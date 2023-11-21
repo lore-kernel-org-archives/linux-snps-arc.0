@@ -4,64 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3903C61D94
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 21 Nov 2023 14:24:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4006AC61D92
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 21 Nov 2023 14:24:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=B87sCmmEfeKtxeys8d7tfkFXxFZMe0o6EFlZUb0m5ps=; b=ekQcys6R3PA7/r
-	aNYa7piSLW1uC4Zo5sFBci8car48ZR7RN1saVeEU8z+UZhJkbkW1bA7tiAgGKfAHs1r8M/0qVfWev
-	gmFrSFPGGQqJP8iMb1J7SwIJXeI2G+zrRe0Di3NIZsBsdvaJRadyFH6XthDk96rcv8aXs7JFUsyuA
-	6TXrU1czcv1hz7SVfK90xgRPhPIXy1wq84yg9GegrbdLJmSR0bTr7c6jkI0m9//GiqxUi3TdR2RzN
-	eysIpEHDI1eKygtdvNEiKkqNTiTG1lcHnHgzdkmxl+uQhyLLQ92FOnsTQh4dZSN0zzYx+g0CV7hFP
-	T77AmavvQ9GxsFqKnbaA==;
+	List-Owner; bh=iEj3gTHtLZxutqdZh4ZK0PULNqtyhK99iiplPL4mweM=; b=zf2e9a3wzq3HgZ
+	Df85W/zRqgiknArW6SohVioSjUd945zIb+7AhFOvUQfWMKz9uq+Tzpa5HXQKY0eGaj6g76etYRsyC
+	A9zRDxTALNYE8xGeIfwqyBxHFVDcbLlzTa6fS9CcmUx9OiD9ufU6elaHeP0MzoGj8G1OPUUh1wyKs
+	pIueZEwCyPze38KTWJP7pm+lmzzWLF40mRyHCngn5kmz2Eccl0Av07K4fBU5SUIlqRb34+9D7VFuS
+	v1BdORlpHx5wUuXNzz6olsfrVFAnQfVgtOu+psSnxTCVBofXwqZt0mp1zmXKn49bqPR7VGSdcjaV8
+	QVMjRu4rDJ4kN5xXk76Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5RgI-00H0nm-0T;
-	Tue, 21 Nov 2023 14:24:50 +0000
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
+	id 1r5RgO-00H0pA-21;
+	Tue, 21 Nov 2023 14:24:56 +0000
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5RgE-00H0ml-36
+	id 1r5RgM-00H0oO-0u
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 21 Nov 2023 14:24:48 +0000
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-6b1d1099a84so5310858b3a.1
-        for <linux-snps-arc@lists.infradead.org>; Tue, 21 Nov 2023 06:24:46 -0800 (PST)
+	Tue, 21 Nov 2023 14:24:55 +0000
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-6cb66fbc63dso1968472b3a.0
+        for <linux-snps-arc@lists.infradead.org>; Tue, 21 Nov 2023 06:24:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1700576685; x=1701181485; darn=lists.infradead.org;
+        d=bytedance.com; s=google; t=1700576694; x=1701181494; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BQYwJQjKhySUG7SsmpVBnxUpf+Jrz1ajgA6palaWrFM=;
-        b=Bri9MOfHy13vPmx+fct15Zgz86SvGyu/WRapcXNJ5ljTmCUyhC8VhoWwEprQKKEwYI
-         BQbYi8Hr9RwGnrR6wZODKQ630K04Swd0ClvPM7slIARfQgqGCfOmRij9hnAWz7HH3/nc
-         2Q0+QI08qOk6z3Gfs6BT+CkHjQw9HbRc/1D3MgKOr9OWBsg8bFwEdGeHVCnlp1tpq81X
-         tro43aLtA90orRRGumf47TcURz9BXM7PIxTq8yWCfJuHNGt1ehghkGwhxytrZLFyt8Uk
-         hXXqWric0drNbgyDpMhCEntTqhFWY+RC7EX62RpF+1/c5a+efbGLxojjJzHJWFxcCF2+
-         YtVw==
+        bh=KQzQ3hctuM1DrYXT+jmSwlcI1w3CAnf53zL9eOZco7c=;
+        b=iSCJwT6yEmLvc5l3ZvZ3avCX1HuqfNBkHNEcjrlswfJWt/KKOzHVJ092krR7pwhOR7
+         OflVM9KYdRa50klNZU0+nFldgicBfeCwtKpCoLrtUL2y0sRxK8qTKYmZqsUq+A747aug
+         qynX5bu1CYuC2e5bYpVsaH/o2UIC8rQ5Oj1L4Nw+3Fku+QVd1R9gPbfzQZUTtdggAJVQ
+         MDc0rI/tpDoNaUn5GYUmOuLt53UtA7fEedr5LnRD3Llpvu4BncHgllpEegVvuckBQs3r
+         il+s4+wWEPU2fKDmXM2FHL1Nc/Ur27L3GyCDxdUuaP9YEbCNd3P4i323kTtoMXPGnSy7
+         B0Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700576685; x=1701181485;
+        d=1e100.net; s=20230601; t=1700576694; x=1701181494;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BQYwJQjKhySUG7SsmpVBnxUpf+Jrz1ajgA6palaWrFM=;
-        b=VS1EoVs4AuYEHK+4IZ2nVM/rCsVJpiO4pJ2IgJbylbtvNI4UTwoHdgKYebjHTeXAZM
-         s1oQA3f/sgD7PBneTBSvSEK6oxmMk1aZCLIfXE8C55rYtKu9VVdlR0iHfciBQgfZ5J79
-         tWOYmStq1E1ULrEbjbpst+Sgv12rNd/22k42SZGwHlKHOxkTjl/Q6hOmyZjNQjoqW/Sp
-         DFOCzkouBCoDqqiWBjTZWvhuEZ/+SLBucMpyihTu39D/wTaVNBSY+xmfPhTMK9ShQ/iK
-         0fpuJIvaPWnZo+OLjL0qR3hv8dJ/D8fYnRXGDVPsCPeFwu4xQkOog+JXDTs+6jWVT/lt
-         XzLw==
-X-Gm-Message-State: AOJu0Yy0qolCBGBS0RA5n/8Ghn1yq4lofe0Kbq7w5qiXhLRWdvgGChEQ
-	RrYejZoGLFjZDivSz22z4P0loQ==
-X-Google-Smtp-Source: AGHT+IEIjroP416LXBt6XlPHirqpf89r1vmzg9nVdVzS5F8PL+ZcqkvogWm5yXbuGxjX92apejfh4w==
-X-Received: by 2002:a05:6a00:80a:b0:6cb:a18b:2182 with SMTP id m10-20020a056a00080a00b006cba18b2182mr8114491pfk.1.1700576685502;
-        Tue, 21 Nov 2023 06:24:45 -0800 (PST)
+        bh=KQzQ3hctuM1DrYXT+jmSwlcI1w3CAnf53zL9eOZco7c=;
+        b=VtBRGPMGkdvvm1eMAFvMe3+41YwPrW0EsV8ZvNEGCrFwbNrO8JxMo5wlNhILETvl0w
+         XTNAy1Sd8Hy30uIue3ry0ADsdMe5yd1xgiWT+cJJeYbeRqLD0YDUucNzhKN12my0Ohx/
+         hyuWrON5dnDE63B8yVGBZxkVcsP+KCS4a7yXyN1OmyGXtEG2G/Igw90UiRiKktTbgbJH
+         7HEXCrDnYn/tAOEdl+ka4ap7eB+s55N41Rkwga/oSZ9oDkSfHT/yk3fb+7gh7+khXzfu
+         F9Ok2W/J/R9Qpq5mws/316ie55ez5llx0xbgU7j0u8FlMgAyTq6eH0l4PXD3GVu4z4d6
+         h/5A==
+X-Gm-Message-State: AOJu0YyClaO6b7LQb4XrENoJ0aUWE+uOfsEAGmW8rcqAE5lhOIfp21wL
+	Iu6VYMuUgPv4tz2xpHH8AN70aw==
+X-Google-Smtp-Source: AGHT+IHbYu2jqbF7t8/wu/0pojkQUebMfIzAqIQeTS1oR0oKU5ESn/XV9iR5u5ULhgBjAJ/tpgr/hw==
+X-Received: by 2002:a05:6a00:228f:b0:6cb:8abd:39b5 with SMTP id f15-20020a056a00228f00b006cb8abd39b5mr4000172pfe.1.1700576693727;
+        Tue, 21 Nov 2023 06:24:53 -0800 (PST)
 Received: from devz1.bytedance.net ([203.208.167.146])
-        by smtp.gmail.com with ESMTPSA id d13-20020a056a00244d00b0068842ebfd10sm7923193pfj.160.2023.11.21.06.24.37
+        by smtp.gmail.com with ESMTPSA id d13-20020a056a00244d00b0068842ebfd10sm7923193pfj.160.2023.11.21.06.24.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Nov 2023 06:24:45 -0800 (PST)
+        Tue, 21 Nov 2023 06:24:53 -0800 (PST)
 From: "wuqiang.matt" <wuqiang.matt@bytedance.com>
 To: ubizjak@gmail.com,
 	mark.rutland@arm.com,
@@ -88,18 +88,18 @@ Cc: linux-arch@vger.kernel.org,
 	linux-trace-kernel@vger.kernel.org,
 	mattwu@163.com,
 	linux@roeck-us.net,
-	"wuqiang.matt" <wuqiang.matt@bytedance.com>
-Subject: [PATCH v3 1/5] arch,locking/atomic: arc: arch_cmpxchg should check data size
-Date: Tue, 21 Nov 2023 22:23:43 +0800
-Message-Id: <20231121142347.241356-2-wuqiang.matt@bytedance.com>
+	"wuqiang.matt" <wuqiang.matt@bytedance.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH v3 2/5] arch,locking/atomic: arc: add arch_cmpxchg[64]_local
+Date: Tue, 21 Nov 2023 22:23:44 +0800
+Message-Id: <20231121142347.241356-3-wuqiang.matt@bytedance.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231121142347.241356-1-wuqiang.matt@bytedance.com>
 References: <20231121142347.241356-1-wuqiang.matt@bytedance.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231121_062446_999151_BB23B082 
-X-CRM114-Status: UNSURE (   9.62  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231121_062454_316457_EA89D9F7 
+X-CRM114-Status: GOOD (  10.41  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,69 +116,62 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-arch_cmpxchg() should check data size rather than pointer size in case
-CONFIG_ARC_HAS_LLSC is defined. So rename __cmpxchg to __cmpxchg_32 to
-emphasize it's explicit support of 32bit data size with BUILD_BUG_ON()
-added to avoid any possible misuses with unsupported data types.
+arc doesn't have arch_cmpxhg_local implemented, which causes
+building failures for any references of try_cmpxchg_local,
+reported by the kernel test robot.
 
-In case CONFIG_ARC_HAS_LLSC is undefined, arch_cmpxchg() uses spinlock
-to accomplish SMP-safety, so the BUILD_BUG_ON checking is uncecessary.
+This patch implements arch_cmpxchg[64]_local with the native
+cmpxchg variant if the corresponding data size is supported,
+otherwise generci_cmpxchg[64]_local is to be used.
 
-v2 -> v3:
-  - Patches regrouped and has the improvement for xtensa included
-  - Comments refined to address why these changes are needed
-
-v1 -> v2:
-  - Try using native cmpxchg variants if avaialble, as Arnd advised
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202310272207.tLPflya4-lkp@intel.com/
 
 Signed-off-by: wuqiang.matt <wuqiang.matt@bytedance.com>
 Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
 ---
- arch/arc/include/asm/cmpxchg.h | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ arch/arc/include/asm/cmpxchg.h | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
 diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
-index e138fde067de..bf46514f6f12 100644
+index bf46514f6f12..91429f2350df 100644
 --- a/arch/arc/include/asm/cmpxchg.h
 +++ b/arch/arc/include/asm/cmpxchg.h
-@@ -18,14 +18,16 @@
-  * if (*ptr == @old)
-  *      *ptr = @new
+@@ -80,6 +80,34 @@
+ 
+ #endif
+ 
++/*
++ * always make arch_cmpxchg[64]_local available, native cmpxchg
++ * will be used if available, then generic_cmpxchg[64]_local
++ */
++#include <asm-generic/cmpxchg-local.h>
++static inline unsigned long __cmpxchg_local(volatile void *ptr,
++				      unsigned long old,
++				      unsigned long new, int size)
++{
++	switch (size) {
++#ifdef CONFIG_ARC_HAS_LLSC
++	case 4:
++		return __cmpxchg_32((int32_t *)ptr, old, new);
++#endif
++	default:
++		return __generic_cmpxchg_local(ptr, old, new, size);
++	}
++
++	return old;
++}
++#define arch_cmpxchg_local(ptr, o, n) ({				\
++	(__typeof__(*ptr))__cmpxchg_local((ptr),			\
++					(unsigned long)(o),		\
++					(unsigned long)(n),		\
++					sizeof(*(ptr)));		\
++})
++#define arch_cmpxchg64_local(ptr, o, n) __generic_cmpxchg64_local((ptr), (o), (n))
++
+ /*
+  * xchg
   */
--#define __cmpxchg(ptr, old, new)					\
-+#define __cmpxchg_32(ptr, old, new)					\
- ({									\
- 	__typeof__(*(ptr)) _prev;					\
- 									\
-+	BUILD_BUG_ON(sizeof(*(ptr)) != 4);				\
-+									\
- 	__asm__ __volatile__(						\
--	"1:	llock  %0, [%1]	\n"					\
-+	"1:	llock  %0, [%1]		\n"				\
- 	"	brne   %0, %2, 2f	\n"				\
--	"	scond  %3, [%1]	\n"					\
-+	"	scond  %3, [%1]		\n"				\
- 	"	bnz     1b		\n"				\
- 	"2:				\n"				\
- 	: "=&r"(_prev)	/* Early clobber prevent reg reuse */		\
-@@ -47,7 +49,7 @@
- 									\
- 	switch(sizeof((_p_))) {						\
- 	case 4:								\
--		_prev_ = __cmpxchg(_p_, _o_, _n_);			\
-+		_prev_ = __cmpxchg_32(_p_, _o_, _n_);			\
- 		break;							\
- 	default:							\
- 		BUILD_BUG();						\
-@@ -65,8 +67,6 @@
- 	__typeof__(*(ptr)) _prev_;					\
- 	unsigned long __flags;						\
- 									\
--	BUILD_BUG_ON(sizeof(_p_) != 4);					\
--									\
- 	/*								\
- 	 * spin lock/unlock provide the needed smp_mb() before/after	\
- 	 */								\
 -- 
 2.40.1
 
