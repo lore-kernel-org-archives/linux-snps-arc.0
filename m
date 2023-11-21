@@ -4,64 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4006AC61D92
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 21 Nov 2023 14:24:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81B21C61D92
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 21 Nov 2023 14:25:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=iEj3gTHtLZxutqdZh4ZK0PULNqtyhK99iiplPL4mweM=; b=zf2e9a3wzq3HgZ
-	Df85W/zRqgiknArW6SohVioSjUd945zIb+7AhFOvUQfWMKz9uq+Tzpa5HXQKY0eGaj6g76etYRsyC
-	A9zRDxTALNYE8xGeIfwqyBxHFVDcbLlzTa6fS9CcmUx9OiD9ufU6elaHeP0MzoGj8G1OPUUh1wyKs
-	pIueZEwCyPze38KTWJP7pm+lmzzWLF40mRyHCngn5kmz2Eccl0Av07K4fBU5SUIlqRb34+9D7VFuS
-	v1BdORlpHx5wUuXNzz6olsfrVFAnQfVgtOu+psSnxTCVBofXwqZt0mp1zmXKn49bqPR7VGSdcjaV8
-	QVMjRu4rDJ4kN5xXk76Q==;
+	List-Owner; bh=RXWHomsMpBW/QCFNI7Vp8hHXaU4E0Dl38aO48EAURho=; b=EhuIdqyyv4BLmL
+	WbVkxmoX/8WlBF65wketVACw8icO8p9WsnGmDQrBNuVKMWdaGcCzh0iLEIRzsnx5C1A8sp+G6FOLh
+	ifGHwaQXW66thhpgLh8Dxgroaecvak3ssEqipua5ubrSSKNazDwkOgje7Vr8Flf0Qsn9z6jQ3vjkM
+	HNubf1IMiPszv31IK4mWaawkI7C292t/+a+Ey3Ub8mfNknJkJTwmjNfY5HPzLPJX829zhu1mx+/Nj
+	92G2cOv3OALWVQhEsZDmIhHYzC7O4EZWkGPue04lveZ1mOpKt4xl9Hy2W+IDMQkk88XPKxkUxxZIE
+	IdQdMu+KXPy3FFdC8RLQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5RgO-00H0pA-21;
-	Tue, 21 Nov 2023 14:24:56 +0000
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+	id 1r5RgY-00H0rE-1R;
+	Tue, 21 Nov 2023 14:25:06 +0000
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5RgM-00H0oO-0u
+	id 1r5RgV-00H0qD-2z
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 21 Nov 2023 14:24:55 +0000
-Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-6cb66fbc63dso1968472b3a.0
-        for <linux-snps-arc@lists.infradead.org>; Tue, 21 Nov 2023 06:24:54 -0800 (PST)
+	Tue, 21 Nov 2023 14:25:05 +0000
+Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-6c431b91b2aso4860083b3a.1
+        for <linux-snps-arc@lists.infradead.org>; Tue, 21 Nov 2023 06:25:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1700576694; x=1701181494; darn=lists.infradead.org;
+        d=bytedance.com; s=google; t=1700576702; x=1701181502; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KQzQ3hctuM1DrYXT+jmSwlcI1w3CAnf53zL9eOZco7c=;
-        b=iSCJwT6yEmLvc5l3ZvZ3avCX1HuqfNBkHNEcjrlswfJWt/KKOzHVJ092krR7pwhOR7
-         OflVM9KYdRa50klNZU0+nFldgicBfeCwtKpCoLrtUL2y0sRxK8qTKYmZqsUq+A747aug
-         qynX5bu1CYuC2e5bYpVsaH/o2UIC8rQ5Oj1L4Nw+3Fku+QVd1R9gPbfzQZUTtdggAJVQ
-         MDc0rI/tpDoNaUn5GYUmOuLt53UtA7fEedr5LnRD3Llpvu4BncHgllpEegVvuckBQs3r
-         il+s4+wWEPU2fKDmXM2FHL1Nc/Ur27L3GyCDxdUuaP9YEbCNd3P4i323kTtoMXPGnSy7
-         B0Mg==
+        bh=ma7hrIwqvDM4lCpBvbnn1WZG4yWufWgrZRtOwNFwz5Q=;
+        b=DnAvnbE9zLZzSRNBUtAxjjPxFdS+07IKOm1pDaCWgq2oUUlnDIWk2QpWGT8bDnVwWX
+         OIm870BB2EOamC/Kp5Iv72lA+hr3d7qWUDlkFCg4iT6WFL3Gv8Mb0HAGKWbv1nFOaT9g
+         ww+3XtsRMzORm7TZNi1alk1Pi8d5t6NCR1XmpODesKcWHn/znki5aXLzo8IuV3NSlDxL
+         tqjZjJ6yQeG2BmR6/pE/YPvRCEw8436hmcQUP7UZlIVFESN4W7KrHMcUPpLk8kTKvVhx
+         Avn2ylNu3inAziMAItYM+rK1mIgtK3zB25HS+4b40xKaDVONXJbPkEEu3iZWpGWz4nES
+         VBkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700576694; x=1701181494;
+        d=1e100.net; s=20230601; t=1700576702; x=1701181502;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KQzQ3hctuM1DrYXT+jmSwlcI1w3CAnf53zL9eOZco7c=;
-        b=VtBRGPMGkdvvm1eMAFvMe3+41YwPrW0EsV8ZvNEGCrFwbNrO8JxMo5wlNhILETvl0w
-         XTNAy1Sd8Hy30uIue3ry0ADsdMe5yd1xgiWT+cJJeYbeRqLD0YDUucNzhKN12my0Ohx/
-         hyuWrON5dnDE63B8yVGBZxkVcsP+KCS4a7yXyN1OmyGXtEG2G/Igw90UiRiKktTbgbJH
-         7HEXCrDnYn/tAOEdl+ka4ap7eB+s55N41Rkwga/oSZ9oDkSfHT/yk3fb+7gh7+khXzfu
-         F9Ok2W/J/R9Qpq5mws/316ie55ez5llx0xbgU7j0u8FlMgAyTq6eH0l4PXD3GVu4z4d6
-         h/5A==
-X-Gm-Message-State: AOJu0YyClaO6b7LQb4XrENoJ0aUWE+uOfsEAGmW8rcqAE5lhOIfp21wL
-	Iu6VYMuUgPv4tz2xpHH8AN70aw==
-X-Google-Smtp-Source: AGHT+IHbYu2jqbF7t8/wu/0pojkQUebMfIzAqIQeTS1oR0oKU5ESn/XV9iR5u5ULhgBjAJ/tpgr/hw==
-X-Received: by 2002:a05:6a00:228f:b0:6cb:8abd:39b5 with SMTP id f15-20020a056a00228f00b006cb8abd39b5mr4000172pfe.1.1700576693727;
-        Tue, 21 Nov 2023 06:24:53 -0800 (PST)
+        bh=ma7hrIwqvDM4lCpBvbnn1WZG4yWufWgrZRtOwNFwz5Q=;
+        b=tf/E4dKBHFLYsO4YlM7smINpU7XrkcYu53n1pgxte7o2W3c4I79cPXe3s124xRyRYO
+         gLyLiC1fwO6S9wUTXPoVTtAg3X3YZxcjLZxDx4Zfvn4WiDik2KB8BYoBmM+XVNsWwqxG
+         ub60CqoI7tJnJ/V3188eJDsp18Q182SGQqG1Clkqz5WE6Ww1QqXN7kNAcAGM4jDAa5H4
+         IKSaT9YUOW6dciU1wydSaGto+snF3gZu0f0EHLo0a9a5ggLM97i0AoHCblp6UZXs/gJR
+         ggH/AB7mifcvaoEbnavEQiuaIf6P1BmSX5MtByXFiSBa3jev1EzwY9B5repOyDRwNNbf
+         HeqQ==
+X-Gm-Message-State: AOJu0Yw5kTGn0uaR3cC/e6ZLWo8Qpop0y960HyyhZPg6bdVRGVKOQnp9
+	1KoiTo4U4KdBkV94G099SvVbpw==
+X-Google-Smtp-Source: AGHT+IHISvT3HOK4Q8QdxNY25egV5B1w+H+S5nFIY6gWXptDkpevoMSwLQoow/dwb6Z7gSO9fV5N9w==
+X-Received: by 2002:a05:6a00:3923:b0:68e:3eab:9e18 with SMTP id fh35-20020a056a00392300b0068e3eab9e18mr9207536pfb.12.1700576701929;
+        Tue, 21 Nov 2023 06:25:01 -0800 (PST)
 Received: from devz1.bytedance.net ([203.208.167.146])
-        by smtp.gmail.com with ESMTPSA id d13-20020a056a00244d00b0068842ebfd10sm7923193pfj.160.2023.11.21.06.24.45
+        by smtp.gmail.com with ESMTPSA id d13-20020a056a00244d00b0068842ebfd10sm7923193pfj.160.2023.11.21.06.24.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Nov 2023 06:24:53 -0800 (PST)
+        Tue, 21 Nov 2023 06:25:01 -0800 (PST)
 From: "wuqiang.matt" <wuqiang.matt@bytedance.com>
 To: ubizjak@gmail.com,
 	mark.rutland@arm.com,
@@ -90,16 +90,17 @@ Cc: linux-arch@vger.kernel.org,
 	linux@roeck-us.net,
 	"wuqiang.matt" <wuqiang.matt@bytedance.com>,
 	kernel test robot <lkp@intel.com>
-Subject: [PATCH v3 2/5] arch,locking/atomic: arc: add arch_cmpxchg[64]_local
-Date: Tue, 21 Nov 2023 22:23:44 +0800
-Message-Id: <20231121142347.241356-3-wuqiang.matt@bytedance.com>
+Subject: [PATCH v3 3/5] arch,locking/atomic: openrisc: add arch_cmpxchg[64]_local
+Date: Tue, 21 Nov 2023 22:23:45 +0800
+Message-Id: <20231121142347.241356-4-wuqiang.matt@bytedance.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231121142347.241356-1-wuqiang.matt@bytedance.com>
 References: <20231121142347.241356-1-wuqiang.matt@bytedance.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231121_062454_316457_EA89D9F7 
-X-CRM114-Status: GOOD (  10.41  )
+X-CRM114-CacheID: sfid-20231121_062503_965887_6D1C003C 
+X-CRM114-Status: UNSURE (   8.89  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,7 +117,7 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-arc doesn't have arch_cmpxhg_local implemented, which causes
+openrisc hasn't arch_cmpxhg_local implemented, which causes
 building failures for any references of try_cmpxchg_local,
 reported by the kernel test robot.
 
@@ -130,48 +131,26 @@ Closes: https://lore.kernel.org/oe-kbuild-all/202310272207.tLPflya4-lkp@intel.co
 Signed-off-by: wuqiang.matt <wuqiang.matt@bytedance.com>
 Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
 ---
- arch/arc/include/asm/cmpxchg.h | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ arch/openrisc/include/asm/cmpxchg.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
-index bf46514f6f12..91429f2350df 100644
---- a/arch/arc/include/asm/cmpxchg.h
-+++ b/arch/arc/include/asm/cmpxchg.h
-@@ -80,6 +80,34 @@
- 
- #endif
- 
-+/*
-+ * always make arch_cmpxchg[64]_local available, native cmpxchg
-+ * will be used if available, then generic_cmpxchg[64]_local
-+ */
+diff --git a/arch/openrisc/include/asm/cmpxchg.h b/arch/openrisc/include/asm/cmpxchg.h
+index 8ee151c072e4..f1ffe8b6f5ef 100644
+--- a/arch/openrisc/include/asm/cmpxchg.h
++++ b/arch/openrisc/include/asm/cmpxchg.h
+@@ -139,6 +139,12 @@ static inline unsigned long __cmpxchg(volatile void *ptr, unsigned long old,
+ 					       (unsigned long)(n),	\
+ 					       sizeof(*(ptr)));		\
+ 	})
++#define arch_cmpxchg_local arch_cmpxchg
++
++/* always make arch_cmpxchg64_local available for openrisc */
 +#include <asm-generic/cmpxchg-local.h>
-+static inline unsigned long __cmpxchg_local(volatile void *ptr,
-+				      unsigned long old,
-+				      unsigned long new, int size)
-+{
-+	switch (size) {
-+#ifdef CONFIG_ARC_HAS_LLSC
-+	case 4:
-+		return __cmpxchg_32((int32_t *)ptr, old, new);
-+#endif
-+	default:
-+		return __generic_cmpxchg_local(ptr, old, new, size);
-+	}
 +
-+	return old;
-+}
-+#define arch_cmpxchg_local(ptr, o, n) ({				\
-+	(__typeof__(*ptr))__cmpxchg_local((ptr),			\
-+					(unsigned long)(o),		\
-+					(unsigned long)(n),		\
-+					sizeof(*(ptr)));		\
-+})
 +#define arch_cmpxchg64_local(ptr, o, n) __generic_cmpxchg64_local((ptr), (o), (n))
-+
+ 
  /*
-  * xchg
-  */
+  * This function doesn't exist, so you'll get a linker error if
 -- 
 2.40.1
 
