@@ -4,102 +4,107 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 41A01C61D96
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 21 Nov 2023 14:25:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11F54C61D92
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 21 Nov 2023 14:52:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=FM8PcrjNwlieEOQ3loAxysi47V6QUSmgoV31cTJMPLA=; b=n/XlMmtdI182I5
-	PGw/A40jSDht64zavYGWzd/aTqz1VvgsgafLwwtK8gHYtfNLo9TM7OpMoZ1JA2ycagO6OMDYV4gpb
-	hgr8Z/OETRpL0ljMV6T/5UFodl9SFCcJytZpccrRjluhPGtjWulWcWI47FhSe0XgBM/wRUgjenSoi
-	GmAJgCvaIJdikCG07SVoTG6UyKZe16l/U3a6DhweWBZ6P6Ryno4mQhp8MydXWe4QWz8uOFkzVuCkn
-	YZaMNBAAAFRaxgzcReUYwFNG1PR9uo7ZZSMRlGd6yKiZ6garb0DPah/KUIfzT/XuSBV9tafWlw5Vu
-	30ZNo+nUeQy2jMWDcTPQ==;
+	List-Owner; bh=wwRyqg8YtM3URZNaSgkGJ9I8Q4IUMUvQ3TukDzK9zk8=; b=VTGT7T7+AuGNNR
+	VJm78R3DGtntCIV4siWHhFb51tlr67Ah9NFVKppmVCKkSAhbe77EDmA6iEqcVz2ANXyUjecSvJ0nD
+	U79k+RLHSYRCpLRXctaiZUFSD24MZIjz4pxv2RJI75U3fKRxW19Ap6iaADWZU5PwPs4SPb4qr8PWg
+	HQJs4u7RwFBPw5xwa8wPyu+iU+zvmnBGqJc4eAk8bA4N79QR+fTUJHuDfPBRPB9Ztn16o3uqGJ2LV
+	O2Idqth2CmHJU1MCs5ukNa9NP15SCa7PT/HHbY4oiPvRhtBFPd2KaGh0hPz8rJFgB8pLCHOW/qkz9
+	RjgCIZbowYjD74n1CZ5w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5Rgn-00H0vc-2F;
-	Tue, 21 Nov 2023 14:25:21 +0000
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
+	id 1r5S7N-00H4zG-2f;
+	Tue, 21 Nov 2023 14:52:49 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5Rgl-00H0uC-2Q
-	for linux-snps-arc@lists.infradead.org;
-	Tue, 21 Nov 2023 14:25:20 +0000
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-6b5cac99cfdso4864148b3a.2
-        for <linux-snps-arc@lists.infradead.org>; Tue, 21 Nov 2023 06:25:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1700576718; x=1701181518; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IeriZn2HB3faAf90rsoEJC630QNkZ7QDKTlPQoSO5Cg=;
-        b=jSx/b6U8PU+zFVs6TIBuZjGGfdMdhBJEzBy/b48q1hxtOA3tF82Z5FbxSV/gc8hjYz
-         EwO5CtdWItR3Ooz+QRqlZlTBEALzPt7tjCKRau9PHnYd7fBr5kp2HJFz7L0IR8CzqLA7
-         ZyuQ6+6siE6AEnWcROQsGE/PDCA1FgaIOv/9F7LT7eTTttS4cZHfVBezCO95Srogtuqf
-         2Et4mdrdXLFDCxeL+vmm/xa4B1Dmfq14DwSPfdJoLKr840qLP00zAu/BWc/9Kn0Pk29x
-         W+VoFpZJ2PXrJyt/6uSr4iZsGoDFX988yubkLbzUhuE3DIoBBWNOf74m7BzzWXwbPhkS
-         Txpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700576718; x=1701181518;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IeriZn2HB3faAf90rsoEJC630QNkZ7QDKTlPQoSO5Cg=;
-        b=DYRnazAlabm7svuY5j8FCqpYLqQB08QPvk0fLINAsoUoT37ZZVp4/BL6pSvK+k8wDZ
-         W0ooXrhb9yTgoxuNyrFcie0F32rd0ZyOLBxiylIKTWV679a5LzyMlz9vPvsoo/87jnVU
-         N0AlZIY9Q8vIq1nXbuMxa6OR6LTWCQ4+cAe55ZT/yK70nuzH2Zz76XC/8rQ6yzm85MRB
-         g7Z6KgI86fKJwt3SelEL/PTlTbqkpQCzd1pQJnkhq/o7TUJ437etMto2+ARBK8CkDoC4
-         nP3fkg7gqyR42+EtFJGg1VdTXA9LIZUFdnBAmfLSufGpL2z/vVeNVQfrv2VecyZnazU4
-         OQ9A==
-X-Gm-Message-State: AOJu0Yy0luN7IBwzUTcWk4YulI5W4vjwR1q08vsiUZQPeT2Whf+UgFgn
-	077FECosludlyqEB9p9qy3mkXw==
-X-Google-Smtp-Source: AGHT+IE9vXr4RgqaSgCijzdvIxGnYYLFWxRa46XZgScWeMammtbE3X5UDSfvdft/8HJ3WbLcZEd/qg==
-X-Received: by 2002:a05:6a00:9a1:b0:6cb:8c70:4790 with SMTP id u33-20020a056a0009a100b006cb8c704790mr6739253pfg.1.1700576718381;
-        Tue, 21 Nov 2023 06:25:18 -0800 (PST)
-Received: from devz1.bytedance.net ([203.208.167.146])
-        by smtp.gmail.com with ESMTPSA id d13-20020a056a00244d00b0068842ebfd10sm7923193pfj.160.2023.11.21.06.25.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Nov 2023 06:25:18 -0800 (PST)
-From: "wuqiang.matt" <wuqiang.matt@bytedance.com>
-To: ubizjak@gmail.com,
-	mark.rutland@arm.com,
-	vgupta@kernel.org,
-	bcain@quicinc.com,
-	jonas@southpole.se,
-	stefan.kristiansson@saunalahti.fi,
-	shorne@gmail.com,
-	chris@zankel.net,
-	jcmvbkbc@gmail.com,
-	geert@linux-m68k.org,
-	andi.shyti@linux.intel.com,
-	mingo@kernel.org,
-	palmer@rivosinc.com,
-	andrzej.hajda@intel.com,
-	arnd@arndb.de,
-	peterz@infradead.org,
-	mhiramat@kernel.org
-Cc: linux-arch@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-hexagon@vger.kernel.org,
-	linux-openrisc@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	mattwu@163.com,
-	linux@roeck-us.net,
-	"wuqiang.matt" <wuqiang.matt@bytedance.com>
-Subject: [PATCH v3 5/5] arch,locking/atomic: xtensa: define arch_cmpxchg_local as __cmpxchg_local
-Date: Tue, 21 Nov 2023 22:23:47 +0800
-Message-Id: <20231121142347.241356-6-wuqiang.matt@bytedance.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231121142347.241356-1-wuqiang.matt@bytedance.com>
-References: <20231121142347.241356-1-wuqiang.matt@bytedance.com>
+	id 1r5S7I-00H4xR-22;
+	Tue, 21 Nov 2023 14:52:46 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 4FC25CE1BC6;
+	Tue, 21 Nov 2023 14:52:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 580D7C433C7;
+	Tue, 21 Nov 2023 14:52:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1700578360;
+	bh=dGYz6IxNOUY4NpvhlMLeIB3Xxc/hARJYIHJyki7wDHE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=poue5VPWyYd+HrTAPC2kL1JwV02FvsHlUJ1z3W9FXk/U2czUqklkcawHdmmtSEsoY
+	 IlPddu/gpJsZ1UpOPQIgrM7BkkvyXf2F3hIfHrb2U18/fsMMvTR4wCzYJDyNBuBtzP
+	 SpQfWPT1cgV1qEShQyzt0KdJxLEsOUDx610rqzSQ=
+Date: Tue, 21 Nov 2023 15:12:23 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+	Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>, Guo Ren <guoren@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Greg Ungerer <gerg@linux-m68k.org>, Michal Simek <monstr@monstr.eu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Geoff Levand <geoff@infradead.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
+	Helge Deller <deller@gmx.de>,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Timur Tabi <timur@kernel.org>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	David Woodhouse <dwmw2@infradead.org>,
+	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+	Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+	Kees Cook <keescook@chromium.org>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-trace-kernel@vger.kernel.org, linux-csky@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+	netdev@vger.kernel.org, linux-parisc@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-bcachefs@vger.kernel.org,
+	linux-mtd@lists.infradead.org
+Subject: Re: [PATCH 20/22] usb: fsl-mph-dr-of: mark fsl_usb2_mpc5121_init()
+ static
+Message-ID: <2023112114-cried-ramble-b3f9@gregkh>
+References: <20231108125843.3806765-1-arnd@kernel.org>
+ <20231108125843.3806765-21-arnd@kernel.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20231108125843.3806765-21-arnd@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231121_062519_796604_DE71F2EA 
-X-CRM114-Status: UNSURE (   9.35  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231121_065245_122332_74DE7201 
+X-CRM114-Status: GOOD (  11.85  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,32 +121,17 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The xtensa architecture already has __cmpxchg_local defined but not used.
-The purpose of __cmpxchg_local() is solely for arch_cmpxchg_local(), just
-as the definition of arch_cmpxchg_local() for other architectures like x86,
-arm and powerpc.
+On Wed, Nov 08, 2023 at 01:58:41PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> This function is only called locally and should always have been static:
+> 
+> drivers/usb/host/fsl-mph-dr-of.c:291:5: error: no previous prototype for 'fsl_usb2_mpc5121_init' [-Werror=missing-prototypes]
+> 
+> Fixes: 230f7ede6c2f ("USB: add USB EHCI support for MPC5121 SoC")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Signed-off-by: wuqiang.matt <wuqiang.matt@bytedance.com>
----
- arch/xtensa/include/asm/cmpxchg.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/xtensa/include/asm/cmpxchg.h b/arch/xtensa/include/asm/cmpxchg.h
-index 675a11ea8de7..956c9925df1c 100644
---- a/arch/xtensa/include/asm/cmpxchg.h
-+++ b/arch/xtensa/include/asm/cmpxchg.h
-@@ -108,7 +108,7 @@ static inline unsigned long __cmpxchg_local(volatile void *ptr,
-  * them available.
-  */
- #define arch_cmpxchg_local(ptr, o, n)				  	       \
--	((__typeof__(*(ptr)))__generic_cmpxchg_local((ptr), (unsigned long)(o),\
-+	((__typeof__(*(ptr)))__cmpxchg_local((ptr), (unsigned long)(o),        \
- 			(unsigned long)(n), sizeof(*(ptr))))
- #define arch_cmpxchg64_local(ptr, o, n) __generic_cmpxchg64_local((ptr), (o), (n))
- #define arch_cmpxchg64(ptr, o, n)    arch_cmpxchg64_local((ptr), (o), (n))
--- 
-2.40.1
-
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 _______________________________________________
 linux-snps-arc mailing list
