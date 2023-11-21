@@ -4,86 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD48CC54FB9
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 21 Nov 2023 06:48:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34831C61D85
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 21 Nov 2023 14:24:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=uMFtdIbcK1WT0HTuFrHo3+GTEb8sbOTvwuhY0wrcFm4=; b=itZJfjlNRrwEDP
-	7UXMcNsmnN/ThXXGuS2zi6gfDTcpZhsO5eZndEbtCkWRJhkT7L1icwVRwe/KKOEYBL40nkaPO5IGl
-	2xstwnTrHT9DcmEJhKjMjBmji0NOE05uhYe4MMYI5gYN381/X2IJI/hUEQ+xafuT9OwxJ1QOfTvUE
-	L6ofJcQQOPolqp9MfCc8cXT4didUOheJhoRBCGUOnk+nSLokTFTn6dvySAPVxrKx0iNfRQ+oQ4IMr
-	WhTQb+2ChuF5P5p4op31lgnoGdUwJa6tsOagj8d4seiRyLRy8n9YKSiLyvztCsBd5wLnD8YBi7sM4
-	bnYPB6z2bdMq7PS6G6Vw==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=YbgIQibncF+HTjSv9OCCShgmBO8Fn1pnGcFarJH5ZIY=; b=rXFez5cdF0/5Qw
+	I9m4P8x9V+rH/ZbsjCG4z/UW/J0oCAZyRXKDW+dLwilP5hcu8PG9Dgomjh0mOipxVWaJxzbHHDkOV
+	Q2rAoQFTbcloc0OLhYVysPseE/ZjOzqmoTZZTdLfqDVzr8kOjsQRusZxnD8tnXJxQDtwndsc8qC0A
+	J1A+leV9EGbmqLkRIxUZCQVzkGkLg4lsnUeN7F6e3v3la6+nI4SeknMMDenvmSeZstg/0GxtFQefF
+	h8aMvL1g/D+d8L4kz7q6YKylgYVl3kUIswXj/mWGo+PKun/eKBuflWK37kGabXC/Al4sI+MaBF8Y0
+	hlaNVmcP7Sq4f39ANZlQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5KYU-00Fq9o-1f;
-	Tue, 21 Nov 2023 06:48:18 +0000
-Received: from marcansoft.com ([212.63.210.85] helo=mail.marcansoft.com)
+	id 1r5RgD-00H0me-1j;
+	Tue, 21 Nov 2023 14:24:45 +0000
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5KYQ-00Fq7f-0j;
-	Tue, 21 Nov 2023 06:48:16 +0000
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id EDDAF42137;
-	Tue, 21 Nov 2023 06:47:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1700549281; bh=ujaYq3QQkb3U4N6JNFFQq4uH4QKQpO8RJp9aJVbB0w0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=yBZ7Udel893+M2pzDMgdTushmaUgXq0nIf/5xxASROF107adcyenfoQIJKpJop3QE
-	 1+yTIUhVbWxOP7swSXHE/1waIz+ytnfqIeOR+pXsrjnxJ9YDy9OcehudknnZZfDU0W
-	 yBoxtsLq/eITHB2A8C7zHMk/QpuQDhn54/ueeppNZr5bacp1NBly8id6vI/+HcZLF9
-	 Y3o89xan9Av9novKYwloiJeRxCXK4RdvbSm3KrREtUx62PnuC+h7WkJf1goRn4PDd/
-	 8BaauSYV42Ok4T8UBbrfnw8aItI789XfEb5enuqF6bZ2I7QNWWCAUkdCy2CTlvEfD+
-	 wJAB4I2ql495A==
-Message-ID: <90855bbf-e845-4e4d-a713-df71d1e477d2@marcan.st>
-Date: Tue, 21 Nov 2023 15:47:48 +0900
+	id 1r5RgA-00H0ly-0z
+	for linux-snps-arc@lists.infradead.org;
+	Tue, 21 Nov 2023 14:24:44 +0000
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-6c4d06b6ddaso4702018b3a.3
+        for <linux-snps-arc@lists.infradead.org>; Tue, 21 Nov 2023 06:24:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1700576677; x=1701181477; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rO5gvBC9Yj9Gj9iwFUnYV9+FlJPZ82+bI2tRklE6bkQ=;
+        b=NV0J4FTLzoYO1+ioXxdAeg+SPBDK2/XWXLvmereAkleBEAS7gICdki8d1rmwFTfHQJ
+         H/5XPbpOjvwyX4b/Q3ohIsFx6eI9SZneYZI0YUd8p6+n3BrW45UJnHm6HRsPSK8H4o4C
+         H1Z8ixBe5esLMzp/JaCOtXWqKOBwtjV7f5gRy5R3c8wfgz7ev6Lf8REwrtHtBJlVsdr2
+         gjajLBah8+N9BXcAPzVWdR+6nlxficLoJ0SFwglr3hglkVHWv1MKA6k8xOkcaJWcQtDL
+         uK9J7ZrZZClLPoR3j9a4HMluwaycWPsgCECF+az5OYiUox+rJJ5u1ud7eN9iX5cSNHVn
+         q+Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700576677; x=1701181477;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rO5gvBC9Yj9Gj9iwFUnYV9+FlJPZ82+bI2tRklE6bkQ=;
+        b=ElgigruJh2sdg6AlWUhLAPtdpS9Lwes0O3MK1D+0VwgfI4dtDCJ1DMHlmBjpF0WaQ4
+         QIwIvYnUAeyFZzsx3zIGZWiD6BzHHsiEhPaNjLd2dDsrXYn8MkiAaFuMRoZqc7ns3ahi
+         i78KC+qx26QDVUTQzW5dbQolUw9EVpp6XghRl/xzR+ps5ewptq3rNc7nfrNv3cD0iEtt
+         kOg61E3nuChifb4+CF57HGUkOpNy/DdkxlcmK4MhL1/0t1jn7+A05hbzaMqxvDg9K9+G
+         EQZUfJDUkpXUpVTtV+OoSUMb473KmomJ2Q3N+MV1dDqa8IhyMU0eyhsyL+SZYTAto4gD
+         lkaA==
+X-Gm-Message-State: AOJu0Yy7Gh9nckM+WOsscLamwBTTtvmjNMagmBEOCasLJI/dqrLU5Dz3
+	mu9Fo9i06jpGv57SBQyjtYS5Cg==
+X-Google-Smtp-Source: AGHT+IGZ0cj3qTxHGElldELTLLVk70f7H8QJHy0DgUxvrRtGVlmmImJxGtalz8fEj5aiHrvaElF8fg==
+X-Received: by 2002:a05:6a20:1591:b0:18a:716d:4ac with SMTP id h17-20020a056a20159100b0018a716d04acmr6231274pzj.47.1700576677576;
+        Tue, 21 Nov 2023 06:24:37 -0800 (PST)
+Received: from devz1.bytedance.net ([203.208.167.146])
+        by smtp.gmail.com with ESMTPSA id d13-20020a056a00244d00b0068842ebfd10sm7923193pfj.160.2023.11.21.06.24.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Nov 2023 06:24:36 -0800 (PST)
+From: "wuqiang.matt" <wuqiang.matt@bytedance.com>
+To: ubizjak@gmail.com,
+	mark.rutland@arm.com,
+	vgupta@kernel.org,
+	bcain@quicinc.com,
+	jonas@southpole.se,
+	stefan.kristiansson@saunalahti.fi,
+	shorne@gmail.com,
+	chris@zankel.net,
+	jcmvbkbc@gmail.com,
+	geert@linux-m68k.org,
+	andi.shyti@linux.intel.com,
+	mingo@kernel.org,
+	palmer@rivosinc.com,
+	andrzej.hajda@intel.com,
+	arnd@arndb.de,
+	peterz@infradead.org,
+	mhiramat@kernel.org
+Cc: linux-arch@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-hexagon@vger.kernel.org,
+	linux-openrisc@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	mattwu@163.com,
+	linux@roeck-us.net,
+	"wuqiang.matt" <wuqiang.matt@bytedance.com>
+Subject: [PATCH v3 0/5] arch,locking/atomic: add arch_cmpxchg[64]_local
+Date: Tue, 21 Nov 2023 22:23:42 +0800
+Message-Id: <20231121142347.241356-1-wuqiang.matt@bytedance.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 06/17] iommu: Add iommu_fwspec_alloc/dealloc()
-Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: acpica-devel@lists.linux.dev, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
- Catalin Marinas <catalin.marinas@arm.com>, Dexuan Cui <decui@microsoft.com>,
- devicetree@vger.kernel.org, David Woodhouse <dwmw2@infradead.org>,
- Frank Rowand <frowand.list@gmail.com>, Hanjun Guo <guohanjun@huawei.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, iommu@lists.linux.dev,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
- "K. Y. Srinivasan" <kys@microsoft.com>, Len Brown <lenb@kernel.org>,
- linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-hyperv@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-snps-arc@lists.infradead.org,
- linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, patches@lists.linux.dev,
- Paul Walmsley <paul.walmsley@sifive.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Robert Moore <robert.moore@intel.com>, Rob Herring <robh+dt@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Sudeep Holla <sudeep.holla@arm.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Sven Peter <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Krishna Reddy <vdumpa@nvidia.com>, Vineet Gupta <vgupta@kernel.org>,
- virtualization@lists.linux.dev, Wei Liu <wei.liu@kernel.org>,
- Will Deacon <will@kernel.org>
-References: <6-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
- <20a7ef6d-a8ca-4bd8-ad7e-11856db617a2@marcan.st>
- <1eb12c35-e64e-4c32-af99-8743dc2ec266@marcan.st>
- <20231119141329.GA6083@nvidia.com>
-From: Hector Martin <marcan@marcan.st>
-In-Reply-To: <20231119141329.GA6083@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231120_224814_432152_E2377F46 
-X-CRM114-Status: GOOD (  28.31  )
+X-CRM114-CacheID: sfid-20231121_062442_461697_B53EAF94 
+X-CRM114-Status: UNSURE (   6.20  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,104 +113,32 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+Archtectures arc, openrisc and hexagon haven't arch_cmpxchg_local()
+defined, so the usecase of try_cmpxchg_local() in lib/objpool.c can
+not pass kernel building by the kernel test robot.
 
+Patch 1 improves the data size checking logic for arc; Patches 2/3/4
+implement arch_cmpxchg[64]_local for arc/openrisc/hexagon. Patch 5
+defines arch_cmpxchg_local as existing __cmpxchg_local rather the
+generic variant.
 
-On 2023/11/19 23:13, Jason Gunthorpe wrote:
-> On Sun, Nov 19, 2023 at 06:19:43PM +0900, Hector Martin wrote:
->>>> +static int iommu_fwspec_assign_iommu(struct iommu_fwspec *fwspec,
->>>> +				     struct device *dev,
->>>> +				     struct fwnode_handle *iommu_fwnode)
->>>> +{
->>>> +	const struct iommu_ops *ops;
->>>> +
->>>> +	if (fwspec->iommu_fwnode) {
->>>> +		/*
->>>> +		 * fwspec->iommu_fwnode is the first iommu's fwnode. In the rare
->>>> +		 * case of multiple iommus for one device they must point to the
->>>> +		 * same driver, checked via same ops.
->>>> +		 */
->>>> +		ops = iommu_ops_from_fwnode(iommu_fwnode);
->>>
->>> This carries over a related bug from the original code: If a device has
->>> two IOMMUs and the first one probes but the second one defers, ops will
->>> be NULL here and the check will fail with EINVAL.
->>>
->>> Adding a check for that case here fixes it:
->>>
->>> 		if (!ops)
->>> 			return driver_deferred_probe_check_state(dev);
-> 
-> Yes!
-> 
->>> With that, for the whole series:
->>>
->>> Tested-by: Hector Martin <marcan@marcan.st>
->>>
->>> I can't specifically test for the probe races the series intends to fix
->>> though, since that bug we only hit extremely rarely. I'm just testing
->>> that nothing breaks.
->>
->> Actually no, this fix is not sufficient. If the first IOMMU is ready
->> then the xlate path allocates dev->iommu, which then
->> __iommu_probe_device takes as a sign that all IOMMUs are ready and does
->> the device init.
-> 
-> It doesn't.. The code there is:
-> 
-> 	if (!fwspec && dev->iommu)
-> 		fwspec = dev->iommu->fwspec;
-> 	if (fwspec)
-> 		ops = fwspec->ops;
-> 	else
-> 		ops = dev->bus->iommu_ops;
-> 	if (!ops) {
-> 		ret = -ENODEV;
-> 		goto out_unlock;
-> 	}
-> 
-> Which is sensitive only to !NULL fwspec, and if EPROBE_DEFER is
-> returned fwspec will be freed and dev->iommu->fwspec will be NULL
-> here.
-> 
-> In the NULL case it does a 'bus probe' with a NULL fwspec and all the
-> fwspec drivers return immediately from their probe functions.
-> 
-> Did I miss something?
+wuqiang.matt (5):
+  arch,locking/atomic: arc: arch_cmpxchg should check data size
+  arch,locking/atomic: arc: add arch_cmpxchg[64]_local
+  arch,locking/atomic: openrisc: add arch_cmpxchg[64]_local
+  arch,locking/atomic: hexagon: add arch_cmpxchg[64]_local
+  arch,locking/atomic: xtensa: define arch_cmpxchg_local as
+    __cmpxchg_local
 
-apple_dart is not a fwspec driver and doesn't do that :-)
+ arch/arc/include/asm/cmpxchg.h      | 40 ++++++++++++++++++----
+ arch/hexagon/include/asm/cmpxchg.h  | 51 ++++++++++++++++++++++++++++-
+ arch/openrisc/include/asm/cmpxchg.h |  6 ++++
+ arch/xtensa/include/asm/cmpxchg.h   |  2 +-
+ 4 files changed, 91 insertions(+), 8 deletions(-)
 
-> 
->> Then when the xlate comes along again after suceeding
->> with the second IOMMU, __iommu_probe_device sees the device is already
->> in a group and never initializes the second IOMMU, leaving the device
->> with only one IOMMU.
-> 
-> This should be fixed by the first hunk to check every iommu and fail?
-> 
-> BTW, do you have a systems with same device attached to multiple
-> iommus?
+-- 
+2.40.1
 
-Yes, Apple ARM64 machines all have multiple ganged IOMMUs for certain
-devices (USB and ISP). We also attach all display IOMMUs to the global
-virtual display-subsystem device to handle framebuffer mappings, instead
-of trying to dynamically map them to a bunch of individual display
-controllers (which is a lot more painful). That last one is what
-reliably reproduces this problem, display breaks without both previous
-patches ever since we started supporting more than one display output.
-The first one is not enough.
-
-> I've noticed another bug here, many drivers don't actually support
-> differing iommu instances and nothing seems to check it..
-
-apple-dart does (as long as all the IOMMUs are using that driver).
-
-> 
-> Thanks,
-> Jason
-> 
-> 
-
-- Hector
 
 _______________________________________________
 linux-snps-arc mailing list
