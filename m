@@ -4,124 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A205C61D99
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 23 Nov 2023 00:07:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98200C5AD4C
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 23 Nov 2023 09:08:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=+YS6jzKgzEM+2HciGK71jCJl+UlJX4AEirxa8vwiei0=; b=BB7mAGuYuTgUbx
-	CAm0fGttza6csOsFBB4hA/CgMrJl7zy6zXC8pZemUssN8WRzJPfWp59CW9KJoBfoL8tdw+kfjUGOh
-	6ppdoBnbEklL39ujyhU67m/xtWvFmXH8naKUmEmfai5Hs8N0IukYm5sAhr3LZnSwfhcGD+unacCCJ
-	uadnRHI5o2jlaLVCcaZzNqYn3UJpfvc7hMYBg1ePi6dDMTepRRZ42BjKNbSN+ucrrrK/G2iJvfhtl
-	ONrDee9g7Nc+9XANBC8VV8d82pjXs53isz80GxnzyTIYH7+Ily1cqE4OnYl760RagCEJrtWBy8Un8
-	d/LqvFu2eeX9Ua4NudLw==;
+	List-Owner; bh=Kae3VWxrKyFHawuIQrdsWXfH2qcnMpqTJWKn7YvpPs4=; b=kYdbADsLVCC8MC
+	htaUEbxyIoJTlAd07aqUMe/Qw7IggD1XOr3Kt2YonOFEh9K6mMPgwepZas3BvD9MiGa7K+z3l8ebC
+	vVVUUhL+dKxbSk72H+3Noj9reifDZAoooKw/9n9BqDhqbML6NsDilHmyxh/tNSLVzEdk7STPHcN63
+	LNLMma5hFezrU01BRkAtrljEUMq6XzAgrHya3hLLJJq27yDI+TrkhryTN5HOfXaw16z6H5/ZGhedj
+	o86knU4Rf6GW02PpIueBIViKIAffBqRbakIMdZM0ts7ilcYTiQIuAitqIpibVJEWQdKOP/bv7bbQ/
+	xSSQCFLQiUb6bW9+5ZaQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5xFL-003Nbx-1a;
-	Thu, 23 Nov 2023 00:07:07 +0000
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+	id 1r65hf-004Dft-1r;
+	Thu, 23 Nov 2023 09:08:55 +0000
+Received: from marcansoft.com ([212.63.210.85] helo=mail.marcansoft.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5xFI-003Nas-16
-	for linux-snps-arc@lists.infradead.org;
-	Thu, 23 Nov 2023 00:07:05 +0000
-Received: by mail-pj1-x102a.google.com with SMTP id 98e67ed59e1d1-2802b744e52so1093956a91.0
-        for <linux-snps-arc@lists.infradead.org>; Wed, 22 Nov 2023 16:06:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1700698018; x=1701302818; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=HfvvVEoo2ZPc5Eo27do8s9IpqY2QyXGUUCVk7yAwMCQ=;
-        b=AGjrjnSa/T9/Tj5Z8bwHs4GeOhnzINBHUsD5+MJC/xshKfnjaveSOf4UJxSz9ZNwGt
-         y/J+DPliSWOHyeHZBCZFvKY0CWZV/q+2xd8c0LtXwVAFtXYFyNylhlXjRl53/UdXGJ1N
-         4Zbyf3QTWh0kckw5OMcAc50miTPHj4/pk1OIGsFKH/sxbnHqinSqr8rttc08ALVF6jyx
-         yae9jEAd9g46SZZaiSunYRnBHTJFcSc6F9KApVI6gdVSPCxwVAEwm5mU4ldg/pKlr+Qc
-         fx0qk7LP8y4MxkXJ0zE4UroywXoyDThgTWk9foXm7VRZ4tpqsZ51jo369BdKg0vwzZen
-         r5AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700698018; x=1701302818;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HfvvVEoo2ZPc5Eo27do8s9IpqY2QyXGUUCVk7yAwMCQ=;
-        b=jByzknncAxGx51Tk6KMxqSvzYVo3rINAPF1RC5fFPBLPuQs5iPq2v1Jn/Ve/2hD/Mi
-         uwYkxX5e4Z5S5s312wpIK1Z4KcWKDgORUPRUczAyMqQb54wWt39HK5Ox6SzwEeqY5JDp
-         zdHxLBjfHUJHzfPeS9jR83hOTmjCds9pYlw92AeXYu+MjoSB6Vj2psMwpN9jiqLT/YsN
-         OBXDqJl/DX9IROiLx2KkqvzDeqDAz0XXYuOQTe/ld80fskmjuPRSb9csGTI591r+nX2m
-         cFdPLq00UjDPHJ+cQbfEcMVSR+bC0dM0rsgj7i3+5XkpM/6nFq5HMvaWhbuzvvKXblEH
-         /rzw==
-X-Gm-Message-State: AOJu0YwAaKOn06Q6vPVAH61TzvPOCZclGnE03lqwgJXi9QlI3lmx8zb4
-	MjV/N5CjwyZO/8EfZ5Q3k5/SCA==
-X-Google-Smtp-Source: AGHT+IEwFMqGPwD33UW3ABxmr7nd/CddgFkLcJ+TM9pXbL7khyTzz/hWNuRt864Ilx/pO1gArN5JmQ==
-X-Received: by 2002:a17:90b:1b03:b0:280:23e1:e4dd with SMTP id nu3-20020a17090b1b0300b0028023e1e4ddmr1418778pjb.17.1700698018004;
-        Wed, 22 Nov 2023 16:06:58 -0800 (PST)
-Received: from ?IPV6:2606:4700:110:82f3:5936:4753:3e8:2d8d? ([2a09:bac5:21b2:1246::1d2:2c])
-        by smtp.gmail.com with ESMTPSA id z3-20020a170902ee0300b001cc2ebd2c2csm253083plb.256.2023.11.22.16.06.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Nov 2023 16:06:57 -0800 (PST)
-Message-ID: <c81c83e7-881a-4fe8-9d1a-0321e10a8633@bytedance.com>
-Date: Thu, 23 Nov 2023 08:06:49 +0800
+	id 1r65hb-004De3-24;
+	Thu, 23 Nov 2023 09:08:53 +0000
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 9BDB241EF0;
+	Thu, 23 Nov 2023 09:08:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1700730528; bh=tKvmM8VauJ2SKlC76Ts+IMS9Y0f1D93gbN6PS2aS1RQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=bEylMheXkP1AY7uDhyUgpvOvmafAgnH8kYOyGsGvzSEm3AG0TuKGO12XpHG7pIpPk
+	 7DWjDpQ/2UVGkEBlWmpkMsK+kkFSTbFl2mNZf+evyauyJJjLkxYiIMvQnQZccc7GYl
+	 eyA+fRFKB/4nH2lfKLFZ7jOWf+ZnhEEAdxplIRYiCSC8oH9YCENIvFOPHr97tQOVpS
+	 vFMyIE8sCHGbUWmMQTW6+kNNQZA2kAYPQ/d2k1mzDzQUzP4vU581SpL8b4NQXqoDyL
+	 Nq2SuV6KB6PtAtBepsn6kZamgJlbVvwi56sMxTDqNBWGfHkerXitbj24KAHWAlJH6q
+	 nnb+VrbjJRB5A==
+Message-ID: <ab23469f-19ce-4681-afc9-65518730b51b@marcan.st>
+Date: Thu, 23 Nov 2023 18:08:33 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/5] arch,locking/atomic: arc: arch_cmpxchg should
- check data size
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: ubizjak@gmail.com, mark.rutland@arm.com, vgupta@kernel.org,
- bcain@quicinc.com, jonas@southpole.se, stefan.kristiansson@saunalahti.fi,
- shorne@gmail.com, chris@zankel.net, jcmvbkbc@gmail.com,
- geert@linux-m68k.org, mingo@kernel.org, palmer@rivosinc.com,
- andrzej.hajda@intel.com, arnd@arndb.de, peterz@infradead.org,
- mhiramat@kernel.org, linux-arch@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-hexagon@vger.kernel.org, linux-openrisc@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, mattwu@163.com, linux@roeck-us.net
-References: <20231121142347.241356-1-wuqiang.matt@bytedance.com>
- <20231121142347.241356-2-wuqiang.matt@bytedance.com>
- <ZV594z0bNQR-vo2b@ashyti-mobl2.lan>
+Subject: Re: [PATCH v2 06/17] iommu: Add iommu_fwspec_alloc/dealloc()
 Content-Language: en-US
-From: "wuqiang.matt" <wuqiang.matt@bytedance.com>
-Autocrypt: addr=wuqiang.matt@bytedance.com; keydata=
- xsDNBGOidiIBDADKahCm8rTJ3ZgXTS0JR0JWkorMj3oNDI0HnLvHt8f9DBmjYyV11ol0FYUr
- uJ230wjVVKLMm0yBk3jX7Dsy0jggnIcVlINhaXV9DMxzLBM7Vc55FuB9M5/ZaSrM+V5LeG+t
- nPbZie6yzJbNpdGBdVXnXiOAEgT9+kYqgCRBOJdpzZyEHv14elfGOMo8PVCxiN2UEkCG+cg1
- EwfMgy2lZXsGP/By0DaEHnDtyXHfNEwlyoPHOWu7t+PWCw3FgXndX4wvg0QN0IYqrdvP+Tbl
- YQLAnA9x4odjYvqwfUDXavAb7OHObEBrqNkMX7ifotg64QgZ0SZdB3cd1Az5dC3i0zmGx22Q
- pPFseJxGShaHZ0KeE+NSlbUrz0mbiU1ZpPCeXrkuj0ud5W3QfEdHh00/PupgL/Jiy6CHWUkK
- 1VN2jP52uUFYIpwUxaCj1IT9RzoHUMYdf/Pj4aUUn2gflaLMQFqH+aT68BncLylbaZybQn/X
- ywm05lNCmTq7M7vsh2wIZ1cAEQEAAc0kd3VxaWFuZyA8d3VxaWFuZy5tYXR0QGJ5dGVkYW5j
- ZS5jb20+wsEHBBMBCAAxFiEEhAnU1znx1I9+E57kDMyNdoDoPy8FAmOidiMCGwMECwkIBwUV
- CAkKCwUWAgMBAAAKCRAMzI12gOg/LzhCC/sEdGvOQbv0zaQw2tBfw7WFBvAuQ6ouWpPQZkSV
- 3mZihJKfaxBjjhpjtS5/ieMebChUoiVoofx9VTCaP3c/qQ/qzYUYdKCzQL92lrqRph0qK/tJ
- QPxFUkUEgsSwY7h/SEMsga8ziPczBdVf+0HWkmKGL1uvfS6c72M2UMSulvg73kxjxUIeg30s
- BTzh6g94FiCOhn8Ali2aHhkbRgQ2RoXNqgmyp6zGdI3pigk1irIpfGF6qmGshNUw/UTLLKos
- /zJdNjezfPaHifNSRgCnuLfQ1jennpEirgxUcLNQSWrUFqOOb/bJcWsWgU3P84dlfpNqbXmI
- Qo6gSWzuetChHAPl0YHpvATrOuXqJtxrvsOVWg9nGaPj7fjm0DEvp32a2eFvVz7a3SX8cuQv
- RUE915TsKcXeX9CBx1cDPGmggT+IT6oqk0lup3ZL980FZhVk7wXoj1T4rEx9JFeZV5KikET1
- j7NFGAh2oBi19cE3RT+NEwsSO2q8JvTgoluld2BzN57OwM0EY6J2IwEMANHVmP9TbdLlo0uT
- VtKl+vUC1niW9wiyOZn1RlRTKu3B+md/orIMEbVHkmYb4rmxdAOY+GRHazxw30b88MC0hiNc
- paHtp7GqlqRJ9PkQVc1M6EyMP4zuem0qOR+t0rq3n8pTWLFyji+wWj2J06LOqsEx36Qx+RbV
- 8E2cgRA3e43ldHYBx+ZNM/kBLLLzvMNriv0DQJvZpNfhewLw/87rNZ3QfkxzNYeBAjLj11S5
- gPLRXMc5pRV/Tq2bSd9ijinpGVbDCnffX2oqCBg2pYxBBXa9/LvyqK+eZrdkAkvoYTFwczpS
- c5Sa6ciSvVWHJmWDixNfb8o9T5QJHifTiRLk2KnjFKJCq6D8peP93kst5JoADytO2x0zijgP
- h+iX+R+kXdRW8Ib1nJVY96cjE08gnewd9lq/7HpL2NIuEL6QVPExKXNQsJaFe554gUbOCTmN
- nbIVYzRaBeTfVqGoGNOIq/LkqMwzr2V5BufCPFJlLGoHXQ4zqllS4xSHSyjmAfF7OwARAQAB
- wsD2BBgBCAAgFiEEhAnU1znx1I9+E57kDMyNdoDoPy8FAmOidiQCGwwACgkQDMyNdoDoPy9v
- iwwAjE0d5hEHKR0xQTm5yzgIpAi76f4yrRcoBgricEH22SnLyPZsUa4ZX/TKmX4WFsiOy4/J
- KxCFMiqdkBcUDw8g2hpbpUJgx7oikD06EnjJd+hplxxj+zVk4mwuEz+gdZBB01y8nwm2ZcS1
- S7JyYL4UgbYunufUwnuFnD3CRDLD09hiVSnejNl2vTPiPYnA9bHfHEmb7jgpyAmxvxo9oiEj
- cpq+G9ZNRIKo2l/cF3LILHVES3uk+oWBJkvprWUE8LLPVRmJjlRrSMfoMnbZpzruaX+G0kdS
- 4BCIU7hQ4YnFMzki3xN3/N+TIOH9fADg/RRcFJRCZUxJVzeU36KCuwacpQu0O7TxTCtJarxg
- ePbcca4cQyC/iED4mJkivvFCp8H73oAo7kqiUwhMCGE0tJM0Gbn3N/bxf2MTfgaXEpqNIV5T
- Sl/YZTLL9Yqs64DPNIOOyaKp++Dg7TqBot9xtdRs2xB2UkljyL+un3RJ3nsMbb+T74kKd1WV
- 4mCJUdEkdwCS
-In-Reply-To: <ZV594z0bNQR-vo2b@ashyti-mobl2.lan>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: acpica-devel@lists.linux.dev, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
+ Catalin Marinas <catalin.marinas@arm.com>, Dexuan Cui <decui@microsoft.com>,
+ devicetree@vger.kernel.org, David Woodhouse <dwmw2@infradead.org>,
+ Frank Rowand <frowand.list@gmail.com>, Hanjun Guo <guohanjun@huawei.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, iommu@lists.linux.dev,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+ "K. Y. Srinivasan" <kys@microsoft.com>, Len Brown <lenb@kernel.org>,
+ linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-hyperv@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-snps-arc@lists.infradead.org,
+ linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, patches@lists.linux.dev,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Robert Moore <robert.moore@intel.com>, Rob Herring <robh+dt@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Sudeep Holla <sudeep.holla@arm.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Sven Peter <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Krishna Reddy <vdumpa@nvidia.com>, Vineet Gupta <vgupta@kernel.org>,
+ virtualization@lists.linux.dev, Wei Liu <wei.liu@kernel.org>,
+ Will Deacon <will@kernel.org>
+References: <6-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
+ <20a7ef6d-a8ca-4bd8-ad7e-11856db617a2@marcan.st>
+ <1eb12c35-e64e-4c32-af99-8743dc2ec266@marcan.st>
+ <20231119141329.GA6083@nvidia.com>
+ <90855bbf-e845-4e4d-a713-df71d1e477d2@marcan.st>
+ <20231121160058.GG6083@nvidia.com>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <20231121160058.GG6083@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231122_160704_552727_B3D320FA 
-X-CRM114-Status: GOOD (  14.96  )
+X-CRM114-CacheID: sfid-20231123_010851_845981_8F701001 
+X-CRM114-Status: GOOD (  19.12  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,101 +97,69 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hello Andi,
-
-On 2023/11/23 06:17, Andi Shyti wrote:
-> Hi Wuqiang,
+On 2023/11/22 1:00, Jason Gunthorpe wrote:
+> On Tue, Nov 21, 2023 at 03:47:48PM +0900, Hector Martin wrote:
+>>> Which is sensitive only to !NULL fwspec, and if EPROBE_DEFER is
+>>> returned fwspec will be freed and dev->iommu->fwspec will be NULL
+>>> here.
+>>>
+>>> In the NULL case it does a 'bus probe' with a NULL fwspec and all the
+>>> fwspec drivers return immediately from their probe functions.
+>>>
+>>> Did I miss something?
+>>
+>> apple_dart is not a fwspec driver and doesn't do that :-)
 > 
-> On Tue, Nov 21, 2023 at 10:23:43PM +0800, wuqiang.matt wrote:
->> arch_cmpxchg() should check data size rather than pointer size in case
->> CONFIG_ARC_HAS_LLSC is defined. So rename __cmpxchg to __cmpxchg_32 to
->> emphasize it's explicit support of 32bit data size with BUILD_BUG_ON()
->> added to avoid any possible misuses with unsupported data types.
->>
->> In case CONFIG_ARC_HAS_LLSC is undefined, arch_cmpxchg() uses spinlock
->> to accomplish SMP-safety, so the BUILD_BUG_ON checking is uncecessary.
->>
->> v2 -> v3:
->>    - Patches regrouped and has the improvement for xtensa included
->>    - Comments refined to address why these changes are needed
->>
->> v1 -> v2:
->>    - Try using native cmpxchg variants if avaialble, as Arnd advised
-
-BTW, the changelog should be in the cover letter. I'll correct it in next
-version, so don't bother resending to make more noises.
-
->> Signed-off-by: wuqiang.matt <wuqiang.matt@bytedance.com>
->> Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
->> ---
->>   arch/arc/include/asm/cmpxchg.h | 12 ++++++------
->>   1 file changed, 6 insertions(+), 6 deletions(-)
->>
->> diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
->> index e138fde067de..bf46514f6f12 100644
->> --- a/arch/arc/include/asm/cmpxchg.h
->> +++ b/arch/arc/include/asm/cmpxchg.h
->> @@ -18,14 +18,16 @@
->>    * if (*ptr == @old)
->>    *      *ptr = @new
->>    */
->> -#define __cmpxchg(ptr, old, new)					\
->> +#define __cmpxchg_32(ptr, old, new)					\
->>   ({									\
->>   	__typeof__(*(ptr)) _prev;					\
->>   									\
->> +	BUILD_BUG_ON(sizeof(*(ptr)) != 4);				\
->> +									\
->>   	__asm__ __volatile__(						\
->> -	"1:	llock  %0, [%1]	\n"					\
->> +	"1:	llock  %0, [%1]		\n"				\
->>   	"	brne   %0, %2, 2f	\n"				\
->> -	"	scond  %3, [%1]	\n"					\
->> +	"	scond  %3, [%1]		\n"				\
->>   	"	bnz     1b		\n"				\
->>   	"2:				\n"				\
->>   	: "=&r"(_prev)	/* Early clobber prevent reg reuse */		\
->> @@ -47,7 +49,7 @@
->>   									\
->>   	switch(sizeof((_p_))) {						\
->>   	case 4:								\
->> -		_prev_ = __cmpxchg(_p_, _o_, _n_);			\
->> +		_prev_ = __cmpxchg_32(_p_, _o_, _n_);			\
->>   		break;							\
->>   	default:							\
->>   		BUILD_BUG();						\
->> @@ -65,8 +67,6 @@
->>   	__typeof__(*(ptr)) _prev_;					\
->>   	unsigned long __flags;						\
->>   									\
->> -	BUILD_BUG_ON(sizeof(_p_) != 4);					\
->> -									\
+> It implements of_xlate that makes it a driver using the fwspec probe
+> path.
 > 
-> I think I made some comments here that have not been addressed or
-> replied.
-
-Sorry that I haven't seen your message. Could you resend ? I rechecked
-my mailbox and the mailing lists, but no luck.
-
-
-> Thanks,
-> Andi
-
-Regards,
-Wuqiang
-
+> The issue is in apple-dart. Its logic for avoiding bus probe vs
+> fwspec probe is not correct.
 > 
->>   	/*								\
->>   	 * spin lock/unlock provide the needed smp_mb() before/after	\
->>   	 */								\
->> -- 
->> 2.40.1
+> It does:
+> 
+> static int apple_dart_of_xlate(struct device *dev, struct of_phandle_args *args)
+> {
+>  [..]
+>  	dev_iommu_priv_set(dev, cfg);
+> 
+> 
+> Then:
+> 
+> static struct iommu_device *apple_dart_probe_device(struct device *dev)
+> {
+> 	struct apple_dart_master_cfg *cfg = dev_iommu_priv_get(dev);
+> 	struct apple_dart_stream_map *stream_map;
+> 	int i;
+> 
+> 	if (!cfg)
+> 		return ERR_PTR(-ENODEV);
+> 
+> Which leaks the cfg memory on rare error cases and wrongly allows the
+> driver to probe without a fwspec, which I think is what you are
+> hitting.
+> 
+> It should be
+> 
+>        if (!dev_iommu_fwspec_get(dev) || !cfg)
+> 		return ERR_PTR(-ENODEV);
+> 
+> To ensure the driver never probes on the bus path.
+> 
+> Clearing the dev->iommu in the core code has the side effect of
+> clearing (and leaking) the cfg which would hide this issue.
 
+Aha! Yes, that makes it work with only the first change. I'll throw the
+apple-dart fix into our tree (and submit it once I get to clearing out
+the branch; the affected consumer driver isn't upstream yet so this
+isn't particularly urgent).
+
+- Hector
 
 _______________________________________________
 linux-snps-arc mailing list
