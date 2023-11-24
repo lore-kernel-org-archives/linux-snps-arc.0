@@ -4,88 +4,111 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98200C5AD4C
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 23 Nov 2023 09:08:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6E3E2C61DF4
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Nov 2023 12:04:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Kae3VWxrKyFHawuIQrdsWXfH2qcnMpqTJWKn7YvpPs4=; b=kYdbADsLVCC8MC
-	htaUEbxyIoJTlAd07aqUMe/Qw7IggD1XOr3Kt2YonOFEh9K6mMPgwepZas3BvD9MiGa7K+z3l8ebC
-	vVVUUhL+dKxbSk72H+3Noj9reifDZAoooKw/9n9BqDhqbML6NsDilHmyxh/tNSLVzEdk7STPHcN63
-	LNLMma5hFezrU01BRkAtrljEUMq6XzAgrHya3hLLJJq27yDI+TrkhryTN5HOfXaw16z6H5/ZGhedj
-	o86knU4Rf6GW02PpIueBIViKIAffBqRbakIMdZM0ts7ilcYTiQIuAitqIpibVJEWQdKOP/bv7bbQ/
-	xSSQCFLQiUb6bW9+5ZaQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	In-Reply-To:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date
+	:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ZnUt02NRA6kthMikLEyJ5dKe7J4ylFhYx0XWBywajhY=; b=4NgumLsz5CK6GmE1QZz12A/iSO
+	YLssIsGBR/kRKzikhIV3Ct4shJPAnDqdUVVPvwOp7XSfn8XHu8d+fm2cBJADhXl3mC3HoOaZhVDcV
+	gNqPLfEnPBxVVMM0YbU22gKfRHcgo4XtMX09Ot0YbiGBx7ahibRWd+7Bo8hqgQ6W+FHyiiGkhvh7B
+	S2Uk4R/Fi3F4jSc5REc+/I8Ep3BhI8101lRSavZHWRqPu0kzGT39bAmEp0j84TNDRU16OYEutEhSs
+	gzxp3SeW7BZh2xS8AqRHKc5B224Ams+Nc27ZSeLEyRhvG32EUN7ejoXEGnW0Sk8EtOArgBnNvfc/u
+	Rt1IdRjg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r65hf-004Dft-1r;
-	Thu, 23 Nov 2023 09:08:55 +0000
-Received: from marcansoft.com ([212.63.210.85] helo=mail.marcansoft.com)
+	id 1r6UvX-007A0y-1T;
+	Fri, 24 Nov 2023 12:04:55 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r65hb-004De3-24;
-	Thu, 23 Nov 2023 09:08:53 +0000
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 9BDB241EF0;
-	Thu, 23 Nov 2023 09:08:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1700730528; bh=tKvmM8VauJ2SKlC76Ts+IMS9Y0f1D93gbN6PS2aS1RQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=bEylMheXkP1AY7uDhyUgpvOvmafAgnH8kYOyGsGvzSEm3AG0TuKGO12XpHG7pIpPk
-	 7DWjDpQ/2UVGkEBlWmpkMsK+kkFSTbFl2mNZf+evyauyJJjLkxYiIMvQnQZccc7GYl
-	 eyA+fRFKB/4nH2lfKLFZ7jOWf+ZnhEEAdxplIRYiCSC8oH9YCENIvFOPHr97tQOVpS
-	 vFMyIE8sCHGbUWmMQTW6+kNNQZA2kAYPQ/d2k1mzDzQUzP4vU581SpL8b4NQXqoDyL
-	 Nq2SuV6KB6PtAtBepsn6kZamgJlbVvwi56sMxTDqNBWGfHkerXitbj24KAHWAlJH6q
-	 nnb+VrbjJRB5A==
-Message-ID: <ab23469f-19ce-4681-afc9-65518730b51b@marcan.st>
-Date: Thu, 23 Nov 2023 18:08:33 +0900
+	id 1r6UvR-0079yY-0q;
+	Fri, 24 Nov 2023 12:04:50 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by ams.source.kernel.org (Postfix) with ESMTP id 0A61EB8301D;
+	Fri, 24 Nov 2023 12:04:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C12FAC433C7;
+	Fri, 24 Nov 2023 12:04:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700827484;
+	bh=iYS7ANsuZ6vwOLgQk5XN795HJ5oXfHcHZNUjCJ6SXCw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ASSOqFUTTJHCjKWaYnDmAWOsdJx6xpTr/qPcu1HB+Fm5a/QclWrV0vncK2Q3Q7xX2
+	 aCCX9KBbw2Az9X58fZvG86NOH/nrOeX7BVzsNXr5gajrQU9ziayJ62atPHT8DwDcCc
+	 ahgZtb/ixwvuzDrehPu48aUVx6G2ccUCRb+KcZHUWGGyWnosZcOgffotJMEG6Q3zmg
+	 BKh8HHr1sjhFvHUZ1Iby4sERa66rD1silvF54u1GkmzyyDomzoGyssBaqUowuIrSEm
+	 G36HFkUDw4hjv0/b3iAj4rjrfH4/y0Ks3nDD/1Xr+xB/Qamv83b+9r9W6Jyz43KFdu
+	 6MPuY/CW+rmPA==
+Date: Fri, 24 Nov 2023 12:04:40 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+	Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>, Guo Ren <guoren@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Greg Ungerer <gerg@linux-m68k.org>, Michal Simek <monstr@monstr.eu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Geoff Levand <geoff@infradead.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
+	Helge Deller <deller@gmx.de>,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Timur Tabi <timur@kernel.org>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	David Woodhouse <dwmw2@infradead.org>,
+	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+	Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+	Kees Cook <keescook@chromium.org>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-trace-kernel@vger.kernel.org, linux-csky@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+	netdev@vger.kernel.org, linux-parisc@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-bcachefs@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	Aishwarya TCV <aishwarya.tcv@arm.com>
+Subject: Re: [PATCH 15/22] arch: vdso: consolidate gettime prototypes
+Message-ID: <ZWCRWArzbTYUjvon@finisterre.sirena.org.uk>
+References: <20231108125843.3806765-1-arnd@kernel.org>
+ <20231108125843.3806765-16-arnd@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 06/17] iommu: Add iommu_fwspec_alloc/dealloc()
-Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: acpica-devel@lists.linux.dev, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
- Catalin Marinas <catalin.marinas@arm.com>, Dexuan Cui <decui@microsoft.com>,
- devicetree@vger.kernel.org, David Woodhouse <dwmw2@infradead.org>,
- Frank Rowand <frowand.list@gmail.com>, Hanjun Guo <guohanjun@huawei.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, iommu@lists.linux.dev,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
- "K. Y. Srinivasan" <kys@microsoft.com>, Len Brown <lenb@kernel.org>,
- linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-hyperv@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-snps-arc@lists.infradead.org,
- linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, patches@lists.linux.dev,
- Paul Walmsley <paul.walmsley@sifive.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Robert Moore <robert.moore@intel.com>, Rob Herring <robh+dt@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Sudeep Holla <sudeep.holla@arm.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Sven Peter <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Krishna Reddy <vdumpa@nvidia.com>, Vineet Gupta <vgupta@kernel.org>,
- virtualization@lists.linux.dev, Wei Liu <wei.liu@kernel.org>,
- Will Deacon <will@kernel.org>
-References: <6-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
- <20a7ef6d-a8ca-4bd8-ad7e-11856db617a2@marcan.st>
- <1eb12c35-e64e-4c32-af99-8743dc2ec266@marcan.st>
- <20231119141329.GA6083@nvidia.com>
- <90855bbf-e845-4e4d-a713-df71d1e477d2@marcan.st>
- <20231121160058.GG6083@nvidia.com>
-From: Hector Martin <marcan@marcan.st>
-In-Reply-To: <20231121160058.GG6083@nvidia.com>
+In-Reply-To: <20231108125843.3806765-16-arnd@kernel.org>
+X-Cookie: Am I in GRADUATE SCHOOL yet?
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231123_010851_845981_8F701001 
-X-CRM114-Status: GOOD (  19.12  )
+X-CRM114-CacheID: sfid-20231124_040449_567656_E9AD16C4 
+X-CRM114-Status: GOOD (  14.32  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,71 +120,93 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============1976751792533365222=="
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 2023/11/22 1:00, Jason Gunthorpe wrote:
-> On Tue, Nov 21, 2023 at 03:47:48PM +0900, Hector Martin wrote:
->>> Which is sensitive only to !NULL fwspec, and if EPROBE_DEFER is
->>> returned fwspec will be freed and dev->iommu->fwspec will be NULL
->>> here.
->>>
->>> In the NULL case it does a 'bus probe' with a NULL fwspec and all the
->>> fwspec drivers return immediately from their probe functions.
->>>
->>> Did I miss something?
->>
->> apple_dart is not a fwspec driver and doesn't do that :-)
-> 
-> It implements of_xlate that makes it a driver using the fwspec probe
-> path.
-> 
-> The issue is in apple-dart. Its logic for avoiding bus probe vs
-> fwspec probe is not correct.
-> 
-> It does:
-> 
-> static int apple_dart_of_xlate(struct device *dev, struct of_phandle_args *args)
-> {
->  [..]
->  	dev_iommu_priv_set(dev, cfg);
-> 
-> 
-> Then:
-> 
-> static struct iommu_device *apple_dart_probe_device(struct device *dev)
-> {
-> 	struct apple_dart_master_cfg *cfg = dev_iommu_priv_get(dev);
-> 	struct apple_dart_stream_map *stream_map;
-> 	int i;
-> 
-> 	if (!cfg)
-> 		return ERR_PTR(-ENODEV);
-> 
-> Which leaks the cfg memory on rare error cases and wrongly allows the
-> driver to probe without a fwspec, which I think is what you are
-> hitting.
-> 
-> It should be
-> 
->        if (!dev_iommu_fwspec_get(dev) || !cfg)
-> 		return ERR_PTR(-ENODEV);
-> 
-> To ensure the driver never probes on the bus path.
-> 
-> Clearing the dev->iommu in the core code has the side effect of
-> clearing (and leaking) the cfg which would hide this issue.
 
-Aha! Yes, that makes it work with only the first change. I'll throw the
-apple-dart fix into our tree (and submit it once I get to clearing out
-the branch; the affected consumer driver isn't upstream yet so this
-isn't particularly urgent).
+--===============1976751792533365222==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="woSdJmrFfLwaS8m2"
+Content-Disposition: inline
 
-- Hector
+
+--woSdJmrFfLwaS8m2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Nov 08, 2023 at 01:58:36PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>=20
+> The VDSO functions are defined as globals in the kernel sources but inten=
+ded
+> to be called from userspace, so there is no need to declare them in a ker=
+nel
+> side header.
+
+This is in -next as commit 42874e4eb35bdfc54f8514685e50434098ba4f6c and
+breaks an arm64 defconfig build, the 32 bit vDSO build is broken:
+
+/build/stage/linux/arch/arm64/kernel/vdso32/vgettimeofday.c:10:5: error: co=
+nflic
+ting types for =E2=80=98__vdso_clock_gettime=E2=80=99; have =E2=80=98int(cl=
+ockid_t,  struct old_timespec
+32 *)=E2=80=99 {aka =E2=80=98int(int,  struct old_timespec32 *)=E2=80=99}
+   10 | int __vdso_clock_gettime(clockid_t clock,
+      |     ^~~~~~~~~~~~~~~~~~~~
+In file included from /build/stage/linux/arch/arm64/kernel/vdso32/vgettimeo=
+fday.
+c:8:
+/build/stage/linux/include/vdso/gettime.h:16:5: note: previous declaration =
+of =E2=80=98__vdso_clock_gettime=E2=80=99 with type =E2=80=98int(clockid_t,=
+  struct __kernel_timespec *)=E2=80=99 {aka =E2=80=98int(int,  struct __ker=
+nel_timespec *)=E2=80=99}
+   16 | int __vdso_clock_gettime(clockid_t clock, struct __kernel_timespec =
+*ts);
+      |     ^~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/arch/arm64/kernel/vdso32/vgettimeofday.c:28:5: error: co=
+nflicting types for =E2=80=98__vdso_clock_getres=E2=80=99; have =E2=80=98in=
+t(clockid_t,  struct old_timespec32 *)=E2=80=99 {aka =E2=80=98int(int,  str=
+uct old_timespec32 *)=E2=80=99}
+   28 | int __vdso_clock_getres(clockid_t clock_id,
+      |     ^~~~~~~~~~~~~~~~~~~
+/build/stage/linux/include/vdso/gettime.h:15:5: note: previous declaration =
+of =E2=80=98__vdso_clock_getres=E2=80=99 with type =E2=80=98int(clockid_t, =
+ struct __kernel_timespec *)=E2=80=99 {aka =E2=80=98int(int,  struct __kern=
+el_timespec *)=E2=80=99}
+   15 | int __vdso_clock_getres(clockid_t clock, struct __kernel_timespec *=
+res);
+      |     ^~~~~~~~~~~~~~~~~~~
+
+--woSdJmrFfLwaS8m2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVgkVgACgkQJNaLcl1U
+h9Dz9gf/VMa1PvhU/bO1IxdTJVCJWAk44qPipqzqyUg2pLaBosU5v8Dx8eAPyIg0
+DgxKA9Cycd3l3JSSqWIwJ1xEztqi2CvdmV5Ljrml8UqOvqHNPtg16JgCCOZ+Ssww
+82B8fl93C3CmUtTLFx3u3lZRKd7FjyeOiiemekfHvdbZSOn+K6Dk9zvPAE63gI0I
+5m6xp+q1eJ7Uyq7o4kCOnJOo/y9eDGX3lGqOsVQ7bnQAH6Id5y32aplMkStvzLKI
+TrSlxBsnU/wry1msxEbcgmhN2YebA1wWGNC0j6fT4xg0MzuHevZwPTSm/2sK5Exc
+fOQ/QL09MCXtNwNJ3QpItc8VaAFrVQ==
+=sHT7
+-----END PGP SIGNATURE-----
+
+--woSdJmrFfLwaS8m2--
+
+
+--===============1976751792533365222==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+
+--===============1976751792533365222==--
+
