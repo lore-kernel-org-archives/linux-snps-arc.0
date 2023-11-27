@@ -4,111 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6E3E2C61DF4
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 Nov 2023 12:04:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60B13C4167B
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 27 Nov 2023 10:15:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	In-Reply-To:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date
-	:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZnUt02NRA6kthMikLEyJ5dKe7J4ylFhYx0XWBywajhY=; b=4NgumLsz5CK6GmE1QZz12A/iSO
-	YLssIsGBR/kRKzikhIV3Ct4shJPAnDqdUVVPvwOp7XSfn8XHu8d+fm2cBJADhXl3mC3HoOaZhVDcV
-	gNqPLfEnPBxVVMM0YbU22gKfRHcgo4XtMX09Ot0YbiGBx7ahibRWd+7Bo8hqgQ6W+FHyiiGkhvh7B
-	S2Uk4R/Fi3F4jSc5REc+/I8Ep3BhI8101lRSavZHWRqPu0kzGT39bAmEp0j84TNDRU16OYEutEhSs
-	gzxp3SeW7BZh2xS8AqRHKc5B224Ams+Nc27ZSeLEyRhvG32EUN7ejoXEGnW0Sk8EtOArgBnNvfc/u
-	Rt1IdRjg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=thX5RyYQBHC0ABXcYMX+aBrFcvjNMQYGUp/OgoH92BE=; b=TnkO7OKvwcTn1R
+	rJASpu2tsf+6snr+PAHIARQC0ULZgFwkgM+mLNexg0irs1ALysIyhYF+OLw07jurZb8i08pzW8a9M
+	FEsittNMdhlZn5rKKfSKzdEgQaydaWzJvbbJEWg4yzD7IMQ1dKNdTnYNU6h30x0y7LFVaqMiCUrYH
+	TNYnKSDQ1Le7wx7J4MG5lsKFaI5RD/eBo92IvS2G88Xs0AieXNzNK87oML7KH5WsUrT7Bd0559/MY
+	i7OlOJnAEN5zJ8/a/o6uWajYUhDEMlpUjBzlRVBKYoBsuei2FxyDc/hOdsaOB/FcRC30Z3qC1bWwK
+	0jRsr5fCdhtnMO5UQyeA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r6UvX-007A0y-1T;
-	Fri, 24 Nov 2023 12:04:55 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1r7YeZ-0023EX-1F;
+	Mon, 27 Nov 2023 10:15:47 +0000
+Received: from mail.thrivehub.pl ([164.132.48.43])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r6UvR-0079yY-0q;
-	Fri, 24 Nov 2023 12:04:50 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by ams.source.kernel.org (Postfix) with ESMTP id 0A61EB8301D;
-	Fri, 24 Nov 2023 12:04:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C12FAC433C7;
-	Fri, 24 Nov 2023 12:04:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700827484;
-	bh=iYS7ANsuZ6vwOLgQk5XN795HJ5oXfHcHZNUjCJ6SXCw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ASSOqFUTTJHCjKWaYnDmAWOsdJx6xpTr/qPcu1HB+Fm5a/QclWrV0vncK2Q3Q7xX2
-	 aCCX9KBbw2Az9X58fZvG86NOH/nrOeX7BVzsNXr5gajrQU9ziayJ62atPHT8DwDcCc
-	 ahgZtb/ixwvuzDrehPu48aUVx6G2ccUCRb+KcZHUWGGyWnosZcOgffotJMEG6Q3zmg
-	 BKh8HHr1sjhFvHUZ1Iby4sERa66rD1silvF54u1GkmzyyDomzoGyssBaqUowuIrSEm
-	 G36HFkUDw4hjv0/b3iAj4rjrfH4/y0Ks3nDD/1Xr+xB/Qamv83b+9r9W6Jyz43KFdu
-	 6MPuY/CW+rmPA==
-Date: Fri, 24 Nov 2023 12:04:40 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-	Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>, Guo Ren <guoren@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Greg Ungerer <gerg@linux-m68k.org>, Michal Simek <monstr@monstr.eu>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Geoff Levand <geoff@infradead.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-	Helge Deller <deller@gmx.de>,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Timur Tabi <timur@kernel.org>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	David Woodhouse <dwmw2@infradead.org>,
-	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-	Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-	Kees Cook <keescook@chromium.org>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-trace-kernel@vger.kernel.org, linux-csky@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-	netdev@vger.kernel.org, linux-parisc@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-bcachefs@vger.kernel.org,
-	linux-mtd@lists.infradead.org,
-	Aishwarya TCV <aishwarya.tcv@arm.com>
-Subject: Re: [PATCH 15/22] arch: vdso: consolidate gettime prototypes
-Message-ID: <ZWCRWArzbTYUjvon@finisterre.sirena.org.uk>
-References: <20231108125843.3806765-1-arnd@kernel.org>
- <20231108125843.3806765-16-arnd@kernel.org>
+	id 1r7XaD-001vN8-1s
+	for linux-snps-arc@lists.infradead.org;
+	Mon, 27 Nov 2023 09:07:14 +0000
+Received: by mail.thrivehub.pl (Postfix, from userid 1002)
+	id 5FCF124DF0; Mon, 27 Nov 2023 09:05:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=thrivehub.pl; s=mail;
+	t=1701075984; bh=m3ZUCTPRVLoDFM+cXi7VhHW+xNF3eUdGHrj1eDbLwQI=;
+	h=Date:From:To:Subject:From;
+	b=c+yH6j7B1u/SMZJDHvGyTP94YKlHTFQ4ZJq6OrVSmT0D1jBPy0eZucBOPYFo7lUxw
+	 0mXBe73KDvNf33U9SKPCvlpM/76d7w2dpuKdU6eG+LhN3pehH19ZwUPXvyI+0WvuBx
+	 iquxhpCSxu4M1a1/Y3rvBYyWC8Dm37fwGykzUX7mILtaV1rRyAHgWd09wCwadKBMPx
+	 wipnkXRUgQH2eBrU7iJ9OuqCsU/bBuq8yJ6PO60BQH+rD+INjhlUOduxCxK4AGBudZ
+	 s4wJdwFQ6JMsxtMP61skDOhhwnTq0oCPtMzaS1rPFnla7VSqw4NW0Xtr+ASfPH8lRy
+	 2qKqRWHppPiag==
+Received: by mail.thrivehub.pl for <linux-snps-arc@lists.infradead.org>; Mon, 27 Nov 2023 09:05:02 GMT
+Message-ID: <20231127074500-0.1.35.1bppo.0.vaogn85d39@thrivehub.pl>
+Date: Mon, 27 Nov 2023 09:05:02 GMT
+From: "Szymon Jankowski" <szymon.jankowski@thrivehub.pl>
+To: <linux-snps-arc@lists.infradead.org>
+Subject: Zapytanie ofertowe 
+X-Mailer: mail.thrivehub.pl
 MIME-Version: 1.0
-In-Reply-To: <20231108125843.3806765-16-arnd@kernel.org>
-X-Cookie: Am I in GRADUATE SCHOOL yet?
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231124_040449_567656_E9AD16C4 
-X-CRM114-Status: GOOD (  14.32  )
+X-CRM114-CacheID: sfid-20231127_010713_763738_BC359358 
+X-CRM114-Status: UNSURE (   1.18  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,93 +61,17 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1976751792533365222=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-
---===============1976751792533365222==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="woSdJmrFfLwaS8m2"
-Content-Disposition: inline
-
-
---woSdJmrFfLwaS8m2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Nov 08, 2023 at 01:58:36PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
->=20
-> The VDSO functions are defined as globals in the kernel sources but inten=
-ded
-> to be called from userspace, so there is no need to declare them in a ker=
-nel
-> side header.
-
-This is in -next as commit 42874e4eb35bdfc54f8514685e50434098ba4f6c and
-breaks an arm64 defconfig build, the 32 bit vDSO build is broken:
-
-/build/stage/linux/arch/arm64/kernel/vdso32/vgettimeofday.c:10:5: error: co=
-nflic
-ting types for =E2=80=98__vdso_clock_gettime=E2=80=99; have =E2=80=98int(cl=
-ockid_t,  struct old_timespec
-32 *)=E2=80=99 {aka =E2=80=98int(int,  struct old_timespec32 *)=E2=80=99}
-   10 | int __vdso_clock_gettime(clockid_t clock,
-      |     ^~~~~~~~~~~~~~~~~~~~
-In file included from /build/stage/linux/arch/arm64/kernel/vdso32/vgettimeo=
-fday.
-c:8:
-/build/stage/linux/include/vdso/gettime.h:16:5: note: previous declaration =
-of =E2=80=98__vdso_clock_gettime=E2=80=99 with type =E2=80=98int(clockid_t,=
-  struct __kernel_timespec *)=E2=80=99 {aka =E2=80=98int(int,  struct __ker=
-nel_timespec *)=E2=80=99}
-   16 | int __vdso_clock_gettime(clockid_t clock, struct __kernel_timespec =
-*ts);
-      |     ^~~~~~~~~~~~~~~~~~~~
-/build/stage/linux/arch/arm64/kernel/vdso32/vgettimeofday.c:28:5: error: co=
-nflicting types for =E2=80=98__vdso_clock_getres=E2=80=99; have =E2=80=98in=
-t(clockid_t,  struct old_timespec32 *)=E2=80=99 {aka =E2=80=98int(int,  str=
-uct old_timespec32 *)=E2=80=99}
-   28 | int __vdso_clock_getres(clockid_t clock_id,
-      |     ^~~~~~~~~~~~~~~~~~~
-/build/stage/linux/include/vdso/gettime.h:15:5: note: previous declaration =
-of =E2=80=98__vdso_clock_getres=E2=80=99 with type =E2=80=98int(clockid_t, =
- struct __kernel_timespec *)=E2=80=99 {aka =E2=80=98int(int,  struct __kern=
-el_timespec *)=E2=80=99}
-   15 | int __vdso_clock_getres(clockid_t clock, struct __kernel_timespec *=
-res);
-      |     ^~~~~~~~~~~~~~~~~~~
-
---woSdJmrFfLwaS8m2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVgkVgACgkQJNaLcl1U
-h9Dz9gf/VMa1PvhU/bO1IxdTJVCJWAk44qPipqzqyUg2pLaBosU5v8Dx8eAPyIg0
-DgxKA9Cycd3l3JSSqWIwJ1xEztqi2CvdmV5Ljrml8UqOvqHNPtg16JgCCOZ+Ssww
-82B8fl93C3CmUtTLFx3u3lZRKd7FjyeOiiemekfHvdbZSOn+K6Dk9zvPAE63gI0I
-5m6xp+q1eJ7Uyq7o4kCOnJOo/y9eDGX3lGqOsVQ7bnQAH6Id5y32aplMkStvzLKI
-TrSlxBsnU/wry1msxEbcgmhN2YebA1wWGNC0j6fT4xg0MzuHevZwPTSm/2sK5Exc
-fOQ/QL09MCXtNwNJ3QpItc8VaAFrVQ==
-=sHT7
------END PGP SIGNATURE-----
-
---woSdJmrFfLwaS8m2--
-
-
---===============1976751792533365222==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
-
---===============1976751792533365222==--
-
+RHppZcWEIGRvYnJ5LAoKUG96d29sacWCZW0gc29iaWUgbmEga29udGFrdCwgcG9uaWV3YcW8IGpl
+c3RlbSB6YWludGVyZXNvd2FueSB3ZXJ5ZmlrYWNqxIUgbW/FvGxpd2/Fm2NpIG5hd2nEhXphbmlh
+IHdzcMOzxYJwcmFjeS4KCldzcGllcmFteSBmaXJteSB3IHBvenlza2l3YW5pdSBub3d5Y2gga2xp
+ZW50w7N3IGJpem5lc293eWNoLgoKQ3p5IG1vxbxlbXkgcG9yb3ptYXdpYcSHIHcgY2VsdSBwcnpl
+ZHN0YXdpZW5pYSBzemN6ZWfDs8WCb3d5Y2ggaW5mb3JtYWNqaT8gCgoKUG96ZHJhd2lhbQpTenlt
+b24gSmFua293c2tpCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5m
+cmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xp
+bnV4LXNucHMtYXJjCg==
