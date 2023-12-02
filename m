@@ -4,119 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D6C2C4167B
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  1 Dec 2023 11:23:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B83FC4167B
+	for <linux-snps-arc@archiver.kernel.org>; Sat,  2 Dec 2023 01:53:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	In-Reply-To:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date
-	:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MAeyN6EszkbuXYs4PpAVGhiEA6AOVq0H8V27YSa1csg=; b=qgeGtdy5BGPT+o/no1c9LpG2zW
-	mvinhjrpB2UGDv1Jze/imy+vfe4+7Vjwx1hB4VOc/PxYtqCODJj6h72K0bkhyiNHSPEgTBKboc6Mx
-	KX9h37F+hZkzr25eNFZJT5XbSOiqHt6RaU2lUphpIDW73QWHWdvn78d22ItRu9dhL3prslimiDiCL
-	NDFaPPCFKDX6J7k6y2UMImeFb0meSz16f+IEETCS+3b9O3rL3EunfoxfGcif04TQODkH/zsfasvLt
-	NEORFsBnrBwL7DzG/NSWsvEaKoSo+DqAHZyXWfnsgWe2RMFegSE1rifX8XTbY/YpHXwg0pGywPCbw
-	WNY+lSEA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=OqQs5psR8Kt1p1kQPHR2rdwrpNSYcVXF/T1y/6onXkE=; b=Foh54g5iResNMV
+	CbANtSQGdTznKuETDVUY5K0BwqAco6YS66pcjlW9hqUPtUx18Ar4rWvLsOqsZY+LDXFHWbG5asGfA
+	LVqrjHeMdUxAy/OcB4w4hqd3C6kKt5QB2LIvLwtGeYVTlYdOJKr3jvJ+iWhYxJC1wnziR3zpYiif3
+	Ba86jxW2OE+nMnWZdzeujlzAmsOf/PWv1t7l7cnfuaNQPG3LnLVnBg9JCZtCc8UHCiEV7SFRQ5w7z
+	REPyqyaElUL+gSG/2jLLb+OO8MXF/Zkh9WaXn6Vf/Yfo0IY9jcVrixBJTDVWJRGLyRCK7FYrEDhjZ
+	wH4UgFETAMjVYM9TVXhw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r91bo-00DJX9-0Q;
-	Fri, 01 Dec 2023 11:23:00 +0000
-Received: from mail-lf1-x135.google.com ([2a00:1450:4864:20::135])
+	id 1r9FCP-00F05f-35;
+	Sat, 02 Dec 2023 01:53:41 +0000
+Received: from mgamail.intel.com ([198.175.65.12])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r91bj-00DJVQ-06;
-	Fri, 01 Dec 2023 11:22:56 +0000
-Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-50bc8b7d8ffso2926488e87.0;
-        Fri, 01 Dec 2023 03:22:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701429769; x=1702034569; darn=lists.infradead.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tDYTbMEHTA+PA+CkrLL7nufZCEtkNLGajLlCGSCmAZE=;
-        b=AiAVrk/0QM8H/2tyTYxlBD6S3yVlaiqdo7pCIi9EzITvC/h+RS7iM0kG0/NBU0gkQS
-         Fv7e/pFQbSKLUTzrtU9l/kyFSFvDRiMPm6QrSgZRkubjhvK6yDxsKypo7a8+lvSIaqDt
-         bV26CctQolm+VXxnTvl8Gzk44tfcpZG9DuHQh/IqvUg51ZXpPnXirkTWMsWc5tNjyg7D
-         VqsKmCwGJUk9wn24pBDcMznpBnkqrrBPCUcq+mU6bobqDBKU+7uwdILtC844CeD25A+r
-         GlZ2KsfNEuVVdRTKlB4J8KAJZfFU6uzXLu3oZWiQFtR6lEI1U1GdH3676skZXZPaZuuL
-         WEwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701429769; x=1702034569;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tDYTbMEHTA+PA+CkrLL7nufZCEtkNLGajLlCGSCmAZE=;
-        b=bck3+yNiN/QAk2h9rEGXc4yVD8+peFwmVoj9Q/QN8tAJd/1GiVH+nC0fX1mOuU0ktJ
-         eYaM/Vl8SzGT8s4+al1avQq4kdHsv4r1E3j/zvuYnytHTEsYekb8kRu/hOiaU0bmM55T
-         j3Lo8XyrB4Kg+BK9hBJaFml5lPCAXu1a6jjlsQ1tZ0ixeSziGaAOxBsSvmxt+fRJOGPq
-         VuoDHrspdDqqe6kXynvFIVU6m+Wtup+f52KePnuuzeb2dlCo4YWOBzSeivsMqkmaUuYX
-         k28VNvI7pOzRTsDo/xr85BKCtXLumjZ7oJb1rcxJ1qs7A1NW9Olqua+VMKsg4QgVxnaJ
-         cckg==
-X-Gm-Message-State: AOJu0Yz9eQU3f85xWTqdEcERyio0/Yn5sshA4AvxoJMh1y2YiowwE79d
-	AO8eODU1yI7qhsQAik5nNR8=
-X-Google-Smtp-Source: AGHT+IF/kNTDoQQTbuA8uVZADKdRmi7YjxqAP2WFPIMlihKsslpNF/yUJ1acTPp4hs3YLYpCcnqKnw==
-X-Received: by 2002:a05:6512:488:b0:50b:d764:2916 with SMTP id v8-20020a056512048800b0050bd7642916mr403101lfq.174.1701429768197;
-        Fri, 01 Dec 2023 03:22:48 -0800 (PST)
-Received: from orome.fritz.box (p200300e41f0fa600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:a600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id r3-20020aa7d143000000b0053de19620b9sm1523779edo.2.2023.12.01.03.22.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Dec 2023 03:22:47 -0800 (PST)
-Date: Fri, 1 Dec 2023 12:22:45 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: David Airlie <airlied@gmail.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Danilo Krummrich <dakr@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Dexuan Cui <decui@microsoft.com>, devicetree@vger.kernel.org,
-	dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	David Woodhouse <dwmw2@infradead.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Hanjun Guo <guohanjun@huawei.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>, iommu@lists.linux.dev,
-	Jon Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
-	Karol Herbst <kherbst@redhat.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Laxman Dewangan <ldewangan@nvidia.com>, Len Brown <lenb@kernel.org>,
-	linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-hyperv@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-snps-arc@lists.infradead.org,
-	linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Lyude Paul <lyude@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	nouveau@lists.freedesktop.org, Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Vineet Gupta <vgupta@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Wei Liu <wei.liu@kernel.org>, Will Deacon <will@kernel.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>, Christoph Hellwig <hch@lst.de>,
-	Jerry Snitselaar <jsnitsel@redhat.com>,
-	Hector Martin <marcan@marcan.st>, Moritz Fischer <mdf@kernel.org>,
-	patches@lists.linux.dev,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 08/10] iommu/tegra: Use tegra_dev_iommu_get_stream_id()
- in the remaining places
-Message-ID: <ZWnCBTWcxqJfemvR@orome.fritz.box>
-References: <0-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com>
- <8-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com>
- <ZWdlcboM4Xzs38NI@orome.fritz.box>
- <20231129192603.GA1387263@nvidia.com>
+	id 1r9FCM-00F04J-2E
+	for linux-snps-arc@lists.infradead.org;
+	Sat, 02 Dec 2023 01:53:40 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701482019; x=1733018019;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=exKe/fBp+Zn0tvSpDSZhyuSKIDItOZZ5SHM5Ldoau1g=;
+  b=mnmT8L0kYg0WCHNgTw9iOJB0H2/Npp+L0iXOylDYhd+ACqnO5VwoWhFI
+   Dm7vxk6qz3u0yiHgPhoQ1t7WNROi7+qE9HRy1ECbgcQNlV1IAeVUGiUos
+   VzviyC8CWSKZZws0QT490bP+whvnHJfVD6PKgPLJpToIlUcG/eUbnwjeP
+   +MDEv+tVzhfJqV2BJI0zk79+gORRcjzIG5s/QxpFlpE4GH4pGU5D9Q3D3
+   GhLhS9ZNn66p7HEM1c8g0BUl5p4wAOwXS5Uyatq4e7ZKZzOSK/hMLAAvC
+   cpkI1JF9cdq1qgGnI0At56eoC6gd3e4n4vzERAhDLkeBEElFTAxhK+PXt
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="591375"
+X-IronPort-AV: E=Sophos;i="6.04,243,1695711600"; 
+   d="scan'208";a="591375"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 17:53:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="773616519"
+X-IronPort-AV: E=Sophos;i="6.04,243,1695711600"; 
+   d="scan'208";a="773616519"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 01 Dec 2023 17:53:27 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r9FC9-0004XE-0r;
+	Sat, 02 Dec 2023 01:53:25 +0000
+Date: Sat, 2 Dec 2023 09:52:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vineet Gupta <vgupta@synopsys.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org
+Subject: arch/arc/kernel/signal.c:77:31: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202312020902.BxAYnWbM-lkp@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20231129192603.GA1387263@nvidia.com>
-User-Agent: Mutt/2.2.12 (2023-09-09)
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231201_032255_094464_F9F9617F 
-X-CRM114-Status: GOOD (  37.90  )
+X-CRM114-CacheID: sfid-20231201_175338_788880_0594190E 
+X-CRM114-Status: UNSURE (   9.51  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -128,135 +79,124 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1141273405782669049=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   815fb87b753055df2d9e50f6cd80eb10235fe3e9
+commit: 96f1b00138cb8f04c742c82d0a7c460b2202e887 ARCv2: save ABI registers across signal handling
+date:   2 years, 6 months ago
+config: arc-randconfig-r111-20231107 (https://download.01.org/0day-ci/archive/20231202/202312020902.BxAYnWbM-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231202/202312020902.BxAYnWbM-lkp@intel.com/reproduce)
 
---===============1141273405782669049==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="TpTVMO/RkXn9/fAN"
-Content-Disposition: inline
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312020902.BxAYnWbM-lkp@intel.com/
 
+sparse warnings: (new ones prefixed by >>)
+>> arch/arc/kernel/signal.c:77:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got struct user_regs_arcv2 * @@
+   arch/arc/kernel/signal.c:77:31: sparse:     expected void [noderef] __user *to
+   arch/arc/kernel/signal.c:77:31: sparse:     got struct user_regs_arcv2 *
+>> arch/arc/kernel/signal.c:88:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got struct user_regs_arcv2 * @@
+   arch/arc/kernel/signal.c:88:41: sparse:     expected void const [noderef] __user *from
+   arch/arc/kernel/signal.c:88:41: sparse:     got struct user_regs_arcv2 *
+>> arch/arc/kernel/signal.c:134:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sigcontext *mctx @@     got struct sigcontext [noderef] __user * @@
+   arch/arc/kernel/signal.c:134:42: sparse:     expected struct sigcontext *mctx
+   arch/arc/kernel/signal.c:134:42: sparse:     got struct sigcontext [noderef] __user *
+   arch/arc/kernel/signal.c:153:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sigcontext *mctx @@     got struct sigcontext [noderef] __user * @@
+   arch/arc/kernel/signal.c:153:45: sparse:     expected struct sigcontext *mctx
+   arch/arc/kernel/signal.c:153:45: sparse:     got struct sigcontext [noderef] __user *
 
---TpTVMO/RkXn9/fAN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+vim +77 arch/arc/kernel/signal.c
 
-On Wed, Nov 29, 2023 at 03:26:03PM -0400, Jason Gunthorpe wrote:
-> On Wed, Nov 29, 2023 at 05:23:13PM +0100, Thierry Reding wrote:
-> > > diff --git a/drivers/memory/tegra/tegra186.c b/drivers/memory/tegra/t=
-egra186.c
-> > > index 533f85a4b2bdb7..3e4fbe94dd666e 100644
-> > > --- a/drivers/memory/tegra/tegra186.c
-> > > +++ b/drivers/memory/tegra/tegra186.c
-> > > @@ -111,21 +111,21 @@ static void tegra186_mc_client_sid_override(str=
-uct tegra_mc *mc,
-> > >  static int tegra186_mc_probe_device(struct tegra_mc *mc, struct devi=
-ce *dev)
-> > >  {
-> > >  #if IS_ENABLED(CONFIG_IOMMU_API)
-> > > -	struct iommu_fwspec *fwspec =3D dev_iommu_fwspec_get(dev);
-> > >  	struct of_phandle_args args;
-> > >  	unsigned int i, index =3D 0;
-> > > +	u32 sid;
-> > > =20
-> > > +	WARN_ON(!tegra_dev_iommu_get_stream_id(dev, &sid));
-> >=20
-> > I know the code previously didn't check for any errors, but we may want
-> > to do so now. If tegra_dev_iommu_get_stream_id() ever fails we may end
-> > up writing some undefined value into the override register.
->=20
-> My assumption was it never fails otherwise this probably already
-> doesn't work?
+    63	
+    64	static int save_arcv2_regs(struct sigcontext *mctx, struct pt_regs *regs)
+    65	{
+    66		int err = 0;
+    67	#ifndef CONFIG_ISA_ARCOMPACT
+    68		struct user_regs_arcv2 v2abi;
+    69	
+    70		v2abi.r30 = regs->r30;
+    71	#ifdef CONFIG_ARC_HAS_ACCL_REGS
+    72		v2abi.r58 = regs->r58;
+    73		v2abi.r59 = regs->r59;
+    74	#else
+    75		v2abi.r58 = v2abi.r59 = 0;
+    76	#endif
+  > 77		err = __copy_to_user(&mctx->v2abi, &v2abi, sizeof(v2abi));
+    78	#endif
+    79		return err;
+    80	}
+    81	
+    82	static int restore_arcv2_regs(struct sigcontext *mctx, struct pt_regs *regs)
+    83	{
+    84		int err = 0;
+    85	#ifndef CONFIG_ISA_ARCOMPACT
+    86		struct user_regs_arcv2 v2abi;
+    87	
+  > 88		err = __copy_from_user(&v2abi, &mctx->v2abi, sizeof(v2abi));
+    89	
+    90		regs->r30 = v2abi.r30;
+    91	#ifdef CONFIG_ARC_HAS_ACCL_REGS
+    92		regs->r58 = v2abi.r58;
+    93		regs->r59 = v2abi.r59;
+    94	#endif
+    95	#endif
+    96		return err;
+    97	}
+    98	
+    99	static int
+   100	stash_usr_regs(struct rt_sigframe __user *sf, struct pt_regs *regs,
+   101		       sigset_t *set)
+   102	{
+   103		int err;
+   104		struct user_regs_struct uregs;
+   105	
+   106		uregs.scratch.bta	= regs->bta;
+   107		uregs.scratch.lp_start	= regs->lp_start;
+   108		uregs.scratch.lp_end	= regs->lp_end;
+   109		uregs.scratch.lp_count	= regs->lp_count;
+   110		uregs.scratch.status32	= regs->status32;
+   111		uregs.scratch.ret	= regs->ret;
+   112		uregs.scratch.blink	= regs->blink;
+   113		uregs.scratch.fp	= regs->fp;
+   114		uregs.scratch.gp	= regs->r26;
+   115		uregs.scratch.r12	= regs->r12;
+   116		uregs.scratch.r11	= regs->r11;
+   117		uregs.scratch.r10	= regs->r10;
+   118		uregs.scratch.r9	= regs->r9;
+   119		uregs.scratch.r8	= regs->r8;
+   120		uregs.scratch.r7	= regs->r7;
+   121		uregs.scratch.r6	= regs->r6;
+   122		uregs.scratch.r5	= regs->r5;
+   123		uregs.scratch.r4	= regs->r4;
+   124		uregs.scratch.r3	= regs->r3;
+   125		uregs.scratch.r2	= regs->r2;
+   126		uregs.scratch.r1	= regs->r1;
+   127		uregs.scratch.r0	= regs->r0;
+   128		uregs.scratch.sp	= regs->sp;
+   129	
+   130		err = __copy_to_user(&(sf->uc.uc_mcontext.regs.scratch), &uregs.scratch,
+   131				     sizeof(sf->uc.uc_mcontext.regs.scratch));
+   132	
+   133		if (is_isa_arcv2())
+ > 134			err |= save_arcv2_regs(&(sf->uc.uc_mcontext), regs);
+   135	
+   136		err |= __copy_to_user(&sf->uc.uc_sigmask, set, sizeof(sigset_t));
+   137	
+   138		return err ? -EFAULT : 0;
+   139	}
+   140	
 
-I guess the point I was trying to make is that previously we would not
-have written anything to the stream ID register and so ignoring the
-error here might end up writing to a register that previously we would
-not have written to. Looking at the current code more closely I see now
-that the reason why we wouldn't have written to the register is because
-we would've crashed before.
-
-So I think this okay.
-
->=20
-> > I'm also unsure if WARN_ON() is appropriate here. I vaguely recall that
-> > ->probe_device() was called for all devices on the bus and not all of
-> > them may have been associated with the IOMMU. Not all of them may in
-> > fact access memory in the first place.
->=20
-> So you are thinkin that of_parse_phandle_with_args() is a NOP
-> sometimes so it will tolerate the failure?
->=20
-> Seems like the best thing to do is just continue to ignore it then?
-
-Yeah, exactly. It would've just skipped over everything, basically.
-
-> > Perhaps I'm misremembering and the IOMMU core now takes care of only
-> > calling this when fwspec is indeed valid?
->=20
-> Can't advise, I have no idea what tegra_mc_ops is for :)
-
-In a nutshell, it's a hook that allows us to configure the memory
-controller when a device is attached to the IOMMU. The memory controller
-contains a set of registers that specify which memory client uses which
-stream ID by default. For some devices this can be overridden (which is
-where tegra_dev_iommu_get_stream_id() comes into play in those drivers)
-and for other devices we can't override, which is when the memory
-controller defaults come into play.
-
-Anyway, I took a closer look at this and ran some tests. Turns out that
-tegra186_mc_probe_device() really only gets called for devices that have
-their fwspec properly initialized anyway, so I don't think there's
-anything special we need to do here.
-
-Strictly from a static analysis point of view I suppose we could now
-have a situation that sid is uninitialized when the call to
-tegra_dev_iommu_get_stream_id() fails and so using it in the loop is not
-correct, theoretically, but I think that's just not a case that we'll
-ever hit in practice.
-
-So either way is fine with me. I have a slight preference for just
-returning 0 in case tegra_dev_iommu_get_stream_id() fails, because it's
-simple to do and avoids any of these (theoretical) ambiguities. So
-whichever way you decide:
-
-Reviewed-by: Thierry Reding <treding@nvidia.com>
-
---TpTVMO/RkXn9/fAN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmVpwgIACgkQ3SOs138+
-s6HXLg/9HWFRkWBCsjCmwhdNLy/49eLCajrcOU069eBFBS0YM+rhIa4d/XwXv96C
-WEC1AzUuDGAVKvfWbkjzCOtBKr+o0psunt8sHYRX+PtyekOF270j3ud+7Ny/6dQk
-Ca9GevvG0yyYfEcSiowRZXKSzrhj4OSDS83QJbmBiyw3+VyA25+zO/C+Lzib1mG9
-2Kn+od5hqOQFqylwazJAZy358DzVSmyF6iSR0kbmS5mvNrtWS/dT4Zeh2raYJgRn
-MF+f0u+1M8i7Iv65/I5sG83I086p9ictlV1qkMGHY01q7uCAo5p2EM6KlP8Qv/N1
-W+DZQpciP9+ENmkcYjEiNEnNw4efMQThCtXbB4VYxb8Jo/To8eV2/sOGUoLdhwWV
-H8tPPCBfzYtSAsSNXpYK8gWQXCfaHjuO3SFe0itosbSHYw4x+SoECXTVi8L6GBwV
-jDEYuyrcakUhR+vsxuOXlP4TzcIiNoCf1lO8LnfWVjoHcA/1dG1uA6Bup6CtNe+A
-lS3xMmMXDVdZS49hw5EvUTd7Liu+si9RzLkmv4IGWBXlL01VTFYRygKZ1lZLKgPP
-lZWUFLZPunTK7Mlew7PLW7GJg1MzsEkM3htQmVfWzPL7D95RKk3ufiOimGdzknro
-ZaxbslDQOTUAoqgnKVnmzMJbfR+HTasb+X8EuoCb4G9dHDEPq1g=
-=hKzE
------END PGP SIGNATURE-----
-
---TpTVMO/RkXn9/fAN--
-
-
---===============1141273405782669049==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
 _______________________________________________
 linux-snps-arc mailing list
 linux-snps-arc@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-snps-arc
-
---===============1141273405782669049==--
-
