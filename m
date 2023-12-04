@@ -4,70 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B83FC4167B
-	for <linux-snps-arc@archiver.kernel.org>; Sat,  2 Dec 2023 01:53:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06765C4167B
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  4 Dec 2023 12:03:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
 	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=OqQs5psR8Kt1p1kQPHR2rdwrpNSYcVXF/T1y/6onXkE=; b=Foh54g5iResNMV
-	CbANtSQGdTznKuETDVUY5K0BwqAco6YS66pcjlW9hqUPtUx18Ar4rWvLsOqsZY+LDXFHWbG5asGfA
-	LVqrjHeMdUxAy/OcB4w4hqd3C6kKt5QB2LIvLwtGeYVTlYdOJKr3jvJ+iWhYxJC1wnziR3zpYiif3
-	Ba86jxW2OE+nMnWZdzeujlzAmsOf/PWv1t7l7cnfuaNQPG3LnLVnBg9JCZtCc8UHCiEV7SFRQ5w7z
-	REPyqyaElUL+gSG/2jLLb+OO8MXF/Zkh9WaXn6Vf/Yfo0IY9jcVrixBJTDVWJRGLyRCK7FYrEDhjZ
-	wH4UgFETAMjVYM9TVXhw==;
+	List-Owner; bh=zGnM00vNYDhj99xu+s8QSTuHUxN7nu1H4xdBxT6gYtE=; b=v3Z/pgrSxS53Sr
+	yCE4TnirbmQ1atZGeF9rp015/IIOYWpmXCrkn44T9auL324Tupp8snmDJ3MzqFw615qOBU0ove5qe
+	dJQOYBjMGOW6VPU8MqiJJP8vjmnJZnzo+ktR05ZWbUygkkMw9LB4h4/MSRMuzgWFoAvdgT0EcgCvm
+	WM1BC//s+qFbP+htKn8zlKMPmNIuGt8BrQrNwpcuLJMp2zbD6BI9FD36dOpBmne/ibNWCIhmoZpaM
+	nERy4aqqhVHUYv/Rb8sxolLBeoHPvqP1edv/nrEBn44GneLOYqilUSggDsb+1VevxZ7sbLR95j7SY
+	KUcU11YyC5B12cnszKjA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r9FCP-00F05f-35;
-	Sat, 02 Dec 2023 01:53:41 +0000
-Received: from mgamail.intel.com ([198.175.65.12])
+	id 1rA7f7-003mHE-2d;
+	Mon, 04 Dec 2023 12:02:58 +0000
+Received: from mgamail.intel.com ([192.198.163.9])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r9FCM-00F04J-2E
+	id 1rA7f3-003mFS-1x
 	for linux-snps-arc@lists.infradead.org;
-	Sat, 02 Dec 2023 01:53:40 +0000
+	Mon, 04 Dec 2023 12:02:56 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701482019; x=1733018019;
+  t=1701691373; x=1733227373;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=exKe/fBp+Zn0tvSpDSZhyuSKIDItOZZ5SHM5Ldoau1g=;
-  b=mnmT8L0kYg0WCHNgTw9iOJB0H2/Npp+L0iXOylDYhd+ACqnO5VwoWhFI
-   Dm7vxk6qz3u0yiHgPhoQ1t7WNROi7+qE9HRy1ECbgcQNlV1IAeVUGiUos
-   VzviyC8CWSKZZws0QT490bP+whvnHJfVD6PKgPLJpToIlUcG/eUbnwjeP
-   +MDEv+tVzhfJqV2BJI0zk79+gORRcjzIG5s/QxpFlpE4GH4pGU5D9Q3D3
-   GhLhS9ZNn66p7HEM1c8g0BUl5p4wAOwXS5Uyatq4e7ZKZzOSK/hMLAAvC
-   cpkI1JF9cdq1qgGnI0At56eoC6gd3e4n4vzERAhDLkeBEElFTAxhK+PXt
+  bh=89GACn/arX/JrxwPM0BPJdLmhfMyAEIrs1vDiwO02oY=;
+  b=hd4wCfNTmwnwEAb6JgQWavVT/8rg4E//MDqbkzzcKMYwUO96LalyW1qv
+   wK/SpskYoPCXjyTT1FiynpSRrrDZTO9G/1YeOOpwMBN+bYxVary27OeP5
+   WPhCWOSMJ8qXqGVc6JKOxVTx9HSlKZcdtYNrjB0HrDwD+PXSNwKd53qD1
+   cRc7Ppl4qUcOcMwiCNXwl1DqVQuZNoj+Ce9xkbiub8n8iyJFcIlK51lPu
+   Y3x+LzQDD3kFDL7qtN6mHOg179Ed0EYajAAJ4YICX36rPWrANkdI7SSva
+   IAsZ7ds9MA/57qFy1OIi3KkoC1Tra2PSWvaourwobstsxk6zoGltLLDQ/
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="591375"
-X-IronPort-AV: E=Sophos;i="6.04,243,1695711600"; 
-   d="scan'208";a="591375"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 17:53:30 -0800
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="620871"
+X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
+   d="scan'208";a="620871"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 04:02:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="773616519"
-X-IronPort-AV: E=Sophos;i="6.04,243,1695711600"; 
-   d="scan'208";a="773616519"
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="770515226"
+X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
+   d="scan'208";a="770515226"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 01 Dec 2023 17:53:27 -0800
+  by orsmga002.jf.intel.com with ESMTP; 04 Dec 2023 04:02:50 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r9FC9-0004XE-0r;
-	Sat, 02 Dec 2023 01:53:25 +0000
-Date: Sat, 2 Dec 2023 09:52:34 +0800
+	id 1rA7ey-0007hy-1E;
+	Mon, 04 Dec 2023 12:02:48 +0000
+Date: Mon, 4 Dec 2023 20:02:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vineet Gupta <vgupta@synopsys.com>
+To: Vineet Gupta <vgupta@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux-snps-arc@lists.infradead.org
-Subject: arch/arc/kernel/signal.c:77:31: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202312020902.BxAYnWbM-lkp@intel.com>
+Subject: net/ipv4/tcp_cong.c:238:24: sparse: sparse: incorrect type in
+ initializer (different address spaces)
+Message-ID: <202312041926.tEYYQdAT-lkp@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231201_175338_788880_0594190E 
-X-CRM114-Status: UNSURE (   9.51  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231204_040253_677269_2A87E549 
+X-CRM114-Status: GOOD (  10.00  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,112 +84,65 @@ Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   815fb87b753055df2d9e50f6cd80eb10235fe3e9
-commit: 96f1b00138cb8f04c742c82d0a7c460b2202e887 ARCv2: save ABI registers across signal handling
-date:   2 years, 6 months ago
-config: arc-randconfig-r111-20231107 (https://download.01.org/0day-ci/archive/20231202/202312020902.BxAYnWbM-lkp@intel.com/config)
+head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
+commit: e188f3330a13df904d77003846eafd3edf99009d ARC: cmpxchg/xchg: rewrite as macros to make type safe
+date:   2 years, 3 months ago
+config: arc-randconfig-r123-20231117 (https://download.01.org/0day-ci/archive/20231204/202312041926.tEYYQdAT-lkp@intel.com/config)
 compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231202/202312020902.BxAYnWbM-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231204/202312041926.tEYYQdAT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312020902.BxAYnWbM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312041926.tEYYQdAT-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> arch/arc/kernel/signal.c:77:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got struct user_regs_arcv2 * @@
-   arch/arc/kernel/signal.c:77:31: sparse:     expected void [noderef] __user *to
-   arch/arc/kernel/signal.c:77:31: sparse:     got struct user_regs_arcv2 *
->> arch/arc/kernel/signal.c:88:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got struct user_regs_arcv2 * @@
-   arch/arc/kernel/signal.c:88:41: sparse:     expected void const [noderef] __user *from
-   arch/arc/kernel/signal.c:88:41: sparse:     got struct user_regs_arcv2 *
->> arch/arc/kernel/signal.c:134:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sigcontext *mctx @@     got struct sigcontext [noderef] __user * @@
-   arch/arc/kernel/signal.c:134:42: sparse:     expected struct sigcontext *mctx
-   arch/arc/kernel/signal.c:134:42: sparse:     got struct sigcontext [noderef] __user *
-   arch/arc/kernel/signal.c:153:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sigcontext *mctx @@     got struct sigcontext [noderef] __user * @@
-   arch/arc/kernel/signal.c:153:45: sparse:     expected struct sigcontext *mctx
-   arch/arc/kernel/signal.c:153:45: sparse:     got struct sigcontext [noderef] __user *
+>> net/ipv4/tcp_cong.c:238:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct tcp_congestion_ops const [noderef] __rcu *_val_ @@     got struct tcp_congestion_ops *[assigned] ca @@
+   net/ipv4/tcp_cong.c:238:24: sparse:     expected struct tcp_congestion_ops const [noderef] __rcu *_val_
+   net/ipv4/tcp_cong.c:238:24: sparse:     got struct tcp_congestion_ops *[assigned] ca
+   net/ipv4/tcp_cong.c:238:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tcp_congestion_ops const *prev @@     got struct tcp_congestion_ops const [noderef] __rcu *[assigned] _val_ @@
+   net/ipv4/tcp_cong.c:238:22: sparse:     expected struct tcp_congestion_ops const *prev
+   net/ipv4/tcp_cong.c:238:22: sparse:     got struct tcp_congestion_ops const [noderef] __rcu *[assigned] _val_
 
-vim +77 arch/arc/kernel/signal.c
+vim +238 net/ipv4/tcp_cong.c
 
-    63	
-    64	static int save_arcv2_regs(struct sigcontext *mctx, struct pt_regs *regs)
-    65	{
-    66		int err = 0;
-    67	#ifndef CONFIG_ISA_ARCOMPACT
-    68		struct user_regs_arcv2 v2abi;
-    69	
-    70		v2abi.r30 = regs->r30;
-    71	#ifdef CONFIG_ARC_HAS_ACCL_REGS
-    72		v2abi.r58 = regs->r58;
-    73		v2abi.r59 = regs->r59;
-    74	#else
-    75		v2abi.r58 = v2abi.r59 = 0;
-    76	#endif
-  > 77		err = __copy_to_user(&mctx->v2abi, &v2abi, sizeof(v2abi));
-    78	#endif
-    79		return err;
-    80	}
-    81	
-    82	static int restore_arcv2_regs(struct sigcontext *mctx, struct pt_regs *regs)
-    83	{
-    84		int err = 0;
-    85	#ifndef CONFIG_ISA_ARCOMPACT
-    86		struct user_regs_arcv2 v2abi;
-    87	
-  > 88		err = __copy_from_user(&v2abi, &mctx->v2abi, sizeof(v2abi));
-    89	
-    90		regs->r30 = v2abi.r30;
-    91	#ifdef CONFIG_ARC_HAS_ACCL_REGS
-    92		regs->r58 = v2abi.r58;
-    93		regs->r59 = v2abi.r59;
-    94	#endif
-    95	#endif
-    96		return err;
-    97	}
-    98	
-    99	static int
-   100	stash_usr_regs(struct rt_sigframe __user *sf, struct pt_regs *regs,
-   101		       sigset_t *set)
-   102	{
-   103		int err;
-   104		struct user_regs_struct uregs;
-   105	
-   106		uregs.scratch.bta	= regs->bta;
-   107		uregs.scratch.lp_start	= regs->lp_start;
-   108		uregs.scratch.lp_end	= regs->lp_end;
-   109		uregs.scratch.lp_count	= regs->lp_count;
-   110		uregs.scratch.status32	= regs->status32;
-   111		uregs.scratch.ret	= regs->ret;
-   112		uregs.scratch.blink	= regs->blink;
-   113		uregs.scratch.fp	= regs->fp;
-   114		uregs.scratch.gp	= regs->r26;
-   115		uregs.scratch.r12	= regs->r12;
-   116		uregs.scratch.r11	= regs->r11;
-   117		uregs.scratch.r10	= regs->r10;
-   118		uregs.scratch.r9	= regs->r9;
-   119		uregs.scratch.r8	= regs->r8;
-   120		uregs.scratch.r7	= regs->r7;
-   121		uregs.scratch.r6	= regs->r6;
-   122		uregs.scratch.r5	= regs->r5;
-   123		uregs.scratch.r4	= regs->r4;
-   124		uregs.scratch.r3	= regs->r3;
-   125		uregs.scratch.r2	= regs->r2;
-   126		uregs.scratch.r1	= regs->r1;
-   127		uregs.scratch.r0	= regs->r0;
-   128		uregs.scratch.sp	= regs->sp;
-   129	
-   130		err = __copy_to_user(&(sf->uc.uc_mcontext.regs.scratch), &uregs.scratch,
-   131				     sizeof(sf->uc.uc_mcontext.regs.scratch));
-   132	
-   133		if (is_isa_arcv2())
- > 134			err |= save_arcv2_regs(&(sf->uc.uc_mcontext), regs);
-   135	
-   136		err |= __copy_to_user(&sf->uc.uc_sigmask, set, sizeof(sigset_t));
-   137	
-   138		return err ? -EFAULT : 0;
-   139	}
-   140	
+317a76f9a44b43 Stephen Hemminger 2005-06-23  219  
+317a76f9a44b43 Stephen Hemminger 2005-06-23  220  /* Used by sysctl to change default congestion control */
+6670e152447732 Stephen Hemminger 2017-11-14  221  int tcp_set_default_congestion_control(struct net *net, const char *name)
+317a76f9a44b43 Stephen Hemminger 2005-06-23  222  {
+317a76f9a44b43 Stephen Hemminger 2005-06-23  223  	struct tcp_congestion_ops *ca;
+6670e152447732 Stephen Hemminger 2017-11-14  224  	const struct tcp_congestion_ops *prev;
+6670e152447732 Stephen Hemminger 2017-11-14  225  	int ret;
+317a76f9a44b43 Stephen Hemminger 2005-06-23  226  
+6670e152447732 Stephen Hemminger 2017-11-14  227  	rcu_read_lock();
+6670e152447732 Stephen Hemminger 2017-11-14  228  	ca = tcp_ca_find_autoload(net, name);
+6670e152447732 Stephen Hemminger 2017-11-14  229  	if (!ca) {
+6670e152447732 Stephen Hemminger 2017-11-14  230  		ret = -ENOENT;
+0baf26b0fcd74b Martin KaFai Lau  2020-01-08  231  	} else if (!bpf_try_module_get(ca, ca->owner)) {
+6670e152447732 Stephen Hemminger 2017-11-14  232  		ret = -EBUSY;
+8d432592f30fcc Jonathon Reinhart 2021-05-01  233  	} else if (!net_eq(net, &init_net) &&
+8d432592f30fcc Jonathon Reinhart 2021-05-01  234  			!(ca->flags & TCP_CONG_NON_RESTRICTED)) {
+8d432592f30fcc Jonathon Reinhart 2021-05-01  235  		/* Only init netns can set default to a restricted algorithm */
+8d432592f30fcc Jonathon Reinhart 2021-05-01  236  		ret = -EPERM;
+6670e152447732 Stephen Hemminger 2017-11-14  237  	} else {
+6670e152447732 Stephen Hemminger 2017-11-14 @238  		prev = xchg(&net->ipv4.tcp_congestion_control, ca);
+6670e152447732 Stephen Hemminger 2017-11-14  239  		if (prev)
+0baf26b0fcd74b Martin KaFai Lau  2020-01-08  240  			bpf_module_put(prev, prev->owner);
+317a76f9a44b43 Stephen Hemminger 2005-06-23  241  
+6670e152447732 Stephen Hemminger 2017-11-14  242  		ca->flags |= TCP_CONG_NON_RESTRICTED;
+317a76f9a44b43 Stephen Hemminger 2005-06-23  243  		ret = 0;
+317a76f9a44b43 Stephen Hemminger 2005-06-23  244  	}
+6670e152447732 Stephen Hemminger 2017-11-14  245  	rcu_read_unlock();
+317a76f9a44b43 Stephen Hemminger 2005-06-23  246  
+317a76f9a44b43 Stephen Hemminger 2005-06-23  247  	return ret;
+317a76f9a44b43 Stephen Hemminger 2005-06-23  248  }
+317a76f9a44b43 Stephen Hemminger 2005-06-23  249  
+
+:::::: The code at line 238 was first introduced by commit
+:::::: 6670e152447732ba90626f36dfc015a13fbf150e tcp: Namespace-ify sysctl_tcp_default_congestion_control
+
+:::::: TO: Stephen Hemminger <stephen@networkplumber.org>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
