@@ -4,69 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3D39C4167B
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  7 Dec 2023 21:39:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16230C10DC1
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 Dec 2023 15:41:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
 	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=zGvjQWPWntAFoupi1BPO5ZuoayWiHHMfCPF3qEBh1x4=; b=k7qO3v1SzDGQ1f
-	w+ykTvy+xbsxmfJ8mIZFMhClmi5pBSjCxs9/h16F26HPcyH1VrNh3nvlXcoA0hIjoMsaLhbmAhS27
-	svGI14tXBwYLcf3AEqYBI1tBVK/oWQlvhj2K5iDdKcEOrFfe1q2GEH6bB53Mi7vgCUZwgDYd3E86X
-	qPca2fFH54RuwbJtP1FMkXv6dqtJFe/8wIFYEd0k8pbP7IH3ZrYwSNmtgSH6rhtghlbsQJgEajNtI
-	bPeI/L2FUblQTOLFcxNeVbc/mi1qnseWFfn9ilyzdSz0Enkj2zVXyEPuQFmXuJYcmz2oQHWw8HP0J
-	eCVmmf1FiELuXo0IzA/g==;
+	List-Owner; bh=dS/yYtf1tyWFPAhcQugc+UAdlgEPzoc+GSrW/kBXfWU=; b=xf7RkxpORppgnn
+	+HZZR6KXKDqwpbizvcSDAm/GjX0zL85FZCmflbPlAFnTKizdq7rlEhUckHl/youhvtiOja6Ej/3wy
+	FdSNDZw+uZupgZTL1YqDC0ls+uOIOlDUJ1H+GUHNb/Iwh8YaUw40xu69S/BYJ64oWclesHwn7Yoa4
+	4gjBU7b1IYhIUlEv4RgC2to08cqClhlqhJc+ycBxOrXwBLsC0G9bUBEzaa5z9kYNBlXVy1HJTuHnY
+	r80FAIFFkVT2QdgXqNjVXsJEm9NfSZVH1gQ9GBOcob+ir+mqahkRN0/uDZQH9TSwfdIc3lJW44aQk
+	S91vCbzWj4y8Oypaynsw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rBM5L-00E3nP-14;
-	Thu, 07 Dec 2023 21:39:07 +0000
-Received: from mgamail.intel.com ([192.198.163.7])
+	id 1rBcyP-00Fuop-11;
+	Fri, 08 Dec 2023 15:41:05 +0000
+Received: from mgamail.intel.com ([198.175.65.11])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rBM5I-00E3m2-1U
+	id 1rBcyM-00FuoM-2R
 	for linux-snps-arc@lists.infradead.org;
-	Thu, 07 Dec 2023 21:39:06 +0000
+	Fri, 08 Dec 2023 15:41:04 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701985144; x=1733521144;
+  t=1702050063; x=1733586063;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=s3fvsgzOi4E14N6ZbezeG1WKcP6hCcWDyqZ6dRuB2Ng=;
-  b=HSaxGeY2spJeGkK6F6Q/JKeVJt1JVAodBeAnr1Ro8NDz2tiTl4GSMB0B
-   PjBOxKQSQS7vB5PiGWq+sKqpHoQ21uzt1H0fa08QhdYYKS27K/KcM37tU
-   UDcDH/hoeCIAHQp0tFGPniKD7woyC7GL8PaDUcu/gtonvdS0kZ3RJRK+q
-   m+oC5FoD9rxG3+Evb806B/0Y6H0C0SqpYKxbGTGgwW+U0810C8WQNFtKL
-   b//+o8MhTk5q0uljgReGPSMB4TKseGlDLNUJxHLM3AKnB/SEgVNQdq9ld
-   v0DGEqodnV/tQxIptWiFqxpy0+8+Q1b/97L5gZUnV3ZxHOEHoEcM8PQ0V
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="15864360"
-X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="15864360"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 13:38:58 -0800
+  bh=ytgz0mpL+6lejy8F4sFHhys4vbo1P2vx2vpT6QcIsrY=;
+  b=CRR+ww6RXTL+GoJbMdpMg76TNh/H3uW+MTYV+U82xQjLwisDmH9RJ8iX
+   nyr4vyKCEP8xpXElGDIvXBWq4ilX8CFXJoCTu0XEihE1jt/9wMgd74Zuo
+   uzMUEQCuIw7uBnSh5odn2Fab+9mceP94DoqUNcE7cwM2evLcSZqj0Gon4
+   6bnCMjP3eXRdOYNr/9XEt33/mpwoEYI+s9gIiz7YxFCzsGfr3xIm0gl/B
+   oM9+byXNSFtaKLnpLrOtsPIGN5txZ5kTI0FGgUzEZJKzjUH4CPherbslK
+   /h3Jpvvbe665Hk5MSc9k8Rpr5xQLfMWfBab3xbOrccEYEwPzr9r/mMbUL
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="1276355"
+X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
+   d="scan'208";a="1276355"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 07:41:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="1019102402"
-X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="1019102402"
+X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
+   d="scan'208";a="20136876"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 07 Dec 2023 13:38:56 -0800
+  by orviesa001.jf.intel.com with ESMTP; 08 Dec 2023 07:40:59 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBM58-000Crr-0A;
-	Thu, 07 Dec 2023 21:38:54 +0000
-Date: Fri, 8 Dec 2023 05:38:07 +0800
+	id 1rBcyG-000Dub-0F;
+	Fri, 08 Dec 2023 15:40:56 +0000
+Date: Fri, 8 Dec 2023 23:40:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: Vineet Gupta <vgupta@synopsys.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux-snps-arc@lists.infradead.org
 Subject: arch/arc/kernel/signal.c:77:31: sparse: sparse: incorrect type in
  argument 1 (different address spaces)
-Message-ID: <202312080515.vdBoqRe6-lkp@intel.com>
+Message-ID: <202312082320.VDN5A9hb-lkp@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231207_133904_538732_331E0121 
-X-CRM114-Status: UNSURE (   9.40  )
+X-CRM114-CacheID: sfid-20231208_074102_838886_F5DF7F67 
+X-CRM114-Status: UNSURE (   9.01  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -85,17 +84,17 @@ Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
+head:   5e3f5b81de80c98338bcb47c233aebefee5a4801
 commit: 96f1b00138cb8f04c742c82d0a7c460b2202e887 ARCv2: save ABI registers across signal handling
 date:   2 years, 6 months ago
-config: arc-randconfig-r111-20231107 (https://download.01.org/0day-ci/archive/20231208/202312080515.vdBoqRe6-lkp@intel.com/config)
+config: arc-randconfig-r111-20231107 (https://download.01.org/0day-ci/archive/20231208/202312082320.VDN5A9hb-lkp@intel.com/config)
 compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231208/202312080515.vdBoqRe6-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231208/202312082320.VDN5A9hb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312080515.vdBoqRe6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312082320.VDN5A9hb-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
 >> arch/arc/kernel/signal.c:77:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got struct user_regs_arcv2 * @@
