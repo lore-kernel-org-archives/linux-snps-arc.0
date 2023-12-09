@@ -4,59 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7BA56C10F04
-	for <linux-snps-arc@archiver.kernel.org>; Sat,  9 Dec 2023 00:33:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2F776C10F04
+	for <linux-snps-arc@archiver.kernel.org>; Sat,  9 Dec 2023 00:33:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=5BkN7T06zD7D57hU3QNMtKDHw93jVD8kwT/Wt9jK4j8=; b=2jpSvkcpGW9sk7
-	4GeeUhTrfEuy3hZoa2IrEIXQjDLgsLeMRKb+QvCXsAQ+YKscm0TIntLRYzDHB7u2ksCYqw5Xz7MKe
-	4Wawr6hj4Q2DzOYkeC5wj/nBfayUu/B/IaFwytCAvhs8Vgxeb60OG5s9dzt9ZI1rMoRIMElZ12hIG
-	H0UFrSPlDoj9EDOQlsSfSCzhXlCYdlfZnktG0RjFHCHwOIgjhrSN+11EQE22oMilznzMebTcZaJSr
-	+5E5OS6jcSHXObeqe6vGVLtoJAqUd4dzWIfVws+HZpdqepGM/dYPcsn/0lcLDjjf9/FCDHz/FVmNI
-	kOvXWu7IlyIcjdT5UUkg==;
+	List-Owner; bh=Ov4hRsRDCRm1LfRvuFrBv/u8hU4vZGN7EImSVt0QkpE=; b=hfw6gkp/ttlrl0
+	tNekNPCcqtnbxhdtyCEUmhoIFA+F6h6ysreppYQXuVbhxO6mVxbTsauM0B047ay9/BSa2R4sIaugN
+	YfqRrFx47K76EAJUoctQ/WmDa9d1iDSz3fY/vPRu9hIKNIk9elfdFOAkwv8PbnAjABac4Mz1niYta
+	8dD5jCY8XKrtQpBf+hnVpsdR13/SB/OBnHvV/NnnwadF2eMLDAkunagAp7K/PPpjF0+ULMjIFM4qS
+	AGDLw6IqDmyLpPJ6lCJAw8BRmdp8ioMk1ImMbo0nNb05q2XzrWXP7agrz8VQSN/JvNh/v8xTuPV35
+	Y904GYFEHnXcCc6nNwvQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rBlHW-00GpWx-0G;
-	Sat, 09 Dec 2023 00:33:22 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1rBlI0-00Gpc3-0p;
+	Sat, 09 Dec 2023 00:33:52 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rBlHQ-00GpTR-0j
+	id 1rBlHw-00GpbS-2r
 	for linux-snps-arc@lists.infradead.org;
-	Sat, 09 Dec 2023 00:33:19 +0000
+	Sat, 09 Dec 2023 00:33:50 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by ams.source.kernel.org (Postfix) with ESMTP id 7BC9CB82E8E;
-	Sat,  9 Dec 2023 00:33:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EAE1C433CC;
-	Sat,  9 Dec 2023 00:33:13 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id D275262638;
+	Sat,  9 Dec 2023 00:33:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31DFFC433C8;
+	Sat,  9 Dec 2023 00:33:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702081993;
-	bh=HfN4FCjlth7Vk9IubBls0IpglFtSjvL1qN+UsAj39lQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=anZz7v2hpfNbkyFSUJMCZ9FQGWFTnfWc/NUD1PgvM8wwk1PI/vjkEP3/iyiqn/8Cb
-	 3SwUGEYxfCmexYTN+sFB+Nsc5z9vzHiBuDebTKouuDHEskxBM5Yl+A8ssymxrS6ohZ
-	 jwT67C+f1hIJ22+AvDneiRdA3hTwVpYWQrUsydZiwWnz3+zUaWqLiS69PF6Anix2el
-	 VjxcOKGtGAziY/iI+w0QlDjHKAyRS0XQfpjY01+eHTsmePwnj+u6sXb/aCys1oEWOU
-	 dVoigS4NK8WqK14xQjSppIVjm5X+NR1PuM+lpwz5MbXJsadYTHmW3zRLayoe6qle9N
-	 J52WRAPLyiNCg==
-From: Vineet Gupta <vgupta@kernel.org>
-To: linux-snps-arc@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	Pavel.Kozlov@synopsys.com,
-	Vineet Gupta <vgupta@kernel.org>
-Subject: [PATCH 2/5] ARC: entry: move ARCompact specific bits out of entry.h
-Date: Fri,  8 Dec 2023 16:33:04 -0800
-Message-Id: <20231209003307.480051-3-vgupta@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231209003307.480051-1-vgupta@kernel.org>
-References: <20231209003307.480051-1-vgupta@kernel.org>
+	s=k20201202; t=1702082026;
+	bh=AfLb7lzkekGavRKpv+fk7GiWlvNDaLb3U1ZIzEmK8vc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=s/AC66OH8JYebqlwn7OY8iCTM3N3Z5QjmwjeORQmgOQYNGEUxU9lFRuUytR5985NK
+	 w5QAAdBIPHdBfee73BSoMsySU7ilCs76Ck6nvwyS7eZpX7wQPt1uLuXKDpxcfseJ7h
+	 15UoWofUJQRlDqCiz8Z/dNBhkkqtrhyPL3sGTX9lxt8dsNVX4jdfKnFFIGEAPMGyv2
+	 cunwV+v7cpv0F1m3S7yluXxE4l99rWVFIN7sFUyOBVM8Wf8f6IteZJl84BuJHfVQob
+	 4EAF0rIMtyEc7TY7GUHoF4umQEeAoW6AWeCn7EsqJXV1bnFryCyrMzVggpjTh2vGnw
+	 9Dz4oSRZJE/+w==
+Message-ID: <b78607e5-6965-4e7f-b43a-c1ca58eecf89@kernel.org>
+Date: Fri, 8 Dec 2023 16:33:44 -0800
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: arch/arc/kernel/setup.c:203 arcv2_mumbojumbo() error:
+ uninitialized symbol 'release'.
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ Vineet Gupta <vgupta@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org
+References: <c2148229-bea9-40ef-bbf3-6019555f3f1a@suswa.mountain>
+From: Vineet Gupta <vgupta@kernel.org>
+In-Reply-To: <c2148229-bea9-40ef-bbf3-6019555f3f1a@suswa.mountain>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231208_163316_554940_4A9FD2E2 
-X-CRM114-Status: UNSURE (   8.44  )
+X-CRM114-CacheID: sfid-20231208_163348_990879_0D9D885D 
+X-CRM114-Status: UNSURE (   5.84  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -69,175 +71,37 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
- - PUSHAUX/POPAUX helpers to ARCompact entry
- - use gas provided "push"/pop pseudo instructions
-
-Signed-off-by: Vineet Gupta <vgupta@kernel.org>
----
- arch/arc/include/asm/entry-compact.h | 55 ++++++++++++++++++++++-
- arch/arc/include/asm/entry.h         | 66 ----------------------------
- 2 files changed, 54 insertions(+), 67 deletions(-)
-
-diff --git a/arch/arc/include/asm/entry-compact.h b/arch/arc/include/asm/entry-compact.h
-index 9841f1186417..92c3e9f13252 100644
---- a/arch/arc/include/asm/entry-compact.h
-+++ b/arch/arc/include/asm/entry-compact.h
-@@ -33,6 +33,59 @@
- #include <asm/irqflags-compact.h>
- #include <asm/thread_info.h>	/* For THREAD_SIZE */
- 
-+/* Note on the LD/ST addr modes with addr reg wback
-+ *
-+ * LD.a same as LD.aw
-+ *
-+ * LD.a    reg1, [reg2, x]  => Pre Incr
-+ *      Eff Addr for load = [reg2 + x]
-+ *
-+ * LD.ab   reg1, [reg2, x]  => Post Incr
-+ *      Eff Addr for load = [reg2]
-+ */
-+
-+.macro PUSHAX aux
-+	lr	r9, [\aux]
-+	push	r9
-+.endm
-+
-+.macro POPAX aux
-+	pop	r9
-+	sr	r9, [\aux]
-+.endm
-+
-+.macro  SAVE_R0_TO_R12
-+	push	r0
-+	push	r1
-+	push	r2
-+	push	r3
-+	push	r4
-+	push	r5
-+	push	r6
-+	push	r7
-+	push	r8
-+	push	r9
-+	push	r10
-+	push	r11
-+	push	r12
-+.endm
-+
-+.macro RESTORE_R12_TO_R0
-+	pop	r12
-+	pop	r11
-+	pop	r10
-+	pop	r9
-+	pop	r8
-+	pop	r7
-+	pop	r6
-+	pop	r5
-+	pop	r4
-+	pop	r3
-+	pop	r2
-+	pop	r1
-+	pop	r0
-+.endm
-+
- .macro SAVE_ABI_CALLEE_REGS
- 	push	r13
- 	push	r14
-@@ -267,7 +320,7 @@
- 	SWITCH_TO_KERNEL_STK
- 
- 
--	PUSH	0x003\LVL\()abcd    /* Dummy ECR */
-+	st.a	0x003\LVL\()abcd, [sp, -4]	/* Dummy ECR */
- 	sub	sp, sp, 8	    /* skip orig_r0 (not needed)
- 				       skip pt_regs->sp, already saved above */
- 
-diff --git a/arch/arc/include/asm/entry.h b/arch/arc/include/asm/entry.h
-index 8e4e40d2d54a..cf1ba376e992 100644
---- a/arch/arc/include/asm/entry.h
-+++ b/arch/arc/include/asm/entry.h
-@@ -21,72 +21,6 @@
- #include <asm/entry-arcv2.h>
- #endif
- 
--/* Note on the LD/ST addr modes with addr reg wback
-- *
-- * LD.a same as LD.aw
-- *
-- * LD.a    reg1, [reg2, x]  => Pre Incr
-- *      Eff Addr for load = [reg2 + x]
-- *
-- * LD.ab   reg1, [reg2, x]  => Post Incr
-- *      Eff Addr for load = [reg2]
-- */
--
--.macro PUSH reg
--	st.a	\reg, [sp, -4]
--.endm
--
--.macro PUSHAX aux
--	lr	r9, [\aux]
--	PUSH	r9
--.endm
--
--.macro POP reg
--	ld.ab	\reg, [sp, 4]
--.endm
--
--.macro POPAX aux
--	POP	r9
--	sr	r9, [\aux]
--.endm
--
--/*--------------------------------------------------------------
-- * Helpers to save/restore Scratch Regs:
-- * used by Interrupt/Exception Prologue/Epilogue
-- *-------------------------------------------------------------*/
--.macro  SAVE_R0_TO_R12
--	PUSH	r0
--	PUSH	r1
--	PUSH	r2
--	PUSH	r3
--	PUSH	r4
--	PUSH	r5
--	PUSH	r6
--	PUSH	r7
--	PUSH	r8
--	PUSH	r9
--	PUSH	r10
--	PUSH	r11
--	PUSH	r12
--.endm
--
--.macro RESTORE_R12_TO_R0
--	POP	r12
--	POP	r11
--	POP	r10
--	POP	r9
--	POP	r8
--	POP	r7
--	POP	r6
--	POP	r5
--	POP	r4
--	POP	r3
--	POP	r2
--	POP	r1
--	POP	r0
--
--.endm
--
- /*
-  * save user mode callee regs as struct callee_regs
-  *  - needed by fork/do_signal/unaligned-access-emulation.
--- 
-2.34.1
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gMTEvMjcvMjMgMjI6MjIsIERhbiBDYXJwZW50ZXIgd3JvdGU6Cj4gdHJlZTogICBodHRwczov
+L2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC90b3J2YWxkcy9saW51eC5n
+aXQgbWFzdGVyCj4gaGVhZDogICAyY2MxNGY1MmFlYjc4Y2UzZjI5Njc3YzJkZTFmMDZjMGU5MTQ3
+MWFiCj4gY29tbWl0OiBmYWQ4NGUzOWYxMTYwMzVhZThkNTUwYzYwMjAxMDdiOGFjMTEzYjQ1IEFS
+QzogYm9vdCBsb2c6IGVsaW1pbmF0ZSBzdHJ1Y3QgY3B1aW5mb19hcmMgIzQ6IGJvb3QgbG9nIHBl
+ciBJU0EKPiBjb25maWc6IGFyYy1yYW5kY29uZmlnLXIwNzEtMjAyMzExMjggKGh0dHBzOi8vZG93
+bmxvYWQuMDEub3JnLzBkYXktY2kvYXJjaGl2ZS8yMDIzMTEyOC8yMDIzMTEyODA5MDYuVkFJd0VB
+ZlQtbGtwQGludGVsLmNvbS9jb25maWcpCj4gY29tcGlsZXI6IGFyY2ViLWVsZi1nY2MgKEdDQykg
+MTMuMi4wCj4gcmVwcm9kdWNlOiAoaHR0cHM6Ly9kb3dubG9hZC4wMS5vcmcvMGRheS1jaS9hcmNo
+aXZlLzIwMjMxMTI4LzIwMjMxMTI4MDkwNi5WQUl3RUFmVC1sa3BAaW50ZWwuY29tL3JlcHJvZHVj
+ZSkKPgo+IElmIHlvdSBmaXggdGhlIGlzc3VlIGluIGEgc2VwYXJhdGUgcGF0Y2gvY29tbWl0IChp
+LmUuIG5vdCBqdXN0IGEgbmV3IHZlcnNpb24gb2YKPiB0aGUgc2FtZSBwYXRjaC9jb21taXQpLCBr
+aW5kbHkgYWRkIGZvbGxvd2luZyB0YWdzCj4gfCBSZXBvcnRlZC1ieToga2VybmVsIHRlc3Qgcm9i
+b3QgPGxrcEBpbnRlbC5jb20+Cj4gfCBSZXBvcnRlZC1ieTogRGFuIENhcnBlbnRlciA8ZXJyb3Iy
+N0BnbWFpbC5jb20+Cj4gfCBDbG9zZXM6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3IvMjAyMzEx
+MjgwOTA2LlZBSXdFQWZULWxrcEBpbnRlbC5jb20vCj4KPiBOZXcgc21hdGNoIHdhcm5pbmdzOgo+
+IGFyY2gvYXJjL2tlcm5lbC9zZXR1cC5jOjIwMyBhcmN2Ml9tdW1ib2p1bWJvKCkgZXJyb3I6IHVu
+aW5pdGlhbGl6ZWQgc3ltYm9sICdyZWxlYXNlJy4KClRoeCwgSSd2ZSBwb3N0ZWQgYSBmaXguCgo+
+IE9sZCBzbWF0Y2ggd2FybmluZ3M6Cj4gYXJjaC9hcmMvaW5jbHVkZS9hc20vdGhyZWFkX2luZm8u
+aDo2MiBjdXJyZW50X3RocmVhZF9pbmZvKCkgZXJyb3I6IHVuaW5pdGlhbGl6ZWQgc3ltYm9sICdz
+cCcuCgpUaGlzIHNlZW1zIGxpa2UgYSBmYWxzZSB3YXJuaW5nLiBJdHMgYSByZWdpc3RlciB2YXJp
+YWJsZSBhbmQgdGh1cyBjYW4ndApwb3NzaWJseSBiZSBpbml0aWFsaXplZC4KCnN0YXRpYyBpbmxp
+bmUgX19hdHRyaWJ1dGVfY29uc3RfXyBzdHJ1Y3QgdGhyZWFkX2luZm8KKmN1cnJlbnRfdGhyZWFk
+X2luZm8odm9pZCkKewrCoMKgIMKgcmVnaXN0ZXIgdW5zaWduZWQgbG9uZyBzcCBhc20oInNwIik7
+CsKgwqAgwqByZXR1cm4gKHN0cnVjdCB0aHJlYWRfaW5mbyAqKShzcCAmIH4oVEhSRUFEX1NJWkUg
+LSAxKSk7Cn0KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRl
+YWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgt
+c25wcy1hcmMK
