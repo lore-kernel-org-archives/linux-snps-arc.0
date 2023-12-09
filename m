@@ -4,68 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16230C10DC1
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  8 Dec 2023 15:41:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE3BDC10F04
+	for <linux-snps-arc@archiver.kernel.org>; Sat,  9 Dec 2023 00:33:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=dS/yYtf1tyWFPAhcQugc+UAdlgEPzoc+GSrW/kBXfWU=; b=xf7RkxpORppgnn
-	+HZZR6KXKDqwpbizvcSDAm/GjX0zL85FZCmflbPlAFnTKizdq7rlEhUckHl/youhvtiOja6Ej/3wy
-	FdSNDZw+uZupgZTL1YqDC0ls+uOIOlDUJ1H+GUHNb/Iwh8YaUw40xu69S/BYJ64oWclesHwn7Yoa4
-	4gjBU7b1IYhIUlEv4RgC2to08cqClhlqhJc+ycBxOrXwBLsC0G9bUBEzaa5z9kYNBlXVy1HJTuHnY
-	r80FAIFFkVT2QdgXqNjVXsJEm9NfSZVH1gQ9GBOcob+ir+mqahkRN0/uDZQH9TSwfdIc3lJW44aQk
-	S91vCbzWj4y8Oypaynsw==;
+	List-Owner; bh=eb8VZkiCrFL2Hy6lY425yluAiQ6uIBLChzNn/cCeaPQ=; b=NSIuC9NgoMVDlb
+	shQnB2rXlrKdIbNIhtKhgd9Fz1zMrLzqmSSM0Czk9zfH2UG/ruOOCVD3cENS7k18Y8Bb7C+9OQ7kq
+	R80Tlt4T4txfsdbUrNAOG/VWFhv4/6HvzmTiZnRdzobVldcYd+IUTnowzT7Y+9zzKjcmo2AznbhQN
+	mh0Wk+1DZkWND3RUBPyXhnikTvPq8I8/iTXEqNVMrI2fB5WOWDHVZBrd9i3jS1QoFZeXBNwk96+pj
+	8vmbu1dKDQytfFvP3PIPQGjpxkvreKaFvLW/RCTUpExFsxn7k6EhQrFrRus7ZA1Hv4/CXJdQnZGF4
+	bJtBn34J0NzPDNmMk2uQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rBcyP-00Fuop-11;
-	Fri, 08 Dec 2023 15:41:05 +0000
-Received: from mgamail.intel.com ([198.175.65.11])
+	id 1rBlHV-00GpWY-2Z;
+	Sat, 09 Dec 2023 00:33:21 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rBcyM-00FuoM-2R
+	id 1rBlHQ-00GpTM-0r
 	for linux-snps-arc@lists.infradead.org;
-	Fri, 08 Dec 2023 15:41:04 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702050063; x=1733586063;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ytgz0mpL+6lejy8F4sFHhys4vbo1P2vx2vpT6QcIsrY=;
-  b=CRR+ww6RXTL+GoJbMdpMg76TNh/H3uW+MTYV+U82xQjLwisDmH9RJ8iX
-   nyr4vyKCEP8xpXElGDIvXBWq4ilX8CFXJoCTu0XEihE1jt/9wMgd74Zuo
-   uzMUEQCuIw7uBnSh5odn2Fab+9mceP94DoqUNcE7cwM2evLcSZqj0Gon4
-   6bnCMjP3eXRdOYNr/9XEt33/mpwoEYI+s9gIiz7YxFCzsGfr3xIm0gl/B
-   oM9+byXNSFtaKLnpLrOtsPIGN5txZ5kTI0FGgUzEZJKzjUH4CPherbslK
-   /h3Jpvvbe665Hk5MSc9k8Rpr5xQLfMWfBab3xbOrccEYEwPzr9r/mMbUL
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="1276355"
-X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
-   d="scan'208";a="1276355"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 07:41:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
-   d="scan'208";a="20136876"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 08 Dec 2023 07:40:59 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rBcyG-000Dub-0F;
-	Fri, 08 Dec 2023 15:40:56 +0000
-Date: Fri, 8 Dec 2023 23:40:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vineet Gupta <vgupta@synopsys.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org
-Subject: arch/arc/kernel/signal.c:77:31: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202312082320.VDN5A9hb-lkp@intel.com>
+	Sat, 09 Dec 2023 00:33:19 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id D77DACE2A3A;
+	Sat,  9 Dec 2023 00:33:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6555C433C7;
+	Sat,  9 Dec 2023 00:33:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702081993;
+	bh=3Z8YdkNLvvbina63xYK5Sl+tNJdnGJfRB2Ip9dtMGMQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=r0o8/TKUMJ/Roj1bQ9tBX/3SrKZ/N7tZNY9AsWK9S/roVZ7UYPf489jxogIlZeWVz
+	 fIWMnr2YwyEBieku7+k7nEXWrK8tufI4rqqYm2GkGxx57v208QL3bbOKBllL/zVcMY
+	 1D222pM52kJ1qF41PCBs+ZMrtJZzRZbv80NQ6PCaGB42L1tU8ggungF8UmL/bcPPTy
+	 i4sFiIpwzADjESecIG7d8cmUAdeK2PhLFroCck1muBXJfES60kf95wAVlbgAIL0gTl
+	 Dfd8rOssktbDR8kg5XOVgcHaRCe5l2wH2i5hRCmt1bTG15DxtBwqdm4f4D/gtSWrg+
+	 2KirlS1mFICNA==
+From: Vineet Gupta <vgupta@kernel.org>
+To: linux-snps-arc@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org,
+	Pavel.Kozlov@synopsys.com,
+	Vineet Gupta <vgupta@kernel.org>
+Subject: [PATCH 0/5] ARC updates
+Date: Fri,  8 Dec 2023 16:33:02 -0800
+Message-Id: <20231209003307.480051-1-vgupta@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231208_074102_838886_F5DF7F67 
-X-CRM114-Status: UNSURE (   9.01  )
+X-CRM114-CacheID: sfid-20231208_163316_574360_5F5AB2D7 
+X-CRM114-Status: UNSURE (   4.38  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -83,117 +72,37 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5e3f5b81de80c98338bcb47c233aebefee5a4801
-commit: 96f1b00138cb8f04c742c82d0a7c460b2202e887 ARCv2: save ABI registers across signal handling
-date:   2 years, 6 months ago
-config: arc-randconfig-r111-20231107 (https://download.01.org/0day-ci/archive/20231208/202312082320.VDN5A9hb-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231208/202312082320.VDN5A9hb-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312082320.VDN5A9hb-lkp@intel.com/
+A pile of accrued changes, compile tested only.
+Please test.
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arc/kernel/signal.c:77:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got struct user_regs_arcv2 * @@
-   arch/arc/kernel/signal.c:77:31: sparse:     expected void [noderef] __user *to
-   arch/arc/kernel/signal.c:77:31: sparse:     got struct user_regs_arcv2 *
->> arch/arc/kernel/signal.c:88:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got struct user_regs_arcv2 * @@
-   arch/arc/kernel/signal.c:88:41: sparse:     expected void const [noderef] __user *from
-   arch/arc/kernel/signal.c:88:41: sparse:     got struct user_regs_arcv2 *
->> arch/arc/kernel/signal.c:134:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sigcontext *mctx @@     got struct sigcontext [noderef] __user * @@
-   arch/arc/kernel/signal.c:134:42: sparse:     expected struct sigcontext *mctx
-   arch/arc/kernel/signal.c:134:42: sparse:     got struct sigcontext [noderef] __user *
-   arch/arc/kernel/signal.c:153:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sigcontext *mctx @@     got struct sigcontext [noderef] __user * @@
-   arch/arc/kernel/signal.c:153:45: sparse:     expected struct sigcontext *mctx
-   arch/arc/kernel/signal.c:153:45: sparse:     got struct sigcontext [noderef] __user *
+Thx,
+-Vineet
 
-vim +77 arch/arc/kernel/signal.c
+Vineet Gupta (5):
+  ARC: entry: SAVE_ABI_CALLEE_REG: ISA/ABI specific helper
+  ARC: entry: move ARCompact specific bits out of entry.h
+  ARC: mm: retire support for aliasing VIPT D$
+  ARC: fix spare error
+  ARC: fix smatch warning
 
-    63	
-    64	static int save_arcv2_regs(struct sigcontext *mctx, struct pt_regs *regs)
-    65	{
-    66		int err = 0;
-    67	#ifndef CONFIG_ISA_ARCOMPACT
-    68		struct user_regs_arcv2 v2abi;
-    69	
-    70		v2abi.r30 = regs->r30;
-    71	#ifdef CONFIG_ARC_HAS_ACCL_REGS
-    72		v2abi.r58 = regs->r58;
-    73		v2abi.r59 = regs->r59;
-    74	#else
-    75		v2abi.r58 = v2abi.r59 = 0;
-    76	#endif
-  > 77		err = __copy_to_user(&mctx->v2abi, &v2abi, sizeof(v2abi));
-    78	#endif
-    79		return err;
-    80	}
-    81	
-    82	static int restore_arcv2_regs(struct sigcontext *mctx, struct pt_regs *regs)
-    83	{
-    84		int err = 0;
-    85	#ifndef CONFIG_ISA_ARCOMPACT
-    86		struct user_regs_arcv2 v2abi;
-    87	
-  > 88		err = __copy_from_user(&v2abi, &mctx->v2abi, sizeof(v2abi));
-    89	
-    90		regs->r30 = v2abi.r30;
-    91	#ifdef CONFIG_ARC_HAS_ACCL_REGS
-    92		regs->r58 = v2abi.r58;
-    93		regs->r59 = v2abi.r59;
-    94	#endif
-    95	#endif
-    96		return err;
-    97	}
-    98	
-    99	static int
-   100	stash_usr_regs(struct rt_sigframe __user *sf, struct pt_regs *regs,
-   101		       sigset_t *set)
-   102	{
-   103		int err;
-   104		struct user_regs_struct uregs;
-   105	
-   106		uregs.scratch.bta	= regs->bta;
-   107		uregs.scratch.lp_start	= regs->lp_start;
-   108		uregs.scratch.lp_end	= regs->lp_end;
-   109		uregs.scratch.lp_count	= regs->lp_count;
-   110		uregs.scratch.status32	= regs->status32;
-   111		uregs.scratch.ret	= regs->ret;
-   112		uregs.scratch.blink	= regs->blink;
-   113		uregs.scratch.fp	= regs->fp;
-   114		uregs.scratch.gp	= regs->r26;
-   115		uregs.scratch.r12	= regs->r12;
-   116		uregs.scratch.r11	= regs->r11;
-   117		uregs.scratch.r10	= regs->r10;
-   118		uregs.scratch.r9	= regs->r9;
-   119		uregs.scratch.r8	= regs->r8;
-   120		uregs.scratch.r7	= regs->r7;
-   121		uregs.scratch.r6	= regs->r6;
-   122		uregs.scratch.r5	= regs->r5;
-   123		uregs.scratch.r4	= regs->r4;
-   124		uregs.scratch.r3	= regs->r3;
-   125		uregs.scratch.r2	= regs->r2;
-   126		uregs.scratch.r1	= regs->r1;
-   127		uregs.scratch.r0	= regs->r0;
-   128		uregs.scratch.sp	= regs->sp;
-   129	
-   130		err = __copy_to_user(&(sf->uc.uc_mcontext.regs.scratch), &uregs.scratch,
-   131				     sizeof(sf->uc.uc_mcontext.regs.scratch));
-   132	
-   133		if (is_isa_arcv2())
- > 134			err |= save_arcv2_regs(&(sf->uc.uc_mcontext), regs);
-   135	
-   136		err |= __copy_to_user(&sf->uc.uc_sigmask, set, sizeof(sigset_t));
-   137	
-   138		return err ? -EFAULT : 0;
-   139	}
-   140	
+ arch/arc/Kconfig                     |   5 -
+ arch/arc/include/asm/cacheflush.h    |  43 ---------
+ arch/arc/include/asm/entry-arcv2.h   |  32 +++++++
+ arch/arc/include/asm/entry-compact.h |  87 ++++++++++++++++-
+ arch/arc/include/asm/entry.h         | 110 +---------------------
+ arch/arc/include/asm/ptrace.h        |  14 +--
+ arch/arc/kernel/setup.c              |   4 +-
+ arch/arc/kernel/signal.c             |   6 +-
+ arch/arc/mm/cache.c                  | 136 ++-------------------------
+ arch/arc/mm/mmap.c                   |  21 +----
+ arch/arc/mm/tlb.c                    |  16 +---
+ 11 files changed, 148 insertions(+), 326 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
 
 _______________________________________________
 linux-snps-arc mailing list
