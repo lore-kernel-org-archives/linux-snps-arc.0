@@ -4,51 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE1DCC41535
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 19 Dec 2023 08:34:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1509BC41535
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 19 Dec 2023 20:42:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=YOE8WhJogGtosYg3kAD0fsluRq9MXuSLa4uuarOhIOo=; b=LeNUsF1gxsk0/f
-	DsdiIExm2l3cE07E+o4TfH6cLG5LUkBNz010XXh2umsQr+MihCiUkbR8EoxWKdS4PVs7TYc4UANWj
-	9gEZwCb0QWY6hjGS8v5QmzNUqxntjGufQImfwDdNQCq/0YYN/THaYdPPCjUCTmPSTikOsTXq3IPut
-	BmPD9u1BduuyDzLmH7Gl2l7s3+GZrT6O2CQN7KD7+eA6lUNjI0aYHnRlYPb3noaLMJ8n89WhrYMHu
-	EerLO0aj5ZNnccdRjcQE2i8AEM2hR10YBbu9VsD+xaBf8xNhkBYlc8c/PY4OsVelDTZzMIijM1p16
-	kLcAFVWLJ5475OSac86g==;
+	Content-Transfer-Encoding:Content-Type:MIME-Version:List-Subscribe:List-Help:
+	List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:Date:Message-Id:
+	References:In-Reply-To:From:Subject:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=fy9J3co6X/FbG0X7QBVbrIMol7wbHRc3r16U5OqQVAs=; b=s6i2+6uJZTAt/1
+	sV0aAgdMOSqPP3HKPhoHlKHhoR1JPECyHzrjZm19S1DmgEPifDxKjyxR8aztdnwDK2WhfzZyt+KqY
+	plq7StmcMz+hf+MbUeKqACQlCzvCEbGqaDlgcosPqUgY/U3cN1YCjhPd8lW06m2wQmY+sS+9X9R7R
+	+2j7jyy8tnp2yF/bzw1lUTK5kYBsB56M7BBaRrzGbeDSc8aStYKSUvTny5d48UfrKvVw+70INLXs+
+	EmGijldZ7ZcjatT6lNmVYW83NwCpa/7TdhEPyEh049IcMCREQCrWssI4EAlRXwAwyhzj5+9vbNE1f
+	SnOt4PotNY2yOjpOR0LA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFVYT-00DK3g-00;
-	Tue, 19 Dec 2023 08:34:21 +0000
-Received: from mail.quirkbyte.pl ([94.177.238.152])
+	id 1rFgug-00FR78-0K;
+	Tue, 19 Dec 2023 20:42:02 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFVYP-00DK2y-04
+	id 1rFgub-00FR4b-1E
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 19 Dec 2023 08:34:19 +0000
-Received: by mail.quirkbyte.pl (Postfix, from userid 1002)
-	id 3D85F83A81; Tue, 19 Dec 2023 09:31:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=quirkbyte.pl; s=mail;
-	t=1702974720; bh=V4qwQGqC7KpJoyielzRpnopuINFIOvKXsSgJ3ZENIXU=;
-	h=Date:From:To:Subject:From;
-	b=R6U/VnQnEFzboJub+23tDtCfQ/Zg9sWyUWdszXAcNLhdUx3ntq9V0xNlevBNxbZyG
-	 jDARGpXdAq8QC5KMfo0WyP0lPLMeRDaD+i/2qq6AVI3uILTYW30HWoDrSMwMNYwaBw
-	 Bx/4DuC+E/+QACeBOjQ0LDR1MsiG0wk6NW+4sRHG1/o0v3KJz9Xx10wN9R8BG5RTBp
-	 SusCb5e2JRXTFdw+bYwIOY2WdAdJHSVCV+1rdJiH5raFD3xFVbouQUis4BKkiQhbWF
-	 rpFz1lPj//l37RjL7ZhdisySBp8kdFvGbW+e7KkTGO3oojwqBKhQIymbZLMPMp49/L
-	 nX2R/z+8ZYjsw==
-Received: by mail.quirkbyte.pl for <linux-snps-arc@lists.infradead.org>; Tue, 19 Dec 2023 08:30:16 GMT
-Message-ID: <20231219084500-0.1.9.265g.0.pnrk4lc4tk@quirkbyte.pl>
-Date: Tue, 19 Dec 2023 08:30:16 GMT
-From: "Norbert Karecki" <norbert.karecki@quirkbyte.pl>
-To: <linux-snps-arc@lists.infradead.org>
-Subject: Fotowoltaika - propozycja instalacji
-X-Mailer: mail.quirkbyte.pl
-MIME-Version: 1.0
+	Tue, 19 Dec 2023 20:42:00 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 9690ECE1ABD;
+	Tue, 19 Dec 2023 20:41:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CFFD1C433C7;
+	Tue, 19 Dec 2023 20:41:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1703018513;
+	bh=IBAg6KoMW0tpFU64tSRXNGdLF5fWVhdSLcYQeFL3PHI=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=XOkVDQYKuRO70/49YYxAJjDYMVckZI2lkjNNF6UqYJ5mljATLIk+M5k+A0p1zuks2
+	 UB3h8jHiZYKBf2IjhXqidSzVoWhaXzFSFV9Ii7nI50C1pwsr6kLCspVgzM2Z9MScGa
+	 hzoCOOlSU6NP1pDubNQLPjKVBuLcXalnHoz/vXiA3h6ZgeIEORPQNtwRteBe8pVYp6
+	 CoaADkyfejRoQaXDivOs8h/aCUAJCJfcGTAGaxYKjPEqO6ZCJTTrZJkttVqWd55+CF
+	 L3xn6ffprYIXHlAdsNkoX7OIicJz1pYYUBHRUadlAv5u77ZbUlh+uxExxf2pEZCkuX
+	 E9tEUv4J7ag/g==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B83FCC41677;
+	Tue, 19 Dec 2023 20:41:53 +0000 (UTC)
+Subject: Re: [GIT PULL] ARC fixes for 6.7
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <889dc07d-f00f-4012-985d-314da7dda52d@kernel.org>
+References: <889dc07d-f00f-4012-985d-314da7dda52d@kernel.org>
+X-PR-Tracked-List-Id: Linux on Synopsys ARC Processors <linux-snps-arc.lists.infradead.org>
+X-PR-Tracked-Message-Id: <889dc07d-f00f-4012-985d-314da7dda52d@kernel.org>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-6.7-fixes
+X-PR-Tracked-Commit-Id: 9a733dc4fbeec3f6d99645b845712b035e7440cf
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 9c749e61a1104ba9cf00519e723a7fa8ac55db0d
+Message-Id: <170301851374.10204.8664760239849581601.pr-tracker-bot@kernel.org>
+Date: Tue, 19 Dec 2023 20:41:53 +0000
+To: Vineet Gupta <vgupta@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, arcml <linux-snps-arc@lists.infradead.org>, lkml <linux-kernel@vger.kernel.org>, Pavel Kozlov <Pavel.Kozlov@synopsys.com>, Dan Carpenter <dan.carpenter@linaro.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231219_003417_829431_693F7CAE 
-X-CRM114-Status: UNSURE (   1.56  )
+X-CRM114-CacheID: sfid-20231219_124157_655095_A7976350 
+X-CRM114-Status: UNSURE (   3.20  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -61,23 +75,26 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-RHppZcWEIGRvYnJ5LAogCkN6eSByb3p3YcW8YWxpIFBhxYRzdHdvIG1vbnRhxbwgc3lzdGVtdSBm
-b3Rvd29sdGFpY3puZWdvPwogCkluc3RhbGFjamEgZm90b3dvbHRhaWN6bmEgamVzdCBuYWpsZXBz
-enltIHNwb3NvYmVtIG5hIG9ibmnFvGVuaWUgd3lzb2tvxZtjaSByYWNodW5rw7N3IHphIHByxIVk
-IChwb3pvc3RhasSFIHR5bGtvIG9wxYJhdHkgc3RhxYJlKSBpIHphYmV6cGllY3plbmllIHNpxJkg
-cHJ6ZWQgcm9zbsSFY3ltaSBjZW5hbWkgZW5lcmdpaSBlbGVrdHJ5Y3puZWouIEplc3QgdG8gdyBw
-ZcWCbmkgb2RuYXdpYWxuZSBpIGJlemVtaXN5am5lIMW6csOzZMWCbyBlbmVyZ2lpLCBkemnEmWtp
-IGN6ZW11IHByenljenluaWFteSBzacSZIGRvIG9jaHJvbnkgxZtyb2Rvd2lza2EgbmF0dXJhbG5l
-Z28uCiAKRHppYcWCYW15IG9kIHdpZWx1IGxhdCBuYSByeW5rdSBlbmVyZ2V0eWN6bnltLiBQcnp5
-Z290dWplbXkgcHJvamVrdCwgd3ljZW7EmSBvcmF6IGtvbXBsZWtzb3dvIHd5a29uYW15IGkgemfF
-gm9zaW15IHJlYWxpemFjasSZIGRvIHpha8WCYWR1IGVuZXJnZXR5Y3puZWdvLiAKIApDenkgY2hj
-xIUgUGHFhHN0d28gcG96bmHEhyBuYXN6xIUgcHJvcG96eWNqxJk/ICAKCgpQb3pkcmF3aWFtCk5v
-cmJlcnQgS2FyZWNraQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmlu
-ZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9s
-aW51eC1zbnBzLWFyYwo=
+The pull request you sent on Mon, 18 Dec 2023 21:19:03 -0800:
+
+> git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-6.7-fixes
+
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/9c749e61a1104ba9cf00519e723a7fa8ac55db0d
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
