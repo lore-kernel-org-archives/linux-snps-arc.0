@@ -4,69 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2174C46CCD
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 17 Dec 2023 13:48:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4728BC41535
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 19 Dec 2023 05:19:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	List-Archive:List-Unsubscribe:List-Id:Subject:From:Cc:To:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=MVXviVdAA8qxXPVy+aCGazPU8Pge2ixoiT0Fwy7zvXc=; b=WoCqnydSg59Uno
-	LoyAlqEc6uEV5pkpRB/ZZBCJGl7AFMIvBgMSaU4LhmWO/VbDR7Hv71HMvgCv27kbkQS63urDRPHu/
-	6lsI3WkfaJDrObP9KVQNyjUcagvPClGb/myuN2FyS4X3L6xynQi3iXtfMmXFegRP8JiRwp0I2Z+4X
-	KPRGOXB9SIcHonWXg2nyP7mcOXoAXV9qDpMMxbV3DXVneyI1mYDQA2HLbofQFOwPFbeHtFbVF6yFz
-	Bfk0az0pnIHNcGqEx+V1Li/qVODBRgdJK+n/RAHVYkUNtInaoE4oto+wb7pLA/adWRTSOweKTuMdE
-	oeYySO+7t1ayr/dcAtew==;
+	List-Owner; bh=gGl2rd2NCphPXSDB8wFGgEcTgGxU2Gnl4goZId9+caw=; b=UcAEV5Qw7X/7b7
+	M9OqZpoyQekOaKM2G7bbk3bF+6zSnWfjn6rJoI3zJhIQ+AQQ2yH7B4xUqBkJjqRwWvpCo2lLHYUsg
+	rPoERwFgl+jjL5fkITn533Dcxp3oBQTI7GytgJc5lGeHYAJgCRL/xdzckCDJek5wDiVEPlnZDhHZ6
+	9b8/IGFz/1m0Rhf7ItR6UmiuXt9J5shScrLjiy/1DvSvyLnMfbRI5gZAIvMhDlonV50eSO5Jeoaxg
+	jAO+xvYspr2Vr89xcF7lfrNNKrDx8STJOhj9H1kqi4rmPtc6sTwd5nPFeIXpEE9xAJ1vCkkeaOaWV
+	PO+92OZul94Ac08pVk4A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rErVJ-007twn-2H;
-	Sun, 17 Dec 2023 13:48:25 +0000
-Received: from mgamail.intel.com ([134.134.136.126])
+	id 1rFSVZ-00CsPQ-0C;
+	Tue, 19 Dec 2023 05:19:09 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rErVH-007tvu-0k
+	id 1rFSVW-00CsOy-2m
 	for linux-snps-arc@lists.infradead.org;
-	Sun, 17 Dec 2023 13:48:24 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702820903; x=1734356903;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3bmy019Ze3o0nhRb7RQ/W5So8i0WEX5x0CPBGipLuM8=;
-  b=I7Xu4R1IUnpeuh7jA+71QBQAbL2lufum0xudMZUrwGWPD6GZGxHvjcqK
-   CZV/gwLDulEOHbnKYBlcoRzwws6Dy1NPRIL3PDDsh3tppV9Bt6U75CT6S
-   Oy12e80hF8LUQHHxOD+NJJ15K1xXXij1X8hd2ZHm7Q5Kzhe3L4SW0ce4q
-   BSA1hdVFS58A0PydkfgXL322z5zUMlk/uk72OM69khxE88gG8PRQRMKVP
-   rsng6lUIpWclq+Pu8zZLCDLNThYu5LxVY1hdqPImzJFwqQVF96kx0hGfW
-   IJB6y9aVJ53UsWgMpr490x60YgiSesD6G5JD8pOFlmH6b8QT1oltD2U+t
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="380408270"
-X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
-   d="scan'208";a="380408270"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 05:48:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
-   d="scan'208";a="16869810"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 17 Dec 2023 05:48:20 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rErVA-00035E-1f;
-	Sun, 17 Dec 2023 13:48:16 +0000
-Date: Sun, 17 Dec 2023 21:47:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	Vineet Gupta <vgupta@synopsys.com>
-Subject: arch/arc/plat-hsdk/platform.c:16:5: sparse: sparse: symbol
- 'arc_hsdk_axi_dmac_coherent' was not declared. Should it be static?
-Message-ID: <202312172140.FvgljCBk-lkp@intel.com>
+	Tue, 19 Dec 2023 05:19:08 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 985416118A;
+	Tue, 19 Dec 2023 05:19:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17141C433C8;
+	Tue, 19 Dec 2023 05:19:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702963145;
+	bh=EegGAbquI0Kz77iG8EbA05ksIWJlcmWcA5xeDy8CDcQ=;
+	h=Date:To:Cc:From:Subject:From;
+	b=FLlQsIzXG7T1eSey28exVXvIm2EjuszTK7dqEwUj/hUOZ06It3BfYgqFBD6yF2xKT
+	 JbYoyjnDk9ni4NIUcsTf7rIjMbpu9QcEbIxo3Ic2oXYbbLQp+hOjIshM3U7PSamwuL
+	 zZy41Pgtb1Epk6ApcbdATcegYhsYFgDGVJ7DZ2Zv0btAvKZnCxxzyt3ihLD5OAPmmR
+	 L7d2stUvN5wWkGMvT7wDtOeJyK3vDPcj78FjBAoC+7xO4mR2skXLY2ISLGjcibjaNd
+	 VnDt/FYsaGEQFZ5567P8BTOEEvC2RtP53cjk2/lsNAjWUVrqCvkyCaeYwiEm+TH6f+
+	 2cNnS3YV88bgg==
+Message-ID: <889dc07d-f00f-4012-985d-314da7dda52d@kernel.org>
+Date: Mon, 18 Dec 2023 21:19:03 -0800
 MIME-Version: 1.0
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: arcml <linux-snps-arc@lists.infradead.org>,
+ lkml <linux-kernel@vger.kernel.org>, Pavel Kozlov
+ <Pavel.Kozlov@synopsys.com>, Dan Carpenter <dan.carpenter@linaro.org>
+From: Vineet Gupta <vgupta@kernel.org>
+Subject: [GIT PULL] ARC fixes for 6.7
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231217_054823_354647_0DD7297B 
-X-CRM114-Status: UNSURE (   7.44  )
+X-CRM114-CacheID: sfid-20231218_211906_956613_084DE894 
+X-CRM114-Status: UNSURE (   6.28  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -79,40 +68,46 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3b8a9b2e6809d281890dd0a1102dc14d2cd11caf
-commit: ce0eff0d9b4d37702df48a39e3fddb5e39b2c25b ARC: [plat-hsdk]: allow to switch between AXI DMAC port configurations
-date:   4 years, 4 months ago
-config: arc-randconfig-r111-20231107 (https://download.01.org/0day-ci/archive/20231217/202312172140.FvgljCBk-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231217/202312172140.FvgljCBk-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312172140.FvgljCBk-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> arch/arc/plat-hsdk/platform.c:16:5: sparse: sparse: symbol 'arc_hsdk_axi_dmac_coherent' was not declared. Should it be static?
-   arch/arc/plat-hsdk/platform.c:27:17: sparse: sparse: undefined identifier '__builtin_arc_sr'
-   arch/arc/plat-hsdk/platform.c:34:17: sparse: sparse: undefined identifier '__builtin_arc_sr'
-
-vim +/arc_hsdk_axi_dmac_coherent +16 arch/arc/plat-hsdk/platform.c
-
-    15	
-  > 16	int arc_hsdk_axi_dmac_coherent __section(.data) = 0;
-    17	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+SGkgTGludXMsCgpMYXRlIGluIHRoZSBjeWNsZSBidXQgd2UgaGF2ZSBhIGJ1bmNoIG9mIGZpeGVz
+IGZvciBBUkMuIFBsZWFzZSBwdWxsLgoKVGh4LAotVmluZWV0CgotLS0tLS0tLS0tLS0tLS0+ClRo
+ZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21taXQgMzNjYzkzOGU2NWE5OGYxZDI5ZDBhMTg0
+MDNkYmJlZTA1MGRjYWQ5YToKCsKgIExpbnV4IDYuNy1yYzQgKDIwMjMtMTItMDMgMTg6NTI6NTYg
+KzA5MDApCgphcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3NpdG9yeSBhdDoKCsKgIGdpdDov
+L2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC92Z3VwdGEvYXJjLmdpdC8K
+dGFncy9hcmMtNi43LWZpeGVzCgpmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8gOWE3MzNk
+YzRmYmVlYzNmNmQ5OTY0NWI4NDU3MTJiMDM1ZTc0NDBjZjoKCsKgIEFSQzogYWRkIGh1Z2V0bGIg
+ZGVmaW5pdGlvbnMgKDIwMjMtMTItMTMgMTk6MzM6MTAgLTA4MDApCgotLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCkFSQyBmaXhl
+cyBmb3IgNi43CgrCoC0gYnVpbGQgZXJyb3IgZm9yIGh1Z2V0bGIsIHNwYXJzZSBhbmQgc21hdGNo
+IGZpeGVzCgrCoC0gUmVtb3ZhbCBvZiBWSVBUIGFsaWFzaW5nIGNhY2hlIGNvZGUKCi0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0K
+UGF2ZWwgS296bG92ICgxKToKwqDCoMKgwqDCoCBBUkM6IGFkZCBodWdldGxiIGRlZmluaXRpb25z
+CgpWaW5lZXQgR3VwdGEgKDUpOgrCoMKgwqDCoMKgIEFSQzogZW50cnk6IFNBVkVfQUJJX0NBTExF
+RV9SRUc6IElTQS9BQkkgc3BlY2lmaWMgaGVscGVyCsKgwqDCoMKgwqAgQVJDOiBlbnRyeTogbW92
+ZSBBUkNvbXBhY3Qgc3BlY2lmaWMgYml0cyBvdXQgb2YgZW50cnkuaArCoMKgwqDCoMKgIEFSQzog
+bW06IHJldGlyZSBzdXBwb3J0IGZvciBhbGlhc2luZyBWSVBUIEQkCsKgwqDCoMKgwqAgQVJDOiBm
+aXggc3BhcmUgZXJyb3IKwqDCoMKgwqDCoCBBUkM6IGZpeCBzbWF0Y2ggd2FybmluZwoKwqBhcmNo
+L2FyYy9LY29uZmlnwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDC
+oCA1IC0tCsKgYXJjaC9hcmMvaW5jbHVkZS9hc20vY2FjaGVmbHVzaC5owqDCoMKgIHzCoCA0MyAt
+LS0tLS0tLS0tLQrCoGFyY2gvYXJjL2luY2x1ZGUvYXNtL2VudHJ5LWFyY3YyLmjCoMKgIHzCoCAz
+MiArKysrKysrKysKwqBhcmNoL2FyYy9pbmNsdWRlL2FzbS9lbnRyeS1jb21wYWN0LmggfMKgIDg3
+ICsrKysrKysrKysrKysrKysrKysrKy0KwqBhcmNoL2FyYy9pbmNsdWRlL2FzbS9lbnRyeS5owqDC
+oMKgwqDCoMKgwqDCoCB8IDExMCArKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCsKgYXJjaC9h
+cmMvaW5jbHVkZS9hc20vaHVnZXBhZ2UuaMKgwqDCoMKgwqAgfMKgwqAgNyArKwrCoGFyY2gvYXJj
+L2luY2x1ZGUvYXNtL3B0cmFjZS5owqDCoMKgwqDCoMKgwqAgfMKgIDE0ICsrLS0KwqBhcmNoL2Fy
+Yy9rZXJuZWwvc2V0dXAuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgIDQgKy0KwqBh
+cmNoL2FyYy9rZXJuZWwvc2lnbmFsLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgNiAr
+LQrCoGFyY2gvYXJjL21tL2NhY2hlLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IHwgMTM2CisrLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCsKgYXJjaC9hcmMvbW0v
+bW1hcC5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAyMSArLS0tLS0K
+wqBhcmNoL2FyYy9tbS90bGIuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IHzCoCAxNiArKy0tLQrCoDEyIGZpbGVzIGNoYW5nZWQsIDE1NSBpbnNlcnRpb25zKCspLCAzMjYg
+ZGVsZXRpb25zKC0pCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5m
+cmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xp
+bnV4LXNucHMtYXJjCg==
