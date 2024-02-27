@@ -4,84 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33E0EC5478C
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Feb 2024 15:41:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D04EC54798
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Feb 2024 15:43:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Subject:Cc:To:From:Date:References:
 	In-Reply-To:Message-Id:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=MKyAnKM5uOYOpaEgnJE/5nIhNl+uXiR4hHtkh9g7X9k=; b=CmNExQpMnx5Cva
-	frMPxlD9VTI6ySYR8qsDyoeP5CSaYixvv06BYWAkECFDaAQH91fcVwaTRZcYWvgkmu3rGfpCyNd6k
-	4Dvzm7Iv5tYs4P/NlVvbEiYoc5VVUzQckpBXHpon74m2aexy2WF2ocZBlvHryduC2MBIVr1TuyNQk
-	4tWmiu8g7VY/AkOIe/pHmXWy7C/e/xkTS+O+yyePV0DXsy+chtOldyrHEwigwr1EqqDdCLeDCWvh8
-	kjQsYEIUT9OBsJo9zGeTYzIEOf8JUPtxRD1vmHvpcYSXAOuMfDf77k++ZcfvVAABZ5LvsA/XiOYHW
-	HmaMsNawW9C+oKL2wLcw==;
+	List-Owner; bh=kkhHkmBK4YQbGWLDWMyzp0w4Q9S0JY8DKvKfV4+4uzs=; b=ziZ0OET2X3/Q2A
+	SLlYECFZiW3eUqeUIHGvZJkmM3nZXUIADDUXxYoyEeSrw0yUJXndCxQHhzpRPSZB0hAr2eflZx+f+
+	/yFFEYiKoGbh9oBo8Y6dcppmP8iuG7Xjo3nCxHrzdO27fBeE0LsgraVOxTz7cd7Hfy4zcYugJVwl0
+	QOSc2qriy5ISYpQ3t87iVnw8n6jdFoMEfh4tc5p2s/EFrFwMUDdP1LeM2lBk99WOyTOPf0DmgAvEz
+	T2izIWQNETWuxYDmzKXZH3scT7HCBG/ZvMV5Bu6NcYXwGojFpWS/wK1VGuVcTfvsimpz9VNWDRty1
+	qIjI+PhIKlROJhmiyrwg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rezZs-00000005oeg-2ZUw;
-	Tue, 27 Feb 2024 15:41:08 +0000
-Received: from new4-smtp.messagingengine.com ([66.111.4.230])
+	id 1rezbq-00000005pFS-0wTv;
+	Tue, 27 Feb 2024 15:43:10 +0000
+Received: from flow5-smtp.messagingengine.com ([103.168.172.140])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rezZl-00000005oc0-1gj9;
-	Tue, 27 Feb 2024 15:41:05 +0000
+	id 1rezbm-00000005pCv-0FAg;
+	Tue, 27 Feb 2024 15:43:07 +0000
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.nyi.internal (Postfix) with ESMTP id C50BC581673;
-	Tue, 27 Feb 2024 10:40:56 -0500 (EST)
+	by mailflow.nyi.internal (Postfix) with ESMTP id F2D5720008F;
+	Tue, 27 Feb 2024 10:43:03 -0500 (EST)
 Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Tue, 27 Feb 2024 10:40:56 -0500
+  by compute5.internal (MEProxy); Tue, 27 Feb 2024 10:43:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1709048456; x=1709055656; bh=lT/5Xxdnqx
-	5CMYADxupUohV9DQkUzUShK5fUq//vk/8=; b=Rtc0sWpGwr1a2ypPut3gLf8atr
-	meNXRUSYs2A6Hh4w7+CTYSB6z44OoztdFsDfwmRhAuSRfZs+txW0KNRVDfs+K3n+
-	odTYi2ZQlT7s+E0LFaLC7ar/Z4FD+HK9HhZAJiOw+OgQPbgrBWz8VJ+exLNnlzg+
-	1LS7GuIOq0sceldQ44JsIMlow7bhpI2GxOgAzs3axuijpISknEFSGq7x6bvtwoC+
-	p+hQROmI2qyGkEqbTnYhToPicndBF1DMV0pOJj+WFtfKtWpYwdWnSRNn3VI0XYSw
-	rKIYecBNWF5GYiJ7+9wJ1D3mIc0crUYWjJ9ATjE3f1mVy8Wvhr2QzIYBlkWg==
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1709048583;
+	 x=1709055783; bh=rCK/UfqbDu4ldnegzmSK0UKvclJAYdVrTkCZN4NB1xI=; b=
+	rDZztf+EZEmbYIIZ7K/BZsGWztOvaw0wL+R1NkEaGPDWSws5dUN+RIpfm1kT9ymI
+	ows+zMsmMVnXCAO8Pzidm6a++lXC/Ten//T66Ew2JODUoNckYQNa9HTdBG8kKzyf
+	Suej1YRfWtmbrV1ZODw4orTErVizwvwJmRcOC7CWmQVrBkqwrKRbDsUHJZYoDIze
+	XKPwfs+Fh03PV0sivL4vKav0n4NzCW4fuNNRtiZf6cUtds9qey1Xef4aEXJwkba8
+	xLl6wEAa488pjmfGf8D1AN6iPSngdkkfhqwWz2TCBv+rzUkVoby7hEYUXTLfmyS8
+	SsjkHFi66V+ZqoeoMFeVyQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1709048456; x=1709055656; bh=lT/5Xxdnqx5CMYADxupUohV9DQkU
-	zUShK5fUq//vk/8=; b=JW9+YjquNnm7o12jdkN5mfx60FJfx8wDhr9OmpbxP3lG
-	9cvvv30icSLXu5LQ2wzCYFyfyb71a46fbn1t+Z0Lu9+GBDCOFSjqELt0zbOxC6LZ
-	0Oeyvvkzv1yTBIDAKFYI7PqcjoiiSe9lBeKab9Hr2IQZf1E7+rdWITwKMv3VJPUX
-	HOIlG6q95Nc7cZjs/HAVbRcvsDMGhIzcU4s1QIiv8t6ivmDQ0zZnnJNBNUH5JMQx
-	Rei8lc492TZG3LNU8wmSjCzIoHONeOUx/0Pws8OKhYkcghtRvGS0r7pTxdDkbIu5
-	HBIHtV8YNK4lNwxjhk9MOg2xf2TnRvLmW0T6J9Bz5A==
-X-ME-Sender: <xms:hgLeZWfF-qbqrdbj0IagYAhSiOEfi5UCEmS_u4yoNDvztXrTURK7_Q>
-    <xme:hgLeZQOzCvuUNg6EuvevTGxYCQO8msOkil0RbDijwSzGYe7psl9pT8BWvheUEhZ7C
-    Pdo_I4MBhOfPArk7QA>
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1709048583; x=
+	1709055783; bh=rCK/UfqbDu4ldnegzmSK0UKvclJAYdVrTkCZN4NB1xI=; b=S
+	y6F6rzybn9EGdSOYXZNXjq9Jc08BcyWDVLk5vtfltqR/0N3QejLBvtuH1nM61fB/
+	IpxgH5KgpJ/goepKpnHxdwuGRVsuDrcCX1H4gPQWgRJoNbFmpcyfCmoyZeAIT+Px
+	e2jmbnjPrwHxEK7UsLFt/0pzARlBBj2xO1hKShLE3owgixW9wRybOa7Jmi+zD7/5
+	wrgeY6P3WATH6wneKFBpQ59A1ZEeGzGbkNFXebbVdc5nkEAO/2kPx47NpcIHD1sz
+	r1UEtZnsz/CRAFLkaE9NR5PTmwRoxMZTi7HCro+oB8aZqqOydQ+HgAQtqRiN5Wr+
+	+g2GTOK/SO4LXnM3FOlvw==
+X-ME-Sender: <xms:BwPeZS47SiblYbq7KodBAl_Vc4Q9Y5qZlFxO6xcw7TfMbjq8SYvnPg>
+    <xme:BwPeZb6iJLmH3mKw8HMCI9wL5vjkcISz55DV2rBlEfop_Dhd351GNWpdWcaduCc_F
+    4h6LT4oizGD01noD2Q>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrgeehgdehhecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
-    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
-    hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:hgLeZXhChxgS4QEqTAxLAOZKAoZBKHRRZvGb10gAMk9IE2OsKRsW-w>
-    <xmx:hgLeZT-J0pIyrYHvMmgFCCI0MMwJYL79LAConhB9Au0fTd7J2iLO_A>
-    <xmx:hgLeZSvOSg8KjmfvYvE-AbxbFQDQ5C9PhmVFAKv9zOm-h-ZQxjKSYA>
-    <xmx:iALeZfob0-nwdlhgZy11nclfVztI8phtznS1Je_w6icjY0iJt68yOA>
+    fjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepgeefjeehvdelvdffieejieejiedvvdfhleeivdelveehjeelteegudektdfg
+    jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:BwPeZRdXWIE5kOTCERrtcwBtgdmrzQx7Zxk1nJMXDnP15whFzvolnw>
+    <xmx:BwPeZfIq8_C9BA8eTIRSxwKMtaC4-DCaunMnbd1Z7sOfTzTyzfNmJA>
+    <xmx:BwPeZWJ5er8j5CGFNjxyS-0pKZukwg0k31oFVMfRzmxPIG9heixJsw>
+    <xmx:BwPeZcVl_5_jsCSftcKQxQLVmz2VxDWr5GmFcuI1KfH_6G4hprdKi3j4jWg>
 Feedback-ID: i56a14606:Fastmail
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id CBF71B6008D; Tue, 27 Feb 2024 10:40:54 -0500 (EST)
+	id 897ACB6008D; Tue, 27 Feb 2024 10:43:03 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.11.0-alpha0-153-g7e3bb84806-fm-20240215.007-g7e3bb848
 MIME-Version: 1.0
-Message-Id: <83450530-c908-4abc-bab7-88c50a3143ff@app.fastmail.com>
-In-Reply-To: <764fafb0-2206-4ab1-84ea-ebb7848c8ff2@sifive.com>
+Message-Id: <e49232e2-9fa9-4f83-9471-a3852b83c113@app.fastmail.com>
+In-Reply-To: <9aae81d0-dfaf-423c-8ceb-72829a98420d@csgroup.eu>
 References: <20240226161414.2316610-1-arnd@kernel.org>
  <20240226161414.2316610-2-arnd@kernel.org>
- <764fafb0-2206-4ab1-84ea-ebb7848c8ff2@sifive.com>
-Date: Tue, 27 Feb 2024 16:40:34 +0100
+ <9aae81d0-dfaf-423c-8ceb-72829a98420d@csgroup.eu>
+Date: Tue, 27 Feb 2024 16:42:43 +0100
 From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Samuel Holland" <samuel.holland@sifive.com>,
+To: "Christophe Leroy" <christophe.leroy@csgroup.eu>,
  "Arnd Bergmann" <arnd@kernel.org>, "Thomas Gleixner" <tglx@linutronix.de>,
  "Vincenzo Frascino" <vincenzo.frascino@arm.com>,
  "Kees Cook" <keescook@chromium.org>,
@@ -94,29 +96,37 @@ Cc: "Matt Turner" <mattst88@gmail.com>, "Vineet Gupta" <vgupta@kernel.org>,
  "Michal Simek" <monstr@monstr.eu>,
  "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
  "Helge Deller" <deller@gmx.de>, "Michael Ellerman" <mpe@ellerman.id.au>,
- "Christophe Leroy" <christophe.leroy@csgroup.eu>,
  "Palmer Dabbelt" <palmer@dabbelt.com>,
  "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
  "Andreas Larsson" <andreas@gaisler.com>,
- "Richard Weinberger" <richard@nod.at>, x86@kernel.org,
+ "Richard Weinberger" <richard@nod.at>, "x86@kernel.org" <x86@kernel.org>,
  "Max Filippov" <jcmvbkbc@gmail.com>, "Andy Lutomirski" <luto@kernel.org>,
  "Jan Kiszka" <jan.kiszka@siemens.com>,
  "Kieran Bingham" <kbingham@kernel.org>,
  "Andrew Morton" <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>,
+ "linux-snps-arc@lists.infradead.org"
+ <linux-snps-arc@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
  "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
- linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev,
- linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+ "linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>,
+ "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
+ "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>,
+ "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
  "linux-openrisc@vger.kernel.org" <linux-openrisc@vger.kernel.org>,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-um@lists.infradead.org
+ "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
+ "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+ "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+ "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+ "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
+ "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
+ "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>
 Subject: Re: [PATCH 1/4] arch: consolidate existing CONFIG_PAGE_SIZE_*KB definitions
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240227_074101_698482_EE825DDD 
-X-CRM114-Status: GOOD (  16.22  )
+X-CRM114-CacheID: sfid-20240227_074306_196871_DB3912BD 
+X-CRM114-Status: GOOD (  15.29  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -128,125 +138,69 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 26, 2024, at 17:55, Samuel Holland wrote:
-> On 2024-02-26 10:14 AM, Arnd Bergmann wrote:
->>  
->> +config HAVE_PAGE_SIZE_4KB
->> +	bool
->> +
->> +config HAVE_PAGE_SIZE_8KB
->> +	bool
->> +
->> +config HAVE_PAGE_SIZE_16KB
->> +	bool
->> +
->> +config HAVE_PAGE_SIZE_32KB
->> +	bool
->> +
->> +config HAVE_PAGE_SIZE_64KB
->> +	bool
->> +
->> +config HAVE_PAGE_SIZE_256KB
->> +	bool
->> +
->> +choice
->> +	prompt "MMU page size"
->
-> Should this have some generic help text (at least a warning about 
-> compatibility)?
-
-Good point. I've added some of this now, based on the mips
-text with some generalizations for other architectures:
-
-config PAGE_SIZE_4KB
-        bool "4KiB pages" 
-        depends on HAVE_PAGE_SIZE_4KB
-        help 
-          This option select the standard 4KiB Linux page size and the only
-          available option on many architectures. Using 4KiB page size will
-          minimize memory consumption and is therefore recommended for low
-          memory systems.
-          Some software that is written for x86 systems makes incorrect
-          assumptions about the page size and only runs on 4KiB pages.
-
-config PAGE_SIZE_8KB
-        bool "8KiB pages"
-        depends on HAVE_PAGE_SIZE_8KB
-        help
-          This option is the only supported page size on a few older
-          processors, and can be slightly faster than 4KiB pages.
-
-config PAGE_SIZE_16KB
-        bool "16KiB pages"
-        depends on HAVE_PAGE_SIZE_16KB
-        help 
-          This option is usually a good compromise between memory
-          consumption and performance for typical desktop and server
-          workloads, often saving a level of page table lookups compared
-          to 4KB pages as well as reducing TLB pressure and overhead of
-          per-page operations in the kernel at the expense of a larger
-          page cache. 
-
-config PAGE_SIZE_32KB
-        bool "32KiB pages"
-        depends on HAVE_PAGE_SIZE_32KB
-          Using 32KiB page size will result in slightly higher performance
-          kernel at the price of higher memory consumption compared to
-          16KiB pages.  This option is available only on cnMIPS cores.
-          Note that you will need a suitable Linux distribution to
-          support this.
-
-config PAGE_SIZE_64KB
-        bool "64KiB pages"
-        depends on HAVE_PAGE_SIZE_64KB
-          Using 64KiB page size will result in slightly higher performance
-          kernel at the price of much higher memory consumption compared to
-          4KiB or 16KiB pages.
-          This is not suitable for general-purpose workloads but the
-          better performance may be worth the cost for certain types of
-          supercomputing or database applications that work mostly with
-          large in-memory data rather than small files.
-
-config PAGE_SIZE_256KB
-        bool "256KiB pages"
-        depends on HAVE_PAGE_SIZE_256KB
-        help
-          256KB pages have little practical value due to their extreme
-          memory usage.
-
->> diff --git a/arch/hexagon/Kconfig b/arch/hexagon/Kconfig
->> index a880ee067d2e..aac46ee1a000 100644
->> --- a/arch/hexagon/Kconfig
->> +++ b/arch/hexagon/Kconfig
->> @@ -8,6 +8,11 @@ config HEXAGON
->>  	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
->>  	select ARCH_NO_PREEMPT
->>  	select DMA_GLOBAL_POOL
->> +	select FRAME_POINTER
->
-> Looks like a paste error.
->
-
-Fixed, thanks! I think that happened during a rebase.
-
->>  #ifdef CONFIG_PAGE_SIZE_1MB
->> -#define PAGE_SHIFT 20
->>  #define HEXAGON_L1_PTE_SIZE __HVM_PDE_S_1MB
->>  #endif
->
-> The corresponding Kconfig option does not exist (and did not exist before this
-> patch).
-
-Yes, I noticed that as well. It's clearly harmless.
-
-     Arnd
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gTW9uLCBGZWIgMjYsIDIwMjQsIGF0IDIwOjAyLCBDaHJpc3RvcGhlIExlcm95IHdyb3RlOgo+
+IExlIDI2LzAyLzIwMjQgw6AgMTc6MTQsIEFybmQgQmVyZ21hbm4gYSDDqWNyaXTCoDoKPj4gRnJv
+bTogQXJuZCBCZXJnbWFubiA8YXJuZEBhcm5kYi5kZT4KPgo+IFRoYXQncyBhIG5pY2UgcmUtZmFj
+dG9yLgo+Cj4gVGhlIG9ubHkgZHJhd2JhY2sgSSBzZWUgaXMgdGhhdCB3ZSBhcmUgbG9vc2luZyBz
+ZXZlcmFsIGludGVyZXN0aW5nIAo+IGFyY2gtc3BlY2lmaWMgY29tbWVudHMvaGVscCB0ZXh0LiBE
+b24ndCBrbm93IGlmIHRoZXJlIGNvdWxkIGJlIGFuIGVhc3kgCj4gd2F5IHRvIGtlZXAgdGhlbS4K
+ClRoaXMgaXMgd2hhdCBJIGhhdmUgbm93LCB0cnlpbmcgdG8gd3JpdGUgaXQgYXMgZ2VuZXJpYyBh
+cwpwb3NzaWJsZSB3aGlsZSBzdGlsbCBnaXZpbmcgdXNlZnVsIGFkdmljZToKCmNvbmZpZyBQQUdF
+X1NJWkVfNEtCCiAgICAgICAgYm9vbCAiNEtpQiBwYWdlcyIKICAgICAgICBkZXBlbmRzIG9uIEhB
+VkVfUEFHRV9TSVpFXzRLQgogICAgICAgIGhlbHAKICAgICAgICAgIFRoaXMgb3B0aW9uIHNlbGVj
+dCB0aGUgc3RhbmRhcmQgNEtpQiBMaW51eCBwYWdlIHNpemUgYW5kIHRoZSBvbmx5CiAgICAgICAg
+ICBhdmFpbGFibGUgb3B0aW9uIG9uIG1hbnkgYXJjaGl0ZWN0dXJlcy4gVXNpbmcgNEtpQiBwYWdl
+IHNpemUgd2lsbAogICAgICAgICAgbWluaW1pemUgbWVtb3J5IGNvbnN1bXB0aW9uIGFuZCBpcyB0
+aGVyZWZvcmUgcmVjb21tZW5kZWQgZm9yIGxvdwogICAgICAgICAgbWVtb3J5IHN5c3RlbXMuCiAg
+ICAgICAgICBTb21lIHNvZnR3YXJlIHRoYXQgaXMgd3JpdHRlbiBmb3IgeDg2IHN5c3RlbXMgbWFr
+ZXMgaW5jb3JyZWN0CiAgICAgICAgICBhc3N1bXB0aW9ucyBhYm91dCB0aGUgcGFnZSBzaXplIGFu
+ZCBvbmx5IHJ1bnMgb24gNEtpQiBwYWdlcy4KCmNvbmZpZyBQQUdFX1NJWkVfOEtCCiAgICAgICAg
+Ym9vbCAiOEtpQiBwYWdlcyIKICAgICAgICBkZXBlbmRzIG9uIEhBVkVfUEFHRV9TSVpFXzhLQgog
+ICAgICAgIGhlbHAKICAgICAgICAgIFRoaXMgb3B0aW9uIGlzIHRoZSBvbmx5IHN1cHBvcnRlZCBw
+YWdlIHNpemUgb24gYSBmZXcgb2xkZXIKICAgICAgICAgIHByb2Nlc3NvcnMsIGFuZCBjYW4gYmUg
+c2xpZ2h0bHkgZmFzdGVyIHRoYW4gNEtpQiBwYWdlcy4KCmNvbmZpZyBQQUdFX1NJWkVfMTZLQgog
+ICAgICAgIGJvb2wgIjE2S2lCIHBhZ2VzIgogICAgICAgIGRlcGVuZHMgb24gSEFWRV9QQUdFX1NJ
+WkVfMTZLQgogICAgICAgIGhlbHAKICAgICAgICAgIFRoaXMgb3B0aW9uIGlzIHVzdWFsbHkgYSBn
+b29kIGNvbXByb21pc2UgYmV0d2VlbiBtZW1vcnkKICAgICAgICAgIGNvbnN1bXB0aW9uIGFuZCBw
+ZXJmb3JtYW5jZSBmb3IgdHlwaWNhbCBkZXNrdG9wIGFuZCBzZXJ2ZXIKICAgICAgICAgIHdvcmts
+b2Fkcywgb2Z0ZW4gc2F2aW5nIGEgbGV2ZWwgb2YgcGFnZSB0YWJsZSBsb29rdXBzIGNvbXBhcmVk
+CiAgICAgICAgICB0byA0S0IgcGFnZXMgYXMgd2VsbCBhcyByZWR1Y2luZyBUTEIgcHJlc3N1cmUg
+YW5kIG92ZXJoZWFkIG9mCiAgICAgICAgICBwZXItcGFnZSBvcGVyYXRpb25zIGluIHRoZSBrZXJu
+ZWwgYXQgdGhlIGV4cGVuc2Ugb2YgYSBsYXJnZXIKICAgICAgICAgIHBhZ2UgY2FjaGUuCgpjb25m
+aWcgUEFHRV9TSVpFXzMyS0IKICAgICAgICBib29sICIzMktpQiBwYWdlcyIKICAgICAgICBkZXBl
+bmRzIG9uIEhBVkVfUEFHRV9TSVpFXzMyS0IKICAgICAgICAgIFVzaW5nIDMyS2lCIHBhZ2Ugc2l6
+ZSB3aWxsIHJlc3VsdCBpbiBzbGlnaHRseSBoaWdoZXIgcGVyZm9ybWFuY2UKICAgICAgICAgIGtl
+cm5lbCBhdCB0aGUgcHJpY2Ugb2YgaGlnaGVyIG1lbW9yeSBjb25zdW1wdGlvbiBjb21wYXJlZCB0
+bwogICAgICAgICAgMTZLaUIgcGFnZXMuICBUaGlzIG9wdGlvbiBpcyBhdmFpbGFibGUgb25seSBv
+biBjbk1JUFMgY29yZXMuCiAgICAgICAgICBOb3RlIHRoYXQgeW91IHdpbGwgbmVlZCBhIHN1aXRh
+YmxlIExpbnV4IGRpc3RyaWJ1dGlvbiB0bwogICAgICAgICAgc3VwcG9ydCB0aGlzLgoKY29uZmln
+IFBBR0VfU0laRV82NEtCCiAgICAgICAgYm9vbCAiNjRLaUIgcGFnZXMiCiAgICAgICAgZGVwZW5k
+cyBvbiBIQVZFX1BBR0VfU0laRV82NEtCCiAgICAgICAgICBVc2luZyA2NEtpQiBwYWdlIHNpemUg
+d2lsbCByZXN1bHQgaW4gc2xpZ2h0bHkgaGlnaGVyIHBlcmZvcm1hbmNlCiAgICAgICAgICBrZXJu
+ZWwgYXQgdGhlIHByaWNlIG9mIG11Y2ggaGlnaGVyIG1lbW9yeSBjb25zdW1wdGlvbiBjb21wYXJl
+ZCB0bwogICAgICAgICAgNEtpQiBvciAxNktpQiBwYWdlcy4KICAgICAgICAgIFRoaXMgaXMgbm90
+IHN1aXRhYmxlIGZvciBnZW5lcmFsLXB1cnBvc2Ugd29ya2xvYWRzIGJ1dCB0aGUKICAgICAgICAg
+IGJldHRlciBwZXJmb3JtYW5jZSBtYXkgYmUgd29ydGggdGhlIGNvc3QgZm9yIGNlcnRhaW4gdHlw
+ZXMgb2YKICAgICAgICAgIHN1cGVyY29tcHV0aW5nIG9yIGRhdGFiYXNlIGFwcGxpY2F0aW9ucyB0
+aGF0IHdvcmsgbW9zdGx5IHdpdGgKICAgICAgICAgIGxhcmdlIGluLW1lbW9yeSBkYXRhIHJhdGhl
+ciB0aGFuIHNtYWxsIGZpbGVzLgoKY29uZmlnIFBBR0VfU0laRV8yNTZLQgogICAgICAgIGJvb2wg
+IjI1NktpQiBwYWdlcyIKICAgICAgICBkZXBlbmRzIG9uIEhBVkVfUEFHRV9TSVpFXzI1NktCCiAg
+ICAgICAgaGVscAogICAgICAgICAgMjU2S0IgcGFnZXMgaGF2ZSBsaXR0bGUgcHJhY3RpY2FsIHZh
+bHVlIGR1ZSB0byB0aGVpciBleHRyZW1lCiAgICAgICAgICBtZW1vcnkgdXNhZ2UuCgpMZXQgbWUg
+a25vdyBpZiB5b3UgdGhpbmsgc29tZSBvZiB0aGlzIHNob3VsZCBiZSBhZGFwdGVkIGZ1cnRoZXIu
+Cgo+PiAgIAo+PiArI2RlZmluZSBQQUdFX1NISUZUIENPTkZJR19QQUdFX1NISUZUCj4+ICAgI2Rl
+ZmluZSBQQUdFX1NJWkUgICgxVUwgPDwgUEFHRV9TSElGVCkKPj4gICAjZGVmaW5lIFBBR0VfTUFT
+SyAgKH4oKDEgPDwgUEFHRV9TSElGVCkgLSAxKSkKPj4gICAKPgo+IENvdWxkIHdlIG1vdmUgUEFH
+RV9TSVpFIGFuZCBQQUdFX01BU0sgaW4gYSBnZW5lcmljL2NvcmUgaGVhZGVyIGluc3RlYWQgCj4g
+b2YgaGF2aW5nIGl0IGR1cGxpY2F0ZWQgZm9yIGVhY2ggYXJjaCA/CgpZZXMsIGJ1dCBJJ20gbGVh
+dmluZyB0aGlzIGZvciBhIGZvbGxvdy11cCBzZXJpZXMsIHNpbmNlIEkgaGFkCnRvIHN0b3Agc29t
+ZXdoZXJlIGFuZCB0aGVyZSBpcyBhbHdheXMgcm9vbSBmb3IgY2xlYW51cCB1cCBoZWFkZXJzCmZ1
+cnRoZXIgOy0pCgogICAgICBBcm5kCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNA
+bGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
