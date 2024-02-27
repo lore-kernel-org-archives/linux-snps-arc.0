@@ -4,190 +4,119 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C90CC5478C
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Feb 2024 15:00:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33E0EC5478C
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Feb 2024 15:41:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
-	References:Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Subject:Cc:To:From:Date:References:
+	In-Reply-To:Message-Id:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=/Ygh59hBpb2BmtfWfSen/qaViaiiQpfu/Y71pHC37Og=; b=syPW4zxeeQq0lh
-	Eb869Pn+1q/pz3TXPLVuOse+BSl/B0qECSiGtSjq7iQDJm5d1vA/giFQ3YTP17EXl5k5RiO7U0peU
-	cVma8CeJ4Xe9j2p4IQ4KOLkOQCDO6DEj40EjurRDlpyTARHJOfK762gLsCSv9GapdpcedXs8eCoYg
-	AzK2bfxeIek2pj0BIZ4+uc0ADcxD/2GZB118JzxGbR53JvrkMc5e8xvrPMlr4o/lj/i/jg9p1foH5
-	Ohwa/0keqK1nOV2l3Ky3m/yFZcvNb09OXBivu+Dw+Q6m/k3kT9emcLAr1h05NUDBmbXtgb0AMujoi
-	iDpSGpwtCse1ZjZMX/Kg==;
+	List-Owner; bh=MKyAnKM5uOYOpaEgnJE/5nIhNl+uXiR4hHtkh9g7X9k=; b=CmNExQpMnx5Cva
+	frMPxlD9VTI6ySYR8qsDyoeP5CSaYixvv06BYWAkECFDaAQH91fcVwaTRZcYWvgkmu3rGfpCyNd6k
+	4Dvzm7Iv5tYs4P/NlVvbEiYoc5VVUzQckpBXHpon74m2aexy2WF2ocZBlvHryduC2MBIVr1TuyNQk
+	4tWmiu8g7VY/AkOIe/pHmXWy7C/e/xkTS+O+yyePV0DXsy+chtOldyrHEwigwr1EqqDdCLeDCWvh8
+	kjQsYEIUT9OBsJo9zGeTYzIEOf8JUPtxRD1vmHvpcYSXAOuMfDf77k++ZcfvVAABZ5LvsA/XiOYHW
+	HmaMsNawW9C+oKL2wLcw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1reyx1-00000005gnL-006w;
-	Tue, 27 Feb 2024 15:00:59 +0000
-Received: from mgamail.intel.com ([192.198.163.16])
+	id 1rezZs-00000005oeg-2ZUw;
+	Tue, 27 Feb 2024 15:41:08 +0000
+Received: from new4-smtp.messagingengine.com ([66.111.4.230])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1reywx-00000005glk-3diG;
-	Tue, 27 Feb 2024 15:00:57 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709046056; x=1740582056;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=RaO181aJpDLW0Gx31CoopQlCEx26CfFWFo5NJgjOsvU=;
-  b=H4rBkFerzh7fHo7q5++BqZPGLRHsFaI2OMP7f29XUhT2P649Y76bVDRe
-   kK5Aa0H2QX5dOAt24NgUAKA65XKwhrlzAiPLsDC/LMDJWAVreiXzWXG19
-   Jz1QG6k7bWazhGvWVWrW4fQHKCv1p3Rp+qshqHO1/67zUuITClbn1KdQ1
-   nnwf500koHdtslF9Iy6NcxcfUzJxF4k07hL6on+o6xUVqEXs8y3R3cjD/
-   WeQ1aZkuXW1UNIIc88CY+1JeZo4BsXNCq4dEXOAcIZ3IwE1ESytaSbjJy
-   w2MokHx2elgGZkSmxFxLQlz2x44rDIHG6IdGcS9Bgr+zQ/wjIHAHFMzoZ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="3943884"
-X-IronPort-AV: E=Sophos;i="6.06,188,1705392000"; 
-   d="scan'208";a="3943884"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2024 07:00:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,188,1705392000"; 
-   d="scan'208";a="7422398"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 27 Feb 2024 07:00:51 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 27 Feb 2024 07:00:49 -0800
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 27 Feb 2024 07:00:49 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Tue, 27 Feb 2024 07:00:49 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Tue, 27 Feb 2024 07:00:49 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Rhx5OCNPR5DqxxSiH7VWBzNuF5O6pnD3MB2KUGgC0DExHSLeoi2Jkj/ZXaa3qTe6YiKr302uW3MHUa182e++UMNnjFmWrcqoM7gy7OI34ezr8Z/0eKQQRSte0kF5tuSUO2HyaLjoJZztiFjt7opCetp61ZuVRqqbZdayps71wNjfGQkNSQ7ofgR34UX2v0a2INukggHhDhxjXqmY9sj9058qhJgDnYNTEWFdf49aF5y/Lg+C/U4K4nmcPGKsdPclohOzs7w/WscTkIGL7WE95hkFUTdS3gOVHDr+XMo4HrpV4CbsozCoHLt5JWUkwOOcCc8r++vPY97+1EIsxJ5sJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RaO181aJpDLW0Gx31CoopQlCEx26CfFWFo5NJgjOsvU=;
- b=oB6xDuRHh4HS3S5/pWtZSHVFZu6TpC5JOQz4i4glpNeBH8tuc4w2bgD8k3Nf61nTkSREX6x5cJsCsioioBCDPJ+h657kERVZHFkrBOFmC/MrDocvsZ0t5poz+gZrmfK/FI+vIPlf9QMzuzGKOMWUQ8g1PAcN9sr5nP+DmvmE3CU7X6DI3Rr+lJnXshCncEI2NSlrJTGbDUMgbaE0DKwvp4hRvwhVMhzGB9MYsDN3hFFhTh4sDHM61oPeU1UhewCPSS38HpwtPBaXuuRKOiWjDx9Sd0GEZ6Z33tim4J4G/U2JKIpUy+lc3/nUzUYSDukuukb1UP13JNqlKIiXHsGNOQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MN0PR11MB5963.namprd11.prod.outlook.com (2603:10b6:208:372::10)
- by DM4PR11MB7397.namprd11.prod.outlook.com (2603:10b6:8:103::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.23; Tue, 27 Feb
- 2024 15:00:46 +0000
-Received: from MN0PR11MB5963.namprd11.prod.outlook.com
- ([fe80::fc9e:b72f:eeb5:6c7b]) by MN0PR11MB5963.namprd11.prod.outlook.com
- ([fe80::fc9e:b72f:eeb5:6c7b%5]) with mapi id 15.20.7339.022; Tue, 27 Feb 2024
- 15:00:46 +0000
-From: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-To: "keescook@chromium.org" <keescook@chromium.org>, "luto@kernel.org"
-	<luto@kernel.org>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "debug@rivosinc.com" <debug@rivosinc.com>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "mingo@redhat.com"
-	<mingo@redhat.com>, "kirill.shutemov@linux.intel.com"
-	<kirill.shutemov@linux.intel.com>, "christophe.leroy@csgroup.eu"
-	<christophe.leroy@csgroup.eu>, "tglx@linutronix.de" <tglx@linutronix.de>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>, "hpa@zytor.com" <hpa@zytor.com>,
-	"peterz@infradead.org" <peterz@infradead.org>, "bp@alien8.de" <bp@alien8.de>,
-	"x86@kernel.org" <x86@kernel.org>, "broonie@kernel.org" <broonie@kernel.org>
-CC: "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
-	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
-	"linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
-	"linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-	"linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
-	"linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>,
-	"sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
-	"linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linuxppc-dev@lists.ozlabs.org"
-	<linuxppc-dev@lists.ozlabs.org>, "linux-mips@vger.kernel.org"
-	<linux-mips@vger.kernel.org>
-Subject: Re: [PATCH v2 5/9] mm: Initialize struct vm_unmapped_area_info
-Thread-Topic: [PATCH v2 5/9] mm: Initialize struct vm_unmapped_area_info
-Thread-Index: AQHaaOdsOIuf9v8cz0SXVaOI9gIdJbEdxC+AgACFfgA=
-Date: Tue, 27 Feb 2024 15:00:46 +0000
-Message-ID: <ad24469275325b86ed316df36153fcdb2863454f.camel@intel.com>
-References: <20240226190951.3240433-1-rick.p.edgecombe@intel.com>
-	 <20240226190951.3240433-6-rick.p.edgecombe@intel.com>
-	 <94a2b919-e03b-4ade-b13e-7774849dc02b@csgroup.eu>
-In-Reply-To: <94a2b919-e03b-4ade-b13e-7774849dc02b@csgroup.eu>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.44.4-0ubuntu2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN0PR11MB5963:EE_|DM4PR11MB7397:EE_
-x-ms-office365-filtering-correlation-id: b0e66ae3-1da6-4204-2f5b-08dc37a4e0f9
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: mn748FgbHOul6iHua64XtMugo+/W6AWuTL2ZmEvCn/32vRDqj+An2YUhXTj5Kd5XgKWfSIkBmW163vFa3DmgpDSX1lWxzXnp9rLmmMy3oTa4ueSz1SJauO+w5cUXVjApSuUEsI1BbBMZkTOqNR9ra6VV+GWu/xCgFV7hNhEg7iqzolFBCSt52ioV+fq0PkM7AY0YG1lfNFrwU8Y3myfAoWmZ1LIZyq8X95N0lq8e/IU5wLVoClym37DOUkspkNpLSuV2tEUoxhRXhgwEi4Fv9ln045T/p8yINSWhz9vt3hfDpSLpsJVc+b5v5ccbuOJe8YjiYb8v9F8gOHBG989W4XuV4VzuLGsiYBVvUdYEFR8w154ivNrxDmzFEKduyFdywrZ4ctwGLM023Yya3EOi2vd9tHqlWi9LihxbLthz0HrvwyQJ41P4p/t3X6p4b5Kz4WzOakooRIRrc1nSBp1xl7E/ZdZI3i93nfzDBJILjTRxiyeKizKhQYvYLcNz/AD6+1SdlUOlV4CmdFP/V4UhOGsNz+YYpjehUlLxsdNo08N7pT6GkdQlZt9LzoD5PRCnVkrMcPD3kK+NZ84HV92W35IzZnv80i9jtBL4Z9Yvqv/yszMOWOHoGwTeV2V6Nf+EMUUMddGl7TTWfbxNekvS3uMb/NLR777XfryrdAd1PYlXzS/D6tHAlHJ0/9EzOLdMVKegGl/h3CXOtQYQdytWwcJr17JEPTzE1J8hPQdi1nk=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB5963.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(921011)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?blNCZzN4eStxZVV5am1FdjN0Q1MvTVBFS0Z6aDZGOU11UXR4SmNjR1B5cXRy?=
- =?utf-8?B?OFEzcm9zbFJuWTZkMTlnRGV2ZHN3MG9MZURUdm5jTlZERlhIMDFmT2tvcERJ?=
- =?utf-8?B?aU5JRnB6LzBvZmZ6cVllOTgzRDg1K0VDYUYyZGlUaUhGZXNyaThiSFV1SWNm?=
- =?utf-8?B?U29QRDdxQ0Rib0F3dVA2d3FIMmFyT2M1ZS82UTZFRDE4S0FoTFNnS2d1RDBW?=
- =?utf-8?B?UU54Ky9VOEsrY3lqQ3FBQ1JlN2lXMHFvbnB3OUlvbTVIcGI2djB3d2YrRmo3?=
- =?utf-8?B?QnRYWXVHdDFUWUhlVmNsMk50cXgvTHV5cXZ4KzI4QzlQS01XTnV2N2Zlejcr?=
- =?utf-8?B?NFpwbVdzaURMVGQyWkJUMFVBSjRMZytnZEpzeThOSzdZTUhDUldpTS9hT09x?=
- =?utf-8?B?dU1meFFpVlY4MHRUZHJXUVM0QVk3MFNHR0hUTStyOUs4Mk1PZ2pmYTRpd3ZD?=
- =?utf-8?B?NjlMVnM5SEEzOVlGV0ZiTWJUazZ3WVBrMUozZHl0K2Q5amhOSmppenkwdEtN?=
- =?utf-8?B?Y1p0VjZBejhuRm9OaWxqaGZnU1RHZkZxajdaRk8rTUlka3AweFh0TjlzeE5G?=
- =?utf-8?B?QjlmMXpkU1VVMjRidDJ4L2dJdXFNdU1UT1l3YXNEaFBWWVVBQ0llNHozazF1?=
- =?utf-8?B?VVlHbnMrLzRkUTlUcGpNUWliMGZ3d21ERGFKZ1AvUDZXZjFhUFRURDRoNkhr?=
- =?utf-8?B?NzlaMTIyZTNZdFdKQmN6QWVJR3ZNVHVLV0pIQUpCR1JhbzliS0YzUnZVY25u?=
- =?utf-8?B?ckYrUmhsbUJIcVdlT0xWL0ZZcG9uK09wVzkraHJNaUlHZzhjaTY5Tm9rRXEy?=
- =?utf-8?B?byt3MXM0LzVaK1VvTitqVHpJcHNiYUkwTHRma1o0dEdXWXEzeUxxQjA1YWNJ?=
- =?utf-8?B?SnZUVlJsRmxIakJZVWpMdEpvTWRHOUU4QzVPZ1F5V2xGeTVFcmhsWEdoVHhJ?=
- =?utf-8?B?dDcvd2x4aStBTFN1RXBUZnhndW1jdGxHeG5qNHFENWw0N0ROeUVzRG9UTmJQ?=
- =?utf-8?B?a0txUVpkZ25CQzFiZ1VoaW0vMG45aDhBVUwrbkhuRXM4cjZhNFZnYmk1WUxk?=
- =?utf-8?B?NkpYV0V2MXZQeVh5Q2U3ZnN4QTdEOGZqUDVzc1FWQ2pQcDZDdGhXUU5icDNq?=
- =?utf-8?B?WnJzZ2hIVEIwZWdjdllJYXJhM215b2Vna2pDMUJvakNwb2NWeUQ0VGVHd1BB?=
- =?utf-8?B?dnAwNmJnMzZYZThSQnhIMUZndFRQSWtTdlJZK0lpWElQb2YrbTE0MFF0L3V6?=
- =?utf-8?B?RjRIUEhrakJvVW9tbGJsdlJPV0x1V2Yvd0JJaENSRHNkRnJVb3FISFJKYlk2?=
- =?utf-8?B?aXFpYVRmVm1SdUFLQVJodUtRV2Y3S09FRlh0UWNFczJPTWNWamU3NzJtYTVK?=
- =?utf-8?B?MDcwdXZzOEl6MCtkbWdwK2liYVQvdWlHbWlSd2RvbUtETVU5V1lhK3E5Mmph?=
- =?utf-8?B?cmpQSmFPUDRVeUhscGVLMjNJMlpGR0o1cGxqOWRURjRiVElNNTlTc2tad1hl?=
- =?utf-8?B?ZHUyVmpuQXVkb0VKUTFuOXZ6SDJnNWJIclJ2SExaSWdqVy9ZM1laUU9aSnBk?=
- =?utf-8?B?cEVwM3UvejFGT2I4MFp6TUFVSVA4c3RQNmwxOXNxc3hPNEhXZmxYZUJ1bE1p?=
- =?utf-8?B?TWJBOG1IS3IwZytONU8xOUhsYy91dHM1UUh6SXpERVhFYW1rbS9mVnV3cm12?=
- =?utf-8?B?UHlYNTMxSWxkZmExV0I4UGRsSmdCbGV2SG9UZFkxczNSS3BraVB0b2tPNnRx?=
- =?utf-8?B?OGJ5Rkh2QURHWUtBcnRZYnh6dkhhaTI5bW4zVTdNT2x6Z0FPSG9NeGQ5L2l1?=
- =?utf-8?B?eG5MWTBMNzVyVXFoVDJqZjFwNElRMGNGY2pPVExKM3dWN1p6eFdFbTRNOTY0?=
- =?utf-8?B?bjRoNU5mMlpib0dGK2ErT0xBTUJPV3FXNXVyZEd1ZlkrTGtMdk5ZbzRsNzBJ?=
- =?utf-8?B?OTF2ajh3bWlhSVpHSjNNaUFBTmMrbXdDTTBtMC9WRTdXS2pHRGRXZzN2R2tK?=
- =?utf-8?B?UUZkWVU0N2ZqWHVJeHZxV0VpWXVRZ3pDb2dpek9Zb2NveEUrK2c2eG9TWTB1?=
- =?utf-8?B?U241NWx5SW51MmdkMTc0RXZOYjA5OHc0bkV0bklSWTZSTjFKNFQ2ZUVhTE1J?=
- =?utf-8?B?bGZ4VzZHbWhneitlYjh0QlhlLzYySFF0Q2Z1WElVaks3Q0l1WHkwcWgvVVVI?=
- =?utf-8?B?NWc9PQ==?=
-Content-ID: <7382061C02003347A4536E29B25683C7@namprd11.prod.outlook.com>
+	id 1rezZl-00000005oc0-1gj9;
+	Tue, 27 Feb 2024 15:41:05 +0000
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.nyi.internal (Postfix) with ESMTP id C50BC581673;
+	Tue, 27 Feb 2024 10:40:56 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 27 Feb 2024 10:40:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1709048456; x=1709055656; bh=lT/5Xxdnqx
+	5CMYADxupUohV9DQkUzUShK5fUq//vk/8=; b=Rtc0sWpGwr1a2ypPut3gLf8atr
+	meNXRUSYs2A6Hh4w7+CTYSB6z44OoztdFsDfwmRhAuSRfZs+txW0KNRVDfs+K3n+
+	odTYi2ZQlT7s+E0LFaLC7ar/Z4FD+HK9HhZAJiOw+OgQPbgrBWz8VJ+exLNnlzg+
+	1LS7GuIOq0sceldQ44JsIMlow7bhpI2GxOgAzs3axuijpISknEFSGq7x6bvtwoC+
+	p+hQROmI2qyGkEqbTnYhToPicndBF1DMV0pOJj+WFtfKtWpYwdWnSRNn3VI0XYSw
+	rKIYecBNWF5GYiJ7+9wJ1D3mIc0crUYWjJ9ATjE3f1mVy8Wvhr2QzIYBlkWg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1709048456; x=1709055656; bh=lT/5Xxdnqx5CMYADxupUohV9DQkU
+	zUShK5fUq//vk/8=; b=JW9+YjquNnm7o12jdkN5mfx60FJfx8wDhr9OmpbxP3lG
+	9cvvv30icSLXu5LQ2wzCYFyfyb71a46fbn1t+Z0Lu9+GBDCOFSjqELt0zbOxC6LZ
+	0Oeyvvkzv1yTBIDAKFYI7PqcjoiiSe9lBeKab9Hr2IQZf1E7+rdWITwKMv3VJPUX
+	HOIlG6q95Nc7cZjs/HAVbRcvsDMGhIzcU4s1QIiv8t6ivmDQ0zZnnJNBNUH5JMQx
+	Rei8lc492TZG3LNU8wmSjCzIoHONeOUx/0Pws8OKhYkcghtRvGS0r7pTxdDkbIu5
+	HBIHtV8YNK4lNwxjhk9MOg2xf2TnRvLmW0T6J9Bz5A==
+X-ME-Sender: <xms:hgLeZWfF-qbqrdbj0IagYAhSiOEfi5UCEmS_u4yoNDvztXrTURK7_Q>
+    <xme:hgLeZQOzCvuUNg6EuvevTGxYCQO8msOkil0RbDijwSzGYe7psl9pT8BWvheUEhZ7C
+    Pdo_I4MBhOfPArk7QA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrgeehgdehhecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:hgLeZXhChxgS4QEqTAxLAOZKAoZBKHRRZvGb10gAMk9IE2OsKRsW-w>
+    <xmx:hgLeZT-J0pIyrYHvMmgFCCI0MMwJYL79LAConhB9Au0fTd7J2iLO_A>
+    <xmx:hgLeZSvOSg8KjmfvYvE-AbxbFQDQ5C9PhmVFAKv9zOm-h-ZQxjKSYA>
+    <xmx:iALeZfob0-nwdlhgZy11nclfVztI8phtznS1Je_w6icjY0iJt68yOA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id CBF71B6008D; Tue, 27 Feb 2024 10:40:54 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-153-g7e3bb84806-fm-20240215.007-g7e3bb848
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB5963.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0e66ae3-1da6-4204-2f5b-08dc37a4e0f9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2024 15:00:46.8284
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: YXvuilbxmInYW6g2+xc0p3GXzLHwOPF9ZMYN3tJcDo/yeVM4+w48BtonVZlfjOnvxCCRB2x5fs9OSwqNhAeTMAvzaq+T/M2/Etj7M/QuabI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7397
-X-OriginatorOrg: intel.com
+Message-Id: <83450530-c908-4abc-bab7-88c50a3143ff@app.fastmail.com>
+In-Reply-To: <764fafb0-2206-4ab1-84ea-ebb7848c8ff2@sifive.com>
+References: <20240226161414.2316610-1-arnd@kernel.org>
+ <20240226161414.2316610-2-arnd@kernel.org>
+ <764fafb0-2206-4ab1-84ea-ebb7848c8ff2@sifive.com>
+Date: Tue, 27 Feb 2024 16:40:34 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Samuel Holland" <samuel.holland@sifive.com>,
+ "Arnd Bergmann" <arnd@kernel.org>, "Thomas Gleixner" <tglx@linutronix.de>,
+ "Vincenzo Frascino" <vincenzo.frascino@arm.com>,
+ "Kees Cook" <keescook@chromium.org>,
+ "Anna-Maria Gleixner" <anna-maria@linutronix.de>
+Cc: "Matt Turner" <mattst88@gmail.com>, "Vineet Gupta" <vgupta@kernel.org>,
+ "Russell King" <linux@armlinux.org.uk>,
+ "Catalin Marinas" <catalin.marinas@arm.com>, guoren <guoren@kernel.org>,
+ "Brian Cain" <bcain@quicinc.com>, "Huacai Chen" <chenhuacai@kernel.org>,
+ "Geert Uytterhoeven" <geert@linux-m68k.org>,
+ "Michal Simek" <monstr@monstr.eu>,
+ "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+ "Helge Deller" <deller@gmx.de>, "Michael Ellerman" <mpe@ellerman.id.au>,
+ "Christophe Leroy" <christophe.leroy@csgroup.eu>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>,
+ "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
+ "Andreas Larsson" <andreas@gaisler.com>,
+ "Richard Weinberger" <richard@nod.at>, x86@kernel.org,
+ "Max Filippov" <jcmvbkbc@gmail.com>, "Andy Lutomirski" <luto@kernel.org>,
+ "Jan Kiszka" <jan.kiszka@siemens.com>,
+ "Kieran Bingham" <kbingham@kernel.org>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
+ linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+ "linux-openrisc@vger.kernel.org" <linux-openrisc@vger.kernel.org>,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-um@lists.infradead.org
+Subject: Re: [PATCH 1/4] arch: consolidate existing CONFIG_PAGE_SIZE_*KB definitions
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240227_070056_036724_22C9F4A0 
-X-CRM114-Status: GOOD (  19.60  )
+X-CRM114-CacheID: sfid-20240227_074101_698482_EE825DDD 
+X-CRM114-Status: GOOD (  16.22  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -199,38 +128,125 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-T24gVHVlLCAyMDI0LTAyLTI3IGF0IDA3OjAyICswMDAwLCBDaHJpc3RvcGhlIExlcm95IHdyb3Rl
-Og0KPiA+IEl0IGNvdWxkIGJlIHBvc3NpYmxlIHRvIGluaXRpYWxpemUgdGhlIG5ldyBmaWVsZCBm
-b3IgZWFjaCBhcmNoIHRvDQo+ID4gMCwgYnV0DQo+ID4gaW5zdGVhZCBzaW1wbHkgaW5pYWxpemUg
-dGhlIGZpZWxkIHdpdGggYSBDOTkgc3RydWN0IGluaWFsaXppbmcNCj4gPiBzeW50YXguDQo+IA0K
-PiBXaHkgZG9pbmcgYSBmdWxsIGluaXQgb2YgdGhlIHN0cnVjdCB3aGVuIGFsbCBmaWVsZHMgYXJl
-IHJlLXdyaXR0ZW4gYQ0KPiBmZXcgDQo+IGxpbmVzIGFmdGVyID8NCj4gDQo+IElmIEkgdGFrZSB0
-aGUgZXhlbXBsZSBvZiBwb3dlcnBjIGZ1bmN0aW9uIHNsaWNlX2ZpbmRfYXJlYV9ib3R0b211cCgp
-Og0KPiANCj4gwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCB2bV91bm1hcHBlZF9hcmVhX2luZm8gaW5m
-bzsNCj4gDQo+IMKgwqDCoMKgwqDCoMKgwqBpbmZvLmZsYWdzID0gMDsNCj4gwqDCoMKgwqDCoMKg
-wqDCoGluZm8ubGVuZ3RoID0gbGVuOw0KPiDCoMKgwqDCoMKgwqDCoMKgaW5mby5hbGlnbl9tYXNr
-ID0gUEFHRV9NQVNLICYgKCgxdWwgPDwgcHNoaWZ0KSAtIDEpOw0KPiDCoMKgwqDCoMKgwqDCoMKg
-aW5mby5hbGlnbl9vZmZzZXQgPSAwOw0KPiANCj4gRm9yIG1lIGl0IGxvb2tzIGJldHRlciB0byBq
-dXN0IGFkZDoNCj4gDQo+IMKgwqDCoMKgwqDCoMKgwqBpbmZvLm5ld19maWVsZCA9IDA7IC8qIG9y
-IHdoYXRldmVyIHZhbHVlIGl0IG5lZWRzIHRvIGhhdmUgKi8NCg0KSGksDQoNClRoYW5rcyBmb3Ig
-dGFraW5nIGEgbG9vay4gWWVzLCBJIGd1ZXNzIHRoYXQgc2hvdWxkIGhhdmUgc29tZQ0KanVzdGlm
-aWNhdGlvbi4gSSB3YXMgdGhpbmtpbmcgb2YgdHdvIHJlYXNvbnM6DQoxLiBObyBmdXR1cmUgYWRk
-aXRpb25zIG9mIG9wdGlvbmFsIHBhcmFtZXRlcnMgd291bGQgbmVlZCB0byBtYWtlIHRyZWUNCndp
-ZGUgY2hhbmdlcyBsaWtlIHRoaXMuDQoyLiBUaGUgY2hhbmdlIGlzIGVhc2llciB0byByZXZpZXcg
-YW5kIGdldCBjb3JyZWN0IGJlY2F1c2UgdGhlIG5lY2Vzc2FyeQ0KY29udGV4dCBpcyB3aXRoaW4g
-YSBzaW5nbGUgbGluZS4gRm9yIGV4YW1wbGUsIGluIHRoYXQgZnVuY3Rpb24gc29tZSBvZg0KbWVt
-YmVycyBhcmUgc2V0IHdpdGhpbiBhIHdoaWxlIGxvb3AuIFRoZSBwbGFjZSB5b3UgcG9pbnRlZCBz
-ZWVtcyB0byBiZQ0KdGhlIGNvcnJlY3Qgb25lLCBidXQgYSBkaWZmIHRoYXQgaGFkIHRoZSBuZXcg
-ZmllbGQgc2V0IGFmdGVyOg0KICAgaW5mby5oaWdoX2xpbWl0ID0gYWRkcjsNCi4uLndvdWxkIGxv
-b2sgY29ycmVjdCB0b28sIGJ1dCBub3QgYmUuDQoNCldoYXQgaXMgdGhlIGNvbmNlcm4gd2l0aCBD
-OTkgaW5pdGlhbGl6YXRpb24/IEZXSVcsIHRoZSBmdWxsIHNlcmllcyBhbHNvDQpyZW1vdmVzIGFu
-IGluZGlyZWN0IGJyYW5jaCwgYW5kIHByb2JhYmx5IGlzIGEgbmV0IHdpbiBmb3IgcGVyZm9ybWFu
-Y2UNCmluIHRoaXMgcGF0aC4NCg0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxp
-c3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9saW51eC1zbnBzLWFyYwo=
+On Mon, Feb 26, 2024, at 17:55, Samuel Holland wrote:
+> On 2024-02-26 10:14 AM, Arnd Bergmann wrote:
+>>  
+>> +config HAVE_PAGE_SIZE_4KB
+>> +	bool
+>> +
+>> +config HAVE_PAGE_SIZE_8KB
+>> +	bool
+>> +
+>> +config HAVE_PAGE_SIZE_16KB
+>> +	bool
+>> +
+>> +config HAVE_PAGE_SIZE_32KB
+>> +	bool
+>> +
+>> +config HAVE_PAGE_SIZE_64KB
+>> +	bool
+>> +
+>> +config HAVE_PAGE_SIZE_256KB
+>> +	bool
+>> +
+>> +choice
+>> +	prompt "MMU page size"
+>
+> Should this have some generic help text (at least a warning about 
+> compatibility)?
+
+Good point. I've added some of this now, based on the mips
+text with some generalizations for other architectures:
+
+config PAGE_SIZE_4KB
+        bool "4KiB pages" 
+        depends on HAVE_PAGE_SIZE_4KB
+        help 
+          This option select the standard 4KiB Linux page size and the only
+          available option on many architectures. Using 4KiB page size will
+          minimize memory consumption and is therefore recommended for low
+          memory systems.
+          Some software that is written for x86 systems makes incorrect
+          assumptions about the page size and only runs on 4KiB pages.
+
+config PAGE_SIZE_8KB
+        bool "8KiB pages"
+        depends on HAVE_PAGE_SIZE_8KB
+        help
+          This option is the only supported page size on a few older
+          processors, and can be slightly faster than 4KiB pages.
+
+config PAGE_SIZE_16KB
+        bool "16KiB pages"
+        depends on HAVE_PAGE_SIZE_16KB
+        help 
+          This option is usually a good compromise between memory
+          consumption and performance for typical desktop and server
+          workloads, often saving a level of page table lookups compared
+          to 4KB pages as well as reducing TLB pressure and overhead of
+          per-page operations in the kernel at the expense of a larger
+          page cache. 
+
+config PAGE_SIZE_32KB
+        bool "32KiB pages"
+        depends on HAVE_PAGE_SIZE_32KB
+          Using 32KiB page size will result in slightly higher performance
+          kernel at the price of higher memory consumption compared to
+          16KiB pages.  This option is available only on cnMIPS cores.
+          Note that you will need a suitable Linux distribution to
+          support this.
+
+config PAGE_SIZE_64KB
+        bool "64KiB pages"
+        depends on HAVE_PAGE_SIZE_64KB
+          Using 64KiB page size will result in slightly higher performance
+          kernel at the price of much higher memory consumption compared to
+          4KiB or 16KiB pages.
+          This is not suitable for general-purpose workloads but the
+          better performance may be worth the cost for certain types of
+          supercomputing or database applications that work mostly with
+          large in-memory data rather than small files.
+
+config PAGE_SIZE_256KB
+        bool "256KiB pages"
+        depends on HAVE_PAGE_SIZE_256KB
+        help
+          256KB pages have little practical value due to their extreme
+          memory usage.
+
+>> diff --git a/arch/hexagon/Kconfig b/arch/hexagon/Kconfig
+>> index a880ee067d2e..aac46ee1a000 100644
+>> --- a/arch/hexagon/Kconfig
+>> +++ b/arch/hexagon/Kconfig
+>> @@ -8,6 +8,11 @@ config HEXAGON
+>>  	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
+>>  	select ARCH_NO_PREEMPT
+>>  	select DMA_GLOBAL_POOL
+>> +	select FRAME_POINTER
+>
+> Looks like a paste error.
+>
+
+Fixed, thanks! I think that happened during a rebase.
+
+>>  #ifdef CONFIG_PAGE_SIZE_1MB
+>> -#define PAGE_SHIFT 20
+>>  #define HEXAGON_L1_PTE_SIZE __HVM_PDE_S_1MB
+>>  #endif
+>
+> The corresponding Kconfig option does not exist (and did not exist before this
+> patch).
+
+Yes, I noticed that as well. It's clearly harmless.
+
+     Arnd
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
