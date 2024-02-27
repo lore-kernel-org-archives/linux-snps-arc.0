@@ -4,90 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33836C54E4A
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 26 Feb 2024 19:10:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D502C48BF6
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Feb 2024 00:49:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=sVG4tTp8pMpvAQaTUDC0Vev5Vjny2QkzWP2yagbhpLM=; b=awBxRnc7x8gubm
-	Lja096wC/F8bNMTlSa1rYzeG7rTQdr4acX56oXAPxhTdXBYonhSIgKIXDXM82OGt6q2KFt/IQ+l9+
-	WcgTkV6bmRa9FHd6GnZTVUBoLi04iMAn7RESyWxK7BWdHQHPVGwXfspMfzQR/mStE9Qr9aQ+PvHMv
-	IY7ifGmt8PE4cyuh2GteLwb/Ye4LqIya8XalOA7LlrjYIt8/kQc7E+O01QcEJS+pJ3E1eAxlv2ojZ
-	HYgo1JXfa48APGfdni4bvIAYUXp0Ojd3V3H9orQ+Pc+LuLeFj5LwetdI5Se/xL+Ohgv5JtXMII1xj
-	5IkM2wGTyJ63HKf3YTJQ==;
+	List-Owner; bh=cSEKE4hjz6vfXsGHEFGa5ibQnSy7xVayDpV5H3e7PBA=; b=VoRj5MnShTEakc
+	XIAQTQ7b4ghwIakFPziGdNePFHwNRcSO2sBIvipylyt6YSr02tvwIk2prLxAqFC4B03hRBMKW7IAx
+	whDUl9llYjrbci1F7tdHF1/HMIJVMoRsWA213kVChqE8FUjmuG/+zJK4DM+wptgKP9IUvQ11w3qNc
+	YVWglgROUSaMEwbbO6yGXXVL3m5B20KSoS6Gn5KKkJa4m/D9HA1ezSMEVjF1K/lLfzuclGDJLIzXX
+	dwYS591ipdv6RMguTOKd6XF3PpWe8ciu+5y5l8xni88SX/V51goOkuLe8p7fmU1kUKPojVUhFwiSI
+	wRwID1WcAktsbRisBybA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1regMb-00000002K4J-1fPl;
-	Mon, 26 Feb 2024 19:10:09 +0000
-Received: from mgamail.intel.com ([198.175.65.12])
+	id 1relfS-000000039m8-24zB;
+	Tue, 27 Feb 2024 00:49:58 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1regMV-00000002JxP-1sJI;
-	Mon, 26 Feb 2024 19:10:05 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708974604; x=1740510604;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=M4PemZaS0aqUDnC2dki1OuhIuHLGRlk1+X+hvrPVA+A=;
-  b=G8SCwBUv/K5l7eHgcZtAtfdacRgZ/J73rBkRExkNcngEOGY7qQ1lVH1F
-   rPjJT+vE4RlGlGtPo4+dDvdBE1f8dDkDagW8CKfOXydJ9ZDSgVZpGmUsf
-   gy3Fr74ioYSp6cpmVvoj6CWQo5vzpj1OVAczYrO4j2zSeL5s2YM4p2JiA
-   IB+xyh6IK7OBBH+e4zbf2MYcyO2M9Z31qxUATLRzFsuNd5O0lwHIDR4jB
-   5W3M0DYrbGPPW9anRhZ5d2/dHLEGzCH+GyvOcYtzwcsS9puzD/YN7aRJa
-   ZqpgQpqOAWAm9vSWW59ZTIIOkwza7WNg9Y+YWa7JeYYcHPN1uYRNrAFwh
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="14721392"
-X-IronPort-AV: E=Sophos;i="6.06,186,1705392000"; 
-   d="scan'208";a="14721392"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 11:10:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,186,1705392000"; 
-   d="scan'208";a="6911458"
-Received: from bdmirand-mobl.amr.corp.intel.com (HELO rpedgeco-desk4.intel.com) ([10.251.3.213])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 11:10:00 -0800
-From: Rick Edgecombe <rick.p.edgecombe@intel.com>
-To: Liam.Howlett@oracle.com,
-	akpm@linux-foundation.org,
-	debug@rivosinc.com,
-	broonie@kernel.org,
-	kirill.shutemov@linux.intel.com,
-	keescook@chromium.org,
-	tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	luto@kernel.org,
-	peterz@infradead.org,
-	hpa@zytor.com,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org
-Cc: rick.p.edgecombe@intel.com,
-	linux-alpha@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-csky@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-mips@vger.kernel.org,
-	linux-parisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org
-Subject: [PATCH v2 5/9] mm: Initialize struct vm_unmapped_area_info
-Date: Mon, 26 Feb 2024 11:09:47 -0800
-Message-Id: <20240226190951.3240433-6-rick.p.edgecombe@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240226190951.3240433-1-rick.p.edgecombe@intel.com>
-References: <20240226190951.3240433-1-rick.p.edgecombe@intel.com>
+	id 1relfN-000000039k9-3WFd;
+	Tue, 27 Feb 2024 00:49:55 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 41C35612B8;
+	Tue, 27 Feb 2024 00:49:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C70ABC43390;
+	Tue, 27 Feb 2024 00:49:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708994992;
+	bh=rccfFAsIXXB1qR3NT1VIdPRPtfwefb4SHiEfUqybo3o=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=hlb2FLF+7oSLe2uaiQD1GRNrdcUcZ76jkMNefv7y9z0d4avyL6FJ+ec7MgIsVWa5P
+	 wvDYvR10b8lFqBOgHmiA20/osMi1ld0TZqLNPYid52p2q5f1QA1scVPKtHhKfIDhrC
+	 q/svMK1Zm8VDLDLUYcDNUcNYAUTAdB82AhjafWTXrSI4iDZBqMRFNL534Smb8NdazI
+	 ymraKhDbxXSVTEhoYUArpoXZ2r5dqvW0+L+n8D1lFNRcYqnhaZWc3vUmQ45go8B2dM
+	 9JaWRnD/n3enlV67RX51LMpQ6+Gmgkk/xvPrcP0vyLUs5JSJ74i3u0JV/RpiWY7fzr
+	 YOZ11VkXCa1NQ==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2d22b8801b9so62301721fa.0;
+        Mon, 26 Feb 2024 16:49:52 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUXPVxBayqxjfivtos6tOsk2CjJYIR23FI/JEYK5k3rdQ9syFHweJWtrU6hoKwi42qxLi7JsnjXX05oHgFAaxP8Pk4m21jH2Ar/AjaN80gtdUsRZlM8otkjQ4t/LGvNexfoBBcbX9BQtwS38irFmdpGfdmkkV89ZuO86QirDLH+7Xps/cwX2Up/IuTQI/BBQXLnh+c0jtxkuT2/DGbzGVFyHbLPjm5dk+jl6AHXv8RC+WrcRRT5Q4w=
+X-Gm-Message-State: AOJu0YzGIcOZvd+Yy7nrfJcDS4O7YtWZc70+g4GAnRbeC0z4lAX7O/lr
+	7ZOMG3qNiIUkTGuSw/dxYxAcLpc7OYQC15zVLLrOb0JhZI/UbcWxVA6aBGx62m+JbAnlz9c1s3c
+	A+H5+OSkj36Vm/ooZQUcCHAc3dkY=
+X-Google-Smtp-Source: AGHT+IHMbxJ3SiFOofcXhuN9irkVPuqdMkmTsNwCqv7uyX1PBMjHMV5Lrsk8D9faur3ryNh+qAv630nq+LkptA51b9c=
+X-Received: by 2002:a05:6512:10d2:b0:512:cef7:4754 with SMTP id
+ k18-20020a05651210d200b00512cef74754mr6391328lfg.5.1708994969841; Mon, 26 Feb
+ 2024 16:49:29 -0800 (PST)
 MIME-Version: 1.0
+References: <20240226161414.2316610-1-arnd@kernel.org> <20240226161414.2316610-4-arnd@kernel.org>
+In-Reply-To: <20240226161414.2316610-4-arnd@kernel.org>
+From: Guo Ren <guoren@kernel.org>
+Date: Tue, 27 Feb 2024 08:49:18 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTSCdXtCib2Wv_DQQSJ5srhDwHH6B3xgdrr1-SQECUL1VA@mail.gmail.com>
+Message-ID: <CAJF2gTSCdXtCib2Wv_DQQSJ5srhDwHH6B3xgdrr1-SQECUL1VA@mail.gmail.com>
+Subject: Re: [PATCH 3/4] arch: define CONFIG_PAGE_SIZE_*KB on all architectures
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+	Kees Cook <keescook@chromium.org>, Anna-Maria Behnsen <anna-maria@linutronix.de>, 
+	Arnd Bergmann <arnd@arndb.de>, Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>, 
+	Russell King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Brian Cain <bcain@quicinc.com>, Huacai Chen <chenhuacai@kernel.org>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Michal Simek <monstr@monstr.eu>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Helge Deller <deller@gmx.de>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Andreas Larsson <andreas@gaisler.com>, 
+	Richard Weinberger <richard@nod.at>, x86@kernel.org, Max Filippov <jcmvbkbc@gmail.com>, 
+	Andy Lutomirski <luto@kernel.org>, Jan Kiszka <jan.kiszka@siemens.com>, 
+	Kieran Bingham <kbingham@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
+	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, 
+	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org, 
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
+	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, 
+	linux-um@lists.infradead.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240226_111003_589438_FA3CD17C 
-X-CRM114-Status: GOOD (  19.16  )
+X-CRM114-CacheID: sfid-20240226_164953_985337_9A918F97 
+X-CRM114-Status: GOOD (  20.39  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,410 +96,277 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Future changes will need to add a field to struct vm_unmapped_area_info.
-This would cause trouble for any archs that don't initialize the
-struct. Currently every user sets each field, so if new fields are
-added, the core code parsing the struct will see garbage in the new
-field.
-
-It could be possible to initialize the new field for each arch to 0, but
-instead simply inialize the field with a C99 struct inializing syntax.
-
-Cc: linux-mm@kvack.org
-Cc: linux-alpha@vger.kernel.org
-Cc: linux-snps-arc@lists.infradead.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-csky@vger.kernel.org
-Cc: loongarch@lists.linux.dev
-Cc: linux-mips@vger.kernel.org
-Cc: linux-parisc@vger.kernel.org
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: linux-s390@vger.kernel.org
-Cc: linux-sh@vger.kernel.org
-Cc: sparclinux@vger.kernel.org
-Cc: x86@kernel.org
-Suggested-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-Link: https://lore.kernel.org/lkml/3ynogxcgokc6i6xojbxzzwqectg472laes24u7jmtktlxcch5e@dfytra3ia3zc/#t
----
-Hi archs,
-
-For some context, this is part of a larger series to improve shadow stack
-guard gaps. It involves plumbing a new field via
-struct vm_unmapped_area_info. The first user is x86, but arm and riscv may
-likely use it as well. The change is compile tested only for non-x86 but
-seems like a relatively safe one.
-
-Thanks,
-
-Rick
-
-v2:
- - New patch
----
- arch/alpha/kernel/osf_sys.c      | 2 +-
- arch/arc/mm/mmap.c               | 2 +-
- arch/arm/mm/mmap.c               | 4 ++--
- arch/csky/abiv1/mmap.c           | 2 +-
- arch/loongarch/mm/mmap.c         | 2 +-
- arch/mips/mm/mmap.c              | 2 +-
- arch/parisc/kernel/sys_parisc.c  | 2 +-
- arch/powerpc/mm/book3s64/slice.c | 4 ++--
- arch/s390/mm/hugetlbpage.c       | 4 ++--
- arch/s390/mm/mmap.c              | 4 ++--
- arch/sh/mm/mmap.c                | 4 ++--
- arch/sparc/kernel/sys_sparc_32.c | 2 +-
- arch/sparc/kernel/sys_sparc_64.c | 4 ++--
- arch/sparc/mm/hugetlbpage.c      | 4 ++--
- arch/x86/kernel/sys_x86_64.c     | 4 ++--
- arch/x86/mm/hugetlbpage.c        | 4 ++--
- fs/hugetlbfs/inode.c             | 4 ++--
- mm/mmap.c                        | 4 ++--
- 18 files changed, 29 insertions(+), 29 deletions(-)
-
-diff --git a/arch/alpha/kernel/osf_sys.c b/arch/alpha/kernel/osf_sys.c
-index 5db88b627439..dd6801bb9240 100644
---- a/arch/alpha/kernel/osf_sys.c
-+++ b/arch/alpha/kernel/osf_sys.c
-@@ -1218,7 +1218,7 @@ static unsigned long
- arch_get_unmapped_area_1(unsigned long addr, unsigned long len,
- 		         unsigned long limit)
- {
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	info.flags = 0;
- 	info.length = len;
-diff --git a/arch/arc/mm/mmap.c b/arch/arc/mm/mmap.c
-index 3c1c7ae73292..6549b3375f54 100644
---- a/arch/arc/mm/mmap.c
-+++ b/arch/arc/mm/mmap.c
-@@ -27,7 +27,7 @@ arch_get_unmapped_area(struct file *filp, unsigned long addr,
- {
- 	struct mm_struct *mm = current->mm;
- 	struct vm_area_struct *vma;
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	/*
- 	 * We enforce the MAP_FIXED case.
-diff --git a/arch/arm/mm/mmap.c b/arch/arm/mm/mmap.c
-index a0f8a0ca0788..525795578c29 100644
---- a/arch/arm/mm/mmap.c
-+++ b/arch/arm/mm/mmap.c
-@@ -34,7 +34,7 @@ arch_get_unmapped_area(struct file *filp, unsigned long addr,
- 	struct vm_area_struct *vma;
- 	int do_align = 0;
- 	int aliasing = cache_is_vipt_aliasing();
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	/*
- 	 * We only need to do colour alignment if either the I or D
-@@ -87,7 +87,7 @@ arch_get_unmapped_area_topdown(struct file *filp, const unsigned long addr0,
- 	unsigned long addr = addr0;
- 	int do_align = 0;
- 	int aliasing = cache_is_vipt_aliasing();
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	/*
- 	 * We only need to do colour alignment if either the I or D
-diff --git a/arch/csky/abiv1/mmap.c b/arch/csky/abiv1/mmap.c
-index 6792aca49999..726659d41fa9 100644
---- a/arch/csky/abiv1/mmap.c
-+++ b/arch/csky/abiv1/mmap.c
-@@ -28,7 +28,7 @@ arch_get_unmapped_area(struct file *filp, unsigned long addr,
- 	struct mm_struct *mm = current->mm;
- 	struct vm_area_struct *vma;
- 	int do_align = 0;
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	/*
- 	 * We only need to do colour alignment if either the I or D
-diff --git a/arch/loongarch/mm/mmap.c b/arch/loongarch/mm/mmap.c
-index a9630a81b38a..664bf4abfdcf 100644
---- a/arch/loongarch/mm/mmap.c
-+++ b/arch/loongarch/mm/mmap.c
-@@ -24,7 +24,7 @@ static unsigned long arch_get_unmapped_area_common(struct file *filp,
- 	struct vm_area_struct *vma;
- 	unsigned long addr = addr0;
- 	int do_color_align;
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	if (unlikely(len > TASK_SIZE))
- 		return -ENOMEM;
-diff --git a/arch/mips/mm/mmap.c b/arch/mips/mm/mmap.c
-index 00fe90c6db3e..6321b53dc995 100644
---- a/arch/mips/mm/mmap.c
-+++ b/arch/mips/mm/mmap.c
-@@ -34,7 +34,7 @@ static unsigned long arch_get_unmapped_area_common(struct file *filp,
- 	struct vm_area_struct *vma;
- 	unsigned long addr = addr0;
- 	int do_color_align;
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	if (unlikely(len > TASK_SIZE))
- 		return -ENOMEM;
-diff --git a/arch/parisc/kernel/sys_parisc.c b/arch/parisc/kernel/sys_parisc.c
-index 98af719d5f85..e87c0e325abf 100644
---- a/arch/parisc/kernel/sys_parisc.c
-+++ b/arch/parisc/kernel/sys_parisc.c
-@@ -104,7 +104,7 @@ static unsigned long arch_get_unmapped_area_common(struct file *filp,
- 	struct vm_area_struct *vma, *prev;
- 	unsigned long filp_pgoff;
- 	int do_color_align;
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	if (unlikely(len > TASK_SIZE))
- 		return -ENOMEM;
-diff --git a/arch/powerpc/mm/book3s64/slice.c b/arch/powerpc/mm/book3s64/slice.c
-index c0b58afb9a47..5884f384866f 100644
---- a/arch/powerpc/mm/book3s64/slice.c
-+++ b/arch/powerpc/mm/book3s64/slice.c
-@@ -282,7 +282,7 @@ static unsigned long slice_find_area_bottomup(struct mm_struct *mm,
- {
- 	int pshift = max_t(int, mmu_psize_defs[psize].shift, PAGE_SHIFT);
- 	unsigned long found, next_end;
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	info.flags = 0;
- 	info.length = len;
-@@ -326,7 +326,7 @@ static unsigned long slice_find_area_topdown(struct mm_struct *mm,
- {
- 	int pshift = max_t(int, mmu_psize_defs[psize].shift, PAGE_SHIFT);
- 	unsigned long found, prev;
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 	unsigned long min_addr = max(PAGE_SIZE, mmap_min_addr);
- 
- 	info.flags = VM_UNMAPPED_AREA_TOPDOWN;
-diff --git a/arch/s390/mm/hugetlbpage.c b/arch/s390/mm/hugetlbpage.c
-index c2d2850ec8d5..7f68485feea0 100644
---- a/arch/s390/mm/hugetlbpage.c
-+++ b/arch/s390/mm/hugetlbpage.c
-@@ -258,7 +258,7 @@ static unsigned long hugetlb_get_unmapped_area_bottomup(struct file *file,
- 		unsigned long pgoff, unsigned long flags)
- {
- 	struct hstate *h = hstate_file(file);
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	info.flags = 0;
- 	info.length = len;
-@@ -274,7 +274,7 @@ static unsigned long hugetlb_get_unmapped_area_topdown(struct file *file,
- 		unsigned long pgoff, unsigned long flags)
- {
- 	struct hstate *h = hstate_file(file);
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 	unsigned long addr;
- 
- 	info.flags = VM_UNMAPPED_AREA_TOPDOWN;
-diff --git a/arch/s390/mm/mmap.c b/arch/s390/mm/mmap.c
-index cd52d72b59cf..df88496e2903 100644
---- a/arch/s390/mm/mmap.c
-+++ b/arch/s390/mm/mmap.c
-@@ -77,7 +77,7 @@ unsigned long arch_get_unmapped_area(struct file *filp, unsigned long addr,
- {
- 	struct mm_struct *mm = current->mm;
- 	struct vm_area_struct *vma;
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	if (len > TASK_SIZE - mmap_min_addr)
- 		return -ENOMEM;
-@@ -116,7 +116,7 @@ unsigned long arch_get_unmapped_area_topdown(struct file *filp, unsigned long ad
- {
- 	struct vm_area_struct *vma;
- 	struct mm_struct *mm = current->mm;
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	/* requested length too big for entire address space */
- 	if (len > TASK_SIZE - mmap_min_addr)
-diff --git a/arch/sh/mm/mmap.c b/arch/sh/mm/mmap.c
-index b82199878b45..6aee5f761e08 100644
---- a/arch/sh/mm/mmap.c
-+++ b/arch/sh/mm/mmap.c
-@@ -57,7 +57,7 @@ unsigned long arch_get_unmapped_area(struct file *filp, unsigned long addr,
- 	struct mm_struct *mm = current->mm;
- 	struct vm_area_struct *vma;
- 	int do_colour_align;
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	if (flags & MAP_FIXED) {
- 		/* We do not accept a shared mapping if it would violate
-@@ -106,7 +106,7 @@ arch_get_unmapped_area_topdown(struct file *filp, const unsigned long addr0,
- 	struct mm_struct *mm = current->mm;
- 	unsigned long addr = addr0;
- 	int do_colour_align;
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	if (flags & MAP_FIXED) {
- 		/* We do not accept a shared mapping if it would violate
-diff --git a/arch/sparc/kernel/sys_sparc_32.c b/arch/sparc/kernel/sys_sparc_32.c
-index 082a551897ed..7e781dbfd052 100644
---- a/arch/sparc/kernel/sys_sparc_32.c
-+++ b/arch/sparc/kernel/sys_sparc_32.c
-@@ -41,7 +41,7 @@ SYSCALL_DEFINE0(getpagesize)
- 
- unsigned long arch_get_unmapped_area(struct file *filp, unsigned long addr, unsigned long len, unsigned long pgoff, unsigned long flags)
- {
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	if (flags & MAP_FIXED) {
- 		/* We do not accept a shared mapping if it would violate
-diff --git a/arch/sparc/kernel/sys_sparc_64.c b/arch/sparc/kernel/sys_sparc_64.c
-index 1dbf7211666e..fc48ab3f83af 100644
---- a/arch/sparc/kernel/sys_sparc_64.c
-+++ b/arch/sparc/kernel/sys_sparc_64.c
-@@ -93,7 +93,7 @@ unsigned long arch_get_unmapped_area(struct file *filp, unsigned long addr, unsi
- 	struct vm_area_struct * vma;
- 	unsigned long task_size = TASK_SIZE;
- 	int do_color_align;
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	if (flags & MAP_FIXED) {
- 		/* We do not accept a shared mapping if it would violate
-@@ -154,7 +154,7 @@ arch_get_unmapped_area_topdown(struct file *filp, const unsigned long addr0,
- 	unsigned long task_size = STACK_TOP32;
- 	unsigned long addr = addr0;
- 	int do_color_align;
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	/* This should only ever run for 32-bit processes.  */
- 	BUG_ON(!test_thread_flag(TIF_32BIT));
-diff --git a/arch/sparc/mm/hugetlbpage.c b/arch/sparc/mm/hugetlbpage.c
-index 38a1bef47efb..614e2c46d781 100644
---- a/arch/sparc/mm/hugetlbpage.c
-+++ b/arch/sparc/mm/hugetlbpage.c
-@@ -31,7 +31,7 @@ static unsigned long hugetlb_get_unmapped_area_bottomup(struct file *filp,
- {
- 	struct hstate *h = hstate_file(filp);
- 	unsigned long task_size = TASK_SIZE;
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	if (test_thread_flag(TIF_32BIT))
- 		task_size = STACK_TOP32;
-@@ -63,7 +63,7 @@ hugetlb_get_unmapped_area_topdown(struct file *filp, const unsigned long addr0,
- 	struct hstate *h = hstate_file(filp);
- 	struct mm_struct *mm = current->mm;
- 	unsigned long addr = addr0;
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	/* This should only ever run for 32-bit processes.  */
- 	BUG_ON(!test_thread_flag(TIF_32BIT));
-diff --git a/arch/x86/kernel/sys_x86_64.c b/arch/x86/kernel/sys_x86_64.c
-index c783aeb37dce..6e5d4fa5fc42 100644
---- a/arch/x86/kernel/sys_x86_64.c
-+++ b/arch/x86/kernel/sys_x86_64.c
-@@ -125,7 +125,7 @@ arch_get_unmapped_area(struct file *filp, unsigned long addr,
- {
- 	struct mm_struct *mm = current->mm;
- 	struct vm_area_struct *vma;
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 	unsigned long begin, end;
- 
- 	if (flags & MAP_FIXED)
-@@ -165,7 +165,7 @@ arch_get_unmapped_area_topdown(struct file *filp, const unsigned long addr0,
- 	struct vm_area_struct *vma;
- 	struct mm_struct *mm = current->mm;
- 	unsigned long addr = addr0;
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	/* requested length too big for entire address space */
- 	if (len > TASK_SIZE)
-diff --git a/arch/x86/mm/hugetlbpage.c b/arch/x86/mm/hugetlbpage.c
-index 6d77c0039617..88726bd1f72d 100644
---- a/arch/x86/mm/hugetlbpage.c
-+++ b/arch/x86/mm/hugetlbpage.c
-@@ -51,7 +51,7 @@ static unsigned long hugetlb_get_unmapped_area_bottomup(struct file *file,
- 		unsigned long pgoff, unsigned long flags)
- {
- 	struct hstate *h = hstate_file(file);
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	info.flags = 0;
- 	info.length = len;
-@@ -74,7 +74,7 @@ static unsigned long hugetlb_get_unmapped_area_topdown(struct file *file,
- 		unsigned long pgoff, unsigned long flags)
- {
- 	struct hstate *h = hstate_file(file);
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	info.flags = VM_UNMAPPED_AREA_TOPDOWN;
- 	info.length = len;
-diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
-index a63d2eee086f..848b2239a215 100644
---- a/fs/hugetlbfs/inode.c
-+++ b/fs/hugetlbfs/inode.c
-@@ -165,7 +165,7 @@ hugetlb_get_unmapped_area_bottomup(struct file *file, unsigned long addr,
- 		unsigned long len, unsigned long pgoff, unsigned long flags)
- {
- 	struct hstate *h = hstate_file(file);
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	info.flags = 0;
- 	info.length = len;
-@@ -181,7 +181,7 @@ hugetlb_get_unmapped_area_topdown(struct file *file, unsigned long addr,
- 		unsigned long len, unsigned long pgoff, unsigned long flags)
- {
- 	struct hstate *h = hstate_file(file);
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 
- 	info.flags = VM_UNMAPPED_AREA_TOPDOWN;
- 	info.length = len;
-diff --git a/mm/mmap.c b/mm/mmap.c
-index e02bb17fef5b..33af683a643f 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -1699,7 +1699,7 @@ generic_get_unmapped_area(struct file *filp, unsigned long addr,
- {
- 	struct mm_struct *mm = current->mm;
- 	struct vm_area_struct *vma, *prev;
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 	const unsigned long mmap_end = arch_get_mmap_end(addr, len, flags);
- 
- 	if (len > mmap_end - mmap_min_addr)
-@@ -1747,7 +1747,7 @@ generic_get_unmapped_area_topdown(struct file *filp, unsigned long addr,
- {
- 	struct vm_area_struct *vma, *prev;
- 	struct mm_struct *mm = current->mm;
--	struct vm_unmapped_area_info info;
-+	struct vm_unmapped_area_info info = {};
- 	const unsigned long mmap_end = arch_get_mmap_end(addr, len, flags);
- 
- 	/* requested length too big for entire address space */
--- 
-2.34.1
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gVHVlLCBGZWIgMjcsIDIwMjQgYXQgMTI6MTXigK9BTSBBcm5kIEJlcmdtYW5uIDxhcm5kQGtl
+cm5lbC5vcmc+IHdyb3RlOgo+Cj4gRnJvbTogQXJuZCBCZXJnbWFubiA8YXJuZEBhcm5kYi5kZT4K
+Pgo+IE1vc3QgYXJjaGl0ZWN0dXJlcyBvbmx5IHN1cHBvcnQgYSBzaW5nbGUgaGFyZGNvZGVkIHBh
+Z2Ugc2l6ZS4gSW4gb3JkZXIKPiB0byBlbnN1cmUgdGhhdCBlYWNoIG9uZSBvZiB0aGVzZSBzZXRz
+IHRoZSBjb3JyZXNwb25kaW5nIEtjb25maWcgc3ltYm9scywKPiBjaGFuZ2Ugb3ZlciB0aGUgUEFH
+RV9TSElGVCBkZWZpbml0aW9uIHRvIHRoZSBjb21tb24gb25lIGFuZCBhbGxvdwo+IG9ubHkgdGhl
+IGhhcmR3YXJlIHBhZ2Ugc2l6ZSB0byBiZSBzZWxlY3RlZC4KPgo+IFNpZ25lZC1vZmYtYnk6IEFy
+bmQgQmVyZ21hbm4gPGFybmRAYXJuZGIuZGU+Cj4gLS0tCj4gIGFyY2gvYWxwaGEvS2NvbmZpZyAg
+ICAgICAgICAgICAgICAgfCAxICsKPiAgYXJjaC9hbHBoYS9pbmNsdWRlL2FzbS9wYWdlLmggICAg
+ICB8IDIgKy0KPiAgYXJjaC9hcm0vS2NvbmZpZyAgICAgICAgICAgICAgICAgICB8IDEgKwo+ICBh
+cmNoL2FybS9pbmNsdWRlL2FzbS9wYWdlLmggICAgICAgIHwgMiArLQo+ICBhcmNoL2Nza3kvS2Nv
+bmZpZyAgICAgICAgICAgICAgICAgIHwgMSArCj4gIGFyY2gvY3NreS9pbmNsdWRlL2FzbS9wYWdl
+LmggICAgICAgfCAyICstCj4gIGFyY2gvbTY4ay9LY29uZmlnICAgICAgICAgICAgICAgICAgfCAz
+ICsrKwo+ICBhcmNoL202OGsvS2NvbmZpZy5jcHUgICAgICAgICAgICAgIHwgMiArKwo+ICBhcmNo
+L202OGsvaW5jbHVkZS9hc20vcGFnZS5oICAgICAgIHwgNiArLS0tLS0KPiAgYXJjaC9taWNyb2Js
+YXplL0tjb25maWcgICAgICAgICAgICB8IDEgKwo+ICBhcmNoL21pY3JvYmxhemUvaW5jbHVkZS9h
+c20vcGFnZS5oIHwgMiArLQo+ICBhcmNoL25pb3MyL0tjb25maWcgICAgICAgICAgICAgICAgIHwg
+MSArCj4gIGFyY2gvbmlvczIvaW5jbHVkZS9hc20vcGFnZS5oICAgICAgfCAyICstCj4gIGFyY2gv
+b3BlbnJpc2MvS2NvbmZpZyAgICAgICAgICAgICAgfCAxICsKPiAgYXJjaC9vcGVucmlzYy9pbmNs
+dWRlL2FzbS9wYWdlLmggICB8IDIgKy0KPiAgYXJjaC9yaXNjdi9LY29uZmlnICAgICAgICAgICAg
+ICAgICB8IDEgKwo+ICBhcmNoL3Jpc2N2L2luY2x1ZGUvYXNtL3BhZ2UuaCAgICAgIHwgMiArLQo+
+ICBhcmNoL3MzOTAvS2NvbmZpZyAgICAgICAgICAgICAgICAgIHwgMSArCj4gIGFyY2gvczM5MC9p
+bmNsdWRlL2FzbS9wYWdlLmggICAgICAgfCAyICstCj4gIGFyY2gvc3BhcmMvS2NvbmZpZyAgICAg
+ICAgICAgICAgICAgfCAyICsrCj4gIGFyY2gvc3BhcmMvaW5jbHVkZS9hc20vcGFnZV8zMi5oICAg
+fCAyICstCj4gIGFyY2gvc3BhcmMvaW5jbHVkZS9hc20vcGFnZV82NC5oICAgfCAzICstLQo+ICBh
+cmNoL3VtL0tjb25maWcgICAgICAgICAgICAgICAgICAgIHwgMSArCj4gIGFyY2gvdW0vaW5jbHVk
+ZS9hc20vcGFnZS5oICAgICAgICAgfCAyICstCj4gIGFyY2gveDg2L0tjb25maWcgICAgICAgICAg
+ICAgICAgICAgfCAxICsKPiAgYXJjaC94ODYvaW5jbHVkZS9hc20vcGFnZV90eXBlcy5oICB8IDIg
+Ky0KPiAgYXJjaC94dGVuc2EvS2NvbmZpZyAgICAgICAgICAgICAgICB8IDEgKwo+ICBhcmNoL3h0
+ZW5zYS9pbmNsdWRlL2FzbS9wYWdlLmggICAgIHwgMiArLQo+ICAyOCBmaWxlcyBjaGFuZ2VkLCAz
+MiBpbnNlcnRpb25zKCspLCAxOSBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9hcmNoL2Fs
+cGhhL0tjb25maWcgYi9hcmNoL2FscGhhL0tjb25maWcKPiBpbmRleCBkNjk2OGQwOTBkNDkuLjRm
+NDkwMjUwZDMyMyAxMDA2NDQKPiAtLS0gYS9hcmNoL2FscGhhL0tjb25maWcKPiArKysgYi9hcmNo
+L2FscGhhL0tjb25maWcKPiBAQCAtMTQsNiArMTQsNyBAQCBjb25maWcgQUxQSEEKPiAgICAgICAg
+IHNlbGVjdCBQQ0lfRE9NQUlOUyBpZiBQQ0kKPiAgICAgICAgIHNlbGVjdCBQQ0lfU1lTQ0FMTCBp
+ZiBQQ0kKPiAgICAgICAgIHNlbGVjdCBIQVZFX0FTTV9NT0RWRVJTSU9OUwo+ICsgICAgICAgc2Vs
+ZWN0IEhBVkVfUEFHRV9TSVpFXzhLQgo+ICAgICAgICAgc2VsZWN0IEhBVkVfUENTUEtSX1BMQVRG
+T1JNCj4gICAgICAgICBzZWxlY3QgSEFWRV9QRVJGX0VWRU5UUwo+ICAgICAgICAgc2VsZWN0IE5F
+RURfRE1BX01BUF9TVEFURQo+IGRpZmYgLS1naXQgYS9hcmNoL2FscGhhL2luY2x1ZGUvYXNtL3Bh
+Z2UuaCBiL2FyY2gvYWxwaGEvaW5jbHVkZS9hc20vcGFnZS5oCj4gaW5kZXggNGRiMWViYzBlZDk5
+Li43MDQxOWU2YmUxYTMgMTAwNjQ0Cj4gLS0tIGEvYXJjaC9hbHBoYS9pbmNsdWRlL2FzbS9wYWdl
+LmgKPiArKysgYi9hcmNoL2FscGhhL2luY2x1ZGUvYXNtL3BhZ2UuaAo+IEBAIC02LDcgKzYsNyBA
+QAo+ICAjaW5jbHVkZSA8YXNtL3BhbC5oPgo+Cj4gIC8qIFBBR0VfU0hJRlQgZGV0ZXJtaW5lcyB0
+aGUgcGFnZSBzaXplICovCj4gLSNkZWZpbmUgUEFHRV9TSElGVCAgICAgMTMKPiArI2RlZmluZSBQ
+QUdFX1NISUZUICAgICBDT05GSUdfUEFHRV9TSElGVAo+ICAjZGVmaW5lIFBBR0VfU0laRSAgICAg
+IChfQUMoMSxVTCkgPDwgUEFHRV9TSElGVCkKPiAgI2RlZmluZSBQQUdFX01BU0sgICAgICAofihQ
+QUdFX1NJWkUtMSkpCj4KPiBkaWZmIC0tZ2l0IGEvYXJjaC9hcm0vS2NvbmZpZyBiL2FyY2gvYXJt
+L0tjb25maWcKPiBpbmRleCAwYWY2NzA5NTcwZDEuLjlkNTJiYTNhOGFkMSAxMDA2NDQKPiAtLS0g
+YS9hcmNoL2FybS9LY29uZmlnCj4gKysrIGIvYXJjaC9hcm0vS2NvbmZpZwo+IEBAIC0xMTYsNiAr
+MTE2LDcgQEAgY29uZmlnIEFSTQo+ICAgICAgICAgc2VsZWN0IEhBVkVfTU9EX0FSQ0hfU1BFQ0lG
+SUMKPiAgICAgICAgIHNlbGVjdCBIQVZFX05NSQo+ICAgICAgICAgc2VsZWN0IEhBVkVfT1BUUFJP
+QkVTIGlmICFUSFVNQjJfS0VSTkVMCj4gKyAgICAgICBzZWxlY3QgSEFWRV9QQUdFX1NJWkVfNEtC
+Cj4gICAgICAgICBzZWxlY3QgSEFWRV9QQ0kgaWYgTU1VCj4gICAgICAgICBzZWxlY3QgSEFWRV9Q
+RVJGX0VWRU5UUwo+ICAgICAgICAgc2VsZWN0IEhBVkVfUEVSRl9SRUdTCj4gZGlmZiAtLWdpdCBh
+L2FyY2gvYXJtL2luY2x1ZGUvYXNtL3BhZ2UuaCBiL2FyY2gvYXJtL2luY2x1ZGUvYXNtL3BhZ2Uu
+aAo+IGluZGV4IDExOWFhODVkMWZlYi4uNjJhZjlmN2Y5ZTk2IDEwMDY0NAo+IC0tLSBhL2FyY2gv
+YXJtL2luY2x1ZGUvYXNtL3BhZ2UuaAo+ICsrKyBiL2FyY2gvYXJtL2luY2x1ZGUvYXNtL3BhZ2Uu
+aAo+IEBAIC04LDcgKzgsNyBAQAo+ICAjZGVmaW5lIF9BU01BUk1fUEFHRV9ICj4KPiAgLyogUEFH
+RV9TSElGVCBkZXRlcm1pbmVzIHRoZSBwYWdlIHNpemUgKi8KPiAtI2RlZmluZSBQQUdFX1NISUZU
+ICAgICAgICAgICAgIDEyCj4gKyNkZWZpbmUgUEFHRV9TSElGVCAgICAgICAgICAgICBDT05GSUdf
+UEFHRV9TSElGVAo+ICAjZGVmaW5lIFBBR0VfU0laRSAgICAgICAgICAgICAgKF9BQygxLFVMKSA8
+PCBQQUdFX1NISUZUKQo+ICAjZGVmaW5lIFBBR0VfTUFTSyAgICAgICAgICAgICAgKH4oKDEgPDwg
+UEFHRV9TSElGVCkgLSAxKSkKPgo+IGRpZmYgLS1naXQgYS9hcmNoL2Nza3kvS2NvbmZpZyBiL2Fy
+Y2gvY3NreS9LY29uZmlnCj4gaW5kZXggY2YyYTZmZDdkZmY4Li45YzI3MjNhYjFjOTQgMTAwNjQ0
+Cj4gLS0tIGEvYXJjaC9jc2t5L0tjb25maWcKPiArKysgYi9hcmNoL2Nza3kvS2NvbmZpZwo+IEBA
+IC04OSw2ICs4OSw3IEBAIGNvbmZpZyBDU0tZCj4gICAgICAgICBzZWxlY3QgSEFWRV9LUFJPQkVT
+IGlmICFDUFVfQ0s2MTAKPiAgICAgICAgIHNlbGVjdCBIQVZFX0tQUk9CRVNfT05fRlRSQUNFIGlm
+ICFDUFVfQ0s2MTAKPiAgICAgICAgIHNlbGVjdCBIQVZFX0tSRVRQUk9CRVMgaWYgIUNQVV9DSzYx
+MAo+ICsgICAgICAgc2VsZWN0IEhBVkVfUEFHRV9TSVpFXzRLQgo+ICAgICAgICAgc2VsZWN0IEhB
+VkVfUEVSRl9FVkVOVFMKPiAgICAgICAgIHNlbGVjdCBIQVZFX1BFUkZfUkVHUwo+ICAgICAgICAg
+c2VsZWN0IEhBVkVfUEVSRl9VU0VSX1NUQUNLX0RVTVAKPiBkaWZmIC0tZ2l0IGEvYXJjaC9jc2t5
+L2luY2x1ZGUvYXNtL3BhZ2UuaCBiL2FyY2gvY3NreS9pbmNsdWRlL2FzbS9wYWdlLmgKPiBpbmRl
+eCA0YTA1MDJlMzI0YTYuLmY3MGYzNzQwMmQ3NSAxMDA2NDQKPiAtLS0gYS9hcmNoL2Nza3kvaW5j
+bHVkZS9hc20vcGFnZS5oCj4gKysrIGIvYXJjaC9jc2t5L2luY2x1ZGUvYXNtL3BhZ2UuaAo+IEBA
+IC0xMCw3ICsxMCw3IEBACj4gIC8qCj4gICAqIFBBR0VfU0hJRlQgZGV0ZXJtaW5lcyB0aGUgcGFn
+ZSBzaXplOiA0S0IKPiAgICovCj4gLSNkZWZpbmUgUEFHRV9TSElGVCAgICAgMTIKPiArI2RlZmlu
+ZSBQQUdFX1NISUZUICAgICBDT05GSUdfUEFHRV9TSElGVApMR1RNLCB0aHguCkFja2VkLWJ5OiBH
+dW8gUmVuIDxndW9yZW5Aa2VybmVsLm9yZz4KCj4gICNkZWZpbmUgUEFHRV9TSVpFICAgICAgKF9B
+QygxLCBVTCkgPDwgUEFHRV9TSElGVCkKPiAgI2RlZmluZSBQQUdFX01BU0sgICAgICAofihQQUdF
+X1NJWkUgLSAxKSkKPiAgI2RlZmluZSBUSFJFQURfU0laRSAgICAoUEFHRV9TSVpFICogMikKPiBk
+aWZmIC0tZ2l0IGEvYXJjaC9tNjhrL0tjb25maWcgYi9hcmNoL202OGsvS2NvbmZpZwo+IGluZGV4
+IDRiM2U5M2NhYzcyMy4uN2I3MDk0NTNkNWU3IDEwMDY0NAo+IC0tLSBhL2FyY2gvbTY4ay9LY29u
+ZmlnCj4gKysrIGIvYXJjaC9tNjhrL0tjb25maWcKPiBAQCAtODQsMTIgKzg0LDE1IEBAIGNvbmZp
+ZyBNTVUKPgo+ICBjb25maWcgTU1VX01PVE9ST0xBCj4gICAgICAgICBib29sCj4gKyAgICAgICBz
+ZWxlY3QgSEFWRV9QQUdFX1NJWkVfNEtCCj4KPiAgY29uZmlnIE1NVV9DT0xERklSRQo+ICsgICAg
+ICAgc2VsZWN0IEhBVkVfUEFHRV9TSVpFXzhLQgo+ICAgICAgICAgYm9vbAo+Cj4gIGNvbmZpZyBN
+TVVfU1VOMwo+ICAgICAgICAgYm9vbAo+ICsgICAgICAgc2VsZWN0IEhBVkVfUEFHRV9TSVpFXzhL
+Qgo+ICAgICAgICAgZGVwZW5kcyBvbiBNTVUgJiYgIU1NVV9NT1RPUk9MQSAmJiAhTU1VX0NPTERG
+SVJFCj4KPiAgY29uZmlnIEFSQ0hfU1VQUE9SVFNfS0VYRUMKPiBkaWZmIC0tZ2l0IGEvYXJjaC9t
+NjhrL0tjb25maWcuY3B1IGIvYXJjaC9tNjhrL0tjb25maWcuY3B1Cj4gaW5kZXggOWRjZjI0NWM5
+Y2JmLi5jNzc3YTEyOTc2OGEgMTAwNjQ0Cj4gLS0tIGEvYXJjaC9tNjhrL0tjb25maWcuY3B1Cj4g
+KysrIGIvYXJjaC9tNjhrL0tjb25maWcuY3B1Cj4gQEAgLTMwLDYgKzMwLDcgQEAgY29uZmlnIENP
+TERGSVJFCj4gICAgICAgICBzZWxlY3QgR0VORVJJQ19DU1VNCj4gICAgICAgICBzZWxlY3QgR1BJ
+T0xJQgo+ICAgICAgICAgc2VsZWN0IEhBVkVfTEVHQUNZX0NMSwo+ICsgICAgICAgc2VsZWN0IEhB
+VkVfUEFHRV9TSVpFXzhLQiBpZiAhTU1VCj4KPiAgZW5kY2hvaWNlCj4KPiBAQCAtNDUsNiArNDYs
+NyBAQCBjb25maWcgTTY4MDAwCj4gICAgICAgICBzZWxlY3QgR0VORVJJQ19DU1VNCj4gICAgICAg
+ICBzZWxlY3QgQ1BVX05PX0VGRklDSUVOVF9GRlMKPiAgICAgICAgIHNlbGVjdCBIQVZFX0FSQ0hf
+SEFTSAo+ICsgICAgICAgc2VsZWN0IEhBVkVfUEFHRV9TSVpFXzRLQgo+ICAgICAgICAgc2VsZWN0
+IExFR0FDWV9USU1FUl9USUNLCj4gICAgICAgICBoZWxwCj4gICAgICAgICAgIFRoZSBGcmVlc2Nh
+bGUgKHdhcyBNb3Rvcm9sYSkgNjgwMDAgQ1BVIGlzIHRoZSBmaXJzdCBnZW5lcmF0aW9uIG9mCj4g
+ZGlmZiAtLWdpdCBhL2FyY2gvbTY4ay9pbmNsdWRlL2FzbS9wYWdlLmggYi9hcmNoL202OGsvaW5j
+bHVkZS9hc20vcGFnZS5oCj4gaW5kZXggYTU5OTNhZDgzZWQ4Li44Y2ZiODRiNDk5NzUgMTAwNjQ0
+Cj4gLS0tIGEvYXJjaC9tNjhrL2luY2x1ZGUvYXNtL3BhZ2UuaAo+ICsrKyBiL2FyY2gvbTY4ay9p
+bmNsdWRlL2FzbS9wYWdlLmgKPiBAQCAtNywxMSArNyw3IEBACj4gICNpbmNsdWRlIDxhc20vcGFn
+ZV9vZmZzZXQuaD4KPgo+ICAvKiBQQUdFX1NISUZUIGRldGVybWluZXMgdGhlIHBhZ2Ugc2l6ZSAq
+Lwo+IC0jaWYgZGVmaW5lZChDT05GSUdfU1VOMykgfHwgZGVmaW5lZChDT05GSUdfQ09MREZJUkUp
+Cj4gLSNkZWZpbmUgUEFHRV9TSElGVCAgICAgMTMKPiAtI2Vsc2UKPiAtI2RlZmluZSBQQUdFX1NI
+SUZUICAgICAxMgo+IC0jZW5kaWYKPiArI2RlZmluZSBQQUdFX1NISUZUICAgICBDT05GSUdfUEFH
+RV9TSElGVAo+ICAjZGVmaW5lIFBBR0VfU0laRSAgICAgIChfQUMoMSwgVUwpIDw8IFBBR0VfU0hJ
+RlQpCj4gICNkZWZpbmUgUEFHRV9NQVNLICAgICAgKH4oUEFHRV9TSVpFLTEpKQo+ICAjZGVmaW5l
+IFBBR0VfT0ZGU0VUICAgIChQQUdFX09GRlNFVF9SQVcpCj4gZGlmZiAtLWdpdCBhL2FyY2gvbWlj
+cm9ibGF6ZS9LY29uZmlnIGIvYXJjaC9taWNyb2JsYXplL0tjb25maWcKPiBpbmRleCAyMTFmMzM4
+ZDYyMzUuLmYxOGVjMDJkZGViMiAxMDA2NDQKPiAtLS0gYS9hcmNoL21pY3JvYmxhemUvS2NvbmZp
+Zwo+ICsrKyBiL2FyY2gvbWljcm9ibGF6ZS9LY29uZmlnCj4gQEAgLTMxLDYgKzMxLDcgQEAgY29u
+ZmlnIE1JQ1JPQkxBWkUKPiAgICAgICAgIHNlbGVjdCBIQVZFX0ZUUkFDRV9NQ09VTlRfUkVDT1JE
+Cj4gICAgICAgICBzZWxlY3QgSEFWRV9GVU5DVElPTl9HUkFQSF9UUkFDRVIKPiAgICAgICAgIHNl
+bGVjdCBIQVZFX0ZVTkNUSU9OX1RSQUNFUgo+ICsgICAgICAgc2VsZWN0IEhBVkVfUEFHRV9TSVpF
+XzRLQgo+ICAgICAgICAgc2VsZWN0IEhBVkVfUENJCj4gICAgICAgICBzZWxlY3QgSVJRX0RPTUFJ
+Tgo+ICAgICAgICAgc2VsZWN0IFhJTElOWF9JTlRDCj4gZGlmZiAtLWdpdCBhL2FyY2gvbWljcm9i
+bGF6ZS9pbmNsdWRlL2FzbS9wYWdlLmggYi9hcmNoL21pY3JvYmxhemUvaW5jbHVkZS9hc20vcGFn
+ZS5oCj4gaW5kZXggODZhNGNlMDdjMTkyLi44ODEwZjRmMWMzYjAgMTAwNjQ0Cj4gLS0tIGEvYXJj
+aC9taWNyb2JsYXplL2luY2x1ZGUvYXNtL3BhZ2UuaAo+ICsrKyBiL2FyY2gvbWljcm9ibGF6ZS9p
+bmNsdWRlL2FzbS9wYWdlLmgKPiBAQCAtMjAsNyArMjAsNyBAQAo+ICAjaWZkZWYgX19LRVJORUxf
+Xwo+Cj4gIC8qIFBBR0VfU0hJRlQgZGV0ZXJtaW5lcyB0aGUgcGFnZSBzaXplICovCj4gLSNkZWZp
+bmUgUEFHRV9TSElGVCAgICAgICAgICAgICAxMgo+ICsjZGVmaW5lIFBBR0VfU0hJRlQgICAgIENP
+TkZJR19QQUdFX1NISUZUCj4gICNkZWZpbmUgUEFHRV9TSVpFICAgICAgKEFTTV9DT05TVCgxKSA8
+PCBQQUdFX1NISUZUKQo+ICAjZGVmaW5lIFBBR0VfTUFTSyAgICAgICh+KFBBR0VfU0laRS0xKSkK
+Pgo+IGRpZmYgLS1naXQgYS9hcmNoL25pb3MyL0tjb25maWcgYi9hcmNoL25pb3MyL0tjb25maWcK
+PiBpbmRleCA1OGQ5NTY1ZGMyYzcuLjc5ZDMwMzliMjlmMSAxMDA2NDQKPiAtLS0gYS9hcmNoL25p
+b3MyL0tjb25maWcKPiArKysgYi9hcmNoL25pb3MyL0tjb25maWcKPiBAQCAtMTUsNiArMTUsNyBA
+QCBjb25maWcgTklPUzIKPiAgICAgICAgIHNlbGVjdCBHRU5FUklDX0lSUV9TSE9XCj4gICAgICAg
+ICBzZWxlY3QgSEFWRV9BUkNIX1RSQUNFSE9PSwo+ICAgICAgICAgc2VsZWN0IEhBVkVfQVJDSF9L
+R0RCCj4gKyAgICAgICBzZWxlY3QgSEFWRV9QQUdFX1NJWkVfNEtCCj4gICAgICAgICBzZWxlY3Qg
+SVJRX0RPTUFJTgo+ICAgICAgICAgc2VsZWN0IExPQ0tfTU1fQU5EX0ZJTkRfVk1BCj4gICAgICAg
+ICBzZWxlY3QgTU9EVUxFU19VU0VfRUxGX1JFTEEKPiBkaWZmIC0tZ2l0IGEvYXJjaC9uaW9zMi9p
+bmNsdWRlL2FzbS9wYWdlLmggYi9hcmNoL25pb3MyL2luY2x1ZGUvYXNtL3BhZ2UuaAo+IGluZGV4
+IDBhZTdkOWNlMzY5Yi4uMDcyMmY4OGU2M2NjIDEwMDY0NAo+IC0tLSBhL2FyY2gvbmlvczIvaW5j
+bHVkZS9hc20vcGFnZS5oCj4gKysrIGIvYXJjaC9uaW9zMi9pbmNsdWRlL2FzbS9wYWdlLmgKPiBA
+QCAtMjEsNyArMjEsNyBAQAo+ICAvKgo+ICAgKiBQQUdFX1NISUZUIGRldGVybWluZXMgdGhlIHBh
+Z2Ugc2l6ZQo+ICAgKi8KPiAtI2RlZmluZSBQQUdFX1NISUZUICAgICAxMgo+ICsjZGVmaW5lIFBB
+R0VfU0hJRlQgICAgIENPTkZJR19QQUdFX1NISUZUCj4gICNkZWZpbmUgUEFHRV9TSVpFICAgICAg
+KF9BQygxLCBVTCkgPDwgUEFHRV9TSElGVCkKPiAgI2RlZmluZSBQQUdFX01BU0sgICAgICAofihQ
+QUdFX1NJWkUgLSAxKSkKPgo+IGRpZmYgLS1naXQgYS9hcmNoL29wZW5yaXNjL0tjb25maWcgYi9h
+cmNoL29wZW5yaXNjL0tjb25maWcKPiBpbmRleCBmZDliYjc2YTYxMGIuLjM1ODZjZGE1NWJkZSAx
+MDA2NDQKPiAtLS0gYS9hcmNoL29wZW5yaXNjL0tjb25maWcKPiArKysgYi9hcmNoL29wZW5yaXNj
+L0tjb25maWcKPiBAQCAtMjUsNiArMjUsNyBAQCBjb25maWcgT1BFTlJJU0MKPiAgICAgICAgIHNl
+bGVjdCBHRU5FUklDX0NQVV9ERVZJQ0VTCj4gICAgICAgICBzZWxlY3QgSEFWRV9QQ0kKPiAgICAg
+ICAgIHNlbGVjdCBIQVZFX1VJRDE2Cj4gKyAgICAgICBzZWxlY3QgSEFWRV9QQUdFX1NJWkVfOEtC
+Cj4gICAgICAgICBzZWxlY3QgR0VORVJJQ19BVE9NSUM2NAo+ICAgICAgICAgc2VsZWN0IEdFTkVS
+SUNfQ0xPQ0tFVkVOVFNfQlJPQURDQVNUCj4gICAgICAgICBzZWxlY3QgR0VORVJJQ19TTVBfSURM
+RV9USFJFQUQKPiBkaWZmIC0tZ2l0IGEvYXJjaC9vcGVucmlzYy9pbmNsdWRlL2FzbS9wYWdlLmgg
+Yi9hcmNoL29wZW5yaXNjL2luY2x1ZGUvYXNtL3BhZ2UuaAo+IGluZGV4IDQ0ZmMxZmQ1NjcxNy4u
+NzkyNWNlMDlhYjVhIDEwMDY0NAo+IC0tLSBhL2FyY2gvb3BlbnJpc2MvaW5jbHVkZS9hc20vcGFn
+ZS5oCj4gKysrIGIvYXJjaC9vcGVucmlzYy9pbmNsdWRlL2FzbS9wYWdlLmgKPiBAQCAtMTgsNyAr
+MTgsNyBAQAo+Cj4gIC8qIFBBR0VfU0hJRlQgZGV0ZXJtaW5lcyB0aGUgcGFnZSBzaXplICovCj4K
+PiAtI2RlZmluZSBQQUdFX1NISUZUICAgICAgMTMKPiArI2RlZmluZSBQQUdFX1NISUZUICAgICAg
+Q09ORklHX1BBR0VfU0hJRlQKPiAgI2lmZGVmIF9fQVNTRU1CTFlfXwo+ICAjZGVmaW5lIFBBR0Vf
+U0laRSAgICAgICAoMSA8PCBQQUdFX1NISUZUKQo+ICAjZWxzZQo+IGRpZmYgLS1naXQgYS9hcmNo
+L3Jpc2N2L0tjb25maWcgYi9hcmNoL3Jpc2N2L0tjb25maWcKPiBpbmRleCBiZmZiZDg2OWEwNjgu
+Ljc5MmEzMzc1NDhmNiAxMDA2NDQKPiAtLS0gYS9hcmNoL3Jpc2N2L0tjb25maWcKPiArKysgYi9h
+cmNoL3Jpc2N2L0tjb25maWcKPiBAQCAtMTM2LDYgKzEzNiw3IEBAIGNvbmZpZyBSSVNDVgo+ICAg
+ICAgICAgc2VsZWN0IEhBVkVfTERfREVBRF9DT0RFX0RBVEFfRUxJTUlOQVRJT04gaWYgIUxEX0lT
+X0xMRAo+ICAgICAgICAgc2VsZWN0IEhBVkVfTU9WRV9QTUQKPiAgICAgICAgIHNlbGVjdCBIQVZF
+X01PVkVfUFVECj4gKyAgICAgICBzZWxlY3QgSEFWRV9QQUdFX1NJWkVfNEtCCj4gICAgICAgICBz
+ZWxlY3QgSEFWRV9QQ0kKPiAgICAgICAgIHNlbGVjdCBIQVZFX1BFUkZfRVZFTlRTCj4gICAgICAg
+ICBzZWxlY3QgSEFWRV9QRVJGX1JFR1MKPiBkaWZmIC0tZ2l0IGEvYXJjaC9yaXNjdi9pbmNsdWRl
+L2FzbS9wYWdlLmggYi9hcmNoL3Jpc2N2L2luY2x1ZGUvYXNtL3BhZ2UuaAo+IGluZGV4IDU3ZTg4
+N2JmYTM0Yy4uMjk0NzQyM2I1MDgyIDEwMDY0NAo+IC0tLSBhL2FyY2gvcmlzY3YvaW5jbHVkZS9h
+c20vcGFnZS5oCj4gKysrIGIvYXJjaC9yaXNjdi9pbmNsdWRlL2FzbS9wYWdlLmgKPiBAQCAtMTIs
+NyArMTIsNyBAQAo+ICAjaW5jbHVkZSA8bGludXgvcGZuLmg+Cj4gICNpbmNsdWRlIDxsaW51eC9j
+b25zdC5oPgo+Cj4gLSNkZWZpbmUgUEFHRV9TSElGVCAgICAgKDEyKQo+ICsjZGVmaW5lIFBBR0Vf
+U0hJRlQgICAgIENPTkZJR19QQUdFX1NISUZUCj4gICNkZWZpbmUgUEFHRV9TSVpFICAgICAgKF9B
+QygxLCBVTCkgPDwgUEFHRV9TSElGVCkKPiAgI2RlZmluZSBQQUdFX01BU0sgICAgICAofihQQUdF
+X1NJWkUgLSAxKSkKPgo+IGRpZmYgLS1naXQgYS9hcmNoL3MzOTAvS2NvbmZpZyBiL2FyY2gvczM5
+MC9LY29uZmlnCj4gaW5kZXggZmU1NjVmM2EzYTkxLi5iNjFjNzRjMTAwNTAgMTAwNjQ0Cj4gLS0t
+IGEvYXJjaC9zMzkwL0tjb25maWcKPiArKysgYi9hcmNoL3MzOTAvS2NvbmZpZwo+IEBAIC0xOTks
+NiArMTk5LDcgQEAgY29uZmlnIFMzOTAKPiAgICAgICAgIHNlbGVjdCBIQVZFX01PRF9BUkNIX1NQ
+RUNJRklDCj4gICAgICAgICBzZWxlY3QgSEFWRV9OTUkKPiAgICAgICAgIHNlbGVjdCBIQVZFX05P
+UF9NQ09VTlQKPiArICAgICAgIHNlbGVjdCBIQVZFX1BBR0VfU0laRV80S0IKPiAgICAgICAgIHNl
+bGVjdCBIQVZFX1BDSQo+ICAgICAgICAgc2VsZWN0IEhBVkVfUEVSRl9FVkVOVFMKPiAgICAgICAg
+IHNlbGVjdCBIQVZFX1BFUkZfUkVHUwo+IGRpZmYgLS1naXQgYS9hcmNoL3MzOTAvaW5jbHVkZS9h
+c20vcGFnZS5oIGIvYXJjaC9zMzkwL2luY2x1ZGUvYXNtL3BhZ2UuaAo+IGluZGV4IDczYjljM2Jm
+Mzc3Zi4uZGVkOTU0OGQxMWQ5IDEwMDY0NAo+IC0tLSBhL2FyY2gvczM5MC9pbmNsdWRlL2FzbS9w
+YWdlLmgKPiArKysgYi9hcmNoL3MzOTAvaW5jbHVkZS9hc20vcGFnZS5oCj4gQEAgLTExLDcgKzEx
+LDcgQEAKPiAgI2luY2x1ZGUgPGxpbnV4L2NvbnN0Lmg+Cj4gICNpbmNsdWRlIDxhc20vdHlwZXMu
+aD4KPgo+IC0jZGVmaW5lIF9QQUdFX1NISUZUICAgIDEyCj4gKyNkZWZpbmUgX1BBR0VfU0hJRlQg
+ICAgQ09ORklHX1BBR0VfU0hJRlQKPiAgI2RlZmluZSBfUEFHRV9TSVpFICAgICAoX0FDKDEsIFVM
+KSA8PCBfUEFHRV9TSElGVCkKPiAgI2RlZmluZSBfUEFHRV9NQVNLICAgICAofihfUEFHRV9TSVpF
+IC0gMSkpCj4KPiBkaWZmIC0tZ2l0IGEvYXJjaC9zcGFyYy9LY29uZmlnIGIvYXJjaC9zcGFyYy9L
+Y29uZmlnCj4gaW5kZXggMjA0YzQzY2IzZDQzLi43ZTZiYzZmZmY3NmIgMTAwNjQ0Cj4gLS0tIGEv
+YXJjaC9zcGFyYy9LY29uZmlnCj4gKysrIGIvYXJjaC9zcGFyYy9LY29uZmlnCj4gQEAgLTU4LDYg
+KzU4LDcgQEAgY29uZmlnIFNQQVJDMzIKPiAgICAgICAgIHNlbGVjdCBETUFfRElSRUNUX1JFTUFQ
+Cj4gICAgICAgICBzZWxlY3QgR0VORVJJQ19BVE9NSUM2NAo+ICAgICAgICAgc2VsZWN0IEhBVkVf
+VUlEMTYKPiArICAgICAgIHNlbGVjdCBIQVZFX1BBR0VfU0laRV80S0IKPiAgICAgICAgIHNlbGVj
+dCBMT0NLX01NX0FORF9GSU5EX1ZNQQo+ICAgICAgICAgc2VsZWN0IE9MRF9TSUdBQ1RJT04KPiAg
+ICAgICAgIHNlbGVjdCBaT05FX0RNQQo+IEBAIC03NSw2ICs3Niw3IEBAIGNvbmZpZyBTUEFSQzY0
+Cj4gICAgICAgICBzZWxlY3QgSEFWRV9BUkNIX1RSQU5TUEFSRU5UX0hVR0VQQUdFCj4gICAgICAg
+ICBzZWxlY3QgSEFWRV9EWU5BTUlDX0ZUUkFDRQo+ICAgICAgICAgc2VsZWN0IEhBVkVfRlRSQUNF
+X01DT1VOVF9SRUNPUkQKPiArICAgICAgIHNlbGVjdCBIQVZFX1BBR0VfU0laRV84S0IKPiAgICAg
+ICAgIHNlbGVjdCBIQVZFX1NZU0NBTExfVFJBQ0VQT0lOVFMKPiAgICAgICAgIHNlbGVjdCBIQVZF
+X0NPTlRFWFRfVFJBQ0tJTkdfVVNFUgo+ICAgICAgICAgc2VsZWN0IEhBVkVfVElGX05PSFoKPiBk
+aWZmIC0tZ2l0IGEvYXJjaC9zcGFyYy9pbmNsdWRlL2FzbS9wYWdlXzMyLmggYi9hcmNoL3NwYXJj
+L2luY2x1ZGUvYXNtL3BhZ2VfMzIuaAo+IGluZGV4IDZiZTZmNjgzZjk4Zi4uOTk3N2M3NzM3NGNk
+IDEwMDY0NAo+IC0tLSBhL2FyY2gvc3BhcmMvaW5jbHVkZS9hc20vcGFnZV8zMi5oCj4gKysrIGIv
+YXJjaC9zcGFyYy9pbmNsdWRlL2FzbS9wYWdlXzMyLmgKPiBAQCAtMTEsNyArMTEsNyBAQAo+Cj4g
+ICNpbmNsdWRlIDxsaW51eC9jb25zdC5oPgo+Cj4gLSNkZWZpbmUgUEFHRV9TSElGVCAgIDEyCj4g
+KyNkZWZpbmUgUEFHRV9TSElGVCAgIENPTkZJR19QQUdFX1NISUZUCj4gICNkZWZpbmUgUEFHRV9T
+SVpFICAgIChfQUMoMSwgVUwpIDw8IFBBR0VfU0hJRlQpCj4gICNkZWZpbmUgUEFHRV9NQVNLICAg
+ICh+KFBBR0VfU0laRS0xKSkKPgo+IGRpZmYgLS1naXQgYS9hcmNoL3NwYXJjL2luY2x1ZGUvYXNt
+L3BhZ2VfNjQuaCBiL2FyY2gvc3BhcmMvaW5jbHVkZS9hc20vcGFnZV82NC5oCj4gaW5kZXggMjU0
+ZGZmZDg1ZmIxLi5lOWJkMjQ4MjFjOTMgMTAwNjQ0Cj4gLS0tIGEvYXJjaC9zcGFyYy9pbmNsdWRl
+L2FzbS9wYWdlXzY0LmgKPiArKysgYi9hcmNoL3NwYXJjL2luY2x1ZGUvYXNtL3BhZ2VfNjQuaAo+
+IEBAIC00LDggKzQsNyBAQAo+Cj4gICNpbmNsdWRlIDxsaW51eC9jb25zdC5oPgo+Cj4gLSNkZWZp
+bmUgUEFHRV9TSElGVCAgIDEzCj4gLQo+ICsjZGVmaW5lIFBBR0VfU0hJRlQgICBDT05GSUdfUEFH
+RV9TSElGVAo+ICAjZGVmaW5lIFBBR0VfU0laRSAgICAoX0FDKDEsVUwpIDw8IFBBR0VfU0hJRlQp
+Cj4gICNkZWZpbmUgUEFHRV9NQVNLICAgICh+KFBBR0VfU0laRS0xKSkKPgo+IGRpZmYgLS1naXQg
+YS9hcmNoL3VtL0tjb25maWcgYi9hcmNoL3VtL0tjb25maWcKPiBpbmRleCBiNWUxNzkzNjA1MzQu
+LjkzYTVhODk5OWIwNyAxMDA2NDQKPiAtLS0gYS9hcmNoL3VtL0tjb25maWcKPiArKysgYi9hcmNo
+L3VtL0tjb25maWcKPiBAQCAtMjAsNiArMjAsNyBAQCBjb25maWcgVU1MCj4gICAgICAgICBzZWxl
+Y3QgSEFWRV9VSUQxNgo+ICAgICAgICAgc2VsZWN0IEhBVkVfREVCVUdfS01FTUxFQUsKPiAgICAg
+ICAgIHNlbGVjdCBIQVZFX0RFQlVHX0JVR1ZFUkJPU0UKPiArICAgICAgIHNlbGVjdCBIQVZFX1BB
+R0VfU0laRV80S0IKPiAgICAgICAgIHNlbGVjdCBOT19ETUEgaWYgIVVNTF9ETUFfRU1VTEFUSU9O
+Cj4gICAgICAgICBzZWxlY3QgT0ZfRUFSTFlfRkxBVFRSRUUgaWYgT0YKPiAgICAgICAgIHNlbGVj
+dCBHRU5FUklDX0lSUV9TSE9XCj4gZGlmZiAtLWdpdCBhL2FyY2gvdW0vaW5jbHVkZS9hc20vcGFn
+ZS5oIGIvYXJjaC91bS9pbmNsdWRlL2FzbS9wYWdlLmgKPiBpbmRleCA4NDg2NjEyN2QwNzQuLjll
+ZjlhOGFlZGZhNiAxMDA2NDQKPiAtLS0gYS9hcmNoL3VtL2luY2x1ZGUvYXNtL3BhZ2UuaAo+ICsr
+KyBiL2FyY2gvdW0vaW5jbHVkZS9hc20vcGFnZS5oCj4gQEAgLTEwLDcgKzEwLDcgQEAKPiAgI2lu
+Y2x1ZGUgPGxpbnV4L2NvbnN0Lmg+Cj4KPiAgLyogUEFHRV9TSElGVCBkZXRlcm1pbmVzIHRoZSBw
+YWdlIHNpemUgKi8KPiAtI2RlZmluZSBQQUdFX1NISUZUICAgICAxMgo+ICsjZGVmaW5lIFBBR0Vf
+U0hJRlQgICAgIENPTkZJR19QQUdFX1NISUZUCj4gICNkZWZpbmUgUEFHRV9TSVpFICAgICAgKF9B
+QygxLCBVTCkgPDwgUEFHRV9TSElGVCkKPiAgI2RlZmluZSBQQUdFX01BU0sgICAgICAofihQQUdF
+X1NJWkUtMSkpCj4KPiBkaWZmIC0tZ2l0IGEvYXJjaC94ODYvS2NvbmZpZyBiL2FyY2gveDg2L0tj
+b25maWcKPiBpbmRleCA1ZWRlYzE3NWI5YmYuLmJhNTdlYjM2MmVjOCAxMDA2NDQKPiAtLS0gYS9h
+cmNoL3g4Ni9LY29uZmlnCj4gKysrIGIvYXJjaC94ODYvS2NvbmZpZwo+IEBAIC0yNTUsNiArMjU1
+LDcgQEAgY29uZmlnIFg4Ngo+ICAgICAgICAgc2VsZWN0IEhBVkVfTk9JTlNUUl9WQUxJREFUSU9O
+ICAgICAgICAgIGlmIEhBVkVfT0JKVE9PTAo+ICAgICAgICAgc2VsZWN0IEhBVkVfT0JKVE9PTCAg
+ICAgICAgICAgICAgICAgICAgIGlmIFg4Nl82NAo+ICAgICAgICAgc2VsZWN0IEhBVkVfT1BUUFJP
+QkVTCj4gKyAgICAgICBzZWxlY3QgSEFWRV9QQUdFX1NJWkVfNEtCCj4gICAgICAgICBzZWxlY3Qg
+SEFWRV9QQ1NQS1JfUExBVEZPUk0KPiAgICAgICAgIHNlbGVjdCBIQVZFX1BFUkZfRVZFTlRTCj4g
+ICAgICAgICBzZWxlY3QgSEFWRV9QRVJGX0VWRU5UU19OTUkKPiBkaWZmIC0tZ2l0IGEvYXJjaC94
+ODYvaW5jbHVkZS9hc20vcGFnZV90eXBlcy5oIGIvYXJjaC94ODYvaW5jbHVkZS9hc20vcGFnZV90
+eXBlcy5oCj4gaW5kZXggODZiZDQzMTFkYWY4Li45ZGE5YzhhMmYxZGYgMTAwNjQ0Cj4gLS0tIGEv
+YXJjaC94ODYvaW5jbHVkZS9hc20vcGFnZV90eXBlcy5oCj4gKysrIGIvYXJjaC94ODYvaW5jbHVk
+ZS9hc20vcGFnZV90eXBlcy5oCj4gQEAgLTcsNyArNyw3IEBACj4gICNpbmNsdWRlIDxsaW51eC9t
+ZW1fZW5jcnlwdC5oPgo+Cj4gIC8qIFBBR0VfU0hJRlQgZGV0ZXJtaW5lcyB0aGUgcGFnZSBzaXpl
+ICovCj4gLSNkZWZpbmUgUEFHRV9TSElGVCAgICAgICAgICAgICAxMgo+ICsjZGVmaW5lIFBBR0Vf
+U0hJRlQgICAgICAgICAgICAgQ09ORklHX1BBR0VfU0hJRlQKPiAgI2RlZmluZSBQQUdFX1NJWkUg
+ICAgICAgICAgICAgIChfQUMoMSxVTCkgPDwgUEFHRV9TSElGVCkKPiAgI2RlZmluZSBQQUdFX01B
+U0sgICAgICAgICAgICAgICh+KFBBR0VfU0laRS0xKSkKPgo+IGRpZmYgLS1naXQgYS9hcmNoL3h0
+ZW5zYS9LY29uZmlnIGIvYXJjaC94dGVuc2EvS2NvbmZpZwo+IGluZGV4IDZmMjQ4ZDg3ZTQ5Ni4u
+ODdlYzM1YjMzNjNiIDEwMDY0NAo+IC0tLSBhL2FyY2gveHRlbnNhL0tjb25maWcKPiArKysgYi9h
+cmNoL3h0ZW5zYS9LY29uZmlnCj4gQEAgLTQ0LDYgKzQ0LDcgQEAgY29uZmlnIFhURU5TQQo+ICAg
+ICAgICAgc2VsZWN0IEhBVkVfR0NDX1BMVUdJTlMgaWYgR0NDX1ZFUlNJT04gPj0gMTIwMDAwCj4g
+ICAgICAgICBzZWxlY3QgSEFWRV9IV19CUkVBS1BPSU5UIGlmIFBFUkZfRVZFTlRTCj4gICAgICAg
+ICBzZWxlY3QgSEFWRV9JUlFfVElNRV9BQ0NPVU5USU5HCj4gKyAgICAgICBzZWxlY3QgSEFWRV9Q
+QUdFX1NJWkVfNEtCCj4gICAgICAgICBzZWxlY3QgSEFWRV9QQ0kKPiAgICAgICAgIHNlbGVjdCBI
+QVZFX1BFUkZfRVZFTlRTCj4gICAgICAgICBzZWxlY3QgSEFWRV9TVEFDS1BST1RFQ1RPUgo+IGRp
+ZmYgLS1naXQgYS9hcmNoL3h0ZW5zYS9pbmNsdWRlL2FzbS9wYWdlLmggYi9hcmNoL3h0ZW5zYS9p
+bmNsdWRlL2FzbS9wYWdlLmgKPiBpbmRleCBhNzdkMDQ5NzJlYjkuLjRkYjU2ZWYwNTJkMiAxMDA2
+NDQKPiAtLS0gYS9hcmNoL3h0ZW5zYS9pbmNsdWRlL2FzbS9wYWdlLmgKPiArKysgYi9hcmNoL3h0
+ZW5zYS9pbmNsdWRlL2FzbS9wYWdlLmgKPiBAQCAtMjIsNyArMjIsNyBAQAo+ICAgKiBQQUdFX1NI
+SUZUIGRldGVybWluZXMgdGhlIHBhZ2Ugc2l6ZQo+ICAgKi8KPgo+IC0jZGVmaW5lIFBBR0VfU0hJ
+RlQgICAgIDEyCj4gKyNkZWZpbmUgUEFHRV9TSElGVCAgICAgQ09ORklHX1BBR0VfU0hJRlQKPiAg
+I2RlZmluZSBQQUdFX1NJWkUgICAgICAoX19YVEVOU0FfVUxfQ09OU1QoMSkgPDwgUEFHRV9TSElG
+VCkKPiAgI2RlZmluZSBQQUdFX01BU0sgICAgICAofihQQUdFX1NJWkUtMSkpCj4KPiAtLQo+IDIu
+MzkuMgo+CgoKLS0gCkJlc3QgUmVnYXJkcwogR3VvIFJlbgoKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0Cmxp
+bnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
