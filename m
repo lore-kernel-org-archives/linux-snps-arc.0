@@ -4,92 +4,119 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7EBEC54798
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Feb 2024 08:55:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55161C5478C
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 27 Feb 2024 10:59:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Subject:Cc:To:From:Date:References:
+	In-Reply-To:Message-Id:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=5ov2Oixd0XtTulJ5RVkWlkpVXjBK1V3E0m+d0GLXsIE=; b=memjDtWDCPmE/G
-	NwfQhYXjV/x4DMELMyKwDSpzH8cDnMSSSvfROu5qSulI8bWxXs3MuFuojJc8nS5jyYfBMNPTbtSFJ
-	ribvXdlz3fJB8jU0kNZlR1cCX9eKlpdu/t/ERSbMMYUobXqA2meaUtB5mXEzs2zSAxcsszZIFQWbq
-	GaKWKTpj5OXJsahqguwLoc+8eGkY/RVevd3gRLjK+8dEy8Qg5M951TdCMvNBUc7DshpE1KK5c+6ZH
-	r3yd6JFWk0KaDL54708poRSXeDhaZl3o9mT/WhNV7egb+oNyPakIXxkOmXN/ICr5CkYtWs1DOxuwn
-	vYrR1NyuRNVGWzNvk7eQ==;
+	List-Owner; bh=R8iDhqDopRMQ7EaUlVdGvD80QMzv3C+eplaaeuwRYYE=; b=TprVfJQ9YsSvRi
+	9+dJmRl7IHY5QjUS2RRCbtXpxcNeSnTBQ1KtYqvhFOP+e8OLu2XbASU6oglhVN25hTY2Tk2/SbVkY
+	IBl5Cgj5zlOUHOd4YClJYtkeCz1tfhZaFFWuQHtARI08znB1Sr4H90uk8PO/ZdkM66I9EPsZedtCs
+	aRt2+O1nQzrgO9nR7B8+oeiHXqmVIPq9GuEbHrYYJjlqh9aaEKxHoqaiQQnQmdAoE2un9P5kuCWOn
+	3/vSfwy2e0ZDuEKpZL6ze+QSfOTPFE4xC2LOsMmHsC+bUPQJGo9uBpFUh0/giJv9/v3mahBeuvrrp
+	KrFsw+vZ3dUMQ7RFXaEQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1retFF-00000004PY1-0rQa;
-	Tue, 27 Feb 2024 08:55:25 +0000
-Received: from mail-pf1-f180.google.com ([209.85.210.180])
+	id 1revBL-00000004rOt-3Y9M;
+	Tue, 27 Feb 2024 10:59:31 +0000
+Received: from flow2-smtp.messagingengine.com ([103.168.172.137])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1retFC-00000004PVg-2xUV;
-	Tue, 27 Feb 2024 08:55:24 +0000
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6da202aa138so2635462b3a.2;
-        Tue, 27 Feb 2024 00:55:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709024119; x=1709628919;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LF4kXg8LPe/h8pV/74EqYHGgPgOEfsUWLG6ibzoE1S0=;
-        b=CKyJQOTh5EEr0PmLlVxtnmopwqr2ZYDk+CNr5//kMZIrge53zz0JH0fQVGlG//S44n
-         n7p1Ah715/+2d2Unv53mut85txmudbPevS3u00Irgm+zrYaO5WEBbuBhlaLe72DcTlYQ
-         BMKjo207iMDD5c0NRg74l+V+R5quOjoCMHbixIYEdvyB/+ckOzyz8ledCwU/3oj0F+xc
-         t3jibcYrzP4WwBYMcqg2y6gXbRE2SK3zV8aj76d9rFdyGmys1rDK/NZqZXG+v2d3fvSx
-         9nuRU3UV3OBOECZV75AbLBYwU6HxfWsPBjRpb7qXsj2oGe/5PuQYL5V+NmHLYljK6bEk
-         iWHA==
-X-Forwarded-Encrypted: i=1; AJvYcCVLNgVkNkL5bZCRzc7r/Aqb4Fp5+906n+TtPhe1bWSMsKl9M1o+ov25jpMy4yO6umIKbgEqUNQppWZtPi8sX81etV0NOiYxmS14x2e4K00UU65VRtGn9O6lEtkiZKNP0guo5uuDS9fwk3MIGhjlaQbjummfvvIMlhFXo5OkiyrUTvZAaBKKng1U4sai53dNopV39OsXmmQaIs83lJqjZEGnfijcFVU4aPvAYt07g64FpDelSyyM9wc=
-X-Gm-Message-State: AOJu0YzAPVW0u4/ao7ycabzKfdG6QVc0za+2wv0PhchHZH5Yx+aXrSJ3
-	qXmJKeINjp3JTerBIbBaaqd4rep65T4q9L885gSdCGl1uVDI7WlgTEJQig8hUX19hA==
-X-Google-Smtp-Source: AGHT+IGhW/2kP/IsRHJQ27M/f0ypZS+oxnC8tPIR8VMRPHsGk5BXe+0dPgXX1Ujjxoa200e0pYTuhQ==
-X-Received: by 2002:a62:cf04:0:b0:6e4:625a:f03 with SMTP id b4-20020a62cf04000000b006e4625a0f03mr9372321pfg.15.1709024118771;
-        Tue, 27 Feb 2024 00:55:18 -0800 (PST)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com. [209.85.215.177])
-        by smtp.gmail.com with ESMTPSA id gu17-20020a056a004e5100b006e4e584ed59sm5361650pfb.116.2024.02.27.00.55.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Feb 2024 00:55:18 -0800 (PST)
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-5ce9555d42eso3429187a12.2;
-        Tue, 27 Feb 2024 00:55:18 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVOBXVJfLco/o9zyxUZSdFC48o4Cd12UkGy0rVFCiBu2Y4lowBdmqqhliGFSiwyjg3VvKJ2oGG6GzWS9ivw5GJDbAWe7RbyRVA3bJMun8rFZoh+K22B+LraS7K+Bps94rEPhkI+fEqipIvb8s4dTF0oQE0y8YAoHqf1AFMIXzn5NFGDJEKKJmpfu+gyTqdmFyGNQaAQvEu40hMyRNiojWHOgJu4z0uGzAju1vRO7JEjC9J3MUIKSMc=
-X-Received: by 2002:a25:71c3:0:b0:dcf:2b44:f38d with SMTP id
- m186-20020a2571c3000000b00dcf2b44f38dmr1589302ybc.49.1709024097788; Tue, 27
- Feb 2024 00:54:57 -0800 (PST)
+	id 1revBH-00000004rO9-0xly;
+	Tue, 27 Feb 2024 10:59:29 +0000
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailflow.nyi.internal (Postfix) with ESMTP id 78DBA200138;
+	Tue, 27 Feb 2024 05:59:24 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 27 Feb 2024 05:59:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1709031564; x=1709038764; bh=ALe4jRIpXw
+	GFVbo3YEKz32tiMZckplvn+7Agjim/VUs=; b=KreeJwgJS47kfteNF0Atm9VoLT
+	mRfGs//TxfpC0fFZ9SEmCaC2swxwVrdN/3Ir+9oF+fbHxOtydzs0GOj0O1ITDp51
+	ZhOnnsY7S3TnCZ4KCQAKSLYiFfKjoPsBoAlA8dApodL0QZ6nRCISIYBeFh2ul3w/
+	q59zfzcWezxy3DWuubch7g8lA2Drw5Ez0jYc9VWGFhZDa2LlhFdeHC7I+E7yatGM
+	hJNcDmI6gI3Zx71w11VLK+zKbOxBUMm1nalGz6w7e9Wc1kc8YztPLUVQ8LkOyg65
+	8WPuiETbWNlfqV0KEzh2qfROCbOq47LpMKoQbeNARU2PmuDi7KJ3PGB2mQlg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1709031564; x=1709038764; bh=ALe4jRIpXwGFVbo3YEKz32tiMZck
+	plvn+7Agjim/VUs=; b=bBO3jySluCJ8iVd9SgGyaduu/7B7YWQLFiJ9Ps7xlapC
+	2Lu1jhKLr4XQz6dXwNluypZlvD7ktNGmEBmDx+l/7yB8xrGle+W+vyms/K+FVKb6
+	vfmssdRCf1wqieikEjJKlb4PL5URebMEeI7syXqZL8FtQxHCsQt7H3xzRq5ndzoQ
+	oZYNOTsMDpvjTL6WgQqY2GdPhVBq45+29NWAcjyYpqxh67E2AyyZ323tgVUDvNzD
+	j1qYSIwN2bTbtxvpO5Qnw5eDvGuNoreXZ4SGviyGwWwNwe24kyiKu1PnLoTqm6Hx
+	IZfTtcsnJMRwsibpxr+rL7unENDS3lSef9Mi0eR4QA==
+X-ME-Sender: <xms:isDdZafoyfIa2slvrGRb4QuGqlhK60arMii6iYL9riKPHpp4cGpkDg>
+    <xme:isDdZUM16FrnZSoIWKFKjkea6vNGsbbxm1_XQpYP7hU7n55KtwCjU4HyZXe4xvGnR
+    al4oJbACmXVdB8-sZs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrgeeggddvfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:isDdZbg33X-NA4Q4g8hs1l1s2knS3VeDh75_ybtft9UbLAD21da0lQ>
+    <xmx:isDdZX91w2MZ5hgE7eH834qgzVQv9GUyFiDnpUSBzy5R9xSTy3NkLA>
+    <xmx:isDdZWvlIMVHAGfyORa7V5l8neOSYMEy4LWAa7attify04IxVKQb6Q>
+    <xmx:jMDdZVrJHSt9kALdLSyweF2DkUkEC1DI1fmVrfUCTkdSqb87F7HE81ozT4I>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 9822DB6008D; Tue, 27 Feb 2024 05:59:22 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-153-g7e3bb84806-fm-20240215.007-g7e3bb848
 MIME-Version: 1.0
-References: <20240226161414.2316610-1-arnd@kernel.org> <20240226161414.2316610-4-arnd@kernel.org>
-In-Reply-To: <20240226161414.2316610-4-arnd@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 27 Feb 2024 09:54:46 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWRBQF95fJ+NkPUdvpu5VfRm2WyTnvdqB1Xe7d4vsvY2g@mail.gmail.com>
-Message-ID: <CAMuHMdWRBQF95fJ+NkPUdvpu5VfRm2WyTnvdqB1Xe7d4vsvY2g@mail.gmail.com>
+Message-Id: <164616c2-94f6-40e8-86e0-850dc8da212e@app.fastmail.com>
+In-Reply-To: <CAMuHMdWRBQF95fJ+NkPUdvpu5VfRm2WyTnvdqB1Xe7d4vsvY2g@mail.gmail.com>
+References: <20240226161414.2316610-1-arnd@kernel.org>
+ <20240226161414.2316610-4-arnd@kernel.org>
+ <CAMuHMdWRBQF95fJ+NkPUdvpu5VfRm2WyTnvdqB1Xe7d4vsvY2g@mail.gmail.com>
+Date: Tue, 27 Feb 2024 11:59:01 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Geert Uytterhoeven" <geert@linux-m68k.org>,
+ "Arnd Bergmann" <arnd@kernel.org>
+Cc: "Thomas Gleixner" <tglx@linutronix.de>,
+ "Vincenzo Frascino" <vincenzo.frascino@arm.com>,
+ "Kees Cook" <keescook@chromium.org>,
+ "Anna-Maria Gleixner" <anna-maria@linutronix.de>,
+ "Matt Turner" <mattst88@gmail.com>, "Vineet Gupta" <vgupta@kernel.org>,
+ "Russell King" <linux@armlinux.org.uk>,
+ "Catalin Marinas" <catalin.marinas@arm.com>, guoren <guoren@kernel.org>,
+ "Brian Cain" <bcain@quicinc.com>, "Huacai Chen" <chenhuacai@kernel.org>,
+ "Michal Simek" <monstr@monstr.eu>,
+ "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+ "Helge Deller" <deller@gmx.de>, "Michael Ellerman" <mpe@ellerman.id.au>,
+ "Christophe Leroy" <christophe.leroy@csgroup.eu>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>,
+ "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
+ "Andreas Larsson" <andreas@gaisler.com>,
+ "Richard Weinberger" <richard@nod.at>, x86@kernel.org,
+ "Max Filippov" <jcmvbkbc@gmail.com>, "Andy Lutomirski" <luto@kernel.org>,
+ "Jan Kiszka" <jan.kiszka@siemens.com>,
+ "Kieran Bingham" <kbingham@kernel.org>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
+ linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+ "linux-openrisc@vger.kernel.org" <linux-openrisc@vger.kernel.org>,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-um@lists.infradead.org
 Subject: Re: [PATCH 3/4] arch: define CONFIG_PAGE_SIZE_*KB on all architectures
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	Kees Cook <keescook@chromium.org>, Anna-Maria Behnsen <anna-maria@linutronix.de>, 
-	Arnd Bergmann <arnd@arndb.de>, Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>, 
-	Russell King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Guo Ren <guoren@kernel.org>, Brian Cain <bcain@quicinc.com>, 
-	Huacai Chen <chenhuacai@kernel.org>, Michal Simek <monstr@monstr.eu>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Helge Deller <deller@gmx.de>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, 
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Andreas Larsson <andreas@gaisler.com>, 
-	Richard Weinberger <richard@nod.at>, x86@kernel.org, Max Filippov <jcmvbkbc@gmail.com>, 
-	Andy Lutomirski <luto@kernel.org>, Jan Kiszka <jan.kiszka@siemens.com>, 
-	Kieran Bingham <kbingham@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, 
-	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-um@lists.infradead.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240227_005522_753415_6A273E54 
-X-CRM114-Status: GOOD (  23.89  )
+X-CRM114-CacheID: sfid-20240227_025928_013302_9C48422A 
+X-CRM114-Status: GOOD (  14.46  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,49 +128,58 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-SGkgQXJuZCwKCk9uIE1vbiwgRmViIDI2LCAyMDI0IGF0IDU6MTXigK9QTSBBcm5kIEJlcmdtYW5u
-IDxhcm5kQGtlcm5lbC5vcmc+IHdyb3RlOgo+IEZyb206IEFybmQgQmVyZ21hbm4gPGFybmRAYXJu
-ZGIuZGU+Cj4KPiBNb3N0IGFyY2hpdGVjdHVyZXMgb25seSBzdXBwb3J0IGEgc2luZ2xlIGhhcmRj
-b2RlZCBwYWdlIHNpemUuIEluIG9yZGVyCj4gdG8gZW5zdXJlIHRoYXQgZWFjaCBvbmUgb2YgdGhl
-c2Ugc2V0cyB0aGUgY29ycmVzcG9uZGluZyBLY29uZmlnIHN5bWJvbHMsCj4gY2hhbmdlIG92ZXIg
-dGhlIFBBR0VfU0hJRlQgZGVmaW5pdGlvbiB0byB0aGUgY29tbW9uIG9uZSBhbmQgYWxsb3cKPiBv
-bmx5IHRoZSBoYXJkd2FyZSBwYWdlIHNpemUgdG8gYmUgc2VsZWN0ZWQuCj4KPiBTaWduZWQtb2Zm
-LWJ5OiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPgoKVGhhbmtzIGZvciB5b3VyIHBhdGNo
-IQoKPiAtLS0gYS9hcmNoL202OGsvS2NvbmZpZwo+ICsrKyBiL2FyY2gvbTY4ay9LY29uZmlnCj4g
-QEAgLTg0LDEyICs4NCwxNSBAQCBjb25maWcgTU1VCj4KPiAgY29uZmlnIE1NVV9NT1RPUk9MQQo+
-ICAgICAgICAgYm9vbAo+ICsgICAgICAgc2VsZWN0IEhBVkVfUEFHRV9TSVpFXzRLQgo+Cj4gIGNv
-bmZpZyBNTVVfQ09MREZJUkUKPiArICAgICAgIHNlbGVjdCBIQVZFX1BBR0VfU0laRV84S0IKCkkg
-dGhpbmsgeW91IGNhbiBkbyB3aXRob3V0IHRoaXMuLi4KCj4gICAgICAgICBib29sCj4KPiAgY29u
-ZmlnIE1NVV9TVU4zCj4gICAgICAgICBib29sCj4gKyAgICAgICBzZWxlY3QgSEFWRV9QQUdFX1NJ
-WkVfOEtCCj4gICAgICAgICBkZXBlbmRzIG9uIE1NVSAmJiAhTU1VX01PVE9ST0xBICYmICFNTVVf
-Q09MREZJUkUKPgo+ICBjb25maWcgQVJDSF9TVVBQT1JUU19LRVhFQwo+IGRpZmYgLS1naXQgYS9h
-cmNoL202OGsvS2NvbmZpZy5jcHUgYi9hcmNoL202OGsvS2NvbmZpZy5jcHUKPiBpbmRleCA5ZGNm
-MjQ1YzljYmYuLmM3NzdhMTI5NzY4YSAxMDA2NDQKPiAtLS0gYS9hcmNoL202OGsvS2NvbmZpZy5j
-cHUKPiArKysgYi9hcmNoL202OGsvS2NvbmZpZy5jcHUKPiBAQCAtMzAsNiArMzAsNyBAQCBjb25m
-aWcgQ09MREZJUkUKPiAgICAgICAgIHNlbGVjdCBHRU5FUklDX0NTVU0KPiAgICAgICAgIHNlbGVj
-dCBHUElPTElCCj4gICAgICAgICBzZWxlY3QgSEFWRV9MRUdBQ1lfQ0xLCj4gKyAgICAgICBzZWxl
-Y3QgSEFWRV9QQUdFX1NJWkVfOEtCIGlmICFNTVUKCi4uLi4gaWYgeW91IHdvdWxkIGRyb3AgdGhl
-ICFNTVUtZGVwZW5kZW5jeSBoZXJlLgoKPgo+ICBlbmRjaG9pY2UKPgo+IEBAIC00NSw2ICs0Niw3
-IEBAIGNvbmZpZyBNNjgwMDAKPiAgICAgICAgIHNlbGVjdCBHRU5FUklDX0NTVU0KPiAgICAgICAg
-IHNlbGVjdCBDUFVfTk9fRUZGSUNJRU5UX0ZGUwo+ICAgICAgICAgc2VsZWN0IEhBVkVfQVJDSF9I
-QVNICj4gKyAgICAgICBzZWxlY3QgSEFWRV9QQUdFX1NJWkVfNEtCCgpQZXJoYXBzIHJlcGxhY2Ug
-dGhpcyBieQoKICAgIGNvbmZpZyBNNjhLQ0xBU1NJQwogICAgICAgICAgICBib29sICJDbGFzc2lj
-IE02OEsgQ1BVIGZhbWlseSBzdXBwb3J0IgogICAgICAgICAgICBzZWxlY3QgSEFWRV9BUkNIX1BG
-Tl9WQUxJRAogICsgICAgICAgICBzZWxlY3QgSEFWRV9QQUdFX1NJWkVfNEtCIGlmICFNTVUKCnNv
-IGl0IGNvdmVycyBhbGwgNjgweDAgQ1BVcyB3aXRob3V0IE1NVT8KCj4gICAgICAgICBzZWxlY3Qg
-TEVHQUNZX1RJTUVSX1RJQ0sKPiAgICAgICAgIGhlbHAKPiAgICAgICAgICAgVGhlIEZyZWVzY2Fs
-ZSAod2FzIE1vdG9yb2xhKSA2ODAwMCBDUFUgaXMgdGhlIGZpcnN0IGdlbmVyYXRpb24gb2YKCkdy
-e29ldGplLGVldGluZ31zLAoKICAgICAgICAgICAgICAgICAgICAgICAgR2VlcnQKCi0tIApHZWVy
-dCBVeXR0ZXJob2V2ZW4gLS0gVGhlcmUncyBsb3RzIG9mIExpbnV4IGJleW9uZCBpYTMyIC0tIGdl
-ZXJ0QGxpbnV4LW02OGsub3JnCgpJbiBwZXJzb25hbCBjb252ZXJzYXRpb25zIHdpdGggdGVjaG5p
-Y2FsIHBlb3BsZSwgSSBjYWxsIG15c2VsZiBhIGhhY2tlci4gQnV0CndoZW4gSSdtIHRhbGtpbmcg
-dG8gam91cm5hbGlzdHMgSSBqdXN0IHNheSAicHJvZ3JhbW1lciIgb3Igc29tZXRoaW5nIGxpa2Ug
-dGhhdC4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLSBMaW51cyBUb3J2YWxkcwoK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtc25w
-cy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0
-cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
+On Tue, Feb 27, 2024, at 09:54, Geert Uytterhoeven wrote:
+> Hi Arnd,
+>> diff --git a/arch/m68k/Kconfig.cpu b/arch/m68k/Kconfig.cpu
+>> index 9dcf245c9cbf..c777a129768a 100644
+>> --- a/arch/m68k/Kconfig.cpu
+>> +++ b/arch/m68k/Kconfig.cpu
+>> @@ -30,6 +30,7 @@ config COLDFIRE
+>>         select GENERIC_CSUM
+>>         select GPIOLIB
+>>         select HAVE_LEGACY_CLK
+>> +       select HAVE_PAGE_SIZE_8KB if !MMU
+>
+> .... if you would drop the !MMU-dependency here.
+>
+>>
+>>  endchoice
+>>
+>> @@ -45,6 +46,7 @@ config M68000
+>>         select GENERIC_CSUM
+>>         select CPU_NO_EFFICIENT_FFS
+>>         select HAVE_ARCH_HASH
+>> +       select HAVE_PAGE_SIZE_4KB
+>
+> Perhaps replace this by
+>
+>     config M68KCLASSIC
+>             bool "Classic M68K CPU family support"
+>             select HAVE_ARCH_PFN_VALID
+>   +         select HAVE_PAGE_SIZE_4KB if !MMU
+>
+> so it covers all 680x0 CPUs without MMU?
+
+I was a bit unsure about how to best do this since there
+is not really a need for a fixed page size on nommu kernels,
+whereas the three MMU configs clearly tie the page size to
+the MMU rather than the platform.
+
+There should be no reason for coldfire to have a different
+page size from dragonball if neither of them actually uses
+hardware pages, so one of them could be changed later.
+
+Let me know if that makes sense to you, or you still
+prefer me to change it like you suggested.
+
+      Arnd
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
