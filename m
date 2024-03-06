@@ -4,102 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD158C54E41
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Mar 2024 14:16:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5D3BC5475B
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Mar 2024 16:21:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References
+	:In-Reply-To:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=erqaAGI+KEnBRJItbXvrmzxJUFltkeSQS1imiL8YBkI=; b=Fjx6Oc3vSlvpz5
-	z3w/sbg9uQ/Ljbw1wGpVpgpysJhbYYdqdwOlgdM1Ht26jjfM3fn0xRCTTlONz7sgt2fDAf9x/HsaG
-	k58IouOUy6HmwZULNhuoA9PlCG0SnToYHeWAbmzdDV8cYJPDiepI00CvHu68o3m2G5usJTxgXgWqc
-	r2YrzF62XXNiAbnsqvZmcibQzndg8gx1zfrqNGvssI/1IKC+V3tEuuAeWv3jFcSpBATMc0jvQPZ6o
-	w6jvS6UJjjNOwN616cBSxA1QaQgiDIhM8vwf5o6ueePlibPuZGpIv9YslogKv2ai70KLt7wFv1fYp
-	gnPSMv4X1G3niMFCVASw==;
+	List-Owner; bh=OxoAI26ROhnzj29iLrpp8MnvFJP/s/uFRw/CGuiDJAM=; b=38mbeTN2R3b0GU
+	LC6gcTVZyAEZN9yra8riDHgaq5umS4q8PaejS+WFqQEPYbWYbLDZ2346ce1zKLPbgntMlXAKjD1YQ
+	vd98/h/ZUL9SJaruBau4SdPLedN3MFek+7JNbQW0XDO5rXJgEUxqzoIn2en2ueRvX4EEY0bwBCB7d
+	hmcvxJJ7/SE3sNE8WhCWxchZVy1YiPaA7Q2ra3H4MQKM1RRoY5c/IB2tfCkV3uM8OmicTuRRVxQnF
+	z9YeQl9boSRh0ItnAqK8V7BwPnB6Mfsrs2wpDlbHieCQu+wCL3fLUN81Am8y5cXOW0T7NeeZ49Ik8
+	ijzhzeYuxpzgnANjTMKA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhs3x-00000000X26-04OE;
-	Wed, 06 Mar 2024 14:16:05 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1rhu1C-00000000yvf-0Xu1;
+	Wed, 06 Mar 2024 16:21:22 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhs3h-00000000Wpw-0bM3;
-	Wed, 06 Mar 2024 14:15:57 +0000
+	id 1rhu18-00000000yut-3j5E
+	for linux-snps-arc@lists.infradead.org;
+	Wed, 06 Mar 2024 16:21:20 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 00F4BCE13A0;
-	Wed,  6 Mar 2024 14:15:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C819C43142;
-	Wed,  6 Mar 2024 14:15:36 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 2D57561788;
+	Wed,  6 Mar 2024 16:21:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85007C433C7;
+	Wed,  6 Mar 2024 16:21:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709734546;
-	bh=goW879MuRWgzMV6IQQOSd5uP1kWjHhiYMGeIxXAYOJ0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=J+D7ZnPdd53BJCeYoU5TKb8yl1vBFuOLnHDJtXiVdOqK3Ji/chwxJ0CHADkV16ysw
-	 QIEKEtCa3kSyqzMbikQqv1k0zVNloagCTK6vIcKdZSwpXxXl25N16Ia8OQGKM6uBHo
-	 Vcmlv68sSHbxh7DYpj0ZcQmrh94fwbo+TnSybWZv53tAtFJ+GXXvZXYiPUbuSIDMmn
-	 k82hUZVR4jFvp9F4yZBceqXMcQzde/mIqhOxBZGqgNMvMCMNIgXB6HMAr/m26WQBlR
-	 z4lfiwxeUbhwOKLRX1bJTmo7NjFG+fdXCWZIfmNtOL8RBxB8XKvi8RGGg+8z7rNVeg
-	 6kP/SCDX/PyhQ==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Kees Cook <keescook@chromium.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Matt Turner <mattst88@gmail.com>,
-	Vineet Gupta <vgupta@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Guo Ren <guoren@kernel.org>,
-	Brian Cain <bcain@quicinc.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Michal Simek <monstr@monstr.eu>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Helge Deller <deller@gmx.de>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Richard Weinberger <richard@nod.at>,
-	x86@kernel.org,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Jan Kiszka <jan.kiszka@siemens.com>,
-	Kieran Bingham <kbingham@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org,
-	linux-alpha@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-csky@vger.kernel.org,
-	linux-hexagon@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org,
-	linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Stafford Horne <shorne@gmail.com>,
-	Johannes Berg <johannes@sipsolutions.net>
-Subject: [PATCH v2 3/3] arch: define CONFIG_PAGE_SIZE_*KB on all architectures
-Date: Wed,  6 Mar 2024 15:14:53 +0100
-Message-Id: <20240306141453.3900574-4-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240306141453.3900574-1-arnd@kernel.org>
-References: <20240306141453.3900574-1-arnd@kernel.org>
+	s=k20201202; t=1709742077;
+	bh=6ckO67eGISRujj/lGOm0lzpeisjfBFslDG+kvZLS6W4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=JNu6kheqe1GT6U9cQubnthfBNBS9kqhQuerryJN4Ll7JM3ITydjl8ew/b8/2ERDbd
+	 0ZbNvKZpVc00AppoflyDkaPdGarS2AoJvJio5vKxKgFL1wQDPaBdfr3dSHCbbrAgSN
+	 FB1Y1ifbY43+CIo3L+FKKbO+saZNRc/Fw4pEM2BA4+lpmmXmZ+d/chbbJ8Dn714yBa
+	 tbAhx9qsrsApTUB1cf/+7bM6GvU962rmvnbV9HSTcsH+FsJj7oPaIxfL2QEBkIeeM8
+	 NivOHO2gniC1zv+pfAzJxGgZ4EzMltKMmle36vQ7V1f1NvzVOhwkolOwbduS6K9sn+
+	 42BaZuu9+N7Vw==
+From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+To: Shahab Vahedi <list+bpf@vahedi.org>
+Cc: bpf@vger.kernel.org, linux-snps-arc@lists.infradead.org, Shahab Vahedi
+ <list+bpf@vahedi.org>, Vineet Gupta <vgupta@kernel.org>
+Subject: Re: [PATCH bpf-next v1] ARC: Add eBPF JIT support
+In-Reply-To: <6e4cf7cc-6a2e-4396-b0d5-01ff10d6923a@vahedi.org>
+References: <20240213131946.32068-1-list+bpf@vahedi.org>
+ <87ttlnqlmv.fsf@all.your.base.are.belong.to.us>
+ <6e4cf7cc-6a2e-4396-b0d5-01ff10d6923a@vahedi.org>
+Date: Wed, 06 Mar 2024 17:21:14 +0100
+Message-ID: <87sf13babp.fsf@all.your.base.are.belong.to.us>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240306_061549_665653_A306040B 
-X-CRM114-Status: GOOD (  15.14  )
+X-CRM114-CacheID: sfid-20240306_082119_108339_D0450237 
+X-CRM114-Status: GOOD (  36.69  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,440 +68,95 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Arnd Bergmann <arnd@arndb.de>
-
-Most architectures only support a single hardcoded page size. In order
-to ensure that each one of these sets the corresponding Kconfig symbols,
-change over the PAGE_SHIFT definition to the common one and allow
-only the hardware page size to be selected.
-
-Acked-by: Guo Ren <guoren@kernel.org>
-Acked-by: Heiko Carstens <hca@linux.ibm.com>
-Acked-by: Stafford Horne <shorne@gmail.com>
-Acked-by: Johannes Berg <johannes@sipsolutions.net>
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
-No changes from v1
-
- arch/alpha/Kconfig                 | 1 +
- arch/alpha/include/asm/page.h      | 2 +-
- arch/arm/Kconfig                   | 1 +
- arch/arm/include/asm/page.h        | 2 +-
- arch/csky/Kconfig                  | 1 +
- arch/csky/include/asm/page.h       | 2 +-
- arch/m68k/Kconfig                  | 3 +++
- arch/m68k/Kconfig.cpu              | 2 ++
- arch/m68k/include/asm/page.h       | 6 +-----
- arch/microblaze/Kconfig            | 1 +
- arch/microblaze/include/asm/page.h | 2 +-
- arch/nios2/Kconfig                 | 1 +
- arch/nios2/include/asm/page.h      | 2 +-
- arch/openrisc/Kconfig              | 1 +
- arch/openrisc/include/asm/page.h   | 2 +-
- arch/riscv/Kconfig                 | 1 +
- arch/riscv/include/asm/page.h      | 2 +-
- arch/s390/Kconfig                  | 1 +
- arch/s390/include/asm/page.h       | 2 +-
- arch/sparc/Kconfig                 | 2 ++
- arch/sparc/include/asm/page_32.h   | 2 +-
- arch/sparc/include/asm/page_64.h   | 3 +--
- arch/um/Kconfig                    | 1 +
- arch/um/include/asm/page.h         | 2 +-
- arch/x86/Kconfig                   | 1 +
- arch/x86/include/asm/page_types.h  | 2 +-
- arch/xtensa/Kconfig                | 1 +
- arch/xtensa/include/asm/page.h     | 2 +-
- 28 files changed, 32 insertions(+), 19 deletions(-)
-
-diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
-index d6968d090d49..4f490250d323 100644
---- a/arch/alpha/Kconfig
-+++ b/arch/alpha/Kconfig
-@@ -14,6 +14,7 @@ config ALPHA
- 	select PCI_DOMAINS if PCI
- 	select PCI_SYSCALL if PCI
- 	select HAVE_ASM_MODVERSIONS
-+	select HAVE_PAGE_SIZE_8KB
- 	select HAVE_PCSPKR_PLATFORM
- 	select HAVE_PERF_EVENTS
- 	select NEED_DMA_MAP_STATE
-diff --git a/arch/alpha/include/asm/page.h b/arch/alpha/include/asm/page.h
-index 4db1ebc0ed99..70419e6be1a3 100644
---- a/arch/alpha/include/asm/page.h
-+++ b/arch/alpha/include/asm/page.h
-@@ -6,7 +6,7 @@
- #include <asm/pal.h>
- 
- /* PAGE_SHIFT determines the page size */
--#define PAGE_SHIFT	13
-+#define PAGE_SHIFT	CONFIG_PAGE_SHIFT
- #define PAGE_SIZE	(_AC(1,UL) << PAGE_SHIFT)
- #define PAGE_MASK	(~(PAGE_SIZE-1))
- 
-diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-index 0af6709570d1..9d52ba3a8ad1 100644
---- a/arch/arm/Kconfig
-+++ b/arch/arm/Kconfig
-@@ -116,6 +116,7 @@ config ARM
- 	select HAVE_MOD_ARCH_SPECIFIC
- 	select HAVE_NMI
- 	select HAVE_OPTPROBES if !THUMB2_KERNEL
-+	select HAVE_PAGE_SIZE_4KB
- 	select HAVE_PCI if MMU
- 	select HAVE_PERF_EVENTS
- 	select HAVE_PERF_REGS
-diff --git a/arch/arm/include/asm/page.h b/arch/arm/include/asm/page.h
-index 119aa85d1feb..62af9f7f9e96 100644
---- a/arch/arm/include/asm/page.h
-+++ b/arch/arm/include/asm/page.h
-@@ -8,7 +8,7 @@
- #define _ASMARM_PAGE_H
- 
- /* PAGE_SHIFT determines the page size */
--#define PAGE_SHIFT		12
-+#define PAGE_SHIFT		CONFIG_PAGE_SHIFT
- #define PAGE_SIZE		(_AC(1,UL) << PAGE_SHIFT)
- #define PAGE_MASK		(~((1 << PAGE_SHIFT) - 1))
- 
-diff --git a/arch/csky/Kconfig b/arch/csky/Kconfig
-index cf2a6fd7dff8..9c2723ab1c94 100644
---- a/arch/csky/Kconfig
-+++ b/arch/csky/Kconfig
-@@ -89,6 +89,7 @@ config CSKY
- 	select HAVE_KPROBES if !CPU_CK610
- 	select HAVE_KPROBES_ON_FTRACE if !CPU_CK610
- 	select HAVE_KRETPROBES if !CPU_CK610
-+	select HAVE_PAGE_SIZE_4KB
- 	select HAVE_PERF_EVENTS
- 	select HAVE_PERF_REGS
- 	select HAVE_PERF_USER_STACK_DUMP
-diff --git a/arch/csky/include/asm/page.h b/arch/csky/include/asm/page.h
-index 866855e1ab43..0ca6c408c07f 100644
---- a/arch/csky/include/asm/page.h
-+++ b/arch/csky/include/asm/page.h
-@@ -10,7 +10,7 @@
- /*
-  * PAGE_SHIFT determines the page size: 4KB
-  */
--#define PAGE_SHIFT	12
-+#define PAGE_SHIFT	CONFIG_PAGE_SHIFT
- #define PAGE_SIZE	(_AC(1, UL) << PAGE_SHIFT)
- #define PAGE_MASK	(~(PAGE_SIZE - 1))
- #define THREAD_SIZE	(PAGE_SIZE * 2)
-diff --git a/arch/m68k/Kconfig b/arch/m68k/Kconfig
-index 4b3e93cac723..7b709453d5e7 100644
---- a/arch/m68k/Kconfig
-+++ b/arch/m68k/Kconfig
-@@ -84,12 +84,15 @@ config MMU
- 
- config MMU_MOTOROLA
- 	bool
-+	select HAVE_PAGE_SIZE_4KB
- 
- config MMU_COLDFIRE
-+	select HAVE_PAGE_SIZE_8KB
- 	bool
- 
- config MMU_SUN3
- 	bool
-+	select HAVE_PAGE_SIZE_8KB
- 	depends on MMU && !MMU_MOTOROLA && !MMU_COLDFIRE
- 
- config ARCH_SUPPORTS_KEXEC
-diff --git a/arch/m68k/Kconfig.cpu b/arch/m68k/Kconfig.cpu
-index 9dcf245c9cbf..c777a129768a 100644
---- a/arch/m68k/Kconfig.cpu
-+++ b/arch/m68k/Kconfig.cpu
-@@ -30,6 +30,7 @@ config COLDFIRE
- 	select GENERIC_CSUM
- 	select GPIOLIB
- 	select HAVE_LEGACY_CLK
-+	select HAVE_PAGE_SIZE_8KB if !MMU
- 
- endchoice
- 
-@@ -45,6 +46,7 @@ config M68000
- 	select GENERIC_CSUM
- 	select CPU_NO_EFFICIENT_FFS
- 	select HAVE_ARCH_HASH
-+	select HAVE_PAGE_SIZE_4KB
- 	select LEGACY_TIMER_TICK
- 	help
- 	  The Freescale (was Motorola) 68000 CPU is the first generation of
-diff --git a/arch/m68k/include/asm/page.h b/arch/m68k/include/asm/page.h
-index a5993ad83ed8..8cfb84b49975 100644
---- a/arch/m68k/include/asm/page.h
-+++ b/arch/m68k/include/asm/page.h
-@@ -7,11 +7,7 @@
- #include <asm/page_offset.h>
- 
- /* PAGE_SHIFT determines the page size */
--#if defined(CONFIG_SUN3) || defined(CONFIG_COLDFIRE)
--#define PAGE_SHIFT	13
--#else
--#define PAGE_SHIFT	12
--#endif
-+#define PAGE_SHIFT	CONFIG_PAGE_SHIFT
- #define PAGE_SIZE	(_AC(1, UL) << PAGE_SHIFT)
- #define PAGE_MASK	(~(PAGE_SIZE-1))
- #define PAGE_OFFSET	(PAGE_OFFSET_RAW)
-diff --git a/arch/microblaze/Kconfig b/arch/microblaze/Kconfig
-index 211f338d6235..f18ec02ddeb2 100644
---- a/arch/microblaze/Kconfig
-+++ b/arch/microblaze/Kconfig
-@@ -31,6 +31,7 @@ config MICROBLAZE
- 	select HAVE_FTRACE_MCOUNT_RECORD
- 	select HAVE_FUNCTION_GRAPH_TRACER
- 	select HAVE_FUNCTION_TRACER
-+	select HAVE_PAGE_SIZE_4KB
- 	select HAVE_PCI
- 	select IRQ_DOMAIN
- 	select XILINX_INTC
-diff --git a/arch/microblaze/include/asm/page.h b/arch/microblaze/include/asm/page.h
-index 86a4ce07c192..8810f4f1c3b0 100644
---- a/arch/microblaze/include/asm/page.h
-+++ b/arch/microblaze/include/asm/page.h
-@@ -20,7 +20,7 @@
- #ifdef __KERNEL__
- 
- /* PAGE_SHIFT determines the page size */
--#define PAGE_SHIFT		12
-+#define PAGE_SHIFT	CONFIG_PAGE_SHIFT
- #define PAGE_SIZE	(ASM_CONST(1) << PAGE_SHIFT)
- #define PAGE_MASK	(~(PAGE_SIZE-1))
- 
-diff --git a/arch/nios2/Kconfig b/arch/nios2/Kconfig
-index 58d9565dc2c7..79d3039b29f1 100644
---- a/arch/nios2/Kconfig
-+++ b/arch/nios2/Kconfig
-@@ -15,6 +15,7 @@ config NIOS2
- 	select GENERIC_IRQ_SHOW
- 	select HAVE_ARCH_TRACEHOOK
- 	select HAVE_ARCH_KGDB
-+	select HAVE_PAGE_SIZE_4KB
- 	select IRQ_DOMAIN
- 	select LOCK_MM_AND_FIND_VMA
- 	select MODULES_USE_ELF_RELA
-diff --git a/arch/nios2/include/asm/page.h b/arch/nios2/include/asm/page.h
-index 0ae7d9ce369b..0722f88e63cc 100644
---- a/arch/nios2/include/asm/page.h
-+++ b/arch/nios2/include/asm/page.h
-@@ -21,7 +21,7 @@
- /*
-  * PAGE_SHIFT determines the page size
-  */
--#define PAGE_SHIFT	12
-+#define PAGE_SHIFT	CONFIG_PAGE_SHIFT
- #define PAGE_SIZE	(_AC(1, UL) << PAGE_SHIFT)
- #define PAGE_MASK	(~(PAGE_SIZE - 1))
- 
-diff --git a/arch/openrisc/Kconfig b/arch/openrisc/Kconfig
-index fd9bb76a610b..3586cda55bde 100644
---- a/arch/openrisc/Kconfig
-+++ b/arch/openrisc/Kconfig
-@@ -25,6 +25,7 @@ config OPENRISC
- 	select GENERIC_CPU_DEVICES
- 	select HAVE_PCI
- 	select HAVE_UID16
-+	select HAVE_PAGE_SIZE_8KB
- 	select GENERIC_ATOMIC64
- 	select GENERIC_CLOCKEVENTS_BROADCAST
- 	select GENERIC_SMP_IDLE_THREAD
-diff --git a/arch/openrisc/include/asm/page.h b/arch/openrisc/include/asm/page.h
-index de33ba10ee67..1d5913f67c31 100644
---- a/arch/openrisc/include/asm/page.h
-+++ b/arch/openrisc/include/asm/page.h
-@@ -18,7 +18,7 @@
- 
- /* PAGE_SHIFT determines the page size */
- 
--#define PAGE_SHIFT      13
-+#define PAGE_SHIFT      CONFIG_PAGE_SHIFT
- #ifdef __ASSEMBLY__
- #define PAGE_SIZE       (1 << PAGE_SHIFT)
- #else
-diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-index bffbd869a068..792a337548f6 100644
---- a/arch/riscv/Kconfig
-+++ b/arch/riscv/Kconfig
-@@ -136,6 +136,7 @@ config RISCV
- 	select HAVE_LD_DEAD_CODE_DATA_ELIMINATION if !LD_IS_LLD
- 	select HAVE_MOVE_PMD
- 	select HAVE_MOVE_PUD
-+	select HAVE_PAGE_SIZE_4KB
- 	select HAVE_PCI
- 	select HAVE_PERF_EVENTS
- 	select HAVE_PERF_REGS
-diff --git a/arch/riscv/include/asm/page.h b/arch/riscv/include/asm/page.h
-index 57e887bfa34c..2947423b5082 100644
---- a/arch/riscv/include/asm/page.h
-+++ b/arch/riscv/include/asm/page.h
-@@ -12,7 +12,7 @@
- #include <linux/pfn.h>
- #include <linux/const.h>
- 
--#define PAGE_SHIFT	(12)
-+#define PAGE_SHIFT	CONFIG_PAGE_SHIFT
- #define PAGE_SIZE	(_AC(1, UL) << PAGE_SHIFT)
- #define PAGE_MASK	(~(PAGE_SIZE - 1))
- 
-diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
-index fe565f3a3a91..b61c74c10050 100644
---- a/arch/s390/Kconfig
-+++ b/arch/s390/Kconfig
-@@ -199,6 +199,7 @@ config S390
- 	select HAVE_MOD_ARCH_SPECIFIC
- 	select HAVE_NMI
- 	select HAVE_NOP_MCOUNT
-+	select HAVE_PAGE_SIZE_4KB
- 	select HAVE_PCI
- 	select HAVE_PERF_EVENTS
- 	select HAVE_PERF_REGS
-diff --git a/arch/s390/include/asm/page.h b/arch/s390/include/asm/page.h
-index 73b9c3bf377f..ded9548d11d9 100644
---- a/arch/s390/include/asm/page.h
-+++ b/arch/s390/include/asm/page.h
-@@ -11,7 +11,7 @@
- #include <linux/const.h>
- #include <asm/types.h>
- 
--#define _PAGE_SHIFT	12
-+#define _PAGE_SHIFT	CONFIG_PAGE_SHIFT
- #define _PAGE_SIZE	(_AC(1, UL) << _PAGE_SHIFT)
- #define _PAGE_MASK	(~(_PAGE_SIZE - 1))
- 
-diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
-index 204c43cb3d43..7e6bc6fff76b 100644
---- a/arch/sparc/Kconfig
-+++ b/arch/sparc/Kconfig
-@@ -58,6 +58,7 @@ config SPARC32
- 	select DMA_DIRECT_REMAP
- 	select GENERIC_ATOMIC64
- 	select HAVE_UID16
-+	select HAVE_PAGE_SIZE_4KB
- 	select LOCK_MM_AND_FIND_VMA
- 	select OLD_SIGACTION
- 	select ZONE_DMA
-@@ -75,6 +76,7 @@ config SPARC64
- 	select HAVE_ARCH_TRANSPARENT_HUGEPAGE
- 	select HAVE_DYNAMIC_FTRACE
- 	select HAVE_FTRACE_MCOUNT_RECORD
-+	select HAVE_PAGE_SIZE_8KB
- 	select HAVE_SYSCALL_TRACEPOINTS
- 	select HAVE_CONTEXT_TRACKING_USER
- 	select HAVE_TIF_NOHZ
-diff --git a/arch/sparc/include/asm/page_32.h b/arch/sparc/include/asm/page_32.h
-index 6be6f683f98f..9977c77374cd 100644
---- a/arch/sparc/include/asm/page_32.h
-+++ b/arch/sparc/include/asm/page_32.h
-@@ -11,7 +11,7 @@
- 
- #include <linux/const.h>
- 
--#define PAGE_SHIFT   12
-+#define PAGE_SHIFT   CONFIG_PAGE_SHIFT
- #define PAGE_SIZE    (_AC(1, UL) << PAGE_SHIFT)
- #define PAGE_MASK    (~(PAGE_SIZE-1))
- 
-diff --git a/arch/sparc/include/asm/page_64.h b/arch/sparc/include/asm/page_64.h
-index 254dffd85fb1..e9bd24821c93 100644
---- a/arch/sparc/include/asm/page_64.h
-+++ b/arch/sparc/include/asm/page_64.h
-@@ -4,8 +4,7 @@
- 
- #include <linux/const.h>
- 
--#define PAGE_SHIFT   13
--
-+#define PAGE_SHIFT   CONFIG_PAGE_SHIFT
- #define PAGE_SIZE    (_AC(1,UL) << PAGE_SHIFT)
- #define PAGE_MASK    (~(PAGE_SIZE-1))
- 
-diff --git a/arch/um/Kconfig b/arch/um/Kconfig
-index b5e179360534..93a5a8999b07 100644
---- a/arch/um/Kconfig
-+++ b/arch/um/Kconfig
-@@ -20,6 +20,7 @@ config UML
- 	select HAVE_UID16
- 	select HAVE_DEBUG_KMEMLEAK
- 	select HAVE_DEBUG_BUGVERBOSE
-+	select HAVE_PAGE_SIZE_4KB
- 	select NO_DMA if !UML_DMA_EMULATION
- 	select OF_EARLY_FLATTREE if OF
- 	select GENERIC_IRQ_SHOW
-diff --git a/arch/um/include/asm/page.h b/arch/um/include/asm/page.h
-index 84866127d074..9ef9a8aedfa6 100644
---- a/arch/um/include/asm/page.h
-+++ b/arch/um/include/asm/page.h
-@@ -10,7 +10,7 @@
- #include <linux/const.h>
- 
- /* PAGE_SHIFT determines the page size */
--#define PAGE_SHIFT	12
-+#define PAGE_SHIFT	CONFIG_PAGE_SHIFT
- #define PAGE_SIZE	(_AC(1, UL) << PAGE_SHIFT)
- #define PAGE_MASK	(~(PAGE_SIZE-1))
- 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 5edec175b9bf..ba57eb362ec8 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -255,6 +255,7 @@ config X86
- 	select HAVE_NOINSTR_VALIDATION		if HAVE_OBJTOOL
- 	select HAVE_OBJTOOL			if X86_64
- 	select HAVE_OPTPROBES
-+	select HAVE_PAGE_SIZE_4KB
- 	select HAVE_PCSPKR_PLATFORM
- 	select HAVE_PERF_EVENTS
- 	select HAVE_PERF_EVENTS_NMI
-diff --git a/arch/x86/include/asm/page_types.h b/arch/x86/include/asm/page_types.h
-index 86bd4311daf8..9da9c8a2f1df 100644
---- a/arch/x86/include/asm/page_types.h
-+++ b/arch/x86/include/asm/page_types.h
-@@ -7,7 +7,7 @@
- #include <linux/mem_encrypt.h>
- 
- /* PAGE_SHIFT determines the page size */
--#define PAGE_SHIFT		12
-+#define PAGE_SHIFT		CONFIG_PAGE_SHIFT
- #define PAGE_SIZE		(_AC(1,UL) << PAGE_SHIFT)
- #define PAGE_MASK		(~(PAGE_SIZE-1))
- 
-diff --git a/arch/xtensa/Kconfig b/arch/xtensa/Kconfig
-index 6f248d87e496..87ec35b3363b 100644
---- a/arch/xtensa/Kconfig
-+++ b/arch/xtensa/Kconfig
-@@ -44,6 +44,7 @@ config XTENSA
- 	select HAVE_GCC_PLUGINS if GCC_VERSION >= 120000
- 	select HAVE_HW_BREAKPOINT if PERF_EVENTS
- 	select HAVE_IRQ_TIME_ACCOUNTING
-+	select HAVE_PAGE_SIZE_4KB
- 	select HAVE_PCI
- 	select HAVE_PERF_EVENTS
- 	select HAVE_STACKPROTECTOR
-diff --git a/arch/xtensa/include/asm/page.h b/arch/xtensa/include/asm/page.h
-index a77d04972eb9..4db56ef052d2 100644
---- a/arch/xtensa/include/asm/page.h
-+++ b/arch/xtensa/include/asm/page.h
-@@ -22,7 +22,7 @@
-  * PAGE_SHIFT determines the page size
-  */
- 
--#define PAGE_SHIFT	12
-+#define PAGE_SHIFT	CONFIG_PAGE_SHIFT
- #define PAGE_SIZE	(__XTENSA_UL_CONST(1) << PAGE_SHIFT)
- #define PAGE_MASK	(~(PAGE_SIZE-1))
- 
--- 
-2.39.2
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+U2hhaGFiIFZhaGVkaSA8bGlzdCticGZAdmFoZWRpLm9yZz4gd3JpdGVzOgoKPiBIaSBCasO2cm4s
+Cj4KPiBUaGFuayB5b3UgdmVyeSBtdWNoIGZvciB5b3VyIGlucHV0cy4gUGxlYXNlIGZpbmQgbXkg
+cmVtYXJrcyBiZWxvdy4KPgo+IEJqw7ZybiBUw7ZwZWwgPGJqb3JuQGtlcm5lbC5vcmc+IHdyaXRl
+czoKPgo+PiBTaGFoYWIgVmFoZWRpIDxsaXN0K2JwZkB2YWhlZGkub3JnPiB3cml0ZXM6Cj4+IAo+
+PiBXaGF0J3MgdGhlIGVhc2llc3Qgd2F5IHRvIHRlc3QgdGVzdCB0aGlzIHcvbyBBUkMgSFc/IElz
+IHRoZXJlIGEgcWVtdQo+PiBwb3J0IGF2YWlhYmxlPwo+Cj4gWWVzLCB0aGVyZSBpcyBhIChkb3du
+c3RyZWFtKSBwb3J0IGF2YWlsYWJsZSBvbiBHaXRIdWIgWzFdLiBJZiBvbmUgaXMKPiBpbnRlcmVz
+dGVkLCB0aGVyZSBhcmUgYWxzbyBndWlkZXMgYWJvdXQgYnVpbGRpbmcgUUVNVSBmb3IgQVJDIHRh
+cmdldHMgWzJdCj4gYW5kIGhvdyB0byBydW4gZUJQRiB0ZXN0cyBmb3IgQVJDIExpbnV4IFszXS4K
+Pgo+IFsxXSBBUkMgUUVNVSBwb3J0Cj4gaHR0cHM6Ly9naXRodWIuY29tL2Zvc3MtZm9yLXN5bm9w
+c3lzLWR3Yy1hcmMtcHJvY2Vzc29ycy9xZW11Cj4KPiBbMl0gQnVpbGRpbmcgQVJDIFFFTVUKPiBo
+dHRwczovL2Zvc3MtZm9yLXN5bm9wc3lzLWR3Yy1hcmMtcHJvY2Vzc29ycy5naXRodWIuaW8vZXhw
+ZXJpbWVudGFsLWRvY3VtZW50YXRpb24vMjAyMy4wOS9zaW11bGF0b3JzL3FlbXUvCj4KPiBbM10g
+UnVuaW5nIGVCUEYgdGVzdHMgZm9yIEFSQyBMaW51eAo+IGh0dHBzOi8vZm9zcy1mb3Itc3lub3Bz
+eXMtZHdjLWFyYy1wcm9jZXNzb3JzLmdpdGh1Yi5pby9leHBlcmltZW50YWwtZG9jdW1lbnRhdGlv
+bi8yMDIzLjA5L2xpbnV4L2VicGYvYnVpbGQvCgpDb29sLCBUWS4KCj4+IEkgZG9uJ3Qga25vdyBt
+dWNoIGFib3V0IEFSQyAtLSBJcyB2MiBjb21wYXRpYmxlIHdpdGggdjM/Cj4KPiBObywgdGhleSdy
+ZSBub3QuIEZvciB3aGF0IGl0J3Mgd29ydGgsIEFSQ3YzIGNvbWVzIGluIHszMiw2NH0tYml0Cj4g
+Zmxhdm91cnMgd2hpY2ggYXJlIG5vdCBjb21wYXRpYmxlIHdpdGggZWFjaCBvdGhlciBlaXRoZXIu
+Cj4KPj4gSSdtIGN1cmlvdXMgYWJvdXQgdGhlIG1pc3Npbmcgc3VwcG9ydDsgdGFpbGNhbGwvYXRv
+bWljL2RpdmlzaW9uL2V4dGFibGUKPj4gc3VwcG9ydC4gV291bGQgaXQgcmVxdWlyZSBhIGxvdCBv
+ZiB3b3JrIHRvIGFkZCB0aGF0IHN1cHBvcnQgaW4gdGhlCj4+IGluaXRpYWwgY2hhbmdlIHNldD8K
+Pgo+IElmIHlvdSdyZSBhc2tpbmcgd2hldGhlciBpdCBpcyBwb3NzaWJsZSB0aGF0IEkgYWRkIHRo
+b3NlIGZlYXR1cmVzIG5vdywKPiBteSBhbnN3ZXIgdW5mb3J0dW5hdGVseSB3b3VsZCBiZSAibm8i
+LiBIb3dldmVyLCB0aGUgd2F5IHRoYXQgdGhpbmdzCj4gYXJlIGltcGxlbWVudGVkLCBpdCB3aWxs
+IGJlIGEgc3RyYWlnaHRmb3J3YXJkIGFkZGl0aW9uLgoKT2shIERpZCB5b3UgdHJ5IGJ1aWxkaW5n
+IHRoZSBrc2VsZnRlc3QvYnBmIHN1aXRlPyBXb3VsZCBiZSBpbnRlcmVzdGluZwp0byBzZWUgdGhl
+IHBhc3MvZmFpbCByYXRlIG9mIHRlc3RfcHJvZ3MuCgo+PiBUaGVyZSBhcmUgYSBsb3Qgb2YgY2hl
+Y2twYXRjaC9rZXJuZWwgc3R5bGUgaXNzdWVzLiBSdW4sIGUuZy4sCj4+ICJjaGVja3BhdGNoIC0t
+c3RyaWN0IC1nIEhFQUQiIGFuZCB5b3UnbGwgZ2V0IGEgYnVuY2ggb2YgaXNzdWVzLiBNb3N0IG9m
+Cj4+IHRoZW0gYXJlIGp1c3QgYmFzaWMgc3R5bGUgaXNzdWVzLiBQbGVhc2UgdHJ5IHRvIGZpeCBt
+b3N0IG9mIHRoZW0gZm9yIHRoZQo+PiBuZXh0IHJldi4KPgo+IEkgZGlkIHJ1biB0aGUgImNoZWNr
+cGF0Y2giIGJlZm9yZSBzdWJtaXR0aW5nLiBJJ3ZlIGZpeGVkIGFsbCB0aGUgImVycm9ycyIKPiBh
+bmQgbW9zdCBvZiB0aGUgIndhcm5pbmdzIi4gQnV0IG5vdyB0aGF0IHlvdSBicm91Z2h0IGl0IHVw
+LCBJIHdpbGwgdHJ5IHRvCj4gZml4IGFzIG1hbnkgIndhcm5pbmdzIi8iY2hlY2tzIiBhcyBtYWtl
+IHNlbnNlLgoKT2suIEkgbm90aWNlZCBhIGxvdCBub24ta2VybmVsIHN0eWxlIGluIHlvdXIgcGF0
+Y2ggKGNoZWNraW5nIGFnYWluc3QKTlVMTCBlLmcuKQoKPj4gWW91IHNob3VsZCBhZGQgeW91cnNl
+bGYgdG8gdGhlIE1BSU5UQUlORVJTIGZpbGUuCj4KPiBJIHdpbGwuIFRoYW5rcyEKPgo+PiBQbGVh
+c2UgdHJ5IHRvIGF2b2lkIHN0YXRpYyBpbmxpbmUgaW4gdGhlIEMtZmlsZXMuIFRoZSBjb21waWxl
+ciB1c3VhbGx5Cj4+IGtub3dzIGJldHRlci4KPgo+IEkgd2lsbCByZXBsYWNlIHRoZW0gd2l0aCAi
+c3RhdGljIiB0aGVuLgo+Cj4+ID4gKy8qIFNhbmUgaW5pdGlhbCB2YWx1ZXMgZm9yIHRoZSBnbG9i
+YWxzICovCj4+ID4gK2Jvb2wgZW1pdCA9IHRydWU7Cj4+ID4gK2Jvb2wgemV4dF90aHlzZWxmID0g
+dHJ1ZTsKPj4gCj4+IEhtbSwgdGhpcyBpcyByYWN5LiBDYW4gd2UgbW92ZSB0aGlzIGludG8gdGhl
+IGppdCBjb250ZXh0PyBBbHNvLCBpcwo+PiB6ZXh0X3RoeXNlbGYgZXZlbiB1c2VkPwo+Cj4gSSB3
+aWxsIGdldCByaWQgb2YgdGhvc2UuIEZvciB0aGUgcmVjb3JkLCAiemV4dF90aHlzZWxmIiBpcyB1
+c2VkIGJ5Cj4gY2FsbGluZyAiemV4dCgpIiBhZnRlciBoYW5kbGluZyAiQlBGX0FMVSIgb3BlcmF0
+aW9ucy4KCkFoLCBpbmRlZWQhCgo+PiA+ICsjZGVmaW5lIENIRUNLX1JFVChjbWQpCQkJXAo+PiA+
+ICsJZG8gewkJCQlcCj4+ID4gKwkJcmV0ID0gKGNtZCk7CQlcCj4+ID4gKwkJaWYgKHJldCA8IDAp
+CQlcCj4+ID4gKwkJCXJldHVybiByZXQ7CVwKPj4gPiArCX0gd2hpbGUgKDApCj4+ID4gKwo+PiAK
+Pj4gTml0L3BlcnNvbmFsIHRhc3RlLCBidXQgSSBwcmVmZXIgbm90IGhhdmluZyB0aGVzZSBraW5k
+IG9mIG1hY3Jvcy4gSQo+PiB0aGluayBpdCBtYWtlcyBpdCBoYXJkZXIgdG8gcmVhZCB0aGUgY29k
+ZS4KPgo+IEF0IHNvbWUgcG9pbnQsIEkgZm91bmQgbXlzZWxmIGRpc3RyYWN0ZWQgZnJvbSBzZWVp
+bmcgdGhlIGJpZ2dlciBwaWN0dXJlCj4gd2hpbGUgdGhlIGNvZGUgd2FzIGludGVyc3BlcnNlZCBi
+eSB0aGUgbWVuaWFsICJyZXR1cm4gY2hlY2tpbmcicy4gSWYKPiB5b3UgZG9uJ3QgbWluZCwgSSdk
+IHJhdGhlciBrZWVwIGl0IGFzIGlzLCB1bmxlc3MgeW91IGZlZWwgc3Ryb25nIGFib3V0Cj4gaXQg
+b3IgVmluZWV0IGFsc28gYWdyZWVzIHdpdGggeW91Lgo+Cj4+IENhcmUgdG8gZWxhYm9yYXRlIGEg
+Yml0IG1vcmUgb24gQVJDX0JQRl9KSVRfREVCVUcuIFRoaXMgc21lbGxzIG9mCj4+IGR1cGxpY2F0
+ZWQgZnVudGlvbmFsaXR5IHdpdGggYnBmX2ppdF9kdW1wKCksIGFuZCB0aGUgQlVHKClzIGFyZSBz
+Y2FyeS4KPgo+IEFSQ19CUEZfSklUX0RFQlVHIGlzIHN1cHBvc2VkIHRvIGJlIGVuYWJsZWQgZm9y
+IGRldmVsb3BtZW50IHB1cnBvc2VzLgo+IEl0IGVuYWJsZXM6Cj4KPiAxLiBBIHNldCBvZiBhc3Nl
+cnQtbGlrZSBjb25kaXRpb24gY2hlY2tpbmcgd2hpY2ggbWFrZXMgdGhlIGNvZGUKPiBzbG93IGFu
+ZCBjYW4gbGVhZCB0byB1bmdyYWNlZnVsIHRlcm1pbmF0aW9ucy4KPgo+IDIuIFVzZSBvZiBhIGN1
+c3RvbSB2ZXJzaW9uIG9mIGhleCBkdW1wcy4gVGhlIG1vc3QgaW1wb3J0YW50IGRpZmZlcmVuY2UK
+PiB3aXRoIGJwZl9qaXRfZHVtcCgpIGlzIHRoYXQgYnBmX2ppdF9kdW1wKCkgY2Fubm90IGJlIHVz
+ZWQgZm9yIGR1bXBpbmcKPiB0aGUgaW5wdXQgQlBGIGJ5dGUgc3RyZWFtLiBSZXN0LCBJIGNhbiBs
+aXZlIHdpdGguIEFuIGV4YW1wbGUgZm9sbG93czoKPgo+IFVzaW5nIG9ubHkgImJwZl9qaXRfZHVt
+cCIgKEFSQ19CUEZfSklUX0RFQlVHIGlzIG5vdCBkZWZpbmVkKQo+Cj4gICBmbGVuPTIgcHJvZ2xl
+bj0yMCBwYXNzPTEgaW1hZ2U9MmU4YzZmYjkgZnJvbT1oZWxsbyBwaWQ9MTI3Cj4gICBKSVQgY29k
+ZTogMDAwMDAwMDA6IDhhIDIwIDAwIDEwIDhhIDIxIDAwIDEwIDBhIDIwIDAwIDAyIDBhIDIxIDQw
+IDAyCj4gICBKSVQgY29kZTogMDAwMDAwMTA6IGUwIDIwIGMwIDA3Cj4KPiB2cy4KPgo+IFVzaW5n
+IHRoZSBjdXN0b20gdmVyc2lvbiAoQVJDX0JQRl9KSVRfREVCVUcgaXMgZGVmaW5lZCkKPiAgIC0t
+LS0tLS0tLS0tLS0tLS0tWyAgVk0gICBdLS0tLS0tLS0tLS0tLS0tLS0KPiAgIDB4YjcsIDB4MDAs
+IDB4MDAsIDB4MDAsIDB4MDAsIDB4MDAsIDB4MDAsIDB4MDAKPiAgIDB4OTUsIDB4MDAsIDB4MDAs
+IDB4MDAsIDB4MDAsIDB4MDAsIDB4MDAsIDB4MDAKPiAgIC0tLS0tLS0tLS0tLS0tLS0tWyBKSVQ6
+MSBdLS0tLS0tLS0tLS0tLS0tLS0KPiAgIDB4OGEsIDB4MjAsIDB4MDAsIDB4MTAsIDB4OGEsIDB4
+MjEsIDB4MDAsIDB4MTAKPiAgIDB4MGEsIDB4MjAsIDB4MDAsIDB4MDIsIDB4MGEsIDB4MjEsIDB4
+NDAsIDB4MDIKPiAgIDB4ZTAsIDB4MjAsIDB4YzAsIDB4MDcKPgo+PiA+ICtzdGF0aWMgaW50IGpp
+dF9jdHhfaW5pdChzdHJ1Y3Qgaml0X2NvbnRleHQgKmN0eCwgc3RydWN0IGJwZl9wcm9nICpwcm9n
+KQo+PiA+ICt7Cj4+ID4gKyAgIC4uLgo+PiAKPj4gSSdkIGp1c3QgbWFrZSBzdXJlIHRoYXQgY3R4
+IGlzIHplcm9lZCwgYW5kIGluaXQgdGhlIG5vbi16ZXJvIG1lbWJlcnMgaGVyZS4KPgo+IFZlcnkg
+Z29vZCBwb2ludCEgSSB3aWxsIGltcGxlbWVudCBpdCB0aGF0IHdheS4KPgo+IElmIHlvdSBoYXZl
+IHJlYWQgdGhpcyBmYXIsIEknZCBsaWtlIHRvIHRoYW5rIHlvdSBhZ2FpbiBmb3Igc3BlbmRpbmcg
+dGltZQo+IG9uIHJldmlld2luZyB0aGlzIHBhdGNoLiBJdCBpcyBtdWNoIGFwcHJlY2lhdGVkLgoK
+TG9va2luZyBmb3J3YXJkIGZvciB0aGUgbmV4dCByZXZpc2lvbiEKCgpCasO2cm4KCl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1h
+aWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0
+cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
