@@ -4,58 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BEAB8C54798
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  5 Mar 2024 15:23:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA5DBC5475B
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Mar 2024 14:15:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=kQKHi5tv2ZLd0d+PUGaMkBlmRWeZokwIcKIMv1hMy6M=; b=sQnPQlcMDirNkC
-	ZQacR9ORFQ8Qmy/+LCr7zX4UxKYHgDgeCkAwIVEI7SF0U3cDDlZPOOsT772VSf4nh9xtGlC0Modl3
-	mqm5hawSbSwZtixr8XK5Hgw54Hr1+uJEUb8Xsdj8JKo/mUZhNTQF2TKQZv3XIu6QvmIRJoCSVFTtq
-	3RAjuoCmPyFI7UBG2NV56fKLiQiumDHD7EtADwcQ2aK+YJ3vCGrIS7/cC9/AssER01O8dDTBAOH0P
-	vFU3KHBvqXstUHW/HEKH5XLfy8JOdT2/Yh1ww3MgPa17gBBhbNm4tFqrfWvlsEvrv9kUJTZn3fH61
-	4q5oySm5HmUJYBDP9dIQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=Odlc09ndtLRSzl/dV3s/2kkQk5LvsQGvK/zVisFo4tI=; b=GuVsv99pPlVgfq
+	MU6tWeLSgW29II5yrOqoen9D3ugXi2iMttmS2bnjsgUNoWeL1jSPNups1W6spBA1O1pzP7i9EFILc
+	7phVAsw306jru8mYYfdf/V/KNFbTWCck8puZL8qDN+FBZv92/S+Z1nZmvYDiveBiwLmSN++r/IIrg
+	dJ6Swe14g8NnZCziG9Kn/9/b4Z2Bw17QvIT5O1/9G+rb+dIWj1CRJUnR0r67v1OE9qGWLZAJ7eSDI
+	n2S3wCwEQ7Vl6d9HZJB8P9RQG/Jv2a8iE46xbrzx5CeYWmsXgWz/hDIWk2AzIzep07sygF44Pg7aW
+	vAmArsdHzaoFd2xN7Mtw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhWdW-0000000EFS8-0biS;
-	Tue, 05 Mar 2024 15:23:22 +0000
-Received: from out-180.mta1.migadu.com ([2001:41d0:203:375::b4])
+	id 1rhs3J-00000000WYj-4B8Y;
+	Wed, 06 Mar 2024 14:15:26 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhWdS-0000000EFOS-06g1
-	for linux-snps-arc@lists.infradead.org;
-	Tue, 05 Mar 2024 15:23:20 +0000
-Message-ID: <6e4cf7cc-6a2e-4396-b0d5-01ff10d6923a@vahedi.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vahedi.org; s=key1;
-	t=1709652184;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IhJfKoroaIk49x7q064rqPyouK8pXJKorErLZG4KbU0=;
-	b=DY3irVRliVu4roXRXLoyLsNXxsyZkRYgFHF4555aErIqR2hX6YkvCUo1XCkWixFM747KtS
-	4X2ugxNRC7xw/uyglx4iy/dJ5/vavemapaMdhd4ftYzgoxzCJwCS1k4X19f8dznvD5xjJJ
-	fZ/GCDdjshIF+D4CSKL6SURKxG459IN3cIZQZ51zvaZ2w7rR1Oq7UVY0R1AlQwAS7NFFbz
-	zlq7/OEJnHuYxYxvh6AHrWaqzRazhmCHwg3u6m5uVl7bxI+C+OJ++IX5WqLmqLxTQXY76k
-	J9L0EaYX476cxEMWzXzQJGJJl0AHb0YB3MHhDP+vxMt7LH3Wl2QZ2FBVGFUJSg==
-Date: Tue, 5 Mar 2024 16:22:58 +0100
+	id 1rhs3F-00000000WWi-0vfA;
+	Wed, 06 Mar 2024 14:15:23 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id E69E5CE21D8;
+	Wed,  6 Mar 2024 14:15:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F782C433F1;
+	Wed,  6 Mar 2024 14:15:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709734517;
+	bh=6p2hAt3DJTtWEmWkGiNmsPvIqV/lUSZTutyoSUX5wpE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=LqIp2kZTKEk6BDtlGN9YtFBVHmwGfTij/0yFkUBE5XGhta0eqXHuPZZJ3/MIusuUG
+	 1/ai7edE6AbiuxHWjDBSN5GwSx4jO1RwWivNR0PUtakQUcitU1uJh1+vHWYGSiPn+I
+	 /dBaVrtPErxMiFpuWjYe3LW95xWi64gxsDrEvpuJ8OizSORBDPypoeSsLWyXEUGdmf
+	 fJeiWqTrhJi5qxh7Jya6058wrIYZrMi99CnlK2WXNiIm+MJuSG+gSvaihlsEMOBWt5
+	 2fKuqVl7eyYLUWkzPRqLl2zDWANVIuecGX2Qr2I58K0QII0FK3WksaSXHLTuDSmpIM
+	 TYoPCbqqY5j5A==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Kees Cook <keescook@chromium.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Matt Turner <mattst88@gmail.com>,
+	Vineet Gupta <vgupta@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Guo Ren <guoren@kernel.org>,
+	Brian Cain <bcain@quicinc.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Michal Simek <monstr@monstr.eu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Helge Deller <deller@gmx.de>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Richard Weinberger <richard@nod.at>,
+	x86@kernel.org,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Jan Kiszka <jan.kiszka@siemens.com>,
+	Kieran Bingham <kbingham@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kernel@vger.kernel.org,
+	linux-alpha@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org,
+	linux-openrisc@vger.kernel.org,
+	linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org,
+	linux-um@lists.infradead.org
+Subject: [v2 PATCH 0/3] arch: mm, vdso: consolidate PAGE_SIZE definition
+Date: Wed,  6 Mar 2024 15:14:50 +0100
+Message-Id: <20240306141453.3900574-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v1] ARC: Add eBPF JIT support
-To: =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-Cc: bpf@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- Shahab Vahedi <list+bpf@vahedi.org>, Vineet Gupta <vgupta@kernel.org>
-References: <20240213131946.32068-1-list+bpf@vahedi.org>
- <87ttlnqlmv.fsf@all.your.base.are.belong.to.us>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Shahab Vahedi <list+bpf@vahedi.org>
-In-Reply-To: <87ttlnqlmv.fsf@all.your.base.are.belong.to.us>
-X-Migadu-Flow: FLOW_OUT
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240305_072319_047046_65DB7266 
-X-CRM114-Status: GOOD (  29.28  )
+X-CRM114-CacheID: sfid-20240306_061521_665102_617B28E2 
+X-CRM114-Status: GOOD (  18.52  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,87 +106,147 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-SGkgQmrDtnJuLAoKVGhhbmsgeW91IHZlcnkgbXVjaCBmb3IgeW91ciBpbnB1dHMuIFBsZWFzZSBm
-aW5kIG15IHJlbWFya3MgYmVsb3cuCgpCasO2cm4gVMO2cGVsIDxiam9ybkBrZXJuZWwub3JnPiB3
-cml0ZXM6Cgo+IFNoYWhhYiBWYWhlZGkgPGxpc3QrYnBmQHZhaGVkaS5vcmc+IHdyaXRlczoKPiAK
-PiBXaGF0J3MgdGhlIGVhc2llc3Qgd2F5IHRvIHRlc3QgdGVzdCB0aGlzIHcvbyBBUkMgSFc/IElz
-IHRoZXJlIGEgcWVtdQo+IHBvcnQgYXZhaWFibGU/CgpZZXMsIHRoZXJlIGlzIGEgKGRvd25zdHJl
-YW0pIHBvcnQgYXZhaWxhYmxlIG9uIEdpdEh1YiBbMV0uIElmIG9uZSBpcwppbnRlcmVzdGVkLCB0
-aGVyZSBhcmUgYWxzbyBndWlkZXMgYWJvdXQgYnVpbGRpbmcgUUVNVSBmb3IgQVJDIHRhcmdldHMg
-WzJdCmFuZCBob3cgdG8gcnVuIGVCUEYgdGVzdHMgZm9yIEFSQyBMaW51eCBbM10uCgpbMV0gQVJD
-IFFFTVUgcG9ydApodHRwczovL2dpdGh1Yi5jb20vZm9zcy1mb3Itc3lub3BzeXMtZHdjLWFyYy1w
-cm9jZXNzb3JzL3FlbXUKClsyXSBCdWlsZGluZyBBUkMgUUVNVQpodHRwczovL2Zvc3MtZm9yLXN5
-bm9wc3lzLWR3Yy1hcmMtcHJvY2Vzc29ycy5naXRodWIuaW8vZXhwZXJpbWVudGFsLWRvY3VtZW50
-YXRpb24vMjAyMy4wOS9zaW11bGF0b3JzL3FlbXUvCgpbM10gUnVuaW5nIGVCUEYgdGVzdHMgZm9y
-IEFSQyBMaW51eApodHRwczovL2Zvc3MtZm9yLXN5bm9wc3lzLWR3Yy1hcmMtcHJvY2Vzc29ycy5n
-aXRodWIuaW8vZXhwZXJpbWVudGFsLWRvY3VtZW50YXRpb24vMjAyMy4wOS9saW51eC9lYnBmL2J1
-aWxkLwoKPiBJIGRvbid0IGtub3cgbXVjaCBhYm91dCBBUkMgLS0gSXMgdjIgY29tcGF0aWJsZSB3
-aXRoIHYzPwoKTm8sIHRoZXkncmUgbm90LiBGb3Igd2hhdCBpdCdzIHdvcnRoLCBBUkN2MyBjb21l
-cyBpbiB7MzIsNjR9LWJpdApmbGF2b3VycyB3aGljaCBhcmUgbm90IGNvbXBhdGlibGUgd2l0aCBl
-YWNoIG90aGVyIGVpdGhlci4KCj4gSSdtIGN1cmlvdXMgYWJvdXQgdGhlIG1pc3Npbmcgc3VwcG9y
-dDsgdGFpbGNhbGwvYXRvbWljL2RpdmlzaW9uL2V4dGFibGUKPiBzdXBwb3J0LiBXb3VsZCBpdCBy
-ZXF1aXJlIGEgbG90IG9mIHdvcmsgdG8gYWRkIHRoYXQgc3VwcG9ydCBpbiB0aGUKPiBpbml0aWFs
-IGNoYW5nZSBzZXQ/CgpJZiB5b3UncmUgYXNraW5nIHdoZXRoZXIgaXQgaXMgcG9zc2libGUgdGhh
-dCBJIGFkZCB0aG9zZSBmZWF0dXJlcyBub3csCm15IGFuc3dlciB1bmZvcnR1bmF0ZWx5IHdvdWxk
-IGJlICJubyIuIEhvd2V2ZXIsIHRoZSB3YXkgdGhhdCB0aGluZ3MKYXJlIGltcGxlbWVudGVkLCBp
-dCB3aWxsIGJlIGEgc3RyYWlnaHRmb3J3YXJkIGFkZGl0aW9uLgoKPiBUaGVyZSBhcmUgYSBsb3Qg
-b2YgY2hlY2twYXRjaC9rZXJuZWwgc3R5bGUgaXNzdWVzLiBSdW4sIGUuZy4sCj4gImNoZWNrcGF0
-Y2ggLS1zdHJpY3QgLWcgSEVBRCIgYW5kIHlvdSdsbCBnZXQgYSBidW5jaCBvZiBpc3N1ZXMuIE1v
-c3Qgb2YKPiB0aGVtIGFyZSBqdXN0IGJhc2ljIHN0eWxlIGlzc3Vlcy4gUGxlYXNlIHRyeSB0byBm
-aXggbW9zdCBvZiB0aGVtIGZvciB0aGUKPiBuZXh0IHJldi4KCkkgZGlkIHJ1biB0aGUgImNoZWNr
-cGF0Y2giIGJlZm9yZSBzdWJtaXR0aW5nLiBJJ3ZlIGZpeGVkIGFsbCB0aGUgImVycm9ycyIKYW5k
-IG1vc3Qgb2YgdGhlICJ3YXJuaW5ncyIuIEJ1dCBub3cgdGhhdCB5b3UgYnJvdWdodCBpdCB1cCwg
-SSB3aWxsIHRyeSB0bwpmaXggYXMgbWFueSAid2FybmluZ3MiLyJjaGVja3MiIGFzIG1ha2Ugc2Vu
-c2UuCgo+IFlvdSBzaG91bGQgYWRkIHlvdXJzZWxmIHRvIHRoZSBNQUlOVEFJTkVSUyBmaWxlLgoK
-SSB3aWxsLiBUaGFua3MhCgo+IFBsZWFzZSB0cnkgdG8gYXZvaWQgc3RhdGljIGlubGluZSBpbiB0
-aGUgQy1maWxlcy4gVGhlIGNvbXBpbGVyIHVzdWFsbHkKPiBrbm93cyBiZXR0ZXIuCgpJIHdpbGwg
-cmVwbGFjZSB0aGVtIHdpdGggInN0YXRpYyIgdGhlbi4KCj4gPiArLyogU2FuZSBpbml0aWFsIHZh
-bHVlcyBmb3IgdGhlIGdsb2JhbHMgKi8KPiA+ICtib29sIGVtaXQgPSB0cnVlOwo+ID4gK2Jvb2wg
-emV4dF90aHlzZWxmID0gdHJ1ZTsKPiAKPiBIbW0sIHRoaXMgaXMgcmFjeS4gQ2FuIHdlIG1vdmUg
-dGhpcyBpbnRvIHRoZSBqaXQgY29udGV4dD8gQWxzbywgaXMKPiB6ZXh0X3RoeXNlbGYgZXZlbiB1
-c2VkPwoKSSB3aWxsIGdldCByaWQgb2YgdGhvc2UuIEZvciB0aGUgcmVjb3JkLCAiemV4dF90aHlz
-ZWxmIiBpcyB1c2VkIGJ5CmNhbGxpbmcgInpleHQoKSIgYWZ0ZXIgaGFuZGxpbmcgIkJQRl9BTFUi
-IG9wZXJhdGlvbnMuCgo+ID4gKyNkZWZpbmUgQ0hFQ0tfUkVUKGNtZCkJCQlcCj4gPiArCWRvIHsJ
-CQkJXAo+ID4gKwkJcmV0ID0gKGNtZCk7CQlcCj4gPiArCQlpZiAocmV0IDwgMCkJCVwKPiA+ICsJ
-CQlyZXR1cm4gcmV0OwlcCj4gPiArCX0gd2hpbGUgKDApCj4gPiArCj4gCj4gTml0L3BlcnNvbmFs
-IHRhc3RlLCBidXQgSSBwcmVmZXIgbm90IGhhdmluZyB0aGVzZSBraW5kIG9mIG1hY3Jvcy4gSQo+
-IHRoaW5rIGl0IG1ha2VzIGl0IGhhcmRlciB0byByZWFkIHRoZSBjb2RlLgoKQXQgc29tZSBwb2lu
-dCwgSSBmb3VuZCBteXNlbGYgZGlzdHJhY3RlZCBmcm9tIHNlZWluZyB0aGUgYmlnZ2VyIHBpY3R1
-cmUKd2hpbGUgdGhlIGNvZGUgd2FzIGludGVyc3BlcnNlZCBieSB0aGUgbWVuaWFsICJyZXR1cm4g
-Y2hlY2tpbmcicy4gSWYKeW91IGRvbid0IG1pbmQsIEknZCByYXRoZXIga2VlcCBpdCBhcyBpcywg
-dW5sZXNzIHlvdSBmZWVsIHN0cm9uZyBhYm91dAppdCBvciBWaW5lZXQgYWxzbyBhZ3JlZXMgd2l0
-aCB5b3UuCgo+IENhcmUgdG8gZWxhYm9yYXRlIGEgYml0IG1vcmUgb24gQVJDX0JQRl9KSVRfREVC
-VUcuIFRoaXMgc21lbGxzIG9mCj4gZHVwbGljYXRlZCBmdW50aW9uYWxpdHkgd2l0aCBicGZfaml0
-X2R1bXAoKSwgYW5kIHRoZSBCVUcoKXMgYXJlIHNjYXJ5LgoKQVJDX0JQRl9KSVRfREVCVUcgaXMg
-c3VwcG9zZWQgdG8gYmUgZW5hYmxlZCBmb3IgZGV2ZWxvcG1lbnQgcHVycG9zZXMuCkl0IGVuYWJs
-ZXM6CgoxLiBBIHNldCBvZiBhc3NlcnQtbGlrZSBjb25kaXRpb24gY2hlY2tpbmcgd2hpY2ggbWFr
-ZXMgdGhlIGNvZGUKc2xvdyBhbmQgY2FuIGxlYWQgdG8gdW5ncmFjZWZ1bCB0ZXJtaW5hdGlvbnMu
-CgoyLiBVc2Ugb2YgYSBjdXN0b20gdmVyc2lvbiBvZiBoZXggZHVtcHMuIFRoZSBtb3N0IGltcG9y
-dGFudCBkaWZmZXJlbmNlCndpdGggYnBmX2ppdF9kdW1wKCkgaXMgdGhhdCBicGZfaml0X2R1bXAo
-KSBjYW5ub3QgYmUgdXNlZCBmb3IgZHVtcGluZwp0aGUgaW5wdXQgQlBGIGJ5dGUgc3RyZWFtLiBS
-ZXN0LCBJIGNhbiBsaXZlIHdpdGguIEFuIGV4YW1wbGUgZm9sbG93czoKClVzaW5nIG9ubHkgImJw
-Zl9qaXRfZHVtcCIgKEFSQ19CUEZfSklUX0RFQlVHIGlzIG5vdCBkZWZpbmVkKQoKICBmbGVuPTIg
-cHJvZ2xlbj0yMCBwYXNzPTEgaW1hZ2U9MmU4YzZmYjkgZnJvbT1oZWxsbyBwaWQ9MTI3CiAgSklU
-IGNvZGU6IDAwMDAwMDAwOiA4YSAyMCAwMCAxMCA4YSAyMSAwMCAxMCAwYSAyMCAwMCAwMiAwYSAy
-MSA0MCAwMgogIEpJVCBjb2RlOiAwMDAwMDAxMDogZTAgMjAgYzAgMDcKCnZzLgoKVXNpbmcgdGhl
-IGN1c3RvbSB2ZXJzaW9uIChBUkNfQlBGX0pJVF9ERUJVRyBpcyBkZWZpbmVkKQogIC0tLS0tLS0t
-LS0tLS0tLS0tWyAgVk0gICBdLS0tLS0tLS0tLS0tLS0tLS0KICAweGI3LCAweDAwLCAweDAwLCAw
-eDAwLCAweDAwLCAweDAwLCAweDAwLCAweDAwCiAgMHg5NSwgMHgwMCwgMHgwMCwgMHgwMCwgMHgw
-MCwgMHgwMCwgMHgwMCwgMHgwMAogIC0tLS0tLS0tLS0tLS0tLS0tWyBKSVQ6MSBdLS0tLS0tLS0t
-LS0tLS0tLS0KICAweDhhLCAweDIwLCAweDAwLCAweDEwLCAweDhhLCAweDIxLCAweDAwLCAweDEw
-CiAgMHgwYSwgMHgyMCwgMHgwMCwgMHgwMiwgMHgwYSwgMHgyMSwgMHg0MCwgMHgwMgogIDB4ZTAs
-IDB4MjAsIDB4YzAsIDB4MDcKCj4gPiArc3RhdGljIGludCBqaXRfY3R4X2luaXQoc3RydWN0IGpp
-dF9jb250ZXh0ICpjdHgsIHN0cnVjdCBicGZfcHJvZyAqcHJvZykKPiA+ICt7Cj4gPiArICAgLi4u
-Cj4gCj4gSSdkIGp1c3QgbWFrZSBzdXJlIHRoYXQgY3R4IGlzIHplcm9lZCwgYW5kIGluaXQgdGhl
-IG5vbi16ZXJvIG1lbWJlcnMgaGVyZS4KClZlcnkgZ29vZCBwb2ludCEgSSB3aWxsIGltcGxlbWVu
-dCBpdCB0aGF0IHdheS4KCklmIHlvdSBoYXZlIHJlYWQgdGhpcyBmYXIsIEknZCBsaWtlIHRvIHRo
-YW5rIHlvdSBhZ2FpbiBmb3Igc3BlbmRpbmcgdGltZQpvbiByZXZpZXdpbmcgdGhpcyBwYXRjaC4g
-SXQgaXMgbXVjaCBhcHByZWNpYXRlZC4KCgpDaGVlcnMsClNoYWhhYgoKCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcg
-bGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZy
-YWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
+From: Arnd Bergmann <arnd@arndb.de>
+
+Naresh noticed that the newly added usage of the PAGE_SIZE macro in
+include/vdso/datapage.h introduced a build regression. I had an older
+patch that I revived to have this defined through Kconfig rather than
+through including asm/page.h, which is not allowed in vdso code.
+
+The vdso patch series now has a temporary workaround, but I still want to
+get this into v6.9 so we can place the hack with CONFIG_PAGE_SIZE
+in the vdso.
+
+I've applied this to the asm-generic tree already, please let me know if
+there are still remaining issues. It's really close to the merge window
+already, so I'd probably give this a few more days before I send a pull
+request, or defer it to v6.10 if anything goes wrong.
+
+Sorry for the delay, I was still waiting to resolve the m68k question,
+but there were no further replies in the end, so I kept my original
+version.
+
+Changes from v1:
+
+ - improve Kconfig help texts
+ - remove an extraneous line in hexagon
+
+      Arnd
+
+Link: https://lore.kernel.org/lkml/CA+G9fYtrXXm_KO9fNPz3XaRxHV7UD_yQp-TEuPQrNRHU+_0W_Q@mail.gmail.com/
+Link: https://lore.kernel.org/all/65dc6c14.170a0220.f4a3f.91dd@mx.google.com/
+Link: https://lore.kernel.org/lkml/20240226161414.2316610-1-arnd@kernel.org/
+
+Arnd Bergmann (3):
+  arch: consolidate existing CONFIG_PAGE_SIZE_*KB definitions
+  arch: simplify architecture specific page size configuration
+  arch: define CONFIG_PAGE_SIZE_*KB on all architectures
+
+ arch/Kconfig                       | 92 +++++++++++++++++++++++++++++-
+ arch/alpha/Kconfig                 |  1 +
+ arch/alpha/include/asm/page.h      |  2 +-
+ arch/arc/Kconfig                   |  3 +
+ arch/arc/include/uapi/asm/page.h   |  6 +-
+ arch/arm/Kconfig                   |  1 +
+ arch/arm/include/asm/page.h        |  2 +-
+ arch/arm64/Kconfig                 | 29 +++++-----
+ arch/arm64/include/asm/page-def.h  |  2 +-
+ arch/csky/Kconfig                  |  1 +
+ arch/csky/include/asm/page.h       |  2 +-
+ arch/hexagon/Kconfig               | 24 ++------
+ arch/hexagon/include/asm/page.h    |  6 +-
+ arch/loongarch/Kconfig             | 21 ++-----
+ arch/loongarch/include/asm/page.h  | 10 +---
+ arch/m68k/Kconfig                  |  3 +
+ arch/m68k/Kconfig.cpu              |  2 +
+ arch/m68k/include/asm/page.h       |  6 +-
+ arch/microblaze/Kconfig            |  1 +
+ arch/microblaze/include/asm/page.h |  2 +-
+ arch/mips/Kconfig                  | 58 ++-----------------
+ arch/mips/include/asm/page.h       | 16 +-----
+ arch/nios2/Kconfig                 |  1 +
+ arch/nios2/include/asm/page.h      |  2 +-
+ arch/openrisc/Kconfig              |  1 +
+ arch/openrisc/include/asm/page.h   |  2 +-
+ arch/parisc/Kconfig                |  3 +
+ arch/parisc/include/asm/page.h     | 10 +---
+ arch/powerpc/Kconfig               | 31 ++--------
+ arch/powerpc/include/asm/page.h    |  2 +-
+ arch/riscv/Kconfig                 |  1 +
+ arch/riscv/include/asm/page.h      |  2 +-
+ arch/s390/Kconfig                  |  1 +
+ arch/s390/include/asm/page.h       |  2 +-
+ arch/sh/include/asm/page.h         | 13 +----
+ arch/sh/mm/Kconfig                 | 42 ++++----------
+ arch/sparc/Kconfig                 |  2 +
+ arch/sparc/include/asm/page_32.h   |  2 +-
+ arch/sparc/include/asm/page_64.h   |  3 +-
+ arch/um/Kconfig                    |  1 +
+ arch/um/include/asm/page.h         |  2 +-
+ arch/x86/Kconfig                   |  1 +
+ arch/x86/include/asm/page_types.h  |  2 +-
+ arch/xtensa/Kconfig                |  1 +
+ arch/xtensa/include/asm/page.h     |  2 +-
+ scripts/gdb/linux/constants.py.in  |  2 +-
+ scripts/gdb/linux/mm.py            |  2 +-
+ 47 files changed, 185 insertions(+), 238 deletions(-)
+
+-- 
+2.39.2
+
+To: Thomas Gleixner <tglx@linutronix.de>
+To: Vincenzo Frascino <vincenzo.frascino@arm.com>
+To: Kees Cook <keescook@chromium.org>
+To: Anna-Maria Behnsen <anna-maria@linutronix.de>
+Cc: Matt Turner <mattst88@gmail.com>
+Cc: Vineet Gupta <vgupta@kernel.org>
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Guo Ren <guoren@kernel.org>
+Cc: Brian Cain <bcain@quicinc.com>
+Cc: Huacai Chen <chenhuacai@kernel.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Michal Simek <monstr@monstr.eu>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: Andreas Larsson <andreas@gaisler.com>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: x86@kernel.org
+Cc: Max Filippov <jcmvbkbc@gmail.com>
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc: Jan Kiszka <jan.kiszka@siemens.com>
+Cc: Kieran Bingham <kbingham@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-alpha@vger.kernel.org
+Cc: linux-snps-arc@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-csky@vger.kernel.org
+Cc: linux-hexagon@vger.kernel.org
+Cc: loongarch@lists.linux.dev
+Cc: linux-m68k@lists.linux-m68k.org
+Cc: linux-mips@vger.kernel.org
+Cc: linux-openrisc@vger.kernel.org
+Cc: linux-parisc@vger.kernel.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-riscv@lists.infradead.org
+Cc: linux-s390@vger.kernel.org
+Cc: linux-sh@vger.kernel.org
+Cc: sparclinux@vger.kernel.org
+Cc: linux-um@lists.infradead.org
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
