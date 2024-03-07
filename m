@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19564C5475B
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  6 Mar 2024 23:41:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D12FC48BF6
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  7 Mar 2024 12:34:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References
 	:In-Reply-To:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=mExdGpVn74jD9xrge01H2W9JuW9h9g5KqZzvF+XCJSk=; b=hAEz5A+lQj+0f2
-	qSO6bShUtXCvhKK2ukpYdxpXQNE8s9Dd1aXcCTlQHD0fN5bn0xmLi6FkYiJz+iOaJsc1pY6gyeg7Z
-	PzoncWMtlRB/BqV7FhRvzHwoM1zVeY8BlBkq+mKcjMdXfkHbuGYU9yj/oYI3RFKeQN8sIzU5ELK20
-	nhZH8Dv7kMTFcR0XaELrkWatH6XY9kpZUx9mH5/81UTfnTSE2BfebytTvliA9moEpnIt3yyutPx2i
-	ooRMn8QJypvVNnRLuOUngsjNzPIfrboeAOyd5C7vD6FTzeHWGdrcwQD2UWHrQdfQrQN/prGXmw6ck
-	TDfccEEfmyAbZbLlpu/w==;
+	List-Owner; bh=aChLhcX1fJEscNfJvgi8aKMhnUudxxHv29KeChSHSNQ=; b=4JLZXZI/pSli8B
+	CEUWSPUPKJ35GbZSZw7Jc1yu6+NxbADstF4Y7V0yVlDQiTCbwmglTbo4s3VyugeRN/v2foRZ28ftk
+	/BA6PjJ0xlJjXKsvY2DqRGHxjC51lCmmNq12FmBQ2UwXXqNs+UwXT1IndKUP/vdVD96rPvtAKmEVu
+	fEQLs/65seAZuwGYQd3MnFSLstVWlXKGS487h2gR9rIw4oY4wBHc495DhYsOCuN9NMPL2bgfzU1ls
+	vVSRy909h2jUbDsn8+yrwbqtyL2TOoDNJgTsab7x5NkIrgg8abdSqNpgZHAbgayIfc9jsP3xWckXP
+	Ter2mSAIymJJflNxdjbw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ri0t4-00000002HV7-24sk;
-	Wed, 06 Mar 2024 23:41:26 +0000
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3] helo=gandalf.ozlabs.org)
+	id 1riCx0-00000004aDb-0hcR;
+	Thu, 07 Mar 2024 12:34:18 +0000
+Received: from gandalf.ozlabs.org ([150.107.74.76])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ri0sy-00000002HQ6-0q8Y;
-	Wed, 06 Mar 2024 23:41:22 +0000
+	id 1riCwv-00000004aC1-1mz0;
+	Thu, 07 Mar 2024 12:34:15 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1709768472;
-	bh=OHx3bVLlXnvaD4Lk/LqRAXihRU8d5iuk+jHowRU57+A=;
+	s=201909; t=1709814848;
+	bh=5GCSx/SWwEQN6H1v+rlc6aQIECBTZdtYZCIuJdaUGZc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=dfxSn7ESt9feXa7Ah5VgnrgsTR94t0TrfqG0PcTuTf3mOM2nYClb7KzncEO44oWvJ
-	 z177IwNoKxwaRwuRElWO9dM9vGP1BGgcQEfox5PbPq0mqdcUVphkGszRXScQ0d7mcO
-	 jW4ikoUKpq/rq3DBl50CSj6CPBHJDbwDqtBF6NxW+foiGgFyBpZYE+I728npTZNMg3
-	 1t/2+QbQypMyzr9+0O+l4J8vO9YugJeJGU6R2JxmPiIz07vqQ4qeSoMI/Ta1CVt4Pi
-	 EW9aQ8ONAeTLEZ2I6yd+B+il/wLckJElOl67KFtvN0q8NsP2LkndTztEXc4YygJJsv
-	 te7iy+1YEdhjg==
+	b=m2hV8+UzshtbVo1SMQpGCIZAVMu9h2hQvtpDC9CkF6Ead01MUqjonBYL92rbYu9o5
+	 eONdwUL5JV+qzsPtqxYxcbEZTnxik/VNQnkbfcaMbISw7CbDppUAmAH/9P3sku/f8b
+	 i2LMQgXCW1DJms0NeuRTzJ0tBX4bUIMqKowAPBctWZSTjYyNqR0YILGQIfrcB30lQJ
+	 AxLogULtOaYvLPcYayeLz0xu9HzQh3oaG4608ibo49kkmjQLQ5CoPOkqEhC/05rYgX
+	 JxgCpZfY9Df2KdR0oUWson/F66hS7hXm3iPnnhME1f/unkDf0IfUz0QTmy9qELYv1z
+	 htVjJ1WY+KwZQ==
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4Tqppm50HGz4wcN;
-	Thu,  7 Mar 2024 10:41:04 +1100 (AEDT)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4Tr7yd1VsMz4wc8;
+	Thu,  7 Mar 2024 23:34:01 +1100 (AEDT)
 From: Michael Ellerman <mpe@ellerman.id.au>
 To: Arnd Bergmann <arnd@kernel.org>, Anna-Maria Behnsen
  <anna-maria@linutronix.de>, Thomas Gleixner <tglx@linutronix.de>, Vincenzo
@@ -67,17 +67,17 @@ Cc: Arnd Bergmann <arnd@arndb.de>, Matt Turner <mattst88@gmail.com>, Vineet
  linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
  linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
  sparclinux@vger.kernel.org, linux-um@lists.infradead.org
-Subject: Re: [PATCH v2 1/3] arch: consolidate existing CONFIG_PAGE_SIZE_*KB
- definitions
-In-Reply-To: <20240306141453.3900574-2-arnd@kernel.org>
+Subject: Re: [PATCH v2 2/3] arch: simplify architecture specific page size
+ configuration
+In-Reply-To: <20240306141453.3900574-3-arnd@kernel.org>
 References: <20240306141453.3900574-1-arnd@kernel.org>
- <20240306141453.3900574-2-arnd@kernel.org>
-Date: Thu, 07 Mar 2024 10:41:02 +1100
-Message-ID: <87sf13nd2p.fsf@mail.lhotse>
+ <20240306141453.3900574-3-arnd@kernel.org>
+Date: Thu, 07 Mar 2024 23:34:00 +1100
+Message-ID: <878r2unruv.fsf@mail.lhotse>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240306_154120_663912_9E9767F6 
-X-CRM114-Status: GOOD (  13.41  )
+X-CRM114-CacheID: sfid-20240307_043414_008002_F40D317B 
+X-CRM114-Status: GOOD (  10.38  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,78 +94,35 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Arnd,
-
 Arnd Bergmann <arnd@kernel.org> writes:
 > From: Arnd Bergmann <arnd@arndb.de>
 >
-> These four architectures define the same Kconfig symbols for configuring
-> the page size. Move the logic into a common place where it can be shared
-> with all other architectures.
+> arc, arm64, parisc and powerpc all have their own Kconfig symbols
+> in place of the common CONFIG_PAGE_SIZE_4KB symbols. Change these
+> so the common symbols are the ones that are actually used, while
+> leaving the arhcitecture specific ones as the user visible
+> place for configuring it, to avoid breaking user configs.
 >
+> Reviewed-by: Christophe Leroy <christophe.leroy@csgroup.eu> (powerpc32)
+> Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+> Acked-by: Helge Deller <deller@gmx.de> # parisc
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
-> Changes from v1:
->  - improve Kconfig help texts
->  - fix Hexagon Kconfig
+> No changes from v1
 >
->  arch/Kconfig                      | 92 ++++++++++++++++++++++++++++++-
->  arch/hexagon/Kconfig              | 24 ++------
->  arch/hexagon/include/asm/page.h   |  6 +-
->  arch/loongarch/Kconfig            | 21 ++-----
->  arch/loongarch/include/asm/page.h | 10 +---
->  arch/mips/Kconfig                 | 58 ++-----------------
->  arch/mips/include/asm/page.h      | 16 +-----
->  arch/sh/include/asm/page.h        | 13 +----
->  arch/sh/mm/Kconfig                | 42 ++++----------
->  9 files changed, 121 insertions(+), 161 deletions(-)
+>  arch/arc/Kconfig                  |  3 +++
+>  arch/arc/include/uapi/asm/page.h  |  6 ++----
+>  arch/arm64/Kconfig                | 29 +++++++++++++----------------
+>  arch/arm64/include/asm/page-def.h |  2 +-
+>  arch/parisc/Kconfig               |  3 +++
+>  arch/parisc/include/asm/page.h    | 10 +---------
+>  arch/powerpc/Kconfig              | 31 ++++++-------------------------
+>  arch/powerpc/include/asm/page.h   |  2 +-
+>  scripts/gdb/linux/constants.py.in |  2 +-
+>  scripts/gdb/linux/mm.py           |  2 +-
+>  10 files changed, 32 insertions(+), 58 deletions(-)
 
-There's a few "help" lines missing, which breaks the build:
-
-  arch/Kconfig:1134: syntax error
-  arch/Kconfig:1133: invalid statement
-  arch/Kconfig:1134: invalid statement
-  arch/Kconfig:1135:warning: ignoring unsupported character '.'
-  arch/Kconfig:1135:warning: ignoring unsupported character '.'
-  arch/Kconfig:1135: invalid statement
-  arch/Kconfig:1136: invalid statement
-  arch/Kconfig:1137:warning: ignoring unsupported character '.'
-  arch/Kconfig:1137: invalid statement
-  arch/Kconfig:1143: syntax error
-  arch/Kconfig:1142: invalid statement
-  arch/Kconfig:1143: invalid statement
-  arch/Kconfig:1144:warning: ignoring unsupported character '.'
-  arch/Kconfig:1144: invalid statement
-  arch/Kconfig:1145: invalid statement
-  arch/Kconfig:1146: invalid statement
-  arch/Kconfig:1147: invalid statement
-  arch/Kconfig:1148:warning: ignoring unsupported character '.'
-  arch/Kconfig:1148: invalid statement
-  make[4]: *** [../scripts/kconfig/Makefile:85: syncconfig] Error 1
-
-Fixup diff is:
-
-diff --git a/arch/Kconfig b/arch/Kconfig
-index 56d45a75f625..f2295fa3b48c 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -1130,6 +1130,7 @@ config PAGE_SIZE_16KB
- config PAGE_SIZE_32KB
-        bool "32KiB pages"
-        depends on HAVE_PAGE_SIZE_32KB
-+       help
-          Using 32KiB page size will result in slightly higher performance
-          kernel at the price of higher memory consumption compared to
-          16KiB pages.  This option is available only on cnMIPS cores.
-@@ -1139,6 +1140,7 @@ config PAGE_SIZE_32KB
- config PAGE_SIZE_64KB
-        bool "64KiB pages"
-        depends on HAVE_PAGE_SIZE_64KB
-+       help
-          Using 64KiB page size will result in slightly higher performance
-          kernel at the price of much higher memory consumption compared to
-          4KiB or 16KiB pages.
-
+Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
 
 cheers
 
