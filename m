@@ -4,61 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D12FC48BF6
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  7 Mar 2024 12:34:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9C85C54798
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  7 Mar 2024 14:43:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References
-	:In-Reply-To:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=aChLhcX1fJEscNfJvgi8aKMhnUudxxHv29KeChSHSNQ=; b=4JLZXZI/pSli8B
-	CEUWSPUPKJ35GbZSZw7Jc1yu6+NxbADstF4Y7V0yVlDQiTCbwmglTbo4s3VyugeRN/v2foRZ28ftk
-	/BA6PjJ0xlJjXKsvY2DqRGHxjC51lCmmNq12FmBQ2UwXXqNs+UwXT1IndKUP/vdVD96rPvtAKmEVu
-	fEQLs/65seAZuwGYQd3MnFSLstVWlXKGS487h2gR9rIw4oY4wBHc495DhYsOCuN9NMPL2bgfzU1ls
-	vVSRy909h2jUbDsn8+yrwbqtyL2TOoDNJgTsab7x5NkIrgg8abdSqNpgZHAbgayIfc9jsP3xWckXP
-	Ter2mSAIymJJflNxdjbw==;
+	List-Owner; bh=IVUORuZch1cI4ixmJaPUgvbzhcroQeEf3/WvxEjM6hc=; b=RkUA4tIKOcyrjh
+	J00RpM6kvOYvVuliscNezWUpVARZ1t/+9Xnjbiy/f3WmSi3Rn/xQaFE6TH6bL2bI0nfxoXgWkocDM
+	3yAflS2JhzNbINE/87zulgH3BtTsm4bUU2iZr0owlXKQyhjw07cNSD0udcpbmt5yzhCRNzEXc79mI
+	T4/iw0YYHjd3GNddpZXRSehAcDkXM+dIWmyELBsxWp9ESkGfDgatroq+3XMctemJHrz4KmMf6N8ZA
+	CRearcHCbpeTWx9HLmmou+se7KocE/G8d0c13ZOlieNNO8Hlk4oYCFpSZZJhelhRTbuME7RNt/6lr
+	HX9+hJRiLJO/agLHIBXg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riCx0-00000004aDb-0hcR;
-	Thu, 07 Mar 2024 12:34:18 +0000
-Received: from gandalf.ozlabs.org ([150.107.74.76])
+	id 1riEyC-000000056Me-46kQ;
+	Thu, 07 Mar 2024 14:43:40 +0000
+Received: from smtp-out3.simply.com ([94.231.106.210])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riCwv-00000004aC1-1mz0;
-	Thu, 07 Mar 2024 12:34:15 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1709814848;
-	bh=5GCSx/SWwEQN6H1v+rlc6aQIECBTZdtYZCIuJdaUGZc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=m2hV8+UzshtbVo1SMQpGCIZAVMu9h2hQvtpDC9CkF6Ead01MUqjonBYL92rbYu9o5
-	 eONdwUL5JV+qzsPtqxYxcbEZTnxik/VNQnkbfcaMbISw7CbDppUAmAH/9P3sku/f8b
-	 i2LMQgXCW1DJms0NeuRTzJ0tBX4bUIMqKowAPBctWZSTjYyNqR0YILGQIfrcB30lQJ
-	 AxLogULtOaYvLPcYayeLz0xu9HzQh3oaG4608ibo49kkmjQLQ5CoPOkqEhC/05rYgX
-	 JxgCpZfY9Df2KdR0oUWson/F66hS7hXm3iPnnhME1f/unkDf0IfUz0QTmy9qELYv1z
-	 htVjJ1WY+KwZQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4Tr7yd1VsMz4wc8;
-	Thu,  7 Mar 2024 23:34:01 +1100 (AEDT)
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Arnd Bergmann <arnd@kernel.org>, Anna-Maria Behnsen
- <anna-maria@linutronix.de>, Thomas Gleixner <tglx@linutronix.de>, Vincenzo
- Frascino <vincenzo.frascino@arm.com>, Kees Cook <keescook@chromium.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Matt Turner <mattst88@gmail.com>, Vineet
- Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, Catalin
- Marinas <catalin.marinas@arm.com>, Guo Ren <guoren@kernel.org>, Brian Cain
- <bcain@quicinc.com>, Huacai Chen <chenhuacai@kernel.org>, Geert
- Uytterhoeven <geert@linux-m68k.org>, Michal Simek <monstr@monstr.eu>,
+	id 1riExz-000000056KJ-2Kzn;
+	Thu, 07 Mar 2024 14:43:31 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by smtp.simply.com (Simply.com) with ESMTP id 4TrBqw0YTHz6871;
+	Thu,  7 Mar 2024 15:43:24 +0100 (CET)
+Received: from [192.168.0.25] (h-98-128-223-123.NA.cust.bahnhof.se [98.128.223.123])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(Client did not present a certificate)
+	by smtp.simply.com (Simply.com) with ESMTPSA id 4TrBpz5w11z686W;
+	Thu,  7 Mar 2024 15:42:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gaisler.com;
+	s=unoeuro; t=1709822603;
+	bh=9Vrev7IgmUrXRDq+27lTQvP4S7JHkTqf6RpOH6wBrY8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=cI0rJs/n2a5JovKEHh1TYmBzRxJ87Bt5Bk9Xi2ViHf6tqC5yT0pNhekjnIplLA6zG
+	 +pFOMlnBFON+gaT+yppwquMwOHjqvX6GtdSnkG7oU1AsXu0gfEswgGVp6gSOiWhYfY
+	 6DpsBN4xKX8XZflxM1403bFN0rq2D47eZSFJCk/Y=
+Message-ID: <86cf6c72-e15a-4aa1-8c4b-499ec90a9a82@gaisler.com>
+Date: Thu, 7 Mar 2024 15:42:32 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] arch: define CONFIG_PAGE_SIZE_*KB on all
+ architectures
+Content-Language: en-US
+To: Arnd Bergmann <arnd@kernel.org>,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Kees Cook <keescook@chromium.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Matt Turner <mattst88@gmail.com>,
+ Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Catalin Marinas <catalin.marinas@arm.com>, Guo Ren <guoren@kernel.org>,
+ Brian Cain <bcain@quicinc.com>, Huacai Chen <chenhuacai@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Michal Simek <monstr@monstr.eu>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Helge Deller
- <deller@gmx.de>, Christophe Leroy <christophe.leroy@csgroup.eu>, Palmer
- Dabbelt <palmer@dabbelt.com>, John Paul Adrian Glaubitz
- <glaubitz@physik.fu-berlin.de>, Andreas Larsson <andreas@gaisler.com>,
- Richard Weinberger <richard@nod.at>, x86@kernel.org, Max Filippov
- <jcmvbkbc@gmail.com>, Andy Lutomirski <luto@kernel.org>, Jan Kiszka
- <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>, Andrew
- Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Richard Weinberger <richard@nod.at>, x86@kernel.org,
+ Max Filippov <jcmvbkbc@gmail.com>, Andy Lutomirski <luto@kernel.org>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
  linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
  linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev,
@@ -66,18 +74,16 @@ Cc: Arnd Bergmann <arnd@arndb.de>, Matt Turner <mattst88@gmail.com>, Vineet
  linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
  linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
  linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-um@lists.infradead.org
-Subject: Re: [PATCH v2 2/3] arch: simplify architecture specific page size
- configuration
-In-Reply-To: <20240306141453.3900574-3-arnd@kernel.org>
+ sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+ Heiko Carstens <hca@linux.ibm.com>, Stafford Horne <shorne@gmail.com>,
+ Johannes Berg <johannes@sipsolutions.net>
 References: <20240306141453.3900574-1-arnd@kernel.org>
- <20240306141453.3900574-3-arnd@kernel.org>
-Date: Thu, 07 Mar 2024 23:34:00 +1100
-Message-ID: <878r2unruv.fsf@mail.lhotse>
-MIME-Version: 1.0
+ <20240306141453.3900574-4-arnd@kernel.org>
+From: Andreas Larsson <andreas@gaisler.com>
+In-Reply-To: <20240306141453.3900574-4-arnd@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240307_043414_008002_F40D317B 
-X-CRM114-Status: GOOD (  10.38  )
+X-CRM114-CacheID: sfid-20240307_064329_713336_1AF777E3 
+X-CRM114-Status: GOOD (  11.97  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,37 +100,31 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Arnd Bergmann <arnd@kernel.org> writes:
+On 2024-03-06 15:14, Arnd Bergmann wrote:
 > From: Arnd Bergmann <arnd@arndb.de>
->
-> arc, arm64, parisc and powerpc all have their own Kconfig symbols
-> in place of the common CONFIG_PAGE_SIZE_4KB symbols. Change these
-> so the common symbols are the ones that are actually used, while
-> leaving the arhcitecture specific ones as the user visible
-> place for configuring it, to avoid breaking user configs.
->
-> Reviewed-by: Christophe Leroy <christophe.leroy@csgroup.eu> (powerpc32)
-> Acked-by: Catalin Marinas <catalin.marinas@arm.com>
-> Acked-by: Helge Deller <deller@gmx.de> # parisc
+> 
+> Most architectures only support a single hardcoded page size. In order
+> to ensure that each one of these sets the corresponding Kconfig symbols,
+> change over the PAGE_SHIFT definition to the common one and allow
+> only the hardware page size to be selected.
+> 
+> Acked-by: Guo Ren <guoren@kernel.org>
+> Acked-by: Heiko Carstens <hca@linux.ibm.com>
+> Acked-by: Stafford Horne <shorne@gmail.com>
+> Acked-by: Johannes Berg <johannes@sipsolutions.net>
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
 > No changes from v1
->
->  arch/arc/Kconfig                  |  3 +++
->  arch/arc/include/uapi/asm/page.h  |  6 ++----
->  arch/arm64/Kconfig                | 29 +++++++++++++----------------
->  arch/arm64/include/asm/page-def.h |  2 +-
->  arch/parisc/Kconfig               |  3 +++
->  arch/parisc/include/asm/page.h    | 10 +---------
->  arch/powerpc/Kconfig              | 31 ++++++-------------------------
->  arch/powerpc/include/asm/page.h   |  2 +-
->  scripts/gdb/linux/constants.py.in |  2 +-
->  scripts/gdb/linux/mm.py           |  2 +-
->  10 files changed, 32 insertions(+), 58 deletions(-)
 
-Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
+>  arch/sparc/Kconfig                 | 2 ++
+>  arch/sparc/include/asm/page_32.h   | 2 +-
+>  arch/sparc/include/asm/page_64.h   | 3 +--
 
-cheers
+Acked-by: Andreas Larsson <andreas@gaisler.com>
+
+Thanks,
+Andreas
+
 
 _______________________________________________
 linux-snps-arc mailing list
