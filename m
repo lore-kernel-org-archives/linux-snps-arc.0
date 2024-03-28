@@ -4,56 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D3FEC54E64
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 28 Mar 2024 05:16:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2861FC54E67
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 28 Mar 2024 05:39:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Subject:From:To:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=OQO1MG3Q1FAZjlt1w0Ejvv3RS4bEqbkBywqAr5msnrc=; b=hH/cblqwhRE2+r
-	gqY18n37vHxO0G+Ql2C0KAaEjfNDNyHA/9TeOS0rMSPv2rRn7SK5ffsKX2vbMcjofAs334KPgENfs
-	U0MUHBSUQjs9HksZOJxWa9nlSJ2s1ai0Y03RctdG1iValu5co1+/fZFsWXJl19tSCrx7LkHRSdybe
-	XIlsmYyPZwEx97pqYG2vws03qiacZbKNA1DqWD4iMp/KrY0A/Z+z0NuZ2N9oZM0qiC5UixEaGj7ZY
-	IjjkW0wxyi9FNSFVAd5N3FpgLIg4pJrOroXN36aUtlqpvPtbj069EHIPXE1sH5d7x8xcy7Z0bwUR5
-	DOjqIvz1w4abTRVas9/Q==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=kYELa6fjQOprmRSVl4qLfJp/m3gxQMn7yTC+PmlNskU=; b=iStN7a75RWzgL9
+	QdX+wMqpqIMezUkHDV20/aHP3OjaPZ3OIcvEWvJfWgbO632elNnbwBJ2TT9djToq3r1evs6ZfUhAz
+	cNNR9oMeFZmuJtWSuHYzAFQJZmANtk4RS7d51zJ93SdL6N6pBuH3Utf6KkFt5qdFvGYxjqA0Fmeg4
+	2BwCND1yo/ShwK3j83CJfR/rJtPtrcFpySPtxtrBqWpM56mCQfvAF1Nrg6JcI/+I9O+dzS+5n1e+C
+	Xo59O4Wx+P/MQ2wL3ZocTC3fEbojyxy0wQsNrEDAcUXBLPUsx3avp88zKdChvWWgodX6nGbNmsd95
+	/4INMrgeJxh0l0KQC4PA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rpi7L-0000000CX4K-3ezh;
-	Thu, 28 Mar 2024 05:15:59 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1rpiUC-0000000CaPJ-2Qro;
+	Thu, 28 Mar 2024 05:39:36 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rpi7J-0000000CX3p-0r5o
+	id 1rpiU4-0000000CaKw-1n6n
 	for linux-snps-arc@lists.infradead.org;
-	Thu, 28 Mar 2024 05:15:58 +0000
+	Thu, 28 Mar 2024 05:39:34 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 4D502CE2925;
-	Thu, 28 Mar 2024 05:15:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74F01C433F1;
-	Thu, 28 Mar 2024 05:15:53 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 0D39A614CE
+	for <linux-snps-arc@lists.infradead.org>; Thu, 28 Mar 2024 05:39:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 802AAC433C7;
+	Thu, 28 Mar 2024 05:39:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711602953;
-	bh=u42mRmXsX2D7qg88uypUrRexir9cdzCMYJarfsvxXek=;
-	h=Date:To:From:Subject:From;
-	b=bis2HmdHB4eq+iYVmT04mgi8VdzvSrte1gMvTQ9cCZznUoej1E5uiOCPl3Owx7a9G
-	 EWfvx9TkgnbiT/GILJsgYbXISsd0jHFIta/nzMQuWI085a3N8ykoonOLGm2jYjV3me
-	 knVt+OCsU/EJOcKBRBhj5tmK84Gi4Mtdd6+yhuSUqd/r4h6vNOcxQoQldcILerTrEK
-	 0OK0jLz5k1ZY4O5V3g09FG5h7ASf5bQPHhV6lq+tfuFosP+mITeJrz5wGaX2IxO5F9
-	 4ooHUqZf3u2Lgf4iexLX/aStQuMix8DHkn0lKMxamV1YWCtMQiTjtgtmOa96GfIq/X
-	 rYWvWRiICr50w==
-Message-ID: <a48fceb7-a50b-4083-b7e8-e91194268531@kernel.org>
-Date: Wed, 27 Mar 2024 22:15:52 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Alexey Brodkin <abrodkin@synopsys.com>,
- arcml <linux-snps-arc@lists.infradead.org>
+	s=k20201202; t=1711604366;
+	bh=/C7YmCyi76cdNCIgLJ4s57sUTMiGolVuUEfTdswA5OA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=lsJJA0BQFpjBJ/AIVnZp3PZ7R6Rsil/YIxYzapWmqG56QfWTLGYxC5NDByRPT4fqu
+	 vpH0UGpc9qIcotajnq/UrvUFM96yOivI215SHgtrXPxZ9orSMn0ANKhwhWuXmm7Pib
+	 fH6DB+Tor9Nb6/wNTnljJ/BqudDZuc4f/r+dTbVjY5EbEw/1G2eaGu81PD5iYHQ98z
+	 OSx755d9/clcut6n1Z/dOK4QAX01uO9Mihz8PNsurssSXKNQHwbL4XFUxB3Aqb6VAC
+	 jMzvRgOjzqPZxJTe1gi8ELoopz4YCcGc1wcma/cqCYMKQ4/a9vw4nB5KV/mXngqHSI
+	 k4wkXZvrbG4gw==
 From: Vineet Gupta <vgupta@kernel.org>
-Subject: recent kernel warning
+To: linux-snps-arc@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org,
+	Vineet Gupta <vgupta@kernel.org>
+Subject: [PATCH 0/2] ARC minor fixes
+Date: Wed, 27 Mar 2024 22:39:17 -0700
+Message-Id: <20240328053919.992821-1-vgupta@kernel.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240327_221557_440449_F72B5D1B 
-X-CRM114-Status: UNSURE (   1.86  )
+X-CRM114-CacheID: sfid-20240327_223928_579732_86EB3CD6 
+X-CRM114-Status: UNSURE (   6.29  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -66,18 +66,29 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-QWxleGV5LAoKQ2FuIHlvdSBoYXZlIHNvbWVvbmUgbG9vayBhdCB0aGUgZm9sbG93aW5nIGtlcm5l
-bCB3YXJuaW5nOgoKwqAgRFRDwqDCoMKgwqAgYXJjaC9hcmMvYm9vdC9kdHMvaHNkay5kdGIKLi4v
-YXJjaC9hcmMvYm9vdC9kdHMvaHNkay5kdHM6MjA3LjIzLTIzNS41OiBXYXJuaW5nCihpbnRlcnJ1
-cHRfcHJvdmlkZXIpOiAvc29jL2V0aGVybmV0QDgwMDA6ICcjaW50ZXJydXB0LWNlbGxzJyBmb3Vu
-ZCwgYnV0Cm5vZGUgaXMgbm90IGFuIGludGVycnVwdCBwcm92aWRlcgphcmNoL2FyYy9ib290L2R0
-cy9oc2RrLmR0YjogV2FybmluZyAoaW50ZXJydXB0X21hcCk6IEZhaWxlZCBwcmVyZXF1aXNpdGUK
-J2ludGVycnVwdF9wcm92aWRlcicKClRoeCwKLVZpbmVldAoKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0Cmxp
-bnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
+Some fixlets for ARC.
+
+Vineet Gupta (2):
+  ARC: Fix -Wmissing-prototypes warnings
+  ARC: mm: fix new code about cache aliasing
+
+ arch/arc/Kconfig                 | 1 -
+ arch/arc/include/asm/cachetype.h | 9 ---------
+ arch/arc/include/asm/ptrace.h    | 2 +-
+ arch/arc/kernel/kprobes.c        | 7 ++++---
+ 4 files changed, 5 insertions(+), 14 deletions(-)
+ delete mode 100644 arch/arc/include/asm/cachetype.h
+
+-- 
+2.34.1
+
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
