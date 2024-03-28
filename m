@@ -4,48 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2E2E9C54E67
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 28 Mar 2024 11:05:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8ADC4C54E67
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 28 Mar 2024 12:40:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
 	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
 	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=7peJb9GJiSBCdZP+VRsHf7Z7oyDaZorh0aoxQuSZxCk=; b=WyXSsIO7kTGBpt
-	AHiWBAYnFIL0sR7rXXmA/6lgfZjlv5Vo7T2iX/jz9Qlo45WqrdLvDuC9sNWonM17SvRDgfcyhGiCu
-	25kV1JP154PJBl/eU7RbGWpU/TKjHD74XQjyImn55wYDg9BIh1aa6SSKC3sUhgjqpmLG0rXTjsz+4
-	pHzZKLN43p0ZD2W4UtnE2WZspOZcGxTeL9v6zdV6mnID8ff833ouOomIdhQR0ClnPSSLQJ913+4Ho
-	y0cWckJXmR9te9ka2iL45HTUK/Q/mahbfqKGLPLUzAWg2T55rCYZzQIFhkqcCQCcQ1NkH1Rc50NCg
-	dZtGr/KXCBSZreoPgd7w==;
+	List-Owner; bh=CHa9JjG8e+h1VaEcmVr7uOONIsOvC4NOkATQqb0/23k=; b=1cqVe3We2XmZDm
+	Vl2xMq8Jc/8hyw1sV12CFRsjmU4adykdkmRD9lUQ7YNRVnLKGZs69ChalToCoEq6HjNCSl6aNr2+S
+	4fJjPJMcwFO0z1t0efaOmaFO0EhX7WklHmFBMiuz1R34+3/2EQ1Z50CXSvaAWZ2oTsPPT7mIHMZbv
+	NLgFMamEp/GFa9Mr5FF6TgYIYY14BDD5DT9cazGNOHdIxdbuUnEgrdP8SflUX+tqB46KmB1ArJCEH
+	/ETU21XBeuhHijwJSrsA4MufFq2xz/6SSYDbZoHHJzj0+HG4kuosfjsPRhS6ir2c3FHafdgRb1O+k
+	MrRctzIvpmZb4lfE9O8Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rpnZW-0000000DgBC-1l2a;
-	Thu, 28 Mar 2024 11:05:26 +0000
+	id 1rpp3h-0000000DwpO-3hUp;
+	Thu, 28 Mar 2024 12:40:41 +0000
 Received: from mout.gmx.net ([212.227.17.21])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rpnZS-0000000Dg9R-0Dpv;
-	Thu, 28 Mar 2024 11:05:23 +0000
+	id 1rpp3d-0000000Dwmm-37jC;
+	Thu, 28 Mar 2024 12:40:39 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1711623862; x=1712228662; i=deller@gmx.de;
-	bh=9/16Qzrw3seVqIzw3vOPat5jqGCo0xh0NQwrsRCPyY4=;
+	s=s31663417; t=1711629595; x=1712234395; i=deller@gmx.de;
+	bh=OcaPQ/YLAkQ4Yfs0ARFNRC7QTLGsd2CnFzORCuSApDw=;
 	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
 	 In-Reply-To;
-	b=C4TYakAaZ0uRrmB4kYbMMObcroodqai+f8r9F+1JkXTmB34rM6P4dApxX3VVfiJu
-	 djO9PSqy8gALD4P1buiRcQwbplf3kvVIJBpsze9N9dHIys97x9j8e7xB9Fbo8YiP/
-	 FnVL/uuTY2Z7Ar9YuAocpSn0q46F5dLPp08TMHaNi50wSPQJZPScHEcz42YGW+P0E
-	 902g/MEPvKRc7k8IIaKGKFaCGXqMHEG6oi/EMgdDS+tosgXvLSPfhGHm7n9ok5XCV
-	 D1sYs1erxG+lSoRLxADDe9jJ/P+3Osre6YItkylC10Pwv3B6ZyiGmwGnuZ8Qxohs0
-	 c+a/oQjsSG3p/OBJ+w==
+	b=r3mlxuV6fZG4GNUbwLTgqCELwOPup6gs6/aJ9BW15Z9DXrPFwbDCGn1uv7TV5D3a
+	 vG8RgcSevNYbSTgPQF5GrZIWuFxCzTyyD/x5NolpnMTIjeM9S/wnbLoJ0OZfrqxf4
+	 7f3D4JMj8DQaK25n4dRkKVqrepc+L+o+JgmTU6GT2tn3AloonGA50hRe5ZJuIhmi+
+	 cN1QYMIjkZD5bEmTLBFuQcKwB6N4KRIfYIwU/LdYcU3qZFD3qmpORB9+Xk04bBBr3
+	 0hlTidX7LQ009X/BVxug8463q2lBy/XoF9fdJugkpGaugBQ00En9zSFWYxC7PHUPC
+	 8lxYE+fAD2UhNM1+IA==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from [10.8.0.6] ([78.94.87.245]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MC34X-1rzRet11Th-00CVKE; Thu, 28
- Mar 2024 12:04:22 +0100
-Message-ID: <b5a8bc60-ad16-407d-9e57-c224467c3f06@gmx.de>
-Date: Thu, 28 Mar 2024 12:04:14 +0100
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MPokN-1sC2tE1Kvz-00MpkI; Thu, 28
+ Mar 2024 13:39:55 +0100
+Message-ID: <70aefe08-b4c4-4738-a223-e4b04562cd56@gmx.de>
+Date: Thu, 28 Mar 2024 13:39:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] arch: Remove struct fb_info from video helpers
+Subject: Re: [PATCH v2 1/3] arch: Select fbdev helpers with CONFIG_VIDEO
 To: Thomas Zimmermann <tzimmermann@suse.de>, arnd@arndb.de,
  javierm@redhat.com, sui.jingfeng@linux.dev
 Cc: linux-arch@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -62,7 +62,7 @@ Cc: linux-arch@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
  "H. Peter Anvin" <hpa@zytor.com>
 References: <20240327204450.14914-1-tzimmermann@suse.de>
- <20240327204450.14914-3-tzimmermann@suse.de>
+ <20240327204450.14914-2-tzimmermann@suse.de>
 Content-Language: en-US
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
@@ -108,27 +108,27 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20240327204450.14914-3-tzimmermann@suse.de>
-X-Provags-ID: V03:K1:MkWerH/kos999V3d+lXJIMTQR7GQxw4lOR8ujKMTFrxBBP7ED+v
- nCbh+i8OdPfgMXpIGn8F/RzVnZUcX6qDw8V3E3UjKq7SahbOvuUOOuYxXCXnsnkfPvuPSPx
- NctfQzZG6pYQPeGTYdE4BZyLtBUkECsbnyx+wy41zWcvFfBUL0ZdEV+vBIMDG1cUK97B23Y
- bYcjwlnnFHbk9uuxDY1Pg==
-UI-OutboundReport: notjunk:1;M01:P0:Dx/DFQx+Tp4=;1jQ9Mrb8iRQltfotF+w9pgqJHIU
- iECm7T+rje2zL8zTenHrlnXQeSQONr+FaCg++dwSppO9FrKmnOynFxtQ1jyXodrNmfRA4EM2C
- /kdonCGFZRVMEC4AcjMX7CNdfXgsm1PmDtM2PS0PsIbyNKOmJmCtNuuG9DOEoRGaKT/OmufGQ
- cPT3e2vNV5TO0H5v5dN3qXQpwQcMUyCRRykHrNNkHaaDaRr/ZzOBfPtwoGtzil4eqbx0TIkOo
- 8I9XEksMi45hN+vQgsIabvbBnXPxG+Fuihr1d57qQ+/UR6jSOef4YNJR55CwHf1yV8LWeYcB9
- tMEXYafQh0yPfMWzJ/yu1u/wJ3NKEd2pT+8YrPOaGbbIZdkF8PejKNoHpYUdHS2t/xLztKwTh
- rhlz/heBK6RM48buMgfEBqNqUpsDlZKNwFNN7Z4o95iliHLA7+giKcS18HKNrDh3XshSVQ2rZ
- VjcTSxmIH+kh7TpiRLkEqeKTKJS0KelvWbmjfRs9p6Kzhvwo29FqEGgfH1hafrj9jW6PzlK/h
- A/QFPSlM7XYYaxDZleWtbvkBLV1BepzjXr5+iOVTsm4uM4c25HzPeMxhc8oDU4L6YKB+pLEO3
- Aw+jKKaQp4sVRDwv9GzTF3Q55ZVvXsp/UU7zdvWVV4TxP3x3RxjHolkwUKBZujW9XbU4hlCvT
- BLm2eTF4CFq1OGxuF4fB8uaJdeSD3OhcfM1hRXrkJhc63H2CmU8Ox39fu3XsON7uxF6uoGbKr
- oR/lcEwnqlmBE3cSgbdmfMEkH+kJSathXvIL/qcBBkiopu6f0im4JDJQZnzpo5SbJjDZAQ0uQ
- uiyyFR4ac2BxBvD3fYVQocyztn+eex+y0OBO5nR6HM7pM=
+In-Reply-To: <20240327204450.14914-2-tzimmermann@suse.de>
+X-Provags-ID: V03:K1:tdzWKBL0P5Wfrjj8yny8Q2lhw+7grSIiFh5Q0dWgyFJJyQtp97n
+ 7yW0OxyxmQ4RmQZcPMPcfWKLpDiA9fV7zmf5VhxMbyIqH/cEqbjd6qlgZE0mNtummvbAHsL
+ drn/A1jBNNjPS387hymUaTCxPHw8T2VxgIQ2CKXP8w9BQIIhn7y8YrJnQlIsn6MorknokHj
+ ntFVjgd6CuyklDh/qiPog==
+UI-OutboundReport: notjunk:1;M01:P0:D2qBu+HavM4=;k8FmDd1t1U1FjeH6FKiF1DaXqYp
+ ROvL0p1wFzp/tzOYRBoZWPN7tAQG+ZrP7pQ6ztPNN73BLJkKyVKE9Isru3oEjXw3MTOVA9Ezd
+ gZppMzAiEgcBQhHIorV+2MLgsEuRrdVQU85oLX4dFfQ5iYlphg7nXi/5jmYERLvy7VPnteB+8
+ 9eDFe9KP6RKOwhVEZt+9G6O+LS7xvljRdO8CPRNnfvd5e4rthXGNzuMqSasE06QkJmCJgT3W6
+ K/t2s5ODVZm/cVghaFaLuc79Xk9Iy/vGIAImToxZomxiqcuuxUi/aaldKJ9fir6sXYm0eGMdm
+ QYYe8TcqkgPIElCEYL3tasSqJQRWhtYSmOELTetYLJsWKLX/enbTtrBMNBzXxQXu7yczo/J+H
+ 4ZO3x6peJ5Khv/0ksPyzMXMLXthWkC1qvr7ldnSmg3pk8+gYxOeiYlhRol/XT+DQ4hK1Re/jx
+ KMzsF2tfPLir94oe3ogkGu/92gxxG5NXZoi/waZ8R/pL8K9AzblzBg8WrRWCHzWum0CXt8Nlw
+ lNUQNfwXy60ZS7ApLwTsYjZd5LvmI6QcgO6IumiIHcKavIKm1VaLW/jDEq3TpOz8rLTARH+78
+ zxH6iSHkEKPN0KpGbCUH09wGlt5VFajvDMbxhL0d+TRMT8Kgc7ZQg1rtn9DhvEWs8P0EkWlSl
+ dKzwPwQzQ7farrNoJPW/ud0xqBoQDv+GAcYNOttNfn8dHtcNTdq0Rn++VaprFX7y55vpUCVw7
+ Q6SqB0EwgzbwOr2cQRuc6WZXFwjxMucMerAxReY1nAa+62ehK0nK9Fx8SD8ObYiTwkKDKXhXN
+ CJKPwBIsReEyp7tEUVxQfOtPNSP7pCBzF2pIeGHr60eiY=
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240328_040522_399717_EA404344 
-X-CRM114-Status: GOOD (  21.95  )
+X-CRM114-CacheID: sfid-20240328_054038_110705_71DE8296 
+X-CRM114-Status: GOOD (  18.63  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -146,25 +146,30 @@ Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
 On 3/27/24 21:41, Thomas Zimmermann wrote:
-> The per-architecture video helpers do not depend on struct fb_info
-> or anything else from fbdev. Remove it from the interface and replace
-> fb_is_primary_device() with video_is_primary_device(). The new helper
+> Various Kconfig options selected the per-architecture helpers for
+> fbdev. But none of the contained code depends on fbdev. Standardize
+> on CONFIG_VIDEO, which will allow to add more general helpers for
+> video functionality.
+>
+> CONFIG_VIDEO protects each architecture's video/ directory.
 
-Since you rename this function, wouldn't something similar to
+Your patch in general looks good.
+But is renaming the config option from CONFIG_FB_CORE to CONFIG_VIDEO
+the best choice?
+CONFIG_VIDEO might be mixed up with multimedia/video-streaming.
 
-device_is_primary_display()
-	or
-device_is_primary_console()
-	or
-is_primary_graphics_device()
-	or
-is_primary_display_device()
-
-be a better name?
+Why not e.g. CONFIG_GRAPHICS_CORE?
+I'm fine with CONFIG_VIDEO as well, but if someone has a better idea
+we maybe should go with that instead now?
 
 Helge
 
-> is similar in functionality, but can operate on non-fbdev devices.
+> This
+> allows for the use of more fine-grained control for each directory's
+> files, such as the use of CONFIG_STI_CORE on parisc.
+>
+> v2:
+> - sparc: rebased onto Makefile changes
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
@@ -178,244 +183,72 @@ Helge
 > Cc: x86@kernel.org
 > Cc: "H. Peter Anvin" <hpa@zytor.com>
 > ---
->   arch/parisc/include/asm/fb.h     |  8 +++++---
->   arch/parisc/video/fbdev.c        |  9 +++++----
->   arch/sparc/include/asm/fb.h      |  7 ++++---
->   arch/sparc/video/fbdev.c         | 17 ++++++++---------
->   arch/x86/include/asm/fb.h        |  8 +++++---
->   arch/x86/video/fbdev.c           | 18 +++++++-----------
->   drivers/video/fbdev/core/fbcon.c |  2 +-
->   include/asm-generic/fb.h         | 11 ++++++-----
->   8 files changed, 41 insertions(+), 39 deletions(-)
+>   arch/parisc/Makefile      | 2 +-
+>   arch/sparc/Makefile       | 4 ++--
+>   arch/sparc/video/Makefile | 2 +-
+>   arch/x86/Makefile         | 2 +-
+>   arch/x86/video/Makefile   | 3 ++-
+>   5 files changed, 7 insertions(+), 6 deletions(-)
 >
-> diff --git a/arch/parisc/include/asm/fb.h b/arch/parisc/include/asm/fb.h
-> index 658a8a7dc5312..ed2a195a3e762 100644
-> --- a/arch/parisc/include/asm/fb.h
-> +++ b/arch/parisc/include/asm/fb.h
-> @@ -2,11 +2,13 @@
->   #ifndef _ASM_FB_H_
->   #define _ASM_FB_H_
+> diff --git a/arch/parisc/Makefile b/arch/parisc/Makefile
+> index 316f84f1d15c8..21b8166a68839 100644
+> --- a/arch/parisc/Makefile
+> +++ b/arch/parisc/Makefile
+> @@ -119,7 +119,7 @@ export LIBGCC
 >
-> -struct fb_info;
-> +#include <linux/types.h>
+>   libs-y	+= arch/parisc/lib/ $(LIBGCC)
+>
+> -drivers-y += arch/parisc/video/
+> +drivers-$(CONFIG_VIDEO) += arch/parisc/video/
+>
+>   boot	:= arch/parisc/boot
+>
+> diff --git a/arch/sparc/Makefile b/arch/sparc/Makefile
+> index 2a03daa68f285..757451c3ea1df 100644
+> --- a/arch/sparc/Makefile
+> +++ b/arch/sparc/Makefile
+> @@ -59,8 +59,8 @@ endif
+>   libs-y                 += arch/sparc/prom/
+>   libs-y                 += arch/sparc/lib/
+>
+> -drivers-$(CONFIG_PM) += arch/sparc/power/
+> -drivers-$(CONFIG_FB_CORE) += arch/sparc/video/
+> +drivers-$(CONFIG_PM)    += arch/sparc/power/
+> +drivers-$(CONFIG_VIDEO) += arch/sparc/video/
+>
+>   boot := arch/sparc/boot
+>
+> diff --git a/arch/sparc/video/Makefile b/arch/sparc/video/Makefile
+> index d4d83f1702c61..9dd82880a027a 100644
+> --- a/arch/sparc/video/Makefile
+> +++ b/arch/sparc/video/Makefile
+> @@ -1,3 +1,3 @@
+>   # SPDX-License-Identifier: GPL-2.0-only
+>
+> -obj-$(CONFIG_FB_CORE) += fbdev.o
+> +obj-y	+= fbdev.o
+> diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+> index 15a5f4f2ff0aa..c0ea612c62ebe 100644
+> --- a/arch/x86/Makefile
+> +++ b/arch/x86/Makefile
+> @@ -265,7 +265,7 @@ drivers-$(CONFIG_PCI)            += arch/x86/pci/
+>   # suspend and hibernation support
+>   drivers-$(CONFIG_PM) += arch/x86/power/
+>
+> -drivers-$(CONFIG_FB_CORE) += arch/x86/video/
+> +drivers-$(CONFIG_VIDEO) += arch/x86/video/
+>
+>   ####
+>   # boot loader support. Several targets are kept for legacy purposes
+> diff --git a/arch/x86/video/Makefile b/arch/x86/video/Makefile
+> index 5ebe48752ffc4..9dd82880a027a 100644
+> --- a/arch/x86/video/Makefile
+> +++ b/arch/x86/video/Makefile
+> @@ -1,2 +1,3 @@
+>   # SPDX-License-Identifier: GPL-2.0-only
+> -obj-$(CONFIG_FB_CORE)		+= fbdev.o
 > +
-> +struct device;
->
->   #if defined(CONFIG_STI_CORE)
-> -int fb_is_primary_device(struct fb_info *info);
-> -#define fb_is_primary_device fb_is_primary_device
-> +bool video_is_primary_device(struct device *dev);
-> +#define video_is_primary_device video_is_primary_device
->   #endif
->
->   #include <asm-generic/fb.h>
-> diff --git a/arch/parisc/video/fbdev.c b/arch/parisc/video/fbdev.c
-> index e4f8ac99fc9e0..540fa0c919d59 100644
-> --- a/arch/parisc/video/fbdev.c
-> +++ b/arch/parisc/video/fbdev.c
-> @@ -5,12 +5,13 @@
->    * Copyright (C) 2001-2002 Thomas Bogendoerfer <tsbogend@alpha.franken.de>
->    */
->
-> -#include <linux/fb.h>
->   #include <linux/module.h>
->
->   #include <video/sticore.h>
->
-> -int fb_is_primary_device(struct fb_info *info)
-> +#include <asm/fb.h>
-> +
-> +bool video_is_primary_device(struct device *dev)
->   {
->   	struct sti_struct *sti;
->
-> @@ -21,6 +22,6 @@ int fb_is_primary_device(struct fb_info *info)
->   		return true;
->
->   	/* return true if it's the default built-in framebuffer driver */
-> -	return (sti->dev == info->device);
-> +	return (sti->dev == dev);
->   }
-> -EXPORT_SYMBOL(fb_is_primary_device);
-> +EXPORT_SYMBOL(video_is_primary_device);
-> diff --git a/arch/sparc/include/asm/fb.h b/arch/sparc/include/asm/fb.h
-> index 24440c0fda490..07f0325d6921c 100644
-> --- a/arch/sparc/include/asm/fb.h
-> +++ b/arch/sparc/include/asm/fb.h
-> @@ -3,10 +3,11 @@
->   #define _SPARC_FB_H_
->
->   #include <linux/io.h>
-> +#include <linux/types.h>
->
->   #include <asm/page.h>
->
-> -struct fb_info;
-> +struct device;
->
->   #ifdef CONFIG_SPARC32
->   static inline pgprot_t pgprot_framebuffer(pgprot_t prot,
-> @@ -18,8 +19,8 @@ static inline pgprot_t pgprot_framebuffer(pgprot_t prot,
->   #define pgprot_framebuffer pgprot_framebuffer
->   #endif
->
-> -int fb_is_primary_device(struct fb_info *info);
-> -#define fb_is_primary_device fb_is_primary_device
-> +bool video_is_primary_device(struct device *dev);
-> +#define video_is_primary_device video_is_primary_device
->
->   static inline void fb_memcpy_fromio(void *to, const volatile void __iomem *from, size_t n)
->   {
-> diff --git a/arch/sparc/video/fbdev.c b/arch/sparc/video/fbdev.c
-> index bff66dd1909a4..e46f0499c2774 100644
-> --- a/arch/sparc/video/fbdev.c
-> +++ b/arch/sparc/video/fbdev.c
-> @@ -1,26 +1,25 @@
->   // SPDX-License-Identifier: GPL-2.0
->
->   #include <linux/console.h>
-> -#include <linux/fb.h>
-> +#include <linux/device.h>
->   #include <linux/module.h>
->
-> +#include <asm/fb.h>
->   #include <asm/prom.h>
->
-> -int fb_is_primary_device(struct fb_info *info)
-> +bool video_is_primary_device(struct device *dev)
->   {
-> -	struct device *dev = info->device;
-> -	struct device_node *node;
-> +	struct device_node *node = dev->of_node;
->
->   	if (console_set_on_cmdline)
-> -		return 0;
-> +		return false;
->
-> -	node = dev->of_node;
->   	if (node && node == of_console_device)
-> -		return 1;
-> +		return true;
->
-> -	return 0;
-> +	return false;
->   }
-> -EXPORT_SYMBOL(fb_is_primary_device);
-> +EXPORT_SYMBOL(video_is_primary_device);
->
->   MODULE_DESCRIPTION("Sparc fbdev helpers");
->   MODULE_LICENSE("GPL");
-> diff --git a/arch/x86/include/asm/fb.h b/arch/x86/include/asm/fb.h
-> index c3b9582de7efd..999db33792869 100644
-> --- a/arch/x86/include/asm/fb.h
-> +++ b/arch/x86/include/asm/fb.h
-> @@ -2,17 +2,19 @@
->   #ifndef _ASM_X86_FB_H
->   #define _ASM_X86_FB_H
->
-> +#include <linux/types.h>
-> +
->   #include <asm/page.h>
->
-> -struct fb_info;
-> +struct device;
->
->   pgprot_t pgprot_framebuffer(pgprot_t prot,
->   			    unsigned long vm_start, unsigned long vm_end,
->   			    unsigned long offset);
->   #define pgprot_framebuffer pgprot_framebuffer
->
-> -int fb_is_primary_device(struct fb_info *info);
-> -#define fb_is_primary_device fb_is_primary_device
-> +bool video_is_primary_device(struct device *dev);
-> +#define video_is_primary_device video_is_primary_device
->
->   #include <asm-generic/fb.h>
->
-> diff --git a/arch/x86/video/fbdev.c b/arch/x86/video/fbdev.c
-> index 1dd6528cc947c..4d87ce8e257fe 100644
-> --- a/arch/x86/video/fbdev.c
-> +++ b/arch/x86/video/fbdev.c
-> @@ -7,7 +7,6 @@
->    *
->    */
->
-> -#include <linux/fb.h>
->   #include <linux/module.h>
->   #include <linux/pci.h>
->   #include <linux/vgaarb.h>
-> @@ -25,20 +24,17 @@ pgprot_t pgprot_framebuffer(pgprot_t prot,
->   }
->   EXPORT_SYMBOL(pgprot_framebuffer);
->
-> -int fb_is_primary_device(struct fb_info *info)
-> +bool video_is_primary_device(struct device *dev)
->   {
-> -	struct device *device = info->device;
-> -	struct pci_dev *pci_dev;
-> +	struct pci_dev *pdev;
->
-> -	if (!device || !dev_is_pci(device))
-> -		return 0;
-> +	if (!dev_is_pci(dev))
-> +		return false;
->
-> -	pci_dev = to_pci_dev(device);
-> +	pdev = to_pci_dev(dev);
->
-> -	if (pci_dev == vga_default_device())
-> -		return 1;
-> -	return 0;
-> +	return (pdev == vga_default_device());
->   }
-> -EXPORT_SYMBOL(fb_is_primary_device);
-> +EXPORT_SYMBOL(video_is_primary_device);
->
->   MODULE_LICENSE("GPL");
-> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-> index 46823c2e2ba12..85c5c8cbc680a 100644
-> --- a/drivers/video/fbdev/core/fbcon.c
-> +++ b/drivers/video/fbdev/core/fbcon.c
-> @@ -2939,7 +2939,7 @@ void fbcon_remap_all(struct fb_info *info)
->   static void fbcon_select_primary(struct fb_info *info)
->   {
->   	if (!map_override && primary_device == -1 &&
-> -	    fb_is_primary_device(info)) {
-> +	    video_is_primary_device(info->device)) {
->   		int i;
->
->   		printk(KERN_INFO "fbcon: %s (fb%i) is primary device\n",
-> diff --git a/include/asm-generic/fb.h b/include/asm-generic/fb.h
-> index 6ccabb400aa66..4788c1e1c6bc0 100644
-> --- a/include/asm-generic/fb.h
-> +++ b/include/asm-generic/fb.h
-> @@ -10,8 +10,9 @@
->   #include <linux/io.h>
->   #include <linux/mm_types.h>
->   #include <linux/pgtable.h>
-> +#include <linux/types.h>
->
-> -struct fb_info;
-> +struct device;
->
->   #ifndef pgprot_framebuffer
->   #define pgprot_framebuffer pgprot_framebuffer
-> @@ -23,11 +24,11 @@ static inline pgprot_t pgprot_framebuffer(pgprot_t prot,
->   }
->   #endif
->
-> -#ifndef fb_is_primary_device
-> -#define fb_is_primary_device fb_is_primary_device
-> -static inline int fb_is_primary_device(struct fb_info *info)
-> +#ifndef video_is_primary_device
-> +#define video_is_primary_device video_is_primary_device
-> +static inline bool video_is_primary_device(struct device *dev)
->   {
-> -	return 0;
-> +	return false;
->   }
->   #endif
->
+> +obj-y	+= fbdev.o
 
 
 _______________________________________________
