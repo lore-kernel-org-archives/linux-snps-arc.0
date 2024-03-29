@@ -4,146 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C29BCD1283
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 29 Mar 2024 21:49:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 598E8CD1283
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 29 Mar 2024 22:14:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=jjyFtdq8FecQpm7PhuXlg6g5RZ+yJHvbsrKK1yuuatM=; b=NqRzMCJwHSVtsi
-	poyyrzz6WLfaqMnD+yQRSrUzHxfgJn6xBAdHWUTZYFyyh/oP1FME4UFb+e+raY/DAccxiL9NB1hYz
-	afutd6FkwrdOsZDVPY6HGI46yI10mhvfdrjGN8sSGmrZsAKJkoh4/TfU2KfDzpuchzIW1OP2QK82a
-	QpVbMAll1EjShRj17qxcavjKXof9VLdLmQyREEsJlKwdXQl8QXStumodTla5asHUtlNJndqTSasJQ
-	lhsv+e9cjkMJacrQv0NgGBP5Lt8HSU1p6rZBWnF+UbUbSijznkb8jB7xC6VB9nPYEmuSLFRhLcPmO
-	RD6q9T/ZwKiNKrD1fGUQ==;
+	List-Owner; bh=S88Qh6ZjWd7uoeVd6eUxwWHb9Cj3INFRmjEiqqNdkPo=; b=XZ31slTtPhpQEq
+	ZIvYVWGFJGvT0DaI50+IwVbraQN8+Ji2+2Chkn4aH2PmWBtwK/r/TWOLdZJFzJOq745PMJ0P2YW4o
+	QkKAB41erYFxxEQrzNBC/42WuHO6IseCYlm/Dfru7p0mVHCzpBW6byBtLTbmGJJmHeGBBdnt1aOAv
+	RUe3+sT1xMcLtBPPid9jWA4fliGKDITRE8U5weZh8QXQKTPo7cX5UxChUrmgfBxp6J10zVOovjEPf
+	7JFUSPO5sdItqi0QqvwbxBA7NvPleYMVUbqvgwnhg7oh8iqmq/mPYSaPbeEtsFtz+n5Ju2USEZbEU
+	neMAxOUQG9zLJHRu1Whg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rqK6M-000000026hG-0igp;
-	Fri, 29 Mar 2024 21:49:30 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1rqKUm-000000029ip-2vxP;
+	Fri, 29 Mar 2024 22:14:44 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rqIwJ-00000001um5-2AD8;
-	Fri, 29 Mar 2024 20:35:12 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E30ED5CAD0;
-	Fri, 29 Mar 2024 20:35:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711744500; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bco5nPUaHMrSgY6j/Seo6orLpynLXVjb/8rV94Hb23o=;
-	b=BEH6k13Fm6/PU2cMC2+bp//nWdvY9zIRQfIsyQ5gQiaVX0lFnSiNf1h5/6YZihpL4C0TEI
-	lKgEhfmMt2IJeWnXvb31kGRTSA/oWpwaea4++t1gJKStPMBNbJUOTfovf2/NLrsja+uJYt
-	hld51KxaK3fhnQbBd2+4HYclVSPPKa8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711744500;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bco5nPUaHMrSgY6j/Seo6orLpynLXVjb/8rV94Hb23o=;
-	b=DYl3wj2R3rJZx3F5OiXkO8tUlH775X765GSN+KcLe3BI3He7N/3ue+etLabQ/M61Eao88A
-	6XNGfIuup87xRbBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=none
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id CB02313A8B;
-	Fri, 29 Mar 2024 20:34:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id iAMwMPMlB2YTPgAAn2gu4w
-	(envelope-from <tzimmermann@suse.de>); Fri, 29 Mar 2024 20:34:59 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: arnd@arndb.de,
-	sam@ravnborg.org,
-	javierm@redhat.com,
-	deller@gmx.de,
-	sui.jingfeng@linux.dev
-Cc: linux-arch@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-parisc@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org,
-	loongarch@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
+	id 1rqKUi-000000029hm-3mkr
+	for linux-snps-arc@lists.infradead.org;
+	Fri, 29 Mar 2024 22:14:43 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id F12EDCE3101;
+	Fri, 29 Mar 2024 22:14:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE32EC433C7;
+	Fri, 29 Mar 2024 22:14:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711750476;
+	bh=dKDPe7B9dEWJewRnbiLgD4Bln99u6/3pg6yCpafqg7s=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=RNOWxZAQtBI101BtGTLaZ2x7N0vyDZ9GfWQCyMBnhI/d90hHttxc61HZlY2KoPKpI
+	 daJee32EVcyNUkpTOWy7oU0NX+ruT2O5N5QhHZgWXSsisJ/JYzS52FqYkfoeLH8o+X
+	 wAjO+PqzLRlPl3ZMG1eM9oD93nixLGkWSPrGVDjEIOUz8tHwkcFlWQLOBj3jmKFyil
+	 7pM0LsNvGv+47rdfSIF3vXrE5uZW6M7/hmCR6pm9VDqwZdlvMOwMfPQkepcaOyyyJX
+	 M3stJDGd8hnWOWBx1Xqxt7CLxCydDUS3c1vr8GYrNJ0T2XmAQKsMIZcn1rS2zQ+2GI
+	 AhfK2nWasJKpA==
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Vineet Gupta <vgupta@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>,
 	linux-snps-arc@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Vineet Gupta <vgupta@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Rich Felker <dalias@libc.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>
-Subject: [PATCH v3 3/3] arch: Rename fbdev header and source files
-Date: Fri, 29 Mar 2024 21:32:12 +0100
-Message-ID: <20240329203450.7824-4-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240329203450.7824-1-tzimmermann@suse.de>
-References: <20240329203450.7824-1-tzimmermann@suse.de>
+	Bjorn Helgaas <bhelgaas@google.com>
+Subject: [PATCH v2] ARC: Fix typos
+Date: Fri, 29 Mar 2024 17:14:32 -0500
+Message-Id: <20240329221432.1658516-1-helgaas@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <e5bacec0-28ca-4cd9-9ffe-92feaf5fbfef@kernel.org>
+References: <e5bacec0-28ca-4cd9-9ffe-92feaf5fbfef@kernel.org>
 MIME-Version: 1.0
-X-Spamd-Bar: ++
-X-Spamd-Result: default: False [2.89 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 R_RATELIMIT(0.00)[to_ip_from(RL8bnzzinbm939qqjaserdumcx)];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 MX_GOOD(-0.01)[];
-	 NEURAL_HAM_SHORT(-0.20)[-0.999];
-	 FREEMAIL_TO(0.00)[arndb.de,ravnborg.org,redhat.com,gmx.de,linux.dev];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 R_DKIM_NA(2.20)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-3.00)[100.00%];
-	 ARC_NA(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:98:from];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_TWELVE(0.00)[40];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.ozlabs.org,lists.linux-m68k.org,lists.linux.dev,lists.infradead.org,suse.de,kernel.org,arm.com,xen0n.name,linux-m68k.org,alpha.franken.de,HansenPartnership.com,ellerman.id.au,gmail.com,users.sourceforge.jp,libc.org,physik.fu-berlin.de,davemloft.net,gaisler.com,linutronix.de,redhat.com,alien8.de,linux.intel.com,zytor.com];
-	 RCVD_TLS_ALL(0.00)[]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: E30ED5CAD0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240329_133503_923726_6E5BD90C 
-X-CRM114-Status: GOOD (  23.67  )
+X-CRM114-CacheID: sfid-20240329_151441_310751_A85F2989 
+X-CRM114-Status: GOOD (  27.32  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -160,503 +74,495 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The per-architecture fbdev code has no dependencies on fbdev and can
-be used for any video-related subsystem. Rename the files to 'video'.
-Use video-sti.c on parisc as the source file depends on CONFIG_STI_CORE.
+From: Bjorn Helgaas <bhelgaas@google.com>
 
-On arc, arm, arm64, sh, and um the asm header file is an empty wrapper
-around the file in asm-generic. Let Kbuild generate the file. The build
-system does this automatically. Only um needs to generate video.h
-explicitly, so that it overrides the host architecture's header. The
-latter would otherwise interfere with the build.
+Fix typos, most reported by "codespell arch/arc".  Only touches comments,
+no code changes.
 
-Further update all includes statements, include guards, and Makefiles.
-Also update a few strings and comments to refer to video instead of
-fbdev.
-
-v3:
-- arc, arm, arm64, sh: generate asm header via build system (Sam,
-Helge, Arnd)
-- um: rename fb.h to video.h
-- fix typo in commit message (Sam)
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Vineet Gupta <vgupta@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Huacai Chen <chenhuacai@kernel.org>
-Cc: WANG Xuerui <kernel@xen0n.name>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Cc: Helge Deller <deller@gmx.de>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Nicholas Piggin <npiggin@gmail.com>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: Rich Felker <dalias@libc.org>
-Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Andreas Larsson <andreas@gaisler.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: x86@kernel.org
-Cc: "H. Peter Anvin" <hpa@zytor.com>
+Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
 ---
- arch/arc/include/asm/fb.h                    |  8 --------
- arch/arm/include/asm/fb.h                    |  6 ------
- arch/arm64/include/asm/fb.h                  | 10 ----------
- arch/loongarch/include/asm/{fb.h => video.h} |  8 ++++----
- arch/m68k/include/asm/{fb.h => video.h}      |  8 ++++----
- arch/mips/include/asm/{fb.h => video.h}      | 12 ++++++------
- arch/parisc/include/asm/{fb.h => video.h}    |  8 ++++----
- arch/parisc/video/Makefile                   |  2 +-
- arch/parisc/video/{fbdev.c => video-sti.c}   |  2 +-
- arch/powerpc/include/asm/{fb.h => video.h}   |  8 ++++----
- arch/powerpc/kernel/pci-common.c             |  2 +-
- arch/sh/include/asm/fb.h                     |  7 -------
- arch/sparc/include/asm/{fb.h => video.h}     |  8 ++++----
- arch/sparc/video/Makefile                    |  2 +-
- arch/sparc/video/{fbdev.c => video.c}        |  4 ++--
- arch/um/include/asm/Kbuild                   |  2 +-
- arch/x86/include/asm/{fb.h => video.h}       |  8 ++++----
- arch/x86/video/Makefile                      |  2 +-
- arch/x86/video/{fbdev.c => video.c}          |  3 ++-
- include/asm-generic/Kbuild                   |  2 +-
- include/asm-generic/{fb.h => video.h}        |  6 +++---
- include/linux/fb.h                           |  2 +-
- 22 files changed, 45 insertions(+), 75 deletions(-)
- delete mode 100644 arch/arc/include/asm/fb.h
- delete mode 100644 arch/arm/include/asm/fb.h
- delete mode 100644 arch/arm64/include/asm/fb.h
- rename arch/loongarch/include/asm/{fb.h => video.h} (86%)
- rename arch/m68k/include/asm/{fb.h => video.h} (86%)
- rename arch/mips/include/asm/{fb.h => video.h} (76%)
- rename arch/parisc/include/asm/{fb.h => video.h} (68%)
- rename arch/parisc/video/{fbdev.c => video-sti.c} (96%)
- rename arch/powerpc/include/asm/{fb.h => video.h} (76%)
- delete mode 100644 arch/sh/include/asm/fb.h
- rename arch/sparc/include/asm/{fb.h => video.h} (89%)
- rename arch/sparc/video/{fbdev.c => video.c} (86%)
- rename arch/x86/include/asm/{fb.h => video.h} (77%)
- rename arch/x86/video/{fbdev.c => video.c} (97%)
- rename include/asm-generic/{fb.h => video.h} (96%)
+ arch/arc/boot/Makefile                    |  4 ++--
+ arch/arc/boot/dts/axc003.dtsi             |  4 ++--
+ arch/arc/boot/dts/vdk_axs10x_mb.dtsi      |  2 +-
+ arch/arc/include/asm/dsp.h                |  2 +-
+ arch/arc/include/asm/entry-compact.h      | 10 +++++-----
+ arch/arc/include/asm/entry.h              |  4 ++--
+ arch/arc/include/asm/irq.h                |  2 +-
+ arch/arc/include/asm/irqflags-compact.h   |  2 +-
+ arch/arc/include/asm/mmu_context.h        |  2 +-
+ arch/arc/include/asm/pgtable-bits-arcv2.h |  2 +-
+ arch/arc/include/asm/shmparam.h           |  2 +-
+ arch/arc/include/asm/smp.h                |  4 ++--
+ arch/arc/include/asm/thread_info.h        |  2 +-
+ arch/arc/include/uapi/asm/swab.h          |  2 +-
+ arch/arc/kernel/entry-arcv2.S             |  8 ++++----
+ arch/arc/kernel/entry.S                   |  4 ++--
+ arch/arc/kernel/head.S                    |  2 +-
+ arch/arc/kernel/intc-arcv2.c              |  2 +-
+ arch/arc/kernel/perf_event.c              |  2 +-
+ arch/arc/kernel/setup.c                   |  2 +-
+ arch/arc/kernel/signal.c                  |  7 ++++---
+ arch/arc/kernel/traps.c                   |  2 +-
+ arch/arc/kernel/vmlinux.lds.S             |  4 ++--
+ arch/arc/mm/tlb.c                         |  4 ++--
+ arch/arc/mm/tlbex.S                       |  8 ++++----
+ 25 files changed, 45 insertions(+), 44 deletions(-)
 
-diff --git a/arch/arc/include/asm/fb.h b/arch/arc/include/asm/fb.h
-deleted file mode 100644
-index 9c2383d29cbb9..0000000000000
---- a/arch/arc/include/asm/fb.h
-+++ /dev/null
-@@ -1,8 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--
--#ifndef _ASM_FB_H_
--#define _ASM_FB_H_
--
--#include <asm-generic/fb.h>
--
--#endif /* _ASM_FB_H_ */
-diff --git a/arch/arm/include/asm/fb.h b/arch/arm/include/asm/fb.h
-deleted file mode 100644
-index ce20a43c30339..0000000000000
---- a/arch/arm/include/asm/fb.h
-+++ /dev/null
-@@ -1,6 +0,0 @@
--#ifndef _ASM_FB_H_
--#define _ASM_FB_H_
--
--#include <asm-generic/fb.h>
--
--#endif /* _ASM_FB_H_ */
-diff --git a/arch/arm64/include/asm/fb.h b/arch/arm64/include/asm/fb.h
-deleted file mode 100644
-index 1a495d8fb2ce0..0000000000000
---- a/arch/arm64/include/asm/fb.h
-+++ /dev/null
-@@ -1,10 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * Copyright (C) 2012 ARM Ltd.
-- */
--#ifndef __ASM_FB_H_
--#define __ASM_FB_H_
--
--#include <asm-generic/fb.h>
--
--#endif /* __ASM_FB_H_ */
-diff --git a/arch/loongarch/include/asm/fb.h b/arch/loongarch/include/asm/video.h
-similarity index 86%
-rename from arch/loongarch/include/asm/fb.h
-rename to arch/loongarch/include/asm/video.h
-index 0b218b10a9ec3..9f76845f2d4fd 100644
---- a/arch/loongarch/include/asm/fb.h
-+++ b/arch/loongarch/include/asm/video.h
-@@ -2,8 +2,8 @@
- /*
-  * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
-  */
--#ifndef _ASM_FB_H_
--#define _ASM_FB_H_
-+#ifndef _ASM_VIDEO_H_
-+#define _ASM_VIDEO_H_
+diff --git a/arch/arc/boot/Makefile b/arch/arc/boot/Makefile
+index 5648748c285f..5a8550124b73 100644
+--- a/arch/arc/boot/Makefile
++++ b/arch/arc/boot/Makefile
+@@ -1,8 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0
  
- #include <linux/compiler.h>
- #include <linux/string.h>
-@@ -26,6 +26,6 @@ static inline void fb_memset_io(volatile void __iomem *addr, int c, size_t n)
- }
- #define fb_memset fb_memset_io
+-# uImage build relies on mkimage being availble on your host for ARC target
++# uImage build relies on mkimage being available on your host for ARC target
+ # You will need to build u-boot for ARC, rename mkimage to arc-elf32-mkimage
+-# and make sure it's reacable from your PATH
++# and make sure it's reachable from your PATH
  
--#include <asm-generic/fb.h>
-+#include <asm-generic/video.h>
+ OBJCOPYFLAGS= -O binary -R .note -R .note.gnu.build-id -R .comment -S
  
--#endif /* _ASM_FB_H_ */
-+#endif /* _ASM_VIDEO_H_ */
-diff --git a/arch/m68k/include/asm/fb.h b/arch/m68k/include/asm/video.h
-similarity index 86%
-rename from arch/m68k/include/asm/fb.h
-rename to arch/m68k/include/asm/video.h
-index 9941b7434b696..6cf2194c413d8 100644
---- a/arch/m68k/include/asm/fb.h
-+++ b/arch/m68k/include/asm/video.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
--#ifndef _ASM_FB_H_
--#define _ASM_FB_H_
-+#ifndef _ASM_VIDEO_H_
-+#define _ASM_VIDEO_H_
- 
- #include <asm/page.h>
- #include <asm/setup.h>
-@@ -27,6 +27,6 @@ static inline pgprot_t pgprot_framebuffer(pgprot_t prot,
- }
- #define pgprot_framebuffer pgprot_framebuffer
- 
--#include <asm-generic/fb.h>
-+#include <asm-generic/video.h>
- 
--#endif /* _ASM_FB_H_ */
-+#endif /* _ASM_VIDEO_H_ */
-diff --git a/arch/mips/include/asm/fb.h b/arch/mips/include/asm/video.h
-similarity index 76%
-rename from arch/mips/include/asm/fb.h
-rename to arch/mips/include/asm/video.h
-index d98d6681d64ec..007c106d980fd 100644
---- a/arch/mips/include/asm/fb.h
-+++ b/arch/mips/include/asm/video.h
-@@ -1,5 +1,5 @@
--#ifndef _ASM_FB_H_
--#define _ASM_FB_H_
-+#ifndef _ASM_VIDEO_H_
-+#define _ASM_VIDEO_H_
- 
- #include <asm/page.h>
- 
-@@ -13,8 +13,8 @@ static inline pgprot_t pgprot_framebuffer(pgprot_t prot,
- 
- /*
-  * MIPS doesn't define __raw_ I/O macros, so the helpers
-- * in <asm-generic/fb.h> don't generate fb_readq() and
-- * fb_write(). We have to provide them here.
-+ * in <asm-generic/video.h> don't generate fb_readq() and
-+ * fb_writeq(). We have to provide them here.
-  *
-  * TODO: Convert MIPS to generic I/O. The helpers below can
-  *       then be removed.
-@@ -33,6 +33,6 @@ static inline void fb_writeq(u64 b, volatile void __iomem *addr)
- #define fb_writeq fb_writeq
- #endif
- 
--#include <asm-generic/fb.h>
-+#include <asm-generic/video.h>
- 
--#endif /* _ASM_FB_H_ */
-+#endif /* _ASM_VIDEO_H_ */
-diff --git a/arch/parisc/include/asm/fb.h b/arch/parisc/include/asm/video.h
-similarity index 68%
-rename from arch/parisc/include/asm/fb.h
-rename to arch/parisc/include/asm/video.h
-index ed2a195a3e762..c5dff3223194a 100644
---- a/arch/parisc/include/asm/fb.h
-+++ b/arch/parisc/include/asm/video.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
--#ifndef _ASM_FB_H_
--#define _ASM_FB_H_
-+#ifndef _ASM_VIDEO_H_
-+#define _ASM_VIDEO_H_
- 
- #include <linux/types.h>
- 
-@@ -11,6 +11,6 @@ bool video_is_primary_device(struct device *dev);
- #define video_is_primary_device video_is_primary_device
- #endif
- 
--#include <asm-generic/fb.h>
-+#include <asm-generic/video.h>
- 
--#endif /* _ASM_FB_H_ */
-+#endif /* _ASM_VIDEO_H_ */
-diff --git a/arch/parisc/video/Makefile b/arch/parisc/video/Makefile
-index 16a73cce46612..b5db5b42880f8 100644
---- a/arch/parisc/video/Makefile
-+++ b/arch/parisc/video/Makefile
-@@ -1,3 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
--obj-$(CONFIG_STI_CORE) += fbdev.o
-+obj-$(CONFIG_STI_CORE) += video-sti.o
-diff --git a/arch/parisc/video/fbdev.c b/arch/parisc/video/video-sti.c
-similarity index 96%
-rename from arch/parisc/video/fbdev.c
-rename to arch/parisc/video/video-sti.c
-index 540fa0c919d59..564661e87093c 100644
---- a/arch/parisc/video/fbdev.c
-+++ b/arch/parisc/video/video-sti.c
-@@ -9,7 +9,7 @@
- 
- #include <video/sticore.h>
- 
--#include <asm/fb.h>
-+#include <asm/video.h>
- 
- bool video_is_primary_device(struct device *dev)
- {
-diff --git a/arch/powerpc/include/asm/fb.h b/arch/powerpc/include/asm/video.h
-similarity index 76%
-rename from arch/powerpc/include/asm/fb.h
-rename to arch/powerpc/include/asm/video.h
-index c0c5d1df7ad1e..e1770114ffc36 100644
---- a/arch/powerpc/include/asm/fb.h
-+++ b/arch/powerpc/include/asm/video.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
--#ifndef _ASM_FB_H_
--#define _ASM_FB_H_
-+#ifndef _ASM_VIDEO_H_
-+#define _ASM_VIDEO_H_
- 
- #include <asm/page.h>
- 
-@@ -12,6 +12,6 @@ static inline pgprot_t pgprot_framebuffer(pgprot_t prot,
- }
- #define pgprot_framebuffer pgprot_framebuffer
- 
--#include <asm-generic/fb.h>
-+#include <asm-generic/video.h>
- 
--#endif /* _ASM_FB_H_ */
-+#endif /* _ASM_VIDEO_H_ */
-diff --git a/arch/powerpc/kernel/pci-common.c b/arch/powerpc/kernel/pci-common.c
-index d95a48eff412e..eac84d687b53f 100644
---- a/arch/powerpc/kernel/pci-common.c
-+++ b/arch/powerpc/kernel/pci-common.c
-@@ -517,7 +517,7 @@ int pci_iobar_pfn(struct pci_dev *pdev, int bar, struct vm_area_struct *vma)
- }
- 
- /*
-- * This one is used by /dev/mem and fbdev who have no clue about the
-+ * This one is used by /dev/mem and video who have no clue about the
-  * PCI device, it tries to find the PCI device first and calls the
-  * above routine
-  */
-diff --git a/arch/sh/include/asm/fb.h b/arch/sh/include/asm/fb.h
-deleted file mode 100644
-index 19df13ee9ca73..0000000000000
---- a/arch/sh/include/asm/fb.h
-+++ /dev/null
-@@ -1,7 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--#ifndef _ASM_FB_H_
--#define _ASM_FB_H_
--
--#include <asm-generic/fb.h>
--
--#endif /* _ASM_FB_H_ */
-diff --git a/arch/sparc/include/asm/fb.h b/arch/sparc/include/asm/video.h
-similarity index 89%
-rename from arch/sparc/include/asm/fb.h
-rename to arch/sparc/include/asm/video.h
-index 07f0325d6921c..a6f48f52db584 100644
---- a/arch/sparc/include/asm/fb.h
-+++ b/arch/sparc/include/asm/video.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
--#ifndef _SPARC_FB_H_
--#define _SPARC_FB_H_
-+#ifndef _SPARC_VIDEO_H_
-+#define _SPARC_VIDEO_H_
- 
- #include <linux/io.h>
- #include <linux/types.h>
-@@ -40,6 +40,6 @@ static inline void fb_memset_io(volatile void __iomem *addr, int c, size_t n)
- }
- #define fb_memset fb_memset_io
- 
--#include <asm-generic/fb.h>
-+#include <asm-generic/video.h>
- 
--#endif /* _SPARC_FB_H_ */
-+#endif /* _SPARC_VIDEO_H_ */
-diff --git a/arch/sparc/video/Makefile b/arch/sparc/video/Makefile
-index 9dd82880a027a..fdf83a408d750 100644
---- a/arch/sparc/video/Makefile
-+++ b/arch/sparc/video/Makefile
-@@ -1,3 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
--obj-y	+= fbdev.o
-+obj-y	+= video.o
-diff --git a/arch/sparc/video/fbdev.c b/arch/sparc/video/video.c
-similarity index 86%
-rename from arch/sparc/video/fbdev.c
-rename to arch/sparc/video/video.c
-index e46f0499c2774..2414380caadc9 100644
---- a/arch/sparc/video/fbdev.c
-+++ b/arch/sparc/video/video.c
-@@ -4,8 +4,8 @@
- #include <linux/device.h>
- #include <linux/module.h>
- 
--#include <asm/fb.h>
- #include <asm/prom.h>
-+#include <asm/video.h>
- 
- bool video_is_primary_device(struct device *dev)
- {
-@@ -21,5 +21,5 @@ bool video_is_primary_device(struct device *dev)
- }
- EXPORT_SYMBOL(video_is_primary_device);
- 
--MODULE_DESCRIPTION("Sparc fbdev helpers");
-+MODULE_DESCRIPTION("Sparc video helpers");
- MODULE_LICENSE("GPL");
-diff --git a/arch/um/include/asm/Kbuild b/arch/um/include/asm/Kbuild
-index b2d834a29f3a9..6fe34779291a8 100644
---- a/arch/um/include/asm/Kbuild
-+++ b/arch/um/include/asm/Kbuild
-@@ -8,7 +8,6 @@ generic-y += dma-mapping.h
- generic-y += emergency-restart.h
- generic-y += exec.h
- generic-y += extable.h
--generic-y += fb.h
- generic-y += ftrace.h
- generic-y += hw_irq.h
- generic-y += irq_regs.h
-@@ -28,3 +27,4 @@ generic-y += trace_clock.h
- generic-y += kprobes.h
- generic-y += mm_hooks.h
- generic-y += vga.h
-+generic-y += video.h
-diff --git a/arch/x86/include/asm/fb.h b/arch/x86/include/asm/video.h
-similarity index 77%
-rename from arch/x86/include/asm/fb.h
-rename to arch/x86/include/asm/video.h
-index 999db33792869..0950c9535fae9 100644
---- a/arch/x86/include/asm/fb.h
-+++ b/arch/x86/include/asm/video.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
--#ifndef _ASM_X86_FB_H
--#define _ASM_X86_FB_H
-+#ifndef _ASM_X86_VIDEO_H
-+#define _ASM_X86_VIDEO_H
- 
- #include <linux/types.h>
- 
-@@ -16,6 +16,6 @@ pgprot_t pgprot_framebuffer(pgprot_t prot,
- bool video_is_primary_device(struct device *dev);
- #define video_is_primary_device video_is_primary_device
- 
--#include <asm-generic/fb.h>
-+#include <asm-generic/video.h>
- 
--#endif /* _ASM_X86_FB_H */
-+#endif /* _ASM_X86_VIDEO_H */
-diff --git a/arch/x86/video/Makefile b/arch/x86/video/Makefile
-index 9dd82880a027a..fdf83a408d750 100644
---- a/arch/x86/video/Makefile
-+++ b/arch/x86/video/Makefile
-@@ -1,3 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
--obj-y	+= fbdev.o
-+obj-y	+= video.o
-diff --git a/arch/x86/video/fbdev.c b/arch/x86/video/video.c
-similarity index 97%
-rename from arch/x86/video/fbdev.c
-rename to arch/x86/video/video.c
-index 4d87ce8e257fe..81fc97a2a837a 100644
---- a/arch/x86/video/fbdev.c
-+++ b/arch/x86/video/video.c
-@@ -10,7 +10,8 @@
- #include <linux/module.h>
- #include <linux/pci.h>
- #include <linux/vgaarb.h>
--#include <asm/fb.h>
-+
-+#include <asm/video.h>
- 
- pgprot_t pgprot_framebuffer(pgprot_t prot,
- 			    unsigned long vm_start, unsigned long vm_end,
-diff --git a/include/asm-generic/Kbuild b/include/asm-generic/Kbuild
-index d436bee4d129d..b20fa25a7e8d8 100644
---- a/include/asm-generic/Kbuild
-+++ b/include/asm-generic/Kbuild
-@@ -22,7 +22,6 @@ mandatory-y += dma-mapping.h
- mandatory-y += dma.h
- mandatory-y += emergency-restart.h
- mandatory-y += exec.h
--mandatory-y += fb.h
- mandatory-y += ftrace.h
- mandatory-y += futex.h
- mandatory-y += hardirq.h
-@@ -62,5 +61,6 @@ mandatory-y += uaccess.h
- mandatory-y += unaligned.h
- mandatory-y += vermagic.h
- mandatory-y += vga.h
-+mandatory-y += video.h
- mandatory-y += word-at-a-time.h
- mandatory-y += xor.h
-diff --git a/include/asm-generic/fb.h b/include/asm-generic/video.h
-similarity index 96%
-rename from include/asm-generic/fb.h
-rename to include/asm-generic/video.h
-index 4788c1e1c6bc0..b1da2309d9434 100644
---- a/include/asm-generic/fb.h
-+++ b/include/asm-generic/video.h
-@@ -1,7 +1,7 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- 
--#ifndef __ASM_GENERIC_FB_H_
--#define __ASM_GENERIC_FB_H_
-+#ifndef __ASM_GENERIC_VIDEO_H_
-+#define __ASM_GENERIC_VIDEO_H_
- 
- /*
-  * Only include this header file from your architecture's <asm/fb.h>.
-@@ -133,4 +133,4 @@ static inline void fb_memset_io(volatile void __iomem *addr, int c, size_t n)
- #define fb_memset fb_memset_io
- #endif
- 
--#endif /* __ASM_GENERIC_FB_H_ */
-+#endif /* __ASM_GENERIC_VIDEO_H_ */
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 3417103885e27..0f0834939b6a9 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
+diff --git a/arch/arc/boot/dts/axc003.dtsi b/arch/arc/boot/dts/axc003.dtsi
+index 3434c8131ecd..c0a812674ce9 100644
+--- a/arch/arc/boot/dts/axc003.dtsi
++++ b/arch/arc/boot/dts/axc003.dtsi
+@@ -119,9 +119,9 @@ mmc@15000 {
+ 	/*
+ 	 * The DW APB ICTL intc on MB is connected to CPU intc via a
+ 	 * DT "invisible" DW APB GPIO block, configured to simply pass thru
+-	 * interrupts - setup accordinly in platform init (plat-axs10x/ax10x.c)
++	 * interrupts - setup accordingly in platform init (plat-axs10x/ax10x.c)
+ 	 *
+-	 * So here we mimic a direct connection betwen them, ignoring the
++	 * So here we mimic a direct connection between them, ignoring the
+ 	 * ABPG GPIO. Thus set "interrupts = <24>" (DW APB GPIO to core)
+ 	 * instead of "interrupts = <12>" (DW APB ICTL to DW APB GPIO)
+ 	 *
+diff --git a/arch/arc/boot/dts/vdk_axs10x_mb.dtsi b/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
+index 90a412026e64..0e0e2d337bf8 100644
+--- a/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
++++ b/arch/arc/boot/dts/vdk_axs10x_mb.dtsi
+@@ -113,7 +113,7 @@ mmc@15000 {
+ 	/*
+ 	 * Embedded Vision subsystem UIO mappings; only relevant for EV VDK
+ 	 *
+-	 * This node is intentionally put outside of MB above becase
++	 * This node is intentionally put outside of MB above because
+ 	 * it maps areas outside of MB's 0xez-0xfz.
+ 	 */
+ 	uio_ev: uio@d0000000 {
+diff --git a/arch/arc/include/asm/dsp.h b/arch/arc/include/asm/dsp.h
+index 202c78e56704..f496dbc4640b 100644
+--- a/arch/arc/include/asm/dsp.h
++++ b/arch/arc/include/asm/dsp.h
 @@ -12,7 +12,7 @@
- #include <linux/types.h>
- #include <linux/workqueue.h>
+ /*
+  * DSP-related saved registers - need to be saved only when you are
+  * scheduled out.
+- * structure fields name must correspond to aux register defenitions for
++ * structure fields name must correspond to aux register definitions for
+  * automatic offset calculation in DSP_AUX_SAVE_RESTORE macros
+  */
+ struct dsp_callee_regs {
+diff --git a/arch/arc/include/asm/entry-compact.h b/arch/arc/include/asm/entry-compact.h
+index 92c3e9f13252..00946fe04c9b 100644
+--- a/arch/arc/include/asm/entry-compact.h
++++ b/arch/arc/include/asm/entry-compact.h
+@@ -7,7 +7,7 @@
+  *  Stack switching code can no longer reliably rely on the fact that
+  *  if we are NOT in user mode, stack is switched to kernel mode.
+  *  e.g. L2 IRQ interrupted a L1 ISR which had not yet completed
+- *  it's prologue including stack switching from user mode
++ *  its prologue including stack switching from user mode
+  *
+  * Vineetg: Aug 28th 2008: Bug #94984
+  *  -Zero Overhead Loop Context shd be cleared when entering IRQ/EXcp/Trap
+@@ -143,7 +143,7 @@
+ 	 * 2. L1 IRQ taken, ISR starts (CPU auto-switched to KERNEL mode)
+ 	 * 3. But before it could switch SP from USER to KERNEL stack
+ 	 *      a L2 IRQ "Interrupts" L1
+-	 * Thay way although L2 IRQ happened in Kernel mode, stack is still
++	 * That way although L2 IRQ happened in Kernel mode, stack is still
+ 	 * not switched.
+ 	 * To handle this, we may need to switch stack even if in kernel mode
+ 	 * provided SP has values in range of USER mode stack ( < 0x7000_0000 )
+@@ -173,7 +173,7 @@
  
--#include <asm/fb.h>
-+#include <asm/video.h>
+ 	GET_CURR_TASK_ON_CPU   r9
  
- struct backlight_device;
- struct device;
+-	/* With current tsk in r9, get it's kernel mode stack base */
++	/* With current tsk in r9, get its kernel mode stack base */
+ 	GET_TSK_STACK_BASE  r9, r9
+ 
+ 	/* save U mode SP @ pt_regs->sp */
+@@ -282,7 +282,7 @@
+  * NOTE:
+  *
+  * It is recommended that lp_count/ilink1/ilink2 not be used as a dest reg
+- * for memory load operations. If used in that way interrupts are deffered
++ * for memory load operations. If used in that way interrupts are deferred
+  * by hardware and that is not good.
+  *-------------------------------------------------------------*/
+ .macro EXCEPTION_EPILOGUE
+@@ -350,7 +350,7 @@
+  * NOTE:
+  *
+  * It is recommended that lp_count/ilink1/ilink2 not be used as a dest reg
+- * for memory load operations. If used in that way interrupts are deffered
++ * for memory load operations. If used in that way interrupts are deferred
+  * by hardware and that is not good.
+  *-------------------------------------------------------------*/
+ .macro INTERRUPT_EPILOGUE  LVL
+diff --git a/arch/arc/include/asm/entry.h b/arch/arc/include/asm/entry.h
+index cf1ba376e992..38c35722cebf 100644
+--- a/arch/arc/include/asm/entry.h
++++ b/arch/arc/include/asm/entry.h
+@@ -7,7 +7,7 @@
+ #ifndef __ASM_ARC_ENTRY_H
+ #define __ASM_ARC_ENTRY_H
+ 
+-#include <asm/unistd.h>		/* For NR_syscalls defination */
++#include <asm/unistd.h>		/* For NR_syscalls definition */
+ #include <asm/arcregs.h>
+ #include <asm/ptrace.h>
+ #include <asm/processor.h>	/* For VMALLOC_START */
+@@ -56,7 +56,7 @@
+ .endm
+ 
+ /*-------------------------------------------------------------
+- * given a tsk struct, get to the base of it's kernel mode stack
++ * given a tsk struct, get to the base of its kernel mode stack
+  * tsk->thread_info is really a PAGE, whose bottom hoists stack
+  * which grows upwards towards thread_info
+  *------------------------------------------------------------*/
+diff --git a/arch/arc/include/asm/irq.h b/arch/arc/include/asm/irq.h
+index c574712ad865..9cd79263acba 100644
+--- a/arch/arc/include/asm/irq.h
++++ b/arch/arc/include/asm/irq.h
+@@ -10,7 +10,7 @@
+  * ARCv2 can support 240 interrupts in the core interrupts controllers and
+  * 128 interrupts in IDU. Thus 512 virtual IRQs must be enough for most
+  * configurations of boards.
+- * This doesnt affect ARCompact, but we change it to same value
++ * This doesn't affect ARCompact, but we change it to same value
+  */
+ #define NR_IRQS		512
+ 
+diff --git a/arch/arc/include/asm/irqflags-compact.h b/arch/arc/include/asm/irqflags-compact.h
+index 0d63e568d64c..936a2f21f315 100644
+--- a/arch/arc/include/asm/irqflags-compact.h
++++ b/arch/arc/include/asm/irqflags-compact.h
+@@ -46,7 +46,7 @@
+  * IRQ Control Macros
+  *
+  * All of them have "memory" clobber (compiler barrier) which is needed to
+- * ensure that LD/ST requiring irq safetly (R-M-W when LLSC is not available)
++ * ensure that LD/ST requiring irq safety (R-M-W when LLSC is not available)
+  * are redone after IRQs are re-enabled (and gcc doesn't reuse stale register)
+  *
+  * Noted at the time of Abilis Timer List corruption
+diff --git a/arch/arc/include/asm/mmu_context.h b/arch/arc/include/asm/mmu_context.h
+index dda471f5f05b..9963bb1a5733 100644
+--- a/arch/arc/include/asm/mmu_context.h
++++ b/arch/arc/include/asm/mmu_context.h
+@@ -165,7 +165,7 @@ static inline void switch_mm(struct mm_struct *prev, struct mm_struct *next,
+  * for retiring-mm. However destroy_context( ) still needs to do that because
+  * between mm_release( ) = >deactive_mm( ) and
+  * mmput => .. => __mmdrop( ) => destroy_context( )
+- * there is a good chance that task gets sched-out/in, making it's ASID valid
++ * there is a good chance that task gets sched-out/in, making its ASID valid
+  * again (this teased me for a whole day).
+  */
+ 
+diff --git a/arch/arc/include/asm/pgtable-bits-arcv2.h b/arch/arc/include/asm/pgtable-bits-arcv2.h
+index f3eea3f30b2e..8ebec1b21d24 100644
+--- a/arch/arc/include/asm/pgtable-bits-arcv2.h
++++ b/arch/arc/include/asm/pgtable-bits-arcv2.h
+@@ -66,7 +66,7 @@
+  * Other rules which cause the divergence from 1:1 mapping
+  *
+  *  1. Although ARC700 can do exclusive execute/write protection (meaning R
+- *     can be tracked independet of X/W unlike some other CPUs), still to
++ *     can be tracked independently of X/W unlike some other CPUs), still to
+  *     keep things consistent with other archs:
+  *      -Write implies Read:   W => R
+  *      -Execute implies Read: X => R
+diff --git a/arch/arc/include/asm/shmparam.h b/arch/arc/include/asm/shmparam.h
+index 8b0251464ffd..719112af0f41 100644
+--- a/arch/arc/include/asm/shmparam.h
++++ b/arch/arc/include/asm/shmparam.h
+@@ -6,7 +6,7 @@
+ #ifndef __ARC_ASM_SHMPARAM_H
+ #define __ARC_ASM_SHMPARAM_H
+ 
+-/* Handle upto 2 cache bins */
++/* Handle up to 2 cache bins */
+ #define	SHMLBA	(2 * PAGE_SIZE)
+ 
+ /* Enforce SHMLBA in shmat */
+diff --git a/arch/arc/include/asm/smp.h b/arch/arc/include/asm/smp.h
+index e0913f52c2cd..990f834909f0 100644
+--- a/arch/arc/include/asm/smp.h
++++ b/arch/arc/include/asm/smp.h
+@@ -77,7 +77,7 @@ static inline const char *arc_platform_smp_cpuinfo(void)
+ 
+ /*
+  * ARC700 doesn't support atomic Read-Modify-Write ops.
+- * Originally Interrupts had to be disabled around code to gaurantee atomicity.
++ * Originally Interrupts had to be disabled around code to guarantee atomicity.
+  * The LLOCK/SCOND insns allow writing interrupt-hassle-free based atomic ops
+  * based on retry-if-irq-in-atomic (with hardware assist).
+  * However despite these, we provide the IRQ disabling variant
+@@ -86,7 +86,7 @@ static inline const char *arc_platform_smp_cpuinfo(void)
+  *	support needed.
+  *
+  * (2) In a SMP setup, the LLOCK/SCOND atomicity across CPUs needs to be
+- *	gaurantted by the platform (not something which core handles).
++ *	guaranteed by the platform (not something which core handles).
+  *	Assuming a platform won't, SMP Linux needs to use spinlocks + local IRQ
+  *	disabling for atomicity.
+  *
+diff --git a/arch/arc/include/asm/thread_info.h b/arch/arc/include/asm/thread_info.h
+index 4c530cf131f3..12daaf3a61ea 100644
+--- a/arch/arc/include/asm/thread_info.h
++++ b/arch/arc/include/asm/thread_info.h
+@@ -38,7 +38,7 @@
+ struct thread_info {
+ 	unsigned long flags;		/* low level flags */
+ 	unsigned long ksp;		/* kernel mode stack top in __switch_to */
+-	int preempt_count;		/* 0 => preemptable, <0 => BUG */
++	int preempt_count;		/* 0 => preemptible, <0 => BUG */
+ 	int cpu;			/* current CPU */
+ 	unsigned long thr_ptr;		/* TLS ptr */
+ 	struct task_struct *task;	/* main task structure */
+diff --git a/arch/arc/include/uapi/asm/swab.h b/arch/arc/include/uapi/asm/swab.h
+index 02109cd48ee1..8d1f1ef44ba7 100644
+--- a/arch/arc/include/uapi/asm/swab.h
++++ b/arch/arc/include/uapi/asm/swab.h
+@@ -62,7 +62,7 @@
+  * 8051fdc4:	st     r2,[r1,20]	; Mem op : save result back to mem
+  *
+  * Joern suggested a better "C" algorithm which is great since
+- * (1) It is portable to any architecure
++ * (1) It is portable to any architecture
+  * (2) At the same time it takes advantage of ARC ISA (rotate intrns)
+  */
+ 
+diff --git a/arch/arc/kernel/entry-arcv2.S b/arch/arc/kernel/entry-arcv2.S
+index 2e49c81c8086..e238b5fd3c8c 100644
+--- a/arch/arc/kernel/entry-arcv2.S
++++ b/arch/arc/kernel/entry-arcv2.S
+@@ -5,7 +5,7 @@
+  * Copyright (C) 2013 Synopsys, Inc. (www.synopsys.com)
+  */
+ 
+-#include <linux/linkage.h>   /* ARC_{EXTRY,EXIT} */
++#include <linux/linkage.h>   /* ARC_{ENTRY,EXIT} */
+ #include <asm/entry.h>       /* SAVE_ALL_{INT1,INT2,TRAP...} */
+ #include <asm/errno.h>
+ #include <asm/arcregs.h>
+@@ -31,7 +31,7 @@ VECTOR	res_service		; Reset Vector
+ VECTOR	mem_service		; Mem exception
+ VECTOR	instr_service		; Instrn Error
+ VECTOR	EV_MachineCheck		; Fatal Machine check
+-VECTOR	EV_TLBMissI		; Intruction TLB miss
++VECTOR	EV_TLBMissI		; Instruction TLB miss
+ VECTOR	EV_TLBMissD		; Data TLB miss
+ VECTOR	EV_TLBProtV		; Protection Violation
+ VECTOR	EV_PrivilegeV		; Privilege Violation
+@@ -76,11 +76,11 @@ ENTRY(handle_interrupt)
+ 	# query in hard ISR path would return false (since .IE is set) which would
+ 	# trips genirq interrupt handling asserts.
+ 	#
+-	# So do a "soft" disable of interrutps here.
++	# So do a "soft" disable of interrupts here.
+ 	#
+ 	# Note this disable is only for consistent book-keeping as further interrupts
+ 	# will be disabled anyways even w/o this. Hardware tracks active interrupts
+-	# seperately in AUX_IRQ_ACT.active and will not take new interrupts
++	# separately in AUX_IRQ_ACT.active and will not take new interrupts
+ 	# unless this one returns (or higher prio becomes pending in 2-prio scheme)
+ 
+ 	IRQ_DISABLE
+diff --git a/arch/arc/kernel/entry.S b/arch/arc/kernel/entry.S
+index 089f6680518f..3c7e74aba679 100644
+--- a/arch/arc/kernel/entry.S
++++ b/arch/arc/kernel/entry.S
+@@ -95,7 +95,7 @@ ENTRY(EV_MachineCheck)
+ 	lr  r0, [efa]
+ 	mov r1, sp
+ 
+-	; MC excpetions disable MMU
++	; MC exceptions disable MMU
+ 	ARC_MMU_REENABLE r3
+ 
+ 	lsr  	r3, r10, 8
+@@ -209,7 +209,7 @@ trap_with_param:
+ 
+ ; ---------------------------------------------
+ ; syscall TRAP
+-; ABI: (r0-r7) upto 8 args, (r8) syscall number
++; ABI: (r0-r7) up to 8 args, (r8) syscall number
+ ; ---------------------------------------------
+ 
+ ENTRY(EV_Trap)
+diff --git a/arch/arc/kernel/head.S b/arch/arc/kernel/head.S
+index 9152782444b5..8d541f53fae3 100644
+--- a/arch/arc/kernel/head.S
++++ b/arch/arc/kernel/head.S
+@@ -165,7 +165,7 @@ ENTRY(first_lines_of_secondary)
+ 	; setup stack (fp, sp)
+ 	mov	fp, 0
+ 
+-	; set it's stack base to tsk->thread_info bottom
++	; set its stack base to tsk->thread_info bottom
+ 	GET_TSK_STACK_BASE r0, sp
+ 
+ 	j	start_kernel_secondary
+diff --git a/arch/arc/kernel/intc-arcv2.c b/arch/arc/kernel/intc-arcv2.c
+index 678898757e47..f324f0e3341a 100644
+--- a/arch/arc/kernel/intc-arcv2.c
++++ b/arch/arc/kernel/intc-arcv2.c
+@@ -56,7 +56,7 @@ void arc_init_IRQ(void)
+ 	WRITE_AUX(AUX_IRQ_CTRL, ictrl);
+ 
+ 	/*
+-	 * ARCv2 core intc provides multiple interrupt priorities (upto 16).
++	 * ARCv2 core intc provides multiple interrupt priorities (up to 16).
+ 	 * Typical builds though have only two levels (0-high, 1-low)
+ 	 * Linux by default uses lower prio 1 for most irqs, reserving 0 for
+ 	 * NMI style interrupts in future (say perf)
+diff --git a/arch/arc/kernel/perf_event.c b/arch/arc/kernel/perf_event.c
+index adff957962da..6e5a651cd75c 100644
+--- a/arch/arc/kernel/perf_event.c
++++ b/arch/arc/kernel/perf_event.c
+@@ -38,7 +38,7 @@
+  * (based on a specific RTL build)
+  * Below is the static map between perf generic/arc specific event_id and
+  * h/w condition names.
+- * At the time of probe, we loop thru each index and find it's name to
++ * At the time of probe, we loop thru each index and find its name to
+  * complete the mapping of perf event_id to h/w index as latter is needed
+  * to program the counter really
+  */
+diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+index d08a5092c2b4..7b6a9beba9db 100644
+--- a/arch/arc/kernel/setup.c
++++ b/arch/arc/kernel/setup.c
+@@ -390,7 +390,7 @@ static void arc_chk_core_config(struct cpuinfo_arc *info)
+ #ifdef CONFIG_ARC_HAS_DCCM
+ 	/*
+ 	 * DCCM can be arbit placed in hardware.
+-	 * Make sure it's placement/sz matches what Linux is built with
++	 * Make sure its placement/sz matches what Linux is built with
+ 	 */
+ 	if ((unsigned int)__arc_dccm_base != info->dccm.base)
+ 		panic("Linux built with incorrect DCCM Base address\n");
+diff --git a/arch/arc/kernel/signal.c b/arch/arc/kernel/signal.c
+index 8f6f4a542964..fefa705a8638 100644
+--- a/arch/arc/kernel/signal.c
++++ b/arch/arc/kernel/signal.c
+@@ -8,15 +8,16 @@
+  *
+  * vineetg: Nov 2009 (Everything needed for TIF_RESTORE_SIGMASK)
+  *  -do_signal() supports TIF_RESTORE_SIGMASK
+- *  -do_signal() no loner needs oldset, required by OLD sys_sigsuspend
+- *  -sys_rt_sigsuspend() now comes from generic code, so discard arch implemen
++ *  -do_signal() no longer needs oldset, required by OLD sys_sigsuspend
++ *  -sys_rt_sigsuspend() now comes from generic code, so discard arch
++ *   implementation
+  *  -sys_sigsuspend() no longer needs to fudge ptregs, hence that arg removed
+  *  -sys_sigsuspend() no longer loops for do_signal(), sets TIF_xxx and leaves
+  *   the job to do_signal()
+  *
+  * vineetg: July 2009
+  *  -Modified Code to support the uClibc provided userland sigreturn stub
+- *   to avoid kernel synthesing it on user stack at runtime, costing TLB
++ *   to avoid kernel synthesizing it on user stack at runtime, costing TLB
+  *   probes and Cache line flushes.
+  *
+  * vineetg: July 2009
+diff --git a/arch/arc/kernel/traps.c b/arch/arc/kernel/traps.c
+index 9b9570b79362..a19751e824fb 100644
+--- a/arch/arc/kernel/traps.c
++++ b/arch/arc/kernel/traps.c
+@@ -89,7 +89,7 @@ int do_misaligned_access(unsigned long address, struct pt_regs *regs,
+ 
+ /*
+  * Entry point for miscll errors such as Nested Exceptions
+- *  -Duplicate TLB entry is handled seperately though
++ *  -Duplicate TLB entry is handled separately though
+  */
+ void do_machine_check_fault(unsigned long address, struct pt_regs *regs)
+ {
+diff --git a/arch/arc/kernel/vmlinux.lds.S b/arch/arc/kernel/vmlinux.lds.S
+index 549c3f407918..61a1b2b96e1d 100644
+--- a/arch/arc/kernel/vmlinux.lds.S
++++ b/arch/arc/kernel/vmlinux.lds.S
+@@ -41,8 +41,8 @@ SECTIONS
+ #endif
+ 
+ 	/*
+-	 * The reason for having a seperate subsection .init.ramfs is to
+-	 * prevent objump from including it in kernel dumps
++	 * The reason for having a separate subsection .init.ramfs is to
++	 * prevent objdump from including it in kernel dumps
+ 	 *
+ 	 * Reason for having .init.ramfs above .init is to make sure that the
+ 	 * binary blob is tucked away to one side, reducing the displacement
+diff --git a/arch/arc/mm/tlb.c b/arch/arc/mm/tlb.c
+index ad702b49aeb3..cae4a7aae0ed 100644
+--- a/arch/arc/mm/tlb.c
++++ b/arch/arc/mm/tlb.c
+@@ -212,7 +212,7 @@ void local_flush_tlb_range(struct vm_area_struct *vma, unsigned long start,
+ 	unsigned long flags;
+ 
+ 	/* If range @start to @end is more than 32 TLB entries deep,
+-	 * its better to move to a new ASID rather than searching for
++	 * it's better to move to a new ASID rather than searching for
+ 	 * individual entries and then shooting them down
+ 	 *
+ 	 * The calc above is rough, doesn't account for unaligned parts,
+@@ -408,7 +408,7 @@ static void create_tlb(struct vm_area_struct *vma, unsigned long vaddr, pte_t *p
+ 	 * -More importantly it makes this handler inconsistent with fast-path
+ 	 *  TLB Refill handler which always deals with "current"
+ 	 *
+-	 * Lets see the use cases when current->mm != vma->mm and we land here
++	 * Let's see the use cases when current->mm != vma->mm and we land here
+ 	 *  1. execve->copy_strings()->__get_user_pages->handle_mm_fault
+ 	 *     Here VM wants to pre-install a TLB entry for user stack while
+ 	 *     current->mm still points to pre-execve mm (hence the condition).
+diff --git a/arch/arc/mm/tlbex.S b/arch/arc/mm/tlbex.S
+index e054780a8fe0..dc65e87a531f 100644
+--- a/arch/arc/mm/tlbex.S
++++ b/arch/arc/mm/tlbex.S
+@@ -5,19 +5,19 @@
+  * Copyright (C) 2004, 2007-2010, 2011-2012 Synopsys, Inc. (www.synopsys.com)
+  *
+  * Vineetg: April 2011 :
+- *  -MMU v1: moved out legacy code into a seperate file
++ *  -MMU v1: moved out legacy code into a separate file
+  *  -MMU v3: PD{0,1} bits layout changed: They don't overlap anymore,
+  *      helps avoid a shift when preparing PD0 from PTE
+  *
+  * Vineetg: July 2009
+- *  -For MMU V2, we need not do heuristics at the time of commiting a D-TLB
+- *   entry, so that it doesn't knock out it's I-TLB entry
++ *  -For MMU V2, we need not do heuristics at the time of committing a D-TLB
++ *   entry, so that it doesn't knock out its I-TLB entry
+  *  -Some more fine tuning:
+  *   bmsk instead of add, asl.cc instead of branch, delay slot utilise etc
+  *
+  * Vineetg: July 2009
+  *  -Practically rewrote the I/D TLB Miss handlers
+- *   Now 40 and 135 instructions a peice as compared to 131 and 449 resp.
++ *   Now 40 and 135 instructions apiece as compared to 131 and 449 resp.
+  *   Hence Leaner by 1.5 K
+  *   Used Conditional arithmetic to replace excessive branching
+  *   Also used short instructions wherever possible
 -- 
-2.44.0
+2.34.1
 
 
 _______________________________________________
