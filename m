@@ -4,76 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1BC63C4345F
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 15 Apr 2024 10:47:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B6B8C4345F
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 15 Apr 2024 21:08:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=kHQers4puWoVTGh2G7wK4SZMcls5aE7eTRILUA+v8Ms=; b=pjAMKBIEIQWyjz
-	pMs93ZMs/DOt4hYBDc5jXrEgeUIP2yojIatp8srJ1BeCXsQe2SrswmLboJDEbz4XaFIBxZLu4X2o1
-	2brAy+UE5sgRNwH6OvN6bHcPxeKV0L5puYZy4tuVzGJ8R428gc4OqnnJtuamMzu3DNDcUkAyTAszY
-	UBupV/UJCTQ/Ck3tAYaU/PTOsg0xfPCHN9J6fqltNFcw8BP9JTKsfdQQZktf+qDniaZ3t5Z+Wa/hH
-	aTpCpTXcJ5dbojKsY+0zvjD8HmEdW0bvOMt7iWVQOnGAXqiy7zyGTmiUO0rrQpcSprMl7C2lU0pI9
-	iLrd2doD+wDm5M5QLkRg==;
+	List-Owner; bh=6v/45MbCur7DUNhYf8aa3ZQ9hsFxngls4NineFiy2B8=; b=AqP/x1B1Cj6fgy
+	gaZBXP4ZLLJGIBuh9a3D7BJqAC31LacNTgkXEat14+KeaOKqjU8/mrwbHGcidbshK+ZP+VWyrr0NV
+	Xc0gGxPqaQozN1sO7F9gDBwNuo9G+7EJLHbdSIWtxMD/vbQXU0qRwVx8wgPMn0t2/sPCoWgfIev+Q
+	PXldehXPHNK13m8rsPJ/8FMfnvbDZyW/tXmVmj74w4D3P9t4WAzy395LIXrTkgfiywvB3fzoU5KBT
+	sEu+nyWdGgYiHbNMFc3igZZCDR267xCFsfBvtMXrn2vQhlvtFgXT8coCsK9eaqJ5ZLey5s314Wvp9
+	KBqOdc2Nja/XOo8aaRUw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rwJru-00000007uyq-2cMf;
-	Mon, 15 Apr 2024 10:47:22 +0000
-Received: from mail-ua1-x92f.google.com ([2607:f8b0:4864:20::92f])
+	id 1rwTYq-00000009vJu-1tan;
+	Mon, 15 Apr 2024 21:08:20 +0000
+Received: from mgamail.intel.com ([192.198.163.12])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rwJrr-00000007uxi-3ERi
+	id 1rwTYn-00000009v8L-2KH8
 	for linux-snps-arc@lists.infradead.org;
-	Mon, 15 Apr 2024 10:47:21 +0000
-Received: by mail-ua1-x92f.google.com with SMTP id a1e0cc1a2514c-7e3e0b2f653so867033241.0
-        for <linux-snps-arc@lists.infradead.org>; Mon, 15 Apr 2024 03:47:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713178033; x=1713782833; darn=lists.infradead.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=5kbitX8QbhgxnsV5uCd0z4f/iShjUxkr6d7+ekg5tWU=;
-        b=b5xP8w5KZHP0Yly7lXdloDotGshV809niFjPRiEK5DZIw9mHXKZoUMCAZlKafcmV9O
-         Hhhvm5LIUz1GjmyhhlIe1/KXw0qYWwaoabnd9VGwx1srBWoSWy/GqFSiP3S0ESecPcih
-         21GryoTfBPPB51apyxC+9AxlcmV3FAhEOMnXkttvFRXpddzufoDTZ3BkEqSbSLOo4tk8
-         +qlPMaHBDbdLQzAxkW0E8RbxUQwkt6AoIfDImxvPF0mlwFTQVfZtl/WQV7Haf70X/4KY
-         xpOZ78qvuL9nVoOoFmbnF8KDuKFhWiPvR7ASzhOqV1qvPAT5dZ9zGY2aXgCcPGbTBnUR
-         /sDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713178033; x=1713782833;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5kbitX8QbhgxnsV5uCd0z4f/iShjUxkr6d7+ekg5tWU=;
-        b=J8rIeUS8rBCN8gtSAZa77Xzv+8Hj2K3CrXVaXC+rpnY4FrWuMvyR8jyFeYPs0i4OHV
-         tgAFGHetOqj69JFzIKkCfqTCwjgJQmgtZ4a/jt7ISin5HCMznWKkK9gH1efdiqilRDWF
-         rw/2hbULDUtf2S/rGSVXkr0L+sYv+Iqs+0/TvOeyfww9/aFH/Zp0jw8LkFWAOqMJ/COG
-         E9zEedvvjDSbUHQ7nzZESA3wermrGtFdCJI9qy5rBjiFFA+hHFJ4rg2IMEAxsSr+jsaJ
-         tCRXdMhn4QGwGQoNATGR6eT/dCBqlY5+tEUIBwTFZZhdIzi3QOejVq1v+yRe9fEoWV18
-         e1qg==
-X-Forwarded-Encrypted: i=1; AJvYcCVvltJk54uGYAj1+/YPoddsZDzI5yWGJRGtpIjiUJuf5bwspfZ9iYDflQROKBwqemWTZo4DZ3WX+Nb8YRvt99Xl5n0+HQ54zXOplZIAxAVKShJ5
-X-Gm-Message-State: AOJu0YyZTsrul2BxmFK4UFsqiO413e3Gt71IidYxmjJacxB018uySvtF
-	K1mgTroleqmvNkdteUYGh6jq7QZzvNYmyVEYeNFPU3dqaADvzA5qksJcEAsCwpXCfyvWbhcUCWt
-	l4Vf8Xo4n+bpYfK4zCUDQUlRzbw/tmeJ31EweFW94mOX7ttp9WN0=
-X-Google-Smtp-Source: AGHT+IE4veDIOcK0vTkuxFAc8PebEblKLgDeLZg7etQEi0PYMGKyP1c0eS0dCvLk7/PMRnxeklqAIbshIYBCJ0ceNwA=
-X-Received: by 2002:a05:6102:3590:b0:47b:8ef7:bc1e with SMTP id
- h16-20020a056102359000b0047b8ef7bc1emr175678vsu.15.1713178032756; Mon, 15 Apr
- 2024 03:47:12 -0700 (PDT)
+	Mon, 15 Apr 2024 21:08:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713215297; x=1744751297;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HTswpeWTqlqRO4Z7nRnbsNegu7NAlPW8sxScnc8V1YY=;
+  b=HYSbYJxtlhDUUUUzkQUE+0WhHd+EWVJiRcBOC1cKUL3p38c4OueToCgn
+   h6NyRjtVr0zn/WQIgKVW76b2euBblWS3eyMm74C/FUvgOfAWPgV+TyGiO
+   gf3wiIZ3GLe6X8/ChJplMaYiRSeJzIAy2zvEy0JAPHHiwhK+/ZJatp+r7
+   Ar2OZPyZjMZVZBWM3rnmRdcMPxdLvThgkPeqJ4LC3ir443YoBMNmrLzgt
+   tPlwgHgRk3RBtrt8QDRW/piJNuhQPGhiAfhkPUE+g2i1llH4EOVfRXzN0
+   xHIY0aX3FGcyV9/vHPAYr/98b3i5dy6CL2b4RIn80tbsEpgrWqME+1Rwg
+   Q==;
+X-CSE-ConnectionGUID: AE6kCyNURAu0xca/4Jog9A==
+X-CSE-MsgGUID: f3NuTAO8SYur8gNQCGcVBQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="12404592"
+X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
+   d="scan'208";a="12404592"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 14:07:58 -0700
+X-CSE-ConnectionGUID: n4v3mX0uQn2ombcOmLA+yA==
+X-CSE-MsgGUID: Su4Kic6XR3SVPA36LZfymQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
+   d="scan'208";a="26834182"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 15 Apr 2024 14:07:57 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rwTYQ-0004eb-2e;
+	Mon, 15 Apr 2024 21:07:54 +0000
+Date: Tue, 16 Apr 2024 05:07:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-snps-arc@lists.infradead.org
+Subject: [linux-next:master 4535/6266] arch/arc/include/asm/cmpxchg.h:73:27:
+ error: implicit declaration of function 'cmpxchg_emu_u8'
+Message-ID: <202404160503.zFIp77TO-lkp@intel.com>
 MIME-Version: 1.0
-From: Naresh Kamboju <naresh.kamboju@linaro.org>
-Date: Mon, 15 Apr 2024 16:17:01 +0530
-Message-ID: <CA+G9fYvMdqT3BFNkspktVVtVqd=en8-x3Oz1Ekfia+cceV2LHQ@mail.gmail.com>
-Subject: sh: arc: cmpxchg.h:50:12: error: implicit declaration of function
- 'cmpxchg_emu_u8' [-Werror=implicit-function-declaration]
-To: open list <linux-kernel@vger.kernel.org>, lkft-triage@lists.linaro.org, 
-	Linux Regressions <regressions@lists.linux.dev>
-Cc: Arnd Bergmann <arnd@arndb.de>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Linux-sh list <linux-sh@vger.kernel.org>, linux-snps-arc@lists.infradead.org, 
-	Vineet Gupta <vgupta@kernel.org>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
-	Rich Felker <dalias@libc.org>
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240415_034719_838914_82D0BE79 
-X-CRM114-Status: UNSURE (   4.48  )
+X-CRM114-CacheID: sfid-20240415_140817_637452_3E55D78C 
+X-CRM114-Status: UNSURE (   9.83  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -91,52 +88,109 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The arc and sh defconfig builds failed due to following build warnings / errors
-on the Linux next-20240415 with gcc-9 and gcc-11.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6bd343537461b57f3efe5dfc5fc193a232dfef1e
+commit: d4f26ed66a53be57567bf71d60e80a116cec34e1 [4535/6266] ARC: Emulate one-byte cmpxchg
+config: arc-randconfig-r016-20230816 (https://download.01.org/0day-ci/archive/20240416/202404160503.zFIp77TO-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404160503.zFIp77TO-lkp@intel.com/reproduce)
 
-Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404160503.zFIp77TO-lkp@intel.com/
 
-Following builds failed.
-sh:
-arc:
- - defconfig
- - tinyconfig
- - allnoconfig
- - vdk_hs38_smp_defconfig
+All errors (new ones prefixed by >>):
 
-Build log:
---------
-In file included from arch/arc/include/asm/atomic.h:13,
-                 from include/linux/atomic.h:7,
-                 from include/asm-generic/bitops/lock.h:5,
-                 from arch/arc/include/asm/bitops.h:188,
-                 from include/linux/bitops.h:70,
-                 from include/linux/log2.h:12,
-                 from kernel/bounds.c:13:
-include/linux/atomic/atomic-arch-fallback.h: In function 'raw_atomic_cmpxchg':
-arch/arc/include/asm/cmpxchg.h:50:12: error: implicit declaration of
-function 'cmpxchg_emu_u8' [-Werror=implicit-function-declaration]
-   50 |   _prev_ = cmpxchg_emu_u8((volatile u8 *)_p_, _o_, _n_); \
-      |            ^~~~~~~~~~~~~~
+   In file included from include/linux/bitops.h:68,
+                    from include/linux/log2.h:12,
+                    from kernel/bounds.c:13:
+   arch/arc/include/asm/bitops.h: In function '__fls':
+   arch/arc/include/asm/bitops.h:137:17: error: implicit declaration of function '__builtin_arc_fls'; did you mean '__builtin_arc_flag'? [-Werror=implicit-function-declaration]
+     137 |         return  __builtin_arc_fls(x);
+         |                 ^~~~~~~~~~~~~~~~~
+         |                 __builtin_arc_flag
+   In file included from arch/arc/include/asm/atomic.h:31,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/lock.h:5,
+                    from arch/arc/include/asm/bitops.h:188:
+   arch/arc/include/asm/atomic64-arcv2.h: At top level:
+   arch/arc/include/asm/atomic64-arcv2.h:13:3: error: conflicting types for 'atomic64_t'; have 'struct <anonymous>'
+      13 | } atomic64_t;
+         |   ^~~~~~~~~~
+   In file included from include/linux/page-flags.h:9,
+                    from kernel/bounds.c:10:
+   include/linux/types.h:184:3: note: previous declaration of 'atomic64_t' with type 'atomic64_t'
+     184 | } atomic64_t;
+         |   ^~~~~~~~~~
+   In file included from arch/arc/include/asm/atomic.h:13:
+   include/linux/atomic/atomic-arch-fallback.h: In function 'raw_atomic_cmpxchg':
+>> arch/arc/include/asm/cmpxchg.h:73:27: error: implicit declaration of function 'cmpxchg_emu_u8' [-Werror=implicit-function-declaration]
+      73 |                 __flags = cmpxchg_emu_u8((volatile u8 *)_p_, _o_, _n_); \
+         |                           ^~~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in expansion of macro 'raw_cmpxchg'
+    2026 |         return raw_cmpxchg(&v->counter, old, new);
+         |                ^~~~~~~~~~~
+   In file included from arch/arc/include/uapi/asm/byteorder.h:14,
+                    from include/asm-generic/bitops/le.h:6,
+                    from arch/arc/include/asm/bitops.h:192:
+   include/linux/byteorder/big_endian.h: At top level:
+   include/linux/byteorder/big_endian.h:8:2: warning: #warning inconsistent configuration, needs CONFIG_CPU_BIG_ENDIAN [-Wcpp]
+       8 | #warning inconsistent configuration, needs CONFIG_CPU_BIG_ENDIAN
+         |  ^~~~~~~
+   cc1: some warnings being treated as errors
+   make[3]: *** [scripts/Makefile.build:117: kernel/bounds.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1197: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:240: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:240: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
-Steps to reproduce:
----
-# tuxmake --runtime podman --target-arch arc --toolchain gcc-9
---kconfig defconfig
-# tuxmake --runtime podman --target-arch sh --toolchain gcc-11
---kconfig defconfig
 
+vim +/cmpxchg_emu_u8 +73 arch/arc/include/asm/cmpxchg.h
 
-Links:
----
- - https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20240415/testrun/23463978/suite/build/test/gcc-9-defconfig/details/
- - https://storage.tuxsuite.com/public/linaro/lkft/builds/2f7sIl2MlKB5Fgq7JtTpYQ9lnXw/
- - https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20240415/testrun/23463981/suite/build/test/gcc-11-defconfig/details/
+    62	
+    63	#define arch_cmpxchg(ptr, old, new)				        \
+    64	({									\
+    65		volatile __typeof__(ptr) _p_ = (ptr);				\
+    66		__typeof__(*(ptr)) _o_ = (old);					\
+    67		__typeof__(*(ptr)) _n_ = (new);					\
+    68		__typeof__(*(ptr)) _prev_;					\
+    69		unsigned long __flags;						\
+    70										\
+    71		switch(sizeof((_p_))) {						\
+    72		case 1:								\
+  > 73			__flags = cmpxchg_emu_u8((volatile u8 *)_p_, _o_, _n_);	\
+    74			_prev_ = (__typeof__(*(ptr)))__flags;			\
+    75			break;							\
+    76			break;							\
+    77		case 4:								\
+    78			/*							\
+    79			 * spin lock/unlock provide the needed smp_mb()		\
+    80			 * before/after						\
+    81			 */							\
+    82			atomic_ops_lock(__flags);				\
+    83			_prev_ = *_p_;						\
+    84			if (_prev_ == _o_)					\
+    85				*_p_ = _n_;					\
+    86			atomic_ops_unlock(__flags);				\
+    87			break;							\
+    88		default:							\
+    89			BUILD_BUG();						\
+    90		}								\
+    91										\
+    92		_prev_;								\
+    93	})
+    94	
 
-
---
-Linaro LKFT
-https://lkft.linaro.org
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
 _______________________________________________
 linux-snps-arc mailing list
