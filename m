@@ -4,63 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95C2DC4345F
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 30 Apr 2024 17:55:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 24FE5C4345F
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  1 May 2024 23:01:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Reply-To:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Content-ID:Content-Description:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=btMXNsvKrqxNbifdzmxlFsoNzhZV8hXy9fe24O2h1vg=; b=F9fTOxDm1ik/uK
-	Vax2OQz8I4ciWvpJmGQvLP1vQx6WJZF548KQrljVFDv01gH+nlWrGRTdSbtf/zSBcCyKMoKUNgz/J
-	XwK4D6xTG6Ma0OW3BnMr4QJaOoAk5fQGBz+Uo5qy6Gfc0hpH5MBMIUyGLgvb+IVNLLLBitHM1fmTL
-	vurr242U2X6cCEJEvnq/xNIjhEtnH+9RykWgiq1cgC+cVFu4TJOxp9AMF41fQXdeMk4X5t+PYI3HW
-	Wt3RepVqadChgzC09KavC4MED2ccvgCQ3NEqVKojZt5UrLjgUL0Ee6gISj1spEhrxhYT7LrWcJfa5
-	I39DVDPhgdOKbOduNA2w==;
+	List-Owner; bh=xF256aNTbi6B9Lijob9JBibfOx/aWbO9f8gl/vDFpKg=; b=XT4fQRwRVX80N8
+	ni5dfetbza6+oU49OXm+f017sLq9U6VZx1cli3lMCR9UUlyUNgtSWIRbGqkS5eGbVqD9f5rGI4D3j
+	3k02wOq/KooHW9oeXSH25yqWgKrJDaIQb5zXmMn6/x76QB2XN6oW4Q13ZvYwlXMZyE70igY7mgwrf
+	0BdvynttWEtSnKsVxDzFszibLD+TkvwWAOAVNkFLr0G3L9kXet6Pq8KsZcVW2a4s4fV1vaBUXd/8W
+	kPJ38rmnp9+5lFjmWCU3311u55lfxsfYWiFXKAm6NsSygyBJBLVq3QHt7ELok3VuMQhqMu3g5/P6E
+	XYID5NfrS/6lF76gVh9g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s1rh4-00000007VOJ-3J07;
-	Tue, 30 Apr 2024 17:55:07 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1s2IxI-0000000ArEF-1kXu;
+	Wed, 01 May 2024 23:01:40 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s1rgy-00000007VN1-46XU
+	id 1s2IxE-0000000ArAm-3uHw
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 30 Apr 2024 17:55:02 +0000
+	Wed, 01 May 2024 23:01:38 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 47C336168D;
-	Tue, 30 Apr 2024 17:55:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1034C2BBFC;
-	Tue, 30 Apr 2024 17:54:59 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 22167CE13AE;
+	Wed,  1 May 2024 23:01:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F534C4AF54;
+	Wed,  1 May 2024 23:01:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714499699;
-	bh=1LxL23nGRyjW2xUInrY6Mm5qmylyJIeZ0ypfoAn79Ek=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=UOez/C/E/ORsVJ2pSSlEMoAWC/D7k2hWGyrVZ/iWHyK67ukRzrFPpfP2xABh9SnGb
-	 SQfvw2gchZvqPV8dMMzC4kamqRMjyO+qrjEjRGq+I2sLRXoNF+pPSK8LsWC0ZnyKIu
-	 NfXyeDdNU8gjldL4jMH/mlCF/1Su1DrjO69H0GS89F80T37QL/auJvU1L2QPyOU8Mh
-	 o4UDBDJQEJ0Gii92ShHVDxtzf+enbtqmwdtToFtkZGSkSMi0kOwO8vNO27iqPr/Mou
-	 VStNZ/QxMB9sPatE8DQyObxQQexQjulGLaaal/R8ZVD6C/u2ePv+QjGFY34n+/aWgb
-	 ALG7Pkwl5H8Eg==
+	s=k20201202; t=1714604492;
+	bh=225e9ZrZUo35qiu06QPAPMUsNmM/XjwmxVyvd0jYw/w=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=aW6xdmzw+K9cnrAtCo3noevENO5U0fkbybYY/UG7BhPW577IP7aufNJRTbTtMF6kP
+	 IpGrc+z2gPPwy1MUtxwFVwzfkh8KNfCqU7g+D5yXJ9hf+vhd7f5gi3ZZ70p5V09Nfl
+	 fYZK5UCMfbNRfu5Cab6uaz8D3g8Wf7MO9DUD54N8SIiQhYiW0WM+/Y1uLJaK2/7m05
+	 3pLr8wBSv6mV6PI5iK5ONHxInz09CrEOPRKXPS2Mo7gTAQJLBF6nojWdDau/HIPndq
+	 zpGvOVyprRXvXtQzxqXwGnkNDVJi5GHGvaKWXEfRFw2H0Z+RovEE28ZANSFKQEmozc
+	 SH+3pQ9XMv+rA==
 Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 802EACE0C37; Tue, 30 Apr 2024 10:54:59 -0700 (PDT)
-Date: Tue, 30 Apr 2024 10:54:59 -0700
+	id D6CB7CE28A3; Wed,  1 May 2024 16:01:31 -0700 (PDT)
 From: "Paul E. McKenney" <paulmck@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
+To: linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: elver@google.com,
+	akpm@linux-foundation.org,
+	tglx@linutronix.de,
+	peterz@infradead.org,
+	dianders@chromium.org,
+	pmladek@suse.com,
+	arnd@arndb.de,
+	torvalds@linux-foundation.org,
+	kernel-team@meta.com,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Vineet Gupta <vgupta@kernel.org>,
+	Andi Shyti <andi.shyti@linux.intel.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Palmer Dabbelt <palmer@rivosinc.com>,
 	linux-snps-arc@lists.infradead.org
-Subject: Re: [linux-next:master 4535/6266]
- arch/arc/include/asm/cmpxchg.h:73:27: error: implicit declaration of
- function 'cmpxchg_emu_u8'
-Message-ID: <15ae9a2f-a7dc-4b39-b7f7-9268d7163031@paulmck-laptop>
-References: <202404160503.zFIp77TO-lkp@intel.com>
+Subject: [PATCH v2 cmpxchg 10/13] ARC: Emulate one-byte cmpxchg
+Date: Wed,  1 May 2024 16:01:27 -0700
+Message-Id: <20240501230130.1111603-10-paulmck@kernel.org>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <b67e79d4-06cb-4a45-a906-b9e0fbae22c5@paulmck-laptop>
+References: <b67e79d4-06cb-4a45-a906-b9e0fbae22c5@paulmck-laptop>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <202404160503.zFIp77TO-lkp@intel.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240430_105501_158999_F8365712 
-X-CRM114-Status: GOOD (  17.85  )
+X-CRM114-CacheID: sfid-20240501_160137_433774_A79095C5 
+X-CRM114-Status: GOOD (  13.20  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,122 +83,103 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 16, 2024 at 05:07:03AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   6bd343537461b57f3efe5dfc5fc193a232dfef1e
-> commit: d4f26ed66a53be57567bf71d60e80a116cec34e1 [4535/6266] ARC: Emulate one-byte cmpxchg
-> config: arc-randconfig-r016-20230816 (https://download.01.org/0day-ci/archive/20240416/202404160503.zFIp77TO-lkp@intel.com/config)
-> compiler: arceb-elf-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404160503.zFIp77TO-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202404160503.zFIp77TO-lkp@intel.com/
+Use the new cmpxchg_emu_u8() to emulate one-byte cmpxchg() on arc.
 
-I might be suffering a failure of imagination, but I am not seeing how
-my change could result in these diagnostics.  Please let me know what
-I am missing!
+[ paulmck: Drop two-byte support per Arnd Bergmann feedback. ]
+[ paulmck: Apply feedback from Naresh Kamboju. ]
+[ paulmck: Apply kernel test robot feedback. ]
 
-							Thanx, Paul
+Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+Cc: Vineet Gupta <vgupta@kernel.org>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Palmer Dabbelt <palmer@rivosinc.com>
+Cc: <linux-snps-arc@lists.infradead.org>
+---
+ arch/arc/Kconfig               |  1 +
+ arch/arc/include/asm/cmpxchg.h | 33 ++++++++++++++++++++++++---------
+ 2 files changed, 25 insertions(+), 9 deletions(-)
 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from include/linux/bitops.h:68,
->                     from include/linux/log2.h:12,
->                     from kernel/bounds.c:13:
->    arch/arc/include/asm/bitops.h: In function '__fls':
->    arch/arc/include/asm/bitops.h:137:17: error: implicit declaration of function '__builtin_arc_fls'; did you mean '__builtin_arc_flag'? [-Werror=implicit-function-declaration]
->      137 |         return  __builtin_arc_fls(x);
->          |                 ^~~~~~~~~~~~~~~~~
->          |                 __builtin_arc_flag
->    In file included from arch/arc/include/asm/atomic.h:31,
->                     from include/linux/atomic.h:7,
->                     from include/asm-generic/bitops/lock.h:5,
->                     from arch/arc/include/asm/bitops.h:188:
->    arch/arc/include/asm/atomic64-arcv2.h: At top level:
->    arch/arc/include/asm/atomic64-arcv2.h:13:3: error: conflicting types for 'atomic64_t'; have 'struct <anonymous>'
->       13 | } atomic64_t;
->          |   ^~~~~~~~~~
->    In file included from include/linux/page-flags.h:9,
->                     from kernel/bounds.c:10:
->    include/linux/types.h:184:3: note: previous declaration of 'atomic64_t' with type 'atomic64_t'
->      184 | } atomic64_t;
->          |   ^~~~~~~~~~
->    In file included from arch/arc/include/asm/atomic.h:13:
->    include/linux/atomic/atomic-arch-fallback.h: In function 'raw_atomic_cmpxchg':
-> >> arch/arc/include/asm/cmpxchg.h:73:27: error: implicit declaration of function 'cmpxchg_emu_u8' [-Werror=implicit-function-declaration]
->       73 |                 __flags = cmpxchg_emu_u8((volatile u8 *)_p_, _o_, _n_); \
->          |                           ^~~~~~~~~~~~~~
->    include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
->       55 | #define raw_cmpxchg arch_cmpxchg
->          |                     ^~~~~~~~~~~~
->    include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in expansion of macro 'raw_cmpxchg'
->     2026 |         return raw_cmpxchg(&v->counter, old, new);
->          |                ^~~~~~~~~~~
->    In file included from arch/arc/include/uapi/asm/byteorder.h:14,
->                     from include/asm-generic/bitops/le.h:6,
->                     from arch/arc/include/asm/bitops.h:192:
->    include/linux/byteorder/big_endian.h: At top level:
->    include/linux/byteorder/big_endian.h:8:2: warning: #warning inconsistent configuration, needs CONFIG_CPU_BIG_ENDIAN [-Wcpp]
->        8 | #warning inconsistent configuration, needs CONFIG_CPU_BIG_ENDIAN
->          |  ^~~~~~~
->    cc1: some warnings being treated as errors
->    make[3]: *** [scripts/Makefile.build:117: kernel/bounds.s] Error 1
->    make[3]: Target 'prepare' not remade because of errors.
->    make[2]: *** [Makefile:1197: prepare0] Error 2
->    make[2]: Target 'prepare' not remade because of errors.
->    make[1]: *** [Makefile:240: __sub-make] Error 2
->    make[1]: Target 'prepare' not remade because of errors.
->    make: *** [Makefile:240: __sub-make] Error 2
->    make: Target 'prepare' not remade because of errors.
-> 
-> 
-> vim +/cmpxchg_emu_u8 +73 arch/arc/include/asm/cmpxchg.h
-> 
->     62	
->     63	#define arch_cmpxchg(ptr, old, new)				        \
->     64	({									\
->     65		volatile __typeof__(ptr) _p_ = (ptr);				\
->     66		__typeof__(*(ptr)) _o_ = (old);					\
->     67		__typeof__(*(ptr)) _n_ = (new);					\
->     68		__typeof__(*(ptr)) _prev_;					\
->     69		unsigned long __flags;						\
->     70										\
->     71		switch(sizeof((_p_))) {						\
->     72		case 1:								\
->   > 73			__flags = cmpxchg_emu_u8((volatile u8 *)_p_, _o_, _n_);	\
->     74			_prev_ = (__typeof__(*(ptr)))__flags;			\
->     75			break;							\
->     76			break;							\
->     77		case 4:								\
->     78			/*							\
->     79			 * spin lock/unlock provide the needed smp_mb()		\
->     80			 * before/after						\
->     81			 */							\
->     82			atomic_ops_lock(__flags);				\
->     83			_prev_ = *_p_;						\
->     84			if (_prev_ == _o_)					\
->     85				*_p_ = _n_;					\
->     86			atomic_ops_unlock(__flags);				\
->     87			break;							\
->     88		default:							\
->     89			BUILD_BUG();						\
->     90		}								\
->     91										\
->     92		_prev_;								\
->     93	})
->     94	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index 99d2845f3feb9..5bf6137f0fd47 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -14,6 +14,7 @@ config ARC
+ 	select ARCH_HAS_SETUP_DMA_OPS
+ 	select ARCH_HAS_SYNC_DMA_FOR_CPU
+ 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
++	select ARCH_NEED_CMPXCHG_1_EMU
+ 	select ARCH_SUPPORTS_ATOMIC_RMW if ARC_HAS_LLSC
+ 	select ARCH_32BIT_OFF_T
+ 	select BUILDTIME_TABLE_SORT
+diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
+index e138fde067dea..2102ce076f28b 100644
+--- a/arch/arc/include/asm/cmpxchg.h
++++ b/arch/arc/include/asm/cmpxchg.h
+@@ -8,6 +8,7 @@
+ 
+ #include <linux/build_bug.h>
+ #include <linux/types.h>
++#include <linux/cmpxchg-emu.h>
+ 
+ #include <asm/barrier.h>
+ #include <asm/smp.h>
+@@ -46,6 +47,9 @@
+ 	__typeof__(*(ptr)) _prev_;					\
+ 									\
+ 	switch(sizeof((_p_))) {						\
++	case 1:								\
++		_prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);	\
++		break;							\
+ 	case 4:								\
+ 		_prev_ = __cmpxchg(_p_, _o_, _n_);			\
+ 		break;							\
+@@ -65,16 +69,27 @@
+ 	__typeof__(*(ptr)) _prev_;					\
+ 	unsigned long __flags;						\
+ 									\
+-	BUILD_BUG_ON(sizeof(_p_) != 4);					\
++	switch(sizeof((_p_))) {						\
++	case 1:								\
++		__flags = cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);	\
++		_prev_ = (__typeof__(*(ptr)))__flags;			\
++		break;							\
++		break;							\
++	case 4:								\
++		/*							\
++		 * spin lock/unlock provide the needed smp_mb()		\
++		 * before/after						\
++		 */							\
++		atomic_ops_lock(__flags);				\
++		_prev_ = *_p_;						\
++		if (_prev_ == _o_)					\
++			*_p_ = _n_;					\
++		atomic_ops_unlock(__flags);				\
++		break;							\
++	default:							\
++		BUILD_BUG();						\
++	}								\
+ 									\
+-	/*								\
+-	 * spin lock/unlock provide the needed smp_mb() before/after	\
+-	 */								\
+-	atomic_ops_lock(__flags);					\
+-	_prev_ = *_p_;							\
+-	if (_prev_ == _o_)						\
+-		*_p_ = _n_;						\
+-	atomic_ops_unlock(__flags);					\
+ 	_prev_;								\
+ })
+ 
+-- 
+2.40.1
+
 
 _______________________________________________
 linux-snps-arc mailing list
