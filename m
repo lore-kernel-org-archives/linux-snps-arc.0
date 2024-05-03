@@ -4,74 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 24FE5C4345F
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  1 May 2024 23:01:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26F64C10F16
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  3 May 2024 15:29:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Subject:Cc:To:From:Date:References:
+	In-Reply-To:Message-Id:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=xF256aNTbi6B9Lijob9JBibfOx/aWbO9f8gl/vDFpKg=; b=XT4fQRwRVX80N8
-	ni5dfetbza6+oU49OXm+f017sLq9U6VZx1cli3lMCR9UUlyUNgtSWIRbGqkS5eGbVqD9f5rGI4D3j
-	3k02wOq/KooHW9oeXSH25yqWgKrJDaIQb5zXmMn6/x76QB2XN6oW4Q13ZvYwlXMZyE70igY7mgwrf
-	0BdvynttWEtSnKsVxDzFszibLD+TkvwWAOAVNkFLr0G3L9kXet6Pq8KsZcVW2a4s4fV1vaBUXd/8W
-	kPJ38rmnp9+5lFjmWCU3311u55lfxsfYWiFXKAm6NsSygyBJBLVq3QHt7ELok3VuMQhqMu3g5/P6E
-	XYID5NfrS/6lF76gVh9g==;
+	List-Owner; bh=X/tNXd8gX22G0zJCkyvSPi/Aj9S4/A0/SdSv9Fjmt5E=; b=Ly0jC143FP5xvJ
+	nxwSGUqLbWNaQcIgcz3vaNeOjUIjHGmtFJvCBcUhWZvbTjRVfR15ByuRhqXQpGWY5/vZnv/qCk4an
+	MFf45THXqTkrWCC9QZy8HubhMfnoE1LRTLGU7rj2u1jDc6HwOCbqe9wfMIjIme6Q1e4u5hA+Zm9UW
+	oWtBq+VKvzIBSs+ieBgDSpUi5rNsi2U/6vYa9IrKwePpSHsOwwCdQBhoTuM8VKN9K5WjZzXeEBDSg
+	Hp8IM1NDp9rt89BAzdSHYp4G75jwkRZ4EK7QYDK9hLq7YcHSmFlCnBqHOKUqhxyX9e90kUah1okcK
+	wyOuUZej83sxj4LVR9NQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s2IxI-0000000ArEF-1kXu;
-	Wed, 01 May 2024 23:01:40 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1s2uqs-0000000H2Ro-27ar;
+	Fri, 03 May 2024 15:29:34 +0000
+Received: from fout8-smtp.messagingengine.com ([103.168.172.151])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s2IxE-0000000ArAm-3uHw
-	for linux-snps-arc@lists.infradead.org;
-	Wed, 01 May 2024 23:01:38 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 22167CE13AE;
-	Wed,  1 May 2024 23:01:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F534C4AF54;
-	Wed,  1 May 2024 23:01:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714604492;
-	bh=225e9ZrZUo35qiu06QPAPMUsNmM/XjwmxVyvd0jYw/w=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aW6xdmzw+K9cnrAtCo3noevENO5U0fkbybYY/UG7BhPW577IP7aufNJRTbTtMF6kP
-	 IpGrc+z2gPPwy1MUtxwFVwzfkh8KNfCqU7g+D5yXJ9hf+vhd7f5gi3ZZ70p5V09Nfl
-	 fYZK5UCMfbNRfu5Cab6uaz8D3g8Wf7MO9DUD54N8SIiQhYiW0WM+/Y1uLJaK2/7m05
-	 3pLr8wBSv6mV6PI5iK5ONHxInz09CrEOPRKXPS2Mo7gTAQJLBF6nojWdDau/HIPndq
-	 zpGvOVyprRXvXtQzxqXwGnkNDVJi5GHGvaKWXEfRFw2H0Z+RovEE28ZANSFKQEmozc
-	 SH+3pQ9XMv+rA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id D6CB7CE28A3; Wed,  1 May 2024 16:01:31 -0700 (PDT)
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: elver@google.com,
-	akpm@linux-foundation.org,
-	tglx@linutronix.de,
-	peterz@infradead.org,
-	dianders@chromium.org,
-	pmladek@suse.com,
-	arnd@arndb.de,
-	torvalds@linux-foundation.org,
-	kernel-team@meta.com,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Vineet Gupta <vgupta@kernel.org>,
-	Andi Shyti <andi.shyti@linux.intel.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	linux-snps-arc@lists.infradead.org
-Subject: [PATCH v2 cmpxchg 10/13] ARC: Emulate one-byte cmpxchg
-Date: Wed,  1 May 2024 16:01:27 -0700
-Message-Id: <20240501230130.1111603-10-paulmck@kernel.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <b67e79d4-06cb-4a45-a906-b9e0fbae22c5@paulmck-laptop>
-References: <b67e79d4-06cb-4a45-a906-b9e0fbae22c5@paulmck-laptop>
+	id 1s2uqn-0000000H2Mx-3022;
+	Fri, 03 May 2024 15:29:32 +0000
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 7458013800CE;
+	Fri,  3 May 2024 11:29:25 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Fri, 03 May 2024 11:29:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1714750165; x=1714836565; bh=wY9DfsGGwL
+	3WFFF4rDuowcVoD3Ri5Gt9+AThm6ztR9E=; b=iCIMBune9biZ7be+dtUP878Q93
+	Sf0/XN8Sm61VPWCl1b9XK9If8cW2NiSS5w8EN0UdqYwtWGC3lSFvxF7sK3ZoUXid
+	5GjXllhLlIQJlyGLKwpwZSQhLHi9iGX82dEGqYJebU3idupbr9mH/XwyWj0oduvF
+	dUz5eEp9/javg0G5T9NUaSVglGyA9v8/mRLxLArru1L5igJOrYs2YUWreSrOwuHM
+	CVWLY8ndAFhGtAYovQyFB2GnGehAOAhxahrl3fHIIa2ZihXc1GT1iqEhIpOlS0Yf
+	/v2Y1GOUoLhcGagBCanDzlDDDoSP55O6gaC/niPzveq/W5uG+Jxfvm4WD7XA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1714750165; x=1714836565; bh=wY9DfsGGwL3WFFF4rDuowcVoD3Ri
+	5Gt9+AThm6ztR9E=; b=YGYORuirzvgEP0dcRoZGmyspLXOo9wube2DJxbfTkMkp
+	pSAyVvzV2X8BfeyP036rsP6YbbUa31Z9bl3rkPV8q5/WGPfRk9Cw9/MK8lAums1N
+	05B9yIqHGJPstrbSw34nT/W/6Wu3BbSKGp7rS0bN7N6O3eK67ugjij3+HValFMvt
+	7SHUIIM2VQOonhAY3JHTRnmmzeu0AP1HnKNyaf55JcNnxDETqCs0oO2LmInbVcdu
+	ygz3WG6a8ImuZp8LsKjGOeaNW3edEe95Ak7x44udV75neIGR6ifS7xiaJfklKpGI
+	XXLMYaKRieG8lu+pZgEWV+nvBhcqLqJ68z7i1RVGWQ==
+X-ME-Sender: <xms:1AI1Zgt-RIf_MVtvc0LxunzLgTpoVcbbLYSEIa1hyWRYUFiD8CIQHQ>
+    <xme:1AI1ZteogSVAZzkbj9oTdYREHhPVxjCqEGNlGGfJTwPaihNSEop06Q-q30wvqDJep
+    4fCBjLFa0eHCvwjEY0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvddvtddgkeekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:1AI1ZrxleoU7IxogrTww9AbE64uBICl1mz4_eLBng6a7XhGVW_5e8Q>
+    <xmx:1AI1ZjOlt-JjJyw4GOyKHNjqRF3I2A828aNCnba5Xgdx-mcNldY4iw>
+    <xmx:1AI1Zg_t5Ed5yE51wnoAw7ipvQj1dt8MiH-w0kjpB-_Qpd81NgpqOw>
+    <xmx:1AI1ZrUFL1bIWpD3lQZXqt7G_yN21Kblz2B54NWe1vNc13E_hoY1Sw>
+    <xmx:1QI1Zhj1BGPg0_SHCyV2Ty4IxZgKxMv84vxZso-bp7v4cPVRi_L31pPt>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 96CCDB6008D; Fri,  3 May 2024 11:29:24 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-417-gddc99d37d-fm-hotfix-20240424.001-g2c179674
 MIME-Version: 1.0
+Message-Id: <2f8cfd1d-a478-4666-a181-040c8d92e8fd@app.fastmail.com>
+In-Reply-To: <c281bb8e-0719-4b28-a637-56615ad16913@suse.de>
+References: <20240329203450.7824-1-tzimmermann@suse.de>
+ <c281bb8e-0719-4b28-a637-56615ad16913@suse.de>
+Date: Fri, 03 May 2024 17:29:04 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "Sam Ravnborg" <sam@ravnborg.org>,
+ "Javier Martinez Canillas" <javierm@redhat.com>,
+ "Helge Deller" <deller@gmx.de>, sui.jingfeng@linux.dev
+Cc: Linux-Arch <linux-arch@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-sh@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-parisc@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-snps-arc@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] arch: Remove fbdev dependency from video helpers
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240501_160137_433774_A79095C5 
-X-CRM114-Status: GOOD (  13.20  )
+X-CRM114-CacheID: sfid-20240503_082929_855996_4E242B08 
+X-CRM114-Status: UNSURE (   6.77  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,98 +113,15 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Use the new cmpxchg_emu_u8() to emulate one-byte cmpxchg() on arc.
+On Fri, Apr 5, 2024, at 11:04, Thomas Zimmermann wrote:
+> Hi,
+>
+> if there are no further comments, can this series be merged through 
+> asm-generic?
 
-[ paulmck: Drop two-byte support per Arnd Bergmann feedback. ]
-[ paulmck: Apply feedback from Naresh Kamboju. ]
-[ paulmck: Apply kernel test robot feedback. ]
+Sorry for the delay, I've merged these for asm-generic now.
 
-Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-Cc: Vineet Gupta <vgupta@kernel.org>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Palmer Dabbelt <palmer@rivosinc.com>
-Cc: <linux-snps-arc@lists.infradead.org>
----
- arch/arc/Kconfig               |  1 +
- arch/arc/include/asm/cmpxchg.h | 33 ++++++++++++++++++++++++---------
- 2 files changed, 25 insertions(+), 9 deletions(-)
-
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 99d2845f3feb9..5bf6137f0fd47 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -14,6 +14,7 @@ config ARC
- 	select ARCH_HAS_SETUP_DMA_OPS
- 	select ARCH_HAS_SYNC_DMA_FOR_CPU
- 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
-+	select ARCH_NEED_CMPXCHG_1_EMU
- 	select ARCH_SUPPORTS_ATOMIC_RMW if ARC_HAS_LLSC
- 	select ARCH_32BIT_OFF_T
- 	select BUILDTIME_TABLE_SORT
-diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
-index e138fde067dea..2102ce076f28b 100644
---- a/arch/arc/include/asm/cmpxchg.h
-+++ b/arch/arc/include/asm/cmpxchg.h
-@@ -8,6 +8,7 @@
- 
- #include <linux/build_bug.h>
- #include <linux/types.h>
-+#include <linux/cmpxchg-emu.h>
- 
- #include <asm/barrier.h>
- #include <asm/smp.h>
-@@ -46,6 +47,9 @@
- 	__typeof__(*(ptr)) _prev_;					\
- 									\
- 	switch(sizeof((_p_))) {						\
-+	case 1:								\
-+		_prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);	\
-+		break;							\
- 	case 4:								\
- 		_prev_ = __cmpxchg(_p_, _o_, _n_);			\
- 		break;							\
-@@ -65,16 +69,27 @@
- 	__typeof__(*(ptr)) _prev_;					\
- 	unsigned long __flags;						\
- 									\
--	BUILD_BUG_ON(sizeof(_p_) != 4);					\
-+	switch(sizeof((_p_))) {						\
-+	case 1:								\
-+		__flags = cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);	\
-+		_prev_ = (__typeof__(*(ptr)))__flags;			\
-+		break;							\
-+		break;							\
-+	case 4:								\
-+		/*							\
-+		 * spin lock/unlock provide the needed smp_mb()		\
-+		 * before/after						\
-+		 */							\
-+		atomic_ops_lock(__flags);				\
-+		_prev_ = *_p_;						\
-+		if (_prev_ == _o_)					\
-+			*_p_ = _n_;					\
-+		atomic_ops_unlock(__flags);				\
-+		break;							\
-+	default:							\
-+		BUILD_BUG();						\
-+	}								\
- 									\
--	/*								\
--	 * spin lock/unlock provide the needed smp_mb() before/after	\
--	 */								\
--	atomic_ops_lock(__flags);					\
--	_prev_ = *_p_;							\
--	if (_prev_ == _o_)						\
--		*_p_ = _n_;						\
--	atomic_ops_unlock(__flags);					\
- 	_prev_;								\
- })
- 
--- 
-2.40.1
-
+      Arnd
 
 _______________________________________________
 linux-snps-arc mailing list
