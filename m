@@ -4,71 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0802C04FFE
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 20 May 2024 14:32:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2154CC25B78
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 22 May 2024 15:06:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=CdtvBYbzDHRI/ddDJTz2lPEfFz7sjYwNr5iCRu+iWIc=; b=jmuoD38VGM436/
-	4QyayKhxYCHiro8s3xXCuv6REVlrSr0ttir38Usn6GfttaYiiS5GXtUMJWj8NCIsWJQA2APj6I3M5
-	1nLVuc/9keaU/kj5TOa42jvSwYC65zQvWWXk2s1jL7wB47Hp/Qjl8LP5vNqWg3QIZmluH9M4Qr5K7
-	492A9Xu7IWDlvfKWj5ejzk7APwPFlU+x9IrONyx8Q0hu5WPMZ0syaSWjoMCpP+FTgdW2v7ZMSVsAW
-	fm27y6deXcESw62rJH5fPf5RGblBTLlxBDpPqt9nqrgwC805OguM89J1nX28oP5hq5yUFbJMxlM2M
-	l2tyF5Whg8xdlFbHbYQw==;
+	List-Owner; bh=n9NWsdtAz11XcKQMmMJe2bqrZwVRtAhkByTkMHI1eyU=; b=qgdhu2YFi30SRv
+	QpCj+0qkxoMP5FLTyxqlfr/CysAS0qtdKLBismAwaTEk99c3eRxVanNITRJ1zejfCkaOdufD1LjVo
+	BxaJMv8jvxadh+yDqfnsRu3mNllfHrA8pq7XjbLyuDSwRuSTxGSf7tgV99zHaS7kncQVQsdO3CZwJ
+	20gsJnWYhgZX6RfviH6f9Gx0unnfxwTAoHrc8ziMgfQ3To5iDfe2PiPRPtEFmP7L8F5UNopT25OAv
+	S/H2D6CXQwY08rcVy8Fb5Yp7gs++Dfo8Szq5gmqi73fGRz1W0U1yc2sS0qRAbor1ch6Z5bATDjmSE
+	Y0xRbdTNtfMe7J8bW3yQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s944P-0000000Ehmr-3oSe;
-	Mon, 20 May 2024 14:32:57 +0000
-Received: from fmfe14.freemail.hu ([46.107.16.207] helo=smtp-out.freemail.hu)
+	id 1s9nXw-00000003JHL-2Aaf;
+	Wed, 22 May 2024 15:06:28 +0000
+Received: from mgamail.intel.com ([192.198.163.16])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s944N-0000000Ehm6-0xnQ
+	id 1s9nXt-00000003JGR-1dfo
 	for linux-snps-arc@lists.infradead.org;
-	Mon, 20 May 2024 14:32:56 +0000
-Received: from fizweb.elte.hu (fizweb.elte.hu [157.181.183.248])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.freemail.hu (Postfix) with ESMTPSA id 4Vjfyr65TbzgX;
-	Mon, 20 May 2024 16:27:00 +0200 (CEST)
-From: egyszeregy@freemail.hu
-To: vgupta@kernel.org,
-	pasha.tatashin@soleen.com,
-	kent.overstreet@linux.dev,
-	akpm@linux-foundation.org,
-	arnd@arndb.de,
+	Wed, 22 May 2024 15:06:26 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716390386; x=1747926386;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qv0FoQjoCwEfgMkQVSH/WXa2+aVacXHUSQDy3m2KIU4=;
+  b=Tf3hi9xHJic03GrzAX8am5kA3yyJUZyvuEbfE/0zbHXGWCd55okDXlxn
+   J2gWEqEkkHnU6iH9Q64HcsfWfk20k+G/gV3TpIm0RG39/AghqJyeOzMm1
+   YzJNvYJe6KBEzJ/P5nHo4T8CEdwsPX1vWV8rnJdPgU3o9sRRam6+VNN4m
+   YMFfBrf+lW8049Hu2N8GtjupEOMtpCG/U6raxvFCdkcWFlJcsG4F8UWnY
+   YviGTk/WQaW/PrzmojKPdtcUCflOZHv69cFIH4ZiZZFgHKWdFsEcWLxVf
+   KUbDtICGB5ULYxAbZG1s2t6dpumDUwwoDjq3gQKq/RrNikIpunOP7pIgT
+   w==;
+X-CSE-ConnectionGUID: bPjJve1NRB2Of1DIh+kM9w==
+X-CSE-MsgGUID: y6oDyqoHQGmlkqnw4fgZWQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11079"; a="11647655"
+X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
+   d="scan'208";a="11647655"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 08:06:22 -0700
+X-CSE-ConnectionGUID: byC7jGm3Tqi5b1v82Ld6Xg==
+X-CSE-MsgGUID: ARlKyOfxQUiWaKr6PoEzyQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
+   d="scan'208";a="37797515"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by fmviesa003.fm.intel.com with ESMTP; 22 May 2024 08:06:20 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s9nXe-0001fV-1f;
+	Wed, 22 May 2024 15:06:12 +0000
+Date: Wed, 22 May 2024 23:05:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shahab Vahedi <shahab@synopsys.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux-snps-arc@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: =?UTF-8?q?Benjamin=20Sz=C5=91ke?= <egyszeregy@freemail.hu>
-Subject: [PATCH] arc: rename aux.h to arc_aux.h
-Date: Mon, 20 May 2024 16:26:47 +0200
-Message-Id: <20240520142647.70440-1-egyszeregy@freemail.hu>
-X-Mailer: git-send-email 2.39.3
+	Alexei Starovoitov <ast@kernel.org>
+Subject: arch/arc/net/bpf_jit.h:42:15: sparse: sparse: marked inline, but
+ without a definition
+Message-ID: <202405222314.UG5F2NHn-lkp@intel.com>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=simple/relaxed; t=1716215221;
- 
-	s=20181004; d=freemail.hu;
- 
-	h=From:To:Cc:Subject:Date:MIME-Version:Content-Type:Content-Transfer-Encoding;
- 
-	l=2297; bh=9zxQy+6Bi08HDP4ghvGzDmmjLAAoSIfkUlTLTmqf+Co=;
- 
-	b=jywbwGazbNSiU9j+vnzoACV6BWbm+X2x9aOKn7BlgwjvH+L8nqey9n4Z3/tawXgn
- 
-	pVEOD68I+yV2XbEsrsf8UuJSUJZrxw0HSmRxuyaVRwSIUiLhj5za7RcfKzk4/zsx03t
- 
-	QZryEzN6imZJHOsuQojp0UvqNQahaHGvqDakQttFB54+5WhXWeokk0QyosZwtQmSOAX
- 
-	wqo/BYhp69Ss9vY/gVgqn9GuxeCKQ7bgNwdMeh/1+HppRwUxcLoFraP7v40G1u91hKJ
- 
-	wTCPP8uYFcm/lI3mNfIwyce8YRshhgol4HIDO3OvLIbLvWNaEFDC4OiHfST2jzjrLRj
- 
-	a9SjFVOMhA==
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240520_073255_456061_D7A00A46 
-X-CRM114-Status: UNSURE (   8.80  )
+X-CRM114-CacheID: sfid-20240522_080625_518417_9E704D6C 
+X-CRM114-Status: UNSURE (   9.29  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -81,51 +83,138 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-RnJvbTogQmVuamFtaW4gU3rFkWtlIDxlZ3lzemVyZWd5QGZyZWVtYWlsLmh1PgoKVGhlIGdvYWwg
-aXMgdG8gY2xlYW4tdXAgTGludXggcmVwb3NpdG9yeSBmcm9tIEFVWCBmaWxlIG5hbWVzLCBiZWNh
-dXNlCnRoZSB1c2Ugb2Ygc3VjaCBmaWxlIG5hbWVzIGlzIHByb2hpYml0ZWQgb24gb3RoZXIgb3Bl
-cmF0aW5nIHN5c3RlbXMKc3VjaCBhcyBXaW5kb3dzLCBzbyB0aGUgTGludXggcmVwb3NpdG9yeSBj
-YW5ub3QgYmUgY2xvbmVkIGFuZAplZGl0ZWQgb24gdGhlbS4KClNpZ25lZC1vZmYtYnk6IEJlbmph
-bWluIFN6xZFrZSA8ZWd5c3plcmVneUBmcmVlbWFpbC5odT4KLS0tCiBhcmNoL2FyYy9pbmNsdWRl
-L2FzbS9hcmNyZWdzLmggICAgICAgfCAyICstCiBhcmNoL2FyYy9pbmNsdWRlL2FzbS9tbXUtYXJj
-djIuaCAgICAgfCAyICstCiBpbmNsdWRlL3NvYy9hcmMve2F1eC5oID0+IGFyY19hdXguaH0gfCAw
-CiBpbmNsdWRlL3NvYy9hcmMvbWNpcC5oICAgICAgICAgICAgICAgfCAyICstCiBpbmNsdWRlL3Nv
-Yy9hcmMvdGltZXJzLmggICAgICAgICAgICAgfCAyICstCiA1IGZpbGVzIGNoYW5nZWQsIDQgaW5z
-ZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKIHJlbmFtZSBpbmNsdWRlL3NvYy9hcmMve2F1eC5o
-ID0+IGFyY19hdXguaH0gKDEwMCUpCgpkaWZmIC0tZ2l0IGEvYXJjaC9hcmMvaW5jbHVkZS9hc20v
-YXJjcmVncy5oIGIvYXJjaC9hcmMvaW5jbHVkZS9hc20vYXJjcmVncy5oCmluZGV4IDRiMTNmNjBm
-ZTdjYS4uMDA1ZDllNGQxODdhIDEwMDY0NAotLS0gYS9hcmNoL2FyYy9pbmNsdWRlL2FzbS9hcmNy
-ZWdzLmgKKysrIGIvYXJjaC9hcmMvaW5jbHVkZS9hc20vYXJjcmVncy5oCkBAIC0xNDYsNyArMTQ2
-LDcgQEAKIAogI2lmbmRlZiBfX0FTU0VNQkxZX18KIAotI2luY2x1ZGUgPHNvYy9hcmMvYXV4Lmg+
-CisjaW5jbHVkZSA8c29jL2FyYy9hcmNfYXV4Lmg+CiAKIC8qIEhlbHBlcnMgKi8KICNkZWZpbmUg
-VE9fS0IoYnl0ZXMpCQkoKGJ5dGVzKSA+PiAxMCkKZGlmZiAtLWdpdCBhL2FyY2gvYXJjL2luY2x1
-ZGUvYXNtL21tdS1hcmN2Mi5oIGIvYXJjaC9hcmMvaW5jbHVkZS9hc20vbW11LWFyY3YyLmgKaW5k
-ZXggZDg1ZGMwNzIxOTA3Li40MTQxMjY0MmYyNzkgMTAwNjQ0Ci0tLSBhL2FyY2gvYXJjL2luY2x1
-ZGUvYXNtL21tdS1hcmN2Mi5oCisrKyBiL2FyY2gvYXJjL2luY2x1ZGUvYXNtL21tdS1hcmN2Mi5o
-CkBAIC05LDcgKzksNyBAQAogI2lmbmRlZiBfQVNNX0FSQ19NTVVfQVJDVjJfSAogI2RlZmluZSBf
-QVNNX0FSQ19NTVVfQVJDVjJfSAogCi0jaW5jbHVkZSA8c29jL2FyYy9hdXguaD4KKyNpbmNsdWRl
-IDxzb2MvYXJjL2FyY19hdXguaD4KIAogLyoKICAqIFRMQiBNYW5hZ2VtZW50IHJlZ3MKZGlmZiAt
-LWdpdCBhL2luY2x1ZGUvc29jL2FyYy9hdXguaCBiL2luY2x1ZGUvc29jL2FyYy9hcmNfYXV4LmgK
-c2ltaWxhcml0eSBpbmRleCAxMDAlCnJlbmFtZSBmcm9tIGluY2x1ZGUvc29jL2FyYy9hdXguaApy
-ZW5hbWUgdG8gaW5jbHVkZS9zb2MvYXJjL2FyY19hdXguaApkaWZmIC0tZ2l0IGEvaW5jbHVkZS9z
-b2MvYXJjL21jaXAuaCBiL2luY2x1ZGUvc29jL2FyYy9tY2lwLmgKaW5kZXggZDFhOTNjNzNmMDA2
-Li5hNzhkYWNkMTQ5ZjEgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvc29jL2FyYy9tY2lwLmgKKysrIGIv
-aW5jbHVkZS9zb2MvYXJjL21jaXAuaApAQCAtOCw3ICs4LDcgQEAKICNpZm5kZWYgX19TT0NfQVJD
-X01DSVBfSAogI2RlZmluZSBfX1NPQ19BUkNfTUNJUF9ICiAKLSNpbmNsdWRlIDxzb2MvYXJjL2F1
-eC5oPgorI2luY2x1ZGUgPHNvYy9hcmMvYXJjX2F1eC5oPgogCiAjZGVmaW5lIEFSQ19SRUdfTUNJ
-UF9CQ1IJMHgwZDAKICNkZWZpbmUgQVJDX1JFR19NQ0lQX0lEVV9CQ1IJMHgwRDUKZGlmZiAtLWdp
-dCBhL2luY2x1ZGUvc29jL2FyYy90aW1lcnMuaCBiL2luY2x1ZGUvc29jL2FyYy90aW1lcnMuaApp
-bmRleCBhZTk5ZDNlODU1ZjEuLjUxYTc0MTY2Mjk2YyAxMDA2NDQKLS0tIGEvaW5jbHVkZS9zb2Mv
-YXJjL3RpbWVycy5oCisrKyBiL2luY2x1ZGUvc29jL2FyYy90aW1lcnMuaApAQCAtNiw3ICs2LDcg
-QEAKICNpZm5kZWYgX19TT0NfQVJDX1RJTUVSU19ICiAjZGVmaW5lIF9fU09DX0FSQ19USU1FUlNf
-SAogCi0jaW5jbHVkZSA8c29jL2FyYy9hdXguaD4KKyNpbmNsdWRlIDxzb2MvYXJjL2FyY19hdXgu
-aD4KIAogLyogVGltZXIgcmVsYXRlZCBBdXggcmVnaXN0ZXJzICovCiAjZGVmaW5lIEFSQ19SRUdf
-VElNRVIwX0xJTUlUCTB4MjMJLyogdGltZXIgMCBsaW1pdCAqLwotLSAKMi4zOS4zCgoKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtc25wcy1hcmMg
-bWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xp
-c3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   29c73fc794c83505066ee6db893b2a83ac5fac63
+commit: f122668ddcce450c2585f0be4bf4478d6fd6176b ARC: Add eBPF JIT support
+date:   10 days ago
+config: arc-randconfig-r133-20240522 (https://download.01.org/0day-ci/archive/20240522/202405222314.UG5F2NHn-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240522/202405222314.UG5F2NHn-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405222314.UG5F2NHn-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+   arch/arc/net/bpf_jit_core.c: note: in included file:
+>> arch/arc/net/bpf_jit.h:42:15: sparse: sparse: marked inline, but without a definition
+--
+>> arch/arc/net/bpf_jit_arcv2.c:2238:17: sparse: sparse: statement expected after case label
+   arch/arc/net/bpf_jit_arcv2.c:2256:17: sparse: sparse: statement expected after case label
+   arch/arc/net/bpf_jit_arcv2.c:2872:9: sparse: sparse: statement expected after case label
+>> arch/arc/net/bpf_jit_arcv2.c:65:10: sparse: sparse: symbol 'bpf2arc' was not declared. Should it be static?
+>> arch/arc/net/bpf_jit_arcv2.c:2536:3: sparse: sparse: symbol 'arcv2_64_jccs' was not declared. Should it be static?
+>> arch/arc/net/bpf_jit_arcv2.c:2886:10: sparse: sparse: symbol 'arcv2_32_jmps' was not declared. Should it be static?
+
+vim +42 arch/arc/net/bpf_jit.h
+
+    39	
+    40	/************** Functions that the back-end must provide **************/
+    41	/* Extension for 32-bit operations. */
+  > 42	inline u8 zext(u8 *buf, u8 rd);
+    43	/***** Moves *****/
+    44	u8 mov_r32(u8 *buf, u8 rd, u8 rs, u8 sign_ext);
+    45	u8 mov_r32_i32(u8 *buf, u8 reg, s32 imm);
+    46	u8 mov_r64(u8 *buf, u8 rd, u8 rs, u8 sign_ext);
+    47	u8 mov_r64_i32(u8 *buf, u8 reg, s32 imm);
+    48	u8 mov_r64_i64(u8 *buf, u8 reg, u32 lo, u32 hi);
+    49	/***** Loads and stores *****/
+    50	u8 load_r(u8 *buf, u8 rd, u8 rs, s16 off, u8 size, bool sign_ext);
+    51	u8 store_r(u8 *buf, u8 rd, u8 rs, s16 off, u8 size);
+    52	u8 store_i(u8 *buf, s32 imm, u8 rd, s16 off, u8 size);
+    53	/***** Addition *****/
+    54	u8 add_r32(u8 *buf, u8 rd, u8 rs);
+    55	u8 add_r32_i32(u8 *buf, u8 rd, s32 imm);
+    56	u8 add_r64(u8 *buf, u8 rd, u8 rs);
+    57	u8 add_r64_i32(u8 *buf, u8 rd, s32 imm);
+    58	/***** Subtraction *****/
+    59	u8 sub_r32(u8 *buf, u8 rd, u8 rs);
+    60	u8 sub_r32_i32(u8 *buf, u8 rd, s32 imm);
+    61	u8 sub_r64(u8 *buf, u8 rd, u8 rs);
+    62	u8 sub_r64_i32(u8 *buf, u8 rd, s32 imm);
+    63	/***** Multiplication *****/
+    64	u8 mul_r32(u8 *buf, u8 rd, u8 rs);
+    65	u8 mul_r32_i32(u8 *buf, u8 rd, s32 imm);
+    66	u8 mul_r64(u8 *buf, u8 rd, u8 rs);
+    67	u8 mul_r64_i32(u8 *buf, u8 rd, s32 imm);
+    68	/***** Division *****/
+    69	u8 div_r32(u8 *buf, u8 rd, u8 rs, bool sign_ext);
+    70	u8 div_r32_i32(u8 *buf, u8 rd, s32 imm, bool sign_ext);
+    71	/***** Remainder *****/
+    72	u8 mod_r32(u8 *buf, u8 rd, u8 rs, bool sign_ext);
+    73	u8 mod_r32_i32(u8 *buf, u8 rd, s32 imm, bool sign_ext);
+    74	/***** Bitwise AND *****/
+    75	u8 and_r32(u8 *buf, u8 rd, u8 rs);
+    76	u8 and_r32_i32(u8 *buf, u8 rd, s32 imm);
+    77	u8 and_r64(u8 *buf, u8 rd, u8 rs);
+    78	u8 and_r64_i32(u8 *buf, u8 rd, s32 imm);
+    79	/***** Bitwise OR *****/
+    80	u8 or_r32(u8 *buf, u8 rd, u8 rs);
+    81	u8 or_r32_i32(u8 *buf, u8 rd, s32 imm);
+    82	u8 or_r64(u8 *buf, u8 rd, u8 rs);
+    83	u8 or_r64_i32(u8 *buf, u8 rd, s32 imm);
+    84	/***** Bitwise XOR *****/
+    85	u8 xor_r32(u8 *buf, u8 rd, u8 rs);
+    86	u8 xor_r32_i32(u8 *buf, u8 rd, s32 imm);
+    87	u8 xor_r64(u8 *buf, u8 rd, u8 rs);
+    88	u8 xor_r64_i32(u8 *buf, u8 rd, s32 imm);
+    89	/***** Bitwise Negate *****/
+    90	u8 neg_r32(u8 *buf, u8 r);
+    91	u8 neg_r64(u8 *buf, u8 r);
+    92	/***** Bitwise left shift *****/
+    93	u8 lsh_r32(u8 *buf, u8 rd, u8 rs);
+    94	u8 lsh_r32_i32(u8 *buf, u8 rd, u8 imm);
+    95	u8 lsh_r64(u8 *buf, u8 rd, u8 rs);
+    96	u8 lsh_r64_i32(u8 *buf, u8 rd, s32 imm);
+    97	/***** Bitwise right shift (logical) *****/
+    98	u8 rsh_r32(u8 *buf, u8 rd, u8 rs);
+    99	u8 rsh_r32_i32(u8 *buf, u8 rd, u8 imm);
+   100	u8 rsh_r64(u8 *buf, u8 rd, u8 rs);
+   101	u8 rsh_r64_i32(u8 *buf, u8 rd, s32 imm);
+   102	/***** Bitwise right shift (arithmetic) *****/
+   103	u8 arsh_r32(u8 *buf, u8 rd, u8 rs);
+   104	u8 arsh_r32_i32(u8 *buf, u8 rd, u8 imm);
+   105	u8 arsh_r64(u8 *buf, u8 rd, u8 rs);
+   106	u8 arsh_r64_i32(u8 *buf, u8 rd, s32 imm);
+   107	/***** Frame related *****/
+   108	u32 mask_for_used_regs(u8 bpf_reg, bool is_call);
+   109	u8 arc_prologue(u8 *buf, u32 usage, u16 frame_size);
+   110	u8 arc_epilogue(u8 *buf, u32 usage, u16 frame_size);
+   111	/***** Jumps *****/
+   112	/*
+   113	 * Different sorts of conditions (ARC enum as opposed to BPF_*).
+   114	 *
+   115	 * Do not change the order of enums here. ARC_CC_SLE+1 is used
+   116	 * to determine the number of JCCs.
+   117	 */
+   118	enum ARC_CC {
+   119		ARC_CC_UGT = 0,		/* unsigned >  */
+   120		ARC_CC_UGE,		/* unsigned >= */
+   121		ARC_CC_ULT,		/* unsigned <  */
+   122		ARC_CC_ULE,		/* unsigned <= */
+   123		ARC_CC_SGT,		/*   signed >  */
+   124		ARC_CC_SGE,		/*   signed >= */
+   125		ARC_CC_SLT,		/*   signed <  */
+   126		ARC_CC_SLE,		/*   signed <= */
+   127		ARC_CC_AL,		/* always      */
+   128		ARC_CC_EQ,		/*          == */
+   129		ARC_CC_NE,		/*          != */
+   130		ARC_CC_SET,		/* test        */
+   131		ARC_CC_LAST
+   132	};
+   133	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
