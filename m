@@ -4,52 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3D4CC25B7D
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 24 May 2024 07:42:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3237CC25B78
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 25 May 2024 03:56:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=YOE8WhJogGtosYg3kAD0fsluRq9MXuSLa4uuarOhIOo=; b=Rvaviuwc2Ydde/
-	ckak/kZuogMRwZxybRjdJglhqTFdZwxfsWWf1z9PtLt5ZrjObesassTstFbmoiE/fLWE/vBP3cdzz
-	fMKlcBAlykbYfpwnKK+5QwXQKPoZesSzu4ITNOQrYjVp866mzeL7a+JUhkfOedDrdFS2FJ8SyMMEz
-	lVzsgzDRsa88wcsiPohF/w2TPkZoFif74/xClfr19gY5R+P8AmQMMqiv5k4uyFPtnP3ZBKOiwTi5C
-	mOBWYbSfo0Z1DNjHA9cSGPr5wRkGbtuHzwQ+x/gI0f0fKcy+BNq08LE5uMNCI4rnNQOn8D0bJJt7S
-	fhY4xZj3PVVM+aQphguA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=jznPfDyWToga/NOcdbgYNQmiJM5uVTQe2Bf6PVmHALM=; b=B/vx1gJNC2flxH
+	s+IJP8VnW97K4/byhwmXCj74m6jmr0yu9ntCziat2nnnQjbs4k0YFDw93KjulHjDLle2Jm2pINoeD
+	c/PQmlYZeJj2b9VWAfpKV5e2V5NWE1anMSKYgsGkn62t4rGEdhRtdj/eCYU+KeUOvted4z8BUNUmm
+	DqAKVailoBrSA7hEOhVakOZOUmnVJCcBRqNoAsW8UG6knfp9LQ5gGEk1iKi1cvoYG2zelKYdzQ4rK
+	cQU6HtmCfwPztzYX0ruSLaCWMukU/iSg5oQMPUse1/+YfQ0j1TmHUIXl/pCylmoCluK5mNeqTmWJQ
+	9riMH3so0XUGF3reQueQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sAPZM-00000008INI-2b8w;
-	Fri, 24 May 2024 07:42:28 +0000
-Received: from mail.quirkbyte.pl ([94.177.238.152])
+	id 1sAiWX-0000000AMdN-306L;
+	Sat, 25 May 2024 03:56:49 +0000
+Received: from out-186.mta1.migadu.com ([95.215.58.186])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sAPZI-00000008IKo-3mun
+	id 1sAiWQ-0000000AMby-2JZF
 	for linux-snps-arc@lists.infradead.org;
-	Fri, 24 May 2024 07:42:26 +0000
-Received: by mail.quirkbyte.pl (Postfix, from userid 1002)
-	id 664CF85D72; Fri, 24 May 2024 09:41:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=quirkbyte.pl; s=mail;
-	t=1716536543; bh=V4qwQGqC7KpJoyielzRpnopuINFIOvKXsSgJ3ZENIXU=;
-	h=Date:From:To:Subject:From;
-	b=b78H3DL0ZY+vRVILg/KrrF7a3I9wTHCx8eazY+b4z9uN19j8YBtx5n4NqUGNSce2n
-	 tqx3F02L5UJoOHzTOASbncNIouHXKK7CMSl3egrwnQc7eFKdw95d0QEoo5eI219nbc
-	 F67o1ZdoFp2CZFGwrj2uqdodN/JQfvMCwFZ6ksMTMZBRCOfX7iG+iZCu0X/PwxTJnQ
-	 CTGmB1ME+kp0bh9UbZmWvsmZXyGX86USBNqFh4/PkzG+7IwdiIAM5yZanuW+z1nn69
-	 MVXzRUvSbDZZvqTjEiaJLI/IeFjCPZ2vXTFQsJlXBEomFgxIInOR2wKS4oEFafzgb1
-	 dLosHvBEwA6YA==
-Received: by mail.quirkbyte.pl for <linux-snps-arc@lists.infradead.org>; Fri, 24 May 2024 07:40:52 GMT
-Message-ID: <20240524084500-0.1.37.1t0um.0.jm5zdhq57p@quirkbyte.pl>
-Date: Fri, 24 May 2024 07:40:52 GMT
-From: "Norbert Karecki" <norbert.karecki@quirkbyte.pl>
-To: <linux-snps-arc@lists.infradead.org>
-Subject: Fotowoltaika - propozycja instalacji
-X-Mailer: mail.quirkbyte.pl
+	Sat, 25 May 2024 03:56:45 +0000
+X-Envelope-To: bpf@vger.kernel.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vahedi.org; s=key1;
+	t=1716609391;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ESjsEOrjOSUIfpoJSGAmqJmoqMNxjpwHbfQn63f4et0=;
+	b=owQSQSqFjjRZyiqkZ1lWmrHkb+jDpAVPpTMBtoA0eogMnMYaTrerBBvWNg9E5wlJ7U038L
+	TKTUXEyk0C7Xltx6Ohr0kRPxexeYtxSgp4uy4A2ZrLoD2rsVolmmhHBWXCmbwoJmsYWNkB
+	v++GPO6jxBRhG5io7GQ12w1tAUVkWkb2BEJQFhz/eVwBNkxVuvWjCBod4/JZ8FOhxI/Oin
+	bCDrcEdyopMhHrTnSPN5Wd/ElyKqmFkAEKzuqzT+d6wA6PfLpcTM/TEt2etaW3vFEQS3vN
+	s/RppA0LsAxAZ+3rVvnLqdfv9lgvxBFKeh1EvAWo+Az16ZSygoSme2WD8A1Omg==
+X-Envelope-To: list+bpf@vahedi.org
+X-Envelope-To: shahab@synopsys.com
+X-Envelope-To: vgupta@kernel.org
+X-Envelope-To: ast@kernel.org
+X-Envelope-To: linux-snps-arc@lists.infradead.org
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Shahab Vahedi <list+bpf@vahedi.org>
+To: bpf@vger.kernel.org
+Cc: Shahab Vahedi <list+bpf@vahedi.org>,
+	Shahab Vahedi <shahab@synopsys.com>,
+	Vineet Gupta <vgupta@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	linux-snps-arc@lists.infradead.org
+Subject: [PATCH bpf-next] ARC, bpf: Fix issues reported by the static analyzers
+Date: Sat, 25 May 2024 05:56:28 +0200
+Message-Id: <20240525035628.1026-1-list+bpf@vahedi.org>
 MIME-Version: 1.0
+X-Migadu-Flow: FLOW_OUT
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240524_004225_133172_526D5A07 
-X-CRM114-Status: UNSURE (   0.10  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240524_205643_644372_50C61582 
+X-CRM114-Status: GOOD (  20.49  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,23 +71,160 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-RHppZcWEIGRvYnJ5LAogCkN6eSByb3p3YcW8YWxpIFBhxYRzdHdvIG1vbnRhxbwgc3lzdGVtdSBm
-b3Rvd29sdGFpY3puZWdvPwogCkluc3RhbGFjamEgZm90b3dvbHRhaWN6bmEgamVzdCBuYWpsZXBz
-enltIHNwb3NvYmVtIG5hIG9ibmnFvGVuaWUgd3lzb2tvxZtjaSByYWNodW5rw7N3IHphIHByxIVk
-IChwb3pvc3RhasSFIHR5bGtvIG9wxYJhdHkgc3RhxYJlKSBpIHphYmV6cGllY3plbmllIHNpxJkg
-cHJ6ZWQgcm9zbsSFY3ltaSBjZW5hbWkgZW5lcmdpaSBlbGVrdHJ5Y3puZWouIEplc3QgdG8gdyBw
-ZcWCbmkgb2RuYXdpYWxuZSBpIGJlemVtaXN5am5lIMW6csOzZMWCbyBlbmVyZ2lpLCBkemnEmWtp
-IGN6ZW11IHByenljenluaWFteSBzacSZIGRvIG9jaHJvbnkgxZtyb2Rvd2lza2EgbmF0dXJhbG5l
-Z28uCiAKRHppYcWCYW15IG9kIHdpZWx1IGxhdCBuYSByeW5rdSBlbmVyZ2V0eWN6bnltLiBQcnp5
-Z290dWplbXkgcHJvamVrdCwgd3ljZW7EmSBvcmF6IGtvbXBsZWtzb3dvIHd5a29uYW15IGkgemfF
-gm9zaW15IHJlYWxpemFjasSZIGRvIHpha8WCYWR1IGVuZXJnZXR5Y3puZWdvLiAKIApDenkgY2hj
-xIUgUGHFhHN0d28gcG96bmHEhyBuYXN6xIUgcHJvcG96eWNqxJk/ICAKCgpQb3pkcmF3aWFtCk5v
-cmJlcnQgS2FyZWNraQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmlu
-ZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9s
-aW51eC1zbnBzLWFyYwo=
+From: Shahab Vahedi <shahab@synopsys.com>
+
+Also updated couple of comments along the way.
+
+One of the issues reported was indeed a bug in the code:
+
+  memset(ctx, 0, sizeof(ctx))      // original line
+  memset(ctx, 0, sizeof(*ctx))     // fixed line
+
+That was a nice catch.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202405222314.UG5F2NHn-lkp@intel.com/
+Closes: https://lore.kernel.org/oe-kbuild-all/202405232036.Xqoc3b0J-lkp@intel.com/
+Signed-off-by: Shahab Vahedi <shahab@synopsys.com>
+---
+ arch/arc/net/bpf_jit.h       |  2 +-
+ arch/arc/net/bpf_jit_arcv2.c | 10 ++++++----
+ arch/arc/net/bpf_jit_core.c  | 22 +++++++++++-----------
+ 3 files changed, 18 insertions(+), 16 deletions(-)
+
+diff --git a/arch/arc/net/bpf_jit.h b/arch/arc/net/bpf_jit.h
+index 34dfcac531d5..d688bb422fd5 100644
+--- a/arch/arc/net/bpf_jit.h
++++ b/arch/arc/net/bpf_jit.h
+@@ -39,7 +39,7 @@
+ 
+ /************** Functions that the back-end must provide **************/
+ /* Extension for 32-bit operations. */
+-inline u8 zext(u8 *buf, u8 rd);
++u8 zext(u8 *buf, u8 rd);
+ /***** Moves *****/
+ u8 mov_r32(u8 *buf, u8 rd, u8 rs, u8 sign_ext);
+ u8 mov_r32_i32(u8 *buf, u8 reg, s32 imm);
+diff --git a/arch/arc/net/bpf_jit_arcv2.c b/arch/arc/net/bpf_jit_arcv2.c
+index 31bfb6e9ce00..4458e409ca0a 100644
+--- a/arch/arc/net/bpf_jit_arcv2.c
++++ b/arch/arc/net/bpf_jit_arcv2.c
+@@ -62,7 +62,7 @@ enum {
+  *   If/when we decide to add ARCv2 instructions that do use register pairs,
+  *   the mapping, hopefully, doesn't need to be revisited.
+  */
+-const u8 bpf2arc[][2] = {
++static const u8 bpf2arc[][2] = {
+ 	/* Return value from in-kernel function, and exit value from eBPF */
+ 	[BPF_REG_0] = {ARC_R_8, ARC_R_9},
+ 	/* Arguments from eBPF program to in-kernel function */
+@@ -1302,7 +1302,7 @@ static u8 arc_b(u8 *buf, s32 offset)
+ 
+ /************* Packers (Deal with BPF_REGs) **************/
+ 
+-inline u8 zext(u8 *buf, u8 rd)
++u8 zext(u8 *buf, u8 rd)
+ {
+ 	if (rd != BPF_REG_FP)
+ 		return arc_movi_r(buf, REG_HI(rd), 0);
+@@ -2235,6 +2235,7 @@ u8 gen_swap(u8 *buf, u8 rd, u8 size, u8 endian, bool force, bool do_zext)
+ 			break;
+ 		default:
+ 			/* The caller must have handled this. */
++			break;
+ 		}
+ 	} else {
+ 		/*
+@@ -2253,6 +2254,7 @@ u8 gen_swap(u8 *buf, u8 rd, u8 size, u8 endian, bool force, bool do_zext)
+ 			break;
+ 		default:
+ 			/* The caller must have handled this. */
++			break;
+ 		}
+ 	}
+ 
+@@ -2517,7 +2519,7 @@ u8 arc_epilogue(u8 *buf, u32 usage, u16 frame_size)
+ #define JCC64_NR_OF_JMPS 3	/* Number of jumps in jcc64 template. */
+ #define JCC64_INSNS_TO_END 3	/* Number of insn. inclusive the 2nd jmp to end. */
+ #define JCC64_SKIP_JMP 1	/* Index of the "skip" jump to "end". */
+-const struct {
++static const struct {
+ 	/*
+ 	 * "jit_off" is common between all "jmp[]" and is coupled with
+ 	 * "cond" of each "jmp[]" instance. e.g.:
+@@ -2883,7 +2885,7 @@ u8 gen_jmp_64(u8 *buf, u8 rd, u8 rs, u8 cond, u32 curr_off, u32 targ_off)
+  * The "ARC_CC_SET" becomes "CC_unequal" because of the "tst"
+  * instruction that precedes the conditional branch.
+  */
+-const u8 arcv2_32_jmps[ARC_CC_LAST] = {
++static const u8 arcv2_32_jmps[ARC_CC_LAST] = {
+ 	[ARC_CC_UGT] = CC_great_u,
+ 	[ARC_CC_UGE] = CC_great_eq_u,
+ 	[ARC_CC_ULT] = CC_less_u,
+diff --git a/arch/arc/net/bpf_jit_core.c b/arch/arc/net/bpf_jit_core.c
+index 6f6b4ffccf2c..e3628922c24a 100644
+--- a/arch/arc/net/bpf_jit_core.c
++++ b/arch/arc/net/bpf_jit_core.c
+@@ -159,7 +159,7 @@ static void jit_dump(const struct jit_context *ctx)
+ /* Initialise the context so there's no garbage. */
+ static int jit_ctx_init(struct jit_context *ctx, struct bpf_prog *prog)
+ {
+-	memset(ctx, 0, sizeof(ctx));
++	memset(ctx, 0, sizeof(*ctx));
+ 
+ 	ctx->orig_prog = prog;
+ 
+@@ -167,7 +167,7 @@ static int jit_ctx_init(struct jit_context *ctx, struct bpf_prog *prog)
+ 	ctx->prog = bpf_jit_blind_constants(prog);
+ 	if (IS_ERR(ctx->prog))
+ 		return PTR_ERR(ctx->prog);
+-	ctx->blinded = (ctx->prog == ctx->orig_prog ? false : true);
++	ctx->blinded = (ctx->prog != ctx->orig_prog);
+ 
+ 	/* If the verifier doesn't zero-extend, then we have to do it. */
+ 	ctx->do_zext = !ctx->prog->aux->verifier_zext;
+@@ -1182,12 +1182,12 @@ static int jit_prepare(struct jit_context *ctx)
+ }
+ 
+ /*
+- * All the "handle_*()" functions have been called before by the
+- * "jit_prepare()". If there was an error, we would know by now.
+- * Therefore, no extra error checking at this point, other than
+- * a sanity check at the end that expects the calculated length
+- * (jit.len) to be equal to the length of generated instructions
+- * (jit.index).
++ * jit_compile() is the real compilation phase. jit_prepare() is
++ * invoked before jit_compile() as a dry-run to make sure everything
++ * will go OK and allocate the necessary memory.
++ *
++ * In the end, jit_compile() checks if it has produced the same number
++ * of instructions as jit_prepare() would.
+  */
+ static int jit_compile(struct jit_context *ctx)
+ {
+@@ -1407,9 +1407,9 @@ static struct bpf_prog *do_extra_pass(struct bpf_prog *prog)
+ 
+ /*
+  * This function may be invoked twice for the same stream of BPF
+- * instructions. The "extra pass" happens, when there are "call"s
+- * involved that their addresses are not known during the first
+- * invocation.
++ * instructions. The "extra pass" happens, when there are
++ * (re)locations involved that their addresses are not known
++ * during the first run.
+  */
+ struct bpf_prog *bpf_int_jit_compile(struct bpf_prog *prog)
+ {
+-- 
+2.39.4
+
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
