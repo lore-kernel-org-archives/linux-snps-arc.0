@@ -4,42 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97F96C27C6E
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 14 Jun 2024 20:09:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C142BC27C77
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 17 Jun 2024 08:11:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=IsUHqkU1MNRbktEz4ayFXJTQ/1/Woi4X8mMLYpsr5OQ=; b=wu7IeTxp/fEL1h
-	ecitskD/g08kka6d6smj7z0BqbkODcCAqi2EXWm/+nMzPWPcomCoANe2232yWF437ig+St6cUmPqu
-	auYpiD5V0R9iO6o+m900l27yJYOI3/MrSXXZTGpfpTc+FcVIqx10ZdQ8cGFx+cRf5mhnVTVM1SRmH
-	KBL1utKfd2/pFPzm4yw5UWfM6rBZDfB8oJJFZ+6W4AFwLUuZZBbzx49TP4fqVIvZ3UTKXywDWKZvL
-	H0+nK/87ulEzGKy6DbCyzBy8ixuzygDyiILrnU1cOhFY4MLd2mL0SCxcCL0AVIdprty/epStdyZqB
-	3omPwj4QRgrWwzNaelbQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=airlPYMiW2YTTjA6iamchaIIjwbbSnKerEq//70bIvg=; b=QL8FssAg+Mlcgg
+	EtkLOlThak/ZSPVycly5skfF230a51tvqrwh0+IOV5djIe1kDKO0pNwtEa4uF0eFJdGPUZ/CvcNDH
+	pAS8BaRLXPu21FSUe2PJtXKwpnS+mkkb8GIbEBjMnPdSqBacHxDmTsybmiZ5jqwHp22TAzpZlBySy
+	RtOUF5pyOcT9l0/5pVJZ60Sc3r5hS+Y8OrzTwv6QwrrYFKcUS73Tr9YD+T7KlHleIKZnurqxu3VZQ
+	QpY+TqGHtSten6bMdGoJWTCVflUSzn3FymP37WnA9yHulOIo8Vn7OtOGCaNmCGDVsSjCDrmK3odkQ
+	cF5Jh8P0kaHaG4ugWwaw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sIDEh-00000003x5g-18BV;
-	Fri, 14 Jun 2024 20:09:23 +0000
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sIDEf-00000003x5E-0ql1;
-	Fri, 14 Jun 2024 20:09:21 +0000
-Message-ID: <e459e0eb-40a7-406b-b5d4-cfd937796177@infradead.org>
-Date: Fri, 14 Jun 2024 13:09:20 -0700
+	id 1sJ7Sc-00000009o6Q-3ZY0;
+	Mon, 17 Jun 2024 08:11:31 +0000
+Received: from mail.salesoptimize.pl ([162.19.245.89])
+	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sJ7SZ-00000009o3W-2Eig
+	for linux-snps-arc@lists.infradead.org;
+	Mon, 17 Jun 2024 08:11:29 +0000
+Received: by mail.salesoptimize.pl (Postfix, from userid 1002)
+	id EFAC146E5F; Mon, 17 Jun 2024 10:10:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=salesoptimize.pl;
+	s=mail; t=1718611885;
+	bh=u+y/L6S5UL+8vZAxwL74vV1B6m8M84m9zI1fQPT/Bfs=;
+	h=Date:From:To:Subject:From;
+	b=mSHuy7xM/1D1rtD+oZUFAiJVqS8XlfDi9WMQ0y0ym3L85IClM222nvfzJJ+pw5SiT
+	 YAevZDvW4dd16HSD39nIBR42OFdLP150CFuc/QHHoYsEodXzDQnJ53HEZZMNEmc8jS
+	 hJu9NGkvoNPcGIupEpSDlAeYIV4DgdElqsoQg8KzwB9QDyOBTfZZ2DkZBiwUmFYPNO
+	 QU6WELqxHF30EcXONWJvVnt392v3gmpDI3OvHflaGkaB75QG9tgbMZJvO13dPcFpkB
+	 CkrOYtN+6wMhDYd+hrO+N7+OyUKavO+iqWOVAVDT7BXOtMunaY/GQwjZIunWvkKzWE
+	 e6BxOWmviqMLQ==
+Received: by mail.salesoptimize.pl for <linux-snps-arc@lists.infradead.org>; Mon, 17 Jun 2024 08:10:47 GMT
+Message-ID: <20240617084500-0.1.31.oey6.0.91bhu50kkb@salesoptimize.pl>
+Date: Mon, 17 Jun 2024 08:10:47 GMT
+From: "Tomasz Wawrzyniak" <tomasz.wawrzyniak@salesoptimize.pl>
+To: <linux-snps-arc@lists.infradead.org>
+Subject: =?UTF-8?Q?Odroczenie_zap=C5=82aty?=
+X-Mailer: mail.salesoptimize.pl
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: Remove unused "nps_mtm_hs_ctr" from
- kernel-parameters.txt
-To: Thomas Huth <thuth@redhat.com>, linux-doc@vger.kernel.org,
- Vineet Gupta <vgupta@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- linux-snps-arc@lists.infradead.org
-References: <20240614190804.602970-1-thuth@redhat.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240614190804.602970-1-thuth@redhat.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20240617_011127_744862_57C60358 
+X-CRM114-Status: UNSURE (  -0.03  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -51,53 +62,19 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-
-
-On 6/14/24 12:08 PM, Thomas Huth wrote:
-> The "nps_mtm_hs_ctr" parameter has been removed in commit dd7c7ab01a04
-> ("ARC: [plat-eznps]: Drop support for EZChip NPS platform"). Remove it
-> from the documentation now, too.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
-
-
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 9 ---------
->  1 file changed, 9 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index dd8436c98735..f58001338860 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -4143,15 +4143,6 @@
->  			parameter, xsave area per process might occupy more
->  			memory on xsaves enabled systems.
->  
-> -	nps_mtm_hs_ctr=	[KNL,ARC]
-> -			This parameter sets the maximum duration, in
-> -			cycles, each HW thread of the CTOP can run
-> -			without interruptions, before HW switches it.
-> -			The actual maximum duration is 16 times this
-> -			parameter's value.
-> -			Format: integer between 1 and 255
-> -			Default: 255
-> -
->  	nptcg=		[IA-64] Override max number of concurrent global TLB
->  			purges which is reported from either PAL_VM_SUMMARY or
->  			SAL PALO.
-
--- 
-~Randy
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+U3phbm93bmkgUGHFhHN0d28sCgpjaGNpYcWCYnltIHphcHJvcG9ub3dhxIcgbW/FvGxpd2/Fm8SH
+IHd5ZMWCdcW8ZW5pYSBva3Jlc3Ugc3DFgmF0eSB6YSB6YWt1cGlvbmUgcHJvZHVrdHkuCgpNb2ds
+aWJ5xZtjaWUgesWCb8W8ecSHIHphbcOzd2llbmllIHUgc3dvamVnbyBkb3N0YXdjeSwgYSBteSBk
+b2tvbmFteSBwxYJhdG5vxZtjaSB3IHd5em5hY3pvbnltIHByemV6IG5pZWdvIHRlcm1pbmllLiBQ
+byBvdHJ6eW1hbml1IHDFgmF0bm/Fm2NpIHd5c3Rhd2lteSBQYcWEc3R3dSBmYWt0dXLEmSBzcHJ6
+ZWRhxbx5IHogb2Ryb2N6b255bSB0ZXJtaW5lbSBwxYJhdG5vxZtjaSAoMzAtOTAgZG5pKS4KClPE
+hSBQYcWEc3R3byB6YWludGVyZXNvd2FuaSB0YWtpbSByb3p3acSFemFuaWVtPwoKClBvemRyYXdp
+YW0KVG9tYXN6IFdhd3J6eW5pYWsKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0Bs
+aXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlz
+dGluZm8vbGludXgtc25wcy1hcmMK
