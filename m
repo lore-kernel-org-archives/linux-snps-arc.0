@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE50EC2BA15
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 19 Jun 2024 07:57:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DE557C3064D
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 28 Jun 2024 08:12:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
 	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
 	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=YOE8WhJogGtosYg3kAD0fsluRq9MXuSLa4uuarOhIOo=; b=eIBxAIrlYBNgVT
-	ivRIBi2Ta9MIKDugSc/ReW4RQ7CuKVmUY1IcHRkwrQYvmbhyzsQd4wQ2aSn+RGskFJTeXKWQLvGsT
-	Faz6rcedmch3tJ3h6DwUKbTmyCJcua2lpIWG7cPBSvKxgovo1SBGRbAKipGayXqa8iwDxuorcOSvN
-	EE58aAMO698tGsrMCbC2YFibGGkDezFeCfJoURIF3eTj9l6TIi5iLP5sSEeErC/3vVRRQrxNWKW34
-	l2KwtSkNsAF2wH/IMMKXkeLiUCkq5lnuMDv5fmnpKOXu39loAu71BSPw9qTOJ30qlChGcF8QX3l7N
-	ZA6Xu/zCQ2zoPlgHfVqg==;
+	List-Owner; bh=YOE8WhJogGtosYg3kAD0fsluRq9MXuSLa4uuarOhIOo=; b=oulOrAlE9TgxVq
+	zCQ4+U0M69KBMbZDh+dRqawvkFtTGXtAPhE/oYVcmjfWJvGcizBCaNoojvDGsJ2A4MZqu7gUf1hti
+	esAzsjtP3bC5rKTKGJrRqZAAx17Z2ea5f1/kHptAl8nQCO2QOjPMBdTBzkbCtrpYGFT6/q2HE0UFs
+	YfxNWp2bK3nKHuB8hWAU/YbXLvuyRI1hCvOoI3aSP2QrdP/8BhQk9yVINmul9b4RiURE4wCQmEnmL
+	USY3xTEqyxhYMF/AMhGy3n3bK2HiGnaYAj/9A0kUDaM8ToeH9Sz7+kKrraduUXvsxqwXXF0Xi7BWl
+	fMpmUiEJpj8A5TKEUDEw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJqBq-00000000IP3-1VEA;
-	Wed, 19 Jun 2024 07:57:10 +0000
+	id 1sN6iw-0000000D1m1-24RS;
+	Fri, 28 Jun 2024 08:12:50 +0000
 Received: from mail.quirkbyte.pl ([94.177.238.152])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJqBl-00000000INn-4C6P
+	id 1sN6it-0000000D1lf-3FVx
 	for linux-snps-arc@lists.infradead.org;
-	Wed, 19 Jun 2024 07:57:07 +0000
+	Fri, 28 Jun 2024 08:12:49 +0000
 Received: by mail.quirkbyte.pl (Postfix, from userid 1002)
-	id CE516878C4; Wed, 19 Jun 2024 09:56:09 +0200 (CEST)
+	id 5E7F18C744; Fri, 28 Jun 2024 10:05:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=quirkbyte.pl; s=mail;
-	t=1718783816; bh=V4qwQGqC7KpJoyielzRpnopuINFIOvKXsSgJ3ZENIXU=;
+	t=1719561957; bh=V4qwQGqC7KpJoyielzRpnopuINFIOvKXsSgJ3ZENIXU=;
 	h=Date:From:To:Subject:From;
-	b=2R9KHhJEoUDIyzLK8hO+W/LW2vnAc9S4ibBRZ2de8nLlT9gjgfm1EgHEcJS1YbgHq
-	 l6sbNeL5F/clbA4cafh4qJdh105h5wNoDRsrjev8n5TqhM1GKZr4sh0OhBWchQNTAk
-	 coKKBlVNYs7u0+HlK/RVVnLne0d6P3CAl3KxcfhUVNo87pkxM1AvU5GJdQZ87qGyt3
-	 vDXdBQrcGYBdn+xM2hLRXv72BlHk3PKhsd/+qNhApvaqYJ/AEfmit6as2ygLXF5gax
-	 a6CJxXlyJOc8t42qLQjbI2EiDWUI+GNvoDEwYMJztakriQhPlWW1EcXDtEX6yxyDs7
-	 B+8osCW/UTdxA==
-Received: by mail.quirkbyte.pl for <linux-snps-arc@lists.infradead.org>; Wed, 19 Jun 2024 07:55:12 GMT
-Message-ID: <20240619084500-0.1.3o.23lcl.0.gc44hu0pkq@quirkbyte.pl>
-Date: Wed, 19 Jun 2024 07:55:12 GMT
+	b=YJbiW1R0s4g+2UgqPjcQQjz4dMaJm/uD4kFap3G+HDAfDsBwEDLv6IzZNgjfkXAWM
+	 1UutdrPC4MQDEar+ogQOI7wB4FtOfDtrA7gWRNMLIU50XFesf06WF5J8HZr0G7/YEX
+	 ucLwPyEklVoJTp6n6EBAES8zvVqP5nuDF+HZ4frv0YnwwRI1pjrHJVtbuhjIEYPFH1
+	 4+TCwly57Cuie6WF2eHSgVNoBujv+Gln4lVMnhwioE3DfcKkJbaJXphJ8SDvtTyM4l
+	 UnXNm7UJ5Tnz0YpzrmeAV6Fr7jzKpRZi1Bykg1JRHOffjrdmTgTo8aeWCo77vBTSq3
+	 yC+gNY6nxTIyw==
+Received: by mail.quirkbyte.pl for <linux-snps-arc@lists.infradead.org>; Fri, 28 Jun 2024 08:05:09 GMT
+Message-ID: <20240628084500-0.1.3v.285os.0.1q04pa5274@quirkbyte.pl>
+Date: Fri, 28 Jun 2024 08:05:09 GMT
 From: "Norbert Karecki" <norbert.karecki@quirkbyte.pl>
 To: <linux-snps-arc@lists.infradead.org>
 Subject: Fotowoltaika - propozycja instalacji
 X-Mailer: mail.quirkbyte.pl
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240619_005706_390551_E8C1661C 
-X-CRM114-Status: UNSURE (   0.87  )
+X-CRM114-CacheID: sfid-20240628_011247_959114_F9647546 
+X-CRM114-Status: UNSURE (   0.43  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
