@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B4C4C30653
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  4 Jul 2024 14:40:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91B74C30653
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  4 Jul 2024 14:40:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=m4dXZe4ZLvXGXkYzM3ObZBNW/XEE7INbx+tnO7s7WgY=; b=h2xSVOYysP+OkS
-	gyAfrMt+ztAv3+xe9ujwssbe3X/UQ9c6x6/QE2FettIhApmBqFJAqOB7borxqaMbv+rYjJiUEMePp
-	4aq+YZKbCd8AgWS0jqhtK06jHQI8CImjefVmpSkij19Razt7ZWHVxJ23pxFsolP8Sm3WpDC0TFcJ3
-	9eXujyjuUCAa5OjHxfZ9XP4JN6UVnPcCrLZ2UPUifob2Qpd4+tOVNgHkL09xw33Xqzt4LbH+Zbl1P
-	Jtmy0PkhxzZSVGcQerp+tO8M7sgtz/PLhw9uXjzIZjtepTareJKj2/2l/vx3hqs+Q+nPF7cLfCsC1
-	vxAHhQa/OGOIBdSOyKNg==;
+	List-Owner; bh=JIQEL8aX8/mVo3MkV3lDF76njIHPKZ7ZsSBuGV+85WE=; b=Vg9X91oNWXeZQ+
+	lxHNypPu+DkSPEIu+Koduhw1fZwNweZKbXSKfoRanzz/9t4DBHRD/nb9OXSyJnGjO0YLQUtFqo9ww
+	ikPY2q7IuEzXZpBwFfTbg238gi5oOEH7Xng1LzXAVV2oSexqhK1rLITimhqWSZ/2aTbSVWczOE8FM
+	YqLuIRoVxmy1bt7AaUGHWyfmKWvMZEtidZBE1YqMUTJWtOn+kpm74UPj2wspH4ZzTrNi0vfjsx3/H
+	e+/uZpDz0jhiryF2Tx5oG3TZLYuyjxCdAn5S2YzIzt1MaXsD0tw9QjMNG0gwG3OJRlj8z9DrX91c3
+	Jndve9jcwePQ1Dvfiwzg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sPNdF-0000000DWf6-3D2d;
-	Thu, 04 Jul 2024 14:40:21 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1sPNdY-0000000DWt2-0C8D;
+	Thu, 04 Jul 2024 14:40:40 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sPNbA-0000000DVCK-0aUZ;
-	Thu, 04 Jul 2024 14:38:13 +0000
+	id 1sPNbJ-0000000DVIo-0XfG;
+	Thu, 04 Jul 2024 14:38:24 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 6215C62785;
+	by sin.source.kernel.org (Postfix) with ESMTP id 4ED92CE37C2;
+	Thu,  4 Jul 2024 14:38:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CF23C3277B;
 	Thu,  4 Jul 2024 14:38:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FD5EC4AF0C;
-	Thu,  4 Jul 2024 14:38:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720103891;
-	bh=F6VHs8/vR/gkfT29GR/49ui5Xm5trk2YQxZHzsh3y7A=;
+	s=k20201202; t=1720103898;
+	bh=ODPfrstW6z55EUTJBlL5CpBuNw04MBo366IHejLQljg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WZG8y7JLFBgwuDuQbUnDG+sAz0Fy+O09sVQVJaoVv3WAH4BgFyY5s2todTxxhH7cS
-	 tSB0vEHm1Kgdl7/cE4DMiEoaMmyIazdnUuscmtR2MXXTFeLgFCsYmxZMlqYFzSvNKV
-	 iC3VA+6mofoZCzEgKiMsjeshxko8zlwegeGneY4ClK1/mWaoe0JL+v4BpfboZqZ2tz
-	 /Oc4dpZC8Zy0BQORX3cYkyeXfAJFA9p8foYD7WTsCON/AGnnaNl+EfVewoNcn+6Ffk
-	 VbKrxUpK48nX1cFpAtsy1zwOMNiYFmKotvfsxqzmf2z744ZkatdlkhT10W8B1LFy/8
-	 A3M0XPDZJpTTw==
+	b=ENcGfyAkVNir+N00kkmJQU041xFHzk6bryBStS3PHMWYJ3JHfVBOnCsWJFi4f90c/
+	 jcIl0WCIN3kE0BArYuBLN+WZmgCD+3R73p7xAkbD5T/nNlQCjn9ra9IYSqAxWn7Grk
+	 bp5jfk1kWsBi0+wt11ubVSnmUOgq8nvYN7bi1wmDndXmL0mgn5MJmTnne71Z1XyrL3
+	 /gP1XGtd56H2LCrgfUNI4lshCvU9mxujWAMIoIlyanLxlTuEBPt1e/fGPi4wLoWA4M
+	 0WgCCijUZXOOTzDXyGRhBaTHQmDgq7Eg8LyGc8wGXHxTfJYXnippNRxoP/dDttBWq8
+	 tsoFUgKbX83mg==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-arch@vger.kernel.org
 Cc: Arnd Bergmann <arnd@arndb.de>,
@@ -77,16 +77,16 @@ Cc: Arnd Bergmann <arnd@arndb.de>,
 	loongarch@lists.linux.dev,
 	linux-openrisc@vger.kernel.org,
 	linux-riscv@lists.infradead.org
-Subject: [PATCH 12/17] csky: convert to generic syscall table
-Date: Thu,  4 Jul 2024 16:36:06 +0200
-Message-Id: <20240704143611.2979589-13-arnd@kernel.org>
+Subject: [PATCH 13/17] hexagon: use new system call table
+Date: Thu,  4 Jul 2024 16:36:07 +0200
+Message-Id: <20240704143611.2979589-14-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240704143611.2979589-1-arnd@kernel.org>
 References: <20240704143611.2979589-1-arnd@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240704_073812_438469_5E9D86E3 
-X-CRM114-Status: GOOD (  17.92  )
+X-CRM114-CacheID: sfid-20240704_073821_610148_225B0E1F 
+X-CRM114-Status: GOOD (  16.05  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,122 +109,121 @@ The uapi/asm/unistd_32.h and asm/syscall_table_32.h headers can now be
 generated from scripts/syscall.tbl, which makes this consistent with
 the other architectures that have their own syscall.tbl.
 
-csky has two architecture specific system calls, which I add to
-the generic table.  The time32, stat64 and rlimit entries in the
-syscall_abis_32 line are for system calls that were part of the generic
-ABI when arch/csky got added but are no longer enabled by default for
-new architectures.
+The time32, stat64, rlimit and renameat entries in the syscall_abis_32
+line are for system calls that were part of the generic ABI when
+arch/hexagon got added but are no longer enabled by default for new
+architectures.
 
-Both the user visible side of asm/unistd.h and the internal syscall
-table in the kernel should have the same effective contents after this.
+As a side-effect, calling an unimplemented syscall now return -ENOSYS
+rather than branching into a NULL pointer.
 
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/csky/include/asm/Kbuild        |  2 ++
- arch/csky/include/asm/unistd.h      |  3 +++
- arch/csky/include/uapi/asm/Kbuild   |  2 ++
- arch/csky/include/uapi/asm/unistd.h | 14 ++------------
- arch/csky/kernel/Makefile.syscalls  |  4 ++++
- arch/csky/kernel/syscall_table.c    |  4 +++-
- scripts/syscall.tbl                 |  4 ++++
- 7 files changed, 20 insertions(+), 13 deletions(-)
- create mode 100644 arch/csky/kernel/Makefile.syscalls
+ arch/hexagon/include/asm/Kbuild        |  2 ++
+ arch/hexagon/include/asm/unistd.h      | 10 ++++++++++
+ arch/hexagon/include/uapi/asm/Kbuild   |  2 ++
+ arch/hexagon/include/uapi/asm/unistd.h | 15 ++-------------
+ arch/hexagon/kernel/Makefile.syscalls  |  3 +++
+ arch/hexagon/kernel/syscalltab.c       |  8 ++++++--
+ 6 files changed, 25 insertions(+), 15 deletions(-)
+ create mode 100644 arch/hexagon/include/asm/unistd.h
+ create mode 100644 arch/hexagon/kernel/Makefile.syscalls
 
-diff --git a/arch/csky/include/asm/Kbuild b/arch/csky/include/asm/Kbuild
-index 13ebc5e34360..9a9bc65b57a9 100644
---- a/arch/csky/include/asm/Kbuild
-+++ b/arch/csky/include/asm/Kbuild
+diff --git a/arch/hexagon/include/asm/Kbuild b/arch/hexagon/include/asm/Kbuild
+index 3ece3c93fe08..8c1a78c8f527 100644
+--- a/arch/hexagon/include/asm/Kbuild
++++ b/arch/hexagon/include/asm/Kbuild
 @@ -1,4 +1,6 @@
  # SPDX-License-Identifier: GPL-2.0
-+syscall-y := syscall_table_32.h
++syscall-y += syscall_table_32.h
 +
- generic-y += asm-offsets.h
  generic-y += extable.h
+ generic-y += iomap.h
  generic-y += kvm_para.h
-diff --git a/arch/csky/include/asm/unistd.h b/arch/csky/include/asm/unistd.h
-index 9cf97de9a26d..2c2c24de95d8 100644
---- a/arch/csky/include/asm/unistd.h
-+++ b/arch/csky/include/asm/unistd.h
-@@ -2,4 +2,7 @@
- 
- #include <uapi/asm/unistd.h>
- 
+diff --git a/arch/hexagon/include/asm/unistd.h b/arch/hexagon/include/asm/unistd.h
+new file mode 100644
+index 000000000000..1f462bade75c
+--- /dev/null
++++ b/arch/hexagon/include/asm/unistd.h
+@@ -0,0 +1,10 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++
 +#define __ARCH_WANT_STAT64
 +#define __ARCH_WANT_SYS_CLONE
++#define __ARCH_WANT_SYS_VFORK
++#define __ARCH_WANT_SYS_FORK
 +
- #define NR_syscalls (__NR_syscalls)
-diff --git a/arch/csky/include/uapi/asm/Kbuild b/arch/csky/include/uapi/asm/Kbuild
++#define __ARCH_BROKEN_SYS_CLONE3
++
++#include <uapi/asm/unistd.h>
+diff --git a/arch/hexagon/include/uapi/asm/Kbuild b/arch/hexagon/include/uapi/asm/Kbuild
 index e78470141932..2501e82a1a0a 100644
---- a/arch/csky/include/uapi/asm/Kbuild
-+++ b/arch/csky/include/uapi/asm/Kbuild
+--- a/arch/hexagon/include/uapi/asm/Kbuild
++++ b/arch/hexagon/include/uapi/asm/Kbuild
 @@ -1,2 +1,4 @@
  # SPDX-License-Identifier: GPL-2.0
 +syscall-y += unistd_32.h
 +
  generic-y += ucontext.h
-diff --git a/arch/csky/include/uapi/asm/unistd.h b/arch/csky/include/uapi/asm/unistd.h
-index d529d0432876..794adbc04e48 100644
---- a/arch/csky/include/uapi/asm/unistd.h
-+++ b/arch/csky/include/uapi/asm/unistd.h
-@@ -1,14 +1,4 @@
- /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+diff --git a/arch/hexagon/include/uapi/asm/unistd.h b/arch/hexagon/include/uapi/asm/unistd.h
+index 4bea7428e747..6f670347dd61 100644
+--- a/arch/hexagon/include/uapi/asm/unistd.h
++++ b/arch/hexagon/include/uapi/asm/unistd.h
+@@ -27,17 +27,6 @@
+  *  See also:  syscalltab.c
+  */
  
+-#define sys_mmap2 sys_mmap_pgoff
+-#define __ARCH_WANT_RENAMEAT
 -#define __ARCH_WANT_STAT64
--#define __ARCH_WANT_NEW_STAT
--#define __ARCH_WANT_SYS_CLONE
 -#define __ARCH_WANT_SET_GET_RLIMIT
+-#define __ARCH_WANT_SYS_EXECVE
+-#define __ARCH_WANT_SYS_CLONE
+-#define __ARCH_WANT_SYS_VFORK
+-#define __ARCH_WANT_SYS_FORK
 -#define __ARCH_WANT_TIME32_SYSCALLS
 -#define __ARCH_WANT_SYNC_FILE_RANGE2
--#include <asm-generic/unistd.h>
--
--#define __NR_set_thread_area	(__NR_arch_specific_syscall + 0)
--__SYSCALL(__NR_set_thread_area, sys_set_thread_area)
--#define __NR_cacheflush		(__NR_arch_specific_syscall + 1)
--__SYSCALL(__NR_cacheflush, sys_cacheflush)
 +#include <asm/unistd_32.h>
+ 
+-#define __ARCH_BROKEN_SYS_CLONE3
+-
+-#include <asm-generic/unistd.h>
 +#define __NR_sync_file_range2 __NR_sync_file_range
-diff --git a/arch/csky/kernel/Makefile.syscalls b/arch/csky/kernel/Makefile.syscalls
+diff --git a/arch/hexagon/kernel/Makefile.syscalls b/arch/hexagon/kernel/Makefile.syscalls
 new file mode 100644
-index 000000000000..3df3b5822fce
+index 000000000000..d2b7c5d44d95
 --- /dev/null
-+++ b/arch/csky/kernel/Makefile.syscalls
-@@ -0,0 +1,4 @@
++++ b/arch/hexagon/kernel/Makefile.syscalls
+@@ -0,0 +1,3 @@
 +# SPDX-License-Identifier: GPL-2.0
 +
-+syscall_abis_32 += csky time32 stat64 rlimit
++syscall_abis_32 += hexagon time32 stat64 rlimit renameat
+diff --git a/arch/hexagon/kernel/syscalltab.c b/arch/hexagon/kernel/syscalltab.c
+index 5d98bdc494ec..b53e2eead4ac 100644
+--- a/arch/hexagon/kernel/syscalltab.c
++++ b/arch/hexagon/kernel/syscalltab.c
+@@ -11,8 +11,10 @@
+ 
+ #include <asm/syscall.h>
+ 
+-#undef __SYSCALL
+ #define __SYSCALL(nr, call) [nr] = (call),
++#define __SYSCALL_WITH_COMPAT(nr, native, compat)        __SYSCALL(nr, native)
 +
-diff --git a/arch/csky/kernel/syscall_table.c b/arch/csky/kernel/syscall_table.c
-index a0c238c5377a..a6eb91a0e2f6 100644
---- a/arch/csky/kernel/syscall_table.c
-+++ b/arch/csky/kernel/syscall_table.c
-@@ -6,9 +6,11 @@
++#define sys_mmap2 sys_mmap_pgoff
  
- #undef __SYSCALL
- #define __SYSCALL(nr, call)[nr] = (call),
-+#define __SYSCALL_WITH_COMPAT(nr, native, compat) __SYSCALL(nr, native)
+ SYSCALL_DEFINE6(hexagon_fadvise64_64, int, fd, int, advice,
+ 		SC_ARG64(offset), SC_ARG64(len))
+@@ -21,6 +23,8 @@ SYSCALL_DEFINE6(hexagon_fadvise64_64, int, fd, int, advice,
+ }
+ #define sys_fadvise64_64 sys_hexagon_fadvise64_64
  
- #define sys_fadvise64_64 sys_csky_fadvise64_64
 +#define sys_sync_file_range sys_sync_file_range2
- void * const sys_call_table[__NR_syscalls] __page_aligned_data = {
- 	[0 ... __NR_syscalls - 1] = sys_ni_syscall,
++
+ void *sys_call_table[__NR_syscalls] = {
 -#include <asm/unistd.h>
 +#include <asm/syscall_table_32.h>
  };
-diff --git a/scripts/syscall.tbl b/scripts/syscall.tbl
-index 13f4c79ba5c2..ed0ecba8fea4 100644
---- a/scripts/syscall.tbl
-+++ b/scripts/syscall.tbl
-@@ -293,6 +293,10 @@
- 246	arc	arc_gettls			sys_arc_gettls
- 247	arc	sysfs				sys_sysfs
- 248	arc	arc_usr_cmpxchg			sys_arc_usr_cmpxchg
-+
-+244	csky	set_thread_area			sys_set_thread_area
-+245	csky	cacheflush			sys_cacheflush
-+
- 260	time32	wait4				sys_wait4			compat_sys_wait4
- 260	64	wait4				sys_wait4
- 261	common	prlimit64			sys_prlimit64
 -- 
 2.39.2
 
