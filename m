@@ -4,89 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3985C30653
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  4 Jul 2024 14:41:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 80908C30658
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  5 Jul 2024 08:18:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ecNUSIpYDH4GUHTLrLkjQie4fjD0jul/HXC75gUXX8I=; b=gIbdgiMPRr+fUi
-	OTFyXdmfdzpyOIaaU8l8r/uXolOC8e65v4dfGhCFZblMJ17jyBYeoOrl+xKja/x44HxIVQ1IYRps8
-	tihGUfKEowH+SdB3B4B/nA+YaBop0WjiS6THw7oJHLuqEWBMF3Oh16rwmKxsrLEt5gNrZqW+jEkqU
-	fJAF8GgJFoX53WmMuCI2thhJocAAIdjGarLm3Vsf5YfoKXFCQFQa0sgGV4H5mkfrRfovTKHEMY2Nx
-	sJFwzi3sCeBB75S6CS+hJT2Dgy4tMqxmzy+6AaRYFpCBh/xFjPhnMIMH8FG+/pfVt+clrHOv/mUX7
-	jdGV47+4Q8pCqIhIsaVw==;
+	List-Owner; bh=XkzQDJflnGahmxP1Fijpdk2svc6dVbQ8xSQpIsms4Pc=; b=zhUBkimpn3vldj
+	8UVlbI6ot0+5Bmkgf+bor4X5JRcHyT44cD0f1cC28k/l9XC8ozm+jFo8osxPd458dqMYUteMc3gns
+	XAopZeIlMJ8nfzhkzp/fvVso4uWi8l8gjyA1N26XlhVV2SWGZap/RLSAj6T/ix8OYNMNmOYToUk/o
+	kdGvLHfi3mRw19WKE8m+TVq3o+gq9mCJVURCF940nNqIkPGyKEZKWeZSyA7pBxZOUzrEbJ2qZt/do
+	Sp7whiVPz3IczhOsJGUBYcSmKYGeHft2N5RNPZqLy2qRZCv/meym93HgKCe50MHGuNpXs2nT/STG/
+	0/FbNt8jL2PW0UY0MKWQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sPNeZ-0000000DXcF-1eqd;
-	Thu, 04 Jul 2024 14:41:43 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1sPe9h-0000000FG9F-0NQU;
+	Fri, 05 Jul 2024 08:18:57 +0000
+Received: from mail-qt1-f181.google.com ([209.85.160.181])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sPNbl-0000000DVfC-3NeC;
-	Thu, 04 Jul 2024 14:38:51 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 1B8C1624A0;
-	Thu,  4 Jul 2024 14:38:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAB7EC32781;
-	Thu,  4 Jul 2024 14:38:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720103928;
-	bh=6VGcvb+hjNG3OZrSZmKQqWbbNaSc922Mlx+mVwuKLTI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rBziHuEXIXC8B4bVdX4ubT5QGzvcwhzcBNCEQSHkqRYVfo8HXKbNhxoVk2ZCTRVc4
-	 I+BYhyhrFlBUlxjREkLG6DFqHfguVlYCB468eioxgwLrw/u8uo8WiUgkPvNmVRRZc6
-	 sVvGStxrImJRElhxow0rbSsp/FrpRY3DQSux78mE/k5Gn+VO59+6vtrqrhc3h9B4Wp
-	 trZmyYYbDmFp6+c3SPo57hb8Mz/TFOekcjtQMfbFvrBvhwEesi0h1xkQj6NuYsQquf
-	 qBe0ou+Y9rdBo3nAJb3CXBQ7/u0MSnQBUWowBSewq2xtP4yJkdziyq/c6z1dGw15HV
-	 anNr9FoyBBZxg==
-From: Arnd Bergmann <arnd@kernel.org>
-To: linux-arch@vger.kernel.org
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Vineet Gupta <vgupta@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Guo Ren <guoren@kernel.org>,
-	Brian Cain <bcain@quicinc.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Jonas Bonn <jonas@southpole.se>,
-	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-	Stafford Horne <shorne@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Rich Felker <dalias@libc.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-csky@vger.kernel.org,
-	linux-hexagon@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-openrisc@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH 17/17] riscv: convert to generic syscall table
-Date: Thu,  4 Jul 2024 16:36:11 +0200
-Message-Id: <20240704143611.2979589-18-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240704143611.2979589-1-arnd@kernel.org>
-References: <20240704143611.2979589-1-arnd@kernel.org>
+	id 1sPe9e-0000000FG8L-47UG;
+	Fri, 05 Jul 2024 08:18:56 +0000
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-446449e5df5so6932171cf.0;
+        Fri, 05 Jul 2024 01:18:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720167533; x=1720772333;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ipFWrtbP2pnadKQDEjq7tVSKBPDnD8noGTMoh58siUs=;
+        b=oQjOKDKVft4/527oH7JsFi5aK3xpNYRedSvTv/CdAV+WMw0O2WmlAyQyfX+t53xVCp
+         WVY0fnVuVl5N+8nc45cuR1fpnRrjGdIMQMCX9ehLJEGk1CjBD6kghE+fes/wgd1ZY5rb
+         0s4LEc4xxco7AUxxzDZgRzozEtgZROme0o9e8hN2nsfd5FSuhYRJckJJ7Frw5XciynUO
+         2QJM6Oj7EzCocpDjsE2HozI+4nzSHHoJxgii1yo7deNK5EP7SiuslN/tQieyDAw6RyHS
+         l4+LapIFOIWnPz9gq2dkTlRApvUqeMWEUZKT4suK4/swBvDhPpym6MbvsEowRrHirwd5
+         VWiw==
+X-Forwarded-Encrypted: i=1; AJvYcCUnCHw5I8ja1j27BhycrUIuT+hgTI/262xAUdaJPPCGVowFishiqK49sSq2EVGGhxABX5diW1V1rxtfjd9awXneiQ5N4prDhWIwMTSdeFWcJBvnxxd9xBahlt4iH0xLWueDqen/bvVVhCl/D9tW7c7d3oc06AMNnigx/b30HuYFF3eZijTk3l94g0eRlxZ+h6+03PWFv1y68D4=
+X-Gm-Message-State: AOJu0Yw7EM6UukiGc9rWuZHIOIs8HIF21nM5EpjJgtb2G8nZi4B6nDCC
+	CGApcTtTNuOjPNMiXlbZsl+SCrd1sUUpFM2QFJLn6JUuwIgSQJUTXa6fTasr
+X-Google-Smtp-Source: AGHT+IF5AehrfMg6ofbCuZOi8LI0el8dxG9XzR6WIWu1thZNhz5EkCFM8gzX2t1kehn2sAOA2oJcuQ==
+X-Received: by 2002:a05:6214:1d0b:b0:6b5:6097:396f with SMTP id 6a1803df08f44-6b5ed09514amr50088666d6.64.1720167533186;
+        Fri, 05 Jul 2024 01:18:53 -0700 (PDT)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com. [209.85.219.50])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b5e4c79306sm20135016d6.35.2024.07.05.01.18.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Jul 2024 01:18:53 -0700 (PDT)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6b5dfa44f24so8238616d6.3;
+        Fri, 05 Jul 2024 01:18:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX+xkuw1Z8mQITRFKFmW9Lw2U369Yhv2tlMMQ5JoRDWj3vZhIedEv/BbOdtYoa3ap8+Tj4epkFzpwNL1mtsAMKEHYoklOrc1lnuD/qPNAN4ppm8Ar8QknC0kjj17ucAsnWz9S49cpRUtGOA6HSqGBCP18ETgQYVaKPgy4VrZpKalz8vVZXt6zxKbOvLm3YBw5B+jtpM2dtce0I=
+X-Received: by 2002:a81:431f:0:b0:633:8b49:f97c with SMTP id
+ 00721157ae682-652d842fd27mr38728927b3.37.1720167188020; Fri, 05 Jul 2024
+ 01:13:08 -0700 (PDT)
 MIME-Version: 1.0
+References: <20240704143611.2979589-1-arnd@kernel.org> <20240704143611.2979589-8-arnd@kernel.org>
+In-Reply-To: <20240704143611.2979589-8-arnd@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 5 Jul 2024 10:12:55 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV-JtJWixt8J45rhZbpb7S90EDhp=x5iGGBhmUZyyQSnw@mail.gmail.com>
+Message-ID: <CAMuHMdV-JtJWixt8J45rhZbpb7S90EDhp=x5iGGBhmUZyyQSnw@mail.gmail.com>
+Subject: Re: [PATCH 07/17] clone3: drop __ARCH_WANT_SYS_CLONE3 macro
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-arch@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Vineet Gupta <vgupta@kernel.org>, 
+	Russell King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>, Brian Cain <bcain@quicinc.com>, 
+	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
+	Dinh Nguyen <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>, 
+	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, Stafford Horne <shorne@gmail.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Rich Felker <dalias@libc.org>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Christian Brauner <brauner@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org, 
+	linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev, 
+	linux-openrisc@vger.kernel.org, linux-riscv@lists.infradead.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240704_073850_024372_93133084 
-X-CRM114-Status: GOOD (  28.03  )
+X-CRM114-CacheID: sfid-20240705_011855_043155_8B9BC91D 
+X-CRM114-Status: GOOD (  20.68  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,236 +96,38 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Arnd Bergmann <arnd@arndb.de>
-
-The uapi/asm/unistd_{32,64}.h and asm/syscall_table_{32,64}.h headers can
-now be generated from scripts/syscall.tbl, which makes this consistent
-with the other architectures that have their own syscall.tbl.
-
-riscv has two extra system call that gets added to scripts/syscall.tbl.
-
-The newstat and rlimit entries in the syscall_abis_64 line are for system
-calls that were part of the generic ABI when riscv64 got added but are
-no longer enabled by default for new architectures. Both riscv32 and
-riscv64 also implement memfd_secret, which is optional for all
-architectures.
-
-Unlike all the other 32-bit architectures, the time32 and stat64
-sets of syscalls are not enabled on riscv32.
-
-Both the user visible side of asm/unistd.h and the internal syscall
-table in the kernel should have the same effective contents after this.
-
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- arch/riscv/include/asm/Kbuild            |  3 ++
- arch/riscv/include/asm/syscall_table.h   |  7 +++++
- arch/riscv/include/asm/unistd.h          | 13 +++++---
- arch/riscv/include/uapi/asm/Kbuild       |  2 ++
- arch/riscv/include/uapi/asm/unistd.h     | 40 +++---------------------
- arch/riscv/kernel/Makefile.syscalls      |  4 +++
- arch/riscv/kernel/compat_syscall_table.c |  6 ++--
- arch/riscv/kernel/syscall_table.c        |  6 ++--
- scripts/syscall.tbl                      |  3 ++
- 9 files changed, 40 insertions(+), 44 deletions(-)
- create mode 100644 arch/riscv/include/asm/syscall_table.h
- create mode 100644 arch/riscv/kernel/Makefile.syscalls
-
-diff --git a/arch/riscv/include/asm/Kbuild b/arch/riscv/include/asm/Kbuild
-index 504f8b7e72d4..5c589770f2a8 100644
---- a/arch/riscv/include/asm/Kbuild
-+++ b/arch/riscv/include/asm/Kbuild
-@@ -1,4 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
-+syscall-y += syscall_table_32.h
-+syscall-y += syscall_table_64.h
-+
- generic-y += early_ioremap.h
- generic-y += flat.h
- generic-y += kvm_para.h
-diff --git a/arch/riscv/include/asm/syscall_table.h b/arch/riscv/include/asm/syscall_table.h
-new file mode 100644
-index 000000000000..0c2d61782813
---- /dev/null
-+++ b/arch/riscv/include/asm/syscall_table.h
-@@ -0,0 +1,7 @@
-+#include <asm/bitsperlong.h>
-+
-+#if __BITS_PER_LONG == 64
-+#include <asm/syscall_table_64.h>
-+#else
-+#include <asm/syscall_table_32.h>
-+#endif
-diff --git a/arch/riscv/include/asm/unistd.h b/arch/riscv/include/asm/unistd.h
-index 221630bdbd07..e6d904fa67c5 100644
---- a/arch/riscv/include/asm/unistd.h
-+++ b/arch/riscv/include/asm/unistd.h
-@@ -3,11 +3,6 @@
-  * Copyright (C) 2012 Regents of the University of California
-  */
- 
--/*
-- * There is explicitly no include guard here because this file is expected to
-- * be included multiple times.
-- */
--
- #define __ARCH_WANT_SYS_CLONE
- 
- #ifdef CONFIG_COMPAT
-@@ -21,6 +16,14 @@
- #define __ARCH_WANT_COMPAT_FADVISE64_64
- #endif
- 
-+#if defined(__LP64__) && !defined(__SYSCALL_COMPAT)
-+#define __ARCH_WANT_NEW_STAT
-+#define __ARCH_WANT_SET_GET_RLIMIT
-+#endif /* __LP64__ */
-+
-+#define __ARCH_WANT_MEMFD_SECRET
-+
-+
- #include <uapi/asm/unistd.h>
- 
- #define NR_syscalls (__NR_syscalls)
-diff --git a/arch/riscv/include/uapi/asm/Kbuild b/arch/riscv/include/uapi/asm/Kbuild
-index f66554cd5c45..89ac01faa5ae 100644
---- a/arch/riscv/include/uapi/asm/Kbuild
-+++ b/arch/riscv/include/uapi/asm/Kbuild
-@@ -1 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0
-+syscall-y += unistd_32.h
-+syscall-y += unistd_64.h
-diff --git a/arch/riscv/include/uapi/asm/unistd.h b/arch/riscv/include/uapi/asm/unistd.h
-index 328520defc13..81896bbbf727 100644
---- a/arch/riscv/include/uapi/asm/unistd.h
-+++ b/arch/riscv/include/uapi/asm/unistd.h
-@@ -14,40 +14,10 @@
-  * You should have received a copy of the GNU General Public License
-  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-  */
-+#include <asm/bitsperlong.h>
- 
--#if defined(__LP64__) && !defined(__SYSCALL_COMPAT)
--#define __ARCH_WANT_NEW_STAT
--#define __ARCH_WANT_SET_GET_RLIMIT
--#endif /* __LP64__ */
--
--#define __ARCH_WANT_MEMFD_SECRET
--
--#include <asm-generic/unistd.h>
--
--/*
-- * Allows the instruction cache to be flushed from userspace.  Despite RISC-V
-- * having a direct 'fence.i' instruction available to userspace (which we
-- * can't trap!), that's not actually viable when running on Linux because the
-- * kernel might schedule a process on another hart.  There is no way for
-- * userspace to handle this without invoking the kernel (as it doesn't know the
-- * thread->hart mappings), so we've defined a RISC-V specific system call to
-- * flush the instruction cache.
-- *
-- * __NR_riscv_flush_icache is defined to flush the instruction cache over an
-- * address range, with the flush applying to either all threads or just the
-- * caller.  We don't currently do anything with the address range, that's just
-- * in there for forwards compatibility.
-- */
--#ifndef __NR_riscv_flush_icache
--#define __NR_riscv_flush_icache (__NR_arch_specific_syscall + 15)
--#endif
--__SYSCALL(__NR_riscv_flush_icache, sys_riscv_flush_icache)
--
--/*
-- * Allows userspace to query the kernel for CPU architecture and
-- * microarchitecture details across a given set of CPUs.
-- */
--#ifndef __NR_riscv_hwprobe
--#define __NR_riscv_hwprobe (__NR_arch_specific_syscall + 14)
-+#if __BITS_PER_LONG == 64
-+#include <asm/unistd_64.h>
-+#else
-+#include <asm/unistd_32.h>
- #endif
--__SYSCALL(__NR_riscv_hwprobe, sys_riscv_hwprobe)
-diff --git a/arch/riscv/kernel/Makefile.syscalls b/arch/riscv/kernel/Makefile.syscalls
-new file mode 100644
-index 000000000000..52087a023b3d
---- /dev/null
-+++ b/arch/riscv/kernel/Makefile.syscalls
-@@ -0,0 +1,4 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+syscall_abis_32 += riscv memfd_secret
-+syscall_abis_64 += riscv newstat rlimit memfd_secret
-diff --git a/arch/riscv/kernel/compat_syscall_table.c b/arch/riscv/kernel/compat_syscall_table.c
-index ad7f2d712f5f..e884c069e88f 100644
---- a/arch/riscv/kernel/compat_syscall_table.c
-+++ b/arch/riscv/kernel/compat_syscall_table.c
-@@ -8,9 +8,11 @@
- #include <asm-generic/syscalls.h>
- #include <asm/syscall.h>
- 
-+#define __SYSCALL_WITH_COMPAT(nr, native, compat) __SYSCALL(nr, compat)
-+
- #undef __SYSCALL
- #define __SYSCALL(nr, call)	asmlinkage long __riscv_##call(const struct pt_regs *);
--#include <asm/unistd.h>
-+#include <asm/syscall_table_32.h>
- 
- #undef __SYSCALL
- #define __SYSCALL(nr, call)      [nr] = __riscv_##call,
-@@ -19,5 +21,5 @@ asmlinkage long compat_sys_rt_sigreturn(void);
- 
- void * const compat_sys_call_table[__NR_syscalls] = {
- 	[0 ... __NR_syscalls - 1] = __riscv_sys_ni_syscall,
--#include <asm/unistd.h>
-+#include <asm/syscall_table_32.h>
- };
-diff --git a/arch/riscv/kernel/syscall_table.c b/arch/riscv/kernel/syscall_table.c
-index dda913764903..6f1a36cb0f3f 100644
---- a/arch/riscv/kernel/syscall_table.c
-+++ b/arch/riscv/kernel/syscall_table.c
-@@ -9,14 +9,16 @@
- #include <asm-generic/syscalls.h>
- #include <asm/syscall.h>
- 
-+#define __SYSCALL_WITH_COMPAT(nr, native, compat) __SYSCALL(nr, native)
-+
- #undef __SYSCALL
- #define __SYSCALL(nr, call)	asmlinkage long __riscv_##call(const struct pt_regs *);
--#include <asm/unistd.h>
-+#include <asm/syscall_table.h>
- 
- #undef __SYSCALL
- #define __SYSCALL(nr, call)	[nr] = __riscv_##call,
- 
- void * const sys_call_table[__NR_syscalls] = {
- 	[0 ... __NR_syscalls - 1] = __riscv_sys_ni_syscall,
--#include <asm/unistd.h>
-+#include <asm/syscall_table.h>
- };
-diff --git a/scripts/syscall.tbl b/scripts/syscall.tbl
-index 28329c00bf68..797e20ea99a2 100644
---- a/scripts/syscall.tbl
-+++ b/scripts/syscall.tbl
-@@ -301,6 +301,9 @@
- 
- 244	or1k	or1k_atomic			sys_or1k_atomic
- 
-+258	riscv	riscv_hwprobe			sys_riscv_hwprobe
-+259	riscv	riscv_flush_icache		sys_riscv_flush_icache
-+
- 260	time32	wait4				sys_wait4			compat_sys_wait4
- 260	64	wait4				sys_wait4
- 261	common	prlimit64			sys_prlimit64
--- 
-2.39.2
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gVGh1LCBKdWwgNCwgMjAyNCBhdCA0OjM44oCvUE0gQXJuZCBCZXJnbWFubiA8YXJuZEBrZXJu
+ZWwub3JnPiB3cm90ZToKPiBGcm9tOiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPgo+Cj4g
+V2hlbiBjbG9uZTMoKSB3YXMgaW50cm9kdWNlZCwgaXQgd2FzIG5vdCBvYnZpb3VzIGhvdyBlYWNo
+IGFyY2hpdGVjdHVyZQo+IGRlYWxzIHdpdGggc2V0dGluZyB1cCB0aGUgc3RhY2sgYW5kIGtlZXBp
+bmcgdGhlIHJlZ2lzdGVyIGNvbnRlbnRzIGluCj4gYSBmb3JrKCktbGlrZSBzeXN0ZW0gY2FsbCwg
+c28gdGhpcyB3YXMgbGVmdCBmb3IgdGhlIGFyY2hpdGVjdHVyZQo+IG1haW50YWluZXJzIHRvIGlt
+cGxlbWVudCwgd2l0aCBfX0FSQ0hfV0FOVF9TWVNfQ0xPTkUzIGRlZmluZWQgYnkgdGhvc2UKPiB0
+aGF0IGFscmVhZHkgaW1wbGVtZW50IGl0Lgo+Cj4gRml2ZSB5ZWFycyBsYXRlciwgd2Ugc3RpbGwg
+aGF2ZSBhIGZldyBhcmNoaXRlY3R1cmVzIGxlZnQgdGhhdCBhcmUgbWlzc2luZwo+IGNsb25lMygp
+LCBhbmQgdGhlIG1hY3JvIGtlZXBzIGdldHRpbmcgaW4gdGhlIHdheSBhcyBpdCdzIGZ1bmRhbWVu
+dGFsbHkKPiBkaWZmZXJlbnQgZnJvbSBhbGwgdGhlIG90aGVyIF9fQVJDSF9XQU5UX1NZU18qIG1h
+Y3JvcyB0aGF0IGFyZSBtZWFudAo+IHRvIHByb3ZpZGUgYmFja3dhcmRzLWNvbXBhdGliaWxpdHkg
+d2l0aCBhcHBsaWNhdGlvbnMgdXNpbmcgb2xkZXIKPiBzeXNjYWxscyB0aGF0IGFyZSBubyBsb25n
+ZXIgcHJvdmlkZWQgYnkgZGVmYXVsdC4KPgo+IEFkZHJlc3MgdGhpcyBieSByZXZlcnNpbmcgdGhl
+IHBvbGFyaXR5IG9mIHRoZSBtYWNybywgYWRkaW5nIGFuCj4gX19BUkNIX0JST0tFTl9TWVNfQ0xP
+TkUzIG1hY3JvIHRvIGFsbCBhcmNoaXRlY3R1cmVzIHRoYXQgZG9uJ3QKPiBhbHJlYWR5IHByb3Zp
+ZGUgdGhlIHN5c2NhbGwsIGFuZCByZW1vdmUgX19BUkNIX1dBTlRfU1lTX0NMT05FMwo+IGZyb20g
+YWxsIHRoZSBvdGhlciBvbmVzLgo+Cj4gU2lnbmVkLW9mZi1ieTogQXJuZCBCZXJnbWFubiA8YXJu
+ZEBhcm5kYi5kZT4KCj4gIGFyY2gvbTY4ay9pbmNsdWRlL2FzbS91bmlzdGQuaCAgICAgICAgICAg
+ICAgICAgfCAxIC0KCkFja2VkLWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0QGxpbnV4LW02
+OGsub3JnPgoKR3J7b2V0amUsZWV0aW5nfXMsCgogICAgICAgICAgICAgICAgICAgICAgICBHZWVy
+dAoKLS0gCkdlZXJ0IFV5dHRlcmhvZXZlbiAtLSBUaGVyZSdzIGxvdHMgb2YgTGludXggYmV5b25k
+IGlhMzIgLS0gZ2VlcnRAbGludXgtbTY4ay5vcmcKCkluIHBlcnNvbmFsIGNvbnZlcnNhdGlvbnMg
+d2l0aCB0ZWNobmljYWwgcGVvcGxlLCBJIGNhbGwgbXlzZWxmIGEgaGFja2VyLiBCdXQKd2hlbiBJ
+J20gdGFsa2luZyB0byBqb3VybmFsaXN0cyBJIGp1c3Qgc2F5ICJwcm9ncmFtbWVyIiBvciBzb21l
+dGhpbmcgbGlrZSB0aGF0LgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC0tIExpbnVz
+IFRvcnZhbGRzCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFk
+ZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4
+LXNucHMtYXJjCg==
