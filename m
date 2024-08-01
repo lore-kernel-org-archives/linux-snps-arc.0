@@ -4,133 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2861FC3DA61
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 30 Jul 2024 07:23:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9908C3DA4A
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  1 Aug 2024 08:27:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Y9qQdD/KPrp98yQ7ugwyceC/N/ued72d3p1kuqHri6E=; b=dM4wm7cCQbfqdI
-	opOVVaNKLw/8Wi3e5g3nTEA0EZPnDjrtegoHyBEn6wuxJXJbV2vLtxRuicwXZn9/G4zQndKMy0Taj
-	pOhBK7tjDB7UxZWfMkVK8jSQ8LcaD7tqEDI+Lsg1njIjtVF5sgqhp/ygjcsc6zAcagb8L7Au1x+WW
-	DD1ZjfHJI7lV1e9cJDgsYfmyYkNS1DnTbEeDgiWASa+VBT1ekFWbDOo3UMTxRl1nCsjrqpemN7k5G
-	DCzSiBSL9bDf0tDvrlnzczeWfJsvCsoJGNifnZ8L6vFUJYqGD+2rcqe00ZuDdxfwEgk4T9AgaN7rD
-	VC2vfLjTI3Y51D8z354Q==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=YOE8WhJogGtosYg3kAD0fsluRq9MXuSLa4uuarOhIOo=; b=AyzRExE6YKKqNu
+	7KlFXAeqgMhZ/m8FGVdclBOHDoovbzv6wBpFNWqQ683KDFUhTqRFII8/SiuTl8yw9Y3eokZFfCEAM
+	10pCErtuMsTrqELF7u1lefEwgmr4Ie2NYChPZ2TN2nd+w/vErpiOa20d0FK8jJH+kPbwOELyPrmhi
+	Hvk4cfNbjnUBPbPtXsvAeE12DK9Dyk5T4bnPTOD9mUTMonHpQiY54OlHOgGuzjg943pITUuGQHzN9
+	IyMp9ucsNqr8j4y1xWuzEjVnlmt/20wnqIQo0jkwuoMyVOoTJFZrvssbjI/0VrLxgdzpGABEMngU2
+	jRsMT9xgublgjLfbJrLg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sYhCr-0000000E0Ei-1xu6;
-	Tue, 30 Jul 2024 07:23:37 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1sZR9k-00000004Lt1-2EUW;
+	Thu, 01 Aug 2024 08:27:28 +0000
+Received: from mail.quirkbyte.pl ([94.177.238.152])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sYhCk-0000000E09n-0cmE;
-	Tue, 30 Jul 2024 07:23:32 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 50B1961DE1;
-	Tue, 30 Jul 2024 07:23:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B845C4AF0C;
-	Tue, 30 Jul 2024 07:23:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722324209;
-	bh=pmAot7c13dNSFHJIzK3xlU5SqKtGMVMiLmncclf/DQ4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AWXv2pEp/nNupQjdbP6hn5kUITNeBpHRDBazsYl2CUpADVig7M2J+omHoRHo3TFZb
-	 +Hk/4ktC45EKRUaZWbMYrHYfA/pgKh8zhcILxOPrp0butWLZomt6kbTElUUEqnCvg+
-	 SVxMSWauhY/FHuAmUmxcA33G+FwZWZcQuJbRclpvkV5vc68Za2RA5bPELHmpu6rlPH
-	 N+kHuGSwuqg5k9oZXP5d+CBTW8Rt24mZVqRqc57EoCY2n8zfWwOCWH8dVd9qkRpU3K
-	 tg4w7ehvyfwE6q5ygSgvHB/7psYaWDXrfQSximxaEI4rwD91P92gbo/uuZ9G3P/b2a
-	 AxzNLLDhX3CvQ==
-From: alexs@kernel.org
-To: Will Deacon <will@kernel.org>,
-	"Aneesh Kumar K . V" <aneesh.kumar@kernel.org>,
-	Nick Piggin <npiggin@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Brian Cain <bcain@quicinc.com>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Jonas Bonn <jonas@southpole.se>,
-	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-	Stafford Horne <shorne@gmail.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Naveen N Rao <naveen@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Bibo Mao <maobibo@loongson.cn>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	linux-arch@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-csky@vger.kernel.org,
-	linux-hexagon@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-m68k@lists.linux-m68k.org,
-	linux-openrisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Qi Zheng <zhengqi.arch@bytedance.com>,
-	Vishal Moola <vishal.moola@gmail.com>,
-	"Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Lance Yang <ioworker0@gmail.com>,
-	Peter Xu <peterx@redhat.com>,
-	Barry Song <baohua@kernel.org>,
-	linux-s390@vger.kernel.org
-Cc: Guo Ren <guoren@kernel.org>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Oscar Salvador <osalvador@suse.de>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Jisheng Zhang <jszhang@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Anup Patel <anup@brainfault.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Breno Leitao <leitao@debian.org>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Hugh Dickins <hughd@google.com>,
-	David Hildenbrand <david@redhat.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Alex Shi <alexs@kernel.org>,
-	"Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
-	linux-parisc@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-alpha@vger.kernel.org,
-	Helge Deller <deller@gmx.de>,
-	"James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
-	Sam Creasey <sammy@sammy.net>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Vineet Gupta <vgupta@kernel.org>,
-	Matt Turner <mattst88@gmail.com>,
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Ard Biesheuvel <ardb@kernel.org>
-Subject: [RFC PATCH 15/18] mm/pgtable: pass ptdesc to pmd_populate
-Date: Tue, 30 Jul 2024 15:27:16 +0800
-Message-ID: <20240730072719.3715016-5-alexs@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240730072719.3715016-1-alexs@kernel.org>
-References: <20240730064712.3714387-1-alexs@kernel.org>
- <20240730072719.3715016-1-alexs@kernel.org>
+	id 1sZR9h-00000004LrR-36Dg
+	for linux-snps-arc@lists.infradead.org;
+	Thu, 01 Aug 2024 08:27:27 +0000
+Received: by mail.quirkbyte.pl (Postfix, from userid 1002)
+	id B3EF289BE8; Thu,  1 Aug 2024 10:17:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=quirkbyte.pl; s=mail;
+	t=1722500320; bh=V4qwQGqC7KpJoyielzRpnopuINFIOvKXsSgJ3ZENIXU=;
+	h=Date:From:To:Subject:From;
+	b=YmEv5+agsjNoGRKrLKIm0kg7oyyz3jgAUys7rcCHXDmOTYRp1Lj+XITVQyumkvgRC
+	 Oh4XPcY6QWd1JLpAXEnZzDabpS/UXSmp1qu1uDw6/h9UcbHygBU5F1jv4GAjVR1aRC
+	 ZBXvOVgqc3AjaJdsYqwgsy0iSnd/oMXze74WhhzzXJmHXjixAy9yWiAE+DjvSIEInw
+	 pNvEN43lzHPmCYBpbY9RAeKRR82pF0jIej+xtQG60zOTDg9kqAR7mWWC7kFsTjbIgj
+	 fdV1mUrCLHxF0TI5Ph3vtEoLije6p9Wbj7czgkyhh5iHsecJB0ElLkvfcVleW5lJTw
+	 cTzbJFZKDRxJg==
+Received: by mail.quirkbyte.pl for <linux-snps-arc@lists.infradead.org>; Thu,  1 Aug 2024 08:16:19 GMT
+Message-ID: <20240801084501-0.1.4j.2m07p.0.1vj7jzdjhg@quirkbyte.pl>
+Date: Thu,  1 Aug 2024 08:16:19 GMT
+From: "Norbert Karecki" <norbert.karecki@quirkbyte.pl>
+To: <linux-snps-arc@lists.infradead.org>
+Subject: Fotowoltaika - propozycja instalacji
+X-Mailer: mail.quirkbyte.pl
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240730_002330_343715_DC698688 
-X-CRM114-Status: GOOD (  16.71  )
+X-CRM114-CacheID: sfid-20240801_012725_966907_4A31D47C 
+X-CRM114-Status: UNSURE (   1.14  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,458 +61,23 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Alex Shi <alexs@kernel.org>
-
-Pass struct ptdesc to pmd_populate to further replace pgtable_t.
-We use type casting instead of page_ptdesc() helper since different arch
-has different type of pgtable_t.
-
-Helper ptdesc_pfn used for arch openrisc and hexagon.
-
-Signed-off-by: Alex Shi <alexs@kernel.org>
-Cc: linux-mm@kvack.org
-Cc: linux-parisc@vger.kernel.org
-Cc: linux-openrisc@vger.kernel.org
-Cc: linux-m68k@lists.linux-m68k.org
-Cc: loongarch@lists.linux.dev
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-snps-arc@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-alpha@vger.kernel.org
-Cc: H. Peter Anvin <hpa@zytor.com>
-Cc: x86@kernel.org
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Helge Deller <deller@gmx.de>
-Cc: James E.J. Bottomley <James.Bottomley@HansenPartnership.com>
-Cc: Stafford Horne <shorne@gmail.com>
-Cc: Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>
-Cc: Jonas Bonn <jonas@southpole.se>
-Cc: Sam Creasey <sammy@sammy.net>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: WANG Xuerui <kernel@xen0n.name>
-Cc: Huacai Chen <chenhuacai@kernel.org>
-Cc: Will Deacon <will@kernel.org>
-Cc: Russell King <linux@armlinux.org.uk>
-Cc: Vineet Gupta <vgupta@kernel.org>
-Cc: Matt Turner <mattst88@gmail.com>
-Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Breno Leitao <leitao@debian.org>
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: Bibo Mao <maobibo@loongson.cn>
-Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: Mike Rapoport  <rppt@kernel.org>
-Cc: Vishal Moola  <vishal.moola@gmail.com>
-Cc: Ard Biesheuvel <ardb@kernel.org>
----
- arch/alpha/include/asm/pgalloc.h             | 4 ++--
- arch/arc/include/asm/pgalloc.h               | 4 ++--
- arch/arm/include/asm/pgalloc.h               | 4 ++--
- arch/arm64/include/asm/pgalloc.h             | 4 ++--
- arch/hexagon/include/asm/pgalloc.h           | 4 ++--
- arch/loongarch/include/asm/pgalloc.h         | 4 ++--
- arch/m68k/include/asm/motorola_pgalloc.h     | 4 ++--
- arch/m68k/include/asm/sun3_pgalloc.h         | 4 ++--
- arch/microblaze/include/asm/pgalloc.h        | 2 +-
- arch/mips/include/asm/pgalloc.h              | 4 ++--
- arch/nios2/include/asm/pgalloc.h             | 4 ++--
- arch/openrisc/include/asm/pgalloc.h          | 4 ++--
- arch/parisc/include/asm/pgalloc.h            | 2 +-
- arch/powerpc/include/asm/book3s/32/pgalloc.h | 2 +-
- arch/sh/include/asm/pgalloc.h                | 4 ++--
- arch/sparc/include/asm/pgalloc_32.h          | 2 +-
- arch/x86/include/asm/pgalloc.h               | 4 ++--
- mm/debug_vm_pgtable.c                        | 2 +-
- mm/huge_memory.c                             | 8 ++++----
- mm/khugepaged.c                              | 4 ++--
- mm/memory.c                                  | 2 +-
- mm/mremap.c                                  | 2 +-
- 22 files changed, 39 insertions(+), 39 deletions(-)
-
-diff --git a/arch/alpha/include/asm/pgalloc.h b/arch/alpha/include/asm/pgalloc.h
-index 68be7adbfe58..ad62056059ac 100644
---- a/arch/alpha/include/asm/pgalloc.h
-+++ b/arch/alpha/include/asm/pgalloc.h
-@@ -14,9 +14,9 @@
-  */
- 
- static inline void
--pmd_populate(struct mm_struct *mm, pmd_t *pmd, pgtable_t pte)
-+pmd_populate(struct mm_struct *mm, pmd_t *pmd, struct ptdesc *pte)
- {
--	pmd_set(pmd, (pte_t *)(page_to_pa(pte) + PAGE_OFFSET));
-+	pmd_set(pmd, (pte_t *)(page_to_pa(ptdesc_page(pte)) + PAGE_OFFSET));
- }
- 
- static inline void
-diff --git a/arch/arc/include/asm/pgalloc.h b/arch/arc/include/asm/pgalloc.h
-index 096b8ef58edb..51233cfb1bad 100644
---- a/arch/arc/include/asm/pgalloc.h
-+++ b/arch/arc/include/asm/pgalloc.h
-@@ -46,9 +46,9 @@ pmd_populate_kernel(struct mm_struct *mm, pmd_t *pmd, pte_t *pte)
- 	set_pmd(pmd, __pmd((unsigned long)pte));
- }
- 
--static inline void pmd_populate(struct mm_struct *mm, pmd_t *pmd, pgtable_t pte_page)
-+static inline void pmd_populate(struct mm_struct *mm, pmd_t *pmd, struct ptdesc *pte)
- {
--	set_pmd(pmd, __pmd((unsigned long)page_address(pte_page)));
-+	set_pmd(pmd, __pmd((unsigned long)ptdesc_address(pte)));
- }
- 
- static inline pgd_t *pgd_alloc(struct mm_struct *mm)
-diff --git a/arch/arm/include/asm/pgalloc.h b/arch/arm/include/asm/pgalloc.h
-index e8501a6c3336..37a15220fce7 100644
---- a/arch/arm/include/asm/pgalloc.h
-+++ b/arch/arm/include/asm/pgalloc.h
-@@ -130,7 +130,7 @@ pmd_populate_kernel(struct mm_struct *mm, pmd_t *pmdp, pte_t *ptep)
- }
- 
- static inline void
--pmd_populate(struct mm_struct *mm, pmd_t *pmdp, pgtable_t ptep)
-+pmd_populate(struct mm_struct *mm, pmd_t *pmdp, struct ptdesc *ptep)
- {
- 	extern pmdval_t user_pmd_table;
- 	pmdval_t prot;
-@@ -140,7 +140,7 @@ pmd_populate(struct mm_struct *mm, pmd_t *pmdp, pgtable_t ptep)
- 	else
- 		prot = _PAGE_USER_TABLE;
- 
--	__pmd_populate(pmdp, page_to_phys(ptep), prot);
-+	__pmd_populate(pmdp, page_to_phys(ptdesc_page(ptep)), prot);
- }
- 
- #endif /* CONFIG_MMU */
-diff --git a/arch/arm64/include/asm/pgalloc.h b/arch/arm64/include/asm/pgalloc.h
-index 8ff5f2a2579e..d9074b5f9dfe 100644
---- a/arch/arm64/include/asm/pgalloc.h
-+++ b/arch/arm64/include/asm/pgalloc.h
-@@ -131,10 +131,10 @@ pmd_populate_kernel(struct mm_struct *mm, pmd_t *pmdp, pte_t *ptep)
- }
- 
- static inline void
--pmd_populate(struct mm_struct *mm, pmd_t *pmdp, pgtable_t ptep)
-+pmd_populate(struct mm_struct *mm, pmd_t *pmdp, struct ptdesc *ptep)
- {
- 	VM_BUG_ON(mm == &init_mm);
--	__pmd_populate(pmdp, page_to_phys(ptep), PMD_TYPE_TABLE | PMD_TABLE_PXN);
-+	__pmd_populate(pmdp, page_to_phys(ptdesc_page(ptep)), PMD_TYPE_TABLE | PMD_TABLE_PXN);
- }
- 
- #endif
-diff --git a/arch/hexagon/include/asm/pgalloc.h b/arch/hexagon/include/asm/pgalloc.h
-index a3e082e54b74..f34e9fcad066 100644
---- a/arch/hexagon/include/asm/pgalloc.h
-+++ b/arch/hexagon/include/asm/pgalloc.h
-@@ -42,13 +42,13 @@ static inline pgd_t *pgd_alloc(struct mm_struct *mm)
- }
- 
- static inline void pmd_populate(struct mm_struct *mm, pmd_t *pmd,
--				pgtable_t pte)
-+				struct ptdesc *pte)
- {
- 	/*
- 	 * Conveniently, zero in 3 LSB means indirect 4K page table.
- 	 * Not so convenient when you're trying to vary the page size.
- 	 */
--	set_pmd(pmd, __pmd(((unsigned long)page_to_pfn(pte) << PAGE_SHIFT) |
-+	set_pmd(pmd, __pmd(((unsigned long)ptdesc_pfn(pte) << PAGE_SHIFT) |
- 		HEXAGON_L1_PTE_SIZE));
- }
- 
-diff --git a/arch/loongarch/include/asm/pgalloc.h b/arch/loongarch/include/asm/pgalloc.h
-index c96d7160babc..3461da516ab9 100644
---- a/arch/loongarch/include/asm/pgalloc.h
-+++ b/arch/loongarch/include/asm/pgalloc.h
-@@ -18,9 +18,9 @@ static inline void pmd_populate_kernel(struct mm_struct *mm,
- 	set_pmd(pmd, __pmd((unsigned long)pte));
- }
- 
--static inline void pmd_populate(struct mm_struct *mm, pmd_t *pmd, pgtable_t pte)
-+static inline void pmd_populate(struct mm_struct *mm, pmd_t *pmd, struct ptdesc *pte)
- {
--	set_pmd(pmd, __pmd((unsigned long)page_address(pte)));
-+	set_pmd(pmd, __pmd((unsigned long)ptdesc_address(pte)));
- }
- 
- #ifndef __PAGETABLE_PMD_FOLDED
-diff --git a/arch/m68k/include/asm/motorola_pgalloc.h b/arch/m68k/include/asm/motorola_pgalloc.h
-index f9ee5ec4574d..a80c45b9d2a3 100644
---- a/arch/m68k/include/asm/motorola_pgalloc.h
-+++ b/arch/m68k/include/asm/motorola_pgalloc.h
-@@ -84,9 +84,9 @@ static inline void pmd_populate_kernel(struct mm_struct *mm, pmd_t *pmd, pte_t *
- 	pmd_set(pmd, pte);
- }
- 
--static inline void pmd_populate(struct mm_struct *mm, pmd_t *pmd, pgtable_t page)
-+static inline void pmd_populate(struct mm_struct *mm, pmd_t *pmd, struct ptdesc *page)
- {
--	pmd_set(pmd, page);
-+	pmd_set(pmd, ptdesc_page(page));
- }
- 
- static inline void pud_populate(struct mm_struct *mm, pud_t *pud, pmd_t *pmd)
-diff --git a/arch/m68k/include/asm/sun3_pgalloc.h b/arch/m68k/include/asm/sun3_pgalloc.h
-index 4a137eecb6fe..965f663a4797 100644
---- a/arch/m68k/include/asm/sun3_pgalloc.h
-+++ b/arch/m68k/include/asm/sun3_pgalloc.h
-@@ -28,9 +28,9 @@ static inline void pmd_populate_kernel(struct mm_struct *mm, pmd_t *pmd, pte_t *
- 	pmd_val(*pmd) = __pa((unsigned long)pte);
- }
- 
--static inline void pmd_populate(struct mm_struct *mm, pmd_t *pmd, pgtable_t page)
-+static inline void pmd_populate(struct mm_struct *mm, pmd_t *pmd, struct ptdesc *ptdesc)
- {
--	pmd_val(*pmd) = __pa((unsigned long)page_address(page));
-+	pmd_val(*pmd) = __pa((unsigned long)ptdesc_address(ptdesc));
- }
- 
- /*
-diff --git a/arch/microblaze/include/asm/pgalloc.h b/arch/microblaze/include/asm/pgalloc.h
-index 6c33b05f730f..0f4a479e015e 100644
---- a/arch/microblaze/include/asm/pgalloc.h
-+++ b/arch/microblaze/include/asm/pgalloc.h
-@@ -33,7 +33,7 @@ extern pte_t *pte_alloc_one_kernel(struct mm_struct *mm);
- #define __pte_free_tlb(tlb, pte, addr)	pte_free((tlb)->mm, (pte))
- 
- #define pmd_populate(mm, pmd, pte) \
--			(pmd_val(*(pmd)) = (unsigned long)page_address(pte))
-+			(pmd_val(*(pmd)) = (unsigned long)page_address(ptdesc_page(pte)))
- 
- #define pmd_populate_kernel(mm, pmd, pte) \
- 		(pmd_val(*(pmd)) = (unsigned long) (pte))
-diff --git a/arch/mips/include/asm/pgalloc.h b/arch/mips/include/asm/pgalloc.h
-index f4440edcd8fe..2ef868d93b6b 100644
---- a/arch/mips/include/asm/pgalloc.h
-+++ b/arch/mips/include/asm/pgalloc.h
-@@ -25,9 +25,9 @@ static inline void pmd_populate_kernel(struct mm_struct *mm, pmd_t *pmd,
- }
- 
- static inline void pmd_populate(struct mm_struct *mm, pmd_t *pmd,
--	pgtable_t pte)
-+				struct ptdesc *pte)
- {
--	set_pmd(pmd, __pmd((unsigned long)page_address(pte)));
-+	set_pmd(pmd, __pmd((unsigned long)ptdesc_address(pte)));
- }
- 
- /*
-diff --git a/arch/nios2/include/asm/pgalloc.h b/arch/nios2/include/asm/pgalloc.h
-index ce6bb8e74271..420958d91a47 100644
---- a/arch/nios2/include/asm/pgalloc.h
-+++ b/arch/nios2/include/asm/pgalloc.h
-@@ -21,9 +21,9 @@ static inline void pmd_populate_kernel(struct mm_struct *mm, pmd_t *pmd,
- }
- 
- static inline void pmd_populate(struct mm_struct *mm, pmd_t *pmd,
--	pgtable_t pte)
-+				struct ptdesc *pte)
- {
--	set_pmd(pmd, __pmd((unsigned long)page_address(pte)));
-+	set_pmd(pmd, __pmd((unsigned long)ptdesc_address(pte)));
- }
- 
- extern pgd_t *pgd_alloc(struct mm_struct *mm);
-diff --git a/arch/openrisc/include/asm/pgalloc.h b/arch/openrisc/include/asm/pgalloc.h
-index 2251d940c3d8..a9479d873dca 100644
---- a/arch/openrisc/include/asm/pgalloc.h
-+++ b/arch/openrisc/include/asm/pgalloc.h
-@@ -29,10 +29,10 @@ extern int mem_init_done;
- 	set_pmd(pmd, __pmd(_KERNPG_TABLE + __pa(pte)))
- 
- static inline void pmd_populate(struct mm_struct *mm, pmd_t *pmd,
--				struct page *pte)
-+				struct ptdesc *pte)
- {
- 	set_pmd(pmd, __pmd(_KERNPG_TABLE +
--		     ((unsigned long)page_to_pfn(pte) <<
-+		     ((unsigned long)ptdesc_pfn(pte) <<
- 		     (unsigned long) PAGE_SHIFT)));
- }
- 
-diff --git a/arch/parisc/include/asm/pgalloc.h b/arch/parisc/include/asm/pgalloc.h
-index e3e142b1c5c5..9fd06e2fef89 100644
---- a/arch/parisc/include/asm/pgalloc.h
-+++ b/arch/parisc/include/asm/pgalloc.h
-@@ -68,6 +68,6 @@ pmd_populate_kernel(struct mm_struct *mm, pmd_t *pmd, pte_t *pte)
- }
- 
- #define pmd_populate(mm, pmd, pte_page) \
--	pmd_populate_kernel(mm, pmd, page_address(pte_page))
-+	pmd_populate_kernel(mm, pmd, page_address(ptdesc_page(pte_page)))
- 
- #endif
-diff --git a/arch/powerpc/include/asm/book3s/32/pgalloc.h b/arch/powerpc/include/asm/book3s/32/pgalloc.h
-index a435c84d1f9a..9971703d0566 100644
---- a/arch/powerpc/include/asm/book3s/32/pgalloc.h
-+++ b/arch/powerpc/include/asm/book3s/32/pgalloc.h
-@@ -32,7 +32,7 @@ static inline void pmd_populate_kernel(struct mm_struct *mm, pmd_t *pmdp,
- }
- 
- static inline void pmd_populate(struct mm_struct *mm, pmd_t *pmdp,
--				pgtable_t pte_page)
-+				struct ptdesc *pte_page)
- {
- 	*pmdp = __pmd(__pa(pte_page) | _PMD_PRESENT);
- }
-diff --git a/arch/sh/include/asm/pgalloc.h b/arch/sh/include/asm/pgalloc.h
-index 5d8577ab1591..095521089c20 100644
---- a/arch/sh/include/asm/pgalloc.h
-+++ b/arch/sh/include/asm/pgalloc.h
-@@ -27,9 +27,9 @@ static inline void pmd_populate_kernel(struct mm_struct *mm, pmd_t *pmd,
- }
- 
- static inline void pmd_populate(struct mm_struct *mm, pmd_t *pmd,
--				pgtable_t pte)
-+				struct ptdesc *pte)
- {
--	set_pmd(pmd, __pmd((unsigned long)page_address(pte)));
-+	set_pmd(pmd, __pmd((unsigned long)ptdesc_address(pte)));
- }
- 
- #define __pte_free_tlb(tlb, pte, addr)				\
-diff --git a/arch/sparc/include/asm/pgalloc_32.h b/arch/sparc/include/asm/pgalloc_32.h
-index addaade56f21..6f0f661a380f 100644
---- a/arch/sparc/include/asm/pgalloc_32.h
-+++ b/arch/sparc/include/asm/pgalloc_32.h
-@@ -50,7 +50,7 @@ static inline void free_pmd_fast(pmd_t * pmd)
- #define pmd_free(mm, pmd)		free_pmd_fast(pmd)
- #define __pmd_free_tlb(tlb, pmd, addr)	pmd_free((tlb)->mm, pmd)
- 
--#define pmd_populate(mm, pmd, pte)	pmd_set(pmd, pte)
-+#define pmd_populate(mm, pmd, pte)	pmd_set(pmd, (pte_t *)pte)
- 
- void pmd_set(pmd_t *pmdp, pte_t *ptep);
- #define pmd_populate_kernel		pmd_populate
-diff --git a/arch/x86/include/asm/pgalloc.h b/arch/x86/include/asm/pgalloc.h
-index 06a9a5867a86..5ca8ac568768 100644
---- a/arch/x86/include/asm/pgalloc.h
-+++ b/arch/x86/include/asm/pgalloc.h
-@@ -76,9 +76,9 @@ static inline void pmd_populate_kernel_safe(struct mm_struct *mm,
- }
- 
- static inline void pmd_populate(struct mm_struct *mm, pmd_t *pmd,
--				struct page *pte)
-+				struct ptdesc *pte)
- {
--	unsigned long pfn = page_to_pfn(pte);
-+	unsigned long pfn = page_to_pfn(ptdesc_page(pte));
- 
- 	paravirt_alloc_pte(mm, pfn);
- 	set_pmd(pmd, __pmd(((pteval_t)pfn << PAGE_SHIFT) | _PAGE_TABLE));
-diff --git a/mm/debug_vm_pgtable.c b/mm/debug_vm_pgtable.c
-index 8550eec32aba..bf9dc9c0a9bf 100644
---- a/mm/debug_vm_pgtable.c
-+++ b/mm/debug_vm_pgtable.c
-@@ -645,7 +645,7 @@ static void __init pmd_populate_tests(struct pgtable_debug_args *args)
- 	 * This entry points to next level page table page.
- 	 * Hence this must not qualify as pmd_bad().
- 	 */
--	pmd_populate(args->mm, args->pmdp, args->start_ptep);
-+	pmd_populate(args->mm, args->pmdp, page_ptdesc(args->start_ptep));
- 	pmd = READ_ONCE(*args->pmdp);
- 	WARN_ON(pmd_bad(pmd));
- }
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index aac67e8a8cc8..665445706491 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -2365,7 +2365,7 @@ static void __split_huge_zero_page_pmd(struct vm_area_struct *vma,
- 	old_pmd = pmdp_huge_clear_flush(vma, haddr, pmd);
- 
- 	ptdesc = pgtable_trans_huge_withdraw(mm, pmd);
--	pmd_populate(mm, &_pmd, ptdesc_page(ptdesc));
-+	pmd_populate(mm, &_pmd, ptdesc);
- 
- 	pte = pte_offset_map(&_pmd, haddr);
- 	VM_BUG_ON(!pte);
-@@ -2382,7 +2382,7 @@ static void __split_huge_zero_page_pmd(struct vm_area_struct *vma,
- 	}
- 	pte_unmap(pte - 1);
- 	smp_wmb(); /* make pte visible before pmd */
--	pmd_populate(mm, pmd, ptdesc_page(ptdesc));
-+	pmd_populate(mm, pmd, ptdesc);
- }
- 
- static void __split_huge_pmd_locked(struct vm_area_struct *vma, pmd_t *pmd,
-@@ -2537,7 +2537,7 @@ static void __split_huge_pmd_locked(struct vm_area_struct *vma, pmd_t *pmd,
- 	 * This's critical for some architectures (Power).
- 	 */
- 	ptdesc = pgtable_trans_huge_withdraw(mm, pmd);
--	pmd_populate(mm, &_pmd, ptdesc_page(ptdesc));
-+	pmd_populate(mm, &_pmd, ptdesc);
- 
- 	pte = pte_offset_map(&_pmd, haddr);
- 	VM_BUG_ON(!pte);
-@@ -2602,7 +2602,7 @@ static void __split_huge_pmd_locked(struct vm_area_struct *vma, pmd_t *pmd,
- 		put_page(page);
- 
- 	smp_wmb(); /* make pte visible before pmd */
--	pmd_populate(mm, pmd, ptdesc_page(ptdesc));
-+	pmd_populate(mm, pmd, ptdesc);
- }
- 
- void split_huge_pmd_locked(struct vm_area_struct *vma, unsigned long address,
-diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-index 48a54269472e..5b466a1c2136 100644
---- a/mm/khugepaged.c
-+++ b/mm/khugepaged.c
-@@ -769,7 +769,7 @@ static void __collapse_huge_page_copy_failed(pte_t *pte,
- 	 * acquiring anon_vma_lock_write is unnecessary.
- 	 */
- 	pmd_ptl = pmd_lock(vma->vm_mm, pmd);
--	pmd_populate(vma->vm_mm, pmd, pmd_pgtable(orig_pmd));
-+	pmd_populate(vma->vm_mm, pmd, (struct ptdesc *)pmd_pgtable(orig_pmd));
- 	spin_unlock(pmd_ptl);
- 	/*
- 	 * Release both raw and compound pages isolated
-@@ -1198,7 +1198,7 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
- 		 * hugepmds and never for establishing regular pmds that
- 		 * points to regular pagetables. Use pmd_populate for that
- 		 */
--		pmd_populate(mm, pmd, pmd_pgtable(_pmd));
-+		pmd_populate(mm, pmd, (struct ptdesc *)pmd_pgtable(_pmd));
- 		spin_unlock(pmd_ptl);
- 		anon_vma_unlock_write(vma->anon_vma);
- 		goto out_up_write;
-diff --git a/mm/memory.c b/mm/memory.c
-index 956cfe5f644d..cbed8824059f 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -438,7 +438,7 @@ void pmd_install(struct mm_struct *mm, pmd_t *pmd, pgtable_t *pte)
- 		 * smp_rmb() barriers in page table walking code.
- 		 */
- 		smp_wmb(); /* Could be smp_wmb__xxx(before|after)_spin_lock */
--		pmd_populate(mm, pmd, *pte);
-+		pmd_populate(mm, pmd, (struct ptdesc *)(*pte));
- 		*pte = NULL;
- 	}
- 	spin_unlock(ptl);
-diff --git a/mm/mremap.c b/mm/mremap.c
-index e7ae140fc640..f32d35accd97 100644
---- a/mm/mremap.c
-+++ b/mm/mremap.c
-@@ -283,7 +283,7 @@ static bool move_normal_pmd(struct vm_area_struct *vma, unsigned long old_addr,
- 
- 	VM_BUG_ON(!pmd_none(*new_pmd));
- 
--	pmd_populate(mm, new_pmd, pmd_pgtable(pmd));
-+	pmd_populate(mm, new_pmd, (struct ptdesc *)pmd_pgtable(pmd));
- 	flush_tlb_range(vma, old_addr, old_addr + PMD_SIZE);
- 	if (new_ptl != old_ptl)
- 		spin_unlock(new_ptl);
--- 
-2.43.0
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+RHppZcWEIGRvYnJ5LAogCkN6eSByb3p3YcW8YWxpIFBhxYRzdHdvIG1vbnRhxbwgc3lzdGVtdSBm
+b3Rvd29sdGFpY3puZWdvPwogCkluc3RhbGFjamEgZm90b3dvbHRhaWN6bmEgamVzdCBuYWpsZXBz
+enltIHNwb3NvYmVtIG5hIG9ibmnFvGVuaWUgd3lzb2tvxZtjaSByYWNodW5rw7N3IHphIHByxIVk
+IChwb3pvc3RhasSFIHR5bGtvIG9wxYJhdHkgc3RhxYJlKSBpIHphYmV6cGllY3plbmllIHNpxJkg
+cHJ6ZWQgcm9zbsSFY3ltaSBjZW5hbWkgZW5lcmdpaSBlbGVrdHJ5Y3puZWouIEplc3QgdG8gdyBw
+ZcWCbmkgb2RuYXdpYWxuZSBpIGJlemVtaXN5am5lIMW6csOzZMWCbyBlbmVyZ2lpLCBkemnEmWtp
+IGN6ZW11IHByenljenluaWFteSBzacSZIGRvIG9jaHJvbnkgxZtyb2Rvd2lza2EgbmF0dXJhbG5l
+Z28uCiAKRHppYcWCYW15IG9kIHdpZWx1IGxhdCBuYSByeW5rdSBlbmVyZ2V0eWN6bnltLiBQcnp5
+Z290dWplbXkgcHJvamVrdCwgd3ljZW7EmSBvcmF6IGtvbXBsZWtzb3dvIHd5a29uYW15IGkgemfF
+gm9zaW15IHJlYWxpemFjasSZIGRvIHpha8WCYWR1IGVuZXJnZXR5Y3puZWdvLiAKIApDenkgY2hj
+xIUgUGHFhHN0d28gcG96bmHEhyBuYXN6xIUgcHJvcG96eWNqxJk/ICAKCgpQb3pkcmF3aWFtCk5v
+cmJlcnQgS2FyZWNraQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmlu
+ZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9s
+aW51eC1zbnBzLWFyYwo=
