@@ -4,75 +4,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A147C3DA4A
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 17 Aug 2024 03:29:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0757C52D7F
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 17 Aug 2024 06:47:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From
-	:Date:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=mK1ppUZKBuTljou6tmDR2PFcTVT7tlFcTu+egql4WrI=; b=dhbVbIEkwC+5U5
-	9vH3HzeWl+vyO+3/MdT2QECGN5NlhcTMyL/HnV/sanzyO/EjXfChdI9D2O+ZCr5+SsefkJwk32aJv
-	lgM0o2J53OAK2UXKZfAOUOwn4zUUPH8NA35oYur5sfZagJ6v0/unqnU9inFWMjfR3mR7bi9t7DxWq
-	U58fyue1ucYaAOf02f7va4N3j1nINbNzqDiPytV2BSfVJuWt011ZRX/kJlojGpSIMLUQA6l5rP2Oy
-	hGLTt+Q3+jvYflorencR/ET2rsENWr6kO62oFnB0WgZoh49s08wnU62/XXhcQw5KUcaI87ZOYZ4L5
-	AWO7ZrHL2KhK/+jOYIdw==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Cc:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=SPLxDr9VdlbSBtw/deAl/NuWeblvpD+5v6/BeAH2doM=; b=JJZDEuC8FdRBKw
+	lqoKT5/RlSHjaiMI4cQXmfYjs2JUeLqn09uAW2uM3SDV4CwhaSsNyINeJNaPDDa6wUcvsYeNlN5B+
+	NIjPom36GnnYl43Hjh2fiy2Yk4H1Y7aIbPkPA7kuCU6z0uXERZAdW61/9xSXrMeKQ3C423QKm27+I
+	2QKc0mDYzo6TI09K9ES2UKJkiUUlRolSx7ElOTMkJLJC4HaHeXwLNU1doWtGogAOAhTIS5bifLjMB
+	P4xhMilGoKgKDX8nc4/aM0unkp8sYnznyO8t+nojlDF2DjYUmRB3cn9iaz78KeuAt36dtnLStbH9z
+	wyxnyzulpX4PdWhEEPgQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sfA8a-0000000EZb7-2jIT;
-	Sat, 17 Aug 2024 03:29:56 +0000
-Received: from mail-oo1-xc29.google.com ([2607:f8b0:4864:20::c29])
+	id 1sfDDI-0000000EmSO-0MWb;
+	Sat, 17 Aug 2024 06:47:00 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sfA8W-0000000EZaf-2oAN
+	id 1sfDDE-0000000EmQv-2pwZ
 	for linux-snps-arc@lists.infradead.org;
-	Sat, 17 Aug 2024 03:29:55 +0000
-Received: by mail-oo1-xc29.google.com with SMTP id 006d021491bc7-5d5c2ac3410so1599550eaf.2
-        for <linux-snps-arc@lists.infradead.org>; Fri, 16 Aug 2024 20:29:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723865389; x=1724470189; darn=lists.infradead.org;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RTyY/x86OeA5fpS9gzyMRtV3l6VUfvYcD6M+6PxGGRI=;
-        b=RddUOM9QHtkQhW8YI8Ni7S1fZaukv0m9h+lgaody+oNW4WOqrtccM/6ZLDWO0HQ+M6
-         sXouigOHpYpcblgUP0oFF++N0VbAjrh7FgpQOlVca07JvbBh7ICs/KBcBmzeEyKfoXKx
-         3u1n0apTKVzZ16vOSrwmfqp56sYWYpnVzk2U+pFqyebGu/Lf5UZ60c7iVXPM4GIP5X+Q
-         oQLT5N7ZIoAaprFwYHB0svkambVyCLS3FR/jL/4gbgQZo4Fp2UT2i4OqM047S47/9zzf
-         ChdeqBtF6019FqFXf3C2Z12WAINrGAOwyGt2hr4CFetehUGZL9GWVtGTPZKTy9IT2pE3
-         OrUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723865389; x=1724470189;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RTyY/x86OeA5fpS9gzyMRtV3l6VUfvYcD6M+6PxGGRI=;
-        b=lRi19AkxZx9bJrf34liSvv3o6JmyQoYwnxgY3XsA9EuwQfwixNojPvRo8Nwx5ajNZX
-         GMdsj63SSsERHf5MODRwrV++HoGISj23qLu3M2GtieDyhz55vkLYh1EiEatkQyJp0qR1
-         dEcI2cmQJY2oxxCHmYOYRqshYk5jWRXrrzWYSk2BoGe/VtzWbA18kWPU7FVPrOxnXuRq
-         N/zguLXLYJ3hYKLjwdwKvQEpl81bRuh71CW7hgDC4K8VVtxvFBseiT3rBoV5XX/6k24i
-         wxKdbf9fnMPTzyfQROH9/HU+1BQ/eVSoYMBmgB6HLquuCJJUy4gGSx4X50BENVt9O8QP
-         ZEsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUVSmTMDotGezyKonB2WTyNNY4Szu34Vhk6Fn4dC7/mbyKNbrAHg9oshT6xa+lOqEimt7fZjuD2NyrkixOLRA==@lists.infradead.org
-X-Gm-Message-State: AOJu0Yy9ff7bUeZCadRqyGSXNXKabnypWrEYXyHeGjaECqRaV2MyVcbZ
-	t07ppsyxgfqcsvn+Ui97pZVaYJNLmsey6YxkFeHtxczJk2wl+1Vv
-X-Google-Smtp-Source: AGHT+IFbQqY6/TbfsHuYrRYQAbOuk75Xx6EmcoYD90bPnzfw1nlcCRAyX/OfCL4jlkdAGR7fWttDwA==
-X-Received: by 2002:a05:6358:7202:b0:1b1:a961:7977 with SMTP id e5c5f4694b2df-1b3932d79f7mr605156955d.29.1723865388634;
-        Fri, 16 Aug 2024 20:29:48 -0700 (PDT)
-Received: from localhost ([115.96.207.93])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d3ac842f83sm6472300a91.37.2024.08.16.20.29.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Aug 2024 20:29:48 -0700 (PDT)
-Date: Sat, 17 Aug 2024 08:56:29 +0530
-From: Aryabhatta Dey <aryabhattadey35@gmail.com>
-To: vgupta@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, linux-snps-arc@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH] dt-bindings: arc: convert archs-pct.txt to yaml
-Message-ID: <emosjjbdwimwevrf2ew2dpn5sdx254el5fanhhquouu4bz6nbe@zqyp5ra7bmhh>
+	Sat, 17 Aug 2024 06:46:58 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 0A4A9CE1020;
+	Sat, 17 Aug 2024 06:46:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 174E1C116B1;
+	Sat, 17 Aug 2024 06:46:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723877210;
+	bh=Ou8ykV0nq41DGu/BDbIlcTQcBYqK6M4uIbcoj3ngWOc=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=jO5NTwZgpcpgj5pXDrJ01hk7vxPXsMbdiPh0k16uW+XAs9pqB/6NXO3QffdHsmtb7
+	 3fSJy7WfCrHbFEezvCbXfAJe+ejpLB3G1Ml69HCECx/44e8yszNHE5v2lC2bSorAhQ
+	 9LGJYGL0BoflRJZH9cDGPvDS9BEHIW/4ixjVrKk1Y8I4RJu4EUmxDkUz47Lxn8IZ7L
+	 p6uvBDAWkET2iZvQgvycUGMAsEWi4TnRK626fPA61W/Lg6maYhkc10LVEWLfRgj4r9
+	 DWtwbog5w64t5lLTiiYOspO7A80H1jidfXox8Lv6TxXcsKaZv9Mx4W83YVBp17Eoyg
+	 /oSngIx532RSg==
+Message-ID: <ae6c5398-8e7d-4a0c-8dfc-2227878b3090@kernel.org>
+Date: Sat, 17 Aug 2024 08:46:45 +0200
 MIME-Version: 1.0
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] dt-bindings: arc: convert archs-pct.txt to yaml
+To: Aryabhatta Dey <aryabhattadey35@gmail.com>, vgupta@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ linux-snps-arc@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <emosjjbdwimwevrf2ew2dpn5sdx254el5fanhhquouu4bz6nbe@zqyp5ra7bmhh>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <emosjjbdwimwevrf2ew2dpn5sdx254el5fanhhquouu4bz6nbe@zqyp5ra7bmhh>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240816_202953_883618_37F0F581 
-X-CRM114-Status: GOOD (  11.31  )
+X-CRM114-CacheID: sfid-20240816_234657_116583_F32A6C04 
+X-CRM114-Status: UNSURE (   3.07  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,80 +118,18 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Convert dt-binding archs-pct from txt to yaml format.
+On 17/08/2024 05:26, Aryabhatta Dey wrote:
+> Convert dt-binding archs-pct from txt to yaml format.
 
-Signed-off-by: Aryabhatta Dey <aryabhattadey35@gmail.com>
----
- .../devicetree/bindings/arc/archs-pct.txt     | 17 ----------
- .../bindings/arc/snps,archs-pct.yaml          | 33 +++++++++++++++++++
- 2 files changed, 33 insertions(+), 17 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/arc/archs-pct.txt
- create mode 100644 Documentation/devicetree/bindings/arc/snps,archs-pct.yaml
+Thanks for the work and sorry for asking, but what for? Is there anyone
+who asked about it or shown interest in doing this?
 
-diff --git a/Documentation/devicetree/bindings/arc/archs-pct.txt b/Documentation/devicetree/bindings/arc/archs-pct.txt
-deleted file mode 100644
-index e4b9dcee6d41..000000000000
---- a/Documentation/devicetree/bindings/arc/archs-pct.txt
-+++ /dev/null
-@@ -1,17 +0,0 @@
--* ARC HS Performance Counters
--
--The ARC HS can be configured with a pipeline performance monitor for counting
--CPU and cache events like cache misses and hits. Like conventional PCT there
--are 100+ hardware conditions dynamically mapped to up to 32 counters.
--It also supports overflow interrupts.
--
--Required properties:
--
--- compatible : should contain
--	"snps,archs-pct"
--
--Example:
--
--pmu {
--        compatible = "snps,archs-pct";
--};
-diff --git a/Documentation/devicetree/bindings/arc/snps,archs-pct.yaml b/Documentation/devicetree/bindings/arc/snps,archs-pct.yaml
-new file mode 100644
-index 000000000000..532f7584f59f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/arc/snps,archs-pct.yaml
-@@ -0,0 +1,33 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/arc/snps,archs-pct.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: ARC HS Performance Counters
-+
-+maintainers:
-+  - Aryabhatta Dey <aryabhattadey35@gmail.com>
-+
-+description:
-+  The ARC HS can be configured with a pipeline performance monitor for counting
-+  CPU and cache events like cache misses and hits. Like conventional PCT there
-+  are 100+ hardware conditions dynamically mapped to up to 32 counters.
-+  It also supports overflow interrupts.
-+
-+properties:
-+  compatible:
-+    const: snps,archs-pct
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+
-+additionalProperties: false
--- 
-2.46.0
+My previous messages about topics of conversions are still valid:
+https://social.kernel.org/notice/Ai9hYRUKo8suzX3zNY
+and discussion on LKML.
+
+Best regards,
+Krzysztof
 
 
 _______________________________________________
