@@ -4,59 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 157E1C52D7C
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 18 Aug 2024 16:12:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9FFA4C531DC
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 21 Aug 2024 18:02:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Content-Transfer-Encoding:Content-Type:Reply-To:List-Subscribe:List-Help:
+	List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=0NHEbBeF+S41vGulveV4LWNn1JtqtxVaUgBAooA1xcw=; b=CMl2FfKfQfLmJq
-	GeFI9zApCdOy01edQ6QBMavBsJZs7zsyXEVA+CYC/LA8vVhMJODzvQvISJxDPKjIocAcC4oOIXmIC
-	8l2OMRQAvDNovSMG/vMdRM7vrnj0/JJiGreRpjBFqQDqBQJkPRoB80x2hn5VnkLnFdPrsuRObmV/k
-	VMOK7k2THg4f5/KFN1ghutMtYgVxegbNaWcqH3zLDslYjTQP7ehHJuQU9xZ0FlgaolXgH3ww/S7Xn
-	CNSxvEoDNlhfdRMaF85DpfhcHLBTLDR7G0+Uh/gMFSsrYV28YEF0coLKX8QqYVC6n2u3w1BcDYELv
-	yxabuGy1gMq2GGNL9RsQ==;
+	List-Owner; bh=dJwuNmhKB2Z+LekN5l3oLCj5OqVOcpuLNaldxlyN9EY=; b=2dZbmbr7qru+1b
+	DOAJ6CM3YoKfsk5jGcJEgK3LoAw7iNTCcweefXAC47piPjHXH9VJVjFlJhLgUnH4ScXM4PGGdSq/g
+	Q0pUSp4pgK9dteYIHjCMnr9SekRrnZH2RoLXnWkpXoiacEIr2LP6M1NNkHvniSEdp88V0aQddztUK
+	2bZ2XeWqKZCfOq9LFc53mH/n6rTyQy6RHPWsdP7964NLrP/bjDIuyNj9gTZtUmV2syG2hfyrvGVCz
+	di9ARdA/JKLR5QPG559qecDe7sJf25MDhiNL7su/MB+fypGEohljDln/kh440CheOZNrFuJkHRspQ
+	VTjdUcnit2E/HmzSGMJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sfiVs-0000000GnwI-11b6;
-	Sun, 18 Aug 2024 16:12:16 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1sgpf6-0000000A08E-0nB3;
+	Wed, 21 Aug 2024 18:02:24 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sfiVp-0000000Gnvx-2iZ5
+	id 1sgpf3-0000000A07O-2uPw
 	for linux-snps-arc@lists.infradead.org;
-	Sun, 18 Aug 2024 16:12:15 +0000
+	Wed, 21 Aug 2024 18:02:22 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id D71D5CE0171;
-	Sun, 18 Aug 2024 16:12:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90AFDC32786;
-	Sun, 18 Aug 2024 16:12:09 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 63D89610AB;
+	Wed, 21 Aug 2024 18:02:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07ED8C32781;
+	Wed, 21 Aug 2024 18:02:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723997530;
-	bh=ruS7y2wKnEPgI7gkRFDbH9dgOjAhSQz1+QJFBGsSogg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r5v1diRXjN5kVoybKiTRPIY9aA1UEswchRcP7JWhmjuTH30Uxt/N6e4vImG9MKyi4
-	 6bmE2jh2SZ7vn8Rc14BnpHiGM9+6lYeiRZCNJ2CBp9iYQv7LHx4AN6pnEyKkHgw67o
-	 KXP16ARCwLB2ZLP39z4dnWHFcbBnBdCIH0d3oz5IJyRqNfVMAStsl4Z6GChM/R36+/
-	 c+XRGsJy1IM/v38lc4EfUxHgcXc+dQmjo8V0hRu7abz+Rdx4gJ1U1EDogbnTxF1gFD
-	 u+LM+xIPcSZAgsvw9duok9IoCB+1CIBkT1u7slJWeUIPeANwBtM1COkq8JFSEt3H1Q
-	 3FGE6dADp0d+Q==
-Date: Sun, 18 Aug 2024 10:12:05 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Aryabhatta Dey <aryabhattadey35@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-	krzk+dt@kernel.org, vgupta@kernel.org, devicetree@vger.kernel.org,
-	conor+dt@kernel.org
-Subject: Re: [RFC PATCH] dt-bindings: arc: convert archs-pct.txt to yaml
-Message-ID: <172399743227.172916.628419421629636564.robh@kernel.org>
-References: <emosjjbdwimwevrf2ew2dpn5sdx254el5fanhhquouu4bz6nbe@zqyp5ra7bmhh>
+	s=k20201202; t=1724263339;
+	bh=McNAGRZDnJ7u79fmlszPR8St8pd0flKr5dQvmUicyWg=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=c9fH/UCwU4ovqXBiXcpHiMBfm5emz7PVbY4+KAe+V9wvRs5Y8v9Z0V4ajuP1Q26a6
+	 skPF4b52M7xH25Xneik/dnR35/M3KAGhdOSCczgMjdN18xPLgpNBCcMcXLDwFtqwVf
+	 C8CjdOqD862ATRW1q5+ER0btPtUzdL2sRmDL2oc03TbX6cbtJdA8KZEPjYf1/vfozI
+	 xXANc7Tqiqjo3rf37jLTZk2saQJoIVNh24SX89MS3k4pittEFa0a8MIIlDnBX1pwbk
+	 ytbfRZzuwg15DBxxOwqjjG+UdREaDVK2EgHrSYNSqUnXIwAYAFgRPH8RQup57RUvN8
+	 o+bclw4MRIsfQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 99434CE160F; Wed, 21 Aug 2024 11:02:18 -0700 (PDT)
+Date: Wed, 21 Aug 2024 11:02:18 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: elver@google.com, akpm@linux-foundation.org, tglx@linutronix.de,
+	peterz@infradead.org, torvalds@linux-foundation.org, arnd@arndb.de,
+	geert@linux-m68k.org, palmer@rivosinc.com, mhiramat@kernel.org,
+	linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org
+Subject: [PATCH v2 cmpxchg 0/3] Provide emulation for one-byte cmpxchg() for
+ v6.12
+Message-ID: <04a6010c-536d-4906-bf7c-b2335a2f54b0@paulmck-laptop>
+References: <c1b7f3a2-da50-4dfb-af6f-a1898eaf2b79@paulmck-laptop>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <emosjjbdwimwevrf2ew2dpn5sdx254el5fanhhquouu4bz6nbe@zqyp5ra7bmhh>
+In-Reply-To: <c1b7f3a2-da50-4dfb-af6f-a1898eaf2b79@paulmck-laptop>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240818_091213_879138_5754AF81 
-X-CRM114-Status: UNSURE (   7.16  )
+X-CRM114-CacheID: sfid-20240821_110221_817956_2B7B9104 
+X-CRM114-Status: UNSURE (   9.52  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -69,30 +73,46 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+Reply-To: paulmck@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+Hello!
 
-On Sat, 17 Aug 2024 08:56:29 +0530, Aryabhatta Dey wrote:
-> Convert dt-binding archs-pct from txt to yaml format.
-> 
-> Signed-off-by: Aryabhatta Dey <aryabhattadey35@gmail.com>
-> ---
->  .../devicetree/bindings/arc/archs-pct.txt     | 17 ----------
->  .../bindings/arc/snps,archs-pct.yaml          | 33 +++++++++++++++++++
->  2 files changed, 33 insertions(+), 17 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/arc/archs-pct.txt
->  create mode 100644 Documentation/devicetree/bindings/arc/snps,archs-pct.yaml
-> 
+This series provides an emulation function for one-byte cmpxchg(),
+and uses it for the remaining architectures not supporting these in
+hardware and not providing emulation.  The emulation is in terms of
+the fully ordered four-byte cmpxchg() that is supplied by all of these
+architectures.  The emulation has been used in mainline since v6.9
+by csky.
 
-Applied, thanks!
+Once this emulation is in place for all architectures needing
+it, RCU Tasks will use this capability in place of the current
+rcu_trc_cmpxchg_need_qs() open-coding of this emulation.
 
-However, if you are going to do more conversions, please pick ones more 
-widely used first as Krzysztof pointed out.
+1.	xtensa: Emulate one-byte cmpxchg.
 
-Rob
+2.	ARC: Emulate one-byte cmpxchg.
+
+3.	sh: Emulate one-byte cmpxchg.
+
+Changes since v1:
+
+o	Add acked-by tags.
+
+						Thanx, Paul
+
+------------------------------------------------------------------------
+
+ arc/Kconfig                  |    1 +
+ arc/include/asm/cmpxchg.h    |    6 ++++--
+ sh/Kconfig                   |    1 +
+ sh/include/asm/cmpxchg.h     |    3 +++
+ xtensa/Kconfig               |    1 +
+ xtensa/include/asm/cmpxchg.h |    2 ++
+ 6 files changed, 12 insertions(+), 2 deletions(-)
 
 _______________________________________________
 linux-snps-arc mailing list
