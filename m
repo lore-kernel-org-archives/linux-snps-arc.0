@@ -4,74 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83666C7EE31
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 29 Aug 2024 07:16:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6419C7EE31
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 29 Aug 2024 07:16:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:MIME-Version:Message-Id:Date:
-	Subject:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=1AxBpL9r8cDbgYo+eYVIEAuav1IOzGqw5M4jwPo8Uek=; b=Fp6+ZnxhCm/5UY
-	vrYhMAA8QOX5866S9Lakm/sUo+E/j2DKe3UNViMCumTQauUaL5SVCKGpAH2RJGj08qIpQ4zkWZYsJ
-	95nfqyV8mVmogpL8r5ygx7J1PuLFEF4rWdqGW+JvWFjcAEGeq9EpH3dCjPqbewEyDq9woBIYthvbD
-	P0JDd8XNEZODHXO1OC4ceTOQgB9FNVYBv72yt1BkMurzaKH9lw7Rwqwc8/My7DbGywOKRCuEhcPmq
-	yI++t3ueDPetrrbpixK++Effxd8qsZy9TRhRjmJN+z0excO/6f/rWr9M9MIF/iZmxyE9IOKGCqk99
-	38RsrmfMKoT50nEq3hlA==;
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References:Message-Id
+	:MIME-Version:Subject:Date:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=Al0cwYFsp8j2tDiE9NgbVR6nxJhpI4UXZ2IVx/Ujua4=; b=cQxJbtU5UhZky3
+	kMvIVHPgoE8Siq5Kt8ML+qcwyD6z+lvOvrKsLp0Fkb0SLWkkXDGUb3IJpktTKW8H8u4Yj0ESrZA4e
+	CQbAYMDs4cmzjuSw7mSDEjlRAmgJvrGHcAneuPWQqxquoxlAvAgVWqcrrQl7z2Wf+iw+T++NP8cPp
+	VRLELd35RhGkhRfjT4uqx2ixxKEgpQN5dJ1y3EEC6CwBFQraX2U94gEA+3YRGqgCYLBzKEXL/nWXn
+	V8bKEtIHVkxjFas+JBfKzAvUtsf9jZig1YDCuQdpHwFv0ZpM74EGRMCgA0GnanvitHDtC9UjDmPX6
+	FxvmS5msVmIiaY6SBJ0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sjZOD-00000000uC7-0Its;
-	Thu, 29 Aug 2024 07:16:17 +0000
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
+	id 1sjZOS-00000000uOT-11jP;
+	Thu, 29 Aug 2024 07:16:32 +0000
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sjZOA-00000000uAl-1NR2
+	id 1sjZON-00000000uKE-3vyY
 	for linux-snps-arc@lists.infradead.org;
-	Thu, 29 Aug 2024 07:16:16 +0000
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-71431524f33so279357b3a.1
-        for <linux-snps-arc@lists.infradead.org>; Thu, 29 Aug 2024 00:16:13 -0700 (PDT)
+	Thu, 29 Aug 2024 07:16:29 +0000
+Received: by mail-pg1-x52b.google.com with SMTP id 41be03b00d2f7-7ae3d7222d4so204922a12.3
+        for <linux-snps-arc@lists.infradead.org>; Thu, 29 Aug 2024 00:16:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1724915773; x=1725520573; darn=lists.infradead.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BzAtIL6RDQhGfK05hmJR7MmcGIg9Atw6OyAgLvdRB8w=;
-        b=oU+d3Z0FT9RGJKXxD9i0v7KKBJW9gZT5o1FXyn5L5I6I54DY2R7HrbLo7ICz2Cqvxx
-         qh+ehpFxZ4uxoeHGDvmdCBD3GNjvi5kDVsJ+vFSfvzmxS1NytNWPNe8Pq2bSlSbBaGO6
-         uOjLLYOTvg4V50CilcYoAlWp9oqUINoak5g6dsfRcKqxEaajZ+qPU2Z7noyw/3LQkgSi
-         gbboWhFKQ7N3rV9pVKWNUaZk9Y/fRlcRn47U5fdleJwHLjJWuEdUf44ge7jy3TyHnItq
-         +1ORpsvmgs+usViA0fPZYfNt9c1eB8xtaN7CNeIXkbFWiPnxjVW3jmAzRcWUVtQ+MmTL
-         97WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724915773; x=1725520573;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1724915787; x=1725520587; darn=lists.infradead.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BzAtIL6RDQhGfK05hmJR7MmcGIg9Atw6OyAgLvdRB8w=;
-        b=xBDW50ItIwyXSeMU7jiJnc4GPAzlU4V76TFtrU30lH4Rc+IK67JTpalrpw5kDkFlsH
-         VfWDnK9xWVkq3VUBgEk42h7TIxg4bAjCqUPpoWWLSOV8s233kEZe3NaEC46pZrmiBiRd
-         2i3Ax3lYKG0gBhQsXIyLQNJUBp23FwA2hLDSGI/G7y767qmFFc/goCtlIJs7owe8Xo9/
-         pSS+WZPZlj4OLbm3Sy04rGEf39SEbK9zaeAkeY5ZfPsmdvFupDZp5iBG0GICuKC4SSeK
-         Ezmn+HWVmmlczHtGr6HUa3zr8454vsAFs4pTdzConv/EgiRT7cLu2tbP7+Og8rgKxHTz
-         BuUA==
-X-Forwarded-Encrypted: i=1; AJvYcCVPMc8QkasvXE1t390iR52JJFy4SvfQBjwTEZNstJZdpCSWgktSEaoVaMg6giTJJuzCdShgvefzixQ0UvrzZQ==@lists.infradead.org
-X-Gm-Message-State: AOJu0YywiBeYCShTlrlbEZlLLSer9oeWG6d8MtGTt2jDA5V9uvixk5nY
-	uGjLJ7NibDlq7wv0dVyyo0UoEQsmLyF7iAfEGL9vMRhlM6WVRfMYKASc7gII1bw7B7hBBVt4Wqa
-	o
-X-Google-Smtp-Source: AGHT+IHrzBJ2Fgit9cV9vJs1usISWUDgya5+GeDNPqBqFu2p0vbtJbTyW9MLD5/YHjShE4BhfoWnAg==
-X-Received: by 2002:a05:6a20:b728:b0:1cc:e5bc:37de with SMTP id adf61e73a8af0-1cce5bc3a28mr493971637.39.1724915773108;
-        Thu, 29 Aug 2024 00:16:13 -0700 (PDT)
+        bh=9klKwS2bfsiGNUk5X0TeI2il7xQjjU59nEcVHrUHGMg=;
+        b=Rr5v86wTd3s/E7SPv+FfAaX51KMgbLbhq0O2nrdTsLWV1FmY4WYqe0Vs/S45pXCsZ4
+         T026z1LQ0uO1xQJugKphegG7qKWf9BcB5I6mfQnStwjaqE+lW1Ra4BJT6tJtV9H6Adp6
+         Jn0kmRwIDPoUSzYsha9fNh86hDWEQX003t6JQWhvuabERXqmgKQlIINPtZbKU7aH8p2s
+         qooD5dkGmR05UeSmagmOsWbvqPBn4YAEOI/nfxH8P/pxSlDFQN2OaPW2NLy2v1C1nTtL
+         LbTPqyKlOl8ciIaa0/deL4PwXgTKSD6Oho5t4la7G0SsvKrNeOgLidjS86iDG2B1U4iY
+         nUsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724915787; x=1725520587;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9klKwS2bfsiGNUk5X0TeI2il7xQjjU59nEcVHrUHGMg=;
+        b=k3pHPoAWFj3Ws0iwPVmefUKJKEWWSYY12jUwfq2W7Yyg5X1oq2wDCRSUh3/rI++jXS
+         KCIwZo1CLCQ9OF88lLrOHSF81lv0I/Z4vKgW5fAUrhkFqooSU4ExAo4u3OUGf7OsxFMG
+         VznVJ0oE+/nHUwBbqYkw9lpOWGT6RIT/Y+YYalmiPVmQj2cwE975Jm997Oz8xlkyUA4D
+         TtYxLX+QGto6K/Rp9VmMFBwmlCYRkSc22FzQmlT+DCX7+2QgaG1euYE3ifCCn3Yza/+y
+         /JFRueolqDRvBM6Lebn+QaXeKGgKTNKgcVIFXD6yuRI2UFEJZh2oO0LesGzqN+Nww1bj
+         T+rw==
+X-Forwarded-Encrypted: i=1; AJvYcCWkde4DBfYNEy4ECPcQ1ahpGf/glNZwaMqsSsxWpwxpJM1jQM3u2aZfK8H2QtJo9KxCzY6pbB/I+7h7LsI2WA==@lists.infradead.org
+X-Gm-Message-State: AOJu0YzwfrpL17STwnXhCTFq+8zcoX7/CPtUb2Fqu4WVlC9GribXuYS1
+	CaNIvOp/IqCM9PZ8LEPQGCF4EFeGpqaEUMfkTth/Tx0QIR83vMgKWVCB0mRVk1Q=
+X-Google-Smtp-Source: AGHT+IF3t2cjexZNLvhhEG5lVGM8VXbW+pDj1JAzDu87zeFwskGcSX3PJG32Vb5o0zHIzYY5Gmbt2A==
+X-Received: by 2002:a05:6a20:e196:b0:1be:c4bb:6f31 with SMTP id adf61e73a8af0-1cce1011dd6mr2308343637.18.1724915786799;
+        Thu, 29 Aug 2024 00:16:26 -0700 (PDT)
 Received: from charlie.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d22e9bef08sm581976a12.58.2024.08.29.00.16.09
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d22e9bef08sm581976a12.58.2024.08.29.00.16.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2024 00:16:12 -0700 (PDT)
+        Thu, 29 Aug 2024 00:16:26 -0700 (PDT)
 From: Charlie Jenkins <charlie@rivosinc.com>
-Subject: [PATCH RFC v2 0/4] mm: Introduce MAP_BELOW_HINT
-Date: Thu, 29 Aug 2024 00:15:57 -0700
-Message-Id: <20240829-patches-below_hint_mmap-v2-0-638a28d9eae0@rivosinc.com>
+Date: Thu, 29 Aug 2024 00:16:01 -0700
+Subject: [PATCH RFC v2 4/4] selftests/mm: Create MAP_BELOW_HINT test
 MIME-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAC0g0GYC/4WNQQrCMBREr1L+2kgSW2tdCYIHcCulpOmv+WCSk
- pSolN7d0Au4fDPMmwUiBsII52KBgIkieZdB7grQRrknMhoyg+Sy5CdZs0nN2mBkPb78uzPk5s5
- aNbFeHIa6USh0VUFeTwFH+mzmB9xvV2hzaCjOPny3tyS26q84CcZZeRxHiX3DpRwugZKP5PRee
- wvtuq4/Hwm3e8YAAAA=
+Message-Id: <20240829-patches-below_hint_mmap-v2-4-638a28d9eae0@rivosinc.com>
+References: <20240829-patches-below_hint_mmap-v2-0-638a28d9eae0@rivosinc.com>
+In-Reply-To: <20240829-patches-below_hint_mmap-v2-0-638a28d9eae0@rivosinc.com>
 To: Arnd Bergmann <arnd@arndb.de>, 
  Richard Henderson <richard.henderson@linaro.org>, 
  Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
@@ -110,17 +108,17 @@ Cc: linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
  sparclinux@vger.kernel.org, linux-mm@kvack.org, 
  linux-kselftest@vger.kernel.org, Charlie Jenkins <charlie@rivosinc.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6188; i=charlie@rivosinc.com;
- h=from:subject:message-id; bh=ge3WwvXZyWhWUVXepQG4dDA/ByeZCzK4otcQJ4z3f6Q=;
- b=owGbwMvMwCHWx5hUnlvL8Y3xtFoSQ9oFBQOjmt83Ze5+Y5jJwf/h4bocwxO7Tt0q2Kl8lUP5K
- V9S/v9ZHaUsDGIcDLJiiiw81xqYW+/olx0VLZsAM4eVCWQIAxenAEyk3oORoS/Re2N8R6fkDV2R
- mFveRs1dnurLCyI0LhvtFJlbWLXDnuG/J6uoq83X57P4m4ztnkiJ+tQFH1Eo3Fff8GpduMeUgAR
- mAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1995; i=charlie@rivosinc.com;
+ h=from:subject:message-id; bh=s/V5Z34t4dT0xkb/r9QmO4zmTWyR+OmvwZt8Wf5I9yo=;
+ b=owGbwMvMwCHWx5hUnlvL8Y3xtFoSQ9oFBcsP6+L/Tm5SuNTuoL5vd1CHFePmle9+1/Le0d5Yp
+ 3hVY8XNjlIWBjEOBlkxRRaeaw3MrXf0y46Klk2AmcPKBDKEgYtTACYikcjwz6bDSmrzHWPjp6+e
+ zUhZGF3tGZgzRbFMebrXzej5O9YXpDH8j7Z7ceLNKc+79Xs9s7LbGbZefbF4gvgksf23zjP3/b/
+ +jhkA
 X-Developer-Key: i=charlie@rivosinc.com; a=openpgp;
  fpr=7D834FF11B1D8387E61C776FFB10D1F27D6B1354
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240829_001614_411598_4EE27553 
-X-CRM114-Status: GOOD (  21.86  )
+X-CRM114-CacheID: sfid-20240829_001628_028874_840482CD 
+X-CRM114-Status: GOOD (  14.46  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -137,144 +135,68 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Some applications rely on placing data in free bits addresses allocated
-by mmap. Various architectures (eg. x86, arm64, powerpc) restrict the
-address returned by mmap to be less than the 48-bit address space,
-unless the hint address uses more than 47 bits (the 48th bit is reserved
-for the kernel address space).
+Add a selftest for MAP_BELOW_HINT that maps until it runs out of space
+below the hint address.
 
-The riscv architecture needs a way to similarly restrict the virtual
-address space. On the riscv port of OpenJDK an error is thrown if
-attempted to run on the 57-bit address space, called sv57 [1].  golang
-has a comment that sv57 support is not complete, but there are some
-workarounds to get it to mostly work [2].
-
-These applications work on x86 because x86 does an implicit 47-bit
-restriction of mmap() address that contain a hint address that is less
-than 48 bits.
-
-Instead of implicitly restricting the address space on riscv (or any
-current/future architecture), a flag would allow users to opt-in to this
-behavior rather than opt-out as is done on other architectures. This is
-desirable because it is a small class of applications that do pointer
-masking.
-
-This flag will also allow seemless compatibility between all
-architectures, so applications like Go and OpenJDK that use bits in a
-virtual address can request the exact number of bits they need in a
-generic way. The flag can be checked inside of vm_unmapped_area() so
-that this flag does not have to be handled individually by each
-architecture. 
-
-Link:
-https://github.com/openjdk/jdk/blob/f080b4bb8a75284db1b6037f8c00ef3b1ef1add1/src/hotspot/cpu/riscv/vm_version_riscv.cpp#L79
-[1]
-Link:
-https://github.com/golang/go/blob/9e8ea567c838574a0f14538c0bbbd83c3215aa55/src/runtime/tagptr_64bit.go#L47
-[2]
-
-To: Arnd Bergmann <arnd@arndb.de>
-To: Richard Henderson <richard.henderson@linaro.org>
-To: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-To: Matt Turner <mattst88@gmail.com>
-To: Vineet Gupta <vgupta@kernel.org>
-To: Russell King <linux@armlinux.org.uk>
-To: Guo Ren <guoren@kernel.org>
-To: Huacai Chen <chenhuacai@kernel.org>
-To: WANG Xuerui <kernel@xen0n.name>
-To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-To: James E.J. Bottomley <James.Bottomley@HansenPartnership.com>
-To: Helge Deller <deller@gmx.de>
-To: Michael Ellerman <mpe@ellerman.id.au>
-To: Nicholas Piggin <npiggin@gmail.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-To: Naveen N Rao <naveen@kernel.org>
-To: Alexander Gordeev <agordeev@linux.ibm.com>
-To: Gerald Schaefer <gerald.schaefer@linux.ibm.com>
-To: Heiko Carstens <hca@linux.ibm.com>
-To: Vasily Gorbik <gor@linux.ibm.com>
-To: Christian Borntraeger <borntraeger@linux.ibm.com>
-To: Sven Schnelle <svens@linux.ibm.com>
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-To: Rich Felker <dalias@libc.org>
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: David S. Miller <davem@davemloft.net>
-To: Andreas Larsson <andreas@gaisler.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-To: Ingo Molnar <mingo@redhat.com>
-To: Borislav Petkov <bp@alien8.de>
-To: Dave Hansen <dave.hansen@linux.intel.com>
-To: x86@kernel.org
-To: H. Peter Anvin <hpa@zytor.com>
-To: Andy Lutomirski <luto@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-To: Muchun Song <muchun.song@linux.dev>
-To: Andrew Morton <akpm@linux-foundation.org>
-To: Liam R. Howlett <Liam.Howlett@oracle.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Shuah Khan <shuah@kernel.org>
-Cc: linux-arch@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-alpha@vger.kernel.org
-Cc: linux-snps-arc@lists.infradead.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-csky@vger.kernel.org
-Cc: loongarch@lists.linux.dev
-Cc: linux-mips@vger.kernel.org
-Cc: linux-parisc@vger.kernel.org
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: linux-s390@vger.kernel.org
-Cc: linux-sh@vger.kernel.org
-Cc: sparclinux@vger.kernel.org
-Cc: linux-mm@kvack.org
-Cc: linux-kselftest@vger.kernel.org
 Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-
-Changes in v2:
-- Added much greater detail to cover letter
-- Removed all code that touched architecture specific code and was able
-  to factor this out into all generic functions, except for flags that
-  needed to be added to vm_unmapped_area_info
-- Made this an RFC since I have only tested it on riscv and x86
-- Link to v1: https://lore.kernel.org/r/20240827-patches-below_hint_mmap-v1-0-46ff2eb9022d@rivosinc.com
-
 ---
-Charlie Jenkins (4):
-      mm: Add MAP_BELOW_HINT
-      mm: Add hint and mmap_flags to struct vm_unmapped_area_info
-      mm: Support MAP_BELOW_HINT in vm_unmapped_area()
-      selftests/mm: Create MAP_BELOW_HINT test
+ tools/testing/selftests/mm/Makefile         |  1 +
+ tools/testing/selftests/mm/map_below_hint.c | 32 +++++++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+)
 
- arch/alpha/kernel/osf_sys.c                  |  2 ++
- arch/arc/mm/mmap.c                           |  3 +++
- arch/arm/mm/mmap.c                           |  7 ++++++
- arch/csky/abiv1/mmap.c                       |  3 +++
- arch/loongarch/mm/mmap.c                     |  3 +++
- arch/mips/mm/mmap.c                          |  3 +++
- arch/parisc/kernel/sys_parisc.c              |  3 +++
- arch/powerpc/mm/book3s64/slice.c             |  7 ++++++
- arch/s390/mm/hugetlbpage.c                   |  4 ++++
- arch/s390/mm/mmap.c                          |  6 ++++++
- arch/sh/mm/mmap.c                            |  6 ++++++
- arch/sparc/kernel/sys_sparc_32.c             |  3 +++
- arch/sparc/kernel/sys_sparc_64.c             |  6 ++++++
- arch/sparc/mm/hugetlbpage.c                  |  4 ++++
- arch/x86/kernel/sys_x86_64.c                 |  6 ++++++
- arch/x86/mm/hugetlbpage.c                    |  4 ++++
- fs/hugetlbfs/inode.c                         |  4 ++++
- include/linux/mm.h                           |  2 ++
- include/uapi/asm-generic/mman-common.h       |  1 +
- mm/mmap.c                                    |  9 ++++++++
- tools/include/uapi/asm-generic/mman-common.h |  1 +
- tools/testing/selftests/mm/Makefile          |  1 +
- tools/testing/selftests/mm/map_below_hint.c  | 32 ++++++++++++++++++++++++++++
- 23 files changed, 120 insertions(+)
----
-base-commit: 5be63fc19fcaa4c236b307420483578a56986a37
-change-id: 20240827-patches-below_hint_mmap-b13d79ae1c55
+diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
+index cfad627e8d94..4e2de85267b5 100644
+--- a/tools/testing/selftests/mm/Makefile
++++ b/tools/testing/selftests/mm/Makefile
+@@ -50,6 +50,7 @@ TEST_GEN_FILES += hugepage-shm
+ TEST_GEN_FILES += hugepage-vmemmap
+ TEST_GEN_FILES += khugepaged
+ TEST_GEN_FILES += madv_populate
++TEST_GEN_FILES += map_below_hint
+ TEST_GEN_FILES += map_fixed_noreplace
+ TEST_GEN_FILES += map_hugetlb
+ TEST_GEN_FILES += map_populate
+diff --git a/tools/testing/selftests/mm/map_below_hint.c b/tools/testing/selftests/mm/map_below_hint.c
+new file mode 100644
+index 000000000000..55d6cbf90645
+--- /dev/null
++++ b/tools/testing/selftests/mm/map_below_hint.c
+@@ -0,0 +1,32 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Test the MAP_BELOW_HINT mmap flag.
++ */
++#include <sys/mman.h>
++#include <errno.h>
++#include "../kselftest.h"
++
++#define ADDR (1 << 20)
++#define LENGTH (ADDR / 10000)
++
++#define MAP_BELOW_HINT	  0x8000000	/* Not defined in all libc */
++
++/*
++ * Map memory with MAP_BELOW_HINT until no memory left. Ensure that all returned
++ * addresses are below the hint.
++ */
++int main(int argc, char **argv)
++{
++	void *addr;
++
++	do {
++		addr = mmap((void *)ADDR, LENGTH, PROT_READ | PROT_WRITE,
++			    MAP_PRIVATE | MAP_ANONYMOUS | MAP_BELOW_HINT, -1, 0);
++	} while (addr != MAP_FAILED && (unsigned long)addr <= ADDR);
++
++	if (errno == ENOMEM)
++		ksft_test_result_pass("MAP_BELOW_HINT works\n");
++	else
++		ksft_test_result_fail("mmap returned address above hint with MAP_BELOW_HINT with error: %s\n",
++				      strerror(errno));
++}
+
 -- 
-- Charlie
+2.45.0
 
 
 _______________________________________________
