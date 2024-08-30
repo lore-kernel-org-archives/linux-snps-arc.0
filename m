@@ -4,65 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B217CA0EC7
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 29 Aug 2024 22:17:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7DFF1CA0ECC
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Aug 2024 01:11:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=LIhZkL6VlwFuGnk1sxpiqwRwSZeJN4spYcnJyRK0EOw=; b=2Q1sPN9FdJaPvg
-	y0VyRUzHLFz8svcV5Vj6X5rXkTRgo6i2wM/bItvGgy1c0qiIbhM80JCENvchmVZwZUC0G5M9tMA1A
-	7davqPRiP/Fy7nEh+njsjqHgBmT66pgJ7BnvKShVxK6aNILXWiULCEura2ryHUnCQG/NdiLC5v/lw
-	A+S9t3Bs2j59RCrZhvcE6uVtZVfpDTVmLS8p8ffI0PzGLkamuWREK7l9gVl6o8mwVOyObS2BlnA7V
-	tScqi0B6NCmdiC/h+/zP4JpfsVkR9dIXWU1lJXoAVLBDKuqTkejj78Pd2EvKnnYF82Y0zmIsw56YV
-	JyVFSWxHS8YMimOeo1rg==;
+	List-Owner; bh=ZCK2QQ4yR570cvkezPwti5nbh73slqxL+p4OkjyqbKs=; b=w9/IwkohWJIVyY
+	alZMBKY9sCb+08hK9ESPmKnoyWYCPGEG+V7fEAv9WSmoAbke8ixtUjERLbF8ZMfqt0Rhek52OFTbD
+	XQ4ZEVEvezE1A6W8XxMAN6uRTga07Bxn/ct9FDuphfpwOHOonrVFdWawgDJiUHV+TdxM7b1wDJylw
+	B2whKokpzkesG9StIlbXogZJqKn51x7Y9CvT43aY028ac8mH07RhHJruov1yvKkImZGay/CeOyXC4
+	186KNiNG9fIu9SRphYKJlm/USPW8xbgR2YgHZPtusDDlDeKzGge+XYhPLe5gJrfRjASQ1zOu2qURA
+	Yeooo0Zf+XF8myGKjk2w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sjnSZ-00000003pyF-3nSF;
-	Thu, 29 Aug 2024 22:17:43 +0000
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
+	id 1sjqAj-00000004FsM-09pD;
+	Fri, 30 Aug 2024 01:11:29 +0000
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sjnRs-00000003pou-1xup
+	id 1sjqAd-00000004FpQ-0TkG
 	for linux-snps-arc@lists.infradead.org;
-	Thu, 29 Aug 2024 22:17:02 +0000
-Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-715cc93694fso1062760b3a.2
-        for <linux-snps-arc@lists.infradead.org>; Thu, 29 Aug 2024 15:17:00 -0700 (PDT)
+	Fri, 30 Aug 2024 01:11:26 +0000
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-714262f1bb4so1066363b3a.3
+        for <linux-snps-arc@lists.infradead.org>; Thu, 29 Aug 2024 18:11:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1724969819; x=1725574619; darn=lists.infradead.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1724980282; x=1725585082; darn=lists.infradead.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8HRU/HuL9VMJOh5LMUQaHyrA0RHNWNSx8V73gtED6wE=;
-        b=UVgh5Z9ELEK8j1CV83LHhJRHX0VIj3SK8QGLr/GUUnZezMsPe3SThU3J2wiYvXv/tk
-         jYj4zF7JCgcU2vpGJseaO1J1I5nqSSR11yH4zToYZgyrei2dgBlnsVLDWBx9Hffj3e4m
-         86kjsKlm3tR69vzSCFr6kkumsjrp2oNSCnUwmtnI0VdPZLVi+hzZpuaTFyGfVxQC4uj0
-         mI57oWPM+1wzJi1Wu9VkH922zT/f8l5T7BgyAdabwecHXCFAU8faZoW8tVpaxdX2b4yR
-         6hUKHeaUwl6xKgF0DjTjrhtkeDOPWruzzSaCJ6VnfAqR21t52NuY93ZRnuEBJjv4A3/S
-         PfnA==
+        bh=Tq7LnGnCY31W8p33KfA4sDocR34ueQ+QZ1h3PRF4p6w=;
+        b=BTDt43WXhUngBr41IjMlZCNTeXj8GKOL7q2z9KyF+1JvUk8+P+YZ5sSJU7DaeCuDkA
+         ahUEInTLzft5vyGVEPQW1urzOGdDEk/0VT1dElD5CPdAkhlQzI1mehgUHK0lU5TPK2Q2
+         EtUzRFO/MeJyCY1/0iQcOFQ+z9iiLK8Tejng+mjMN4lrOyzYlHYd+2FSlVrutPkcDCAq
+         1JyNbDRKlN+VMp5oKqPJ/D043LDs9KnYDACwADHZ8fg+CnPhk5jtSQLKBz8yHHlJDYZX
+         15s5cuqntyu3H6BpUTfoE+ndfNe1pH1CQRB7I147wx4RDn6ZJeeaYbx5ACbAlDAzu6jK
+         GOvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724969819; x=1725574619;
+        d=1e100.net; s=20230601; t=1724980282; x=1725585082;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8HRU/HuL9VMJOh5LMUQaHyrA0RHNWNSx8V73gtED6wE=;
-        b=r4Z/rgsNWGPEz+Wg43Jx0hakuN0z3gFQGQ5hFIbfB0VwM+LItz3aIiaNWyEfNF5Rwq
-         vgKZWzYgeumQ89MiLfbxqxTPzCb984Usr4TqAt7DTKyefSB74fmBCxbqQAcpRGSl2JZp
-         bqh5Bng5pBUM1hppNUiaXUH5w5YqyqoyVJMUu/MigYb8vbeCHmxYz0xthQVd9IJIuz52
-         iAgB/bPRmWaka+dySR8qiuseqAIo8jC6cuuLm80LH6XhwsAGx9nPWDPrjQteJcK7WZwe
-         zMHAjdmCNZPAJyL7TCGqogVqJAb90OH4WzTN0pEOnVNTI/HhDmkWXL/r2UetF2vGDcGm
-         suHA==
-X-Forwarded-Encrypted: i=1; AJvYcCUz18j6b+DkLdD6nX3Q2BEec976fXaAOZr4sWlncfFO5tx7Qvk4Yq+Rs5yHo/7G7zzDZjJnJMVmqPp4xFIwZQ==@lists.infradead.org
-X-Gm-Message-State: AOJu0YzLbHhjmSw73Ace+/bhDPH4E48ymUxLLj7vz5vC8GmF4/4IwIlF
-	9nI4mIGB0/EyOYQyRT/MQiwsOKEDtoMBhQ+oDwVzQbAeWo8AyIhiqUccnVMLAro=
-X-Google-Smtp-Source: AGHT+IHZWh2lrRdTfsFvpo/hEhoIVlXgetb87CMqVZNsK2T/td7vE55JQIoBH8+ZybjcSDXzxTcolg==
-X-Received: by 2002:a05:6a21:38c:b0:1c2:8b95:de15 with SMTP id adf61e73a8af0-1cce111b331mr4094496637.53.1724969818957;
-        Thu, 29 Aug 2024 15:16:58 -0700 (PDT)
+        bh=Tq7LnGnCY31W8p33KfA4sDocR34ueQ+QZ1h3PRF4p6w=;
+        b=ZUppcs1bGyi+ovdOrhw3leztV3UsENZXjeqbS2+qyzjSHtFS33hrHWgMhl9onBmhrf
+         11w8PZojc6E8Fut0kRHXp6bY+Lvcop4CbU5iBNge1//gll9wdJUPzCp2qvQTxWuDy/nf
+         6nrhSF2EXdtyrQWCUI9CD5Kx4fvvSB4SveC2kdsTwyOdrcrX8PqGppaKtoJKW2e15GTL
+         d/2J8guFTy1K1ZGRvI/3ZGJsiR0h93wskvZApGHrWD3k5m5j8HdMNm/OwJlXvjccfKkG
+         n23YykIut+FI19FITHKgeaZSTkZ7UNBskghqaa9GuFV7wZ+/kTQumfSOGNlmn9EY/c5z
+         xp0w==
+X-Forwarded-Encrypted: i=1; AJvYcCV0G6jcwwQM0NLfAGr9dvPC7ift9OCGiZ88oGHRrh7pFacvj8AzEN582jtGx+Pr0NqJd1T0kHB1rWWMN2SiZA==@lists.infradead.org
+X-Gm-Message-State: AOJu0Yya2r/z9AfA8LaQbLTR00BRRtpstLkN0pc+aOEjEdBPAOijr8oy
+	x2CCqGL8UHEewfuaqP6jV8WEYja+008j6PYvyVa61ZyKI/pSdeMkI7du7BKGRG8=
+X-Google-Smtp-Source: AGHT+IE/hxSbHJa0ey/qUAU4qMZr2Egy89hZiorh32Md7TMXE2itSwqfJ21BnW0A2NKOMSU/XYMAJQ==
+X-Received: by 2002:a05:6a20:c78e:b0:1c0:e49a:6900 with SMTP id adf61e73a8af0-1cce0fea52bmr4390650637.7.1724980281696;
+        Thu, 29 Aug 2024 18:11:21 -0700 (PDT)
 Received: from ghost ([50.145.13.30])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-715e55a4ecasm1612655b3a.71.2024.08.29.15.16.55
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d8445e8f72sm4900654a91.20.2024.08.29.18.11.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2024 15:16:58 -0700 (PDT)
-Date: Thu, 29 Aug 2024 15:16:53 -0700
+        Thu, 29 Aug 2024 18:11:21 -0700 (PDT)
+Date: Thu, 29 Aug 2024 18:11:17 -0700
 From: Charlie Jenkins <charlie@rivosinc.com>
 To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 Cc: Arnd Bergmann <arnd@arndb.de>,
@@ -106,17 +106,18 @@ Cc: Arnd Bergmann <arnd@arndb.de>,
 	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
 	sparclinux@vger.kernel.org, linux-mm@kvack.org,
 	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC v2 0/4] mm: Introduce MAP_BELOW_HINT
-Message-ID: <ZtDzVZLrcbiKRium@ghost>
+Subject: Re: [PATCH RFC v2 2/4] mm: Add hint and mmap_flags to struct
+ vm_unmapped_area_info
+Message-ID: <ZtEcNfNMfNTzkHEF@ghost>
 References: <20240829-patches-below_hint_mmap-v2-0-638a28d9eae0@rivosinc.com>
- <ab90ff3b-67dc-4195-89a7-54e394da1aa0@lucifer.local>
- <4e1e9f49-8da4-4832-972b-2024d623a7bb@lucifer.local>
+ <20240829-patches-below_hint_mmap-v2-2-638a28d9eae0@rivosinc.com>
+ <0454187e-3e01-4af7-b193-07468ffa8934@lucifer.local>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <4e1e9f49-8da4-4832-972b-2024d623a7bb@lucifer.local>
+In-Reply-To: <0454187e-3e01-4af7-b193-07468ffa8934@lucifer.local>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240829_151700_673740_493FF8DA 
-X-CRM114-Status: GOOD (  73.00  )
+X-CRM114-CacheID: sfid-20240829_181123_168815_015714A3 
+X-CRM114-Status: GOOD (  16.22  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,209 +134,50 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 29, 2024 at 10:54:25AM +0100, Lorenzo Stoakes wrote:
-> On Thu, Aug 29, 2024 at 09:42:22AM GMT, Lorenzo Stoakes wrote:
-> > On Thu, Aug 29, 2024 at 12:15:57AM GMT, Charlie Jenkins wrote:
-> > > Some applications rely on placing data in free bits addresses allocated
-> > > by mmap. Various architectures (eg. x86, arm64, powerpc) restrict the
-> > > address returned by mmap to be less than the 48-bit address space,
-> > > unless the hint address uses more than 47 bits (the 48th bit is reserved
-> > > for the kernel address space).
+On Thu, Aug 29, 2024 at 09:48:44AM +0100, Lorenzo Stoakes wrote:
+> On Thu, Aug 29, 2024 at 12:15:59AM GMT, Charlie Jenkins wrote:
+> 
+> [snip]
+> 
+> > diff --git a/mm/mmap.c b/mm/mmap.c
+> > index d0dfc85b209b..34ba0db23678 100644
+> > --- a/mm/mmap.c
+> > +++ b/mm/mmap.c
+> > @@ -1796,6 +1796,9 @@ generic_get_unmapped_area(struct file *filp, unsigned long addr,
+> >  	struct vm_unmapped_area_info info = {};
+> >  	const unsigned long mmap_end = arch_get_mmap_end(addr, len, flags);
 > >
-> > I'm still confused as to why, if an mmap flag is desired, and thus programs
-> > are having to be heavily modified and controlled to be able to do this, why
-> > you can't just do an mmap() with PROT_NONE early, around a hinted address
-> > that, sits below the required limit, and then mprotect() or mmap() over it?
+> > +	info.hint = addr;
+> > +	info.mmap_flags = flags;
+> > +
+> >  	if (len > mmap_end - mmap_min_addr)
+> >  		return -ENOMEM;
 > >
-> > Your feature is a major adjustment to mmap(), it needs to be pretty
-> > significantly justified, especially if taking up a new flag.
+> > @@ -1841,6 +1844,9 @@ generic_get_unmapped_area_topdown(struct file *filp, unsigned long addr,
+> >  	struct vm_unmapped_area_info info = {};
+> >  	const unsigned long mmap_end = arch_get_mmap_end(addr, len, flags);
 > >
-> > >
-> > > The riscv architecture needs a way to similarly restrict the virtual
-> > > address space. On the riscv port of OpenJDK an error is thrown if
-> > > attempted to run on the 57-bit address space, called sv57 [1].  golang
-> > > has a comment that sv57 support is not complete, but there are some
-> > > workarounds to get it to mostly work [2].
-> > >
-> > > These applications work on x86 because x86 does an implicit 47-bit
-> > > restriction of mmap() address that contain a hint address that is less
-> > > than 48 bits.
-> >
-> > You mean x86 _has_ to limit to physically available bits in a canonical
-> > format :) this will not be the case for 5-page table levels though...
-
-I might be misunderstanding but I am not talking about pointer masking
-or canonical addresses here. I am referring to the pattern of:
-
-1. Getting an address from mmap()
-2. Writing data into bits assumed to be unused in the address
-3. Using the data stored in the address
-4. Clearing the data from the address and sign extending
-5. Dereferencing the now sign-extended address to conform to canonical
-   addresses
-
-I am just talking about step 1 and 2 here -- getting an address from
-mmap() that only uses bits that will allow your application to not
-break. How canonicalization happens is a a separate conversation, that
-can be handled by LAM for x86, TBI for arm64, or Ssnpm for riscv.
-While LAM for x86 is only capable of masking addresses to 48 or 57 bits,
-Ssnpm for riscv allow an arbitrary number of bits to be masked out.
-A design goal here is to be able to support all of the pointer masking
-flavors, and not just x86.
-
-> >
-> > >
-> > > Instead of implicitly restricting the address space on riscv (or any
-> > > current/future architecture), a flag would allow users to opt-in to this
-> > > behavior rather than opt-out as is done on other architectures. This is
-> > > desirable because it is a small class of applications that do pointer
-> > > masking.
-> >
-> > I raised this last time and you didn't seem to address it so to be more
-> > blunt:
-> >
-> > I don't understand why this needs to be an mmap() flag. From this it seems
-> > the whole process needs allocations to be below a certain limit.
-
-Yeah making it per-process does seem logical, as it would help with
-pointer masking.
-
-> >
-> > That _could_ be achieved through a 'personality' or similar (though a
-> > personality is on/off, rather than allowing configuration so maybe
-> > something else would be needed).
-> >
-> > From what you're saying 57-bit is all you really need right? So maybe
-> > ADDR_LIMIT_57BIT?
-
-Addresses will always be limited to 57 bits on riscv and x86 (but not
-necessarily on other architectures). A flag like that would have no
-impact, I do not understand what you are suggesting. This patch is to
-have a configurable number of bits be restricted.
-
-If anything, a personality that was ADDR_LIMIT_48BIT would be the
-closest to what I am trying to achieve. Since the issue is that
-applications fail to work when the address space is greater than 48
-bits.
-
-> >
-> > I don't see how you're going to actually enforce this in a process either
-> > via an mmap flag, as a library might decide not to use it, so you'd need to
-> > control the allocator, the thread library implementation, and everything
-> > that might allocate.
-
-It is reasonable to change the implementation to be per-process but that
-is not the current proposal.
-
-This flag was designed for applications which already directly manage
-all of their addresses like OpenJDK and Go.
-
-This flag implementation was an attempt to make this feature as least
-invasive as possible to reduce maintainence burden and implementation
-complexity.
-
-> >
-> > Liam also raised various points about VMA particulars that I'm not sure are
-> > addressed either.
-> >
-> > I just find it hard to believe that everything will fit together.
-> >
-> > I'd _really_ need to be convinced that this MAP_ flag is justified, and I"m
-> > just not.
-> >
-> > >
-> > > This flag will also allow seemless compatibility between all
-> > > architectures, so applications like Go and OpenJDK that use bits in a
-> > > virtual address can request the exact number of bits they need in a
-> > > generic way. The flag can be checked inside of vm_unmapped_area() so
-> > > that this flag does not have to be handled individually by each
-> > > architecture.
-> >
-> > I'm still very unconvinced and feel the bar needs to be high for making
-> > changes like this that carry maintainership burden.
-> >
-
-I may be naive but what is the burden here? It's two lines of code to
-check MAP_BELOW_HINT and restrict the address. There are the additional
-flags for hint and mmap_addr but those are also trivial to implement.
-
-> > So for me, it's a no really as an overall concept.
-> >
-> > Happy to be convinced otherwise, however... (I may be missing details or
-> > context that provide more justification).
+> > +	info.hint = addr;
+> > +	info.mmap_flags = flags;
+> > +
+> >  	/* requested length too big for entire address space */
+> >  	if (len > mmap_end - mmap_min_addr)
+> >  		return -ENOMEM;
 > >
 > 
-> Some more thoughts:
-> 
-> * If you absolutely must keep allocations below a certain limit, you'd
->   probably need to actually associate this information with the VMA so the
->   memory can't be mremap()'d somewhere invalid (you might not control all
->   code so you can't guarantee this won't happen).
-> * Keeping a map limit associated with a VMA would be horrid and keeping
->   VMAs as small as possible is a key aim, so that'd be a no go. VMA flags
->   are in limited supply also.
+> These line numbers suggest you're working against Linus's tree, mm/mmap.c
+> has changed a lot recently, so to avoid conflicts please base your changes
+> on mm-unstable in Andrew's tree (if looking to go through that) or at least
+> -next.
 
-Yes that does seem like it would be challenging.
-
-> * If we did implement a per-process thing, but it were arbitrary, we'd then
->   have to handle all kinds of corner cases forever (this is UAPI, can't
->   break it etc.) with crazy-low values, or determine a minimum that might
->   vary by arch...
-
-Throwing an error if the value is determined to be "too low" seems
-reasonable.
-
-> * If we did this we'd absolutely have to implement a check in the brk()
->   implementation, which is a very very sensitive bit of code. And of
->   course, in mmap() and mremap()... and any arch-specific code that might
->   interface with this stuff (these functions are hooked).
-> * A fixed address limit would make more sense, but it seems difficult to
->   know what would work for everybody, and again we'd have to deal with edge
->   cases and having a permanent maintenance burden.
-
-A fixed value is not ideal, since a single size probably would not be
-suffiecient for every application. However if necessary we could fix it
-to 48-bits since arm64 and x86 already do that, and that would still
-allow a generic way of defining this behavior.
-
-> * If you did have a map flag what about merging between VMAs above the
->   limit and below it? To avoid that you'd need to implement some kind of a
->   'VMA flag that has an arbitrary characteristic' or a 'limit' field,
->   adjust all the 'can VMA merge' functions and write extensive testing and
->   none of that is frankly acceptable.
-> * We have some 'weird' arches that might have problem with certain virtual
->   address ranges or require arbitrary mappings at a certain address range
->   that a limit might not be able to account for.
-> 
-> I'm absolutely opposed to a new MAP_ flag for this, but even if you
-> implemented that, it implies a lot of complexity.
-> 
-> It implies even more complexity if you implement something per-process
-> except if it were a fixed limit.
-> 
-> And if you implement a fixed limit, it's hard to see that it'll be
-> acceptable to everybody, and I suspect we'd still run into some possible
-> weirdness.
-> 
-> So again, I'm struggling to see how this concept can be justified in any
-> form.
-
-The piece I am missing here is that this idea is already being used by
-x86 and arm64. They implicitly force all allocations to be below the
-47-bit boundary if the hint address is below 47 bits. This flag is much
-less invasive because it is opt-in and will not impact any existing
-code. I am not familiar enough with all of the interactions spread
-throughout mm to know how these architectures have managed to ensure
-that this 48-bit limit is enforced across things like mremap() as well.
-
-Are you against the idea that there should be a standard way for
-applications to consistently obtain address that have free bits, or are
-you just against this implementation? From your statement I assume you
-mean that every architecture should continue to have varying behavior
-and separate implementations for supporting larger address spaces.
+I will make sure that I base off of mm-unstable for future revisions.
 
 - Charlie
 
+> 
+> > --
+> > 2.45.0
+> >
 
 _______________________________________________
 linux-snps-arc mailing list
