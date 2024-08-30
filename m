@@ -4,67 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7DFF1CA0ECC
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Aug 2024 01:11:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C81F0CA0ECC
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Aug 2024 01:16:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ZCK2QQ4yR570cvkezPwti5nbh73slqxL+p4OkjyqbKs=; b=w9/IwkohWJIVyY
-	alZMBKY9sCb+08hK9ESPmKnoyWYCPGEG+V7fEAv9WSmoAbke8ixtUjERLbF8ZMfqt0Rhek52OFTbD
-	XQ4ZEVEvezE1A6W8XxMAN6uRTga07Bxn/ct9FDuphfpwOHOonrVFdWawgDJiUHV+TdxM7b1wDJylw
-	B2whKokpzkesG9StIlbXogZJqKn51x7Y9CvT43aY028ac8mH07RhHJruov1yvKkImZGay/CeOyXC4
-	186KNiNG9fIu9SRphYKJlm/USPW8xbgR2YgHZPtusDDlDeKzGge+XYhPLe5gJrfRjASQ1zOu2qURA
-	Yeooo0Zf+XF8myGKjk2w==;
+	List-Owner; bh=Nu+r8VL3MkR/vbNSNRKHG2whPpdUlxam/+eGnmvRr6Y=; b=TlpyAlsN72Tld6
+	5TQLVdY0ENZFqawNQEbcNpvWStJyIaUdA0LIIH881ET7ZD1ZIiRdHU2VaaOpz/R1runWlJN5jaBmW
+	8ZHNPZsvwLq6WxZXRsYhEZYQ1tn3oLEKrQ17q9iSvOn+IqABdcAli+6/vVuQPhZI1XBMC0mLjNUnz
+	GFGWCnhUsyCuDwq01VmVWvEi73hj4te1uVOvDLwZbHWwfAcMWaTUYHRN6JMXwcVV32lYF8aUi9h7Q
+	37MB0LEOOJXt6GhBoeNfPb9YFTBdGhqZJsZQlAHTn+19wObkHDHzIiXbTPlBBkUYz1iwKa8mGoQ1c
+	nTzfkEw32DC1ddhPUNLw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sjqAj-00000004FsM-09pD;
-	Fri, 30 Aug 2024 01:11:29 +0000
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
+	id 1sjqFx-00000004GLz-1s9H;
+	Fri, 30 Aug 2024 01:16:53 +0000
+Received: from mail-oo1-xc2d.google.com ([2607:f8b0:4864:20::c2d])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sjqAd-00000004FpQ-0TkG
+	id 1sjqFt-00000004GKT-0pQP
 	for linux-snps-arc@lists.infradead.org;
-	Fri, 30 Aug 2024 01:11:26 +0000
-Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-714262f1bb4so1066363b3a.3
-        for <linux-snps-arc@lists.infradead.org>; Thu, 29 Aug 2024 18:11:22 -0700 (PDT)
+	Fri, 30 Aug 2024 01:16:51 +0000
+Received: by mail-oo1-xc2d.google.com with SMTP id 006d021491bc7-5df9a9f7fe2so770410eaf.2
+        for <linux-snps-arc@lists.infradead.org>; Thu, 29 Aug 2024 18:16:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1724980282; x=1725585082; darn=lists.infradead.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1724980607; x=1725585407; darn=lists.infradead.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tq7LnGnCY31W8p33KfA4sDocR34ueQ+QZ1h3PRF4p6w=;
-        b=BTDt43WXhUngBr41IjMlZCNTeXj8GKOL7q2z9KyF+1JvUk8+P+YZ5sSJU7DaeCuDkA
-         ahUEInTLzft5vyGVEPQW1urzOGdDEk/0VT1dElD5CPdAkhlQzI1mehgUHK0lU5TPK2Q2
-         EtUzRFO/MeJyCY1/0iQcOFQ+z9iiLK8Tejng+mjMN4lrOyzYlHYd+2FSlVrutPkcDCAq
-         1JyNbDRKlN+VMp5oKqPJ/D043LDs9KnYDACwADHZ8fg+CnPhk5jtSQLKBz8yHHlJDYZX
-         15s5cuqntyu3H6BpUTfoE+ndfNe1pH1CQRB7I147wx4RDn6ZJeeaYbx5ACbAlDAzu6jK
-         GOvA==
+        bh=Y7xDP+Z9ioGU1Ej/VigLqskETGN0WUiHvrKI/4LF5a8=;
+        b=wdgvwHBhduWPjMCLFXaEMubDvnTz2UDrzXd3iukmhOSiR7jLSxmSesCuXu7A+SjbCw
+         pqU/AfQGeMsrlEJYMNJ4F/Jv++qve7MsouNwqFr8sbAQ2CpcfISRswHckWukvc8JkfxS
+         2uSr5Erj/penA0k4xuqDCQKYwNPrzDcu2fR2lVT8oXEpYP5k0F8i2VWvMJMf7R3a8S2v
+         t7vuVwWSFJfJnrm0mYlYeyWP1fOWk9V7haem9juS8jwEmQsiao6Xrk3H9rijrPxS9WDf
+         srM011ZK8ztv+rAgx0L8WXv/ODfBb04UH3wmBG2TjAHgOyn5hULo29AAM2J5KbCk1Lyn
+         3vhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724980282; x=1725585082;
+        d=1e100.net; s=20230601; t=1724980607; x=1725585407;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Tq7LnGnCY31W8p33KfA4sDocR34ueQ+QZ1h3PRF4p6w=;
-        b=ZUppcs1bGyi+ovdOrhw3leztV3UsENZXjeqbS2+qyzjSHtFS33hrHWgMhl9onBmhrf
-         11w8PZojc6E8Fut0kRHXp6bY+Lvcop4CbU5iBNge1//gll9wdJUPzCp2qvQTxWuDy/nf
-         6nrhSF2EXdtyrQWCUI9CD5Kx4fvvSB4SveC2kdsTwyOdrcrX8PqGppaKtoJKW2e15GTL
-         d/2J8guFTy1K1ZGRvI/3ZGJsiR0h93wskvZApGHrWD3k5m5j8HdMNm/OwJlXvjccfKkG
-         n23YykIut+FI19FITHKgeaZSTkZ7UNBskghqaa9GuFV7wZ+/kTQumfSOGNlmn9EY/c5z
-         xp0w==
-X-Forwarded-Encrypted: i=1; AJvYcCV0G6jcwwQM0NLfAGr9dvPC7ift9OCGiZ88oGHRrh7pFacvj8AzEN582jtGx+Pr0NqJd1T0kHB1rWWMN2SiZA==@lists.infradead.org
-X-Gm-Message-State: AOJu0Yya2r/z9AfA8LaQbLTR00BRRtpstLkN0pc+aOEjEdBPAOijr8oy
-	x2CCqGL8UHEewfuaqP6jV8WEYja+008j6PYvyVa61ZyKI/pSdeMkI7du7BKGRG8=
-X-Google-Smtp-Source: AGHT+IE/hxSbHJa0ey/qUAU4qMZr2Egy89hZiorh32Md7TMXE2itSwqfJ21BnW0A2NKOMSU/XYMAJQ==
-X-Received: by 2002:a05:6a20:c78e:b0:1c0:e49a:6900 with SMTP id adf61e73a8af0-1cce0fea52bmr4390650637.7.1724980281696;
-        Thu, 29 Aug 2024 18:11:21 -0700 (PDT)
+        bh=Y7xDP+Z9ioGU1Ej/VigLqskETGN0WUiHvrKI/4LF5a8=;
+        b=RwbbjkbKQr2/WsARDlP9mSRNhbWHTWo+yZWkhmF1QOVJq9XOJR3vrBkDPqJ+Ns1Bd3
+         dfD4oJ+DWwgI9w5gtds0hvtjLIvkL84jaqjTV7vhqYnEGKXC+U9VVLItBpTe4ScXS7Nr
+         ICbYIfNroeiHDXRUB9FhG3Mj5Ls2dv4jJrFsXA/a+pzhoryJQHXLCXAozLA6vhLP7AEy
+         PvedkLwcMDxlAz5eXhCrBEkmZqP2I9xTvhHEZM360mH1fCaH+QWKzU1ZaCYR9Vtp57sC
+         F7JT4IGREPHl/9okF+gPNUHLnv3SrHX4ReoOnq05pgDVZVcED3CJQRuA3zCfSekl9J5V
+         zAMw==
+X-Forwarded-Encrypted: i=1; AJvYcCUt/A26rhYZ8r8byAnh3MtpociOZgh+r8LtKhhg2yRnz1OSu1QoHF9rjy59gYBISlzY4MifiUnh7/l/GvavcQ==@lists.infradead.org
+X-Gm-Message-State: AOJu0YxROtnl9TNOMaa5m++bTbTBE80aOsZ+6dsI0RZciAdilwymjVbi
+	HCaCWWTBIa+4Dut0f5RCiLxvyHW7pdNgkEYNZCjT/6fef5/l2yrBASH4NtZ59s4=
+X-Google-Smtp-Source: AGHT+IH958S4ePdwDnUiHubyspadJoOLZkUZCeioopGjkAA0KkZUXlfkSz3mG+kkmopghBfnyH6A6g==
+X-Received: by 2002:a05:6358:2803:b0:1ac:f109:e248 with SMTP id e5c5f4694b2df-1b603c00435mr551866655d.2.1724980607523;
+        Thu, 29 Aug 2024 18:16:47 -0700 (PDT)
 Received: from ghost ([50.145.13.30])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d8445e8f72sm4900654a91.20.2024.08.29.18.11.18
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-715e55a5961sm1734132b3a.63.2024.08.29.18.16.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2024 18:11:21 -0700 (PDT)
-Date: Thu, 29 Aug 2024 18:11:17 -0700
+        Thu, 29 Aug 2024 18:16:46 -0700 (PDT)
+Date: Thu, 29 Aug 2024 18:16:42 -0700
 From: Charlie Jenkins <charlie@rivosinc.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Michael Ellerman <mpe@ellerman.id.au>
 Cc: Arnd Bergmann <arnd@arndb.de>,
 	Richard Henderson <richard.henderson@linaro.org>,
 	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
@@ -74,8 +74,7 @@ Cc: Arnd Bergmann <arnd@arndb.de>,
 	WANG Xuerui <kernel@xen0n.name>,
 	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
 	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
+	Helge Deller <deller@gmx.de>, Nicholas Piggin <npiggin@gmail.com>,
 	Christophe Leroy <christophe.leroy@csgroup.eu>,
 	Naveen N Rao <naveen@kernel.org>,
 	Alexander Gordeev <agordeev@linux.ibm.com>,
@@ -97,27 +96,28 @@ Cc: Arnd Bergmann <arnd@arndb.de>,
 	Muchun Song <muchun.song@linux.dev>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Shuah Khan <shuah@kernel.org>,
-	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Shuah Khan <shuah@kernel.org>, linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
 	loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
 	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
 	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
 	sparclinux@vger.kernel.org, linux-mm@kvack.org,
 	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC v2 2/4] mm: Add hint and mmap_flags to struct
- vm_unmapped_area_info
-Message-ID: <ZtEcNfNMfNTzkHEF@ghost>
+Subject: Re: [PATCH RFC v2 1/4] mm: Add MAP_BELOW_HINT
+Message-ID: <ZtEdevUWzplteQWv@ghost>
 References: <20240829-patches-below_hint_mmap-v2-0-638a28d9eae0@rivosinc.com>
- <20240829-patches-below_hint_mmap-v2-2-638a28d9eae0@rivosinc.com>
- <0454187e-3e01-4af7-b193-07468ffa8934@lucifer.local>
+ <20240829-patches-below_hint_mmap-v2-1-638a28d9eae0@rivosinc.com>
+ <87mskvenum.fsf@mail.lhotse>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <0454187e-3e01-4af7-b193-07468ffa8934@lucifer.local>
+In-Reply-To: <87mskvenum.fsf@mail.lhotse>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240829_181123_168815_015714A3 
-X-CRM114-Status: GOOD (  16.22  )
+X-CRM114-CacheID: sfid-20240829_181649_255468_067A35BB 
+X-CRM114-Status: GOOD (  24.89  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,50 +134,55 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 29, 2024 at 09:48:44AM +0100, Lorenzo Stoakes wrote:
-> On Thu, Aug 29, 2024 at 12:15:59AM GMT, Charlie Jenkins wrote:
-> 
-> [snip]
-> 
-> > diff --git a/mm/mmap.c b/mm/mmap.c
-> > index d0dfc85b209b..34ba0db23678 100644
-> > --- a/mm/mmap.c
-> > +++ b/mm/mmap.c
-> > @@ -1796,6 +1796,9 @@ generic_get_unmapped_area(struct file *filp, unsigned long addr,
-> >  	struct vm_unmapped_area_info info = {};
-> >  	const unsigned long mmap_end = arch_get_mmap_end(addr, len, flags);
+On Thu, Aug 29, 2024 at 06:26:41PM +1000, Michael Ellerman wrote:
+> Charlie Jenkins <charlie@rivosinc.com> writes:
+> > Some applications rely on placing data in free bits addresses allocated
+> > by mmap. Various architectures (eg. x86, arm64, powerpc) restrict the
+> > address returned by mmap to be less than the 48-bit address space,
+> > unless the hint address uses more than 47 bits (the 48th bit is reserved
+> > for the kernel address space).
 > >
-> > +	info.hint = addr;
-> > +	info.mmap_flags = flags;
-> > +
-> >  	if (len > mmap_end - mmap_min_addr)
-> >  		return -ENOMEM;
+> > To make this behavior explicit and more versatile across all
+> > architectures, define a mmap flag that allows users to define an
+> > arbitrary upper limit on addresses returned by mmap.
 > >
-> > @@ -1841,6 +1844,9 @@ generic_get_unmapped_area_topdown(struct file *filp, unsigned long addr,
-> >  	struct vm_unmapped_area_info info = {};
-> >  	const unsigned long mmap_end = arch_get_mmap_end(addr, len, flags);
-> >
-> > +	info.hint = addr;
-> > +	info.mmap_flags = flags;
-> > +
-> >  	/* requested length too big for entire address space */
-> >  	if (len > mmap_end - mmap_min_addr)
-> >  		return -ENOMEM;
-> >
-> 
-> These line numbers suggest you're working against Linus's tree, mm/mmap.c
-> has changed a lot recently, so to avoid conflicts please base your changes
-> on mm-unstable in Andrew's tree (if looking to go through that) or at least
-> -next.
+> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > ---
+> >  include/uapi/asm-generic/mman-common.h       | 1 +
+> >  tools/include/uapi/asm-generic/mman-common.h | 1 +
+>   
+> You're not meant to update the headers in tools/ directly. There's a
+> mail somewhere from acme somewhere describing the proper process, but
+> the tldr is leave it up to him.
 
-I will make sure that I base off of mm-unstable for future revisions.
+Oh okay, thank you.
+
+> 
+> > diff --git a/include/uapi/asm-generic/mman-common.h b/include/uapi/asm-generic/mman-common.h
+> > index 6ce1f1ceb432..03ac13d9aa37 100644
+> > --- a/include/uapi/asm-generic/mman-common.h
+> > +++ b/include/uapi/asm-generic/mman-common.h
+> > @@ -32,6 +32,7 @@
+> >  
+> >  #define MAP_UNINITIALIZED 0x4000000	/* For anonymous mmap, memory could be
+> >  					 * uninitialized */
+> > +#define MAP_BELOW_HINT	  0x8000000	/* give out address that is below (inclusive) hint address */
+> 
+> IMHO the API would be clearer if this actually forced the address to be
+> below the hint. That's what the flag name implies after all.
+> 
+> It would also mean the application doesn't need to take into account the
+> length of the mapping when passing the hint.
+> 
+> cheers
+
+That's a good point. The reason I did it this way was to allow mmap the
+possibility of returning the same address as the hint. If it must be
+strictly less than the hint then the hint address can never be returned.
+Maybe that doesn't matter though.
 
 - Charlie
 
-> 
-> > --
-> > 2.45.0
-> >
 
 _______________________________________________
 linux-snps-arc mailing list
