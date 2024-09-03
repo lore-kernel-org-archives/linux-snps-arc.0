@@ -4,53 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A404CCD342F
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Sep 2024 08:03:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0BAF8CD13CF
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Sep 2024 08:45:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=DFqAt1s0o6FWWJQoC9q+Expf3+P7EOthfIomjBZstlQ=; b=b6aiaRmQQ03nac
-	iUGXcamFmXqKROoY+FBQJoDs0y2hiI/ilPmfywFFKwNbydojE40yAQddb2d9R23LFylWLcy3XQvQ3
-	NYXiDShxpmVY7fWVRoxo41IXfRxdVksHFZ5IyYX3DXRb7e62nIszRS/DGuP7oDHCE6mF+M39b+y4q
-	v+Wn9XRMK3o3RXQ5PmzfMRyRoQZsDlqKuhU7unI12JW4U1Zre2OJ3GVCr8t82fmrD4lpEYofEEo2I
-	42w78sqGsVOKfBsL1jpcrDm0u080v6AZJH0hcOlhPvIornwlUflaAIMX4tTkl/otRJPkt6DS69gmA
-	uDrpavTdPxvqVXFMHyew==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=9Xzt/HsU0ps/be2CXH89ZeRe/+cN7f+E13wh6xML3/U=; b=D4rCwY66IPfx4D
+	YXpEOj6u+cHQUHLq+33QJOIuwrQmy5vzTekWI7G2JZLHkc5jEUF9OCTI3IQrNphZ9TBusoSaE3GSM
+	SBCHQYQ2rUymLSeXu6qiKp1rDCICpUxbl3tWpzceuPDb4LGJRf2IU/+ohvY+xxJu9CWhkkkllIino
+	I8YSEHJRfzKaJST9WQ5AHxy2m9R9boF9dPhi5bBM0mSzo2oZETfQ+2Wc+kit/8Sa1lg9GRQmbK3p8
+	y/U5uv3omzAgrA/nKUmKUaxcZLUF3yVoXkK5Mw790QAUob2xA0ZMU3R14ySGsFywFsua390p5CDeS
+	JQDHi4vsiG6TzIoGZULA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slOVF-0000000GorF-19a7;
-	Tue, 03 Sep 2024 08:03:05 +0000
-Received: from mail.synergyflux.pl ([51.38.99.212])
+	id 1slPAF-0000000GyCK-2Df5;
+	Tue, 03 Sep 2024 08:45:27 +0000
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slOVA-0000000GooP-3hIh
+	id 1slP9Q-0000000GxtZ-1dEV
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 03 Sep 2024 08:03:02 +0000
-Received: by mail.synergyflux.pl (Postfix, from userid 1002)
-	id 4FA9225528; Tue,  3 Sep 2024 10:00:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synergyflux.pl;
-	s=mail; t=1725350470;
-	bh=n9RRp8MlabRDJBtJNro49Rmci90RtotaZYZ8+xo6WI4=;
-	h=Date:From:To:Subject:From;
-	b=1phy2E60p8ocp9SBBECtvi/t+d6AymgAALcKIitI5xxqxnqIFQ7wTLQCaSV2worSh
-	 98afatnaCq8LSoz8UX3176M5f73T/jSTEgka5v5W5UydLNHGrwBfxKrsM4mmrKt88S
-	 u4RVc8XBWjg0ASocZnzbJzfs9QGfxxsYnEIHoZ+85VvPkscSVa9ojrfBDLurFy/NiW
-	 7q+GPz6+KZwQvj4rOuWmqJ/+YYrDIDu9Edel9TjDn3a6YaPqrcv8NYbVnZL8IfoDoT
-	 e0estgmvNwF+pj+bPHPz8r9GSukCMQvZ4xla5T6AeJCZkQbgwjowybmcEIfkxJXcg3
-	 mHnrv/ReCQNhA==
-Received: by mail.synergyflux.pl for <linux-snps-arc@lists.infradead.org>; Tue,  3 Sep 2024 08:00:42 GMT
-Message-ID: <20240903084500-0.1.dp.3gd32.0.5rkspblb05@synergyflux.pl>
-Date: Tue,  3 Sep 2024 08:00:42 GMT
-From: =?UTF-8?Q?"Konrad_Zieli=C5=84ski_"?= <konrad.zielinski@synergyflux.pl>
-To: <linux-snps-arc@lists.infradead.org>
-Subject: Instalacja pv
-X-Mailer: mail.synergyflux.pl
+	Tue, 03 Sep 2024 08:44:38 +0000
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-a86c476f679so582680166b.1
+        for <linux-snps-arc@lists.infradead.org>; Tue, 03 Sep 2024 01:44:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1725353074; x=1725957874; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DZlZAQzsLSUE2kbM2Ozq+ZCTE7DVngzemuZ7Ob/TXXo=;
+        b=XIaavEESZCzXfrEpbR4YS7tuUchyAf9qQUHySrP3ngU2+YlZ0oxwfxEQ+SPND3Ow+l
+         47dGjUw1CAiLe4uU71PwRg0wDQ9ez8Y24YGsVP2sFe4IJEkCRGE/tw5QAh8aU0+OSeK0
+         bxuPU2ltFv3qwVvQpk5AReBs9bmLBSwdWrDbQp12sySZbNam/RMqXg0FLWSyK5KNLpv0
+         Qao8EeisARYIA+jNwash29cCJIwmwz98HzNxDvBt+zZVCuBUAetRBepgtFmgJ3/vicLr
+         9n1fgMkP5F7knNoskn46g5C9pN/dNpS9v5w7R/4QftFJESvhhuaTK3iwBz8KfsuB6Q5Z
+         3uxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725353074; x=1725957874;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DZlZAQzsLSUE2kbM2Ozq+ZCTE7DVngzemuZ7Ob/TXXo=;
+        b=TEk7JMYI4obu7GFzz2xOdzh2yk3ULHbkLV3DphRUQdKMnS83EpyezolyNV3rhYXg5r
+         StTkq1NrqHtoHUGVniFBfmpnZYn9NU1C4x2CV4YBnu2sQ2HT+qInpnlHB6+hKrqM3VWe
+         pdIqGfFUQHxRMZBdwKfG+/P5oiE0Vm7DpslvvoRWxFcCl5sOwTb7BLe36cmTPJOt7A/O
+         Tcs8qaSo3I5gfolZZhiYdOp/TXTmL9grs8Q+HsIeyYVdFU/UGqdoRzmLSCtJf1c6JQXU
+         WwrIGJ5smQyM4Og3C5w0gGRdXaGz1MJZdHrWGOYc1MYoS5+KJVr3UpVCkBBwseEdkHLf
+         tRRg==
+X-Forwarded-Encrypted: i=1; AJvYcCWgv7on6/9hYIEdHUXizOgY9tKzeuh50rCM26S+9adrjKFIgr9GyZl1GozrDzj0w2wXhp6mISnmqugMe6/qkQ==@lists.infradead.org
+X-Gm-Message-State: AOJu0YycRdKdsZmXTsjNoPKMNPQ5nrYkqDxrnln/CmqJFej2MewuKLFq
+	5Vl1B/EFxx0G47tYRgLQDxw3btcksmR1q9+O3TxBfaorYiHwqlztm5iVgoGnIhs=
+X-Google-Smtp-Source: AGHT+IHxwo9IPQ3UzoYFwfDhkPsGqhCSjCzcHlJOoBuRWzF1gLxd2R9P128YTojI0aYfG8i4cNsStA==
+X-Received: by 2002:a17:907:2cc3:b0:a86:9058:c01b with SMTP id a640c23a62f3a-a89b9729542mr798530966b.65.1725353073684;
+        Tue, 03 Sep 2024 01:44:33 -0700 (PDT)
+Received: from localhost ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8989221e15sm653868266b.193.2024.09.03.01.44.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Sep 2024 01:44:33 -0700 (PDT)
+Date: Tue, 3 Sep 2024 10:44:32 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>,
+	Russell King <linux@armlinux.org.uk>, Guo Ren <guoren@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Shuah Khan <shuah@kernel.org>, linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC v2 0/4] mm: Introduce MAP_BELOW_HINT
+Message-ID: <ZtbMcN3vK-Ih1gpN@tiehlicka>
+References: <20240829-patches-below_hint_mmap-v2-0-638a28d9eae0@rivosinc.com>
+ <ZtAxwJFH_hAh1BPG@tiehlicka>
+ <ZtCw4vgonbJzV1xs@ghost>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <ZtCw4vgonbJzV1xs@ghost>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240903_010301_152951_F76C215B 
-X-CRM114-Status: UNSURE (   0.67  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240903_014436_494684_991C215A 
+X-CRM114-Status: GOOD (  39.70  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,19 +130,80 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-RHppZcWEIGRvYnJ5LAoKY3p5IHPEhSBQYcWEc3R3byBvdHdhcmNpIG5hIG5pZXpvYm93acSFenVq
-xIVjxIUgcm96bW93xJkgbmEgdGVtYXQgZm90b3dvbHRhaWtpPwoKSmFrbyBmaXJtYSBzcGVjamFs
-aXp1asSFY2Egc2nEmSB3IGluc3RhbGFjamkgaSBzZXJ3aXNpZSBuYWpsZXBzenljaCBqYWtvxZtj
-aW93byBwYW5lbGkgc8WCb25lY3pueWNoIG5hIHJ5bmt1IGNoY2lhxYJieW0gcHJ6ZWRzdGF3acSH
-IHByb3BvenljasSZLCBqYWvEhSB3c3DDs2xuaWUgeiB6ZXNwb8WCZW0gcHJ6eWdvdG93YWxpxZtt
-eSBkbGEgUGHFhHN0d2Egb2JpZWt0dS4KCkLEmWTEmSB3ZHppxJljem55IHphIHdpYWRvbW/Fm8SH
-IG9kIFBhxYRzdHdhIGN6eSBtb8W8ZW15IHBvcm96bWF3aWHEhy4KCgpQb3pkcmF3aWFtCktvbnJh
-ZCBaaWVsacWEc2tpIAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmlu
-ZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9s
-aW51eC1zbnBzLWFyYwo=
+On Thu 29-08-24 10:33:22, Charlie Jenkins wrote:
+> On Thu, Aug 29, 2024 at 10:30:56AM +0200, Michal Hocko wrote:
+> > On Thu 29-08-24 00:15:57, Charlie Jenkins wrote:
+> > > Some applications rely on placing data in free bits addresses allocated
+> > > by mmap. Various architectures (eg. x86, arm64, powerpc) restrict the
+> > > address returned by mmap to be less than the 48-bit address space,
+> > > unless the hint address uses more than 47 bits (the 48th bit is reserved
+> > > for the kernel address space).
+> > > 
+> > > The riscv architecture needs a way to similarly restrict the virtual
+> > > address space. On the riscv port of OpenJDK an error is thrown if
+> > > attempted to run on the 57-bit address space, called sv57 [1].  golang
+> > > has a comment that sv57 support is not complete, but there are some
+> > > workarounds to get it to mostly work [2].
+> > > 
+> > > These applications work on x86 because x86 does an implicit 47-bit
+> > > restriction of mmap() address that contain a hint address that is less
+> > > than 48 bits.
+> > > 
+> > > Instead of implicitly restricting the address space on riscv (or any
+> > > current/future architecture), a flag would allow users to opt-in to this
+> > > behavior rather than opt-out as is done on other architectures. This is
+> > > desirable because it is a small class of applications that do pointer
+> > > masking.
+> > 
+> > IIRC this has been discussed at length when 5-level page tables support
+> > has been proposed for x86. Sorry I do not have a link handy but lore
+> > should help you. Linus was not really convinced and in the end vetoed it
+> > and prefer that those few applications that benefit from greater address
+> > space would do that explicitly than other way around.
+> 
+> I believe I found the conversation you were referring to. Ingo Molnar
+> recommended a flag similar to what I have proposed [1]. Catalin
+> recommended to make 52-bit opt-in on arm64 [2]. Dave Hansen brought up
+> MPX [3].
+> 
+> However these conversations are tangential to what I am proposing. arm64
+> and x86 decided to have the default address space be 48 bits. However
+> this was done on a per-architecture basis with no way for applications
+> to have guarantees between architectures. Even this behavior to restrict
+> to 48 bits does not even appear in the man pages, so would require
+> reading the kernel source code to understand that this feature is
+> available. Then to opt-in to larger address spaces, applications have to
+> know to provide a hint address that is greater than 47 bits, mmap() will
+> then return an address that contains up to 56 bits on x86 and 52 bits on
+> arm64. This difference of 4 bits causes inconsistency and is part of the
+> problem I am trying to solve with this flag.
+
+Yes, I guess I do understand where you are heading. Our existing model
+assumes that anybody requiring more address space know what they are
+doing and deal with the reality. This is the way Linus has pushed this
+and I am not really convinced it is the right way TBH. On the other hand
+it is true that this allows a safe(r) transition to larger address
+spaces.
+
+> I am not proposing to change x86 and arm64 away from using their opt-out
+> feature, I am instead proposing a standard ABI for applications that
+> need some guarantees of the bits used in pointers.
+
+Right, but this is not really different from earlier attempts to achieve
+this IIRC. Extentind mmap for that purpose seems quite tricky as already
+pointed out in other sub-threads. Quite honestly I am not really sure
+what is the right and backwards compatible way. I just wanted to make
+you aware this has been discussed at lenght in the past.
+-- 
+Michal Hocko
+SUSE Labs
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
