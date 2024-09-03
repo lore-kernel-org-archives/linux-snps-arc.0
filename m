@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85726CD3420
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Sep 2024 09:22:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 35984CD13CF
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Sep 2024 10:20:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Reply-To:List-Subscribe:List-Help:
 	List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:
 	Subject:To:From:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=chvvvXpM1/rxahcaflw+ry8X2dF6cGAaCsJoJHJYgwo=; b=SEvNV2U3vYOoV/
-	jj3zp2+rbqwDgSIt+sl13qvvbcTcMoj2GpfyfBfcKHYFMMBlciyl41Ok1TBpYMjtAUR/yZ6+evtM1
-	T4pkHin5D4sIoQoclHDcBPk/UAgpUE30gquhaaPHaOLqOYQQ3eP5JtOnKstmlHJB8NwnCDxYPO4jw
-	toHwsBsmuJJeggt/JqQtnKd+ta5al1g21YX2UN8c3zV4m5aLPq/bzER9xdZDCURvzmwnGhzXwLEih
-	zcCXAMhJz/p8M+3fS2DNdGonvoC6TXG7cLv/yhX28q9jYVtA5AD+UEUOjXq+yuC9jfGGufJBlgGhd
-	DrXN/WuRSl67XPGKwxDA==;
+	List-Owner; bh=chvvvXpM1/rxahcaflw+ry8X2dF6cGAaCsJoJHJYgwo=; b=JXhANIeYMQJ3OM
+	CNQWZzcPjaFdLD76nQ0TMo9c2dZV+WvEyddvGlSBnoq1HYfHseVkQxeOIR05GpODbfraDdfAkr+Sw
+	Jdlk70MLKNCxiJR4qTbORgn8n7Ql+r6eFh8f7CSFZThn10wioxHwDzfXYYzNHT3Hvkg5+E0BX1mg8
+	YmYjoOiAVEeam3HD3DhPXtSULE0qwO+xZmklggLIXnp+F6EbfpvotsI21JgGBfijFDLxU+2ADi95o
+	aysImUNfBVIbuHnBbSZAWoeyJq0v8ISn09N7OI8OKqYlDOGO0GaBUCXuLXqznJxqW1fuivgv5I66D
+	+8bcIdqAnOg6ZcW12qGQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slPkX-0000000H7aS-11ya;
-	Tue, 03 Sep 2024 09:22:57 +0000
+	id 1slQdv-0000000HJYP-1xNW;
+	Tue, 03 Sep 2024 10:20:11 +0000
 Received: from mod.modforum.org ([192.254.136.77])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slPjP-0000000H7C5-2dis
+	id 1slQcz-0000000HJKa-3nUg
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 03 Sep 2024 09:21:48 +0000
+	Tue, 03 Sep 2024 10:19:15 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=basantfashion.com; s=default; h=Content-Transfer-Encoding:Content-Type:
 	MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:Sender:Cc:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=G4BItOc8k/hB4suOfWWwTOg/U0FTlHwyCNnKCLPge2w=; b=YNyD2LvoN9Oaik2QQo5iD39dbl
-	kdkM2o3ItKG+I2NyXajYMFXNNfGbqNmBf3LfXymypmZ2siLpAor4j1bmOOfacIAbRAY4SoyFsw80z
-	9cAiomfa+lwMqjzIzAiKmMUTbsKjyJrMh3MUTg0pGdK5D3XzZM2ZARka/Uyuv2QT/SoRIMnQzvlkq
-	Cmgc3LQv29ShAlS1hudzfaKJCyNbpYdC28ZhpSq/XHVjEUkPEReRjA1MKRDJa1EDDNraqXAe+naXj
-	kH5Z+Ld07UoEL2AMhNSn9tTMtIZsC8HacXMRIoJORtc+ppPBu91UyWvHskRq146W3wJRQkOsCwELT
-	jstci4/Q==;
-Received: from [162.244.210.121] (port=64857)
+	bh=G4BItOc8k/hB4suOfWWwTOg/U0FTlHwyCNnKCLPge2w=; b=ISL4Z7vZWmbDNRRhjRAHxbxEZW
+	62PCjGqeSA4l+q67KZ4aLnFj+zJvea1YFvFdJqOygfkqVeYwqGex1hHTcQKtpQAGT9HZ+OQHdH++c
+	kNW0q4ROHTJ1qguMhhQ9RyOd74381mPj2elxfztuqvkVJpHE7Tr8Jy6QC4IrKABU4GSQ66BVhDkdr
+	kZRi31JzKA6k2drf3gXvBBkrdy0iPkjdclhJlO9IX8s1hO2/aJ5VNC2YjiTF+7Dzk9svRKYyPTXIp
+	AxsSpGiQNsgNZ45mUMeHdnqZV1s/bGEejy34PGkPn6yMP8u4Md3HDzbU7nkbjMtOmxPvSe9DTF8bx
+	DEmm9Xzg==;
+Received: from [162.244.210.121] (port=51292)
 	by mod.modforum.org with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.93)
 	(envelope-from <kuljeet@basantfashion.com>)
-	id 1slPiT-0002XO-IY
-	for linux-snps-arc@lists.infradead.org; Tue, 03 Sep 2024 04:20:49 -0500
+	id 1slQc4-0004lK-Ln
+	for linux-snps-arc@lists.infradead.org; Tue, 03 Sep 2024 05:18:16 -0500
 From: MERCURIA  <kuljeet@basantfashion.com>
 To: linux-snps-arc@lists.infradead.org
 Subject: Request for Quote and Meeting Availability
-Date: 3 Sep 2024 02:21:44 -0700
-Message-ID: <20240903022144.674F07002F6D7149@basantfashion.com>
+Date: 3 Sep 2024 03:19:11 -0700
+Message-ID: <20240903031911.18628CCC67AFA94E@basantfashion.com>
 MIME-Version: 1.0
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
 X-AntiAbuse: Primary Hostname - mod.modforum.org
@@ -62,7 +62,7 @@ X-Source:
 X-Source-Args: 
 X-Source-Dir: 
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240903_022147_759226_3548FC99 
+X-CRM114-CacheID: sfid-20240903_031913_982581_082F2FEF 
 X-CRM114-Status: UNSURE (  -2.04  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
