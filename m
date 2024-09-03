@@ -4,77 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 897A7CD343A
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Sep 2024 14:26:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CDA63CD379F
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Sep 2024 17:05:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=wScVoYZ3E3QTwz/f5chvJyaTQ87PaJT5tqm0xxVYTZs=; b=2lWyMmj3XkDkrh
-	CJ50QDi2ShequOnJyjqWzR7auS48az5wiiv9p/tYTYvk44gR5dbeB8Ca3lqby8a6wO6C+NixshNnQ
-	bkb8m14SJ7w0rvkJn87Nz3Rq/S83tn4dBIX4ksgE4KC7KT2QY9ooSd8kqwJYtun+Zw/RweGQtrwWJ
-	FnKOz/9aTc3fgEcZHHS+AyLC0VFstp0s0hBQiFhvS58bTxGLnGcaphbXeYPXKMwrkg6mlRq5mDPGE
-	+UoQ4NaEMposrTHQ08zZyXREXhVt+gjPz936PVXA2OA713hOI52VFcuu0moAwRKxSFB9Hdhgp6L0o
-	BcQc2UNylAOY7wCXcbpg==;
+	List-Owner; bh=uKRgE3psfhYUINZexnIbgFXo7/gNaA9bH5sfSbd9vds=; b=tPv3uczA93z/P7
+	Xvrd0RzGt/X3jxu/YhpcKJtlEq8l4aZYFFoQ5Ixnj7gaF9U1nismLXhu9zhFTwLMWxCLSIDfH2ZCY
+	kpvrARMEG5kEmpa9c3cD9JzNja5eWB3dJZvTE3nXakXOKNobiWk+LhU7p7fjevtsLYLL0Cz8Ht4nq
+	JGc47/5BOxYmaJhIs1S4DDM3meRgEOk3worWHFlsxkl9AjvEwb/Yac4NdVhRGQG+o9RsbPDvpdpvx
+	CoUMvpADRMKlTdV7HG6R6Sw7zOfiTLtAO620PrsqmLc4zlHPBpgdQMa+AV1+SQQ9Kt9FGD2uzrtjy
+	LVVvN4JEG5A5nuTKAh/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slUU7-00000000Yws-0vDT;
-	Tue, 03 Sep 2024 14:26:19 +0000
-Received: from mgamail.intel.com ([192.198.163.19])
+	id 1slWyQ-00000001El5-1gXL;
+	Tue, 03 Sep 2024 17:05:46 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slUT8-00000000YY0-0ZcY
+	id 1slWyN-00000001Ek2-0y6Z
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 03 Sep 2024 14:25:20 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725373518; x=1756909518;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=/NH32SjYt0sPBumAG45T8HQXhATIwv180H+ycCI81Ok=;
-  b=Smy6V53j3MRbnr7Nc75G/NWmvJJ/SeGMnlGf8kxazzsxw2W/HaQm9j0u
-   4YVejkxzCPYby2hfa+kkGKxakGMSb9tGs5zrsTJrb+1MbF8LoUqRrOX6g
-   BEXyjGqSco3LN1+qG/zNyw/LYG/tFbUxvhJ+kQx95kxZNI6JaJ8vNBtcf
-   WelZHX7H7L9ZpLX5pMBc3+U3cnoDqmI9fMqRQ/n3Y/p/2+NKzJjmUWA6q
-   mgdiQiA/ucF7Qm0eSPrGr7Umu+JIVe18QeQF9AsCE+iJ+D8GrEh1GQnpc
-   lPJwRqIu5o42n6ghrV5/63Eawicq8egMBR6U59CAtGkC3aSufP+UxTjLD
-   A==;
-X-CSE-ConnectionGUID: aA4v9kwUS+GdV9n92BmOmg==
-X-CSE-MsgGUID: ZCdaRz3nTLmD/Z5R5bqj/A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="23541271"
-X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; 
-   d="scan'208";a="23541271"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 07:25:17 -0700
-X-CSE-ConnectionGUID: edDhvotLQcuRWt0gndB0oA==
-X-CSE-MsgGUID: XnjOQGn9QLSWQ7JPMnCOLg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; 
-   d="scan'208";a="65658816"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by orviesa008.jf.intel.com with ESMTP; 03 Sep 2024 07:25:14 -0700
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Andi Shyti <andi.shyti@kernel.org>,
-	Jarkko Nikula <jarkko.nikula@linux.intel.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Jan Dabros <jsd@semihalf.com>,
-	linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Vineet Gupta <vgupta@kernel.org>,
-	linux-snps-arc@lists.infradead.org
-Subject: [PATCH v2 1/7] ARC: configs: enable I2C_DESIGNWARE_CORE with I2C_DESIGNWARE_PLATFORM
-Date: Tue,  3 Sep 2024 17:25:00 +0300
-Message-ID: <20240903142506.3444628-2-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240903142506.3444628-1-heikki.krogerus@linux.intel.com>
-References: <20240903142506.3444628-1-heikki.krogerus@linux.intel.com>
+	Tue, 03 Sep 2024 17:05:44 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id C3671A43CCD
+	for <linux-snps-arc@lists.infradead.org>; Tue,  3 Sep 2024 17:05:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B9CBC4CEC4
+	for <linux-snps-arc@lists.infradead.org>; Tue,  3 Sep 2024 17:05:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725383141;
+	bh=KDEMp+pzqqkgH9YNk/FQO0UlQZO0u4LjtiQ4Csd25gE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=QZuwgsKpnjB39latEAEszX9u3W1MZtB59J848U7j9NWUACnjRnDb6fv+GAwarNe+J
+	 Z5pLiFaaufBkhKnXokjcIrHHEiow5dFjSSO/RMofqYtNHKieoiHpzAtk/YYgUY7kqn
+	 B45y/jqzze8pkRLPfyENUx9QLTxEemBrbH7tYHzC5/FPiBc1f/UvR50KBmLzhqrIix
+	 ETpZfOKJT+T7P3ASvnb0GGasiGcp6S4V78Th4QPGKHwWjdWMc1fYQj2vTmjlUsW8uT
+	 5m+W8zMRUPkVo6jVzdeN2PQdEm2esfi+Kne9G4Y0ZEu8Wa7QWAnHRh5qkL3XKAlbrI
+	 LcUhttytRKBdw==
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2f3f25a1713so67038351fa.2
+        for <linux-snps-arc@lists.infradead.org>; Tue, 03 Sep 2024 10:05:41 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwPPmreUIEGEhrvrHu5up/n7y0uGh9Y/ALaIPtVTCmUjHPAgRpM
+	76VP1doiIuh+Gnxj5aOGMH3G3ojXeuJXZ25gBInPGBFMcEbkEjo6cv0gtz8ZRpSJKdweFEEY1LT
+	ZH0zFBv9rgJGYuZ/eC+j6fa48kyE=
+X-Google-Smtp-Source: AGHT+IGZ5lQbHCzKN6XXvCQw+Y4PHBxvxxgEyUDbL3iSgHhKX8qsiaG0VzN46xsqAPEaQ05hU8wcRbkvwVycLSz0DFA=
+X-Received: by 2002:a2e:b887:0:b0:2f4:fc1c:e5dc with SMTP id
+ 38308e7fff4ca-2f6265d771bmr94290551fa.33.1725383140316; Tue, 03 Sep 2024
+ 10:05:40 -0700 (PDT)
 MIME-Version: 1.0
+References: <20240831101045.1381258-1-masahiroy@kernel.org>
+ <CAK7LNATtOzj175_Y0qQz338FRG1GYCrsorA=jWG+Go1Wjn9rnw@mail.gmail.com>
+ <8795e8da-981a-4876-99fe-8a4edb2185bf@linux.dev> <CAK7LNAQfpge7Hg8+yq3uyWD26D=kMcB3pKuoN+BGLfrOFFNgLA@mail.gmail.com>
+ <e72b55f5-2e12-43b1-8f9e-ddd7c9db8246@kernel.org>
+In-Reply-To: <e72b55f5-2e12-43b1-8f9e-ddd7c9db8246@kernel.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Wed, 4 Sep 2024 02:05:04 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATFVFMTToJ-xWoKsj-LkqocHX-p86aEsHsB5mDHrsYgXQ@mail.gmail.com>
+Message-ID: <CAK7LNATFVFMTToJ-xWoKsj-LkqocHX-p86aEsHsB5mDHrsYgXQ@mail.gmail.com>
+Subject: Re: [PATCH] ARC: update the help message for CONFIG_ARC_BUILTIN_DTB_NAME
+To: Vineet Gupta <vgupta@kernel.org>
+Cc: linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240903_072518_260120_4B46C92A 
-X-CRM114-Status: UNSURE (   8.79  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240903_100543_357039_93D4480C 
+X-CRM114-Status: GOOD (  14.99  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,79 +78,29 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The dependency handling of the Synopsys DesignWare I2C
-adapter drivers is going to be changed so that the glue
-drivers for the PCI and platform buses depend on
-I2C_DESIGNWARE_CORE.
-
-Cc: Vineet Gupta <vgupta@kernel.org>
-Cc: linux-snps-arc@lists.infradead.org
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
- arch/arc/configs/axs101_defconfig     | 1 +
- arch/arc/configs/axs103_defconfig     | 1 +
- arch/arc/configs/axs103_smp_defconfig | 1 +
- arch/arc/configs/tb10x_defconfig      | 1 +
- 4 files changed, 4 insertions(+)
-
-diff --git a/arch/arc/configs/axs101_defconfig b/arch/arc/configs/axs101_defconfig
-index 89720d6d7e0d..319bbe270322 100644
---- a/arch/arc/configs/axs101_defconfig
-+++ b/arch/arc/configs/axs101_defconfig
-@@ -66,6 +66,7 @@ CONFIG_SERIAL_OF_PLATFORM=y
- # CONFIG_HW_RANDOM is not set
- CONFIG_I2C=y
- CONFIG_I2C_CHARDEV=y
-+CONFIG_I2C_DESIGNWARE_CORE=y
- CONFIG_I2C_DESIGNWARE_PLATFORM=y
- # CONFIG_HWMON is not set
- CONFIG_DRM=m
-diff --git a/arch/arc/configs/axs103_defconfig b/arch/arc/configs/axs103_defconfig
-index 73ec01ed0492..8c1f1a111a17 100644
---- a/arch/arc/configs/axs103_defconfig
-+++ b/arch/arc/configs/axs103_defconfig
-@@ -66,6 +66,7 @@ CONFIG_SERIAL_OF_PLATFORM=y
- # CONFIG_HW_RANDOM is not set
- CONFIG_I2C=y
- CONFIG_I2C_CHARDEV=y
-+CONFIG_I2C_DESIGNWARE_CORE=y
- CONFIG_I2C_DESIGNWARE_PLATFORM=y
- # CONFIG_HWMON is not set
- CONFIG_FB=y
-diff --git a/arch/arc/configs/axs103_smp_defconfig b/arch/arc/configs/axs103_smp_defconfig
-index 4da0f626fa9d..75cab9f25b5b 100644
---- a/arch/arc/configs/axs103_smp_defconfig
-+++ b/arch/arc/configs/axs103_smp_defconfig
-@@ -66,6 +66,7 @@ CONFIG_SERIAL_OF_PLATFORM=y
- # CONFIG_HW_RANDOM is not set
- CONFIG_I2C=y
- CONFIG_I2C_CHARDEV=y
-+CONFIG_I2C_DESIGNWARE_CORE=y
- CONFIG_I2C_DESIGNWARE_PLATFORM=y
- # CONFIG_HWMON is not set
- CONFIG_DRM=m
-diff --git a/arch/arc/configs/tb10x_defconfig b/arch/arc/configs/tb10x_defconfig
-index 1a68e4beebca..5aba3d850fa2 100644
---- a/arch/arc/configs/tb10x_defconfig
-+++ b/arch/arc/configs/tb10x_defconfig
-@@ -60,6 +60,7 @@ CONFIG_SERIAL_8250_DW=y
- # CONFIG_HW_RANDOM is not set
- CONFIG_I2C=y
- # CONFIG_I2C_COMPAT is not set
-+CONFIG_I2C_DESIGNWARE_CORE=y
- CONFIG_I2C_DESIGNWARE_PLATFORM=y
- CONFIG_GPIO_SYSFS=y
- # CONFIG_HWMON is not set
--- 
-2.45.2
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gVHVlLCBTZXAgMywgMjAyNCBhdCA5OjM54oCvQU0gVmluZWV0IEd1cHRhIDx2Z3VwdGFAa2Vy
+bmVsLm9yZz4gd3JvdGU6Cj4KPgo+Cj4gT24gOC8zMS8yNCAyMzo1MCwgTWFzYWhpcm8gWWFtYWRh
+IHdyb3RlOgo+ID4gT24gU3VuLCBTZXAgMSwgMjAyNCBhdCA4OjAy4oCvQU0gVmluZWV0IEd1cHRh
+IDx2aW5lZXQuZ3VwdGFAbGludXguZGV2PiB3cm90ZToKPiA+Pgo+ID4+Cj4gPj4gT24gOC8zMS8y
+NCAwMzoxMywgTWFzYWhpcm8gWWFtYWRhIHdyb3RlOgo+ID4+PiBPbiBTYXQsIEF1ZyAzMSwgMjAy
+NCBhdCA3OjEw4oCvUE0gTWFzYWhpcm8gWWFtYWRhIDxtYXNhaGlyb3lAa2VybmVsLm9yZz4gd3Jv
+dGU6Cj4gPj4+PiBDb21taXQgYWJlMTFkZGVhMWQ3ICgiQVJDOiBbcGxhdC1hcmNmcGdhXTogRW5h
+YmxpbmcgRGV2aWNlVHJlZSBmb3IKPiA+Pj4+IEFuZ2VsNCBib2FyZCIpIGNoYW5nZWQgdGhlIGRl
+ZmF1bHQgYnVpbHQtaW4gRFRCIGZyb20gInNrZWxldG9uIiB0bwo+ID4+Pj4gImFuZ2VsNCIuCj4g
+Pj4+Pgo+ID4+Pj4gQ29tbWl0IGZkMTU1NzkyM2IyZSAoIkFSQzogW3BsYXRfYXJjZnBnYV0tPltw
+bGF0X3NpbV0iKSBjaGFuZ2VkIGl0Cj4gPj4+PiBmcm9tICJhbmdlbDQiIHRvICJuc2ltXzcwIi4K
+PiA+Pj4gQSB0eXBvLgo+ID4+Pgo+ID4+PiAgLi4uIHRvICJuc2ltXzcwMCIuCj4gPj4+Cj4gPj4+
+Cj4gPj4+PiBTaWduZWQtb2ZmLWJ5OiBNYXNhaGlybyBZYW1hZGEgPG1hc2FoaXJveUBrZXJuZWwu
+b3JnPgo+ID4+IEFja2VkLWJ5OiBWaW5lZXQgR3VwdGEgPHZndXB0YUBrZXJuZWwub3JnPgo+ID4K
+PiA+IFdpbGwgeW91IHBpY2sgaXQgdXAsIG9yIHNoYWxsIEkgZG8gaXQ/Cj4KPiBJIGRvbid0IGhh
+dmUgYW55dGhpbmcgbWFqb3IgaW4gbXkgcXVldWUsIHNvIHBsZWFzZSB0YWtlIGl0Lgo+Cj4gVGh4
+LAo+IC1WaW5lZXQKCgpBcHBsaWVkIHRvIGxpbnV4LWtidWlsZC4gVGhhbmtzCgoKLS0gCkJlc3Qg
+UmVnYXJkcwpNYXNhaGlybyBZYW1hZGEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFy
+Y0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4v
+bGlzdGluZm8vbGludXgtc25wcy1hcmMK
