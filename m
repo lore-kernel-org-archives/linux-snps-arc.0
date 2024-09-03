@@ -4,103 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 436E2CD3420
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  2 Sep 2024 19:10:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F7CCC54FC6
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Sep 2024 00:39:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References:Message-Id
-	:MIME-Version:Subject:Date:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=RLwmzu/tJ3siD20eMl7tbeKLeqLY0EkCt84LqIrpfKc=; b=geSNC1cjxKR062
-	g5/2MnaO/UW+Xp5XfZPXtgFHVsU6jPoW1t9W9B9fzZXBa+SZdMF9EUosOu3p1YfZdAkXjLRnEHrnW
-	YfqlHm74oelsXLTMMlMSslFjm7I4C8slUgvsGkkyby66h5/lr5p+64dXiGysQTn9P6Vfjy4xkf7rH
-	LbNZ27XBt8RwSAgEmpNgWeOPOJMnEoV8Kq8XiHNy67xObTWZe+mI26HyTWmSWVTajmYJBd0bouhzK
-	Qp4xY+wv8PuQ+kB531yttFi+qNKokL8XB2caZCyCISPspH11ciNEVfC+DrqXiibcDcrEA6zt1FeM7
-	InVNWGNzadG7ONMbPorw==;
+	List-Owner; bh=zYjDK9UDYJPYg8rux+2maQUp7NBBk/rxVKkasiIiMfw=; b=Sd+3h5ixyzgm9e
+	xyh9W53Z4aix7/offg3uVTQ6ZQk8BwwJE+prybUHhR2Z92iMRXHS3MKJHu8AbLEUKXaWc5Ng7B/fi
+	xSK6bQm8qW8Z16MOonFseoy7RXhY+VZGnnO1BEBWFuUQw8nT1czQQuztKppqFLvVQB7unYU8y3YAb
+	bDqZZwB2yC19bT5hWts75sFuMVwKy4zi3fXLZFG0VBhxoS9i9/aZnkMXEIp6Ks2e9b+++YhngZVev
+	dBzJLKEj9GqNi/yPJs68ceZhCAB8vaQ1ZTnrCP81HAulQ2ikZt4Ow+uOyNcLzNJ83DXfDomkoLGqr
+	uyH0X02iK+7GBfFpgs7g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slCRI-0000000FN4k-3x9w;
-	Mon, 02 Sep 2024 19:10:12 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1slHZf-0000000FsH1-2f6v;
+	Tue, 03 Sep 2024 00:39:11 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slCQO-0000000FMpA-20sO;
-	Mon, 02 Sep 2024 19:09:17 +0000
+	id 1slHZd-0000000FsGU-1egL
+	for linux-snps-arc@lists.infradead.org;
+	Tue, 03 Sep 2024 00:39:10 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 35BFC5C5786;
-	Mon,  2 Sep 2024 19:09:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69C9CC4CEC8;
-	Mon,  2 Sep 2024 19:09:03 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id E6C3C5C5940
+	for <linux-snps-arc@lists.infradead.org>; Tue,  3 Sep 2024 00:39:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB947C4CEC2;
+	Tue,  3 Sep 2024 00:39:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725304155;
-	bh=0/hF44fORO0Gery9A2B+FBHrfD+c3aFRzdrAQPNITJE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=N9sI26+YB1BFPD9a0+oQnaOYoEp8JD6VMjANXfF4vZthYCbAVo/geEan5PCYE/5YG
-	 KyNtsWx0ZmtF4GI6OmQqvHuRlOVg8nJg01jLUUvrGS8k0qXeZSz9H6+XV52mPp5OT9
-	 SiFxv0FaUoXnD8v0PwGJEyUEBBupfs/d/2YxBDJJeebGN6LeO2fcg3zg8MsSGoraop
-	 tcocc1osS+PVlcQOrKjq5qbDCptBphGD5397tCq3uoQScdTyYNG0/L00MB3+u9eT91
-	 Po9TaiUwdOyyXQuJiSHGiI3yZh0UNZiv/JBij7SxkXKL2T4XOAiQx7+fQg9SMU8IKV
-	 ZubyoBQssJRwg==
-From: Mark Brown <broonie@kernel.org>
-Date: Mon, 02 Sep 2024 20:08:15 +0100
-Subject: [PATCH 3/3] mm: Care about shadow stack guard gap when getting an
- unmapped area
+	s=k20201202; t=1725323947;
+	bh=L0a0nrjGAFgoQWttgMG49s3T6rw3a9pOaJoC5sfVnOU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=kB30RQpjJJ19yruyvnmWtT/O2VXXBi3Nng1XCVtgXGz+lJRvTD1O87NM3qRqgjPHr
+	 hPLrBbdTTQrvV9tikCjUca4sGKbXdg7s14tKm4Qldr1nQ4fs87NOmBsob4L+KiH/j2
+	 /X3IfcN/vkITL+IJGFVzN4ZdAjG/UjBJOJYJv0pHkk7bHgq8EN2VhO7f/Upu4OzBTf
+	 w6Yj92PWRN+6FYNdesM/craW4Ubp89dV6WzN55LqsLKSgxKwzyF2XI7L7bBeyspRzk
+	 /plHTGjTM2/ynDghMCmqElcI3oVLzgzJN06ThVyTJqFNbVA+A/nMLNaj4RFQDzY5lD
+	 TiNZ63kkRZVCQ==
+Message-ID: <e72b55f5-2e12-43b1-8f9e-ddd7c9db8246@kernel.org>
+Date: Mon, 2 Sep 2024 17:39:05 -0700
 MIME-Version: 1.0
-Message-Id: <20240902-mm-generic-shadow-stack-guard-v1-3-9acda38b3dd3@kernel.org>
-References: <20240902-mm-generic-shadow-stack-guard-v1-0-9acda38b3dd3@kernel.org>
-In-Reply-To: <20240902-mm-generic-shadow-stack-guard-v1-0-9acda38b3dd3@kernel.org>
-To: Richard Henderson <richard.henderson@linaro.org>, 
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
- Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>, 
- Russell King <linux@armlinux.org.uk>, Guo Ren <guoren@kernel.org>, 
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
- Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>, 
- Nicholas Piggin <npiggin@gmail.com>, 
- Christophe Leroy <christophe.leroy@csgroup.eu>, 
- Naveen N Rao <naveen@kernel.org>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Sven Schnelle <svens@linux.ibm.com>, 
- Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
- "David S. Miller" <davem@davemloft.net>, 
- Andreas Larsson <andreas@gaisler.com>, Thomas Gleixner <tglx@linutronix.de>, 
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
- "H. Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>, 
- Max Filippov <jcmvbkbc@gmail.com>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
- Vlastimil Babka <vbabka@suse.cz>, 
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Deepak Gupta <debug@rivosinc.com>, 
- linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org, 
- loongarch@lists.linux.dev, linux-parisc@vger.kernel.org, 
- linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org, 
- linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, linux-mm@kvack.org, 
- Mark Brown <broonie@kernel.org>, 
- Rick Edgecombe <rick.p.edgecombe@intel.com>
-X-Mailer: b4 0.15-dev-37811
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2208; i=broonie@kernel.org;
- h=from:subject:message-id; bh=0/hF44fORO0Gery9A2B+FBHrfD+c3aFRzdrAQPNITJE=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBm1g0waix/xDVLlXSaTD4u/rRM+Xov1S4sJqN9L4bW
- qlKpuiaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZtYNMAAKCRAk1otyXVSH0D8aCA
- CF9K7LlaivE2EybLobtlEVyd3x4/yQFEmQzQPnmLchhUTmpNDtOjAWH5nWJB5csnuTjOxnJKPohxjU
- OlGKNnXZ4xzXd0tKckj2SwQe75FXPlRlPAsaelj3L+B0sFx+eaxKOJptUrnxX0L5qOqpZ7yxSSg7Lp
- QqS957ontDIGI1sWL7Jr883SmGUsD3O1znFCoOJSJgM0E4BSv5EsC6tkrAy58jG3VQAOqtDHm5b8r9
- 9yDRusfPXLA88jssbTu7Bg4R1DSDS6OnJlDIn0c2CKKk/Cw+o6jzMxTmxntZMd5Iiz1JndFzNYziYB
- 5TydVe5LsQPAyaA9p8ecpXQVC+h/i/
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ARC: update the help message for
+ CONFIG_ARC_BUILTIN_DTB_NAME
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Vineet Gupta <vgupta@kernel.org>, linux-snps-arc@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20240831101045.1381258-1-masahiroy@kernel.org>
+ <CAK7LNATtOzj175_Y0qQz338FRG1GYCrsorA=jWG+Go1Wjn9rnw@mail.gmail.com>
+ <8795e8da-981a-4876-99fe-8a4edb2185bf@linux.dev>
+ <CAK7LNAQfpge7Hg8+yq3uyWD26D=kMcB3pKuoN+BGLfrOFFNgLA@mail.gmail.com>
+From: Vineet Gupta <vgupta@kernel.org>
+Content-Language: en-US
+In-Reply-To: <CAK7LNAQfpge7Hg8+yq3uyWD26D=kMcB3pKuoN+BGLfrOFFNgLA@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240902_120916_698575_528309BD 
-X-CRM114-Status: GOOD (  15.18  )
+X-CRM114-CacheID: sfid-20240902_173909_495734_C8B7F675 
+X-CRM114-Status: UNSURE (   9.29  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,76 +73,25 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-As covered in the commit log for c44357c2e76b ("x86/mm: care about shadow
-stack guard gap during placement") our current mmap() implementation does
-not take care to ensure that a new mapping isn't placed with existing
-mappings inside it's own guard gaps. This is particularly important for
-shadow stacks since if two shadow stacks end up getting placed adjacent to
-each other then they can overflow into each other which weakens the
-protection offered by the feature.
-
-On x86 there is a custom arch_get_unmapped_area() which was updated by the
-above commit to cover this case by specifying a start_gap for allocations
-with VM_SHADOW_STACK. Both arm64 and RISC-V have equivalent features and
-use the generic implementation of arch_get_unmapped_area() so let's make
-the equivalent change there so they also don't get shadow stack pages
-placed without guard pages.
-
-Architectures which do not have this feature will define VM_SHADOW_STACK
-to VM_NONE and hence be unaffected.
-
-Suggested-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- mm/mmap.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/mm/mmap.c b/mm/mmap.c
-index b06ba847c96e..902c482b6084 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -1753,6 +1753,14 @@ static unsigned long unmapped_area_topdown(struct vm_unmapped_area_info *info)
- 	return gap;
- }
- 
-+static inline unsigned long stack_guard_placement(vm_flags_t vm_flags)
-+{
-+	if (vm_flags & VM_SHADOW_STACK)
-+		return PAGE_SIZE;
-+
-+	return 0;
-+}
-+
- /*
-  * Search for an unmapped address range.
-  *
-@@ -1814,6 +1822,7 @@ generic_get_unmapped_area(struct file *filp, unsigned long addr,
- 	info.length = len;
- 	info.low_limit = mm->mmap_base;
- 	info.high_limit = mmap_end;
-+	info.start_gap = stack_guard_placement(vm_flags);
- 	return vm_unmapped_area(&info);
- }
- 
-@@ -1863,6 +1872,7 @@ generic_get_unmapped_area_topdown(struct file *filp, unsigned long addr,
- 	info.length = len;
- 	info.low_limit = PAGE_SIZE;
- 	info.high_limit = arch_get_mmap_base(addr, mm->mmap_base);
-+	info.start_gap = stack_guard_placement(vm_flags);
- 	addr = vm_unmapped_area(&info);
- 
- 	/*
-
--- 
-2.39.2
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+CgpPbiA4LzMxLzI0IDIzOjUwLCBNYXNhaGlybyBZYW1hZGEgd3JvdGU6Cj4gT24gU3VuLCBTZXAg
+MSwgMjAyNCBhdCA4OjAy4oCvQU0gVmluZWV0IEd1cHRhIDx2aW5lZXQuZ3VwdGFAbGludXguZGV2
+PiB3cm90ZToKPj4KPj4KPj4gT24gOC8zMS8yNCAwMzoxMywgTWFzYWhpcm8gWWFtYWRhIHdyb3Rl
+Ogo+Pj4gT24gU2F0LCBBdWcgMzEsIDIwMjQgYXQgNzoxMOKAr1BNIE1hc2FoaXJvIFlhbWFkYSA8
+bWFzYWhpcm95QGtlcm5lbC5vcmc+IHdyb3RlOgo+Pj4+IENvbW1pdCBhYmUxMWRkZWExZDcgKCJB
+UkM6IFtwbGF0LWFyY2ZwZ2FdOiBFbmFibGluZyBEZXZpY2VUcmVlIGZvcgo+Pj4+IEFuZ2VsNCBi
+b2FyZCIpIGNoYW5nZWQgdGhlIGRlZmF1bHQgYnVpbHQtaW4gRFRCIGZyb20gInNrZWxldG9uIiB0
+bwo+Pj4+ICJhbmdlbDQiLgo+Pj4+Cj4+Pj4gQ29tbWl0IGZkMTU1NzkyM2IyZSAoIkFSQzogW3Bs
+YXRfYXJjZnBnYV0tPltwbGF0X3NpbV0iKSBjaGFuZ2VkIGl0Cj4+Pj4gZnJvbSAiYW5nZWw0IiB0
+byAibnNpbV83MCIuCj4+PiBBIHR5cG8uCj4+Pgo+Pj4gIC4uLiB0byAibnNpbV83MDAiLgo+Pj4K
+Pj4+Cj4+Pj4gU2lnbmVkLW9mZi1ieTogTWFzYWhpcm8gWWFtYWRhIDxtYXNhaGlyb3lAa2VybmVs
+Lm9yZz4KPj4gQWNrZWQtYnk6IFZpbmVldCBHdXB0YSA8dmd1cHRhQGtlcm5lbC5vcmc+Cj4KPiBX
+aWxsIHlvdSBwaWNrIGl0IHVwLCBvciBzaGFsbCBJIGRvIGl0PwoKSSBkb24ndCBoYXZlIGFueXRo
+aW5nIG1ham9yIGluIG15IHF1ZXVlLCBzbyBwbGVhc2UgdGFrZSBpdC4KClRoeCwKLVZpbmVldAoK
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtc25w
+cy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0
+cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
