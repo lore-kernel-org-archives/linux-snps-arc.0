@@ -4,68 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0833CCD4847
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  4 Sep 2024 18:53:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39B39CD4F21
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  4 Sep 2024 19:07:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
 	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=v7E7UJBRk/TeT0S8vXjaICb1hYhcCV5oLnQoCeulaag=; b=k4a00n2I31P+ghAEs6KMyiAE+c
-	wdXkKSYQVRyI1XNTIvSwt7gi070ItuSIL7pHt/sRLNFxbX5eZTCSPqfk7oDYlwUnY3GnkOlZpOnH1
-	eLvlXBqyyO0ax5w382qmvZ2nW5j2zJTVZ+l9yZV0+LXxogJjQiYseXDj7UEpX42Vktj//1VEDlpFw
-	lilehT/qec2ivwVV1o6KueayyP8kBUtuPOR2oWVCA9uyTPDAjBr/jJppWqhxiMbMR8QjBLwpqnF4o
-	Ha2BQlLbM2//Fi8fg4JDHQDMSh6omAZb4aXRjP09Zlpz0fo0IlzCjP1DV0Ckp69N6zvpbGMrNJiq5
-	yHVL4Mgw==;
+	bh=z4fmkjI9GloK8lwE4lbOpQlSh43zNokxdnSckmjTW+M=; b=EldXpGD/eOKjOtf8W4DL/IDMW2
+	9EcDX2Lc6vErXNRE6ea8w+IWLR1akfbkuHgiyDQFbCP587RJcXZLkcln5DwlZEwjU2sPkDjGZHtEg
+	/p5nDD/aU0d4wtmajw0piPkP4SBpBVjZc+5pLQjbgAao02jBvIB82zZICVOKJhQ3YrneA43yCFHGQ
+	EmnscW+XMgyI//TyeZtoXfFiPiGzwIrI9fZ/0P+tAFVKMMUZhAh4vunQuqy+4CdBIhqqm07CSo8k6
+	GjyZoXdkJetmMSCfJGO8QA8iCXPm3jvNrn10sk93oFtAAa2U5Hwn2fZjkosGs65MkJskVeS4VbZin
+	zuLV/QEQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slv8d-00000005hmG-2IIZ;
-	Wed, 04 Sep 2024 18:53:55 +0000
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
+	id 1slvLc-00000005k2X-39UK;
+	Wed, 04 Sep 2024 19:07:20 +0000
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slv8Z-00000005hgg-1vhB
+	id 1slvLZ-00000005k19-3NfS
 	for linux-snps-arc@lists.infradead.org;
-	Wed, 04 Sep 2024 18:53:53 +0000
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-714287e4083so6162211b3a.2
-        for <linux-snps-arc@lists.infradead.org>; Wed, 04 Sep 2024 11:53:50 -0700 (PDT)
+	Wed, 04 Sep 2024 19:07:20 +0000
+Received: by mail-pg1-x535.google.com with SMTP id 41be03b00d2f7-7cd967d8234so4350763a12.2
+        for <linux-snps-arc@lists.infradead.org>; Wed, 04 Sep 2024 12:07:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1725476030; x=1726080830; darn=lists.infradead.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1725476837; x=1726081637; darn=lists.infradead.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=s92rW/1gEQr3xvJKMRwsWt6P8BZ8Funj1rbavwH4oWQ=;
-        b=0o7Kc3O8GAUyxmkU0U9IsUX63ZJs4Jt0+kGrO0Dzvo72ogxln5wk1c6rWQxCRuUnD9
-         gVdUE9Yz8y2rEi6f46uMx1b6GvcGeIgE70u5TgeOTDvfDyJIarcvxpYZlGFHVvBehK/d
-         tQFkW6C+oTqgAczzt1gPIqkQyH+GH07g/ei2ZCZVu7m48bw3Qi58oO7x+5UMo+mFWwaM
-         MURQsAQ4OrGE7B2KyYlLXvvx/zOm0n78lLSYUaAiQCBgvTUIJYdl675OT2vZP25hjtnC
-         g73jFmlfw7Mea28cqHJPcmf8JHIQuQtAvo26IRBvWe9J3ovb2+aZqjpzNRQWL19GQUBB
-         H5FQ==
+        bh=o2U7wgEbLS4i4a8ingcWCBDQrhNmwXrz+ffgx64j+qE=;
+        b=lEsrQvohUr/XwSlx85mB+79l9dqYPT9N78k1rHpUYZNviu3uj8KXv1FWe0M/vAFxnc
+         JY/v8s6bcLml08QNyQgQ/G4iJnFIC7joTRXYAfhOcsi6eXdaTMZ43fIHoYNiqOB1DN2K
+         aIxDCAUDe5roZfrwXMV65kMRIMj1BhzGqvnmTTWoY+3i8pwOCwxxg5Sb3sm8d6f6nnFf
+         D7lYLQAGJ8lp23i3vDutv81vZA08QFs/NrwpY5mA+bYDKtNJRWTHAUz+k/GrmaZkePfI
+         /l+PIwwAyxdP5VXh6OZNKj2YJnOhgjzt0jOtb/Mve7tkoJTP9NgdP5Ob/WXZEe7lRR8n
+         MoWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725476030; x=1726080830;
+        d=1e100.net; s=20230601; t=1725476837; x=1726081637;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=s92rW/1gEQr3xvJKMRwsWt6P8BZ8Funj1rbavwH4oWQ=;
-        b=X88IYoX+TTz+qW3atnvNgzqLAO7D4PVIVyj2t1j7B2XA0STUbW8eabLUedR/OUnhc4
-         zf5vb4cpjtRLUc3InU73d3aa5WZOFZpxfu2bItmq/K5tVosnqYIrOvprJ64Eli51WPjY
-         IGTfV/ZTwnOb6s8v0O8DKZv3PHNKHUpC6/iJS4ZC6DoAggE7+yc6GiaDVGTblAe04SlW
-         4dmJjz4rhK4Of9DLKLOPGHV0ap20MGvW1QIZBW9BzV9cIZu/Qr/4n9aZSuO1la2YMEIi
-         vJqdahtTUCgqqv1lSQfByZVLX0Tukex1GYzNYyOp0WEadcBxsMtaLq8fbVH9IhFSHs+I
-         dmgw==
-X-Forwarded-Encrypted: i=1; AJvYcCVBd4RlQkJVnAiswWYQ05HYywsCXrFKpwdc6KTuyYXYtGJvhx8FN3k/3EuLSc+OyABKVQ/Z3u81JT3MfD0+AA==@lists.infradead.org
-X-Gm-Message-State: AOJu0YzkIXiPok/6N8NmzwTkpp1AMnBKtMXG4Q19Bs5WThkPuf8up4C2
-	pTsybOFdxJqg4wnRO2IOhZL6AXo5Ql4a9Bb5gc0kqeWh1hr3baxMYkodF1z8/uk=
-X-Google-Smtp-Source: AGHT+IE2IsoC0LRmiLcI1CkvV1DU3vw4DUJdyqp6MID1n1cX+56uyYB7jBo1wGGq/wkl04oTY4Plng==
-X-Received: by 2002:a05:6a21:318b:b0:1ce:cbcf:aaa9 with SMTP id adf61e73a8af0-1cecdfdea62mr20770394637.36.1725476029832;
-        Wed, 04 Sep 2024 11:53:49 -0700 (PDT)
+        bh=o2U7wgEbLS4i4a8ingcWCBDQrhNmwXrz+ffgx64j+qE=;
+        b=UpPIbTlf2QCVpO6OzQ/KWcOlSD2R9XtsWdk6mHVge78Z70IDX42NjFNWkovJKEH2Jl
+         tOF3m3NTr+Rg6JLH4+j1+1hiUxMlpd8gWWRCKqm+lh5C0hhGy26bDMTb9Ia/C+O32J9X
+         lRiAU3FU7SilsKDGL2u4VfNmMndr6GvQrdGPihtw81E42rWDxbbb6ZUGzKspddbvn2ku
+         bSgMzjkjUOOUDqjE7ADVvDrH9B/D5YJtY/4X0ZldBQNCM3pNHGPyx2fMaf/AjrLd0r/l
+         02d6z07Sk3sXJHnvKQ+0LACh8sAL8ebnr3QNgP5+KKDaJ2YkqgYYdP+1aFxmHy5HHlFG
+         +CLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVSww3LesVLflH+vx7rTS3DkOstDiTYQiwSVFg3DnUoJqvJSypXw9fikluJ58WH19zR0hnuBlKyZTlT1cOj4g==@lists.infradead.org
+X-Gm-Message-State: AOJu0YzDZjzdm9zdahCty2STk0hD2OlfEDbgSPhrTq01MAn9T5Yd5TXt
+	jVHmUEh+rLNmjuRJhfhj9LXfUGiJohHzYdpxe88A2xaeTGvDIBPghtgf316YTYg=
+X-Google-Smtp-Source: AGHT+IGRXMFw8eODDeHuSZGixob1QmbWy894YR3dac/q8kTYt2afjYPzXJiDq5qdDnRm4AHLgT4d4Q==
+X-Received: by 2002:a17:90b:300e:b0:2d8:27c3:87d7 with SMTP id 98e67ed59e1d1-2d893284ebdmr13545892a91.8.1725476836620;
+        Wed, 04 Sep 2024 12:07:16 -0700 (PDT)
 Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71778522979sm1947597b3a.30.2024.09.04.11.53.47
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2da53740084sm4858056a91.32.2024.09.04.12.07.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Sep 2024 11:53:49 -0700 (PDT)
-Date: Wed, 4 Sep 2024 11:53:45 -0700
+        Wed, 04 Sep 2024 12:07:16 -0700 (PDT)
+Date: Wed, 4 Sep 2024 12:07:12 -0700
 From: Deepak Gupta <debug@rivosinc.com>
 To: Mark Brown <broonie@kernel.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
+Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
 	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
 	Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>,
 	Russell King <linux@armlinux.org.uk>, Guo Ren <guoren@kernel.org>,
@@ -93,7 +94,6 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 	"H. Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>,
 	Max Filippov <jcmvbkbc@gmail.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
 	Vlastimil Babka <vbabka@suse.cz>,
 	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
 	Catalin Marinas <catalin.marinas@arm.com>,
@@ -103,17 +103,20 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 	loongarch@lists.linux.dev, linux-parisc@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
 	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH 2/3] mm: Pass vm_flags to generic_get_unmapped_area()
-Message-ID: <ZtisuRySfREHjnN/@debug.ba.rivosinc.com>
+	linux-mm@kvack.org, Rick Edgecombe <rick.p.edgecombe@intel.com>
+Subject: Re: [PATCH 3/3] mm: Care about shadow stack guard gap when getting
+ an unmapped area
+Message-ID: <Ztiv4NtsIkKnyiLO@debug.ba.rivosinc.com>
 References: <20240902-mm-generic-shadow-stack-guard-v1-0-9acda38b3dd3@kernel.org>
- <20240902-mm-generic-shadow-stack-guard-v1-2-9acda38b3dd3@kernel.org>
+ <20240902-mm-generic-shadow-stack-guard-v1-3-9acda38b3dd3@kernel.org>
+ <is6ewj3bhtqy3zadj6lbdv6maupx4kmduvhny66ntifkji6hoj@xmhcf5jt4o66>
+ <dbaf5653-df46-4e17-bce1-aec7fb168197@sirena.org.uk>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20240902-mm-generic-shadow-stack-guard-v1-2-9acda38b3dd3@kernel.org>
+In-Reply-To: <dbaf5653-df46-4e17-bce1-aec7fb168197@sirena.org.uk>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240904_115351_762385_DEE8947F 
-X-CRM114-Status: GOOD (  10.28  )
+X-CRM114-CacheID: sfid-20240904_120717_881058_973410EB 
+X-CRM114-Status: GOOD (  12.25  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -130,15 +133,23 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, Sep 02, 2024 at 08:08:14PM +0100, Mark Brown wrote:
->In preparation for using vm_flags to ensure guard pages for shadow stacks
->supply them as an argument to generic_get_unmapped_area(). The only user
->outside of the core code is the PowerPC book3s64 implementation which is
->trivially wrapping the generic implementation in the radix_enabled() case.
+On Tue, Sep 03, 2024 at 08:57:20PM +0100, Mark Brown wrote:
+>On Tue, Sep 03, 2024 at 03:41:49PM -0400, Liam R. Howlett wrote:
+>> * Mark Brown <broonie@kernel.org> [240902 15:09]:
 >
->Signed-off-by: Mark Brown <broonie@kernel.org>
+>> > +static inline unsigned long stack_guard_placement(vm_flags_t vm_flags)
+>> > +{
+>> > +	if (vm_flags & VM_SHADOW_STACK)
+>> > +		return PAGE_SIZE;
+>
+>> Is PAGE_SIZE is enough?
+>
+>It's what x86 currently uses so it'll be no worse off if it gets moved
+>to the generic code (there's a comment in the arch code explaing what's
+>needed there) and it's enough for arm64, we only do single record
+>pushes/pops or (optionally) writes to unconstrained addresses.
 
-Reviewed-by: Deepak Gupta <debug@rivosinc.com>
+It's enough for RISC-V too.
 
 
 _______________________________________________
