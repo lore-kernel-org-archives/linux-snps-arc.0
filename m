@@ -4,87 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21ED8CD37AE
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  4 Sep 2024 04:14:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C004BCD4857
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  4 Sep 2024 17:04:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References
-	:In-Reply-To:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=UHcGotIWYewPlbJxkIk5kbh6+gJNWHPJp7f9Ww+qnNY=; b=0PL5fEQj0EswlL
-	w/odp2xGTwpSN4P6KOp03xZqEMJQ8OWLiHbGIFdatndj8yjBC4E4k+dyarHAyZZi4roWCKaLcE6O3
-	DX8sGUs83G76Z6WnXxNaZZzV46YrKTm39ZhvmMXgF1oKNyJrYVGimSMvS3BAPZVcMFSsewn35EnXH
-	ofZTJVtcfr2hDIh3B4Mj69r/PetEPdEWROF9OrKvE9zO2wiv4Vx6/icoPfTQO+s0XrEX+EFdQw4lU
-	geszxICnGkXjHodPtPGQhCreMjcoP+q+3rShikL9gOveY4hW6BbaX/L82UbjZ+PSgXcY4zXO6sJDZ
-	HI7H6NlxnJmOeaeVmRLg==;
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:MIME-Version:Message-Id:Date:
+	Subject:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=U5ht6Abs9rM0cPNzon5ZIMJiVK14xf9E3lNoZsGtYyI=; b=JEIuh0xPFy3YLE
+	R7atmV5r/63Mui8dwPvFP7zu+wXOHz7k9lV337GaqpS5hdUMaNRYKO564cr52NjTo7UVl45f1dZFx
+	MSAxqLjaK69aQY6NNUlPRduoC8QEYXRKeBN1if6blI/xZV4z+4Agwgm7ICihg1n/8yzMlcWbrBqMY
+	mE8x31jpzMGFiLaqDzZHkvs+O5fniW1aybrUJOBWiQ0qfC/zpZUto0YM9nwzm1bauBvMwcVzfRUjf
+	XW0P/+GLWoTT+DGCq+QToj8vabwnAYeH2RTKN2t3vCkvhvg7FTQwvhcPjXGfvk154qbjXYgxw1T3R
+	h//WojFhG9FFMie5QxZg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slhP9-00000002lIs-26AE;
-	Wed, 04 Sep 2024 04:14:03 +0000
-Received: from gandalf.ozlabs.org ([150.107.74.76] helo=mail.ozlabs.org)
+	id 1sltQX-00000005NTq-15A5;
+	Wed, 04 Sep 2024 17:04:17 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slhP6-00000002lID-0THg;
-	Wed, 04 Sep 2024 04:14:01 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1725423237;
-	bh=eMgOBDwTX8trwBbhMUy1qHUpMDhdRlVDIssPJb8Gsmo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Atgw5p+ous8ponaujRBR9zeHm87YGXlWFJw/APeKvwTJfN+vDA+MA/XCf729+PnVA
-	 yIoWrvR8Tg01Q4kTrqjbf+6l9UmkC2+E2eKeM0lpnBzHzQLZr6WfUF+RwlGDv9na7Y
-	 VJ6SDLZrN5hF4Pw9qE+168Zj3QWww8gocoC1nJ966vxltqaxwrFOfSbul6kyFfi2d0
-	 JlXz4kSSwijD4hHUrXsf8IlpvudZE3CIHAEjc3DtzlAKa/tvrIdpfiNxgF0xas/YL4
-	 mHLB2qUie8SKPjqF5MpzhdViqlVcFcXog5f66aL4m0C5o/rSTOnJ5fJzWnRTdDtt9J
-	 XaxynAPBdZR7w==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4Wz8Hv4YYPz4wb7;
-	Wed,  4 Sep 2024 14:13:47 +1000 (AEST)
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Mark Brown <broonie@kernel.org>, Richard Henderson
- <richard.henderson@linaro.org>, Ivan Kokshaysky
- <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, Vineet Gupta
- <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, Guo Ren
- <guoren@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui
- <kernel@xen0n.name>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
- Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy
- <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, Alexander
- Gordeev <agordeev@linux.ibm.com>, Gerald Schaefer
- <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Christian Borntraeger
- <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker
- <dalias@libc.org>, John Paul Adrian Glaubitz
- <glaubitz@physik.fu-berlin.de>, "David S. Miller" <davem@davemloft.net>,
- Andreas Larsson <andreas@gaisler.com>, Thomas Gleixner
- <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
- <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>, Max
- Filippov <jcmvbkbc@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
- <vbabka@suse.cz>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon
- <will@kernel.org>, Deepak Gupta <debug@rivosinc.com>,
- linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
- loongarch@lists.linux.dev, linux-parisc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, linux-mm@kvack.org,
- Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH 2/3] mm: Pass vm_flags to generic_get_unmapped_area()
-In-Reply-To: <20240902-mm-generic-shadow-stack-guard-v1-2-9acda38b3dd3@kernel.org>
-References: <20240902-mm-generic-shadow-stack-guard-v1-0-9acda38b3dd3@kernel.org>
- <20240902-mm-generic-shadow-stack-guard-v1-2-9acda38b3dd3@kernel.org>
-Date: Wed, 04 Sep 2024 14:13:47 +1000
-Message-ID: <87plpk5a4k.fsf@mail.lhotse>
+	id 1sltQ6-00000005NF3-0pRg;
+	Wed, 04 Sep 2024 17:03:52 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 917E6A445AE;
+	Wed,  4 Sep 2024 17:03:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EDBEC4CEC2;
+	Wed,  4 Sep 2024 17:03:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725469428;
+	bh=bULBmEyxTuexdIoDddURy1JjGZM6ZRxX3SqU1u9O/JQ=;
+	h=From:Subject:Date:To:Cc:From;
+	b=FTaxHHzaSOfcI3YLDnf/RnK9wC9qPyShM2HHxP3ePgjXB4NzyW2MkLMNNnsY+7v4Z
+	 1BqEDPvdwMr5k02sgsmIGDZzMKjOcEsh9tA142jKOFo1P8ZjN/n52sA4C0wtgY18zF
+	 5V5febs0O1ZTA3zWdh8wxr3emx0HgY+VfvCXQQ0XFPkideKAHE4KMLxvNDMJwttmeP
+	 APk3LE8irqsbcVBm3HqujP64qpo/YdVuUUvJohvWjWIzT6T3qn8/4A85zZhTf7Ye/F
+	 2jIlctaoy6DYrQlGVrAcChy6U0YmO9LTnt160G1xK9EBP6+2LceZefaqQEqp7fNoYI
+	 FD/7ShoBEL8oQ==
+From: Mark Brown <broonie@kernel.org>
+Subject: [PATCH v2 0/3] mm: Care about shadow stack guard gap when getting
+ an unmapped area
+Date: Wed, 04 Sep 2024 17:57:58 +0100
+Message-Id: <20240904-mm-generic-shadow-stack-guard-v2-0-a46b8b6dc0ed@kernel.org>
 MIME-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAJeR2GYC/4XNQQ6CMBCF4auQrh1TWknAlfcwLEpnLA3Skimih
+ nB3Kx7A5f+S+WYVidhTEudiFUyLTz6GHOpQCNub4Ag85hZKqpOstYRxBEchH1lIvcH4hDQbO4B
+ 7GEaoOlt1NUpqKhTZmJhu/rX71zZ379Mc+b2/W8rv+pMbqf7ISwkSGmPR6LrTiPoyEAe6HyM70
+ W7b9gEGbzW4ywAAAA==
+To: Richard Henderson <richard.henderson@linaro.org>, 
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+ Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>, 
+ Russell King <linux@armlinux.org.uk>, Guo Ren <guoren@kernel.org>, 
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+ Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>, 
+ Nicholas Piggin <npiggin@gmail.com>, 
+ Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ Naveen N Rao <naveen@kernel.org>, 
+ Alexander Gordeev <agordeev@linux.ibm.com>, 
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Sven Schnelle <svens@linux.ibm.com>, 
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Andreas Larsson <andreas@gaisler.com>, Thomas Gleixner <tglx@linutronix.de>, 
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+ "H. Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>, 
+ Max Filippov <jcmvbkbc@gmail.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Vlastimil Babka <vbabka@suse.cz>, 
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-csky@vger.kernel.org, loongarch@lists.linux.dev, 
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org, 
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, linux-mm@kvack.org, 
+ "Liam R. Howlett" <Liam.Howlett@Oracle.com>, 
+ Mark Brown <broonie@kernel.org>, 
+ Rick Edgecombe <rick.p.edgecombe@intel.com>
+X-Mailer: b4 0.15-dev-99b12
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3075; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=bULBmEyxTuexdIoDddURy1JjGZM6ZRxX3SqU1u9O/JQ=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBm2JLn9sSIWk3S99ZcZ0LBwVX5IdsXF8juyr4Cy5E1
+ KFq4s/aJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZtiS5wAKCRAk1otyXVSH0LHiB/
+ 9nkgQUOVTlUbAmWo/1GWPj3aVUvDcv0pj9B7z3NcU9N9R9JzbgMMFLrWdQk5jwpTGfHHXkRNANVuvF
+ yKig8+IRVvSpGuFpKpsLmegPvrQX1McoVCR659thVX2oLIf6wpdg0LRsBXocswHT36RDNsVfpdTsJM
+ X1S72+e1Jt9HIYt4so8I0Zdga/Mt9VqrIg4QrfUtNDzNMYv7a8/AtVY7saHIjeiEwSOdKShaIlDBPV
+ aMyaeN6XQhDtvIJQopnxBZsr+uDpt9WM/iq/kDuIa1U6F5kpoObcPaMG4EfjQ3fobknmo/jMH0lBSh
+ O0wNT8iXCGWSoD2Q3fN3Rp0pOZQAOP
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240903_211400_497958_D9BDDF05 
-X-CRM114-Status: GOOD (  17.20  )
+X-CRM114-CacheID: sfid-20240904_100350_413141_7F33B231 
+X-CRM114-Status: GOOD (  14.85  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,108 +119,71 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Mark Brown <broonie@kernel.org> writes:
-> In preparation for using vm_flags to ensure guard pages for shadow stacks
-> supply them as an argument to generic_get_unmapped_area(). The only user
-> outside of the core code is the PowerPC book3s64 implementation which is
-> trivially wrapping the generic implementation in the radix_enabled() case.
->
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  arch/powerpc/mm/book3s64/slice.c |  4 ++--
->  include/linux/sched/mm.h         |  4 ++--
->  mm/mmap.c                        | 10 ++++++----
->  3 files changed, 10 insertions(+), 8 deletions(-)
+As covered in the commit log for c44357c2e76b ("x86/mm: care about shadow
+stack guard gap during placement") our current mmap() implementation does
+not take care to ensure that a new mapping isn't placed with existing
+mappings inside it's own guard gaps. This is particularly important for
+shadow stacks since if two shadow stacks end up getting placed adjacent to
+each other then they can overflow into each other which weakens the
+protection offered by the feature.
 
-Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
+On x86 there is a custom arch_get_unmapped_area() which was updated by the
+above commit to cover this case by specifying a start_gap for allocations
+with VM_SHADOW_STACK. Both arm64 and RISC-V have equivalent features and
+use the generic implementation of arch_get_unmapped_area() so let's make
+the equivalent change there so they also don't get shadow stack pages
+placed without guard pages. The arm64 and RISC-V shadow stack
+implementations are currently on the list:
 
-cheers
+   https://lore.kernel.org/r/20240829-arm64-gcs-v12-0-42fec94743
+   https://lore.kernel.org/lkml/20240403234054.2020347-1-debug@rivosinc.com/
 
-> diff --git a/arch/powerpc/mm/book3s64/slice.c b/arch/powerpc/mm/book3s64/slice.c
-> index ada6bf896ef8..87307d0fc3b8 100644
-> --- a/arch/powerpc/mm/book3s64/slice.c
-> +++ b/arch/powerpc/mm/book3s64/slice.c
-> @@ -641,7 +641,7 @@ unsigned long arch_get_unmapped_area(struct file *filp,
->  				     vm_flags_t vm_flags)
->  {
->  	if (radix_enabled())
-> -		return generic_get_unmapped_area(filp, addr, len, pgoff, flags);
-> +		return generic_get_unmapped_area(filp, addr, len, pgoff, flags, vm_flags);
->  
->  	return slice_get_unmapped_area(addr, len, flags,
->  				       mm_ctx_user_psize(&current->mm->context), 0);
-> @@ -655,7 +655,7 @@ unsigned long arch_get_unmapped_area_topdown(struct file *filp,
->  					     vm_flags_t vm_flags)
->  {
->  	if (radix_enabled())
-> -		return generic_get_unmapped_area_topdown(filp, addr0, len, pgoff, flags);
-> +		return generic_get_unmapped_area_topdown(filp, addr0, len, pgoff, flags, vm_flags);
->  
->  	return slice_get_unmapped_area(addr0, len, flags,
->  				       mm_ctx_user_psize(&current->mm->context), 1);
-> diff --git a/include/linux/sched/mm.h b/include/linux/sched/mm.h
-> index c4d34abc45d4..07bb8d4181d7 100644
-> --- a/include/linux/sched/mm.h
-> +++ b/include/linux/sched/mm.h
-> @@ -204,11 +204,11 @@ unsigned long mm_get_unmapped_area_vmflags(struct mm_struct *mm,
->  unsigned long
->  generic_get_unmapped_area(struct file *filp, unsigned long addr,
->  			  unsigned long len, unsigned long pgoff,
-> -			  unsigned long flags);
-> +			  unsigned long flags, vm_flags_t vm_flags);
->  unsigned long
->  generic_get_unmapped_area_topdown(struct file *filp, unsigned long addr,
->  				  unsigned long len, unsigned long pgoff,
-> -				  unsigned long flags);
-> +				  unsigned long flags, vm_flags_t vm_flags);
->  #else
->  static inline void arch_pick_mmap_layout(struct mm_struct *mm,
->  					 struct rlimit *rlim_stack) {}
-> diff --git a/mm/mmap.c b/mm/mmap.c
-> index 7528146f886f..b06ba847c96e 100644
-> --- a/mm/mmap.c
-> +++ b/mm/mmap.c
-> @@ -1789,7 +1789,7 @@ unsigned long vm_unmapped_area(struct vm_unmapped_area_info *info)
->  unsigned long
->  generic_get_unmapped_area(struct file *filp, unsigned long addr,
->  			  unsigned long len, unsigned long pgoff,
-> -			  unsigned long flags)
-> +			  unsigned long flags, vm_flags_t vm_flags)
->  {
->  	struct mm_struct *mm = current->mm;
->  	struct vm_area_struct *vma, *prev;
-> @@ -1823,7 +1823,8 @@ arch_get_unmapped_area(struct file *filp, unsigned long addr,
->  		       unsigned long len, unsigned long pgoff,
->  		       unsigned long flags, vm_flags_t vm_flags)
->  {
-> -	return generic_get_unmapped_area(filp, addr, len, pgoff, flags);
-> +	return generic_get_unmapped_area(filp, addr, len, pgoff, flags,
-> +					 vm_flags);
->  }
->  #endif
->  
-> @@ -1834,7 +1835,7 @@ arch_get_unmapped_area(struct file *filp, unsigned long addr,
->  unsigned long
->  generic_get_unmapped_area_topdown(struct file *filp, unsigned long addr,
->  				  unsigned long len, unsigned long pgoff,
-> -				  unsigned long flags)
-> +				  unsigned long flags, vm_flags_t vm_flags)
->  {
->  	struct vm_area_struct *vma, *prev;
->  	struct mm_struct *mm = current->mm;
-> @@ -1887,7 +1888,8 @@ arch_get_unmapped_area_topdown(struct file *filp, unsigned long addr,
->  			       unsigned long len, unsigned long pgoff,
->  			       unsigned long flags, vm_flags_t vm_flags)
->  {
-> -	return generic_get_unmapped_area_topdown(filp, addr, len, pgoff, flags);
-> +	return generic_get_unmapped_area_topdown(filp, addr, len, pgoff, flags,
-> +						 vm_flags);
->  }
->  #endif
->  
->
-> -- 
-> 2.39.2
+Given the addition of the use of vm_flags in the generic implementation
+we also simplify the set of possibilities that have to be dealt with in
+the core code by making arch_get_unmapped_area() take vm_flags as
+standard. This is a bit invasive since the prototype change touches
+quite a few architectures but since the parameter is ignored the change
+is straightforward, the simplification for the generic code seems worth
+it.
+
+Changes in v2:
+- Add comment to stack_guard_placement()
+- Build fixes for xtensa and MIPS.
+- Link to v1: https://lore.kernel.org/r/20240902-mm-generic-shadow-stack-guard-v1-0-9acda38b3dd3@kernel.org
+
+---
+Mark Brown (3):
+      mm: Make arch_get_unmapped_area() take vm_flags by default
+      mm: Pass vm_flags to generic_get_unmapped_area()
+      mm: Care about shadow stack guard gap when getting an unmapped area
+
+ arch/alpha/kernel/osf_sys.c       |  2 +-
+ arch/arc/mm/mmap.c                |  3 ++-
+ arch/arm/mm/mmap.c                |  7 ++---
+ arch/csky/abiv1/mmap.c            |  3 ++-
+ arch/loongarch/mm/mmap.c          |  5 ++--
+ arch/mips/mm/mmap.c               |  5 ++--
+ arch/parisc/kernel/sys_parisc.c   |  5 ++--
+ arch/parisc/mm/hugetlbpage.c      |  2 +-
+ arch/powerpc/mm/book3s64/slice.c  | 10 ++++---
+ arch/s390/mm/mmap.c               |  4 +--
+ arch/sh/mm/mmap.c                 |  5 ++--
+ arch/sparc/kernel/sys_sparc_32.c  |  2 +-
+ arch/sparc/kernel/sys_sparc_64.c  |  4 +--
+ arch/x86/include/asm/pgtable_64.h |  1 -
+ arch/x86/kernel/sys_x86_64.c      | 21 +++------------
+ arch/xtensa/kernel/syscall.c      |  3 ++-
+ include/linux/sched/mm.h          | 27 +++++++------------
+ mm/mmap.c                         | 55 +++++++++++++++++++--------------------
+ 18 files changed, 75 insertions(+), 89 deletions(-)
+---
+base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
+change-id: 20240830-mm-generic-shadow-stack-guard-5bc5b8d0e95d
+
+Best regards,
+-- 
+Mark Brown <broonie@kernel.org>
+
 
 _______________________________________________
 linux-snps-arc mailing list
