@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20A41CD4F4A
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  4 Sep 2024 23:48:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 72BC9CD4F4D
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  4 Sep 2024 23:48:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=kqMW3UfrlrpO0LfJq29j6awKNXEUGovPQ2MF8Gt+A9I=; b=EiQJUEMBSDApCw
-	bFu82jigQqcY0+b3fo5HhyGlcdyqGl6y4J02xWzYdwELTqLmzs0gf32WABQLZgTH17JKmXPqv0qLC
-	nmz6WbuJ6A5ohM4+yabBe90+eyJ1nZZlI0CIkMcsGlNIuUcAtX3oslD079qWuRGh0ll2lK67PRxq9
-	GXnran3rVSv/fyXed2AbRv28kyP8f29V6kK8pOfJ4FTuZ5LFGeUBIfhAQ7vZ7Dcxs1lUA/cwtRwA0
-	SHj0+7jI/75Dj/SWfBUfMFWqUZOM3tWFBo9lzIUCVpY4SaPHER00wVSF4KrNmDdNjUX4Dh9QfY8zy
-	Bn8cvtQL5lCUiwWOQqxg==;
+	List-Owner; bh=HSogsaQaGPeziG9UovQ4lw7yXGamdMmzcIz/T2jTGmA=; b=ih1QU6wkFOvBHo
+	QcPc4y2faKumZg4HCMCur6jq7OyK80ZQaZPKYMetfk8anBIhD2qC/x8Ld2aM40aRSdF+tl77EcayL
+	QXC1f2Erq7l4xmrglTdPSrjQEhyAxXXsav0Nm+mXInp/LmfVcajOCijvYrESyQkeWmbtJQhOkkfPg
+	OjrMGOigPm3GJSTJKy1+WNtP8JmjyXiApBM+l1kYdc34uVIg6hV8L+lxVHfx8R98breh5e2ryK1OY
+	ZPMADUBVv75DSA65lOJxN7U+tGUftjOEdu+UBQFxEl+830raMUo0nZ/Tcmk750Jy60GAUiq08lcvq
+	pS+jZLjeXjA0A7j5EYRw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slzjm-00000006Osb-3RCR;
-	Wed, 04 Sep 2024 23:48:34 +0000
+	id 1slzjp-00000006OtS-0nrw;
+	Wed, 04 Sep 2024 23:48:37 +0000
 Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slzjk-00000006Oqz-0vm6
+	id 1slzjn-00000006OsY-0FkY
 	for linux-snps-arc@lists.infradead.org;
-	Wed, 04 Sep 2024 23:48:33 +0000
+	Wed, 04 Sep 2024 23:48:36 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 39A595C568A;
-	Wed,  4 Sep 2024 23:48:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12166C4CEC3;
-	Wed,  4 Sep 2024 23:48:28 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 1BB405C5560;
+	Wed,  4 Sep 2024 23:48:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D540BC4CECA;
+	Wed,  4 Sep 2024 23:48:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725493711;
-	bh=0Cc2oNyNXJMYffrGUjSrxejvm3spX+Pr6+GYatSbayY=;
+	s=k20201202; t=1725493714;
+	bh=ShH7X/nJUOJT346TPtT8MDMv6QalWDIylxJwzZgk3lc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=s0LzAvydGQzpSJjmNzSDLP3BIZFDXFf9RBmKd+rrW+Ri/pE8v2Je/CXoWRDgK5CIA
-	 ZVX8UlTMpaUFjWSFfuvj6anH2/qJI7UyLMLLTYBkSJWRzaikGVRTej9BX0I2EVdefa
-	 YTcU7Q6jqYEn1dwZDaSZWzXWDR1Q1UFxRJHalXeIRPycMCnHcf02dkj1egeg0oqXB0
-	 xHI2gBGVyJHqV04UUrWEhQxA3f7eKY64W8jSoWx8XlOWLlxwV/p3UQjSxIVdrkUtDz
-	 GZ+f3AW6gFl/jUur3f28fo8NZecBIG2JGJcWbuBQqM1Nn9UOP8UwUwuCMlURYKwcb1
-	 XDA/Tmpxapf5Q==
+	b=RYTs406lL9RVGMTvwddw7pj2H9g2O9zYNJjASRMvJlNrHHQzUvSYQ5dL4NUkrnATX
+	 s0iznwK98cW8R9Ll+TbIVOcGRYFmVX6BtoM5XjrgLjMxQc3qKLY8Jf92EhAFav4hC+
+	 MS7ZRw7cWLg9FotPvnbdYjuaJ7uTDwxIhcVmcaCyfZ2GI7HLaLDv7fDj/zkNDqEdcx
+	 ihG9tR/V1isusbNSsNSXoCr5RWd1a+3x1M3TXEAl9ZOqCj53KbWz5oZnNVp1NeG0af
+	 3e+xowAe808Kn6LHg4/bPMhiliZTlJG/0V1wErXUCqqlCNEWEroYvnQaRnDgO6JGPf
+	 nkKS33OG/4rqA==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: linux-arch@vger.kernel.org,
@@ -54,16 +54,16 @@ Cc: linux-arch@vger.kernel.org,
 	linux-openrisc@vger.kernel.org,
 	Dinh Nguyen <dinguyen@kernel.org>,
 	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 07/15] LoongArch:  migrate to the generic rule for built-in DTB
-Date: Thu,  5 Sep 2024 08:47:43 +0900
-Message-ID: <20240904234803.698424-8-masahiroy@kernel.org>
+Subject: [PATCH 08/15] ARC: migrate to the generic rule for built-in DTB
+Date: Thu,  5 Sep 2024 08:47:44 +0900
+Message-ID: <20240904234803.698424-9-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240904234803.698424-1-masahiroy@kernel.org>
 References: <20240904234803.698424-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240904_164832_325094_92AD50D8 
-X-CRM114-Status: GOOD (  11.19  )
+X-CRM114-CacheID: sfid-20240904_164835_219447_3B9B1CAE 
+X-CRM114-Status: GOOD (  11.17  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,50 +80,262 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Select GENERIC_BUILTIN_DTB when built-in DTB support is enabled.
+Select GENERIC_BUILTIN_DTB to use the generic rule to support built-in
+DTB.
+
+To keep consistency across architectures, this commit also renames
+CONFIG_ARC_BUILTIN_DTB_NAME to CONFIG_BUILTIN_DTB_NAME.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- arch/loongarch/Kbuild            | 1 -
- arch/loongarch/Kconfig           | 1 +
- arch/loongarch/boot/dts/Makefile | 2 --
- 3 files changed, 1 insertion(+), 3 deletions(-)
+ arch/arc/Kconfig                           | 7 ++++---
+ arch/arc/Makefile                          | 3 ---
+ arch/arc/boot/dts/Makefile                 | 9 +--------
+ arch/arc/configs/axs101_defconfig          | 2 +-
+ arch/arc/configs/axs103_defconfig          | 2 +-
+ arch/arc/configs/axs103_smp_defconfig      | 2 +-
+ arch/arc/configs/haps_hs_defconfig         | 2 +-
+ arch/arc/configs/haps_hs_smp_defconfig     | 2 +-
+ arch/arc/configs/hsdk_defconfig            | 2 +-
+ arch/arc/configs/nsim_700_defconfig        | 2 +-
+ arch/arc/configs/nsimosci_defconfig        | 2 +-
+ arch/arc/configs/nsimosci_hs_defconfig     | 2 +-
+ arch/arc/configs/nsimosci_hs_smp_defconfig | 2 +-
+ arch/arc/configs/tb10x_defconfig           | 2 +-
+ arch/arc/configs/vdk_hs38_defconfig        | 2 +-
+ arch/arc/configs/vdk_hs38_smp_defconfig    | 2 +-
+ 16 files changed, 18 insertions(+), 27 deletions(-)
 
-diff --git a/arch/loongarch/Kbuild b/arch/loongarch/Kbuild
-index bfa21465d83a..beb8499dd8ed 100644
---- a/arch/loongarch/Kbuild
-+++ b/arch/loongarch/Kbuild
-@@ -4,7 +4,6 @@ obj-y += net/
- obj-y += vdso/
- 
- obj-$(CONFIG_KVM) += kvm/
--obj-$(CONFIG_BUILTIN_DTB) += boot/dts/
- 
- # for cleaning
- subdir- += boot
-diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
-index 70f169210b52..e1d3e5fb6fd2 100644
---- a/arch/loongarch/Kconfig
-+++ b/arch/loongarch/Kconfig
-@@ -388,6 +388,7 @@ endchoice
- config BUILTIN_DTB
- 	bool "Enable built-in dtb in kernel"
- 	depends on OF
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index d01e69a29b69..11fe4f497571 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -16,6 +16,7 @@ config ARC
+ 	select ARCH_SUPPORTS_ATOMIC_RMW if ARC_HAS_LLSC
+ 	select ARCH_32BIT_OFF_T
+ 	select BUILDTIME_TABLE_SORT
 +	select GENERIC_BUILTIN_DTB
- 	help
- 	  Some existing systems do not provide a canonical device tree to
- 	  the kernel at boot time. Let's provide a device tree table in the
-diff --git a/arch/loongarch/boot/dts/Makefile b/arch/loongarch/boot/dts/Makefile
-index 747d0c3f6389..15d5e14fe418 100644
---- a/arch/loongarch/boot/dts/Makefile
-+++ b/arch/loongarch/boot/dts/Makefile
-@@ -1,5 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
+ 	select CLONE_BACKWARDS
+ 	select COMMON_CLK
+ 	select DMA_DIRECT_REMAP
+@@ -549,11 +550,11 @@ config ARC_DBG_JUMP_LABEL
+ 	  part of static keys (jump labels) related code.
+ endif
  
- dtb-y = loongson-2k0500-ref.dtb loongson-2k1000-ref.dtb loongson-2k2000-ref.dtb
+-config ARC_BUILTIN_DTB_NAME
++config BUILTIN_DTB_NAME
+ 	string "Built in DTB"
++	default "nsim_700"
+ 	help
+-	  Set the name of the DTB to embed in the vmlinux binary
+-	  Leaving it blank selects the "nsim_700" dtb.
++	  Set the name of the DTB to embed in the vmlinux binary.
+ 
+ endmenu	 # "ARC Architecture Configuration"
+ 
+diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+index 2390dd042e36..deb830bdeaa0 100644
+--- a/arch/arc/Makefile
++++ b/arch/arc/Makefile
+@@ -82,9 +82,6 @@ KBUILD_CFLAGS	+= $(cflags-y)
+ KBUILD_AFLAGS	+= $(KBUILD_CFLAGS)
+ KBUILD_LDFLAGS	+= $(ldflags-y)
+ 
+-# w/o this dtb won't embed into kernel binary
+-core-y		+= arch/arc/boot/dts/
 -
--obj-$(CONFIG_BUILTIN_DTB)	+= $(addsuffix .dtb.o, $(CONFIG_BUILTIN_DTB_NAME))
+ core-y				+= arch/arc/plat-sim/
+ core-$(CONFIG_ARC_PLAT_TB10X)	+= arch/arc/plat-tb10x/
+ core-$(CONFIG_ARC_PLAT_AXS10X)	+= arch/arc/plat-axs10x/
+diff --git a/arch/arc/boot/dts/Makefile b/arch/arc/boot/dts/Makefile
+index 48704dfdf75c..ee5664f0640d 100644
+--- a/arch/arc/boot/dts/Makefile
++++ b/arch/arc/boot/dts/Makefile
+@@ -1,13 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+-# Built-in dtb
+-builtindtb-y		:= nsim_700
+ 
+-ifneq ($(CONFIG_ARC_BUILTIN_DTB_NAME),)
+-	builtindtb-y	:= $(CONFIG_ARC_BUILTIN_DTB_NAME)
+-endif
+-
+-obj-y   += $(builtindtb-y).dtb.o
+-dtb-y := $(builtindtb-y).dtb
++dtb-y	:= $(addsuffix .dtb, $(CONFIG_BUILTIN_DTB_NAME))
+ 
+ # for CONFIG_OF_ALL_DTBS test
+ dtb-	:= $(patsubst $(src)/%.dts,%.dtb, $(wildcard $(src)/*.dts))
+diff --git a/arch/arc/configs/axs101_defconfig b/arch/arc/configs/axs101_defconfig
+index 89720d6d7e0d..628d55057cde 100644
+--- a/arch/arc/configs/axs101_defconfig
++++ b/arch/arc/configs/axs101_defconfig
+@@ -23,7 +23,7 @@ CONFIG_PARTITION_ADVANCED=y
+ CONFIG_ARC_PLAT_AXS10X=y
+ CONFIG_AXS101=y
+ CONFIG_ARC_CACHE_LINE_SHIFT=5
+-CONFIG_ARC_BUILTIN_DTB_NAME="axs101"
++CONFIG_BUILTIN_DTB_NAME="axs101"
+ CONFIG_PREEMPT=y
+ # CONFIG_COMPACTION is not set
+ CONFIG_NET=y
+diff --git a/arch/arc/configs/axs103_defconfig b/arch/arc/configs/axs103_defconfig
+index 73ec01ed0492..7e4d4cbf1fb7 100644
+--- a/arch/arc/configs/axs103_defconfig
++++ b/arch/arc/configs/axs103_defconfig
+@@ -22,7 +22,7 @@ CONFIG_PARTITION_ADVANCED=y
+ CONFIG_ARC_PLAT_AXS10X=y
+ CONFIG_AXS103=y
+ CONFIG_ISA_ARCV2=y
+-CONFIG_ARC_BUILTIN_DTB_NAME="axs103"
++CONFIG_BUILTIN_DTB_NAME="axs103"
+ CONFIG_PREEMPT=y
+ # CONFIG_COMPACTION is not set
+ CONFIG_NET=y
+diff --git a/arch/arc/configs/axs103_smp_defconfig b/arch/arc/configs/axs103_smp_defconfig
+index 4da0f626fa9d..764cbc781a7d 100644
+--- a/arch/arc/configs/axs103_smp_defconfig
++++ b/arch/arc/configs/axs103_smp_defconfig
+@@ -22,7 +22,7 @@ CONFIG_ARC_PLAT_AXS10X=y
+ CONFIG_AXS103=y
+ CONFIG_ISA_ARCV2=y
+ CONFIG_SMP=y
+-CONFIG_ARC_BUILTIN_DTB_NAME="axs103_idu"
++CONFIG_BUILTIN_DTB_NAME="axs103_idu"
+ CONFIG_PREEMPT=y
+ # CONFIG_COMPACTION is not set
+ CONFIG_NET=y
+diff --git a/arch/arc/configs/haps_hs_defconfig b/arch/arc/configs/haps_hs_defconfig
+index 8c3ed5d6e6c3..3a1577112078 100644
+--- a/arch/arc/configs/haps_hs_defconfig
++++ b/arch/arc/configs/haps_hs_defconfig
+@@ -14,7 +14,7 @@ CONFIG_BLK_DEV_INITRD=y
+ CONFIG_EXPERT=y
+ CONFIG_PERF_EVENTS=y
+ # CONFIG_COMPAT_BRK is not set
+-CONFIG_ARC_BUILTIN_DTB_NAME="haps_hs"
++CONFIG_BUILTIN_DTB_NAME="haps_hs"
+ CONFIG_MODULES=y
+ # CONFIG_BLK_DEV_BSG is not set
+ # CONFIG_COMPACTION is not set
+diff --git a/arch/arc/configs/haps_hs_smp_defconfig b/arch/arc/configs/haps_hs_smp_defconfig
+index 6fc98c1b9b36..a3cf940b1f5b 100644
+--- a/arch/arc/configs/haps_hs_smp_defconfig
++++ b/arch/arc/configs/haps_hs_smp_defconfig
+@@ -16,7 +16,7 @@ CONFIG_PERF_EVENTS=y
+ # CONFIG_VM_EVENT_COUNTERS is not set
+ # CONFIG_COMPAT_BRK is not set
+ CONFIG_SMP=y
+-CONFIG_ARC_BUILTIN_DTB_NAME="haps_hs_idu"
++CONFIG_BUILTIN_DTB_NAME="haps_hs_idu"
+ CONFIG_KPROBES=y
+ CONFIG_MODULES=y
+ # CONFIG_BLK_DEV_BSG is not set
+diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
+index 9e79154b5535..1558e8e87767 100644
+--- a/arch/arc/configs/hsdk_defconfig
++++ b/arch/arc/configs/hsdk_defconfig
+@@ -20,7 +20,7 @@ CONFIG_ISA_ARCV2=y
+ CONFIG_SMP=y
+ CONFIG_LINUX_LINK_BASE=0x90000000
+ CONFIG_LINUX_RAM_BASE=0x80000000
+-CONFIG_ARC_BUILTIN_DTB_NAME="hsdk"
++CONFIG_BUILTIN_DTB_NAME="hsdk"
+ CONFIG_PREEMPT=y
+ # CONFIG_COMPACTION is not set
+ CONFIG_NET=y
+diff --git a/arch/arc/configs/nsim_700_defconfig b/arch/arc/configs/nsim_700_defconfig
+index 51092c39e360..f8b3235d9a65 100644
+--- a/arch/arc/configs/nsim_700_defconfig
++++ b/arch/arc/configs/nsim_700_defconfig
+@@ -17,7 +17,7 @@ CONFIG_PERF_EVENTS=y
+ # CONFIG_SLUB_DEBUG is not set
+ # CONFIG_COMPAT_BRK is not set
+ CONFIG_ISA_ARCOMPACT=y
+-CONFIG_ARC_BUILTIN_DTB_NAME="nsim_700"
++CONFIG_BUILTIN_DTB_NAME="nsim_700"
+ CONFIG_KPROBES=y
+ CONFIG_MODULES=y
+ # CONFIG_BLK_DEV_BSG is not set
+diff --git a/arch/arc/configs/nsimosci_defconfig b/arch/arc/configs/nsimosci_defconfig
+index 70c17bca4939..ee45dc0877fb 100644
+--- a/arch/arc/configs/nsimosci_defconfig
++++ b/arch/arc/configs/nsimosci_defconfig
+@@ -19,7 +19,7 @@ CONFIG_ISA_ARCOMPACT=y
+ CONFIG_KPROBES=y
+ CONFIG_MODULES=y
+ # CONFIG_BLK_DEV_BSG is not set
+-CONFIG_ARC_BUILTIN_DTB_NAME="nsimosci"
++CONFIG_BUILTIN_DTB_NAME="nsimosci"
+ # CONFIG_COMPACTION is not set
+ CONFIG_NET=y
+ CONFIG_PACKET=y
+diff --git a/arch/arc/configs/nsimosci_hs_defconfig b/arch/arc/configs/nsimosci_hs_defconfig
+index 59a3b6642fe7..e0a309970c20 100644
+--- a/arch/arc/configs/nsimosci_hs_defconfig
++++ b/arch/arc/configs/nsimosci_hs_defconfig
+@@ -19,7 +19,7 @@ CONFIG_KPROBES=y
+ CONFIG_MODULES=y
+ # CONFIG_BLK_DEV_BSG is not set
+ CONFIG_ISA_ARCV2=y
+-CONFIG_ARC_BUILTIN_DTB_NAME="nsimosci_hs"
++CONFIG_BUILTIN_DTB_NAME="nsimosci_hs"
+ # CONFIG_COMPACTION is not set
+ CONFIG_NET=y
+ CONFIG_PACKET=y
+diff --git a/arch/arc/configs/nsimosci_hs_smp_defconfig b/arch/arc/configs/nsimosci_hs_smp_defconfig
+index 1419fc946a08..88325b8b49cf 100644
+--- a/arch/arc/configs/nsimosci_hs_smp_defconfig
++++ b/arch/arc/configs/nsimosci_hs_smp_defconfig
+@@ -16,7 +16,7 @@ CONFIG_MODULES=y
+ CONFIG_ISA_ARCV2=y
+ CONFIG_SMP=y
+ # CONFIG_ARC_TIMERS_64BIT is not set
+-CONFIG_ARC_BUILTIN_DTB_NAME="nsimosci_hs_idu"
++CONFIG_BUILTIN_DTB_NAME="nsimosci_hs_idu"
+ CONFIG_PREEMPT=y
+ # CONFIG_COMPACTION is not set
+ CONFIG_NET=y
+diff --git a/arch/arc/configs/tb10x_defconfig b/arch/arc/configs/tb10x_defconfig
+index 1a68e4beebca..41a90e836e39 100644
+--- a/arch/arc/configs/tb10x_defconfig
++++ b/arch/arc/configs/tb10x_defconfig
+@@ -26,7 +26,7 @@ CONFIG_MODULE_UNLOAD=y
+ CONFIG_ARC_PLAT_TB10X=y
+ CONFIG_ARC_CACHE_LINE_SHIFT=5
+ CONFIG_HZ=250
+-CONFIG_ARC_BUILTIN_DTB_NAME="abilis_tb100_dvk"
++CONFIG_BUILTIN_DTB_NAME="abilis_tb100_dvk"
+ CONFIG_PREEMPT_VOLUNTARY=y
+ # CONFIG_COMPACTION is not set
+ CONFIG_NET=y
+diff --git a/arch/arc/configs/vdk_hs38_defconfig b/arch/arc/configs/vdk_hs38_defconfig
+index 50c343913825..03d9ac20baa9 100644
+--- a/arch/arc/configs/vdk_hs38_defconfig
++++ b/arch/arc/configs/vdk_hs38_defconfig
+@@ -13,7 +13,7 @@ CONFIG_PARTITION_ADVANCED=y
+ CONFIG_ARC_PLAT_AXS10X=y
+ CONFIG_AXS103=y
+ CONFIG_ISA_ARCV2=y
+-CONFIG_ARC_BUILTIN_DTB_NAME="vdk_hs38"
++CONFIG_BUILTIN_DTB_NAME="vdk_hs38"
+ CONFIG_PREEMPT=y
+ CONFIG_NET=y
+ CONFIG_PACKET=y
+diff --git a/arch/arc/configs/vdk_hs38_smp_defconfig b/arch/arc/configs/vdk_hs38_smp_defconfig
+index 6d9e1d9f71d2..c09488992f13 100644
+--- a/arch/arc/configs/vdk_hs38_smp_defconfig
++++ b/arch/arc/configs/vdk_hs38_smp_defconfig
+@@ -15,7 +15,7 @@ CONFIG_AXS103=y
+ CONFIG_ISA_ARCV2=y
+ CONFIG_SMP=y
+ # CONFIG_ARC_TIMERS_64BIT is not set
+-CONFIG_ARC_BUILTIN_DTB_NAME="vdk_hs38_smp"
++CONFIG_BUILTIN_DTB_NAME="vdk_hs38_smp"
+ CONFIG_PREEMPT=y
+ CONFIG_NET=y
+ CONFIG_PACKET=y
 -- 
 2.43.0
 
