@@ -4,78 +4,120 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73A04CD5BC9
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  5 Sep 2024 15:01:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93288CD8CBD
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  5 Sep 2024 17:27:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=1OtRGQSTwOzrMJmcBhoATk8S2vH90W7Y1zeQukUB7FY=; b=wLSsYCC77oIJrk
-	5Yo3QEuwHKom6Vxo5DC/Pkm7kyeUG7/9D4GD9Isv9ZMVmqfhJpNrF7kJVjrfVghhqTVl0YtQ7Gjv1
-	sYxPpxXoCM931iOJwPdZur+V6EpjtDFX0Wk6ijfzo4Kh8JQHcfhPgcQLmxanAs9u17kjNLkppOdzU
-	we25z8WGBylsN9SdLGHRfaBVBjiNfV49XDYB255KNsuAea1Octf87Xbxf6uGv9ZgO6Xg3eFdXx1kc
-	PGDffcRrCS0RPG/dCxTmMvJvalQp1BsXosNWJ/kxiZEVM4w66tSwa9qx9Gq1BxXCvCaWNxJaw73IM
-	77BPY2nson/zZZHtcxDg==;
+	List-Owner; bh=xi7FtNPo97yXFRYcmkmgl+S445u/1hrDkuLoDuwAou8=; b=3Z34tIhI2o5JIG
+	rbQp8u6E9GWGyneQj5M780RUrtNjAL3eJXjDtcbqFc8LyW2hTT/5+CNMs9HznQVkFOpXEd6knKrYN
+	F9IWBhnIeEcRivnvUo/UrPU2FD2NZlGUULAV0urFxzvLNQ+TC9dRivFqFbRUT0KeKbognPsg+4nvj
+	5tb8rNpxz7zqvw6bBJSWO3/ektUBbDTY4EIAbduLHES9ELlqZqGHTzuMNGahe0FrQ7Y5aDhq2eJC6
+	oxyZVCU2Jk4tW7L0iRvQZRzUQBAXQ9Nat0XS29PtvVr6jlZT2CJTU9MNNebTj6E3lNtMOtRVCEtPW
+	Vj9gvvICpSn2QDpvwU4g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1smDyv-00000008qoa-3Fvs;
-	Thu, 05 Sep 2024 15:01:09 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1smGG7-00000009I1G-0fiR;
+	Thu, 05 Sep 2024 17:27:03 +0000
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1smCpM-00000008aTx-2UNS
-	for linux-snps-arc@bombadil.infradead.org;
-	Thu, 05 Sep 2024 13:47:12 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=CuTdjCpNUHd9setnsAQICkKH5pcy75n+8z8yw43BeXo=; b=NbNyAJquKjCacvFo2QmzxTdl6Y
-	UwFgiZBGc3cI3ctPldPUjqF7dkyfBBl5Lpbu284/mFtdQRWCXQr+2eC6EqVdjQ63T40reR7Ho1Xa8
-	7V1ORhlQALeDzQzwu74yiIAPBlhbCFVqtzm7i4BCY2lmKUxN8vrv+YAlQ7lh8ktZYsadTiNi7TBMB
-	cdqHMATtfvf5PgM2HfvxCSeUMw4nDqIBt4U+Pyk60HHt8G9GqIlQOKOW4aEhoGTezEghl/xOkjVTe
-	z43gHJY77Uguf07aswwL4CgapzAs7M1Sf3+AVwLqSrzYVO+A113m5GW5cAWytmMBfpB076m0ksLGu
-	+qjfV7Bg==;
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
-	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1smCpJ-00000000UQt-11OB
+	id 1smGG3-00000009Hzv-40rS
 	for linux-snps-arc@lists.infradead.org;
-	Thu, 05 Sep 2024 13:47:11 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 4E44D5C5CB2;
-	Thu,  5 Sep 2024 13:47:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46A2AC4CEC3;
-	Thu,  5 Sep 2024 13:47:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725544025;
-	bh=sI5y1eSjN/a3YRMxRNTDqjn+umUQqLG8Dfm4wjCbFBU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hG3XYGg+PqbEtyngI9vHEb6I1j0nyAJYiHN5ILgGHvGp+2OlXYGrewuoVaVqMTf2w
-	 Lrac4i91ypCHaxArChDtDfvVKJV9Rf7A7V5w9XBUM3sVb6Wo/2lqJGKD7f+byYFrW2
-	 STFmhKuuciQNq4dMNXkvcJqO9fur6POG6X49W71ELClXa1rZE7uJyYCsT+1ZrDRwef
-	 uZYTH9DFlfShePSHrtyT5B5gzy6SLOxa+h9JUvemcOmi3BCieaPOMlC2Fl5tFtNqpR
-	 f1emNRzha4d12ghwG30AmwYtkWQmc+ShIX80S0tMxvoZCxmCAwu7T2I/K7hAsut9n5
-	 3RTZ2d3yZvAEQ==
-Date: Thu, 5 Sep 2024 08:47:04 -0500
-From: Rob Herring <robh@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Michal Simek <monstr@monstr.eu>, devicetree@vger.kernel.org,
-	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
-	Dinh Nguyen <dinguyen@kernel.org>
-Subject: Re: [PATCH 03/15] kbuild: move non-boot builtin DTBs to .init.rodata
- section
-Message-ID: <20240905134704.GB1517132-robh@kernel.org>
-References: <20240904234803.698424-1-masahiroy@kernel.org>
- <20240904234803.698424-4-masahiroy@kernel.org>
+	Thu, 05 Sep 2024 17:27:01 +0000
+Received: by mail-pj1-x1030.google.com with SMTP id 98e67ed59e1d1-2d8818337a5so1648198a91.1
+        for <linux-snps-arc@lists.infradead.org>; Thu, 05 Sep 2024 10:26:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1725557218; x=1726162018; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TzHtjVKsvMG2J+VEdT3JJ4mY+8euHciuRxZ037YJyIs=;
+        b=3KH7i6spm9rrYRUA+zWN7x3Za2Ipwc1pbCZWingEKsSjFdRcZNnPyrHqlENiUBJBtL
+         9sBpsbMA/vPxM4r2o96DgLTLYH1ogdXxJe93lKjD7OkLlefQY4M44xjx87WHIJvPz37U
+         UeM7qmsdrB2X1acovhN0BX9MgFOuWbzK897wh75KAkBjRgrUXils4ZG6T9oty5Y88fLM
+         o3tg9wI96k6cYmE3HWu0ou8weA6KT8Zz4evaOWYADLOwDqcnAB1Grc8slzRy4Sw3bSZU
+         fkfzJCBhoemeKEfu15TA/vJnuKbISqXUBGjFAlxDmZe9F0oYfV450FIHkpAe9LgeQ848
+         DkGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725557218; x=1726162018;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TzHtjVKsvMG2J+VEdT3JJ4mY+8euHciuRxZ037YJyIs=;
+        b=dDSfEQX9nbR5EvyQyU1CWz00EQb26FJZwFuYEpLKmblbVmQjqpsSNCcipZJpwXBLoy
+         kBtbQreCuayP9o50v8f8h0yhqi/x4ZzSWWkF+eFDP5iVekFCCOtLpS8+qmfcgiMVg7Wz
+         W0RwvfZdBfex9N9wO+/0gbjMEGAAtJK6Yhg2xlWdEYRyiuwo1xF9DQjc1sqmtFenQjsp
+         b64ZBkT491iXBrvkLhcfsMJ+mAJOxO3jV3EFXse/ipSRPIQGRvGXHyIL4/5uCaov6TT3
+         uonF+6pH6gxWaCFSAdaUeTLIpku/Y0PVovILxl+l2LItFPsuhbHyE/AcCk6KcH5j2c2p
+         bUCg==
+X-Forwarded-Encrypted: i=1; AJvYcCXEWsJ4R+nP8xgXq0mXjfesHSiT+Td4lwZb2fqCJFz4zeK+N9qMDvOjH641XfTz0OM8EbeEYXm1l1MqHCOxtA==@lists.infradead.org
+X-Gm-Message-State: AOJu0YxgrjccLDYZCfRXtzVLP1Q2fxaqXEt6HIaeT68nYHsnVgX34SNY
+	KvrMOI/HqgAjj+P0+bCmV93mVI3kTFJO8DquZLMZBsEIfrsZgAt/dlGLXgsh6gg=
+X-Google-Smtp-Source: AGHT+IFxrgWNtdxCWG0RBGHbyeqfO4T1K/TMURzEB4vAspGF/eaSh/6stCCkbbdo5V+yBGPBQxqCJA==
+X-Received: by 2002:a17:90b:3d2:b0:2d8:9fbe:6727 with SMTP id 98e67ed59e1d1-2dad4f0e4damr67155a91.4.1725557218097;
+        Thu, 05 Sep 2024 10:26:58 -0700 (PDT)
+Received: from ghost ([50.145.13.30])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2da5932d1ecsm6506552a91.43.2024.09.05.10.26.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Sep 2024 10:26:57 -0700 (PDT)
+Date: Thu, 5 Sep 2024 10:26:52 -0700
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: "Kirill A. Shutemov" <kirill@shutemov.name>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>,
+	Russell King <linux@armlinux.org.uk>, Guo Ren <guoren@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Shuah Khan <shuah@kernel.org>, linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC v2 0/4] mm: Introduce MAP_BELOW_HINT
+Message-ID: <Ztnp3OAIRz/daj7s@ghost>
+References: <20240829-patches-below_hint_mmap-v2-0-638a28d9eae0@rivosinc.com>
+ <yu7um2tcxg2apoz372rmzpkrfgbb42ndvabvrsp4usb2e3bkrf@huaucjsp5vlj>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20240904234803.698424-4-masahiroy@kernel.org>
+In-Reply-To: <yu7um2tcxg2apoz372rmzpkrfgbb42ndvabvrsp4usb2e3bkrf@huaucjsp5vlj>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240905_144709_623062_9428764F 
-X-CRM114-Status: GOOD (  22.31  )
+X-CRM114-CacheID: sfid-20240905_102700_169650_2B718FE7 
+X-CRM114-Status: GOOD (  34.05  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,68 +134,74 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu, Sep 05, 2024 at 08:47:39AM +0900, Masahiro Yamada wrote:
-> Some architectures support embedding boot DTB(s) in vmlinux. These
-> architectures, except MIPS and MicroBlaze, expect a single DTB in
-> the .dtb.init.rodata section. MIPS embeds multiple DTBs in vmlinux.
-> MicroBlaze embeds a DTB in its own __fdt_blob section instead of the
-> .dtb.init.rodata section.
+On Thu, Sep 05, 2024 at 09:47:47AM +0300, Kirill A. Shutemov wrote:
+> On Thu, Aug 29, 2024 at 12:15:57AM -0700, Charlie Jenkins wrote:
+> > Some applications rely on placing data in free bits addresses allocated
+> > by mmap. Various architectures (eg. x86, arm64, powerpc) restrict the
+> > address returned by mmap to be less than the 48-bit address space,
+> > unless the hint address uses more than 47 bits (the 48th bit is reserved
+> > for the kernel address space).
+> > 
+> > The riscv architecture needs a way to similarly restrict the virtual
+> > address space. On the riscv port of OpenJDK an error is thrown if
+> > attempted to run on the 57-bit address space, called sv57 [1].  golang
+> > has a comment that sv57 support is not complete, but there are some
+> > workarounds to get it to mostly work [2].
+> > 
+> > These applications work on x86 because x86 does an implicit 47-bit
+> > restriction of mmap() address that contain a hint address that is less
+> > than 48 bits.
+> > 
+> > Instead of implicitly restricting the address space on riscv (or any
+> > current/future architecture), a flag would allow users to opt-in to this
+> > behavior rather than opt-out as is done on other architectures. This is
+> > desirable because it is a small class of applications that do pointer
+> > masking.
 > 
-> For example, RISC-V previously allowed embedding multiple DTBs, but
-> only the first DTB in the .dtb.init.rodata section was used. Commit
-> 2672031b20f6 ("riscv: dts: Move BUILTIN_DTB_SOURCE to common Kconfig")
-> ensured only one boot DTB is embedded.
+> This argument looks broken to me.
 > 
-> Meanwhile, commit 7b937cc243e5 ("of: Create of_root if no dtb provided
-> by firmware") introduced another DTB into the .dtb.init.rodata section.
+> The "small class of applications" is going to be broken unless they got
+> patched to use your new mmap() flag. You are asking for bugs.
 > 
-> The symbol dump (sorted by address) for ARCH=riscv nommu_k210_defconfig
-> is now as follows:
+> Consider the case when you write, compile and validate a piece of software
+> on machine that has <=47bit VA. The binary got shipped to customers.
+> Later, customer gets a new shiny machine that supports larger address
+> space and your previously working software is broken. Such binaries might
+> exist today.
 > 
->     00000000801290e0 D __dtb_start
->     00000000801290e0 D __dtb_k210_generic_begin
->     000000008012b571 D __dtb_k210_generic_end
->     000000008012b580 D __dtb_empty_root_begin
->     000000008012b5c8 D __dtb_empty_root_end
->     000000008012b5e0 D __dtb_end
+> It is bad idea to use >47bit VA by default. Most of software got tested on
+> x86 with 47bit VA.
 > 
-> The .dtb.init.rodata section contains the following two DTB files:
+> We can consider more options to opt-in into wider address space like
+> personality or prctl() handle. But opt-out is no-go from what I see.
 > 
->     arch/riscv/boot/dts/canaan/k210_generic.dtb
->     drivers/of/empty_root.dtb
-> 
-> This is not an immediate problem because the boot code chooses the
-> first DTB, k210_generic.dtb. The second one, empty_root.dtb is ignored.
-> However, relying on the link order (i.e., the order in Makefiles) is
-> fragile.
-> 
-> Only the boot DTB should be placed in the .dtb.init.rodata because the
-> arch boot code generally does not know the DT name, thus it uses the
-> __dtb_start symbol to find it.
-> 
-> empty_root.dtb is looked up by name, so it can be moved to the generic
-> .init.rodata section.
-> 
-> When CONFIG_OF_UNITTEST is enabled, more unittest DTBOs are embedded in
-> the .dtb.init.rodata section. These are also looked up by name, so can
-> be moved to the .init.rodata section.
-> 
-> I added the __initdata annotation to the overlay_info data array because
-> modpost knows the .init.rodata section is discarded, and would otherwise
-> warn about it.
-> 
-> The implementation is kind of cheesy; the section is .dtb.init.rodata
-> under the arch/ directory, and .init.rodata section otherwise. This will
-> be refactored later.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
->  drivers/of/unittest.c | 2 +-
->  scripts/Makefile.dtbs | 4 +++-
->  2 files changed, 4 insertions(+), 2 deletions(-)
+> -- 
+>   Kiryl Shutsemau / Kirill A. Shutemov
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+riscv is in an interesting state in regards to this because the software
+ecosystem is much less mature than other architectures. The existing
+riscv hardware supports either 38 or 47 bit userspace VAs, but a lot of
+people test on QEMU which defaults to 56 bit. As a result, a lot of
+code is tested with the larger address space. Applications that don't
+work on the larger address space, like OpenJDK, currently throw an error
+and exit.
+
+Since riscv does not currently have the address space default to 47
+bits, some applications just don't work on 56 bits. We could change the
+kernel so that these applications start working without the need for
+them to change their code, but that seems like the kernel is
+overstepping and fixing binaries rather than providing users tools to
+fix the binaries themselves.
+
+This mmap flag was an attempt to provide a tool for these applications
+that work on the existing 47 bit VA hardware to also work on different
+hardware that supports a 56 bit VA space. After feedback, it looks like
+a better solution than the mmap flag is to use the personality syscall
+to set a process wide restriction to 47 bits instead, which matches the
+32 bit flag that already exists.
+
+- Charlie
+
 
 _______________________________________________
 linux-snps-arc mailing list
