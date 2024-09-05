@@ -4,89 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 498B5CD4F59
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  5 Sep 2024 08:19:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29FD5CD5BC7
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  5 Sep 2024 13:44:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=p+AgCSPqb641v7ceZ3ZVE8dhUZukFlGQbyfhKmONlnc=; b=cWzW5N0mUOxfhh
-	cG7b+WmsPqfSDMcR2/mQfOFMMZukeRaJL+Z9Pxcpe9xIy/vpto98qDAxM9EOuG/hXF7OFVxE0uZfX
-	2fE3VykHs8+fb9+hu4rCCkJu73vzd62MttRR/jOOtXNwv95p0oTkyz79hYmzKI4UENRmdvtmVUCk6
-	M6XS2bHdJGj7QTVe2bqz/hgvaTnvrzCs4J+cf3Q8GKfd3YoDb+jSYUQD+si3QgfhlGXlQ7NQdpEFX
-	7v6rETbzOYv2c5DWwnxGEaPSgcC7BArBYb5JiOFt+/MMIXiKWXVIh8fz5O49lHNlOjLXYvqZW2gzt
-	gg+LinlCoXh5BAEc1Q0w==;
+	List-Owner; bh=GpHJLWlgYGEyZ7HrFouh49iCZrZ/j4GZuvPFxutkfKc=; b=IB2aZYqna+C+By
+	YCwiS9TIkl5MN+1kBzuvQR0TVFnszWURSWx0m+tyxi/LJOhLiLV7ECKhkVOwgBVGWunRkFvGtPuqs
+	0kE10Fz8d4Jm0IxJhC108wJj018T1eC2/sC+SzAa/aHyUWM5HMu5ymlMmnvEdVBvY3VKAknsC7BgC
+	IGKRidKCsuL/H1LKd35dDxti2FdyehjHmotZ043OwpYDmphHLoUws6Y0dg3AP/OXcDHHMqsVq2mdI
+	bm3ga4kl/mEyjPTDDUP2PSCE2pRTOIa3o7ZXDuHt84QG61tQhBP+xqWj95j+Pv8PBH6+oL3o9gWge
+	TR5Yb806dDnxohPMKwUQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sm7ie-00000007Xl7-3uFT;
-	Thu, 05 Sep 2024 08:19:56 +0000
-Received: from mgamail.intel.com ([198.175.65.17])
+	id 1smCmy-00000008Ztg-2BBu;
+	Thu, 05 Sep 2024 13:44:44 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sm7hA-00000007XHT-48YU;
-	Thu, 05 Sep 2024 08:18:26 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725524306; x=1757060306;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=MxbG1NFAO2hA0Y81lnNJT1+jSGtQoe5Vz9VbrJuDz5M=;
-  b=RbWOCf0zlHu9mzAfpffAKif9gEAVyE6l/sahEeqTtkWhXoad6SKvotzM
-   B1ay6NWX0uzkbqNwTYMsHzGdVSXRwRZ8183CLqVhqGMJU6ErMGwhhTke/
-   dq6XVzq4D1FR08hxywpqUEyV/P/F4vtsfMlj0V7FoVE8V4co2HNOvRM85
-   Ky1rRSyVEGXq0UV7PFC/gJ6bQjBks0J/6gFAGZ/4OdMX2iLDzYqHdGCqL
-   slpJUHtif6VdjDQyS5E5v9AQ+UXUPLEavW1PXCNcWaQMItecaWN1eocsl
-   K8mysfHbVAmUniJL4W9WOz8v+Bi/97JOUZjsO0gd7ZicW1/lGa0DfF0O5
-   g==;
-X-CSE-ConnectionGUID: w9uC2ArHRPaVzGWjCopi1w==
-X-CSE-MsgGUID: QBWbkpS/S3mhNyrgZXgbEw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="24383599"
-X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
-   d="scan'208";a="24383599"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 01:18:24 -0700
-X-CSE-ConnectionGUID: zUECY1JsTCytv0zNGU91zg==
-X-CSE-MsgGUID: 3BzHH7e7Syqb+WqtcOa6iA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
-   d="scan'208";a="65242627"
-Received: from mylly.fi.intel.com (HELO [10.237.72.58]) ([10.237.72.58])
-  by fmviesa007.fm.intel.com with ESMTP; 05 Sep 2024 01:18:16 -0700
-Message-ID: <6cbdf44e-7346-4463-a622-7810706d5419@linux.intel.com>
-Date: Thu, 5 Sep 2024 11:18:14 +0300
+	id 1smCml-00000008Zpe-0VpK
+	for linux-snps-arc@lists.infradead.org;
+	Thu, 05 Sep 2024 13:44:42 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 09B09A44C26;
+	Thu,  5 Sep 2024 13:44:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2709C4CEC3;
+	Thu,  5 Sep 2024 13:44:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725543870;
+	bh=b9acX5IhkohSbskqXXvGeItLmD2/cfBjvS2Wfhcu7XM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uIVMffKcqsMxDOvKmpQ/o52EIXtFaMD2p2GliETZD9N0Dk4ATVa7h8aY7R3arCYMp
+	 6PEOjR1bq/MdcLyU9jcyTwzMWMRPlsX+J/UIMUYK7RKvPwFssxhdY4iVx2DY4c0Z7s
+	 uue4s4wk1gtXDdxkJet5ojFq8gd9VObkCdj0dTyHH57NfvWZ5V2GcbYjNN4Zn+06uQ
+	 EzMbC3xKlj7V45GE7t/TPviuOx7NkOFlIil6D3lPT+VE0ZjrR6uPchXtQ0cvPHDUyH
+	 wdIw6zQPG6/KSBHdFcAAp18fvvQcsOIsAXX2GSUbcoLchhW8ng4EhXQUVAUZ21rsoH
+	 CzGYdGtYtvYfQ==
+Date: Thu, 5 Sep 2024 08:44:28 -0500
+From: Rob Herring <robh@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Michal Simek <monstr@monstr.eu>, devicetree@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
+	Dinh Nguyen <dinguyen@kernel.org>
+Subject: Re: [PATCH 02/15] kbuild: split device tree build rules into
+ scripts/Makefile.dtbs
+Message-ID: <20240905134428.GA1517132-robh@kernel.org>
+References: <20240904234803.698424-1-masahiroy@kernel.org>
+ <20240904234803.698424-3-masahiroy@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/7] i2c: designware: Group all DesignWare drivers
- under a single option
-To: Andi Shyti <andi.shyti@kernel.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Jan Dabros <jsd@semihalf.com>, linux-i2c@vger.kernel.org,
- linux-kernel@vger.kernel.org, Vineet Gupta <vgupta@kernel.org>,
- Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Jiawen Wu <jiawenwu@trustnetic.com>, Mengyuan Lou
- <mengyuanlou@net-swift.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
- linux-riscv@lists.infradead.org, UNGLinuxDriver@microchip.com,
- linux-mips@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-snps-arc@lists.infradead.org
-References: <20240903142506.3444628-1-heikki.krogerus@linux.intel.com>
- <3phynd24wmymhqugikbdwdzoa6vlzxwv5a6n6bk4446atbf7nu@c2kb766j3pcc>
-Content-Language: en-US
-From: Jarkko Nikula <jarkko.nikula@linux.intel.com>
-In-Reply-To: <3phynd24wmymhqugikbdwdzoa6vlzxwv5a6n6bk4446atbf7nu@c2kb766j3pcc>
+Content-Disposition: inline
+In-Reply-To: <20240904234803.698424-3-masahiroy@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240905_011825_102782_B7EB69EF 
-X-CRM114-Status: UNSURE (   7.78  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240905_064431_247083_0F8B4EA4 
+X-CRM114-Status: GOOD (  10.58  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,33 +72,31 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 9/4/24 12:01 AM, Andi Shyti wrote:
-> Hi Jarkko, Andy,
+On Thu, Sep 05, 2024 at 08:47:38AM +0900, Masahiro Yamada wrote:
+> scripts/Makefile.lib is included not only from scripts/Makefile.build
+> but also from scripts/Makefile.{modfinal,package,vmlinux,vmlinux_o},
+> where DT build rules are not required.
 > 
-> ...
+> Split the DT build rules out to scripts/Makefile.dtbs, and include it
+> only when necessary.
 > 
->> Heikki Krogerus (7):
->>    ARC: configs: enable I2C_DESIGNWARE_CORE with I2C_DESIGNWARE_PLATFORM
->>    ARM: configs: enable I2C_DESIGNWARE_CORE with I2C_DESIGNWARE_PLATFORM
->>    arm64: defconfig: enable I2C_DESIGNWARE_CORE with
->>      I2C_DESIGNWARE_PLATFORM
->>    mips: configs: enable I2C_DESIGNWARE_CORE with I2C_DESIGNWARE_PLATFORM
->>    RISC-V: configs: enable I2C_DESIGNWARE_CORE with
->>      I2C_DESIGNWARE_PLATFORM
->>    net: txgbe: Fix I2C Kconfig dependencies
->>    i2c: designware: Group all DesignWare drivers under a single option
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
 > 
-> I believe you know this code already, do you mind giving it an
-> ack?
-> 
-To the patches 1-7/7 in this set:
+>  drivers/of/fdt.c       |   2 +-
+>  drivers/of/unittest.c  |   4 +-
+>  scripts/Makefile.build |  25 +++-----
+>  scripts/Makefile.dtbs  | 142 +++++++++++++++++++++++++++++++++++++++++
+>  scripts/Makefile.lib   | 115 ---------------------------------
+>  5 files changed, 153 insertions(+), 135 deletions(-)
+>  create mode 100644 scripts/Makefile.dtbs
 
-Acked-by: Jarkko Nikula <jarkko.nikula@linux.intel.com>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
 _______________________________________________
 linux-snps-arc mailing list
