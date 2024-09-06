@@ -4,125 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20120CE7AA0
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  5 Sep 2024 21:16:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75F34CE7AA6
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Sep 2024 00:27:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References:Message-Id
-	:MIME-Version:Subject:Date:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=9DzY3HBWGU4GrJu4UPOdkxjkvFCmi6QeaG3H8ZDa/Wk=; b=SDqn4WzrR9+Q4L
-	eX+3+gN8+yIGfcJw2cRpgxda0FZVcZGc/PZpSxauTNB7Y0yvmZv2MQvsbL/ovmpyl1vD99EU8OLql
-	Bi5aHQ8aDNos9D9B+ch3xCWIPzdi/w3wFrcCdVlPaCCvTpP0LCZfVLuchNUzikcAwGKteKdbDpSzd
-	foJ3w6YoHiBWkMDLhvJWTJZ5k39bEjZKpooDswBFolBPRR3eePEJvkqMS/DF9h2LZJH3IcGTVnJGN
-	9jqYT79lWda7BpsEyUYhUZ7m4/Qp3GA4Vu/W9yieo9Lp6mdNDycYpFI+030pXYLz2zh380eBnu0Kp
-	Dmh9h5UNIUavv5fiMkrQ==;
+	List-Owner; bh=uBcOcAQPuNj0Ko/iWxpKpRrWdfRdlk8OasTWmM6Pczs=; b=ar1Py6NJo9xB/U
+	8ys8BanMBqP03XiGXp1QxegPZlM4/daVbWtngc7tOmqxOqT11cijrpu/29nUU058C3hKb3UyvTGZc
+	PR+ZmXAd43g/YNysZXfnD+YkllmfOLexernaFDApHhI4p8YOuqG3wq9a2DMRH1auFkRaS5+DdsSJB
+	Swi0wE3hJpaSo74u7TK1Mx08V5jTdX4pLOBISIRb1FALZGyX7lD3BnbaMsJSZ0pCeZe8EHriIIra0
+	/XTXOUy/cGg68SmngHgk63Wmfg5yNM1dXvrN60sDzX101N9r8Dso+RtBD+H4hFsTSwFxH0V7QELek
+	kyZxe1p1EcTWWfPqq9jg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1smJq5-00000009r5q-3KuW;
-	Thu, 05 Sep 2024 21:16:25 +0000
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
+	id 1smMpQ-0000000ACRi-3dQ0;
+	Fri, 06 Sep 2024 00:27:56 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1smJq0-00000009r0J-2nrK
+	id 1smMpN-0000000ACR8-2kem
 	for linux-snps-arc@lists.infradead.org;
-	Thu, 05 Sep 2024 21:16:23 +0000
-Received: by mail-pg1-x52c.google.com with SMTP id 41be03b00d2f7-7c6aee8e8daso997195a12.0
-        for <linux-snps-arc@lists.infradead.org>; Thu, 05 Sep 2024 14:16:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1725570979; x=1726175779; darn=lists.infradead.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BC+wwN1fePLvWLzJkRJwUgtVdOqgdkSuyAR2hC6nLRw=;
-        b=os847t4Dkd8yGPjX89Z5xFzZDC2rr7Dlq8JXVd0PSye9QG7dW9abWCtYvx4+14Rc+U
-         cXA32CRYRgKyv2ZcUUpWx3QA4SCGrzhmVe7VZwLzfcV4+snywYPUYZMrzkwVRxg/x+oN
-         5QZpBg5Un+O08WpwfGAOFNOatqiTawTWX5KDz1lUO5fttZcUBeFceWk/WqDRCkH6bCSK
-         /JZFTsmtCIejuOG5dY5ICJkmSdK+v5JQnsXs7O32RUB8OUTA/QtxbCzvWk+Juy1X73Yq
-         QgJQWudDlsWEhlVOEyE+zSM/64hY94Cluv52I3OBDwPaWsnCwJP9kbNiNyQE+X+juId0
-         YI9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725570979; x=1726175779;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BC+wwN1fePLvWLzJkRJwUgtVdOqgdkSuyAR2hC6nLRw=;
-        b=S+V3jSjLofV09yhh4QPO3p2xvCJzEblC4hF7IUVZ80/Xuxslg+adgC0bPmjVlDL3bV
-         olab3jEPaC/hEVJWo0B01geYhOH534/l+s3DQ3RjdKSlcWHzy/zmiOzyOLMVLinh8Atz
-         HrSbCGwo75oqaiQAp6XrG68T2HCbNqkz/yuoZMYFMct7c6RmYRtqHblSv4QKajW6TAwc
-         CPbDajCxfCDT1L/mw42aI50Ctvz61IUEh2taewi83a3Gy+mxQ5dc/HjrSE+0s0c5xUjZ
-         RdAqpO0qUQ/eg33IER+hIJb+B1tr2zwugbvlYRQY4Qdho/LUY95cpZu9ZRCB4g8mt0BV
-         q/tw==
-X-Forwarded-Encrypted: i=1; AJvYcCUNAmVnK4/HugLCz69XUVF/CWBo8/+hxY/Jk4yc1tRGaR7yp38Uk3ul9U4ot7YSPugL8nopMLDsqliOB1Nuww==@lists.infradead.org
-X-Gm-Message-State: AOJu0YycFA2/mLZi8A3p4uPEzApZcG1MbJfbGKmhBllmtmAqldKm+PoQ
-	z+ymhxmMpbPEgVkaZBRtMebAFRSc1dWTRSrY4ENDaEPaRlj8qBYd06bMvM3QOjo=
-X-Google-Smtp-Source: AGHT+IEZNTxfv2Eh4MhBvC/nCmC/+9uGBr1mJ2SunSW5zA4oMdQE9dzvz6pYsZBAUp5dcakacvTYeg==
-X-Received: by 2002:a05:6a20:6f08:b0:1c6:a680:ef3d with SMTP id adf61e73a8af0-1cf1d13329emr317665637.28.1725570979059;
-        Thu, 05 Sep 2024 14:16:19 -0700 (PDT)
-Received: from charlie.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d4fbda7abesm3775746a12.61.2024.09.05.14.16.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Sep 2024 14:16:18 -0700 (PDT)
-From: Charlie Jenkins <charlie@rivosinc.com>
-Date: Thu, 05 Sep 2024 14:15:52 -0700
-Subject: [PATCH RFC v3 2/2] selftests/mm: Create ADDR_LIMIT_47BIT test
+	Fri, 06 Sep 2024 00:27:55 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 639C3A43832
+	for <linux-snps-arc@lists.infradead.org>; Fri,  6 Sep 2024 00:27:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F60AC4CEC5
+	for <linux-snps-arc@lists.infradead.org>; Fri,  6 Sep 2024 00:27:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725582472;
+	bh=K6wrMA4NMaFGP3Sp4vPuMOOJ9z42CsYsjU+yH0k9ZpI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=rOwVxMUDAoXw5SklKVcoMdydUgoE4tk0T3VLu7rhVnOSII9MTQcVpt3Mq6X4bZb7v
+	 kPPu+HWw2WxGF6UXBpC1fYcQJutF4XD3aOFuan5GSAy529cwBq5zVYnkR+4D5IKnOO
+	 e9MkFI1cRjZ6hUGQyqoPDKY0lZYN6sc8x/WafGh1wdi1HeK6e7LjylwpwqyIXvG0kQ
+	 6RVVoymO+D6WddBCPvgSzjuK609lqstj+BXismhUT9t4LjLH+N83RdD+7DM0sJckxD
+	 S5+vrNVSBlDc23DA3kJYxXe44ac1DgPer1vZCDMOehUT7w7r4NZGHb405u28pWxdTX
+	 6jYGs3ZXqn7kA==
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2f3fea6a0a9so13492731fa.0
+        for <linux-snps-arc@lists.infradead.org>; Thu, 05 Sep 2024 17:27:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVr8fljgZ9V//dySQB5CnaU4GJDR68AHkAn7hJeK8/2BFFsLDn848AqLn6V86Fsj6TjzOEvhg5LU6a8Mq1Png==@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz1pd264cYcfDgnjEvWWfX8Maa77iz7t7MRaG7O4oXjV7em0TKM
+	9bL5QPFrcGy1nYhwoiEwkF3+Be3zkay9K9qhXFFhau2WIsOe7DQLgVvdp04jinaNhFYyM0+i4Fn
+	BEx6gJljIinWaXl3Mf/2K1t6630Y=
+X-Google-Smtp-Source: AGHT+IECEJXsJFKh8FBdQC2eV1kk62AdTyv6v0z/HVmN55+fHGg4x6UhGG8hEo+Rv28CTDwPO53RFRQNS5OnAybvF2s=
+X-Received: by 2002:a05:651c:545:b0:2f5:66a:627 with SMTP id
+ 38308e7fff4ca-2f657a9793emr24818091fa.0.1725582471070; Thu, 05 Sep 2024
+ 17:27:51 -0700 (PDT)
 MIME-Version: 1.0
-Message-Id: <20240905-patches-below_hint_mmap-v3-2-3cd5564efbbb@rivosinc.com>
-References: <20240905-patches-below_hint_mmap-v3-0-3cd5564efbbb@rivosinc.com>
-In-Reply-To: <20240905-patches-below_hint_mmap-v3-0-3cd5564efbbb@rivosinc.com>
-To: Arnd Bergmann <arnd@arndb.de>, 
- Richard Henderson <richard.henderson@linaro.org>, 
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
- Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>, 
- Russell King <linux@armlinux.org.uk>, Guo Ren <guoren@kernel.org>, 
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
- Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>, 
- Nicholas Piggin <npiggin@gmail.com>, 
- Christophe Leroy <christophe.leroy@csgroup.eu>, 
- Naveen N Rao <naveen@kernel.org>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Sven Schnelle <svens@linux.ibm.com>, 
- Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
- "David S. Miller" <davem@davemloft.net>, 
- Andreas Larsson <andreas@gaisler.com>, Thomas Gleixner <tglx@linutronix.de>, 
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
- "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, 
- Peter Zijlstra <peterz@infradead.org>, Muchun Song <muchun.song@linux.dev>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
- Vlastimil Babka <vbabka@suse.cz>, 
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Shuah Khan <shuah@kernel.org>, 
- Christoph Hellwig <hch@infradead.org>, Michal Hocko <mhocko@suse.com>, 
- "Kirill A. Shutemov" <kirill@shutemov.name>, 
- Chris Torek <chris.torek@gmail.com>
-Cc: linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org, 
- loongarch@lists.linux.dev, linux-mips@vger.kernel.org, 
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
- sparclinux@vger.kernel.org, linux-mm@kvack.org, 
- linux-kselftest@vger.kernel.org, linux-abi-devel@lists.sourceforge.net, 
- Charlie Jenkins <charlie@rivosinc.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2582; i=charlie@rivosinc.com;
- h=from:subject:message-id; bh=v+6JyaTNEum7sQVRfCLlZa2h0GjRhYNybjctqPTjXjI=;
- b=owGbwMvMwCHWx5hUnlvL8Y3xtFoSQ9ot+RkaGxaJ/61aKCWQFuW4/RLXZ/ZytuJlXCePW/lm/
- BEMfPmgo5SFQYyDQVZMkYXnWgNz6x39sqOiZRNg5rAygQxh4OIUgIl8VmJkmJ40y3j9/d1mFyvf
- My3sVpqs+9/6YNER2ftWy07b31r7azfDfzfJmfzFLLNYSxYW7GExLQoUvbVs9j2GHob0FXfdby4
- 9wwcA
-X-Developer-Key: i=charlie@rivosinc.com; a=openpgp;
- fpr=7D834FF11B1D8387E61C776FFB10D1F27D6B1354
+References: <20240904234803.698424-1-masahiroy@kernel.org> <20240904234803.698424-15-masahiroy@kernel.org>
+ <20240905143850.GD1517132-robh@kernel.org>
+In-Reply-To: <20240905143850.GD1517132-robh@kernel.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 6 Sep 2024 09:27:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASbhsgMyo--WrvLaUyaJQdAFrpS48L_E=T1MVgvZhB4Bw@mail.gmail.com>
+Message-ID: <CAK7LNASbhsgMyo--WrvLaUyaJQdAFrpS48L_E=T1MVgvZhB4Bw@mail.gmail.com>
+Subject: Re: [PATCH 14/15] kbuild: rename CONFIG_GENERIC_BUILTIN_DTB to CONFIG_BUILTIN_DTB
+To: Rob Herring <robh@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Michal Simek <monstr@monstr.eu>, devicetree@vger.kernel.org, linux-mips@vger.kernel.org, 
+	linux-openrisc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240905_141621_059496_268C51DC 
-X-CRM114-Status: GOOD (  14.14  )
+X-CRM114-CacheID: sfid-20240905_172753_844827_A03C0F78 
+X-CRM114-Status: GOOD (  20.57  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,92 +80,72 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Add a selftest for the ADDR_LIMIT_47BIT personality flag that mmaps
-until it runs out of space and ensures no addresses are allocated above
-47 bits.
-
-Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
----
- tools/testing/selftests/mm/.gitignore              |  1 +
- tools/testing/selftests/mm/Makefile                |  1 +
- tools/testing/selftests/mm/map_47bit_personality.c | 34 ++++++++++++++++++++++
- 3 files changed, 36 insertions(+)
-
-diff --git a/tools/testing/selftests/mm/.gitignore b/tools/testing/selftests/mm/.gitignore
-index da030b43e43b..918ef05e180d 100644
---- a/tools/testing/selftests/mm/.gitignore
-+++ b/tools/testing/selftests/mm/.gitignore
-@@ -32,6 +32,7 @@ mlock-random-test
- virtual_address_range
- gup_test
- va_128TBswitch
-+map_47bit_personality
- map_fixed_noreplace
- write_to_hugetlbfs
- hmm-tests
-diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
-index cfad627e8d94..2e95fd545409 100644
---- a/tools/testing/selftests/mm/Makefile
-+++ b/tools/testing/selftests/mm/Makefile
-@@ -50,6 +50,7 @@ TEST_GEN_FILES += hugepage-shm
- TEST_GEN_FILES += hugepage-vmemmap
- TEST_GEN_FILES += khugepaged
- TEST_GEN_FILES += madv_populate
-+TEST_GEN_FILES += map_47bit_personality
- TEST_GEN_FILES += map_fixed_noreplace
- TEST_GEN_FILES += map_hugetlb
- TEST_GEN_FILES += map_populate
-diff --git a/tools/testing/selftests/mm/map_47bit_personality.c b/tools/testing/selftests/mm/map_47bit_personality.c
-new file mode 100644
-index 000000000000..453412990c21
---- /dev/null
-+++ b/tools/testing/selftests/mm/map_47bit_personality.c
-@@ -0,0 +1,34 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Test the ADDR_LIMIT_47BIT personality flag.
-+ */
-+#include <sys/syscall.h>
-+#include <sys/mman.h>
-+#include <errno.h>
-+#include "../kselftest.h"
-+
-+#define LENGTH (100000000)
-+
-+#define ADDR_LIMIT_47BIT	0x10000000
-+#define BIT47			1UL << 47
-+
-+/*
-+ * Map memory with ADDR_LIMIT_47BIT until no memory left. Ensure that all returned
-+ * addresses are below 47 bits.
-+ */
-+int main(int argc, char **argv)
-+{
-+	void *addr;
-+
-+	syscall(__NR_personality, ADDR_LIMIT_47BIT);
-+
-+	do {
-+		addr = mmap(0, LENGTH, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+	} while (addr != MAP_FAILED && (unsigned long)addr < BIT47);
-+
-+	if (errno == ENOMEM)
-+		ksft_test_result_pass("ADDR_LIMIT_47BIT works\n");
-+	else
-+		ksft_test_result_fail("mmap returned address above 47 bits with ADDR_LIMIT_47BIT with addr: %p and err: %s\n",
-+				      addr, strerror(errno));
-+}
-
--- 
-2.45.0
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gVGh1LCBTZXAgNSwgMjAyNCBhdCAxMTozOOKAr1BNIFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5l
+bC5vcmc+IHdyb3RlOgo+Cj4gT24gVGh1LCBTZXAgMDUsIDIwMjQgYXQgMDg6NDc6NTBBTSArMDkw
+MCwgTWFzYWhpcm8gWWFtYWRhIHdyb3RlOgo+ID4gTm93IHRoYXQgYWxsIGFyY2hpdGVjdHVyZXMg
+aGF2ZSBtaWdyYXRlZCB0byB0aGUgZ2VuZXJpYyBidWlsdC1pbgo+ID4gRFRCIHN1cHBvcnQsIHRo
+ZSBHRU5FUklDXyBwcmVmaXggaXMgbm8gbG9uZ2VyIG5lY2Vzc2FyeS4KPiA+Cj4gPiBTaWduZWQt
+b2ZmLWJ5OiBNYXNhaGlybyBZYW1hZGEgPG1hc2FoaXJveUBrZXJuZWwub3JnPgo+ID4gLS0tCj4g
+Pgo+ID4gIE1ha2VmaWxlICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8IDIgKy0KPiA+ICBh
+cmNoL2FyYy9LY29uZmlnICAgICAgICAgICAgICAgICAgICAgfCAyICstCj4gPiAgYXJjaC9sb29u
+Z2FyY2gvS2NvbmZpZyAgICAgICAgICAgICAgIHwgMSAtCj4gPiAgYXJjaC9taWNyb2JsYXplL0tj
+b25maWcgICAgICAgICAgICAgIHwgMiArLQo+ID4gIGFyY2gvbWlwcy9LY29uZmlnICAgICAgICAg
+ICAgICAgICAgICB8IDEgLQo+ID4gIGFyY2gvbmlvczIvcGxhdGZvcm0vS2NvbmZpZy5wbGF0Zm9y
+bSB8IDEgLQo+ID4gIGFyY2gvb3BlbnJpc2MvS2NvbmZpZyAgICAgICAgICAgICAgICB8IDIgKy0K
+PiA+ICBhcmNoL3Jpc2N2L0tjb25maWcgICAgICAgICAgICAgICAgICAgfCAxIC0KPiA+ICBhcmNo
+L3NoL0tjb25maWcgICAgICAgICAgICAgICAgICAgICAgfCAxIC0KPiA+ICBhcmNoL3h0ZW5zYS9L
+Y29uZmlnICAgICAgICAgICAgICAgICAgfCAyICstCj4gPiAgZHJpdmVycy9vZi9LY29uZmlnICAg
+ICAgICAgICAgICAgICAgIHwgMiArLQo+ID4gIHNjcmlwdHMvTWFrZWZpbGUudm1saW51eCAgICAg
+ICAgICAgICB8IDIgKy0KPiA+ICBzY3JpcHRzL2xpbmstdm1saW51eC5zaCAgICAgICAgICAgICAg
+fCAyICstCj4gPiAgMTMgZmlsZXMgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCAxMyBkZWxldGlv
+bnMoLSkKPgo+ID4gZGlmZiAtLWdpdCBhL2FyY2gvbG9vbmdhcmNoL0tjb25maWcgYi9hcmNoL2xv
+b25nYXJjaC9LY29uZmlnCj4gPiBpbmRleCBlMWQzZTVmYjZmZDIuLjcwZjE2OTIxMGI1MiAxMDA2
+NDQKPiA+IC0tLSBhL2FyY2gvbG9vbmdhcmNoL0tjb25maWcKPiA+ICsrKyBiL2FyY2gvbG9vbmdh
+cmNoL0tjb25maWcKPiA+IEBAIC0zODgsNyArMzg4LDYgQEAgZW5kY2hvaWNlCj4gPiAgY29uZmln
+IEJVSUxUSU5fRFRCCj4gPiAgICAgICBib29sICJFbmFibGUgYnVpbHQtaW4gZHRiIGluIGtlcm5l
+bCIKPiA+ICAgICAgIGRlcGVuZHMgb24gT0YKPiA+IC0gICAgIHNlbGVjdCBHRU5FUklDX0JVSUxU
+SU5fRFRCCj4gPiAgICAgICBoZWxwCj4gPiAgICAgICAgIFNvbWUgZXhpc3Rpbmcgc3lzdGVtcyBk
+byBub3QgcHJvdmlkZSBhIGNhbm9uaWNhbCBkZXZpY2UgdHJlZSB0bwo+ID4gICAgICAgICB0aGUg
+a2VybmVsIGF0IGJvb3QgdGltZS4gTGV0J3MgcHJvdmlkZSBhIGRldmljZSB0cmVlIHRhYmxlIGlu
+IHRoZQo+Cj4gPiBkaWZmIC0tZ2l0IGEvYXJjaC9uaW9zMi9wbGF0Zm9ybS9LY29uZmlnLnBsYXRm
+b3JtIGIvYXJjaC9uaW9zMi9wbGF0Zm9ybS9LY29uZmlnLnBsYXRmb3JtCj4gPiBpbmRleCBjNzVj
+YWRkOTIzODguLjVmMGNmNTUxYjVjYSAxMDA2NDQKPiA+IC0tLSBhL2FyY2gvbmlvczIvcGxhdGZv
+cm0vS2NvbmZpZy5wbGF0Zm9ybQo+ID4gKysrIGIvYXJjaC9uaW9zMi9wbGF0Zm9ybS9LY29uZmln
+LnBsYXRmb3JtCj4gPiBAQCAtMzgsNyArMzgsNiBAQCBjb25maWcgTklPUzJfRFRCX1BIWVNfQURE
+Ugo+ID4gIGNvbmZpZyBCVUlMVElOX0RUQgo+ID4gICAgICAgYm9vbCAiQ29tcGlsZSBhbmQgbGlu
+ayBkZXZpY2UgdHJlZSBpbnRvIGtlcm5lbCBpbWFnZSIKPiA+ICAgICAgIGRlcGVuZHMgb24gIUNP
+TVBJTEVfVEVTVAo+ID4gLSAgICAgc2VsZWN0IEdFTkVSSUNfQlVJTFRJTl9EVEIKPgo+ID4gLS0t
+IGEvYXJjaC9yaXNjdi9LY29uZmlnCj4gPiArKysgYi9hcmNoL3Jpc2N2L0tjb25maWcKPiA+IEBA
+IC0xMTEwLDcgKzExMTAsNiBAQCBjb25maWcgUklTQ1ZfSVNBX0ZBTExCQUNLCj4gPiAgY29uZmln
+IEJVSUxUSU5fRFRCCj4gPiAgICAgICBib29sICJCdWlsdC1pbiBkZXZpY2UgdHJlZSIKPiA+ICAg
+ICAgIGRlcGVuZHMgb24gT0YgJiYgTk9OUE9SVEFCTEUKPgo+IEh1bW0sIG1heWJlIHRoaXMgTk9O
+UE9SVEFCTEUgb3B0aW9uIGNvdWxkIGJlIGNvbW1vbiBhbmQgdXNlZCB0bwo+IGFjY29tcGxpc2gg
+d2hhdCBJIHdhbnQgaGVyZS4uLgoKCgpJIGRvIG5vdCBrbm93IGhvdyB0aGlzIGNhbiBwcmV2ZW50
+IG5ldyBhcmNoaXRlY3R1cmVzIGZyb20gZW5hYmxpbmcKQlVJTFRJTl9EVEIuCgpOZXcgYXJjaGl0
+ZWN0dXJlcyBjYW4gc2VsZWN0IEJVSUxUSU5fRFRCIHRvZ2V0aGVyIHdpdGggTk9OUE9SVEFCTEUu
+CgoKCj4gPiAtICAgICBzZWxlY3QgR0VORVJJQ19CVUlMVElOX0RUQgo+Cj4gPiBkaWZmIC0tZ2l0
+IGEvYXJjaC9zaC9LY29uZmlnIGIvYXJjaC9zaC9LY29uZmlnCj4gPiBpbmRleCAzYjc3MjM3ODc3
+M2YuLmIwOTAxOWNkODdkNCAxMDA2NDQKPiA+IC0tLSBhL2FyY2gvc2gvS2NvbmZpZwo+ID4gKysr
+IGIvYXJjaC9zaC9LY29uZmlnCj4gPiBAQCAtNjQ4LDcgKzY0OCw2IEBAIGNvbmZpZyBCVUlMVElO
+X0RUQgo+ID4gICAgICAgYm9vbCAiVXNlIGJ1aWx0aW4gRFRCIgo+ID4gICAgICAgZGVmYXVsdCBu
+Cj4gPiAgICAgICBkZXBlbmRzIG9uIFNIX0RFVklDRV9UUkVFCj4gPiAtICAgICBzZWxlY3QgR0VO
+RVJJQ19CVUlMVElOX0RUQgo+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9vZi9LY29uZmlnIGIv
+ZHJpdmVycy9vZi9LY29uZmlnCj4gPiBpbmRleCA1MTQyZTdkN2ZlZjguLjUzYTIyN2NhM2EzYyAx
+MDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvb2YvS2NvbmZpZwo+ID4gKysrIGIvZHJpdmVycy9vZi9L
+Y29uZmlnCj4gPiBAQCAtMiw3ICsyLDcgQEAKPiA+ICBjb25maWcgRFRDCj4gPiAgICAgICBib29s
+Cj4gPgo+ID4gLWNvbmZpZyBHRU5FUklDX0JVSUxUSU5fRFRCCj4gPiArY29uZmlnIEJVSUxUSU5f
+RFRCCj4gPiAgICAgICBib29sCj4KPiBJJ20gY29uZnVzZWQuIFdlIGNhbid0IGhhdmUgdGhlIHNh
+bWUgY29uZmlnIG9wdGlvbiB0d2ljZSwgY2FuIHdlPwoKCldlIGNhbi4KCgpEb2N1bWVudGF0aW9u
+L2tidWlsZC9rY29uZmlnLWxhbmd1YWdlLnJzdCBzYXlzOgoKICBBIGNvbmZpZyBvcHRpb24gY2Fu
+IGJlIGRlZmluZWQgbXVsdGlwbGUgdGltZXMgd2l0aCB0aGUgc2FtZQogIG5hbWUsIGJ1dCBldmVy
+eSBkZWZpbml0aW9uIGNhbiBoYXZlIG9ubHkgYSBzaW5nbGUgaW5wdXQgcHJvbXB0IGFuZCB0aGUK
+ICB0eXBlIG11c3Qgbm90IGNvbmZsaWN0LgoKCgotLSAKQmVzdCBSZWdhcmRzCk1hc2FoaXJvIFlh
+bWFkYQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGlu
+dXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5v
+cmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBz
+LWFyYwo=
