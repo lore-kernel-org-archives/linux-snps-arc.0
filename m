@@ -4,145 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5717ACE7AF3
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Sep 2024 09:15:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F318CE7AFC
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  6 Sep 2024 09:44:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Subject:References:In-Reply-To:
-	Message-Id:Cc:To:From:Date:MIME-Version:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Owner;
-	bh=VFPNSxg13DUX6XMtgC2tlohQL1RlSqBYNkcoHA1A9Tc=; b=Kn5FudqQFH9uDiI731W97YFxsk
-	t2nt9imxXrKc7xxHLW2mglsr6MmOPKuJsDSYmFDwa3/ZzaKCqx0mXDZefxN+MiiF26kVs1eMNUyk2
-	VySpOeCLaPfRz3msTNTBbMhbWBWQCOKb7A/565hTWddf/RIrMYRbc1Omhi/FAjt+/wzjt0rUCuemg
-	OcxsWwWPw2iOHUS8uXejxxQ2kHb0wA5IMEP7W/T98bJDk8Y362r2cB8/KcNjSoGdvtlzAsCEctkuP
-	mKEhXRwrzS3vJCcVO5DsvsDBTlOk74Ko3IOzEuYM/Kk0+ObTW1bb1V76K7qVqxKqmGpt9F32EaZd9
-	OE2qXGDw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=4bNu50QehHZjGVssrUWHXXbCRxKoc60e4ta2tf2qiUA=; b=ufVKKXU4t32wIy
+	fvOwrZAxM5ByMmBZXpWJYJsaH5cLZo+lbkSMbUgAd/BhsEjekI69IYK2xSf6cMEWoP8S1jh4UAQQA
+	GEWXR9DDkaskUFtNtwT0r/WW1QRaFYIgjzOPl+iUKz4nn64AiqslngQsn3YVoDPszhkHq3cGb7XaR
+	9g8SYu7Lav55aAjTchephA3/rsNh+pWc8duW9/vadnSGzTfD30+fwqduyWhkyQPkWdEeUOqdBEcxX
+	W3u2hKa6qI+Mg33RBSLW3SmanFlRosItDo2nktWYwxev3WWo8EGOBxpRyuqQhw5PVdRoOyV7Klzhc
+	jdbJE5fmxySJdq4d3GJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1smV3z-0000000BTfi-3P2Z;
-	Fri, 06 Sep 2024 09:15:31 +0000
-Received: from flow5-smtp.messagingengine.com ([103.168.172.140])
+	id 1smVWO-0000000BaCW-2xSQ;
+	Fri, 06 Sep 2024 09:44:52 +0000
+Received: from pegase2.c-s.fr ([93.17.235.10])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1smV33-0000000BTLL-2a9H;
-	Fri, 06 Sep 2024 09:14:35 +0000
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailflow.phl.internal (Postfix) with ESMTP id DDEA7200175;
-	Fri,  6 Sep 2024 05:14:31 -0400 (EDT)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-10.internal (MEProxy); Fri, 06 Sep 2024 05:14:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1725614071;
-	 x=1725621271; bh=HqqZZ6TfA9de4ir05q0Y8WhAGkTcX7yt1g8RzTkpSrA=; b=
-	qSNYokquTBb36v/l2H+5umTZJpjnq4aypJ/npxpzHmDdxBDZ1Fxf8dUNOmMkRFA1
-	YXybRlGR2AZy4RgwNXAktBgant6gRKCjXuQ/Bvwy7XoLfGCi3yJ8afo4cstP1uXY
-	BMM6hndRke9GmnlOkrCMNLsFNmZm28J17yqN1sYaV7uvXoOt2clukefCVWe5q57x
-	+IoAM+9epy+YDnFO9xuu7p22MvIZ+6+elSsFVr5cigUC+KeXJx9tNME+Dkv5YIT9
-	jtkK+jaXGmIw0PrzBLCS27eUdiIAeIxJ7A+gunA9b/4hXvpjB65PvKrSoSkZsLue
-	SJupCGJVUseiWtWwWes1jw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1725614071; x=
-	1725621271; bh=HqqZZ6TfA9de4ir05q0Y8WhAGkTcX7yt1g8RzTkpSrA=; b=G
-	P0u48yY13W+zNvKQlBemH/22HdGBDJ67Vgk51dvta0gc3WKYa5pc4AyiRK4VqGpb
-	YW8vfxfHI5BPqtTBmISn2BHVcF7nfhib7BFIlMddw8S+zScfxauirBva4TPbloWP
-	l9p5UYW/hoQqqZXHZEHtkWbwdQiyqzzgXZIZKjLP6t4KEA1kyxnb96Nl7Z2U03Kn
-	CwOrrVmSUlerPWhcj9p0VhbNBqsOhsfAEruNjSMiVt1FQdR8S8VanLAF7I/TT2XJ
-	SI1tW1fea/gPn7Bg86agsvGPFEj6KA43twP1r2F/Hl9gonTAKDpMEhShfUEOzQ4e
-	3LvQecbBtSoS8en2fx8yw==
-X-ME-Sender: <xms:9cfaZtm4_NI2Mp1so2dO9xtE-zcRvr_GJn8AeR8VuFqRPRyzvuf77w>
-    <xme:9cfaZo3Gr8EoEFBHqJMbxMY2XO8sr1DVphholCi3rg8sxsZYZ-sEx7E6ZQ-n5suTe
-    3xx7S-opGfECWe7fQk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudeiuddgudefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
-    necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
-    guvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefg
-    gfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohephedt
-    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegsphesrghlihgvnhekrdguvgdprh
-    gtphhtthhopehtshgsohhgvghnugesrghlphhhrgdrfhhrrghnkhgvnhdruggvpdhrtghp
-    thhtoheplhhinhhugiesrghrmhhlihhnuhigrdhorhhgrdhukhdprhgtphhtthhopegthh
-    hrihhsthhophhhvgdrlhgvrhhohiestghsghhrohhuphdrvghupdhrtghpthhtohepuggr
-    vhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhopehmphgvsegvlhhlvghrmh
-    grnhdrihgurdgruhdprhgtphhtthhopegrnhgurhgvrghssehgrghishhlvghrrdgtohhm
-    pdhrtghpthhtoheptghhrhhishdrthhorhgvkhesghhmrghilhdrtghomhdprhgtphhtth
-    hopehmrghtthhsthekkeesghhmrghilhdrtghomh
-X-ME-Proxy: <xmx:9cfaZjqQlqsTy37ZrJfTAtj2I3ENno6xYu-yJcaK9ki62bYQUPMzbg>
-    <xmx:9cfaZtnwCtu_ljMgv5BuNV_nIahG4cliTZ72GQAaM-5mSVbe0rz39w>
-    <xmx:9cfaZr1GW4q_hWUIQ_jc9R3zfS34r-un3P-Xi7ylpO1hKPAvbVhQuA>
-    <xmx:9cfaZsuIjYegxC94IQ_SXDEencsW9zI1BcxpRXGp49Rvj7AZNmAhAw>
-    <xmx:98faZhHmr_ydm6E8HlMZov6cLoccR_mj7MU8ylWAyqznrAX2hRj7JBw9>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 84B61222006F; Fri,  6 Sep 2024 05:14:29 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	id 1smVPW-0000000BXZ4-0pRA;
+	Fri, 06 Sep 2024 09:37:47 +0000
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+	by localhost (Postfix) with ESMTP id 4X0WNf1FhNz9sRs;
+	Fri,  6 Sep 2024 11:37:38 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id fKy3LdL3k-CP; Fri,  6 Sep 2024 11:37:38 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4X0WNc6RQfz9sRy;
+	Fri,  6 Sep 2024 11:37:36 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id C3BE58B77C;
+	Fri,  6 Sep 2024 11:37:36 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id of0oryN1Xdlh; Fri,  6 Sep 2024 11:37:36 +0200 (CEST)
+Received: from [192.168.235.70] (unknown [192.168.235.70])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 65D348B764;
+	Fri,  6 Sep 2024 11:37:34 +0200 (CEST)
+Message-ID: <7c3720ff-b763-44b0-9b57-a2fbff3c7f56@csgroup.eu>
+Date: Fri, 6 Sep 2024 11:37:34 +0200
 MIME-Version: 1.0
-Date: Fri, 06 Sep 2024 09:14:08 +0000
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>
-Cc: "Charlie Jenkins" <charlie@rivosinc.com>,
- "Richard Henderson" <richard.henderson@linaro.org>,
- "Ivan Kokshaysky" <ink@jurassic.park.msu.ru>,
- "Matt Turner" <mattst88@gmail.com>, "Vineet Gupta" <vgupta@kernel.org>,
- "Russell King" <linux@armlinux.org.uk>, guoren <guoren@kernel.org>,
- "Huacai Chen" <chenhuacai@kernel.org>, "WANG Xuerui" <kernel@xen0n.name>,
- "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Helge Deller" <deller@gmx.de>, "Michael Ellerman" <mpe@ellerman.id.au>,
- "Nicholas Piggin" <npiggin@gmail.com>,
- "Christophe Leroy" <christophe.leroy@csgroup.eu>,
- "Naveen N Rao" <naveen@kernel.org>,
- "Alexander Gordeev" <agordeev@linux.ibm.com>,
- "Gerald Schaefer" <gerald.schaefer@linux.ibm.com>,
- "Heiko Carstens" <hca@linux.ibm.com>,
- "Vasily Gorbik" <gor@linux.ibm.com>,
- "Christian Borntraeger" <borntraeger@linux.ibm.com>,
- "Sven Schnelle" <svens@linux.ibm.com>,
- "Yoshinori Sato" <ysato@users.sourceforge.jp>,
- "Rich Felker" <dalias@libc.org>,
- "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
- "David S . Miller" <davem@davemloft.net>,
- "Andreas Larsson" <andreas@gaisler.com>,
- "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
- "Borislav Petkov" <bp@alien8.de>,
- "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, "Andy Lutomirski" <luto@kernel.org>,
- "Peter Zijlstra" <peterz@infradead.org>,
- "Muchun Song" <muchun.song@linux.dev>,
- "Andrew Morton" <akpm@linux-foundation.org>,
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 7/8] execmem: add support for cache of large ROX pages
+To: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Andreas Larsson <andreas@gaisler.com>, Andy Lutomirski <luto@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+ Brian Cain <bcain@quicinc.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ Christoph Hellwig <hch@infradead.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, Dinh Nguyen
+ <dinguyen@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Guo Ren <guoren@kernel.org>, Helge Deller <deller@gmx.de>,
+ Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Kent Overstreet <kent.overstreet@linux.dev>,
  "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- "Vlastimil Babka" <vbabka@suse.cz>, shuah <shuah@kernel.org>,
- "Christoph Hellwig" <hch@infradead.org>,
- "Michal Hocko" <mhocko@suse.com>,
- "Kirill A. Shutemov" <kirill@shutemov.name>,
- "Chris Torek" <chris.torek@gmail.com>,
- Linux-Arch <linux-arch@vger.kernel.org>, linux-kernel@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
- loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-mm@kvack.org,
- linux-kselftest@vger.kernel.org, linux-abi-devel@lists.sourceforge.net
-Message-Id: <7be08ea9-f343-42da-805f-e5f0d61bde26@app.fastmail.com>
-In-Reply-To: <58f39d58-579e-4dd3-8084-baebf86f1ae0@lucifer.local>
-References: <20240905-patches-below_hint_mmap-v3-0-3cd5564efbbb@rivosinc.com>
- <20240905-patches-below_hint_mmap-v3-1-3cd5564efbbb@rivosinc.com>
- <9fc4746b-8e9d-4a75-b966-e0906187e6b7@app.fastmail.com>
- <58f39d58-579e-4dd3-8084-baebf86f1ae0@lucifer.local>
-Subject: Re: [PATCH RFC v3 1/2] mm: Add personality flag to limit address to 47 bits
+ Luis Chamberlain <mcgrof@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Matt Turner <mattst88@gmail.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ Michal Simek <monstr@monstr.eu>, Oleg Nesterov <oleg@redhat.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Peter Zijlstra <peterz@infradead.org>,
+ Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
+ Song Liu <song@kernel.org>, Stafford Horne <shorne@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Thomas Gleixner <tglx@linutronix.de>, Uladzislau Rezki <urezki@gmail.com>,
+ Vineet Gupta <vgupta@kernel.org>, Will Deacon <will@kernel.org>,
+ bpf@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, linux-mm@kvack.org,
+ linux-modules@vger.kernel.org, linux-openrisc@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-trace-kernel@vger.kernel.org, linux-um@lists.infradead.org,
+ linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
+ sparclinux@vger.kernel.org, x86@kernel.org
+References: <20240826065532.2618273-1-rppt@kernel.org>
+ <20240826065532.2618273-8-rppt@kernel.org>
+Content-Language: fr-FR
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+In-Reply-To: <20240826065532.2618273-8-rppt@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240906_021434_008579_9D79C42C 
-X-CRM114-Status: GOOD (  27.19  )
+X-CRM114-CacheID: sfid-20240906_023746_411263_FC315BDA 
+X-CRM114-Status: GOOD (  12.91  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -154,87 +105,31 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 6, 2024, at 08:14, Lorenzo Stoakes wrote:
-> On Fri, Sep 06, 2024 at 07:17:44AM GMT, Arnd Bergmann wrote:
->> On Thu, Sep 5, 2024, at 21:15, Charlie Jenkins wrote:
->> > Create a personality flag ADDR_LIMIT_47BIT to support applications
->> > that wish to transition from running in environments that support at
->> > most 47-bit VAs to environments that support larger VAs. This
->> > personality can be set to cause all allocations to be below the 47-bit
->> > boundary. Using MAP_FIXED with mmap() will bypass this restriction.
->> >
->> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
->>
->> I think having an architecture-independent mechanism to limit the size
->> of the 64-bit address space is useful in general, and we've discussed
->> the same thing for arm64 in the past, though we have not actually
->> reached an agreement on the ABI previously.
->
-> The thread on the original proposals attests to this being rather a fraught
-> topic, and I think the weight of opinion was more so in favour of opt-in
-> rather than opt-out.
-
-You mean opt-in to using the larger addresses like we do on arm64 and
-powerpc, while "opt-out" means a limit as Charlie suggested?
-
->> > @@ -22,6 +22,7 @@ enum {
->> >  	WHOLE_SECONDS =		0x2000000,
->> >  	STICKY_TIMEOUTS	=	0x4000000,
->> >  	ADDR_LIMIT_3GB = 	0x8000000,
->> > +	ADDR_LIMIT_47BIT = 	0x10000000,
->> > };
->>
->> I'm a bit worried about having this done specifically in the
->> personality flag bits, as they are rather limited. We obviously
->> don't want to add many more such flags when there could be
->> a way to just set the default limit.
->
-> Since I'm the one who suggested it, I feel I should offer some kind of
-> vague defence here :)
->
-> We shouldn't let perfect be the enemy of the good. This is a relatively
-> straightforward means of achieving the aim (assuming your concern about
-> arch_get_mmap_end() below isn't a blocker) which has the least impact on
-> existing code.
->
-> Of course we can end up in absurdities where we start doing
-> ADDR_LIMIT_xxBIT... but again - it's simple, shouldn't represent an
-> egregious maintenance burden and is entirely opt-in so has things going for
-> it.
-
-I'm more confused now, I think most importantly we should try to
-handle this consistently across all architectures. The proposed
-implementation seems to completely block addresses above BIT(47)
-even for applications that opt in by calling mmap(BIT(47), ...),
-which seems to break the existing applications.
-
-If we want this flag for RISC-V and also keep the behavior of
-defaulting to >BIT(47) addresses for mmap(0, ...) how about
-changing arch_get_mmap_end() to return the limit based on
-ADDR_LIMIT_47BIT and then make this default to enabled on
-arm64 and powerpc but disabled on riscv?
-
->> It's also unclear to me how we want this flag to interact with
->> the existing logic in arch_get_mmap_end(), which attempts to
->> limit the default mapping to a 47-bit address space already.
->
-> How does ADDR_LIMIT_3GB presently interact with that?
-
-That is x86 specific and only relevant to compat tasks, limiting
-them to 3 instead of 4 GB. There is also ADDR_LIMIT_32BIT, which
-on arm32 is always set in practice to allow 32-bit addressing 
-as opposed to ARMv2 style 26-bit addressing (IIRC ARMv3 supported
-both 26-bit and 32-bit addressing, while ARMv4 through ARMv7 are
-32-bit only.
-
-      Arnd
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+CgpMZSAyNi8wOC8yMDI0IMOgIDA4OjU1LCBNaWtlIFJhcG9wb3J0IGEgw6ljcml0wqA6Cj4gRnJv
+bTogIk1pa2UgUmFwb3BvcnQgKE1pY3Jvc29mdCkiIDxycHB0QGtlcm5lbC5vcmc+Cj4gCj4gVXNp
+bmcgbGFyZ2UgcGFnZXMgdG8gbWFwIHRleHQgYXJlYXMgcmVkdWNlcyBpVExCIHByZXNzdXJlIGFu
+ZCBpbXByb3Zlcwo+IHBlcmZvcm1hbmNlLgo+IAo+IEV4dGVuZCBleGVjbWVtX2FsbG9jKCkgd2l0
+aCBhbiBhYmlsaXR5IHRvIHVzZSBQTURfU0laRSdlZCBwYWdlcyB3aXRoIFJPWAo+IHBlcm1pc3Np
+b25zIGFzIGEgY2FjaGUgZm9yIHNtYWxsZXIgYWxsb2NhdGlvbnMuCgpXaHkgb25seSBQTURfU0la
+RSA/CgpPbiBwb3dlciA4eHgsIFBNRF9TSVpFIGlzIDRNIGFuZCB0aGUgOHh4IGRvZXNuJ3QgaGF2
+ZSBzdWNoIGEgcGFnZSBzaXplLiAKV2hlbiB5b3UgY2FsbCB2bWFsbG9jKCkgd2l0aCBWTV9BTExP
+V19IVUdFX1ZNQVAgeW91IGdldCAxNmsgcGFnZXMgb3IgCjUxMmsgcGFnZXMgZGVwZW5kaW5nIG9u
+IHRoZSBzaXplIHlvdSBhc2sgZm9yLCBzZWUgZnVuY3Rpb24gCmFyY2hfdm1hcF9wdGVfc3VwcG9y
+dGVkX3NoaWZ0KCkKCj4gCj4gVG8gcG9wdWxhdGUgdGhlIGNhY2hlLCBhIHdyaXRhYmxlIGxhcmdl
+IHBhZ2UgaXMgYWxsb2NhdGVkIGZyb20gdm1hbGxvYyB3aXRoCj4gVk1fQUxMT1dfSFVHRV9WTUFQ
+LCBmaWxsZWQgd2l0aCBpbnZhbGlkIGluc3RydWN0aW9ucyBhbmQgdGhlbiByZW1hcHBlZCBhcwo+
+IFJPWC4KPiAKPiBQb3J0aW9ucyBvZiB0aGF0IGxhcmdlIHBhZ2UgYXJlIGhhbmRlZCBvdXQgdG8g
+ZXhlY21lbV9hbGxvYygpIGNhbGxlcnMKPiB3aXRob3V0IGFueSBjaGFuZ2VzIHRvIHRoZSBwZXJt
+aXNzaW9ucy4KPiAKPiBXaGVuIHRoZSBtZW1vcnkgaXMgZnJlZWQgd2l0aCBleGVjbWVtX2ZyZWUo
+KSBpdCBpcyBpbnZhbGlkYXRlZCBhZ2FpbiBzbwo+IHRoYXQgaXQgd29uJ3QgY29udGFpbiBzdGFs
+ZSBpbnN0cnVjdGlvbnMuCj4gCj4gVGhlIGNhY2hlIGlzIGVuYWJsZWQgd2hlbiBhbiBhcmNoaXRl
+Y3R1cmUgc2V0cyBFWEVDTUVNX1JPWF9DQUNIRSBmbGFnIGluCj4gZGVmaW5pdGlvbiBvZiBhbiBl
+eGVjbWVtX3JhbmdlLgo+IAoKQ2hyaXN0b3BoZQoKX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNu
+cHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
