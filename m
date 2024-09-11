@@ -4,150 +4,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E83CBEDE998
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Sep 2024 07:25:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70A9FEE498F
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Sep 2024 10:28:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Subject:References:In-Reply-To:
-	Message-Id:To:From:Date:MIME-Version:Reply-To:Cc:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Owner;
-	bh=ofdpqKEynoHsp91aceqVsZ3sO/CSmVfSq+Pitl1tgZY=; b=Bvdi86IGzRz6pGWvjUpF3+nOAH
-	K6hfmfLccU63iyD1NpKJTrziOc8eWSbQRGjlAxueqf0T7G7W29CwgxQyyN2SBzfDXSryot/L2nhot
-	eDHa3H32adyyFVYaFV3XrwUbbspSMvuihezZLrUCvyGYQ+4F7zFc4kBvglpXNeaE7EUljZMmbXgab
-	MeG+vCES0SwVGojjWyj57pixdsCVYFG112uorewniSczv9rpCf2AL3fGR1Eox4FGb6mgbRJbgmyRT
-	YKRkMntmLlbHYw+nKZFNWtpAWiwkXbYun4kEQjpHrcFYHXZwC2Te5zK8jC8YY1h/73EQJnWxfbVZK
-	T/fdBprw==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=eqq/e1OijUJ4XHoziZd5dEWc4qNoqDKcUkaVkNk3gY4=; b=shcF5IltyA8uSG
+	0lGRUyn7MS8IgmO6pjIQ4dGHc5ZkKdAo1UTe7s1Y43S11Sn13WO8uqsdzy2vTtAoo2yPcN9XMENax
+	cJA4j7Pmh19Vl0Rj25EcS6a2coCEGJSn8ixol1byX8RmbFxKUf//SO3vmn/aPKyZKb8zilvzl30AU
+	eBKbEqpoBKCsC8Wqoy0O1YOSq/DqGEwUyrXahyMCHVqL2ooPNOMGODZNxPz7TY1s3v5nz2hPNRAE6
+	g/ituptMI1bKDCBvxAjXmE6E9lDvEeRVJVuFFUXnFKtnTjOkF87DaxWkkGbKFQRnD9ocisfRjq3Vj
+	2tHEmMTXQLiQLQ5y728Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soHjO-00000008PyC-2GoC;
-	Wed, 11 Sep 2024 07:25:38 +0000
-Received: from flow5-smtp.messagingengine.com ([103.168.172.140])
+	id 1soKaL-000000095YW-0W5n;
+	Wed, 11 Sep 2024 10:28:29 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soHjK-00000008Pwj-3jBW;
-	Wed, 11 Sep 2024 07:25:36 +0000
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailflow.phl.internal (Postfix) with ESMTP id 5FF0B20031F;
-	Wed, 11 Sep 2024 03:25:33 -0400 (EDT)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-10.internal (MEProxy); Wed, 11 Sep 2024 03:25:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1726039533;
-	 x=1726046733; bh=yCULKLzEw1t/f1sPt/nrm6FrZBRX7uDhUSLEPSMpBQQ=; b=
-	VgpE/1U4loJri9LiuX7Zp3kpL8B/8h0OclDS8D2qwbi1j/gV/4Dv0Is+b0/KrUjc
-	bgS87B1lv+q5Ww8OQNHMs7UUCFzhYwqeNEI7qcSCJ5R8Cz6zyi9VQfE3HuT6WlUU
-	IJVyijW60CE0wSdiD0Z5i8cXac4tC2E4XXyQo+BIYzPN/E8AHr+rEYPKjJ2JEj3a
-	pazvkihnp/Gt/CI+rGrCWj7mQ+PxlVRrdD8wErMCd+duga8MvKpYjHS0ASNqV5py
-	eK8pix0YokPCoBvBj7t/5/L7Rr5Y6AZPgl9p66wMb8srBd3P1fQ0YCu+n/12a0kE
-	LQn0BwlFInbl9ta8zMHnGA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1726039533; x=
-	1726046733; bh=yCULKLzEw1t/f1sPt/nrm6FrZBRX7uDhUSLEPSMpBQQ=; b=u
-	Pd7y278RoZsWfSRrvw+gMVM8jAt7Bbg3GADlLo3PeCstdM+9j+qexh54tdP/gEtN
-	ajwYHFbXXYe6u4iRwBsf0Oz8q96Q3KjMJAv2xJFw6UFoUkBRCBX3RMeTShpc/wyl
-	hNUDB3BLdBBIbAFkMJYs7OB7oV7KwNjpVkNxej7MFuimIz13nRM6ftAd+6d2rZEq
-	ehlnSP5uoes83Td45KcieFiLmMqTPKRVrxnmi0V0urnvUpJ3vhmDr2eY8pEf7uo5
-	+YsyctX/5nWESrcf7hSGMRlZHk3+LDTt6iyIFhst5Jqlh0c8MLw3YFK54iOERtxj
-	fjHHFbXRHE0yCIbpPAOdQ==
-X-ME-Sender: <xms:6UXhZslhiU1FurSmYueZbYv7HbWofGtwNnipVBqSz2PKanCywy8LTw>
-    <xme:6UXhZr1UmyyvpIL8RtvBF9VbT8mMWJC_S1W0WAF1_2CYrkbegeGP1OBvPKJwa7c5q
-    bXE0tg86Nb4G2YhoQE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudejtddguddulecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvkfgjfhfutgfgsehtjeertdertddt
-    necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
-    guvgeqnecuggftrfgrthhtvghrnhephfekledtffefhffghfetteehuefhgfetgefhtdeu
-    feduueeltefghedtjeeifffhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohephedt
-    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegsphesrghlihgvnhekrdguvgdprh
-    gtphhtthhopehtshgsohhgvghnugesrghlphhhrgdrfhhrrghnkhgvnhdruggvpdhrtghp
-    thhtoheptggrthgrlhhinhdrmhgrrhhinhgrshesrghrmhdrtghomhdprhgtphhtthhope
-    hlihhnuhigsegrrhhmlhhinhhugidrohhrghdruhhkpdhrtghpthhtoheptghhrhhishht
-    ohhphhgvrdhlvghrohihsegtshhgrhhouhhprdgvuhdprhgtphhtthhopegurghvvghmse
-    gurghvvghmlhhofhhtrdhnvghtpdhrtghpthhtohepmhhpvgesvghllhgvrhhmrghnrdhi
-    ugdrrghupdhrtghpthhtoheprghnughrvggrshesghgrihhslhgvrhdrtghomhdprhgtph
-    htthhopegthhhrihhsrdhtohhrvghksehgmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:6UXhZqo64Yf9aetQdYEe1AabvRLoXxI5u4FKjctMO5yoOUleq1zlNg>
-    <xmx:6UXhZokiNvscpSgwGsF4sy_GGDcHivntiRwJ0PffeHdFNjeLD9YiyA>
-    <xmx:6UXhZq2Oo3lGes2-0rpbjDy01o1V_VkSEWLa6XgJP-OipZiIuBcoDw>
-    <xmx:6UXhZvvJNctQ6LgtY1_0Zu1dZVxD11ZkLJkfaUAiz-d-LIJwck0YeA>
-    <xmx:7UXhZgGR9tz3pIskqmga3-R-2tuRDU1veIZMJt9PoW0NK4-vAcGX0h_v>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 466A32220072; Wed, 11 Sep 2024 03:25:29 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	id 1soKUQ-0000000948R-2219;
+	Wed, 11 Sep 2024 10:22:25 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 4C9715C0235;
+	Wed, 11 Sep 2024 10:22:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6640EC4CEC5;
+	Wed, 11 Sep 2024 10:22:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726050140;
+	bh=8dWUooDoOxWC7Oca2MrJGx9YGMSeHFyGIMo9brZfk4E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MbotaJ9vmctcoaZuCwWhMhi9fy5FIYS+b/HAYEruiQzbymZobfKvo47gbwbW+fy1t
+	 kmLvVspCoENf4YJ7MG6qyNvTNAzqVaH95FS48N7vxf5HH4w5x9HqfrCJhhZOz0qSYT
+	 FD4o6UXDBrwti0gG104xpdNn7cPukgyiIL3B2k9CSxzBbiHil9QxdJScuV7IplHt5W
+	 o1J96IBLlfPsULekNIV4gsIz3YvGb3R5Lz6mZ8XITZx+iA0s8RnjfUTf8lq+EpquOb
+	 tNbpjbzeeIR2Bev+q9SOEtahsme33D5y9Lo7KW1fhsL38m9Zfs1kaXRBBkfiBGmn1+
+	 HGqEyFiCasPYg==
+Date: Wed, 11 Sep 2024 13:19:07 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@quicinc.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Guo Ren <guoren@kernel.org>, Helge Deller <deller@gmx.de>,
+	Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Michal Simek <monstr@monstr.eu>, Oleg Nesterov <oleg@redhat.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Richard Weinberger <richard@nod.at>,
+	Russell King <linux@armlinux.org.uk>, Song Liu <song@kernel.org>,
+	Stafford Horne <shorne@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Vineet Gupta <vgupta@kernel.org>, Will Deacon <will@kernel.org>,
+	bpf@vger.kernel.org, linux-alpha@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org, linux-mm@kvack.org,
+	linux-modules@vger.kernel.org, linux-openrisc@vger.kernel.org,
+	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+	linux-trace-kernel@vger.kernel.org, linux-um@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
+	sparclinux@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH v3 6/8] x86/module: perpare module loading for ROX
+ allocations of text
+Message-ID: <ZuFumwtGQGOPMDo3@kernel.org>
+References: <20240909064730.3290724-1-rppt@kernel.org>
+ <20240909064730.3290724-7-rppt@kernel.org>
+ <20240909092923.GB4723@noisy.programming.kicks-ass.net>
+ <Zt8HiAzcaZS8lHT-@kernel.org>
+ <20240909104940.71d8464c@gandalf.local.home>
 MIME-Version: 1.0
-Date: Wed, 11 Sep 2024 07:25:08 +0000
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Charlie Jenkins" <charlie@rivosinc.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- "Catalin Marinas" <catalin.marinas@arm.com>, guoren <guoren@kernel.org>,
- "Richard Henderson" <richard.henderson@linaro.org>,
- "Ivan Kokshaysky" <ink@jurassic.park.msu.ru>,
- "Matt Turner" <mattst88@gmail.com>, "Vineet Gupta" <vgupta@kernel.org>,
- "Russell King" <linux@armlinux.org.uk>,
- "Huacai Chen" <chenhuacai@kernel.org>, "WANG Xuerui" <kernel@xen0n.name>,
- "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Helge Deller" <deller@gmx.de>, "Michael Ellerman" <mpe@ellerman.id.au>,
- "Nicholas Piggin" <npiggin@gmail.com>,
- "Christophe Leroy" <christophe.leroy@csgroup.eu>,
- "Naveen N Rao" <naveen@kernel.org>,
- "Alexander Gordeev" <agordeev@linux.ibm.com>,
- "Gerald Schaefer" <gerald.schaefer@linux.ibm.com>,
- "Heiko Carstens" <hca@linux.ibm.com>,
- "Vasily Gorbik" <gor@linux.ibm.com>,
- "Christian Borntraeger" <borntraeger@linux.ibm.com>,
- "Sven Schnelle" <svens@linux.ibm.com>,
- "Yoshinori Sato" <ysato@users.sourceforge.jp>,
- "Rich Felker" <dalias@libc.org>,
- "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
- "David S . Miller" <davem@davemloft.net>,
- "Andreas Larsson" <andreas@gaisler.com>,
- "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
- "Borislav Petkov" <bp@alien8.de>,
- "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, "Andy Lutomirski" <luto@kernel.org>,
- "Peter Zijlstra" <peterz@infradead.org>,
- "Muchun Song" <muchun.song@linux.dev>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Vlastimil Babka" <vbabka@suse.cz>,
- "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>, shuah <shuah@kernel.org>,
- "Christoph Hellwig" <hch@infradead.org>,
- "Michal Hocko" <mhocko@suse.com>,
- "Kirill A. Shutemov" <kirill@shutemov.name>,
- "Chris Torek" <chris.torek@gmail.com>,
- Linux-Arch <linux-arch@vger.kernel.org>, linux-kernel@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
- loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-mm@kvack.org,
- linux-kselftest@vger.kernel.org, linux-abi-devel@lists.sourceforge.net
-Message-Id: <8130e50c-01e2-45c3-a516-45f5499311f2@app.fastmail.com>
-In-Reply-To: <ZuDoExckq21fePoe@ghost>
-References: <20240905-patches-below_hint_mmap-v3-0-3cd5564efbbb@rivosinc.com>
- <20240905-patches-below_hint_mmap-v3-1-3cd5564efbbb@rivosinc.com>
- <9fc4746b-8e9d-4a75-b966-e0906187e6b7@app.fastmail.com>
- <CAJF2gTTVX9CFM3oRZZP3hGExwVwA_=n1Lrq_0DQKWA+-ZbOekg@mail.gmail.com>
- <f23b18c6-1856-4b59-9ba3-59809b425c81@app.fastmail.com>
- <Ztrq8PBLJ3QuFJz7@arm.com>
- <oshwto46wbbgneiayj63umllyozm3c4267rvpszqzaopwnt2l7@6mxl5vydtons>
- <ZuDoExckq21fePoe@ghost>
-Subject: Re: [PATCH RFC v3 1/2] mm: Add personality flag to limit address to 47 bits
+Content-Disposition: inline
+In-Reply-To: <20240909104940.71d8464c@gandalf.local.home>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240911_002535_235058_25E90EDB 
-X-CRM114-Status: GOOD (  21.41  )
+X-CRM114-CacheID: sfid-20240911_032222_672185_9C64051A 
+X-CRM114-Status: GOOD (  16.40  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -164,37 +116,32 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Sep 11, 2024, at 00:45, Charlie Jenkins wrote:
-> On Tue, Sep 10, 2024 at 03:08:14PM -0400, Liam R. Howlett wrote:
->
-> I responded to Arnd in the other thread, but I am still not convinced
-> that the solution that x86 and arm64 have selected is the best solution.
-> The solution of defaulting to 47 bits does allow applications the
-> ability to get addresses that are below 47 bits. However, due to
-> differences across architectures it doesn't seem possible to have all
-> architectures default to the same value. Additionally, this flag will be
-> able to help users avoid potential bugs where a hint address is passed
-> that causes upper bits of a VA to be used.
->
-> The other issue I have with this is that if there is not a hint address
-> specified to be greater than 47 bits on x86, then mmap() may return an
-> address that is greater than 47-bits. The documentation in
-> Documentation/arch/x86/x86_64/5level-paging.rst says:
->
-> "If hint address set above 47-bit, but MAP_FIXED is not specified, we try
-> to look for unmapped area by specified address. If it's already
-> occupied, we look for unmapped area in *full* address space, rather than
-> from 47-bit window."
+On Mon, Sep 09, 2024 at 10:49:40AM -0400, Steven Rostedt wrote:
+> On Mon, 9 Sep 2024 17:34:48 +0300
+> Mike Rapoport <rppt@kernel.org> wrote:
+> 
+> > > This is insane, just force BUILDTIME_MCOUNT_SORT  
+> > 
+> > The comment in ftrace.c says "... while mcount loc in modules can not be
+> > sorted at build time"
+> >  
+> > I don't know enough about objtool, but I'd presume it's because the sorting
+> > should happen after relocations, no?
+> > 
+> 
+> IIRC, the sorting at build time uses scripts/sorttable.c, which from what I
+> can tell, only gets called on vmlinux.
 
-This is also in the commit message of b569bab78d8d ("x86/mm: Prepare
-to expose larger address space to userspace"), which introduced it.
-However, I don't actually see the fallback to the full address space,
-instead the actual behavior seems to be the same as arm64.
+Regardless of the tool, the sorting should be done after relocation, no?
 
-Am I missing something in the x86 implementation, or do we just
-need to update the documentation?
+But isn't mcount loc is in data section? Then there should be no problem
+just drop this patch
+ 
+> -- Steve
 
-      Arnd
+-- 
+Sincerely yours,
+Mike.
 
 _______________________________________________
 linux-snps-arc mailing list
