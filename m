@@ -4,120 +4,138 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5FDD3EE01F1
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Sep 2024 00:45:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E83CBEDE998
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Sep 2024 07:25:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Cc:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=YA1YcybDW7YqnO6fFi6UB+Dp/rbGG5M8XsZjm7NBF0Q=; b=umAIsIwIYMQUIV
-	Z80qjDUkg7kVDKjuNYhuU7W4j4/1Fr6zPS87EEmJuqif9UX1axmBhDnqQ943t1LS4Nl9DrtCpTiPF
-	wnVxR9molGp2cm8kWbZhfGLKiXi5NX55a8Ol5wEbNNuvpK+IWr/vmyYlv6eULywMG/zYoSE3eQOCt
-	ak82orKKhBNYUP/8Jv/26HP5N5cR0/gHldTYO8a9zrp+Lt8LL9K/0R2rcNQA04o0Vv0NT9VcvZWQY
-	9Q+doUnMuUTkEvuuZIT3qA8DrY5qfsvz/Z+b067OeRVYEVFQGgrmoCAkNh6lHM2qDwWgMinEgUpRR
-	/hYpwJrNF/2U1E07MYnw==;
+	List-Archive:List-Unsubscribe:List-Id:Subject:References:In-Reply-To:
+	Message-Id:To:From:Date:MIME-Version:Reply-To:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=ofdpqKEynoHsp91aceqVsZ3sO/CSmVfSq+Pitl1tgZY=; b=Bvdi86IGzRz6pGWvjUpF3+nOAH
+	K6hfmfLccU63iyD1NpKJTrziOc8eWSbQRGjlAxueqf0T7G7W29CwgxQyyN2SBzfDXSryot/L2nhot
+	eDHa3H32adyyFVYaFV3XrwUbbspSMvuihezZLrUCvyGYQ+4F7zFc4kBvglpXNeaE7EUljZMmbXgab
+	MeG+vCES0SwVGojjWyj57pixdsCVYFG112uorewniSczv9rpCf2AL3fGR1Eox4FGb6mgbRJbgmyRT
+	YKRkMntmLlbHYw+nKZFNWtpAWiwkXbYun4kEQjpHrcFYHXZwC2Te5zK8jC8YY1h/73EQJnWxfbVZK
+	T/fdBprw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soBUD-00000007d0q-3Tvi;
-	Wed, 11 Sep 2024 00:45:33 +0000
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
+	id 1soHjO-00000008PyC-2GoC;
+	Wed, 11 Sep 2024 07:25:38 +0000
+Received: from flow5-smtp.messagingengine.com ([103.168.172.140])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soBTu-00000007ctE-0sbp
-	for linux-snps-arc@lists.infradead.org;
-	Wed, 11 Sep 2024 00:45:16 +0000
-Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-20536dcc6e9so39406045ad.2
-        for <linux-snps-arc@lists.infradead.org>; Tue, 10 Sep 2024 17:45:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1726015513; x=1726620313; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=N9UqXwHRW6ngdlKfPJV8zADUN4nB1bOhg7HrFQqhnhI=;
-        b=uNwf7kSuuvO4I5ZXJWta2ikhQhQ5X7ZLik6wu0jRc2OYmp5TbApc34bmFo4wWdO1xj
-         Y69/kOj/fBcXSsfbOddkK2QwwO9gbspCZY0M4A9PW72qqeAk/teG4ASwEjcl+UrRz/W+
-         rpAF6lTHt9pqjeqBcxl+L/+bkt2zsZZbKSMYXCtIzd75bTmC72sLzenPQJwzmFdKumuF
-         sJ+8590zBpknXm/jJiEoLj7x9/ijKHjRr1DADrxjClWSZFJEMgm8mMzLcpmBjjJHKYZX
-         4yuZyoMFasDDCf8weTfHOY54fKUfKcxtROfsubKamG1aa3skp63EClYXumN8X9eysPag
-         I3Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726015513; x=1726620313;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=N9UqXwHRW6ngdlKfPJV8zADUN4nB1bOhg7HrFQqhnhI=;
-        b=Py2WTVEY4L4/MPVzwE5QWgzrYrDEmUoUgS7yQ40MFCL/L0BTTjDzY9WYrlPfh+xHCR
-         mp8QqITwgpryE9+IYjSIT59LlX3EuTZGfliPnJfjbEATvtJ4kKEPSlYFb0ZiigK09TW9
-         A5yBGReYVtul7aUMXz4QnS71BvQJe6lyH/+vwLv8FbN9QqDp/pmMcPrAN7a3sc1+IcIE
-         lA6pznJCvBEFcNMGX9WkuBWe4jIEsxxsyh1S76deK47NbjuWfT2s3KPM2a55+PhDSrrh
-         GVoMFn4FwcMmS7eODhaeHeqhEfbgkjmn6Ej9Si0IWH3RJtb43GNAicUU8AHh59nqZiHW
-         QjTw==
-X-Forwarded-Encrypted: i=1; AJvYcCW4Kab5lu9e1POBQFLo+0EKIVS7sTauGE0l+yccbcZ9DCBSwU0TaYAykCgtexIlmR3rh9/oqLa4/FhbSU+a4w==@lists.infradead.org
-X-Gm-Message-State: AOJu0Yzj7U798CdTcWz+jgxIfn+bzmuZyUxI0o7pzXE7021KO68PAAMM
-	wcJuNAbqi01p2PVZu4fciYdglDsKqwGZtUZmnO+2mYHBzrXLtQJVfDKvBfnmJ1g=
-X-Google-Smtp-Source: AGHT+IFSjrtRoDoL7sPwVRBWFNV85MfE4DpNXnElb7X54mGXN2iqCTI2uhxpyL/CAIcKh7QAswSthg==
-X-Received: by 2002:a17:902:d2ce:b0:205:5427:2231 with SMTP id d9443c01a7336-2074c6a338fmr45444085ad.47.1726015512680;
-        Tue, 10 Sep 2024 17:45:12 -0700 (PDT)
-Received: from ghost ([50.145.13.30])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20710eef1f2sm53832165ad.145.2024.09.10.17.45.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Sep 2024 17:45:11 -0700 (PDT)
-Date: Tue, 10 Sep 2024 17:45:07 -0700
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Arnd Bergmann <arnd@arndb.de>, guoren <guoren@kernel.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-	Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Rich Felker <dalias@libc.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	"David S . Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	shuah <shuah@kernel.org>, Christoph Hellwig <hch@infradead.org>,
-	Michal Hocko <mhocko@suse.com>,
-	"Kirill A. Shutemov" <kirill@shutemov.name>,
-	Chris Torek <chris.torek@gmail.com>,
-	Linux-Arch <linux-arch@vger.kernel.org>,
-	linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	"linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
-	loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org,
-	linux-abi-devel@lists.sourceforge.net
-Subject: Re: [PATCH RFC v3 1/2] mm: Add personality flag to limit address to
- 47 bits
-Message-ID: <ZuDoExckq21fePoe@ghost>
+	id 1soHjK-00000008Pwj-3jBW;
+	Wed, 11 Sep 2024 07:25:36 +0000
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailflow.phl.internal (Postfix) with ESMTP id 5FF0B20031F;
+	Wed, 11 Sep 2024 03:25:33 -0400 (EDT)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-10.internal (MEProxy); Wed, 11 Sep 2024 03:25:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:content-transfer-encoding:content-type:content-type:date:date
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1726039533;
+	 x=1726046733; bh=yCULKLzEw1t/f1sPt/nrm6FrZBRX7uDhUSLEPSMpBQQ=; b=
+	VgpE/1U4loJri9LiuX7Zp3kpL8B/8h0OclDS8D2qwbi1j/gV/4Dv0Is+b0/KrUjc
+	bgS87B1lv+q5Ww8OQNHMs7UUCFzhYwqeNEI7qcSCJ5R8Cz6zyi9VQfE3HuT6WlUU
+	IJVyijW60CE0wSdiD0Z5i8cXac4tC2E4XXyQo+BIYzPN/E8AHr+rEYPKjJ2JEj3a
+	pazvkihnp/Gt/CI+rGrCWj7mQ+PxlVRrdD8wErMCd+duga8MvKpYjHS0ASNqV5py
+	eK8pix0YokPCoBvBj7t/5/L7Rr5Y6AZPgl9p66wMb8srBd3P1fQ0YCu+n/12a0kE
+	LQn0BwlFInbl9ta8zMHnGA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1726039533; x=
+	1726046733; bh=yCULKLzEw1t/f1sPt/nrm6FrZBRX7uDhUSLEPSMpBQQ=; b=u
+	Pd7y278RoZsWfSRrvw+gMVM8jAt7Bbg3GADlLo3PeCstdM+9j+qexh54tdP/gEtN
+	ajwYHFbXXYe6u4iRwBsf0Oz8q96Q3KjMJAv2xJFw6UFoUkBRCBX3RMeTShpc/wyl
+	hNUDB3BLdBBIbAFkMJYs7OB7oV7KwNjpVkNxej7MFuimIz13nRM6ftAd+6d2rZEq
+	ehlnSP5uoes83Td45KcieFiLmMqTPKRVrxnmi0V0urnvUpJ3vhmDr2eY8pEf7uo5
+	+YsyctX/5nWESrcf7hSGMRlZHk3+LDTt6iyIFhst5Jqlh0c8MLw3YFK54iOERtxj
+	fjHHFbXRHE0yCIbpPAOdQ==
+X-ME-Sender: <xms:6UXhZslhiU1FurSmYueZbYv7HbWofGtwNnipVBqSz2PKanCywy8LTw>
+    <xme:6UXhZr1UmyyvpIL8RtvBF9VbT8mMWJC_S1W0WAF1_2CYrkbegeGP1OBvPKJwa7c5q
+    bXE0tg86Nb4G2YhoQE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudejtddguddulecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvkfgjfhfutgfgsehtjeertdertddt
+    necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
+    guvgeqnecuggftrfgrthhtvghrnhephfekledtffefhffghfetteehuefhgfetgefhtdeu
+    feduueeltefghedtjeeifffhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+    hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohephedt
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegsphesrghlihgvnhekrdguvgdprh
+    gtphhtthhopehtshgsohhgvghnugesrghlphhhrgdrfhhrrghnkhgvnhdruggvpdhrtghp
+    thhtoheptggrthgrlhhinhdrmhgrrhhinhgrshesrghrmhdrtghomhdprhgtphhtthhope
+    hlihhnuhigsegrrhhmlhhinhhugidrohhrghdruhhkpdhrtghpthhtoheptghhrhhishht
+    ohhphhgvrdhlvghrohihsegtshhgrhhouhhprdgvuhdprhgtphhtthhopegurghvvghmse
+    gurghvvghmlhhofhhtrdhnvghtpdhrtghpthhtohepmhhpvgesvghllhgvrhhmrghnrdhi
+    ugdrrghupdhrtghpthhtoheprghnughrvggrshesghgrihhslhgvrhdrtghomhdprhgtph
+    htthhopegthhhrihhsrdhtohhrvghksehgmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:6UXhZqo64Yf9aetQdYEe1AabvRLoXxI5u4FKjctMO5yoOUleq1zlNg>
+    <xmx:6UXhZokiNvscpSgwGsF4sy_GGDcHivntiRwJ0PffeHdFNjeLD9YiyA>
+    <xmx:6UXhZq2Oo3lGes2-0rpbjDy01o1V_VkSEWLa6XgJP-OipZiIuBcoDw>
+    <xmx:6UXhZvvJNctQ6LgtY1_0Zu1dZVxD11ZkLJkfaUAiz-d-LIJwck0YeA>
+    <xmx:7UXhZgGR9tz3pIskqmga3-R-2tuRDU1veIZMJt9PoW0NK4-vAcGX0h_v>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 466A32220072; Wed, 11 Sep 2024 03:25:29 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+MIME-Version: 1.0
+Date: Wed, 11 Sep 2024 07:25:08 +0000
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Charlie Jenkins" <charlie@rivosinc.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ "Catalin Marinas" <catalin.marinas@arm.com>, guoren <guoren@kernel.org>,
+ "Richard Henderson" <richard.henderson@linaro.org>,
+ "Ivan Kokshaysky" <ink@jurassic.park.msu.ru>,
+ "Matt Turner" <mattst88@gmail.com>, "Vineet Gupta" <vgupta@kernel.org>,
+ "Russell King" <linux@armlinux.org.uk>,
+ "Huacai Chen" <chenhuacai@kernel.org>, "WANG Xuerui" <kernel@xen0n.name>,
+ "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Helge Deller" <deller@gmx.de>, "Michael Ellerman" <mpe@ellerman.id.au>,
+ "Nicholas Piggin" <npiggin@gmail.com>,
+ "Christophe Leroy" <christophe.leroy@csgroup.eu>,
+ "Naveen N Rao" <naveen@kernel.org>,
+ "Alexander Gordeev" <agordeev@linux.ibm.com>,
+ "Gerald Schaefer" <gerald.schaefer@linux.ibm.com>,
+ "Heiko Carstens" <hca@linux.ibm.com>,
+ "Vasily Gorbik" <gor@linux.ibm.com>,
+ "Christian Borntraeger" <borntraeger@linux.ibm.com>,
+ "Sven Schnelle" <svens@linux.ibm.com>,
+ "Yoshinori Sato" <ysato@users.sourceforge.jp>,
+ "Rich Felker" <dalias@libc.org>,
+ "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Andreas Larsson" <andreas@gaisler.com>,
+ "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, "Andy Lutomirski" <luto@kernel.org>,
+ "Peter Zijlstra" <peterz@infradead.org>,
+ "Muchun Song" <muchun.song@linux.dev>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Vlastimil Babka" <vbabka@suse.cz>,
+ "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>, shuah <shuah@kernel.org>,
+ "Christoph Hellwig" <hch@infradead.org>,
+ "Michal Hocko" <mhocko@suse.com>,
+ "Kirill A. Shutemov" <kirill@shutemov.name>,
+ "Chris Torek" <chris.torek@gmail.com>,
+ Linux-Arch <linux-arch@vger.kernel.org>, linux-kernel@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
+ loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-mm@kvack.org,
+ linux-kselftest@vger.kernel.org, linux-abi-devel@lists.sourceforge.net
+Message-Id: <8130e50c-01e2-45c3-a516-45f5499311f2@app.fastmail.com>
+In-Reply-To: <ZuDoExckq21fePoe@ghost>
 References: <20240905-patches-below_hint_mmap-v3-0-3cd5564efbbb@rivosinc.com>
  <20240905-patches-below_hint_mmap-v3-1-3cd5564efbbb@rivosinc.com>
  <9fc4746b-8e9d-4a75-b966-e0906187e6b7@app.fastmail.com>
@@ -125,12 +143,11 @@ References: <20240905-patches-below_hint_mmap-v3-0-3cd5564efbbb@rivosinc.com>
  <f23b18c6-1856-4b59-9ba3-59809b425c81@app.fastmail.com>
  <Ztrq8PBLJ3QuFJz7@arm.com>
  <oshwto46wbbgneiayj63umllyozm3c4267rvpszqzaopwnt2l7@6mxl5vydtons>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <oshwto46wbbgneiayj63umllyozm3c4267rvpszqzaopwnt2l7@6mxl5vydtons>
+ <ZuDoExckq21fePoe@ghost>
+Subject: Re: [PATCH RFC v3 1/2] mm: Add personality flag to limit address to 47 bits
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240910_174514_509701_66FE1346 
-X-CRM114-Status: GOOD (  34.44  )
+X-CRM114-CacheID: sfid-20240911_002535_235058_25E90EDB 
+X-CRM114-Status: GOOD (  21.41  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,74 +159,44 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-T24gVHVlLCBTZXAgMTAsIDIwMjQgYXQgMDM6MDg6MTRQTSAtMDQwMCwgTGlhbSBSLiBIb3dsZXR0
-IHdyb3RlOgo+ICogQ2F0YWxpbiBNYXJpbmFzIDxjYXRhbGluLm1hcmluYXNAYXJtLmNvbT4gWzI0
-MDkwNiAwNzo0NF06Cj4gPiBPbiBGcmksIFNlcCAwNiwgMjAyNCBhdCAwOTo1NTo0MkFNICswMDAw
-LCBBcm5kIEJlcmdtYW5uIHdyb3RlOgo+ID4gPiBPbiBGcmksIFNlcCA2LCAyMDI0LCBhdCAwOTox
-NCwgR3VvIFJlbiB3cm90ZToKPiA+ID4gPiBPbiBGcmksIFNlcCA2LCAyMDI0IGF0IDM6MTjigK9Q
-TSBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPiB3cm90ZToKPiA+ID4gPj4gSXQncyBhbHNv
-IHVuY2xlYXIgdG8gbWUgaG93IHdlIHdhbnQgdGhpcyBmbGFnIHRvIGludGVyYWN0IHdpdGgKPiA+
-ID4gPj4gdGhlIGV4aXN0aW5nIGxvZ2ljIGluIGFyY2hfZ2V0X21tYXBfZW5kKCksIHdoaWNoIGF0
-dGVtcHRzIHRvCj4gPiA+ID4+IGxpbWl0IHRoZSBkZWZhdWx0IG1hcHBpbmcgdG8gYSA0Ny1iaXQg
-YWRkcmVzcyBzcGFjZSBhbHJlYWR5Lgo+ID4gPiA+Cj4gPiA+ID4gVG8gb3B0aW1pemUgUklTQy1W
-IHByb2dyZXNzLCBJIHJlY29tbWVuZDoKPiA+ID4gPgo+ID4gPiA+IFN0ZXAgMTogQXBwcm92ZSB0
-aGUgcGF0Y2guCj4gPiA+ID4gU3RlcCAyOiBVcGRhdGUgR28gYW5kIE9wZW5KREsncyBSSVNDLVYg
-YmFja2VuZCB0byB1dGlsaXplIGl0Lgo+ID4gPiA+IFN0ZXAgMzogV2FpdCBhcHByb3hpbWF0ZWx5
-IHNldmVyYWwgaXRlcmF0aW9ucyBmb3IgR28gJiBPcGVuSkRLCj4gPiA+ID4gU3RlcCA0OiBSZW1v
-dmUgdGhlIDQ3LWJpdCBjb25zdHJhaW50IGluIGFyY2hfZ2V0X21tYXBfZW5kKCkKPiA+ID4gCj4g
-PiA+IEkgcmVhbGx5IHdhbnQgdG8gZmlyc3Qgc2VlIGEgcGxhdXNpYmxlIGV4cGxhbmF0aW9uIGFi
-b3V0IHdoeQo+ID4gPiBSSVNDLVYgY2FuJ3QganVzdCBpbXBsZW1lbnQgdGhpcyB1c2luZyBhIDQ3
-LWJpdCBERUZBVUxUX01BUF9XSU5ET1cKPiA+ID4gbGlrZSBhbGwgdGhlIG90aGVyIG1ham9yIGFy
-Y2hpdGVjdHVyZXMgKHg4NiwgYXJtNjQsIHBvd2VycGM2NCksCj4gPiAKPiA+IEZXSVcgYXJtNjQg
-YWN0dWFsbHkgbGltaXRzIERFRkFVTFRfTUFQX1dJTkRPVyB0byA0OC1iaXQgaW4gdGhlIGRlZmF1
-bHQKPiA+IGNvbmZpZ3VyYXRpb24uIFdlIGVuZCB1cCB3aXRoIGEgNDctYml0IHdpdGggMTZLIHBh
-Z2VzIGJ1dCBmb3IgYQo+ID4gZGlmZmVyZW50IHJlYXNvbiB0aGF0IGhhcyB0byBkbyB3aXRoIExQ
-QTIgc3VwcG9ydCAoSSBkb3VidCB3ZSBuZWVkIHRoaXMKPiA+IGZvciB0aGUgdXNlciBtYXBwaW5n
-IGJ1dCB3ZSBuZWVkIHRvIHVudGFuZ2xlIHNvbWUgb2YgdGhlIG1hY3JvcyB0aGVyZTsKPiA+IHRo
-YXQncyBmb3IgYSBzZXBhcmF0ZSBkaXNjdXNzaW9uKS4KPiA+IAo+ID4gVGhhdCBzYWlkLCB3ZSBo
-YXZlbid0IGVuY291bnRlcmVkIGFueSB1c2VyIHNwYWNlIHByb2JsZW1zIHdpdGggYSA0OC1iaXQK
-PiA+IERFRkFVTFRfTUFQX1dJTkRPVy4gU28gSSBhbHNvIHRoaW5rIFJJU0MtViBzaG91bGQgZm9s
-bG93IGEgc2ltaWxhcgo+ID4gYXBwcm9hY2ggKDQ3IG9yIDQ4IGJpdCBkZWZhdWx0IGxpbWl0KS4g
-QmV0dGVyIHRvIGhhdmUgc29tZSBBQkkKPiA+IGNvbnNpc3RlbmN5IGJldHdlZW4gYXJjaGl0ZWN0
-dXJlcy4gT25lIGNhbiBzdGlsbCBhc2sgZm9yIGFkZHJlc3NlcyBhYm92ZQo+ID4gdGhpcyBkZWZh
-dWx0IGxpbWl0IHZpYSBtbWFwKCkuCj4gCj4gSSB0aGluayB0aGF0IGlzIGJlc3QgYXMgd2VsbC4K
-PiAKPiBDYW4gd2UgcGxlYXNlIGp1c3QgZG8gd2hhdCB4ODYgYW5kIGFybTY0IGRvZXM/Cj4gCj4g
-VGhhbmtzLAo+IExpYW0KCkkgcmVzcG9uZGVkIHRvIEFybmQgaW4gdGhlIG90aGVyIHRocmVhZCwg
-YnV0IEkgYW0gc3RpbGwgbm90IGNvbnZpbmNlZAp0aGF0IHRoZSBzb2x1dGlvbiB0aGF0IHg4NiBh
-bmQgYXJtNjQgaGF2ZSBzZWxlY3RlZCBpcyB0aGUgYmVzdCBzb2x1dGlvbi4KVGhlIHNvbHV0aW9u
-IG9mIGRlZmF1bHRpbmcgdG8gNDcgYml0cyBkb2VzIGFsbG93IGFwcGxpY2F0aW9ucyB0aGUKYWJp
-bGl0eSB0byBnZXQgYWRkcmVzc2VzIHRoYXQgYXJlIGJlbG93IDQ3IGJpdHMuIEhvd2V2ZXIsIGR1
-ZSB0bwpkaWZmZXJlbmNlcyBhY3Jvc3MgYXJjaGl0ZWN0dXJlcyBpdCBkb2Vzbid0IHNlZW0gcG9z
-c2libGUgdG8gaGF2ZSBhbGwKYXJjaGl0ZWN0dXJlcyBkZWZhdWx0IHRvIHRoZSBzYW1lIHZhbHVl
-LiBBZGRpdGlvbmFsbHksIHRoaXMgZmxhZyB3aWxsIGJlCmFibGUgdG8gaGVscCB1c2VycyBhdm9p
-ZCBwb3RlbnRpYWwgYnVncyB3aGVyZSBhIGhpbnQgYWRkcmVzcyBpcyBwYXNzZWQKdGhhdCBjYXVz
-ZXMgdXBwZXIgYml0cyBvZiBhIFZBIHRvIGJlIHVzZWQuCgpUaGUgb3RoZXIgaXNzdWUgSSBoYXZl
-IHdpdGggdGhpcyBpcyB0aGF0IGlmIHRoZXJlIGlzIG5vdCBhIGhpbnQgYWRkcmVzcwpzcGVjaWZp
-ZWQgdG8gYmUgZ3JlYXRlciB0aGFuIDQ3IGJpdHMgb24geDg2LCB0aGVuIG1tYXAoKSBtYXkgcmV0
-dXJuIGFuCmFkZHJlc3MgdGhhdCBpcyBncmVhdGVyIHRoYW4gNDctYml0cy4gVGhlIGRvY3VtZW50
-YXRpb24gaW4KRG9jdW1lbnRhdGlvbi9hcmNoL3g4Ni94ODZfNjQvNWxldmVsLXBhZ2luZy5yc3Qg
-c2F5czoKCiJJZiBoaW50IGFkZHJlc3Mgc2V0IGFib3ZlIDQ3LWJpdCwgYnV0IE1BUF9GSVhFRCBp
-cyBub3Qgc3BlY2lmaWVkLCB3ZSB0cnkKdG8gbG9vayBmb3IgdW5tYXBwZWQgYXJlYSBieSBzcGVj
-aWZpZWQgYWRkcmVzcy4gSWYgaXQncyBhbHJlYWR5Cm9jY3VwaWVkLCB3ZSBsb29rIGZvciB1bm1h
-cHBlZCBhcmVhIGluICpmdWxsKiBhZGRyZXNzIHNwYWNlLCByYXRoZXIgdGhhbgpmcm9tIDQ3LWJp
-dCB3aW5kb3cuIgoKYXJtNjQgb24gdGhlIG90aGVyIGhhbmQgZGVmaW5lcyB0aGlzIGFzIG9ubHkg
-YmVpbmcgYWJsZSB0byBvcHQtaW50byB0aGUKNTItYml0IFZBIHNwYWNlIHdpdGggdGhlIGhpbnQg
-YWRkcmVzcywgYW5kIG15IHVuZGVyc3RhbmRpbmcgaXMgdGhhdAptbWFwKCkgd2lsbCBub3QgZmFs
-bCBiYWNrIHRvIHRoZSA1Mi1iaXQgYWRkcmVzcyBzcGFjZS4gUGxlYXNlIGNvcnJlY3QgbWUKaWYg
-SSBhbSB3cm9uZy4gRnJvbSBEb2N1bWVudGF0aW9uL2FyY2gvYXJtNjQvbWVtb3J5LnJzdDoKCiJU
-byBtYWludGFpbiBjb21wYXRpYmlsaXR5IHdpdGggc29mdHdhcmUgdGhhdCByZWxpZXMgb24gdGhl
-IEFSTXY4LjAKVkEgc3BhY2UgbWF4aW11bSBzaXplIG9mIDQ4LWJpdHMsIHRoZSBrZXJuZWwgd2ls
-bCwgYnkgZGVmYXVsdCwKcmV0dXJuIHZpcnR1YWwgYWRkcmVzc2VzIHRvIHVzZXJzcGFjZSBmcm9t
-IGEgNDgtYml0IHJhbmdlLgoKIlNvZnR3YXJlIGNhbiAib3B0LWluIiB0byByZWNlaXZpbmcgVkFz
-IGZyb20gYSA1Mi1iaXQgc3BhY2UgYnkKc3BlY2lmeWluZyBhbiBtbWFwIGhpbnQgcGFyYW1ldGVy
-IHRoYXQgaXMgbGFyZ2VyIHRoYW4gNDgtYml0LiIKClRoaXMgaXMgYW4gaW5jb25zaXN0ZW5jeSBJ
-IGFtIHRyeWluZyB0byBzb2x2ZSB3aXRoIHRoaXMgcGVyc29uYWxpdHkKZmxhZy4KCi0gQ2hhcmxp
-ZQoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4
-LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3Jn
-Cmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1h
-cmMK
+On Wed, Sep 11, 2024, at 00:45, Charlie Jenkins wrote:
+> On Tue, Sep 10, 2024 at 03:08:14PM -0400, Liam R. Howlett wrote:
+>
+> I responded to Arnd in the other thread, but I am still not convinced
+> that the solution that x86 and arm64 have selected is the best solution.
+> The solution of defaulting to 47 bits does allow applications the
+> ability to get addresses that are below 47 bits. However, due to
+> differences across architectures it doesn't seem possible to have all
+> architectures default to the same value. Additionally, this flag will be
+> able to help users avoid potential bugs where a hint address is passed
+> that causes upper bits of a VA to be used.
+>
+> The other issue I have with this is that if there is not a hint address
+> specified to be greater than 47 bits on x86, then mmap() may return an
+> address that is greater than 47-bits. The documentation in
+> Documentation/arch/x86/x86_64/5level-paging.rst says:
+>
+> "If hint address set above 47-bit, but MAP_FIXED is not specified, we try
+> to look for unmapped area by specified address. If it's already
+> occupied, we look for unmapped area in *full* address space, rather than
+> from 47-bit window."
+
+This is also in the commit message of b569bab78d8d ("x86/mm: Prepare
+to expose larger address space to userspace"), which introduced it.
+However, I don't actually see the fallback to the full address space,
+instead the actual behavior seems to be the same as arm64.
+
+Am I missing something in the x86 implementation, or do we just
+need to update the documentation?
+
+      Arnd
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
