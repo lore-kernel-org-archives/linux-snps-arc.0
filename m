@@ -4,72 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91C6CEE01F2
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 10 Sep 2024 23:29:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5FDD3EE01F1
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Sep 2024 00:45:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Message-ID:Subject:To:From:Date:Reply-To:Cc:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=kvBl0tlILQZ+JD22gSuq2WIPQDnnQr4T49jBDffCflc=; b=0xgNOsgCa6zjPP
-	BqBQZnL1jeUlpjuH3c4LA69zHDbi4TAKI2j67upf+Q44YbL4QhPDyp5j7GIMFQRSMIHBBZmFjwL/g
-	dKIgGCHKAOXot0a/8/aHBS56x6kT391yGlA3PPJzN01+UT54CFe69FjB3OEtBHxtVtL+h9VKhiF5P
-	O99HFwSqFnGdCDFqs08p5078ogprhuyYaProydgO2dNADCVa+XBEoSrW59uzut86nmBjulbIzA4E/
-	rW3JOHtL3YCOcMfByHdkw9OeQNW3KLB6b28IjtGw8P4+pN9EYInspDGXv1Bds+CkommoxRy4U/yFt
-	ILlGJo8rBw/pMf/hrYNw==;
+	List-Owner; bh=YA1YcybDW7YqnO6fFi6UB+Dp/rbGG5M8XsZjm7NBF0Q=; b=umAIsIwIYMQUIV
+	Z80qjDUkg7kVDKjuNYhuU7W4j4/1Fr6zPS87EEmJuqif9UX1axmBhDnqQ943t1LS4Nl9DrtCpTiPF
+	wnVxR9molGp2cm8kWbZhfGLKiXi5NX55a8Ol5wEbNNuvpK+IWr/vmyYlv6eULywMG/zYoSE3eQOCt
+	ak82orKKhBNYUP/8Jv/26HP5N5cR0/gHldTYO8a9zrp+Lt8LL9K/0R2rcNQA04o0Vv0NT9VcvZWQY
+	9Q+doUnMuUTkEvuuZIT3qA8DrY5qfsvz/Z+b067OeRVYEVFQGgrmoCAkNh6lHM2qDwWgMinEgUpRR
+	/hYpwJrNF/2U1E07MYnw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soAIV-00000007QPd-0FiX;
-	Tue, 10 Sep 2024 23:29:23 +0000
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
+	id 1soBUD-00000007d0q-3Tvi;
+	Wed, 11 Sep 2024 00:45:33 +0000
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soAIQ-00000007QNK-2JKk
+	id 1soBTu-00000007ctE-0sbp
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 10 Sep 2024 23:29:21 +0000
-Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-718e285544fso2782341b3a.1
-        for <linux-snps-arc@lists.infradead.org>; Tue, 10 Sep 2024 16:29:17 -0700 (PDT)
+	Wed, 11 Sep 2024 00:45:16 +0000
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-20536dcc6e9so39406045ad.2
+        for <linux-snps-arc@lists.infradead.org>; Tue, 10 Sep 2024 17:45:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1726010957; x=1726615757; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CYrCbXlvqV0+h/8xybyAavYRRnIQ4hnNCNmZGJwr9QU=;
-        b=U2K7G9h+j9FtjfrTBqeT81m/GSw0sThWGItuERduoETlmwR54i90Fp5ih+VHf9XYk+
-         OK4ZhzLR+wbI5OhGkIsGSxD8Da9rtvBDSZ3glLN6kuW3cL1tRNixYt9SSJ8cGmkv1HfQ
-         VGeoaryAVAmB9Gbh6zNLraMXOCj8D5bc0QLtyqnlQQWhSJMch3ixBuRbONaTbKLsr5ZH
-         evdVkGAny4KagCAHvaDe1iWOxaAV0jlb6GvpO15LFBs9DEI3FfVQS5sCeiWRpd9g0Db8
-         D3xEb0id9aD+sPlu12eBrhRZ/PT/CkFlG+tTPmVwoPM66pH6NJZ3HSPGEIqxkOoVpf2y
-         SVbg==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1726015513; x=1726620313; darn=lists.infradead.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=N9UqXwHRW6ngdlKfPJV8zADUN4nB1bOhg7HrFQqhnhI=;
+        b=uNwf7kSuuvO4I5ZXJWta2ikhQhQ5X7ZLik6wu0jRc2OYmp5TbApc34bmFo4wWdO1xj
+         Y69/kOj/fBcXSsfbOddkK2QwwO9gbspCZY0M4A9PW72qqeAk/teG4ASwEjcl+UrRz/W+
+         rpAF6lTHt9pqjeqBcxl+L/+bkt2zsZZbKSMYXCtIzd75bTmC72sLzenPQJwzmFdKumuF
+         sJ+8590zBpknXm/jJiEoLj7x9/ijKHjRr1DADrxjClWSZFJEMgm8mMzLcpmBjjJHKYZX
+         4yuZyoMFasDDCf8weTfHOY54fKUfKcxtROfsubKamG1aa3skp63EClYXumN8X9eysPag
+         I3Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726010957; x=1726615757;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CYrCbXlvqV0+h/8xybyAavYRRnIQ4hnNCNmZGJwr9QU=;
-        b=THjMI75wwya2zzDpsiRTIEWby4Wb0+bfYbUNhIA59NT7K6X7m71yDRMrekVcktMziZ
-         NJQYKgRvOhJxwVgzJbMY/8+2j9GbL+ihXVjB6HzhJ2l25Nxs9imsYNSNZM+OCzLfwYWZ
-         YShLt3MAiALQLLdIY/ant+yVJITXQdX/fP+t2KAQulmFQbeJfGeM0+MVQlRmRdB2WIjm
-         F+wwouo+av1zVtRFUvmxo8ZvxdHJqj6GG6zfmZvYCTAIsPQcLoav0vbObHdZ+FBe3yQu
-         4XbYbMVADB8kDfCpv47c1cwmZL0dhp4Grxb/HxeisSQgKdENBZDFrWUIQzaDhLZmUrJS
-         3mAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVpP5EPDmDrMBo6vwEMlXvuoIEbeZrWEAwW+nmllGQj38m+JGF5xOkOOHJZ7Ue2WDrCUNo/q2nXhbBlM+el4g==@lists.infradead.org
-X-Gm-Message-State: AOJu0YwvT+Vogv1T8QbAoAxHWDXJwe2DOgJPrPcYsMT9JTlsAccePL9i
-	GPxCIUwFzfE+YaIqEqrpooBSUMqslu3lE1hY3xpUtBEJCB2RCOqYbO6lhC5iQY0=
-X-Google-Smtp-Source: AGHT+IFu2ts9QR3o7HId+sTbARvp/Mp4cS7y9d4XxkhhKVfZnTlnktrEfIJSlLrlAVGi3hD8KRDoUg==
-X-Received: by 2002:a05:6a21:3318:b0:1cc:e4a9:9138 with SMTP id adf61e73a8af0-1cf5e10ea44mr2924283637.29.1726010956374;
-        Tue, 10 Sep 2024 16:29:16 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1726015513; x=1726620313;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=N9UqXwHRW6ngdlKfPJV8zADUN4nB1bOhg7HrFQqhnhI=;
+        b=Py2WTVEY4L4/MPVzwE5QWgzrYrDEmUoUgS7yQ40MFCL/L0BTTjDzY9WYrlPfh+xHCR
+         mp8QqITwgpryE9+IYjSIT59LlX3EuTZGfliPnJfjbEATvtJ4kKEPSlYFb0ZiigK09TW9
+         A5yBGReYVtul7aUMXz4QnS71BvQJe6lyH/+vwLv8FbN9QqDp/pmMcPrAN7a3sc1+IcIE
+         lA6pznJCvBEFcNMGX9WkuBWe4jIEsxxsyh1S76deK47NbjuWfT2s3KPM2a55+PhDSrrh
+         GVoMFn4FwcMmS7eODhaeHeqhEfbgkjmn6Ej9Si0IWH3RJtb43GNAicUU8AHh59nqZiHW
+         QjTw==
+X-Forwarded-Encrypted: i=1; AJvYcCW4Kab5lu9e1POBQFLo+0EKIVS7sTauGE0l+yccbcZ9DCBSwU0TaYAykCgtexIlmR3rh9/oqLa4/FhbSU+a4w==@lists.infradead.org
+X-Gm-Message-State: AOJu0Yzj7U798CdTcWz+jgxIfn+bzmuZyUxI0o7pzXE7021KO68PAAMM
+	wcJuNAbqi01p2PVZu4fciYdglDsKqwGZtUZmnO+2mYHBzrXLtQJVfDKvBfnmJ1g=
+X-Google-Smtp-Source: AGHT+IFSjrtRoDoL7sPwVRBWFNV85MfE4DpNXnElb7X54mGXN2iqCTI2uhxpyL/CAIcKh7QAswSthg==
+X-Received: by 2002:a17:902:d2ce:b0:205:5427:2231 with SMTP id d9443c01a7336-2074c6a338fmr45444085ad.47.1726015512680;
+        Tue, 10 Sep 2024 17:45:12 -0700 (PDT)
 Received: from ghost ([50.145.13.30])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71908fe2641sm1873651b3a.59.2024.09.10.16.29.12
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20710eef1f2sm53832165ad.145.2024.09.10.17.45.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Sep 2024 16:29:15 -0700 (PDT)
-Date: Tue, 10 Sep 2024 16:29:10 -0700
+        Tue, 10 Sep 2024 17:45:11 -0700 (PDT)
+Date: Tue, 10 Sep 2024 17:45:07 -0700
 From: Charlie Jenkins <charlie@rivosinc.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+To: "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>, guoren <guoren@kernel.org>,
 	Richard Henderson <richard.henderson@linaro.org>,
 	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
 	Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>,
-	Russell King <linux@armlinux.org.uk>, guoren <guoren@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
 	Huacai Chen <chenhuacai@kernel.org>,
 	WANG Xuerui <kernel@xen0n.name>,
 	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
@@ -96,9 +98,9 @@ Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
 	Peter Zijlstra <peterz@infradead.org>,
 	Muchun Song <muchun.song@linux.dev>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, shuah <shuah@kernel.org>,
-	Christoph Hellwig <hch@infradead.org>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	shuah <shuah@kernel.org>, Christoph Hellwig <hch@infradead.org>,
 	Michal Hocko <mhocko@suse.com>,
 	"Kirill A. Shutemov" <kirill@shutemov.name>,
 	Chris Torek <chris.torek@gmail.com>,
@@ -115,21 +117,20 @@ Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
 	linux-abi-devel@lists.sourceforge.net
 Subject: Re: [PATCH RFC v3 1/2] mm: Add personality flag to limit address to
  47 bits
-Message-ID: <ZuDWRq+9b1o864vY@ghost>
+Message-ID: <ZuDoExckq21fePoe@ghost>
 References: <20240905-patches-below_hint_mmap-v3-0-3cd5564efbbb@rivosinc.com>
  <20240905-patches-below_hint_mmap-v3-1-3cd5564efbbb@rivosinc.com>
  <9fc4746b-8e9d-4a75-b966-e0906187e6b7@app.fastmail.com>
- <58f39d58-579e-4dd3-8084-baebf86f1ae0@lucifer.local>
- <7be08ea9-f343-42da-805f-e5f0d61bde26@app.fastmail.com>
- <016c7857-9ea8-4333-96e6-3ae3870f375f@lucifer.local>
- <Zt+DGHZrHFxfq7xo@ghost>
- <89d21669-8daa-4225-b6d2-33d439ebd746@app.fastmail.com>
+ <CAJF2gTTVX9CFM3oRZZP3hGExwVwA_=n1Lrq_0DQKWA+-ZbOekg@mail.gmail.com>
+ <f23b18c6-1856-4b59-9ba3-59809b425c81@app.fastmail.com>
+ <Ztrq8PBLJ3QuFJz7@arm.com>
+ <oshwto46wbbgneiayj63umllyozm3c4267rvpszqzaopwnt2l7@6mxl5vydtons>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <89d21669-8daa-4225-b6d2-33d439ebd746@app.fastmail.com>
+In-Reply-To: <oshwto46wbbgneiayj63umllyozm3c4267rvpszqzaopwnt2l7@6mxl5vydtons>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240910_162918_943693_FD554BCC 
-X-CRM114-Status: GOOD (  44.17  )
+X-CRM114-CacheID: sfid-20240910_174514_509701_66FE1346 
+X-CRM114-Status: GOOD (  34.44  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -141,109 +142,74 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 10, 2024 at 09:13:33AM +0000, Arnd Bergmann wrote:
-> On Mon, Sep 9, 2024, at 23:22, Charlie Jenkins wrote:
-> > On Fri, Sep 06, 2024 at 10:52:34AM +0100, Lorenzo Stoakes wrote:
-> >> On Fri, Sep 06, 2024 at 09:14:08AM GMT, Arnd Bergmann wrote:
-> >> The intent is to optionally be able to run a process that keeps higher bits
-> >> free for tagging and to be sure no memory mapping in the process will
-> >> clobber these (correct me if I'm wrong Charlie! :)
-> >> 
-> >> So you really wouldn't want this if you are using tagged pointers, you'd
-> >> want to be sure literally nothing touches the higher bits.
-> 
-> My understanding was that the purpose of the existing design
-> is to allow applications to ask for a high address without having
-> to resort to the complexity of MAP_FIXED.
-> 
-> In particular, I'm sure there is precedent for applications that
-> want both tagged pointers (for most mappings) and untagged pointers
-> (for large mappings). With a per-mm_struct or per-task_struct
-> setting you can't do that.
-> 
-> > Various architectures handle the hint address differently, but it
-> > appears that the only case across any architecture where an address
-> > above 47 bits will be returned is if the application had a hint address
-> > with a value greater than 47 bits and was using the MAP_FIXED flag.
-> > MAP_FIXED bypasses all other checks so I was assuming that it would be
-> > logical for MAP_FIXED to bypass this as well. If MAP_FIXED is not set,
-> > then the intent is for no hint address to cause a value greater than 47
-> > bits to be returned.
-> 
-> I don't think the MAP_FIXED case is that interesting here because
-> it has to work in both fixed and non-fixed mappings.
-> 
-> >> This would be more consistent vs. other arches.
-> >
-> > Yes riscv is an outlier here. The reason I am pushing for something like
-> > a flag to restrict the address space rather than setting it to be the
-> > default is it seems like if applications are relying on upper bits to be
-> > free, then they should be explicitly asking the kernel to keep them free
-> > rather than assuming them to be free.
-> 
-> Let's see what the other architectures do and then come up with
-> a way that fixes the pointer tagging case first on those that are
-> broken. We can see if there needs to be an extra flag after that.
-> Here is what I found:
-> 
-> - x86_64 uses DEFAULT_MAP_WINDOW of BIT(47), uses a 57 bit
->   address space when an addr hint is passed.
-> - arm64 uses DEFAULT_MAP_WINDOW of BIT(47) or BIT(48), returns
->   higher 52-bit addresses when either a hint is passed or
->   CONFIG_EXPERT and CONFIG_ARM64_FORCE_52BIT is set (this
->   is a debugging option)
-> - ppc64 uses a DEFAULT_MAP_WINDOW of BIT(47) or BIT(48),
->   returns 52 bit address when an addr hint is passed
-> - riscv uses a DEFAULT_MAP_WINDOW of BIT(47) but only uses
->   it for allocating the stack below, ignoring it for normal
->   mappings
-> - s390 has no DEFAULT_MAP_WINDOW but tried to allocate in
->   the current number of pgtable levels and only upgrades to
->   the next level (31, 42, 53, 64 bits) if a hint is passed or
->   the current level is exhausted.
-> - loongarch64 has no DEFAULT_MAP_WINDOW, and a default VA
->   space of 47 bits (16K pages, 3 levels), but can support
->   a 55 bit space (64K pages, 3 levels).
-> - sparc has no DEFAULT_MAP_WINDOW and up to 52 bit VA space.
->   It may allocate both positive and negative addresses in
->   there. (?)
-> - mips64, parisc64 and alpha have no DEFAULT_MAP_WINDOW and
->   at most 48, 41 or 39 address bits, respectively.
-> 
-> I would suggest these changes:
-> 
-> - make riscv enforce DEFAULT_MAP_WINDOW like x86_64, arm64
->    and ppc64, leave it at 47
-> 
-> - add DEFAULT_MAP_WINDOW on loongarch64 (47/48 bits
->   based on page size), sparc (48 bits) and s390 (unsure if
->   42, 53, 47 or 48 bits)
-> 
-> - leave the rest unchanged.
-> 
->        Arnd
-
-Changing all architectures to have a standardized DEFAULT_MAP_WINDOW
-mostly solves the problem. However, I am concerned that it is fragile
-for applications to rely on a default like this. Having the personality
-bit flag is supposed to provide an intuitive ABI for users that
-guarantees that they will not accidentally request for memory outside of
-the boundary that they specified.
-
-Also you bring up that the DEFAULT_MAP_WINDOW would not be able to be
-standardized across architectures, so we still have the problem that
-this default behavior will be different across architectures which I am
-trying to solve.
-
-- Charlie
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gVHVlLCBTZXAgMTAsIDIwMjQgYXQgMDM6MDg6MTRQTSAtMDQwMCwgTGlhbSBSLiBIb3dsZXR0
+IHdyb3RlOgo+ICogQ2F0YWxpbiBNYXJpbmFzIDxjYXRhbGluLm1hcmluYXNAYXJtLmNvbT4gWzI0
+MDkwNiAwNzo0NF06Cj4gPiBPbiBGcmksIFNlcCAwNiwgMjAyNCBhdCAwOTo1NTo0MkFNICswMDAw
+LCBBcm5kIEJlcmdtYW5uIHdyb3RlOgo+ID4gPiBPbiBGcmksIFNlcCA2LCAyMDI0LCBhdCAwOTox
+NCwgR3VvIFJlbiB3cm90ZToKPiA+ID4gPiBPbiBGcmksIFNlcCA2LCAyMDI0IGF0IDM6MTjigK9Q
+TSBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPiB3cm90ZToKPiA+ID4gPj4gSXQncyBhbHNv
+IHVuY2xlYXIgdG8gbWUgaG93IHdlIHdhbnQgdGhpcyBmbGFnIHRvIGludGVyYWN0IHdpdGgKPiA+
+ID4gPj4gdGhlIGV4aXN0aW5nIGxvZ2ljIGluIGFyY2hfZ2V0X21tYXBfZW5kKCksIHdoaWNoIGF0
+dGVtcHRzIHRvCj4gPiA+ID4+IGxpbWl0IHRoZSBkZWZhdWx0IG1hcHBpbmcgdG8gYSA0Ny1iaXQg
+YWRkcmVzcyBzcGFjZSBhbHJlYWR5Lgo+ID4gPiA+Cj4gPiA+ID4gVG8gb3B0aW1pemUgUklTQy1W
+IHByb2dyZXNzLCBJIHJlY29tbWVuZDoKPiA+ID4gPgo+ID4gPiA+IFN0ZXAgMTogQXBwcm92ZSB0
+aGUgcGF0Y2guCj4gPiA+ID4gU3RlcCAyOiBVcGRhdGUgR28gYW5kIE9wZW5KREsncyBSSVNDLVYg
+YmFja2VuZCB0byB1dGlsaXplIGl0Lgo+ID4gPiA+IFN0ZXAgMzogV2FpdCBhcHByb3hpbWF0ZWx5
+IHNldmVyYWwgaXRlcmF0aW9ucyBmb3IgR28gJiBPcGVuSkRLCj4gPiA+ID4gU3RlcCA0OiBSZW1v
+dmUgdGhlIDQ3LWJpdCBjb25zdHJhaW50IGluIGFyY2hfZ2V0X21tYXBfZW5kKCkKPiA+ID4gCj4g
+PiA+IEkgcmVhbGx5IHdhbnQgdG8gZmlyc3Qgc2VlIGEgcGxhdXNpYmxlIGV4cGxhbmF0aW9uIGFi
+b3V0IHdoeQo+ID4gPiBSSVNDLVYgY2FuJ3QganVzdCBpbXBsZW1lbnQgdGhpcyB1c2luZyBhIDQ3
+LWJpdCBERUZBVUxUX01BUF9XSU5ET1cKPiA+ID4gbGlrZSBhbGwgdGhlIG90aGVyIG1ham9yIGFy
+Y2hpdGVjdHVyZXMgKHg4NiwgYXJtNjQsIHBvd2VycGM2NCksCj4gPiAKPiA+IEZXSVcgYXJtNjQg
+YWN0dWFsbHkgbGltaXRzIERFRkFVTFRfTUFQX1dJTkRPVyB0byA0OC1iaXQgaW4gdGhlIGRlZmF1
+bHQKPiA+IGNvbmZpZ3VyYXRpb24uIFdlIGVuZCB1cCB3aXRoIGEgNDctYml0IHdpdGggMTZLIHBh
+Z2VzIGJ1dCBmb3IgYQo+ID4gZGlmZmVyZW50IHJlYXNvbiB0aGF0IGhhcyB0byBkbyB3aXRoIExQ
+QTIgc3VwcG9ydCAoSSBkb3VidCB3ZSBuZWVkIHRoaXMKPiA+IGZvciB0aGUgdXNlciBtYXBwaW5n
+IGJ1dCB3ZSBuZWVkIHRvIHVudGFuZ2xlIHNvbWUgb2YgdGhlIG1hY3JvcyB0aGVyZTsKPiA+IHRo
+YXQncyBmb3IgYSBzZXBhcmF0ZSBkaXNjdXNzaW9uKS4KPiA+IAo+ID4gVGhhdCBzYWlkLCB3ZSBo
+YXZlbid0IGVuY291bnRlcmVkIGFueSB1c2VyIHNwYWNlIHByb2JsZW1zIHdpdGggYSA0OC1iaXQK
+PiA+IERFRkFVTFRfTUFQX1dJTkRPVy4gU28gSSBhbHNvIHRoaW5rIFJJU0MtViBzaG91bGQgZm9s
+bG93IGEgc2ltaWxhcgo+ID4gYXBwcm9hY2ggKDQ3IG9yIDQ4IGJpdCBkZWZhdWx0IGxpbWl0KS4g
+QmV0dGVyIHRvIGhhdmUgc29tZSBBQkkKPiA+IGNvbnNpc3RlbmN5IGJldHdlZW4gYXJjaGl0ZWN0
+dXJlcy4gT25lIGNhbiBzdGlsbCBhc2sgZm9yIGFkZHJlc3NlcyBhYm92ZQo+ID4gdGhpcyBkZWZh
+dWx0IGxpbWl0IHZpYSBtbWFwKCkuCj4gCj4gSSB0aGluayB0aGF0IGlzIGJlc3QgYXMgd2VsbC4K
+PiAKPiBDYW4gd2UgcGxlYXNlIGp1c3QgZG8gd2hhdCB4ODYgYW5kIGFybTY0IGRvZXM/Cj4gCj4g
+VGhhbmtzLAo+IExpYW0KCkkgcmVzcG9uZGVkIHRvIEFybmQgaW4gdGhlIG90aGVyIHRocmVhZCwg
+YnV0IEkgYW0gc3RpbGwgbm90IGNvbnZpbmNlZAp0aGF0IHRoZSBzb2x1dGlvbiB0aGF0IHg4NiBh
+bmQgYXJtNjQgaGF2ZSBzZWxlY3RlZCBpcyB0aGUgYmVzdCBzb2x1dGlvbi4KVGhlIHNvbHV0aW9u
+IG9mIGRlZmF1bHRpbmcgdG8gNDcgYml0cyBkb2VzIGFsbG93IGFwcGxpY2F0aW9ucyB0aGUKYWJp
+bGl0eSB0byBnZXQgYWRkcmVzc2VzIHRoYXQgYXJlIGJlbG93IDQ3IGJpdHMuIEhvd2V2ZXIsIGR1
+ZSB0bwpkaWZmZXJlbmNlcyBhY3Jvc3MgYXJjaGl0ZWN0dXJlcyBpdCBkb2Vzbid0IHNlZW0gcG9z
+c2libGUgdG8gaGF2ZSBhbGwKYXJjaGl0ZWN0dXJlcyBkZWZhdWx0IHRvIHRoZSBzYW1lIHZhbHVl
+LiBBZGRpdGlvbmFsbHksIHRoaXMgZmxhZyB3aWxsIGJlCmFibGUgdG8gaGVscCB1c2VycyBhdm9p
+ZCBwb3RlbnRpYWwgYnVncyB3aGVyZSBhIGhpbnQgYWRkcmVzcyBpcyBwYXNzZWQKdGhhdCBjYXVz
+ZXMgdXBwZXIgYml0cyBvZiBhIFZBIHRvIGJlIHVzZWQuCgpUaGUgb3RoZXIgaXNzdWUgSSBoYXZl
+IHdpdGggdGhpcyBpcyB0aGF0IGlmIHRoZXJlIGlzIG5vdCBhIGhpbnQgYWRkcmVzcwpzcGVjaWZp
+ZWQgdG8gYmUgZ3JlYXRlciB0aGFuIDQ3IGJpdHMgb24geDg2LCB0aGVuIG1tYXAoKSBtYXkgcmV0
+dXJuIGFuCmFkZHJlc3MgdGhhdCBpcyBncmVhdGVyIHRoYW4gNDctYml0cy4gVGhlIGRvY3VtZW50
+YXRpb24gaW4KRG9jdW1lbnRhdGlvbi9hcmNoL3g4Ni94ODZfNjQvNWxldmVsLXBhZ2luZy5yc3Qg
+c2F5czoKCiJJZiBoaW50IGFkZHJlc3Mgc2V0IGFib3ZlIDQ3LWJpdCwgYnV0IE1BUF9GSVhFRCBp
+cyBub3Qgc3BlY2lmaWVkLCB3ZSB0cnkKdG8gbG9vayBmb3IgdW5tYXBwZWQgYXJlYSBieSBzcGVj
+aWZpZWQgYWRkcmVzcy4gSWYgaXQncyBhbHJlYWR5Cm9jY3VwaWVkLCB3ZSBsb29rIGZvciB1bm1h
+cHBlZCBhcmVhIGluICpmdWxsKiBhZGRyZXNzIHNwYWNlLCByYXRoZXIgdGhhbgpmcm9tIDQ3LWJp
+dCB3aW5kb3cuIgoKYXJtNjQgb24gdGhlIG90aGVyIGhhbmQgZGVmaW5lcyB0aGlzIGFzIG9ubHkg
+YmVpbmcgYWJsZSB0byBvcHQtaW50byB0aGUKNTItYml0IFZBIHNwYWNlIHdpdGggdGhlIGhpbnQg
+YWRkcmVzcywgYW5kIG15IHVuZGVyc3RhbmRpbmcgaXMgdGhhdAptbWFwKCkgd2lsbCBub3QgZmFs
+bCBiYWNrIHRvIHRoZSA1Mi1iaXQgYWRkcmVzcyBzcGFjZS4gUGxlYXNlIGNvcnJlY3QgbWUKaWYg
+SSBhbSB3cm9uZy4gRnJvbSBEb2N1bWVudGF0aW9uL2FyY2gvYXJtNjQvbWVtb3J5LnJzdDoKCiJU
+byBtYWludGFpbiBjb21wYXRpYmlsaXR5IHdpdGggc29mdHdhcmUgdGhhdCByZWxpZXMgb24gdGhl
+IEFSTXY4LjAKVkEgc3BhY2UgbWF4aW11bSBzaXplIG9mIDQ4LWJpdHMsIHRoZSBrZXJuZWwgd2ls
+bCwgYnkgZGVmYXVsdCwKcmV0dXJuIHZpcnR1YWwgYWRkcmVzc2VzIHRvIHVzZXJzcGFjZSBmcm9t
+IGEgNDgtYml0IHJhbmdlLgoKIlNvZnR3YXJlIGNhbiAib3B0LWluIiB0byByZWNlaXZpbmcgVkFz
+IGZyb20gYSA1Mi1iaXQgc3BhY2UgYnkKc3BlY2lmeWluZyBhbiBtbWFwIGhpbnQgcGFyYW1ldGVy
+IHRoYXQgaXMgbGFyZ2VyIHRoYW4gNDgtYml0LiIKClRoaXMgaXMgYW4gaW5jb25zaXN0ZW5jeSBJ
+IGFtIHRyeWluZyB0byBzb2x2ZSB3aXRoIHRoaXMgcGVyc29uYWxpdHkKZmxhZy4KCi0gQ2hhcmxp
+ZQoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4
+LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3Jn
+Cmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1h
+cmMK
