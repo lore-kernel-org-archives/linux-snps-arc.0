@@ -4,34 +4,34 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDF7BFA373C
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Sep 2024 10:08:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 10CF7FA373F
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Sep 2024 10:21:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=pX/Y90aXDCdw0ms3dH1ipRQ1GvmnTCdVJw2bQ3IOCZ4=; b=VVnDPezlHBX83u
-	d7JFh0yHEnwiEbzsc9VIytkKSaXA+7UosMTk8kIyEq6jbfWdF69cwvhtMghM41O5uXgaAO413XTG1
-	1GvqwHKkiA32NYQE5KGdmZNxce5Qd+cAMBoJXQS4Bo3Yhu8JUSuanRD809bBU5t6qroB5sWAqX7RB
-	WhRTli2nUfxGVlAHfeSWdoFr8ZzvRXwPkQTN9AKwlDSLzKF4WSKu8maUTGnizQpsjsokupnIwEUrC
-	ybG+NmkyffnxDQ9v/RWvvLxteuRVh0FJjw95cTVW8YI5knJDyrY0Nf53++/WmZ43IahdHezjMtjFe
-	pLNxjEbKFpd61BeRIU+g==;
+	List-Owner; bh=hOzBUEl4vDsABTGtfkNrpkCO2lM2U77yNKmXwHU0d28=; b=rwAPyhpexpq4sO
+	5YNBUluGkl0juOHd8Uu9qUANfI75R04Nt+31No0P8xYFS78ztJfTINgggSJAX/1GazvCcPrj+JsWQ
+	52jXNbxkryjT30pB9urF6Pk8yFCO12l8kMaAf1if5dKCoTVQNrliuenqenKuVtlEkVTLeo38vZ2u9
+	LIQ68VsIl3pPLgJP2ydlA2zaNW9MmsJNILNEQHw4nERfeVh1BZw4FJpMpp4wefDkN6MXAgGIrzvbC
+	hlKzrSUdCrbAj4+PBpIk6rhSQzWX8Qtnv0cDkQbqdbq2eXeuqwyJUph/Zug0UKi7uWxxzwV0ZhHZb
+	pu45guNywZLyw7YPx51Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sp3ES-0000000FZcg-0nKE;
-	Fri, 13 Sep 2024 10:08:52 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1sp3QZ-0000000FaxB-2HbR;
+	Fri, 13 Sep 2024 10:21:23 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sp3ED-0000000FZSj-1kUZ;
-	Fri, 13 Sep 2024 10:08:39 +0000
+	id 1sp3QW-0000000FavX-1In8;
+	Fri, 13 Sep 2024 10:21:22 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id A67CBA45BAF;
-	Fri, 13 Sep 2024 10:08:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6077CC4CEC0;
-	Fri, 13 Sep 2024 10:08:25 +0000 (UTC)
-Date: Fri, 13 Sep 2024 11:08:23 +0100
+	by dfw.source.kernel.org (Postfix) with ESMTP id 43ED05C5D13;
+	Fri, 13 Sep 2024 10:21:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFE3CC4CEC0;
+	Fri, 13 Sep 2024 10:21:08 +0000 (UTC)
+Date: Fri, 13 Sep 2024 11:21:06 +0100
 From: Catalin Marinas <catalin.marinas@arm.com>
 To: Charlie Jenkins <charlie@rivosinc.com>
 Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>,
@@ -85,9 +85,8 @@ Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>,
 	linux-abi-devel@lists.sourceforge.net
 Subject: Re: [PATCH RFC v3 1/2] mm: Add personality flag to limit address to
  47 bits
-Message-ID: <ZuQPF7Gbcqzq0U6N@arm.com>
-References: <9fc4746b-8e9d-4a75-b966-e0906187e6b7@app.fastmail.com>
- <CAJF2gTTVX9CFM3oRZZP3hGExwVwA_=n1Lrq_0DQKWA+-ZbOekg@mail.gmail.com>
+Message-ID: <ZuQSEn3rFVnIrbRH@arm.com>
+References: <CAJF2gTTVX9CFM3oRZZP3hGExwVwA_=n1Lrq_0DQKWA+-ZbOekg@mail.gmail.com>
  <f23b18c6-1856-4b59-9ba3-59809b425c81@app.fastmail.com>
  <Ztrq8PBLJ3QuFJz7@arm.com>
  <oshwto46wbbgneiayj63umllyozm3c4267rvpszqzaopwnt2l7@6mxl5vydtons>
@@ -96,12 +95,13 @@ References: <9fc4746b-8e9d-4a75-b966-e0906187e6b7@app.fastmail.com>
  <ZuKHpFB+uWuJe2xm@ghost>
  <ZuLIPZId9aHcAY2j@arm.com>
  <ZuNaD+zAXiAulc0n@ghost>
+ <ZuQPF7Gbcqzq0U6N@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <ZuNaD+zAXiAulc0n@ghost>
+In-Reply-To: <ZuQPF7Gbcqzq0U6N@arm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240913_030837_621074_BBD19756 
-X-CRM114-Status: GOOD (  24.99  )
+X-CRM114-CacheID: sfid-20240913_032120_643497_A5EBB0FD 
+X-CRM114-Status: GOOD (  17.26  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,38 +118,24 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu, Sep 12, 2024 at 02:15:59PM -0700, Charlie Jenkins wrote:
-> On Thu, Sep 12, 2024 at 11:53:49AM +0100, Catalin Marinas wrote:
-> > On Wed, Sep 11, 2024 at 11:18:12PM -0700, Charlie Jenkins wrote:
-> > > Opting-in to the higher address space is reasonable. However, it is not
-> > > my preference, because the purpose of this flag is to ensure that
-> > > allocations do not exceed 47-bits, so it is a clearer ABI to have the
-> > > applications that want this guarantee to be the ones setting the flag,
-> > > rather than the applications that want the higher bits setting the flag.
-> > 
-> > Yes, this would be ideal. Unfortunately those applications don't know
-> > they need to set a flag in order to work.
-> 
-> It's not a regression, the applications never worked (on platforms that
-> do not have this default). The 47-bit default would allow applications
-> that didn't work to start working at the cost of a non-ideal ABI. That
-> doesn't seem like a reasonable tradeoff to me.  If applications want to
-> run on new hardware that has different requirements, shouldn't they be
-> required to update rather than expect the kernel will solve their
-> problems for them?
+On Fri, Sep 13, 2024 at 11:08:23AM +0100, Catalin Marinas wrote:
+> On Thu, Sep 12, 2024 at 02:15:59PM -0700, Charlie Jenkins wrote:
+> > On Thu, Sep 12, 2024 at 11:53:49AM +0100, Catalin Marinas wrote:
+> > > On Wed, Sep 11, 2024 at 11:18:12PM -0700, Charlie Jenkins wrote:
+> > > > Opting-in to the higher address space is reasonable. However, it is not
+> > > > my preference, because the purpose of this flag is to ensure that
+> > > > allocations do not exceed 47-bits, so it is a clearer ABI to have the
+> > > > applications that want this guarantee to be the ones setting the flag,
+> > > > rather than the applications that want the higher bits setting the flag.
+[...]
+> Anyway, the prctl() can go both ways, either expanding or limiting the
+> default address space. So I'd be fine with such interface.
 
-That's a valid point but it depends on the application and how much you
-want to spend updating user-space. OpenJDK is fine, if you need a JIT
-you'll have to add support for that architecture anyway. But others are
-arch-agnostic, you just recompile to your target. It's not an ABI
-problem, more of an API one.
-
-The x86 case (and powerpc/arm64) was different, the 47-bit worked for a
-long time before expanding it. So it made a lot of sense to keep the
-same default.
-
-Anyway, the prctl() can go both ways, either expanding or limiting the
-default address space. So I'd be fine with such interface.
+Ah, I just realised (while reading Lorenzo's reply) that we can't really
+restrict the space via a prctl() as we have the main thread stack
+already allocated by the kernel before the user code starts. You may
+need to limit this stack as well, not just the later heap allocations
+(anonymous mmap()).
 
 -- 
 Catalin
