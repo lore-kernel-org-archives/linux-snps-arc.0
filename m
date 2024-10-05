@@ -4,62 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07ABFCF8840
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  4 Oct 2024 17:10:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 498CDCF8878
+	for <linux-snps-arc@archiver.kernel.org>; Sat,  5 Oct 2024 13:43:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Reply-To:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ZN0YmCJ8mWzrZBlVLwiaPClO7cUZIHBErpFycPXqL2A=; b=3yAju2TGAg/WmL
-	m5ZzNGQecnKLEmutSel7KJxNBWhJXJiiD7uy7EKFc7K8LS/2PDvS3bVU4Cl8uD7lUpopdOeMiL0/8
-	iLXcnDBhcmGlOuUAqMbjW7qfQxbLD8Xrx1uALqK4s8lFPm9v1BdMipgGObOXKzXIjRudTajnQozFK
-	JZulvpReOZ52VE7kXPQpvKZwFK9fFxO7EdfFQlZXygwVPKnUr0Lp7rRCkKL6RAxXXlAzpfDoZsQSl
-	EkRNvoMtlW/HiKDVVb/N2zIg4mEpcIradsqWDd+Pj1Ykypv39T20IpOa7FOk5LT8tMdifgZJCmLGA
-	BDpnNMDB15NUCbK8ZvGA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:From:References:To:Subject:MIME-Version:
+	Date:Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=zezNS7Ubr8S+uRW3PGynj1voPntsv0RazmrDOOQlU6E=; b=omCM0dyZtMX4cOzIdWsEFPUeAn
+	Sjp1A1EshFgN7JHeiEme9oXn9Oy6jNAl1Ob8XkSGU+r3ua3j4JtGsA8JywWLI45rCJAx+rm9SzZS/
+	p6e/WR/3RlKMFYMb9ssjWBbWrQHc0SDG9WeNLTqmRYSBHgaJuei4N2g6oAe163Lj2gMZmYhhvmqbK
+	te+OjIOMKAMMc6vCJLH0AXlX+xWhAMn1Ha3Ebm2xOcVsNVIvBX2ZelrYpS8gfIa86ntCJfeqZBBT/
+	qJuO6B9liF57d4rZquaCiVijgJSV5BGYe/+oXRDFE4AYBhif/zcYXElki7STwayr1TF5u9uM38/2w
+	iOXOhlnw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1swlpA-0000000DQsW-3DfR;
-	Fri, 04 Oct 2024 17:10:40 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1sx53r-0000000FPen-1L4F;
+	Sat, 05 Oct 2024 13:43:07 +0000
+Received: from fmfe06.freemail.hu ([46.107.16.199] helo=smtp-out.freemail.hu)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1swkQp-0000000D3aU-2R1Z
+	id 1sx53n-0000000FPeG-1xEp
 	for linux-snps-arc@lists.infradead.org;
-	Fri, 04 Oct 2024 15:41:29 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id C82995C5E9B;
-	Fri,  4 Oct 2024 15:41:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8ADBC4CEC6;
-	Fri,  4 Oct 2024 15:41:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728056486;
-	bh=wWIqaWFb9hczSFyfBOrlAdAaRIwnd6rA02tbEjm3/Hw=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=OcIjcXhJL6RvMjskKV2gco+Uaa/9U9nZ9azzuXuQkJepVHmz60SCWHFFNRmETlEaD
-	 5pmOdUplQAuB0q1GhHLSOLJH7utcGfkPlKMbrUQHEfci0MDPOn7O8P6V9m2gJ4/UtA
-	 a+lNf4lC1AsoR/qOucYlAmAE5G0yIElR6coz44xZPrl/k/X0tlUtSjNfEM0azDMMiS
-	 gOwSJZUWDK90c1/7nUmRiS4HdanyuUxKTgvGRWjtGofbLs7XorYpsSHFwl9TyLek1P
-	 /dnLIcQLTlEvrzpr0g0IZp6GXBLG/RHKwwiIpRdRvE4cpBTc4HXjObAKxS6OgpKoax
-	 JZRh95qCYEntw==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 44B5DCE0D71; Fri,  4 Oct 2024 08:41:26 -0700 (PDT)
-Date: Fri, 4 Oct 2024 08:41:26 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org
-Subject: Re: arch/arc/kernel/smp.c:267:18: sparse: sparse: cast removes
- address space '__percpu' of expression
-Message-ID: <5ada7b12-f3c4-4ae8-b396-a3e474f4f852@paulmck-laptop>
-References: <202409251336.ToC0TvWB-lkp@intel.com>
- <e8f6137d-ad2c-4b06-8eb2-cd200fbb1af2@paulmck-laptop>
+	Sat, 05 Oct 2024 13:43:05 +0000
+Received: from [192.168.0.16] (catv-178-48-208-49.catv.fixed.vodafone.hu [178.48.208.49])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.freemail.hu (Postfix) with ESMTPSA id 4XLRSB17Ftz6bx;
+	Sat, 05 Oct 2024 15:42:50 +0200 (CEST)
+Message-ID: <aadacd1c-f9e4-4b88-ac03-b522b6c43761@freemail.hu>
+Date: Sat, 5 Oct 2024 15:41:32 +0200
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <e8f6137d-ad2c-4b06-8eb2-cd200fbb1af2@paulmck-laptop>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] arc: rename aux.h to arc_aux.h
+To: Shahab Vahedi <list+bpf@vahedi.org>, linux-snps-arc@lists.infradead.org,
+ Vineet Gupta <vineet.gupta@linux.dev>, abrodkin@synopsys.com
+References: <2d28065c-1536-44f1-9132-3d6922c09ca2@freemail.hu>
+ <397dbb19cf2e951a4d24772ca26c836d682e69bf@vahedi.org>
+Content-Language: hu
+From: =?UTF-8?Q?Sz=C5=91ke_Benjamin?= <egyszeregy@freemail.hu>
+In-Reply-To: <397dbb19cf2e951a4d24772ca26c836d682e69bf@vahedi.org>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=simple/relaxed; t=1728135770;
+ 
+	s=20181004; d=freemail.hu;
+ 
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+ 
+	l=1066; bh=kBLLQvjRQQTE73+0jE8N+vnMomA4wUfNdJ1gL7v8fHA=;
+ 
+	b=S3+jhfhIwJuX7Om+kJkjVCj0uACSSGLpQ9lh2B3JTRx0rkM9qpPAHiF/MrkGPAro
+ 
+	RFCs+AWbYuLR92oFJqIy4u6kJHVXiHL6Qm+myF7CscDWrMClAmW2wPS5aEVHuID6Gvh
+ 
+	knXDnVbLo1OkLUlsR7S/Zo54ogD6khGWw3gce0ZJ4HGXkjETLp9I1FR6faey9UflELI
+ 
+	AECl4RkrJES15B1BEMwFfZ0mLjhXVwOFF9pytIlNK/CyRZRQC2IL+s1AIbcyOiDaqjq
+ 
+	wPlUmxE8MNZ3EDeyvs7oG0VqIjCAR2Mt3DmJcSQnheGBRCD9+npR9Qx5FYcLr7CnhYv
+ 
+	LRnGvZiLwA==
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241004_084127_729252_452FAA63 
-X-CRM114-Status: GOOD (  18.50  )
+X-CRM114-CacheID: sfid-20241005_064303_714688_23C44612 
+X-CRM114-Status: UNSURE (   8.87  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,62 +79,30 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, Sep 30, 2024 at 09:10:27AM -0700, Paul E. McKenney wrote:
-> On Wed, Sep 25, 2024 at 01:40:45PM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   684a64bf32b6e488004e0ad7f0d7e922798f65b6
-> > commit: f2519d4d4fc4d36f2b58c5614357de9f5b4032fc ARC: Emulate one-byte cmpxchg
-> > date:   12 days ago
-> > config: arc-randconfig-r123-20240925 (https://download.01.org/0day-ci/archive/20240925/202409251336.ToC0TvWB-lkp@intel.com/config)
-> > compiler: arc-elf-gcc (GCC) 13.2.0
-> > reproduce: (https://download.01.org/0day-ci/archive/20240925/202409251336.ToC0TvWB-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202409251336.ToC0TvWB-lkp@intel.com/
-> > 
-> > sparse warnings: (new ones prefixed by >>)
-> >    arch/arc/kernel/smp.c:252:48: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *ipi_data_ptr @@     got unsigned long * @@
-> >    arch/arc/kernel/smp.c:252:48: sparse:     expected unsigned long [noderef] __percpu *ipi_data_ptr
-> >    arch/arc/kernel/smp.c:252:48: sparse:     got unsigned long *
-> >    arch/arc/kernel/smp.c:267:18: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *v @@     got unsigned long [noderef] __percpu *__ai_ptr @@
-> >    arch/arc/kernel/smp.c:267:18: sparse:     expected void const volatile *v
-> >    arch/arc/kernel/smp.c:267:18: sparse:     got unsigned long [noderef] __percpu *__ai_ptr
-> > >> arch/arc/kernel/smp.c:267:18: sparse: sparse: cast removes address space '__percpu' of expression
-> > >> arch/arc/kernel/smp.c:267:18: sparse: sparse: cast removes address space '__percpu' of expression
-> 
-> I could "fix" this using __force.  Is that a reasonable approach?
-> 
-> If I don't hear otherwise, I will take that approach.
-
-Having not heard otherwise, does the following fix this issue for you?
-
-							Thanx, Paul
-
-------------------------------------------------------------------------
-
-diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
-index 58045c8983404..76f43db0890fc 100644
---- a/arch/arc/include/asm/cmpxchg.h
-+++ b/arch/arc/include/asm/cmpxchg.h
-@@ -48,7 +48,7 @@
- 									\
- 	switch(sizeof((_p_))) {						\
- 	case 1:								\
--		_prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);	\
-+		_prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *__force)_p_, (uintptr_t)_o_, (uintptr_t)_n_);	\
- 		break;							\
- 	case 4:								\
- 		_prev_ = __cmpxchg(_p_, _o_, _n_);			\
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+MjAyNC4gMDkuIDI1LiAxMDo0OCBrZWx0ZXrDqXNzZWwsIFNoYWhhYiBWYWhlZGkgw61ydGE6Cj4g
+K0FkZCBWaW5lZXQgKHdpdGggdGhlIHJpZ2h0IGFkZHJlc3MpCj4gK1VwZGF0ZSBBbGV4ZXkncyBh
+ZGRyZXNzIHRvIGJ1c2luZXNzIGluc3RhbmNlCj4gCj4gU2VwdGVtYmVyIDIzLCAiU3rFkWtlIEJl
+bmphbWluIiB3cm90ZToKPiAKPj4gTG9uZyB0aW1lIGFnbyBpIHN1Ym1pdHRlZCBhIHBhdGNoLCB3
+aGVuIGl0IHdpbGwgYmUgcmV2aWV3ZWQ/IElzIHRoZXJlIGFueSBhY3Rpdml0aWVzIGhlcmUgaW4g
+dGhlIHN5bm9wc3lzL0FSQyBrZXJuZWwgbGlzdD8KPj4KPj4gICBodHRwczovL2xvcmUua2VybmVs
+Lm9yZy9saW51eC1zbnBzLWFyYy8yMDI0MDUyMDE0MjY0Ny43MDQ0MC0xLWVneXN6ZXJlZ3lAZnJl
+ZW1haWwuaHUvVC8jdQo+PiAgIGh0dHBzOi8vcGF0Y2h3b3JrLm96bGFicy5vcmcvcHJvamVjdC9s
+aW51eC1hcmMvcGF0Y2gvMjAyNDA1MjAxNDI2NDcuNzA0NDAtMS1lZ3lzemVyZWd5QGZyZWVtYWls
+Lmh1Lwo+IAo+IFRoZXkgbG9vayBnb29kIHRvIG1lLiBUaGFuayB5b3UgU3rFkWtlIQo+IAo+IFJl
+dmlld2VkLWJ5OiBTaGFoYWIgVmFoZWRpIDxsaXN0K2JwZkB2YWhlZGkub3JnPgo+IAo+IENoZWVy
+cywKPiBTaGFoYWIKClBsZWFzZSB1cGRhdGUgdGhlIGUtbWFpbCBhZGRyZXNzZXMgaW4gdGhlIE1B
+SU5UQUlORVJTIGxpc3Qgb2YgTGludXgga2VybmVsLgpodHRwczovL2dpdGh1Yi5jb20vdG9ydmFs
+ZHMvbGludXgvYmxvYi9tYXN0ZXIvTUFJTlRBSU5FUlMjTDIyMzc5CgpXaGljaCByZXBvIGlzIHRv
+IHVzZSBmb3IgbWFrZSBhbmQgc2VuZCBwYXRjaGVzPyBJbiB0aGUgTUFJTlRBSU5FUlMgZmlsZSBv
+ZiBMaW51eCAKdGhlIGZvbGxvd2luZyB3YXMgbWVudGlvbmVkLCBidXQgc2luY2UgMjAyMyB0aGVy
+ZSBhcmUgbm8gYW55IG5ldyBjb21taXQgaW4gaXQgCmFucyBzdGlsbCBoYXMgbm8gYnJhbmNoIGZv
+ciBsYXRlc3QgTGludXgga2VybmVscy4KaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xp
+bnV4L2tlcm5lbC9naXQvdmd1cHRhL2FyYy5naXQKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1z
+bnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21h
+aWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
