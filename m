@@ -4,87 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4E3A1CEE34F
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Oct 2024 21:30:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7AEB7CEE35D
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Oct 2024 22:23:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Mime-Version:References:In-Reply-To:
-	Message-Id:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=+Lkjy1TyAPqNDMB9bCbwgWJzZWf6GDvE6qcD82aY1SA=; b=g02BcnMYqAyIaz
-	82hkPu5HV1/aOIG50BdriF9j0+SvfCV+mxV1BufGIWht60UJde0jJr7b0mgbJUH+CjS/SZf33rsGp
-	ZrbIFLASGwCy5QfA9GMrxDAQ8uMwwVB/I2mCIvqX40TRFrN8GA6csTwEFCH442bVlKGFpXm6JgL9Q
-	LpCJy++mU7rqrBah6dKt6h5e9wkzqkq868DDvG5Sn3qk9zoUqv7rOMGCTd+x64HtsPq1jTszaufkL
-	craTfFgPek5UomncspCYUhNZA1mM4L63+ueLT2wxwhbGqbayBHwP31gd93jVjvO9/MZcJqUwl5AIO
-	8swr/k8BecrdURxxKMyg==;
+	List-Owner; bh=teZPpPJA/GfixBcDvfY/YQu2aGIrHJGr0yN80GvAMEo=; b=39A+odIaa43tgV
+	P7RDf8dIk56YWoo7XOQk0q5ViMEvAu+XYyQ19iYpjdwdQ51+ao/2IAWiMPT5NjNVDdbaRFtVQGLiQ
+	pIl/V1tBOGR+iu6zNyVZvRaKMe3d3doHAQZ/suydmOVsF+UdcUWX0BZOHrjCoEFiqy/yygCnQpsYN
+	gskikQi3HM/o7NPHLdzSk7jeLXX2R3wy17WuR24xLaCdYo4euArxZUvpiIk6EvDwfVGUdlg9xA0Cy
+	NKGDXTGduniXInsDevekSDKTB9epzcMwHD51u4qEbYT0NubtEmCC27wtohqj3XsEbJc64nk+Viw8m
+	yGqnfFBU1I+85UABcOBA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1syeGm-0000000An7O-3gFP;
-	Wed, 09 Oct 2024 21:30:56 +0000
+	id 1syf66-0000000AvAi-405S;
+	Wed, 09 Oct 2024 22:23:58 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sydEX-0000000Ad0m-2ddW;
-	Wed, 09 Oct 2024 20:24:35 +0000
+	id 1syf62-0000000Av7m-2tPh;
+	Wed, 09 Oct 2024 22:23:56 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 6D42C5C58B1;
-	Wed,  9 Oct 2024 20:24:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D537EC4CECC;
-	Wed,  9 Oct 2024 20:24:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1728505469;
-	bh=Eajpzm9cUrzs//zMnCTfeMFhUIL/3eN5uDlR9BWdmqo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=2qzkbhuAMgino0DZ1hZZqBEMfexCBWtSiEWzzjILyq+cbaAjGfaWTcyToRrfMFDWm
-	 Pjg8qjtjvKxkLVmq5KcKfEzMazZd7B9b+cvi3EOmzQaV9Z6xen8oKafvJ4u9r6ZkXt
-	 owPHlRmA15/hxoqOKllm//ythdYQC4jZ89tWfNZw=
-Date: Wed, 9 Oct 2024 13:24:27 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
+	by dfw.source.kernel.org (Postfix) with ESMTP id 60F165C5E8C;
+	Wed,  9 Oct 2024 22:23:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAA60C4CEE6;
+	Wed,  9 Oct 2024 22:23:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728512632;
+	bh=w4l9dzDzlilO4E+6HL//zAT4zhaj8ld4amfc5zECEfQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Wiwa3rlrYH9BC46EoCHkt+QLbJoTT1X2QA01HAqIYKjAte3oUq44GaeL+zZ4AkJ2c
+	 2fmhTarWCgJZzvugjgiXFaapdrUxRw+aMHjQkxk7R7tMQ4X8TAISQfJF8mwZjkVS1k
+	 P8ckfmO9JeSeyS8x4lu0kJaTjkOtHpLIIPYKJmo4HQ1/9VWZa6uO3ff20ntiwcvv+8
+	 WNsOi1fvz3WyQp8/mTsIKp1bTZX1Q46ddgghD/obeQF4nyOrExSGPC7njchLh/Wo1L
+	 w8uAfe7NKlqBlMlX1oAMsBsi5zUdQStu0GaxZpBZ0z6hB0R3qZA3l0SEImsa2B3CEC
+	 jNcMMmsZn1/Ag==
+Received: by mail-io1-f50.google.com with SMTP id ca18e2360f4ac-835393b3c05so7604539f.2;
+        Wed, 09 Oct 2024 15:23:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUSkXf07UpDGyfILkfcNCCQT0LMQuBaYWNOV1sVKItVx7kbYDUDZxTjetxkb4AkXCptbeK8MUZ/sUssuxs=@lists.infradead.org, AJvYcCVszufYXjXg3byF6Kt23WQrJ8MHhAEwLeBi4aCDY3Ng+zogcjypoI02xlhAbpcjIr4lhstm3Kan5SI6pqOuT4GW@lists.infradead.org, AJvYcCWsrs19qhcpt9FMO3kpz8m3BxSYzQTOIXHPlqnj8kiepnb7riPyTozTc6EBI1kg9Y8yYMZr58xcaR0szWjm9P8=@lists.infradead.org, AJvYcCXEPQWXYx/HHTBVqvdwLJG94zMftvEBsuAUe3d0/xab3HexFlQ0EoHyZ/3HXU6qI+BVirnuV9gflJk=@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz25K8Az+WDG1g/GU/krA6ynUvtGNAnqODDa865g57KDCfheFqV
+	8kvqsiN/bM3Lxzrso81gCenLt9K5rCticQLlyl4saEbLAYbkDexYeS7J6dS33pIUFmWerO4797d
+	tnARFVZq3nYdlclgJS+vPwyl0IBM=
+X-Google-Smtp-Source: AGHT+IE+0c/kMVosLTSGHy+n6QvIYJcOAn6W5BXDQkMmjF/nhxZwOJHSZ6SOjh26Vu9mUcUiW0DFRwoy/+Y0vdg6KQk=
+X-Received: by 2002:a05:6e02:1fe6:b0:3a0:aac2:a0a4 with SMTP id
+ e9e14a558f8ab-3a397cffa21mr40549325ab.9.1728512631542; Wed, 09 Oct 2024
+ 15:23:51 -0700 (PDT)
+MIME-Version: 1.0
+References: <20241009180816.83591-1-rppt@kernel.org> <20241009180816.83591-5-rppt@kernel.org>
+In-Reply-To: <20241009180816.83591-5-rppt@kernel.org>
+From: Song Liu <song@kernel.org>
+Date: Wed, 9 Oct 2024 15:23:40 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW66etfdU3Fvk0KsELXcgWD6_TkBFjJ-BTHQu5OejDsP2w@mail.gmail.com>
+Message-ID: <CAPhsuW66etfdU3Fvk0KsELXcgWD6_TkBFjJ-BTHQu5OejDsP2w@mail.gmail.com>
+Subject: Re: [PATCH v5 4/8] module: prepare to handle ROX allocations for text
 To: Mike Rapoport <rppt@kernel.org>
-Cc: Andreas Larsson <andreas@gaisler.com>, Andy Lutomirski
- <luto@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann
- <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>, Brian Cain
- <bcain@quicinc.com>, Catalin Marinas <catalin.marinas@arm.com>, Christoph
- Hellwig <hch@infradead.org>, Christophe Leroy
- <christophe.leroy@csgroup.eu>, Dave Hansen <dave.hansen@linux.intel.com>,
- Dinh Nguyen <dinguyen@kernel.org>, Geert Uytterhoeven
- <geert@linux-m68k.org>, Guo Ren <guoren@kernel.org>, Helge Deller
- <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar
- <mingo@redhat.com>, Johannes Berg <johannes@sipsolutions.net>, John Paul
- Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Kent Overstreet
- <kent.overstreet@linux.dev>, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Luis Chamberlain <mcgrof@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Masami Hiramatsu <mhiramat@kernel.org>, Matt Turner <mattst88@gmail.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Michal Simek <monstr@monstr.eu>, Oleg Nesterov <oleg@redhat.com>, Palmer
- Dabbelt <palmer@dabbelt.com>, Peter Zijlstra <peterz@infradead.org>,
- Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
- Song Liu <song@kernel.org>, Stafford Horne <shorne@gmail.com>, Steven
- Rostedt <rostedt@goodmis.org>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, Thomas Gleixner <tglx@linutronix.de>,
- Uladzislau Rezki <urezki@gmail.com>, Vineet Gupta <vgupta@kernel.org>, Will
- Deacon <will@kernel.org>, bpf@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, linux-mm@kvack.org,
- linux-modules@vger.kernel.org, linux-openrisc@vger.kernel.org,
- linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-trace-kernel@vger.kernel.org, linux-um@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
- sparclinux@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v5 7/8] execmem: add support for cache of large ROX
- pages
-Message-Id: <20241009132427.5c94fb5942bae3832446bca5@linux-foundation.org>
-In-Reply-To: <20241009180816.83591-8-rppt@kernel.org>
-References: <20241009180816.83591-1-rppt@kernel.org>
-	<20241009180816.83591-8-rppt@kernel.org>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
+Cc: Andrew Morton <akpm@linux-foundation.org>, Andreas Larsson <andreas@gaisler.com>, 
+	Andy Lutomirski <luto@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@quicinc.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Christoph Hellwig <hch@infradead.org>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Dinh Nguyen <dinguyen@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Guo Ren <guoren@kernel.org>, 
+	Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Kent Overstreet <kent.overstreet@linux.dev>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Michal Simek <monstr@monstr.eu>, Oleg Nesterov <oleg@redhat.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>, 
+	Stafford Horne <shorne@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Thomas Gleixner <tglx@linutronix.de>, 
+	Uladzislau Rezki <urezki@gmail.com>, Vineet Gupta <vgupta@kernel.org>, Will Deacon <will@kernel.org>, 
+	bpf@vger.kernel.org, linux-alpha@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org, 
+	linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
+	linux-mm@kvack.org, linux-modules@vger.kernel.org, 
+	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org, 
+	linux-snps-arc@lists.infradead.org, linux-trace-kernel@vger.kernel.org, 
+	linux-um@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, 
+	loongarch@lists.linux.dev, sparclinux@vger.kernel.org, x86@kernel.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241009_132433_790805_F8A1650F 
-X-CRM114-Status: GOOD (  10.79  )
+X-CRM114-CacheID: sfid-20241009_152354_904094_9D31BE7F 
+X-CRM114-Status: GOOD (  13.33  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,25 +102,22 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed,  9 Oct 2024 21:08:15 +0300 Mike Rapoport <rppt@kernel.org> wrote:
-
-> Using large pages to map text areas reduces iTLB pressure and improves
-> performance.
-
-Are there any measurable performance improvements?
-
-What are the effects of this series upon overall memory consumption?
-
-The lack of acks is a bit surprising for a v5 patch, but I'll add all
-this to mm.git for some testing, thanks.
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gV2VkLCBPY3QgOSwgMjAyNCBhdCAxMToxMOKAr0FNIE1pa2UgUmFwb3BvcnQgPHJwcHRAa2Vy
+bmVsLm9yZz4gd3JvdGU6ClsuLi5dCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvbW9kdWxl
+LmggYi9pbmNsdWRlL2xpbnV4L21vZHVsZS5oCj4gaW5kZXggODhlY2M1ZTlmNTIzLi43MDM5ZjYw
+OWM2ZWYgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS9saW51eC9tb2R1bGUuaAo+ICsrKyBiL2luY2x1
+ZGUvbGludXgvbW9kdWxlLmgKPiBAQCAtMzY3LDYgKzM2Nyw4IEBAIGVudW0gbW9kX21lbV90eXBl
+IHsKPgo+ICBzdHJ1Y3QgbW9kdWxlX21lbW9yeSB7Cj4gICAgICAgICB2b2lkICpiYXNlOwo+ICsg
+ICAgICAgdm9pZCAqcndfY29weTsKPiArICAgICAgIGJvb2wgaXNfcm94Owo+ICAgICAgICAgdW5z
+aWduZWQgaW50IHNpemU7CgpEbyB3ZSByZWFsbHkgbmVlZCB0byBob2xkIHRoZSByd19jb3B5IGFs
+bCB0aGUgdGltZT8gSSB3YXMKdGhpbmtpbmcgd2Ugb25seSBuZWVkIGEgdGVtcG9yYXJ5IGJ1ZmZl
+ciB3aGVuIHdlIHdhbnQgdG8KdXBkYXRlIGFueXRoaW5nLiBUaGUgYnVmZmVyIG1pZ2h0IGJlIG11
+Y2ggc21hbGxlciB0aGFuICJzaXplIi4KClRoYW5rcywKU29uZwoKWy4uLl0KCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxp
+bmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5p
+bmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
