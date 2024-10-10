@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CEFC4CF07B3
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Oct 2024 06:55:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 76E64CF07B5
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Oct 2024 06:56:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=RgRF/r+pGPJrbCAB10mmPHmDiYVFO4Gpz5AUHfu3aKA=; b=jlzZQIPlouFgRr
-	pJOjAW0qCEK3u1TQMcIXYgfJaw+VViT+JbpZs/Ks4VsNyceRbQxwrDWc0XJdbF227f4hPiFHdEbBf
-	9MBhafbM2vjDNE4RkKKT/sGrgveO0OTd2F2uCoonp3JHd8n3JmOhue1+nB4+6AEOUIf5SZSA6qHMn
-	Q4+LDIql7vo6xMaq3XQ4dhtrVAj4xhnKK+V7Lz0WDqhw1yD/vZQJY0jIrIw8VL1xlU0gFV2e7xVE5
-	6DRAcZLVJ61O3iHxgxo1aoA0J6zMbrtsRPyGgB1eIIMSHIiwZ4n7cq9nRJC6zOg2AZv+fTPJy6CTx
-	iLVlHjzJ5olgPhwKFuxg==;
+	List-Owner; bh=HCUtSd5lKvuIks48sxwzL4nkAnkL8QbndhQ1agJEJWY=; b=432wnRvZcy9wjI
+	zIIx8ml5BRRWYSj3iiVgKiSyZTEq4LNhpME2DIS+pWyv2LfTwVr9YYvVIhrc5sSdh8hXDsNCQRLxm
+	6++lPYnLeVYjQ0XUYFBqiRVpUOOSO8kGNhc5A2Ujoc+Ln0p1TS2Xp7LD5pGO6xBgYsmZbVOrem1ic
+	0thoCNziceSAZHHZn5YoS2m8cVy3jYn/6nYL/7ORwXEYfMWsS6giFU4Bh+UZk92/jPEXK+dbp5cKd
+	zG32z+V3cn8JsN/51Myr5SdvoQKpj6YBWJhSCdLVplTaGHyrzD5XbO79/XO0z1c/mvQb64cJm1wSn
+	rdXZFKTJorHLHcRLJwlg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1syn50-0000000Bkdw-2Dkm;
-	Thu, 10 Oct 2024 06:55:22 +0000
+	id 1syn5g-0000000BkqS-0miK;
+	Thu, 10 Oct 2024 06:56:04 +0000
 Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1syn4w-0000000Bkcx-0Cev;
-	Thu, 10 Oct 2024 06:55:18 +0000
-Date: Wed, 9 Oct 2024 23:55:18 -0700
+	id 1syn5c-0000000Bkoc-2sjD;
+	Thu, 10 Oct 2024 06:56:00 +0000
+Date: Wed, 9 Oct 2024 23:56:00 -0700
 From: Christoph Hellwig <hch@infradead.org>
 To: Mike Rapoport <rppt@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>,
@@ -72,13 +72,13 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	linux-trace-kernel@vger.kernel.org, linux-um@lists.infradead.org,
 	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
 	sparclinux@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v5 3/8] asm-generic: introduce text-patching.h
-Message-ID: <Zwd6VgdeGXQByUfi@infradead.org>
+Subject: Re: [PATCH v5 5/8] arch: introduce set_direct_map_valid_noflush()
+Message-ID: <Zwd6gDYEvjOwQ5wJ@infradead.org>
 References: <20241009180816.83591-1-rppt@kernel.org>
- <20241009180816.83591-4-rppt@kernel.org>
+ <20241009180816.83591-6-rppt@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20241009180816.83591-4-rppt@kernel.org>
+In-Reply-To: <20241009180816.83591-6-rppt@kernel.org>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,15 +94,6 @@ Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
-
-On Wed, Oct 09, 2024 at 09:08:11PM +0300, Mike Rapoport wrote:
-> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-> 
-> Several architectures support text patching, but they name the header
-> files that declare patching functions differently.
-> 
-> Make all such headers consistently named text-patching.h and add an empty
-> header in asm-generic for architectures that do not support text patching.
 
 Looks good:
 
