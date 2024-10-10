@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB72ECF07B3
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Oct 2024 06:54:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CEFC4CF07B3
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Oct 2024 06:55:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=l05C3agSc6civzKzzTbiATNB1p7zXY3hGs+DWFDLN30=; b=pn4D2HN9ov6VYf
-	Tg9jKet2ZihTkkqgBzkPhNkeQJIrfd+qA07pxuqqPYBXHJ0JKaPYlVyEgaB7u2bWs2ozzfrznOEDP
-	rN+0xZxt5Ky/ys5xd5VKqvZH7pvoH+2DtMghwB3etaJ2poMd+702nI0yjIKIGma9ZBUP4tcTeT9ir
-	PT0k7xRLd4pnTItAcLvbl0/TaL/EVksrcwY288beUJlHC/5xqyWxcLZQOOToCNmF70Xbs6eQXNzGR
-	gSfYci2WhyDYHeXYbT01J9ukvR/AYju8qmZYWCAfeX35j5aCKCDxrvKGfvRVFEqv3EdfC55AOwdPf
-	bfFXxFfJZ5H/BtKGwMYA==;
+	List-Owner; bh=RgRF/r+pGPJrbCAB10mmPHmDiYVFO4Gpz5AUHfu3aKA=; b=jlzZQIPlouFgRr
+	pJOjAW0qCEK3u1TQMcIXYgfJaw+VViT+JbpZs/Ks4VsNyceRbQxwrDWc0XJdbF227f4hPiFHdEbBf
+	9MBhafbM2vjDNE4RkKKT/sGrgveO0OTd2F2uCoonp3JHd8n3JmOhue1+nB4+6AEOUIf5SZSA6qHMn
+	Q4+LDIql7vo6xMaq3XQ4dhtrVAj4xhnKK+V7Lz0WDqhw1yD/vZQJY0jIrIw8VL1xlU0gFV2e7xVE5
+	6DRAcZLVJ61O3iHxgxo1aoA0J6zMbrtsRPyGgB1eIIMSHIiwZ4n7cq9nRJC6zOg2AZv+fTPJy6CTx
+	iLVlHjzJ5olgPhwKFuxg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1syn3y-0000000BkJO-3zuz;
-	Thu, 10 Oct 2024 06:54:19 +0000
+	id 1syn50-0000000Bkdw-2Dkm;
+	Thu, 10 Oct 2024 06:55:22 +0000
 Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1syn3r-0000000BkI0-1JPh;
-	Thu, 10 Oct 2024 06:54:11 +0000
-Date: Wed, 9 Oct 2024 23:54:11 -0700
+	id 1syn4w-0000000Bkcx-0Cev;
+	Thu, 10 Oct 2024 06:55:18 +0000
+Date: Wed, 9 Oct 2024 23:55:18 -0700
 From: Christoph Hellwig <hch@infradead.org>
 To: Mike Rapoport <rppt@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>,
@@ -72,14 +72,13 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	linux-trace-kernel@vger.kernel.org, linux-um@lists.infradead.org,
 	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
 	sparclinux@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v5 1/8] mm: vmalloc: group declarations depending on
- CONFIG_MMU together
-Message-ID: <Zwd6EwZ67lC3oxZ2@infradead.org>
+Subject: Re: [PATCH v5 3/8] asm-generic: introduce text-patching.h
+Message-ID: <Zwd6VgdeGXQByUfi@infradead.org>
 References: <20241009180816.83591-1-rppt@kernel.org>
- <20241009180816.83591-2-rppt@kernel.org>
+ <20241009180816.83591-4-rppt@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20241009180816.83591-2-rppt@kernel.org>
+In-Reply-To: <20241009180816.83591-4-rppt@kernel.org>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,19 +95,16 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 09, 2024 at 09:08:09PM +0300, Mike Rapoport wrote:
-> +/* for /proc/kcore */
-> +extern long vread_iter(struct iov_iter *iter, const char *addr, size_t count);
-> +
-> +/*
-> + *	Internals.  Don't use..
-> + */
-> +extern __init void vm_area_add_early(struct vm_struct *vm);
-> +extern __init void vm_area_register_early(struct vm_struct *vm, size_t align);
+On Wed, Oct 09, 2024 at 09:08:11PM +0300, Mike Rapoport wrote:
+> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> 
+> Several architectures support text patching, but they name the header
+> files that declare patching functions differently.
+> 
+> Make all such headers consistently named text-patching.h and add an empty
+> header in asm-generic for architectures that do not support text patching.
 
-Please drop the externs while you're at it. (one more down below)
-
-Otherwise looks good:
+Looks good:
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 
