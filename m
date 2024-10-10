@@ -4,52 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A025CF11F3
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Oct 2024 13:14:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23D0DCFC5E4
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Oct 2024 16:46:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=8Xga8grt2qZxBYPgW+OjaKzja/CUkoYi66ElA8DAodQ=; b=dlKahySZKLemym
-	fqb+aWtXSYqXwIkV0hAgzp1f0Y8RAzEs70RP7L4U147CIzqKhPRaadZsAOGUyccTYUM4tHEtrDk/M
-	gNwtGVsT9jW3aP5HBe4AuKwWjhp912NXAaLdukKWBX5XjYjXrP//oz3qySxv1y+o0wqQR7UtDgCkA
-	X2GIYfmUfU7HL/qOgdB+wZ6s9ozVHCfbe/RiyBrUd8bx39cYmMEn+ZQFqn82FLwv7n+ispJdGZRjA
-	6vMRRN3l5Gp4dQgw8Nmt5ROCEVPxv2KWp5RiLnoh9tVejCsmCsUMJD5T9L2a1bHbwZLphBiDkMQIL
-	QCmzhE0wG/wMJrDQBDVQ==;
+	List-Owner; bh=bmJG9hLw2mf3FVT+jqJUmH8BexJMvG5yFHUEmVmgeN4=; b=pFmW/j6XoKwYVI
+	eJOzIUC8QvZGK19EiJNCfSuJ8i9L0TxVlKhFvIXcUGs9BMJe5FT9p1iSUwVPjQ+mfpRqrN6R+Nckk
+	E3Jjqkx6+zw/T1EtTMBQnFjrznm4f/MppDU6BFobRqOJDT9jDq/v6NL6NhCjdr3wt8cBqQvjQeMbI
+	hklRMcP8KDS7nAlQ/km/dBN/YTbvDpYnjpGUEWxdnioGMdMSLjUXX9g3BCpnaAPWYsD1V4T9oim47
+	iyk7/IkEZNY4HRUbOwQ9IUqDxl8SpY0f4h6u9R5Z7kfWGvDgaI01mv1SU4fexSF2jyaemHmPm5w+4
+	odazoYzOctWnXlyjiMNA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1syszX-0000000CsFE-2vaE;
-	Thu, 10 Oct 2024 13:14:07 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1sywIq-0000000DaLI-1lp2;
+	Thu, 10 Oct 2024 16:46:16 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sysnF-0000000CpdO-0bZv;
-	Thu, 10 Oct 2024 13:01:26 +0000
+	id 1syv2R-0000000DJpT-0a2z;
+	Thu, 10 Oct 2024 15:25:16 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 645C55C57C3;
-	Thu, 10 Oct 2024 13:01:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3F0EC4CEC5;
-	Thu, 10 Oct 2024 13:01:02 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id CE93BA4347C;
+	Thu, 10 Oct 2024 15:24:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94D86C4CEC5;
+	Thu, 10 Oct 2024 15:24:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728565283;
-	bh=0gFND+MAHX6q3fPU9Dm7aa3AX+VkNdk2ZdK9663ePGM=;
+	s=k20201202; t=1728573883;
+	bh=gnTehr7qrLMKw/pUpKhTMaCY3tpDIt6F6aFobT96HoY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=i15xpEq/kuFAv6DlXG15A1e80Zkeyfpm7KcH2z/4b7LHy0huNtJIfhTPl8l4m2Thz
-	 DrC+EerzAtj77QkSwvdLuoM9HsdVcSXAYblfY52ni7z3rWCwNvYecLnzzamyv05TxQ
-	 MvyRQw4iBhqZGVncP0l5I4u44ZK9GkUbVv2NjZJ1KmbX6KkRkPzCVKd/P5aEdD5W04
-	 r/juMpxct8TYbYtPQygo8mwFvlF95PkeOYNJV8aiyjpOL0HlbI0t0P6KYVnwxFYXRs
-	 bP4FdthxlHe3zfpEHTln3UXCWui5XHPdWaBkcJjwrkqkqBVwNb4EXbX5FI3Wx8W6oT
-	 ueyyZehAwF8+A==
-Date: Thu, 10 Oct 2024 15:57:33 +0300
+	b=ekagPdIZxqT4SWWRuS6VjAHAzc6oWKEW/4hsSTRm4pLygcR/K/5nYo1MRhIB1W8Bi
+	 WhUInbNKfRaSZHzNuMbNo/gh/Dm11IzVkhHlBcuZvhkOJMQBELbJP+QR/GYDeVHSby
+	 +1ODj4I12HqiH5y8g34fzvrSEzf2u/HDRwYAX/nNnTn9iTEhJxcxooLVqAwIKD6FZv
+	 b3fbK7YHQj8tX05PEVkLu2GJn3pxXz8GTYW1p2sF1xOis1mXNPjG1oTG9dYByuOZVe
+	 q0nYNSfpcIxt1MrmJaX80Vmf5bsmJaexf7/nT75nIm1VGT6H7a1RxSwQLd/ELhYVan
+	 63H6TXss7XvhQ==
+Date: Thu, 10 Oct 2024 18:20:53 +0300
 From: Mike Rapoport <rppt@kernel.org>
-To: Christoph Hellwig <hch@infradead.org>
+To: Sergey Senozhatsky <senozhatsky@chromium.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>,
 	Andreas Larsson <andreas@gaisler.com>,
 	Andy Lutomirski <luto@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
 	Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
 	Brian Cain <bcain@quicinc.com>,
 	Catalin Marinas <catalin.marinas@arm.com>,
+	Christoph Hellwig <hch@infradead.org>,
 	Christophe Leroy <christophe.leroy@csgroup.eu>,
 	Dave Hansen <dave.hansen@linux.intel.com>,
 	Dinh Nguyen <dinguyen@kernel.org>,
@@ -87,17 +88,18 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	linux-trace-kernel@vger.kernel.org, linux-um@lists.infradead.org,
 	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
 	sparclinux@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v5 7/8] execmem: add support for cache of large ROX pages
-Message-ID: <ZwfPPZrxHzQgYfx7@kernel.org>
+Subject: Re: Bisected: [PATCH v5 8/8] x86/module: enable ROX caches for
+ module text
+Message-ID: <Zwfw1bC-muLe6I9-@kernel.org>
 References: <20241009180816.83591-1-rppt@kernel.org>
- <20241009180816.83591-8-rppt@kernel.org>
- <Zwd7GRyBtCwiAv1v@infradead.org>
+ <20241009180816.83591-9-rppt@kernel.org>
+ <20241010083033.GA1279924@google.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <Zwd7GRyBtCwiAv1v@infradead.org>
+In-Reply-To: <20241010083033.GA1279924@google.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241010_060125_282552_764E61A0 
-X-CRM114-Status: GOOD (  14.79  )
+X-CRM114-CacheID: sfid-20241010_082515_327058_2FBCA35B 
+X-CRM114-Status: GOOD (  13.96  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,25 +116,57 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 09, 2024 at 11:58:33PM -0700, Christoph Hellwig wrote:
-> On Wed, Oct 09, 2024 at 09:08:15PM +0300, Mike Rapoport wrote:
-> >  /**
-> >   * struct execmem_info - architecture parameters for code allocations
-> > + * @fill_trapping_insns: set memory to contain instructions that will trap
-> >   * @ranges: array of parameter sets defining architecture specific
-> >   * parameters for executable memory allocations. The ranges that are not
-> >   * explicitly initialized by an architecture use parameters defined for
-> >   * @EXECMEM_DEFAULT.
-> >   */
-> >  struct execmem_info {
-> > +	void (*fill_trapping_insns)(void *ptr, size_t size, bool writable);
-> >  	struct execmem_range	ranges[EXECMEM_TYPE_MAX];
+On Thu, Oct 10, 2024 at 05:30:33PM +0900, Sergey Senozhatsky wrote:
+> On (24/10/09 21:08), Mike Rapoport wrote:
+> > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> > 
+> > Enable execmem's cache of PMD_SIZE'ed pages mapped as ROX for module
+> > text allocations.
+> > 
 > 
-> Why is the filler an indirect function call and not an architecture
-> hook?
+> With this modprobe disappoints kmemleak
+> 
+> [   12.700128] kmemleak: Found object by alias at 0xffffffffa000a000
+> [   12.702179] CPU: 5 UID: 0 PID: 410 Comm: modprobe Tainted: G                 N 6.12.0-rc2+ #760
+> [   12.704656] Tainted: [N]=TEST
+> [   12.705526] Call Trace:
+> [   12.706250]  <TASK>
+> [   12.706888]  dump_stack_lvl+0x3e/0xdb
+> [   12.707961]  __find_and_get_object+0x100/0x110
+> [   12.709256]  kmemleak_no_scan+0x2e/0xb0
+> [   12.710354]  kmemleak_load_module+0xad/0xe0
+> [   12.711557]  load_module+0x2391/0x45a0
+> [   12.712507]  __se_sys_finit_module+0x4e0/0x7a0
+> [   12.713599]  do_syscall_64+0x54/0xf0
+> [   12.714477]  ? irqentry_exit_to_user_mode+0x33/0x100
+> [   12.715696]  entry_SYSCALL_64_after_hwframe+0x4b/0x53
+> [   12.716931] RIP: 0033:0x7fc7af51f059
+> [   12.717816] Code: 08 89 e8 5b 5d c3 66 2e 0f 1f 84 00 00 00 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 8f 1d 0d 00 f7 d8 64 89 01 48
+> [   12.722324] RSP: 002b:00007ffc1d0b0c18 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+> [   12.724173] RAX: ffffffffffffffda RBX: 00005618a9439b20 RCX: 00007fc7af51f059
+> [   12.725884] RDX: 0000000000000000 RSI: 000056187aea098b RDI: 0000000000000003
+> [   12.727617] RBP: 0000000000000000 R08: 0000000000000060 R09: 00005618a943af60
+> [   12.729361] R10: 0000000000000038 R11: 0000000000000246 R12: 000056187aea098b
+> [   12.731101] R13: 0000000000040000 R14: 00005618a9439ac0 R15: 0000000000000000
+> [   12.732814]  </TASK>
 
-The idea is to keep everything together and have execmem_info describe all
-that architecture needs. 
+Below is a quick fix, I'll revisit module - kmemleak interaction in v6
+
+
+diff --git a/kernel/module/debug_kmemleak.c b/kernel/module/debug_kmemleak.c
+index b4cc03842d70..df873dad049d 100644
+--- a/kernel/module/debug_kmemleak.c
++++ b/kernel/module/debug_kmemleak.c
+@@ -14,7 +14,8 @@ void kmemleak_load_module(const struct module *mod,
+ {
+ 	/* only scan writable, non-executable sections */
+ 	for_each_mod_mem_type(type) {
+-		if (type != MOD_DATA && type != MOD_INIT_DATA)
++		if (type != MOD_DATA && type != MOD_INIT_DATA &&
++		    !mod->mem[type].is_rox)
+ 			kmemleak_no_scan(mod->mem[type].base);
+ 	}
+ }
 
 -- 
 Sincerely yours,
