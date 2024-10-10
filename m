@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86750CF11CE
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Oct 2024 10:46:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A025CF11F3
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 10 Oct 2024 13:14:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=dKUajl6tljpYqRS8/bl4w6bE/J0cDf5FdpWB8fWnskg=; b=dRojCo/2coF4Uh
-	hovYDrcjzLDzE1KQHu5HKmybpVA6Z7HL+wGfZjk3HfE+n5BHTaG37wbq/nvG7OlxhKuAGXkF0b/h4
-	NaLrJXLEiT2fp4bgRxeHIDMsBPMo1q+tT0pQzOIIw8zHefZf8CJXirNXpvoszP6snj3Us5fzxHqaC
-	zcmmP/WChwR73C7mLkcMNS5m/RQGuRnZPIyIO529hFxpCMRWBaEYE7i3/kMag398m91+iWLhWG5Z9
-	lvo+5f4TWTMUNA4qyAIBrQj3JdTgEzqhZfXZ8yDbmC78pqfgDKDmbOb7aWbUZct/32SEijPi8sSQf
-	o5xbFfpQ/zOceKeoInLA==;
+	List-Owner; bh=8Xga8grt2qZxBYPgW+OjaKzja/CUkoYi66ElA8DAodQ=; b=dlKahySZKLemym
+	fqb+aWtXSYqXwIkV0hAgzp1f0Y8RAzEs70RP7L4U147CIzqKhPRaadZsAOGUyccTYUM4tHEtrDk/M
+	gNwtGVsT9jW3aP5HBe4AuKwWjhp912NXAaLdukKWBX5XjYjXrP//oz3qySxv1y+o0wqQR7UtDgCkA
+	X2GIYfmUfU7HL/qOgdB+wZ6s9ozVHCfbe/RiyBrUd8bx39cYmMEn+ZQFqn82FLwv7n+ispJdGZRjA
+	6vMRRN3l5Gp4dQgw8Nmt5ROCEVPxv2KWp5RiLnoh9tVejCsmCsUMJD5T9L2a1bHbwZLphBiDkMQIL
+	QCmzhE0wG/wMJrDQBDVQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1syqgJ-0000000CRuN-0OjH;
-	Thu, 10 Oct 2024 10:46:07 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1syszX-0000000CsFE-2vaE;
+	Thu, 10 Oct 2024 13:14:07 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sypY1-0000000CFUR-47zz;
-	Thu, 10 Oct 2024 09:33:31 +0000
+	id 1sysnF-0000000CpdO-0bZv;
+	Thu, 10 Oct 2024 13:01:26 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 3129CA43782;
-	Thu, 10 Oct 2024 09:33:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18111C4CEC5;
-	Thu, 10 Oct 2024 09:33:06 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 645C55C57C3;
+	Thu, 10 Oct 2024 13:01:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3F0EC4CEC5;
+	Thu, 10 Oct 2024 13:01:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728552807;
-	bh=IHjj8Pm1cvim8ImsaUaQl0ADY0QKS9kDKJZxcyI9510=;
+	s=k20201202; t=1728565283;
+	bh=0gFND+MAHX6q3fPU9Dm7aa3AX+VkNdk2ZdK9663ePGM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TOVNNKtrf8daQuuMacjY7pAlRlt/k4vb7wjQCQYF0aVuw/4MxtY1IEDmecYy869WA
-	 eL70bjSLCWzeSg87onzBIfUU+BSv9+MhwYkC/eIJ924jg8Lyc5Ubk1r7GreDoZptDJ
-	 teVpdajxre4MsBPJA9mql4sRA7irY3J0uloNZaSVW+zDmxt4CzZVh6D1UOnW7YD45l
-	 /XMlYCHBMS9YgkvBhtdnENr2FDWIvohUoNzgrqIpRpXIOWraQQuc8IrP9OJlfmnsWJ
-	 /Y7TcehyVVbI3ky02lFC2Bu9TlmKaTridXnO8cdxvFKPK24cuDB2/RZZ9PsqYrxZV2
-	 Py4W9D9Jti/XA==
-Date: Thu, 10 Oct 2024 12:29:39 +0300
+	b=i15xpEq/kuFAv6DlXG15A1e80Zkeyfpm7KcH2z/4b7LHy0huNtJIfhTPl8l4m2Thz
+	 DrC+EerzAtj77QkSwvdLuoM9HsdVcSXAYblfY52ni7z3rWCwNvYecLnzzamyv05TxQ
+	 MvyRQw4iBhqZGVncP0l5I4u44ZK9GkUbVv2NjZJ1KmbX6KkRkPzCVKd/P5aEdD5W04
+	 r/juMpxct8TYbYtPQygo8mwFvlF95PkeOYNJV8aiyjpOL0HlbI0t0P6KYVnwxFYXRs
+	 bP4FdthxlHe3zfpEHTln3UXCWui5XHPdWaBkcJjwrkqkqBVwNb4EXbX5FI3Wx8W6oT
+	 ueyyZehAwF8+A==
+Date: Thu, 10 Oct 2024 15:57:33 +0300
 From: Mike Rapoport <rppt@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Andreas Larsson <andreas@gaisler.com>,
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Andreas Larsson <andreas@gaisler.com>,
 	Andy Lutomirski <luto@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
 	Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
 	Brian Cain <bcain@quicinc.com>,
 	Catalin Marinas <catalin.marinas@arm.com>,
-	Christoph Hellwig <hch@infradead.org>,
 	Christophe Leroy <christophe.leroy@csgroup.eu>,
 	Dave Hansen <dave.hansen@linux.intel.com>,
 	Dinh Nguyen <dinguyen@kernel.org>,
@@ -88,16 +88,16 @@ Cc: Andreas Larsson <andreas@gaisler.com>,
 	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
 	sparclinux@vger.kernel.org, x86@kernel.org
 Subject: Re: [PATCH v5 7/8] execmem: add support for cache of large ROX pages
-Message-ID: <Zweeg3oc-zrrG_D9@kernel.org>
+Message-ID: <ZwfPPZrxHzQgYfx7@kernel.org>
 References: <20241009180816.83591-1-rppt@kernel.org>
  <20241009180816.83591-8-rppt@kernel.org>
- <20241009132427.5c94fb5942bae3832446bca5@linux-foundation.org>
+ <Zwd7GRyBtCwiAv1v@infradead.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20241009132427.5c94fb5942bae3832446bca5@linux-foundation.org>
+In-Reply-To: <Zwd7GRyBtCwiAv1v@infradead.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241010_023330_184985_0FEE732D 
-X-CRM114-Status: GOOD (  15.75  )
+X-CRM114-CacheID: sfid-20241010_060125_282552_764E61A0 
+X-CRM114-Status: GOOD (  14.79  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,29 +114,25 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 09, 2024 at 01:24:27PM -0700, Andrew Morton wrote:
-> On Wed,  9 Oct 2024 21:08:15 +0300 Mike Rapoport <rppt@kernel.org> wrote:
+On Wed, Oct 09, 2024 at 11:58:33PM -0700, Christoph Hellwig wrote:
+> On Wed, Oct 09, 2024 at 09:08:15PM +0300, Mike Rapoport wrote:
+> >  /**
+> >   * struct execmem_info - architecture parameters for code allocations
+> > + * @fill_trapping_insns: set memory to contain instructions that will trap
+> >   * @ranges: array of parameter sets defining architecture specific
+> >   * parameters for executable memory allocations. The ranges that are not
+> >   * explicitly initialized by an architecture use parameters defined for
+> >   * @EXECMEM_DEFAULT.
+> >   */
+> >  struct execmem_info {
+> > +	void (*fill_trapping_insns)(void *ptr, size_t size, bool writable);
+> >  	struct execmem_range	ranges[EXECMEM_TYPE_MAX];
 > 
-> > Using large pages to map text areas reduces iTLB pressure and improves
-> > performance.
-> 
-> Are there any measurable performance improvements?
+> Why is the filler an indirect function call and not an architecture
+> hook?
 
-I don't have any numbers, I just followed the common sense of "less TLB
-entries is better" and relied on Thomas comments from previous discussions.
- 
-> What are the effects of this series upon overall memory consumption?
- 
-There will be some execmem cache fragmentation and an increase in memory
-consumption. It depends on the actual modules loaded and how large it the
-fragmentation.
-
-For a set of pretty randomly chosen modules where most come from
-net/netfilter I see an increase from 19M to 25M.
-
-> The lack of acks is a bit surprising for a v5 patch, but I'll add all
-> this to mm.git for some testing, thanks.
-> 
+The idea is to keep everything together and have execmem_info describe all
+that architecture needs. 
 
 -- 
 Sincerely yours,
