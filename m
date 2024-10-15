@@ -4,68 +4,103 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36132CFC274
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Oct 2024 08:05:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 35034CFC276
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Oct 2024 08:29:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=oz9O2jib7INpYtcZvUqd/rl33WkHO8OC4nHr9CG3oHQ=; b=IDBVroMSqkc9cH
-	7903u6Mzpm10zkS7vLPnHaY0GC9ZYfUe4Mm5I+4RhLDZyi45lzgIwlA9VePqy+Y2x/GOOcP48iT8T
-	eebVC4T3hS5OhI4jRAyA71z3bFrtT8mPuaK8CO6/s0EGmfUSZtNoTuB+fgBIKEycxsYAiFAM39Dff
-	2ZPTCvqd0B7ZD7cX14MIRkcmUgyM2iY5RrDC954MHZkjlZBC/xmwxEplGYgEW38LWjB4VI+7D8EBd
-	qP64hry0FAe12dTlVvAPJ+Jb2f6ogVO9dUHPHNGjR1JDuQbQWuAcrPZPHVh8A+k21++wtmuwJrpn/
-	fdsObi5Dq+YqskzV6SvA==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=6USp7McotPgVKHArsWBtuMUnsgglK3gl2rR8ELGL+Pg=; b=v/HUt90QafF5Jx
+	SoED+T9+Udl6+TFwLi0Lg0QuRxBDKOvM8eqMDrI7HRO7xdFyr62GiTNiE4dPVNGlSnRRywnDRfgvU
+	SQChajsD2vINglpnKZyGzYhiyTnchp6Mndj23c1o+KIuzzVygNxKrrspfZEv2eiIPqW9ihFudQs+s
+	yM40R3V+lNcxEThv4U4nXbdcFj1ClN+Zu3k9xPRzVZRw8dF4KXo1AFKZAj50HknEDNnBIPqAltH4b
+	eN4ffRfIofYk+WhOiZSHw9lcQwEa57MYT0G6yH3NQ1JB5ji8anrCyPFWj0AwjFBUx4DrIUyPU6f8A
+	+VTJ0NDLUfIUb8Oplk0g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0cYq-00000007R39-2slK;
-	Tue, 15 Oct 2024 08:05:44 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1t0cvc-00000007VyK-2HIT;
+	Tue, 15 Oct 2024 08:29:16 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0cTo-00000007QG3-2vk7
-	for linux-snps-arc@bombadil.infradead.org;
-	Tue, 15 Oct 2024 08:00:32 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	MIME-Version:Subject:To:From:Date:Message-ID:Sender:Reply-To:Cc:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=5k7KaERzV9XtiDAeG3jYJqSXCiNxYwmW5KPssYFF/k8=; b=ZUiOPrGObXxM+xKtdXeFhNI0iF
-	FRxWaZx5O3JfwkfYMRk7bPLgu5F5oUa1G6E5DhoRIivPkkcbFXZ95rOB3OMccZGUFO4ho/xtYWjH/
-	7gl1OG2uWs7L9YKmkqYC3RX6pbwM3X42Wevz4oj24IxgOlfHR0yR3mIzk2Wz95FwQL+wsre+Rv3u2
-	mUGXolmdo2+7V8DsHK75oKDC2zEoMC90NBBBcCT2JxJ+/EM+Tdh63W+ktXlO+0OP4o6Bmd2ohrwx4
-	ZYJKxG4ylAHNVm/qYme+VkHJ08SWXDV35JPqDSorbecKq8sxmITqWhiF14qorvVHO7Wdckagczzxp
-	M7LQfL2g==;
-Received: from mail.geniusthrive.pl ([217.61.112.199])
-	by casper.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0cTk-0000000437j-2Mk7
-	for linux-snps-arc@lists.infradead.org;
-	Tue, 15 Oct 2024 08:00:31 +0000
-Received: by mail.geniusthrive.pl (Postfix, from userid 1002)
-	id E1F52844EE; Tue, 15 Oct 2024 09:56:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=geniusthrive.pl;
-	s=mail; t=1728979005;
-	bh=5k7KaERzV9XtiDAeG3jYJqSXCiNxYwmW5KPssYFF/k8=;
-	h=Date:From:To:Subject:From;
-	b=rqDHdB3jA5PLvFDsQvSHpKgCjpmFmGrvHEShMfeaRrVSAJilKUNMy+4HL3g2orNOy
-	 OgkRbsMuLDROjUA8+CmSX+IYi3jxJiVScUkxLsxrDiG3uWFBG3vkjBXR6bq/Ipc/tt
-	 7vEqgnTFmWYcCY/69mu/a0Cxl8tX+XuKXMjoOfQnI6+autEgqQlm2lIsC59odjXg3K
-	 kWbkPWzDrsQ9I6pfYoIyX98AjWeTTBtSI+TvVm12voQJUC9W3Z3LWIpYzrOjgJt8lg
-	 yeKazSUy68utCSmW5rWOkazHfOOKWJ0rnLYg56v+KJNwQRvSYlQy4o99Uqo0dEdkrU
-	 mEP0CAW/laKaw==
-Received: by mail.geniusthrive.pl for <linux-snps-arc@lists.infradead.org>; Tue, 15 Oct 2024 07:55:30 GMT
-Message-ID: <20241015084500-0.1.aa.1gs1h.0.8zph2rpkdh@geniusthrive.pl>
-Date: Tue, 15 Oct 2024 07:55:30 GMT
-From: "Patryk Wysocki" <patryk.wysocki@geniusthrive.pl>
-To: <linux-snps-arc@lists.infradead.org>
-Subject: Zapytanie ofertowe 
-X-Mailer: mail.geniusthrive.pl
+	id 1t0cvY-00000007Vve-18tg;
+	Tue, 15 Oct 2024 08:29:13 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 8E090A412DE;
+	Tue, 15 Oct 2024 08:29:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFFDFC4CEC7;
+	Tue, 15 Oct 2024 08:29:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728980950;
+	bh=DsgcZIwzu+lcz+sCcqq5yd6bbrmg5UWNN75kmiN7u1o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=egqvVNG6q9wlgpkO2ihI5nbC6bmr+MKMXS2UkyLdtZUnRa2mJjPhb/GoHeE8B3JIV
+	 VDOtfy1iCH02B47+vC2mLdYrhXPmRCcdJ1+Qf6WXe8/wfp0qMu9/oa8S2JtMyqJO/O
+	 ZmBQkqH3b1vcstwGj/aIQZ/QJ/x/VWHD7oxFh+9oQa2EPZRfC0PAr1bUMSRbgTw0WX
+	 C7Lug7jeKA6ulz3nyHPgkg0UGzQL6Atd/tuR2Y2ST5aOa7GcMnBjH9MVS3YMhP6L1x
+	 3BVwGozDPiF2n6afO7840UO9nN2SDmvcqv5gq/FNe0QhCmwM6wOayqIt/j1N459swo
+	 /mUI7oPo31iJQ==
+Date: Tue, 15 Oct 2024 01:29:05 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Andy Lutomirski <luto@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+	Brian Cain <bcain@quicinc.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Guo Ren <guoren@kernel.org>, Helge Deller <deller@gmx.de>,
+	Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Michal Simek <monstr@monstr.eu>, Oleg Nesterov <oleg@redhat.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Richard Weinberger <richard@nod.at>,
+	Russell King <linux@armlinux.org.uk>, Song Liu <song@kernel.org>,
+	Stafford Horne <shorne@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Vineet Gupta <vgupta@kernel.org>, Will Deacon <will@kernel.org>,
+	bpf@vger.kernel.org, linux-alpha@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org, linux-mm@kvack.org,
+	linux-modules@vger.kernel.org, linux-openrisc@vger.kernel.org,
+	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+	linux-trace-kernel@vger.kernel.org, linux-um@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
+	sparclinux@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH v5 6/8] x86/module: perpare module loading for ROX
+ allocations of text
+Message-ID: <20241015082905.GA1235948@thelio-3990X>
+References: <20241009180816.83591-1-rppt@kernel.org>
+ <20241009180816.83591-7-rppt@kernel.org>
+ <20241010225411.GA922684@thelio-3990X>
+ <Zwkg3LwlNJOwNWZh@kernel.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <Zwkg3LwlNJOwNWZh@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241015_090029_599088_B02DA62E 
-X-CRM114-Status: UNSURE (   0.50  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241015_012912_448451_539FA9C1 
+X-CRM114-Status: GOOD (  16.08  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,17 +112,96 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-RHppZcWEIGRvYnJ5LAoKUG96d29sacWCZW0gc29iaWUgbmEga29udGFrdCwgcG9uaWV3YcW8IGpl
-c3RlbSB6YWludGVyZXNvd2FueSB3ZXJ5ZmlrYWNqxIUgbW/FvGxpd2/Fm2NpIG5hd2nEhXphbmlh
-IHdzcMOzxYJwcmFjeS4KCldzcGllcmFteSBmaXJteSB3IHBvenlza2l3YW5pdSBub3d5Y2gga2xp
-ZW50w7N3IGJpem5lc293eWNoLgoKQ3p5IG1vxbxlbXkgcG9yb3ptYXdpYcSHIHcgY2VsdSBwcnpl
-ZHN0YXdpZW5pYSBzemN6ZWfDs8WCb3d5Y2ggaW5mb3JtYWNqaT8KCgpQb3pkcmF3aWFtClBhdHJ5
-ayBXeXNvY2tpCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFk
-ZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4
-LXNucHMtYXJjCg==
+On Fri, Oct 11, 2024 at 03:58:04PM +0300, Mike Rapoport wrote:
+> I overlooked how cfi_*_callers routines update addr.
+> This patch should fix it:
+
+Thanks, can confirm. My boot is working again and LKDTM's
+CFI_FORWARD_PROTO test properly fails.
+
+> diff --git a/arch/x86/kernel/alternative.c b/arch/x86/kernel/alternative.c
+> index 3b3fa93af3b1..cf782f431110 100644
+> --- a/arch/x86/kernel/alternative.c
+> +++ b/arch/x86/kernel/alternative.c
+> @@ -1148,11 +1148,13 @@ static int cfi_disable_callers(s32 *start, s32 *end, struct module *mod)
+>  
+>  	for (s = start; s < end; s++) {
+>  		void *addr = (void *)s + *s;
+> -		void *wr_addr = module_writable_address(mod, addr);
+> +		void *wr_addr;
+>  		u32 hash;
+>  
+>  		addr -= fineibt_caller_size;
+> -		hash = decode_caller_hash(addr);
+> +		wr_addr = module_writable_address(mod, addr);
+> +		hash = decode_caller_hash(wr_addr);
+> +
+>  		if (!hash) /* nocfi callers */
+>  			continue;
+>  
+> @@ -1172,11 +1174,12 @@ static int cfi_enable_callers(s32 *start, s32 *end, struct module *mod)
+>  
+>  	for (s = start; s < end; s++) {
+>  		void *addr = (void *)s + *s;
+> -		void *wr_addr = module_writable_address(mod, addr);
+> +		void *wr_addr;
+>  		u32 hash;
+>  
+>  		addr -= fineibt_caller_size;
+> -		hash = decode_caller_hash(addr);
+> +		wr_addr = module_writable_address(mod, addr);
+> +		hash = decode_caller_hash(wr_addr);
+>  		if (!hash) /* nocfi callers */
+>  			continue;
+>  
+> @@ -1249,11 +1252,12 @@ static int cfi_rand_callers(s32 *start, s32 *end, struct module *mod)
+>  
+>  	for (s = start; s < end; s++) {
+>  		void *addr = (void *)s + *s;
+> -		void *wr_addr = module_writable_address(mod, addr);
+> +		void *wr_addr;
+>  		u32 hash;
+>  
+>  		addr -= fineibt_caller_size;
+> -		hash = decode_caller_hash(addr);
+> +		wr_addr = module_writable_address(mod, addr);
+> +		hash = decode_caller_hash(wr_addr);
+>  		if (hash) {
+>  			hash = -cfi_rehash(hash);
+>  			text_poke_early(wr_addr + 2, &hash, 4);
+> @@ -1269,14 +1273,15 @@ static int cfi_rewrite_callers(s32 *start, s32 *end, struct module *mod)
+>  
+>  	for (s = start; s < end; s++) {
+>  		void *addr = (void *)s + *s;
+> -		void *wr_addr = module_writable_address(mod, addr);
+> +		void *wr_addr;
+>  		u32 hash;
+>  
+>  		addr -= fineibt_caller_size;
+> -		hash = decode_caller_hash(addr);
+> +		wr_addr = module_writable_address(mod, addr);
+> +		hash = decode_caller_hash(wr_addr);
+>  		if (hash) {
+>  			text_poke_early(wr_addr, fineibt_caller_start, fineibt_caller_size);
+> -			WARN_ON(*(u32 *)(addr + fineibt_caller_hash) != 0x12345678);
+> +			WARN_ON(*(u32 *)(wr_addr + fineibt_caller_hash) != 0x12345678);
+>  			text_poke_early(wr_addr + fineibt_caller_hash, &hash, 4);
+>  		}
+>  		/* rely on apply_retpolines() */
+>  
+> > Cheers,
+> > Nathan
+> 
+> -- 
+> Sincerely yours,
+> Mike.
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
