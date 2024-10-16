@@ -4,108 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95137D1F9C5
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Oct 2024 20:13:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C55F1D2069D
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 16 Oct 2024 05:26:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=F5BM8z9fJnrmBTzW72+k1pUfEQXay27r5/eWZqZ2mdw=; b=yVfQxoEaTXt6ky
-	h0OFAar5HzLbbkuSsaQRdenEx6zqwNrXL4QJzcgztTM81m0hvw00jFRUjVvacNr7uNWUXi335+X05
-	PrJAccN/k47jhIhgzbJXWpcrPT/Zjso+Q/HJt5pleF45dR3UF4DmD+8rz1jYyJKP9MULLaHYf3LHY
-	6vIqmxQC2vyKgcpHVlHkq2gxHlmJnmC4x76ZyqCGT2kyqL0sobDPQxLnXzfxO3w2QGHrPpfWKMqiA
-	EF3Y0BQldx3eGPJLVxYaCffhM3GsVjfiectGQ7KUPcY2riaxh9vZaZyJGtEuU8rP+3KBWtBHU2jTV
-	CztLhVzUtUviI7xjVt2w==;
+	List-Owner; bh=ST5CzG0P+NYwrYQjs5YmF/ceFeWMv3rlpyq7xBT/0XQ=; b=tVtl1Cbs77pC44
+	nHvkuJoXuLJA5NQJGV20il2xY3lIYStivYBrR4nVtzpckUDqZyZLuKS8qNQZ/5FN+Br7YYExshNNl
+	2oQ7jYhI0/ztr/LI/cK0ldMfWJFwKdUIYMZR1PBYMrTWH1GQpH8lqo5bJ5aYdqFwZ7X4Q7n4A6qjf
+	1YMsXg6lV980UmPWRUTFugYyPBV2hzPEHa3OyUs1cev0/YFByp5qf2+28mv7JinCMvD51yrVTbAf8
+	gb4gRDoOGQz1rKjm0XtEXYxlg+BDywsEtEKeyI7O+9FSTEJKv+0zwTKmplKNpRaJ6rAeKCEiVDGP3
+	cpowip74886N159gvfEA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0nux-00000009USF-0jnB;
-	Tue, 15 Oct 2024 20:13:19 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1t0wYZ-0000000AZGP-15s8;
+	Wed, 16 Oct 2024 05:26:47 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0ntg-00000009UES-1oVM;
-	Tue, 15 Oct 2024 20:12:02 +0000
+	id 1t0wYW-0000000AZFq-3og5
+	for linux-snps-arc@lists.infradead.org;
+	Wed, 16 Oct 2024 05:26:46 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 99C9DA435A9;
-	Tue, 15 Oct 2024 20:11:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAB4EC4CEC6;
-	Tue, 15 Oct 2024 20:11:56 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 87D9B5C57E6;
+	Wed, 16 Oct 2024 05:26:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EB96C4CEC7;
+	Wed, 16 Oct 2024 05:26:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729023118;
-	bh=Y6PhmBa/nN+iDUxTFqcR/Mb33RbOlJl9A4RsS6bV0b4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NeA6yj5hajfLYEdkGLWG8XB5N4aid73nUjDZb/ugsyZ3AQoALVnXt8x2U69teh7bp
-	 +Jxn6eME2rpnC6+5s7BU9sn0TueSyVekqQmYatz9jkvCTO794aSB0wivMugKOyBQcF
-	 f12fUI4D7cG8AqwuNBz90ooW8BLJGSzfYerkziVJS4gVWwzpr6llRoBCSoxKz8d+Fs
-	 0rPGTZgvQEw9IByGG03TdQUKWcviEE7gexwsotoi1Pu3fbgseCJrzYVZZZHzQHsDOS
-	 xg878mky4sIBNDtU8Y7CZD0UtD4jLkQQWx+cO7Oq3WKQ8DmXAZc3hC28g+NG7SbCgU
-	 uBbk2RUOwLABQ==
-Date: Tue, 15 Oct 2024 13:11:54 -0700
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, Petr Pavlu <petr.pavlu@suse.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Andy Lutomirski <luto@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-	Brian Cain <bcain@quicinc.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Guo Ren <guoren@kernel.org>, Helge Deller <deller@gmx.de>,
-	Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Simek <monstr@monstr.eu>, Oleg Nesterov <oleg@redhat.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Richard Weinberger <richard@nod.at>,
-	Russell King <linux@armlinux.org.uk>, Song Liu <song@kernel.org>,
-	Stafford Horne <shorne@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Vineet Gupta <vgupta@kernel.org>, Will Deacon <will@kernel.org>,
-	bpf@vger.kernel.org, linux-alpha@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org, linux-mm@kvack.org,
-	linux-modules@vger.kernel.org, linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-	linux-trace-kernel@vger.kernel.org, linux-um@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
-	sparclinux@vger.kernel.org, x86@kernel.org, kdevops@lists.linux.dev
-Subject: Re: [PATCH v5 7/8] execmem: add support for cache of large ROX pages
-Message-ID: <Zw7MirnsHnhRveBB@bombadil.infradead.org>
-References: <20241009180816.83591-1-rppt@kernel.org>
- <20241009180816.83591-8-rppt@kernel.org>
- <Zwd7GRyBtCwiAv1v@infradead.org>
- <ZwfPPZrxHzQgYfx7@kernel.org>
- <ZwjXz0dz-RldVNx0@infradead.org>
- <ZwuIPZkjX0CfzhjS@kernel.org>
- <20241013202626.81f430a16750af0d2f40d683@linux-foundation.org>
- <Zw1uBBcG-jAgxF_t@bombadil.infradead.org>
- <Zw3rDS3GRWZe4CBu@bombadil.infradead.org>
- <Zw4DlTTbz4QwhOvU@kernel.org>
+	s=k20201202; t=1729056403;
+	bh=//4Cx99p5jogEeFkicaoyIn2GOAS1p2Dbd+QLByWjhY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=kSqQHT2gjOZNysn1EopfgAqccBNoMj7muqNqhKmFUOHUhStMb3CiHHwoHRliXE2vU
+	 M3ZKqUVSR8u21fSR7zn3aRu4H5MJNOmo68E8OjfcwvSU3W7U59cegE1A6HeayK5d7g
+	 x88a0a+uI1lNAIappeEcoMXFt7Pt973gwIy92rJ8YbMBIFTH1sOP8/NaQVybTr6tEs
+	 ad8gr1mGPNbPAWfpoK5q+La24ulPpRgQ4hvy4QVC742XNtAcrW5xkKr9DItuNPuiBh
+	 7DNqTD4D3pFMcX/yRlbuTopeLJFJVOsNNZNwW1X9R0T37emyViZ7Wl5FFBurQ31j+b
+	 8aTSFPxVdUMIA==
+From: Vineet Gupta <vgupta@kernel.org>
+To: vineetg76@gmail.com
+Cc: "Paul E. McKenney" <paulmck@kernel.org>,
+	kernel test robot <lkp@intel.com>,
+	linux-snps-arc@lists.infradead.org,
+	Vineet Gupta <vgupta@kernel.org>
+Subject: [PATCH 3/3] ARC: build: Use __force to suppress per-CPU cmpxchg warnings
+Date: Tue, 15 Oct 2024 22:26:36 -0700
+Message-ID: <20241016052636.1639986-4-vgupta@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241016052636.1639986-1-vgupta@kernel.org>
+References: <20241016052636.1639986-1-vgupta@kernel.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <Zw4DlTTbz4QwhOvU@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241015_131200_632265_88E1DA2B 
-X-CRM114-Status: GOOD (  16.33  )
+X-CRM114-CacheID: sfid-20241015_222645_015815_9CF9CC54 
+X-CRM114-Status: GOOD (  11.37  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -122,37 +74,40 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 15, 2024 at 08:54:29AM +0300, Mike Rapoport wrote:
-> On Mon, Oct 14, 2024 at 09:09:49PM -0700, Luis Chamberlain wrote:
-> > Mike, please run this with kmemleak enabled and running, and also try to get
-> > tools/testing/selftests/kmod/kmod.sh to pass.
-> 
-> There was an issue with kmemleak, I fixed it here:
-> 
-> https://lore.kernel.org/linux-mm/20241009180816.83591-1-rppt@kernel.org/T/#m020884c1795218cc2be245e8091fead1cda3f3e4
+From: "Paul E. McKenney" <paulmck@kernel.org>
 
-Ah, so this was a side fix, not part of this series, thanks.
+Currently, the cast of the first argument to cmpxchg_emu_u8() drops the
+__percpu address-space designator, which results in sparse complaints
+when applying cmpxchg() to per-CPU variables in ARC.  Therefore, use
+__force to suppress these complaints, given that this does not pertain
+to cmpxchg() semantics, which are plently well-defined on variables in
+general, whether per-CPU or otherwise.
 
-> > I run into silly boot issues with just a guest.
-> 
-> Was it kmemleak or something else?
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202409251336.ToC0TvWB-lkp@intel.com/
+Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+Cc: <linux-snps-arc@lists.infradead.org>
+Signed-off-by: Vineet Gupta <vgupta@kernel.org>
+---
+ arch/arc/include/asm/cmpxchg.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Both kmemleak and the kmod selftest failed, here is a run of the test
-with this patch series:
+diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
+index 58045c898340..76f43db0890f 100644
+--- a/arch/arc/include/asm/cmpxchg.h
++++ b/arch/arc/include/asm/cmpxchg.h
+@@ -48,7 +48,7 @@
+ 									\
+ 	switch(sizeof((_p_))) {						\
+ 	case 1:								\
+-		_prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);	\
++		_prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *__force)_p_, (uintptr_t)_o_, (uintptr_t)_n_);	\
+ 		break;							\
+ 	case 4:								\
+ 		_prev_ = __cmpxchg(_p_, _o_, _n_);			\
+-- 
+2.43.0
 
-https://github.com/linux-kdevops/linux-modules-kpd/actions/runs/11352286624/job/31574722735
-
-We now have automated tests generated when people post patches to
-linux-modules, but if you give me your github username you can push
-onto the linux-kdevops/linux-modules-kpd [0] repo a random branch once you
-have it ready, just cp -a the linux-ci-modules/.github [1] directory onto
-your branch before a push and that'll trigger a test run (you need to
-git add -f .github on your Linux branch) with our self-hosted runners.
-
-[0] https://github.com/linux-kdevops/linux-modules-kpd
-[1] https://github.com/linux-kdevops/kdevops-ci-modules
-
-  Luis
 
 _______________________________________________
 linux-snps-arc mailing list
