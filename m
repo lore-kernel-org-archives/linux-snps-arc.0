@@ -4,81 +4,108 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CCA07D1AD45
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 16 Oct 2024 21:01:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B472D2F7D8
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 16 Oct 2024 23:58:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=l8Yz8UtkkgNJhEuWoaCKT/ZIF8TPb+ByCPBCX4c1sKE=; b=3cWMkZhV6giVBy
-	5eYWpNIPmeVlMEEROH3AE5DDmcQ5cKE5x84XCoWdQV6ZhSq7MdaO7P3xe2SZ/Whw2VTdzjADK0vIN
-	UWELSlguPLvbfgRV5RPbnj4B7no6ePYBF4R6cUj6ujwGFQ+T3K2ReYVx63JGntM+qlsIPVlRFp1AF
-	LwtfrDaIxJml49ZM9dhijht+L+PrrKPQDSkJ4ZfqpTMw14j0RDYvD8MiyamztS2YkJHCAgqe2cXv3
-	Y2EaRjXHZZgR3Rygx4TV9PDuwj/Cn8n0w4BIZftOYhr12a1dkos2eesx8Fps+eOns8BMmumVntC9C
-	gSfDy7lG5DxXtHx8FOsA==;
+	List-Owner; bh=Omq/pc3pGz6U80wMyN14HCnYrEZYgEu69simIGTuulU=; b=My+dXDoKwf7J+n
+	lsdpy2dJ/eUuP6iLzgKyEF7/Porg7zGuFlIbTZq4wBEmtfKZaq60uphwGsx2onO13oobJCXVQ9N6t
+	DYwvaeFVSeXiXPsrycKiUF7m8TedQg4KO5CBA5zruuxRmuVBXa5jiKPbXoI+Q+SkIP6wXpMU0Z2do
+	jqPkucy4Q6RjyCpvQnbKj0T6VgRgUgSMaoni9rT010Rv1/gEPdZOH8/S/a1FA+SNdUcelGbT8Su8O
+	Iu0+AvPJtgGg9UqoGh+VhCjnpx3DlI4sySjq/NIMO1Pk3qat0f3sgunWyeQwJrDJx93aomDBRMn4a
+	z4Ca1GsgCSWa3t578mMg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1B8x-0000000D0kh-1Jsj;
-	Wed, 16 Oct 2024 21:01:19 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1t1DuK-0000000DGUv-3ZLa;
+	Wed, 16 Oct 2024 23:58:24 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1B8t-0000000D0iE-36na;
-	Wed, 16 Oct 2024 21:01:17 +0000
+	id 1t1DuG-0000000DGSU-1ez4;
+	Wed, 16 Oct 2024 23:58:21 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 7A965A427EA;
-	Wed, 16 Oct 2024 21:01:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 368BFC4CEC5;
-	Wed, 16 Oct 2024 21:01:07 +0000 (UTC)
-Date: Wed, 16 Oct 2024 17:01:28 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
+	by nyc.source.kernel.org (Postfix) with ESMTP id DEA45A4293C;
+	Wed, 16 Oct 2024 23:58:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0128CC4CEC5;
+	Wed, 16 Oct 2024 23:58:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729123098;
+	bh=dl4ZMMi6UkY66eeJUj39rk75iod/Rq4ydDN6GkT6Ce0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aUyJRTRo0x2+3z/2y/FQ+aEK3XYUoN8mcz2N9MbvfVeg7WtoOgXSHf9qFPMa9WqK4
+	 I4Eb7NqiTNyvOxrYQ0Ck1crWzLXaJyBVvU1iHXhrLqptfZmWv1nwU+oeXM6onwo7B1
+	 Bjome/eLzoTdbg0LAyDRkQaPt6vpNKaP3Fks19G43RKkcc3xWsk/OAukW5yOL9KK4T
+	 DRNRLea/INzHDvb30jc2JX11dyzgwAjaplu5U/zrOnXLPkT+ALdxPNd3g3qhlwF7Nb
+	 IhixQCW/u2nVSk7r2vmTsqvA+1zxrdLaddel3zcxJ5QIG57g91CYpQvbUsqReiBH8k
+	 JX5BKTdKfsQpQ==
+Date: Wed, 16 Oct 2024 16:58:15 -0700
+From: Luis Chamberlain <mcgrof@kernel.org>
 To: Mike Rapoport <rppt@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Luis Chamberlain
- <mcgrof@kernel.org>, Andreas Larsson <andreas@gaisler.com>, Andy Lutomirski
- <luto@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann
- <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>, Brian Cain
- <bcain@quicinc.com>, Catalin Marinas <catalin.marinas@arm.com>, Christoph
- Hellwig <hch@infradead.org>, Christophe Leroy
- <christophe.leroy@csgroup.eu>, Dave Hansen <dave.hansen@linux.intel.com>,
- Dinh Nguyen <dinguyen@kernel.org>, Geert Uytterhoeven
- <geert@linux-m68k.org>, Guo Ren <guoren@kernel.org>, Helge Deller
- <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar
- <mingo@redhat.com>, Johannes Berg <johannes@sipsolutions.net>, John Paul
- Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Kent Overstreet
- <kent.overstreet@linux.dev>, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Mark Rutland <mark.rutland@arm.com>, Masami Hiramatsu
- <mhiramat@kernel.org>, Matt Turner <mattst88@gmail.com>, Max Filippov
- <jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, Michal Simek
- <monstr@monstr.eu>, Oleg Nesterov <oleg@redhat.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Peter Zijlstra <peterz@infradead.org>, Richard
- Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>, Song Liu
- <song@kernel.org>, Stafford Horne <shorne@gmail.com>, Suren Baghdasaryan
- <surenb@google.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Thomas Gleixner <tglx@linutronix.de>, Uladzislau Rezki <urezki@gmail.com>,
- Vineet Gupta <vgupta@kernel.org>, Will Deacon <will@kernel.org>,
- bpf@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, linux-mm@kvack.org,
- linux-modules@vger.kernel.org, linux-openrisc@vger.kernel.org,
- linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-trace-kernel@vger.kernel.org, linux-um@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
- sparclinux@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v6 6/8] x86/module: prepare module loading for ROX
- allocations of text
-Message-ID: <20241016170128.7afeb8b0@gandalf.local.home>
-In-Reply-To: <20241016122424.1655560-7-rppt@kernel.org>
-References: <20241016122424.1655560-1-rppt@kernel.org>
-	<20241016122424.1655560-7-rppt@kernel.org>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Cc: Christoph Hellwig <hch@infradead.org>, Petr Pavlu <petr.pavlu@suse.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Andy Lutomirski <luto@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+	Brian Cain <bcain@quicinc.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Guo Ren <guoren@kernel.org>, Helge Deller <deller@gmx.de>,
+	Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Michal Simek <monstr@monstr.eu>, Oleg Nesterov <oleg@redhat.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Richard Weinberger <richard@nod.at>,
+	Russell King <linux@armlinux.org.uk>, Song Liu <song@kernel.org>,
+	Stafford Horne <shorne@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Vineet Gupta <vgupta@kernel.org>, Will Deacon <will@kernel.org>,
+	bpf@vger.kernel.org, linux-alpha@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org, linux-mm@kvack.org,
+	linux-modules@vger.kernel.org, linux-openrisc@vger.kernel.org,
+	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+	linux-trace-kernel@vger.kernel.org, linux-um@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
+	sparclinux@vger.kernel.org, x86@kernel.org, kdevops@lists.linux.dev
+Subject: Re: [PATCH v5 7/8] execmem: add support for cache of large ROX pages
+Message-ID: <ZxBTFyyzZhByMjmo@bombadil.infradead.org>
+References: <Zwd7GRyBtCwiAv1v@infradead.org>
+ <ZwfPPZrxHzQgYfx7@kernel.org>
+ <ZwjXz0dz-RldVNx0@infradead.org>
+ <ZwuIPZkjX0CfzhjS@kernel.org>
+ <20241013202626.81f430a16750af0d2f40d683@linux-foundation.org>
+ <Zw1uBBcG-jAgxF_t@bombadil.infradead.org>
+ <Zw3rDS3GRWZe4CBu@bombadil.infradead.org>
+ <Zw4DlTTbz4QwhOvU@kernel.org>
+ <Zw7MirnsHnhRveBB@bombadil.infradead.org>
+ <Zw-YN4JIltntY52Y@kernel.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <Zw-YN4JIltntY52Y@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241016_140115_917979_D08E17D8 
-X-CRM114-Status: GOOD (  23.34  )
+X-CRM114-CacheID: sfid-20241016_165820_582465_5A69D80C 
+X-CRM114-Status: GOOD (  21.50  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,121 +122,34 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, 16 Oct 2024 15:24:22 +0300
-Mike Rapoport <rppt@kernel.org> wrote:
+On Wed, Oct 16, 2024 at 01:40:55PM +0300, Mike Rapoport wrote:
+> On Tue, Oct 15, 2024 at 01:11:54PM -0700, Luis Chamberlain wrote:
+> > On Tue, Oct 15, 2024 at 08:54:29AM +0300, Mike Rapoport wrote:
+> > > On Mon, Oct 14, 2024 at 09:09:49PM -0700, Luis Chamberlain wrote:
+> > > > Mike, please run this with kmemleak enabled and running, and also try to get
+> > > > tools/testing/selftests/kmod/kmod.sh to pass.
+> > > 
+> > > There was an issue with kmemleak, I fixed it here:
+> > > 
+> > > https://lore.kernel.org/linux-mm/20241009180816.83591-1-rppt@kernel.org/T/#m020884c1795218cc2be245e8091fead1cda3f3e4
+> > 
+> > Ah, so this was a side fix, not part of this series, thanks.
+> > 
+> > > > I run into silly boot issues with just a guest.
+> > > 
+> > > Was it kmemleak or something else?
+> > 
+> > Both kmemleak and the kmod selftest failed, here is a run of the test
+> > with this patch series:
+> > 
+> > https://github.com/linux-kdevops/linux-modules-kpd/actions/runs/11352286624/job/31574722735
+> 
+> Is there a kernel log to look at? Could not find it in the run report
 
-> diff --git a/arch/x86/kernel/ftrace.c b/arch/x86/kernel/ftrace.c
-> index 8da0e66ca22d..b498897b213c 100644
-> --- a/arch/x86/kernel/ftrace.c
-> +++ b/arch/x86/kernel/ftrace.c
-> @@ -118,10 +118,13 @@ ftrace_modify_code_direct(unsigned long ip, const char *old_code,
->  		return ret;
->  
->  	/* replace the text with the new text */
-> -	if (ftrace_poke_late)
-> +	if (ftrace_poke_late) {
->  		text_poke_queue((void *)ip, new_code, MCOUNT_INSN_SIZE, NULL);
-> -	else
-> -		text_poke_early((void *)ip, new_code, MCOUNT_INSN_SIZE);
-> +	} else {
-> +		mutex_lock(&text_mutex);
-> +		text_poke((void *)ip, new_code, MCOUNT_INSN_SIZE);
-> +		mutex_unlock(&text_mutex);
-> +	}
->  	return 0;
->  }
+No, I forgot to include the guestfs console on artifacts, I'll do that
+in the next run.
 
-So this slows down the boot by over 30ms. That may not sound like much, but
-we care very much about boot times. This code is serialized with boot and
-runs whenever ftrace is configured in the kernel. The way I measured this,
-was that I added:
-
-diff --git a/arch/x86/kernel/ftrace.c b/arch/x86/kernel/ftrace.c
-index 4dd0ad6c94d6..b72bb9943140 100644
---- a/arch/x86/kernel/ftrace.c
-+++ b/arch/x86/kernel/ftrace.c
-@@ -104,6 +104,8 @@ static int ftrace_verify_code(unsigned long ip, const char *old_code)
- 	return 0;
- }
- 
-+u64 sdr_total;
-+
- /*
-  * Marked __ref because it calls text_poke_early() which is .init.text. That is
-  * ok because that call will happen early, during boot, when .init sections are
-@@ -114,6 +116,8 @@ ftrace_modify_code_direct(unsigned long ip, const char *old_code,
- 			  const char *new_code)
- {
- 	int ret = ftrace_verify_code(ip, old_code);
-+	u64 start, stop;
-+
- 	if (ret)
- 		return ret;
- 
-@@ -121,9 +125,12 @@ ftrace_modify_code_direct(unsigned long ip, const char *old_code,
- 	if (ftrace_poke_late) {
- 		text_poke_queue((void *)ip, new_code, MCOUNT_INSN_SIZE, NULL);
- 	} else {
-+		start = trace_clock_local();
- 		mutex_lock(&text_mutex);
- 		text_poke((void *)ip, new_code, MCOUNT_INSN_SIZE);
- 		mutex_unlock(&text_mutex);
-+		stop = trace_clock_local();
-+		sdr_total += stop - start;
- 	}
- 	return 0;
- }
-diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-index c01375adc471..93284557144d 100644
---- a/kernel/trace/trace.c
-+++ b/kernel/trace/trace.c
-@@ -10738,6 +10738,11 @@ __init static int tracer_alloc_buffers(void)
- 
- 	register_snapshot_cmd();
- 
-+	{
-+		extern u64 sdr_total;
-+		printk("SDR TOTAL: %lld\n", sdr_total);
-+	}
-+
- 	test_can_verify();
- 
- 	return 0;
-
-
-And did the same before this patch. I ran it three times and have the
-following numbers (all in nanoseconds):
-
-before: 11356637	11863526	11507750
- after: 43978750	41293162	42741067
-
-Before this patch, the total updates took 11ms. After the patch it takes
-around 42ms. This is because we are patching 59 thousand sites with this.
-
-# dmesg |grep ftrace
-[    1.620569] ftrace: allocating 59475 entries in 233 pages
-[    1.667178] ftrace: allocated 233 pages with 5 groups
-
-
-If this is only needed for module load, can we at least still use the
-text_poke_early() at boot up?
-
- 	if (ftrace_poke_late) {
- 		text_poke_queue((void *)ip, new_code, MCOUNT_INSN_SIZE, NULL);
-	} else if (system_state == SYSTEM_BOOTING) {
-		text_poke_early((void *)ip, new_code, MCOUNT_INSN_SIZE);
- 	} else {
- 		mutex_lock(&text_mutex);
- 		text_poke((void *)ip, new_code, MCOUNT_INSN_SIZE);
- 		mutex_unlock(&text_mutex);
- 	}
-
-?
-
-The above if statement looks to slow things down just slightly, but only by
-2ms, which is more reasonable.
-
--- Steve
+  Luis
 
 _______________________________________________
 linux-snps-arc mailing list
