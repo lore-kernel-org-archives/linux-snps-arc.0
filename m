@@ -4,74 +4,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F303BD132A2
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  4 Nov 2024 10:14:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6C907D1CA0E
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  4 Nov 2024 23:27:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Reply-To:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Date:Subject:To:
-	Message-ID:From:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=0bvLD/zxPXX3ZD569x+/g1vJQ9PA33TIHPrEB43kPkA=; b=gtsyZtIeeIxEl7
-	J4qDo8bXO8QQY7HC3QqKmIPNcBUqVIUckMNzi5NpSqBJnQayQnIteXx9gwJBi/NFEvaZ0xAKywlUI
-	Rfw2MgQgIOlLXjlOUX5wIX0Vyl6qdURkWwjRoycXKG4FCSNTI5LKjFL4YZa+fdN0bY2JTHgP/RIMe
-	LKMGgEJSj0iUXkrK+yQlX7CeAksTeBl2ouYXiNpr+xB89NSh/f1URUuJakYzQqlTiJO0b/AYPrgjf
-	7TVXWVxIaLIH6byeeN+7+AmN1G0NAK1qaITQzeBMhtMoGTNkfE6F0zWYG1NrpctOhDUK+m6alkt3H
-	7p4EvDkqtB42ujnnuj2w==;
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=cAVNcubq2qvt3jYgSYANhNuDeo8h38ShNvD6e4wjNjs=; b=PEhol+e88B/n8x
+	ztx7PQQEOUa3KnewDymPFliHxFmmWeoLiVNmvmg0podBRXudDMecxFED1LwUQVSKHB/HxiFwh3kBd
+	MU0RuatvT1c3j/JjLa6wvvRw0M7HdYGHwIFE0wAwFvi4O62z3ad/ta7oENG9ie4hrANy1z3XA3XFz
+	kYd/bL55vncmyONc/asgkoVNJzWjq7pzQrgluDPfZgMQGHTgeIDDXGsRUHoJCs9UVC2XN2xXRMjFZ
+	X+00CRkz15yNM1jjoh5YhJ3NqqOfxVCK/ar2RU4LJZFJxxM7SUuiPECcOqNwyNE6Ochgcg3Y/OV34
+	L/T+11ZfNMqWn+vyEO3A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t7u6n-0000000DHeY-2r8B;
-	Mon, 04 Nov 2024 10:14:53 +0000
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544])
+	id 1t86UB-0000000FNzk-3F3g;
+	Mon, 04 Nov 2024 23:27:51 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t7tyW-0000000DFv9-4BXu
-	for linux-snps-arc@lists.infradead.org;
-	Mon, 04 Nov 2024 10:06:22 +0000
-Received: by mail-pg1-x544.google.com with SMTP id 41be03b00d2f7-7ea9739647bso2812681a12.0
-        for <linux-snps-arc@lists.infradead.org>; Mon, 04 Nov 2024 02:06:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730714779; x=1731319579; darn=lists.infradead.org;
-        h=mime-version:date:subject:to:reply-to:message-id:from:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BX28rAzmD4iiFzVyOHBt728GRE15tu8MjCYp4yUF6Zs=;
-        b=jKkYcstnzBAoTcnhnqIfZjqSD9/zhgOiLcx8iTA+L3TXJzH8WuuOOrbZqh+giUJQZj
-         o9YbLgvtKu16Y7ESQwGt4Y1N6NV7PdgFMpxZYv/yip/b+Sw+CPRtB4A/kBnn1rAQHLcO
-         kj+EjSFFzLq3LFyMFhbPe2oppAiQkvCA4muK6Ix0VtueGob3QNS4BUWU40KAcqbAVJ8W
-         lAkdCC5OHfaXnqS70Fn8bfzMgiVbXO/skYmGIIqRrWyYrELHK/GB+O+PeXE00ZUG2+H6
-         dPXSvl0F/SAxXZ3qh2VxXA0O1sNyBMiGQdpIetmsD1omZawOrWSbhkNIAtJ1BMfehXRC
-         QFSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730714779; x=1731319579;
-        h=mime-version:date:subject:to:reply-to:message-id:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BX28rAzmD4iiFzVyOHBt728GRE15tu8MjCYp4yUF6Zs=;
-        b=VgxC4EZLH+MBx8GRjmH4LAnU1ZH17yGSxmuXYzEIAZzucyI8YwAVvm0Ov7zEfgxUdQ
-         frCZjSdlBEic6Z+KDN5V93DR09VnSWJo8x9uyUfbKd+hDS1g7/yBxe1PIHuzlEmr/gyn
-         50und6Q/nUvbKp0UCUI0T9sxiFlrZX8NPwfjQJZ+j+2+PJUcPJ3+BtxBClinbewOCjfI
-         jCeg+61pd25B1/Tc4uAOAnRTn8V+99qWOXb0Nq3CxA3CVU97ejB6mEOrwvJuPNUYIzhG
-         WTiZxxG111ZQKWV1rZl0vMz8O2JFu7zbmU0R7UBk+5gqQfKGQ47pupQPY2wFgG9Ra37n
-         3j5g==
-X-Gm-Message-State: AOJu0Yz+1K/Oicl9GIvkFpfQFbLHEUp/wAGFKpzEH03UmGYVuCVvf077
-	P99a/n1JUZcKh5uqT1t/jpa2vXs61e1zm2WLJzPQSHoCC7GWMgJwjbhVLhVa
-X-Google-Smtp-Source: AGHT+IF4IJvmXXy2kXdp7q8Q4699cBc1qzZGQfJEDrvdtFqUF7hKonvfM/3a6wJ0VWjDQhwWzKaugQ==
-X-Received: by 2002:a17:902:e80b:b0:20c:c01d:54a8 with SMTP id d9443c01a7336-210c689ab26mr422794795ad.16.1730714779415;
-        Mon, 04 Nov 2024 02:06:19 -0800 (PST)
-Received: from [103.67.163.162] ([103.67.163.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211056efd71sm57638525ad.4.2024.11.04.02.06.18
-        for <linux-snps-arc@lists.infradead.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 04 Nov 2024 02:06:18 -0800 (PST)
-From: Debbie Magoffin <ariful652041@gmail.com>
-X-Google-Original-From: Debbie Magoffin <dmagoffin@outlook.com>
-Message-ID: <a9fa3fe6a49e2c63dc804e07cb26d461a96f24d43d42f3f4511151e4e8e977ce@mx.google.com>
-To: linux-snps-arc@lists.infradead.org
-Subject: Yamaha Piano !!
-Date: Mon, 04 Nov 2024 05:06:09 -0500
+	id 1t86U8-0000000FNxg-1763;
+	Mon, 04 Nov 2024 23:27:49 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 8521EA41B3D;
+	Mon,  4 Nov 2024 23:25:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB3A7C4CECE;
+	Mon,  4 Nov 2024 23:27:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730762866;
+	bh=G7tF/ZaqXBtDJLMTb97Oc+SktZk//Kx3oRVjwm2Gkec=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uD6aQVKZ8xYi+PTTwYupZ6PGdQoZjGxor3CJ6T/KZlWjFxurKitUGg4OsLqeVl22R
+	 oTMAQXmWqXP0EO6JaBIYZ9VEqoL35XGUitRTwgi+bJtDhjSL6UuAIcLW7XMfz2tbvE
+	 x3MFVpG1yHfJRXfsS6NaRprs6A1rIqEf/OZ8jX2sy+DwUFdsMetTULRZ3iOQoxlOsn
+	 5JoGBx6K0BrtfF9Z0+hxFGtNMWymLR+Dppngi0NxeJnTpYgOWeDN7FHowhaRXk3khA
+	 u6nha7LupF4lzkb6ryYEoHDIxLmpv0DY+XiF9diWn7xWUzJjMMZ/7hbbF3UF0ISQXS
+	 B++nhrf0RE3MQ==
+Date: Mon, 4 Nov 2024 16:27:41 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Andy Lutomirski <luto@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+	Brian Cain <bcain@quicinc.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Guo Ren <guoren@kernel.org>, Helge Deller <deller@gmx.de>,
+	Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Michal Simek <monstr@monstr.eu>, Oleg Nesterov <oleg@redhat.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Richard Weinberger <richard@nod.at>,
+	Russell King <linux@armlinux.org.uk>, Song Liu <song@kernel.org>,
+	Stafford Horne <shorne@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Vineet Gupta <vgupta@kernel.org>, Will Deacon <will@kernel.org>,
+	bpf@vger.kernel.org, linux-alpha@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org, linux-mm@kvack.org,
+	linux-modules@vger.kernel.org, linux-openrisc@vger.kernel.org,
+	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+	linux-trace-kernel@vger.kernel.org, linux-um@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
+	sparclinux@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH v7 6/8] x86/module: prepare module loading for ROX
+ allocations of text
+Message-ID: <20241104232741.GA3843610@thelio-3990X>
+References: <20241023162711.2579610-1-rppt@kernel.org>
+ <20241023162711.2579610-7-rppt@kernel.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20241023162711.2579610-7-rppt@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241104_020621_040327_66C33477 
-X-CRM114-Status: UNSURE (   2.37  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241104_152748_440233_6613DAE2 
+X-CRM114-Status: GOOD (  22.72  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,18 +111,71 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Reply-To: dmagoffin@outlook.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hello,
+Hi Mike,
 
-I am offering my late husband?s Yamaha piano to anyone who would truly appreciate it. If you or someone you know would be interested in receiving this instrument for free, please do not hesitate to contact me.
+On Wed, Oct 23, 2024 at 07:27:09PM +0300, Mike Rapoport wrote:
+> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> 
+> When module text memory will be allocated with ROX permissions, the
+> memory at the actual address where the module will live will contain
+> invalid instructions and there will be a writable copy that contains the
+> actual module code.
+> 
+> Update relocations and alternatives patching to deal with it.
+> 
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> Tested-by: kdevops <kdevops@lists.linux.dev>
 
-Warm regards,
-Debbie
+Hopefully the last time you have to hear from me, as I am only
+experiencing issues with only one of my test machines at this point and
+it is my only machine that supports IBT, so it seems to point to
+something specific with the IBT part of the FineIBT support. I notice
+either a boot hang or an almost immediate reboot (triple fault?). I
+guess this is how I missed reporting this earlier, as my machine was
+falling back to the default distribution kernel after the restart and I
+did not notice I was not actually testing a -next kernel.
+
+Checking out the version of this change that is in next-20241104, commit
+7ca6ed09db62 ("x86/module: prepare module loading for ROX allocations of
+text"), it boots with either 'cfi=off' or 'cfi=kcfi' but it exhibits the
+issues noted above with 'cfi=fineibt'. At the immediate parent, commit
+b575d981092f ("arch: introduce set_direct_map_valid_noflush()"), all
+three combinations boot fine.
+
+  $ uname -r; tr ' ' '\n' </proc/cmdline | grep cfi=
+
+  6.12.0-rc5-debug-00214-g7ca6ed09db62
+  cfi=kcfi
+
+  6.12.0-rc5-debug-00214-g7ca6ed09db62
+  cfi=off
+
+  6.12.0-rc5-debug-00213-gb575d981092f
+  cfi=fineibt
+
+  6.12.0-rc5-debug-00213-gb575d981092f
+  cfi=kcfi
+
+  6.12.0-rc5-debug-00213-gb575d981092f
+  cfi=off
+
+I do not think this machine has an accessible serial port and I do not
+think IBT virtualization is supported via either KVM or TCG in QEMU, so
+I am not sure how to get more information about what is going on here. I
+wanted to try reverting these changes on top of next-20241104 but there
+was a non-trivial conflict in mm/execmem.c due to some changes on top,
+so I just tested in the mm history.
+
+If there is any other information I can provide or patches I can test, I
+am more than happy to do so.
+
+Cheers,
+Nathan
 
 _______________________________________________
 linux-snps-arc mailing list
