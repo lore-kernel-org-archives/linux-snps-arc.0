@@ -4,103 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A490ED1CA3B
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  5 Nov 2024 07:03:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88073D12676
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  5 Nov 2024 09:58:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=QyvZ5IlDQT7L74fwSI+cwWMg50FfR0nSMaM+QfdvvWI=; b=dJukcSaQ1aYKNV
-	2NyhQGjuNi/wpvsJUT+XRn3hgpH3ZBHbdd2ZmT1EbJtfBk9f4zOO3fG7u4F4/U/iwe/sJO7H8INBm
-	+sv2CuqAqC1tZ/H8E4w2w5QeupDk/xkSzUQdVtUPI3GcW29GP9rFtOIkz8p9NxFaQmd3rhezwEHB4
-	dtxxTDtAyjhk7/6cAjHlblP/+iPE8O6kmHh8mhrbiEYHga6FDj/+OjBoFlHXNm4aTEjIn3nxC0ndI
-	e+39Q5nlCI8Vz8aGHN+s0gx8O2EspkRduRWZz63stQalUzT5KL2Ny1vv3ULBFj2xWyfxl7MjsfEZK
-	2vqeHVDADmccn6ZlfI1A==;
+	List-Owner; bh=8sn7bflwCkOsaN+jC8nk0/0L6hjk6dPzORFQEA2retE=; b=U4RAV+V7NP10pb
+	TvHZp1QltBCC+vJPDyk9uDg/yfFhzoalTW+1Z2qyus71GYmWEElZKrrRkzPlFe1Ki1zSQrJWlZR15
+	wfqPtFynAxaLGlkBe5McWh7uCgDyhaCWHQEJ60CHUAHd8XdKXZTkB4aX3Y+4QGrbAoS9GJrjDYzqh
+	KCBAuw5zbK504OlXazoz2/qZyqJmba4zRMqrQ6k78MmG7MWc4gsoeB798KVKj9KfiKZr27TsgmHwg
+	NAE/s+kivlLSWpeqj50ERGgJCanFUGFo/3zX4gz5q/sVGLeUd/JKPHcs2thKbsoYDv/vBxK5xpeD1
+	OU9U3DfKkrzlHPiakZOw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t8Dae-0000000G8TX-1YMB;
-	Tue, 05 Nov 2024 07:03:00 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1t8GKe-0000000GbIA-0u7H;
+	Tue, 05 Nov 2024 09:58:40 +0000
+Received: from pegase2.c-s.fr ([93.17.235.10])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t8Daa-0000000G8Qv-0FZj;
-	Tue, 05 Nov 2024 07:02:57 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id DE148A42167;
-	Tue,  5 Nov 2024 07:00:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4B12C4CECF;
-	Tue,  5 Nov 2024 07:02:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730790174;
-	bh=vfcX72EWl1PlKyFBzjhHz5V71yaLAfzK3VjVgomZL4Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=i3dpbmwHLfd+qUmJoaWeTGPHb10DC+M0kf+DMEykGWoYpGOuSUDviaUCAAx4zIAfi
-	 my4z1l/oyVoPrY5WEhvGAqrSv0MLPuXbzVIKUoMd0jh8oEVUCEONnRV4s7PDepCIp9
-	 ZD54y4ohFGVDY1Cs7nPdmpyfCNtvqUqW5KJ/Ch+xipF5ZFMCAivKT3JR6Xd9V1a/4G
-	 LvZ1wHQ1rlIUNyplCl+fPkOtsT/XeAFLJAPXe+EdvajpWUHCrgFIHiD89oCp0/Bkx4
-	 xYtH7/sknC5+POJtdvm/YMmFy0WRYObll2kMIURKDi3pF/30ytxQP7HSq81EZrmTXO
-	 namiYtOl86+Aw==
-Date: Tue, 5 Nov 2024 09:02:26 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Andy Lutomirski <luto@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-	Brian Cain <bcain@quicinc.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Guo Ren <guoren@kernel.org>, Helge Deller <deller@gmx.de>,
-	Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Simek <monstr@monstr.eu>, Oleg Nesterov <oleg@redhat.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Richard Weinberger <richard@nod.at>,
-	Russell King <linux@armlinux.org.uk>, Song Liu <song@kernel.org>,
-	Stafford Horne <shorne@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Vineet Gupta <vgupta@kernel.org>, Will Deacon <will@kernel.org>,
-	bpf@vger.kernel.org, linux-alpha@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org, linux-mm@kvack.org,
-	linux-modules@vger.kernel.org, linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-	linux-trace-kernel@vger.kernel.org, linux-um@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
-	sparclinux@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v7 6/8] x86/module: prepare module loading for ROX
- allocations of text
-Message-ID: <ZynDAhW0lKCfOqZl@kernel.org>
-References: <20241023162711.2579610-1-rppt@kernel.org>
- <20241023162711.2579610-7-rppt@kernel.org>
- <20241104232741.GA3843610@thelio-3990X>
+	id 1t8GIp-0000000Gas2-1vhx;
+	Tue, 05 Nov 2024 09:56:49 +0000
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+	by localhost (Postfix) with ESMTP id 4XjNyz319Qz9sPd;
+	Tue,  5 Nov 2024 10:56:43 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id CpEO93zW8bQ7; Tue,  5 Nov 2024 10:56:43 +0100 (CET)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4XjNyz27jdz9rvV;
+	Tue,  5 Nov 2024 10:56:43 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 346688B770;
+	Tue,  5 Nov 2024 10:56:43 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id BXNslob-hZDZ; Tue,  5 Nov 2024 10:56:43 +0100 (CET)
+Received: from [192.168.232.44] (unknown [192.168.232.44])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 9E0918B763;
+	Tue,  5 Nov 2024 10:56:42 +0100 (CET)
+Message-ID: <9ee9c21b-179f-49aa-8c65-304c8ef2c9a7@csgroup.eu>
+Date: Tue, 5 Nov 2024 10:56:42 +0100
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20241104232741.GA3843610@thelio-3990X>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] asm-generic: add an optional pfn_valid check to
+ page_to_phys
+To: Christoph Hellwig <hch@lst.de>, Arnd Bergmann <arnd@arndb.de>
+Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-arch@vger.kernel.org
+References: <20241023053644.311692-1-hch@lst.de>
+ <20241023053644.311692-3-hch@lst.de>
+Content-Language: fr-FR
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+In-Reply-To: <20241023053644.311692-3-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241104_230256_232995_2BAA6EBE 
-X-CRM114-Status: GOOD (  35.53  )
+X-CRM114-CacheID: sfid-20241105_015647_680459_520A55CC 
+X-CRM114-Status: GOOD (  14.31  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,99 +81,36 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Nathan,
-
-On Mon, Nov 04, 2024 at 04:27:41PM -0700, Nathan Chancellor wrote:
-> Hi Mike,
-> 
-> On Wed, Oct 23, 2024 at 07:27:09PM +0300, Mike Rapoport wrote:
-> > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-> > 
-> > When module text memory will be allocated with ROX permissions, the
-> > memory at the actual address where the module will live will contain
-> > invalid instructions and there will be a writable copy that contains the
-> > actual module code.
-> > 
-> > Update relocations and alternatives patching to deal with it.
-> > 
-> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> > Tested-by: kdevops <kdevops@lists.linux.dev>
-> 
-> Hopefully the last time you have to hear from me, as I am only
-> experiencing issues with only one of my test machines at this point and
-> it is my only machine that supports IBT, so it seems to point to
-> something specific with the IBT part of the FineIBT support. I notice
-> either a boot hang or an almost immediate reboot (triple fault?). I
-> guess this is how I missed reporting this earlier, as my machine was
-> falling back to the default distribution kernel after the restart and I
-> did not notice I was not actually testing a -next kernel.
-> 
-> Checking out the version of this change that is in next-20241104, commit
-> 7ca6ed09db62 ("x86/module: prepare module loading for ROX allocations of
-> text"), it boots with either 'cfi=off' or 'cfi=kcfi' but it exhibits the
-> issues noted above with 'cfi=fineibt'. At the immediate parent, commit
-> b575d981092f ("arch: introduce set_direct_map_valid_noflush()"), all
-> three combinations boot fine.
-> 
->   $ uname -r; tr ' ' '\n' </proc/cmdline | grep cfi=
-> 
->   6.12.0-rc5-debug-00214-g7ca6ed09db62
->   cfi=kcfi
-> 
->   6.12.0-rc5-debug-00214-g7ca6ed09db62
->   cfi=off
-> 
->   6.12.0-rc5-debug-00213-gb575d981092f
->   cfi=fineibt
-> 
->   6.12.0-rc5-debug-00213-gb575d981092f
->   cfi=kcfi
-> 
->   6.12.0-rc5-debug-00213-gb575d981092f
->   cfi=off
-> 
-> I do not think this machine has an accessible serial port and I do not
-> think IBT virtualization is supported via either KVM or TCG in QEMU, so
-> I am not sure how to get more information about what is going on here. I
-> wanted to try reverting these changes on top of next-20241104 but there
-> was a non-trivial conflict in mm/execmem.c due to some changes on top,
-> so I just tested in the mm history.
-> 
-> If there is any other information I can provide or patches I can test, I
-> am more than happy to do so.
-
-Yes, please :)
-
-There's a silly mistake in cfi_rewrite_endbr() in that commit, the patch
-below should fix it. Can you please test?
-
-diff --git a/arch/x86/kernel/alternative.c b/arch/x86/kernel/alternative.c
-index 3407efc26528..243843e44e89 100644
---- a/arch/x86/kernel/alternative.c
-+++ b/arch/x86/kernel/alternative.c
-@@ -1241,7 +1241,7 @@ static void cfi_rewrite_endbr(s32 *start, s32 *end, struct module *mod)
- 		void *addr = (void *)s + *s;
- 		void *wr_addr = module_writable_address(mod, addr);
- 
--		poison_endbr(addr+16, wr_addr, false);
-+		poison_endbr(addr + 16, wr_addr + 16, false);
- 	}
- }
- 
- 
-> Cheers,
-> Nathan
-
--- 
-Sincerely yours,
-Mike.
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+CgpMZSAyMy8xMC8yMDI0IMOgIDA3OjM2LCBDaHJpc3RvcGggSGVsbHdpZyBhIMOpY3JpdMKgOgo+
+IHBhZ2VfdG9fcGZuIGlzIHVzdWFsbHkgaW1wbGVtZW50ZWQgYnkgcG9pbnRlciBhcml0aG1ldGlj
+cyBvbiB0aGUgbWVtb3J5Cj4gbWFwLCB3aGljaCBtZWFucyB0aGF0IGJvZ3VzIGlucHV0IGNhbiBs
+ZWFkIHRvIGV2ZW4gbW9yZSBib2d1cyBvdXRwdXQuCj4gCj4gUG93ZXJwYyBoYWQgYSBwZm5fdmFs
+aWQgY2hlY2sgb24gdGhlIGludGVybWVkaWF0ZSBwZm4gaW4gdGhlIHBhZ2VfdG9fcGh5cwo+IGlt
+cGxlbWVudGF0aW9uIHdoZW4gQ09ORklHX0RFQlVHX1ZJUlRVQUwgaXMgZGVmaW5lZCwgd2hpY2gg
+c2VlbXMKPiBnZW5lcmFsbHkgdXNlZnVsLCBzbyBhZGQgdGhhdCB0byB0aGUgZ2VuZXJpYyB2ZXJz
+aW9uLgo+IAo+IFNpZ25lZC1vZmYtYnk6IENocmlzdG9waCBIZWxsd2lnIDxoY2hAbHN0LmRlPgo+
+IC0tLQo+ICAgaW5jbHVkZS9hc20tZ2VuZXJpYy9tZW1vcnlfbW9kZWwuaCB8IDEwICsrKysrKysr
+KysKPiAgIDEgZmlsZSBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAtLWdpdCBh
+L2luY2x1ZGUvYXNtLWdlbmVyaWMvbWVtb3J5X21vZGVsLmggYi9pbmNsdWRlL2FzbS1nZW5lcmlj
+L21lbW9yeV9tb2RlbC5oCj4gaW5kZXggYTczYTE0MGNiZWNkLi42ZDFmYjYxNjJhYzEgMTAwNjQ0
+Cj4gLS0tIGEvaW5jbHVkZS9hc20tZ2VuZXJpYy9tZW1vcnlfbW9kZWwuaAo+ICsrKyBiL2luY2x1
+ZGUvYXNtLWdlbmVyaWMvbWVtb3J5X21vZGVsLmgKPiBAQCAtNjQsNyArNjQsMTcgQEAgc3RhdGlj
+IGlubGluZSBpbnQgcGZuX3ZhbGlkKHVuc2lnbmVkIGxvbmcgcGZuKQo+ICAgI2RlZmluZSBwYWdl
+X3RvX3BmbiBfX3BhZ2VfdG9fcGZuCj4gICAjZGVmaW5lIHBmbl90b19wYWdlIF9fcGZuX3RvX3Bh
+Z2UKPiAgIAo+ICsjaWZkZWYgQ09ORklHX0RFQlVHX1ZJUlRVQUwKPiArI2RlZmluZSBwYWdlX3Rv
+X3BoeXMocGFnZSkJCQkJCQlcCj4gKyh7CQkJCQkJCQkJXAo+ICsJdW5zaWduZWQgbG9uZyBfX3Bm
+biA9IHBhZ2VfdG9fcGZuKHBhZ2UpOwkJCVwKPiArCQkJCQkJCQkJXAo+ICsJV0FSTl9PTl9PTkNF
+KCFwZm5fdmFsaWQoX19wZm4pKTsJCQkJXAoKT24gcG93ZXJwYyBJIHRoaW5rIGl0IHdhcyBhIFdB
+Uk5fT04oKS4KCldpbGwgYSBXQVJOX09OX09OQ0UoKSBiZSBlbm91Z2ggPwoKPiArCVBGTl9QSFlT
+KF9fcGZuKTsJCQkJCQlcCj4gK30pCj4gKyNlbHNlCj4gICAjZGVmaW5lIHBhZ2VfdG9fcGh5cyhw
+YWdlKQlQRk5fUEhZUyhwYWdlX3RvX3BmbihwYWdlKSkKPiArI2VuZGlmIC8qIENPTkZJR19ERUJV
+R19WSVJUVUFMICovCj4gICAjZGVmaW5lIHBoeXNfdG9fcGFnZShwaHlzKQlwZm5fdG9fcGFnZShQ
+SFlTX1BGTihwaHlzKSkKPiAgIAo+ICAgI2VuZGlmIC8qIF9fQVNTRU1CTFlfXyAqLwoKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtc25wcy1hcmMg
+bWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xp
+c3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
