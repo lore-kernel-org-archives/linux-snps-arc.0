@@ -4,101 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3764D591A9
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 18 Nov 2024 18:40:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DFAD1D3B7C1
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 26 Nov 2024 09:19:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=OnPxNx05ygS++dsGlI8J5K65vrMwla9cxdmnxwXnuIk=; b=0vk2T53t2Jt2aC
-	E9u+VmUsb1EaK3rYcXuLvzJ+Xrv4hdsWW+oHZLWky/+MOow1ezkOQdoMFQhsdBgRpaqicW/4Lru9F
-	s+tEU9mxN2z0nZRFa98gGOAn+i96OuREIQ68lkc5lEfchtKGuWUuU51NGBOwpYHxOecIrJqaqB/11
-	IcjcOUUy9Ild/+qvL2VldRkdGk1gzXD3M93CjAVoPTe6MfDAXQ8b6aBTVtWDjJujjoiWri5Ea67Wo
-	VGx10sr0S5MeF8yJivgJwE5HrIOtsq1IeUuSFzEarPTet4yp44BfKH4wzAB1N+cGmI/fZkEG0lm6p
-	jnArlfSZ6MlAYT94/94A==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=oz9O2jib7INpYtcZvUqd/rl33WkHO8OC4nHr9CG3oHQ=; b=TjNngpacDFFHW8
+	7rX4PfqRRpDjYDOyF6qg/Ew3wb8aqGES0S2tCa3YQ1meDXRTr6rhdTtCThNuEJvkPwmdtCFShZWnj
+	IF6FMaO+vQAXFVnz3WrV+L5ZLB9enj46K90fF1ldgwt1FVT9653z1Tp3afCxiCkkaK+nBnJUhiRXP
+	01fzJfnRV+95mLUdOAmjzec2hBeRSN+x4eNuuSW05rV78As6uejVxjnxD5bYZmu0TiDFsoTpVdn5t
+	NJnG0KsjSgiAtNa8rndA0Cl67+UwQvp/+mdIzeJtuR/dQCuOrwiFNA+6nUMIEB5T6VYIpMyo3WFxA
+	Y9geDmmL00lz2DUmZIUA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tD6fr-0000000AMhy-1V08;
-	Mon, 18 Nov 2024 18:40:35 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1tFrjR-0000000A5VC-2Yi1;
+	Tue, 26 Nov 2024 09:19:41 +0000
+Received: from mail.sharpwise.pl ([5.249.155.170])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tD6fn-0000000AMfh-251t;
-	Mon, 18 Nov 2024 18:40:32 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 11F02A419F2;
-	Mon, 18 Nov 2024 18:38:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A5AEC4CECC;
-	Mon, 18 Nov 2024 18:40:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731955229;
-	bh=PgWfk6zhBX25rXxPAwmwUJeghk+GajLkQHlk+OfGUQc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GeOY29szPjdxa0xm+vV9DTg2e5TPlxk7huuBMuJbtT+hTn5kPCdRWZ2oKgkC8UpSt
-	 VKEpF1/SK1ceIDW9rYbK4e2lrKnmmaewrajrem/5hOE+eL2aJiJwe2Mq1uUh3lhZ50
-	 bF8KJonZOhyM89MpbuLHVivYouTUSuZbDmGNuIIUU6Sz4PBRF7AffgUgRIMQ22WWof
-	 8/hSFdkboAANibLeqfLmV82IhRXIdNitXrU+lzbag6jN3GbbRMHw4voatyzJmOaEVn
-	 LYCc2cjDCBvkB/fCKjeR1Y3G/eBzyCxZ8foJEVKOfJ+JG689X8AaWtSJSKfiAkucWY
-	 LfgB8UgFNVmrQ==
-Date: Mon, 18 Nov 2024 10:40:26 -0800
-From: Mike Rapoport <rppt@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Andy Lutomirski <luto@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-	Brian Cain <bcain@quicinc.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Guo Ren <guoren@kernel.org>, Helge Deller <deller@gmx.de>,
-	Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Simek <monstr@monstr.eu>, Oleg Nesterov <oleg@redhat.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Richard Weinberger <richard@nod.at>,
-	Russell King <linux@armlinux.org.uk>, Song Liu <song@kernel.org>,
-	Stafford Horne <shorne@gmail.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Vineet Gupta <vgupta@kernel.org>, Will Deacon <will@kernel.org>,
-	bpf@vger.kernel.org, linux-alpha@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org, linux-mm@kvack.org,
-	linux-modules@vger.kernel.org, linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-	linux-trace-kernel@vger.kernel.org, linux-um@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
-	sparclinux@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v7 0/8] x86/module: use large ROX pages for text
- allocations
-Message-ID: <ZzuKGoj99rIuMaBE@kernel.org>
-References: <20241023162711.2579610-1-rppt@kernel.org>
- <20241118132501.4eddb46c@gandalf.local.home>
+	id 1tFriZ-0000000A4h6-1AOT
+	for linux-snps-arc@lists.infradead.org;
+	Tue, 26 Nov 2024 09:18:48 +0000
+Received: by mail.sharpwise.pl (Postfix, from userid 1002)
+	id 5BF98854F3; Tue, 26 Nov 2024 10:17:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sharpwise.pl; s=mail;
+	t=1732612648; bh=5k7KaERzV9XtiDAeG3jYJqSXCiNxYwmW5KPssYFF/k8=;
+	h=Date:From:To:Subject:From;
+	b=kFa0H6C//39kdTn+H+LD3/uoRLR8H9pBx0mwAC1+OX7xvJrSW8IZQ3nn42z6HEPN8
+	 6eiD6Yxg5iIRYquN7WLQBhuAjuM7un2WC2dQOGybYCrlLVQD21DsGoIIjLMp1vpkx2
+	 ATnBBJrUs08CBJkZo8rhCy2zLhSxxx9b7DlABbDMfW0keBJe0jvdHd6zwP0oRN/184
+	 gtNbaXCpG98Lz6lsvktwTt/B8EAELuqKZbbWOV01njMx6Jd4pStukV0x3To28d/gb4
+	 tihtr8atz6bI4TY+rGz5TMyvQG+DPEtUEZvRY7og14yk7ALYQNpoXBl9zxsTUvGNGx
+	 DPmoebOpm/6ig==
+Received: by mail.sharpwise.pl for <linux-snps-arc@lists.infradead.org>; Tue, 26 Nov 2024 09:16:18 GMT
+Message-ID: <20241126084501-0.1.83.1b6nm.0.6fka2tp98g@sharpwise.pl>
+Date: Tue, 26 Nov 2024 09:16:18 GMT
+From: "Patryk Wysocki" <patryk.wysocki@sharpwise.pl>
+To: <linux-snps-arc@lists.infradead.org>
+Subject: Zapytanie ofertowe 
+X-Mailer: mail.sharpwise.pl
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20241118132501.4eddb46c@gandalf.local.home>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241118_104031_660471_ECACB938 
-X-CRM114-Status: GOOD (  24.69  )
+X-CRM114-CacheID: sfid-20241126_011847_463761_F81E7636 
+X-CRM114-Status: UNSURE (   1.76  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,106 +61,17 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, Nov 18, 2024 at 01:25:01PM -0500, Steven Rostedt wrote:
-> On Wed, 23 Oct 2024 19:27:03 +0300
-> Mike Rapoport <rppt@kernel.org> wrote:
-> 
-> > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-> > 
-> > Hi,
-> > 
-> > This is an updated version of execmem ROX caches.
-> > 
-> 
-> FYI, I booted a kernel before and after applying these patches with my
-> change:
-> 
->   https://lore.kernel.org/20241017113105.1edfa943@gandalf.local.home
-> 
-> Before these patches:
-> 
->  # cat /sys/kernel/tracing/dyn_ftrace_total_info
-> 57695 pages:231 groups: 9
-> ftrace boot update time = 14733459 (ns)
-> ftrace module total update time = 449016 (ns)
-> 
-> After:
-> 
->  # cat /sys/kernel/tracing/dyn_ftrace_total_info
-> 57708 pages:231 groups: 9
-> ftrace boot update time = 47195374 (ns)
-> ftrace module total update time = 592080 (ns)
-> 
-> Which caused boot time to slowdown by over 30ms. That may not seem like
-> much, but we are very concerned about boot time and are fighting every ms
-> we can get.
-
-Hmm, looks like this change was lost in rebase :/
-
-@Andrew, should I send it as a patch on top of mm-stable?
-
-diff --git a/arch/x86/kernel/ftrace.c b/arch/x86/kernel/ftrace.c
-index 8da0e66ca22d..859902dd06fc 100644
---- a/arch/x86/kernel/ftrace.c
-+++ b/arch/x86/kernel/ftrace.c
-@@ -111,17 +111,22 @@ static int ftrace_verify_code(unsigned long ip, const char *old_code)
-  */
- static int __ref
- ftrace_modify_code_direct(unsigned long ip, const char *old_code,
--			  const char *new_code)
-+			  const char *new_code, struct module *mod)
- {
- 	int ret = ftrace_verify_code(ip, old_code);
- 	if (ret)
- 		return ret;
- 
- 	/* replace the text with the new text */
--	if (ftrace_poke_late)
-+	if (ftrace_poke_late) {
- 		text_poke_queue((void *)ip, new_code, MCOUNT_INSN_SIZE, NULL);
--	else
-+	} else if (!mod) {
- 		text_poke_early((void *)ip, new_code, MCOUNT_INSN_SIZE);
-+	} else {
-+		mutex_lock(&text_mutex);
-+		text_poke((void *)ip, new_code, MCOUNT_INSN_SIZE);
-+		mutex_unlock(&text_mutex);
-+	}
- 	return 0;
- }
- 
-@@ -142,7 +147,7 @@ int ftrace_make_nop(struct module *mod, struct dyn_ftrace *rec, unsigned long ad
- 	 * just modify the code directly.
- 	 */
- 	if (addr == MCOUNT_ADDR)
--		return ftrace_modify_code_direct(ip, old, new);
-+		return ftrace_modify_code_direct(ip, old, new, mod);
- 
- 	/*
- 	 * x86 overrides ftrace_replace_code -- this function will never be used
-@@ -161,7 +166,7 @@ int ftrace_make_call(struct dyn_ftrace *rec, unsigned long addr)
- 	new = ftrace_call_replace(ip, addr);
- 
- 	/* Should only be called when module is loaded */
--	return ftrace_modify_code_direct(rec->ip, old, new);
-+	return ftrace_modify_code_direct(rec->ip, old, new, NULL);
- }
- 
- /*
-
-
-> -- Steve
-
--- 
-Sincerely yours,
-Mike.
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+RHppZcWEIGRvYnJ5LAoKUG96d29sacWCZW0gc29iaWUgbmEga29udGFrdCwgcG9uaWV3YcW8IGpl
+c3RlbSB6YWludGVyZXNvd2FueSB3ZXJ5ZmlrYWNqxIUgbW/FvGxpd2/Fm2NpIG5hd2nEhXphbmlh
+IHdzcMOzxYJwcmFjeS4KCldzcGllcmFteSBmaXJteSB3IHBvenlza2l3YW5pdSBub3d5Y2gga2xp
+ZW50w7N3IGJpem5lc293eWNoLgoKQ3p5IG1vxbxlbXkgcG9yb3ptYXdpYcSHIHcgY2VsdSBwcnpl
+ZHN0YXdpZW5pYSBzemN6ZWfDs8WCb3d5Y2ggaW5mb3JtYWNqaT8KCgpQb3pkcmF3aWFtClBhdHJ5
+ayBXeXNvY2tpCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFk
+ZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4
+LXNucHMtYXJjCg==
