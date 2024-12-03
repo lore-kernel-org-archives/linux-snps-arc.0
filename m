@@ -4,73 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8DD67D7831C
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  2 Dec 2024 18:01:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CC6D1E64A88
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  3 Dec 2024 12:37:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=u/cyp9OmyKbnpyNQOEsYYVKj8KdO1QapeE852WRyE0w=; b=doFkAQ/HfRD+mY
-	RYU5fYM/ZVUGaEWvbV0qdAMNoWf6CwzKolDirdWvvSEfFCk7c2DIE6VxTm0fbd74RZYD3QUMiOFDC
-	F8KXhmK1fwToZe47mSL1MLlBfxDVB8u9Zd2/4PmitcYofpDzyBOdtC88kJFbfUMgLqB3WNb+u9i/3
-	E+A9YXghoyfqxbxye3jm2Iter+qVLcCFOx70t0Fj3i/N0t0XGTN95lInutD7On92xfbxCGIzgk1ch
-	bNBhwmtHvktQCwiARck0lkqRhvBbSXYjYKlRDH4/y4Z5AbCdXUppRquapHl+WTCBWpJQj13Q1zyEp
-	ozFj+J8uJl3sXa5WBuWw==;
+	List-Owner; bh=byCJ8BeJHSSmfVAGrhEXbyLyK9Ss5PV9L3sfAHlyP38=; b=tmsg8Nl6caIjL5
+	VoqMALoDlzno2/BGomFFzyUKhGzErS54fI76zrMnOJOpDOhBo8Y5CDfiZn08IudfhXwDrJ7FybvxJ
+	WbzgKXKonn1eIoNBddh/3qHAB7EAm3bIEm++KWfqvK3osOqtKyt68ob2Y2Nwe6l1TAWUvDhp9V0wm
+	LhtPW5AC/IG6MoOOOFAFrtSk33dA6B0ilg/R7GvzEgMcT9iL30mkWd2oVptx4Z5B1I5LkFOckfpQq
+	T6ZF8ewS/uGqEUhdnHT/jFSmi4EbzLwOS1zEqkGlj1dc5pZKnVJkPPx7hC/1qboRv4H+CKmOh7qbg
+	XAWvJfutFsZgISSmfluA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tIAjb-000000076o3-0nac;
-	Mon, 02 Dec 2024 18:01:23 +0000
-Received: from mgamail.intel.com ([192.198.163.8])
+	id 1tIS9j-00000009S1b-2Hgg;
+	Tue, 03 Dec 2024 12:37:31 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tIAhP-000000076AI-1dBM
+	id 1tIS9h-00000009S14-0l6C
 	for linux-snps-arc@lists.infradead.org;
-	Mon, 02 Dec 2024 17:59:08 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733162347; x=1764698347;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pmnArA//bkpdhkHU/fQej/A6gmLmA9azQ3MuefzXl5U=;
-  b=dWOD/SmpXG8Lf3swCPcmUTQaVR8wGCUB6WAttmp1A/BBLfJgtl30wfRj
-   UwSPecQz3Xqu79+WhrV4+NYzeRDYYW906qsCX3kZigujoPbW3qmdA49yv
-   04mDOytCxeYFSvkM8m89HDn/f8uC8qW6lM9I5/XQNggpe8wSxjh8fg6Ri
-   NN8z2IgSrUQPB54iSjEvN/suGJUSFJubk0kFz8fGdyfNw4TlBJ/ehAugU
-   8P3xYk8eKwo85aOIiIRovNP7evV9M0l6NDLMTA5fyzNGyXb8DERYcpGCf
-   KfMuJYtn2IuMdyEdEZ2tmwa4IZB2FfZ4vinhMc5+6uMEjRkAaRX3FhHQy
-   A==;
-X-CSE-ConnectionGUID: Do5J/IY4Tc+k2XQ/abFPSg==
-X-CSE-MsgGUID: uEG0F08ESyeHVHf7xtdH1w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="50868449"
-X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="50868449"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 09:59:06 -0800
-X-CSE-ConnectionGUID: LMwZfNzTRnegJqXWq83g+A==
-X-CSE-MsgGUID: p6cFK7QMRsq7FR0lwHnivg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="97612437"
-Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 02 Dec 2024 09:59:05 -0800
-Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tIAhL-0002hR-0V;
-	Mon, 02 Dec 2024 17:59:03 +0000
-Date: Tue, 3 Dec 2024 01:58:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Tue, 03 Dec 2024 12:37:30 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 34E7DA4152B;
+	Tue,  3 Dec 2024 12:35:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F88CC4CECF;
+	Tue,  3 Dec 2024 12:37:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733229448;
+	bh=69QcTpbm8HYAOEez/L3Ux7Gj2eB8EOWegOb73arSY9Y=;
+	h=From:To:Cc:Subject:Date:From;
+	b=eAdJ8xP11KMa4dw/P2p5f0dF61hJ8OlvUOKtLwvyvXvCFCzsKOrfx47mDJdfFXzFo
+	 lzL18hX1CKWxmQod0RQqfKADCsBVZXlhtd5Rqjy3o/kwjFkwOCWhFqgJctaay9SFOd
+	 8Ofc/mD5fArxkigj+/8Y1FkI+UepRHpULZgQ1CihbPImMRX2xrjPahmsmceVv5BPzH
+	 WNI0mIgeGxNuYzKeGimbX60nFcjZ9LGrEBXlA0txsXATkCPq3uD84IdbI3DZaRFDaL
+	 f8UHmxPbA12uUJlawWSKRgdmHWOvfAXzdVuoFDev97NgN++jWar+oTAzZeY6iZFWZF
+	 qS5BlTSZMjANw==
+From: Leon Romanovsky <leon@kernel.org>
+To: Vineet Gupta <vgupta@kernel.org>
+Cc: Leon Romanovsky <leonro@nvidia.com>,
 	linux-snps-arc@lists.infradead.org,
-	Vineet Gupta <vgupta@synopsys.com>
-Subject: arch/arc/plat-hsdk/platform.c:16:5: sparse: sparse: symbol
- 'arc_hsdk_axi_dmac_coherent' was not declared. Should it be static?
-Message-ID: <202412030106.M5RMPcBO-lkp@intel.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ARC: build: Try to guess GCC variant of cross compiler
+Date: Tue,  3 Dec 2024 14:37:15 +0200
+Message-ID: <00d3173fe207ab9ba85dc974777a6ccb4656b03c.1733229205.git.leonro@nvidia.com>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
-Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241202_095907_440614_A589F502 
-X-CRM114-Status: UNSURE (   7.13  )
+X-CRM114-CacheID: sfid-20241203_043729_280507_9C386D97 
+X-CRM114-Status: UNSURE (   9.32  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -83,40 +67,36 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e70140ba0d2b1a30467d4af6bcfe761327b9ec95
-commit: ce0eff0d9b4d37702df48a39e3fddb5e39b2c25b ARC: [plat-hsdk]: allow to switch between AXI DMAC port configurations
-date:   5 years ago
-config: arc-randconfig-r123-20241118 (https://download.01.org/0day-ci/archive/20241203/202412030106.M5RMPcBO-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241203/202412030106.M5RMPcBO-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412030106.M5RMPcBO-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> arch/arc/plat-hsdk/platform.c:16:5: sparse: sparse: symbol 'arc_hsdk_axi_dmac_coherent' was not declared. Should it be static?
-   arch/arc/plat-hsdk/platform.c:27:17: sparse: sparse: undefined identifier '__builtin_arc_sr'
-   arch/arc/plat-hsdk/platform.c:34:17: sparse: sparse: undefined identifier '__builtin_arc_sr'
-
-vim +/arc_hsdk_axi_dmac_coherent +16 arch/arc/plat-hsdk/platform.c
-
-    15	
-  > 16	int arc_hsdk_axi_dmac_coherent __section(.data) = 0;
-    17	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+RnJvbTogTGVvbiBSb21hbm92c2t5IDxsZW9ucm9AbnZpZGlhLmNvbT4KCkFSQyBHQ0MgY29tcGls
+ZXIgaXMgcGFja2FnZWQgc3RhcnRpbmcgZnJvbSBGZWRvcmEgMzlpIGFuZCB0aGUgR0NDCnZhcmlh
+bnQgb2YgY3Jvc3MgY29tcGlsZSB0b29scyBoYXMgYXJjLWxpbnV4LWdudS0gcHJlZml4IGFuZCBu
+b3QKYXJjLWxpbnV4LS4gVGhpcyBpcyBjYXVzaW5nIHRoYXQgQ1JPU1NfQ09NUElMRSB2YXJpYWJs
+ZSBpcyBsZWZ0IHVuc2V0LgoKVGhpcyBjaGFuZ2UgYWxsb3dzIGJ1aWxkcyB3aXRob3V0IG5lZWQg
+dG8gc3VwcGx5IENST1NTX0NPTVBJTEUgYXJndW1lbnQKaWYgZGlzdHJvIHBhY2thZ2UgaXMgdXNl
+ZC4KCkJlZm9yZSB0aGlzIGNoYW5nZToKJCBtYWtlIC1qIDEyOCBBUkNIPWFyYyBXPTEgZHJpdmVy
+cy9pbmZpbmliYW5kL2h3L21seDQvCiAgZ2NjOiB3YXJuaW5nOiDigJgtbWNwdT3igJkgaXMgZGVw
+cmVjYXRlZDsgdXNlIOKAmC1tdHVuZT3igJkgb3Ig4oCYLW1hcmNoPeKAmSBpbnN0ZWFkCiAgZ2Nj
+OiBlcnJvcjogdW5yZWNvZ25pemVkIGNvbW1hbmQtbGluZSBvcHRpb24g4oCYLW1tZWRpdW0tY2Fs
+bHPigJkKICBnY2M6IGVycm9yOiB1bnJlY29nbml6ZWQgY29tbWFuZC1saW5lIG9wdGlvbiDigJgt
+bWxvY2vigJkKICBnY2M6IGVycm9yOiB1bnJlY29nbml6ZWQgY29tbWFuZC1saW5lIG9wdGlvbiDi
+gJgtbXVuYWxpZ25lZC1hY2Nlc3PigJkKClsxXSBodHRwczovL3BhY2thZ2VzLmZlZG9yYXByb2pl
+Y3Qub3JnL3BrZ3MvY3Jvc3MtZ2NjL2djYy1hcmMtbGludXgtZ251L2luZGV4Lmh0bWwKU2lnbmVk
+LW9mZi1ieTogTGVvbiBSb21hbm92c2t5IDxsZW9ucm9AbnZpZGlhLmNvbT4KLS0tCiBhcmNoL2Fy
+Yy9NYWtlZmlsZSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxl
+dGlvbigtKQoKZGlmZiAtLWdpdCBhL2FyY2gvYXJjL01ha2VmaWxlIGIvYXJjaC9hcmMvTWFrZWZp
+bGUKaW5kZXggMjM5MGRkMDQyZTM2Li5mYjk4NDc4ZWQxYWIgMTAwNjQ0Ci0tLSBhL2FyY2gvYXJj
+L01ha2VmaWxlCisrKyBiL2FyY2gvYXJjL01ha2VmaWxlCkBAIC02LDcgKzYsNyBAQAogS0JVSUxE
+X0RFRkNPTkZJRyA6PSBoYXBzX2hzX3NtcF9kZWZjb25maWcKIAogaWZlcSAoJChDUk9TU19DT01Q
+SUxFKSwpCi1DUk9TU19DT01QSUxFIDo9ICQoY2FsbCBjYy1jcm9zcy1wcmVmaXgsIGFyYy1saW51
+eC0gYXJjZWItbGludXgtKQorQ1JPU1NfQ09NUElMRSA6PSAkKGNhbGwgY2MtY3Jvc3MtcHJlZml4
+LCBhcmMtbGludXgtIGFyY2ViLWxpbnV4LSBhcmMtbGludXgtZ251LSkKIGVuZGlmCiAKIGNmbGFn
+cy15CSs9IC1mbm8tY29tbW9uIC1waXBlIC1mbm8tYnVpbHRpbiAtbW1lZGl1bS1jYWxscyAtRF9f
+bGludXhfXwotLSAKMi40Ny4wCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxp
+c3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9saW51eC1zbnBzLWFyYwo=
