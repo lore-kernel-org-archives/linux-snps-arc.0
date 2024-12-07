@@ -4,54 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5754DE7717B
-	for <linux-snps-arc@archiver.kernel.org>; Sat,  7 Dec 2024 16:55:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A870E7717E
+	for <linux-snps-arc@archiver.kernel.org>; Sat,  7 Dec 2024 16:55:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=6kYBS/quPyAt6odCAExRITeeC8NHtwIY0fv8WPjL7UY=; b=qIG2uQsJGpIpkE
-	ib/e2RmkGBX9vSLSpqgMxMgh/roNJeSipCYgzqxQ48jagoJX4ZtSDoGVoFkyPCLXdTaxRRHHu8Afx
-	dPKqPrrARYEq8tThpsX1woaWYff+Fdmxoqu3UArSSpeH8l2yjhnxWfjiM70BpWs4zVFVrA3Ybfzgz
-	N64vG7p0PK2fzzTtUUg9joKkCHAs9q3dBpvVGltYFa2cFzC0RJSxPX6/v8pv5iwQVXOqMLQSRhk2K
-	9ejcYxkhjfpZxgYMo3lqO8P9JsFX7AZ/UQohKGMlQZbqCA/idJoiofl6ydqS9OVj5jdAoXYPGDHBg
-	Ps2u7j8sAsHjwWWsF06A==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=a5cxQG0QkmkxYMzuN6q8E/v0duqjT+KA3wL372yP3rw=; b=1D64bCje38QRts
+	a3ZtDHvt/cOpkKNml/qUhKQjnVu3qWT7mWPioIxYWzIkejHOwssmvQy676zqijJW3MByonA+D7VT5
+	7wd5kn9lrVAPwkqCoIFBY6ddYtbdrA0ekL+Wl2Wda5jE7f/N85crChjoEfMNJqG9yJuyFEgLibRgm
+	w8aazPoikq40MZQgWujHlsMBXHL7icjwCJxEhlFJZ6MPBwdbePoyh+uzJJi/bxZvpsUhoqX6fiv2V
+	2kqjnS2+HNSbzGyhUiDzFwADjDOs70LAUcp8ovuD9DnRiP/9n5LoyXF+GQ0bHKcgRpsOxQn0RA/nx
+	N/mKhY8jHVJPZshuGerg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJy5V-00000004B1c-1kNu;
-	Sat, 07 Dec 2024 16:55:25 +0000
+	id 1tJy5X-00000004B2k-34I9;
+	Sat, 07 Dec 2024 16:55:27 +0000
 Received: from mail-sn1nam02on2062f.outbound.protection.outlook.com ([2a01:111:f403:2406::62f] helo=NAM02-SN1-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJy5S-00000004B09-4APK
+	id 1tJy5U-00000004B09-3amt
 	for linux-snps-arc@lists.infradead.org;
-	Sat, 07 Dec 2024 16:55:24 +0000
+	Sat, 07 Dec 2024 16:55:26 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=g43+6FPxTHKH97biJc+nvbm8RzTsofVNLdC0RqBlh6FbW66qQeuZRRygGmHdtA23h16ZUMiu4czPC+10ZEgUjkV1mjeTK5JCXKNG5ZAjBSNoIJVZUfWG2nNvKOWZ91XBpYGN52oFJJOpLiKh8hHbfPs9nZ69a1lfRqUBCP/yFDNKqIc4vlUn4AHcB9MqnQNb8pMO+tOx7aa6de9kPJp3jpdJpp5Oy6B+dCUzmPDFQHP4RlaQOcvPxJw5DRV1LDWska+BUA7mwPwad6P8j9+fdEpLE/IIcDcoeGehyNuKETAKqaj5H5ZBlK7DmFmJruzOV0G0EqhAY4nCdbmOaOYVxA==
+ b=KRDU83OkNRVGutl0w4MmMFptf8/NmNjBGb6n6fli3OL+8O3msTsRQoYxsWMYO2eUd53+GjyxfIjpQX/i5bH0NEpcaEDdTEjqlksmGas9hCw/R44UKA6lsZRtyvcIvIBG/5mebMOIpHaIEN9Kud5v8l2AkD/2GirOPzsrHBeAow+WxKSsfxRY8qjy5232K8aPDPhwnoGPDtQi1O9yYpKdIpdZi7+mqSGGUEvZyx1dj9CdOA081zU524KYPYYcPFWTDDbGfxEHpliWfwX75BSuzOUrjTp7tGlMtFFtUWg6+zYgQ6lTjaYZ+Dbda0SBigvEQUODCmwdtQvW0C0qwU0i1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=91j+UUl+idUfk8C4PcBDPsKC/XMGlAuu8q1FPv8PRf8=;
- b=mLP93/Rhg/Iw04TxgHAFwfJ7RHBRbWW0HZMw3oag6OfgxYmPxh5SpSvi2UdeOcOkYVLPGpVa/Vkc9L+5OU/MCx1AbqIV+zcrXgRgJ6XPILqGMqIIzmrUrcmjBU5sStWcBmRXIZX5jskhP4JCNpLDzIxH7TuMGyceufnRjJB6emzwfZHzj3cBZKR9/HknAYX/Zrm4z1f2WM6LhNKQuT+FhA1cocobANGEZ+T3GFQ7kH9fUMxJuEwpNREKx9jXbr6iQFY0i+h2v4KepBwDUwFZL154KKJtvB0tMv2K7PQsioDvfoL7JSPGqJyIc+GkR7PooBOaVe8yDcRqqM8JYebgzA==
+ bh=lFymnYIwzybc1lYwKoXrwnk6I4MsTHm/oq5M30dD9SA=;
+ b=WfMpszucI8OD2QLMmQdUCjyXD6UzoDuurnWr3Rihe7bXuEqWIc6VX/5z1XcieWIp9aeajr8BmNaZeK/JeboBJzYV4LRdWtcFCYFTT4o3FvfFcwxhoGkLfRdezl2pcy8b2W2Hnc2jY7V3hGXzHcj4YA1RU1ZLOd7Nbezqw92Yvczw0MMFebhU3/6tO3gPaKOWIiqc1MpmCustJX66oFoPUcuz2W316krF0kxIKYNcciXS3/VERFJ6WorrIHsJ6BWtUznFjrzMpKj7Jlu8hL0Ij1jPzgNWpst/yGKHxHLQHjhX8FGCJ8Hmvdjxqc4HkZz93NN9t6hD/2qDsYaBQ+vj6g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=91j+UUl+idUfk8C4PcBDPsKC/XMGlAuu8q1FPv8PRf8=;
- b=V47MbQOWyasGPmL8ayyfFSyb8+RHXMhO30Qn5mT9Ec0HHsT88G6DM9p5THbIkXJt+L/fHnD1QxglxnPehW2oXuCg+7/jy12JW9QBdDCaYLqJaGZoA9wwKhBiX5Nx1i/TlD9xS9J5R9mMQL7aqyFrG7wR2Dnr9rcGfqbqNXxAIdGr+mGt5/dlRZHxEdnH1u1ezE8MRwxBIAqYHnQoHsWU8F1rkWKR1CdeKzes27fcQZ3QQ6J+vvAGTzeAb4qgSeGcd7tjFDMOm01td2R7YgNHYBJva2nNBEjh5F8wZWaeGKuqoNxM26wRESbUbh2jou5actS7h+f0lJLAtgfvPuK+xg==
+ bh=lFymnYIwzybc1lYwKoXrwnk6I4MsTHm/oq5M30dD9SA=;
+ b=ZHnwWI8tw1GAvxMP1xppA733jAVQ/gm7+QTbrBOk9AAEu3RFUJmu0Ci7l5bUTiLaVNC2nj1PFEj/+q5ggig//LBcVaZ5z8mxw23mvtCskNZtEm87TSvyCZafausfSp7GDK6AY0Toduw1S6l0lDKuxt09MhwbcJARaqP2d5RVChhK/ZC30071acM9qEJf2tvgsTdRjlr6FaaYBgd0ePsCCV1DMprDhK0Uf0t3e8jbDC2VEvwjTrtqtqW/+VuRKEBHMbcjxbT+Yw+cKe9eumOzrTdG8VF3AIoTVJIqvt3d1BBVOR9B/tUD4ktTWEHhrvz/9WcMg53VmWtKDFKg+fZjyg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
  SJ0PR12MB6735.namprd12.prod.outlook.com (2603:10b6:a03:479::8) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8230.12; Sat, 7 Dec 2024 16:55:10 +0000
+ 15.20.8230.12; Sat, 7 Dec 2024 16:55:11 +0000
 Received: from DS7PR12MB9473.namprd12.prod.outlook.com
  ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
  ([fe80::5189:ecec:d84a:133a%3]) with mapi id 15.20.8230.016; Sat, 7 Dec 2024
- 16:55:09 +0000
+ 16:55:11 +0000
 From: Zi Yan <ziy@nvidia.com>
 To: linux-mm@kvack.org,
 	Andrew Morton <akpm@linux-foundation.org>,
@@ -70,87 +70,91 @@ Cc: Vlastimil Babka <vbabka@suse.cz>,
 	Vineet Gupta <vgupta@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	linux-snps-arc@lists.infradead.org,
-	Zi Yan <ziy@nvidia.com>
-Subject: [PATCH v3 1/2] Introduce cpu_icache_is_aliasing() across all architectures
-Date: Sat,  7 Dec 2024 11:55:03 -0500
-Message-ID: <20241207165504.2852058-1-ziy@nvidia.com>
+	Zi Yan <ziy@nvidia.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v3 2/2] mm: use clear_user_(high)page() for arch with special user folio handling
+Date: Sat,  7 Dec 2024 11:55:04 -0500
+Message-ID: <20241207165504.2852058-2-ziy@nvidia.com>
 X-Mailer: git-send-email 2.45.2
-X-ClientProxiedBy: BL1P223CA0005.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:208:2c4::10) To DS7PR12MB9473.namprd12.prod.outlook.com
+In-Reply-To: <20241207165504.2852058-1-ziy@nvidia.com>
+References: <20241207165504.2852058-1-ziy@nvidia.com>
+X-ClientProxiedBy: BL1P223CA0021.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:208:2c4::26) To DS7PR12MB9473.namprd12.prod.outlook.com
  (2603:10b6:8:252::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|SJ0PR12MB6735:EE_
-X-MS-Office365-Filtering-Correlation-Id: e3886f22-a212-4934-d62c-08dd16dfe8b1
+X-MS-Office365-Filtering-Correlation-Id: af7466e2-8880-4c69-543e-08dd16dfe97e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?M1tUwmlTVXyR8rf5YZ1qPQGr9tPtkknJ2OAc0QV/OJlTju0MFWf47c3TXPQD?=
- =?us-ascii?Q?gX9b496zkigK+5C8Kvlkcrr9b43EhW79oH/VKPUCSAw75RUfcCLDK02+f+S6?=
- =?us-ascii?Q?I55up0bFnZt8AGLXYSiKJJ2YUAuxF3XuXjSQUAgjj6x0ZNgWqzudmWuUBv23?=
- =?us-ascii?Q?iLiTEZmVUGJqzSQTBUsj0ppoaajJWq1SJS7V4qObykfADektQXolGOHRUjl4?=
- =?us-ascii?Q?9X/yx2Bu4UINEJvhk4hwdXyBWixxLOqKQde4kDip6LpX8F+vR37ErTKsGz0w?=
- =?us-ascii?Q?uU+ip75TBeZf9ZpqIqzixbAqJ6j6kIflt/T/MvwErbpcIVEFksj7Cp6vbKVl?=
- =?us-ascii?Q?dLC/1OsBgPALVnQ6JevYY6LIpQyvieL1+1F/nguohcTTMpvuv7u6Z3gBQR37?=
- =?us-ascii?Q?yyeP3zNnWD4vBR6B6ySNhgD5v5eeO/pvDRl7cmsvpFhryW8eVCHaaBkCvmep?=
- =?us-ascii?Q?vxbGI9b5r0q0qL2FlviheNWfUkX/ZGfEF0/OXBsQz5h2uHVabqLfcEOd70c6?=
- =?us-ascii?Q?i2+TnPdL8NunoTAdvvPaiQ827pButoqoy1Sh0Xw8zcZy6JqxcxdVWDxoDMyB?=
- =?us-ascii?Q?UxIg9emCQp6i/lf2zjrcR2wJW4MXCKRRu8CqTtbsyez30dndj5xoFHB4H1Vc?=
- =?us-ascii?Q?Gj1Xxr2lkm2UwTsq4SLBTPKY8FYCY+sbZXcR/B81/vRobcYDzOBrMuwnwoVG?=
- =?us-ascii?Q?/KYUfdAjz3958mARjXl/F7mj/BaYe8/Gr/nABlD3715+862A363U+7rIKcca?=
- =?us-ascii?Q?BVxurdMN5Zsp5qvsku91xRx3GbH8ozyDmGqOHBI023rBe2f9MKPqH/3ypZAu?=
- =?us-ascii?Q?qrl49MkaOauO5iYKeK75JkMZjKXVGdDrlQlTAFbcrzcroctCdNYIEgRGCg96?=
- =?us-ascii?Q?/HAtatmfQTFBL97jlDvoYyle83YNlZD4fSsELAWNJ/MRNryVUaJhqmvs0DnV?=
- =?us-ascii?Q?Sos74VGUYHBqEutIf/t/r8FlIAfa2GvMBD9fdtSNJ7cVjpvbsBFckU52j5LF?=
- =?us-ascii?Q?FxE3ZDypW7LvkTTnCnRw4ePH0p0suTo2zuT6q0oZZ08cIfi0mJ2BB1MqCeEP?=
- =?us-ascii?Q?1NcDRkeVDz4mQVu+KFA8kVoMDDwjlImgA1t6xVDME2/vifRnE9vYkH6P5dAq?=
- =?us-ascii?Q?VcAQ9qJWxsOHyqjua01EBJYfDbN+kwW6FL0ae7x7A1sznf7Kn5sbXXjKKoRX?=
- =?us-ascii?Q?9R7PvIVsqxeHc6Z1DLe+229cZSCcZpZ642cxTm44+IDUPPmiZT/RVQgiNmDt?=
- =?us-ascii?Q?4tOtvJnBodYy3lNLZcgVfy3GKfCC+mQ1uDlD7H0SuDGXPRjgZ9Cd2gmGZ/w5?=
- =?us-ascii?Q?/VZfv4XA4h7qVaeCnCKS36FZMFgH2MQr0jLtq6rjl5CwDQ=3D=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?zlI+7oHK89o3KMZqk96F14Hc8k8mwdZvpKJKp98yRmJQ6CXx3fLNmldTzaXi?=
+ =?us-ascii?Q?yxIOAxf7nqOSofZdMr6gLAkpz1eiddHwP5WxVzidt/FFNLSXdlz8ioLaYMgy?=
+ =?us-ascii?Q?c82v0JaoWWt901yVJG/lyhNAHigPVHXnOe/Sc8zwr/GmM9ZUri+t/rzcMZu6?=
+ =?us-ascii?Q?HhNDhaJJ4Gjlzkg3mScWkqTP68MJt6De3VhPO177r/Ebxd0ZQDbK36jaBiEB?=
+ =?us-ascii?Q?OUcyuCDKSyj9cXv83c0plxdpUM8+dTM/WV5fbL3p+f0xw1oag98M7PxHawTF?=
+ =?us-ascii?Q?K8DYI9eIhjWWnJXHTSH52cCe5FuCGTu4rsTfsKZMVg9LmAqcIyIbwH2p+NGB?=
+ =?us-ascii?Q?twt/jcPulvFK3KOS6j2KeYpFFTJYcoYIMu4lOFGjkLoP7qje3HY68Lpe+Vxf?=
+ =?us-ascii?Q?AcUhF+7GER72jrKk41opT3rcv1vanoY6to0G1jzaiI4On9SVkG39s0lcrmAn?=
+ =?us-ascii?Q?cdIXYByYgINVVKNuxr/F6WjJ/VY+hg98cYj1DVn4zL+wElCpebeS6Ks+91Rj?=
+ =?us-ascii?Q?/qTpMUYIHPlJnpp/5M2qToMIW2o5Eo16jg6t/3OevTjGvrEzPmySQYfazMRA?=
+ =?us-ascii?Q?+kRnM4X1iZdlTtblXf371CXXuTu0KNxxU3tYOXaoZJM4FAEVDe1/FU9h978W?=
+ =?us-ascii?Q?JuCbjK5P0Jgp5Y5LfMglgo8Zjdrdwt3MACCDQaLwZUjMTevCyDmx+i/UHYqS?=
+ =?us-ascii?Q?KjeHEIzhv6+Qsuc/LPLHAFP7l1h0eiEm7ULUXqAuZndkw6EGxpI6GE03JQiO?=
+ =?us-ascii?Q?8/vr6A9oJnigltzuXOALHEXaS8kZHkPKnTxbEsyot63gs4BdjvaC/JVbNUcs?=
+ =?us-ascii?Q?BJCyL3JzrJ77riEmWOvcI6EqRUJpRk3GFZuX1+tt4YtQDdtifjukj5nXyW9t?=
+ =?us-ascii?Q?DDBVnSSgz+9yYmO+LO0XeFhWFJeyHz37w1vVujBpnJS3BgqVgSde0IyZ3m5L?=
+ =?us-ascii?Q?BYbZwKttzVHd+GU2CfXavp74swRlXVTCnOsRapMEyLJYM955Y+gGAC7Wnkr2?=
+ =?us-ascii?Q?HywyWX+ZVChTed0igEIUTVfWaOvwGep5yDVN/xp1aSr2L7yZir9wepmTyRQD?=
+ =?us-ascii?Q?/rPCpSu1z4rlnDRRPQgSNul1rlf1YPPbUrHPZv+8eCbjD/CkD2gWOXL5mr1v?=
+ =?us-ascii?Q?CMbb3lVQsbM0X/cGqS0u1tDH0TdJ1Tvp1D08FqLn/p6GsiXuXwY/Qnwsv0lP?=
+ =?us-ascii?Q?6lmBMY3+4/fAqq/2QJG5arrBgx4qhFYPrj1BdpFIhXjDBV+rXCdo/wULzUZ8?=
+ =?us-ascii?Q?S1iY1BSipq9k1uOFEupgRifdx1Io679fPMoG69gVqtUVJdn20wNJO1SxRFTI?=
+ =?us-ascii?Q?vEle5QICDx5lgVcLuFAG41GIdWbBG51Mhl4ix0aIMwdtj2z9PMEqwpNIFMKD?=
+ =?us-ascii?Q?J2Q6BSY=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Ai+mS0QPDU/qlmtVMKrtIkkXNm5shfJRKSaF17U2nBw4ynq4HjekfoChoxcA?=
- =?us-ascii?Q?C8F4NZR85ATCf8YbbRlVerNf8lmshYUtvr1umyIdfqpZxvgqZIRIgpMJ+o9/?=
- =?us-ascii?Q?eS3YAhOZEn/K3uyeWWSMiRmaLQTqpklamKMqQiccQnw6z4zp6FtIH48kTcN6?=
- =?us-ascii?Q?RCczZi4ui+dRqdO8D1kmM0b2QwxnitIGZcAllZarTtvDpzAUvSs13Ez2HdEw?=
- =?us-ascii?Q?hxMT4Hm90Y/Pv+oulHwd+wTV6LM5ErVZH8fH4Tsh6/9of5HIE+yPVUhblPNE?=
- =?us-ascii?Q?pLfrUajS3VApAQ2RK7eRaFiYbytoQ4quHIFMjKwSUu8Ngz04LO9cfWmh7Huu?=
- =?us-ascii?Q?we5lT0K9tjOZnuzwdGJjxTi4+DQtr7j0i/U0q7RYHovRx68pfCYZ9T6p3mmL?=
- =?us-ascii?Q?k0deyqm3z5xqrE1BcK7WN6/KOObziqVE/G5ma6i0gRLnJKLxpYqID6KkOntL?=
- =?us-ascii?Q?WSuSfFhiOLz68FmKJ0xJqUdi5WdBGvUoz3DUv7ra7umLUkv7rTsTkzEyWVLa?=
- =?us-ascii?Q?tQIPu1z5ovAye3TlNMzPdElfA43sMXf11ATAzVlIhiV05WWe/YjtCAi2bc/e?=
- =?us-ascii?Q?ghT91lvX34brCrWYgmVarJqg/999MCkUSoJW8PSytpK9WiQXijcYJtdE+/fS?=
- =?us-ascii?Q?E1i1qKQ5Yog1G4hPU9TRkBKeOvoUhexp2Cefj87dRybCnJgwnSit3OkplS7N?=
- =?us-ascii?Q?CIjPY7F3wPy0AD5Z4PQHaI/TrKUE58JQIXaLLX4OmUgj8k+dR/a4315GUZ8m?=
- =?us-ascii?Q?zgK6aaWHQVIWUea8s3GnmtCVZoTcqNIurDmfXd0ov+UQ3lReWTFLXnyovCK2?=
- =?us-ascii?Q?Fb73rWu6ZnvOA4ZH0lJooKrWbB7Kb4VtUgMgqNqQUk6SX63vIv6L+/htfEIs?=
- =?us-ascii?Q?4bTr1Y4DwV22awGtzNRiVnM3dzpc4kHUcBX0/R7HmQo71tCHG31wkXcQr6RN?=
- =?us-ascii?Q?5NnhqNVZxnp1zMnxTdvTNNt78XGJRnm4cJ+xAtulGlydRcKMRuO5NT+f56Wn?=
- =?us-ascii?Q?L3/tBC/v2sdHBwFjLCu9NkFg39nrbMdkrQLGBTBgrjmNFixmtAuDP6GBHpJU?=
- =?us-ascii?Q?rY9zM44WMTYT98NK32QuNS19rARIjFdiMPORUbQmbbvz+e9QVMZ567pQIGQY?=
- =?us-ascii?Q?VkJJBp5FJ5KVblzBticvbDFHYgziUR2s8dQZeCX8e2T0jQ+z3Ju/npWl752O?=
- =?us-ascii?Q?swBNDQqKjXDq+hBP7ity+xo9pVeEIwrOz+hQjMtHkIBfg9JipTEt70HJa18+?=
- =?us-ascii?Q?Or+g7snQzympo70+geHgb/Pz01IiEmiNxuNuJT5YVbI7E6QBBk/HMB7dY/79?=
- =?us-ascii?Q?WEM53c268kcTDFF5+dWqwKptUikJrG7PsbUm/1n6QucJ6iFF3xqzP+V38/b2?=
- =?us-ascii?Q?sX9LkiL87Yc6Z2pa0I+1+VZQ0/c9mEQLcxkWj98SWztjtM3cKXUZ5co1gQ75?=
- =?us-ascii?Q?1qFqBV+GMrqQGzsqwRQM+zl6VBWbg+xycja9vrTbGWKCYzywRX+NqZv3vaI/?=
- =?us-ascii?Q?kZPxdmyoyEFmcHQl0gQ9YlTPlQzD0feURJNRR/36LwcYMc9uiztcGYv5Hz54?=
- =?us-ascii?Q?wehcucyCJPdHMd0RH9u5zakQYqNkB/4n33AGkVm0?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?nRZIhenbTdBVJSHcopmStKGcc4DeMe+3FUunW6jBSAHcJ3XTKWrcFZCxtyxa?=
+ =?us-ascii?Q?jehpGEVv8hpsZ5VbritZGDseP92+6zJurde9e+CndBCSnPmvm4jWAAOxCDf/?=
+ =?us-ascii?Q?fOoXZQGShgsrh9DKWrxJGA/+y9LbNqETez8HawkH6xblFOTogfjWFsnoHR41?=
+ =?us-ascii?Q?NOsKyaW3rR9xIfR/LhoosMwcvYCSyozvOpQIbQYuXryPQPf5a9XihbJAMlYl?=
+ =?us-ascii?Q?hvbvgo8ScLTNFUUTpyA8GNg4VxR+q8+7ePTusJyhcPqpr0OxSn5VpG1kCTbs?=
+ =?us-ascii?Q?ojovuxaTF8QsUctIf208b0FiUxBVZN6auHULJcxu/hbzR+1dWpghVqBHue7l?=
+ =?us-ascii?Q?ZnbgoDuWTjxP2Pc/nlgRLqXCix9GpVb0kB617m6Pf/VMtYBZqENobFz25g25?=
+ =?us-ascii?Q?oVz3tt+2JQ/avBcVPkrZVP3+lEaI+zW4JlBYQ99dC6m5N5GRNjR+/FsX3gQ6?=
+ =?us-ascii?Q?Ct7DihuJPk3T+BhwwCdk5c0VC0HOLA3b1V+rd821UCsFgJzirCq8duaxLvV3?=
+ =?us-ascii?Q?Z+J/l9BKL5X/tywuxNCYp/kdb3lKeH4/W16WRgeSlTsA2dQ7anxRM2fkm/ni?=
+ =?us-ascii?Q?i4O05InPo9UdX+nVmefNVMavaQFsU02Mjc/gwWqVl09EUyzm3w2QCIhSD8pe?=
+ =?us-ascii?Q?+ImZo8cE4ih7pMWkiJOqCp+Nx2tMQ8rKAkmE6W5rL+EaAgJxEwmJP7nbTEyX?=
+ =?us-ascii?Q?qcHT5jQINkvTb8dwNFAAHFXLoQyTXjGfkY6BFTU1yTmk05GaYYsUsBrGShgZ?=
+ =?us-ascii?Q?7MVnXlK6rTIHC6DQ8zv2yjRO+eevFA9hvU4zwuGs6ulssD8jp2OWvhs6Pzqg?=
+ =?us-ascii?Q?VM1YcXa2+UxRH1fmADOj7xV1kDI33UIHr2D1+niCNkw89Nmql8F/kXRXYL+E?=
+ =?us-ascii?Q?++G75G8uP/ItYsJ3T0vP4i0F1S/WmV5u7m/cI4l+0ZCQ7DQme8ph1KNFKt8c?=
+ =?us-ascii?Q?UQKZq3eMDS1P/84j0j8jH8qVkboDVP7uuEtIFtGJWnm6cKg02Po/1LlYHyrW?=
+ =?us-ascii?Q?LIAEc0dY8rIuGriCVcu4Db7xIyIGzCtjMrZd4nAUMnFiVCZQdZb+2C9qeyFR?=
+ =?us-ascii?Q?X8eYqrNVgYKqYqfVJsPZftHuymPb9tBGw5VlxGpHIDxTyphFe3O4yakEhkqB?=
+ =?us-ascii?Q?pMxG7Vyj9SZG2ZEk5lUtgF2cai1Mk35CNgdOO/QWtD6DadiOmz7wI2G/DfQC?=
+ =?us-ascii?Q?+8T2QSuC4xsdYolpJsY+yWR2x7KfuPOekC/s6LdsIwotaRMyXpR/siHEa0bi?=
+ =?us-ascii?Q?OtNHxR9oTIHCHIdZ5ezG/ulU7amHOzHpDv8WSzCvtzP0tlQSigWa53gEmvw0?=
+ =?us-ascii?Q?hxrKOWm/0dKZvwpBLxUo85/mv0zIvFSjqg5qfPJf1WDNRyya08a5UwD8ZOb/?=
+ =?us-ascii?Q?Zztxa56wH2JBG8ghQtr6WbHifPoLUdRv3t3W9KCMUXcY6AIsDBqhVg3F0CSy?=
+ =?us-ascii?Q?Ueic5PHDh3fiCbv5toJIMb+7nAgqNtqpaslT8AZOEaz4dUnitp6h5Nr9jQ7B?=
+ =?us-ascii?Q?IlbOWx11CMAn5n8qtco4c9KH1Y7e/xm3xvUr/VdwuzTD5eU4I/5r90dCH1fx?=
+ =?us-ascii?Q?RLu5Oa/hD0K5NX62S875vqcJrLpyR5xO8+jw9aXF?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3886f22-a212-4934-d62c-08dd16dfe8b1
+X-MS-Exchange-CrossTenant-Network-Message-Id: af7466e2-8880-4c69-543e-08dd16dfe97e
 X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2024 16:55:09.4966
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2024 16:55:10.8389
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JbnLDO/X15uEFtsOEmAxTDXDBsGj+9RVqOXbXeJNabl05NAnhsQJSTeqLDavq6nn
+X-MS-Exchange-CrossTenant-UserPrincipalName: zJPdy7woxaLIwUhFOFwDNMQwlkScUHWjgGUAfWRhYEoV3vNRimhLVbBi0A1iPnpQ
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6735
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241207_085523_278359_DBF411E8 
-X-CRM114-Status: GOOD (  11.64  )
+X-CRM114-CacheID: sfid-20241207_085524_943195_AE689D35 
+X-CRM114-Status: GOOD (  17.36  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -167,67 +171,146 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-In commit eacd0e950dc2 ("ARC: [mm] Lazy D-cache flush (non aliasing
-VIPT)"), arc adds the need to flush dcache to make icache see the code
-page change. This also requires special handling for
-clear_user_(high)page(). Introduce cpu_icache_is_aliasing() to make
-MM code query special clear_user_(high)page() easier. This will be used
-by the following commit.
+For architectures setting cpu_dcache_is_aliasing() to true, which require
+flushing dcache, and arc setting cpu_icache_is_aliasing() to true changes
+folio->flags to make icache coherent to dcache after clearing a user
+folio, __GFP_ZERO using only clear_page() is not enough to zero user
+folios and clear_user_(high)page() must be used. Otherwise, user data
+will be corrupted.
 
-Suggested-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Fix it by always clearing user folios with clear_user_(high)page() when
+cpu_dcache_is_aliasing() is true or cpu_icache_is_aliasing() is true.
+Rename alloc_zeroed() to alloc_need_zeroing() and invert the logic to
+clarify its intend.
+
+Fixes: 5708d96da20b ("mm: avoid zeroing user movable page twice with init_on_alloc=1")
+Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Closes: https://lore.kernel.org/linux-mm/CAMuHMdV1hRp_NtR5YnJo=HsfgKQeH91J537Gh4gKk3PFZhSkbA@mail.gmail.com/
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Signed-off-by: Zi Yan <ziy@nvidia.com>
 ---
- arch/arc/Kconfig                 | 1 +
- arch/arc/include/asm/cachetype.h | 8 ++++++++
- include/linux/cacheinfo.h        | 6 ++++++
- 3 files changed, 15 insertions(+)
- create mode 100644 arch/arc/include/asm/cachetype.h
+ include/linux/highmem.h |  8 +++++++-
+ include/linux/mm.h      | 18 ++++++++++++++++++
+ mm/huge_memory.c        |  9 +++++----
+ mm/internal.h           |  6 ------
+ mm/memory.c             | 10 +++++-----
+ 5 files changed, 35 insertions(+), 16 deletions(-)
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 5b2488142041..e96935373796 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -6,6 +6,7 @@
- config ARC
- 	def_bool y
- 	select ARC_TIMERS
-+	select ARCH_HAS_CPU_CACHE_ALIASING
- 	select ARCH_HAS_CACHE_LINE_SIZE
- 	select ARCH_HAS_DEBUG_VM_PGTABLE
- 	select ARCH_HAS_DMA_PREP_COHERENT
-diff --git a/arch/arc/include/asm/cachetype.h b/arch/arc/include/asm/cachetype.h
-new file mode 100644
-index 000000000000..acd3b6cb4bf5
---- /dev/null
-+++ b/arch/arc/include/asm/cachetype.h
-@@ -0,0 +1,8 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef __ASM_ARC_CACHETYPE_H
-+#define __ASM_ARC_CACHETYPE_H
+diff --git a/include/linux/highmem.h b/include/linux/highmem.h
+index 6e452bd8e7e3..d9beb8371daa 100644
+--- a/include/linux/highmem.h
++++ b/include/linux/highmem.h
+@@ -224,7 +224,13 @@ static inline
+ struct folio *vma_alloc_zeroed_movable_folio(struct vm_area_struct *vma,
+ 				   unsigned long vaddr)
+ {
+-	return vma_alloc_folio(GFP_HIGHUSER_MOVABLE | __GFP_ZERO, 0, vma, vaddr);
++	struct folio *folio;
 +
-+#define cpu_dcache_is_aliasing()	false
-+#define cpu_icache_is_aliasing()	true
++	folio = vma_alloc_folio(GFP_HIGHUSER_MOVABLE, 0, vma, vaddr);
++	if (folio && alloc_need_zeroing())
++		clear_user_highpage(&folio->page, vaddr);
 +
-+#endif
-diff --git a/include/linux/cacheinfo.h b/include/linux/cacheinfo.h
-index 108060612bb8..7ad736538649 100644
---- a/include/linux/cacheinfo.h
-+++ b/include/linux/cacheinfo.h
-@@ -155,8 +155,14 @@ static inline int get_cpu_cacheinfo_id(int cpu, int level)
- 
- #ifndef CONFIG_ARCH_HAS_CPU_CACHE_ALIASING
- #define cpu_dcache_is_aliasing()	false
-+#define cpu_icache_is_aliasing()	cpu_dcache_is_aliasing()
- #else
- #include <asm/cachetype.h>
-+
-+#ifndef cpu_icache_is_aliasing
-+#define cpu_icache_is_aliasing()	cpu_dcache_is_aliasing()
-+#endif
-+
++	return folio;
+ }
  #endif
  
- #endif /* _LINUX_CACHEINFO_H */
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index c39c4945946c..72d644cc8d9d 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -31,6 +31,7 @@
+ #include <linux/kasan.h>
+ #include <linux/memremap.h>
+ #include <linux/slab.h>
++#include <linux/cacheinfo.h>
+ 
+ struct mempolicy;
+ struct anon_vma;
+@@ -4175,6 +4176,23 @@ static inline int do_mseal(unsigned long start, size_t len_in, unsigned long fla
+ }
+ #endif
+ 
++/*
++ * alloc_need_zeroing checks if a user folio from page allocator needs to be
++ * zeroed or not.
++ */
++static inline bool alloc_need_zeroing(void)
++{
++	/*
++	 * for user folios, arch with cache aliasing requires cache flush and
++	 * arc changes folio->flags to make icache coherent with dcache, so
++	 * always return false to make caller use
++	 * clear_user_page()/clear_user_highpage()
++	 */
++	return (cpu_dcache_is_aliasing() || cpu_icache_is_aliasing()) ||
++	       !static_branch_maybe(CONFIG_INIT_ON_ALLOC_DEFAULT_ON,
++				   &init_on_alloc);
++}
++
+ int arch_get_shadow_stack_status(struct task_struct *t, unsigned long __user *status);
+ int arch_set_shadow_stack_status(struct task_struct *t, unsigned long status);
+ int arch_lock_shadow_stack_status(struct task_struct *t, unsigned long status);
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index ee335d96fc39..107130a5413a 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -1176,11 +1176,12 @@ static struct folio *vma_alloc_anon_folio_pmd(struct vm_area_struct *vma,
+ 	folio_throttle_swaprate(folio, gfp);
+ 
+        /*
+-	* When a folio is not zeroed during allocation (__GFP_ZERO not used),
+-	* folio_zero_user() is used to make sure that the page corresponding
+-	* to the faulting address will be hot in the cache after zeroing.
++	* When a folio is not zeroed during allocation (__GFP_ZERO not used)
++	* or user folios require special handling, folio_zero_user() is used to
++	* make sure that the page corresponding to the faulting address will be
++	* hot in the cache after zeroing.
+ 	*/
+-	if (!alloc_zeroed())
++	if (alloc_need_zeroing())
+ 		folio_zero_user(folio, addr);
+ 	/*
+ 	 * The memory barrier inside __folio_mark_uptodate makes sure that
+diff --git a/mm/internal.h b/mm/internal.h
+index cb8d8e8e3ffa..3bd08bafad04 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -1285,12 +1285,6 @@ void touch_pud(struct vm_area_struct *vma, unsigned long addr,
+ void touch_pmd(struct vm_area_struct *vma, unsigned long addr,
+ 	       pmd_t *pmd, bool write);
+ 
+-static inline bool alloc_zeroed(void)
+-{
+-	return static_branch_maybe(CONFIG_INIT_ON_ALLOC_DEFAULT_ON,
+-			&init_on_alloc);
+-}
+-
+ /*
+  * Parses a string with mem suffixes into its order. Useful to parse kernel
+  * parameters.
+diff --git a/mm/memory.c b/mm/memory.c
+index 75c2dfd04f72..cf1611791856 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -4733,12 +4733,12 @@ static struct folio *alloc_anon_folio(struct vm_fault *vmf)
+ 			folio_throttle_swaprate(folio, gfp);
+ 			/*
+ 			 * When a folio is not zeroed during allocation
+-			 * (__GFP_ZERO not used), folio_zero_user() is used
+-			 * to make sure that the page corresponding to the
+-			 * faulting address will be hot in the cache after
+-			 * zeroing.
++			 * (__GFP_ZERO not used) or user folios require special
++			 * handling, folio_zero_user() is used to make sure
++			 * that the page corresponding to the faulting address
++			 * will be hot in the cache after zeroing.
+ 			 */
+-			if (!alloc_zeroed())
++			if (alloc_need_zeroing())
+ 				folio_zero_user(folio, vmf->address);
+ 			return folio;
+ 		}
 -- 
 2.45.2
 
