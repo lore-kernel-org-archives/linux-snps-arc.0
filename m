@@ -4,157 +4,179 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F039BE7717E
-	for <linux-snps-arc@archiver.kernel.org>; Sat,  7 Dec 2024 17:16:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0CDFE77180
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  9 Dec 2024 18:07:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=I2K2pDKoiJQwcEX7fxhPq68Db0LuWuzY2E+3j7xxJpo=; b=DWS+pAOxjRc+o+
-	DDcAdvtRPWYfsjas08YbAjmcPlL7QPRVdjpd25yG5GBjHNIR37dbV1TUOEHMsmKZjovXecOPKdXcN
-	PE93WUy1C0sZ0X+kHy9d4Re0zwDNYN9E7l2+mDaAVL7ryV5+rc17hOXQwZOQggrf4U+Oo0w3P6HcY
-	p5hV2xIQnypsmYN3MO0vOtF/MZ9TJrOvoRNk6yjd8ma472/+i5fvnMqLpy21MKXA+we1/TYobp/pR
-	SfI0HItM84cTNGJes3Tl6L7JKQ/4+GiL7UORSKq0hkqcvCDwDqgElbgIbn+UQpTUL6SVMFjLwbaMN
-	4ZQ2fVwz6EXWBTok1C6w==;
+	List-Owner; bh=SY+yKeGYk0Gwd5tVQ136aIl4za3KHd2ShuidrcQApcU=; b=SKMRSlS8x+QNlx
+	0H4Yu9zg+GhHTpeAcPs+PXQsjNMowMZpC/5O30p0MdY+VWTnmrTWvD7qj70QOBGT/4+q+Z64/TvP1
+	KP4mjHHFdDE1ZGLR4M2qZiqQHEthWoz8w+NXxIGJMD04vogUlr2jxsXcEVFn6u2azZZe6L9JpbBue
+	CcklGnDG3ULE6klE9YXuSq8nYf6ErPBvBmq3kYxFDNtFwNJSTiyDxmJQxib0pDLgM9DeuWqxm14Jq
+	TiCZhaJqbo/gr37JSRYo3w93zAh33Uw/56T1f5F11F/ubowusDVbk564U+6Sd36vnEY1Zl2YVhQN0
+	OPl7/lSqtTqE96cw6Ojw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJyQA-00000004ClL-2xR4;
-	Sat, 07 Dec 2024 17:16:46 +0000
-Received: from mail-bn1nam02on20620.outbound.protection.outlook.com ([2a01:111:f403:2407::620] helo=NAM02-BN1-obe.outbound.protection.outlook.com)
+	id 1tKiAl-00000008qVp-1urP;
+	Mon, 09 Dec 2024 18:07:55 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJyQ8-00000004Cjb-1XGv
+	id 1tKiAi-00000008qUE-0o4w
 	for linux-snps-arc@lists.infradead.org;
-	Sat, 07 Dec 2024 17:16:45 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Z4IBbr01Tn2UW6VLPX9QvdB1HUCheC320LdUH5KbdGE1WE/NrDEOLBDDEa6quzbUsqeK5jSmZ99+C7GBXKZvPwnkZpKCWa/m1osBK/k700ydXb/ygtStx7JsvOemMLL7hRRhsW7/6JMksG+3GL/IDex/skspaZoRNp9tROOdttR5cMTw/7t96N4TNvD7zdarXjfd41ralYZuFh7l6J853jwTtgaTCGvxmgNd4eqHcvgNklQNpdUDjD0OYoE7P+6PkgZFEBMnEFs+qiQ5RW4C75QESi69msLReR2mc8hi5amulk4ZaLQ6dPlJPWobhS5/vWmBmtyg8hBEbNRQ9V1aeQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OE5AjSKRmuU6Rd5zudSUyT6TNtRUji94cy+vQKppN38=;
- b=omNqsIqZWRuVZ4QN0EN+3pcklZxWn1oHkmzPYOmlYxdAbJYUMiHI02v0MJ8cAeBarwK2LkC01mAc82Gnfvv8aG6znwakMSWLzOylxT39jgA1dSnaSjG1f4PJd/S82FgBlgLwZuprlGJ7PLKxbLE+R6rI70QlJ69Ng3VHpsG9NtMdo7eFS4BI8dPpiL44UOUpzOxGZslxZgm1EaOgT4Z9KBkxA+cBWtNC47eKtAHmDpWNMBy/PxMgnM64AgSKc/A9R3ISlUihH34cP+XiIbPafz2Eva679kr/LZrPlM/8sAXZkJQtjQdTFzzBkC6Ie6PbP83bhj0A1Ex7YZ4tkJwwpQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OE5AjSKRmuU6Rd5zudSUyT6TNtRUji94cy+vQKppN38=;
- b=jiz1glDAiJppLPmO19LYEzRDIACo4xrlZ3v2ggEYOxgO18VgYEOATThsk2WLZ1YGj8k/+H00GeChByjXk1j4901G1n8qkRW8ZLyWayqD4vZtAsMZn04ZMeF6exy+wMtJnGYHMW0HgUoH0HyBuygHX6Ibiyc6ZrX3eVKRbHE2DpiOS4vYorJtCM4Dz0nNTvAfTZMAjvbgI7fU8PzWGGNqtbPxoNGRrzN8nP3tvWeBpqRw/yfJmJiE4Lo4SnqdhEvAM0G+UvhbPNbs+MDrL5V6UtREiqRDuGl63MhfymNxprFFlN+TF1+K2I91L1eiWW4BL1EGZ980zChZ7xwLxQuvcg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- BL3PR12MB6449.namprd12.prod.outlook.com (2603:10b6:208:3b8::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8207.18; Sat, 7 Dec 2024 17:16:38 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a%3]) with mapi id 15.20.8230.016; Sat, 7 Dec 2024
- 17:16:38 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: linux-mm@kvack.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>,
-	David Hildenbrand <david@redhat.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Kefeng Wang <wangkefeng.wang@huawei.com>,
-	John Hubbard <jhubbard@nvidia.com>,
-	"Huang, Ying" <ying.huang@linux.alibaba.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Alexander Potapenko <glider@google.com>,
-	Kees Cook <keescook@chromium.org>,
-	Vineet Gupta <vgupta@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	Zi Yan <ziy@nvidia.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v4 2/2] mm: use clear_user_(high)page() for arch with special user folio handling
-Date: Sat,  7 Dec 2024 12:16:31 -0500
-Message-ID: <20241207171631.2853336-2-ziy@nvidia.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241207171631.2853336-1-ziy@nvidia.com>
-References: <20241207171631.2853336-1-ziy@nvidia.com>
-X-ClientProxiedBy: BN1PR14CA0001.namprd14.prod.outlook.com
- (2603:10b6:408:e3::6) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+	Mon, 09 Dec 2024 18:07:53 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7C36B1F45B;
+	Mon,  9 Dec 2024 18:07:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1733767668; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=/5cx7UMBOfeiIYN/8EFaygt2q67OikFKgkAoo62b5U4=;
+	b=MzuRKBPgf3mvJU/V9VAu7f5+lfP/FFJET8krI1ZZTcvml/cNrdu/5EKqsGoVhWl9nNgv9q
+	s7kc3sVFOfk/0sjK6XKnj1LLI8dsSdWdhdfS71lh1AE87F7/4CsRVjtirDaMctyn0m1+bg
+	h94kCyUO4lOndvN6R7rYPodYd0zOyhk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1733767668;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=/5cx7UMBOfeiIYN/8EFaygt2q67OikFKgkAoo62b5U4=;
+	b=YjT3fJg1dD0r0DkjvegPQNJ7ljs3nceN730hTZaVhU/JPQEd7GxwA+E3ekXyFAqkQwC58J
+	8lEJUlHXK76MKtBA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=MzuRKBPg;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=YjT3fJg1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1733767668; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=/5cx7UMBOfeiIYN/8EFaygt2q67OikFKgkAoo62b5U4=;
+	b=MzuRKBPgf3mvJU/V9VAu7f5+lfP/FFJET8krI1ZZTcvml/cNrdu/5EKqsGoVhWl9nNgv9q
+	s7kc3sVFOfk/0sjK6XKnj1LLI8dsSdWdhdfS71lh1AE87F7/4CsRVjtirDaMctyn0m1+bg
+	h94kCyUO4lOndvN6R7rYPodYd0zOyhk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1733767668;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=/5cx7UMBOfeiIYN/8EFaygt2q67OikFKgkAoo62b5U4=;
+	b=YjT3fJg1dD0r0DkjvegPQNJ7ljs3nceN730hTZaVhU/JPQEd7GxwA+E3ekXyFAqkQwC58J
+	8lEJUlHXK76MKtBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 182E8138D2;
+	Mon,  9 Dec 2024 18:07:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ta3yBPQxV2fnRQAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Mon, 09 Dec 2024 18:07:48 +0000
+Message-ID: <da02f61d-61e5-40b4-96ba-8d1e7b2b04a9@suse.cz>
+Date: Mon, 9 Dec 2024 19:07:47 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|BL3PR12MB6449:EE_
-X-MS-Office365-Filtering-Correlation-Id: a6720ab1-6ec6-4de6-1bbf-08dd16e2e8ba
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?/Y2XFwm26cw2QCdK2B0hx1zRuQ5iStogSx0h+O8oEj0+X/aTB/mmGfscQhqu?=
- =?us-ascii?Q?Cja7rJvp4CoScdX35deP7ErRnWKcYurx2onJ66gfA+TDyFKyxwDaUxk5QjvS?=
- =?us-ascii?Q?qrJT+zQPDzORlvIjzNk24BpyFcg29r6KBL4NPMg9Z1q9xbDKfvhak12bxee6?=
- =?us-ascii?Q?bRZcLm941iGWUOkM7YWj+RwxXR5KsN2UpU5AysKkD5nkrFYPU6KLPJiAcKGE?=
- =?us-ascii?Q?BvI26bKmnQNJdS9/kq4ZkHcg/Did8BpY6inWINbHWfhx1ICnJwRnt/Opc3ct?=
- =?us-ascii?Q?CaeMAZwU0KWMu4YofYPLTpCaW/TL+UueuTv1ecMsvh/W+1H7kyCPvpWy3KBW?=
- =?us-ascii?Q?X7khJBvpCgRTePFLJZE0I6rOmPE8Pbek4k0+SwHn/4fyPo2dOedkZMB2YTcu?=
- =?us-ascii?Q?HiLf9h3TRRp5uZkqxa/jDbFBP0AxRNtQIQlhymy7WOsGY/TIyxqUxWQ2lo3s?=
- =?us-ascii?Q?o3i27IPDPr0Ipqrmx1PtfkGqTnB9czlmfrL3kZhT+IOHYH7YeKTdY2fCP4RC?=
- =?us-ascii?Q?K36+vxPhfzvgU1tj7f+IObnYGaDHuob/5bZFrFG9CO074wYH+yIiLVgGNnu5?=
- =?us-ascii?Q?a+Ug+/MM4tTX4Wb59985mgrZfeqpRFNm7tSV2K0Can1b0mpXfGLoYOeKOS9r?=
- =?us-ascii?Q?6x4MdoUnUBLV4Im2o5FbHb90l/XTOu50haAFG8gGFozoeG4kcnSbNrEJaZFw?=
- =?us-ascii?Q?MgX7FG/1Qg/mqGUUbTWwvIKsGKBgwWWhm9GTiE/320Q/p80caRURFJEXAX7s?=
- =?us-ascii?Q?XeQJk9KYmWN6SOeFJR0PTHuPE65Y3H9FDESL02lMukNYcIVxT3SSlb3c1gV+?=
- =?us-ascii?Q?s0qZlUzO5IGWcM7/BN4oqYejXB+Rk1AuNT/CRkABOA0hfJ3aKRziahu0bR/s?=
- =?us-ascii?Q?QKBoyGvvDVQ4QooCJeFlH5rAIRlWOz/5rWDuPXOAcgvLKcQ+B6pWq9HvIVxe?=
- =?us-ascii?Q?Q8+e6eqpvtHcpoSJWvAXzqMwh/rYKP4oyScXe1hIFGqLnGyVSin/9me6TyQf?=
- =?us-ascii?Q?eyMGdgRvczRLScPB/1TxjiOOqBs7hOvpTpy0VQb3Ius8ymGGhFapS+2Ij367?=
- =?us-ascii?Q?k4l2d8ROh76ACQ/+7ZZ94/7GYJ+aROqYh1Fmll1MPk547n/glbOTUllx5aXC?=
- =?us-ascii?Q?TE91Tpr1Frc/9KamjUiH12eV2CxD8z0Vu02Fn3EA5YJlRQpod815nsjJUSmk?=
- =?us-ascii?Q?cvRIPol1zRQvvw2dPCz7HpaePH0xRXF5fcNsW1EmYAMoabLCiMusLY475Q+/?=
- =?us-ascii?Q?Bsy3hXM36j4JoEO5GebpKFmL70yE9Zzs7dEc728Lu4Du81s4L03yVFJ+jYHg?=
- =?us-ascii?Q?H888pr/mUci09pbCwR+WV6FOgsVItDpvcs40g4PnTQhOv6lnY2fzl0YLXswO?=
- =?us-ascii?Q?30FLTzw=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?uLWnkDnmofnhgIeLGaNsC4QTWKQU7U0amFvuILfg1qoGjJq1IW+74rm0HnPk?=
- =?us-ascii?Q?YsyLpjuHQokpMC2E7ekKWiO8Lp5YfjUH/p6fyEE7XtXEb7QzqKvmhcB33jzk?=
- =?us-ascii?Q?xsNQiL28N9hOjEJrRbNh7Kyc+Yb5eV9c4U+DUasK5qZMG+CbgH8+3Nv3GERn?=
- =?us-ascii?Q?VDsZ9LxTbD9mv6dj8cP8yhJ35/tEGVXnXKs8BBSpjVWscNut1T+UKZ7eH+17?=
- =?us-ascii?Q?P+RZCDxaDsxMK9e9XBJ+mm/uJJBmZDRXhJPwgPrCerDkR5stianevzkKTdyG?=
- =?us-ascii?Q?kGqbbTB7CgVf5dbLQOZ3j1nC4RXMjwK59LHyy7w4Nva2TFBFHFVmP2sKn5R5?=
- =?us-ascii?Q?bNg6xTTg0EfaBKkPv0kSj1N1TOVdXR2uLnDnk59M+rA05mqFwU+Zo209gG5a?=
- =?us-ascii?Q?d3blUiWRhm9aFjRUtF4wWJEe7Zcrj+fqxLH+qyVtWK8Jle7s26fLUDJoOq8y?=
- =?us-ascii?Q?Ieup0TOqGoEWLZ6wHFakWadAxLI4IlCsSYI/Rt+Ex4XRYpeRWE3PQU85mctA?=
- =?us-ascii?Q?FYP1GHLHXDpy08cI0kUx/wU0dAPSBejEBM3Ef8qZqRMV2E8FMlVgwe8wxMxn?=
- =?us-ascii?Q?vPASKzIicOY3AzLS4T5qj77skfUc+uygmncFnW4EWF+/gQlHEh8KJ6x56xIw?=
- =?us-ascii?Q?mjq0CXgzmN1cGxjI3D2xScoZDelcIQ1elQlYTpVY5OHL6MSokOSn1fHPD0q5?=
- =?us-ascii?Q?qrjCHlY2gMmfzTt3u2IQml799PHG7uEezOPfC8h+Eyhq0lTJ2y1lkE0hl4eW?=
- =?us-ascii?Q?NQgbIjY/bq0cJpK5GiZn00fAgLYnRaOZZ2u4U55Cj7wg0ETbMOvHPoAwrncV?=
- =?us-ascii?Q?bsYkpYAFq+A81ZHb/ssUhm6rSe58WiDhZNGXgRIE/7a6WHGSnprYOKuoEXv5?=
- =?us-ascii?Q?guSF9MpKbG2POoDd7Xr9n9nsgcls5h5vVViJuflc/G7Bs867EL+G0stfakv6?=
- =?us-ascii?Q?z1xGXuEMVPCiUEfjkG8i7o62RSS8YdMsozmu5p3tkaTsUuEnnoB9mxQh+mOu?=
- =?us-ascii?Q?EhcB4CmVRsjuOCGRb+5GdBt9wMVSCp2Nthcr0MIO38PP1+Mj9W/QFLMqJ5yb?=
- =?us-ascii?Q?3Qt1fLCcmuFvm2cK/JNTsqmUtxf5NCPV/iZpRQQKI23wEslf1kFIG1JRkXBX?=
- =?us-ascii?Q?BQ1Uzgwo4KWhly1IECLcfQOC2Y8/j+MfrZL7UA3MS1vVIfwvHnmCZ8jshs+f?=
- =?us-ascii?Q?bdGKL/Y32XHVdXMSdBOYumrjDfWkzQm2rbZfFIyIMAWPBt2p6FtjO8mNKQWR?=
- =?us-ascii?Q?xC0LhEAArPUWbMtTB3WHnu7Dt0GN6IYHkDemQvE13AfPZQsqqOfBE6xIuIGw?=
- =?us-ascii?Q?zbti4JiSh/2TxQfRlRYsgkxx6ckTHeLIVuOc2ksnkLjcp8u9HB1gS1aqyonZ?=
- =?us-ascii?Q?nQzuRa0DavbVoVxuNUOKX76xjIcVY996JHHLjhsUbMAHWoQjz0oq0+VE8rsw?=
- =?us-ascii?Q?xQwM96KTP2odmFGT+AVQlUEc1MjfeH7QcUcWbxsXzBCO7JbgWL/yM3IHiYbu?=
- =?us-ascii?Q?/WcW5BBiYwSWuijIbxaSjjdhkM1oVvLWCmHlgeKlJCojFDur7IxkWn+LZRfP?=
- =?us-ascii?Q?T66+cHMqAF1SlCOomLw=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a6720ab1-6ec6-4de6-1bbf-08dd16e2e8ba
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2024 17:16:38.0532
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ox5ibJ/iTdeXkxOjKZ09C0Rfw9WAURpn4E/GHUTKXZq3iCzr1JhH6CB5Ant5tlrc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6449
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/2] Introduce cpu_icache_is_aliasing() across all
+ architectures
+Content-Language: en-US
+To: Zi Yan <ziy@nvidia.com>, linux-mm@kvack.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: David Hildenbrand <david@redhat.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Miaohe Lin <linmiaohe@huawei.com>, Kefeng Wang <wangkefeng.wang@huawei.com>,
+ John Hubbard <jhubbard@nvidia.com>,
+ "Huang, Ying" <ying.huang@linux.alibaba.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Alexander Potapenko
+ <glider@google.com>, Kees Cook <keescook@chromium.org>,
+ Vineet Gupta <vgupta@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org
+References: <20241207171631.2853336-1-ziy@nvidia.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ EP+ylKVEKb0Q2A==
+In-Reply-To: <20241207171631.2853336-1-ziy@nvidia.com>
+X-Rspamd-Queue-Id: 7C36B1F45B
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241207_091644_446593_0A3FADA7 
-X-CRM114-Status: GOOD (  16.69  )
+X-CRM114-CacheID: sfid-20241209_100752_385601_F57C06D9 
+X-CRM114-Status: UNSURE (   8.05  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -171,148 +193,22 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Some architectures have special handling after clearing user folios:
-architectures, which set cpu_dcache_is_aliasing() to true, require
-flushing dcache; arc, which sets cpu_icache_is_aliasing() to true, changes
-folio->flags to make icache coherent to dcache. So __GFP_ZERO using only
-clear_page() is not enough to zero user folios and clear_user_(high)page()
-must be used. Otherwise, user data will be corrupted.
+On 12/7/24 18:16, Zi Yan wrote:
+> In commit eacd0e950dc2 ("ARC: [mm] Lazy D-cache flush (non aliasing
+> VIPT)"), arc adds the need to flush dcache to make icache see the code
+> page change. This also requires special handling for
+> clear_user_(high)page(). Introduce cpu_icache_is_aliasing() to make
+> MM code query special clear_user_(high)page() easier. This will be used
+> by the following commit.
+> 
+> Suggested-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> Signed-off-by: Zi Yan <ziy@nvidia.com>
+> Reviewed-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-Fix it by always clearing user folios with clear_user_(high)page() when
-cpu_dcache_is_aliasing() is true or cpu_icache_is_aliasing() is true.
-Rename alloc_zeroed() to alloc_need_zeroing() and invert the logic to
-clarify its intend.
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
 
-Fixes: 5708d96da20b ("mm: avoid zeroing user movable page twice with init_on_alloc=1")
-Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Closes: https://lore.kernel.org/linux-mm/CAMuHMdV1hRp_NtR5YnJo=HsfgKQeH91J537Gh4gKk3PFZhSkbA@mail.gmail.com/
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Zi Yan <ziy@nvidia.com>
----
- include/linux/highmem.h |  8 +++++++-
- include/linux/mm.h      | 18 ++++++++++++++++++
- mm/huge_memory.c        |  9 +++++----
- mm/internal.h           |  6 ------
- mm/memory.c             | 10 +++++-----
- 5 files changed, 35 insertions(+), 16 deletions(-)
-
-diff --git a/include/linux/highmem.h b/include/linux/highmem.h
-index 6e452bd8e7e3..d9beb8371daa 100644
---- a/include/linux/highmem.h
-+++ b/include/linux/highmem.h
-@@ -224,7 +224,13 @@ static inline
- struct folio *vma_alloc_zeroed_movable_folio(struct vm_area_struct *vma,
- 				   unsigned long vaddr)
- {
--	return vma_alloc_folio(GFP_HIGHUSER_MOVABLE | __GFP_ZERO, 0, vma, vaddr);
-+	struct folio *folio;
-+
-+	folio = vma_alloc_folio(GFP_HIGHUSER_MOVABLE, 0, vma, vaddr);
-+	if (folio && alloc_need_zeroing())
-+		clear_user_highpage(&folio->page, vaddr);
-+
-+	return folio;
- }
- #endif
- 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index c39c4945946c..9330b60b926f 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -31,6 +31,7 @@
- #include <linux/kasan.h>
- #include <linux/memremap.h>
- #include <linux/slab.h>
-+#include <linux/cacheinfo.h>
- 
- struct mempolicy;
- struct anon_vma;
-@@ -4175,6 +4176,23 @@ static inline int do_mseal(unsigned long start, size_t len_in, unsigned long fla
- }
- #endif
- 
-+/*
-+ * alloc_need_zeroing checks if a user folio from page allocator needs to be
-+ * zeroed or not.
-+ */
-+static inline bool alloc_need_zeroing(void)
-+{
-+	/*
-+	 * for user folios, arch with cache aliasing requires cache flush and
-+	 * arc changes folio->flags to make icache coherent with dcache, so
-+	 * always return false to make caller use
-+	 * clear_user_page()/clear_user_highpage().
-+	 */
-+	return cpu_dcache_is_aliasing() || cpu_icache_is_aliasing() ||
-+	       !static_branch_maybe(CONFIG_INIT_ON_ALLOC_DEFAULT_ON,
-+				   &init_on_alloc);
-+}
-+
- int arch_get_shadow_stack_status(struct task_struct *t, unsigned long __user *status);
- int arch_set_shadow_stack_status(struct task_struct *t, unsigned long status);
- int arch_lock_shadow_stack_status(struct task_struct *t, unsigned long status);
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index ee335d96fc39..107130a5413a 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -1176,11 +1176,12 @@ static struct folio *vma_alloc_anon_folio_pmd(struct vm_area_struct *vma,
- 	folio_throttle_swaprate(folio, gfp);
- 
-        /*
--	* When a folio is not zeroed during allocation (__GFP_ZERO not used),
--	* folio_zero_user() is used to make sure that the page corresponding
--	* to the faulting address will be hot in the cache after zeroing.
-+	* When a folio is not zeroed during allocation (__GFP_ZERO not used)
-+	* or user folios require special handling, folio_zero_user() is used to
-+	* make sure that the page corresponding to the faulting address will be
-+	* hot in the cache after zeroing.
- 	*/
--	if (!alloc_zeroed())
-+	if (alloc_need_zeroing())
- 		folio_zero_user(folio, addr);
- 	/*
- 	 * The memory barrier inside __folio_mark_uptodate makes sure that
-diff --git a/mm/internal.h b/mm/internal.h
-index cb8d8e8e3ffa..3bd08bafad04 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -1285,12 +1285,6 @@ void touch_pud(struct vm_area_struct *vma, unsigned long addr,
- void touch_pmd(struct vm_area_struct *vma, unsigned long addr,
- 	       pmd_t *pmd, bool write);
- 
--static inline bool alloc_zeroed(void)
--{
--	return static_branch_maybe(CONFIG_INIT_ON_ALLOC_DEFAULT_ON,
--			&init_on_alloc);
--}
--
- /*
-  * Parses a string with mem suffixes into its order. Useful to parse kernel
-  * parameters.
-diff --git a/mm/memory.c b/mm/memory.c
-index 75c2dfd04f72..cf1611791856 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -4733,12 +4733,12 @@ static struct folio *alloc_anon_folio(struct vm_fault *vmf)
- 			folio_throttle_swaprate(folio, gfp);
- 			/*
- 			 * When a folio is not zeroed during allocation
--			 * (__GFP_ZERO not used), folio_zero_user() is used
--			 * to make sure that the page corresponding to the
--			 * faulting address will be hot in the cache after
--			 * zeroing.
-+			 * (__GFP_ZERO not used) or user folios require special
-+			 * handling, folio_zero_user() is used to make sure
-+			 * that the page corresponding to the faulting address
-+			 * will be hot in the cache after zeroing.
- 			 */
--			if (!alloc_zeroed())
-+			if (alloc_need_zeroing())
- 				folio_zero_user(folio, vmf->address);
- 			return folio;
- 		}
--- 
-2.45.2
+Note this is mm-hotfixes material due to patch 2 fixing an rc1 bug. It's
+better to say that in the subject i.e. [PATCH mm-hotfixes v4 ...] next time.
 
 
 _______________________________________________
