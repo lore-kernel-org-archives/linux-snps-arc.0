@@ -4,78 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D847E7717D
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 10 Dec 2024 02:58:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5EB95E77181
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 10 Dec 2024 03:27:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:From:Subject:Message-ID:
-	References:Mime-Version:In-Reply-To:Date:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Owner;
-	bh=60UT9Fcu7fGyT+80Bo527B3WU3UPYaiv+nsHqzyjJNo=; b=Pan36c0L/iQoA3M/OZ18BsJLRO
-	aRw1tCdNzwlFaj2qbROAfhAQVeGJrotCssCWDIc1smyULQOkT4dLsBJIExHYTSJKe2plpwIvZE48r
-	NZkPRLlSrVH7688U9A04Cn0JtI+qkZxHh/jMMveMZSgwT19ocWIHCE+O3f4eyFACL3AXiY/tZu4A+
-	09gaVP+/A2j9Y5YGAU4NGC4wiep3244lsxdXHF9GA8d4KT2x6JTAFYb09Yj1ZMHeGSyNcPTxSOCMa
-	ZjtcCsKcdZ1eTP3ahCwcERO4rOqk3tgalBAiOGIamVu6+GlwoDGNjLuoJ+6caPq2maRMp/GhJdqA4
-	8h3rT3Hw==;
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=BsfdetcjNrN58b6trK94hSSy6vOjRl8tSGjz81JeSxo=; b=0zVDHPFdj6QA9b
+	cmsadQxKIj5nJL44sesfgAO+u+zgiiQkztbc1rU350Vh396zQFkHY1rFP5vZS6S26gaVxjM/2SwUe
+	LCT715+GX0SXI68miVF0RHBZvN5OBJ82J0KKzubxLGvcwXUPIFkdAotDKlMWix5xto4GHvOHARS2l
+	D4LPOH3LF5UbjJDv/Y6zLleWdfQGUNLmyloZVB5Rzoy3x4O421+rqzetkfXZ6DQsklCHxpVr/Wt0h
+	J8bPn+tMuAJO1hlea84BrfBR0EEqzUbJ2HLinl1vOUSL8+wv+SyDSBAGA7g+5UY4h/9lYvXGUq02y
+	1odmsD6Yk5oacyi2AQRg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKqS1-0000000A3Do-3B6R;
-	Tue, 10 Dec 2024 02:58:17 +0000
-Received: from mail-pf1-x449.google.com ([2607:f8b0:4864:20::449])
+	id 1tKqu9-0000000A6Oy-06Ip;
+	Tue, 10 Dec 2024 03:27:21 +0000
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKqCB-00000009zvY-1RNB
-	for linux-snps-arc@lists.infradead.org;
-	Tue, 10 Dec 2024 02:41:56 +0000
-Received: by mail-pf1-x449.google.com with SMTP id d2e1a72fcca58-725e8775611so1558896b3a.1
-        for <linux-snps-arc@lists.infradead.org>; Mon, 09 Dec 2024 18:41:55 -0800 (PST)
+	id 1tKqu6-0000000A6O0-1BW5;
+	Tue, 10 Dec 2024 03:27:19 +0000
+Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-5d3d14336f0so5584593a12.3;
+        Mon, 09 Dec 2024 19:27:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1733798514; x=1734403314; darn=lists.infradead.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mJfesLSvigtPKLpc5l88d8L2TdNCPAh9XHgD9Aaia2I=;
-        b=kQ3gHxc6QpBoF+im7uWNRWVyGd29eNVIEB6yZvWKOi6PYDN8k9EIXrKAXvyFgPoTc5
-         HRrvT+hu9Kdt8IHjNZX1SPpikgsfXCbWFESICDo5fmR9ZlvrHpDMb9O5M0N5CYqlZbFa
-         J417HYe/jBBDstNo5CP5HunhTmQrH7g3UhJSBc2myYdgWQ9geZb2dFUy7O5I5OKxvTVy
-         thF4a/tt1vL38m/28gvWOIngPD9Bx+Fk0yaQRdZNm4rfWldbJeNtQgQWrQPhIIGkowWz
-         aN9zmexkqu9Rz4m4CTC9eN4dqmvJ1dLbaeKGei+u7C7h4bgqrFsUH+J1AF5jGHpGycDS
-         i+xg==
+        d=gmail.com; s=20230601; t=1733801236; x=1734406036; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Zw8KjUeVLCoeUttHvlAE11LYFS9kka7RYPFB87xdCOo=;
+        b=QiBoNjmmXB+8Wgaet8gybyKTeGDem1sSdsrt7S92O8XaRnR6rSNEQJgGREyT3lDEXi
+         xdxFI6YmeloZEZifSuSs0b15GGMBwdvnrYjbUDGXV1iVro7MO3m5HYR5xnZMV/Wm6toa
+         om949/tdSJcb2NA2+5m+FDxcpjhY7CrOuWrSNeezQZv1AQ9jvuzVSpfrKV7Q4H/YiidX
+         5aOImUJ7hasFyUE+oLpI3y/857MWM+tDAnvOVHFUhEyx3gmMBtonUZqL2ts0Vwg/ymVG
+         hkGCRPsei8TmiTl8KmzP1i5BtkL9MHjNi6ul2oRt8Op4idX/iZeGV7255RCCio9AUXxV
+         +zDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733798514; x=1734403314;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mJfesLSvigtPKLpc5l88d8L2TdNCPAh9XHgD9Aaia2I=;
-        b=CDdfdHTKE23rfEQVLFHKKKtpKbrpyhFh7yMZIBoRcDWrWlUpGdSOry91wt398bJ1ZO
-         S9tM3uPzJOTTEb3o5KsiCkiq2JJqdlooISnUZ18d8bnLHfzQBBt7W4EK5ygNb91cVOCU
-         LWVNLSVuaq3BnLQbeUvRuhFevRk2K6uZGE+985xgrXKrNxP4QLQzNtAYMTlSJ2N6B8rX
-         mSpJ1AFxwZn8eGsgX+wIwpUXahlQ1bPh5HtrfMbWo/hj+JS5HykXG102y7BOs7SuFz3l
-         ZmYBsYmcQv3/GVFMp3k9HlkofqgtiwotsNyPz+C+5STHeTZaSb0ahJ/xlYtElUydm6FM
-         Kevg==
-X-Forwarded-Encrypted: i=1; AJvYcCUlUBEzUUYScOc+DVRmOu/MAA10iRnlk0OhrAiyPDkymPd1uUf5reU+fxMWy6BBaNErtuDYA3N3RmMWEaHy8w==@lists.infradead.org
-X-Gm-Message-State: AOJu0YzHh8noneKpmfIzD2/TaE5JwQFiSq/ROIPNDzfTv8mwfNZ9bsMk
-	IlguDSXEMTolCU0jQ2WZWJdJIQumk1pNqaf1QJqz5UaTEuDprAxleYKXz5UctC7I+nS+zD29brZ
-	lt3IcUTP63HctD4w/UpuF2Q==
-X-Google-Smtp-Source: AGHT+IH7c/kAWkG1dgCDsYvw4E2EH4mgzAeRRpKy/JiEpi/blwtzY1No/+Nej6iG3SIgIjXbM8HkPN0PZclD3pT9zw==
-X-Received: from pfbf13.prod.google.com ([2002:a05:6a00:ad8d:b0:725:a760:4c72])
- (user=kaleshsingh job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a00:14d3:b0:725:f097:ed21 with SMTP id d2e1a72fcca58-7273cb1d8c2mr3121572b3a.15.1733798514446;
- Mon, 09 Dec 2024 18:41:54 -0800 (PST)
-Date: Mon,  9 Dec 2024 18:41:19 -0800
-In-Reply-To: <20241210024119.2488608-1-kaleshsingh@google.com>
-Mime-Version: 1.0
-References: <20241210024119.2488608-1-kaleshsingh@google.com>
-X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
-Message-ID: <20241210024119.2488608-18-kaleshsingh@google.com>
-Subject: [PATCH mm-unstable 17/17] mm: Respect mmap hint before THP alignment
- if allocation is possible
-From: Kalesh Singh <kaleshsingh@google.com>
-To: akpm@linux-foundation.org, vbabka@suse.cz, yang@os.amperecomputing.com, 
-	riel@surriel.com, david@redhat.com
-Cc: linux@armlinux.org.uk, tsbogend@alpha.franken.de, 
-	James.Bottomley@HansenPartnership.com, ysato@users.sourceforge.jp, 
-	dalias@libc.org, glaubitz@physik.fu-berlin.de, davem@davemloft.net, 
-	andreas@gaisler.com, tglx@linutronix.de, bp@alien8.de, 
+        d=1e100.net; s=20230601; t=1733801236; x=1734406036;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Zw8KjUeVLCoeUttHvlAE11LYFS9kka7RYPFB87xdCOo=;
+        b=GQCR2PW3mDxQ24qtKSXIf/0e/uzx9bvmu+FdzCHdryS2DSoylpDXsfOX4kzlvib1zN
+         lVKI9vGWq2sV2nKDUNQUBNBlEokM18gT9BkHEZ48OQhTLnxlXaa5pLqtNIMAq/hiEN19
+         mAWE0q8Eg7E7cJ3zQONkKSFDfAPT4ejmjWGOq/02TtDoVxefz7a1AKoWXLvskeZW/3Us
+         pcKgdOOY45ZV+e+qXDHLXHSgl2ZoVbL12CtIXYyHh582iINsvEvxlwUbQvuwnm1yQeT1
+         64Zptw9f0OpVdGQ18mhtGGZMUgogo36UpV7qXZjsBfmTNkxBPkAFnSoQHeVvBxUygyQu
+         sH+g==
+X-Forwarded-Encrypted: i=1; AJvYcCU4eeUmn+k/ILWvRmWZv0j3BgZHfpamG51L1lmoo4UcaDVfyS92trlNm79JkBSEwtEH5g1EbGV+UGd/c+M7UN0=@lists.infradead.org, AJvYcCUYacMT3je/nq2HFL0nfak3CStBP6Us/8cbhMjAhniWBTF+1DdGth65reAJxqrnEWeKj/7hZRnqiEHKCVuDa30C@lists.infradead.org
+X-Gm-Message-State: AOJu0YzQxXonWJJMhfVIDYPgFPvenGqrk/eZDPwl7eSesMij7j9XP1AD
+	524KimA7/DhywCXKY9d61H+guK4GZUwDXrHmLajEDSaWnUAPx0SSICQfMnXe66Dyw+XxfWKaMat
+	Sdq0Jc1KoXEbtjBeIVrZbWo1vS6o=
+X-Gm-Gg: ASbGncvKEtixW7Tf1VCAdn1bfNbV0FygS86OXScZTbWDw8aehLHL7CDbD/PPCm4RuZZ
+	b/yq5ZE35ucmMpdEjSmwviR04tYSkaLLRJNxiiQ==
+X-Google-Smtp-Source: AGHT+IHf2Fi/42HQsEiQo6WzNdGmDcvEV4I1TbpQP4oAJiq1u3pQn+R3NnSbM/I4gmKvXuY9eOlF5eGp3h/ZPgrcEvo=
+X-Received: by 2002:a05:6402:278f:b0:5d0:fc80:c4d1 with SMTP id
+ 4fb4d7f45d1cf-5d41852f140mr3377986a12.14.1733801235781; Mon, 09 Dec 2024
+ 19:27:15 -0800 (PST)
+MIME-Version: 1.0
+References: <20241210024119.2488608-1-kaleshsingh@google.com> <20241210024119.2488608-2-kaleshsingh@google.com>
+In-Reply-To: <20241210024119.2488608-2-kaleshsingh@google.com>
+From: Yang Shi <shy828301@gmail.com>
+Date: Mon, 9 Dec 2024 19:27:04 -0800
+Message-ID: <CAHbLzkpCRGF+-WXkHVEutkEGHSWydmpb1CwkvHZRTH-f773J-w@mail.gmail.com>
+Subject: Re: [PATCH mm-unstable 01/17] mm: Introduce generic_mmap_hint()
+To: Kalesh Singh <kaleshsingh@google.com>
+Cc: akpm@linux-foundation.org, vbabka@suse.cz, yang@os.amperecomputing.com, 
+	riel@surriel.com, david@redhat.com, linux@armlinux.org.uk, 
+	tsbogend@alpha.franken.de, James.Bottomley@hansenpartnership.com, 
+	ysato@users.sourceforge.jp, dalias@libc.org, glaubitz@physik.fu-berlin.de, 
+	davem@davemloft.net, andreas@gaisler.com, tglx@linutronix.de, bp@alien8.de, 
 	dave.hansen@linux.intel.com, x86@kernel.org, chris@zankel.net, 
 	jcmvbkbc@gmail.com, bhelgaas@google.com, jason.andryuk@amd.com, 
 	leitao@debian.org, linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
@@ -84,11 +83,10 @@ Cc: linux@armlinux.org.uk, tsbogend@alpha.franken.de,
 	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
 	linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org, 
 	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, linux-mm@kvack.org, 
-	kernel-team@android.com, android-mm@google.com, 
-	Kalesh Singh <kaleshsingh@google.com>
+	kernel-team@android.com, android-mm@google.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241209_184155_384746_3F9CB791 
-X-CRM114-Status: GOOD (  17.26  )
+X-CRM114-CacheID: sfid-20241209_192718_326206_52F06EBD 
+X-CRM114-Status: GOOD (  17.34  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,89 +98,95 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Commit 249608ee4713 ("mm: respect mmap hint address when aligning for THP")
-fallsback to PAGE_SIZE alignment instead of THP alignment
-for anonymous mapping as long as a hint address is provided by the user
--- even if we weren't able to allocate the unmapped area at the hint
-address in the end.
-
-This was done to address the immediate regression in anonymous mappings
-where the hint address were being ignored in some cases; due to commit
-efa7df3e3bb5 ("mm: align larger anonymous mappings on THP boundaries").
-
-It was later pointed out that this issue also existed for file-backed
-mappings from file systems that use thp_get_unmapped_area() for their
-.get_unmapped_area() file operation.
-
-The same fix was not applied for file-backed mappings since it would
-mean any mmap requests that provide a hint address would be only
-PAGE_SIZE-aligned regardless of whether allocation was successful at
-the hint address or not.
-
-Instead, use arch_mmap_hint() to first attempt allocation at the hint
-address and fallback to THP alignment if that fails.
-
-Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
----
- mm/huge_memory.c | 15 ++++++++-------
- mm/mmap.c        |  1 -
- 2 files changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index 137abeda8602..f070c89dafc9 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -1097,6 +1097,14 @@ static unsigned long __thp_get_unmapped_area(struct file *filp,
- 	loff_t off_align = round_up(off, size);
- 	unsigned long len_pad, ret, off_sub;
- 
-+	/*
-+	 * If allocation at the address hint succeeds; respect the hint and
-+	 * don't try to align to THP boundary.
-+	 */
-+	addr = arch_mmap_hint(filp, addr, len, off, flags);
-+	if (addr)
-+		return addr;
-+
- 	if (!IS_ENABLED(CONFIG_64BIT) || in_compat_syscall())
- 		return 0;
- 
-@@ -1117,13 +1125,6 @@ static unsigned long __thp_get_unmapped_area(struct file *filp,
- 	if (IS_ERR_VALUE(ret))
- 		return 0;
- 
--	/*
--	 * Do not try to align to THP boundary if allocation at the address
--	 * hint succeeds.
--	 */
--	if (ret == addr)
--		return addr;
--
- 	off_sub = (off - ret) & (size - 1);
- 
- 	if (test_bit(MMF_TOPDOWN, &current->mm->flags) && !off_sub)
-diff --git a/mm/mmap.c b/mm/mmap.c
-index 59bf7d127aa1..6bfeec80152a 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -807,7 +807,6 @@ __get_unmapped_area(struct file *file, unsigned long addr, unsigned long len,
- 	if (get_area) {
- 		addr = get_area(file, addr, len, pgoff, flags);
- 	} else if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && !file
--		   && !addr /* no hint */
- 		   && IS_ALIGNED(len, PMD_SIZE)) {
- 		/* Ensures that larger anonymous mappings are THP aligned. */
- 		addr = thp_get_unmapped_area_vmflags(file, addr, len,
--- 
-2.47.0.338.g60cca15819-goog
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gTW9uLCBEZWMgOSwgMjAyNCBhdCA2OjQx4oCvUE0gS2FsZXNoIFNpbmdoIDxrYWxlc2hzaW5n
+aEBnb29nbGUuY29tPiB3cm90ZToKPgo+IENvbnNvbGlkYXRlIHRoZSBoaW50IHNlYXJjaGVzIGZy
+b20gYm90aCBkaXJlY2l0b25zICh0b3Bkb3duIGFuZAo+IGJvdHRvbXVwKSBpbnRvIGdlbmVyaWNf
+bW1hcF9oaW50KCkuCj4KPiBObyBmdW5jdGlvbmFsIGNoYW5nZSBpcyBpbnRyb2R1Y2VkLgo+Cj4g
+U2lnbmVkLW9mZi1ieTogS2FsZXNoIFNpbmdoIDxrYWxlc2hzaW5naEBnb29nbGUuY29tPgo+IC0t
+LQo+ICBpbmNsdWRlL2xpbnV4L3NjaGVkL21tLmggfCAgNCArKysrCj4gIG1tL21tYXAuYyAgICAg
+ICAgICAgICAgICB8IDQ1ICsrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0K
+PiAgMiBmaWxlcyBjaGFuZ2VkLCAzMSBpbnNlcnRpb25zKCspLCAxOCBkZWxldGlvbnMoLSkKPgo+
+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L3NjaGVkL21tLmggYi9pbmNsdWRlL2xpbnV4L3Nj
+aGVkL21tLmgKPiBpbmRleCA5MjhhNjI2NzI1ZTYuLmVkZWVjMTlkMTcwOCAxMDA2NDQKPiAtLS0g
+YS9pbmNsdWRlL2xpbnV4L3NjaGVkL21tLmgKPiArKysgYi9pbmNsdWRlL2xpbnV4L3NjaGVkL21t
+LmgKPiBAQCAtMjAxLDYgKzIwMSwxMCBAQCB1bnNpZ25lZCBsb25nIG1tX2dldF91bm1hcHBlZF9h
+cmVhX3ZtZmxhZ3Moc3RydWN0IG1tX3N0cnVjdCAqbW0sCj4gICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIHVuc2lnbmVkIGxvbmcgZmxhZ3MsCj4gICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHZtX2ZsYWdzX3Qgdm1fZmxhZ3MpOwo+Cj4g
+K3Vuc2lnbmVkIGxvbmcgZ2VuZXJpY19tbWFwX2hpbnQoc3RydWN0IGZpbGUgKmZpbHAsIHVuc2ln
+bmVkIGxvbmcgYWRkciwKPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVuc2lnbmVk
+IGxvbmcgbGVuLCB1bnNpZ25lZCBsb25nIHBnb2ZmLAo+ICsgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgdW5zaWduZWQgbG9uZyBmbGFncyk7Cj4gKwo+ICB1bnNpZ25lZCBsb25nCj4gIGdl
+bmVyaWNfZ2V0X3VubWFwcGVkX2FyZWEoc3RydWN0IGZpbGUgKmZpbHAsIHVuc2lnbmVkIGxvbmcg
+YWRkciwKPiAgICAgICAgICAgICAgICAgICAgICAgICAgIHVuc2lnbmVkIGxvbmcgbGVuLCB1bnNp
+Z25lZCBsb25nIHBnb2ZmLAo+IGRpZmYgLS1naXQgYS9tbS9tbWFwLmMgYi9tbS9tbWFwLmMKPiBp
+bmRleCBkZjkxNTRiMTVlZjkuLmU5N2ViOGJmNDg4OSAxMDA2NDQKPiAtLS0gYS9tbS9tbWFwLmMK
+PiArKysgYi9tbS9tbWFwLmMKPiBAQCAtNjIwLDYgKzYyMCwyNyBAQCB1bnNpZ25lZCBsb25nIHZt
+X3VubWFwcGVkX2FyZWEoc3RydWN0IHZtX3VubWFwcGVkX2FyZWFfaW5mbyAqaW5mbykKPiAgICAg
+ICAgIHJldHVybiBhZGRyOwo+ICB9Cj4KPiArdW5zaWduZWQgbG9uZyBnZW5lcmljX21tYXBfaGlu
+dChzdHJ1Y3QgZmlsZSAqZmlscCwgdW5zaWduZWQgbG9uZyBhZGRyLAo+ICsgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgdW5zaWduZWQgbG9uZyBsZW4sIHVuc2lnbmVkIGxvbmcgcGdvZmYs
+Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1bnNpZ25lZCBsb25nIGZsYWdzKQo+
+ICt7Cj4gKyAgICAgICBzdHJ1Y3QgbW1fc3RydWN0ICptbSA9IGN1cnJlbnQtPm1tOwo+ICsgICAg
+ICAgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEsICpwcmV2Owo+ICsgICAgICAgY29uc3QgdW5z
+aWduZWQgbG9uZyBtbWFwX2VuZCA9IGFyY2hfZ2V0X21tYXBfZW5kKGFkZHIsIGxlbiwgZmxhZ3Mp
+Owo+ICsKPiArICAgICAgIGlmICghYWRkcikKPiArICAgICAgICAgICAgICAgcmV0dXJuIDA7Cj4g
+Kwo+ICsgICAgICAgYWRkciA9IFBBR0VfQUxJR04oYWRkcik7Cj4gKyAgICAgICB2bWEgPSBmaW5k
+X3ZtYV9wcmV2KG1tLCBhZGRyLCAmcHJldik7Cj4gKyAgICAgICBpZiAobW1hcF9lbmQgLSBsZW4g
+Pj0gYWRkciAmJiBhZGRyID49IG1tYXBfbWluX2FkZHIgJiYKPiArICAgICAgICAgICAoIXZtYSB8
+fCBhZGRyICsgbGVuIDw9IHZtX3N0YXJ0X2dhcCh2bWEpKSAmJgo+ICsgICAgICAgICAgICghcHJl
+diB8fCBhZGRyID49IHZtX2VuZF9nYXAocHJldikpKQo+ICsgICAgICAgICAgICAgICByZXR1cm4g
+YWRkcjsKPiArCj4gKyAgICAgICByZXR1cm4gMDsKPiArfQo+ICsKPiAgLyogR2V0IGFuIGFkZHJl
+c3MgcmFuZ2Ugd2hpY2ggaXMgY3VycmVudGx5IHVubWFwcGVkLgo+ICAgKiBGb3Igc2htYXQoKSB3
+aXRoIGFkZHI9MC4KPiAgICoKPiBAQCAtNjM3LDcgKzY1OCw2IEBAIGdlbmVyaWNfZ2V0X3VubWFw
+cGVkX2FyZWEoc3RydWN0IGZpbGUgKmZpbHAsIHVuc2lnbmVkIGxvbmcgYWRkciwKPiAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIHVuc2lnbmVkIGxvbmcgZmxhZ3MsIHZtX2ZsYWdzX3Qgdm1fZmxh
+Z3MpCj4gIHsKPiAgICAgICAgIHN0cnVjdCBtbV9zdHJ1Y3QgKm1tID0gY3VycmVudC0+bW07Cj4g
+LSAgICAgICBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSwgKnByZXY7Cj4gICAgICAgICBzdHJ1
+Y3Qgdm1fdW5tYXBwZWRfYXJlYV9pbmZvIGluZm8gPSB7fTsKPiAgICAgICAgIGNvbnN0IHVuc2ln
+bmVkIGxvbmcgbW1hcF9lbmQgPSBhcmNoX2dldF9tbWFwX2VuZChhZGRyLCBsZW4sIGZsYWdzKTsK
+Pgo+IEBAIC02NDcsMTQgKzY2Nyw5IEBAIGdlbmVyaWNfZ2V0X3VubWFwcGVkX2FyZWEoc3RydWN0
+IGZpbGUgKmZpbHAsIHVuc2lnbmVkIGxvbmcgYWRkciwKPiAgICAgICAgIGlmIChmbGFncyAmIE1B
+UF9GSVhFRCkKPiAgICAgICAgICAgICAgICAgcmV0dXJuIGFkZHI7CgpJdCBzZWVtcyB5b3UgYWxz
+byBjYW4gbW92ZSB0aGUgTUFQX0ZJWEVEIGNhc2UgaW50byBnZW5lcmljX21tYXBfaGludCgpLCBy
+aWdodD8KCj4KPiAtICAgICAgIGlmIChhZGRyKSB7Cj4gLSAgICAgICAgICAgICAgIGFkZHIgPSBQ
+QUdFX0FMSUdOKGFkZHIpOwo+IC0gICAgICAgICAgICAgICB2bWEgPSBmaW5kX3ZtYV9wcmV2KG1t
+LCBhZGRyLCAmcHJldik7Cj4gLSAgICAgICAgICAgICAgIGlmIChtbWFwX2VuZCAtIGxlbiA+PSBh
+ZGRyICYmIGFkZHIgPj0gbW1hcF9taW5fYWRkciAmJgo+IC0gICAgICAgICAgICAgICAgICAgKCF2
+bWEgfHwgYWRkciArIGxlbiA8PSB2bV9zdGFydF9nYXAodm1hKSkgJiYKPiAtICAgICAgICAgICAg
+ICAgICAgICghcHJldiB8fCBhZGRyID49IHZtX2VuZF9nYXAocHJldikpKQo+IC0gICAgICAgICAg
+ICAgICAgICAgICAgIHJldHVybiBhZGRyOwo+IC0gICAgICAgfQo+ICsgICAgICAgYWRkciA9IGdl
+bmVyaWNfbW1hcF9oaW50KGZpbHAsIGFkZHIsIGxlbiwgcGdvZmYsIGZsYWdzKTsKPiArICAgICAg
+IGlmIChhZGRyKQo+ICsgICAgICAgICAgICAgICByZXR1cm4gYWRkcjsKPgo+ICAgICAgICAgaW5m
+by5sZW5ndGggPSBsZW47Cj4gICAgICAgICBpbmZvLmxvd19saW1pdCA9IG1tLT5tbWFwX2Jhc2U7
+Cj4gQEAgLTY4NSw3ICs3MDAsNiBAQCBnZW5lcmljX2dldF91bm1hcHBlZF9hcmVhX3RvcGRvd24o
+c3RydWN0IGZpbGUgKmZpbHAsIHVuc2lnbmVkIGxvbmcgYWRkciwKPiAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgdW5zaWduZWQgbG9uZyBsZW4sIHVuc2lnbmVkIGxvbmcgcGdvZmYs
+Cj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVuc2lnbmVkIGxvbmcgZmxhZ3Ms
+IHZtX2ZsYWdzX3Qgdm1fZmxhZ3MpCj4gIHsKPiAtICAgICAgIHN0cnVjdCB2bV9hcmVhX3N0cnVj
+dCAqdm1hLCAqcHJldjsKPiAgICAgICAgIHN0cnVjdCBtbV9zdHJ1Y3QgKm1tID0gY3VycmVudC0+
+bW07Cj4gICAgICAgICBzdHJ1Y3Qgdm1fdW5tYXBwZWRfYXJlYV9pbmZvIGluZm8gPSB7fTsKPiAg
+ICAgICAgIGNvbnN0IHVuc2lnbmVkIGxvbmcgbW1hcF9lbmQgPSBhcmNoX2dldF9tbWFwX2VuZChh
+ZGRyLCBsZW4sIGZsYWdzKTsKPiBAQCAtNjk4LDE0ICs3MTIsOSBAQCBnZW5lcmljX2dldF91bm1h
+cHBlZF9hcmVhX3RvcGRvd24oc3RydWN0IGZpbGUgKmZpbHAsIHVuc2lnbmVkIGxvbmcgYWRkciwK
+PiAgICAgICAgICAgICAgICAgcmV0dXJuIGFkZHI7Cj4KPiAgICAgICAgIC8qIHJlcXVlc3Rpbmcg
+YSBzcGVjaWZpYyBhZGRyZXNzICovCj4gLSAgICAgICBpZiAoYWRkcikgewo+IC0gICAgICAgICAg
+ICAgICBhZGRyID0gUEFHRV9BTElHTihhZGRyKTsKPiAtICAgICAgICAgICAgICAgdm1hID0gZmlu
+ZF92bWFfcHJldihtbSwgYWRkciwgJnByZXYpOwo+IC0gICAgICAgICAgICAgICBpZiAobW1hcF9l
+bmQgLSBsZW4gPj0gYWRkciAmJiBhZGRyID49IG1tYXBfbWluX2FkZHIgJiYKPiAtICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICghdm1hIHx8IGFkZHIgKyBsZW4gPD0gdm1fc3RhcnRfZ2Fw
+KHZtYSkpICYmCj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAoIXByZXYgfHwgYWRk
+ciA+PSB2bV9lbmRfZ2FwKHByZXYpKSkKPiAtICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4g
+YWRkcjsKPiAtICAgICAgIH0KPiArICAgICAgIGFkZHIgPSBnZW5lcmljX21tYXBfaGludChmaWxw
+LCBhZGRyLCBsZW4sIHBnb2ZmLCBmbGFncyk7Cj4gKyAgICAgICBpZiAoYWRkcikKPiArICAgICAg
+ICAgICAgICAgcmV0dXJuIGFkZHI7Cj4KPiAgICAgICAgIGluZm8uZmxhZ3MgPSBWTV9VTk1BUFBF
+RF9BUkVBX1RPUERPV047Cj4gICAgICAgICBpbmZvLmxlbmd0aCA9IGxlbjsKPiAtLQo+IDIuNDcu
+MC4zMzguZzYwY2NhMTU4MTktZ29vZwo+Cj4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBz
+LWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxt
+YW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
