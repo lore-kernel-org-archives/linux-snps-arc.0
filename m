@@ -4,86 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73E83E7717F
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 10 Dec 2024 14:49:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA61FE7717F
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 10 Dec 2024 17:38:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=VtnkQxXJcQ5cu2qCmegwMGtzO8L6gd+MsWhdR01UgHw=; b=bAJlOhCN6smBSf
-	t5x1eSr7tA+mqTtKjRz3pJOu3dFFGutRKHqznoIokr6b4V7I1fQMDgdeQ4EOkHwxGWUWwQXWzKfaS
-	Jyv/HsXfV66NTezHSqJCBVyYLOo7N0ay69eIuXu+XV1YfIboSRezyGJca+4FEmBn+dTgIl6IpPZ2r
-	8qTl1HcX3CzOLn4FbQHgM5mQGYMMqu2V5S42H/JyC232Nk3wyktQgkUSsYrzwmoZNFvOgMlrkbQqG
-	l0BIwAFov898Es4jFiMZ0nl5CAD2h7QCF+CN7I6GigXE3U6AVK4aWZPdHTdhdAI8LQw9kDpVWy0dz
-	qjEHrplqXef/rWWnhZ4Q==;
+	List-Owner; bh=CHeyC4DrWc1Ux4LwVp/C0260xGrH6zXnhgEyCzFxVoA=; b=b0HZmQvlw0LGRG
+	gVszom5pkocNM5Vv1l4aFR3nTFf94JwiKFdJyc8sZkT2uIuFfhJiDIGqcHOckfMa10K2CqS68BJce
+	cCuwrLciDqavW2hWFwJpkK4KmsYc+KoNvbxxCgdRrktl1xUaUG87ew/oE9xLDeZSfoMaCD+QlcB/g
+	Hu/7JzmYzxl1jmezme2OcJBUb6++n1Oe/sDapuyYAco1i65Xo4O3kOzQKbufzbmCg7BJQ4WLGl6QI
+	fKcXTU1KAfIpfByZzCdrbyQ1jp6hFhhXYGeePBwO9HSrhvJjpxTwdG0h1lDLM4UXs70VbwiUHaO9j
+	ZcKGyAcy9IVyYYRjZb0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tL1YQ-0000000BqTW-0icY;
-	Tue, 10 Dec 2024 14:49:38 +0000
-Received: from mgamail.intel.com ([198.175.65.20])
+	id 1tL4CB-0000000CJ06-2lN8;
+	Tue, 10 Dec 2024 17:38:51 +0000
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tL1Vj-0000000BpxI-15ym;
-	Tue, 10 Dec 2024 14:46:52 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733842011; x=1765378011;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zCVNItat7KAJZV5fl9f36Lgf1b8uI6A148fvl6A9d1U=;
-  b=jMBXDUUG6jvk5mjQ9QLt5TzA/RqQZHdQlx5/L81Ho9I+IQKG/Qevpjpy
-   xj2CYHGrgx1TFG5m6Yr+TmgxkRWKLd8V3oYBSUUaOcUFfonaYVqwOylcj
-   S5AIZ0atueN2mpd1GjIaecAxl79dVXMUalcFVZynmHRt/FlsTbeAu39BM
-   V8pON+vIS9yiT4bNHZxqEM7PYQEGnOUh9Lj7RieSaN3M4LPS/04L5CjXO
-   yq4mM0rSnVQOumMgBaho909SzrvE1DecmKqRqyR/x0NZl+jTg0D/AzP/0
-   844fUkP/umWM1ARZu1w+wd1d/NT/XqXlU8dj/ZQC6DVcJuQDUqlPD0j9U
-   A==;
-X-CSE-ConnectionGUID: ZdCjH3S3Qk+iabMNQaBMMQ==
-X-CSE-MsgGUID: lHfacFz2TaCr7ds7RMXtsw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="33918608"
-X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; 
-   d="scan'208";a="33918608"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 06:46:51 -0800
-X-CSE-ConnectionGUID: orNCXP5iSfORxIjovRQcxQ==
-X-CSE-MsgGUID: EY2JQNdjRmSVxx2IfMJGSA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; 
-   d="scan'208";a="95264822"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 10 Dec 2024 06:46:44 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tL1VZ-0005fr-2R;
-	Tue, 10 Dec 2024 14:46:41 +0000
-Date: Tue, 10 Dec 2024 22:45:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kalesh Singh <kaleshsingh@google.com>, akpm@linux-foundation.org,
-	vbabka@suse.cz, yang@os.amperecomputing.com, riel@surriel.com,
-	david@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, linux@armlinux.org.uk,
-	tsbogend@alpha.franken.de, James.Bottomley@hansenpartnership.com,
-	ysato@users.sourceforge.jp, dalias@libc.org,
-	glaubitz@physik.fu-berlin.de, davem@davemloft.net,
-	andreas@gaisler.com, tglx@linutronix.de, bp@alien8.de,
-	dave.hansen@linux.intel.com, x86@kernel.org, chris@zankel.net,
-	jcmvbkbc@gmail.com, bhelgaas@google.com, jason.andryuk@amd.com,
-	leitao@debian.org, linux-alpha@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
-	linux-parisc@vger.kernel.org
-Subject: Re: [PATCH mm-unstable 13/17] mm: sparc64: Introduce arch_mmap_hint()
-Message-ID: <202412102215.fF34r4Uo-lkp@intel.com>
-References: <20241210024119.2488608-14-kaleshsingh@google.com>
+	id 1tL47j-0000000CI4j-3vVq
+	for linux-snps-arc@lists.infradead.org;
+	Tue, 10 Dec 2024 17:34:16 +0000
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-215740b7fb8so315ad.0
+        for <linux-snps-arc@lists.infradead.org>; Tue, 10 Dec 2024 09:34:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1733852054; x=1734456854; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RArVkKSCeMH/NY6o3gQIWtxTREQOsCr1U+SuNtxbEwg=;
+        b=sdo2bYjLIK7xF7V/+2ay6ZBCi+9MoLTzMACWSzpEaxuKyJVaVxWWGMrC8+NE+G9f1B
+         Z4SNx04u4jDKygXklgec1uFxjf/liGcHBeWmuJXHq4WxunhppKHMQ96jqoYGCJWOyAcU
+         nin++9dLDjsyYkdMFM4pmMAyDhlLjtJEXXAt7c+FoxELvzHT/jhqcrRSD4idu4ZGgwFx
+         KCNTey3L9VxBa2QsujiguIJLfCX3c1qlmagMtoZytT/eNkKrl3BiK6TD0GCAYyaJHZJ5
+         T3cSCqm9IIxelvrawZcz++NehoFnvVZPFJGeDaevOw6m8xCnOGtZrJPp8LNBQfhupSd9
+         hn/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733852054; x=1734456854;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RArVkKSCeMH/NY6o3gQIWtxTREQOsCr1U+SuNtxbEwg=;
+        b=sJxSy1IdyeuY7eGc+aZlKuVfRlXqxcrT116cvyyt9Mo9kB7U2QDB1Jw8IEMn3psp/C
+         vFdjEjPI2Tyvp6RxZhXc39syqq6yMhIGXrSU8h3acJbpidxw1Oe8VWmsD3krVsgN1YUE
+         06QSwpTJBrUl53iFxpkBNdmza4aL0QL1EYOq5sX+lD8akDtI2ioDEoDLh/H0v1WsYJuP
+         3CecS+lQ5g3VjoW7OPHGi/u6z6Al84B0fUaZWR4SN7a1zPVPev2WzEvgnor+iC1OH6g3
+         1yAJaer3U/1YrnwbY5FN89CUGjVFr+r5+oYNGs2q8ZBT0RD6Sx3Frt3EEDWUi5IFP2jm
+         IHOg==
+X-Forwarded-Encrypted: i=1; AJvYcCUCwcIadBp209bw1dUUqaeAABpwP6z5K9ijuaEGfgNP1KGExhIwK0G9TduHeyIH9MBGPFrXMpLuxCK8cSdeHQ==@lists.infradead.org
+X-Gm-Message-State: AOJu0YwTUIn4nO0CcTYtiWFgmt+K+LCPA3GGqhyXv0KivW9YXucBvfqG
+	H50MoaFkw8+1xD+j03MIc+z2QsIYVCfj9x51NaiOxEZNiNpm1emaUH/j5pmYtTagM/p7OpQMtes
+	1i/rC8x19gNxn4X8Dch8lmcl0Y4Ea2i5TmE/E
+X-Gm-Gg: ASbGncu6FN3XbrIPCOptKf2J9x02o5HiATEEnZX4X/3b9CXg733uOkk96e/9tEsl4G5
+	pJ85nj4WPYwd5fx/lAbeEzXoswvkDluaWS7jx8ACUXb30ghg8Pivf3BEyeVZNuI9S
+X-Google-Smtp-Source: AGHT+IEDudBnir5+jttzQm+7tNnzRHUlcioRTO8j0Dis2V+coMoC8sfWSozH23fEnrYfZy4bwgZvjEwIXStM7LatHiM=
+X-Received: by 2002:a17:903:4403:b0:215:9d29:1aba with SMTP id
+ d9443c01a7336-21674cbdb12mr2775015ad.1.1733852054062; Tue, 10 Dec 2024
+ 09:34:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20241210024119.2488608-14-kaleshsingh@google.com>
+References: <20241210024119.2488608-1-kaleshsingh@google.com>
+ <20241210024119.2488608-18-kaleshsingh@google.com> <CAHbLzkq2SNaqzx4d981H2QfQvtObS3X0pPL8=oqFsFbMditWPA@mail.gmail.com>
+In-Reply-To: <CAHbLzkq2SNaqzx4d981H2QfQvtObS3X0pPL8=oqFsFbMditWPA@mail.gmail.com>
+From: Kalesh Singh <kaleshsingh@google.com>
+Date: Tue, 10 Dec 2024 09:34:01 -0800
+Message-ID: <CAC_TJvdReRHzBSgg2iqOw3Kw6BBOtwGE=8nB2Hsw-nsmkxN0+g@mail.gmail.com>
+Subject: Re: [PATCH mm-unstable 17/17] mm: Respect mmap hint before THP
+ alignment if allocation is possible
+To: Yang Shi <shy828301@gmail.com>
+Cc: akpm@linux-foundation.org, vbabka@suse.cz, yang@os.amperecomputing.com, 
+	riel@surriel.com, david@redhat.com, linux@armlinux.org.uk, 
+	tsbogend@alpha.franken.de, James.Bottomley@hansenpartnership.com, 
+	ysato@users.sourceforge.jp, dalias@libc.org, glaubitz@physik.fu-berlin.de, 
+	davem@davemloft.net, andreas@gaisler.com, tglx@linutronix.de, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, chris@zankel.net, 
+	jcmvbkbc@gmail.com, bhelgaas@google.com, jason.andryuk@amd.com, 
+	leitao@debian.org, linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-csky@vger.kernel.org, loongarch@lists.linux.dev, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org, 
+	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, linux-mm@kvack.org, 
+	kernel-team@android.com, android-mm@google.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241210_064651_349625_479CBC45 
-X-CRM114-Status: UNSURE (   9.26  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241210_093415_969269_99794CA7 
+X-CRM114-Status: GOOD (  32.76  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,98 +101,82 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Kalesh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kalesh-Singh/mm-Introduce-generic_mmap_hint/20241210-104424
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20241210024119.2488608-14-kaleshsingh%40google.com
-patch subject: [PATCH mm-unstable 13/17] mm: sparc64: Introduce arch_mmap_hint()
-config: sparc-randconfig-002-20241210 (https://download.01.org/0day-ci/archive/20241210/202412102215.fF34r4Uo-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412102215.fF34r4Uo-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412102215.fF34r4Uo-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   arch/sparc/kernel/sys_sparc_64.c: In function 'arch_get_unmapped_area':
->> arch/sparc/kernel/sys_sparc_64.c:135:13: warning: variable 'do_color_align' set but not used [-Wunused-but-set-variable]
-     135 |         int do_color_align;
-         |             ^~~~~~~~~~~~~~
-
-
-vim +/do_color_align +135 arch/sparc/kernel/sys_sparc_64.c
-
-aef9ae8eac4116 arch/sparc/kernel/sys_sparc_64.c Kalesh Singh      2024-12-09  131  
-25d4054cc97484 arch/sparc/kernel/sys_sparc_64.c Mark Brown        2024-09-04  132  unsigned long arch_get_unmapped_area(struct file *filp, unsigned long addr, unsigned long len, unsigned long pgoff, unsigned long flags, vm_flags_t vm_flags)
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  133  {
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  134  	unsigned long task_size = TASK_SIZE;
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16 @135  	int do_color_align;
-b80fa3cbb78c0f arch/sparc/kernel/sys_sparc_64.c Rick Edgecombe    2024-03-25  136  	struct vm_unmapped_area_info info = {};
-a8d457b29b017a arch/sparc/kernel/sys_sparc_64.c Oscar Salvador    2024-10-07  137  	bool file_hugepage = false;
-a8d457b29b017a arch/sparc/kernel/sys_sparc_64.c Oscar Salvador    2024-10-07  138  
-a8d457b29b017a arch/sparc/kernel/sys_sparc_64.c Oscar Salvador    2024-10-07  139  	if (filp && is_file_hugepages(filp))
-a8d457b29b017a arch/sparc/kernel/sys_sparc_64.c Oscar Salvador    2024-10-07  140  		file_hugepage = true;
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  141  
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  142  	if (flags & MAP_FIXED) {
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  143  		/* We do not accept a shared mapping if it would violate
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  144  		 * cache aliasing constraints.
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  145  		 */
-a8d457b29b017a arch/sparc/kernel/sys_sparc_64.c Oscar Salvador    2024-10-07  146  		if (!file_hugepage && (flags & MAP_SHARED) &&
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  147  		    ((addr - (pgoff << PAGE_SHIFT)) & (SHMLBA - 1)))
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  148  			return -EINVAL;
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  149  		return addr;
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  150  	}
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  151  
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  152  	if (test_thread_flag(TIF_32BIT))
-d61e16df940e02 arch/sparc64/kernel/sys_sparc.c  David S. Miller   2006-03-17  153  		task_size = STACK_TOP32;
-a91690ddd05ab0 arch/sparc64/kernel/sys_sparc.c  David S. Miller   2006-03-17  154  	if (unlikely(len > task_size || len >= VA_EXCLUDE_START))
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  155  		return -ENOMEM;
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  156  
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  157  	do_color_align = 0;
-a8d457b29b017a arch/sparc/kernel/sys_sparc_64.c Oscar Salvador    2024-10-07  158  	if ((filp || (flags & MAP_SHARED)) && !file_hugepage)
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  159  		do_color_align = 1;
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  160  
-aef9ae8eac4116 arch/sparc/kernel/sys_sparc_64.c Kalesh Singh      2024-12-09  161  	addr = arch_mmap_hint(filp, addr, len, pgoff, flags);
-aef9ae8eac4116 arch/sparc/kernel/sys_sparc_64.c Kalesh Singh      2024-12-09  162  	if (addr)
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  163  		return addr;
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  164  
-bb64f55019c7b0 arch/sparc/kernel/sys_sparc_64.c Michel Lespinasse 2012-12-11  165  	info.length = len;
-bb64f55019c7b0 arch/sparc/kernel/sys_sparc_64.c Michel Lespinasse 2012-12-11  166  	info.low_limit = TASK_UNMAPPED_BASE;
-bb64f55019c7b0 arch/sparc/kernel/sys_sparc_64.c Michel Lespinasse 2012-12-11  167  	info.high_limit = min(task_size, VA_EXCLUDE_START);
-a8d457b29b017a arch/sparc/kernel/sys_sparc_64.c Oscar Salvador    2024-10-07  168  	info.align_mask = get_align_mask(filp, flags);
-a8d457b29b017a arch/sparc/kernel/sys_sparc_64.c Oscar Salvador    2024-10-07  169  	if (!file_hugepage)
-bb64f55019c7b0 arch/sparc/kernel/sys_sparc_64.c Michel Lespinasse 2012-12-11  170  		info.align_offset = pgoff << PAGE_SHIFT;
-bb64f55019c7b0 arch/sparc/kernel/sys_sparc_64.c Michel Lespinasse 2012-12-11  171  	addr = vm_unmapped_area(&info);
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  172  
-bb64f55019c7b0 arch/sparc/kernel/sys_sparc_64.c Michel Lespinasse 2012-12-11  173  	if ((addr & ~PAGE_MASK) && task_size > VA_EXCLUDE_END) {
-bb64f55019c7b0 arch/sparc/kernel/sys_sparc_64.c Michel Lespinasse 2012-12-11  174  		VM_BUG_ON(addr != -ENOMEM);
-bb64f55019c7b0 arch/sparc/kernel/sys_sparc_64.c Michel Lespinasse 2012-12-11  175  		info.low_limit = VA_EXCLUDE_END;
-bb64f55019c7b0 arch/sparc/kernel/sys_sparc_64.c Michel Lespinasse 2012-12-11  176  		info.high_limit = task_size;
-bb64f55019c7b0 arch/sparc/kernel/sys_sparc_64.c Michel Lespinasse 2012-12-11  177  		addr = vm_unmapped_area(&info);
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  178  	}
-1363c3cd8603a9 arch/sparc64/kernel/sys_sparc.c  Wolfgang Wander   2005-06-21  179  
-bb64f55019c7b0 arch/sparc/kernel/sys_sparc_64.c Michel Lespinasse 2012-12-11  180  	return addr;
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  181  }
-^1da177e4c3f41 arch/sparc64/kernel/sys_sparc.c  Linus Torvalds    2005-04-16  182  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gTW9uLCBEZWMgOSwgMjAyNCBhdCA3OjM34oCvUE0gWWFuZyBTaGkgPHNoeTgyODMwMUBnbWFp
+bC5jb20+IHdyb3RlOgo+Cj4gT24gTW9uLCBEZWMgOSwgMjAyNCBhdCA2OjQ14oCvUE0gS2FsZXNo
+IFNpbmdoIDxrYWxlc2hzaW5naEBnb29nbGUuY29tPiB3cm90ZToKPiA+Cj4gPiBDb21taXQgMjQ5
+NjA4ZWU0NzEzICgibW06IHJlc3BlY3QgbW1hcCBoaW50IGFkZHJlc3Mgd2hlbiBhbGlnbmluZyBm
+b3IgVEhQIikKPiA+IGZhbGxzYmFjayB0byBQQUdFX1NJWkUgYWxpZ25tZW50IGluc3RlYWQgb2Yg
+VEhQIGFsaWdubWVudAo+ID4gZm9yIGFub255bW91cyBtYXBwaW5nIGFzIGxvbmcgYXMgYSBoaW50
+IGFkZHJlc3MgaXMgcHJvdmlkZWQgYnkgdGhlIHVzZXIKPiA+IC0tIGV2ZW4gaWYgd2Ugd2VyZW4n
+dCBhYmxlIHRvIGFsbG9jYXRlIHRoZSB1bm1hcHBlZCBhcmVhIGF0IHRoZSBoaW50Cj4gPiBhZGRy
+ZXNzIGluIHRoZSBlbmQuCj4gPgo+ID4gVGhpcyB3YXMgZG9uZSB0byBhZGRyZXNzIHRoZSBpbW1l
+ZGlhdGUgcmVncmVzc2lvbiBpbiBhbm9ueW1vdXMgbWFwcGluZ3MKPiA+IHdoZXJlIHRoZSBoaW50
+IGFkZHJlc3Mgd2VyZSBiZWluZyBpZ25vcmVkIGluIHNvbWUgY2FzZXM7IGR1ZSB0byBjb21taXQK
+PiA+IGVmYTdkZjNlM2JiNSAoIm1tOiBhbGlnbiBsYXJnZXIgYW5vbnltb3VzIG1hcHBpbmdzIG9u
+IFRIUCBib3VuZGFyaWVzIikuCj4gPgo+ID4gSXQgd2FzIGxhdGVyIHBvaW50ZWQgb3V0IHRoYXQg
+dGhpcyBpc3N1ZSBhbHNvIGV4aXN0ZWQgZm9yIGZpbGUtYmFja2VkCj4gPiBtYXBwaW5ncyBmcm9t
+IGZpbGUgc3lzdGVtcyB0aGF0IHVzZSB0aHBfZ2V0X3VubWFwcGVkX2FyZWEoKSBmb3IgdGhlaXIK
+PiA+IC5nZXRfdW5tYXBwZWRfYXJlYSgpIGZpbGUgb3BlcmF0aW9uLgo+ID4KPiA+IFRoZSBzYW1l
+IGZpeCB3YXMgbm90IGFwcGxpZWQgZm9yIGZpbGUtYmFja2VkIG1hcHBpbmdzIHNpbmNlIGl0IHdv
+dWxkCj4gPiBtZWFuIGFueSBtbWFwIHJlcXVlc3RzIHRoYXQgcHJvdmlkZSBhIGhpbnQgYWRkcmVz
+cyB3b3VsZCBiZSBvbmx5Cj4gPiBQQUdFX1NJWkUtYWxpZ25lZCByZWdhcmRsZXNzIG9mIHdoZXRo
+ZXIgYWxsb2NhdGlvbiB3YXMgc3VjY2Vzc2Z1bCBhdAo+ID4gdGhlIGhpbnQgYWRkcmVzcyBvciBu
+b3QuCj4gPgo+ID4gSW5zdGVhZCwgdXNlIGFyY2hfbW1hcF9oaW50KCkgdG8gZmlyc3QgYXR0ZW1w
+dCBhbGxvY2F0aW9uIGF0IHRoZSBoaW50Cj4gPiBhZGRyZXNzIGFuZCBmYWxsYmFjayB0byBUSFAg
+YWxpZ25tZW50IGlmIHRoYXQgZmFpbHMuCj4KPiBUaGFua3MgZm9yIHRha2luZyB0aW1lIHRvIHRy
+eSB0byBmaXggdGhpcy4KPgo+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IEthbGVzaCBTaW5naCA8a2Fs
+ZXNoc2luZ2hAZ29vZ2xlLmNvbT4KPiA+IC0tLQo+ID4gIG1tL2h1Z2VfbWVtb3J5LmMgfCAxNSAr
+KysrKysrKy0tLS0tLS0KPiA+ICBtbS9tbWFwLmMgICAgICAgIHwgIDEgLQo+ID4gIDIgZmlsZXMg
+Y2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQo+ID4KPiA+IGRpZmYgLS1n
+aXQgYS9tbS9odWdlX21lbW9yeS5jIGIvbW0vaHVnZV9tZW1vcnkuYwo+ID4gaW5kZXggMTM3YWJl
+ZGE4NjAyLi5mMDcwYzg5ZGFmYzkgMTAwNjQ0Cj4gPiAtLS0gYS9tbS9odWdlX21lbW9yeS5jCj4g
+PiArKysgYi9tbS9odWdlX21lbW9yeS5jCj4gPiBAQCAtMTA5Nyw2ICsxMDk3LDE0IEBAIHN0YXRp
+YyB1bnNpZ25lZCBsb25nIF9fdGhwX2dldF91bm1hcHBlZF9hcmVhKHN0cnVjdCBmaWxlICpmaWxw
+LAo+ID4gICAgICAgICBsb2ZmX3Qgb2ZmX2FsaWduID0gcm91bmRfdXAob2ZmLCBzaXplKTsKPiA+
+ICAgICAgICAgdW5zaWduZWQgbG9uZyBsZW5fcGFkLCByZXQsIG9mZl9zdWI7Cj4gPgo+ID4gKyAg
+ICAgICAvKgo+ID4gKyAgICAgICAgKiBJZiBhbGxvY2F0aW9uIGF0IHRoZSBhZGRyZXNzIGhpbnQg
+c3VjY2VlZHM7IHJlc3BlY3QgdGhlIGhpbnQgYW5kCj4gPiArICAgICAgICAqIGRvbid0IHRyeSB0
+byBhbGlnbiB0byBUSFAgYm91bmRhcnkuCj4gPiArICAgICAgICAqLwo+ID4gKyAgICAgICBhZGRy
+ID0gYXJjaF9tbWFwX2hpbnQoZmlscCwgYWRkciwgbGVuLCBvZmYsIGZsYWdzKTsKPiA+ICsgICAg
+ICAgaWYgKGFkZHIpCj4gPiArICAgICAgICAgICAgICAgcmV0dXJuIGFkZHI7Cj4gPiArCgpIaSBZ
+YW5nLAoKVGhhbmtzIGZvciB0aGUgY29tbWVudHMuCgo+Cj4gSUlVQywgYXJjaF9tbWFwX2hpbnQo
+KSB3aWxsIGJlIGNhbGxlZCBpbiBhcmNoX2dldF91bm1hcHBlZF9hcmVhKCkgYW5kCj4gYXJjaF9n
+ZXRfdW5tYXBwZWRfYXJlYV90b3Bkb3duKCkgYWdhaW4uIFNvIHdlIHdpbGwgYWN0dWFsbHkgbG9v
+ayB1cAo+IG1hcGxlIHRyZWUgdHdpY2UuIEl0IHNvdW5kcyBsaWtlIHRoZSBzZWNvbmQgaGludCBh
+ZGRyZXNzIHNlYXJjaCBpcwo+IHBvaW50bGVzcy4gWW91IHNob3VsZCBiZSBhYmxlIHRvIHNldCBh
+ZGRyIHRvIDAgYmVmb3JlIGNhbGxpbmcKPiBtbV9nZXRfdW5tYXBwZWRfYXJlYV92bWZsYWdzKCkg
+aW4gb3JkZXIgdG8gc2tpcCB0aGUgc2Vjb25kIGhpbnQKPiBhZGRyZXNzIHNlYXJjaC4KCllvdSBh
+cmUgcmlnaHQgdGhhdCBpdCB3b3VsZCBjYWxsIGludG8gYXJjaF9tbWFwX2hpbnQoKSB0d2ljZSBi
+dXQgaXQKb25seSBhdHRlbXB0cyB0aGUgbG9va3VwIG9uY2Ugc2luY2Ugb24gdGhlIHNlY29uZCBh
+dHRlbXB0IGFkZHIgPT0gMC4KClRoYW5rcywKS2FsZXNoCj4KPiA+ICAgICAgICAgaWYgKCFJU19F
+TkFCTEVEKENPTkZJR182NEJJVCkgfHwgaW5fY29tcGF0X3N5c2NhbGwoKSkKPiA+ICAgICAgICAg
+ICAgICAgICByZXR1cm4gMDsKPiA+Cj4gPiBAQCAtMTExNywxMyArMTEyNSw2IEBAIHN0YXRpYyB1
+bnNpZ25lZCBsb25nIF9fdGhwX2dldF91bm1hcHBlZF9hcmVhKHN0cnVjdCBmaWxlICpmaWxwLAo+
+ID4gICAgICAgICBpZiAoSVNfRVJSX1ZBTFVFKHJldCkpCj4gPiAgICAgICAgICAgICAgICAgcmV0
+dXJuIDA7Cj4gPgo+ID4gLSAgICAgICAvKgo+ID4gLSAgICAgICAgKiBEbyBub3QgdHJ5IHRvIGFs
+aWduIHRvIFRIUCBib3VuZGFyeSBpZiBhbGxvY2F0aW9uIGF0IHRoZSBhZGRyZXNzCj4gPiAtICAg
+ICAgICAqIGhpbnQgc3VjY2VlZHMuCj4gPiAtICAgICAgICAqLwo+ID4gLSAgICAgICBpZiAocmV0
+ID09IGFkZHIpCj4gPiAtICAgICAgICAgICAgICAgcmV0dXJuIGFkZHI7Cj4gPiAtCj4gPiAgICAg
+ICAgIG9mZl9zdWIgPSAob2ZmIC0gcmV0KSAmIChzaXplIC0gMSk7Cj4gPgo+ID4gICAgICAgICBp
+ZiAodGVzdF9iaXQoTU1GX1RPUERPV04sICZjdXJyZW50LT5tbS0+ZmxhZ3MpICYmICFvZmZfc3Vi
+KQo+ID4gZGlmZiAtLWdpdCBhL21tL21tYXAuYyBiL21tL21tYXAuYwo+ID4gaW5kZXggNTliZjdk
+MTI3YWExLi42YmZlZWM4MDE1MmEgMTAwNjQ0Cj4gPiAtLS0gYS9tbS9tbWFwLmMKPiA+ICsrKyBi
+L21tL21tYXAuYwo+ID4gQEAgLTgwNyw3ICs4MDcsNiBAQCBfX2dldF91bm1hcHBlZF9hcmVhKHN0
+cnVjdCBmaWxlICpmaWxlLCB1bnNpZ25lZCBsb25nIGFkZHIsIHVuc2lnbmVkIGxvbmcgbGVuLAo+
+ID4gICAgICAgICBpZiAoZ2V0X2FyZWEpIHsKPiA+ICAgICAgICAgICAgICAgICBhZGRyID0gZ2V0
+X2FyZWEoZmlsZSwgYWRkciwgbGVuLCBwZ29mZiwgZmxhZ3MpOwo+ID4gICAgICAgICB9IGVsc2Ug
+aWYgKElTX0VOQUJMRUQoQ09ORklHX1RSQU5TUEFSRU5UX0hVR0VQQUdFKSAmJiAhZmlsZQo+ID4g
+LSAgICAgICAgICAgICAgICAgICYmICFhZGRyIC8qIG5vIGhpbnQgKi8KPiA+ICAgICAgICAgICAg
+ICAgICAgICAmJiBJU19BTElHTkVEKGxlbiwgUE1EX1NJWkUpKSB7Cj4gPiAgICAgICAgICAgICAg
+ICAgLyogRW5zdXJlcyB0aGF0IGxhcmdlciBhbm9ueW1vdXMgbWFwcGluZ3MgYXJlIFRIUCBhbGln
+bmVkLiAqLwo+ID4gICAgICAgICAgICAgICAgIGFkZHIgPSB0aHBfZ2V0X3VubWFwcGVkX2FyZWFf
+dm1mbGFncyhmaWxlLCBhZGRyLCBsZW4sCj4gPiAtLQo+ID4gMi40Ny4wLjMzOC5nNjBjY2ExNTgx
+OS1nb29nCj4gPgo+ID4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5p
+bmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8v
+bGludXgtc25wcy1hcmMK
