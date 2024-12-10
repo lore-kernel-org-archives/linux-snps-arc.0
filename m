@@ -4,60 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 80CB6E7717F
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 10 Dec 2024 11:35:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C202CE77180
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 10 Dec 2024 12:42:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=jrWtZqk1wyvaPOlClhb9+e5CGQ3LIz0Jpaon5Xo1cAg=; b=FNLLC3TRnhTs+V
-	C2LNiVQXKOr7qU89aL4u7VDjQefA+MI7ky7vJDpcJD6V6/peRYUPfPU+KexSRV2BB3BIMjeXSsLRX
-	yClmnPmcnCJIIxJKHY7kIWskva+AG1+lagoh8IhmMbb0Hv6aekn0Q0QU1v6meUqBOeBrwCvuW2yVe
-	Diz28faQwdp7wqAXHfqHFEkiQFyR0YAGErDJOKOOw+RhvNKwo4UUUjAXLGG9JlG2OiktsA5akuxqo
-	lagohIjxpfACemYz/DHjnOj3bDxdt4SMYDkJ/tuLyrEbVhUM+oL5CCOltMN5fYHrsXYqWajFt7OX1
-	tcUuyZgKcEJbXsUrAnRw==;
+	List-Owner; bh=jf1MRjfR3DD/OT0YR690SvY40NvZTYhuwNMaUwy7noM=; b=VyXWKcThu3xDkp
+	Q/42VJtBhZbD4xAm4Y2/vC+dvFxdt2zFg2UFHDLdfyu8PG9y5PhXECGTLyUyiDIe9w5GB1AznevVM
+	dTScPQhqUEe9u9yQ0uraUNc2vldTuQWmYp7MSozEkUgZIuIEyfU4UpbksShVbhWNjSRNuJVBjAGGu
+	iARKc77MtPz7lfPnw4tYJdSuZf07LqsuwzR5P5pyMsZH3MCsYoMBcibvVTPw5oDKlmm4h/EMWoOF2
+	6m6kRaSxgQrvsNym85Q1pzcszaYZeHeGsf24oS2UXUvJ2qVdIg9kVFq4gN5WrAdt9Thgc2hBeWJHL
+	FCMHQg8vyYAtbBmD4E3A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKyWm-0000000BKcN-0dF8;
-	Tue, 10 Dec 2024 11:35:44 +0000
-Received: from mgamail.intel.com ([198.175.65.14])
+	id 1tKzZm-0000000BSiI-1Oja;
+	Tue, 10 Dec 2024 12:42:54 +0000
+Received: from mgamail.intel.com ([198.175.65.12])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKyWj-0000000BKbY-2K0a;
-	Tue, 10 Dec 2024 11:35:42 +0000
+	id 1tKzZf-0000000BSgS-0hgX;
+	Tue, 10 Dec 2024 12:42:50 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733830542; x=1765366542;
+  t=1733834568; x=1765370568;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=WHDSe6EUA5S0A1igiIW2WwLpfRxVDyrjbYLfxWAG7Ls=;
-  b=kS5a3FpQS3yFw4HrwEl82bxYq6D0BRLo7+g5IMTeZfcA4coEDy+fifJC
-   qSmyQRFE2t4RRc0ZBu0nLj6ndRfi6FSrbob5jcAHHfMS/12YrQUofb7Ob
-   NO3XKTDeFdUwmP83tw9ksT3vd1p2jjOQ8RJPn3Kbh+RKKrFELFxcQTRbg
-   PFRrxOSNmsBzISnq72IrCxZLkMzg9XP32/bQ48mxsCY4UKFX1AgD90wSH
-   sAx+YXJEtqwYJSY+PLM6Z7wUo6rVjea02jC9/guX5fpF/jow1pugR6NSy
-   +uuqkkEeRJ4aJxPQ+1x4JLs08lehLh8a/4kF+zXDinOYDNu16IowxqaIC
-   A==;
-X-CSE-ConnectionGUID: EBORkPDnSFi7qRR0TjaXwQ==
-X-CSE-MsgGUID: 4t7EhK++TjSyjnMRkvvQIw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="37953228"
-X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; 
-   d="scan'208";a="37953228"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 03:35:39 -0800
-X-CSE-ConnectionGUID: KnbZnJbTTp+ogeuAnZR5Lw==
-X-CSE-MsgGUID: YdwH9kWVRUewkGlVt+S9DQ==
+  bh=2XWkD/yfjEhuZbsTfBejcrrLVZU1NcZkJQDTuM2rIMc=;
+  b=MAiXvQmH/7vMSA73y1A/67vTMtxx7SOlSsI8vsDix8xVMEsw8N7gvFND
+   WjJg6uA6/imuhK1bb3kDoCcZe0roxwUosjSdh9OhdJCUCBCa4XX0BKGkS
+   It2OWPaoiVGO9CFZh8s0poUf21Yy2EuJqXdPYTlhCgvrJfzDkebiqmXmM
+   FyNzRtbVIqDOI8zyr+YEXs69HkgqaJF2rvRBhVl4KKb8StCqwke/yXLJQ
+   gtiN4SwIwuG42hwucfyNdVHTXRXj4js/CChYPMmc0FjIvjw1XoPkgTGQT
+   OlR8S/BThz5Nt7uZ3iGftU7n1tOIWcGKhHSIhaVOPe7vcDBx0LtGEiExD
+   g==;
+X-CSE-ConnectionGUID: dX1sc1xZRxqap2m4CJif1g==
+X-CSE-MsgGUID: MbLLeeNEQ1+nE4TPReDukw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="45557335"
+X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
+   d="scan'208";a="45557335"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 04:42:45 -0800
+X-CSE-ConnectionGUID: PNJK2U7TRI6GrhJMzjBjFw==
+X-CSE-MsgGUID: 1gEgitiCTumWExA1EmlaFA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; 
-   d="scan'208";a="95206413"
+   d="scan'208";a="95741297"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 10 Dec 2024 03:35:32 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 10 Dec 2024 04:42:38 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKyWX-0005TR-0J;
-	Tue, 10 Dec 2024 11:35:29 +0000
-Date: Tue, 10 Dec 2024 19:35:09 +0800
+	id 1tKzZT-0005Xl-2l;
+	Tue, 10 Dec 2024 12:42:35 +0000
+Date: Tue, 10 Dec 2024 20:41:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kalesh Singh <kaleshsingh@google.com>, akpm@linux-foundation.org,
 	vbabka@suse.cz, yang@os.amperecomputing.com, riel@surriel.com,
@@ -74,15 +74,16 @@ Cc: oe-kbuild-all@lists.linux.dev, linux@armlinux.org.uk,
 	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
 	loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
 	linux-parisc@vger.kernel.org
-Subject: Re: [PATCH mm-unstable 04/17] mm: alpha: Introduce arch_mmap_hint()
-Message-ID: <202412102123.Db7EAmhx-lkp@intel.com>
-References: <20241210024119.2488608-5-kaleshsingh@google.com>
+Subject: Re: [PATCH mm-unstable 11/17] mm: sh: Introduce arch_mmap_hint()
+Message-ID: <202412102044.uIAN0clk-lkp@intel.com>
+References: <20241210024119.2488608-12-kaleshsingh@google.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20241210024119.2488608-5-kaleshsingh@google.com>
+In-Reply-To: <20241210024119.2488608-12-kaleshsingh@google.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241210_033541_638632_CDC7F925 
-X-CRM114-Status: GOOD (  13.34  )
+X-CRM114-CacheID: sfid-20241210_044247_247937_7AA44B42 
+X-CRM114-Status: UNSURE (   9.73  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,81 +102,79 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 Hi Kalesh,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on akpm-mm/mm-everything]
+[auto build test WARNING on akpm-mm/mm-everything]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Kalesh-Singh/mm-Introduce-generic_mmap_hint/20241210-104424
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20241210024119.2488608-5-kaleshsingh%40google.com
-patch subject: [PATCH mm-unstable 04/17] mm: alpha: Introduce arch_mmap_hint()
-config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20241210/202412102123.Db7EAmhx-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412102123.Db7EAmhx-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20241210024119.2488608-12-kaleshsingh%40google.com
+patch subject: [PATCH mm-unstable 11/17] mm: sh: Introduce arch_mmap_hint()
+config: sh-randconfig-001-20241210 (https://download.01.org/0day-ci/archive/20241210/202412102044.uIAN0clk-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412102044.uIAN0clk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412102123.Db7EAmhx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412102044.uIAN0clk-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/alpha/kernel/osf_sys.c: In function 'arch_get_unmapped_area':
->> arch/alpha/kernel/osf_sys.c:1280:24: error: 'hint' undeclared (first use in this function); did you mean 'uint'?
-    1280 |                 return hint;
-         |                        ^~~~
-         |                        uint
-   arch/alpha/kernel/osf_sys.c:1280:24: note: each undeclared identifier is reported only once for each function it appears in
+   arch/sh/mm/mmap.c: In function 'arch_get_unmapped_area':
+>> arch/sh/mm/mmap.c:79:32: warning: unused variable 'vma' [-Wunused-variable]
+      79 |         struct vm_area_struct *vma;
+         |                                ^~~
+>> arch/sh/mm/mmap.c:78:27: warning: unused variable 'mm' [-Wunused-variable]
+      78 |         struct mm_struct *mm = current->mm;
+         |                           ^~
+   arch/sh/mm/mmap.c: In function 'arch_get_unmapped_area_topdown':
+   arch/sh/mm/mmap.c:117:32: warning: unused variable 'vma' [-Wunused-variable]
+     117 |         struct vm_area_struct *vma;
+         |                                ^~~
 
 
-vim +1280 arch/alpha/kernel/osf_sys.c
+vim +/vma +79 arch/sh/mm/mmap.c
 
-  1248	
-  1249	unsigned long
-  1250	arch_get_unmapped_area(struct file *filp, unsigned long addr,
-  1251			       unsigned long len, unsigned long pgoff,
-  1252			       unsigned long flags, vm_flags_t vm_flags)
-  1253	{
-  1254		unsigned long limit;
-  1255	
-  1256		/* "32 bit" actually means 31 bit, since pointers sign extend.  */
-  1257		if (current->personality & ADDR_LIMIT_32BIT)
-  1258			limit = 0x80000000;
-  1259		else
-  1260			limit = TASK_SIZE;
-  1261	
-  1262		if (len > limit)
-  1263			return -ENOMEM;
-  1264	
-  1265		if (flags & MAP_FIXED)
-  1266			return addr;
-  1267	
-  1268		/* First, see if the given suggestion fits.
-  1269	
-  1270		   The OSF/1 loader (/sbin/loader) relies on us returning an
-  1271		   address larger than the requested if one exists, which is
-  1272		   a terribly broken way to program.
-  1273	
-  1274		   That said, I can see the use in being able to suggest not
-  1275		   merely specific addresses, but regions of memory -- perhaps
-  1276		   this feature should be incorporated into all ports?  */
-  1277	
-  1278		addr = arch_mmap_hint(filp, addr, len, pgoff, flags);
-  1279		if (addr)
-> 1280			return hint;
-  1281	
-  1282		/* Next, try allocating at TASK_UNMAPPED_BASE.  */
-  1283		addr = arch_get_unmapped_area_1 (PAGE_ALIGN(TASK_UNMAPPED_BASE),
-  1284						 len, limit);
-  1285		if (addr != (unsigned long) -ENOMEM)
-  1286			return addr;
-  1287	
-  1288		/* Finally, try allocating in low memory.  */
-  1289		addr = arch_get_unmapped_area_1 (PAGE_SIZE, len, limit);
-  1290	
-  1291		return addr;
-  1292	}
-  1293	
+2261b9c7c2357a0 Kalesh Singh      2024-12-09   73  
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12   74  unsigned long arch_get_unmapped_area(struct file *filp, unsigned long addr,
+25d4054cc97484f Mark Brown        2024-09-04   75  	unsigned long len, unsigned long pgoff, unsigned long flags,
+25d4054cc97484f Mark Brown        2024-09-04   76  	vm_flags_t vm_flags)
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12   77  {
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12  @78  	struct mm_struct *mm = current->mm;
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12  @79  	struct vm_area_struct *vma;
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12   80  	int do_colour_align;
+b80fa3cbb78c0fb Rick Edgecombe    2024-03-25   81  	struct vm_unmapped_area_info info = {};
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12   82  
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12   83  	if (flags & MAP_FIXED) {
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12   84  		/* We do not accept a shared mapping if it would violate
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12   85  		 * cache aliasing constraints.
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12   86  		 */
+e77414e0aad6a1b Al Viro           2009-12-05   87  		if ((flags & MAP_SHARED) &&
+e77414e0aad6a1b Al Viro           2009-12-05   88  		    ((addr - (pgoff << PAGE_SHIFT)) & shm_align_mask))
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12   89  			return -EINVAL;
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12   90  		return addr;
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12   91  	}
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12   92  
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12   93  	if (unlikely(len > TASK_SIZE))
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12   94  		return -ENOMEM;
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12   95  
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12   96  	do_colour_align = 0;
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12   97  	if (filp || (flags & MAP_SHARED))
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12   98  		do_colour_align = 1;
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12   99  
+2261b9c7c2357a0 Kalesh Singh      2024-12-09  100  	addr = arch_mmap_hint(filp, addr, len, pgoff, flags);
+2261b9c7c2357a0 Kalesh Singh      2024-12-09  101  	if (addr)
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12  102  		return addr;
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12  103  
+b4265f12340f809 Michel Lespinasse 2012-12-11  104  	info.length = len;
+b4265f12340f809 Michel Lespinasse 2012-12-11  105  	info.low_limit = TASK_UNMAPPED_BASE;
+b4265f12340f809 Michel Lespinasse 2012-12-11  106  	info.high_limit = TASK_SIZE;
+b4265f12340f809 Michel Lespinasse 2012-12-11  107  	info.align_mask = do_colour_align ? (PAGE_MASK & shm_align_mask) : 0;
+b4265f12340f809 Michel Lespinasse 2012-12-11  108  	info.align_offset = pgoff << PAGE_SHIFT;
+b4265f12340f809 Michel Lespinasse 2012-12-11  109  	return vm_unmapped_area(&info);
+4a4a9be3ebdbf17 Paul Mundt        2008-11-12  110  }
+ee1acbfabd5270b Paul Mundt        2009-05-07  111  
 
 -- 
 0-DAY CI Kernel Test Service
