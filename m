@@ -4,69 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1281E77180
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Dec 2024 05:49:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7BDD8E7717D
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Dec 2024 07:00:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=muLqcsYeHHfGH4fg/pANt0kLmbV3XC+sqfkZR02zy/I=; b=Z0JZQn7CUC+QyU
-	vTAcrzAl7LJSkcdH9BQTIPvCquxBr31BbQ50E5Gnl+XFkdJP4ZoNHn1nX0xmeS27kG0N7c+yhiRT5
-	rXhGji+RdVbmf76S9eVyk5tRe5KGn54mhRzK9kF9Ieide+ZghN20Jjkhv7dtX/VhOV5CzW9Yz+3lN
-	q9kFjgPz7dpNRcyzLSYV4tuXrQ4hsStI1vJWshnaLhzrCBJzl99WoGiQl3wIzXZTp/zwpUtPAqdML
-	vQ9OcIs9QjUiOj6rVJOL3Hdb0nMJ8V8QF+PYKfexy4+SJ056LV4a3hSNfDGswRqI3GBqLEIBRe4a4
-	qhWV6SwWslUh/+dOwbAA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=fmREcS5PrN24hlaIydbvyPcVeEFLEEwqyAnpHQh463A=; b=S31dI7wl/Qgihk
+	7VH5cfVgxSGgG9HjkJZ96n6gPgzTmpWHft/H+Sb55T1skMXFWzRr9BncZ8GUcDCSvrar3VzBJ2ERy
+	cPGv/yG22+qKORC1zBKhayAt3CpKCvk90McC5ef3bJJWsRp0HUmKOW2cQsQ2d7caYhDGXOTGDO7bX
+	RcKa5ytDoIrZUU3jD25Hxb79je16dQq7hJYMaw5LCT/nrWmz6/5EK3aN0EB6tpUBxjhhBc3j+Pi9g
+	V6j5Mn9Y6bPqvKYetLFoAQKhsIGa+bF0zo4AXomGHQFSrxh16ZmSYDW4iZ46Epbdw8LfQj95Q78gf
+	Z+cXwatJ4cNi4kTESMZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLyYM-00000002o2Q-2RRr;
-	Fri, 13 Dec 2024 05:49:30 +0000
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
+	id 1tLzfG-00000002ulO-0FZA;
+	Fri, 13 Dec 2024 07:00:42 +0000
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLyYK-00000002o1p-0yWX
+	id 1tLyWA-00000002neV-109g
 	for linux-snps-arc@lists.infradead.org;
-	Fri, 13 Dec 2024 05:49:29 +0000
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-728ea1e0bdbso1127647b3a.0
-        for <linux-snps-arc@lists.infradead.org>; Thu, 12 Dec 2024 21:49:27 -0800 (PST)
+	Fri, 13 Dec 2024 05:47:15 +0000
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-72909c459c4so378105b3a.1
+        for <linux-snps-arc@lists.infradead.org>; Thu, 12 Dec 2024 21:47:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734068967; x=1734673767; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=m2jUPvsdlfQUhZsdbtI4Ke1sLD5+tvHbQzW9Gl1gyas=;
-        b=bDHq5TNec//2mdO+ZXZOht0pmAiYFF+HClAwOBJZSL8kco030zIeJO/lvm0ojqNFFC
-         J6xvD6ljErJ69pL0+nkkUPCvBSvdSgLfjBbq7irWGsYqjnH1X3YmXAz+8ZEc8Xi3YsTb
-         PD2pXQD05nEz+J96r6xinKhUxjSBiBxsCMBt+QXUpN4X8+bqnW7FgpAtznqC9sWmbX6V
-         5mFd9kwJU6iPq5ihFQupVN1YXCNSe8sWtTDGqvGZnwcNwoXmqKi09NctuYksFbbxXIMf
-         zgGc/va/PLbm6DBV9P8YkhJk9pUZJ1/lwqISMa0oh41ABY2pKouQFPFj76GA8zTuV9rF
-         Bceg==
+        d=gmail.com; s=20230601; t=1734068833; x=1734673633; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gS7oaK0RsPIguog+zKCBYVnzq+DdL6weynD0punt/E0=;
+        b=iucC+PKkODoThFIJ9hWKPElIBc6IGtuBO12BQF9SnaiH7660xAuMEDD1ObYIfYyWag
+         5aXlN2XhuXGJbktDOUTnv4jbM1RrBLwGl1kJJtD5Yal8EDO/JXDTi08iI0i+jHh+F86j
+         Jt+FCBuCdzc151H/KWpc5eQdi4nXu8XhNgRoPdsu1UWvwDPHpz3CYCiIn3ubQ2nv3NGb
+         D6zYf0Xb6NGEFJc6etHYVvtzs8pAl0sNPFIEMpCgYYgFq8aWb5QQZ57EuY8O/iZba8i+
+         8THiGF3+x/WERf8iX4Y9wkayotW6fLhUhIdLun1w1x47N5UKyIViPbGtMfTAZRP1cnyk
+         Mdag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734068967; x=1734673767;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m2jUPvsdlfQUhZsdbtI4Ke1sLD5+tvHbQzW9Gl1gyas=;
-        b=vubKLQbWS4X6ziWR5M5athmGdc6J5DCIHs7y2nQuurWaVcg/fsR/F8hOFugHZATDrc
-         6rGQ341mT3fnBzNfCY3JkoAqHJpekPaR7WpyCuO7E+mm7CW3uaAtBPnJ9Z/TwGwLtguM
-         wRD/ELq/JFSHx7WhEhMgKGq+ctQRmLLjE4SV5lx3Pxvu3D6uHg8qjzvRBEjXOMCorKI+
-         NUkrs7QEMfeA3KC+d2/jgi2GsOijEHRQdCO1ZYwjvgVE/WhSqw2iuxmCHbXhdpnkKOYu
-         xR9SG3bqAJ5db/XACOvnY0vGsg7oEE0gSBvSlwacqoEDKcmKd8KRpJiO7iF6+LXtDcdi
-         dmzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU2RYBChfVyJm6suybqc1j1vEVnTJpwLge2mx7iOvnqyj2KlkUbqkX3AySOmYe6GNUft2z8yeglZMusrARdyw==@lists.infradead.org
-X-Gm-Message-State: AOJu0Yw+5PJ/bgo0/NIG3UqjSy32+Fr5AOsO4oomHq+yqEzz95FJd4Qv
-	ZLeMydf3/rUiQ0F2QyJfW4KwkW7CRJH72mAOaBDtdNne/5PvV5xw
-X-Gm-Gg: ASbGncuFcO4d3TEs/alC5p6pBNh9bEJTEjBhR5zXjt0BHpxW/ON45+oI/5U9ewPVMOW
-	ld8yZh50X8IuGI8RBUHuHMhTJx/MAbpEJTbQ2nCJ5UDYhwxT8WZ4fYnHa7LXZjKy684/UU3MBfP
-	vgVn6EwmJtG5UYg0RXu2lFBZXtKcJ+zaAsjIKB6zHi8s3igN3bmN6aU1O5zAIAtfNz8ToKCM0Px
-	Ghdn2rSkxiyofKitqt+BsDyVRA395DSEH8VQJCxQFPhyCsTs1IJ3cfYtPnIst60c0ddvlrkS8d9
-	nHM57ks=
-X-Google-Smtp-Source: AGHT+IGsjn2HsD9B470GSaZ7/WuS4a1ciiqbzWwWUR77XR0Zla03DKiQ+x82aV6yWtJ1LuxULtoYsw==
-X-Received: by 2002:a05:6a00:b46:b0:71e:4786:98ee with SMTP id d2e1a72fcca58-7290c2702e3mr2257553b3a.21.1734068967116;
-        Thu, 12 Dec 2024 21:49:27 -0800 (PST)
+        d=1e100.net; s=20230601; t=1734068833; x=1734673633;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gS7oaK0RsPIguog+zKCBYVnzq+DdL6weynD0punt/E0=;
+        b=lOs82jUcNWrCOUzespXiBTZ62X7wKxT1rVlmsej6O6SYwJZ+hB1o++NwLyj6ULp+Tz
+         S1E+aRhAX0t1euNfaYJxmaz9/H0AhRa2Ekv7h6uWBQL0OU5dATEmDI+0SY2Y0BtiA7rc
+         Ghn1oFkUJjj1ZuAGcW/IU350fNQeZbeE09X8xmavVkzZkaQ9xGRDT2i/4shG00Q9pXXt
+         hgJQGfwmJZDSVEaB6Zl0MFLiBc2JameacxBXcShF4Fn6l0ubE6GWzQBwRtCFYjqxB+Ro
+         C51s9j9rVzHPTxyEkBR92UDPHqA7WZTejxm9NbePiXw6GS3ESyTHPJrSXFWFM2sg+tf3
+         gZow==
+X-Forwarded-Encrypted: i=1; AJvYcCWQvDzGL3rDHfAt9O6w1HooWUKGj3hoOabk01oRrFNhSGfSITKfuvS77veK9fEI14AVNTywisOdpZsSxtT2xg==@lists.infradead.org
+X-Gm-Message-State: AOJu0Yw4FEfT2BqZIL7aK2cLT4B3VL7ebEHDENo/pTNRsHc5R9NFFFIl
+	qWsXI6CTzhKKD0DIj3f2QFjerZoC51cUELks9XTWYKWUnXXXKgp0
+X-Gm-Gg: ASbGncvjP4ZgGXrdTmOevJvTFC1dmwO3WMuR9BJnQ0fauKNUEBR3ZP6FEWpn0wRhxBZ
+	1xIhubXnLOuQKvj97GXwQ43PiuebD2j2XuKcI4aLmLOlzNucsnl9KSgYSgdCofvJ4h/yv10BG7G
+	9YkJN7ZAbmHia7xcELsMfPzB3J+X7lRk1XCEg1LTPWyMUoyDvitUg/CiX3xcdDybpmYfhRwoKkY
+	HhVR5mpM2DKbDoJuUEyupa1RaYcwHaGEMU739LKU6ZpeGr2bv+46JUAe/Gr45L5+GtvqgvQQJJz
+	6Ad7sAk=
+X-Google-Smtp-Source: AGHT+IG/u9vPHYJsr72JqaDrYLM72r0Mv+gF1sZwvgldiU0c1giVELNbwcEluD8XRP6pboK2QDHicw==
+X-Received: by 2002:a17:902:f60c:b0:216:7c33:8994 with SMTP id d9443c01a7336-21892a7a811mr23989435ad.53.1734068833602;
+        Thu, 12 Dec 2024 21:47:13 -0800 (PST)
 Received: from localhost.localdomain ([180.159.118.224])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-725ee10f928sm8166032b3a.32.2024.12.12.21.49.23
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-216483dd292sm82564985ad.226.2024.12.12.21.47.07
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 12 Dec 2024 21:49:26 -0800 (PST)
+        Thu, 12 Dec 2024 21:47:13 -0800 (PST)
 From: Yafang Shao <laoar.shao@gmail.com>
 To: torvalds@linux-foundation.org,
 	akpm@linux-foundation.org
@@ -81,17 +82,17 @@ Cc: linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	ocfs2-devel@lists.linux.dev,
 	Yafang Shao <laoar.shao@gmail.com>,
-	Mark Fasheh <mark@fasheh.com>,
-	Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>
-Subject: [PATCH 7/7] fs: Use %pTN to print task name
-Date: Fri, 13 Dec 2024 13:49:18 +0800
-Message-Id: <20241213054918.56441-1-laoar.shao@gmail.com>
+	Johannes Berg <johannes@sipsolutions.net>
+Subject: [PATCH 4/7] net: Replace get_task_comm() with %pTN
+Date: Fri, 13 Dec 2024 13:46:07 +0800
+Message-Id: <20241213054610.55843-5-laoar.shao@gmail.com>
 X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
+In-Reply-To: <20241213054610.55843-1-laoar.shao@gmail.com>
+References: <20241213054610.55843-1-laoar.shao@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241212_214928_267095_EE890E0C 
-X-CRM114-Status: UNSURE (   8.02  )
+X-CRM114-CacheID: sfid-20241212_214714_273384_542CD0C0 
+X-CRM114-Status: UNSURE (   7.36  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -114,39 +115,28 @@ directly without the need to copy it into a separate buffer. This
 simplifies the code and avoids unnecessary operations.
 
 Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-Cc: Mark Fasheh <mark@fasheh.com>
-Cc: Joel Becker <jlbec@evilplan.org>
-Cc: Joseph Qi <joseph.qi@linux.alibaba.com>
+Cc: Johannes Berg <johannes@sipsolutions.net>
 ---
- fs/ocfs2/cluster/netdebug.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ net/wireless/wext-core.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/fs/ocfs2/cluster/netdebug.c b/fs/ocfs2/cluster/netdebug.c
-index bc27301eab6d..039d99f951ea 100644
---- a/fs/ocfs2/cluster/netdebug.c
-+++ b/fs/ocfs2/cluster/netdebug.c
-@@ -122,11 +122,10 @@ static int nst_seq_show(struct seq_file *seq, void *v)
- 	send = ktime_to_us(ktime_sub(now, nst->st_send_time));
- 	status = ktime_to_us(ktime_sub(now, nst->st_status_time));
+diff --git a/net/wireless/wext-core.c b/net/wireless/wext-core.c
+index 3bb04b05c5ce..1f2a7ab546ba 100644
+--- a/net/wireless/wext-core.c
++++ b/net/wireless/wext-core.c
+@@ -640,10 +640,8 @@ EXPORT_SYMBOL(wireless_send_event);
+ #ifdef CONFIG_CFG80211_WEXT
+ static void wireless_warn_cfg80211_wext(void)
+ {
+-	char name[sizeof(current->comm)];
+-
+-	pr_warn_once("warning: `%s' uses wireless extensions which will stop working for Wi-Fi 7 hardware; use nl80211\n",
+-		     get_task_comm(name, current));
++	pr_warn_once("warning: `%pTN' uses wireless extensions which will stop working for Wi-Fi 7 hardware; use nl80211\n",
++		     current);
+ }
+ #endif
  
--	/* get_task_comm isn't exported.  oh well. */
- 	seq_printf(seq, "%p:\n"
- 		   "  pid:          %lu\n"
- 		   "  tgid:         %lu\n"
--		   "  process name: %s\n"
-+		   "  process name: %pTN\n"
- 		   "  node:         %u\n"
- 		   "  sc:           %p\n"
- 		   "  message id:   %d\n"
-@@ -137,7 +136,7 @@ static int nst_seq_show(struct seq_file *seq, void *v)
- 		   "  wait start:   %lld usecs ago\n",
- 		   nst, (unsigned long)task_pid_nr(nst->st_task),
- 		   (unsigned long)nst->st_task->tgid,
--		   nst->st_task->comm, nst->st_node,
-+		   nst->st_task, nst->st_node,
- 		   nst->st_sc, nst->st_id, nst->st_msg_type,
- 		   nst->st_msg_key,
- 		   (long long)sock,
 -- 
 2.43.5
 
