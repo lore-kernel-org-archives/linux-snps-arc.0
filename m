@@ -4,65 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20B06E77184
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 17 Dec 2024 00:52:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8165E7717F
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 17 Dec 2024 01:08:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=iH/4vwp/moH65olm3XKjkmQKD7H2PRqW6vJSwfTq15c=; b=hI71mJ4CNYD8OG
-	n/QNsEddDgc4dwD3403fJt79GUWUElAEVpO8CEphmxBOOAKlOsa3dicHYGHT0E3Lt1MLUdcmUGwV6
-	Ce6OtxTEsj9NODSLlFiC1+b77RTu85ZrCV/yxzI9zdO5MsncCtQPx+SJ+RGKZYj5Sdr2RFdoIYnWS
-	Tci1k2dV11sUCyD3bZFXrHow4SGxHmHAnc6apG0wr+w5aVxfQWSudWMVWA09cWHFUXU0kHlSe9Csw
-	RnuiWaNfqnt1i7wrpwuGaC9ckq2xP9YPoGNYNK+G5Q6FoMMVgHZGppcMkeNM5xndFx4KFkCQ7A0Rl
-	a9WeKMnzYJkqgUS3dLDw==;
+	List-Owner; bh=jF462z2A25+x+kTF2XhMzpmr3ftr7EFbka+RQ5oKlbY=; b=ekBXvoI+PQapEo
+	M7PPUHWkXLjlfYo4PAl0lcQ/QumorbxWYS5Qjt1EWCzx00UfRDJlpVcf20vZCgBiyqDuIkHeQ8WlV
+	RLR/Jjet2sBUZGvZ7avwYwV/meAyHg0YnB6v5GOd4nyfUwmxddX13HIaW5+vI+l8kKGtDdFznBu/q
+	rycpsYK0C9dMxAxdj2cC0setAPMdz/aK8lTDyi2ePaE9qoBOi+oXXHsJwQXEDY8WPlUOdBoNzFC3F
+	7+vE90LDZID68+KLRwSSNkw67gquoAkivmSbfrK4MHAbpgV5h4ZD5gyzHVfTDfom4bNJJXVCdBgja
+	ncOtNErO6+6LWPv4oPSw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNLpJ-0000000Bo6v-2jWq;
-	Tue, 17 Dec 2024 00:52:41 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1tNM4l-0000000Bpkv-1p9d;
+	Tue, 17 Dec 2024 01:08:39 +0000
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNLeg-0000000Bl29-3qwb
+	id 1tNM4i-0000000Bpi7-1pmn
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 17 Dec 2024 00:41:44 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 6B3BDA41BCB;
-	Tue, 17 Dec 2024 00:39:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D12F7C4CED0;
-	Tue, 17 Dec 2024 00:41:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734396099;
-	bh=Ka+OMSaqE1tqko01dYUFN1zerLG7QyUuZt4Xtr1VtVU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FmTTTeOgGwQUKcETSk7JN9uS1HwjCzwU8/9sGIO3Bmrw15uctQ/lYEqdK/Y2LSc36
-	 sVRGyQIDFzYTswQB4XJjQuHhYx9O1fqa3MCoBjBngnZMdDWjTdZ1vQSA4ZnrXq1apM
-	 H9uWgDD5vchsL3JqZrjjgkuSeehBzjVSoBOMqyfhJeaaEIeN1NvM+1Le09/EnfsIoJ
-	 LTKU4scWe5S2hdTTM1QCmRn2znete1zt7t3IduwDQoj7szNb484ObmGOcP7KP82AIq
-	 qDk9g26Henr6xwrF7vH+dSu3Evhh1aTu0S+f/QCuMBGKj44cWhlYq5V+wuUrlOwuwA
-	 acPDcBfFbH4vQ==
-Date: Mon, 16 Dec 2024 16:41:36 -0800
-From: Kees Cook <kees@kernel.org>
-To: Yafang Shao <laoar.shao@gmail.com>
-Cc: torvalds@linux-foundation.org, akpm@linux-foundation.org,
-	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
-	x86@kernel.org, linux-snps-arc@lists.infradead.org,
-	linux-wireless@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, ocfs2-devel@lists.linux.dev,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>
-Subject: Re: [PATCH 5/7] security: Replace get_task_comm() with %pTN
-Message-ID: <202412161641.8209C666@keescook>
-References: <20241213054610.55843-1-laoar.shao@gmail.com>
- <20241213054610.55843-6-laoar.shao@gmail.com>
+	Tue, 17 Dec 2024 01:08:37 +0000
+Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-a9a977d6cc7so642416266b.3
+        for <linux-snps-arc@lists.infradead.org>; Mon, 16 Dec 2024 17:08:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1734397713; x=1735002513; darn=lists.infradead.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=x5HbsH3y11AUtX77RP9ShUJxU46vkQ8YNLD+VoIrduA=;
+        b=HA4XLaG1HxS5mtz3VjSKyemmXQP039d98AUGQG7dpBhuEbn/oFJMhvKMP/SHah98xY
+         CceuevK3426ELhciWG+HXR/SN2kNnWJeq6+Gb2tDYgo/lGkqynv7Y64LxsRUcoob0isq
+         BCsPC1kMgouW2oaBgyaDwCsQTIQnDvCXfwMNc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734397713; x=1735002513;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=x5HbsH3y11AUtX77RP9ShUJxU46vkQ8YNLD+VoIrduA=;
+        b=bnYgYKR1Wqecq6+r35QdoLAsrc6lBsDGQAyd7ZOHUZoNON+j789qHrrkyUB/yry3BI
+         lMXM8J5qb++QcRJQ4aFCsbBw0mdexZdW9RhyFX9Iut1RHYx4Iv6DySi6uCaXH1sQeLtI
+         wse+3DwBJqSxy81QLD8dmLBRzcBt7IAWHGMOQBnj1WGNP5WoFcGlqSsRQ9japLo12cQo
+         HDEaKbH3wEc+d0jCNfmJVW4nXhRL+ycCM1N0WbnGanFmdhh8Dhe6PWfjB/Ly7BoslZL8
+         LccqgpDZIgvs10DcJ9GSeKoQlgH1ZacvYdHLBpUIKPBFFoE1izTHhdOWCAQ/W0jKhfQG
+         UW+g==
+X-Forwarded-Encrypted: i=1; AJvYcCVnlmJFjGkqbr30NIPu+fYFr2frfM0us+tEwIomb2SP3AZw7QUOmm4pyYy02PIDtdf+xyn47O03AAUB1j32Fw==@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz07L1N7uOF5x+U54e5vwUCZVlMtegBO1dvFtjmrY93xUVH17lS
+	fXYHaT9/mVHuOETDmSdVIRFbEVmR/jwXF9rGuUfq2d/m3r+KryS4g62ljgvnNDYTVtxzYOXAdTn
+	3zlw=
+X-Gm-Gg: ASbGncvl9t2XI02qo65NGVQZnJElVIo9qFK+IKggWiE8F2xqfelnEJLc6GVjSY4WubD
+	oT3E1LAtU8GmGJfdKZzo9C7Cx5y0V3HUQGtOgQiLvZi7URR0YyaR1oQHDzIhHP7XM4IMSPJeDqw
+	ZiD14BGFbKdFD9hv3y303QLzv86WBOF+UIZJFGb1EyRTnkIASmBWUyJAHec2FCiec86Cwa/SUf6
+	Ubl1alQ6KJMEbim1esAwac/zfnt9wtA+s3hunnlqnLB59O7tk72+gri+t7mvaOvRKBIOCc5CKw3
+	4u+G5J2Kk8tlJ7xSa9lv95cjLtmB7Ro=
+X-Google-Smtp-Source: AGHT+IF6s2XaO/FPibGfdciC/gDH/RoFpejl+EUp9JblY1vsL4UzpuC373gxnxkkAzmFGDB8ZOLfvw==
+X-Received: by 2002:a05:6402:354b:b0:5d0:c7a7:ac13 with SMTP id 4fb4d7f45d1cf-5d63c409146mr39163033a12.34.1734397713460;
+        Mon, 16 Dec 2024 17:08:33 -0800 (PST)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com. [209.85.218.50])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d652ad187dsm3839701a12.28.2024.12.16.17.08.30
+        for <linux-snps-arc@lists.infradead.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Dec 2024 17:08:31 -0800 (PST)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a9a977d6cc7so642412066b.3
+        for <linux-snps-arc@lists.infradead.org>; Mon, 16 Dec 2024 17:08:30 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUtD3eV1UI5iOrnpsCYyAyQrvtIFiaRMHC4FwA2SJWODLeO8xMv9F2xE93JSSCddjBjoHiwHq6hnxaFglkH0Q==@lists.infradead.org
+X-Received: by 2002:a05:6402:27d4:b0:5d0:d91d:c197 with SMTP id
+ 4fb4d7f45d1cf-5d63c3db906mr36599487a12.27.1734397709817; Mon, 16 Dec 2024
+ 17:08:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
+References: <20241213054610.55843-1-laoar.shao@gmail.com> <20241213054610.55843-6-laoar.shao@gmail.com>
 In-Reply-To: <20241213054610.55843-6-laoar.shao@gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 16 Dec 2024 17:08:13 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wj=W-4Eu=g83QPUDB+thtL=uY=_1OAVRvXJP=zay+K4Qg@mail.gmail.com>
+Message-ID: <CAHk-=wj=W-4Eu=g83QPUDB+thtL=uY=_1OAVRvXJP=zay+K4Qg@mail.gmail.com>
+Subject: Re: [PATCH 5/7] security: Replace get_task_comm() with %pTN
+To: Yafang Shao <laoar.shao@gmail.com>
+Cc: akpm@linux-foundation.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, x86@kernel.org, 
+	linux-snps-arc@lists.infradead.org, linux-wireless@vger.kernel.org, 
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+	nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	ocfs2-devel@lists.linux.dev, Kees Cook <kees@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241216_164143_045885_DE1EB222 
-X-CRM114-Status: UNSURE (   6.94  )
+X-CRM114-CacheID: sfid-20241216_170836_465783_F0AF4B9D 
+X-CRM114-Status: UNSURE (   7.83  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -80,19 +109,20 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, Dec 13, 2024 at 01:46:08PM +0800, Yafang Shao wrote:
+On Thu, 12 Dec 2024 at 21:47, Yafang Shao <laoar.shao@gmail.com> wrote:
+>
 > Since task->comm is guaranteed to be NUL-terminated, we can print it
-> directly without the need to copy it into a separate buffer. This
-> simplifies the code and avoids unnecessary operations.
-> 
-> Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
+> directly without the need to copy it into a separate buffer.
 
-Looks good to me; thanks!
+So i think we should do the "without copying into a separate buffer"
+part of this series, but I do think we should just accept "%s" and
+"task->comm".
 
-Acked-by: Kees Cook <kees@kernel.org>
+IOW - getting rid of get_task_comm() is good.
 
--- 
-Kees Cook
+But the "%pTN" pointer format ends up being unnecessary.
+
+          Linus
 
 _______________________________________________
 linux-snps-arc mailing list
