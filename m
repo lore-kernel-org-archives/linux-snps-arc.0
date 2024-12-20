@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7ED4E7718C
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 20 Dec 2024 18:25:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 855F1E77188
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 20 Dec 2024 18:40:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=HI/UCxAcUrPiWhz3DwzfFlwOuv5fFyQykMeiOtMl6vA=; b=MoBRwsGR1qNFCe
-	6pUnmt7aPmz6ieJSDcdgOmQ+R6f5NsDBb7o0yZiDu7fxBO2vCkeiVSgO3+lD+bWRDJZK4yP1LtdEq
-	Bb4OmJD9Pu2cVFlqH/CKbI7lPRRvzxWLfue9D5YwnAN8oQQU7lr3GpZeizL1yUb9P8r4tzcGCeDpp
-	xLQiMcLAqJdy2uHh+/bdTQM8N0evvLcxnRRhrATPccebYyxRlbAn5CyfUgtsI9LIb3XqD/tuvfrNa
-	QrhxInjLr7S22Twf5T99b6i24XUUIok5GnO0+eB9rM+5uFta+R7RpNvQwkGVFQmd7mehH7uuASxoL
-	SyYL1vA96mqnrNjb9ikg==;
+	List-Owner; bh=HI/UCxAcUrPiWhz3DwzfFlwOuv5fFyQykMeiOtMl6vA=; b=IhGS3R6hQYH69o
+	ksDUhjIaxRWXcWPlAPVaE/Sukyl6c/G/ONQc8+nVGjPINbWZxlXUIdo+JNwrlCWz1lg38HnXm3Als
+	ubH1oE+EIS8J6AwNpX1MjM87Di/aAaYYHml8arRJ8ZKbK8y86Ly5KQeWunkdd0iliGQDB8iXoU3ok
+	4f5eScv6JZW0XetIVcpBAsnWpz8E+T15U/g7VYQ6j6iVYzIHFU5IfqrEIrJqLXPqn4d9pOTIve79m
+	I1nVNRQPZbUua749iLJlMobvW1Gs8Fc6Jt0f7DjHhCtMi0Ywuc6A+s1bepR+ZGcfDUutb2QrqX4/c
+	BUP7enh3InwrK3GwipFQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tOhgr-00000005ncp-0dlH;
-	Fri, 20 Dec 2024 18:25:33 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1tOhvN-00000005pgY-144h;
+	Fri, 20 Dec 2024 18:40:33 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tOgYD-00000005aY9-1OVz
+	id 1tOgYw-00000005ait-0wEj
 	for linux-snps-arc@lists.infradead.org;
-	Fri, 20 Dec 2024 17:12:34 +0000
+	Fri, 20 Dec 2024 17:13:19 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 31896A420B7;
-	Fri, 20 Dec 2024 17:10:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9045DC4CED3;
-	Fri, 20 Dec 2024 17:12:31 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 1D7E2A42167;
+	Fri, 20 Dec 2024 17:11:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79B8FC4CECD;
+	Fri, 20 Dec 2024 17:13:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734714752;
+	s=k20201202; t=1734714797;
 	bh=s0STJfAFIP5+6UO4H5FBYvKDuYRxeyInv+oPb0VXi8s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MkRsdlcODen+3qSICOc5rqoqCFIyvn655Cptsd9vSSIe77szG5DNMeMy5bhu9yV5G
-	 nlehtFNCDkH1HFwSwZGbCzo5p4QCBgZFfyCWABB7nfzuXiAr/uDVy0qLi9kYZj+AMJ
-	 HmLfMkXodsMoZ6WQ7jNcM7DeSBnDbAFkDieE3ru83Hbw5oZg3Fsli0ut+Lw/NSRQTo
-	 8ZkZjLhW0WyGQZv60aDT6HtYxdhJ9ECTFPLtvQ11+nzc7QNgx3CiwM8eLa4v6cBh3c
-	 Xq+a/Yn/EDOhgE72kBJiL6bE+Y59tFaNznNYRdoQlX7zcF6jtVmEDghCn6fE1rphOR
-	 +4O+6/G3usbWA==
+	b=VtwSvS/B5mDCfvD8UTk9xe0T7TM7wpOvviKnPKxqwsf9vk4FAtHsm2pmAAaINOE10
+	 o6i/JYu4CMUletM2Prdwd2SXNbB6xNaBmIodTD0ekdT2WaQZGvD1Ss/BBBiQSIqbgA
+	 cVQAQ7O0RKBNKPJfLIlmwyZfWLbKS6etXSE6QJkcTdXOY3VW3lxU1EkIu68GlD5zm1
+	 OzV/F2eW2ECaxC/ti8T2thJ17ruyoKtIsJCqMAdqcv8Fy+9Q0Y4Q3ycFnpODLomnK4
+	 nocVlT6Fjqn0DvyZcK4GMb7pTFdexCieMhj6Q0R3Z3/uPjkXKP2yrDVLtOs+hw7X5q
+	 tW+PwJNKPUMHg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -49,19 +49,19 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	Vineet Gupta <vgupta@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-snps-arc@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.12 27/29] ARC: build: Try to guess GCC variant of cross compiler
-Date: Fri, 20 Dec 2024 12:11:28 -0500
-Message-Id: <20241220171130.511389-27-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 16/16] ARC: build: Try to guess GCC variant of cross compiler
+Date: Fri, 20 Dec 2024 12:12:40 -0500
+Message-Id: <20241220171240.511904-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241220171130.511389-1-sashal@kernel.org>
-References: <20241220171130.511389-1-sashal@kernel.org>
+In-Reply-To: <20241220171240.511904-1-sashal@kernel.org>
+References: <20241220171240.511904-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.6
+X-stable-base: Linux 6.6.67
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241220_091233_437959_5E5B8E60 
-X-CRM114-Status: UNSURE (   8.77  )
+X-CRM114-CacheID: sfid-20241220_091318_321230_6500BB6A 
+X-CRM114-Status: UNSURE (   8.68  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
