@@ -4,78 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2083E77188
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 20 Dec 2024 11:47:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5A4EE77188
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 20 Dec 2024 14:08:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=2+C56cuOheNfkPJ/QZiOK9eKr8Ni70Ho/YajOVNlyHw=; b=t+vrVB+rux+fAd
-	Fyhe0xbfn96baEQxPqo1DquXBbAjA/BiOW/fBwCPHA2Q5L2vCIQ89DHhQJjEhrpLgTka/YFn/GG06
-	F2T0MhLMIj1QsxOm0WnKFxq4IWQJpZ7RsXz6oy83M92eFITNtcMgED59hsplsnZYZZbadSfSKjHZ9
-	tXI6hu4gls3xvpGKpR2OdNfE76kAM/QD2XAZ5gLUsmwo2mO04gfhVMm9JJFJh2qfxFmKhmjoyhITX
-	multC9hextfWcb91SFNKiDCECe1aPc01XkW6e9CPEhYgJ00/Re9FEQID2K2LkA6R2WHam0RNZYmtY
-	Jxt5JSBQvxvJOVt11tww==;
+	List-Owner; bh=dAd7gN6d413h2cZwyvBf51+hfchNGOzWQkDtVKK/bEg=; b=nzTY2cJezrlRSk
+	pwVxmdqPYrEBhtN7+zRT9Axtyrxq7J8E1iqZc/4L2/WxzqWsZ+bpgxtkpevXw/C0PE+9EWz793gIq
+	HuK6A3GHpoPhl3ZRbXPkoC9vVeLo77qPptEEfj5bAp7rCmfHnf8EC2PoLBwjvK099LMkmFrYzd6GM
+	mp14C86uLrKjVlO4olJCJ/hh5PfD9/kcplxsQECrF9cv6RykBMXdgl/3eF8B0CbRMx++sWP00TVCb
+	b15cFOqgpGieSv5lFqRNoODalxdM2Cq37v5rOEyWI5AWVsXnO3yASvoYOBaXRqcVOFE2Z4s52H51o
+	0V7NK2bHchb48WZEBkcg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tObTe-00000004olg-2MLs;
-	Fri, 20 Dec 2024 11:47:30 +0000
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
-	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tObSS-00000004oYU-3L6O
-	for linux-snps-arc@lists.infradead.org;
-	Fri, 20 Dec 2024 11:46:19 +0000
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-218c8aca5f1so20101995ad.0
-        for <linux-snps-arc@lists.infradead.org>; Fri, 20 Dec 2024 03:46:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1734695175; x=1735299975; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mBRlMffFmN+hz5HGm/qsvwuPzuwmJovQ60y3/xe1EoY=;
-        b=ebwtpK7IIoH28LnyqjcYWkmWPPc3T38g7rzHUvDlCDDAToJkKjkisqqolYFrzO8VIx
-         HMeK4v8sfbtxpc5RhFtZnG89PKYriLOG7AYGcgjuFOGy5/dP1yx8GJcyph/sWqndTVwI
-         DTBBQv27tyQ2YDFfFPE9ASqCjIv7QPiSysn2mje/4oT+y5aEdsbqKQ48s8temTqR4x/a
-         jut9Yjufk7QWz2m31teCJpfdilvIyhAU2+TVYVbOI1XCX/7Np2EdTrle0lYHVSCWM916
-         U0mDWvbfQLEiaWvg8gwxfHqGvecel1+/M/4QNn1cTFtdC4GhtjGbLsB08Mm9z39gOgri
-         pkwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734695175; x=1735299975;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mBRlMffFmN+hz5HGm/qsvwuPzuwmJovQ60y3/xe1EoY=;
-        b=NwueA/mevoslqHJX8Vgfmf/GLZjGlkn0dWIhaPetXF4uIGt3O7Af8eKiYelK+UCPaC
-         z3/GjUeQ9lO4ntB2VVpD9EzBE0oUOTgBCAbv2A7YGH0ZOamuV45Ji7nveTEclizpSDwh
-         MofkbFZUQngc5wWK3NZhSlERfy18eevj9jBUddwhrOykfli36AbXqhVPU+J4UxJYszok
-         1Uoxgn5Ryi/4ajgCV2M7uJpoufrAPQ/74uIMVxe9m9BEMx8QAJjGy6bJHzhf7r49Xz6w
-         hlGiYyIyKm+aiCDf7ljtc5wtcahCBFySlvDuHM01tjoutpucAp6MrY8MttTWruihNNmg
-         VfVw==
-X-Forwarded-Encrypted: i=1; AJvYcCVWOVHNCdMipy3FrQV5d+ZYN9prmLaDXXqEHOuXOHLEVf680dsJflDv+4ulnlk+Tg78owW/xA6ULeOoZxkyVw==@lists.infradead.org
-X-Gm-Message-State: AOJu0YxCDTWhAQNaSU0QHetQrENhu63ZPu4JL9nJgqWWcJ3H2El8HHcX
-	X1oEZUx5dZYpJBRpdb2/WVzxS+BE48XLoVi0F9WHSJBUr//gjF3251h/SVFZVsU=
-X-Gm-Gg: ASbGncuZmkR/ykELsmJM+qwGt9ZKJc1MmxS9Y1ZSBTFVLJsAU1/ZsBRjr61EhS7iEBu
-	7/VxyHuFSIaIdJ9O6NqulEXeLkMSWath8VBzMhsknDauMrcaf7PLGLEOY41lVnMVVJDHm3cM9+E
-	n72Q17+acIWApliIK+uuA/n3b5cVMVvMLDDhFElDCQ1McfpUqQzgBQhzHwEiGTEQj1leVsMmkGY
-	Ql46ijXNFsCfner1xoLPP2dX+4shhqccNnaHIuwzpOUVwXJ4dWXFi8gbLFk/l2zOpi2C3ld37ku
-	GG7VNeBYSkh3mcSD9yw1gMqIOKmm46VaiMJUmQ+84GtGaYcxzH2zxjs=
-X-Google-Smtp-Source: AGHT+IG40UPaAgLiyyOp9k8XqW2vPy2P2eyTWxZSuqMQTAARXLtkQgcz7lH63J8oRPI229SK+RLglg==
-X-Received: by 2002:a17:902:ce92:b0:216:4169:f9d7 with SMTP id d9443c01a7336-219e6e8bc7cmr41107195ad.2.1734695174995;
-        Fri, 20 Dec 2024 03:46:14 -0800 (PST)
-Received: from ?IPV6:2409:8a28:f44:3764:680a:144b:d927:5a3b? ([2409:8a28:f44:3764:680a:144b:d927:5a3b])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f2db9939b5sm5267286a91.1.2024.12.20.03.46.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Dec 2024 03:46:14 -0800 (PST)
-Message-ID: <0daabd32-cba4-4345-baa8-e8c66bc899ff@bytedance.com>
-Date: Fri, 20 Dec 2024 19:46:04 +0800
+	id 1tOdgO-0000000569R-0g5g;
+	Fri, 20 Dec 2024 14:08:48 +0000
+Received: from foss.arm.com ([217.140.110.172])
+	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
+	id 1tOdOc-000000053BE-3lFF;
+	Fri, 20 Dec 2024 13:50:28 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4E7851480;
+	Fri, 20 Dec 2024 05:50:53 -0800 (PST)
+Received: from [10.57.72.191] (unknown [10.57.72.191])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BF2793F720;
+	Fri, 20 Dec 2024 05:50:19 -0800 (PST)
+Message-ID: <2f65f93e-9d44-4acc-b63c-8f5a35f59699@arm.com>
+Date: Fri, 20 Dec 2024 14:50:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 01/10] mm: Move common parts of pagetable_*_[cd]tor to
  helpers
-Content-Language: en-US
-To: Kevin Brodsky <kevin.brodsky@arm.com>
+To: Qi Zheng <zhengqi.arch@bytedance.com>
 Cc: Peter Zijlstra <peterz@infradead.org>, linux-mm@kvack.org,
  Andrew Morton <akpm@linux-foundation.org>,
  Catalin Marinas <catalin.marinas@arm.com>,
@@ -97,11 +60,13 @@ References: <20241219164425.2277022-1-kevin.brodsky@arm.com>
  <20241219164425.2277022-2-kevin.brodsky@arm.com>
  <20241219171920.GB26279@noisy.programming.kicks-ass.net>
  <75cb4ff8-eb0c-4519-a30a-f8be717ba278@arm.com>
-From: Qi Zheng <zhengqi.arch@bytedance.com>
-In-Reply-To: <75cb4ff8-eb0c-4519-a30a-f8be717ba278@arm.com>
+ <0daabd32-cba4-4345-baa8-e8c66bc899ff@bytedance.com>
+Content-Language: en-GB
+From: Kevin Brodsky <kevin.brodsky@arm.com>
+In-Reply-To: <0daabd32-cba4-4345-baa8-e8c66bc899ff@bytedance.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241220_034616_841914_497098FC 
-X-CRM114-Status: GOOD (  20.65  )
+X-CRM114-CacheID: sfid-20241220_055027_022512_22F03776 
+X-CRM114-Status: GOOD (  16.88  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,82 +78,51 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Kevin,
-
-On 2024/12/20 18:49, Kevin Brodsky wrote:
-> Hi Peter, Qi,
-> 
-> On 19/12/2024 18:19, Peter Zijlstra wrote:
->> On Thu, Dec 19, 2024 at 04:44:16PM +0000, Kevin Brodsky wrote:
->>> Besides the ptlock management at PTE/PMD level, all the
->>> pagetable_*_[cd]tor have the same implementation. Introduce common
->>> helpers for all levels to reduce the duplication.
->> Uff, I forgot to Cc you on the discussion here, sorry!:
->>
->>    https://lkml.kernel.org/r/cover.1734526570.git.zhengqi.arch@bytedance.com
->>
->> we now have two series doing more or less overlapping things :/
->>
->> You can in fact trivially merge the all the implementations -- the
->> apparent non-common bit (ptlock_free) is a no-op for all those other
->> levels because they'll be having ptdesc->lock == NULL.
-> 
-> Ah that is good to know, thanks for letting me know about that and Qi's
-> series! Fortunately there isn't that much overlap between our series - I
-> think we can easily sort this out.
-> 
-> Qi, shall we collaborate to make our series complementary? I believe my
-> series covers patch 2 and 4 of your series, but it goes further by
-> covering all levels and all architectures, and patches introducing
-> ctor/dtor are already split as Alexander suggested on your series. So my
-> suggestion would be:
-> 
-> * Remove patch 1 in my series - I'd just introduce
-> pagetable_{p4d,pgd}_[cd]tor with the same implementation as
-> pagetable_pud_[cd]tor.
-> * Remove patch 2 and 4 from your series and rebase it on mine.
-
-I quickly went through your patch series. It looks like my patch 2 and
-your patch 6 are duplicated, so you want me to remove my patch 2.
-
-But I think you may not be able to simple let arm64, riscv and x86 to
-use generic p4d_{alloc_one,free}(). Because even if
-CONFIG_PGTABLE_LEVELS > 4, the pgtable_l5_enabled() may not be true.
-
-For example, in arm64:
-
-#if CONFIG_PGTABLE_LEVELS > 4
-
-static __always_inline bool pgtable_l5_enabled(void)
-{
-	if (!alternative_has_cap_likely(ARM64_ALWAYS_BOOT))
-		return vabits_actual == VA_BITS;
-	return alternative_has_cap_unlikely(ARM64_HAS_VA52);
-}
-
-Did I miss something?
-
-My patch series is not only for cleanup, but also for fixes of
-UAF issue [1], so is it possible to rebase your patch series onto
-mine? I can post v3 ASAP.
-
-[1]. 
-https://lore.kernel.org/all/67548279.050a0220.a30f1.015b.GAE@google.com/
-
-Thanks!
-
-> 
-> Let me know if that makes sense, if so I'll post a v2.
-> 
-> Cheers,
-> - Kevin
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gMjAvMTIvMjAyNCAxMjo0NiwgUWkgWmhlbmcgd3JvdGU6Cj4gSGkgS2V2aW4sCj4KPiBPbiAy
+MDI0LzEyLzIwIDE4OjQ5LCBLZXZpbiBCcm9kc2t5IHdyb3RlOgo+PiBbLi4uXQo+Pgo+PiBRaSwg
+c2hhbGwgd2UgY29sbGFib3JhdGUgdG8gbWFrZSBvdXIgc2VyaWVzIGNvbXBsZW1lbnRhcnk/IEkg
+YmVsaWV2ZSBteQo+PiBzZXJpZXMgY292ZXJzIHBhdGNoIDIgYW5kIDQgb2YgeW91ciBzZXJpZXMs
+IGJ1dCBpdCBnb2VzIGZ1cnRoZXIgYnkKPj4gY292ZXJpbmcgYWxsIGxldmVscyBhbmQgYWxsIGFy
+Y2hpdGVjdHVyZXMsIGFuZCBwYXRjaGVzIGludHJvZHVjaW5nCj4+IGN0b3IvZHRvciBhcmUgYWxy
+ZWFkeSBzcGxpdCBhcyBBbGV4YW5kZXIgc3VnZ2VzdGVkIG9uIHlvdXIgc2VyaWVzLiBTbyBteQo+
+PiBzdWdnZXN0aW9uIHdvdWxkIGJlOgo+Pgo+PiAqIFJlbW92ZSBwYXRjaCAxIGluIG15IHNlcmll
+cyAtIEknZCBqdXN0IGludHJvZHVjZQo+PiBwYWdldGFibGVfe3A0ZCxwZ2R9X1tjZF10b3Igd2l0
+aCB0aGUgc2FtZSBpbXBsZW1lbnRhdGlvbiBhcwo+PiBwYWdldGFibGVfcHVkX1tjZF10b3IuCj4+
+ICogUmVtb3ZlIHBhdGNoIDIgYW5kIDQgZnJvbSB5b3VyIHNlcmllcyBhbmQgcmViYXNlIGl0IG9u
+IG1pbmUuCj4KPiBJIHF1aWNrbHkgd2VudCB0aHJvdWdoIHlvdXIgcGF0Y2ggc2VyaWVzLiBJdCBs
+b29rcyBsaWtlIG15IHBhdGNoIDIgYW5kCj4geW91ciBwYXRjaCA2IGFyZSBkdXBsaWNhdGVkLCBz
+byB5b3Ugd2FudCBtZSB0byByZW1vdmUgbXkgcGF0Y2ggMi4KPgo+IEJ1dCBJIHRoaW5rIHlvdSBt
+YXkgbm90IGJlIGFibGUgdG8gc2ltcGxlIGxldCBhcm02NCwgcmlzY3YgYW5kIHg4NiB0bwo+IHVz
+ZSBnZW5lcmljIHA0ZF97YWxsb2Nfb25lLGZyZWV9KCkuIEJlY2F1c2UgZXZlbiBpZgo+IENPTkZJ
+R19QR1RBQkxFX0xFVkVMUyA+IDQsIHRoZSBwZ3RhYmxlX2w1X2VuYWJsZWQoKSBtYXkgbm90IGJl
+IHRydWUuCj4KPiBGb3IgZXhhbXBsZSwgaW4gYXJtNjQ6Cj4KPiAjaWYgQ09ORklHX1BHVEFCTEVf
+TEVWRUxTID4gNAo+Cj4gc3RhdGljIF9fYWx3YXlzX2lubGluZSBib29sIHBndGFibGVfbDVfZW5h
+YmxlZCh2b2lkKQo+IHsKPiDCoMKgwqDCoGlmICghYWx0ZXJuYXRpdmVfaGFzX2NhcF9saWtlbHko
+QVJNNjRfQUxXQVlTX0JPT1QpKQo+IMKgwqDCoMKgwqDCoMKgIHJldHVybiB2YWJpdHNfYWN0dWFs
+ID09IFZBX0JJVFM7Cj4gwqDCoMKgwqByZXR1cm4gYWx0ZXJuYXRpdmVfaGFzX2NhcF91bmxpa2Vs
+eShBUk02NF9IQVNfVkE1Mik7Cj4gfQoKQ29ycmVjdC4gVGhhdCdzIHdoeSB0aGUgaW1wbGVtZW50
+YXRpb24gb2YgcDRkX2ZyZWUoKSBJIGludHJvZHVjZSBpbgpwYXRjaCA2IGNoZWNrcyBtbV9wNGRf
+Zm9sZGVkKCksIHdoaWNoIGlzIGltcGxlbWVudGVkIGFzCiFwZ3RhYmxlX2w1X2VuYWJsZWQoKSBv
+biB0aG9zZSBhcmNoaXRlY3R1cmVzIChzZWUgbGFzdCBwYXJhZ3JhcGggaW4KY29tbWl0IG1lc3Nh
+Z2UpLiBJbiBmYWN0IGl0IHR1cm5zIG91dCBBbGV4YW5kZXIgc3VnZ2VzdGVkIGV4YWN0bHkgdGhp
+cwphcHByb2FjaCBbMl0uCgo+Cj4gRGlkIEkgbWlzcyBzb21ldGhpbmc/Cj4KPiBNeSBwYXRjaCBz
+ZXJpZXMgaXMgbm90IG9ubHkgZm9yIGNsZWFudXAsIGJ1dCBhbHNvIGZvciBmaXhlcyBvZgo+IFVB
+RiBpc3N1ZSBbMV0sIHNvIGlzIGl0IHBvc3NpYmxlIHRvIHJlYmFzZSB5b3VyIHBhdGNoIHNlcmll
+cyBvbnRvCj4gbWluZT8gSSBjYW4gcG9zdCB2MyBBU0FQLgoKSSBzZWUsIHlvdXJzIHNob3VsZCBi
+ZSBtZXJnZWQgZmlyc3QgdGhlbi4gVGhlIGlzc3VlIGlzIHRoYXQgeW91cnMgd291bGQKZGVwZW5k
+IG9uIHNvbWUgb2YgdGhlIHBhdGNoZXMgaW4gbWluZSwgbm90IHRoZSBvdGhlciB3YXkgcm91bmQu
+CgpNeSBzdWdnZXN0aW9uIHdvdWxkIHRoZW4gYmUgZm9yIHlvdSB0byB0YWtlIHBhdGNoIDUsIDYg
+YW5kIDcgZnJvbSBteQpzZXJpZXMsIGFzIHRoZXkgbWF0Y2ggQWxleGFuZGVyJ3Mgc3VnZ2VzdGlv
+bnMgKGFuZCBwYXRjaCA1IGlzIEkgdGhpbmsgYQp1c2VmdWwgc2ltcGxpZmljYXRpb24pLCBhbmQg
+cmVwbGFjZSBwYXRjaCAyIGluIHlvdXIgc2VyaWVzIHdpdGggdGhvc2UuIEkKd291bGQgdGhlbiBy
+ZWJhc2UgbXkgc2VyaWVzIG9uIHRvcCBhbmQgYWRhcHQgaXQgYWNjb3JkaW5nbHkuIERvZXMgdGhh
+dApzb3VuZCByZWFzb25hYmxlPwoKLSBLZXZpbgoKWzJdCmh0dHBzOi8vbG9yZS5rZXJuZWwub3Jn
+L2FsbC9aMlJLcGR2N3BMMzRNSUV0QHR1eG1ha2VyLmJvZWJsaW5nZW4uZGUuaWJtLmNvbS8KCgpf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1zbnBz
+LWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRw
+Oi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
