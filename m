@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B299E7718C
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4E40E7718B
 	for <linux-snps-arc@archiver.kernel.org>; Fri, 20 Dec 2024 17:24:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
@@ -12,47 +12,52 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=K2KyNPHYj9+vZGhjnRDSjzD0hDbgvKrtQs0Ix3sR4v8=; b=BGt7TkYkERJVQx
-	gfHF7oFJoEzawIae5cr4DqkjTsSjQEdnCJxYtMa2TFJbgWLe2b72vFmxcPPlm3ZRcd1cOhovw+aby
-	0rPMKbD7VOlpsJMgrpi1tLyXGiMYHVY1m7+xP/AMZ+Y+yZn9Zb3j6dGrC2WVeh0sJL4VbQVipvWCG
-	OiH2xypLNgphDAQR0zY2WXQPnwsojuA/POs5p27+1bfPeBhaCBuHsvcm2HB/bd4Nl4OKdShfIFktE
-	x/t/PmrtXzVT+AHfJL88s0Ix8y7r+am8FHyODyJ2BGBD7SrYhKNvBe7RZF+VEY65k7k1i9c5IV5Tv
-	Xiu2MVfEv7GsLffRxkEA==;
+	List-Owner; bh=BVu5p0zpuuQnzTUcCw1d5HcVdfMs4WlBvR49DNR/WPs=; b=k0y+wIdtkkzmK3
+	CCIn84TbKzO2L6t5P7qgUYmK/mDUhcUR7ge7ygCgffVQE+5pAn5lI4cJxxJG8FnCxFPSTfinw/LEO
+	TyMIZzlpbKh/tUEVGKzFv8Yrs8XENn9lfJ1zPNTln3XD/OhWST2991adZHzqpynNJQMgmLrj9nK7l
+	4lKM8AJs5KabZD3/InjLTIteu4mst+6DWfYMrDYJViyu0iERAxUp3bz4cC00AFPp+c1JU0ELV637U
+	pg1Qseb0yWwnz0eCm+gdeZ8WqVG+9R6sZbvPrxZAqZT+nvFoR/E8qqwLLI/faP/sGhJr2JDioP3v6
+	Z/Tqpf79HJQcj2HD21LQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tOgjj-00000005d3Z-0zqD;
+	id 1tOgjj-00000005d47-2J1k;
 	Fri, 20 Dec 2024 17:24:27 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tOgXw-00000005aVo-1IAw
+	id 1tOgXy-00000005aWG-1sn4
 	for linux-snps-arc@lists.infradead.org;
-	Fri, 20 Dec 2024 17:12:17 +0000
+	Fri, 20 Dec 2024 17:12:19 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id D9FED5C67D7;
-	Fri, 20 Dec 2024 17:11:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2CA3C4CECD;
-	Fri, 20 Dec 2024 17:12:14 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 43D93A4215E;
+	Fri, 20 Dec 2024 17:10:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E2A3C4CED3;
+	Fri, 20 Dec 2024 17:12:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734714735;
-	bh=q3xrmmT1UJpvd1T/fprCANXtLs8ZiyVYLMFaXW1O6XU=;
+	s=k20201202; t=1734714737;
+	bh=AR17esnEL4aZJMvnxtvUy6khYtt0uysY+yNyjEwO+6c=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FgzefnR0+fXFExb3u5G+q75ictHMrwTM+JWh0q+uqdkS/FwKVEGw9ycPUul9Yoqpt
-	 IXV+4g09YOyHhUUmI7r0QTtCwSCemW6gExMU+cCLdOtJoi2aA3fcOZizaHhDv1rOqE
-	 +X4K9dsD6rZcpLzCAy8EE+j9pYWBRcklhx/GNZqFiFxHxZL4HAyvNeL9mr6NBO9AX/
-	 yOMrCdV7S2OrxZYFmnVjbcQWHiNetJhmySe+0KVIGdcBkhkQCt99Yb7K7KA1IehTV2
-	 6sfz2ZpWOheovOILWvG5XptxWFThvGeR9xJ3s3XZv/3Kf0pJ+czb3TBGXEV93qPmJX
-	 WiqrVo8M6AQXw==
+	b=i2tNdzMfM84fT34u9WYMKZ48lvWNAzCx0RNxl6Qv7hfgCyQ08TZlyY9bdWuY5Omug
+	 mLt8U98p6vWeMKwnVW5zKxN1k2ML6qsnbKV+8ah6RsPpbXQKNindzAXIhwxRtwiF9S
+	 uVu6FsWB7vfJv4xLfMOqkEfmJwGMI3wH8v26LJ6oZPqfY9gALswNMXNtxM497iPXf7
+	 ze5o+MoS85Gb9xdGFHyf6RXjIPWMUHZ9FjH+SIbk9zs7pSV61mewmsuz1wGLxbd93i
+	 rMYd0f+F1okHOmKMbSiwQ50q7g57yRCsZTiyQA15D1Ahr1VpX5PiBFlDSkSVyZDTgo
+	 5D5YXKITlyXUg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: "Paul E. McKenney" <paulmck@kernel.org>,
-	kernel test robot <lkp@intel.com>,
-	linux-snps-arc@lists.infradead.org,
+Cc: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Shahab Vahedi <list+bpf@vahedi.org>,
 	Vineet Gupta <vgupta@kernel.org>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 6.12 18/29] ARC: build: Use __force to suppress per-CPU cmpxchg warnings
-Date: Fri, 20 Dec 2024 12:11:19 -0500
-Message-Id: <20241220171130.511389-18-sashal@kernel.org>
+	Sasha Levin <sashal@kernel.org>,
+	ast@kernel.org,
+	daniel@iogearbox.net,
+	andrii@kernel.org,
+	bpf@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.12 19/29] ARC: bpf: Correct conditional check in 'check_jmp_32'
+Date: Fri, 20 Dec 2024 12:11:20 -0500
+Message-Id: <20241220171130.511389-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241220171130.511389-1-sashal@kernel.org>
 References: <20241220171130.511389-1-sashal@kernel.org>
@@ -61,8 +66,9 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.6
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241220_091216_390794_14EF6282 
-X-CRM114-Status: GOOD (  10.95  )
+X-CRM114-CacheID: sfid-20241220_091218_549573_0E07A9AA 
+X-CRM114-Status: UNSURE (   9.82  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,40 +85,40 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: "Paul E. McKenney" <paulmck@kernel.org>
+From: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
 
-[ Upstream commit 1e8af9f04346ecc0bccf0c53b728fc8eb3490a28 ]
+[ Upstream commit 7dd9eb6ba88964b091b89855ce7d2a12405013af ]
 
-Currently, the cast of the first argument to cmpxchg_emu_u8() drops the
-__percpu address-space designator, which results in sparse complaints
-when applying cmpxchg() to per-CPU variables in ARC.  Therefore, use
-__force to suppress these complaints, given that this does not pertain
-to cmpxchg() semantics, which are plently well-defined on variables in
-general, whether per-CPU or otherwise.
+The original code checks 'if (ARC_CC_AL)', which is always true since
+ARC_CC_AL is a constant. This makes the check redundant and likely
+obscures the intention of verifying whether the jump is conditional.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202409251336.ToC0TvWB-lkp@intel.com/
-Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-Cc: <linux-snps-arc@lists.infradead.org>
+Updates the code to check cond == ARC_CC_AL instead, reflecting the intent
+to differentiate conditional from unconditional jumps.
+
+Suggested-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Reviewed-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Acked-by: Shahab Vahedi <list+bpf@vahedi.org>
+Signed-off-by: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
 Signed-off-by: Vineet Gupta <vgupta@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- arch/arc/include/asm/cmpxchg.h | 2 +-
+ arch/arc/net/bpf_jit_arcv2.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
-index 58045c898340..76f43db0890f 100644
---- a/arch/arc/include/asm/cmpxchg.h
-+++ b/arch/arc/include/asm/cmpxchg.h
-@@ -48,7 +48,7 @@
- 									\
- 	switch(sizeof((_p_))) {						\
- 	case 1:								\
--		_prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);	\
-+		_prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *__force)_p_, (uintptr_t)_o_, (uintptr_t)_n_);	\
- 		break;							\
- 	case 4:								\
- 		_prev_ = __cmpxchg(_p_, _o_, _n_);			\
+diff --git a/arch/arc/net/bpf_jit_arcv2.c b/arch/arc/net/bpf_jit_arcv2.c
+index 4458e409ca0a..6d989b6d88c6 100644
+--- a/arch/arc/net/bpf_jit_arcv2.c
++++ b/arch/arc/net/bpf_jit_arcv2.c
+@@ -2916,7 +2916,7 @@ bool check_jmp_32(u32 curr_off, u32 targ_off, u8 cond)
+ 	addendum = (cond == ARC_CC_AL) ? 0 : INSN_len_normal;
+ 	disp = get_displacement(curr_off + addendum, targ_off);
+ 
+-	if (ARC_CC_AL)
++	if (cond == ARC_CC_AL)
+ 		return is_valid_far_disp(disp);
+ 	else
+ 		return is_valid_near_disp(disp);
 -- 
 2.39.5
 
