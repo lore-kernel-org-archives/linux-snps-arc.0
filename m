@@ -4,70 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4E40E7718B
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 20 Dec 2024 17:24:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9CFCE7718B
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 20 Dec 2024 17:30:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=BVu5p0zpuuQnzTUcCw1d5HcVdfMs4WlBvR49DNR/WPs=; b=k0y+wIdtkkzmK3
-	CCIn84TbKzO2L6t5P7qgUYmK/mDUhcUR7ge7ygCgffVQE+5pAn5lI4cJxxJG8FnCxFPSTfinw/LEO
-	TyMIZzlpbKh/tUEVGKzFv8Yrs8XENn9lfJ1zPNTln3XD/OhWST2991adZHzqpynNJQMgmLrj9nK7l
-	4lKM8AJs5KabZD3/InjLTIteu4mst+6DWfYMrDYJViyu0iERAxUp3bz4cC00AFPp+c1JU0ELV637U
-	pg1Qseb0yWwnz0eCm+gdeZ8WqVG+9R6sZbvPrxZAqZT+nvFoR/E8qqwLLI/faP/sGhJr2JDioP3v6
-	Z/Tqpf79HJQcj2HD21LQ==;
+	List-Owner; bh=noL9YVp+M6UWzF3JP80DBOvzhW3tJQOHiYLA2Jl/ZYk=; b=Y0/fEwUwJGgFJn
+	XBTIg9HMCUHzZiqiRyziK3amQzjJR6lsWwX0r4TgZnqoEK1PrdA8X7G8/+a6BiiK9W+rAS696kFTI
+	oUNGoT7SMeY7b2FU2oDKnpk2L/8CEFj4kwNTdNLKpdWgAM9Xhm5Sr2wbE9U9hxqipmzQXu+5CC4lr
+	Jqi3epzYwSKeol4CsDx8og4seJtMG1b0Om5ZhvxP2RHQD8F8t9IIXbBSDp7ZggxJDfoh+CrQO/+2C
+	NQZjmjvGmI0IYFIroFbznCABET0Fp5qCJeuDxBG0lkoFHV1DJM1L5nLon1hsxHoesKUQuajvKM3tf
+	U6jJdqFEJJix1hASoW1g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tOgjj-00000005d47-2J1k;
-	Fri, 20 Dec 2024 17:24:27 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1tOgpv-00000005eAJ-1tkw;
+	Fri, 20 Dec 2024 17:30:51 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tOgXy-00000005aWG-1sn4
+	id 1tOgZP-00000005aq1-2n6x
 	for linux-snps-arc@lists.infradead.org;
-	Fri, 20 Dec 2024 17:12:19 +0000
+	Fri, 20 Dec 2024 17:13:49 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 43D93A4215E;
-	Fri, 20 Dec 2024 17:10:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E2A3C4CED3;
-	Fri, 20 Dec 2024 17:12:15 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 3A2235C587F;
+	Fri, 20 Dec 2024 17:13:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B435C4CEDD;
+	Fri, 20 Dec 2024 17:13:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734714737;
-	bh=AR17esnEL4aZJMvnxtvUy6khYtt0uysY+yNyjEwO+6c=;
+	s=k20201202; t=1734714826;
+	bh=yn0Z0aegbw1mIQcLSMM7arnwATrsIPNePoLxI448R+0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=i2tNdzMfM84fT34u9WYMKZ48lvWNAzCx0RNxl6Qv7hfgCyQ08TZlyY9bdWuY5Omug
-	 mLt8U98p6vWeMKwnVW5zKxN1k2ML6qsnbKV+8ah6RsPpbXQKNindzAXIhwxRtwiF9S
-	 uVu6FsWB7vfJv4xLfMOqkEfmJwGMI3wH8v26LJ6oZPqfY9gALswNMXNtxM497iPXf7
-	 ze5o+MoS85Gb9xdGFHyf6RXjIPWMUHZ9FjH+SIbk9zs7pSV61mewmsuz1wGLxbd93i
-	 rMYd0f+F1okHOmKMbSiwQ50q7g57yRCsZTiyQA15D1Ahr1VpX5PiBFlDSkSVyZDTgo
-	 5D5YXKITlyXUg==
+	b=mkupn39xNwsxs2fSoNmvbgM50gZituSVOGK4QMg+HuTo6GnDLu7mEAC4ceEDN8riG
+	 1yZVRLRVg4BGzMCx05X+gesSB7NAb19HFzUadYfnKzSd4yjb2+yXlGo/4tCpvTfIQ6
+	 RUlAqIUiLZvBZ79D6gWidBsUhg2aDwKd8p/OgwWOT+tftGhKJTkreNxeeNSzSU/zq7
+	 zlzFROryZ84E/lJpfLyZp79doN2PeMq8iH7aQrvnRBRR4mZ+mUTbR3uIsuGV2UVSFv
+	 c2DZhx5dJozt38fimnOTsw9tIOKnBOugRSldnljJc/yCz3dcyRQOvg4AyaUUwl+AZ+
+	 5WuglYcoeceFQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Shahab Vahedi <list+bpf@vahedi.org>,
+Cc: Leon Romanovsky <leonro@nvidia.com>,
 	Vineet Gupta <vgupta@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	ast@kernel.org,
-	daniel@iogearbox.net,
-	andrii@kernel.org,
-	bpf@vger.kernel.org,
 	linux-snps-arc@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.12 19/29] ARC: bpf: Correct conditional check in 'check_jmp_32'
-Date: Fri, 20 Dec 2024 12:11:20 -0500
-Message-Id: <20241220171130.511389-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 12/12] ARC: build: Try to guess GCC variant of cross compiler
+Date: Fri, 20 Dec 2024 12:13:17 -0500
+Message-Id: <20241220171317.512120-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241220171130.511389-1-sashal@kernel.org>
-References: <20241220171130.511389-1-sashal@kernel.org>
+In-Reply-To: <20241220171317.512120-1-sashal@kernel.org>
+References: <20241220171317.512120-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.6
+X-stable-base: Linux 6.1.121
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241220_091218_549573_0E07A9AA 
-X-CRM114-Status: UNSURE (   9.82  )
+X-CRM114-CacheID: sfid-20241220_091347_749014_EFBBE992 
+X-CRM114-Status: UNSURE (   8.77  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -80,50 +74,39 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
-
-[ Upstream commit 7dd9eb6ba88964b091b89855ce7d2a12405013af ]
-
-The original code checks 'if (ARC_CC_AL)', which is always true since
-ARC_CC_AL is a constant. This makes the check redundant and likely
-obscures the intention of verifying whether the jump is conditional.
-
-Updates the code to check cond == ARC_CC_AL instead, reflecting the intent
-to differentiate conditional from unconditional jumps.
-
-Suggested-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Reviewed-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Acked-by: Shahab Vahedi <list+bpf@vahedi.org>
-Signed-off-by: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
-Signed-off-by: Vineet Gupta <vgupta@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- arch/arc/net/bpf_jit_arcv2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/arc/net/bpf_jit_arcv2.c b/arch/arc/net/bpf_jit_arcv2.c
-index 4458e409ca0a..6d989b6d88c6 100644
---- a/arch/arc/net/bpf_jit_arcv2.c
-+++ b/arch/arc/net/bpf_jit_arcv2.c
-@@ -2916,7 +2916,7 @@ bool check_jmp_32(u32 curr_off, u32 targ_off, u8 cond)
- 	addendum = (cond == ARC_CC_AL) ? 0 : INSN_len_normal;
- 	disp = get_displacement(curr_off + addendum, targ_off);
- 
--	if (ARC_CC_AL)
-+	if (cond == ARC_CC_AL)
- 		return is_valid_far_disp(disp);
- 	else
- 		return is_valid_near_disp(disp);
--- 
-2.39.5
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+RnJvbTogTGVvbiBSb21hbm92c2t5IDxsZW9ucm9AbnZpZGlhLmNvbT4KClsgVXBzdHJlYW0gY29t
+bWl0IDgyNDkyN2U4ODQ1NjMzMWM3YTk5OWZkZjVkOWQyNzkyM2I2MTk1OTAgXQoKQVJDIEdDQyBj
+b21waWxlciBpcyBwYWNrYWdlZCBzdGFydGluZyBmcm9tIEZlZG9yYSAzOWkgYW5kIHRoZSBHQ0MK
+dmFyaWFudCBvZiBjcm9zcyBjb21waWxlIHRvb2xzIGhhcyBhcmMtbGludXgtZ251LSBwcmVmaXgg
+YW5kIG5vdAphcmMtbGludXgtLiBUaGlzIGlzIGNhdXNpbmcgdGhhdCBDUk9TU19DT01QSUxFIHZh
+cmlhYmxlIGlzIGxlZnQgdW5zZXQuCgpUaGlzIGNoYW5nZSBhbGxvd3MgYnVpbGRzIHdpdGhvdXQg
+bmVlZCB0byBzdXBwbHkgQ1JPU1NfQ09NUElMRSBhcmd1bWVudAppZiBkaXN0cm8gcGFja2FnZSBp
+cyB1c2VkLgoKQmVmb3JlIHRoaXMgY2hhbmdlOgokIG1ha2UgLWogMTI4IEFSQ0g9YXJjIFc9MSBk
+cml2ZXJzL2luZmluaWJhbmQvaHcvbWx4NC8KICBnY2M6IHdhcm5pbmc6IOKAmC1tY3B1PeKAmSBp
+cyBkZXByZWNhdGVkOyB1c2Ug4oCYLW10dW5lPeKAmSBvciDigJgtbWFyY2g94oCZIGluc3RlYWQK
+ICBnY2M6IGVycm9yOiB1bnJlY29nbml6ZWQgY29tbWFuZC1saW5lIG9wdGlvbiDigJgtbW1lZGl1
+bS1jYWxsc+KAmQogIGdjYzogZXJyb3I6IHVucmVjb2duaXplZCBjb21tYW5kLWxpbmUgb3B0aW9u
+IOKAmC1tbG9ja+KAmQogIGdjYzogZXJyb3I6IHVucmVjb2duaXplZCBjb21tYW5kLWxpbmUgb3B0
+aW9uIOKAmC1tdW5hbGlnbmVkLWFjY2Vzc+KAmQoKWzFdIGh0dHBzOi8vcGFja2FnZXMuZmVkb3Jh
+cHJvamVjdC5vcmcvcGtncy9jcm9zcy1nY2MvZ2NjLWFyYy1saW51eC1nbnUvaW5kZXguaHRtbApT
+aWduZWQtb2ZmLWJ5OiBMZW9uIFJvbWFub3Zza3kgPGxlb25yb0BudmlkaWEuY29tPgpTaWduZWQt
+b2ZmLWJ5OiBWaW5lZXQgR3VwdGEgPHZndXB0YUBrZXJuZWwub3JnPgpTaWduZWQtb2ZmLWJ5OiBT
+YXNoYSBMZXZpbiA8c2FzaGFsQGtlcm5lbC5vcmc+Ci0tLQogYXJjaC9hcmMvTWFrZWZpbGUgfCAy
+ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYg
+LS1naXQgYS9hcmNoL2FyYy9NYWtlZmlsZSBiL2FyY2gvYXJjL01ha2VmaWxlCmluZGV4IDMyOTQw
+MGExYzM1NS4uOGU2ZjUyYzY2MjZkIDEwMDY0NAotLS0gYS9hcmNoL2FyYy9NYWtlZmlsZQorKysg
+Yi9hcmNoL2FyYy9NYWtlZmlsZQpAQCAtNiw3ICs2LDcgQEAKIEtCVUlMRF9ERUZDT05GSUcgOj0g
+aGFwc19oc19zbXBfZGVmY29uZmlnCiAKIGlmZXEgKCQoQ1JPU1NfQ09NUElMRSksKQotQ1JPU1Nf
+Q09NUElMRSA6PSAkKGNhbGwgY2MtY3Jvc3MtcHJlZml4LCBhcmMtbGludXgtIGFyY2ViLWxpbnV4
+LSkKK0NST1NTX0NPTVBJTEUgOj0gJChjYWxsIGNjLWNyb3NzLXByZWZpeCwgYXJjLWxpbnV4LSBh
+cmNlYi1saW51eC0gYXJjLWxpbnV4LWdudS0pCiBlbmRpZgogCiBjZmxhZ3MteQkrPSAtZm5vLWNv
+bW1vbiAtcGlwZSAtZm5vLWJ1aWx0aW4gLW1tZWRpdW0tY2FsbHMgLURfX2xpbnV4X18KLS0gCjIu
+MzkuNQoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxp
+bnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQu
+b3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25w
+cy1hcmMK
