@@ -4,129 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8C35E77188
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 20 Dec 2024 19:34:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9AD1E7718B
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 22 Dec 2024 00:15:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=nkZVr2KaDetC8/YNVgQ7n3ag6AjW7mB9j3xRbDaybA8=; b=VH3QWkn0/kTQsD
-	I/ftGPu5MnTNUM09qIBlOQy2cHQpdAS9zFV06Y8Ncf+VqALn9nZBS9izo1jvWfxFBF8VYYE4jtqlU
-	NNl/2xr0ecPdxlNYvH7iE7mEltmJ17GEAWmsnZML5GdDfe+0Jzfz4V+63NEqgIuQ3NywPA127IgUZ
-	nyoHMeQGw+0HhRNWD+VxOBUfcDkx+qy+XBFbL6cCh/fRg3JMvQENFOJCMvNXlAoroanPD5dymPYy7
-	WlsztZGvtpMq4J7O3aQdTmT4eXVawF6yJc7HBD23Wl5i9JjC/LC1Iji1JupsT4XLR6Apr2QA3+QyN
-	JPnd0c9QN8wlVPYIjBUg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=ARxZdnR5xOFTd4rUNCFJNV/d5Z+XK7oKmgZFblWafIQ=; b=awv9jr7cIHB4zA
+	v93u3QR9ersnoK64tx/Y3gJ5zJlfZiYomro2MnrGPhTs/NS9aqwbvLyn3yGYw7UZt1Gyzqbs8+kG2
+	cEA/MZ5cZOvIKu7ByQTh0WQD9u0KfO1j9TE4aYPC+yQe7Pbwa3e95fHrah9Toy3UQUxtaZJBl8XXz
+	IqPwwkB+m3UQmbKgiXi/d0TjtUciMVFRmULjyfyqkNWteF5CQ3aul/qbVD0SkX7WuH5HnFRaxJZCZ
+	5p5LQJQIs1vexfl4LRgQ+ijZg84f3L8K+GhixWCGp0HkfHtVZwTuc12ruE5rdlm9Od1khk7Weof1z
+	qsyi0gfhtj3OeCgoKgMA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tOilk-00000005xT6-14Ms;
-	Fri, 20 Dec 2024 19:34:40 +0000
-Received: from mgamail.intel.com ([192.198.163.14])
+	id 1tP9cv-00000007aJi-1BaV;
+	Sun, 22 Dec 2024 00:15:21 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tOij4-00000005x6N-28X8;
-	Fri, 20 Dec 2024 19:31:55 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734723114; x=1766259114;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=cWsdyve87/ahvL1Kdn+WU4yfF9lwFtfjevTBD3q3a5I=;
-  b=e9gK+DBQbzyFGMPNrPj3wscI69IjJgli/MEudo4Xcz+40+EOpWPt2+9Z
-   z7TSmgmecmJGt2J1McQhGgZ7otX5FLTBcNLXhIsQ0RlRdGzOCX5/jqnPr
-   F6KlK1eFG6/Ee9WwL9GUsIW2AqwFAuzyYzV14thuv6hqhZTi99La0RQAz
-   KQVuvkSULdr4pXM4FSk56+uCVbVfkXqUoMen4lz16TYM4dv0TnwvhM8+k
-   OIfFCGZsjFH8/HNsSK9z8H0etS7ap0bz4TnCyZxttywLzWwu6raAeAmKN
-   ynDpuq3DUKWv46Fhnqk5lwA58sXfRoR1FX/YRgp3F6g6S89mxrWCmJqic
-   w==;
-X-CSE-ConnectionGUID: K5zYjgiYQDSlX76qKKe9hA==
-X-CSE-MsgGUID: YV5JXQOESRWErs2B4UU10A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="35498891"
-X-IronPort-AV: E=Sophos;i="6.12,251,1728975600"; 
-   d="scan'208";a="35498891"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 11:31:53 -0800
-X-CSE-ConnectionGUID: puhYWLhrTxCkddI44a7G2Q==
-X-CSE-MsgGUID: ZOvVbemkRy6XjG3xptTdtg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,251,1728975600"; 
-   d="scan'208";a="98986706"
-Received: from jairdeje-mobl1.amr.corp.intel.com (HELO [10.124.221.219]) ([10.124.221.219])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 11:31:52 -0800
-Message-ID: <989b55cf-1f9e-4b73-b3dd-d8b6a62be3f2@intel.com>
-Date: Fri, 20 Dec 2024 11:31:51 -0800
+	id 1tP9cs-00000007aJD-3KYH
+	for linux-snps-arc@lists.infradead.org;
+	Sun, 22 Dec 2024 00:15:20 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 3C6265C544C
+	for <linux-snps-arc@lists.infradead.org>; Sun, 22 Dec 2024 00:14:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38DBAC4CECE;
+	Sun, 22 Dec 2024 00:15:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734826517;
+	bh=0iQTKd5JEjZsKA3zgDFFlD61wYpnRy7e9Qv97bTuGsA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=hQKWq18AJZrLfeNBeSnLDrVn1oCfLDEpSWTuhRFxzalrjg5UpLzG3mzE9YviR8kJu
+	 DxmmkHnQGzPbi3ObejiJe4mMkyGdD/15vks661jFJxuIlKbMtNVsG1QQ8mNUyKCQ5T
+	 EFNboH2GlmkFIgOETkvMYSOzbO0cA9gwlrgx1rthQAdPyPqiRsrvxEpGarUraVrEWx
+	 FbQ5/nDn1uxl2f6usQNnrXbwpNH+dcXJLI+UUFUR/mlXehQizwk0NfhLP8RrDn/St0
+	 cgzQabRVWzMoubmADOP277T0kEcC/UX9dsTOeU1/8NVIAmFgXgfxiW48QHwImFJuKM
+	 AqfUlRzRQ3QjA==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: Vineet Gupta <vgupta@kernel.org>,
+	linux-snps-arc@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: [PATCH] ARC: migrate to the generic rule for built-in DTB
+Date: Sun, 22 Dec 2024 09:15:00 +0900
+Message-ID: <20241222001505.2579630-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/10] Account page tables at all levels
-To: Kevin Brodsky <kevin.brodsky@arm.com>, linux-mm@kvack.org
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Linus Walleij <linus.walleij@linaro.org>, Andy Lutomirski <luto@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, "Mike Rapoport (IBM)"
- <rppt@kernel.org>, Ryan Roberts <ryan.roberts@arm.com>,
- Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>,
- Matthew Wilcox <willy@infradead.org>, linux-alpha@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
- linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-um@lists.infradead.org, loongarch@lists.linux.dev, x86@kernel.org,
- Joerg Roedel <jroedel@suse.de>
-References: <20241219164425.2277022-1-kevin.brodsky@arm.com>
- <a7398426-56d1-40b4-a1c9-40ae8c8a4b4b@intel.com>
- <765aec36-55a4-4161-bb30-4ff838bc2d98@arm.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <765aec36-55a4-4161-bb30-4ff838bc2d98@arm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241220_113154_568963_85509504 
-X-CRM114-Status: GOOD (  13.73  )
+X-CRM114-CacheID: sfid-20241221_161518_933253_354589FD 
+X-CRM114-Status: GOOD (  11.13  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -143,32 +75,269 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 12/20/24 02:58, Kevin Brodsky wrote:
->> One super tiny nit is that the PAE pgd _can_ be allocated using
->> __get_free_pages(). It was originally there for Xen, but I think it's
->> being used for PTI only at this point and the comments are wrong-ish.
->>
->> I kinda think we should just get rid of the 32-bit kmem_cache entirely.
-> That would certainly simplify things on the x86 side! I'm not at all
-> familiar with that code though, would you be happy with providing a
-> patch? I could add it to this series if that's convenient.
+Commit 654102df2ac2 ("kbuild: add generic support for built-in boot
+DTBs") introduced generic support for built-in DTBs.
 
-I hacked this together yesterday:
+Select GENERIC_BUILTIN_DTB to use the generic rule.
 
-> https://git.kernel.org/pub/scm/linux/kernel/git/daveh/devel.git/log/?h=simplify-pae-20241220
-It definitely needs some more work. I'm particularly still puzzling
-about why SHARED_KERNEL_PMD is used both as a trigger for 32b vs.
-PAGE_SIZE PAE pgd allocations _and_ for the actual PMD sharing.
+To keep consistency across architectures, this commit also renames
+CONFIG_ARC_BUILTIN_DTB_NAME to CONFIG_BUILTIN_DTB_NAME.
 
-Xen definitely needed the whole page behavior but I'm not sure why PTI did.
+Now, "nsim_700" is the default value for CONFIG_BUILTIN_DTB_NAME, rather
+than a fallback in case it is empty.
 
-Either way, that series should make the PAE PGDs a _bit_ less weird at
-the cost of an extra ~2 pages per process for folks who are running
-32-bit PAE kernels with PTI disabled.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-But I think the diffstat is worth it:
+ arch/arc/Kconfig                           | 7 ++++---
+ arch/arc/Makefile                          | 3 ---
+ arch/arc/boot/dts/Makefile                 | 9 +--------
+ arch/arc/configs/axs101_defconfig          | 2 +-
+ arch/arc/configs/axs103_defconfig          | 2 +-
+ arch/arc/configs/axs103_smp_defconfig      | 2 +-
+ arch/arc/configs/haps_hs_defconfig         | 2 +-
+ arch/arc/configs/haps_hs_smp_defconfig     | 2 +-
+ arch/arc/configs/hsdk_defconfig            | 2 +-
+ arch/arc/configs/nsim_700_defconfig        | 2 +-
+ arch/arc/configs/nsimosci_defconfig        | 2 +-
+ arch/arc/configs/nsimosci_hs_defconfig     | 2 +-
+ arch/arc/configs/nsimosci_hs_smp_defconfig | 2 +-
+ arch/arc/configs/tb10x_defconfig           | 2 +-
+ arch/arc/configs/vdk_hs38_defconfig        | 2 +-
+ arch/arc/configs/vdk_hs38_smp_defconfig    | 2 +-
+ 16 files changed, 18 insertions(+), 27 deletions(-)
 
- 5 files changed, 16 insertions(+), 96 deletions(-)
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index ea5a1dcb133b..0cd2261d3e3c 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -17,6 +17,7 @@ config ARC
+ 	select ARCH_SUPPORTS_ATOMIC_RMW if ARC_HAS_LLSC
+ 	select ARCH_32BIT_OFF_T
+ 	select BUILDTIME_TABLE_SORT
++	select GENERIC_BUILTIN_DTB
+ 	select CLONE_BACKWARDS
+ 	select COMMON_CLK
+ 	select DMA_DIRECT_REMAP
+@@ -550,11 +551,11 @@ config ARC_DBG_JUMP_LABEL
+ 	  part of static keys (jump labels) related code.
+ endif
+ 
+-config ARC_BUILTIN_DTB_NAME
++config BUILTIN_DTB_NAME
+ 	string "Built in DTB"
++	default "nsim_700"
+ 	help
+-	  Set the name of the DTB to embed in the vmlinux binary
+-	  Leaving it blank selects the "nsim_700" dtb.
++	  Set the name of the DTB to embed in the vmlinux binary.
+ 
+ endmenu	 # "ARC Architecture Configuration"
+ 
+diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+index fb98478ed1ab..0c5e6e6314f2 100644
+--- a/arch/arc/Makefile
++++ b/arch/arc/Makefile
+@@ -82,9 +82,6 @@ KBUILD_CFLAGS	+= $(cflags-y)
+ KBUILD_AFLAGS	+= $(KBUILD_CFLAGS)
+ KBUILD_LDFLAGS	+= $(ldflags-y)
+ 
+-# w/o this dtb won't embed into kernel binary
+-core-y		+= arch/arc/boot/dts/
+-
+ core-y				+= arch/arc/plat-sim/
+ core-$(CONFIG_ARC_PLAT_TB10X)	+= arch/arc/plat-tb10x/
+ core-$(CONFIG_ARC_PLAT_AXS10X)	+= arch/arc/plat-axs10x/
+diff --git a/arch/arc/boot/dts/Makefile b/arch/arc/boot/dts/Makefile
+index 48704dfdf75c..ee5664f0640d 100644
+--- a/arch/arc/boot/dts/Makefile
++++ b/arch/arc/boot/dts/Makefile
+@@ -1,13 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+-# Built-in dtb
+-builtindtb-y		:= nsim_700
+ 
+-ifneq ($(CONFIG_ARC_BUILTIN_DTB_NAME),)
+-	builtindtb-y	:= $(CONFIG_ARC_BUILTIN_DTB_NAME)
+-endif
+-
+-obj-y   += $(builtindtb-y).dtb.o
+-dtb-y := $(builtindtb-y).dtb
++dtb-y	:= $(addsuffix .dtb, $(CONFIG_BUILTIN_DTB_NAME))
+ 
+ # for CONFIG_OF_ALL_DTBS test
+ dtb-	:= $(patsubst $(src)/%.dts,%.dtb, $(wildcard $(src)/*.dts))
+diff --git a/arch/arc/configs/axs101_defconfig b/arch/arc/configs/axs101_defconfig
+index 319bbe270322..a7cd526dd7ca 100644
+--- a/arch/arc/configs/axs101_defconfig
++++ b/arch/arc/configs/axs101_defconfig
+@@ -23,7 +23,7 @@ CONFIG_PARTITION_ADVANCED=y
+ CONFIG_ARC_PLAT_AXS10X=y
+ CONFIG_AXS101=y
+ CONFIG_ARC_CACHE_LINE_SHIFT=5
+-CONFIG_ARC_BUILTIN_DTB_NAME="axs101"
++CONFIG_BUILTIN_DTB_NAME="axs101"
+ CONFIG_PREEMPT=y
+ # CONFIG_COMPACTION is not set
+ CONFIG_NET=y
+diff --git a/arch/arc/configs/axs103_defconfig b/arch/arc/configs/axs103_defconfig
+index 8c1f1a111a17..afa6a348f444 100644
+--- a/arch/arc/configs/axs103_defconfig
++++ b/arch/arc/configs/axs103_defconfig
+@@ -22,7 +22,7 @@ CONFIG_PARTITION_ADVANCED=y
+ CONFIG_ARC_PLAT_AXS10X=y
+ CONFIG_AXS103=y
+ CONFIG_ISA_ARCV2=y
+-CONFIG_ARC_BUILTIN_DTB_NAME="axs103"
++CONFIG_BUILTIN_DTB_NAME="axs103"
+ CONFIG_PREEMPT=y
+ # CONFIG_COMPACTION is not set
+ CONFIG_NET=y
+diff --git a/arch/arc/configs/axs103_smp_defconfig b/arch/arc/configs/axs103_smp_defconfig
+index 75cab9f25b5b..2bfa6371953c 100644
+--- a/arch/arc/configs/axs103_smp_defconfig
++++ b/arch/arc/configs/axs103_smp_defconfig
+@@ -22,7 +22,7 @@ CONFIG_ARC_PLAT_AXS10X=y
+ CONFIG_AXS103=y
+ CONFIG_ISA_ARCV2=y
+ CONFIG_SMP=y
+-CONFIG_ARC_BUILTIN_DTB_NAME="axs103_idu"
++CONFIG_BUILTIN_DTB_NAME="axs103_idu"
+ CONFIG_PREEMPT=y
+ # CONFIG_COMPACTION is not set
+ CONFIG_NET=y
+diff --git a/arch/arc/configs/haps_hs_defconfig b/arch/arc/configs/haps_hs_defconfig
+index 8c3ed5d6e6c3..3a1577112078 100644
+--- a/arch/arc/configs/haps_hs_defconfig
++++ b/arch/arc/configs/haps_hs_defconfig
+@@ -14,7 +14,7 @@ CONFIG_BLK_DEV_INITRD=y
+ CONFIG_EXPERT=y
+ CONFIG_PERF_EVENTS=y
+ # CONFIG_COMPAT_BRK is not set
+-CONFIG_ARC_BUILTIN_DTB_NAME="haps_hs"
++CONFIG_BUILTIN_DTB_NAME="haps_hs"
+ CONFIG_MODULES=y
+ # CONFIG_BLK_DEV_BSG is not set
+ # CONFIG_COMPACTION is not set
+diff --git a/arch/arc/configs/haps_hs_smp_defconfig b/arch/arc/configs/haps_hs_smp_defconfig
+index 6fc98c1b9b36..a3cf940b1f5b 100644
+--- a/arch/arc/configs/haps_hs_smp_defconfig
++++ b/arch/arc/configs/haps_hs_smp_defconfig
+@@ -16,7 +16,7 @@ CONFIG_PERF_EVENTS=y
+ # CONFIG_VM_EVENT_COUNTERS is not set
+ # CONFIG_COMPAT_BRK is not set
+ CONFIG_SMP=y
+-CONFIG_ARC_BUILTIN_DTB_NAME="haps_hs_idu"
++CONFIG_BUILTIN_DTB_NAME="haps_hs_idu"
+ CONFIG_KPROBES=y
+ CONFIG_MODULES=y
+ # CONFIG_BLK_DEV_BSG is not set
+diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
+index 9e79154b5535..1558e8e87767 100644
+--- a/arch/arc/configs/hsdk_defconfig
++++ b/arch/arc/configs/hsdk_defconfig
+@@ -20,7 +20,7 @@ CONFIG_ISA_ARCV2=y
+ CONFIG_SMP=y
+ CONFIG_LINUX_LINK_BASE=0x90000000
+ CONFIG_LINUX_RAM_BASE=0x80000000
+-CONFIG_ARC_BUILTIN_DTB_NAME="hsdk"
++CONFIG_BUILTIN_DTB_NAME="hsdk"
+ CONFIG_PREEMPT=y
+ # CONFIG_COMPACTION is not set
+ CONFIG_NET=y
+diff --git a/arch/arc/configs/nsim_700_defconfig b/arch/arc/configs/nsim_700_defconfig
+index 51092c39e360..f8b3235d9a65 100644
+--- a/arch/arc/configs/nsim_700_defconfig
++++ b/arch/arc/configs/nsim_700_defconfig
+@@ -17,7 +17,7 @@ CONFIG_PERF_EVENTS=y
+ # CONFIG_SLUB_DEBUG is not set
+ # CONFIG_COMPAT_BRK is not set
+ CONFIG_ISA_ARCOMPACT=y
+-CONFIG_ARC_BUILTIN_DTB_NAME="nsim_700"
++CONFIG_BUILTIN_DTB_NAME="nsim_700"
+ CONFIG_KPROBES=y
+ CONFIG_MODULES=y
+ # CONFIG_BLK_DEV_BSG is not set
+diff --git a/arch/arc/configs/nsimosci_defconfig b/arch/arc/configs/nsimosci_defconfig
+index 70c17bca4939..ee45dc0877fb 100644
+--- a/arch/arc/configs/nsimosci_defconfig
++++ b/arch/arc/configs/nsimosci_defconfig
+@@ -19,7 +19,7 @@ CONFIG_ISA_ARCOMPACT=y
+ CONFIG_KPROBES=y
+ CONFIG_MODULES=y
+ # CONFIG_BLK_DEV_BSG is not set
+-CONFIG_ARC_BUILTIN_DTB_NAME="nsimosci"
++CONFIG_BUILTIN_DTB_NAME="nsimosci"
+ # CONFIG_COMPACTION is not set
+ CONFIG_NET=y
+ CONFIG_PACKET=y
+diff --git a/arch/arc/configs/nsimosci_hs_defconfig b/arch/arc/configs/nsimosci_hs_defconfig
+index 59a3b6642fe7..e0a309970c20 100644
+--- a/arch/arc/configs/nsimosci_hs_defconfig
++++ b/arch/arc/configs/nsimosci_hs_defconfig
+@@ -19,7 +19,7 @@ CONFIG_KPROBES=y
+ CONFIG_MODULES=y
+ # CONFIG_BLK_DEV_BSG is not set
+ CONFIG_ISA_ARCV2=y
+-CONFIG_ARC_BUILTIN_DTB_NAME="nsimosci_hs"
++CONFIG_BUILTIN_DTB_NAME="nsimosci_hs"
+ # CONFIG_COMPACTION is not set
+ CONFIG_NET=y
+ CONFIG_PACKET=y
+diff --git a/arch/arc/configs/nsimosci_hs_smp_defconfig b/arch/arc/configs/nsimosci_hs_smp_defconfig
+index 1419fc946a08..88325b8b49cf 100644
+--- a/arch/arc/configs/nsimosci_hs_smp_defconfig
++++ b/arch/arc/configs/nsimosci_hs_smp_defconfig
+@@ -16,7 +16,7 @@ CONFIG_MODULES=y
+ CONFIG_ISA_ARCV2=y
+ CONFIG_SMP=y
+ # CONFIG_ARC_TIMERS_64BIT is not set
+-CONFIG_ARC_BUILTIN_DTB_NAME="nsimosci_hs_idu"
++CONFIG_BUILTIN_DTB_NAME="nsimosci_hs_idu"
+ CONFIG_PREEMPT=y
+ # CONFIG_COMPACTION is not set
+ CONFIG_NET=y
+diff --git a/arch/arc/configs/tb10x_defconfig b/arch/arc/configs/tb10x_defconfig
+index 5aba3d850fa2..865fbc19ef03 100644
+--- a/arch/arc/configs/tb10x_defconfig
++++ b/arch/arc/configs/tb10x_defconfig
+@@ -26,7 +26,7 @@ CONFIG_MODULE_UNLOAD=y
+ CONFIG_ARC_PLAT_TB10X=y
+ CONFIG_ARC_CACHE_LINE_SHIFT=5
+ CONFIG_HZ=250
+-CONFIG_ARC_BUILTIN_DTB_NAME="abilis_tb100_dvk"
++CONFIG_BUILTIN_DTB_NAME="abilis_tb100_dvk"
+ CONFIG_PREEMPT_VOLUNTARY=y
+ # CONFIG_COMPACTION is not set
+ CONFIG_NET=y
+diff --git a/arch/arc/configs/vdk_hs38_defconfig b/arch/arc/configs/vdk_hs38_defconfig
+index 50c343913825..03d9ac20baa9 100644
+--- a/arch/arc/configs/vdk_hs38_defconfig
++++ b/arch/arc/configs/vdk_hs38_defconfig
+@@ -13,7 +13,7 @@ CONFIG_PARTITION_ADVANCED=y
+ CONFIG_ARC_PLAT_AXS10X=y
+ CONFIG_AXS103=y
+ CONFIG_ISA_ARCV2=y
+-CONFIG_ARC_BUILTIN_DTB_NAME="vdk_hs38"
++CONFIG_BUILTIN_DTB_NAME="vdk_hs38"
+ CONFIG_PREEMPT=y
+ CONFIG_NET=y
+ CONFIG_PACKET=y
+diff --git a/arch/arc/configs/vdk_hs38_smp_defconfig b/arch/arc/configs/vdk_hs38_smp_defconfig
+index 6d9e1d9f71d2..c09488992f13 100644
+--- a/arch/arc/configs/vdk_hs38_smp_defconfig
++++ b/arch/arc/configs/vdk_hs38_smp_defconfig
+@@ -15,7 +15,7 @@ CONFIG_AXS103=y
+ CONFIG_ISA_ARCV2=y
+ CONFIG_SMP=y
+ # CONFIG_ARC_TIMERS_64BIT is not set
+-CONFIG_ARC_BUILTIN_DTB_NAME="vdk_hs38_smp"
++CONFIG_BUILTIN_DTB_NAME="vdk_hs38_smp"
+ CONFIG_PREEMPT=y
+ CONFIG_NET=y
+ CONFIG_PACKET=y
+-- 
+2.43.0
 
 
 _______________________________________________
