@@ -4,61 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1C54E7718B
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 23 Dec 2024 22:06:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A790E77188
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 24 Dec 2024 06:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=oyFd9Ijx3keBx0+u7EtiOqje1i/w2mE0q6rVwidVLXw=; b=pMR5xkkKHYYech
-	cUj+qmLCMOdZvVhhKmXCDzRVTFeAF/OVTU0dZVJL5yIQhgGVvC30m3x5KddhkDpBSxX8bWyLfkjgl
-	pDoShghhcJx5uzk4yJsTMTlpDzLmgH0dv8mdTGTLNxp7yj3MX4ygfNAHjx+s7M7eylfZwMe2Fwwo8
-	mtWAdpz1odKBu7ffgwFhQx0hBBPkAndQ2wn01b1gd0+yL99THL8GcXqeLI3fSDoTUHHZW88fZiGWm
-	lBahy39da00ypZRlnOr5r0KnGHj6Oy0GQoQHsGPNDGXvX6Las30lTlqfJFMxmEMQvz2GJOI+kqzyd
-	7yp8/FJ3zuzcvNZvUQ1Q==;
+	List-Owner; bh=6mm94aRK8JpJgZ9uiWI7mq7Yf9TQAiqnXUSXBaYzLno=; b=rsd6yUJ/uUHQJw
+	UU+p4/Sjy/dVElZOKuHX3vCxgE9HP+Lpn8RMKGZZDUIzMrUnBJo9pM8zRU+nyV3B6LTBgSJHLX3w1
+	Ennnrvxd6z9RFMtoU/IaOylNfzYI6/3fLyCchOZ0kmRUq1PaQ5ls9bMpuOCkXPwYWEGxjpLQkOyxy
+	eJB1/+xFlFNzwKcrlP1aT5V/PO6kQDD4k7bUFqeMF+oqfAKNQQL8avImIbtfxfRSfygeUowOcB6iY
+	iZFMa/iM/V4vST0TvHbVizwbNCuJh5HFdXS9pTxiXUmi6T9tfb9MHRqNI92/dH9IhK7awRPIbvVsn
+	uyxc7TIlulKBklxZLGig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tPqZE-0000000Aoen-0dGw;
-	Mon, 23 Dec 2024 22:06:24 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1tPymt-0000000BOIx-3EM2;
+	Tue, 24 Dec 2024 06:53:03 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tPqZB-0000000AoeJ-2PAJ
-	for linux-snps-arc@lists.infradead.org;
-	Mon, 23 Dec 2024 22:06:22 +0000
+	id 1tPyli-0000000BODy-11Zw;
+	Tue, 24 Dec 2024 06:51:51 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 28E64A41323
-	for <linux-snps-arc@lists.infradead.org>; Mon, 23 Dec 2024 22:04:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D39AC4CED3;
-	Mon, 23 Dec 2024 22:06:16 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 5E05C5C4C0E;
+	Tue, 24 Dec 2024 06:51:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82464C4CED0;
+	Tue, 24 Dec 2024 06:51:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734991577;
-	bh=Gw/PhiP9UAdU/f/nBD9ANPL61bnIV6cPbFZmVeKxehU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=VNKrZOwmoM0UJ/vwjkg7Re10ZrglR2HqsK0qQQALqJEhgajeXnFJVURPxig/TeXmT
-	 HT8Hn3z3OEFk0eLS0NsLWGHCX8Ovtkw/lGr3W/zO+D7g1421QHp5ORmr+zV5pTjYHb
-	 3dw0N1hH8Ce4it717fW7OW3JgSetDXDcUQoqyZy7Ad4MER9Ax8E+mlpJVnUvDMUuaT
-	 Oh5fH8Nfm5A8Ddh+b8PJjbt1U7BeVnSkNNzi4L8KLNTZkCjSf1ytS80ubWjtZFrtAd
-	 lATWJgTcJsVM81CJ80HEcvXuOU0vqrLumhv+W+7Q/3w5M4ArHCamN3iDNr42m9jE2L
-	 uaYNCrLnIq3/Q==
-Message-ID: <829e5a35-1f13-4d6b-a49e-8ab1a4a6d249@kernel.org>
-Date: Mon, 23 Dec 2024 14:06:14 -0800
+	s=k20201202; t=1735023108;
+	bh=ziqgA+4cQyECAcPibuRjTjPwIwUUuJchTAYtrhObgG0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=D2l9+wDfKH5Sy/3RTTReRB+k4AXnFFbn0JGXhnhvwxjZGRy5pOWINChNGRxZtKTSp
+	 ZWu7isB6yuSpu4/aPRTAvez5dciTYg/lJZl4bV1OPCUpxFxSrlpzFwc/Ty124IFHva
+	 cqkk1f9tgNRVTIvs1ZzukpajMBkPiuGpiOAE4QBqxQxc0sUMIsoW6N8XxZBKZkjOo9
+	 z5stvhnspV+Lfbfni/uknKrEwZZsCM1OY6S+lYQlS7HKJaWKJS7rSVyzm/LlBLo7iF
+	 8UOabiFet3EeDnxvxX07SG00jVFBhN/wJeeoZbriK415a3ehF7Yp+JhYEeHDfMLyrF
+	 ae0VoAYuUy5IQ==
+Date: Mon, 23 Dec 2024 22:51:46 -0800
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: wzs <wangzhengshu39@gmail.com>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	Naresh Kamboju <naresh.kamboju@linaro.org>,
+	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
+	linux-parisc@vger.kernel.org, x86@kernel.org
+Subject: Re: WARNING: kernel stack regs has bad "bp" value
+Message-ID: <20241224065146.5ety7gme2tndv4dq@jpoimboe>
+References: <CAGXGE_LB3RBqujRWE4fai5hrG6WHk-_c9mToEc0Q_1rBY7M9Xg@mail.gmail.com>
+ <20241223141135.g5lkpzhz32pcpzku@jpoimboe>
+ <CAGXGE_J6zQip-4jSMghKXSHnE2dASLF1maw9Ev-4EwyfJL99Mg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ARC: migrate to the generic rule for built-in DTB
-To: Masahiro Yamada <masahiroy@kernel.org>, Vineet Gupta <vgupta@kernel.org>,
- linux-snps-arc@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- devicetree@vger.kernel.org
-References: <20241222001505.2579630-1-masahiroy@kernel.org>
-From: Vineet Gupta <vgupta@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20241222001505.2579630-1-masahiroy@kernel.org>
+Content-Disposition: inline
+In-Reply-To: <CAGXGE_J6zQip-4jSMghKXSHnE2dASLF1maw9Ev-4EwyfJL99Mg@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241223_140621_681781_25ACB161 
-X-CRM114-Status: UNSURE (   6.75  )
+X-CRM114-CacheID: sfid-20241223_225150_336293_81E13E93 
+X-CRM114-Status: UNSURE (   9.49  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -76,24 +77,24 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 12/21/24 16:15, Masahiro Yamada wrote:
-> Commit 654102df2ac2 ("kbuild: add generic support for built-in boot
-> DTBs") introduced generic support for built-in DTBs.
->
-> Select GENERIC_BUILTIN_DTB to use the generic rule.
->
-> To keep consistency across architectures, this commit also renames
-> CONFIG_ARC_BUILTIN_DTB_NAME to CONFIG_BUILTIN_DTB_NAME.
->
-> Now, "nsim_700" is the default value for CONFIG_BUILTIN_DTB_NAME, rather
-> than a fallback in case it is empty.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+On Tue, Dec 24, 2024 at 11:17:30AM +0800, wzs wrote:
+> The output of objdump -r --disassemble=vmw_send_msg vmwgfx.ko is as follows.
+> Since the content is quite long ,i need to split two parts for saving.
+> Similarly, I have also saved it in the attachment.
+> console output 1 : https://pastebin.com/mBi6fTdM
+> cousole output 2 : https://pastebin.com/89SMLgCy
 
-Acked-by: Vineet Gupta <vgupta@kernel.org>
+Thanks, this seems to be caused by vmware_hypercall_hb_out()'s misuse of
+the %rbp register.  Unfortunately there doesn't seem to be a fix for
+that, as it looks like a hypervisor implementation detail.
 
-Thx,
--Vineet
+The good news is it's probably nothing to worry about.  Regardless,
+frame pointers aren't very useful anymore and I would recommend you
+enable the CONFIG_UNWINDER_ORC option.
+
+-- 
+Josh
+
 
 _______________________________________________
 linux-snps-arc mailing list
