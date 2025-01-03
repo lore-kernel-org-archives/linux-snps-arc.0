@@ -4,68 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62E16E77188
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 30 Dec 2024 14:11:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE7DEE77188
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  3 Jan 2025 09:30:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=qC9owMTkZV+11so9kTBz09X6j0dmltQZMdd4aJDZVGc=; b=ap1eh05KEkBvlV
-	xDWzNS/pRKgUqlc1rYG53OUpTT2qZIpC8xqGYNwYuSyC+FGT/ht41eTSlq2+O4Z2XwWW7jsSzpEVO
-	1P3MmCLGI7CMGMmH1BY4uO4/WvvnHPZ3sgpAqLe1PhEH7Rz8n3cLraIJgQCzc58wDVKEI+ee3VG53
-	+LghODPhSSt6haJIt7oC5WLweE2nvnrCUkZLziw7pEFY/aN9k5JFqSJ5AmHJW6kkdtxyrp0bEKTMP
-	mcSQkkOhLsa9xO7GeCAIf/M840xMo88yGk68AQQJ5o8SL2uY0nwz8wK7YFX2m1e7H/NDReMU9v8Cm
-	JXIzsiznSCDFC/2DkwAA==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=jCStWJBpNP5D3i+7/sgNVIv6Ynj1RIaO7KNLGs61Pjk=; b=Ghf7cYjORnXKZT
+	fEOYzXaD1DgRfr1XcruOfLpGEU8RyjOphz7KP/5HGMdRtD35QhnH8qzRcpZ2ve6YQAzg1EeWEPFTd
+	extKkR6PG0kRFROS+XFfiAXLUqwt314ZKTVF6Re591cz/AL2PdUhKTb6yDzBlKJMZhZ79pNOlHqzs
+	JXx7kQGmjmuQk+fTXWZ4TvuoQ8l3ILDtznVqhqh3QiYctihRbfigQn+0rGtb3F04cQco/3P07IaXo
+	CgXW+7i/Q891dqH6gigikV+pOn03UPNWhKJjjmRk7JQefisEbxEpNsFTVSGytW8SJvpCf6hdXnwci
+	YqAQmdyOjDp4vpMBqfSQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tSGU2-00000005KCf-3RQw;
-	Mon, 30 Dec 2024 14:11:02 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
-	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tSFWI-00000005FJc-3way
-	for linux-snps-arc@bombadil.infradead.org;
-	Mon, 30 Dec 2024 13:09:19 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	MIME-Version:Subject:To:From:Date:Message-ID:Sender:Reply-To:Cc:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=VL5yUWcYeO/+41IWEwU5ih2KiIhi0F9iezSabocUnLo=; b=i7a06wShgI5+YGWZaHNugYyeuw
-	xl1eWNROZ+rXXlocHcY8UREUK8cjJpzqGvnD0tkNZsmQGX/AteLMorlXNkqiHarpCv1rk50Y/nG8M
-	qI02zorMKUxZOTW/LXVEZ9XHsP2seCwfiqeiz0I52ITXGFJrmCqLtfi7mAbgjtjx/MOlDi/znkVQi
-	fJShuXmyAqy2Uqdk1S3WF5oPI278xSLNDtfVmwa3P+MxZqc+olAEihCvnlHjI/2PEipkM9ItGMaBH
-	36TSkF6Sko3pIavLpmooNPjoL22ir+4ijDddMQ42tIfA4FJIJHnc+nOXp+kQWe4vxlkmxXgjjxpQv
-	9bpXDA/g==;
-Received: from [217.61.0.218] (helo=mail.startupcovey.pl)
-	by casper.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tSFWF-000000006VT-0Sc2
-	for linux-snps-arc@lists.infradead.org;
-	Mon, 30 Dec 2024 13:09:17 +0000
-Received: by mail.startupcovey.pl (Postfix, from userid 1002)
-	id 3D1E28358C; Mon, 30 Dec 2024 14:08:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=startupcovey.pl;
-	s=mail; t=1735564139;
-	bh=VL5yUWcYeO/+41IWEwU5ih2KiIhi0F9iezSabocUnLo=;
-	h=Date:From:To:Subject:From;
-	b=KoG3p+1xLd2qpFVnoD4dCR9VSXpztCs5uT/oJfHnpWq4n8CYWeelO+vGHqyqaWSye
-	 SjKLbAzril9FlUq3QV3cHkQZUcJetavyDFJ0cRSWuIbgG3aIxKU51zGhkhNRdLpyD4
-	 aRBdcOFkzE2OgySyJGgnvm7zlK71SrxxzV9APqyCnYmoaBVs9NkXvLkOsi0sQfalo2
-	 G33nKEPd7G/PAVFpytM0YUffT2BFI9hN27gvCw6RQqaC+Zt9rFQRVvbamlavrcIKFH
-	 8U0efuxW+sw/K62bCvQi2JAqM/tnHuu93bXLlGQZav2FxMBES8JZbuyXFNhBUvHMsA
-	 H5sVuupDuCqnw==
-Received: by mail.startupcovey.pl for <linux-snps-arc@lists.infradead.org>; Mon, 30 Dec 2024 13:08:17 GMT
-Message-ID: <20241230134314-0.1.f.24yb.0.69anhc38k5@startupcovey.pl>
-Date: Mon, 30 Dec 2024 13:08:17 GMT
-From: "Robert Paczkowski" <robert.paczkowski@startupcovey.pl>
-To: <linux-snps-arc@lists.infradead.org>
-Subject: =?UTF-8?Q?Wsp=C3=B3=C5=82praca?=
-X-Mailer: mail.startupcovey.pl
+	id 1tTe0m-0000000CcLL-240N;
+	Fri, 03 Jan 2025 09:30:32 +0000
+Received: from foss.arm.com ([217.140.110.172])
+	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
+	id 1tTdz3-0000000CbzE-0XWf;
+	Fri, 03 Jan 2025 09:28:47 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3C0AF1480;
+	Fri,  3 Jan 2025 01:29:12 -0800 (PST)
+Received: from [10.57.92.237] (unknown [10.57.92.237])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B8B153F673;
+	Fri,  3 Jan 2025 01:28:35 -0800 (PST)
+Message-ID: <80cf6cae-11f6-4db2-816b-b1dcca3cee3e@arm.com>
+Date: Fri, 3 Jan 2025 10:28:32 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/10] Account page tables at all levels
+To: Dave Hansen <dave.hansen@intel.com>, linux-mm@kvack.org
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Andy Lutomirski <luto@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, "Mike Rapoport (IBM)"
+ <rppt@kernel.org>, Ryan Roberts <ryan.roberts@arm.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, linux-alpha@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-um@lists.infradead.org, loongarch@lists.linux.dev, x86@kernel.org,
+ Joerg Roedel <jroedel@suse.de>
+References: <20241219164425.2277022-1-kevin.brodsky@arm.com>
+ <a7398426-56d1-40b4-a1c9-40ae8c8a4b4b@intel.com>
+ <765aec36-55a4-4161-bb30-4ff838bc2d98@arm.com>
+ <989b55cf-1f9e-4b73-b3dd-d8b6a62be3f2@intel.com>
+Content-Language: en-GB
+From: Kevin Brodsky <kevin.brodsky@arm.com>
+In-Reply-To: <989b55cf-1f9e-4b73-b3dd-d8b6a62be3f2@intel.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241230_130915_770681_59F9A16E 
-X-CRM114-Status: UNSURE (   0.43  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250103_012845_280706_8E95504E 
+X-CRM114-Status: GOOD (  18.08  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,18 +75,50 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-RHppZcWEIGRvYnJ5LCAKCkN6eSBpbnRlcmVzdWplIFBhxYRzdHdhIHBvenlza2FuaWUgbm93eWNo
-IGtsaWVudMOzdz8KClpham11amVteSBzacSZIHByb2Zlc2pvbmFsbmllIHdzcGFyY2llbSBmaXJt
-IHcgdHltIHpha3Jlc2llLiAKCk5hc2kgcGFydG5lcnp5IHp5c2t1asSFIHN0YcWCeSBuYXDFgnl3
-IG5vd3ljaCB6bGVjZcWEIG9yYXogemFtw7N3aWXFhCwgYSB0eW0gc2FteW0gendpxJlrc3phasSF
-IHN3b2plIHd5bmlraSBzcHJ6ZWRhxbx5LgoKQ3p5IG1vxbxlbXkgcHJ6ZWRzdGF3acSHIHN6Y3pl
-Z8OzxYJ5IGRvdHljesSFY2UgemFzYWQgaSBtb8W8bGl3b8WbY2kgd3Nww7PFgnByYWN5PwoKClBv
-emRyYXdpYW0gc2VyZGVjem5pZQpSb2JlcnQgUGFjemtvd3NraQoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0
-CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVh
-ZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
+On 20/12/2024 20:31, Dave Hansen wrote:
+> On 12/20/24 02:58, Kevin Brodsky wrote:
+>>> One super tiny nit is that the PAE pgd _can_ be allocated using
+>>> __get_free_pages(). It was originally there for Xen, but I think it's
+>>> being used for PTI only at this point and the comments are wrong-ish.
+>>>
+>>> I kinda think we should just get rid of the 32-bit kmem_cache entirely.
+>> That would certainly simplify things on the x86 side! I'm not at all
+>> familiar with that code though, would you be happy with providing a
+>> patch? I could add it to this series if that's convenient.
+> I hacked this together yesterday:
+>
+>> https://git.kernel.org/pub/scm/linux/kernel/git/daveh/devel.git/log/?h=simplify-pae-20241220
+> It definitely needs some more work. I'm particularly still puzzling
+> about why SHARED_KERNEL_PMD is used both as a trigger for 32b vs.
+> PAGE_SIZE PAE pgd allocations _and_ for the actual PMD sharing.
+>
+> Xen definitely needed the whole page behavior but I'm not sure why PTI did.
+>
+> Either way, that series should make the PAE PGDs a _bit_ less weird at
+> the cost of an extra ~2 pages per process for folks who are running
+> 32-bit PAE kernels with PTI disabled.
+>
+> But I think the diffstat is worth it:
+>
+>  5 files changed, 16 insertions(+), 96 deletions(-)
+
+That does look like a nice simplification! After the first patch, with
+my series, we could get rid of _pgd_alloc() and _pgd_free() in
+arch/x86/mm/pgtable.c and just call __pgd_alloc() and __pgd_free() directly.
+
+Considering that these changes are not trivial and may need more work,
+should I let you post those patches as a separate series? If it gets
+merged soon, I'll adapt my series, otherwise I can post a follow-up
+patch later if needed.
+
+- Kevin
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
