@@ -4,63 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDAC9E77188
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  6 Jan 2025 15:38:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9DB3AE77197
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  7 Jan 2025 09:25:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=kf0LTDNI8KhDNmCrfTL5dZkla9nRH0npkt1NF7i2DPc=; b=EBAAe1cOpZ6Rcn
-	WrZQWH5na51JQbbY40g6SegBesZ5JQTuGCHRGldGjdP37hOCQsV51X2GvwvEpbG2DL2EjGmYEts55
-	Iusys/qvZDuQJNy4+uZO7K8XF/676+5qIL6bHGVGD8KzwgAREo5nDFyCTvqR8XvrBJtRZNaA0D9Ue
-	P3fNsFeiDFTXx5tkx/IrOzySj+ckJqTuTnQyLG1Ao7EMsyxXCD4fmstzeyMPN0wZyBWhvRax7AqOQ
-	9d7zchT9+vSDIcooMEEV7OBDf4D5sV/BmSNsGkdebVc1tQTVkCnZgIZZ8WkdsUsXGg/HOk3X5IoLM
-	EpOwpVWKo6zpL8G9XMkg==;
+	List-Owner; bh=mmYviSBm1EdRymeAsyqgYGXyyTNfx9wAka9OIGfR0WU=; b=RUk8nlawwYcA3+
+	ut40WzCZ13hWq8EXvrSwQW196fGf7qUi1ex5XgTqm7MoXZHz85v5zZyPGREw6XszOfaxv/mnHbkmh
+	la3GULTJ+hUnW7tvJafjP56qontA9Jv3DwFUvcU/iHEBJDE50KIXsHhLUIGdRRqwsYzS/YjjOMgFP
+	xePcx09VkbS8TR1og4dEduQRM2rBJSIy7nRipJD4yPn0z2UfMOYLYrj0vzofP6EtN6bkd6k7w+avF
+	t1GCeb2KJldKhcjo48Wdh5Ozww054qui65J7NaOPeIcOhwlgJJeLo+uZ/Cqd66hdh/EjQHQiNPTWn
+	U1UYZUyDBf9S6oMxXerg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tUpBM-00000001ni0-2EPg;
-	Mon, 06 Jan 2025 15:38:20 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
-	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tUpBK-00000001nhM-0xzO
-	for linux-snps-arc@lists.infradead.org;
-	Mon, 06 Jan 2025 15:38:19 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id A2198A41989;
-	Mon,  6 Jan 2025 15:36:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CADABC4CED2;
-	Mon,  6 Jan 2025 15:38:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1736177897;
-	bh=qdO9936j/aymQ+lq/Er6DrfqEM5twxyTlhKNwur+5r0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=n24JPYwMNkLSIkE+wgaLxCgnoChJBs1Jil4vNXee0na/4PLQSjkJ3RhKb8uJvf7/O
-	 P+VUWhElzvv6BCokAMdEAa6Mh2PN4ZiynN+IcxZYm6f7nz2hmNdDJAScB+RDUYPuJd
-	 uHN2aAzkGaVLylCuw6ydo+6/2X8mXKRHXOWH9udo=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	patches@lists.linux.dev,
-	kernel test robot <lkp@intel.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	linux-snps-arc@lists.infradead.org,
-	Vineet Gupta <vgupta@kernel.org>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.12 094/156] ARC: build: Use __force to suppress per-CPU cmpxchg warnings
-Date: Mon,  6 Jan 2025 16:16:20 +0100
-Message-ID: <20250106151145.265124920@linuxfoundation.org>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250106151141.738050441@linuxfoundation.org>
-References: <20250106151141.738050441@linuxfoundation.org>
-User-Agent: quilt/0.68
-X-stable: review
-X-Patchwork-Hint: ignore
+	id 1tV5qA-000000046ue-16K7;
+	Tue, 07 Jan 2025 09:25:34 +0000
+Received: from foss.arm.com ([217.140.110.172])
+	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
+	id 1tV5h1-000000044uo-0itq;
+	Tue, 07 Jan 2025 09:16:08 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AEFBD143D;
+	Tue,  7 Jan 2025 01:16:32 -0800 (PST)
+Received: from [10.57.93.53] (unknown [10.57.93.53])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 194C03F66E;
+	Tue,  7 Jan 2025 01:15:56 -0800 (PST)
+Message-ID: <98c59677-b0a2-4c87-b828-0503505529da@arm.com>
+Date: Tue, 7 Jan 2025 10:15:54 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/6] Account page tables at all levels
+To: Qi Zheng <zhengqi.arch@bytedance.com>
+Cc: linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Andy Lutomirski <luto@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, "Mike Rapoport (IBM)"
+ <rppt@kernel.org>, Ryan Roberts <ryan.roberts@arm.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, linux-alpha@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-um@lists.infradead.org, loongarch@lists.linux.dev, x86@kernel.org
+References: <20250103184415.2744423-1-kevin.brodsky@arm.com>
+ <ae8aa8d7-4121-4939-9890-c54e0aee7896@bytedance.com>
+Content-Language: en-GB
+From: Kevin Brodsky <kevin.brodsky@arm.com>
+In-Reply-To: <ae8aa8d7-4121-4939-9890-c54e0aee7896@bytedance.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250106_073818_334622_7270F6E3 
-X-CRM114-Status: GOOD (  13.08  )
+X-CRM114-CacheID: sfid-20250107_011607_262521_B14091EC 
+X-CRM114-Status: UNSURE (   5.01  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,48 +78,14 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-6.12-stable review patch.  If anyone has any objections, please let me know.
+On 06/01/2025 09:38, Qi Zheng wrote:
+> For this series:
+>
+> Acked-by: Qi Zheng <zhengqi.arch@bytedance.com>
 
-------------------
+Thank you for the review, appreciated!
 
-From: Paul E. McKenney <paulmck@kernel.org>
-
-[ Upstream commit 1e8af9f04346ecc0bccf0c53b728fc8eb3490a28 ]
-
-Currently, the cast of the first argument to cmpxchg_emu_u8() drops the
-__percpu address-space designator, which results in sparse complaints
-when applying cmpxchg() to per-CPU variables in ARC.  Therefore, use
-__force to suppress these complaints, given that this does not pertain
-to cmpxchg() semantics, which are plently well-defined on variables in
-general, whether per-CPU or otherwise.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202409251336.ToC0TvWB-lkp@intel.com/
-Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-Cc: <linux-snps-arc@lists.infradead.org>
-Signed-off-by: Vineet Gupta <vgupta@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- arch/arc/include/asm/cmpxchg.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
-index 58045c898340..76f43db0890f 100644
---- a/arch/arc/include/asm/cmpxchg.h
-+++ b/arch/arc/include/asm/cmpxchg.h
-@@ -48,7 +48,7 @@
- 									\
- 	switch(sizeof((_p_))) {						\
- 	case 1:								\
--		_prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)_p_, (uintptr_t)_o_, (uintptr_t)_n_);	\
-+		_prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *__force)_p_, (uintptr_t)_o_, (uintptr_t)_n_);	\
- 		break;							\
- 	case 4:								\
- 		_prev_ = __cmpxchg(_p_, _o_, _n_);			\
--- 
-2.39.5
-
-
+- Kevin
 
 
 _______________________________________________
