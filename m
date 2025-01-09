@@ -4,59 +4,36 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0586E77197
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Jan 2025 12:05:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 950B9E77197
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Jan 2025 12:12:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=kqYbqJceNJGgBR9ZBPt9feLKRA5aCtnK2y5SZjp5plw=; b=ysEOPjsdtLLlwN
-	I/uRqz9+XSwJTjc6feUJU3zX0O8tLzESswYcraL3EuIjOVb38Zwh0VcYm1z7iKK4uYdn2j7oSM22y
-	94ixTrIMGKPNMwGeJGwCAxcf5lPSXYW09RZnv5h2g7NOz5eIN+q6eupYIb5cpfl/tuRCaG2pJcV/D
-	kFcQyyPdPr9NUSeOoGVkivVg3P98e9oWf7U7O/RqSlXgTG286toR77xmgF45AWQH1zJlCZlx2jZ7R
-	tLVtNIiFmv3QSaCSZBjTl8ogECexz960Sk5n2AYCq5a1IUrbztvp8Y4K0dMfREMsfp+mWFzQFyiF2
-	E+j23SEuFy6uXKFrr6zw==;
+	List-Owner; bh=n+h8kv7GSyBvPQ65/SzquRuwn3Vp0xjXPFu1I29tY2o=; b=xFRPdAtZ5IoFmH
+	uNq84Mmt96ZE6vQDgk0OttQzoWDlqkXzX1KP0kAwK7nfuxOBeSBxhLLtwS5peh363nnwW5nspCVyE
+	jL7sTuJo/JAvTXEpks4FujncFDLs+TLs+WajzIaXZlQJWHFUjyv0/TbpXdUgW45SqfM8cgnuJo2H4
+	XK+aelGsGxyFLscZwGD6bjPwhErBlnKttdB5OAnSrMutI+/W5DYOkjpCCv1ds6Hfrn39P4MIhBMxH
+	AJAbzG+sqR0uXZ0BQn2TYIfEfogUz/o71+ADimfCYcAuMiP1CXu1L6Rtas4FDTasc7mFO7cGgdY1H
+	nH28xDZf+uoCuIUGPhsQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tVrIF-0000000BnkF-2WpR;
-	Thu, 09 Jan 2025 12:05:43 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
-	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tVrID-0000000BnjZ-0Lie
-	for linux-snps-arc@lists.infradead.org;
-	Thu, 09 Jan 2025 12:05:42 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1736424340;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KxvKKIzlzclPZzGZDamCIT9TdR6k/Feb4jp3cOGYzmU=;
-	b=IxTpv9vYgqNOzSJenh/7KpqTBHi8/SdXNKa5Y8HpwB9QDzZpOnmex4mcV2ANnt5Q3IBW01
-	o7Zw1V1d27HldvElsqBeF3LzcrdKdWSw6+F7Zh1I9CYJ9lJ/SmhcHjQLNwFofto8rqyGQD
-	GWJvYf6RDtWBV1nAFzDgFLicX0HWb2Q=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-588-SzhSxQMxPJGF5wclok4rgw-1; Thu,
- 09 Jan 2025 07:05:35 -0500
-X-MC-Unique: SzhSxQMxPJGF5wclok4rgw-1
-X-Mimecast-MFC-AGG-ID: SzhSxQMxPJGF5wclok4rgw
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7D06D1955DD1;
-	Thu,  9 Jan 2025 12:05:29 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.225.245])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id ACCCA19560AA;
-	Thu,  9 Jan 2025 12:05:19 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Thu,  9 Jan 2025 13:05:04 +0100 (CET)
-Date: Thu, 9 Jan 2025 13:04:53 +0100
-From: Oleg Nesterov <oleg@redhat.com>
-To: "Dmitry V. Levin" <ldv@strace.io>
+	id 1tVrPA-0000000Bodg-0LxO;
+	Thu, 09 Jan 2025 12:12:52 +0000
+Received: from vmicros1.altlinux.org ([194.107.17.57])
+	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
+	id 1tVrNT-0000000BoNg-3sso;
+	Thu, 09 Jan 2025 12:11:10 +0000
+Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
+	by vmicros1.altlinux.org (Postfix) with ESMTP id D569472C8F5;
+	Thu,  9 Jan 2025 15:11:02 +0300 (MSK)
+Received: by mua.local.altlinux.org (Postfix, from userid 508)
+	id C39FF7CCB3A; Thu,  9 Jan 2025 14:11:02 +0200 (IST)
+Date: Thu, 9 Jan 2025 14:11:02 +0200
+From: "Dmitry V. Levin" <ldv@strace.io>
+To: Oleg Nesterov <oleg@redhat.com>
 Cc: Eugene Syromyatnikov <evgsyr@gmail.com>,
 	Mike Frysinger <vapier@gentoo.org>,
 	Renzo Davoli <renzo@cs.unibo.it>,
@@ -76,17 +53,16 @@ Cc: Eugene Syromyatnikov <evgsyr@gmail.com>,
 	linux-parisc@vger.kernel.org
 Subject: Re: [PATCH 2/6] syscall.h: add syscall_set_arguments() on remaining
  HAVE_ARCH_TRACEHOOK arches
-Message-ID: <20250109120453.GC26424@redhat.com>
+Message-ID: <20250109121102.GA16212@strace.io>
 References: <20250107230153.GA30560@strace.io>
  <20250107230418.GB30633@strace.io>
+ <20250109120453.GC26424@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20250107230418.GB30633@strace.io>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
+In-Reply-To: <20250109120453.GC26424@redhat.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250109_040541_184226_FE339271 
-X-CRM114-Status: UNSURE (   6.90  )
+X-CRM114-CacheID: sfid-20250109_041108_149534_F4356CCC 
+X-CRM114-Status: UNSURE (   7.59  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -104,21 +80,27 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 01/08, Dmitry V. Levin wrote:
->
->  arch/arc/include/asm/syscall.h       | 14 +++++++++
->  arch/arm/include/asm/syscall.h       | 13 ++++++++
->  arch/arm64/include/asm/syscall.h     | 13 ++++++++
->  arch/csky/include/asm/syscall.h      | 13 ++++++++
->  arch/hexagon/include/asm/syscall.h   |  7 +++++
->  arch/loongarch/include/asm/syscall.h |  8 +++++
->  arch/mips/include/asm/syscall.h      | 46 ++++++++++++++++++++++++++++
->  arch/parisc/include/asm/syscall.h    | 12 ++++++++
+On Thu, Jan 09, 2025 at 01:04:53PM +0100, Oleg Nesterov wrote:
+> On 01/08, Dmitry V. Levin wrote:
+> >
+> >  arch/arc/include/asm/syscall.h       | 14 +++++++++
+> >  arch/arm/include/asm/syscall.h       | 13 ++++++++
+> >  arch/arm64/include/asm/syscall.h     | 13 ++++++++
+> >  arch/csky/include/asm/syscall.h      | 13 ++++++++
+> >  arch/hexagon/include/asm/syscall.h   |  7 +++++
+> >  arch/loongarch/include/asm/syscall.h |  8 +++++
+> >  arch/mips/include/asm/syscall.h      | 46 ++++++++++++++++++++++++++++
+> >  arch/parisc/include/asm/syscall.h    | 12 ++++++++
+> 
+> Confused... arch/x86 needs syscall_set_arguments() too ?
 
-Confused... arch/x86 needs syscall_set_arguments() too ?
+Sure, all HAVE_ARCH_TRACEHOOK architectures need them, but most of these
+architectures already provide them since the previous patch in the series:
+[PATCH 1/6] Revert "arch: remove unused function syscall_set_arguments()"
 
-Oleg.
 
+-- 
+ldv
 
 _______________________________________________
 linux-snps-arc mailing list
