@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54FE3E7719E
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CD8CFE77188
 	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Jan 2025 19:52:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
@@ -13,77 +13,76 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	References:Mime-Version:In-Reply-To:Date:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=/6wxFX7G5b25WkgwVfNID9uWaUOh7Rt7lMO4moPZgzs=; b=NpW+xkYAAqKIpkqDUCncOvyqDh
-	DSSegfAXj+K+2aJT5DJ+LKXd0Iy5/xP/44eZZzkEUuUwoQEjULU5zzDbGHF4PqqKz1OoAHOKFQCvV
-	bQKHJEa16n5+/qQTcGGI4Tw9OroLz67n4D0fH3+a/rqINNH9z2k8BLQfan7TRn6gIYqSiLgiRkWgV
-	okr9kl2R3pj/kJbokRiX4yusVg0UwOLfPoiXkgcGNtZrvtefmo/tNTbLDtDekV2j4GB7zcS+tRhSV
-	xRWmP7/BVFl67nIgzlHd6gSvMgchUowX6wnzfqKrSPPj056iZyXr7XBqzn3mXNo/C3X5Z7duHuO8r
-	I+VujLEw==;
+	bh=YujbDl17s+ohEE5ouoN+jA6l1l4f0e8fsK5YRA+GUNc=; b=B/E8iooUHd43M2FWYBHA3E0KDv
+	BO4v9Eab3VmVyTxBr7WhYwEXFSBRyDtH+xeN46FXHsxT7qPKtyaz13ryicxj452Uht852u7/tfh3q
+	1/nMw9WcWPfwD/9lo2LuJc9eSyUT7MjYkgqoCBp/5TfYN2MRJAagD2wXu8gwbIcQxHTKJNR8k8T+L
+	op86nAykEYvUlR+qLrQ517AfPJ2WWcPqDc/U/oz11F03Pje27PIAPlaJZUTQDhzOnloOPz4Ys5Ea2
+	68Hm8EVwvuLNXaEUxeJ6V2GwEUC0KT8OuOeYhaR/Byi4rZ/PYBTnYGkrBXrOH6HqMvP016vkQ2DCl
+	2nPRrJ0A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tWL3s-0000000Goh7-0OKh;
+	id 1tWL3s-0000000Gohx-2VDJ;
 	Fri, 10 Jan 2025 19:52:52 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tWJwT-0000000GbPJ-3X7t
+	id 1tWJwW-0000000GbRT-0eDm
 	for linux-snps-arc@bombadil.infradead.org;
-	Fri, 10 Jan 2025 18:41:09 +0000
+	Fri, 10 Jan 2025 18:41:12 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Type:Cc:To:From:Subject:
+	d=infradead.org; s=casper.20170209; h=Content-Type:Cc:To:From:Subject:
 	Message-ID:References:Mime-Version:In-Reply-To:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=NdZ1cQRVb5G6t/AzbRzOJmiK1PmEXn2j4H5pJNPFFDE=; b=e0pCAiubKz45dKSDEo8kl6ig/G
-	IyZPBwVlQCaAycCTdiflZNT/u4rU/UuGyOaSbgQdBKWnr/8t3GSzAcyL2CxnGzvfzZG5aN+jvY5NQ
-	vqTK/yHm3YCb2aCWd2XfBiiV0yKCOxZRURx9ULMK829tfVud+/Wp3djMzsEap8iPj6n2TPYA4zsyz
-	XrcqaHxN/LR/ignAs3wgdJ6n8WcJ+MOdGmnhojbJZXt4M+gamBFIqnIplJpr438t/2SR9/YFYAt43
-	P7oOav8QTS6pPJNoVP9g7xxHwtIjKCmLEiAhuGsRJ7U7Bkouih695ozrw1sUnmieis7RMJGsg/v9+
-	5VCM33+w==;
+	bh=WaFp0TOYaWSuGPhKgfBnenMecO/UsWYRxmgXZ26ETaU=; b=ihB9y3DPVBTVH9wJXl03PtPKt5
+	lVZ1qzVBUKYK6dKXSJBqft4/DYQze2K8MiDAYyt8xmNLMeb4xh83WAWyScrGNsB/x2xs78uOvSHxa
+	3Jvo/Gw86agqLZZPnVHfGNN5J00GnbhL6JL+Fgsuj9K5+gvxAy0TMj0jXNSeF27TsC6Tb/EYsExHE
+	53B2+dmaEop+iBJZB4xUtzq1FGp1INz/SeyUz1K/VbZ1k3wYUlk5FaK6vylUoityUQuWAGUJefEkm
+	hcM8N21Dvg1YfjscPk/SuBieS0OC89SnyZ3cerdGWZEu47Xv+3WTMIiAyGT1REMcGwpkWK1Tpdygi
+	v3B7DKiA==;
 Received: from mail-wm1-x34a.google.com ([2a00:1450:4864:20::34a])
-	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tWJwP-00000009sOW-1FTN
+	by casper.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tWJwR-0000000EBH5-2dGK
 	for linux-snps-arc@lists.infradead.org;
-	Fri, 10 Jan 2025 18:41:08 +0000
-Received: by mail-wm1-x34a.google.com with SMTP id 5b1f17b1804b1-4362b9c1641so11437785e9.3
-        for <linux-snps-arc@lists.infradead.org>; Fri, 10 Jan 2025 10:41:05 -0800 (PST)
+	Fri, 10 Jan 2025 18:41:11 +0000
+Received: by mail-wm1-x34a.google.com with SMTP id 5b1f17b1804b1-436289a570eso19446275e9.0
+        for <linux-snps-arc@lists.infradead.org>; Fri, 10 Jan 2025 10:41:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736534464; x=1737139264; darn=lists.infradead.org;
+        d=google.com; s=20230601; t=1736534466; x=1737139266; darn=lists.infradead.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NdZ1cQRVb5G6t/AzbRzOJmiK1PmEXn2j4H5pJNPFFDE=;
-        b=CJa5CHVoG9yWsZBCnnBg0j9DoM3daJVSXSYRzTYOePTn81FrIGdKoJ6J72urks7mJr
-         LnUnI8whUQnfeA6FxKnSojy4s8jBpDyT4s9uuBMuoTRTjxo5nbh2FzHOnmywLoXXgjHV
-         TGIRRA1DI/D9TAyPmym2BU6HQPgB8Hg54hiTx8DRf6pFk6k1y6jxIyMGh6ioAAmnZRA5
-         eOLKF7FV/+HcJIqeGAyAVKch684Xp6Jy/M7smH2fdeW0aEFK708o4Ano4e2fUxSEoHGC
-         s2XElWf8OXVGWZSb9D8PaQn/3kHupp0Hi2DKyHcK9icjmZ4L0t+B6pbWv/lI0jbz6WxV
-         hItA==
+        bh=WaFp0TOYaWSuGPhKgfBnenMecO/UsWYRxmgXZ26ETaU=;
+        b=VEAQxMPFpxhBEZTqoqlDOf6y8oieYRZ6DfiXEI/4X1AVjiUAscjWIriFM6s9e9EAZJ
+         V2OlwEFmOkm9vR0ss42jzqCI0wRVWeN1dDZ7gOJ9sNnHrnRp8+XJ7NFNn5Hw3dZ4XhHh
+         Z/UCxx/f3hnRw47al8rIdqbZC5P49kpCFEjB8jOJLOvQ47+ErdoEknTdkw9QvjNh2Cc5
+         46pQo7DMl43auDI5yWQpNdtLVG4DCzvyeNzfxdYNZkuU2HBLF+Tu04fujWxk1N+StBNF
+         kK4cdATEnHfCGX8mUWSV0Ezd12eS7QZ81nVYZLx+PY+Da4SzMU5FfcuK55O8qwrDZv5G
+         2AyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736534464; x=1737139264;
+        d=1e100.net; s=20230601; t=1736534466; x=1737139266;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NdZ1cQRVb5G6t/AzbRzOJmiK1PmEXn2j4H5pJNPFFDE=;
-        b=KOM329Uwk56JmrKYbkMcq/qhlpgqgJrJLAcqx/wmJ/NSR1K8TPqlOM+BvSUdkrgcvp
-         ScvaDmGGcK2okTwSCNfrjVCK4lZy6/VfKkx8N3DbvjZw3TV083frt6ksWYuOY3adZNFp
-         St60xVnG787VkZZaFmDvI4Ar32eBC/+5QFpUYefbMIzBwzP4FuuDcTyDBVznYgDO7yPU
-         Hb4MRlUy552XnJXsD/UBGLGMKeWhRLUrH/5W0TkVA+FmfBeLPfy5BiFfAyIoVy3IPf86
-         a8DvyghT42/vsXkiqYz0YV5Bb2DvAqNrAw6H7BudwvRylaE280hMsJbvnH3PbDBNj4aH
-         kyHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWW/AJkmYwHEQ27HWYtV2lcOhlBL6Quzce9HOhX6B1/kobhSygiEhh5h862Xi1oAUEcXvBM5D5HrThFJ1OzIg==@lists.infradead.org
-X-Gm-Message-State: AOJu0YzPQ7KD0ywwbAsZk37kO6buPwRKKci5G+4Jk3V08sAVNL4Xj2M1
-	CM/7SEq/co2WykOpzwHu+ON8cwUgeBuwO2zTilmSeA2E8QaVIdkfq73Lnpr/zfCtI0DVIzrTGVm
-	ugT8lawh0dw==
-X-Google-Smtp-Source: AGHT+IHOqPqFuZt9UmOoUeA2JDIFLsGLn/JF5TCYjoXI0XK4RQVEWWzyMiwW2MB3CIHY3dySJS8wD0E+4CgsAA==
-X-Received: from wmgg11.prod.google.com ([2002:a05:600d:b:b0:434:ff52:1c7])
+        bh=WaFp0TOYaWSuGPhKgfBnenMecO/UsWYRxmgXZ26ETaU=;
+        b=Z1m616NmO71N//gDwWCn4UlLZGAuul2jZh0rfLY46MT1BA3T6Ze9wTqJtlhjqA2gLU
+         e7dRFhmlRX44OwMLglxBmxAQZwjl6ECdv5WOnxD7h9vAFCaS96yXiDhnMJZQekgdV7PT
+         UhBLhcpv58dLF4H1vkI0fQ56bzs2gJkF5Nl2EGVU/Qoi9dUNpCNn6ooIa7wA15qfcX4b
+         1kP0pdYrXPJwwipjCU3YIXpXWjlj3g+IBYHiC9ZVKttyoB7guNW7G6KXe7ItVJnaxPKz
+         4myMWpr2vZ4NPX+7hnbxm9es9YuCzguq5772B9UKBsAURqckpN6XQDP3UC4C9coJkIH2
+         hiOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUrMKJrtXEhjhiTgGkcmTMdHZy0ZqnLHd9wd7PetHqNXNse6nUb4h9Vgm5rqRRNe0JiLjK3luricuM0kTgI4w==@lists.infradead.org
+X-Gm-Message-State: AOJu0YzElUHrvFjO5WeAHmejm1UkbIQEkjP/5YJF+McS0+PZY2swXRzj
+	H+8efbxYjAoVEEsZvnmHOqjBWdGxatNroAZ7mB6xYQXDveAXvXjyN5oj72Ni1KpsKMnLzq5etZ3
+	Pol66Kt+vKA==
+X-Google-Smtp-Source: AGHT+IEE4az+Oz6XpM1h3immNPii0BZQy1AjHZ6Oe5B/in2qx8QsaCvn5PLTDmCUbo/W1PshFIv+Soo2Sqz9XA==
+X-Received: from wmrn35.prod.google.com ([2002:a05:600c:5023:b0:434:f2eb:aa72])
  (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:4ed3:b0:434:f7e3:bfbd with SMTP id 5b1f17b1804b1-436e26dda8cmr98320145e9.23.1736534463780;
- Fri, 10 Jan 2025 10:41:03 -0800 (PST)
-Date: Fri, 10 Jan 2025 18:40:34 +0000
+ 2002:a05:600c:3ca4:b0:434:a26c:8291 with SMTP id 5b1f17b1804b1-436e26e203emr101768035e9.24.1736534465947;
+ Fri, 10 Jan 2025 10:41:05 -0800 (PST)
+Date: Fri, 10 Jan 2025 18:40:35 +0000
 In-Reply-To: <20250110-asi-rfc-v2-v2-0-8419288bc805@google.com>
 Mime-Version: 1.0
 References: <20250110-asi-rfc-v2-v2-0-8419288bc805@google.com>
 X-Mailer: b4 0.15-dev
-Message-ID: <20250110-asi-rfc-v2-v2-8-8419288bc805@google.com>
-Subject: [PATCH RFC v2 08/29] mm: asi: Avoid warning from NMI userspace
- accesses in ASI context
+Message-ID: <20250110-asi-rfc-v2-v2-9-8419288bc805@google.com>
+Subject: [PATCH RFC v2 09/29] mm: asi: ASI page table allocation functions
 From: Brendan Jackman <jackmanb@google.com>
 To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
 	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, 
@@ -134,11 +133,10 @@ Cc: x86@kernel.org, linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
 	linux-um@lists.infradead.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, 
 	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
 	kvm@vger.kernel.org, linux-efi@vger.kernel.org, 
-	Brendan Jackman <jackmanb@google.com>, Junaid Shahid <junaids@google.com>, 
-	Yosry Ahmed <yosryahmed@google.com>
+	Brendan Jackman <jackmanb@google.com>, Junaid Shahid <junaids@google.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250110_184106_261041_FE88FBAE 
-X-CRM114-Status: GOOD (  18.82  )
+X-CRM114-CacheID: sfid-20250110_184107_706099_D981EAC7 
+X-CRM114-Status: GOOD (  17.22  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -155,69 +153,96 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-nmi_uaccess_okay() emits a warning if current CR3 != mm->pgd.
-Limit the warning to only when ASI is not active.
+From: Junaid Shahid <junaids@google.com>
 
-Co-developed-by: Junaid Shahid <junaids@google.com>
+This adds custom allocation and free functions for ASI page tables.
+
+The alloc functions support allocating memory using different GFP
+reclaim flags, in order to be able to support non-sensitive allocations
+from both standard and atomic contexts. They also install the page
+tables locklessly, which makes it slightly simpler to handle
+non-sensitive allocations from interrupts/exceptions.
+
+checkpatch.pl MACRO_ARG_UNUSED,SPACING is false positive. COMPLEX_MACRO - I
+dunno, suggestions welcome.
+
+Checkpatch-args: --ignore=MACRO_ARG_UNUSED,SPACING,COMPLEX_MACRO
 Signed-off-by: Junaid Shahid <junaids@google.com>
-Co-developed-by: Yosry Ahmed <yosryahmed@google.com>
-Signed-off-by: Yosry Ahmed <yosryahmed@google.com>
 Signed-off-by: Brendan Jackman <jackmanb@google.com>
 ---
- arch/x86/mm/tlb.c | 26 +++++++++++++++++++++-----
- 1 file changed, 21 insertions(+), 5 deletions(-)
+ arch/x86/mm/asi.c | 59 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
 
-diff --git a/arch/x86/mm/tlb.c b/arch/x86/mm/tlb.c
-index b2a13fdab0c6454c1d9d4e3338801f3402da4191..c41e083c5b5281684be79ad0391c1a5fc7b0c493 100644
---- a/arch/x86/mm/tlb.c
-+++ b/arch/x86/mm/tlb.c
-@@ -1340,6 +1340,22 @@ void arch_tlbbatch_flush(struct arch_tlbflush_unmap_batch *batch)
- 	put_cpu();
+diff --git a/arch/x86/mm/asi.c b/arch/x86/mm/asi.c
+index 8d060c633be68b508847e2c1c111761df1da92af..b15d043acedc9f459f17e86564a15061650afc3a 100644
+--- a/arch/x86/mm/asi.c
++++ b/arch/x86/mm/asi.c
+@@ -73,6 +73,65 @@ const char *asi_class_name(enum asi_class_id class_id)
+ 	return asi_class_names[class_id];
  }
  
-+static inline bool cr3_matches_current_mm(void)
-+{
-+	struct asi *asi = asi_get_current();
-+	pgd_t *pgd_asi = asi_pgd(asi);
-+	pgd_t *pgd_cr3;
++#ifndef mm_inc_nr_p4ds
++#define mm_inc_nr_p4ds(mm)	do {} while (false)
++#endif
 +
-+	/*
-+	 * Prevent read_cr3_pa -> [NMI, asi_exit] -> asi_get_current,
-+	 * otherwise we might find CR3 pointing to the ASI PGD but not
-+	 * find a current ASI domain.
-+	 */
-+	barrier();
-+	pgd_cr3 = __va(read_cr3_pa());
-+	return pgd_cr3 == current->mm->pgd || pgd_cr3 == pgd_asi;
++#ifndef mm_dec_nr_p4ds
++#define mm_dec_nr_p4ds(mm)	do {} while (false)
++#endif
++
++#define pte_offset		pte_offset_kernel
++
++/*
++ * asi_p4d_alloc, asi_pud_alloc, asi_pmd_alloc, asi_pte_alloc.
++ *
++ * These are like the normal xxx_alloc functions, but:
++ *
++ *  - They use atomic operations instead of taking a spinlock; this allows them
++ *    to be used from interrupts. This is necessary because we use the page
++ *    allocator from interrupts and the page allocator ultimately calls this
++ *    code.
++ *  - They support customizing the allocation flags.
++ *
++ * On the other hand, they do not use the normal page allocation infrastructure,
++ * that means that PTE pages do not have the PageTable type nor the PagePgtable
++ * flag and we don't increment the meminfo stat (NR_PAGETABLE) as they do.
++ */
++static_assert(!IS_ENABLED(CONFIG_PARAVIRT));
++#define DEFINE_ASI_PGTBL_ALLOC(base, level)				\
++__maybe_unused								\
++static level##_t * asi_##level##_alloc(struct asi *asi,			\
++				       base##_t *base, ulong addr,	\
++				       gfp_t flags)			\
++{									\
++	if (unlikely(base##_none(*base))) {				\
++		ulong pgtbl = get_zeroed_page(flags);			\
++		phys_addr_t pgtbl_pa;					\
++									\
++		if (!pgtbl)						\
++			return NULL;					\
++									\
++		pgtbl_pa = __pa(pgtbl);					\
++									\
++		if (cmpxchg((ulong *)base, 0,				\
++			    pgtbl_pa | _PAGE_TABLE) != 0) {		\
++			free_page(pgtbl);				\
++			goto out;					\
++		}							\
++									\
++		mm_inc_nr_##level##s(asi->mm);				\
++	}								\
++out:									\
++	VM_BUG_ON(base##_leaf(*base));					\
++	return level##_offset(base, addr);				\
 +}
 +
- /*
-  * Blindly accessing user memory from NMI context can be dangerous
-  * if we're in the middle of switching the current user task or
-@@ -1355,10 +1371,10 @@ bool nmi_uaccess_okay(void)
- 	VM_WARN_ON_ONCE(!loaded_mm);
- 
- 	/*
--	 * The condition we want to check is
--	 * current_mm->pgd == __va(read_cr3_pa()).  This may be slow, though,
--	 * if we're running in a VM with shadow paging, and nmi_uaccess_okay()
--	 * is supposed to be reasonably fast.
-+	 * The condition we want to check that CR3 points to either
-+	 * current_mm->pgd or an appropriate ASI PGD. Reading CR3 may be slow,
-+	 * though, if we're running in a VM with shadow paging, and
-+	 * nmi_uaccess_okay() is supposed to be reasonably fast.
- 	 *
- 	 * Instead, we check the almost equivalent but somewhat conservative
- 	 * condition below, and we rely on the fact that switch_mm_irqs_off()
-@@ -1367,7 +1383,7 @@ bool nmi_uaccess_okay(void)
- 	if (loaded_mm != current_mm)
- 		return false;
- 
--	VM_WARN_ON_ONCE(current_mm->pgd != __va(read_cr3_pa()));
-+	VM_WARN_ON_ONCE(!cr3_matches_current_mm());
- 
- 	return true;
- }
++DEFINE_ASI_PGTBL_ALLOC(pgd, p4d)
++DEFINE_ASI_PGTBL_ALLOC(p4d, pud)
++DEFINE_ASI_PGTBL_ALLOC(pud, pmd)
++DEFINE_ASI_PGTBL_ALLOC(pmd, pte)
++
+ void __init asi_check_boottime_disable(void)
+ {
+ 	bool enabled = IS_ENABLED(CONFIG_MITIGATION_ADDRESS_SPACE_ISOLATION_DEFAULT_ON);
 
 -- 
 2.47.1.613.gc27f4b7a9f-goog
