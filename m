@@ -4,162 +4,139 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98394E77188
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Jan 2025 07:39:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA554E7719C
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Jan 2025 18:41:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References
-	:In-Reply-To:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=qdZOJ+EbR403xk7+lnz2nxo6pZ3FChbiLb+ICKknX1c=; b=d0ZGjjh3DQELc5
-	2KfurYwbCliBHUfXCxQNDBtQrZd0/Yj6ysfxE/Nkv4bruBfKLZbRvo9ZL1XEND6BtilXNBJfVS8WD
-	nI4qwzRMOuxLvXxVgmcgRDJUIkuTmdYVA/oxKkHW278wTgRHOz+Lrb3RMxC0Sn9L7YtXnI+8eZTYY
-	GRRuzVmF6SIcfsfOBw9qtpBKQPjqh+6/ba3yH4qx+lV7cH6mNoU3EpANltEpMsAouPNfoqsMsEHJz
-	uZyBROUmmf4djnt6zGtIL/ipIcR4MpCpR3yP2000Q4QkuKexd1K8vYjqU7xcO9cLsZ2Fw7P5h5ATK
-	DqpqeeBeOeju4YZb31qg==;
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:From:Subject:Message-ID:
+	References:Mime-Version:In-Reply-To:Date:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=Fwo75Y99Lcrv3TahF3z6LCZ+e5LPeRVJFyHU7eT8AN8=; b=YQ+gq/5LEPg47fye1ImcpUvAo6
+	JJv3j/ACSL1AfsK1wz7KgJI80siDnSxqZUElFLeWAkMqrj24Ci5EIN5lZ9GSFSgg9vDTdJHYEwoul
+	E1ytI2jADlhHch/y+QKwAr40brhfeDZnxKkLNXLi/zVrbiG/CsdnBGUKs+5i2hJTxi+jehSidKW+k
+	7u+9YlUR5q2KpYySD+FQTpNv1TJZsINfIlYDIVir4l3MnRoxYWOdsapwyHXgGG1UGmfNKVweBpF3b
+	a9SYpOm/RB6z9fbT6qUAcYyWdYFLODBT4qSZqcfkFuuCypQIrOGO9L/Zmyag8iZUhWveK4YR2yr8d
+	OG1ynMKA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tW9cD-0000000EOrS-14Cj;
-	Fri, 10 Jan 2025 07:39:33 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1tWJwX-0000000GbTV-2PCQ;
+	Fri, 10 Jan 2025 18:41:14 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tW9ax-0000000EOUy-0YPq;
-	Fri, 10 Jan 2025 07:38:16 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 509Nx3H2001639;
-	Fri, 10 Jan 2025 07:37:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=2WLKmmEPE7uT96J0bnuWzAWEZ+Ks9U
-	e/uzhm9byypE8=; b=oRQpF/U/6grcr4Snq1iRk/I9GYPWsewmz147QsJg3tlJpp
-	Sm/UeyETvgjJAENQaWXaSd8cfqXr/0vuRhl8N3wtL6grgFwp/aIijZOMmhsN47FV
-	f5jNMRsdgk7yT4y+tHRFOoWJtkEWYjhp56XaA02mxcT8qNb30IwNF63MXXQkZAEl
-	UIlk8MTqRCqzy91KOcrwItqlnQdxp2B2h/5xAgUKTct76fC0NSNLcVTVxD2ZYQ7X
-	9rxhSluh+DwsIN5cVsDEsi/dxgg4ADMCRoXyhv5xzciWSwH6XZkvVHoOuULqD2BA
-	tjfE3Xo8v5ux7lwgyBH9IJOGKqLEpFGzYgoJwZfA==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 442rkhsd0u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Jan 2025 07:37:54 +0000 (GMT)
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 50A7YWLB014523;
-	Fri, 10 Jan 2025 07:37:53 GMT
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 442rkhsd0p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Jan 2025 07:37:53 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50A5a76b015805;
-	Fri, 10 Jan 2025 07:37:51 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 43ygtm930f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Jan 2025 07:37:51 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50A7bmZl54264154
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 10 Jan 2025 07:37:48 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DCF1520049;
-	Fri, 10 Jan 2025 07:37:47 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2113920040;
-	Fri, 10 Jan 2025 07:37:47 +0000 (GMT)
-Received: from tuxmaker.linux.ibm.com (unknown [9.152.85.9])
-	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Fri, 10 Jan 2025 07:37:47 +0000 (GMT)
-From: Sven Schnelle <svens@linux.ibm.com>
-To: "Dmitry V. Levin" <ldv@strace.io>
-Cc: Oleg Nesterov <oleg@redhat.com>, Eugene Syromyatnikov
- <evgsyr@gmail.com>,
-        Mike Frysinger <vapier@gentoo.org>, Renzo Davoli
- <renzo@cs.unibo.it>,
-        Davide Berardi <berardi.dav@gmail.com>, strace-devel@lists.strace.io,
-        Vineet Gupta <vgupta@kernel.org>,
-        Russell
- King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Brian Cain <bcain@quicinc.com>,
-        Huacai
- Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
-        Geert
- Uytterhoeven <geert@linux-m68k.org>,
-        Michal Simek <monstr@monstr.eu>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Dinh Nguyen
- <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>,
-        Stefan
- Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Stafford Horne
- <shorne@gmail.com>,
-        "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin
- <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Naveen N Rao <naveen@kernel.org>,
-        Madhavan Srinivasan
- <maddy@linux.ibm.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer
- Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, Heiko
- Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger
- <borntraeger@linux.ibm.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        John Paul Adrian Glaubitz
- <glaubitz@physik.fu-berlin.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Andreas Larsson <andreas@gaisler.com>,
-        Richard Weinberger
- <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Thomas Gleixner
- <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov
- <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Chris Zankel
- <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>, Arnd Bergmann
- <arnd@arndb.de>,
-        linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org,
-        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-arch@vger.kernel.org
-Subject: Re: [PATCH 3/6] syscall.h: introduce syscall_set_nr()
-In-Reply-To: <20250107230438.GC30633@strace.io> (Dmitry V. Levin's message of
-	"Wed, 8 Jan 2025 01:04:38 +0200")
-References: <20250107230438.GC30633@strace.io>
-Date: Fri, 10 Jan 2025 08:37:46 +0100
-Message-ID: <yt9dzfjz6rw5.fsf@linux.ibm.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: oQL9q4Cm2OlRS0avVKS0GOik26TaXbjd
-X-Proofpoint-GUID: v26jL7-Nw4XZK-M8Nskiprqug0sq7Zhb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 bulkscore=0
- mlxscore=0 suspectscore=0 phishscore=0 impostorscore=0 adultscore=0
- malwarescore=0 priorityscore=1501 mlxlogscore=723 lowpriorityscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501100061
+	id 1tWJwU-0000000GbPk-1YQX
+	for linux-snps-arc@bombadil.infradead.org;
+	Fri, 10 Jan 2025 18:41:11 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Type:Cc:To:From:Subject:
+	Message-ID:References:Mime-Version:In-Reply-To:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=/j+RB8/lAgzqGTtPca+XTmsHyqC3ld9qGwXYbAsCbQ0=; b=Uzg/paeyiFHSouf/QKk8XwHwF3
+	bbgdFYcmr8cLEd1s5VeVef1PCL0fT5ERwSi0PmWMVo2bv1ZAM4c9ObzAL5qJg6Ss1BP2F7mz7szTT
+	PN9JAN3kWYmthyYzC3gY4M6EeduVEEvcyuZz93jz0IV9yiNsQYFIUo6Dr8Df9A5n0/aY8welrwAWw
+	JYPDkwZjT9/OL6xy8JnwUSsTHOaD3ph7AB5RlaUTZtqGJJ6lYibkgEPYCcb0yFWnT4q4itctRn0LX
+	k7dFruk7mmUGhMXSoQA0kwAoZH/kBfwF3zv9p7nVjdiGimBtVN1VnDvQNVGJrJXJbb07rc6EHxJde
+	NHIGUTWw==;
+Received: from mail-wr1-x449.google.com ([2a00:1450:4864:20::449])
+	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tWJwQ-00000009sNX-35O5
+	for linux-snps-arc@lists.infradead.org;
+	Fri, 10 Jan 2025 18:41:09 +0000
+Received: by mail-wr1-x449.google.com with SMTP id ffacd0b85a97d-385d7611ad3so1372640f8f.2
+        for <linux-snps-arc@lists.infradead.org>; Fri, 10 Jan 2025 10:41:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1736534462; x=1737139262; darn=lists.infradead.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/j+RB8/lAgzqGTtPca+XTmsHyqC3ld9qGwXYbAsCbQ0=;
+        b=bs/6TkwdSdvhkOXOrFUPjxi46IU/OI1oRkXNPg5zhsh4RwOQBAYfN1/6hCyNhDiB72
+         xbDjKd2XyxJiVAGoUMRGVuanB1PwvRFmySlOetd4eMV2z7R5+Vou0UkGMTJsReGLheWr
+         zSbV7pVqGm2OCQiXiehTrDBiYYKYmsIJoqV2XhpCuSLxo1c42k8ivisdy4ft0zqFAuZP
+         auE3Fih8B9ryEqNnmETEvIXZL1ARumah2DJiiFAOSWFwri39iL/1FrQEjJuNaAf22E/Z
+         Ahkjf3TfFXBW9Zea/kE7ioS1R3MpeuNrsZhERRohkEMUcXS4+9CbGlJ9R/JgpfqQPpYk
+         1bPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736534462; x=1737139262;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/j+RB8/lAgzqGTtPca+XTmsHyqC3ld9qGwXYbAsCbQ0=;
+        b=ieweHQqWLS/eZUCqiNajRAhQ0bt8gs4hFGg6EjndhZIqe/XvsiGRIx6MXUB6S8LcAB
+         mCaxGy6LBBgG5bb4JGaVXLV4LvxdJFbo9BQUSiG2F85g8aZLTIovGfPK0xbTWJDzUqKY
+         qXJDDfvHoR80O/hZ5JRWWuNbQQHTCVZzKnlwgByOwpq58oOphm+R3DfxeMQYUTEPmMI+
+         aO0gl/0NTNkLHB/RS6ElfjPuVL49n8Inmkyot1tn3yNCxjoac6YizBXqzNK7gLh52ndq
+         D+1ySdRH3xloEJzvJnWD+fUXBjZXYYp/Xt0cwpTD2jeumubJdEh8lUKTDxJNcP9wGp0g
+         4cxw==
+X-Forwarded-Encrypted: i=1; AJvYcCXI0MLlj+8a4Ft8nYPua1wrBY6B9IJWU/42niLrXOhwH/4TJlXI93tCN2Kn5lKFk5Egtqxp56rl/EIAnMhGbQ==@lists.infradead.org
+X-Gm-Message-State: AOJu0YyC5W6fED+AaxrXOLOXkPf2UiNv6QW26dISWbNJ6xWj3sXCf1S1
+	yqntjN6c2ZDz/S67uaE292zR+puBuX3H9RWH6gX5dFEY4DfLycg5d00ycuTj0V3xGvlxKV3MRzO
+	Y/fMRAJ4r4A==
+X-Google-Smtp-Source: AGHT+IEaBJ4kVsH9fdlEpqyA1vEXALZVlXyRkre6Nr4itvNL2JHwYHaMyiaIiF1xr8efeWfazalHNzAFq1Ad7A==
+X-Received: from wrbfi1.prod.google.com ([2002:a05:6000:4401:b0:386:333e:ad16])
+ (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6000:470d:b0:385:dedb:a156 with SMTP id ffacd0b85a97d-38a872cfdffmr10312148f8f.6.1736534461506;
+ Fri, 10 Jan 2025 10:41:01 -0800 (PST)
+Date: Fri, 10 Jan 2025 18:40:33 +0000
+In-Reply-To: <20250110-asi-rfc-v2-v2-0-8419288bc805@google.com>
+Mime-Version: 1.0
+References: <20250110-asi-rfc-v2-v2-0-8419288bc805@google.com>
+X-Mailer: b4 0.15-dev
+Message-ID: <20250110-asi-rfc-v2-v2-7-8419288bc805@google.com>
+Subject: [PATCH RFC v2 07/29] mm: asi: Make __get_current_cr3_fast() ASI-aware
+From: Brendan Jackman <jackmanb@google.com>
+To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, 
+	Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Richard Henderson <richard.henderson@linaro.org>, Matt Turner <mattst88@gmail.com>, 
+	Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>, 
+	Brian Cain <bcain@quicinc.com>, Huacai Chen <chenhuacai@kernel.org>, 
+	WANG Xuerui <kernel@xen0n.name>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Michal Simek <monstr@monstr.eu>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Dinh Nguyen <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>, 
+	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, Stafford Horne <shorne@gmail.com>, 
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
+	Sven Schnelle <svens@linux.ibm.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
+	Rich Felker <dalias@libc.org>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
+	Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, Chris Zankel <chris@zankel.net>, 
+	Max Filippov <jcmvbkbc@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Andrew Morton <akpm@linux-foundation.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, Uladzislau Rezki <urezki@gmail.com>, 
+	Christoph Hellwig <hch@infradead.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Mike Rapoport <rppt@kernel.org>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>, 
+	Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Ard Biesheuvel <ardb@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc: x86@kernel.org, linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
+	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, 
+	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org, 
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
+	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, 
+	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	kvm@vger.kernel.org, linux-efi@vger.kernel.org, 
+	Brendan Jackman <jackmanb@google.com>, Junaid Shahid <junaids@google.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250109_233815_195244_2B215CF1 
-X-CRM114-Status: GOOD (  21.23  )
+X-CRM114-CacheID: sfid-20250110_184106_880799_AB6B693B 
+X-CRM114-Status: GOOD (  19.24  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -176,67 +153,94 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-"Dmitry V. Levin" <ldv@strace.io> writes:
+From: Junaid Shahid <junaids@google.com>
 
-> Similar to syscall_set_arguments() that complements
-> syscall_get_arguments(), introduce syscall_set_nr()
-> that complements syscall_get_nr().
->
-> syscall_set_nr() is going to be needed along with
-> syscall_set_arguments() on all HAVE_ARCH_TRACEHOOK
-> architectures to implement PTRACE_SET_SYSCALL_INFO API.
->
-> Signed-off-by: Dmitry V. Levin <ldv@strace.io>
-> ---
->  arch/arc/include/asm/syscall.h        |  6 ++++++
->  arch/arm/include/asm/syscall.h        | 12 ++++++++++++
->  arch/arm64/include/asm/syscall.h      |  7 +++++++
->  arch/hexagon/include/asm/syscall.h    |  7 +++++++
->  arch/loongarch/include/asm/syscall.h  |  7 +++++++
->  arch/m68k/include/asm/syscall.h       |  7 +++++++
->  arch/microblaze/include/asm/syscall.h |  7 +++++++
->  arch/mips/include/asm/syscall.h       |  7 +++++++
->  arch/nios2/include/asm/syscall.h      |  5 +++++
->  arch/openrisc/include/asm/syscall.h   |  6 ++++++
->  arch/parisc/include/asm/syscall.h     |  7 +++++++
->  arch/powerpc/include/asm/syscall.h    |  5 +++++
->  arch/riscv/include/asm/syscall.h      |  7 +++++++
->  arch/s390/include/asm/syscall.h       |  7 +++++++
->  arch/sh/include/asm/syscall_32.h      |  7 +++++++
->  arch/sparc/include/asm/syscall.h      |  7 +++++++
->  arch/um/include/asm/syscall-generic.h |  5 +++++
->  arch/x86/include/asm/syscall.h        |  7 +++++++
->  arch/xtensa/include/asm/syscall.h     |  7 +++++++
->  include/asm-generic/syscall.h         | 14 ++++++++++++++
->  20 files changed, 144 insertions(+)
->
-> diff --git a/arch/s390/include/asm/syscall.h b/arch/s390/include/asm/syscall.h
-> index b3dd883699e7..1c0e349fd5c9 100644
-> --- a/arch/s390/include/asm/syscall.h
-> +++ b/arch/s390/include/asm/syscall.h
-> @@ -24,6 +24,13 @@ static inline long syscall_get_nr(struct task_struct *task,
->  		(regs->int_code & 0xffff) : -1;
->  }
->  
-> +static inline void syscall_set_nr(struct task_struct *task,
-> +				  struct pt_regs *regs,
-> +				  int nr)
-> +{
+When ASI is active, __get_current_cr3_fast() adjusts the returned CR3
+value accordingly to reflect the actual ASI CR3.
 
-I think there should be a
+Signed-off-by: Junaid Shahid <junaids@google.com>
+Signed-off-by: Brendan Jackman <jackmanb@google.com>
+---
+ arch/x86/mm/tlb.c | 37 +++++++++++++++++++++++++++++++------
+ 1 file changed, 31 insertions(+), 6 deletions(-)
 
-	if (!test_pt_regs_flags(regs, PIF_SYSCALL))
-		return;
+diff --git a/arch/x86/mm/tlb.c b/arch/x86/mm/tlb.c
+index 2601beed83aef182d88800c09d70e4c5e95e7ed0..b2a13fdab0c6454c1d9d4e3338801f3402da4191 100644
+--- a/arch/x86/mm/tlb.c
++++ b/arch/x86/mm/tlb.c
+@@ -20,6 +20,7 @@
+ #include <asm/cache.h>
+ #include <asm/cacheflush.h>
+ #include <asm/apic.h>
++#include <asm/asi.h>
+ #include <asm/perf_event.h>
+ 
+ #include "mm_internal.h"
+@@ -197,8 +198,8 @@ static inline unsigned long build_cr3_noflush(pgd_t *pgd, u16 asid,
+ 	return build_cr3(pgd, asid, lam) | CR3_NOFLUSH;
+ }
+ 
+-noinstr unsigned long build_cr3_pcid_noinstr(pgd_t *pgd, u16 pcid,
+-					     unsigned long lam, bool noflush)
++static __always_inline unsigned long build_cr3_pcid(pgd_t *pgd, u16 pcid,
++						    unsigned long lam, bool noflush)
+ {
+ 	u64 noflush_bit = 0;
+ 
+@@ -210,6 +211,12 @@ noinstr unsigned long build_cr3_pcid_noinstr(pgd_t *pgd, u16 pcid,
+ 	return __build_cr3(pgd, pcid, lam) | noflush_bit;
+ }
+ 
++noinstr unsigned long build_cr3_pcid_noinstr(pgd_t *pgd, u16 pcid,
++					     unsigned long lam, bool noflush)
++{
++	return build_cr3_pcid(pgd, pcid, lam, noflush);
++}
++
+ /*
+  * We get here when we do something requiring a TLB invalidation
+  * but could not go invalidate all of the contexts.  We do the
+@@ -1133,14 +1140,32 @@ void flush_tlb_kernel_range(unsigned long start, unsigned long end)
+  */
+ noinstr unsigned long __get_current_cr3_fast(void)
+ {
+-	unsigned long cr3 =
+-		build_cr3(this_cpu_read(cpu_tlbstate.loaded_mm)->pgd,
+-			  this_cpu_read(cpu_tlbstate.loaded_mm_asid),
+-			  tlbstate_lam_cr3_mask());
++	unsigned long cr3;
++	pgd_t *pgd;
++	u16 asid = this_cpu_read(cpu_tlbstate.loaded_mm_asid);
++	struct asi *asi = asi_get_current();
++	u16 pcid;
++
++	if (asi) {
++		pgd = asi_pgd(asi);
++		pcid = asi_pcid(asi, asid);
++	} else {
++		pgd = this_cpu_read(cpu_tlbstate.loaded_mm)->pgd;
++		pcid = kern_pcid(asid);
++	}
++
++	cr3 = build_cr3_pcid(pgd, pcid, tlbstate_lam_cr3_mask(), false);
+ 
+ 	/* For now, be very restrictive about when this can be called. */
+ 	VM_WARN_ON(in_nmi() || preemptible());
+ 
++	/*
++	 * Outside of the ASI critical section, an ASI-restricted CR3 is
++	 * unstable because an interrupt (including an inner interrupt, if we're
++	 * already in one) could cause a persistent asi_exit.
++	 */
++	VM_WARN_ON_ONCE(asi && asi_in_critical_section());
++
+ 	VM_BUG_ON(cr3 != __read_cr3());
+ 	return cr3;
+ }
 
-before the modification so a user can't accidentally change int_code
-when ptrace stopped in a non-syscall path.
+-- 
+2.47.1.613.gc27f4b7a9f-goog
 
-> +	regs->int_code = (regs->int_code & ~0xffff) | (nr & 0xffff);
-> +}
-> +
->  static inline void syscall_rollback(struct task_struct *task,
->  				    struct pt_regs *regs)
->  {
 
 _______________________________________________
 linux-snps-arc mailing list
