@@ -4,8 +4,8 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD8C9E7719C
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Jan 2025 19:52:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19774E7719E
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Jan 2025 19:52:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
@@ -13,76 +13,76 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	References:Mime-Version:In-Reply-To:Date:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=sGgUheDHIOArqYv1QMPyX63KRbWC/yXy1gNDjMmR9CM=; b=NV996DET+i/zZFTrLWn3WFOFDI
-	SEus8GyU5lA1Mdi8dRl2UgXQhpE2J/cX4ZMRyDOEA07CJBiAN4hfnP6JJba/3wGSpYrF2q3m0W+5k
-	dKSC8YCd2spJ2YmnrEWhMrHIMnrr2y/09Mz5+SDkJdxdiz+AZtoAePTRTl0reG9rIqIFqALLaN08l
-	Oro2YraWeVn/GmjakqhojUFOrB9sIzrPuMsys/td18k5AqY0w8PFgJ+N7s07rPLCf6KNAGMnQ4M7i
-	Nl8HLmuNg7ClVm4luh3V1n7WsI2XwgvB3RsyIfJYsrOKBt0LAACj3gGcRlXhJma30R+MWfJRVeFmX
-	TVEDme1A==;
+	bh=LTFeN/33F4dHeFzVlwkqeSOzNTJy7JVDYzp9O9UOuTg=; b=K9oQvAcfjbQq/mr/WOdRhUHNML
+	Hj0SAldQoDOzEij2qwlhQcnvWO+ca9G57EElBOITAlLQ35dwRTCtKuqUfLE3b2RfOxBtgoZwt0Y64
+	IbUzF8zGvAGg9Oe2JE3qtdenGIMCrj3z0Ams+tRj+waGrOZWdFp0WztcELdrK5IWprYz7Jdgb6aRH
+	GCmOxIloRkZ3btQ39Yq+Cu5bseCZa5oSq6sfOykLGZHreqcCB0XmVhxtXfinNTGJp7ZChF7RqVOLs
+	oyR2sZogPcBdcBXgoYY2NQhBOgd5YqtIJKepGhdvm7lEeki9GmX7bDKe9iTwXrxzTPOnYKdG875MU
+	mfUrrmwQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tWL3j-0000000GoZp-1xvM;
-	Fri, 10 Jan 2025 19:52:43 +0000
+	id 1tWL3l-0000000Goc0-3dWy;
+	Fri, 10 Jan 2025 19:52:45 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tWJwH-0000000GbCN-3cLu
+	id 1tWJwM-0000000GbGl-1g1d
 	for linux-snps-arc@bombadil.infradead.org;
-	Fri, 10 Jan 2025 18:40:58 +0000
+	Fri, 10 Jan 2025 18:41:03 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Type:Cc:To:From:Subject:
 	Message-ID:References:Mime-Version:In-Reply-To:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=LLeVb0ZgyFkqRQqFmxHZC1txeWSVEDEElINoAb1GRXw=; b=V32c/Hoxvwnq2zYHh3cuNpdook
-	op1DQrbtIpFMrC/LMh9DnmbWY3WnKsn8YwtYSWFgOGvrjZioY5tILbRp7CN9DkDvce47AnP7JrKB/
-	y++isn59gRwrvnI/Vmrv62AqkN4RmhnYhGnDaIwTOtyNKSgikLaRrJQSqDmjzArLef+yH5ixxQ/VU
-	zR+tUtwFBpBdcRVCxPP+0JuPf9xE0XG/mg5kXBwKHb98vs3xkuDTVXhc0ujWJ1DUyPie8n2Va8oPU
-	7RE8+4YXT/6yGra0N+Wmy8TjQ4qN2BjqeFuxJkLk7rxkuRmPFU5HswjcVqoMUhFLIAYBBmuWRodfs
-	M2n8MJ9g==;
+	bh=2/DwiwuishkWohq1Selw9AVX00i6WMTVrJEAuBvDTaE=; b=aq4ftzleEzxBlOmdWdhLRzwYMs
+	kiepR7md764ktW0twHZQ4axGqR5m0b/O6zoKViqLe8FI+NUL4aHe+r2aDzr8ivmpdveNOBvu4zAgc
+	EV9jKzS2ebl4PdoclL/1fWJ7L1yfiSkji0TV+weGd6ATMgodOOPwGK+bcmAVJmbtl3+1KZg7S0KYl
+	bWIb8p08MwCxzsLfcKzEhhpbx158QLnEMyQvveVv5qCbkP71pgxmB1qXO/H4j6kPvO3BdgEB8jsjw
+	ZykJtXagm0/LpGMVpR53eR2CzEAs1Y53+Q1YwzVoHON9u3jE85CUSbT0lUjH53S5zg9GuCIrNyoza
+	q8BOXW+w==;
 Received: from mail-wm1-x349.google.com ([2a00:1450:4864:20::349])
 	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tWJwC-00000009sEu-2VmY
+	id 1tWJwH-00000009sIQ-0h9S
 	for linux-snps-arc@lists.infradead.org;
-	Fri, 10 Jan 2025 18:40:56 +0000
-Received: by mail-wm1-x349.google.com with SMTP id 5b1f17b1804b1-4362b9c15d8so12044625e9.3
-        for <linux-snps-arc@lists.infradead.org>; Fri, 10 Jan 2025 10:40:52 -0800 (PST)
+	Fri, 10 Jan 2025 18:41:01 +0000
+Received: by mail-wm1-x349.google.com with SMTP id 5b1f17b1804b1-436248d1240so11542325e9.0
+        for <linux-snps-arc@lists.infradead.org>; Fri, 10 Jan 2025 10:40:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736534450; x=1737139250; darn=lists.infradead.org;
+        d=google.com; s=20230601; t=1736534455; x=1737139255; darn=lists.infradead.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LLeVb0ZgyFkqRQqFmxHZC1txeWSVEDEElINoAb1GRXw=;
-        b=VzuE1vMALJ/7YjtBOvu71mn5o23XkdQBVxkm/1q64oMXiJV6VdfXD0vcmbWO3Onl2e
-         KuJxBAB9et7Yn8YNQZrMPExRhx/k7sDBl2yvZX/oO06rBG29MtmzfaLeK2HPGYDb2QcZ
-         ioaoBlFG2ISt3QTflx+Hv/mz43hF8/VvPeW+W1x+Oq4B/NjUl/P7J/c78yG35qAUEN0c
-         UK6xO3mlM47SDnb9urGtV0ttqapvfso4GOKr5ENbbR+Tn7l4/qNMmhnPlOZY/qu1G62j
-         qgMMcYx6QJeleGON/ItSXJFTrtisQdgKs72His00OejZHpeVGFydaXGdRk2Fv+laLevu
-         RkGw==
+        bh=2/DwiwuishkWohq1Selw9AVX00i6WMTVrJEAuBvDTaE=;
+        b=qZkOWdWsYTtUGRPAQfXhRfOdq1ptn50xpusVVF1jaEroucu0MBgM4NqPPuhTupBO7b
+         eGF++7hDVfJsIrVJU20dhiUnBf0umQNsRfXkB+zKbu3wNquBgOej7bxMcV6GuqnoDAEJ
+         q3YYTC0DulUGTH+XjOlAuKnHnbkoRj4iu9xhA2bizea3czra0/di6pOFsLd7vd1Ca7fJ
+         bpKwEydMo0mF/nMoSoXmzCoQfR707ZbryVOg8huEOUmp6t5Tt/3nrZ+3cK828HTw8n5j
+         YtAGH5JoNwzf5OfUMvzJzIApoU5IhDra/E5Qd9vs7C+qqSy7cYTYPvs4GOOyPy/+CpaI
+         YPbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736534450; x=1737139250;
+        d=1e100.net; s=20230601; t=1736534455; x=1737139255;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LLeVb0ZgyFkqRQqFmxHZC1txeWSVEDEElINoAb1GRXw=;
-        b=Us/vnPbYwMiiKn7e1W8jl1Mzr1C1d4GvE6M2utezHGPEpQF8oXGVS1H0qMaWMrEY/x
-         PUo3WJTJf40RXT8xOmo8NZlOa3CGl88HzJFv/sy2oOC7ubOzo786WG8oHokQ9x6iVIU9
-         yBHv8xdAtBgQA8emLsKZOvVfz2wboQMHbZLJU/+P+xu5O5YFevpuNVeZrFnoQz7h8Hr4
-         EdRoeKrHzMMZJm4YJcn4rq3fq1c4VST9kgiN0/Poo6ET40SmhY50bXMPJw2hHvKGlYzm
-         pC4yr8M3XOMsY9ibS/4oAFI5SF48Ubxo/4SmelA3OLEgMUHLNFc4CSwTLo3NpU8ZDcUf
-         0qtg==
-X-Forwarded-Encrypted: i=1; AJvYcCVvUu/NygrN5V/wsLtEc6IgHKBGdxi0ShqahRX4N+GRxZCQLqACCFlzULZBg2l8nmkQZMwWJDMH6ExiLaBs7Q==@lists.infradead.org
-X-Gm-Message-State: AOJu0Yx8cwuc9uaCQsN0vEZRx2+R96m4N+EvGXoKplnBT9zTH4oOM8D0
-	KeAl8uC5o6qew4NKLnOVspMydHrQ98uSepP3UmzeIjY+APwV02XoAQ4FfgonE/icmRkqEvEpgYx
-	+KTiVWRj7PQ==
-X-Google-Smtp-Source: AGHT+IEYbvktq49LdsReUEtwVFMZ4u0AErNwMdQm9eBuwPrj68sv++2uU8TAXJvwJwbpoJD68/9N90LfrlOyOw==
-X-Received: from wmbay14.prod.google.com ([2002:a05:600c:1e0e:b0:434:a8d7:e59b])
+        bh=2/DwiwuishkWohq1Selw9AVX00i6WMTVrJEAuBvDTaE=;
+        b=JosdhIZ3of1uk30452nMcoIxUZCSwhoTn24YpQxjhEGfmukfIrEkPB4DzurjB1/SXw
+         hM6Cx06Lu6Wn8PbhrM7nmYROy/YmTT+86UTJaT/iebUOWFGERqKhWr6Ak+MIrpFGR3jK
+         CfjX79aV1tX/fVf0RsDCRAInYW+iNZEXiL8Pe3DW/oemVbbQTCidubSiQA583AcgdEqL
+         2BiO3ZGeOye8s492kbUVek5e5lFbk0ipnLkoY822U6Cwhham6n47L4ddnrFNTSKSaZXr
+         rWZTOXoOwKljx/HUKoGZgIkLwJW7Z18XMP0c0v19y/SkYYSCNKB2S7tr+xGFHgtAIW0p
+         33Tw==
+X-Forwarded-Encrypted: i=1; AJvYcCU0Op79cuXUNw0ANnIsauSJQr4pnnLJ8FAwOG/Tz8l85Ajm1HC2DF66jCFw9UaFDHwo6D5Ye6uuJZ/P+Ey4gg==@lists.infradead.org
+X-Gm-Message-State: AOJu0YxInpa9ML0aqG2EIIYQ1137c242YGbqBDMrWWlx/08j8gqF4YxC
+	Pz7RGg7yr8tMmSiMteCPWPiOe97Dg481umQM6YZphQdzAN9CMjeJpBQ1jdA+fa424uNuVODVPI7
+	DTPJ+/qIV0w==
+X-Google-Smtp-Source: AGHT+IFG2gVbYjLEgd+rVsDr92xsiDXdhg3a2JRtZbNVmnh3EgFoUPLrUSfZq6jOhgEgZFCkNrLAplfHg1IQBQ==
+X-Received: from wmqa17.prod.google.com ([2002:a05:600c:3491:b0:434:fa72:f1bf])
  (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:1d07:b0:434:9934:575 with SMTP id 5b1f17b1804b1-436e26a8f4dmr128290085e9.16.1736534450259;
- Fri, 10 Jan 2025 10:40:50 -0800 (PST)
-Date: Fri, 10 Jan 2025 18:40:28 +0000
+ 2002:a05:600c:1d14:b0:436:5fc9:309d with SMTP id 5b1f17b1804b1-436e26f6d81mr55448175e9.30.1736534454514;
+ Fri, 10 Jan 2025 10:40:54 -0800 (PST)
+Date: Fri, 10 Jan 2025 18:40:30 +0000
 In-Reply-To: <20250110-asi-rfc-v2-v2-0-8419288bc805@google.com>
 Mime-Version: 1.0
 References: <20250110-asi-rfc-v2-v2-0-8419288bc805@google.com>
 X-Mailer: b4 0.15-dev
-Message-ID: <20250110-asi-rfc-v2-v2-2-8419288bc805@google.com>
-Subject: [PATCH RFC v2 02/29] x86: Create CONFIG_MITIGATION_ADDRESS_SPACE_ISOLATION
+Message-ID: <20250110-asi-rfc-v2-v2-4-8419288bc805@google.com>
+Subject: [PATCH RFC v2 04/29] mm: asi: Add infrastructure for boot-time enablement
 From: Brendan Jackman <jackmanb@google.com>
 To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
 	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, 
@@ -133,10 +133,11 @@ Cc: x86@kernel.org, linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
 	linux-um@lists.infradead.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, 
 	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
 	kvm@vger.kernel.org, linux-efi@vger.kernel.org, 
-	Brendan Jackman <jackmanb@google.com>, Junaid Shahid <junaids@google.com>
+	Brendan Jackman <jackmanb@google.com>, Junaid Shahid <junaids@google.com>, 
+	Yosry Ahmed <yosryahmed@google.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250110_184052_749253_6F512DEF 
-X-CRM114-Status: GOOD (  15.91  )
+X-CRM114-CacheID: sfid-20250110_184057_281087_B671AB45 
+X-CRM114-Status: GOOD (  30.89  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -153,264 +154,350 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Currently a nop config. Keeping as a separate commit for easy review of
-the boring bits. Later commits will use and enable this new config.
+Add a boot time parameter to control the newly added X86_FEATURE_ASI.
+"asi=on" or "asi=off" can be used in the kernel command line to enable
+or disable ASI at boot time. If not specified, ASI enablement depends
+on CONFIG_ADDRESS_SPACE_ISOLATION_DEFAULT_ON, which is off by default.
+asi_check_boottime_disable() is modeled after
+pti_check_boottime_disable().
 
-This config is only added for non-UML x86_64 as other architectures do
-not yet have pending implementations. It also has somewhat artificial
-dependencies on !PARAVIRT and !KASAN which are explained in the Kconfig
-file.
+The boot parameter is currently ignored until ASI is fully functional.
 
+Once we have a set of ASI features checked in that we have actually
+tested, we will stop ignoring the flag. But for now let's just add the
+infrastructure so we can implement the usage code.
+
+Ignoring checkpatch.pl CONFIG_DESCRIPTION because the _DEFAULT_ON
+Kconfig is trivial to explain.
+
+Checkpatch-args: --ignore CONFIG_DESCRIPTION
 Co-developed-by: Junaid Shahid <junaids@google.com>
 Signed-off-by: Junaid Shahid <junaids@google.com>
+Co-developed-by: Yosry Ahmed <yosryahmed@google.com>
+Signed-off-by: Yosry Ahmed <yosryahmed@google.com>
 Signed-off-by: Brendan Jackman <jackmanb@google.com>
 ---
- arch/alpha/include/asm/Kbuild      |  1 +
- arch/arc/include/asm/Kbuild        |  1 +
- arch/arm/include/asm/Kbuild        |  1 +
- arch/arm64/include/asm/Kbuild      |  1 +
- arch/csky/include/asm/Kbuild       |  1 +
- arch/hexagon/include/asm/Kbuild    |  1 +
- arch/loongarch/include/asm/Kbuild  |  3 +++
- arch/m68k/include/asm/Kbuild       |  1 +
- arch/microblaze/include/asm/Kbuild |  1 +
- arch/mips/include/asm/Kbuild       |  1 +
- arch/nios2/include/asm/Kbuild      |  1 +
- arch/openrisc/include/asm/Kbuild   |  1 +
- arch/parisc/include/asm/Kbuild     |  1 +
- arch/powerpc/include/asm/Kbuild    |  1 +
- arch/riscv/include/asm/Kbuild      |  1 +
- arch/s390/include/asm/Kbuild       |  1 +
- arch/sh/include/asm/Kbuild         |  1 +
- arch/sparc/include/asm/Kbuild      |  1 +
- arch/um/include/asm/Kbuild         |  2 +-
- arch/x86/Kconfig                   | 14 ++++++++++++++
- arch/xtensa/include/asm/Kbuild     |  1 +
- include/asm-generic/asi.h          |  5 +++++
- 22 files changed, 41 insertions(+), 1 deletion(-)
+ arch/x86/Kconfig                         |  9 +++++
+ arch/x86/include/asm/asi.h               | 19 ++++++++--
+ arch/x86/include/asm/cpufeatures.h       |  1 +
+ arch/x86/include/asm/disabled-features.h |  8 ++++-
+ arch/x86/mm/asi.c                        | 61 +++++++++++++++++++++++++++-----
+ arch/x86/mm/init.c                       |  4 ++-
+ include/asm-generic/asi.h                |  4 +++
+ 7 files changed, 92 insertions(+), 14 deletions(-)
 
-diff --git a/arch/alpha/include/asm/Kbuild b/arch/alpha/include/asm/Kbuild
-index 396caece6d6d99c7a428f439322a0a18452e1a42..ca72ce3baca13a32913ac9e01a8f86ef42180b1c 100644
---- a/arch/alpha/include/asm/Kbuild
-+++ b/arch/alpha/include/asm/Kbuild
-@@ -5,3 +5,4 @@ generic-y += agp.h
- generic-y += asm-offsets.h
- generic-y += kvm_para.h
- generic-y += mcs_spinlock.h
-+generic-y += asi.h
-diff --git a/arch/arc/include/asm/Kbuild b/arch/arc/include/asm/Kbuild
-index 49285a3ce2398cc7442bc44172de76367dc33dda..68604480864bbcb58d896da6bdf71591006ab2f6 100644
---- a/arch/arc/include/asm/Kbuild
-+++ b/arch/arc/include/asm/Kbuild
-@@ -6,3 +6,4 @@ generic-y += kvm_para.h
- generic-y += mcs_spinlock.h
- generic-y += parport.h
- generic-y += user.h
-+generic-y += asi.h
-diff --git a/arch/arm/include/asm/Kbuild b/arch/arm/include/asm/Kbuild
-index 03657ff8fbe3d202563184b8902aa181e7474a5e..1e2c3d8dbbd99bdf95dbc6b47c2c78092c68b808 100644
---- a/arch/arm/include/asm/Kbuild
-+++ b/arch/arm/include/asm/Kbuild
-@@ -6,3 +6,4 @@ generic-y += parport.h
- 
- generated-y += mach-types.h
- generated-y += unistd-nr.h
-+generic-y += asi.h
-diff --git a/arch/arm64/include/asm/Kbuild b/arch/arm64/include/asm/Kbuild
-index 4e350df9a02dd8de387b912740af69035da93e34..15f8aaaa96b80b5657b789ecf3529b1f18d16d80 100644
---- a/arch/arm64/include/asm/Kbuild
-+++ b/arch/arm64/include/asm/Kbuild
-@@ -14,6 +14,7 @@ generic-y += qrwlock.h
- generic-y += qspinlock.h
- generic-y += parport.h
- generic-y += user.h
-+generic-y += asi.h
- 
- generated-y += cpucap-defs.h
- generated-y += sysreg-defs.h
-diff --git a/arch/csky/include/asm/Kbuild b/arch/csky/include/asm/Kbuild
-index 9a9bc65b57a9d73dadc9d597700d7229f8554ddf..4f497118fb172d1f2bf0f9e472479f24227f42f4 100644
---- a/arch/csky/include/asm/Kbuild
-+++ b/arch/csky/include/asm/Kbuild
-@@ -11,3 +11,4 @@ generic-y += qspinlock.h
- generic-y += parport.h
- generic-y += user.h
- generic-y += vmlinux.lds.h
-+generic-y += asi.h
-diff --git a/arch/hexagon/include/asm/Kbuild b/arch/hexagon/include/asm/Kbuild
-index 8c1a78c8f5271ebd47f1baad7b85e87220d1bbe8..b26f186bc03c2e135f8d125a4805b95a41513655 100644
---- a/arch/hexagon/include/asm/Kbuild
-+++ b/arch/hexagon/include/asm/Kbuild
-@@ -5,3 +5,4 @@ generic-y += extable.h
- generic-y += iomap.h
- generic-y += kvm_para.h
- generic-y += mcs_spinlock.h
-+generic-y += asi.h
-diff --git a/arch/loongarch/include/asm/Kbuild b/arch/loongarch/include/asm/Kbuild
-index 5b5a6c90e6e20771b1074a6262230861cc51bcb4..dd3d0c6891369a9dfa35ccfb8b81c8697c2a3e90 100644
---- a/arch/loongarch/include/asm/Kbuild
-+++ b/arch/loongarch/include/asm/Kbuild
-@@ -11,3 +11,6 @@ generic-y += ioctl.h
- generic-y += mmzone.h
- generic-y += statfs.h
- generic-y += param.h
-+generic-y += asi.h
-+generic-y += posix_types.h
-+generic-y += resource.h
-diff --git a/arch/m68k/include/asm/Kbuild b/arch/m68k/include/asm/Kbuild
-index 0dbf9c5c6faeb30eeb38bea52ab7fade99bbd44a..faf0f135df4ab946ef115f3a2fc363f370fc7491 100644
---- a/arch/m68k/include/asm/Kbuild
-+++ b/arch/m68k/include/asm/Kbuild
-@@ -4,3 +4,4 @@ generic-y += extable.h
- generic-y += kvm_para.h
- generic-y += mcs_spinlock.h
- generic-y += spinlock.h
-+generic-y += asi.h
-diff --git a/arch/microblaze/include/asm/Kbuild b/arch/microblaze/include/asm/Kbuild
-index a055f5dbe00a31616592c3a848b49bbf9ead5d17..012e4bf83c13497dc296b66cd5e0fd519274306b 100644
---- a/arch/microblaze/include/asm/Kbuild
-+++ b/arch/microblaze/include/asm/Kbuild
-@@ -8,3 +8,4 @@ generic-y += parport.h
- generic-y += syscalls.h
- generic-y += tlb.h
- generic-y += user.h
-+generic-y += asi.h
-diff --git a/arch/mips/include/asm/Kbuild b/arch/mips/include/asm/Kbuild
-index 7ba67a0d6c97b2879fb710aca05ae1e2d47c8ce2..3191699298d80735920481eecc64dd2d1dbd2e54 100644
---- a/arch/mips/include/asm/Kbuild
-+++ b/arch/mips/include/asm/Kbuild
-@@ -13,3 +13,4 @@ generic-y += parport.h
- generic-y += qrwlock.h
- generic-y += qspinlock.h
- generic-y += user.h
-+generic-y += asi.h
-diff --git a/arch/nios2/include/asm/Kbuild b/arch/nios2/include/asm/Kbuild
-index 0d09829ed14454f2f15a32bf713fa1eb213e85ea..03a5ec74e28b3679a5ef7271606af3c07bb7a198 100644
---- a/arch/nios2/include/asm/Kbuild
-+++ b/arch/nios2/include/asm/Kbuild
-@@ -7,3 +7,4 @@ generic-y += kvm_para.h
- generic-y += mcs_spinlock.h
- generic-y += spinlock.h
- generic-y += user.h
-+generic-y += asi.h
-diff --git a/arch/openrisc/include/asm/Kbuild b/arch/openrisc/include/asm/Kbuild
-index cef49d60d74c0f46f01cf46cc35e1e52404185f3..6a81a58bf59e20cafa563c422df4dfa6f9f791ec 100644
---- a/arch/openrisc/include/asm/Kbuild
-+++ b/arch/openrisc/include/asm/Kbuild
-@@ -9,3 +9,4 @@ generic-y += spinlock.h
- generic-y += qrwlock_types.h
- generic-y += qrwlock.h
- generic-y += user.h
-+generic-y += asi.h
-diff --git a/arch/parisc/include/asm/Kbuild b/arch/parisc/include/asm/Kbuild
-index 4fb596d94c8932dd1e12a765a21af5b5099fbafd..3cbb4eb14712c7bd6c248dd26ab91cc41da01825 100644
---- a/arch/parisc/include/asm/Kbuild
-+++ b/arch/parisc/include/asm/Kbuild
-@@ -5,3 +5,4 @@ generic-y += agp.h
- generic-y += kvm_para.h
- generic-y += mcs_spinlock.h
- generic-y += user.h
-+generic-y += asi.h
-diff --git a/arch/powerpc/include/asm/Kbuild b/arch/powerpc/include/asm/Kbuild
-index e5fdc336c9b22527f824ed30d06b5e8c0fa8a1ef..e86cc027f35564c7b301c283043bde0e5d2d3b6a 100644
---- a/arch/powerpc/include/asm/Kbuild
-+++ b/arch/powerpc/include/asm/Kbuild
-@@ -7,3 +7,4 @@ generic-y += kvm_types.h
- generic-y += mcs_spinlock.h
- generic-y += qrwlock.h
- generic-y += early_ioremap.h
-+generic-y += asi.h
-diff --git a/arch/riscv/include/asm/Kbuild b/arch/riscv/include/asm/Kbuild
-index 1461af12da6e2bbbff6cf737a7babf33bd298cdd..82060ed50d9beb1ea72d3570ad236d1e08d9d8c6 100644
---- a/arch/riscv/include/asm/Kbuild
-+++ b/arch/riscv/include/asm/Kbuild
-@@ -13,3 +13,4 @@ generic-y += qrwlock.h
- generic-y += qrwlock_types.h
- generic-y += user.h
- generic-y += vmlinux.lds.h
-+generic-y += asi.h
-diff --git a/arch/s390/include/asm/Kbuild b/arch/s390/include/asm/Kbuild
-index 297bf7157968907d6e4c4ff8b65deeef02dbd630..e15c2a138392b57b186633738ddda913474aa8c4 100644
---- a/arch/s390/include/asm/Kbuild
-+++ b/arch/s390/include/asm/Kbuild
-@@ -8,3 +8,4 @@ generic-y += asm-offsets.h
- generic-y += kvm_types.h
- generic-y += mcs_spinlock.h
- generic-y += mmzone.h
-+generic-y += asi.h
-diff --git a/arch/sh/include/asm/Kbuild b/arch/sh/include/asm/Kbuild
-index fc44d9c88b41915a7021042eb8b462517cfdbd2c..ea19e4515828552f436d67f764607dd5d15cb19f 100644
---- a/arch/sh/include/asm/Kbuild
-+++ b/arch/sh/include/asm/Kbuild
-@@ -3,3 +3,4 @@ generated-y += syscall_table.h
- generic-y += kvm_para.h
- generic-y += mcs_spinlock.h
- generic-y += parport.h
-+generic-y += asi.h
-diff --git a/arch/sparc/include/asm/Kbuild b/arch/sparc/include/asm/Kbuild
-index 43b0ae4c2c2112d4d4d3cb3c60e787b175172dea..cb9062c9be17fe276cc92d2ac99d8b165f6297bf 100644
---- a/arch/sparc/include/asm/Kbuild
-+++ b/arch/sparc/include/asm/Kbuild
-@@ -4,3 +4,4 @@ generated-y += syscall_table_64.h
- generic-y += agp.h
- generic-y += kvm_para.h
- generic-y += mcs_spinlock.h
-+generic-y += asi.h
-diff --git a/arch/um/include/asm/Kbuild b/arch/um/include/asm/Kbuild
-index 18f902da8e99769da857d34af43141ea97a0ca63..6054972f1babdaebae64040b05ab48893915cb04 100644
---- a/arch/um/include/asm/Kbuild
-+++ b/arch/um/include/asm/Kbuild
-@@ -27,4 +27,4 @@ generic-y += trace_clock.h
- generic-y += kprobes.h
- generic-y += mm_hooks.h
- generic-y += vga.h
--generic-y += video.h
-+generic-y += asi.h
 diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 7b9a7e8f39acc8e9aeb7d4213e87d71047865f5c..5a50582eb210e9d1309856a737d32b76fa1bfc85 100644
+index 5a50582eb210e9d1309856a737d32b76fa1bfc85..1fcb52cb8cd5084ac3cef04af61b7d1653162bdb 100644
 --- a/arch/x86/Kconfig
 +++ b/arch/x86/Kconfig
-@@ -2519,6 +2519,20 @@ config MITIGATION_PAGE_TABLE_ISOLATION
+@@ -2533,6 +2533,15 @@ config MITIGATION_ADDRESS_SPACE_ISOLATION
+ 	  there are likely to be unhandled cases, in particular concerning TLB
+ 	  flushes.
  
- 	  See Documentation/arch/x86/pti.rst for more details.
- 
-+config MITIGATION_ADDRESS_SPACE_ISOLATION
-+	bool "Allow code to run with a reduced kernel address space"
-+	default n
-+	depends on X86_64 && !PARAVIRT && !UML
-+	help
-+	  This feature provides the ability to run some kernel code
-+	  with a reduced kernel address space. This can be used to
-+	  mitigate some speculative execution attacks.
 +
-+	  The !PARAVIRT dependency is only because of lack of testing; in theory
-+	  the code is written to work under paravirtualization. In practice
-+	  there are likely to be unhandled cases, in particular concerning TLB
-+	  flushes.
++config ADDRESS_SPACE_ISOLATION_DEFAULT_ON
++	bool "Enable address space isolation by default"
++	default n
++	depends on MITIGATION_ADDRESS_SPACE_ISOLATION
++	help
++	  If selected, ASI is enabled by default at boot if the asi=on or
++	  asi=off are not specified.
 +
  config MITIGATION_RETPOLINE
  	bool "Avoid speculative indirect branches in kernel"
  	select OBJTOOL if HAVE_OBJTOOL
-diff --git a/arch/xtensa/include/asm/Kbuild b/arch/xtensa/include/asm/Kbuild
-index fa07c686cbcc2153776a478ac4093846f01eddab..07cea6902f98053be244d026ed594fe7246755a6 100644
---- a/arch/xtensa/include/asm/Kbuild
-+++ b/arch/xtensa/include/asm/Kbuild
-@@ -8,3 +8,4 @@ generic-y += parport.h
- generic-y += qrwlock.h
- generic-y += qspinlock.h
- generic-y += user.h
-+generic-y += asi.h
-diff --git a/include/asm-generic/asi.h b/include/asm-generic/asi.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..c4d9a5ff860a96428422a15000c622aeecc2d664
---- /dev/null
-+++ b/include/asm-generic/asi.h
-@@ -0,0 +1,5 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef __ASM_GENERIC_ASI_H
-+#define __ASM_GENERIC_ASI_H
+diff --git a/arch/x86/include/asm/asi.h b/arch/x86/include/asm/asi.h
+index 7cc635b6653a3970ba9dbfdc9c828a470e27bd44..b9671ef2dd3278adceed18507fd260e21954d574 100644
+--- a/arch/x86/include/asm/asi.h
++++ b/arch/x86/include/asm/asi.h
+@@ -8,6 +8,7 @@
+ 
+ #include <asm/pgtable_types.h>
+ #include <asm/percpu.h>
++#include <asm/cpufeature.h>
+ #include <asm/processor.h>
+ 
+ #ifdef CONFIG_MITIGATION_ADDRESS_SPACE_ISOLATION
+@@ -66,6 +67,8 @@
+  * the N ASI classes.
+  */
+ 
++#define static_asi_enabled() cpu_feature_enabled(X86_FEATURE_ASI)
 +
+ /*
+  * ASI uses a per-CPU tainting model to track what mitigation actions are
+  * required on domain transitions. Taints exist along two dimensions:
+@@ -131,6 +134,8 @@ struct asi {
+ 
+ DECLARE_PER_CPU_ALIGNED(struct asi *, curr_asi);
+ 
++void asi_check_boottime_disable(void);
++
+ void asi_init_mm_state(struct mm_struct *mm);
+ 
+ int asi_init_class(enum asi_class_id class_id, struct asi_taint_policy *taint_policy);
+@@ -155,7 +160,9 @@ void asi_exit(void);
+ /* The target is the domain we'll enter when returning to process context. */
+ static __always_inline struct asi *asi_get_target(struct task_struct *p)
+ {
+-	return p->thread.asi_state.target;
++	return static_asi_enabled()
++	       ? p->thread.asi_state.target
++	       : NULL;
+ }
+ 
+ static __always_inline void asi_set_target(struct task_struct *p,
+@@ -166,7 +173,9 @@ static __always_inline void asi_set_target(struct task_struct *p,
+ 
+ static __always_inline struct asi *asi_get_current(void)
+ {
+-	return this_cpu_read(curr_asi);
++	return static_asi_enabled()
++	       ? this_cpu_read(curr_asi)
++	       : NULL;
+ }
+ 
+ /* Are we currently in a restricted address space? */
+@@ -175,7 +184,11 @@ static __always_inline bool asi_is_restricted(void)
+ 	return (bool)asi_get_current();
+ }
+ 
+-/* If we exit/have exited, can we stay that way until the next asi_enter? */
++/*
++ * If we exit/have exited, can we stay that way until the next asi_enter?
++ *
++ * When ASI is disabled, this returns true.
++ */
+ static __always_inline bool asi_is_relaxed(void)
+ {
+ 	return !asi_get_target(current);
+diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+index 913fd3a7bac6506141de65f33b9ee61c615c7d7d..d6a808d10c3b8900d190ea01c66fc248863f05e2 100644
+--- a/arch/x86/include/asm/cpufeatures.h
++++ b/arch/x86/include/asm/cpufeatures.h
+@@ -474,6 +474,7 @@
+ #define X86_FEATURE_CLEAR_BHB_HW	(21*32+ 3) /* BHI_DIS_S HW control enabled */
+ #define X86_FEATURE_CLEAR_BHB_LOOP_ON_VMEXIT (21*32+ 4) /* Clear branch history at vmexit using SW loop */
+ #define X86_FEATURE_FAST_CPPC		(21*32 + 5) /* AMD Fast CPPC */
++#define X86_FEATURE_ASI			(21*32+6) /* Kernel Address Space Isolation */
+ 
+ /*
+  * BUG word(s)
+diff --git a/arch/x86/include/asm/disabled-features.h b/arch/x86/include/asm/disabled-features.h
+index c492bdc97b0595ec77f89dc9b0cefe5e3e64be41..c7964ed4fef8b9441e1c0453da587787d8008d9d 100644
+--- a/arch/x86/include/asm/disabled-features.h
++++ b/arch/x86/include/asm/disabled-features.h
+@@ -50,6 +50,12 @@
+ # define DISABLE_PTI		(1 << (X86_FEATURE_PTI & 31))
+ #endif
+ 
++#ifdef CONFIG_MITIGATION_ADDRESS_SPACE_ISOLATION
++# define DISABLE_ASI		0
++#else
++# define DISABLE_ASI		(1 << (X86_FEATURE_ASI & 31))
 +#endif
++
+ #ifdef CONFIG_MITIGATION_RETPOLINE
+ # define DISABLE_RETPOLINE	0
+ #else
+@@ -154,7 +160,7 @@
+ #define DISABLED_MASK17	0
+ #define DISABLED_MASK18	(DISABLE_IBT)
+ #define DISABLED_MASK19	(DISABLE_SEV_SNP)
+-#define DISABLED_MASK20	0
++#define DISABLED_MASK20	(DISABLE_ASI)
+ #define DISABLED_MASK21	0
+ #define DISABLED_MASK_CHECK BUILD_BUG_ON_ZERO(NCAPINTS != 22)
+ 
+diff --git a/arch/x86/mm/asi.c b/arch/x86/mm/asi.c
+index 105cd8b43eaf5c20acc80d4916b761559fb95d74..5baf563a078f5b3a6cd4b9f5e92baaf81b0774c4 100644
+--- a/arch/x86/mm/asi.c
++++ b/arch/x86/mm/asi.c
+@@ -4,6 +4,7 @@
+ #include <linux/percpu.h>
+ #include <linux/spinlock.h>
+ 
++#include <linux/init.h>
+ #include <asm/asi.h>
+ #include <asm/cmdline.h>
+ #include <asm/cpufeature.h>
+@@ -29,6 +30,9 @@ static inline bool asi_class_id_valid(enum asi_class_id class_id)
+ 
+ static inline bool asi_class_initialized(enum asi_class_id class_id)
+ {
++	if (!boot_cpu_has(X86_FEATURE_ASI))
++		return 0;
++
+ 	if (WARN_ON(!asi_class_id_valid(class_id)))
+ 		return false;
+ 
+@@ -51,6 +55,9 @@ EXPORT_SYMBOL_GPL(asi_init_class);
+ 
+ void asi_uninit_class(enum asi_class_id class_id)
+ {
++	if (!boot_cpu_has(X86_FEATURE_ASI))
++		return;
++
+ 	if (!asi_class_initialized(class_id))
+ 		return;
+ 
+@@ -66,10 +73,36 @@ const char *asi_class_name(enum asi_class_id class_id)
+ 	return asi_class_names[class_id];
+ }
+ 
++void __init asi_check_boottime_disable(void)
++{
++	bool enabled = IS_ENABLED(CONFIG_MITIGATION_ADDRESS_SPACE_ISOLATION_DEFAULT_ON);
++	char arg[4];
++	int ret;
++
++	ret = cmdline_find_option(boot_command_line, "asi", arg, sizeof(arg));
++	if (ret == 3 && !strncmp(arg, "off", 3)) {
++		enabled = false;
++		pr_info("ASI disabled through kernel command line.\n");
++	} else if (ret == 2 && !strncmp(arg, "on", 2)) {
++		enabled = true;
++		pr_info("Ignoring asi=on param while ASI implementation is incomplete.\n");
++	} else {
++		pr_info("ASI %s by default.\n",
++			enabled ? "enabled" : "disabled");
++	}
++
++	if (enabled)
++		pr_info("ASI enablement ignored due to incomplete implementation.\n");
++}
++
+ static void __asi_destroy(struct asi *asi)
+ {
+-	lockdep_assert_held(&asi->mm->asi_init_lock);
++	WARN_ON_ONCE(asi->ref_count <= 0);
++	if (--(asi->ref_count) > 0)
++		return;
+ 
++	free_pages((ulong)asi->pgd, PGD_ALLOCATION_ORDER);
++	memset(asi, 0, sizeof(struct asi));
+ }
+ 
+ int asi_init(struct mm_struct *mm, enum asi_class_id class_id, struct asi **out_asi)
+@@ -79,6 +112,9 @@ int asi_init(struct mm_struct *mm, enum asi_class_id class_id, struct asi **out_
+ 
+ 	*out_asi = NULL;
+ 
++	if (!boot_cpu_has(X86_FEATURE_ASI))
++		return 0;
++
+ 	if (WARN_ON(!asi_class_initialized(class_id)))
+ 		return -EINVAL;
+ 
+@@ -122,7 +158,7 @@ void asi_destroy(struct asi *asi)
+ {
+ 	struct mm_struct *mm;
+ 
+-	if (!asi)
++	if (!boot_cpu_has(X86_FEATURE_ASI) || !asi)
+ 		return;
+ 
+ 	if (WARN_ON(!asi_class_initialized(asi->class_id)))
+@@ -134,11 +170,7 @@ void asi_destroy(struct asi *asi)
+ 	 * to block concurrent asi_init calls.
+ 	 */
+ 	mutex_lock(&mm->asi_init_lock);
+-	WARN_ON_ONCE(asi->ref_count <= 0);
+-	if (--(asi->ref_count) == 0) {
+-		free_pages((ulong)asi->pgd, PGD_ALLOCATION_ORDER);
+-		memset(asi, 0, sizeof(struct asi));
+-	}
++	__asi_destroy(asi);
+ 	mutex_unlock(&mm->asi_init_lock);
+ }
+ EXPORT_SYMBOL_GPL(asi_destroy);
+@@ -255,6 +287,9 @@ static noinstr void __asi_enter(void)
+ 
+ noinstr void asi_enter(struct asi *asi)
+ {
++	if (!static_asi_enabled())
++		return;
++
+ 	VM_WARN_ON_ONCE(!asi);
+ 
+ 	/* Should not have an asi_enter() without a prior asi_relax(). */
+@@ -269,8 +304,10 @@ EXPORT_SYMBOL_GPL(asi_enter);
+ 
+ noinstr void asi_relax(void)
+ {
+-	barrier();
+-	asi_set_target(current, NULL);
++	if (static_asi_enabled()) {
++		barrier();
++		asi_set_target(current, NULL);
++	}
+ }
+ EXPORT_SYMBOL_GPL(asi_relax);
+ 
+@@ -279,6 +316,9 @@ noinstr void asi_exit(void)
+ 	u64 unrestricted_cr3;
+ 	struct asi *asi;
+ 
++	if (!static_asi_enabled())
++		return;
++
+ 	preempt_disable_notrace();
+ 
+ 	VM_BUG_ON(this_cpu_read(cpu_tlbstate.loaded_mm) ==
+@@ -310,6 +350,9 @@ EXPORT_SYMBOL_GPL(asi_exit);
+ 
+ void asi_init_mm_state(struct mm_struct *mm)
+ {
++	if (!boot_cpu_has(X86_FEATURE_ASI))
++		return;
++
+ 	memset(mm->asi, 0, sizeof(mm->asi));
+ 	mutex_init(&mm->asi_init_lock);
+ }
+diff --git a/arch/x86/mm/init.c b/arch/x86/mm/init.c
+index de4227ed5169ff84d0ce80b677caffc475198fa6..ded3a47f2a9c1f554824d4ad19f3b48bce271274 100644
+--- a/arch/x86/mm/init.c
++++ b/arch/x86/mm/init.c
+@@ -28,6 +28,7 @@
+ #include <asm/text-patching.h>
+ #include <asm/memtype.h>
+ #include <asm/paravirt.h>
++#include <asm/asi.h>
+ 
+ /*
+  * We need to define the tracepoints somewhere, and tlb.c
+@@ -251,7 +252,7 @@ static void __init probe_page_size_mask(void)
+ 	__default_kernel_pte_mask = __supported_pte_mask;
+ 	/* Except when with PTI where the kernel is mostly non-Global: */
+ 	if (cpu_feature_enabled(X86_FEATURE_PTI) ||
+-	    IS_ENABLED(CONFIG_MITIGATION_ADDRESS_SPACE_ISOLATION))
++	    cpu_feature_enabled(X86_FEATURE_ASI))
+ 		__default_kernel_pte_mask &= ~_PAGE_GLOBAL;
+ 
+ 	/* Enable 1 GB linear kernel mappings if available: */
+@@ -754,6 +755,7 @@ void __init init_mem_mapping(void)
+ 	unsigned long end;
+ 
+ 	pti_check_boottime_disable();
++	asi_check_boottime_disable();
+ 	probe_page_size_mask();
+ 	setup_pcid();
+ 
+diff --git a/include/asm-generic/asi.h b/include/asm-generic/asi.h
+index 6b84202837605fa57e4a910318c8353b3f816f06..eedc961ee916a9e1da631ca489ea4a7bc9e6089f 100644
+--- a/include/asm-generic/asi.h
++++ b/include/asm-generic/asi.h
+@@ -65,6 +65,10 @@ static inline pgd_t *asi_pgd(struct asi *asi) { return NULL; }
+ 
+ static inline void asi_handle_switch_mm(void) { }
+ 
++#define static_asi_enabled() false
++
++static inline void asi_check_boottime_disable(void) { }
++
+ #endif /* !CONFIG_MITIGATION_ADDRESS_SPACE_ISOLATION */
+ 
+ #endif  /* !_ASSEMBLY_ */
 
 -- 
 2.47.1.613.gc27f4b7a9f-goog
