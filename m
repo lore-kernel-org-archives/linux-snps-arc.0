@@ -4,139 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B910E77188
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 10 Jan 2025 19:53:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3D73E77188
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 11 Jan 2025 01:16:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:From:Subject:Message-ID:
-	References:Mime-Version:In-Reply-To:Date:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Owner;
-	bh=dzvtELsuZEOwGmVzy1vzY/4npsVA2GKxrMHFT8fa14Y=; b=VlqLUTk96pxuXRp6eETok/lgVa
-	EX+EWdcPCqCRTG4NfWmUGiO9h9czG0Ky4s6uvs5LWoYxp3p5IXL6Z+NFXyt4GwgmDqfdvX1qrnnLI
-	zD0P66xP3n3JLK9sfs21AA+6cKs7zdje8Q2DXzG5zefj2OKBxJF1v3ZdOUSLQ8WOlfswLK9SV3WXj
-	ZZ1H0zWPHN4sHxVGucroCy2YtkceK4pk9xO9x07Zvm4SPrbHfOODuYmZZbBpl7/qElongYBpTBX4e
-	JWIJGY5hRzthoJPvah1VlKVb8w7+dUZeDtwQQOHP0RrjKBr92FQPiwTFPVpH7yQu+xerNnc7RajiZ
-	r0iPm1rw==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=kQQoS8ZoU1+oFhyIuR+8vth7FxWqYPEkhQEn38t90k0=; b=0wxQjquN+0Sr7f
+	As/53x6oLtxzG6L+8naBWUGUP8ZTH7btKS6R4LGKa/Pnqe1rViFZlEFt2OeKS3n/bDLcBqKgwI6Da
+	dms0qRjlrVFlc6QAivEs6vOPQ8QOoGduN4Jnugii/7wR4GbYTpaaQohyXg4umZRfsgD5R4ZpVdJ4B
+	Hk8qaRyhHgcQkNtFluuAkLV9MDWulru2JSFZzpn66uYIjsiqLSmfQyVIW1ug4Eh+70+DYqa+7Dra9
+	76mzkqeqkdqhkAKSGnodiU8YqGHzhq2Qc3yUudb10eKDVJkkVVXnbx68BLKGR14vsHdDzZ/dYuzqU
+	PFLkde0G9aZnKXDZLBPg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tWL44-0000000GosQ-0G6v;
-	Fri, 10 Jan 2025 19:53:04 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tWJwm-0000000Gbh4-40hF
-	for linux-snps-arc@bombadil.infradead.org;
-	Fri, 10 Jan 2025 18:41:29 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Type:Cc:To:From:Subject:
-	Message-ID:References:Mime-Version:In-Reply-To:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=KV+yP+i7I0yJqjdnPuT5zohhg/S0Da4STnyrBal2kA0=; b=RHUVpqQ8DsY8/mWG3S4So1aOd4
-	Vy0bn8eK5zodLR2JT5apLrtEVCdPd37qOO1Hn7FBRx/PD/hEVsJf1BdJ4Y4s+2HaK83Ttsww9DPFj
-	K4d0Xl1H7mz9s0AvD+UVmNwp1b4SFwUvlVR/9dhm0M/ZmEE+CJ2KQLv2kkl9diKs0WcS9JOjDDl2h
-	07Pzy6r57zV6VZ6Rjnjzg5GC1pkBtWLbxINIpoPyE6eDDYpScB1YBh76VIAL4VA2Hknq29CB/PRsy
-	vjG2g95yOyaMwcYxR0IgDgLedLO5laa7D299Nh+VCisyiLSoPhq3Fzwk+LM0e6StCM19bYGCL+ZyP
-	NuPIF9Kw==;
-Received: from mail-wm1-x34a.google.com ([2a00:1450:4864:20::34a])
-	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tWJwh-00000009saq-39u5
-	for linux-snps-arc@lists.infradead.org;
-	Fri, 10 Jan 2025 18:41:27 +0000
-Received: by mail-wm1-x34a.google.com with SMTP id 5b1f17b1804b1-436219070b4so11487985e9.1
-        for <linux-snps-arc@lists.infradead.org>; Fri, 10 Jan 2025 10:41:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736534482; x=1737139282; darn=lists.infradead.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KV+yP+i7I0yJqjdnPuT5zohhg/S0Da4STnyrBal2kA0=;
-        b=T+Y+7zuTZ3uuB41Q0pbed2FlPJmpU3v9IcNl3GFgW1sZqpevwd2McPQiXQWbMMNHID
-         C4ywAzuswJq6jwtg/qQ2Kw3XwnZ66dMc+mwLC5k3BFTyR9Phu4nvCnniESGSKBQ2DA6S
-         7Z6oiuxSfBlEWCTNKTBFR6lITATLON0DZAOoIKVWMhLH8Vgkv7h4VWNbUv5TVBFiBZQL
-         vrF9huerFv7J8ueHsPBxQTP9GWu3uOjMtFBgEZdiUfZ3L3YI4MrrpZD5K3oayST5j+df
-         wq8Xp8xwX9xKtOrlErcwOoQxjP1ZE5rA/iZyemrvc/NAW+drCDJyqHlR1+htuJTM8wa9
-         IL4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736534482; x=1737139282;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KV+yP+i7I0yJqjdnPuT5zohhg/S0Da4STnyrBal2kA0=;
-        b=RI6YWFMcZtgQLeNZgtDRdp7BL42hBsjwqtXOpZPehUt7V4pB/mDDc2YLRKZOlgSqEC
-         p6leJ7tsQd7uOCixnpZlFQ+XLZAXdkO/Y0qZmvaXDfTP6xIomh9DhqQDRCQLR3/8cuLS
-         8xyVRpf6rXXI5HVcbipuXAGsBTNspCcK/7SBIXElGoxuHeD8H+A/lpMN/SaGDgI+T0B6
-         OXpBSdGlSmb0qPA2ZyjDx7R8xv9sh0cMWjG2McqgzQFIxVtFHCShzuVF8ltULnaZy9kb
-         QzZEccmkpZ3yJLdkCRmvyfXY6H6H4/bgvkqVEA5m63DlVpW9jfZjpHjy2BtLPEUtKXxi
-         EipA==
-X-Forwarded-Encrypted: i=1; AJvYcCU3sayqoZK2wxgFUicSCR12yZJrR6BSSeRvKJ4ebcO1Q+682/9aVFh0CbUytyk1wl5ZOlNGC69ZMeL/kkYumw==@lists.infradead.org
-X-Gm-Message-State: AOJu0YxwswOPsZESm6qylQ+7Bn4o5LFY4t79tQrWnPDup06+FvlkO8Wy
-	xxqEOpr40m5ewj6HvVJeV4XhY4lRH3XQV7ehBi7Q0IgbOJe0OEjfko0+kn28UrlDTOHxug0KKqj
-	n8YUmOTm65Q==
-X-Google-Smtp-Source: AGHT+IGysxF4lj+Pa3edYCQyxcx2uUdgDB4x/aH3it4KUk62HUjYx0xS9V+RTFKPnAfHJUfpiQOrJBNcPZbgiA==
-X-Received: from wmbfl22.prod.google.com ([2002:a05:600c:b96:b0:436:6fa7:621])
- (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:5117:b0:431:60ec:7a96 with SMTP id 5b1f17b1804b1-436e26ddc53mr94187935e9.25.1736534481726;
- Fri, 10 Jan 2025 10:41:21 -0800 (PST)
-Date: Fri, 10 Jan 2025 18:40:42 +0000
-In-Reply-To: <20250110-asi-rfc-v2-v2-0-8419288bc805@google.com>
-Mime-Version: 1.0
-References: <20250110-asi-rfc-v2-v2-0-8419288bc805@google.com>
-X-Mailer: b4 0.15-dev
-Message-ID: <20250110-asi-rfc-v2-v2-16-8419288bc805@google.com>
-Subject: [PATCH RFC v2 16/29] mm: asi: Map kernel text and static data as nonsensitive
-From: Brendan Jackman <jackmanb@google.com>
-To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Richard Henderson <richard.henderson@linaro.org>, Matt Turner <mattst88@gmail.com>, 
-	Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>, 
-	Brian Cain <bcain@quicinc.com>, Huacai Chen <chenhuacai@kernel.org>, 
-	WANG Xuerui <kernel@xen0n.name>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Michal Simek <monstr@monstr.eu>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	Dinh Nguyen <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>, 
-	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, Stafford Horne <shorne@gmail.com>, 
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
-	Rich Felker <dalias@libc.org>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
-	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
-	Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
-	Johannes Berg <johannes@sipsolutions.net>, Chris Zankel <chris@zankel.net>, 
-	Max Filippov <jcmvbkbc@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Andrew Morton <akpm@linux-foundation.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, Uladzislau Rezki <urezki@gmail.com>, 
-	Christoph Hellwig <hch@infradead.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Mike Rapoport <rppt@kernel.org>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>, 
-	Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Ard Biesheuvel <ardb@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc: x86@kernel.org, linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, 
-	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, 
-	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	kvm@vger.kernel.org, linux-efi@vger.kernel.org, 
-	Brendan Jackman <jackmanb@google.com>
+	id 1tWQ7E-0000000HTnn-1ijX;
+	Sat, 11 Jan 2025 01:16:40 +0000
+Received: from vmicros1.altlinux.org ([194.107.17.57])
+	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
+	id 1tWQ7B-0000000HTmw-0Y2E;
+	Sat, 11 Jan 2025 01:16:38 +0000
+Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
+	by vmicros1.altlinux.org (Postfix) with ESMTP id 3D21472C8FB;
+	Sat, 11 Jan 2025 04:16:32 +0300 (MSK)
+Received: by mua.local.altlinux.org (Postfix, from userid 508)
+	id 2736C7CCB3A; Sat, 11 Jan 2025 03:16:32 +0200 (IST)
+Date: Sat, 11 Jan 2025 03:16:32 +0200
+From: "Dmitry V. Levin" <ldv@strace.io>
+To: Sven Schnelle <svens@linux.ibm.com>
+Cc: Oleg Nesterov <oleg@redhat.com>,
+	Eugene Syromyatnikov <evgsyr@gmail.com>,
+	Mike Frysinger <vapier@gentoo.org>,
+	Renzo Davoli <renzo@cs.unibo.it>,
+	Davide Berardi <berardi.dav@gmail.com>,
+	strace-devel@lists.strace.io, Vineet Gupta <vgupta@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Brian Cain <bcain@quicinc.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Michal Simek <monstr@monstr.eu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Dinh Nguyen <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>,
+	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+	Stafford Horne <shorne@gmail.com>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>,
+	Max Filippov <jcmvbkbc@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+	linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-um@lists.infradead.org, linux-arch@vger.kernel.org
+Subject: Re: [PATCH 3/6] syscall.h: introduce syscall_set_nr()
+Message-ID: <20250111011632.GA1724@strace.io>
+References: <20250107230438.GC30633@strace.io>
+ <yt9dzfjz6rw5.fsf@linux.ibm.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <yt9dzfjz6rw5.fsf@linux.ibm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250110_184123_944807_F707E64C 
-X-CRM114-Status: GOOD (  28.01  )
+X-CRM114-CacheID: sfid-20250110_171637_501766_72E36C16 
+X-CRM114-Status: GOOD (  21.30  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -153,204 +111,64 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Basically we need to map the kernel code and all its static variables.
-Per-CPU variables need to be treated specially as described in the
-comments. The cpu_entry_area is similar - this needs to be
-nonsensitive so that the CPU can access the GDT etc when handling
-a page fault.
+On Fri, Jan 10, 2025 at 08:37:46AM +0100, Sven Schnelle wrote:
+> "Dmitry V. Levin" <ldv@strace.io> writes:
+> 
+> > Similar to syscall_set_arguments() that complements
+> > syscall_get_arguments(), introduce syscall_set_nr()
+> > that complements syscall_get_nr().
+> >
+> > syscall_set_nr() is going to be needed along with
+> > syscall_set_arguments() on all HAVE_ARCH_TRACEHOOK
+> > architectures to implement PTRACE_SET_SYSCALL_INFO API.
+[...]
+> > diff --git a/arch/s390/include/asm/syscall.h b/arch/s390/include/asm/syscall.h
+> > index b3dd883699e7..1c0e349fd5c9 100644
+> > --- a/arch/s390/include/asm/syscall.h
+> > +++ b/arch/s390/include/asm/syscall.h
+> > @@ -24,6 +24,13 @@ static inline long syscall_get_nr(struct task_struct *task,
+> >  		(regs->int_code & 0xffff) : -1;
+> >  }
+> >  
+> > +static inline void syscall_set_nr(struct task_struct *task,
+> > +				  struct pt_regs *regs,
+> > +				  int nr)
+> > +{
+> 
+> I think there should be a
+> 
+> 	if (!test_pt_regs_flags(regs, PIF_SYSCALL))
+> 		return;
+> 
+> before the modification so a user can't accidentally change int_code
+> when ptrace stopped in a non-syscall path.
 
-Under 5-level paging, most of the kernel memory comes under a single PGD
-entry (see Documentation/x86/x86_64/mm.rst. Basically, the mapping is
-for this big region is the same as under 4-level, just wrapped in an
-outer PGD entry). For that region, the "clone" logic is moved down one
-step of the paging hierarchy.
+The reason why syscall_get_nr() has this check on s390 (and similar checks
+on arc, powerpc, and sparc) is that syscall_get_nr() can be called while
+the target task is not in syscall.
 
-Note that the p4d_alloc in asi_clone_p4d won't actually be used in
-practice; the relevant PGD entry will always have been populated by
-prior asi_map calls so this code would "work" if we just wrote
-p4d_offset (but asi_clone_p4d would be broken if viewed in isolation).
+Unlike syscall_get_nr(), syscall_set_nr() can be called only when the
+target task is stopped for tracing on entering syscall: the description in
+include/asm-generic/syscall.h explicitly states that, and the follow-up
+patch that introduces PTRACE_SET_SYSCALL_INFO adds a syscall_set_nr() call
+when the tracee is stopped on entering syscall in either
+PTRACE_SYSCALL_INFO_ENTRY or PTRACE_SYSCALL_INFO_SECCOMP state.
 
-The vmemmap area is not under this single PGD, it has its own 2-PGD
-area, so we still use asi_clone_pgd for that one.
+I don't mind adding a check, but syscall_set_nr() invocation while the
+target task is not in syscall wouldn't be a result of user actions but
+a kernel programing error, and in that case WARN_ON_ONCE() would be more
+appropriate.
 
-Signed-off-by: Brendan Jackman <jackmanb@google.com>
----
- arch/x86/mm/asi.c                 | 105 +++++++++++++++++++++++++++++++++++++-
- include/asm-generic/vmlinux.lds.h |  11 ++++
- 2 files changed, 115 insertions(+), 1 deletion(-)
+If calling syscall_set_nr() while the target task is not in syscall was
+legal, then syscall_set_nr() would have been designed to return a value
+indicating the status of operation.
 
-diff --git a/arch/x86/mm/asi.c b/arch/x86/mm/asi.c
-index b951f2100b8bdea5738ded16166255deb29faf57..bc2cf0475a0e7344a66d81453f55034b2fc77eef 100644
---- a/arch/x86/mm/asi.c
-+++ b/arch/x86/mm/asi.c
-@@ -7,7 +7,6 @@
- #include <linux/init.h>
- #include <linux/pgtable.h>
- 
--#include <asm/asi.h>
- #include <asm/cmdline.h>
- #include <asm/cpufeature.h>
- #include <asm/page.h>
-@@ -186,8 +185,68 @@ void __init asi_check_boottime_disable(void)
- 		pr_info("ASI enablement ignored due to incomplete implementation.\n");
- }
- 
-+/*
-+ * Map data by sharing sub-PGD pagetables with the unrestricted mapping. This is
-+ * more efficient than asi_map, but only works when you know the whole top-level
-+ * page needs to be mapped in the restricted tables. Note that the size of the
-+ * mappings this creates differs between 4 and 5-level paging.
-+ */
-+static void asi_clone_pgd(pgd_t *dst_table, pgd_t *src_table, size_t addr)
-+{
-+	pgd_t *src = pgd_offset_pgd(src_table, addr);
-+	pgd_t *dst = pgd_offset_pgd(dst_table, addr);
-+
-+	if (!pgd_val(*dst))
-+		set_pgd(dst, *src);
-+	else
-+		WARN_ON_ONCE(pgd_val(*dst) != pgd_val(*src));
-+}
-+
-+/*
-+ * For 4-level paging this is exactly the same as asi_clone_pgd. For 5-level
-+ * paging it clones one level lower. So this always creates a mapping of the
-+ * same size.
-+ */
-+static void asi_clone_p4d(pgd_t *dst_table, pgd_t *src_table, size_t addr)
-+{
-+	pgd_t *src_pgd = pgd_offset_pgd(src_table, addr);
-+	pgd_t *dst_pgd = pgd_offset_pgd(dst_table, addr);
-+	p4d_t *src_p4d = p4d_alloc(&init_mm, src_pgd, addr);
-+	p4d_t *dst_p4d = p4d_alloc(&init_mm, dst_pgd, addr);
-+
-+	if (!p4d_val(*dst_p4d))
-+		set_p4d(dst_p4d, *src_p4d);
-+	else
-+		WARN_ON_ONCE(p4d_val(*dst_p4d) != p4d_val(*src_p4d));
-+}
-+
-+/*
-+ * percpu_addr is where the linker put the percpu variable. asi_map_percpu finds
-+ * the place where the percpu allocator copied the data during boot.
-+ *
-+ * This is necessary even when the page allocator defaults to
-+ * global-nonsensitive, because the percpu allocator uses the memblock allocator
-+ * for early allocations.
-+ */
-+static int asi_map_percpu(struct asi *asi, void *percpu_addr, size_t len)
-+{
-+	int cpu, err;
-+	void *ptr;
-+
-+	for_each_possible_cpu(cpu) {
-+		ptr = per_cpu_ptr(percpu_addr, cpu);
-+		err = asi_map(asi, ptr, len);
-+		if (err)
-+			return err;
-+	}
-+
-+	return 0;
-+}
-+
- static int __init asi_global_init(void)
- {
-+	int err;
-+
- 	if (!boot_cpu_has(X86_FEATURE_ASI))
- 		return 0;
- 
-@@ -207,6 +266,46 @@ static int __init asi_global_init(void)
- 				  VMALLOC_START, VMALLOC_END,
- 				  "ASI Global Non-sensitive vmalloc");
- 
-+	/* Map all kernel text and static data */
-+	err = asi_map(ASI_GLOBAL_NONSENSITIVE, (void *)__START_KERNEL,
-+		      (size_t)_end - __START_KERNEL);
-+	if (WARN_ON(err))
-+		return err;
-+	err = asi_map(ASI_GLOBAL_NONSENSITIVE, (void *)FIXADDR_START,
-+		      FIXADDR_SIZE);
-+	if (WARN_ON(err))
-+		return err;
-+	/* Map all static percpu data */
-+	err = asi_map_percpu(
-+		ASI_GLOBAL_NONSENSITIVE,
-+		__per_cpu_start, __per_cpu_end - __per_cpu_start);
-+	if (WARN_ON(err))
-+		return err;
-+
-+	/*
-+	 * The next areas are mapped using shared sub-P4D paging structures
-+	 * (asi_clone_p4d instead of asi_map), since we know the whole P4D will
-+	 * be mapped.
-+	 */
-+	asi_clone_p4d(asi_global_nonsensitive_pgd, init_mm.pgd,
-+		      CPU_ENTRY_AREA_BASE);
-+#ifdef CONFIG_X86_ESPFIX64
-+	asi_clone_p4d(asi_global_nonsensitive_pgd, init_mm.pgd,
-+		      ESPFIX_BASE_ADDR);
-+#endif
-+	/*
-+	 * The vmemmap area actually _must_ be cloned via shared paging
-+	 * structures, since mappings can potentially change dynamically when
-+	 * hugetlbfs pages are created or broken down.
-+	 *
-+	 * We always clone 2 PGDs, this is a corrolary of the sizes of struct
-+	 * page, a page, and the physical address space.
-+	 */
-+	WARN_ON(sizeof(struct page) * MAXMEM / PAGE_SIZE != 2 * (1UL << PGDIR_SHIFT));
-+	asi_clone_pgd(asi_global_nonsensitive_pgd, init_mm.pgd, VMEMMAP_START);
-+	asi_clone_pgd(asi_global_nonsensitive_pgd, init_mm.pgd,
-+		      VMEMMAP_START + (1UL << PGDIR_SHIFT));
-+
- 	return 0;
- }
- subsys_initcall(asi_global_init)
-@@ -599,6 +698,10 @@ static bool follow_physaddr(
-  * Map the given range into the ASI page tables. The source of the mapping is
-  * the regular unrestricted page tables. Can be used to map any kernel memory.
-  *
-+ * In contrast to some internal ASI logic (asi_clone_pgd and asi_clone_p4d) this
-+ * never shares pagetables between restricted and unrestricted address spaces,
-+ * instead it creates wholly new equivalent mappings.
-+ *
-  * The caller MUST ensure that the source mapping will not change during this
-  * function. For dynamic kernel memory, this is generally ensured by mapping the
-  * memory within the allocator.
-diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
-index eeadbaeccf88b73af40efe5221760a7cb37058d2..18f6c0448baf5dfbd0721ba9a6d89000fa86f061 100644
---- a/include/asm-generic/vmlinux.lds.h
-+++ b/include/asm-generic/vmlinux.lds.h
-@@ -1022,6 +1022,16 @@
- 	COMMON_DISCARDS							\
- 	}
- 
-+/*
-+ * ASI maps certain sections with certain sensitivity levels, so they need to
-+ * have a page-aligned size.
-+ */
-+#ifdef CONFIG_MITIGATION_ADDRESS_SPACE_ISOLATION
-+#define ASI_ALIGN() ALIGN(PAGE_SIZE)
-+#else
-+#define ASI_ALIGN() .
-+#endif
-+
- /**
-  * PERCPU_INPUT - the percpu input sections
-  * @cacheline: cacheline size
-@@ -1043,6 +1053,7 @@
- 	*(.data..percpu)						\
- 	*(.data..percpu..shared_aligned)				\
- 	PERCPU_DECRYPTED_SECTION					\
-+	. = ASI_ALIGN();						\
- 	__per_cpu_end = .;
- 
- /**
+Anyway, I'll add an explanatory comment to syscall_set_nr() on all
+architectures where syscall_get_nr() has a check.
+
 
 -- 
-2.47.1.613.gc27f4b7a9f-goog
-
+ldv
 
 _______________________________________________
 linux-snps-arc mailing list
