@@ -4,62 +4,148 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C57DE77188
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Jan 2025 09:39:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 84275C02183
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 16 Jan 2025 00:22:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=oVuf/7NrfHSpmVI/61q7pJpzeda2WSstzlfvj7tukOA=; b=qQuw+ma6gC1nmf
-	4Ny0o58KZsouZURihn4zOssKVhQ4XcfQ2RpsqYqEidBoI9PMCQQHfFzcXXVTSH4gUCCmALYEb+XXX
-	AOGBkJCMcpavIy1aKGk6HyLcxRyZIhVMTOOaWkDHBOMJTwC2c9Ktq7pCcqD9iDZlvarYpsZocy/SA
-	pSvLpbDB2uYixldtLe//BnZ2sQhc3qZ7/ZV5TF61GQNk8V+FINGp+bprOy9FSRC7MwfP8QUPzinfe
-	Eq+ZE8Tx/vV1tp5KMQhHIusKdt56q1JykhEsalV9zear5oynqnNM297kb9gPyvrjPUrsrZeLPoGBu
-	EqMsrM7KfPwa+aQIawyA==;
+	List-Owner; bh=FOF+LT842rIMBOFA0zdzNIm1stfxplq44YnpCcNqdH0=; b=kYvbIRPbzbCOug
+	iar0fUnAoRfgeYymNbXaCspk4m3+yyeQgyBMPltP3DlECyE/QIamgLbqBlNlK7qyXkO3XBfX5+npE
+	wqDco/vcytqwhaQqS+UDvsmZeNYAKChrfs4MfpNXwdye46oi0urXjwdy0V+vN/HZOm2bNiVHKJXE1
+	+XSdMRWwvwYFZr68nzq54zMQYbEzE5mDVZPeveWvcY7yGzdDqIaw2YpHgnfZR/DdW5DcicF9IgrKd
+	vUly+7qMp8lEiHp9AV+EEDN2vO00Lm6s5xDPv8PDMgheMWsJnB9idxUcfMxuIB5v0IP0H2fpUj+0m
+	n0xg/P8JAf6YpgDbyaYg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tXdO3-00000007yX8-2r8U;
-	Tue, 14 Jan 2025 09:39:03 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1tYDeC-0000000DR2g-4AyA;
+	Thu, 16 Jan 2025 00:22:08 +0000
+Received: from mail.alien8.de ([65.109.113.108])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tXdO2-00000007yWX-0QSV
-	for linux-snps-arc@bombadil.infradead.org;
-	Tue, 14 Jan 2025 09:39:02 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=//cnz16QtxIeFxE5HuqqMlIHhp2wCbbIRFz56oeXV+4=; b=Z8ZC3qLlXFInCy0E8sMysmqZEG
-	hcShwfX6HK1lK5fX2nr4BW747dyy2etYeC/0M+GoSIsfTMgbutXSFBGkEjISWHkDyo/rgNiuKwjzz
-	CJlrLyk5lJlVFcqxnsBzRLLKCJrmATdE2ehINywT0BSZ48TWkr7ouN69/v+LPKQfO5fSHnVW11xF5
-	AMs0o2qn3+HCEc60mtCJlNifvHipkuKBg2CXNdCAB62OWR+a8Kvx8DktJJ8GCAOkBmdSEuQdooke3
-	lLx2U4jGmCxvM/eGcFBU4iegjXU4Z6jwO1wqyybLZQghUprUTPQzAxXFpvTAew0zRPpFYx/n4DnP4
-	JHUKx5Ng==;
-Received: from 77-249-17-89.cable.dynamic.v4.ziggo.nl ([77.249.17.89] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tXdNz-0000000DFaI-0Ijg;
-	Tue, 14 Jan 2025 09:38:59 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id F23613004DE; Tue, 14 Jan 2025 10:38:57 +0100 (CET)
-Date: Tue, 14 Jan 2025 10:38:57 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Kun Hu <huk23@m.fudan.edu.cn>
-Cc: mingo@redhat.com, acme@kernel.org, namhyung@kernel.org,
-	mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
-	jolsa@kernel.org, irogers@google.com, adrian.hunter@intel.com,
-	kan.liang@linux.intel.com, vgupta@kernel.org,
+	id 1tYDe8-0000000DQwL-3kGx;
+	Thu, 16 Jan 2025 00:22:07 +0000
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 0C56940E016C;
+	Thu, 16 Jan 2025 00:21:52 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id VbKRelzzy0f1; Thu, 16 Jan 2025 00:21:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1736986908; bh=sf+0ox9qps9OCdNOEgrNakgxyzYQCzMyDXp9Teo1SPg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=J4tKA2z9c1dX6/H2/3UFIDVILO8xBwPl1TEyUVQC4DlsQu0QI4LpBFQsTv6iHdtZ2
+	 p9YzSu1IhOTiU08BN0L2M0PecKjs22CleittrM2qBO2cPFFy2HJaYp5I0uY6OZRukR
+	 zozlAlfCzmYK6zA6a7rnwMrIQ0b9nW+RolLTUFHyU+pjU2cgIrmrHLhc5fWiU93M7s
+	 2LkZr/YbbEmZFQD4jIKQDyVrDvGkXqUQxr/6r6ASqtjZeCHNBw03OzcKbqcsL4Zf7y
+	 r1sNh+hwC4E+Sr34rsrK2zYDvzgRcnP4r3tkiHo/VN5TYvqIp98CXQqbLfpwJEbhX6
+	 LaT6JfdqWRw5QyxhDfkiFjx/XLr9NsYyJlC7ZF0t4iyxrgh9cNrQSodGzZq46p9SyW
+	 +WsaNZgJgyJuKoQeomDMVOTWzfADMeQN5FYTZwJH0fqluCcbXDu1gyb+MVca8Gq90k
+	 llpN+og3N+QW/Z2lzB9EkrkOeRj43toNWqIzt56gvuiATFuUMDYR70QV3oeogpE80D
+	 afkT8idhQsUhKtFR8pKG/nJdJsboyyBxDAYqoVUea/m1agSvHxOA/qykF1MomKo6Rn
+	 83v/tkyRaK2qlfWRqxNzTUP0WyMRLSCK9+KBi9ZUGMvUEoc5K77pSKK9g5j/jP4qjT
+	 q2Tju1YxL09ppY+Av5Rr7RuI=
+Received: from zn.tnic (p200300eA971f93c3329C23fFFEA6A903.dip0.t-ipconnect.de [IPv6:2003:ea:971f:93c3:329c:23ff:fea6:a903])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7299840E0277;
+	Thu, 16 Jan 2025 00:19:07 +0000 (UTC)
+Date: Thu, 16 Jan 2025 01:18:58 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Brendan Jackman <jackmanb@google.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
+	Brian Cain <bcain@quicinc.com>, Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Michal Simek <monstr@monstr.eu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Dinh Nguyen <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>,
+	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+	Stafford Horne <shorne@gmail.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+	Christoph Lameter <cl@linux.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, x86@kernel.org,
+	linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
 	linux-snps-arc@lists.infradead.org,
-	linux-perf-users@vger.kernel.org
-Subject: Re: Fwd: Bug: Potential KCOV Race Condition in
- __sanitizer_cov_trace_pc Leading to Crash at kcov.c:217
-Message-ID: <20250114093857.GL5388@noisy.programming.kicks-ass.net>
-References: <4CB5EE98-DA69-4598-B08F-C9F432C68707@m.fudan.edu.cn>
- <F16B62F9-6F58-4503-AB8D-47087E973905@m.fudan.edu.cn>
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev,
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+	linux-arch@vger.kernel.org, linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, kvm@vger.kernel.org,
+	linux-efi@vger.kernel.org
+Subject: Re: [PATCH RFC v2 01/29] mm: asi: Make some utility functions
+ noinstr compatible
+Message-ID: <20250116001858.GDZ4hQctZe_PFvJ0AJ@fat_crate.local>
+References: <20250110-asi-rfc-v2-v2-0-8419288bc805@google.com>
+ <20250110-asi-rfc-v2-v2-1-8419288bc805@google.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <F16B62F9-6F58-4503-AB8D-47087E973905@m.fudan.edu.cn>
+In-Reply-To: <20250110-asi-rfc-v2-v2-1-8419288bc805@google.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250115_162205_079858_C5C6E2D2 
+X-CRM114-Status: GOOD (  32.76  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,74 +157,141 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Ci1FTk9DT05URU5UID8KCk9uIFN1biwgSmFuIDEyLCAyMDI1IGF0IDA0OjUxOjAxUE0gKzA4MDAs
-IEt1biBIdSB3cm90ZToKPiAKPiAKPiA+IOS4i+mdouaYr+iiq+i9rOWPkeeahOmCruS7tu+8mgo+
-ID4gCj4gPiDlj5Hku7bkuro6IEt1biBIdSA8aHVrMjNAbS5mdWRhbi5lZHUuY24+Cj4gPiDkuLvp
-opg6IOWbnuWkje+8mkJ1ZzogUG90ZW50aWFsIEtDT1YgUmFjZSBDb25kaXRpb24gaW4gX19zYW5p
-dGl6ZXJfY292X3RyYWNlX3BjIExlYWRpbmcgdG8gQ3Jhc2ggYXQga2Nvdi5jOjIxNwo+ID4g5pel
-5pyfOiAyMDI15bm0MeaciDEy5pelIEdNVCs4IDE2OjM1OjMxCj4gPiDmlLbku7bkuro6IHZndXB0
-YUBzeW5vcHN5cy5jb20sIEV1Z2VuaXkuUGFsdHNldkBzeW5vcHN5cy5jb20KPiA+IOaKhOmAgTog
-YW5kcmV5a252bEBnbWFpbC5jb20sIGFrcG1AbGludXgtZm91bmRhdGlvbi5vcmcsIGVsdmVyQGdv
-b2dsZS5jb20sIGFybmRAYXJuZGIuZGUsIG5vZ2lraEBnb29nbGUuY29tLCBrYXNhbi1kZXZAZ29v
-Z2xlZ3JvdXBzLmNvbSwgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZywgImpqdGFuMjRAbS5m
-dWRhbi5lZHUuY24iIDxqanRhbjI0QG0uZnVkYW4uZWR1LmNuPiwgRG1pdHJ5IFZ5dWtvdiA8ZHZ5
-dWtvdkBnb29nbGUuY29tPgo+ID4gCj4gPiAKPiA+IAo+ID4+IDIwMjXlubQx5pyIMTDml6UgMjA6
-MTPvvIxEbWl0cnkgVnl1a292IDxkdnl1a292QGdvb2dsZS5jb20+IOWGmemBk++8mgo+ID4+IAo+
-ID4+IE9uIEZyaSwgMTAgSmFuIDIwMjUgYXQgMDk6MTQsIEt1biBIdSA8aHVrMjNAbS5mdWRhbi5l
-ZHUuY24+IHdyb3RlOgo+ID4+Pj4+IEhFQUQgY29tbWl0OiBkYmZhYzYwZmViZmE4MDZhYmIyZDM4
-NGNiNjQ0MWU3NzMzNWQyNzk5Cj4gPj4+Pj4gZ2l0IHRyZWU6IHVwc3RyZWFtCj4gPj4+Pj4gQ29u
-c29sZSBvdXRwdXQ6IGh0dHBzOi8vZHJpdmUuZ29vZ2xlLmNvbS9maWxlL2QvMXJtVlRrQnp1VHQw
-eE1VUy1LUHptOU9hZk1MWlZPQUhVL3ZpZXc/dXNwPXNoYXJpbmcKPiA+Pj4+PiBLZXJuZWwgY29u
-ZmlnOiBodHRwczovL2RyaXZlLmdvb2dsZS5jb20vZmlsZS9kLzFtMW1rX1l1c1ItdHl1c05IRnVS
-YnpkajhLVXpoa2VIQy92aWV3P3VzcD1zaGFyaW5nCj4gPj4+Pj4gQyByZXByb2R1Y2VyOiAvCj4g
-Pj4+Pj4gU3l6bGFuZyByZXByb2R1Y2VyOiAvCj4gPj4+Pj4gCj4gPj4+Pj4gVGhlIGNyYXNoIGlu
-IF9fc2FuaXRpemVyX2Nvdl90cmFjZV9wYyBhdCBrZXJuZWwva2Nvdi5jOjIxNyBzZWVtcyB0byBi
-ZSByZWxhdGVkIHRvIHRoZSBoYW5kbGluZyBvZiBLQ09WIGluc3RydW1lbnRhdGlvbiB3aGVuIHJ1
-bm5pbmcgaW4gYSBwcmVlbXB0aW9uIG9yIElSUS1zZW5zaXRpdmUgY29udGV4dC4gU3BlY2lmaWNh
-bGx5LCB0aGUgY29kZSBtaWdodCBhbGxvdyBwb3RlbnRpYWwgcmVjdXJzaXZlIGludm9jYXRpb25z
-IG9mIF9fc2FuaXRpemVyX2Nvdl90cmFjZV9wYyBkdXJpbmcgZWFybHkgaW50ZXJydXB0IGhhbmRs
-aW5nLCB3aGljaCBjb3VsZCBsZWFkIHRvIGRhdGEgcmFjZXMgb3IgaW5jb25zaXN0ZW50IHVwZGF0
-ZXMgdG8gdGhlIGNvdmVyYWdlIGFyZWEgKGtjb3ZfYXJlYSkuIEl0IHJlbWFpbnMgdW5jbGVhciB3
-aGV0aGVyIHRoaXMgaXMgYSBLQ09WLXNwZWNpZmljIGlzc3VlIG9yIGEgcmFyZSBlZGdlIGNhc2Ug
-ZXhwb3NlZCBieSBmdXp6aW5nLgo+ID4+Pj4gCj4gPj4+PiBIaSBLdW4sCj4gPj4+PiAKPiA+Pj4+
-IEhvdyBoYXZlIHlvdSBpbmZlcnJlZCB0aGlzIGZyb20gdGhlIGtlcm5lbCBvb3BzPwo+ID4+Pj4g
-SSBvbmx5IHNlZSBhIHN0YWxsIHRoYXQgbWF5IGhhdmUganVzdCBoYXBwZW5lZCB0byBiZSBjYXVn
-aHQgaW5zaWRlIG9mCj4gPj4+PiBfX3Nhbml0aXplcl9jb3ZfdHJhY2VfcGMgZnVuY3Rpb24gc2lu
-Y2UgaXQncyBleGVjdXRlZCBvZnRlbiBpbiBhbgo+ID4+Pj4gaW5zdHJ1bWVudGVkIGtlcm5lbC4K
-PiA+Pj4+IAo+ID4+Pj4gTm90ZTogb24gc3l6Ym90IHdlIGRvbid0IHJlcG9ydCBzdGFsbHMgb24g
-aW5zdGFuY2VzIHRoYXQgaGF2ZQo+ID4+Pj4gcGVyZl9ldmVudF9vcGVuIGVuYWJsZWQsIHNpbmNl
-IHBlcmYgaGF2ZSBrbm93biBidWdzIHRoYXQgbGVhZCB0byBzdGFsbAo+ID4+Pj4gYWxsIG92ZXIg
-dGhlIGtlcm5lbC4KPiA+Pj4gCj4gPj4+IEhpIERtaXRyeSwKPiA+Pj4gCj4gPj4+IFBsZWFzZSBh
-bGxvdyBtZSB0byBhc2sgZm9yIHlvdXIgYWR2aWNlOgo+ID4+PiAKPiA+Pj4gV2UgZ2V0IHRoZSBu
-ZXcgYyBhbmQgc3l6bGFuZyByZXByb2R1Y2VyICBmb3IgbXVsdGlwbGUgcm91bmRzIG9mIHJlcHJv
-ZHVjaW5nLiBJbmRlZWQsIHRoZSBsb2NhdGlvbiBvZiB0aGlzIGlzc3VlIGhhcyB2YXJpZWQgKEJV
-Rzogc29mdCBsb2NrdXAgaW4gdG1pZ3JfaGFuZGxlX3JlbW90ZSBpbiAuL2tlcm5lbC90aW1lL3Rp
-bWVyX21pZ3JhdGlvbi5jKS4gVGhlIGNyYXNoIGxvZywgYWxvbmcgd2l0aCB0aGUgQyBhbmQgU3l6
-bGFuZyByZXByb2R1Y2VyIGFyZSBwcm92aWRlZCBiZWxvdzoKPiA+Pj4gCj4gPj4+IENyYXNoIGxv
-ZzogaHR0cHM6Ly9kcml2ZS5nb29nbGUuY29tL2ZpbGUvZC8xNllEUDZiVTNHYThPSTFsN2hzTkZH
-NEVkdmp4dUJ6OGQvdmlldz91c3A9c2hhcmluZwo+ID4+PiBDIHJlcHJvZHVjZXI6IGh0dHBzOi8v
-ZHJpdmUuZ29vZ2xlLmNvbS9maWxlL2QvMUJIRGM2WGRYc2F0MDd5Yjk0aDZWV0otaklJS2h3UGZu
-L3ZpZXc/dXNwPXNoYXJpbmcKPiA+Pj4gU3l6bGFuZyByZXByb2R1Y2VyOiBodHRwczovL2RyaXZl
-Lmdvb2dsZS5jb20vZmlsZS9kLzFxbzFxZnIwS05ieUlLOTA5ZGRBbzZ1ektuckRQZEd5Vi92aWV3
-P3VzcD1zaGFyaW5nCj4gPj4+IAo+ID4+PiBTaG91bGQgSSByZXBvcnQgdGhlIGlzc3VlIHRvIHRo
-ZSBtYWludGFpbmVyIHJlc3BvbnNpYmxlIGZvciDigJx0aW1lcl9taWdyYXRpb24uY+KAnT8KPiA+
-PiAKPiA+PiBJZiBpdCBzaG93cyBzdGFsbHMgaW4gMiBsb2NhdGlvbnMsIEkgYXNzdW1lIGl0IGNh
-biBzaG93IHN0YWxscyBhbGwKPiA+PiBvdmVyIHRoZSBrZXJuZWwuCj4gPj4gCj4gPj4gVGhlIG9u
-bHkgdGhpbmcgdGhlIHJlcHJvZHVjZXIgaXMgZG9pbmcgaXMgcGVyZl9ldmVudF9vcGVuLCBzbyBJ
-IHdvdWxkCj4gPj4gYXNzdW1lIHRoZSBpc3N1ZSBpcyByZWxhdGVkIHRvIHBlcmYuCj4gPiAKPiA+
-IFRoYW5rcyB0byBEbWl0cnksCj4gPiAKPiA+IEhpIHBlcmYgbWFpbnRhaW5lcnMsCj4gPiAKPiA+
-IFdlIHJlcHJvZHVjZWQgdGhlIGlzc3VlIGZvciBtdWx0aXBsZSByb3VuZHMuIAo+ID4gCj4gPiBE
-b2VzIHRoZSBmcmVxdWVudCBvY2N1cnJlbmNlIG9mIHBlcmZfY2FsbGNoYWluX2tlcm5lbCBpbiB0
-aGUgY2FsbCBjaGFpbiBpbmRpY2F0ZSBhIHBvc3NpYmxlIHByb2JsZW0gd2l0aCB0aGUgY2FsbCBj
-aGFpbiBsb2dnaW5nIG9yIHByb2Nlc3NpbmcgbG9naWMgZm9yIHBlcmZvcm1hbmNlIGV2ZW50cz8K
-PiA+IAo+ID4gV2UgbGFjayB0aGUgcmVsZXZhbnQgdGVjaG5pY2FsIGJhY2tncm91bmQsIGNvdWxk
-IHlvdSBoZWxwIHVzIHRvIGNoZWNrIHRoZSBjYXVzZSBvZiB0aGUgaXNzdWU/Cj4gPiAKPiA+IOKA
-lOKAlOKAlOKAlAo+ID4gVGhhbmtzLAo+ID4gS3VuIEh1Lgo+ID4gCj4gCgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5n
-IGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5m
-cmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
+On Fri, Jan 10, 2025 at 06:40:27PM +0000, Brendan Jackman wrote:
+> Subject: Re: [PATCH RFC v2 01/29] mm: asi: Make some utility functions noinstr compatible
+
+The tip tree preferred format for patch subject prefixes is
+'subsys/component:', e.g. 'x86/apic:', 'x86/mm/fault:', 'sched/fair:',
+'genirq/core:'. Please do not use file names or complete file paths as
+prefix. 'git log path/to/file' should give you a reasonable hint in most
+cases.
+
+So I guess "x86/asm:" or so.
+
+> Some existing utility functions would need to be called from a noinstr
+> context in the later patches. So mark these as either noinstr or
+> __always_inline.
+> 
+> An earlier version of this by Junaid had a macro that was intended to
+> tell the compiler "either inline this function, or call it in the
+> noinstr section", which basically boiled down to:
+> 
+>  #define inline_or_noinstr noinline __section(".noinstr.text")
+> 
+> Unfortunately Thomas pointed out this will prevent the function from
+> being inlined at call sites in .text.
+> 
+> So far I haven't been able[1] to find a formulation that lets us :
+> 1. avoid calls from .noinstr.text -> .text,
+> 2. while also letting the compiler freely decide what to inline.
+> 
+> 1 is a functional requirement so here I'm just giving up on 2. Existing
+> callsites of this code are just forced inline. For the incoming code
+> that needs to call it from noinstr, they will be out-of-line calls.
+
+I'm not sure some of that belongs in the commit message - if you want to have
+it in the submission, you should put it under the --- line below, right above
+the diffstat.
+
+> [1] https://lore.kernel.org/lkml/CA+i-1C1z35M8wA_4AwMq7--c1OgjNoLGTkn4+Td5gKg7QQAzWw@mail.gmail.com/
+> 
+> Checkpatch-args: --ignore=COMMIT_LOG_LONG_LINE
+
+Yeah, you can drop those. People should not turn off brain, use checkpatch and
+point at all the silly errors it spits anyway.
+
+> Signed-off-by: Brendan Jackman <jackmanb@google.com>
+> ---
+>  arch/x86/include/asm/processor.h     |  2 +-
+>  arch/x86/include/asm/special_insns.h |  8 ++++----
+>  arch/x86/include/asm/tlbflush.h      |  3 +++
+>  arch/x86/mm/tlb.c                    | 13 +++++++++----
+>  4 files changed, 17 insertions(+), 9 deletions(-)
+
+So I was just about to look at the below diff but then booting the patch in my
+guest causes it to stop at:
+
+[    1.110988] sr 2:0:0:0: Attached scsi generic sg1 type 5
+[    1.114210] PM: Image not found (code -22)
+[    1.114903] clk: Disabling unused clocks
+[    1.119397] EXT4-fs (sda2): mounted filesystem 90868bc4-a017-4fa2-ac81-931ba260346f ro with ordered data mode. Quota mode: disabled.
+[    1.121069] VFS: Mounted root (ext4 filesystem) readonly on device 8:2.
+<--- EOF
+
+with the below call stack.
+
+Booting it on Linus' master branch is ok but this is tip/master with all that
+we've accumulated for the next merge window along with other stuff I'm poking
+at...
+
+Long story short, lemme try to poke around tomorrow to try to figure out what
+actually happens. It could be caused by the part of Rik's patches and this one
+inlining things. We'll see...
+
+native_flush_tlb_one_user (addr=2507219558400) at arch/x86/mm/tlb.c:1177
+1177            if (!static_cpu_has(X86_FEATURE_PTI))
+(gdb) bt
+#0  native_flush_tlb_one_user (addr=2507219558400) at arch/x86/mm/tlb.c:1177
+#1  0xffffffff8128206e in flush_tlb_one_user (addr=addr@entry=2507219558400) at arch/x86/mm/tlb.c:1196
+#2  flush_tlb_one_kernel (addr=addr@entry=2507219558400) at arch/x86/mm/tlb.c:1151
+#3  0xffffffff812820b7 in do_kernel_range_flush (info=0xffff88807dc311c0) at arch/x86/mm/tlb.c:1092
+#4  0xffffffff8137beb6 in csd_do_func (csd=0x0 <fixed_percpu_data>, info=0xffff88807dc311c0, 
+    func=0xffffffff81282090 <do_kernel_range_flush>) at kernel/smp.c:134
+#5  smp_call_function_many_cond (mask=<optimized out>, func=func@entry=0xffffffff81282090 <do_kernel_range_flush>, 
+    info=0xffff88807dc311c0, scf_flags=scf_flags@entry=3, cond_func=cond_func@entry=0x0 <fixed_percpu_data>)
+    at kernel/smp.c:876
+#6  0xffffffff8137c254 in on_each_cpu_cond_mask (cond_func=cond_func@entry=0x0 <fixed_percpu_data>, 
+    func=func@entry=0xffffffff81282090 <do_kernel_range_flush>, info=<optimized out>, wait=wait@entry=true, 
+    mask=<optimized out>) at kernel/smp.c:1052
+#7  0xffffffff81282020 in on_each_cpu (wait=1, info=<optimized out>, func=0xffffffff81282090 <do_kernel_range_flush>)
+    at ./include/linux/smp.h:71
+#8  flush_tlb_kernel_range (start=start@entry=18446683600570097664, end=<optimized out>, end@entry=18446683600579907584)
+    at arch/x86/mm/tlb.c:1106
+#9  0xffffffff81481c3f in __purge_vmap_area_lazy (start=18446683600570097664, start@entry=18446744073709551615, 
+    end=18446683600579907584, end@entry=0, full_pool_decay=full_pool_decay@entry=false) at mm/vmalloc.c:2284
+#10 0xffffffff81481fde in _vm_unmap_aliases (start=start@entry=18446744073709551615, end=end@entry=0, 
+    flush=<optimized out>, flush@entry=0) at mm/vmalloc.c:2899
+#11 0xffffffff81482049 in vm_unmap_aliases () at mm/vmalloc.c:2922
+#12 0xffffffff81284d9f in change_page_attr_set_clr (addr=0xffffc9000001fef0, numpages=<optimized out>, mask_set=..., 
+    mask_clr=..., force_split=<optimized out>, in_flag=0, pages=0x0 <fixed_percpu_data>)
+    at arch/x86/mm/pat/set_memory.c:1881
+#13 0xffffffff81285c52 in change_page_attr_set (array=0, mask=..., numpages=511, addr=0xffffc9000001fef0)
+    at arch/x86/mm/pat/set_memory.c:1922
+#14 set_memory_nx (addr=<optimized out>, addr@entry=18446744071759204352, numpages=numpages@entry=511)
+    at arch/x86/mm/pat/set_memory.c:2110
+#15 0xffffffff8127b729 in free_init_pages (what=what@entry=0xffffffff8226bac0 "unused decrypted", 
+    begin=18446744071759204352, end=18446744071761297408) at arch/x86/mm/init.c:929
+#16 0xffffffff898f25aa in mem_encrypt_free_decrypted_mem () at arch/x86/mm/mem_encrypt_amd.c:574
+#17 0xffffffff81ca06c3 in free_initmem () at arch/x86/mm/init.c:973
+#18 0xffffffff81c9fa48 in kernel_init (unused=<optimized out>) at init/main.c:1475
+#19 0xffffffff812398a0 in ret_from_fork (prev=<optimized out>, regs=0xffffc9000001ff58, 
+    fn=0xffffffff81c9fa10 <kernel_init>, fn_arg=0x0 <fixed_percpu_data>) at arch/x86/kernel/process.c:148
+#20 0xffffffff81206f7a in ret_from_fork_asm () at arch/x86/entry/entry_64.S:244
+#21 0x1f0f2e6600000000 in ?? ()
+#22 0x2e66000000000084 in ?? ()
+#23 0x0000000000841f0f in ?? ()
+#24 0x000000841f0f2e66 in ?? ()
+#25 0x00841f0f2e660000 in ?? ()
+#26 0x1f0f2e6600000000 in ?? ()
+#27 0x2e66000000000084 in ?? ()
+#28 0x0000000000841f0f in ?? ()
+#29 0x000000841f0f2e66 in ?? ()
+#30 0x00841f0f2e660000 in ?? ()
+#31 0x0000000000000000 in ?? ()
+(gdb)
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
