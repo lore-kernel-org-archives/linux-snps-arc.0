@@ -4,102 +4,107 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 520DAC02185
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 18 Jan 2025 04:38:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BABB4C02182
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 21 Jan 2025 16:39:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:References:
-	In-Reply-To:Subject:CC:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ku7S1Fm/b+ueVPCKpS9BwnLGIOMHOD3HY/wqOVFjOq0=; b=WzGJ+CYYxanX+W
-	f4rTFmNMPX8xas4PxiSj/gHZLlRBKM/Xbg6kDxQwRQnLiUS56oWitZm0uvGVA2k5Cq+SzAbneZtlB
-	l37sLFVoQ9W9Fx7OmRp57R3i9hhFA23BVtvH+E0xVpL11OqIDGmmaMn1bxQU4Kx3lmadu16HswcxG
-	fUJGj8IudMrVQjWmtrtQZpcIJ10Arx/b/C7Hq/LCaGX3LcVCFEpni3MUU3qA/pYZlZxYG9lgowLT3
-	gaUoXYfQ2exN0Saj4EM2hTkFKKFgwttNEbgi17QdIS1PKXAgMVOOvptKqxGtwb7w1EPuxvWIf7VWG
-	XRrwGCDiynwc3/UIwozw==;
+	List-Owner; bh=VtbZrvAoPVrI3FhjGLii9B0T3BfhijaxDL8KHmjCo/Y=; b=kOA/mN5GIl869t
+	cb5vM1W56Sm+CbNVrUbgrqR6ol2SeGOCzvBRMfaet21eXt/odKBG2YK607rn4BDdEi820TXnYq6cW
+	iRk+CcEBOw8lPvT/uiDz8hDR0jwZv+3ZGfMM1hAkMn95AinChF7uYCUoGjWJPLmtu4EJPTeB8MxVn
+	FI+LJPZxSHAfGTjIRGONmBUTHT9qhQI5ZOn0/rhAvcTpSTYceb7H9SpW3R3OkwbEdG98c5SqYVFTU
+	3aij+xu13vH/fRa628tPmhIQNl9LTFMdXuMPOuwAajTdGhTcelLW/GGsfotsdcX1+dcu6bD/zj73c
+	Q+iDYmddCZ2IKrLbb7Hg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tZ0bU-00000001qfZ-3Wic;
-	Sat, 18 Jan 2025 04:38:36 +0000
-Received: from torg.zytor.com ([2607:7c80:54:3::138] helo=mail.zytor.com)
+	id 1taHHo-00000008NRo-20OQ;
+	Tue, 21 Jan 2025 16:39:32 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tZ0bQ-00000001qea-2gih;
-	Sat, 18 Jan 2025 04:38:33 +0000
-Received: from [127.0.0.1] ([76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 50I4YkBo262261
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Fri, 17 Jan 2025 20:34:46 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 50I4YkBo262261
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2024121701; t=1737174897;
-	bh=w1vtBdwCDfUdjXlAPq/H8CEoUqmusT1ScqFMMfS7dZ8=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=hdj5mGq9LhBqQz1DGkEXyOAPg5UumXs4rYaXrAxe/XdXtsj44W9H6+brjFlKruZEu
-	 KZw5piA42OHN/XcSeaUskoitHUnJNqT+XsxtkAneGSnIvuXW+n6ZC7eW8FnCimYSsG
-	 Lq1HAj2fYTDCYOqRHD+qLXvSb6ZxhtiXDCdoJyIe1GRxYKC8axRGOudEZFGw1AbPA8
-	 XfSMDwvu4q4o4HAn0vaClp5lq+a2D6iGDyVD9URdyKl9xLKY6kTXhchRX+IiLJk6MT
-	 lQqfZZED15R6MYW2CL2TKc8zQ0Rfpn6iPT2QNmGS8gBb8X3N0roFy9uw8TLOeP93LY
-	 mjPwqKCNYdQPg==
-Date: Fri, 17 Jan 2025 20:34:45 -0800
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Eugene Syromyatnikov <evgsyr@gmail.com>
-CC: Charlie Jenkins <charlie@rivosinc.com>, "Dmitry V. Levin" <ldv@strace.io>,
-        Oleg Nesterov <oleg@redhat.com>, Mike Frysinger <vapier@gentoo.org>,
-        Renzo Davoli <renzo@cs.unibo.it>,
-        Davide Berardi <berardi.dav@gmail.com>, strace-devel@lists.strace.io,
-        Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
-        Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
-        Brian Cain <bcain@quicinc.com>, Huacai Chen <chenhuacai@kernel.org>,
-        WANG Xuerui <kernel@xen0n.name>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Dinh Nguyen <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Stafford Horne <shorne@gmail.com>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Naveen N Rao <naveen@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Yoshinori Sato <ysato@users.osdn.me>, Rich Felker <dalias@libc.org>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Andreas Larsson <andreas@gaisler.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-snps-arc@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	id 1taHGU-00000008NEH-21Qk;
+	Tue, 21 Jan 2025 16:38:11 +0000
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50LFN5xk011302;
+	Tue, 21 Jan 2025 16:37:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=rk7YrE6UBezqaR/fdDYkZZ8HhhiqPd
+	u23Nnd1oC9law=; b=fz8cQTU8PvP8JVPbKU6Ynem/RjPPMY4uzRJefS9/1Tx/qT
+	LzhhVSjzTVTggodrGdoC7U7DKDLLylgyhVs2FXbeQ7/tfYw6bKUuWYwWuOif/J55
+	axSnjLRVcxlX4rVFmGjI9yaNmgps2TdyXZGRxYJBxyypnf4KKtSpIijUn0tx2sG2
+	UQkEtTDltlKN8Af1rd91bT/prAvISQdM/HX80B8iBN3U4iv/2IgONEpJfBHX5Mtz
+	927QozGW/1WX1WRlYYGSfytKSwEZp1r05DyTHoaBZJKMtMvgB8PB502t9kcSNrkN
+	9ZetdoZIDddF9W2j5/S1Aryn/L+NhiQXTESjl6tQ==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44a5d7k4jx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 21 Jan 2025 16:37:38 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50LCt2RB024252;
+	Tue, 21 Jan 2025 16:37:37 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 448q0y45w5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 21 Jan 2025 16:37:36 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50LGbZEl22872488
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 21 Jan 2025 16:37:35 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DB61420040;
+	Tue, 21 Jan 2025 16:37:34 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3F9B220043;
+	Tue, 21 Jan 2025 16:37:34 +0000 (GMT)
+Received: from li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com (unknown [9.155.204.135])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Tue, 21 Jan 2025 16:37:34 +0000 (GMT)
+Date: Tue, 21 Jan 2025 17:37:33 +0100
+From: Alexander Gordeev <agordeev@linux.ibm.com>
+To: Kevin Brodsky <kevin.brodsky@arm.com>
+Cc: linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Mike Rapoport (IBM)" <rppt@kernel.org>,
+        Ryan Roberts <ryan.roberts@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Qi Zheng <zhengqi.arch@bytedance.com>, linux-alpha@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-        loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
-        linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-        linux-arch@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_3/7=5D_syscall=2Eh=3A_add_syscall=5Fse?=
- =?US-ASCII?Q?t=5Farguments=28=29_and_syscall=5Fset=5Freturn=5Fvalue=28=29?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <CACGkJdtAmtxsPiKYUzLLmfNGf6oJ9YS-25ZY9VvEEWhz37Qx6Q@mail.gmail.com>
-References: <20250113170925.GA392@strace.io> <20250113171140.GC589@strace.io> <Z4hs0X8RhGTuevnn@ghost> <eecada37-9d0e-4e3c-9b70-fefb990835b2@zytor.com> <CACGkJdtAmtxsPiKYUzLLmfNGf6oJ9YS-25ZY9VvEEWhz37Qx6Q@mail.gmail.com>
-Message-ID: <B5D44A2A-BF4F-4EEA-992D-0A06F2AE08CA@zytor.com>
+        linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+        linux-um@lists.infradead.org, loongarch@lists.linux.dev,
+        x86@kernel.org
+Subject: Re: [PATCH v2 6/6] mm: Introduce ctor/dtor at PGD level
+Message-ID: <Z4/NTRDBXEEimdvc@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
+References: <20250103184415.2744423-1-kevin.brodsky@arm.com>
+ <20250103184415.2744423-7-kevin.brodsky@arm.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20250103184415.2744423-7-kevin.brodsky@arm.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: _Jbv8MOWLvlsI4K8ecrKg7ZStBAwr44Z
+X-Proofpoint-ORIG-GUID: _Jbv8MOWLvlsI4K8ecrKg7ZStBAwr44Z
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-21_07,2025-01-21_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ impostorscore=0 mlxscore=0 spamscore=0 clxscore=1011 mlxlogscore=539
+ lowpriorityscore=0 phishscore=0 adultscore=0 malwarescore=0 suspectscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501210134
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250117_203832_679484_260D1AB0 
-X-CRM114-Status: GOOD (  14.45  )
+X-CRM114-CacheID: sfid-20250121_083810_520882_5350EF90 
+X-CRM114-Status: GOOD (  16.93  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,34 +116,49 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-T24gSmFudWFyeSAxNywgMjAyNSA3OjQ1OjAyIEFNIFBTVCwgRXVnZW5lIFN5cm9teWF0bmlrb3Yg
-PGV2Z3N5ckBnbWFpbC5jb20+IHdyb3RlOgo+T24gRnJpLCBKYW4gMTcsIDIwMjUgYXQgMjowM+KA
-r0FNIEguIFBldGVyIEFudmluIDxocGFAenl0b3IuY29tPiB3cm90ZToKPj4KPj4gSSBsaW5rIHRo
-ZSBjb25jZXB0IG9mIHRoaXMgcGF0Y2hzZXQsIGJ1dCAqcGxlYXNlKiBtYWtlIGl0IGNsZWFyIGlu
-IHRoZQo+PiBjb21tZW50cyB0aGF0IHRoaXMgZG9lcyBub3Qgc29sdmUgdGhlIGlzc3VlIG9mIDY0
-LWJpdCBrZXJuZWwgYXJndW1lbnRzCj4+IG9uIDMyLWJpdCBzeXN0ZW1zIGJlaW5nIEFCSSBzcGVj
-aWZpYy4KPgo+U29ycnksIGJ1dCBJIGRvbid0IHNlZSBob3cgdGhpcyBpcyByZWxldmFudDsgZWFj
-aCBhcmNoaXRlY3R1cmUgaGFzIGl0cwo+b3duIEFCSSB3aXRoIGl0cyBvd24gc2V0IG9mIHBlY3Vs
-aWFyaXRpZXMsIGFuZCB0aGVyZSdzIGEgbG90IG9mCj4oY29tcGxldGVseSB1bnJlbGF0ZWQpIHdv
-cmsgbmVlZGVkIGluIG9yZGVyIHRvIG1ha2UgYW4gQUJJIHRoYXQgaXMKPmFyY2hpdGVjdHVyZS1h
-Z25vc3RpYy4gIEFsbCB0aGlzIHBhdGNoIHNldCBkb2VzIGlzIHByb3ZpZGVzIGEKPmNvbnNpc3Rl
-bnQgd2F5IHRvIG1hbmlwdWxhdGUgc2NubyBhbmQgYXJncyBhY3Jvc3MgYXJjaGl0ZWN0dXJlczsg
-IGl0Cj5kb2Vzbid0IGFkZHJlc3MgdGhlIGZhY3QgdGhhdCBzb21lIGFyY2hpdGVjdHVyZXMgaGF2
-ZSBtbWFwMi9tbWFwX3Bnb2ZmCj5zeXNjYWxsLCBvciB0aGF0IHNvbWUgaGF2ZSBmYWR2aXNlNjRf
-NjQgaW4gYWRkaXRpb24gdG8gZmFkdmlzZTY0LCBvcgo+dGhlIGV4aXN0ZW5jZSBvZiBjbG9uZTIs
-IG9yIHNvY2tldGNhbGwsIG9yIGlwYzsgb3IgdGhhdCBzb21lCj5hcmNoaXRlY3R1cmVzIGRvbid0
-IGhhdmUgb3BlbiBvciBzdGF0OyAgb3IgdGhhdCBzY25vcyBvbiBkaWZmZXJlbnQKPmFyY2hpdGVj
-dHVyZXMgb3IgZXZlbiBkaWZmZXJlbnQgYml0LXdpZHRocyB3aXRoaW4gdGhlICJzYW1lIgo+YXJj
-aGl0ZWN0dXJlIGFyZSBkaWZmZXJlbnQuCj4KPj4gVGhpcyBpc24ndCB1bmlxdWUgdG8gdGhpcyBw
-YXRjaCBpbiBhbnkgd2F5OyB0aGUgb25seSB3YXkgdG8gaGFuZGxlIGl0IGlzCj4+IGJ5IGtlZXBp
-bmcgdHJhY2sgb2YgZWFjaCBBQkkuCj4KPlRoYXQncyB0cnVlLCBidXQgdGhpcyBwYXRjaCBkb2Vz
-bid0IGV2ZW4gdHJ5IHRvIGFkZHJlc3MgdGhhdC4KPgoKSSBqdXN0IHdhbnQgaXQgbm90ZWQgaW4g
-dGhlIGNvbW1lbnQsIHRoYXQncyBhbGwuCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1h
-cmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
+On Fri, Jan 03, 2025 at 06:44:15PM +0000, Kevin Brodsky wrote:
+
+Hi Kevin,
+...
+> diff --git a/arch/s390/include/asm/pgalloc.h b/arch/s390/include/asm/pgalloc.h
+> index 5fced6d3c36b..b19b6ed2ab53 100644
+> --- a/arch/s390/include/asm/pgalloc.h
+> +++ b/arch/s390/include/asm/pgalloc.h
+> @@ -130,11 +130,18 @@ static inline void pud_populate(struct mm_struct *mm, pud_t *pud, pmd_t *pmd)
+>  
+>  static inline pgd_t *pgd_alloc(struct mm_struct *mm)
+>  {
+> -	return (pgd_t *) crst_table_alloc(mm);
+> +	unsigned long *table = crst_table_alloc(mm);
+> +
+> +	if (!table)
+> +		return NULL;
+
+I do not know status of this series, but FWIW, this call is missed:
+
+	crst_table_init(table, _REGION1_ENTRY_EMPTY); 
+
+> +	pagetable_pgd_ctor(virt_to_ptdesc(table));
+> +
+> +	return (pgd_t *) table;
+>  }
+>  
+>  static inline void pgd_free(struct mm_struct *mm, pgd_t *pgd)
+>  {
+> +	pagetable_dtor(virt_to_ptdesc(pgd));
+>  	crst_table_free(mm, (unsigned long *) pgd);
+>  }
+
+...
+
+Thanks!
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
