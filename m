@@ -4,97 +4,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6ADFC0218A
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 28 Jan 2025 09:16:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2F45DC0218D
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 28 Jan 2025 15:20:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=UefO4AM+XSiTiT6/xTh4ahbGTRI4PHZgKXGXbhcJyiI=; b=Us8qyXfDBeRYGh
-	JIGgHBUza+XTEBmDhuMCxGZeQmVGC5CnKwpTqEWrFiie2iU0basL85CLVGKJ0H3rWgZ6g8sLmb+rB
-	oLQa5OEZITjqoU5LiI7RHJBGYKnXpwKKCoOfDiFlsp9vF38SYhkHoFS4CiKZLyWXVgLaeMNkNup4o
-	PLRc6xHabCwWF15YG5UhjEQjjJz266o4C3AXIXGyoEwNhXfuyUkJgW3gKHmbdrWFYEMUoVDKMsZh1
-	JnfkcJBKrody8WZA+4aUN9x2F4d8u3XRWxD99Bobs03J7tLdGMNachgVOfgf3xGXnCPVNycF1SyBM
-	vwHwoU6ppriQl5A60Lww==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=jEqg6Vfzx3PQAhIpOixTYHO2LYVFW+GuwFChzk9fSEQ=; b=qOMf6A+m46QZ/e
+	4ylffkPyugU0nyM5ONAhxSzrkrRs9GeAaAZ6RW46vx6aGvZp5AGrl2UhK3Num1Dq4WZztafKEOncf
+	n0AAJe61P1I07qAB18m9zSsngG4KugpttGhk2e4cUXIukY71dMVTCqzvw6Qm1T0EECM5Sv0JyyyZL
+	arP9oLXcHEops28KPEFzqZShGKYRWelg9I7zT0oqlTaSejmLqdtqwWFZ3GaIUbmOJdq2cknkQLMfP
+	pT+aYlvQXTldwTyrXAfpOru9OZU3caxW0UNxwuVbhsLGe4nSCjcK8/a2rTVJIINMnFM4c+2sRI3Hu
+	MUbKqXaLoK4DW5bcqu3Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tchi5-00000004Up9-1oyW;
-	Tue, 28 Jan 2025 09:16:41 +0000
-Received: from vmicros1.altlinux.org ([194.107.17.57])
+	id 1tcnNq-000000057Pe-3EdQ;
+	Tue, 28 Jan 2025 15:20:10 +0000
+Received: from pegase2.c-s.fr ([93.17.235.10])
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tchi1-00000004UmL-0E5S;
-	Tue, 28 Jan 2025 09:16:38 +0000
-Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
-	by vmicros1.altlinux.org (Postfix) with ESMTP id 4421072C90B;
-	Tue, 28 Jan 2025 12:16:36 +0300 (MSK)
-Received: by mua.local.altlinux.org (Postfix, from userid 508)
-	id 36DCD7CCB3A; Tue, 28 Jan 2025 11:16:36 +0200 (IST)
-Date: Tue, 28 Jan 2025 11:16:36 +0200
-From: "Dmitry V. Levin" <ldv@strace.io>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Alexey Gladkov <legion@kernel.org>,
-	Charlie Jenkins <charlie@rivosinc.com>,
-	Eugene Syromyatnikov <evgsyr@gmail.com>,
-	Mike Frysinger <vapier@gentoo.org>,
-	Renzo Davoli <renzo@cs.unibo.it>,
-	Davide Berardi <berardi.dav@gmail.com>,
-	strace-devel@lists.strace.io, Vineet Gupta <vgupta@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Brian Cain <bcain@quicinc.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Michal Simek <monstr@monstr.eu>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Dinh Nguyen <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>,
-	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-	Stafford Horne <shorne@gmail.com>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Rich Felker <dalias@libc.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>,
-	Max Filippov <jcmvbkbc@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
-	linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-um@lists.infradead.org, linux-arch@vger.kernel.org
-Subject: [PATCH v3 3/6] syscall.h: introduce syscall_set_nr()
-Message-ID: <20250128091636.GC8601@strace.io>
+	id 1tcnNm-000000057ON-02b8;
+	Tue, 28 Jan 2025 15:20:07 +0000
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+	by localhost (Postfix) with ESMTP id 4Yj7qW139Lz9sSL;
+	Tue, 28 Jan 2025 16:04:39 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id SG--bol4XQv9; Tue, 28 Jan 2025 16:04:39 +0100 (CET)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4Yj7qV0J3hz9sRy;
+	Tue, 28 Jan 2025 16:04:38 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id D97518B76D;
+	Tue, 28 Jan 2025 16:04:37 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id 1V511-fPm10Y; Tue, 28 Jan 2025 16:04:37 +0100 (CET)
+Received: from [192.168.235.99] (unknown [192.168.235.99])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 0160A8B763;
+	Tue, 28 Jan 2025 16:04:34 +0100 (CET)
+Message-ID: <df7441ae-e478-4a40-aaa7-461d9b589e06@csgroup.eu>
+Date: Tue, 28 Jan 2025 16:04:34 +0100
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20250128091445.GA8257@strace.io>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/6] syscall.h: add syscall_set_arguments() and
+ syscall_set_return_value()
+To: "Dmitry V. Levin" <ldv@strace.io>, Oleg Nesterov <oleg@redhat.com>
+Cc: Alexey Gladkov <legion@kernel.org>, Charlie Jenkins
+ <charlie@rivosinc.com>, Eugene Syromyatnikov <evgsyr@gmail.com>,
+ Mike Frysinger <vapier@gentoo.org>, Renzo Davoli <renzo@cs.unibo.it>,
+ Davide Berardi <berardi.dav@gmail.com>, strace-devel@lists.strace.io,
+ Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
+ Brian Cain <bcain@quicinc.com>, Huacai Chen <chenhuacai@kernel.org>,
+ WANG Xuerui <kernel@xen0n.name>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Dinh Nguyen <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+ Stafford Horne <shorne@gmail.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Naveen N Rao <naveen@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ "David S. Miller" <davem@davemloft.net>,
+ Andreas Larsson <andreas@gaisler.com>, Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
+ Arnd Bergmann <arnd@arndb.de>, linux-snps-arc@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+ linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-arch@vger.kernel.org
+References: <20250128091626.GB8601@strace.io>
+Content-Language: fr-FR
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+In-Reply-To: <20250128091626.GB8601@strace.io>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250128_011637_437124_80D7B68C 
-X-CRM114-Status: GOOD (  16.56  )
+X-CRM114-CacheID: sfid-20250128_072006_394665_DE9F7FEB 
+X-CRM114-Status: GOOD (  23.25  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,466 +111,339 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Similar to syscall_set_arguments() that complements
-syscall_get_arguments(), introduce syscall_set_nr()
-that complements syscall_get_nr().
-
-syscall_set_nr() is going to be needed along with
-syscall_set_arguments() on all HAVE_ARCH_TRACEHOOK
-architectures to implement PTRACE_SET_SYSCALL_INFO API.
-
-Signed-off-by: Dmitry V. Levin <ldv@strace.io>
-Tested-by: Charlie Jenkins <charlie@rivosinc.com>
-Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
----
- arch/arc/include/asm/syscall.h        | 11 +++++++++++
- arch/arm/include/asm/syscall.h        | 24 ++++++++++++++++++++++++
- arch/arm64/include/asm/syscall.h      | 16 ++++++++++++++++
- arch/hexagon/include/asm/syscall.h    |  7 +++++++
- arch/loongarch/include/asm/syscall.h  |  7 +++++++
- arch/m68k/include/asm/syscall.h       |  7 +++++++
- arch/microblaze/include/asm/syscall.h |  7 +++++++
- arch/mips/include/asm/syscall.h       | 14 ++++++++++++++
- arch/nios2/include/asm/syscall.h      |  5 +++++
- arch/openrisc/include/asm/syscall.h   |  6 ++++++
- arch/parisc/include/asm/syscall.h     |  7 +++++++
- arch/powerpc/include/asm/syscall.h    | 10 ++++++++++
- arch/riscv/include/asm/syscall.h      |  7 +++++++
- arch/s390/include/asm/syscall.h       | 12 ++++++++++++
- arch/sh/include/asm/syscall_32.h      | 12 ++++++++++++
- arch/sparc/include/asm/syscall.h      | 12 ++++++++++++
- arch/um/include/asm/syscall-generic.h |  5 +++++
- arch/x86/include/asm/syscall.h        |  7 +++++++
- arch/xtensa/include/asm/syscall.h     |  7 +++++++
- include/asm-generic/syscall.h         | 14 ++++++++++++++
- 20 files changed, 197 insertions(+)
-
-diff --git a/arch/arc/include/asm/syscall.h b/arch/arc/include/asm/syscall.h
-index 89c1e1736356..728d625a10f1 100644
---- a/arch/arc/include/asm/syscall.h
-+++ b/arch/arc/include/asm/syscall.h
-@@ -23,6 +23,17 @@ syscall_get_nr(struct task_struct *task, struct pt_regs *regs)
- 		return -1;
- }
- 
-+static inline void
-+syscall_set_nr(struct task_struct *task, struct pt_regs *regs, int nr)
-+{
-+	/*
-+	 * Unlike syscall_get_nr(), syscall_set_nr() can be called only when
-+	 * the target task is stopped for tracing on entering syscall, so
-+	 * there is no need to have the same check syscall_get_nr() has.
-+	 */
-+	regs->r8 = nr;
-+}
-+
- static inline void
- syscall_rollback(struct task_struct *task, struct pt_regs *regs)
- {
-diff --git a/arch/arm/include/asm/syscall.h b/arch/arm/include/asm/syscall.h
-index 21927fa0ae2b..18b102a30741 100644
---- a/arch/arm/include/asm/syscall.h
-+++ b/arch/arm/include/asm/syscall.h
-@@ -68,6 +68,30 @@ static inline void syscall_set_return_value(struct task_struct *task,
- 	regs->ARM_r0 = (long) error ? error : val;
- }
- 
-+static inline void syscall_set_nr(struct task_struct *task,
-+				  struct pt_regs *regs,
-+				  int nr)
-+{
-+	if (nr == -1) {
-+		task_thread_info(task)->abi_syscall = -1;
-+		/*
-+		 * When the syscall number is set to -1, the syscall will be
-+		 * skipped.  In this case the syscall return value has to be
-+		 * set explicitly, otherwise the first syscall argument is
-+		 * returned as the syscall return value.
-+		 */
-+		syscall_set_return_value(task, regs, -ENOSYS, 0);
-+		return;
-+	}
-+	if ((IS_ENABLED(CONFIG_AEABI) && !IS_ENABLED(CONFIG_OABI_COMPAT))) {
-+		task_thread_info(task)->abi_syscall = nr;
-+		return;
-+	}
-+	task_thread_info(task)->abi_syscall =
-+		(task_thread_info(task)->abi_syscall & ~__NR_SYSCALL_MASK) |
-+		(nr & __NR_SYSCALL_MASK);
-+}
-+
- #define SYSCALL_MAX_ARGS 7
- 
- static inline void syscall_get_arguments(struct task_struct *task,
-diff --git a/arch/arm64/include/asm/syscall.h b/arch/arm64/include/asm/syscall.h
-index 76020b66286b..712daa90e643 100644
---- a/arch/arm64/include/asm/syscall.h
-+++ b/arch/arm64/include/asm/syscall.h
-@@ -61,6 +61,22 @@ static inline void syscall_set_return_value(struct task_struct *task,
- 	regs->regs[0] = val;
- }
- 
-+static inline void syscall_set_nr(struct task_struct *task,
-+				  struct pt_regs *regs,
-+				  int nr)
-+{
-+	regs->syscallno = nr;
-+	if (nr == -1) {
-+		/*
-+		 * When the syscall number is set to -1, the syscall will be
-+		 * skipped.  In this case the syscall return value has to be
-+		 * set explicitly, otherwise the first syscall argument is
-+		 * returned as the syscall return value.
-+		 */
-+		syscall_set_return_value(task, regs, -ENOSYS, 0);
-+	}
-+}
-+
- #define SYSCALL_MAX_ARGS 6
- 
- static inline void syscall_get_arguments(struct task_struct *task,
-diff --git a/arch/hexagon/include/asm/syscall.h b/arch/hexagon/include/asm/syscall.h
-index 1024a6548d78..70637261817a 100644
---- a/arch/hexagon/include/asm/syscall.h
-+++ b/arch/hexagon/include/asm/syscall.h
-@@ -26,6 +26,13 @@ static inline long syscall_get_nr(struct task_struct *task,
- 	return regs->r06;
- }
- 
-+static inline void syscall_set_nr(struct task_struct *task,
-+				  struct pt_regs *regs,
-+				  int nr)
-+{
-+	regs->r06 = nr;
-+}
-+
- static inline void syscall_get_arguments(struct task_struct *task,
- 					 struct pt_regs *regs,
- 					 unsigned long *args)
-diff --git a/arch/loongarch/include/asm/syscall.h b/arch/loongarch/include/asm/syscall.h
-index ff415b3c0a8e..81d2733f7b94 100644
---- a/arch/loongarch/include/asm/syscall.h
-+++ b/arch/loongarch/include/asm/syscall.h
-@@ -26,6 +26,13 @@ static inline long syscall_get_nr(struct task_struct *task,
- 	return regs->regs[11];
- }
- 
-+static inline void syscall_set_nr(struct task_struct *task,
-+				  struct pt_regs *regs,
-+				  int nr)
-+{
-+	regs->regs[11] = nr;
-+}
-+
- static inline void syscall_rollback(struct task_struct *task,
- 				    struct pt_regs *regs)
- {
-diff --git a/arch/m68k/include/asm/syscall.h b/arch/m68k/include/asm/syscall.h
-index d1453e850cdd..bf84b160c2eb 100644
---- a/arch/m68k/include/asm/syscall.h
-+++ b/arch/m68k/include/asm/syscall.h
-@@ -14,6 +14,13 @@ static inline int syscall_get_nr(struct task_struct *task,
- 	return regs->orig_d0;
- }
- 
-+static inline void syscall_set_nr(struct task_struct *task,
-+				  struct pt_regs *regs,
-+				  int nr)
-+{
-+	regs->orig_d0 = nr;
-+}
-+
- static inline void syscall_rollback(struct task_struct *task,
- 				    struct pt_regs *regs)
- {
-diff --git a/arch/microblaze/include/asm/syscall.h b/arch/microblaze/include/asm/syscall.h
-index 5eb3f624cc59..b5b6b91fae3e 100644
---- a/arch/microblaze/include/asm/syscall.h
-+++ b/arch/microblaze/include/asm/syscall.h
-@@ -14,6 +14,13 @@ static inline long syscall_get_nr(struct task_struct *task,
- 	return regs->r12;
- }
- 
-+static inline void syscall_set_nr(struct task_struct *task,
-+				  struct pt_regs *regs,
-+				  int nr)
-+{
-+	regs->r12 = nr;
-+}
-+
- static inline void syscall_rollback(struct task_struct *task,
- 				    struct pt_regs *regs)
- {
-diff --git a/arch/mips/include/asm/syscall.h b/arch/mips/include/asm/syscall.h
-index 2dcc1d01b405..1cd25306cc13 100644
---- a/arch/mips/include/asm/syscall.h
-+++ b/arch/mips/include/asm/syscall.h
-@@ -41,6 +41,20 @@ static inline long syscall_get_nr(struct task_struct *task,
- 	return task_thread_info(task)->syscall;
- }
- 
-+static inline void syscall_set_nr(struct task_struct *task,
-+				  struct pt_regs *regs,
-+				  int nr)
-+{
-+	/*
-+	 * New syscall number has to be assigned to regs[2] because
-+	 * syscall_trace_entry() loads it from there unconditionally.
-+	 *
-+	 * Consequently, if the syscall was indirect and nr != __NR_syscall,
-+	 * then after this assignment the syscall will cease to be indirect.
-+	 */
-+	task_thread_info(task)->syscall = regs->regs[2] = nr;
-+}
-+
- static inline void mips_syscall_update_nr(struct task_struct *task,
- 					  struct pt_regs *regs)
- {
-diff --git a/arch/nios2/include/asm/syscall.h b/arch/nios2/include/asm/syscall.h
-index 526449edd768..8e3eb1d689bb 100644
---- a/arch/nios2/include/asm/syscall.h
-+++ b/arch/nios2/include/asm/syscall.h
-@@ -15,6 +15,11 @@ static inline int syscall_get_nr(struct task_struct *task, struct pt_regs *regs)
- 	return regs->r2;
- }
- 
-+static inline void syscall_set_nr(struct task_struct *task, struct pt_regs *regs, int nr)
-+{
-+	regs->r2 = nr;
-+}
-+
- static inline void syscall_rollback(struct task_struct *task,
- 				struct pt_regs *regs)
- {
-diff --git a/arch/openrisc/include/asm/syscall.h b/arch/openrisc/include/asm/syscall.h
-index e6383be2a195..5e037d9659c5 100644
---- a/arch/openrisc/include/asm/syscall.h
-+++ b/arch/openrisc/include/asm/syscall.h
-@@ -25,6 +25,12 @@ syscall_get_nr(struct task_struct *task, struct pt_regs *regs)
- 	return regs->orig_gpr11;
- }
- 
-+static inline void
-+syscall_set_nr(struct task_struct *task, struct pt_regs *regs, int nr)
-+{
-+	regs->orig_gpr11 = nr;
-+}
-+
- static inline void
- syscall_rollback(struct task_struct *task, struct pt_regs *regs)
- {
-diff --git a/arch/parisc/include/asm/syscall.h b/arch/parisc/include/asm/syscall.h
-index b146d0ae4c77..c11222798ab2 100644
---- a/arch/parisc/include/asm/syscall.h
-+++ b/arch/parisc/include/asm/syscall.h
-@@ -17,6 +17,13 @@ static inline long syscall_get_nr(struct task_struct *tsk,
- 	return regs->gr[20];
- }
- 
-+static inline void syscall_set_nr(struct task_struct *tsk,
-+				  struct pt_regs *regs,
-+				  int nr)
-+{
-+	regs->gr[20] = nr;
-+}
-+
- static inline void syscall_get_arguments(struct task_struct *tsk,
- 					 struct pt_regs *regs,
- 					 unsigned long *args)
-diff --git a/arch/powerpc/include/asm/syscall.h b/arch/powerpc/include/asm/syscall.h
-index 521f279e6b33..7505dcfed247 100644
---- a/arch/powerpc/include/asm/syscall.h
-+++ b/arch/powerpc/include/asm/syscall.h
-@@ -39,6 +39,16 @@ static inline int syscall_get_nr(struct task_struct *task, struct pt_regs *regs)
- 		return -1;
- }
- 
-+static inline void syscall_set_nr(struct task_struct *task, struct pt_regs *regs, int nr)
-+{
-+	/*
-+	 * Unlike syscall_get_nr(), syscall_set_nr() can be called only when
-+	 * the target task is stopped for tracing on entering syscall, so
-+	 * there is no need to have the same check syscall_get_nr() has.
-+	 */
-+	regs->gpr[0] = nr;
-+}
-+
- static inline void syscall_rollback(struct task_struct *task,
- 				    struct pt_regs *regs)
- {
-diff --git a/arch/riscv/include/asm/syscall.h b/arch/riscv/include/asm/syscall.h
-index 8d389ba995c8..a5281cdf2b10 100644
---- a/arch/riscv/include/asm/syscall.h
-+++ b/arch/riscv/include/asm/syscall.h
-@@ -30,6 +30,13 @@ static inline int syscall_get_nr(struct task_struct *task,
- 	return regs->a7;
- }
- 
-+static inline void syscall_set_nr(struct task_struct *task,
-+				  struct pt_regs *regs,
-+				  int nr)
-+{
-+	regs->a7 = nr;
-+}
-+
- static inline void syscall_rollback(struct task_struct *task,
- 				    struct pt_regs *regs)
- {
-diff --git a/arch/s390/include/asm/syscall.h b/arch/s390/include/asm/syscall.h
-index b3dd883699e7..12cd0c60c07b 100644
---- a/arch/s390/include/asm/syscall.h
-+++ b/arch/s390/include/asm/syscall.h
-@@ -24,6 +24,18 @@ static inline long syscall_get_nr(struct task_struct *task,
- 		(regs->int_code & 0xffff) : -1;
- }
- 
-+static inline void syscall_set_nr(struct task_struct *task,
-+				  struct pt_regs *regs,
-+				  int nr)
-+{
-+	/*
-+	 * Unlike syscall_get_nr(), syscall_set_nr() can be called only when
-+	 * the target task is stopped for tracing on entering syscall, so
-+	 * there is no need to have the same check syscall_get_nr() has.
-+	 */
-+	regs->int_code = (regs->int_code & ~0xffff) | (nr & 0xffff);
-+}
-+
- static inline void syscall_rollback(struct task_struct *task,
- 				    struct pt_regs *regs)
- {
-diff --git a/arch/sh/include/asm/syscall_32.h b/arch/sh/include/asm/syscall_32.h
-index cb51a7528384..7027d87d901d 100644
---- a/arch/sh/include/asm/syscall_32.h
-+++ b/arch/sh/include/asm/syscall_32.h
-@@ -15,6 +15,18 @@ static inline long syscall_get_nr(struct task_struct *task,
- 	return (regs->tra >= 0) ? regs->regs[3] : -1L;
- }
- 
-+static inline void syscall_set_nr(struct task_struct *task,
-+				  struct pt_regs *regs,
-+				  int nr)
-+{
-+	/*
-+	 * Unlike syscall_get_nr(), syscall_set_nr() can be called only when
-+	 * the target task is stopped for tracing on entering syscall, so
-+	 * there is no need to have the same check syscall_get_nr() has.
-+	 */
-+	regs->regs[3] = nr;
-+}
-+
- static inline void syscall_rollback(struct task_struct *task,
- 				    struct pt_regs *regs)
- {
-diff --git a/arch/sparc/include/asm/syscall.h b/arch/sparc/include/asm/syscall.h
-index 62a5a78804c4..b0233924d323 100644
---- a/arch/sparc/include/asm/syscall.h
-+++ b/arch/sparc/include/asm/syscall.h
-@@ -25,6 +25,18 @@ static inline long syscall_get_nr(struct task_struct *task,
- 	return (syscall_p ? regs->u_regs[UREG_G1] : -1L);
- }
- 
-+static inline void syscall_set_nr(struct task_struct *task,
-+				  struct pt_regs *regs,
-+				  int nr)
-+{
-+	/*
-+	 * Unlike syscall_get_nr(), syscall_set_nr() can be called only when
-+	 * the target task is stopped for tracing on entering syscall, so
-+	 * there is no need to have the same check syscall_get_nr() has.
-+	 */
-+	regs->u_regs[UREG_G1] = nr;
-+}
-+
- static inline void syscall_rollback(struct task_struct *task,
- 				    struct pt_regs *regs)
- {
-diff --git a/arch/um/include/asm/syscall-generic.h b/arch/um/include/asm/syscall-generic.h
-index 2984feb9d576..bcd73bcfe577 100644
---- a/arch/um/include/asm/syscall-generic.h
-+++ b/arch/um/include/asm/syscall-generic.h
-@@ -21,6 +21,11 @@ static inline int syscall_get_nr(struct task_struct *task, struct pt_regs *regs)
- 	return PT_REGS_SYSCALL_NR(regs);
- }
- 
-+static inline void syscall_set_nr(struct task_struct *task, struct pt_regs *regs, int nr)
-+{
-+	PT_REGS_SYSCALL_NR(regs) = nr;
-+}
-+
- static inline void syscall_rollback(struct task_struct *task,
- 				    struct pt_regs *regs)
- {
-diff --git a/arch/x86/include/asm/syscall.h b/arch/x86/include/asm/syscall.h
-index b9c249dd9e3d..c10dbb74cd00 100644
---- a/arch/x86/include/asm/syscall.h
-+++ b/arch/x86/include/asm/syscall.h
-@@ -38,6 +38,13 @@ static inline int syscall_get_nr(struct task_struct *task, struct pt_regs *regs)
- 	return regs->orig_ax;
- }
- 
-+static inline void syscall_set_nr(struct task_struct *task,
-+				  struct pt_regs *regs,
-+				  int nr)
-+{
-+	regs->orig_ax = nr;
-+}
-+
- static inline void syscall_rollback(struct task_struct *task,
- 				    struct pt_regs *regs)
- {
-diff --git a/arch/xtensa/include/asm/syscall.h b/arch/xtensa/include/asm/syscall.h
-index f9a671cbf933..7db3b489c8ad 100644
---- a/arch/xtensa/include/asm/syscall.h
-+++ b/arch/xtensa/include/asm/syscall.h
-@@ -28,6 +28,13 @@ static inline long syscall_get_nr(struct task_struct *task,
- 	return regs->syscall;
- }
- 
-+static inline void syscall_set_nr(struct task_struct *task,
-+				  struct pt_regs *regs,
-+				  int nr)
-+{
-+	regs->syscall = nr;
-+}
-+
- static inline void syscall_rollback(struct task_struct *task,
- 				    struct pt_regs *regs)
- {
-diff --git a/include/asm-generic/syscall.h b/include/asm-generic/syscall.h
-index 0f7b9a493de7..e33fd4e783c1 100644
---- a/include/asm-generic/syscall.h
-+++ b/include/asm-generic/syscall.h
-@@ -37,6 +37,20 @@ struct pt_regs;
-  */
- int syscall_get_nr(struct task_struct *task, struct pt_regs *regs);
- 
-+/**
-+ * syscall_set_nr - change the system call a task is executing
-+ * @task:	task of interest, must be blocked
-+ * @regs:	task_pt_regs() of @task
-+ * @nr:		system call number
-+ *
-+ * Changes the system call number @task is about to execute.
-+ *
-+ * It's only valid to call this when @task is stopped for tracing on
-+ * entry to a system call, due to %SYSCALL_WORK_SYSCALL_TRACE or
-+ * %SYSCALL_WORK_SYSCALL_AUDIT.
-+ */
-+void syscall_set_nr(struct task_struct *task, struct pt_regs *regs, int nr);
-+
- /**
-  * syscall_rollback - roll back registers after an aborted system call
-  * @task:	task of interest, must be in system call exit tracing
--- 
-ldv
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+CgpMZSAyOC8wMS8yMDI1IMOgIDEwOjE2LCBEbWl0cnkgVi4gTGV2aW4gYSDDqWNyaXTCoDoKPiBU
+aGVzZSBmdW5jdGlvbnMgYXJlIGdvaW5nIHRvIGJlIG5lZWRlZCBvbiBhbGwgSEFWRV9BUkNIX1RS
+QUNFSE9PSwo+IGFyY2hpdGVjdHVyZXMgdG8gaW1wbGVtZW50IFBUUkFDRV9TRVRfU1lTQ0FMTF9J
+TkZPIEFQSS4KClRoZSBzdWJqZWN0IGlzIG1pc2xlYWRpbmcuIHN5c2NhbGxfc2V0X3JldHVybl92
+YWx1ZSgpIGFscmVhZHkgZXhpc3RzIG9uIAptb3N0IGFyY2hpdGVjdHVyZXMgYW5kIHdhcyBub3Qg
+YWRkcmVzc2VkIGJ5IGNvbW1pdCA3OTYyYzJlZGRiZmUuCgpNYXliZSBpdCB3b3VsZCBiZSBiZXR0
+ZXIgdG8gaGFuZGxlIHN5c2NhbGxfc2V0X3JldHVybl92YWx1ZSgpIGluIGEgCnNlcGFyYXRlIGNv
+bW1pdC4KCj4gCj4gVGhpcyBwYXJ0aWFsbHkgcmV2ZXJ0cyBjb21taXQgNzk2MmMyZWRkYmZlICgi
+YXJjaDogcmVtb3ZlIHVudXNlZAo+IGZ1bmN0aW9uIHN5c2NhbGxfc2V0X2FyZ3VtZW50cygpIikg
+YnkgcmV1c2luZyBzb21lIG9mIG9sZAo+IHN5c2NhbGxfc2V0X2FyZ3VtZW50cygpIGltcGxlbWVu
+dGF0aW9ucy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBEbWl0cnkgVi4gTGV2aW4gPGxkdkBzdHJhY2Uu
+aW8+Cj4gVGVzdGVkLWJ5OiBDaGFybGllIEplbmtpbnMgPGNoYXJsaWVAcml2b3NpbmMuY29tPgo+
+IFJldmlld2VkLWJ5OiBDaGFybGllIEplbmtpbnMgPGNoYXJsaWVAcml2b3NpbmMuY29tPgo+IC0t
+LQo+ICAgYXJjaC9hcmMvaW5jbHVkZS9hc20vc3lzY2FsbC5oICAgICAgICB8IDE0ICsrKysrKysr
+KysrCj4gICBhcmNoL2FybS9pbmNsdWRlL2FzbS9zeXNjYWxsLmggICAgICAgIHwgMTMgKysrKysr
+KysrKwo+ICAgYXJjaC9hcm02NC9pbmNsdWRlL2FzbS9zeXNjYWxsLmggICAgICB8IDEzICsrKysr
+KysrKysKPiAgIGFyY2gvY3NreS9pbmNsdWRlL2FzbS9zeXNjYWxsLmggICAgICAgfCAxMyArKysr
+KysrKysrCj4gICBhcmNoL2hleGFnb24vaW5jbHVkZS9hc20vc3lzY2FsbC5oICAgIHwgMTQgKysr
+KysrKysrKysKPiAgIGFyY2gvbG9vbmdhcmNoL2luY2x1ZGUvYXNtL3N5c2NhbGwuaCAgfCAgOCAr
+KysrKysKPiAgIGFyY2gvbWlwcy9pbmNsdWRlL2FzbS9zeXNjYWxsLmggICAgICAgfCAzMiArKysr
+KysrKysrKysrKysrKysrKysrKysKPiAgIGFyY2gvbmlvczIvaW5jbHVkZS9hc20vc3lzY2FsbC5o
+ICAgICAgfCAxMSArKysrKysrKwo+ICAgYXJjaC9vcGVucmlzYy9pbmNsdWRlL2FzbS9zeXNjYWxs
+LmggICB8ICA3ICsrKysrKwo+ICAgYXJjaC9wYXJpc2MvaW5jbHVkZS9hc20vc3lzY2FsbC5oICAg
+ICB8IDEyICsrKysrKysrKwo+ICAgYXJjaC9wb3dlcnBjL2luY2x1ZGUvYXNtL3N5c2NhbGwuaCAg
+ICB8IDEwICsrKysrKysrCj4gICBhcmNoL3Jpc2N2L2luY2x1ZGUvYXNtL3N5c2NhbGwuaCAgICAg
+IHwgIDkgKysrKysrKwo+ICAgYXJjaC9zMzkwL2luY2x1ZGUvYXNtL3N5c2NhbGwuaCAgICAgICB8
+IDEyICsrKysrKysrKwo+ICAgYXJjaC9zaC9pbmNsdWRlL2FzbS9zeXNjYWxsXzMyLmggICAgICB8
+IDEyICsrKysrKysrKwo+ICAgYXJjaC9zcGFyYy9pbmNsdWRlL2FzbS9zeXNjYWxsLmggICAgICB8
+IDEwICsrKysrKysrCj4gICBhcmNoL3VtL2luY2x1ZGUvYXNtL3N5c2NhbGwtZ2VuZXJpYy5oIHwg
+MTQgKysrKysrKysrKysKPiAgIGFyY2gveDg2L2luY2x1ZGUvYXNtL3N5c2NhbGwuaCAgICAgICAg
+fCAzNiArKysrKysrKysrKysrKysrKysrKysrKysrKysKPiAgIGFyY2gveHRlbnNhL2luY2x1ZGUv
+YXNtL3N5c2NhbGwuaCAgICAgfCAxMSArKysrKysrKwo+ICAgaW5jbHVkZS9hc20tZ2VuZXJpYy9z
+eXNjYWxsLmggICAgICAgICB8IDE2ICsrKysrKysrKysrKwo+ICAgMTkgZmlsZXMgY2hhbmdlZCwg
+MjY3IGluc2VydGlvbnMoKykKPiAKPiBkaWZmIC0tZ2l0IGEvYXJjaC9hcmMvaW5jbHVkZS9hc20v
+c3lzY2FsbC5oIGIvYXJjaC9hcmMvaW5jbHVkZS9hc20vc3lzY2FsbC5oCj4gaW5kZXggOTcwOTI1
+NmUzMWM4Li44OWMxZTE3MzYzNTYgMTAwNjQ0Cj4gLS0tIGEvYXJjaC9hcmMvaW5jbHVkZS9hc20v
+c3lzY2FsbC5oCj4gKysrIGIvYXJjaC9hcmMvaW5jbHVkZS9hc20vc3lzY2FsbC5oCj4gQEAgLTY3
+LDYgKzY3LDIwIEBAIHN5c2NhbGxfZ2V0X2FyZ3VtZW50cyhzdHJ1Y3QgdGFza19zdHJ1Y3QgKnRh
+c2ssIHN0cnVjdCBwdF9yZWdzICpyZWdzLAo+ICAgCX0KPiAgIH0KPiAgIAo+ICtzdGF0aWMgaW5s
+aW5lIHZvaWQKPiArc3lzY2FsbF9zZXRfYXJndW1lbnRzKHN0cnVjdCB0YXNrX3N0cnVjdCAqdGFz
+aywgc3RydWN0IHB0X3JlZ3MgKnJlZ3MsCj4gKwkJICAgICAgdW5zaWduZWQgbG9uZyAqYXJncykK
+PiArewo+ICsJdW5zaWduZWQgbG9uZyAqaW5zaWRlX3B0cmVncyA9ICZyZWdzLT5yMDsKPiArCXVu
+c2lnbmVkIGludCBuID0gNjsKPiArCXVuc2lnbmVkIGludCBpID0gMDsKPiArCj4gKwl3aGlsZSAo
+bi0tKSB7Cj4gKwkJKmluc2lkZV9wdHJlZ3MgPSBhcmdzW2krK107Cj4gKwkJaW5zaWRlX3B0cmVn
+cy0tOwo+ICsJfQo+ICt9Cj4gKwo+ICAgc3RhdGljIGlubGluZSBpbnQKPiAgIHN5c2NhbGxfZ2V0
+X2FyY2goc3RydWN0IHRhc2tfc3RydWN0ICp0YXNrKQo+ICAgewo+IGRpZmYgLS1naXQgYS9hcmNo
+L2FybS9pbmNsdWRlL2FzbS9zeXNjYWxsLmggYi9hcmNoL2FybS9pbmNsdWRlL2FzbS9zeXNjYWxs
+LmgKPiBpbmRleCBmZTQzMjZkOTM4YzEuLjIxOTI3ZmEwYWUyYiAxMDA2NDQKPiAtLS0gYS9hcmNo
+L2FybS9pbmNsdWRlL2FzbS9zeXNjYWxsLmgKPiArKysgYi9hcmNoL2FybS9pbmNsdWRlL2FzbS9z
+eXNjYWxsLmgKPiBAQCAtODAsNiArODAsMTkgQEAgc3RhdGljIGlubGluZSB2b2lkIHN5c2NhbGxf
+Z2V0X2FyZ3VtZW50cyhzdHJ1Y3QgdGFza19zdHJ1Y3QgKnRhc2ssCj4gICAJbWVtY3B5KGFyZ3Ms
+ICZyZWdzLT5BUk1fcjAgKyAxLCA1ICogc2l6ZW9mKGFyZ3NbMF0pKTsKPiAgIH0KPiAgIAo+ICtz
+dGF0aWMgaW5saW5lIHZvaWQgc3lzY2FsbF9zZXRfYXJndW1lbnRzKHN0cnVjdCB0YXNrX3N0cnVj
+dCAqdGFzaywKPiArCQkJCQkgc3RydWN0IHB0X3JlZ3MgKnJlZ3MsCj4gKwkJCQkJIGNvbnN0IHVu
+c2lnbmVkIGxvbmcgKmFyZ3MpCj4gK3sKPiArCW1lbWNweSgmcmVncy0+QVJNX3IwLCBhcmdzLCA2
+ICogc2l6ZW9mKGFyZ3NbMF0pKTsKPiArCS8qCj4gKwkgKiBBbHNvIGNvcHkgdGhlIGZpcnN0IGFy
+Z3VtZW50IGludG8gQVJNX09SSUdfcjAKPiArCSAqIHNvIHRoYXQgc3lzY2FsbF9nZXRfYXJndW1l
+bnRzKCkgd291bGQgcmV0dXJuIGl0Cj4gKwkgKiBpbnN0ZWFkIG9mIHRoZSBwcmV2aW91cyB2YWx1
+ZS4KPiArCSAqLwo+ICsJcmVncy0+QVJNX09SSUdfcjAgPSByZWdzLT5BUk1fcjA7Cj4gK30KPiAr
+Cj4gICBzdGF0aWMgaW5saW5lIGludCBzeXNjYWxsX2dldF9hcmNoKHN0cnVjdCB0YXNrX3N0cnVj
+dCAqdGFzaykKPiAgIHsKPiAgIAkvKiBBUk0gdGFza3MgZG9uJ3QgY2hhbmdlIGF1ZGl0IGFyY2hp
+dGVjdHVyZXMgb24gdGhlIGZseS4gKi8KPiBkaWZmIC0tZ2l0IGEvYXJjaC9hcm02NC9pbmNsdWRl
+L2FzbS9zeXNjYWxsLmggYi9hcmNoL2FybTY0L2luY2x1ZGUvYXNtL3N5c2NhbGwuaAo+IGluZGV4
+IGFiOGUxNGI5NmY2OC4uNzYwMjBiNjYyODZiIDEwMDY0NAo+IC0tLSBhL2FyY2gvYXJtNjQvaW5j
+bHVkZS9hc20vc3lzY2FsbC5oCj4gKysrIGIvYXJjaC9hcm02NC9pbmNsdWRlL2FzbS9zeXNjYWxs
+LmgKPiBAQCAtNzMsNiArNzMsMTkgQEAgc3RhdGljIGlubGluZSB2b2lkIHN5c2NhbGxfZ2V0X2Fy
+Z3VtZW50cyhzdHJ1Y3QgdGFza19zdHJ1Y3QgKnRhc2ssCj4gICAJbWVtY3B5KGFyZ3MsICZyZWdz
+LT5yZWdzWzFdLCA1ICogc2l6ZW9mKGFyZ3NbMF0pKTsKPiAgIH0KPiAgIAo+ICtzdGF0aWMgaW5s
+aW5lIHZvaWQgc3lzY2FsbF9zZXRfYXJndW1lbnRzKHN0cnVjdCB0YXNrX3N0cnVjdCAqdGFzaywK
+PiArCQkJCQkgc3RydWN0IHB0X3JlZ3MgKnJlZ3MsCj4gKwkJCQkJIGNvbnN0IHVuc2lnbmVkIGxv
+bmcgKmFyZ3MpCj4gK3sKPiArCW1lbWNweSgmcmVncy0+cmVnc1swXSwgYXJncywgNiAqIHNpemVv
+ZihhcmdzWzBdKSk7Cj4gKwkvKgo+ICsJICogQWxzbyBjb3B5IHRoZSBmaXJzdCBhcmd1bWVudCBp
+bnRvIG9yaWdfeDAKPiArCSAqIHNvIHRoYXQgc3lzY2FsbF9nZXRfYXJndW1lbnRzKCkgd291bGQg
+cmV0dXJuIGl0Cj4gKwkgKiBpbnN0ZWFkIG9mIHRoZSBwcmV2aW91cyB2YWx1ZS4KPiArCSAqLwo+
+ICsJcmVncy0+b3JpZ194MCA9IHJlZ3MtPnJlZ3NbMF07Cj4gK30KPiArCj4gICAvKgo+ICAgICog
+V2UgZG9uJ3QgY2FyZSBhYm91dCBlbmRpYW5uZXNzIChfX0FVRElUX0FSQ0hfTEUgYml0KSBoZXJl
+IGJlY2F1c2UKPiAgICAqIEFBcmNoNjQgaGFzIHRoZSBzYW1lIHN5c3RlbSBjYWxscyBib3RoIG9u
+IGxpdHRsZS0gYW5kIGJpZy0gZW5kaWFuLgo+IGRpZmYgLS1naXQgYS9hcmNoL2Nza3kvaW5jbHVk
+ZS9hc20vc3lzY2FsbC5oIGIvYXJjaC9jc2t5L2luY2x1ZGUvYXNtL3N5c2NhbGwuaAo+IGluZGV4
+IDBkZTU3MzQ5NTBiZi4uMzA0MDNmN2EwNDg3IDEwMDY0NAo+IC0tLSBhL2FyY2gvY3NreS9pbmNs
+dWRlL2FzbS9zeXNjYWxsLmgKPiArKysgYi9hcmNoL2Nza3kvaW5jbHVkZS9hc20vc3lzY2FsbC5o
+Cj4gQEAgLTU5LDYgKzU5LDE5IEBAIHN5c2NhbGxfZ2V0X2FyZ3VtZW50cyhzdHJ1Y3QgdGFza19z
+dHJ1Y3QgKnRhc2ssIHN0cnVjdCBwdF9yZWdzICpyZWdzLAo+ICAgCW1lbWNweShhcmdzLCAmcmVn
+cy0+YTEsIDUgKiBzaXplb2YoYXJnc1swXSkpOwo+ICAgfQo+ICAgCj4gK3N0YXRpYyBpbmxpbmUg
+dm9pZAo+ICtzeXNjYWxsX3NldF9hcmd1bWVudHMoc3RydWN0IHRhc2tfc3RydWN0ICp0YXNrLCBz
+dHJ1Y3QgcHRfcmVncyAqcmVncywKPiArCQkgICAgICBjb25zdCB1bnNpZ25lZCBsb25nICphcmdz
+KQo+ICt7Cj4gKwltZW1jcHkoJnJlZ3MtPmEwLCBhcmdzLCA2ICogc2l6ZW9mKHJlZ3MtPmEwKSk7
+Cj4gKwkvKgo+ICsJICogQWxzbyBjb3B5IHRoZSBmaXJzdCBhcmd1bWVudCBpbnRvIG9yaWdfeDAK
+PiArCSAqIHNvIHRoYXQgc3lzY2FsbF9nZXRfYXJndW1lbnRzKCkgd291bGQgcmV0dXJuIGl0Cj4g
+KwkgKiBpbnN0ZWFkIG9mIHRoZSBwcmV2aW91cyB2YWx1ZS4KPiArCSAqLwo+ICsJcmVncy0+b3Jp
+Z19hMCA9IHJlZ3MtPmEwOwo+ICt9Cj4gKwo+ICAgc3RhdGljIGlubGluZSBpbnQKPiAgIHN5c2Nh
+bGxfZ2V0X2FyY2goc3RydWN0IHRhc2tfc3RydWN0ICp0YXNrKQo+ICAgewo+IGRpZmYgLS1naXQg
+YS9hcmNoL2hleGFnb24vaW5jbHVkZS9hc20vc3lzY2FsbC5oIGIvYXJjaC9oZXhhZ29uL2luY2x1
+ZGUvYXNtL3N5c2NhbGwuaAo+IGluZGV4IGY2ZTQ1NGYxODAzOC4uMTAyNGE2NTQ4ZDc4IDEwMDY0
+NAo+IC0tLSBhL2FyY2gvaGV4YWdvbi9pbmNsdWRlL2FzbS9zeXNjYWxsLmgKPiArKysgYi9hcmNo
+L2hleGFnb24vaW5jbHVkZS9hc20vc3lzY2FsbC5oCj4gQEAgLTMzLDYgKzMzLDEzIEBAIHN0YXRp
+YyBpbmxpbmUgdm9pZCBzeXNjYWxsX2dldF9hcmd1bWVudHMoc3RydWN0IHRhc2tfc3RydWN0ICp0
+YXNrLAo+ICAgCW1lbWNweShhcmdzLCAmKCZyZWdzLT5yMDApWzBdLCA2ICogc2l6ZW9mKGFyZ3Nb
+MF0pKTsKPiAgIH0KPiAgIAo+ICtzdGF0aWMgaW5saW5lIHZvaWQgc3lzY2FsbF9zZXRfYXJndW1l
+bnRzKHN0cnVjdCB0YXNrX3N0cnVjdCAqdGFzaywKPiArCQkJCQkgc3RydWN0IHB0X3JlZ3MgKnJl
+Z3MsCj4gKwkJCQkJIHVuc2lnbmVkIGxvbmcgKmFyZ3MpCj4gK3sKPiArCW1lbWNweSgmKCZyZWdz
+LT5yMDApWzBdLCBhcmdzLCA2ICogc2l6ZW9mKGFyZ3NbMF0pKTsKPiArfQo+ICsKPiAgIHN0YXRp
+YyBpbmxpbmUgbG9uZyBzeXNjYWxsX2dldF9lcnJvcihzdHJ1Y3QgdGFza19zdHJ1Y3QgKnRhc2ss
+Cj4gICAJCQkJICAgICBzdHJ1Y3QgcHRfcmVncyAqcmVncykKPiAgIHsKPiBAQCAtNDUsNiArNTIs
+MTMgQEAgc3RhdGljIGlubGluZSBsb25nIHN5c2NhbGxfZ2V0X3JldHVybl92YWx1ZShzdHJ1Y3Qg
+dGFza19zdHJ1Y3QgKnRhc2ssCj4gICAJcmV0dXJuIHJlZ3MtPnIwMDsKPiAgIH0KPiAgIAo+ICtz
+dGF0aWMgaW5saW5lIHZvaWQgc3lzY2FsbF9zZXRfcmV0dXJuX3ZhbHVlKHN0cnVjdCB0YXNrX3N0
+cnVjdCAqdGFzaywKPiArCQkJCQkgICAgc3RydWN0IHB0X3JlZ3MgKnJlZ3MsCj4gKwkJCQkJICAg
+IGludCBlcnJvciwgbG9uZyB2YWwpCj4gK3sKPiArCXJlZ3MtPnIwMCA9IChsb25nKSBlcnJvciA/
+OiB2YWw7Cj4gK30KPiArCj4gICBzdGF0aWMgaW5saW5lIGludCBzeXNjYWxsX2dldF9hcmNoKHN0
+cnVjdCB0YXNrX3N0cnVjdCAqdGFzaykKPiAgIHsKPiAgIAlyZXR1cm4gQVVESVRfQVJDSF9IRVhB
+R09OOwo+IGRpZmYgLS1naXQgYS9hcmNoL2xvb25nYXJjaC9pbmNsdWRlL2FzbS9zeXNjYWxsLmgg
+Yi9hcmNoL2xvb25nYXJjaC9pbmNsdWRlL2FzbS9zeXNjYWxsLmgKPiBpbmRleCBlMjg2ZGM1ODQ3
+NmUuLmZmNDE1YjNjMGE4ZSAxMDA2NDQKPiAtLS0gYS9hcmNoL2xvb25nYXJjaC9pbmNsdWRlL2Fz
+bS9zeXNjYWxsLmgKPiArKysgYi9hcmNoL2xvb25nYXJjaC9pbmNsdWRlL2FzbS9zeXNjYWxsLmgK
+PiBAQCAtNjEsNiArNjEsMTQgQEAgc3RhdGljIGlubGluZSB2b2lkIHN5c2NhbGxfZ2V0X2FyZ3Vt
+ZW50cyhzdHJ1Y3QgdGFza19zdHJ1Y3QgKnRhc2ssCj4gICAJbWVtY3B5KCZhcmdzWzFdLCAmcmVn
+cy0+cmVnc1s1XSwgNSAqIHNpemVvZihsb25nKSk7Cj4gICB9Cj4gICAKPiArc3RhdGljIGlubGlu
+ZSB2b2lkIHN5c2NhbGxfc2V0X2FyZ3VtZW50cyhzdHJ1Y3QgdGFza19zdHJ1Y3QgKnRhc2ssCj4g
+KwkJCQkJIHN0cnVjdCBwdF9yZWdzICpyZWdzLAo+ICsJCQkJCSB1bnNpZ25lZCBsb25nICphcmdz
+KQo+ICt7Cj4gKwlyZWdzLT5vcmlnX2EwID0gYXJnc1swXTsKPiArCW1lbWNweSgmcmVncy0+cmVn
+c1s1XSwgJmFyZ3NbMV0sIDUgKiBzaXplb2YobG9uZykpOwo+ICt9Cj4gKwo+ICAgc3RhdGljIGlu
+bGluZSBpbnQgc3lzY2FsbF9nZXRfYXJjaChzdHJ1Y3QgdGFza19zdHJ1Y3QgKnRhc2spCj4gICB7
+Cj4gICAJcmV0dXJuIEFVRElUX0FSQ0hfTE9PTkdBUkNINjQ7Cj4gZGlmZiAtLWdpdCBhL2FyY2gv
+bWlwcy9pbmNsdWRlL2FzbS9zeXNjYWxsLmggYi9hcmNoL21pcHMvaW5jbHVkZS9hc20vc3lzY2Fs
+bC5oCj4gaW5kZXggYjNmMDBlZGU4YmIzLi4yZGNjMWQwMWI0MDUgMTAwNjQ0Cj4gLS0tIGEvYXJj
+aC9taXBzL2luY2x1ZGUvYXNtL3N5c2NhbGwuaAo+ICsrKyBiL2FyY2gvbWlwcy9pbmNsdWRlL2Fz
+bS9zeXNjYWxsLmgKPiBAQCAtNzQsNiArNzQsMjMgQEAgc3RhdGljIGlubGluZSB2b2lkIG1pcHNf
+Z2V0X3N5c2NhbGxfYXJnKHVuc2lnbmVkIGxvbmcgKmFyZywKPiAgICNlbmRpZgo+ICAgfQo+ICAg
+Cj4gK3N0YXRpYyBpbmxpbmUgdm9pZCBtaXBzX3NldF9zeXNjYWxsX2FyZyh1bnNpZ25lZCBsb25n
+ICphcmcsCj4gKwlzdHJ1Y3QgdGFza19zdHJ1Y3QgKnRhc2ssIHN0cnVjdCBwdF9yZWdzICpyZWdz
+LCB1bnNpZ25lZCBpbnQgbikKPiArewo+ICsjaWZkZWYgQ09ORklHXzMyQklUCj4gKwlzd2l0Y2gg
+KG4pIHsKPiArCWNhc2UgMDogY2FzZSAxOiBjYXNlIDI6IGNhc2UgMzoKPiArCQlyZWdzLT5yZWdz
+WzQgKyBuXSA9ICphcmc7Cj4gKwkJcmV0dXJuOwo+ICsJY2FzZSA0OiBjYXNlIDU6IGNhc2UgNjog
+Y2FzZSA3Ogo+ICsJCSphcmcgPSByZWdzLT5wYWQwW25dID0gKmFyZzsKPiArCQlyZXR1cm47Cj4g
+Kwl9Cj4gKyNlbHNlCj4gKwlyZWdzLT5yZWdzWzQgKyBuXSA9ICphcmc7Cj4gKyNlbmRpZgo+ICt9
+Cj4gKwo+ICAgc3RhdGljIGlubGluZSBsb25nIHN5c2NhbGxfZ2V0X2Vycm9yKHN0cnVjdCB0YXNr
+X3N0cnVjdCAqdGFzaywKPiAgIAkJCQkgICAgIHN0cnVjdCBwdF9yZWdzICpyZWdzKQo+ICAgewo+
+IEBAIC0xMjAsNiArMTM3LDIxIEBAIHN0YXRpYyBpbmxpbmUgdm9pZCBzeXNjYWxsX2dldF9hcmd1
+bWVudHMoc3RydWN0IHRhc2tfc3RydWN0ICp0YXNrLAo+ICAgCQltaXBzX2dldF9zeXNjYWxsX2Fy
+ZyhhcmdzKyssIHRhc2ssIHJlZ3MsIGkrKyk7Cj4gICB9Cj4gICAKPiArc3RhdGljIGlubGluZSB2
+b2lkIHN5c2NhbGxfc2V0X2FyZ3VtZW50cyhzdHJ1Y3QgdGFza19zdHJ1Y3QgKnRhc2ssCj4gKwkJ
+CQkJIHN0cnVjdCBwdF9yZWdzICpyZWdzLAo+ICsJCQkJCSB1bnNpZ25lZCBsb25nICphcmdzKQo+
+ICt7Cj4gKwl1bnNpZ25lZCBpbnQgaSA9IDA7Cj4gKwl1bnNpZ25lZCBpbnQgbiA9IDY7Cj4gKwo+
+ICsJLyogTzMyIEFCSSBzeXNjYWxsKCkgKi8KPiArCWlmIChtaXBzX3N5c2NhbGxfaXNfaW5kaXJl
+Y3QodGFzaywgcmVncykpCj4gKwkJaSsrOwo+ICsKPiArCXdoaWxlIChuLS0pCj4gKwkJbWlwc19z
+ZXRfc3lzY2FsbF9hcmcoYXJncysrLCB0YXNrLCByZWdzLCBpKyspOwo+ICt9Cj4gKwo+ICAgZXh0
+ZXJuIGNvbnN0IHVuc2lnbmVkIGxvbmcgc3lzX2NhbGxfdGFibGVbXTsKPiAgIGV4dGVybiBjb25z
+dCB1bnNpZ25lZCBsb25nIHN5czMyX2NhbGxfdGFibGVbXTsKPiAgIGV4dGVybiBjb25zdCB1bnNp
+Z25lZCBsb25nIHN5c24zMl9jYWxsX3RhYmxlW107Cj4gZGlmZiAtLWdpdCBhL2FyY2gvbmlvczIv
+aW5jbHVkZS9hc20vc3lzY2FsbC5oIGIvYXJjaC9uaW9zMi9pbmNsdWRlL2FzbS9zeXNjYWxsLmgK
+PiBpbmRleCBmZmY1MjIwNWZiNjUuLjUyNjQ0OWVkZDc2OCAxMDA2NDQKPiAtLS0gYS9hcmNoL25p
+b3MyL2luY2x1ZGUvYXNtL3N5c2NhbGwuaAo+ICsrKyBiL2FyY2gvbmlvczIvaW5jbHVkZS9hc20v
+c3lzY2FsbC5oCj4gQEAgLTU4LDYgKzU4LDE3IEBAIHN0YXRpYyBpbmxpbmUgdm9pZCBzeXNjYWxs
+X2dldF9hcmd1bWVudHMoc3RydWN0IHRhc2tfc3RydWN0ICp0YXNrLAo+ICAgCSphcmdzICAgPSBy
+ZWdzLT5yOTsKPiAgIH0KPiAgIAo+ICtzdGF0aWMgaW5saW5lIHZvaWQgc3lzY2FsbF9zZXRfYXJn
+dW1lbnRzKHN0cnVjdCB0YXNrX3N0cnVjdCAqdGFzaywKPiArCXN0cnVjdCBwdF9yZWdzICpyZWdz
+LCBjb25zdCB1bnNpZ25lZCBsb25nICphcmdzKQo+ICt7Cj4gKwlyZWdzLT5yNCA9ICphcmdzKys7
+Cj4gKwlyZWdzLT5yNSA9ICphcmdzKys7Cj4gKwlyZWdzLT5yNiA9ICphcmdzKys7Cj4gKwlyZWdz
+LT5yNyA9ICphcmdzKys7Cj4gKwlyZWdzLT5yOCA9ICphcmdzKys7Cj4gKwlyZWdzLT5yOSA9ICph
+cmdzOwo+ICt9Cj4gKwo+ICAgc3RhdGljIGlubGluZSBpbnQgc3lzY2FsbF9nZXRfYXJjaChzdHJ1
+Y3QgdGFza19zdHJ1Y3QgKnRhc2spCj4gICB7Cj4gICAJcmV0dXJuIEFVRElUX0FSQ0hfTklPUzI7
+Cj4gZGlmZiAtLWdpdCBhL2FyY2gvb3BlbnJpc2MvaW5jbHVkZS9hc20vc3lzY2FsbC5oIGIvYXJj
+aC9vcGVucmlzYy9pbmNsdWRlL2FzbS9zeXNjYWxsLmgKPiBpbmRleCA5MDNlZDg4MmJkZWMuLmU2
+MzgzYmUyYTE5NSAxMDA2NDQKPiAtLS0gYS9hcmNoL29wZW5yaXNjL2luY2x1ZGUvYXNtL3N5c2Nh
+bGwuaAo+ICsrKyBiL2FyY2gvb3BlbnJpc2MvaW5jbHVkZS9hc20vc3lzY2FsbC5oCj4gQEAgLTU3
+LDYgKzU3LDEzIEBAIHN5c2NhbGxfZ2V0X2FyZ3VtZW50cyhzdHJ1Y3QgdGFza19zdHJ1Y3QgKnRh
+c2ssIHN0cnVjdCBwdF9yZWdzICpyZWdzLAo+ICAgCW1lbWNweShhcmdzLCAmcmVncy0+Z3ByWzNd
+LCA2ICogc2l6ZW9mKGFyZ3NbMF0pKTsKPiAgIH0KPiAgIAo+ICtzdGF0aWMgaW5saW5lIHZvaWQK
+PiArc3lzY2FsbF9zZXRfYXJndW1lbnRzKHN0cnVjdCB0YXNrX3N0cnVjdCAqdGFzaywgc3RydWN0
+IHB0X3JlZ3MgKnJlZ3MsCj4gKwkJICAgICAgY29uc3QgdW5zaWduZWQgbG9uZyAqYXJncykKPiAr
+ewo+ICsJbWVtY3B5KCZyZWdzLT5ncHJbM10sIGFyZ3MsIDYgKiBzaXplb2YoYXJnc1swXSkpOwo+
+ICt9Cj4gKwo+ICAgc3RhdGljIGlubGluZSBpbnQgc3lzY2FsbF9nZXRfYXJjaChzdHJ1Y3QgdGFz
+a19zdHJ1Y3QgKnRhc2spCj4gICB7Cj4gICAJcmV0dXJuIEFVRElUX0FSQ0hfT1BFTlJJU0M7Cj4g
+ZGlmZiAtLWdpdCBhL2FyY2gvcGFyaXNjL2luY2x1ZGUvYXNtL3N5c2NhbGwuaCBiL2FyY2gvcGFy
+aXNjL2luY2x1ZGUvYXNtL3N5c2NhbGwuaAo+IGluZGV4IDAwYjEyN2E1ZTA5Yi4uYjE0NmQwYWU0
+Yzc3IDEwMDY0NAo+IC0tLSBhL2FyY2gvcGFyaXNjL2luY2x1ZGUvYXNtL3N5c2NhbGwuaAo+ICsr
+KyBiL2FyY2gvcGFyaXNjL2luY2x1ZGUvYXNtL3N5c2NhbGwuaAo+IEBAIC0yOSw2ICsyOSwxOCBA
+QCBzdGF0aWMgaW5saW5lIHZvaWQgc3lzY2FsbF9nZXRfYXJndW1lbnRzKHN0cnVjdCB0YXNrX3N0
+cnVjdCAqdHNrLAo+ICAgCWFyZ3NbMF0gPSByZWdzLT5nclsyNl07Cj4gICB9Cj4gICAKPiArc3Rh
+dGljIGlubGluZSB2b2lkIHN5c2NhbGxfc2V0X2FyZ3VtZW50cyhzdHJ1Y3QgdGFza19zdHJ1Y3Qg
+KnRzaywKPiArCQkJCQkgc3RydWN0IHB0X3JlZ3MgKnJlZ3MsCj4gKwkJCQkJIHVuc2lnbmVkIGxv
+bmcgKmFyZ3MpCj4gK3sKPiArCXJlZ3MtPmdyWzIxXSA9IGFyZ3NbNV07Cj4gKwlyZWdzLT5nclsy
+Ml0gPSBhcmdzWzRdOwo+ICsJcmVncy0+Z3JbMjNdID0gYXJnc1szXTsKPiArCXJlZ3MtPmdyWzI0
+XSA9IGFyZ3NbMl07Cj4gKwlyZWdzLT5nclsyNV0gPSBhcmdzWzFdOwo+ICsJcmVncy0+Z3JbMjZd
+ID0gYXJnc1swXTsKPiArfQo+ICsKPiAgIHN0YXRpYyBpbmxpbmUgbG9uZyBzeXNjYWxsX2dldF9l
+cnJvcihzdHJ1Y3QgdGFza19zdHJ1Y3QgKnRhc2ssCj4gICAJCQkJICAgICBzdHJ1Y3QgcHRfcmVn
+cyAqcmVncykKPiAgIHsKPiBkaWZmIC0tZ2l0IGEvYXJjaC9wb3dlcnBjL2luY2x1ZGUvYXNtL3N5
+c2NhbGwuaCBiL2FyY2gvcG93ZXJwYy9pbmNsdWRlL2FzbS9zeXNjYWxsLmgKPiBpbmRleCA0MjJk
+NzczNWFjZTYuLjUyMWYyNzllNmIzMyAxMDA2NDQKPiAtLS0gYS9hcmNoL3Bvd2VycGMvaW5jbHVk
+ZS9hc20vc3lzY2FsbC5oCj4gKysrIGIvYXJjaC9wb3dlcnBjL2luY2x1ZGUvYXNtL3N5c2NhbGwu
+aAo+IEBAIC0xMTQsNiArMTE0LDE2IEBAIHN0YXRpYyBpbmxpbmUgdm9pZCBzeXNjYWxsX2dldF9h
+cmd1bWVudHMoc3RydWN0IHRhc2tfc3RydWN0ICp0YXNrLAo+ICAgCX0KPiAgIH0KPiAgIAo+ICtz
+dGF0aWMgaW5saW5lIHZvaWQgc3lzY2FsbF9zZXRfYXJndW1lbnRzKHN0cnVjdCB0YXNrX3N0cnVj
+dCAqdGFzaywKPiArCQkJCQkgc3RydWN0IHB0X3JlZ3MgKnJlZ3MsCj4gKwkJCQkJIGNvbnN0IHVu
+c2lnbmVkIGxvbmcgKmFyZ3MpCj4gK3sKPiArCW1lbWNweSgmcmVncy0+Z3ByWzNdLCBhcmdzLCA2
+ICogc2l6ZW9mKGFyZ3NbMF0pKTsKPiArCj4gKwkvKiBBbHNvIGNvcHkgdGhlIGZpcnN0IGFyZ3Vt
+ZW50IGludG8gb3JpZ19ncHIzICovCj4gKwlyZWdzLT5vcmlnX2dwcjMgPSBhcmdzWzBdOwo+ICt9
+Cj4gKwo+ICAgc3RhdGljIGlubGluZSBpbnQgc3lzY2FsbF9nZXRfYXJjaChzdHJ1Y3QgdGFza19z
+dHJ1Y3QgKnRhc2spCj4gICB7Cj4gICAJaWYgKGlzX3Rza18zMmJpdF90YXNrKHRhc2spKQo+IGRp
+ZmYgLS1naXQgYS9hcmNoL3Jpc2N2L2luY2x1ZGUvYXNtL3N5c2NhbGwuaCBiL2FyY2gvcmlzY3Yv
+aW5jbHVkZS9hc20vc3lzY2FsbC5oCj4gaW5kZXggMTIxZmZmNDI5ZGNlLi44ZDM4OWJhOTk1Yzgg
+MTAwNjQ0Cj4gLS0tIGEvYXJjaC9yaXNjdi9pbmNsdWRlL2FzbS9zeXNjYWxsLmgKPiArKysgYi9h
+cmNoL3Jpc2N2L2luY2x1ZGUvYXNtL3N5c2NhbGwuaAo+IEBAIC02Niw2ICs2NiwxNSBAQCBzdGF0
+aWMgaW5saW5lIHZvaWQgc3lzY2FsbF9nZXRfYXJndW1lbnRzKHN0cnVjdCB0YXNrX3N0cnVjdCAq
+dGFzaywKPiAgIAltZW1jcHkoYXJncywgJnJlZ3MtPmExLCA1ICogc2l6ZW9mKGFyZ3NbMF0pKTsK
+PiAgIH0KPiAgIAo+ICtzdGF0aWMgaW5saW5lIHZvaWQgc3lzY2FsbF9zZXRfYXJndW1lbnRzKHN0
+cnVjdCB0YXNrX3N0cnVjdCAqdGFzaywKPiArCQkJCQkgc3RydWN0IHB0X3JlZ3MgKnJlZ3MsCj4g
+KwkJCQkJIGNvbnN0IHVuc2lnbmVkIGxvbmcgKmFyZ3MpCj4gK3sKPiArCXJlZ3MtPm9yaWdfYTAg
+PSBhcmdzWzBdOwo+ICsJYXJncysrOwo+ICsJbWVtY3B5KCZyZWdzLT5hMSwgYXJncywgNSAqIHNp
+emVvZihyZWdzLT5hMSkpOwo+ICt9Cj4gKwo+ICAgc3RhdGljIGlubGluZSBpbnQgc3lzY2FsbF9n
+ZXRfYXJjaChzdHJ1Y3QgdGFza19zdHJ1Y3QgKnRhc2spCj4gICB7Cj4gICAjaWZkZWYgQ09ORklH
+XzY0QklUCj4gZGlmZiAtLWdpdCBhL2FyY2gvczM5MC9pbmNsdWRlL2FzbS9zeXNjYWxsLmggYi9h
+cmNoL3MzOTAvaW5jbHVkZS9hc20vc3lzY2FsbC5oCj4gaW5kZXggMjdlM2Q4MDRiMzExLi5iM2Rk
+ODgzNjk5ZTcgMTAwNjQ0Cj4gLS0tIGEvYXJjaC9zMzkwL2luY2x1ZGUvYXNtL3N5c2NhbGwuaAo+
+ICsrKyBiL2FyY2gvczM5MC9pbmNsdWRlL2FzbS9zeXNjYWxsLmgKPiBAQCAtNzgsNiArNzgsMTgg
+QEAgc3RhdGljIGlubGluZSB2b2lkIHN5c2NhbGxfZ2V0X2FyZ3VtZW50cyhzdHJ1Y3QgdGFza19z
+dHJ1Y3QgKnRhc2ssCj4gICAJYXJnc1swXSA9IHJlZ3MtPm9yaWdfZ3ByMiAmIG1hc2s7Cj4gICB9
+Cj4gICAKPiArc3RhdGljIGlubGluZSB2b2lkIHN5c2NhbGxfc2V0X2FyZ3VtZW50cyhzdHJ1Y3Qg
+dGFza19zdHJ1Y3QgKnRhc2ssCj4gKwkJCQkJIHN0cnVjdCBwdF9yZWdzICpyZWdzLAo+ICsJCQkJ
+CSBjb25zdCB1bnNpZ25lZCBsb25nICphcmdzKQo+ICt7Cj4gKwl1bnNpZ25lZCBpbnQgbiA9IDY7
+Cj4gKwo+ICsJd2hpbGUgKG4tLSA+IDApCj4gKwkJaWYgKG4gPiAwKQo+ICsJCQlyZWdzLT5ncHJz
+WzIgKyBuXSA9IGFyZ3Nbbl07Cj4gKwlyZWdzLT5vcmlnX2dwcjIgPSBhcmdzWzBdOwo+ICt9Cj4g
+Kwo+ICAgc3RhdGljIGlubGluZSBpbnQgc3lzY2FsbF9nZXRfYXJjaChzdHJ1Y3QgdGFza19zdHJ1
+Y3QgKnRhc2spCj4gICB7Cj4gICAjaWZkZWYgQ09ORklHX0NPTVBBVAo+IGRpZmYgLS1naXQgYS9h
+cmNoL3NoL2luY2x1ZGUvYXNtL3N5c2NhbGxfMzIuaCBiL2FyY2gvc2gvaW5jbHVkZS9hc20vc3lz
+Y2FsbF8zMi5oCj4gaW5kZXggZDg3NzM4ZWViZTMwLi5jYjUxYTc1MjgzODQgMTAwNjQ0Cj4gLS0t
+IGEvYXJjaC9zaC9pbmNsdWRlL2FzbS9zeXNjYWxsXzMyLmgKPiArKysgYi9hcmNoL3NoL2luY2x1
+ZGUvYXNtL3N5c2NhbGxfMzIuaAo+IEBAIC01Nyw2ICs1NywxOCBAQCBzdGF0aWMgaW5saW5lIHZv
+aWQgc3lzY2FsbF9nZXRfYXJndW1lbnRzKHN0cnVjdCB0YXNrX3N0cnVjdCAqdGFzaywKPiAgIAlh
+cmdzWzBdID0gcmVncy0+cmVnc1s0XTsKPiAgIH0KPiAgIAo+ICtzdGF0aWMgaW5saW5lIHZvaWQg
+c3lzY2FsbF9zZXRfYXJndW1lbnRzKHN0cnVjdCB0YXNrX3N0cnVjdCAqdGFzaywKPiArCQkJCQkg
+c3RydWN0IHB0X3JlZ3MgKnJlZ3MsCj4gKwkJCQkJIGNvbnN0IHVuc2lnbmVkIGxvbmcgKmFyZ3Mp
+Cj4gK3sKPiArCXJlZ3MtPnJlZ3NbMV0gPSBhcmdzWzVdOwo+ICsJcmVncy0+cmVnc1swXSA9IGFy
+Z3NbNF07Cj4gKwlyZWdzLT5yZWdzWzddID0gYXJnc1szXTsKPiArCXJlZ3MtPnJlZ3NbNl0gPSBh
+cmdzWzJdOwo+ICsJcmVncy0+cmVnc1s1XSA9IGFyZ3NbMV07Cj4gKwlyZWdzLT5yZWdzWzRdID0g
+YXJnc1swXTsKPiArfQo+ICsKPiAgIHN0YXRpYyBpbmxpbmUgaW50IHN5c2NhbGxfZ2V0X2FyY2go
+c3RydWN0IHRhc2tfc3RydWN0ICp0YXNrKQo+ICAgewo+ICAgCWludCBhcmNoID0gQVVESVRfQVJD
+SF9TSDsKPiBkaWZmIC0tZ2l0IGEvYXJjaC9zcGFyYy9pbmNsdWRlL2FzbS9zeXNjYWxsLmggYi9h
+cmNoL3NwYXJjL2luY2x1ZGUvYXNtL3N5c2NhbGwuaAo+IGluZGV4IDIwYzEwOWFjOGNjOS4uNjJh
+NWE3ODgwNGM0IDEwMDY0NAo+IC0tLSBhL2FyY2gvc3BhcmMvaW5jbHVkZS9hc20vc3lzY2FsbC5o
+Cj4gKysrIGIvYXJjaC9zcGFyYy9pbmNsdWRlL2FzbS9zeXNjYWxsLmgKPiBAQCAtMTE3LDYgKzEx
+NywxNiBAQCBzdGF0aWMgaW5saW5lIHZvaWQgc3lzY2FsbF9nZXRfYXJndW1lbnRzKHN0cnVjdCB0
+YXNrX3N0cnVjdCAqdGFzaywKPiAgIAl9Cj4gICB9Cj4gICAKPiArc3RhdGljIGlubGluZSB2b2lk
+IHN5c2NhbGxfc2V0X2FyZ3VtZW50cyhzdHJ1Y3QgdGFza19zdHJ1Y3QgKnRhc2ssCj4gKwkJCQkJ
+IHN0cnVjdCBwdF9yZWdzICpyZWdzLAo+ICsJCQkJCSBjb25zdCB1bnNpZ25lZCBsb25nICphcmdz
+KQo+ICt7Cj4gKwl1bnNpZ25lZCBpbnQgaTsKPiArCj4gKwlmb3IgKGkgPSAwOyBpIDwgNjsgaSsr
+KQo+ICsJCXJlZ3MtPnVfcmVnc1tVUkVHX0kwICsgaV0gPSBhcmdzW2ldOwo+ICt9Cj4gKwo+ICAg
+c3RhdGljIGlubGluZSBpbnQgc3lzY2FsbF9nZXRfYXJjaChzdHJ1Y3QgdGFza19zdHJ1Y3QgKnRh
+c2spCj4gICB7Cj4gICAjaWYgZGVmaW5lZChDT05GSUdfU1BBUkM2NCkgJiYgZGVmaW5lZChDT05G
+SUdfQ09NUEFUKQo+IGRpZmYgLS1naXQgYS9hcmNoL3VtL2luY2x1ZGUvYXNtL3N5c2NhbGwtZ2Vu
+ZXJpYy5oIGIvYXJjaC91bS9pbmNsdWRlL2FzbS9zeXNjYWxsLWdlbmVyaWMuaAo+IGluZGV4IDE3
+MmI3NDE0M2M0Yi4uMjk4NGZlYjlkNTc2IDEwMDY0NAo+IC0tLSBhL2FyY2gvdW0vaW5jbHVkZS9h
+c20vc3lzY2FsbC1nZW5lcmljLmgKPiArKysgYi9hcmNoL3VtL2luY2x1ZGUvYXNtL3N5c2NhbGwt
+Z2VuZXJpYy5oCj4gQEAgLTYyLDYgKzYyLDIwIEBAIHN0YXRpYyBpbmxpbmUgdm9pZCBzeXNjYWxs
+X2dldF9hcmd1bWVudHMoc3RydWN0IHRhc2tfc3RydWN0ICp0YXNrLAo+ICAgCSphcmdzICAgPSBV
+UFRfU1lTQ0FMTF9BUkc2KHIpOwo+ICAgfQo+ICAgCj4gK3N0YXRpYyBpbmxpbmUgdm9pZCBzeXNj
+YWxsX3NldF9hcmd1bWVudHMoc3RydWN0IHRhc2tfc3RydWN0ICp0YXNrLAo+ICsJCQkJCSBzdHJ1
+Y3QgcHRfcmVncyAqcmVncywKPiArCQkJCQkgY29uc3QgdW5zaWduZWQgbG9uZyAqYXJncykKPiAr
+ewo+ICsJc3RydWN0IHVtbF9wdF9yZWdzICpyID0gJnJlZ3MtPnJlZ3M7Cj4gKwo+ICsJVVBUX1NZ
+U0NBTExfQVJHMShyKSA9ICphcmdzKys7Cj4gKwlVUFRfU1lTQ0FMTF9BUkcyKHIpID0gKmFyZ3Mr
+KzsKPiArCVVQVF9TWVNDQUxMX0FSRzMocikgPSAqYXJncysrOwo+ICsJVVBUX1NZU0NBTExfQVJH
+NChyKSA9ICphcmdzKys7Cj4gKwlVUFRfU1lTQ0FMTF9BUkc1KHIpID0gKmFyZ3MrKzsKPiArCVVQ
+VF9TWVNDQUxMX0FSRzYocikgPSAqYXJnczsKPiArfQo+ICsKPiAgIC8qIFNlZSBhcmNoL3g4Ni91
+bS9hc20vc3lzY2FsbC5oIGZvciBzeXNjYWxsX2dldF9hcmNoKCkgZGVmaW5pdGlvbi4gKi8KPiAg
+IAo+ICAgI2VuZGlmCS8qIF9fVU1fU1lTQ0FMTF9HRU5FUklDX0ggKi8KPiBkaWZmIC0tZ2l0IGEv
+YXJjaC94ODYvaW5jbHVkZS9hc20vc3lzY2FsbC5oIGIvYXJjaC94ODYvaW5jbHVkZS9hc20vc3lz
+Y2FsbC5oCj4gaW5kZXggN2M0ODhmZjBjNzY0Li5iOWMyNDlkZDllM2QgMTAwNjQ0Cj4gLS0tIGEv
+YXJjaC94ODYvaW5jbHVkZS9hc20vc3lzY2FsbC5oCj4gKysrIGIvYXJjaC94ODYvaW5jbHVkZS9h
+c20vc3lzY2FsbC5oCj4gQEAgLTkwLDYgKzkwLDE4IEBAIHN0YXRpYyBpbmxpbmUgdm9pZCBzeXNj
+YWxsX2dldF9hcmd1bWVudHMoc3RydWN0IHRhc2tfc3RydWN0ICp0YXNrLAo+ICAgCWFyZ3NbNV0g
+PSByZWdzLT5icDsKPiAgIH0KPiAgIAo+ICtzdGF0aWMgaW5saW5lIHZvaWQgc3lzY2FsbF9zZXRf
+YXJndW1lbnRzKHN0cnVjdCB0YXNrX3N0cnVjdCAqdGFzaywKPiArCQkJCQkgc3RydWN0IHB0X3Jl
+Z3MgKnJlZ3MsCj4gKwkJCQkJIGNvbnN0IHVuc2lnbmVkIGxvbmcgKmFyZ3MpCj4gK3sKPiArCXJl
+Z3MtPmJ4ID0gYXJnc1swXTsKPiArCXJlZ3MtPmN4ID0gYXJnc1sxXTsKPiArCXJlZ3MtPmR4ID0g
+YXJnc1syXTsKPiArCXJlZ3MtPnNpID0gYXJnc1szXTsKPiArCXJlZ3MtPmRpID0gYXJnc1s0XTsK
+PiArCXJlZ3MtPmJwID0gYXJnc1s1XTsKPiArfQo+ICsKPiAgIHN0YXRpYyBpbmxpbmUgaW50IHN5
+c2NhbGxfZ2V0X2FyY2goc3RydWN0IHRhc2tfc3RydWN0ICp0YXNrKQo+ICAgewo+ICAgCXJldHVy
+biBBVURJVF9BUkNIX0kzODY7Cj4gQEAgLTEyMSw2ICsxMzMsMzAgQEAgc3RhdGljIGlubGluZSB2
+b2lkIHN5c2NhbGxfZ2V0X2FyZ3VtZW50cyhzdHJ1Y3QgdGFza19zdHJ1Y3QgKnRhc2ssCj4gICAJ
+fQo+ICAgfQo+ICAgCj4gK3N0YXRpYyBpbmxpbmUgdm9pZCBzeXNjYWxsX3NldF9hcmd1bWVudHMo
+c3RydWN0IHRhc2tfc3RydWN0ICp0YXNrLAo+ICsJCQkJCSBzdHJ1Y3QgcHRfcmVncyAqcmVncywK
+PiArCQkJCQkgY29uc3QgdW5zaWduZWQgbG9uZyAqYXJncykKPiArewo+ICsjIGlmZGVmIENPTkZJ
+R19JQTMyX0VNVUxBVElPTgo+ICsJaWYgKHRhc2stPnRocmVhZF9pbmZvLnN0YXR1cyAmIFRTX0NP
+TVBBVCkgewo+ICsJCXJlZ3MtPmJ4ID0gKmFyZ3MrKzsKPiArCQlyZWdzLT5jeCA9ICphcmdzKys7
+Cj4gKwkJcmVncy0+ZHggPSAqYXJncysrOwo+ICsJCXJlZ3MtPnNpID0gKmFyZ3MrKzsKPiArCQly
+ZWdzLT5kaSA9ICphcmdzKys7Cj4gKwkJcmVncy0+YnAgPSAqYXJnczsKPiArCX0gZWxzZQo+ICsj
+IGVuZGlmCj4gKwl7Cj4gKwkJcmVncy0+ZGkgPSAqYXJncysrOwo+ICsJCXJlZ3MtPnNpID0gKmFy
+Z3MrKzsKPiArCQlyZWdzLT5keCA9ICphcmdzKys7Cj4gKwkJcmVncy0+cjEwID0gKmFyZ3MrKzsK
+PiArCQlyZWdzLT5yOCA9ICphcmdzKys7Cj4gKwkJcmVncy0+cjkgPSAqYXJnczsKPiArCX0KPiAr
+fQo+ICsKPiAgIHN0YXRpYyBpbmxpbmUgaW50IHN5c2NhbGxfZ2V0X2FyY2goc3RydWN0IHRhc2tf
+c3RydWN0ICp0YXNrKQo+ICAgewo+ICAgCS8qIHgzMiB0YXNrcyBzaG91bGQgYmUgY29uc2lkZXJl
+ZCBBVURJVF9BUkNIX1g4Nl82NC4gKi8KPiBkaWZmIC0tZ2l0IGEvYXJjaC94dGVuc2EvaW5jbHVk
+ZS9hc20vc3lzY2FsbC5oIGIvYXJjaC94dGVuc2EvaW5jbHVkZS9hc20vc3lzY2FsbC5oCj4gaW5k
+ZXggNWVlOTc0YmY4MzMwLi5mOWE2NzFjYmY5MzMgMTAwNjQ0Cj4gLS0tIGEvYXJjaC94dGVuc2Ev
+aW5jbHVkZS9hc20vc3lzY2FsbC5oCj4gKysrIGIvYXJjaC94dGVuc2EvaW5jbHVkZS9hc20vc3lz
+Y2FsbC5oCj4gQEAgLTY4LDYgKzY4LDE3IEBAIHN0YXRpYyBpbmxpbmUgdm9pZCBzeXNjYWxsX2dl
+dF9hcmd1bWVudHMoc3RydWN0IHRhc2tfc3RydWN0ICp0YXNrLAo+ICAgCQlhcmdzW2ldID0gcmVn
+cy0+YXJlZ1tyZWdbaV1dOwo+ICAgfQo+ICAgCj4gK3N0YXRpYyBpbmxpbmUgdm9pZCBzeXNjYWxs
+X3NldF9hcmd1bWVudHMoc3RydWN0IHRhc2tfc3RydWN0ICp0YXNrLAo+ICsJCQkJCSBzdHJ1Y3Qg
+cHRfcmVncyAqcmVncywKPiArCQkJCQkgY29uc3QgdW5zaWduZWQgbG9uZyAqYXJncykKPiArewo+
+ICsJc3RhdGljIGNvbnN0IHVuc2lnbmVkIGludCByZWdbXSA9IFhURU5TQV9TWVNDQUxMX0FSR1VN
+RU5UX1JFR1M7Cj4gKwl1bnNpZ25lZCBpbnQgaTsKPiArCj4gKwlmb3IgKGkgPSAwOyBpIDwgNjsg
+KytpKQo+ICsJCXJlZ3MtPmFyZWdbcmVnW2ldXSA9IGFyZ3NbaV07Cj4gK30KPiArCj4gICBhc21s
+aW5rYWdlIGxvbmcgeHRlbnNhX3J0X3NpZ3JldHVybih2b2lkKTsKPiAgIGFzbWxpbmthZ2UgbG9u
+ZyB4dGVuc2Ffc2htYXQoaW50LCBjaGFyIF9fdXNlciAqLCBpbnQpOwo+ICAgYXNtbGlua2FnZSBs
+b25nIHh0ZW5zYV9mYWR2aXNlNjRfNjQoaW50LCBpbnQsCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUv
+YXNtLWdlbmVyaWMvc3lzY2FsbC5oIGIvaW5jbHVkZS9hc20tZ2VuZXJpYy9zeXNjYWxsLmgKPiBp
+bmRleCA1YTgwZmU3MjhkYzguLjBmN2I5YTQ5M2RlNyAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2Fz
+bS1nZW5lcmljL3N5c2NhbGwuaAo+ICsrKyBiL2luY2x1ZGUvYXNtLWdlbmVyaWMvc3lzY2FsbC5o
+Cj4gQEAgLTExNyw2ICsxMTcsMjIgQEAgdm9pZCBzeXNjYWxsX3NldF9yZXR1cm5fdmFsdWUoc3Ry
+dWN0IHRhc2tfc3RydWN0ICp0YXNrLCBzdHJ1Y3QgcHRfcmVncyAqcmVncywKPiAgIHZvaWQgc3lz
+Y2FsbF9nZXRfYXJndW1lbnRzKHN0cnVjdCB0YXNrX3N0cnVjdCAqdGFzaywgc3RydWN0IHB0X3Jl
+Z3MgKnJlZ3MsCj4gICAJCQkgICB1bnNpZ25lZCBsb25nICphcmdzKTsKPiAgIAo+ICsvKioKPiAr
+ICogc3lzY2FsbF9zZXRfYXJndW1lbnRzIC0gY2hhbmdlIHN5c3RlbSBjYWxsIHBhcmFtZXRlciB2
+YWx1ZQo+ICsgKiBAdGFzazoJdGFzayBvZiBpbnRlcmVzdCwgbXVzdCBiZSBpbiBzeXN0ZW0gY2Fs
+bCBlbnRyeSB0cmFjaW5nCj4gKyAqIEByZWdzOgl0YXNrX3B0X3JlZ3MoKSBvZiBAdGFzawo+ICsg
+KiBAYXJnczoJYXJyYXkgb2YgYXJndW1lbnQgdmFsdWVzIHRvIHN0b3JlCj4gKyAqCj4gKyAqIENo
+YW5nZXMgNiBhcmd1bWVudHMgdG8gdGhlIHN5c3RlbSBjYWxsLgo+ICsgKiBUaGUgZmlyc3QgYXJn
+dW1lbnQgZ2V0cyB2YWx1ZSBAYXJnc1swXSwgYW5kIHNvIG9uLgo+ICsgKgo+ICsgKiBJdCdzIG9u
+bHkgdmFsaWQgdG8gY2FsbCB0aGlzIHdoZW4gQHRhc2sgaXMgc3RvcHBlZCBmb3IgdHJhY2luZyBv
+bgo+ICsgKiBlbnRyeSB0byBhIHN5c3RlbSBjYWxsLCBkdWUgdG8gJVNZU0NBTExfV09SS19TWVND
+QUxMX1RSQUNFIG9yCj4gKyAqICVTWVNDQUxMX1dPUktfU1lTQ0FMTF9BVURJVC4KPiArICovCj4g
+K3ZvaWQgc3lzY2FsbF9zZXRfYXJndW1lbnRzKHN0cnVjdCB0YXNrX3N0cnVjdCAqdGFzaywgc3Ry
+dWN0IHB0X3JlZ3MgKnJlZ3MsCj4gKwkJCSAgIGNvbnN0IHVuc2lnbmVkIGxvbmcgKmFyZ3MpOwo+
+ICsKPiAgIC8qKgo+ICAgICogc3lzY2FsbF9nZXRfYXJjaCAtIHJldHVybiB0aGUgQVVESVRfQVJD
+SCBmb3IgdGhlIGN1cnJlbnQgc3lzdGVtIGNhbGwKPiAgICAqIEB0YXNrOgl0YXNrIG9mIGludGVy
+ZXN0LCBtdXN0IGJlIGJsb2NrZWQKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNA
+bGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
