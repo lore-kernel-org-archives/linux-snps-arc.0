@@ -4,53 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF854C0218D
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 31 Jan 2025 08:35:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9055C02193
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  3 Feb 2025 07:00:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=EKQOZVkYlPSYg9eiydUdXjXrHgH5NM92GO0h2IKYDvQ=; b=SICWb8e8fGt/J1
-	80d3w7TT61JRcd37XVHTs3RoLUu2p2+6RLyXdlyg/LZnh7xXxXA292+WLuM0uQZOOCf8Ln8z5NDCV
-	kW+j42hMYmcMiIGLNFX1c/Z59PLtq4E7PVPo/sf+QWYthDkICQH/MdtFn+PhrOExuCJ+9yEJCx1Bu
-	VhYthlxB4B9vuqpd68aR8FMIGUM1npdIhsrUN71v3E9r9Z1g73Udi8yN9jg3a7XSf2jLVfg7LwGuK
-	Vv0i5XumRLJRul+RPsMXMMsBDg8Fi1Y0IwY3qOq55mNFuZzx+cHd0hrgue3mW+qoX2vIFiSRwt1ip
-	q2V0X0LaZyryrzisLjaw==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=Ndq3jhER+Xwkq2hZ9skW0NyqXx6o4ZXr0rRyHQYIDqU=; b=xM1xi/XLtXVu2U
+	HSXPDQ4lUEMzk4fAxSVKXQ5rcP585Hi+FgmEXF3lrwycZpNEWum41CA62P02DhWgBuOJq/i87ewfw
+	6xqo8LB+iNOpcoSr2FsD/5kWHkfuumHFoWxZkyFiHC3wNN9AGXTaGrKWmDOkPJJqb1H8uUjBxVfg3
+	89buzM/SrVfbjJr7Ily8jgM0jshvmX6NzOsm4d2T/wRVZuLP08dP8P80kqINdXJ8fW2QrsCtaDbyc
+	KsQUO9L42kmKMeVm4c9xc5BwOPEFLl238g/RoYs1sRwxnfmEcn36OeAriiSxZL58p8zqC3Axx2oo0
+	PXi9/FKtS8esklstsPjA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tdmV6-0000000ADcU-2SwY;
-	Fri, 31 Jan 2025 08:35:44 +0000
-Received: from mail.cybercitadel.pl ([57.128.173.14])
-	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tdmV4-0000000ADZv-0YVP
-	for linux-snps-arc@lists.infradead.org;
-	Fri, 31 Jan 2025 08:35:43 +0000
-Received: by mail.CyberCitadel.pl (Postfix, from userid 1002)
-	id C77F34E2AD; Fri, 31 Jan 2025 09:31:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=CyberCitadel.pl;
-	s=mail; t=1738312352;
-	bh=vUvp0ttX3lOxjdOrvZsKvJKNpHHNusfF6naBdS8j1E8=;
-	h=Date:From:To:Subject:From;
-	b=fiK5KLWbn917/Z/HXURxFoaGSBH/zQVrWOmzafHrElHwHMo0C+SlWG7xFluU8oR6N
-	 r8Fm+tTWxRJyGpf3+RAUdfvE90MNLb+S3VNi88G0J6FoTJu7hBSCaq/Hf4OlBVAxFQ
-	 fmBWluR5gbOdkK9QXebb91RPGaDNPSRH2ljSIJQBwjBKxrG//N3br32KM3hsQu0wpj
-	 tKyEFWe7ugTBpHXEaXXciJRn0F8TvCMURy5Hg2m4zODCDyUBSSNhEVQTRApE2jpybc
-	 DF9YuHeZVcC+AxgNgT2BTUCBGQuV23mFnGyMOrqv0DbAD2vbJ1ExKFvhdJSwuOrSJB
-	 4LF8VrYY7kxMg==
-Received: by mail.CyberCitadel.pl for <linux-snps-arc@lists.infradead.org>; Fri, 31 Jan 2025 08:30:32 GMT
-Message-ID: <20250131084500-0.1.d9.2drtb.0.1kexkyl0qg@CyberCitadel.pl>
-Date: Fri, 31 Jan 2025 08:30:32 GMT
-From: "Marek Kucharski" <marek.kucharski@cybercitadel.pl>
-To: <linux-snps-arc@lists.infradead.org>
-Subject: =?UTF-8?Q?Prosz=C4=99_o_kontakt?=
-X-Mailer: mail.CyberCitadel.pl
+	id 1teqRK-0000000EgDU-22iq;
+	Mon, 03 Feb 2025 07:00:14 +0000
+Received: from vmicros1.altlinux.org ([194.107.17.57])
+	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
+	id 1teqQ3-0000000Efzv-0e3O;
+	Mon, 03 Feb 2025 06:58:57 +0000
+Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
+	by vmicros1.altlinux.org (Postfix) with ESMTP id 863D472C8CC;
+	Mon,  3 Feb 2025 09:58:49 +0300 (MSK)
+Received: by mua.local.altlinux.org (Postfix, from userid 508)
+	id 590A67CCB3B; Mon,  3 Feb 2025 08:58:49 +0200 (IST)
+Date: Mon, 3 Feb 2025 08:58:49 +0200
+From: "Dmitry V. Levin" <ldv@strace.io>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Oleg Nesterov <oleg@redhat.com>, Alexey Gladkov <legion@kernel.org>,
+	Charlie Jenkins <charlie@rivosinc.com>,
+	Eugene Syromyatnikov <evgsyr@gmail.com>,
+	Mike Frysinger <vapier@gentoo.org>,
+	Renzo Davoli <renzo@cs.unibo.it>,
+	Davide Berardi <berardi.dav@gmail.com>,
+	Vineet Gupta <vgupta@kernel.org>,
+	Russell King <linux@armlinux.org.uk>, Will Deacon <will@kernel.org>,
+	Guo Ren <guoren@kernel.org>, Brian Cain <bcain@quicinc.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Michal Simek <monstr@monstr.eu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Dinh Nguyen <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>,
+	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+	Stafford Horne <shorne@gmail.com>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	Helge Deller <deller@gmx.de>, Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>,
+	Max Filippov <jcmvbkbc@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+	Shuah Khan <shuah@kernel.org>, strace-devel@lists.strace.io,
+	linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev,
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-api@vger.kernel.org
+Subject: [PATCH v4 0/7] ptrace: introduce PTRACE_SET_SYSCALL_INFO API
+Message-ID: <20250203065849.GA14120@strace.io>
 MIME-Version: 1.0
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250131_003542_306263_1F63190B 
-X-CRM114-Status: UNSURE (   1.09  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250202_225855_526153_A0F2F2E2 
+X-CRM114-Status: GOOD (  19.62  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,16 +107,138 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-RHppZcWEIGRvYnJ5LAoKQ3p5IGplc3QgbW/FvGxpd2/Fm8SHIG5hd2nEhXphbmlhIHdzcMOzxYJw
-cmFjeSB6IFBhxYRzdHdlbT8KClogY2jEmWNpxIUgcG9yb3ptYXdpYW0geiBvc29ixIUgemFqbXVq
-xIVjxIUgc2nEmSBkemlhxYJhbmlhbWkgendpxIV6YW55bWkgemUgc3ByemVkYcW8xIUuCgpQb21h
-Z2FteSBza3V0ZWN6bmllIHBvenlza2l3YcSHIG5vd3ljaCBrbGllbnTDs3cuCgpaYXByYXN6YW0g
-ZG8ga29udGFrdHUuCgoKUG96ZHJhd2lhbQpNYXJlayBLdWNoYXJza2kKCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcg
-bGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZy
-YWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
+PTRACE_SET_SYSCALL_INFO is a generic ptrace API that complements
+PTRACE_GET_SYSCALL_INFO by letting the ptracer modify details of
+system calls the tracee is blocked in.
+
+This API allows ptracers to obtain and modify system call details
+in a straightforward and architecture-agnostic way.
+
+Current implementation supports changing only those bits of system call
+information that are used by strace, namely, syscall number, syscall
+arguments, and syscall return value.
+
+Support of changing additional details returned by PTRACE_GET_SYSCALL_INFO,
+such as instruction pointer and stack pointer, could be added later if
+needed, by using struct ptrace_syscall_info.flags to specify the additional
+details that should be set.  Currently, "flags" and "reserved" fields of
+struct ptrace_syscall_info must be initialized with zeroes; "arch",
+"instruction_pointer", and "stack_pointer" fields are ignored.
+
+PTRACE_SET_SYSCALL_INFO currently supports only PTRACE_SYSCALL_INFO_ENTRY,
+PTRACE_SYSCALL_INFO_EXIT, and PTRACE_SYSCALL_INFO_SECCOMP operations.
+Other operations could be added later if needed.
+
+Ideally, PTRACE_SET_SYSCALL_INFO should have been introduced along with
+PTRACE_GET_SYSCALL_INFO, but it didn't happen.  The last straw that
+convinced me to implement PTRACE_SET_SYSCALL_INFO was apparent failure
+to provide an API of changing the first system call argument on riscv
+architecture [1].
+
+ptrace(2) man page:
+
+long ptrace(enum __ptrace_request request, pid_t pid, void *addr, void *data);
+...
+PTRACE_SET_SYSCALL_INFO
+       Modify information about the system call that caused the stop.
+       The "data" argument is a pointer to struct ptrace_syscall_info
+       that specifies the system call information to be set.
+       The "addr" argument should be set to sizeof(struct ptrace_syscall_info)).
+
+[1] https://lore.kernel.org/all/59505464-c84a-403d-972f-d4b2055eeaac@gmail.com/
+
+Notes:
+    v4:
+    * Split out syscall_set_return_value() for hexagon into a separate patch
+    * s390: Change the style of syscall_set_arguments() implementation as
+      requested
+    * Add more Reviewed-by
+    * v3: https://lore.kernel.org/all/20250128091445.GA8257@strace.io/
+
+    v3:
+    * powerpc: Submit syscall_set_return_value() fix for "sc" case separately
+    * mips: Do not introduce erroneous argument truncation on mips n32,
+      add a detailed description to the commit message of the
+      mips_get_syscall_arg() change
+    * ptrace: Add explicit padding to the end of struct ptrace_syscall_info,
+      simplify obtaining of user ptrace_syscall_info,
+      do not introduce PTRACE_SYSCALL_INFO_SIZE_VER0
+    * ptrace: Change the return type of ptrace_set_syscall_info_* functions
+      from "unsigned long" to "int"
+    * ptrace: Add -ERANGE check to ptrace_set_syscall_info_exit(),
+      add comments to -ERANGE checks
+    * ptrace: Update comments about supported syscall stops
+    * selftests: Extend set_syscall_info test, fix for mips n32
+    * Add Tested-by and Reviewed-by
+
+    v2:
+    * Add patch to fix syscall_set_return_value() on powerpc
+    * Add patch to fix mips_get_syscall_arg() on mips
+    * Add syscall_set_return_value() implementation on hexagon
+    * Add syscall_set_return_value() invocation to syscall_set_nr()
+      on arm and arm64.
+    * Fix syscall_set_nr() and mips_set_syscall_arg() on mips
+    * Add a comment to syscall_set_nr() on arc, powerpc, s390, sh,
+      and sparc
+    * Remove redundant ptrace_syscall_info.op assignments in
+      ptrace_get_syscall_info_*
+    * Minor style tweaks in ptrace_get_syscall_info_op()
+    * Remove syscall_set_return_value() invocation from
+      ptrace_set_syscall_info_entry()
+    * Skip syscall_set_arguments() invocation in case of syscall number -1
+      in ptrace_set_syscall_info_entry() 
+    * Split ptrace_syscall_info.reserved into ptrace_syscall_info.reserved
+      and ptrace_syscall_info.flags
+    * Use __kernel_ulong_t instead of unsigned long in set_syscall_info test
+
+    v1:
+
+Dmitry V. Levin (7):
+  mips: fix mips_get_syscall_arg() for o32
+  hexagon: add syscall_set_return_value()
+  syscall.h: add syscall_set_arguments()
+  syscall.h: introduce syscall_set_nr()
+  ptrace_get_syscall_info: factor out ptrace_get_syscall_info_op
+  ptrace: introduce PTRACE_SET_SYSCALL_INFO request
+  selftests/ptrace: add a test case for PTRACE_SET_SYSCALL_INFO
+
+ arch/arc/include/asm/syscall.h                |  25 +
+ arch/arm/include/asm/syscall.h                |  37 ++
+ arch/arm64/include/asm/syscall.h              |  29 +
+ arch/csky/include/asm/syscall.h               |  13 +
+ arch/hexagon/include/asm/syscall.h            |  21 +
+ arch/loongarch/include/asm/syscall.h          |  15 +
+ arch/m68k/include/asm/syscall.h               |   7 +
+ arch/microblaze/include/asm/syscall.h         |   7 +
+ arch/mips/include/asm/syscall.h               |  70 ++-
+ arch/nios2/include/asm/syscall.h              |  16 +
+ arch/openrisc/include/asm/syscall.h           |  13 +
+ arch/parisc/include/asm/syscall.h             |  19 +
+ arch/powerpc/include/asm/syscall.h            |  20 +
+ arch/riscv/include/asm/syscall.h              |  16 +
+ arch/s390/include/asm/syscall.h               |  21 +
+ arch/sh/include/asm/syscall_32.h              |  24 +
+ arch/sparc/include/asm/syscall.h              |  22 +
+ arch/um/include/asm/syscall-generic.h         |  19 +
+ arch/x86/include/asm/syscall.h                |  43 ++
+ arch/xtensa/include/asm/syscall.h             |  18 +
+ include/asm-generic/syscall.h                 |  30 +
+ include/uapi/linux/ptrace.h                   |   7 +-
+ kernel/ptrace.c                               | 179 +++++-
+ tools/testing/selftests/ptrace/Makefile       |   2 +-
+ .../selftests/ptrace/set_syscall_info.c       | 514 ++++++++++++++++++
+ 25 files changed, 1140 insertions(+), 47 deletions(-)
+ create mode 100644 tools/testing/selftests/ptrace/set_syscall_info.c
+
+-- 
+ldv
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
