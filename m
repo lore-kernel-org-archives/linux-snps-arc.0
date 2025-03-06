@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E1F2C282DE
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  6 Mar 2025 18:52:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37B7AC282D1
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  6 Mar 2025 18:52:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=R0soaS/lQ2Hr3v/zeDReidrt2y55CGt1Nwvy9UbBTJs=; b=gL6ElkTNdwUV1Z
-	vPk4yFuzsZLM5xLwpX98+sH9/rOm2Wts59zZG785vTmFEH+fDLHD4Kh442OWpvKVtst3hdB7etDpF
-	25kgGYsdHkjwHwyANgEcnZRDwnlHXyNMFZqKDZTZPdr6L/WQJ8M6oJ360aaM89PPcxg5v+R5Vj5Uv
-	jOHYm/cY2ZsuOWCeJ2JuZJVnPAfTatdtjnXmeOg+fpATkJS02rrg2Dj6yupEc7SaqE7ScgYGjrQvJ
-	aVN3RsTtMDlCOreUdMS9eL9lDl88fougKoZk68vW7VtebFmtB1oYQKW/Vo2G5jy9vlx1db1XAB4YH
-	JKt8ynG4mQV1OBosCV5Q==;
+	List-Owner; bh=JYXePohVpjKQeK9ESnqbfKCw1QfmjuZkFFdaEERCSb8=; b=NawpFhiplqmNHB
+	/dhTRvRtAC4LSHKJF4xl7neHRQj5ukX8Ht5gL54yNIPxI91HtiGynEwcHl5fyYFE1BNeK0H/t736A
+	fwQjW7RiPP3w7kmxf5ezFDxZhbwrNgBZUgMtCGdyiHi5DfJhoD5qfOFxC7MCi4vLaCtdRY0Ha0fDp
+	dKKSML+zd7EX1JJtW1TCNa2f+hzImJqsZwmBZ3ZQRv1DWGPEb0H9mssbHNY+YPL3F7buSbbq4UACC
+	nw14upKsmC9sUkUZaH4wpc6bKNcGbWtDu2xSd+j28EeAeIhMgvhEKVg/jn9QXCbheMaoXX2wtfev7
+	w36vhWyF+6EHK9WOQeXA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tqGKO-0000000BumL-44S5;
-	Thu, 06 Mar 2025 18:52:16 +0000
+	id 1tqGKZ-0000000BuvE-435d;
+	Thu, 06 Mar 2025 18:52:27 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tqGKK-0000000Buih-3Gy2;
-	Thu, 06 Mar 2025 18:52:14 +0000
+	id 1tqGKX-0000000Busr-2PRP;
+	Thu, 06 Mar 2025 18:52:26 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id ECBF95C58B7;
-	Thu,  6 Mar 2025 18:49:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5485C4CEEC;
-	Thu,  6 Mar 2025 18:51:58 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 1905E5C18B4;
+	Thu,  6 Mar 2025 18:50:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7DB2C4CEED;
+	Thu,  6 Mar 2025 18:52:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741287131;
-	bh=8AVATLG9lzmcQcx5E69jKjTsUN+LZvQn92lo4/jx/sQ=;
+	s=k20201202; t=1741287144;
+	bh=3f2PL8+tvQz4kqOX8BsTM2Qrh30qjoJp6oFsaw3/420=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jV0L4MxA7ZLOPXJ7CzvIBhifnvQ3cLfWLbGX9Kpq+TJV+I4pYEortTLjsgEQ+JgOz
-	 MJeD/6kqeK3kbbbLebIrILdKUS+MINmZ+/B/sNOxLIGg7XbVwZV42EgAZnZAp6YA9n
-	 29WDsIsPmNqboWrzBZPQWiBq4xZoUqUHc5X/w6ZGtfzGGa8bFcwxmZypQhUi8SVeUt
-	 4+S4ZR8z1jIcZBlvxst+95F7MqZZIvNp+reY2KbX5iWIXdOVrbfew191sYutRBEayR
-	 2jUlJelZWwvqGeLBlQ86aq/GxBuU3JetL31MovldgywY/67riRZKdTJu068ZWyNYvD
-	 NqjbY0mINjozA==
+	b=FJgzrjTO4LydJP8HiTJaetkeA9l5AEBKpAM8oOldJjnfSIsNdxHDVWTJYA8ZW+ytA
+	 Gf6Qv2JH04v1Wv5MZqueKxNSDjn1bvxaES2Ur7agOMyA+oM/cLmVu4Wp52ZWKRFePe
+	 sZyd0sVUs0txtZvPxmVDHQsORFcZRvNQnvfx4g/W2wHxnoZ7VhRd//aSxKK7XJStTy
+	 sdd79C0Ssrv//n3N6cBDLeTrdB9KhSWEEtBzpAV84qCSM/2NMoenGBapXQxwZet7HJ
+	 ldS9H0hKMEZgcYfgJnMdk4vJpeeALhqApfWyBsF4pj+idRDR4fcjmG4H92j5rE85ME
+	 PX/YLB7CaLEzw==
 From: Mike Rapoport <rppt@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
@@ -99,16 +99,16 @@ Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
 	linux-arch@vger.kernel.org,
 	linux-mm@kvack.org,
 	x86@kernel.org
-Subject: [PATCH 02/13] csky: move setup_initrd() to setup.c
-Date: Thu,  6 Mar 2025 20:51:12 +0200
-Message-ID: <20250306185124.3147510-3-rppt@kernel.org>
+Subject: [PATCH 03/13] hexagon: move initialization of init_mm.context init to paging_init()
+Date: Thu,  6 Mar 2025 20:51:13 +0200
+Message-ID: <20250306185124.3147510-4-rppt@kernel.org>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250306185124.3147510-1-rppt@kernel.org>
 References: <20250306185124.3147510-1-rppt@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250306_105212_897086_9AAFBA89 
-X-CRM114-Status: GOOD (  15.24  )
+X-CRM114-CacheID: sfid-20250306_105225_696429_646C1ACD 
+X-CRM114-Status: GOOD (  14.80  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -127,140 +127,46 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 
-Memory used by initrd should be reserved as soon as possible before
-there any memblock allocations that might overwrite that memory.
-
-This will also help with pulling out memblock_free_all() to the generic
+This will help with pulling out memblock_free_all() to the generic
 code and reducing code duplication in arch::mem_init().
 
 Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 ---
- arch/csky/kernel/setup.c | 43 ++++++++++++++++++++++++++++++++++++++++
- arch/csky/mm/init.c      | 43 ----------------------------------------
- 2 files changed, 43 insertions(+), 43 deletions(-)
+ arch/hexagon/mm/init.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/arch/csky/kernel/setup.c b/arch/csky/kernel/setup.c
-index fe715b707fd0..e0d6ca86ea8c 100644
---- a/arch/csky/kernel/setup.c
-+++ b/arch/csky/kernel/setup.c
-@@ -12,6 +12,45 @@
- #include <asm/mmu_context.h>
- #include <asm/pgalloc.h>
+diff --git a/arch/hexagon/mm/init.c b/arch/hexagon/mm/init.c
+index 3458f39ca2ac..508bb6a8dcc9 100644
+--- a/arch/hexagon/mm/init.c
++++ b/arch/hexagon/mm/init.c
+@@ -59,14 +59,6 @@ void __init mem_init(void)
+ 	 *  To-Do:  someone somewhere should wipe out the bootmem map
+ 	 *  after we're done?
+ 	 */
+-
+-	/*
+-	 * This can be moved to some more virtual-memory-specific
+-	 * initialization hook at some point.  Set the init_mm
+-	 * descriptors "context" value to point to the initial
+-	 * kernel segment table's physical address.
+-	 */
+-	init_mm.context.ptbase = __pa(init_mm.pgd);
+ }
  
-+#ifdef CONFIG_BLK_DEV_INITRD
-+static void __init setup_initrd(void)
-+{
-+	unsigned long size;
-+
-+	if (initrd_start >= initrd_end) {
-+		pr_err("initrd not found or empty");
-+		goto disable;
-+	}
-+
-+	if (__pa(initrd_end) > PFN_PHYS(max_low_pfn)) {
-+		pr_err("initrd extends beyond end of memory");
-+		goto disable;
-+	}
-+
-+	size = initrd_end - initrd_start;
-+
-+	if (memblock_is_region_reserved(__pa(initrd_start), size)) {
-+		pr_err("INITRD: 0x%08lx+0x%08lx overlaps in-use memory region",
-+		       __pa(initrd_start), size);
-+		goto disable;
-+	}
-+
-+	memblock_reserve(__pa(initrd_start), size);
-+
-+	pr_info("Initial ramdisk at: 0x%p (%lu bytes)\n",
-+		(void *)(initrd_start), size);
-+
-+	initrd_below_start_ok = 1;
-+
-+	return;
-+
-+disable:
-+	initrd_start = initrd_end = 0;
-+
-+	pr_err(" - disabling initrd\n");
-+}
-+#endif
-+
- static void __init csky_memblock_init(void)
- {
- 	unsigned long lowmem_size = PFN_DOWN(LOWMEM_LIMIT - PHYS_OFFSET_OFFSET);
-@@ -40,6 +79,10 @@ static void __init csky_memblock_init(void)
- 		max_low_pfn = min_low_pfn + sseg_size;
- 	}
+ void sync_icache_dcache(pte_t pte)
+@@ -103,6 +95,12 @@ static void __init paging_init(void)
  
-+#ifdef CONFIG_BLK_DEV_INITRD
-+	setup_initrd();
-+#endif
+ 	free_area_init(max_zone_pfn);  /*  sets up the zonelists and mem_map  */
+ 
++	/*
++	 * Set the init_mm descriptors "context" value to point to the
++	 * initial kernel segment table's physical address.
++	 */
++	init_mm.context.ptbase = __pa(init_mm.pgd);
 +
- 	max_zone_pfn[ZONE_NORMAL] = max_low_pfn;
- 
- 	mmu_init(min_low_pfn, max_low_pfn);
-diff --git a/arch/csky/mm/init.c b/arch/csky/mm/init.c
-index bde7cabd23df..ab51acbc19b2 100644
---- a/arch/csky/mm/init.c
-+++ b/arch/csky/mm/init.c
-@@ -42,45 +42,6 @@ unsigned long empty_zero_page[PAGE_SIZE / sizeof(unsigned long)]
- 						__page_aligned_bss;
- EXPORT_SYMBOL(empty_zero_page);
- 
--#ifdef CONFIG_BLK_DEV_INITRD
--static void __init setup_initrd(void)
--{
--	unsigned long size;
--
--	if (initrd_start >= initrd_end) {
--		pr_err("initrd not found or empty");
--		goto disable;
--	}
--
--	if (__pa(initrd_end) > PFN_PHYS(max_low_pfn)) {
--		pr_err("initrd extends beyond end of memory");
--		goto disable;
--	}
--
--	size = initrd_end - initrd_start;
--
--	if (memblock_is_region_reserved(__pa(initrd_start), size)) {
--		pr_err("INITRD: 0x%08lx+0x%08lx overlaps in-use memory region",
--		       __pa(initrd_start), size);
--		goto disable;
--	}
--
--	memblock_reserve(__pa(initrd_start), size);
--
--	pr_info("Initial ramdisk at: 0x%p (%lu bytes)\n",
--		(void *)(initrd_start), size);
--
--	initrd_below_start_ok = 1;
--
--	return;
--
--disable:
--	initrd_start = initrd_end = 0;
--
--	pr_err(" - disabling initrd\n");
--}
--#endif
--
- void __init mem_init(void)
- {
- #ifdef CONFIG_HIGHMEM
-@@ -92,10 +53,6 @@ void __init mem_init(void)
- #endif
- 	high_memory = (void *) __va(max_low_pfn << PAGE_SHIFT);
- 
--#ifdef CONFIG_BLK_DEV_INITRD
--	setup_initrd();
--#endif
--
- 	memblock_free_all();
- 
- #ifdef CONFIG_HIGHMEM
+ 	/*
+ 	 * Start of high memory area.  Will probably need something more
+ 	 * fancy if we...  get more fancy.
 -- 
 2.47.2
 
