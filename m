@@ -4,52 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B692C282DE
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 10 Mar 2025 09:18:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75851C28B2E
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 11 Mar 2025 06:02:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=bqWy7q1x2uCLjfLcHX7PlZS1IURnIwGJZbyHIj4pMHk=; b=ZPZa/qULor1Z9V
-	2ZgLaFaGPXfFl8GG9Zqasmrb647FdlC0IY4rsYjsWlGrD4Z7Eq/CN4LFo94g7XM3jFQa9K72aGfcy
-	RKHlsDaFZMWcK5156jUuub+Ru1PPU+mvbFxUj91xP+fNCtOhIy2EJDLz46g42JjISeoQnm+erYO2b
-	BT9sJS6K7cmvzA7Nw9q1/6edsyVN8CYW7JdQBzgVRkCmfOWbgervkQh8bQAnR9+iwg/D+iyHuz/fy
-	xButfNXIbmleo8ADlliWhN9QQSA0Tb2iil8rKqjkI8tNoWPqiv+YldD5B4KTpVzvHHtjlODFYU5vp
-	8xtBtTqhu3ix7MbVipfg==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=pa0X12Sgy19UTNYAaOlOW9IYL+wyUo41H+rDCY66N5M=; b=NISyjwUCwU1V0Q
+	zBDQ82QlqDYCr4JFSToVZTUfIgrkqyEkKqioWG0AiUSQqofKyzD2XAr4DXhO03ZbSDiIhhwenDW4N
+	lbVfObVnHCmP3cjtJimCDEH//oWef9xqTAurf0n3GoFpjy43g7fiG0VP0uHdfK1EANekG9H1SXYX/
+	vVpE2oCcJeQVryptmRldRwUODMG0c7d10327/x/qo2TCHrCSzReqq2jLzUk2Cw6tQp7czL6j2t/2i
+	J7n7pz40RZdFvnhJ1V3B6B7A48OPodBfkPF7xUuWaRmb6mK24lYTOVEGyACbFPahbTZ8Xbja1WmoP
+	fRC5LHfSoVdgrpaCvOlg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1trZH7-000000023Mi-00LB;
-	Mon, 10 Mar 2025 09:18:17 +0000
-Received: from mail.commetro.pl ([217.61.16.142])
+	id 1trshW-00000004i9Z-0DsV;
+	Tue, 11 Mar 2025 06:02:50 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1trZCG-000000022CL-2L8H
-	for linux-snps-arc@lists.infradead.org;
-	Mon, 10 Mar 2025 09:13:18 +0000
-Received: by mail.commetro.pl (Postfix, from userid 1002)
-	id 6FCFD83B7C; Mon, 10 Mar 2025 10:01:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=commetro.pl; s=mail;
-	t=1741597315; bh=COht1CALZmZz8MRkow5xVDQUyVzx29Nu6ozA/Y0jgb4=;
-	h=Date:From:To:Subject:From;
-	b=OA7/SC/NGOrQQWMA5TSxpzAIceAu85jIxEZKuSvOdukINMtKWZ55g8dtd8EmQGgc0
-	 gVvapEAmG1k3osccLn1DtOO2Qs45YDMhvD3b9f7T0shGF+3vpgk4tQe89bxoNN9Jl5
-	 MtvKBKS4aaCb3BsCoaYk5z0uihrLHo6nvi8vTs7q1+V8FQ25MbKN9qNSnYnWP5jG5/
-	 jqiBNXhCjK+Xo1ptNWFfhrPoCSM/SvIFEieEmTOE4yyWMsxfpSBEt79dLpCX9gJVP0
-	 1H6CxXh2Cvc5AGaghhI8BTR0ux6WRczxMHW4ew+BbLkXKlrxIJl6ZamAGu7PavufQO
-	 0gcRI6RqHNE9w==
-Received: by mail.commetro.pl for <linux-snps-arc@lists.infradead.org>; Mon, 10 Mar 2025 09:01:01 GMT
-Message-ID: <20250310084500-0.1.1a.faty.0.4qrkp6rhkd@commetro.pl>
-Date: Mon, 10 Mar 2025 09:01:01 GMT
-From: =?UTF-8?Q?"Jaros=C5=82aw_Kownacki"?= <jaroslaw.kownacki@commetro.pl>
-To: <linux-snps-arc@lists.infradead.org>
-Subject: =?UTF-8?Q?Pytanie_o_ofert=C4=99?=
-X-Mailer: mail.commetro.pl
+	id 1trsbH-00000004gWJ-3zUE;
+	Tue, 11 Mar 2025 05:56:25 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id D3DBF5C4D94;
+	Tue, 11 Mar 2025 05:54:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D93EC4CEED;
+	Tue, 11 Mar 2025 05:56:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741672582;
+	bh=JR5aE1/6W9bEsH29C5z708XdvBh3y3whu03ldRN1cT0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=f48a7jPdRs+4CFxnOQTPCHsm75344xXl4kGcXGjsNF7CXHD6rakA6cXBClsJrVEtn
+	 WMcp4MDOS6ujAbPjNce+g3L+xfZC5vi4RqizMWw2e621BlT1F9Ay/Loxsxa26BilyR
+	 V3RuJvI1gFKwfV3U+Q95PUC/u4Gy4+xVTdXkrb9dHTeavvebfTfgzz2yhmQ89ydU2G
+	 kiwkfL2BapKmKWzCToyXgMHRmDr7W8auvyr26g/1+MWMbdjrYYGY9Pgy3JpC8H5B/G
+	 ocFRu6iz+c47Alu4XK27RyF2DFlSe0JprTDW9yyHuXhbUMDy3L4Bzl+ZBGVJfIovu1
+	 qQCLqsddFmhPA==
+Date: Tue, 11 Mar 2025 07:55:55 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Heiko Carstens <hca@linux.ibm.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Guo Ren <guoren@kernel.org>, Helge Deller <deller@gmx.de>,
+	Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Michal Simek <monstr@monstr.eu>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Richard Weinberger <richard@nod.at>,
+	Russell King <linux@armlinux.org.uk>,
+	Stafford Horne <shorne@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vasily Gorbik <gor@linux.ibm.com>, Vineet Gupta <vgupta@kernel.org>,
+	Will Deacon <will@kernel.org>, linux-alpha@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev,
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+	linux-arch@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH 07/13] s390: make setup_zero_pages() use memblock
+Message-ID: <Z8_Qawg0dGtZdys7@kernel.org>
+References: <20250306185124.3147510-1-rppt@kernel.org>
+ <20250306185124.3147510-8-rppt@kernel.org>
+ <20250307152815.9880Gbd-hca@linux.ibm.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20250307152815.9880Gbd-hca@linux.ibm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250310_021317_268488_219009D8 
-X-CRM114-Status: UNSURE (   1.66  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250310_225624_094369_6A07DD0C 
+X-CRM114-Status: GOOD (  25.20  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,16 +104,74 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-RHppZcWEIGRvYnJ5LAoKQ3p5IHBvdHJ6ZWJ1asSFIFBhxYRzdHdvIGFrdHVhbG5pZSBub3d5Y2gg
-a2xpZW50w7N3ID8KClNrdXRlY3puaWUgcG9tYWdhbXkgcm96cG9jenluYcSHIHJvem1vd3kgaGFu
-ZGxvd2UgeiBrbGllbnRhbWkgemFpbnRlcmVzb3dhbnltaSBQYcWEc3R3YSBvZmVydMSFLgoKWmFw
-cmFzemFtIGRvIGtvbnRha3R1IHp3cm90bmVnby4KCgpQb3pkcmF3aWFtIHNlcmRlY3puaWUKSmFy
-b3PFgmF3IEtvd25hY2tpCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMu
-aW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2xpbnV4LXNucHMtYXJjCg==
+On Fri, Mar 07, 2025 at 04:28:15PM +0100, Heiko Carstens wrote:
+> On Thu, Mar 06, 2025 at 08:51:17PM +0200, Mike Rapoport wrote:
+> > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> > 
+> > Allocating the zero pages from memblock is simpler because the memory is
+> > already reserved.
+> > 
+> > This will also help with pulling out memblock_free_all() to the generic
+> > code and reducing code duplication in arch::mem_init().
+> > 
+> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> > ---
+> >  arch/s390/mm/init.c | 14 +++-----------
+> >  1 file changed, 3 insertions(+), 11 deletions(-)
+> 
+> Acked-by: Heiko Carstens <hca@linux.ibm.com>
+> 
+> > -	empty_zero_page = __get_free_pages(GFP_KERNEL | __GFP_ZERO, order);
+> > +	empty_zero_page = (unsigned long)memblock_alloc(PAGE_SIZE << order, order);
+> >  	if (!empty_zero_page)
+> >  		panic("Out of memory in setup_zero_pages");
+> 
+> This could have been converted to memblock_alloc_or_panic(), but I
+> guess this can also be done at a later point in time.
+
+Duh, I should have remembered about memblock_alloc_or_panic() :)
+
+@Andrew, can you please pick this as a fixup?
+
+From 344fec8519e5152c25809c9277b54a68f9cde0e9 Mon Sep 17 00:00:00 2001
+From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Date: Tue, 11 Mar 2025 07:51:27 +0200
+Subject: [PATCH] s390: use memblock_alloc_or_panic() in setup_zero_page()
+
+Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+---
+ arch/s390/mm/init.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/arch/s390/mm/init.c b/arch/s390/mm/init.c
+index ab8ece3c41f1..c6a97329d7e7 100644
+--- a/arch/s390/mm/init.c
++++ b/arch/s390/mm/init.c
+@@ -81,9 +81,7 @@ static void __init setup_zero_pages(void)
+ 	while (order > 2 && (total_pages >> 10) < (1UL << order))
+ 		order--;
+ 
+-	empty_zero_page = (unsigned long)memblock_alloc(PAGE_SIZE << order, order);
+-	if (!empty_zero_page)
+-		panic("Out of memory in setup_zero_pages");
++	empty_zero_page = (unsigned long)memblock_alloc_or_panic(PAGE_SIZE << order, order);
+ 
+ 	zero_page_mask = ((PAGE_SIZE << order) - 1) & PAGE_MASK;
+ }
+-- 
+2.47.2
+
+
+-- 
+Sincerely yours,
+Mike.
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
