@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 41746C35FF7
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 13 Mar 2025 13:53:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12C2EC28B2E
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 13 Mar 2025 13:53:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=e8J9yHjmOESpS6fSUxAwmnQV3fq1DgUsrpevVz0Czho=; b=tU3ayzV781gNKG
-	sRLhpHc52xeUshzZ/SlYQpkN85m6vNKifn798grHE5MtCjgpuq4D6nFg3Kyxd6GbsRtPoWOasIxCg
-	NQl8LtCNsVVcjEnv8mj73xIRaFwApcNBaCvn2JjK17xP1erZ6wwUUtn/U6cVvcywuNF0IyIyq8MxP
-	Tcf3P2jfz9PaZB8tNjJ4/d2Vqzmb4OizMHhdL4UdLZBumdVbQT/0LJuU9+1zB4+8q+VlT1nYAHrYa
-	LUGsG/ekgKEsljpCXC4CUWoJM6MGSNvQG4QPSu5+k0ZsyUXMcwGVqT07vstNvS2xhaOMTnxlCZ8Vo
-	SasvLO3hYP/RGUq98G5Q==;
+	List-Owner; bh=cxebbup1yjnQ+vRf+3LO41rMHfgo8NwwmLIBxJWO6Hw=; b=PzcBZP8TUtA2Q9
+	VToVlSPZJm0bTJ4FkJ9DZL5x80ScFyukZHzbmB0MuxdGmHy2QC+VstfY6oalo+m0wR1w+qEExq3qu
+	M3tsFd+WfO3Cw4g8QVNEi7hY+535wUp1qEWX3p+krkjDPQZfAmV/Lbh/dd1QvC65KBlL/ZivJ0KoU
+	xHd2FHB+A2ZaKLXfMY46di3MbqhGEuQ8sV60c1g7z4VGzL1lB/CqEk6E4RgnvwmHmD1RZGf7s6ne/
+	8bZZxmz8o12dF8EI3Q8ZiE10IOR6WFPRiGISEh71lxDsVTGSDs7mc6TWLY1mwXz5SCuO/6f9pckcT
+	AgnqZpSrObNcRF77mfzw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tsizo-0000000BRku-3BQm;
-	Thu, 13 Mar 2025 13:53:12 +0000
+	id 1tsizq-0000000BRoH-2xJ2;
+	Thu, 13 Mar 2025 13:53:14 +0000
 Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tsixx-0000000BQus-3QjL;
-	Thu, 13 Mar 2025 13:51:19 +0000
+	id 1tsiyB-0000000BR1L-0UB8;
+	Thu, 13 Mar 2025 13:51:32 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id ECF71A474BF;
-	Thu, 13 Mar 2025 13:45:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BA2EC4CEF2;
-	Thu, 13 Mar 2025 13:51:03 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 5E455A474CE;
+	Thu, 13 Mar 2025 13:46:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 015EFC4CEF6;
+	Thu, 13 Mar 2025 13:51:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741873876;
-	bh=nkBe6+9DINra8ChNyXeYcesTu6mPwjeTN1yq3Y1szbM=;
+	s=k20201202; t=1741873889;
+	bh=jdWrizGlyiZZhCc1iHfNv1CsWigRieeHlQFrymlBBDo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DUZeqivFJ9EYP9Zy5Yb5dJalUE7Sb9X9atTVUnHZ/8j5kxTnIcryI91Lg+eLahCch
-	 +4/sfT0f6PJUfGIy2IFanNG6A/SLgSjazaFTA527QDMKz4pRayRywROhwmKdm3JxlH
-	 Uaj0ch2Iv70h6kezQtFA/9UBiPtXqykcVjOMdYtmACBIyWki5ZD6vyT7Dwybtv0ic7
-	 n9LWmVF+6qTkSWN3/DV0+azu4ZrNZg6SffekFyWnjGKFnrFNUttXXpQq00r7GYSixQ
-	 2oLgogEMVsNX2bHppECFrGmjyvZM4fH0hNySDtDwvQnL1mRuqs8UADBKrepv0pyUKk
-	 bQ1hkzIwD6VDQ==
+	b=u3KxN3gI6tZkgmfjdGzHSgAamoBrtMk5mafHWD0jowj5KlnVnY175VGFXMIdiBWWr
+	 B0id/FlW6EUwL50nPhHTxSa3ZYicRa5WCcAVJ1jqVKXm0jic0tczSIN1xHSKcWjdiQ
+	 D4zIM9VOnf83gFmBpmn6LKIQhS824VfdxG6Q7Sc5wumpzMv1OC7V7+rYxBizu7Teaz
+	 KU/I5rcojMcKt4TssZCQ8zpDNAQK4H9oQKTruuXHVBrx+VpKg8pt85mDQsZo+8ivk2
+	 OY1XX/aha854nOI4DZr2fH95T6QTV9et5NHe2RoD4T67D7uTt3ju/gRHLM1ghupdhu
+	 a92GRhFxvI5eA==
 From: Mike Rapoport <rppt@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
@@ -101,16 +101,16 @@ Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
 	linux-arch@vger.kernel.org,
 	linux-mm@kvack.org,
 	x86@kernel.org
-Subject: [PATCH v2 04/13] MIPS: consolidate mem_init() for NUMA machines
-Date: Thu, 13 Mar 2025 15:49:54 +0200
-Message-ID: <20250313135003.836600-5-rppt@kernel.org>
+Subject: [PATCH v2 05/13] MIPS: make setup_zero_pages() use memblock
+Date: Thu, 13 Mar 2025 15:49:55 +0200
+Message-ID: <20250313135003.836600-6-rppt@kernel.org>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250313135003.836600-1-rppt@kernel.org>
 References: <20250313135003.836600-1-rppt@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250313_065117_980532_C5B77F55 
-X-CRM114-Status: GOOD (  10.96  )
+X-CRM114-CacheID: sfid-20250313_065131_287945_E80ED6BD 
+X-CRM114-Status: GOOD (  16.07  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -129,79 +129,82 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 
-Both MIPS systems that support numa (loongsoon3 and sgi-ip27) have
-identical mem_init() for NUMA case.
+Allocating the zero pages from memblock is simpler because the memory is
+already reserved.
 
-Move that into arch/mips/mm/init.c and drop duplicate per-machine
-definitions.
+This will also help with pulling out memblock_free_all() to the generic
+code and reducing code duplication in arch::mem_init().
 
 Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 ---
- arch/mips/loongson64/numa.c      | 7 -------
- arch/mips/mm/init.c              | 7 +++++++
- arch/mips/sgi-ip27/ip27-memory.c | 9 ---------
- 3 files changed, 7 insertions(+), 16 deletions(-)
+ arch/mips/include/asm/mmzone.h |  2 --
+ arch/mips/mm/init.c            | 18 +++++-------------
+ 2 files changed, 5 insertions(+), 15 deletions(-)
 
-diff --git a/arch/mips/loongson64/numa.c b/arch/mips/loongson64/numa.c
-index 8388400d052f..95d5f553ce19 100644
---- a/arch/mips/loongson64/numa.c
-+++ b/arch/mips/loongson64/numa.c
-@@ -164,13 +164,6 @@ void __init paging_init(void)
- 	free_area_init(zones_size);
- }
- 
--void __init mem_init(void)
--{
--	high_memory = (void *) __va(get_num_physpages() << PAGE_SHIFT);
--	memblock_free_all();
--	setup_zero_pages();	/* This comes from node 0 */
--}
--
- /* All PCI device belongs to logical Node-0 */
- int pcibus_to_node(struct pci_bus *bus)
- {
-diff --git a/arch/mips/mm/init.c b/arch/mips/mm/init.c
-index 4583d1a2a73e..3db6082c611e 100644
---- a/arch/mips/mm/init.c
-+++ b/arch/mips/mm/init.c
-@@ -482,6 +482,13 @@ void __init mem_init(void)
- 				0x80000000 - 4, KCORE_TEXT);
+diff --git a/arch/mips/include/asm/mmzone.h b/arch/mips/include/asm/mmzone.h
+index 14226ea42036..602a21aee9d4 100644
+--- a/arch/mips/include/asm/mmzone.h
++++ b/arch/mips/include/asm/mmzone.h
+@@ -20,6 +20,4 @@
+ #define nid_to_addrbase(nid) 0
  #endif
- }
-+#else  /* CONFIG_NUMA */
-+void __init mem_init(void)
-+{
-+	high_memory = (void *) __va(get_num_physpages() << PAGE_SHIFT);
-+	memblock_free_all();
-+	setup_zero_pages();	/* This comes from node 0 */
-+}
- #endif /* !CONFIG_NUMA */
- 
- void free_init_pages(const char *what, unsigned long begin, unsigned long end)
-diff --git a/arch/mips/sgi-ip27/ip27-memory.c b/arch/mips/sgi-ip27/ip27-memory.c
-index 1963313f55d8..2b3e46e2e607 100644
---- a/arch/mips/sgi-ip27/ip27-memory.c
-+++ b/arch/mips/sgi-ip27/ip27-memory.c
-@@ -406,8 +406,6 @@ void __init prom_meminit(void)
- 	}
- }
  
 -extern void setup_zero_pages(void);
 -
- void __init paging_init(void)
+ #endif /* _ASM_MMZONE_H_ */
+diff --git a/arch/mips/mm/init.c b/arch/mips/mm/init.c
+index 3db6082c611e..820e35a59d4d 100644
+--- a/arch/mips/mm/init.c
++++ b/arch/mips/mm/init.c
+@@ -59,24 +59,16 @@ EXPORT_SYMBOL(zero_page_mask);
+ /*
+  * Not static inline because used by IP27 special magic initialization code
+  */
+-void setup_zero_pages(void)
++static void __init setup_zero_pages(void)
  {
- 	unsigned long zones_size[MAX_NR_ZONES] = {0, };
-@@ -416,10 +414,3 @@ void __init paging_init(void)
- 	zones_size[ZONE_NORMAL] = max_low_pfn;
- 	free_area_init(zones_size);
- }
+-	unsigned int order, i;
+-	struct page *page;
++	unsigned int order;
+ 
+ 	if (cpu_has_vce)
+ 		order = 3;
+ 	else
+ 		order = 0;
+ 
+-	empty_zero_page = __get_free_pages(GFP_KERNEL | __GFP_ZERO, order);
+-	if (!empty_zero_page)
+-		panic("Oh boy, that early out of memory?");
 -
--void __init mem_init(void)
--{
--	high_memory = (void *) __va(get_num_physpages() << PAGE_SHIFT);
+-	page = virt_to_page((void *)empty_zero_page);
+-	split_page(page, order);
+-	for (i = 0; i < (1 << order); i++, page++)
+-		mark_page_reserved(page);
++	empty_zero_page = (unsigned long)memblock_alloc_or_panic(PAGE_SIZE << order, PAGE_SIZE);
+ 
+ 	zero_page_mask = ((PAGE_SIZE << order) - 1) & PAGE_MASK;
+ }
+@@ -470,9 +462,9 @@ void __init mem_init(void)
+ 	BUILD_BUG_ON(IS_ENABLED(CONFIG_32BIT) && (PFN_PTE_SHIFT > PAGE_SHIFT));
+ 
+ 	maar_init();
 -	memblock_free_all();
--	setup_zero_pages();	/* This comes from node 0 */
--}
+ 	setup_zero_pages();	/* Setup zeroed pages.  */
+ 	mem_init_free_highmem();
++	memblock_free_all();
+ 
+ #ifdef CONFIG_64BIT
+ 	if ((unsigned long) &_text > (unsigned long) CKSEG0)
+@@ -486,8 +478,8 @@ void __init mem_init(void)
+ void __init mem_init(void)
+ {
+ 	high_memory = (void *) __va(get_num_physpages() << PAGE_SHIFT);
+-	memblock_free_all();
+ 	setup_zero_pages();	/* This comes from node 0 */
++	memblock_free_all();
+ }
+ #endif /* !CONFIG_NUMA */
+ 
 -- 
 2.47.2
 
