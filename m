@@ -4,43 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22D1DC282EC
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 13 Mar 2025 13:55:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DFBFEC282DE
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 13 Mar 2025 15:05:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ICdh+9iggRUS3Usb+Dj0+6wWbhIDjMQDz39IMvEDXxU=; b=o2xoaFGfjY4JvT
-	ixSTCxsSu8GttYpC78ncaK+q/RC80AS0+QGjO3XPK/knKpuBxb/Xb6o3UOEKSucaErwpp6wVw8yKv
-	9jjnyl993qmPzuJvER33LeiBu8AYGWG5hHk2CHfNbKFgxklP6rjc4bLutNTDDkwz81dRPDaXUTLnX
-	8jbWE3XMY+X3Qa2FPIQn471vaUvpaeb9kLNVtWwhEKqcCCLLmNdg7wuGy2lRcC/dO3bOPcZpvw5xR
-	qdIPMZrTpZTweCt3IwS4idGJayH1LDntkZ+vE5ymiunSCWn9iiUMaUUFFUJRXB6Zstowim2shxH+b
-	Rcxl2Uj04yQeqp/UVcmg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=YyePNvJOLicDTacTS7xBSgFKXRe0nIjE4ixFnIsdTOI=; b=Z7kaK2hZ75WDmk
+	0z2ZBFylEatpQmL2KMFEimzD+2hfEU9CIuvXyYs8NQ9qoPiL+SAvzUPXKDhPgsLnkbYEIH3e5OOIh
+	tkC9F95BOHekpibPUKD16IBSnIl5eqy4tXn2zOTrMrY6F6/gkyXBwuB2/W2BmpYk66ktmyn1EjVZ8
+	fD/yOnU7pEJc8d3b0UmEKR4wdDhI8lF8TPhkR88fWXwc804kQ5TcENY9cvqVARTghp0RGcsGJvTbU
+	iB6aiYvQsGYHAidL3QhmsX+g8dphLm+aVGth+pRL1Vq+0x93SDQspRjdLCTUl79R0txd1HMbtjX7I
+	VBm4cnvh6MRGumA0k29Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tsj1h-0000000BSkf-3gWv;
-	Thu, 13 Mar 2025 13:55:09 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tsk8C-0000000Bbi9-1jKR;
+	Thu, 13 Mar 2025 15:05:56 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tsizu-0000000BRtx-25PC;
-	Thu, 13 Mar 2025 13:53:19 +0000
+	id 1tsixC-0000000BQjp-3wFV;
+	Thu, 13 Mar 2025 13:50:31 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=q3twzRg7JFtCcj4wct+pthKqDwlnYSVDhBZsfaP3eKQ=; b=iG/p7YuCG4MfQw89LNk72vralS
+	Yi+Ri7OYIeYgjGtFCQy+K5dVuSZ16g/x4JVlEPJLVWZTzmKP3GWaKlW/8AR811DtJWCpIlIjeMnDT
+	tmbwdZU+r37A+QExq0AIkOoedBb9B0/Df0xTJskbx/ah6Zp0LNiEs9SaEx2/XeqZeG8lMcH1z+sFZ
+	KoVex6tnp4r8JLM/6QcPIXTM5K3tF5Ke1ZRtb+yZhFVI/txPR3uQi+IEBs4VgIGar1+n8u60k2KqH
+	1jDvjJ6UVQ6+D50sCuVkhm6VlrNXSvbOhYxG1335gBbsf2eAeLK0+IsYCMZURd2LOFafJbZPkNZyw
+	9yFinc5w==;
+Received: from nyc.source.kernel.org ([147.75.193.91])
+	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tsix9-00000002eMf-07Ad;
+	Thu, 13 Mar 2025 13:50:29 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id E04B25C5BBB;
-	Thu, 13 Mar 2025 13:51:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BFCCC4CEEB;
-	Thu, 13 Mar 2025 13:53:04 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 3BAE8A474BF;
+	Thu, 13 Mar 2025 13:44:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C704BC4CEEA;
+	Thu, 13 Mar 2025 13:50:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741873997;
-	bh=d5ex9i1SwD2XSIqwBrgYv8BKsdE8PhWueLnISDsQsvI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Frzx88JmOjxClo+mmzCvR3AJRrRt2qR4ASejpye4lKQy44Scw7bpC69M46s4hmypp
-	 h9b2w/8ceoKmAZX7bViDVxYW3uS3+D2o6iUQBbDjYXm62eGwQ5y/jaMZundqe1FYQr
-	 7HwNqdwE8CGLUm4fVdTD0o8JkloTlvVTswzexakimV/qoncGJKzK/thzs/noiQ09pi
-	 bDpfuODaKcYRLr1Xz4dkGIhwk1NbY42yMl1hbjzre2znvhOdIqODtYtGfyw9hLYIO/
-	 jkwrzXpbLcSomidbqUmTPa+2Madj+OqwozjVRHewGSqbDKbDbcxf+4P3qneK1m3aBG
-	 2lCELVN8c3h3g==
+	s=k20201202; t=1741873822;
+	bh=62myLVbZVVZFvzPE89he3yMa/a5QAFc2vHsMKxeLVb8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=aBWKPm/h37x/i5+4FCPzxXZYbNjC4QtR+6/uzYQ4j82YaZ0nkwcNlRiBhZ3s4R+Lr
+	 UbF6tAw/GLOmZOSjCm3jrX37f1OqnkT6FdjX3Szfhc1wjS/Zyf835B0imLzLMqYjcF
+	 W5cI3ghKtUKRswhAYc77+5GSp1YmJnwSpf+x4AqcOGMZBAqFa6QHJIit/O7bFjGzmZ
+	 g/lU9Dt6wqDCDU2wFqrq4LXF68UvvU/ytVgt54uUuF2Vagcx8WobuHEk6mGKRWMGKp
+	 aLWh5ch4M9p8CvWw5jWVVvEJFFmiQHZ9S4CLDqJpDLqZJs/1wj2uAhd2lAzYblfH7W
+	 BgZb5J0KHNyow==
 From: Mike Rapoport <rppt@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
@@ -101,16 +115,14 @@ Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
 	linux-arch@vger.kernel.org,
 	linux-mm@kvack.org,
 	x86@kernel.org
-Subject: [PATCH v2 13/13] arch, mm: make releasing of memory to page allocator more explicit
-Date: Thu, 13 Mar 2025 15:50:03 +0200
-Message-ID: <20250313135003.836600-14-rppt@kernel.org>
+Subject: [PATCH v2 00/13] arch, mm: reduce code duplication in mem_init()
+Date: Thu, 13 Mar 2025 15:49:50 +0200
+Message-ID: <20250313135003.836600-1-rppt@kernel.org>
 X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250313135003.836600-1-rppt@kernel.org>
-References: <20250313135003.836600-1-rppt@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250313_065318_663526_A89F0C11 
-X-CRM114-Status: GOOD (  22.87  )
+X-CRM114-CacheID: sfid-20250313_135027_393658_14C1D962 
+X-CRM114-Status: GOOD (  15.35  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -129,495 +141,95 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 
-The point where the memory is released from memblock to the buddy allocator
-is hidden inside arch-specific mem_init()s and the call to
-memblock_free_all() is needlessly duplicated in every artiste cure and
-after introduction of arch_mm_preinit() hook, mem_init() implementation on
-many architecture only contains the call to memblock_free_all().
+Hi,
 
-Pull memblock_free_all() call into mm_core_init() and drop mem_init() on
-relevant architectures to make it more explicit where the free memory is
-released from memblock to the buddy allocator and to reduce code
-duplication in architecture specific code.
+Every architecture has implementation of mem_init() function and some
+even more than one. All these release free memory to the buddy
+allocator, most of them set high_memory to the end of directly
+addressable memory and many of them set max_mapnr for FLATMEM case.
 
-Acked-by: Dave Hansen <dave.hansen@linux.intel.com>	# x86
-Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
----
- arch/alpha/mm/init.c         |  6 ------
- arch/arc/mm/init.c           | 11 -----------
- arch/arm/mm/init.c           | 11 -----------
- arch/arm64/mm/init.c         | 11 -----------
- arch/csky/mm/init.c          |  5 -----
- arch/hexagon/mm/init.c       | 18 ------------------
- arch/loongarch/kernel/numa.c |  5 -----
- arch/loongarch/mm/init.c     |  5 -----
- arch/m68k/mm/init.c          |  2 --
- arch/microblaze/mm/init.c    |  3 ---
- arch/mips/mm/init.c          |  5 -----
- arch/nios2/mm/init.c         |  6 ------
- arch/openrisc/mm/init.c      |  3 ---
- arch/parisc/mm/init.c        |  2 --
- arch/powerpc/mm/mem.c        |  5 -----
- arch/riscv/mm/init.c         |  5 -----
- arch/s390/mm/init.c          |  6 ------
- arch/sh/mm/init.c            |  2 --
- arch/sparc/mm/init_32.c      |  5 -----
- arch/sparc/mm/init_64.c      |  2 --
- arch/um/kernel/mem.c         |  2 --
- arch/x86/mm/init_32.c        |  3 ---
- arch/x86/mm/init_64.c        |  2 --
- arch/xtensa/mm/init.c        |  9 ---------
- include/linux/memblock.h     |  1 -
- mm/internal.h                |  3 ++-
- mm/mm_init.c                 |  5 +++++
- 27 files changed, 7 insertions(+), 136 deletions(-)
+These patches pull the commonalities into the generic code and refactor
+some of the mem_init() implementations so that many of them can be just
+dropped.
 
-diff --git a/arch/alpha/mm/init.c b/arch/alpha/mm/init.c
-index 3ab2d2f3c917..2d491b8cdab9 100644
---- a/arch/alpha/mm/init.c
-+++ b/arch/alpha/mm/init.c
-@@ -273,12 +273,6 @@ srm_paging_stop (void)
- }
- #endif
- 
--void __init
--mem_init(void)
--{
--	memblock_free_all();
--}
--
- static const pgprot_t protection_map[16] = {
- 	[VM_NONE]					= _PAGE_P(_PAGE_FOE | _PAGE_FOW |
- 								  _PAGE_FOR),
-diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
-index 90715b4a0bfa..a73cc94f806e 100644
---- a/arch/arc/mm/init.c
-+++ b/arch/arc/mm/init.c
-@@ -169,17 +169,6 @@ void __init arch_mm_preinit(void)
- 	BUILD_BUG_ON((PTRS_PER_PTE * sizeof(pte_t)) > PAGE_SIZE);
- }
- 
--/*
-- * mem_init - initializes memory
-- *
-- * Frees up bootmem
-- * Calculates and displays memory available/used
-- */
--void __init mem_init(void)
--{
--	memblock_free_all();
--}
--
- #ifdef CONFIG_HIGHMEM
- int pfn_valid(unsigned long pfn)
- {
-diff --git a/arch/arm/mm/init.c b/arch/arm/mm/init.c
-index 7222100b0631..54bdca025c9f 100644
---- a/arch/arm/mm/init.c
-+++ b/arch/arm/mm/init.c
-@@ -263,17 +263,6 @@ void __init arch_mm_preinit(void)
- #endif
- }
- 
--/*
-- * mem_init() marks the free areas in the mem_map and tells us how much
-- * memory is free.  This is done after various parts of the system have
-- * claimed their memory after the kernel image.
-- */
--void __init mem_init(void)
--{
--	/* this will put all unused low memory onto the freelists */
--	memblock_free_all();
--}
--
- #ifdef CONFIG_STRICT_KERNEL_RWX
- struct section_perm {
- 	const char *name;
-diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-index 8eff6a6eb11e..510695107233 100644
---- a/arch/arm64/mm/init.c
-+++ b/arch/arm64/mm/init.c
-@@ -411,17 +411,6 @@ void __init arch_mm_preinit(void)
- 	}
- }
- 
--/*
-- * mem_init() marks the free areas in the mem_map and tells us how much memory
-- * is free.  This is done after various parts of the system have claimed their
-- * memory after the kernel image.
-- */
--void __init mem_init(void)
--{
--	/* this will put all unused low memory onto the freelists */
--	memblock_free_all();
--}
--
- void free_initmem(void)
- {
- 	void *lm_init_begin = lm_alias(__init_begin);
-diff --git a/arch/csky/mm/init.c b/arch/csky/mm/init.c
-index 3914c2b873da..573da66b2543 100644
---- a/arch/csky/mm/init.c
-+++ b/arch/csky/mm/init.c
-@@ -42,11 +42,6 @@ unsigned long empty_zero_page[PAGE_SIZE / sizeof(unsigned long)]
- 						__page_aligned_bss;
- EXPORT_SYMBOL(empty_zero_page);
- 
--void __init mem_init(void)
--{
--	memblock_free_all();
--}
--
- void free_initmem(void)
- {
- 	free_initmem_default(-1);
-diff --git a/arch/hexagon/mm/init.c b/arch/hexagon/mm/init.c
-index d412c2314509..34eb9d424b96 100644
---- a/arch/hexagon/mm/init.c
-+++ b/arch/hexagon/mm/init.c
-@@ -43,24 +43,6 @@ DEFINE_SPINLOCK(kmap_gen_lock);
- /*  checkpatch says don't init this to 0.  */
- unsigned long long kmap_generation;
- 
--/*
-- * mem_init - initializes memory
-- *
-- * Frees up bootmem
-- * Fixes up more stuff for HIGHMEM
-- * Calculates and displays memory available/used
-- */
--void __init mem_init(void)
--{
--	/*  No idea where this is actually declared.  Seems to evade LXR.  */
--	memblock_free_all();
--
--	/*
--	 *  To-Do:  someone somewhere should wipe out the bootmem map
--	 *  after we're done?
--	 */
--}
--
- void sync_icache_dcache(pte_t pte)
- {
- 	unsigned long addr;
-diff --git a/arch/loongarch/kernel/numa.c b/arch/loongarch/kernel/numa.c
-index 8eb489725b1a..30a72fd528c0 100644
---- a/arch/loongarch/kernel/numa.c
-+++ b/arch/loongarch/kernel/numa.c
-@@ -387,11 +387,6 @@ void __init paging_init(void)
- 	free_area_init(zones_size);
- }
- 
--void __init mem_init(void)
--{
--	memblock_free_all();
--}
--
- int pcibus_to_node(struct pci_bus *bus)
- {
- 	return dev_to_node(&bus->dev);
-diff --git a/arch/loongarch/mm/init.c b/arch/loongarch/mm/init.c
-index 6affa3609188..fdb7f73ad160 100644
---- a/arch/loongarch/mm/init.c
-+++ b/arch/loongarch/mm/init.c
-@@ -75,11 +75,6 @@ void __init paging_init(void)
- 
- 	free_area_init(max_zone_pfns);
- }
--
--void __init mem_init(void)
--{
--	memblock_free_all();
--}
- #endif /* !CONFIG_NUMA */
- 
- void __ref free_initmem(void)
-diff --git a/arch/m68k/mm/init.c b/arch/m68k/mm/init.c
-index 8b11d0d545aa..488411af1b3f 100644
---- a/arch/m68k/mm/init.c
-+++ b/arch/m68k/mm/init.c
-@@ -121,7 +121,5 @@ static inline void init_pointer_tables(void)
- 
- void __init mem_init(void)
- {
--	/* this will put all memory onto the freelists */
--	memblock_free_all();
- 	init_pointer_tables();
- }
-diff --git a/arch/microblaze/mm/init.c b/arch/microblaze/mm/init.c
-index 3e664e0efc33..65f0d1fb8a2a 100644
---- a/arch/microblaze/mm/init.c
-+++ b/arch/microblaze/mm/init.c
-@@ -107,9 +107,6 @@ void __init setup_memory(void)
- 
- void __init mem_init(void)
- {
--	/* this will put all memory onto the freelists */
--	memblock_free_all();
--
- 	mem_init_done = 1;
- }
- 
-diff --git a/arch/mips/mm/init.c b/arch/mips/mm/init.c
-index eec38e7735dd..a673d3d68254 100644
---- a/arch/mips/mm/init.c
-+++ b/arch/mips/mm/init.c
-@@ -451,11 +451,6 @@ void __init arch_mm_preinit(void)
- }
- #endif /* !CONFIG_NUMA */
- 
--void __init mem_init(void)
--{
--	memblock_free_all();
--}
--
- void free_init_pages(const char *what, unsigned long begin, unsigned long end)
- {
- 	unsigned long pfn;
-diff --git a/arch/nios2/mm/init.c b/arch/nios2/mm/init.c
-index 4ba8dfa0d238..94efa3de3933 100644
---- a/arch/nios2/mm/init.c
-+++ b/arch/nios2/mm/init.c
-@@ -60,12 +60,6 @@ void __init paging_init(void)
- 			(unsigned long)empty_zero_page + PAGE_SIZE);
- }
- 
--void __init mem_init(void)
--{
--	/* this will put all memory onto the freelists */
--	memblock_free_all();
--}
--
- void __init mmu_init(void)
- {
- 	flush_tlb_all();
-diff --git a/arch/openrisc/mm/init.c b/arch/openrisc/mm/init.c
-index 72c5952607ac..be1c2eb8bb94 100644
---- a/arch/openrisc/mm/init.c
-+++ b/arch/openrisc/mm/init.c
-@@ -196,9 +196,6 @@ void __init mem_init(void)
- 	/* clear the zero-page */
- 	memset((void *)empty_zero_page, 0, PAGE_SIZE);
- 
--	/* this will put all low memory onto the freelists */
--	memblock_free_all();
--
- 	printk("mem_init_done ...........................................\n");
- 	mem_init_done = 1;
- 	return;
-diff --git a/arch/parisc/mm/init.c b/arch/parisc/mm/init.c
-index 4fbe354dc9b4..14270715d754 100644
---- a/arch/parisc/mm/init.c
-+++ b/arch/parisc/mm/init.c
-@@ -562,8 +562,6 @@ void __init mem_init(void)
- 	BUILD_BUG_ON(TMPALIAS_MAP_START >= 0x80000000);
- #endif
- 
--	memblock_free_all();
--
- #ifdef CONFIG_PA11
- 	if (boot_cpu_data.cpu_type == pcxl2 || boot_cpu_data.cpu_type == pcxl) {
- 		pcxl_dma_start = (unsigned long)SET_MAP_OFFSET(MAP_START);
-diff --git a/arch/powerpc/mm/mem.c b/arch/powerpc/mm/mem.c
-index 68efdaf14e58..d8fe11b64259 100644
---- a/arch/powerpc/mm/mem.c
-+++ b/arch/powerpc/mm/mem.c
-@@ -327,11 +327,6 @@ void __init arch_mm_preinit(void)
- #endif /* CONFIG_PPC32 */
- }
- 
--void __init mem_init(void)
--{
--	memblock_free_all();
--}
--
- void free_initmem(void)
- {
- 	ppc_md.progress = ppc_printk_progress;
-diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-index 9efadabf6be1..79b649f6de72 100644
---- a/arch/riscv/mm/init.c
-+++ b/arch/riscv/mm/init.c
-@@ -196,11 +196,6 @@ void __init arch_mm_preinit(void)
- 	print_vm_layout();
- }
- 
--void __init mem_init(void)
--{
--	memblock_free_all();
--}
--
- /* Limit the memory size via mem. */
- static phys_addr_t memory_limit;
- #ifdef CONFIG_XIP_KERNEL
-diff --git a/arch/s390/mm/init.c b/arch/s390/mm/init.c
-index c496dfa48bdc..1999b5a94170 100644
---- a/arch/s390/mm/init.c
-+++ b/arch/s390/mm/init.c
-@@ -165,12 +165,6 @@ void __init arch_mm_preinit(void)
- 	setup_zero_pages();	/* Setup zeroed pages. */
- }
- 
--void __init mem_init(void)
--{
--	/* this will put all low memory onto the freelists */
--	memblock_free_all();
--}
--
- unsigned long memory_block_size_bytes(void)
- {
- 	/*
-diff --git a/arch/sh/mm/init.c b/arch/sh/mm/init.c
-index 6d459ffba4bc..99e302eeeec1 100644
---- a/arch/sh/mm/init.c
-+++ b/arch/sh/mm/init.c
-@@ -330,8 +330,6 @@ unsigned int mem_init_done = 0;
- 
- void __init mem_init(void)
- {
--	memblock_free_all();
--
- 	/* Set this up early, so we can take care of the zero page */
- 	cpu_cache_init();
- 
-diff --git a/arch/sparc/mm/init_32.c b/arch/sparc/mm/init_32.c
-index e16c32c5728f..fdc93dd12c3e 100644
---- a/arch/sparc/mm/init_32.c
-+++ b/arch/sparc/mm/init_32.c
-@@ -264,11 +264,6 @@ void __init arch_mm_preinit(void)
- 	taint_real_pages();
- }
- 
--void __init mem_init(void)
--{
--	memblock_free_all();
--}
--
- void sparc_flush_page_to_ram(struct page *page)
- {
- 	unsigned long vaddr = (unsigned long)page_address(page);
-diff --git a/arch/sparc/mm/init_64.c b/arch/sparc/mm/init_64.c
-index 34d46adb9571..760818950464 100644
---- a/arch/sparc/mm/init_64.c
-+++ b/arch/sparc/mm/init_64.c
-@@ -2505,8 +2505,6 @@ static void __init register_page_bootmem_info(void)
- }
- void __init mem_init(void)
- {
--	memblock_free_all();
--
- 	/*
- 	 * Must be done after boot memory is put on freelist, because here we
- 	 * might set fields in deferred struct pages that have not yet been
-diff --git a/arch/um/kernel/mem.c b/arch/um/kernel/mem.c
-index cce387438e60..379f33a1babf 100644
---- a/arch/um/kernel/mem.c
-+++ b/arch/um/kernel/mem.c
-@@ -71,8 +71,6 @@ void __init arch_mm_preinit(void)
- 
- void __init mem_init(void)
- {
--	/* this will put all low memory onto the freelists */
--	memblock_free_all();
- 	kmalloc_ok = 1;
- }
- 
-diff --git a/arch/x86/mm/init_32.c b/arch/x86/mm/init_32.c
-index 16664c5464b5..95b2758b4e4d 100644
---- a/arch/x86/mm/init_32.c
-+++ b/arch/x86/mm/init_32.c
-@@ -702,9 +702,6 @@ void __init arch_mm_preinit(void)
- 
- void __init mem_init(void)
- {
--	/* this will put all low memory onto the freelists */
--	memblock_free_all();
--
- 	after_bootmem = 1;
- 	x86_init.hyper.init_after_bootmem();
- 
-diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
-index f8981e29633c..451e796427d3 100644
---- a/arch/x86/mm/init_64.c
-+++ b/arch/x86/mm/init_64.c
-@@ -1357,8 +1357,6 @@ void __init mem_init(void)
- {
- 	/* clear_bss() already clear the empty_zero_page */
- 
--	/* this will put all memory onto the freelists */
--	memblock_free_all();
- 	after_bootmem = 1;
- 	x86_init.hyper.init_after_bootmem();
- 
-diff --git a/arch/xtensa/mm/init.c b/arch/xtensa/mm/init.c
-index 47ecbe28263e..cc52733a0649 100644
---- a/arch/xtensa/mm/init.c
-+++ b/arch/xtensa/mm/init.c
-@@ -129,15 +129,6 @@ void __init zones_init(void)
- 	print_vm_layout();
- }
- 
--/*
-- * Initialize memory pages.
-- */
--
--void __init mem_init(void)
--{
--	memblock_free_all();
--}
--
- static void __init parse_memmap_one(char *p)
- {
- 	char *oldp;
-diff --git a/include/linux/memblock.h b/include/linux/memblock.h
-index e79eb6ac516f..ef5a1ecc6e59 100644
---- a/include/linux/memblock.h
-+++ b/include/linux/memblock.h
-@@ -133,7 +133,6 @@ int memblock_mark_nomap(phys_addr_t base, phys_addr_t size);
- int memblock_clear_nomap(phys_addr_t base, phys_addr_t size);
- int memblock_reserved_mark_noinit(phys_addr_t base, phys_addr_t size);
- 
--void memblock_free_all(void);
- void memblock_free(void *ptr, size_t size);
- void reset_all_zones_managed_pages(void);
- 
-diff --git a/mm/internal.h b/mm/internal.h
-index 109ef30fee11..26e2e8cea495 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -1407,7 +1407,8 @@ static inline bool gup_must_unshare(struct vm_area_struct *vma,
- }
- 
- extern bool mirrored_kernelcore;
--extern bool memblock_has_mirror(void);
-+bool memblock_has_mirror(void);
-+void memblock_free_all(void);
- 
- static __always_inline void vma_set_range(struct vm_area_struct *vma,
- 					  unsigned long start, unsigned long end,
-diff --git a/mm/mm_init.c b/mm/mm_init.c
-index 57f762c16c02..c529a07fd055 100644
---- a/mm/mm_init.c
-+++ b/mm/mm_init.c
-@@ -2679,6 +2679,10 @@ void __init __weak arch_mm_preinit(void)
- {
- }
- 
-+void __init __weak mem_init(void)
-+{
-+}
-+
- /*
-  * Set up kernel memory allocators
-  */
-@@ -2700,6 +2704,7 @@ void __init mm_core_init(void)
- 	report_meminit();
- 	kmsan_init_shadow();
- 	stack_depot_early_init();
-+	memblock_free_all();
- 	mem_init();
- 	kmem_cache_init();
- 	/*
+v2 changes:
+* don't use generic version for setting high_memory on architectures
+  that use that varialble earlier than free_area_init()
+* use memblock_alloc_or_panig() to allocate zero pages on MIPS and s390
+* fix alignment in allocation of zero pages on s390
+* add Acked-by
+
+v1: https://lore.kernel.org/all/20250306185124.3147510-1-rppt@kernel.org
+
+Mike Rapoport (Microsoft) (13):
+  arm: mem_init: use memblock_phys_free() to free DMA memory on SA1111
+  csky: move setup_initrd() to setup.c
+  hexagon: move initialization of init_mm.context init to paging_init()
+  MIPS: consolidate mem_init() for NUMA machines
+  MIPS: make setup_zero_pages() use memblock
+  nios2: move pr_debug() about memory start and end to setup_arch()
+  s390: make setup_zero_pages() use memblock
+  xtensa: split out printing of virtual memory layout to a function
+  arch, mm: set max_mapnr when allocating memory map for FLATMEM
+  arch, mm: set high_memory in free_area_init()
+  arch, mm: streamline HIGHMEM freeing
+  arch, mm: introduce arch_mm_preinit
+  arch, mm: make releasing of memory to page allocator more explicit
+
+ arch/alpha/mm/init.c               |  8 ----
+ arch/arc/mm/init.c                 | 25 +----------
+ arch/arm/mm/init.c                 | 43 +------------------
+ arch/arm64/mm/init.c               | 12 +-----
+ arch/csky/kernel/setup.c           | 43 +++++++++++++++++++
+ arch/csky/mm/init.c                | 67 ------------------------------
+ arch/hexagon/mm/init.c             | 32 ++------------
+ arch/loongarch/kernel/numa.c       |  6 ---
+ arch/loongarch/mm/init.c           |  8 ----
+ arch/m68k/mm/init.c                |  2 -
+ arch/microblaze/mm/init.c          | 25 -----------
+ arch/mips/include/asm/mmzone.h     |  2 -
+ arch/mips/loongson64/numa.c        |  7 ----
+ arch/mips/mm/init.c                | 51 ++++-------------------
+ arch/mips/sgi-ip27/ip27-memory.c   |  9 ----
+ arch/nios2/kernel/setup.c          |  3 +-
+ arch/nios2/mm/init.c               | 16 +------
+ arch/openrisc/mm/init.c            |  6 ---
+ arch/parisc/mm/init.c              |  4 --
+ arch/powerpc/kernel/setup-common.c |  2 -
+ arch/powerpc/mm/mem.c              | 18 +-------
+ arch/riscv/mm/init.c               |  5 +--
+ arch/s390/mm/init.c                | 20 +--------
+ arch/sh/mm/init.c                  | 10 -----
+ arch/sparc/mm/init_32.c            | 31 +-------------
+ arch/sparc/mm/init_64.c            |  4 --
+ arch/um/include/shared/mem_user.h  |  1 -
+ arch/um/kernel/mem.c               |  9 ++--
+ arch/um/kernel/physmem.c           | 12 ------
+ arch/um/kernel/um_arch.c           |  2 -
+ arch/x86/include/asm/highmem.h     |  3 --
+ arch/x86/include/asm/numa.h        |  4 --
+ arch/x86/include/asm/numa_32.h     | 13 ------
+ arch/x86/kernel/setup.c            |  2 -
+ arch/x86/mm/Makefile               |  2 -
+ arch/x86/mm/highmem_32.c           | 34 ---------------
+ arch/x86/mm/init_32.c              | 41 ++----------------
+ arch/x86/mm/init_64.c              |  7 ++--
+ arch/x86/mm/numa_32.c              |  3 --
+ arch/xtensa/mm/init.c              | 66 +++++++----------------------
+ include/asm-generic/memory_model.h |  5 ++-
+ include/linux/memblock.h           |  1 -
+ include/linux/mm.h                 | 13 +-----
+ mm/internal.h                      |  3 +-
+ mm/memblock.c                      |  3 +-
+ mm/memory.c                        | 16 -------
+ mm/mm_init.c                       | 65 +++++++++++++++++++++++++----
+ mm/nommu.c                         |  6 ---
+ 48 files changed, 158 insertions(+), 612 deletions(-)
+ delete mode 100644 arch/x86/include/asm/numa_32.h
+ delete mode 100644 arch/x86/mm/highmem_32.c
+
+
+base-commit: d082ecbc71e9e0bf49883ee4afd435a77a5101b6
 -- 
 2.47.2
 
