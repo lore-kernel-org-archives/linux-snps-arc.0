@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12C2EC28B2E
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 13 Mar 2025 13:53:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CD97BC35FF3
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 13 Mar 2025 13:53:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=cxebbup1yjnQ+vRf+3LO41rMHfgo8NwwmLIBxJWO6Hw=; b=PzcBZP8TUtA2Q9
-	VToVlSPZJm0bTJ4FkJ9DZL5x80ScFyukZHzbmB0MuxdGmHy2QC+VstfY6oalo+m0wR1w+qEExq3qu
-	M3tsFd+WfO3Cw4g8QVNEi7hY+535wUp1qEWX3p+krkjDPQZfAmV/Lbh/dd1QvC65KBlL/ZivJ0KoU
-	xHd2FHB+A2ZaKLXfMY46di3MbqhGEuQ8sV60c1g7z4VGzL1lB/CqEk6E4RgnvwmHmD1RZGf7s6ne/
-	8bZZxmz8o12dF8EI3Q8ZiE10IOR6WFPRiGISEh71lxDsVTGSDs7mc6TWLY1mwXz5SCuO/6f9pckcT
-	AgnqZpSrObNcRF77mfzw==;
+	List-Owner; bh=u1/wSpOZHpJwVaNgnpvfpfBt9/fqcAUDDEoZmx6m4Pc=; b=W9pbVEfMWn/c9h
+	EQbzekiDMnK1UzPfBLc7iLurSW+TgqXiV06SqGbDeAg/rx030BewVF7FLGUZpcbnmrSEsNfGePX9S
+	dYn7J5rSUgkdEwtfX9XMahiE5IHqy8tlMoAmnLJysa0PqhLJMJCkKSMNTbxCD2RKHj3TNNh+/VB2+
+	bOYGrTcr6YVUwm01XZYCSfBN95egZy8vYwnF/B/HU5V2Vhxs2gCYYWw7Vzck5tedNux+yR2SBvV+k
+	eibWHxIIJPBDQkLN19V8jnFJVMw2iYE16XIctE75fxREKW7sIljj5LyaY65uhvobJWVcFjrPuU0hn
+	uiTLkCD+5izyusC1Dn0A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tsizq-0000000BRoH-2xJ2;
-	Thu, 13 Mar 2025 13:53:14 +0000
+	id 1tsizs-0000000BRrN-2J3F;
+	Thu, 13 Mar 2025 13:53:16 +0000
 Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tsiyB-0000000BR1L-0UB8;
-	Thu, 13 Mar 2025 13:51:32 +0000
+	id 1tsiyO-0000000BR7m-2J3z;
+	Thu, 13 Mar 2025 13:51:46 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 5E455A474CE;
-	Thu, 13 Mar 2025 13:46:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 015EFC4CEF6;
-	Thu, 13 Mar 2025 13:51:16 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id C8BB0A474DA;
+	Thu, 13 Mar 2025 13:46:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A398C4CEEA;
+	Thu, 13 Mar 2025 13:51:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741873889;
-	bh=jdWrizGlyiZZhCc1iHfNv1CsWigRieeHlQFrymlBBDo=;
+	s=k20201202; t=1741873903;
+	bh=uD5faVqJ7G6OTY8H5Svd8uEX7wWQ143lrl+QSf2xljc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=u3KxN3gI6tZkgmfjdGzHSgAamoBrtMk5mafHWD0jowj5KlnVnY175VGFXMIdiBWWr
-	 B0id/FlW6EUwL50nPhHTxSa3ZYicRa5WCcAVJ1jqVKXm0jic0tczSIN1xHSKcWjdiQ
-	 D4zIM9VOnf83gFmBpmn6LKIQhS824VfdxG6Q7Sc5wumpzMv1OC7V7+rYxBizu7Teaz
-	 KU/I5rcojMcKt4TssZCQ8zpDNAQK4H9oQKTruuXHVBrx+VpKg8pt85mDQsZo+8ivk2
-	 OY1XX/aha854nOI4DZr2fH95T6QTV9et5NHe2RoD4T67D7uTt3ju/gRHLM1ghupdhu
-	 a92GRhFxvI5eA==
+	b=tAvAkADl38NVbSZKILqjquMXN3H24XBk/B6I41lcVbP00o/57lseGod9pdeTReVMs
+	 cGwlYVhuGgyWlrhDCI2daJ1ZuH+VeJ81cIRRK9frKmoiVueFr/N/mjUPeYtEx8wJ8T
+	 nBs3CkwbMReqveisUvVZBC22mbfZgYYmTbCh29QOQKxl3NVOzvvN3jvxoRqmAwnVch
+	 0ZqbY3ubQTUgmI2m+/Okv6ac4OZYKAK3inE5/1A+FzyXOEE0bOdUpCjBHuKjnqgp9K
+	 6yHOo0+C4guHPMqoX35CH+VdOKq/D8Ff1oyIUB7Oo0RhP3dSOBxqfGBVfIxIiCRB+o
+	 mLZqPSEOGfNGg==
 From: Mike Rapoport <rppt@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
@@ -101,16 +101,16 @@ Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
 	linux-arch@vger.kernel.org,
 	linux-mm@kvack.org,
 	x86@kernel.org
-Subject: [PATCH v2 05/13] MIPS: make setup_zero_pages() use memblock
-Date: Thu, 13 Mar 2025 15:49:55 +0200
-Message-ID: <20250313135003.836600-6-rppt@kernel.org>
+Subject: [PATCH v2 06/13] nios2: move pr_debug() about memory start and end to setup_arch()
+Date: Thu, 13 Mar 2025 15:49:56 +0200
+Message-ID: <20250313135003.836600-7-rppt@kernel.org>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250313135003.836600-1-rppt@kernel.org>
 References: <20250313135003.836600-1-rppt@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250313_065131_287945_E80ED6BD 
-X-CRM114-Status: GOOD (  16.07  )
+X-CRM114-CacheID: sfid-20250313_065144_710618_A41A08CC 
+X-CRM114-Status: GOOD (  12.16  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -129,81 +129,40 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 
-Allocating the zero pages from memblock is simpler because the memory is
-already reserved.
-
-This will also help with pulling out memblock_free_all() to the generic
+This will help with pulling out memblock_free_all() to the generic
 code and reducing code duplication in arch::mem_init().
 
 Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 ---
- arch/mips/include/asm/mmzone.h |  2 --
- arch/mips/mm/init.c            | 18 +++++-------------
- 2 files changed, 5 insertions(+), 15 deletions(-)
+ arch/nios2/kernel/setup.c | 2 ++
+ arch/nios2/mm/init.c      | 2 --
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/mips/include/asm/mmzone.h b/arch/mips/include/asm/mmzone.h
-index 14226ea42036..602a21aee9d4 100644
---- a/arch/mips/include/asm/mmzone.h
-+++ b/arch/mips/include/asm/mmzone.h
-@@ -20,6 +20,4 @@
- #define nid_to_addrbase(nid) 0
- #endif
+diff --git a/arch/nios2/kernel/setup.c b/arch/nios2/kernel/setup.c
+index da122a5fa43b..a4cffbfc1399 100644
+--- a/arch/nios2/kernel/setup.c
++++ b/arch/nios2/kernel/setup.c
+@@ -149,6 +149,8 @@ void __init setup_arch(char **cmdline_p)
+ 	memory_start = memblock_start_of_DRAM();
+ 	memory_end = memblock_end_of_DRAM();
  
--extern void setup_zero_pages(void);
++	pr_debug("%s: start=%lx, end=%lx\n", __func__, memory_start, memory_end);
++
+ 	setup_initial_init_mm(_stext, _etext, _edata, _end);
+ 	init_task.thread.kregs = &fake_regs;
+ 
+diff --git a/arch/nios2/mm/init.c b/arch/nios2/mm/init.c
+index a2278485de19..aa692ad30044 100644
+--- a/arch/nios2/mm/init.c
++++ b/arch/nios2/mm/init.c
+@@ -65,8 +65,6 @@ void __init mem_init(void)
+ 	unsigned long end_mem   = memory_end; /* this must not include
+ 						kernel stack at top */
+ 
+-	pr_debug("mem_init: start=%lx, end=%lx\n", memory_start, memory_end);
 -
- #endif /* _ASM_MMZONE_H_ */
-diff --git a/arch/mips/mm/init.c b/arch/mips/mm/init.c
-index 3db6082c611e..820e35a59d4d 100644
---- a/arch/mips/mm/init.c
-+++ b/arch/mips/mm/init.c
-@@ -59,24 +59,16 @@ EXPORT_SYMBOL(zero_page_mask);
- /*
-  * Not static inline because used by IP27 special magic initialization code
-  */
--void setup_zero_pages(void)
-+static void __init setup_zero_pages(void)
- {
--	unsigned int order, i;
--	struct page *page;
-+	unsigned int order;
- 
- 	if (cpu_has_vce)
- 		order = 3;
- 	else
- 		order = 0;
- 
--	empty_zero_page = __get_free_pages(GFP_KERNEL | __GFP_ZERO, order);
--	if (!empty_zero_page)
--		panic("Oh boy, that early out of memory?");
--
--	page = virt_to_page((void *)empty_zero_page);
--	split_page(page, order);
--	for (i = 0; i < (1 << order); i++, page++)
--		mark_page_reserved(page);
-+	empty_zero_page = (unsigned long)memblock_alloc_or_panic(PAGE_SIZE << order, PAGE_SIZE);
- 
- 	zero_page_mask = ((PAGE_SIZE << order) - 1) & PAGE_MASK;
- }
-@@ -470,9 +462,9 @@ void __init mem_init(void)
- 	BUILD_BUG_ON(IS_ENABLED(CONFIG_32BIT) && (PFN_PTE_SHIFT > PAGE_SHIFT));
- 
- 	maar_init();
--	memblock_free_all();
- 	setup_zero_pages();	/* Setup zeroed pages.  */
- 	mem_init_free_highmem();
-+	memblock_free_all();
- 
- #ifdef CONFIG_64BIT
- 	if ((unsigned long) &_text > (unsigned long) CKSEG0)
-@@ -486,8 +478,8 @@ void __init mem_init(void)
- void __init mem_init(void)
- {
- 	high_memory = (void *) __va(get_num_physpages() << PAGE_SHIFT);
--	memblock_free_all();
- 	setup_zero_pages();	/* This comes from node 0 */
-+	memblock_free_all();
- }
- #endif /* !CONFIG_NUMA */
+ 	end_mem &= PAGE_MASK;
+ 	high_memory = __va(end_mem);
  
 -- 
 2.47.2
