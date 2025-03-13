@@ -4,57 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DFBFEC282DE
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 13 Mar 2025 15:05:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34C83C282EC
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 13 Mar 2025 15:05:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=YyePNvJOLicDTacTS7xBSgFKXRe0nIjE4ixFnIsdTOI=; b=Z7kaK2hZ75WDmk
-	0z2ZBFylEatpQmL2KMFEimzD+2hfEU9CIuvXyYs8NQ9qoPiL+SAvzUPXKDhPgsLnkbYEIH3e5OOIh
-	tkC9F95BOHekpibPUKD16IBSnIl5eqy4tXn2zOTrMrY6F6/gkyXBwuB2/W2BmpYk66ktmyn1EjVZ8
-	fD/yOnU7pEJc8d3b0UmEKR4wdDhI8lF8TPhkR88fWXwc804kQ5TcENY9cvqVARTghp0RGcsGJvTbU
-	iB6aiYvQsGYHAidL3QhmsX+g8dphLm+aVGth+pRL1Vq+0x93SDQspRjdLCTUl79R0txd1HMbtjX7I
-	VBm4cnvh6MRGumA0k29Q==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=oWl6ckLs+JsnqXjTk65aAzCy0WgcMCwz6gN8AMsPYDY=; b=jzKP15q6dq6JQ5
+	k21MawV+5fKQ+aNMEerPQjQhPvCECaQ+ZLUI1/2r2+AM03OwjGOhy4+8/tlEBlnoUlFodI8+cDiyt
+	O3ACVzkiNIjeewbzpdf9ogzTci4FPZRlA7uCJzP/LXYmEMlEUJmA2roOjh2LQJF+PSWhOIh+aY+Mg
+	lisSJfBDIr5CNa3aDR/C/disGMypVX7g7Xzaw2BRu472HW9shCABHEIqauJKzYXn3aaW5c2KJ9hF3
+	WiJWkjX1ebRgIoeJGiQU34dXxfOgBN70h2m4253jRCdPMfTKlKI/ptaJCKhfdM3dJiK37n3iHcKT4
+	eOvo44RCMnkt6asGNyFA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tsk8C-0000000Bbi9-1jKR;
-	Thu, 13 Mar 2025 15:05:56 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1tsk8D-0000000Bbib-3xTd;
+	Thu, 13 Mar 2025 15:05:57 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tsixC-0000000BQjp-3wFV;
-	Thu, 13 Mar 2025 13:50:31 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=q3twzRg7JFtCcj4wct+pthKqDwlnYSVDhBZsfaP3eKQ=; b=iG/p7YuCG4MfQw89LNk72vralS
-	Yi+Ri7OYIeYgjGtFCQy+K5dVuSZ16g/x4JVlEPJLVWZTzmKP3GWaKlW/8AR811DtJWCpIlIjeMnDT
-	tmbwdZU+r37A+QExq0AIkOoedBb9B0/Df0xTJskbx/ah6Zp0LNiEs9SaEx2/XeqZeG8lMcH1z+sFZ
-	KoVex6tnp4r8JLM/6QcPIXTM5K3tF5Ke1ZRtb+yZhFVI/txPR3uQi+IEBs4VgIGar1+n8u60k2KqH
-	1jDvjJ6UVQ6+D50sCuVkhm6VlrNXSvbOhYxG1335gBbsf2eAeLK0+IsYCMZURd2LOFafJbZPkNZyw
-	9yFinc5w==;
-Received: from nyc.source.kernel.org ([147.75.193.91])
-	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tsix9-00000002eMf-07Ad;
-	Thu, 13 Mar 2025 13:50:29 +0000
+	id 1tsiyb-0000000BREA-3B6Z;
+	Thu, 13 Mar 2025 13:51:58 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 3BAE8A474BF;
-	Thu, 13 Mar 2025 13:44:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C704BC4CEEA;
-	Thu, 13 Mar 2025 13:50:09 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 468B45C108A;
+	Thu, 13 Mar 2025 13:49:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D278CC4CEE5;
+	Thu, 13 Mar 2025 13:51:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741873822;
-	bh=62myLVbZVVZFvzPE89he3yMa/a5QAFc2vHsMKxeLVb8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=aBWKPm/h37x/i5+4FCPzxXZYbNjC4QtR+6/uzYQ4j82YaZ0nkwcNlRiBhZ3s4R+Lr
-	 UbF6tAw/GLOmZOSjCm3jrX37f1OqnkT6FdjX3Szfhc1wjS/Zyf835B0imLzLMqYjcF
-	 W5cI3ghKtUKRswhAYc77+5GSp1YmJnwSpf+x4AqcOGMZBAqFa6QHJIit/O7bFjGzmZ
-	 g/lU9Dt6wqDCDU2wFqrq4LXF68UvvU/ytVgt54uUuF2Vagcx8WobuHEk6mGKRWMGKp
-	 aLWh5ch4M9p8CvWw5jWVVvEJFFmiQHZ9S4CLDqJpDLqZJs/1wj2uAhd2lAzYblfH7W
-	 BgZb5J0KHNyow==
+	s=k20201202; t=1741873916;
+	bh=vJ1t8jcOv4IahmAbojjG/hS3bRjZ1yhzZyXAgkQKcCk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=lkivtWoTeJzPisCwCmeZ9L2Fz06iBYCw7N7oUdPfSyVbKGHBQSJRQN557ej/tzus0
+	 RT9LYZZKsZEuccc831bWhcS16iFVfInWEJvOyu28bZGwYqulYjyTkus9rBocPVvhz4
+	 m8zeNcqioCGuPo109d5hVWHgDD9f18aJRE/THVHMZkClmOyxFtvaA5ad1Sbfx5UsQa
+	 /mN176Bn7itUz9e8h5ICJhb2Pyd0QqADYzYHfdo8hw/y2vYpPI7xdW6pUdF2K5dqLP
+	 rpEfF6BvQYYCTc7YKFjKCOY7th9g+KIym2sJYOE6kTLClyLAp0snpD940nJFfAVx96
+	 iFppF0Okn7hYA==
 From: Mike Rapoport <rppt@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
@@ -115,14 +101,16 @@ Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
 	linux-arch@vger.kernel.org,
 	linux-mm@kvack.org,
 	x86@kernel.org
-Subject: [PATCH v2 00/13] arch, mm: reduce code duplication in mem_init()
-Date: Thu, 13 Mar 2025 15:49:50 +0200
-Message-ID: <20250313135003.836600-1-rppt@kernel.org>
+Subject: [PATCH v2 07/13] s390: make setup_zero_pages() use memblock
+Date: Thu, 13 Mar 2025 15:49:57 +0200
+Message-ID: <20250313135003.836600-8-rppt@kernel.org>
 X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250313135003.836600-1-rppt@kernel.org>
+References: <20250313135003.836600-1-rppt@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250313_135027_393658_14C1D962 
-X-CRM114-Status: GOOD (  15.35  )
+X-CRM114-CacheID: sfid-20250313_065157_909815_BCC43E74 
+X-CRM114-Status: GOOD (  14.71  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -141,95 +129,61 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 
-Hi,
+Allocating the zero pages from memblock is simpler because the memory is
+already reserved.
 
-Every architecture has implementation of mem_init() function and some
-even more than one. All these release free memory to the buddy
-allocator, most of them set high_memory to the end of directly
-addressable memory and many of them set max_mapnr for FLATMEM case.
+This will also help with pulling out memblock_free_all() to the generic
+code and reducing code duplication in arch::mem_init().
 
-These patches pull the commonalities into the generic code and refactor
-some of the mem_init() implementations so that many of them can be just
-dropped.
+Acked-by: Heiko Carstens <hca@linux.ibm.com>
+Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+---
+ arch/s390/mm/init.c | 16 +++-------------
+ 1 file changed, 3 insertions(+), 13 deletions(-)
 
-v2 changes:
-* don't use generic version for setting high_memory on architectures
-  that use that varialble earlier than free_area_init()
-* use memblock_alloc_or_panig() to allocate zero pages on MIPS and s390
-* fix alignment in allocation of zero pages on s390
-* add Acked-by
-
-v1: https://lore.kernel.org/all/20250306185124.3147510-1-rppt@kernel.org
-
-Mike Rapoport (Microsoft) (13):
-  arm: mem_init: use memblock_phys_free() to free DMA memory on SA1111
-  csky: move setup_initrd() to setup.c
-  hexagon: move initialization of init_mm.context init to paging_init()
-  MIPS: consolidate mem_init() for NUMA machines
-  MIPS: make setup_zero_pages() use memblock
-  nios2: move pr_debug() about memory start and end to setup_arch()
-  s390: make setup_zero_pages() use memblock
-  xtensa: split out printing of virtual memory layout to a function
-  arch, mm: set max_mapnr when allocating memory map for FLATMEM
-  arch, mm: set high_memory in free_area_init()
-  arch, mm: streamline HIGHMEM freeing
-  arch, mm: introduce arch_mm_preinit
-  arch, mm: make releasing of memory to page allocator more explicit
-
- arch/alpha/mm/init.c               |  8 ----
- arch/arc/mm/init.c                 | 25 +----------
- arch/arm/mm/init.c                 | 43 +------------------
- arch/arm64/mm/init.c               | 12 +-----
- arch/csky/kernel/setup.c           | 43 +++++++++++++++++++
- arch/csky/mm/init.c                | 67 ------------------------------
- arch/hexagon/mm/init.c             | 32 ++------------
- arch/loongarch/kernel/numa.c       |  6 ---
- arch/loongarch/mm/init.c           |  8 ----
- arch/m68k/mm/init.c                |  2 -
- arch/microblaze/mm/init.c          | 25 -----------
- arch/mips/include/asm/mmzone.h     |  2 -
- arch/mips/loongson64/numa.c        |  7 ----
- arch/mips/mm/init.c                | 51 ++++-------------------
- arch/mips/sgi-ip27/ip27-memory.c   |  9 ----
- arch/nios2/kernel/setup.c          |  3 +-
- arch/nios2/mm/init.c               | 16 +------
- arch/openrisc/mm/init.c            |  6 ---
- arch/parisc/mm/init.c              |  4 --
- arch/powerpc/kernel/setup-common.c |  2 -
- arch/powerpc/mm/mem.c              | 18 +-------
- arch/riscv/mm/init.c               |  5 +--
- arch/s390/mm/init.c                | 20 +--------
- arch/sh/mm/init.c                  | 10 -----
- arch/sparc/mm/init_32.c            | 31 +-------------
- arch/sparc/mm/init_64.c            |  4 --
- arch/um/include/shared/mem_user.h  |  1 -
- arch/um/kernel/mem.c               |  9 ++--
- arch/um/kernel/physmem.c           | 12 ------
- arch/um/kernel/um_arch.c           |  2 -
- arch/x86/include/asm/highmem.h     |  3 --
- arch/x86/include/asm/numa.h        |  4 --
- arch/x86/include/asm/numa_32.h     | 13 ------
- arch/x86/kernel/setup.c            |  2 -
- arch/x86/mm/Makefile               |  2 -
- arch/x86/mm/highmem_32.c           | 34 ---------------
- arch/x86/mm/init_32.c              | 41 ++----------------
- arch/x86/mm/init_64.c              |  7 ++--
- arch/x86/mm/numa_32.c              |  3 --
- arch/xtensa/mm/init.c              | 66 +++++++----------------------
- include/asm-generic/memory_model.h |  5 ++-
- include/linux/memblock.h           |  1 -
- include/linux/mm.h                 | 13 +-----
- mm/internal.h                      |  3 +-
- mm/memblock.c                      |  3 +-
- mm/memory.c                        | 16 -------
- mm/mm_init.c                       | 65 +++++++++++++++++++++++++----
- mm/nommu.c                         |  6 ---
- 48 files changed, 158 insertions(+), 612 deletions(-)
- delete mode 100644 arch/x86/include/asm/numa_32.h
- delete mode 100644 arch/x86/mm/highmem_32.c
-
-
-base-commit: d082ecbc71e9e0bf49883ee4afd435a77a5101b6
+diff --git a/arch/s390/mm/init.c b/arch/s390/mm/init.c
+index f2298f7a3f21..f8333feb6a7e 100644
+--- a/arch/s390/mm/init.c
++++ b/arch/s390/mm/init.c
+@@ -73,8 +73,6 @@ static void __init setup_zero_pages(void)
+ {
+ 	unsigned long total_pages = memblock_estimated_nr_free_pages();
+ 	unsigned int order;
+-	struct page *page;
+-	int i;
+ 
+ 	/* Latest machines require a mapping granularity of 512KB */
+ 	order = 7;
+@@ -83,16 +81,7 @@ static void __init setup_zero_pages(void)
+ 	while (order > 2 && (total_pages >> 10) < (1UL << order))
+ 		order--;
+ 
+-	empty_zero_page = __get_free_pages(GFP_KERNEL | __GFP_ZERO, order);
+-	if (!empty_zero_page)
+-		panic("Out of memory in setup_zero_pages");
+-
+-	page = virt_to_page((void *) empty_zero_page);
+-	split_page(page, order);
+-	for (i = 1 << order; i > 0; i--) {
+-		mark_page_reserved(page);
+-		page++;
+-	}
++	empty_zero_page = (unsigned long)memblock_alloc_or_panic(PAGE_SIZE << order, PAGE_SIZE);
+ 
+ 	zero_page_mask = ((PAGE_SIZE << order) - 1) & PAGE_MASK;
+ }
+@@ -176,9 +165,10 @@ void __init mem_init(void)
+ 	pv_init();
+ 	kfence_split_mapping();
+ 
++	setup_zero_pages();	/* Setup zeroed pages. */
++
+ 	/* this will put all low memory onto the freelists */
+ 	memblock_free_all();
+-	setup_zero_pages();	/* Setup zeroed pages. */
+ }
+ 
+ unsigned long memory_block_size_bytes(void)
 -- 
 2.47.2
 
