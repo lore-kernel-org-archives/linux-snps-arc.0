@@ -4,97 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1E1D5C28B2F
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 14 Mar 2025 07:11:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4128CC282EC
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 14 Mar 2025 09:51:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=WkcPVO6ADZwbabGPWVC4/kh0IAQRo6y3yrRdOASxoD0=; b=FhdORhf6FgNwGV
-	YUek5+wBbd+6KpZTuA3AntFajOb3L8NIiYLbSH4kmPkA1fR3ThoYA2zI4xiHLc5Hn9TeHre7DNgTu
-	YuKUXThNcO6Y0+REAyhDESvKIrnkpHzeYL6uqN5WcFFCaW92odzw6uTf05tgVVc5xs6GNCqCKhf7R
-	vew9zbrZR4ohQnL0VvXZ8VYwdT67/KesYPjWSLwKCR6UXI2SSXJi8bGWtL0W/Awv75ELnPAGGFe07
-	yCGfDyrv/o/15fWjHh+7F5Cv4bzbZH38YBkFB3oj4sq4rtDKVxIXk8uf1W3gMMDxkdlBekTd0oR97
-	2gcCSOZjvB7XaNvmQE0w==;
+	List-Owner; bh=3QQIc9/s6JNEuiC0pXk7yZ+JR8EzuZXYhQtLC8XPl00=; b=lkDJKwrFMZ8f7y
+	B1/aTxufbvU+mwTzNnGEjVkZhhMrxOUaaQ+GOEFXToHcM+snjVeI+2O6yyfDft6mvUBZWWki+UWSa
+	H30C7o5KkIuqXPduTwr5uDMf9w7FQp11+aLK+86eiLxnbQGY/oAyDxN9O7m/o34Mhg/HrR4VD3dLn
+	qCZ8TLLMQuMNVW1YVnMOM+FWtjg9orBQwjDzvakcd0ucZff8YdH33bg7XmgIL4Pbxp/TYBUL48ZL6
+	qVqySoq8Nm8Exgx+DK7bol9I6WMXjIdqYQl8+iBhwSmcG+1oua1KjDOvIZZfpcWPKv81VQEe8x4O/
+	GPrZVf5WQdVDHrEhTJvQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tszCa-0000000DGk7-3dVh;
-	Fri, 14 Mar 2025 07:11:28 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tszCL-0000000DGgQ-0w6F
-	for linux-snps-arc@bombadil.infradead.org;
-	Fri, 14 Mar 2025 07:11:13 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=b7cjOjVg2lOMeYAeeJG2p6u0MZuPm1eTCEoNIyjOSV0=; b=TuUbv+a6U8/StGFbBIq2ygCvBv
-	rQ+shNrulcMk37XrARCDsNs9Xwds/UCyLxU+XczTawOV3etgBfOP2e2TvtebT5qqvXfwPMLI788bb
-	dHTnTCfWmzz+3iMM6BnEuzv24WNVE7jAaiG/jJjzwZuaVHE5yvPqqnekZX8h0AuljdGfOeyL2ort3
-	gLDqdCR+IpLS2Z88DeACD8UhAB5ycRFFM9ng7AwcT5JDFqqj7xbZj9lBjhQReKiuNuwnXObIadUV7
-	29WPjR6mKPNu9YKq9sJ4sOtnw/3upMbG+MPtMvATwmCTHG0l9+KUYeMdbdAPCVfPGx+5m660oQotn
-	H6edEeSA==;
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
-	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tszCF-00000002qsC-2z3T
-	for linux-snps-arc@lists.infradead.org;
-	Fri, 14 Mar 2025 07:11:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1741936259;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=b7cjOjVg2lOMeYAeeJG2p6u0MZuPm1eTCEoNIyjOSV0=;
-	b=XuKooT/0hiPSBXnihA1vNt4+466ZpY/cPabQmv++Y8xDy0QGTK1ZRqkRDGjafULv4BLwyM
-	jhHvZsbJf1FzLpdbll7N0d26RYTnS7u95kL07AI2p/dL+24hx/8h3+mRD6vPdeec5yAmhi
-	qXw1Ix+t+Tu7jAsPAjuwe8NdLRRl2WI=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1741936266;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=b7cjOjVg2lOMeYAeeJG2p6u0MZuPm1eTCEoNIyjOSV0=;
-	b=Yr3gw6jD1pbFiiGNdfj+4AOijlRRo0M/4detoiDbtGoKfb0cCvoK/iL+Oeo24T+B8GgdIc
-	KbH5bXdwiah2mM0p6fA3VcsOhWUs+31XVqtqagZxu4TKjkZm/9ghvHfUxiYrhpZuwU58y0
-	zxJGiqxpKywUk3j0jWQ9OvfrzWdysb4=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-655-z9DIsXXRO-WXzDzejg6-MQ-1; Fri,
- 14 Mar 2025 03:10:57 -0400
-X-MC-Unique: z9DIsXXRO-WXzDzejg6-MQ-1
-X-Mimecast-MFC-AGG-ID: z9DIsXXRO-WXzDzejg6-MQ_1741936256
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2391E1955DCD;
-	Fri, 14 Mar 2025 07:10:56 +0000 (UTC)
-Received: from thuth-p1g4.redhat.com (unknown [10.44.32.82])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1A62D1801747;
-	Fri, 14 Mar 2025 07:10:52 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	linux-arch@vger.kernel.org,
-	Thomas Huth <thuth@redhat.com>,
-	Vineet Gupta <vgupta@kernel.org>,
-	linux-snps-arc@lists.infradead.org
-Subject: [PATCH 05/41] arc: Replace __ASSEMBLY__ with __ASSEMBLER__ in the non-uapi headers
-Date: Fri, 14 Mar 2025 08:09:36 +0100
-Message-ID: <20250314071013.1575167-6-thuth@redhat.com>
-In-Reply-To: <20250314071013.1575167-1-thuth@redhat.com>
-References: <20250314071013.1575167-1-thuth@redhat.com>
+	id 1tt1h4-0000000Djb0-44T7;
+	Fri, 14 Mar 2025 09:51:06 +0000
+Received: from pegase2.c-s.fr ([93.17.235.10])
+	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
+	id 1tt1g3-0000000DjKp-3TX1;
+	Fri, 14 Mar 2025 09:50:06 +0000
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+	by localhost (Postfix) with ESMTP id 4ZDf9G0vWrz9sS8;
+	Fri, 14 Mar 2025 10:25:22 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 7fTc4ZCXKSeV; Fri, 14 Mar 2025 10:25:22 +0100 (CET)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4ZDf9F4S45z9sSK;
+	Fri, 14 Mar 2025 10:25:21 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 7CF118B77A;
+	Fri, 14 Mar 2025 10:25:21 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id 65diyAgfwB8G; Fri, 14 Mar 2025 10:25:21 +0100 (CET)
+Received: from [192.168.235.99] (unknown [192.168.235.99])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id EF57F8B770;
+	Fri, 14 Mar 2025 10:25:18 +0100 (CET)
+Message-ID: <4b9627f2-65ff-4baf-931f-4e23b5732e6b@csgroup.eu>
+Date: Fri, 14 Mar 2025 10:25:18 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 09/13] arch, mm: set max_mapnr when allocating memory
+ map for FLATMEM
+To: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
+ Andreas Larsson <andreas@gaisler.com>, Andy Lutomirski <luto@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ "David S. Miller" <davem@davemloft.net>, Dinh Nguyen <dinguyen@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Guo Ren
+ <guoren@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
+ Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>, Mark Brown <broonie@kernel.org>,
+ Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Michal Simek <monstr@monstr.eu>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Peter Zijlstra <peterz@infradead.org>,
+ Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
+ Stafford Horne <shorne@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Thomas Gleixner <tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>,
+ Vineet Gupta <vgupta@kernel.org>, Will Deacon <will@kernel.org>,
+ linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-arch@vger.kernel.org,
+ linux-mm@kvack.org, x86@kernel.org
+References: <20250313135003.836600-1-rppt@kernel.org>
+ <20250313135003.836600-10-rppt@kernel.org>
+Content-Language: fr-FR
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+In-Reply-To: <20250313135003.836600-10-rppt@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250314_071107_991936_C3D2F876 
-X-CRM114-Status: GOOD (  16.65  )
+X-CRM114-CacheID: sfid-20250314_025004_182057_3656038F 
+X-CRM114-Status: GOOD (  28.45  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,541 +105,306 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-While the GCC and Clang compilers already define __ASSEMBLER__
-automatically when compiling assembly code, __ASSEMBLY__ is a
-macro that only gets defined by the Makefiles in the kernel.
-This can be very confusing when switching between userspace
-and kernelspace coding, or when dealing with uapi headers that
-rather should use __ASSEMBLER__ instead. So let's standardize on
-the __ASSEMBLER__ macro that is provided by the compilers now.
-
-This is a completely mechanical patch (done with a simple "sed -i"
-statement).
-
-Cc: Vineet Gupta <vgupta@kernel.org>
-Cc: linux-snps-arc@lists.infradead.org
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- arch/arc/include/asm/arcregs.h            | 2 +-
- arch/arc/include/asm/atomic.h             | 4 ++--
- arch/arc/include/asm/bitops.h             | 4 ++--
- arch/arc/include/asm/bug.h                | 4 ++--
- arch/arc/include/asm/cache.h              | 4 ++--
- arch/arc/include/asm/current.h            | 4 ++--
- arch/arc/include/asm/dsp-impl.h           | 2 +-
- arch/arc/include/asm/dsp.h                | 4 ++--
- arch/arc/include/asm/dwarf.h              | 4 ++--
- arch/arc/include/asm/entry.h              | 4 ++--
- arch/arc/include/asm/irqflags-arcv2.h     | 4 ++--
- arch/arc/include/asm/irqflags-compact.h   | 4 ++--
- arch/arc/include/asm/jump_label.h         | 4 ++--
- arch/arc/include/asm/linkage.h            | 6 +++---
- arch/arc/include/asm/mmu-arcv2.h          | 4 ++--
- arch/arc/include/asm/mmu.h                | 2 +-
- arch/arc/include/asm/page.h               | 4 ++--
- arch/arc/include/asm/pgtable-bits-arcv2.h | 4 ++--
- arch/arc/include/asm/pgtable-levels.h     | 4 ++--
- arch/arc/include/asm/pgtable.h            | 4 ++--
- arch/arc/include/asm/processor.h          | 4 ++--
- arch/arc/include/asm/ptrace.h             | 4 ++--
- arch/arc/include/asm/switch_to.h          | 2 +-
- arch/arc/include/asm/thread_info.h        | 4 ++--
- 24 files changed, 45 insertions(+), 45 deletions(-)
-
-diff --git a/arch/arc/include/asm/arcregs.h b/arch/arc/include/asm/arcregs.h
-index 005d9e4d187a0..a31bbf5c8bbc8 100644
---- a/arch/arc/include/asm/arcregs.h
-+++ b/arch/arc/include/asm/arcregs.h
-@@ -144,7 +144,7 @@
- #define ARC_AUX_AGU_MOD2	0x5E2
- #define ARC_AUX_AGU_MOD3	0x5E3
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- #include <soc/arc/arc_aux.h>
- 
-diff --git a/arch/arc/include/asm/atomic.h b/arch/arc/include/asm/atomic.h
-index 592d7fffc223c..e615c42b93bab 100644
---- a/arch/arc/include/asm/atomic.h
-+++ b/arch/arc/include/asm/atomic.h
-@@ -6,7 +6,7 @@
- #ifndef _ASM_ARC_ATOMIC_H
- #define _ASM_ARC_ATOMIC_H
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- #include <linux/types.h>
- #include <linux/compiler.h>
-@@ -31,6 +31,6 @@
- #include <asm/atomic64-arcv2.h>
- #endif
- 
--#endif	/* !__ASSEMBLY__ */
-+#endif	/* !__ASSEMBLER__ */
- 
- #endif
-diff --git a/arch/arc/include/asm/bitops.h b/arch/arc/include/asm/bitops.h
-index f5a936496f060..5340c28713927 100644
---- a/arch/arc/include/asm/bitops.h
-+++ b/arch/arc/include/asm/bitops.h
-@@ -10,7 +10,7 @@
- #error only <linux/bitops.h> can be included directly
- #endif
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- #include <linux/types.h>
- #include <linux/compiler.h>
-@@ -192,6 +192,6 @@ static inline __attribute__ ((const)) unsigned long __ffs(unsigned long x)
- #include <asm-generic/bitops/le.h>
- #include <asm-generic/bitops/ext2-atomic-setbit.h>
- 
--#endif /* !__ASSEMBLY__ */
-+#endif /* !__ASSEMBLER__ */
- 
- #endif
-diff --git a/arch/arc/include/asm/bug.h b/arch/arc/include/asm/bug.h
-index 4c453ba96c519..171c16021f709 100644
---- a/arch/arc/include/asm/bug.h
-+++ b/arch/arc/include/asm/bug.h
-@@ -6,7 +6,7 @@
- #ifndef _ASM_ARC_BUG_H
- #define _ASM_ARC_BUG_H
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- #include <asm/ptrace.h>
- 
-@@ -29,6 +29,6 @@ void die(const char *str, struct pt_regs *regs, unsigned long address);
- 
- #include <asm-generic/bug.h>
- 
--#endif	/* !__ASSEMBLY__ */
-+#endif	/* !__ASSEMBLER__ */
- 
- #endif
-diff --git a/arch/arc/include/asm/cache.h b/arch/arc/include/asm/cache.h
-index f0f1fc5d62b66..040a97f4dd829 100644
---- a/arch/arc/include/asm/cache.h
-+++ b/arch/arc/include/asm/cache.h
-@@ -23,7 +23,7 @@
-  */
- #define ARC_UNCACHED_ADDR_SPACE	0xc0000000
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- #include <linux/build_bug.h>
- 
-@@ -65,7 +65,7 @@
- extern int ioc_enable;
- extern unsigned long perip_base, perip_end;
- 
--#endif	/* !__ASSEMBLY__ */
-+#endif	/* !__ASSEMBLER__ */
- 
- /* Instruction cache related Auxiliary registers */
- #define ARC_REG_IC_BCR		0x77	/* Build Config reg */
-diff --git a/arch/arc/include/asm/current.h b/arch/arc/include/asm/current.h
-index 06be89f6f2f05..03ffd005f3fa6 100644
---- a/arch/arc/include/asm/current.h
-+++ b/arch/arc/include/asm/current.h
-@@ -9,7 +9,7 @@
- #ifndef _ASM_ARC_CURRENT_H
- #define _ASM_ARC_CURRENT_H
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- #ifdef CONFIG_ARC_CURR_IN_REG
- 
-@@ -20,6 +20,6 @@ register struct task_struct *curr_arc asm("gp");
- #include <asm-generic/current.h>
- #endif /* ! CONFIG_ARC_CURR_IN_REG */
- 
--#endif /* ! __ASSEMBLY__ */
-+#endif /* ! __ASSEMBLER__ */
- 
- #endif /* _ASM_ARC_CURRENT_H */
-diff --git a/arch/arc/include/asm/dsp-impl.h b/arch/arc/include/asm/dsp-impl.h
-index cd5636dfeb6f4..fd5fdaad90c16 100644
---- a/arch/arc/include/asm/dsp-impl.h
-+++ b/arch/arc/include/asm/dsp-impl.h
-@@ -11,7 +11,7 @@
- 
- #define DSP_CTRL_DISABLED_ALL		0
- 
--#ifdef __ASSEMBLY__
-+#ifdef __ASSEMBLER__
- 
- /* clobbers r5 register */
- .macro DSP_EARLY_INIT
-diff --git a/arch/arc/include/asm/dsp.h b/arch/arc/include/asm/dsp.h
-index f496dbc4640b2..eeaaf4e4eabd3 100644
---- a/arch/arc/include/asm/dsp.h
-+++ b/arch/arc/include/asm/dsp.h
-@@ -7,7 +7,7 @@
- #ifndef __ASM_ARC_DSP_H
- #define __ASM_ARC_DSP_H
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- /*
-  * DSP-related saved registers - need to be saved only when you are
-@@ -24,6 +24,6 @@ struct dsp_callee_regs {
- #endif
- };
- 
--#endif /* !__ASSEMBLY__ */
-+#endif /* !__ASSEMBLER__ */
- 
- #endif /* __ASM_ARC_DSP_H */
-diff --git a/arch/arc/include/asm/dwarf.h b/arch/arc/include/asm/dwarf.h
-index a0d5ebe1bc3f5..1524c5cf8b59e 100644
---- a/arch/arc/include/asm/dwarf.h
-+++ b/arch/arc/include/asm/dwarf.h
-@@ -6,7 +6,7 @@
- #ifndef _ASM_ARC_DWARF_H
- #define _ASM_ARC_DWARF_H
- 
--#ifdef __ASSEMBLY__
-+#ifdef __ASSEMBLER__
- 
- #ifdef ARC_DW2_UNWIND_AS_CFI
- 
-@@ -38,6 +38,6 @@
- 
- #endif	/* !ARC_DW2_UNWIND_AS_CFI */
- 
--#endif	/* __ASSEMBLY__ */
-+#endif	/* __ASSEMBLER__ */
- 
- #endif	/* _ASM_ARC_DWARF_H */
-diff --git a/arch/arc/include/asm/entry.h b/arch/arc/include/asm/entry.h
-index 38c35722cebf0..f453af251a1a1 100644
---- a/arch/arc/include/asm/entry.h
-+++ b/arch/arc/include/asm/entry.h
-@@ -13,7 +13,7 @@
- #include <asm/processor.h>	/* For VMALLOC_START */
- #include <asm/mmu.h>
- 
--#ifdef __ASSEMBLY__
-+#ifdef __ASSEMBLER__
- 
- #ifdef CONFIG_ISA_ARCOMPACT
- #include <asm/entry-compact.h>	/* ISA specific bits */
-@@ -146,7 +146,7 @@
- 
- #endif	/* CONFIG_ARC_CURR_IN_REG */
- 
--#else	/* !__ASSEMBLY__ */
-+#else	/* !__ASSEMBLER__ */
- 
- extern void do_signal(struct pt_regs *);
- extern void do_notify_resume(struct pt_regs *);
-diff --git a/arch/arc/include/asm/irqflags-arcv2.h b/arch/arc/include/asm/irqflags-arcv2.h
-index fb3c21f1a2383..30aea562f8aa6 100644
---- a/arch/arc/include/asm/irqflags-arcv2.h
-+++ b/arch/arc/include/asm/irqflags-arcv2.h
-@@ -50,7 +50,7 @@
- #define ISA_INIT_STATUS_BITS	(STATUS_IE_MASK | __AD_ENB | \
- 					(ARCV2_IRQ_DEF_PRIO << 1))
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- /*
-  * Save IRQ state and disable IRQs
-@@ -170,6 +170,6 @@ static inline void arc_softirq_clear(int irq)
- 	seti
- .endm
- 
--#endif	/* __ASSEMBLY__ */
-+#endif	/* __ASSEMBLER__ */
- 
- #endif
-diff --git a/arch/arc/include/asm/irqflags-compact.h b/arch/arc/include/asm/irqflags-compact.h
-index 936a2f21f315e..85c2f6bcde0c1 100644
---- a/arch/arc/include/asm/irqflags-compact.h
-+++ b/arch/arc/include/asm/irqflags-compact.h
-@@ -40,7 +40,7 @@
- 
- #define ISA_INIT_STATUS_BITS	STATUS_IE_MASK
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- /******************************************************************
-  * IRQ Control Macros
-@@ -196,6 +196,6 @@ static inline int arch_irqs_disabled(void)
- 	flag	\scratch
- .endm
- 
--#endif	/* __ASSEMBLY__ */
-+#endif	/* __ASSEMBLER__ */
- 
- #endif
-diff --git a/arch/arc/include/asm/jump_label.h b/arch/arc/include/asm/jump_label.h
-index a339223d9e052..66ead75784d97 100644
---- a/arch/arc/include/asm/jump_label.h
-+++ b/arch/arc/include/asm/jump_label.h
-@@ -2,7 +2,7 @@
- #ifndef _ASM_ARC_JUMP_LABEL_H
- #define _ASM_ARC_JUMP_LABEL_H
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- #include <linux/stringify.h>
- #include <linux/types.h>
-@@ -68,5 +68,5 @@ struct jump_entry {
- 	jump_label_t key;
- };
- 
--#endif  /* __ASSEMBLY__ */
-+#endif  /* __ASSEMBLER__ */
- #endif
-diff --git a/arch/arc/include/asm/linkage.h b/arch/arc/include/asm/linkage.h
-index 8a3fb71e9cfad..ba3cb65b5eaa4 100644
---- a/arch/arc/include/asm/linkage.h
-+++ b/arch/arc/include/asm/linkage.h
-@@ -12,7 +12,7 @@
- #define __ALIGN		.align 4
- #define __ALIGN_STR	__stringify(__ALIGN)
- 
--#ifdef __ASSEMBLY__
-+#ifdef __ASSEMBLER__
- 
- .macro ST2 e, o, off
- #ifdef CONFIG_ARC_HAS_LL64
-@@ -61,7 +61,7 @@
- 	CFI_ENDPROC ASM_NL	\
- 	.size name, .-name
- 
--#else	/* !__ASSEMBLY__ */
-+#else	/* !__ASSEMBLER__ */
- 
- #ifdef CONFIG_ARC_HAS_ICCM
- #define __arcfp_code __section(".text.arcfp")
-@@ -75,6 +75,6 @@
- #define __arcfp_data __section(".data")
- #endif
- 
--#endif /* __ASSEMBLY__ */
-+#endif /* __ASSEMBLER__ */
- 
- #endif
-diff --git a/arch/arc/include/asm/mmu-arcv2.h b/arch/arc/include/asm/mmu-arcv2.h
-index 41412642f2796..5e5482026ac90 100644
---- a/arch/arc/include/asm/mmu-arcv2.h
-+++ b/arch/arc/include/asm/mmu-arcv2.h
-@@ -69,7 +69,7 @@
- 
- #define PTE_BITS_NON_RWX_IN_PD1	(PAGE_MASK_PHYS | _PAGE_CACHEABLE)
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- struct mm_struct;
- extern int pae40_exist_but_not_enab(void);
-@@ -100,6 +100,6 @@ static inline void mmu_setup_pgd(struct mm_struct *mm, void *pgd)
- 	sr \reg, [ARC_REG_PID]
- .endm
- 
--#endif /* !__ASSEMBLY__ */
-+#endif /* !__ASSEMBLER__ */
- 
- #endif
-diff --git a/arch/arc/include/asm/mmu.h b/arch/arc/include/asm/mmu.h
-index 4ae2db59d494c..e3b35ceab582b 100644
---- a/arch/arc/include/asm/mmu.h
-+++ b/arch/arc/include/asm/mmu.h
-@@ -6,7 +6,7 @@
- #ifndef _ASM_ARC_MMU_H
- #define _ASM_ARC_MMU_H
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- #include <linux/threads.h>	/* NR_CPUS */
- 
-diff --git a/arch/arc/include/asm/page.h b/arch/arc/include/asm/page.h
-index def0dfb95b436..9720fe6b2c245 100644
---- a/arch/arc/include/asm/page.h
-+++ b/arch/arc/include/asm/page.h
-@@ -19,7 +19,7 @@
- 
- #endif /* CONFIG_ARC_HAS_PAE40 */
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- #define clear_page(paddr)		memset((paddr), 0, PAGE_SIZE)
- #define copy_user_page(to, from, vaddr, pg)	copy_page(to, from)
-@@ -136,6 +136,6 @@ static inline unsigned long virt_to_pfn(const void *kaddr)
- #include <asm-generic/memory_model.h>   /* page_to_pfn, pfn_to_page */
- #include <asm-generic/getorder.h>
- 
--#endif /* !__ASSEMBLY__ */
-+#endif /* !__ASSEMBLER__ */
- 
- #endif
-diff --git a/arch/arc/include/asm/pgtable-bits-arcv2.h b/arch/arc/include/asm/pgtable-bits-arcv2.h
-index 8ebec1b21d246..a8fdb4fe1fbd6 100644
---- a/arch/arc/include/asm/pgtable-bits-arcv2.h
-+++ b/arch/arc/include/asm/pgtable-bits-arcv2.h
-@@ -75,7 +75,7 @@
-  *     This is to enable COW mechanism
-  */
- 	/* xwr */
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- #define pte_write(pte)		(pte_val(pte) & _PAGE_WRITE)
- #define pte_dirty(pte)		(pte_val(pte) & _PAGE_DIRTY)
-@@ -142,6 +142,6 @@ PTE_BIT_FUNC(swp_clear_exclusive, &= ~(_PAGE_SWP_EXCLUSIVE));
- #include <asm/hugepage.h>
- #endif
- 
--#endif /* __ASSEMBLY__ */
-+#endif /* __ASSEMBLER__ */
- 
- #endif
-diff --git a/arch/arc/include/asm/pgtable-levels.h b/arch/arc/include/asm/pgtable-levels.h
-index 86e1482264630..e7680b74e2c68 100644
---- a/arch/arc/include/asm/pgtable-levels.h
-+++ b/arch/arc/include/asm/pgtable-levels.h
-@@ -85,7 +85,7 @@
- 
- #define PTRS_PER_PTE		BIT(PMD_SHIFT - PAGE_SHIFT)
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- #if CONFIG_PGTABLE_LEVELS > 3
- #include <asm-generic/pgtable-nop4d.h>
-@@ -183,6 +183,6 @@
- #define pmd_leaf(x)		(pmd_val(x) & _PAGE_HW_SZ)
- #endif
- 
--#endif	/* !__ASSEMBLY__ */
-+#endif	/* !__ASSEMBLER__ */
- 
- #endif
-diff --git a/arch/arc/include/asm/pgtable.h b/arch/arc/include/asm/pgtable.h
-index 4cf45a99fd792..bd580e2b62d7c 100644
---- a/arch/arc/include/asm/pgtable.h
-+++ b/arch/arc/include/asm/pgtable.h
-@@ -19,7 +19,7 @@
-  */
- #define	USER_PTRS_PER_PGD	(TASK_SIZE / PGDIR_SIZE)
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- extern char empty_zero_page[PAGE_SIZE];
- #define ZERO_PAGE(vaddr)	(virt_to_page(empty_zero_page))
-@@ -29,6 +29,6 @@ extern pgd_t swapper_pg_dir[] __aligned(PAGE_SIZE);
- /* to cope with aliasing VIPT cache */
- #define HAVE_ARCH_UNMAPPED_AREA
- 
--#endif /* __ASSEMBLY__ */
-+#endif /* __ASSEMBLER__ */
- 
- #endif
-diff --git a/arch/arc/include/asm/processor.h b/arch/arc/include/asm/processor.h
-index d606658e2fe73..7f7901ac6643c 100644
---- a/arch/arc/include/asm/processor.h
-+++ b/arch/arc/include/asm/processor.h
-@@ -11,7 +11,7 @@
- #ifndef __ASM_ARC_PROCESSOR_H
- #define __ASM_ARC_PROCESSOR_H
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- #include <asm/ptrace.h>
- #include <asm/dsp.h>
-@@ -66,7 +66,7 @@ extern void start_thread(struct pt_regs * regs, unsigned long pc,
- 
- extern unsigned int __get_wchan(struct task_struct *p);
- 
--#endif /* !__ASSEMBLY__ */
-+#endif /* !__ASSEMBLER__ */
- 
- /*
-  * Default System Memory Map on ARC
-diff --git a/arch/arc/include/asm/ptrace.h b/arch/arc/include/asm/ptrace.h
-index cf79df0b25705..f6c052af8f4d3 100644
---- a/arch/arc/include/asm/ptrace.h
-+++ b/arch/arc/include/asm/ptrace.h
-@@ -10,7 +10,7 @@
- #include <uapi/asm/ptrace.h>
- #include <linux/compiler.h>
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- typedef union {
- 	struct {
-@@ -172,6 +172,6 @@ static inline unsigned long regs_get_register(struct pt_regs *regs,
- extern int syscall_trace_enter(struct pt_regs *);
- extern void syscall_trace_exit(struct pt_regs *);
- 
--#endif /* !__ASSEMBLY__ */
-+#endif /* !__ASSEMBLER__ */
- 
- #endif /* __ASM_PTRACE_H */
-diff --git a/arch/arc/include/asm/switch_to.h b/arch/arc/include/asm/switch_to.h
-index 1f85de8288b17..5806106a65f90 100644
---- a/arch/arc/include/asm/switch_to.h
-+++ b/arch/arc/include/asm/switch_to.h
-@@ -6,7 +6,7 @@
- #ifndef _ASM_ARC_SWITCH_TO_H
- #define _ASM_ARC_SWITCH_TO_H
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- #include <linux/sched.h>
- #include <asm/dsp-impl.h>
-diff --git a/arch/arc/include/asm/thread_info.h b/arch/arc/include/asm/thread_info.h
-index 12daaf3a61eaf..255d2c7742190 100644
---- a/arch/arc/include/asm/thread_info.h
-+++ b/arch/arc/include/asm/thread_info.h
-@@ -24,7 +24,7 @@
- #define THREAD_SIZE     (PAGE_SIZE << THREAD_SIZE_ORDER)
- #define THREAD_SHIFT	(PAGE_SHIFT << THREAD_SIZE_ORDER)
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- #include <linux/thread_info.h>
- 
-@@ -62,7 +62,7 @@ static inline __attribute_const__ struct thread_info *current_thread_info(void)
- 	return (struct thread_info *)(sp & ~(THREAD_SIZE - 1));
- }
- 
--#endif /* !__ASSEMBLY__ */
-+#endif /* !__ASSEMBLER__ */
- 
- /*
-  * thread information flags
--- 
-2.48.1
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+CgpMZSAxMy8wMy8yMDI1IMOgIDE0OjQ5LCBNaWtlIFJhcG9wb3J0IGEgw6ljcml0wqA6Cj4gRnJv
+bTogIk1pa2UgUmFwb3BvcnQgKE1pY3Jvc29mdCkiIDxycHB0QGtlcm5lbC5vcmc+Cj4gCj4gbWF4
+X21hcG5yIGlzIGVzc2VudGlhbGx5IHRoZSBzaXplIG9mIHRoZSBtZW1vcnkgbWFwIGZvciBzeXN0
+ZW1zIHRoYXQgdXNlCj4gRkxBVE1FTS4gVGhlcmUgaXMgbm8gcmVhc29uIHRvIGNhbGN1bGF0ZSBp
+dCBpbiBlYWNoIGFuZCBldmVyeSBhcmNoaXRlY3R1cmUKPiB3aGVuIGl0J3MgYW55d2F5IGNhbGN1
+bGF0ZWQgaW4gYWxsb2Nfbm9kZV9tZW1fbWFwKCkuCj4gCj4gRHJvcCBzZXR0aW5nIG9mIG1heF9t
+YXBuciBmcm9tIGFyY2hpdGVjdHVyZSBjb2RlIGFuZCBzZXQgaXQgb25jZSBpbgo+IGFsbG9jX25v
+ZGVfbWVtX21hcCgpLgoKQXMgZmFyIGFzIEkgY2FuIHNlZSBhbGxvY19ub2RlX21lbV9tYXAoKSBp
+cyBjYWxsZWQgcXVpdGUgbGF0ZS4KCkkgZmVhciB0aGF0IGl0IHdpbGwgcmVncmVzcyBjb21taXQg
+ZGFhOWFkYTIwOTNlICgicG93ZXJwYy9tbTogRml4IGJvb3QgCmNyYXNoIHdpdGggRkxBVE1FTSIp
+CgpDYW4geW91IGNoZWNrID8KCkNocmlzdG9waGUKCj4gCj4gV2hpbGUgb24gaXQsIG1vdmUgZGVm
+aW5pdGlvbiBvZiBtZW1fbWFwIGFuZCBtYXhfbWFwbnIgdG8gbW0vbW1faW5pdC5jIHNvCj4gdGhl
+cmUgd29uJ3QgYmUgdHdvIGNvcGllcyBmb3IgTU1VIGFuZCAhTU1VIHZhcmlhbnRzLgo+IAo+IEFj
+a2VkLWJ5OiBEYXZlIEhhbnNlbiA8ZGF2ZS5oYW5zZW5AbGludXguaW50ZWwuY29tPgkjIHg4Ngo+
+IFNpZ25lZC1vZmYtYnk6IE1pa2UgUmFwb3BvcnQgKE1pY3Jvc29mdCkgPHJwcHRAa2VybmVsLm9y
+Zz4KPiAtLS0KPiAgIGFyY2gvYWxwaGEvbW0vaW5pdC5jICAgICAgICAgICAgICAgfCAgMSAtCj4g
+ICBhcmNoL2FyYy9tbS9pbml0LmMgICAgICAgICAgICAgICAgIHwgIDUgLS0tLS0KPiAgIGFyY2gv
+YXJtL21tL2luaXQuYyAgICAgICAgICAgICAgICAgfCAgMiAtLQo+ICAgYXJjaC9jc2t5L21tL2lu
+aXQuYyAgICAgICAgICAgICAgICB8ICA0IC0tLS0KPiAgIGFyY2gvbG9vbmdhcmNoL21tL2luaXQu
+YyAgICAgICAgICAgfCAgMSAtCj4gICBhcmNoL21pY3JvYmxhemUvbW0vaW5pdC5jICAgICAgICAg
+IHwgIDQgLS0tLQo+ICAgYXJjaC9taXBzL21tL2luaXQuYyAgICAgICAgICAgICAgICB8ICA4IC0t
+LS0tLS0tCj4gICBhcmNoL25pb3MyL2tlcm5lbC9zZXR1cC5jICAgICAgICAgIHwgIDEgLQo+ICAg
+YXJjaC9uaW9zMi9tbS9pbml0LmMgICAgICAgICAgICAgICB8ICAyICstCj4gICBhcmNoL29wZW5y
+aXNjL21tL2luaXQuYyAgICAgICAgICAgIHwgIDEgLQo+ICAgYXJjaC9wYXJpc2MvbW0vaW5pdC5j
+ICAgICAgICAgICAgICB8ICAxIC0KPiAgIGFyY2gvcG93ZXJwYy9rZXJuZWwvc2V0dXAtY29tbW9u
+LmMgfCAgMiAtLQo+ICAgYXJjaC9yaXNjdi9tbS9pbml0LmMgICAgICAgICAgICAgICB8ICAxIC0K
+PiAgIGFyY2gvczM5MC9tbS9pbml0LmMgICAgICAgICAgICAgICAgfCAgMSAtCj4gICBhcmNoL3No
+L21tL2luaXQuYyAgICAgICAgICAgICAgICAgIHwgIDEgLQo+ICAgYXJjaC9zcGFyYy9tbS9pbml0
+XzMyLmMgICAgICAgICAgICB8ICAxIC0KPiAgIGFyY2gvdW0vaW5jbHVkZS9zaGFyZWQvbWVtX3Vz
+ZXIuaCAgfCAgMSAtCj4gICBhcmNoL3VtL2tlcm5lbC9waHlzbWVtLmMgICAgICAgICAgIHwgMTIg
+LS0tLS0tLS0tLS0tCj4gICBhcmNoL3VtL2tlcm5lbC91bV9hcmNoLmMgICAgICAgICAgIHwgIDEg
+LQo+ICAgYXJjaC94ODYvbW0vaW5pdF8zMi5jICAgICAgICAgICAgICB8ICAzIC0tLQo+ICAgYXJj
+aC94dGVuc2EvbW0vaW5pdC5jICAgICAgICAgICAgICB8ICAxIC0KPiAgIGluY2x1ZGUvYXNtLWdl
+bmVyaWMvbWVtb3J5X21vZGVsLmggfCAgNSArKystLQo+ICAgaW5jbHVkZS9saW51eC9tbS5oICAg
+ICAgICAgICAgICAgICB8IDExIC0tLS0tLS0tLS0tCj4gICBtbS9tZW1vcnkuYyAgICAgICAgICAg
+ICAgICAgICAgICAgIHwgIDggLS0tLS0tLS0KPiAgIG1tL21tX2luaXQuYyAgICAgICAgICAgICAg
+ICAgICAgICAgfCAyNSArKysrKysrKysrKysrKysrKy0tLS0tLS0tCj4gICBtbS9ub21tdS5jICAg
+ICAgICAgICAgICAgICAgICAgICAgIHwgIDQgLS0tLQo+ICAgMjYgZmlsZXMgY2hhbmdlZCwgMjEg
+aW5zZXJ0aW9ucygrKSwgODYgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2FyY2gvYWxw
+aGEvbW0vaW5pdC5jIGIvYXJjaC9hbHBoYS9tbS9pbml0LmMKPiBpbmRleCA2MWMyMTk4YjEzNTku
+LmVjMGVlYWU5YzY1MyAxMDA2NDQKPiAtLS0gYS9hcmNoL2FscGhhL21tL2luaXQuYwo+ICsrKyBi
+L2FyY2gvYWxwaGEvbW0vaW5pdC5jCj4gQEAgLTI3Niw3ICsyNzYsNiBAQCBzcm1fcGFnaW5nX3N0
+b3AgKHZvaWQpCj4gICB2b2lkIF9faW5pdAo+ICAgbWVtX2luaXQodm9pZCkKPiAgIHsKPiAtCXNl
+dF9tYXhfbWFwbnIobWF4X2xvd19wZm4pOwo+ICAgCWhpZ2hfbWVtb3J5ID0gKHZvaWQgKikgX192
+YShtYXhfbG93X3BmbiAqIFBBR0VfU0laRSk7Cj4gICAJbWVtYmxvY2tfZnJlZV9hbGwoKTsKPiAg
+IH0KPiBkaWZmIC0tZ2l0IGEvYXJjaC9hcmMvbW0vaW5pdC5jIGIvYXJjaC9hcmMvbW0vaW5pdC5j
+Cj4gaW5kZXggNmE3MWIyM2YxMzgzLi43ZWY4ODNkNThkYzEgMTAwNjQ0Cj4gLS0tIGEvYXJjaC9h
+cmMvbW0vaW5pdC5jCj4gKysrIGIvYXJjaC9hcmMvbW0vaW5pdC5jCj4gQEAgLTE1NCwxMSArMTU0
+LDYgQEAgdm9pZCBfX2luaXQgc2V0dXBfYXJjaF9tZW1vcnkodm9pZCkKPiAgIAo+ICAgCWFyY2hf
+cGZuX29mZnNldCA9IG1pbihtaW5fbG93X3BmbiwgbWluX2hpZ2hfcGZuKTsKPiAgIAlrbWFwX2lu
+aXQoKTsKPiAtCj4gLSNlbHNlIC8qIENPTkZJR19ISUdITUVNICovCj4gLQkvKiBwZm5fdmFsaWQo
+KSB1c2VzIHRoaXMgd2hlbiBGTEFUTUVNPXkgYW5kIEhJR0hNRU09biAqLwo+IC0JbWF4X21hcG5y
+ID0gbWF4X2xvd19wZm4gLSBtaW5fbG93X3BmbjsKPiAtCj4gICAjZW5kaWYgLyogQ09ORklHX0hJ
+R0hNRU0gKi8KPiAgIAo+ICAgCWZyZWVfYXJlYV9pbml0KG1heF96b25lX3Bmbik7Cj4gZGlmZiAt
+LWdpdCBhL2FyY2gvYXJtL21tL2luaXQuYyBiL2FyY2gvYXJtL21tL2luaXQuYwo+IGluZGV4IDlh
+ZWMxY2IyMzg2Zi4uZDRiY2M3NDVhMDQ0IDEwMDY0NAo+IC0tLSBhL2FyY2gvYXJtL21tL2luaXQu
+Ywo+ICsrKyBiL2FyY2gvYXJtL21tL2luaXQuYwo+IEBAIC0yNzUsOCArMjc1LDYgQEAgdm9pZCBf
+X2luaXQgbWVtX2luaXQodm9pZCkKPiAgIAlzd2lvdGxiX2luaXQobWF4X3BmbiA+IGFybV9kbWFf
+cGZuX2xpbWl0LCBTV0lPVExCX1ZFUkJPU0UpOwo+ICAgI2VuZGlmCj4gICAKPiAtCXNldF9tYXhf
+bWFwbnIocGZuX3RvX3BhZ2UobWF4X3BmbikgLSBtZW1fbWFwKTsKPiAtCj4gICAjaWZkZWYgQ09O
+RklHX1NBMTExMQo+ICAgCS8qIG5vdyB0aGF0IG91ciBETUEgbWVtb3J5IGlzIGFjdHVhbGx5IHNv
+IGRlc2lnbmF0ZWQsIHdlIGNhbiBmcmVlIGl0ICovCj4gICAJbWVtYmxvY2tfcGh5c19mcmVlKFBI
+WVNfT0ZGU0VULCBfX3BhKHN3YXBwZXJfcGdfZGlyKSAtIFBIWVNfT0ZGU0VUKTsKPiBkaWZmIC0t
+Z2l0IGEvYXJjaC9jc2t5L21tL2luaXQuYyBiL2FyY2gvY3NreS9tbS9pbml0LmMKPiBpbmRleCBh
+YjUxYWNiYzE5YjIuLmJhNjY5NGQ2MTcwYSAxMDA2NDQKPiAtLS0gYS9hcmNoL2Nza3kvbW0vaW5p
+dC5jCj4gKysrIGIvYXJjaC9jc2t5L21tL2luaXQuYwo+IEBAIC00NiwxMCArNDYsNiBAQCB2b2lk
+IF9faW5pdCBtZW1faW5pdCh2b2lkKQo+ICAgewo+ICAgI2lmZGVmIENPTkZJR19ISUdITUVNCj4g
+ICAJdW5zaWduZWQgbG9uZyB0bXA7Cj4gLQo+IC0Jc2V0X21heF9tYXBucihoaWdoZW5kX3BmbiAt
+IEFSQ0hfUEZOX09GRlNFVCk7Cj4gLSNlbHNlCj4gLQlzZXRfbWF4X21hcG5yKG1heF9sb3dfcGZu
+IC0gQVJDSF9QRk5fT0ZGU0VUKTsKPiAgICNlbmRpZgo+ICAgCWhpZ2hfbWVtb3J5ID0gKHZvaWQg
+KikgX192YShtYXhfbG93X3BmbiA8PCBQQUdFX1NISUZUKTsKPiAgIAo+IGRpZmYgLS1naXQgYS9h
+cmNoL2xvb25nYXJjaC9tbS9pbml0LmMgYi9hcmNoL2xvb25nYXJjaC9tbS9pbml0LmMKPiBpbmRl
+eCBjYTVhYTVmNDZhOWYuLjAwNDQ5ZGY1MGRiMSAxMDA2NDQKPiAtLS0gYS9hcmNoL2xvb25nYXJj
+aC9tbS9pbml0LmMKPiArKysgYi9hcmNoL2xvb25nYXJjaC9tbS9pbml0LmMKPiBAQCAtNzgsNyAr
+NzgsNiBAQCB2b2lkIF9faW5pdCBwYWdpbmdfaW5pdCh2b2lkKQo+ICAgCj4gICB2b2lkIF9faW5p
+dCBtZW1faW5pdCh2b2lkKQo+ICAgewo+IC0JbWF4X21hcG5yID0gbWF4X2xvd19wZm47Cj4gICAJ
+aGlnaF9tZW1vcnkgPSAodm9pZCAqKSBfX3ZhKG1heF9sb3dfcGZuIDw8IFBBR0VfU0hJRlQpOwo+
+ICAgCj4gICAJbWVtYmxvY2tfZnJlZV9hbGwoKTsKPiBkaWZmIC0tZ2l0IGEvYXJjaC9taWNyb2Js
+YXplL21tL2luaXQuYyBiL2FyY2gvbWljcm9ibGF6ZS9tbS9pbml0LmMKPiBpbmRleCA0NTIwYzU3
+NDE1NzkuLjg1N2NkMmI0NGJjZiAxMDA2NDQKPiAtLS0gYS9hcmNoL21pY3JvYmxhemUvbW0vaW5p
+dC5jCj4gKysrIGIvYXJjaC9taWNyb2JsYXplL21tL2luaXQuYwo+IEBAIC0xMDQsMTcgKzEwNCwx
+MyBAQCB2b2lkIF9faW5pdCBzZXR1cF9tZW1vcnkodm9pZCkKPiAgIAkgKgo+ICAgCSAqIG1pbl9s
+b3dfcGZuIC0gdGhlIGZpcnN0IHBhZ2UgKG1tL2Jvb3RtZW0uYyAtIG5vZGVfYm9vdF9zdGFydCkK
+PiAgIAkgKiBtYXhfbG93X3Bmbgo+IC0JICogbWF4X21hcG5yIC0gdGhlIGZpcnN0IHVudXNlZCBw
+YWdlIChtbS9ib290bWVtLmMgLSBub2RlX2xvd19wZm4pCj4gICAJICovCj4gICAKPiAgIAkvKiBt
+ZW1vcnkgc3RhcnQgaXMgZnJvbSB0aGUga2VybmVsIGVuZCAoYWxpZ25lZCkgdG8gaGlnaGVyIGFk
+ZHIgKi8KPiAgIAltaW5fbG93X3BmbiA9IG1lbW9yeV9zdGFydCA+PiBQQUdFX1NISUZUOyAvKiBt
+aW5pbXVtIGZvciBhbGxvY2F0aW9uICovCj4gLQkvKiBSQU0gaXMgYXNzdW1lZCBjb250aWd1b3Vz
+ICovCj4gLQltYXhfbWFwbnIgPSBtZW1vcnlfc2l6ZSA+PiBQQUdFX1NISUZUOwo+ICAgCW1heF9s
+b3dfcGZuID0gKCh1NjQpbWVtb3J5X3N0YXJ0ICsgKHU2NClsb3dtZW1fc2l6ZSkgPj4gUEFHRV9T
+SElGVDsKPiAgIAltYXhfcGZuID0gKCh1NjQpbWVtb3J5X3N0YXJ0ICsgKHU2NCltZW1vcnlfc2l6
+ZSkgPj4gUEFHRV9TSElGVDsKPiAgIAo+IC0JcHJfaW5mbygiJXM6IG1heF9tYXBucjogJSNseFxu
+IiwgX19mdW5jX18sIG1heF9tYXBucik7Cj4gICAJcHJfaW5mbygiJXM6IG1pbl9sb3dfcGZuOiAl
+I2x4XG4iLCBfX2Z1bmNfXywgbWluX2xvd19wZm4pOwo+ICAgCXByX2luZm8oIiVzOiBtYXhfbG93
+X3BmbjogJSNseFxuIiwgX19mdW5jX18sIG1heF9sb3dfcGZuKTsKPiAgIAlwcl9pbmZvKCIlczog
+bWF4X3BmbjogJSNseFxuIiwgX19mdW5jX18sIG1heF9wZm4pOwo+IGRpZmYgLS1naXQgYS9hcmNo
+L21pcHMvbW0vaW5pdC5jIGIvYXJjaC9taXBzL21tL2luaXQuYwo+IGluZGV4IDgyMGUzNWE1OWQ0
+ZC4uZWI2MWE3MzUyMGEwIDEwMDY0NAo+IC0tLSBhL2FyY2gvbWlwcy9tbS9pbml0LmMKPiArKysg
+Yi9hcmNoL21pcHMvbW0vaW5pdC5jCj4gQEAgLTQxNSwxNSArNDE1LDcgQEAgdm9pZCBfX2luaXQg
+cGFnaW5nX2luaXQodm9pZCkKPiAgIAkJICAgICAgICIgJWxkayBoaWdobWVtIGlnbm9yZWRcbiIs
+Cj4gICAJCSAgICAgICAoaGlnaGVuZF9wZm4gLSBtYXhfbG93X3BmbikgPDwgKFBBR0VfU0hJRlQg
+LSAxMCkpOwo+ICAgCQltYXhfem9uZV9wZm5zW1pPTkVfSElHSE1FTV0gPSBtYXhfbG93X3BmbjsK
+PiAtCj4gLQkJbWF4X21hcG5yID0gbWF4X2xvd19wZm47Cj4gLQl9IGVsc2UgaWYgKGhpZ2hlbmRf
+cGZuKSB7Cj4gLQkJbWF4X21hcG5yID0gaGlnaGVuZF9wZm47Cj4gLQl9IGVsc2Ugewo+IC0JCW1h
+eF9tYXBuciA9IG1heF9sb3dfcGZuOwo+ICAgCX0KPiAtI2Vsc2UKPiAtCW1heF9tYXBuciA9IG1h
+eF9sb3dfcGZuOwo+ICAgI2VuZGlmCj4gICAJaGlnaF9tZW1vcnkgPSAodm9pZCAqKSBfX3ZhKG1h
+eF9sb3dfcGZuIDw8IFBBR0VfU0hJRlQpOwo+ICAgCj4gZGlmZiAtLWdpdCBhL2FyY2gvbmlvczIv
+a2VybmVsL3NldHVwLmMgYi9hcmNoL25pb3MyL2tlcm5lbC9zZXR1cC5jCj4gaW5kZXggYTRjZmZi
+ZmMxMzk5Li4yYTQwMTUwMTQyYzMgMTAwNjQ0Cj4gLS0tIGEvYXJjaC9uaW9zMi9rZXJuZWwvc2V0
+dXAuYwo+ICsrKyBiL2FyY2gvbmlvczIva2VybmVsL3NldHVwLmMKPiBAQCAtMTU4LDcgKzE1OCw2
+IEBAIHZvaWQgX19pbml0IHNldHVwX2FyY2goY2hhciAqKmNtZGxpbmVfcCkKPiAgIAkqY21kbGlu
+ZV9wID0gYm9vdF9jb21tYW5kX2xpbmU7Cj4gICAKPiAgIAlmaW5kX2xpbWl0cygmbWluX2xvd19w
+Zm4sICZtYXhfbG93X3BmbiwgJm1heF9wZm4pOwo+IC0JbWF4X21hcG5yID0gbWF4X2xvd19wZm47
+Cj4gICAKPiAgIAltZW1ibG9ja19yZXNlcnZlKF9fcGFfc3ltYm9sKF9zdGV4dCksIF9lbmQgLSBf
+c3RleHQpOwo+ICAgI2lmZGVmIENPTkZJR19CTEtfREVWX0lOSVRSRAo+IGRpZmYgLS1naXQgYS9h
+cmNoL25pb3MyL21tL2luaXQuYyBiL2FyY2gvbmlvczIvbW0vaW5pdC5jCj4gaW5kZXggYWE2OTJh
+ZDMwMDQ0Li4zY2FmYTg3ZWFkOWUgMTAwNjQ0Cj4gLS0tIGEvYXJjaC9uaW9zMi9tbS9pbml0LmMK
+PiArKysgYi9hcmNoL25pb3MyL21tL2luaXQuYwo+IEBAIC01MSw3ICs1MSw3IEBAIHZvaWQgX19p
+bml0IHBhZ2luZ19pbml0KHZvaWQpCj4gICAJcGFnZXRhYmxlX2luaXQoKTsKPiAgIAlwZ2RfY3Vy
+cmVudCA9IHN3YXBwZXJfcGdfZGlyOwo+ICAgCj4gLQltYXhfem9uZV9wZm5bWk9ORV9OT1JNQUxd
+ID0gbWF4X21hcG5yOwo+ICsJbWF4X3pvbmVfcGZuW1pPTkVfTk9STUFMXSA9IG1heF9sb3dfcGZu
+Owo+ICAgCj4gICAJLyogcGFzcyB0aGUgbWVtb3J5IGZyb20gdGhlIGJvb3RtZW0gYWxsb2NhdG9y
+IHRvIHRoZSBtYWluIGFsbG9jYXRvciAqLwo+ICAgCWZyZWVfYXJlYV9pbml0KG1heF96b25lX3Bm
+bik7Cj4gZGlmZiAtLWdpdCBhL2FyY2gvb3BlbnJpc2MvbW0vaW5pdC5jIGIvYXJjaC9vcGVucmlz
+Yy9tbS9pbml0LmMKPiBpbmRleCBkMGNiMWEwMTI2ZjkuLjkwOTNjMzM2ZTE1OCAxMDA2NDQKPiAt
+LS0gYS9hcmNoL29wZW5yaXNjL21tL2luaXQuYwo+ICsrKyBiL2FyY2gvb3BlbnJpc2MvbW0vaW5p
+dC5jCj4gQEAgLTE5Myw3ICsxOTMsNiBAQCB2b2lkIF9faW5pdCBtZW1faW5pdCh2b2lkKQo+ICAg
+ewo+ICAgCUJVR19PTighbWVtX21hcCk7Cj4gICAKPiAtCW1heF9tYXBuciA9IG1heF9sb3dfcGZu
+Owo+ICAgCWhpZ2hfbWVtb3J5ID0gKHZvaWQgKilfX3ZhKG1heF9sb3dfcGZuICogUEFHRV9TSVpF
+KTsKPiAgIAo+ICAgCS8qIGNsZWFyIHRoZSB6ZXJvLXBhZ2UgKi8KPiBkaWZmIC0tZ2l0IGEvYXJj
+aC9wYXJpc2MvbW0vaW5pdC5jIGIvYXJjaC9wYXJpc2MvbW0vaW5pdC5jCj4gaW5kZXggNjFjMGEy
+NDc3MDcyLi4yY2RmYzBiMTE5NWMgMTAwNjQ0Cj4gLS0tIGEvYXJjaC9wYXJpc2MvbW0vaW5pdC5j
+Cj4gKysrIGIvYXJjaC9wYXJpc2MvbW0vaW5pdC5jCj4gQEAgLTU2Myw3ICs1NjMsNiBAQCB2b2lk
+IF9faW5pdCBtZW1faW5pdCh2b2lkKQo+ICAgI2VuZGlmCj4gICAKPiAgIAloaWdoX21lbW9yeSA9
+IF9fdmEoKG1heF9wZm4gPDwgUEFHRV9TSElGVCkpOwo+IC0Jc2V0X21heF9tYXBucihtYXhfbG93
+X3Bmbik7Cj4gICAJbWVtYmxvY2tfZnJlZV9hbGwoKTsKPiAgIAo+ICAgI2lmZGVmIENPTkZJR19Q
+QTExCj4gZGlmZiAtLWdpdCBhL2FyY2gvcG93ZXJwYy9rZXJuZWwvc2V0dXAtY29tbW9uLmMgYi9h
+cmNoL3Bvd2VycGMva2VybmVsL3NldHVwLWNvbW1vbi5jCj4gaW5kZXggYTA4YjBlZGU0ZTY0Li42
+OGQ0N2M1Mzg3NmMgMTAwNjQ0Cj4gLS0tIGEvYXJjaC9wb3dlcnBjL2tlcm5lbC9zZXR1cC1jb21t
+b24uYwo+ICsrKyBiL2FyY2gvcG93ZXJwYy9rZXJuZWwvc2V0dXAtY29tbW9uLmMKPiBAQCAtOTU3
+LDggKzk1Nyw2IEBAIHZvaWQgX19pbml0IHNldHVwX2FyY2goY2hhciAqKmNtZGxpbmVfcCkKPiAg
+IAo+ICAgCS8qIFBhcnNlIG1lbW9yeSB0b3BvbG9neSAqLwo+ICAgCW1lbV90b3BvbG9neV9zZXR1
+cCgpOwo+IC0JLyogU2V0IG1heF9tYXBuciBiZWZvcmUgcGFnaW5nX2luaXQoKSAqLwo+IC0Jc2V0
+X21heF9tYXBucihtYXhfcGZuKTsKPiAgIAloaWdoX21lbW9yeSA9ICh2b2lkICopX192YShtYXhf
+bG93X3BmbiAqIFBBR0VfU0laRSk7Cj4gICAKPiAgIAkvKgo+IGRpZmYgLS1naXQgYS9hcmNoL3Jp
+c2N2L21tL2luaXQuYyBiL2FyY2gvcmlzY3YvbW0vaW5pdC5jCj4gaW5kZXggMTViMmVkYTRjMzY0
+Li4xNTdjOWNhNTE1NDEgMTAwNjQ0Cj4gLS0tIGEvYXJjaC9yaXNjdi9tbS9pbml0LmMKPiArKysg
+Yi9hcmNoL3Jpc2N2L21tL2luaXQuYwo+IEBAIC0yOTgsNyArMjk4LDYgQEAgc3RhdGljIHZvaWQg
+X19pbml0IHNldHVwX2Jvb3RtZW0odm9pZCkKPiAgIAloaWdoX21lbW9yeSA9ICh2b2lkICopKF9f
+dmEoUEZOX1BIWVMobWF4X2xvd19wZm4pKSk7Cj4gICAKPiAgIAlkbWEzMl9waHlzX2xpbWl0ID0g
+bWluKDRVTCAqIFNaXzFHLCAodW5zaWduZWQgbG9uZylQRk5fUEhZUyhtYXhfbG93X3BmbikpOwo+
+IC0Jc2V0X21heF9tYXBucihtYXhfbG93X3BmbiAtIEFSQ0hfUEZOX09GRlNFVCk7Cj4gICAKPiAg
+IAlyZXNlcnZlX2luaXRyZF9tZW0oKTsKPiAgIAo+IGRpZmYgLS1naXQgYS9hcmNoL3MzOTAvbW0v
+aW5pdC5jIGIvYXJjaC9zMzkwL21tL2luaXQuYwo+IGluZGV4IGY4MzMzZmViNmE3ZS4uMzZmZWQ2
+ZGZmYjM4IDEwMDY0NAo+IC0tLSBhL2FyY2gvczM5MC9tbS9pbml0LmMKPiArKysgYi9hcmNoL3Mz
+OTAvbW0vaW5pdC5jCj4gQEAgLTE1OSw3ICsxNTksNiBAQCB2b2lkIF9faW5pdCBtZW1faW5pdCh2
+b2lkKQo+ICAgCWNwdW1hc2tfc2V0X2NwdSgwLCAmaW5pdF9tbS5jb250ZXh0LmNwdV9hdHRhY2hf
+bWFzayk7Cj4gICAJY3B1bWFza19zZXRfY3B1KDAsIG1tX2NwdW1hc2soJmluaXRfbW0pKTsKPiAg
+IAo+IC0Jc2V0X21heF9tYXBucihtYXhfbG93X3Bmbik7Cj4gICAgICAgICAgIGhpZ2hfbWVtb3J5
+ID0gKHZvaWQgKikgX192YShtYXhfbG93X3BmbiAqIFBBR0VfU0laRSk7Cj4gICAKPiAgIAlwdl9p
+bml0KCk7Cj4gZGlmZiAtLWdpdCBhL2FyY2gvc2gvbW0vaW5pdC5jIGIvYXJjaC9zaC9tbS9pbml0
+LmMKPiBpbmRleCAyODlhMmZlY2ViZWYuLjcyYWVhNWNkMWI4NSAxMDA2NDQKPiAtLS0gYS9hcmNo
+L3NoL21tL2luaXQuYwo+ICsrKyBiL2FyY2gvc2gvbW0vaW5pdC5jCj4gQEAgLTI5MCw3ICsyOTAs
+NiBAQCB2b2lkIF9faW5pdCBwYWdpbmdfaW5pdCh2b2lkKQo+ICAgCSAqLwo+ICAgCW1heF9sb3df
+cGZuID0gbWF4X3BmbiA9IG1lbWJsb2NrX2VuZF9vZl9EUkFNKCkgPj4gUEFHRV9TSElGVDsKPiAg
+IAltaW5fbG93X3BmbiA9IF9fTUVNT1JZX1NUQVJUID4+IFBBR0VfU0hJRlQ7Cj4gLQlzZXRfbWF4
+X21hcG5yKG1heF9sb3dfcGZuIC0gbWluX2xvd19wZm4pOwo+ICAgCj4gICAJbm9kZXNfY2xlYXIo
+bm9kZV9vbmxpbmVfbWFwKTsKPiAgIAo+IGRpZmYgLS1naXQgYS9hcmNoL3NwYXJjL21tL2luaXRf
+MzIuYyBiL2FyY2gvc3BhcmMvbW0vaW5pdF8zMi5jCj4gaW5kZXggZDk2YTE0ZmZjZWViLi42YjU4
+ZGExNGVkYzYgMTAwNjQ0Cj4gLS0tIGEvYXJjaC9zcGFyYy9tbS9pbml0XzMyLmMKPiArKysgYi9h
+cmNoL3NwYXJjL21tL2luaXRfMzIuYwo+IEBAIC0yNzUsNyArMjc1LDYgQEAgdm9pZCBfX2luaXQg
+bWVtX2luaXQodm9pZCkKPiAgIAo+ICAgCXRhaW50X3JlYWxfcGFnZXMoKTsKPiAgIAo+IC0JbWF4
+X21hcG5yID0gbGFzdF92YWxpZF9wZm4gLSBwZm5fYmFzZTsKPiAgIAloaWdoX21lbW9yeSA9IF9f
+dmEobWF4X2xvd19wZm4gPDwgUEFHRV9TSElGVCk7Cj4gICAJbWVtYmxvY2tfZnJlZV9hbGwoKTsK
+PiAgIAo+IGRpZmYgLS1naXQgYS9hcmNoL3VtL2luY2x1ZGUvc2hhcmVkL21lbV91c2VyLmggYi9h
+cmNoL3VtL2luY2x1ZGUvc2hhcmVkL21lbV91c2VyLmgKPiBpbmRleCBhZGZhMDgwNjJmODguLmQ0
+NzI3ZWZjZjIzZCAxMDA2NDQKPiAtLS0gYS9hcmNoL3VtL2luY2x1ZGUvc2hhcmVkL21lbV91c2Vy
+LmgKPiArKysgYi9hcmNoL3VtL2luY2x1ZGUvc2hhcmVkL21lbV91c2VyLmgKPiBAQCAtNDcsNyAr
+NDcsNiBAQCBleHRlcm4gaW50IGlvbWVtX3NpemU7Cj4gICAjZGVmaW5lIFJPVU5EXzRNKG4pICgo
+KCh1bnNpZ25lZCBsb25nKSAobikpICsgKDEgPDwgMjIpKSAmIH4oKDEgPDwgMjIpIC0gMSkpCj4g
+ICAKPiAgIGV4dGVybiB1bnNpZ25lZCBsb25nIGZpbmRfaW9tZW0oY2hhciAqZHJpdmVyLCB1bnNp
+Z25lZCBsb25nICpsZW5fb3V0KTsKPiAtZXh0ZXJuIHZvaWQgbWVtX3RvdGFsX3BhZ2VzKHVuc2ln
+bmVkIGxvbmcgcGh5c21lbSwgdW5zaWduZWQgbG9uZyBpb21lbSk7Cj4gICBleHRlcm4gdm9pZCBz
+ZXR1cF9waHlzbWVtKHVuc2lnbmVkIGxvbmcgc3RhcnQsIHVuc2lnbmVkIGxvbmcgdXNhYmxlLAo+
+ICAgCQkJICB1bnNpZ25lZCBsb25nIGxlbik7Cj4gICBleHRlcm4gdm9pZCBtYXBfbWVtb3J5KHVu
+c2lnbmVkIGxvbmcgdmlydCwgdW5zaWduZWQgbG9uZyBwaHlzLAo+IGRpZmYgLS1naXQgYS9hcmNo
+L3VtL2tlcm5lbC9waHlzbWVtLmMgYi9hcmNoL3VtL2tlcm5lbC9waHlzbWVtLmMKPiBpbmRleCBh
+NzRmMTdiMDMzYzQuLmFmMDJiNWY5OTExZCAxMDA2NDQKPiAtLS0gYS9hcmNoL3VtL2tlcm5lbC9w
+aHlzbWVtLmMKPiArKysgYi9hcmNoL3VtL2tlcm5lbC9waHlzbWVtLmMKPiBAQCAtMjIsMTggKzIy
+LDYgQEAgc3RhdGljIGludCBwaHlzbWVtX2ZkID0gLTE7Cj4gICB1bnNpZ25lZCBsb25nIGhpZ2hf
+cGh5c21lbTsKPiAgIEVYUE9SVF9TWU1CT0woaGlnaF9waHlzbWVtKTsKPiAgIAo+IC12b2lkIF9f
+aW5pdCBtZW1fdG90YWxfcGFnZXModW5zaWduZWQgbG9uZyBwaHlzbWVtLCB1bnNpZ25lZCBsb25n
+IGlvbWVtKQo+IC17Cj4gLQl1bnNpZ25lZCBsb25nIHBoeXNfcGFnZXMsIGlvbWVtX3BhZ2VzLCB0
+b3RhbF9wYWdlczsKPiAtCj4gLQlwaHlzX3BhZ2VzICA9IHBoeXNtZW0gPj4gUEFHRV9TSElGVDsK
+PiAtCWlvbWVtX3BhZ2VzID0gaW9tZW0gICA+PiBQQUdFX1NISUZUOwo+IC0KPiAtCXRvdGFsX3Bh
+Z2VzID0gcGh5c19wYWdlcyArIGlvbWVtX3BhZ2VzOwo+IC0KPiAtCW1heF9tYXBuciA9IHRvdGFs
+X3BhZ2VzOwo+IC19Cj4gLQo+ICAgdm9pZCBtYXBfbWVtb3J5KHVuc2lnbmVkIGxvbmcgdmlydCwg
+dW5zaWduZWQgbG9uZyBwaHlzLCB1bnNpZ25lZCBsb25nIGxlbiwKPiAgIAkJaW50IHIsIGludCB3
+LCBpbnQgeCkKPiAgIHsKPiBkaWZmIC0tZ2l0IGEvYXJjaC91bS9rZXJuZWwvdW1fYXJjaC5jIGIv
+YXJjaC91bS9rZXJuZWwvdW1fYXJjaC5jCj4gaW5kZXggNzllYTk3ZDQ3OTdlLi42NDE0Y2JmMDA1
+NzIgMTAwNjQ0Cj4gLS0tIGEvYXJjaC91bS9rZXJuZWwvdW1fYXJjaC5jCj4gKysrIGIvYXJjaC91
+bS9rZXJuZWwvdW1fYXJjaC5jCj4gQEAgLTQxOSw3ICs0MTksNiBAQCB2b2lkIF9faW5pdCBzZXR1
+cF9hcmNoKGNoYXIgKipjbWRsaW5lX3ApCj4gICAKPiAgIAlzdGFja19wcm90ZWN0aW9ucygodW5z
+aWduZWQgbG9uZykgaW5pdF90YXNrLnN0YWNrKTsKPiAgIAlzZXR1cF9waHlzbWVtKHVtbF9waHlz
+bWVtLCB1bWxfcmVzZXJ2ZWQsIHBoeXNtZW1fc2l6ZSk7Cj4gLQltZW1fdG90YWxfcGFnZXMocGh5
+c21lbV9zaXplLCBpb21lbV9zaXplKTsKPiAgIAl1bWxfZHRiX2luaXQoKTsKPiAgIAlyZWFkX2lu
+aXRyZCgpOwo+ICAgCj4gZGlmZiAtLWdpdCBhL2FyY2gveDg2L21tL2luaXRfMzIuYyBiL2FyY2gv
+eDg2L21tL2luaXRfMzIuYwo+IGluZGV4IGFjNDFiMWUwOTQwZC4uNmQyZjhjYjk0NTFlIDEwMDY0
+NAo+IC0tLSBhL2FyY2gveDg2L21tL2luaXRfMzIuYwo+ICsrKyBiL2FyY2gveDg2L21tL2luaXRf
+MzIuYwo+IEBAIC02NTAsOSArNjUwLDYgQEAgdm9pZCBfX2luaXQgaW5pdG1lbV9pbml0KHZvaWQp
+Cj4gICAKPiAgIAltZW1ibG9ja19zZXRfbm9kZSgwLCBQSFlTX0FERFJfTUFYLCAmbWVtYmxvY2su
+bWVtb3J5LCAwKTsKPiAgIAo+IC0jaWZkZWYgQ09ORklHX0ZMQVRNRU0KPiAtCW1heF9tYXBuciA9
+IElTX0VOQUJMRUQoQ09ORklHX0hJR0hNRU0pID8gaGlnaGVuZF9wZm4gOiBtYXhfbG93X3BmbjsK
+PiAtI2VuZGlmCj4gICAJX192bWFsbG9jX3N0YXJ0X3NldCA9IHRydWU7Cj4gICAKPiAgIAlwcmlu
+dGsoS0VSTl9OT1RJQ0UgIiVsZE1CIExPV01FTSBhdmFpbGFibGUuXG4iLAo+IGRpZmYgLS1naXQg
+YS9hcmNoL3h0ZW5zYS9tbS9pbml0LmMgYi9hcmNoL3h0ZW5zYS9tbS9pbml0LmMKPiBpbmRleCAw
+MTU3N2QzM2U2MDIuLjlmMWIwZDVmY2NjNyAxMDA2NDQKPiAtLS0gYS9hcmNoL3h0ZW5zYS9tbS9p
+bml0LmMKPiArKysgYi9hcmNoL3h0ZW5zYS9tbS9pbml0LmMKPiBAQCAtMTY0LDcgKzE2NCw2IEBA
+IHZvaWQgX19pbml0IG1lbV9pbml0KHZvaWQpCj4gICB7Cj4gICAJZnJlZV9oaWdocGFnZXMoKTsK
+PiAgIAo+IC0JbWF4X21hcG5yID0gbWF4X3BmbiAtIEFSQ0hfUEZOX09GRlNFVDsKPiAgIAloaWdo
+X21lbW9yeSA9ICh2b2lkICopX192YShtYXhfbG93X3BmbiA8PCBQQUdFX1NISUZUKTsKPiAgIAo+
+ICAgCW1lbWJsb2NrX2ZyZWVfYWxsKCk7Cj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvYXNtLWdlbmVy
+aWMvbWVtb3J5X21vZGVsLmggYi9pbmNsdWRlL2FzbS1nZW5lcmljL21lbW9yeV9tb2RlbC5oCj4g
+aW5kZXggNmQxZmI2MTYyYWMxLi5hM2I1MDI5YWViYmQgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS9h
+c20tZ2VuZXJpYy9tZW1vcnlfbW9kZWwuaAo+ICsrKyBiL2luY2x1ZGUvYXNtLWdlbmVyaWMvbWVt
+b3J5X21vZGVsLmgKPiBAQCAtMTksMTEgKzE5LDEyIEBACj4gICAjZGVmaW5lIF9fcGFnZV90b19w
+Zm4ocGFnZSkJKCh1bnNpZ25lZCBsb25nKSgocGFnZSkgLSBtZW1fbWFwKSArIFwKPiAgIAkJCQkg
+QVJDSF9QRk5fT0ZGU0VUKQo+ICAgCj4gKy8qIGF2b2lkIDxsaW51eC9tbS5oPiBpbmNsdWRlIGhl
+bGwgKi8KPiArZXh0ZXJuIHVuc2lnbmVkIGxvbmcgbWF4X21hcG5yOwo+ICsKPiAgICNpZm5kZWYg
+cGZuX3ZhbGlkCj4gICBzdGF0aWMgaW5saW5lIGludCBwZm5fdmFsaWQodW5zaWduZWQgbG9uZyBw
+Zm4pCj4gICB7Cj4gLQkvKiBhdm9pZCA8bGludXgvbW0uaD4gaW5jbHVkZSBoZWxsICovCj4gLQll
+eHRlcm4gdW5zaWduZWQgbG9uZyBtYXhfbWFwbnI7Cj4gICAJdW5zaWduZWQgbG9uZyBwZm5fb2Zm
+c2V0ID0gQVJDSF9QRk5fT0ZGU0VUOwo+ICAgCj4gICAJcmV0dXJuIHBmbiA+PSBwZm5fb2Zmc2V0
+ICYmIChwZm4gLSBwZm5fb2Zmc2V0KSA8IG1heF9tYXBucjsKPiBkaWZmIC0tZ2l0IGEvaW5jbHVk
+ZS9saW51eC9tbS5oIGIvaW5jbHVkZS9saW51eC9tbS5oCj4gaW5kZXggN2IxMDY4ZGRjYmI3Li5m
+ZGYyMDUwMzg1MGUgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS9saW51eC9tbS5oCj4gKysrIGIvaW5j
+bHVkZS9saW51eC9tbS5oCj4gQEAgLTQ1LDE3ICs0NSw2IEBAIGV4dGVybiBpbnQgc3lzY3RsX3Bh
+Z2VfbG9ja191bmZhaXJuZXNzOwo+ICAgdm9pZCBtbV9jb3JlX2luaXQodm9pZCk7Cj4gICB2b2lk
+IGluaXRfbW1faW50ZXJuYWxzKHZvaWQpOwo+ICAgCj4gLSNpZm5kZWYgQ09ORklHX05VTUEJCS8q
+IERvbid0IHVzZSBtYXBucnMsIGRvIGl0IHByb3Blcmx5ICovCj4gLWV4dGVybiB1bnNpZ25lZCBs
+b25nIG1heF9tYXBucjsKPiAtCj4gLXN0YXRpYyBpbmxpbmUgdm9pZCBzZXRfbWF4X21hcG5yKHVu
+c2lnbmVkIGxvbmcgbGltaXQpCj4gLXsKPiAtCW1heF9tYXBuciA9IGxpbWl0Owo+IC19Cj4gLSNl
+bHNlCj4gLXN0YXRpYyBpbmxpbmUgdm9pZCBzZXRfbWF4X21hcG5yKHVuc2lnbmVkIGxvbmcgbGlt
+aXQpIHsgfQo+IC0jZW5kaWYKPiAtCj4gICBleHRlcm4gYXRvbWljX2xvbmdfdCBfdG90YWxyYW1f
+cGFnZXM7Cj4gICBzdGF0aWMgaW5saW5lIHVuc2lnbmVkIGxvbmcgdG90YWxyYW1fcGFnZXModm9p
+ZCkKPiAgIHsKPiBkaWZmIC0tZ2l0IGEvbW0vbWVtb3J5LmMgYi9tbS9tZW1vcnkuYwo+IGluZGV4
+IGI0ZDNkNDg5MzI2Ny4uMTI2ZmRkMzAwMWUzIDEwMDY0NAo+IC0tLSBhL21tL21lbW9yeS5jCj4g
+KysrIGIvbW0vbWVtb3J5LmMKPiBAQCAtOTUsMTQgKzk1LDYgQEAKPiAgICN3YXJuaW5nIFVuZm9y
+dHVuYXRlIE5VTUEgYW5kIE5VTUEgQmFsYW5jaW5nIGNvbmZpZywgZ3Jvd2luZyBwYWdlLWZyYW1l
+IGZvciBsYXN0X2NwdXBpZC4KPiAgICNlbmRpZgo+ICAgCj4gLSNpZm5kZWYgQ09ORklHX05VTUEK
+PiAtdW5zaWduZWQgbG9uZyBtYXhfbWFwbnI7Cj4gLUVYUE9SVF9TWU1CT0wobWF4X21hcG5yKTsK
+PiAtCj4gLXN0cnVjdCBwYWdlICptZW1fbWFwOwo+IC1FWFBPUlRfU1lNQk9MKG1lbV9tYXApOwo+
+IC0jZW5kaWYKPiAtCj4gICBzdGF0aWMgdm1fZmF1bHRfdCBkb19mYXVsdChzdHJ1Y3Qgdm1fZmF1
+bHQgKnZtZik7Cj4gICBzdGF0aWMgdm1fZmF1bHRfdCBkb19hbm9ueW1vdXNfcGFnZShzdHJ1Y3Qg
+dm1fZmF1bHQgKnZtZik7Cj4gICBzdGF0aWMgYm9vbCB2bWZfcHRlX2NoYW5nZWQoc3RydWN0IHZt
+X2ZhdWx0ICp2bWYpOwo+IGRpZmYgLS1naXQgYS9tbS9tbV9pbml0LmMgYi9tbS9tbV9pbml0LmMK
+PiBpbmRleCAyNjMwY2MzMDE0N2UuLjUwYTkzNzE0ZTFjNiAxMDA2NDQKPiAtLS0gYS9tbS9tbV9p
+bml0LmMKPiArKysgYi9tbS9tbV9pbml0LmMKPiBAQCAtMzYsNiArMzYsMTQgQEAKPiAgIAo+ICAg
+I2luY2x1ZGUgPGFzbS9zZXR1cC5oPgo+ICAgCj4gKyNpZm5kZWYgQ09ORklHX05VTUEKPiArdW5z
+aWduZWQgbG9uZyBtYXhfbWFwbnI7Cj4gK0VYUE9SVF9TWU1CT0wobWF4X21hcG5yKTsKPiArCj4g
+K3N0cnVjdCBwYWdlICptZW1fbWFwOwo+ICtFWFBPUlRfU1lNQk9MKG1lbV9tYXApOwo+ICsjZW5k
+aWYKPiArCj4gICAjaWZkZWYgQ09ORklHX0RFQlVHX01FTU9SWV9JTklUCj4gICBpbnQgX19tZW1p
+bml0ZGF0YSBtbWluaXRfbG9nbGV2ZWw7Cj4gICAKPiBAQCAtMTYxNyw3ICsxNjI1LDcgQEAgc3Rh
+dGljIHZvaWQgX19pbml0IGFsbG9jX25vZGVfbWVtX21hcChzdHJ1Y3QgcGdsaXN0X2RhdGEgKnBn
+ZGF0KQo+ICAgCXN0YXJ0ID0gcGdkYXQtPm5vZGVfc3RhcnRfcGZuICYgfihNQVhfT1JERVJfTlJf
+UEFHRVMgLSAxKTsKPiAgIAlvZmZzZXQgPSBwZ2RhdC0+bm9kZV9zdGFydF9wZm4gLSBzdGFydDsK
+PiAgIAkvKgo+IC0JCSAqIFRoZSB6b25lJ3MgZW5kcG9pbnRzIGFyZW4ndCByZXF1aXJlZCB0byBi
+ZSBNQVhfUEFHRV9PUkRFUgo+ICsJICogVGhlIHpvbmUncyBlbmRwb2ludHMgYXJlbid0IHJlcXVp
+cmVkIHRvIGJlIE1BWF9QQUdFX09SREVSCj4gICAJICogYWxpZ25lZCBidXQgdGhlIG5vZGVfbWVt
+X21hcCBlbmRwb2ludHMgbXVzdCBiZSBpbiBvcmRlcgo+ICAgCSAqIGZvciB0aGUgYnVkZHkgYWxs
+b2NhdG9yIHRvIGZ1bmN0aW9uIGNvcnJlY3RseS4KPiAgIAkgKi8KPiBAQCAtMTYzMywxNCArMTY0
+MSwxNSBAQCBzdGF0aWMgdm9pZCBfX2luaXQgYWxsb2Nfbm9kZV9tZW1fbWFwKHN0cnVjdCBwZ2xp
+c3RfZGF0YSAqcGdkYXQpCj4gICAJcHJfZGVidWcoIiVzOiBub2RlICVkLCBwZ2RhdCAlMDhseCwg
+bm9kZV9tZW1fbWFwICUwOGx4XG4iLAo+ICAgCQkgX19mdW5jX18sIHBnZGF0LT5ub2RlX2lkLCAo
+dW5zaWduZWQgbG9uZylwZ2RhdCwKPiAgIAkJICh1bnNpZ25lZCBsb25nKXBnZGF0LT5ub2RlX21l
+bV9tYXApOwo+IC0jaWZuZGVmIENPTkZJR19OVU1BCj4gKwo+ICAgCS8qIHRoZSBnbG9iYWwgbWVt
+X21hcCBpcyBqdXN0IHNldCBhcyBub2RlIDAncyAqLwo+IC0JaWYgKHBnZGF0ID09IE5PREVfREFU
+QSgwKSkgewo+IC0JCW1lbV9tYXAgPSBOT0RFX0RBVEEoMCktPm5vZGVfbWVtX21hcDsKPiAtCQlp
+ZiAocGFnZV90b19wZm4obWVtX21hcCkgIT0gcGdkYXQtPm5vZGVfc3RhcnRfcGZuKQo+IC0JCQlt
+ZW1fbWFwIC09IG9mZnNldDsKPiAtCX0KPiAtI2VuZGlmCj4gKwlXQVJOX09OKHBnZGF0ICE9IE5P
+REVfREFUQSgwKSk7Cj4gKwo+ICsJbWVtX21hcCA9IHBnZGF0LT5ub2RlX21lbV9tYXA7Cj4gKwlp
+ZiAocGFnZV90b19wZm4obWVtX21hcCkgIT0gcGdkYXQtPm5vZGVfc3RhcnRfcGZuKQo+ICsJCW1l
+bV9tYXAgLT0gb2Zmc2V0Owo+ICsKPiArCW1heF9tYXBuciA9IGVuZCAtIHN0YXJ0Owo+ICAgfQo+
+ICAgI2Vsc2UKPiAgIHN0YXRpYyBpbmxpbmUgdm9pZCBhbGxvY19ub2RlX21lbV9tYXAoc3RydWN0
+IHBnbGlzdF9kYXRhICpwZ2RhdCkgeyB9Cj4gZGlmZiAtLWdpdCBhL21tL25vbW11LmMgYi9tbS9u
+b21tdS5jCj4gaW5kZXggYmFhNzlhYmRhZjAzLi5mMDIwOWRkMjZkZmEgMTAwNjQ0Cj4gLS0tIGEv
+bW0vbm9tbXUuYwo+ICsrKyBiL21tL25vbW11LmMKPiBAQCAtNDQsMTYgKzQ0LDEyIEBACj4gICAK
+PiAgIHZvaWQgKmhpZ2hfbWVtb3J5Owo+ICAgRVhQT1JUX1NZTUJPTChoaWdoX21lbW9yeSk7Cj4g
+LXN0cnVjdCBwYWdlICptZW1fbWFwOwo+IC11bnNpZ25lZCBsb25nIG1heF9tYXBucjsKPiAtRVhQ
+T1JUX1NZTUJPTChtYXhfbWFwbnIpOwo+ICAgdW5zaWduZWQgbG9uZyBoaWdoZXN0X21lbW1hcF9w
+Zm47Cj4gICBpbnQgc3lzY3RsX25yX3RyaW1fcGFnZXMgPSBDT05GSUdfTk9NTVVfSU5JVElBTF9U
+UklNX0VYQ0VTUzsKPiAgIGludCBoZWFwX3N0YWNrX2dhcCA9IDA7Cj4gICAKPiAgIGF0b21pY19s
+b25nX3QgbW1hcF9wYWdlc19hbGxvY2F0ZWQ7Cj4gICAKPiAtRVhQT1JUX1NZTUJPTChtZW1fbWFw
+KTsKPiAgIAo+ICAgLyogbGlzdCBvZiBtYXBwZWQsIHBvdGVudGlhbGx5IHNoYXJlYWJsZSByZWdp
+b25zICovCj4gICBzdGF0aWMgc3RydWN0IGttZW1fY2FjaGUgKnZtX3JlZ2lvbl9qYXI7CgoKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtc25wcy1h
+cmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDov
+L2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
