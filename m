@@ -4,91 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A70DBC35FF9
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 17 Mar 2025 12:40:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C5E2C28B28
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 18 Mar 2025 09:03:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ic/A62O1redv8Ix+ukQ700b0eYHr1aveOHvL1l3kwCY=; b=MTkytYjtxaftcU
-	ectUBTg+mxaVxVv6VeEgKnE1akXdfbgjSHiE5qNiFXSFw0JV+V8TVwlq1MBoDcARJulZ+8oP1iAwe
-	NeDlHTaNMFgFEZ1J/10GM6kQvnHOAw5tD/ANOvbe3n9VqhtvFjnCmUk1N0Sc14rujYY9iQmeZI+oO
-	89CcFHOmDlRqvF0d1Tb+67xvjhP79D/IK84GzKwmqEFmAGBKtNM3dfqMTbucgWCLWQDtbpMzcg4l3
-	0B9tLI9uHKTUbZEllXvmKHlByPVgJVhI7Wv8I6ghAuclGZ2euvqWDJOiL/KjRV4b9TdI3E8Iw3+T5
-	9PiRbCaBakG2vMETvVGQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=SwbNqVRrovvtUlxKRQYkulyMSd8PeixKBxXp/oI0siI=; b=QhA3C3WByCwult
+	uT47avvBldi0zD5gVSnV9A+JqLft4TP1SKX3VEWxcVYcgPFzNoptGh9bmEwU9/j3pyGugPa1FFCvT
+	q6xz6re5Y8rEhzvVB3vCrwzzZkZBQ2KpPoe5UCNpnZgRlbSRaop4h2BwUda0mVxicSyDTa9KfH3Fy
+	Gvu2gZaHvqe/AqDnmsxLAvKKE4+6rcWh0YSn6zyvz7w2/jxko/SMEpI53pFIp1MWhU9VK7mpPUjSm
+	5322OmUQ4EKtrZkgOcfLXM1LDP8oqjzC139OXZzaz4U3qpzkNpqkO+KqPEKHtKY816t4fS4KC0ov3
+	Iv5dGjFNyjg70FP+2jyA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tu9lf-00000002b3J-15Ei;
-	Mon, 17 Mar 2025 12:40:31 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1tuSrF-00000005GD8-3T75;
+	Tue, 18 Mar 2025 09:03:33 +0000
+Received: from mail.novaplan.pl ([51.195.118.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tu9lb-00000002b1G-2ShZ;
-	Mon, 17 Mar 2025 12:40:28 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id B1D645C5606;
-	Mon, 17 Mar 2025 12:38:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A338C4CEE9;
-	Mon, 17 Mar 2025 12:40:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742215225;
-	bh=Qm34pbxAa6RjHCc2A1aXJ4qBOugE70Km6ONzqhDGMKA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=E7Ar7yyZci/sFoCidNgE8WXrHkJCdBUtC5+SBI7ElJU6LgZqLiSvRPlv1xqMCdR+2
-	 JdSknt+r47jh4J64JDHOV3bC2f8CCEHU9CwoE9ISsT1r2OFEQaCkooFpGyY2cq0AUS
-	 8BJqKWvVNVKmYaiENoybfTCks4OV2Hujobg04vepdZYEAJYEHgTYSVQtuBbCiU49Wg
-	 w4Y7etNdGOWGUdqy5s7jSxyR/7rnszsVQfJoCdbVmwcu/WQyL4uucGKWINrXNoVXHO
-	 5i4vQUYMXA8gu7KzsUBsrs+oDW3h+voixjT+nCGjato5WHQworTVVXnwjAQoo5sK7c
-	 ZdFal0K6UlYKw==
-Message-ID: <e3dfe753-fb5f-4f2f-9d24-da8a4f01be19@kernel.org>
-Date: Mon, 17 Mar 2025 07:40:20 -0500
+	id 1tuSk1-00000005Eys-121c
+	for linux-snps-arc@lists.infradead.org;
+	Tue, 18 Mar 2025 08:56:09 +0000
+Received: by mail.novaplan.pl (Postfix, from userid 1002)
+	id 1F41EA3809; Tue, 18 Mar 2025 09:55:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=novaplan.pl; s=mail;
+	t=1742288160; bh=jxb0oDMobd7GaIcoqojTSF8ZoNcoVg4kM8ohJkoHKb8=;
+	h=Date:From:To:Subject:From;
+	b=z4mnSm15zfkR6MxjBGNN4/0wdDd9pPiYzlRiuv/ifmJTrdJvByBFi0uYsybo69ldJ
+	 JwPkOUWrs48u1Vb4Npe5p24zfU3Hy+6qW2jPmzX3ZEbnot7b8uX+r2bzeZwgyLIAFs
+	 /6phcOg+K038RbNYWivFuTKPFN/QpslU89Xc/qK1h38eWDajhECix5As+7nbXTohQw
+	 e6t1VajGMN1D2YEzxJrzpKOOuJTQQ/nScWhrS9XA7AukSUXrClItU7WdSPlXufsccD
+	 WMxuqqD5ZK1autsg8B1cxATr14ubkk27efqAfC9JZOFs++JIgi9kVaHm2OH7GvBaP3
+	 ZaUcZH2eoxwKg==
+Received: by mail.novaplan.pl for <linux-snps-arc@lists.infradead.org>; Tue, 18 Mar 2025 08:55:43 GMT
+Message-ID: <20250318084500-0.1.kh.1h58i.0.dp3ojui04s@novaplan.pl>
+Date: Tue, 18 Mar 2025 08:55:43 GMT
+From: "Adrian Liszka" <adrian.liszka@novaplan.pl>
+To: <linux-snps-arc@lists.infradead.org>
+Subject: =?UTF-8?Q?Prosz=C4=99_o_kontakt?=
+X-Mailer: mail.novaplan.pl
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 06/13] nios2: move pr_debug() about memory start and
- end to setup_arch()
-To: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
- Andreas Larsson <andreas@gaisler.com>, Andy Lutomirski <luto@kernel.org>,
- Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- "David S. Miller" <davem@davemloft.net>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Guo Ren
- <guoren@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
- Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Madhavan Srinivasan <maddy@linux.ibm.com>, Mark Brown <broonie@kernel.org>,
- Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Michal Simek <monstr@monstr.eu>,
- Palmer Dabbelt <palmer@dabbelt.com>, Peter Zijlstra <peterz@infradead.org>,
- Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
- Stafford Horne <shorne@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Thomas Gleixner <tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>,
- Vineet Gupta <vgupta@kernel.org>, Will Deacon <will@kernel.org>,
- linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
- loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-um@lists.infradead.org, linux-arch@vger.kernel.org,
- linux-mm@kvack.org, x86@kernel.org
-References: <20250313135003.836600-1-rppt@kernel.org>
- <20250313135003.836600-7-rppt@kernel.org>
-Content-Language: en-US
-From: Dinh Nguyen <dinguyen@kernel.org>
-In-Reply-To: <20250313135003.836600-7-rppt@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250317_054027_739842_F43E2B20 
-X-CRM114-Status: GOOD (  16.03  )
+X-CRM114-CacheID: sfid-20250318_015605_965588_5DE4C1BD 
+X-CRM114-Status: UNSURE (   1.04  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,53 +61,16 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 3/13/25 08:49, Mike Rapoport wrote:
-> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-> 
-> This will help with pulling out memblock_free_all() to the generic
-> code and reducing code duplication in arch::mem_init().
-> 
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> ---
->   arch/nios2/kernel/setup.c | 2 ++
->   arch/nios2/mm/init.c      | 2 --
->   2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/nios2/kernel/setup.c b/arch/nios2/kernel/setup.c
-> index da122a5fa43b..a4cffbfc1399 100644
-> --- a/arch/nios2/kernel/setup.c
-> +++ b/arch/nios2/kernel/setup.c
-> @@ -149,6 +149,8 @@ void __init setup_arch(char **cmdline_p)
->   	memory_start = memblock_start_of_DRAM();
->   	memory_end = memblock_end_of_DRAM();
->   
-> +	pr_debug("%s: start=%lx, end=%lx\n", __func__, memory_start, memory_end);
-> +
->   	setup_initial_init_mm(_stext, _etext, _edata, _end);
->   	init_task.thread.kregs = &fake_regs;
->   
-> diff --git a/arch/nios2/mm/init.c b/arch/nios2/mm/init.c
-> index a2278485de19..aa692ad30044 100644
-> --- a/arch/nios2/mm/init.c
-> +++ b/arch/nios2/mm/init.c
-> @@ -65,8 +65,6 @@ void __init mem_init(void)
->   	unsigned long end_mem   = memory_end; /* this must not include
->   						kernel stack at top */
->   
-> -	pr_debug("mem_init: start=%lx, end=%lx\n", memory_start, memory_end);
-> -
->   	end_mem &= PAGE_MASK;
->   	high_memory = __va(end_mem);
->   
-
-Acked-By: Dinh Nguyen <dinguyen@kernel.org>
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+RHppZcWEIGRvYnJ5LAoKQ3p5IGplc3QgbW/FvGxpd2/Fm8SHIG5hd2nEhXphbmlhIHdzcMOzxYJw
+cmFjeSB6IFBhxYRzdHdlbT8KClogY2jEmWNpxIUgcG9yb3ptYXdpYW0geiBvc29ixIUgemFqbXVq
+xIVjxIUgc2nEmSBkemlhxYJhbmlhbWkgendpxIV6YW55bWkgemUgc3ByemVkYcW8xIUuCgpQb21h
+Z2FteSBza3V0ZWN6bmllIHBvenlza2l3YcSHIG5vd3ljaCBrbGllbnTDs3cuCgpaYXByYXN6YW0g
+ZG8ga29udGFrdHUuCgoKWiBwb3pkcm93aWVuaWFtaQpBZHJpYW4gTGlzemthCgpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWls
+aW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMu
+aW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
