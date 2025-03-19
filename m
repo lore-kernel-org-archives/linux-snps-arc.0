@@ -4,52 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C5E2C28B28
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 18 Mar 2025 09:03:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36A1AC35FFA
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 19 Mar 2025 09:36:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=SwbNqVRrovvtUlxKRQYkulyMSd8PeixKBxXp/oI0siI=; b=QhA3C3WByCwult
-	uT47avvBldi0zD5gVSnV9A+JqLft4TP1SKX3VEWxcVYcgPFzNoptGh9bmEwU9/j3pyGugPa1FFCvT
-	q6xz6re5Y8rEhzvVB3vCrwzzZkZBQ2KpPoe5UCNpnZgRlbSRaop4h2BwUda0mVxicSyDTa9KfH3Fy
-	Gvu2gZaHvqe/AqDnmsxLAvKKE4+6rcWh0YSn6zyvz7w2/jxko/SMEpI53pFIp1MWhU9VK7mpPUjSm
-	5322OmUQ4EKtrZkgOcfLXM1LDP8oqjzC139OXZzaz4U3qpzkNpqkO+KqPEKHtKY816t4fS4KC0ov3
-	Iv5dGjFNyjg70FP+2jyA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=Fj52+m6Cowk2zxYHtZF/TJAYQJhIkebQh0PxyDisu/M=; b=WC9XQ8hyQlLYOj
+	IJwJ9NvFCRRkGSP0ij3Vb7d88WNuu7ycuDXWOp2n8VViX4KPDJuCrcvsOef8Flx3nGWpNk5ZesKhb
+	Ntx0xzzFD0e7YqtG4sFhgbJOCxtwWGOm+mA+hPIll2PZARXSZLKqKchxOuRDwETp0NGaRfGaPfQlY
+	syqiMgqtkJ5TR1OA5rRGbsOZmxAJypTNPFqWIZV7JGmxATzWzTfXDB/xnxEX2dtEEQUJs6cny87XR
+	mWscp9P9PAQ7MUUmVIvXvcuY8cGj7zDndMHsK5Qn9lHpUaCu/KvPrP7VVduZGUmgeYVPq5NT9dHfa
+	5qfrcfRqw++apsZtkezA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuSrF-00000005GD8-3T75;
-	Tue, 18 Mar 2025 09:03:33 +0000
-Received: from mail.novaplan.pl ([51.195.118.1])
+	id 1tupqY-00000008Vli-3gTB;
+	Wed, 19 Mar 2025 09:36:22 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuSk1-00000005Eys-121c
+	id 1tuplh-00000008USu-09MT
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 18 Mar 2025 08:56:09 +0000
-Received: by mail.novaplan.pl (Postfix, from userid 1002)
-	id 1F41EA3809; Tue, 18 Mar 2025 09:55:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=novaplan.pl; s=mail;
-	t=1742288160; bh=jxb0oDMobd7GaIcoqojTSF8ZoNcoVg4kM8ohJkoHKb8=;
-	h=Date:From:To:Subject:From;
-	b=z4mnSm15zfkR6MxjBGNN4/0wdDd9pPiYzlRiuv/ifmJTrdJvByBFi0uYsybo69ldJ
-	 JwPkOUWrs48u1Vb4Npe5p24zfU3Hy+6qW2jPmzX3ZEbnot7b8uX+r2bzeZwgyLIAFs
-	 /6phcOg+K038RbNYWivFuTKPFN/QpslU89Xc/qK1h38eWDajhECix5As+7nbXTohQw
-	 e6t1VajGMN1D2YEzxJrzpKOOuJTQQ/nScWhrS9XA7AukSUXrClItU7WdSPlXufsccD
-	 WMxuqqD5ZK1autsg8B1cxATr14ubkk27efqAfC9JZOFs++JIgi9kVaHm2OH7GvBaP3
-	 ZaUcZH2eoxwKg==
-Received: by mail.novaplan.pl for <linux-snps-arc@lists.infradead.org>; Tue, 18 Mar 2025 08:55:43 GMT
-Message-ID: <20250318084500-0.1.kh.1h58i.0.dp3ojui04s@novaplan.pl>
-Date: Tue, 18 Mar 2025 08:55:43 GMT
-From: "Adrian Liszka" <adrian.liszka@novaplan.pl>
-To: <linux-snps-arc@lists.infradead.org>
-Subject: =?UTF-8?Q?Prosz=C4=99_o_kontakt?=
-X-Mailer: mail.novaplan.pl
+	Wed, 19 Mar 2025 09:31:21 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 9C44E61607;
+	Wed, 19 Mar 2025 09:31:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28A25C4CEEE;
+	Wed, 19 Mar 2025 09:31:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742376679;
+	bh=geXQPeT6Ko/A+eBHGZJ7ocWnSItb0Cs6pjE+xVOGMOI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=X4m2YTZ8OjLf+TmKDNW5RsCAiPOC0LiIdFlAEIdw2q97LLMBs4hxW2zjFFq8xqWr7
+	 N8maUQYfmeitpGcDqhoRga72NKT/vDb/tNXvHXIabLnp4OzxESyNWMFj/mwm+aA7ss
+	 dyyYCHW+vwjlKKp4VU6TbEoUXli5fCLyUsgVKVQPC8LPjkfplkPNnwh3px9rbvRPAS
+	 hHa0I3vR7+nTFoJo9WDOcVU7r0ChYyakH3bKEW0OpefBJqKBarYZMb1wS7zgzkpaOi
+	 HSpqRonxcjqI5y5yLJIu4d71rIwWhDp2vIuP4WFThDoT9+qyDDTs+xkKxIlDEKYVCs
+	 aUI0BmIMSHmzQ==
+From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+To: tglx@linutronix.de
+Cc: maz@kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
+	Vineet Gupta <vgupta@kernel.org>,
+	linux-snps-arc@lists.infradead.org
+Subject: [PATCH v2 13/57] irqdomain: arc: Switch to irq_domain_create_linear()
+Date: Wed, 19 Mar 2025 10:29:06 +0100
+Message-ID: <20250319092951.37667-14-jirislaby@kernel.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250319092951.37667-1-jirislaby@kernel.org>
+References: <20250319092951.37667-1-jirislaby@kernel.org>
 MIME-Version: 1.0
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250318_015605_965588_5DE4C1BD 
-X-CRM114-Status: UNSURE (   1.04  )
-X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,16 +67,79 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-RHppZcWEIGRvYnJ5LAoKQ3p5IGplc3QgbW/FvGxpd2/Fm8SHIG5hd2nEhXphbmlhIHdzcMOzxYJw
-cmFjeSB6IFBhxYRzdHdlbT8KClogY2jEmWNpxIUgcG9yb3ptYXdpYW0geiBvc29ixIUgemFqbXVq
-xIVjxIUgc2nEmSBkemlhxYJhbmlhbWkgendpxIV6YW55bWkgemUgc3ByemVkYcW8xIUuCgpQb21h
-Z2FteSBza3V0ZWN6bmllIHBvenlza2l3YcSHIG5vd3ljaCBrbGllbnTDs3cuCgpaYXByYXN6YW0g
-ZG8ga29udGFrdHUuCgoKWiBwb3pkcm93aWVuaWFtaQpBZHJpYW4gTGlzemthCgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWls
-aW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMu
-aW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
+irq_domain_add_linear() is going away as being obsolete now. Switch to
+the preferred irq_domain_create_linear(). That differs in the first
+parameter: It takes more generic struct fwnode_handle instead of struct
+device_node. Therefore, of_fwnode_handle() is added around the
+parameter.
+
+Note some of the users can likely use dev->fwnode directly instead of
+indirect of_fwnode_handle(dev->of_node). But dev->fwnode is not
+guaranteed to be set for all, so this has to be investigated on case to
+case basis (by people who can actually test with the HW).
+
+Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+Cc: Vineet Gupta <vgupta@kernel.org>
+Cc: linux-snps-arc@lists.infradead.org
+---
+ arch/arc/kernel/intc-arcv2.c   | 2 +-
+ arch/arc/kernel/intc-compact.c | 5 +++--
+ arch/arc/kernel/mcip.c         | 3 ++-
+ 3 files changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/arch/arc/kernel/intc-arcv2.c b/arch/arc/kernel/intc-arcv2.c
+index fea29d9d18d6..809edc59af25 100644
+--- a/arch/arc/kernel/intc-arcv2.c
++++ b/arch/arc/kernel/intc-arcv2.c
+@@ -170,7 +170,7 @@ init_onchip_IRQ(struct device_node *intc, struct device_node *parent)
+ 	if (parent)
+ 		panic("DeviceTree incore intc not a root irq controller\n");
+ 
+-	root_domain = irq_domain_add_linear(intc, nr_cpu_irqs, &arcv2_irq_ops, NULL);
++	root_domain = irq_domain_create_linear(of_fwnode_handle(intc), nr_cpu_irqs, &arcv2_irq_ops, NULL);
+ 	if (!root_domain)
+ 		panic("root irq domain not avail\n");
+ 
+diff --git a/arch/arc/kernel/intc-compact.c b/arch/arc/kernel/intc-compact.c
+index 1d2ff1c6a61b..1b159e9e0234 100644
+--- a/arch/arc/kernel/intc-compact.c
++++ b/arch/arc/kernel/intc-compact.c
+@@ -112,8 +112,9 @@ init_onchip_IRQ(struct device_node *intc, struct device_node *parent)
+ 	if (parent)
+ 		panic("DeviceTree incore intc not a root irq controller\n");
+ 
+-	root_domain = irq_domain_add_linear(intc, NR_CPU_IRQS,
+-					    &arc_intc_domain_ops, NULL);
++	root_domain = irq_domain_create_linear(of_fwnode_handle(intc),
++					       NR_CPU_IRQS,
++					       &arc_intc_domain_ops, NULL);
+ 	if (!root_domain)
+ 		panic("root irq domain not avail\n");
+ 
+diff --git a/arch/arc/kernel/mcip.c b/arch/arc/kernel/mcip.c
+index cdd370ec9280..02b28a9324f4 100644
+--- a/arch/arc/kernel/mcip.c
++++ b/arch/arc/kernel/mcip.c
+@@ -391,7 +391,8 @@ idu_of_init(struct device_node *intc, struct device_node *parent)
+ 
+ 	pr_info("MCIP: IDU supports %u common irqs\n", nr_irqs);
+ 
+-	domain = irq_domain_add_linear(intc, nr_irqs, &idu_irq_ops, NULL);
++	domain = irq_domain_create_linear(of_fwnode_handle(intc), nr_irqs,
++					  &idu_irq_ops, NULL);
+ 
+ 	/* Parent interrupts (core-intc) are already mapped */
+ 
+-- 
+2.49.0
+
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
