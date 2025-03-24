@@ -4,94 +4,201 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EBED0C36000
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 20 Mar 2025 10:46:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8193CC3600B
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Mar 2025 06:15:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:From:Subject:Message-ID:
-	References:Mime-Version:In-Reply-To:Date:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Owner;
-	bh=ES+qTViWZKtR1frv6ICyXaVf79hp2kH2ymEiHJJXI5I=; b=4WEbfx7JITCtP9Nc/gAC/7WaZN
-	cbFzzhKzmXaAFLStySbhkb4Nto3RD4HnUaU0o6G00sa/+nej+ZzI86Sf/4g61p7CGySEBEsDcA6eS
-	Xn7d8SF+D4JzX3N1rs6VuBc64a+fQZylS3yOfjA9I2hBM/IAhnbZ3V6k6g7EFnSglq8FThKZ7CfYw
-	g5DihaSaurN4zEvfigMbYuJFwmUdQyEXkkdKH6vdKpgAFA/IFJ3WXPu+/cxwIFzvbIjeZ+3twnaMs
-	OLNJ1bf+6Wo08fe2liH2cnkFwXK+yUFed+089IvYlYkJrKRSXetOxNjGIBBqM0+cQQwNQ+h3Of7+O
-	91F1zEUA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:CC:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=sEu46R5FNjhbQyYT33AK/wH+ouyCPyH7gTgS+h/YYLY=; b=f9zM6r1Hs4iv+J
+	DNlDWbXjXJ86mUUyi5F41/t0uxkUpjJGsXjv3bjc4UTGf4t+bENjGlz73TijgnrU6p1F+r2iPttUr
+	SiMqZfs8kF9XjETyx2pENWTODGBLtAOl6wGdUJcU2UueWET+kBpzWi1GHwUVHBbYwFmLZVs4P/5Yq
+	eEYi5PIrxakE3SjVTbqAP9d57GfVAumVc1j06LTxlBbBcwU9aIuo3trCq5P6y40zPbRsUq6r9pOkR
+	cjgAoiZ1Zyd1ikgH+lJDqUHsR+4vvaq4vqwT4mMRPJrZiMbTxahBDITpSuTb9ob/HknMAq0GXqrcF
+	n6TubLJqinsCeNl4tQiA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tvDPx-0000000Bqh9-2uvy;
-	Thu, 20 Mar 2025 10:46:29 +0000
-Received: from mail-wm1-x34a.google.com ([2a00:1450:4864:20::34a])
+	id 1twb5o-00000002ISE-1y3c;
+	Mon, 24 Mar 2025 06:15:24 +0000
+Received: from mgamail.intel.com ([198.175.65.14])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tvDOE-0000000BqQG-2S4r
-	for linux-snps-arc@lists.infradead.org;
-	Thu, 20 Mar 2025 10:44:44 +0000
-Received: by mail-wm1-x34a.google.com with SMTP id 5b1f17b1804b1-43d22c304adso7494435e9.0
-        for <linux-snps-arc@lists.infradead.org>; Thu, 20 Mar 2025 03:44:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1742467480; x=1743072280; darn=lists.infradead.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=j11DFSETqOLtc+vMOz1k4rHgXFA118EedepjEdU8Zqw=;
-        b=GS8RrzE2vwAeGIaqR5zLiyJSzd2zaxwuhxrLwkE8WHU1pmJAFltVU/jPwH5g02Ipsk
-         /HLtC1YtosNokwMiybWwMxr9RM7ao6QMvMNBmqiXNzSS+j/63tEVfTQ3DeU5fBNLQ0YK
-         PB0W0+fhy/gi7pGUTN4MmNOFBfxKWK+Gd3mjQEep0myZuf/9zJC5nPNK+5eafqJdFTX3
-         cWHK3/6r1f+ENqqYAzwJvIfO/c7dq+dKev2ORVOlKidpXK0R+AXh/HWMg+eHMxL49ZS3
-         4Ca5wf54yWZuj0bfRZ5/rO7u+x+emthzQ4WL3xI/Vj9Qph5opobyDTBaVmt0/uxIW0O4
-         Cctw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742467480; x=1743072280;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=j11DFSETqOLtc+vMOz1k4rHgXFA118EedepjEdU8Zqw=;
-        b=GIsSrNUeBzOY3UtUOPbjeIEwbUsQbAGgMFAn4itpQHnD9nLd9tEj91Yv+hnRFaXH5P
-         qdLdyUenCHM336v+9zHb7iZNhzXDmLuHjUhmBO+tcY1RY7LDDjcMblXvIS4k2dn5pKNv
-         M7ucTclfW9oaR2TOOLFUOzlG77KVbXQyFIaJozOFc4vbQz3QmcjgFSNH63vKmXsqPVcP
-         JsfaYkCrxN+hk3cgIwl9iFjm0qOEvOs9MZYUa6kDk9fzo6WehAiznvtqrySP7Sgryj67
-         K4S3Sray+6FxdJIG5ge3qBMxY44Bi2rnf9sn29J4+0kC1QxC6zUzzxcjWZfCC3VjIJ14
-         FhnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWKcWo2L3CB+wSOSJyMyakh31QaJe6lM+OT1YtLzkikxZnhkG79Sr6otKNcCI0fi4xT64furSqkYwXwMzTrpw==@lists.infradead.org
-X-Gm-Message-State: AOJu0Yzl4kL12HmysqsYE2tBwB23YsYycg+JDckJIRD7eWyqLM7oDoAH
-	iA+Z9Fuo/e/jzwT4xRb+441m67+C7CWjxpvTQnG0VyfERdKu9lRBTkNIRRTeTI8c++nDUd8mJqp
-	Lm2iFrYIG5A==
-X-Google-Smtp-Source: AGHT+IHmhdHTuCMOMffmpvyIMCzJObzjHJotMPvb7/CKZriBN1WJ2Qe2CHVhTxdEuiWThlixsbw8H9oOiShQMA==
-X-Received: from wmgg15.prod.google.com ([2002:a05:600d:f:b0:43b:c450:ea70])
- (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:1da2:b0:439:5f04:4f8d with SMTP id 5b1f17b1804b1-43d49187ba9mr20806165e9.12.1742467480075;
- Thu, 20 Mar 2025 03:44:40 -0700 (PDT)
-Date: Thu, 20 Mar 2025 10:44:38 +0000
-In-Reply-To: <Z9sRQ0cK0rupEiT-@google.com>
-Mime-Version: 1.0
-References: <20250110-asi-rfc-v2-v2-0-8419288bc805@google.com>
- <20250110-asi-rfc-v2-v2-4-8419288bc805@google.com> <20250319172935.GMZ9r-_zzXhyhHBLfj@fat_crate.local>
- <Z9sRQ0cK0rupEiT-@google.com>
-X-Mailer: aerc 0.18.2
-Message-ID: <D8L164U8HBTB.G5MS86AIISLM@google.com>
-Subject: Re: [PATCH RFC v2 04/29] mm: asi: Add infrastructure for boot-time enablement
-From: Brendan Jackman <jackmanb@google.com>
-To: Yosry Ahmed <yosry.ahmed@linux.dev>, Borislav Petkov <bp@alien8.de>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
-	<x86@kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<linux-alpha@vger.kernel.org>, <linux-snps-arc@lists.infradead.org>, 
-	<linux-arm-kernel@lists.infradead.org>, <linux-csky@vger.kernel.org>, 
-	<linux-hexagon@vger.kernel.org>, <loongarch@lists.linux.dev>, 
-	<linux-m68k@lists.linux-m68k.org>, <linux-mips@vger.kernel.org>, 
-	<linux-openrisc@vger.kernel.org>, <linux-parisc@vger.kernel.org>, 
-	<linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>, 
-	<linux-s390@vger.kernel.org>, <linux-sh@vger.kernel.org>, 
-	<sparclinux@vger.kernel.org>, <linux-um@lists.infradead.org>, 
-	<linux-arch@vger.kernel.org>, <linux-mm@kvack.org>, 
-	<linux-trace-kernel@vger.kernel.org>, <linux-perf-users@vger.kernel.org>, 
-	<kvm@vger.kernel.org>, <linux-efi@vger.kernel.org>, 
-	Junaid Shahid <junaids@google.com>
+	id 1twb5k-00000002IRZ-344C;
+	Mon, 24 Mar 2025 06:15:22 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742796920; x=1774332920;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5xFXNxSuLtEHBUejyVMIT1o4yjF2wUc/g1cibZJWTXA=;
+  b=Q21aRUMWndZYX5dP2Dty+Val6P9ScY60CSMw3pnGFYlYWaRhTKCvLZUm
+   t7ay0vYswxkLsvfiz6v1PSJyIT2spJ7soMoah+CT6rPm3RjyjJS94ec8d
+   CEgCfynoafwBKn+R7hrscXeOTRkvc+UsNb1z9WGMWmKXMW0PAU/iJJckh
+   fBYSZlw3MSRpxRdVeCeOa5ausQ+0ExssshvdTS2DBKAEolrVP9NvIydip
+   RBbJaLZu7nXmYsqM6N9Z3XsCk8wqK8hZb7cuUTE4wGSTQNPWr3+06RB9Z
+   cb+tbPsD6KQcSHxTO/T6pWc2xwd4qjGS7i7X6txbHYvoPC2kacjisFYlE
+   Q==;
+X-CSE-ConnectionGUID: dASsrcbRQcScS7lQnoY4TQ==
+X-CSE-MsgGUID: u+llf7Y1RVmQL4xxo2/JCg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11382"; a="47764224"
+X-IronPort-AV: E=Sophos;i="6.14,271,1736841600"; 
+   d="scan'208";a="47764224"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2025 23:15:14 -0700
+X-CSE-ConnectionGUID: nQmokBXMQySuJu3HklDJ2Q==
+X-CSE-MsgGUID: zN3p5BKmTBuSZzlZffQ2nQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,271,1736841600"; 
+   d="scan'208";a="129007066"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2025 23:15:10 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Sun, 23 Mar 2025 23:15:06 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Sun, 23 Mar 2025 23:15:06 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.45) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Sun, 23 Mar 2025 23:15:05 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OM8yf5WHrxVsL0s6QTPqTm1twNr7fpSYPVOlxzjFzRqkXH+CPYGT6h0fhLE0QP5qhLJAW/+8KJRPm8yUzHHkGTLmR0xdoX8lOd41YqgkhdJQnrxiBxKoikGh0Fbtciaf/wXxdwB1OvELfaLuhAb8S71Sfb2S/BNdWuPY1FN8z6WHUBoYcA2+14r9T6Zp9QypFp4odWv0saudk1kYLm6RDASLErW+w7ThP1l3KR5/HdiKgYRRYn+mZ4CciXEK+yaHOVSVIDSUmo8VCdRik3HI1xh//iC9PAsIabzP4dDdpaVXGhNtDWF5cX7lKRdbYSiZjUIS0Tud3E4iKA46FJcQ6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RaaUQXrKFJ8dGZ9Fb5AR69vZdezwC5pS+ZIUjPn7waM=;
+ b=t9S0GDBT+m5aXZJSmN0UZbs94aC4SDXcTBH6bWjOh3yEEADhvAXvu2+qfXHG0AVqfBuCfudbHp03SO7AWF+bESGEtVlNMvMkfkK+BiG6pAzrLQv7RoWRWbVh3ij9+F0VUW9POObK4MogCQSv09TV3Z73CEYZpbdimvOVSXIvkHlKb5OHNaaugFtjs+d0/EDuDifoVb4/ykDpJ2e6v7Mx11TnvRMGvkJHJfoxOLVzl/srgShEV5CTDoZdtebQDLx0RU2MbBtpv9aRbZ0CfX1RGMjowz89sIBKcvu8w4oCvwqRRNUPSGwzlJtHblcgRX2rFSnjMsezWd7x2sg1yVDK2A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+ by SJ2PR11MB7619.namprd11.prod.outlook.com (2603:10b6:a03:4d1::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.42; Mon, 24 Mar
+ 2025 06:15:02 +0000
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c%4]) with mapi id 15.20.8534.040; Mon, 24 Mar 2025
+ 06:15:02 +0000
+Date: Mon, 24 Mar 2025 14:14:38 +0800
+From: kernel test robot <oliver.sang@intel.com>
+To: Mike Rapoport <rppt@kernel.org>
+CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, Andrew Morton
+	<akpm@linux-foundation.org>, Mark Brown <broonie@kernel.org>, "Alexander
+ Gordeev" <agordeev@linux.ibm.com>, Andreas Larsson <andreas@gaisler.com>,
+	"Andy Lutomirski" <luto@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, Arnd
+ Bergmann <arnd@arndb.de>, Borislav Betkov <bp@alien8.de>, Catalin Marinas
+	<catalin.marinas@arm.com>, "David S. Miller" <davem@davemloft.net>, "Dinh
+ Nguyen" <dinguyen@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Guo Ren <guoren@kernel.org>,
+	Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>, Huacai Chen
+	<chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>, Jiaxun Yang
+	<jiaxun.yang@flygoat.com>, Johannes Berg <johannes@sipsolutions.net>, "John
+ Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>, Madhavan Srinivasan
+	<maddy@linux.ibm.com>, Matt Turner <mattst88@gmail.com>, Max Filippov
+	<jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, Michal Simek
+	<monstr@monstr.eu>, Palmer Dabbelt <palmer@dabbelt.com>, Richard Weinberger
+	<richard@nod.at>, Russel King <linux@armlinux.org.uk>, Stafford Horne
+	<shorne@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "Thomas
+ Gleinxer" <tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>, "Vineet
+ Gupta" <vgupta@kernel.org>, Will Deacon <will@kernel.org>,
+	<linux-alpha@vger.kernel.org>, <linux-snps-arc@lists.infradead.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-csky@vger.kernel.org>,
+	<loongarch@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<linux-mips@vger.kernel.org>, <linux-openrisc@vger.kernel.org>,
+	<linux-parisc@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
+	<linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
+	<linux-sh@vger.kernel.org>, <sparclinux@vger.kernel.org>,
+	<linux-um@lists.infradead.org>, <linux-arch@vger.kernel.org>,
+	<linux-mm@kvack.org>, <oliver.sang@intel.com>
+Subject: [akpm-mm:mm-stable] [arch, mm]  8268af309d:
+ kernel_BUG_at_include/linux/page-flags.h
+Message-ID: <202503241424.d16223ec-lkp@intel.com>
+Content-Disposition: inline
+X-ClientProxiedBy: KU1PR03CA0042.apcprd03.prod.outlook.com
+ (2603:1096:802:19::30) To LV3PR11MB8603.namprd11.prod.outlook.com
+ (2603:10b6:408:1b6::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|SJ2PR11MB7619:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6fd8a4e9-c65c-406f-03c1-08dd6a9b3640
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?tLfDImqnl39dokVuAWKSNqvYVAmOz/miZIfyOYIw3HhkADWgA7e4xd/gNFa6?=
+ =?us-ascii?Q?/jweVANufQyxt8TJr8BjLttHk7wWEJa7SS3bBrYqIRDlk6yJuu1ZGCcXAvfq?=
+ =?us-ascii?Q?q5gcAytDzYaGQ2kBOI2p4kaHpkef9OZ7iGFscqK8btkZ/tXOZ2glPa8lhlLo?=
+ =?us-ascii?Q?eeKKZZKO87nepCeKNRnyEWulKwXvDgHot9zig1EdrlDrpW2lLmGUELjfEAwY?=
+ =?us-ascii?Q?RJmLzZFvG1RqRiTZgfs5pC/vPE+hX6zBaBCQ+k12EpS/cwvsYmMzHjZI4Hmk?=
+ =?us-ascii?Q?q/X/rLOA73qJzUL6zsuMn979qqzxM4JuBUkjc3mvPPRuzq9LFOm9x4B+gg/T?=
+ =?us-ascii?Q?eE1zi3xcSX2hgm1rVc4+rownm3HiPwRgkWVQAwSclLvcDtsbSbS0zJ1HhdJQ?=
+ =?us-ascii?Q?kETBNhA3dBb9F2TLyzCNinFoyFGHqlUsVfUeftP2ZbnHwOW2liVTd6Hi3z5r?=
+ =?us-ascii?Q?Pd70B8SD7a8mNoFUPUu1JonxgWJfPljJhs5EYhcCTamxqJkG8jOMt6jtMcyi?=
+ =?us-ascii?Q?k0LSSkj83XYMRQ85r1dxpOcbpTvXPB844M05CVjBFk4ytJdztyTaesItGTZj?=
+ =?us-ascii?Q?Z0g1r7W8+4ueo5HLVzwi2UI6Im/GrOllZLyYRnDThiLn3Pn9eJMLWVvP1s43?=
+ =?us-ascii?Q?8DCpOnSfZdvNuWrQ/XRWtGS6vAGO7p5mu9WzFJFHeR8wsxCg6JbKqpJ53lMY?=
+ =?us-ascii?Q?qXykuzY6+5ZD4ln1GidzW7No4aq6wrUJUK4JMx6RJzmobTkk8XZ+1Jh7JdGG?=
+ =?us-ascii?Q?H/4Rh+u/asSBwnGHTRH0hk/snLaZEKtMsAtnHZnah3Ihlbi9GyDhKEKNdCXo?=
+ =?us-ascii?Q?4FcSGeQkIDCUPGbhenrOEXpS1oZBraKgB2mFJPUmLbNCtHXM/2B9PRhO3lKp?=
+ =?us-ascii?Q?nf0SoBvE7xMBxPzKlMjNZMWl2FB6xmNNH68X4v2FAiD4mB/4HeJXUqblTpwO?=
+ =?us-ascii?Q?urhNJZRKCcmLQa68q1BRTrKm7AAN4WusVoRZyEXbq/svy5+RZmlEk0tLyItx?=
+ =?us-ascii?Q?caUV1ZmHqdWI5hQSU/7UWxihIhFZOlbTk3t42PKuejMbNldbYhzRcn30q5Hq?=
+ =?us-ascii?Q?mbi/XtRMFot4PzrEEjxI7t6wBXbe4nCeSNEr71jDeHRjG783xCiwSGeEVRrx?=
+ =?us-ascii?Q?vdwI5NCJ5kV/YEUXKtpsn/UYvmVccXIg6kwwMLb3Ega9LFIbpg089nMQRcjf?=
+ =?us-ascii?Q?tiDZktBHMKxBemcORAF8mCw6RCMvJyqKjFb6dca2hLQfyXBwiUnC8x7LmT52?=
+ =?us-ascii?Q?gJEpsln+dr08PFj165IvwhygwdR2y4YnLJGeLRmlUe4UlSyMhEa43igGq9zg?=
+ =?us-ascii?Q?RCC89uOO94NwHI1DdA7ULCLux6FlDY3HW37c653/ra+i7+WiLz4zuHry/tVW?=
+ =?us-ascii?Q?lcHWtQzv2RtVIOFNvAr2iUyVGgvk?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lDQKWlG5jKSK9CRmtiPPZyE67namW02sdqgE6lQivDbEoPLmYTkCu5G50Myd?=
+ =?us-ascii?Q?ZWTcIqpMVowdsVj4jMcMpjrENqNFPYD42VPgD/LcWiZurpsdrf7McycXMdxN?=
+ =?us-ascii?Q?pFA+/mFR+2KaUyVLYISO8zh77DHDhv7bGinnDeMoiiiVg47iqaFieVGFqveI?=
+ =?us-ascii?Q?N0kPIkfqZ0DicpJPMP/ECRvQ5bYvCOZU0swAlnNOlZVyJghbC8wglUIvdtDf?=
+ =?us-ascii?Q?ZFQg1y1LnYSnm+EmBPzYsxSvv57X/0XLzrDJWgfze519Mc58Y2uzPy0GDFNc?=
+ =?us-ascii?Q?B/9G90pJjUYz4dHI575k9A75HLGu+4Xz9E1gPGYp6k6gFAUb3G7ixBVrhtKC?=
+ =?us-ascii?Q?s2VRtbslU4dUpoce7yP7vPYElFEnR9/D/9FwLcaB35hKwKTwPvyPoe7w+QDB?=
+ =?us-ascii?Q?XllKTcBr3NCdvjFpkhXLrCrZ8ZpebIB9SBnjo7MAja9MHg0meNThg4VDI3UO?=
+ =?us-ascii?Q?6pvYJuvaGbPCePnQe/K2T5O+bx8YzQAI4BSzXpDKmqNcytMmzMKz2FRWIjqX?=
+ =?us-ascii?Q?M+mJt2qI7YLQxVKv3rB0SEmGDjtrBBd+uaMu94vED6qiv+ceZvnkuoLDggPG?=
+ =?us-ascii?Q?7Okfd+y+VFafxr+lZCO7CVg8osz//p5HvHbRuMVtTZtrKNRcnvuhDlRaW+s8?=
+ =?us-ascii?Q?gNlThvUu/WjlOyNcI3usiSlQzArC703A15EK1FQV/S+AsLqx4unR6dNZnTSm?=
+ =?us-ascii?Q?5VCYmyaFQmvjQwzsgFG4gs0x9cOm39VJOX3aHJqz8mibUMcGKlZjQKqIqctX?=
+ =?us-ascii?Q?d0v3Zh35I46MViILmWVwWtIj6M3HHwr4in6b/dSi2LDXXq4EIumb6Ey/9fa3?=
+ =?us-ascii?Q?wOyHxiZJSRvijU58YlnusLp/qN4ZDYMB5wy73iySlvcRVzmAmb/N4NI1qIcu?=
+ =?us-ascii?Q?rGJNNa/J7xPlMC2k3/5VMlVu0OBcq0LmON805wN9I8TF9EzI2Tb6Ke6OnJ/x?=
+ =?us-ascii?Q?oXa+JQDwnuHfUrg/DhipRfagNPycvoU9OBKbcRRS+6zlBVqJTaYVebCPk6ai?=
+ =?us-ascii?Q?UXgJ5NULLIrk7GuTL8vTTMMZFJY7seZJLOh+2Vy9KUifRCmiExEXQjCSwI8s?=
+ =?us-ascii?Q?wNVvTpkes51kN2Rydz+jhJHuIXYTW5nU6YMjiw9NKyR7+Zw1o23aSrCuJ9wE?=
+ =?us-ascii?Q?opRwDAll+HmA31Avj4VGhUx27CnDPPYLcSO1mxgEphMLaY9aiKtj0lBWITzu?=
+ =?us-ascii?Q?2ipasOeb18hKMv9U/UjPO0SNtYnOip9BLB1K/JJEDKf4dkWkORapG7HH7Kkv?=
+ =?us-ascii?Q?cFRh4yX0YbYYAx5lcia9Wlh1A23nVXYK6/iHHTCyHmOIApzgYN3yx5iNcJ/L?=
+ =?us-ascii?Q?+t1rkSamkgttSHbxIwC2+o7NlULa6mxLJZLKvz1DkCiVKZPBvBXoqwCPRNzM?=
+ =?us-ascii?Q?XE39yVJv48HAKWvg7SfOsjUnj77qkSFgGFSUbWJIqcuHNULTdGtWx52Si56p?=
+ =?us-ascii?Q?rnSB136nvikkMwxAI5CpWZiQ723UKFbcDpkzQwPUkbwCUsOVBw4ffMFADcXB?=
+ =?us-ascii?Q?Qw2xKDmriX6GOy52h11PyhCtFyxc0vN0NAb+H82HoLy0DYl/UMEuaDtl9Q3w?=
+ =?us-ascii?Q?GWPKs/CuvlNGltHHwcOQlBShr7k+WfkUAlY6gzE8bB9xYWHlgZi88VXZeanU?=
+ =?us-ascii?Q?4A=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6fd8a4e9-c65c-406f-03c1-08dd6a9b3640
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2025 06:15:02.2686
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ET6Iug8DPGFi7DBkiGNq7/B3+TMCJgqjUmvebCXJ9p2w/3zrPWVnmzoeqn6r6Vb0Ie8KaYlhlJlYelc8cAwkLQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7619
+X-OriginatorOrg: intel.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250320_034442_619283_32498AE0 
-X-CRM114-Status: GOOD (  34.85  )
+X-CRM114-CacheID: sfid-20250323_231520_835489_C9281A01 
+X-CRM114-Status: UNSURE (   8.56  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,108 +215,169 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed Mar 19, 2025 at 6:47 PM UTC, Yosry Ahmed wrote:
-> On Wed, Mar 19, 2025 at 06:29:35PM +0100, Borislav Petkov wrote:
-> > On Fri, Jan 10, 2025 at 06:40:30PM +0000, Brendan Jackman wrote:
-> > > Add a boot time parameter to control the newly added X86_FEATURE_ASI.
-> > > "asi=on" or "asi=off" can be used in the kernel command line to enable
-> > > or disable ASI at boot time. If not specified, ASI enablement depends
-> > > on CONFIG_ADDRESS_SPACE_ISOLATION_DEFAULT_ON, which is off by default.
-> > 
-> > I don't know yet why we need this default-on thing...
->
-> It's a convenience to avoid needing to set asi=on if you want ASI to be
-> on by default. It's similar to HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON
-> or ZSWAP_DEFAULT_ON.
->
-> [..]
-> > > @@ -175,7 +184,11 @@ static __always_inline bool asi_is_restricted(void)
-> > >  	return (bool)asi_get_current();
-> > >  }
-> > >  
-> > > -/* If we exit/have exited, can we stay that way until the next asi_enter? */
-> > > +/*
-> > > + * If we exit/have exited, can we stay that way until the next asi_enter?
-> > 
-> > What is that supposed to mean here?
->
-> asi_is_relaxed() checks if the thread is outside an ASI critical
-> section.
->
-> I say "the thread" because it will also return true if we are executing
-> an interrupt that arrived during the critical section, even though the
-> interrupt handler is not technically part of the critical section.
->
-> Now the reason it says "if we exit we stay that way" is probably
-> referring to the fact that an asi_exit() when interrupting a critical
-> section will be undone in the interrupt epilogue by re-entering ASI.
->
-> I agree the wording here is confusing. We should probably describe this
-> more explicitly and probably rename the function after the API
-> discussions you had in the previous patch.
 
-Yeah, this is confusing. It's trying to very concisely define the
-concept of "relaxed" but now I see it through Boris' eyes I realise
-it's really unhelpful to try and do that. And yeah we should probably
-just rework the terminology/API.
 
-To re-iterate what Yosry said, aside from my too-clever comment style
-the more fundamental thing that's confusing here is that, using the
-terminology currently in the code there are two concepts at play:
+Hello,
 
-- The critical section: this is the path from asi_enter() to
-  asi_relax(). The critical section can be interrupted, and code
-  running in those interupts is not said to be "in the critical
-  section".
+kernel test robot noticed "kernel_BUG_at_include/linux/page-flags.h" on:
 
-- Being "tense" vs "relaxed". Being "tense" means the _task_ is in a
-  critical section, but the current code might not be.
+commit: 8268af309d07d1c6279080b4e6fd16ec75cc977c ("arch, mm: set max_mapnr when allocating memory map for FLATMEM")
+https://git.kernel.org/cgit/linux/kernel/git/akpm/mm.git mm-stable
 
-This distinction is theoretically relevant because e.g. it's a bug to
-access sensitive data in a critical section, but it's OK to access it
-while in the tense state (we will switch to the restricted address
-space, but this is OK because we will have a chance to asi_enter()
-again before we get back to the untrusted code). 
+in testcase: boot
 
-BTW, just to be clear:
+config: i386-randconfig-062-20250319
+compiler: clang-20
+test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2 -m 16G
 
-1. Both of these are only relevant to code that's pretty deeply aware
-   of ASI. (TLB flushing code, entry code, stuff like that).
+(please refer to attached dmesg/kmsg for entire log/backtrace)
 
-2. To be honest whenever you write:
 
-     if (asi_in_critical_section())
++------------------------------------------+------------+------------+
+|                                          | d319c8b491 | 8268af309d |
++------------------------------------------+------------+------------+
+| boot_successes                           | 6          | 0          |
+| boot_failures                            | 0          | 6          |
+| kernel_BUG_at_include/linux/page-flags.h | 0          | 6          |
+| Oops:invalid_opcode:#[##]PREEMPT_SMP     | 0          | 6          |
+| EIP:reserve_bootmem_region               | 0          | 6          |
+| Kernel_panic-not_syncing:Fatal_exception | 0          | 6          |
++------------------------------------------+------------+------------+
 
-   You probably mean:
 
-     if (WARN_ON(asi_in_critical_section()))
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <oliver.sang@intel.com>
+| Closes: https://lore.kernel.org/oe-lkp/202503241424.d16223ec-lkp@intel.com
 
-   For example if we try to flush the TLB in the critical section,
-   there's a thing we can do to handle it. But that really shouldn't
-   be necessary.  We want the critical section code to be very small
-   and straight-line code.
 
-   And indeed in the present code we don't use
-   asi_in_critical_section() for anything bur WARNing.
+[    0.478410][    T0] ------------[ cut here ]------------
+[    0.478822][    T0] kernel BUG at include/linux/page-flags.h:536!
+[    0.479312][    T0] Oops: invalid opcode: 0000 [#1] PREEMPT SMP
+[    0.479768][    T0] CPU: 0 UID: 0 PID: 0 Comm: swapper Not tainted 6.14.0-rc6-00357-g8268af309d07 #1
+[    0.480470][    T0] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+[ 0.481260][ T0] EIP: reserve_bootmem_region (include/linux/page-flags.h:536) 
+[ 0.481683][ T0] Code: 5d c3 01 f1 89 c8 ba e1 38 f4 c3 e8 1e 37 8e fc 0f 0b b8 90 e2 62 c4 e8 e2 05 5e fc 01 f1 89 c8 ba be 85 f7 c3 e8 04 37 8e fc <0f> 0b b8 80 e2 62 c4 e8 c8 05 5e fc 55 89 e5 53 57 56 83 ec 10 89
+All code
+========
+   0:	5d                   	pop    %rbp
+   1:	c3                   	ret
+   2:	01 f1                	add    %esi,%ecx
+   4:	89 c8                	mov    %ecx,%eax
+   6:	ba e1 38 f4 c3       	mov    $0xc3f438e1,%edx
+   b:	e8 1e 37 8e fc       	call   0xfffffffffc8e372e
+  10:	0f 0b                	ud2
+  12:	b8 90 e2 62 c4       	mov    $0xc462e290,%eax
+  17:	e8 e2 05 5e fc       	call   0xfffffffffc5e05fe
+  1c:	01 f1                	add    %esi,%ecx
+  1e:	89 c8                	mov    %ecx,%eax
+  20:	ba be 85 f7 c3       	mov    $0xc3f785be,%edx
+  25:	e8 04 37 8e fc       	call   0xfffffffffc8e372e
+  2a:*	0f 0b                	ud2		<-- trapping instruction
+  2c:	b8 80 e2 62 c4       	mov    $0xc462e280,%eax
+  31:	e8 c8 05 5e fc       	call   0xfffffffffc5e05fe
+  36:	55                   	push   %rbp
+  37:	89 e5                	mov    %esp,%ebp
+  39:	53                   	push   %rbx
+  3a:	57                   	push   %rdi
+  3b:	56                   	push   %rsi
+  3c:	83 ec 10             	sub    $0x10,%esp
+  3f:	89                   	.byte 0x89
 
-> asi_is_relaxed() checks if the thread is outside an ASI critical
-> section.
+Code starting with the faulting instruction
+===========================================
+   0:	0f 0b                	ud2
+   2:	b8 80 e2 62 c4       	mov    $0xc462e280,%eax
+   7:	e8 c8 05 5e fc       	call   0xfffffffffc5e05d4
+   c:	55                   	push   %rbp
+   d:	89 e5                	mov    %esp,%ebp
+   f:	53                   	push   %rbx
+  10:	57                   	push   %rdi
+  11:	56                   	push   %rsi
+  12:	83 ec 10             	sub    $0x10,%esp
+  15:	89                   	.byte 0x89
+[    0.483177][    T0] EAX: 00000000 EBX: c425df50 ECX: 00000000 EDX: 00000000
+[    0.483712][    T0] ESI: 017ffc00 EDI: ffffffff EBP: c425df34 ESP: c425df2c
+[    0.484248][    T0] DS: 007b ES: 007b FS: 00d8 GS: 0000 SS: 0068 EFLAGS: 00210046
+[    0.484846][    T0] CR0: 80050033 CR2: 00000000 CR3: 04b48000 CR4: 00000090
+[    0.485376][    T0] DR0: 00000000 DR1: 00000000 DR2: 00000000 DR3: 00000000
+[    0.485907][    T0] DR6: fffe0ff0 DR7: 00000400
+[    0.486253][    T0] Call Trace:
+[ 0.486494][ T0] ? __die_body (arch/x86/kernel/dumpstack.c:478) 
+[ 0.486822][ T0] ? die (arch/x86/kernel/dumpstack.c:?) 
+[ 0.487099][ T0] ? do_trap (arch/x86/kernel/traps.c:? arch/x86/kernel/traps.c:197) 
+[ 0.487409][ T0] ? do_error_trap (arch/x86/kernel/traps.c:217) 
+[ 0.487752][ T0] ? reserve_bootmem_region (include/linux/page-flags.h:536) 
+[ 0.488153][ T0] ? exc_overflow (arch/x86/kernel/traps.c:301) 
+[ 0.488490][ T0] ? handle_invalid_op (arch/x86/kernel/traps.c:254) 
+[ 0.488869][ T0] ? reserve_bootmem_region (include/linux/page-flags.h:536) 
+[ 0.489271][ T0] ? exc_invalid_op (arch/x86/kernel/traps.c:316) 
+[ 0.489619][ T0] ? handle_exception (arch/x86/entry/entry_32.S:1055) 
+[ 0.489996][ T0] ? exc_overflow (arch/x86/kernel/traps.c:301) 
+[ 0.490332][ T0] ? reserve_bootmem_region (include/linux/page-flags.h:536) 
+[ 0.490733][ T0] ? exc_overflow (arch/x86/kernel/traps.c:301) 
+[ 0.491068][ T0] ? reserve_bootmem_region (include/linux/page-flags.h:536) 
+[ 0.491470][ T0] memmap_init_reserved_pages (mm/memblock.c:2203) 
+[ 0.491887][ T0] free_low_memory_core_early (mm/memblock.c:?) 
+[ 0.492302][ T0] memblock_free_all (mm/memblock.c:2272 include/linux/atomic/atomic-arch-fallback.h:546 include/linux/atomic/atomic-long.h:123 include/linux/atomic/atomic-instrumented.h:3261 include/linux/mm.h:67 mm/memblock.c:2273) 
+[ 0.492659][ T0] mem_init (arch/x86/mm/init_32.c:735) 
+[ 0.492952][ T0] mm_core_init (mm/mm_init.c:2730) 
+[ 0.493271][ T0] start_kernel (init/main.c:958) 
+[ 0.493604][ T0] i386_start_kernel (arch/x86/kernel/head32.c:79) 
+[ 0.493969][ T0] startup_32_smp (arch/x86/kernel/head_32.S:292) 
+[    0.494317][    T0] Modules linked in:
+[    0.494604][    T0] ---[ end trace 0000000000000000 ]---
+[ 0.495009][ T0] EIP: reserve_bootmem_region (include/linux/page-flags.h:536) 
+[ 0.495422][ T0] Code: 5d c3 01 f1 89 c8 ba e1 38 f4 c3 e8 1e 37 8e fc 0f 0b b8 90 e2 62 c4 e8 e2 05 5e fc 01 f1 89 c8 ba be 85 f7 c3 e8 04 37 8e fc <0f> 0b b8 80 e2 62 c4 e8 c8 05 5e fc 55 89 e5 53 57 56 83 ec 10 89
+All code
+========
+   0:	5d                   	pop    %rbp
+   1:	c3                   	ret
+   2:	01 f1                	add    %esi,%ecx
+   4:	89 c8                	mov    %ecx,%eax
+   6:	ba e1 38 f4 c3       	mov    $0xc3f438e1,%edx
+   b:	e8 1e 37 8e fc       	call   0xfffffffffc8e372e
+  10:	0f 0b                	ud2
+  12:	b8 90 e2 62 c4       	mov    $0xc462e290,%eax
+  17:	e8 e2 05 5e fc       	call   0xfffffffffc5e05fe
+  1c:	01 f1                	add    %esi,%ecx
+  1e:	89 c8                	mov    %ecx,%eax
+  20:	ba be 85 f7 c3       	mov    $0xc3f785be,%edx
+  25:	e8 04 37 8e fc       	call   0xfffffffffc8e372e
+  2a:*	0f 0b                	ud2		<-- trapping instruction
+  2c:	b8 80 e2 62 c4       	mov    $0xc462e280,%eax
+  31:	e8 c8 05 5e fc       	call   0xfffffffffc5e05fe
+  36:	55                   	push   %rbp
+  37:	89 e5                	mov    %esp,%ebp
+  39:	53                   	push   %rbx
+  3a:	57                   	push   %rdi
+  3b:	56                   	push   %rsi
+  3c:	83 ec 10             	sub    $0x10,%esp
+  3f:	89                   	.byte 0x89
 
-Now I see it written this way, this is probably the best way to
-conceptualise it. Instead of having two concepts "tense/relaxed" vs
-"ASI critical section" we could just say "the task is in a critical
-section" vs "the CPU is in a critical section". So we could have
-something like:
+Code starting with the faulting instruction
+===========================================
+   0:	0f 0b                	ud2
+   2:	b8 80 e2 62 c4       	mov    $0xc462e280,%eax
+   7:	e8 c8 05 5e fc       	call   0xfffffffffc5e05d4
+   c:	55                   	push   %rbp
+   d:	89 e5                	mov    %esp,%ebp
+   f:	53                   	push   %rbx
+  10:	57                   	push   %rdi
+  11:	56                   	push   %rsi
+  12:	83 ec 10             	sub    $0x10,%esp
+  15:	89                   	.byte 0x89
 
-bool asi_task_critical(void);
-bool asi_cpu_critical(void);
 
-(They could also accept an argument for the task/CPU, but I can't see
-any reason why you'd peek at another context like that).
+The kernel config and materials to reproduce are available at:
+https://download.01.org/0day-ci/archive/20250324/202503241424.d16223ec-lkp@intel.com
 
---
 
-For everything else, Ack to Boris or +1 to Yosry respectively.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
 
 _______________________________________________
 linux-snps-arc mailing list
