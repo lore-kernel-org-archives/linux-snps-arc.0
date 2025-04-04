@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F340C36010
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  4 Apr 2025 08:07:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21384C36010
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  4 Apr 2025 08:36:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
 	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
 	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=5em60Q9c87RokXw8BN4IVJtmNYnJHmw8hSk6nXUmAPU=; b=vgQ53TQoaxcvj6
-	mwDJ8b1mx7/BHkGVNXjoMPeesqlKKQIJLUGW/ZOSOT2XD8oY5ChkGdef4IcjMYr/0AxIS2IbOe2fl
-	jVP2l5wyGfkSIAIUwIcGIVW57QJrg7TBhLRTvn11RQZN8P7wxX6L5HZT0+9iJv+SD1YSgCV3fC1KQ
-	IQ4Mx+HsWMoU9dobuBCylyXphJNbOHTaDTguIiUlA5gh2xCSo9uaejNxOSK/JXh949Kxm9svl3BII
-	mZMSl7T0pbHYXcAFEhd0Y01FoxnC1mRWcSt1Oim0Md4ItoftTFGxdz0mHAEtd4zwMRnLchb3OhhuV
-	Z/p3s7zr1qLewb6fyd8w==;
+	List-Owner; bh=5em60Q9c87RokXw8BN4IVJtmNYnJHmw8hSk6nXUmAPU=; b=kVjRgBEhTaNIfz
+	42Cp0x89TMjlKuCsiBtprxlzBJIKNpw5nkoycxgJVBKqj7t+l43lrLu/E7tu643Sb1Jsim4SQtw3U
+	k0vLArHr6NQ4mpfgAEPMkkhAOA4aDvMvoqZvap1zNz7JicN+fy/w25qN3gMkJ76kY5lmMUPYmgX8U
+	ykassHgEOKe/jt0QXsiA7rWGFmZ7ZLSrWhUm5ac73Wau5es70cYdtTvNdyiCD7eSA8n2o9szH/SUp
+	K2keCrLfpozOjW8Adiigt+/vaznM/ULetQnSdLoMj4r1wKQzkop/8IEdrA6ak3IsBl1qrN5TDfibV
+	3nh670eVTULOtXbCDuZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u0c5b-0000000B6Pc-3aDr;
-	Fri, 04 Apr 2025 08:07:47 +0000
+	id 1u0cXZ-0000000BAJC-2sdD;
+	Fri, 04 Apr 2025 08:36:41 +0000
 Received: from mail.ventrixor.pl ([91.134.88.136])
 	by bombadil.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u0c3x-0000000B6JJ-2JZW
+	id 1u0cVs-0000000BADD-0pqE
 	for linux-snps-arc@lists.infradead.org;
-	Fri, 04 Apr 2025 08:06:06 +0000
+	Fri, 04 Apr 2025 08:34:57 +0000
 Received: by mail.ventrixor.pl (Postfix, from userid 1002)
-	id 395A525CB0; Fri,  4 Apr 2025 08:05:46 +0000 (UTC)
+	id 84693262F5; Fri,  4 Apr 2025 08:33:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ventrixor.pl; s=mail;
-	t=1743753964; bh=Pi9+p40l7//vLKO8DuYTv+ORJz3B9aWETGdVOxLyydc=;
+	t=1743755603; bh=Pi9+p40l7//vLKO8DuYTv+ORJz3B9aWETGdVOxLyydc=;
 	h=Date:From:To:Subject:From;
-	b=hUoM8bsgo+hjlGho5K4z4e5mnQzx4tFs2r8d+pWUiq5QWnazTnDyJHc6Kc6vitBbr
-	 1npeLHShwbRNNsqP7gMF2RydwZMR4D7N9ZWhOS40KF1JUq6n8DAYeA+nMc2ghZh4ty
-	 YEpNiG2vTQ0NWyJbb1Dfn5Z9c69uTK6HWhknmfZapR4WIpDsITsaNSSQ9Co1sNc4NI
-	 ztz1qVqicBBfh8oztGeXbf6o0VintFucnUSU9pw+y7brQrdgBqipIt+8ZBInHLEMbo
-	 s17Gt4vTOnvicreOkRoI9DaHC24n4DyW6B7adSdyD4ZjJ3lfomGNjMlXDb4hfnZMLr
-	 5MRVmhon2w9Xg==
-Received: by mail.ventrixor.pl for <linux-snps-arc@lists.infradead.org>; Fri,  4 Apr 2025 08:05:41 GMT
-Message-ID: <20250404064500-0.1.6b.1c9ig.0.nfcamr34ew@ventrixor.pl>
-Date: Fri,  4 Apr 2025 08:05:41 GMT
+	b=vEbh3aaIfBWkYV8cRdhH79Q3SlVhTWCfKdZs28NLxHj2MVmmaaGqdHaJfBXC9MQ/m
+	 N0Y/8meQqvHE5uf4qhPdbnhXVhEtkqcSME0/bGc9o/lxS3tbCDu/9kdcn/OgnFNEte
+	 WUQiOLKld+FIdYOUKKGHTqzwg4cgQrJaSpqQyKzXSyK1J9+V9E1NWa2H1mQFYU7Ex1
+	 pgAs6CG/3PzKp7oCg/ywWEHDCh6wTFHUSjsgkDxlSa2ddsv0q0GxW3qTEyKgCP1cCd
+	 ux+fgAlEa6ew9i5C2h8bkSlwr7O7YRzy+P4EQ2EXc4+YwCmZDYaksxqoxAXcIuI0jB
+	 NWH3weWECw9Mw==
+Received: by mail.ventrixor.pl for <linux-snps-arc@lists.infradead.org>; Fri,  4 Apr 2025 08:33:09 GMT
+Message-ID: <20250404074859-0.1.6c.1c9ig.0.qu399d9h3j@ventrixor.pl>
+Date: Fri,  4 Apr 2025 08:33:09 GMT
 From: "Jan Adamczyk" <jan.adamczyk@ventrixor.pl>
 To: <linux-snps-arc@lists.infradead.org>
 Subject: Rekrutacja handlowca 
 X-Mailer: mail.ventrixor.pl
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250404_010605_729115_1E8A860B 
+X-CRM114-CacheID: sfid-20250404_013456_374578_FCBE2774 
 X-CRM114-Status: UNSURE (   1.28  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
