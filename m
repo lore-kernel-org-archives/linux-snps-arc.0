@@ -4,51 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21384C36010
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  4 Apr 2025 08:36:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7920DC36018
+	for <linux-snps-arc@archiver.kernel.org>; Sat,  5 Apr 2025 17:11:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=5em60Q9c87RokXw8BN4IVJtmNYnJHmw8hSk6nXUmAPU=; b=kVjRgBEhTaNIfz
-	42Cp0x89TMjlKuCsiBtprxlzBJIKNpw5nkoycxgJVBKqj7t+l43lrLu/E7tu643Sb1Jsim4SQtw3U
-	k0vLArHr6NQ4mpfgAEPMkkhAOA4aDvMvoqZvap1zNz7JicN+fy/w25qN3gMkJ76kY5lmMUPYmgX8U
-	ykassHgEOKe/jt0QXsiA7rWGFmZ7ZLSrWhUm5ac73Wau5es70cYdtTvNdyiCD7eSA8n2o9szH/SUp
-	K2keCrLfpozOjW8Adiigt+/vaznM/ULetQnSdLoMj4r1wKQzkop/8IEdrA6ak3IsBl1qrN5TDfibV
-	3nh670eVTULOtXbCDuZw==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References
+	:In-Reply-To:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=69NYwG0qukutJLyy2MBZwmqkruvMFJmpqid2U6741p0=; b=byh7N+xW2zQ1wD
+	P0YbAy6PUXyhkGJav8cQT4WrRJfOHkQaIUW9hkthbe7QBGGjRkMf6MUJBhjKXB74L/LB+UaTiE45h
+	K0h6pqRs4K0XFRY6XufSoTgumiY0dh+IfhEEc3DEoC+ptpggB4aYtldYuv9AsHfo50PbgR81Xy2wx
+	+v14RkloXsuXATpaYnWHm1KcB35iKDS+8yo45xZheXESv/EDhdHTOtNijO8ARB8eqdvbzwbXC7sz+
+	R4JzW0NBAIiFMxwSXcDRlPAkbhKLg45nI4EtgRI07Gd9LjO2RrapAtjmjFDF8xG6bAe0O9Pw/3Zr3
+	4lPMLO89fkD6mU4HnBug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u0cXZ-0000000BAJC-2sdD;
-	Fri, 04 Apr 2025 08:36:41 +0000
-Received: from mail.ventrixor.pl ([91.134.88.136])
+	id 1u1731-0000000EFwQ-3QQq;
+	Sat, 05 Apr 2025 17:11:11 +0000
+Received: from woodpecker.gentoo.org ([2001:470:ea4a:1:5054:ff:fec7:86e4] helo=smtp.gentoo.org)
 	by bombadil.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u0cVs-0000000BADD-0pqE
-	for linux-snps-arc@lists.infradead.org;
-	Fri, 04 Apr 2025 08:34:57 +0000
-Received: by mail.ventrixor.pl (Postfix, from userid 1002)
-	id 84693262F5; Fri,  4 Apr 2025 08:33:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ventrixor.pl; s=mail;
-	t=1743755603; bh=Pi9+p40l7//vLKO8DuYTv+ORJz3B9aWETGdVOxLyydc=;
-	h=Date:From:To:Subject:From;
-	b=vEbh3aaIfBWkYV8cRdhH79Q3SlVhTWCfKdZs28NLxHj2MVmmaaGqdHaJfBXC9MQ/m
-	 N0Y/8meQqvHE5uf4qhPdbnhXVhEtkqcSME0/bGc9o/lxS3tbCDu/9kdcn/OgnFNEte
-	 WUQiOLKld+FIdYOUKKGHTqzwg4cgQrJaSpqQyKzXSyK1J9+V9E1NWa2H1mQFYU7Ex1
-	 pgAs6CG/3PzKp7oCg/ywWEHDCh6wTFHUSjsgkDxlSa2ddsv0q0GxW3qTEyKgCP1cCd
-	 ux+fgAlEa6ew9i5C2h8bkSlwr7O7YRzy+P4EQ2EXc4+YwCmZDYaksxqoxAXcIuI0jB
-	 NWH3weWECw9Mw==
-Received: by mail.ventrixor.pl for <linux-snps-arc@lists.infradead.org>; Fri,  4 Apr 2025 08:33:09 GMT
-Message-ID: <20250404074859-0.1.6c.1c9ig.0.qu399d9h3j@ventrixor.pl>
-Date: Fri,  4 Apr 2025 08:33:09 GMT
-From: "Jan Adamczyk" <jan.adamczyk@ventrixor.pl>
-To: <linux-snps-arc@lists.infradead.org>
-Subject: Rekrutacja handlowca 
-X-Mailer: mail.ventrixor.pl
+	id 1u171F-0000000EFmw-1xpA;
+	Sat, 05 Apr 2025 17:09:22 +0000
+Received: from mop.sam.mop (unknown [82.8.138.118])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sam)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 5C1583430E5;
+	Sat, 05 Apr 2025 17:09:14 +0000 (UTC)
+From: Sam James <sam@gentoo.org>
+To: linmag7@gmail.com, Al Viro <viro@ftp.linux.org.uk>
+Cc: arnd@arndb.de, chris@zankel.net, dinguyen@kernel.org,
+ glaubitz@physik.fu-berlin.de, ink@unseen.parts, jcmvbkbc@gmail.com,
+ kees@kernel.org, linux-alpha@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+ linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+ linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-um@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ loongarch@lists.linux.dev, mattst88@gmail.com, monstr@monstr.eu,
+ richard.henderson@linaro.org, sparclinux@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH v2 1/1] mm: pgtable: fix pte_swp_exclusive
+In-Reply-To: <87cyfejafj.fsf@gentoo.org>
+Organization: Gentoo
+References: <87cyfejafj.fsf@gentoo.org>
+User-Agent: mu4e 1.12.9; emacs 31.0.50
+Date: Sat, 05 Apr 2025 18:09:11 +0100
+Message-ID: <87v7rik020.fsf@gentoo.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250404_013456_374578_FCBE2774 
-X-CRM114-Status: UNSURE (   1.28  )
+X-CRM114-CacheID: sfid-20250405_100921_530738_95049AC8 
+X-CRM114-Status: UNSURE (   4.21  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -61,17 +70,27 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-V2l0YW0sCgpDenkgbWFqxIUgUGHFhHN0d2EgYWt0dWFsbmllIHBvdHJ6ZWJ5IHogemFrcmVzdSBy
-ZWtydXRhY2ppIG9zw7NiIGRvIGR6aWHFgnUgaGFuZGxvd2Vnbz8gCgpQb21hZ2FteSBza3V0ZWN6
-bmllIHJla3J1dG93YcSHIG9zb2J5IG5hIHN0YW5vd2lza2EgUHJ6ZWRzdGF3aWNpZWxhIEhhbmRs
-b3dlZ28sIFNhbGVzIE1hbmFnZXJhLCBhIHRha8W8ZSBLYWRyeSBNYW5hZ2Vyc2tpZWogdyBvYnN6
-YXJ6ZSBzcHJ6ZWRhxbx5LgoKQ3p5IG1vxbxlbXkgcG9yb3ptYXdpYcSHPyAKCgpQb3pkcmF3aWFt
-CkphbiBBZGFtY3p5awoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmlu
-ZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9s
-aW51eC1zbnBzLWFyYwo=
+Sam James <sam@gentoo.org> writes:
+
+> Lovely cleanup and a great suggestion from Al.
+>
+> Reviewed-by: Sam James <sam@gentoo.org>
+>
+> I'd suggest adding a:
+> Suggested-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Al, were you planning on taking this through your tree?
+
+>
+> thanks,
+> sam
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
