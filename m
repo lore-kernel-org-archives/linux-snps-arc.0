@@ -4,90 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2F959C36010
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Apr 2025 08:14:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4115DC369A1
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  8 Apr 2025 06:20:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:References:Cc:To:From:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=mCmAEVKYVl3H162vUAwgfZA3QKYh+6Nygaogj2w2l18=; b=IUvmlV0Fsg1x9c
-	Z+0FpVGFNWvwCxWXn9IVKLp+nFhNOKFSfnk00lDt6jVBSWt+NwbkjJxEF6tcRQ0WpQAp+seSLEJsl
-	W3wv0etacCs/ZSIEODhnFPOGNvEq1z8Ocj1bY7/h3eXq/9XAMRNAjl9tqeq392tIjR1Q9JP3YmKrk
-	F2syeTtYJOjU8GnISPKY/UF4oIfw6OKJ8gupsjXTxGmL4DzY7T4fCvhbMGATcNIJZpcgEGpweRmE3
-	aeZdbkcOVZYqNXl+jQgvS2u0x4yar7RlsmAFRLTeRx1fMUhWHvz3THbJdxU8zileShwS3WodlZcnm
-	ebSACXHlPyZfQVkuhzvw==;
+	List-Owner; bh=jNJ+Rx2hXdg+oqmkZttunpqd31vUst26dnoGUm5nRAE=; b=tW3qq6c8xkAMd0
+	2cBh0dqj/SUC1azVRL0aXlNt4T2GETJ+k/59zRt/ZHFE069DCsKaFZwsdJoLiB5vR2phMYzCjqXS7
+	4NLk7JSCUxKnPoslrbAebLX6xzENuu+inOw95YceQPIOw/fmk3m41nqgyf8Oc03UguQrvft7uc6rk
+	Y14OI9azaq0NYqo11eICcudOCsNw9NO9V9+X3ZBY8H2BWuWT/8sQrvBUGQ+LMJPIdJWB7K1DwtWde
+	fEksyfTUujgJXGDOIw+1RsDIciFJOiAN91H8a7uz+UefcCqlFOg+ByckoOYqmYcQuB9sE0Lx8eq/j
+	77ap8nqTCZrfq0gpeT0A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u1hcT-0000000Gwwq-3j7q;
-	Mon, 07 Apr 2025 08:14:13 +0000
-Received: from mail-vk1-f175.google.com ([209.85.221.175])
-	by bombadil.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u1hUp-0000000Gvf5-3PeY;
-	Mon, 07 Apr 2025 08:06:21 +0000
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-523de5611a3so1808877e0c.1;
-        Mon, 07 Apr 2025 01:06:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744013177; x=1744617977;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=em0yD0kIpDtyZFKdGXKgNdHuMfrDjAXLZIWfYU3VNv0=;
-        b=slp7KPyMfSOPGg93zcSuTtaL3cyTFaEiilNp93X9wn9xSxFojx0ybw3AZ8bUqQVFqV
-         lX54eOhNgwRyl5ly5htUVRgPTGcJ18l9ZRjMk15K28ZItoIXWxZYCyCt7lymMHxRzaOo
-         EblDXnukOBAuoEpnhXuCXoWYSczLV0F45ZbauHUq7cDPArY9xouwUT39TWcVZeRxmHBJ
-         KGVocCDIy2KzWmBRA5WGVdjvFC6rXHtAb1USx+TdkTyccExZiiEapBFHWpRZyE/rBOgx
-         ZsvnXoZvACLjFca3feDMIq7NQd0u/BjZLON5Nl8TrA1SShLlk1nhikeGQDfbj/kOONpq
-         jwSg==
-X-Forwarded-Encrypted: i=1; AJvYcCU4AJRa4x4WREWCEKpLRWiqu8LLILLxWP6T2Im58j7D3tZjKQzWxIM+Lb7TLlTXuv6C4rQDmSz11tZqJkSi51s=@lists.infradead.org, AJvYcCW+jjbtCghQ47LJiW1Kw3lJGIj6iEtl2z/Se5AHRSfgN8EJ/+na50Wd66OYWnoNjkmWT0o56hXMFwDsbNv7cZvs@lists.infradead.org, AJvYcCWP/WEIC9vuDGfMtI/rVg5cDgCHixN8da26wHCkAEPQO6t46Cq0jm/gTDsjxvVIw9Z1ERj9YBd+JhaCgkg=@lists.infradead.org, AJvYcCX404Kq9BwND+HMyfQF9lqjxeVc//j8n3Yrrj9uruNw7HQLNaZKFy5KmXmZBP7mGTVx49xYw0EO9OY=@lists.infradead.org
-X-Gm-Message-State: AOJu0Yw3shT3pCUTAulHMx8H04qt6upVW65zdZgEOeTe41nfafyxmAI2
-	fKrDJmBx0rRqXa0rusvPJJUiApQNE1bTeRfGnpzsHvWf/ZxzBGi2z9zDl+tx
-X-Gm-Gg: ASbGncu3ZGZbtsIM1cAUbetc0EnfYj1FAY9e4iKxvLrVhHIFRHs9ZuMi2JmO7i0VOv6
-	JoXYH+14SdLg2jsoLxrXQt/4k+87lXwbWgqyYPdhytY7Hvu3Q5NRTSIotqxpLsehcJYuD15Zgv8
-	o5efg5gcrl0TwsmOB+3AODhKIZEFXMTzQvrGcdfga+oBgSlkln1mAIgYSk4IW/xl17AHsfCLNZ6
-	GW+kyON1SfGVK/XL9d7BVU90Va1Q8qRNdOgRch1toSx6X0TebfSNRvMbsNnEupAzv5xn0qFP4X8
-	EmbP1G+92BDfnBtTf0BwswPk44XJeKHChQjuElgDeJr3Uknp5580xOCbHbHWd2dvohEXN2f/HZb
-	/9tP3pmY=
-X-Google-Smtp-Source: AGHT+IHQ+MYl5RRJTujY4oYX2pqJBFucZEPAxztRZsOKcEJits9/HLTYm00mNvzDiTYFp+0w9ImMAQ==
-X-Received: by 2002:a05:6122:2217:b0:520:420a:a07a with SMTP id 71dfb90a1353d-5276455eeddmr7822992e0c.8.1744013176947;
-        Mon, 07 Apr 2025 01:06:16 -0700 (PDT)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-52767d8f9f8sm1303026e0c.37.2025.04.07.01.06.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Apr 2025 01:06:16 -0700 (PDT)
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-86cce5dac90so1702787241.0;
-        Mon, 07 Apr 2025 01:06:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVIi6f9oSmZrdne1woPlGE0JyJaxaV6VcuFhDl5GhNL2taN0XR2LAq2YaOvxYbzIPa0Cd6OFeClCIPeZTuxZd4=@lists.infradead.org, AJvYcCWtbSGX0eKzXetFLunlb3uOx8vFxkB7wvpiRN/QcHn4Sj6Pt0dRXZKnGbL+1AhFh0PGLTq5GQU6w0D0uBU=@lists.infradead.org, AJvYcCX+Q+J8WPIUCEOvMKnjw2VbBzgygbxfWTSt3vYedSsyRIYNEcgISSpdhQSyZRKCowP9cB/1jRn/3tw=@lists.infradead.org, AJvYcCXKMlboZ0SfK3t2KaG3pO/Qml+MxpllDVRQko2XFl+u/Nz88kIIS6f1wOclgF23pxexAQGawpyLlqC6h/h3Ia25@lists.infradead.org
-X-Received: by 2002:a05:6102:1622:b0:4c3:221:8f47 with SMTP id
- ada2fe7eead31-4c8553d0fafmr8533368137.13.1744013176401; Mon, 07 Apr 2025
- 01:06:16 -0700 (PDT)
+	id 1u22KA-00000002tRM-44xb;
+	Tue, 08 Apr 2025 06:20:42 +0000
+Received: from pegase1.c-s.fr ([93.17.236.30])
+	by bombadil.infradead.org with esmtp (Exim 4.98.1 #2 (Red Hat Linux))
+	id 1u22K7-00000002tQO-08rH;
+	Tue, 08 Apr 2025 06:20:40 +0000
+Received: from localhost (mailhub3.si.c-s.fr [192.168.12.233])
+	by localhost (Postfix) with ESMTP id 4ZWw9P60QFz9vkm;
+	Tue,  8 Apr 2025 07:48:25 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+	by localhost (pegase1.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 42ojJD_HJEii; Tue,  8 Apr 2025 07:48:25 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase1.c-s.fr (Postfix) with ESMTP id 4ZWw9N2JlBz9vkp;
+	Tue,  8 Apr 2025 07:48:24 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 369B28B76C;
+	Tue,  8 Apr 2025 07:48:24 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id aUNb9W1lbxmx; Tue,  8 Apr 2025 07:48:24 +0200 (CEST)
+Received: from [192.168.235.99] (unknown [192.168.235.99])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id DC9078B767;
+	Tue,  8 Apr 2025 07:48:21 +0200 (CEST)
+Message-ID: <ff31c2ff-55be-452e-b94a-6a84c4583258@csgroup.eu>
+Date: Tue, 8 Apr 2025 07:48:22 +0200
 MIME-Version: 1.0
-References: <20250218175735.19882-1-linmag7@gmail.com> <20250218175735.19882-2-linmag7@gmail.com>
- <4209b9816551367f8e5670cc5a08e139f0f2c215.camel@physik.fu-berlin.de>
-In-Reply-To: <4209b9816551367f8e5670cc5a08e139f0f2c215.camel@physik.fu-berlin.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 7 Apr 2025 10:06:03 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWLVw8aUY8aCowgOz+puxjrDqcbUXUAoVXGi8=FpTHwrA@mail.gmail.com>
-X-Gm-Features: ATxdqUEtUaFZruSQ19joR0gbmVyVokHgxasQdxoPHK2-UPmtdbKL5noyYxpgMcc
-Message-ID: <CAMuHMdWLVw8aUY8aCowgOz+puxjrDqcbUXUAoVXGi8=FpTHwrA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] mm: pgtable: fix pte_swp_exclusive
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc: Magnus Lindholm <linmag7@gmail.com>, richard.henderson@linaro.org, mattst88@gmail.com, 
-	ink@unseen.parts, kees@kernel.org, arnd@arndb.de, 
-	linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org, chris@zankel.net, 
-	dinguyen@kernel.org, jcmvbkbc@gmail.com, linux-arm-kernel@lists.infradead.org, 
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
-	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
-	linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org, 
-	loongarch@lists.linux.dev, monstr@monstr.eu, sparclinux@vger.kernel.org, 
-	x86@kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 09/13] arch, mm: set max_mapnr when allocating memory
+ map for FLATMEM
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+To: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
+ Andreas Larsson <andreas@gaisler.com>, Andy Lutomirski <luto@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ "David S. Miller" <davem@davemloft.net>, Dinh Nguyen <dinguyen@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Guo Ren
+ <guoren@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
+ Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>, Mark Brown <broonie@kernel.org>,
+ Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Michal Simek <monstr@monstr.eu>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Peter Zijlstra <peterz@infradead.org>,
+ Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
+ Stafford Horne <shorne@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Thomas Gleixner <tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>,
+ Vineet Gupta <vgupta@kernel.org>, Will Deacon <will@kernel.org>,
+ linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-arch@vger.kernel.org,
+ linux-mm@kvack.org, x86@kernel.org
+References: <20250313135003.836600-1-rppt@kernel.org>
+ <20250313135003.836600-10-rppt@kernel.org>
+ <4b9627f2-65ff-4baf-931f-4e23b5732e6b@csgroup.eu>
+Content-Language: fr-FR
+In-Reply-To: <4b9627f2-65ff-4baf-931f-4e23b5732e6b@csgroup.eu>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250407_010619_852610_8AAD8DAD 
-X-CRM114-Status: GOOD (  25.15  )
+X-CRM114-CacheID: sfid-20250407_232039_225630_C33F7E58 
+X-CRM114-Status: GOOD (  12.72  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,77 +106,27 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Adrian,
-
-On Sat, 5 Apr 2025 at 19:22, John Paul Adrian Glaubitz
-<glaubitz@physik.fu-berlin.de> wrote:
-> On Tue, 2025-02-18 at 18:55 +0100, Magnus Lindholm wrote:
-> > Make pte_swp_exclusive return bool instead of int. This will better reflect
-> > how pte_swp_exclusive is actually used in the code. This fixes swap/swapoff
-> > problems on Alpha due pte_swp_exclusive not returning correct values when
-> > _PAGE_SWP_EXCLUSIVE bit resides in upper 32-bits of PTE (like on alpha).
->
-> Minor nitpick:
->
-> "when _PAGE_SWP_EXCLUSIVE" => "when the _PAGE_SWP_EXCLUSIVE"
->
-> >
-> > Signed-off-by: Magnus Lindholm <linmag7@gmail.com>
-
-> > --- a/arch/alpha/include/asm/pgtable.h
-> > +++ b/arch/alpha/include/asm/pgtable.h
-> > @@ -334,7 +334,7 @@ extern inline pte_t mk_swap_pte(unsigned long type, unsigned long offset)
-> >  #define __pte_to_swp_entry(pte)      ((swp_entry_t) { pte_val(pte) })
-> >  #define __swp_entry_to_pte(x)        ((pte_t) { (x).val })
-> >
-> > -static inline int pte_swp_exclusive(pte_t pte)
-> > +static inline bool pte_swp_exclusive(pte_t pte)
-> >  {
-> >       return pte_val(pte) & _PAGE_SWP_EXCLUSIVE;
-> >  }
-
-> > --- a/arch/xtensa/include/asm/pgtable.h
-> > +++ b/arch/xtensa/include/asm/pgtable.h
-> > @@ -355,7 +355,7 @@ ptep_set_wrprotect(struct mm_struct *mm, unsigned long addr, pte_t *ptep)
-> >  #define __pte_to_swp_entry(pte)      ((swp_entry_t) { pte_val(pte) })
-> >  #define __swp_entry_to_pte(x)        ((pte_t) { (x).val })
-> >
-> > -static inline int pte_swp_exclusive(pte_t pte)
-> > +static inline bool pte_swp_exclusive(pte_t pte)
-> >  {
-> >       return pte_val(pte) & _PAGE_SWP_EXCLUSIVE;
-> >  }
->
-> I'm not so sure about this implicit cast from unsigned long to bool though.
->
-> Is this verified to work correctly on all architectures? I wonder why this
-
-Should work fine: any non-zero value is mapped to one.
-
-> bug was not caught earlier on alpha on the other hand.
-
-On Alpha, "pte_val(pte) & _PAGE_SWP_EXCLUSIVE" is either
-_PAGE_SWP_EXCLUSIVE == 0x8000000000UL or zero.  Due to the return
-type being int, the return value was truncated, and the function always
-returned zero.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+SGkgTWlrZSwKCkxlIDE0LzAzLzIwMjUgw6AgMTA6MjUsIENocmlzdG9waGUgTGVyb3kgYSDDqWNy
+aXTCoDoKPiAKPiAKPiBMZSAxMy8wMy8yMDI1IMOgIDE0OjQ5LCBNaWtlIFJhcG9wb3J0IGEgw6lj
+cml0wqA6Cj4+IEZyb206ICJNaWtlIFJhcG9wb3J0IChNaWNyb3NvZnQpIiA8cnBwdEBrZXJuZWwu
+b3JnPgo+Pgo+PiBtYXhfbWFwbnIgaXMgZXNzZW50aWFsbHkgdGhlIHNpemUgb2YgdGhlIG1lbW9y
+eSBtYXAgZm9yIHN5c3RlbXMgdGhhdCB1c2UKPj4gRkxBVE1FTS4gVGhlcmUgaXMgbm8gcmVhc29u
+IHRvIGNhbGN1bGF0ZSBpdCBpbiBlYWNoIGFuZCBldmVyeSAKPj4gYXJjaGl0ZWN0dXJlCj4+IHdo
+ZW4gaXQncyBhbnl3YXkgY2FsY3VsYXRlZCBpbiBhbGxvY19ub2RlX21lbV9tYXAoKS4KPj4KPj4g
+RHJvcCBzZXR0aW5nIG9mIG1heF9tYXBuciBmcm9tIGFyY2hpdGVjdHVyZSBjb2RlIGFuZCBzZXQg
+aXQgb25jZSBpbgo+PiBhbGxvY19ub2RlX21lbV9tYXAoKS4KPiAKPiBBcyBmYXIgYXMgSSBjYW4g
+c2VlIGFsbG9jX25vZGVfbWVtX21hcCgpIGlzIGNhbGxlZCBxdWl0ZSBsYXRlLgo+IAo+IEkgZmVh
+ciB0aGF0IGl0IHdpbGwgcmVncmVzcyBjb21taXQgZGFhOWFkYTIwOTNlICgicG93ZXJwYy9tbTog
+Rml4IGJvb3QgCj4gY3Jhc2ggd2l0aCBGTEFUTUVNIikKPiAKPiBDYW4geW91IGNoZWNrID8KCkkg
+c2VlIHRoaXMgcGF0Y2ggaXMgbm93IG1lcmdlZCBpbnRvIG1haW5saW5lICh2Ni4xNS1yYzEpLiBI
+YXZlIHlvdSBiZWVuIAphYmxlIHRvIGNoZWNrIGFuZC9vciBhbmFseXNlIHdoZXRoZXIgaXQgZG9l
+c24ndCByZWdyZXNzIHRoZSBmaXggaW4gCmNvbW1pdCBkYWE5YWRhMjA5M2UgKCJwb3dlcnBjL21t
+OiBGaXggYm9vdCBjcmFzaCB3aXRoIEZMQVRNRU0iKSA/CgpUaGFua3MKQ2hyaXN0b3BoZQoKCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMt
+YXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6
+Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
