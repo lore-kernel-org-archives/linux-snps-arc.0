@@ -4,60 +4,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5EDF9C3ABB0
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  5 May 2025 15:06:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4C80FC3ABBC
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  6 May 2025 23:50:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc
 	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=TwjXV2+3xmq4CFFbBZp4uNgC+vA3SPT1l9BlxbjiRUg=; b=NLP+65qgxHNvH4
-	K8q5wmPSlOA+3WJMYs6+BltGlaxwFsi/+MK2rmHc2OVQQG6bcEoq4K/NDnyLoFEFIc96Ti7z5B27A
-	Ezm6qiuZDxcU+iUSTJ/t2oFOCSotfDBcI1kdrbhdPcS5BSNLmgAlI6B42jyWehvTazsVEQxeeNhUc
-	CwCFV91QrmD63OpHWf6GueKMt7I8/wiBkdssO4noYBjT0Th5AN9wCRSF8QJ+PzMKq51K1NzSR3okr
-	3XvDpH9vBxJj5sP5t7OaYoixMMQTbKe/wA0O6O9IvcwxMSHL7gWDmBJjz3vMyRYw5LilF7iKf6zwI
-	FCTaeGrD9aNr/vnlLdNQ==;
+	List-Owner; bh=fWYJAtfIoJpDsJxIUDrULywY29SlqtZ7gyAUCCJzK8E=; b=ksYXk0fsLtgFXG
+	Lgjc64K+Xmx/ZZoVltbuH11SPvgwWfPbpFfsd2CjwSvCnpPJHLdBdcFhLaPiWWtmNdpH3WUfGuNHH
+	EPN8jv3xUxUOtbUzQbOyQacP+fvHIAS55VO5Ts34uXljjON9fI3BLVjcOZKTsICzdqGbeLbIuwQ+0
+	OsiKH+q5urNM5pSBmqMqbBFXfnsUPmnH98MtOCNStFCSUbpQXBl2SipzKrWmxlJUKUqcQ+GjgFsyX
+	fpwTzInLxp4OSkbjKPnUXG3QXQvsmobqRIOV5evps2bR2Na/JJB4AMTPfaO55mG0Z8m/vQ0jRKPxh
+	MsihzI0IX94FLweVJ2gw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uBxOi-00000007knu-0dEB;
-	Mon, 05 May 2025 15:06:24 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1uCS2z-0000000Djt5-45tz;
+	Tue, 06 May 2025 23:50:01 +0000
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uBx7V-00000007gS8-11EZ
-	for linux-snps-arc@lists.infradead.org;
-	Mon, 05 May 2025 14:48:38 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 5213F44BE4;
-	Mon,  5 May 2025 14:48:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB4F1C4CEE4;
-	Mon,  5 May 2025 14:48:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746456516;
-	bh=jwgiKD3OjmybRDzCH8qb24nrslZzM56UFE7WhCbENJU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=r+oqEuFGgWY8szdwj9GOSBUVlBEyrXYk5IpjC5rKH28xwiSoyle1GD1fXALVc2WCZ
-	 1gC6BFzQRS29UQm2b03/RoM4UQ9qm5gt68LT2aYqPHRiwV+9Y0h/0HjMFvTLcVxRva
-	 VfjmVkBSHq7/DKgb2T7yH2Het3GEglaBGc2roSHtv/gltQSgUJpsCjfB7H/lK4bZ3G
-	 UyanHFlZVVd3+sifol3UVKfJmdFxAlsd/vAvJv4WveKGhiNpWt0YiR+c23iCbrQO5Y
-	 hwVuk8H735rAhHLHsA15d1jgqoaiQkQPg1D02bruHo8XTbWKzbzdJi0Wzi2VBMTMyD
-	 ySRzzPh+nmEJA==
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Vineet Gupta <vgupta@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: linux-snps-arc@lists.infradead.org,
+	id 1uCOI0-0000000DGrp-1RYw;
+	Tue, 06 May 2025 19:49:17 +0000
+Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-736b0c68092so5375570b3a.0;
+        Tue, 06 May 2025 12:49:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746560955; x=1747165755; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dZ5089g5fcxDtK8RW4HG6ld5BJ4Ih76RBmbnYmG1YBs=;
+        b=CYxWC+j72IQIiLM2itGXEqO+8556JJxFwXNMfdGJA8C8ckL4TER+64K+ep+XfKWhP6
+         /msNTgZPoBXyWNL55GrezDxu0TV2/47BsgQ+/CaFC6lriH+NnasRlRsFCee6tv+FmJWE
+         A/6a1kTmxLR+3dQYaHorBK+e5SrH++xJly/6dbmz1kOLD3EknqAJLrJvRNdhhwibMvvC
+         Lys4RE2a5FIMF9bR6sb0tRGWxNUg6ciz5JIUVDYdZp/+OiPVNzznzfjJ/juWyxYsx5da
+         E0kjelfXv+s8rjBNkkrC0E950hXOfYyf980QvGo1Og1RXp+AAJhRjzfhW+3BG7UWunb5
+         x7NA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746560955; x=1747165755;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dZ5089g5fcxDtK8RW4HG6ld5BJ4Ih76RBmbnYmG1YBs=;
+        b=BKm9fdNec8/5+3wxR3MElEMM/nv3gFMOLPN/DHvRb1NjqghQ2XZ3gr1Ltt8AAfyjAr
+         3+B/QmMXRF5rV3Qd9HzTFjzyyeg+MtwoYv2lCNhYit+D26FV9qwwzhZTs4oKxMty56L/
+         nb3fa6O787UZ9xV7ApKfdglixANjXuIBHuXO8zfKZ3goCpQEzcQ1PMyPjgpkYB/JJ0BG
+         0zNpckNJmXVbM8cugR26cEvm0uxtOhfMX5BeMMzxbIcd+Lnf/DzyPZAjV/MpWv9jV8xI
+         vG+LVzbyfBnAIUUZFNzkFk+O0IKAyrPmDMvj+hviwuYqqNMEV/zlI4tN68/U53h7WbBr
+         PG3g==
+X-Forwarded-Encrypted: i=1; AJvYcCUdhwP5PodlkD5L5iuQB3VEfRCncl7Stwn/DiZtDc/AteZb0UdD2gayMtofiZp9lvb77UWGqGHr4oXKDryyp7AA@lists.infradead.org, AJvYcCVKDL9PyZIUVCR9m+AmrtIJm1JOpdYvF99MheeBTzD92Fa9kb4iZX5oGffZGH1Er131ArjGbckKvMX1gJ4=@lists.infradead.org, AJvYcCXvbiwW0aoqD3fUX83KhbnyaX19kmfihJsa3lAoosddfL+VHByQx6kkOuAA/yLKGSWy37jvmxTeejlAKSJ5Uhk=@lists.infradead.org
+X-Gm-Message-State: AOJu0YxYXNBV+y0ILdewzKhA7r8KosxBVrCQIc0STMUmN9OfBGyqLBa7
+	Vew43hT2gig1Ena1nq59Q5UPCxvudQYoCYbRiAgW5rQ2Qm3YW2ye6qSWp41t
+X-Gm-Gg: ASbGncujbvY87l1ydaPtMM7066B/vd4IqCvE75MRM87jlpVVDcXL6z3XdyuqV+pllfp
+	OEyRBzoQC7EXaRhHReQeimELg6e6ThZiGJh0KiKdGAxcvRLtjt7pDfTV1gyLnquVco2KQ7gWq7v
+	SgzUr/3bio02/DpfW1/wlDtRa2X9kO8D8JStCFUQk7pCE5U17g2T2dLneOo1+LVlo+t7D5WTaqb
+	OOJg6pWkhlZ/f6EMuq0kqzOB3/1zPu/fGIWQlUhY88wrF9lc+rMOSLL6MKH3FbtDjY/e9W51KkC
+	lyJoIFY2T6PJyaHoWo1r0dPRr2ytEhbt/x8SNnhCFoXinhGMVdoZ
+X-Google-Smtp-Source: AGHT+IF5NliMgAkD005uOw+1owSmpP0uGKxfxNXpPz2R7hfi06C85Yyah/G4yQkzTWZpYJUeU1a68w==
+X-Received: by 2002:a05:6a20:6f87:b0:203:c461:dd36 with SMTP id adf61e73a8af0-2148b113868mr730085637.6.1746560954804;
+        Tue, 06 May 2025 12:49:14 -0700 (PDT)
+Received: from localhost.localdomain ([104.28.249.218])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74058d7a473sm9686059b3a.18.2025.05.06.12.49.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 May 2025 12:49:14 -0700 (PDT)
+From: Jesung Yang <y.j3ms.n@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Vineet Gupta <vgupta@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Guo Ren <guoren@kernel.org>,
+	Brian Cain <bcain@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Jonas Bonn <jonas@southpole.se>,
+	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+	Stafford Horne <shorne@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-openrisc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH] dt-bindings: interrupt-controller: Convert snps,archs-intc to DT schema
-Date: Mon,  5 May 2025 09:48:33 -0500
-Message-ID: <20250505144834.1292666-1-robh@kernel.org>
-X-Mailer: git-send-email 2.47.2
+	Jesung Yang <y.j3ms.n@gmail.com>
+Subject: [PATCH] docs: align with scripts/syscall.tbl migration
+Date: Wed,  7 May 2025 04:48:41 +0900
+Message-ID: <20250506194841.1567737-1-y.j3ms.n@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250505_074837_327788_80FFE212 
-X-CRM114-Status: GOOD (  13.82  )
+X-CRM114-CacheID: sfid-20250506_124916_391603_9C6F3D08 
+X-CRM114-Status: GOOD (  21.70  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,101 +118,338 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Convert the ARC-HS incore interrupt controller binding to schema format.
-It's a straight-forward conversion of the typical interrupt controller.
+Update the documentation to reflect the migration of the following
+architectures to the centralized syscall table format:
 
-Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+  arc, arm64, csky, hexagon, loongarch, nios2, openrisc, riscv
+
+As of commit 3db80c999debbad ("riscv: convert to generic syscall table"),
+these architectures no longer rely on include/uapi/asm-generic/unistd.h.
+Instead, syscall table headers (syscall_table_{32,64}.h) are generated by
+scripts/syscalltbl.sh based on entries in scripts/syscall.tbl, with ABIs
+specified in arch/*/kernel/Makefile.syscalls.
+
+For the convenience of developers working with older kernel versions, the
+original documentation is fully retained, with new sections added to
+cover the scripts/syscall.tbl approach.
+
+Verified with `make htmldocs`.
+
+Signed-off-by: Jesung Yang <y.j3ms.n@gmail.com>
+Link: https://lore.kernel.org/lkml/20240704143611.2979589-1-arnd@kernel.org
 ---
- .../interrupt-controller/snps,archs-intc.txt  | 22 ---------
- .../interrupt-controller/snps,archs-intc.yaml | 48 +++++++++++++++++++
- 2 files changed, 48 insertions(+), 22 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/interrupt-controller/snps,archs-intc.txt
- create mode 100644 Documentation/devicetree/bindings/interrupt-controller/snps,archs-intc.yaml
 
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/snps,archs-intc.txt b/Documentation/devicetree/bindings/interrupt-controller/snps,archs-intc.txt
-deleted file mode 100644
-index 69f326d6a5ad..000000000000
---- a/Documentation/devicetree/bindings/interrupt-controller/snps,archs-intc.txt
-+++ /dev/null
-@@ -1,22 +0,0 @@
--* ARC-HS incore Interrupt Controller (Provided by cores implementing ARCv2 ISA)
--
--Properties:
--
--- compatible: "snps,archs-intc"
--- interrupt-controller: This is an interrupt controller.
--- #interrupt-cells: Must be <1>.
--
--  Single Cell "interrupts" property of a device specifies the IRQ number
--  between 16 to 256
--
--  intc accessed via the special ARC AUX register interface, hence "reg" property
--  is not specified.
--
--Example:
--
--	intc: interrupt-controller {
--		compatible = "snps,archs-intc";
--		interrupt-controller;
--		#interrupt-cells = <1>;
--		interrupts = <16 17 18 19 20 21 22 23 24 25>;
--	};
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/snps,archs-intc.yaml b/Documentation/devicetree/bindings/interrupt-controller/snps,archs-intc.yaml
-new file mode 100644
-index 000000000000..9d248ef7fe3d
---- /dev/null
-+++ b/Documentation/devicetree/bindings/interrupt-controller/snps,archs-intc.yaml
-@@ -0,0 +1,48 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/interrupt-controller/snps,archs-intc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+I have tested all the listed architectures except hexagon and nios2.
+
+Hexagon was skipped because no system-level emulator appears to be
+available.
+
+For nios2, QEMU removed support for both user and system emulation as of
+version 9.1. With older versions (9.0.4 and 5.2.0), the kernel appears to
+boot but gets stuck alternating between `get_cycles` and `__const_udelay`
+during execution. Additionally, I could not find sufficient documentation
+to enable runtime testing for nios2.
+
+Any guidance on how to proceed with testing for hexagon or nios2 would be
+appreciated.
+
+Testing Summary:
+
+- Linux kernel: 6.15.0-rc4-next-20250501
+- System call number: 468
+- System call name: xyzzy
+- System call implementation:
+    SYSCALL_DEFINE1(xyzzy, u64, d)
+    {
+    	printk("Hi, SYSCALL_DEFINE1\n");
+    	return d;
+    }
+
+    COMPAT_SYSCALL_DEFINE2(xyzzy, compat_arg_u64_dual(d))
+    {
+    	printk("Hi, COMPAT_SYSCALL_DEFINE2\n");
+    	return compat_arg_u64_glue(d);
+    }
+- Test userspace program:
+    #include <unistd.h>
+    int main(void) {
+        long r = syscall(468, 17, 39);
+        return 0;
+    }
+
+Each architecture was tested using the following steps:
+  - Add the following entry to scripts/syscall.tbl:
+      468	common	xyzzy			sys_xyzzy		compat_sys_xyzzy
+  - Compile the kernel with the new syscall implementation
+  - Verify that arch/*/include/generated/uapi/asm/unistd_*.h contains:
+      #define __NR_xyzzy 468
+  - Verify that arch/*/include/generated/asm/syscall_table_*.h contains:
+      __SYSCALL_WITH_COMPAT(468, sys_xyzzy, compat_sys_xyzzy)
+  - Boot the kernel under QEMU
+  - Invoke sys_xyzzy() using the test program
+
+Detailed Results:
+
+1. arc
+  - Kernel config: haps_hs_defconfig
+  - QEMU target: qemu-system-arc -M virt -cpu archs
+    - Src: https://github.com/foss-for-synopsys-dwc-arc-processors/qemu
+    - Commit hash: 76e0fa9053b4184a29c9077959d484047eefe521
+    - Version: 7.0.0
+  - Result:
+    - The following files were correctly generated
+      - arch/arc/include/generated/asm/syscall_table_32.h
+      - arch/arc/include/generated/uapi/asm/unistd_32.h
+    - The system call was successfully invoked with output:
+        "Hi, SYSCALL_DEFINE1\n"
+    - The above output is expected due to a macro override in
+      arch/arc/kernel/sys.c:
+        #define __SYSCALL_WITH_COMPAT(nr, native, compat) \
+                __SYSCALL(nr, native)
+  - Notes:
+    - Modified arch/arc/Makefile:
+        - tune-mcpu-def-$(CONFIG_ISA_ARCV2)	:= -mcpu=hs38
+        + tune-mcpu-def-$(CONFIG_ISA_ARCV2)	:= -mcpu=archs
+
+2. arm64
+  - Kernel config: defconfig
+  - QEMU target: qemu-system-aarch64 -M virt -cpu cortex-a53
+    - Src: https://github.com/qemu/qemu
+    - Commit hash: a17976b04f2117e1bab64358f873b36fe4561520
+    - Version: 9.0.4
+  - Result:
+    - The following files were correctly generated
+      - arch/arm64/include/generated/asm/syscall_table_32.h
+      - arch/arm64/include/generated/asm/syscall_table_64.h
+      - arch/arm64/include/generated/asm/unistd_32.h
+      - arch/arm64/include/generated/asm/unistd_compat_32.h
+        - contains #define __NR_compat32_xyzzy 468
+      - arch/arm64/include/generated/uapi/asm/unistd_64.h
+    - 32-bit userspace process successfully invoked the system call with
+      output:
+        "Hi, COMPAT_SYSCALL_DEFINE2\n"
+    - 64-bit userspace process successfully invoked the system call with
+      output:
+        "Hi, SYSCALL_DEFINE1\n"
+
+3. csky
+  - Kernel config: defconfig
+  - QEMU target: qemu-system-cskyv2 -M virt -cpu ck807
+    - Src: https://github.com/XUANTIE-RV/qemu/tree/xuantie-qemu-9.0
+    - Commit hash: e0ace167effcd36d1f82c7ccb4522b3126011479
+    - Version: 8.2.94
+  - Result:
+    - The following files were correctly generated
+      - arch/csky/include/generated/asm/syscall_table_32.h
+      - arch/csky/include/generated/uapi/asm/unistd_32.h
+    - The system call was successfully invoked with output:
+        "Hi, SYSCALL_DEFINE1\n"
+    - The above output is expected due to a macro override in
+      arch/csky/kernel/syscall_table.c:
+        #define __SYSCALL_WITH_COMPAT(nr, native, compat) \
+                __SYSCALL(nr, native)
+
+4. hexagon
+  - Kernel config: defconfig
+  - QEMU target: N/A
+  - Result:
+    - The following files were correctly generated
+      - arch/hexagon/include/generated/asm/syscall_table_32.h
+      - arch/hexagon/include/generated/uapi/asm/unistd_32.h
+
+5. loongarch
+  - Kernel config: loongson3_defconfig
+  - QEMU target: qemu-system-loongarch64 -machine virt -cpu la464
+    - Src: https://github.com/qemu/qemu
+    - Commit hash: a17976b04f2117e1bab64358f873b36fe4561520
+    - Version: 9.0.4
+  - Result:
+    - The following files were correctly generated
+      - arch/loongarch/include/generated/asm/syscall_table_64.h
+      - arch/loongarch/include/generated/uapi/asm/unistd_64.h
+    - The system call was successfully invoked with output:
+        "Hi, SYSCALL_DEFINE1\n"
+    - The above output is expected due to a macro override in
+      arch/loongarch/kernel/syscall.c:
+        #define __SYSCALL_WITH_COMPAT(nr, native, compat) \
+                __SYSCALL(nr, native)
+
+6. nios2
+  - Kernel config: 10m50_defconfig
+  - QEMU target: qemu-system-nios2 -machine 10m50-ghrd
+    - Src: https://github.com/qemu/qemu
+    - Commit hash (9.0.4): a17976b04f2117e1bab64358f873b36fe4561520
+    - Commit hash (5.2.0): 553032db17440f8de011390e5a1cfddd13751b0b
+    - Version: 9.0.4, 5.2.0
+  - Result:
+    - The following files were correctly generated
+      - arch/nios2/include/generated/asm/syscall_table_32.h
+      - arch/nios2/include/generated/uapi/asm/unistd_32.h
+
+7. openrisc
+  - Kernel config: virt_defconfig
+  - QEMU target: qemu-system-or1k -machine virt -cpu or1200
+    - Src: https://github.com/qemu/qemu
+    - Commit hash: a17976b04f2117e1bab64358f873b36fe4561520
+    - Version: 9.0.4
+  - Result:
+    - The following files were correctly generated
+      - arch/openrisc/include/generated/asm/syscall_table_32.h
+      - arch/openrisc/include/generated/uapi/asm/unistd_32.h
+    - The system call was successfully invoked with output:
+        "Hi, SYSCALL_DEFINE1\n"
+    - The above output is expected due to a macro override in
+      arch/openrisc/kernel/sys_call_table.c:
+        #define __SYSCALL_WITH_COMPAT(nr, native, compat) \
+                __SYSCALL(nr, native)
+
+8. riscv (32-bit)
+  - Kernel config: defconfig + 32-bit.config
+  - QEMU target: qemu-system-riscv32 -M virt -cpu rv32
+    - Src: https://github.com/qemu/qemu
+    - Commit hash: a17976b04f2117e1bab64358f873b36fe4561520
+    - Version: 9.0.4
+  - Result:
+    - The following files were correctly generated
+      - arch/riscv/include/generated/asm/syscall_table_32.h
+      - arch/riscv/include/generated/uapi/asm/unistd_32.h
+    - The system call was successfully invoked with output:
+        "Hi, SYSCALL_DEFINE1\n"
+    - The above output is expected due to a macro override in
+      arch/riscv/kernel/syscall_table.c:
+        #define __SYSCALL_WITH_COMPAT(nr, native, compat) \
+                __SYSCALL(nr, native)
+
+9. riscv (64-bit)
+  - Kernel config: defconfig + 64-bit.config
+  - QEMU target: qemu-system-riscv64 -M virt -cpu rv64
+    - Src: https://github.com/qemu/qemu
+    - Commit hash: a17976b04f2117e1bab64358f873b36fe4561520
+    - Version: 9.0.4
+  - Result:
+    - The following files were correctly generated
+      - arch/riscv/include/generated/asm/syscall_table_32.h
+      - arch/riscv/include/generated/asm/syscall_table_64.h
+      - arch/riscv/include/generated/uapi/asm/unistd_32.h
+      - arch/riscv/include/generated/uapi/asm/unistd_64.h
+    - 32-bit userspace process successfully invoked the system call with
+      output:
+        "Hi, COMPAT_SYSCALL_DEFINE2\n"
+    - 64-bit userspace process successfully invoked the system call with
+      output:
+        "Hi, SYSCALL_DEFINE1\n"
+
+ Documentation/process/adding-syscalls.rst | 84 +++++++++++++++++++++++
+ 1 file changed, 84 insertions(+)
+
+diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
+index 906c47f1a9e5..fc0b0bbcd34d 100644
+--- a/Documentation/process/adding-syscalls.rst
++++ b/Documentation/process/adding-syscalls.rst
+@@ -248,6 +248,52 @@ To summarize, you need a commit that includes:
+  - fallback stub in ``kernel/sys_ni.c``
+ 
+ 
++.. _syscall_generic_6_11:
 +
-+title: ARC-HS incore Interrupt Controller
++Since 6.11
++~~~~~~~~~~
 +
-+maintainers:
-+  - Vineet Gupta <vgupta@kernel.org>
++Starting with kernel version 6.11, general system call implementation for the
++following architectures no longer requires modifications to
++``include/uapi/asm-generic/unistd.h``:
 +
-+description:
-+  ARC-HS incore Interrupt Controller provided by cores implementing ARCv2 ISA.
-+  intc accessed via the special ARC AUX register interface, hence "reg" property
-+  is not specified.
++ - arc
++ - arm64
++ - csky
++ - hexagon
++ - loongarch
++ - nios2
++ - openrisc
++ - riscv
 +
-+properties:
-+  compatible:
-+    const: snps,archs-intc
++Instead, you need to update ``scripts/syscall.tbl`` and, if applicable, adjust
++``arch/*/kernel/Makefile.syscalls``.
 +
-+  interrupt-controller: true
++As ``scripts/syscall.tbl`` serves as a common syscall table across multiple
++architectures, a new entry is required in this table::
 +
-+  '#interrupt-cells':
-+    const: 1
++    468   common   xyzzy     sys_xyzzy
 +
-+  interrupts:
-+    description: List of IRQ numbers between 16 and 256
-+    items:
-+      items:
-+        - minimum: 16
-+          maximum: 256
++Note that adding an entry to ``scripts/syscall.tbl`` with the "common" ABI
++also affects all architectures that share this table. For more limited or
++architecture-specific changes, consider using an architecture-specific ABI or
++defining a new one.
 +
-+required:
-+  - compatible
-+  - interrupt-controller
-+  - '#interrupt-cells'
-+  - interrupts
++If a new ABI, say ``xyz``, is introduced, the corresponding updates should be
++made to ``arch/*/kernel/Makefile.syscalls`` as well::
 +
-+additionalProperties: false
++    syscall_abis_{32,64} += xyz (...)
 +
-+examples:
-+  - |
-+    interrupt-controller {
-+        compatible = "snps,archs-intc";
-+        interrupt-controller;
-+        #interrupt-cells = <1>;
-+        interrupts = <16>, <17>, <18>, <19>, <20>, <21>, <22>, <23>, <24>, <25>;
-+    };
++To summarize, you need a commit that includes:
++
++ - ``CONFIG`` option for the new function, normally in ``init/Kconfig``
++ - ``SYSCALL_DEFINEn(xyzzy, ...)`` for the entry point
++ - corresponding prototype in ``include/linux/syscalls.h``
++ - new entry in ``scripts/syscall.tbl``
++ - (if needed) Makefile updates in ``arch/*/kernel/Makefile.syscalls``
++ - fallback stub in ``kernel/sys_ni.c``
++
++
+ x86 System Call Implementation
+ ------------------------------
+ 
+@@ -353,6 +399,41 @@ To summarize, you need:
+    ``include/uapi/asm-generic/unistd.h``
+ 
+ 
++Since 6.11
++~~~~~~~~~~
++
++This applies to all the architectures listed in :ref:`Since 6.11<syscall_generic_6_11>`
++under "Generic System Call Implementation", except arm64. See
++:ref:`Compatibility System Calls (arm64)<compat_arm64>` for more information.
++
++You need to extend the entry in ``scripts/syscall.tbl`` with an extra column
++to indicate that a 32-bit userspace program running on a 64-bit kernel should
++hit the compat entry point::
++
++    468   common     xyzzy     sys_xyzzy    compat_sys_xyzzy
++
++To summarize, you need:
++
++ - ``COMPAT_SYSCALL_DEFINEn(xyzzy, ...)`` for the compat entry point
++ - corresponding prototype in ``include/linux/compat.h``
++ - modification of the entry in ``scripts/syscall.tbl`` to include an extra
++   "compat" column
++ - (if needed) 32-bit mapping struct in ``include/linux/compat.h``
++
++
++.. _compat_arm64:
++
++Compatibility System Calls (arm64)
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++On arm64, there is a dedicated syscall table for compatibility system calls
++targeting 32-bit (AArch32) userspace: ``arch/arm64/tools/syscall_32.tbl``.
++You need to add an additional line to this table specifying the compat
++entry point::
++
++    468   common     xyzzy     sys_xyzzy    compat_sys_xyzzy
++
++
+ Compatibility System Calls (x86)
+ --------------------------------
+ 
+@@ -575,3 +656,6 @@ References and Sources
+  - Recommendation from Linus Torvalds that x32 system calls should prefer
+    compatibility with 64-bit versions rather than 32-bit versions:
+    https://lore.kernel.org/r/CA+55aFxfmwfB7jbbrXxa=K7VBYPfAvmu3XOkGrLbB1UFjX1+Ew@mail.gmail.com
++ - Patch series revising system call table infrastructure to use
++   scripts/syscall.tbl across multiple architectures:
++   https://lore.kernel.org/lkml/20240704143611.2979589-1-arnd@kernel.org
 -- 
-2.47.2
+2.43.0
 
 
 _______________________________________________
