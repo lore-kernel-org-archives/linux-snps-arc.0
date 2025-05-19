@@ -4,69 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70454C3ABDD
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 19 May 2025 16:45:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4E9F2C3ABDD
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 19 May 2025 16:45:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References
-	:In-Reply-To:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=zCEd7ZWUBESGCWMnlIjwAgv/6Kma/jU/+ZHOFSUkWIc=; b=tFSa58GNhruH6M
-	W3s2qa0ZoMo+dScxcAhh7pOnQqpGERevbNUn39lULBfCiOVUbYDL46EAfofVUIbUkbc8R/78LuQQd
-	0T4nnyfESXICmtflcSxt/ofUT6K0pF7ee7dreM3F7O7X6JJ+vNol3sc23WduoYeGPI365Mh8DIBG4
-	lW1YTowwCrSAzmqyj7o4EHbluTOH4T/Y7Nw2TApS22VYGLo28Mw4KIrSpM63nFumRjkvv779zvSuF
-	vvYStXNO6d80Hy/yD3KI/KxWZ/qTOf4qNNlG+iGuhrMACh3oEjxb56oVmZUjd25cZt93zy2ylsjCV
-	EvqVWTF/2ingoDrLiRzQ==;
+	List-Owner; bh=+ut5LCvBQErybGfbbCMiF70dOLRZdK1x2zbV1iaaTyI=; b=g/OsDvqPaUA0dc
+	72bhc6om8b7snyXttUMeDLwk8cKz4aT2auoX08+qZmoPWE73+fOxaQhjGaXna++dwxTkjwkdgNzE5
+	lzlDaz/0D10OoynnC7bNByyopmlX5rHgARPA1TYL9UpJkc3xybLvgTam8X0VZhxvPQGpCTgKd3z1K
+	tOaDSrcu7Q9mb7ILZWja207/3n3ZHOr8B2SuARj5+MIXIC0eKraVf3Zfq0dKdiuHRO9+2C4naeNYx
+	oGyE+h7u/d6T4exCgfSIAztqKcc5dj/WGuWu2PJOUNwTOJOfyikLZ2xVSWbYVamYq0/reMkKp0L4c
+	14cFYdwejiotLOAFS1PA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uH3bo-00000009r3L-0OF9;
-	Mon, 19 May 2025 16:45:00 +0000
-Received: from ms.lwn.net ([2600:3c01:e000:3a1::42])
+	id 1uH3br-00000009r7V-0F4u;
+	Mon, 19 May 2025 16:45:03 +0000
+Received: from relay1-d.mail.gandi.net ([217.70.183.193])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uH2bK-00000009eC0-2afj;
-	Mon, 19 May 2025 15:40:27 +0000
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 61B3D41AA1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1747669219; bh=NsIpsnCHMaMX+L15e7tjvSysbCwRgG5P+DOALl6smkY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=XIqp4KIrZbxWevhvMsGnazsroPPopIYmYQ4Zp9YyfirCSncs81GyuxYz1djcggK5T
-	 U0vTUgwiADRBmVVqZkVVF4JDwtg0TcmUsPn3gWNUy7b4cK0Y6kmZhAToo/TuLfR/Ha
-	 TRhxzxWOPQu7zLmfZOqSSOHQluSk8D5coBz6oW7ePMXtaXaX32JIiuc0OalkEHSGMM
-	 1JwVon9qVfrjkkWeT72fDD6Q6RyLqsnfbJhQUHvfkFntRmYAZhV5f+vKtfdVp63lJw
-	 yHT/EAA8VeKjQzlYblZ+O5zbmS/sdgINTkI9QJorwZ/2XNWmHyEtuejRvdC+D3Igfk
-	 flbFcoIS7Q2bg==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 61B3D41AA1;
-	Mon, 19 May 2025 15:40:18 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Jesung Yang <y.j3ms.n@gmail.com>
-Cc: Vineet Gupta <vgupta@kernel.org>, Catalin Marinas
- <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Guo Ren
- <guoren@kernel.org>, Brian Cain <bcain@kernel.org>, Huacai Chen
- <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, Dinh Nguyen
- <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>, Stefan
- Kristiansson <stefan.kristiansson@saunalahti.fi>, Stafford Horne
- <shorne@gmail.com>, Paul Walmsley <paul.walmsley@sifive.com>, Palmer
- Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre
- Ghiti <alex@ghiti.fr>, linux-snps-arc@lists.infradead.org,
+	id 1uH2p3-00000009h3v-34dn;
+	Mon, 19 May 2025 15:54:39 +0000
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1B1DD43A66;
+	Mon, 19 May 2025 15:54:23 +0000 (UTC)
+Message-ID: <dc4e60dc-9b78-473a-9c18-3a2f128a02d2@ghiti.fr>
+Date: Mon, 19 May 2025 17:54:23 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 10/13] arch, mm: set high_memory in free_area_init()
+To: Mike Rapoport <rppt@kernel.org>, Pratyush Yadav <ptyadav@amazon.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Andreas Larsson <andreas@gaisler.com>, Andy Lutomirski <luto@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ "David S. Miller" <davem@davemloft.net>, Dinh Nguyen <dinguyen@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Guo Ren
+ <guoren@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
+ Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>, Mark Brown <broonie@kernel.org>,
+ Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Michal Simek <monstr@monstr.eu>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Peter Zijlstra <peterz@infradead.org>,
+ Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
+ Stafford Horne <shorne@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Thomas Gleixner <tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>,
+ Vineet Gupta <vgupta@kernel.org>, Will Deacon <will@kernel.org>,
+ Praveen Kumar <pravkmr@amazon.de>, linux-alpha@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
  linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev,
- linux-openrisc@vger.kernel.org, linux-riscv@lists.infradead.org,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jesung Yang <y.j3ms.n@gmail.com>
-Subject: Re: [PATCH] docs: align with scripts/syscall.tbl migration
-In-Reply-To: <20250506194841.1567737-1-y.j3ms.n@gmail.com>
-References: <20250506194841.1567737-1-y.j3ms.n@gmail.com>
-Date: Mon, 19 May 2025 09:40:15 -0600
-Message-ID: <87ldqsip7k.fsf@trenco.lwn.net>
-MIME-Version: 1.0
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+ linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-arch@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
+References: <20250313135003.836600-1-rppt@kernel.org>
+ <20250313135003.836600-11-rppt@kernel.org> <mafs05xi0o9ri.fsf@amazon.de>
+ <aCdveN2w9ThjVhae@kernel.org>
+Content-Language: en-US
+From: Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <aCdveN2w9ThjVhae@kernel.org>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefvddujeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomheptehlvgigrghnughrvgcuifhhihhtihcuoegrlhgvgiesghhhihhtihdrfhhrqeenucggtffrrghtthgvrhhnpedthfelfeejgeehveegleejleelgfevhfekieffkeeujeetfedvvefhledvgeegieenucfkphepvddttddumeekiedumeeffeekvdemvghfledtmeejjeeiudemiegsgeeimegrsgguugemfhgvtgefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeeffeekvdemvghfledtmeejjeeiudemiegsgeeimegrsgguugemfhgvtgefpdhhvghloheplgfkrfggieemvddttddumeekiedumeeffeekvdemvghfledtmeejjeeiudemiegsgeeimegrsgguugemfhgvtgefngdpmhgrihhlfhhrohhmpegrlhgvgiesghhhihhtihdrfhhrpdhnsggprhgtphhtthhopeeiuddprhgtphhtthhopehrphhptheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphhthigruggrvhesrghmrgiiohhnrdguvgdprhgtphhtthhopegrkhhpmheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpt
+ hhtoheprghgohhruggvvghvsehlihhnuhigrdhisghmrdgtohhmpdhrtghpthhtoheprghnughrvggrshesghgrihhslhgvrhdrtghomhdprhgtphhtthhopehluhhtoheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghruggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrrhhnugesrghrnhgusgdruggv
+X-GND-Sasl: alex@ghiti.fr
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250519_084026_656368_D348D7AA 
-X-CRM114-Status: GOOD (  13.14  )
+X-CRM114-CacheID: sfid-20250519_085437_894951_8ADD88C9 
+X-CRM114-Status: GOOD (  39.56  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,44 +93,188 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Jesung Yang <y.j3ms.n@gmail.com> writes:
+Hi Mike,
 
-> Update the documentation to reflect the migration of the following
-> architectures to the centralized syscall table format:
+On 5/16/25 19:01, Mike Rapoport wrote:
+> Hi Pratyush,
 >
->   arc, arm64, csky, hexagon, loongarch, nios2, openrisc, riscv
+> On Fri, May 16, 2025 at 05:28:17PM +0200, Pratyush Yadav wrote:
+>> Hi Mike, Andrew,
+>>
+>> On Thu, Mar 13 2025, Mike Rapoport wrote:
+>>
+>>> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+>>>
+>>> high_memory defines upper bound on the directly mapped memory.
+>>> This bound is defined by the beginning of ZONE_HIGHMEM when a system has
+>>> high memory and by the end of memory otherwise.
+>>>
+>>> All this is known to generic memory management initialization code that
+>>> can set high_memory while initializing core mm structures.
+>>>
+>>> Add a generic calculation of high_memory to free_area_init() and remove
+>>> per-architecture calculation except for the architectures that set and
+>>> use high_memory earlier than that.
+>>>
+>>> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>	# x86
+>>> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+>>> ---
+>>>   arch/alpha/mm/init.c         |  1 -
+>>>   arch/arc/mm/init.c           |  2 --
+>>>   arch/arm64/mm/init.c         |  2 --
+>>>   arch/csky/mm/init.c          |  1 -
+>>>   arch/hexagon/mm/init.c       |  6 ------
+>>>   arch/loongarch/kernel/numa.c |  1 -
+>>>   arch/loongarch/mm/init.c     |  2 --
+>>>   arch/microblaze/mm/init.c    |  2 --
+>>>   arch/mips/mm/init.c          |  2 --
+>>>   arch/nios2/mm/init.c         |  6 ------
+>>>   arch/openrisc/mm/init.c      |  2 --
+>>>   arch/parisc/mm/init.c        |  1 -
+>>>   arch/riscv/mm/init.c         |  1 -
+>>>   arch/s390/mm/init.c          |  2 --
+>>>   arch/sh/mm/init.c            |  7 -------
+>>>   arch/sparc/mm/init_32.c      |  1 -
+>>>   arch/sparc/mm/init_64.c      |  2 --
+>>>   arch/um/kernel/um_arch.c     |  1 -
+>>>   arch/x86/kernel/setup.c      |  2 --
+>>>   arch/x86/mm/init_32.c        |  3 ---
+>>>   arch/x86/mm/numa_32.c        |  3 ---
+>>>   arch/xtensa/mm/init.c        |  2 --
+>>>   mm/memory.c                  |  8 --------
+>>>   mm/mm_init.c                 | 30 ++++++++++++++++++++++++++++++
+>>>   mm/nommu.c                   |  2 --
+>>>   25 files changed, 30 insertions(+), 62 deletions(-)
+>> This patch causes a BUG() when built with CONFIG_DEBUG_VIRTUAL and
+>> passing in the cma= commandline parameter:
+>>
+>>      ------------[ cut here ]------------
+>>      kernel BUG at arch/x86/mm/physaddr.c:23!
+>>      ception 0x06 IP 10:ffffffff812ebbf8 error 0 cr2 0xffff88903ffff000
+>>      CPU: 0 UID: 0 PID: 0 Comm: swapper Not tainted 6.15.0-rc6+ #231 PREEMPT(undef)
+>>      Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS Arch Linux 1.16.3-1-1 04/01/2014
+>>      RIP: 0010:__phys_addr+0x58/0x60
+>>      Code: 01 48 89 c2 48 d3 ea 48 85 d2 75 05 e9 91 52 cf 00 0f 0b 48 3d ff ff ff 1f 77 0f 48 8b 05 20 54 55 01 48 01 d0 e9 78 52 cf 00 <0f> 0b 90 0f 1f 44 00 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+>>      RSP: 0000:ffffffff82803dd8 EFLAGS: 00010006 ORIG_RAX: 0000000000000000
+>>      RAX: 000000007fffffff RBX: 00000000ffffffff RCX: 0000000000000000
+>>      RDX: 000000007fffffff RSI: 0000000280000000 RDI: ffffffffffffffff
+>>      RBP: ffffffff82803e68 R08: 0000000000000000 R09: 0000000000000000
+>>      R10: ffffffff83153180 R11: ffffffff82803e48 R12: ffffffff83c9aed0
+>>      R13: 0000000000000000 R14: 0000001040000000 R15: 0000000000000000
+>>      FS:  0000000000000000(0000) GS:0000000000000000(0000) knlGS:0000000000000000
+>>      CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>      CR2: ffff88903ffff000 CR3: 0000000002838000 CR4: 00000000000000b0
+>>      Call Trace:
+>>       <TASK>
+>>       ? __cma_declare_contiguous_nid+0x6e/0x340
+>>       ? cma_declare_contiguous_nid+0x33/0x70
+>>       ? dma_contiguous_reserve_area+0x2f/0x70
+>>       ? setup_arch+0x6f1/0x870
+>>       ? start_kernel+0x52/0x4b0
+>>       ? x86_64_start_reservations+0x29/0x30
+>>       ? x86_64_start_kernel+0x7c/0x80
+>>       ? common_startup_64+0x13e/0x141
+>>
+>> The reason is that __cma_declare_contiguous_nid() does:
+>>
+>>      	highmem_start = __pa(high_memory - 1) + 1;
+>>
+>> If dma_contiguous_reserve_area() (or any other CMA declaration) is
+>> called before free_area_init(), high_memory is uninitialized. Without
+>> CONFIG_DEBUG_VIRTUAL, it will likely work but use the wrong value for
+>> highmem_start.
+>>
+>> Among the architectures this patch touches, the below call
+>> dma_contiguous_reserve_area() _before_ free_area_init():
+>>
+>> - x86
+>> - s390
+>> - mips
+>> - riscv
+>> - xtensa
+>> - loongarch
+>> - csky
+> For most of those this patch didn't really change anything because they
+> initialized high_memory in mem_init() which is a part of free_area_init().
+> In those cases cma just did
 >
-> As of commit 3db80c999debbad ("riscv: convert to generic syscall table"),
-> these architectures no longer rely on include/uapi/asm-generic/unistd.h.
-> Instead, syscall table headers (syscall_table_{32,64}.h) are generated by
-> scripts/syscalltbl.sh based on entries in scripts/syscall.tbl, with ABIs
-> specified in arch/*/kernel/Makefile.syscalls.
+> 	highmem_start = __pa(-1) + 1;
 >
-> For the convenience of developers working with older kernel versions, the
-> original documentation is fully retained, with new sections added to
-> cover the scripts/syscall.tbl approach.
+> and everyone was happy :)
+>   
+>> The below call it _after_ free_area_init():
+>> - arm64
+>>
+>> And the below don't call it at all:
+>> - sparc
+>> - nios2
+>> - openrisc
+>> - hexagon
+>> - sh
+>> - um
+>> - alpha
+>>
+>> One possible fix would be to move the calls to
+>> dma_contiguous_reserve_area() after free_area_init(). On x86, it would
+>> look like the diff below. The obvious downside is that moving the call
+>> later increases the chances of allocation failure. I'm not sure how much
+>> that actually matters, but at least on x86, that means crash kernel and
+>> hugetlb reservations go before DMA reservation. Also, adding a patch
+>> like that at rc7 is a bit risky.
+> I don't think there's a risk of allocation failure, but moving things
+> around in setup_arch() is always risky :)
+>   
+>> The other option would be to revert this. I tried a revert, but it isn't
+>> trivial. It runs into merge conflicts in pretty much all of the arch
+>> files. Maybe reverting patches 11, 12, and 13 as well would make it
+>> easier but I didn't try that.
+> What I think we can do is to add this to mm/cma.c (not even compile tested)
 >
-> Verified with `make htmldocs`.
->
-> Signed-off-by: Jesung Yang <y.j3ms.n@gmail.com>
-> Link: https://lore.kernel.org/lkml/20240704143611.2979589-1-arnd@kernel.org
+> diff --git a/mm/cma.c b/mm/cma.c
+> index 15632939f20a..c04be488b099 100644
+> --- a/mm/cma.c
+> +++ b/mm/cma.c
+> @@ -608,7 +608,10 @@ static int __init __cma_declare_contiguous_nid(phys_addr_t *basep,
+>   	 * complain. Find the boundary by adding one to the last valid
+>   	 * address.
+>   	 */
+> -	highmem_start = __pa(high_memory - 1) + 1;
+> +	if (IS_ENABLED(CONFIG_HIGHMEM))
+> +		highmem_start = __pa(high_memory - 1) + 1;
+> +	else
+> +		highmem_start = memblock_end_of_DRAM();
+>   	pr_debug("%s(size %pa, base %pa, limit %pa alignment %pa)\n",
+>   		__func__, &size, &base, &limit, &alignment);
 
-I'm not sure anybody has looked at this ... but nobody has complained,
-anyway.
 
-I have applied it but ... it seems like this document needs a more
-thorough refresh rather than just adding some "actually, don't do it
-that way on these architectures" notes?  Hopefully somebody will find
-the energy to do that at some point.
+I encountered the same error as Pratyush and the above diff fixes it: do 
+you plan on sending this fix for 6.15?
+
+If so, you can add:
+
+Tested-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+
+If not, let me know how you want to proceed :)
 
 Thanks,
 
-jon
+Alex
+
+
+>   
+> so that highmem_start in __cma_declare_contiguous_nid() will be always
+> correct for !HIGHMEM configs and then restore setting of highmem_start in
+> mips::paging_init() as mips is the only architecture that actually set
+> high_memory before free_area_init() before this patch.
+>
+> (for 32 bit configs of x86 there alrady a fixup d893aca973c3 ("x86/mm: restore
+> early initialization of high_memory for 32-bits"))
+>
 
 _______________________________________________
 linux-snps-arc mailing list
