@@ -4,82 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB0EAC3ABDD
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 20 May 2025 18:17:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4ADB3C54ED1
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 25 May 2025 02:45:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=MRHqCZ5xJc9voaKkRnWI6cFPpHEo7tjxEkk2qY9fSYk=; b=NMVkDU9965auWa
-	6bRbL4vJh1GkLCt2Xq3/8bkWToSJ4Q5bmPx6hCzVTd046vipY8os+HSR5Nv0KLMnso1/5dgm3OKb/
-	2mPdH7vKd5XtT33taWuSU/WTtFB5v5gfhSn9z77wc3RnpZkG2EFNL4VrcOoMTncBmIXMGpMDI7PK9
-	K40hBguXUc7aWoGPLDZ3VFrxsSgI8YbMItQ2N0/zLP/QRt04CDEJe3MR/wxqnf4hcHVGkkB8ed+Qr
-	d+GCsMYcU5JLFog5LzalcFK8zhJQgpkEIE1paUO02lDs7NCIdNNtmowKPc0rF6H22YO80NNZgi/Fu
-	V00cXbRw08V4HXyj8yYw==;
+	List-Owner; bh=rPs1eGuPIQnMVmqToUOXEo+JG+FP+zIiIt/1I+b2dWg=; b=ysiW5eb3wxe84u
+	0BZcbxAPyHappwPUi5Kyawb8YzOmqC1WBXnb2kmXQ1pCXjNKhtrwVfLqE5jX1EbquDh0/3xoTFSfv
+	wdMJlAD0ZBL2hG6TBR5f+VfRTnOf1P5F4knNxSVyYIRJ58Op3cyqbX9FdZeVB43OJ7u5FvcuSLtLv
+	hvOnVRAJtEXy7sfwslEdyN4Wjc9Qb7ijiHl5xcOgtFW7VsRCXbk2e7ivuKzaT5QnpbGdZocyO9U+o
+	Ygrx8bNbJi0tKPEr6VXHECoCtjKvKpXHEDbVCP5d3P+CEihiKA4MsAgS1yxb+j6UgHhSY1FMT4Ffh
+	YIykuySipBqfVoC+jotw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHRWf-0000000Dluv-167X;
-	Tue, 20 May 2025 18:17:17 +0000
-Received: from mgamail.intel.com ([192.198.163.15])
+	id 1uJ1MM-00000006UM2-1nyy;
+	Sun, 25 May 2025 02:45:10 +0000
+Received: from out-171.mta0.migadu.com ([91.218.175.171])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHRWd-0000000Dlt5-0HU8
+	id 1uJ1MJ-00000006UL4-21UF
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 20 May 2025 18:17:16 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747765035; x=1779301035;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=s3ZgcZ6BKTnLp+A1PAb6rpm8YoZDgBt/nxZwAaxXJ7E=;
-  b=mo5bCRK1gaKiFQF4EB4g22A6E1k+D9H0Jj9Yh9ZvnH6IrwY3V0x4wutS
-   4YFaaAbX34kpz7Q7VOiyYsjIJgfNe52uIHPsBqDcuXPN7Rj9cR32aFQ/z
-   C9CAtTwj4b7WcySJOHn1z8DE25KYZYSObSWpCmVVZjJXC/vp06gUvcTul
-   vAgyX5t68D61p6tnl7cZDdSRvJWhiKbC4AjpM0uKiJaTFQpxSAY4rGpY7
-   2VPZv0XwpfrUj+oz/YacAg4vEgHWN5DWaTHvRVRiQu5vrJLs76CZNEkPY
-   y5C+o90SAh4tjbvSvZSQPgoakGI9FySWIwqJoYhDI8IDXgj0JuG/p05Zr
-   A==;
-X-CSE-ConnectionGUID: 7mBhbyoAQNqUr7eGhAKkqA==
-X-CSE-MsgGUID: in+6fqhEQie+rl8rxWnG2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="49848027"
-X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="49848027"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 11:17:14 -0700
-X-CSE-ConnectionGUID: zgxjsAdARFahbTEB79tOeA==
-X-CSE-MsgGUID: uyVaAjEwQi6E30TJqOU05A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="144514719"
-Received: from kanliang-dev.jf.intel.com ([10.165.154.102])
-  by orviesa003.jf.intel.com with ESMTP; 20 May 2025 11:17:13 -0700
-From: kan.liang@linux.intel.com
-To: peterz@infradead.org,
-	mingo@redhat.com,
-	namhyung@kernel.org,
-	irogers@google.com,
-	mark.rutland@arm.com,
-	linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org
-Cc: eranian@google.com,
-	ctshao@google.com,
-	tmricht@linux.ibm.com,
-	leo.yan@arm.com,
-	Kan Liang <kan.liang@linux.intel.com>,
-	Vineet Gupta <vgupta@kernel.org>,
-	Vineet Gupta <vgupta@ikernel.org>,
-	linux-snps-arc@lists.infradead.org
-Subject: [PATCH V4 11/16] arc/perf: Remove driver-specific throttle support
-Date: Tue, 20 May 2025 11:16:39 -0700
-Message-Id: <20250520181644.2673067-12-kan.liang@linux.intel.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20250520181644.2673067-1-kan.liang@linux.intel.com>
-References: <20250520181644.2673067-1-kan.liang@linux.intel.com>
+	Sun, 25 May 2025 02:45:08 +0000
+Message-ID: <0a211ae5-2f13-4b07-b670-39e06ab8a917@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1748141097;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rtwG/KauWlVi/boJ/OWdJCCXw4dm5aA+kAeMNpkMKbs=;
+	b=h3YdnPJPptOPwI5k+HAm+LK5YdSV7z5UF8dzowi7Cr9hoSPUV/as6iFXfiJm0HtRJHtVdT
+	rhLHRGiV0lfMoTTWYwKls1g9qzFsIVOPgxnObMdgjDFrAp0vw7x3BN5yZbU6AkS/AqJ/5v
+	7YZ6HE1zFbKlWjabuV6R4e4GG0+9IuM=
+Date: Sat, 24 May 2025 19:44:51 -0700
 MIME-Version: 1.0
+Subject: Re: [PATCH] dt-bindings: interrupt-controller: Convert
+ snps,arc700-intc to DT schema
+To: "Rob Herring (Arm)" <robh@kernel.org>, Vineet Gupta <vgupta@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20250505144826.1292329-1-robh@kernel.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Vineet Gupta <vineet.gupta@linux.dev>
+Content-Language: en-US
+In-Reply-To: <20250505144826.1292329-1-robh@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250520_111715_127787_5DC0E90C 
-X-CRM114-Status: UNSURE (   9.25  )
+X-CRM114-CacheID: sfid-20250524_194507_656554_66C84B6B 
+X-CRM114-Status: UNSURE (   4.24  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -97,42 +73,18 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: Kan Liang <kan.liang@linux.intel.com>
-
-The throttle support has been added in the generic code. Remove
-the driver-specific throttle support.
-
-Besides the throttle, perf_event_overflow may return true because of
-event_limit. It already does an inatomic event disable. The pmu->stop
-is not required either.
+On 5/5/25 07:48, Rob Herring (Arm) wrote:
+> Convert the Arc Core interrupt controller binding to schema format. It's
+> a straight-forward conversion of the typical interrupt controller.
+>
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 
 Acked-by: Vineet Gupta <vgupta@kernel.org>
-Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
-Cc: Vineet Gupta <vgupta@ikernel.org>
-Cc: linux-snps-arc@lists.infradead.org
----
- arch/arc/kernel/perf_event.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arc/kernel/perf_event.c b/arch/arc/kernel/perf_event.c
-index 6e5a651cd75c..ed6d4f0cd621 100644
---- a/arch/arc/kernel/perf_event.c
-+++ b/arch/arc/kernel/perf_event.c
-@@ -599,10 +599,8 @@ static irqreturn_t arc_pmu_intr(int irq, void *dev)
- 
- 		arc_perf_event_update(event, &event->hw, event->hw.idx);
- 		perf_sample_data_init(&data, 0, hwc->last_period);
--		if (arc_pmu_event_set_period(event)) {
--			if (perf_event_overflow(event, &data, regs))
--				arc_pmu_stop(event, 0);
--		}
-+		if (arc_pmu_event_set_period(event))
-+			perf_event_overflow(event, &data, regs);
- 
- 		active_ints &= ~BIT(idx);
- 	} while (active_ints);
--- 
-2.38.1
+Will you be taking these thru DT tree ?
+
+Thx,
+-Vineet
 
 
 _______________________________________________
