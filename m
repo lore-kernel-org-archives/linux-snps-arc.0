@@ -4,65 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 485F6C61CE8
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Jun 2025 19:44:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0723C71149
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Jun 2025 19:46:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:Date:Message-Id:
-	References:In-Reply-To:From:Subject:Reply-To:Content-ID:Content-Description:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=VkqXxqPxTKeeWSu23ZoqFedPihhs7zx2PnW7CenNTxI=; b=jl8r32HliGp6Bf
-	4DBbKSc9Zkol22mtpQbS60m1XC4qSfbrpipbGaCxT/G/L263GRD2QV2pQ5kjlbLSIYbRDKlQ2e8WU
-	IM4vinSvz8+RjFMaEhcVM1QNPuWbjtGu5VAmEaevbKne1nJ3am523Ik3w5/blQc87XbE4yygBDKsy
-	mYwELYEzhtreGWt8Kxp71O0u15dvfb6+92V4xWq7fb+RAiWbH4jvUIS0Hq0vIBmhCZXvnC8Qm1aLS
-	ks/YPL4B44P4TYWD4zJ6VBUa3ekcAJM1MSftVRVE5rTvuofeAZeq+mANXj+LcOGwS3SMOSJ82tylc
-	1VZk34lkIlKUPkQXdXXQ==;
+	List-Owner; bh=Y2e08f4D5bYHNEFZa2xd0U9cZlhayvXAP1DpKntZ+u4=; b=Up7lfY/7BA0E+7
+	lMp6srryrMqsRS+sylZPDDdlGVYNwS2BxckD6omzZFz51raIcI06MATmFsBKKThVhRdQ6UzZnW5B0
+	Tr+vfOqM7NgOM5WTNPExo2lyWnGdI2CeWW3zGkCck/nDlHXJ5oMfwq4p+FkM00dGPXcotlpRXXi1w
+	JiARGCiG9ucbqKYXxr42JR3B76oLFk68BjV9aCZ5pAdb1VTvwuFkS2OC+Tw/QANUqZvO2nTkhRLlD
+	PZCz/zYPf8ePjtOjegJdxpcoBQCO+BgMF57xuEWcmDeHUHeQ2vypdsq5Prmm2jwPs+TInRgEgij3P
+	avF/LFkFoWCCQIQDFrNw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uPnqz-0000000EJka-45tk;
-	Thu, 12 Jun 2025 19:44:49 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1uPnsT-0000000EMNd-2WfL;
+	Thu, 12 Jun 2025 19:46:21 +0000
+Received: from out-188.mta0.migadu.com ([2001:41d0:1004:224b::bc])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uPjrX-0000000Dn34-3Cav
+	id 1uPkXQ-0000000Duht-0bNC
 	for linux-snps-arc@lists.infradead.org;
-	Thu, 12 Jun 2025 15:29:08 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id BA43B49B68;
-	Thu, 12 Jun 2025 15:29:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 934AAC4CEEA;
-	Thu, 12 Jun 2025 15:29:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749742146;
-	bh=UNLzRa776RJODcoF+CnT30n0SiCPeOwJoEpOzseHN/U=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=nr7zA6TxyzxyVrbwdbFLgSuItqdSwV49d0mTEeB3/Mtk8ip7X7KF7uZu34+WoYCT+
-	 Do13DqcSmuY6RxYuS/eU+DoO6FA/Ij+B+Gk56lIkcLq7TE0XB3COtAf3ptdDTCY0bY
-	 g63jjkF4x/l1C1t6j60/ZyP1vhZYkvwBWe0dzDjtRU38su9quSYdm5DUo10QuEsnhP
-	 BnTOxkQlgX7OsPLsVP4uT8FOjA2vQ/m1Wm0yn1xmQyKqyRuvRnSy5SXGqK6egBNaOz
-	 7vIqQjNKfqBa2POEpI3nRhq9VgN94kzedmtCjciacK9eE8vo1KWCEDo8A2kB3EyxC2
-	 t0Pcmej8S6EzQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADFA539EFFCF;
-	Thu, 12 Jun 2025 15:29:37 +0000 (UTC)
+	Thu, 12 Jun 2025 16:12:25 +0000
+Message-ID: <755cf90e-acf5-46d1-9ac4-2ea06c93e873@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1749744734;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wf6edq/KAq3HGPYGLrCGiQwCp9O3FQOz/ZxfLHqxjnQ=;
+	b=Mv39LFn8I5zouEC0f5T5xA7Xv20Js1UKmX9aq967+MLRIlPdA0S9b4I6NAKjg4UhnCp1Aq
+	9bjf3Ohzf2I6+9qkAmCcwwuAyj7Wlg8zTKUzI3WYwgKOg19uS2u9+WI25/4r3VQwyBp336
+	L82OKqGzbTX+EFofYeDNXIjZEm+r4KE=
+Date: Thu, 12 Jun 2025 09:12:09 -0700
+MIME-Version: 1.0
 Subject: Re: [GIT PULL] ARC updates for 6.16
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <4cb508de-3af3-4796-ac74-2c082a578588@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Vineet Gupta <vgupta@kernel.org>
+Cc: arcml <linux-snps-arc@lists.infradead.org>,
+ lkml <linux-kernel@vger.kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
+ Yu-Chun Lin <eleanor15x@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>
 References: <4cb508de-3af3-4796-ac74-2c082a578588@kernel.org>
-X-PR-Tracked-List-Id: Linux on Synopsys ARC Processors <linux-snps-arc.lists.infradead.org>
-X-PR-Tracked-Message-Id: <4cb508de-3af3-4796-ac74-2c082a578588@kernel.org>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-6.16-rc1
-X-PR-Tracked-Commit-Id: 179e949719fe81219a3e23f1e716ac2d02eea845
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 3d853391c441965d30cc94d00d59e8bb2dd0668c
-Message-Id: <174974217638.4182490.1766621494814405934.pr-tracker-bot@kernel.org>
-Date: Thu, 12 Jun 2025 15:29:36 +0000
-To: Vineet Gupta <vgupta@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, arcml <linux-snps-arc@lists.infradead.org>, lkml <linux-kernel@vger.kernel.org>, Jason Gunthorpe <jgg@nvidia.com>, Yu-Chun Lin <eleanor15x@gmail.com>, Thomas Huth <thuth@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>
+ <CAHk-=wgda=j0VNdx1gTos_4DL986Z2cKotgpVsn36T-JmNshXg@mail.gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Vineet Gupta <vineet.gupta@linux.dev>
+Content-Language: en-US
+In-Reply-To: <CAHk-=wgda=j0VNdx1gTos_4DL986Z2cKotgpVsn36T-JmNshXg@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250612_082907_824416_F63BB2A5 
-X-CRM114-Status: UNSURE (   2.71  )
+X-CRM114-CacheID: sfid-20250612_091224_381496_ECA222EF 
+X-CRM114-Status: UNSURE (   7.61  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -75,26 +69,34 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The pull request you sent on Wed, 11 Jun 2025 20:29:45 -0700:
-
-> git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/ tags/arc-6.16-rc1
-
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/3d853391c441965d30cc94d00d59e8bb2dd0668c
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+CgpPbiA2LzEyLzI1IDA4OjI2LCBMaW51cyBUb3J2YWxkcyB3cm90ZToKPiBPbiBXZWQsIDExIEp1
+biAyMDI1IGF0IDIwOjI5LCBWaW5lZXQgR3VwdGEgPHZndXB0YUBrZXJuZWwub3JnPiB3cm90ZToK
+Pj4gICBnaXQ6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvdmd1cHRh
+L2FyYy5naXQvIHRhZ3MvYXJjLTYuMTYtcmMxCj4gU28gdGhpcyBpcyBzaWduZWQgYW5kIEkgcHVs
+bGVkLCBidXQgeW91ciBrZXkgaGFzIGV4cGlyZWQuIEFuZCBJIGRvbid0Cj4gZmluZCBhIG5ldyBr
+ZXkgb24ga2VybmVsLm9yZyBvciB0aGUgbm9ybWFsIGtleXNlcnZlcnMuCj4KPiBQbGVhc2UgZG9u
+J3QgcHV0IGV4cGlyYXRpb24gZGF0ZXMgb24geW91ciBrZXlzIGFuZCB0aGVuIG5vdCByZWZyZXNo
+Cj4gdGhlbS4gT3IgdGVsbCBtZSB3aGVyZSB0byBmaW5kIHVwZGF0ZWQga2V5Ly4KClNvcnJ5IGFi
+b3V0IHRoaXMgYW5kIHRoeCBmb3IgcHVsbGluZyBhbnl3YXlzLgoKQmFjayB3aGVuIGlpIGhhZCBo
+YXBwZW5lZCBJIGRpZCBleHRlbmQgdGhlIGRhdGUgb24gdGhlIGtleSBhbmQgQUZBSUtSIGRpZAot
+LXNlbmQta2V5cyB0byBwZ3AubWl0LmVkdQpJJ3ZlIHJlZG9uZSB0aGlzIGFuZCB0b2RheSBhbHNv
+IHNlbnQgaXQgb3ZlciBmb3IgaW5jbHVzaW9uIGludG8ga2VybmVsLm9yZyBwZ3AgcmVwby4KCnB1
+YsKgwqAgcnNhNDA5NiAyMDEzLTAyLTE2IFtTQ10gW2V4cGlyZXM6IDIwMjktMTItMDhdCsKgwqDC
+oMKgwqAgMzk3QTZFMEFFNDdBODVFNzZCNzRCMDg5NjlEN0YxRERFMjhBQzI1RQp1aWTCoMKgwqDC
+oMKgwqDCoMKgwqDCoCBbIHVua25vd25dIFZpbmVldCBHdXB0YSAoa2VybmVsKSA8dmd1cHRhQGtl
+cm5lbC5vcmc+CnVpZMKgwqDCoMKgwqDCoMKgwqDCoMKgIFsgdW5rbm93bl0gVmluZWV0IEd1cHRh
+IChsaW51eCkgPHZpbmVldC5ndXB0YUBsaW51eC5kZXY+CnVpZMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IFsgdW5rbm93bl0gVmluZWV0IEd1cHRhIChwZXJzb25hbCkgPHZpbmVldGc3NkBnbWFpbC5jb20+
+CnVpZMKgwqDCoMKgwqDCoMKgwqDCoMKgIFsgdW5rbm93bl0gVmluZWV0IEd1cHRhIChhbGlhcykg
+PHZndXB0YUBzeW5vcHN5cy5jb20+CnVpZMKgwqDCoMKgwqDCoMKgwqDCoMKgIFsgdW5rbm93bl0g
+VmluZWV0IEd1cHRhIChvZmZpY2lhbCkgPHZpbmVldC5ndXB0YTFAc3lub3BzeXMuY29tPgp1aWTC
+oMKgwqDCoMKgwqDCoMKgwqDCoCBbIHVua25vd25dIFtqcGVnIGltYWdlIG9mIHNpemUgMjQ0NTJd
+CgoKVGh4LAotVmluZWV0CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMu
+aW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2xpbnV4LXNucHMtYXJjCg==
