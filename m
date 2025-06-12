@@ -4,80 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 64DA9C61DB2
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 10 Jun 2025 19:58:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D6D9C71135
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Jun 2025 03:31:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References:Date:
-	Message-Id:From:Subject:MIME-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=i5VgOdAiPJ7quXg7EKPLeseZropPYVDRl5AB/vDoDbg=; b=5D9pYb+u0eAYo5
-	1xIc4YLhEqMYQZkFLuGEi7tvqmLfNyqYABby3/yKModgDH8GEziEw3R094hd0eXcqiY8LCdVfD1bU
-	1zjhzC5wmFiASu30Wae/hBf7WMnJzmntJJd5n82OE9oeFOF6tEO0qPbKxLhCJubG8RLpgVP6pOxUg
-	E2EscN6L2WrM5h/GQnXQUmxVVUkB5yGSSHRIFJ0VUlXni8kHRMXXAio2WRKWJwsVONzaJ8hKJskk8
-	T0zB7Z3ivOq+PuVtWVXWiWIi+6balahSqknOTawed0GxZMz8JoEXNzcCBb8voFwIwn0tnKi3baeKC
-	NMewfg5a6N6IYdxSt65A==;
+	List-Archive:List-Unsubscribe:List-Id:Subject:Cc:To:From:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=IZhMlw5uE7SXWc9BJRvecU1Ppz+0Q4sAXxJpVrMq0Ho=; b=DmBNnDaIupJaMy
+	AtiePXTTQ9zOFE1ha3qGK84MA+zMg00L68rD1sJnJuQkeKwtWBZUU2MCSg51w9V9I2v2AEoK0BcAq
+	lxhk3yMR/FF9JfqXGcyBzOJQiFlev2NOm7DkBRh53U39xywn8bP4AvrdDCPyN3Obsw8cvV4gvZUjp
+	amGMeMOf+jM0CyoRBFXnqDd+8PODROT6zrGHP36Ka0abWO6zH6x5nTX3D2cE/9Wo5aQHoTtcugtqI
+	4jxoaVFYppVHCjqkQ+CyQ8Nm9eWyZAqTEBNiE+kFAmUE4EiGmbtH7dmztKPbDlkf7+7wcCMqybSxS
+	N0IWEhCvi0TfLCSp3m6A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uP57M-00000007z4n-0g5d;
-	Tue, 10 Jun 2025 19:58:44 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1uPYel-0000000C4W7-3dkI;
+	Thu, 12 Jun 2025 03:31:11 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uP1pb-00000007T7u-0ALV;
-	Tue, 10 Jun 2025 16:28:11 +0000
+	id 1uPYdQ-0000000C4O1-2Sy6
+	for linux-snps-arc@lists.infradead.org;
+	Thu, 12 Jun 2025 03:29:49 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id DB613629F9;
-	Tue, 10 Jun 2025 16:28:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84AE9C4CEED;
-	Tue, 10 Jun 2025 16:28:09 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id E9F13436E5;
+	Thu, 12 Jun 2025 03:29:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 726B4C4CEEB;
+	Thu, 12 Jun 2025 03:29:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749572889;
-	bh=VGaA2UjcATw5usDRARWAGHoyvA3nRCcXodZF/+d4fPQ=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=JJ1f2Y7NQSd54tSszQLRiQIl7dD277rRFw5CD03cct8JsOIa9MeckGxwgeTNERJbY
-	 /Aq7k/QdxMobJHlLVMWLaBVYiO7WUz7b5oZF8aZHHmpn5SGMFxfrabCx4zi/NelVA7
-	 9tpmie/ZR7eRtm/GQUxR12kWA/MXW8KxThnLlIuGSON9FK96/TttZtzzrp91aMtCTf
-	 nkrgxszvlyVUm0gGo8/i60pLDKogQxJCIy6qqOtv6fYwtbh3P8fqWAcjVqLwJncDb0
-	 2wdFJTUv8YDSR+ksvQyqg1NCDe5af7sVQqmJb6cWow02fsajDICno0naOHZ+D1dFYd
-	 UMToThilj3zfw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33D5B39D6540;
-	Tue, 10 Jun 2025 16:28:41 +0000 (UTC)
+	s=k20201202; t=1749698986;
+	bh=KQgaKueJ8SmL0GquEvj6xboQpRgNJFsrZHkCTWpTp9k=;
+	h=Date:From:To:Cc:Subject:From;
+	b=ixxiEf70uRv01WItso+c7o/nLY9PQPuISDzE3o9AtzXysgAUOa99S4bzIDdMGLvx1
+	 l9M5apUZ0gKN3U7+wmMg1MTDemHHa9qOAUSaQdnJTzfXMOh7OwvusgGIJD4kjcaaYn
+	 Ck2hStZnba7MQ4f5EFUK22WVE45yYmmFDIL6Bf5aTWna5s3dPRj73o8vDYbfOfWXOV
+	 UshP9osJA/npc1jJGrSXN6dd4J1ytF2QKHINViI/DRM77elJlkSD3k1SfPmvsCUh1n
+	 t2yrota3Hio3BFL3bmotcxWnw48J/YtNdRaV+h801ZRxgOURdmjIE9ntCabtDIcjua
+	 oWAjg0fePTwVg==
+Message-ID: <4cb508de-3af3-4796-ac74-2c082a578588@kernel.org>
+Date: Wed, 11 Jun 2025 20:29:45 -0700
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] arch: use always-$(KBUILD_BUILTIN) for vmlinux.lds
-From: patchwork-bot+linux-riscv@kernel.org
-Message-Id: <174957291974.2454024.16546912662876416180.git-patchwork-notify@kernel.org>
-Date: Tue, 10 Jun 2025 16:28:39 +0000
-References: <20250602181256.529033-2-masahiroy@kernel.org>
-In-Reply-To: <20250602181256.529033-2-masahiroy@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-riscv@lists.infradead.org, linux-kbuild@vger.kernel.org,
- aou@eecs.berkeley.edu, agordeev@linux.ibm.com, alex@ghiti.fr,
- andreas@gaisler.com, anton.ivanov@cambridgegreys.com, bp@alien8.de,
- bcain@kernel.org, catalin.marinas@arm.com, chris@zankel.net,
- borntraeger@linux.ibm.com, christophe.leroy@csgroup.eu,
- dave.hansen@linux.intel.com, davem@davemloft.net, dinguyen@kernel.org,
- geert@linux-m68k.org, guoren@kernel.org, hpa@zytor.com, hca@linux.ibm.com,
- deller@gmx.de, chenhuacai@kernel.org, mingo@redhat.com,
- James.Bottomley@HansenPartnership.com, johannes@sipsolutions.net,
- glaubitz@physik.fu-berlin.de, jonas@southpole.se, maddy@linux.ibm.com,
- mattst88@gmail.com, jcmvbkbc@gmail.com, mpe@ellerman.id.au, monstr@monstr.eu,
- naveen@kernel.org, npiggin@gmail.com, palmer@dabbelt.com,
- paul.walmsley@sifive.com, dalias@libc.org, richard.henderson@linaro.org,
- richard@nod.at, linux@armlinux.org.uk, shorne@gmail.com,
- stefan.kristiansson@saunalahti.fi, svens@linux.ibm.com,
- tsbogend@alpha.franken.de, tglx@linutronix.de, gor@linux.ibm.com,
- vgupta@kernel.org, kernel@xen0n.name, will@kernel.org,
- ysato@users.sourceforge.jp, linux-alpha@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
- linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
- linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
- sparclinux@vger.kernel.org, x86@kernel.org
+User-Agent: Mozilla Thunderbird
+From: Vineet Gupta <vgupta@kernel.org>
+Content-Language: en-US
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: arcml <linux-snps-arc@lists.infradead.org>,
+ lkml <linux-kernel@vger.kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
+ Yu-Chun Lin <eleanor15x@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>
+Subject: [GIT PULL] ARC updates for 6.16
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250611_202948_669099_88C591AF 
+X-CRM114-Status: UNSURE (   4.99  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,58 +69,64 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hello:
-
-This patch was applied to riscv/linux.git (fixes)
-by Masahiro Yamada <masahiroy@kernel.org>:
-
-On Tue,  3 Jun 2025 03:12:54 +0900 you wrote:
-> The extra-y syntax is deprecated. Instead, use always-$(KBUILD_BUILTIN),
-> which behaves equivalently.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
->  arch/alpha/kernel/Makefile      | 2 +-
->  arch/arc/kernel/Makefile        | 2 +-
->  arch/arm/kernel/Makefile        | 2 +-
->  arch/arm64/kernel/Makefile      | 2 +-
->  arch/csky/kernel/Makefile       | 2 +-
->  arch/hexagon/kernel/Makefile    | 2 +-
->  arch/loongarch/kernel/Makefile  | 2 +-
->  arch/m68k/kernel/Makefile       | 2 +-
->  arch/microblaze/kernel/Makefile | 2 +-
->  arch/mips/kernel/Makefile       | 2 +-
->  arch/nios2/kernel/Makefile      | 2 +-
->  arch/openrisc/kernel/Makefile   | 2 +-
->  arch/parisc/kernel/Makefile     | 2 +-
->  arch/powerpc/kernel/Makefile    | 2 +-
->  arch/riscv/kernel/Makefile      | 2 +-
->  arch/s390/kernel/Makefile       | 2 +-
->  arch/sh/kernel/Makefile         | 2 +-
->  arch/sparc/kernel/Makefile      | 2 +-
->  arch/um/kernel/Makefile         | 2 +-
->  arch/x86/kernel/Makefile        | 2 +-
->  arch/xtensa/kernel/Makefile     | 2 +-
->  21 files changed, 21 insertions(+), 21 deletions(-)
-
-Here is the summary with links:
-  - [2/2] arch: use always-$(KBUILD_BUILTIN) for vmlinux.lds
-    https://git.kernel.org/riscv/c/e21efe833eae
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+SGkgTGludXMsCgpTb21lIGZpeGVzIGZvciBBUkMuClBsZWFzZSBQdWxsLgoKVGh4LAotVmluZWV0
+Ci0tLS0tLS0tLS0tLS0tLS0tLT4KVGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCAx
+OTI3MmIzN2FhNGY4M2NhNTJiZGY5YzE2ZDVkODFiZGQxMzU0NDk0OgoKwqAgTGludXggNi4xNi1y
+YzEgKDIwMjUtMDYtMDggMTM6NDQ6NDMgLTA3MDApCgphcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQg
+cmVwb3NpdG9yeSBhdDoKCsKgIGdpdDovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2Vy
+bmVsL2dpdC92Z3VwdGEvYXJjLmdpdC8gdGFncy9hcmMtNi4xNi1yYzEKCmZvciB5b3UgdG8gZmV0
+Y2ggY2hhbmdlcyB1cCB0byAxNzllOTQ5NzE5ZmU4MTIxOWEzZTIzZjFlNzE2YWMyZDAyZWVhODQ1
+OgoKwqAgQVJDOiBSZXBsYWNlIF9fQVNTRU1CTFlfXyB3aXRoIF9fQVNTRU1CTEVSX18gaW4gdGhl
+IG5vbi11YXBpIGhlYWRlcnMKKDIwMjUtMDYtMDkgMDk6MTg6MTIgLTA3MDApCgotLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCkFS
+QyBmaXhlcyBmb3IgNi4xNgoKwqAtIGFyY2hfYXRvbWljNjRfY21weGNoZyByZWxheGVkIHZhcmlh
+bnQgW0phc29uXQoKwqAtIHVzZSBvZiBpbmJ1aWx0IHN3YXAgaW4gc3RhY2sgdW53aW5kZXLCoCBb
+WXUtQ2h1biBMaW5dCgrCoC0gdXNlIG9mIF9fQVNTRU1CTEVSX18gaW4ga2VybmVsIGhlYWRlcnMg
+W1Rob21hcyBIdXRoXQoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpKYXNvbiBHdW50aG9ycGUgKDEpOgrCoMKgwqDCoMKgIEFS
+QzogYXRvbWljczogSW1wbGVtZW50IGFyY2hfYXRvbWljNjRfY21weGNoZyB1c2luZyBfcmVsYXhl
+ZAoKVGhvbWFzIEh1dGggKDIpOgrCoMKgwqDCoMKgIEFSQzogUmVwbGFjZSBfX0FTU0VNQkxZX18g
+d2l0aCBfX0FTU0VNQkxFUl9fIGluIHVhcGkgaGVhZGVycwrCoMKgwqDCoMKgIEFSQzogUmVwbGFj
+ZSBfX0FTU0VNQkxZX18gd2l0aCBfX0FTU0VNQkxFUl9fIGluIHRoZSBub24tdWFwaSBoZWFkZXJz
+CgpZdS1DaHVuIExpbiAoMSk6CsKgwqDCoMKgwqAgQVJDOiB1bndpbmQ6IFVzZSBidWlsdC1pbiBz
+b3J0IHN3YXAgdG8gcmVkdWNlIGNvZGUgc2l6ZSBhbmQgaW1wcm92ZQpwZXJmb3JtYW5jZQoKwqBh
+cmNoL2FyYy9pbmNsdWRlL2FzbS9hcmNyZWdzLmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAy
+ICstCsKgYXJjaC9hcmMvaW5jbHVkZS9hc20vYXRvbWljLmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgfMKgIDQgKystLQrCoGFyY2gvYXJjL2luY2x1ZGUvYXNtL2F0b21pYzY0LWFyY3YyLmjCoMKg
+wqDCoCB8IDE1ICsrKysrLS0tLS0tLS0tLQrCoGFyY2gvYXJjL2luY2x1ZGUvYXNtL2JpdG9wcy5o
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCA0ICsrLS0KwqBhcmNoL2FyYy9pbmNsdWRlL2Fz
+bS9idWcuaMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgNCArKy0tCsKgYXJjaC9h
+cmMvaW5jbHVkZS9hc20vY2FjaGUuaMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCA0ICsr
+LS0KwqBhcmNoL2FyYy9pbmNsdWRlL2FzbS9jdXJyZW50LmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IHzCoCA0ICsrLS0KwqBhcmNoL2FyYy9pbmNsdWRlL2FzbS9kc3AtaW1wbC5owqDCoMKgwqDCoMKg
+wqDCoMKgwqAgfMKgIDIgKy0KwqBhcmNoL2FyYy9pbmNsdWRlL2FzbS9kc3AuaMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgNCArKy0tCsKgYXJjaC9hcmMvaW5jbHVkZS9hc20vZHdh
+cmYuaMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCA0ICsrLS0KwqBhcmNoL2FyYy9pbmNs
+dWRlL2FzbS9lbnRyeS5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDQgKystLQrCoGFy
+Y2gvYXJjL2luY2x1ZGUvYXNtL2lycWZsYWdzLWFyY3YyLmjCoMKgwqDCoCB8wqAgNCArKy0tCsKg
+YXJjaC9hcmMvaW5jbHVkZS9hc20vaXJxZmxhZ3MtY29tcGFjdC5owqDCoCB8wqAgNCArKy0tCsKg
+YXJjaC9hcmMvaW5jbHVkZS9hc20vanVtcF9sYWJlbC5owqDCoMKgwqDCoMKgwqDCoCB8wqAgNCAr
+Ky0tCsKgYXJjaC9hcmMvaW5jbHVkZS9hc20vbGlua2FnZS5owqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCB8wqAgNiArKystLS0KwqBhcmNoL2FyYy9pbmNsdWRlL2FzbS9tbXUtYXJjdjIuaMKgwqDCoMKg
+wqDCoMKgwqDCoCB8wqAgNCArKy0tCsKgYXJjaC9hcmMvaW5jbHVkZS9hc20vbW11LmjCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDIgKy0KwqBhcmNoL2FyYy9pbmNsdWRlL2FzbS9w
+YWdlLmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCA0ICsrLS0KwqBhcmNoL2FyYy9p
+bmNsdWRlL2FzbS9wZ3RhYmxlLWJpdHMtYXJjdjIuaCB8wqAgNCArKy0tCsKgYXJjaC9hcmMvaW5j
+bHVkZS9hc20vcGd0YWJsZS1sZXZlbHMuaMKgwqDCoMKgIHzCoCA0ICsrLS0KwqBhcmNoL2FyYy9p
+bmNsdWRlL2FzbS9wZ3RhYmxlLmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCA0ICsrLS0KwqBh
+cmNoL2FyYy9pbmNsdWRlL2FzbS9wcm9jZXNzb3IuaMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgNCAr
+Ky0tCsKgYXJjaC9hcmMvaW5jbHVkZS9hc20vcHRyYWNlLmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgfMKgIDQgKystLQrCoGFyY2gvYXJjL2luY2x1ZGUvYXNtL3N3aXRjaF90by5owqDCoMKgwqDC
+oMKgwqDCoMKgIHzCoCAyICstCsKgYXJjaC9hcmMvaW5jbHVkZS9hc20vdGhyZWFkX2luZm8uaMKg
+wqDCoMKgwqDCoMKgIHzCoCA0ICsrLS0KwqBhcmNoL2FyYy9pbmNsdWRlL3VhcGkvYXNtL3B0cmFj
+ZS5owqDCoMKgwqDCoMKgwqAgfMKgIDQgKystLQrCoGFyY2gvYXJjL2tlcm5lbC91bndpbmQuY8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAxMSArLS0tLS0tLS0tLQrCoDI3IGZp
+bGVzIGNoYW5nZWQsIDUzIGluc2VydGlvbnMoKyksIDY3IGRlbGV0aW9ucygtKQoKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtc25wcy1hcmMgbWFp
+bGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3Rz
+LmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
