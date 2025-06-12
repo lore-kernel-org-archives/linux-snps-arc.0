@@ -4,59 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0723C71149
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Jun 2025 19:46:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BFAF3C7114C
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Jun 2025 00:24:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Y2e08f4D5bYHNEFZa2xd0U9cZlhayvXAP1DpKntZ+u4=; b=Up7lfY/7BA0E+7
-	lMp6srryrMqsRS+sylZPDDdlGVYNwS2BxckD6omzZFz51raIcI06MATmFsBKKThVhRdQ6UzZnW5B0
-	Tr+vfOqM7NgOM5WTNPExo2lyWnGdI2CeWW3zGkCck/nDlHXJ5oMfwq4p+FkM00dGPXcotlpRXXi1w
-	JiARGCiG9ucbqKYXxr42JR3B76oLFk68BjV9aCZ5pAdb1VTvwuFkS2OC+Tw/QANUqZvO2nTkhRLlD
-	PZCz/zYPf8ePjtOjegJdxpcoBQCO+BgMF57xuEWcmDeHUHeQ2vypdsq5Prmm2jwPs+TInRgEgij3P
-	avF/LFkFoWCCQIQDFrNw==;
+	List-Owner; bh=Usf8L14Ea8S3Q4/X3SeB+1dGBPrp2ILnEyN0wP1bmRs=; b=3COGfB1NiFxtde
+	a+e+rBclixddpLCXKNhgLHKeSsMvDzI4nfUvQQ2HOzM4V++jq0PinNdocMyCf4JqQYriI871Zb7bB
+	7T4+Z7l+Xkb0rr3fZ23zhsxdW07MglrB5NL2RExoTbO78Yi/bE7tD4Hd28ry5Rgn54fXoJ4FdNlar
+	C7ew81VfkSJCb4L3KR3MinkAqgiXJpWh2jE93HGQWbxp8VQ5Bs827ZPH+o5CMkujjWMZxHaFzr6tH
+	6X7IcSTfitC/GHgl7JhqfvztRajZUoBZ7hCyX61wHD1AlvJi8ZVyno+Lvex+t/qdk1/5pliGeVrWh
+	BAZrYNlxAcCZXA6+TGfA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uPnsT-0000000EMNd-2WfL;
-	Thu, 12 Jun 2025 19:46:21 +0000
-Received: from out-188.mta0.migadu.com ([2001:41d0:1004:224b::bc])
+	id 1uPsDk-0000000Ewrm-0pLb;
+	Fri, 13 Jun 2025 00:24:36 +0000
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uPkXQ-0000000Duht-0bNC
+	id 1uPlGg-0000000E07U-2osw
 	for linux-snps-arc@lists.infradead.org;
-	Thu, 12 Jun 2025 16:12:25 +0000
-Message-ID: <755cf90e-acf5-46d1-9ac4-2ea06c93e873@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1749744734;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wf6edq/KAq3HGPYGLrCGiQwCp9O3FQOz/ZxfLHqxjnQ=;
-	b=Mv39LFn8I5zouEC0f5T5xA7Xv20Js1UKmX9aq967+MLRIlPdA0S9b4I6NAKjg4UhnCp1Aq
-	9bjf3Ohzf2I6+9qkAmCcwwuAyj7Wlg8zTKUzI3WYwgKOg19uS2u9+WI25/4r3VQwyBp336
-	L82OKqGzbTX+EFofYeDNXIjZEm+r4KE=
-Date: Thu, 12 Jun 2025 09:12:09 -0700
+	Thu, 12 Jun 2025 16:59:12 +0000
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-ad8a8da2376so211185466b.3
+        for <linux-snps-arc@lists.infradead.org>; Thu, 12 Jun 2025 09:59:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1749747549; x=1750352349; darn=lists.infradead.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ex80jzwlOgVUFTxMNEXOHAt7n4bVeajkNSeWUvn3+ms=;
+        b=PUl9DN9L80lLbSpyRYetSqD3yfHAALrkRCys156WFDLKT4ej2l+XNOMo1L9VRs9hHd
+         E04lo6U+BO2RQul/jwCvkUbZu3kIo4eCbBqmTX3tZEyhp8scF8JKxfndaxmj5X/nU4pm
+         mmGFhiGRpZPySyz1iwtWpZsDL9bxfVMWARLkI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749747549; x=1750352349;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ex80jzwlOgVUFTxMNEXOHAt7n4bVeajkNSeWUvn3+ms=;
+        b=NEKnMjuD1zpiQoiRVOEMmEbqdtbHrC9pVLcch47nN4dRlejeYCbBY3ZY6n424c477A
+         /Fm2mA3Z17DCZPKsuVN8AvWIOAUeKTe19wrNCuovBCqMhg8AaohJYL4OZrLPec5glH9H
+         UZymq3PSV85tvEOF4wYZji+jBkzOZljirZM5B96TIm7taMRlYD/22jyl7GPyzpY6L3jS
+         /KoalqZylyKew3YNsCyFqMbqXUTwD+x5G0Oxu808KNAFnrWuClmsqmsMEcTKzI3zuYja
+         t/335Y4kk1KEWGHto6pSsyKhTHmXhjLHm1oAan/+F+Ln+YclxE8zAAAYO01vSGkxmkBR
+         Fgfg==
+X-Forwarded-Encrypted: i=1; AJvYcCWDft5pWqw8hP0jzm7NKVk+T5JyoUWAYhEL/kCPevlj6lJSCUQ2+rn0nWH4aKZLnEq51kMt0P3LYodZLDZNVQ==@lists.infradead.org
+X-Gm-Message-State: AOJu0YxaWo1OF5lroB9fTGe7QLtjZkbYLvYNbom40oafqetswAMmxnXH
+	4dlmHJWdIlpMYxe0kwndOrRX8jD0+0oowT7/RTH6lAhIW9Vmg7JYcML4zFEeN9kfDYMn6yw/Xd4
+	EQUbU9Ss=
+X-Gm-Gg: ASbGncucXTEf8mt3vKzdzXNw0HdQHBQDOeltG5L/NbSO7AWBTVjO5IaprLXH4iinseQ
+	h3EXFiULg34Z1+KlgAts3BC8WRBgK+QRis2HxKfSBBocxu+jUY2ya/X1GrmvfJtdkj2llFeLrOM
+	kqhnkDh7x+LhmahO0DNJsdIMkDmY0ccVOVhK+LOANFMoow2O3QxO9BsPV6CN0EHh4rvvRs5ZUa7
+	UlxEsE4HN/O/2UYoF2JJtpNsbTAWp2uEmIeUnZ82k/TH8fU1fCA3+2KZs4K90i+F3hGLNhDdiYG
+	WukRxkLeZHlTpxBvGN0R3I+evuQmxuTXUje5AsFNuDH764ODbmHD/J+ZZGEZ17a3z4S9gH+Gq1q
+	8W4yGNeWzjRAiuv+yABZ0voOw9XtkJeWM+Y03
+X-Google-Smtp-Source: AGHT+IFDguT+oPcQlqhqkE0ubBaoS0DYEPKEORYklvVeRLJX+Q/UzbM9Z/BpQ2MF7snH0ENoKpHImA==
+X-Received: by 2002:a17:906:f5a5:b0:adb:9e8:8f17 with SMTP id a640c23a62f3a-adec5ce91ccmr620166b.52.1749747548861;
+        Thu, 12 Jun 2025 09:59:08 -0700 (PDT)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com. [209.85.208.52])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adeadf46063sm159902666b.185.2025.06.12.09.59.08
+        for <linux-snps-arc@lists.infradead.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Jun 2025 09:59:08 -0700 (PDT)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-601dfef6a8dso2095350a12.1
+        for <linux-snps-arc@lists.infradead.org>; Thu, 12 Jun 2025 09:59:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVAQz+WrGFR5c+thHOYzLktaylmt42v9OG9NIeeVdSMSYKee5173kgcwr0piHQjtENdCLpMlIGhWWEGQ0VV8Q==@lists.infradead.org
+X-Received: by 2002:a05:6402:13c7:b0:607:1c09:b0d6 with SMTP id
+ 4fb4d7f45d1cf-608af5421bemr484999a12.8.1749747547800; Thu, 12 Jun 2025
+ 09:59:07 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [GIT PULL] ARC updates for 6.16
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Vineet Gupta <vgupta@kernel.org>
-Cc: arcml <linux-snps-arc@lists.infradead.org>,
- lkml <linux-kernel@vger.kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
- Yu-Chun Lin <eleanor15x@gmail.com>, Thomas Huth <thuth@redhat.com>,
- Jason Gunthorpe <jgg@ziepe.ca>
 References: <4cb508de-3af3-4796-ac74-2c082a578588@kernel.org>
- <CAHk-=wgda=j0VNdx1gTos_4DL986Z2cKotgpVsn36T-JmNshXg@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Vineet Gupta <vineet.gupta@linux.dev>
-Content-Language: en-US
-In-Reply-To: <CAHk-=wgda=j0VNdx1gTos_4DL986Z2cKotgpVsn36T-JmNshXg@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+ <CAHk-=wgda=j0VNdx1gTos_4DL986Z2cKotgpVsn36T-JmNshXg@mail.gmail.com> <755cf90e-acf5-46d1-9ac4-2ea06c93e873@linux.dev>
+In-Reply-To: <755cf90e-acf5-46d1-9ac4-2ea06c93e873@linux.dev>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 12 Jun 2025 09:58:50 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wg8J_33JR6oT+7to=k=vryrseuojs0rz5iEW4nVCi=KYA@mail.gmail.com>
+X-Gm-Features: AX0GCFuvQ-iioC4hLv32QSaXlIXEQYIhlNNev6EWMYdlFyV35ap_BHw2PN-I5XY
+Message-ID: <CAHk-=wg8J_33JR6oT+7to=k=vryrseuojs0rz5iEW4nVCi=KYA@mail.gmail.com>
+Subject: Re: [GIT PULL] ARC updates for 6.16
+To: Vineet Gupta <vineet.gupta@linux.dev>
+Cc: Vineet Gupta <vgupta@kernel.org>, arcml <linux-snps-arc@lists.infradead.org>, 
+	lkml <linux-kernel@vger.kernel.org>, Jason Gunthorpe <jgg@nvidia.com>, 
+	Yu-Chun Lin <eleanor15x@gmail.com>, Thomas Huth <thuth@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250612_091224_381496_ECA222EF 
-X-CRM114-Status: UNSURE (   7.61  )
+X-CRM114-CacheID: sfid-20250612_095910_828786_C2576BE5 
+X-CRM114-Status: UNSURE (   6.12  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -69,34 +102,24 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-CgpPbiA2LzEyLzI1IDA4OjI2LCBMaW51cyBUb3J2YWxkcyB3cm90ZToKPiBPbiBXZWQsIDExIEp1
-biAyMDI1IGF0IDIwOjI5LCBWaW5lZXQgR3VwdGEgPHZndXB0YUBrZXJuZWwub3JnPiB3cm90ZToK
-Pj4gICBnaXQ6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvdmd1cHRh
-L2FyYy5naXQvIHRhZ3MvYXJjLTYuMTYtcmMxCj4gU28gdGhpcyBpcyBzaWduZWQgYW5kIEkgcHVs
-bGVkLCBidXQgeW91ciBrZXkgaGFzIGV4cGlyZWQuIEFuZCBJIGRvbid0Cj4gZmluZCBhIG5ldyBr
-ZXkgb24ga2VybmVsLm9yZyBvciB0aGUgbm9ybWFsIGtleXNlcnZlcnMuCj4KPiBQbGVhc2UgZG9u
-J3QgcHV0IGV4cGlyYXRpb24gZGF0ZXMgb24geW91ciBrZXlzIGFuZCB0aGVuIG5vdCByZWZyZXNo
-Cj4gdGhlbS4gT3IgdGVsbCBtZSB3aGVyZSB0byBmaW5kIHVwZGF0ZWQga2V5Ly4KClNvcnJ5IGFi
-b3V0IHRoaXMgYW5kIHRoeCBmb3IgcHVsbGluZyBhbnl3YXlzLgoKQmFjayB3aGVuIGlpIGhhZCBo
-YXBwZW5lZCBJIGRpZCBleHRlbmQgdGhlIGRhdGUgb24gdGhlIGtleSBhbmQgQUZBSUtSIGRpZAot
-LXNlbmQta2V5cyB0byBwZ3AubWl0LmVkdQpJJ3ZlIHJlZG9uZSB0aGlzIGFuZCB0b2RheSBhbHNv
-IHNlbnQgaXQgb3ZlciBmb3IgaW5jbHVzaW9uIGludG8ga2VybmVsLm9yZyBwZ3AgcmVwby4KCnB1
-YsKgwqAgcnNhNDA5NiAyMDEzLTAyLTE2IFtTQ10gW2V4cGlyZXM6IDIwMjktMTItMDhdCsKgwqDC
-oMKgwqAgMzk3QTZFMEFFNDdBODVFNzZCNzRCMDg5NjlEN0YxRERFMjhBQzI1RQp1aWTCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBbIHVua25vd25dIFZpbmVldCBHdXB0YSAoa2VybmVsKSA8dmd1cHRhQGtl
-cm5lbC5vcmc+CnVpZMKgwqDCoMKgwqDCoMKgwqDCoMKgIFsgdW5rbm93bl0gVmluZWV0IEd1cHRh
-IChsaW51eCkgPHZpbmVldC5ndXB0YUBsaW51eC5kZXY+CnVpZMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IFsgdW5rbm93bl0gVmluZWV0IEd1cHRhIChwZXJzb25hbCkgPHZpbmVldGc3NkBnbWFpbC5jb20+
-CnVpZMKgwqDCoMKgwqDCoMKgwqDCoMKgIFsgdW5rbm93bl0gVmluZWV0IEd1cHRhIChhbGlhcykg
-PHZndXB0YUBzeW5vcHN5cy5jb20+CnVpZMKgwqDCoMKgwqDCoMKgwqDCoMKgIFsgdW5rbm93bl0g
-VmluZWV0IEd1cHRhIChvZmZpY2lhbCkgPHZpbmVldC5ndXB0YTFAc3lub3BzeXMuY29tPgp1aWTC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBbIHVua25vd25dIFtqcGVnIGltYWdlIG9mIHNpemUgMjQ0NTJd
-CgoKVGh4LAotVmluZWV0CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMu
-aW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2xpbnV4LXNucHMtYXJjCg==
+On Thu, 12 Jun 2025 at 09:12, Vineet Gupta <vineet.gupta@linux.dev> wrote:
+>
+> Back when ii had happened I did extend the date on the key and AFAIKR did
+> --send-keys to pgp.mit.edu
+
+I don't think pgp.mit.edu even works any more ...
+
+The pgp keyserver situation seems to be better than it was a couple of
+years ago, but it's still bad.
+
+             Linus
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
