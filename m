@@ -4,52 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57D24C8303C
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  1 Jul 2025 15:34:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4E241C83013
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  2 Jul 2025 08:17:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=5ouqc7ZGno9yn6KauXn3ORipO7XVr5Jobd3nD8S7nbA=; b=V13GTzIJf+sIy7
-	RDyDAzK0PtnoTCdT4b4m6hhQ+cIHiqaeux3umeNhIaJ3RALOuDZ4tKZDLPpPd6hZne6Pzhpw6ccb1
-	BI8/cT8CkZDCMINXS+ADxPOjQF/6elu0SSLnG35M7kCleAUunNet/jX/1Ux01Ed5AV8W3TGz6qECu
-	LDEQcKv298L5CZNdycue26dPWUHEGArgGBDCNq/KVdf0rDIde7RMGssfBprIGdGkY5Rk2tBZYikMn
-	ImWw4S/5++83LIaYr+0tD/q/rCJ/eDuOI0r6c7pUCeSbqY+nzPvF/HSXrOU9V7DO2CzUBJXrBHWGW
-	/3ko89hfzxcIpcxM3yuQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=Jo5iin0caJAv3vTQvqoy3LNvmUzjq/N37CtcqLh3s80=; b=RQExaTj7KXqUMR
+	BXxiESZisEUh+0HBEGfJeGG9nt9CAdaOHaHJHbQnVbHaEusx9r3y4fqkiY6HDRAZTkubhGPET8B10
+	HaGqgXhZvl8dDGU6bqBYd7FSjlaFBYpPRWtWyaTKMfjzZUW+/6vbwmg05heDjaQm6NKZbyJyaF4/l
+	EfY84qyZGuuhp15O5dusiiwUZmNhybXq6UK7DgZABNM+UhYa5PA8vHJoOTUTwV+zBat+sIoxdQM23
+	9LQsFO3UqNlLVZjY0p0wVQtiXti5HmJ7QmzGdQauY87KcfFD2wIEsEW5+lfzf2FV420SFfgDo3H/8
+	0i+EVWuss1ayTNNaxEhg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWd06-00000005u7y-0JkW;
-	Tue, 01 Jul 2025 15:34:26 +0000
-Received: from foss.arm.com ([217.140.110.172])
-	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWbTS-00000005be6-4Bek
+	id 1uWseM-00000007ako-39iQ;
+	Wed, 02 Jul 2025 08:17:02 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uWseL-00000007akd-2oos
+	for linux-snps-arc@bombadil.infradead.org;
+	Wed, 02 Jul 2025 08:17:02 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:MIME-Version:Subject:To:From:Date:Message-ID:Sender:Reply-To:Cc:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=Q6Mp/vCJCiZNgk6fb7utkqIErbcoVoR/CugPofoeCtU=; b=Yah5kZXaksn4g6p5qohgMchyKA
+	iSF9WHxTogK1z520g9yhZT+RR0A1izxiReUTJlQua6ztTPVTw6FoghGryFB9VRZ0xLQTeXlcYq/Xk
+	o84YzVQzNryuFZ4DOiLNNTP5LnEyu0byl3zLICIiXAV1tkru5O9FzBd/ivKQVWbdTtEw4C/yrX05O
+	nrJBGh+mPCW7r6zVlIwuZBAHTK9RW+WWttO5SaudnIZzerY/HhFsAcVa6kUP6b5UO7jh5NXauwSHT
+	rcYNJg8ifA3MYpCaatcdpRBArujUtn+cYGpiAN8G4YX27l7iIVwFtIuHs7dWpsWugUCRxNf4OJUkn
+	b4kLf/Zg==;
+Received: from mail.successa.pl ([162.19.205.12])
+	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uWseH-00000007JKw-3aCF
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 01 Jul 2025 13:56:40 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4C5C32696;
-	Tue,  1 Jul 2025 06:56:23 -0700 (PDT)
-Received: from e133380.cambridge.arm.com (e133380.arm.com [10.1.197.52])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7A5673F58B;
-	Tue,  1 Jul 2025 06:56:37 -0700 (PDT)
-From: Dave Martin <Dave.Martin@arm.com>
-To: linux-kernel@vger.kernel.org
-Cc: Vineet Gupta <vgupta@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Kees Cook <kees@kernel.org>,
-	Akihiko Odaki <akihiko.odaki@daynix.com>,
-	linux-snps-arc@lists.infradead.org
-Subject: [PATCH 04/23] ARC: ptrace: Use USER_REGSET_NOTE_TYPE() to specify regset note names
-Date: Tue,  1 Jul 2025 14:55:57 +0100
-Message-Id: <20250701135616.29630-5-Dave.Martin@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250701135616.29630-1-Dave.Martin@arm.com>
-References: <20250701135616.29630-1-Dave.Martin@arm.com>
+	Wed, 02 Jul 2025 08:17:00 +0000
+Received: by mail.successa.pl (Postfix, from userid 1002)
+	id 926E528378; Wed,  2 Jul 2025 10:16:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=successa.pl; s=mail;
+	t=1751444213; bh=Q6Mp/vCJCiZNgk6fb7utkqIErbcoVoR/CugPofoeCtU=;
+	h=Date:From:To:Subject:From;
+	b=iNUFSgFGkSPBEs7+1bWrYXF528MZqcgdXX5lCgl6VUkAYlGxsI5BloLn5XuFK7atw
+	 N3A68Mflzn+x6A1wWriDyHN9hcaAXSdUmV/3OS/3wEQL92msg7HBrURKI4/PO5UYPQ
+	 /dHknSqgHzLBG+LvpcxQFwrkm3X7fRRQuOztYG5kgSg3g4Rihic+NRFSK2CHnJjv49
+	 APZqskJ20L4hx3B4hixD0rtZFh4m3TCvZnG01zscdkELeftIC4ojSRKi32CGBVqkaD
+	 atLG7tgHSSPJaB68lkp0BbJildQoEbcrZgFEZebA2NwlPKyrxub8Xrep4zuCOjnBNq
+	 CMFiyFb7ZTXgA==
+Received: by mail.successa.pl for <linux-snps-arc@lists.infradead.org>; Wed,  2 Jul 2025 08:16:09 GMT
+Message-ID: <20250702084501-0.1.j4.20n8o.0.pad2z17vp3@successa.pl>
+Date: Wed,  2 Jul 2025 08:16:09 GMT
+From: "Adam Drzewiecki" <adam.drzewiecki@successa.pl>
+To: <linux-snps-arc@lists.infradead.org>
+Subject: =?UTF-8?Q?Pytanie_o_samoch=C3=B3d_?=
+X-Mailer: mail.successa.pl
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250701_065639_071909_6AAABFAF 
-X-CRM114-Status: GOOD (  10.46  )
+X-CRM114-CacheID: sfid-20250702_091658_453991_9E0B3155 
+X-CRM114-Status: UNSURE (   0.93  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,51 +76,15 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Instead of having the core code guess the note name for each regset,
-use USER_REGSET_NOTE_TYPE() to pick the correct name from elf.h.
-
-Signed-off-by: Dave Martin <Dave.Martin@arm.com>
-Cc: Vineet Gupta <vgupta@kernel.org>
-Cc: Oleg Nesterov <oleg@redhat.com>
-Cc: Kees Cook <kees@kernel.org>
-Cc: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: linux-snps-arc@lists.infradead.org
----
- arch/arc/kernel/ptrace.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/arch/arc/kernel/ptrace.c b/arch/arc/kernel/ptrace.c
-index e0c233c178b1..cad5367b7c37 100644
---- a/arch/arc/kernel/ptrace.c
-+++ b/arch/arc/kernel/ptrace.c
-@@ -284,7 +284,7 @@ enum arc_getset {
- 
- static const struct user_regset arc_regsets[] = {
- 	[REGSET_CMN] = {
--	       .core_note_type = NT_PRSTATUS,
-+	       USER_REGSET_NOTE_TYPE(PRSTATUS),
- 	       .n = ELF_NGREG,
- 	       .size = sizeof(unsigned long),
- 	       .align = sizeof(unsigned long),
-@@ -293,7 +293,7 @@ static const struct user_regset arc_regsets[] = {
- 	},
- #ifdef CONFIG_ISA_ARCV2
- 	[REGSET_ARCV2] = {
--	       .core_note_type = NT_ARC_V2,
-+	       USER_REGSET_NOTE_TYPE(ARC_V2),
- 	       .n = ELF_ARCV2REG,
- 	       .size = sizeof(unsigned long),
- 	       .align = sizeof(unsigned long),
--- 
-2.34.1
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+RHppZcWEIGRvYnJ5LAoKQ3p5IGludGVyZXN1amUgUGHFhHN0d2Egcm96d2nEhXphbmllIHVtb8W8
+bGl3aWFqxIVjZSBtb25pdG9yb3dhbmllIHNhbW9jaG9kw7N3IGZpcm1vd3ljaCBvcmF6IG9wdHlt
+YWxpemFjasSZIGtvc3p0w7N3IGljaCB1dHJ6eW1hbmlhPyAKCgpQb3pkcmF3aWFtCkFkYW0gRHJ6
+ZXdpZWNraQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+bGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVh
+ZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1z
+bnBzLWFyYwo=
