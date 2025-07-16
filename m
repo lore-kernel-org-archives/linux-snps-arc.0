@@ -4,97 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D502FC83F22
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Jul 2025 10:33:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0780C83F27
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 16 Jul 2025 07:48:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=J1ywhZDzhumVu5gD/CuIpDsyaFgt+X2f5VJ5nz0KRtM=; b=3aUSSoMGCVXpWq
-	ITtyjMJF9ka5XjVJpr06twCy8PYLDVTsB37avDsre3XU2OHnkpG4oP+4ti/nMO+eh4H5xgO/18f7p
-	6jnVCFKvQqGNKYzcIqkpsuI+kaHv7+BzFqRjIh6uS2oaYXpliflk7TI1I7OmifmcnObaLBm1u84nc
-	EvyyUn2R+I6A8uCAUE+ir5beKZcEFLhsmQ4LszmWsVCf2svg5FBkTUd4Fu8iGE49H3THnx0Dv6JHM
-	TzuKhRlrPslXy/VXJ5g0Ov97gsYCnFDLbp99ETQ0DrRvKZGwfXcOx4fiRK2XZhS8Aaa01zcNLsdx0
-	Qejjfm2gXNvmKzKuICxA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=EKQOZVkYlPSYg9eiydUdXjXrHgH5NM92GO0h2IKYDvQ=; b=tigvxOJz3M4b9D
+	ygZj0V1uz3Q47eiN2MsZEnes7oyhBIySlXd5yo2ivyQtkWNdecm0HX/U8iKjXbh4K7IFGRSjtqgNB
+	jAuPZA1eQuXOa9MWzv0Xb4CRaVzu0ROZqvVPNS/NPU/K1TBk6OmrOPEhkhmfPrlB1dXGhtvgzeil8
+	Mbf5X5b1DZeGEYqLl4wlJ9CyniKZiqFvfckdlG9spynYvygxPQOt8q490W7pP0sQS9POr9EQvEIbT
+	Nh6xLY6Nu+qcMQnEli03pbtHraoW30CXC2AIh0JyQSkLaiK8K/80LkKQ46cwsGdpWban114ukLLOf
+	b+dFYGiXWxS+BClu1o9w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ubcyi-00000004qU9-1vy2;
-	Tue, 15 Jul 2025 10:33:40 +0000
-Received: from foss.arm.com ([217.140.110.172])
-	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ubcy8-00000004qOM-3Hii;
-	Tue, 15 Jul 2025 10:33:06 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8276112FC;
-	Tue, 15 Jul 2025 03:32:52 -0700 (PDT)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.59])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C689E3F694;
-	Tue, 15 Jul 2025 03:32:52 -0700 (PDT)
-Date: Tue, 15 Jul 2025 11:32:47 +0100
-From: Dave Martin <Dave.Martin@arm.com>
-To: Kees Cook <kees@kernel.org>
-Cc: linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Akihiko Odaki <akihiko.odaki@daynix.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Chris Zankel <chris@zankel.net>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Guo Ren <guoren@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
-	Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Jonas Bonn <jonas@southpole.se>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Rich Felker <dalias@libc.org>, Richard Weinberger <richard@nod.at>,
-	Russell King <linux@armlinux.org.uk>,
-	Stafford Horne <shorne@gmail.com>,
-	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vasily Gorbik <gor@linux.ibm.com>, Vineet Gupta <vgupta@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-	linux-um@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	loongarch@lists.linux.dev, sparclinux@vger.kernel.org,
-	x86@kernel.org
-Subject: Re: [PATCH 00/23] binfmt_elf,arch/*: Use elf.h for coredump note
- names
-Message-ID: <aHYuT0SxX65tAEp3@e133380.arm.com>
-References: <20250701135616.29630-1-Dave.Martin@arm.com>
- <175255782864.3413694.2008555655056311560.b4-ty@kernel.org>
+	id 1ubws2-000000073Vh-2Og2;
+	Wed, 16 Jul 2025 07:48:06 +0000
+Received: from mail.fundixo.pl ([57.128.173.14])
+	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ubwrn-000000073RC-0qgG
+	for linux-snps-arc@lists.infradead.org;
+	Wed, 16 Jul 2025 07:47:53 +0000
+Received: by mail.fundixo.pl (Postfix, from userid 1002)
+	id BD9F34C51E; Wed, 16 Jul 2025 09:46:38 +0200 (CEST)
+Received: by mail.fundixo.pl for <linux-snps-arc@lists.infradead.org>; Wed, 16 Jul 2025 07:45:44 GMT
+Message-ID: <20250716084500-0.1.gh.3ffvd.0.n029m6ufrr@CyberCitadel.pl>
+Date: Wed, 16 Jul 2025 07:45:44 GMT
+From: "Marek Kucharski" <marek.kucharski@fundixo.pl>
+To: <linux-snps-arc@lists.infradead.org>
+Subject: =?UTF-8?Q?Prosz=C4=99_o_kontakt?=
+X-Mailer: mail.CyberCitadel.pl
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <175255782864.3413694.2008555655056311560.b4-ty@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250715_033304_908960_C2F85CD4 
-X-CRM114-Status: GOOD (  17.52  )
+X-CRM114-CacheID: sfid-20250716_004751_376386_6FB9E0A8 
+X-CRM114-Status: UNSURE (   0.52  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,53 +52,16 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jul 14, 2025 at 10:37:11PM -0700, Kees Cook wrote:
-> On Tue, 01 Jul 2025 14:55:53 +0100, Dave Martin wrote:
-> > This series aims to clean up an aspect of coredump generation:
-> > 
-> > ELF coredumps contain a set of notes describing the state of machine
-> > registers and other information about the dumped process.
-> > 
-> > Notes are identified by a numeric identifier n_type and a "name"
-> > string, although this terminology is somewhat misleading.  Officially,
-> > the "name" of a note is really an "originator" or namespace identifier
-> > that indicates how to interpret n_type [1], although in practice it is
-> > often used more loosely.
-> > 
-> > [...]
-> 
-> Applied to for-next/execve, thanks!
-> 
-> [01/23] regset: Fix kerneldoc for struct regset_get() in user_regset
->         https://git.kernel.org/kees/c/6fd9e1aa0784
-
-[...]
-
-> [23/23] binfmt_elf: Warn on missing or suspicious regset note names
->         https://git.kernel.org/kees/c/a55128d392e8
-> 
-> Take care,
-> 
-> -- 
-> Kees Cook
-
-Thanks!
-
-Assuming nobody screams about things going wrong in next, I'll plan to
-water down the paranoid check in binfmt_elf.c:fill_thread_core_info().
-
-Anyone copy-pasting a new arch after this is in mainline shouldn't fall
-foul of this.
-
-Cheers
----Dave
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+RHppZcWEIGRvYnJ5LAoKQ3p5IGplc3QgbW/FvGxpd2/Fm8SHIG5hd2nEhXphbmlhIHdzcMOzxYJw
+cmFjeSB6IFBhxYRzdHdlbT8KClogY2jEmWNpxIUgcG9yb3ptYXdpYW0geiBvc29ixIUgemFqbXVq
+xIVjxIUgc2nEmSBkemlhxYJhbmlhbWkgendpxIV6YW55bWkgemUgc3ByemVkYcW8xIUuCgpQb21h
+Z2FteSBza3V0ZWN6bmllIHBvenlza2l3YcSHIG5vd3ljaCBrbGllbnTDs3cuCgpaYXByYXN6YW0g
+ZG8ga29udGFrdHUuCgoKUG96ZHJhd2lhbQpNYXJlayBLdWNoYXJza2kKCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcg
+bGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZy
+YWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
