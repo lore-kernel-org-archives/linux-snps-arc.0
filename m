@@ -4,106 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 879E0C83F17
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 26 Jul 2025 21:39:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7878FC83F26
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 28 Jul 2025 08:09:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=6MseZ9FZ920Tub74SfIfU1aWsyrsO52cn1svHtiOFKQ=; b=SPwQl6NvsbdPbg
-	zS0HZlCxQMjsFHra4iyosXsouEhFcoDux2bsxsoyt/KDwKAsN/xnp+88SsZKYCRT5G5cjAXLVxrFW
-	1WVgKJaDDliHR/0gOPDT2EuuqmBtAwD3G4KJ3mKyMlRdBIblTbFE6OW49XlVDLaVzG9lVcBNWxg5Y
-	MFiWIZqSb+ziiSAd8oq6e82v5gxwa1Xvt+BUF02ViBZDIQizYyGCL09RDb2LF4k4DK51SbBqWbHZ1
-	9ukkuKo4MLphpwvUbAzXkSZePG/yFLtrmp2PN9IQnq+oCl7iBmnk0PypN2zsYQZiQD7XuWG7PfslY
-	BTrMfcSM20H3dpDqBZvw==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=JR86VWJUep4/ALsRz5zFOIzTSp17LGHILJXwxtXqct0=; b=ZcJWKiwQ7hiKeY
+	ppvrRW2a1AWXNnzA4HGBMSTMd95g/t+23DuNKQZ0mMkvn2PoYHpxZIOxkMvvPRCMvYfVdo+mnUFEu
+	BjP0vZVoZXiEHGqgwKgrAe+xR0hTGRtup1ppDxQRD6UZj4qnrXyHQan+u3SbS5pmZRkvbZUPU0b4b
+	At3uIvyoX3qUo4iyjL4+xGA15nUCEgKGslL/xtl61g0FIarz37+WdHefDngjCfRSCtWC29rSvo5nB
+	3aY4U3Lz57JK3po5JDSzeE87FvQzYbwe4pS4zpy7BNpjdcAoaBKVwHy0heNPTwsKJp5OlRTZ3+i5L
+	ID4ZqAyChyVXyouNrexA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ufmc1-0000000Bwub-3M7R;
-	Sat, 26 Jul 2025 21:39:25 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1ugIvd-0000000Dwes-0pYF;
+	Mon, 28 Jul 2025 08:09:49 +0000
+Received: from mail.fintara.pl ([51.68.214.200])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ufmbz-0000000Bwtf-0OnQ;
-	Sat, 26 Jul 2025 21:39:24 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id DDE2A5C136A;
-	Sat, 26 Jul 2025 21:39:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D8BEC4CEED;
-	Sat, 26 Jul 2025 21:39:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753565960;
-	bh=bE8gOgUvTZi4vI0lg9qUYLnf/GEXOkxooNHihx3vuJw=;
-	h=Date:From:To:Cc:Subject:From;
-	b=XHrb3axiSsGzIoF2z2Ix7pQjSMf1Hy42ar894fKLOABDtiMSiJhU7EOw7iJrgd6tB
-	 IbaRdb5qeWEpZin3fRvADFhKWu6rwXZK251hn0vmJbDMaGw9ALbzwGt5jlO4g1Ev/5
-	 38kyT5jk9ILeJA/C732uod/apU+rxyQj7EYgW1D/FfLwRv3xciKcU+EEYDtA1K1HQw
-	 89qGLSJb5I1UF5EVZNysHbVA4poyaagUpDWiSn+7w1Wkxrul3aS8xbgWpQmDVmq97o
-	 1XX7DFiDUydJ2ZJduymhDp4XdKL9MxP2XYT1rwFJYEc0IFFTjUHBVSjh8qB39SdIcg
-	 FmVRs5hgMDysg==
-Date: Sat, 26 Jul 2025 14:39:20 -0700
-From: Kees Cook <kees@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, Akihiko Odaki <akihiko.odaki@daynix.com>,
-	Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Chris Zankel <chris@zankel.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dave Martin <Dave.Martin@arm.com>,
-	David Hildenbrand <david@redhat.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Dishank Jogi <dishank.jogi@siqol.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Guo Ren <guoren@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
-	Helge Deller <deller@gmx.de>, "H. Peter Anvin" <hpa@zytor.com>,
-	Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Jonas Bonn <jonas@southpole.se>, Kees Cook <kees@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
-	linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-	linux-um@lists.infradead.org, loongarch@lists.linux.dev,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Richard Weinberger <richard@nod.at>, Rich Felker <dalias@libc.org>,
-	Russell King <linux@armlinux.org.uk>, sparclinux@vger.kernel.org,
-	Stafford Horne <shorne@gmail.com>,
-	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vasily Gorbik <gor@linux.ibm.com>, Vineet Gupta <vgupta@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
-	x86@kernel.org, Yin Fengwei <fengwei_yin@linux.alibaba.com>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>
-Subject: [GIT PULL] execve updates for v6.17
-Message-ID: <202507261437.F2079B3B7@keescook>
+	id 1ugIva-0000000DweU-2Hmg
+	for linux-snps-arc@lists.infradead.org;
+	Mon, 28 Jul 2025 08:09:47 +0000
+Received: by mail.fintara.pl (Postfix, from userid 1002)
+	id 216B24D78C; Mon, 28 Jul 2025 10:06:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fintara.pl; s=mail;
+	t=1753690089; bh=0Yjr6NsrKkaYb/LNYm1mPKHuxqkR0iWhkNkzH9QSzrg=;
+	h=Date:From:To:Subject:From;
+	b=sG2puAgTRIUOzJfGanEK+nPk5SHHBoqGXjWlYv0KhrSW8ObVzTH0os/PnRJR/2aT6
+	 iz2R+N/S1QJjMen5f0YFY3kgoMfrujQCDQC5ZnrJyDn6GEbwxXcsaClN0+JejEd7Us
+	 +tkhl1EbRDrWaN6gAtm7oiOlUVdK54tFqe7gdmRCuQV8KwS/zLYpwFT1K3xddpTMLb
+	 3Gs1brdtooy3M30WpWZrpzcL7tNLUhLalnGt/gPVM23h43xUEDcSomqGvi7unRcCpz
+	 TTv+OCWDX5mjN30xP5tcXRJLk9by1g1f+3QE36JQ/EYyewTpFgbM71OgZhhUPUswIH
+	 CtAvuavgzc4lw==
+Received: by mail.fintara.pl for <linux-snps-arc@lists.infradead.org>; Mon, 28 Jul 2025 08:05:43 GMT
+Message-ID: <20250728084500-0.1.ax.2yznf.0.ecug96n3j7@fintara.pl>
+Date: Mon, 28 Jul 2025 08:05:43 GMT
+From: "Dominik Lotka" <dominik.lotka@fintara.pl>
+To: <linux-snps-arc@lists.infradead.org>
+Subject: =?UTF-8?Q?Prosz=C4=99_o_kontakt?=
+X-Mailer: mail.fintara.pl
 MIME-Version: 1.0
-Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250726_143923_204470_3EC8C280 
-X-CRM114-Status: GOOD (  12.24  )
+X-CRM114-CacheID: sfid-20250728_010946_834652_602875D7 
+X-CRM114-Status: UNSURE (   0.07  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,104 +61,16 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Linus,
-
-Please pull these execve updates for v6.17. Note that while the REGSET
-macro changes touch all the architectures, they are fairly mechanical
-and have been in linux-next for almost the entire development window.
-
-Thanks!
-
--Kees
-
-The following changes since commit e04c78d86a9699d136910cfc0bdcf01087e3267e:
-
-  Linux 6.16-rc2 (2025-06-15 13:49:41 -0700)
-
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git tags/execve-v6.17
-
-for you to fetch changes up to 7f71195c15dcf5f34c4c7f056603659374e3a525:
-
-  fork: reorder function qualifiers for copy_clone_args_from_user (2025-07-17 16:37:05 -0700)
-
-----------------------------------------------------------------
-execve updates for v6.17
-
-- Introduce regular REGSET note macros arch-wide (Dave Martin)
-
-- Remove arbitrary 4K limitation of program header size (Yin Fengwei)
-
-- Reorder function qualifiers for copy_clone_args_from_user() (Dishank Jogi)
-
-----------------------------------------------------------------
-Dave Martin (23):
-      regset: Fix kerneldoc for struct regset_get() in user_regset
-      regset: Add explicit core note name in struct user_regset
-      binfmt_elf: Dump non-arch notes with strictly matching name and type
-      ARC: ptrace: Use USER_REGSET_NOTE_TYPE() to specify regset note names
-      ARM: ptrace: Use USER_REGSET_NOTE_TYPE() to specify regset note names
-      arm64: ptrace: Use USER_REGSET_NOTE_TYPE() to specify regset note names
-      csky: ptrace: Use USER_REGSET_NOTE_TYPE() to specify regset note names
-      hexagon: ptrace: Use USER_REGSET_NOTE_TYPE() to specify regset note names
-      LoongArch: ptrace: Use USER_REGSET_NOTE_TYPE() to specify regset note names
-      m68k: ptrace: Use USER_REGSET_NOTE_TYPE() to specify regset note names
-      MIPS: ptrace: Use USER_REGSET_NOTE_TYPE() to specify regset note names
-      nios2: ptrace: Use USER_REGSET_NOTE_TYPE() to specify regset note names
-      openrisc: ptrace: Use USER_REGSET_NOTE_TYPE() to specify regset note names
-      parisc: ptrace: Use USER_REGSET_NOTE_TYPE() to specify regset note names
-      powerpc/ptrace: Use USER_REGSET_NOTE_TYPE() to specify regset note names
-      riscv: ptrace: Use USER_REGSET_NOTE_TYPE() to specify regset note names
-      s390/ptrace: Use USER_REGSET_NOTE_TYPE() to specify regset note names
-      sh: ptrace: Use USER_REGSET_NOTE_TYPE() to specify regset note names
-      sparc: ptrace: Use USER_REGSET_NOTE_TYPE() to specify regset note names
-      x86/ptrace: Use USER_REGSET_NOTE_TYPE() to specify regset note names
-      um: ptrace: Use USER_REGSET_NOTE_TYPE() to specify regset note names
-      xtensa: ptrace: Use USER_REGSET_NOTE_TYPE() to specify regset note names
-      binfmt_elf: Warn on missing or suspicious regset note names
-
-Dishank Jogi (1):
-      fork: reorder function qualifiers for copy_clone_args_from_user
-
-Yin Fengwei (1):
-      binfmt_elf: remove the 4k limitation of program header size
-
- include/linux/regset.h                   | 12 +++++-
- arch/arc/kernel/ptrace.c                 |  4 +-
- arch/arm/kernel/ptrace.c                 |  6 +--
- arch/arm64/kernel/ptrace.c               | 52 +++++++++++-----------
- arch/csky/kernel/ptrace.c                |  4 +-
- arch/hexagon/kernel/ptrace.c             |  2 +-
- arch/loongarch/kernel/ptrace.c           | 16 +++----
- arch/m68k/kernel/ptrace.c                |  4 +-
- arch/mips/kernel/ptrace.c                | 20 ++++-----
- arch/nios2/kernel/ptrace.c               |  2 +-
- arch/openrisc/kernel/ptrace.c            |  4 +-
- arch/parisc/kernel/ptrace.c              |  8 ++--
- arch/powerpc/kernel/ptrace/ptrace-view.c | 74 ++++++++++++++++----------------
- arch/riscv/kernel/ptrace.c               | 12 +++---
- arch/s390/kernel/ptrace.c                | 42 +++++++++---------
- arch/sh/kernel/ptrace_32.c               |  4 +-
- arch/sparc/kernel/ptrace_32.c            |  4 +-
- arch/sparc/kernel/ptrace_64.c            |  8 ++--
- arch/x86/kernel/ptrace.c                 | 22 +++++-----
- arch/x86/um/ptrace.c                     | 10 ++---
- arch/xtensa/kernel/ptrace.c              |  4 +-
- fs/binfmt_elf.c                          | 38 ++++++++++------
- fs/binfmt_elf_fdpic.c                    | 17 ++++----
- kernel/fork.c                            |  2 +-
- 24 files changed, 196 insertions(+), 175 deletions(-)
-
--- 
-Kees Cook
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+RHppZcWEIGRvYnJ5LAoKQ3p5IGplc3QgbW/FvGxpd2/Fm8SHIG5hd2nEhXphbmlhIHdzcMOzxYJw
+cmFjeSB6IFBhxYRzdHdlbT8KClogY2jEmWNpxIUgcG9yb3ptYXdpYW0geiBvc29ixIUgemFqbXVq
+xIVjxIUgc2nEmSBkemlhxYJhbmlhbWkgendpxIV6YW55bWkgemUgc3ByemVkYcW8xIUuCgpQb21h
+Z2FteSBza3V0ZWN6bmllIHBvenlza2l3YcSHIG5vd3ljaCBrbGllbnTDs3cuCgpaYXByYXN6YW0g
+ZG8ga29udGFrdHUuCgoKUG96ZHJhd2lhbQpEb21pbmlrIExvdGthCgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxp
+c3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFk
+ZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
