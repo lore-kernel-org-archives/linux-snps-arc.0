@@ -4,34 +4,34 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 633E2CA0EE4
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 13 Aug 2025 19:43:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9AA7C87FCF
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 13 Aug 2025 19:43:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=fHowhfA+TpcStJjh/kFgE5C2ldpJGAzhpROfOVYIFR4=; b=YlKkOrkb3Eha8x
-	V+LT77xBIQcNALcPNSYxsc20n8CBUvzcL5kshvPBGEexfmoOax5f0C5FbXnNdSruMIQil52StbJLF
-	UbRvytP5ZDTCLsPHCwg+enZh5uQ0kQ/5qojZskMh0XQdgKJvbDWDPUR/uOq6GTNFV3eQpomXsZVqI
-	LpCeNiWV7IpJIwUg62k3I+Y7jU+VZdfUyB9e/ho+09/LQBIAldsA4KAS3UoeH5d8PRT2+sK5cJ+CU
-	X9LVymKauMppdKWtYTXj5hBMaZNOBWbXWWm4hKzMvK4Ad4Zvn6GaOoyMMAJ0a2RTFrgjgfwCnTxk+
-	5qZdWVhpkVxaQ83FBS/g==;
+	List-Owner; bh=uoOR8e+EptRvbttgGdfa9a8/P/J7C89AuaSgMc6ttQ4=; b=ReBTxKS0Wv7O6l
+	LclgMT5TDDTIGfqEVz0E1mwo329OjVAfiwiHRELeB1PedLa/sycipsAq8tWLZgZ11imcAP3ACc+qu
+	6JcUwU8vNW1TldyfjlNrXjKREqwomxHTBzrWgho/PdXYO1EI8O6dUatHMyA/8cuaDx7P7oJ1N/N3D
+	fKxKacShl3xbowdmeI3uj4mUaBuru7vtN1dteils2rA2ckM0+9pIf8Xnp1SjsnFuCkRQbt2fyOJ5E
+	BD1ShGDZs9rkD115OoOnJ2KQLHkXVoCLamE9vsi3Bi68ij9BK1Rkuk09wJfQVurkFBepGrcOJAc73
+	zpmabQIP8CS+hn+2Qtkw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umHNv-0000000EoJw-0ZM5;
-	Wed, 13 Aug 2025 19:43:43 +0000
+	id 1umHNx-0000000EoMq-2ZCl;
+	Wed, 13 Aug 2025 19:43:45 +0000
 Received: from foss.arm.com ([217.140.110.172])
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umErE-0000000EVXt-1XCU;
-	Wed, 13 Aug 2025 17:01:49 +0000
+	id 1umErI-0000000EVb0-3ZCA;
+	Wed, 13 Aug 2025 17:01:54 +0000
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 93BEC1C00;
-	Wed, 13 Aug 2025 10:01:39 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 29D641C01;
+	Wed, 13 Aug 2025 10:01:44 -0700 (PDT)
 Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com [10.1.196.50])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7CB223F738;
-	Wed, 13 Aug 2025 10:01:43 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 074E03F738;
+	Wed, 13 Aug 2025 10:01:47 -0700 (PDT)
 From: Robin Murphy <robin.murphy@arm.com>
 To: peterz@infradead.org,
 	mingo@redhat.com,
@@ -71,16 +71,17 @@ Cc: linux-perf-users@vger.kernel.org,
 	linux-cxl@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org,
 	linux-riscv@lists.infradead.org
-Subject: [PATCH 05/19] iommu/vt-d: Fix perfmon group validation
-Date: Wed, 13 Aug 2025 18:00:57 +0100
-Message-Id: <fcc4a9091ff02606df9495fd16b00094216a933e.1755096883.git.robin.murphy@arm.com>
+Subject: [PATCH 06/19] ARM: l2x0: Fix group validation
+Date: Wed, 13 Aug 2025 18:00:58 +0100
+Message-Id: <925c34a4b7f0defc3582a9fcccb6af1c21279a86.1755096883.git.robin.murphy@arm.com>
 X-Mailer: git-send-email 2.39.2.101.g768bb238c484.dirty
 In-Reply-To: <cover.1755096883.git.robin.murphy@arm.com>
 References: <cover.1755096883.git.robin.murphy@arm.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250813_100148_461847_1629FC94 
-X-CRM114-Status: GOOD (  13.28  )
+X-CRM114-CacheID: sfid-20250813_100152_926683_446A6F08 
+X-CRM114-Status: UNSURE (   9.69  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,54 +98,43 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The group validation here has a few issues to fix: firstly, failing to
-count the group leader or the event being opened itself. Secondly it
-appears wrong not to count disabled sibling events given that they could
-be enabled later. Finally there's the subtlety that we should avoid racy
-access to the sibling list when the event is its own group leader.
+The group validation here is almost right, but fails to count the new
+event itself. While we fix that, also adopt the standard pattern to
+avoid racy access the sibling list and drop checks that are redundant
+with core code.
 
 Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 ---
- drivers/iommu/intel/perfmon.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+ arch/arm/mm/cache-l2x0-pmu.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/iommu/intel/perfmon.c b/drivers/iommu/intel/perfmon.c
-index 75f493bcb353..c3a1ac14cb2b 100644
---- a/drivers/iommu/intel/perfmon.c
-+++ b/drivers/iommu/intel/perfmon.c
-@@ -258,21 +258,25 @@ static int iommu_pmu_validate_group(struct perf_event *event)
- {
- 	struct iommu_pmu *iommu_pmu = iommu_event_to_pmu(event);
+diff --git a/arch/arm/mm/cache-l2x0-pmu.c b/arch/arm/mm/cache-l2x0-pmu.c
+index 93ef0502b7ff..6fc1171031a8 100644
+--- a/arch/arm/mm/cache-l2x0-pmu.c
++++ b/arch/arm/mm/cache-l2x0-pmu.c
+@@ -274,18 +274,17 @@ static bool l2x0_pmu_group_is_valid(struct perf_event *event)
+ 	struct pmu *pmu = event->pmu;
+ 	struct perf_event *leader = event->group_leader;
  	struct perf_event *sibling;
--	int nr = 0;
-+	int nr = 1;
+-	int num_hw = 0;
++	int num_hw = 1;
++
++	if (leader == event)
++		return true;
  
-+	if (event == event->group_leader)
-+		return 0;
- 	/*
- 	 * All events in a group must be scheduled simultaneously.
- 	 * Check whether there is enough counters for all the events.
- 	 */
--	for_each_sibling_event(sibling, event->group_leader) {
--		if (!is_iommu_pmu_event(iommu_pmu, sibling) ||
--		    sibling->state <= PERF_EVENT_STATE_OFF)
--			continue;
-+	if (is_iommu_pmu_event(iommu_pmu, event->group_leader))
-+		++nr;
+ 	if (leader->pmu == pmu)
+ 		num_hw++;
+-	else if (!is_software_event(leader))
+-		return false;
  
--		if (++nr > iommu_pmu->num_cntr)
--			return -EINVAL;
-+	for_each_sibling_event(sibling, event->group_leader) {
-+		if (is_iommu_pmu_event(iommu_pmu, sibling))
-+			++nr;
+ 	for_each_sibling_event(sibling, leader) {
+ 		if (sibling->pmu == pmu)
+ 			num_hw++;
+-		else if (!is_software_event(sibling))
+-			return false;
  	}
  
-+	if (nr > iommu_pmu->num_cntr)
-+		return -EINVAL;
-+
- 	return 0;
- }
- 
+ 	return num_hw <= PMU_NR_COUNTERS;
 -- 
 2.39.2.101.g768bb238c484.dirty
 
