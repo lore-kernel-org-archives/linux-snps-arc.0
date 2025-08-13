@@ -4,34 +4,34 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9AA7C87FCF
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 13 Aug 2025 19:43:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6326CA0EE4
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 13 Aug 2025 19:43:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=uoOR8e+EptRvbttgGdfa9a8/P/J7C89AuaSgMc6ttQ4=; b=ReBTxKS0Wv7O6l
-	LclgMT5TDDTIGfqEVz0E1mwo329OjVAfiwiHRELeB1PedLa/sycipsAq8tWLZgZ11imcAP3ACc+qu
-	6JcUwU8vNW1TldyfjlNrXjKREqwomxHTBzrWgho/PdXYO1EI8O6dUatHMyA/8cuaDx7P7oJ1N/N3D
-	fKxKacShl3xbowdmeI3uj4mUaBuru7vtN1dteils2rA2ckM0+9pIf8Xnp1SjsnFuCkRQbt2fyOJ5E
-	BD1ShGDZs9rkD115OoOnJ2KQLHkXVoCLamE9vsi3Bi68ij9BK1Rkuk09wJfQVurkFBepGrcOJAc73
-	zpmabQIP8CS+hn+2Qtkw==;
+	List-Owner; bh=Y/vYwcIOTo7vOTqMFFAnHbF330/kPo8pgOrMSGP9Up8=; b=aMLrHBDrB924XH
+	5rxssMLuWpCevGcOkxJZkjj+5HDIusn6DqTlPd2AbGArnVJlmQK57PqKYfOfl56GFQ6/DUSLYjALZ
+	SkT8BydJTKRvXccZEmTguiqOomqowO2leQlu+vKI1xu5R046KJW0PN7sOO45kZa6xvPrru59Bjn9g
+	Uc5BcmLXcdJ36WqcohzYuaMh5rHBcVHOv/DO9D4Jek+dvX8KDfS53uL4qUEuCcTW6/FhdJis3Hg3v
+	8gZjD+L03hOSSodl8yLupc/mMt2ZmvjCHNLnQuPKKyUNa8iZO+2QUVR/RN5+qkpAUqXzp1JXaqrIm
+	67lGKI9UgNmT32wBANdQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umHNx-0000000EoMq-2ZCl;
-	Wed, 13 Aug 2025 19:43:45 +0000
+	id 1umHO0-0000000EoQE-2ZDD;
+	Wed, 13 Aug 2025 19:43:48 +0000
 Received: from foss.arm.com ([217.140.110.172])
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umErI-0000000EVb0-3ZCA;
-	Wed, 13 Aug 2025 17:01:54 +0000
+	id 1umErN-0000000EVdv-1T8Q;
+	Wed, 13 Aug 2025 17:01:58 +0000
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 29D641C01;
-	Wed, 13 Aug 2025 10:01:44 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A7DB41C14;
+	Wed, 13 Aug 2025 10:01:48 -0700 (PDT)
 Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com [10.1.196.50])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 074E03F738;
-	Wed, 13 Aug 2025 10:01:47 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8F4993F738;
+	Wed, 13 Aug 2025 10:01:52 -0700 (PDT)
 From: Robin Murphy <robin.murphy@arm.com>
 To: peterz@infradead.org,
 	mingo@redhat.com,
@@ -71,16 +71,16 @@ Cc: linux-perf-users@vger.kernel.org,
 	linux-cxl@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org,
 	linux-riscv@lists.infradead.org
-Subject: [PATCH 06/19] ARM: l2x0: Fix group validation
-Date: Wed, 13 Aug 2025 18:00:58 +0100
-Message-Id: <925c34a4b7f0defc3582a9fcccb6af1c21279a86.1755096883.git.robin.murphy@arm.com>
+Subject: [PATCH 07/19] ARM: imx: Fix MMDC PMU group validation
+Date: Wed, 13 Aug 2025 18:00:59 +0100
+Message-Id: <12766b2e16939ed97df8c410a994c730bede8298.1755096883.git.robin.murphy@arm.com>
 X-Mailer: git-send-email 2.39.2.101.g768bb238c484.dirty
 In-Reply-To: <cover.1755096883.git.robin.murphy@arm.com>
 References: <cover.1755096883.git.robin.murphy@arm.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250813_100152_926683_446A6F08 
-X-CRM114-Status: UNSURE (   9.69  )
+X-CRM114-CacheID: sfid-20250813_100157_421650_8EA16CF6 
+X-CRM114-Status: UNSURE (   9.28  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -98,43 +98,52 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The group validation here is almost right, but fails to count the new
-event itself. While we fix that, also adopt the standard pattern to
-avoid racy access the sibling list and drop checks that are redundant
-with core code.
+The group validation here gets the event and its group leader mixed up,
+such that if the group leader belongs to a different PMU, the set_bit()
+may go wildly out of bounds. While we fix that, also adopt the standard
+pattern to avoid racy access the sibling list and drop checks that are
+redundant with core code.
 
 Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 ---
- arch/arm/mm/cache-l2x0-pmu.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ arch/arm/mach-imx/mmdc.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/arch/arm/mm/cache-l2x0-pmu.c b/arch/arm/mm/cache-l2x0-pmu.c
-index 93ef0502b7ff..6fc1171031a8 100644
---- a/arch/arm/mm/cache-l2x0-pmu.c
-+++ b/arch/arm/mm/cache-l2x0-pmu.c
-@@ -274,18 +274,17 @@ static bool l2x0_pmu_group_is_valid(struct perf_event *event)
- 	struct pmu *pmu = event->pmu;
- 	struct perf_event *leader = event->group_leader;
- 	struct perf_event *sibling;
--	int num_hw = 0;
-+	int num_hw = 1;
-+
-+	if (leader == event)
+diff --git a/arch/arm/mach-imx/mmdc.c b/arch/arm/mach-imx/mmdc.c
+index 94e4f4a2f73f..f9d432b385a2 100644
+--- a/arch/arm/mach-imx/mmdc.c
++++ b/arch/arm/mach-imx/mmdc.c
+@@ -238,11 +238,8 @@ static bool mmdc_pmu_group_event_is_valid(struct perf_event *event,
+ {
+ 	int cfg = event->attr.config;
+ 
+-	if (is_software_event(event))
+-		return true;
+-
+ 	if (event->pmu != pmu)
+-		return false;
 +		return true;
  
- 	if (leader->pmu == pmu)
- 		num_hw++;
--	else if (!is_software_event(leader))
--		return false;
+ 	return !test_and_set_bit(cfg, used_counters);
+ }
+@@ -260,12 +257,12 @@ static bool mmdc_pmu_group_is_valid(struct perf_event *event)
+ 	struct perf_event *sibling;
+ 	unsigned long counter_mask = 0;
+ 
+-	set_bit(leader->attr.config, &counter_mask);
++	if (event == leader)
++		return true;
+ 
+-	if (event != leader) {
+-		if (!mmdc_pmu_group_event_is_valid(event, pmu, &counter_mask))
+-			return false;
+-	}
++	set_bit(event->attr.config, &counter_mask);
++	if (!mmdc_pmu_group_event_is_valid(leader, pmu, &counter_mask))
++		return false;
  
  	for_each_sibling_event(sibling, leader) {
- 		if (sibling->pmu == pmu)
- 			num_hw++;
--		else if (!is_software_event(sibling))
--			return false;
- 	}
- 
- 	return num_hw <= PMU_NR_COUNTERS;
+ 		if (!mmdc_pmu_group_event_is_valid(sibling, pmu, &counter_mask))
 -- 
 2.39.2.101.g768bb238c484.dirty
 
