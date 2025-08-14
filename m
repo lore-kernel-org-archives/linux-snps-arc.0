@@ -4,83 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4D98C87FCF
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 13 Aug 2025 19:44:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C84E8CA0ED1
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 14 Aug 2025 05:47:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=qoIgkJOWBmaJoC0SBfl9kKW0RdNyiNe9xszmU22a44U=; b=5BcU2U3P26Wia0
-	v6UkmcYdDIRyA2YYzUXGeC3KU+LvijtL9wqK7y8uKBNwG/e28KvzJWbOrpUfo86A5nkkjes4qO6Dy
-	SV8btWyeITylwVzFbMYDn3TMlrMvP99nal3HjT1i5uDJKbmh3s7/lYGHldy+fwWld+/wOl47112PT
-	sxPF+BDtbUmDJjhgkcuU2SjoR8f447qD4BdRGY/8qsLcxZXjnjVsvTOQrBZwS0OYQZSFqxGd4+8ua
-	xy2RvSnB7kh/XuGHYoz03fafR2l7EVQONyDNatyBquHFChiPrfTr17kRW5sEnoSep94D4vDvLHfcF
-	O3dfBOYYYc6zAiRncxJg==;
+	List-Owner; bh=1NuMQSaPxEBirY1fzY98HUVtMApBBF4gbyA5njid15s=; b=ER1Xh7jMuqimYV
+	2VzBE+jM3lLwW5OfCCDvz0FobVTUN1ZCoqBMLBkUUmnllFSjRNVBJKj3uUpVuoiiDAK+7v5yiaDmW
+	IRtAJU+8NBItxX5++mH2SaE0v7veuGCJOQf7loUP86387FQGq2kODFMUCvDEfQRSh1pcufr2Phqht
+	SEijfRLwCmsCYOiqpXETZ5WtwsAXNwuDSayP8LJMi8kAgr3HLHaonupWPP73afNqgTv3UNpqxbCYV
+	jspF8K1BlYZf2Kzvy7pLtmVrx7s2nxRAIFfJtQUoGzCU0xsUIp8vQeQp6P5EL25e9PzEgM2ucNBV5
+	NfnhSsKk6UGhM37Lkxww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umHOv-0000000Epmd-2PKr;
-	Wed, 13 Aug 2025 19:44:45 +0000
-Received: from foss.arm.com ([217.140.110.172])
-	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umEs1-0000000EW9B-3dqo;
-	Wed, 13 Aug 2025 17:02:39 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 497041E7D;
-	Wed, 13 Aug 2025 10:02:29 -0700 (PDT)
-Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com [10.1.196.50])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 304C73F738;
-	Wed, 13 Aug 2025 10:02:33 -0700 (PDT)
-From: Robin Murphy <robin.murphy@arm.com>
-To: peterz@infradead.org,
-	mingo@redhat.com,
-	will@kernel.org,
-	mark.rutland@arm.com,
-	acme@kernel.org,
-	namhyung@kernel.org,
-	alexander.shishkin@linux.intel.com,
-	jolsa@kernel.org,
-	irogers@google.com,
-	adrian.hunter@intel.com,
+	id 1umQno-0000000Fr6p-1CV2;
+	Thu, 14 Aug 2025 05:47:04 +0000
+Received: from mgamail.intel.com ([192.198.163.11])
+	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1umQlD-0000000FqXk-0iYr;
+	Thu, 14 Aug 2025 05:44:24 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755150263; x=1786686263;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=g6R08dRtzi78aEFReCyHEuWUNRmsPZO1Bp8+EA825f0=;
+  b=dGR1nc5b0tPjgKO1DkYSW0gExhCfJTGxu+stADZZboVTjI+a2E/jHniz
+   Qdj/CpDsLeIhTiQBeYLaN+fJHvKuLqBJ/rf4CTjErfjp35BxEQglgrUbK
+   x+9cNfvNnxZUZr7b1ql+N9umMFZbvBD95beh/qnayf6kKDPnVM49k3PTo
+   31DMNXaYWmOs33v9cBUt3wsV5uQ5ahUD66TaGqzb4HXeo1QGF5BAnY4gO
+   +4NIrc8zYikUhyLxSeOpVYBZVfJt3JnJPdBwKduIRuYlNzfyUWxz+lgOe
+   wOZXZlrP0AFKAwOw5p6ADrAOdfsmODIjQ7MDC4mK3soDeRQEIYb4MihIa
+   A==;
+X-CSE-ConnectionGUID: cdUKLeswT8qpzfXIK73MSw==
+X-CSE-MsgGUID: VX3jq3adR9mwEJpoZ6oT6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="68063297"
+X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
+   d="scan'208";a="68063297"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 22:44:20 -0700
+X-CSE-ConnectionGUID: EW+xK8OMTcegzO0PV9/IwQ==
+X-CSE-MsgGUID: DyMXdD5CQGikV6ws5RD5Og==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
+   d="scan'208";a="170876883"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 13 Aug 2025 22:44:14 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1umQkr-000AcW-2Z;
+	Thu, 14 Aug 2025 05:44:08 +0000
+Date: Thu, 14 Aug 2025 13:43:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Robin Murphy <robin.murphy@arm.com>, mingo@redhat.com, will@kernel.org,
+	mark.rutland@arm.com, acme@kernel.org, namhyung@kernel.org,
+	alexander.shishkin@linux.intel.com, jolsa@kernel.org,
+	irogers@google.com, adrian.hunter@intel.com,
 	kan.liang@linux.intel.com
-Cc: linux-perf-users@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-alpha@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	imx@lists.linux.dev,
-	linux-csky@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-mips@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	dmaengine@vger.kernel.org,
-	linux-fpga@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org,
-	coresight@lists.linaro.org,
-	iommu@lists.linux.dev,
-	linux-amlogic@lists.infradead.org,
-	linux-cxl@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH 16/19] perf: Introduce positive capability for sampling
-Date: Wed, 13 Aug 2025 18:01:08 +0100
-Message-Id: <ae81cb65b38555c628e395cce67ac6c7eaafdd23.1755096883.git.robin.murphy@arm.com>
-X-Mailer: git-send-email 2.39.2.101.g768bb238c484.dirty
-In-Reply-To: <cover.1755096883.git.robin.murphy@arm.com>
-References: <cover.1755096883.git.robin.murphy@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+	linux-csky@vger.kernel.org, loongarch@lists.linux.dev,
+	linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, dmaengine@vger.kernel.org,
+	linux-fpga@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 13/19] perf: Add helper for checking grouped events
+Message-ID: <202508141353.JZWHsrYP-lkp@intel.com>
+References: <b05607c3ce0d3ce52de1784823ef9f6de324283c.1755096883.git.robin.murphy@arm.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <b05607c3ce0d3ce52de1784823ef9f6de324283c.1755096883.git.robin.murphy@arm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250813_100237_990943_856D55B3 
-X-CRM114-Status: GOOD (  18.05  )
+X-CRM114-CacheID: sfid-20250813_224423_233177_CDDB6911 
+X-CRM114-Status: GOOD (  13.39  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,432 +100,143 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Sampling is inherently a feature for CPU PMUs, given that the thing
-to be sampled is a CPU context. These days, we have many more
-uncore/system PMUs than CPU PMUs, so it no longer makes much sense to
-assume sampling support by default and force the ever-growing majority
-of drivers to opt out of it (or erroneously fail to). Instead, let's
-introduce a positive opt-in capability that's more obvious and easier to
-maintain.
+Hi Robin,
 
-Signed-off-by: Robin Murphy <robin.murphy@arm.com>
----
- arch/alpha/kernel/perf_event.c       |  3 ++-
- arch/arc/kernel/perf_event.c         |  2 ++
- arch/csky/kernel/perf_event.c        |  2 ++
- arch/loongarch/kernel/perf_event.c   |  1 +
- arch/mips/kernel/perf_event_mipsxx.c |  1 +
- arch/powerpc/perf/core-book3s.c      |  1 +
- arch/powerpc/perf/core-fsl-emb.c     |  1 +
- arch/powerpc/perf/imc-pmu.c          |  1 +
- arch/s390/kernel/perf_cpum_cf.c      |  1 +
- arch/s390/kernel/perf_cpum_sf.c      |  2 ++
- arch/s390/kernel/perf_pai_crypto.c   |  1 +
- arch/s390/kernel/perf_pai_ext.c      |  1 +
- arch/sparc/kernel/perf_event.c       |  1 +
- arch/x86/events/amd/ibs.c            |  2 ++
- arch/x86/events/core.c               |  4 +++-
- arch/xtensa/kernel/perf_event.c      |  1 +
- drivers/perf/arm_pmu.c               |  3 ++-
- drivers/perf/arm_pmu_platform.c      |  1 +
- drivers/perf/arm_spe_pmu.c           |  3 ++-
- drivers/perf/riscv_pmu_sbi.c         |  2 ++
- include/linux/perf_event.h           |  3 ++-
- kernel/events/core.c                 | 20 +++++++++++---------
- kernel/events/hw_breakpoint.c        |  1 +
- 23 files changed, 44 insertions(+), 14 deletions(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/arch/alpha/kernel/perf_event.c b/arch/alpha/kernel/perf_event.c
-index 8557165e64c0..4de1802d249f 100644
---- a/arch/alpha/kernel/perf_event.c
-+++ b/arch/alpha/kernel/perf_event.c
-@@ -761,7 +761,8 @@ static struct pmu pmu = {
- 	.start		= alpha_pmu_start,
- 	.stop		= alpha_pmu_stop,
- 	.read		= alpha_pmu_read,
--	.capabilities	= PERF_PMU_CAP_NO_EXCLUDE,
-+	.capabilities	= PERF_PMU_CAP_SAMPLING |
-+			  PERF_PMU_CAP_NO_EXCLUDE,
- };
- 
- 
-diff --git a/arch/arc/kernel/perf_event.c b/arch/arc/kernel/perf_event.c
-index ed6d4f0cd621..1b99b0215027 100644
---- a/arch/arc/kernel/perf_event.c
-+++ b/arch/arc/kernel/perf_event.c
-@@ -818,6 +818,8 @@ static int arc_pmu_device_probe(struct platform_device *pdev)
- 
- 	if (irq == -1)
- 		arc_pmu->pmu.capabilities |= PERF_PMU_CAP_NO_INTERRUPT;
-+	else
-+		arc_pmu->pmu.capabilities |= PERF_PMU_CAP_SAMPLING;
- 
- 	/*
- 	 * perf parser doesn't really like '-' symbol in events name, so let's
-diff --git a/arch/csky/kernel/perf_event.c b/arch/csky/kernel/perf_event.c
-index e0a36acd265b..c5ba6e235a6f 100644
---- a/arch/csky/kernel/perf_event.c
-+++ b/arch/csky/kernel/perf_event.c
-@@ -1204,6 +1204,7 @@ int init_hw_perf_events(void)
- 	}
- 
- 	csky_pmu.pmu = (struct pmu) {
-+		.capabilities	= PERF_PMU_CAP_SAMPLING,
- 		.pmu_enable	= csky_pmu_enable,
- 		.pmu_disable	= csky_pmu_disable,
- 		.event_init	= csky_pmu_event_init,
-@@ -1314,6 +1315,7 @@ int csky_pmu_device_probe(struct platform_device *pdev,
- 
- 	ret = csky_pmu_request_irq(csky_pmu_handle_irq);
- 	if (ret) {
-+		csky_pmu.pmu.capabilities &= ~PERF_PMU_CAP_SAMPLING;
- 		csky_pmu.pmu.capabilities |= PERF_PMU_CAP_NO_INTERRUPT;
- 		pr_notice("[perf] PMU request irq fail!\n");
- 	}
-diff --git a/arch/loongarch/kernel/perf_event.c b/arch/loongarch/kernel/perf_event.c
-index 8ad098703488..341b17bedd0e 100644
---- a/arch/loongarch/kernel/perf_event.c
-+++ b/arch/loongarch/kernel/perf_event.c
-@@ -571,6 +571,7 @@ static int loongarch_pmu_event_init(struct perf_event *event)
- }
- 
- static struct pmu pmu = {
-+	.capabilities	= PERF_PMU_CAP_SAMPLING,
- 	.pmu_enable	= loongarch_pmu_enable,
- 	.pmu_disable	= loongarch_pmu_disable,
- 	.event_init	= loongarch_pmu_event_init,
-diff --git a/arch/mips/kernel/perf_event_mipsxx.c b/arch/mips/kernel/perf_event_mipsxx.c
-index 196a070349b0..4c5d64d1158e 100644
---- a/arch/mips/kernel/perf_event_mipsxx.c
-+++ b/arch/mips/kernel/perf_event_mipsxx.c
-@@ -687,6 +687,7 @@ static int mipspmu_event_init(struct perf_event *event)
- }
- 
- static struct pmu pmu = {
-+	.capabilities	= PERF_PMU_CAP_SAMPLING,
- 	.pmu_enable	= mipspmu_enable,
- 	.pmu_disable	= mipspmu_disable,
- 	.event_init	= mipspmu_event_init,
-diff --git a/arch/powerpc/perf/core-book3s.c b/arch/powerpc/perf/core-book3s.c
-index d67f7d511f13..cfe7d3c120e1 100644
---- a/arch/powerpc/perf/core-book3s.c
-+++ b/arch/powerpc/perf/core-book3s.c
-@@ -2207,6 +2207,7 @@ ssize_t power_events_sysfs_show(struct device *dev,
- }
- 
- static struct pmu power_pmu = {
-+	.capabilities	= PERF_PMU_CAP_SAMPLING,
- 	.pmu_enable	= power_pmu_enable,
- 	.pmu_disable	= power_pmu_disable,
- 	.event_init	= power_pmu_event_init,
-diff --git a/arch/powerpc/perf/core-fsl-emb.c b/arch/powerpc/perf/core-fsl-emb.c
-index 509932b91b75..62038ff3663f 100644
---- a/arch/powerpc/perf/core-fsl-emb.c
-+++ b/arch/powerpc/perf/core-fsl-emb.c
-@@ -570,6 +570,7 @@ static int fsl_emb_pmu_event_init(struct perf_event *event)
- }
- 
- static struct pmu fsl_emb_pmu = {
-+	.capabilities	= PERF_PMU_CAP_SAMPLING,
- 	.pmu_enable	= fsl_emb_pmu_enable,
- 	.pmu_disable	= fsl_emb_pmu_disable,
- 	.event_init	= fsl_emb_pmu_event_init,
-diff --git a/arch/powerpc/perf/imc-pmu.c b/arch/powerpc/perf/imc-pmu.c
-index 8664a7d297ad..f352dda3baf9 100644
---- a/arch/powerpc/perf/imc-pmu.c
-+++ b/arch/powerpc/perf/imc-pmu.c
-@@ -1507,6 +1507,7 @@ static int update_pmu_ops(struct imc_pmu *pmu)
- 		pmu->pmu.commit_txn = thread_imc_pmu_commit_txn;
- 		break;
- 	case IMC_DOMAIN_TRACE:
-+		pmu->pmu.capabilities |= PERF_PMU_CAP_SAMPLING;
- 		pmu->pmu.event_init = trace_imc_event_init;
- 		pmu->pmu.add = trace_imc_event_add;
- 		pmu->pmu.del = trace_imc_event_del;
-diff --git a/arch/s390/kernel/perf_cpum_cf.c b/arch/s390/kernel/perf_cpum_cf.c
-index 4d09954ebf49..7d10842d54f0 100644
---- a/arch/s390/kernel/perf_cpum_cf.c
-+++ b/arch/s390/kernel/perf_cpum_cf.c
-@@ -1861,6 +1861,7 @@ static const struct attribute_group *cfdiag_attr_groups[] = {
-  */
- static struct pmu cf_diag = {
- 	.task_ctx_nr  = perf_sw_context,
-+	.capabilities = PERF_PMU_CAP_SAMPLING,
- 	.event_init   = cfdiag_event_init,
- 	.pmu_enable   = cpumf_pmu_enable,
- 	.pmu_disable  = cpumf_pmu_disable,
-diff --git a/arch/s390/kernel/perf_cpum_sf.c b/arch/s390/kernel/perf_cpum_sf.c
-index f432869f8921..3d2c400f0aaa 100644
---- a/arch/s390/kernel/perf_cpum_sf.c
-+++ b/arch/s390/kernel/perf_cpum_sf.c
-@@ -1892,6 +1892,8 @@ static const struct attribute_group *cpumsf_pmu_attr_groups[] = {
- };
- 
- static struct pmu cpumf_sampling = {
-+	.capabilities = PERF_PMU_CAP_SAMPLING,
-+
- 	.pmu_enable   = cpumsf_pmu_enable,
- 	.pmu_disable  = cpumsf_pmu_disable,
- 
-diff --git a/arch/s390/kernel/perf_pai_crypto.c b/arch/s390/kernel/perf_pai_crypto.c
-index f373a1009c45..a64b6b056a21 100644
---- a/arch/s390/kernel/perf_pai_crypto.c
-+++ b/arch/s390/kernel/perf_pai_crypto.c
-@@ -569,6 +569,7 @@ static const struct attribute_group *paicrypt_attr_groups[] = {
- /* Performance monitoring unit for mapped counters */
- static struct pmu paicrypt = {
- 	.task_ctx_nr  = perf_hw_context,
-+	.capabilities = PERF_PMU_CAP_SAMPLING,
- 	.event_init   = paicrypt_event_init,
- 	.add	      = paicrypt_add,
- 	.del	      = paicrypt_del,
-diff --git a/arch/s390/kernel/perf_pai_ext.c b/arch/s390/kernel/perf_pai_ext.c
-index d827473e7f87..1261f80c6d52 100644
---- a/arch/s390/kernel/perf_pai_ext.c
-+++ b/arch/s390/kernel/perf_pai_ext.c
-@@ -595,6 +595,7 @@ static const struct attribute_group *paiext_attr_groups[] = {
- /* Performance monitoring unit for mapped counters */
- static struct pmu paiext = {
- 	.task_ctx_nr  = perf_hw_context,
-+	.capabilities = PERF_PMU_CAP_SAMPLING,
- 	.event_init   = paiext_event_init,
- 	.add	      = paiext_add,
- 	.del	      = paiext_del,
-diff --git a/arch/sparc/kernel/perf_event.c b/arch/sparc/kernel/perf_event.c
-index 706127749c66..6ecea8e7b592 100644
---- a/arch/sparc/kernel/perf_event.c
-+++ b/arch/sparc/kernel/perf_event.c
-@@ -1573,6 +1573,7 @@ static int sparc_pmu_commit_txn(struct pmu *pmu)
- }
- 
- static struct pmu pmu = {
-+	.capabilities	= PERF_PMU_CAP_SAMPLING,
- 	.pmu_enable	= sparc_pmu_enable,
- 	.pmu_disable	= sparc_pmu_disable,
- 	.event_init	= sparc_pmu_event_init,
-diff --git a/arch/x86/events/amd/ibs.c b/arch/x86/events/amd/ibs.c
-index 95de309fc7d5..ed07d80b6fe0 100644
---- a/arch/x86/events/amd/ibs.c
-+++ b/arch/x86/events/amd/ibs.c
-@@ -768,6 +768,7 @@ static struct perf_ibs perf_ibs_fetch = {
- 	.pmu = {
- 		.task_ctx_nr	= perf_hw_context,
- 
-+		.capabilities	= PERF_PMU_CAP_SAMPLING,
- 		.event_init	= perf_ibs_init,
- 		.add		= perf_ibs_add,
- 		.del		= perf_ibs_del,
-@@ -793,6 +794,7 @@ static struct perf_ibs perf_ibs_op = {
- 	.pmu = {
- 		.task_ctx_nr	= perf_hw_context,
- 
-+		.capabilities	= PERF_PMU_CAP_SAMPLING,
- 		.event_init	= perf_ibs_init,
- 		.add		= perf_ibs_add,
- 		.del		= perf_ibs_del,
-diff --git a/arch/x86/events/core.c b/arch/x86/events/core.c
-index eca5bb49aa85..72a4c43951ee 100644
---- a/arch/x86/events/core.c
-+++ b/arch/x86/events/core.c
-@@ -1837,7 +1837,7 @@ static void __init pmu_check_apic(void)
- 	 * sample via a hrtimer based software event):
- 	 */
- 	pmu.capabilities |= PERF_PMU_CAP_NO_INTERRUPT;
--
-+	pmu.capabilities &= ~PERF_PMU_CAP_SAMPLING;
- }
- 
- static struct attribute_group x86_pmu_format_group __ro_after_init = {
-@@ -2698,6 +2698,8 @@ static bool x86_pmu_filter(struct pmu *pmu, int cpu)
- }
- 
- static struct pmu pmu = {
-+	.capabilities		= PERF_PMU_CAP_SAMPLING,
-+
- 	.pmu_enable		= x86_pmu_enable,
- 	.pmu_disable		= x86_pmu_disable,
- 
-diff --git a/arch/xtensa/kernel/perf_event.c b/arch/xtensa/kernel/perf_event.c
-index 223f1d452310..b03a2feb0f92 100644
---- a/arch/xtensa/kernel/perf_event.c
-+++ b/arch/xtensa/kernel/perf_event.c
-@@ -397,6 +397,7 @@ irqreturn_t xtensa_pmu_irq_handler(int irq, void *dev_id)
- }
- 
- static struct pmu xtensa_pmu = {
-+	.capabilities = PERF_PMU_CAP_SAMPLING,
- 	.pmu_enable = xtensa_pmu_enable,
- 	.pmu_disable = xtensa_pmu_disable,
- 	.event_init = xtensa_pmu_event_init,
-diff --git a/drivers/perf/arm_pmu.c b/drivers/perf/arm_pmu.c
-index 2c1af3a0207c..72d8f38d0aa5 100644
---- a/drivers/perf/arm_pmu.c
-+++ b/drivers/perf/arm_pmu.c
-@@ -876,7 +876,8 @@ struct arm_pmu *armpmu_alloc(void)
- 		 * PERF_TYPE_HARDWARE and PERF_TYPE_HW_CACHE events on a
- 		 * specific PMU.
- 		 */
--		.capabilities	= PERF_PMU_CAP_EXTENDED_REGS |
-+		.capabilities	= PERF_PMU_CAP_SAMPLING |
-+				  PERF_PMU_CAP_EXTENDED_REGS |
- 				  PERF_PMU_CAP_EXTENDED_HW_TYPE,
- 	};
- 
-diff --git a/drivers/perf/arm_pmu_platform.c b/drivers/perf/arm_pmu_platform.c
-index 118170a5cede..ab7a802cd0d6 100644
---- a/drivers/perf/arm_pmu_platform.c
-+++ b/drivers/perf/arm_pmu_platform.c
-@@ -109,6 +109,7 @@ static int pmu_parse_irqs(struct arm_pmu *pmu)
- 	 */
- 	if (num_irqs == 0) {
- 		dev_warn(dev, "no irqs for PMU, sampling events not supported\n");
-+		pmu->pmu.capabilities &= ~PERF_PMU_CAP_SAMPLING;
- 		pmu->pmu.capabilities |= PERF_PMU_CAP_NO_INTERRUPT;
- 		cpumask_setall(&pmu->supported_cpus);
- 		return 0;
-diff --git a/drivers/perf/arm_spe_pmu.c b/drivers/perf/arm_spe_pmu.c
-index 369e77ad5f13..dbd52851f5c6 100644
---- a/drivers/perf/arm_spe_pmu.c
-+++ b/drivers/perf/arm_spe_pmu.c
-@@ -955,7 +955,8 @@ static int arm_spe_pmu_perf_init(struct arm_spe_pmu *spe_pmu)
- 	spe_pmu->pmu = (struct pmu) {
- 		.module = THIS_MODULE,
- 		.parent		= &spe_pmu->pdev->dev,
--		.capabilities	= PERF_PMU_CAP_EXCLUSIVE | PERF_PMU_CAP_ITRACE,
-+		.capabilities	= PERF_PMU_CAP_SAMPLING |
-+				  PERF_PMU_CAP_EXCLUSIVE | PERF_PMU_CAP_ITRACE,
- 		.attr_groups	= arm_spe_pmu_attr_groups,
- 		/*
- 		 * We hitch a ride on the software context here, so that
-diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sbi.c
-index 698de8ddf895..d185ea8c47ba 100644
---- a/drivers/perf/riscv_pmu_sbi.c
-+++ b/drivers/perf/riscv_pmu_sbi.c
-@@ -1361,6 +1361,8 @@ static int pmu_sbi_device_probe(struct platform_device *pdev)
- 		pr_info("Perf sampling/filtering is not supported as sscof extension is not available\n");
- 		pmu->pmu.capabilities |= PERF_PMU_CAP_NO_INTERRUPT;
- 		pmu->pmu.capabilities |= PERF_PMU_CAP_NO_EXCLUDE;
-+	} else {
-+		pmu->pmu.capabilities |= PERF_PMU_CAP_SAMPLING;
- 	}
- 
- 	pmu->pmu.attr_groups = riscv_pmu_attr_groups;
-diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
-index 4d439c24c901..bf2cfbeabba2 100644
---- a/include/linux/perf_event.h
-+++ b/include/linux/perf_event.h
-@@ -294,7 +294,7 @@ struct perf_event_pmu_context;
- /**
-  * pmu::capabilities flags
-  */
--#define PERF_PMU_CAP_NO_INTERRUPT	0x0001
-+#define PERF_PMU_CAP_SAMPLING		0x0001
- #define PERF_PMU_CAP_NO_NMI		0x0002
- #define PERF_PMU_CAP_AUX_NO_SG		0x0004
- #define PERF_PMU_CAP_EXTENDED_REGS	0x0008
-@@ -305,6 +305,7 @@ struct perf_event_pmu_context;
- #define PERF_PMU_CAP_EXTENDED_HW_TYPE	0x0100
- #define PERF_PMU_CAP_AUX_PAUSE		0x0200
- #define PERF_PMU_CAP_AUX_PREFER_LARGE	0x0400
-+#define PERF_PMU_CAP_NO_INTERRUPT	0x0800
- 
- /**
-  * pmu::scope
-diff --git a/kernel/events/core.c b/kernel/events/core.c
-index 8060c2857bb2..71b2a6730705 100644
---- a/kernel/events/core.c
-+++ b/kernel/events/core.c
-@@ -4359,7 +4359,7 @@ perf_adjust_freq_unthr_context(struct perf_event_context *ctx, bool unthrottle)
- 			continue;
- 		if (!perf_pmu_ctx_is_active(pmu_ctx))
- 			continue;
--		if (pmu_ctx->pmu->capabilities & PERF_PMU_CAP_NO_INTERRUPT)
-+		if (!(pmu_ctx->pmu->capabilities & PERF_PMU_CAP_SAMPLING))
- 			continue;
- 
- 		perf_pmu_disable(pmu_ctx->pmu);
-@@ -10819,7 +10819,7 @@ static int perf_swevent_init(struct perf_event *event)
- static struct pmu perf_swevent = {
- 	.task_ctx_nr	= perf_sw_context,
- 
--	.capabilities	= PERF_PMU_CAP_NO_NMI,
-+	.capabilities	= PERF_PMU_CAP_SAMPLING | PERF_PMU_CAP_NO_NMI,
- 
- 	.event_init	= perf_swevent_init,
- 	.add		= perf_swevent_add,
-@@ -10861,6 +10861,7 @@ static int perf_tp_event_init(struct perf_event *event)
- static struct pmu perf_tracepoint = {
- 	.task_ctx_nr	= perf_sw_context,
- 
-+	.capabilities	= PERF_PMU_CAP_SAMPLING,
- 	.event_init	= perf_tp_event_init,
- 	.add		= perf_trace_add,
- 	.del		= perf_trace_del,
-@@ -11066,6 +11067,7 @@ static struct pmu perf_kprobe = {
- 	.stop		= perf_swevent_stop,
- 	.read		= perf_swevent_read,
- 	.attr_groups	= kprobe_attr_groups,
-+	.capabilities	= PERF_PMU_CAP_SAMPLING,
- };
- 
- static int perf_kprobe_event_init(struct perf_event *event)
-@@ -11125,6 +11127,7 @@ static struct pmu perf_uprobe = {
- 	.stop		= perf_swevent_stop,
- 	.read		= perf_swevent_read,
- 	.attr_groups	= uprobe_attr_groups,
-+	.capabilities	= PERF_PMU_CAP_SAMPLING,
- };
- 
- static int perf_uprobe_event_init(struct perf_event *event)
-@@ -11899,7 +11902,7 @@ static int cpu_clock_event_init(struct perf_event *event)
- static struct pmu perf_cpu_clock = {
- 	.task_ctx_nr	= perf_sw_context,
- 
--	.capabilities	= PERF_PMU_CAP_NO_NMI,
-+	.capabilities	= PERF_PMU_CAP_SAMPLING | PERF_PMU_CAP_NO_NMI,
- 	.dev		= PMU_NULL_DEV,
- 
- 	.event_init	= cpu_clock_event_init,
-@@ -11982,7 +11985,7 @@ static int task_clock_event_init(struct perf_event *event)
- static struct pmu perf_task_clock = {
- 	.task_ctx_nr	= perf_sw_context,
- 
--	.capabilities	= PERF_PMU_CAP_NO_NMI,
-+	.capabilities	= PERF_PMU_CAP_SAMPLING | PERF_PMU_CAP_NO_NMI,
- 	.dev		= PMU_NULL_DEV,
- 
- 	.event_init	= task_clock_event_init,
-@@ -13476,11 +13479,10 @@ SYSCALL_DEFINE5(perf_event_open,
- 		goto err_task;
- 	}
- 
--	if (is_sampling_event(event)) {
--		if (event->pmu->capabilities & PERF_PMU_CAP_NO_INTERRUPT) {
--			err = -EOPNOTSUPP;
--			goto err_alloc;
--		}
-+	if (is_sampling_event(event) &&
-+	    !(event->pmu->capabilities & PERF_PMU_CAP_SAMPLING)) {
-+		err = -EOPNOTSUPP;
-+		goto err_alloc;
- 	}
- 
- 	/*
-diff --git a/kernel/events/hw_breakpoint.c b/kernel/events/hw_breakpoint.c
-index 8ec2cb688903..604be7d7aecf 100644
---- a/kernel/events/hw_breakpoint.c
-+++ b/kernel/events/hw_breakpoint.c
-@@ -996,6 +996,7 @@ static void hw_breakpoint_stop(struct perf_event *bp, int flags)
- static struct pmu perf_breakpoint = {
- 	.task_ctx_nr	= perf_sw_context, /* could eventually get its own */
- 
-+	.capabilities	= PERF_PMU_CAP_SAMPLING,
- 	.event_init	= hw_breakpoint_event_init,
- 	.add		= hw_breakpoint_add,
- 	.del		= hw_breakpoint_del,
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.17-rc1 next-20250814]
+[cannot apply to perf-tools-next/perf-tools-next tip/perf/core perf-tools/perf-tools acme/perf/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Robin-Murphy/perf-arm-cmn-Fix-event-validation/20250814-010626
+base:   linus/master
+patch link:    https://lore.kernel.org/r/b05607c3ce0d3ce52de1784823ef9f6de324283c.1755096883.git.robin.murphy%40arm.com
+patch subject: [PATCH 13/19] perf: Add helper for checking grouped events
+config: i386-randconfig-003-20250814 (https://download.01.org/0day-ci/archive/20250814/202508141353.JZWHsrYP-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508141353.JZWHsrYP-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508141353.JZWHsrYP-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> arch/x86/events/amd/ibs.c:264:6: warning: unused variable 'ret' [-Wunused-variable]
+     264 |         int ret;
+         |             ^~~
+   1 warning generated.
+
+
+vim +/ret +264 arch/x86/events/amd/ibs.c
+
+d20610c19b4a22 arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-02-05  258  
+b716916679e720 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-09-21  259  static int perf_ibs_init(struct perf_event *event)
+b716916679e720 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-09-21  260  {
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  261  	struct hw_perf_event *hwc = &event->hw;
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  262  	struct perf_ibs *perf_ibs;
+598bdf4fefff5a arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  263  	u64 config;
+7c2128235eff99 arch/x86/events/amd/ibs.c                Ravi Bangoria  2023-06-20 @264  	int ret;
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  265  
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  266  	perf_ibs = get_ibs_pmu(event->attr.type);
+2fad201fe38ff9 arch/x86/events/amd/ibs.c                Ravi Bangoria  2023-05-04  267  	if (!perf_ibs)
+2fad201fe38ff9 arch/x86/events/amd/ibs.c                Ravi Bangoria  2023-05-04  268  		return -ENOENT;
+2fad201fe38ff9 arch/x86/events/amd/ibs.c                Ravi Bangoria  2023-05-04  269  
+450bbd493d436f arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2012-03-12  270  	config = event->attr.config;
+450bbd493d436f arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2012-03-12  271  
+450bbd493d436f arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2012-03-12  272  	if (event->pmu != &perf_ibs->pmu)
+b716916679e720 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-09-21  273  		return -ENOENT;
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  274  
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  275  	if (config & ~perf_ibs->config_mask)
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  276  		return -EINVAL;
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  277  
+0f9e0d7928d8e8 arch/x86/events/amd/ibs.c                Namhyung Kim   2023-11-30  278  	if (has_branch_stack(event))
+0f9e0d7928d8e8 arch/x86/events/amd/ibs.c                Namhyung Kim   2023-11-30  279  		return -EOPNOTSUPP;
+0f9e0d7928d8e8 arch/x86/events/amd/ibs.c                Namhyung Kim   2023-11-30  280  
+d29e744c71673a arch/x86/events/amd/ibs.c                Namhyung Kim   2024-12-03  281  	/* handle exclude_{user,kernel} in the IRQ handler */
+d29e744c71673a arch/x86/events/amd/ibs.c                Namhyung Kim   2024-12-03  282  	if (event->attr.exclude_host || event->attr.exclude_guest ||
+d29e744c71673a arch/x86/events/amd/ibs.c                Namhyung Kim   2024-12-03  283  	    event->attr.exclude_idle)
+d29e744c71673a arch/x86/events/amd/ibs.c                Namhyung Kim   2024-12-03  284  		return -EINVAL;
+d29e744c71673a arch/x86/events/amd/ibs.c                Namhyung Kim   2024-12-03  285  
+d29e744c71673a arch/x86/events/amd/ibs.c                Namhyung Kim   2024-12-03  286  	if (!(event->attr.config2 & IBS_SW_FILTER_MASK) &&
+d29e744c71673a arch/x86/events/amd/ibs.c                Namhyung Kim   2024-12-03  287  	    (event->attr.exclude_kernel || event->attr.exclude_user ||
+d29e744c71673a arch/x86/events/amd/ibs.c                Namhyung Kim   2024-12-03  288  	     event->attr.exclude_hv))
+d29e744c71673a arch/x86/events/amd/ibs.c                Namhyung Kim   2024-12-03  289  		return -EINVAL;
+d29e744c71673a arch/x86/events/amd/ibs.c                Namhyung Kim   2024-12-03  290  
+ccec93f5de464b arch/x86/events/amd/ibs.c                Robin Murphy   2025-08-13  291  	/*
+ccec93f5de464b arch/x86/events/amd/ibs.c                Robin Murphy   2025-08-13  292  	 * Grouping of IBS events is not possible since IBS can have only
+ccec93f5de464b arch/x86/events/amd/ibs.c                Robin Murphy   2025-08-13  293  	 * one event active at any point in time.
+ccec93f5de464b arch/x86/events/amd/ibs.c                Robin Murphy   2025-08-13  294  	 */
+ccec93f5de464b arch/x86/events/amd/ibs.c                Robin Murphy   2025-08-13  295  	if (in_hardware_group(event))
+ccec93f5de464b arch/x86/events/amd/ibs.c                Robin Murphy   2025-08-13  296  		return -EINVAL;
+7c2128235eff99 arch/x86/events/amd/ibs.c                Ravi Bangoria  2023-06-20  297  
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  298  	if (hwc->sample_period) {
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  299  		if (config & perf_ibs->cnt_mask)
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  300  			/* raw max_cnt may not be set */
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  301  			return -EINVAL;
+88c7bcad71c83f arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  302  
+b2fc7b282bf7c1 arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  303  		if (event->attr.freq) {
+b2fc7b282bf7c1 arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  304  			hwc->sample_period = perf_ibs->min_period;
+b2fc7b282bf7c1 arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  305  		} else {
+88c7bcad71c83f arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  306  			/* Silently mask off lower nibble. IBS hw mandates it. */
+6accb9cf760804 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2012-04-02  307  			hwc->sample_period &= ~0x0FULL;
+b2fc7b282bf7c1 arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  308  			if (hwc->sample_period < perf_ibs->min_period)
+b2fc7b282bf7c1 arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  309  				return -EINVAL;
+b2fc7b282bf7c1 arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  310  		}
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  311  	} else {
+598bdf4fefff5a arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  312  		u64 period = 0;
+598bdf4fefff5a arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  313  
+e1e7844ced88f9 arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  314  		if (event->attr.freq)
+e1e7844ced88f9 arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  315  			return -EINVAL;
+e1e7844ced88f9 arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  316  
+598bdf4fefff5a arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  317  		if (perf_ibs == &perf_ibs_op) {
+598bdf4fefff5a arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  318  			period = (config & IBS_OP_MAX_CNT) << 4;
+598bdf4fefff5a arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  319  			if (ibs_caps & IBS_CAPS_OPCNTEXT)
+598bdf4fefff5a arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  320  				period |= config & IBS_OP_MAX_CNT_EXT_MASK;
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  321  		} else {
+598bdf4fefff5a arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  322  			period = (config & IBS_FETCH_MAX_CNT) << 4;
+598bdf4fefff5a arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  323  		}
+598bdf4fefff5a arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  324  
+db98c5faf8cb35 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  325  		config &= ~perf_ibs->cnt_mask;
+598bdf4fefff5a arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  326  		event->attr.sample_period = period;
+598bdf4fefff5a arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  327  		hwc->sample_period = period;
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  328  
+b2fc7b282bf7c1 arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-01-15  329  		if (hwc->sample_period < perf_ibs->min_period)
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  330  			return -EINVAL;
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  331  	}
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  332  
+d20610c19b4a22 arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-02-05  333  	if (perf_ibs_ldlat_event(perf_ibs, event)) {
+d20610c19b4a22 arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-02-05  334  		u64 ldlat = event->attr.config1 & 0xFFF;
+d20610c19b4a22 arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-02-05  335  
+d20610c19b4a22 arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-02-05  336  		if (ldlat < 128 || ldlat > 2048)
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  337  			return -EINVAL;
+d20610c19b4a22 arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-02-05  338  		ldlat >>= 7;
+d20610c19b4a22 arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-02-05  339  
+d20610c19b4a22 arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-02-05  340  		config |= (ldlat - 1) << 59;
+d20610c19b4a22 arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-02-05  341  		config |= IBS_OP_L3MISSONLY | IBS_OP_LDLAT_EN;
+d20610c19b4a22 arch/x86/events/amd/ibs.c                Ravi Bangoria  2025-02-05  342  	}
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  343  
+6accb9cf760804 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2012-04-02  344  	/*
+6accb9cf760804 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2012-04-02  345  	 * If we modify hwc->sample_period, we also need to update
+6accb9cf760804 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2012-04-02  346  	 * hwc->last_period and hwc->period_left.
+6accb9cf760804 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2012-04-02  347  	 */
+6accb9cf760804 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2012-04-02  348  	hwc->last_period = hwc->sample_period;
+6accb9cf760804 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2012-04-02  349  	local64_set(&hwc->period_left, hwc->sample_period);
+6accb9cf760804 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2012-04-02  350  
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  351  	hwc->config_base = perf_ibs->msr;
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  352  	hwc->config = config;
+510419435c6948 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-12-15  353  
+b716916679e720 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-09-21  354  	return 0;
+b716916679e720 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-09-21  355  }
+b716916679e720 arch/x86/kernel/cpu/perf_event_amd_ibs.c Robert Richter 2011-09-21  356  
+
 -- 
-2.39.2.101.g768bb238c484.dirty
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
 _______________________________________________
 linux-snps-arc mailing list
