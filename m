@@ -4,69 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58556CA0EFC
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 21 Aug 2025 16:56:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A88C0CA0FE8
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 22 Aug 2025 15:34:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Reply-To:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:
-	Subject:To:From:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=rS7VGpCmxCH+NMPyH3kx6Liryw4CkMuOoyfJDW6VO7g=; b=Nfk7X8DOGC8xls
-	IBNSaycAPAL7kZ31DiY9NJPF2t5OrZp0ivtTcUGAP5CgZvKNwrkN5XJa6RLDFBSuIXN3+H5wCc311
-	PEHP1HVpy/Z2IbRKzog+fmmL3foEJIlvuxyTX6QERk4TNMlDCNlXbBbZ4Fs7roBwqDCEY4K6huvHB
-	V2c7PsQZxFTgNwMZIsKEiQJTf9rJf9G1gk+jv3v5vNyWkjaGddjKIApWRJ8AuDbqq+PSJxAgg1ZyR
-	UasoFRBdMjFJ/VqFYqgH2D0UvZhBUKThQKW2KbgYcKuQtqpqaUzqeJN4cLGJ8iO9rgJtXIBe6sAuD
-	gRHvG83t1ulyvGbb1BEg==;
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=JR86VWJUep4/ALsRz5zFOIzTSp17LGHILJXwxtXqct0=; b=OuaNEegzn35mho
+	LMUCgK+R42FitgLcJcXUdrCGrL2K9IKKldSH/qXpgQDCfw0oHEaXaBhgz9G8fLYIO4GweORNIFNa6
+	p8jANRsDeaM58Qcx7KsCUDDscHZ8qYSxxkkH4Pbu2VDyzZDdaidTHef/EO2t87wOpszenrFj7FaCo
+	5nKpVxBq1Le0WMY6KkNGq6ewHV5L7AW7sbP73OMkzIjuludLRK0HwPJUGzlePaCi6nXn7eozSd/IC
+	xzzYcgv/dKyzKO7RLRJnA7UFpgs4xNqDYGDpaXI07L1yxEixC2qDZE7mRXB83a7TGORoV01T58lz+
+	InXxxi8MONjPysehSI0g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1up8a5-0000000Hb4b-43Jn;
-	Thu, 21 Aug 2025 16:56:05 +0000
-Received: from securitygw1.exwire.com ([216.171.192.25])
+	id 1upTmV-000000032AH-1p0q;
+	Fri, 22 Aug 2025 15:34:19 +0000
+Received: from mail.fintara.pl ([51.68.214.200])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1up4yf-0000000GzGi-2h35
+	id 1upMut-00000001uMJ-2BI4
 	for linux-snps-arc@lists.infradead.org;
-	Thu, 21 Aug 2025 13:05:14 +0000
-X-exwire-MailScanner-EFA-Watermark: 1756385803.06837@nG1Eo3lDibyFvbVkh0SUxA
-X-exwire-MailScanner-EFA-To: linux-snps-arc@lists.infradead.org
-X-exwire-MailScanner-EFA-From: nancymc@exwire.com
-X-exwire-MailScanner-EFA-SpamScore: sssssss
-X-exwire-MailScanner-EFA: Found to be clean
-X-exwire-MailScanner-EFA-ID: 3407126ADE9.A4049
-X-exwire-MailScanner-EFA-Information: Please contact jdeverse@exwire.com for more information
-Received: from smtp01.exwire.com (smtp01.exwire.com [216.171.192.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by securitygw1.exwire.com (Postfix) with ESMTPS id 3407126ADE9
-	for <linux-snps-arc@lists.infradead.org>; Thu, 21 Aug 2025 04:49:17 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 securitygw1.exwire.com 3407126ADE9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=exwire.com;
-	s=default; t=1755776957;
-	bh=HV6ngFc0kAPeZqm3RhmqrUX5EZoxx49VvdfM3cgWoeI=;
-	h=Reply-To:From:To:Subject:Date:From;
-	b=qVVx53F8HcuZN43aknaG/WUlyVKQg1kBkwha/DbPThmhqFWeaHAivgIvuNqM0U3BT
-	 9tK2MtJX7/KPJc+G7vDtAIkFdfo3oaWGzZ1uMlqmTQCHSkqAQ+KF1LDOgmu/fKxp+K
-	 tgmfJIFa1K79lixu+gUWv0Bvxfm/3tAxkZVMkJFI=
-Received: from localhost (localhost [127.0.0.1])
-	by smtp01.exwire.com (Postfix) with ESMTP id 6B8F3523DFD
-	for <linux-snps-arc@lists.infradead.org>; Thu, 21 Aug 2025 03:17:47 -0700 (PDT)
-X-Virus-Scanned: Debian amavisd-new at smtp01.exwire.com
-Received: from smtp01.exwire.com ([127.0.0.1])
-	by localhost (smtp01.exwire.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BIXfyTAJzxa1 for <linux-snps-arc@lists.infradead.org>;
-	Thu, 21 Aug 2025 03:17:47 -0700 (PDT)
-Received: from [45.138.16.152] (unknown [45.138.16.152])
-	by smtp01.exwire.com (Postfix) with ESMTPSA id 395585825C0
-	for <linux-snps-arc@lists.infradead.org>; Wed, 20 Aug 2025 23:25:31 -0700 (PDT)
-From: nancymc@exwire.com
-To: linux-snps-arc@lists.infradead.org
-Subject: xl
-Date: 20 Aug 2025 23:25:30 -0700
-Message-ID: <20250820232530.689B58CD2A5F89D4@exwire.com>
+	Fri, 22 Aug 2025 08:14:32 +0000
+Received: by mail.fintara.pl (Postfix, from userid 1002)
+	id B7F514E39A; Fri, 22 Aug 2025 10:11:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fintara.pl; s=mail;
+	t=1755850351; bh=0Yjr6NsrKkaYb/LNYm1mPKHuxqkR0iWhkNkzH9QSzrg=;
+	h=Date:From:To:Subject:From;
+	b=IRvptqsQrxy3ysO5QBBepHn5oK1w2x/UUEoDG73ZsgzwW1jaNCuAIJuMrEm/WA+Ui
+	 DiB43hu+klm5nGjlE0trdogQUSF6KET6C+bakgBmi2bHA1ElGT9Ufhhy/C2MBixP8k
+	 Myhj8hQiHVr4e+4H2D80EiuPlETgWPWhdcublWs3H6/2BHaDvJV9p8naExF0Py5Ez2
+	 guaL7gGuwR4Y4J91RsPNAKUGpHqNQ2qQfkm7WX2XLsqhxW1XHb3LqPtUplVZ6GOo5Y
+	 x7u85UvqaANEbwbyTNNIrC2fNjTiko/FhxlPDc1Q49fDuMB7+tvlWvFwqzu2o3ut0r
+	 0iuA+Y5qujjtA==
+Received: by mail.fintara.pl for <linux-snps-arc@lists.infradead.org>; Fri, 22 Aug 2025 08:11:05 GMT
+Message-ID: <20250822084500-0.1.bf.39yn6.0.i1tjr5qpf6@fintara.pl>
+Date: Fri, 22 Aug 2025 08:11:05 GMT
+From: "Dominik Lotka" <dominik.lotka@fintara.pl>
+To: <linux-snps-arc@lists.infradead.org>
+Subject: =?UTF-8?Q?Prosz=C4=99_o_kontakt?=
+X-Mailer: mail.fintara.pl
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250821_060513_674683_BC754EFD 
-X-CRM114-Status: UNSURE (   2.13  )
+X-CRM114-CacheID: sfid-20250822_011431_819473_E5417ECE 
+X-CRM114-Status: UNSURE (   0.24  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -79,25 +61,16 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Reply-To: info.superenalotto@gmail.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-V2lyIGZyZXVlbiB1bnMsIElobmVuIG1pdHRlaWxlbiB6dSBrw7ZubmVuLCBkYXNzIFNpZSB6dSBk
-ZW4gCkdld2lubmVybiBkZXIgasO8bmdzdGVuIFN1cGVyRW5hbG90dG8tWmllaHVuZyBpbiBadXNh
-bW1lbmFyYmVpdCAKbWl0IExvdHRvMjQsIEV1cm9NaWxsaW9ucyB1bmQgUG93ZXJiYWxsIGdlaMO2
-cmVuLiBTaWUgaGFiZW4gZWluZW4gCmVpbm1hbGlnZW4gR2V3aW5uIHZvbiDigqwzLjg1MC4wMDAg
-IGluIGRlciB6d2VpdGVuIEdld2lubmtsYXNzZSAKZ2V3b25uZW4uIFVtIElocmVuIEdld2lubiBh
-Ynp1d2lja2Vsbiwgc2VuZGVuIFNpZSB1bnMgYml0dGUgCmZvbGdlbmRlIEluZm9ybWF0aW9uZW4g
-cGVyIEUtTWFpbDoKClZvbGxzdMOkbmRpZ2VyIE5hbWU6IExhbmQ6IFdvaG5hZHJlc3NlOiBBbHRl
-cjogR2VzY2hsZWNodDogQmVydWY6IApIYW5keW51bW1lcjogV2hhdHNBcHAtTnVtbWVyLgoKSW0g
-TmFtZW4gZGVyIE9ubGluZS1Mb3R0ZXJpZWFidGVpbHVuZ2VuIFN1cGVyRW5hbG90dG8sIApFdXJv
-TWlsbGlvbnMgdW5kIFBvd2VyYmFsbCBncmF0dWxpZXJlbiB3aXIgSWhuZW4gaGVyemxpY2ggenUg
-CklocmVtIEdld2lubi4KCk1pdCBmcmV1bmRsaWNoZW4gR3LDvMOfZW4KCkZyYXUgS2F0aGVyaW5l
-IEZlZGVyaWNvCkxlaXRlcmluIE9ubGluZS1aYWhsdW5nZW4gLyBWYWxpZGllcnVuZ3NtYW5hZ2Vy
-aW4KQ29kZS1OYWNocmljaHQ6IDczN0dIUzk4CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25w
-cy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
+RHppZcWEIGRvYnJ5LAoKQ3p5IGplc3QgbW/FvGxpd2/Fm8SHIG5hd2nEhXphbmlhIHdzcMOzxYJw
+cmFjeSB6IFBhxYRzdHdlbT8KClogY2jEmWNpxIUgcG9yb3ptYXdpYW0geiBvc29ixIUgemFqbXVq
+xIVjxIUgc2nEmSBkemlhxYJhbmlhbWkgendpxIV6YW55bWkgemUgc3ByemVkYcW8xIUuCgpQb21h
+Z2FteSBza3V0ZWN6bmllIHBvenlza2l3YcSHIG5vd3ljaCBrbGllbnTDs3cuCgpaYXByYXN6YW0g
+ZG8ga29udGFrdHUuCgoKUG96ZHJhd2lhbQpEb21pbmlrIExvdGthCgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxp
+c3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFk
+ZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
