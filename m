@@ -4,63 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CD510CA0EFA
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 26 Aug 2025 03:44:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C728CA0FE9
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 26 Aug 2025 11:45:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=R4NtkAiX+yJlf1CC3shYcX86Z/oRX4pUOaT+hKTqCyg=; b=HOKl3Ou1245Gsb
-	Fs/myx/hUZje4E7URbY9JNql+CtEJxVP3+7i5wYeNapEUHoZN++hgkxOcsnHyCD/Z8vTH5VZT2lYw
-	knrT3QwRH6w9rYuVShedZMweNF6Zs00Of6Q24zIhHSODm2JwYWlrIsvuhRhvaX8PuhsbnjGOua5iP
-	ZQ7PsCWLpL5X2h9wasPugNOYxcbQPdCkw3UlRsv+XgqsudyIWCcg0cNfkoY0ne1FGszOpeERmkVeD
-	nBXscFVvWaK4jY29+OC8fL45f7REqLJQMRFiWlf1OhTWml6aX8D1Hx4qq49LvzgwqX8h5QW7T1Hs8
-	CVLs185HrbkCBAWphoOw==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=BMO/+APiV2HkSyNEJs/QN/yVOhCoT4N4OX6Jr7tOli8=; b=EDeKLm9vbUnyJt
+	b1lTg/wY3eBETfmh68pEaMNMODMgxHd3jtjzyxWOrlg1bhpCr0whlGVXV3PmkvaSGQwD1TqBiBCLk
+	RXdPtZxj2Yd3E/lR/k3GONFRNSmlq78NpcV+bhBUt05xHNWVTF0sOEYWTbt5Tw7jNy1X78acX53+n
+	DINzFjoucMhqsDT7nXqc/j+hUf5850sShZ5I/cIfddBh444EZ560q076sGv5WQ0qiFKdRJOBS/TRM
+	0bpZ8EDLLfJ2NGuJzuBoDn3orZi2QN/O/MA+LOke+YLByJjZPUf9IJIGG9OIcKgCk3ze3uxh6IlWd
+	oiZfoGy7x/ZTub9pd/Qw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uqkbR-0000000ASYF-0Y45;
-	Tue, 26 Aug 2025 03:44:09 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
-	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uqkbO-0000000ASXs-2MMe
-	for linux-snps-arc@lists.infradead.org;
-	Tue, 26 Aug 2025 03:44:07 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 2847B5C56B8;
-	Tue, 26 Aug 2025 03:44:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EE58C4CEF1;
-	Tue, 26 Aug 2025 03:44:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756179844;
-	bh=qViKu2G3S4xLHtRgNf8GgW5zqv9/Lpel9naK3zFCNMU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=a0buhXl3Jjdcb2R4aAtZilC57yTt2X0OQtPsV5WYI0sKem4AC+TB/8oOjKBqCNgkl
-	 BD6F1gNvr9sR+WyMhQd5s+fIvuywsGIjnlOS4u0e1oHPw6HQYQA917oYeJZcaFRPXK
-	 rXmcI6dE2iqe3SQsBbFoyuTUAYIQWyHNuiFUThoUHdaiR3CqD3+kefi7OoAMgkQO9Z
-	 9eCzrIZoF+yX7Hb/52qY/PbTwaqCxl1w7WffAOFde/z8r01ntiUndnCzvSoK1Owt/0
-	 oaMg0c7dTaoUPump4o8B28ZcZuSS32e3lwFO9g70xrsiHxZDuBI/Z1CjiQeBHOFs5p
-	 7YPYDTXO2yTEA==
-From: Kees Cook <kees@kernel.org>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: Kees Cook <kees@kernel.org>,
-	kernel test robot <lkp@intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Vineet Gupta <vgupta@kernel.org>,
+	id 1uqs6l-0000000Bpiz-4An7;
+	Tue, 26 Aug 2025 11:44:59 +0000
+Received: from foss.arm.com ([217.140.110.172])
+	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uqrC4-0000000BfNX-2FER;
+	Tue, 26 Aug 2025 10:46:25 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A06821A25;
+	Tue, 26 Aug 2025 03:46:15 -0700 (PDT)
+Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8000D3F694;
+	Tue, 26 Aug 2025 03:46:14 -0700 (PDT)
+Date: Tue, 26 Aug 2025 11:46:10 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: peterz@infradead.org, mingo@redhat.com, will@kernel.org,
+	acme@kernel.org, namhyung@kernel.org,
+	alexander.shishkin@linux.intel.com, jolsa@kernel.org,
+	irogers@google.com, adrian.hunter@intel.com,
+	kan.liang@linux.intel.com, linux-perf-users@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
 	linux-snps-arc@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH] arc: Fix __fls() const-foldability via __builtin_clzl()
-Date: Mon, 25 Aug 2025 20:43:58 -0700
-Message-Id: <20250826034354.work.684-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+	linux-csky@vger.kernel.org, loongarch@lists.linux.dev,
+	linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, dmaengine@vger.kernel.org,
+	linux-fpga@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, coresight@lists.linaro.org,
+	iommu@lists.linux.dev, linux-amlogic@lists.infradead.org,
+	linux-cxl@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH 01/19] perf/arm-cmn: Fix event validation
+Message-ID: <aK2QclH4jlHJ28EJ@J2N7QTR9R3>
+References: <cover.1755096883.git.robin.murphy@arm.com>
+ <0716da3e77065f005ef6ea0d10ddf67fc53e76cb.1755096883.git.robin.murphy@arm.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2182; i=kees@kernel.org; h=from:subject:message-id; bh=qViKu2G3S4xLHtRgNf8GgW5zqv9/Lpel9naK3zFCNMU=; b=owGbwMvMwCVmps19z/KJym7G02pJDBlrdWt3LrKv3/v55yrWvjUJfq1/aj60ecWkPma7dWtH3 9zb9Wd3dpSyMIhxMciKKbIE2bnHuXi8bQ93n6sIM4eVCWQIAxenAFwkieGf1rrQN5vXbnG9UMns suOD2aOLnzjFY8zzK9cziuj6G3/XZfjJqHas7VBxoqhHYlXiD+Paouxd+38dT+diZWZ7FluynZs bAA==
-X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Disposition: inline
+In-Reply-To: <0716da3e77065f005ef6ea0d10ddf67fc53e76cb.1755096883.git.robin.murphy@arm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250825_204406_644832_B59935F5 
-X-CRM114-Status: GOOD (  10.81  )
+X-CRM114-CacheID: sfid-20250826_034624_671755_815EEEF6 
+X-CRM114-Status: GOOD (  25.71  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,55 +80,83 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-While tracking down a problem where constant expressions used by
-BUILD_BUG_ON() suddenly stopped working[1], we found that an added static
-initializer was convincing the compiler that it couldn't track the state
-of the prior statically initialized value. Tracing this down found that
-ffs() was used in the initializer macro, but since it wasn't marked with
-__attribute__const__, the compiler had to assume the function might
-change variable states as a side-effect (which is not true for ffs(),
-which provides deterministic math results).
+Hi Robin,
 
-For arc architecture with CONFIG_ISA_ARCV2=y, the __fls() function
-uses __builtin_arc_fls() which lacks GCC's const attribute, preventing
-compile-time constant folding[2]. Fix this by handling compile-time
-constants with the standard __builtin_clzl() builtin (which has const
-attribute) while preserving the optimized arc-specific builtin for runtime
-cases. This has the added benefit of skipping runtime calculation of
-compile-time constant values.
+On Wed, Aug 13, 2025 at 06:00:53PM +0100, Robin Murphy wrote:
+> In the hypothetical case where a CMN event is opened with a software
+> group leader that already has some other hardware sibling, currently
+> arm_cmn_val_add_event() could try to interpret the other event's data
+> as an arm_cmn_hw_event, which is not great since we dereference a
+> pointer from there... Thankfully the way to be more robust is to be
+> less clever - stop trying to special-case software events and simply
+> skip any event that isn't for our PMU.
 
-Build tested ARCH=arc allyesconfig with GCC arc-linux 15.2.0.
+I think this is missing some important context w.r.t. how the core perf
+code behaves (and hence why this change doesn't cause other problems).
+I'd suggest that we give the first few patches a common preamble:
 
-Link: https://github.com/KSPP/linux/issues/364 [1]
-Link: https://lore.kernel.org/all/202508031025.doWxtzzc-lkp@intel.com/
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202508031025.doWxtzzc-lkp@intel.com/
-Signed-off-by: Kees Cook <kees@kernel.org>
----
-Cc: Yury Norov <yury.norov@gmail.com>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: Vineet Gupta <vgupta@kernel.org>
-Cc: <linux-snps-arc@lists.infradead.org>
----
- arch/arc/include/asm/bitops.h | 2 ++
- 1 file changed, 2 insertions(+)
+| When opening a new perf event, the core perf code calls
+| pmu::event_init() before checking whether the new event would cause an
+| event group to span multiple hardware PMUs. Considering this:
+| 
+| (1) Any pmu::event_init() callback needs to be robust to cases where
+|     a non-software group_leader or sibling event targets a distinct
+|     PMU.
+| 
+| (2) Any pmu::event_init() callback doesn't need to explicitly reject
+|     groups that span multiple hardware PMUs, as the core code will
+|     reject this later.
 
-diff --git a/arch/arc/include/asm/bitops.h b/arch/arc/include/asm/bitops.h
-index 5340c2871392..df894235fdbc 100644
---- a/arch/arc/include/asm/bitops.h
-+++ b/arch/arc/include/asm/bitops.h
-@@ -133,6 +133,8 @@ static inline __attribute__ ((const)) int fls(unsigned int x)
-  */
- static inline __attribute__ ((const)) unsigned long __fls(unsigned long x)
- {
-+	if (__builtin_constant_p(x))
-+		return x ? BITS_PER_LONG - 1 - __builtin_clzl(x) : 0;
- 	/* FLS insn has exactly same semantics as the API */
- 	return	__builtin_arc_fls(x);
- }
--- 
-2.34.1
+... and then spell out the specific issues in the driver, e.g.
 
+| The logic in arm_cmn_validate_group() doesn't account for cases where
+| a non-software sibling event targets a distinct PMU. In such cases,
+| arm_cmn_val_add_event() will erroneously interpret the sibling's
+| event::hw as as struct arm_cmn_hw_event, including dereferencing
+| pointers from potentially user-controlled fields.
+|
+| Fix this by skipping any events for distinct PMUs, and leaving it to
+| the core code to reject event groups that span multiple hardware PMUs.
+
+With that context, the patch itself looks good to me.
+
+This will need a Cc stable. I'm not sure what Fixes tag is necessary;
+has this been broken since its introduction?
+
+Mark.
+
+> 
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+> ---
+>  drivers/perf/arm-cmn.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
+> 
+> diff --git a/drivers/perf/arm-cmn.c b/drivers/perf/arm-cmn.c
+> index 11fb2234b10f..f8c9be9fa6c0 100644
+> --- a/drivers/perf/arm-cmn.c
+> +++ b/drivers/perf/arm-cmn.c
+> @@ -1652,7 +1652,7 @@ static void arm_cmn_val_add_event(struct arm_cmn *cmn, struct arm_cmn_val *val,
+>  	enum cmn_node_type type;
+>  	int i;
+>  
+> -	if (is_software_event(event))
+> +	if (event->pmu != &cmn->pmu)
+>  		return;
+>  
+>  	type = CMN_EVENT_TYPE(event);
+> @@ -1693,9 +1693,6 @@ static int arm_cmn_validate_group(struct arm_cmn *cmn, struct perf_event *event)
+>  	if (leader == event)
+>  		return 0;
+>  
+> -	if (event->pmu != leader->pmu && !is_software_event(leader))
+> -		return -EINVAL;
+> -
+>  	val = kzalloc(sizeof(*val), GFP_KERNEL);
+>  	if (!val)
+>  		return -ENOMEM;
+> -- 
+> 2.39.2.101.g768bb238c484.dirty
+> 
 
 _______________________________________________
 linux-snps-arc mailing list
