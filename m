@@ -4,35 +4,35 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C728CA0FE9
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 26 Aug 2025 11:45:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D31DECA0EFA
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 26 Aug 2025 11:45:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=BMO/+APiV2HkSyNEJs/QN/yVOhCoT4N4OX6Jr7tOli8=; b=EDeKLm9vbUnyJt
-	b1lTg/wY3eBETfmh68pEaMNMODMgxHd3jtjzyxWOrlg1bhpCr0whlGVXV3PmkvaSGQwD1TqBiBCLk
-	RXdPtZxj2Yd3E/lR/k3GONFRNSmlq78NpcV+bhBUt05xHNWVTF0sOEYWTbt5Tw7jNy1X78acX53+n
-	DINzFjoucMhqsDT7nXqc/j+hUf5850sShZ5I/cIfddBh444EZ560q076sGv5WQ0qiFKdRJOBS/TRM
-	0bpZ8EDLLfJ2NGuJzuBoDn3orZi2QN/O/MA+LOke+YLByJjZPUf9IJIGG9OIcKgCk3ze3uxh6IlWd
-	oiZfoGy7x/ZTub9pd/Qw==;
+	List-Owner; bh=iUMllfVFD9BgPiX6hCsKrJ8CyYDRIspsa2wSScZ9Ab8=; b=vgmliMzd4rB/1g
+	iEc0cD0frJJcErEGwrwyxMZS5M5MrIfxYCxf2p/xwYj+GskhpzkaTbpDS4vbwTbMmwEv0D5Lk7osN
+	3nHWy/v2LcbltG3YPzrgKPGaL+QPTvD6gZQP3IkhoFZtTg2IWh3wFwloRMLHUr60iTEvvsnw7yiNr
+	+d4SjWmlnZQ/RXGFe9oBZifiSTCXcQmVmNkDQQVJnngMAL1PB03e2IPY6ftjjXSjlDOckTGh92dlE
+	tql3dZwH7OTuQM7oXy4qVID4UqF9/S2pHDD0NXrLnoMwzCVnrFELtw3LRra4a7xBBPJInhOa3p4RI
+	gg3T1VcmDw+o3PBO0kFg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uqs6l-0000000Bpiz-4An7;
-	Tue, 26 Aug 2025 11:44:59 +0000
+	id 1uqs7T-0000000Bq9F-1sAp;
+	Tue, 26 Aug 2025 11:45:43 +0000
 Received: from foss.arm.com ([217.140.110.172])
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uqrC4-0000000BfNX-2FER;
-	Tue, 26 Aug 2025 10:46:25 +0000
+	id 1uqreP-0000000BkGg-1ml9;
+	Tue, 26 Aug 2025 11:15:43 +0000
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A06821A25;
-	Tue, 26 Aug 2025 03:46:15 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0E7AF1A00;
+	Tue, 26 Aug 2025 04:15:32 -0700 (PDT)
 Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8000D3F694;
-	Tue, 26 Aug 2025 03:46:14 -0700 (PDT)
-Date: Tue, 26 Aug 2025 11:46:10 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 663C13F63F;
+	Tue, 26 Aug 2025 04:15:28 -0700 (PDT)
+Date: Tue, 26 Aug 2025 12:15:23 +0100
 From: Mark Rutland <mark.rutland@arm.com>
 To: Robin Murphy <robin.murphy@arm.com>
 Cc: peterz@infradead.org, mingo@redhat.com, will@kernel.org,
@@ -54,16 +54,16 @@ Cc: peterz@infradead.org, mingo@redhat.com, will@kernel.org,
 	iommu@lists.linux.dev, linux-amlogic@lists.infradead.org,
 	linux-cxl@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH 01/19] perf/arm-cmn: Fix event validation
-Message-ID: <aK2QclH4jlHJ28EJ@J2N7QTR9R3>
+Subject: Re: [PATCH 02/19] perf/hisilicon: Fix group validation
+Message-ID: <aK2XS_GhLw1EQ2ml@J2N7QTR9R3>
 References: <cover.1755096883.git.robin.murphy@arm.com>
- <0716da3e77065f005ef6ea0d10ddf67fc53e76cb.1755096883.git.robin.murphy@arm.com>
+ <c7b877e66ba0d34d8558c5af8bbb620e8c0e47d9.1755096883.git.robin.murphy@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <0716da3e77065f005ef6ea0d10ddf67fc53e76cb.1755096883.git.robin.murphy@arm.com>
+In-Reply-To: <c7b877e66ba0d34d8558c5af8bbb620e8c0e47d9.1755096883.git.robin.murphy@arm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250826_034624_671755_815EEEF6 
-X-CRM114-Status: GOOD (  25.71  )
+X-CRM114-CacheID: sfid-20250826_041541_548312_553A09F7 
+X-CRM114-Status: GOOD (  25.96  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,80 +80,153 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Robin,
+On Wed, Aug 13, 2025 at 06:00:54PM +0100, Robin Murphy wrote:
+> The group validation logic shared by the HiSilicon HNS3/PCIe drivers is
+> a bit off, in that given a software group leader, it will consider that
+> event *in place of* the actual new event being opened. At worst this
+> could theoretically allow an unschedulable group if the software event
+> config happens to look like one of the hardware siblings.
+> 
+> The uncore framework avoids that particular issue,
 
-On Wed, Aug 13, 2025 at 06:00:53PM +0100, Robin Murphy wrote:
-> In the hypothetical case where a CMN event is opened with a software
-> group leader that already has some other hardware sibling, currently
-> arm_cmn_val_add_event() could try to interpret the other event's data
-> as an arm_cmn_hw_event, which is not great since we dereference a
-> pointer from there... Thankfully the way to be more robust is to be
-> less clever - stop trying to special-case software events and simply
-> skip any event that isn't for our PMU.
+What is "the uncore framework"? I'm not sure exactly what you're
+referring to, nor how that composes with the problem described above.
 
-I think this is missing some important context w.r.t. how the core perf
-code behaves (and hence why this change doesn't cause other problems).
-I'd suggest that we give the first few patches a common preamble:
+> but all 3 also share the common issue of not preventing racy access to
+> the sibling list,
 
-| When opening a new perf event, the core perf code calls
-| pmu::event_init() before checking whether the new event would cause an
-| event group to span multiple hardware PMUs. Considering this:
-| 
-| (1) Any pmu::event_init() callback needs to be robust to cases where
-|     a non-software group_leader or sibling event targets a distinct
-|     PMU.
-| 
-| (2) Any pmu::event_init() callback doesn't need to explicitly reject
-|     groups that span multiple hardware PMUs, as the core code will
-|     reject this later.
+Can you please elaborate on this racy access to the silbing list? I'm
+not sure exactly what you're referring to.
 
-... and then spell out the specific issues in the driver, e.g.
-
-| The logic in arm_cmn_validate_group() doesn't account for cases where
-| a non-software sibling event targets a distinct PMU. In such cases,
-| arm_cmn_val_add_event() will erroneously interpret the sibling's
-| event::hw as as struct arm_cmn_hw_event, including dereferencing
-| pointers from potentially user-controlled fields.
-|
-| Fix this by skipping any events for distinct PMUs, and leaving it to
-| the core code to reject event groups that span multiple hardware PMUs.
-
-With that context, the patch itself looks good to me.
-
-This will need a Cc stable. I'm not sure what Fixes tag is necessary;
-has this been broken since its introduction?
-
-Mark.
-
+> and some redundant checks which can be cleaned up.
 > 
 > Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 > ---
->  drivers/perf/arm-cmn.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
+>  drivers/perf/hisilicon/hisi_pcie_pmu.c   | 17 ++++++-----------
+>  drivers/perf/hisilicon/hisi_uncore_pmu.c | 23 +++++++----------------
+>  drivers/perf/hisilicon/hns3_pmu.c        | 17 ++++++-----------
+>  3 files changed, 19 insertions(+), 38 deletions(-)
 > 
-> diff --git a/drivers/perf/arm-cmn.c b/drivers/perf/arm-cmn.c
-> index 11fb2234b10f..f8c9be9fa6c0 100644
-> --- a/drivers/perf/arm-cmn.c
-> +++ b/drivers/perf/arm-cmn.c
-> @@ -1652,7 +1652,7 @@ static void arm_cmn_val_add_event(struct arm_cmn *cmn, struct arm_cmn_val *val,
->  	enum cmn_node_type type;
->  	int i;
+> diff --git a/drivers/perf/hisilicon/hisi_pcie_pmu.c b/drivers/perf/hisilicon/hisi_pcie_pmu.c
+> index c5394d007b61..3b0b2f7197d0 100644
+> --- a/drivers/perf/hisilicon/hisi_pcie_pmu.c
+> +++ b/drivers/perf/hisilicon/hisi_pcie_pmu.c
+> @@ -338,21 +338,16 @@ static bool hisi_pcie_pmu_validate_event_group(struct perf_event *event)
+>  	int counters = 1;
+>  	int num;
 >  
-> -	if (is_software_event(event))
-> +	if (event->pmu != &cmn->pmu)
->  		return;
+> -	event_group[0] = leader;
+> -	if (!is_software_event(leader)) {
+> -		if (leader->pmu != event->pmu)
+> -			return false;
+> +	if (leader == event)
+> +		return true;
 >  
->  	type = CMN_EVENT_TYPE(event);
-> @@ -1693,9 +1693,6 @@ static int arm_cmn_validate_group(struct arm_cmn *cmn, struct perf_event *event)
->  	if (leader == event)
->  		return 0;
+> -		if (leader != event && !hisi_pcie_pmu_cmp_event(leader, event))
+> -			event_group[counters++] = event;
+> -	}
+> +	event_group[0] = event;
+> +	if (leader->pmu == event->pmu && !hisi_pcie_pmu_cmp_event(leader, event))
+> +		event_group[counters++] = leader;
+
+Looking at this, the existing logic to share counters (which
+hisi_pcie_pmu_cmp_event() is trying to permit) looks to be bogus, given
+that the start/stop callbacks will reprogram the HW counters (and hence
+can fight with one another).
+
+I suspect that can be removed *entirely*, and this can be simplified
+down to allocating N counters, without a quadratic event comparison.  We
+don't try to share counters in other PMU drivers, and there was no
+rationale for trying to do this when this wa introduced in commit:
+
+  8404b0fbc7fbd42e ("drivers/perf: hisi: Add driver for HiSilicon PCIe PMU")
+
+The 'link' tag in that comment goes to v13, which doesn't link to prior
+postings, so I'm not going to dig further.
+
+Mark.
+
 >  
-> -	if (event->pmu != leader->pmu && !is_software_event(leader))
-> -		return -EINVAL;
+>  	for_each_sibling_event(sibling, event->group_leader) {
+> -		if (is_software_event(sibling))
+> -			continue;
 > -
->  	val = kzalloc(sizeof(*val), GFP_KERNEL);
->  	if (!val)
->  		return -ENOMEM;
+>  		if (sibling->pmu != event->pmu)
+> -			return false;
+> +			continue;
+>  
+>  		for (num = 0; num < counters; num++) {
+>  			/*
+> diff --git a/drivers/perf/hisilicon/hisi_uncore_pmu.c b/drivers/perf/hisilicon/hisi_uncore_pmu.c
+> index a449651f79c9..3c531b36cf25 100644
+> --- a/drivers/perf/hisilicon/hisi_uncore_pmu.c
+> +++ b/drivers/perf/hisilicon/hisi_uncore_pmu.c
+> @@ -101,26 +101,17 @@ static bool hisi_validate_event_group(struct perf_event *event)
+>  	/* Include count for the event */
+>  	int counters = 1;
+>  
+> -	if (!is_software_event(leader)) {
+> -		/*
+> -		 * We must NOT create groups containing mixed PMUs, although
+> -		 * software events are acceptable
+> -		 */
+> -		if (leader->pmu != event->pmu)
+> -			return false;
+> +	if (leader == event)
+> +		return true;
+>  
+> -		/* Increment counter for the leader */
+> -		if (leader != event)
+> -			counters++;
+> -	}
+> +	/* Increment counter for the leader */
+> +	if (leader->pmu == event->pmu)
+> +		counters++;
+>  
+>  	for_each_sibling_event(sibling, event->group_leader) {
+> -		if (is_software_event(sibling))
+> -			continue;
+> -		if (sibling->pmu != event->pmu)
+> -			return false;
+>  		/* Increment counter for each sibling */
+> -		counters++;
+> +		if (sibling->pmu == event->pmu)
+> +			counters++;
+>  	}
+>  
+>  	/* The group can not count events more than the counters in the HW */
+> diff --git a/drivers/perf/hisilicon/hns3_pmu.c b/drivers/perf/hisilicon/hns3_pmu.c
+> index c157f3572cae..382e469257f9 100644
+> --- a/drivers/perf/hisilicon/hns3_pmu.c
+> +++ b/drivers/perf/hisilicon/hns3_pmu.c
+> @@ -1058,21 +1058,16 @@ static bool hns3_pmu_validate_event_group(struct perf_event *event)
+>  	int counters = 1;
+>  	int num;
+>  
+> -	event_group[0] = leader;
+> -	if (!is_software_event(leader)) {
+> -		if (leader->pmu != event->pmu)
+> -			return false;
+> +	if (leader == event)
+> +		return true;
+>  
+> -		if (leader != event && !hns3_pmu_cmp_event(leader, event))
+> -			event_group[counters++] = event;
+> -	}
+> +	event_group[0] = event;
+> +	if (leader->pmu == event->pmu && !hns3_pmu_cmp_event(leader, event))
+> +		event_group[counters++] = leader;
+>  
+>  	for_each_sibling_event(sibling, event->group_leader) {
+> -		if (is_software_event(sibling))
+> -			continue;
+> -
+>  		if (sibling->pmu != event->pmu)
+> -			return false;
+> +			continue;
+>  
+>  		for (num = 0; num < counters; num++) {
+>  			/*
 > -- 
 > 2.39.2.101.g768bb238c484.dirty
 > 
