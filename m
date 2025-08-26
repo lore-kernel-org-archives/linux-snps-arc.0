@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A3CECA0EFA
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 26 Aug 2025 13:09:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C9F1CA0EFA
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 26 Aug 2025 13:25:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=hctTklkfMkOHaB17kYaE6bw5QC7/8EEsVXXxLCupvkY=; b=BEmPIRMReQWI7a
-	H4ZRQkT8QaH/x9qOoPiHuJl4wHvah1WwD6v5OS1HtNhfIn1jZMwEDSFfiVOFHXieW7QXe+WzJgMAM
-	4zumH2cKCRgh3kv65GNU4J//HZK6LjOmkMJRo+aV8kFAHYAjC6QBSPe38/0SOHjHZQDRzAtoDQZY0
-	m/sLw/i3l1/c64hddDIVi2WE5gsB4d6LiI07uj/L8MbjSpOobGivnXsXr2bjDXsONJX2+2WEo+vGV
-	HMlQKk5g5YHp0uZ6xvS5vpDaYEZr0P48HzQ+PEvdGN9YR6mWIBHRsg8qhqYkCD7pY7e7Vecz6OjRU
-	aVzy4SK2NvtQNLELY80Q==;
+	List-Owner; bh=fAusWhzdrWPkepcnFuyxRU98ExEEb/YXFqp5MQt1bB4=; b=ciUMvS3QYR6CbN
+	+GtP4faD82JSwS5DXbGgaeuxy51Kko+CHsNF9t30BM3uFBNrwwjs0YJxE5zHnqz31nhHwAckKOFcV
+	drA0ZPFrLfUFRg4zsiE/NMZzVDOAWIsoG0K93Dubm1TTmasEGoRgUEzmWcyj+o9w7dlVdkuqTIi4S
+	Y0qUdSwR6+MO23bRz29/xPJEYFCeK3gc6ALzJSn1Fnh4Jm10x7wu5HkWy84KNyk7GKzUCZRVGFhVT
+	lYDStJ6k9WrQpCEgFxgM33byXJOtMxe+4fwaMWVjbtPXAQtcwU1lKuRTzpBVwXkCCP/zAHhCfgmvy
+	hJqcwgAmWYR8YjNti9uA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uqtQ8-0000000C2qv-0kRf;
-	Tue, 26 Aug 2025 13:09:04 +0000
+	id 1uqtgE-0000000C5hT-1Ngk;
+	Tue, 26 Aug 2025 13:25:42 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uqtKn-0000000C1mf-3py9;
-	Tue, 26 Aug 2025 13:03:33 +0000
+	id 1uqtPF-0000000C2bD-237g;
+	Tue, 26 Aug 2025 13:08:09 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=pe5SE8cLTPPyLKyF6S5l44TjxJSycuwoPwH53Hc4MBc=; b=s5T3h8QunORHMVi1lJq+TueBjc
-	cEFljtvjN5QJ03jRIuUbqZT2dzYWLCkq7EIgZ1HjiZepKSvKZUS4jhIftbJpUomzAxLkXpo4MhYIl
-	ZCvpLQBdWeqllwk2L5LEakNCj50aVxzY1I5n8BnO+qCbmyfysUZaBrevf4ZwX/NHQuj2PrtwGK3Is
-	jhSt6FlQLnGrrRwVWOG3VEhB1mGDJu+1EhbkwSGhAG25rhQM5DyWklhsvsXQh2tW5FYLoYbc8dttl
-	tsa9sX+EEmcEbn/jBCdJY0wOlh7GZntWiVjKPlxT8hw9CmspDWHiAZfhSZSTIR8f/mKGoVnI/OKYV
-	DfymEZ2w==;
+	bh=1anwaqC6FtBZhv/AdRsioHe6z7ff2/NtObpshRSmtXo=; b=tTA/3PiAJQSpvqwn9JBse0zv8x
+	XpRRlvytBaU8d04FPgmaRAhvvZSqAROIZ/4ezjLoE6WsNdrr9/VlG41rEHCWsnk6JH8UsrGv5T5LT
+	zWsAXDZBYt6RN2vrodVyAq1DmmcYAol3ljF/QPWtrzgIrZdA+eDohdH+O3MOT2cIfR3SAL6oZFxxT
+	a0buqH4Cjn32e+/T6hw9u+ioPisD3zaMrQKEyQ6W0w6+Ct9SXam4tKJBvFWH9AMfHquCJRKF+Zp4I
+	PdyzFVdx3HFHpHhkOPtwcc+TPPHK59R640Wqk+YmnwDvNpXZJgmWLR1JQJ9jnUMah3B3H6sSqGhBU
+	hjKnAxuQ==;
 Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
 	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uqtKk-00000002CWx-1CxP;
-	Tue, 26 Aug 2025 13:03:31 +0000
+	id 1uqtPC-00000002GIP-3rVi;
+	Tue, 26 Aug 2025 13:08:07 +0000
 Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id E7FAC3002C5; Tue, 26 Aug 2025 15:03:29 +0200 (CEST)
-Date: Tue, 26 Aug 2025 15:03:29 +0200
+	id DB2A63002C5; Tue, 26 Aug 2025 15:08:06 +0200 (CEST)
+Date: Tue, 26 Aug 2025 15:08:06 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: Robin Murphy <robin.murphy@arm.com>
 Cc: mingo@redhat.com, will@kernel.org, mark.rutland@arm.com,
@@ -64,13 +64,13 @@ Cc: mingo@redhat.com, will@kernel.org, mark.rutland@arm.com,
 	iommu@lists.linux.dev, linux-amlogic@lists.infradead.org,
 	linux-cxl@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH 12/19] perf: Ignore event state for group validation
-Message-ID: <20250826130329.GX4067720@noisy.programming.kicks-ass.net>
+Subject: Re: [PATCH 16/19] perf: Introduce positive capability for sampling
+Message-ID: <20250826130806.GY4067720@noisy.programming.kicks-ass.net>
 References: <cover.1755096883.git.robin.murphy@arm.com>
- <d6cda4e2999aba5794c8178f043c91068fa8080c.1755096883.git.robin.murphy@arm.com>
+ <ae81cb65b38555c628e395cce67ac6c7eaafdd23.1755096883.git.robin.murphy@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <d6cda4e2999aba5794c8178f043c91068fa8080c.1755096883.git.robin.murphy@arm.com>
+In-Reply-To: <ae81cb65b38555c628e395cce67ac6c7eaafdd23.1755096883.git.robin.murphy@arm.com>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,29 +87,39 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Aug 13, 2025 at 06:01:04PM +0100, Robin Murphy wrote:
-> It may have been different long ago, but today it seems wrong for these
-> drivers to skip counting disabled sibling events in group validation,
-> given that perf_event_enable() could make them schedulable again, and
-> thus increase the effective size of the group later. Conversely, if a
-> sibling event is truly dead then it stands to reason that the whole
-> group is dead, so it's not worth going to any special effort to try to
-> squeeze in a new event that's never going to run anyway. Thus, we can
-> simply remove all these checks.
+On Wed, Aug 13, 2025 at 06:01:08PM +0100, Robin Murphy wrote:
+> Sampling is inherently a feature for CPU PMUs, given that the thing
+> to be sampled is a CPU context. These days, we have many more
+> uncore/system PMUs than CPU PMUs, so it no longer makes much sense to
+> assume sampling support by default and force the ever-growing majority
+> of drivers to opt out of it (or erroneously fail to). Instead, let's
+> introduce a positive opt-in capability that's more obvious and easier to
+> maintain.
+> 
 
-So currently you can do sort of a manual event rotation inside an
-over-sized group and have it work.
+> diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
+> index 4d439c24c901..bf2cfbeabba2 100644
+> --- a/include/linux/perf_event.h
+> +++ b/include/linux/perf_event.h
+> @@ -294,7 +294,7 @@ struct perf_event_pmu_context;
+>  /**
+>   * pmu::capabilities flags
+>   */
+> -#define PERF_PMU_CAP_NO_INTERRUPT	0x0001
+> +#define PERF_PMU_CAP_SAMPLING		0x0001
+>  #define PERF_PMU_CAP_NO_NMI		0x0002
+>  #define PERF_PMU_CAP_AUX_NO_SG		0x0004
+>  #define PERF_PMU_CAP_EXTENDED_REGS	0x0008
+> @@ -305,6 +305,7 @@ struct perf_event_pmu_context;
+>  #define PERF_PMU_CAP_EXTENDED_HW_TYPE	0x0100
+>  #define PERF_PMU_CAP_AUX_PAUSE		0x0200
+>  #define PERF_PMU_CAP_AUX_PREFER_LARGE	0x0400
+> +#define PERF_PMU_CAP_NO_INTERRUPT	0x0800
 
-I'm not sure if anybody actually does this, but its possible.
+So NO_INTERRUPT was supposed to be the negative of your new SAMPLING
+(and I agree with your reasoning).
 
-Eg. on a PMU that supports only 4 counters, create a group of 5 and
-periodically cycle which of the 5 events is off.
-
-So I'm not against changing this, but changing stuff like this always
-makes me a little fearful -- it wouldn't be the first time that when it
-finally trickles down to some 'enterprise' user in 5 years someone comes
-and finally says, oh hey, you broke my shit :-(
-
+What I'm confused/curious about is why we retain NO_INTERRUPT?
 
 _______________________________________________
 linux-snps-arc mailing list
