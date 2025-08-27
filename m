@@ -4,66 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99B5CCA0FED
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 26 Aug 2025 22:49:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EBFAECA0FED
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 27 Aug 2025 01:25:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=CKrhlsfIMs7ugrLvVVKgRM9sTdD4O09XOOO+0vHrpVQ=; b=c8N/S0LX9JCiQi
-	DuP+9Hrk3p+n1UrJUDu7XpfyHtLNCfwywwm47vCqhhc8QCcI5r9md99yXta8VT/DHos9OuKLpQT93
-	g806Z645aISRwxzTezxKfg889Y9Wy+T8oiJ/FB2b8ZF7/008fQQRXgey+ErJq+7X1DySctZHHeKoC
-	HaJ7tIl70VMLrNZwoW1iIC5K5lGTJl7VIaTdb1zuqoeHP9aVoEXgNev4EWyLurhz91Bfo+HJFSHqi
-	XJTMaOluEXz7ZY4w/iz2kfVp5wUpnrExW3WSPD8I7vA8dMv+yZGv/DsTu7IeY6D96Ae/Tlmiw52ty
-	9UxvpDyXYxmA/iZ00BnQ==;
+	List-Owner; bh=apdUFYoF+NigVLmL+yaYYG8D6lvyqA7BX0CfBPyMsJo=; b=mpwKgd29aZVkl1
+	hJyxY2bhbpwAHm7GUIObFko68HUxApVdQ3fYCfX68bLJqfdl0m31Cnv5f3EA6gF6uogFolhpGAWJ9
+	lKkjNz4z1kQ5as3ovyuXLiu12h0uccfqLFBRH5qDMsz9H1qhwH9AStt39TT8kcSgimcLdcZK2dAKv
+	48lEwGUr7cd4GRDfG9B9mG4sNjdC3+cOLJniYqoVZW1Z7yZJ5xsu4ZyklUseDTYevgYUJvVCW6pjZ
+	46H1wG+CZDHTrph0TA813VSBh8NjEy5zPFJLQKh5ho3lrV/dO8b/B64ZQDX1Yr/9/qLrKGVxK4UBp
+	j4m6H1tQtoD61e3pGUQQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ur2TP-0000000DHnq-0ms8;
-	Tue, 26 Aug 2025 22:49:03 +0000
-Received: from foss.arm.com ([217.140.110.172])
-	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ur2Qf-0000000DHZ9-1YJp;
-	Tue, 26 Aug 2025 22:46:15 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D91401A25;
-	Tue, 26 Aug 2025 15:46:03 -0700 (PDT)
-Received: from [10.57.4.86] (unknown [10.57.4.86])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DCF5D3F738;
-	Tue, 26 Aug 2025 15:46:05 -0700 (PDT)
-Message-ID: <015974a4-f129-4ae5-adf9-c94b29f0576a@arm.com>
-Date: Tue, 26 Aug 2025 23:46:02 +0100
+	id 1ur4v5-0000000DWub-2sK8;
+	Wed, 27 Aug 2025 01:25:47 +0000
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
+	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ur4tU-0000000DWht-0D0H
+	for linux-snps-arc@lists.infradead.org;
+	Wed, 27 Aug 2025 01:24:09 +0000
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-771e987b4e6so2242699b3a.2
+        for <linux-snps-arc@lists.infradead.org>; Tue, 26 Aug 2025 18:24:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756257847; x=1756862647; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=m1eN+RfkD/BZr7YKYuoHDKX/GqHENJ8RA/tRnRlLGTs=;
+        b=HG/DJotGuE27+MWdt/opShcpREm66JGqJygz71JzgLcKYmDECohY3y/187Jou/eZQJ
+         Jr+vqqBtIRYrqcFAiMbNhANMtxr52aaHULv5n9RvvneIw6bP5lC2XS0DQnpBgP/aE/qP
+         W0XpO2fyxocHUAIErZR7+04Vk+phghRTpun9VK8raWr1rSBBIcDe/CbpjzqsRTBN/yen
+         MaOK899+DTd+jwVQmlxRY2wZSSa8IPOlBpGob/5mJo/ClBm6+eIEqHjhTB1m0iULIKRL
+         daKJtD8kanH4nN5szTsk8Cvn+zKCNvBPGbo16YNlaIE9REfVlCnSRXbxIJsqHiKunNFC
+         DlpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756257847; x=1756862647;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=m1eN+RfkD/BZr7YKYuoHDKX/GqHENJ8RA/tRnRlLGTs=;
+        b=sP87lKL1TmbMVEq2lqpO57AeNIO/JrCZtFLTEgIZ7Y+QN5qpfLG4fdithru3phiIDb
+         dNu00PItiKXML+Rtl6sjJgGhkVPhS+GTORjkt5J0yofg7DM8Ptn+yc3KJO0OliGKZBs8
+         a7sEwu3VxoKAan2pc/WmUuM8T/CKE5YEaQdnNHFCkHuAAlHEEn5PeMv7V0NWYVMbBKZz
+         ooX+cqRTu7LhQEtLehLpY3xz/Z/3eBBK2LWlbM2NSXWebULNGzPHotRPKllJLT8Iq1RZ
+         7jxo521nPvDfRLtwgy3edDXfqpWR+ft163nonDu+tfZ+zqju4pBD9fFaUGPhz9qhR576
+         gYDA==
+X-Forwarded-Encrypted: i=1; AJvYcCVDTdJaOMYR9/BliOBdiSGEk69EPHBW7+5TIgtWJDvmi2/hjprMpOg2AA09AlQBn3sE/wBMjbmUpm3c/gfCbA==@lists.infradead.org
+X-Gm-Message-State: AOJu0YxgCVfx7aJmp0KgyLxuwnMVipHIHrEWZRR/rUxNCZGvPQhjblUb
+	Ycb2cixSwcMjT2AP08BIt3EBnJW40S3CvsME1JV26ZLEtEie7FNrV+Zt
+X-Gm-Gg: ASbGncsyP/lbxLX2n2tUfREIPLO4FlD637x9a22pBdJQ0B3kOh8MfCuKua0vLiZf7Ic
+	T7ci75GI+JlHuwt0yJkYrWNg1pGzViAd+DE6eDS572j7unST7Ux6XIZPjYAImdMtOvr5JgTqwGY
+	tdlbaiQr/+soqsR2IU2XXmK9e3TNJ+cL5pg5fK3ZQpJxsftmQG+IJZpxoVYMORG9Fzah1WhmTtv
+	qgZLRFrCLxyZMfOAZ66ZY36Y5ZuFP3+XueuY3Wd0B+SO1BlZtzwTJoIA5G1nlihFMozMy2KW29a
+	FoC5aKrzauaS1YtV19fu1Ua3Q7KbDWogHn1zCz+4+jaO6Agt84gODArhjS2iIaokuaPt6mDiaf4
+	2mFzddlhqsuT12HRBlxoLuD1cYhvDt/Qu
+X-Google-Smtp-Source: AGHT+IEh3XZg5923sDjlaQ2nPZzRtgxPNuzgkJG3sCz/aVnRUW5jNGD0fK3hayb5dgJOYYe/t1LQDw==
+X-Received: by 2002:a05:6a20:2a29:b0:243:78c9:1631 with SMTP id adf61e73a8af0-24378c94b3dmr9318050637.51.1756257847131;
+        Tue, 26 Aug 2025 18:24:07 -0700 (PDT)
+Received: from localhost ([216.228.127.130])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b49d858ae34sm8328274a12.47.2025.08.26.18.24.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Aug 2025 18:24:06 -0700 (PDT)
+Date: Tue, 26 Aug 2025 21:24:04 -0400
+From: Yury Norov <yury.norov@gmail.com>
+To: Kees Cook <kees@kernel.org>
+Cc: Rasmus Villemoes <ravi@prevas.dk>, kernel test robot <lkp@intel.com>,
+	Vineet Gupta <vgupta@kernel.org>,
+	linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] arc: Fix __fls() const-foldability via __builtin_clzl()
+Message-ID: <aK5eNDa5H-PNGHpj@yury>
+References: <20250826034354.work.684-kees@kernel.org>
+ <87ldn644d0.fsf@prevas.dk>
+ <202508260955.2DE50A3FB@keescook>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 18/19] perf: Introduce positive capability for raw events
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: peterz@infradead.org, mingo@redhat.com, will@kernel.org, acme@kernel.org,
- namhyung@kernel.org, alexander.shishkin@linux.intel.com, jolsa@kernel.org,
- irogers@google.com, adrian.hunter@intel.com, kan.liang@linux.intel.com,
- linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
- linux-csky@vger.kernel.org, loongarch@lists.linux.dev,
- linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-rockchip@lists.infradead.org, dmaengine@vger.kernel.org,
- linux-fpga@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, coresight@lists.linaro.org,
- iommu@lists.linux.dev, linux-amlogic@lists.infradead.org,
- linux-cxl@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-riscv@lists.infradead.org
-References: <cover.1755096883.git.robin.murphy@arm.com>
- <542787fd188ea15ef41c53d557989c962ed44771.1755096883.git.robin.murphy@arm.com>
- <aK259PrpyxguQzdN@J2N7QTR9R3>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <aK259PrpyxguQzdN@J2N7QTR9R3>
+Content-Disposition: inline
+In-Reply-To: <202508260955.2DE50A3FB@keescook>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250826_154613_507185_04E45492 
-X-CRM114-Status: GOOD (  41.33  )
+X-CRM114-CacheID: sfid-20250826_182408_089025_C4730E3F 
+X-CRM114-Status: GOOD (  17.19  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,233 +97,30 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 2025-08-26 2:43 pm, Mark Rutland wrote:
-> On Wed, Aug 13, 2025 at 06:01:10PM +0100, Robin Murphy wrote:
->> Only a handful of CPU PMUs accept PERF_TYPE_{RAW,HARDWARE,HW_CACHE}
->> events without registering themselves as PERF_TYPE_RAW in the first
->> place. Add an explicit opt-in for these special cases, so that we can
->> make life easier for every other driver (and probably also speed up the
->> slow-path search) by having perf_try_init_event() do the basic type
->> checking to cover the majority of cases.
->>
->> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+On Tue, Aug 26, 2025 at 09:56:06AM -0700, Kees Cook wrote:
+> On Tue, Aug 26, 2025 at 03:08:59PM +0200, Rasmus Villemoes wrote:
+> > If __builtin_arc_fls() simply doesn't qualify for attr_const for
+> > $reason, I think it would be good to have that documented in the commit
+> > msg. If it does, I think a gcc ticket and link to that would be in order.
 > 
+> I already sent the patch to fix it. :)
 > 
-> To bikeshed a little here, I'm not keen on the PERF_PMU_CAP_RAW_EVENTS
-> name, because it's not clear what "RAW" really means, and people will
-> definitely read that to mean something else.
-> 
-> Could we go with something like PERF_PMU_CAP_COMMON_CPU_EVENTS, to make
-> it clear that this is about opting into CPU-PMU specific event types (of
-> which PERF_TYPE_RAW is one of)?
+> https://gcc.gnu.org/pipermail/gcc-patches/2025-August/693273.html
 
-Indeed I started with that very intention after our previous discussion, 
-but soon realised that in fact nowhere in the code is there any 
-definition or even established notion of what "common" means in this 
-context, so it's hardly immune to misinterpretation either. Furthermore 
-the semantics of the cap as it ended up are specifically that the PMU 
-wants the same behaviour as if it had registered as PERF_TYPE_RAW, so 
-having "raw" in the name started to look like the more intuitive option 
-after all (plus being nice and short helps.)
+I'm OK taking the patch if it fixes real problem for you, but it looks
+more like a GCC problem, right? Is Clang also affected?
 
-If anything, it's "events" that carries the implication that's proving 
-hard to capture precisely and concisely here, so maybe the answer to 
-avoid ambiguity is to lean further away from a "what it represents" to a 
-"what it actually does" naming - PERF_PMU_CAP_TYPE_RAW, anyone?
-
-> Likewise, s/is_raw_pmu()/pmu_supports_common_cpu_events()/.
-
-Case in point: is it any more logical and expected that supporting 
-common CPU events implies a PMU should be offered software or breakpoint 
-events as well? Because that's what such a mere rename would currently 
-mean :/
-
->> ---
->>
->> A further possibility is to automatically add the cap to PERF_TYPE_RAW
->> PMUs in perf_pmu_register() to have a single point-of-use condition; I'm
->> undecided...
-> 
-> I reckon we don't need to automagically do that, but I reckon that
-> is_raw_pmu()/pmu_supports_common_cpu_events() should only check the cap,
-> and we don't read anything special into any of
-> PERF_TYPE_{RAW,HARDWARE,HW_CACHE}.
-
-OK, but that would then necessitate having to explicitly add the cap to 
-all 15-odd other drivers which register as PERF_TYPE_RAW as well, at 
-which point it starts to look like a more general "I am a CPU PMU in 
-terms of most typical assumptions you might want to make about that" flag...
-
-To clarify (and perhaps something for a v2 commit message), we currently 
-have 3 categories of PMU driver:
-
-1: (Older/simpler CPUs) Registers as PERF_TYPE_RAW, wants 
-PERF_TYPE_RAW/HARDWARE/HW_CACHE events
-2: (Heterogeneous CPUs) Registers as dynamic type, wants 
-PERF_TYPE_RAW/HARDWARE/HW_CACHE events plus events of its own type
-3: (Mostly uncore) Registers as dynamic type, only wants events of its 
-own type
-
-My vested interest is in making category 3 the default behaviour, given 
-that the growing majority of new drivers are uncore (and I keep having 
-to write them...) However unclear the type overlaps in category 1 might 
-be, it's been like that for 15 years, so I didn't feel compelled to 
-churn fossils like Alpha more than reasonably necessary. Category 2 is 
-only these 5 drivers, so a relatively small tweak to distinguish them 
-from category 3 and let them retain the effective category 1 behaviour 
-(which remains the current one of potentially still being offered 
-software etc. events too) seemed like the neatest way to make progress.
-
-I'm not saying I'm necessarily against a general overhaul of CPU PMUs 
-being attempted too, just that it seems more like a whole other 
-side-quest, and I'd really like to slay the uncore-boilerplate dragon first.
-
->> ---
->>   arch/s390/kernel/perf_cpum_cf.c    |  1 +
->>   arch/s390/kernel/perf_pai_crypto.c |  2 +-
->>   arch/s390/kernel/perf_pai_ext.c    |  2 +-
->>   arch/x86/events/core.c             |  2 +-
->>   drivers/perf/arm_pmu.c             |  1 +
->>   include/linux/perf_event.h         |  1 +
->>   kernel/events/core.c               | 15 +++++++++++++++
->>   7 files changed, 21 insertions(+), 3 deletions(-)
->>
->> diff --git a/arch/s390/kernel/perf_cpum_cf.c b/arch/s390/kernel/perf_cpum_cf.c
->> index 1a94e0944bc5..782ab755ddd4 100644
->> --- a/arch/s390/kernel/perf_cpum_cf.c
->> +++ b/arch/s390/kernel/perf_cpum_cf.c
->> @@ -1054,6 +1054,7 @@ static void cpumf_pmu_del(struct perf_event *event, int flags)
->>   /* Performance monitoring unit for s390x */
->>   static struct pmu cpumf_pmu = {
->>   	.task_ctx_nr  = perf_sw_context,
->> +	.capabilities = PERF_PMU_CAP_RAW_EVENTS,
->>   	.pmu_enable   = cpumf_pmu_enable,
->>   	.pmu_disable  = cpumf_pmu_disable,
->>   	.event_init   = cpumf_pmu_event_init,
-> 
-> Tangential, but use of perf_sw_context here looks bogus.
-
-Indeed, according to the history it was intentional, but perhaps that no 
-longer applies since the big context redesign? FWIW there seem to be a 
-fair few instances of this, including Arm SPE.
+If, say, Clang is not affected, and you expect that newer GCC versions
+will not be affected too, let's protect the new code with a proper
+ifdefery, so that it will be easier to drop the workaround later?
 
 Thanks,
-Robin.
-
->> diff --git a/arch/s390/kernel/perf_pai_crypto.c b/arch/s390/kernel/perf_pai_crypto.c
->> index a64b6b056a21..b5b6d8b5d943 100644
->> --- a/arch/s390/kernel/perf_pai_crypto.c
->> +++ b/arch/s390/kernel/perf_pai_crypto.c
->> @@ -569,7 +569,7 @@ static const struct attribute_group *paicrypt_attr_groups[] = {
->>   /* Performance monitoring unit for mapped counters */
->>   static struct pmu paicrypt = {
->>   	.task_ctx_nr  = perf_hw_context,
->> -	.capabilities = PERF_PMU_CAP_SAMPLING,
->> +	.capabilities = PERF_PMU_CAP_SAMPLING | PERF_PMU_CAP_RAW_EVENTS,
->>   	.event_init   = paicrypt_event_init,
->>   	.add	      = paicrypt_add,
->>   	.del	      = paicrypt_del,
->> diff --git a/arch/s390/kernel/perf_pai_ext.c b/arch/s390/kernel/perf_pai_ext.c
->> index 1261f80c6d52..bcd28c38da70 100644
->> --- a/arch/s390/kernel/perf_pai_ext.c
->> +++ b/arch/s390/kernel/perf_pai_ext.c
->> @@ -595,7 +595,7 @@ static const struct attribute_group *paiext_attr_groups[] = {
->>   /* Performance monitoring unit for mapped counters */
->>   static struct pmu paiext = {
->>   	.task_ctx_nr  = perf_hw_context,
->> -	.capabilities = PERF_PMU_CAP_SAMPLING,
->> +	.capabilities = PERF_PMU_CAP_SAMPLING | PERF_PMU_CAP_RAW_EVENTS,
->>   	.event_init   = paiext_event_init,
->>   	.add	      = paiext_add,
->>   	.del	      = paiext_del,
->> diff --git a/arch/x86/events/core.c b/arch/x86/events/core.c
->> index 789dfca2fa67..764728bb80ae 100644
->> --- a/arch/x86/events/core.c
->> +++ b/arch/x86/events/core.c
->> @@ -2697,7 +2697,7 @@ static bool x86_pmu_filter(struct pmu *pmu, int cpu)
->>   }
->>   
->>   static struct pmu pmu = {
->> -	.capabilities		= PERF_PMU_CAP_SAMPLING,
->> +	.capabilities		= PERF_PMU_CAP_SAMPLING | PERF_PMU_CAP_RAW_EVENTS,
->>   
->>   	.pmu_enable		= x86_pmu_enable,
->>   	.pmu_disable		= x86_pmu_disable,
->> diff --git a/drivers/perf/arm_pmu.c b/drivers/perf/arm_pmu.c
->> index 72d8f38d0aa5..bc772a3bf411 100644
->> --- a/drivers/perf/arm_pmu.c
->> +++ b/drivers/perf/arm_pmu.c
->> @@ -877,6 +877,7 @@ struct arm_pmu *armpmu_alloc(void)
->>   		 * specific PMU.
->>   		 */
->>   		.capabilities	= PERF_PMU_CAP_SAMPLING |
->> +				  PERF_PMU_CAP_RAW_EVENTS |
->>   				  PERF_PMU_CAP_EXTENDED_REGS |
->>   				  PERF_PMU_CAP_EXTENDED_HW_TYPE,
->>   	};
->> diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
->> index 183b7c48b329..c6ad036c0037 100644
->> --- a/include/linux/perf_event.h
->> +++ b/include/linux/perf_event.h
->> @@ -305,6 +305,7 @@ struct perf_event_pmu_context;
->>   #define PERF_PMU_CAP_EXTENDED_HW_TYPE	0x0100
->>   #define PERF_PMU_CAP_AUX_PAUSE		0x0200
->>   #define PERF_PMU_CAP_AUX_PREFER_LARGE	0x0400
->> +#define PERF_PMU_CAP_RAW_EVENTS		0x0800
->>   
->>   /**
->>    * pmu::scope
->> diff --git a/kernel/events/core.c b/kernel/events/core.c
->> index 71b2a6730705..2ecee76d2ae2 100644
->> --- a/kernel/events/core.c
->> +++ b/kernel/events/core.c
->> @@ -12556,11 +12556,26 @@ static inline bool has_extended_regs(struct perf_event *event)
->>   	       (event->attr.sample_regs_intr & PERF_REG_EXTENDED_MASK);
->>   }
->>   
->> +static bool is_raw_pmu(const struct pmu *pmu)
->> +{
->> +	return pmu->type == PERF_TYPE_RAW ||
->> +	       pmu->capabilities & PERF_PMU_CAP_RAW_EVENTS;
->> +}
-> 
-> As above, I reckon we should make this:
-> 
-> static bool pmu_supports_common_cpu_events(const struct pmu *pmu)
-> {
-> 	return pmu->capabilities & PERF_PMU_CAP_RAW_EVENTS;
-> }
-> 
-> Other than the above, this looks good to me.
-> 
-> Mark.
-> 
->> +
->>   static int perf_try_init_event(struct pmu *pmu, struct perf_event *event)
->>   {
->>   	struct perf_event_context *ctx = NULL;
->>   	int ret;
->>   
->> +	/*
->> +	 * Before touching anything, we can safely skip:
->> +	 * - any event for a specific PMU which is not this one
->> +	 * - any common event if this PMU doesn't support them
->> +	 */
->> +	if (event->attr.type != pmu->type &&
->> +	    (event->attr.type >= PERF_TYPE_MAX || is_raw_pmu(pmu)))
->> +		return -ENOENT;
->> +
->>   	if (!try_module_get(pmu->module))
->>   		return -ENODEV;
->>   
->> -- 
->> 2.39.2.101.g768bb238c484.dirty
->>
+Yury
 
 _______________________________________________
 linux-snps-arc mailing list
