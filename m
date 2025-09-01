@@ -4,80 +4,160 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B28BCA0FF0
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  1 Sep 2025 17:17:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7C14CA0FF0
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  1 Sep 2025 18:10:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Uvkb4s2V0qgsYGTa6UNaCZSvPq1jK6p9xeA8gmROTTw=; b=bTUWgA5vutQ9q7
-	mmDFZlChU+3HqY5k2lH3F1mS3mdTtjng8KVPLyMqBmGStM6do2stnT9Ef7/BrhKF+Mj39xZjFYDQ5
-	qOPCEdNGXE2agWmbE3IfTHu5mrJ6POPQFH9+j22//BGf7xxJc0RWypRT/AEdodHpZx88+PNMnRo59
-	DdOOuXwtftbLUe17bEPHQZxzOJfTkhSTTR9775B83xPCBMmU685OYX5JXroazrI5cX6adTFkfEq7z
-	iZWkWynZ5BISyNSqWVK7+VPi4mNj1TTzymFnFa/QivxD6pX04v5WInho2jPhR5joVD8FSIub9cLRJ
-	CAJW43Z+VzOSnCfWeXlA==;
+	List-Owner; bh=exjVtEIxFguvIey2uaCB2tM/y9SMfCuvtjUGJebMyYc=; b=oviAAJCF58CeEM
+	J5yOgEXcV5J8guEy/CCzZ1y4bAUp7NqmdY0Flqu5DkazaJlzFJyItf/y/wQSGtwM0jHsxUyyxN1Wc
+	00l0NO/x+3DMXcpq8uq1MwQn9HLb5H3hFVSZTg9DjppZEueTFU+42Dji93kPMcFHhnfJ6utlP5ECg
+	16tJetAXiBTt+pBfy+xi5JWe7bgU8rGM7FGiNTBfy5uMEfavtjgzty3+NNKWdjhmt+6Jn39tJ2QT8
+	6hsxDfjx+U0vqC+jjcjWR1HNZWjhVgwPk7/Y0T8DkMrDENLgc6biLt2lX4ggEtKqfIDXluezswS59
+	CmHtaIULcTiyrxrboUVA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ut89z-0000000DR2M-3CQT;
-	Mon, 01 Sep 2025 17:17:39 +0000
-Received: from mail-oo1-f50.google.com ([209.85.161.50])
+	id 1ut8z5-0000000DX46-2658;
+	Mon, 01 Sep 2025 18:10:27 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ut53p-0000000Cn5q-45YF;
-	Mon, 01 Sep 2025 13:59:07 +0000
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-61ddbc4264cso2330937eaf.0;
-        Mon, 01 Sep 2025 06:59:05 -0700 (PDT)
+	id 1ut4lE-0000000CiVk-2fLa
+	for linux-snps-arc@lists.infradead.org;
+	Mon, 01 Sep 2025 13:39:53 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1756733991;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=H3id/gOofLyuF/iZzklWJhNUkAhzxEH18RZFHORTa7Q=;
+	b=LmqL9BBk+1W5I4PzvmueQ28E3CCO1Cviwyu5iICHOOx8oHLpSof5BP/6PEE6wnRoHkcyG9
+	5o1QvkVMocSD6kV4VH620BL47Bo7bBaXdRpK07ggKhEu5CxsbEvI+1x61h6sVQ2rfXMHHU
+	vb0nUwfs0yswu8Nb0+iVebKHk69XvXQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-461-oJOoHtvbOSaGOSqlsHI7Rg-1; Mon, 01 Sep 2025 09:39:48 -0400
+X-MC-Unique: oJOoHtvbOSaGOSqlsHI7Rg-1
+X-Mimecast-MFC-AGG-ID: oJOoHtvbOSaGOSqlsHI7Rg_1756733987
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3ccd58af2bbso1901088f8f.0
+        for <linux-snps-arc@lists.infradead.org>; Mon, 01 Sep 2025 06:39:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756735145; x=1757339945;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1756733987; x=1757338787;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NmDip3pK7R1bCI3jhASK9yPIU2OeMFz+fVnQvMU5RZM=;
-        b=f3bc9G3/lnLzzLRIdMwRlSIwCgHOfJTb+vv/i99fBL93RzwUi8woQvidNAMjxzpxjw
-         lgSuwEImYLaH50DLm2W5ku1soNLX5ohDXBjbft39OF8xTsoh4xYw5GYZO5dLeRRS2HZk
-         Sq3deV64GsA3ATMXHT4lxkFf7MwCB+9wR6j5aSzIl6j4IEy5AjzJknQENtNpLbE8W97u
-         pZCaH4qI9km5V6s3x66zZVl/ssjEgwD+YWcgzeBoZrCUpvmTAQkHIxSGEurnfCbyCyZB
-         WZ8iIjP0DMInOs3G6ouxvsY/gQULhNTBMGIOOf/yTz/9azoS7ZjF0KURxd+TSK4CeEAP
-         sd8A==
-X-Forwarded-Encrypted: i=1; AJvYcCVdGPK2JhbThWK5eOqqaHt00DkWUCYYlt4ncWTRyN5jaRnIHGSWn2kCygX+TU9woBtM2cMJbyL04To=@lists.infradead.org, AJvYcCXoiLGZqt99UyuQhc3L6D86yAg/2t3XRi32kQoK5XPQhBpPhSRtmtW8i/gD23N6v7qLWFqjIH4I5xMkWbM=@lists.infradead.org, AJvYcCXuDDitZSI2ZE7gEHfm10Pat9lAFLTfM96DNADA0AhOnKXqYMiqaO9AD7fJu9ldSCAkK/hznNEGMe3LAswtQrM=@lists.infradead.org, AJvYcCXzJB9hdVrR5jYQctbiq3f0lYYsRrG0lP+cthsKpTwaUyGgGlR7G9HQmWBx2fBZ7Bn+g91woXbTpDgAOIeneoEq@lists.infradead.org
-X-Gm-Message-State: AOJu0Yzg0FeAKczYGRxN7TZD1eJXydAYpWeN0kioBPFMYqSFY6DtMMy3
-	+4g7c44YKmmUlMjUXKCrIwGBLl/I7ggJxw6MZeuvCyQt9Yh22ER29gdGHMyGcTEopzM=
-X-Gm-Gg: ASbGncubK++qrRdjBE9ZLpgZsZvhw1NGzuSKJIpoB0HZ5IBazwQ/fNe8kF0En6kU136
-	90V2tAzeoXHrytSfILsNEKmkKFUTyUoxKYG/1Oev96JFKvcfxG3YFdMWkx64VrX5W5MI3oo1Ges
-	QXnadcyr5Q7gKvOQJFsKUn/xjkurj2xIDe46i4O6S5vQ71Vx4/1OvWoP/nc8dq5nZGRMYgZ9Od9
-	0vZixzPL8MokPVZ5m+EEbGGMc2gCHlWH0KgoYaLgil6f3bTMjtRwzNNm82QpcSqPTGDAKuCbtjK
-	yLWUA7SGFwgCjUFEg4ko+wVrthvkDWPcOHU09HgLzs+a/ZAvM75A7bEFvC/jf8lJ6fmh/gNQu8+
-	Dlo+F2sCYHAxFvzkq/B1gciJjhRehaV3Cflgcfj01YrlH4dZyhTnyjwGJK6sH
-X-Google-Smtp-Source: AGHT+IER3l46WWZFn65CQWnnpQYyjo+l31xDBrCdDEWIoKcPXunWef7a035sf4J8aRkAFJe9NmsKEQ==
-X-Received: by 2002:a05:6820:1ca8:b0:61e:1d70:766e with SMTP id 006d021491bc7-61e3383fde3mr5496885eaf.6.1756735144642;
-        Mon, 01 Sep 2025 06:59:04 -0700 (PDT)
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com. [209.85.160.50])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-61e3206c527sm665564eaf.14.2025.09.01.06.59.03
+        bh=H3id/gOofLyuF/iZzklWJhNUkAhzxEH18RZFHORTa7Q=;
+        b=tUZJZzcs3tup3bG32QXWBC2W7F8k3SGid+zYCXngnZpB3xBqK9X+zXwH7EaRh8UkG0
+         Qr3WV4l648i4mi3ox+aGuq5zWXdoH3BoPbipC7AF4dibVUGseoI+7L5HLydsSsorb+Qn
+         XcNdVX+RK3Y0G7gjbwO3YKQbOTmolG4vlfs11hPu4XfhQ2iiA54BIKxzed7ZHi7js43z
+         Sn0arIheM7pbwyaDIKbV49MoUlLHCR0qtmq85WltAOiDgZoohX9hU7aS/ScSX3D6n0gG
+         8GXMrD4GwBi7EyazBnwYmKT8p3LX8imWYQWU+n0RXQVHxZ2LLEYq70I4a86omQNhX9jD
+         ndDg==
+X-Forwarded-Encrypted: i=1; AJvYcCV9w8V0ZWt7HUkwJmnh8ayJXmymIeFokyOvtmyMOQiOYuSeRCPaoEe32ZAFy+eZYIkDOGyXdxAn8UzwEcg+qg==@lists.infradead.org
+X-Gm-Message-State: AOJu0YxrzCB1XEvMg9mu1gpde7EWlKcCYEhpZ2CM6f8AjUyOPKa6o15V
+	DQwuveTMKGrdLHxBK6AAty3mbg2JCm2z7XIquk3YSR6WNvvYIdbRnWKnhtDgLJPnb2mOo4mqXnm
+	IdP/Lxkzd65vpN72fnmdTjWYsLHmmcWQR5Pmr/pJx2qoH8LFTETqvFzrT9dNl0NxrbFeMrlIRGA
+	==
+X-Gm-Gg: ASbGncv+ZUUisgzyB5k35z4vJ/i7psWp64R2hXDlMKYx62IA/IV9j53rdxrWL81UoF5
+	0J+KpSzxze1ySS/u44pWVhnij5wr0nyQWFfEBI/wTPRLQHlequsy6OeDl8OItIutcfH66c+FP6s
+	Qfho4X+fU/eOzUYfL0ZJ/7kHTjLcKc0UOrl1mnZJyTcvY8gnaH3+8yDMXVFS6YtPo7X0RwP/8i9
+	PsQE2hloa7kG+m+PtirPKfJ4D7/v05BWknMYmF6LEhaIdx7XRNbQ9SOu4pj1iuRreEmX9+PF59q
+	bZNnZgs50QLzWLnx/PvJauKL8b0FCUtycvdeVtdxJXoWQCcrfTCr41ZdQH9tNAzG8grjEzamoMG
+	KpbM5whfmKckueSuN3gIihI6+UYPaaitPEiezlchZFSZEU0BEHV0gyoC5GsCJ5dzbNn8=
+X-Received: by 2002:a05:6000:659:10b0:3d2:633f:d02e with SMTP id ffacd0b85a97d-3d2634f1711mr4945725f8f.2.1756733987331;
+        Mon, 01 Sep 2025 06:39:47 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF16bYB/CPbtI8bBu7Fukc9/QEkuztuZV5dc0Mxq3hfWjQ0mUxmJtka4Y09bvawf1aVKd4/5g==
+X-Received: by 2002:a05:6000:659:10b0:3d2:633f:d02e with SMTP id ffacd0b85a97d-3d2634f1711mr4945678f8f.2.1756733986750;
+        Mon, 01 Sep 2025 06:39:46 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f37:2b00:948c:dd9f:29c8:73f4? (p200300d82f372b00948cdd9f29c873f4.dip0.t-ipconnect.de. [2003:d8:2f37:2b00:948c:dd9f:29c8:73f4])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b6f0c6fe5sm238421945e9.5.2025.09.01.06.39.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Sep 2025 06:59:04 -0700 (PDT)
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-3197f534179so1244664fac.2;
-        Mon, 01 Sep 2025 06:59:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUVIc4Ch4Mp+FRMz53TreFHBqIhwgSTDIkX5VnJaSsnSZQUgEZRGDcGHESdp6HweFfRYwHT6gt5g7lIg1M=@lists.infradead.org, AJvYcCVI5m8M3TznCKeSXhx/B6F81xrX/0rYXhLQss4nBPuVguYp6pPMcFYZkcvQxu8RO4QLAaopDtL0Ztk=@lists.infradead.org, AJvYcCWr2v1wT8gM+AhiXbAAlVQAKzSPfJP9INKAiUI4Bwbk/GVhrRjjY7XkUtZ5A6o6nc+uvJQ/z7hKuyu/0cZPW2YO@lists.infradead.org, AJvYcCX1Jz5LvhgRIB6UKenYXz/dsfxjiV+2Jl6QDPqf3QI5O1J9C3DsP93TnKELWaV6vw9uRekjk2Jdccddr33/Q2o=@lists.infradead.org
-X-Received: by 2002:a05:6102:3053:b0:52a:c340:11db with SMTP id
- ada2fe7eead31-52b1bb24afcmr2206016137.27.1756734711158; Mon, 01 Sep 2025
- 06:51:51 -0700 (PDT)
+        Mon, 01 Sep 2025 06:39:46 -0700 (PDT)
+Message-ID: <72558e21-2ebf-448a-a93a-3d1a3181a592@redhat.com>
+Date: Mon, 1 Sep 2025 15:39:44 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/4] arch: copy_thread: pass clone_flags as u64
+To: schuster.simon@siemens-energy.com, Dinh Nguyen <dinguyen@kernel.org>,
+ Christian Brauner <brauner@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-csky@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ cgroups@vger.kernel.org, linux-security-module@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, apparmor@lists.ubuntu.com,
+ selinux@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+ linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-um@lists.infradead.org
 References: <20250901-nios2-implement-clone3-v2-0-53fcf5577d57@siemens-energy.com>
  <20250901-nios2-implement-clone3-v2-3-53fcf5577d57@siemens-energy.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
 In-Reply-To: <20250901-nios2-implement-clone3-v2-3-53fcf5577d57@siemens-energy.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 1 Sep 2025 15:51:38 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWyCbOgs6XyW=8PG2pVw1-zhWP_VtsXsGz1HeFrZ6kjdA@mail.gmail.com>
-X-Gm-Features: Ac12FXxyJUafI_d6iF6chcUi31LuXt_e8cojxsF4wFcxCNHCg2s17r6RQqbjdms
-Message-ID: <CAMuHMdWyCbOgs6XyW=8PG2pVw1-zhWP_VtsXsGz1HeFrZ6kjdA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] arch: copy_thread: pass clone_flags as u64
-To: schuster.simon@siemens-energy.com
-Cc: Dinh Nguyen <dinguyen@kernel.org>, Christian Brauner <brauner@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, Kees Cook <kees@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Guo Ren <guoren@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Masami Hiramatsu <mhiramat@kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, John Johansen <john.johansen@canonical.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, Kentaro Takeda <takedakn@nttdata.co.jp>, Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Richard Henderson <richard.henderson@linaro.org>, Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Brian Cain <bcain@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, Michal Simek <monstr@monstr.eu>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Jonas Bonn <jonas@southpole.se>, Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, Stafford Horne <shorne@gmail.com>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Andreas Larsson <andreas@gaisler.com>, Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, linux-csky@vger.kernel.org, linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, cgroups@vger.kernel.org, linux-security-module@vger.kernel.org, linux-trace-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- linux-perf-users@vger.kernel.org, apparmor@lists.ubuntu.com, selinux@vger.kernel.org, linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, linux-um@lists.infradead.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: _d365r8tWRP9vPm6wtRFaePo7MGyaxvZ_yHOctJk6oQ_1756733987
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250901_065906_015927_9E2E98E4 
-X-CRM114-Status: GOOD (  26.22  )
+X-CRM114-CacheID: sfid-20250901_063952_742538_A4C28122 
+X-CRM114-Status: GOOD (  13.93  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,48 +169,71 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, 1 Sept 2025 at 15:10, Simon Schuster via B4 Relay
-<devnull+schuster.simon.siemens-energy.com@kernel.org> wrote:
+On 01.09.25 15:09, Simon Schuster via B4 Relay wrote:
 > From: Simon Schuster <schuster.simon@siemens-energy.com>
->
+> 
 > With the introduction of clone3 in commit 7f192e3cd316 ("fork: add
 > clone3") the effective bit width of clone_flags on all architectures was
 > increased from 32-bit to 64-bit, with a new type of u64 for the flags.
 > However, for most consumers of clone_flags the interface was not
 > changed from the previous type of unsigned long.
->
+> 
 > While this works fine as long as none of the new 64-bit flag bits
 > (CLONE_CLEAR_SIGHAND and CLONE_INTO_CGROUP) are evaluated, this is still
 > undesirable in terms of the principle of least surprise.
->
+> 
 > Thus, this commit fixes all relevant interfaces of the copy_thread
 > function that is called from copy_process to consistently pass
 > clone_flags as u64, so that no truncation to 32-bit integers occurs on
 > 32-bit architectures.
->
+> 
 > Signed-off-by: Simon Schuster <schuster.simon@siemens-energy.com>
+> ---
+>   arch/alpha/kernel/process.c      | 2 +-
+>   arch/arc/kernel/process.c        | 2 +-
+>   arch/arm/kernel/process.c        | 2 +-
+>   arch/arm64/kernel/process.c      | 2 +-
+>   arch/csky/kernel/process.c       | 2 +-
+>   arch/hexagon/kernel/process.c    | 2 +-
+>   arch/loongarch/kernel/process.c  | 2 +-
+>   arch/m68k/kernel/process.c       | 2 +-
+>   arch/microblaze/kernel/process.c | 2 +-
+>   arch/mips/kernel/process.c       | 2 +-
+>   arch/nios2/kernel/process.c      | 2 +-
+>   arch/openrisc/kernel/process.c   | 2 +-
+>   arch/parisc/kernel/process.c     | 2 +-
+>   arch/powerpc/kernel/process.c    | 2 +-
+>   arch/riscv/kernel/process.c      | 2 +-
+>   arch/s390/kernel/process.c       | 2 +-
+>   arch/sh/kernel/process_32.c      | 2 +-
+>   arch/sparc/kernel/process_32.c   | 2 +-
+>   arch/sparc/kernel/process_64.c   | 2 +-
+>   arch/um/kernel/process.c         | 2 +-
+>   arch/x86/include/asm/fpu/sched.h | 2 +-
+>   arch/x86/include/asm/shstk.h     | 4 ++--
+>   arch/x86/kernel/fpu/core.c       | 2 +-
+>   arch/x86/kernel/process.c        | 2 +-
+>   arch/x86/kernel/shstk.c          | 2 +-
+>   arch/xtensa/kernel/process.c     | 2 +-
+>   26 files changed, 27 insertions(+), 27 deletions(-)
+> 
 
-Fixes: c5febea0956fd387 ("fork: Pass struct kernel_clone_args into copy_thread")
+(Adjust To: list)
 
->  arch/m68k/kernel/process.c       | 2 +-
+Thanks!
 
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org> # m68k
-
-Gr{oetje,eeting}s,
-
-                        Geert
+Acked-by: David Hildenbrand <david@redhat.com>
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Cheers
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+David / dhildenb
+
 
 _______________________________________________
 linux-snps-arc mailing list
