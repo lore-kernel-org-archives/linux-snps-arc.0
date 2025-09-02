@@ -4,59 +4,141 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5EA11CA1009
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  1 Sep 2025 18:10:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86B56CA0FFE
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  2 Sep 2025 07:03:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Rwe536nO9tfhNx1r5krlnOiUzzeJZk7RUPf3BZhEYBw=; b=Xir5pIjkncQJtp
-	rHI+J7sQvbOIWYGt3/8kxn2J2nSwkETEnZlXbphujb5euUXWjddwQMBNNcojq+yQ9MdCFePIpEoz3
-	C0M+ZWsAsajN9/l9WAtyeyahdeKENJbshf5pfHwSmPVZY0bjNbQwNwTSILg0h+PB4CLtynKLTcmuq
-	588WCok7lRbdRG9R3DHkSAuiy8gDgE9tiP1aYbyUwdtU481jWaxU3HjbkUe4jOMNUAC/S0ZPgFu5d
-	jlzwlt8Es05Hzu/EJn24PPu2CMnGk+nA/Dc2CPigdv+Rf8c2S+Lp5OFXk5CjvdlT6dgoXtlTEqzZr
-	f3QawMHK5xpQIISbqnBg==;
+	List-Owner; bh=CNg+IzSNlTAzSNXzcML871U4VDP3K0xEkB+kpgmBto8=; b=AErR7/wHWErxrV
+	2rQOU7KJ0iFThjbJ+e7DCEaX2Pp2P7Xg0EinuwAeYAqauqgtIbt8iW+HTBFp8Rr/p5NHb7D97ryla
+	2BCpzZesS7riaD5vWvS6/RYvqvuJIbTTb82TacOoowPO5Bf4Lo8K4haAvuKcEMqg2jX1ETEjse785
+	GTQVllOAgZ4UK3bxjF7XRh5fHy773SQp4p5EbZABizvTHHXyrs4yX/UIXZ46DCa6JYl8kOA/sGAOB
+	05AkFkQwMv8mQqZ7ZpMND6npA2ONe/kgtEYIB9Xuk5qi2iGQi+RBEyOMS+0tWuLB8xRaygtF5QPno
+	UlGX9v4lZ/57Hz0UwZ5w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ut8z6-0000000DX50-0QA6;
-	Mon, 01 Sep 2025 18:10:28 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1utL3D-0000000Fejj-0Fkm;
+	Tue, 02 Sep 2025 07:03:31 +0000
+Received: from smtp-out3.simply.com ([94.231.106.210])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ut4nl-0000000Cizh-3LZI;
-	Mon, 01 Sep 2025 13:42:31 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 7EA9544C2A;
-	Mon,  1 Sep 2025 13:42:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA2A3C4CEF0;
-	Mon,  1 Sep 2025 13:42:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756734149;
-	bh=Vh7XUBI8fbBk4XZ8pKOtZH1UfNJDpJTXo419bu2F3VE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hhAgv3jysX69gBwri906yWypXEK80NcNcU75ZV9/QeXQCy7l2f36k4byfNVTER6IP
-	 gOpTcCFplnwo778jgs8p6iIv5w82lNMr1NdsMRGJMrKmcMxP4YY2DKw+dekKbGSucF
-	 fH1UC9E5PgUSkFcL53l8SZJBBuh5k12ZnrsQltX79STLRHqZnRwbCiiL2r1trnqoDx
-	 puTp0teu7LJmcMXEaHizKLVFBrc6SbxJk1xEnU8p4L+3jrFGOH2GOvXFX8s+j/Uzcc
-	 iESOxfINPv0beoEDy4YTocStDSjRMNPUi5KjJ3O7gh5nCTPwxK3fbka9qE414MrABB
-	 Q6ziiIx0FS2KA==
-From: Christian Brauner <brauner@kernel.org>
-To: Simon Schuster <schuster.simon@siemens-energy.com>
-Cc: Christian Brauner <brauner@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, linux-csky@vger.kernel.org, linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, cgroups@vger.kernel.org, linux-security-module@vger.kernel.org, linux-trace-kernel@vger.kernel.org, netdev@vger.kernel.org, linux-perf-users@vger.kernel.org, apparmor@lists.ubuntu.com, selinux@vger.kernel.org, linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, linux-um@lists.infradead.org, stable@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, Kees Cook <kees@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Guo Ren <guoren@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>, Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Masami Hiramatsu <mhiramat@kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, John Johansen <john.johansen@canonical.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, Kentaro Takeda <takedakn@nttdata.co.jp>, Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>, Richard Henderson <richard.henderson@linaro.org>, Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Brian Cain <bcain@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, Geert Uytterhoeven <geert@linux-m68k.org>, Michal Simek <monstr@monstr.eu>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Jonas Bonn <jonas@southpole.se>, Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, Stafford Horne <shorne@gmail.com>, "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Andreas Larsson <andreas@gaisler.com>, Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>
-Subject: Re: [PATCH v2 0/4] nios2: Add architecture support for clone3
-Date: Mon,  1 Sep 2025 15:41:21 +0200
-Message-ID: <20250901-sauer-stunk-49def0170f7d@brauner>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250901-nios2-implement-clone3-v2-0-53fcf5577d57@siemens-energy.com>
-References: <20250901-nios2-implement-clone3-v2-0-53fcf5577d57@siemens-energy.com>
+	id 1utL2a-0000000FeVN-1jyM;
+	Tue, 02 Sep 2025 07:02:54 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by smtp.simply.com (Simply.com) with ESMTP id 4cGGsM6JC5z1DPkm;
+	Tue,  2 Sep 2025 09:02:47 +0200 (CEST)
+Received: from [192.168.0.25] (h-98-128-223-123.NA.cust.bahnhof.se [98.128.223.123])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by smtp.simply.com (Simply.com) with ESMTPSA id 4cGGsH2GP0z1FXjK;
+	Tue,  2 Sep 2025 09:02:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gaisler.com;
+	s=simplycom2; t=1756796567;
+	bh=h7e86hl0UV9Yd9fEU7lHS/lq+4/qNkF5NKsTGqMW0Gs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=XV9R3DCgzqtpsDdLU5B6YmrRSDSwOb/e+RN3Y/eiKzfpmARJpEfk4rM3nFZX0bFUT
+	 Cgk+F60Qfnp/lcw23nKISESK50dxfqXIzcv7lABAQzI+QL2HTB89cK9os+EVA7PGjD
+	 2JhF3WzYfsb9MEQHgbmUEpzjWOe7UaJDN1f3QJPTIjlP5MtBhYOcxRaj/x5aIgyAIx
+	 VylpL5fKm3LmJNVO1eTnB/fXzhohsODH/8iwc5vr/F7Q+FJODNFYRjy3a+H0jjVZXA
+	 zhn5kjjNaRe2tU3x5rK51dkv4aqaegmt92utDpWIUQsQcnBLirXe5OB9CcfJT7NVBK
+	 WwxEwsTBW60LQ==
+Message-ID: <f2371539-cd4e-4d70-9576-4bb1c677104c@gaisler.com>
+Date: Tue, 2 Sep 2025 09:02:41 +0200
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1648; i=brauner@kernel.org; h=from:subject:message-id; bh=Vh7XUBI8fbBk4XZ8pKOtZH1UfNJDpJTXo419bu2F3VE=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRsXbQgjNu70HTe/oL9c9q1am5UpWv3Rf4/axBS2d225 DLTetc9HaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABNJDGb4796daOqUVCMcef3h SZ6HDAFLrq8xmcSxzTOQKT+CvTO3n+G/d83ztvwDXH+ZHPU+vLlcvOafQ5/X9C+bSnabHoy/7bC TBwA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/4] arch: copy_thread: pass clone_flags as u64
+To: schuster.simon@siemens-energy.com, Dinh Nguyen <dinguyen@kernel.org>,
+ Christian Brauner <brauner@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ Kees Cook <kees@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, Guo Ren <guoren@kernel.org>,
+ Oleg Nesterov <oleg@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+ Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+ Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Masami Hiramatsu
+ <mhiramat@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ John Johansen <john.johansen@canonical.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Ondrej Mosnacek <omosnace@redhat.com>,
+ Kentaro Takeda <takedakn@nttdata.co.jp>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>,
+ Russell King <linux@armlinux.org.uk>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Brian Cain <bcain@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ WANG Xuerui <kernel@xen0n.name>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Michal Simek <monstr@monstr.eu>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Jonas Bonn <jonas@southpole.se>,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+ Stafford Horne <shorne@gmail.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>,
+ Max Filippov <jcmvbkbc@gmail.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-csky@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ cgroups@vger.kernel.org, linux-security-module@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, apparmor@lists.ubuntu.com,
+ selinux@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+ linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-um@lists.infradead.org
+References: <20250901-nios2-implement-clone3-v2-0-53fcf5577d57@siemens-energy.com>
+ <20250901-nios2-implement-clone3-v2-3-53fcf5577d57@siemens-energy.com>
+Content-Language: en-US
+From: Andreas Larsson <andreas@gaisler.com>
+In-Reply-To: <20250901-nios2-implement-clone3-v2-3-53fcf5577d57@siemens-energy.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250901_064229_879470_860971D3 
-X-CRM114-Status: GOOD (  18.95  )
+X-CRM114-CacheID: sfid-20250902_000252_880322_94F57D56 
+X-CRM114-Status: GOOD (  17.78  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,43 +155,38 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, 01 Sep 2025 15:09:49 +0200, Simon Schuster wrote:
-> This series adds support for the clone3 system call to the nios2
-> architecture. This addresses the build-time warning "warning: clone3()
-> entry point is missing, please fix" introduced in 505d66d1abfb9
-> ("clone3: drop __ARCH_WANT_SYS_CLONE3 macro"). The implementation passes
-> the relevant clone3 tests of kselftest when applied on top of
-> next-20250815:
+On 2025-09-01 15:09, Simon Schuster via B4 Relay wrote:
+> From: Simon Schuster <schuster.simon@siemens-energy.com>
 > 
-> [...]
+> With the introduction of clone3 in commit 7f192e3cd316 ("fork: add
+> clone3") the effective bit width of clone_flags on all architectures was
+> increased from 32-bit to 64-bit, with a new type of u64 for the flags.
+> However, for most consumers of clone_flags the interface was not
+> changed from the previous type of unsigned long.
+> 
+> While this works fine as long as none of the new 64-bit flag bits
+> (CLONE_CLEAR_SIGHAND and CLONE_INTO_CGROUP) are evaluated, this is still
+> undesirable in terms of the principle of least surprise.
+> 
+> Thus, this commit fixes all relevant interfaces of the copy_thread
+> function that is called from copy_process to consistently pass
+> clone_flags as u64, so that no truncation to 32-bit integers occurs on
+> 32-bit architectures.
+> 
+> Signed-off-by: Simon Schuster <schuster.simon@siemens-energy.com>
+> ---
 
-Seems fine to me. Thanks for fixing this.
+Thanks for this and for the whole series! Needed foundation for a
+sparc32 clone3 implementation as well.
 
----
+>  arch/sparc/kernel/process_32.c   | 2 +-
+>  arch/sparc/kernel/process_64.c   | 2 +-
 
-Applied to the kernel-6.18.clone3 branch of the vfs/vfs.git tree.
-Patches in the kernel-6.18.clone3 branch should appear in linux-next soon.
+Acked-by: Andreas Larsson <andreas@gaisler.com> # sparc
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+Cheers,
+Andreas
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: kernel-6.18.clone3
-
-[1/4] copy_sighand: Handle architectures where sizeof(unsigned long) < sizeof(u64)
-      https://git.kernel.org/vfs/vfs/c/04ff48239f46
-[2/4] copy_process: pass clone_flags as u64 across calltree
-      https://git.kernel.org/vfs/vfs/c/5b38576cb8d3
-[3/4] arch: copy_thread: pass clone_flags as u64
-      https://git.kernel.org/vfs/vfs/c/04e760acd97f
-[4/4] nios2: implement architecture-specific portion of sys_clone3
-      https://git.kernel.org/vfs/vfs/c/d7109d2a2358
 
 _______________________________________________
 linux-snps-arc mailing list
