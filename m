@@ -4,86 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBA2DCAC582
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 13 Sep 2025 01:05:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1E63CAC582
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 13 Sep 2025 01:06:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=gJ1HDNCupUQcnG3yHmoG7ps2u6Wy/0tHzq15gkPbTmI=; b=mViczgtrr9mXIH
-	OkW2A6Owb+vTTNHRAiYp0bOvOUhNRk1YY3726WsAiJD+hHQCPfUwxxzUJNq18SDlOHma0t1C2ekWU
-	aRhuyd6zILabFCB2nITYc3ccuEnrVbPiu7Pb/71hq3Dmpqgau+I/FvthbbgocxaDVfJVpNp9iY9Fr
-	FrJkZEWaSFguB6uar6tNBe77CGfFPGLwF1Z9iRiyjJ3F8QYrkFDBv8aAkhJMiW3/umiiYpF8fwUQz
-	tmCeDh3VN3TFiZBtjK76dbvDx32m75U3e0A52e9cLZFQvrASyRP/aRuVIp5YlIKqdfBZZR6pQOyqv
-	i5gQl5cCNmauOHfb3dEw==;
+	List-Owner; bh=duTeRCS7jeHx3EHjt0TIMEYbFZ4WAC0uTzpPXy68vGg=; b=Lj7zq0d8Y9Ty9R
+	kSO101Cnj/6gYbR1kAk1h4hwTCfcEkTQagE5Kor8EB3gqTiXvrJeI33hRGh63672Ov5pN1tPYMPmg
+	YOv4/uUhSIL07Vq1FmBhcViyJ/oREBhLt1/SlPq08mJVEol/gzNh/coAwuEdwCkieTff7E5xhkV8z
+	HwcUJ8raIgDjDYK8sghxLEoi2H+dPA7nuBE9cLLMQjbBq4cBlfDP7nTjlHeLAtzH1ARlYvc0u6Ndn
+	DIGoPODLhJlTu15X24DVVl90gyKFsCP7u/QwAOvPnUCVq8puS+9/ZZbmQOcIlpMc/7kznklOPUPg4
+	cmuClyFfLU0X68LC8JWA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uxEha-0000000CVP5-2lpW;
-	Sat, 13 Sep 2025 01:05:18 +0000
+	id 1uxEib-0000000CVmo-27KD;
+	Sat, 13 Sep 2025 01:06:21 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uxEhZ-0000000CVNt-1kaC
+	id 1uxEiZ-0000000CVkz-2sbE
 	for linux-snps-arc@bombadil.infradead.org;
-	Sat, 13 Sep 2025 01:05:17 +0000
+	Sat, 13 Sep 2025 01:06:19 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
 	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=5agMVhmWz9D3tLYyZnqIaP8gTBBboQ75Wn3D7w2vh+Q=; b=GP9Ugv+/JyECL7WTIzAf1i+kYo
-	RpyUCqKNLqLAWrEQIokHsKyIhDX/EcsRf25AKiNajRN1MQSKx/jtRuRfL4ugTMNxVB47ZS6bBzIF9
-	BsvP+rt888dF2Do2ZdieTdmewMXHXHJ6zyLwOVsOgSA4HqeUlyEMWCXK+X6REGZ2KXVo1M38oFK0a
-	M1dwEmxe/bLtq5L4jLeKGC2I5CWmdRo2ffay2YkpfvD8qvjYZCU8rif4bA4Bwcu/SXUvvqvhrnNjG
-	DuGewB+YF6V2hY9dgC7g6P6Ji82HPsQAJaRC/0doUQ3bptQ+kNCwHRVSpY9AKey8IbB7ZdD9qWxs+
-	cIdg1Bnw==;
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
+	bh=hRKyxFwRI2Qz0k3ZoQpZ3VLrtZiB303jicB3H5rLu1o=; b=GhUXGcZ4SqtzhTnA1is8YBESk9
+	ChvXX1X99M7H/l74Avr+7NuSf/ZRcVm/JiryEyzmvNmML/cdF4pjGCifihGxDeftudWYEE4zfK1zE
+	Y/75nY5jX39Er354NFohHjLBhypa90AhVF+/2+fZ23WuqH8NRHK4xFv/rgvhXcVnl8pVFn+rqmFeG
+	KRRn64vm9n+cFM7d2eT2Wzc8G8PTv2mVbGPZ3hYMMImDR4XYeczxMNWYF4M2Ile7jIbdWBfbSgonh
+	EQwMxgAvuo2+HAHhM6rYmxBAC1R0GyUQXfYvI4nziSpKimHnUTyY+Q6e1zAOEeN0ezAMixyRl4b0L
+	Ovqt05Dg==;
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
 	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uxEhT-00000006VuN-3ohZ
+	id 1uxEiW-00000006W1W-2LEh
 	for linux-snps-arc@lists.infradead.org;
-	Sat, 13 Sep 2025 01:05:16 +0000
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-b0473327e70so420923966b.3
-        for <linux-snps-arc@lists.infradead.org>; Fri, 12 Sep 2025 18:05:10 -0700 (PDT)
+	Sat, 13 Sep 2025 01:06:18 +0000
+Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-6188b6f7f15so3014389a12.2
+        for <linux-snps-arc@lists.infradead.org>; Fri, 12 Sep 2025 18:06:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757725509; x=1758330309; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1757725575; x=1758330375; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5agMVhmWz9D3tLYyZnqIaP8gTBBboQ75Wn3D7w2vh+Q=;
-        b=US+geqA1KYmyiZk+HrwSQzA72r4oT7AxkcCW6fcHzESalnz9kquh7bK+FNc7Bo9mCf
-         C8n7VpVmEWn3W2cqPeqVIYDN9dkfl7m7ZCQgnj2gbkMszCXeylUMDOtLyHEwoCkUdKqX
-         DXN0jUfiXlxfBVzY/WFCSC46w6L0jR1OZeFmeZMGCsCHdtYqmaOGQj/0nFR+/DuPlinc
-         BGG01GRnvZbLXxc+xAuqk25/F6TNmhtrskNUUsjOou03d3pZP9wv8gv838BVNJ8+GQ3F
-         Qgp6S4VYSbW73+emhaWEiIkc/GY4r+JNZP7+ItISz4v9u8Jp3bKPUzK//8mZMIE76WZr
-         VEBA==
+        bh=hRKyxFwRI2Qz0k3ZoQpZ3VLrtZiB303jicB3H5rLu1o=;
+        b=IN19wii6cBTF0yoMAxVLwt+XGc7ouNu8meKtdOlxMhwTHj7qKk8JNpouKDZN0wMe5L
+         wxTuNrxWAf6Up42vD/UWMSMguu3O8DdTiXrr7a32ChZHXyYzcu8Aonm85d4IPG9nKAVY
+         AzRIg9sSE+8xVQdtbUzHSfBBLvx3KypoXBB8s07nGzb3IjEbNLsgfnZzQRvDJl4ZTOqZ
+         lR00opd8PeoR9Q4Yxq0BXSE4dSfgD8M+iHxJXNY8+pOoixZjWsGL2cCKhu2VNInKtucJ
+         uho8KEC2/l87KBy0d5x2SDSnA78hmUZIujD12887eSSe4Nt5qXfrbYZEx2NqeVLtxoZ3
+         2yFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757725509; x=1758330309;
+        d=1e100.net; s=20230601; t=1757725575; x=1758330375;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5agMVhmWz9D3tLYyZnqIaP8gTBBboQ75Wn3D7w2vh+Q=;
-        b=mIGtLIBmuRQemo88gL6snOwoXPVftiZLJzoQwGmsJ+F6PIp8GPqZonKL2QY3ofilCl
-         FxfcW80lIMuyvx8QG3syUHS/mY0eMNpju64tp/33ImWvM3urkToXYMLz+pWcmGdEbcgm
-         5ayf6DGM7MWN736/lqRzjq/agWfAK9tFTuJ7QzEUlvZlYFqbvN7GSSUcKGmhh1cbKdBe
-         XTziriMJhlO0TOgb0m5R3XD4w9MNdm6I4TUhRrnc6w3xUhRQmc6m2LRonLdbbIfKb9ha
-         PxTgqdBAXTxuDJGdg1ilV0tZ78cXBA6svS10UgtEDJ+AFVF/8cvW9KGAOXcCBpuzfvH2
-         5y+A==
-X-Forwarded-Encrypted: i=1; AJvYcCVcp8kxCF/8WwmylcFl/N55rinHwx+C31xapXBofPA0IAP5AqtkD8ZuwiVxdI3KoK/nPWHuupEqz+qvnIVpBQ==@lists.infradead.org
-X-Gm-Message-State: AOJu0Yw1JGy/LqLQtuF9eRytMEdgfhu85oBcZdsOWENO5KMzD0sb+MLP
-	eRPxybv3IhCXG5qteSroqrE1/8U8V5UF90vyk8coCb6oQPk/UQOSmrjz
-X-Gm-Gg: ASbGnctaQcoDQbUmwd57scxYUlssi29lY6a+sEJ31mM633tJ1RNpBQVQw4d3BhjrE8l
-	oL3MM0BDmIYTWqW/eynlhk9CwWsijUELfswpaJA7US+oGrDhjQ0OBaJDCgWFvyGjjfpbKSjkY/x
-	UWrMBrlUOAZfMuTpctOCzO62/MrPZGszmEAnt/53LAsQvvxMmR90buEfHaxTVzJfnwbcSpKRP3F
-	fXaeay6hXNd77IEsRGOf4Wkl7cBL90b+CYUii6HNw0fSJJyHZ/GsItvOFfU1PGtZ9p09u+gekVh
-	IyEWwCOgoASsMhyTL88QoHAOuOdRozmhsiw85UmK3kuX/3FlaKGeEigWJS9mrgq9MpRXBddLZ/n
-	ozjf25W3n0bqYpZqUnlU=
-X-Google-Smtp-Source: AGHT+IHBVL7U9njYQbYDntatJDbtYTvNiZyrYrp6F3Zot8CfKJXHpFfpfQfFxJfdQecWj/pXbevxCg==
-X-Received: by 2002:a17:907:980a:b0:b04:7ea3:a10c with SMTP id a640c23a62f3a-b07c3551576mr448691266b.8.1757725509440;
-        Fri, 12 Sep 2025 18:05:09 -0700 (PDT)
+        bh=hRKyxFwRI2Qz0k3ZoQpZ3VLrtZiB303jicB3H5rLu1o=;
+        b=mTPJGLuL6akt44ep9NRHImtoTknYoGDyyU60OmZ/ww7ZAl1pb+gEhiXD6ERSxtQG0m
+         tO7RMGHyW70nMObENTX2+VrQ/qAnpUfjd88yPPY5qpNp5rZ1dXA6ay9vQgDH/DyhWDTR
+         hF1ldNJzr029YHY7ArN1N48QixQNiVOEBKo+Bf+yvSeTBGgpiwd2iPmmMAIIt2qY/UIQ
+         p4D9hZUgewWVaTCX+kH8TCYsVmQQ043vSH0QczPrXRnr3u44b/+rKKW4LnBa40Q54NqD
+         ViOT2GNYHVyEyvjANqKMfwJMk7W1vMWa/DQFBmM6iAI0iUrsgFqnstEgij38i/1h2oFz
+         HwZg==
+X-Forwarded-Encrypted: i=1; AJvYcCXI5ujJl4+lDFlXweyEn7kU5yk+wQgeqOiM2oVSTOyxP3fzBOtyz3lXqdnjBtP4GWAoVyjY9uGoRqoIRBz7Ww==@lists.infradead.org
+X-Gm-Message-State: AOJu0YzRerTrnj9ejV9dcBK5L7fY4vAvDlSutjR+3qq4LzG0B7cEcaim
+	Iey+yAZSHyN1YAW1cCq3F9EUdq890I6Lny01+ao8bLhT3NlxLsgYUUPZ
+X-Gm-Gg: ASbGncviawR/EzmMvfmrS+lYyGtpgHbSYH/HywBBopCwE3ROoH44H97grsC7FzI+oMn
+	qBIWWsBjueTmNN4/fBSvv26cCHNjUkAypduCWuXm7W9ASClKpe3379CCurOJ4sCT4aGR93umdon
+	yGJtGTjTnz0NjGQW3ZChdGWZN/eJLxxEWBKzgOFoa9lCaf7Xu/fgnTlfxcKDOP9u0B8hqkeENs5
+	S9xGZ7cfGZ4syGXOc6qy89bctcdGCngQrrDXPjUoW2UMZd/X4pATSctBgPVjOMjqrWxKPBnM3uw
+	28sVmFRZPDkxJEemQbolm9paNJKNneF1ITWi8SSE8Z/xm0gD8Ft2bgoBmdldg/DsTpT3HS0fmCT
+	WtN3yJbnrMhEoCfGaBVUKW0c4z8g6tg==
+X-Google-Smtp-Source: AGHT+IFUls6LXsrCLze7uCxm9gIrKR+0qjIy+VauG9zkpfPwn7RwHzjJtZF9/Fq3L/RMfRZn925KxQ==
+X-Received: by 2002:a17:907:c09:b0:b04:35c3:40b3 with SMTP id a640c23a62f3a-b07c384b024mr492655366b.15.1757725574734;
+        Fri, 12 Sep 2025 18:06:14 -0700 (PDT)
 Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b07b31291b0sm475372166b.34.2025.09.12.18.05.04
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b07d9e18c24sm112553466b.61.2025.09.12.18.06.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Sep 2025 18:05:08 -0700 (PDT)
+        Fri, 12 Sep 2025 18:06:14 -0700 (PDT)
 From: Askar Safin <safinaskar@gmail.com>
 To: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
@@ -139,16 +139,16 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
 	Thorsten Blum <thorsten.blum@linux.dev>,
 	Heiko Carstens <hca@linux.ibm.com>,
 	patches@lists.linux.dev
-Subject: [PATCH RESEND 23/62] init: rename __initramfs_{start,size} to __builtin_initramfs_{start,size}
-Date: Sat, 13 Sep 2025 00:38:02 +0000
-Message-ID: <20250913003842.41944-24-safinaskar@gmail.com>
+Subject: [PATCH RESEND 24/62] init: remove wrong comment
+Date: Sat, 13 Sep 2025 00:38:03 +0000
+Message-ID: <20250913003842.41944-25-safinaskar@gmail.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250913003842.41944-1-safinaskar@gmail.com>
 References: <20250913003842.41944-1-safinaskar@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250913_020512_598260_14EFAF87 
-X-CRM114-Status: GOOD (  15.17  )
+X-CRM114-CacheID: sfid-20250913_020616_835586_2B9E35AB 
+X-CRM114-Status: GOOD (  10.69  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -165,125 +165,26 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Rename __initramfs_start to __builtin_initramfs_start and
-__initramfs_size to __builtin_initramfs_size .
-
-This is more clear
+This comment is wrong. free_initrd_mem may be called
+with crashk_end and initrd_end as arguments
 
 Signed-off-by: Askar Safin <safinaskar@gmail.com>
 ---
- arch/x86/tools/relocs.c           | 2 +-
- drivers/acpi/tables.c             | 4 ++--
- include/asm-generic/vmlinux.lds.h | 6 +++---
- include/linux/initrd.h            | 4 ++--
- init/initramfs.c                  | 4 +---
- usr/initramfs_data.S              | 4 ++--
- 6 files changed, 11 insertions(+), 13 deletions(-)
+ include/linux/initrd.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/arch/x86/tools/relocs.c b/arch/x86/tools/relocs.c
-index 5778bc498415..4b4e556f1b52 100644
---- a/arch/x86/tools/relocs.c
-+++ b/arch/x86/tools/relocs.c
-@@ -87,7 +87,7 @@ static const char * const	sym_regex_kernel[S_NSYMTYPES] = {
- 	"__(start|stop)_notes|"
- 	"__end_rodata|"
- 	"__end_rodata_aligned|"
--	"__initramfs_start|"
-+	"__builtin_initramfs_start|"
- 	"(jiffies|jiffies_64)|"
- #if ELF_BITS == 64
- 	"__end_rodata_hpage_align|"
-diff --git a/drivers/acpi/tables.c b/drivers/acpi/tables.c
-index fa9bb8c8ce95..3160cb7dca00 100644
---- a/drivers/acpi/tables.c
-+++ b/drivers/acpi/tables.c
-@@ -429,8 +429,8 @@ void __init acpi_table_upgrade(void)
- 	struct cpio_data file;
- 
- 	if (IS_ENABLED(CONFIG_ACPI_TABLE_OVERRIDE_VIA_BUILTIN_INITRD)) {
--		data = __initramfs_start;
--		size = __initramfs_size;
-+		data = __builtin_initramfs_start;
-+		size = __builtin_initramfs_size;
- 	} else {
- 		data = (void *)initrd_start;
- 		size = initrd_end - initrd_start;
-diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
-index ae2d2359b79e..a6bd2ff46f7e 100644
---- a/include/asm-generic/vmlinux.lds.h
-+++ b/include/asm-generic/vmlinux.lds.h
-@@ -46,8 +46,8 @@
-  * [_sdata, _edata] is the data section
-  *
-  * Some of the included output section have their own set of constants.
-- * Examples are: [__initramfs_start, __initramfs_end] for initramfs and
-- *               [__nosave_begin, __nosave_end] for the nosave data
-+ * Examples are: [__builtin_initramfs_start, __builtin_initramfs_start + __builtin_initramfs_size]
-+ * for initramfs and [__nosave_begin, __nosave_end] for the nosave data
-  */
- 
- #include <asm-generic/codetag.lds.h>
-@@ -969,7 +969,7 @@ defined(CONFIG_AUTOFDO_CLANG) || defined(CONFIG_PROPELLER_CLANG)
- #ifdef CONFIG_BLK_DEV_INITRD
- #define INIT_RAM_FS							\
- 	. = ALIGN(4);							\
--	__initramfs_start = .;						\
-+	__builtin_initramfs_start = .;						\
- 	KEEP(*(.init.ramfs))						\
- 	. = ALIGN(8);							\
- 	KEEP(*(.init.ramfs.info))
 diff --git a/include/linux/initrd.h b/include/linux/initrd.h
-index cc389ef1a738..e49c7166dbb3 100644
+index e49c7166dbb3..4080ba82d4c9 100644
 --- a/include/linux/initrd.h
 +++ b/include/linux/initrd.h
-@@ -21,8 +21,8 @@ static inline void wait_for_initramfs(void) {}
- extern phys_addr_t phys_initrd_start;
- extern unsigned long phys_initrd_size;
+@@ -6,7 +6,6 @@
+ /* 1 if it is not an error if initrd_start < memory_start */
+ extern int initrd_below_start_ok;
  
--extern char __initramfs_start[];
--extern unsigned long __initramfs_size;
-+extern char __builtin_initramfs_start[];
-+extern unsigned long __builtin_initramfs_size;
+-/* free_initrd_mem always gets called with the next two as arguments.. */
+ extern unsigned long initrd_start, initrd_end;
+ extern void free_initrd_mem(unsigned long, unsigned long);
  
- void console_on_rootfs(void);
- 
-diff --git a/init/initramfs.c b/init/initramfs.c
-index 850cb0de873e..2866d7a0afd7 100644
---- a/init/initramfs.c
-+++ b/init/initramfs.c
-@@ -597,8 +597,6 @@ static int __init initramfs_async_setup(char *str)
- }
- __setup("initramfs_async=", initramfs_async_setup);
- 
--extern char __initramfs_start[];
--extern unsigned long __initramfs_size;
- #include <linux/initrd.h>
- #include <linux/kexec.h>
- 
-@@ -695,7 +693,7 @@ static inline bool kexec_free_initrd(void)
- static void __init do_populate_rootfs(void *unused, async_cookie_t cookie)
- {
- 	/* Load the built in initramfs */
--	char *err = unpack_to_rootfs(__initramfs_start, __initramfs_size);
-+	char *err = unpack_to_rootfs(__builtin_initramfs_start, __builtin_initramfs_size);
- 	if (err)
- 		panic_show_mem("%s", err); /* Failed to decompress INTERNAL initramfs */
- 
-diff --git a/usr/initramfs_data.S b/usr/initramfs_data.S
-index cd67edc38797..64ca648a80e2 100644
---- a/usr/initramfs_data.S
-+++ b/usr/initramfs_data.S
-@@ -27,8 +27,8 @@ __irf_start:
- .incbin "usr/initramfs_inc_data"
- __irf_end:
- .section .init.ramfs.info,"a"
--.globl __initramfs_size
--__initramfs_size:
-+.globl __builtin_initramfs_size
-+__builtin_initramfs_size:
- #ifdef CONFIG_64BIT
- 	.quad __irf_end - __irf_start
- #else
 -- 
 2.47.2
 
