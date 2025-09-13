@@ -4,71 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD1ADCAC582
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 13 Sep 2025 00:45:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A5ECCAC582
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 13 Sep 2025 00:46:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=KTHjCC8UASq8vT18VWFErdiQKg4W/hpXlFEAPHZEPic=; b=Vjyk9PoMtPjAry
-	vZcv8TixBIODyI/ThO9wl8MGfPtfPkaOSYsiNK7LqZ6CNKfLdYsARwxsodCmBex6L83mssW7PVsnQ
-	xy1nlZL26kPvh+HzSG+zaIqycAbGbyr+bCG6Cm3spU54C8ZsSEBECkfM2O33cAAUILCZg0Sttde4t
-	C4WJ02j5hhh2wAFks4THthPqNFf8I/fHN4WM5VN1teqNfWpuS667TW+mtmycd20G7EYSq6pgdeIYd
-	Iq4yTuZRvP/aXoiZU8AM1Kzw/JXakt1ls2v1v8Ii8UZ1AIPLixmEDBsn/Z1j+XCniexDkknPrAJhD
-	tqoXxtLc2rBKfT5guoBA==;
+	List-Owner; bh=4ASL7mBI2upyUUWHFW9TD0FMuNSimrYEpclrfxWBnWg=; b=xYdhqmQ//sPrjp
+	uj8DsJf1bCXgvqdaHs71QXAM6no2GayIuiaFKcu4nBaveVa+Sy+8PVBnuIYykWDaEqVnNvQKTmAPE
+	5r4JplnIXnogaAgIFfc2Sw7/s0PIoQTHvcQ7dzK6WBsfu13TAgmeY1kQsRYQitrBt+RA6ZB5b79m4
+	2xY9G2mS37jNdsn1PxDM/Ti3RD66ciDo5Yl/HSFXBpJFqk1O4Y14B3oUI9mLw6AtOh+KWTEWXLgn/
+	II/mTeIfAd7nNZXvpYF7X37bo3YvjhfC/ds5RX0QBf3mw7VEITGYRiFImWSYtIUfJjcKdtxwUEWh8
+	ghN27PeOui0rKcLDYDzA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uxEOS-0000000CNxZ-2bmq;
-	Sat, 13 Sep 2025 00:45:32 +0000
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
+	id 1uxEPX-0000000COMr-10Qc;
+	Sat, 13 Sep 2025 00:46:39 +0000
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uxEOQ-0000000CNwC-36aK
+	id 1uxEPT-0000000COKf-3Wa1
 	for linux-snps-arc@lists.infradead.org;
-	Sat, 13 Sep 2025 00:45:31 +0000
-Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-b043a33b060so374069166b.1
-        for <linux-snps-arc@lists.infradead.org>; Fri, 12 Sep 2025 17:45:30 -0700 (PDT)
+	Sat, 13 Sep 2025 00:46:37 +0000
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-b00a9989633so461778466b.0
+        for <linux-snps-arc@lists.infradead.org>; Fri, 12 Sep 2025 17:46:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757724329; x=1758329129; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1757724394; x=1758329194; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fi1FJKwP9nWnSjptSGh11GRsqwR1G48l7l6Ou3g4XAs=;
-        b=mSprhB5RyxyZORyznotfPNWc/0UcKQ2e7uIAOIYWbccO3ythPL2DIR6ZBOTvp89hmi
-         oq6AWwT3bRdzD4VZuOb4/fIb72bGCWCt8nBIbT1k49jiJQL+8Ja+Mgy2NVS/KCHk6dui
-         aL7tO+UI1G+7s5dtiu+IXzoRmhPHXIwyLCkgqjV9aMpcdMwDCK6kQL4y5aXGScKOGRBd
-         u14sV7Zm7Y7smR4yb+5RlL4RI/m9dWYZ3yOLygugC5ch4aIvKxLQ3jpgIWcr4hI+buj8
-         0oMysndDHDYV4GiUBrwcSg1P7arLhTgNqnmXdbQGVhVY282cAATgRm9MPJ1aOD2FD7ye
-         hXxA==
+        bh=Y83Wia04Z/mNTHCUGozzAt26nJVQ29vmo/6z8Jb/IIM=;
+        b=MTS+QMJ7RiNE5+CTT4/kdIlIkxU6YcpNGkDGwEaXGncCyZ7HaEwYku7cQKwJ5MNAua
+         hBlzOPY4S9uIF4SZXt6dequJ08RQPGfl+c1QyoaVhgHZLJDArQziDiERAKTSlO9cOcEb
+         eQMRrbazldybJXM1e4CA1EUnjA/w+X+ymvSEAQloIMKfO/TBRdjAoPspcGwIXCHHXXB0
+         +8dkJwG8vYXZoAyygApoWWry7Fi58CzTEl024Wyl9k+iM/jsi1W45/0Qys5iBxXnMGdo
+         JIuk53C32Qk/IpZFlnhbkPEUMRgCnIGWqXqWulilArgz18oEaZh5gNcHH61Y7pipAZc8
+         kfkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757724329; x=1758329129;
+        d=1e100.net; s=20230601; t=1757724394; x=1758329194;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fi1FJKwP9nWnSjptSGh11GRsqwR1G48l7l6Ou3g4XAs=;
-        b=dWvdKh5hSK5ZE6Zfx1Sy6+Z5h5/Pwcjm+6DnhWZa4rGUbwt2U/zYVxEHiRl6kyQjaX
-         ZHkFlwS/J0txjQqkuYUwx63tiOeD+TEyxN+rgDdfAjBrbvK9mSffylG3plkQX+qEo9SF
-         vH74TeV2aVULFBrq0nHE1cdMtdO6OUFQYQuYWrR+pXce4jE/1mXRwpiDia+hZrLaBq7f
-         sFGLBAOFtXAEJtfnabtpBVBPJQeVW7I2hU4JS7OTIP0/XUtkkm37CJnykOaOWelUofuS
-         oedjBFj59+cqb5+qh5D6//37GdxEhAi9gqlYhuUaHuHjJHe/I0F5zXeFYESCXJDI4OGS
-         Nh7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWr78Yr4mReXRHvwwA+2nGk9V+ACtx1/w6DqCF+xzKVEMGhbHWdud4NOGAwtQZVolsPLjiLrmaHd2IxNu2MrA==@lists.infradead.org
-X-Gm-Message-State: AOJu0YyEeHONJMwJQF1KsDr2ORzBkBYOxeSOISEiY64Lz0AB61kgExAp
-	fGLZkNRdM8Wh7xdaJmfV68EkBa/olGEtK5VsX+SBDdzQvvbXzXXbC09D
-X-Gm-Gg: ASbGncssiJ6+og9J1VVc9vqo+PmfUvlL84lvjS1gq1WiH+81b4ti2j9N/f+rfh+OSUb
-	6dNJ5uz9B9ziyi7IQu3kCxiaXZCZRcDl5kveTKS0+OqZSVCXcxcEmbQ5UQGnTx7PfqUXgTbOIgM
-	qdXRMIgyqKeL01+yaIPlDKmtGM6Kidwmb4b4HUA3+GcHaCiE1auRXMMUkUZtbqY0jpxrjuYe9GM
-	YK4hE9Cox1m0HFQQKMMXhhvg6qI2DE1Ax4pssyOqFl9MyfOQc6zltPnP9efq+rfPoD8hEAt2NxD
-	e52gbuS8G9Lgc0vWa5NHHHfHg8DEEkiHCRg9+MDR5KOshuz9mvr9pMiMqFda9Ak8ZKb2xobejgW
-	BS4iBGvveLe779DPrFOI=
-X-Google-Smtp-Source: AGHT+IEY39yKNpHOwhu+b8E85JfZO5GXoHp0A73FES6zZeZtQwPXvLC0BV0HcFzY55ZLXxqy2VO9oA==
-X-Received: by 2002:a17:907:9405:b0:b07:c9b2:dbd with SMTP id a640c23a62f3a-b07c9b20f2cmr456963866b.4.1757724328684;
-        Fri, 12 Sep 2025 17:45:28 -0700 (PDT)
+        bh=Y83Wia04Z/mNTHCUGozzAt26nJVQ29vmo/6z8Jb/IIM=;
+        b=BpuT/h9iKykEkUmRrVNgFQjcGDudRZFdNF/19ZDdJGzJdgHNlh2drvI5ZYC8LVzkhp
+         cJB8eaLKgeT8lrAcPKTRNmPkrj2zHgGLS3mNkh9k//Z2vX5xVPL3pEnGsP7v9bElbndM
+         p8Xb4HlU300gj2WUN4/Xn0fST4BhN201hPnVUjYS1qfmNRWcindshShLJe8546xV5TQz
+         OBkCgtsmBg7bMKPtI2LBqhuXG8s4/S4MN02PtO8uY9UMxlkrJlgnsOwKGF1DJzKRgITd
+         3GzqkuDjPi10iAiLhANnBf9XLx/hHfJNJt3Ki75kUkda2Z1mHw/NtMUJolFvFGR73lJA
+         LjMg==
+X-Forwarded-Encrypted: i=1; AJvYcCVKvMRGweN48x1oLJ9f9y9S1diLC0im25G9VwvItKP24+LVvSyTAV/eROZFijqKoMTJvxiGk2crphKvuVkB5A==@lists.infradead.org
+X-Gm-Message-State: AOJu0YwJLnL+KXETwfYyJ2Fp0dZmuyu2sC5vR/VNgHywhDfcls9hoeAu
+	i6dwV/mT4MeQbL8Z9MZOGYPaRNXwOhXIez8ssMAeKp5hQtoC//ObkM+y
+X-Gm-Gg: ASbGnctVuKhx73cYrIw1do63IPsF9LDRlCly7Amxx/1Rdyl1u/4GoS2LkVTR2qUwDQj
+	syUwMo6qQj/oNS27grQ/en6fL09q3+IibAknOVp9cFkFq4MpFsIMdVUa7doO3BSVYh7OTopS03f
+	xnkJE5HQSLoB9VIS8+1/FYY4+g3QFkchP9HR1T5PEnwMzNlbs1QiXp+UDyQj5Cz3UVj+OLJLjiD
+	vrMJvHgju5/Lj1Hkv/qoCWgxmvek8zcXFM8NPhtdfWn04iSfK10xSir96qVOMSJTOptucrJ5UmY
+	icsWv7yjJaokaxLazJRKeqBBuGZvkR9zMoEkIiRQg/l/Tzj7GiPNFktowbiskBF8DY3b8MYgsMA
+	x+goNv+TA8q/kiU6zHNI=
+X-Google-Smtp-Source: AGHT+IEhRE4IwIn6e21II3sG+AWhFOewnNElGtSUdTtt48+B8a0G24fjikoaCpJ97iRLzEKC56BiAg==
+X-Received: by 2002:a17:907:96a3:b0:b07:e258:4629 with SMTP id a640c23a62f3a-b07e2584a05mr103605766b.16.1757724393999;
+        Fri, 12 Sep 2025 17:46:33 -0700 (PDT)
 Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b07b32dd5casm460965366b.68.2025.09.12.17.45.24
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b07b32f2334sm475232966b.78.2025.09.12.17.46.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Sep 2025 17:45:28 -0700 (PDT)
+        Fri, 12 Sep 2025 17:46:33 -0700 (PDT)
 From: Askar Safin <safinaskar@gmail.com>
 To: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
@@ -124,16 +124,16 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
 	Thorsten Blum <thorsten.blum@linux.dev>,
 	Heiko Carstens <hca@linux.ibm.com>,
 	patches@lists.linux.dev
-Subject: [PATCH RESEND 05/62] init: remove "ramdisk_start" command line parameter, which controls starting block number of initrd
-Date: Sat, 13 Sep 2025 00:37:44 +0000
-Message-ID: <20250913003842.41944-6-safinaskar@gmail.com>
+Subject: [PATCH RESEND 06/62] arm: init: remove special logic for setting brd.rd_size
+Date: Sat, 13 Sep 2025 00:37:45 +0000
+Message-ID: <20250913003842.41944-7-safinaskar@gmail.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250913003842.41944-1-safinaskar@gmail.com>
 References: <20250913003842.41944-1-safinaskar@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250912_174530_797204_611E29EF 
-X-CRM114-Status: GOOD (  13.32  )
+X-CRM114-CacheID: sfid-20250912_174635_905621_C5676F71 
+X-CRM114-Status: GOOD (  13.55  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,64 +150,81 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-This is preparation for initrd removal
+There is no any reason for having special mechanism
+for setting ramdisk size.
+
+Also this allows us to change rd_size variable to static
 
 Signed-off-by: Askar Safin <safinaskar@gmail.com>
 ---
- Documentation/admin-guide/blockdev/ramdisk.rst  | 3 +--
- Documentation/admin-guide/kernel-parameters.txt | 2 --
- init/do_mounts_rd.c                             | 7 -------
- 3 files changed, 1 insertion(+), 11 deletions(-)
+ arch/arm/kernel/atags_parse.c | 12 ------------
+ drivers/block/brd.c           |  8 ++++----
+ include/linux/initrd.h        |  3 ---
+ 3 files changed, 4 insertions(+), 19 deletions(-)
 
-diff --git a/Documentation/admin-guide/blockdev/ramdisk.rst b/Documentation/admin-guide/blockdev/ramdisk.rst
-index 9ce6101e8dd9..e57c61108dbc 100644
---- a/Documentation/admin-guide/blockdev/ramdisk.rst
-+++ b/Documentation/admin-guide/blockdev/ramdisk.rst
-@@ -74,12 +74,11 @@ arch/x86/boot/Makefile.
+diff --git a/arch/arm/kernel/atags_parse.c b/arch/arm/kernel/atags_parse.c
+index a3f0a4f84e04..615d9e83c9b5 100644
+--- a/arch/arm/kernel/atags_parse.c
++++ b/arch/arm/kernel/atags_parse.c
+@@ -87,18 +87,6 @@ static int __init parse_tag_videotext(const struct tag *tag)
+ __tagtable(ATAG_VIDEOTEXT, parse_tag_videotext);
+ #endif
  
- Some of the kernel command line boot options that may apply here are::
- 
--  ramdisk_start=N
-   ramdisk_size=M
- 
- If you make a boot disk that has LILO, then for the above, you would use::
- 
--	append = "ramdisk_start=N ramdisk_size=M"
-+	append = "ramdisk_size=M"
- 
- 4) An Example of Creating a Compressed RAM Disk
- -----------------------------------------------
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index f940c1184912..07e8878f1e13 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5285,8 +5285,6 @@
- 	ramdisk_size=	[RAM] Sizes of RAM disks in kilobytes
- 			See Documentation/admin-guide/blockdev/ramdisk.rst.
- 
--	ramdisk_start=	[RAM] RAM disk image start address
--
- 	random.trust_cpu=off
- 			[KNL,EARLY] Disable trusting the use of the CPU's
- 			random number generator (if available) to
-diff --git a/init/do_mounts_rd.c b/init/do_mounts_rd.c
-index 8e0a774a9c6f..864fa88d9f89 100644
---- a/init/do_mounts_rd.c
-+++ b/init/do_mounts_rd.c
-@@ -17,13 +17,6 @@
- static struct file *in_file, *out_file;
- static loff_t in_pos, out_pos;
- 
--static int __init ramdisk_start_setup(char *str)
+-#ifdef CONFIG_BLK_DEV_RAM
+-static int __init parse_tag_ramdisk(const struct tag *tag)
 -{
--	/* will be removed in next commit */
--	return 1;
--}
--__setup("ramdisk_start=", ramdisk_start_setup);
+-	if (tag->u.ramdisk.size)
+-		rd_size = tag->u.ramdisk.size;
 -
- static int __init crd_load(decompress_fn deco);
+-	return 0;
+-}
+-
+-__tagtable(ATAG_RAMDISK, parse_tag_ramdisk);
+-#endif
+-
+ static int __init parse_tag_serialnr(const struct tag *tag)
+ {
+ 	system_serial_low = tag->u.serialnr.low;
+diff --git a/drivers/block/brd.c b/drivers/block/brd.c
+index 0c2eabe14af3..72f02d2b8a99 100644
+--- a/drivers/block/brd.c
++++ b/drivers/block/brd.c
+@@ -27,6 +27,10 @@
  
+ #include <linux/uaccess.h>
+ 
++static unsigned long rd_size = CONFIG_BLK_DEV_RAM_SIZE;
++module_param(rd_size, ulong, 0444);
++MODULE_PARM_DESC(rd_size, "Size of each RAM disk in kbytes.");
++
  /*
+  * Each block ramdisk device has a xarray brd_pages of pages that stores
+  * the pages containing the block device's contents.
+@@ -209,10 +213,6 @@ static int rd_nr = CONFIG_BLK_DEV_RAM_COUNT;
+ module_param(rd_nr, int, 0444);
+ MODULE_PARM_DESC(rd_nr, "Maximum number of brd devices");
+ 
+-unsigned long rd_size = CONFIG_BLK_DEV_RAM_SIZE;
+-module_param(rd_size, ulong, 0444);
+-MODULE_PARM_DESC(rd_size, "Size of each RAM disk in kbytes.");
+-
+ static int max_part = 1;
+ module_param(max_part, int, 0444);
+ MODULE_PARM_DESC(max_part, "Num Minors to reserve between devices");
+diff --git a/include/linux/initrd.h b/include/linux/initrd.h
+index 6320a9cb6686..b42235c21444 100644
+--- a/include/linux/initrd.h
++++ b/include/linux/initrd.h
+@@ -5,9 +5,6 @@
+ 
+ #define INITRD_MINOR 250 /* shouldn't collide with /dev/ram* too soon ... */
+ 
+-/* size of a single RAM disk */
+-extern unsigned long rd_size;
+-
+ /* 1 if it is not an error if initrd_start < memory_start */
+ extern int initrd_below_start_ok;
+ 
 -- 
 2.47.2
 
