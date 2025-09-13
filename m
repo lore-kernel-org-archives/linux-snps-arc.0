@@ -4,71 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1077ACA101F
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 13 Sep 2025 00:52:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 173F1CAC582
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 13 Sep 2025 00:53:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=1QjUn/oOBtZUu/EjrRlRJmWV7whxiXmo1lWyI60i8NM=; b=IQTD44ntl/+iLJ
-	oICarmAArgnXzDlXROj+nqa3i6g7kgSXjMpmoUiJqLdqhfYqUPkJrO/KDOBx+lfoaHy8quUNjWbzM
-	8PoFyPZIqZWbCLNod1muh43h8sDLImt24e175rJ9sXL/EF7+WmjwwZhxHCPVHbdeznWMdLytV8/ds
-	zrAZIzUr/g5AxLxxWMW7GkGJqwr+uKDu3nKeSbUSh+5c1Aos3ROqWyDkiJbsLlJ4y3xUZ04mfQH3N
-	HCYUavG0arlKfZ+H98VPMCmH349Y9tzlZ2q52UjemB/xRuUiPw3HVsUMVJT+vizD05d9z2ZWj745c
-	QGDn4eUKln66qkVBjS4Q==;
+	List-Owner; bh=t1Xkd1dkw0aAC4tPs0jv4xdzQRwhj77/qMKw5r4wMfk=; b=gGp/Y9dJYfvsHJ
+	6o8PnB35cw8YtKVMFGfZ2ljcB1GSSTn3683wJLD44ElwelIV92TOC2RnyF78xda0LaZYTaxu5xWlu
+	x1syus5ReIewszQTcjq6Nh20yx1+4X7EIOEvm+QLTmxJu4uSarTsTmJvdEiqa+bF1R6irxGtkN26g
+	Oc63mTSfh/7ViQ7pzUtazqJ99fR3EytI6+8dRyB6JFexmoN9S7IsRZ9OESc+4FGXYOEQQeKVRdD+u
+	Jjd6wqSu1+qzQDs0iOaPcvNl+1yj4HVea78o4AmL6NcqbuCm3CxM3sOwKeDZDh8Z+AUrgvv2RA3nB
+	AhkmFa8Ax8Eyil+fNz3w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uxEUo-0000000CQTB-2z7q;
-	Sat, 13 Sep 2025 00:52:06 +0000
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
+	id 1uxEVr-0000000CQwB-3Z8O;
+	Sat, 13 Sep 2025 00:53:11 +0000
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uxEUm-0000000CQRH-1kAw
+	id 1uxEVp-0000000CQuv-30vs
 	for linux-snps-arc@lists.infradead.org;
-	Sat, 13 Sep 2025 00:52:05 +0000
-Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-b0418f6fc27so429552066b.3
-        for <linux-snps-arc@lists.infradead.org>; Fri, 12 Sep 2025 17:52:03 -0700 (PDT)
+	Sat, 13 Sep 2025 00:53:10 +0000
+Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-b046fc9f359so374585266b.0
+        for <linux-snps-arc@lists.infradead.org>; Fri, 12 Sep 2025 17:53:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757724723; x=1758329523; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1757724788; x=1758329588; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MdGbmKxqlcMl0rLfzu7p7wshkZ7f+lqXVhPxNRPgNLM=;
-        b=LWJEPJWNg6+MJVu5KgFTMaI/k9WvgodQJLiTZPyO/yTvgEh88nxa6BlIcqI3qE3GBv
-         yPfGw0W4S1sZmDmQZ9TgNtUw6tSGn7wXHgwm/tMV6lzTqXhIsDIqqP0FMANtO1mSZ0LC
-         ny68YBgtfgc6j7Lt3qbvZCjNLoH/S0yjm8Vm1+JBS5TSi7INkG0ouvSpTTy4UJYNnywE
-         o3SlR7VU4Hd8aSqYl2DiL0rV1DUtcyT92VxK30olHGIOO2t1IAWrZRqGAvr3AhgPaxHx
-         yR25DRo01DZZqwhw8MDYar7JCkW6LtA3PXazV4ySD76gTVEBF13sYrUCDXcAxMqTPyP3
-         HnAQ==
+        bh=qPSAK5Fj4YQSUyCSJit30V41XYzOMHEP2qtV3SbNp88=;
+        b=hU8YTgMUBBecnPhuDIoi5Ht3UrknAGU4uwUtoW3eo2ZeNjckhKMflHK+VKStajJqHS
+         FzOEESnb0QQxGYPgcWmsKLcWBD6HpkV0i8QQu6tLzx2sFd+ohBFb6sP2J65VgfsdgIKI
+         eA7nnA3NjuGdCqpVLsjlEra75U0IdHLCUEjvkVycwlsCgW2u8vyxb7tL4nfBhG0a70Cs
+         MXxBYgWJw9OglRUSE6p4Auu+dnvkSHWxcfmSJow5ajWp/mn3cYLnfDqd2GOjjN9QbiaY
+         sTrYI22hH9Jy+eGC0drTA8xj9BsrKT8ifjt4Qy654Gac6iAwIF6uIk9fquY+H1Hdglhk
+         6juQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757724723; x=1758329523;
+        d=1e100.net; s=20230601; t=1757724788; x=1758329588;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MdGbmKxqlcMl0rLfzu7p7wshkZ7f+lqXVhPxNRPgNLM=;
-        b=jh0T6Sa75zlW7MXROdxNaEMgZcxsSNiCjz2cptEn7It8AhNxAlKnHyhxc6d0eaATAm
-         56G/bDIQsJ0qFXcERv9ZmhhBbyg2vy5rfLYIUjUr7Bs5cedQawMNP47NM2OyuIMKhV2M
-         Fuo+OAG5MvaFLbVNC9MK6Jaelk4OFqXZD0a3FwZJU99a15zba+1K3PCy7Uvc+6FjP4CU
-         B+Y4tyHVmmbySb+0H1hTb1FJzJuAy02iuYnJPXIqcEkBClXdjkIZds2EuFLs6bb4xxKe
-         S0QG2+q3RPqyEdKz3FAwnZUKcKkqaYy8xa44RrzfHQnjKVd/+qciV24dpgNsKPHcG0RO
-         54Tg==
-X-Forwarded-Encrypted: i=1; AJvYcCVUkR7IlpKYnxpbT3KWjoIdfJRu0Zp9/53ToX4H902mTZxz48U7xRrfyaBKSiFa4dtaUji8QlOE82FS5UC3mg==@lists.infradead.org
-X-Gm-Message-State: AOJu0Yxs1BRcYEPXSdy925EjV8eexWPkm4QrlgBepyHazvavlRmZqAGP
-	pM6Q2r+93OVw6Fq3vxYs9qMtTeugRN5lRp2TgNrE5M1PD9f4FuGTjPYl
-X-Gm-Gg: ASbGncv1G2uppEwseagQ3cXP9SGwd6XsRf8wvpYPB8rlTDFE89tsIRheESp6T/gnp1a
-	Wt1EignngBy3Q37czXgZcHT01GUDzAo411EIYDZSfCOjCtyzKHf/tMIOiFlWzgNlOnKTgX6axKX
-	C0ywRLW2ISfrgrjJIesfbZy3wDDXZV1ZseV4cTIuqUEaglH0gi5jGGydw1KLH1AvBWHZ+qjGtpM
-	+uOFjGwfhnLUCziLpDMe5PqADmAPuIKrCAsDSN4fVsJYdLFaBalZ4e5TLtTRvTdJfRVu/3za4z9
-	9T5lO/lYeNw0JGqXDZDX6i8pjqoiTWty3BP9OeDMwlNd2c7egTmGKoxycyMnqQa286al4GPN7UB
-	Ir0ldCAh8YaLY6zY00igXmepH2k4prQ==
-X-Google-Smtp-Source: AGHT+IEOxv4u1csoR3Asex+KK1PngLg51+/kQQMoUV5EwO+MoxI2Yose6oae6R3weUM2rN4atBIYiQ==
-X-Received: by 2002:a17:907:9801:b0:afe:6c9b:c828 with SMTP id a640c23a62f3a-b07c37b8165mr442852966b.61.1757724722473;
-        Fri, 12 Sep 2025 17:52:02 -0700 (PDT)
+        bh=qPSAK5Fj4YQSUyCSJit30V41XYzOMHEP2qtV3SbNp88=;
+        b=GfYdAfelc9uq2dhGxKNe50ZMjDDJz+vVdqWixBZirxdel6uz4VpQWXPOxBT76Mp3H/
+         fRYJGSkVH/O5/SuEF9JYmbbaqIVUWUHsk/bFLNddX+mZLPTRR0Drc2h7YIZLtZiy7vpg
+         2PoJK4V51hQj+DNJiLOOVIWh88DgnYUAliiP3ZXPn1AuRc4K6SmJAaj0NIPKtkdOBejb
+         FtRpFjcCsRJnmiYeLHHNHJfDBVL+bNPO4VlbNsH3Gl3u0OcJN6Qq24FE8DZJHBCIT/fG
+         ubHSC4IEjb+wjYITVfM/XQH51/Tq1P9eRSDogfu1lYvRetZtSO+hO2pboEieIWSFoAwc
+         9lnA==
+X-Forwarded-Encrypted: i=1; AJvYcCU5tqDQLjlMmizx0Iihn+/h95gNccSg8uq2+5xqsZu5MYeC7z/VUCQL6DIDDQgduy5SSSo62qKeQCku4xGbqA==@lists.infradead.org
+X-Gm-Message-State: AOJu0YxNTneQ7MdLiE/JqIpZqE7sT8ZVeZuJx1jdxba7EDZ8H355UAeJ
+	O1d8HaZxTYj/doaStHTJGJ2/GEemL+gdWjNB3lhCL/vVrMzkHVrlcr2i
+X-Gm-Gg: ASbGnctfMiX0Ln92+MEAxiVA9Y0mDCuzhGB3bptc4+C+RYbq3GhOqLlW6NorvUzs7SS
+	WgVHxgeystYJfvgsTPEJuY6ulsffZPxB98r6D4Tl/VRFZEk+3kfmA9MeK6zfZ8jVOOubs8HL3XT
+	EJ9diOt29TneUPg8RNJV1cSs+91Rx9a0EmRvynEwVEXAjgYI1vctfxEQtXCzfby8hp8+mVKG0KS
+	TBtF9T23UKZaxRaQudB6hSp4qi3fREwi+K+xEI4Su2zWrUl9PS9g+SmDv5UC1XXYoDMLvnNkVKZ
+	6IL4uBxZxBJFJioe2fbWFJhzCzYra+JZsAIPD+1CNZgm7NwzY7Vjv/06vkcCr9yUo55zF4o1VDw
+	iEJ5d2p18itQGsb1Byzj/rK8HVIktgA==
+X-Google-Smtp-Source: AGHT+IFLH7pCvIgBYHEI5BCYMw7iR++gatKVbesXKTxSAgJfhChwCe/V59YIUp3mRnJ55soXUGFMnw==
+X-Received: by 2002:a17:907:da4:b0:b04:2cc2:e49c with SMTP id a640c23a62f3a-b07c35bbcbbmr535243766b.19.1757724787764;
+        Fri, 12 Sep 2025 17:53:07 -0700 (PDT)
 Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b08cab32303sm25787366b.72.2025.09.12.17.51.58
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b07b32f22e8sm477916866b.87.2025.09.12.17.53.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Sep 2025 17:52:02 -0700 (PDT)
+        Fri, 12 Sep 2025 17:53:07 -0700 (PDT)
 From: Askar Safin <safinaskar@gmail.com>
 To: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
@@ -124,16 +124,16 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
 	Thorsten Blum <thorsten.blum@linux.dev>,
 	Heiko Carstens <hca@linux.ibm.com>,
 	patches@lists.linux.dev
-Subject: [PATCH RESEND 11/62] init, efi: remove "noinitrd" command line parameter
-Date: Sat, 13 Sep 2025 00:37:50 +0000
-Message-ID: <20250913003842.41944-12-safinaskar@gmail.com>
+Subject: [PATCH RESEND 12/62] init: remove /proc/sys/kernel/real-root-dev
+Date: Sat, 13 Sep 2025 00:37:51 +0000
+Message-ID: <20250913003842.41944-13-safinaskar@gmail.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250913003842.41944-1-safinaskar@gmail.com>
 References: <20250913003842.41944-1-safinaskar@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250912_175204_501062_F915509D 
-X-CRM114-Status: GOOD (  14.95  )
+X-CRM114-CacheID: sfid-20250912_175309_784458_EC7FBD15 
+X-CRM114-Status: GOOD (  11.94  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,140 +150,76 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-It was inconsistent before initrd removal: it mostly
-controlled initrd only, but in EFI stub boot mode
-it controlled both initrd and initramfs
+It was used for initrd support, which was removed in previous
+commits
 
 Signed-off-by: Askar Safin <safinaskar@gmail.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 3 ---
- arch/arm/configs/collie_defconfig               | 2 +-
- arch/arm/configs/imx_v6_v7_defconfig            | 2 +-
- arch/arm/configs/neponset_defconfig             | 2 +-
- arch/arm/configs/spitz_defconfig                | 2 +-
- drivers/firmware/efi/libstub/efi-stub-helper.c  | 5 +----
- init/do_mounts_initrd.c                         | 9 ---------
- 7 files changed, 5 insertions(+), 20 deletions(-)
+ Documentation/admin-guide/sysctl/kernel.rst |  6 ------
+ include/uapi/linux/sysctl.h                 |  1 -
+ init/do_mounts_initrd.c                     | 20 --------------------
+ 3 files changed, 27 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 07e8878f1e13..ad52e3d26014 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4271,9 +4271,6 @@
- 			Note that this argument takes precedence over
- 			the CONFIG_RCU_NOCB_CPU_DEFAULT_ALL option.
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index 8b49eab937d0..cc958c228bc2 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -1215,12 +1215,6 @@ that support this feature.
+ ==  ===========================================================================
  
--	noinitrd	[RAM] Tells the kernel not to load any configured
--			initial RAM disk.
+ 
+-real-root-dev
+-=============
 -
- 	nointremap	[X86-64,Intel-IOMMU,EARLY] Do not enable interrupt
- 			remapping.
- 			[Deprecated - use intremap=off]
-diff --git a/arch/arm/configs/collie_defconfig b/arch/arm/configs/collie_defconfig
-index 578c6a4af620..00dc8ae22824 100644
---- a/arch/arm/configs/collie_defconfig
-+++ b/arch/arm/configs/collie_defconfig
-@@ -9,7 +9,7 @@ CONFIG_ARCH_MULTI_V4=y
- # CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_SA1100=y
- CONFIG_SA1100_COLLIE=y
--CONFIG_CMDLINE="noinitrd root=/dev/mtdblock2 rootfstype=jffs2 fbcon=rotate:1"
-+CONFIG_CMDLINE="root=/dev/mtdblock2 rootfstype=jffs2 fbcon=rotate:1"
- CONFIG_FPE_NWFPE=y
- CONFIG_PM=y
- # CONFIG_SWAP is not set
-diff --git a/arch/arm/configs/imx_v6_v7_defconfig b/arch/arm/configs/imx_v6_v7_defconfig
-index 9a57763a8d38..b53ae2c052fc 100644
---- a/arch/arm/configs/imx_v6_v7_defconfig
-+++ b/arch/arm/configs/imx_v6_v7_defconfig
-@@ -32,7 +32,7 @@ CONFIG_SMP=y
- CONFIG_ARM_PSCI=y
- CONFIG_HIGHMEM=y
- CONFIG_ARCH_FORCE_MAX_ORDER=13
--CONFIG_CMDLINE="noinitrd console=ttymxc0,115200"
-+CONFIG_CMDLINE="console=ttymxc0,115200"
- CONFIG_CPU_FREQ=y
- CONFIG_CPU_FREQ_STAT=y
- CONFIG_CPU_FREQ_DEFAULT_GOV_ONDEMAND=y
-diff --git a/arch/arm/configs/neponset_defconfig b/arch/arm/configs/neponset_defconfig
-index 4d720001c12e..a61eb27373a8 100644
---- a/arch/arm/configs/neponset_defconfig
-+++ b/arch/arm/configs/neponset_defconfig
-@@ -9,7 +9,7 @@ CONFIG_ASSABET_NEPONSET=y
- CONFIG_ZBOOT_ROM_TEXT=0x80000
- CONFIG_ZBOOT_ROM_BSS=0xc1000000
- CONFIG_ZBOOT_ROM=y
--CONFIG_CMDLINE="console=ttySA0,38400n8 cpufreq=221200 rw root=/dev/mtdblock2 mtdparts=sa1100:512K(boot),1M(kernel),2560K(initrd),4M(root) mem=32M noinitrd initrd=0xc0800000,3M"
-+CONFIG_CMDLINE="console=ttySA0,38400n8 cpufreq=221200 rw root=/dev/mtdblock2 mtdparts=sa1100:512K(boot),1M(kernel),2560K(initrd),4M(root) mem=32M initrd=0xc0800000,3M"
- CONFIG_FPE_NWFPE=y
- CONFIG_PM=y
- CONFIG_MODULES=y
-diff --git a/arch/arm/configs/spitz_defconfig b/arch/arm/configs/spitz_defconfig
-index ac2a0f998c73..8582b6f2cf9d 100644
---- a/arch/arm/configs/spitz_defconfig
-+++ b/arch/arm/configs/spitz_defconfig
-@@ -10,7 +10,7 @@ CONFIG_ARCH_PXA=y
- CONFIG_PXA_SHARPSL=y
- CONFIG_MACH_AKITA=y
- CONFIG_MACH_BORZOI=y
--CONFIG_CMDLINE="console=ttyS0,115200n8 console=tty1 noinitrd root=/dev/mtdblock2 rootfstype=jffs2   debug"
-+CONFIG_CMDLINE="console=ttyS0,115200n8 console=tty1 root=/dev/mtdblock2 rootfstype=jffs2   debug"
- CONFIG_FPE_NWFPE=y
- CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
-diff --git a/drivers/firmware/efi/libstub/efi-stub-helper.c b/drivers/firmware/efi/libstub/efi-stub-helper.c
-index 7aa2f9ad2935..6d89bf941d57 100644
---- a/drivers/firmware/efi/libstub/efi-stub-helper.c
-+++ b/drivers/firmware/efi/libstub/efi-stub-helper.c
-@@ -21,7 +21,6 @@ bool efi_nochunk;
- bool efi_nokaslr = !IS_ENABLED(CONFIG_RANDOMIZE_BASE);
- bool efi_novamap;
+-See Documentation/admin-guide/initrd.rst.
+-
+-
+ reboot-cmd (SPARC only)
+ =======================
  
--static bool efi_noinitrd;
- static bool efi_nosoftreserve;
- static bool efi_disable_pci_dma = IS_ENABLED(CONFIG_EFI_DISABLE_PCI_DMA);
+diff --git a/include/uapi/linux/sysctl.h b/include/uapi/linux/sysctl.h
+index 63d1464cb71c..1c7fe0f4dca4 100644
+--- a/include/uapi/linux/sysctl.h
++++ b/include/uapi/linux/sysctl.h
+@@ -92,7 +92,6 @@ enum
+ 	KERN_DOMAINNAME=8,	/* string: domainname */
  
-@@ -75,8 +74,6 @@ efi_status_t efi_parse_options(char const *cmdline)
- 			efi_nokaslr = true;
- 		} else if (!strcmp(param, "quiet")) {
- 			efi_loglevel = CONSOLE_LOGLEVEL_QUIET;
--		} else if (!strcmp(param, "noinitrd")) {
--			efi_noinitrd = true;
- 		} else if (IS_ENABLED(CONFIG_X86_64) && !strcmp(param, "no5lvl")) {
- 			efi_no5lvl = true;
- 		} else if (IS_ENABLED(CONFIG_ARCH_HAS_MEM_ENCRYPT) &&
-@@ -614,7 +611,7 @@ efi_status_t efi_load_initrd(efi_loaded_image_t *image,
- 	efi_status_t status = EFI_SUCCESS;
- 	struct linux_efi_initrd initrd, *tbl;
+ 	KERN_PANIC=15,		/* int: panic timeout */
+-	KERN_REALROOTDEV=16,	/* real root device to mount after initrd */
  
--	if (!IS_ENABLED(CONFIG_BLK_DEV_INITRD) || efi_noinitrd)
-+	if (!IS_ENABLED(CONFIG_BLK_DEV_INITRD))
- 		return EFI_SUCCESS;
- 
- 	status = efi_load_initrd_dev_path(&initrd, hard_limit);
+ 	KERN_SPARC_REBOOT=21,	/* reboot command on Sparc */
+ 	KERN_CTLALTDEL=22,	/* int: allow ctl-alt-del to reboot */
 diff --git a/init/do_mounts_initrd.c b/init/do_mounts_initrd.c
-index 308744254c08..bec1c5d684a3 100644
+index bec1c5d684a3..d5264e9a52e0 100644
 --- a/init/do_mounts_initrd.c
 +++ b/init/do_mounts_initrd.c
-@@ -15,7 +15,6 @@
+@@ -14,30 +14,10 @@
+ 
  unsigned long initrd_start, initrd_end;
  int initrd_below_start_ok;
- static unsigned int real_root_dev;	/* do_proc_dointvec cannot handle kdev_t */
--static int __initdata mount_initrd = 1;
+-static unsigned int real_root_dev;	/* do_proc_dointvec cannot handle kdev_t */
  
  phys_addr_t phys_initrd_start __initdata;
  unsigned long phys_initrd_size __initdata;
-@@ -39,14 +38,6 @@ static __init int kernel_do_mounts_initrd_sysctls_init(void)
- late_initcall(kernel_do_mounts_initrd_sysctls_init);
- #endif /* CONFIG_SYSCTL */
  
--static int __init no_initrd(char *str)
--{
--	mount_initrd = 0;
--	return 1;
--}
+-#ifdef CONFIG_SYSCTL
+-static const struct ctl_table kern_do_mounts_initrd_table[] = {
+-	{
+-		.procname       = "real-root-dev",
+-		.data           = &real_root_dev,
+-		.maxlen         = sizeof(int),
+-		.mode           = 0644,
+-		.proc_handler   = proc_dointvec,
+-	},
+-};
 -
--__setup("noinitrd", no_initrd);
+-static __init int kernel_do_mounts_initrd_sysctls_init(void)
+-{
+-	register_sysctl_init("kernel", kern_do_mounts_initrd_table);
+-	return 0;
+-}
+-late_initcall(kernel_do_mounts_initrd_sysctls_init);
+-#endif /* CONFIG_SYSCTL */
 -
  static int __init early_initrdmem(char *p)
  {
