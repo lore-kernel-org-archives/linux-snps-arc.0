@@ -4,71 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A31ECA101F
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 13 Sep 2025 01:11:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1BB2DCAC582
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 13 Sep 2025 01:12:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=2LMxSQucCJW6CVz8uuq+qXbT39Fwhm32SkzLOfEFdq0=; b=oMiIuZCAa8Ul+B
-	h0n70DJbacVPhMSS1V3+V7kifIncKA4enz86w+URuO1JsL3s5YF6ePW/gUSiBK5GeBxvTl+2lRoCP
-	tC3R+vDpzz0fkmQgT0tfKy2X3lLCuS3uXN8yFdysSuAtS2UdRwgOkAC5s/IwA67X7GJsAqmB8YkHQ
-	njNZ7qCycCUBeIojE33ZBZ2cVYgTpkv8mE2ShnXq12RUvtCesZf82VRXfduPOCwtce/y0wLR0tiC4
-	tV0ql4/W2iBNOWwExOmYFpLo0Xs4/BTwti6NUf1kOi0LP/migC5zqTLHPCOkJrYK8DUG9Nc0a+TpR
-	e95oa2egNFiUxsxyIXMw==;
+	List-Owner; bh=64SqDio9NJ/FYN00KvzRLbgb+er9HrB1QxPwys5JQjE=; b=YZqPJHQ/ACTaWP
+	Qd9qWk229v9GnQqY3MhaIc4rS/STAmrXi4flb4uTh/uGq0GCfUTY7yC5dbwTcca+bi/4MNAXXjfwR
+	DXHXxM7T9RLfjZ1TTIJQqdAFjV3g7aBnvIR++4mPoaNaH85WHxL/MosQM3wtulGjjzxTR9jGSBmaW
+	1/hWmXgzwWb+DQviQQIs7KsUgLMDVlOR9TbVSKEUiy8yClDZv5Z7PiauBmEm0h82lCQbU0iy4dhNH
+	aV9VmzEJwIoXR9l77nAPo+5LgTbbnVAuZKiexpfPKOw28kE2Q56RzRo6Jb2BrrMWz1mUgCaqhdiWJ
+	+x8dEiRXe85XfEEcxTRw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uxEnr-0000000CXjk-3tXJ;
-	Sat, 13 Sep 2025 01:11:47 +0000
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+	id 1uxEow-0000000CYFe-3UXA;
+	Sat, 13 Sep 2025 01:12:54 +0000
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uxEnq-0000000CXic-0fCG
+	id 1uxEot-0000000CYCp-2nKP
 	for linux-snps-arc@lists.infradead.org;
-	Sat, 13 Sep 2025 01:11:47 +0000
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-6228de280ccso4875892a12.3
-        for <linux-snps-arc@lists.infradead.org>; Fri, 12 Sep 2025 18:11:45 -0700 (PDT)
+	Sat, 13 Sep 2025 01:12:54 +0000
+Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-b07d01fd4fbso150673866b.0
+        for <linux-snps-arc@lists.infradead.org>; Fri, 12 Sep 2025 18:12:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757725904; x=1758330704; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1757725970; x=1758330770; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=h6O+lfSZLBCLtFpNKL/1anVub0eApVizJE0pmHD2kMo=;
-        b=RQzeg6oJmT4iSMfCNQ/0VroFLO0UHQkNAL/A5L1M/hiMkrzU8rbTFumdbxTTPhIudB
-         ufWEneb6kTXy7dNz3VXmD9EpyM0kR6BBewhqomP4WfUeXATO0iqjujkpHdv4wYzzvQvG
-         OatdeOIxZFH6rJDWUX4zxDj9+k7v/OIRA7+N0j5OYv9AQkcSiQA/KjMK/EXEMMtkdNPN
-         FQi+kSQWq3Rb8OnYGY7pvpabJIIAAQNmIHcJzrbk/2bhzgo23AgC3VOHmGk8G1aijSco
-         M3DrtiDC7ZMS+ZZaiZzpqQvQq3/6HU3Q0SvV1c/sy8/uzm3g4+C/vW5uWwIxI+BDLR+X
-         YABA==
+        bh=CPS175BLdkdbkMvPyh09bMwfY79gXnuJYPms+9/x8xc=;
+        b=Ke54ZzuMSSqzQtuK7Vd1KR0VHEx8UzZmbgxy1/QpZXpda3WQZDKIfRMN+ztVICrZmv
+         ROIlr7eOhj4KbEO582GmKNZy3jFv/TLR7qBc3ncF5Yiy+knlEh765dUQ2nYrpLuwoWRb
+         6UrIM+oLfyfBt06u5JZC0tWka1sgaNfBrjxRHXoBISDP4UNEoxnL7iJzP5T8qEW+NEf9
+         WSeob8xwuf9zA/FnA/J06A6+sS7nSpb5ky4cvjyp2yxQlWniJglDxqPVmJZbhZB/lXzh
+         9ud6+vv7KpY6YDpUTf7yKI0LZsEYlJTkCYmfgxwd9d0DMuJ+OXgUpAt2ZsGeYFEvWAq/
+         8/Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757725904; x=1758330704;
+        d=1e100.net; s=20230601; t=1757725970; x=1758330770;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=h6O+lfSZLBCLtFpNKL/1anVub0eApVizJE0pmHD2kMo=;
-        b=w0BpXIFtbG7uQKdmNLUY+5fzU/iiRrHsQ7deyd9FUR4KoYMsNy7RKxAtpdoYwquHwa
-         PJ9GFhxK1Y432USh+mPV+CBV8WflfOImpXXVPaiNAo5ZZcf8ue33eUWWJChl8cHP7ie0
-         2dTksVRnoImy+MEP+B8uhE52ae3sLVSmhn3EZB5cCOk4VNiIyYznUoUDEOskRZcZ0kgx
-         P/bfn901Ps7XrPFhs1Gbxxv5x76fzZIrxPueHP96xXBcH50yFLh+n+B0AUf+kTVjKkPW
-         82wEz/4Ryoj3OyotIh+XnQ/lvkFkWeeHH+Y4KPjeBl9PjAGaNiIQ5AbAh3IF1t7NTgaW
-         EF5w==
-X-Forwarded-Encrypted: i=1; AJvYcCXhVEq6Xa9tUZUDMbAsI5g8Ye3I49ZEx28KVOr95t6sYs5AyRfbhxjB+JXo8Kc21OCcnKzmZ5FgI+87IGRiKQ==@lists.infradead.org
-X-Gm-Message-State: AOJu0YxZ8ZFPhm2wfB+Q02ise0DK0ro1UYyKHQKmGv2UCJvNNcKT3kWn
-	h3zziX991XsdLl4+rUazCDbpWv/jE0L5Wt6yB4ACN4PySMJfrGzR0efL
-X-Gm-Gg: ASbGnct+4uCm0w4CBbq1boBF0w1mZb+fr83zhBteWGakssIBTcyvP6AybW1e4JQ/XDi
-	F+GOHLbIhSOMS7y9kmCDcMZvwf8crfcJGkzAmOmvCUz6gnuZ8R6ZycBrqocTq1LZ2XIRgb4FBHl
-	vxdSsakig60DkhP7h8KonNYoL5nitsjdK+bSiaDZgE2JspcBXnlAelf/SEro9iY7x2cbAfk+BqV
-	VnmeoYgNdLs0+YG9xHiuU+F/Gm8JIuS5RvQxqCu8VTHdoecEgUUO8uaScnkcEjtuOne1ISDZ9HX
-	dlXtv7g2CLoqgJx62nTq9AW/kiLRNnNFHY6BxelAbgELmSbgMvi1oOO1ESSmYa97VFlHg1ygedi
-	dRyf+wGjswQJDsT5bQsw=
-X-Google-Smtp-Source: AGHT+IEEs4w0VYWOrTZ2mf5mPdRdgIBBMsi5zMJEle+Jt2EK6Q+4TbCNWtdbvmdxcJfUUMXxxDwLfQ==
-X-Received: by 2002:a05:6402:5242:b0:628:a4fb:3b44 with SMTP id 4fb4d7f45d1cf-62ed825998fmr4990182a12.1.1757725904210;
-        Fri, 12 Sep 2025 18:11:44 -0700 (PDT)
+        bh=CPS175BLdkdbkMvPyh09bMwfY79gXnuJYPms+9/x8xc=;
+        b=opCDGlN17PCns7SygxaRVI3lgORFU/d8+rS6awyf5gUoWSPzVOPFtaXC0y7LNAnQdV
+         kDMAEvbUiE6Tm+8qnMIf3cqNwnvxsUce2oFtN/rpLApeYXqPdh5VZ2hoSbUbg6toh+wu
+         KIXay91CMjd5PK8ya8IJRGyF362KQqBfMoyMQr/EmyslnA/pl/5fhw7fqGzW8qB5OtUR
+         VbFRFSewE4GYXuCKbczfEkm+HhAEI9ZjKS7iwiX7zy1kJai70jBYQAC7PFeq0vSqpi1O
+         PMWRBu5IH2U6QPrn/+ybA8K8w7ofR3qPHjTAwovn9yIhv/dgGl4l9JZoKLKOt9xpno+H
+         YXGw==
+X-Forwarded-Encrypted: i=1; AJvYcCWpX8FcAux6qaqSkc8fplK/450OeKWXQE45x2KTXbEhiTFBLZMGqEWBxq0jURyDprBtLcwOm1kp11QTm2kBtw==@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz/SXmbyhkb5TVf+UJ5nJlhm9xiOBPsK8/SwBHsTcGvTxco2VkJ
+	45aagoeCA9ci/TE6wHbgKKD2BchgUrUEXqV6G+ecVi74nTzFKocnBve2
+X-Gm-Gg: ASbGnctW+Z/0hGjXqhsCiEZqo+gV+HhfpVgyeYSpSxlk9eXza9zlQuvBQWjSqs2F0Ex
+	ChAAEaGf5O2MdQPtXwmun0jqtqWoAw4macjV94jnEA9r2azGIslZTGa8zU/WO9WVnCGUhw6NLyz
+	c1iQBfyb9NuIg2+qAO4/xOAVqMGsnrjGh2feAu6UbiUWeN51V+dv7rf2JDiXLqxDKNnjUQoPyx7
+	ia6Jw/yquYrXLbsIlSlZkTOIw8YbUqCY9O7CSeGe2UCDWLHA88CaYF1ia3C+1EN7rlq1ENGCHnI
+	PSJ9xHOdUFeB4DYJUEozruN87kxWFaGPzbiJdKYBouMvhDZ/huTaXsxpRTqeTYlGqjt0DszejP7
+	MUoux8PGKPuDK7zW1px5iOFlOiYek7OVIaRTBxbrr
+X-Google-Smtp-Source: AGHT+IExCbHobezsJZBylPatDCb3rXiTmvHjuHynF55nxxCc14bpP2oPLB71sx+Li40Hkl4GjqRelQ==
+X-Received: by 2002:a17:907:97d2:b0:b04:31c6:a434 with SMTP id a640c23a62f3a-b07c324cf12mr467235966b.0.1757725969783;
+        Fri, 12 Sep 2025 18:12:49 -0700 (PDT)
 Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-62efb5b8b0asm913566a12.20.2025.09.12.18.11.38
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b07b30da327sm479612566b.11.2025.09.12.18.12.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Sep 2025 18:11:43 -0700 (PDT)
+        Fri, 12 Sep 2025 18:12:49 -0700 (PDT)
 From: Askar Safin <safinaskar@gmail.com>
 To: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
@@ -124,16 +124,16 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
 	Thorsten Blum <thorsten.blum@linux.dev>,
 	Heiko Carstens <hca@linux.ibm.com>,
 	patches@lists.linux.dev
-Subject: [PATCH RESEND 29/62] init: move virt_external_initramfs_{start,end} to init/initramfs.c
-Date: Sat, 13 Sep 2025 00:38:08 +0000
-Message-ID: <20250913003842.41944-30-safinaskar@gmail.com>
+Subject: [PATCH RESEND 30/62] doc: remove documentation for block device 4 0
+Date: Sat, 13 Sep 2025 00:38:09 +0000
+Message-ID: <20250913003842.41944-31-safinaskar@gmail.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250913003842.41944-1-safinaskar@gmail.com>
 References: <20250913003842.41944-1-safinaskar@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250912_181146_214438_71EFA477 
-X-CRM114-Status: GOOD (  11.42  )
+X-CRM114-CacheID: sfid-20250912_181251_735049_23AC8C84 
+X-CRM114-Status: GOOD (  11.57  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,40 +150,32 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Move definitions of virt_external_initramfs_start and
-virt_external_initramfs_end to init/initramfs.c
+It doesn't work. I tested this both in system booted
+using initramfs and in system booted from real root
+device directly
 
 Signed-off-by: Askar Safin <safinaskar@gmail.com>
 ---
- init/do_mounts_initrd.c | 1 -
- init/initramfs.c        | 2 ++
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ Documentation/admin-guide/devices.txt | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/init/do_mounts_initrd.c b/init/do_mounts_initrd.c
-index 8bdeb205a0cd..535ce459ab94 100644
---- a/init/do_mounts_initrd.c
-+++ b/init/do_mounts_initrd.c
-@@ -12,7 +12,6 @@
+diff --git a/Documentation/admin-guide/devices.txt b/Documentation/admin-guide/devices.txt
+index 27835389ca49..6ce0940233a8 100644
+--- a/Documentation/admin-guide/devices.txt
++++ b/Documentation/admin-guide/devices.txt
+@@ -138,12 +138,6 @@
+ 		number for BSD PTY devices.  As of Linux 2.1.115, this
+ 		is no longer supported.	 Use major numbers 2 and 3.
  
- #include "do_mounts.h"
- 
--unsigned long virt_external_initramfs_start, virt_external_initramfs_end;
- int initrd_below_start_ok;
- 
- static int __init early_initrdmem(char *p)
-diff --git a/init/initramfs.c b/init/initramfs.c
-index 9a221c713c60..d2301cc6c470 100644
---- a/init/initramfs.c
-+++ b/init/initramfs.c
-@@ -600,6 +600,8 @@ __setup("initramfs_async=", initramfs_async_setup);
- #include <linux/initrd.h>
- #include <linux/kexec.h>
- 
-+unsigned long virt_external_initramfs_start, virt_external_initramfs_end;
-+
- phys_addr_t phys_external_initramfs_start __initdata;
- unsigned long phys_external_initramfs_size __initdata;
- 
+-   4 block	Aliases for dynamically allocated major devices to be used
+-		when its not possible to create the real device nodes
+-		because the root filesystem is mounted read-only.
+-
+-		   0 = /dev/root
+-
+    5 char	Alternate TTY devices
+ 		  0 = /dev/tty		Current TTY device
+ 		  1 = /dev/console	System console
 -- 
 2.47.2
 
