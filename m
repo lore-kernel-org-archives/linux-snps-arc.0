@@ -4,71 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BF4BCAC582
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 14 Sep 2025 03:54:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 50959CAC592
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 14 Sep 2025 03:56:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=3+okyXWKMtby0U6+2wozdnKjxYMlAlmHntRBkAUyYMo=; b=48jJDV589eJPT6
-	DsmNsYp6o/mOsA2YCkPDFa0cAe7ikDyH0rlRYwQ6PthTi2l5VogpvdfX3lFiiOFg4SAY6uUTGbuRJ
-	+0fhiAna2lVQUVkMn7k+cXqjpJlNPOmyM26qa1txksIznOWGujq36cETrIrZ5IiYEY8MdXYqYtzTi
-	Zyf/7bZj/svswt8pJIn0/NNuwpwW5v6PGvTuiKRkZMKDTtIdyfdKizgX8i45AzH/AuahJzHOfyFTf
-	h/Zm5u0dWmOqHTtt75JJsnQU9Sz/OYcecnoFTIa6K6CvflF9+CbZx+BmVsARdKI9UQyhtGcjivuEq
-	ydcGDxUbGC881BMNObdw==;
+	List-Owner; bh=/O0wBdXXC8TnBtPEnqLj0Fg/didIYEunq6xY+QkohhU=; b=0zeQjlCWWwLDTl
+	C3JiuEbc3laY62cllVaSeWDPspihbqZg9o44wH6rf0EUZGztCNKrH5UG4Mm5U3tkgLgXN0uNtyCdX
+	3uee+sUi2fwxhRIkReF1aDX6710TjRj91bqBfrreMAguP22vB6MbAr31xaITByXyh75tcgsCP3clp
+	XmU2LkmNUa7HETWfDICS13+WF+47anAHkzronAnPoe5qNv3pBQUSFjauOIfUyy3i6skd7NTJYrTbZ
+	qtCJAmfpE4fvwK3rbd/FP6S9vRUwWQasDig3CZQSiDPHQyAEHt/3yY1ooXAZxnNccp7lJRnRfZuPE
+	3EjyOpDT3mY/w0OftFgQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uxdpA-0000000HNQa-3uzS;
-	Sun, 14 Sep 2025 03:54:48 +0000
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
+	id 1uxdqL-0000000HNzK-0KEl;
+	Sun, 14 Sep 2025 03:56:01 +0000
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uxdp7-0000000HNNr-1wpb
+	id 1uxdqI-0000000HNxZ-2Ppd
 	for linux-snps-arc@lists.infradead.org;
-	Sun, 14 Sep 2025 03:54:47 +0000
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-b046f6fb230so609690466b.1
-        for <linux-snps-arc@lists.infradead.org>; Sat, 13 Sep 2025 20:54:44 -0700 (PDT)
+	Sun, 14 Sep 2025 03:55:59 +0000
+Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-61a8c134533so5968387a12.3
+        for <linux-snps-arc@lists.infradead.org>; Sat, 13 Sep 2025 20:55:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757822083; x=1758426883; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1757822157; x=1758426957; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pjKVSjXysip/b5UNUwgMX+OIg9u3DNn6e0+I8Cmpn0k=;
-        b=KOlZDnDLNHxu1SOi0M6WXxLA1IM/j7/fp+y1LUMs23SL3zLIajiBBYJEmZHsAF0Oqw
-         gi7WKEn5JdLqa+rpa0scetIo0iqL/kWgi92JF5pQzR50DRaGDUJSAg7WWXQNLT5fOgT3
-         IZpRDCkY/Qv2vZJPlKTkXVAy9WsHKLxdOK6swNMO4VPSbRJ+8M7A9SM71+heE1iolOgE
-         DafWdg9kqVi3zBk6FeLgdXDoQHBIqx7YhnlBOhnyW57+a0KkP55D6SJ47v2CirK9Wk5G
-         4YMbmzIvQQkuC/A4yNThTrXnGY3pjlB+f7Fyqg469X+UZlt6sCo4AczAs6NNCZjmqqGM
-         RgAQ==
+        bh=IZ7mWaMdZxGJK1wTX4F7lWg1sPAH5qiKx6l6RS6EW/U=;
+        b=h6EPKt6qnlUc4SqLD/0WQS3xf3n6rglQ7DU1WVre9XnvCtohqMS2/cI++AeYjJnl9p
+         Vn/9f6DPM9Ymv8+brq/t2EZhmeowTb8tqvFu/N1bo2dhLH5Fq1hSAJQKuKEVGqn7TAw+
+         81KgEUQyTQsS+2ix9BKd2qAA6nWKm/WsbeFT0ME7Ysh8tPrfZC7PyNFAxal8PjN8GP+B
+         FcM1LCF+GLWknYQyGsP/VrY/4336c67uvHVlcFOS5f2orfN0kDXxaBnQA70lSrfvn1Mz
+         T3i9tvI3Gz0uTu1atZJ7LKE1S/ctHQdMtzDDwE77TkLagDlQvJ1EQYxRLwlMSvljzJdV
+         lNng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757822083; x=1758426883;
+        d=1e100.net; s=20230601; t=1757822157; x=1758426957;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pjKVSjXysip/b5UNUwgMX+OIg9u3DNn6e0+I8Cmpn0k=;
-        b=B7XyZkHMX6VYhBnyxEO4grgxYmWrdv77U8up3M20T8y1fcbSZT+jHhT7RpKrHiH/ud
-         3PmYIlD5xtI2KNDDsQj91NQTVAkWcMJDoLwYCdQeFvJowgYYbjKvfFbD/IUIRtJoXkw+
-         ZCLZ91Tz7FQGN6wuKXgHwg8ZN1W1MP6vVgrxEwxB07zH1cShVKrzG+vqTvMPcyW/gJDR
-         vTHdeJdxhDXMrk8U+hFA3BL4ZJ+dYVPp7GqkTi1u5291zw4HNlsB36CUew6rnUeZDIVR
-         rtioPM7E9BkXmbe3p5l5JG+BS3JzR3GRvYm6WJzbfqH8qE4qHBOhexI6YaND/oxortqE
-         mDgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVo1NsB2B9oD92mHAXIDTq4NTWZVADjpSGFlco2rZtP+6NlImyq9bAByzzYAsNG29QhHG12DDbi8A0JWRyJdQ==@lists.infradead.org
-X-Gm-Message-State: AOJu0YzRbkW+xTj70vuApvcIBMRHJ4aEuzhrFE9/cLp7cK2styBBS1b4
-	5u+TNQ3/qUz9/a18NRim5mgDxHJlkug+V1dchfpqsxtGatIoWQaoqwbL
-X-Gm-Gg: ASbGncvvu730JZmGgWXgK0wIGmv+GNbwkcAh/Rwllsu8vTTCg1EkacpfJ5rXAVFaIRQ
-	A5PerPOmnG4dM6DAH86J6V5Z5ze30luBVeRimtBNL1z/6nPy0PUPAV8B3JMIxZXEml0ghTe1NGz
-	aTUJldErYgeB0HykeE35/5lF8pn2ogQODG5lYtLcuooIvipzXdDJ3uz/poj3z4XrVQZ2jkceqCo
-	37RCxkDlgY7+w9doRfIfW1mVqocRKADdnpyQ/uBzwFrkuwRRWVWQPZ5mQk5Q+RUAd3wfXjXF2fb
-	3mqFA2sLYKqDaKvwYUzLkYwEovMc9A+IAGVxAPyLBQGJxnTPp4KnATny3FjQrGk6qOnZSVImxUW
-	BdgH6cBkRxSMnQS+t+ZTUE2Dry6SOIw==
-X-Google-Smtp-Source: AGHT+IFpMpCVJeNrUipt0dZC4eBHRTy08fiFy9cwywIocPIoMawoMDT0bJrFyHi72vkPeUNRc3Oodg==
-X-Received: by 2002:a17:906:114e:b0:b0b:35d8:248e with SMTP id a640c23a62f3a-b0b35d8267fmr237998166b.18.1757822083468;
-        Sat, 13 Sep 2025 20:54:43 -0700 (PDT)
+        bh=IZ7mWaMdZxGJK1wTX4F7lWg1sPAH5qiKx6l6RS6EW/U=;
+        b=AL0RgGPgt2DSLO4BDkL3XZlC47UvGTvfU7sdiTPY1MwSVhnMLlOlOifpFtcbcN6wCo
+         OEDKYU49x8F/1n65GCSuoPdoK2QNf3GczClvE91B7f+mV8LYCQeCvtfzKYjz54ExD9/s
+         V9J/szRrk4D7hCBz4QZtfSa3e3z+B8LJZ5WU5ScRcVLGVov4u/j5m569GFdsj3UWsAzX
+         rQM9iD2/BSTiAbgFQZe/+gI8hVoKHC3fmmC9fzAPHY+03PPYWi17n6xrYpr5c5rX3P6T
+         dyQf+eX44AvMPidhrxhAnga6DelIACGhooYaP/5JhWxk+1dNsmg0Qk5b2ftyz/HQERlz
+         k0rQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXXbSaHaZG3lEBZ3OmnfbJDIvP3At2F+922xE/2gWcJVRmnRfr0akGGxOwjzjWyTDwTGlLMfZ0l6siOsn9IEQ==@lists.infradead.org
+X-Gm-Message-State: AOJu0YzRTDMn1x0OtcEUDfO9usuCvrLp0ESSR3kJnl+Hq2nCh2frcT++
+	LlMZjzSuNPWZC2xsrYYX7NqLFTGvq38B+yWSaBXSyC57r794rYSNLrqe
+X-Gm-Gg: ASbGncsiifSG3waUGbhN1CWhjHGSD7IOumtbCeyxGIxE36aY6Uw4cL6gYNIdkFPedM0
+	clWBB8mwUhhmZH+6ZK6ap1koLVd66/R0hr28jzrcusflN27nv8LmLvzpQ1K0dLYu0nkAZFBAS1J
+	n+C5f3YnpiKinw/ZiZyI1pZHnS7gasx+ua0zAZ/0gC6LnE9Jo62cxOsHNCFei4XFEMnxHI3jo3S
+	TcoQ+oTP1Fycy95gCbc56nnUz1Rw2Mxy4JhSWQLxSB2d7Ml6jN8vFZOc0m1Frrj/AGQnk6PMm1v
+	BKeCJNGVUdvq/yuaYKQ+gcPYZyXhLidTztzMfgx8a6avwjpk/sC5eNacusvCYbks18bT75XPk+u
+	lly9o1mg2zvsVhCemO/TyMiCoob4tOQ==
+X-Google-Smtp-Source: AGHT+IHVlqrM3WGO2PMhAdJqFymXZDFmcHUFnmRqsIL52zZcyiB7/sntw8UcjJnO5qIuj3xo01B0kw==
+X-Received: by 2002:a05:6402:278f:b0:62f:26f8:fea0 with SMTP id 4fb4d7f45d1cf-62f26f91103mr1500285a12.33.1757822156480;
+        Sat, 13 Sep 2025 20:55:56 -0700 (PDT)
 Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b07b32dd5a9sm665619166b.57.2025.09.13.20.54.39
+        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-62f2b2a8c38sm677327a12.31.2025.09.13.20.55.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 13 Sep 2025 20:54:43 -0700 (PDT)
+        Sat, 13 Sep 2025 20:55:55 -0700 (PDT)
 From: Askar Safin <safinaskar@gmail.com>
 To: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
@@ -124,16 +124,16 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
 	Thorsten Blum <thorsten.blum@linux.dev>,
 	Heiko Carstens <hca@linux.ibm.com>,
 	patches@lists.linux.dev
-Subject: [PATCH RESEND 45/62] doc: kernel-parameters: replace [RAM] with [INITRAMFS]
-Date: Sun, 14 Sep 2025 06:54:38 +0300
-Message-ID: <20250914035438.3682240-1-safinaskar@gmail.com>
+Subject: [PATCH RESEND 47/62] init: fix typo: virtul => virtual
+Date: Sun, 14 Sep 2025 06:55:50 +0300
+Message-ID: <20250914035550.3706342-1-safinaskar@gmail.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250913003842.41944-1-safinaskar@gmail.com>
 References: <20250913003842.41944-1-safinaskar@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250913_205445_534870_F52E2EDB 
-X-CRM114-Status: GOOD (  18.08  )
+X-CRM114-CacheID: sfid-20250913_205558_624450_99A505E5 
+X-CRM114-Status: GOOD (  12.58  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,117 +150,26 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Also, do other initramfs-related edits, while we are here
+Fix typo
 
 Signed-off-by: Askar Safin <safinaskar@gmail.com>
 ---
- .../admin-guide/kernel-parameters.rst         |  4 ++--
- .../admin-guide/kernel-parameters.txt         | 20 +++++++++----------
- 2 files changed, 12 insertions(+), 12 deletions(-)
+ init/initramfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
-index 39d0e7ff0965..22af6bbffc35 100644
---- a/Documentation/admin-guide/kernel-parameters.rst
-+++ b/Documentation/admin-guide/kernel-parameters.rst
-@@ -123,7 +123,7 @@ is applicable::
- 	CMA	Contiguous Memory Area support is enabled.
- 	DRM	Direct Rendering Management support is enabled.
- 	DYNAMIC_DEBUG Build in debug messages and enable them at runtime
--	EARLY	Parameter processed too early to be embedded in initrd.
-+	EARLY	Parameter processed too early to be embedded in initramfs.
- 	EDD	BIOS Enhanced Disk Drive Services (EDD) is enabled
- 	EFI	EFI Partitioning (GPT) is enabled
- 	EVM	Extended Verification Module
-@@ -134,6 +134,7 @@ is applicable::
- 	HW	Appropriate hardware is enabled.
- 	HYPER_V HYPERV support is enabled.
- 	IMA     Integrity measurement architecture is enabled.
-+	INITRAMFS Initramfs support is enabled.
- 	IP_PNP	IP DHCP, BOOTP, or RARP is enabled.
- 	IPV6	IPv6 support is enabled.
- 	ISAPNP	ISA PnP code is enabled.
-@@ -167,7 +168,6 @@ is applicable::
- 	PPT	Parallel port support is enabled.
- 	PS2	Appropriate PS/2 support is enabled.
- 	PV_OPS	A paravirtualized kernel is enabled.
--	RAM	RAM disk support is enabled.
- 	RDT	Intel Resource Director Technology.
- 	RISCV	RISCV architecture is enabled.
- 	S390	S390 architecture is enabled.
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 0805d3ebc75a..8e10abac4cc7 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -565,7 +565,7 @@
- 			Format: integer
+diff --git a/init/initramfs.c b/init/initramfs.c
+index 8b648b09247a..cf19b7c0c358 100644
+--- a/init/initramfs.c
++++ b/init/initramfs.c
+@@ -636,7 +636,7 @@ void __init reserve_initramfs_mem(void)
+ 	phys_addr_t start;
+ 	unsigned long size;
  
- 	bootconfig	[KNL,EARLY]
--			Extended command line options can be added to an initrd
-+			Extended command line options can be added to an initramfs
- 			and this will cause the kernel to look for it.
+-	/* Ignore the virtul address computed during device tree parsing */
++	/* Ignore the virtual address computed during device tree parsing */
+ 	virt_external_initramfs_start = virt_external_initramfs_end = 0;
  
- 			See Documentation/admin-guide/bootconfig.rst
-@@ -1005,7 +1005,7 @@
- 			may be missing from the dump.
- 
- 			A standard crashkernel reservation, as described above,
--			is still needed to hold the crash kernel and initrd.
-+			is still needed to hold the crash kernel and initramfs.
- 
- 			This option increases the risk of a kdump failure: DMA
- 			transfers configured by the first kernel may end up
-@@ -2298,7 +2298,7 @@
- 			initcall functions.  Useful for debugging built-in
- 			modules and initcalls.
- 
--	initramfs_async= [KNL]
-+	initramfs_async= [INITRAMFS,KNL]
- 			Format: <bool>
- 			Default: 1
- 			This parameter controls whether the initramfs
-@@ -2310,10 +2310,10 @@
- 			unpacking being completed before device_ and
- 			late_ initcalls.
- 
--	initrd=		[BOOT,EARLY] Specify the location of the initial ramdisk
-+	initrd=		[BOOT,EARLY,INITRAMFS,KNL] Same as initrdmem=
- 
--	initrdmem=	[KNL,EARLY] Specify a physical address and size from which to
--			load the initrd. If an initrd is compiled in or
-+	initrdmem=	[BOOT,EARLY,INITRAMFS,KNL] Specify a physical address and size from which to
-+			load initramfs. If initramfs is compiled in or
- 			specified in the bootparams, it takes priority over this
- 			setting.
- 			Format: ss[KMG],nn[KMG]
-@@ -2749,7 +2749,7 @@
- 			between unregistering the boot console and initializing
- 			the real console.
- 
--	keepinitrd	[HW,ARM] See retain_initrd.
-+	keepinitrd	[HW,ARM,INITRAMFS] See retain_initrd.
- 
- 	kernelcore=	[KNL,X86,PPC,EARLY]
- 			Format: nn[KMGTPE] | nn% | "mirror"
-@@ -6129,8 +6129,8 @@
- 
- 	rdinit=		[KNL]
- 			Format: <full_path>
--			Run specified binary instead of /init from the ramdisk,
--			used for early userspace startup. See initrd.
-+			Run specified binary instead of /init from initramfs,
-+			used for early userspace startup.
- 
- 	rdrand=		[X86,EARLY]
- 			force - Override the decision by the kernel to hide the
-@@ -6324,7 +6324,7 @@
- 			Useful for devices that are detected asynchronously
- 			(e.g. USB and MMC devices).
- 
--	retain_initrd	[RAM] Keep initrd memory after extraction. After boot, it will
-+	retain_initrd	[INITRAMFS] Keep initramfs memory after extraction. After boot, it will
- 			be accessible via /sys/firmware/initrd.
- 
- 	retbleed=	[X86] Control mitigation of RETBleed (Arbitrary
+ 	if (!phys_external_initramfs_size)
 -- 
 2.47.2
 
