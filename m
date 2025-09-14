@@ -4,71 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B701CAC582
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 14 Sep 2025 03:59:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A99E0CAC582
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 14 Sep 2025 03:59:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=HXuyVVHq8a+CDV3bDx+0ahKmOA1rAJ3kgwjtSjL6o0c=; b=EfIIzCZRvvd8DJ
-	EwESOCmJcWZUX9FcRvelkk7tM475LIQ8x1hHUbSBoEf/ufCCfus7lkgzEyTn3uBWjA6vT4c8OifRZ
-	rperuxL+aIZjT9ZamDIybsfuqIq+RshRs2QHvMuIVouxd7Sx2PMp/DJKygG+YKu/uHkCUlmCdzjmv
-	5hDcn370USjcC98HVBMsiM58bA7df0IA728uD1AVSY89VYc0OIBF7nNFrRl9HDz68eiydCeIY6Wsg
-	ReQ6EoXWloITDk3Fk2tXRtilJNrAHTAO618paCMMU7RraxIv7tPMpa3fACbOuStqDYdmWiEUedc1y
-	C+dF09Bww7QTUA4D3HbQ==;
+	List-Owner; bh=wiHqf5anQD5v6jmX/GRaQ8MbJO8Slbn2+pr14dfV74o=; b=bbIchaNrh01U07
+	V5cxgLM0y2u5E+TglZSiw9LvBZ5byTUPO+1S2zi9hF9Jq2zpLzNKSzLP6vT5wNIGB3K/afiw4IYZ7
+	lgnfIQhqVCt/9Q54l/Kv7+n1TFRIRc4U3Qn4o0jx5xe9kJpfCoLmZlAZN7NhbtyHuUXk9ONZV8OUa
+	SBFdIseMGC6ZPSA5fQ6wwjABFa0+Yz9Jbpkn3jBhO7WT/wdLO/jA1lzJxiDhbqv4VfbS1/EvxxDtO
+	KcSEXnUHSFt3eJSgn2R+hJulhAcRDRPNS5IYo2cTkf1UOkMmkf7AYlaXkwB91PR0s2Z+14ekRiqY0
+	BCi/kQ6/XSM5GzABamIw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uxdtE-0000000HPUO-3w0X;
-	Sun, 14 Sep 2025 03:59:00 +0000
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+	id 1uxdtd-0000000HPiE-1nh8;
+	Sun, 14 Sep 2025 03:59:25 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uxdtB-0000000HPRS-3Ngn
+	id 1uxdtc-0000000HPhD-2vfy
+	for linux-snps-arc@bombadil.infradead.org;
+	Sun, 14 Sep 2025 03:59:24 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=6PVDclpYQ6Nji01yBeit38rRV0WhZ/F6Ahkj7S8LBJ4=; b=HM1VdaRsv7MDuvK6xi2ARc7+mT
+	+4pUexwhSkC+C3g5eIuVry2AZORauSaMbIkdnd7E9OvrSDaNOfO3nnQQJ+DImepAeTflZzgu5wD4k
+	3ue8pOU5+9vwYPK0HIy5fK/6VSHjK2Wf2eHzeQ31FeRglrl4BEVRLwqUyWlxZOd31vYt9y1MclMBg
+	/IzI5wKAPDtWIm7iNtGB+38IyztqGCruFF8DcD6PQ9V0OONlbum2IYwCah+GU6Dil0nRc2sesUQyv
+	JA2marXFv61YsY/oiCU3y6kuBs7WB7y9NMzJgS8m2bwfVZiie5AX0W5mI3DhkQJyWWylrQ9pbL/4B
+	Vdq5eCsw==;
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
+	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uxdsd-00000006iMH-0hpL
 	for linux-snps-arc@lists.infradead.org;
-	Sun, 14 Sep 2025 03:58:59 +0000
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-62f2b27a751so349965a12.3
-        for <linux-snps-arc@lists.infradead.org>; Sat, 13 Sep 2025 20:58:57 -0700 (PDT)
+	Sun, 14 Sep 2025 03:59:17 +0000
+Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-62f261a128cso707180a12.2
+        for <linux-snps-arc@lists.infradead.org>; Sat, 13 Sep 2025 20:58:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757822336; x=1758427136; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1757822300; x=1758427100; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8LDuJwsx1JnhEieEawhozXv7eEPm7AwX4v3UgIhLgCc=;
-        b=YylZMOitWf6KYGpLGV7bR6qGT10dUCITNTEk+xmOWs16p7lKkJcQeB/FxH+qiPdh71
-         qaGObB+1Awi+oCF4oNiy5ShXJG5XR2t5LPk6cKXxna405PULludHkBfhsriKuJWcrJhv
-         tNANTkwOHzCGE2XodXee2hbvbPAvMpRAg1I+hc/9R/0G37IJrsj6odr7hQmhR9x0jQ11
-         fADEuHi1t2hQ5WaQzyz6BnhTQpc3dsJqNqVltQPb3tMe8y8SH87SLUhYT8DSARnfR27S
-         NGqJZaTP8XsjiZcCG0zhmYNV+AOUuVr1e8gZTT2oqsERT/HDEVCFLaqULN0JkaewEmDN
-         Rdkg==
+        bh=6PVDclpYQ6Nji01yBeit38rRV0WhZ/F6Ahkj7S8LBJ4=;
+        b=UlaR3A4Eq3aQNFev7CLeZxHJNYT1TEVe+xLhS9Kkv6jccSalneg5KmwL0FdI2pD09y
+         EooojtIdFQ9Nj6+YZeZNt2kYFKC69Bs4czjBQNG6IeLmWjsJcXVeSfoQuLB2rQGlYM4x
+         i05hEzLOXO4Q57/ds96jpSMFIOSWfcjBkCsjgLWsp/RfHKTHZC31yg/yzxBfkSAIZ/bH
+         EGo5ZaYOiu+mbiwEEfbblYPGaOCstuP3UaeeWsg0yej+QWvy8e1Y/jrfLt8nw8IwVWEX
+         wPlHyH26aEqVsFFualqrQKsw+DkZtLysxp7PVSnpAO2ait+lqyrji+3pnyOUMmUz/P+J
+         YajQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757822336; x=1758427136;
+        d=1e100.net; s=20230601; t=1757822300; x=1758427100;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8LDuJwsx1JnhEieEawhozXv7eEPm7AwX4v3UgIhLgCc=;
-        b=nmCQXVyriZyBYQoSxLJr7ybBu+B77JMtOH5VyOmIEpOa4zUCjA5ZhWkWmepd/Z/32Q
-         pX2+565xxNM1ObLR0gNqPAcqeTZ777ZXvxjuZBNCSYnOqNleyLuwBu647xArBfGjvcgd
-         F3wC5z1sNt4jDpDqKI/QPOo1TSLL3J7jnJrwgwcH55eZHc8zdfgE9cvy+3+NapLLwE0c
-         ArP4XH0yZTFJBhFGViLUi/tGxzVJHC0Fl9JOtyy9dvfjIdPDGo1OLSf6ZkTIfzDO8E/T
-         psVAl9jdulw3pPjDp0jGA6zI4Ai6rGzTHpGKu+v/CXb4/uZvhV+N8qIVhCJy+5TKvjhw
-         JMwA==
-X-Forwarded-Encrypted: i=1; AJvYcCXypU/N48T6pTnkNeYjEVmffygrocdUnnz+aXdIGNfYKArAUd5vlkRlnOYiqDcw31x2/JH4yDDC+Mo+zPUHEA==@lists.infradead.org
-X-Gm-Message-State: AOJu0Yxz3Eh7NEMG+yTi/DmQiTkxUD3rLtlaLS75zVTXVA1tYGOD2FRk
-	DYPjIeMd1QxAtJ5vzjSXecCEg6z/sfLtXsD+tPdfeGkyFikqL25o50H1
-X-Gm-Gg: ASbGncsKVO0z10NAn8Q8CRUx9rxuqVYrJavGFjP5DaidgDyxd2EKSUUOPDdJlvWZ9B8
-	/wM8Lp6W2OfVRj1bUZz0bK65n3WwxRih++9EOe4TXurfrPCeEEOy6hviqIr98o+z9xFHyKJjw3S
-	I1OupJW8p63yZIGqzOejI1yF1ghUcjOkC7o1NJnfqgE4j6kL6UEr60Y+u5mn6teDQbNqw/Ia4TH
-	FhDBDNcp7JU2jraF9ZDeZ17j/3dhHd8nYekljgaWB0dlKazS51A9SkKFVTpY2ygoaCH9/myAhA1
-	jDH6MUSCg4HFHqgW4BKawWxPHWO5fix+zka68uAtqizV4+XS0cmrmdpoclFTWXMlIcb/3yGHsuZ
-	ufi5GcPKlxjBLdgUAOoGV1feX+jqy+g==
-X-Google-Smtp-Source: AGHT+IHNLaKXJiC+zXQ2uAPY4azg+7W3/1g8JczFufMn8mQqgVOZ73ifHuYY/OKrygFTvfUSeCcOcw==
-X-Received: by 2002:a17:907:3e90:b0:afe:cbee:7660 with SMTP id a640c23a62f3a-b07c34d63c8mr797483566b.21.1757822335865;
-        Sat, 13 Sep 2025 20:58:55 -0700 (PDT)
+        bh=6PVDclpYQ6Nji01yBeit38rRV0WhZ/F6Ahkj7S8LBJ4=;
+        b=bPangy12pmG4isLSBIkaUeHTAWyLGhw6gCg7Oj6rkFaYmmAk2neaA3bB0PmKRd03Ty
+         yBDVbYgVfZnTa0zKX51WrGdGzFuSKvTgBa4dkvtvm+33NXbq/g6MCETbSiz009T8IuW/
+         t0A+Kn7y+DZ+W49WkfhSWS/DGPYOYAjuUadzoZfNAoSWLDJwJK/d3OFPdGKzyV4czXeS
+         33tTwx3ljSVxeMY51cGlYRdrbHuE7Hqcl40wkZ0Kk0Q93hTlXc48RMq2rYPd7gMTyxza
+         tShalBRIyE8/vOnevnvqXvrjwqwOFyrcDzn3AnaqBSnOYKIp8mQa5Cd3CpC8hWuFUe1u
+         x+Yw==
+X-Forwarded-Encrypted: i=1; AJvYcCX1Ph1EIofd3vaI0xqyNhQb5D18QWvxlHxKOSdYnkiJboVqqd4PID0Rru88CTbHsnMg8EGWLIkky/p3WnMsAA==@lists.infradead.org
+X-Gm-Message-State: AOJu0Yxtcx4Nhav6uzSWTnZyhef6XIeyNoPu+1pURRVM1xLg7E0WvfQq
+	QrISkqKp6iDoDw4DdRMMtjoe+JnzchPQV9qZXgWk3hhU6zoZJCXE1AMp
+X-Gm-Gg: ASbGncvBNqdDsszxeCabSfmkkeedl2tCNnDRf/AE0REDSw2eqexxQM1A//JzlbOVw/u
+	DZXkHZBoxLkmnO8LZ+7gEqBsZ0LijhSGvCGQ6kvE/V8Ewkm7igAOy1NqXKG9z3xARq6C+lN00vE
+	Pudz8/31S3twTU4g5oXitX6tsBUWgd/w+GfiHSlvOlkAjlJX3XcVA7x0o6aJ5DSRBRucAPxI/lY
+	lLmq+LUJC3dfPfLNWiURQKjzY0wUlbw8CWVF3PcnZsMtAEWnCH6Qc9EC7+ehmSSTwQM0KVwo0e6
+	lAgCnXixv13b2oP2/a6NSgP4/FnSWr1phDLvaJeEbglRQp27uBF3T7rfTAYkfxUiJL2E+Q/RCYc
+	cTG77qcaQxjs/H3h0n/M=
+X-Google-Smtp-Source: AGHT+IEs7a72WksMtWatD4lSFnDxnNg7+5MS1D9GOkH6MKg4k8K6DTsXjCx54xq6hKPtDzIS4c8/bw==
+X-Received: by 2002:a05:6402:42d2:b0:627:f47c:b199 with SMTP id 4fb4d7f45d1cf-62ed82599f7mr8759493a12.8.1757822299751;
+        Sat, 13 Sep 2025 20:58:19 -0700 (PDT)
 Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b0cf2112639sm91581266b.104.2025.09.13.20.58.51
+        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-62edb7d9cbbsm4735738a12.15.2025.09.13.20.58.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 13 Sep 2025 20:58:55 -0700 (PDT)
+        Sat, 13 Sep 2025 20:58:18 -0700 (PDT)
 From: Askar Safin <safinaskar@gmail.com>
 To: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
@@ -124,16 +139,16 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
 	Thorsten Blum <thorsten.blum@linux.dev>,
 	Heiko Carstens <hca@linux.ibm.com>,
 	patches@lists.linux.dev
-Subject: [PATCH RESEND 52/62] init: rename do_retain_initrd to retain_initramfs
-Date: Sun, 14 Sep 2025 06:58:50 +0300
-Message-ID: <20250914035850.3762697-1-safinaskar@gmail.com>
+Subject: [PATCH RESEND 51/62] init: rename get_boot_config_from_initrd to get_boot_config_from_initramfs
+Date: Sun, 14 Sep 2025 06:58:14 +0300
+Message-ID: <20250914035814.3752803-1-safinaskar@gmail.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250913003842.41944-1-safinaskar@gmail.com>
 References: <20250913003842.41944-1-safinaskar@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250913_205857_864637_C7E8FED3 
-X-CRM114-Status: GOOD (  13.97  )
+X-CRM114-CacheID: sfid-20250914_045826_152282_8BA84BEC 
+X-CRM114-Status: GOOD (  13.02  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -154,50 +169,49 @@ This is cleanup after initrd removal
 
 Signed-off-by: Askar Safin <safinaskar@gmail.com>
 ---
- init/initramfs.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ init/main.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/init/initramfs.c b/init/initramfs.c
-index 30e94ebf4902..40c8e4b05886 100644
---- a/init/initramfs.c
-+++ b/init/initramfs.c
-@@ -570,13 +570,13 @@ char * __init unpack_to_rootfs(char *buf, unsigned long len)
- 	return message;
+diff --git a/init/main.c b/init/main.c
+index a42f1f0fce84..c535e0613df8 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -264,7 +264,7 @@ static int __init loglevel(char *str)
+ early_param("loglevel", loglevel);
+ 
+ #ifdef CONFIG_BLK_DEV_INITRD
+-static void * __init get_boot_config_from_initrd(size_t *_size)
++static void * __init get_boot_config_from_initramfs(size_t *_size)
+ {
+ 	u32 size, csum;
+ 	char *data;
+@@ -311,7 +311,7 @@ static void * __init get_boot_config_from_initrd(size_t *_size)
+ 	return data;
+ }
+ #else
+-static void * __init get_boot_config_from_initrd(size_t *_size)
++static void * __init get_boot_config_from_initramfs(size_t *_size)
+ {
+ 	return NULL;
+ }
+@@ -420,7 +420,7 @@ static void __init setup_boot_config(void)
+ 	char *err;
+ 
+ 	/* Cut out the bootconfig data even if we have no bootconfig option */
+-	data = get_boot_config_from_initrd(&size);
++	data = get_boot_config_from_initramfs(&size);
+ 	/* If there is no bootconfig in initrd, try embedded one. */
+ 	if (!data)
+ 		data = xbc_get_embedded_bootconfig(&size);
+@@ -479,7 +479,7 @@ static void __init exit_boot_config(void)
+ static void __init setup_boot_config(void)
+ {
+ 	/* Remove bootconfig data from initrd */
+-	get_boot_config_from_initrd(NULL);
++	get_boot_config_from_initramfs(NULL);
  }
  
--static int __initdata do_retain_initrd;
-+static int __initdata retain_initramfs;
- 
- static int __init retain_initrd_param(char *str)
- {
- 	if (*str)
- 		return 0;
--	do_retain_initrd = 1;
-+	retain_initramfs = 1;
- 	return 1;
- }
- __setup("retain_initrd", retain_initrd_param);
-@@ -584,7 +584,7 @@ __setup("retain_initrd", retain_initrd_param);
- #ifdef CONFIG_ARCH_HAS_KEEPINITRD
- static int __init keepinitrd_setup(char *__unused)
- {
--	do_retain_initrd = 1;
-+	retain_initramfs = 1;
- 	return 1;
- }
- __setup("keepinitrd", keepinitrd_setup);
-@@ -743,9 +743,9 @@ static void __init do_populate_rootfs(void *unused, async_cookie_t cookie)
- 	 * If the initrd region is overlapped with crashkernel reserved region,
- 	 * free only memory that is not part of crashkernel region.
- 	 */
--	if (!do_retain_initrd && virt_external_initramfs_start && !kexec_free_initrd()) {
-+	if (!retain_initramfs && virt_external_initramfs_start && !kexec_free_initrd()) {
- 		free_initramfs_mem(virt_external_initramfs_start, virt_external_initramfs_end);
--	} else if (do_retain_initrd && virt_external_initramfs_start) {
-+	} else if (retain_initramfs && virt_external_initramfs_start) {
- 		bin_attr_initrd.size = virt_external_initramfs_end - virt_external_initramfs_start;
- 		bin_attr_initrd.private = (void *)virt_external_initramfs_start;
- 		if (sysfs_create_bin_file(firmware_kobj, &bin_attr_initrd))
+ static int __init warn_bootconfig(char *str)
 -- 
 2.47.2
 
