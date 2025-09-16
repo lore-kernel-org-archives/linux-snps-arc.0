@@ -4,132 +4,103 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE9D7CAC597
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 15 Sep 2025 21:05:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E73DFCAC599
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 16 Sep 2025 01:05:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=MtpKOqfrQfAaXd5W92kP3RLKzQAFDgz7wyS5ucyl1d4=; b=Y8wXmPX0aIkBEU
-	HvNzXg+pqmlAyfsjM2juQQTtg7ouSksMKroYLfbZnt6I2crrOO2po1cvgEkRksgmGC0qQONww2uRh
-	yXM8/Is7ya4k65q6NklQxSkICZ7IAyYflQlHsiAG9gj1dTBNQzGeXKeGMc3XrsJkiwPt4MMxYeCCX
-	UeWSvKt3GBuFmuOktM6luyEc+BtjD9Rx0s6kVZt7xVgj/b1GVDhYInqDB/9jti2/NJkVyLFl8y0c1
-	9l80QEnAmAgFrunP80ct2VcwGXK2WrDbENGFDoOH0LOG9826yxRc+hZ+D7FSRcvfqWSKoaDsXeQzk
-	0+3YZEcjZY3ZGLJ9usug==;
+	List-Owner; bh=a/vpXmn/dMaMw0ICHMnHeZziETrYPbjSh/thQvHVQCo=; b=3Zn61KTfG31hqa
+	hXOV89ikEPH92SZpHRCreLtd6RviBnYsLXD+Ao4WlfYTpJM92s/1vYGewJTFeStkXsRnOs8NUlhMZ
+	w6fjMWODW6StCpabvGANOHMCV0aDjcNlGROuS4lF2WB+6K4bhAa1kX09YzrRqooLM8IOsn+v7VJoq
+	/WT0zuLQeALr03NUlGpSVniQWqMsuj7BXI3Zxja7ZZAlUA5/ioYshuQvFdU40+1iLEL8J4gEbytpg
+	EOUaqyBMSMpOXL7O3Z/ZdW+ubdI3rKOI8Z9aRY9dKLNz6aj71CulP7pIYHyCEB+7Sh8b4zkSmT9nC
+	20waQ0aykkv9TpxHpVbg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uyGO6-00000005eyA-0ysa;
-	Mon, 15 Sep 2025 21:05:26 +0000
-Received: from black.elm.relay.mailchannels.net ([23.83.212.19])
+	id 1uyK8O-000000067Dv-2pGw;
+	Tue, 16 Sep 2025 01:05:28 +0000
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uyGO2-00000005exC-32eW;
-	Mon, 15 Sep 2025 21:05:24 +0000
-X-Sender-Id: dreamhost|x-authsender|rob@landley.net
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id 968258E2BE4;
-	Mon, 15 Sep 2025 21:05:20 +0000 (UTC)
-Received: from pdx1-sub0-mail-a312.dreamhost.com (trex-blue-3.trex.outbound.svc.cluster.local [100.106.207.148])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 7F7018E2C1F;
-	Mon, 15 Sep 2025 21:05:19 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1757970320; a=rsa-sha256;
-	cv=none;
-	b=FvgXqYHopx4Eg97mRKI8YTgJvrM5uX3hCyA3PstNG3tElSt5C8Mkh16K26ulc4hSsVKTwm
-	jS2iRuOvoFtVg23iLmldnlytqHxYeolaJsyfj8H9DSakx31ClyoFyXVp7iwZ2teQvFuGpD
-	7saB7Wb4g9tAoqQmvsAu+UkcIlhVWTJzOhYRfUz/BaC08DNcuaaQQ9As8b8ykz1bHx7Qk4
-	TBDIHtaaxH15dWAfQpWNrqJJMfgLr/Vh4+3miXzPpdfAMtZz9JhTu8o8DhIj9xhKVHKRwa
-	bwWqLubQ4kcKxK/2hf/oaDh9DMbl/qSfr7Eus3yNXxVfu+spuLPfBiaIS0ertg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1757970320;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=uCpj1HrCG/lIFPmsjCJyYsttI0Vr58GFZK2WKDkB6bM=;
-	b=TrnkHhqm0Tp2Y/WSmzMAHR5Hhj24mtPtbQYmBJGsRakDWzg0mrJuBQoW9Qkjf7BGvzNNiH
-	2H1V/J8m98raC3dPissEKtvzgOQ/Hk71uVhQ6kj9WsCG0K4v6raNCVOsjB2cVm10SC7pnX
-	WxSZlPhsLyt7jNTRP69EAqO62VJJbdbVWYt/YK0l1PbM6GNyoiMvREWQ3rw4KysPytNuVO
-	2/ZnkG/pktV9GKqEbQ9+gUEw2tbIV0YT43iSdJj78GsI/5MaQ7x6n5ojdu79KkG9JBYmK8
-	GwXKzdwJN0Mu44sDWX8K+r6sdW0U/yb7L1RpJBIrkhHihenS55Fk4oEdNruPqA==
-ARC-Authentication-Results: i=1;
-	rspamd-76d5d85dd7-gchpr;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=rob@landley.net
-X-Sender-Id: dreamhost|x-authsender|rob@landley.net
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|rob@landley.net
-X-MailChannels-Auth-Id: dreamhost
-X-Shade-Trouble: 5607b4e4499028f3_1757970320441_1498479094
-X-MC-Loop-Signature: 1757970320441:4276322646
-X-MC-Ingress-Time: 1757970320441
-Received: from pdx1-sub0-mail-a312.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.106.207.148 (trex/7.1.3);
-	Mon, 15 Sep 2025 21:05:20 +0000
-Received: from [192.168.88.7] (unknown [209.81.127.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: rob@landley.net)
-	by pdx1-sub0-mail-a312.dreamhost.com (Postfix) with ESMTPSA id 4cQcxR2ZPnzFr;
-	Mon, 15 Sep 2025 14:05:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=landley.net;
-	s=dreamhost; t=1757970319;
-	bh=uCpj1HrCG/lIFPmsjCJyYsttI0Vr58GFZK2WKDkB6bM=;
-	h=Date:Subject:To:Cc:From:Content-Type:Content-Transfer-Encoding;
-	b=hn99im0llKSPW8E4jU23jnYGHjKkBB42PZKG9Y5nexC8X6GV18Ye+xjEO0dI68API
-	 P0iIc1uUspgFQAEvTZJLAiGacD/gPQaqYVm1QWE0N/6QokQnP06W1bW8XwSoYhszK+
-	 lhn3ZJav0Djh8uCO1T1JTFZ2nxRyoQNIwSBLc+tBT4L5AJvvFnEk/puQX4fjV81Sze
-	 CQbiCBjHhliP+rleng7xNOeK8VpGNGP6Px4E+lL1g37CD4cYE8Qe9KRdlQRN3asHoO
-	 TI/V5yxrsCSuRB+QTSU/G3DsOoX+FIakqvSZS3fVzb5U3KSBT5DjgaaVyyrqpLaA73
-	 VR4ur/x6Wjb7g==
-Message-ID: <8f595eec-e85e-4c1f-acb0-5069a01c1012@landley.net>
-Date: Mon, 15 Sep 2025 16:05:14 -0500
+	id 1uyK8L-000000067BN-1WYb
+	for linux-snps-arc@lists.infradead.org;
+	Tue, 16 Sep 2025 01:05:27 +0000
+Received: by mail-yb1-xb2a.google.com with SMTP id 3f1490d57ef6-ea3f9e9f782so2366166276.1
+        for <linux-snps-arc@lists.infradead.org>; Mon, 15 Sep 2025 18:05:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757984724; x=1758589524; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=d4rwn8y0vRJNvu8C079VdIgUQlj+kBjL5HuZ7smgp/E=;
+        b=aT2vcyNK+8b9Z6sFaw7lJiZGASnH0agFEdUyn4XBleVj9J8VpDihbfmzkTa7WBCniM
+         Fvl6ocq8wrSTgLaGbGHVXSAc0z3nJX42HLZQIE0Sbvbu9+rorF/NG2ZQj+Pz1EO5rAWk
+         xV1tMU/Xl46ioqDzTEfvluOm2y52VA2V6g8o3rIYgYqQZD1zPrOAlqAQ+nad7azsbkl9
+         3SXTDcwhi/odNYBYfbYIv2EqR3kn/5rfwaYlwLS7iKx9vYndm72Cgjhx0Eo9w6Lhnlxn
+         Yj0cmYSkAVEJTuWgo2rGedu4jCjHhoqR6b7RR12fJkeSwjQ2QOJZCVYdHfm+1vla/01M
+         L0DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757984724; x=1758589524;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=d4rwn8y0vRJNvu8C079VdIgUQlj+kBjL5HuZ7smgp/E=;
+        b=MwRKF8z42Tmi76qN2SrsYiqsrQsmsIFr3871plxjqrUkGL5eQPGkK1Cney3T9W1XKz
+         TXIldxnnQs/NPKwbYWfjJBym1+ZogD/8an2+XZUtGOFCa6HOvpZj/Fe4Q9TQxvkKAi1P
+         j3H7BtKOO5c+zJsZLtRjcxcdGS6do1Y/aVr5P7ziVF8Cu9s16ZsdNhiHIBqWFKRn9ZfM
+         /TrsTkOnsRdVuQ+XMSKb7FxiTNcZdzsxoDgzMe4sAuoJJCffr0/mWxFuh0OH6mED6AVu
+         NoR5gnXVdzzgg9h/Zl294Mwy9PLC0HZuJqmxARYRjb1PVFOeVRH0zdecdDSHw4BPaEYW
+         snlA==
+X-Forwarded-Encrypted: i=1; AJvYcCVdwl2WZ6xVbxxKPPDd2qwvlmnIv5oL2S80h192ooC+OnZuGDfYdLpi1+OjF4+mWn4m4uO6lhoRU/tY5hjSbA==@lists.infradead.org
+X-Gm-Message-State: AOJu0YymEysf/tsjT1OVKDEJ/BUf+nN0HD+Q8H85cxiniVPX3yg3lUPH
+	RunoqYR3zJmtjw3ixMug0GSDC99X+SDBfnRA88FxECPXhVO76+jZk33AMGkASYl6WHzAcGmja90
+	vlaYS6lLnnXrMF+bB/vkc0ODBZF2CfJY=
+X-Gm-Gg: ASbGnct2xpqAzoyc9+m0EgjkdymBjXKm1fi1aEDyiZ6SnFExU5BLmMvrIk9yekCzndR
+	z/hRzx1khlcIsZwe7LYI8zOM0/OtpSmELPY477rFuhWZnXsxWyS1d1cQQEa731HnAUkMqKXcObF
+	Jln6eAEEO5f2Zi0Og96OSeVzxhRPypvcCNWT5zW715Kqc8b9NHL2OZC8+VarFuYL7RnVJRhUYfs
+	YgGMhvsbRc41Dpxxw==
+X-Google-Smtp-Source: AGHT+IFaJEo1gVHkPCEaCD3vWYjtreYFiQ2WOrRU9CIpbMyg97OVJtr/v3uxdpG+fiXE68E0IfjXLuECnr1bsw09sPQ=
+X-Received: by 2002:a05:6902:2b02:b0:e98:9926:e5ca with SMTP id
+ 3f1490d57ef6-ea3d9a6c911mr10729577276.36.1757984723469; Mon, 15 Sep 2025
+ 18:05:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND 17/62] doc: modernize
- Documentation/filesystems/ramfs-rootfs-initramfs.rst
-To: Askar Safin <safinaskar@gmail.com>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
- Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>,
- Jens Axboe <axboe@kernel.dk>, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Aleksa Sarai <cyphar@cyphar.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
- Julian Stecklina <julian.stecklina@cyberus-technology.de>,
- Gao Xiang <hsiangkao@linux.alibaba.com>, Art Nikpal <email2tema@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, Eric Curtin <ecurtin@redhat.com>,
- Alexander Graf <graf@amazon.com>, Lennart Poettering <mzxreary@0pointer.de>,
- linux-arch@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
- loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-um@lists.infradead.org, x86@kernel.org, Ingo Molnar
- <mingo@redhat.com>, linux-block@vger.kernel.org, initramfs@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org,
- "Theodore Y . Ts'o" <tytso@mit.edu>, linux-acpi@vger.kernel.org,
- Michal Simek <monstr@monstr.eu>, devicetree@vger.kernel.org,
- Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <kees@kernel.org>,
- Thorsten Blum <thorsten.blum@linux.dev>, Heiko Carstens <hca@linux.ibm.com>,
- patches@lists.linux.dev
-References: <20250913003842.41944-1-safinaskar@gmail.com>
- <20250913003842.41944-18-safinaskar@gmail.com>
-Content-Language: en-US
-From: Rob Landley <rob@landley.net>
-In-Reply-To: <20250913003842.41944-18-safinaskar@gmail.com>
+References: <20250913003842.41944-1-safinaskar@gmail.com> <20250915-modebranche-marken-fc832a25e05d@brauner>
+In-Reply-To: <20250915-modebranche-marken-fc832a25e05d@brauner>
+From: Askar Safin <safinaskar@gmail.com>
+Date: Tue, 16 Sep 2025 04:04:47 +0300
+X-Gm-Features: Ac12FXwuxsP2xoupllcCoDiRw8q2uuerrvP566PgC2Qr6qfMP36Zqdrto9P8zEU
+Message-ID: <CAPnZJGAjfpHZn_VzU3ry9ZV6OUS0RN2iWos153_oM_PhVbMgVg@mail.gmail.com>
+Subject: Re: [PATCH RESEND 00/62] initrd: remove classic initrd support
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, 
+	Andy Shevchenko <andy.shevchenko@gmail.com>, Aleksa Sarai <cyphar@cyphar.com>, 
+	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+	Julian Stecklina <julian.stecklina@cyberus-technology.de>, 
+	Gao Xiang <hsiangkao@linux.alibaba.com>, Art Nikpal <email2tema@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Alexander Graf <graf@amazon.com>, 
+	Rob Landley <rob@landley.net>, Lennart Poettering <mzxreary@0pointer.de>, linux-arch@vger.kernel.org, 
+	linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org, 
+	linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev, 
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
+	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-um@lists.infradead.org, x86@kernel.org, 
+	Ingo Molnar <mingo@redhat.com>, linux-block@vger.kernel.org, initramfs@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	"Theodore Y . Ts'o" <tytso@mit.edu>, linux-acpi@vger.kernel.org, Michal Simek <monstr@monstr.eu>, 
+	devicetree@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Thorsten Blum <thorsten.blum@linux.dev>, Heiko Carstens <hca@linux.ibm.com>, patches@lists.linux.dev
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250915_140522_971528_33F05DCE 
-X-CRM114-Status: GOOD (  33.36  )
+X-CRM114-CacheID: sfid-20250915_180525_406916_2D8344D8 
+X-CRM114-Status: GOOD (  10.42  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -141,153 +112,23 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 9/12/25 19:37, Askar Safin wrote:
-> Update it to reflect initrd removal.
-> 
-> Also I specified that error reports should
-> go to linux-doc@vger.kernel.org , because
-> Rob Landley said that he keeps getting
-> reports about this document and is unable
-> to fix them
-
-Do you think emailing a list I could forward stuff to will improve matters?
-
-I find the community an elaborate bureaucracy unresponsive to hobbyists. 
-Documentation/process/submitting-patches.rst being a 934 line document 
-with a bibliography, plus a 24 step checklist not counting the a) b) c) 
-subsections are just symptoms. The real problem is following those is 
-not sufficient to navigate said bureaucracy.
-
->   What is ramfs?
->   --------------
->   
-> @@ -101,9 +103,9 @@ archive is extracted into it, the kernel will fall through to the older code
->   to locate and mount a root partition, then exec some variant of /sbin/init
->   out of that.
->   
-> -All this differs from the old initrd in several ways:
-> +All this differs from the old initrd (removed in 2025) in several ways:
-
-Why keep the section when you removed the old mechanism? You took away 
-their choices, you don't need to sell them on it.
-
-(Unless you're trying to sell them on using a current linux kernel 
-rather than 2.6 or bsd or qnx or something. But if they _do_ remove 32 
-bit support, or stick a rust dependency in the base build, I suspect 
-that ship has sailed...)
-
-> -  - The old initrd was always a separate file, while the initramfs archive is
-> +  - The old initrd was always a separate file, while the initramfs archive can be
->       linked into the linux kernel image.  (The directory ``linux-*/usr`` is
->       devoted to generating this archive during the build.)
->   
-> @@ -137,7 +139,7 @@ Populating initramfs:
->   
->   The 2.6 kernel build process always creates a gzipped cpio format initramfs
->   archive and links it into the resulting kernel binary.  By default, this
-> -archive is empty (consuming 134 bytes on x86).
-> +archive is nearly empty (consuming 134 bytes on x86).
-
-Those two lines you just touched contradict each other.
-
-For historical reference, commit c33df4eaaf41 in 2007 added a second 
-codepath to special case NOT having an initramfs, for some reason. 
-That's how static linked cpio in the kernel image and external initrd= 
-loaded cpio from the bootloader wound up having different behavior.
-
-The init/noinitramfs.c file does init/mkdir("/dev") and 
-init_mknod("/dev/console") because calling the syscall_blah() functions 
-directly was considered icky so they created gratuitous wrappers to do 
-it for you instead, because that's cleaner somehow. (Presumably the same 
-logic as C++ having get and set methods that perform a simple assignment 
-and return a value. Because YOU can't be trusted to touch MY code.)
-
-Note that ONLY init/noinitramfs.c creates /dev/console. You'd THINK the 
-logical thing to do would be to detect failure of the filp_open() in 
-console_on_rootfs() and do the mkdir/mknod there and retry (since that's 
-__init code too), but no...
-
-My VERY vague recollection from back in the dark ages is if you didn't 
-specify any INITRAMFS_SOURCE in kconfig then gen_init_cpio got called 
-with no arguments and spit out a "usage" section that got interpreted as 
-scripts/gen_initramfs_list.sh output, back when the plumbing ignored 
-lines it didn't understand but there was an "example: a simple 
-initramfs" section in the usage with "dir /dev" and "nod /dev/console" 
-lines that created a cpio archive with /dev/console in it which would 
-get statically linked in as a "default", and code reached out and used 
-this because it was there without understanding WHY it was there. So it 
-initially worked by coincidence, and rather than make it explicit they 
-went "two codepaths, half the testing!" and thus...
-
-Anyway, that's why the 130+ byte archive was there. It wasn't actually 
-empty, even when initramfs was disabled.
-
-One of the "cleanups that didn't actually fix it" was 
-https://github.com/mpe/linux-fullhistory/commit/2bd3a997befc if you want 
-to dig into the history yourself. I wrote my docs in 2005 and that was 
-2010 so "somewhere in there"...
-
-> -If the kernel has initrd support enabled, an external cpio.gz archive can also
-> -be passed into a 2.6 kernel in place of an initrd.  In this case, the kernel
-> -will autodetect the type (initramfs, not initrd) and extract the external cpio
-> +If the kernel has CONFIG_BLK_DEV_INITRD enabled, an external cpio.gz archive can also
-
-You renamed that symbol, then even you use the old name here.
-
-> +be passed into a 2.6 kernel.  In this case, the kernel will extract the external cpio
->   archive into rootfs before trying to run /init.
->   
-> -This has the memory efficiency advantages of initramfs (no ramdisk block
-> -device) but the separate packaging of initrd (which is nice if you have
-> +This is nice if you have
->   non-GPL code you'd like to run from initramfs, without conflating it with
-> -the GPL licensed Linux kernel binary).
-> +the GPL licensed Linux kernel binary.
-
-IANAL: Whether or not this qualifies as "mere aggregation" had yet to go 
-to court last I heard.
-
-Which is basically why 
-https://hackmd.io/@starnight/Load_Firmware_Files_Later_in_Linux_Kernel 
-was so screwed up in the first place: the logical thing to do would be 
-put the firmware in a static initramfs and have the module 
-initialization happen after initramfs was populated... BUT LICENSING! We 
-must have a much more complicated implementation because license. I 
-believe I suggested passing said initramfs in via the initrd mechanism 
-so it remains a separate file until boot time, and was ignored. *shrug* 
-The usual...
-
->   It can also be used to supplement the kernel's built-in initramfs image.  The
->   files in the external archive will overwrite any conflicting files in
-> @@ -278,7 +278,7 @@ User Mode Linux, like so::
->     EOF
->     gcc -static hello.c -o init
->     echo init | cpio -o -H newc | gzip > test.cpio.gz
-> -  # Testing external initramfs using the initrd loading mechanism.
-> +  # Testing external initramfs.
-
-Does grub not still call it "initrd"?
-
->     qemu -kernel /boot/vmlinuz -initrd test.cpio.gz /dev/zero
-
-A) they added -hda so you don't have to give it a dummy /dev/zero anymore.
-
-B) there's no longer a "qemu" defaulting to the current architecture, 
-you have to explicitly specify qemu-system-blah unless you create the 
-symlink yourself by hand. This was considered an "improvement" by IBM 
-bureaucrats. (Not a regression, a "feature". Oh well...)
-
-C) to be honest I'd just point people at mkroot for examples these days, 
-but I'm biased. (It smells like me.)
-
-Rob
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gTW9uLCBTZXAgMTUsIDIwMjUgYXQgNDozNOKAr1BNIENocmlzdGlhbiBCcmF1bmVyIDxicmF1
+bmVyQGtlcm5lbC5vcmc+IHdyb3RlOgo+IFNwbGl0IGl0IHVwIGludG8gbXVsdGlwbGUgcGF0Y2gg
+c2VyaWVzLiBTZW5kIGEgZmlyc3Qgc2VyaWVzIHRoYXQKPiBmb2N1c3NlcyBvbmx5IG9uIHJlbW92
+aW5nIHRoZSBnZW5lcmljIGluZnJhc3RydWN0dXJlIGtlZXBpbmcgaXQgYXMKPiBjb250YWluZWQg
+YXMgcG9zc2libGUuIE9ubHkgZG8gbm9uLWdlbmVyaWMgY2xlYW51cHMgdGhhdCBhcmUgYWJzb2x1
+dGVseQo+IGVzc2VudGlhbCBmb3IgdGhlIHJlbW92YWwuIFRoZW4gdGhlIGNsZWFudXBzIGNhbiBn
+byBpbiBzZXBhcmF0ZSBzZXJpZXMKPiBsYXRlci4KCk9rLCBJIHdpbGwgZG8gdGhpcy4KSSB3aWxs
+IHNlbmQgYSBtaW5pbWFsIHBhdGNoc2V0IHdpdGggYXJjaC8gY2hhbmdlcyBrZXB0IHRvIGFic29s
+dXRlIG1pbmltdW0Kb3IgZXZlbiBhYnNlbnQuIE5lYXJseSBhbGwgb2YgdGhlIGNoYW5nZXMgd2ls
+bCBiZSBpbiBpbml0LyBhbmQgZG9jcy4KSG9wZWZ1bGx5IGl0IHdpbGwgcGFzcyB2aWEgdGhlIFZG
+UyB0cmVlLgoKSWYgaXQgZ2V0cyB0byBrZXJuZWwgcmVsZWFzZSwgSSB3aWxsIGNvbnNpZGVyIHNl
+bmRpbmcgbW9yZSBwYXRjaHNldHMuCgoKLS0gCkFza2FyIFNhZmluCgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxp
+c3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFk
+ZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
