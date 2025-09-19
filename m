@@ -4,67 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3FF5DCAC5A5
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 19 Sep 2025 07:55:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A59CCAC592
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 19 Sep 2025 15:25:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=5em60Q9c87RokXw8BN4IVJtmNYnJHmw8hSk6nXUmAPU=; b=hcH6FOpZ1QC2IB
-	/o5ZuB7WPSGW+s8wlQ2izQcYZY87dobcfJUb7Ub+26Y8VXM1Ol+zHNW2Vlkg8Ic0m47v3pFin26do
-	3/eY4KKEr6RVPp7fPO2D0LOiziiquUWhnzQm+Mk/7dO4X+yNj1p9bC6zCEgzPqFw07cDDjsAxzUDa
-	l6cy8Uknf2MdexVYnLMCmJ218ClNR35OUkh0KV+o5QVuhrmZOmCvV8GUmvlF5vU1zVtmz1Kznei5b
-	yP9TXVqJXGI5QqygAIpRqRWdkpyPNOOBkRzvfXPWPTOjl2RhJZM3jSJAh+LjNFJ9dsFg180F9nX6e
-	vYN+PAyDu88GteD4oz+A==;
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=LGae/UXksuF92vtuBOmAcpXq2ULXTid+b7d1+Ly+XAk=; b=Cze+AMlsefToRu
+	AOQwXzlGvN/WoO4sd2ovjOs1RtWSNjR3/0o7mOELjnHZBAfgTiuy9ICa98X9moo02W3tnPZRcg1m7
+	1VISW5D5UIGGUvj3ix4GkeniVjYmwrG4FrA0kEHTDFW/ymhpQYbJKq1TSnbDa+L5XO243ZK3FKUsw
+	+qasSCQXo/epkzrLbN8PWLQSIYqMQe3S6OnLIJINbNVmi9bXejSoepm05q2ebQAIrzuhCAmx2mm0e
+	EjlsCdi6A6daUfydqywDCnSV44mP+Yxx9Qq1i9p1HfWk9T+sb8oQXFi/30LToz1nx1uGujHBmTVCh
+	zRhZhO+Fj8BWn4ofzLug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uzVxw-00000002Ant-061x;
-	Fri, 19 Sep 2025 07:55:36 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1uzcyv-00000003Jr7-3ibv;
+	Fri, 19 Sep 2025 15:25:05 +0000
+Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uzVxu-00000002An3-1h6u
-	for linux-snps-arc@bombadil.infradead.org;
-	Fri, 19 Sep 2025 07:55:34 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:MIME-Version:Subject:To:From:Date:Message-ID:Sender:Reply-To:Cc:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=Pi9+p40l7//vLKO8DuYTv+ORJz3B9aWETGdVOxLyydc=; b=qNcCS5oo+U43P4fSuOQs1m1hux
-	Nx1w+a35Nq9jgm/NWjfP6yGUnSWOCPT7ynFWP7Apyyj7CT1CtXUc/i9v3xEZ4ws02QHIXbPAGQQTt
-	hFEApdVZUp7v0fZVfAwEPDE2Ph+ry+JFp8iwZnBEQPuhg3k6j3nIT4E2mrwvmJk/ksvhmELVDXy47
-	4oYZ5Y7KW+RJek6wL+H5oKHPWeJVt+luTIxCFF66tSqjvz/jTLjkdsUpxip8gDCJm042U07ERHq20
-	cpdtAxkoW1/dF2TyRzWsrSo2jbrQeJVkQRSNv/roJjWPHqYZzkPAaAZxshTslh79bEhz0hfgWiYUh
-	Z2ZVYdoA==;
-Received: from mail.ventrixor.pl ([91.134.88.136])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uzVxq-00000007mcC-3M6U
+	id 1uzcyr-00000003Jno-3bRd
 	for linux-snps-arc@lists.infradead.org;
-	Fri, 19 Sep 2025 07:55:33 +0000
-Received: by mail.ventrixor.pl (Postfix, from userid 1002)
-	id 38C1A25F3D; Fri, 19 Sep 2025 07:55:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ventrixor.pl; s=mail;
-	t=1758268527; bh=Pi9+p40l7//vLKO8DuYTv+ORJz3B9aWETGdVOxLyydc=;
-	h=Date:From:To:Subject:From;
-	b=z17B2vYSqG+rR6XHnLx146Nbq0Ypko1jJJKnQOPhpn+BGe5v/dKpFGx9lM7QdBun5
-	 iOv8mqZV9ms0FHAlcRWyc/7mhIla9UEPdK/Mh3zKT8Bo7w62gY9r8nIGjxlu5HfdO0
-	 n7A4rqJ2Pp1IMwo9VwDzZ8J7zM4O/oRoeNvWJDNN5WhowkOe5Cl7Scw57KutYCY4UO
-	 99XzXixP4HzB32iNYUjMJaoftR2fa1aq1W57GdNB877JQOwnAiGbgJZi7AsLuHqzdX
-	 0AXRs95zLxylF47FhtQ618Y0bOsrRHX8pxu6VPwVbWoBIYGaV03FFy/3k8LgBb5+fI
-	 YSUH7agKou1SQ==
-Received: by mail.ventrixor.pl for <linux-snps-arc@lists.infradead.org>; Fri, 19 Sep 2025 07:55:18 GMT
-Message-ID: <20250919064500-0.1.9i.266z5.0.ltyqml8ko2@ventrixor.pl>
-Date: Fri, 19 Sep 2025 07:55:18 GMT
-From: "Jan Adamczyk" <jan.adamczyk@ventrixor.pl>
-To: <linux-snps-arc@lists.infradead.org>
-Subject: Rekrutacja handlowca 
-X-Mailer: mail.ventrixor.pl
+	Fri, 19 Sep 2025 15:25:04 +0000
+Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-577dd4c1e84so2840533e87.0
+        for <linux-snps-arc@lists.infradead.org>; Fri, 19 Sep 2025 08:25:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1758295500; x=1758900300; darn=lists.infradead.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=EztjVQ+y07YMfegmHOd0VyK62XkODMWu0LdNE29WAS0=;
+        b=NbSD8ygVh1J2tomNUA3TgTcMH63tc/J+6L8BwNLeNgwwUPAwJ4IhZf2Wdex1C/G3b0
+         IIjd1ZPIICt526PzMeBs/UBWYsttJAxkX2RLlWpfvWMyyJFh4rAR+PmcyWLp+uS61ZKP
+         tHFRseVgoiFiV0qE80Zph9YhsRIk7ZO7d68cnKFI9tfsdVaDFbyIG8LJYGJUtDl70pFz
+         kitwZoxjIO75jKkBI43I68KXy11BYVWu+TA5XTk0Ixfw+6DbihlN6/NdxMAcBLGGP0KW
+         K5zi3gskbI1eet+JAqeeYQFetxBEYf22jGx/kAri3UUJgwnXwy5KXepOoDYHbq/iHwfB
+         I5fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758295500; x=1758900300;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EztjVQ+y07YMfegmHOd0VyK62XkODMWu0LdNE29WAS0=;
+        b=IYFQU3mXoCGKKLsKwQIca8vqc4UmXQY6Lihh5dPWwSwg40b1eJMTkaUlbmSz7oJVZx
+         016wA3HZnG73U87bgGEUN6B5jySx3Gk1mvw7b8Yh09Fw2TsnYp6ZVEP7f7wpAaCKQCzl
+         hv76CMkigDmXjvbL65R2RdJ+ySjf0GNQ7h5AYeQ0UrvJKCrseQAS11eR0KQoFA9Lmi8e
+         SWH7dFRs85f1mCSat/GznIj5S5XGyb9v8Z8AFLciMGlyTPIsMR8M5fvjFg53nqDSwRbz
+         8ZzT6wxRHIgfQHXAgIaKavsHvaJ3JdI8+j7VBy++FFaPx/4Cj911NcDjg9c0LJWlOdYf
+         cTkg==
+X-Forwarded-Encrypted: i=1; AJvYcCXqfQAMVPR/gc635Xn6VPaJySYZotPPfk1sb7GRYbi9YypgE3JMhzDSWPKDWjqKqMpE/X9Ic+hfGYGRL/oBgQ==@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz6ZBG0Xv/yqB6YhlHmK9dhW1iA7OYx3Hrsv0N13iTF6udQMLk1
+	eibGgbmfEGWcP+ThWavwmyyf2gYeZ77i0G/mP6X25Ypq+JqQRPzFoGfE4bpSnmA56QlsP181n+E
+	yexsA0XWXHV+jzc8vjJ/77FNoSWW3UdhQTHwoQPozIA==
+X-Gm-Gg: ASbGncsK7I/CU+g/bHeJaRlEGyLRyCiJWlKWUmHpMTID+mOWbWcK65zhNO7hqNJ86+I
+	su5jRX8sd7fQwOVT6rKcyURdU8LNMemgjNbw9VbxZwS+nVw/RXpYOPLa9T52ZgIJEKJUmIeECbt
+	w+wBqUr3WK1EfsKar/2w9ttZQRzoX/+hqa+jjDnK24f57SWqVI9ZsAGc9JM9ALLJCPjnHZyC7TS
+	o+tJ8WHSWUD7PE=
+X-Google-Smtp-Source: AGHT+IHin4gQus9SrkFEog2pTedfunr2Ers950l0f82oxrEtfjemfexmsAorW/Dsqdjvay/GpFMt6pfW/hwC+qBHF14=
+X-Received: by 2002:a05:6512:2c0b:b0:571:b70b:7dbf with SMTP id
+ 2adb3069b0e04-579e2507c81mr1455897e87.17.1758295499599; Fri, 19 Sep 2025
+ 08:24:59 -0700 (PDT)
 MIME-Version: 1.0
+References: <20250918152830.438554-1-nschichan@freebox.fr> <20250918195806.6337-1-safinaskar@gmail.com>
+In-Reply-To: <20250918195806.6337-1-safinaskar@gmail.com>
+From: Nicolas Schichan <nschichan@freebox.fr>
+Date: Fri, 19 Sep 2025 17:24:48 +0200
+X-Gm-Features: AS18NWBwMqIXE_dMXDlT0ngUIReSbekPPTszWv5gIfg03bAEg3Id33JL3Yqjedw
+Message-ID: <CAHNNwZAzecVcJXZmycX063-=p-M5jVkfStfgYVKJruOFo7y9zg@mail.gmail.com>
+Subject: Re: [PATCH RESEND 00/62] initrd: remove classic initrd support
+To: Askar Safin <safinaskar@gmail.com>
+Cc: akpm@linux-foundation.org, andy.shevchenko@gmail.com, axboe@kernel.dk, 
+	brauner@kernel.org, cyphar@cyphar.com, devicetree@vger.kernel.org, 
+	ecurtin@redhat.com, email2tema@gmail.com, graf@amazon.com, 
+	gregkh@linuxfoundation.org, hca@linux.ibm.com, hch@lst.de, 
+	hsiangkao@linux.alibaba.com, initramfs@vger.kernel.org, jack@suse.cz, 
+	julian.stecklina@cyberus-technology.de, kees@kernel.org, 
+	linux-acpi@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org, 
+	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-hexagon@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
+	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org, 
+	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
+	linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org, 
+	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev, mcgrof@kernel.org, 
+	mingo@redhat.com, monstr@monstr.eu, mzxreary@0pointer.de, 
+	patches@lists.linux.dev, rob@landley.net, sparclinux@vger.kernel.org, 
+	thomas.weissschuh@linutronix.de, thorsten.blum@linux.dev, 
+	torvalds@linux-foundation.org, tytso@mit.edu, viro@zeniv.linux.org.uk, 
+	x86@kernel.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250919_085531_490643_3E2E3856 
-X-CRM114-Status: UNSURE (   1.65  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250919_082502_022417_F9DD273A 
+X-CRM114-Status: GOOD (  14.97  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,17 +110,50 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-V2l0YW0sCgpDenkgbWFqxIUgUGHFhHN0d2EgYWt0dWFsbmllIHBvdHJ6ZWJ5IHogemFrcmVzdSBy
-ZWtydXRhY2ppIG9zw7NiIGRvIGR6aWHFgnUgaGFuZGxvd2Vnbz8gCgpQb21hZ2FteSBza3V0ZWN6
-bmllIHJla3J1dG93YcSHIG9zb2J5IG5hIHN0YW5vd2lza2EgUHJ6ZWRzdGF3aWNpZWxhIEhhbmRs
-b3dlZ28sIFNhbGVzIE1hbmFnZXJhLCBhIHRha8W8ZSBLYWRyeSBNYW5hZ2Vyc2tpZWogdyBvYnN6
-YXJ6ZSBzcHJ6ZWRhxbx5LgoKQ3p5IG1vxbxlbXkgcG9yb3ptYXdpYcSHPyAKCgpQb3pkcmF3aWFt
-CkphbiBBZGFtY3p5awoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmlu
-ZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9s
-aW51eC1zbnBzLWFyYwo=
+Hello,
+
+> > When booting with root=/dev/ram0 in the kernel commandline,
+> > handle_initrd() where the deprecation message resides is never called,
+> > which is rather unfortunate (init/do_mounts_initrd.c):
+
+> Yes, this is unfortunate.
+>
+> I personally still think that initrd should be removed.
+
+Considering that the deprecation message didn't get displayed in some
+configurations, maybe it's a bit early at the very least.
+
+> I suggest using workaround I described in cover letter.
+
+I'm not too keen on having an initramfs just to loop-mount
+/sys/firmware/initrd, after all current kernels are able to handle the
+use case just fine.
+
+It looks like there is a lot of code calling into specific filesystems
+so that the initrd code can guess the size of the file system before
+copying into /dev/ram0, and I believe this is what causes the main
+gripe against initrd today. What is wrong with just copying
+/initrd.image using its actual size into /dev/ram0 instead of guessing
+it with the help of filesystem specific code ?
+
+> Also, for unknown reasons I didn't get your letter in my inbox.
+> (Not even in spam folder.) I ocasionally found it on lore.kernel.org .
+
+Sorry about that, When I used git-send-email yesterday to reply, the
+SMTP server I used wasn't authenticated to google, so all gmail
+recipients were dropped. Hopefully this work better today.
+
+Regards,
+
+-- 
+Nicolas Schichan
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
