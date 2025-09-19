@@ -4,138 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95EFECAC597
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 18 Sep 2025 19:58:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3FF5DCAC5A5
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 19 Sep 2025 07:55:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=W/bbsoo37jn5z8ZAHa+fFT4VAxKPnCX10fiHzbTA0mU=; b=c5NtdPObTYDWO8
-	sCAg8LEQAga69F0El7SKr23FRo+1JWbEnEPdMDUtmbksKDkmEcqu5eByfwCufmIcpKEBkz0/PLUZg
-	6MW9+xV8+QeQW1Hi49CnTgf7EfECvTGZZLtFWdrLI8HIZwywSZLEmAsLc/SeImPVSwXRBmLcb9G+U
-	F39NImjdxL7WxRk1y3g/SO3jQJLNa5eL6hQ0jmcLRzSS08Wr9k3vKlyTuBbNpv3OTasNLVoIVp3/l
-	9m7yr7Qo9CCQUe7InOIJ74dPOqgtIfiWYiUqUcrTwfmRuGO88JhoCXbnXTe2MRHdD9Vkaq9uOnF71
-	hYiDwmxzSoOluEdFgFMA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=5em60Q9c87RokXw8BN4IVJtmNYnJHmw8hSk6nXUmAPU=; b=hcH6FOpZ1QC2IB
+	/o5ZuB7WPSGW+s8wlQ2izQcYZY87dobcfJUb7Ub+26Y8VXM1Ol+zHNW2Vlkg8Ic0m47v3pFin26do
+	3/eY4KKEr6RVPp7fPO2D0LOiziiquUWhnzQm+Mk/7dO4X+yNj1p9bC6zCEgzPqFw07cDDjsAxzUDa
+	l6cy8Uknf2MdexVYnLMCmJ218ClNR35OUkh0KV+o5QVuhrmZOmCvV8GUmvlF5vU1zVtmz1Kznei5b
+	yP9TXVqJXGI5QqygAIpRqRWdkpyPNOOBkRzvfXPWPTOjl2RhJZM3jSJAh+LjNFJ9dsFg180F9nX6e
+	vYN+PAyDu88GteD4oz+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uzKlq-0000000130d-1BIp;
-	Thu, 18 Sep 2025 19:58:22 +0000
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
+	id 1uzVxw-00000002Ant-061x;
+	Fri, 19 Sep 2025 07:55:36 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uzKlm-000000012xk-2JKc
+	id 1uzVxu-00000002An3-1h6u
+	for linux-snps-arc@bombadil.infradead.org;
+	Fri, 19 Sep 2025 07:55:34 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:MIME-Version:Subject:To:From:Date:Message-ID:Sender:Reply-To:Cc:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=Pi9+p40l7//vLKO8DuYTv+ORJz3B9aWETGdVOxLyydc=; b=qNcCS5oo+U43P4fSuOQs1m1hux
+	Nx1w+a35Nq9jgm/NWjfP6yGUnSWOCPT7ynFWP7Apyyj7CT1CtXUc/i9v3xEZ4ws02QHIXbPAGQQTt
+	hFEApdVZUp7v0fZVfAwEPDE2Ph+ry+JFp8iwZnBEQPuhg3k6j3nIT4E2mrwvmJk/ksvhmELVDXy47
+	4oYZ5Y7KW+RJek6wL+H5oKHPWeJVt+luTIxCFF66tSqjvz/jTLjkdsUpxip8gDCJm042U07ERHq20
+	cpdtAxkoW1/dF2TyRzWsrSo2jbrQeJVkQRSNv/roJjWPHqYZzkPAaAZxshTslh79bEhz0hfgWiYUh
+	Z2ZVYdoA==;
+Received: from mail.ventrixor.pl ([91.134.88.136])
+	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uzVxq-00000007mcC-3M6U
 	for linux-snps-arc@lists.infradead.org;
-	Thu, 18 Sep 2025 19:58:20 +0000
-Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-62f0bf564e4so1630224a12.3
-        for <linux-snps-arc@lists.infradead.org>; Thu, 18 Sep 2025 12:58:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758225496; x=1758830296; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9McvDjxp1cOQ8m8DQ7zr8KAOkClRv+R613f7KwPZqLk=;
-        b=aVScytwG+5OLN84c5kL14WxP55gqpSNJQtbZJEAFWCrMlLf16w4Biih4D39ULPcNrr
-         Z14JUpEaGpRHZnmzBurD14qXWHvojpaoE47EcQpbTG0FYNNZTh0EvwBN5sdMg3MBenWj
-         URlsVTmKgGExaYcNGznbc1Wny+L/pav4VBBCbZ73czSIwqnu4dQQm8kCmWNK9xixvSiQ
-         I/fNGsuNRhsOZYadZy3980WRuz8B0Yez34uygnauTZc2O6IXUIAyHoMc7pJUrHRQzzGJ
-         u+8pf6y+7Fw27ZHjxWmyoQrzvm7qPep7fs12NYLfsapHPh0qUTZXFEJ37S2U1lvYQeHU
-         qfrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758225496; x=1758830296;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9McvDjxp1cOQ8m8DQ7zr8KAOkClRv+R613f7KwPZqLk=;
-        b=WR5kIk8n62+jDs7IWhqHDvMwP5rJa5rJdddhEHZ85VMcf9UIERALgkMvioTfbGAzzZ
-         fcvvPEalcTmDufSVAeJnjQouiRsgCI/gWrif8eR5Iz1+Ry3MHf7I6+YFU+HsKq/ajisM
-         m/I1+gPTC3y+k6NpwIKjwG2fehqt+fD/TZKc8EvQsTY+I13Q9iiqD90YplreTFbC26jy
-         OzKSTd06crgwpuTIKBgNNuBunTrPIyHlGYpcmb/yb32llfO5qa2NTDAuMbQjjEXtnET7
-         AOV7rezNzDWaUyxNGALmHRZQGX5MxoV8EZCz6Sm8XwuNsxyWxFPY4/UPDC4Gtt+IeOlt
-         nwhA==
-X-Forwarded-Encrypted: i=1; AJvYcCX8YHtLUAgUcZmFk8tkLajSWPEIJWtaIXpDwod3Cb/muPtLSb63fD42OawoGr6dGor1zptWFc78zFpTLmVIFQ==@lists.infradead.org
-X-Gm-Message-State: AOJu0YwV/EBlEDeINgc53KO30bCGiFXV/bUpmA8QzzJcQtAx3AAPzcOk
-	5UiNZ9nqEncZmWiUxSrpdm8YWTxOCijtfVTvQWPn/AE51BrlT6OUQEAf
-X-Gm-Gg: ASbGnctCu+4aBxuKX8uPBJZokrkS2Vl8vGQpXjunvEKS2CR1TBCR8uV8fx16a/5Ib+Q
-	Xi0CLBpCz3UWDKTXdgRZMw9bUt9bF8MaEXgo6WxIifVtpbwcaR4vxF8AhjDUTYX0gzfHHZDRim9
-	gCycCh9xwK+UQA50SAgaJJjcEgTdQswYANpg134uk3I1hdWPVK5T/ZkLE1BSTTdc2GoaJ+bENNO
-	VdvnNzSL95wZAHCOwEnuBLAPbEjV3DL+5+NxLKwWGkDq6Zn5KDhGDfkLKrM2EmmFngPHfM6Tcez
-	qIHQ82uWLXe2fHOtwJKaYuqaNGb3I+v0AOxLvLom4ouwGKUeWfvCqGvbuRQNcYKeaKT/n9pWxU2
-	RrU35OsOKGSHLWzTNDSATD738k6+Mll3qBQuD3w==
-X-Google-Smtp-Source: AGHT+IH2NBu6L+bASXNqg9sJUcZ42MFCB2aqzEFiqoDEW6um54A4CtHcJnO37auTgFbi6nwycKDm8A==
-X-Received: by 2002:a17:907:a089:b0:b19:969a:86 with SMTP id a640c23a62f3a-b24f35aa177mr45885966b.37.1758225496090;
-        Thu, 18 Sep 2025 12:58:16 -0700 (PDT)
-Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b1fd1101c44sm264530466b.82.2025.09.18.12.58.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Sep 2025 12:58:15 -0700 (PDT)
-From: Askar Safin <safinaskar@gmail.com>
-To: nschichan@freebox.fr
-Cc: akpm@linux-foundation.org,
-	andy.shevchenko@gmail.com,
-	axboe@kernel.dk,
-	brauner@kernel.org,
-	cyphar@cyphar.com,
-	devicetree@vger.kernel.org,
-	ecurtin@redhat.com,
-	email2tema@gmail.com,
-	graf@amazon.com,
-	gregkh@linuxfoundation.org,
-	hca@linux.ibm.com,
-	hch@lst.de,
-	hsiangkao@linux.alibaba.com,
-	initramfs@vger.kernel.org,
-	jack@suse.cz,
-	julian.stecklina@cyberus-technology.de,
-	kees@kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-alpha@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-block@vger.kernel.org,
-	linux-csky@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-efi@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-hexagon@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org,
-	linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-um@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org,
-	loongarch@lists.linux.dev,
-	mcgrof@kernel.org,
-	mingo@redhat.com,
-	monstr@monstr.eu,
-	mzxreary@0pointer.de,
-	patches@lists.linux.dev,
-	rob@landley.net,
-	safinaskar@gmail.com,
-	sparclinux@vger.kernel.org,
-	thomas.weissschuh@linutronix.de,
-	thorsten.blum@linux.dev,
-	torvalds@linux-foundation.org,
-	tytso@mit.edu,
-	viro@zeniv.linux.org.uk,
-	x86@kernel.org
-Subject: Re: [PATCH RESEND 00/62] initrd: remove classic initrd support
-Date: Thu, 18 Sep 2025 22:58:06 +0300
-Message-ID: <20250918195806.6337-1-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20250918152830.438554-1-nschichan@freebox.fr>
-References: <20250918152830.438554-1-nschichan@freebox.fr>
+	Fri, 19 Sep 2025 07:55:33 +0000
+Received: by mail.ventrixor.pl (Postfix, from userid 1002)
+	id 38C1A25F3D; Fri, 19 Sep 2025 07:55:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ventrixor.pl; s=mail;
+	t=1758268527; bh=Pi9+p40l7//vLKO8DuYTv+ORJz3B9aWETGdVOxLyydc=;
+	h=Date:From:To:Subject:From;
+	b=z17B2vYSqG+rR6XHnLx146Nbq0Ypko1jJJKnQOPhpn+BGe5v/dKpFGx9lM7QdBun5
+	 iOv8mqZV9ms0FHAlcRWyc/7mhIla9UEPdK/Mh3zKT8Bo7w62gY9r8nIGjxlu5HfdO0
+	 n7A4rqJ2Pp1IMwo9VwDzZ8J7zM4O/oRoeNvWJDNN5WhowkOe5Cl7Scw57KutYCY4UO
+	 99XzXixP4HzB32iNYUjMJaoftR2fa1aq1W57GdNB877JQOwnAiGbgJZi7AsLuHqzdX
+	 0AXRs95zLxylF47FhtQ618Y0bOsrRHX8pxu6VPwVbWoBIYGaV03FFy/3k8LgBb5+fI
+	 YSUH7agKou1SQ==
+Received: by mail.ventrixor.pl for <linux-snps-arc@lists.infradead.org>; Fri, 19 Sep 2025 07:55:18 GMT
+Message-ID: <20250919064500-0.1.9i.266z5.0.ltyqml8ko2@ventrixor.pl>
+Date: Fri, 19 Sep 2025 07:55:18 GMT
+From: "Jan Adamczyk" <jan.adamczyk@ventrixor.pl>
+To: <linux-snps-arc@lists.infradead.org>
+Subject: Rekrutacja handlowca 
+X-Mailer: mail.ventrixor.pl
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250918_125818_600094_F8BB7804 
-X-CRM114-Status: UNSURE (   6.97  )
+X-CRM114-CacheID: sfid-20250919_085531_490643_3E2E3856 
+X-CRM114-Status: UNSURE (   1.65  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -148,28 +76,17 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-> When booting with root=/dev/ram0 in the kernel commandline,
-> handle_initrd() where the deprecation message resides is never called,
-> which is rather unfortunate (init/do_mounts_initrd.c):
-
-Yes, this is unfortunate.
-
-I personally still think that initrd should be removed.
-
-I suggest using workaround I described in cover letter.
-
-Also, for unknown reasons I didn't get your letter in my inbox.
-(Not even in spam folder.) I ocasionally found it on lore.kernel.org .
-
--- 
-Askar Safin
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+V2l0YW0sCgpDenkgbWFqxIUgUGHFhHN0d2EgYWt0dWFsbmllIHBvdHJ6ZWJ5IHogemFrcmVzdSBy
+ZWtydXRhY2ppIG9zw7NiIGRvIGR6aWHFgnUgaGFuZGxvd2Vnbz8gCgpQb21hZ2FteSBza3V0ZWN6
+bmllIHJla3J1dG93YcSHIG9zb2J5IG5hIHN0YW5vd2lza2EgUHJ6ZWRzdGF3aWNpZWxhIEhhbmRs
+b3dlZ28sIFNhbGVzIE1hbmFnZXJhLCBhIHRha8W8ZSBLYWRyeSBNYW5hZ2Vyc2tpZWogdyBvYnN6
+YXJ6ZSBzcHJ6ZWRhxbx5LgoKQ3p5IG1vxbxlbXkgcG9yb3ptYXdpYcSHPyAKCgpQb3pkcmF3aWFt
+CkphbiBBZGFtY3p5awoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmlu
+ZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9s
+aW51eC1zbnBzLWFyYwo=
