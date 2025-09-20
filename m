@@ -4,75 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A59CCAC592
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 19 Sep 2025 15:25:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9FFDECAC597
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 20 Sep 2025 03:55:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=LGae/UXksuF92vtuBOmAcpXq2ULXTid+b7d1+Ly+XAk=; b=Cze+AMlsefToRu
-	AOQwXzlGvN/WoO4sd2ovjOs1RtWSNjR3/0o7mOELjnHZBAfgTiuy9ICa98X9moo02W3tnPZRcg1m7
-	1VISW5D5UIGGUvj3ix4GkeniVjYmwrG4FrA0kEHTDFW/ymhpQYbJKq1TSnbDa+L5XO243ZK3FKUsw
-	+qasSCQXo/epkzrLbN8PWLQSIYqMQe3S6OnLIJINbNVmi9bXejSoepm05q2ebQAIrzuhCAmx2mm0e
-	EjlsCdi6A6daUfydqywDCnSV44mP+Yxx9Qq1i9p1HfWk9T+sb8oQXFi/30LToz1nx1uGujHBmTVCh
-	zRhZhO+Fj8BWn4ofzLug==;
+	List-Owner; bh=XxIwUB35QG38F85p2nvZyWLv2HOniC5HFVJI+YPt0J4=; b=bIuBtWHQHfdRi5
+	bwmnIyGZGdzF7VXcB4PAAj6iFlGmFHwumLjh3cKEiFuwlIbPCqCFfyY70uJ3r8gNzmyLfX8s637Ar
+	koXYt9Fs5D9p5yNRFt1tYcg4UA+jZn0UasGiukYQWydbtdRnoRSqlhFEfAGAXD9mSfq/4xXaijChK
+	+XqqQeIrbAT7t0XcBQDqQjo0fj0zZmmJrjjRfAeFMAdA5nFwkqAX9eHjW8YovoFttzBMCKZj2bFbt
+	gGZo8qe3neYXzMiH8NRMyaZUSbfsZ6rGTzejvCcUwgV9wHUGwYPCPtXNYlZBCBwwpfxI+W0pmHHj/
+	PY+HgETMI1bn0JzcmrRA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uzcyv-00000003Jr7-3ibv;
-	Fri, 19 Sep 2025 15:25:05 +0000
-Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132])
+	id 1uzohH-00000004gcf-0Xby;
+	Sat, 20 Sep 2025 03:55:39 +0000
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uzcyr-00000003Jno-3bRd
+	id 1uzohD-00000004gad-3qCq
 	for linux-snps-arc@lists.infradead.org;
-	Fri, 19 Sep 2025 15:25:04 +0000
-Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-577dd4c1e84so2840533e87.0
-        for <linux-snps-arc@lists.infradead.org>; Fri, 19 Sep 2025 08:25:01 -0700 (PDT)
+	Sat, 20 Sep 2025 03:55:38 +0000
+Received: by mail-yb1-xb2a.google.com with SMTP id 3f1490d57ef6-ea5bc345eddso2257557276.1
+        for <linux-snps-arc@lists.infradead.org>; Fri, 19 Sep 2025 20:55:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1758295500; x=1758900300; darn=lists.infradead.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=EztjVQ+y07YMfegmHOd0VyK62XkODMWu0LdNE29WAS0=;
-        b=NbSD8ygVh1J2tomNUA3TgTcMH63tc/J+6L8BwNLeNgwwUPAwJ4IhZf2Wdex1C/G3b0
-         IIjd1ZPIICt526PzMeBs/UBWYsttJAxkX2RLlWpfvWMyyJFh4rAR+PmcyWLp+uS61ZKP
-         tHFRseVgoiFiV0qE80Zph9YhsRIk7ZO7d68cnKFI9tfsdVaDFbyIG8LJYGJUtDl70pFz
-         kitwZoxjIO75jKkBI43I68KXy11BYVWu+TA5XTk0Ixfw+6DbihlN6/NdxMAcBLGGP0KW
-         K5zi3gskbI1eet+JAqeeYQFetxBEYf22jGx/kAri3UUJgwnXwy5KXepOoDYHbq/iHwfB
-         I5fQ==
+        d=gmail.com; s=20230601; t=1758340534; x=1758945334; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wLR5A4WVJygISPHG42IIvYb+LPD25B9I3WH7jC2e5xU=;
+        b=LOBZL0WJkbfdvSEIhDYYVJqbnDIy5O/FGjT8qeBG6cFhsDNoXlkGLLCTUHFXB2U1i1
+         2h0CbS1ZWGzYFdwusgU+QOfCfqkJpY00odG9uXpOQ7yh6YAylJsVmwi0rTcxxT48h0cV
+         6royviXFGGZ/eIgxCV/otVVM3cQ1XwVyQmYObEOLpjnnCiyHR9UaYx778o4JDFZE9mgr
+         CxRjom846231CMq8OssPqFVxTzgJFtlBluWwB1kaVwNU019p0upJ+dN0C14lSfRIy+Uh
+         cFa7HAUKfRAiIv1UgnKZMbdhBH9m2I8lsCSxNISo+KTZiHNfTTCxHEze37Fb4pccFHGP
+         HMsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758295500; x=1758900300;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EztjVQ+y07YMfegmHOd0VyK62XkODMWu0LdNE29WAS0=;
-        b=IYFQU3mXoCGKKLsKwQIca8vqc4UmXQY6Lihh5dPWwSwg40b1eJMTkaUlbmSz7oJVZx
-         016wA3HZnG73U87bgGEUN6B5jySx3Gk1mvw7b8Yh09Fw2TsnYp6ZVEP7f7wpAaCKQCzl
-         hv76CMkigDmXjvbL65R2RdJ+ySjf0GNQ7h5AYeQ0UrvJKCrseQAS11eR0KQoFA9Lmi8e
-         SWH7dFRs85f1mCSat/GznIj5S5XGyb9v8Z8AFLciMGlyTPIsMR8M5fvjFg53nqDSwRbz
-         8ZzT6wxRHIgfQHXAgIaKavsHvaJ3JdI8+j7VBy++FFaPx/4Cj911NcDjg9c0LJWlOdYf
-         cTkg==
-X-Forwarded-Encrypted: i=1; AJvYcCXqfQAMVPR/gc635Xn6VPaJySYZotPPfk1sb7GRYbi9YypgE3JMhzDSWPKDWjqKqMpE/X9Ic+hfGYGRL/oBgQ==@lists.infradead.org
-X-Gm-Message-State: AOJu0Yz6ZBG0Xv/yqB6YhlHmK9dhW1iA7OYx3Hrsv0N13iTF6udQMLk1
-	eibGgbmfEGWcP+ThWavwmyyf2gYeZ77i0G/mP6X25Ypq+JqQRPzFoGfE4bpSnmA56QlsP181n+E
-	yexsA0XWXHV+jzc8vjJ/77FNoSWW3UdhQTHwoQPozIA==
-X-Gm-Gg: ASbGncsK7I/CU+g/bHeJaRlEGyLRyCiJWlKWUmHpMTID+mOWbWcK65zhNO7hqNJ86+I
-	su5jRX8sd7fQwOVT6rKcyURdU8LNMemgjNbw9VbxZwS+nVw/RXpYOPLa9T52ZgIJEKJUmIeECbt
-	w+wBqUr3WK1EfsKar/2w9ttZQRzoX/+hqa+jjDnK24f57SWqVI9ZsAGc9JM9ALLJCPjnHZyC7TS
-	o+tJ8WHSWUD7PE=
-X-Google-Smtp-Source: AGHT+IHin4gQus9SrkFEog2pTedfunr2Ers950l0f82oxrEtfjemfexmsAorW/Dsqdjvay/GpFMt6pfW/hwC+qBHF14=
-X-Received: by 2002:a05:6512:2c0b:b0:571:b70b:7dbf with SMTP id
- 2adb3069b0e04-579e2507c81mr1455897e87.17.1758295499599; Fri, 19 Sep 2025
- 08:24:59 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758340534; x=1758945334;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wLR5A4WVJygISPHG42IIvYb+LPD25B9I3WH7jC2e5xU=;
+        b=q39whd/npnaa2WFZL6xqoTMHJ99j80KcTnRLNBrVdAbt3kMpMKDBZQ1oVTxVLUfmZN
+         o1iYMCW7WeSPqnfr2KjW//xoSL8oRyJtVO5Eorm/lV0b0IKSaEVQCnh2gst0mN29lnCf
+         +Kp/TaqAShNomT6HZIB8ofy9RebT+cEM/qwfVEqOiA0E0OSohQVwCkEaSchD6PCjF0Ek
+         oxG8wZTF/ug8WfXeD9MXy8Wc2/l9yA10scBjHr6DamZxDXy9OQweS5tvIIOwOIc09p+N
+         v9EDsU/oy2YBHv/26feziUodEkalQp8WJAcxKrR/Fh+An6h1axkxCq5/HmcoKQgbFRlt
+         sLsw==
+X-Forwarded-Encrypted: i=1; AJvYcCX57m5pmRwGj4JH77SPDJukz58wNaWKeN28xfLZ4ifzN9YjBeL53QDheuMw5DQjn+jkkd4rcK5CPCqNyaiGMA==@lists.infradead.org
+X-Gm-Message-State: AOJu0YxWsOgIrDE5CdCKRcIT1Hzf1idAllEOideffzS1643AzKblKeRo
+	9wseemrUIn3626KyYxPjw/6F3qzQHm4QpqwPfWpg2smFPU3n2/9ywyUKWKq1aUAUDdV4vaRfGYe
+	uFbAO8YarkGNWnQxNCU7AOedt/WptN+o=
+X-Gm-Gg: ASbGncuU66RHI6SGduU2zewq+rjW0PFTMlw0y0vNv6zmSo4PMd82LkHsFwOxK7Ux39P
+	Dtrpt20wGOL4JpoX/uBzOAw2+lBp8tcE+seDz+zs2lfEw9Du72tjwSdH/zqwd8cHPJ5sTxdaLih
+	3NLLvsXwnU6ktcrEpalK3MiYBSvDYbvH+rKpEGL3X0TOA21YwhsXLz39wsW1fMJGo7F9TWV4QLt
+	7sEr8Y=
+X-Google-Smtp-Source: AGHT+IH7cxRQcDAWrx6iopGK0fgAvvotX/SwRt/T/KElvH4XQULrd96czgOrVv1CSvA0vDpbRNCMKcVlhfdowxEBryU=
+X-Received: by 2002:a53:b3c5:0:b0:622:4818:ce38 with SMTP id
+ 956f58d0204a3-6347f610c7emr3546092d50.37.1758340534336; Fri, 19 Sep 2025
+ 20:55:34 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250918152830.438554-1-nschichan@freebox.fr> <20250918195806.6337-1-safinaskar@gmail.com>
-In-Reply-To: <20250918195806.6337-1-safinaskar@gmail.com>
-From: Nicolas Schichan <nschichan@freebox.fr>
-Date: Fri, 19 Sep 2025 17:24:48 +0200
-X-Gm-Features: AS18NWBwMqIXE_dMXDlT0ngUIReSbekPPTszWv5gIfg03bAEg3Id33JL3Yqjedw
-Message-ID: <CAHNNwZAzecVcJXZmycX063-=p-M5jVkfStfgYVKJruOFo7y9zg@mail.gmail.com>
+ <CAHNNwZAzecVcJXZmycX063-=p-M5jVkfStfgYVKJruOFo7y9zg@mail.gmail.com>
+In-Reply-To: <CAHNNwZAzecVcJXZmycX063-=p-M5jVkfStfgYVKJruOFo7y9zg@mail.gmail.com>
+From: Askar Safin <safinaskar@gmail.com>
+Date: Sat, 20 Sep 2025 06:54:58 +0300
+X-Gm-Features: AS18NWCqg0xtU5KiNe17DWjmiPCEbBI_FSj5NCOyDGZFj_7oFaRqSu7O_vUKCrA
+Message-ID: <CAPnZJGDwETQVVURezSRxZB8ZAwBETQ5fwbXyeMpfDLuLW4rVdg@mail.gmail.com>
 Subject: Re: [PATCH RESEND 00/62] initrd: remove classic initrd support
-To: Askar Safin <safinaskar@gmail.com>
+To: Nicolas Schichan <nschichan@freebox.fr>
 Cc: akpm@linux-foundation.org, andy.shevchenko@gmail.com, axboe@kernel.dk, 
 	brauner@kernel.org, cyphar@cyphar.com, devicetree@vger.kernel.org, 
 	ecurtin@redhat.com, email2tema@gmail.com, graf@amazon.com, 
@@ -97,8 +99,9 @@ Cc: akpm@linux-foundation.org, andy.shevchenko@gmail.com, axboe@kernel.dk,
 	torvalds@linux-foundation.org, tytso@mit.edu, viro@zeniv.linux.org.uk, 
 	x86@kernel.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250919_082502_022417_F9DD273A 
-X-CRM114-Status: GOOD (  14.97  )
+X-CRM114-CacheID: sfid-20250919_205535_982421_A77E3E07 
+X-CRM114-Status: UNSURE (   7.06  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,50 +113,24 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hello,
-
-> > When booting with root=/dev/ram0 in the kernel commandline,
-> > handle_initrd() where the deprecation message resides is never called,
-> > which is rather unfortunate (init/do_mounts_initrd.c):
-
-> Yes, this is unfortunate.
->
-> I personally still think that initrd should be removed.
-
-Considering that the deprecation message didn't get displayed in some
-configurations, maybe it's a bit early at the very least.
-
-> I suggest using workaround I described in cover letter.
-
-I'm not too keen on having an initramfs just to loop-mount
-/sys/firmware/initrd, after all current kernels are able to handle the
-use case just fine.
-
-It looks like there is a lot of code calling into specific filesystems
-so that the initrd code can guess the size of the file system before
-copying into /dev/ram0, and I believe this is what causes the main
-gripe against initrd today. What is wrong with just copying
-/initrd.image using its actual size into /dev/ram0 instead of guessing
-it with the help of filesystem specific code ?
-
-> Also, for unknown reasons I didn't get your letter in my inbox.
-> (Not even in spam folder.) I ocasionally found it on lore.kernel.org .
-
-Sorry about that, When I used git-send-email yesterday to reply, the
-SMTP server I used wasn't authenticated to google, so all gmail
-recipients were dropped. Hopefully this work better today.
-
-Regards,
-
--- 
-Nicolas Schichan
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gRnJpLCBTZXAgMTksIDIwMjUgYXQgNjoyNeKAr1BNIE5pY29sYXMgU2NoaWNoYW4gPG5zY2hp
+Y2hhbkBmcmVlYm94LmZyPiB3cm90ZToKPiBDb25zaWRlcmluZyB0aGF0IHRoZSBkZXByZWNhdGlv
+biBtZXNzYWdlIGRpZG4ndCBnZXQgZGlzcGxheWVkIGluIHNvbWUKPiBjb25maWd1cmF0aW9ucywg
+bWF5YmUgaXQncyBhIGJpdCBlYXJseSBhdCB0aGUgdmVyeSBsZWFzdC4KCkkgY2hhbmdlZCBteSBv
+cGluaW9uLgpCcmVha2luZyB1c2Vycywgd2hvIGRpZCBub3Qgc2VlIGEgZGVwcmVjYXRpb24gbWVz
+c2FnZSBhdCBhbGwsCmlzIHVuZmFpci4KSSB3aWxsIHNlbmQgYSBwYXRjaHNldCBzb29uLCB3aGlj
+aCB3aWxsIHJlbW92ZSBpbml0cmQgY29kZXBhdGgsCndoaWNoIGN1cnJlbnRseSBjb250YWlucyBk
+ZXByZWNhdGlvbiBub3RpY2UuIEFuZCBJIHdpbGwgcHV0CmRlcHJlY2F0aW9uIG5vdGljZSB0bwpv
+dGhlciBjb2RlcGF0aC4KClRoZW4gaW4gU2VwdGVtYmVyIDIwMjYgSSB3aWxsIGZ1bGx5IHJlbW92
+ZSBpbml0cmQuCgo+IFNNVFAgc2VydmVyIEkgdXNlZCB3YXNuJ3QgYXV0aGVudGljYXRlZCB0byBn
+b29nbGUsIHNvIGFsbCBnbWFpbAo+IHJlY2lwaWVudHMgd2VyZSBkcm9wcGVkLiBIb3BlZnVsbHkg
+dGhpcyB3b3JrIGJldHRlciB0b2RheS4KClllcywgdGhpcyB0aW1lIEkgZ290IHlvdXIgZW1haWwK
+Ci0tIApBc2thciBTYWZpbgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3Rz
+LmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9saW51eC1zbnBzLWFyYwo=
