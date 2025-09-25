@@ -4,134 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DE1ECAC5AE
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 24 Sep 2025 19:21:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D614DCAC5AA
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 25 Sep 2025 07:37:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=6yJYm17zxRF/tfPt8C/76svixyHEvZGcuSMaj6DAL7w=; b=M7/5PJjaIXaVTG
-	V6JioEvGPpS+k1wM9DW/TAtSk6XSHraaLlXrisZDDR9rACWZk8mFl4pCLuoqGqtzZ4Y32+LZGQdXu
-	75TQUHsYkqpECIOpvNsSyk/bKQZ1oR41huHsLKKY0DnGO9DTJ0rTv0fBI+bCVJe+IbWGalo6cOjZe
-	Bf61VQCby1uypirfjSzt1cXE5hTqEjsDBGBVWj2J23wjiMpyl/ZdQkEfp7E7z/OU2jR2MJf63YGH9
-	HvITcl/95aa3XfKtawON0xI8j0uU1DNgDI06hX6Txo0Ccp7Awx/Wg7KOtJpTQcRZjdTMc7dl0uwvX
-	y9+G8Ne9Z9VngorTHLrQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=9ayIs0Xf0Xv5ALbl+kyfnIJ3NyLO7NS0WnC1cMNG4Y8=; b=KKX+woD4ySQGyn
+	tgSqfzpahEf7OwiIF+hzaj4uvn17k0evqsN1Ate2sjYJ3UumrFnJwJTPvZCW2Eay5W6SLO3lZGU9P
+	w/MgrYJ85FL/LR2nRLuyq7D2Lb+FYbngvnV8W+GHq0o+Bf7Tack1lKj3YbFNOjWspSBBCseQEZsBT
+	VyhjnUq8ebEzp+5yXA3mmQuiCWQXrk8JbE5CLd6tl78GsSwat5GjpQsfw/XT4yD0FJ1q3+4POxBGi
+	rx1fgT9Cwid/z/ICKZFHON7izQU4tc2aFY71dGymfmUeFv0AvFZvhIuC4y5OnKoOxcrOxNwIMAc0i
+	94PSb/DLMOFfocRyE4zQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v1V2x-000000030rf-3tZc;
-	Wed, 24 Sep 2025 19:20:59 +0000
-Received: from silver.cherry.relay.mailchannels.net ([23.83.223.166])
+	id 1v1gXF-00000006m0B-2bk6;
+	Thu, 25 Sep 2025 07:37:01 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v1V2u-000000030ps-3Gzz;
-	Wed, 24 Sep 2025 19:20:58 +0000
-X-Sender-Id: dreamhost|x-authsender|rob@landley.net
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id D68F56C2CDF;
-	Wed, 24 Sep 2025 19:20:52 +0000 (UTC)
-Received: from pdx1-sub0-mail-a233.dreamhost.com (trex-blue-5.trex.outbound.svc.cluster.local [100.108.153.55])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 4D82F6C092A;
-	Wed, 24 Sep 2025 19:20:51 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1758741652; a=rsa-sha256;
-	cv=none;
-	b=FIelBRpKbw4XRCXREIY6GrcomZxyh5mPLsvXc2d6FGp/peq6EwuUT5C41+2LA0F+ggX9yV
-	8sDI+KYqBxmckQrPVNV7rWra63fWqq+o5yLlx5MZRnuTdHQZEQgAmgblFxuGyjaNVrHFDk
-	wPn+M2/WQfSpmZ0IkQEEN3MHnMtbF5yhytJwedRo1ogyg8SQR/ZRrsw9DI3lHGj/2mLKAm
-	dj8jGFwnS4OjNKQjH2R6mDLZ7tlU8MommvaAha7o+UWIylY5K2nv2k5iepHunaoM660neK
-	8apwlyJbofcRsA4DvFw4pkrtRAv7P9DWllpqqR+qR+EGkoSllD3i7IkmAH8Mog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1758741652;
+	id 1v1gXE-00000006lyo-0BIr
+	for linux-snps-arc@bombadil.infradead.org;
+	Thu, 25 Sep 2025 07:37:00 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=content-type:Content-Transfer-Encoding
+	:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=V4NmZHUoJps7Yrk11w5SBou2tcMbfSFRbEHR6+6/r24=; b=LwBPfXPFOTgR90iEielrpICfUt
+	+Y+YeOa+wZww6aVyKxmVnPwn2REKIOSbOn3BfHsV+/lvRzdqvcdCh4NkyglD1QMeFzI/C6FLyKijK
+	NM5bP+rNtPCIHampXZTIqVTRj0gbqaeuZirOCmKOgEwQacErxZsdDtRaa1337sCqjgiCXDfu9Q/Nq
+	yQ7Wqx+jyAJNlfxb50YIITWLhQ4cxM1/TrJpwa90eZHSam27xx5O2y50IgV8RFHJfSNZkc4FaY8YG
+	Ijf8PBIJUB/4acjeedDoo5jmdla7LywriQ+QoNVwhQ5sQ08rgRQ0fFsZMgGIBqA2NzvyRaeEx+HiB
+	+OJkdEtg==;
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v1gX9-00000008vqD-3isp
+	for linux-snps-arc@lists.infradead.org;
+	Thu, 25 Sep 2025 07:36:58 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1758785805;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=2+5k4o1pMixQXt5VsjL/MYZwcVCEyggOqRD9o8b/qSc=;
-	b=ChRw8wSjyogd2do/v/H6TxZGH/WsiQerw/hid5S8KViit0lwA1gMH0+6UMTmJNQMMIezrz
-	gsCOkeBMJedUyPmRdN0+x/Ibzn4kOtJ+sG57y0ioHbgMKfWThGzPdrmcr4dMMVSyyUw2rk
-	dVBBOmfhJTtYNtYRTDWhwp+mpqmWhEqvL9C8FrlKqiY59ItiMJEd3l6YkcBc//9Lzk6+Fh
-	mvjXUWAyzYxp+VnxExIXavdSHQcTxa/FAQIzz9fgRHT07mtFGrsyWRfq7ZmdI4pGoAxOfN
-	0MoQjrfyn0a4j6aLMBwkDQq4B0YTsphgd54S7yxIuOYwH85l63FNfS25ErSZgQ==
-ARC-Authentication-Results: i=1;
-	rspamd-55b8bfbc7f-nnn52;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=rob@landley.net
-X-Sender-Id: dreamhost|x-authsender|rob@landley.net
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|rob@landley.net
-X-MailChannels-Auth-Id: dreamhost
-X-Callous-Spill: 350181bf214e86d3_1758741652308_3044232165
-X-MC-Loop-Signature: 1758741652308:255498347
-X-MC-Ingress-Time: 1758741652308
-Received: from pdx1-sub0-mail-a233.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.108.153.55 (trex/7.1.3);
-	Wed, 24 Sep 2025 19:20:52 +0000
-Received: from [192.168.88.7] (unknown [209.81.127.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: rob@landley.net)
-	by pdx1-sub0-mail-a233.dreamhost.com (Postfix) with ESMTPSA id 4cX6Bm0dnXzJl;
-	Wed, 24 Sep 2025 12:20:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=landley.net;
-	s=dreamhost; t=1758741651;
-	bh=2+5k4o1pMixQXt5VsjL/MYZwcVCEyggOqRD9o8b/qSc=;
-	h=Date:Subject:To:Cc:From:Content-Type:Content-Transfer-Encoding;
-	b=qP7ktGKps9suFLn+SvwXNJfmXIq5m7DqxjIn++FPW06rQGLdyFrasnCUUBtJnzZ2L
-	 032Pr1ux0M59Obr3XwUHOtHtLFaEBxNmmkXxqPxYnCt1Q6ZqoWdAD9Q0W04+4gmjQl
-	 ds3vnt+/qY5ti8rpHJ46bodAbnhitDUyLxlQ0tRxKsiwmL7TThWSclVniorsogf6MJ
-	 gohNW1AXGJyGgriupkN0gkhVYK+ork7/6bPtZBHhvaB43HB07jP863XLDHcc31YH0+
-	 wfQhtcquMUPSEA+sEb7jFLcwMpbQdjW0Rd1EFegx855pG/OiLXxmVQR1JAWLIYES88
-	 kVFfZokS8hZqg==
-Message-ID: <de56cabd-05a9-4528-8150-9ad97209640e@landley.net>
-Date: Wed, 24 Sep 2025 14:20:47 -0500
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=V4NmZHUoJps7Yrk11w5SBou2tcMbfSFRbEHR6+6/r24=;
+	b=b1mZXmJqd9LD7GcxektdNnkcPR/0yqRDdt7jHAkIdk+pg12hhOWgOKCN8X70F4lFEJsTfD
+	hneAK8y53S54fNItDQb8hj0iHtO+0vFsuiDihvUFhMm9Q56r+pU2EDA2w820xzD7yDXbvB
+	1YJLillQR2u47uRh25/cDeN1SgWpmGY=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1758785812;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=V4NmZHUoJps7Yrk11w5SBou2tcMbfSFRbEHR6+6/r24=;
+	b=K9Q666qFi1WC8sh1qMAnweS//nUxq6skNdIq/06iX/sz5cvL6AyTzBWWHpysppYEngSipP
+	dYjw5gMkZYp2IO8kEkdNBJynEjn2Tbd0KjTk1ZAScIDA0onkHJqWChcWwQb3/ZS1QEHb9X
+	tUNqohJhsZy9uLStERZWgRkp9chZaBU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-692-onOzD81qN-WoTK_0LZ5PzA-1; Thu, 25 Sep 2025 03:36:43 -0400
+X-MC-Unique: onOzD81qN-WoTK_0LZ5PzA-1
+X-Mimecast-MFC-AGG-ID: onOzD81qN-WoTK_0LZ5PzA_1758785802
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-46e2c11b94cso3521115e9.3
+        for <linux-snps-arc@lists.infradead.org>; Thu, 25 Sep 2025 00:36:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758785802; x=1759390602;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=V4NmZHUoJps7Yrk11w5SBou2tcMbfSFRbEHR6+6/r24=;
+        b=jNCTND6eBZaQ4BEfAqJzHizjQ6op8B6a1IQtMag9FaEUPl+G49TQ3KlOGBVEQfqNZG
+         7JCerLgvYO1nGs94Fn4+7n+uQgp6Z0Hgb1CYYPCavQVjbAK5u7ukMnwU84mjAarcrmwH
+         BhLn1J42rkMth4FLBy70TD3ugm1QMkMbPlz9En4frx+sO+QB/a+QFMeGdOFxqT79GzmB
+         5u+Ggz8BicHzio7fbQL4fhQXnLP+saFY7ymPQwYmbYlLVNEv6Po93AZAvBPZk9IaO+pI
+         bFRbmb0Z8Ca/kX97Cqsy1qCcQQltbXEVMUVt2gk7uJuZ9mbceg92cYg2WB1oyX5b8N/W
+         +kIQ==
+X-Gm-Message-State: AOJu0Yxz+h6fqirEv4lMuWYD7QO0DkFsMWPO+QnzFk09q60DVzeprjDt
+	XeBFe0MdU+RMr6m8HGUQSxYaJTRkQOqerzXz0fRwi1jZWFzqHvIqJq6/S3W6GYpeaCc6JxIivmB
+	+0YvuqGe5sWZidrlmScYjeYPmjeOPHZ9oXnYLD0SHb5Vs4yCA/tEUyMiuUVHVc5UNx0dmpgscPB
+	3FyCJJeQ==
+X-Gm-Gg: ASbGncvMqySoklwQporzrWOraPVs7L9RpZ1CkVavQ/muvvmPnkcvYArYwL0TEJfI2oQ
+	5968iSN0ekzl/Li4lrBAUUS2R8kBqeqz7ynmM6rSy/bPLmX4kOJCYYCkCC5gyptHi61dwqyKlxg
+	lSNOue1OR2euaEtWBCOGalhfbSMcJDV/2nzQCvKJTitFR0XCEy6e9IlK2oVXBl/ecywNpu7mBxk
+	la006IusMiceueU+0+Hq0PLzx7BOlk/TpOY27TWhJwS82rd2+TZQSj19dzfYt0yPcvVaLgk447N
+	1rHSSdRxxRcfM5SDwXuWuKJNKBbtqLjXbo3/4MRjZVz7o6QRHeljHOpuxIn173dl7gg8BzzpkTc
+	nLSndC0ZovJ1UHg==
+X-Received: by 2002:a05:600c:8010:b0:45c:b5eb:b0c6 with SMTP id 5b1f17b1804b1-46e329a805amr24229705e9.5.1758785801760;
+        Thu, 25 Sep 2025 00:36:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHigtd7Rlw0EkwZsZ6TnPLHr+fIfHQKJS55XMc7sCab7310hvvOcbsSwYh9WPs1s1S/Xj6xjA==
+X-Received: by 2002:a05:600c:8010:b0:45c:b5eb:b0c6 with SMTP id 5b1f17b1804b1-46e329a805amr24229265e9.5.1758785801231;
+        Thu, 25 Sep 2025 00:36:41 -0700 (PDT)
+Received: from lbulwahn-thinkpadx1carbongen12.rmtde.csb ([2a02:810d:7e01:ef00:1622:5a48:afdc:799f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-40fc560338csm1755120f8f.41.2025.09.25.00.36.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Sep 2025 00:36:40 -0700 (PDT)
+From: Lukas Bulwahn <lbulwahn@redhat.com>
+X-Google-Original-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Cc: linux-snps-arc@lists.infradead.org,
+	linux-parisc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-um@lists.infradead.org,
+	linux-openrisc@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lukas Bulwahn <lukas.bulwahn@redhat.com>
+Subject: [PATCH] Documentation/features: Update feature lists for 6.17-rc7
+Date: Thu, 25 Sep 2025 09:36:34 +0200
+Message-ID: <20250925073634.112142-1-lukas.bulwahn@redhat.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND 00/62] initrd: remove classic initrd support
-To: Alexander Patrakov <patrakov@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: Askar Safin <safinaskar@gmail.com>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, Linus Torvalds
- <torvalds@linux-foundation.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
- Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>,
- Jens Axboe <axboe@kernel.dk>, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Aleksa Sarai <cyphar@cyphar.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
- Julian Stecklina <julian.stecklina@cyberus-technology.de>,
- Gao Xiang <hsiangkao@linux.alibaba.com>, Art Nikpal <email2tema@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, Eric Curtin <ecurtin@redhat.com>,
- Alexander Graf <graf@amazon.com>, Lennart Poettering <mzxreary@0pointer.de>,
- linux-arch@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
- loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-um@lists.infradead.org, x86@kernel.org, Ingo Molnar
- <mingo@redhat.com>, linux-block@vger.kernel.org, initramfs@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org,
- "Theodore Y . Ts'o" <tytso@mit.edu>, linux-acpi@vger.kernel.org,
- Michal Simek <monstr@monstr.eu>, devicetree@vger.kernel.org,
- Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <kees@kernel.org>,
- Thorsten Blum <thorsten.blum@linux.dev>, Heiko Carstens <hca@linux.ibm.com>,
- patches@lists.linux.dev
-References: <20250913003842.41944-1-safinaskar@gmail.com>
- <ffbf1a04-047d-4787-ac1e-f5362e1ca600@csgroup.eu>
- <CAN_LGv3Opj9RW0atfXODy-Epn++5mt_DLEi-ewxR9Me5x46Bkg@mail.gmail.com>
-Content-Language: en-US
-From: Rob Landley <rob@landley.net>
-In-Reply-To: <CAN_LGv3Opj9RW0atfXODy-Epn++5mt_DLEi-ewxR9Me5x46Bkg@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 8OPAX7QegQc7ytKRHwXdosDt0RQJ8yOp11eDZKXK73Q_1758785802
+X-Mimecast-Originator: redhat.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250924_122057_151521_1B7CB8C3 
-X-CRM114-Status: GOOD (  15.55  )
+X-CRM114-CacheID: sfid-20250925_083656_406421_2C5360C1 
+X-CRM114-Status: GOOD (  14.94  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -143,52 +133,140 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 9/24/25 11:17, Alexander Patrakov wrote:
->> Therefore is it really initrd you are removing or just some corner case
->> ? If it is really initrd, then how does QEMU still work with that
->> -initrd parameter ?
-> 
-> The QEMU -initrd parameter is a misnomer. It can be used to pass an
-> initrd or an initramfs, and the kernel automatically figures out what
-> it is.
+From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
 
-It's not a misnomer, initrams has always been able to make use of the 
-existing initrd loading mechanism to read images externally supplied by 
-the bootloader. It's what grub calls it too. I documented it in the 
-"External initramfs images" section of 
-https://kernel.org/doc/Documentation/filesystems/ramfs-rootfs-initramfs.txt 
-back in 2005. The mechanism itself is 30 years old 
-(Documentation/initrd.txt was written by Werner Almsberger in linux 
-1.3.73 from March 7, 1996, ala 
-https://github.com/mpe/linux-fullhistory/commit/afc106342783 ).
+It seems that ./Documentation/features/scripts/features-refresh.sh was most
+recently used in December 2022, with the latest kernel release v6.1-rc7 at
+that time (see commit 7f2e60ff51ca ("Documentation/features: Update feature
+lists for 6.1") to update the feature lists in this subdirectory. All
+further changes to Documentation/features/ since then have probably been
+done manually, without checking for changes in other architectures and
+features, that missed to update this part of the documentation.
 
-Since initrd contents could always be in a bunch of different 
-autodetected formats (and optionally compressed just like the kernel), 
-initramfs just hooked in to the staircase and said "if the format is 
-cpio, call this function to handle it". The patch series proposes 
-removing all the other formats, but not otherwise changing the existing 
-external image loader mechanism. (Personally I think removing the 
-architecture-specific hacks but leaving the generic support under init/ 
-would probably have made more sense as a first step.)
+Running ./Documentation/features/scripts/features-refresh.sh now showed
+seven changes of supported features in various architectures (one in arc,
+two in parisc, one in riscv, one in openrisc, and two in um), which were
+not reflected yet in the current documentation.
 
-The bootloader hands off an initrd image, initramfs is the boot-time 
-cpio extraction plumbing that's _init tagged and gets freed, and rootfs 
-is the persistent mounted instance of ramfs or tmpfs that's always there 
-and is analogous to the init task (PID 1) except for the mount tree. 
-(And is often overmounted so it's not visible, but it's still there. And 
-is NOT SPECIAL: overmounts aren't a new concept, nor is hiding them in 
-things like "df".)
+To confirm the sanity of this script's suggested changes, I checked if the
+commit messages confirm that the features have in fact been added in the
+following commits:
 
-There's a REASON my documentation file was called 
-ramfs-rootfs-initramfs.txt: the naming's always been a bit... layered. 
-(And yes, I have always spelled initmpfs with only one t.)
+  - commit f122668ddcce ("ARC: Add eBPF JIT support")
+  - commit 4800a6215e33 ("parisc: Wire up eBPF JIT compiler")
+  - commit a869b8c29f86 ("riscv: enable mseal sysmap for RV64")
+  - commit 2f681ba4b352 ("um: move thread info into task")
+  - commit 3f17fed21491 ("um: switch to regset API and depend on XSTATE")
+  - commit 7ce8716e2769 ("openrisc: Add HAVE_REGS_AND_STACK_ACCESS_API support")
+  - commit b5ff52be8913 ("parisc: Convert to generic clockevents")
 
-Rob
+So, update all documents to the current state with features-refresh.sh.
+
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+---
+ Documentation/features/core/eBPF-JIT/arch-support.txt         | 4 ++--
+ .../features/core/mseal_sys_mappings/arch-support.txt         | 2 +-
+ .../features/core/thread-info-in-task/arch-support.txt        | 2 +-
+ Documentation/features/core/tracehook/arch-support.txt        | 2 +-
+ Documentation/features/perf/kprobes-event/arch-support.txt    | 2 +-
+ Documentation/features/time/clockevents/arch-support.txt      | 2 +-
+ 6 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/features/core/eBPF-JIT/arch-support.txt b/Documentation/features/core/eBPF-JIT/arch-support.txt
+index 7434b43c2ff8..83f77f55fc87 100644
+--- a/Documentation/features/core/eBPF-JIT/arch-support.txt
++++ b/Documentation/features/core/eBPF-JIT/arch-support.txt
+@@ -7,7 +7,7 @@
+     |         arch |status|
+     -----------------------
+     |       alpha: | TODO |
+-    |         arc: | TODO |
++    |         arc: |  ok  |
+     |         arm: |  ok  |
+     |       arm64: |  ok  |
+     |        csky: | TODO |
+@@ -18,7 +18,7 @@
+     |        mips: |  ok  |
+     |       nios2: | TODO |
+     |    openrisc: | TODO |
+-    |      parisc: | TODO |
++    |      parisc: |  ok  |
+     |     powerpc: |  ok  |
+     |       riscv: |  ok  |
+     |        s390: |  ok  |
+diff --git a/Documentation/features/core/mseal_sys_mappings/arch-support.txt b/Documentation/features/core/mseal_sys_mappings/arch-support.txt
+index a3c24233eb9b..fa85381acc43 100644
+--- a/Documentation/features/core/mseal_sys_mappings/arch-support.txt
++++ b/Documentation/features/core/mseal_sys_mappings/arch-support.txt
+@@ -20,7 +20,7 @@
+     |    openrisc: |  N/A |
+     |      parisc: | TODO |
+     |     powerpc: | TODO |
+-    |       riscv: | TODO |
++    |       riscv: |  ok  |
+     |        s390: |  ok  |
+     |          sh: |  N/A |
+     |       sparc: | TODO |
+diff --git a/Documentation/features/core/thread-info-in-task/arch-support.txt b/Documentation/features/core/thread-info-in-task/arch-support.txt
+index 2afeb6bf6e64..f3d744c76061 100644
+--- a/Documentation/features/core/thread-info-in-task/arch-support.txt
++++ b/Documentation/features/core/thread-info-in-task/arch-support.txt
+@@ -24,7 +24,7 @@
+     |        s390: |  ok  |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+-    |          um: | TODO |
++    |          um: |  ok  |
+     |         x86: |  ok  |
+     |      xtensa: | TODO |
+     -----------------------
+diff --git a/Documentation/features/core/tracehook/arch-support.txt b/Documentation/features/core/tracehook/arch-support.txt
+index a72330e25542..4f36fcbfb6d5 100644
+--- a/Documentation/features/core/tracehook/arch-support.txt
++++ b/Documentation/features/core/tracehook/arch-support.txt
+@@ -24,7 +24,7 @@
+     |        s390: |  ok  |
+     |          sh: |  ok  |
+     |       sparc: |  ok  |
+-    |          um: | TODO |
++    |          um: |  ok  |
+     |         x86: |  ok  |
+     |      xtensa: |  ok  |
+     -----------------------
+diff --git a/Documentation/features/perf/kprobes-event/arch-support.txt b/Documentation/features/perf/kprobes-event/arch-support.txt
+index 713a69fcd697..75c05d348c01 100644
+--- a/Documentation/features/perf/kprobes-event/arch-support.txt
++++ b/Documentation/features/perf/kprobes-event/arch-support.txt
+@@ -17,7 +17,7 @@
+     |  microblaze: | TODO |
+     |        mips: |  ok  |
+     |       nios2: | TODO |
+-    |    openrisc: | TODO |
++    |    openrisc: |  ok  |
+     |      parisc: |  ok  |
+     |     powerpc: |  ok  |
+     |       riscv: |  ok  |
+diff --git a/Documentation/features/time/clockevents/arch-support.txt b/Documentation/features/time/clockevents/arch-support.txt
+index 4d4bfac52970..d6100b226de5 100644
+--- a/Documentation/features/time/clockevents/arch-support.txt
++++ b/Documentation/features/time/clockevents/arch-support.txt
+@@ -18,7 +18,7 @@
+     |        mips: |  ok  |
+     |       nios2: |  ok  |
+     |    openrisc: |  ok  |
+-    |      parisc: | TODO |
++    |      parisc: |  ok  |
+     |     powerpc: |  ok  |
+     |       riscv: |  ok  |
+     |        s390: |  ok  |
+-- 
+2.51.0
+
 
 _______________________________________________
 linux-snps-arc mailing list
