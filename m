@@ -4,42 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7A8DCCD187
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 14 Oct 2025 07:37:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 812FDCCD193
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 18 Oct 2025 03:59:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:To:From:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=nim+41ZSn4uhRrHBylqNL31naO9r7QTv1v5W7XDfE64=; b=gM4h9fpXGfh3eG
-	REb01OwJiFyUkHSoTWBmy2Zu26FUWK2X1bNboEcVenaadx59Y38DzlPWuI8sRfIumJdfmgpQo8p0D
-	cyUgFvhMpWz/vm0Spntpo3ARZHTQx5p65om6TnPSh6UGyn0SfrEvJ9V2KfqiqGzKRAaRREmNbQv2a
-	+ECzOQK0gpGeIkSj/SZ6xQQ4ZF0YW9paPoRXmS9Znb5K9nQ/Qy5mUAIKkb9miQ3IHWsny76zNw/Nl
-	xnubemcg95M1216BaHNdWaGtxwF4L+SHYOLJNj2HVZX2voCyXWrWFFbIBecEknICHKCRd2dcxvDIS
-	rMryuy7SNli0ya01haUA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:
+	In-Reply-To:Subject:cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=lWzdb1k6NTXHzmD5gZvfV3Z2VMcsYYux8oMCwULmUqY=; b=gBixGpMa7U3MIH
+	2E26bt4qPI13heaSvCeb1HljmNsXtuvgJkpWTTXsBG3ol53v5Mzerzov6eUDsptKRQgTV7C/Y/27h
+	ahBA2e4mu0RTYr1BcdIylolWuR6DTTHvBQx8YhYON882Kc/JYusV19m1zqHd5mkWsATi9KUSccxHA
+	9rM/XhAfevFkW8oYTl+25OC4io+W8/DZIWxtaoOBAbAc1hLTYbERtxYJp8m0ZegpstvRP3V+HrkHq
+	k2beV2t+CnM6EWbxs5ClJSLOaxAjbhbexpx7tx16uaxc7s7hZfiAFEFKaWdMeY+xm0j2Ws+9EoFLe
+	TJixb6V2VNSp3EzLan0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v8ZbV-0000000FToR-1wWC;
-	Tue, 14 Oct 2025 07:37:53 +0000
-Received: from mail.ventrazo.pl ([162.19.155.125])
+	id 1v9y63-00000009T7v-31Pr;
+	Sat, 18 Oct 2025 03:59:11 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v8ZbS-0000000FTm3-0kJo
-	for linux-snps-arc@lists.infradead.org;
-	Tue, 14 Oct 2025 07:37:51 +0000
-Received: by mail.ventrazo.pl (Postfix, from userid 1002)
-	id B871223C2C; Tue, 14 Oct 2025 09:36:11 +0200 (CEST)
-Received: by mail.ventrazo.pl for <linux-snps-arc@lists.infradead.org>; Tue, 14 Oct 2025 07:35:37 GMT
-Message-ID: <20251014084500-0.1.ll.5su7g.0.jkxoi8ai1e@OriginatePro.pl>
-Date: Tue, 14 Oct 2025 07:35:37 GMT
-From: "Marcin Wojciechowski" <marcin.wojciechowski@ventrazo.pl>
-To: <linux-snps-arc@lists.infradead.org>
-Subject: Zapytanie ofertowe 
-X-Mailer: mail.OriginatePro.pl
+	id 1v9y60-00000009T7N-2E4Y;
+	Sat, 18 Oct 2025 03:59:09 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 225F941B3C;
+	Sat, 18 Oct 2025 03:59:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E640C4CEF8;
+	Sat, 18 Oct 2025 03:59:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760759947;
+	bh=EU6U5Z1y6eCiRh+fXNU8O/thPLmzUksR4n4H3faDx18=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=krIfENMfuFjiHhOD9R6DJZJbEI9qyq58vTH4tVORoQRTS2pGY5lkJEIZDY6cO/JsF
+	 7rV4qf/QB3xJavBLHP0t1tOOd2ijiKeeH7r5PBJer2K+56mKaBeK4gxS6ShjW6W321
+	 VkvkNEiUhE+GJg+MsRokLA9CNBFgs7U0v7KF5BOur/qWmLZ7DKTce6BLHyqQ3UmI3d
+	 h3G0koy5DXW63vce1vAszW8CD0JUM4rwNfwwIrL7aT81malR9QIBv5/P/aZVWwdmzB
+	 yRQW1/nRqFaZ64tNvz5lQ6FqKOjnXl5DoM5YdsFKHtq3AqF25dzypI1i46AMW/sKZH
+	 62a7C0hJMLpqQ==
+Date: Fri, 17 Oct 2025 21:59:03 -0600 (MDT)
+From: Paul Walmsley <pjw@kernel.org>
+To: Trevor Woerner <twoerner@gmail.com>
+cc: linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+    linux-aspeed@lists.ozlabs.org, linux-arm-msm@vger.kernel.org, 
+    openbmc@lists.ozlabs.org, linux-hexagon@vger.kernel.org, 
+    loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, 
+    linux-stm32@st-md-mailman.stormreply.com, linux-mips@vger.kernel.org, 
+    linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+    linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org, 
+    sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] defconfig: cleanup orphaned CONFIG_SCHED_DEBUG
+In-Reply-To: <20250828103828.33255-1-twoerner@gmail.com>
+Message-ID: <e88ab2ff-dc16-dab7-0ff3-702f093563ce@kernel.org>
+References: <20250828103828.33255-1-twoerner@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251014_003750_385201_F490C1B2 
-X-CRM114-Status: UNSURE (   0.68  )
+X-CRM114-CacheID: sfid-20251017_205908_589235_C948DA5D 
+X-CRM114-Status: UNSURE (   6.29  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -52,17 +72,34 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-RHppZcWEIGRvYnJ5LAoKUG96d29sacWCZW0gc29iaWUgbmEga29udGFrdCwgcG9uaWV3YcW8IGpl
-c3RlbSB6YWludGVyZXNvd2FueSB3ZXJ5ZmlrYWNqxIUgbW/FvGxpd2/Fm2NpIG5hd2nEhXphbmlh
-IHdzcMOzxYJwcmFjeS4KCldzcGllcmFteSBmaXJteSB3IHBvenlza2l3YW5pdSBub3d5Y2gga2xp
-ZW50w7N3IGJpem5lc293eWNoLgoKQ3p5IG1vxbxlbXkgcG9yb3ptYXdpYcSHIHcgY2VsdSBwcnpl
-ZHN0YXdpZW5pYSBzemN6ZWfDs8WCb3d5Y2ggaW5mb3JtYWNqaT8gCiAKClBvemRyYXdpYW0gc2Vy
-ZGVjem5pZQpNYXJjaW4gV29qY2llY2hvd3NraQoKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNu
-cHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
+On Thu, 28 Aug 2025, Trevor Woerner wrote:
+
+> In commit b52173065e0a ("sched/debug: Remove CONFIG_SCHED_DEBUG") this
+> Kconfig option was removed since CONFIG_SCHED_DEBUG was made unconditional
+> by patches preceding it.
+> 
+> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+> ---
+
+[ ... ]
+
+>  arch/riscv/configs/nommu_k210_defconfig        | 1 -
+>  arch/riscv/configs/nommu_k210_sdcard_defconfig | 1 -
+>  arch/riscv/configs/nommu_virt_defconfig        | 1 -
+
+[ ... ]
+
+Acked-by: Paul Walmsley <pjw@kernel.org>  # for arch/riscv
+
+
+- Paul
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
