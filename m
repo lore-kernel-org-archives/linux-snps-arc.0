@@ -4,39 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60E51CE7AE1
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD775CE7AE0
 	for <linux-snps-arc@archiver.kernel.org>; Fri, 14 Nov 2025 11:13:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=Wt8CHyrP2VMfNRMLXg73LUjF9NIWYZAtvy/jZsSsS2s=; b=Dr04MQw4xY1WHO
-	9WkLh/Q4OacCcksGV0r3SCManxg+2inhn286CvrdHjn093ck7uaia/WsUchrFo7ECSiDep2xeTkaY
-	1ndFHfpjvNMiH3x+IyMGxaXJqdN2KyYFZpnk5G+vlVxrY1od8q26LHoDlaW50JRNzJJOOP/SeR+Xt
-	vR1d76fH8fZvi8eHhTpwurRRx6gf+K/yXIimOwQ+1do4XcaANo2KRQ9uFLHXa4G6pnLTsbVw/V6h4
-	vkMXmcvA1ci9KkiZ3w5nJJtoeciXgzVMR5HYytYfaL8/BCw6US3014mymgJgSg5FEvzSBOSmzUkuc
-	n5mvPCSzqYtUg73iR7EQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=8Cn2H+aUTlCtWJI32p/7pyLduecZTRWszd3uSml+RzI=; b=k1sXcqljZmNacG
+	NfqUMt4OBT9VUgv5+r+RJ3ETApDR8cC6+RLl9N63YKhEcFhihwSq1UdhC/wug9hrzwGAPhQA7GGWa
+	zQkEzNEf09EeP401AxFWjzJ1HFKxn45YzlPjR9CicyrzC65kcDi3YD8+qXlJnzZYEnjVvqfKeJwlI
+	SsQ5jZd1ci3CXKyyI86eTl70UArl2VHKDKIiTZDItQO0aGNfbco9jh22dQZPf8eJQkzhcPnQut1t7
+	EWEhTd3mwUCiYhglzPerHV/P+DUL8QjzXpfFST21v0gorhHu7jnW314jll07sPx+g4QnFDJLFu9lt
+	PzDLuNbLwdtBmQJdhSHQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJrkS-0000000C5zu-0f2X;
+	id 1vJrkS-0000000C60M-1scb;
 	Fri, 14 Nov 2025 11:13:48 +0000
-Received: from out-180.mta0.migadu.com ([2001:41d0:1004:224b::b4])
+Received: from out-178.mta0.migadu.com ([2001:41d0:1004:224b::b2])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJrkP-0000000C5wv-1fZk
+	id 1vJrkQ-0000000C5xj-2YbC
 	for linux-snps-arc@lists.infradead.org;
-	Fri, 14 Nov 2025 11:13:46 +0000
+	Fri, 14 Nov 2025 11:13:47 +0000
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1763118812;
+	t=1763118824;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=7tXlmZ+pRF9jtuKn/rsOIXurW72jRhlWkLmUc3dGBwY=;
-	b=Stpm2Cw2eR2J2rbFTzOawJSjf+8nVr0S2DRH8c9JHKG+fa285HvCdFhAMOTsWRsfTG7RAJ
-	jloMnHkECy68rT0g0QHXnxlcRLoj/F48niZL+Kl1UjiVPo0BMgqdyzoUeUTD8/BUmGQpnX
-	MUXmRasI8N65oN5LGgdju7vLVsDd3dI=
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P6T+2Lant3MYurrTyX3sjQxVkxrSJ5NC17wEIBzsAD8=;
+	b=vExdq/0QIbNXwYGHrXQqTUESTgynxZF1NJ0xtYYbpdRrZ58EdRub+KFh9R2nimgCQ5fatR
+	4xLlVhyB6VQJZcD/sz1r9N+vzLfWl9ZUNEJ579ag0IteNR33li8sNEYMRTdhUYVjBH+SAv
+	KC18Vm38wa/0lScGVl1ZIZrfKVIfEok=
 From: Qi Zheng <qi.zheng@linux.dev>
 To: will@kernel.org,
 	aneesh.kumar@kernel.org,
@@ -55,15 +56,18 @@ Cc: linux-arch@vger.kernel.org,
 	linux-mips@vger.kernel.org,
 	linux-parisc@vger.kernel.org,
 	linux-um@lists.infradead.org,
-	Qi Zheng <zhengqi.arch@bytedance.com>
-Subject: [PATCH 0/7] enable PT_RECLAIM on all 64-bit architectures
-Date: Fri, 14 Nov 2025 19:11:14 +0800
-Message-ID: <cover.1763117269.git.zhengqi.arch@bytedance.com>
+	Qi Zheng <zhengqi.arch@bytedance.com>,
+	Vineet Gupta <vgupta@kernel.org>
+Subject: [PATCH 2/7] arc: mm: enable MMU_GATHER_RCU_TABLE_FREE
+Date: Fri, 14 Nov 2025 19:11:16 +0800
+Message-ID: <6a4192f5cef3049f123f08cb04ef5cd0179c3281.1763117269.git.zhengqi.arch@bytedance.com>
+In-Reply-To: <cover.1763117269.git.zhengqi.arch@bytedance.com>
+References: <cover.1763117269.git.zhengqi.arch@bytedance.com>
 MIME-Version: 1.0
 X-Migadu-Flow: FLOW_OUT
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251114_031345_578451_40C520AA 
-X-CRM114-Status: UNSURE (   5.87  )
+X-CRM114-CacheID: sfid-20251114_031346_836221_E433B932 
+X-CRM114-Status: UNSURE (   7.45  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -83,48 +87,59 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 From: Qi Zheng <zhengqi.arch@bytedance.com>
 
-Hi all,
+On a 64-bit system, madvise(MADV_DONTNEED) may cause a large number of
+empty PTE page table pages (such as 100GB+). To resolve this problem,
+first enable MMU_GATHER_RCU_TABLE_FREE to prepare for enabling the
+PT_RECLAIM feature, which resolves this problem.
 
-This series aims to enable PT_RECLAIM on all 64-bit architectures.
+Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+Cc: Vineet Gupta <vgupta@kernel.org>
+---
+ arch/arc/Kconfig               | 1 +
+ arch/arc/include/asm/pgalloc.h | 9 ++++++---
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-On a 64-bit system, madvise(MADV_DONTNEED) may cause a large number of empty PTE
-page table pages (such as 100GB+). To resolve this problem, we need to enable
-PT_RECLAIM, which depends on MMU_GATHER_RCU_TABLE_FREE.
-
-Therefore, this series first enables MMU_GATHER_RCU_TABLE_FREE on all 64-bit
-architectures, and finally makes PT_RECLAIM depend on MMU_GATHER_RCU_TABLE_FREE
-&& 64BIT. This way, PT_RECLAIM can be enabled by default on all 64-bit
-architectures.
-
-Comments and suggestions are welcome!
-
-Thanks,
-Qi
-
-Qi Zheng (7):
-  alpha: mm: enable MMU_GATHER_RCU_TABLE_FREE
-  arc: mm: enable MMU_GATHER_RCU_TABLE_FREE
-  loongarch: mm: enable MMU_GATHER_RCU_TABLE_FREE
-  mips: mm: enable MMU_GATHER_RCU_TABLE_FREE
-  parisc: mm: enable MMU_GATHER_RCU_TABLE_FREE
-  um: mm: enable MMU_GATHER_RCU_TABLE_FREE
-  mm: make PT_RECLAIM depend on MMU_GATHER_RCU_TABLE_FREE && 64BIT
-
- arch/alpha/Kconfig                   | 1 +
- arch/alpha/include/asm/tlb.h         | 8 +++++---
- arch/arc/Kconfig                     | 1 +
- arch/arc/include/asm/pgalloc.h       | 9 ++++++---
- arch/loongarch/Kconfig               | 1 +
- arch/loongarch/include/asm/pgalloc.h | 6 ++++--
- arch/mips/Kconfig                    | 1 +
- arch/mips/include/asm/pgalloc.h      | 6 ++++--
- arch/parisc/Kconfig                  | 1 +
- arch/parisc/include/asm/tlb.h        | 6 ++++--
- arch/um/Kconfig                      | 1 +
- arch/x86/Kconfig                     | 1 -
- mm/Kconfig                           | 6 +-----
- 13 files changed, 30 insertions(+), 18 deletions(-)
-
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index f27e6b90428e4..47db93952386d 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -54,6 +54,7 @@ config ARC
+ 	select HAVE_ARCH_JUMP_LABEL if ISA_ARCV2 && !CPU_ENDIAN_BE32
+ 	select TRACE_IRQFLAGS_SUPPORT
+ 	select HAVE_EBPF_JIT if ISA_ARCV2
++	select MMU_GATHER_RCU_TABLE_FREE
+ 
+ config LOCKDEP_SUPPORT
+ 	def_bool y
+diff --git a/arch/arc/include/asm/pgalloc.h b/arch/arc/include/asm/pgalloc.h
+index dfae070fe8d55..b1c6619435613 100644
+--- a/arch/arc/include/asm/pgalloc.h
++++ b/arch/arc/include/asm/pgalloc.h
+@@ -72,7 +72,8 @@ static inline void p4d_populate(struct mm_struct *mm, p4d_t *p4dp, pud_t *pudp)
+ 	set_p4d(p4dp, __p4d((unsigned long)pudp));
+ }
+ 
+-#define __pud_free_tlb(tlb, pmd, addr)  pud_free((tlb)->mm, pmd)
++#define __pud_free_tlb(tlb, pud, addr)	\
++	tlb_remove_ptdesc((tlb), virt_to_ptdesc(pud))
+ 
+ #endif
+ 
+@@ -83,10 +84,12 @@ static inline void pud_populate(struct mm_struct *mm, pud_t *pudp, pmd_t *pmdp)
+ 	set_pud(pudp, __pud((unsigned long)pmdp));
+ }
+ 
+-#define __pmd_free_tlb(tlb, pmd, addr)  pmd_free((tlb)->mm, pmd)
++#define __pmd_free_tlb(tlb, pmd, addr)	\
++	tlb_remove_ptdesc((tlb), virt_to_ptdesc(pmd))
+ 
+ #endif
+ 
+-#define __pte_free_tlb(tlb, pte, addr)  pte_free((tlb)->mm, pte)
++#define __pte_free_tlb(tlb, pte, addr)	\
++	tlb_remove_ptdesc((tlb), page_ptdesc(pte))
+ 
+ #endif /* _ASM_ARC_PGALLOC_H */
 -- 
 2.20.1
 
