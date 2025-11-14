@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3554CE7AE0
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 14 Nov 2025 11:13:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EFB8CCE7AE0
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 14 Nov 2025 11:13:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=L5AbSU2p+c1+8iKKhjy0tUfcEkWwKUbrvoFVwAYj12s=; b=14AYTo1z6TB9Ci
-	R5Ay9in4X5dubF8gVwi4F6otkMtNtSo/d9TWu/TkhAZgzAAnt0X+y2pmYqSjfA+PKuGl7oDaaKgtJ
-	J/EKKfREFKcsro0Yh89q3dLFY1BBYdbT/WuvpFP4pQz8x0AGK8sWh2vrcTcRICaRsNa9ci9SBPls8
-	RYUeNyxLwSFv+bdvWeotIgYfO6Z4J+0xidysXGHLRseSkU/sQ3voAcEjG4iYS4Ec5SpS0reJlZfwc
-	o3Ezai4GddSo5170rALrOlGqjaNxYC/XtRrjELWkGVr78qg0iQ6U3sh//ooG+5i+uWbNPCC4zIdWC
-	jADXD2d/yiMP0/20zvoA==;
+	List-Owner; bh=n2s+alIB5+Ll7DBGhB0U4jqo8z5g+Q+vtI90ePVX8/o=; b=0t9YUVyWIkTsCr
+	M/+6CDVzB9UphdVQxXoK/Sph/1iGD4LOuFuakzxeAv75L4Hbi4lMCo4LxVdenl8HFPcQI2k59f+tW
+	TIdh/YifZezBTYea9fOzhLMJHgy9v2wiQ68dXJInR8bhlTFrk3Snsj2SEDmudpkD7yh0j+/iMRCwr
+	qVxRUfhQsWhAnDFRh1zL2EcUMU3R0194AgyLXZYFxAm1ScADQVtblhRbYXdgSNJ7Gl3waE18vUjnF
+	dWJyfCb8gs6y0nmt0pQ7A5iqZ8SAxuNrpUur6dKJam63VzxDhFoUz2BI2b5/ptvejdi2TEK2HFNyo
+	UJo73B5YTeKoZLKQu0Xw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJrkX-0000000C64G-1xYr;
-	Fri, 14 Nov 2025 11:13:53 +0000
+	id 1vJrkb-0000000C66Z-33gb;
+	Fri, 14 Nov 2025 11:13:57 +0000
 Received: from out-172.mta0.migadu.com ([2001:41d0:1004:224b::ac])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJrkV-0000000C61C-2oei
+	id 1vJrkZ-0000000C64z-422j
 	for linux-snps-arc@lists.infradead.org;
-	Fri, 14 Nov 2025 11:13:52 +0000
+	Fri, 14 Nov 2025 11:13:57 +0000
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1763118828;
+	t=1763118834;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2CgIQM8Rm+rrIBZ65Gc8uDgVfjAkTSjqf1Ed4GSiWMI=;
-	b=Y9ji6TETXOEdJtN7riEZs1egBNIfxqbBF5em7JWsQrRQR5gaeRiytwZ+sxyYdN3yN2wb0q
-	Cp2WEDEqOTCXmA8Q46TPNk2xSPagvU9B7BFxShiJtemzQIQxjnYV6Z0rYNSFwfadUPgSEc
-	hGyB5DAs7t2eEqKZwitvuD99nlUBcqs=
+	bh=xE2z7TAxeJ/1HQSzhHJnzUcYxbE0hsI+5X32zwVc0VI=;
+	b=iw/rnvl+mSTQwZ1VtfwsUIUgZEgEWYMoBXUqNckA12rFzs5wwBw1DfEnB9VXrBAiN5lBA2
+	+WL6SCJD5yzsK1tlWnajFGyhDa2TXm27uAcag6i4H/j/tdwWGVq+UdZZjcaWuNr4dD50wD
+	yUns3WW5Fq1s6Y/AV0bEqLTbFKSi9Ds=
 From: Qi Zheng <qi.zheng@linux.dev>
 To: will@kernel.org,
 	aneesh.kumar@kernel.org,
@@ -57,18 +57,17 @@ Cc: linux-arch@vger.kernel.org,
 	linux-parisc@vger.kernel.org,
 	linux-um@lists.infradead.org,
 	Qi Zheng <zhengqi.arch@bytedance.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>
-Subject: [PATCH 3/7] loongarch: mm: enable MMU_GATHER_RCU_TABLE_FREE
-Date: Fri, 14 Nov 2025 19:11:17 +0800
-Message-ID: <146b5a0207052b38d04caac6b20756a61c2189b3.1763117269.git.zhengqi.arch@bytedance.com>
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Subject: [PATCH 4/7] mips: mm: enable MMU_GATHER_RCU_TABLE_FREE
+Date: Fri, 14 Nov 2025 19:11:18 +0800
+Message-ID: <d69204bb10f4d08eb5d5ae673d2329e7df44af72.1763117269.git.zhengqi.arch@bytedance.com>
 In-Reply-To: <cover.1763117269.git.zhengqi.arch@bytedance.com>
 References: <cover.1763117269.git.zhengqi.arch@bytedance.com>
 MIME-Version: 1.0
 X-Migadu-Flow: FLOW_OUT
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251114_031351_852315_69E44DE6 
-X-CRM114-Status: UNSURE (   7.86  )
+X-CRM114-CacheID: sfid-20251114_031356_138545_65EF3CE0 
+X-CRM114-Status: UNSURE (   7.98  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -94,30 +93,29 @@ first enable MMU_GATHER_RCU_TABLE_FREE to prepare for enabling the
 PT_RECLAIM feature, which resolves this problem.
 
 Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
-Cc: Huacai Chen <chenhuacai@kernel.org>
-Cc: WANG Xuerui <kernel@xen0n.name>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
 ---
- arch/loongarch/Kconfig               | 1 +
- arch/loongarch/include/asm/pgalloc.h | 6 ++++--
+ arch/mips/Kconfig               | 1 +
+ arch/mips/include/asm/pgalloc.h | 6 ++++--
  2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
-index 5b1116733d881..3bf2f2a9cd647 100644
---- a/arch/loongarch/Kconfig
-+++ b/arch/loongarch/Kconfig
-@@ -210,6 +210,7 @@ config LOONGARCH
- 	select USER_STACKTRACE_SUPPORT
- 	select VDSO_GETRANDOM
- 	select ZONE_DMA32
+diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
+index e8683f58fd3e2..0ee8820a354c4 100644
+--- a/arch/mips/Kconfig
++++ b/arch/mips/Kconfig
+@@ -108,6 +108,7 @@ config MIPS
+ 	select TRACE_IRQFLAGS_SUPPORT
+ 	select ARCH_HAS_ELFCORE_COMPAT
+ 	select HAVE_ARCH_KCSAN if 64BIT
 +	select MMU_GATHER_RCU_TABLE_FREE
  
- config 32BIT
+ config MIPS_FIXUP_BIGPHYS_ADDR
  	bool
-diff --git a/arch/loongarch/include/asm/pgalloc.h b/arch/loongarch/include/asm/pgalloc.h
-index 1c63a9d9a6d35..0539d04bf1525 100644
---- a/arch/loongarch/include/asm/pgalloc.h
-+++ b/arch/loongarch/include/asm/pgalloc.h
-@@ -79,7 +79,8 @@ static inline pmd_t *pmd_alloc_one(struct mm_struct *mm, unsigned long address)
+diff --git a/arch/mips/include/asm/pgalloc.h b/arch/mips/include/asm/pgalloc.h
+index 942af87f1cddb..c00f445045f43 100644
+--- a/arch/mips/include/asm/pgalloc.h
++++ b/arch/mips/include/asm/pgalloc.h
+@@ -72,7 +72,8 @@ static inline pmd_t *pmd_alloc_one(struct mm_struct *mm, unsigned long address)
  	return pmd;
  }
  
@@ -127,8 +125,8 @@ index 1c63a9d9a6d35..0539d04bf1525 100644
  
  #endif
  
-@@ -99,7 +100,8 @@ static inline pud_t *pud_alloc_one(struct mm_struct *mm, unsigned long address)
- 	return pud;
+@@ -98,7 +99,8 @@ static inline void p4d_populate(struct mm_struct *mm, p4d_t *p4d, pud_t *pud)
+ 	set_p4d(p4d, __p4d((unsigned long)pud));
  }
  
 -#define __pud_free_tlb(tlb, x, addr)	pud_free((tlb)->mm, x)
