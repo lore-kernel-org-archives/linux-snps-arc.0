@@ -4,81 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDA5ECEACEF
-	for <linux-snps-arc@archiver.kernel.org>; Sat, 15 Nov 2025 01:13:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0C90CEB2C7
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 15 Nov 2025 09:08:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=xVqhEXads+F7wdzqshK2U0agzT65PyJgvZQuW+Y6X7Q=; b=cRVryqs5IlLcVm
-	kLlBvFTTwU+Qa7i2m1ozbZ7AFy6iOmSzL9ZbhzvAcxn55UP+lIo3/c2zK39IjFyv3o903pKbmln/V
-	VRj7EAUSIxvyT9x3lHPtAd31yNtD4W3rFHSPIKSx1+3P4U+wtdpvm42/gioKRmdv8caqOZvToYp4p
-	oR95EcVV6LlFdkxWfsegLYnjHe2lzNYurxWTemYBEuVSvQb5iRtaBBVpotzRBMOGaQuPnrex68qSi
-	K/7lE/QwzTwsSgajKV6OdKD38+MevSco0+luflNHMie8j5d1K3c65/1LDQGM+GYkokd3yyNO9JWce
-	c1adJPHCoLr6YpBkDgQQ==;
+	List-Owner; bh=66CCmqGm+0qieBgd/AWJAAcYqN5uGcRzbwPRCYyFGCI=; b=RWMMqlK+gbk0p2
+	LpKc53tgzb0UGZUZBznunX76+PkaJf+rBRUAW8qjLjGsxMLj0rJdFelaIUMKFwlvQ8E/rxmEfMwVq
+	LRplY2OUWFqgciOpuYe9TW9oeY7YfLFJ1Qrf5lgavV70ghSj89CC2mT0BmtT8/EAUzEiXGyfTphDA
+	liy4lIT83IZ8oXxTxv3GaJsYc0g1pXJcExzTgwnjQZzRj2kV6Fmh2UvKAw3jeq5f7jjXvFYYxYkvl
+	vexoK5p0wzmQO88Jhe/XQY85zlRNEVrtPxCMKpqn5RsY31T43u7LA5VECjX7PlrfOMi49vNpSsYop
+	M9D1jA39kDgTqFC22lqg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vK4qi-0000000DK6V-2B5W;
-	Sat, 15 Nov 2025 01:13:08 +0000
-Received: from mgamail.intel.com ([198.175.65.19])
+	id 1vKCGP-0000000Dcyw-0klz;
+	Sat, 15 Nov 2025 09:08:09 +0000
+Received: from out-178.mta0.migadu.com ([2001:41d0:1004:224b::b2])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vK4qf-0000000DK67-1Cz8;
-	Sat, 15 Nov 2025 01:13:06 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763169186; x=1794705186;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZYpyydEIKJdUZcKYOQA153wYBuCQw3r8OGWjWBD7bf0=;
-  b=dPqc7lYJluAen6/03LeiCqZityRJO6jJ/yRTs4vS+1KkSQRt1ppG9TQh
-   beTpnfmhE2Ilss+FmwiRb7cpDFXzLuN+UYZaCrDWGnTxq3Yhrsi3yh52d
-   wsXwI5Nu0cdMu/+kRNvHhGK1Mo3eefKqiaokkjetqJCZznGweVFIaq0I3
-   kdzxf4YumjRV+23zBfGAD/cseeemRfJ20iOwWlGXYdWEd5bz6Dp+AP/Qe
-   DxaVfKZ2sCgryKFAeZzyLqocyYI+jkNz7SFDqTg20Tg2gFi13VJabP4nC
-   AefZNA1nvrR1nv+yEeYrzZm9Y/XwVciytZJ074df4awS9at9t+WqdV4mM
-   g==;
-X-CSE-ConnectionGUID: +hCVuBiuQDygqwVFV/cjBw==
-X-CSE-MsgGUID: ejaD8FF9QxOL2MIPk1pT0w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="65152399"
-X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
-   d="scan'208";a="65152399"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 17:13:03 -0800
-X-CSE-ConnectionGUID: OyXkE+18SIC4r9bUHnq2cQ==
-X-CSE-MsgGUID: 7wNDei3wRnCT1vSqROvBmg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
-   d="scan'208";a="194228351"
-Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 14 Nov 2025 17:12:59 -0800
-Received: from kbuild by 7b01c990427b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vK4qW-0007Zv-1X;
-	Sat, 15 Nov 2025 01:12:56 +0000
-Date: Sat, 15 Nov 2025 09:12:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Qi Zheng <qi.zheng@linux.dev>, will@kernel.org, aneesh.kumar@kernel.org,
-	npiggin@gmail.com, peterz@infradead.org, dev.jain@arm.com,
-	akpm@linux-foundation.org, david@redhat.com, ioworker0@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-alpha@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org, loongarch@lists.linux.dev,
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-	linux-um@lists.infradead.org, Qi Zheng <zhengqi.arch@bytedance.com>
-Subject: Re: [PATCH 7/7] mm: make PT_RECLAIM depend on
- MMU_GATHER_RCU_TABLE_FREE && 64BIT
-Message-ID: <202511150832.iAyO0SAW-lkp@intel.com>
-References: <0a4d1e6f0bf299cafd1fc624f965bd1ca542cea8.1763117269.git.zhengqi.arch@bytedance.com>
+	id 1vKCGM-0000000Dcxm-0L5Z
+	for linux-snps-arc@lists.infradead.org;
+	Sat, 15 Nov 2025 09:08:07 +0000
+Message-ID: <d58a6475-15f2-4e7c-b384-146623ce55fc@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1763197672;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QuGUgkNBhxAyHgvlC2Rtd4xfIzwmCu+LetoLyFbR46Y=;
+	b=kNysVfHsdj+0Qseu6HcgTet+NVlC+EYvKu/FOU10GOWi/nxL8FolfSVt4/dADuwt4v6eGO
+	ihunYFsAestSz7zz/fhdf7/MlU9A15UpPrX0hNXtoFRGbUs2QnpKQ2keo3fNajZYWhiuZW
+	+qGkodE+uZWV2JrmnmGzM7YxCyKUZy4=
+Date: Sat, 15 Nov 2025 17:06:51 +0800
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <0a4d1e6f0bf299cafd1fc624f965bd1ca542cea8.1763117269.git.zhengqi.arch@bytedance.com>
+Subject: Re: [PATCH 1/7] alpha: mm: enable MMU_GATHER_RCU_TABLE_FREE
+To: Magnus Lindholm <linmag7@gmail.com>
+Cc: will@kernel.org, aneesh.kumar@kernel.org, npiggin@gmail.com,
+ peterz@infradead.org, dev.jain@arm.com, akpm@linux-foundation.org,
+ david@redhat.com, ioworker0@gmail.com, linux-arch@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linux-um@lists.infradead.org,
+ Qi Zheng <zhengqi.arch@bytedance.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Matt Turner <mattst88@gmail.com>
+References: <cover.1763117269.git.zhengqi.arch@bytedance.com>
+ <66cd5b21aecc3281318b66a3a4aae078c4b9d37b.1763117269.git.zhengqi.arch@bytedance.com>
+ <CA+=Fv5SGu_Y-zwryrQiTQDy32SipMk_dfjZezth1=aZmnDKNeA@mail.gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Qi Zheng <qi.zheng@linux.dev>
+In-Reply-To: <CA+=Fv5SGu_Y-zwryrQiTQDy32SipMk_dfjZezth1=aZmnDKNeA@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251114_171305_374404_21BCBF0E 
-X-CRM114-Status: UNSURE (   9.77  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20251115_010806_254562_0B12DC46 
+X-CRM114-Status: GOOD (  12.30  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,60 +73,40 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Qi,
+Hi Magnus,
 
-kernel test robot noticed the following build errors:
+On 11/15/25 3:13 AM, Magnus Lindholm wrote:
+> Hi,
+> 
+> I applied your patches to a fresh pull of torvalds/linux.git repo but was unable
+> to build the kernel (on Alpha) with this patch applied.
+> 
+> I made the following changes in order to get it to build on Alpha:
 
-[auto build test ERROR on deller-parisc/for-next]
-[also build test ERROR on uml/next tip/x86/core akpm-mm/mm-everything linus/master v6.18-rc5 next-20251114]
-[cannot apply to uml/fixes vgupta-arc/for-next vgupta-arc/for-curr]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks! Will fix it in the next version.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/alpha-mm-enable-MMU_GATHER_RCU_TABLE_FREE/20251114-191543
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux.git for-next
-patch link:    https://lore.kernel.org/r/0a4d1e6f0bf299cafd1fc624f965bd1ca542cea8.1763117269.git.zhengqi.arch%40bytedance.com
-patch subject: [PATCH 7/7] mm: make PT_RECLAIM depend on MMU_GATHER_RCU_TABLE_FREE && 64BIT
-config: arm64-randconfig-002-20251115 (https://download.01.org/0day-ci/archive/20251115/202511150832.iAyO0SAW-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251115/202511150832.iAyO0SAW-lkp@intel.com/reproduce)
+> 
+> diff --git a/mm/pt_reclaim.c b/mm/pt_reclaim.c
+> index 7e9455a18aae..6761b0c282bf 100644
+> --- a/mm/pt_reclaim.c
+> +++ b/mm/pt_reclaim.c
+> @@ -1,7 +1,7 @@
+>   // SPDX-License-Identifier: GPL-2.0
+>   #include <linux/hugetlb.h>
+> -#include <asm-generic/tlb.h>
+>   #include <asm/pgalloc.h>
+> +#include <asm/tlb.h>
+> 
+>   #include "internal.h"
+> 
+> 
+> /Magnus
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511150832.iAyO0SAW-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> mm/pt_reclaim.c:31:2: error: call to undeclared function '__pte_free_tlb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      31 |         pte_free_tlb(tlb, pmd_pgtable(pmdval), addr);
-         |         ^
-   include/asm-generic/tlb.h:731:3: note: expanded from macro 'pte_free_tlb'
-     731 |                 __pte_free_tlb(tlb, ptep, address);             \
-         |                 ^
-   1 error generated.
-
-
-vim +/__pte_free_tlb +31 mm/pt_reclaim.c
-
-6375e95f381e3d Qi Zheng 2024-12-04  27  
-6375e95f381e3d Qi Zheng 2024-12-04  28  void free_pte(struct mm_struct *mm, unsigned long addr, struct mmu_gather *tlb,
-6375e95f381e3d Qi Zheng 2024-12-04  29  	      pmd_t pmdval)
-6375e95f381e3d Qi Zheng 2024-12-04  30  {
-6375e95f381e3d Qi Zheng 2024-12-04 @31  	pte_free_tlb(tlb, pmd_pgtable(pmdval), addr);
-6375e95f381e3d Qi Zheng 2024-12-04  32  	mm_dec_nr_ptes(mm);
-6375e95f381e3d Qi Zheng 2024-12-04  33  }
-6375e95f381e3d Qi Zheng 2024-12-04  34  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
 _______________________________________________
 linux-snps-arc mailing list
