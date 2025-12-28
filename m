@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6E1A8E9272A
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 28 Dec 2025 12:42:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C499AD3B7E5
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 28 Dec 2025 12:42:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=FqhUeAKaUQcynJtGPKeU2yXWt4SNVPB6Tgh1NzQ1kzc=; b=LPeg0UuMVCFg4k
-	1v0h9Nu/ih4acAtTuC4lMFQm0x4aFBjytgmhhH+BMMXQM39kIJTmu9Egxik/Zf8MvSGu0adzYODg3
-	t38igeTWfeyULDo6i5Df4kV9rCXZZN1+AHosFi1o7AHjarUWb6VPZ2rOCfP9M+akT0NMRc/D7pxi8
-	bgMhbe/r/0ucNMNz5rwX8Dj4uRzblgTaeNOr6fzKLZyAfzI56Z5HmkrCS1EBfYjNTJ0zn0cqWGsm2
-	+z931azt8bB9A6DxfSvKxTwYpmU2cyfDayVNehdT6ke1EYCvnBrXUKhMHU2J6YUGxQtllDxhZmffl
-	eqWM3cCQlTJ6RHm3v2CA==;
+	List-Owner; bh=QcjJ9+EFsllbC9dmXTo3GafyTaHknSViwnKofG4wxPE=; b=TCoOPoza54uztQ
+	UbqDC6ksfIZm+eYr45Uz2/gTKdFcTHWGqRTZIuiNmY2eqrxqq4rAnnXHyZMivpJD8cm+F9rGJdclp
+	NQ1KgHDpd+ndOFQcAwwjQDrcGdxaGSFS9R1rlZQ2j12i0Q7S8t5JLXZ6oNJ7g2L66ktOSei/bpUUp
+	9ZQazsmFpjdOMY9KnrNzHJbw9aoPpYR0RMfHqVVM+0b9mYBm4uDqfXbZsGwaykHfm9iOuDubPq7aw
+	lnvgEMDtCOqUhSS1msC8LdOcUTnItueCZ3ZJF9HDI//SCC0dmxwih75R4plHfjWCPEFiCrGZ7NLNh
+	/sBiONm4TYjvDg0BPvxw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vZq6F-00000002i6Z-0cc1;
-	Sun, 28 Dec 2025 12:42:19 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1vZq6S-00000002iEY-26U9;
+	Sun, 28 Dec 2025 12:42:32 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vZq6C-00000002i4p-0rh2;
-	Sun, 28 Dec 2025 12:42:17 +0000
+	id 1vZq6Q-00000002iDT-2ATg;
+	Sun, 28 Dec 2025 12:42:30 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id A2E26439B6;
+	by tor.source.kernel.org (Postfix) with ESMTP id D3BAE600AA;
+	Sun, 28 Dec 2025 12:42:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08E4CC4CEFB;
 	Sun, 28 Dec 2025 12:42:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01C9AC16AAE;
-	Sun, 28 Dec 2025 12:42:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766925735;
-	bh=qGV3crV7vYfN1DCsmhF37VWmOXuApg3MmNmGXJVotqE=;
+	s=k20201202; t=1766925749;
+	bh=BaQP+Uyb/5HYpSHuMHqe6vNV+NfiesFf3EGC4lY1beM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JG4fyb9He83CXx9yabJ1wYRs95IfVNB2F586zi15zCd1oNMacH+6znZ+ceKQNfrjx
-	 +eEr/AdmSp+H6pVP0U+08wQCx51U84RT2GE26vxy/u14qcmZxaO7/IU/klSevnk8lA
-	 vM0pVSQsLZxPglXSMVb7/hD3lm54KyOTx//USUlQkU1glusRU8S4mDrDjLgXCn7xSo
-	 DKDwYDHlsd1BLmX8x4wKtXILnIiP77e+5+1B+TOY7FeKhNOo3J1JwxAr29ouMLQoI+
-	 5rsEd2gotTkEQ5pwtj0IiqueuPgvAF9w6W+R0W7LI3FnHuera9SImC6lMLPkR6NFTL
-	 hrnrQ8sndZQKA==
+	b=YHJ3dbmwdf8ldQjTk0Sqet4jPrQ6QPN98EKtFOZ+ri4TC9nLH4wsY0AVA3Q7yL5VS
+	 /dTR4e1hOesk9QVpWn+uOwXENpCC2QvHB9dcDFkindEOsnXEKyncHyaC17TfsHkOK8
+	 X0yBRV+QP9Enh1lPtktzHe0GdlxaK6kqqC/MvkK+lzrhYVpVcWJ94HpYKr5IifvxkZ
+	 7AGwltnT79H9sqNoG05NWa8PNTe3BDb41dNbfWE9ej9Wzoz6P1vr2c6Q1vAOzdd4pH
+	 Go8shl9og3tFXmAXVQdxczrbgbU79HqP3y8rKEazgg3UyT5b3Bxk0GSNom6qnUTthP
+	 rIDtO3E03AMGw==
 From: Mike Rapoport <rppt@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Alex Shi <alexs@kernel.org>,
@@ -107,16 +107,13 @@ Cc: Alex Shi <alexs@kernel.org>,
 	linuxppc-dev@lists.ozlabs.org,
 	loongarch@lists.linux.dev,
 	sparclinux@vger.kernel.org
-Subject: [PATCH 08/28] m68k: introduce arch_zone_limits_init()
-Date: Sun, 28 Dec 2025 14:39:38 +0200
-Message-ID: <20251228124001.3624742-9-rppt@kernel.org>
+Subject: [PATCH 09/28] microblaze: introduce arch_zone_limits_init()
+Date: Sun, 28 Dec 2025 14:39:39 +0200
+Message-ID: <20251228124001.3624742-10-rppt@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251228124001.3624742-1-rppt@kernel.org>
 References: <20251228124001.3624742-1-rppt@kernel.org>
 MIME-Version: 1.0
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251228_044216_287154_D0088CC0 
-X-CRM114-Status: GOOD (  13.79  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,81 +139,47 @@ Later MM core will use this function as an architecture specific callback
 during nodes and zones initialization and thus there won't be a need to
 call free_area_init() from every architecture.
 
-Since all variants of m68k add all memory to ZONE_DMA, it is possible to
-use unified implementation for arch_zone_limits_init() that sets the end
-of ZONE_DMA to memblock_end_of_DRAM().
-
 Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 ---
- arch/m68k/mm/init.c     | 7 ++++++-
- arch/m68k/mm/mcfmmu.c   | 2 +-
- arch/m68k/mm/motorola.c | 2 +-
- arch/m68k/mm/sun3mmu.c  | 2 +-
- 4 files changed, 9 insertions(+), 4 deletions(-)
+ arch/microblaze/mm/init.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-diff --git a/arch/m68k/mm/init.c b/arch/m68k/mm/init.c
-index 488411af1b3f..6b1d9d2434b5 100644
---- a/arch/m68k/mm/init.c
-+++ b/arch/m68k/mm/init.c
-@@ -40,6 +40,11 @@
- void *empty_zero_page;
- EXPORT_SYMBOL(empty_zero_page);
+diff --git a/arch/microblaze/mm/init.c b/arch/microblaze/mm/init.c
+index 31d475cdb1c5..54da60b81094 100644
+--- a/arch/microblaze/mm/init.c
++++ b/arch/microblaze/mm/init.c
+@@ -54,6 +54,16 @@ static void __init highmem_init(void)
+ }
+ #endif /* CONFIG_HIGHMEM */
  
 +void __init arch_zone_limits_init(unsigned long *max_zone_pfns)
 +{
-+	max_zone_pfns[ZONE_DMA] = PFN_DOWN(memblock_end_of_DRAM());
++#ifdef CONFIG_HIGHMEM
++	max_zone_pfns[ZONE_DMA] = max_low_pfn;
++	max_zone_pfns[ZONE_HIGHMEM] = max_pfn;
++#else
++	max_zone_pfns[ZONE_DMA] = max_pfn;
++#endif
 +}
 +
- #ifdef CONFIG_MMU
+ /*
+  * paging_init() sets up the page tables - in fact we've already done this.
+  */
+@@ -71,13 +81,8 @@ static void __init paging_init(void)
  
- int m68k_virt_to_node_shift;
-@@ -69,7 +74,7 @@ void __init paging_init(void)
- 	high_memory = (void *) end_mem;
- 
- 	empty_zero_page = memblock_alloc_or_panic(PAGE_SIZE, PAGE_SIZE);
--	max_zone_pfn[ZONE_DMA] = end_mem >> PAGE_SHIFT;
-+	arch_zone_limits_init(max_zone_pfn);
- 	free_area_init(max_zone_pfn);
+ #ifdef CONFIG_HIGHMEM
+ 	highmem_init();
+-
+-	zones_size[ZONE_DMA] = max_low_pfn;
+-	zones_size[ZONE_HIGHMEM] = max_pfn;
+-#else
+-	zones_size[ZONE_DMA] = max_pfn;
+ #endif
+-
++	arch_zone_limits_init(zones_size);
+ 	/* We don't have holes in memory map */
+ 	free_area_init(zones_size);
  }
- 
-diff --git a/arch/m68k/mm/mcfmmu.c b/arch/m68k/mm/mcfmmu.c
-index 19a75029036c..24a6f7bbd1ce 100644
---- a/arch/m68k/mm/mcfmmu.c
-+++ b/arch/m68k/mm/mcfmmu.c
-@@ -73,7 +73,7 @@ void __init paging_init(void)
- 	}
- 
- 	current->mm = NULL;
--	max_zone_pfn[ZONE_DMA] = PFN_DOWN(_ramend);
-+	arch_zone_limits_init(max_zone_pfn);
- 	free_area_init(max_zone_pfn);
- }
- 
-diff --git a/arch/m68k/mm/motorola.c b/arch/m68k/mm/motorola.c
-index 62283bc2ed79..d6ccd23caf61 100644
---- a/arch/m68k/mm/motorola.c
-+++ b/arch/m68k/mm/motorola.c
-@@ -517,6 +517,6 @@ void __init paging_init(void)
- 		if (node_present_pages(i))
- 			node_set_state(i, N_NORMAL_MEMORY);
- 
--	max_zone_pfn[ZONE_DMA] = memblock_end_of_DRAM();
-+	arch_zone_limits_init(max_zone_pfn);
- 	free_area_init(max_zone_pfn);
- }
-diff --git a/arch/m68k/mm/sun3mmu.c b/arch/m68k/mm/sun3mmu.c
-index 1ecf6bdd08bf..fdd69cc4240c 100644
---- a/arch/m68k/mm/sun3mmu.c
-+++ b/arch/m68k/mm/sun3mmu.c
-@@ -82,7 +82,7 @@ void __init paging_init(void)
- 	current->mm = NULL;
- 
- 	/* memory sizing is a hack stolen from motorola.c..  hope it works for us */
--	max_zone_pfn[ZONE_DMA] = ((unsigned long)high_memory) >> PAGE_SHIFT;
-+	arch_zone_limits_init(max_zone_pfn);
- 
- 	/* I really wish I knew why the following change made things better...  -- Sam */
- 	free_area_init(max_zone_pfn);
 -- 
 2.51.0
 
