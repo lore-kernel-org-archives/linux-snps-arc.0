@@ -4,43 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38AF8E92725
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 28 Dec 2025 12:43:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0C1F9D3B7E5
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 28 Dec 2025 12:44:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=zEicJ2hguRM3DQAze+LufT2fVeuj9JRAUGm6I6n+lHU=; b=14Inkl191dNWzS
-	qoH3z0J0Y3ndyU+sua/aKlMP6f1R4G7ZRJz2R+KF3lbW7W58t1AhGL0m4AZ3KniAbjNRaocQMz31K
-	ADcgwK/HVE6JKrBhHZ5cFDnzac/wnjU1jtqFjJc/u2QsCfRq0EIEbbxWEMYT6HKSW16SucLh0LVtf
-	PCAh/Gncp74bCqOdcEKEgL4NuTCLCmxaC7pARKZQpv2C763FSC0XEm6fzbihTheTAguF/SKtXKFXz
-	MnJjnCYCYgEd5dEll3kIri5tBL9RptVXxoXfebuTPIMExRQl148lflV/8rAy6bUotiOS37B/plifd
-	i2JpCIshWQSNwvZ441vA==;
+	List-Owner; bh=KfZv/Kb1XhSr3ShUxdf1JpWAixFzSWwNUUZ0EXFOvrs=; b=Kg6smmG1QecfDY
+	BwJdIy+DUb0yMCrNAz5SsY8PwZtm/RREazdnqNk4AJ3DlC5yEE+cGE0IA+j4838fTR6+KoAJIvrfK
+	Uc7HJN6vDyee0o5qd643SZT6QmXwUkgUNyr3MTiPeyOim1bBQyR6ys+DDz6kx0D37pC1ANQ9ljBlb
+	MMn4JpJDjODO6rFkFOs3c5UMkiukWfmvn8p1+vAcPtLB10npXX5MmfVYnZ5hdkL4ydUsuLL5xOdIv
+	9fvqh2QlfS+d9Vj+X511g03laP5v5VqNJwcx8BHKz1Ek4fbRCeX6I/necOvaNx6GvpBlwqvTkKojB
+	OJRBxvokBYbQwFfkPSag==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vZq7a-00000002irx-3x7V;
-	Sun, 28 Dec 2025 12:43:42 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1vZq7s-00000002j1C-2q5Y;
+	Sun, 28 Dec 2025 12:44:00 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vZq7Y-00000002iqG-3SIe;
-	Sun, 28 Dec 2025 12:43:40 +0000
+	id 1vZq7q-00000002izm-2f5z;
+	Sun, 28 Dec 2025 12:43:58 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=ZI4KGl4ZdlhaKQtFg5N51ionZ3BEZaRGa8lZ5haxR1I=; b=dK2tYXh1e1Ww+/koN3CKyLPEQw
+	HnTrAtSfRHegISdIyq1+8go40uPgnFf4LeDqxKjH8jwT4EKCZ3cPlmzqsYKRVG72Jb+6OT8R4GO44
+	Gh8fw0fGJSfGyuMHlpo8psLV6B/LX/BdxZ2UY6J74HjrCZh8307yZ6uMQq1G3JWu10gm6Dq8w+87R
+	2p5mrRwBX74pZMtCEc8LqlAiSRJfmgSQgB7VPJ0Q5LNAbh0KeZcd4mVQ5xeDY+xvc6e6A1paPMLVJ
+	kBzQq7OW/5rLCZXc8nJtdCoAJuap7PW7fAyRw9Gpsc91HG/XxZp9KRxRlY/K6ZpYFbXs5jh0EZDnV
+	TIzLZJ/g==;
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vZq7n-0000000246T-1DuA;
+	Sun, 28 Dec 2025 12:43:57 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 260F360121;
+	by sea.source.kernel.org (Postfix) with ESMTP id F3FB441B29;
+	Sun, 28 Dec 2025 12:43:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 553ABC19422;
 	Sun, 28 Dec 2025 12:43:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F7F4C4CEFB;
-	Sun, 28 Dec 2025 12:43:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766925819;
-	bh=7cRQHQcJTxCSxc9tvl2G7dMvx0rutizHF89BihPwSeg=;
+	s=k20201202; t=1766925833;
+	bh=qZJ/kX6852xy97RGj2L4BqvkwDGVySCnfrT6X/8ZHF4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LP6Pi7q2igL6PUSX6cq6nr/WZsu2Wb13tJjQ5VlJAGAwLsN9O3iS/edLWoCMW++IP
-	 pXmDirq5lPXQLWTWgnKn217//jKO0KdDGFYlWEeT4DKKzQvEQsSAwso468aZvXfDvZ
-	 EElsZFcEk7O4YNQTlL0LdCSltf5xVBIifCpETvyNO6S1s+ag4AAjAPXbIzaYDmhp3y
-	 eMBhBignxwcNwEskwkSoCFgd479kIB5Fd5n2rm1759zPplZ1aQkf3qL1UCGavX8r0h
-	 fcaDmc0VHvF551YRkgh7ytcKd5BKvje5v4AUVoTvEInEZvhAq1WSt2HB3WG/kuS6iL
-	 2/MXl0roCRhPQ==
+	b=NjUK2c0Oth1aT9uy7WepSBxSdJkWVOkQe4cZgbJUt/3Vk5FeDofSSUXs7RotBz8Wk
+	 WaTLvkRkluqf+y66UnI3oXL0FYu5VrSIsM+5fw8Rh64uDjtJFSbNejXFgJ6oSQCGPW
+	 36hVyhULsbiadYoo654yaVyVkF6aC6QQ9oBJHZmVa8nvtJ7apKVXoF0gtpyVjTlGuN
+	 yeEVpKigJk3cL1BDA6uS/GqiAC0lDSxisdpRXWOAeIL5/ItWE17ThTMuTUsUM/ix2B
+	 pELYbkvzsLbIWDEv5oLDAJ5KGl0MrdQxizR8poPHvYrGWXRWccyiPRtl+ihH2OH6lR
+	 3bjsE+qiqTuCw==
 From: Mike Rapoport <rppt@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Alex Shi <alexs@kernel.org>,
@@ -107,13 +121,16 @@ Cc: Alex Shi <alexs@kernel.org>,
 	linuxppc-dev@lists.ozlabs.org,
 	loongarch@lists.linux.dev,
 	sparclinux@vger.kernel.org
-Subject: [PATCH 14/28] powerpc: introduce arch_zone_limits_init()
-Date: Sun, 28 Dec 2025 14:39:44 +0200
-Message-ID: <20251228124001.3624742-15-rppt@kernel.org>
+Subject: [PATCH 15/28] riscv: introduce arch_zone_limits_init()
+Date: Sun, 28 Dec 2025 14:39:45 +0200
+Message-ID: <20251228124001.3624742-16-rppt@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251228124001.3624742-1-rppt@kernel.org>
 References: <20251228124001.3624742-1-rppt@kernel.org>
 MIME-Version: 1.0
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20251228_124356_034541_868E541C 
+X-CRM114-Status: GOOD (  10.61  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -141,55 +158,36 @@ call free_area_init() from every architecture.
 
 Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 ---
- arch/powerpc/mm/mem.c | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
+ arch/riscv/mm/init.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/arch/powerpc/mm/mem.c b/arch/powerpc/mm/mem.c
-index 3ddbfdbfa941..32c496bfab4f 100644
---- a/arch/powerpc/mm/mem.c
-+++ b/arch/powerpc/mm/mem.c
-@@ -221,13 +221,23 @@ static int __init mark_nonram_nosave(void)
-  * anyway) will take a first dip into ZONE_NORMAL and get otherwise served by
-  * ZONE_DMA.
-  */
--static unsigned long max_zone_pfns[MAX_NR_ZONES];
+diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+index addb8a9305be..97e8661fbcff 100644
+--- a/arch/riscv/mm/init.c
++++ b/arch/riscv/mm/init.c
+@@ -79,15 +79,19 @@ uintptr_t _dtb_early_pa __initdata;
+ 
+ phys_addr_t dma32_phys_limit __initdata;
+ 
+-static void __init zone_sizes_init(void)
 +void __init arch_zone_limits_init(unsigned long *max_zone_pfns)
-+{
-+#ifdef CONFIG_ZONE_DMA
-+	max_zone_pfns[ZONE_DMA]	= min(zone_dma_limit, max_low_pfn - 1) + 1;
-+#endif
-+	max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
-+#ifdef CONFIG_HIGHMEM
-+	max_zone_pfns[ZONE_HIGHMEM] = max_pfn;
-+#endif
-+}
- 
- /*
-  * paging_init() sets up the page tables - in fact we've already done this.
-  */
- void __init paging_init(void)
  {
-+	unsigned long max_zone_pfns[MAX_NR_ZONES];
- 	unsigned long long total_ram = memblock_phys_mem_size();
- 	phys_addr_t top_of_ram = memblock_end_of_DRAM();
- 	int zone_dma_bits;
-@@ -259,15 +269,7 @@ void __init paging_init(void)
- 
- 	zone_dma_limit = DMA_BIT_MASK(zone_dma_bits);
- 
--#ifdef CONFIG_ZONE_DMA
--	max_zone_pfns[ZONE_DMA]	= min(max_low_pfn,
--				      1UL << (zone_dma_bits - PAGE_SHIFT));
--#endif
--	max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
--#ifdef CONFIG_HIGHMEM
--	max_zone_pfns[ZONE_HIGHMEM] = max_pfn;
--#endif
+-	unsigned long max_zone_pfns[MAX_NR_ZONES] = { 0, };
 -
+ #ifdef CONFIG_ZONE_DMA32
+ 	max_zone_pfns[ZONE_DMA32] = PFN_DOWN(dma32_phys_limit);
+ #endif
+ 	max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
++}
++
++static void __init zone_sizes_init(void)
++{
++	unsigned long max_zone_pfns[MAX_NR_ZONES] = { 0, };
+ 
 +	arch_zone_limits_init(max_zone_pfns);
  	free_area_init(max_zone_pfns);
+ }
  
- 	mark_nonram_nosave();
 -- 
 2.51.0
 
