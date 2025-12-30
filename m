@@ -4,90 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36456E8FDB1
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 29 Dec 2025 13:55:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5AD36E94116
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 30 Dec 2025 07:11:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ud9WKwrZyG4Fbss6iXR/udS3lrbiRcyBPax0oF0GMgY=; b=oB+i0i8p/JETQm
-	hISsb0zzrTX8wEuDu9J1daGC5oCcmFEx09L+HjVHYsKHX4tvXKyYjdMyXWM+MFuii9OWRj8sTnkD1
-	YKSl9+P7SvmO51nROuWLlJ0VeLxwG35veJIniRjRwnJklWzFqL2xMA4dCHtw24KXCNa5KqmQvDlq2
-	2c7QZj98sG8e4Zpg+mIjJY4SVlhWbJAqsENxPOJGHG8wIS+ngPIInOhWmK9I3aMGNFKoGxM4dIHnR
-	yeEAM26ucHWxHPHNiuLUNKjFT+zp8ezngVuMevWofKBbXZnMeuemyRgWc5LySp64zVv29eBW+6NXa
-	1KKQMn5IgRydU6iCgDaw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:MIME-Version:Message-Id:Date:
+	Subject:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=SRyQXcdvZgyIsUhI3UC9moqZYl7rATXkRfA3EaQhsVg=; b=2dQlB4YE5TQgvi
+	WRuq+SEf3jJyPymTo4pbqbkpF3uu7FhzDfIniTfb5HhJf9Z67M/z4P+LRUA1Jcss5p7EAbDyOgG/X
+	cZ9MObY+AKKnr0EJ//Vh7kQdzLjNG6KwUT3QBCjLYyx/MSuvVBCYaP4HTYE1HCngbbHz4dmrZTubG
+	YWNlQjvABWcpBUOa4CjDgu0JSM66tIupmys4N7mP5Ut/osxgIxVXYHKVSK6scIfRQOT5Hz5miSAYp
+	hd5JREhKigQKllXjwh5TC0J1Jz7m/2gXRQMr0T/NAxRm4k81Q+21HK2Z6CGJZYgEzVXXJjo4BFjsi
+	2uMEkQgMwblxnnmPl11g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vaDid-00000003lFu-2DeZ;
-	Mon, 29 Dec 2025 13:55:31 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1vaTso-00000004UmS-3ruJ;
+	Tue, 30 Dec 2025 07:11:06 +0000
+Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vaDia-00000003lFH-3hPv;
-	Mon, 29 Dec 2025 13:55:29 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 9742B6000A;
-	Mon, 29 Dec 2025 13:55:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B958C4CEF7;
-	Mon, 29 Dec 2025 13:55:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767016527;
-	bh=KUzcCQmQKdCc6BXDXkIzmgljIGG78Dm71TrJEBQ0UVk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YGxdnq2k/1YHQkO+jdKT72GRWIqp9MvmMpClq2GsOdPjlPP0FWxM04kupp5c2Q36H
-	 WhlDnqIsMmUc8EKUXxMVpxOS42QmCYKRBBIDWLcXcg4PUPqipaWdrKH1gKS1FwASa/
-	 hKp6pXPaUfKZpSt6S9+PDmd4sDLYk+k7PB2/GgxYMbTYOOhWXttLamMY9XPRpV3eOG
-	 +7yYHchowcnAlit4edYM+tpviihqUXpxV86rHDGshmddrsiLgHbLG6n6z8+q8V0Y39
-	 wHGA0q9QyXUGWHVXz4L51blEjBjtP/4YARdm22YWyWh7Tr/vFqZHJq9k7MphA7j8SR
-	 mM6Yjtx2b2iDw==
-Message-ID: <d17b3b7e-2d3e-4b0c-aa55-ce82fecc1710@kernel.org>
-Date: Mon, 29 Dec 2025 07:55:22 -0600
+	id 1vaTsj-00000004Ujo-3Fo8;
+	Tue, 30 Dec 2025 07:11:04 +0000
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1767078657;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=sa39lfrywozshHjUOd0QqKWLPIfeYAU14+UfJcFQKAw=;
+	b=SasWZcLIxY1ZqsQFgmJqfPq18eV8KYliz7FxkDmpXmRXilxx2h6pDPc84OwKLSMSUx7Bj8
+	sz3svT2F4w/KZAHDK+Zs4ADRpzgJ4jW6KFrBR4yz9G9962/p4C8MG+sTu52Qfk/aAQpngJ
+	0euGrTcIuE+PUL2WbhEbWBRbNw8hTHw3muBBFrmcpQeuErxPDPNxRS0FC+AxAt+7TGTxS4
+	ppua8FUjg0k47wbhjFyO/MIUMUrz//lvFPUhkSRX8d9AukOvLeRAS6/8BQt0gKa24AAe7S
+	FPELjrsyO5qw7WnNcT42ICEwOt5glmMLCAlEK02nxsS2Q8f6Udten12heiPEhg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1767078657;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=sa39lfrywozshHjUOd0QqKWLPIfeYAU14+UfJcFQKAw=;
+	b=USB0X405bczNGlaE1WzQDIIdqzYD+2mpODVHwjTpJ/pQNwUG3pXZ9BavujUpWH2nBacELY
+	kVLcoUPsDC69QFBA==
+Subject: [PATCH 0/5] uapi: fix remaining kconfig leaks in UAPI headers
+Date: Tue, 30 Dec 2025 08:10:55 +0100
+Message-Id: <20251230-headers_install-config-leak-v1-0-efba5c58073d@linutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/28] nios2: introduce arch_zone_limits_init()
-To: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Alex Shi <alexs@kernel.org>, Alexander Gordeev <agordeev@linux.ibm.com>,
- Andreas Larsson <andreas@gaisler.com>, Borislav Petkov <bp@alien8.de>,
- Brian Cain <bcain@kernel.org>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- "David S. Miller" <davem@davemloft.net>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- David Hildenbrand <david@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Guo Ren <guoren@kernel.org>,
- Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
- Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Jonathan Corbet <corbet@lwn.net>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Magnus Lindholm <linmag7@gmail.com>, Matt Turner <mattst88@gmail.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Palmer Dabbelt <palmer@dabbelt.com>, Pratyush Yadav <pratyush@kernel.org>,
- Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
- Stafford Horne <shorne@gmail.com>, Suren Baghdasaryan <surenb@google.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Thomas Gleixner <tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>,
- Vineet Gupta <vgupta@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
- Will Deacon <will@kernel.org>, x86@kernel.org, linux-alpha@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
- linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
- linux-mm@kvack.org, linux-openrisc@vger.kernel.org,
- linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
- sparclinux@vger.kernel.org
-References: <20251228124001.3624742-1-rppt@kernel.org>
- <20251228124001.3624742-12-rppt@kernel.org>
-Content-Language: en-US
-From: Dinh Nguyen <dinguyen@kernel.org>
-In-Reply-To: <20251228124001.3624742-12-rppt@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAP96U2kC/x3MUQqDMAwA0KtIvg2skYHdVYZIbKOGlSqNjIF4d
+ 8s+3887waSoGLyaE4p81XTLFa5tIKycF0GN1UAPejoij6twlGKjZjs4JQxbnnXBJPzBqWdPzsd
+ +6gLUYS8y6++/v4frugF8C0TtbQAAAA==
+X-Change-ID: 20251229-headers_install-config-leak-b8a9219d8b3c
+To: Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, 
+ Dinh Nguyen <dinguyen@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+ "H. Peter Anvin" <hpa@zytor.com>
+Cc: linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, Arnd Bergmann <arnd@arndb.de>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1767078657; l=1197;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=ROM+0B5pgXepje/uif9VYbF7UjhihvMVKWe93PkPMFU=;
+ b=btRZRWxwkyz+l3mSxrXtg+4ibvHwOXultE53vihV/3iNWtus0ZPxUB3Q0EF66yyP89dOKZ0WA
+ KapArctkpS6CmWwQgfJKIYi54oqSNxnIgJxRzlE1shXgql5UhBsEZUc
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20251229_231102_122351_5B35D255 
+X-CRM114-Status: UNSURE (   5.65  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,32 +84,32 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-
-
-On 12/28/25 06:39, Mike Rapoport wrote:
-> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-> 
-> Move calculations of zone limits to a dedicated arch_zone_limits_init()
-> function.
-> 
-> Later MM core will use this function as an architecture specific callback
-> during nodes and zones initialization and thus there won't be a need to
-> call free_area_init() from every architecture.
-> 
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> ---
->   arch/nios2/mm/init.c | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-
-Acked-by: Dinh Nguyen <dinguyen@kernel.org>
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+QSBmZXcgVUFQSSBoZWFkZXJzIHN0aWxsIGNvbnRhaW5lZCByZWZlcmVuY2VzIHRvIGtjb25maWcg
+c3ltYm9scy4KQ2xlYW4gdGhlbSBhbGwgdXAgYW5kIGFmdGVyd2FyZHMgcmVtb3ZlIHRoZSBub3cg
+dXNlbGVzcyBleGNlcHRpb24KbWFjaGluZXJ5IGluIGhlYWRlcnNfaW5zdGFsbC5zaC4KCkludGVu
+ZGVkIHRvIGJlIHJvdXRlZCB0aHJvdWdoIHRoZSBrYnVpbGQgdHJlZS4KClNpZ25lZC1vZmYtYnk6
+IFRob21hcyBXZWnDn3NjaHVoIDx0aG9tYXMud2Vpc3NzY2h1aEBsaW51dHJvbml4LmRlPgotLS0K
+VGhvbWFzIFdlacOfc2NodWggKDUpOgogICAgICBBUkM6IHVhcGk6IFN0b3AgbGVha2luZyBDT05G
+SUdfQVJDX0hBU19TV0FQRSByZWZlcmVuY2UgdG8gdXNlcnNwYWNlCiAgICAgIEFSTTogdWFwaTog
+U3RvcCBsZWFraW5nIENPTkZJR19DUFVfRU5ESUFOX0JFOCByZWZlcmVuY2UgdG8gdXNlcnNwYWNl
+CiAgICAgIG5pb3MyOiB1YXBpOiBTdG9wIGxlYWtpbmcgQ09ORklHX05JT1MyX0NJX1NXQUJfe05P
+LFNVUFBPUlR9IHJlZmVyZW5jZXMgdG8gdXNlcnNwYWNlCiAgICAgIHg4Ni91YXBpOiBTdG9wIGxl
+YWtpbmcga2NvbmZpZyByZWZlcmVuY2VzIHRvIHVzZXJzcGFjZQogICAgICBzY3JpcHRzOiBoZWFk
+ZXJzX2luc3RhbGwuc2g6IFJlbW92ZSBjb25maWcgbGVhayBpZ25vcmUgbWFjaGluZXJ5CgogYXJj
+aC9hcmMvaW5jbHVkZS91YXBpL2FzbS9zd2FiLmggICB8ICAyICstCiBhcmNoL2FybS9pbmNsdWRl
+L3VhcGkvYXNtL3B0cmFjZS5oIHwgIDIgKy0KIGFyY2gvbmlvczIvaW5jbHVkZS91YXBpL2FzbS9z
+d2FiLmggfCAgMiArKwogYXJjaC94ODYvaW5jbHVkZS91YXBpL2FzbS9hdXh2ZWMuaCB8ICAyICst
+CiBzY3JpcHRzL2hlYWRlcnNfaW5zdGFsbC5zaCAgICAgICAgIHwgMzAgKystLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tCiA1IGZpbGVzIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKSwgMzEgZGVs
+ZXRpb25zKC0pCi0tLQpiYXNlLWNvbW1pdDogOGYwYjRjY2U0NDgxZmIyMjY1MzY5N2NjZWQ4ZDBk
+MDQwMjdjYjFlOApjaGFuZ2UtaWQ6IDIwMjUxMjI5LWhlYWRlcnNfaW5zdGFsbC1jb25maWctbGVh
+ay1iOGE5MjE5ZDhiM2MKCkJlc3QgcmVnYXJkcywKLS0gClRob21hcyBXZWnDn3NjaHVoIDx0aG9t
+YXMud2Vpc3NzY2h1aEBsaW51dHJvbml4LmRlPgoKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1z
+bnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21h
+aWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
