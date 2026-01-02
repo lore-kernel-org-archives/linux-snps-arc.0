@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0981CEEB57A
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  2 Jan 2026 07:02:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29E28FA3729
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  2 Jan 2026 07:03:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=77q5giBYOJM56JmouhFVY3GEGnOUJSCwMtPPvPSXp9M=; b=QTxPiLgH6g6Tac
-	CZfVzWjI0dnmYg3IdZJivhXZDslcSJeTf+mWTURhCOyXfM0wR4uKxumBbCYERm6XNeW/llNu9E6jc
-	4A9nMth0SLE8DKr0NOTUA4r+x6iWkRu0Qo7yRIX6ExvInK3dDwSzdICAOBYQTdRIndUmZNBgNgYXS
-	iYSx51yfska5yZFJKvqMphj/sOwuQlZOCRBaBM2lJXAVS5EEMvDbXenO0/GY3CeQskunSqNEtrkwG
-	BNPIawDOugPevUjAKrx7om2p74cs3QhzDpLtXS9RLQ/p2r2MCHaVyT3+CNR8zbB3mB8U8702Drjsq
-	Y8XCz55MsRkLm4kIFSRQ==;
+	List-Owner; bh=C+GpN72sZHRYPHvuhR0dBlsQykI0+Ay5F4dLiH1eU4w=; b=vDeCfreAIpGHu3
+	26KgLyOXc+iNw9ZBvQ3sfUZ4B2bVeK5m832xu19ofpprPcGDKMI+OmYDUPmuaAZbNu17CdOOJJGD2
+	zy0G9sXkUQSi3LTjWfRxz3BYlj+Aq02K0UQJ1UdBs+4RfQGzX7h+RnMrntp8yQ2v+m/ZHaD4CRhTz
+	iJzNVuu+3aiN31kmSF4aI/VMgl0llKdcZWEQlYnhSu0WiaOxCE4+RAMU3aZzt7aE8DI5uVNXGFVzK
+	N4bJZvoaggIyEWotirFEdS8MTpYVxEVaMFgBJYBfnnJG9EqiBDx+ebIw5fBDqZ6pEi8ZseQy1iqMD
+	i+IEi+N1EKiLGE8NCG5w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vbZBV-00000007tcb-2p51;
-	Fri, 02 Jan 2026 07:02:53 +0000
+	id 1vbZBj-00000007tld-3Rom;
+	Fri, 02 Jan 2026 07:03:07 +0000
 Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vbZBQ-00000007tZA-3vVD;
-	Fri, 02 Jan 2026 07:02:50 +0000
+	id 1vbZBf-00000007tj0-15dE;
+	Fri, 02 Jan 2026 07:03:04 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 6D3EE43396;
+	by sea.source.kernel.org (Postfix) with ESMTP id C84DE417BC;
+	Fri,  2 Jan 2026 07:03:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA5CCC116B1;
 	Fri,  2 Jan 2026 07:02:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72BECC116D0;
-	Fri,  2 Jan 2026 07:02:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767337368;
-	bh=es+FUCZqCY2a3nIkrdLdpQV/rxxtDtuUgA954vVF+nw=;
+	s=k20201202; t=1767337382;
+	bh=5jwx79jcXEjB7Ff6jLyMimZz3LM3kE0UW0s3xt/n05M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dFiMKhjqyf+PfkCOMts11njbpfGwqQefsvvZvfGAgXrmmyP02aiCpmX8wvtgXmjh2
-	 JGcds5OsjQOsg8MVVqzy4zBA255m75qdXO1si07Ky/r2zB4hmu01u39hsqm0ewanZN
-	 LSjxiEoJP0frsXlr6bA5f68JZ0ShXcr0PT6HvGZ0JX23uSXRxwIaNc/T1RSWoD84TE
-	 DI6A7tJWLRiX8jI6Ss9SIxVHDO7YvahppzQZFaJQT4eHA/41c1EOHZ979ycVclWE56
-	 dcJdXB2lF+KLdNfaYQTsmd0q+sw9v0hQGXGsrYx/8NwnWCiyzXxykXpWhWDh/oVgy4
-	 FJ6eCa9gtAd0g==
+	b=qc3KtC8AFQ4d+AoWxnHd46tYFFfMCGfOgOZUwh7hPQu9V8GFwrLzacStrzurwyzfC
+	 sdwYpZL4opkD8ED1iFsJX1g4ynL3fYl4iZYIf26rGnmUqy0aoVseX41udl1joc8YLN
+	 b0l9aUDPoXNxkdtYtfpSrEipGrF3lv2aQvh/qrppryP5vxo149ycZiPv97YUg7SIVs
+	 xtERSPPWxwE1pVRnHfO3RI7nXLXJVR0hJDFKbLCkEZx9FVFXZmkpvgHHbGy8xsHI3K
+	 Muwf6NAlMOUSvFCm5/CFJwqbJNZUpLRWnYHLvjecYRlXI66YkfrDYdiK5VvE3i/rvK
+	 7Je6uYZRC2PQg==
 From: Mike Rapoport <rppt@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Alex Shi <alexs@kernel.org>,
@@ -107,15 +107,15 @@ Cc: Alex Shi <alexs@kernel.org>,
 	linuxppc-dev@lists.ozlabs.org,
 	loongarch@lists.linux.dev,
 	sparclinux@vger.kernel.org
-Subject: [PATCH v2 10/28] mips: introduce arch_zone_limits_init()
-Date: Fri,  2 Jan 2026 08:59:46 +0200
-Message-ID: <20260102070005.65328-11-rppt@kernel.org>
+Subject: [PATCH v2 11/28] nios2: introduce arch_zone_limits_init()
+Date: Fri,  2 Jan 2026 08:59:47 +0200
+Message-ID: <20260102070005.65328-12-rppt@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260102070005.65328-1-rppt@kernel.org>
 References: <20260102070005.65328-1-rppt@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260101_230249_033574_B6FA3C58 
+X-CRM114-CacheID: sfid-20260101_230303_360949_EBC4366A 
 X-CRM114-Status: GOOD (  13.54  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -143,93 +143,37 @@ during nodes and zones initialization and thus there won't be a need to
 call free_area_init() from every architecture.
 
 Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+Acked-by: Dinh Nguyen <dinguyen@kernel.org>
 ---
- arch/mips/loongson64/numa.c      |  9 +++++++--
- arch/mips/mm/init.c              | 14 +++++++++-----
- arch/mips/sgi-ip27/ip27-memory.c |  7 ++++++-
- 3 files changed, 22 insertions(+), 8 deletions(-)
+ arch/nios2/mm/init.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/arch/mips/loongson64/numa.c b/arch/mips/loongson64/numa.c
-index 95d5f553ce19..f72a58f87878 100644
---- a/arch/mips/loongson64/numa.c
-+++ b/arch/mips/loongson64/numa.c
-@@ -154,13 +154,18 @@ static __init void prom_meminit(void)
- 	}
- }
+diff --git a/arch/nios2/mm/init.c b/arch/nios2/mm/init.c
+index 94efa3de3933..2cb666a65d9e 100644
+--- a/arch/nios2/mm/init.c
++++ b/arch/nios2/mm/init.c
+@@ -38,6 +38,11 @@
  
-+void __init arch_zone_limits_init(unsigned long *max_zone_pfns)
-+{
-+	max_zone_pfns[ZONE_DMA32] = MAX_DMA32_PFN;
-+	max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
-+}
-+
- void __init paging_init(void)
- {
- 	unsigned long zones_size[MAX_NR_ZONES] = {0, };
- 
- 	pagetable_init();
--	zones_size[ZONE_DMA32] = MAX_DMA32_PFN;
--	zones_size[ZONE_NORMAL] = max_low_pfn;
-+	arch_zone_limits_init(zones_size);
- 	free_area_init(zones_size);
- }
- 
-diff --git a/arch/mips/mm/init.c b/arch/mips/mm/init.c
-index a673d3d68254..ab08249cfede 100644
---- a/arch/mips/mm/init.c
-+++ b/arch/mips/mm/init.c
-@@ -394,12 +394,8 @@ void maar_init(void)
- }
- 
- #ifndef CONFIG_NUMA
--void __init paging_init(void)
-+void __init arch_zone_limits_init(unsigned long *max_zone_pfns)
- {
--	unsigned long max_zone_pfns[MAX_NR_ZONES];
--
--	pagetable_init();
--
- #ifdef CONFIG_ZONE_DMA
- 	max_zone_pfns[ZONE_DMA] = MAX_DMA_PFN;
- #endif
-@@ -417,7 +413,15 @@ void __init paging_init(void)
- 		max_zone_pfns[ZONE_HIGHMEM] = max_low_pfn;
- 	}
- #endif
-+}
-+
-+void __init paging_init(void)
-+{
-+	unsigned long max_zone_pfns[MAX_NR_ZONES];
-+
-+	pagetable_init();
- 
-+	arch_zone_limits_init(max_zone_pfns);
- 	free_area_init(max_zone_pfns);
- }
- 
-diff --git a/arch/mips/sgi-ip27/ip27-memory.c b/arch/mips/sgi-ip27/ip27-memory.c
-index 2b3e46e2e607..babeb0e07687 100644
---- a/arch/mips/sgi-ip27/ip27-memory.c
-+++ b/arch/mips/sgi-ip27/ip27-memory.c
-@@ -406,11 +406,16 @@ void __init prom_meminit(void)
- 	}
- }
+ pgd_t *pgd_current;
  
 +void __init arch_zone_limits_init(unsigned long *max_zone_pfns)
 +{
 +	max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
 +}
 +
- void __init paging_init(void)
- {
- 	unsigned long zones_size[MAX_NR_ZONES] = {0, };
- 
+ /*
+  * paging_init() continues the virtual memory environment setup which
+  * was begun by the code in arch/head.S.
+@@ -51,8 +56,7 @@ void __init paging_init(void)
  	pagetable_init();
--	zones_size[ZONE_NORMAL] = max_low_pfn;
-+	arch_zone_limits_init(zones_size);
- 	free_area_init(zones_size);
- }
+ 	pgd_current = swapper_pg_dir;
+ 
+-	max_zone_pfn[ZONE_NORMAL] = max_low_pfn;
+-
++	arch_zone_limits_init(max_zone_pfn);
+ 	/* pass the memory from the bootmem allocator to the main allocator */
+ 	free_area_init(max_zone_pfn);
+ 
 -- 
 2.51.0
 
