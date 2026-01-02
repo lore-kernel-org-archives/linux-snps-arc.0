@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 032F5E9410B
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  2 Jan 2026 07:00:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0249BEEB57A
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  2 Jan 2026 07:01:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Q3MsdTrAouSjBdEKUo5ynJj0LTDqcynzRjHZjNQfUD4=; b=f57hcDryxOyjhN
-	EXIrBq2MgmXFTjVk14kgKEr62cm7oNtNQpSLAvTdgUUEuHWLoK0le5ZdPgwYuOazulL56XLj6Jvrz
-	bQ2iKv8iJccRpz5eIc6yAZC/b5ekCIjJ+zcpNOTFYwXUhEhiliL5LHAY5qR8qdkK1GUJHIFyH/H4c
-	XyMMGEj2Mo9MhNoIKuyW6Qs2JwnCW+BCqIVCgkdO5yb1AayQTqDHAOLV+rwLfcqz/V1sP/SMVj8Qq
-	/7HDGyFmvPvNEfi4NPmT7mYjN4LM+fxBVY+MRyZD64YwM7Ys60QucjJGm5BUB5jJpclHNdEO8tY0q
-	3r/Ws3TYFAJkYNsDSwjQ==;
+	List-Owner; bh=cfwjqfB0Fjw9O+zH7XyoZibKoZr4BhVfS9739Zhrh+I=; b=JbLNOsimGUiaWf
+	ra9fqtdQ6mVuaakTJjy1Nan2NpC4t4UYZRyvH29SQ2EQBcl9gBU3mAu/RvGyEO4UNq0WDrxKUHoYM
+	EKbgqdjETv7VRRVvTIhkrAjMOxeFjhEQhofNFeHdeyFXpNocgpxj+2MzmQQHPHJSadUBlvuSZoPIU
+	4bi06KIfDnYyngxtxVfw9V/cLxBo8KEJztAR/WYUSe+746wQNJ1+UnW89Szc1AQo/AoMIDahmyR4R
+	gVRyQC29RUhYdJaG1jMp+R6X1CwV9VX6jmrH/6BP0O2FpdR7D1b0gmQ9vFG2fDTR+LX1U44u0uCNU
+	mntBe4BuFveTfe2bVwMQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vbZ9e-00000007s3Z-2scz;
-	Fri, 02 Jan 2026 07:00:58 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1vbZ9s-00000007sC7-2xO1;
+	Fri, 02 Jan 2026 07:01:12 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vbZ9a-00000007s1s-1ncz;
-	Fri, 02 Jan 2026 07:00:55 +0000
+	id 1vbZ9o-00000007s9T-0nwS;
+	Fri, 02 Jan 2026 07:01:10 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 50E8040427;
+	by sea.source.kernel.org (Postfix) with ESMTP id A6604417BC;
+	Fri,  2 Jan 2026 07:01:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABEB7C116D0;
 	Fri,  2 Jan 2026 07:00:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 559E1C116B1;
-	Fri,  2 Jan 2026 07:00:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767337253;
-	bh=2qjSzGfqzjt078/1pNLigg8dFf1Az5AvC+tppJFEDck=;
+	s=k20201202; t=1767337267;
+	bh=sY65/RaZssilanqAkKMZORd+RGdNjje1eX8P0rlpw6A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KFtENWfZMb5TuBecSaQ0Q2MKmCLGH6v0QEHKZX84IK3pfUhKBgywnosKCmB3W8t5G
-	 qcWLiyjLanC80Ehh68T+LRGobCK5j+EiNBYYTo9i5Ro3ij20PlWwmYaEeA5Mg/BRlM
-	 rWyLBz56EX+UilXjE3gFlZ/lKIaI8dZPKh7/iKGLvHv9ZuEVr5QQ+4HijugrTlBUnZ
-	 Od+g+b4g0KkQvzKkwkMj8ljvQhVaDeKMUNoNtRXmlkvL1fFF1X5M0F7Appw6K6doqh
-	 /hOgbN29wpQg1mVHUojuz3tbEcMj91u7W5GWcOIXlcs4d2WmnOPBmBek/NIXhdQO3y
-	 GPAEZyHonWkAA==
+	b=FFZ7SBqLRszGA55Y0dcTAeVUAFfhPI1J/Zu+nhszyk401f32Bb6bWLRKqrB+W2AKm
+	 N38QT5+aUkSxN75WEW+blTrdKEOqeUiAH0BX1iOcat59Cv/SoweGwGsDzNvWrsSMlc
+	 3QSzDoZKQleHv/14oFELN4CDb8KsNap/u7uUJ7UeoPHZ3CgPa49XZbUQPGXWMVadAQ
+	 iGDYvbAw7yh54e+JFc4Kkqc0pB207lzVasPVl3cUpS+igbsvBxYsRn7xuxZTZdnkDI
+	 isfveZxYymcuq0kzbQxRSK8ezAytSigXlJWJalxOdK1KDDwocwk/lYGd7pPWjjMlNX
+	 rJZb3YeomLfgQ==
 From: Mike Rapoport <rppt@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Alex Shi <alexs@kernel.org>,
@@ -107,16 +107,16 @@ Cc: Alex Shi <alexs@kernel.org>,
 	linuxppc-dev@lists.ozlabs.org,
 	loongarch@lists.linux.dev,
 	sparclinux@vger.kernel.org
-Subject: [PATCH v2 02/28] arc: introduce arch_zone_limits_init()
-Date: Fri,  2 Jan 2026 08:59:38 +0200
-Message-ID: <20260102070005.65328-3-rppt@kernel.org>
+Subject: [PATCH v2 03/28] arm: introduce arch_zone_limits_init()
+Date: Fri,  2 Jan 2026 08:59:39 +0200
+Message-ID: <20260102070005.65328-4-rppt@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260102070005.65328-1-rppt@kernel.org>
 References: <20260102070005.65328-1-rppt@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260101_230054_500920_12F8B394 
-X-CRM114-Status: GOOD (  16.15  )
+X-CRM114-CacheID: sfid-20260101_230108_264529_DE6422E3 
+X-CRM114-Status: GOOD (  12.96  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -144,68 +144,40 @@ call free_area_init() from every architecture.
 
 Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 ---
- arch/arc/mm/init.c | 34 ++++++++++++++++++++--------------
- 1 file changed, 20 insertions(+), 14 deletions(-)
+ arch/arm/mm/init.c | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
-index a73cc94f806e..ff7974d38011 100644
---- a/arch/arc/mm/init.c
-+++ b/arch/arc/mm/init.c
-@@ -75,6 +75,25 @@ void __init early_init_dt_add_memory_arch(u64 base, u64 size)
- 		base, TO_MB(size), !in_use ? "Not used":"");
+diff --git a/arch/arm/mm/init.c b/arch/arm/mm/init.c
+index 54bdca025c9f..bdcc3639681f 100644
+--- a/arch/arm/mm/init.c
++++ b/arch/arm/mm/init.c
+@@ -107,18 +107,23 @@ void __init setup_dma_zone(const struct machine_desc *mdesc)
+ #endif
  }
  
+-static void __init zone_sizes_init(unsigned long min, unsigned long max_low,
+-	unsigned long max_high)
 +void __init arch_zone_limits_init(unsigned long *max_zone_pfn)
-+{
-+	/*----------------- node/zones setup --------------------------*/
+ {
+-	unsigned long max_zone_pfn[MAX_NR_ZONES] = { 0 };
+-
+ #ifdef CONFIG_ZONE_DMA
+-	max_zone_pfn[ZONE_DMA] = min(arm_dma_pfn_limit, max_low);
++	max_zone_pfn[ZONE_DMA] = min(arm_dma_pfn_limit, max_low_pfn);
+ #endif
+-	max_zone_pfn[ZONE_NORMAL] = max_low;
 +	max_zone_pfn[ZONE_NORMAL] = max_low_pfn;
-+
-+#ifdef CONFIG_HIGHMEM
-+	/*
-+	 * max_high_pfn should be ok here for both HIGHMEM and HIGHMEM+PAE.
-+	 * For HIGHMEM without PAE max_high_pfn should be less than
-+	 * min_low_pfn to guarantee that these two regions don't overlap.
-+	 * For PAE case highmem is greater than lowmem, so it is natural
-+	 * to use max_high_pfn.
-+	 *
-+	 * In both cases, holes should be handled by pfn_valid().
-+	 */
-+	max_zone_pfn[ZONE_HIGHMEM] = max_high_pfn;
-+#endif
+ #ifdef CONFIG_HIGHMEM
+-	max_zone_pfn[ZONE_HIGHMEM] = max_high;
++	max_zone_pfn[ZONE_HIGHMEM] = max_pfn;
+ #endif
 +}
 +
- /*
-  * First memory setup routine called from setup_arch()
-  * 1. setup swapper's mm @init_mm
-@@ -122,9 +141,6 @@ void __init setup_arch_memory(void)
- 
- 	memblock_dump_all();
- 
--	/*----------------- node/zones setup --------------------------*/
--	max_zone_pfn[ZONE_NORMAL] = max_low_pfn;
--
- #ifdef CONFIG_HIGHMEM
- 	/*
- 	 * On ARC (w/o PAE) HIGHMEM addresses are actually smaller (0 based)
-@@ -139,21 +155,11 @@ void __init setup_arch_memory(void)
- 	min_high_pfn = PFN_DOWN(high_mem_start);
- 	max_high_pfn = PFN_DOWN(high_mem_start + high_mem_sz);
- 
--	/*
--	 * max_high_pfn should be ok here for both HIGHMEM and HIGHMEM+PAE.
--	 * For HIGHMEM without PAE max_high_pfn should be less than
--	 * min_low_pfn to guarantee that these two regions don't overlap.
--	 * For PAE case highmem is greater than lowmem, so it is natural
--	 * to use max_high_pfn.
--	 *
--	 * In both cases, holes should be handled by pfn_valid().
--	 */
--	max_zone_pfn[ZONE_HIGHMEM] = max_high_pfn;
--
- 	arch_pfn_offset = min(min_low_pfn, min_high_pfn);
- 	kmap_init();
- #endif /* CONFIG_HIGHMEM */
- 
++static void __init zone_sizes_init(unsigned long min, unsigned long max_low,
++	unsigned long max_high)
++{
++	unsigned long max_zone_pfn[MAX_NR_ZONES] = { 0 };
++
 +	arch_zone_limits_init(max_zone_pfn);
  	free_area_init(max_zone_pfn);
  }
