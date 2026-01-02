@@ -4,116 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 349C7E9410B
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  2 Jan 2026 07:07:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4BE7CE9410B
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  2 Jan 2026 07:55:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=bzJIm/RifsGTk5X4N6uqLhUlLxyR/6pcdXubOJHWjGE=; b=WcDvq7iw31OgGY
-	k+tbr2TDN+Au9nwO2B6e68hSga3YMP3SO4gnG//7A8PN5tt+xKRaN3M0XWL/nTis6jyQfSGenP+0y
-	3twdDiiDjsgmjlQUPgwn4ioPEj2nj06LhhD/dSjMc1jMpujjO66qlOORmHLy3Cnuuh0XPFgx04f5/
-	IPvzaP1gnfE4r9e0CVvvfRSVFrvKy8HNpKPe+GwdZg0bS84lnlbW9Ar8wZ79VHEzSD0a1sCsZDIYh
-	aJqIyViUZIbNQm5olEKsqlu9BmB2LW5gMWu0cVO8WIxTn5d6dWka2qA9gEk7OtCO8tMlEWJks1ssa
-	Vi9ZO4+UvHZd9qifXM6g==;
+	List-Owner; bh=muzElJywbJiJbhbuWmowz9B7gryVpTECEoG8jNW8FNo=; b=brdXDZsayokmLN
+	BBzrDNUg6PSIJyaKPKkPQm8gY7Sj20atLjBgf98IL2JCoKuJnfORXS50JeDrFHWQfrhwJ/5QEjJok
+	TEWdFOOyVHEz/YsPhpKZO7J3zzI125TVZ1cTQrAPineJwJDFakWGgcKjcQi2JoBzqDsSDokyOFUZU
+	d7Uwv9u4B184gdnwDx0D2jF0JV6jidUSQgbMKoiklPNkcywTtP1lVNmQMl2TWZXPzqMWFa1tL6AhM
+	8oU0wAE6a3IkMoc3mnewHTLHRSeEuDSzp9O2/IJD4PTVGt4QdyjruGpwPV7SuGbIsc6cjqFkgUamd
+	zTce7tTbdUCRpkStUj9g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vbZFf-00000007w7K-43P6;
-	Fri, 02 Jan 2026 07:07:11 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1vba0D-00000007y7M-36yP;
+	Fri, 02 Jan 2026 07:55:17 +0000
+Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vbZFc-00000007w67-2zJT;
-	Fri, 02 Jan 2026 07:07:10 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id CCDAB6012A;
-	Fri,  2 Jan 2026 07:07:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E504C116B1;
-	Fri,  2 Jan 2026 07:06:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767337627;
-	bh=HRLMNbJfcIyzccjy/sfTD1k/8iARayV6dPdQfJTMnWo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CxvPssLFALKnAzAlXBll5rTphhZU7lG8jhoItNzn1fDH5h3/PSapvXks4U3zBNKEd
-	 Gjt8HaJNmGMQm+aKOWUJhnKIeCQ7VO+u8fAo/doIZz/Il+9XwBm8RvGrlfHBY4wksj
-	 Cq6GIEs4nXBSlEFiuN6ruwU2ocb72rmtMW/CPlqo0QaPKgGKxexcSr/e058WN5u+vt
-	 lU7HuQVp28/ddYn1T2PDlLul6PCmb+/cdQqpBV+UeDT6K9x9v670twTwtzSruR1eek
-	 5EbuXWwPo0AdoPZsDEj9liyOPfYpCx9mEEd3RXrrfPHn5OQecwQijHHNqnHYPLSYBm
-	 a5OWg4z3pZQcw==
-From: Mike Rapoport <rppt@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Alex Shi <alexs@kernel.org>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Brian Cain <bcain@kernel.org>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Hildenbrand <david@kernel.org>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Guo Ren <guoren@kernel.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Helge Deller <deller@gmx.de>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Magnus Lindholm <linmag7@gmail.com>,
-	Matt Turner <mattst88@gmail.com>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Hocko <mhocko@suse.com>,
-	Michal Simek <monstr@monstr.eu>,
-	Mike Rapoport <rppt@kernel.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Richard Weinberger <richard@nod.at>,
-	Russell King <linux@armlinux.org.uk>,
-	Stafford Horne <shorne@gmail.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Vineet Gupta <vgupta@kernel.org>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Will Deacon <will@kernel.org>,
-	x86@kernel.org,
-	linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-csky@vger.kernel.org,
-	linux-cxl@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-hexagon@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-um@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org,
-	loongarch@lists.linux.dev,
-	sparclinux@vger.kernel.org
-Subject: [PATCH v2 28/28] Revert "mm/hugetlb: deal with multiple calls to hugetlb_bootmem_alloc"
-Date: Fri,  2 Jan 2026 09:00:04 +0200
-Message-ID: <20260102070005.65328-29-rppt@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260102070005.65328-1-rppt@kernel.org>
-References: <20260102070005.65328-1-rppt@kernel.org>
+	id 1vba09-00000007y6q-2fBG;
+	Fri, 02 Jan 2026 07:55:14 +0000
+Date: Fri, 2 Jan 2026 08:55:10 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1767340510;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eEZRL/72x5uFyjIJVIw+uw6Ic/BD3arFK5h9GJFapx4=;
+	b=FbBDW9KDIQzeOrVzeoQ4K6lap3zg4cmemkwffBJy1o2zrTarr2E79EGKrFHpqtGCLbDJYP
+	vHduNGawdIa3o5TEw8CtVuFhQeeYrjr+uqdZyYU2CGvTvlfAJts0fkGRTf3lUKYlGZagqt
+	zRpONLZvbVorFvKXRw2Fh/uzjFqaVnfoZrmyITwKnPiDJeUgx4WIOI2jwTfuR1bQWtXxaq
+	dAmb8+CHW+C0skTjcnBQZYIQu8y8kW3sWVKZXY2VxmxaWnRUx8U2iXaq+Nv/cUcaXx4UyD
+	noNF9QZWMBUWKEjAPklo6w7905bSwcX+nC9GDo3AHbZUsZxygdSeqSPe+8KbOA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1767340510;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eEZRL/72x5uFyjIJVIw+uw6Ic/BD3arFK5h9GJFapx4=;
+	b=0df7NIPEA5n2XAx8YEdHNEvWDeSV2SoYm01Rx/pt9jFHP1jtUN3oFm/GXEAOu8h54kPMu2
+	AbQnOngN9AC14YAg==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, 
+	Dinh Nguyen <dinguyen@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/5] ARC: uapi: Stop leaking CONFIG_ARC_HAS_SWAPE
+ reference to userspace
+Message-ID: <20260102085226-c6463fff-042d-4654-8721-27e995f06c7c@linutronix.de>
+References: <20251230-headers_install-config-leak-v1-0-efba5c58073d@linutronix.de>
+ <20251230-headers_install-config-leak-v1-1-efba5c58073d@linutronix.de>
+ <9ecebf46-c230-4074-9001-7ba9d65634f1@app.fastmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <9ecebf46-c230-4074-9001-7ba9d65634f1@app.fastmail.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260101_235513_915937_88AE77AC 
+X-CRM114-Status: GOOD (  18.55  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -125,122 +79,41 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+On Tue, Dec 30, 2025 at 10:23:08PM +0100, Arnd Bergmann wrote:
+> On Tue, Dec 30, 2025, at 08:10, Thomas Wei=DFschuh wrote:
+> > UAPI headers are not supposed to leak references to kconfig symbols.
+> > These won't be set when building userspace. Hide the kconfig reference
+> > behind 'if defined(__KERNEL__)', so it will be stripped by
+> > headers_install.sh. The result for userspace will be the same, but the
+> > exception in headers_install.sh can also be removed.
+> >
+> > Signed-off-by: Thomas Wei=DFschuh <thomas.weissschuh@linutronix.de>
+> =
 
-This reverts commit d58b2498200724e4f8c12d71a5953da03c8c8bdf.
+> Acked-by: Arnd Bergmann <arnd@arndb.de>
+> =
 
-hugetlb_bootmem_alloc() is called only once, no need to check if it was
-called already at its entry.
+> Same as for the nios2 version, I think the nicer solution would
+> be to use the asm-generic header for uapi and move this one
+> to arch/arc/include/asm/swab.h for kernel-internal use.
 
-Other checks performed during HVO initialization are also no longer
-necessary because sparse_init() that calls hugetlb_vmemmap_init_early()
-and hugetlb_vmemmap_init_late() is always called after
-hugetlb_bootmem_alloc().
+Ack. Also to your other feedback on the series.
 
-Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-Acked-by: Muchun Song <muchun.song@linux.dev>
----
- include/linux/hugetlb.h |  6 ------
- mm/hugetlb.c            | 12 ------------
- mm/hugetlb_vmemmap.c    | 11 -----------
- 3 files changed, 29 deletions(-)
+> In theory, using 'select ARCH_USE_BUILTIN_BSWAP' in Kconfig should
+> let the compiler pick the best swap instruction, which would
+> be even less code, but I'm not sure if there was a reason that
+> nios2 and arc don't already do this.
 
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index 08fc332e88a7..c8b1a6dd2d46 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -175,7 +175,6 @@ extern int sysctl_hugetlb_shm_group __read_mostly;
- extern struct list_head huge_boot_pages[MAX_NUMNODES];
- 
- void hugetlb_bootmem_alloc(void);
--bool hugetlb_bootmem_allocated(void);
- extern nodemask_t hugetlb_bootmem_nodes;
- void hugetlb_bootmem_set_nodes(void);
- 
-@@ -1300,11 +1299,6 @@ static inline bool hugetlbfs_pagecache_present(
- static inline void hugetlb_bootmem_alloc(void)
- {
- }
--
--static inline bool hugetlb_bootmem_allocated(void)
--{
--	return false;
--}
- #endif	/* CONFIG_HUGETLB_PAGE */
- 
- static inline spinlock_t *huge_pte_lock(struct hstate *h,
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 82b322ae3fdc..e5a350c83d75 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -4470,21 +4470,11 @@ void __init hugetlb_bootmem_set_nodes(void)
- 	}
- }
- 
--static bool __hugetlb_bootmem_allocated __initdata;
--
--bool __init hugetlb_bootmem_allocated(void)
--{
--	return __hugetlb_bootmem_allocated;
--}
--
- void __init hugetlb_bootmem_alloc(void)
- {
- 	struct hstate *h;
- 	int i;
- 
--	if (__hugetlb_bootmem_allocated)
--		return;
--
- 	hugetlb_bootmem_set_nodes();
- 
- 	for (i = 0; i < MAX_NUMNODES; i++)
-@@ -4498,8 +4488,6 @@ void __init hugetlb_bootmem_alloc(void)
- 		if (hstate_is_gigantic(h))
- 			hugetlb_hstate_alloc_pages(h);
- 	}
--
--	__hugetlb_bootmem_allocated = true;
- }
- 
- /*
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index 9d01f883fd71..a9280259e12a 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -794,14 +794,6 @@ void __init hugetlb_vmemmap_init_early(int nid)
- 	struct huge_bootmem_page *m = NULL;
- 	void *map;
- 
--	/*
--	 * Noting to do if bootmem pages were not allocated
--	 * early in boot, or if HVO wasn't enabled in the
--	 * first place.
--	 */
--	if (!hugetlb_bootmem_allocated())
--		return;
--
- 	if (!READ_ONCE(vmemmap_optimize_enabled))
- 		return;
- 
-@@ -847,9 +839,6 @@ void __init hugetlb_vmemmap_init_late(int nid)
- 	struct hstate *h;
- 	void *map;
- 
--	if (!hugetlb_bootmem_allocated())
--		return;
--
- 	if (!READ_ONCE(vmemmap_optimize_enabled))
- 		return;
- 
--- 
-2.51.0
+I'd like to keep the current logic to avoid potential issues.
+But maybe the arch maintainers will chime in.
 
+
+Thomas
 
 _______________________________________________
 linux-snps-arc mailing list
