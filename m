@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05815EEB57A
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  2 Jan 2026 09:31:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3E62EEB57A
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  2 Jan 2026 09:40:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Snh+gZZFZXh2bTmmsaJ1758v6wIkEUsCUzA1erPUF2M=; b=I9/Pv9rZXK0WfY
-	ctKLuWkseVdU4GdlJSzVUXjTGQrnNoOuJuBiKUwS3pknSqF5PWuWL69kzUb5DseP6muWgtFvjs22M
-	qIhcRC5xInxxSfqHwM/DDS2Pi5mOcdp+zSDXD7ipGsquLXllpMbjWIV8O962VIWzZJBCVg5+unEmS
-	wlsBbmlQeFWpUOlgOEP4tzm9mSlwSda2nBNh6OFek06Llm0SbuEaHU3wdYVr67tfv9ZX/k1pB0pCN
-	yK4fHI8RKZQ0xmGsn6M89fAMDnXi6D/HQV3mR4ZK89KY1pGjuIh0e8mr7oZTkp5hzANoImQ9sS1bH
-	FkcD8dDJ7QRJr4ZsZHlw==;
+	List-Owner; bh=pWUJiHrltwTQ7YIydO8xEGPXn9L5htbd0EKn6OhD1Xw=; b=QZMVJRmyLfvIIj
+	VmyFzN2Apy+xxv7BgQk/GelAwnF7JrqaGPnUr8eKRn4DDtcCaokl1jNAV/mcxF2mdacNDy1BechZC
+	SsFuQ/0xD5bxWGVJYin2yCCuLf3B4sJzGW7TblQaTp8ubSkJbSzTi05zV/6qTcEuJoIRL2mY2tnZe
+	tTRiZlggHijaebacchkUyRWOB0xIqqd7Zam0REgCVcLZxkvlWL7DCu3AvTtcHmNYQLtwFBC+41CIW
+	kCrw4u45NyS+OTkNeg2g/GjMnPkh1/Iul5itg6MQwfLcIYz2K5JniHKB/Eq5tvRCHLcWaaq+3Vawq
+	xe+5IkOABGkyJ3KCQ3qA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vbbUp-000000081Ns-1iKS;
-	Fri, 02 Jan 2026 09:30:59 +0000
-Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
+	id 1vbbeN-0000000823L-1NAx;
+	Fri, 02 Jan 2026 09:40:51 +0000
+Received: from galois.linutronix.de ([193.142.43.55])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vbbUj-000000081NI-3K26;
-	Fri, 02 Jan 2026 09:30:56 +0000
-Date: Fri, 2 Jan 2026 10:30:48 +0100
+	id 1vbbeK-0000000822l-2d8o;
+	Fri, 02 Jan 2026 09:40:50 +0000
+Date: Fri, 2 Jan 2026 10:40:46 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1767346250;
+	s=2020; t=1767346846;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8YcZUjg0311ZROYKDXEwwP7sobLx9I06Jhc3I1W6jb0=;
-	b=avoC+DkYQZwGI05C6gFL2VwUUth9gGo3h2p/6b/8kXLMTZ9y5buFMYwCjSUJLnVovf0Wsg
-	V9bdt982VUpWV/nAzfFAjyNuHs+Av3WLRaTitb2t24jqTV6LkVOT8uU+Eqflu87LXr2OHo
-	bkzRuRWfp2e11+jhBFwhXgdL0Uv77O+tJPZVuJ5ToHr5/2xNfP9zOHwsTRmnazt0SLGW1a
-	OPCBWX1cFdGalZJyvCsQI8WkMG32ECjDY3su8Y8msn066hp4h3o1hxxzINyACzWSlCDA1v
-	C4KFqo+uVu9HSPVv8p9jT1wWHJV871NRtg3+Tzljr+dXyRWIFODyr2SpA1swwQ==
+	bh=kS11IUBVdxrHLhATkhOXZm6xlvRRsZAYpnTnAo0yD7M=;
+	b=dt/1fRoAd6IzelZylMRg+LHKUqWaf+v02F7sJ6wKUYKewjWCwMLBh3FSakH855CMojEN3n
+	rHaFul6oQLj1C7RLiqIgu0x9gzPvejH6HMFsUOfj16YZ1Uwr9uiqk4Hiz0x8zmSU1tzBGY
+	T9p1zg3uV09amWdXrlE+kXGf4s1ZI5R6oqJFbOznmmD9BbT+qwQKg54RqreVg4j0s0mNtV
+	uhuS7DROnZDArGckLp7xbJYR+DY08ZrYgyZRJH6+my9NZlYw6QASM/MEDmxFyZeP/39TDJ
+	g7BAdnVi2u+Y9qvtaR4MsQdX41QBIjOz+IIhA7iPJ7HaizkXVdTW8qdU4pIA8g==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1767346250;
+	s=2020e; t=1767346846;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8YcZUjg0311ZROYKDXEwwP7sobLx9I06Jhc3I1W6jb0=;
-	b=VSC9aYeyN9I/qJAosGOK7GzWpi2d6w4BCnz12QUjMWzwKSqvOnKSx6FCVdQ0Q5UzEXnoM0
-	MiX5oXCf0qlMPMCw==
+	bh=kS11IUBVdxrHLhATkhOXZm6xlvRRsZAYpnTnAo0yD7M=;
+	b=lwVsPOr/ePqTDg9FOhofZxLxyEyOQnWHgYwH41WF4kDdNITi7YwB4qxNsGANpvd4Nfbc4F
+	2jGx8UWOsVTmFpAQ==
 From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
 To: Arnd Bergmann <arnd@arndb.de>
 Cc: Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, 
@@ -56,18 +56,19 @@ Cc: Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
 	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
 	linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 4/5] x86/uapi: Stop leaking kconfig references to
- userspace
-Message-ID: <20260102093803-77269163-861e-4ea3-acdc-73be77c190a1@linutronix.de>
+Subject: Re: [PATCH 1/5] ARC: uapi: Stop leaking CONFIG_ARC_HAS_SWAPE
+ reference to userspace
+Message-ID: <20260102103913-0420048c-d2f3-431b-8bbb-5962a1553aab@linutronix.de>
 References: <20251230-headers_install-config-leak-v1-0-efba5c58073d@linutronix.de>
- <20251230-headers_install-config-leak-v1-4-efba5c58073d@linutronix.de>
- <a745a59f-947c-4847-b31c-5e32125a51a4@app.fastmail.com>
+ <20251230-headers_install-config-leak-v1-1-efba5c58073d@linutronix.de>
+ <9ecebf46-c230-4074-9001-7ba9d65634f1@app.fastmail.com>
+ <20260102085226-c6463fff-042d-4654-8721-27e995f06c7c@linutronix.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <a745a59f-947c-4847-b31c-5e32125a51a4@app.fastmail.com>
+In-Reply-To: <20260102085226-c6463fff-042d-4654-8721-27e995f06c7c@linutronix.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260102_013054_072859_1EECB20D 
-X-CRM114-Status: GOOD (  24.30  )
+X-CRM114-CacheID: sfid-20260102_014048_833927_A511F93D 
+X-CRM114-Status: GOOD (  18.54  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,75 +85,34 @@ Content-Transfer-Encoding: quoted-printable
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Dec 30, 2025 at 10:08:04PM +0100, Arnd Bergmann wrote:
-> On Tue, Dec 30, 2025, at 08:10, Thomas Wei=DFschuh wrote:
+On Fri, Jan 02, 2026 at 08:55:10AM +0100, Thomas Wei=DFschuh wrote:
+> On Tue, Dec 30, 2025 at 10:23:08PM +0100, Arnd Bergmann wrote:
+> > On Tue, Dec 30, 2025, at 08:10, Thomas Wei=DFschuh wrote:
+> > > UAPI headers are not supposed to leak references to kconfig symbols.
+> > > These won't be set when building userspace. Hide the kconfig reference
+> > > behind 'if defined(__KERNEL__)', so it will be stripped by
+> > > headers_install.sh. The result for userspace will be the same, but the
+> > > exception in headers_install.sh can also be removed.
+> > >
+> > > Signed-off-by: Thomas Wei=DFschuh <thomas.weissschuh@linutronix.de>
 > > =
 
-> >  /* entries in ARCH_DLINFO: */
-> > -#if defined(CONFIG_IA32_EMULATION) || !defined(CONFIG_X86_64)
-> > +#if defined(__KERNEL__) && (defined(CONFIG_IA32_EMULATION) || =
+> > Acked-by: Arnd Bergmann <arnd@arndb.de>
+> > =
 
-> > !defined(CONFIG_X86_64))
-> >  # define AT_VECTOR_SIZE_ARCH 3
-> >  #else /* else it's non-compat x86-64 */
-> >  # define AT_VECTOR_SIZE_ARCH 2
+> > Same as for the nios2 version, I think the nicer solution would
+> > be to use the asm-generic header for uapi and move this one
+> > to arch/arc/include/asm/swab.h for kernel-internal use.
 > =
 
-> While this patch clearly keeps the current behavior, I think it's
-> wrong, and 32-bit userspace should see a '3' instead of '2' here.
->
-> It can probably just be '3' unconditionally, or we can
-> make it more complex and have a userspace definition based
-> on __x86_64__ being defined.
+> Ack. (...)
 
-Does userspace even need to see this definition at all?
-This value only makes sense in combination with AT_VECTOR_SIZE_BASE
-which itself is not part of the UAPI. Debian codesearch did not bring
-up a user for it. Not even CRIU, as they use their own definitions.
-The value is wrong today on x86 and nobody seems to have noticed.
-(Based on both the kconfig variables and the vDSO cmdline switches).
-Also UML shares the same UAPI headers but in the kernel has its own
-ARCH_DLINFO, so the values is "wrong" there, too.
+This doesn't seem to be true. ARC does have a custom C implementation which
+according to its comment is supposed to be more efficient than the generic =
+one.
+So I'd like to keep this as-is.
 
-> I also wonder if there is a problem with the third
-> x86-64 entry being zero rather than AT_IGNORE. I see that
-> some architectures do it like this, to keep the number constant
-> even if some entries are missing:
-> =
-
->         if (likely(signal_minsigstksz))                          \
->                 NEW_AUX_ENT(AT_MINSIGSTKSZ, signal_minsigstksz); \
->         else                                                     \
->                 NEW_AUX_ENT(AT_IGNORE, 0);                       \
-> =
-
->      Arnd
-
-The whole AUX_ENT handling seems brittle and slighly broken. Many changes to
-AT_VECTOR_SIZE_BASE are done as fixes, as they were forgotten in the origin=
-al
-changes to the process setup code. The addition of AT_HWCAP3/AT_HWCAP4 is
-still not reflected in AT_VECTOR_SIZE_BASE. (AT_HWCAP4 is never used anyway=
-s)
-
-Then the same logic is duplicated between binfmt_elf.c and binfmt_elf_fdpic=
-.c,
-except that it is slightly different and the latter is missing some fields.
-We should deduplicate this code and find a way add a static assertion.
-
-Also space is wasted as more entries than possible are allocated in many ca=
-ses.
-For example AT_BASE_PLATFORM and AT_RSEQ_*. And those are not stubbed out w=
-ith
-AT_IGNORE either.
-
-
-So I'd like to keep my current patch as is, to reach my current goal of get=
-ting
-rid of kconfig leaks in the UAPI headers. In parallel we can remove
-AT_VECTOR_SIZE_ARCH from the UAPI and fix the auxiliary vector handling in
-two different patch series.
-
+(...)
 
 Thomas
 
