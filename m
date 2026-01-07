@@ -4,100 +4,110 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 640A9CD5822
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  7 Jan 2026 10:20:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06030CFD641
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  7 Jan 2026 14:48:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=725Et4/21Kp5L1ff5t/Mqj9GfyJL5u0S2Y3g2+vtDwY=; b=D0ec3OfpmOXnMT
-	YM3Y3jNpSCC2L/MnHaZfzaEcIbprt+FPUtvtPuIk5LUyTm/H/yoP9HD5JhqcxQZXvK9rZ2uhP5Q0J
-	CnzR7Kd+BQ16COs155f12I9k8T3bS3KxRc84XksUea/ETAdk8+jwJFq14E7CU9Owo2mQ6JGnXK4la
-	TvirgfSfOhaMEOAaWRbBoZJMIj1P0v1KQf2+mSg1ZNixOJIZ2RIwr+KY+Ri1u8OXoO7HkX+LLHol7
-	+vBIcVNo+SuWsXClwTOrOCAAnQnSptaGD9zHpeq1GkA+J8pDoHEa2Oq9qA8Borgyldqt+Kvib4AdQ
-	AO3+OEoVgzjWcDuh4HDw==;
+	List-Owner; bh=D+PUjWEh6xQMbMwnvRsK4TVXdMUBFAKiQ2D9kcxUgyA=; b=CWDaDOJHGgo++6
+	3kZClIIXyBFmzTM4S2PFoHaoiNCaR8JPlyoXwyHyzrbZmUUJ3zcRcYeO1LAJsUQ79/0C7Z+93MHPk
+	A1EosSeiyU6leXiPwVbiPbI1z/X66lJ+BeH/HDrcIh6HmBMY27rJdCvYcVrIDvD1XW2YOAPkQLnTj
+	A4aUHUb+zHVuDATXd1UB5oy9kfvFSdz3IVsPxfGVTNaDJkWUpCnIWVEtmKeahDv5Hf4iKBnHPY8Dy
+	2bV28PnAIKyYeVnCdB3bgzvnk7gsgoXJXHB8+5EsJMnEQIFUFLUgv+Cu59e8muOP28TzG7rPFTCqj
+	fk7Na7Ut4PuagJV1l6ng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vdQel-0000000Egws-2hYp;
-	Wed, 07 Jan 2026 10:20:47 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1vdUpZ-0000000F7bN-1p33;
+	Wed, 07 Jan 2026 14:48:13 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vdQej-0000000Egvw-26d3;
-	Wed, 07 Jan 2026 10:20:45 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 3697D60007;
-	Wed,  7 Jan 2026 10:20:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 332F3C4CEF7;
-	Wed,  7 Jan 2026 10:20:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767781243;
-	bh=2N7QgaN9sMjltiFqaQG4UkyiWR5RDDQ2n4IgHLPouW4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HG3UgZmir72YPYFm/emlV/3aORPdbjLAnBvpX04p5XtFP762LStn/wPAzNuqOQyK8
-	 k7OnYBM5tMSwl6jbeHb8PLi19AGtC/53sTnfGuvHRwU1J5fTUCYLII+PuhChCRsuuP
-	 lesNvqozgo8UJHTVTNpJsDervk1O2VsPtftbzvVYNlT5k9C+Ou7zoWZDNLa9w7OL7l
-	 1I+dvThsPPRQrJPx2bNt/P7eQY786Hlh4y2DUZqzVomuI/Tc2vep7bqbTNymx1RDAb
-	 W1AWrPHPHnhn5oDQwiHOAOhH7g90DnMJIt+6Fqkfre323p/NzMyoEh/2zKKa/f4rTg
-	 6GL2C2ybj5rcA==
-Date: Wed, 7 Jan 2026 12:20:23 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Ritesh Harjani <ritesh.list@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Alex Shi <alexs@kernel.org>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Hildenbrand <david@kernel.org>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Guo Ren <guoren@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
-	Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	id 1vdUpX-0000000F7aq-2Ult;
+	Wed, 07 Jan 2026 14:48:11 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=+xIhfMAtjHYjFTH+p76wSQ0KBZqEgJllYmQCn9tPHTw=; b=gfgvtMRN85Hh6ULIivj+/lsOiA
+	MybjhOoCgrIWL+bUF4ZEyrlnJ3BCKR4kow6Y6NDL92/3cFJxBWTaKb1rIOfGBe+Dw0TMz+F6hTAg8
+	Crnru+IpjVNRY8M3Yo5pEqYsNvsbroxjMFB+JLG+kn8JUv7wu/qgJNEaHLWZYnCI/h9377j2QaiDj
+	Wp4USeOE/onY3OPFlzQZveXDAm1UarU5jmZ6+7+4LDv4lZECvq9bRsaYpa+NQlBAndtaGIh51toTF
+	IydUvltqxiSopJRhJfdcYVF+WCRW6z7IOhoMVL5JAXrCp/2naH+s5TUY9eMaE3iE1xilEVS8ykNR8
+	zYY+BTvw==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vdUpO-0000000DVbI-1rdl;
+	Wed, 07 Jan 2026 14:48:02 +0000
+Date: Wed, 7 Jan 2026 14:48:02 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Alex Shi <seakeel@gmail.com>
+Cc: Mike Rapoport <rppt@kernel.org>, alexs@kernel.org,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Matt Turner <mattst88@gmail.com>,
 	Magnus Lindholm <linmag7@gmail.com>,
-	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Richard Weinberger <richard@nod.at>,
-	Russell King <linux@armlinux.org.uk>,
-	Stafford Horne <shorne@gmail.com>,
-	Suren Baghdasaryan <surenb@google.com>,
+	Vineet Gupta <vgupta@kernel.org>,
+	Russell King <linux@armlinux.org.uk>, Will Deacon <will@kernel.org>,
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Nick Piggin <npiggin@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Guo Ren <guoren@kernel.org>, Brian Cain <bcain@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Michal Simek <monstr@monstr.eu>,
 	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Dinh Nguyen <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>,
+	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+	Stafford Horne <shorne@gmail.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
 	Thomas Gleixner <tglx@linutronix.de>,
-	Vasily Gorbik <gor@linux.ibm.com>, Vineet Gupta <vgupta@kernel.org>,
-	Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>,
-	x86@kernel.org, linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
-	linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-	linux-mm@kvack.org, linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
-	sparclinux@vger.kernel.org
-Subject: Re: [PATCH v2 14/28] powerpc: introduce arch_zone_limits_init()
-Message-ID: <aV4zZ8D5eaLC6K-w@kernel.org>
-References: <20260102070005.65328-1-rppt@kernel.org>
- <20260102070005.65328-15-rppt@kernel.org>
- <87ldia9he1.ritesh.list@gmail.com>
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>,
+	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>, David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	"open list:ALPHA PORT" <linux-alpha@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
+	"moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+	"open list:MMU GATHER AND TLB INVALIDATION" <linux-arch@vger.kernel.org>,
+	"open list:MMU GATHER AND TLB INVALIDATION" <linux-mm@kvack.org>,
+	"open list:C-SKY ARCHITECTURE" <linux-csky@vger.kernel.org>,
+	"open list:QUALCOMM HEXAGON ARCHITECTURE" <linux-hexagon@vger.kernel.org>,
+	"open list:LOONGARCH" <loongarch@lists.linux.dev>,
+	"open list:M68K ARCHITECTURE" <linux-m68k@lists.linux-m68k.org>,
+	"open list:MIPS" <linux-mips@vger.kernel.org>,
+	"open list:OPENRISC ARCHITECTURE" <linux-openrisc@vger.kernel.org>,
+	"open list:PARISC ARCHITECTURE" <linux-parisc@vger.kernel.org>,
+	"open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
+	"open list:SUPERH" <linux-sh@vger.kernel.org>,
+	"open list:USER-MODE LINUX (UML)" <linux-um@lists.infradead.org>
+Subject: Re: [PATCH] mm/pgtable: convert pgtable_t to ptdesc pointer
+Message-ID: <aV5yIuGi9Ni5YP5E@casper.infradead.org>
+References: <20260107064642.15771-1-alexs@kernel.org>
+ <aV4h5vQUNXn5cpMY@kernel.org>
+ <080e493a-e4f1-4c97-a3e1-f76f126b5213@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <87ldia9he1.ritesh.list@gmail.com>
+In-Reply-To: <080e493a-e4f1-4c97-a3e1-f76f126b5213@gmail.com>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,53 +124,12 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi,
+On Wed, Jan 07, 2026 at 05:28:36PM +0800, Alex Shi wrote:
+> Right, I will fix this. and sent the 2nd version.
 
-On Wed, Jan 07, 2026 at 09:57:34AM +0530, Ritesh Harjani wrote:
-> Mike Rapoport <rppt@kernel.org> writes:
-> 
-> > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-> >
-> > Move calculations of zone limits to a dedicated arch_zone_limits_init()
-> > function.
-> >
-> > Later MM core will use this function as an architecture specific callback
-> > during nodes and zones initialization and thus there won't be a need to
-> > call free_area_init() from every architecture.
-> >
-> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> > ---
-> >  arch/powerpc/mm/mem.c | 22 ++++++++++++----------
-> >  1 file changed, 12 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/arch/powerpc/mm/mem.c b/arch/powerpc/mm/mem.c
-> > index 3ddbfdbfa941..32c496bfab4f 100644
-> > --- a/arch/powerpc/mm/mem.c
-> > +++ b/arch/powerpc/mm/mem.c
-> > @@ -221,13 +221,23 @@ static int __init mark_nonram_nosave(void)
-> >   * anyway) will take a first dip into ZONE_NORMAL and get otherwise served by
-> >   * ZONE_DMA.
-> >   */
-> > -static unsigned long max_zone_pfns[MAX_NR_ZONES];
-> > +void __init arch_zone_limits_init(unsigned long *max_zone_pfns)
-> > +{
-> > +#ifdef CONFIG_ZONE_DMA
-> > +	max_zone_pfns[ZONE_DMA]	= min(zone_dma_limit, max_low_pfn - 1) + 1;
-> 
-> Hi Mike, 
-> 
-> This doesn't look correct. Isn't the zone_dma_limit value in bytes actually?
-> Shouldn't it be -
-> 
->      max_zone_pfns[ZONE_DMA] = min((zone_dma_limit >> PAGE_SHIFT) + 1, max_low_pfn);
-
-You are right, I'll update it for v3. 
- 
-> -ritesh
-
--- 
-Sincerely yours,
-Mike.
+No, the patch is stupid and wrong.  Don't send a v2.  You seem to have a
+hairtrigger resend, so I'm trying to prevent a v2 being sent instead of
+sending a patient reply.
 
 _______________________________________________
 linux-snps-arc mailing list
