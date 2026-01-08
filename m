@@ -4,102 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98D88D185F1
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  8 Jan 2026 13:38:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A76ED1D488
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  8 Jan 2026 19:19:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Mime-Version:References:In-Reply-To:
+	Message-Id:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=u4nLTUWtnJpJEsAXbG0kGgsMY59VHpqA2t9iWk2rLrI=; b=cufVcDAuZZsJz9
-	otzLlASqxaWBW0NQsa6ElKqRBhF+GiumTXL/+/g5w6D2Kh38eHPrBDQTtDbA0v1JVt9T2zhgFysg0
-	F2L8tdcSiwPi0pIolYmQ+m4DQ0FuDJuLIwVtUTNNFKzusaMmWmWy26LSYLefqJkonGJc56Unzkg+B
-	4/gtLzZRKQtKAEEnwnTmnbyEmhvIV03PXlHSac3gq4IcLJpTI5znUPqIXCEkGLnO70FPI5nDEK65P
-	V/VRFuabQyd1V7mFwctl3AoUZD2/NKaGcHUUmCjZhQQROSvlr5fZJCDVgSA91im7gN6mYcMAS6fWM
-	dES6AGSVQmQvGUuPe7Rg==;
+	List-Owner; bh=jPEeWTt0Rzio3ZIpWDGGRqygETZmY7f8Qk/lwkxJFuc=; b=m+6e5dFbvcI71S
+	bGjT80Sekmaf4irnDAnVWJtGm9hHpLQT3fYcryNneO67XOCY6hdXXER9IfWl2PTkzxZh7fpuPuevH
+	2CeZ/dERoJJ256R5T+CBr+CxTqYUryb5PCcAidbIfdg9j3qKWswEFdikdivey5AuAWpWZ+oka7T+o
+	Ze/j6c7UBsHzvZfZ24HQHA49yri62FU2KqLufzMgU701i2taikiWMYz8N5bEx5inQ3tXUTRSA8rgQ
+	bOiRp35JmZ8TqTbp1wiUHMBaE1QH7nfw97Erlc3a/7yYAq4oFd3wbfb/UqR/44B7Okya/+0Vk7YOA
+	rwyMoQdwwR39rcaWUfLg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vdqDK-0000000HBqy-1C0D;
-	Thu, 08 Jan 2026 13:38:10 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1vdvXa-00000000k2G-48B5;
+	Thu, 08 Jan 2026 19:19:26 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vdqDI-0000000HBqN-1JSV;
-	Thu, 08 Jan 2026 13:38:08 +0000
+	id 1vdvXX-00000000k1f-28ev;
+	Thu, 08 Jan 2026 19:19:25 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 8F95860131;
-	Thu,  8 Jan 2026 13:38:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBE32C116C6;
-	Thu,  8 Jan 2026 13:37:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767879487;
-	bh=VJKhVx5DGpVLVYb2XKJ8mMHhMksRI4ZPi6UFAnGjOes=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lKSNSmMui9b0uWXSR001Pt88qSwhYL4W2bFV32qwFJ/6CmW/Ao5TYVAY3Z+59376e
-	 LGMD9MiGBnRAvJH8NMvzcia4RujNN/Ji55DA7R7FC9V5WsJbqtoAPJTAPUCr5atPUE
-	 poGy32Xu92IK7Q6/R8BLK5Dfhvm0ifmZuiuV3C9vgar8FlNP1ez1Sr09T2iAeyAOsS
-	 gk385QWtqNoWlz57jEfTxAmmfx4P4Mski6nsScaJkhVKadirubTC5FVXcq8viEItJc
-	 1AEPIPxLDV87+Z5JZ+lhld5Il8971MVKAXSlnW8bHrCKUMYsXlt6o7qcTWAv0XBwbd
-	 WP7HoXXSByWCw==
-Date: Thu, 8 Jan 2026 15:37:44 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Kalle Niemi <kaleposti@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Alex Shi <alexs@kernel.org>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Hildenbrand <david@kernel.org>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Guo Ren <guoren@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
-	Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Magnus Lindholm <linmag7@gmail.com>,
-	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Richard Weinberger <richard@nod.at>,
-	Russell King <linux@armlinux.org.uk>,
-	Stafford Horne <shorne@gmail.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vasily Gorbik <gor@linux.ibm.com>, Vineet Gupta <vgupta@kernel.org>,
-	Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>,
-	x86@kernel.org, linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
-	linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-	linux-mm@kvack.org, linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
-	sparclinux@vger.kernel.org,
-	matti Vaittinen <mazziesaccount@gmail.com>
-Subject: Re: [PATCH v2 22/28] arch, mm: consolidate initialization of nodes,
- zones and memory map
-Message-ID: <aV-zKGYP6EUETaQ2@kernel.org>
+	by sea.source.kernel.org (Postfix) with ESMTP id DD4D240732;
+	Thu,  8 Jan 2026 19:19:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEE9CC116C6;
+	Thu,  8 Jan 2026 19:19:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1767899961;
+	bh=fSg1rFUc7Lj8obCBDIiOBzwmsy2PDWnpS6aiVKuno6E=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=CVumgl5uYfQfaLqYgweLov8FT7OgO1ch7qHlwuZbONKicqb+bmGFoLIsYAxoWfRsr
+	 6BxVTZH+QFJx2xSpWVk0NUrA2Ddxjwu2/Wcc1JG/gPIWft2fVjXp2CIt9nEHIpeVml
+	 fnOoO4sO6q/7KPmJQudmyHeHcLC9E7nvlzSuO+ys=
+Date: Thu, 8 Jan 2026 11:19:19 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Klara Modin <klarasmodin@gmail.com>, Alex Shi <alexs@kernel.org>,
+ Alexander Gordeev <agordeev@linux.ibm.com>, Andreas Larsson
+ <andreas@gaisler.com>, Borislav Petkov <bp@alien8.de>, Brian Cain
+ <bcain@kernel.org>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, "David S. Miller"
+ <davem@davemloft.net>, Dave Hansen <dave.hansen@linux.intel.com>, David
+ Hildenbrand <david@kernel.org>, Dinh Nguyen <dinguyen@kernel.org>, Geert
+ Uytterhoeven <geert@linux-m68k.org>, Guo Ren <guoren@kernel.org>, Heiko
+ Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>, Huacai Chen
+ <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>, Johannes Berg
+ <johannes@sipsolutions.net>, John Paul Adrian Glaubitz
+ <glaubitz@physik.fu-berlin.de>, Jonathan Corbet <corbet@lwn.net>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Lorenzo Stoakes
+ <lorenzo.stoakes@oracle.com>, Magnus Lindholm <linmag7@gmail.com>, Matt
+ Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>, Michael
+ Ellerman <mpe@ellerman.id.au>, Michal Hocko <mhocko@suse.com>, Michal Simek
+ <monstr@monstr.eu>, Muchun Song <muchun.song@linux.dev>, Oscar Salvador
+ <osalvador@suse.de>, Palmer Dabbelt <palmer@dabbelt.com>, Pratyush Yadav
+ <pratyush@kernel.org>, Richard Weinberger <richard@nod.at>, Russell King
+ <linux@armlinux.org.uk>, Stafford Horne <shorne@gmail.com>, Suren
+ Baghdasaryan <surenb@google.com>, Thomas Bogendoerfer
+ <tsbogend@alpha.franken.de>, Thomas Gleixner <tglx@linutronix.de>, Vasily
+ Gorbik <gor@linux.ibm.com>, Vineet Gupta <vgupta@kernel.org>, Vlastimil
+ Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>, x86@kernel.org,
+ linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-csky@vger.kernel.org, linux-cxl@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, linux-mm@kvack.org,
+ linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-um@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ loongarch@lists.linux.dev, sparclinux@vger.kernel.org
+Subject: Re: [PATCH 3.5] arm: make initialization of zero page independent
+ of the memory map (was Re: [PATCH v2 22/28] arch, mm: consolidate
+ initialization of nodes, zones and memory map)
+Message-Id: <20260108111919.ac5f811132672e760f47fbab@linux-foundation.org>
+In-Reply-To: <aVpWpLV4Dut5Muo2@kernel.org>
 References: <20260102070005.65328-1-rppt@kernel.org>
- <20260102070005.65328-23-rppt@kernel.org>
- <5f9a0269-f9d5-4ee0-bf57-62148d762f7f@gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <5f9a0269-f9d5-4ee0-bf57-62148d762f7f@gmail.com>
+	<20260102070005.65328-23-rppt@kernel.org>
+	<aVhN2NgQEKe0yzva@soda.int.kasm.eu>
+	<aVll339wim7dCIaQ@kernel.org>
+	<aVlwOyicOLPB9SOa@parmesan.int.kasm.eu>
+	<aVpWpLV4Dut5Muo2@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260108_111923_616195_15DF1EE9 
+X-CRM114-Status: GOOD (  16.02  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,29 +107,32 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi,
+On Sun, 4 Jan 2026 14:01:40 +0200 Mike Rapoport <rppt@kernel.org> wrote:
 
-On Thu, Jan 08, 2026 at 11:24:07AM +0200, Kalle Niemi wrote:
-> On 1/2/26 08:59, Mike Rapoport wrote:
-> > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-> > 
-> Hello,
+> Can you please stick this between patch 3 (arm: introduce
+> arch_zone_limits_init()) and patch 4 (arm64: introduce
+> arch_zone_limits_init())?
+
+Did, thanks.  I made this a standalone patch rather than  a
+squashable -fix.
+
+> >From 35d016bbf5da7c08cc5c5547c85558fc50cb63aa Mon Sep 17 00:00:00 2001
+> From: Klara Modin <klarasmodin@gmail.com>
+> Date: Sat, 3 Jan 2026 20:40:09 +0200
+> Subject: [PATCH] arm: make initialization of zero page independent of the
+>  memory map
 > 
-> This patch got bisected to cause BeagleBone Black boot failure in linux-next
-> version next-20260107.
-
-Can you check if this patch fixes it?
-
-https://lore.kernel.org/all/aVpWpLV4Dut5Muo2@kernel.org/
- 
-> At the moment I cannot provide any helpful information about this.
+> Unlike most architectures, arm keeps a struct page pointer to the
+> empty_zero_page and to initialize it requires conversion of a virtual
+> address to page which makes it necessary to have memory map initialized
+> before creating the empty_zero_page.
 > 
-> BR
-> Kalle
+> Make empty_zero_page a stataic array in BSS to decouple it's
+> initialization from the initialization of the memory map.
+> 
+> This also aligns arm with vast majorty of architectures.
 
--- 
-Sincerely yours,
-Mike.
+Russell, can you please update us on your concerns with this change?
 
 _______________________________________________
 linux-snps-arc mailing list
