@@ -4,57 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 779CCD2502E
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 11 Jan 2026 08:25:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2D921D2502F
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 11 Jan 2026 08:25:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=+ggqCxhF8/HfTmzgXmdH5bujiixe8By9k91qX4IdsL4=; b=TVH7KvEMeRLHuJ
-	UPkD1FBP1sAb73vKJZ0Qz/LnMEbfXGQ3aq8ym+A97c4i6ENLgpEo2oZGmKUo7yogoJqLpW1PQxxEL
-	iWs7oDxnKm9BADVsJpdFDeFFiMWMbdYnEAVxE6Uj4Q4r61crAvY9zOPf8cZy9Luydxc9uL/T/A/+k
-	N3rSBDintWYfE3mfdI+wtoHSrSYb1hOgcX5+wij9mPz1PsjOHxFOV/nDqBYRjRp62X3MhQXJDCJaw
-	xVlLsK1pbTMU3rV2GPp4wrw8LGp6W2IN6gjebgnf6tCePji/9pLFQbdL7yJVQElhzLhnxLtXA/+5n
-	J/7SK2Op7WwF42hSQV9Q==;
+	List-Owner; bh=KfZv/Kb1XhSr3ShUxdf1JpWAixFzSWwNUUZ0EXFOvrs=; b=aWhEJb+ZponLF+
+	SAzx1IyLgq+quuaFcZdCWtFZphuIvCNtbiHq99pupVbFlMt6lcX+FuBWsQOS+gs8GwHReQsDUzWbQ
+	Z9lNlPLgxgxaiOBmnfUuTpPmJJRcJY2OaudXx80GPhdxOaBKQGQXJ/JePstHKrbztkCg/xG/VyUJT
+	C1siDuFML7u6V+mnqhz8OmYWJbyarosjLbO9bY/OaXKCfuZCgFfuLUJUk/3+dTkCqhmIAX8oTC3nF
+	eM2z8yfh3pUZ8PiGl2OJp1+iptn/HBTZ0Nutb0vI7vugDikM1msZUbhpsAnYNEARZ2KFApaLKzaSz
+	GabALeOR4fgATDRQSJGg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1veqlD-00000003zsy-0xto;
-	Sun, 11 Jan 2026 08:25:19 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1veqlB-00000003zrQ-2737;
-	Sun, 11 Jan 2026 08:25:17 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=a/l0u3Hxe5VmGHjW0jp1QC8gVmA78/lu+jqaojRNk7Q=; b=hc0sL5P/wdxLWA9540D3QeRnmG
-	+ZNbh5xASgmSe1xLP3wpve0HTJOGQnHF/anHsXEsDje5Wh5YkJTmVaUTMGDgG5tbK6aWYQNDkyFne
-	kzkKVSbmFgWk9dr97DR/AweMR41bpMGk4RdUaTpTWK/UE1+wMfgfNFL6CAfolpdnDAkLPI7V8Q43k
-	Ch9BbZju2AN1YsuFi7HGdJ2RtAXBtrIr0r+4NpE6BNYcFyZJygpKyOHpkC/4bjtwnWn2IZmyDjQJw
-	TROoM5F4pgcnYTjx/rVzrR9bmOQBrVipkZhSTp9zagu3cAoxhiHuCshCeEc0/0llK7lge8+iJnYqm
-	ATiX2QvQ==;
+	id 1veqlM-0000000400G-3aYD;
+	Sun, 11 Jan 2026 08:25:28 +0000
 Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1veql6-0000000GuKO-0yEb;
-	Sun, 11 Jan 2026 08:25:15 +0000
+	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1veqlK-00000003zy8-1Fi3;
+	Sun, 11 Jan 2026 08:25:27 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id B72CD40D98;
+	by sea.source.kernel.org (Postfix) with ESMTP id D50E440557;
+	Sun, 11 Jan 2026 08:25:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EE4AC4CEF7;
 	Sun, 11 Jan 2026 08:25:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F417AC4CEF7;
-	Sun, 11 Jan 2026 08:24:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768119910;
-	bh=XLJkxze/zRljNiS2gjyXo20G7bby5TmrPlX4304F60E=;
+	s=k20201202; t=1768119925;
+	bh=qZJ/kX6852xy97RGj2L4BqvkwDGVySCnfrT6X/8ZHF4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NJT6JCU7l1lxqyEUTX5FYSwW/ezRfbB5BhOsON2tIsFgcB6KzvRLR+VnOfjUnNUli
-	 1Df8EMUsXpuMWNMEAA9p52WCryPzuB9RbNl4/dSrDVNn62F060YueIkx8RUqzMLl6f
-	 BhWB9bOPubZIrl7G5M3hr3fwWW14Tf1pPvDElI9X6i/zDAFVSfmNKdnay9gRKvt/PL
-	 Xp0l0kOl1v0LyjjDmg+r8L2t3wr9KtSAMNHGmCC+QweHEL3NWWYl1TRj4kT+Dh+ak9
-	 au2MTE1nA096UC962hgd53ExdFcUsGJJZA+dyB8GHK3x3h15Sno3iINFa4dPcVEyf+
-	 kN9pkH6svLtFQ==
+	b=c+P+a//z4Nd5nIw0v+f+shPEprkJC1dixcExDF6DS8B1qCxJNhAn9gpWgY3+8tYux
+	 5S5M6nBwReivNwSNXdn/8vuT0YA2vEEo0MxOaXXZ7/PYTBLJ22IqjIFsWf6fSvFriU
+	 Xp/PcxtxdPH7dMXA6/y4k9GPtvHylLYxsywRRRuXL+oes1SFX8LWWJf3/H/FCWaM5b
+	 3/5oyLuN+DtN5k0D9u+ZZMiZW5jvG2mpiqt2m0hga5FUwHpEnfNSjZsML4vSpltVef
+	 8ZMgZSSbpINkDwSUrZONYkFT4OT4WwQePp6Vv669nytS4Ymj4bdmUg/4ZkvKpXSVhU
+	 wY8POksQVxL1g==
 From: Mike Rapoport <rppt@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Alex Shi <alexs@kernel.org>,
@@ -123,16 +109,16 @@ Cc: Alex Shi <alexs@kernel.org>,
 	linuxppc-dev@lists.ozlabs.org,
 	loongarch@lists.linux.dev,
 	sparclinux@vger.kernel.org
-Subject: [PATCH v3 15/29] powerpc: introduce arch_zone_limits_init()
-Date: Sun, 11 Jan 2026 10:20:49 +0200
-Message-ID: <20260111082105.290734-16-rppt@kernel.org>
+Subject: [PATCH v3 16/29] riscv: introduce arch_zone_limits_init()
+Date: Sun, 11 Jan 2026 10:20:50 +0200
+Message-ID: <20260111082105.290734-17-rppt@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260111082105.290734-1-rppt@kernel.org>
 References: <20260111082105.290734-1-rppt@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260111_082512_852320_3B0AFEF6 
-X-CRM114-Status: GOOD (  13.22  )
+X-CRM114-CacheID: sfid-20260111_002526_377798_A845D1DE 
+X-CRM114-Status: GOOD (  11.63  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -160,55 +146,36 @@ call free_area_init() from every architecture.
 
 Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 ---
- arch/powerpc/mm/mem.c | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
+ arch/riscv/mm/init.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/arch/powerpc/mm/mem.c b/arch/powerpc/mm/mem.c
-index 3ddbfdbfa941..03c05ec56041 100644
---- a/arch/powerpc/mm/mem.c
-+++ b/arch/powerpc/mm/mem.c
-@@ -221,13 +221,23 @@ static int __init mark_nonram_nosave(void)
-  * anyway) will take a first dip into ZONE_NORMAL and get otherwise served by
-  * ZONE_DMA.
-  */
--static unsigned long max_zone_pfns[MAX_NR_ZONES];
+diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+index addb8a9305be..97e8661fbcff 100644
+--- a/arch/riscv/mm/init.c
++++ b/arch/riscv/mm/init.c
+@@ -79,15 +79,19 @@ uintptr_t _dtb_early_pa __initdata;
+ 
+ phys_addr_t dma32_phys_limit __initdata;
+ 
+-static void __init zone_sizes_init(void)
 +void __init arch_zone_limits_init(unsigned long *max_zone_pfns)
-+{
-+#ifdef CONFIG_ZONE_DMA
-+	max_zone_pfns[ZONE_DMA] = min((zone_dma_limit >> PAGE_SHIFT) + 1, max_low_pfn);
-+#endif
-+	max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
-+#ifdef CONFIG_HIGHMEM
-+	max_zone_pfns[ZONE_HIGHMEM] = max_pfn;
-+#endif
-+}
- 
- /*
-  * paging_init() sets up the page tables - in fact we've already done this.
-  */
- void __init paging_init(void)
  {
-+	unsigned long max_zone_pfns[MAX_NR_ZONES] = { 0 };
- 	unsigned long long total_ram = memblock_phys_mem_size();
- 	phys_addr_t top_of_ram = memblock_end_of_DRAM();
- 	int zone_dma_bits;
-@@ -259,15 +269,7 @@ void __init paging_init(void)
- 
- 	zone_dma_limit = DMA_BIT_MASK(zone_dma_bits);
- 
--#ifdef CONFIG_ZONE_DMA
--	max_zone_pfns[ZONE_DMA]	= min(max_low_pfn,
--				      1UL << (zone_dma_bits - PAGE_SHIFT));
--#endif
--	max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
--#ifdef CONFIG_HIGHMEM
--	max_zone_pfns[ZONE_HIGHMEM] = max_pfn;
--#endif
+-	unsigned long max_zone_pfns[MAX_NR_ZONES] = { 0, };
 -
+ #ifdef CONFIG_ZONE_DMA32
+ 	max_zone_pfns[ZONE_DMA32] = PFN_DOWN(dma32_phys_limit);
+ #endif
+ 	max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
++}
++
++static void __init zone_sizes_init(void)
++{
++	unsigned long max_zone_pfns[MAX_NR_ZONES] = { 0, };
+ 
 +	arch_zone_limits_init(max_zone_pfns);
  	free_area_init(max_zone_pfns);
+ }
  
- 	mark_nonram_nosave();
 -- 
 2.51.0
 
