@@ -4,104 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFEF7D25032
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 12 Jan 2026 07:35:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B39E2D2503F
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 12 Jan 2026 07:58:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=bsXSbX6ZpZYPkMDrL8nFlTqpv24ot916E8K2Afmm8cY=; b=FOBCXV1Dy3Dc86
-	GXEK7nXi040MAcOU/nlHv7QUEQ7J1VlJFbVz6rc8/qYsuOvg1XXrlX6YsJpJ3fbws9VjZ9llSGzHl
-	exUHjJ5fEYPy5g8KzosGU0qhoCALbeb9YG92HC6XXEu+g4gQq5xFaDdgDCsy0L+un1CANZr5Av5Wd
-	OyM1JMOIBsO9aUvI7X5xYQPMfZxSnD62Cc/ymuX72w47kO8IgtPKCm4zzgghuGWHNz0svbElUB/5L
-	6OJwnIY/5JfhZa9eiTXqTTkkegLAWxnPHEe91XkvPNidbr8flJ8UpwkJoGDp2FrCjHTeY2jsWtEor
-	BAEm+EvQ6Hw4HRgzqkrw==;
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:MIME-Version:Message-Id:Date:
+	Subject:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=C0m9syfsujGi5Z4LOnVYpjZDX/m7gpwyTWX8GDgyiLQ=; b=0Imn1WZP2Mj7Cn
+	Q0U0o7sX0YaDHVJoNmsELVkQFB36t0BD1kgXfwuPvSShZdwysP1CVvB/njEMpMRPH+ekygayC4Mws
+	7l65jMfARl2KLxL+fE9PGbpbUf+GYjaXeLdYWuAvYACCWJxOp+y2XYNvnu+W47U36VBbQ7/6Y+PKy
+	WSGwIbjPgHWiw9rZbIWtbhIprRu3+wA+nnlSSCBZGUPNUYuuARA2yC7JYUlgc3+R++BizW/SKYAbh
+	JcTfxcsXSMzNMO7NmbYTvlm/+w2Xb9V8oo7BocFI88WC+sgZ3WehQwDDCkVy4volVEFLDwuBPEsOH
+	vBBR0bJvckqxxUboECqA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vfCSB-00000004t6a-19x9;
-	Mon, 12 Jan 2026 07:35:07 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1vfCp0-00000004wLH-05FX;
+	Mon, 12 Jan 2026 07:58:42 +0000
+Received: from galois.linutronix.de ([193.142.43.55])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vfCS8-00000004t5r-0kYw;
-	Mon, 12 Jan 2026 07:35:05 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 1CBFE43C1F;
-	Mon, 12 Jan 2026 07:35:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61041C19422;
-	Mon, 12 Jan 2026 07:34:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768203303;
-	bh=H0wpDyU4+hGvGadEaJXaoKwU4fABU87rkRhUJIykrtE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cB9JlNOsE5ASTDSwfciaJvBRecBB1lB0Uwj+GaWwyCjgypyJQWPdkiELZQ8iVJPfz
-	 nMocJbirHN/1lk3J7Si3fdDg+XjkNRlIqWpD36vowiVH0S+GvTZEHLt/X4w6L2bjbX
-	 MW70tMpH6LtqJ9xirliNmH6ey3Jn3uobFlK0X2Mc7rV2i4ddTSmSf1HxKEBm5toCRi
-	 d46Yvu6ZlmDb9ZF7jcWZyute2z21cTSvo7YbjPFCodLjqoxUiSIWkDnwdalYjHh76y
-	 ow7pMfD3F6CiXLdHJYJqrOQj4clSEc/bsWScF8TIIT22yhLrTWzvu1RJLquyFnQ26r
-	 U5L75tv4dABXw==
-Date: Mon, 12 Jan 2026 09:34:40 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Alexander Gordeev <agordeev@linux.ibm.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Alex Shi <alexs@kernel.org>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Hildenbrand <david@kernel.org>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Guo Ren <guoren@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
-	Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Klara Modin <klarasmodin@gmail.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Magnus Lindholm <linmag7@gmail.com>,
-	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Richard Weinberger <richard@nod.at>,
-	Ritesh Harjani <ritesh.list@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Stafford Horne <shorne@gmail.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vasily Gorbik <gor@linux.ibm.com>, Vineet Gupta <vgupta@kernel.org>,
-	Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>,
-	x86@kernel.org, linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
-	linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-	linux-mm@kvack.org, linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
-	sparclinux@vger.kernel.org
-Subject: Re: [PATCH v3 17/29] s390: introduce arch_zone_limits_init()
-Message-ID: <aWSkELL7xJ04QAct@kernel.org>
-References: <20260111082105.290734-1-rppt@kernel.org>
- <20260111082105.290734-18-rppt@kernel.org>
- <b211f877-f9bb-4892-b67c-d2610048575a-agordeev@linux.ibm.com>
+	id 1vfCow-00000004wIz-3Lec;
+	Mon, 12 Jan 2026 07:58:40 +0000
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1768204714;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=LruWS9bgL9uclP30PRSFfk5G10oz266R8zNDPLNEDn0=;
+	b=X/iPbSr2WhCsbIPCBtPUv11meOSFgbRYg2YRS/fSrizxcY3XqIYVlFfOS1olKjUpBIOOGT
+	D9P0TPn5tqU0Q5QXrqdLS5qTvTdsYr084ncxWq1JcwxscCzhjLSIClOnIdmqxiJ99dTd62
+	fweD5jQUVfZVe1FdgDWHLkDumCPsB377tR6WR7UVSKos5xorTG2N5vuuoSj92Jl4RVIXqM
+	1ltUhePEAqgEr27+at4X6Z35H50AN4w12U+DYaHRMoK3O06JgWM0v9Hys6j7MT5LtbulJ1
+	2i4xLZ0HLfkttmXarP/O1/Q2bpr91mYV9YF+daZcd7Pmi1r913qs8nNYcBjmPg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1768204714;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=LruWS9bgL9uclP30PRSFfk5G10oz266R8zNDPLNEDn0=;
+	b=Db2EatKbe7CV5vmXClDvjR7hKP4hoeKYxA9rz/BxSXOyuEdlfqjDbbJC+GdSJ3WPrKHgkl
+	ZpQtALIs+WDA9hCg==
+Subject: [PATCH v2 0/5] uapi: fix remaining kconfig leaks in UAPI headers
+Date: Mon, 12 Jan 2026 08:58:28 +0100
+Message-Id: <20260112-headers_install-config-leak-v2-0-4d8084444603@linutronix.de>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <b211f877-f9bb-4892-b67c-d2610048575a-agordeev@linux.ibm.com>
+X-B4-Tracking: v=1; b=H4sIAKSpZGkC/33NQQ6CMBCF4auQWTumLSGCK+9hiCntABOblrRIM
+ IS7W4lrl/9bfG+DRJEpwbXYINLCiYPPoU4FmFH7gZBtblBCVVKpBkfSlmJ6sE+zdg5N8D0P6Eg
+ /sat1o2Rj6640kIUpUs/rod/b3COnOcT3cbbI7/pzS/HXXSQKpL7TlalqcSntzbF/zTF4Xs+Wo
+ N33/QPASapZygAAAA==
+X-Change-ID: 20251229-headers_install-config-leak-b8a9219d8b3c
+To: Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, 
+ Dinh Nguyen <dinguyen@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+ "H. Peter Anvin" <hpa@zytor.com>
+Cc: linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, Arnd Bergmann <arnd@arndb.de>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768204713; l=1645;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=Omi58sNcFPlfpcb80NgNOQYgGVaLrDz0Q3WmxNIaE/A=;
+ b=siKiEG63pzaAcjEWKMUseFVtfGbQIsA69DJxTeH82PA2niUYDkywkH6jqlx/B62gz6XRkbhrr
+ 9LfD15N9UypCngp1M59620AJrGmB60iKRB4fbgEJy0X8yt3I19YCFp8
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260111_233504_273611_23C8D9CF 
-X-CRM114-Status: GOOD (  16.82  )
+X-CRM114-CacheID: sfid-20260111_235838_984778_DDE4E3AD 
+X-CRM114-Status: UNSURE (   7.16  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,56 +85,40 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi,
-
-On Mon, Jan 12, 2026 at 08:02:48AM +0100, Alexander Gordeev wrote:
-> On Sun, Jan 11, 2026 at 10:20:51AM +0200, Mike Rapoport wrote:
-> 
-> Hi Mike,
-> 
-> ...
-> > +void __init arch_zone_limits_init(unsigned long *max_zone_pfns)
-> > +{
-> > +	max_zone_pfns[ZONE_DMA] = virt_to_pfn(MAX_DMA_ADDRESS);
-> > +	max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
-> > +}
-> > +
-> >  /*
-> >   * paging_init() sets up the page tables
-> >   */
-> > @@ -97,8 +103,7 @@ void __init paging_init(void)
-> >  	sparse_init();
-> >  	zone_dma_limit = DMA_BIT_MASK(31);
-> >  	memset(max_zone_pfns, 0, sizeof(max_zone_pfns));
-> > -	max_zone_pfns[ZONE_DMA] = virt_to_pfn(MAX_DMA_ADDRESS);
-> > -	max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
-> > +	arch_zone_limits_init(max_zone_pfns);
-> 
-> You move initialization of max_zone_pfns[] to a function, name the
-> function arch_zone_limits_init(), but leave the initializatio of
-> max_zone_pfns[] to zeroes outside. Should not it be brought along?
-
-The idea is that is the caller responsibility to initialize max_zone_pfns
-to zero. After patch 24: "arch, mm: consolidate initialization of
-SPARSE memory model" there is a single caller of arch_zone_limits_init()
-and having initialization of max_zone_pfns() there is more optimal than
-having 20-something of those.
- 
-> >  	free_area_init(max_zone_pfns);
-> >  }
-> 
-> Thanks!
-
--- 
-Sincerely yours,
-Mike.
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+QSBmZXcgVUFQSSBoZWFkZXJzIHN0aWxsIGNvbnRhaW5lZCByZWZlcmVuY2VzIHRvIGtjb25maWcg
+c3ltYm9scy4KQ2xlYW4gdGhlbSBhbGwgdXAgYW5kIGFmdGVyd2FyZHMgcmVtb3ZlIHRoZSBub3cg
+dXNlbGVzcyBleGNlcHRpb24KbWFjaGluZXJ5IGluIGhlYWRlcnNfaW5zdGFsbC5zaC4KCkludGVu
+ZGVkIHRvIGJlIHJvdXRlZCB0aHJvdWdoIHRoZSBrYnVpbGQgdHJlZS4KClNpZ25lZC1vZmYtYnk6
+IFRob21hcyBXZWnDn3NjaHVoIDx0aG9tYXMud2Vpc3NzY2h1aEBsaW51dHJvbml4LmRlPgotLS0K
+Q2hhbmdlcyBpbiB2MjoKLSBEcm9wIEFSQ19IQVNfU1dBUEUga2NvbmZpZyBvcHRpb24sIHVzZSBB
+UkNIX1VTRV9CVUlMVElOX0JTV0FQCi0gRHJvcCBQU1JfRU5EU1RBVEUgZnJvbSB0aGUgQVJNIHB0
+cmFjZS5oIGhlYWRlci4KLSBEcm9wIG5pb3MyIHVhcGkgYXNtL3N3YWIuaC4KLSBMaW5rIHRvIHYx
+OiBodHRwczovL2xvcmUua2VybmVsLm9yZy9yLzIwMjUxMjMwLWhlYWRlcnNfaW5zdGFsbC1jb25m
+aWctbGVhay12MS0wLWVmYmE1YzU4MDczZEBsaW51dHJvbml4LmRlCgotLS0KVGhvbWFzIFdlacOf
+c2NodWggKDUpOgogICAgICBBUkM6IEFsd2F5cyB1c2UgU1dBUEUgaW5zdHJ1Y3Rpb25zIGFuZCBl
+bmFibGUgQVJDSF9VU0VfQlVJTFRJTl9CU1dBUAogICAgICBBUk06IHVhcGk6IERyb3AgUFNSX0VO
+RFNUQVRFCiAgICAgIG5pb3MyOiB1YXBpOiBSZW1vdmUgY3VzdG9tIGFzbS9zd2FiLmggZnJvbSBV
+QVBJCiAgICAgIHg4Ni91YXBpOiBTdG9wIGxlYWtpbmcga2NvbmZpZyByZWZlcmVuY2VzIHRvIHVz
+ZXJzcGFjZQogICAgICBzY3JpcHRzOiBoZWFkZXJzX2luc3RhbGwuc2g6IFJlbW92ZSBjb25maWcg
+bGVhayBpZ25vcmUgbWFjaGluZXJ5CgogYXJjaC9hcmMvS2NvbmZpZyAgICAgICAgICAgICAgICAg
+ICAgICAgICB8ICA2ICstCiBhcmNoL2FyYy9NYWtlZmlsZSAgICAgICAgICAgICAgICAgICAgICAg
+IHwgIDMgKy0KIGFyY2gvYXJjL2luY2x1ZGUvdWFwaS9hc20vc3dhYi5oICAgICAgICAgfCA5OSAt
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogYXJjaC9hcm0vaW5jbHVkZS9hc20vcHJv
+Y2Vzc29yLmggICAgICAgICB8ICAzICstCiBhcmNoL2FybS9pbmNsdWRlL3VhcGkvYXNtL3B0cmFj
+ZS5oICAgICAgIHwgIDkgLS0tCiBhcmNoL2FybS9rZXJuZWwvc2lnbmFsLmMgICAgICAgICAgICAg
+ICAgIHwgIDMgKy0KIGFyY2gvbmlvczIvaW5jbHVkZS97dWFwaSA9PiB9L2FzbS9zd2FiLmggfCAg
+MAogYXJjaC94ODYvaW5jbHVkZS91YXBpL2FzbS9hdXh2ZWMuaCAgICAgICB8ICAyICstCiBzY3Jp
+cHRzL2hlYWRlcnNfaW5zdGFsbC5zaCAgICAgICAgICAgICAgIHwgMzAgKy0tLS0tLS0tLQogOSBm
+aWxlcyBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKyksIDE0NiBkZWxldGlvbnMoLSkKLS0tCmJhc2Ut
+Y29tbWl0OiA4ZjBiNGNjZTQ0ODFmYjIyNjUzNjk3Y2NlZDhkMGQwNDAyN2NiMWU4CmNoYW5nZS1p
+ZDogMjAyNTEyMjktaGVhZGVyc19pbnN0YWxsLWNvbmZpZy1sZWFrLWI4YTkyMTlkOGIzYwoKQmVz
+dCByZWdhcmRzLAotLSAKVGhvbWFzIFdlacOfc2NodWggPHRob21hcy53ZWlzc3NjaHVoQGxpbnV0
+cm9uaXguZGU+CgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJh
+ZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51
+eC1zbnBzLWFyYwo=
