@@ -4,40 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92441EA8126
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 10 Feb 2026 15:07:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8642CEA8126
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 10 Feb 2026 15:11:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=zHhKSeotelIw6JgU/9zWHzTBNkXxBxdnLkOKDWImgwo=; b=to978T8fM6sdOf
-	vKy+KJ3bwPulZYJlhaTxH+JJm38lJPTANSIGz16Vnc2Rpiabr03gufmGCTi0K3NW72l1OH1opvwOT
-	FqsR3OIu/lcTR41zO+HO4fyTAZj1E2CaW4OZp5RTT0DkDEvajayw5DloyWUOSCi+w6xS4bfCj3B+4
-	bYuTRTdsXfQZ3LYM4Do1ow2Gdfv2GoXpxwjrOMSQBpNQat/Efr2g3+j3CfiDajGngZKxBcaQZhjZv
-	iS0HW6Lh2WT1b8/UzCA3QauKQS8hfsiBsnKFHDM3b+VK2svQxi2V1kPseAOu1F/7ydNNSYTeiVpo9
-	DVe40oPbIcRPQab1PfTQ==;
+	List-Owner; bh=DNjTqIwr6bDjP31Dkk5mN68W+u/3fldliZoCsUW66+U=; b=FSm0Yj9xhLwF57
+	/m/vZn3JXSlfhIug0cisTy7bYOMdsK/chGqnef3TpbtFLtTQwqlO7AcQsqcbeC4MkRMu4c9jHAkP0
+	9yGrY2ChdlvVy6qZ3Nknq0tNM0Ev7b3aSi/dL7gakcVWW4zEwjPf9adk9O4ZdCyhjWebVA1/G10qc
+	VxbzAHjIKCs/Zv8o2iw1ik0Yuxs8vqvJJzMNQBWw40OE1NNMuh3+VuQwKpkcOJOW4/MXDvb5iBEIt
+	a1JVtyDLo3Cva+HajI9/gkZpZHY/GYshQcmeeNkOYLM49QSIVdtvNNmVtktrOq632D+PMW6eMGfyA
+	hTMxsAhXoYlpQt1Yx9hw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vppKU-0000000H5zL-1GLR;
-	Tue, 10 Feb 2026 15:07:06 +0000
-Received: from foss.arm.com ([217.140.110.172])
-	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vppKR-0000000H5yE-0G2F;
-	Tue, 10 Feb 2026 15:07:04 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 83A22150C;
-	Tue, 10 Feb 2026 07:06:54 -0800 (PST)
-Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B054A3F63F;
-	Tue, 10 Feb 2026 07:06:53 -0800 (PST)
-Date: Tue, 10 Feb 2026 15:06:51 +0000
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Mike Rapoport <rppt@kernel.org>
+	id 1vppOk-0000000H6gm-1FYj;
+	Tue, 10 Feb 2026 15:11:30 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vppOh-0000000H6fy-3Nud;
+	Tue, 10 Feb 2026 15:11:28 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 6621B43431;
+	Tue, 10 Feb 2026 15:11:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E8C5C19421;
+	Tue, 10 Feb 2026 15:11:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770736287;
+	bh=DrZA2lEnZtuNLdn/aPtjSDtEw66qk6VI5lqRaUZw6MU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=urq6vVA5/zKz3Gz1KYHkENaWXWCJIrhCTsYUwnayOnesr9oKXBBLBNMjlu+XBMlsX
+	 uvq+Efs174+4yyISyJyhtDzzs/cN02rvp2iUIhXHkx/anXX8qt9ZAmETpPgSslZHmi
+	 dOfA+PMsiB9phlzplVn1h4BGTREeTKK/mGvc6yXqdxvQxzLhPLxFwqFd5ksvBLgBcA
+	 bXe2QTazQVXJjMFOS7sSTsI47jqhux9/INIvbsc/ERm/5Uzn5QYdEvPtT9gAmiWW1c
+	 l9kJ02GWTagzlQ4QKwDTfsaZp4dl08KF0CAozjxLRxRQf1YPFG1TFMTQoA3lk8WvtB
+	 TCA+9Vof32JbQ==
+Date: Tue, 10 Feb 2026 17:11:08 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>,
 	Andreas Larsson <andreas@gaisler.com>,
 	Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
 	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
 	"David S. Miller" <davem@davemloft.net>,
 	Dave Hansen <dave.hansen@linux.intel.com>,
@@ -49,7 +59,6 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	Johannes Berg <johannes@sipsolutions.net>,
 	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
 	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
 	Madhavan Srinivasan <maddy@linux.ibm.com>,
 	Magnus Lindholm <linmag7@gmail.com>,
 	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
@@ -71,17 +80,17 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
 	sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
 	linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v2 4/4] mm: cache struct page for empty_zero_page and
- return it from ZERO_PAGE()
-Message-ID: <aYtJi4uNcpoCTK_x@arm.com>
+Subject: Re: [PATCH v2 2/4] mm: rename my_zero_pfn() to zero_pfn()
+Message-ID: <aYtKjEYYiVDRi7vF@kernel.org>
 References: <20260209144058.2092871-1-rppt@kernel.org>
- <20260209144058.2092871-5-rppt@kernel.org>
+ <20260209144058.2092871-3-rppt@kernel.org>
+ <b932ac24-2465-4176-a5fa-d9b904600a15@lucifer.local>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20260209144058.2092871-5-rppt@kernel.org>
+In-Reply-To: <b932ac24-2465-4176-a5fa-d9b904600a15@lucifer.local>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260210_070703_133928_DB4722F5 
-X-CRM114-Status: GOOD (  13.35  )
+X-CRM114-CacheID: sfid-20260210_071127_861788_CF2BED2C 
+X-CRM114-Status: GOOD (  13.60  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,30 +107,21 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 09, 2026 at 04:40:57PM +0200, Mike Rapoport wrote:
-> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+On Tue, Feb 10, 2026 at 02:52:56PM +0000, Lorenzo Stoakes wrote:
+> On Mon, Feb 09, 2026 at 04:40:55PM +0200, Mike Rapoport wrote:
+> > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> >
+> > my_zero_pfn() is a silly name.
 > 
-> For most architectures every invocation of ZERO_PAGE() does
-> virt_to_page(empty_zero_page). But empty_zero_page is in BSS and it is
-> enough to get its struct page once at initialization time and then use
-> it whenever a zero page should be accessed.
-> 
-> Add yet another __zero_page variable that will be initialized as
-> virt_to_page(empty_zero_page) for most architectures in a weak
-> arch_setup_zero_pages() function.
-> 
-> For architectures that use colored zero pages (MIPS and s390) rename their
-> setup_zero_pages() to arch_setup_zero_pages() and make it global rather
-> than static.
-> 
-> For architectures that cannot use virt_to_page() for BSS (arm64 and
-> sparc64) add override of arch_setup_zero_pages().
-> 
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> Is it too late to ask for it to be renamed to lorenzos_zero_pfn()? I've long
+> felt it was mine, due to the previous naming, and I feel like maybe it's time to
+> make it official... ;)
 
-For arm64:
+It's not too late, but the pfn will go to the highest bidder ;-P
 
-Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+-- 
+Sincerely yours,
+Mike.
 
 _______________________________________________
 linux-snps-arc mailing list
