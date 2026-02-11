@@ -4,107 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8DE38EB2700
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Feb 2026 10:32:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A2F28ECD6D6
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 11 Feb 2026 20:14:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Bp52+fl0R2eIsbqJ99P/TFVGRX6/27DdQqn95xwns4k=; b=F2qRJw6AKMw2lM
-	xzK4LuoD1QULpTK4IBvvM0S4Y+zwsoQTan4SbF+U189W3iI5/dtF7yVxhZNiGkDxH8oHFjeFozQs2
-	wLK9EeiKdmV8SNybq2I6bvd3ObWCNx0lrAokpaDZM25RpTr1f/UCnrCi0GJKx03mjLmLfrmnig3yp
-	36ygXgbVFl7VRQCUsL2M838a7K06gctAL4bRgv57ssNKbeyDb+xa5asmhAdoYCxi4kncrJ7pEJIob
-	Av6DlbaYwiBCRtjS4bPBGvV5tIL9PhjDDTxp4cJq+k8mY2o1X2FrijiCacPauUNtu9wRMcrtkLJmZ
-	Xku5VCPOAdb5PZYX72zg==;
+	List-Owner; bh=pd4DRSq+LV3LmqdF4k+t9gui5oOsmrjd5JoqeWGxooU=; b=RAhlmH3x/AnsPm
+	CjRGrR8q/2A/izczRGOYj7/7Yu8oVe8V3Lt/YSg6xqLzbUqglxPwYvF2Qr/GppoEwZRaIruJqK1D7
+	CXIcVWEcSHZcvmebNxUGlPeEzWyJ+yrznKMShEUGL2xVQq9Y97gvMFKBByP3afvY+Js9CAksXGIYp
+	peIJeCahjmoI1ulGgGjWwSviXs0tC4VKQlc42/2psQbUu4p6hxytA8JkPspvVlXnUUvJXmeOwr76p
+	i0NoFK0GuN+OhdzWZAPbl2ya9+86g4UGbjEJY5V4jQVYSkle1E8FC+VUFLvqJdnu6Lu2Xfr2T1MqU
+	/4cPMSP7XrFw3BiC773Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vq7Wg-00000000VmG-1Ctg;
-	Wed, 11 Feb 2026 10:32:54 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1vqGbd-000000010fa-3zoJ;
+	Wed, 11 Feb 2026 20:14:37 +0000
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vq7Wd-00000000Vkj-0Zxg;
-	Wed, 11 Feb 2026 10:32:52 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 9DD6140DFA;
-	Wed, 11 Feb 2026 10:32:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F37C2C2BCAF;
-	Wed, 11 Feb 2026 10:32:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770805970;
-	bh=WXj3bDUynhmJwIWcqszyv0wbTX5I8QPCpk4+eeqSnq4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VUycx2g0refsXHYPZVpEU+UC7PHYsiruAyCk0E2NjULDdTGpkmomFQafKHUOTFGfN
-	 gxdwH68dJxpGp5uoQ4bCIYVF9q/ZtWZyBrRXQKklHUNBBv4tXopKimIWb6HO1xITWD
-	 v5Le7kpV2WyO2ymXn0Iru7RhLgig1FDLpKEZLiaW4uloDE3fqoRPWZQHcg4WZLcxzC
-	 Dem6wAhAyVX6Jeh2Hi5hO5aKu49m5ADtB9baTMfm2NL2MQ5Xgny2uugfwPkwNfT/Sh
-	 55TTMaB6nztE9wmgPYA3G+uvSqqAXPlhRNT70FMQNqDaWyvoaKR0G5d15Xri9RCkaK
-	 z/9dYoHmO4k7Q==
-From: Mike Rapoport <rppt@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Andreas Larsson <andreas@gaisler.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Brian Cain <bcain@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Hildenbrand <david@kernel.org>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Guo Ren <guoren@kernel.org>,
-	Helge Deller <deller@gmx.de>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Magnus Lindholm <linmag7@gmail.com>,
-	Matt Turner <mattst88@gmail.com>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Hocko <mhocko@suse.com>,
-	Michal Simek <monstr@monstr.eu>,
-	Mike Rapoport <rppt@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Richard Weinberger <richard@nod.at>,
-	Russell King <linux@armlinux.org.uk>,
-	Stafford Horne <shorne@gmail.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Vineet Gupta <vgupta@kernel.org>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Will Deacon <will@kernel.org>,
-	linux-alpha@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-csky@vger.kernel.org,
-	linux-hexagon@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-m68k@lists.linux-m68k.org,
-	linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org,
-	linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	linux-mm@kvack.org,
-	x86@kernel.org
-Subject: [PATCH v3 4/4] mm: cache struct page for empty_zero_page and return it from ZERO_PAGE()
-Date: Wed, 11 Feb 2026 12:31:41 +0200
-Message-ID: <20260211103141.3215197-5-rppt@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260211103141.3215197-1-rppt@kernel.org>
-References: <20260211103141.3215197-1-rppt@kernel.org>
+	id 1vqGba-000000010dv-19y4
+	for linux-snps-arc@lists.infradead.org;
+	Wed, 11 Feb 2026 20:14:36 +0000
+Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-b885d8f4092so952148566b.2
+        for <linux-snps-arc@lists.infradead.org>; Wed, 11 Feb 2026 12:14:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770840872; cv=none;
+        d=google.com; s=arc-20240605;
+        b=hywhmRfMJ2HU3S7CWFT5wyfzqXHzgAaBd1kupnvG2bXc+TeGCbdPIDyfXfh5orJ/kS
+         p12B29NZs+qbXf1Lsq7CKCLrCJmFH1P/9APySriM90iHc6eCJ64pH125RLe3rOPmhqqO
+         6CWtsTGp53vm3DiWFY9OYs5skD7Si/9vTuUUtPRy6aov3fSX7/kXBIZDqNr4IO9TkDOO
+         bWZ/keUd/Vpq/BARyHKM/FhRlz/m//3iVearccyPbEW26tzTpYHwk6A933CjZo6RmQ6W
+         U48HTO1Wxq+NbZIAGK09RfahPyVfIO8vU7N8RYcHKrhbOKGraAP+ZQEweHvwkWJHdw7h
+         B5AA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=28hr9LjidhOb4+7vDtUZiT7dYr2nuAMqMlceW5mXuOg=;
+        fh=xLUCftamiIerS7BFTncWD9FBePsjrmdZIJBoPM+8yxM=;
+        b=PzPzhbWyQWYkN5WdcfjtCzRq66d3Bm8CkvVftGRvmWpyGXPvDFCBXm5KwS8byNOM7D
+         E8gn745j6nrRjKazR2rlbfdiErvKZjrZkq2auG1GlBmtGn/w1Eb+sM8ab9xWWGfqOIFs
+         eoi0aaJTSwepf6BAiVPWQq6tTF7t3EVGi0b4Uo0eQcFy7xf7pQw2gz6buJfPKPDQwcvS
+         EJYlXnt1pKKN4woDmoQUckf7qgf2hCtr9Z7fRKJ0zDaNZECp0KRTuTiAjxWdXOoXcSoZ
+         0ezCf4+AYB8/WKFygE8NuBySpu85/HAXGUt3NDJSz56iiPxjHg/Ad7ebj48/iw1ZqN/N
+         1crA==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770840872; x=1771445672; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=28hr9LjidhOb4+7vDtUZiT7dYr2nuAMqMlceW5mXuOg=;
+        b=cXL7OPgzZLeP94p5p8qWFFSXO7o0jh96MfDHM6vJWTiHC7Pt3CTNoeNxfyf8R4ILs3
+         02+IhsD4n6oPnNI8la1R6Kx9+GN9INgLHns/t75kDBjnyRAyMFbTM9p+Y/Cn5UQCPNX/
+         Fq5bizvlixPJbXMKwYLvq91x5eZgKXsLM8VHYHxWrOgHDpWLU5IN1SfcJgIQ0yQJ7Kw6
+         L9aE1KbcZ71sWEI7omRQJm/xu7BHJz05gPSPDMJRpGAJD+NADZHp35Q6U4EJInurkrIF
+         qU5yi6ie58qTQwxRi45pC4n64vJH6hxEQUVgtVAfA8+eb/Hg8u+W8NK1Li0rUeKnVDxq
+         hSwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770840872; x=1771445672;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=28hr9LjidhOb4+7vDtUZiT7dYr2nuAMqMlceW5mXuOg=;
+        b=DShCkm1Q7csg3UUiPGRlsaW4PxlAj2UF7XWuV0A33fSGhz8Azqp4PwW7uR3REVR+7g
+         u0Gq/zfcQ1/g04QxFtQ0wCHXF4uyTz0A9CDDlQWKocDgD9GkBG8jqireyZAtHaBF4xYi
+         9mUZHK8jr60cX77vcjD/l32d0AgX6QgeGOmi8PF5s1KlxE1j0Ifw0m20rElqDRqtyAoa
+         4ze2aSC5v9HYkpcCU3ORSMd75VpGou95Gz0Y0a36VROtlbeEz4u1fmJzrF5wu919Qg7S
+         04qHBiACrgqj+baxkKPYt0S59GOfWDpfrllkk4AlgcPM7jVXOY59OY1nM78DUF6i4LQc
+         uPXA==
+X-Forwarded-Encrypted: i=1; AJvYcCXwJMnbNgmqEA+GnGE8Nv5b0WwEXtmxh+YoZ6LQaAnrpa7qdXWXlIjBRoGoaYzf9ttvVKfU8nk/9XWCaWRJAQ==@lists.infradead.org
+X-Gm-Message-State: AOJu0Yx1esOz2P5ne2rhE/v+lZkKrEPioG56OCw6TopAnjjevyD+y+YU
+	26Bhb/A7vdyoYMmsl4GuzPtpqRPj8oPoTbyEywRIJxQk4JdbeRCsPpvi5uDl3VKcff/kZ/5qFyG
+	UrFkM4iKU7qnPYOV9fy2xUu+uz4wJwbo=
+X-Gm-Gg: AZuq6aL8woSeo/zct9+K4iAvizaI7O6wNT957eExPmSuikUtzvK2qzOnKJkXgGOdgcv
+	7aPEBMEmdJdjn5Y4UYMnAodBhMvWTB7mWqb5TH4ocRcXUMSIoiJXxx5Bw61ftA6sUIor1QPY60U
+	p8RYOGd9+CDHgjM3wsziHJjiio+kTDPNaxYNMUpb8kYga82WMjiUWOCTu2SnF4sYLI+RUcoGDH9
+	jzVidkTDxbHF+1LNBYTroTbTmIpWCbH8o9J/7ADNLpHq5EVz2Zo8BoyudX5iaVCgOvcwA+27pzJ
+	+MBZHQeZmuqxtMQ44QC2ek0yK/C6nwlTb6T7Y5gzRw==
+X-Received: by 2002:a17:907:a08a:b0:b8e:64e:1ed with SMTP id
+ a640c23a62f3a-b8f8f72d91emr17643566b.50.1770840871149; Wed, 11 Feb 2026
+ 12:14:31 -0800 (PST)
 MIME-Version: 1.0
+References: <20260211103141.3215197-1-rppt@kernel.org> <20260211103141.3215197-4-rppt@kernel.org>
+In-Reply-To: <20260211103141.3215197-4-rppt@kernel.org>
+From: Magnus Lindholm <linmag7@gmail.com>
+Date: Wed, 11 Feb 2026 21:14:19 +0100
+X-Gm-Features: AZwV_QgdPAvH3hw0825YIt93LQPupYFvh_AV-2zMkwGhubC87cSa2iVxpdoZwag
+Message-ID: <CA+=Fv5T07oBJweU3tURD4Nuh7VRWovsf0zjHtA1nDAVNmO=D2w@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] arch, mm: consolidate empty_zero_page
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Andreas Larsson <andreas@gaisler.com>, 
+	Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, David Hildenbrand <david@kernel.org>, 
+	Dinh Nguyen <dinguyen@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Guo Ren <guoren@kernel.org>, 
+	Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Richard Weinberger <richard@nod.at>, 
+	Russell King <linux@armlinux.org.uk>, Stafford Horne <shorne@gmail.com>, 
+	Suren Baghdasaryan <surenb@google.com>, Thomas Gleixner <tglx@kernel.org>, Vineet Gupta <vgupta@kernel.org>, 
+	Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>, linux-alpha@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org, 
+	linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev, 
+	linux-m68k@lists.linux-m68k.org, linux-openrisc@vger.kernel.org, 
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-um@lists.infradead.org, linux-mm@kvack.org, 
+	x86@kernel.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260211_023251_227759_BA1C43F0 
-X-CRM114-Status: GOOD (  22.68  )
+X-CRM114-CacheID: sfid-20260211_121434_336977_4840C7D6 
+X-CRM114-Status: GOOD (  23.80  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,277 +133,64 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-
-For most architectures every invocation of ZERO_PAGE() does
-virt_to_page(empty_zero_page). But empty_zero_page is in BSS and it is
-enough to get its struct page once at initialization time and then use
-it whenever a zero page should be accessed.
-
-Add yet another __zero_page variable that will be initialized as
-virt_to_page(empty_zero_page) for most architectures in a weak
-arch_setup_zero_pages() function.
-
-For architectures that use colored zero pages (MIPS and s390) rename their
-setup_zero_pages() to arch_setup_zero_pages() and make it global rather
-than static.
-
-For architectures that cannot use virt_to_page() for BSS (arm64 and
-sparc64) add override of arch_setup_zero_pages().
-
-Acked-by: Catalin Marinas <catalin.marinas@arm.com>
-Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
----
- arch/arm64/include/asm/pgtable.h    |  6 ------
- arch/arm64/mm/init.c                |  5 +++++
- arch/mips/mm/init.c                 | 11 +----------
- arch/s390/mm/init.c                 |  4 +---
- arch/sparc/include/asm/pgtable_64.h |  3 ---
- arch/sparc/mm/init_64.c             | 17 +++++++----------
- include/linux/pgtable.h             | 11 ++++++++---
- mm/mm_init.c                        | 21 +++++++++++++++++----
- 8 files changed, 39 insertions(+), 39 deletions(-)
-
-diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
-index 63da07398a30..2c1ec7cc8612 100644
---- a/arch/arm64/include/asm/pgtable.h
-+++ b/arch/arm64/include/asm/pgtable.h
-@@ -106,12 +106,6 @@ static inline void arch_leave_lazy_mmu_mode(void)
- #define flush_tlb_fix_spurious_fault_pmd(vma, address, pmdp)	\
- 	local_flush_tlb_page_nonotify(vma, address)
- 
--/*
-- * ZERO_PAGE is a global shared page that is always zero: used
-- * for zero-mapped memory areas etc..
-- */
--#define ZERO_PAGE(vaddr)	phys_to_page(__pa_symbol(empty_zero_page))
--
- #define pte_ERROR(e)	\
- 	pr_err("%s:%d: bad pte %016llx.\n", __FILE__, __LINE__, pte_val(e))
- 
-diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-index 96711b8578fd..417ec7efe569 100644
---- a/arch/arm64/mm/init.c
-+++ b/arch/arm64/mm/init.c
-@@ -328,6 +328,11 @@ void __init bootmem_init(void)
- 	memblock_dump_all();
- }
- 
-+void __init arch_setup_zero_pages(void)
-+{
-+	__zero_page = phys_to_page(__pa_symbol(empty_zero_page));
-+}
-+
- void __init arch_mm_preinit(void)
- {
- 	unsigned int flags = SWIOTLB_VERBOSE;
-diff --git a/arch/mips/mm/init.c b/arch/mips/mm/init.c
-index 4f6449ad02ca..55b25e85122a 100644
---- a/arch/mips/mm/init.c
-+++ b/arch/mips/mm/init.c
-@@ -56,10 +56,7 @@ unsigned long empty_zero_page, zero_page_mask;
- EXPORT_SYMBOL_GPL(empty_zero_page);
- EXPORT_SYMBOL(zero_page_mask);
- 
--/*
-- * Not static inline because used by IP27 special magic initialization code
-- */
--static void __init setup_zero_pages(void)
-+void __init arch_setup_zero_pages(void)
- {
- 	unsigned int order;
- 
-@@ -450,7 +447,6 @@ void __init arch_mm_preinit(void)
- 	BUILD_BUG_ON(IS_ENABLED(CONFIG_32BIT) && (PFN_PTE_SHIFT > PAGE_SHIFT));
- 
- 	maar_init();
--	setup_zero_pages();	/* Setup zeroed pages.  */
- 	highmem_init();
- 
- #ifdef CONFIG_64BIT
-@@ -461,11 +457,6 @@ void __init arch_mm_preinit(void)
- 				0x80000000 - 4, KCORE_TEXT);
- #endif
- }
--#else  /* CONFIG_NUMA */
--void __init arch_mm_preinit(void)
--{
--	setup_zero_pages();	/* This comes from node 0 */
--}
- #endif /* !CONFIG_NUMA */
- 
- void free_init_pages(const char *what, unsigned long begin, unsigned long end)
-diff --git a/arch/s390/mm/init.c b/arch/s390/mm/init.c
-index 3c20475cbee2..1f72efc2a579 100644
---- a/arch/s390/mm/init.c
-+++ b/arch/s390/mm/init.c
-@@ -69,7 +69,7 @@ unsigned long empty_zero_page, zero_page_mask;
- EXPORT_SYMBOL(empty_zero_page);
- EXPORT_SYMBOL(zero_page_mask);
- 
--static void __init setup_zero_pages(void)
-+void __init arch_setup_zero_pages(void)
- {
- 	unsigned long total_pages = memblock_estimated_nr_free_pages();
- 	unsigned int order;
-@@ -159,8 +159,6 @@ void __init arch_mm_preinit(void)
- 	cpumask_set_cpu(0, mm_cpumask(&init_mm));
- 
- 	pv_init();
--
--	setup_zero_pages();	/* Setup zeroed pages. */
- }
- 
- unsigned long memory_block_size_bytes(void)
-diff --git a/arch/sparc/include/asm/pgtable_64.h b/arch/sparc/include/asm/pgtable_64.h
-index 615f460c50af..74ede706fb32 100644
---- a/arch/sparc/include/asm/pgtable_64.h
-+++ b/arch/sparc/include/asm/pgtable_64.h
-@@ -210,9 +210,6 @@ extern unsigned long _PAGE_CACHE;
- extern unsigned long pg_iobits;
- extern unsigned long _PAGE_ALL_SZ_BITS;
- 
--extern struct page *mem_map_zero;
--#define ZERO_PAGE(vaddr)	(mem_map_zero)
--
- /* PFNs are real physical page numbers.  However, mem_map only begins to record
-  * per-page information starting at pfn_base.  This is to handle systems where
-  * the first physical page in the machine is at some huge physical address,
-diff --git a/arch/sparc/mm/init_64.c b/arch/sparc/mm/init_64.c
-index 0cc8de2fea90..707c1df67d79 100644
---- a/arch/sparc/mm/init_64.c
-+++ b/arch/sparc/mm/init_64.c
-@@ -177,9 +177,6 @@ extern unsigned long sparc_ramdisk_image64;
- extern unsigned int sparc_ramdisk_image;
- extern unsigned int sparc_ramdisk_size;
- 
--struct page *mem_map_zero __read_mostly;
--EXPORT_SYMBOL(mem_map_zero);
--
- unsigned int sparc64_highest_unlocked_tlb_ent __read_mostly;
- 
- unsigned long sparc64_kern_pri_context __read_mostly;
-@@ -2496,11 +2493,17 @@ static void __init register_page_bootmem_info(void)
- 			register_page_bootmem_info_node(NODE_DATA(i));
- #endif
- }
--void __init mem_init(void)
-+
-+void __init arch_setup_zero_pages(void)
- {
- 	phys_addr_t zero_page_pa = kern_base +
- 		((unsigned long)&empty_zero_page[0] - KERNBASE);
- 
-+	__zero_page = phys_to_page(zero_page_pa);
-+}
-+
-+void __init mem_init(void)
-+{
- 	/*
- 	 * Must be done after boot memory is put on freelist, because here we
- 	 * might set fields in deferred struct pages that have not yet been
-@@ -2509,12 +2512,6 @@ void __init mem_init(void)
- 	 */
- 	register_page_bootmem_info();
- 
--	/*
--	 * Set up the zero page, mark it reserved, so that page count
--	 * is not manipulated when freeing the page from user ptes.
--	 */
--	mem_map_zero = pfn_to_page(PHYS_PFN(zero_page_pa));
--
- 	if (tlb_type == cheetah || tlb_type == cheetah_plus)
- 		cheetah_ecache_flush_init();
- }
-diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-index 3d48eea57cd2..1da21ec62836 100644
---- a/include/linux/pgtable.h
-+++ b/include/linux/pgtable.h
-@@ -1894,6 +1894,8 @@ static inline void pfnmap_setup_cachemode_pfn(unsigned long pfn, pgprot_t *prot)
-  * For architectures that don't __HAVE_COLOR_ZERO_PAGE the zero page lives in
-  * empty_zero_page in BSS.
-  */
-+void arch_setup_zero_pages(void);
-+
- #ifdef __HAVE_COLOR_ZERO_PAGE
- static inline int is_zero_pfn(unsigned long pfn)
- {
-@@ -1921,10 +1923,13 @@ static inline unsigned long zero_pfn(unsigned long addr)
- }
- 
- extern uint8_t empty_zero_page[PAGE_SIZE];
-+extern struct page *__zero_page;
- 
--#ifndef ZERO_PAGE
--#define ZERO_PAGE(vaddr) ((void)(vaddr),virt_to_page(empty_zero_page))
--#endif
-+static inline struct page *_zero_page(unsigned long addr)
-+{
-+	return __zero_page;
-+}
-+#define ZERO_PAGE(vaddr) _zero_page(vaddr)
- 
- #endif /* __HAVE_COLOR_ZERO_PAGE */
- 
-diff --git a/mm/mm_init.c b/mm/mm_init.c
-index 1eac634ece1a..b08608c1b71d 100644
---- a/mm/mm_init.c
-+++ b/mm/mm_init.c
-@@ -59,7 +59,10 @@ EXPORT_SYMBOL(zero_page_pfn);
- #ifndef __HAVE_COLOR_ZERO_PAGE
- uint8_t empty_zero_page[PAGE_SIZE] __page_aligned_bss;
- EXPORT_SYMBOL(empty_zero_page);
--#endif
-+
-+struct page *__zero_page __ro_after_init;
-+EXPORT_SYMBOL(__zero_page);
-+#endif /* __HAVE_COLOR_ZERO_PAGE */
- 
- #ifdef CONFIG_DEBUG_MEMORY_INIT
- int __meminitdata mminit_loglevel;
-@@ -2675,12 +2678,21 @@ static void __init mem_init_print_info(void)
- 		);
- }
- 
--static int __init init_zero_page_pfn(void)
-+#ifndef __HAVE_COLOR_ZERO_PAGE
-+/*
-+ * architectures that __HAVE_COLOR_ZERO_PAGE must define this function
-+ */
-+void __init __weak arch_setup_zero_pages(void)
-+{
-+	__zero_page = virt_to_page(empty_zero_page);
-+}
-+#endif
-+
-+static void __init init_zero_page_pfn(void)
- {
-+	arch_setup_zero_pages();
- 	zero_page_pfn = page_to_pfn(ZERO_PAGE(0));
--	return 0;
- }
--early_initcall(init_zero_page_pfn);
- 
- void __init __weak arch_mm_preinit(void)
- {
-@@ -2704,6 +2716,7 @@ void __init mm_core_init_early(void)
- void __init mm_core_init(void)
- {
- 	arch_mm_preinit();
-+	init_zero_page_pfn();
- 
- 	/* Initializations relying on SMP setup */
- 	BUILD_BUG_ON(MAX_ZONELISTS > 2);
--- 
-2.51.0
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gV2VkLCBGZWIgMTEsIDIwMjYgYXQgMTE6MzLigK9BTSBNaWtlIFJhcG9wb3J0IDxycHB0QGtl
+cm5lbC5vcmc+IHdyb3RlOgo+Cj4gRnJvbTogIk1pa2UgUmFwb3BvcnQgKE1pY3Jvc29mdCkiIDxy
+cHB0QGtlcm5lbC5vcmc+Cj4KPiBSZWR1Y2UgMjIgZGVjbGFyYXRpb25zIG9mIGVtcHR5X3plcm9f
+cGFnZSB0byAzIGFuZCAyMyBkZWNsYXJhdGlvbnMgb2YKPiBaRVJPX1BBR0UoKSB0byA0Lgo+Cj4g
+RXZlcnkgYXJjaGl0ZWN0dXJlIGRlZmluZXMgZW1wdHlfemVyb19wYWdlIHRoYXQgd2F5IG9yIGFu
+b3RoZXIsIGJ1dCBmb3IgdGhlCj4gbW9zdCBvZiB0aGVtIGl0IGlzIGFsd2F5cyBhIHBhZ2UgYWxp
+Z25lZCBwYWdlIGluIEJTUyBhbmQgbW9zdCBkZWZpbml0aW9ucwo+IG9mIFpFUk9fUEFHRSBkbyB2
+aXJ0X3RvX3BhZ2UoZW1wdHlfemVyb19wYWdlKS4KPgo+IE1vdmUgTGludXMgdmV0dGVkIHg4NiBk
+ZWZpbml0aW9uIG9mIGVtcHR5X3plcm9fcGFnZSBhbmQgWkVST19QQUdFKCkgdG8gdGhlCj4gY29y
+ZSBNTSBhbmQgZHJvcCB0aGVzZSBkZWZpbml0aW9ucyBpbiBhcmNoaXRlY3R1cmVzIHRoYXQgZG8g
+bm90IGltcGxlbWVudAo+IGNvbG9yZWQgemVybyBwYWdlIChNSVBTIGFuZCBzMzkwKS4KPgo+IFpF
+Uk9fUEFHRSgpIHJlbWFpbnMgYSBtYWNybyBiZWNhdXNlIHR1cm5pbmcgaXQgdG8gYSB3cmFwcGVy
+IGZvciBhIHN0YXRpYwo+IGlubGluZSBjYXVzZXMgc2V2ZXJlIHBhaW4gaW4gaGVhZGVyIGRlcGVu
+ZGVuY2llcy4KPgo+IEZvciB0aGUgbW9zdCBwYXJ0IHRoZSBjaGFuZ2UgaXMgbWVjaGFuaWNhbCwg
+d2l0aCB0aGVzZSBiZWluZyBub3Rld29ydGh5Ogo+Cj4gKiBhbHBoYTogYWxpYXNlZCBlbXB0eV96
+ZXJvX3BhZ2Ugd2l0aCBaRVJPX1BHRSB0aGF0IHdhcyBhbHNvIHVzZWQgZm9yIGJvb3QKPiAgIHBh
+cmFtZXRlcnMuIFN3aXRjaGluZyB0byBhIGdlbmVyaWMgZW1wdHlfemVyb19wYWdlIHJlbW92ZXMg
+dGhlIGFsaWFzaW5nCj4gICBhbmQga2VlcHMgWkVST19QR0UgZm9yIGJvb3QgcGFyYW1ldGVycyBv
+bmx5Cj4gKiBhcm02NDogdXNlcyBfX3BhX3N5bWJvbCgpIGluIFpFUk9fUEFHRSgpIHNvIHRoYXQg
+ZGVmaW5pdGlvbiBvZgo+ICAgWkVST19QQUdFKCkgaXMga2VwdCBpbnRhY3QuCj4gKiBtNjhrL3Bh
+cmlzYy91bTogYWxsb2NhdGVkIGVtcHR5X3plcm9fcGFnZSBmcm9tIG1lbWJsb2NrLAo+ICAgYWx0
+aG91Z2ggdGhleSBkbyBub3Qgc3VwcG9ydCB6ZXJvIHBhZ2UgY29sb3JpbmcgYW5kIGhhdmluZyBp
+dCBpbiBCU1MKPiAgIHdpbGwgd29yayBmaW5lLgo+ICogc3BhcmM2NCBjYW4gaGF2ZSBlbXB0eV96
+ZXJvX3BhZ2UgaW4gQlNTIHJhdGhlciBhbGxvY2F0ZSBpdCwgYnV0IGl0Cj4gICBjYW4ndCB1c2Ug
+dmlydF90b19wYWdlKCkgZm9yIEJTUy4gS2VlcCBpdCdzIGRlZmluaXRpb24gb2YgWkVST19QQUdF
+KCkKPiAgIGJ1dCBpbnN0ZWFkIG9mIGFsbG9jYXRpbmcgaXQsIG1ha2UgbWVtX21hcF96ZXJvIHBv
+aW50IHRvCj4gICBlbXB0eV96ZXJvX3BhZ2UuCj4gKiBzaDogdXNlZCBlbXB0eV96ZXJvX3BhZ2Ug
+Zm9yIGJvb3QgcGFyYW1ldGVycyBhdCB0aGUgdmVyeSBlYXJseSBib290Lgo+ICAgUmVuYW1lIHRo
+ZSBwYXJhbWV0ZXJzIHBhZ2UgdG8gYm9vdF9wYXJhbXNfcGFnZSBhbmQgbGV0IHNoIHVzZSB0aGUg
+Z2VuZXJpYwo+ICAgZW1wdHlfemVyb19wYWdlLgo+ICogaGV4YWdvbjogaGFkIGFuIGFtdXNpbmcg
+Y29tbWVudCBhYm91dCBlbXB0eV96ZXJvX3BhZ2UKPgo+ICAgICAgICAgLyogQSBoYW5keSB0aGlu
+ZyB0byBoYXZlIGlmIG9uZSBoYXMgdGhlIFJBTS4gRGVjbGFyZWQgaW4gaGVhZC5TICovCj4KPiAg
+IHRoYXQgdW5mb3J0dW5hdGVseSBoYWQgdG8gZ28gOikKPgo+IEFja2VkLWJ5OiBIZWxnZSBEZWxs
+ZXIgPGRlbGxlckBnbXguZGU+ICAgIyBwYXJpc2MKPiBUZXN0ZWQtYnk6IEhlbGdlIERlbGxlciA8
+ZGVsbGVyQGdteC5kZT4gICMgcGFyaXNjCj4gUmV2aWV3ZWQtYnk6IENocmlzdG9waGUgTGVyb3kg
+KENTIEdST1VQKSA8Y2hsZXJveUBrZXJuZWwub3JnPgo+IEFja2VkLWJ5OiBEYXZlIEhhbnNlbiA8
+ZGF2ZS5oYW5zZW5AbGludXguaW50ZWwuY29tPgo+IEFja2VkLWJ5OiBDYXRhbGluIE1hcmluYXMg
+PGNhdGFsaW4ubWFyaW5hc0Bhcm0uY29tPgo+IFNpZ25lZC1vZmYtYnk6IE1pa2UgUmFwb3BvcnQg
+KE1pY3Jvc29mdCkgPHJwcHRAa2VybmVsLm9yZz4KPiAtLS0KPiAgYXJjaC9hbHBoYS9pbmNsdWRl
+L2FzbS9wZ3RhYmxlLmggICAgICAgICAgfCAgNiAtLS0tLS0KCj4gZGlmZiAtLWdpdCBhL2FyY2gv
+YWxwaGEvaW5jbHVkZS9hc20vcGd0YWJsZS5oIGIvYXJjaC9hbHBoYS9pbmNsdWRlL2FzbS9wZ3Rh
+YmxlLmgKPiBpbmRleCA5MGU3YTk1MzkxMDIuLjEyYTNjNWY4ZWNlOCAxMDA2NDQKPiAtLS0gYS9h
+cmNoL2FscGhhL2luY2x1ZGUvYXNtL3BndGFibGUuaAo+ICsrKyBiL2FyY2gvYWxwaGEvaW5jbHVk
+ZS9hc20vcGd0YWJsZS5oCj4gQEAgLTEyNSwxMiArMTI1LDYgQEAgc3RydWN0IHZtX2FyZWFfc3Ry
+dWN0Owo+ICAgKi8KPiAgI2RlZmluZSBwZ3Byb3Rfbm9uY2FjaGVkKHByb3QpIChwcm90KQo+Cj4g
+LS8qCj4gLSAqIFpFUk9fUEFHRSBpcyBhIGdsb2JhbCBzaGFyZWQgcGFnZSB0aGF0IGlzIGFsd2F5
+cyB6ZXJvOiAgdXNlZAo+IC0gKiBmb3IgemVyby1tYXBwZWQgbWVtb3J5IGFyZWFzIGV0Yy4uCj4g
+LSAqLwo+IC0jZGVmaW5lIFpFUk9fUEFHRSh2YWRkcikgICAgICAgKHZpcnRfdG9fcGFnZShaRVJP
+X1BHRSkpCj4gLQo+ICAvKgo+ICAgKiBPbiBjZXJ0YWluIHBsYXRmb3JtcyB3aG9zZSBwaHlzaWNh
+bCBhZGRyZXNzIHNwYWNlIGNhbiBvdmVybGFwIEtTRUcsCj4gICAqIG5hbWVseSBFVjYgYW5kIGFi
+b3ZlLCB3ZSBtdXN0IHJlLXR3aWRkbGUgdGhlIHBoeXNhZGRyIHRvIHJlc3RvcmUgdGhlCgpUaGlz
+IGxvb2tzIGdvb2QgZnJvbSBhbiBBbHBoYSBwZXJzcGVjdGl2ZQoKQWNrZWQtYnk6IE1hZ251cyBM
+aW5kaG9sbSA8bGlubWFnN0BnbWFpbC5jb20+CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25w
+cy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
