@@ -4,56 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 02A27EDF042
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Feb 2026 05:33:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E928FEB2719
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Feb 2026 08:39:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=9xDq8OZql5aqFOi0Bv7n4Cr22tlBF5dSad3ccMwd9dc=; b=ctbOUM82JVvVhg
-	qAo8+9oUMqXZNthAuJwN6r+N4GGlW3/wL1i1RHnBWew3/bdQ4ZUTIEti3BAPn2fY0Ylz+uX9PgI3b
-	Hilc2fPgd2b0QT6AyL01/qjB4S6EZc0RJKNbem20wRe1Y8v+LybQ3qS4sKx8E/SDrjQnSH7KVAySp
-	0jVcp12P8GWTdZgV7Oyup8g9AmsdtDpBL0NNgDmNrMPn8irSVMFP5f6EUOGJyHhqNPDPv4IQg+2/5
-	S1s/pLs7ngUHFM6AGBK/t5t/Vq35Ouy/EU+joo7xSL7H66wHyq1eR2tyaPEoCenH+g8bT6o2lDivo
-	499LgQMJ2erpISRMFZuw==;
+	List-Owner; bh=QdLVBPdE8lpDIJUbOP5AEf77raApDKsEcR4KJUzsTto=; b=IXcEaBhLkPKpWb
+	x5sRSG55oyowW4U8pDV945c3zjjiIPQnHECSuNZByab6Xcb8Z/JLSxsyRk2c4/gISUDmel98IWRAj
+	R/EUcfIuxRmd5o9JmDEt1OdjwlbtUtPzBBh1TscwBhz20AdY3dOrEw03txn/BUKIQLF+r1URRsu9t
+	VA7MvBGVEkShWufffG30ArPJMO9nHE5wapuafEoiZFqsVJaMGih3R/b11xN3DM8vE+oeFM4DqvdtZ
+	xCl7+tigT4VBtmUaX8YILxbnUNmJMeGbxCtKMKM2SYYq2dfetinL+VMrwyu3IkayEe0n9SoCOn0x/
+	yldq2QR3F44htaj4HFcA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vqPKJ-00000001eqz-1Wkm;
-	Thu, 12 Feb 2026 05:33:19 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1vqSEa-00000001li9-21Vm;
+	Thu, 12 Feb 2026 08:39:36 +0000
+Received: from smtp-out3.simply.com ([94.231.106.210])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vqPKF-00000001eqF-2trX;
-	Thu, 12 Feb 2026 05:33:17 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 97C9B4151B;
-	Thu, 12 Feb 2026 05:33:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D227FC4CEF7;
-	Thu, 12 Feb 2026 05:33:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770874394;
-	bh=xWdXZIArybbo9Rgxccq3nL2HLMDxrTRxGRMmTyJ92Ek=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fnRt4bNTruqGWDCex4UgCYs5xfFXruN8Lon65hP9g22+WBdZKtSwF7Vlpe0Cerco4
-	 bvwxt2r8yj+pM8xOwU8CRkM4OmUaUA/+Tzc72yQC0G+UVZeUmzyMyMPGyxL/xNIa4X
-	 +/VC+HyZKbjW0nnljKGakLZZFB897pqnLw9d71EIpoTCJ5wnD5VHVMEklBRL/Jcabq
-	 Mwmjfv/JZu6GfI7SyoqZ+mxEsaOK/PQXeGkhDnmh+ztI8JZFzkYG9tnpHFUHqIR6N4
-	 w+N5IHX73Du91X+qNAEJ7TQrDCCl9z1LnQGwJBdYZfNUoF2uBKOsddFYGgsxivKLws
-	 KFvp/8rynpEOQ==
-Message-ID: <0b420450-a85f-4f7c-93c2-4d2de37d257b@kernel.org>
-Date: Wed, 11 Feb 2026 23:33:09 -0600
+	id 1vqSEW-00000001lhB-1XW0;
+	Thu, 12 Feb 2026 08:39:34 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by smtp.simply.com (Simply.com) with ESMTP id 4fBTHd67LVz1DDhH;
+	Thu, 12 Feb 2026 09:39:25 +0100 (CET)
+Received: from [192.168.0.25] (h-98-128-223-123.NA.cust.bahnhof.se [98.128.223.123])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by smtp.simply.com (Simply.com) with ESMTPSA id 4fBTHb5J7Hz1DDZ7;
+	Thu, 12 Feb 2026 09:39:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gaisler.com;
+	s=simplycom2; t=1770885565;
+	bh=PGI9E0Ah/sCKqUWdGGZrUCOyQzLXgtvn+/30CBuRp9w=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Kom0jmG4cp2aCCPXYGhzvsNdpnID6H+n8FBHwTifdpEYGIUBXrnEh77Zjb+F4Uw9H
+	 UXUPUIguRj6rXxio7bPxKL8EDMaAwhGefR3rfI1wHeSXx/zPR33P8qJNbunSZ43qDr
+	 NgFlGeDjza2ZQm8OzzMjsW6vlhjo+CZxjlwQT+qLbYqhmgxd8Q8Ihyd2HOc3dvoADp
+	 o+xiWOcZDwMxqEP+I8vJDl4qWqdv4qG5u0jzztECJfg3xosxH+CpUDCdgJZ6vEOukO
+	 glY3kmdJgj3w/lSoryU0vkLnI0wkwv88sda11lAy2tHIoR1eKoCLmGUm0esizzLPxM
+	 ivEADa7FfTprA==
+Message-ID: <e2a3798f-cbc4-49c5-bbd3-42509c22c8fa@gaisler.com>
+Date: Thu, 12 Feb 2026 09:38:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 3/4] arch, mm: consolidate empty_zero_page
-Content-Language: en-US
 To: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Andreas Larsson <andreas@gaisler.com>, Borislav Petkov <bp@alien8.de>,
- Brian Cain <bcain@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
+Cc: Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
  "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
  "David S. Miller" <davem@davemloft.net>,
  Dave Hansen <dave.hansen@linux.intel.com>,
- David Hildenbrand <david@kernel.org>,
+ David Hildenbrand <david@kernel.org>, Dinh Nguyen <dinguyen@kernel.org>,
  Geert Uytterhoeven <geert@linux-m68k.org>, Guo Ren <guoren@kernel.org>,
  Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
  Ingo Molnar <mingo@redhat.com>, Johannes Berg <johannes@sipsolutions.net>,
@@ -79,11 +82,12 @@ Cc: Andreas Larsson <andreas@gaisler.com>, Borislav Petkov <bp@alien8.de>,
  linux-mm@kvack.org, x86@kernel.org
 References: <20260211103141.3215197-1-rppt@kernel.org>
  <20260211103141.3215197-4-rppt@kernel.org>
-From: Dinh Nguyen <dinguyen@kernel.org>
+Content-Language: en-US
+From: Andreas Larsson <andreas@gaisler.com>
 In-Reply-To: <20260211103141.3215197-4-rppt@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260211_213315_775486_AEF82807 
-X-CRM114-Status: GOOD (  18.96  )
+X-CRM114-CacheID: sfid-20260212_003932_796684_9FE03905 
+X-CRM114-Status: GOOD (  20.51  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,14 +99,12 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-
-
-On 2/11/26 04:31, Mike Rapoport wrote:
+On 2026-02-11 11:31, Mike Rapoport wrote:
 > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 > 
 > Reduce 22 declarations of empty_zero_page to 3 and 23 declarations of
@@ -122,25 +124,25 @@ On 2/11/26 04:31, Mike Rapoport wrote:
 > For the most part the change is mechanical, with these being noteworthy:
 > 
 > * alpha: aliased empty_zero_page with ZERO_PGE that was also used for boot
->    parameters. Switching to a generic empty_zero_page removes the aliasing
->    and keeps ZERO_PGE for boot parameters only
+>   parameters. Switching to a generic empty_zero_page removes the aliasing
+>   and keeps ZERO_PGE for boot parameters only
 > * arm64: uses __pa_symbol() in ZERO_PAGE() so that definition of
->    ZERO_PAGE() is kept intact.
+>   ZERO_PAGE() is kept intact.
 > * m68k/parisc/um: allocated empty_zero_page from memblock,
->    although they do not support zero page coloring and having it in BSS
->    will work fine.
+>   although they do not support zero page coloring and having it in BSS
+>   will work fine.
 > * sparc64 can have empty_zero_page in BSS rather allocate it, but it
->    can't use virt_to_page() for BSS. Keep it's definition of ZERO_PAGE()
->    but instead of allocating it, make mem_map_zero point to
->    empty_zero_page.
+>   can't use virt_to_page() for BSS. Keep it's definition of ZERO_PAGE()
+>   but instead of allocating it, make mem_map_zero point to
+>   empty_zero_page.
 > * sh: used empty_zero_page for boot parameters at the very early boot.
->    Rename the parameters page to boot_params_page and let sh use the generic
->    empty_zero_page.
+>   Rename the parameters page to boot_params_page and let sh use the generic
+>   empty_zero_page.
 > * hexagon: had an amusing comment about empty_zero_page
 > 
 > 	/* A handy thing to have if one has the RAM. Declared in head.S */
 > 
->    that unfortunately had to go :)
+>   that unfortunately had to go :)
 > 
 > Acked-by: Helge Deller <deller@gmx.de>   # parisc
 > Tested-by: Helge Deller <deller@gmx.de>  # parisc
@@ -150,13 +152,16 @@ On 2/11/26 04:31, Mike Rapoport wrote:
 > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 > ---
 
->   arch/nios2/include/asm/pgtable.h          |  7 -------
->   arch/nios2/kernel/head.S                  | 10 ----------
->   arch/nios2/kernel/nios2_ksyms.c           |  1 -
+>  arch/sparc/include/asm/pgtable_32.h       |  8 --------
+>  arch/sparc/include/asm/setup.h            |  2 --
+>  arch/sparc/kernel/head_32.S               |  7 -------
+>  arch/sparc/mm/init_32.c                   |  4 ----
+>  arch/sparc/mm/init_64.c                   | 11 ++++-------
+Acked-by: Andreas Larsson <andreas@gaisler.com> #sparc
 
-For nios2,
+Cheers,
+Andreas
 
-Acked-by: Dinh Nguyen <dinguyen@kernel.org>
 
 _______________________________________________
 linux-snps-arc mailing list
