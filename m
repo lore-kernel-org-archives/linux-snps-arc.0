@@ -4,105 +4,175 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F9481039893
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 27 Feb 2026 20:32:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFD94EB7EB3
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  4 Mar 2026 09:02:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=0jl9ZIVUhzTQX3QTbQu8qOdO1Ap/YC2ooGkW29MV2PA=; b=AY6CYtWfsVpq06
-	8jj1NbIHWE9WUXC75hb8t5zDkxuNzUVYFYrr6/7XKPK3Nk+Qun40oB9zuPB2IXiS/OwlKWMhT6mRG
-	xKumrGV4EVhYayL09/LMcLwwc/qZGQy9zePNaSd0RB29uiD6ZuWvQnSHef5c8mq3jjcKOr8q4i+Eh
-	27oVdlnceHnuxukOt/cvWFhRLsw7kajp9cBAjJlVZ3oOmyeoS73fs0x/g+Ut9KtjxkYl2Gl6SHgil
-	ISdyMyEoiKFa59IIM5P9X6Jw4liLQzrNhYdTGOFunvOCkIbHYCFDtChgqDXqSHoJxl5dzdpszZeef
-	i+ycL1QV6D6RXmjNZejA==;
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:MIME-Version:Message-Id:Date:
+	Subject:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=kC401SaW6ArmikO3+tH822F5DCSy+sVUGG2nIy4vA0g=; b=FRpThmezpjRO8Z
+	xaNndE/UwGW/Z2ASZfZl/QMnvkH1q90hPhZIiv0+awEK96l9Zt7jKlNFcHbCZeEjPdGuOAEYbbLd3
+	XJYZfIyApXciYnMjxL83zNLLtU/8wYkgEOyMO/gjzq1riMqm7b27AyvjNstNIPceJvC2gAgqcfSNg
+	A+1rbjFD088E/FlNdt/uOCtk3Rl/frzHKCM8F4wZ77lB5CuHqvKkvkoTfCzU2lQv7vERLJZoAuoIf
+	2eJJNAKULjQrKO/Wprvz0ah700YJgZIWYvTc+v8+qth0jy2t87j83qng5kg2qxsIZGkzwvVNhw4Tc
+	NQrBD0uSMoB3IL7lq2qQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vw4VH-000000097Zc-46Xs;
-	Fri, 27 Feb 2026 20:32:07 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1vxi88-0000000Gnvk-177L;
+	Wed, 04 Mar 2026 09:02:56 +0000
+Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vw4VE-000000097Xu-1pVk;
-	Fri, 27 Feb 2026 20:32:02 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id A889F4415A;
-	Fri, 27 Feb 2026 20:31:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96BD0C116C6;
-	Fri, 27 Feb 2026 20:31:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772224318;
-	bh=GsGJcM5lC5dbmgIT+M4WfJsd6FtHP9AI7W3MvjVlZXE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kyuHOhzjPeaL9ZBX8v9BFk4Vl1+Z8aFaC9olyQsYhW+BEPn4gG+OirqiS0vjY7wSh
-	 08AMVtHAdfLIukZECBbxqF78N9qGu5FW8Bt5tRmyiQAQYFEw5wxcQuuzR9pqH6WqJw
-	 r3wShM1wgJAs/WfWXNGcQSjs2IlTlepCJqMP4x/V5zu2VMrV5sMU8NMr+KOPjW/OyS
-	 itN52VkP0EjHt7tbTWQfjPdKlfT5854ZDrWUbFljsH2eAU+gk+L6ltqkFxDegpDUJq
-	 GyMKzPup//vrXRRmPfxpL1HVKDjePjl8VyB6YHiKhoq6Y49SPP4z4wQTNnR2bzJ/f2
-	 3gdeO5LHu2EBQ==
-Date: Fri, 27 Feb 2026 22:31:41 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Alex Shi <alexs@kernel.org>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Hildenbrand <david@kernel.org>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Guo Ren <guoren@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
-	Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Klara Modin <klarasmodin@gmail.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Magnus Lindholm <linmag7@gmail.com>,
-	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Richard Weinberger <richard@nod.at>,
-	Ritesh Harjani <ritesh.list@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Stafford Horne <shorne@gmail.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vasily Gorbik <gor@linux.ibm.com>, Vineet Gupta <vgupta@kernel.org>,
-	Will Deacon <will@kernel.org>, x86@kernel.org,
-	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-csky@vger.kernel.org, linux-cxl@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-hexagon@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org, linux-mm@kvack.org,
-	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-	linux-um@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	loongarch@lists.linux.dev, sparclinux@vger.kernel.org
-Subject: Re: [PATCH v3 23/29] arch, mm: consolidate initialization of nodes,
- zones and memory map
-Message-ID: <aaH_LVnl8FlERA_r@kernel.org>
-References: <20260111082105.290734-1-rppt@kernel.org>
- <20260111082105.290734-24-rppt@kernel.org>
- <b9527ed4-7a5c-42e9-8814-b276b3741f63@suse.cz>
+	id 1vxi85-0000000Gnub-04gw
+	for linux-snps-arc@lists.infradead.org;
+	Wed, 04 Mar 2026 09:02:54 +0000
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6245SXxe1072475
+	for <linux-snps-arc@lists.infradead.org>; Wed, 4 Mar 2026 09:02:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=oemXeHFiAD8fwC6Dvlocm0
+	aqSqueWx/Mi2JGUCBaDkQ=; b=P11c3pKEW59ZBshwgxJxorRIb/Cvzay+2NGICC
+	TUIUByAaAlcJ4kZ2u+UQRh4xlir4oUZ+Q4bGcQlsbPpUNxvswgzYkQGeGnf14P6Z
+	cQyRSBvUq28fC5gx6GVvkfsI0fZSqw/uzBYgsGj4SDJoTSWaerzUDMO3bOVZa+GO
+	WHl188CFGvZ1icutpN8PmB1fhnMHjGSISUiSpwMVEYdAcjiiBfAlQiuod4toeHcj
+	O0r8mK1uDg9SCCe2nZPDDCy7UP7vKNiEqXPDGeazBlvFXHErYyAGTVHX6OMBYVqK
+	snkDYFGNPNyWf9q16AhJCZHo6WGOQbvwCO3SUEWD6ILYkaaw==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cpcxfh0gj-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-snps-arc@lists.infradead.org>; Wed, 04 Mar 2026 09:02:52 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8c71655aa11so6150286085a.3
+        for <linux-snps-arc@lists.infradead.org>; Wed, 04 Mar 2026 01:02:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1772614971; x=1773219771; darn=lists.infradead.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oemXeHFiAD8fwC6Dvlocm0aqSqueWx/Mi2JGUCBaDkQ=;
+        b=UkMrHotm+FwR6VEnQMIoPYqQnzcrwgB6qdXBUu4rDDtjJ+bc4gLHoLaAqFxUtdW/lN
+         8/EF48ps8F+YZ2YaWVpb9srAUTolv4NowlyLrrQJAICbZSKQtIGZx6b2FaWIXgzgZaAY
+         a2jBpGK8Rpprso7cdh3/stbyIz8bHYLI7ckj6NG1oOcf0QWy+WxJvoGZ8GZ4LwtBHq3c
+         GKYXGCj2IIMFUO/MdT7/JzFnFHIIH0SksmZLd2kd3yXO3LnKfGxJ0IPZV0gVE7SGYyiy
+         YOO0a4d563CYbDyQAbKmqLQ2BBkRvEpSHcsb4/GQNzA+QezXPjYABOcXXEnoztlDLRDY
+         f8kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772614971; x=1773219771;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oemXeHFiAD8fwC6Dvlocm0aqSqueWx/Mi2JGUCBaDkQ=;
+        b=OTG6LJoKI4G6t2dKR4orCRUYUf9Ukz1a18AoUE2lrFgIipw/0ZRQfxwruSpirYCM9e
+         UBYGwkZUTHIkuoEcFmNup8Ns7Vl6XjBTgsHYMtGYmRfqJ2WpFwLW434Sexa7lTjasSXx
+         MJqA2B94HKvMQop4Dyg50VBDdSkdXDdF+MsYi633vBfEvdX1l68ScuQ0FGm+ifcLYwqP
+         eXt8QDqGSNZVmnt829g433hlWTdtEOANYQa6Z+duagxze/oNQdyM92UZsWAPsNokm2nb
+         9nUeuVTEMnp2kcpBP2ID7CV9T7+Lj/GJI8zsTgWAFeQwbctmP2CFsVbylZ69CmtDK1pc
+         ae7g==
+X-Forwarded-Encrypted: i=1; AJvYcCXIz0XWvcVeukM6yQMcXlNWqGFgHaFDq4HE2uV9dq5QuLKpgNePyeP+fcdEpuZIwr2NB1B2KBm1HUmGop7dNg==@lists.infradead.org
+X-Gm-Message-State: AOJu0YwbhKV3OCjBFaKG3gsGvIbvGTT+yrMJLwtNP8Mo6A5zTzf4lFG0
+	EAIsqDa7AWwD7sef8kR439BJ+3Z5ucyCsFXytwAP/inh2oR0F3E8CRpEyyCYeeRhot38ooin9aU
+	F0F0tlia1PANa6f3UIB251xUUhodrXDw50lcxIADs45DDeTJSCpHAY4FyMOSAKOVAIZg2qz/1mS
+	c=
+X-Gm-Gg: ATEYQzxwUaysY9kqS8txK+Ig9QREl1KGLygyt2Q5gEySgcGi0SUiuAHf1EFbAYEr0oB
+	hC7E0sAe2iavRvF//BLM9CJFHT0gqDOVUTI1aWxj6EU2mnBKGeY+p7+eOniEraSH8uOhjwNXVKB
+	jy07BMfNcoHx2P030rdb/dbyjdQYgJWNQoGceVUr26E74+LMMJ/HFSUiZavPmcnNI61owL8riXy
+	5n33ij2vpRXgrucNocf9b05qkbjdmlUlbT4oaRNng6g2KLKy8OuQAAVmpBUo+sBzP8mzGOoNT+5
+	zBYJKonQsEIz5XiAJE9PuLMY78Rofd4077cShHtFQ7aye7hdP8XB9cgpHiTnpDh7AxqZsaqXX5o
+	C8qB4V56KYxkyG/1lxtxAqFugmsREiTAY8ZL0GXAAkuKWv8tFLGcd
+X-Received: by 2002:a05:620a:258d:b0:8b0:f2bd:4762 with SMTP id af79cd13be357-8cd5afd3c5fmr156643285a.75.1772614971133;
+        Wed, 04 Mar 2026 01:02:51 -0800 (PST)
+X-Received: by 2002:a05:620a:258d:b0:8b0:f2bd:4762 with SMTP id af79cd13be357-8cd5afd3c5fmr156638885a.75.1772614970677;
+        Wed, 04 Mar 2026 01:02:50 -0800 (PST)
+Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:edb0:af14:f4c7:c6ac])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851ad02ffcsm3644895e9.20.2026.03.04.01.02.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Mar 2026 01:02:49 -0800 (PST)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [PATCH 00/14] gpio: remove uneeded Kconfig dependencies on OF_GPIO
+Date: Wed, 04 Mar 2026 10:02:21 +0100
+Message-Id: <20260304-gpio-of-kconfig-v1-0-d597916e79e7@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <b9527ed4-7a5c-42e9-8814-b276b3741f63@suse.cz>
+X-B4-Tracking: v=1; b=H4sIAB31p2kC/x3MTQqAIBBA4avErBsw+6OuEi3ERhsCJxQiEO+et
+ PwW72VIFJkSrE2GSA8nllDRtQ3Y0wRPyEc1aKUn1asB/c2C4vCyEhx7JD3OZGa7GLVAre5Ijt/
+ /uO2lfCyoFdRhAAAA
+X-Change-ID: 20260304-gpio-of-kconfig-e257ea7c9a09
+To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+        Alexey Brodkin <abrodkin@synopsys.com>,
+        Vineet Gupta <vgupta@kernel.org>, Scott Wood <oss@buserror.net>,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+        Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
+        Bartosz Golaszewski <brgl@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Dvorkin Dmitry <dvorkin@tibbo.com>, Wells Lu <wellslutw@gmail.com>,
+        Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sebastian Reichel <sre@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-amlogic@lists.infradead.org, linux-leds@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-pm@vger.kernel.org, brgl@kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2687;
+ i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
+ bh=vzKg2CmRZRz9tDx8jerfN1FNHIadNDJlHWQvRijQXa4=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpp/UlV7KEbnku5SM6ln9ww7x/7ZvkbRgT9akwX
+ ZTKY7PzrYiJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaaf1JQAKCRAFnS7L/zaE
+ w5VxD/sFAI2igPWylEwWYYIK15BDRKiW+6YYGAfBqLpYl9ZCdmVgeZD06r7JMW6noA5hFzEkv66
+ pvwjnkkl7u3DFOw8V3GJsnoNOOowaj6Scqektj5r5FiQwuHc5I8abfSLEsV+V4cO0v7ZKq29NWM
+ Slk6AkPOz4Dk9WvQW94bOEYC8bLWudd5dgScZ5sDtsXB2ZVkOU4Un4t2pkX+8AD230La5Ao4gHq
+ 2nfPT5kU2Ogk9EZLOE66LyX5r1zO/Vj5OAtjgB62Cm3oV01ZLErMP+entT0fo8yY5ScmRMaFpUo
+ 3lszEgJlDfA1/ZDe7YGcx1Iqfxnt3/YFva8swh9EU9K0fTllltoiemPhEcDsQa5L+CR683lH/5a
+ FVYvSL0skiru5EDCrTdHr9OUO3u/OD/twdunXvFtT4F/LzO3iDxvE4CEGqlnI+tyOOv2IzMGGGv
+ vbQtrKM8lRKn0N/IC77/tT7IX4aqycoE1lunxb24p/sgoxdJc7e5jEgkPRPmXIOB76VxKbGc0+n
+ 1F3iiZCY9qL3lsySV+j+61W3cjjIYoI/L5iDJbnwnolQDGAK7PEXv6yL4e4j8aGyXOwDd8Gq1aO
+ avM0vTJekP9BWzuxJMN/Y9MbMnlPvTbKHGY0BPgrchdO2JNNJztzOUyRDL4+1lGfij7PFp3V2kf
+ qVTMwUWNMgBvbzQ==
+X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+X-Proofpoint-ORIG-GUID: 5_T-cTViVnSoE3eznXI8tPQx4wBiDr39
+X-Authority-Analysis: v=2.4 cv=R4gO2NRX c=1 sm=1 tr=0 ts=69a7f53c cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=EUspDBNiAAAA:8
+ a=RbMT-lXscSRh0E1VkaUA:9 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA0MDA2NyBTYWx0ZWRfXxy/3tXJmT7KW
+ wmJzTmLPAnlkXO77Tq769HhEg3uiESDnkhd06k3ERl88Y4xHZfcW1E3rKp1fT4cFnFF4tM0W9Ln
+ gUf3MmSepdbOENaSwWTq5ZnVQOylOKszIZGB+PnUcDr4HIVY5w7znW3b8pzRdizFsp8m1lrrcgl
+ wozEtG6cZvu/s2oZs4jFyMc5so6rs1cI3kNzfV4Rpwt3baoa1JIBe6l/+TtMNhDTfYXC9Q1SyXe
+ Epj6tgXJj4L6kFI2w8c7LIRmRmAlAVl3b6HTcqyPCnasEJ15usl+nZsawFS2bfj6PASD3OIXI3g
+ 9waKRNd/az4SB3NWcJhZNMGg1f2GIoGaAgscrzBFH8q5elZRH99vDmSivnl/M4Ua9N7hJKBEgjS
+ XKU2/atjGDGtn7a8F0MIWy6OKTaV011Ew8uDSFVZJHe26YnHeOMaYvTMuLWRH8bOZidx17r4epw
+ 7zZ5YfDm1wLy7jfEfUQ==
+X-Proofpoint-GUID: 5_T-cTViVnSoE3eznXI8tPQx4wBiDr39
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-04_04,2026-03-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 priorityscore=1501 clxscore=1015 phishscore=0 bulkscore=0
+ lowpriorityscore=0 impostorscore=0 spamscore=0 suspectscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603040067
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260227_123200_539822_C0AF1B9B 
-X-CRM114-Status: GOOD (  31.22  )
+X-CRM114-CacheID: sfid-20260304_010253_055361_A3ADA073 
+X-CRM114-Status: GOOD (  15.96  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -119,140 +189,64 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hi Vlastimil,
+NOTE: Each patch in this series can be picked up independently into
+maintainer trees.
 
-On Fri, Feb 27, 2026 at 04:14:42PM +0100, Vlastimil Babka wrote:
-> On 1/11/26 09:20, Mike Rapoport wrote:
-> > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-> > 
-> > To initialize node, zone and memory map data structures every architecture
-> > calls free_area_init() during setup_arch() and passes it an array of zone
-> > limits.
-> > 
-> > Beside code duplication it creates "interesting" ordering cases between
-> > allocation and initialization of hugetlb and the memory map. Some
-> > architectures allocate hugetlb pages very early in setup_arch() in certain
-> > cases, some only create hugetlb CMA areas in setup_arch() and sometimes
-> > hugetlb allocations happen mm_core_init().
-> > 
-> > With arch_zone_limits_init() helper available now on all architectures it
-> > is no longer necessary to call free_area_init() from architecture setup
-> > code. Rather core MM initialization can call arch_zone_limits_init() in a
-> > single place.
-> > 
-> > This allows to unify ordering of hugetlb vs memory map allocation and
-> > initialization.
-> > 
-> > Remove the call to free_area_init() from architecture specific code and
-> > place it in a new mm_core_init_early() function that is called immediately
-> > after setup_arch().
-> > 
-> > After this refactoring it is possible to consolidate hugetlb allocations
-> > and eliminate differences in ordering of hugetlb and memory map
-> > initialization among different architectures.
-> > 
-> > As the first step of this consolidation move hugetlb_bootmem_alloc() to
-> > mm_core_early_init().
-> > 
-> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> I've bisected a problem with virtme-ng testing a NUMA memoryless
-> node setup (on x86_64) to this patch (commit d49004c5f0c1).
-> 
-> It's executed like this, where node 0 has memory and node 1 only cpus:
-> 
-> vng -vr . -p 8 -m 4G --numa 4G,cpus=0-3 --numa 0,cpus=4-7
-> 
-> This fails to boot due to:
-> 
-> [    0.095894] BUG: unable to handle page fault for address: 0000000000004620
-> [    0.097196] #PF: supervisor read access in kernel mode
-> [    0.098180] #PF: error_code(0x0000) - not-present page
-> [    0.099155] PGD 0 P4D 0 
-> [    0.099641] Oops: Oops: 0000 [#1] SMP NOPTI
-> [    0.100437] CPU: 0 UID: 0 PID: 0 Comm: swapper Not tainted 6.19.0-rc6-00152-gf206359553c9 #53 PREEMPT 
-> [    0.102201] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.17.0-2-g4f253b9b-prebuilt.qemu.org 04/01/2014
-> [    0.104313] RIP: 0010:mm_core_init_early+0x263/0x900
-> [    0.105271] Code: 93 ff 72 09 8b 7c 24 30 e8 da 82 00 00 48 63 44 24 30 45 31 db 4c 8b 24 c5 a0 7b 1d 9a 48 89 c3 4c 89 5c 24 50 4c 89 5c 24 58 <41> 83 bc 24 20 46 00 00 00 75 0b 41 83 bc 24 14 47 00 00 00 74 04
-> [    0.108863] RSP: 0000:ffffffff99403e38 EFLAGS: 00010046
-> [    0.109861] RAX: 0000000000000001 RBX: 0000000000000001 RCX: 0000000000000001
-> [    0.111223] RDX: 0000000000000040 RSI: 0000000000100000 RDI: ffff89597fffae00
-> [    0.112577] RBP: 0000000000000005 R08: 0000000000000000 R09: ffff89597fffa200
-> [    0.113924] R10: 80000000ffffe000 R11: 0000000000000000 R12: 0000000000000000
-> [    0.115294] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-> [    0.116656] FS:  0000000000000000(0000) GS:0000000000000000(0000) knlGS:0000000000000000
-> [    0.118193] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [    0.119283] CR2: 0000000000004620 CR3: 0000000060048000 CR4: 00000000000000b0
-> [    0.120645] Call Trace:
-> [    0.121122]  <TASK>
-> [    0.121521]  start_kernel+0x5d/0x780
-> [    0.122206]  x86_64_start_reservations+0x24/0x30
-> [    0.123079]  x86_64_start_kernel+0xd1/0xe0
-> [    0.123860]  common_startup_64+0x12c/0x138
-> [    0.124641]  </TASK>
-> [    0.125061] Modules linked in:
-> [    0.125646] CR2: 0000000000004620
-> [    0.126279] ---[ end trace 0000000000000000 ]---
-> [    0.127162] RIP: 0010:mm_core_init_early+0x263/0x900
-> [    0.128106] Code: 93 ff 72 09 8b 7c 24 30 e8 da 82 00 00 48 63 44 24 30 45 31 db 4c 8b 24 c5 a0 7b 1d 9a 48 89 c3 4c 89 5c 24 50 4c 89 5c 24 58 <41> 83 bc 24 20 46 00 00 00 75 0b 41 83 bc 24 14 47 00 00 00 74 04
-> [    0.131676] RSP: 0000:ffffffff99403e38 EFLAGS: 00010046
-> [    0.132684] RAX: 0000000000000001 RBX: 0000000000000001 RCX: 0000000000000001
-> [    0.134033] RDX: 0000000000000040 RSI: 0000000000100000 RDI: ffff89597fffae00
-> [    0.135412] RBP: 0000000000000005 R08: 0000000000000000 R09: ffff89597fffa200
-> [    0.136763] R10: 80000000ffffe000 R11: 0000000000000000 R12: 0000000000000000
-> [    0.138112] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-> [    0.139487] FS:  0000000000000000(0000) GS:0000000000000000(0000) knlGS:0000000000000000
-> [    0.141014] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [    0.142094] CR2: 0000000000004620 CR3: 0000000060048000 CR4: 00000000000000b0
-> [    0.143448] Kernel panic - not syncing: Attempted to kill the idle task!
-> [    0.144833] ---[ end Kernel panic - not syncing: Attempted to kill the idle task! ]---
-> 
-> > ./scripts/faddr2line vmlinux mm_core_init_early+0x263/0x900
-> mm_core_init_early+0x263/0x900:
-> free_area_init_node at mm/mm_init.c:1721
-> (inlined by) free_area_init at mm/mm_init.c:1902
-> (inlined by) mm_core_init_early at mm/mm_init.c:2681
-> 
-> It crashes at WARN_ON(pgdat->nr_zones || pgdat->kswapd_highest_zoneidx);
-> because pgdat is NULL.
-> 
-> With some debug printk's I've figured out that in free_area_init()
-> we have:
-> 
->                 if (!node_online(nid))
->                         alloc_offline_node_data(nid);
->              
->                 pgdat = NODE_DATA(nid);
->                 free_area_init_node(nid);
-> 
-> 
-> But node_online() is true so this allocation doesn't happen, and
-> pgdat remains NULL.
-> 
-> And node_online() becomes true in init_cpu_to_node():
-> 
->                 if (!node_online(node))
->                         node_set_online(node);
-> 
-> But without having a pgdat allocated.
-> 
-> I was able to workaround this by changing the code in free_area_init() to
-> 
->                if (!node_online(nid) || !NODE_DATA(nid))
->                         alloc_offline_node_data(nid);
+CONFIG_OF_GPIO is a switch that enables the compilation of the gpiolib-of
+module. The module itself handles GPIO lookup via the OF-node tree and
+is automatically enabled on all OF systems. It does not export any
+public symbols to drivers. There is no reason for them to select or
+depend on it in Kconfig.
 
-if (!NODE_DATA(nid)) is enough ...
- 
-> But I don't have the bigger picture, and also didn't check yet what exactly
-> about this patch results in the failure. Probably ordering of various related 
-> actions. Thoughts?
+This series removes any such dependencies from Kconfig. If a given entry
+has no other dependencies than OF_GPIO - they are converted to OF to
+avoid new symbols popping up for everyone in make config.
 
-... and there's a fix already in the mm-hotfixes-stable:
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+---
+Bartosz Golaszewski (14):
+      arm64: Kconfig: drop unneeded dependency on OF_GPIO
+      arc: axs10x: drop unneeded dependency on OF_GPIO
+      powerpc: drop unneeded dependency on OF_GPIO
+      net: mdio: drop unneeded dependency on OF_GPIO
+      regulator: drop unneeded dependencies on OF_GPIO
+      gpio: drop unneeded Kconfig dependencies on OF_GPIO
+      pinctrl: Kconfig: drop unneeded dependencies on OF_GPIO
+      leds: Kconfig: drop unneeded dependency on OF_GPIO
+      hwmon: drop unneeded dependency on OF_GPIO
+      watchdog: convert the Kconfig dependency on OF_GPIO to OF
+      bus: drop unneeded dependency on OF_GPIO
+      staging: media: max96712: drop unneeded dependency on OF_GPIO
+      power: reset: drop unneeded dependencies on OF_GPIO
+      media: i2c: drop unneeded dependencies on OF_GPIO
 
-https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?h=mm-hotfixes-unstable&id=a4ab97e34bb687a2ca63fc70b47e8762e689797f
+ arch/arc/plat-axs10x/Kconfig           |  1 -
+ arch/arm64/Kconfig.platforms           |  1 -
+ arch/powerpc/platforms/85xx/Kconfig    |  1 -
+ drivers/bus/Kconfig                    |  2 +-
+ drivers/gpio/Kconfig                   | 53 +++++++++++-----------------------
+ drivers/hwmon/Kconfig                  |  1 -
+ drivers/leds/Kconfig                   |  1 -
+ drivers/media/i2c/Kconfig              | 12 ++++----
+ drivers/net/mdio/Kconfig               |  2 +-
+ drivers/pinctrl/Kconfig                |  9 ------
+ drivers/pinctrl/bcm/Kconfig            |  4 +--
+ drivers/pinctrl/meson/Kconfig          |  1 -
+ drivers/pinctrl/starfive/Kconfig       |  2 --
+ drivers/pinctrl/sunplus/Kconfig        |  1 -
+ drivers/power/reset/Kconfig            |  8 ++---
+ drivers/regulator/Kconfig              |  2 --
+ drivers/staging/media/max96712/Kconfig |  1 -
+ drivers/watchdog/Kconfig               |  2 +-
+ 18 files changed, 31 insertions(+), 73 deletions(-)
+---
+base-commit: c025f6cf4209e1542ec2afebe49f42bbaf1a5c7b
+change-id: 20260304-gpio-of-kconfig-e257ea7c9a09
 
+Best regards,
 -- 
-Sincerely yours,
-Mike.
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+
 
 _______________________________________________
 linux-snps-arc mailing list
