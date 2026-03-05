@@ -4,119 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA136EFCE47
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  4 Mar 2026 21:58:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E51B7EFCE56
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  5 Mar 2026 00:36:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Date:Message-Id:Subject:
+	References:In-Reply-To:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=i5uxRrZ41y+3bazR2Gn0TGF73Cojv2Twm4NznnIU+1E=; b=X6ztIw5eMmtcjn
-	uB5LIc/m0SqnWXrN/RlxJn+PeHghqxOqBOLMoQBVNcGH9r4NuOmptOm6QAKeUMX4AGTQ+0bO//ivN
-	IHebgKBrnd65BlufI7O553BCMFIeD1VfP/Mv7CkASDXoNxxIywjgDpuhmwtQd1M0LxSBMV7wZiiyl
-	nwdBN/IOi1s+a/t261EiHGZYpoTQrsx1lnir/1eHSR35fFyZlv3hLQ4rxdLiAx8RNAU15eRwYzaK4
-	S3eUq/UEFIKPM6mK6wE5WegJlEjoKkXi8J+BsLFUDD6OlWQZqE6A+hz449ihvk5KIXysxN1D9OMNb
-	M5ntXmG6grWQDc68TEPw==;
+	List-Owner; bh=UE4BKD8x6VGNV/gaHqaZHXxUNQJjUaNdHP/it1ojVkE=; b=X8j4AmsHk9gVmE
+	rwZG173r2YmbGNq/4w2mbzTxWrinSbvtiPf0Mcahsr2UNP2QEDf+uQgixjc2KwRujVsfDdvBdnCiL
+	c5NqSoOOdEDcmAkBe8AFPr7uY4ILfVVutexmIwV673ZmA7f5PZnsf98P/B56wMYq9i8DJq51eYjBQ
+	m6riUmL5UAxZrub7U7KPIpIb7KgYbooAYKKs5vfpPTvHgcEuWiawjDRXnDsvwtIh3dDzT7nQXTD76
+	MCKchJfL/xNzQ4c+TxMxt4rslYILkCnfQtdct3MlQO9kkK6OYfJGIRE1dEC7jSNRdFuRefQsJUc5V
+	Gy1aL6HY5F3AxnEXe1cw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxuEm-00000000YGF-1x2l;
-	Wed, 04 Mar 2026 21:58:36 +0000
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
+	id 1vxwht-00000000hum-2avz;
+	Thu, 05 Mar 2026 00:36:49 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxuEk-00000000YFM-1oB0
-	for linux-snps-arc@lists.infradead.org;
-	Wed, 04 Mar 2026 21:58:35 +0000
-Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-82985f42664so3629b3a.0
-        for <linux-snps-arc@lists.infradead.org>; Wed, 04 Mar 2026 13:58:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772661513; x=1773266313; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SDR4PsYkFmZIckUOryLH4IjXcqpjDOwt0KGqniQjbHs=;
-        b=OXgPhLEV5MmqjCJLZ7s2p7wuQWn8dJqRHO9wYvWbXwlZEQnfHYs+MwGVCvuKSfo0tj
-         /PVaOj7phOk7Hyaer6/2+uPYP/opqR0w0Db8Y7pOUr5ZlLWiBFHJFbIJCG2w0pvsoEps
-         oPEWRb/lDISYpNUyOg12NvWvFerTYldm5paa/a69RsCs2BQgEBKbn91CiX9vCqjhW5tR
-         OYxv2eMNsT2Oi1ofgn5sC8m274j7nCZb5HQFSslL7kB05NrgoODLdm4sMIijdAY0L/zd
-         oy11gcq2CaCyAjB8Vj5YvXjPmkqUlyV0dpzKr+tltizQ2s2/U45Vn2YkWP7VJOOwxSOM
-         58rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772661513; x=1773266313;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=SDR4PsYkFmZIckUOryLH4IjXcqpjDOwt0KGqniQjbHs=;
-        b=VaQJS1S9j+vlUE9Ko8YQF3sk4eknKIegr8sAyGxtF1OOZ3XUQC4Ej3Jyo/LRBihOYa
-         kY2ZoMw+uKJcxFINas5URYzBIszVf06hzzHVqe7zK1MZn6a7AkpMXTb6NSfyojF+cQpM
-         7+i8D0uK2+zDEwZxDXHTaZSLrH2EewoRfGA2H4mPNYv29XCx79zo3SW0Wq+6aVzMFNxD
-         MrFly6LNLOMCrOfCQYCGlkQPqZMaYEqAEK5o16wLBNTagBa9WgXRKw9j/pnMyQ5TO/Rk
-         W+6NbLFTS0RYeHWSMubhRNktl3+7vBvTQBBcTPSxp5UB828hzop9kCTtLGzWPbCQBFsg
-         LXNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUatnOwgGy+d32sk78gwIRQqsnSusJjS+klHmspCIw9Si8nwsNTXBfIqUo8LifAGovSe0bK/b6s9jgzLDeAew==@lists.infradead.org
-X-Gm-Message-State: AOJu0Yy/hiaO5k2HGMeNCWtyNCmEqR2/nmGfYxf4+rnFG7TEw7PLFs17
-	qpVFP0PiB+3Gh+YTr/SuaBde5lgNkZZiDE8lPqa9IPTEKsuCJL7OsYex
-X-Gm-Gg: ATEYQzz2yr0wXFPGrwMfy5GwcjHGKw7NNEL5MnavcUtiDcEQMCUw9nTKtJog/F5E6Nw
-	tloffpHuzJ3jeKEogLHg3O9vUt9ZqE0SsAQCvcggdMdIysqhpPdHpXA+2rN2e3o+9KbzgBffuIq
-	wSyX9IRtJjb+6bXigJl2CbAmIQXeBBYGlYDixyBhCEIpDcwNfqM4agx/jcS9orkZ9Gm0m4Jrvrw
-	1NHCqCJxwUGQ+lhlWpScDrmmjNs3g7c+0xAt9o1g6a0yg06hL4SRoWrtaX6yK2oZ4kFWfv2dghS
-	sF+NRhvy8IH0ezAoFLZFfZR9sZESRaxZ6mqj+7Zhsxi+X0mQpv47abQrHkQ/GyVCgyAePmCxntV
-	TgN9+hKvFP4KpuPFTLW9QwEFOEbggcp8+aqDK9nXzhYwYYXXzOPEtvPq/pxkkWgqO57bTuB3baw
-	VgVtlVEoLPrcA4iesNRCAwQsidQNEQK60p2Cg9
-X-Received: by 2002:a05:6a00:4288:b0:827:3321:7a23 with SMTP id d2e1a72fcca58-82972b63764mr2746760b3a.24.1772661513098;
-        Wed, 04 Mar 2026 13:58:33 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82984a01827sm110603b3a.43.2026.03.04.13.58.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 13:58:32 -0800 (PST)
-Date: Wed, 4 Mar 2026 13:58:31 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Alexey Brodkin <abrodkin@synopsys.com>,
-	Vineet Gupta <vgupta@kernel.org>, Scott Wood <oss@buserror.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Dvorkin Dmitry <dvorkin@tibbo.com>, Wells Lu <wellslutw@gmail.com>,
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-amlogic@lists.infradead.org, linux-leds@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-watchdog@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-pm@vger.kernel.org
-Subject: Re: [PATCH 09/14] hwmon: drop unneeded dependency on OF_GPIO
-Message-ID: <a1ce9ab4-49cc-46f7-8524-1cbc0e6333fa@roeck-us.net>
-References: <20260304-gpio-of-kconfig-v1-0-d597916e79e7@oss.qualcomm.com>
- <20260304-gpio-of-kconfig-v1-9-d597916e79e7@oss.qualcomm.com>
+	id 1vxwhq-00000000hu0-1McT;
+	Thu, 05 Mar 2026 00:36:47 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id D54F2403ED;
+	Thu,  5 Mar 2026 00:36:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70C0CC4CEF7;
+	Thu,  5 Mar 2026 00:36:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772671004;
+	bh=dufxbUIyr7d8ExFT8JscxBc90VyX6BXpvMXaMHirGFY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=KToGiCmvRjrVNqFH9bmGJHeZ38P88LzG7roLZL+LfIaWcpEiN2r+2cd8LeoKKP35z
+	 U1kZMnp2GF5lnZ/nU+B3HGi0hmJYpifkPnaIttjOzC0p4MJWgdE7whcAtStb71A/hR
+	 PWMEoeZUETbXXgqKLd947UqscZTCqE7PdSGVXWHEJVzdsA5P/GL+TYntigcrzmPu9S
+	 bwFDNJowrmaquHt0GQepYaacF/aqErDIPLaR1+ZJBBxnDoRwltgCLkyg6X/do1S70f
+	 /t3wS/hkSXMAn5Ptc3L2X59NGkKMvuLeUJNxpcdH9xAkM1JdLfqBeN7u7tjz5Udo9K
+	 2yvhogx3J8MSA==
+From: Nathan Chancellor <nathan@kernel.org>
+To: Nicolas Schier <nsc@kernel.org>, Nathan Chancellor <nathan@kernel.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>, 
+ Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>, 
+ Vineet Gupta <vgupta@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>, 
+ Brian Cain <bcain@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, 
+ WANG Xuerui <kernel@xen0n.name>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+ Sam Creasey <sammy@sammy.net>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ Dinh Nguyen <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>, 
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, 
+ Stafford Horne <shorne@gmail.com>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+ Helge Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+ Alexander Gordeev <agordeev@linux.ibm.com>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Sven Schnelle <svens@linux.ibm.com>, 
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Andreas Larsson <andreas@gaisler.com>, Richard Weinberger <richard@nod.at>, 
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
+ Johannes Berg <johannes@sipsolutions.net>, 
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+ Kees Cook <kees@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+ Masahiro Yamada <masahiroy@kernel.org>, Alexey Gladkov <legion@kernel.org>, 
+ linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
+ loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, 
+ linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org, 
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, 
+ linux-um@lists.infradead.org, linux-kbuild@vger.kernel.org, 
+ stable@vger.kernel.org, Ed W <lists@wildgooses.com>
+In-Reply-To: <20260225-separate-modinfo-from-elf-details-v1-1-387ced6baf4b@kernel.org>
+References: <20260225-separate-modinfo-from-elf-details-v1-1-387ced6baf4b@kernel.org>
+Subject: Re: [PATCH] kbuild: Split .modinfo out from ELF_DETAILS
+Message-Id: <177267099220.1730256.13119170390082704508.b4-ty@kernel.org>
+Date: Wed, 04 Mar 2026 17:36:32 -0700
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20260304-gpio-of-kconfig-v1-9-d597916e79e7@oss.qualcomm.com>
+X-Mailer: b4 0.15-dev
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260304_135834_477263_48866B51 
-X-CRM114-Status: UNSURE (   9.77  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260304_163646_411626_4EA18CE8 
+X-CRM114-Status: GOOD (  10.04  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,17 +111,38 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 04, 2026 at 10:02:30AM +0100, Bartosz Golaszewski wrote:
-> OF_GPIO is selected automatically on all OF systems. Any symbols it
-> controls also provide stubs so there's really no reason to select it
-> explicitly.
+On Wed, 25 Feb 2026 15:02:51 -0700, Nathan Chancellor wrote:
+> Commit 3e86e4d74c04 ("kbuild: keep .modinfo section in
+> vmlinux.unstripped") added .modinfo to ELF_DETAILS while removing it
+> from DISCARDS, as it was needed in vmlinux.unstripped and ELF_DETAILS
+> was present in all architecture specific vmlinux linker scripts. While
+> this shuffle is fine for vmlinux, ELF_DETAILS and DISCARDS may be used
+> by other linker scripts, such as the s390 and x86 compressed boot
+> images, which may not expect to have a modinfo section. In certain
+> circumstances, this could result in a bootloader failing to load the
+> compressed kernel [1].
 > 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> [...]
 
-Applied.
+Applied to
 
-Thanks,
-Guenter
+  https://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git kbuild-fixes
+
+Thanks!
+
+[1/1] kbuild: Split .modinfo out from ELF_DETAILS
+      https://git.kernel.org/kbuild/c/8678591b47469
+
+Please look out for regression or issue reports or other follow up
+comments, as they may result in the patch/series getting dropped or
+reverted. Patches applied to an "unstable" branch are accepted pending
+wider testing in -next and any post-commit review; they will generally
+be moved to the main branch in a week if no issues are found.
+
+Best regards,
+-- 
+Nathan Chancellor <nathan@kernel.org>
+
 
 _______________________________________________
 linux-snps-arc mailing list
