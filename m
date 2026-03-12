@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B750106ACE3
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Mar 2026 19:16:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57338106ACE3
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Mar 2026 19:16:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=d/NUD8+IrNWskXjFctmtlwejIIrrN9zUOmabmoJZxGo=; b=Vaezxh1lCAJpIq
-	5rb3Mojcbb7LHtPKIFjkTQ7ZQVSLDv1GxDXL0n7rD8uexLw8VjLu/CcLvp5Ilc+GuB1A177mGoNNj
-	Iey9NYrl/A5EM1CgkYpe+Lo6c+LbSoU/FyXXFon6R0q5lUMfsU01U2i73rXKkA31t8mIBVDRGuztH
-	YuEWnzZ9+Baf+g7YBR3/4ixud5J6nJ0zWZrSJ2Dqn3GUF4bBt+KFQROjSlfySihf3tbXds6aBrt+d
-	W/nmad9WMKIeooM748az8jweG5Q1sMELpz9+hsiwPz/0d5MnVEV+NsueVxU1ffzLSTDkH8UxgevPb
-	ncw79/Dk6KG1TNCxO5YA==;
+	List-Owner; bh=1AJR+6QKpYu8GkR0Xq+21Cf9ZroRSaXjS6kKQJ4YGAA=; b=OZhMs5pJb9jecU
+	VHRzHgc1axXaQucpumLlALjj5B1JebXOhowRi7gaNXZc0iymF93HIOlJaV7+T5GxN0gtJw7pTuzA/
+	tH7lJC8JFoiuM40U7fwIK9IeB1DkQseN+snox/Aucxrboy0c6hYJf3mL7N4fAgt6cFaHmk9JusxVl
+	0lmeS4YtkXLpX8cmf6e+mBl60Yd6R+aL8lSY3bt81311pLLNnCqRUFiUi+ZA0o+dbHN2gUk47MrMA
+	7Ubm2md5lyJX6ev4lTPqI8OQLBEA8EI71tA8sE23EERB4TjRZukGmtWmF6z7L46U1UB4QWNSTNgU5
+	tI2rv5kCt3se8RtG+hdA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w0lWX-0000000F0n8-46mT;
-	Thu, 12 Mar 2026 19:16:45 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1w0lWd-0000000F0uz-0EiF;
+	Thu, 12 Mar 2026 19:16:51 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w0lWU-0000000F0hg-1PKW;
-	Thu, 12 Mar 2026 19:16:43 +0000
+	id 1w0lWY-0000000F0oD-3zoS;
+	Thu, 12 Mar 2026 19:16:48 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id C91E944504;
-	Thu, 12 Mar 2026 19:16:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30E70C2BC86;
-	Thu, 12 Mar 2026 19:16:41 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 7C0FB444EB;
+	Thu, 12 Mar 2026 19:16:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFF99C19425;
+	Thu, 12 Mar 2026 19:16:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773343001;
-	bh=bmvUDjwEogjDbOSJi1Au4cu8FeNepAROkOURcG3tLdk=;
+	s=k20201202; t=1773343006;
+	bh=27TjpYbSJCAt3p0fvuF6wB/K3CgnOl6cTI+KsNTsFvk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mD8due7j6LcH1JQ77FvTm2O64To7W0qOMNPmhfFPikEgImXxT3veeh3L41ScCRDBh
-	 hmg4qqqniVoHcKkT7m8O5H+mumGm8N4zmYge7Opsa8Ce/9GDHTedwhM9/CUSKMWgwY
-	 IU6e/CBYw2NRKVOVFqQ2bgGlpInKV5G+fS4rkhtPIgTgj/deO9vmVz7mlvAjgVC+y0
-	 7ims1tNWR6jHJF5nM+CJQxylOO6k9izJWD84PHMXlW2lamVOJSdsyjSiiiJAPNBn3k
-	 Gtips/dqUFGzguPMfBbLSaJzhO9FYdS+kBwGG+aI/v6lVZ5+gEbRp5AK402grOd7TP
-	 H8o+1/QbaQGqw==
+	b=O+OujBKEkZlxUGcx/64AARbUIuVorUrCKe2i2FYV4ky4XnE+a2QJ63hp6j94am0sN
+	 FQsDNw01iw4/wtEut3K+s+w1nQ6ALYKtr4CTIP53EIei1YYXaWiamb0YlPs9r3ivwG
+	 UNf3ghtO0g8kLukmBLZwdPwZZGWFLjwRTau518tV1TTor1T7TkPIsEEfR2J7xQBTBJ
+	 3/C4oeYzsg06Jt9FnXQYd+GybD0f9If5f/2z8AaR6Kzs08y2NLWEeR7XOtAjCO8CoY
+	 zQnzX53pZDYqZqZ4SVbEsP1dB+UPj5aOnRzVmZqbaPXtKdldH3I7aMgOBB9HAjoMnK
+	 OTDcLiiNep1mQ==
 From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: David Hildenbrand <david@kernel.org>,
@@ -104,16 +104,16 @@ Cc: David Hildenbrand <david@kernel.org>,
 	linux-um@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org,
 	selinux@vger.kernel.org
-Subject: [PATCH 03/20] mm/vma: add further vma_flags_t unions
-Date: Thu, 12 Mar 2026 19:16:01 +0000
-Message-ID: <cd3f6777c6a11a425ce5e249a5d315448e954b46.1773342102.git.ljs@kernel.org>
+Subject: [PATCH 05/20] mm/vma: use new VMA flags for sticky flags logic
+Date: Thu, 12 Mar 2026 19:16:03 +0000
+Message-ID: <1c1de926ad498edf8fa4fe9bad3783e922b62aab.1773342102.git.ljs@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1773342102.git.ljs@kernel.org>
 References: <cover.1773342102.git.ljs@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260312_121642_429953_20AA33CD 
-X-CRM114-Status: GOOD (  12.31  )
+X-CRM114-CacheID: sfid-20260312_121647_122526_309F2D1C 
+X-CRM114-Status: GOOD (  20.50  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -130,75 +130,244 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-In order to utilise the new vma_flags_t type, we currently place it in
-union with legacy vm_flags fields of type vm_flags_t to make the transition
-smoother.
+Use the new vma_flags_t flags implementation to perform the logic around
+sticky flags and what flags are ignored on VMA merge.
 
-Add vma_flags_t union entries for mm->def_flags and vmg->vm_flags -
-mm->def_vma_flags and vmg->vma_flags respectively.
+We make use of the new vma_flags_empty(), vma_flags_diff_pair(), and
+vma_flags_and_mask() functionality.
 
-Once the conversion is complete, these will be replaced with vma_flags_t
-entries alone.
+Note that we cannot rely on VM_NONE convenience any longer, so have to
+explicitly check for cases where VMA flags would not be specified.
 
-Also update the VMA tests to reflect the change.
+Also update the VMA tests accordingly.
 
 Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 ---
- include/linux/mm_types.h        | 6 +++++-
- mm/vma.h                        | 6 +++++-
- tools/testing/vma/include/dup.h | 5 ++++-
- 3 files changed, 14 insertions(+), 3 deletions(-)
+ include/linux/mm.h                 | 32 +++++++++++---------
+ mm/vma.c                           | 47 ++++++++++++++++++++++--------
+ tools/testing/vma/include/custom.h |  5 ----
+ tools/testing/vma/include/dup.h    |  9 ++++--
+ 4 files changed, 61 insertions(+), 32 deletions(-)
 
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index ad414ff2d815..ea76821c01e3 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -1262,7 +1262,11 @@ struct mm_struct {
- 		unsigned long data_vm;	   /* VM_WRITE & ~VM_SHARED & ~VM_STACK */
- 		unsigned long exec_vm;	   /* VM_EXEC & ~VM_WRITE & ~VM_STACK */
- 		unsigned long stack_vm;	   /* VM_STACK */
--		vm_flags_t def_flags;
-+		union {
-+			/* Temporary while VMA flags are being converted. */
-+			vm_flags_t def_flags;
-+			vma_flags_t def_vma_flags;
-+		};
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 3d82e53875fa..7acd2f0237eb 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -542,6 +542,7 @@ enum {
  
- 		/**
- 		 * @write_protect_seq: Locked when any thread is write
-diff --git a/mm/vma.h b/mm/vma.h
-index eba388c61ef4..cf8926558bf6 100644
---- a/mm/vma.h
-+++ b/mm/vma.h
-@@ -98,7 +98,11 @@ struct vma_merge_struct {
- 	unsigned long end;
- 	pgoff_t pgoff;
+ /* VMA basic access permission flags */
+ #define VM_ACCESS_FLAGS (VM_READ | VM_WRITE | VM_EXEC)
++#define VMA_ACCESS_FLAGS mk_vma_flags(VMA_READ_BIT, VMA_WRITE_BIT, VMA_EXEC_BIT)
  
--	vm_flags_t vm_flags;
-+	union {
-+		/* Temporary while VMA flags are being converted. */
-+		vm_flags_t vm_flags;
-+		vma_flags_t vma_flags;
-+	};
- 	struct file *file;
- 	struct anon_vma *anon_vma;
- 	struct mempolicy *policy;
+ /*
+  * Special vmas that are non-mergable, non-mlock()able.
+@@ -587,27 +588,32 @@ enum {
+  * possesses it but the other does not, the merged VMA should nonetheless have
+  * applied to it:
+  *
+- *   VM_SOFTDIRTY - if a VMA is marked soft-dirty, that is has not had its
+- *                  references cleared via /proc/$pid/clear_refs, any merged VMA
+- *                  should be considered soft-dirty also as it operates at a VMA
+- *                  granularity.
++ *   VMA_SOFTDIRTY_BIT - if a VMA is marked soft-dirty, that is has not had its
++ *                       references cleared via /proc/$pid/clear_refs, any
++ *                       merged VMA should be considered soft-dirty also as it
++ *                       operates at a VMA granularity.
+  *
+- * VM_MAYBE_GUARD - If a VMA may have guard regions in place it implies that
+- *                  mapped page tables may contain metadata not described by the
+- *                  VMA and thus any merged VMA may also contain this metadata,
+- *                  and thus we must make this flag sticky.
++ * VMA_MAYBE_GUARD_BIT - If a VMA may have guard regions in place it implies
++ *                       that mapped page tables may contain metadata not
++ *                       described by the VMA and thus any merged VMA may also
++ *                       contain this metadata, and thus we must make this flag
++ *                       sticky.
+  */
+-#define VM_STICKY (VM_SOFTDIRTY | VM_MAYBE_GUARD)
++#ifdef CONFIG_MEM_SOFT_DIRTY
++#define VMA_STICKY_FLAGS mk_vma_flags(VMA_SOFTDIRTY_BIT, VMA_MAYBE_GUARD_BIT)
++#else
++#define VMA_STICKY_FLAGS mk_vma_flags(VMA_MAYBE_GUARD_BIT)
++#endif
+ 
+ /*
+  * VMA flags we ignore for the purposes of merge, i.e. one VMA possessing one
+  * of these flags and the other not does not preclude a merge.
+  *
+- *    VM_STICKY - When merging VMAs, VMA flags must match, unless they are
+- *                'sticky'. If any sticky flags exist in either VMA, we simply
+- *                set all of them on the merged VMA.
++ *    VMA_STICKY_FLAGS - When merging VMAs, VMA flags must match, unless they
++ *                       are 'sticky'. If any sticky flags exist in either VMA,
++ *                       we simply set all of them on the merged VMA.
+  */
+-#define VM_IGNORE_MERGE VM_STICKY
++#define VMA_IGNORE_MERGE_FLAGS VMA_STICKY_FLAGS
+ 
+ /*
+  * Flags which should result in page tables being copied on fork. These are
+diff --git a/mm/vma.c b/mm/vma.c
+index be64f781a3aa..6168bdc772de 100644
+--- a/mm/vma.c
++++ b/mm/vma.c
+@@ -86,10 +86,15 @@ static bool vma_is_fork_child(struct vm_area_struct *vma)
+ static inline bool is_mergeable_vma(struct vma_merge_struct *vmg, bool merge_next)
+ {
+ 	struct vm_area_struct *vma = merge_next ? vmg->next : vmg->prev;
++	vma_flags_t diff;
+ 
+ 	if (!mpol_equal(vmg->policy, vma_policy(vma)))
+ 		return false;
+-	if ((vma->vm_flags ^ vmg->vm_flags) & ~VM_IGNORE_MERGE)
++
++	diff = vma_flags_diff_pair(&vma->flags, &vmg->vma_flags);
++	vma_flags_clear_mask(&diff, VMA_IGNORE_MERGE_FLAGS);
++
++	if (!vma_flags_empty(&diff))
+ 		return false;
+ 	if (vma->vm_file != vmg->file)
+ 		return false;
+@@ -805,7 +810,8 @@ static bool can_merge_remove_vma(struct vm_area_struct *vma)
+ static __must_check struct vm_area_struct *vma_merge_existing_range(
+ 		struct vma_merge_struct *vmg)
+ {
+-	vm_flags_t sticky_flags = vmg->vm_flags & VM_STICKY;
++	vma_flags_t sticky_flags = vma_flags_and_mask(&vmg->vma_flags,
++						      VMA_STICKY_FLAGS);
+ 	struct vm_area_struct *middle = vmg->middle;
+ 	struct vm_area_struct *prev = vmg->prev;
+ 	struct vm_area_struct *next;
+@@ -898,15 +904,21 @@ static __must_check struct vm_area_struct *vma_merge_existing_range(
+ 	vma_start_write(middle);
+ 
+ 	if (merge_right) {
++		const vma_flags_t next_sticky =
++			vma_flags_and_mask(&next->flags, VMA_STICKY_FLAGS);
++
+ 		vma_start_write(next);
+ 		vmg->target = next;
+-		sticky_flags |= (next->vm_flags & VM_STICKY);
++		vma_flags_set_mask(&sticky_flags, next_sticky);
+ 	}
+ 
+ 	if (merge_left) {
++		const vma_flags_t prev_sticky =
++			vma_flags_and_mask(&prev->flags, VMA_STICKY_FLAGS);
++
+ 		vma_start_write(prev);
+ 		vmg->target = prev;
+-		sticky_flags |= (prev->vm_flags & VM_STICKY);
++		vma_flags_set_mask(&sticky_flags, prev_sticky);
+ 	}
+ 
+ 	if (merge_both) {
+@@ -976,7 +988,7 @@ static __must_check struct vm_area_struct *vma_merge_existing_range(
+ 	if (err || commit_merge(vmg))
+ 		goto abort;
+ 
+-	vm_flags_set(vmg->target, sticky_flags);
++	vma_set_flags_mask(vmg->target, sticky_flags);
+ 	khugepaged_enter_vma(vmg->target, vmg->vm_flags);
+ 	vmg->state = VMA_MERGE_SUCCESS;
+ 	return vmg->target;
+@@ -1154,7 +1166,10 @@ int vma_expand(struct vma_merge_struct *vmg)
+ 	struct vm_area_struct *target = vmg->target;
+ 	struct vm_area_struct *next = vmg->next;
+ 	bool remove_next = false;
+-	vm_flags_t sticky_flags;
++	vma_flags_t sticky_flags =
++		vma_flags_and_mask(&vmg->vma_flags, VMA_STICKY_FLAGS);
++	const vma_flags_t target_sticky =
++		vma_flags_and_mask(&target->flags, VMA_STICKY_FLAGS);
+ 	int ret = 0;
+ 
+ 	mmap_assert_write_locked(vmg->mm);
+@@ -1174,10 +1189,13 @@ int vma_expand(struct vma_merge_struct *vmg)
+ 	VM_WARN_ON_VMG(target->vm_start < vmg->start ||
+ 		       target->vm_end > vmg->end, vmg);
+ 
+-	sticky_flags = vmg->vm_flags & VM_STICKY;
+-	sticky_flags |= target->vm_flags & VM_STICKY;
+-	if (remove_next)
+-		sticky_flags |= next->vm_flags & VM_STICKY;
++	vma_flags_set_mask(&sticky_flags, target_sticky);
++	if (remove_next) {
++		const vma_flags_t next_sticky =
++			vma_flags_and_mask(&next->flags, VMA_STICKY_FLAGS);
++
++		vma_flags_set_mask(&sticky_flags, next_sticky);
++	}
+ 
+ 	/*
+ 	 * If we are removing the next VMA or copying from a VMA
+@@ -1200,7 +1218,7 @@ int vma_expand(struct vma_merge_struct *vmg)
+ 	if (commit_merge(vmg))
+ 		goto nomem;
+ 
+-	vm_flags_set(target, sticky_flags);
++	vma_set_flags_mask(target, sticky_flags);
+ 	return 0;
+ 
+ nomem:
+@@ -1950,10 +1968,15 @@ struct vm_area_struct *copy_vma(struct vm_area_struct **vmap,
+  */
+ static int anon_vma_compatible(struct vm_area_struct *a, struct vm_area_struct *b)
+ {
++	vma_flags_t diff = vma_flags_diff_pair(&a->flags, &b->flags);
++
++	vma_flags_clear_mask(&diff, VMA_ACCESS_FLAGS);
++	vma_flags_clear_mask(&diff, VMA_IGNORE_MERGE_FLAGS);
++
+ 	return a->vm_end == b->vm_start &&
+ 		mpol_equal(vma_policy(a), vma_policy(b)) &&
+ 		a->vm_file == b->vm_file &&
+-		!((a->vm_flags ^ b->vm_flags) & ~(VM_ACCESS_FLAGS | VM_IGNORE_MERGE)) &&
++		vma_flags_empty(&diff) &&
+ 		b->vm_pgoff == a->vm_pgoff + ((b->vm_start - a->vm_start) >> PAGE_SHIFT);
+ }
+ 
+diff --git a/tools/testing/vma/include/custom.h b/tools/testing/vma/include/custom.h
+index da84f54cf977..6f43bbc494e2 100644
+--- a/tools/testing/vma/include/custom.h
++++ b/tools/testing/vma/include/custom.h
+@@ -132,8 +132,3 @@ static __always_inline bool vma_flags_same_mask(vma_flags_t *flags,
+ 	vma_flags_same_mask(flags, mk_vma_flags(__VA_ARGS__))
+ #define VMA_SPECIAL_FLAGS mk_vma_flags(VMA_IO_BIT, VMA_DONTEXPAND_BIT, \
+ 				       VMA_PFNMAP_BIT, VMA_MIXEDMAP_BIT)
+-#ifdef CONFIG_MEM_SOFT_DIRTY
+-#define VMA_STICKY_FLAGS mk_vma_flags(VMA_SOFTDIRTY_BIT, VMA_MAYBE_GUARD_BIT)
+-#else
+-#define VMA_STICKY_FLAGS mk_vma_flags(VMA_MAYBE_GUARD_BIT)
+-#endif
 diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/dup.h
-index 2f53c27ddb21..faaf1239123d 100644
+index 005cef50704f..069910f63b84 100644
 --- a/tools/testing/vma/include/dup.h
 +++ b/tools/testing/vma/include/dup.h
-@@ -33,7 +33,10 @@ struct mm_struct {
- 	unsigned long exec_vm;	   /* VM_EXEC & ~VM_WRITE & ~VM_STACK */
- 	unsigned long stack_vm;	   /* VM_STACK */
+@@ -338,6 +338,7 @@ enum {
  
--	unsigned long def_flags;
-+	union {
-+		vm_flags_t def_flags;
-+		vma_flags_t def_vma_flags;
-+	};
+ /* VMA basic access permission flags */
+ #define VM_ACCESS_FLAGS (VM_READ | VM_WRITE | VM_EXEC)
++#define VMA_ACCESS_FLAGS mk_vma_flags(VMA_READ_BIT, VMA_WRITE_BIT, VMA_EXEC_BIT)
  
- 	mm_flags_t flags; /* Must use mm_flags_* helpers to access */
- };
+ /*
+  * Special vmas that are non-mergable, non-mlock()able.
+@@ -363,9 +364,13 @@ enum {
+ 
+ #define CAP_IPC_LOCK         14
+ 
+-#define VM_STICKY (VM_SOFTDIRTY | VM_MAYBE_GUARD)
++#ifdef CONFIG_MEM_SOFT_DIRTY
++#define VMA_STICKY_FLAGS mk_vma_flags(VMA_SOFTDIRTY_BIT, VMA_MAYBE_GUARD_BIT)
++#else
++#define VMA_STICKY_FLAGS mk_vma_flags(VMA_MAYBE_GUARD_BIT)
++#endif
+ 
+-#define VM_IGNORE_MERGE VM_STICKY
++#define VMA_IGNORE_MERGE_FLAGS VMA_STICKY_FLAGS
+ 
+ #define VM_COPY_ON_FORK (VM_PFNMAP | VM_MIXEDMAP | VM_UFFD_WP | VM_MAYBE_GUARD)
+ 
 -- 
 2.53.0
 
