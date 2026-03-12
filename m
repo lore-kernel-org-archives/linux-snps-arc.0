@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19276106ACE3
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Mar 2026 19:17:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2499F106ACE0
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 12 Mar 2026 19:17:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=6PyaG6xBlbwV3K2QvZL4TWMqSd9cRYuLni3eTB43ZTc=; b=sXPPnDHqkMNEqB
-	d/sUj7R3+YwbFHn1CdfGXAtsdHP6BaO+9FcmLgggWIYyzVaEqAUmyYm/rYjvkMraIxCFolN3GbP7h
-	RyhDiwU5k42dNDM6bGGv50G9hNxdU9KK/oi7Lz7ZqJ09kDn9wiFpAgWKjmAg1IKdFezW8P2WCOGXf
-	jMLdsJurGcsArVQq/GxGTzbxB835hXLJnZyeATA4g51kwa8yAcFyWEVt/hpUO/PYykLPTt+z37RZM
-	1WHnblhbXKWN2wq6CdIYZMDHS61gjdgbFC2T6iwk3IVAFj9gvxeUuca9XVpI5Jfs9CX9ZEiueswuI
-	pCu++MIlXuKk6e+AdFYQ==;
+	List-Owner; bh=NlBlatP6mlYfz+rO3sHn7O4Q01YGKJ0OtguYmS0QH0Y=; b=dereuoKI8DtzVC
+	C1tiTKSlLInAzkOYOhqJmNGiZtLc9pHpMtJJCh993FidvBw7VocbiLDIn4TEG8mySwYpX9wcPDF31
+	ErK/9HcmFgbrmGAXcYvm77cQ510DR+g+6tr6TU/WMwB5pPsl+BOkwPyiBtufYpyxI5IGQvCeTxJF6
+	i47VvFS0mFQQ6QulSuaKpSI9ucyfZu5uTLMNAHd7zh1zVce/Y4eRWqak2Z38bzdWlZmxe1x0nowfi
+	8EhxbX8n0ddItqcDOCXWjSvyPmW3VJubWt4uryf6exkJieCgWkOZh+p4S+rIv6/SMXLXLzhZt7czS
+	6z2J9SYk/sRs3/ewVSAg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w0lWp-0000000F1CP-2yoR;
-	Thu, 12 Mar 2026 19:17:03 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1w0lWs-0000000F1HP-3bDT;
+	Thu, 12 Mar 2026 19:17:06 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w0lWg-0000000F10Q-2hRG;
-	Thu, 12 Mar 2026 19:16:57 +0000
+	id 1w0lWj-0000000F11g-0pWT;
+	Thu, 12 Mar 2026 19:16:58 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 2FCC044541;
-	Thu, 12 Mar 2026 19:16:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BD78C2BCB6;
-	Thu, 12 Mar 2026 19:16:53 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 7A6874451C;
+	Thu, 12 Mar 2026 19:16:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2682C19425;
+	Thu, 12 Mar 2026 19:16:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773343014;
-	bh=KRWYCGfl5lbWVhLpxZ5/m8TfhMQA6wilm9HLXB+msSw=;
+	s=k20201202; t=1773343016;
+	bh=+e1g977jTwjB+zEC2CJ+9F2tdTBXCV682f8unTTGMIQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HKZZ1baFCEA0tzjGFaVeqWf2HDaTcqvoB759G8Q5c0vtNk65QKPFFb0OOdWERryQY
-	 Z3Oz+Kznf8ItIS34XxfiFsfwlsWjWLR+h5CdDLZNZe9BvCWuvWJsQsICOhpd6qgwWV
-	 +khw9B/HheqAmqpee+fmPU9+S7iD5GfsB4F4HLtwfkLI/42aZIT9SVfH1Pti6XRnSv
-	 aK8563R9HFe4tiVDHAAXgxxOT8G8GXdbYPRuVz2EmFYuDJRou0rDdLcEZYX8Kd/T37
-	 e15K9f8C7fYQPjJrUHkUrTlCU077d0Qq+FJ/Rl3mZ++7VcVkyvUgbDsZ32NcKggkfJ
-	 7+JNRNBD+FfXw==
+	b=n0QPCRkeZvOSpKttJbEMNGISp72NEhokKKRJJynYNTBZF0zDW4IGMN6vFnvuI0AeL
+	 3EHrqxJ/4P1fH7oHlI0ZTp/YdO/rxVan/+0cHwGZOFjKvhCEuJOKVfWPsytnz1UYcQ
+	 /ketSHre3DxPHmd7Zqlvad/UzaNh80MG0UQsGOE++mK2lbfcuvbsOIwyTdc1bKeZEv
+	 ploIKrt7Ql3mhXhW9mNao+RPmeJnsKqDzTsd3v9UQ7FrVEOWe4NFJC1fmr6CsvmvN9
+	 yrLf9PDi2Jf3ksfsXwZzcREwtaTz8b4npfCrCiDMeTxUmM2KOj5zs1ynl/P5gBf7jE
+	 mEU03T7+JW3yw==
 From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: David Hildenbrand <david@kernel.org>,
@@ -104,16 +104,16 @@ Cc: David Hildenbrand <david@kernel.org>,
 	linux-um@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org,
 	selinux@vger.kernel.org
-Subject: [PATCH 08/20] tools/testing/vma: add simple test for append_vma_flags()
-Date: Thu, 12 Mar 2026 19:16:06 +0000
-Message-ID: <60ad2ccb9e975247ba52748cafb6b988b79a1168.1773342102.git.ljs@kernel.org>
+Subject: [PATCH 09/20] mm: unexport vm_brk_flags() and eliminate vm_flags parameter
+Date: Thu, 12 Mar 2026 19:16:07 +0000
+Message-ID: <d1b222f47c2e52e6bd2b5b077c27ce27913abac3.1773342102.git.ljs@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1773342102.git.ljs@kernel.org>
 References: <cover.1773342102.git.ljs@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260312_121656_639182_FFCC8028 
-X-CRM114-Status: GOOD (  12.52  )
+X-CRM114-CacheID: sfid-20260312_121657_301351_162A26BE 
+X-CRM114-Status: GOOD (  12.98  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -130,73 +130,101 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Add a simple test for append_vma_flags() to assert that it behaves as
-expected.
+This function is only used by elf_load(), and that is a static function
+that doesn't need an exported symbol to invoke an internal function, so
+un-EXPORT_SYMBOLS() it.
 
-Additionally, include the VMA_REMAP_FLAGS definition in the VMA tests to
-allow us to use this value in the testing.
+Also, the vm_flags parameter is unnecessary, as we only ever set VM_EXEC,
+so simply make this parameter a boolean.
+
+While we're here, clean up the mm.h definitions for the various vm_xxx()
+helpers so we actually specify parameter names and elide the redundant
+extern's.
 
 Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 ---
- tools/testing/vma/include/dup.h |  3 +++
- tools/testing/vma/tests/vma.c   | 25 +++++++++++++++++++++++++
- 2 files changed, 28 insertions(+)
+ fs/binfmt_elf.c    |  3 +--
+ include/linux/mm.h | 12 ++++++------
+ mm/mmap.c          |  8 ++------
+ 3 files changed, 9 insertions(+), 14 deletions(-)
 
-diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/dup.h
-index 0d75ac23ac4d..c3be8a2381e1 100644
---- a/tools/testing/vma/include/dup.h
-+++ b/tools/testing/vma/include/dup.h
-@@ -345,6 +345,9 @@ enum {
-  */
- #define VM_SPECIAL (VM_IO | VM_DONTEXPAND | VM_PFNMAP | VM_MIXEDMAP)
+diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
+index fb857faaf0d6..16a56b6b3f6c 100644
+--- a/fs/binfmt_elf.c
++++ b/fs/binfmt_elf.c
+@@ -453,14 +453,13 @@ static unsigned long elf_load(struct file *filep, unsigned long addr,
+ 		zero_end = ELF_PAGEALIGN(zero_end);
  
-+#define VMA_REMAP_FLAGS mk_vma_flags(VMA_IO_BIT, VMA_PFNMAP_BIT,	\
-+				     VMA_DONTEXPAND_BIT, VMA_DONTDUMP_BIT)
-+
- #define DEFAULT_MAP_WINDOW	((1UL << 47) - PAGE_SIZE)
- #define TASK_SIZE_LOW		DEFAULT_MAP_WINDOW
- #define TASK_SIZE_MAX		DEFAULT_MAP_WINDOW
-diff --git a/tools/testing/vma/tests/vma.c b/tools/testing/vma/tests/vma.c
-index feea6d270233..98e465fb1bf2 100644
---- a/tools/testing/vma/tests/vma.c
-+++ b/tools/testing/vma/tests/vma.c
-@@ -555,6 +555,30 @@ static bool test_vma_flags_and(void)
- 	return true;
+ 		error = vm_brk_flags(zero_start, zero_end - zero_start,
+-				     prot & PROT_EXEC ? VM_EXEC : 0);
++				     prot & PROT_EXEC);
+ 		if (error)
+ 			map_addr = error;
+ 	}
+ 	return map_addr;
  }
  
-+/* Ensure append_vma_flags() acts as expected. */
-+static bool test_append_vma_flags(void)
-+{
-+	vma_flags_t flags = append_vma_flags(VMA_REMAP_FLAGS, VMA_READ_BIT,
-+					     VMA_WRITE_BIT
-+#if NUM_VMA_FLAG_BITS > 64
-+					     , 64, 65
-+#endif
-+		);
-+
-+	ASSERT_FLAGS_SAME(&flags, VMA_IO_BIT, VMA_PFNMAP_BIT,
-+			  VMA_DONTEXPAND_BIT, VMA_DONTDUMP_BIT, VMA_READ_BIT,
-+			  VMA_WRITE_BIT
-+#if NUM_VMA_FLAG_BITS > 64
-+					     , 64, 65
-+#endif
-+		);
-+
-+	flags = append_vma_flags(EMPTY_VMA_FLAGS, VMA_READ_BIT, VMA_WRITE_BIT);
-+	ASSERT_FLAGS_SAME(&flags, VMA_READ_BIT, VMA_WRITE_BIT);
-+
-+	return true;
-+}
-+
- static void run_vma_tests(int *num_tests, int *num_fail)
+-
+ static unsigned long total_mapping_size(const struct elf_phdr *phdr, int nr)
  {
- 	TEST(copy_vma);
-@@ -569,4 +593,5 @@ static void run_vma_tests(int *num_tests, int *num_fail)
- 	TEST(vma_flags_empty);
- 	TEST(vma_flags_diff);
- 	TEST(vma_flags_and);
-+	TEST(append_vma_flags);
+ 	elf_addr_t min_addr = -1;
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 5a287e58c1e6..2c16c744d49d 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -3985,12 +3985,12 @@ static inline void mm_populate(unsigned long addr, unsigned long len) {}
+ #endif
+ 
+ /* This takes the mm semaphore itself */
+-extern int __must_check vm_brk_flags(unsigned long, unsigned long, unsigned long);
+-extern int vm_munmap(unsigned long, size_t);
+-extern unsigned long __must_check vm_mmap(struct file *, unsigned long,
+-        unsigned long, unsigned long,
+-        unsigned long, unsigned long);
+-extern unsigned long __must_check vm_mmap_shadow_stack(unsigned long addr,
++int __must_check vm_brk_flags(unsigned long addr, unsigned long request, bool is_exec);
++int vm_munmap(unsigned long start, size_t len);
++unsigned long __must_check vm_mmap(struct file *file, unsigned long addr,
++		unsigned long len, unsigned long prot,
++		unsigned long flag, unsigned long offset);
++unsigned long __must_check vm_mmap_shadow_stack(unsigned long addr,
+ 		unsigned long len, unsigned long flags);
+ 
+ struct vm_unmapped_area_info {
+diff --git a/mm/mmap.c b/mm/mmap.c
+index 843160946aa5..2a0721e75988 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -1201,8 +1201,9 @@ SYSCALL_DEFINE5(remap_file_pages, unsigned long, start, unsigned long, size,
+ 	return ret;
  }
+ 
+-int vm_brk_flags(unsigned long addr, unsigned long request, vm_flags_t vm_flags)
++int vm_brk_flags(unsigned long addr, unsigned long request, bool is_exec)
+ {
++	const vm_flags_t vm_flags = is_exec ? VM_EXEC : 0;
+ 	struct mm_struct *mm = current->mm;
+ 	struct vm_area_struct *vma = NULL;
+ 	unsigned long len;
+@@ -1217,10 +1218,6 @@ int vm_brk_flags(unsigned long addr, unsigned long request, vm_flags_t vm_flags)
+ 	if (!len)
+ 		return 0;
+ 
+-	/* Until we need other flags, refuse anything except VM_EXEC. */
+-	if ((vm_flags & (~VM_EXEC)) != 0)
+-		return -EINVAL;
+-
+ 	if (mmap_write_lock_killable(mm))
+ 		return -EINTR;
+ 
+@@ -1246,7 +1243,6 @@ int vm_brk_flags(unsigned long addr, unsigned long request, vm_flags_t vm_flags)
+ 	mmap_write_unlock(mm);
+ 	return ret;
+ }
+-EXPORT_SYMBOL(vm_brk_flags);
+ 
+ static
+ unsigned long tear_down_vmas(struct mm_struct *mm, struct vma_iterator *vmi,
 -- 
 2.53.0
 
