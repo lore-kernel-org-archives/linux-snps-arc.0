@@ -4,57 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 27189F506CB
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 16 Mar 2026 13:09:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 461D7F506CE
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 16 Mar 2026 13:09:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=krK89Q8FbGuklIkUc/utiKBAiJyCBbM7Yxep9nljvo0=; b=qQNv6RbC0zbw5F
-	vccq9tt1BO21PkOAczucW+7qWzp8nZs9mqgoFYVuNAU2HX5EceAqNtzX+PRlhO3wy+vmWZB9eGLNP
-	H4TXghcD9oUHKH6kgxT/j3ehhT8Vi3wmQE0pQs8LSQMzraGoxXTIKN+vyhF4hf0N1XoeN7QSGgdh8
-	ahOwA+cXRw8PHO79Wzv4FKDQ3A0d3KJCkLYXTfvQdgGwf9YMt8HiI0XVvb7043S/OorSYcyN2f0TU
-	tf8ZnolO7K933tErAHQekpWNaL4iWLXWf5g3p4H3z4agW6PF8VoWjkA0paN2FulquSig24TiBdy6v
-	p9nLrjCIR/mf1KGcnSqQ==;
+	List-Owner; bh=3GFOZSi6GDa3SjEoHQ/zunyEHgaHAcpL866FdTCbbSg=; b=KFEa5Z308nA71X
+	RWU8t7EZGfD9tG57/AtTf+FaEYkT/zFxfl4t4k0053e5sKeopor7jzpwiTQA0QBMMbaqbnPmekv1Y
+	vR8uvPs1pfKKKU9pDnspiJZJXHnLv7Xm4d2kx71z2JM23O7MSJC0ElWg9B14S+ZefM/YJKFNH9ERt
+	z6hWigNgZnLcFLo1+IPrk4TNf7MKQ+SGCmjCqlU1wSO/dJTFUOy7Dfpp2/NCH4kA9+Oe3uQlGJ9k7
+	hjbRT33aaKxjPzIfH0Gj4GI2ohq9lHKs8fa5djXFED5yuWAVIuiezkt6tZfKnhqHQoKMt9FviUVpn
+	ORiDH3UA1trKF9Z7/T0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w27he-000000041PV-31sB;
-	Mon, 16 Mar 2026 13:09:50 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1w27hj-000000041Yy-3nXN;
+	Mon, 16 Mar 2026 13:09:55 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w27hQ-00000004123-2b2W;
-	Mon, 16 Mar 2026 13:09:36 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=5K7eKfDaNC8F0R4YEvVj595iph2zwfv8FNQbISthhlI=; b=bnjKSp5oQL4/AMdf0qkR67bycQ
-	GOypCZD1qEzoQl5+g4M4R0tbNyVFSWdESi4qjCQZwhgxysnPHydMHdEVGcRC6NVqTuhHckMqll4MH
-	AZO6WjZACCiyCnQbukR4ZktN/NR8t40b7ADmqdonTC0dQS9eCrs8j8+OovdtTKCPzQCTyHkKPyK70
-	HBwEOkw88SMj0A2YazlGFA2CgQaPqqvSFpLs4xhSTiYNXeYhQx/kv385INLPAC2r66SdjaxCWJcXf
-	t/FFyBU351dTB2Ks78NZKXB6yKxIFKPeEONCGfXuTV1r2i2SdkyLP9XT+zFRWW9SpU17G8UG77R9Z
-	ka0lxjHQ==;
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
-	by casper.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w27hK-000000010vJ-2DzA;
-	Mon, 16 Mar 2026 13:09:35 +0000
+	id 1w27hV-000000041A7-2iGz;
+	Mon, 16 Mar 2026 13:09:41 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id A4A904459E;
-	Mon, 16 Mar 2026 13:09:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA5F1C19424;
-	Mon, 16 Mar 2026 13:09:27 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 2B9356111A;
+	Mon, 16 Mar 2026 13:09:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4350FC19424;
+	Mon, 16 Mar 2026 13:09:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773666568;
-	bh=LrLBS64c+lmBUJM2XbvLHLJnGjK9/zMfbb5TL2UTCws=;
+	s=k20201202; t=1773666579;
+	bh=dLJAyLW52YxQ0AN/NeuZQy3GzYiIO3sQ/ClSljBmA2Y=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Lfxg9CkE3XOoc6lXpgYy2pcAO6Hc6ib8/1Qy1xhOw+VHHgoC4ldZaAz5MKdUunLwk
-	 evL0sHn+qUhum9zmcrNTCgtUpSE5CQ4CGNRa+00XBCSchPYXd/xWLfqxqYJ9skmE9K
-	 CX3Ww9RSRfWEGkTZ6eiJijkz9wIFZ61HqUkhV7WD8hwlK523wPS1op1w9qmYFyA7qG
-	 FJxsyW1CCw8XR7ax4KyCGwl3ZM0UKR9G6704RJ/9qqFcsQLVtG8dDN0s1e3aStfj+Z
-	 w3h7n/urDNIwuIScJ6XZgrH4/EcLdtsWhdHxvyM993b8PDpgqF9DMcTLvAZYv1YIFp
-	 WGnfsx1Vg/+6A==
+	b=TJG/Go8A1cY8XS5/cAwBFroFXuBNyK85BM7BXdepftLaaH0hgiTtnWt94hTv5NzQk
+	 mi9JB6jBKDTXIVd1hpifEwkrt4trzZ01AHPVwLAJZGZsYdYo/sYYijNdcV3kU2ycvb
+	 xS3rsbNrAw2IJTDx0eyKMX4KxE17kIEKHD1bLFjVP8xJBSvxRirbu4wU6Ek2CSMghZ
+	 IBkA/mfuSfU/btp4YszcI4RKptelvWUc4mAENue7y7fw0OdVRAlzoR+tvmrvu6llBa
+	 hjs0IVHsjxs08YA4JEMwdB9gsTNAPwrbsSRB3yRw4iEgqXIW8+N4/BZ0XXiWAtToyu
+	 vrXuiockp9v1A==
 From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: David Hildenbrand <david@kernel.org>,
@@ -118,16 +104,13 @@ Cc: David Hildenbrand <david@kernel.org>,
 	linux-um@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org,
 	selinux@vger.kernel.org
-Subject: [PATCH v2 12/23] tools/testing/vma: test that legacy flag helpers work correctly
-Date: Mon, 16 Mar 2026 13:08:01 +0000
-Message-ID: <4f1956b7e1e15293f75bffb5eda3d967a1da6f5d.1773665966.git.ljs@kernel.org>
+Subject: [PATCH v2 16/23] tools/testing/vma: test vma_flags_count,vma[_flags]_test_single_mask
+Date: Mon, 16 Mar 2026 13:08:05 +0000
+Message-ID: <140b9b77da1ef463f969cbeb2b5fb25627301cd6.1773665966.git.ljs@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1773665966.git.ljs@kernel.org>
 References: <cover.1773665966.git.ljs@kernel.org>
 MIME-Version: 1.0
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260316_130930_876974_1D9D64ED 
-X-CRM114-Status: GOOD (  11.21  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -144,38 +127,138 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Update the existing compare_legacy_flags() predicate function to assert
-that legacy_to_vma_flags() and vma_flags_to_legacy() behave as expected.
+Update the VMA tests to assert that vma_flags_count() behaves as expected,
+as well as vma_flags_test_single_mask() and vma_test_single_mask().
+
+For the test functions we can simply update the existing vma_test(), et
+al. test to also test the single_mask variants.
+
+We also add some explicit testing of an empty VMA flag to this test to
+ensure this is handled properly.
+
+In order to test vma_flags_count() we simply take an existing set of flags
+and gradually remove flags ensuring the count remains as expected
+throughout.
+
+We also update the vma[_flags]_test_all() tests to make clear the semantics
+that we expect vma[_flags]_test_all(..., EMPTY_VMA_FLAGS) to return true,
+as trivially, all flags of none are always set in VMA flags.
 
 Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 ---
- tools/testing/vma/tests/vma.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ tools/testing/vma/tests/vma.c | 63 ++++++++++++++++++++++++++++++-----
+ 1 file changed, 54 insertions(+), 9 deletions(-)
 
 diff --git a/tools/testing/vma/tests/vma.c b/tools/testing/vma/tests/vma.c
-index 98e465fb1bf2..1fae25170ff7 100644
+index 1395d55a1e02..c73c3a565f1d 100644
 --- a/tools/testing/vma/tests/vma.c
 +++ b/tools/testing/vma/tests/vma.c
-@@ -5,6 +5,7 @@ static bool compare_legacy_flags(vm_flags_t legacy_flags, vma_flags_t flags)
- 	const unsigned long legacy_val = legacy_flags;
- 	/* The lower word should contain the precise same value. */
- 	const unsigned long flags_lower = flags.__vma_flags[0];
-+	vma_flags_t converted_flags;
- #if NUM_VMA_FLAG_BITS > BITS_PER_LONG
- 	int i;
+@@ -174,10 +174,10 @@ static bool test_vma_flags_word(void)
+ /* Ensure that vma_flags_test() and friends works correctly. */
+ static bool test_vma_flags_test(void)
+ {
+-	const vma_flags_t flags = mk_vma_flags(VMA_READ_BIT, VMA_WRITE_BIT,
+-					       VMA_EXEC_BIT
++	vma_flags_t flags = mk_vma_flags(VMA_READ_BIT, VMA_WRITE_BIT,
++					 VMA_EXEC_BIT
+ #if NUM_VMA_FLAG_BITS > 64
+-					       , 64, 65
++					 , 64, 65
+ #endif
+ 		);
+ 	struct vm_area_desc desc = {
+@@ -187,14 +187,18 @@ static bool test_vma_flags_test(void)
+ 		.flags = flags,
+ 	};
  
-@@ -17,6 +18,11 @@ static bool compare_legacy_flags(vm_flags_t legacy_flags, vma_flags_t flags)
+-#define do_test(_flag)					\
+-	ASSERT_TRUE(vma_flags_test(&flags, _flag));	\
+-	ASSERT_TRUE(vma_test(&vma, _flag));		\
++#define do_test(_flag)							    \
++	ASSERT_TRUE(vma_flags_test(&flags, _flag));			    \
++	ASSERT_TRUE(vma_flags_test_single_mask(&flags, mk_vma_flags(_flag))); \
++	ASSERT_TRUE(vma_test(&vma, _flag));				    \
++	ASSERT_TRUE(vma_test_single_mask(&vma, mk_vma_flags(_flag)));	    \
+ 	ASSERT_TRUE(vma_desc_test(&desc, _flag))
  
- 	static_assert(sizeof(legacy_flags) == sizeof(unsigned long));
+-#define do_test_false(_flag)				\
+-	ASSERT_FALSE(vma_flags_test(&flags, _flag));	\
+-	ASSERT_FALSE(vma_test(&vma, _flag));		\
++#define do_test_false(_flag)						     \
++	ASSERT_FALSE(vma_flags_test(&flags, _flag));			     \
++	ASSERT_FALSE(vma_flags_test_single_mask(&flags, mk_vma_flags(_flag))); \
++	ASSERT_FALSE(vma_test(&vma, _flag));				     \
++	ASSERT_FALSE(vma_test_single_mask(&vma, mk_vma_flags(_flag)));	     \
+ 	ASSERT_FALSE(vma_desc_test(&desc, _flag))
  
-+	/* Assert that legacy flag helpers work correctly. */
-+	converted_flags = legacy_to_vma_flags(legacy_flags);
-+	ASSERT_FLAGS_SAME_MASK(&converted_flags, flags);
-+	ASSERT_EQ(vma_flags_to_legacy(flags), legacy_flags);
+ 	do_test(VMA_READ_BIT);
+@@ -212,6 +216,15 @@ static bool test_vma_flags_test(void)
+ #undef do_test
+ #undef do_test_false
+ 
++	/* We define the _single_mask() variants to return false if empty. */
++	ASSERT_FALSE(vma_flags_test_single_mask(&flags, EMPTY_VMA_FLAGS));
++	ASSERT_FALSE(vma_test_single_mask(&vma, EMPTY_VMA_FLAGS));
++	/* Even when both flags and tested flag mask are empty! */
++	flags = EMPTY_VMA_FLAGS;
++	vma.flags = EMPTY_VMA_FLAGS;
++	ASSERT_FALSE(vma_flags_test_single_mask(&flags, EMPTY_VMA_FLAGS));
++	ASSERT_FALSE(vma_test_single_mask(&vma, EMPTY_VMA_FLAGS));
 +
- 	return legacy_val == flags_lower;
+ 	return true;
  }
  
+@@ -309,6 +322,10 @@ static bool test_vma_flags_test_any(void)
+ 	do_test(VMA_READ_BIT, VMA_WRITE_BIT, VMA_EXEC_BIT, 64, 65);
+ #endif
+ 
++	/* Testing all flags against none trivially succeeds. */
++	ASSERT_TRUE(vma_flags_test_all_mask(&flags, EMPTY_VMA_FLAGS));
++	ASSERT_TRUE(vma_test_all_mask(&vma, EMPTY_VMA_FLAGS));
++
+ #undef do_test
+ #undef do_test_all_true
+ #undef do_test_all_false
+@@ -592,6 +609,33 @@ static bool test_append_vma_flags(void)
+ 	return true;
+ }
+ 
++/* Assert that vma_flags_count() behaves as expected. */
++static bool test_vma_flags_count(void)
++{
++	vma_flags_t flags = mk_vma_flags(VMA_READ_BIT, VMA_WRITE_BIT,
++					 VMA_EXEC_BIT
++#if NUM_VMA_FLAG_BITS > 64
++					 , 64, 65
++#endif
++		);
++
++#if NUM_VMA_FLAG_BITS > 64
++	ASSERT_EQ(vma_flags_count(&flags), 5);
++	vma_flags_clear(&flags, 64);
++	ASSERT_EQ(vma_flags_count(&flags), 4);
++	vma_flags_clear(&flags, 65);
++#endif
++	ASSERT_EQ(vma_flags_count(&flags), 3);
++	vma_flags_clear(&flags, VMA_EXEC_BIT);
++	ASSERT_EQ(vma_flags_count(&flags), 2);
++	vma_flags_clear(&flags, VMA_WRITE_BIT);
++	ASSERT_EQ(vma_flags_count(&flags), 1);
++	vma_flags_clear(&flags, VMA_READ_BIT);
++	ASSERT_EQ(vma_flags_count(&flags), 0);
++
++	return true;
++}
++
+ static void run_vma_tests(int *num_tests, int *num_fail)
+ {
+ 	TEST(copy_vma);
+@@ -607,4 +651,5 @@ static void run_vma_tests(int *num_tests, int *num_fail)
+ 	TEST(vma_flags_diff);
+ 	TEST(vma_flags_and);
+ 	TEST(append_vma_flags);
++	TEST(vma_flags_count);
+ }
 -- 
 2.53.0
 
