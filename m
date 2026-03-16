@@ -4,174 +4,111 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B982105F7AC
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 13 Mar 2026 13:44:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5792DF506CD
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 16 Mar 2026 13:08:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=11Eu7Y3G0WNwRrBHrCoIeguKbtdbkqWsvuPai1tHU30=; b=UM/D+hONR+Wmp9
-	PKm9D5dvS4Twk2r9XIYeP7w4xsJG7cNR0/e7vJPIxJEH921PrSIugya22RQ9Xi08KngaTwC0g5qrp
-	uZtZp8Crbu3+7s0fnEaxhfwv1zKWwu1pTnYUOAO/usR3YPLSbbTap5HbNTWfxwkl8RBugaU/F82LD
-	qdQOast2dWM9QlDV/wkHHSYt3F0tRjsmQv+JTm6w+iO/+Y5c6lqpPxT304hnmEhqls/EJXvKOdlx5
-	+0ZP9rHvZEWtYmLP0MMn6xtn2HjOlPZixuP/NEXhUx1lTGy3WkjROw7+lthqGsQshmnjY9IMvFjsf
-	21Rzw2+1xAVwJJtoMaEw==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=B0SVm1gb59KyuCSXD2pEXwDaD/kgSxgFKyFzLq5Ik/A=; b=IqZBeOcY73k6vS
+	YhQfiOmMkaHwGYCLjYogWXTm+hF/xYM+gIWFVGmDRaw4MFIult/pQoi71QCMaV7altCBwW1iB2n/I
+	N9NwAp5svPrgFUnK8Ij14J6XVYpZMPIvLdj1gzLzXcoDGkAAxPLDlRSeytMxClUAmBjFlGdXepb15
+	ifekYUcKIc8dmp+Yir7dMJrzZ6vA0TalJEMweK7xoXHjJlD81nd1bhyjunXM4B+QPxr9KVGQmjRtc
+	dXrKbvhR2vq73/c9HjUijNmDphG3GHX/QdTCdeOs8gcaaA/noGJZ+Tjnt8XySgAMyGmveHlr1B3cx
+	JpwNv4a5T4AvnqpPNtyw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w12oa-00000000JMV-2lwN;
-	Fri, 13 Mar 2026 13:44:32 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1w27gn-000000040M4-2GTV;
+	Mon, 16 Mar 2026 13:08:57 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w12oW-00000000JLX-1pkt
-	for linux-snps-arc@bombadil.infradead.org;
-	Fri, 13 Mar 2026 13:44:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=QoZHIkugLvxBFz6S6an3vh8XxLW2VljccTx776RcMfw=; b=d/ILotqr6zpoTdfOiQ9ZoMJHSy
-	MjNDAYNRBZ1LSX5bTUK1Frllh4/3ELsuhiJJMzTkawWjRJY4Jv5thpc8qEYYPdVI+KxTvSJqr9xq+
-	k2UdmCTAMe/A2+eLbMG6L0mD7/26pbEspOkV8w0oVuhnNDj4YUeMeoDomdL9gAw9989lYjG50QVLM
-	Iv+3HzKM72CzKWMe59X8pVHwJy2TUthAIz+CZtsTU4AeGLar0oixjYbH/GpPo/HOvU0l9pJnXPDlS
-	6AD2bwyF9RNoQXUV15r2VfYl2DQiH+hmFZpnop5B4NuTIJoPxXXa+fM2pjmo72P4E0XZpmD9Fryec
-	0y2liZZQ==;
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w12oR-00000003QgP-0jit
-	for linux-snps-arc@lists.infradead.org;
-	Fri, 13 Mar 2026 13:44:26 +0000
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62D7inSs2263477
-	for <linux-snps-arc@lists.infradead.org>; Fri, 13 Mar 2026 13:44:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	QoZHIkugLvxBFz6S6an3vh8XxLW2VljccTx776RcMfw=; b=KtbSMsLtNsll432M
-	ZTzKQXe8T/DK/n7b9XjI6u2X8hEFxS6+vToHFGAIETMkOYmiyrVQx1Ron0HTNUGw
-	L/7hqLNFcZtO+7ieK6wWqj/GrMcUMTkirbNDQOXKEyEzX++Y07x36vS4BckJkiBw
-	i0e+TKFjJYkL6k4y12GD35M2kL8ToRgaS6v3aDis+sQW046oTfw6VRUKYvC55XyU
-	GavC+gmfdoZZxfCSN9TNUX7z0/IKdGFuTV1BuxzhmfyaKB9OzNJ/1nmkV5iIg9BW
-	H8cIWU+Z3DaF7xCU6hevUNHgxDD88Y9uGNl2srLPZ4lN68ffEs3Qj3IQtVVXyVOS
-	oZVnQA==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cvef4s78a-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-snps-arc@lists.infradead.org>; Fri, 13 Mar 2026 13:44:15 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8cd849cd562so1384296385a.0
-        for <linux-snps-arc@lists.infradead.org>; Fri, 13 Mar 2026 06:44:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773409454; x=1774014254; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QoZHIkugLvxBFz6S6an3vh8XxLW2VljccTx776RcMfw=;
-        b=bjkqoJFmhJF08aXIKYUh6CpBZOzDjmzcl41fuAhI8jqtfc2tUfjCBJOz7hi26UvMuY
-         8F9kzteCq4v2FV3Psb3L9VYu6M48zc9NQn6WpZWJ1ttvI9hrRjXlRceC7P8X+v36irS7
-         YAWF06Jk9oX9bQ1URDw0+DGfMq+F6Ow+uAwyQ9TPNOietQBtOOFgu14aR9b3Czy2M7gv
-         ZF7ZqsH/MVEpJWVocgUti5Ws3dgmNASXlruek51vTB4dvU2MDiTuqAYyZDrRuV9TG8GC
-         J4fgNUNml1TczIOoAq0bIUM6s7UQo7ibS5jHHTAVo6+MVreMjBBk6xhChi3bzsAG43kl
-         H3sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773409454; x=1774014254;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=QoZHIkugLvxBFz6S6an3vh8XxLW2VljccTx776RcMfw=;
-        b=VYU4NpQt3dJEIn6bDw60TcZade4KbB39m/aHDHp6Kd98R55rtMjDue08YEeb6jhQ3U
-         VOHyym2IQ2w51aonZEK58gHymnqCBJclNEe/lUgbAZV+Cd/sSI9miJjpdBMSEfzEaywH
-         gE9oeUAfdSADs5psCY928DKNpYIytNWPkHzBW3uZPshbSDY7B2G+yWxHgl9KB5R+Oe3l
-         SwpvojZUbCLezQQfyODNi1tCXxfeNHnR28NmzR99/wZn4wlKAjO6rpnkQTEMps02itXA
-         rnXSxH1MwEIiRp7GR/d6J50AwBWJkJJS0YrYi+UhMBzxW5XWoPX5tXWYtfCYBmh9PEoL
-         pi5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWFefAh/6ib4foFCfY60ygWv335C9/7McCaudhH1XwMI4A4hPC+RUSoB3fUAZYoAYkH+yDtnnrNIriQglK9Ig==@lists.infradead.org
-X-Gm-Message-State: AOJu0YzNoN8mY2J5Dl9g4Vi4voWp209f5EqbWt+csbxKYWzoWt5DcVTS
-	fTB8SdjTt+VDq54SghoSZsviVTtjpbfWFu0rCaBMh9zfYVPG/1/RpLQJ0ychJOugZgJ6rPHeK7V
-	J4rPHg53/Flg3cRwB+AHKPO+ebzza5TSJ76l7+N5ZMvKnWuhuu4nDTiBi/tTEuSFQ6vqiz6LTQP
-	Q=
-X-Gm-Gg: ATEYQzzpXRtq4/qQQNLJpEkbohqrEsTv6K4/qexOguM4wjV8k7VC5B8bTkPnWloivJm
-	cJbB2UTWyMtaCqM8R7ojacN2XGRSml4NG2PxHesHzBQ27vnWlqGkpyM+yAaq5MSuSEG7CGW/sUi
-	BKPzddqW9zSO9bINdxoduWVKFvPEqJnsaDXKDSxJG0ipJkmP2a1ZT6a7A42kijWx7qThylE1xR1
-	yNCInrdIAaTJ8AlUlS6oWDvL5Rmu3Y2vSp6ojVj+XlxZUeCG4ubsJeCqWMZOolp6Sy8un1+N9p3
-	LCYy5JZhTWUhCEu5wmR1e97ke9z5agnDgr89Z+NKf87h4DmeyMUUdU36wn2FTPp+A0G57JLImaw
-	TfnyTU2PIhQCCqTI0TY3plwXyCfdj86nYbOf2/EY+KwKdV1XzK3w=
-X-Received: by 2002:a05:620a:4623:b0:8cd:8fb7:7aed with SMTP id af79cd13be357-8cdb5b5fb55mr457718185a.49.1773409453942;
-        Fri, 13 Mar 2026 06:44:13 -0700 (PDT)
-X-Received: by 2002:a05:620a:4623:b0:8cd:8fb7:7aed with SMTP id af79cd13be357-8cdb5b5fb55mr457712985a.49.1773409453455;
-        Fri, 13 Mar 2026 06:44:13 -0700 (PDT)
-Received: from brgl-qcom.home ([2a01:cb1d:dc:7e00:f055:6536:e7d6:661c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe20b4dasm17696873f8f.18.2026.03.13.06.43.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Mar 2026 06:44:12 -0700 (PDT)
-From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
-        Alexey Brodkin <abrodkin@synopsys.com>,
-        Vineet Gupta <vgupta@kernel.org>, Scott Wood <oss@buserror.net>,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-        Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
-        Bartosz Golaszewski <brgl@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Dvorkin Dmitry <dvorkin@tibbo.com>, Wells Lu <wellslutw@gmail.com>,
-        Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, linux-leds@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-pm@vger.kernel.org
-Subject: Re: (subset) [PATCH 00/14] gpio: remove uneeded Kconfig dependencies on OF_GPIO
-Date: Fri, 13 Mar 2026 14:43:53 +0100
-Message-ID: <177340937994.51547.9424773605486301589.b4-ty@oss.qualcomm.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260304-gpio-of-kconfig-v1-0-d597916e79e7@oss.qualcomm.com>
-References: <20260304-gpio-of-kconfig-v1-0-d597916e79e7@oss.qualcomm.com>
+	id 1w27gk-000000040L9-2ow4;
+	Mon, 16 Mar 2026 13:08:54 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id A043D60018;
+	Mon, 16 Mar 2026 13:08:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5BFFC19421;
+	Mon, 16 Mar 2026 13:08:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773666533;
+	bh=M8qB2Yi8G2KCxfalR2Xs/y9ReUIwgZw5xpyPQq7wYBo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=T9pvKSi4Tc2nnuQeD5Yvlyhi0UufdXQgMYoOn7BC5uSu03NjdqzIGTm1Tdv3TLSYa
+	 ZRhnhmQn0LEOOHogL294cpBY4Hx5wgcJH61d4VVf2CMkbG7Wp+svFxCaUrMrjKOILL
+	 +xyfGn6+4PetNtIu9y56emsCH1Vnr9u4Qi/SLG8O+zqXlH4mU2LEP+6fFZopPPQTBc
+	 iZl4h9qxTnhFE2aS1oMHmnUrqCtcGbnwO+i/lb2cVUuSq9zoi2n0QoFqUzeabs7zyP
+	 tbVtZbTy1UNWsliQt5qBdzNaCAJVWNqdZf7BNdfGttMzyLm6no5mzEMaXrnEoGyX8L
+	 yFaroSc0+vdhA==
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@kernel.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Kees Cook <kees@kernel.org>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Vineet Gupta <vgupta@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Brian Cain <bcain@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <chleroy@kernel.org>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Xu Xin <xu.xin16@zte.com.cn>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Michal Hocko <mhocko@suse.com>,
+	Paul Moore <paul@paul-moore.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Ondrej Mosnacek <omosnace@redhat.com>,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-hexagon@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-mips@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	selinux@vger.kernel.org
+Subject: [PATCH v2 00/23] mm/vma: convert vm_flags_t to vma_flags_t in vma code
+Date: Mon, 16 Mar 2026 13:07:49 +0000
+Message-ID: <cover.1773665966.git.ljs@kernel.org>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-X-Proofpoint-ORIG-GUID: f83Dyz9fI2sXVoA3syq0V-qXqtEFluDD
-X-Proofpoint-GUID: f83Dyz9fI2sXVoA3syq0V-qXqtEFluDD
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEzMDEwOSBTYWx0ZWRfX23yODfnhj9SM
- b30SgDGjzckDQTqCFsIbUMALEWtb6p4cuntvyT3V+VOlT7s7D2kzVAXI1NWXMA+Q8lnooxCBAhj
- PzYBFHkVmdu3VJTAwFY91uZzxxR26+L2ncVQ0cxOpYh5mLlzuPeLVKgY3IO+nYlkziag5rm36EB
- jz3sx9FRexljt1BvrTDaXoxhlNQjc3MpkfGyBEady9nXL22i2Su72CzSZbxGkZVKcAutwd6E78P
- EmWqBMWUs8ZuqSCP6Tsd9yqp6YQ4d1nyB8vz4j5Wp1qFIu2/+viTM6CGqe1Jy4zoe3Qw4HyjZoI
- 572ZaCoG6/77hHuqATsC6WP5utTCs5Vgf41F7qMqzHsKUTtZZS/mAxDd8Nq5vNLLBJRCpddOt+t
- heoWzQywPjTnSpqvcGPhI+LyXVa5VGCQGyAI22DEXlHgzVFBuapwivswcyy117HFfAM7DWhDFsH
- ooWjcwsAAtz0NPkYgoA==
-X-Authority-Analysis: v=2.4 cv=S9nUAYsP c=1 sm=1 tr=0 ts=69b414af cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=VwQbUJbxAAAA:8
- a=EUspDBNiAAAA:8 a=5BVL746LnNak5i1nQvMA:9 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-13_02,2026-03-13_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0 malwarescore=0 priorityscore=1501 suspectscore=0
- clxscore=1015 lowpriorityscore=0 phishscore=0 bulkscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603130109
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260313_134425_210295_E6682EA5 
-X-CRM114-Status: GOOD (  15.54  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -188,32 +125,166 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
+This series converts a lot of the existing use of the legacy vm_flags_t
+data type to the new vma_flags_t type which replaces it.
 
-On Wed, 04 Mar 2026 10:02:21 +0100, Bartosz Golaszewski wrote:
-> NOTE: Each patch in this series can be picked up independently into
-> maintainer trees.
-> 
-> CONFIG_OF_GPIO is a switch that enables the compilation of the gpiolib-of
-> module. The module itself handles GPIO lookup via the OF-node tree and
-> is automatically enabled on all OF systems. It does not export any
-> public symbols to drivers. There is no reason for them to select or
-> depend on it in Kconfig.
-> 
-> [...]
+In order to do so it adds a number of additional helpers:
 
-I'm picking up the ones that were acked and will send a smaller series
-addressing the issue pointed out by Guenter.
+* vma_flags_empty() - Determines whether a vma_flags_t value has no bits
+  set.
 
-[02/14] arc: axs10x: drop unneeded dependency on OF_GPIO
-        https://git.kernel.org/brgl/c/d2cd20f7c2a4e4bf4fca844c01e925b112c5a2c5
-[03/14] powerpc: drop unneeded dependency on OF_GPIO
-        https://git.kernel.org/brgl/c/dd1cdfb20e44e295512080dea508771b6a1f1c0a
-[05/14] regulator: drop unneeded dependencies on OF_GPIO
-        https://git.kernel.org/brgl/c/bf017304fce10933f18fafe140bf749fb9672058
+* vma_flags_and() - Performs a bitwise AND between two vma_flags_t values.
 
-Best regards,
--- 
-Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+* vma_flags_diff_pair() - Determines which flags are not shared between a
+  pair of VMA flags (typically non-constant values)
+
+* append_vma_flags() - Similar to mk_vma_flags(), but allows a vma_flags_t
+  value to be specified (typically a constant value) which will be copied
+  and appended to to create a new vma_flags_t value, with additional flags
+  specified to append to it.
+
+* vma_flags_same() - Determines if a vma_flags_t value is exactly equal to
+  a set of VMA flags.
+
+* vma_flags_same_mask() - Determines if a vma_flags_t value is eactly equal
+  to another vma_flags_t value (typically constant).
+
+* vma_flags_same_pair() - Determines if a pair of vma_flags_t values are
+  exactly equal to one another (typically both non-constant).
+
+* vma_flags_to_legacy() - Converts a vma_flags_t value to a vm_flags_t
+  value, used to enable more iterative introduction of the use of
+  vma_flags_t.
+
+* legacy_to_vma_flags() - Converts a vm_flags_t value to a vma_flags-t
+  value, for the same purpose.
+
+* vma_flags_test_single_mask() - Tests whether a vma_flags_t value contain
+  the single flag specified in an input vma_flags_t flag mask, or if that
+  flag mask is empty, is defined to return false. Useful for
+  config-predicated VMA flag mask defines.
+
+* vma_test() - Tests whether a VMA's flags contain a specific singular VMA
+  flag.
+
+* vma_test_any() - Tests whether a VMA's flags contain any of a set of VMA
+  flags.
+
+* vma_test_any_mask() - Tests whether a VMA's flags contain any of the
+  flags specified in another, typically constant, vma_flags_t value.
+
+* vma_test_single_mask() - Tests whether a VMA's flags contain the single
+  flag specified in an input vma_flags_t flag mask, or if that flag mask is
+  empty, is defined to return false. Useful for config-predicated VMA flag
+  mask defines.
+
+* vma_clear_flags() - Clears a specific set of VMA flags from a vma_flags_t
+  value.
+
+* vma_clear_flags_mask() - Clears those flag set in a vma_flags_t value
+  (typically constant) from a (typically not constant) vma_flags_t value.
+
+The series mostly focuses on the the VMA specific code, especially that
+contained in mm/vma.c and mm/vma.h.
+
+It updates both brk() and mmap() logic to utils vma_flags_t values as much
+as is practiaclly possible at this point, changing surrounding logic to be
+able to do so.
+
+It also updates the vma_modify_xxx() functions where they interact with VMA
+flags directly to use vm_flags_t values where possible.
+
+There is extensive testing added in the VMA userland tests to assert that
+all of these new VMA flag functions work correctly.
+
+
+v2:
+* Rebased on mm-unstable.
+* Added vma_flags_count() and vma[_flags]_test_single_mask() for testing whether
+  flags have a single flag set depending on an input flag mask, returning false
+  if the flag mask is empty.
+* Added tests for vma_flags_count() and vma[_flags]_test_single_mask().
+* Updated the KSM VMA_DROPPABLE test to use vma_flags_test_single_mask().
+* Updated the newly-introduced-since-rebase vma_supports_mlock() to use
+  vma_flags_t.
+
+v1:
+https://lore.kernel.org/linux-mm/cover.1773342102.git.ljs@kernel.org/
+
+Lorenzo Stoakes (Oracle) (23):
+  mm/vma: add vma_flags_empty(), vma_flags_and(), vma_flags_diff_pair()
+  tools/testing/vma: add unit tests flag empty, diff_pair, and[_mask]
+  mm/vma: add further vma_flags_t unions
+  tools/testing/vma: convert bulk of test code to vma_flags_t
+  mm/vma: use new VMA flags for sticky flags logic
+  tools/testing/vma: fix VMA flag tests
+  mm/vma: add append_vma_flags() helper
+  tools/testing/vma: add simple test for append_vma_flags()
+  mm: unexport vm_brk_flags() and eliminate vm_flags parameter
+  mm/vma: introduce vma_flags_same[_mask/_pair]()
+  mm/vma: introduce [vma_flags,legacy]_to_[legacy,vma_flags]() helpers
+  tools/testing/vma: test that legacy flag helpers work correctly
+  mm/vma: introduce vma_test[_any[_mask]](), and make inlining
+    consistent
+  tools/testing/vma: update VMA flag tests to test vma_test[_any_mask]()
+  mm: introduce vma_flags_count() and vma[_flags]_test_single_mask()
+  tools/testing/vma: test vma_flags_count,vma[_flags]_test_single_mask
+  mm: convert do_brk_flags() to use vma_flags_t
+  mm: update vma_supports_mlock() to use new VMA flags
+  mm/vma: introduce vma_clear_flags[_mask]()
+  tools/testing/vma: update VMA tests to test vma_clear_flags[_mask]()
+  mm/vma: convert as much as we can in mm/vma.c to vma_flags_t
+  mm/vma: convert vma_modify_flags[_uffd]() to use vma_flags_t
+  mm/vma: convert __mmap_region() to use vma_flags_t
+
+ arch/arc/include/asm/page.h        |   2 +-
+ arch/arm/include/asm/page.h        |   2 +-
+ arch/arm64/include/asm/page.h      |   3 +-
+ arch/hexagon/include/asm/page.h    |   2 +-
+ arch/loongarch/include/asm/page.h  |   2 +-
+ arch/mips/include/asm/page.h       |   2 +-
+ arch/nios2/include/asm/page.h      |   2 +-
+ arch/powerpc/include/asm/page.h    |   4 +-
+ arch/powerpc/include/asm/page_32.h |   2 +-
+ arch/powerpc/include/asm/page_64.h |  12 +-
+ arch/riscv/include/asm/page.h      |   2 +-
+ arch/s390/include/asm/page.h       |   2 +-
+ arch/x86/include/asm/page_types.h  |   2 +-
+ arch/x86/um/asm/vm-flags.h         |   4 +-
+ fs/binfmt_elf.c                    |   3 +-
+ include/linux/ksm.h                |  10 +-
+ include/linux/mm.h                 | 328 ++++++++++++++++++++------
+ include/linux/mm_types.h           |  52 ++++-
+ include/linux/mman.h               |  49 ----
+ include/linux/userfaultfd_k.h      |   3 +
+ mm/internal.h                      |   7 +-
+ mm/ksm.c                           |  43 ++--
+ mm/madvise.c                       |  10 +-
+ mm/mlock.c                         |  38 +--
+ mm/mmap.c                          |  19 +-
+ mm/mprotect.c                      |  53 +++--
+ mm/mremap.c                        |   6 +-
+ mm/mseal.c                         |  10 +-
+ mm/userfaultfd.c                   |  21 +-
+ mm/vma.c                           | 210 ++++++++++-------
+ mm/vma.h                           |  86 ++++++-
+ mm/vma_exec.c                      |   5 +-
+ security/selinux/hooks.c           |   4 +-
+ tools/include/linux/bitmap.h       |  13 ++
+ tools/lib/bitmap.c                 |  10 +
+ tools/testing/vma/include/custom.h |  25 --
+ tools/testing/vma/include/dup.h    | 277 ++++++++++++++++------
+ tools/testing/vma/include/stubs.h  |  11 +-
+ tools/testing/vma/shared.c         |   8 +-
+ tools/testing/vma/shared.h         |  22 +-
+ tools/testing/vma/tests/merge.c    | 311 +++++++++++++------------
+ tools/testing/vma/tests/mmap.c     |  18 +-
+ tools/testing/vma/tests/vma.c      | 358 ++++++++++++++++++++++++++---
+ tools/testing/vma/vma_internal.h   |   6 +
+ 44 files changed, 1423 insertions(+), 636 deletions(-)
+
+--
+2.53.0
 
 _______________________________________________
 linux-snps-arc mailing list
