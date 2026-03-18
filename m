@@ -4,43 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12626103E198
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 18 Mar 2026 15:51:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7C73E103E19F
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 18 Mar 2026 15:51:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=PUTDWcZHkyhnNRT+Z6VBJkyZAKi6HNPlzZAP+AbfpsQ=; b=4jUAKLlhBxBr2Y
-	cNulsjk3ZsJTuyuaAFriBXt+9RgBpTTaXQUHjQIQKT0cH+yj/SQnM58R+imRMZVz4r3g2k8euwlpQ
-	IMUW7laZEuTnveFyEgXaHPKY6h/E2aroz0Zj/YhoA539uHU9y5uPBuCuAUpKDXkOWPgglvFn5BJFc
-	yI92pg+oxkGfHx+rHFHOm0p5Gz/OiZia9TAgczT8yUu4Nj2vnGCVlQzDlM/Q6YQ0rBdhQtXIQxAkm
-	o9l+ComT5knQ4PKEZBFFQejWvvsAn2+TR7/l405XrRi/c6eMGM+omPqV1cjnLOA0k5CT54xLBDjHV
-	3CRgnC8LeD+nP2PQq46Q==;
+	List-Owner; bh=ERtOaNYwpTkNdcCtyb2F7hd7DsF25CDWprrqcXK5B6I=; b=aCwoTO2DVgf3Rf
+	jxW9oknQMDSjf60YMf4wdo3qMftGoL4vNZ/JdFOXNZffMOmD2rEAgq8vLpi76lPlu1qPMnyDzjaVU
+	sxDY6Da1xwjVRZVsq9kXJ0YRw5fUE9VP4+bk6tL4jgAazU37L8rFb49gdvSVLQ18whi7bQSe7Sctd
+	Pvmd1gLaMwXXlf2D5pCLP2otDKJBQ/A0/pcSwRkDfDiFvyop9dK88JMkrmMK7jxNAc1dAP5OKqmAx
+	vT4Lu+aoTFZiLOu0guS95ulgZ5hFKC3nSy39tqNUOKKN7lDGJ7lSIaTBUMMFdRzDDzgDEuS89Bnhb
+	SXVyc862t33R6X4GkrQg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2tBS-00000008mPs-1n6G;
-	Wed, 18 Mar 2026 15:51:46 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1w2tBV-00000008mUu-0pEA;
+	Wed, 18 Mar 2026 15:51:49 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2tBK-00000008mBb-0skQ;
+	id 1w2tBL-00000008mDn-3W2k;
+	Wed, 18 Mar 2026 15:51:41 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=glto3nNF1o9CHd2IWYLUNY37G4HJU66Jefs9tYxHtxg=; b=V6ZyoF95oTTUfxMF2huLbAekXt
+	VFUI/2GcjAUF5GqkwbkhtbB28vLiGzcXJi0Z4blO8fXJCOmbnp8SV7GRWVT2p7QTC8wGd4d3J9Z1u
+	Nar3azIxkRYoQyHCZj0nUHkNINFQtxbNMB+pNeebs7kv65BDF4/I+a/Z0N8+r0kApUzOThS8u48vh
+	3dIuaG4tRX5gXhz83d+Op0rw5jgoycot34aoklqAZJyymxWeOucjCLy4NWHr8QuTrPybM7gFfGTWl
+	iCqYUY9jO2Y9HOs3JISUfc6BRfLb3rIgORBNILA9YX2zumiJE46U0seHueG8JnaAaHdG3T/J8DepR
+	SX5D3jgQ==;
+Received: from sea.source.kernel.org ([172.234.252.31])
+	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w2tBH-0000000BcSx-44UY;
 	Wed, 18 Mar 2026 15:51:38 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 9A25960142;
-	Wed, 18 Mar 2026 15:51:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4CDDC4AF10;
-	Wed, 18 Mar 2026 15:51:36 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id A4DEE43584;
+	Wed, 18 Mar 2026 15:51:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAB3EC2BCB2;
+	Wed, 18 Mar 2026 15:51:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773849097;
-	bh=iW8PyaQGY3GlJfRuD9IYEogcwxKab0EzWBI+zvgE1Hk=;
+	s=k20201202; t=1773849094;
+	bh=150j1rGpWka5LRXWKCunu72PErJxZ/dfG4LF16Tl7W0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=b1Z2PjBqKzp0GfmuAIanbg5AtkQ2vJbq21vcreUid4pRft2yNMcWAMsHaeeMh8tJ8
-	 RqyDrk+CO8eOTX1oBQSybsCDlMcOiFZe65B36NUvKKODmwNdhTZoL0+IG/GlzflXP6
-	 GvnZ4ucdm0cDUeV3jtLJwciaZlgds1F3YHk5k4QrGze63EGkMzVXl5y64C1lwXZNs4
-	 IxDOb6PcqmkxO7mFmLydMSZXJNLcm22sZbGC679SpdSAyrF+x1dUXwztCfrbuyQZ3F
-	 ANRAFE3eujHK5OqsObkJCD5pJRyytH8M4WeiAHZplrwztTkK/SBHYOZ6Bu7LaFbjE4
-	 hcVN9j6N4c/9A==
+	b=kDPMxDLzDvDDTbMPL2/3zxMJcUyos/Kd1krK7p0PTRGQJegUO1mUk5Q5Xf1QCFPHh
+	 cmOM/2QPFmFxh9bxIBrCqlkQp3t2DXUBsQN7TiLXICJj27sUQSjx5hD01nv0TYVNLa
+	 po/CcfNmhBTzUUuinyzxLAsS5JsdajCIt8aA4k9S4kkfSaWKlUeE93uFoI6TaABUJy
+	 FP1L6CjQjhQ8349B9Yf6djzVckaaM9suzrhHQ4HkUvJTJ4WYydMQPStHwmL7Rby5NI
+	 FLVa5pmYi3r1kS84AhGJs+gxE9WLqEykq5Z4i1FB4hnpQOB7ih2wwMO94sdFH7a9b+
+	 De0uTburJz5FQ==
 From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: David Hildenbrand <david@kernel.org>,
@@ -104,13 +118,16 @@ Cc: David Hildenbrand <david@kernel.org>,
 	linux-um@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org,
 	selinux@vger.kernel.org
-Subject: [PATCH v3 20/23] tools/testing/vma: update VMA tests to test vma_clear_flags[_mask]()
-Date: Wed, 18 Mar 2026 15:50:31 +0000
-Message-ID: <c2f83d5711753f5b0a6d9a69819f9207a997d728.1773846935.git.ljs@kernel.org>
+Subject: [PATCH v3 19/23] mm/vma: introduce vma_clear_flags[_mask]()
+Date: Wed, 18 Mar 2026 15:50:30 +0000
+Message-ID: <b2edda6f00c10ef63013257f282cf155fb371b06.1773846935.git.ljs@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1773846935.git.ljs@kernel.org>
 References: <cover.1773846935.git.ljs@kernel.org>
 MIME-Version: 1.0
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260318_155136_381477_28AD7C70 
+X-CRM114-Status: GOOD (  10.43  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -127,73 +144,69 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-The tests have existing flag clearing logic, so simply expand this to use
-the new VMA-specific flag clearing helpers.
+Introduce a helper function and helper macro to easily clear a VMA's flags
+using the new vma_flags_t vma->flags field:
 
-Also correct some trivial formatting issue in a macro define.
+* vma_clear_flags_mask() - Clears all of the flags in a specified mask in
+			   the VMA's flags field.
+* vma_clear_flags() - Clears all of the specified individual VMA flag bits
+		      in a VMA's flags field.
+
+Also update the VMA tests to reflect the change.
 
 Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 ---
- tools/testing/vma/tests/vma.c | 33 +++++++++++++++++----------------
- 1 file changed, 17 insertions(+), 16 deletions(-)
+ include/linux/mm.h              | 16 ++++++++++++++++
+ tools/testing/vma/include/dup.h |  9 +++++++++
+ 2 files changed, 25 insertions(+)
 
-diff --git a/tools/testing/vma/tests/vma.c b/tools/testing/vma/tests/vma.c
-index c73c3a565f1d..754a2da06321 100644
---- a/tools/testing/vma/tests/vma.c
-+++ b/tools/testing/vma/tests/vma.c
-@@ -347,19 +347,20 @@ static bool test_vma_flags_clear(void)
- 					, 64
- #endif
- 		);
--	struct vm_area_struct vma;
--	struct vm_area_desc desc;
--
--	vma.flags = flags;
--	desc.vma_flags = flags;
-+	struct vm_area_struct vma = {
-+		.flags = flags,
-+	};
-+	struct vm_area_desc desc = {
-+		.vma_flags = flags,
-+	};
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index eb1cbb60e63b..4ba1229676ad 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -1368,6 +1368,22 @@ static __always_inline void vma_set_flags_mask(struct vm_area_struct *vma,
+ #define vma_set_flags(vma, ...) \
+ 	vma_set_flags_mask(vma, mk_vma_flags(__VA_ARGS__))
  
- 	/* Cursory check of _mask() variant, as the helper macros imply. */
- 	vma_flags_clear_mask(&flags, mask);
--	vma_flags_clear_mask(&vma.flags, mask);
-+	vma_clear_flags_mask(&vma, mask);
- 	vma_desc_clear_flags_mask(&desc, mask);
- #if NUM_VMA_FLAG_BITS > 64
- 	ASSERT_FALSE(vma_flags_test_any(&flags, VMA_EXEC_BIT, 64));
--	ASSERT_FALSE(vma_flags_test_any(&vma.flags, VMA_EXEC_BIT, 64));
-+	ASSERT_FALSE(vma_test_any(&vma, VMA_EXEC_BIT, 64));
- 	ASSERT_FALSE(vma_desc_test_any(&desc, VMA_EXEC_BIT, 64));
- 	/* Reset. */
- 	vma_flags_set(&flags, VMA_EXEC_BIT, 64);
-@@ -371,15 +372,15 @@ static bool test_vma_flags_clear(void)
- 	 * Clear the flags and assert clear worked, then reset flags back to
- 	 * include specified flags.
- 	 */
--#define do_test_and_reset(...)					\
--	vma_flags_clear(&flags, __VA_ARGS__);			\
--	vma_flags_clear(&vma.flags, __VA_ARGS__);		\
--	vma_desc_clear_flags(&desc, __VA_ARGS__);		\
--	ASSERT_FALSE(vma_flags_test_any(&flags, __VA_ARGS__));	\
--	ASSERT_FALSE(vma_flags_test_any(&vma.flags, __VA_ARGS__));	\
--	ASSERT_FALSE(vma_desc_test_any(&desc, __VA_ARGS__));	\
--	vma_flags_set(&flags, __VA_ARGS__);			\
--	vma_set_flags(&vma, __VA_ARGS__);			\
-+#define do_test_and_reset(...)						\
-+	vma_flags_clear(&flags, __VA_ARGS__);				\
-+	vma_clear_flags(&vma, __VA_ARGS__);				\
-+	vma_desc_clear_flags(&desc, __VA_ARGS__);			\
-+	ASSERT_FALSE(vma_flags_test_any(&flags, __VA_ARGS__));		\
-+	ASSERT_FALSE(vma_test_any(&vma, __VA_ARGS__));			\
-+	ASSERT_FALSE(vma_desc_test_any(&desc, __VA_ARGS__));		\
-+	vma_flags_set(&flags, __VA_ARGS__);				\
-+	vma_set_flags(&vma, __VA_ARGS__);				\
- 	vma_desc_set_flags(&desc, __VA_ARGS__)
++/* Helper to clear all VMA flags in a VMA. */
++static __always_inline void vma_clear_flags_mask(struct vm_area_struct *vma,
++		vma_flags_t flags)
++{
++	vma_flags_clear_mask(&vma->flags, flags);
++}
++
++/*
++ * Helper macro for clearing VMA flags, e.g.:
++ *
++ * vma_clear_flags(vma, VMA_IO_BIT, VMA_PFNMAP_BIT, VMA_DONTEXPAND_BIT,
++ * 		VMA_DONTDUMP_BIT);
++ */
++#define vma_clear_flags(vma, ...) \
++	vma_clear_flags_mask(vma, mk_vma_flags(__VA_ARGS__))
++
+ /*
+  * Test whether a specific VMA flag is set in a VMA descriptor, e.g.:
+  *
+diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/dup.h
+index 36373b81ad24..93ea600d0895 100644
+--- a/tools/testing/vma/include/dup.h
++++ b/tools/testing/vma/include/dup.h
+@@ -1065,6 +1065,15 @@ static __always_inline void vma_set_flags_mask(struct vm_area_struct *vma,
+ #define vma_set_flags(vma, ...) \
+ 	vma_set_flags_mask(vma, mk_vma_flags(__VA_ARGS__))
  
- 	/* Single flags. */
++static __always_inline void vma_clear_flags_mask(struct vm_area_struct *vma,
++		vma_flags_t flags)
++{
++	vma_flags_clear_mask(&vma->flags, flags);
++}
++
++#define vma_clear_flags(vma, ...) \
++	vma_clear_flags_mask(vma, mk_vma_flags(__VA_ARGS__))
++
+ static __always_inline bool vma_desc_test(const struct vm_area_desc *desc,
+ 		vma_flag_t bit)
+ {
 -- 
 2.53.0
 
