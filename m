@@ -4,49 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92E3C103E191
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 18 Mar 2026 14:41:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ADF3A103E18F
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 18 Mar 2026 14:42:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
 	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=/QK6c/aUEEnxhthj7dBWNr8RKn0vjF/z8kwLkGiTyJk=; b=1X/dr+CjCS2fPo
-	HePESj3S3N/vK0llatC46pdxAA0EWcj5BD8No5t7TLcZNlHQiiawOBFtovQblublTcdQ8JzqR8G1s
-	7FmSFpjVFqHTC4pHERWMp3RE4YdPdPRrkq69p83kt7ij4Vte4+XnM2lJt1oHROtjrBsCFExhT38Sm
-	gd2UhiVNsnDeQ5DAXbuoP6an0DYm31+6fhsCVZ6z+3f87KIfDvn3yNz0MOKCpORJNYJzVyqO2xEtw
-	h/2J+WUKMJSAZK2DlT68mJ5bX105Usjhom1+1cwMHHMk2oqG+gzurNztCnFmkAjpfwaIRkb3NFV+3
-	b0q6ks2rePnJvUJrSgag==;
+	List-Owner; bh=qiqwVQovOlwuWMQBbUAvDoR0N9K7jRZCOf91Q7H7J+A=; b=JMy3e2ZprjGirB
+	i2+no/f7UxK5UP6t08bOOYGUJbA00YamCGnF3JhCUo1bHc0ljWHmSGqUliczb7X8LMTf9YoSbLNSq
+	xyndicDigoCEQ0vuxf2lQgT5wMdsv0n3oQVGY/96qDZMjXJdOb5jERVsZLqnWH9TuEi/fjVpZ4LQ8
+	QwS5/LdtsYMhXhZDXFiQEMhsCQDmUgRJ4y0UmUpKZSn787RcUK4ji69FxbDaZ3G3mdn8roXV/fgeR
+	bQRP/QqBMqM7cSUuzGJCnci2V+S+9PwFsWXYUIqaqWWHuLto/Fa5knvYGn6xoOwqyGq43ipOVLlD8
+	rmndTieFnecrJkAxYDXw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2s51-00000008bxx-0hZA;
-	Wed, 18 Mar 2026 14:41:03 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1w2s6b-00000008cCU-1J0e;
+	Wed, 18 Mar 2026 14:42:41 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2s4x-00000008bwE-2IGD;
-	Wed, 18 Mar 2026 14:41:02 +0000
+	id 1w2s6Z-00000008cBp-0l2u;
+	Wed, 18 Mar 2026 14:42:39 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 773FE432F4;
-	Wed, 18 Mar 2026 14:40:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00F29C2BC87;
-	Wed, 18 Mar 2026 14:40:46 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 616DA600C4;
+	Wed, 18 Mar 2026 14:42:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84C9AC19421;
+	Wed, 18 Mar 2026 14:42:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773844858;
-	bh=QPe6wXvdAXZ1WsVrzW/I1Ea8rZgbDN6tCubJm34Z2So=;
+	s=k20201202; t=1773844958;
+	bh=o3Vqfegoze9voxgxHT8hNS1xVKI7tWzSZbrQEQde8dg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ngbdPPAxWjFSAiZvMouaeaCI+yNsZe/5Ks8XfwK23bbuJ+JwMl7yKx8wLk1AN3mNT
-	 TMgJMbhcekeQl6cZDmfGyt8APhVYsofGCMvUz7w5d4VSUqCEDHmA0FWwHmr908obc6
-	 Ca6I5aFuRQUI1yi4z3tpGvtErfL8rr5nKPdU3xQY3LcDhPRgWknRM3aO06irdxNWBm
-	 2TlgtJ0ipwGbJWHORKvyo/BwbM/qZgR2EjBk9w3ApuIqc+XrUbVpU21pCoE11NYSNq
-	 L1oljmENCVJ0s9YwPt8FVfCFDTEwjEsGgigo721LFalxDK0WN06IRwXdh82jFvxUSk
-	 UiZTvvvmHDYJQ==
-Message-ID: <4620167c-bcfe-414b-85f6-a5d28563b9af@kernel.org>
-Date: Wed, 18 Mar 2026 15:40:45 +0100
+	b=Brfo6kwquW7beM2eQzf+4i3bKNLjG6pitESp5wXj5j3/u4EMe+7TKVtW2kDQi189b
+	 ksXjz2HFO5CzN39JGKjLjl5Cz6xte8b16X4vUnfN0qyNtCbUwrFXww9J7LQMWeH4tV
+	 XxLcTaXa36dEp3pR9f5ACT1A0MF31tlrAm2w9z71HsxNJA+lhDEy4wTslHSjno+Jr+
+	 oUiTxttBYh7Xfz9WqNET76CHoWG5D2z7or5j/VSvQHP6oD/BMerKadPNSlJmAi/h8i
+	 4hOfDPVsWi8QZQJI/KS7nt3ccmQBTwTGOCza7YTyeCo9Fsju2QNwapLG0bKt1L3tAC
+	 KTJlXh0jWxX4A==
+Message-ID: <b706a64f-c142-419d-a151-931847cf8444@kernel.org>
+Date: Wed, 18 Mar 2026 15:42:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/23] mm/vma: add vma_flags_empty(), vma_flags_and(),
- vma_flags_diff_pair()
+Subject: Re: [PATCH v2 03/23] mm/vma: add further vma_flags_t unions
 Content-Language: en-US
 To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
  Andrew Morton <akpm@linux-foundation.org>
@@ -86,12 +85,9 @@ Cc: David Hildenbrand <david@kernel.org>,
  linux-s390@vger.kernel.org, linux-um@lists.infradead.org,
  linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org
 References: <cover.1773665966.git.ljs@kernel.org>
- <ede9b0f8a2e2dc72e7fbc1a0ddbeb513364c28a2.1773665966.git.ljs@kernel.org>
+ <a37030f2eefc90147e84f9273e325cc289cb9e1d.1773665966.git.ljs@kernel.org>
 From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <ede9b0f8a2e2dc72e7fbc1a0ddbeb513364c28a2.1773665966.git.ljs@kernel.org>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260318_074059_636507_9218F87E 
-X-CRM114-Status: GOOD (  15.69  )
+In-Reply-To: <a37030f2eefc90147e84f9273e325cc289cb9e1d.1773665966.git.ljs@kernel.org>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,31 +105,17 @@ Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
 On 3/16/26 14:07, Lorenzo Stoakes (Oracle) wrote:
-> Firstly, add the ability to determine if VMA flags are empty, that is no
-> flags are set in a vma_flags_t value.
+> In order to utilise the new vma_flags_t type, we currently place it in
+> union with legacy vm_flags fields of type vm_flags_t to make the transition
+> smoother.
 > 
-> Next, add the ability to obtain the equivalent of the bitwise and of two
-> vma_flags_t values, via vma_flags_and().
-
-Nit: "two values" is vma_flags_and_mask(), while vma_flags_and() takes one
-value and list of flags, no?
-
-> Next, add the ability to obtain the difference between two sets of VMA
-> flags, that is the equivalent to the exclusive bitwise OR of the two sets
-> of flags, via vma_flags_diff_pair().
+> Add vma_flags_t union entries for mm->def_flags and vmg->vm_flags -
+> mm->def_vma_flags and vmg->vma_flags respectively.
 > 
-> vma_flags_xxx_mask() typically operates on a pointer to a vma_flags_t
-> value, which is assumed to be an lvalue of some kind (such as a field in a
-> struct or a stack variable) and an rvalue of some kind (typically a
-> constant set of VMA flags obtained e.g. via mk_vma_flags() or equivalent).
+> Once the conversion is complete, these will be replaced with vma_flags_t
+> entries alone.
 > 
-> However vma_flags_diff_pair() is intended to operate on two lvalues, so use
-> the _pair() suffix to make this clear.
-> 
-> Finally, update VMA userland tests to add these helpers.
-> 
-> We also port bitmap_xor() and __bitmap_xor() to the tools/ headers and
-> source to allow the tests to work with vma_flags_diff_pair().
+> Also update the VMA tests to reflect the change.
 > 
 > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 
