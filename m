@@ -4,90 +4,113 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ADF3A103E18F
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 18 Mar 2026 14:42:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 802EC103E198
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 18 Mar 2026 15:50:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=qiqwVQovOlwuWMQBbUAvDoR0N9K7jRZCOf91Q7H7J+A=; b=JMy3e2ZprjGirB
-	i2+no/f7UxK5UP6t08bOOYGUJbA00YamCGnF3JhCUo1bHc0ljWHmSGqUliczb7X8LMTf9YoSbLNSq
-	xyndicDigoCEQ0vuxf2lQgT5wMdsv0n3oQVGY/96qDZMjXJdOb5jERVsZLqnWH9TuEi/fjVpZ4LQ8
-	QwS5/LdtsYMhXhZDXFiQEMhsCQDmUgRJ4y0UmUpKZSn787RcUK4ji69FxbDaZ3G3mdn8roXV/fgeR
-	bQRP/QqBMqM7cSUuzGJCnci2V+S+9PwFsWXYUIqaqWWHuLto/Fa5knvYGn6xoOwqyGq43ipOVLlD8
-	rmndTieFnecrJkAxYDXw==;
+	List-Owner; bh=6BA1wFZjUl8YpDPhrQmTAvfdc8KQybyg2ESQ1c0luiY=; b=Pqh4hozuWr+1fF
+	dYfUtE8bOi72qKihH542RgSp6PrYphEZEWb/OEXeiwKdraEbrrrEOKQn31cYueK+ri1waPPgJSP/3
+	Qr1ZPrUY77rpfffJ6jzySwUB+o2lm9eWRGJI/MqU7E9TzHEXjgeGLYAj3kXTgQyVLjoX7HY9VqEff
+	L9wNOBDKIICnYqenHmTTZ+Caz/EnnkOquGmo9JLlgdbQ7uWe/xrtkfpjuxUmzNVy0Xf9idhSDg/KC
+	jIVCohy2q1Q91d5/wkl1OJQo1Z0u7LJ0XJhk4SYlFRs4ve5JvkaOEMMHplxA0LXRHycwVsDGQBXID
+	zSK15Mywmm+ztJ4CY3iw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2s6b-00000008cCU-1J0e;
-	Wed, 18 Mar 2026 14:42:41 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1w2tAW-00000008l3v-10zb;
+	Wed, 18 Mar 2026 15:50:48 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2s6Z-00000008cBp-0l2u;
-	Wed, 18 Mar 2026 14:42:39 +0000
+	id 1w2tAS-00000008l23-1vHN;
+	Wed, 18 Mar 2026 15:50:44 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 616DA600C4;
-	Wed, 18 Mar 2026 14:42:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84C9AC19421;
-	Wed, 18 Mar 2026 14:42:26 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 3B66060123;
+	Wed, 18 Mar 2026 15:50:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52453C19421;
+	Wed, 18 Mar 2026 15:50:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773844958;
-	bh=o3Vqfegoze9voxgxHT8hNS1xVKI7tWzSZbrQEQde8dg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Brfo6kwquW7beM2eQzf+4i3bKNLjG6pitESp5wXj5j3/u4EMe+7TKVtW2kDQi189b
-	 ksXjz2HFO5CzN39JGKjLjl5Cz6xte8b16X4vUnfN0qyNtCbUwrFXww9J7LQMWeH4tV
-	 XxLcTaXa36dEp3pR9f5ACT1A0MF31tlrAm2w9z71HsxNJA+lhDEy4wTslHSjno+Jr+
-	 oUiTxttBYh7Xfz9WqNET76CHoWG5D2z7or5j/VSvQHP6oD/BMerKadPNSlJmAi/h8i
-	 4hOfDPVsWi8QZQJI/KS7nt3ccmQBTwTGOCza7YTyeCo9Fsju2QNwapLG0bKt1L3tAC
-	 KTJlXh0jWxX4A==
-Message-ID: <b706a64f-c142-419d-a151-931847cf8444@kernel.org>
-Date: Wed, 18 Mar 2026 15:42:24 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/23] mm/vma: add further vma_flags_t unions
-Content-Language: en-US
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
+	s=k20201202; t=1773849042;
+	bh=XNaJylMB4ToYbiyO76kSgASv2eZo/bh0bkFERIO4NSI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=fmWRhrM5nH+kjm/rkpDWtdAzEUZpv8wThhQZJsq318tUoOS8qjV0VdqDX9AEPIHeC
+	 iKsGU4vrLmkv5KESEJl52p468hqffcju858fQAQeWXpMwzJFkpMY/AQSfokagglkpd
+	 T0ADc/b1mpIwCW0JE2u/wcDs1YGe1Nb2Rf7MJYstv5dGvc0DK1oLWcE1lZwZuAjY+Z
+	 GdGGR2UQRTzDPpuHCuaDO/fcykWeNNeB/xjRv/8SC+vU6uEuubAosWdTnRhpmCliE/
+	 Yo3qqkYf12v8TONAkstM+2DQ7EVbRlPFvU/FHUcVMxNVZApBMXf5p9T5w9ypwUU8o8
+	 kabGMlOpHeJiA==
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
 Cc: David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Kees Cook <kees@kernel.org>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Brian Cain <bcain@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
- WANG Xuerui <kernel@xen0n.name>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Dinh Nguyen <dinguyen@kernel.org>, Madhavan Srinivasan
- <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>,
- Michal Hocko <mhocko@suse.com>, Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Ondrej Mosnacek <omosnace@redhat.com>, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org,
- loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-um@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org
-References: <cover.1773665966.git.ljs@kernel.org>
- <a37030f2eefc90147e84f9273e325cc289cb9e1d.1773665966.git.ljs@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <a37030f2eefc90147e84f9273e325cc289cb9e1d.1773665966.git.ljs@kernel.org>
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Kees Cook <kees@kernel.org>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Vineet Gupta <vgupta@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Brian Cain <bcain@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <chleroy@kernel.org>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Xu Xin <xu.xin16@zte.com.cn>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Michal Hocko <mhocko@suse.com>,
+	Paul Moore <paul@paul-moore.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Ondrej Mosnacek <omosnace@redhat.com>,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-hexagon@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-mips@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	selinux@vger.kernel.org
+Subject: [PATCH v3 01/23] mm/vma: add vma_flags_empty(), vma_flags_and(), vma_flags_diff_pair()
+Date: Wed, 18 Mar 2026 15:50:12 +0000
+Message-ID: <ca9062b3d08ae38bc149e98eb146c44c8a113b7d.1773846935.git.ljs@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <cover.1773846935.git.ljs@kernel.org>
+References: <cover.1773846935.git.ljs@kernel.org>
+MIME-Version: 1.0
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,23 +127,257 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 3/16/26 14:07, Lorenzo Stoakes (Oracle) wrote:
-> In order to utilise the new vma_flags_t type, we currently place it in
-> union with legacy vm_flags fields of type vm_flags_t to make the transition
-> smoother.
-> 
-> Add vma_flags_t union entries for mm->def_flags and vmg->vm_flags -
-> mm->def_vma_flags and vmg->vma_flags respectively.
-> 
-> Once the conversion is complete, these will be replaced with vma_flags_t
-> entries alone.
-> 
-> Also update the VMA tests to reflect the change.
-> 
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+Firstly, add the ability to determine if VMA flags are empty, that is no
+flags are set in a vma_flags_t value.
+
+Next, add the ability to obtain the equivalent of the bitwise and of two
+vma_flags_t values, via vma_flags_and().
+
+Next, add the ability to obtain the difference between two sets of VMA
+flags, that is the equivalent to the exclusive bitwise OR of the two sets
+of flags, via vma_flags_diff_pair().
+
+vma_flags_xxx_mask() typically operates on a pointer to a vma_flags_t
+value, which is assumed to be an lvalue of some kind (such as a field in a
+struct or a stack variable) and an rvalue of some kind (typically a
+constant set of VMA flags obtained e.g.  via mk_vma_flags() or
+equivalent).
+
+However vma_flags_diff_pair() is intended to operate on two lvalues, so
+use the _pair() suffix to make this clear.
+
+Finally, update VMA userland tests to add these helpers.
+
+We also port bitmap_xor() and __bitmap_xor() to the tools/ headers and
+source to allow the tests to work with vma_flags_diff_pair().
 
 Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+---
+ include/linux/mm.h              | 60 ++++++++++++++++++++++++++++-----
+ include/linux/mm_types.h        |  8 +++++
+ tools/include/linux/bitmap.h    | 13 +++++++
+ tools/lib/bitmap.c              | 10 ++++++
+ tools/testing/vma/include/dup.h | 36 +++++++++++++++++++-
+ 5 files changed, 117 insertions(+), 10 deletions(-)
 
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 70747b53c7da..6d2c4bd2c61d 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -1053,6 +1053,19 @@ static __always_inline vma_flags_t __mk_vma_flags(size_t count,
+ 	return flags;
+ }
+
++/*
++ * Helper macro which bitwise-or combines the specified input flags into a
++ * vma_flags_t bitmap value. E.g.:
++ *
++ * vma_flags_t flags = mk_vma_flags(VMA_IO_BIT, VMA_PFNMAP_BIT,
++ *              VMA_DONTEXPAND_BIT, VMA_DONTDUMP_BIT);
++ *
++ * The compiler cleverly optimises away all of the work and this ends up being
++ * equivalent to aggregating the values manually.
++ */
++#define mk_vma_flags(...) __mk_vma_flags(COUNT_ARGS(__VA_ARGS__), \
++					 (const vma_flag_t []){__VA_ARGS__})
++
+ /*
+  * Test whether a specific VMA flag is set, e.g.:
+  *
+@@ -1067,17 +1080,30 @@ static __always_inline bool vma_flags_test(const vma_flags_t *flags,
+ }
+
+ /*
+- * Helper macro which bitwise-or combines the specified input flags into a
+- * vma_flags_t bitmap value. E.g.:
+- *
+- * vma_flags_t flags = mk_vma_flags(VMA_IO_BIT, VMA_PFNMAP_BIT,
+- * 		VMA_DONTEXPAND_BIT, VMA_DONTDUMP_BIT);
++ * Obtain a set of VMA flags which contain the overlapping flags contained
++ * within flags and to_and.
++ */
++static __always_inline vma_flags_t vma_flags_and_mask(const vma_flags_t *flags,
++						      vma_flags_t to_and)
++{
++	vma_flags_t dst;
++	unsigned long *bitmap_dst = dst.__vma_flags;
++	const unsigned long *bitmap = flags->__vma_flags;
++	const unsigned long *bitmap_to_and = to_and.__vma_flags;
++
++	bitmap_and(bitmap_dst, bitmap, bitmap_to_and, NUM_VMA_FLAG_BITS);
++	return dst;
++}
++
++/*
++ * Obtain a set of VMA flags which contains the specified overlapping flags,
++ * e.g.:
+  *
+- * The compiler cleverly optimises away all of the work and this ends up being
+- * equivalent to aggregating the values manually.
++ * vma_flags_t read_flags = vma_flags_and(&flags, VMA_READ_BIT,
++ *                                        VMA_MAY_READ_BIT);
+  */
+-#define mk_vma_flags(...) __mk_vma_flags(COUNT_ARGS(__VA_ARGS__), \
+-					 (const vma_flag_t []){__VA_ARGS__})
++#define vma_flags_and(flags, ...)				\
++	vma_flags_and_mask(flags, mk_vma_flags(__VA_ARGS__))
+
+ /*  Test each of to_test flags in flags, non-atomically. */
+ static __always_inline bool vma_flags_test_any_mask(const vma_flags_t *flags,
+@@ -1151,6 +1177,22 @@ static __always_inline void vma_flags_clear_mask(vma_flags_t *flags,
+ #define vma_flags_clear(flags, ...) \
+ 	vma_flags_clear_mask(flags, mk_vma_flags(__VA_ARGS__))
+
++/*
++ * Obtain a VMA flags value containing those flags that are present in flags or
++ * flags_other but not in both.
++ */
++static __always_inline vma_flags_t vma_flags_diff_pair(const vma_flags_t *flags,
++		const vma_flags_t *flags_other)
++{
++	vma_flags_t dst;
++	const unsigned long *bitmap_other = flags_other->__vma_flags;
++	const unsigned long *bitmap = flags->__vma_flags;
++	unsigned long *bitmap_dst = dst.__vma_flags;
++
++	bitmap_xor(bitmap_dst, bitmap, bitmap_other, NUM_VMA_FLAG_BITS);
++	return dst;
++}
++
+ /*
+  * Helper to test that ALL specified flags are set in a VMA.
+  *
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index 3944b51ebac6..5584a0c7bcea 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -870,6 +870,14 @@ typedef struct {
+
+ #define EMPTY_VMA_FLAGS ((vma_flags_t){ })
+
++/* Are no flags set in the specified VMA flags? */
++static __always_inline bool vma_flags_empty(const vma_flags_t *flags)
++{
++	const unsigned long *bitmap = flags->__vma_flags;
++
++	return bitmap_empty(bitmap, NUM_VMA_FLAG_BITS);
++}
++
+ /*
+  * Describes a VMA that is about to be mmap()'ed. Drivers may choose to
+  * manipulate mutable fields which will cause those fields to be updated in the
+diff --git a/tools/include/linux/bitmap.h b/tools/include/linux/bitmap.h
+index 250883090a5d..845eda759f67 100644
+--- a/tools/include/linux/bitmap.h
++++ b/tools/include/linux/bitmap.h
+@@ -28,6 +28,8 @@ bool __bitmap_subset(const unsigned long *bitmap1,
+ 		     const unsigned long *bitmap2, unsigned int nbits);
+ bool __bitmap_andnot(unsigned long *dst, const unsigned long *bitmap1,
+ 		    const unsigned long *bitmap2, unsigned int nbits);
++void __bitmap_xor(unsigned long *dst, const unsigned long *bitmap1,
++		  const unsigned long *bitmap2, unsigned int nbits);
+
+ #define BITMAP_FIRST_WORD_MASK(start) (~0UL << ((start) & (BITS_PER_LONG - 1)))
+ #define BITMAP_LAST_WORD_MASK(nbits) (~0UL >> (-(nbits) & (BITS_PER_LONG - 1)))
+@@ -209,4 +211,15 @@ static inline void bitmap_clear(unsigned long *map, unsigned int start,
+ 	else
+ 		__bitmap_clear(map, start, nbits);
+ }
++
++static __always_inline
++void bitmap_xor(unsigned long *dst, const unsigned long *src1,
++		const unsigned long *src2, unsigned int nbits)
++{
++	if (small_const_nbits(nbits))
++		*dst = *src1 ^ *src2;
++	else
++		__bitmap_xor(dst, src1, src2, nbits);
++}
++
+ #endif /* _TOOLS_LINUX_BITMAP_H */
+diff --git a/tools/lib/bitmap.c b/tools/lib/bitmap.c
+index aa83d22c45e3..fedc9070f0e4 100644
+--- a/tools/lib/bitmap.c
++++ b/tools/lib/bitmap.c
+@@ -169,3 +169,13 @@ bool __bitmap_subset(const unsigned long *bitmap1,
+ 			return false;
+ 	return true;
+ }
++
++void __bitmap_xor(unsigned long *dst, const unsigned long *bitmap1,
++				const unsigned long *bitmap2, unsigned int bits)
++{
++	unsigned int k;
++	unsigned int nr = BITS_TO_LONGS(bits);
++
++	for (k = 0; k < nr; k++)
++		dst[k] = bitmap1[k] ^ bitmap2[k];
++}
+diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/dup.h
+index 8865ffe046d8..8091a5caaeb8 100644
+--- a/tools/testing/vma/include/dup.h
++++ b/tools/testing/vma/include/dup.h
+@@ -422,6 +422,13 @@ struct vma_iterator {
+ #define MAPCOUNT_ELF_CORE_MARGIN	(5)
+ #define DEFAULT_MAX_MAP_COUNT	(USHRT_MAX - MAPCOUNT_ELF_CORE_MARGIN)
+
++static __always_inline bool vma_flags_empty(const vma_flags_t *flags)
++{
++	const unsigned long *bitmap = flags->__vma_flags;
++
++	return bitmap_empty(bitmap, NUM_VMA_FLAG_BITS);
++}
++
+ /* What action should be taken after an .mmap_prepare call is complete? */
+ enum mmap_action_type {
+ 	MMAP_NOTHING,		/* Mapping is complete, no further action. */
+@@ -855,6 +862,21 @@ static __always_inline bool vma_flags_test(const vma_flags_t *flags,
+ 	return test_bit((__force int)bit, bitmap);
+ }
+
++static __always_inline vma_flags_t vma_flags_and_mask(const vma_flags_t *flags,
++						      vma_flags_t to_and)
++{
++	vma_flags_t dst;
++	unsigned long *bitmap_dst = dst.__vma_flags;
++	const unsigned long *bitmap = flags->__vma_flags;
++	const unsigned long *bitmap_to_and = to_and.__vma_flags;
++
++	bitmap_and(bitmap_dst, bitmap, bitmap_to_and, NUM_VMA_FLAG_BITS);
++	return dst;
++}
++
++#define vma_flags_and(flags, ...)		\
++	vma_flags_and_mask(flags, mk_vma_flags(__VA_ARGS__))
++
+ static __always_inline bool vma_flags_test_any_mask(const vma_flags_t *flags,
+ 		vma_flags_t to_test)
+ {
+@@ -901,8 +923,20 @@ static __always_inline void vma_flags_clear_mask(vma_flags_t *flags, vma_flags_t
+ #define vma_flags_clear(flags, ...) \
+ 	vma_flags_clear_mask(flags, mk_vma_flags(__VA_ARGS__))
+
++static __always_inline vma_flags_t vma_flags_diff_pair(const vma_flags_t *flags,
++		const vma_flags_t *flags_other)
++{
++	vma_flags_t dst;
++	const unsigned long *bitmap_other = flags_other->__vma_flags;
++	const unsigned long *bitmap = flags->__vma_flags;
++	unsigned long *bitmap_dst = dst.__vma_flags;
++
++	bitmap_xor(bitmap_dst, bitmap, bitmap_other, NUM_VMA_FLAG_BITS);
++	return dst;
++}
++
+ static inline bool vma_test_all_mask(const struct vm_area_struct *vma,
+-					   vma_flags_t flags)
++				     vma_flags_t flags)
+ {
+ 	return vma_flags_test_all_mask(&vma->flags, flags);
+ }
+--
+2.53.0
 
 _______________________________________________
 linux-snps-arc mailing list
