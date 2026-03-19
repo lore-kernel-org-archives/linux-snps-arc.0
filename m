@@ -4,82 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0794A1090255
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 19 Mar 2026 16:50:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 023481075270
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 19 Mar 2026 17:20:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=H8DVwWXHUb9VrJdUHnhpoZOaz64ddoIGk88JiHl5Eaw=; b=V3Nd2UAf+Zd8pU
-	6cXrZl+zUlRaaDT8BDDRyVoEeo8OM0KoEjXr1uqV4VCw1noQURsdPOpSW45Nd1hA1uJfJ+eFjmMa1
-	2ewuDHjVicyi0V0ubcewAlHRb2sup4Z3GEoIjHpxs8+sD2Q+gjW2PjCFSXCgFmMzgvlM4asRXBnrz
-	sq56RlEsMPIMs+5YF1fW5fuK4P4bZ7d/vHZxTNYnIu16zxvVuk9SEhk8PY0Kh1Vr9vORHpZQuwqgx
-	bIiHTaNJQdl5y/r8d1ikElKwoK5fnra4w1VMqHMxkHvi0M0QvbEzhxjXBQfBCTAKRKSr9v4rgdoOd
-	7xpn8i7wjntkRWr5p/pg==;
+	List-Owner; bh=SHh2JT+uKEThqCpsrL0f4tuP9VPB3GpjwQ15C2C+Plg=; b=1lm+8xDQPOOO3B
+	ligybBZNU3HvCXKa9E61UEMCWTOHl6MlWNCjjGSgaA56GgE/2jYkx4lRa1BW+dlbMaoKNX2QPCqAB
+	KoMBdFI3FG1e2kh1NlrFlF3ffUoCPFoSJBGO0M9qlW8MJGkmPVWnS6JQFoTuJUwE40JXDn0eLCby8
+	Ve8sUTG/XMILlnlv2zosj/YFkQzS+nUgcps6UuVcelPSfo4NThEyZZjk+pcMbomhTisWvAmXBuMQX
+	wf5A2caAr65JThixgMsfN2GckwRJw4TMx/jgRRHQ3kplbI7lERL64+SD1GFrfPNruALK+EDtqAYKS
+	bAZxjygbnJN+RIkgcwMQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w3GZn-0000000B75x-2YKO;
-	Thu, 19 Mar 2026 16:50:27 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1w3H33-0000000BBce-2NMv;
+	Thu, 19 Mar 2026 17:20:41 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w3GZl-0000000B75M-3Dt8;
-	Thu, 19 Mar 2026 16:50:25 +0000
+	id 1w3H30-0000000BBbN-1Fxd;
+	Thu, 19 Mar 2026 17:20:39 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 7AA6760097;
-	Thu, 19 Mar 2026 16:50:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41945C19424;
-	Thu, 19 Mar 2026 16:50:11 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 6B1244180A;
+	Thu, 19 Mar 2026 17:20:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E73FCC19425;
+	Thu, 19 Mar 2026 17:20:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773939024;
-	bh=ySKX/SdqeoTiP9pwQcgZ94qbw5sb0oTPtV3x6ZUzB64=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YgTWHgcwTFKs1gBYxdYW33eFt5gNoD63sWPX8mdYVejWbKUuDdrFkJsiURNl6lSLi
-	 XYkJpx/wRyyEkQGRCONtUVwp8dlhSmjpJmDCO67CtepROdANquLF914vAvs8F03t4f
-	 bTPzUwW9A/1agL8G//3eqOLaaV9TNMSiL0J0t6/c4zk5axQdTYHz2ZOVPKnbSwlk6K
-	 qocxlmnDCy6A8nO8NHNs/bLSd9OhmFGiAmqwSf3sFUuUX0nCndmYw9sGuphDXOX2tS
-	 i4TA+BApsD8Pt+tqXbprswARO/rjXi7FaX5y7BenKplS9DF3okpkWVua6BEbY/FEZi
-	 KOJGjMYMEW9VA==
-Date: Thu, 19 Mar 2026 16:50:08 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Kees Cook <kees@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Brian Cain <bcain@kernel.org>, 
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Dinh Nguyen <dinguyen@kernel.org>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>, 
-	Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
-	Johannes Berg <johannes@sipsolutions.net>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Xu Xin <xu.xin16@zte.com.cn>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@suse.com>, Paul Moore <paul@paul-moore.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev, linux-mips@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org
-Subject: Re: [PATCH v2 01/23] mm/vma: add vma_flags_empty(), vma_flags_and(),
- vma_flags_diff_pair()
-Message-ID: <3cf675e3-d333-45f1-bcf9-466c7b16f916@lucifer.local>
-References: <cover.1773665966.git.ljs@kernel.org>
- <ede9b0f8a2e2dc72e7fbc1a0ddbeb513364c28a2.1773665966.git.ljs@kernel.org>
- <4620167c-bcfe-414b-85f6-a5d28563b9af@kernel.org>
+	s=k20201202; t=1773940837;
+	bh=7WKgNaoLHZy+p07zFzG+uBXisQ4HbwxhhgHjiSoiZqk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ffSI6bz53zQJuafJNtvM0FXrQJK6TSoiAy3TsE/OHG+oBO774YE9Uq3ERY0vLajMq
+	 foC9QTSU4NBbGhonH60yk0rap8lV3ZJiY0EdZg4ohtjFxDdP03WSSuv7FxOfb2gNRf
+	 4Tk0tb7MTeJ/T9jngjYvWOB7yaJiVrqkxSsZr8VaEiHU45hzdr+GUo5kh19vXtO0bW
+	 q9aU3TOVflRNsW/UNdynX4mjKb683rFQGdGwpblrX7NCqBLWvGBpQLTxS9zEs4EM+S
+	 6Jfsi2AkaiHj/WZ4zV6R2NgeHtz6Hh0jtHlsQEY+sWmOdz5CYdHv4iR/em4M/Sr5Ei
+	 2g4iqlwGBs5oQ==
+Message-ID: <50ff8894-3013-48e3-91ae-e96499ac394b@kernel.org>
+Date: Thu, 19 Mar 2026 18:20:23 +0100
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <4620167c-bcfe-414b-85f6-a5d28563b9af@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 07/23] mm/vma: add append_vma_flags() helper
+Content-Language: en-US
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Kees Cook <kees@kernel.org>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Brian Cain <bcain@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ WANG Xuerui <kernel@xen0n.name>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Dinh Nguyen <dinguyen@kernel.org>, Madhavan Srinivasan
+ <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>,
+ Michal Hocko <mhocko@suse.com>, Paul Moore <paul@paul-moore.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Ondrej Mosnacek <omosnace@redhat.com>, linux-snps-arc@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org
+References: <cover.1773846935.git.ljs@kernel.org>
+ <868641e2dbf62e3e04108a0b8092df25c250e3b9.1773846935.git.ljs@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+In-Reply-To: <868641e2dbf62e3e04108a0b8092df25c250e3b9.1773846935.git.ljs@kernel.org>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260319_102038_381037_200B3EE1 
+X-CRM114-Status: GOOD (  10.07  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,42 +107,22 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 18, 2026 at 03:40:45PM +0100, Vlastimil Babka (SUSE) wrote:
-> On 3/16/26 14:07, Lorenzo Stoakes (Oracle) wrote:
-> > Firstly, add the ability to determine if VMA flags are empty, that is no
-> > flags are set in a vma_flags_t value.
-> >
-> > Next, add the ability to obtain the equivalent of the bitwise and of two
-> > vma_flags_t values, via vma_flags_and().
->
-> Nit: "two values" is vma_flags_and_mask(), while vma_flags_and() takes one
-> value and list of flags, no?
+On 3/18/26 16:50, Lorenzo Stoakes (Oracle) wrote:
+> In order to be able to efficiently combine VMA flag masks with additional
+> VMA flag bits we need to extend the concept introduced in mk_vma_flags()
+> and __mk_vma_flags() by allowing the specification of a VMA flag mask to
+> append VMA flag bits to.
+> 
+> Update __mk_vma_flags() to allow for this and update mk_vma_flags()
+> accordingly, and also provide append_vma_flags() to allow for the caller
+> to specify which VMA flags mask to append to.
+> 
+> Finally, update the VMA flags tests to reflect the change.
+> 
+> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 
-Sorry missed this. Yeah should be 'via vma_flags_and_mask()', or a better
-description of vma_flags_and() :)
+Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
->
-> > Next, add the ability to obtain the difference between two sets of VMA
-> > flags, that is the equivalent to the exclusive bitwise OR of the two sets
-> > of flags, via vma_flags_diff_pair().
-> >
-> > vma_flags_xxx_mask() typically operates on a pointer to a vma_flags_t
-> > value, which is assumed to be an lvalue of some kind (such as a field in a
-> > struct or a stack variable) and an rvalue of some kind (typically a
-> > constant set of VMA flags obtained e.g. via mk_vma_flags() or equivalent).
-> >
-> > However vma_flags_diff_pair() is intended to operate on two lvalues, so use
-> > the _pair() suffix to make this clear.
-> >
-> > Finally, update VMA userland tests to add these helpers.
-> >
-> > We also port bitmap_xor() and __bitmap_xor() to the tools/ headers and
-> > source to allow the tests to work with vma_flags_diff_pair().
-> >
-> > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
->
-> Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
->
 
 _______________________________________________
 linux-snps-arc mailing list
