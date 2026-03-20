@@ -4,43 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF0B11099B3C
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 20 Mar 2026 19:39:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E6C11099B3E
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 20 Mar 2026 19:39:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=SSgT5XX6ThDJ56JcLEOH3Y1NlUP4SwjLGPlil8Xxgw4=; b=LS5LAwoRalXzj/
-	gWRkrUurSM4fxoGsPL0iVI3w4CC1N24sjNeMHGWrfAVzdNUqjOIbMChOBqi7rRfj0JuQpf0GC91TU
-	atYaUECeU8KnWaOzzDO2DX2XP3yKBJjxyVNw/FDmrkb/GlYlinsD2lxu7PENCqhNF4vKchTV7mVam
-	YZkoJVIsCRo/cdeWwNHZj7uGXT+LjCFjIkL6sv4mO3r4NRqwusvwuKXrKj9GK4qGgniToT7GMeck5
-	yT1RNHpt2pMt7+Qvk1Oy0vAENJ94f8ScR+U8SniwTTJLX1CLQbAswpfksShAwFFhwtY8kit5NSnqO
-	T8qRjj1Hj5tGQx8w7ogw==;
+	List-Owner; bh=jrI0dO2UEJuq1JYJJ8s607oPn4ksbTlenuQPTGJ2bgc=; b=Y7aeMIvU0r1hsr
+	cO1Gl4PfXa3lBAaeZOPue4xNA4bVc+pdJ6S9RGyYH5QHFWAdSYjLkw2keZAcv1chgdGHdDTEHGk0f
+	IlKFbC5o4mp6yd1gvD3ugtPOHjWF2KLcVVqEucFF6MzLozSqGX7RyI4G8aG0JAa0gF7VbTMQtGmuF
+	d3GY/Leuj3cLTIuT/xCMJP/PIzCpE2uwwyyE7MoOOC5aVlkf959z7VGihg3NcTt0aDF7kLi0jsRjY
+	gamTMkLC83XHMoAM+GnDACw8mB6zqrzKg+fVsEq9agvbBCNXYbp9Af562PmmA4CQ12l5cFiTydnvn
+	y1usvCEfqM2SGxi+dcww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w3fgn-0000000DTZU-2kmU;
-	Fri, 20 Mar 2026 19:39:21 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1w3fgo-0000000DTbv-419F;
+	Fri, 20 Mar 2026 19:39:22 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w3fge-0000000DTNt-1VlY;
+	id 1w3fgi-0000000DTRg-1Rdv;
+	Fri, 20 Mar 2026 19:39:16 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=7Bh1w+z0JWOqUddQi7wko3Cw3Y50TUDCTLtrQm/GK+I=; b=HfIcdnS1bwbtaFbEO+zEzWwmh4
+	IlU0Z3BRq/Tjvm5uZJYatAKF3Q7J1d2Z3zE0SkeHwTsr5Jv/V/UOcldv9mt8/K5U+kd/snsMTU74d
+	gZY8tEHBHtWXntxBLreRKf+FuabQlvyAiRG6ecB2NiFrzotVOZ+5scHAvYBDNIh+mVJJ8s/GK92SW
+	RigD48Pw/MSbGFLXSkULLYEyDLMmMEXYsVKkPMoWO773VeDHwwIVM4yuM4AR/UFJ7vneIJAjZ24Ek
+	o71hvmQnqPuKu9zPAd4/o53kEoeRErlG0nmkBOifaYFentaYzS7+FhOqYEj4nXsIotzNhsX8DU80M
+	5Oi+kWEw==;
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	by casper.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w3fge-00000008Gla-3PoA;
 	Fri, 20 Mar 2026 19:39:15 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id D349C400CE;
-	Fri, 20 Mar 2026 19:39:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FE2FC19425;
-	Fri, 20 Mar 2026 19:39:11 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id A2A0840A5D;
+	Fri, 20 Mar 2026 19:39:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0929DC2BCB0;
+	Fri, 20 Mar 2026 19:39:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774035551;
-	bh=lxWfA+t9zzqjUdufUd1GoiM48lK3fJwyqfSRLCG77ro=;
+	s=k20201202; t=1774035547;
+	bh=86x1e2KlqpteSaaM7lejP1Bl+dRpcwhLokvktrA9jqY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lpAQUmdy3kgCqV/DDmFMnnZRjXoNAbs/BsNWZ+K0NoSYku9PqAhb2cykSq5iWBG1l
-	 JvOTJHZtZswImdZxa8eLnCY+1N5PeGjAIS5K3BxtBGyeu3R7ht0+Ppuq/Mc50fMpxS
-	 iuFJqqfY7xOSlNw+79DoCKgp+EAGa79eY27hDApsJoCETY+/9FcUljejok72YO5obI
-	 yWlUx+bxQan63XtiSTYdzVqJyuWJh2L2qBUHTUpo0qcY+fS7yH5jAeAfglZZDcwzRw
-	 9SKCWACa/HCKMiMunraFqBWV0oyVtNm666sTvGctVHd4l9q2gPrM0aQ1RoAqtQivfT
-	 szMXMGmvK6KLA==
+	b=Uhu53cZC/i9jnIgNtZl9DHyCJPNP7M2+7D0KPd9H0fOR7q4bemzt8shuQyEUWwhgw
+	 1ceG+HynjH/FwHZBb0jwxNV8M1Q8u6YMdqWyVhbOh8oWKDv5uQ4TGn6HzZegbrrAqH
+	 4TZ1iaZ6kqLTGCKwcLPz/ya6pD3aVyEPJTuAeq1ihituF+qqu/HxmZnuwCKmTMcuKw
+	 7SqEgTRKI6Q9dEnoOjZp4wk31l0zJ8YG/iHBXji2ff9HJpgBY20Q6q9JQccuLxQsOQ
+	 hGqeIqAOlGLcNYOfBJ7exBVzVbmnejqpV+UXJ5zxhlED6Nvu0YgE/UA8CGIIK7x8cD
+	 +7qbaWZY4pG/g==
 From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: David Hildenbrand <david@kernel.org>,
@@ -104,16 +118,16 @@ Cc: David Hildenbrand <david@kernel.org>,
 	linux-um@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org,
 	selinux@vger.kernel.org
-Subject: [PATCH v4 11/25] mm/vma: introduce [vma_flags,legacy]_to_[legacy,vma_flags]() helpers
-Date: Fri, 20 Mar 2026 19:38:28 +0000
-Message-ID: <d3569470dbb3ae79134ca7c3eb3fc4df7086e874.1774034900.git.ljs@kernel.org>
+Subject: [PATCH v4 09/25] mm: unexport vm_brk_flags() and eliminate vm_flags parameter
+Date: Fri, 20 Mar 2026 19:38:26 +0000
+Message-ID: <7bada48ddf3f9dbd3e6c4fc50ec2f4de97706f52.1774034900.git.ljs@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1774034900.git.ljs@kernel.org>
 References: <cover.1774034900.git.ljs@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260320_123912_447414_B8D649A8 
-X-CRM114-Status: GOOD (  14.49  )
+X-CRM114-CacheID: sfid-20260320_193913_189207_E532E0AA 
+X-CRM114-Status: GOOD (  14.62  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -130,144 +144,102 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-While we are still converting VMA flags from vma_flags_t to vm_flags_t,
-introduce helpers to convert between the two to allow for iterative
-development without having to 'change the world' in a single commit'.
+This function is only used by elf_load(), and that is a static function
+that doesn't need an exported symbol to invoke an internal function, so
+un-EXPORT_SYMBOLS() it.
 
-Also update VMA flags tests to reflect the change.
+Also, the vm_flags parameter is unnecessary, as we only ever set VM_EXEC,
+so simply make this parameter a boolean.
 
-Finally, refresh vma_flags_overwrite_word(),
-vma_flag_overwrite_word_once(), vma_flags_set_word() and
-vma_flags_clear_word() in the VMA tests to reflect current kernel
-implementations - this should make no functional difference, but keeps the
-logic consistent between the two.
+While we're here, clean up the mm.h definitions for the various vm_xxx()
+helpers so we actually specify parameter names and elide the redundant
+extern's.
 
 Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 ---
- include/linux/mm_types.h        | 26 ++++++++++++++++++++++++
- tools/testing/vma/include/dup.h | 36 +++++++++++++++++++++++++++++----
- 2 files changed, 58 insertions(+), 4 deletions(-)
+ fs/binfmt_elf.c    |  3 +--
+ include/linux/mm.h | 12 ++++++------
+ mm/mmap.c          |  8 ++------
+ 3 files changed, 9 insertions(+), 14 deletions(-)
 
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index 47d64057b74c..c5ad55b8a45b 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -1069,6 +1069,18 @@ static __always_inline void vma_flags_clear_all(vma_flags_t *flags)
- 	bitmap_zero(flags->__vma_flags, NUM_VMA_FLAG_BITS);
+diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
+index fb857faaf0d6..16a56b6b3f6c 100644
+--- a/fs/binfmt_elf.c
++++ b/fs/binfmt_elf.c
+@@ -453,14 +453,13 @@ static unsigned long elf_load(struct file *filep, unsigned long addr,
+ 		zero_end = ELF_PAGEALIGN(zero_end);
+ 
+ 		error = vm_brk_flags(zero_start, zero_end - zero_start,
+-				     prot & PROT_EXEC ? VM_EXEC : 0);
++				     prot & PROT_EXEC);
+ 		if (error)
+ 			map_addr = error;
+ 	}
+ 	return map_addr;
  }
  
-+/*
-+ * Helper function which converts a vma_flags_t value to a legacy vm_flags_t
-+ * value. This is only valid if the input flags value can be expressed in a
-+ * system word.
-+ *
-+ * Will be removed once the conversion to VMA flags is complete.
-+ */
-+static __always_inline vm_flags_t vma_flags_to_legacy(vma_flags_t flags)
-+{
-+	return (vm_flags_t)flags.__vma_flags[0];
-+}
-+
- /*
-  * Copy value to the first system word of VMA flags, non-atomically.
-  *
-@@ -1082,6 +1094,20 @@ static inline void vma_flags_overwrite_word(vma_flags_t *flags, unsigned long va
- 	bitmap[0] = value;
- }
- 
-+/*
-+ * Helper function which converts a legacy vm_flags_t value to a vma_flags_t
-+ * value.
-+ *
-+ * Will be removed once the conversion to VMA flags is complete.
-+ */
-+static __always_inline vma_flags_t legacy_to_vma_flags(vm_flags_t flags)
-+{
-+	vma_flags_t ret = EMPTY_VMA_FLAGS;
-+
-+	vma_flags_overwrite_word(&ret, flags);
-+	return ret;
-+}
-+
- /*
-  * Copy value to the first system word of VMA flags ONCE, non-atomically.
-  *
-diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/dup.h
-index 65f630923461..f49af21319ba 100644
---- a/tools/testing/vma/include/dup.h
-+++ b/tools/testing/vma/include/dup.h
-@@ -766,7 +766,9 @@ static inline bool mm_flags_test(int flag, const struct mm_struct *mm)
-  */
- static inline void vma_flags_overwrite_word(vma_flags_t *flags, unsigned long value)
+-
+ static unsigned long total_mapping_size(const struct elf_phdr *phdr, int nr)
  {
--	*ACCESS_PRIVATE(flags, __vma_flags) = value;
-+	unsigned long *bitmap = flags->__vma_flags;
-+
-+	bitmap[0] = value;
+ 	elf_addr_t min_addr = -1;
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 0c35423177bf..42d346684678 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -4005,12 +4005,12 @@ static inline void mm_populate(unsigned long addr, unsigned long len) {}
+ #endif
+ 
+ /* This takes the mm semaphore itself */
+-extern int __must_check vm_brk_flags(unsigned long, unsigned long, unsigned long);
+-extern int vm_munmap(unsigned long, size_t);
+-extern unsigned long __must_check vm_mmap(struct file *, unsigned long,
+-        unsigned long, unsigned long,
+-        unsigned long, unsigned long);
+-extern unsigned long __must_check vm_mmap_shadow_stack(unsigned long addr,
++int __must_check vm_brk_flags(unsigned long addr, unsigned long request, bool is_exec);
++int vm_munmap(unsigned long start, size_t len);
++unsigned long __must_check vm_mmap(struct file *file, unsigned long addr,
++		unsigned long len, unsigned long prot,
++		unsigned long flag, unsigned long offset);
++unsigned long __must_check vm_mmap_shadow_stack(unsigned long addr,
+ 		unsigned long len, unsigned long flags);
+ 
+ struct vm_unmapped_area_info {
+diff --git a/mm/mmap.c b/mm/mmap.c
+index 79544d893411..2d2b814978bf 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -1201,8 +1201,9 @@ SYSCALL_DEFINE5(remap_file_pages, unsigned long, start, unsigned long, size,
+ 	return ret;
  }
  
- /*
-@@ -777,7 +779,7 @@ static inline void vma_flags_overwrite_word(vma_flags_t *flags, unsigned long va
-  */
- static inline void vma_flags_overwrite_word_once(vma_flags_t *flags, unsigned long value)
+-int vm_brk_flags(unsigned long addr, unsigned long request, vm_flags_t vm_flags)
++int vm_brk_flags(unsigned long addr, unsigned long request, bool is_exec)
  {
--	unsigned long *bitmap = ACCESS_PRIVATE(flags, __vma_flags);
-+	unsigned long *bitmap = flags->__vma_flags;
++	const vm_flags_t vm_flags = is_exec ? VM_EXEC : 0;
+ 	struct mm_struct *mm = current->mm;
+ 	struct vm_area_struct *vma = NULL;
+ 	unsigned long len;
+@@ -1217,10 +1218,6 @@ int vm_brk_flags(unsigned long addr, unsigned long request, vm_flags_t vm_flags)
+ 	if (!len)
+ 		return 0;
  
- 	WRITE_ONCE(*bitmap, value);
- }
-@@ -785,7 +787,7 @@ static inline void vma_flags_overwrite_word_once(vma_flags_t *flags, unsigned lo
- /* Update the first system word of VMA flags setting bits, non-atomically. */
- static inline void vma_flags_set_word(vma_flags_t *flags, unsigned long value)
- {
--	unsigned long *bitmap = ACCESS_PRIVATE(flags, __vma_flags);
-+	unsigned long *bitmap = flags->__vma_flags;
+-	/* Until we need other flags, refuse anything except VM_EXEC. */
+-	if ((vm_flags & (~VM_EXEC)) != 0)
+-		return -EINVAL;
+-
+ 	if (mmap_write_lock_killable(mm))
+ 		return -EINTR;
  
- 	*bitmap |= value;
+@@ -1246,7 +1243,6 @@ int vm_brk_flags(unsigned long addr, unsigned long request, vm_flags_t vm_flags)
+ 	mmap_write_unlock(mm);
+ 	return ret;
  }
-@@ -793,7 +795,7 @@ static inline void vma_flags_set_word(vma_flags_t *flags, unsigned long value)
- /* Update the first system word of VMA flags clearing bits, non-atomically. */
- static inline void vma_flags_clear_word(vma_flags_t *flags, unsigned long value)
- {
--	unsigned long *bitmap = ACCESS_PRIVATE(flags, __vma_flags);
-+	unsigned long *bitmap = flags->__vma_flags;
+-EXPORT_SYMBOL(vm_brk_flags);
  
- 	*bitmap &= ~value;
- }
-@@ -803,6 +805,32 @@ static __always_inline void vma_flags_clear_all(vma_flags_t *flags)
- 	bitmap_zero(ACCESS_PRIVATE(flags, __vma_flags), NUM_VMA_FLAG_BITS);
- }
- 
-+/*
-+ * Helper function which converts a vma_flags_t value to a legacy vm_flags_t
-+ * value. This is only valid if the input flags value can be expressed in a
-+ * system word.
-+ *
-+ * Will be removed once the conversion to VMA flags is complete.
-+ */
-+static __always_inline vm_flags_t vma_flags_to_legacy(vma_flags_t flags)
-+{
-+	return (vm_flags_t)flags.__vma_flags[0];
-+}
-+
-+/*
-+ * Helper function which converts a legacy vm_flags_t value to a vma_flags_t
-+ * value.
-+ *
-+ * Will be removed once the conversion to VMA flags is complete.
-+ */
-+static __always_inline vma_flags_t legacy_to_vma_flags(vm_flags_t flags)
-+{
-+	vma_flags_t ret = EMPTY_VMA_FLAGS;
-+
-+	vma_flags_overwrite_word(&ret, flags);
-+	return ret;
-+}
-+
- static __always_inline void vma_flags_set_flag(vma_flags_t *flags,
- 		vma_flag_t bit)
- {
+ static
+ unsigned long tear_down_vmas(struct mm_struct *mm, struct vma_iterator *vmi,
 -- 
 2.53.0
 
