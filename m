@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D4511099B3D
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 20 Mar 2026 19:39:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7EEA1099B37
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 20 Mar 2026 19:39:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=cDO9WlPHsRM7AZP2BuN1sS3kPak34QXAST22BD8u3RM=; b=QGFlCyIRRxrqoG
-	uOkuXy4S4BjVO+FPzhQcNvS3Esht4PZEd+T1N8x1tsYkeZda+McSReSCDZxfIqYcgroiWcgSAdZHO
-	g9N4PGFgfYrUorS+0GhxlUrZqLlD04KSGamMKq1jKUH5hLCCJc5k+byKVp428WfFXykK6IajaYYF3
-	9jXVPBZNHqbu0YJE8MxLIwIjwgcRXzVzqXcdQCAyhHlORUndI3VO2gOa3VCX2y27Zm29iu8SvFurU
-	X5jVQrVT51HkjN7gQcihg8Su6jucNxL0a0KzLKZhfpl2wKlV+BPzlE6ERRnR5j8sETiTN3dKL0ASp
-	dj+Oyyw8vQdGRmxoNpWw==;
+	List-Owner; bh=krK89Q8FbGuklIkUc/utiKBAiJyCBbM7Yxep9nljvo0=; b=r2Q4wgoFByy5gY
+	tOoLru9eBMpCP5/a5BdFdmTS8JAjZ7JdNdnkJQWfeB6feOPX8B/i3XZh5j/k+z6vg8DdRsuL7ZXzg
+	J1pRrq2Qz54Tbu5iKviau/0HVy1LJyenvHMBMZC3lRcrmtYb5uq4/qVx5tVvB4PqpYaOiSbRD5F7C
+	oi5wGVk7M7j0o9TIA4SG7j1WTaYROy/cKtEIg1jPxrJN2gsbm2fNshYjuQwnhnggph46bUgtHRxPf
+	Sihju7gwjTTfCBc7AyMuBT1kC3O+VdEHoZN6s+xxuLnumq0HrqUc8xrHmTL4amro50FMgA9G0TM7w
+	/OP5XnSVfJWO3CmyefOw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w3fgf-0000000DTPO-3DwE;
-	Fri, 20 Mar 2026 19:39:13 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1w3fgo-0000000DTai-1XJm;
+	Fri, 20 Mar 2026 19:39:22 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w3fgc-0000000DTMC-0Pnh;
-	Fri, 20 Mar 2026 19:39:11 +0000
+	id 1w3fgg-0000000DTQN-2TJs;
+	Fri, 20 Mar 2026 19:39:17 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id A361240AE1;
-	Fri, 20 Mar 2026 19:39:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C1B1C19425;
-	Fri, 20 Mar 2026 19:39:09 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 1489D43420;
+	Fri, 20 Mar 2026 19:39:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75CADC2BC9E;
+	Fri, 20 Mar 2026 19:39:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774035549;
-	bh=9aWXzHQRv4gbTjT9rqsyf0H1rogJGGwItdb5fmQ3ask=;
+	s=k20201202; t=1774035553;
+	bh=LrLBS64c+lmBUJM2XbvLHLJnGjK9/zMfbb5TL2UTCws=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=A8fVFJ3GCBEUnRthGRP1kE/0URQNcl+KsRUsadd+fIhbQe/2gfYOv2D5S6mV0FVNZ
-	 IqByOoFx7gjlJH8WMXXirBT0TLE71Xaz7p3bBKO2IbHx1lWWFZj1nAedZ1DZN2fB3K
-	 BwlR7td0TPqdBqMNbeWCVoPUdCXxwwoNW1Nw9yUZyKVkBywUnZquLJ4ohjmSFySN6r
-	 7AGiYC8+L/ouGqqrMeqCtyGU6zBcUM0LT5S8L7egr7xFVMOju9p4zYJrNsSsk7SXqw
-	 SdHetqFtTo5raiZKWGQELIBuTzc51Mq23jvzKPe/a463OBWqpA4GP30daza6Swf3tW
-	 UthlC5Piprkdw==
+	b=n9G5RfleSKlgF5IOVA2zXMw7RB/0EsB8jsXdwJANrb3vkQfRndWlRknI8JoQlRPuv
+	 zgCX6aDwrYZVTz75jLr+KIPFYcBrUDvMT9XX7hAb4vlckyEtjaKsjouuzE4QE6Dcl1
+	 o2HwpJagChgQY9sNvxa2V3D81uvsfl9/SrEthaNA3o+Sr88oot/AuaCYgDeBFOySyl
+	 q6XeWSPRQJ3LJkLYxCqrpBHPF/1/0pG+jUNSe8+4vHsB1eeoQfAb1rWhYw6UW/7T+1
+	 OvSzcnuLb+EqzJMxiNiIU7Wkgy6v68h8V5rWxiRLmLjJMLfpRprBXEC9xhv69y4Xd8
+	 BPa+YjeIoj8Pg==
 From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: David Hildenbrand <david@kernel.org>,
@@ -104,16 +104,17 @@ Cc: David Hildenbrand <david@kernel.org>,
 	linux-um@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org,
 	selinux@vger.kernel.org
-Subject: [PATCH v4 10/25] mm/vma: introduce vma_flags_same[_mask/_pair]()
-Date: Fri, 20 Mar 2026 19:38:27 +0000
-Message-ID: <4f764bf619e77205837c7c819b62139ef6337ca3.1774034900.git.ljs@kernel.org>
+Subject: [PATCH v4 12/25] tools/testing/vma: test that legacy flag helpers work correctly
+Date: Fri, 20 Mar 2026 19:38:29 +0000
+Message-ID: <3374e50053adb65818fde948ae3488e1e29ae8b1.1774034900.git.ljs@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1774034900.git.ljs@kernel.org>
 References: <cover.1774034900.git.ljs@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260320_123910_188313_9EE6B7B7 
-X-CRM114-Status: GOOD (  13.99  )
+X-CRM114-CacheID: sfid-20260320_123914_671492_F25DC28F 
+X-CRM114-Status: UNSURE (   9.21  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -130,117 +131,38 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Add helpers to determine if two sets of VMA flags are precisely the same,
-that is - that every flag set one is set in another, and neither contain
-any flags not set in the other.
+Update the existing compare_legacy_flags() predicate function to assert
+that legacy_to_vma_flags() and vma_flags_to_legacy() behave as expected.
 
-We also introduce vma_flags_same_pair() for cases where we want to compare
-two sets of VMA flags which are both non-const values.
-
-Also update the VMA tests to reflect the change, we already implicitly
-test that this functions correctly having used it for testing purposes
-previously.
-
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 ---
- include/linux/mm.h                 | 28 ++++++++++++++++++++++++++++
- tools/testing/vma/include/custom.h | 11 -----------
- tools/testing/vma/include/dup.h    | 21 +++++++++++++++++++++
- 3 files changed, 49 insertions(+), 11 deletions(-)
+ tools/testing/vma/tests/vma.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 42d346684678..b170cee95e25 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -1207,6 +1207,34 @@ static __always_inline vma_flags_t vma_flags_diff_pair(const vma_flags_t *flags,
- 	return dst;
+diff --git a/tools/testing/vma/tests/vma.c b/tools/testing/vma/tests/vma.c
+index 98e465fb1bf2..1fae25170ff7 100644
+--- a/tools/testing/vma/tests/vma.c
++++ b/tools/testing/vma/tests/vma.c
+@@ -5,6 +5,7 @@ static bool compare_legacy_flags(vm_flags_t legacy_flags, vma_flags_t flags)
+ 	const unsigned long legacy_val = legacy_flags;
+ 	/* The lower word should contain the precise same value. */
+ 	const unsigned long flags_lower = flags.__vma_flags[0];
++	vma_flags_t converted_flags;
+ #if NUM_VMA_FLAG_BITS > BITS_PER_LONG
+ 	int i;
+ 
+@@ -17,6 +18,11 @@ static bool compare_legacy_flags(vm_flags_t legacy_flags, vma_flags_t flags)
+ 
+ 	static_assert(sizeof(legacy_flags) == sizeof(unsigned long));
+ 
++	/* Assert that legacy flag helpers work correctly. */
++	converted_flags = legacy_to_vma_flags(legacy_flags);
++	ASSERT_FLAGS_SAME_MASK(&converted_flags, flags);
++	ASSERT_EQ(vma_flags_to_legacy(flags), legacy_flags);
++
+ 	return legacy_val == flags_lower;
  }
  
-+/* Determine if flags and flags_other have precisely the same flags set. */
-+static __always_inline bool vma_flags_same_pair(const vma_flags_t *flags,
-+						const vma_flags_t *flags_other)
-+{
-+	const unsigned long *bitmap = flags->__vma_flags;
-+	const unsigned long *bitmap_other = flags_other->__vma_flags;
-+
-+	return bitmap_equal(bitmap, bitmap_other, NUM_VMA_FLAG_BITS);
-+}
-+
-+/* Determine if flags and flags_other have precisely the same flags set.  */
-+static __always_inline bool vma_flags_same_mask(const vma_flags_t *flags,
-+						vma_flags_t flags_other)
-+{
-+	const unsigned long *bitmap = flags->__vma_flags;
-+	const unsigned long *bitmap_other = flags_other.__vma_flags;
-+
-+	return bitmap_equal(bitmap, bitmap_other, NUM_VMA_FLAG_BITS);
-+}
-+
-+/*
-+ * Helper macro to determine if only the specific flags are set, e.g.:
-+ *
-+ * if (vma_flags_same(&flags, VMA_WRITE_BIT) { ... }
-+ */
-+#define vma_flags_same(flags, ...) \
-+	vma_flags_same_mask(flags, mk_vma_flags(__VA_ARGS__))
-+
- /*
-  * Helper to test that ALL specified flags are set in a VMA.
-  *
-diff --git a/tools/testing/vma/include/custom.h b/tools/testing/vma/include/custom.h
-index 8f33df02816a..2c498e713fbd 100644
---- a/tools/testing/vma/include/custom.h
-+++ b/tools/testing/vma/include/custom.h
-@@ -102,16 +102,5 @@ static inline unsigned long vma_kernel_pagesize(struct vm_area_struct *vma)
- 	return PAGE_SIZE;
- }
- 
--/* Place here until needed in the kernel code. */
--static __always_inline bool vma_flags_same_mask(vma_flags_t *flags,
--						vma_flags_t flags_other)
--{
--	const unsigned long *bitmap = flags->__vma_flags;
--	const unsigned long *bitmap_other = flags_other.__vma_flags;
--
--	return bitmap_equal(bitmap, bitmap_other, NUM_VMA_FLAG_BITS);
--}
--#define vma_flags_same(flags, ...) \
--	vma_flags_same_mask(flags, mk_vma_flags(__VA_ARGS__))
- #define VMA_SPECIAL_FLAGS mk_vma_flags(VMA_IO_BIT, VMA_DONTEXPAND_BIT, \
- 				       VMA_PFNMAP_BIT, VMA_MIXEDMAP_BIT)
-diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/dup.h
-index 802b3d97b627..65f630923461 100644
---- a/tools/testing/vma/include/dup.h
-+++ b/tools/testing/vma/include/dup.h
-@@ -954,6 +954,27 @@ static __always_inline vma_flags_t vma_flags_diff_pair(const vma_flags_t *flags,
- 	return dst;
- }
- 
-+static __always_inline bool vma_flags_same_pair(const vma_flags_t *flags,
-+						const vma_flags_t *flags_other)
-+{
-+	const unsigned long *bitmap = flags->__vma_flags;
-+	const unsigned long *bitmap_other = flags_other->__vma_flags;
-+
-+	return bitmap_equal(bitmap, bitmap_other, NUM_VMA_FLAG_BITS);
-+}
-+
-+static __always_inline bool vma_flags_same_mask(const vma_flags_t *flags,
-+						vma_flags_t flags_other)
-+{
-+	const unsigned long *bitmap = flags->__vma_flags;
-+	const unsigned long *bitmap_other = flags_other.__vma_flags;
-+
-+	return bitmap_equal(bitmap, bitmap_other, NUM_VMA_FLAG_BITS);
-+}
-+
-+#define vma_flags_same(flags, ...) \
-+	vma_flags_same_mask(flags, mk_vma_flags(__VA_ARGS__))
-+
- static inline bool vma_test_all_mask(const struct vm_area_struct *vma,
- 				     vma_flags_t flags)
- {
 -- 
 2.53.0
 
