@@ -4,90 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 114E8F4613C
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 23 Mar 2026 15:51:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7E4CE9A77B
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 24 Mar 2026 12:27:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=XX7fan9KQf6LIdMYh6NNdf0KNz8+IaNuVgMp5pwX12A=; b=R9WAr22Vg/FnXk
-	ze/mU1yee22OtcQ2/eV3S6W0KV9vmL7EmIJMPSQBO3krdwt1IfdfGRYRo24W9POKmUH0OG2QCnf0I
-	4oa/wVBBd1BLXLqXGUF38RVnBOeuZAb4bZEncXB1+WXGQ+fdEHBB3lAg+ykJ+SB8Mzm7TD3sha6IU
-	7yvcUA/tiWnys0ZuCZwWuLiK+TXhz9sLrurloUIrO93hEHKdH9hSIdcWpmNS8Iwj/FtVDj9+cd+ex
-	Dz9hHV8+cCdJ7kicMug5Oj3Q7TTNa35diVI8ua4KjG0m8LohwDWp8MuLxQdxqx3cVy2kY46c8suEG
-	z3rp9E0Jlv9ill67PNmw==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=HodJeqdyNEMVs5KRItAVX8A026286VBtLjdcK7qYFe0=; b=OKXJ8uojiQCvbI
+	rU3xAc4h4DWn+97WEdi0fscw60/4MNAvm46/LZ1LHelHR6ZnfrULBoOz/amTlFWFzHRaTGcDbAAj+
+	SmB41iQgLsLZecYWwWjD7CQkUcrsjsTemZnsjDN9fZZVsAAWFIQDO0wnb1+t+gS25CeHm1XSWYwrA
+	CwViLPYpj5mQDOQU2IEn3KZBCYHsjgLBsBKaFb6dOzetvJun/PndBuMaZnjFtxeiXlC2ugL6iB0Sw
+	r3z/GoFCnWGqshZSjoqf9kKLuNCVO+0cs9zHvnFAh/wFqhHMcBr7HBdNfQyac/6f3yeTRh//f0dBi
+	QdVBczOwomxjbFO4iHVQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w4hZO-0000000H4IE-3Pd3;
-	Mon, 23 Mar 2026 15:51:58 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1w50rA-00000001NMG-0xeu;
+	Tue, 24 Mar 2026 12:27:36 +0000
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w4hZN-0000000H4Hu-00yB;
-	Mon, 23 Mar 2026 15:51:57 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id EE492600C4;
-	Mon, 23 Mar 2026 15:51:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCA5BC4CEF7;
-	Mon, 23 Mar 2026 15:51:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774281115;
-	bh=vZdm4GONA/O1jK4+M6185Q0giqh3AS1i2sFB5Pfd/2Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=o1THjGW87BBZn2ZRvUB/ZbG6Bpk46OGuXu9+rNxgEX1JPplRd0PmhhIVaepJQX2x+
-	 tNfnZZ2oJ/LEW/V1kb+Kd4rSlee9+4uD+RKeGWfnc/xNRMj7aASQw2bbJQ+4aFpnT4
-	 D5oU71wAa1icX022onJ8SXq1egN+wMrKLzs0GkJXDMxvnSocAjVWuUsitbcyyxaQfV
-	 JJXP9c4lBWKh9RLPX/Xy30cKFsVybbnBnhAp26jeybHA0vntxV0OkXb/w0rzQv6/lE
-	 VQ33MGCeDpT2FONGoMZBv7aFNGtJEznzEExGGKYXFQSBLYixZR0A4kZUSTFL4AAduW
-	 zfBJEYhpa4mqQ==
-Message-ID: <47f796ed-ac66-4a75-98c9-64afc8929f35@kernel.org>
-Date: Mon, 23 Mar 2026 16:51:41 +0100
+	id 1w50r7-00000001NLv-31xn
+	for linux-snps-arc@lists.infradead.org;
+	Tue, 24 Mar 2026 12:27:34 +0000
+Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-82a3d3235c9so1111493b3a.2
+        for <linux-snps-arc@lists.infradead.org>; Tue, 24 Mar 2026 05:27:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774355252; x=1774960052; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RwSnjFcjq1oUFhDGo0eVz8ywdnnal2i+ieo63wHrZYg=;
+        b=kCoSlAsyOuOc79pWvv1c9Xx6JS00s0BFihWX33ZmmHbH1kVCivO5Z8kNyjMCJ5tL3I
+         h5waKA9FHab25pxoPfen/yL5ki67HYnUMTD6F4oFAaKlLgipMpTnoeX2HB9oVBOpTdNQ
+         z4hHCkaVOhrv3SbcOBb6IW/Dl7FMWfUwHY//yrxXyvZWX0E58bEFWZSoWExHTcXSlPP0
+         /de0Bm02w20Ew3wo5w5VCDFGCoeVZmMA+BoCq6sBAHWlo5zU2aEH8cb73Dk8LEY/eeRW
+         KBGAVG3uT/qDiw0SZX4DS6nsQ2TQM+b7OuKAcx8hDZ8LWviUoFWILXiTp9Tm7gyNTjbf
+         WXwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774355252; x=1774960052;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RwSnjFcjq1oUFhDGo0eVz8ywdnnal2i+ieo63wHrZYg=;
+        b=FW9Ruf0ncC0guBY7S1APZ7OSPr2yqqC3SiS1EBAivJWy/M42en0m1ZALhwKkqqYjhs
+         0Gi8J6n5fudkscacVldVxhf8uyDhQVPTZ26O2NmmPr8BFNgxjrtY6m6h8PtF4vOPqxWv
+         jbiO8vJV4DxOoThpsV622HLF3AsNJdVEBSA8WYYMkp6zNnpS8nNCBDVTrbalw4A/wvpp
+         es1TOoaa5q7vhwB0D0VzC/TJyLM8pnWrsyblgOumYQWis9f22XYw5xMJq6nnmCFjfw9Z
+         rZejLxgVMRwrdLfWvE6zowPbzs9yae5JW3irdAmka+USTgLQdo3nDpFusXxssB0hX49n
+         94Ww==
+X-Forwarded-Encrypted: i=1; AJvYcCVXmGR2DSKlwHx4Jfv/cV6EKIRQudOp18TSJxc2CJAyionkQViOPD4sRfKK1G1WYsNXdwkj9hXI1nKkPGz8/Q==@lists.infradead.org
+X-Gm-Message-State: AOJu0YzFxFuHwoFvtAs8hkbpsvml6jhK45IuwaVmZCIx6+hIaQ6EaDZY
+	25UbMeUcyAkhfXicxcGgh3ItU/5Svz32fqTenkl8ISR0NXMVxje86myYebKomBG4
+X-Gm-Gg: ATEYQzzAkyHbF9SDAAxAvdl5vOq4UUhnmnclSX+5GRJUnO6sLFjjXv8oGCOyart+X2d
+	te5gQLt2Ph657M+VBZ81Q7U6m3txIvQnj9G1kdByHEKQP6i1DCbCcPzzlSD21wOy1QQokcSKsel
+	kI8Krw2GbKgEC1mvktkQFgtqxyTqZEGrm3fgKvCh5pYbX2FoOQJHu/NjYrNacX8Q89DyUkUh+Rm
+	rMc13utH7SCQ9XqLIPUE+6oXz8J9mm5ezj48+a7DYsyuZZoGt6xTAHCo2jOlqr6jSeyhn5dVF9t
+	elhsWpQ8N82Upjzx5Fv+78Ey61iCuVJaCaLVI/ce4kQb53wiIV+3HMtoPcJg2nnZDvRhfIkaGee
+	4d63lcevPt1YuEAxObvbbWAFin9bsA3XcoMnPDzRQ+T2bhH7ABRaJ4nEvWKQdRPpJg5fe1/yN1j
+	umhFIfZKl6aeRzbMo5ujzDYO5SIC3M7K24Pm0pzvlJ2K3FdDsYZNVW+w==
+X-Received: by 2002:a05:6a00:6c8d:b0:82a:7f28:c79b with SMTP id d2e1a72fcca58-82a8c2ef7bfmr13798915b3a.31.1774355252204;
+        Tue, 24 Mar 2026 05:27:32 -0700 (PDT)
+Received: from ZC-202510311500 ([61.185.217.216])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b0409f409sm12224583b3a.31.2026.03.24.05.27.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Mar 2026 05:27:31 -0700 (PDT)
+From: Haoyu Lu <hechushiguitu666@gmail.com>
+To: arc@lists.infradead.org
+Cc: bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	"haoyu . lu" <hechushiguitu666@gmail.com>
+Subject: [PATCH] arch/arc: bpf_jit: fix missing newline in pr_err messages
+Date: Tue, 24 Mar 2026 20:27:02 +0800
+Message-ID: <20260324122703.641-1-hechushiguitu666@gmail.com>
+X-Mailer: git-send-email 2.53.0.windows.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 25/25] mm: simplify VMA flag tests of excluded flags
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Kees Cook <kees@kernel.org>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Brian Cain <bcain@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
- WANG Xuerui <kernel@xen0n.name>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Dinh Nguyen <dinguyen@kernel.org>, Madhavan Srinivasan
- <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>,
- Michal Hocko <mhocko@suse.com>, Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Ondrej Mosnacek <omosnace@redhat.com>, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org,
- loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-um@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org
-References: <cover.1774034900.git.ljs@kernel.org>
- <d395c5dd837a9864f5efcec42175910afbe3ce73.1774034900.git.ljs@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Content-Language: en-US
-In-Reply-To: <d395c5dd837a9864f5efcec42175910afbe3ce73.1774034900.git.ljs@kernel.org>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260324_052733_786316_AC98BAFF 
+X-CRM114-Status: UNSURE (   8.87  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,31 +100,58 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 3/20/26 8:38 PM, Lorenzo Stoakes (Oracle) wrote:
-> We have implemented flag mask comparisons of the form:
-> 
-> if ((vm_flags & (VM_FOO|VM_BAR|VM_BAZ) == VM_FOO) { ... }
-> 
-> Like-for-like in the code using a bitwise-and mask via vma_flags_and() and
-> using vma_flags_same() to ensure the final result equals only the required
-> flag value.
-> 
-> This is fine but confusing, make things clearer by instead explicitly
-> excluding undesired flags and including the desired one via tests of the
-> form:
-> 
-> 	if (vma_flags_test(&flags, VMA_FOO_BIT) &&
-> 	    !vma_flags_test_any(&flags, VMA_BAR_BIT, VMA_BAZ_BIT)) { ... }
-> 
-> Which makes it easier to understand what is going on.
-> 
-> No functional change intended.
-> 
-> Suggested-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+From: haoyu.lu <hechushiguitu666@gmail.com>
 
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+Add missing newline to pr_err messages in arch/arc/net/bpf_jit_arcv2.c.
 
+Fixes: f122668ddcce ("ARC: Add eBPF JIT support")
+Signed-off-by: haoyu.lu <hechushiguitu666@gmail.com>
+---
+ arch/arc/net/bpf_jit_arcv2.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/arch/arc/net/bpf_jit_arcv2.c b/arch/arc/net/bpf_jit_arcv2.c
+index 6d989b6d88c6..7ee50aeae5a4 100644
+--- a/arch/arc/net/bpf_jit_arcv2.c
++++ b/arch/arc/net/bpf_jit_arcv2.c
+@@ -2427,7 +2427,7 @@ u8 arc_prologue(u8 *buf, u32 usage, u16 frame_size)
+
+ #ifdef ARC_BPF_JIT_DEBUG
+ 	if ((usage & BIT(ARC_R_FP)) && frame_size == 0) {
+-		pr_err("FP is being saved while there is no frame.");
++		pr_err("FP is being saved while there is no frame.\n");
+ 		BUG();
+ 	}
+ #endif
+@@ -2454,7 +2454,7 @@ u8 arc_epilogue(u8 *buf, u32 usage, u16 frame_size)
+
+ #ifdef ARC_BPF_JIT_DEBUG
+ 	if ((usage & BIT(ARC_R_FP)) && frame_size == 0) {
+-		pr_err("FP is being saved while there is no frame.");
++		pr_err("FP is being saved while there is no frame.\n");
+ 		BUG();
+ 	}
+ #endif
+@@ -2868,7 +2868,7 @@ u8 gen_jmp_64(u8 *buf, u8 rd, u8 rs, u8 cond, u32 curr_off, u32 targ_off)
+ 		break;
+ 	default:
+ #ifdef ARC_BPF_JIT_DEBUG
+-		pr_err("64-bit jump condition is not known.");
++		pr_err("64-bit jump condition is not known.\n");
+ 		BUG();
+ #endif
+ 	}
+@@ -2948,7 +2948,7 @@ u8 gen_jmp_32(u8 *buf, u8 rd, u8 rs, u8 cond, u32 curr_off, u32 targ_off)
+ 	 */
+ 	if (cond >= ARC_CC_LAST) {
+ #ifdef ARC_BPF_JIT_DEBUG
+-		pr_err("32-bit jump condition is not known.");
++		pr_err("32-bit jump condition is not known.\n");
+ 		BUG();
+ #endif
+ 		return 0;
+--
+2.53.0.windows.1
 
 _______________________________________________
 linux-snps-arc mailing list
