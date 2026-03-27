@@ -4,86 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7E4CE9A77B
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 24 Mar 2026 12:27:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F3F210BA42D
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 27 Mar 2026 05:50:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=HodJeqdyNEMVs5KRItAVX8A026286VBtLjdcK7qYFe0=; b=OKXJ8uojiQCvbI
-	rU3xAc4h4DWn+97WEdi0fscw60/4MNAvm46/LZ1LHelHR6ZnfrULBoOz/amTlFWFzHRaTGcDbAAj+
-	SmB41iQgLsLZecYWwWjD7CQkUcrsjsTemZnsjDN9fZZVsAAWFIQDO0wnb1+t+gS25CeHm1XSWYwrA
-	CwViLPYpj5mQDOQU2IEn3KZBCYHsjgLBsBKaFb6dOzetvJun/PndBuMaZnjFtxeiXlC2ugL6iB0Sw
-	r3z/GoFCnWGqshZSjoqf9kKLuNCVO+0cs9zHvnFAh/wFqhHMcBr7HBdNfQyac/6f3yeTRh//f0dBi
-	QdVBczOwomxjbFO4iHVQ==;
+	List-Archive:List-Unsubscribe:List-Id:Mime-Version:References:In-Reply-To:
+	Message-Id:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=e5bRBwn+DI2Ii5LlJS0W1/bCBdTrcWa8KuYNitXso1k=; b=XPqutt7jJVZR6q
+	XBbt63C8rZ4Uu4mS/iYqKn7t/tHkk8ttvcs+R9CNDlHja8V1T/S9iWQPLeIN06kVnjRE8sijztRzy
+	sc7Kr767DOI2A3ISyazx5sPmo48EzHs32bgIh/2yLsYTOpYroowLWTHsNxDfgO2Xwzhe0agf5ztJk
+	Zxh+tYsx9BVViPlIcnN8g8hYOeB8I9ejq3maLevWXsmTp03aGHcu93SffCF5PRqdbTglPkJvBL+gO
+	vXWWA1jDiZhyahL3RNfcKCvSFsKtQNGOgFJbBNMbg8kxIfA9PKTNKyMO259X8ryZ95CMRZjH2tT2K
+	3hb1zkuleujEEmmAJx5g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w50rA-00000001NMG-0xeu;
-	Tue, 24 Mar 2026 12:27:36 +0000
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
+	id 1w605c-00000006j5M-0DAW;
+	Fri, 27 Mar 2026 05:50:36 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w50r7-00000001NLv-31xn
-	for linux-snps-arc@lists.infradead.org;
-	Tue, 24 Mar 2026 12:27:34 +0000
-Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-82a3d3235c9so1111493b3a.2
-        for <linux-snps-arc@lists.infradead.org>; Tue, 24 Mar 2026 05:27:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774355252; x=1774960052; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RwSnjFcjq1oUFhDGo0eVz8ywdnnal2i+ieo63wHrZYg=;
-        b=kCoSlAsyOuOc79pWvv1c9Xx6JS00s0BFihWX33ZmmHbH1kVCivO5Z8kNyjMCJ5tL3I
-         h5waKA9FHab25pxoPfen/yL5ki67HYnUMTD6F4oFAaKlLgipMpTnoeX2HB9oVBOpTdNQ
-         z4hHCkaVOhrv3SbcOBb6IW/Dl7FMWfUwHY//yrxXyvZWX0E58bEFWZSoWExHTcXSlPP0
-         /de0Bm02w20Ew3wo5w5VCDFGCoeVZmMA+BoCq6sBAHWlo5zU2aEH8cb73Dk8LEY/eeRW
-         KBGAVG3uT/qDiw0SZX4DS6nsQ2TQM+b7OuKAcx8hDZ8LWviUoFWILXiTp9Tm7gyNTjbf
-         WXwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774355252; x=1774960052;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RwSnjFcjq1oUFhDGo0eVz8ywdnnal2i+ieo63wHrZYg=;
-        b=FW9Ruf0ncC0guBY7S1APZ7OSPr2yqqC3SiS1EBAivJWy/M42en0m1ZALhwKkqqYjhs
-         0Gi8J6n5fudkscacVldVxhf8uyDhQVPTZ26O2NmmPr8BFNgxjrtY6m6h8PtF4vOPqxWv
-         jbiO8vJV4DxOoThpsV622HLF3AsNJdVEBSA8WYYMkp6zNnpS8nNCBDVTrbalw4A/wvpp
-         es1TOoaa5q7vhwB0D0VzC/TJyLM8pnWrsyblgOumYQWis9f22XYw5xMJq6nnmCFjfw9Z
-         rZejLxgVMRwrdLfWvE6zowPbzs9yae5JW3irdAmka+USTgLQdo3nDpFusXxssB0hX49n
-         94Ww==
-X-Forwarded-Encrypted: i=1; AJvYcCVXmGR2DSKlwHx4Jfv/cV6EKIRQudOp18TSJxc2CJAyionkQViOPD4sRfKK1G1WYsNXdwkj9hXI1nKkPGz8/Q==@lists.infradead.org
-X-Gm-Message-State: AOJu0YzFxFuHwoFvtAs8hkbpsvml6jhK45IuwaVmZCIx6+hIaQ6EaDZY
-	25UbMeUcyAkhfXicxcGgh3ItU/5Svz32fqTenkl8ISR0NXMVxje86myYebKomBG4
-X-Gm-Gg: ATEYQzzAkyHbF9SDAAxAvdl5vOq4UUhnmnclSX+5GRJUnO6sLFjjXv8oGCOyart+X2d
-	te5gQLt2Ph657M+VBZ81Q7U6m3txIvQnj9G1kdByHEKQP6i1DCbCcPzzlSD21wOy1QQokcSKsel
-	kI8Krw2GbKgEC1mvktkQFgtqxyTqZEGrm3fgKvCh5pYbX2FoOQJHu/NjYrNacX8Q89DyUkUh+Rm
-	rMc13utH7SCQ9XqLIPUE+6oXz8J9mm5ezj48+a7DYsyuZZoGt6xTAHCo2jOlqr6jSeyhn5dVF9t
-	elhsWpQ8N82Upjzx5Fv+78Ey61iCuVJaCaLVI/ce4kQb53wiIV+3HMtoPcJg2nnZDvRhfIkaGee
-	4d63lcevPt1YuEAxObvbbWAFin9bsA3XcoMnPDzRQ+T2bhH7ABRaJ4nEvWKQdRPpJg5fe1/yN1j
-	umhFIfZKl6aeRzbMo5ujzDYO5SIC3M7K24Pm0pzvlJ2K3FdDsYZNVW+w==
-X-Received: by 2002:a05:6a00:6c8d:b0:82a:7f28:c79b with SMTP id d2e1a72fcca58-82a8c2ef7bfmr13798915b3a.31.1774355252204;
-        Tue, 24 Mar 2026 05:27:32 -0700 (PDT)
-Received: from ZC-202510311500 ([61.185.217.216])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b0409f409sm12224583b3a.31.2026.03.24.05.27.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 05:27:31 -0700 (PDT)
-From: Haoyu Lu <hechushiguitu666@gmail.com>
-To: arc@lists.infradead.org
-Cc: bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	"haoyu . lu" <hechushiguitu666@gmail.com>
-Subject: [PATCH] arch/arc: bpf_jit: fix missing newline in pr_err messages
-Date: Tue, 24 Mar 2026 20:27:02 +0800
-Message-ID: <20260324122703.641-1-hechushiguitu666@gmail.com>
-X-Mailer: git-send-email 2.53.0.windows.1
-MIME-Version: 1.0
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260324_052733_786316_AC98BAFF 
-X-CRM114-Status: UNSURE (   8.87  )
-X-CRM114-Notice: Please train this message.
+	id 1w605b-00000006j4t-06vV;
+	Fri, 27 Mar 2026 05:50:35 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id B84FC60134;
+	Fri, 27 Mar 2026 05:50:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACF49C2BCB1;
+	Fri, 27 Mar 2026 05:50:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1774590633;
+	bh=dlWPsRZ5eg4ebr0CP6MSk8XH8PhzWTV6BknR665dbRI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Z1oPSHRysMy+6wXBJFXG9mFzlDuQc+AG+9J9n6b3eqNtsV8pZVMQ81vG2zjJgE3r9
+	 Vwk8DGJTLM5wMJYNlTCMV3P4HxBM5Fzh2kN4K4FctjtR5IEakY8OgdYhQKEYI2Hecn
+	 asywffkE1Ac9oHnjQ0d+0ALgtZqNzZ21R6Hlrgko=
+Date: Thu, 26 Mar 2026 22:50:31 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+Cc: David Hildenbrand <david@kernel.org>, "Liam R . Howlett"
+ <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, Jann Horn
+ <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Kees Cook
+ <kees@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, Vineet
+ Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, Catalin
+ Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Brian
+ Cain <bcain@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui
+ <kernel@xen0n.name>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Dinh
+ Nguyen <dinguyen@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <chleroy@kernel.org>, Paul Walmsley <pjw@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, Heiko Carstens <hca@linux.ibm.com>, Vasily
+ Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle
+ <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
+ <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, x86@kernel.org, "H . Peter Anvin"
+ <hpa@zytor.com>, Richard Weinberger <richard@nod.at>, Anton Ivanov
+ <anton.ivanov@cambridgegreys.com>, Johannes Berg
+ <johannes@sipsolutions.net>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Xu Xin
+ <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>, Michal
+ Hocko <mhocko@suse.com>, Paul Moore <paul@paul-moore.com>, Stephen Smalley
+ <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ selinux@vger.kernel.org
+Subject: Re: [PATCH v4 00/25] mm/vma: convert vm_flags_t to vma_flags_t in
+ vma code
+Message-Id: <20260326225031.87e04d2c652923bc10aef0ee@linux-foundation.org>
+In-Reply-To: <cover.1774034900.git.ljs@kernel.org>
+References: <cover.1774034900.git.ljs@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,58 +96,15 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-From: haoyu.lu <hechushiguitu666@gmail.com>
+On Fri, 20 Mar 2026 19:38:17 +0000 "Lorenzo Stoakes (Oracle)" <ljs@kernel.org> wrote:
 
-Add missing newline to pr_err messages in arch/arc/net/bpf_jit_arcv2.c.
+> This series converts a lot of the existing use of the legacy vm_flags_t
+> data type to the new vma_flags_t type which replaces it.
 
-Fixes: f122668ddcce ("ARC: Add eBPF JIT support")
-Signed-off-by: haoyu.lu <hechushiguitu666@gmail.com>
----
- arch/arc/net/bpf_jit_arcv2.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Series has nine unreviewed patches.
 
-diff --git a/arch/arc/net/bpf_jit_arcv2.c b/arch/arc/net/bpf_jit_arcv2.c
-index 6d989b6d88c6..7ee50aeae5a4 100644
---- a/arch/arc/net/bpf_jit_arcv2.c
-+++ b/arch/arc/net/bpf_jit_arcv2.c
-@@ -2427,7 +2427,7 @@ u8 arc_prologue(u8 *buf, u32 usage, u16 frame_size)
-
- #ifdef ARC_BPF_JIT_DEBUG
- 	if ((usage & BIT(ARC_R_FP)) && frame_size == 0) {
--		pr_err("FP is being saved while there is no frame.");
-+		pr_err("FP is being saved while there is no frame.\n");
- 		BUG();
- 	}
- #endif
-@@ -2454,7 +2454,7 @@ u8 arc_epilogue(u8 *buf, u32 usage, u16 frame_size)
-
- #ifdef ARC_BPF_JIT_DEBUG
- 	if ((usage & BIT(ARC_R_FP)) && frame_size == 0) {
--		pr_err("FP is being saved while there is no frame.");
-+		pr_err("FP is being saved while there is no frame.\n");
- 		BUG();
- 	}
- #endif
-@@ -2868,7 +2868,7 @@ u8 gen_jmp_64(u8 *buf, u8 rd, u8 rs, u8 cond, u32 curr_off, u32 targ_off)
- 		break;
- 	default:
- #ifdef ARC_BPF_JIT_DEBUG
--		pr_err("64-bit jump condition is not known.");
-+		pr_err("64-bit jump condition is not known.\n");
- 		BUG();
- #endif
- 	}
-@@ -2948,7 +2948,7 @@ u8 gen_jmp_32(u8 *buf, u8 rd, u8 rs, u8 cond, u32 curr_off, u32 targ_off)
- 	 */
- 	if (cond >= ARC_CC_LAST) {
- #ifdef ARC_BPF_JIT_DEBUG
--		pr_err("32-bit jump condition is not known.");
-+		pr_err("32-bit jump condition is not known.\n");
- 		BUG();
- #endif
- 		return 0;
---
-2.53.0.windows.1
+Again, I plan to upstream this as-is - lots of Lorenzopatches remain
+unreviewed and I'm OK with that.
 
 _______________________________________________
 linux-snps-arc mailing list
