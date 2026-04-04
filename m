@@ -4,121 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B524CE88D72
-	for <linux-snps-arc@archiver.kernel.org>; Sat,  4 Apr 2026 00:07:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61C2DE63FE9
+	for <linux-snps-arc@archiver.kernel.org>; Sat,  4 Apr 2026 17:12:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=U0oczSXvBKnwYQuSLlivQWYv8BGWYXvBgExoiQO40Jg=; b=MHR+yrgV0GmIjP
-	csrEpCpNI3jyJ8lr1XkLkygGygnko20VHvM9BHj239CnzFjS/K9MJsb6uaBurtozj+W2vk1Ae0p/N
-	xZD9uCMBxh54VqecLJQqkazq/LWtMSUnR2MtaE9RVteotLJKhG88kgCCnbNb9apwQTmyWJTBKRRyz
-	bJ9+MljYMnjw3JtrnPGF70zmbtFh6nIvVumLB/GlCCbN5w+9ItAfCqlkaLq2UJX+hGZa1/mLscjoi
-	lD1EXDcSmiwgrADBmzYBS45qbGek0R8ZJaZF11uesUn0b/ForIjsAhcZt+53KAyHZC8c1KiQp+OxJ
-	FRFFE7LJ29QM7ER0HSug==;
+	List-Owner; bh=bXxGhnKsLHEd0jCTji3QJ2WTLtgy2y4kmGmfpMzpl7I=; b=fSkUnYMLWttAF/
+	ZwewFYkAxdI0d0qXOR6UrmYhIw5iEXwH+qh6RMIHfoAPwgPFb9EhVx3YQBY9XrPtsy08Yoc7jfK6V
+	+znBccViKw8fKoL8G9kMGGypyOGAfLwMZo9MFMgM1Ue52dqgaymlHK8mmaQq0PNFT4ZpIMZbEpCrc
+	C3IacC6iKYQeDO/Hx+dHocKODxsMJJ4Kaddx89oSmYLTKZ84qULXFwXowBclobvrxTInjfu5tyCvP
+	yivFSnzOaW3gRM5PGD4K0NaCVxweND3zcBmIutVTkDsX30eGRPM0jW/oOMQY2lxtFsos8yfSgiZOQ
+	q8uPdWG49zAhrr8O9+DA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w8oYB-00000002khp-22wx;
-	Sat, 04 Apr 2026 00:07:43 +0000
-Received: from mail-dl1-x122a.google.com ([2607:f8b0:4864:20::122a])
+	id 1w94Xg-00000003d17-0KAa;
+	Sat, 04 Apr 2026 17:12:16 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w8oY8-00000002kfk-2DKg
+	id 1w94Xd-00000003d08-1Dob
 	for linux-snps-arc@lists.infradead.org;
-	Sat, 04 Apr 2026 00:07:42 +0000
-Received: by mail-dl1-x122a.google.com with SMTP id a92af1059eb24-1273349c56bso2910984c88.0
-        for <linux-snps-arc@lists.infradead.org>; Fri, 03 Apr 2026 17:07:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1775261260; x=1775866060; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pcmabhgoUijh3Cpj42DFAN00fMUT4ppReLQYE5Q7FAg=;
-        b=mMr8UqtBJw+oDcNrqrpG1h9qrnk7OxlpebRKZyNDfLN0PfqXjoi3npm5uLIMiHwYfB
-         m19V1qZHA7kvYxVxvAmx6MLloc+7NA4p8+tGKUge8v/3Wwen27ZiIk4q0h3lYGqusEyd
-         iIKOgiFXIrGqqvGVkqjgjk+GYD/5j4Q5gFyHQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775261260; x=1775866060;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pcmabhgoUijh3Cpj42DFAN00fMUT4ppReLQYE5Q7FAg=;
-        b=ngNXktT46UlNABZnFpLNoLVK9MznRMKqPPlOqwsYjoZVg2bT1iFHd0jeFIjpp1jM+u
-         tAPDZknLErYvO0KYUDjBLCk9egfe7MsDE+xkvuuItWnbw25aTUl4NKg2b751UqDEFC72
-         R2ZOwkFJaCGgs6nAEphEEsGAGsZAGnDx7yeJUQo+b+19YB33I1j9gsx81nUR1OAfQSTJ
-         xrwFZpV6nZPv2aqtjIzunTfP/R0jUoDH0TQQzGsTGGZVyXWrml9O17ahq7MwBHQX6cDq
-         NvXon2gWHihO5L9sRJ9kz+Dlw7d3hVLDL7z3Lv/coUEkzIkwJExNyg/DJ5Xva/Xd98b8
-         EjTw==
-X-Forwarded-Encrypted: i=1; AJvYcCXOwHZF6enRe37ay4Y1es1SUEtSgNKicTnTGNkH2f4srlB+TXPGJupBAYAwW41/k98vmdiVzOFMPnu6AflV5w==@lists.infradead.org
-X-Gm-Message-State: AOJu0YzU4CwBK8TxKRgn7m+rrl27X/eYixpXq3oVkVzXSkvGgZONtVbt
-	MJhfIDbSDHeEMeMBFPDcD5gOKnvbtncPmuBZsKXZ7vAwBtYROzLZWNebDezkE7s50Q==
-X-Gm-Gg: ATEYQzxNeWUs95xf5Mb5G70UWcTuIP15Kdcn82+si2DbIy0TEoZw6eMtwxcGK4g4Fcf
-	i4PWGeX9tFCcVg1XIh3iW3DdQL3Jowuv/i+V9rW7xMiFZH4SCS2tKRx/IJzux9YJcgXTgzxr76t
-	QLSwqUBLFDib0JGo9rsdUnmZb4QjoLNSBu+pYKDCjXfQ4LvdFP30Zz1q1ooR9pnWmLUzqqe1lqy
-	eqYmBGLcg9zz5M94RfH0y6KwM6v0zroWqN/KNRg4F/dwPNXUhWp5ayzJTE9vbTRDh1jYqIzfg8V
-	9SLgXpLySwkjiOA2isPtNSlDrPGvs2m+Ce7lnESkFlKk2H1fyqr1H8oTqjaOmPGggCuKUbs+kJ3
-	o88Mu9/dEy4buK8dR97kRfng/i7+SMWBIdMsGwUyk0xiADy2yHEPZkvTE6+aHER3rqEI5AIiJYp
-	yQA6Z+gG1Qq9qkjSYambjkfKoeVQRVLPh7q9YEPWcy649ZeG0e8Sf5bdNkXH93ZTjZ8eIe6+20M
-	fdoV7NMVYU=
-X-Received: by 2002:a05:7022:ec17:b0:123:3488:899f with SMTP id a92af1059eb24-12bfb776e08mr1990633c88.32.1775261259525;
-        Fri, 03 Apr 2026 17:07:39 -0700 (PDT)
-Received: from dianders.sjc.corp.google.com ([2a00:79e0:2e7c:8:a8b6:55b2:3eb6:2c0e])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ca79e1d93bsm6520716eec.12.2026.04.03.17.07.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Apr 2026 17:07:38 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>
-Cc: Saravana Kannan <saravanak@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Eric Dumazet <edumazet@google.com>,
-	Johan Hovold <johan@kernel.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Alexey Kardashevskiy <aik@ozlabs.ru>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Frank.Li@kernel.org,
-	alex@ghiti.fr,
-	andre.przywara@arm.com,
-	andrew@lunn.ch,
-	aou@eecs.berkeley.edu,
-	catalin.marinas@arm.com,
-	dmaengine@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	gregory.clement@bootlin.com,
-	iommu@lists.linux.dev,
-	jgg@ziepe.ca,
-	kees@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-snps-arc@lists.infradead.org,
-	linux@armlinux.org.uk,
-	m.szyprowski@samsung.com,
-	palmer@dabbelt.com,
-	peter.ujfalusi@gmail.com,
-	pjw@kernel.org,
-	sebastian.hesselbarth@gmail.com,
-	tsbogend@alpha.franken.de,
-	vgupta@kernel.org,
-	vkoul@kernel.org,
-	will@kernel.org,
-	willy@infradead.org
-Subject: [PATCH v4 7/9] driver core: Replace dev->dma_coherent with dev_dma_coherent()
-Date: Fri,  3 Apr 2026 17:05:01 -0700
-Message-ID: <20260403170432.v4.7.If839f6dde98979fce177f70c6c74689a1904ee76@changeid>
-X-Mailer: git-send-email 2.53.0.1213.gd9a14994de-goog
-In-Reply-To: <20260404000644.522677-1-dianders@chromium.org>
-References: <20260404000644.522677-1-dianders@chromium.org>
+	Sat, 04 Apr 2026 17:12:15 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 639CD444C7
+	for <linux-snps-arc@lists.infradead.org>; Sat,  4 Apr 2026 17:12:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44787C19421
+	for <linux-snps-arc@lists.infradead.org>; Sat,  4 Apr 2026 17:12:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775322732;
+	bh=6HWbdXTvY5ARCKQw/mJejk6jJkYYvhLGzuFZu/CMKrk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=l24ZqoayMC0xXGNQJsL1cczZw+VJ7tydZVENUQoFBihS5d0jJ67r8PkLWJbt7LO9X
+	 nNEDpcOuw7tthiYq0W7ZllEXSxo1P0nmWkteU2AW/A7FTMB1eKiec9rAGl/eCan8xY
+	 cuG+x8njyYuOQVmOLYoW96ZXXvFkJbdIJ3bSrizrTqBsUnV5NqWT9CmoPEJSZT/A6T
+	 r5TzM/5f+0qceH5JHMLsipBwEFTxPAxgKYIZJkysfbQQD4BlPelJVwSHHuqi7q9ITh
+	 PB7cR/Biqc2lujS5dbZrpsEBHzOGjFI+k/3wAx1GIyCMqHCsgfCso8EOVfFUYrU5xg
+	 hCnONTBJ0i0Nw==
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-409de4132b5so1822800fac.1
+        for <linux-snps-arc@lists.infradead.org>; Sat, 04 Apr 2026 10:12:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVmIydb0/KZLXvZ3He5LkLkKtrx6UCJr6YNc1qEk9c2B8Lw57G4WSybsI+U7f06j1BrYDAyW6aay6j1ok72zQ==@lists.infradead.org
+X-Gm-Message-State: AOJu0Yw3wS9wGx5EcwwqT/ukhtmsNtpeHybhJ6i+d9lFL3KepGJxv6/C
+	A1kuAv+t09mkLT7tGY+3E7HypdFwxaoy9TPcnM3tJoa/j2KjePfWsagSKeFlU8Prx1eyVaNHLrI
+	1jRSxGhaG9WsNtqg9K2e/RCM5P8jEdTU=
+X-Received: by 2002:a05:6871:581e:b0:422:cd76:929d with SMTP id
+ 586e51a60fabf-4230fd2d9e4mr3996409fac.18.1775322730928; Sat, 04 Apr 2026
+ 10:12:10 -0700 (PDT)
 MIME-Version: 1.0
+References: <20260404000644.522677-1-dianders@chromium.org>
+In-Reply-To: <20260404000644.522677-1-dianders@chromium.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Sat, 4 Apr 2026 19:11:59 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0hRKyPesMGKGoDZEMDCX-GVw6Z-dxMLhNhwy6Kjz=7MCQ@mail.gmail.com>
+X-Gm-Features: AQROBzCS1sK1yep87rT-2xolltVfQ4j4qlt-9lHai0wQJnu4V3tzUHOX8_7jVCo
+Message-ID: <CAJZ5v0hRKyPesMGKGoDZEMDCX-GVw6Z-dxMLhNhwy6Kjz=7MCQ@mail.gmail.com>
+Subject: Re: [PATCH v4 0/9] driver core: Fix some race conditions
+To: Douglas Anderson <dianders@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
+	Saravana Kannan <saravanak@kernel.org>, Christoph Hellwig <hch@lst.de>, Eric Dumazet <edumazet@google.com>, 
+	Johan Hovold <johan@kernel.org>, Leon Romanovsky <leon@kernel.org>, 
+	Alexander Lobakin <aleksander.lobakin@intel.com>, Alexey Kardashevskiy <aik@ozlabs.ru>, 
+	Robin Murphy <robin.murphy@arm.com>, Andrew Morton <akpm@linux-foundation.org>, Frank.Li@kernel.org, 
+	Jason Gunthorpe <jgg@ziepe.ca>, alex@ghiti.fr, alexander.stein@ew.tq-group.com, 
+	andre.przywara@arm.com, andrew@codeconstruct.com.au, andrew@lunn.ch, 
+	andriy.shevchenko@linux.intel.com, aou@eecs.berkeley.edu, ardb@kernel.org, 
+	bhelgaas@google.com, brgl@kernel.org, broonie@kernel.org, 
+	catalin.marinas@arm.com, chleroy@kernel.org, davem@davemloft.net, 
+	david@kernel.org, devicetree@vger.kernel.org, dmaengine@vger.kernel.org, 
+	driver-core@lists.linux.dev, gbatra@linux.ibm.com, 
+	gregory.clement@bootlin.com, hkallweit1@gmail.com, iommu@lists.linux.dev, 
+	jirislaby@kernel.org, joel@jms.id.au, joro@8bytes.org, kees@kernel.org, 
+	kevin.brodsky@arm.com, kuba@kernel.org, lenb@kernel.org, lgirdwood@gmail.com, 
+	linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-aspeed@lists.ozlabs.org, linux-cxl@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, linux-mm@kvack.org, 
+	linux-pci@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-serial@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
+	linux-usb@vger.kernel.org, linux@armlinux.org.uk, 
+	linuxppc-dev@lists.ozlabs.org, m.szyprowski@samsung.com, maddy@linux.ibm.com, 
+	mani@kernel.org, maz@kernel.org, miko.lenczewski@arm.com, mpe@ellerman.id.au, 
+	netdev@vger.kernel.org, npiggin@gmail.com, osalvador@suse.de, 
+	oupton@kernel.org, pabeni@redhat.com, palmer@dabbelt.com, 
+	peter.ujfalusi@gmail.com, peterz@infradead.org, pjw@kernel.org, 
+	robh@kernel.org, sebastian.hesselbarth@gmail.com, tglx@kernel.org, 
+	tsbogend@alpha.franken.de, vgupta@kernel.org, vkoul@kernel.org, 
+	will@kernel.org, willy@infradead.org, yangyicong@hisilicon.com, 
+	yeoreum.yun@arm.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260403_170740_610332_7C135383 
-X-CRM114-Status: GOOD (  24.84  )
+X-CRM114-CacheID: sfid-20260404_101213_369600_2B88B26C 
+X-CRM114-Status: GOOD (  37.48  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -130,405 +106,147 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-In C, bitfields are not necessarily safe to modify from multiple
-threads without locking. Switch "dma_coherent" over to the "flags"
-field so modifications are safe.
-
-Cc: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
-Not fixing any known bugs; problem is theoretical and found by code
-inspection. Change is done somewhat manually and only lightly tested
-(mostly compile-time tested).
-
-NOTE: even though previously we only took up a bit if
-CONFIG_ARCH_HAS_SYNC_DMA_FOR_DEVICE, CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU,
-or CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU_ALL, in this change I reserve the
-bit unconditionally.  While we could get the "dynamic" behavior by
-changing the flags definition to be an "enum", it doesn't seem worth
-it at this point.
-
-Changes in v4:
-- Use accessor functions for flags
-
-Changes in v3:
-- New
-
- arch/arc/mm/dma.c                 |  4 ++--
- arch/arm/mach-highbank/highbank.c |  2 +-
- arch/arm/mach-mvebu/coherency.c   |  2 +-
- arch/arm/mm/dma-mapping-nommu.c   |  4 ++--
- arch/arm/mm/dma-mapping.c         | 28 ++++++++++++++--------------
- arch/arm64/mm/dma-mapping.c       |  2 +-
- arch/mips/mm/dma-noncoherent.c    |  2 +-
- arch/riscv/mm/dma-noncoherent.c   |  2 +-
- drivers/base/core.c               |  2 +-
- drivers/dma/ti/k3-udma-glue.c     |  6 +++---
- drivers/dma/ti/k3-udma.c          |  6 +++---
- include/linux/device.h            | 11 ++++-------
- include/linux/dma-map-ops.h       |  2 +-
- 13 files changed, 35 insertions(+), 38 deletions(-)
-
-diff --git a/arch/arc/mm/dma.c b/arch/arc/mm/dma.c
-index 6b85e94f3275..9b9adb02b4c5 100644
---- a/arch/arc/mm/dma.c
-+++ b/arch/arc/mm/dma.c
-@@ -98,8 +98,8 @@ void arch_setup_dma_ops(struct device *dev, bool coherent)
- 	 * DMA buffers.
- 	 */
- 	if (is_isa_arcv2() && ioc_enable && coherent)
--		dev->dma_coherent = true;
-+		dev_set_dma_coherent(dev);
- 
- 	dev_info(dev, "use %scoherent DMA ops\n",
--		 dev->dma_coherent ? "" : "non");
-+		 dev_dma_coherent(dev) ? "" : "non");
- }
-diff --git a/arch/arm/mach-highbank/highbank.c b/arch/arm/mach-highbank/highbank.c
-index 47335c7dadf8..8b7d0929dac4 100644
---- a/arch/arm/mach-highbank/highbank.c
-+++ b/arch/arm/mach-highbank/highbank.c
-@@ -98,7 +98,7 @@ static int highbank_platform_notifier(struct notifier_block *nb,
- 	if (of_property_read_bool(dev->of_node, "dma-coherent")) {
- 		val = readl(sregs_base + reg);
- 		writel(val | 0xff01, sregs_base + reg);
--		dev->dma_coherent = true;
-+		dev_set_dma_coherent(dev);
- 	}
- 
- 	return NOTIFY_OK;
-diff --git a/arch/arm/mach-mvebu/coherency.c b/arch/arm/mach-mvebu/coherency.c
-index fa2c1e1aeb96..7234d487ff39 100644
---- a/arch/arm/mach-mvebu/coherency.c
-+++ b/arch/arm/mach-mvebu/coherency.c
-@@ -95,7 +95,7 @@ static int mvebu_hwcc_notifier(struct notifier_block *nb,
- 
- 	if (event != BUS_NOTIFY_ADD_DEVICE)
- 		return NOTIFY_DONE;
--	dev->dma_coherent = true;
-+	dev_set_dma_coherent(dev);
- 
- 	return NOTIFY_OK;
- }
-diff --git a/arch/arm/mm/dma-mapping-nommu.c b/arch/arm/mm/dma-mapping-nommu.c
-index fecac107fd0d..c6a70686507b 100644
---- a/arch/arm/mm/dma-mapping-nommu.c
-+++ b/arch/arm/mm/dma-mapping-nommu.c
-@@ -42,11 +42,11 @@ void arch_setup_dma_ops(struct device *dev, bool coherent)
- 		 * enough to check if MPU is in use or not since in absence of
- 		 * MPU system memory map is used.
- 		 */
--		dev->dma_coherent = cacheid ? coherent : true;
-+		dev_assign_dma_coherent(dev, cacheid ? coherent : true);
- 	} else {
- 		/*
- 		 * Assume coherent DMA in case MMU/MPU has not been set up.
- 		 */
--		dev->dma_coherent = (get_cr() & CR_M) ? coherent : true;
-+		dev_assign_dma_coherent(dev, (get_cr() & CR_M) ? coherent : true);
- 	}
- }
-diff --git a/arch/arm/mm/dma-mapping.c b/arch/arm/mm/dma-mapping.c
-index f304037d1c34..f9bc53b60f99 100644
---- a/arch/arm/mm/dma-mapping.c
-+++ b/arch/arm/mm/dma-mapping.c
-@@ -1076,7 +1076,7 @@ static void *arm_iommu_alloc_attrs(struct device *dev, size_t size,
- 	pgprot_t prot = __get_dma_pgprot(attrs, PAGE_KERNEL);
- 	struct page **pages;
- 	void *addr = NULL;
--	int coherent_flag = dev->dma_coherent ? COHERENT : NORMAL;
-+	int coherent_flag = dev_dma_coherent(dev) ? COHERENT : NORMAL;
- 
- 	*handle = DMA_MAPPING_ERROR;
- 	size = PAGE_ALIGN(size);
-@@ -1124,7 +1124,7 @@ static int arm_iommu_mmap_attrs(struct device *dev, struct vm_area_struct *vma,
- 	if (vma->vm_pgoff >= nr_pages)
- 		return -ENXIO;
- 
--	if (!dev->dma_coherent)
-+	if (!dev_dma_coherent(dev))
- 		vma->vm_page_prot = __get_dma_pgprot(attrs, vma->vm_page_prot);
- 
- 	err = vm_map_pages(vma, pages, nr_pages);
-@@ -1141,7 +1141,7 @@ static int arm_iommu_mmap_attrs(struct device *dev, struct vm_area_struct *vma,
- static void arm_iommu_free_attrs(struct device *dev, size_t size, void *cpu_addr,
- 	dma_addr_t handle, unsigned long attrs)
- {
--	int coherent_flag = dev->dma_coherent ? COHERENT : NORMAL;
-+	int coherent_flag = dev_dma_coherent(dev) ? COHERENT : NORMAL;
- 	struct page **pages;
- 	size = PAGE_ALIGN(size);
- 
-@@ -1202,7 +1202,7 @@ static int __map_sg_chunk(struct device *dev, struct scatterlist *sg,
- 		phys_addr_t phys = page_to_phys(sg_page(s));
- 		unsigned int len = PAGE_ALIGN(s->offset + s->length);
- 
--		if (!dev->dma_coherent && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
-+		if (!dev_dma_coherent(dev) && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
- 			arch_sync_dma_for_device(sg_phys(s), s->length, dir);
- 
- 		prot = __dma_info_to_prot(dir, attrs);
-@@ -1304,7 +1304,7 @@ static void arm_iommu_unmap_sg(struct device *dev,
- 		if (sg_dma_len(s))
- 			__iommu_remove_mapping(dev, sg_dma_address(s),
- 					       sg_dma_len(s));
--		if (!dev->dma_coherent && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
-+		if (!dev_dma_coherent(dev) && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
- 			arch_sync_dma_for_cpu(sg_phys(s), s->length, dir);
- 	}
- }
-@@ -1323,7 +1323,7 @@ static void arm_iommu_sync_sg_for_cpu(struct device *dev,
- 	struct scatterlist *s;
- 	int i;
- 
--	if (dev->dma_coherent)
-+	if (dev_dma_coherent(dev))
- 		return;
- 
- 	for_each_sg(sg, s, nents, i)
-@@ -1345,7 +1345,7 @@ static void arm_iommu_sync_sg_for_device(struct device *dev,
- 	struct scatterlist *s;
- 	int i;
- 
--	if (dev->dma_coherent)
-+	if (dev_dma_coherent(dev))
- 		return;
- 
- 	for_each_sg(sg, s, nents, i)
-@@ -1371,7 +1371,7 @@ static dma_addr_t arm_iommu_map_phys(struct device *dev, phys_addr_t phys,
- 	dma_addr_t dma_addr;
- 	int ret, prot;
- 
--	if (!dev->dma_coherent &&
-+	if (!dev_dma_coherent(dev) &&
- 	    !(attrs & (DMA_ATTR_SKIP_CPU_SYNC | DMA_ATTR_MMIO)))
- 		arch_sync_dma_for_device(phys, size, dir);
- 
-@@ -1412,7 +1412,7 @@ static void arm_iommu_unmap_phys(struct device *dev, dma_addr_t handle,
- 	if (!iova)
- 		return;
- 
--	if (!dev->dma_coherent &&
-+	if (!dev_dma_coherent(dev) &&
- 	    !(attrs & (DMA_ATTR_SKIP_CPU_SYNC | DMA_ATTR_MMIO))) {
- 		phys_addr_t phys = iommu_iova_to_phys(mapping->domain, iova);
- 
-@@ -1431,7 +1431,7 @@ static void arm_iommu_sync_single_for_cpu(struct device *dev,
- 	unsigned int offset = handle & ~PAGE_MASK;
- 	phys_addr_t phys;
- 
--	if (dev->dma_coherent || !iova)
-+	if (dev_dma_coherent(dev) || !iova)
- 		return;
- 
- 	phys = iommu_iova_to_phys(mapping->domain, iova);
-@@ -1446,7 +1446,7 @@ static void arm_iommu_sync_single_for_device(struct device *dev,
- 	unsigned int offset = handle & ~PAGE_MASK;
- 	phys_addr_t phys;
- 
--	if (dev->dma_coherent || !iova)
-+	if (dev_dma_coherent(dev) || !iova)
- 		return;
- 
- 	phys = iommu_iova_to_phys(mapping->domain, iova);
-@@ -1701,13 +1701,13 @@ static void arm_teardown_iommu_dma_ops(struct device *dev) { }
- void arch_setup_dma_ops(struct device *dev, bool coherent)
- {
- 	/*
--	 * Due to legacy code that sets the ->dma_coherent flag from a bus
--	 * notifier we can't just assign coherent to the ->dma_coherent flag
-+	 * Due to legacy code that sets the dma_coherent flag from a bus
-+	 * notifier we can't just assign coherent to the dma_coherent flag
- 	 * here, but instead have to make sure we only set but never clear it
- 	 * for now.
- 	 */
- 	if (coherent)
--		dev->dma_coherent = true;
-+		dev_set_dma_coherent(dev);
- 
- 	/*
- 	 * Don't override the dma_ops if they have already been set. Ideally
-diff --git a/arch/arm64/mm/dma-mapping.c b/arch/arm64/mm/dma-mapping.c
-index b2b5792b2caa..dc1fce939451 100644
---- a/arch/arm64/mm/dma-mapping.c
-+++ b/arch/arm64/mm/dma-mapping.c
-@@ -48,7 +48,7 @@ void arch_setup_dma_ops(struct device *dev, bool coherent)
- 		   dev_driver_string(dev), dev_name(dev),
- 		   ARCH_DMA_MINALIGN, cls);
- 
--	dev->dma_coherent = coherent;
-+	dev_assign_dma_coherent(dev, coherent);
- 
- 	xen_setup_dma_ops(dev);
- }
-diff --git a/arch/mips/mm/dma-noncoherent.c b/arch/mips/mm/dma-noncoherent.c
-index ab4f2a75a7d0..30ef3e247eb7 100644
---- a/arch/mips/mm/dma-noncoherent.c
-+++ b/arch/mips/mm/dma-noncoherent.c
-@@ -139,6 +139,6 @@ void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
- #ifdef CONFIG_ARCH_HAS_SETUP_DMA_OPS
- void arch_setup_dma_ops(struct device *dev, bool coherent)
- {
--	dev->dma_coherent = coherent;
-+	dev_assign_dma_coherent(dev, coherent);
- }
- #endif
-diff --git a/arch/riscv/mm/dma-noncoherent.c b/arch/riscv/mm/dma-noncoherent.c
-index cb89d7e0ba88..a1ec2d71d1c9 100644
---- a/arch/riscv/mm/dma-noncoherent.c
-+++ b/arch/riscv/mm/dma-noncoherent.c
-@@ -140,7 +140,7 @@ void arch_setup_dma_ops(struct device *dev, bool coherent)
- 		   "%s %s: device non-coherent but no non-coherent operations supported",
- 		   dev_driver_string(dev), dev_name(dev));
- 
--	dev->dma_coherent = coherent;
-+	dev_assign_dma_coherent(dev, coherent);
- }
- 
- void riscv_noncoherent_supported(void)
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 0986051a6f14..531f02a5469a 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -3173,7 +3173,7 @@ void device_initialize(struct device *dev)
- #if defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_DEVICE) || \
-     defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU) || \
-     defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU_ALL)
--	dev->dma_coherent = dma_default_coherent;
-+	dev_assign_dma_coherent(dev, dma_default_coherent);
- #endif
- 	swiotlb_dev_init(dev);
- }
-diff --git a/drivers/dma/ti/k3-udma-glue.c b/drivers/dma/ti/k3-udma-glue.c
-index f87d244cc2d6..686dc140293e 100644
---- a/drivers/dma/ti/k3-udma-glue.c
-+++ b/drivers/dma/ti/k3-udma-glue.c
-@@ -312,7 +312,7 @@ k3_udma_glue_request_tx_chn_common(struct device *dev,
- 
- 	if (xudma_is_pktdma(tx_chn->common.udmax)) {
- 		/* prepare the channel device as coherent */
--		tx_chn->common.chan_dev.dma_coherent = true;
-+		dev_set_dma_coherent(&tx_chn->common.chan_dev);
- 		dma_coerce_mask_and_coherent(&tx_chn->common.chan_dev,
- 					     DMA_BIT_MASK(48));
- 	}
-@@ -1003,7 +1003,7 @@ k3_udma_glue_request_rx_chn_priv(struct device *dev, const char *name,
- 
- 	if (xudma_is_pktdma(rx_chn->common.udmax)) {
- 		/* prepare the channel device as coherent */
--		rx_chn->common.chan_dev.dma_coherent = true;
-+		dev_set_dma_coherent(&rx_chn->common.chan_dev);
- 		dma_coerce_mask_and_coherent(&rx_chn->common.chan_dev,
- 					     DMA_BIT_MASK(48));
- 	}
-@@ -1104,7 +1104,7 @@ k3_udma_glue_request_remote_rx_chn_common(struct k3_udma_glue_rx_channel *rx_chn
- 
- 	if (xudma_is_pktdma(rx_chn->common.udmax)) {
- 		/* prepare the channel device as coherent */
--		rx_chn->common.chan_dev.dma_coherent = true;
-+		dev_set_dma_coherent(&rx_chn->common.chan_dev);
- 		dma_coerce_mask_and_coherent(&rx_chn->common.chan_dev,
- 					     DMA_BIT_MASK(48));
- 		rx_chn->single_fdq = false;
-diff --git a/drivers/dma/ti/k3-udma.c b/drivers/dma/ti/k3-udma.c
-index c964ebfcf3b6..1cf158eb7bdb 100644
---- a/drivers/dma/ti/k3-udma.c
-+++ b/drivers/dma/ti/k3-udma.c
-@@ -428,18 +428,18 @@ static void k3_configure_chan_coherency(struct dma_chan *chan, u32 asel)
- 		/* No special handling for the channel */
- 		chan->dev->chan_dma_dev = false;
- 
--		chan_dev->dma_coherent = false;
-+		dev_clear_dma_coherent(chan_dev);
- 		chan_dev->dma_parms = NULL;
- 	} else if (asel == 14 || asel == 15) {
- 		chan->dev->chan_dma_dev = true;
- 
--		chan_dev->dma_coherent = true;
-+		dev_set_dma_coherent(chan_dev);
- 		dma_coerce_mask_and_coherent(chan_dev, DMA_BIT_MASK(48));
- 		chan_dev->dma_parms = chan_dev->parent->dma_parms;
- 	} else {
- 		dev_warn(chan->device->dev, "Invalid ASEL value: %u\n", asel);
- 
--		chan_dev->dma_coherent = false;
-+		dev_clear_dma_coherent(chan_dev);
- 		chan_dev->dma_parms = NULL;
- 	}
- }
-diff --git a/include/linux/device.h b/include/linux/device.h
-index a1d59ff9702c..fca986cef2ed 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -481,6 +481,8 @@ struct device_physical_location {
-  * @DEV_FLAG_STATE_SYNCED: The hardware state of this device has been synced to
-  *		match the software state of this device by calling the
-  *		driver/bus sync_state() callback.
-+ * @DEV_FLAG_DMA_COHERENT: This particular device is dma coherent, even if the
-+ *		architecture supports non-coherent devices.
-  */
- enum struct_device_flags {
- 	DEV_FLAG_READY_TO_PROBE = 0,
-@@ -489,6 +491,7 @@ enum struct_device_flags {
- 	DEV_FLAG_DMA_SKIP_SYNC = 3,
- 	DEV_FLAG_DMA_OPS_BYPASS = 4,
- 	DEV_FLAG_STATE_SYNCED = 5,
-+	DEV_FLAG_DMA_COHERENT = 6,
- 
- 	DEV_FLAG_COUNT
- };
-@@ -572,8 +575,6 @@ enum struct_device_flags {
-  * @offline:	Set after successful invocation of bus type's .offline().
-  * @of_node_reused: Set if the device-tree node is shared with an ancestor
-  *              device.
-- * @dma_coherent: this particular device is dma coherent, even if the
-- *		architecture supports non-coherent devices.
-  * @flags:	DEV_FLAG_XXX flags. Use atomic bitfield operations to modify.
-  *
-  * At the lowest level, every device in a Linux system is represented by an
-@@ -681,11 +682,6 @@ struct device {
- 	bool			offline_disabled:1;
- 	bool			offline:1;
- 	bool			of_node_reused:1;
--#if defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_DEVICE) || \
--    defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU) || \
--    defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU_ALL)
--	bool			dma_coherent:1;
--#endif
- 
- 	DECLARE_BITMAP(flags, DEV_FLAG_COUNT);
- };
-@@ -718,6 +714,7 @@ __create_dev_flag_accessors(dma_iommu, DEV_FLAG_DMA_IOMMU);
- __create_dev_flag_accessors(dma_skip_sync, DEV_FLAG_DMA_SKIP_SYNC);
- __create_dev_flag_accessors(dma_ops_bypass, DEV_FLAG_DMA_OPS_BYPASS);
- __create_dev_flag_accessors(state_synced, DEV_FLAG_STATE_SYNCED);
-+__create_dev_flag_accessors(dma_coherent, DEV_FLAG_DMA_COHERENT);
- 
- /**
-  * struct device_link - Device link representation.
-diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
-index edd7de60a957..44dd9035b4fe 100644
---- a/include/linux/dma-map-ops.h
-+++ b/include/linux/dma-map-ops.h
-@@ -230,7 +230,7 @@ int dma_direct_set_offset(struct device *dev, phys_addr_t cpu_start,
- extern bool dma_default_coherent;
- static inline bool dev_is_dma_coherent(struct device *dev)
- {
--	return dev->dma_coherent;
-+	return dev_dma_coherent(dev);
- }
- #else
- #define dma_default_coherent true
--- 
-2.53.0.1213.gd9a14994de-goog
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gU2F0LCBBcHIgNCwgMjAyNiBhdCAyOjA34oCvQU0gRG91Z2xhcyBBbmRlcnNvbiA8ZGlhbmRl
+cnNAY2hyb21pdW0ub3JnPiB3cm90ZToKPgo+IFRoZSBtYWluIGdvYWwgb2YgdGhpcyBzZXJpZXMg
+aXMgdG8gZml4IHRoZSBvYnNlcnZlZCBidWcgdGFsa2VkIGFib3V0Cj4gaW4gdGhlIGZpcnN0IHBh
+dGNoICgiZHJpdmVyIGNvcmU6IERvbid0IGxldCBhIGRldmljZSBwcm9iZSB1bnRpbCBpdCdzCj4g
+cmVhZHkiKS4gVGhhdCBwYXRjaCBmaXhlcyBhIHByb2JsZW0gdGhhdCBoYXMgYmVlbiBvYnNlcnZl
+ZCBpbiB0aGUgcmVhbAo+IHdvcmxkIGFuZCBjb3VsZCBsYW5kIGV2ZW4gaWYgdGhlIHJlc3Qgb2Yg
+dGhlIHBhdGNoZXMgYXJlIGZvdW5kCj4gdW5hY2NlcHRhYmxlIG9yIG5lZWQgdG8gYmUgc3B1bi4K
+Pgo+IFRoYXQgc2FpZCwgZHVyaW5nIHBhdGNoIHJldmlldyBEYW5pbG8gY29ycmVjdGx5IHBvaW50
+ZWQgb3V0IHRoYXQgbWFueQo+IG9mIHRoZSBiaXRmaWVsZCBhY2Nlc3NlcyBpbiAic3RydWN0IGRl
+dmljZSIgYXJlIHVuc2FmZS4gSSBhZGRlZCBhCj4gYnVuY2ggb2YgcGF0Y2hlcyBpbiB0aGUgc2Vy
+aWVzIHRvIGFkZHJlc3MgZWFjaCBvbmUuCj4KPiBEYW5pbG8gc2FpZCBoZSdzIG1vc3Qgd29ycmll
+ZCBhYm91dCAiY2FuX21hdGNoIiwgc28gSSBwdXQgdGhhdCBvbmUKPiBmaXJzdC4gQWZ0ZXIgdGhh
+dCwgSSB0cmllZCB0byB0cmFuc2l0aW9uIGJpdGZpZWxkcyB0byBmbGFncyBpbiByZXZlcnNlCj4g
+b3JkZXIgdG8gd2hlbiB0aGUgYml0ZmllbGQgd2FzIGFkZGVkLgo+Cj4gRXZlbiBpZiB0cmFuc2l0
+aW9uaW5nIGZyb20gYml0ZmllbGRzIHRvIGZsYWdzIGlzbid0IHRydWx5IG5lZWRlZCBmb3IKPiBj
+b3JyZWN0bmVzcywgaXQgc2VlbXMgc2lsbHkgKGFuZCB3YXN0ZWZ1bCBvZiBzcGFjZSBpbiBzdHJ1
+Y3QgZGV2aWNlKQo+IHRvIGhhdmUgc29tZSBpbiBiaXRmaWVsZHMgYW5kIHNvbWUgYXMgZmxhZ3Mu
+IFRodXMgSSBkaWRuJ3Qgc3BlbmQgdGltZQo+IGZvciBlYWNoIGJpdGZpZWxkIHNob3dpbmcgdGhh
+dCBpdCdzIHRydWx5IG5lZWRlZCBmb3IgY29ycmVjdG5lc3MuCj4KPiBUcmFuc2l0aW9uIHdhcyBk
+b25lIHNlbWkgbWFudWFsbHkuIFByZXN1bWFibHkgc29tZW9uZSBza2lsbGVkIGF0Cj4gY29jY2lu
+ZWxsZSBjb3VsZCBkbyBhIGJldHRlciBqb2IsIGJ1dCBJIGp1c3QgdXNlZCBzZWQgaW4gYSBoZWF2
+eS0KPiBoYW5kZWQgbWFubmVyIGFuZCB0aGVuIHJldmlld2VkL2ZpeGVkIHRoZSByZXN1bHRzLCB1
+bmRvaW5nIGFueXRoaW5nIG15Cj4gc2NyaXB0IGdvdCB3cm9uZy4gTXkgdGVycmlibGUvdWdseSBz
+Y3JpcHQgd2FzOgo+Cj4gdmFyPWNhbl9tYXRjaAo+IGNhcHM9IiR7dmFyXl59Igo+IGZvciBmIGlu
+ICQoZ2l0IGdyZXAgLWwgIls+XC5dJHt2YXJ9W14xLTlfYS16QS1aXFtdIik7IGRvCj4gICBlY2hv
+ICRmCj4gICBzZWQgLWl+IC1lICJzL1woW2EtekEtWl8wLTlcLj4oKS1dW2EtekEtWl8wLTlcLj4o
+KS1dKlwpLT4ke3Zhcn0gPSB0cnVlL3NldF9iaXQoREVWX0ZMQUdfJHtjYXBzfSwgXCZcXDEtPmZs
+YWdzKS8iICIkZiIKPiAgIHNlZCAtaX4gLWUgInMvXChbYS16QS1aXzAtOVwuPigpLV1bYS16QS1a
+XzAtOVwuPigpLV0qXClcLiR7dmFyfSA9IHRydWUvZGV2X3NldF8ke2NhcHN9KFwmXFwxKS8iICIk
+ZiIKPiAgIHNlZCAtaX4gLWUgInMvXChbYS16QS1aXzAtOVwuPigpLV1bYS16QS1aXzAtOVwuPigp
+LV0qXCktPiR7dmFyfSA9IGZhbHNlL2NsZWFyX2JpdChERVZfRkxBR18ke2NhcHN9LCBcJlxcMS0+
+ZmxhZ3MpLyIgIiRmIgo+ICAgc2VkIC1pfiAtZSAicy9cKFthLXpBLVpfMC05XC4+KCktXVthLXpB
+LVpfMC05XC4+KCktXSpcKVwuJHt2YXJ9ID0gZmFsc2UvZGV2X2NsZWFyXyR7Y2Fwc30oXCZcXDEp
+LyIgIiRmIgo+ICAgc2VkIC1pfiAtZSAicy9cKFthLXpBLVpfMC05XC4+KCktXVthLXpBLVpfMC05
+XC4+KCktXSpcKS0+JHt2YXJ9ID0gXChbXjtdKlwpL2Fzc2lnbl9iaXQoREVWX0ZMQUdfJHtjYXBz
+fSwgXCZcXDEtPmZsYWdzLCBcXDIpLyIgIiRmIgo+ICAgc2VkIC1pfiAtZSAicy9cKFthLXpBLVpf
+MC05XC4+KCktXVthLXpBLVpfMC05XC4+KCktXSpcKVwuJHt2YXJ9ID0gXChbXjtdKlwpL2Rldl9h
+c3NpZ25fJHtjYXBzfShcJlxcMSwgXFwyKS8iICIkZiIKPiAgIHNlZCAtaX4gLWUgInMvXChbYS16
+QS1aXzAtOVwuPigpLV1bYS16QS1aXzAtOVwuPigpLV0qXCktPiR7dmFyfVwoW14xLTlfYS16QS1a
+XFtdXCkvdGVzdF9iaXQoREVWX0ZMQUdfJHtjYXBzfSwgXCZcXDEtPmZsYWdzKVxcMi8iICIkZiIK
+PiAgIHNlZCAtaX4gLWUgInMvXChbYS16QS1aXzAtOVwuPigpLV1bYS16QS1aXzAtOVwuPigpLV0q
+XClcLiR7dmFyfVwoW14xLTlfYS16QS1aXFtdXCkvZGV2XyR7Y2Fwc30oXCZcXDEpXFwyLyIgIiRm
+Igo+IGRvbmUKPgo+IEZyb20gdjMgdG8gdjQsIEkgdHJhbnNpdGlvbmVkIHRvIGFjY2Vzc29yIGZ1
+bmN0aW9ucyB3aXRoIGFub3RoZXIgdWdseQo+IHNlZCBzY3JpcHQuIEkgaGFkIGdpdCBmb3JtYXQg
+dGhlIG9sZCBwYXRjaGVzLCB0aGVuIHRyYW5zZm9ybWVkIHRoZW0KPiB3aXRoOgo+Cj4gZm9yIGYg
+aW4gKi5wYXRjaDsgZG8KPiAgIGVjaG8gJGYKPiAgIHNlZCAtaX4gLWUgInMvdGVzdF9hbmRfc2V0
+X2JpdChERVZfRkxBR19cKFteLF0qXCksIFwmXCguKlwpLT5mbGFncykvZGV2X3Rlc3RfYW5kX3Nl
+dF9cXExcXDEoXFwyKS8iICIkZiIKPiAgIHNlZCAtaX4gLWUgInMvdGVzdF9hbmRfc2V0X2JpdChE
+RVZfRkxBR19cKFteLF0qXCksIFwoLipcKVwuZmxhZ3MpL2Rldl90ZXN0X2FuZF9zZXRfXFxMXFwx
+KFxcMikvIiAiJGYiCj4gICBzZWQgLWl+IC1lICJzL3Rlc3RfYml0KERFVl9GTEFHX1woW14sXSpc
+KSwgXCZcKC4qXCktPmZsYWdzKS9kZXZfXFxMXFwxKFxcMikvIiAiJGYiCj4gICBzZWQgLWl+IC1l
+ICJzL3Rlc3RfYml0KERFVl9GTEFHX1woW14sXSpcKSwgXCguKlwpXC5mbGFncykvZGV2X1xcTFxc
+MShcXDIpLyIgIiRmIgo+ICAgc2VkIC1pfiAtZSAicy9zZXRfYml0KERFVl9GTEFHX1woW14sXSpc
+KSwgXCZcKC4qXCktPmZsYWdzKS9kZXZfc2V0X1xcTFxcMShcXDIpLyIgIiRmIgo+ICAgc2VkIC1p
+fiAtZSAicy9zZXRfYml0KERFVl9GTEFHX1woW14sXSpcKSwgXCguKlwpXC5mbGFncykvZGV2X3Nl
+dF9cXExcXDEoXFwyKS8iICIkZiIKPiAgIHNlZCAtaX4gLWUgInMvY2xlYXJfYml0KERFVl9GTEFH
+X1woW14sXSpcKSwgXCZcKC4qXCktPmZsYWdzKS9kZXZfY2xlYXJfXFxMXFwxKFxcMikvIiAiJGYi
+Cj4gICBzZWQgLWl+IC1lICJzL2NsZWFyX2JpdChERVZfRkxBR19cKFteLF0qXCksIFwoLipcKVwu
+ZmxhZ3MpL2Rldl9jbGVhcl9cXExcXDEoXFwyKS8iICIkZiIKPiAgIHNlZCAtaX4gLWUgInMvYXNz
+aWduX2JpdChERVZfRkxBR19cKFteLF0qXCksIFwmXCguKlwpLT5mbGFncywgXCguKlwpKS9kZXZf
+YXNzaWduX1xcTFxcMShcXDIsIFxcMykvIiAiJGYiCj4gICBzZWQgLWl+IC1lICJzL2Fzc2lnbl9i
+aXQoREVWX0ZMQUdfXChbXixdKlwpLCBcKC4qXClcLmZsYWdzLCBcKC4qXCkpL2Rldl9hc3NpZ25f
+XFxMXFwxKFxcMiwgXFwzKS8iICIkZiIKPiBkb25lCj4KPiAuLi5hbmQgdGhlbiBkaWQgYSBmZXcg
+bWFudWFsIHRvdWNodXBzIGZvciBzcGFjaW5nLgo+Cj4gTk9URTogb25lIHBvdGVudGlhbGx5ICJj
+b250cm92ZXJzaWFsIiBjaG9pY2UgSSBtYWRlIGluIHNvbWUgcGF0Y2hlcwo+IHdhcyB0byBhbHdh
+eXMgcmVzZXJ2ZSBhIGZsYWcgSUQgZXZlbiBpZiBhIGZsYWcgaXMgb25seSB1c2VkIHVuZGVyCj4g
+Y2VydGFpbiBDT05GSUdfIHNldHRpbmdzLiBUaGlzIGlzIGEgY2hhbmdlIGZyb20gaG93IHRoaW5n
+cyB3ZXJlCj4gYmVmb3JlLiBLZWVwaW5nIHRoZSBudW1iZXJpbmcgY29uc2lzdGVudCBhbmQgYWxs
+b3dpbmcgZWFzeQo+IGNvbXBpbGUtdGVzdGluZyBvZiBib3RoIENPTkZJRyBzZXR0aW5ncyBzZWVt
+ZWQgd29ydGggaXQsIGVzcGVjaWFsbHkKPiBzaW5jZSBpdCB3b24ndCB0YWtlIHVwIGFueSBleHRy
+YSBzcGFjZSB1bnRpbCB3ZSd2ZSBhZGRlZCBhIGxvdCBtb3JlCj4gZmxhZ3MuCj4KPiBJIG9ubHkg
+bWFya2VkIHRoZSBmaXJzdCBwYXRjaCBhcyBhICJGaXgiIHNpbmNlIGl0IGlzIHRoZSBvbmx5IG9u
+ZQo+IGZpeGluZyBvYnNlcnZlZCBwcm9ibGVtcy4gT3RoZXIgcGF0Y2hlcyBjb3VsZCBiZSBjb25z
+aWRlcmVkIGZpeGVzIHRvbwo+IGlmIGZvbGtzIHdhbnQuCj4KPiBJIHRlc3RlZCB0aGUgZmlyc3Qg
+cGF0Y2ggaW4gdGhlIHNlcmllcyBiYWNrcG9ydGVkIHRvIGtlcm5lbCA2LjYgb24gdGhlCj4gUGl4
+ZWwgcGhvbmUgdGhhdCB3YXMgZXhwZXJpZW5jaW5nIHRoZSByYWNlLiBJIGFkZGVkIGV4dHJhIHBy
+aW50b3V0cyB0bwo+IG1ha2Ugc3VyZSB0aGF0IHRoZSBwcm9ibGVtIHdhcyBoaXR0aW5nIC8gYWRk
+cmVzc2VkLiBUaGUgcmVzdCBvZiB0aGUKPiBwYXRjaGVzIGFyZSB0ZXN0ZWQgd2l0aCBhbGxtb2Rj
+b25maWcgd2l0aCBhcm0zMiwgYXJtNjQsIHBwYywgYW5kCj4geDg2LiBJIGJvb3QgdGVzdGVkIG9u
+IGFuIGFybTY0IENocm9tZWJvb2sgcnVubmluZyBtYWlubGluZS4KPgo+IENoYW5nZXMgaW4gdjQ6
+Cj4gLSBVc2UgYWNjZXNzb3IgZnVuY3Rpb25zIGZvciBmbGFncwo+Cj4gQ2hhbmdlcyBpbiB2MzoK
+PiAtIFVzZSBhIG5ldyAiZmxhZ3MiIGJpdGZpZWxkCj4gLSBBZGQgbWlzc2luZyBcbiBpbiBwcm9i
+ZSBlcnJvciBtZXNzYWdlCj4KPiBDaGFuZ2VzIGluIHYyOgo+IC0gSW5zdGVhZCBvZiBhZGp1c3Rp
+bmcgdGhlIG9yZGVyaW5nLCB1c2UgInJlYWR5X3RvX3Byb2JlIiBmbGFnCj4KPiBEb3VnbGFzIEFu
+ZGVyc29uICg5KToKPiAgIGRyaXZlciBjb3JlOiBEb24ndCBsZXQgYSBkZXZpY2UgcHJvYmUgdW50
+aWwgaXQncyByZWFkeQo+ICAgZHJpdmVyIGNvcmU6IFJlcGxhY2UgZGV2LT5jYW5fbWF0Y2ggd2l0
+aCBkZXZfY2FuX21hdGNoKCkKPiAgIGRyaXZlciBjb3JlOiBSZXBsYWNlIGRldi0+ZG1hX2lvbW11
+IHdpdGggZGV2X2RtYV9pb21tdSgpCj4gICBkcml2ZXIgY29yZTogUmVwbGFjZSBkZXYtPmRtYV9z
+a2lwX3N5bmMgd2l0aCBkZXZfZG1hX3NraXBfc3luYygpCj4gICBkcml2ZXIgY29yZTogUmVwbGFj
+ZSBkZXYtPmRtYV9vcHNfYnlwYXNzIHdpdGggZGV2X2RtYV9vcHNfYnlwYXNzKCkKPiAgIGRyaXZl
+ciBjb3JlOiBSZXBsYWNlIGRldi0+c3RhdGVfc3luY2VkIHdpdGggZGV2X3N0YXRlX3N5bmNlZCgp
+Cj4gICBkcml2ZXIgY29yZTogUmVwbGFjZSBkZXYtPmRtYV9jb2hlcmVudCB3aXRoIGRldl9kbWFf
+Y29oZXJlbnQoKQo+ICAgZHJpdmVyIGNvcmU6IFJlcGxhY2UgZGV2LT5vZl9ub2RlX3JldXNlZCB3
+aXRoIGRldl9vZl9ub2RlX3JldXNlZCgpCj4gICBkcml2ZXIgY29yZTogUmVwbGFjZSBkZXYtPm9m
+ZmxpbmUgKyAtPm9mZmxpbmVfZGlzYWJsZWQgd2l0aCBhY2Nlc3NvcnMKPgo+ICBhcmNoL2FyYy9t
+bS9kbWEuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDQgKy0KPiAgYXJjaC9hcm0v
+bWFjaC1oaWdoYmFuay9oaWdoYmFuay5jICAgICAgICAgICAgIHwgICAyICstCj4gIGFyY2gvYXJt
+L21hY2gtbXZlYnUvY29oZXJlbmN5LmMgICAgICAgICAgICAgICB8ICAgMiArLQo+ICBhcmNoL2Fy
+bS9tbS9kbWEtbWFwcGluZy1ub21tdS5jICAgICAgICAgICAgICAgfCAgIDQgKy0KPiAgYXJjaC9h
+cm0vbW0vZG1hLW1hcHBpbmcuYyAgICAgICAgICAgICAgICAgICAgIHwgIDI4ICsrLS0KPiAgYXJj
+aC9hcm02NC9rZXJuZWwvY3B1ZmVhdHVyZS5jICAgICAgICAgICAgICAgIHwgICAyICstCj4gIGFy
+Y2gvYXJtNjQvbW0vZG1hLW1hcHBpbmcuYyAgICAgICAgICAgICAgICAgICB8ICAgMiArLQo+ICBh
+cmNoL21pcHMvbW0vZG1hLW5vbmNvaGVyZW50LmMgICAgICAgICAgICAgICAgfCAgIDIgKy0KPiAg
+YXJjaC9wb3dlcnBjL2tlcm5lbC9kbWEtaW9tbXUuYyAgICAgICAgICAgICAgIHwgICA4ICstCj4g
+IC4uLi9wbGF0Zm9ybXMvcHNlcmllcy9ob3RwbHVnLW1lbW9yeS5jICAgICAgICB8ICAgNCArLQo+
+ICBhcmNoL3Jpc2N2L21tL2RtYS1ub25jb2hlcmVudC5jICAgICAgICAgICAgICAgfCAgIDIgKy0K
+PiAgZHJpdmVycy9hY3BpL3NjYW4uYyAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAyICst
+Cj4gIGRyaXZlcnMvYmFzZS9jb3JlLmMgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICA1MyAr
+KysrKy0tLQo+ICBkcml2ZXJzL2Jhc2UvY3B1LmMgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+fCAgIDQgKy0KPiAgZHJpdmVycy9iYXNlL2RkLmMgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IHwgIDI4ICsrLS0KPiAgZHJpdmVycy9iYXNlL21lbW9yeS5jICAgICAgICAgICAgICAgICAgICAg
+ICAgIHwgICAyICstCj4gIGRyaXZlcnMvYmFzZS9waW5jdHJsLmMgICAgICAgICAgICAgICAgICAg
+ICAgICB8ICAgMiArLQo+ICBkcml2ZXJzL2Jhc2UvcGxhdGZvcm0uYyAgICAgICAgICAgICAgICAg
+ICAgICAgfCAgIDIgKy0KPiAgZHJpdmVycy9kbWEvdGkvazMtdWRtYS1nbHVlLmMgICAgICAgICAg
+ICAgICAgIHwgICA2ICstCj4gIGRyaXZlcnMvZG1hL3RpL2szLXVkbWEuYyAgICAgICAgICAgICAg
+ICAgICAgICB8ICAgNiArLQo+ICBkcml2ZXJzL2lvbW11L2RtYS1pb21tdS5jICAgICAgICAgICAg
+ICAgICAgICAgfCAgIDkgKy0KPiAgZHJpdmVycy9pb21tdS9pb21tdS5jICAgICAgICAgICAgICAg
+ICAgICAgICAgIHwgICA1ICstCj4gIGRyaXZlcnMvbmV0L3Bjcy9wY3MteHBjcy1wbGF0LmMgICAg
+ICAgICAgICAgICB8ICAgMiArLQo+ICBkcml2ZXJzL29mL2RldmljZS5jICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgfCAgIDYgKy0KPiAgZHJpdmVycy9wY2kvb2YuYyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIHwgICAyICstCj4gIGRyaXZlcnMvcGNpL3B3cmN0cmwvY29yZS5jICAgICAg
+ICAgICAgICAgICAgICB8ICAgMiArLQo+ICBkcml2ZXJzL3JlZ3VsYXRvci9icTI1N3h4LXJlZ3Vs
+YXRvci5jICAgICAgICAgfCAgIDIgKy0KPiAgZHJpdmVycy9yZWd1bGF0b3Ivcms4MDgtcmVndWxh
+dG9yLmMgICAgICAgICAgIHwgICAyICstCj4gIGRyaXZlcnMvdHR5L3NlcmlhbC9zZXJpYWxfYmFz
+ZV9idXMuYyAgICAgICAgICB8ICAgMiArLQo+ICBkcml2ZXJzL3VzYi9nYWRnZXQvdWRjL2FzcGVl
+ZC12aHViL2Rldi5jICAgICAgfCAgIDIgKy0KPiAgaW5jbHVkZS9saW51eC9kZXZpY2UuaCAgICAg
+ICAgICAgICAgICAgICAgICAgIHwgMTIwICsrKysrKysrKysrKy0tLS0tLQo+ICBpbmNsdWRlL2xp
+bnV4L2RtYS1tYXAtb3BzLmggICAgICAgICAgICAgICAgICAgfCAgIDYgKy0KPiAgaW5jbHVkZS9s
+aW51eC9kbWEtbWFwcGluZy5oICAgICAgICAgICAgICAgICAgIHwgICAyICstCj4gIGluY2x1ZGUv
+bGludXgvaW9tbXUtZG1hLmggICAgICAgICAgICAgICAgICAgICB8ICAgMyArLQo+ICBrZXJuZWwv
+Y3B1LmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDQgKy0KPiAga2VybmVs
+L2RtYS9tYXBwaW5nLmMgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDEyICstCj4gIG1tL2ht
+bS5jICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgMiArLQo+ICAzNyBm
+aWxlcyBjaGFuZ2VkLCAyMDYgaW5zZXJ0aW9ucygrKSwgMTQyIGRlbGV0aW9ucygtKQo+Cj4gLS0K
+CkZvciB0aGUgd2hvbGUgc2V0CgpSZXZpZXdlZC1ieTogUmFmYWVsIEouIFd5c29ja2kgKEludGVs
+KSA8cmFmYWVsQGtlcm5lbC5vcmc+CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNA
+bGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
