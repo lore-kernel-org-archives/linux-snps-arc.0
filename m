@@ -4,87 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75E31CD6E57
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  2 Jun 2026 20:51:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C86CCD6E55
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  3 Jun 2026 13:42:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=RaSMA/Ln5FD5AszuLzSNm/GHg8eX4WjUNAC6qEgBOjE=; b=oP+o0Ww+nqhXCn
-	wsr1jvegBRYPOtYkrLydXd/rRbWggAE/pN4phmIeAY4mBCrSDa5sR7g21Negu36A9ntrSqFbXvKq0
-	a/SDqH8BLbgvz2vW+xMiBf4q/a66tRXqiZO2mLgo7oYmKab2gVAIugaL+COTPaixh/GvuUVz1djwQ
-	r/hgp6eEZxeMxAYrseO5Fmjg1QxBG79x5vjbKtdlh86rSHI2kXeqcNeXgM3ALGbzm/UpUDJa6O7X3
-	rvOZ+yRyRc44nJbupGEfOYR//+iStMP0E7QLRhkkH3BkwhvfhD2qwmn0QukjHqjdh/AoTrHgkT2la
-	gn5IqdW4zwPgsAwi/zCg==;
+	Content-Transfer-Encoding:Content-Type:MIME-Version:List-Subscribe:List-Help:
+	List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:From
+	:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=t2HLzZX+ApBWXv6itggVxf5UyCJ/QIIFOb6X+xhNimk=; b=EnTUxUQDm+HybY
+	z8YP+mTA11U0K1QBxoz9zedsgm8fYV1Izl5d+SUAlS8QQ9oPNZjiiRt2fBdsMokAd2N28nalasfSx
+	X9v+GBJZIshNbdMVGVXFNREzqawfsP5OoFEbtDMtwovCqeHSWORQNBXTi8fYYP7cW29MxEHqNv5Hm
+	kEyoRM/x2dnlzRhae6QSzBLdW7ah0wxLMcTTpYo9t+yQ9S8Dp1Wtzdjyqd7WrzZEzbTIVG5H3IKKc
+	+MZRobK/yCM3f6OrPu4v2OyL3cYu1TdLcNhjwltGrN/2mMO1hheTwZtJyvWLFn+3WSTp8cvm4sIne
+	MB8/2Bx/IMcZFd7kMtPw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wUW5K-0000000DmX4-36Kp;
-	Tue, 02 Jun 2026 20:51:38 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1wUlra-0000000FC6T-2q1A;
+	Wed, 03 Jun 2026 13:42:30 +0000
+Received: from mgamail.intel.com ([198.175.65.17])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wUW5H-0000000DmW0-2yXp
+	id 1wUlrX-0000000FBqG-11qD
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 02 Jun 2026 20:51:36 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id E30E6445A8
-	for <linux-snps-arc@lists.infradead.org>; Tue,  2 Jun 2026 20:51:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0BB11F008A7
-	for <linux-snps-arc@lists.infradead.org>; Tue,  2 Jun 2026 20:51:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780433494;
-	bh=G6rZ7t6/DhXfpQVj0UlyYqS4gIMH66eg2Oc1gFXbhJ0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=WsQo944GDchg/wLfBxF995MDsIQlWR94qpNUGNWfmtj0cc9Cm6IAvLYK49Jz+sub+
-	 cCz9hX3qvk2i7XzqttjMLfpB2FTj81X0WI8T9GOEFst61x7uetTvHoQlZHBhkw3wj+
-	 pWEXAl35dtpSL5N9q+XzcWkaBdzolGpamWnG3Ut+8eiWiblT+djxuby3gRu3VBbNTW
-	 b5gX5xDdjGnEk3Uf3Rhjs7eEYv4grJDMr3ZOHMMp2kabifDBAot1ZDAITd3RH9n/oV
-	 ENGlOonCAxXOF1Zy8Nr8B/0OQsXqHHxsvHFgQOc4sUtBFr0j9jX5I0vS+C7g/hnM3X
-	 sTT2vS+XYtAaA==
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-7e2f3646c10so38383077b3.0
-        for <linux-snps-arc@lists.infradead.org>; Tue, 02 Jun 2026 13:51:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/G4q2y4az1oCAGbbEsV6pP87UVj9zAQWLt6kt57GedBQEMoeYI7yLWrt7wsEf5wSJofrfCnaqHlXdo8CO3CA==@lists.infradead.org
-X-Gm-Message-State: AOJu0YxWeU18n7jN9u0EmcLr2LH1L1oVJgnTl40phZjv/09uEb+CX5NK
-	OPzMgx4u1Al1G4+G90SXVfGP0yL/qoAJBTv8w0vege5ty2X/obhQ+6Qq3e1qG90wmU1DoOGlYeN
-	2qtgj4bF/mWtc3VjozYAMk6hGoWl1u3c=
-X-Received: by 2002:a05:690c:620f:b0:7b3:edc7:9b97 with SMTP id
- 00721157ae682-7ea4400dc8fmr7795367b3.0.1780433493990; Tue, 02 Jun 2026
- 13:51:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260304-gpio-of-kconfig-v1-0-d597916e79e7@oss.qualcomm.com> <20260304-gpio-of-kconfig-v1-7-d597916e79e7@oss.qualcomm.com>
-In-Reply-To: <20260304-gpio-of-kconfig-v1-7-d597916e79e7@oss.qualcomm.com>
-From: Timur Tabi <timur@kernel.org>
-Date: Tue, 2 Jun 2026 15:50:57 -0500
-X-Gmail-Original-Message-ID: <CAOZdJXXetr-FPZUSX_nzS5nZc+bbv5b1m78sCcZzrDJi7C05vw@mail.gmail.com>
-X-Gm-Features: AVHnY4IltjGxIj5Fh6-JK6uSKIHTP0yZBU085pIyp8WmlCvLfmlYl2sow6Y3Jn0
-Message-ID: <CAOZdJXXetr-FPZUSX_nzS5nZc+bbv5b1m78sCcZzrDJi7C05vw@mail.gmail.com>
-Subject: Re: [PATCH 07/14] pinctrl: Kconfig: drop unneeded dependencies on OF_GPIO
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Alexey Brodkin <abrodkin@synopsys.com>, Vineet Gupta <vgupta@kernel.org>, Scott Wood <oss@buserror.net>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Dvorkin Dmitry <dvorkin@tibbo.com>, 
-	Wells Lu <wellslutw@gmail.com>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Guenter Roeck <linux@roeck-us.net>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Sebastian Reichel <sre@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
-	linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-amlogic@lists.infradead.org, 
-	linux-leds@vger.kernel.org, linux-hwmon@vger.kernel.org, 
-	linux-watchdog@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-pm@vger.kernel.org
+	Wed, 03 Jun 2026 13:42:29 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780494147; x=1812030147;
+  h=date:from:to:cc:subject:message-id;
+  bh=l1yoXBjwYXfxs6FuuBBA3f2rs43NWhsl+b8/ba5IlDY=;
+  b=cb6dCD2SgR7BYtYWbExBaw8ectPj4xqpxW/T+JqNG/rI3k46nTYWVc8s
+   HChAP6Dj4E8xkdvzFf2R3Tm5YNtRsW9RreGvO9eWGIP/+eA9s+5fp9C72
+   BTMNHIno6/r4jG+53ijEW2d6NV9ThPKwmUMu9V131z0QZ48PXxbY8hevk
+   2erhfNEjoXQ3nMnEn1XbGeRmnItBxYLrXtuPDHUUX3nDHwfnBiIMfvh6m
+   rWM1Gv8bLm6nof9QMJxW/Im5cMTPpQuV0WAUTwfnrX2v3Vj9J+snG0t+a
+   KiaYnh+uT2weE7EiNB1SV8zKgLNoR9SDYK3mwSK5wd45AEI4wAz4wbckh
+   Q==;
+X-CSE-ConnectionGUID: eiyaspoESgKOC3FSMHUrsA==
+X-CSE-MsgGUID: ss8nkDrGQXqEydbgh/uCqA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="81299479"
+X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
+   d="scan'208";a="81299479"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 06:40:25 -0700
+X-CSE-ConnectionGUID: XB9ZMmlBTTK9yp20V7C7OQ==
+X-CSE-MsgGUID: IYFduMaqQcukSP+nqEPinQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
+   d="scan'208";a="268144447"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 03 Jun 2026 06:40:22 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wUlpU-00000000DTM-0Hqo;
+	Wed, 03 Jun 2026 13:40:20 +0000
+Date: Wed, 03 Jun 2026 21:39:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, Vineet Gupta <vgupta@kernel.org>
+Subject: include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse:
+ sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes
+ deafcafe)
+Message-ID: <202606032126.mdl90A9W-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260602_135135_794122_00D212E5 
-X-CRM114-Status: GOOD (  13.81  )
+X-CRM114-CacheID: sfid-20260603_064227_323759_35BF3290 
+X-CRM114-Status: UNSURE (   6.69  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,34 +82,90 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-T24gV2VkLCBNYXIgNCwgMjAyNiBhdCAzOjA34oCvQU0gQmFydG9zeiBHb2xhc3pld3NraQo8YmFy
-dG9zei5nb2xhc3pld3NraUBvc3MucXVhbGNvbW0uY29tPiB3cm90ZToKPgo+IEBAIC01NTcsNyAr
-NTQ5LDYgQEAgY29uZmlnIFBJTkNUUkxfU1QKPiAgY29uZmlnIFBJTkNUUkxfU1RNRlgKPiAgICAg
-ICAgIHRyaXN0YXRlICJTVE1pY3JvZWxlY3Ryb25pY3MgU1RNRlggR1BJTyBleHBhbmRlciBwaW5j
-dHJsIGRyaXZlciIKPiAgICAgICAgIGRlcGVuZHMgb24gSTJDCj4gLSAgICAgICBkZXBlbmRzIG9u
-IE9GX0dQSU8KPiAgICAgICAgIGRlcGVuZHMgb24gSEFTX0lPTUVNCj4gICAgICAgICBzZWxlY3Qg
-R0VORVJJQ19QSU5DT05GCj4gICAgICAgICBzZWxlY3QgR1BJT0xJQl9JUlFDSElQCgpUaGlzIGNo
-YW5nZSBjYXVzZXMgdGhlIGZvbGxvd2luZyB3YXJuaW5nIG9uIGJ1aWxkczoKCldBUk5JTkc6IHVu
-bWV0IGRpcmVjdCBkZXBlbmRlbmNpZXMgZGV0ZWN0ZWQgZm9yIE1GRF9TVE1GWApEZXBlbmRzIG9u
-IFtuXTogSEFTX0lPTUVNIFs9eV0gJiYgSTJDIFs9eV0gJiYgT0YgWz1uXQpTZWxlY3RlZCBieSBb
-bV06Ci0gUElOQ1RSTF9TVE1GWCBbPW1dICYmIFBJTkNUUkwgWz15XSAmJiBJMkMgWz15XSAmJiBI
-QVNfSU9NRU0gWz15XQoKV0FSTklORzogdW5tZXQgZGlyZWN0IGRlcGVuZGVuY2llcyBkZXRlY3Rl
-ZCBmb3IgTUZEX1NUTUZYCkRlcGVuZHMgb24gW25dOiBIQVNfSU9NRU0gWz15XSAmJiBJMkMgWz15
-XSAmJiBPRiBbPW5dClNlbGVjdGVkIGJ5IFttXToKLSBQSU5DVFJMX1NUTUZYIFs9bV0gJiYgUElO
-Q1RSTCBbPXldICYmIEkyQyBbPXldICYmIEhBU19JT01FTSBbPXldCgpJIGJlbGlldmUgdGhlIHBy
-b3BlciBmaXggaXMgdG8gaGF2ZSBQSU5DVFJMX1NUTUZYIGRlcGVuZCBvbiBDT05GSUdfT0YsCnNp
-bmNlIHRoaXMgZHJpdmVyIGFjdHVhbGx5IGRvZXMgZGVwZW5kIG9uIENPTkZJR19PRi4gIFRoZSB3
-YXJuaW5nCmNvbWVzIGJlY2F1c2UgaWYgQ09ORklHX09GIGlzIGRpc2FibGVkLCBQSU5DVFJMX1NU
-TUZYIGNhbiBzdGlsbCBiZQplbmFibGVkLCBidXQgaW4gZG9pbmcgc28gaXQgc2VsZWN0cyBNRkRf
-U1RNRlggd2hpY2ggZG9lcyBkZXBlbmQgb24KQ09ORklHX09GLgoKQWRkaW5nICJkZXBlbmRzIG9u
-IE9GIiB0byAiY29uZmlnIFBJTkNUUkxfU1RNRlgiIHNlZW1zIHRvIGZpeCB0aGUKcHJvYmxlbSwg
-YnV0IEknbSBub3QgZmFtaWxpYXIgd2l0aCB0aGlzIGRyaXZlciBzbyBJJ20gbm90IHN1cmUgdGhp
-cyBpcwp0aGUgcmlnaHQgZml4LiAgSSdsbCBwb3N0IGEgcGF0Y2guCgpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxp
-c3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFk
-ZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ba3e43a9e601636f5edb54e259a74f96ca3b8fd8
+commit: ea7caffedd011f7d40abe93a884ffbe46f122535 ARC: atomics: Implement arch_atomic64_cmpxchg using _relaxed
+date:   12 months ago
+config: arc-randconfig-r123-20260603 (https://download.01.org/0day-ci/archive/20260603/202606032126.mdl90A9W-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 16.1.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606032126.mdl90A9W-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Fixes: ea7caffedd01 ("ARC: atomics: Implement arch_atomic64_cmpxchg using _relaxed")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606032126.mdl90A9W-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+   lib/atomic64_test.c: note: in included file (through include/linux/atomic.h, include/asm-generic/bitops/lock.h, arch/arc/include/asm/bitops.h, include/linux/bitops.h, ...):
+   include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse: sparse: cast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
+>> include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
+   include/linux/atomic/atomic-arch-fallback.h:4181:16: sparse: sparse: cast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
+   include/linux/atomic/atomic-arch-fallback.h:4181:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
+   include/linux/atomic/atomic-arch-fallback.h:4209:16: sparse: sparse: cast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
+   include/linux/atomic/atomic-arch-fallback.h:4209:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
+   include/linux/atomic/atomic-arch-fallback.h:4234:16: sparse: sparse: cast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
+   include/linux/atomic/atomic-arch-fallback.h:4234:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
+   include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse: sparse: cast truncates bits from constant value (faceabadf00df001 becomes f00df001)
+>> include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
+   include/linux/atomic/atomic-arch-fallback.h:4181:16: sparse: sparse: cast truncates bits from constant value (faceabadf00df001 becomes f00df001)
+   include/linux/atomic/atomic-arch-fallback.h:4181:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
+   include/linux/atomic/atomic-arch-fallback.h:4209:16: sparse: sparse: cast truncates bits from constant value (faceabadf00df001 becomes f00df001)
+   include/linux/atomic/atomic-arch-fallback.h:4209:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
+   include/linux/atomic/atomic-arch-fallback.h:4234:16: sparse: sparse: cast truncates bits from constant value (faceabadf00df001 becomes f00df001)
+   include/linux/atomic/atomic-arch-fallback.h:4234:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
+
+vim +4152 include/linux/atomic/atomic-arch-fallback.h
+
+37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4126  
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4127  /**
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4128   * raw_atomic64_cmpxchg() - atomic compare and exchange with full ordering
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4129   * @v: pointer to atomic64_t
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4130   * @old: s64 value to compare with
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4131   * @new: s64 value to assign
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4132   *
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4133   * If (@v == @old), atomically updates @v to @new with full ordering.
+6dfee110c6cc7a include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2024-02-09  4134   * Otherwise, @v is not modified and relaxed ordering is provided.
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4135   *
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4136   * Safe to use in noinstr code; prefer atomic64_cmpxchg() elsewhere.
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4137   *
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4138   * Return: The original value of @v.
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4139   */
+37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4140  static __always_inline s64
+9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4141  raw_atomic64_cmpxchg(atomic64_t *v, s64 old, s64 new)
+37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4142  {
+1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4143  #if defined(arch_atomic64_cmpxchg)
+1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4144  	return arch_atomic64_cmpxchg(v, old, new);
+1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4145  #elif defined(arch_atomic64_cmpxchg_relaxed)
+37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4146  	s64 ret;
+37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4147  	__atomic_pre_full_fence();
+9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4148  	ret = arch_atomic64_cmpxchg_relaxed(v, old, new);
+37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4149  	__atomic_post_full_fence();
+37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4150  	return ret;
+9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4151  #else
+9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05 @4152  	return raw_cmpxchg(&v->counter, old, new);
+d12157efc8e083 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4153  #endif
+1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4154  }
+d12157efc8e083 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4155  
+
+:::::: The code at line 4152 was first introduced by commit
+:::::: 9257959a6e5b4fca6fc8e985790bff62c2046f20 locking/atomic: scripts: restructure fallback ifdeffery
+
+:::::: TO: Mark Rutland <mark.rutland@arm.com>
+:::::: CC: Peter Zijlstra <peterz@infradead.org>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
