@@ -4,73 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C86CCD6E55
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  3 Jun 2026 13:42:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 27B1ECD8C9D
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 11 Jun 2026 18:37:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:From
-	:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=t2HLzZX+ApBWXv6itggVxf5UyCJ/QIIFOb6X+xhNimk=; b=EnTUxUQDm+HybY
-	z8YP+mTA11U0K1QBxoz9zedsgm8fYV1Izl5d+SUAlS8QQ9oPNZjiiRt2fBdsMokAd2N28nalasfSx
-	X9v+GBJZIshNbdMVGVXFNREzqawfsP5OoFEbtDMtwovCqeHSWORQNBXTi8fYYP7cW29MxEHqNv5Hm
-	kEyoRM/x2dnlzRhae6QSzBLdW7ah0wxLMcTTpYo9t+yQ9S8Dp1Wtzdjyqd7WrzZEzbTIVG5H3IKKc
-	+MZRobK/yCM3f6OrPu4v2OyL3cYu1TdLcNhjwltGrN/2mMO1hheTwZtJyvWLFn+3WSTp8cvm4sIne
-	MB8/2Bx/IMcZFd7kMtPw==;
+	List-Owner; bh=Lw9LhO45nZrMG9f2g4g8gwjSQ/nMT5VR6Nxo22pErKI=; b=Zf6xaWk4QKdG1L
+	GFyxKRj7RxgH8GVEjmGC8ZNgXyiWMDqaJ/S9YpyBNsVBgv6qcGtbDT99RMDs2yx+pBXgnFLzSwCLF
+	wj04rAunXb86xinBe4vCDb4HHxgLXmJCAsCy0HxbYrJTmf7XAUAZ5B22Xc/OfUJ27Or1/wihtJQAh
+	oYXgUFMdCNkw1+Cn9bwu4WFGaBs15QguEdETefn0E5ihYVEGDDzH31Kig/fVoEh/fm3ZaUf+vfsWJ
+	qli5Ds9+pYhkNjcLrdir8qO6Te1upeye99FpiyARt9IslicvNlD8rKPwLj4vPsq6PGHgAn7UmM/B/
+	RCv9wE8nn/jOhFgt0rZQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wUlra-0000000FC6T-2q1A;
-	Wed, 03 Jun 2026 13:42:30 +0000
-Received: from mgamail.intel.com ([198.175.65.17])
+	id 1wXkHJ-00000009tGB-0CjG;
+	Thu, 11 Jun 2026 18:37:21 +0000
+Received: from mout-p-102.mailbox.org ([2001:67c:2050:0:465::102])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wUlrX-0000000FBqG-11qD
-	for linux-snps-arc@lists.infradead.org;
-	Wed, 03 Jun 2026 13:42:29 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780494147; x=1812030147;
-  h=date:from:to:cc:subject:message-id;
-  bh=l1yoXBjwYXfxs6FuuBBA3f2rs43NWhsl+b8/ba5IlDY=;
-  b=cb6dCD2SgR7BYtYWbExBaw8ectPj4xqpxW/T+JqNG/rI3k46nTYWVc8s
-   HChAP6Dj4E8xkdvzFf2R3Tm5YNtRsW9RreGvO9eWGIP/+eA9s+5fp9C72
-   BTMNHIno6/r4jG+53ijEW2d6NV9ThPKwmUMu9V131z0QZ48PXxbY8hevk
-   2erhfNEjoXQ3nMnEn1XbGeRmnItBxYLrXtuPDHUUX3nDHwfnBiIMfvh6m
-   rWM1Gv8bLm6nof9QMJxW/Im5cMTPpQuV0WAUTwfnrX2v3Vj9J+snG0t+a
-   KiaYnh+uT2weE7EiNB1SV8zKgLNoR9SDYK3mwSK5wd45AEI4wAz4wbckh
-   Q==;
-X-CSE-ConnectionGUID: eiyaspoESgKOC3FSMHUrsA==
-X-CSE-MsgGUID: ss8nkDrGQXqEydbgh/uCqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="81299479"
-X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="81299479"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 06:40:25 -0700
-X-CSE-ConnectionGUID: XB9ZMmlBTTK9yp20V7C7OQ==
-X-CSE-MsgGUID: IYFduMaqQcukSP+nqEPinQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="268144447"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 03 Jun 2026 06:40:22 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wUlpU-00000000DTM-0Hqo;
-	Wed, 03 Jun 2026 13:40:20 +0000
-Date: Wed, 03 Jun 2026 21:39:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, Vineet Gupta <vgupta@kernel.org>
-Subject: include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse:
- sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes
- deafcafe)
-Message-ID: <202606032126.mdl90A9W-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	id 1wXkHF-00000009tEx-39HQ;
+	Thu, 11 Jun 2026 18:37:19 +0000
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gbrwN2g2kz9tWv;
+	Thu, 11 Jun 2026 20:37:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1781203028;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Dkv0Y88H+SR6ILk9sT/YTT+0skYukMCzceYVycVftns=;
+	b=dDcc08x0dcrKswHlCVxuROso1L8H2qo5xxLwb2GdvV2xY4AFA5F9RTOimgpKn5pxzpRufh
+	tuzqlDg4A/rMg7HKbaHXE3Vn8IMzlSkyObAvpKbFCrjOXigEghkfPqHyz21cbPm/v+RB2l
+	lKbNlYW77r7imN2qll75tefdhZS8Z9cFOW+c5+P8mS+wPK4d4VwSyRmVXFe92peAB8WLng
+	A5/8uiQVtk2fibFWyO1c3OU9AeUBbNZgE1rYZdsN/u0W8kE0k69/i6qInDr/o2vEse8Kkc
+	7lH0fpN/C1Hu12dfoxky+PSj7B3F9OEOn08lRas9tdnimqiR3kdSw4VZBudakg==
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1781203022;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Dkv0Y88H+SR6ILk9sT/YTT+0skYukMCzceYVycVftns=;
+	b=yHxSM7TAtkgtiG7evw5aBg+nfR1e5mMA5TA7y6XTlvnRHkWVkwOgn7nzTTVwgiJfxrlSPw
+	Fq6b2wdI56NyVbncWKl66lO/iR9AszePqYiGiIJS1Lnjbk/DbXPERUSPgNsiAwW8Xv8gBr
+	9sJTd5vM8OCzoTh48DBrJTg+X4eYfzigRIXzj5phRIFhp3mxRKM/hXHh9qnPi3MkMWml1z
+	9AbAxExj8Rl6A86dy7oZMZIJIUm83Z4Y6TQoBFXIF9dNdlS3J1vNIZLdCAFK8O2yqXcnEj
+	+bODCeBRbhc1fQWZrgL1UmtZcarxtrM5WqAJEGAWdVgLtWZN++53G17Pw0dPfw==
+To: Vineet Gupta <vgupta@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <chleroy@kernel.org>,
+	linux-snps-arc@lists.infradead.org (open list:SYNOPSYS ARC ARCHITECTURE),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list),
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES),
+	linux-samsung-soc@vger.kernel.org (open list:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES),
+	linuxppc-dev@lists.ozlabs.org (open list:LINUX FOR POWERPC (32-BIT AND 64-BIT))
+Cc: Manuel Ebner <manuelebner@mailbox.org>
+Subject: [PATCH] Documentation: arch: fix brackets
+Date: Thu, 11 Jun 2026 20:35:20 +0200
+Message-ID: <20260611183525.153058-2-manuelebner@mailbox.org>
+MIME-Version: 1.0
+X-MBO-RS-META: f6zk6t8i7udhsfuxo6bwkb9axkpyzqtj
+X-MBO-RS-ID: 29289ebd505fa1394bb
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260603_064227_323759_35BF3290 
-X-CRM114-Status: UNSURE (   6.69  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260611_113718_023012_97B38B32 
+X-CRM114-Status: GOOD (  14.18  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,90 +94,178 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ba3e43a9e601636f5edb54e259a74f96ca3b8fd8
-commit: ea7caffedd011f7d40abe93a884ffbe46f122535 ARC: atomics: Implement arch_atomic64_cmpxchg using _relaxed
-date:   12 months ago
-config: arc-randconfig-r123-20260603 (https://download.01.org/0day-ci/archive/20260603/202606032126.mdl90A9W-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 16.1.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260603/202606032126.mdl90A9W-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Fixes: ea7caffedd01 ("ARC: atomics: Implement arch_atomic64_cmpxchg using _relaxed")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606032126.mdl90A9W-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
-   lib/atomic64_test.c: note: in included file (through include/linux/atomic.h, include/asm-generic/bitops/lock.h, arch/arc/include/asm/bitops.h, include/linux/bitops.h, ...):
-   include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse: sparse: cast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
->> include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
-   include/linux/atomic/atomic-arch-fallback.h:4181:16: sparse: sparse: cast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
-   include/linux/atomic/atomic-arch-fallback.h:4181:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
-   include/linux/atomic/atomic-arch-fallback.h:4209:16: sparse: sparse: cast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
-   include/linux/atomic/atomic-arch-fallback.h:4209:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
-   include/linux/atomic/atomic-arch-fallback.h:4234:16: sparse: sparse: cast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
-   include/linux/atomic/atomic-arch-fallback.h:4234:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
-   include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse: sparse: cast truncates bits from constant value (faceabadf00df001 becomes f00df001)
->> include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
-   include/linux/atomic/atomic-arch-fallback.h:4181:16: sparse: sparse: cast truncates bits from constant value (faceabadf00df001 becomes f00df001)
-   include/linux/atomic/atomic-arch-fallback.h:4181:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
-   include/linux/atomic/atomic-arch-fallback.h:4209:16: sparse: sparse: cast truncates bits from constant value (faceabadf00df001 becomes f00df001)
-   include/linux/atomic/atomic-arch-fallback.h:4209:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
-   include/linux/atomic/atomic-arch-fallback.h:4234:16: sparse: sparse: cast truncates bits from constant value (faceabadf00df001 becomes f00df001)
-   include/linux/atomic/atomic-arch-fallback.h:4234:16: sparse: sparse: cast truncates bits from constant value (deadbeefdeafcafe becomes deafcafe)
-
-vim +4152 include/linux/atomic/atomic-arch-fallback.h
-
-37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4126  
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4127  /**
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4128   * raw_atomic64_cmpxchg() - atomic compare and exchange with full ordering
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4129   * @v: pointer to atomic64_t
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4130   * @old: s64 value to compare with
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4131   * @new: s64 value to assign
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4132   *
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4133   * If (@v == @old), atomically updates @v to @new with full ordering.
-6dfee110c6cc7a include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2024-02-09  4134   * Otherwise, @v is not modified and relaxed ordering is provided.
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4135   *
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4136   * Safe to use in noinstr code; prefer atomic64_cmpxchg() elsewhere.
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4137   *
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4138   * Return: The original value of @v.
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4139   */
-37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4140  static __always_inline s64
-9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4141  raw_atomic64_cmpxchg(atomic64_t *v, s64 old, s64 new)
-37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4142  {
-1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4143  #if defined(arch_atomic64_cmpxchg)
-1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4144  	return arch_atomic64_cmpxchg(v, old, new);
-1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4145  #elif defined(arch_atomic64_cmpxchg_relaxed)
-37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4146  	s64 ret;
-37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4147  	__atomic_pre_full_fence();
-9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4148  	ret = arch_atomic64_cmpxchg_relaxed(v, old, new);
-37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4149  	__atomic_post_full_fence();
-37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4150  	return ret;
-9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4151  #else
-9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05 @4152  	return raw_cmpxchg(&v->counter, old, new);
-d12157efc8e083 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4153  #endif
-1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4154  }
-d12157efc8e083 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4155  
-
-:::::: The code at line 4152 was first introduced by commit
-:::::: 9257959a6e5b4fca6fc8e985790bff62c2046f20 locking/atomic: scripts: restructure fallback ifdeffery
-
-:::::: TO: Mark Rutland <mark.rutland@arm.com>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+QWRkIG1pc3NpbmcgYW5kIHJlbW92ZSBuZWVkbGVzcyBwYXJlbnRoZXNlcywgYnJhY2tldHMgYW5k
+IGN1cmx5IGJyYWNlcy4KClNpZ25lZC1vZmYtYnk6IE1hbnVlbCBFYm5lciA8bWFudWVsZWJuZXJA
+bWFpbGJveC5vcmc+Ci0tLQogRG9jdW1lbnRhdGlvbi9hcmNoL2FyYy9hcmMucnN0ICAgICAgICAg
+ICAgICAgICB8ICAyICstCiAuLi4vYXJtL3NhbXN1bmcvY2xrc3JjLWNoYW5nZS1yZWdpc3RlcnMu
+YXdrICAgIHwgIDIgKy0KIERvY3VtZW50YXRpb24vYXJjaC9hcm0vdmxvY2tzLnJzdCAgICAgICAg
+ICAgICAgfCAgNCArKy0tCiAuLi4vYXJjaC9hcm02NC9tZW1vcnktdGFnZ2luZy1leHRlbnNpb24u
+cnN0ICAgIHwgIDIgKy0KIERvY3VtZW50YXRpb24vYXJjaC9wb3dlcnBjL3Zhcy1hcGkucnN0ICAg
+ICAgICAgfCAgMiArLQogRG9jdW1lbnRhdGlvbi9hcmNoL3NwYXJjL29yYWRheC9kYXgtaHYtYXBp
+LnR4dCB8IDE4ICsrKysrKysrKy0tLS0tLS0tLQogRG9jdW1lbnRhdGlvbi9hcmNoL3NwYXJjL29y
+YWRheC9vcmFjbGUtZGF4LnJzdCB8ICAzICsrLQogNyBmaWxlcyBjaGFuZ2VkLCAxNyBpbnNlcnRp
+b25zKCspLCAxNiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2FyY2gv
+YXJjL2FyYy5yc3QgYi9Eb2N1bWVudGF0aW9uL2FyY2gvYXJjL2FyYy5yc3QKaW5kZXggNmM0ZDk3
+OGYzZjRlLi41NTM4NTFmNDNiZTcgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vYXJjaC9hcmMv
+YXJjLnJzdAorKysgYi9Eb2N1bWVudGF0aW9uL2FyY2gvYXJjL2FyYy5yc3QKQEAgLTM2LDcgKzM2
+LDcgQEAgSW1wb3J0YW50IG5vdGUgb24gQVJDIHByb2Nlc3NvcnMgY29uZmlndXJhYmlsaXR5CiAK
+IEFSQyBwcm9jZXNzb3JzIGFyZSBoaWdobHkgY29uZmlndXJhYmxlIGFuZCBzZXZlcmFsIGNvbmZp
+Z3VyYWJsZSBvcHRpb25zCiBhcmUgc3VwcG9ydGVkIGluIExpbnV4LiBTb21lIG9wdGlvbnMgYXJl
+IHRyYW5zcGFyZW50IHRvIHNvZnR3YXJlCi0oaS5lIGNhY2hlIGdlb21ldHJpZXMsIHNvbWUgY2Fu
+IGJlIGRldGVjdGVkIGF0IHJ1bnRpbWUgYW5kIGNvbmZpZ3VyZWQKKyhpLmUgY2FjaGUgZ2VvbWV0
+cmllcyksIHNvbWUgY2FuIGJlIGRldGVjdGVkIGF0IHJ1bnRpbWUgYW5kIGNvbmZpZ3VyZWQKIGFu
+ZCB1c2VkIGFjY29yZGluZ2x5LCB3aGlsZSBzb21lIG5lZWQgdG8gYmUgZXhwbGljaXRseSBzZWxl
+Y3RlZCBvciBjb25maWd1cmVkCiBpbiB0aGUga2VybmVsJ3MgY29uZmlndXJhdGlvbiB1dGlsaXR5
+IChBS0EgIm1ha2UgbWVudWNvbmZpZyIpLgogCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2Fy
+Y2gvYXJtL3NhbXN1bmcvY2xrc3JjLWNoYW5nZS1yZWdpc3RlcnMuYXdrIGIvRG9jdW1lbnRhdGlv
+bi9hcmNoL2FybS9zYW1zdW5nL2Nsa3NyYy1jaGFuZ2UtcmVnaXN0ZXJzLmF3awppbmRleCA3YmUx
+YjhhYTdjZDkuLjQ4NDY0Mzk3MDg4YyAxMDA3NTUKLS0tIGEvRG9jdW1lbnRhdGlvbi9hcmNoL2Fy
+bS9zYW1zdW5nL2Nsa3NyYy1jaGFuZ2UtcmVnaXN0ZXJzLmF3aworKysgYi9Eb2N1bWVudGF0aW9u
+L2FyY2gvYXJtL3NhbXN1bmcvY2xrc3JjLWNoYW5nZS1yZWdpc3RlcnMuYXdrCkBAIC0xNjMsNCAr
+MTYzLDQgQEAgQkVHSU4gewogICAgIH0KIH0KIAotLy8gJiYgISAvY2xrc3JjX2Nsay4qPS4qey8g
+eyBwcmludCAkMCB9CisvLyAmJiAhIC9jbGtzcmNfY2xrLio9Lip7LyB7IHByaW50ICQwIH19CmRp
+ZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2FyY2gvYXJtL3Zsb2Nrcy5yc3QgYi9Eb2N1bWVudGF0
+aW9uL2FyY2gvYXJtL3Zsb2Nrcy5yc3QKaW5kZXggNzM3YWE4NjYxYTIxLi5iMGFjMzMyNjMwODYg
+MTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vYXJjaC9hcm0vdmxvY2tzLnJzdAorKysgYi9Eb2N1
+bWVudGF0aW9uL2FyY2gvYXJtL3Zsb2Nrcy5yc3QKQEAgLTEwMiwxMCArMTAyLDEwIEBAIEZlYXR1
+cmVzIGFuZCBsaW1pdGF0aW9ucwogCWlmIChJX3dvbikgewogCQkvKiB3ZSB3b24gdGhlIHRvd24g
+ZWxlY3Rpb24sIGxldCdzIGdvIGZvciB0aGUgc3RhdGUgKi8KIAkJbXlfc3RhdGUgPSBzdGF0ZXNb
+KHRoaXNfY3B1ID4+IDgpICYgMHhmXTsKLQkJSV93b24gPSB2bG9ja19sb2NrKG15X3N0YXRlLCB0
+aGlzX2NwdSAmIDB4ZikpOworCQlJX3dvbiA9IHZsb2NrX2xvY2sobXlfc3RhdGUsIHRoaXNfY3B1
+ICYgMHhmKTsKIAkJaWYgKElfd29uKSB7CiAJCQkvKiBhbmQgc28gb24gKi8KLQkJCUlfd29uID0g
+dmxvY2tfbG9jayh0aGVfd2hvbGVfY291bnRyeSwgdGhpc19jcHUgJiAweGZdOworCQkJSV93b24g
+PSB2bG9ja19sb2NrKHRoZV93aG9sZV9jb3VudHJ5LCB0aGlzX2NwdSAmIDB4Zik7CiAJCQlpZiAo
+SV93b24pIHsKIAkJCQkvKiAuLi4gKi8KIAkJCX0KZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24v
+YXJjaC9hcm02NC9tZW1vcnktdGFnZ2luZy1leHRlbnNpb24ucnN0IGIvRG9jdW1lbnRhdGlvbi9h
+cmNoL2FybTY0L21lbW9yeS10YWdnaW5nLWV4dGVuc2lvbi5yc3QKaW5kZXggNjc5NzI1MDMwNzMx
+Li5lNmZlNDI4ZjBlMmEgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vYXJjaC9hcm02NC9tZW1v
+cnktdGFnZ2luZy1leHRlbnNpb24ucnN0CisrKyBiL0RvY3VtZW50YXRpb24vYXJjaC9hcm02NC9t
+ZW1vcnktdGFnZ2luZy1leHRlbnNpb24ucnN0CkBAIC0yMjIsNyArMjIyLDcgQEAgcHJvZ3JhbXMg
+c2hvdWxkIG5vdCByZXRyeSBpbiBjYXNlIG9mIGEgbm9uLXplcm8gc3lzdGVtIGNhbGwgcmV0dXJu
+LgogYWRkcmVzcyBBQkkgY29udHJvbCBhbmQgTVRFIGNvbmZpZ3VyYXRpb24gb2YgYSBwcm9jZXNz
+IGFzIHBlciB0aGUKIGBgcHJjdGwoKWBgIG9wdGlvbnMgZGVzY3JpYmVkIGluCiBEb2N1bWVudGF0
+aW9uL2FyY2gvYXJtNjQvdGFnZ2VkLWFkZHJlc3MtYWJpLnJzdCBhbmQgYWJvdmUuIFRoZSBjb3Jy
+ZXNwb25kaW5nCi1gYHJlZ3NldGBgIGlzIDEgZWxlbWVudCBvZiA4IGJ5dGVzIChgYHNpemVvZihs
+b25nKSlgYCkuCitgYHJlZ3NldGBgIGlzIDEgZWxlbWVudCBvZiA4IGJ5dGVzIChgYHNpemVvZihs
+b25nKWBgKS4KIAogQ29yZSBkdW1wIHN1cHBvcnQKIC0tLS0tLS0tLS0tLS0tLS0tCmRpZmYgLS1n
+aXQgYS9Eb2N1bWVudGF0aW9uL2FyY2gvcG93ZXJwYy92YXMtYXBpLnJzdCBiL0RvY3VtZW50YXRp
+b24vYXJjaC9wb3dlcnBjL3Zhcy1hcGkucnN0CmluZGV4IGE5NjI1YTJmYTBjNi4uMWQwZDA1NTM1
+NmUzIDEwMDY0NAotLS0gYS9Eb2N1bWVudGF0aW9uL2FyY2gvcG93ZXJwYy92YXMtYXBpLnJzdAor
+KysgYi9Eb2N1bWVudGF0aW9uL2FyY2gvcG93ZXJwYy92YXMtYXBpLnJzdApAQCAtMjkzLDcgKzI5
+Myw3IEBAIFNpbXBsZSBleGFtcGxlCiAJCQkJLy9Gb3JtYXQgQ1JCIHJlcXVlc3Qgd2l0aCBjb21w
+cmVzc2lvbiBvcgogCQkJCS8vdW5jb21wcmVzc2lvbgogCQkJCS8vIFJlZmVyIHRlc3RzIGZvciB2
+YXNfY29weS92YXNfcGFzdGUKLQkJCQl2YXNfY29weSgoJmNyYiwgMCwgMSk7CisJCQkJdmFzX2Nv
+cHkoJmNyYiwgMCwgMSk7CiAJCQkJdmFzX3Bhc3RlKGFkZHIsIDAsIDEpOwogCQkJCS8vIFBvbGwg
+b24gY3NiLmZsYWdzIHdpdGggdGltZW91dAogCQkJCS8vIGNzYiBhZGRyZXNzIGlzIGxpc3RlZCBp
+biBDUkIKZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vYXJjaC9zcGFyYy9vcmFkYXgvZGF4LWh2
+LWFwaS50eHQgYi9Eb2N1bWVudGF0aW9uL2FyY2gvc3BhcmMvb3JhZGF4L2RheC1odi1hcGkudHh0
+CmluZGV4IGVmMWE0YzJiZjA4Yi4uZWY2MDg4YWVhYTY2IDEwMDY0NAotLS0gYS9Eb2N1bWVudGF0
+aW9uL2FyY2gvc3BhcmMvb3JhZGF4L2RheC1odi1hcGkudHh0CisrKyBiL0RvY3VtZW50YXRpb24v
+YXJjaC9zcGFyYy9vcmFkYXgvZGF4LWh2LWFwaS50eHQKQEAgLTQ1Nyw3ICs0NTcsNyBAQCBiaXRz
+IHNldCwgYW5kIHRlcm1pbmF0ZSBhdCBhIENDQiB0aGF0IGhhcyB0aGUgQ29uZGl0aW9uYWwgYml0
+IHNldCwgYnV0IG5vdCB0aGUgUAogT2Zmc2V0ICAgU2l6ZSAgIEZpZWxkIERlc2NyaXB0aW9uCiAg
+ICAgICAgICAgICAgICAgQml0cyAgICAgICAgIEZpZWxkIERlc2NyaXB0aW9uCiAgICAgICAgICAg
+ICAgICAgWzE1OjE0XSAgICAgIFNlY29uZGFyeSBJbnB1dCBFbGVtZW50IFNpemUgKHNlZSBTZWN0
+aW9uIDM2LjIuMS4xLjQsCi0gICAgICAgICAgICAgICAgICAgICAgICAgICAgIOKAnFNlY29uZGFy
+eSBJbnB1dCBFbGVtZW50IFNpemXigJ0KKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg4oCc
+U2Vjb25kYXJ5IElucHV0IEVsZW1lbnQgU2l6ZeKAnSkKICAgICAgICAgICAgICAgICBbMTM6MTBd
+ICAgICAgT3V0cHV0IEZvcm1hdCAoc2VlIFNlY3Rpb24gMzYuMi4xLjEuNiwg4oCcT3V0cHV0IEZv
+cm1hdOKAnSkKICAgICAgICAgICAgICAgICBbOV0gICAgICAgICAgUGFkZGluZyBEaXJlY3Rpb24g
+c2VsZWN0b3I6IEEgdmFsdWUgb2YgMSBjYXVzZXMgcGFkZGluZyBieXRlcwogICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICB0byBiZSBhZGRlZCB0byB0aGUgbGVmdCBzaWRlIG9mIG91dHB1dCBl
+bGVtZW50cy4gQSB2YWx1ZSBvZiAwCkBAIC02NTYsNyArNjU2LDcgQEAgT2Zmc2V0ICAgICAgICAg
+U2l6ZSAgICAgICAgICAgIEZpZWxkIERlc2NyaXB0aW9uCiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgWzE4OjE2XSAgICAgIFNlY29uZGFyeSBJbnB1dCBTdGFydGluZyBPZmZzZXQgKHNl
+ZSBTZWN0aW9uIDM2LjIuMS4xLjUsIOKAnElucHV0CiAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIEVsZW1lbnQgT2Zmc2V0c+KAnSkKICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBbMTU6MTRdICAgICAgU2Vjb25kYXJ5IElucHV0IEVsZW1lbnQgU2l6ZSAo
+c2VlIFNlY3Rpb24gMzYuMi4xLjEuNCwKLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAg4oCcU2Vjb25kYXJ5IElucHV0IEVsZW1lbnQgU2l6ZeKAnQorICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDigJxTZWNvbmRhcnkgSW5wdXQgRWxl
+bWVudCBTaXpl4oCdKQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFsxMzoxMF0gICAg
+ICBPdXRwdXQgRm9ybWF0IChzZWUgU2VjdGlvbiAzNi4yLjEuMS42LCDigJxPdXRwdXQgRm9ybWF0
+4oCdKQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFs5OjVdICAgICAgICBPcGVyYW5k
+IHNpemUgZm9yIGZpcnN0IHNjYW4gY3JpdGVyaWEgdmFsdWUuIEluIGEgc2NhbiB2YWx1ZQogICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBvcGVyYXRpb24sIHRoaXMg
+aXMgb25lIG9mIHR3byBwb3RlbnRpYWwgZXhhY3QgbWF0Y2ggdmFsdWVzLgpAQCAtNzkzLDEzICs3
+OTMsMTMgQEAgT2Zmc2V0ICAgU2l6ZSAgIEZpZWxkIERlc2NyaXB0aW9uCiAgICAgICAgICAgICAg
+ICAgWzE4OjE2XSAgICAgIFNlY29uZGFyeSBJbnB1dCBTdGFydGluZyBPZmZzZXQgKHNlZSBTZWN0
+aW9uIDM2LjIuMS4xLjUsIOKAnElucHV0CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEVs
+ZW1lbnQgT2Zmc2V0c+KAnSkKICAgICAgICAgICAgICAgICBbMTU6MTRdICAgICAgU2Vjb25kYXJ5
+IElucHV0IEVsZW1lbnQgU2l6ZSAoc2VlIFNlY3Rpb24gMzYuMi4xLjEuNCwKLSAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAg4oCcU2Vjb25kYXJ5IElucHV0IEVsZW1lbnQgU2l6ZeKAnQorICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICDigJxTZWNvbmRhcnkgSW5wdXQgRWxlbWVudCBTaXpl
+4oCdKQogICAgICAgICAgICAgICAgIFsxMzoxMF0gICAgICBPdXRwdXQgRm9ybWF0IChzZWUgU2Vj
+dGlvbiAzNi4yLjEuMS42LCDigJxPdXRwdXQgRm9ybWF04oCdKQogICAgICAgICAgICAgICAgIFs5
+XSAgICAgICAgICBSZXNlcnZlZAogICAgICAgICAgICAgICAgIFs4OjBdICAgICAgICBUZXN0IHZh
+bHVlIHVzZWQgZm9yIGNvbXBhcmlzb24gYWdhaW5zdCB0aGUgbW9zdCBzaWduaWZpY2FudCBiaXRz
+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGluIHRoZSBpbnB1dCB2YWx1ZXMsIHdoZW4g
+dXNpbmcgMiBvciAzIGJ5dGUgaW5wdXQgZWxlbWVudHMuCi04ICAgICAgICA4ICAgICAgQ29tcGxl
+dGlvbiAoc2FtZSBmaWVsZHMgYXMgU2VjdGlvbiAzNi4yLjEuMiwg4oCcRXh0cmFjdCBjb21tYW5k
+4oCdCi0xNiAgICAgICA4ICAgICAgUHJpbWFyeSBJbnB1dCAoc2FtZSBmaWVsZHMgYXMgU2VjdGlv
+biAzNi4yLjEuMiwg4oCcRXh0cmFjdCBjb21tYW5k4oCdCis4ICAgICAgICA4ICAgICAgQ29tcGxl
+dGlvbiAoc2FtZSBmaWVsZHMgYXMgU2VjdGlvbiAzNi4yLjEuMiwg4oCcRXh0cmFjdCBjb21tYW5k
+KeKAnQorMTYgICAgICAgOCAgICAgIFByaW1hcnkgSW5wdXQgKHNhbWUgZmllbGRzIGFzIFNlY3Rp
+b24gMzYuMi4xLjIsIOKAnEV4dHJhY3QgY29tbWFuZOKAnSkKIDI0ICAgICAgIDggICAgICBEYXRh
+IEFjY2VzcyBDb250cm9sIChzYW1lIGZpZWxkcyBhcyBTZWN0aW9uIDM2LjIuMS4yLCDigJxFeHRy
+YWN0IGNvbW1hbmTigJ0sCiAgICAgICAgICAgICAgICAgZXhjZXB0IFByaW1hcnkgSW5wdXQgTGVu
+Z3RoIEZvcm1hdCBtYXkgbm90IHVzZSB0aGUgMHgwIHZhbHVlKQogMzIgICAgICAgOCAgICAgIFNl
+Y29uZGFyeSBJbnB1dCwgaWYgdXNlZCBieSBQcmltYXJ5IElucHV0IEZvcm1hdC4gU2FtZSBmaWVs
+ZHMgYXMgUHJpbWFyeQpAQCAtODgwLDcgKzg4MCw3IEBAIE9mZnNldCAgIFNpemUgICBGaWVsZCBE
+ZXNjcmlwdGlvbgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgWzE4OjE2
+XSAgICAgU2Vjb25kYXJ5IElucHV0IFN0YXJ0aW5nIE9mZnNldCAoc2VlIFNlY3Rpb24gMzYuMi4x
+LjEuNSwg4oCcSW5wdXQKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIEVsZW1lbnQgT2Zmc2V0c+KAnSkKICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIFsxNToxNF0gICAgIFNlY29uZGFyeSBJbnB1dCBFbGVtZW50IFNpemUgKHNl
+ZSBTZWN0aW9uIDM2LjIuMS4xLjQsCi0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICDigJxTZWNvbmRhcnkgSW5wdXQgRWxlbWVudCBTaXpl4oCdCisgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDigJxTZWNvbmRh
+cnkgSW5wdXQgRWxlbWVudCBTaXpl4oCdKQogCiAKICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIDUyNApAQCAtODk1LDggKzg5NSw4IEBAIE9mZnNl
+dCAgIFNpemUgICBGaWVsZCBEZXNjcmlwdGlvbgogICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIGNhdXNlcyBwYWRkaW5nIGJ5dGVzIHRvIGJlIGFkZGVk
+IHRvIHRoZSByaWdodCBzaWRlIG9mIG91dHB1dAogICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIGVsZW1lbnRzLgogICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgWzg6MF0gICAgICAgIFJlc2VydmVkCi0gICAgICAgIDggICAgICAg
+ICAgICAgIDggICAgICAgICAgICAgICBDb21wbGV0aW9uIChzYW1lIGZpZWxkcyBhcyBTZWN0aW9u
+IDM2LjIuMS4yLCDigJxFeHRyYWN0IGNvbW1hbmTigJ0KLSAgICAgICAgMTYgICAgICAgICAgICAg
+OCAgICAgICAgICAgICAgIFByaW1hcnkgSW5wdXQgKHNhbWUgZmllbGRzIGFzIFNlY3Rpb24gMzYu
+Mi4xLjIsIOKAnEV4dHJhY3QgY29tbWFuZOKAnQorICAgICAgICA4ICAgICAgICAgICAgICA4ICAg
+ICAgICAgICAgICAgQ29tcGxldGlvbiAoc2FtZSBmaWVsZHMgYXMgU2VjdGlvbiAzNi4yLjEuMiwg
+4oCcRXh0cmFjdCBjb21tYW5k4oCdKQorICAgICAgICAxNiAgICAgICAgICAgICA4ICAgICAgICAg
+ICAgICAgUHJpbWFyeSBJbnB1dCAoc2FtZSBmaWVsZHMgYXMgU2VjdGlvbiAzNi4yLjEuMiwg4oCc
+RXh0cmFjdCBjb21tYW5k4oCdKQogICAgICAgICAyNCAgICAgICAgICAgICA4ICAgICAgICAgICAg
+ICAgRGF0YSBBY2Nlc3MgQ29udHJvbCAoc2FtZSBmaWVsZHMgYXMgU2VjdGlvbiAzNi4yLjEuMiwg
+4oCcRXh0cmFjdCBjb21tYW5k4oCdKQogICAgICAgICAzMiAgICAgICAgICAgICA4ICAgICAgICAg
+ICAgICAgU2Vjb25kYXJ5IEJpdCBWZWN0b3IgSW5wdXQuIFNhbWUgZmllbGRzIGFzIFByaW1hcnkg
+SW5wdXQuCiAgICAgICAgIDQwICAgICAgICAgICAgIDggICAgICAgICAgICAgICBSZXNlcnZlZApA
+QCAtOTQ5LDcgKzk0OSw3IEBAIE9mZnNldCAgIFNpemUgICBGaWVsZCBEZXNjcmlwdGlvbgogICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBbMzFdICAgICAgICBJZiBzZXQsIHRoaXMg
+Q0NCIGZ1bmN0aW9ucyBhcyBhIFN5bmMgY29tbWFuZC4gSWYgY2xlYXIsIHRoaXMKICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQ0NCIGZ1bmN0aW9ucyBhcyBh
+IE5vLW9wIGNvbW1hbmQuCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFszMDow
+XSAgICAgIFJlc2VydmVkCi0gICAgICAgOCAgICAgICAgICAgICA4ICAgICAgICAgICAgIENvbXBs
+ZXRpb24gKHNhbWUgZmllbGRzIGFzIFNlY3Rpb24gMzYuMi4xLjIsIOKAnEV4dHJhY3QgY29tbWFu
+ZOKAnQorICAgICAgIDggICAgICAgICAgICAgOCAgICAgICAgICAgICBDb21wbGV0aW9uIChzYW1l
+IGZpZWxkcyBhcyBTZWN0aW9uIDM2LjIuMS4yLCDigJxFeHRyYWN0IGNvbW1hbmTigJ0pCiAgICAg
+ICAgMTYgICAgICAgICAgICA0NiAgICAgICAgICAgIFJlc2VydmVkCiAKIDM2LjIuMi4gQ0NCIENv
+bXBsZXRpb24gQXJlYQpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9hcmNoL3NwYXJjL29yYWRh
+eC9vcmFjbGUtZGF4LnJzdCBiL0RvY3VtZW50YXRpb24vYXJjaC9zcGFyYy9vcmFkYXgvb3JhY2xl
+LWRheC5yc3QKaW5kZXggZDFlMTRkNTcyOTE4Li42Nzg2N2VhN2JlNDAgMTAwNjQ0Ci0tLSBhL0Rv
+Y3VtZW50YXRpb24vYXJjaC9zcGFyYy9vcmFkYXgvb3JhY2xlLWRheC5yc3QKKysrIGIvRG9jdW1l
+bnRhdGlvbi9hcmNoL3NwYXJjL29yYWRheC9vcmFjbGUtZGF4LnJzdApAQCAtNDM4LDcgKzQzOCw4
+IEBAIHRoYXQgaW4gdXNlciBsYW5kOjoKIFRoZSBvdXRwdXQgYml0bWFwIGlzIHJlYWR5IGZvciBj
+b25zdW1wdGlvbiBpbW1lZGlhdGVseSBhZnRlciB0aGUKIGNvbXBsZXRpb24gc3RhdHVzIGluZGlj
+YXRlcyBzdWNjZXNzLgogCi1FeGNlclt0IGZyb20gVWx0cmFTUEFSQyBWaXJ0dWFsIE1hY2hpbmUg
+U3BlY2lmaWNhdGlvbgorRXhjZXI/dCBmcm9tIFVsdHJhU1BBUkMgVmlydHVhbCBNYWNoaW5lIFNw
+ZWNpZmljYXRpb24KK2kgZ3Vlc3MgdGhpcyBpcyB3cm9uZywgYnV0IGkgZG9uJ3Qga25vdyB3aGF0
+J3MgY29ycmVjdAogPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT0KIAogIC4uIGluY2x1ZGU6OiBkYXgtaHYtYXBpLnR4dAotLSAKMi41NC4wCgoKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtc25wcy1h
+cmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDov
+L2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
