@@ -4,113 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A15FBCD8CA8
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 12 Jun 2026 17:26:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99E3DCD98D2
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 12 Jun 2026 19:17:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References
+	:In-Reply-To:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=uxL8p2ArRxdQYyfDAqNtVsSXF6OsyodSYfMRzGrwzrI=; b=o0X9TxYUniosEQ
-	OfJFA5gHNDLorrh/cw1fKf8onq0BCdyOINB4SpcCRk29D67gCC6FpHxxuZ9ev9f50XcjzEXqwH6v8
-	TV8MwaULQ0NKsC1JneEnU/KEQmNCNxnMcg4GiYiGQJwYmQyIONSQEyE/0QQ+Zd3bU9JUplijrcufS
-	J2VX3TVks6dmCqYA55mSAnFd7FA8/MXNmUf9BTnwzeaDCEr5RI9XlHsVanSQEo13ALjn0Mlc3+469
-	+4SdWI6GBWzbp97Ubo4rlM7GrUPzfXulqqw97iaaxDKCuC6YrKslUJtXW/NEeNmvc/2flpkb9DyG1
-	oyZgYlEEbLt6jXe6vStQ==;
+	List-Owner; bh=zfSYf8dNfrjBasLb1OxkJGF8QFM9vTiPQCKXodRJn00=; b=VSwjwtQ1Qsky70
+	0ull0d+xCeww28dij3KXtjI9Pw9c1YUWuf/kj+9PPBks213HPJTNY/477hOJ6AeNg9qdNezRQXpdZ
+	vG1buyskg4Un+b/nmeCmV/XghAje2/ATzf6FEwMrkfiRNaHl9Jb9nBrTAVff/gSLQHIqXjD0xJCJt
+	cwzz5WI/WN9md4i7vjpIjGB5cQrhHt3LDZ81/rx5RB2HeLMNmGVJcXLgPmDT0nYoYiRKjXTro7DAj
+	jcriskESzS2VFBBYDDUWlSxqOrnxOrvQ9T6jqjWtw7coRxJvwBCOiIRzTmuxhvW/CmX8HcBeqhHbZ
+	PzqgWVuy2IJHPEIEYKwg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wY5eU-0000000BLXo-3zH0;
-	Fri, 12 Jun 2026 17:26:42 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1wY7Na-0000000BRkO-3m8u;
+	Fri, 12 Jun 2026 19:17:22 +0000
+Received: from ms.lwn.net ([45.79.88.28])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wY5eT-0000000BLXX-21dv;
-	Fri, 12 Jun 2026 17:26:41 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id D6BC540732;
-	Fri, 12 Jun 2026 17:26:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 267F21F000E9;
-	Fri, 12 Jun 2026 17:26:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781285200;
-	bh=MJ66Jj49kATqUz5BO93tKqC2OHzrNh5fwYy14zcNuTE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Ok0kQL5/NwKsK9GE+i5ErzO1Kxq95eMSQFNJdy8wi8S1hGF3/Onf9ETYAxlMMmoIW
-	 cShhBAyiDp4wjlk531q/5xywqQxPRVkoBhgWIIbN4EPswenr1ZP4LwoFdK1E0uIJcF
-	 E2ploPelATzP8Lrk6I5tSxMM3aSHiJxlMsCJVQ0FIkbaWvpoxhRk7qgoVHRDmZPjXH
-	 ZWY0iuWqOD6b8ExNEg+SbaxD2PVemBybAhOvxHmqLt84ImEr93MBRm88uOrpDVcLny
-	 xm1uiiE56ASCW6VrNSqolgMOzxBdup3e0HmQ9Qr/3pf4Py0EYSMjL+Z0EMKijriSOM
-	 GI5KklgcWw1Vw==
-Message-ID: <1e606b8e-f2dd-459b-9766-7dcd493fac9c@kernel.org>
-Date: Fri, 12 Jun 2026 19:26:33 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] v2 Documentation: arch: fix brackets
-To: Manuel Ebner <manuelebner@mailbox.org>, Vineet Gupta <vgupta@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Peter Griffin <peter.griffin@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <chleroy@kernel.org>,
- "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
+	id 1wY7NY-0000000BRjH-20xc;
+	Fri, 12 Jun 2026 19:17:21 +0000
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A346640430
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1781291835; bh=HH2moNpZWt+XN8tXRSKqJX51PwUlhD/ypigBEwKqVGs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=B50uc+n8SBBYjg70I3kRVsmnmUKcnKuIrmrZCYuEnV3ObcFO5GSJqKiwUjw+b9NZ/
+	 MYYeaKnItIe4jFDsrzZRiitkI4duonYB0L/MFQ+NKKZhD/P8vVuDH1Evmp7kPiWpRx
+	 z+eJ0zrEtOKFZUpGe1ifoAqueR1sWKsRFU6pxlWfXd2f8NNJK/WiDeFcJtCQAgQt59
+	 OlU0HBB9M/QY4VXufYDWDqtngGEYtwcRJK+60SVzbpF5DhDJ0nFfgVzQ2fav/4jvQa
+	 cJtNDppeMCYjSGOl+QiCeQiz9W2C2arD5leaSg1eN5b/PCtgWv/nmQZ0TwouTRAgbh
+	 1MkpAqIRQry+Q==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id A346640430;
+	Fri, 12 Jun 2026 19:17:15 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Manuel Ebner <manuelebner@mailbox.org>, Vineet Gupta
+ <vgupta@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, Krzysztof
+ Kozlowski <krzk@kernel.org>, Peter Griffin <peter.griffin@linaro.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Catalin Marinas
+ <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Madhavan
+ Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy
+ <chleroy@kernel.org>, "open list:SYNOPSYS ARC ARCHITECTURE"
+ <linux-snps-arc@lists.infradead.org>, "open list:DOCUMENTATION"
+ <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
  "moderated list:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES"
- <linux-arm-kernel@lists.infradead.org>,
- "open list:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES"
- <linux-samsung-soc@vger.kernel.org>,
- "open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)"
+ <linux-arm-kernel@lists.infradead.org>, "open list:ARM/SAMSUNG S3C, S5P
+ AND EXYNOS ARM ARCHITECTURES" <linux-samsung-soc@vger.kernel.org>, "open
+ list:LINUX FOR POWERPC (32-BIT AND 64-BIT)"
  <linuxppc-dev@lists.ozlabs.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-References: <20260612095432.177759-2-manuelebner@mailbox.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
+Cc: Manuel Ebner <manuelebner@mailbox.org>, Randy Dunlap
+ <rdunlap@infradead.org>
+Subject: Re: [PATCH] v2 Documentation: arch: fix brackets
 In-Reply-To: <20260612095432.177759-2-manuelebner@mailbox.org>
+References: <20260612095432.177759-2-manuelebner@mailbox.org>
+Date: Fri, 12 Jun 2026 13:17:14 -0600
+Message-ID: <87qzmb7emd.fsf@trenco.lwn.net>
+MIME-Version: 1.0
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260612_121720_521205_FADE26DC 
+X-CRM114-Status: GOOD (  10.18  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -127,10 +85,11 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 12/06/2026 11:54, Manuel Ebner wrote:
+Manuel Ebner <manuelebner@mailbox.org> writes:
+
 > Add missing and remove needless parentheses, brackets and curly braces.
 > Fix typos.
-> 
+>
 > Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
 > Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 > ---
@@ -138,14 +97,26 @@ On 12/06/2026 11:54, Manuel Ebner wrote:
 > "(i.e cache geometries)" -> "(e.g., cache geometries)"
 > "Excer[t" -> "Excerpt"
 > add Reviewed-by: Randy Dunlap
+> fixed my own typos.
+> ---
+>  Documentation/arch/arc/arc.rst                 |  2 +-
+>  .../arm/samsung/clksrc-change-registers.awk    |  2 +-
+>  Documentation/arch/arm/vlocks.rst              |  4 ++--
+>  .../arch/arm64/memory-tagging-extension.rst    |  2 +-
+>  Documentation/arch/powerpc/vas-api.rst         |  2 +-
+>  Documentation/arch/sparc/oradax/dax-hv-api.txt | 18 +++++++++---------
+>  Documentation/arch/sparc/oradax/oracle-dax.rst |  2 +-
+>  Documentation/arch/x86/x86_64/fsgs.rst         |  4 ++--
+>  8 files changed, 18 insertions(+), 18 deletions(-)
 
-You mixed up subject.
+As Krzysztof pointed out, you formatted the subject incorrectly, meaning
+that the maintainer has to clean it up for you.  I have applied the
+patch and done that this time, but please pay attention to the
+formatting in the future.
 
-Please version your patches correctly, e.g. use b4 or git format-patch
--vX.
+Thanks,
 
-Best regards,
-Krzysztof
+jon
 
 _______________________________________________
 linux-snps-arc mailing list
