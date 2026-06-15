@@ -4,67 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75E17CD98E1
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 15 Jun 2026 16:10:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFF2ACD98DA
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 15 Jun 2026 17:04:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References:Message-Id
-	:MIME-Version:Subject:Date:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=MZsI++GdKzD0pliGtk+CzTeP2Jh91crDziRR+z1eG2A=; b=x76M46P8kjEMga
-	2fkiM7k22QKMi0WeKW+Ky/qIqx515dpQ8uBPqhCYAIZVCynXsyPHf1T/wo37dBO6wiCOTLknfjsRx
-	l8qzK7cwBlgY1yH7+gn8drNYiHnnI8rOtNP84ByIn5GRp4TrsUB6F4s0T0sg09r2Jiw/+I12oiF0D
-	/O3OFRBqY0wKfxuJHONxPp5cJMJm/bQGM0co8cIWIQuGTZ0YrksJNUzkX4IXVAdtEDpe37qbOKp4e
-	U8WEhg0zvrjIT1Ryf0CmK4RKV5/baYQICosuT9GNhKVmMZAltmaA6P5hdVhi1YPBUdmny8J7Y6qgk
-	jqG+p3vDIdFE6ZL3IzKA==;
+	List-Owner; bh=p0lAILZtsP4konV2WTC+MmiA4E/SEuBVtH3q5aIlV+Q=; b=Na9/nyRVxRS4nb
+	EPrTTyLJDAuKbl3ACvPM8XeIhTtUm6iXx6/cDo6Nr0fv5nPD2silivinztB7bMSrr03nZswSbYKew
+	4u4aTJJxfrrHrSJxEx5er/2mF5GNhWk+OPJo9oN5rQJF6+pRiPmd3teHKuRdwqFzUYaJ6c38tfHGV
+	qdzxcMecUhZrRjIB3/WYZCbS2tCuY+LnEXYtUpuTuCjdjKNCnD+ElNEPnkipW79mxAsboKjsqKgw3
+	Lvj3EAoFai7Jbs638CaGJSyhb/mBjDsTFwUBp9HYolI54XFBd5BDzB4SpVPh1An2J5HQ7oWdqTbWr
+	KXVAnQR+uRr/3w8be+Zw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wZ9tG-0000000EXz0-3Xfo;
-	Mon, 15 Jun 2026 16:10:23 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1wZAjz-0000000EceJ-1i52;
+	Mon, 15 Jun 2026 17:04:51 +0000
+Received: from zeniv.linux.org.uk ([2a03:a000:7:0:5054:ff:fe1c:15ff])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wZ9tE-0000000EXyL-49sY
-	for linux-snps-arc@lists.infradead.org;
-	Mon, 15 Jun 2026 16:10:21 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 7891A43211;
-	Mon, 15 Jun 2026 16:10:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A5681F000E9;
-	Mon, 15 Jun 2026 16:10:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781539820;
-	bh=b7O/iX8ZXf9+ETUEbNQJOgOfGswd15/Oz6mytb/pT90=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=OUEma+3u83c0WZamH6riqLuFbxXAAGPEndgpJDLcE658tAQHZIq4NRTbExHLaQwct
-	 /2VbAphR70z01LnEPwK7lDSR+h43fx5Xl6kri8wEPa4AL9DiRXljNc9c06nABkeuya
-	 IUaqGmP3F5mq6FQD2YzvjrhJiJWUQFX2zbBGP4mtOvMz5GOXPt8s50Fii1GIL0+Igl
-	 Gs++T/pi8dYU71N08stJBdTa39iWDjglW+Gf3hAJIASZnT59rO/kALPOSSanq8R3Rw
-	 aQiqegpypPj2cevXkyInQB24AWfW0UpuCKsEJ5NSWce/K4V8Vt2Ckr5xuM5QCqbPG1
-	 OsPd7fpJBcGwQ==
-From: Vincent Mailhol <mailhol@kernel.org>
-Date: Mon, 15 Jun 2026 18:08:59 +0200
-Subject: [PATCH 03/19] arc: define DPS root partition type UUID
-MIME-Version: 1.0
-Message-Id: <20260615-discoverable-root_partitions-v1-3-39c78fac42e2@kernel.org>
+	id 1wZAjw-0000000EccV-1LFM;
+	Mon, 15 Jun 2026 17:04:50 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description;
+	bh=be/KypQX5Q9fujajARM6Q7r9w26ilWIZmzbrtGfAKys=; b=SLabnQnxi8RKG6kB4YLIrRrIte
+	+jYEaBgX5DOoDOdPOU6k6ypOK6lDxxOMXQzKEUszFj5yTLPDASBaagrmnsOk8tUGdmzHw2XGk68HM
+	2J1tv7+pE0CjbBOIjeYCz0TsyHOIrqFb8Mb1LadfEs+3t0bUVsavfv//KIZ2S3hmTXIBIqEbnE3qn
+	zsd3Hxu29/Ylu8C3lRKI+WwMxWxUWcLIz0u0fTGyYSKAR/XPPXo0Rkv03xUIJElu5cOtap9hCSZj1
+	74eb7LaTsGudBKuTsb4/IH254uFPRDECMTh8XzLqKRh9ykQzpGUZV9OECxDmxcCHO22vobRU+rK1T
+	RNRNGWLQ==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1wZAjg-00000000Vxn-0xg6;
+	Mon, 15 Jun 2026 17:04:32 +0000
+Date: Mon, 15 Jun 2026 18:04:32 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Vincent Mailhol <mailhol@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Davidlohr Bueso <dave@stgolabs.net>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-efi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Matt Turner <mattst88@gmail.com>,
+	Magnus Lindholm <linmag7@gmail.com>, linux-alpha@vger.kernel.org,
+	Vineet Gupta <vgupta@kernel.org>,
+	linux-snps-arc@lists.infradead.org,
+	Russell King <linux@armlinux.org.uk>,
+	linux-arm-kernel@lists.infradead.org,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>, loongarch@lists.linux.dev,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	linux-mips@vger.kernel.org,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	linuxppc-dev@lists.ozlabs.org, Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, linux-riscv@lists.infradead.org,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	linux-s390@vger.kernel.org, Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 00/19] init: discoverable root partitions, a.k.a. an
+ omittable "root=" cmdline option
+Message-ID: <20260615170432.GW2636677@ZenIV>
 References: <20260615-discoverable-root_partitions-v1-0-39c78fac42e2@kernel.org>
+MIME-Version: 1.0
+Content-Disposition: inline
 In-Reply-To: <20260615-discoverable-root_partitions-v1-0-39c78fac42e2@kernel.org>
-To: Jens Axboe <axboe@kernel.dk>, Davidlohr Bueso <dave@stgolabs.net>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
- linux-efi@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- Vincent Mailhol <mailhol@kernel.org>, Vineet Gupta <vgupta@kernel.org>, 
- linux-snps-arc@lists.infradead.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1623; i=mailhol@kernel.org;
- h=from:subject:message-id; bh=9rZS9bTuDmSM/994XMcxvjwv7RdqUU6T4byJTl6W7zg=;
- b=owGbwMvMwCV2McXO4Xp97WbG02pJDFkGylfOr9WS7LkdJiZTzfFVbGmu/r1LoW3n/ywOtip+H
- NRz+nRqx0QWBjEuBksxRZZl5ZzcCh2F3mGH/lrCzGFlAhkiLdLAAAQsDHy5iXmlRjpGeqbahnqG
- QIaOEQMXpwBMtXEzw1+piq9LVmXN229V/c7kw1a9LYzC6zktVHj1Iu5OCk/trMhjZFj1vLVi1l3
- 3rHAGsdN/ky3ZZ3L/zrq6+/r2M7MrjBflXGUGAA==
-X-Developer-Key: i=mailhol@kernel.org; a=openpgp;
- fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260615_100448_361505_AF6F34A6 
+X-CRM114-Status: GOOD (  12.51  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,60 +94,41 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-DPS [1] assigns GPT partition type UUIDs to operating system partitions.
-Root partitions use architecture-specific type UUIDs so the OS can
-discover the intended root filesystem without relying on a root= cmdline
-option.
+On Mon, Jun 15, 2026 at 06:08:56PM +0200, Vincent Mailhol wrote:
 
-Define DPS_ROOT_PARTITION_TYPE_UUID in asm/dps_root.h for ARC and select
-ARCH_HAS_DPS_ROOT_PARTITION_TYPE_UUID.
+> Tested with GRUB, which implements the LoaderDevicePartUUID EFI variable
+> in its bli module [3]. With this, I was able to boot a kernel with a
+> completely empty cmdline and no initrd.
+> =
 
-[1] The Discoverable Partitions Specification (DPS)
-Link: https://uapi-group.org/specifications/specs/discoverable_partitions_specification/
+> [1] The Discoverable Partitions Specification (DPS)
+> Link: https://uapi-group.org/specifications/specs/discoverable_partitions=
+_specification/
+> =
 
-Cc: Vineet Gupta <vgupta@kernel.org>
-Cc: linux-snps-arc@lists.infradead.org
-Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
----
- arch/arc/Kconfig                | 1 +
- arch/arc/include/asm/dps_root.h | 8 ++++++++
- 2 files changed, 9 insertions(+)
+> [2] systemd-gpt-auto-generator
+> Link: https://www.freedesktop.org/software/systemd/man/latest/systemd-gpt=
+-auto-generator.html
+> =
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index 2ed7186c81c5..cc3a57a0111f 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -10,6 +10,7 @@ config ARC
- 	select ARCH_HAS_CACHE_LINE_SIZE
- 	select ARCH_HAS_DEBUG_VM_PGTABLE
- 	select ARCH_HAS_DMA_PREP_COHERENT
-+	select ARCH_HAS_DPS_ROOT_PARTITION_TYPE_UUID
- 	select ARCH_HAS_PTE_SPECIAL
- 	select ARCH_HAS_SETUP_DMA_OPS
- 	select ARCH_HAS_SYNC_DMA_FOR_CPU
-diff --git a/arch/arc/include/asm/dps_root.h b/arch/arc/include/asm/dps_root.h
-new file mode 100644
-index 000000000000..c9db3ddf1a53
---- /dev/null
-+++ b/arch/arc/include/asm/dps_root.h
-@@ -0,0 +1,8 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+
-+#ifndef _ASM_ARC_DPS_ROOT_H
-+#define _ASM_ARC_DPS_ROOT_H
-+
-+#define DPS_ROOT_PARTITION_TYPE_UUID "d27f46ed-2919-4cb8-bd25-9531f3c16534"
-+
-+#endif /* _ASM_ARC_DPS_ROOT_H */
+> [3] GRUB -- =A716.2 bli
+> Link: https://www.gnu.org/software/grub/manual/grub/html_node/bli_005fmod=
+ule.html
 
--- 
-2.53.0
+So what does that thing, tied to EFI as it is, have to do with architecture=
+s where
+	* firmware is rather unlike EFI
+	* firmware wouldn't know what to do with GPT
+	* GRUB is *not* ported to, let alone used
+such as, say it, the very first one mentioned at your [1]?
 
+Or is that conditional upon "if anyone wants to design replacement firmware
+for those, and if they agree to follow our wishlist"?
 
 _______________________________________________
 linux-snps-arc mailing list
