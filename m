@@ -4,87 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5346CD98C5
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 15 Jun 2026 16:10:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75E17CD98E1
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 15 Jun 2026 16:10:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:MIME-Version:Message-Id:Date:
-	Subject:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=qPPXr+EB5DC7ytEgLzrPWSWDisu9X89qPfNKeDlOWgQ=; b=OkkEEPreb/lpe1
-	e1UC6ugsZSOM4e/10YsfsdR8CtqPl3aN7ltYx11v4a9HCNi14tohM52bS+/fstzLIEMXAWUw8rN9j
-	6x4fvTrTCXC0hbqBh+kofgCBwy/66VdADjduM+j8KVGrkEYJrUBPuHemuhmq1QYIFfHGkAJKYVyH7
-	P7ImTt8df0XGAtWmkMgmZov1VwZoOIw+PtIWnnjbaXDWAxrHiDcb0sWPYETtueGfdsocuxXqL93w0
-	CRaptYbP3ADS9NAEfjIT7VP5Tmq4GYoUv9JoOPe8rcltAO1A99qY/QOj4JSY1cvGVR5eUwkMLwcv1
-	JtQvrrhTgmg1xGGig86A==;
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References:Message-Id
+	:MIME-Version:Subject:Date:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=MZsI++GdKzD0pliGtk+CzTeP2Jh91crDziRR+z1eG2A=; b=x76M46P8kjEMga
+	2fkiM7k22QKMi0WeKW+Ky/qIqx515dpQ8uBPqhCYAIZVCynXsyPHf1T/wo37dBO6wiCOTLknfjsRx
+	l8qzK7cwBlgY1yH7+gn8drNYiHnnI8rOtNP84ByIn5GRp4TrsUB6F4s0T0sg09r2Jiw/+I12oiF0D
+	/O3OFRBqY0wKfxuJHONxPp5cJMJm/bQGM0co8cIWIQuGTZ0YrksJNUzkX4IXVAdtEDpe37qbOKp4e
+	U8WEhg0zvrjIT1Ryf0CmK4RKV5/baYQICosuT9GNhKVmMZAltmaA6P5hdVhi1YPBUdmny8J7Y6qgk
+	jqG+p3vDIdFE6ZL3IzKA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wZ9t7-0000000EXw2-2yiY;
-	Mon, 15 Jun 2026 16:10:13 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wZ9tG-0000000EXz0-3Xfo;
+	Mon, 15 Jun 2026 16:10:23 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wZ9t5-0000000EXvb-2bKw;
-	Mon, 15 Jun 2026 16:10:11 +0000
+	id 1wZ9tE-0000000EXyL-49sY
+	for linux-snps-arc@lists.infradead.org;
+	Mon, 15 Jun 2026 16:10:21 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 76F53600AB;
-	Mon, 15 Jun 2026 16:10:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 659B51F000E9;
-	Mon, 15 Jun 2026 16:09:58 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 7891A43211;
+	Mon, 15 Jun 2026 16:10:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A5681F000E9;
+	Mon, 15 Jun 2026 16:10:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781539810;
-	bh=WrhOiAXY4BpdFNkpuEH5kqbHucFA9LBquobYeTzjtI4=;
-	h=From:Subject:Date:To:Cc;
-	b=J2bt7UtU/OYY8PxVyIm3d95v5G+IcTrjBW3L2jU7dt2De3kFnXcxRBS+wcjkcf6fN
-	 XltNpsJON5Ei+eQjAfRadOoGZ6Zr5MKKrnWqjtat85KDYFuJIzaAhhV9joTPZvvnm/
-	 Upf4GSVXporZ+/9u524Qsag7+a/uWIBE8WrhynM4IvaF/bx9BOfhayePviKAuHtMdm
-	 yF/mMlzcia/W4uNmZrGta+pMv2x8g5cbMGvX0YqVwoVCDJpU+Ht9xei0zv8nicGVwV
-	 SRcRt86DYJ9ycUYURQM1lx9ByNJFh+o5TVH1JyohwC9u2Q2ptXr+Wwo4pEiWgn9BWI
-	 W8aRU0vDmzPwg==
+	s=k20260515; t=1781539820;
+	bh=b7O/iX8ZXf9+ETUEbNQJOgOfGswd15/Oz6mytb/pT90=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=OUEma+3u83c0WZamH6riqLuFbxXAAGPEndgpJDLcE658tAQHZIq4NRTbExHLaQwct
+	 /2VbAphR70z01LnEPwK7lDSR+h43fx5Xl6kri8wEPa4AL9DiRXljNc9c06nABkeuya
+	 IUaqGmP3F5mq6FQD2YzvjrhJiJWUQFX2zbBGP4mtOvMz5GOXPt8s50Fii1GIL0+Igl
+	 Gs++T/pi8dYU71N08stJBdTa39iWDjglW+Gf3hAJIASZnT59rO/kALPOSSanq8R3Rw
+	 aQiqegpypPj2cevXkyInQB24AWfW0UpuCKsEJ5NSWce/K4V8Vt2Ckr5xuM5QCqbPG1
+	 OsPd7fpJBcGwQ==
 From: Vincent Mailhol <mailhol@kernel.org>
-Subject: [PATCH 00/19] init: discoverable root partitions, a.k.a. an
- omittable "root=" cmdline option
-Date: Mon, 15 Jun 2026 18:08:56 +0200
-Message-Id: <20260615-discoverable-root_partitions-v1-0-39c78fac42e2@kernel.org>
+Date: Mon, 15 Jun 2026 18:08:59 +0200
+Subject: [PATCH 03/19] arc: define DPS root partition type UUID
 MIME-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQqEMAxA0atI1hZaQQWvMgySNlEDYiUpMiDef
- YrLt/j/BmMVNpiaG5QvMclHRWgbSBseKzuhauh8N/ghBEdiKV+sGHd2mnOZT9QipXbmImGKSNi
- PnqAuTuVFfu/+832eP+2uWG1uAAAA
-X-Change-ID: 20260611-discoverable-root_partitions-bdacbada570d
+Message-Id: <20260615-discoverable-root_partitions-v1-3-39c78fac42e2@kernel.org>
+References: <20260615-discoverable-root_partitions-v1-0-39c78fac42e2@kernel.org>
+In-Reply-To: <20260615-discoverable-root_partitions-v1-0-39c78fac42e2@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>, Davidlohr Bueso <dave@stgolabs.net>, 
  Alexander Viro <viro@zeniv.linux.org.uk>, 
  Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
 Cc: linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
  linux-efi@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- Vincent Mailhol <mailhol@kernel.org>, 
- Richard Henderson <richard.henderson@linaro.org>, 
- Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>, 
- linux-alpha@vger.kernel.org, Vineet Gupta <vgupta@kernel.org>, 
- linux-snps-arc@lists.infradead.org, Russell King <linux@armlinux.org.uk>, 
- linux-arm-kernel@lists.infradead.org, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
- loongarch@lists.linux.dev, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- linux-mips@vger.kernel.org, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
- Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org, 
- Madhavan Srinivasan <maddy@linux.ibm.com>, 
- Michael Ellerman <mpe@ellerman.id.au>, linuxppc-dev@lists.ozlabs.org, 
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, linux-riscv@lists.infradead.org, 
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, linux-s390@vger.kernel.org, 
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- x86@kernel.org, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+ Vincent Mailhol <mailhol@kernel.org>, Vineet Gupta <vgupta@kernel.org>, 
+ linux-snps-arc@lists.infradead.org
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6653; i=mailhol@kernel.org;
- h=from:subject:message-id; bh=RjmwbjJUekMN4XQbpwM2sAMQ8Q4VGqazX1lTIqnbeDs=;
- b=owGbwMvMwCV2McXO4Xp97WbG02pJDFkGyhcU3klMvHNzftiCl6lmH3kWl02+abz8VKXHlaTy/
- w4vP39V7pjIwiDGxWAppsiyrJyTW6Gj0Dvs0F9LmDmsTCBDpEUaGICAhYEvNzGv1EjHSM9U21DP
- EMjQMWLg4hSAqfbXZfgr2rolQuyW6w6JgNKDJ4tvO69i+ZPHkj6Tv9JAckFms/tLRoYma5u3R6a
- 1csurnulLb7M78HnNmlIVnlf38k/kSby8dJsZAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1623; i=mailhol@kernel.org;
+ h=from:subject:message-id; bh=9rZS9bTuDmSM/994XMcxvjwv7RdqUU6T4byJTl6W7zg=;
+ b=owGbwMvMwCV2McXO4Xp97WbG02pJDFkGylfOr9WS7LkdJiZTzfFVbGmu/r1LoW3n/ywOtip+H
+ NRz+nRqx0QWBjEuBksxRZZl5ZzcCh2F3mGH/lrCzGFlAhkiLdLAAAQsDHy5iXmlRjpGeqbahnqG
+ QIaOEQMXpwBMtXEzw1+piq9LVmXN229V/c7kw1a9LYzC6zktVHj1Iu5OCk/trMhjZFj1vLVi1l3
+ 3rHAGsdN/ky3ZZ3L/zrq6+/r2M7MrjBflXGUGAA==
 X-Developer-Key: i=mailhol@kernel.org; a=openpgp;
  fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -98,126 +76,62 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-RFBTIFsxXSBkZWZpbmVzIEdQVCBwYXJ0aXRpb24gdHlwZSBVVUlEcyBmb3IgT1MgcGFydGl0aW9u
-cyBhbmQKYXR0cmlidXRlcyB0aGF0IGNvbnRyb2wgd2hldGhlciBzdWNoIHBhcnRpdGlvbnMgc2hv
-dWxkIGJlCmF1dG9tYXRpY2FsbHkgZGlzY292ZXJlZC4gVGhlIHNwZWNpZmljYXRpb24gc3RhdGVz
-IHRoYXQ6CgogIFRoZSBPUyBjYW4gZGlzY292ZXIgYW5kIG1vdW50IHRoZSBuZWNlc3NhcnkgZmls
-ZSBzeXN0ZW1zIHdpdGggYQogIG5vbi1leGlzdGVudCBvciBpbmNvbXBsZXRlIC9ldGMvZnN0YWIg
-ZmlsZSBhbmQgd2l0aG91dCB0aGUgcm9vdD0KICBrZXJuZWwgY29tbWFuZCBsaW5lIG9wdGlvbi4K
-CkRQUyBpcyBhbHJlYWR5IGltcGxlbWVudGVkIGluIHN5c3RlbWQtZ3B0LWF1dG8tZ2VuZXJhdG9y
-IFsyXSwgd2hpY2gsCndoZW4gZW1iZWRkZWQgaW4gYW4gaW5pdHJkLCBpbmRlZWQgYWxsb3dzIGF1
-dG9tYXRpYyBkZXRlY3Rpb24gb2YgdGhlCnJvb3QgZmlsZXN5c3RlbSB0aHJvdWdoIGl0cyBwYXJ0
-aXRpb24gdHlwZSBVVUlELgoKVGhpcyBzZXJpZXMgYWRkcyB0aGlzIGRpc2NvdmVyeSBmZWF0dXJl
-IGRpcmVjdGx5IGludG8gdGhlIGtlcm5lbCBzbwp0aGF0IHBlb3BsZSB3aG8gYXJlIG5vdCB1c2lu
-ZyBzeXN0ZW1kIG9yIG5vdCB1c2luZyBhbiBpbml0cmQgY2FuIHN0aWxsCmJlbmVmaXQgZnJvbSBp
-dC4gVGhlIGltcGxlbWVudGF0aW9uIGZvbGxvd3MgdGhlIHNhbWUgbW9kZWwgYXMKc3lzdGVtZC1n
-cHQtYXV0by1nZW5lcmF0b3I6CgogIC0gR1BUIHBhcnRpdGlvbiB0eXBlIFVVSURzIGFyZSB1c2Vk
-IGZvciBhdXRvbWF0aWMgZGlzY292ZXJ5IHBvbGljeQogICAgb25seS4gTm8gcm9vdD1QQVJUVFlQ
-RVVVSUQ9eHh4IGNtZGxpbmUgb3B0aW9uIG9yIHNpbWlsYXIgc3ludGF4IGlzCiAgICBhZGRlZC4K
-CiAgLSBUaGUgcm9vdD0gY21kbGluZSBvcHRpb24gdGFrZXMgcHJlY2VkZW5jZS4gVGhpcyBwcmV2
-ZW50cyB1bmV4cGVjdGVkCiAgICBiZWhhdmlvdXIuCgogIC0gT25seSB0aGUgZGlzayB3aXRoIHRo
-ZSBhY3RpdmUgRUZJIFN5c3RlbSBQYXJ0aXRpb24gaXMgc2Nhbm5lZCwgYXMKICAgIHJlcXVpcmVk
-IGJ5IERQUy4gVGhlIGRpc2sgaXMgaWRlbnRpZmllZCB0aHJvdWdoIHRoZSBCb290IExvYWRlcgog
-ICAgSW50ZXJmYWNlIExvYWRlckRldmljZVBhcnRVVUlEIEVGSSB2YXJpYWJsZS4KClRoZSBEUFMg
-bm8tYXV0byBhdHRyaWJ1dGUgaXMgYWxzbyBpbXBsZW1lbnRlZCwgZ2l2aW5nIGFub3RoZXIgb3B0
-aW9uIGZvcgp0aGUgdXNlciB0byBkaXNhYmxlIHRoaXMgYXV0byBkaXNjb3ZlcnkuIEhvd2V2ZXIs
-IHRoZSBEUFMgcmVhZC1vbmx5CmF0dHJpYnV0ZSBpcyBpbnRlbnRpb25hbGx5IG5vdCBlbmZvcmNl
-ZC4gVGhlIGtlcm5lbCBhbHJlYWR5IG1vdW50cyB0aGUKcm9vdCBmaWxlc3lzdGVtIHJlYWQtb25s
-eSBieSBkZWZhdWx0IHVubGVzcyB0aGUgY29tbWFuZCBsaW5lIHJlcXVlc3RzCnJ3LCBhbmQgdXNl
-ciBzcGFjZSByZW1haW5zIHJlc3BvbnNpYmxlIGZvciBkZWNpZGluZyB3aGV0aGVyIGEgZGlzY292
-ZXJlZApyb290IHNob3VsZCBsYXRlciBiZSByZW1vdW50ZWQgcmVhZC13cml0ZSBiYXNlZCBvbiBE
-UFMgbWV0YWRhdGEgYW5kCmxvY2FsIHBvbGljeS4gVGhlIG90aGVyIHBhcnRpdGlvbiB0eXBlIFVV
-SURzIChob21lLCBzd2FwLCB2YXIuLi4pIGFyZQphbHNvIG91dCBvZiBzY29wZSBmb3IgdGhlIHNh
-bWUgcmVhc29uOiB1c2VyIHNwYWNlIHJlbWFpbnMgcmVzcG9uc2libGUKZm9yIG1vdW50aW5nIGFu
-eXRoaW5nIG90aGVyIHRoYW4gdGhlIHJvb3QgcGFydGl0aW9uLgoKUGF0Y2ggMSBhZGRzIHRoZSBB
-UkNIX0hBU19EUFNfUk9PVF9QQVJUSVRJT05fVFlQRV9VVUlEIGNhcGFiaWxpdHkgYW5kCnRoZSBo
-aWRkZW4gQ09ORklHX0RQU19ST09UX0FVVE9fRElTQ09WRVJZIEtjb25maWcgc3ltYm9sIHVzZWQg
-dG8gc2lnbmFsCndoZXRoZXIgdGhlIGZlYXR1cmUgaXMgYXZhaWxhYmxlLiBQYXRjaGVzIDIgdG8g
-MTIgZGVjbGFyZSB0aGUKQVJDSF9IQVNfRFBTX1JPT1RfUEFSVElUSU9OX1RZUEVfVVVJRCBjYXBh
-YmlsaXR5IGZvciB0aGUgc3VwcG9ydGVkCmFyY2hpdGVjdHVyZXMgYW5kIGRlZmluZSB0aGVpciBh
-cmNoaXRlY3R1cmUtc3BlY2lmaWMgcm9vdCBwYXJ0aXRpb24gdHlwZQpVVUlEIHZhbHVlcyBpbiBh
-c20vZHBzX3Jvb3QuaC4KClBhdGNoZXMgMTMgdG8gMTYgbWFrZSB0aGUgR1BUIHBhcnRpdGlvbiB0
-eXBlIFVVSUQgYW5kIHRoZSBuby1hdXRvCmF0dHJpYnV0ZSBhdmFpbGFibGUgZHVyaW5nIGVhcmx5
-IGJsb2NrIGxvb2t1cC4KClBhdGNoIDE3IGlzIGEgc21hbGwgY29kZSByZWZhY3RvciB0aGF0IHBy
-ZXBhcmVzIGZvciBwYXRjaCAxOCwgd2hpY2gKdXBkYXRlcyB0aGUgcm9vdCBtb3VudCBwYXRoIHNv
-IHRoYXQsIHdoZW4gcm9vdD0gaXMgb21pdHRlZCwgdGhlIGtlcm5lbApyZWFkcyBMb2FkZXJEZXZp
-Y2VQYXJ0VVVJRCBhbmQgdXNlcyB0aGUgZWFybHkgYmxvY2sgbG9va3VwCmluZnJhc3RydWN0dXJl
-IHRvIGRpc2NvdmVyIHRoZSBEUFMgcm9vdCBwYXJ0aXRpb24gb24gdGhhdCBkaXNrLgoKRmluYWxs
-eSwgcGF0Y2ggMTkgZG9jdW1lbnRzIHRoaXMgYXV0b21hdGljIHJvb3QgZGlzY292ZXJ5IGZlYXR1
-cmUuCgpUZXN0ZWQgd2l0aCBHUlVCLCB3aGljaCBpbXBsZW1lbnRzIHRoZSBMb2FkZXJEZXZpY2VQ
-YXJ0VVVJRCBFRkkgdmFyaWFibGUKaW4gaXRzIGJsaSBtb2R1bGUgWzNdLiBXaXRoIHRoaXMsIEkg
-d2FzIGFibGUgdG8gYm9vdCBhIGtlcm5lbCB3aXRoIGEKY29tcGxldGVseSBlbXB0eSBjbWRsaW5l
-IGFuZCBubyBpbml0cmQuCgpbMV0gVGhlIERpc2NvdmVyYWJsZSBQYXJ0aXRpb25zIFNwZWNpZmlj
-YXRpb24gKERQUykKTGluazogaHR0cHM6Ly91YXBpLWdyb3VwLm9yZy9zcGVjaWZpY2F0aW9ucy9z
-cGVjcy9kaXNjb3ZlcmFibGVfcGFydGl0aW9uc19zcGVjaWZpY2F0aW9uLwoKWzJdIHN5c3RlbWQt
-Z3B0LWF1dG8tZ2VuZXJhdG9yCkxpbms6IGh0dHBzOi8vd3d3LmZyZWVkZXNrdG9wLm9yZy9zb2Z0
-d2FyZS9zeXN0ZW1kL21hbi9sYXRlc3Qvc3lzdGVtZC1ncHQtYXV0by1nZW5lcmF0b3IuaHRtbAoK
-WzNdIEdSVUIgLS0gwqcxNi4yIGJsaQpMaW5rOiBodHRwczovL3d3dy5nbnUub3JnL3NvZnR3YXJl
-L2dydWIvbWFudWFsL2dydWIvaHRtbF9ub2RlL2JsaV8wMDVmbW9kdWxlLmh0bWwKClNpZ25lZC1v
-ZmYtYnk6IFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbEBrZXJuZWwub3JnPgotLS0KVmluY2VudCBN
-YWlsaG9sICgxOSk6CiAgICAgIGluaXQ6IGFkZCBEUFMgcm9vdCBwYXJ0aXRpb24gdHlwZSBVVUlE
-IGNhcGFiaWxpdHkKICAgICAgYWxwaGE6IGRlZmluZSBEUFMgcm9vdCBwYXJ0aXRpb24gdHlwZSBV
-VUlECiAgICAgIGFyYzogZGVmaW5lIERQUyByb290IHBhcnRpdGlvbiB0eXBlIFVVSUQKICAgICAg
-YXJtOiBkZWZpbmUgRFBTIHJvb3QgcGFydGl0aW9uIHR5cGUgVVVJRAogICAgICBhcm02NDogZGVm
-aW5lIERQUyByb290IHBhcnRpdGlvbiB0eXBlIFVVSUQKICAgICAgbG9vbmdhcmNoOiBkZWZpbmUg
-RFBTIHJvb3QgcGFydGl0aW9uIHR5cGUgVVVJRAogICAgICBtaXBzOiBkZWZpbmUgRFBTIHJvb3Qg
-cGFydGl0aW9uIHR5cGUgVVVJRHMKICAgICAgcGFyaXNjOiBkZWZpbmUgRFBTIHJvb3QgcGFydGl0
-aW9uIHR5cGUgVVVJRAogICAgICBwb3dlcnBjOiBkZWZpbmUgRFBTIHJvb3QgcGFydGl0aW9uIHR5
-cGUgVVVJRHMKICAgICAgcmlzY3Y6IGRlZmluZSBEUFMgcm9vdCBwYXJ0aXRpb24gdHlwZSBVVUlE
-cwogICAgICBzMzkwOiBkZWZpbmUgRFBTIHJvb3QgcGFydGl0aW9uIHR5cGUgVVVJRHMKICAgICAg
-eDg2OiBkZWZpbmUgRFBTIHJvb3QgcGFydGl0aW9uIHR5cGUgVVVJRHMKICAgICAgYmxvY2s6IHN0
-b3JlIEdQVCBwYXJ0aXRpb24gdHlwZSBVVUlECiAgICAgIGJsb2NrOiBhZGQgZWFybHlfbG9va3Vw
-X2JkZXZfYnlfdHlwZV91dWlkKCkKICAgICAgYmxvY2s6IHN0b3JlIEdQVCBhdHRyaWJ1dGVzIGFz
-IGEgcmF3IHZhbHVlCiAgICAgIGJsb2NrOiBkb24ndCBkaXNjb3ZlciBwYXJ0aXRpb24gd2l0aCBE
-UFMgbm8tYXV0byBHUFQgYXR0cmlidXRlCiAgICAgIGluaXQ6IGZhY3RvciBvdXQgcm9vdCBkZXZp
-Y2UgbG9va3VwIGludG8gbG9va3VwX3Jvb3RfZGV2aWNlKCkKICAgICAgaW5pdDogZGlzY292ZXIg
-cm9vdCBieSBEUFMgcGFydGl0aW9uIHR5cGUgVVVJRAogICAgICBkb2NzOiBkb2N1bWVudCBkaXNj
-b3ZlcmFibGUgcm9vdCBwYXJ0aXRpb25zCgogRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9kaXNj
-b3ZlcmFibGUtcm9vdC5yc3QgfCAzMyArKysrKysrKysKIERvY3VtZW50YXRpb24vYWRtaW4tZ3Vp
-ZGUvaW5kZXgucnN0ICAgICAgICAgICAgIHwgIDEgKwogRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlk
-ZS9rZXJuZWwtcGFyYW1ldGVycy50eHQgfCAgNSArKwogYXJjaC9hbHBoYS9LY29uZmlnICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgfCAgMSArCiBhcmNoL2FscGhhL2luY2x1ZGUvYXNtL2Rw
-c19yb290LmggICAgICAgICAgICAgICB8ICA4ICsrKwogYXJjaC9hcmMvS2NvbmZpZyAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgfCAgMSArCiBhcmNoL2FyYy9pbmNsdWRlL2FzbS9kcHNf
-cm9vdC5oICAgICAgICAgICAgICAgICB8ICA4ICsrKwogYXJjaC9hcm0vS2NvbmZpZyAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgfCAgMSArCiBhcmNoL2FybS9pbmNsdWRlL2FzbS9kcHNf
-cm9vdC5oICAgICAgICAgICAgICAgICB8ICA4ICsrKwogYXJjaC9hcm02NC9LY29uZmlnICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgfCAgMSArCiBhcmNoL2FybTY0L2luY2x1ZGUvYXNtL2Rw
-c19yb290LmggICAgICAgICAgICAgICB8ICA4ICsrKwogYXJjaC9sb29uZ2FyY2gvS2NvbmZpZyAg
-ICAgICAgICAgICAgICAgICAgICAgICAgfCAgMSArCiBhcmNoL2xvb25nYXJjaC9pbmNsdWRlL2Fz
-bS9kcHNfcm9vdC5oICAgICAgICAgICB8ICA4ICsrKwogYXJjaC9taXBzL0tjb25maWcgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgfCAgMSArCiBhcmNoL21pcHMvaW5jbHVkZS9hc20vZHBz
-X3Jvb3QuaCAgICAgICAgICAgICAgICB8IDIwICsrKysrKwogYXJjaC9wYXJpc2MvS2NvbmZpZyAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMSArCiBhcmNoL3BhcmlzYy9pbmNsdWRlL2Fz
-bS9kcHNfcm9vdC5oICAgICAgICAgICAgICB8ICA4ICsrKwogYXJjaC9wb3dlcnBjL0tjb25maWcg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMSArCiBhcmNoL3Bvd2VycGMvaW5jbHVkZS9h
-c20vZHBzX3Jvb3QuaCAgICAgICAgICAgICB8IDE2ICsrKysrCiBhcmNoL3Jpc2N2L0tjb25maWcg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAxICsKIGFyY2gvcmlzY3YvaW5jbHVkZS9h
-c20vZHBzX3Jvb3QuaCAgICAgICAgICAgICAgIHwgMTIgKysrKwogYXJjaC9zMzkwL0tjb25maWcg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMSArCiBhcmNoL3MzOTAvaW5jbHVkZS9h
-c20vZHBzX3Jvb3QuaCAgICAgICAgICAgICAgICB8IDEyICsrKysKIGFyY2gveDg2L0tjb25maWcg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDEgKwogYXJjaC94ODYvaW5jbHVkZS9h
-c20vZHBzX3Jvb3QuaCAgICAgICAgICAgICAgICAgfCAxMiArKysrCiBibG9jay9ibGsuaCAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAxICsKIGJsb2NrL2Vhcmx5LWxvb2t1
-cC5jICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgNjggKysrKysrKysrKysrKysrKystCiBi
-bG9jay9wYXJ0aXRpb25zL2NvcmUuYyAgICAgICAgICAgICAgICAgICAgICAgICB8ICAyICsKIGJs
-b2NrL3BhcnRpdGlvbnMvZWZpLmMgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDMgKwogYmxv
-Y2svcGFydGl0aW9ucy9lZmkuaCAgICAgICAgICAgICAgICAgICAgICAgICAgfCAxMSArKy0KIGlu
-Y2x1ZGUvbGludXgvYmxrX3R5cGVzLmggICAgICAgICAgICAgICAgICAgICAgIHwgIDEgKwogaW5j
-bHVkZS9saW51eC9ibGtkZXYuaCAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgNSArKwogaW5j
-bHVkZS9saW51eC9yb290X2Rldi5oICAgICAgICAgICAgICAgICAgICAgICAgfCAgNiArKwogaW5p
-dC9LY29uZmlnICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgNiArKwogaW5p
-dC9kb19tb3VudHMuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCA5NCArKysrKysr
-KysrKysrKysrKysrKysrKystCiAzNSBmaWxlcyBjaGFuZ2VkLCAzNTUgaW5zZXJ0aW9ucygrKSwg
-MTIgZGVsZXRpb25zKC0pCi0tLQpiYXNlLWNvbW1pdDogMzY4MDhkNWU5ODM5ODViYmRhODdlMDEw
-NTljY2NjMDcxZmUzZWM4ZApjaGFuZ2UtaWQ6IDIwMjYwNjExLWRpc2NvdmVyYWJsZS1yb290X3Bh
-cnRpdGlvbnMtYmRhY2JhZGE1NzBkCgpCZXN0IHJlZ2FyZHMsCi0tIApWaW5jZW50IE1haWxob2wg
-PG1haWxob2xAa2VybmVsLm9yZz4KCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNA
-bGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
+DPS [1] assigns GPT partition type UUIDs to operating system partitions.
+Root partitions use architecture-specific type UUIDs so the OS can
+discover the intended root filesystem without relying on a root= cmdline
+option.
+
+Define DPS_ROOT_PARTITION_TYPE_UUID in asm/dps_root.h for ARC and select
+ARCH_HAS_DPS_ROOT_PARTITION_TYPE_UUID.
+
+[1] The Discoverable Partitions Specification (DPS)
+Link: https://uapi-group.org/specifications/specs/discoverable_partitions_specification/
+
+Cc: Vineet Gupta <vgupta@kernel.org>
+Cc: linux-snps-arc@lists.infradead.org
+Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
+---
+ arch/arc/Kconfig                | 1 +
+ arch/arc/include/asm/dps_root.h | 8 ++++++++
+ 2 files changed, 9 insertions(+)
+
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index 2ed7186c81c5..cc3a57a0111f 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -10,6 +10,7 @@ config ARC
+ 	select ARCH_HAS_CACHE_LINE_SIZE
+ 	select ARCH_HAS_DEBUG_VM_PGTABLE
+ 	select ARCH_HAS_DMA_PREP_COHERENT
++	select ARCH_HAS_DPS_ROOT_PARTITION_TYPE_UUID
+ 	select ARCH_HAS_PTE_SPECIAL
+ 	select ARCH_HAS_SETUP_DMA_OPS
+ 	select ARCH_HAS_SYNC_DMA_FOR_CPU
+diff --git a/arch/arc/include/asm/dps_root.h b/arch/arc/include/asm/dps_root.h
+new file mode 100644
+index 000000000000..c9db3ddf1a53
+--- /dev/null
++++ b/arch/arc/include/asm/dps_root.h
+@@ -0,0 +1,8 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++
++#ifndef _ASM_ARC_DPS_ROOT_H
++#define _ASM_ARC_DPS_ROOT_H
++
++#define DPS_ROOT_PARTITION_TYPE_UUID "d27f46ed-2919-4cb8-bd25-9531f3c16534"
++
++#endif /* _ASM_ARC_DPS_ROOT_H */
+
+-- 
+2.53.0
+
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
