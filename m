@@ -4,89 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 023DACD98ED
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 17 Jun 2026 20:56:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE5CFCD4F26
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 26 Jun 2026 08:22:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References:Date:
+	Message-Id:From:Subject:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=zwgxB2esjmWM10jUl6BSstJTgmVFQ/9NRM2JUPPuw1Y=; b=vB8qeZrbaLOX7z
-	6jGDUpK1t3qCCQx2VaJXPWrC3wJxu2Oc4ZuToxRSATtqGu7nmeK1YdbbX0VqGQ/XIJyTJsADcFqfP
-	2qZZF929lHfpK/pgjwvhTXnxaEWqVcD5OYTwc0YeUrHFYUWa3amOF1lC4SQ1qep1/h6j+IMU0Psf9
-	6fulfBhcL4397PWPx+Xfq0vVg1vup+KD0H9e+hdowhaC38hfwkEFXWSR9IaYuIgWqKNnC/cXQDQ9G
-	aFMyfqvq/Xq9OcKYXAjkjkwKOv0IyhrgAjAgTrY7H/5MlSPYou+6Ggakvz9rfexwZxPtal1PLRl7F
-	6NJs0lRjjURTi9goOLXg==;
+	List-Owner; bh=+bvcpmVB8RPsj0h02kXvph6jpMIg90vK5ea/4nzyFAQ=; b=eW9oGWRJK1RBwu
+	eaTh5MWRwiY+aOWW+t9Bdj+D8R2KN2URU0dkh8EaN3x0c6PKRkuMS7EYhVTO9e3JE2wJSvT8EoYnV
+	mKwiQH05ZF/HNxoPQ8qZQPLecYsMLVtQJyk1fPnnyvprJgIq9frRu8dwDJEyUF946dAo3DXmYNjcW
+	3E/+XFgiw1sUlS53p0fSmsvhZoiDm37z6YeMAW0gZkiQB69eDZuot6Tbw/+MyUfKaO+k70p6zg1Cj
+	82K1Vpu1BYBdey6ztLBT9P1i7c1EmtLmR8mItCX/t8b9W2pockaOrU8XdI8I6r3zLV2VE9f9NBMS2
+	fTmSmzwnPpiy+6p2gA4g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wZxJ3-00000000Ks8-1FI4;
-	Wed, 17 Jun 2026 20:56:17 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1wd1pD-0000000Ap1k-1yaI;
+	Fri, 26 Jun 2026 08:22:11 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wZxJ1-00000000KrS-2JTM;
-	Wed, 17 Jun 2026 20:56:15 +0000
+	id 1wd1ov-0000000AoIf-1xoO;
+	Fri, 26 Jun 2026 08:21:53 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id D0C186001D;
-	Wed, 17 Jun 2026 20:56:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 093671F000E9;
-	Wed, 17 Jun 2026 20:56:02 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 085944430E;
+	Fri, 26 Jun 2026 08:21:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBDAC1F00A3A;
+	Fri, 26 Jun 2026 08:21:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781729774;
-	bh=A1dicipAfT1NcihzDB7nuXRVGuGocmFyEPV9zA3acUw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=C+JgIxG8rwASDaFmpA6Zh29sHsXjVxomoiRH3OhPa889meEEW3u5FNT+dBtjSW/hw
-	 D6sNaxoXruVEdJRs2TCBxuP28EcnIXSc5VAkaakRwBoxec3mO22QwXPEm1o8g68Ynd
-	 8T8I2IgLVzXJB6nmke5oXdYS2A9totgcEQtmZtRlGO3HONE15zQQ/88bLpmm74eGQi
-	 DWjnBfcuUlDaTgEjHaexYiGs3ETfD/34gnzgEP8hZqrBB2wyy4XzJUiGfxVPSxD1H2
-	 c194yBAZig9SafF4ckJpaak40F8YXNFSE9LJCbVAb2fsNOLIPxGH8mSNw03gXnsF9u
-	 w4PgjTaHOYmEg==
-Message-ID: <01cc3ac9-c89e-491c-86ed-4c4c90809075@kernel.org>
-Date: Wed, 17 Jun 2026 22:56:00 +0200
+	s=k20260515; t=1782462112;
+	bh=7N6xFs6HldNaJtHXB+1so7kMQ4CsatgFOfKvzUpfQ6c=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=DLkaMOoe7jjLq0zrWVM7g5T3weWBVn0GKvdUrsWL1NS6Qs/YGb/jSI/OCz0xvfzqS
+	 Qaym8bn+YQ7Yv3mFvqa3JZPMQyeTT1JkI61/DRV2mqoJOQ6RCZahCcrN/sZ0P41GxN
+	 lQMkVEyzffwbljfjI4cRAmJFH6TA/MXXocYqdJ0r2fyaFbY7MUFYbzOT2mQ1bO9ESQ
+	 aXENlZ4+KidZLyWpFEQCN/4TQ2SdvjPzYQw0gZqKyFHWnTN9MR5o7FqI9NLTieKhiJ
+	 eEE7hw/g70YQVjdOMlBaDUGyYwudw/LY4An0H/3ioGWkJoeS59H947CE7rYTKgUHWr
+	 baMoIKRFCt04w==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 199D639389E8;
+	Fri, 26 Jun 2026 08:21:41 +0000 (UTC)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/19] init: discoverable root partitions, a.k.a. an
- omittable "root=" cmdline option
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Davidlohr Bueso <dave@stgolabs.net>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-efi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>,
- linux-alpha@vger.kernel.org, Vineet Gupta <vgupta@kernel.org>,
- linux-snps-arc@lists.infradead.org, Russell King <linux@armlinux.org.uk>,
- linux-arm-kernel@lists.infradead.org,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- loongarch@lists.linux.dev, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- linux-mips@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, linuxppc-dev@lists.ozlabs.org,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, linux-riscv@lists.infradead.org,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>, linux-s390@vger.kernel.org,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-References: <20260615-discoverable-root_partitions-v1-0-39c78fac42e2@kernel.org>
- <20260617-irritation-rollen-wirst-7d636cbfec92@brauner>
-From: Vincent Mailhol <mailhol@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=mailhol@kernel.org; keydata=
- xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
- JFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbEBrZXJuZWwub3JnPsKZBBMWCgBBFiEE7Y9wBXTm
- fyDldOjiq1/riG27mcIFAmdfB/kCGwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcC
- F4AACgkQq1/riG27mcKBHgEAygbvORJOfMHGlq5lQhZkDnaUXbpZhxirxkAHwTypHr4A/joI
- 2wLjgTCm5I2Z3zB8hqJu+OeFPXZFWGTuk0e2wT4JzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrb
- YZzu0JG5w8gxE6EtQe6LmxKMqP6EyR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDl
- dOjiq1/riG27mcIFAmceMvMCGwwFCQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8V
- zsZwr/S44HCzcz5+jkxnVVQ5LZ4BANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
-In-Reply-To: <20260617-irritation-rollen-wirst-7d636cbfec92@brauner>
+Subject: Re: [PATCH v5 0/9] driver core: Fix some race conditions
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: <178246209959.3816447.5329631417058038374.git-patchwork-notify@kernel.org>
+Date: Fri, 26 Jun 2026 08:21:39 +0000
+References: <20260406232444.3117516-1-dianders@chromium.org>
+In-Reply-To: <20260406232444.3117516-1-dianders@chromium.org>
+To: Doug Anderson <dianders@chromium.org>
+Cc: linux-riscv@lists.infradead.org, gregkh@linuxfoundation.org,
+ rafael@kernel.org, dakr@kernel.org, stern@rowland.harvard.edu, aik@ozlabs.ru,
+ johan@kernel.org, edumazet@google.com, leon@kernel.org, hch@lst.de,
+ robin.murphy@arm.com, maz@kernel.org, aleksander.lobakin@intel.com,
+ saravanak@kernel.org, akpm@linux-foundation.org, Frank.Li@kernel.org,
+ jgg@ziepe.ca, alex@ghiti.fr, alexander.stein@ew.tq-group.com,
+ andre.przywara@arm.com, andrew@codeconstruct.com.au, andrew@lunn.ch,
+ andriy.shevchenko@linux.intel.com, aou@eecs.berkeley.edu, ardb@kernel.org,
+ astewart@tektelic.com, bhelgaas@google.com, brgl@kernel.org,
+ broonie@kernel.org, catalin.marinas@arm.com, chleroy@kernel.org,
+ davem@davemloft.net, david@kernel.org, devicetree@vger.kernel.org,
+ dmaengine@vger.kernel.org, driver-core@lists.linux.dev, gbatra@linux.ibm.com,
+ gregory.clement@bootlin.com, hkallweit1@gmail.com, iommu@lists.linux.dev,
+ jirislaby@kernel.org, joel@jms.id.au, joro@8bytes.org, kees@kernel.org,
+ kevin.brodsky@arm.com, kuba@kernel.org, lenb@kernel.org, lgirdwood@gmail.com,
+ linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-cxl@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, linux-mm@kvack.org,
+ linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-usb@vger.kernel.org,
+ linux@armlinux.org.uk, linuxppc-dev@lists.ozlabs.org,
+ m.szyprowski@samsung.com, maddy@linux.ibm.com, mani@kernel.org,
+ miko.lenczewski@arm.com, mpe@ellerman.id.au, netdev@vger.kernel.org,
+ npiggin@gmail.com, osalvador@suse.de, oupton@kernel.org, pabeni@redhat.com,
+ palmer@dabbelt.com, peter.ujfalusi@gmail.com, peterz@infradead.org,
+ pjw@kernel.org, robh@kernel.org, sebastian.hesselbarth@gmail.com,
+ tglx@kernel.org, tsbogend@alpha.franken.de, vgupta@kernel.org,
+ vkoul@kernel.org, will@kernel.org, willy@infradead.org,
+ yangyicong@hisilicon.com, yeoreum.yun@arm.com
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,89 +97,33 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 17/06/2026 at 14:41, Christian Brauner wrote:
-> On Mon, Jun 15, 2026 at 06:08:56PM +0200, Vincent Mailhol wrote:
->> DPS [1] defines GPT partition type UUIDs for OS partitions and
->> attributes that control whether such partitions should be
->> automatically discovered. The specification states that:
->>
->>   The OS can discover and mount the necessary file systems with a
->>   non-existent or incomplete /etc/fstab file and without the root=
->>   kernel command line option.
->>
->> DPS is already implemented in systemd-gpt-auto-generator [2], which,
->> when embedded in an initrd, indeed allows automatic detection of the
->> root filesystem through its partition type UUID.
->>
->> This series adds this discovery feature directly into the kernel so
->> that people who are not using systemd or not using an initrd can still
->> benefit from it. The implementation follows the same model as
->> systemd-gpt-auto-generator:
+Hello:
+
+This patch was applied to riscv/linux.git (fixes)
+by Danilo Krummrich <dakr@kernel.org>:
+
+On Mon,  6 Apr 2026 16:22:53 -0700 you wrote:
+> The main goal of this series is to fix the observed bug talked about
+> in the first patch ("driver core: Don't let a device probe until it's
+> ready"). That patch fixes a problem that has been observed in the real
+> world and could land even if the rest of the patches are found
+> unacceptable or need to be spun.
 > 
-> I happen to co-maintain the DPS. It is userspace policy and complex
-> userspace policy at that and does not belong into the kernel.
+> That said, during patch review Danilo correctly pointed out that many
+> of the bitfield accesses in "struct device" are unsafe. I added a
+> bunch of patches in the series to address each one.
 > 
-> This also implements a really tiny portion of the spec. It deals with a
-> lot more complex concepts such as automatic partitioning during
-> installation, verity, LUKS, containers. This is really not intended for
-> the kernel at all. I mean, it's great that this spec is being used but I
-> do not want this in the kernel just for the sake of auto-discovery.
+> [...]
 
-The implementation of a tiny portion is voluntary. If I can draw a
-parallel, it would be the same as saying that the root= cmdline option
-is a tiny portion of what an fstab can do.
+Here is the summary with links:
+  - [v5,7/9] driver core: Replace dev->dma_coherent with dev_dma_coherent()
+    https://git.kernel.org/riscv/c/3e2c1e213ac2
 
-Yes it does not manage the LUKS, containers and so on, the same way it
-is not possible to directly boot those things directly from the kernel.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-So, I don't think this conflicts with the actual userland
-implementations, the same way you can add root= to your command line and
-still have an initrd next to it.
-
-I did not intend to write this as a replacement but just as a complement
-to fill the gap of kernel with no initrd.
-
-> The DPS is completely generic and can be implemented by tooling other
-> than systemd (util-linux implements it and so does refind iirc). I think
-> not wanting to use or build alternative userspace tooling for this is a
-> really weak argument for pushing this into the kernel.
-
-Well, I might explain to you where I come from. Time to time, I mess up
-my configuration. When this issue is in a userland config file (e.g. bad
-fstab), the recovery is always easy.
-
-But when I mess up the bootloader firmware configuration (e.g. grub,
-u-boot, edk2), the fix is always painful. I have to fight with a shell
-with which I am not familiar with to figure out what the correct
-configuration is.
-
-And an initrd would help but:
-
- - it is still one more file to look for pass as a parameter
- - on some machine I do not have one anyway
-
-I think it would have been very neet to have a method to boot a kernel
-with zero config (understand here: no cmdline, no initrd) and I find out
-that DPS could achieve that if just a tiny part of it were implemented
-in the kernel.
-
-For example, in edk2, I would be able to just browse the disk from the
-"Boot from file" menu and select a kernel. Currently it panics because
-no configuration is attached. With DPS, we could have it boot linux from
-that menu. All in a graphical interface, with just up/down arrows and
-one enter keypress.
-
-And this is my motivation. This non LUKS root read-only part of the DPS
-is the only piece which makes sense for me in the kernel. Not that I
-don't *want* to implement it in userland, but just that it doesn't
-achieve what would be helpful to me (and I guess others).
-
-I thought I wouldn't be the only one in the world to see value in that
-this is why I posted it.
-
-
-Yours sincerely,
-Vincent Mailhol
 
 
 _______________________________________________
