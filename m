@@ -4,53 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB8BFC44502
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  7 Jul 2026 19:06:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AFD1EC43458
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  7 Jul 2026 19:06:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
 	From:Message-ID:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=pZjHCcg1xe7qIP2spuntVEixU5feW/z2MabQTdkTEsY=; b=3Nhe6paywhHomF
-	iIOjw3f1shi/LoIIK4gdOvGF5M2fhSDZdsiOXF4LNUMgP02Q6YJKbkYkmnRQN1be0upALiKBHAiVq
-	7pFUWmKZPqsnQRoV2Ls6WjKcjGgaOQlYxqa9lwkJ4Afn+SW9RKLIyQlZNdcGMkD5rxau+a1hhkvHY
-	Q8TsVHkrcSKjpVlCUD6CpW3tleshXexgZVDddlSIGcWdn8wFyoaT+JqBs8VpBdku74mNMYvNy2XVK
-	t+Z4i47BJFc384cHYIXQCzSRTtHyTNHMFmaogvIFHwve6iXIb+tZJGb7/QxV4wJxRjCPf8OIkGwRU
-	NTJQQAmp5O4pmoZ4oEkg==;
+	List-Owner; bh=UukcXtPkRp8ixSc0OoAYXZMmTJbEsypTN0z1Nb8sft0=; b=jOI838nHSeRiEF
+	QCKgcQFLufMxxeSOnfLDnHNqO/PizsZZk3wVWcuXUNeTO+QSOj4/F7cGEu/FApytHpKfqsgSIUjrc
+	NmoFjC/fa9CnPXOLqIYIGVXHjyByf2XZAGP8ktdbff6Wem7Gdxw0aa+aG4pqUvDT+lsLKWe3lq1JD
+	QEYgLg+TFkU8qtpzHcEm93mqsrevy5B60cvKNm+udeWxQCSuHjSi4Jrv2aki8zz+Y+OfgcCPn52DV
+	HdCivTASTBIOMaiWl6sGEcf55OyCuzTTFXuovsvjbtjvNfOmyOfDhHfQWeTQpdxyzX3DKqK2fD+Im
+	pnFMd+xf+RX0MElpLaRg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whB7Q-0000000Fgjs-46dj;
-	Tue, 07 Jul 2026 19:06:09 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1whB7V-0000000FgnE-1mEI;
+	Tue, 07 Jul 2026 19:06:13 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whB7K-0000000Fggz-1uHt;
-	Tue, 07 Jul 2026 19:06:05 +0000
+	id 1whB7O-0000000Fghv-1jSF;
+	Tue, 07 Jul 2026 19:06:06 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 7D4B3601ED;
-	Tue,  7 Jul 2026 19:06:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B8731F000E9;
-	Tue,  7 Jul 2026 19:06:00 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id A2DD86138A;
+	Tue,  7 Jul 2026 19:06:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 836131F00A3A;
+	Tue,  7 Jul 2026 19:06:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783451161;
-	bh=hxSnO03KgHWOZGMce0tACqpsA4dr5cG/I6UVdKHVTVw=;
+	s=k20260515; t=1783451165;
+	bh=On6NfRZNP83GQAwWkJi2QY5gy7RW6c7PPEtomv7P1Dc=;
 	h=Date:From:To:Cc:Subject:References;
-	b=XjLMGEZIqo7ptFMh+dt6XLydZgtGilujB6Pr3G5Xs8jTgXHjTmjHbXax45A1Irn7Q
-	 ZoKgOQ+erxKpVuTEY1CN+p5oa4NISG5yLBcptFbbuZ5Smi9OI4/1GT5wKmBvG/kUCm
-	 Kb++/j50MCS4Bd4ZIaLeUp05IkQ8BBoXhS1+C2Dfdb2Px/6YBrEpRHirZkoMvFkjrB
-	 Esy2/NvwC38v686eB+S6XqRLlxxoxacZU7i1j9g0fzbALa1yDrWEDepcbm0R60qZn9
-	 YK/VjvOicJpHE846L2yVE16swnlEjzi7zlbAJYmhCaJqshy4C6LdDpsWMl5NR0b1d9
-	 qdpIAZc9XtCbQ==
-Date: Tue, 07 Jul 2026 21:05:58 +0200
-Message-ID: <20260707190253.718191130@kernel.org>
+	b=Kyf4FHpFsIS+Ydmvpd4dDjaw6LA3z5qA3tk9jQCRiEW5qX1inNO9gy7FOgieh3baY
+	 hYOJJlHaPUBmLHJ7GT1+snJJu9GDe/I9LBY8DO5JtbHEjuAUTNBhEUGadk4Jt3mT6M
+	 jfM460+qa8cBdINqLxhonst5REsB87hmc78d5eqMEOoD5gBYWK0lJNv1XzAl9UsuvK
+	 VcyLhfQ5RZnjt+w12lkO4zxWbhBNKXx+std7IviKWtj5txrPrCsYKXUlRXGm9L5b6C
+	 x3lWCb9/6igNz1lMUWNia6Ofl2ESSU4en1Tc99OlWes1QnxVBl0HIc9O5ffHHzCd75
+	 Lv0AL/D7KjB7Q==
+Date: Tue, 07 Jul 2026 21:06:02 +0200
+Message-ID: <20260707190253.768842729@kernel.org>
 User-Agent: quilt/0.69
 From: Thomas Gleixner <tglx@kernel.org>
 To: LKML <linux-kernel@vger.kernel.org>
 Cc: Peter Zijlstra <peterz@infradead.org>,
+ Kees Cook <kees@kernel.org>,
  Michael Ellerman <mpe@ellerman.id.au>,
  Shrikanth Hegde <sshegde@linux.ibm.com>,
  linuxppc-dev@lists.ozlabs.org,
- Kees Cook <kees@kernel.org>,
  Huacai Chen <chenhuacai@kernel.org>,
  loongarch@lists.linux.dev,
  Paul Walmsley <pjw@kernel.org>,
@@ -97,8 +97,8 @@ Cc: Peter Zijlstra <peterz@infradead.org>,
  =?UTF-8?q?Michal=20Such=C3=A1nek?= <msuchanek@suse.de>,
  Jonathan Corbet <corbet@lwn.net>,
  linux-doc@vger.kernel.org
-Subject: [patch 01/18] powerpc: Move stack randomization after
- syscall_enter_from_user_mode()
+Subject: [patch 02/18] randomize_kstack: Provide
+ add_random_kstack_offset_irqsoff()
 References: <20260707181957.433213175@kernel.org>
 MIME-Version: 1.0
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -117,33 +117,48 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-add_random_kstack_offset() is invoked before syscall_enter_from_user_mode()
-establishes state. That's wrong because add_random_kstack_offset() calls
-into instrumentable code.
+add_random_kstack_offset() uses get/put_cpu_var() which is pointless
+overhead when it is invoked from low level entry code with interrupts
+disabled.
 
-Move it after syscall_enter_from_user_mode() to ensure that state is
-correctly established.
+Provide a irqsoff() variant, which avoids that.
 
 Signed-off-by: Thomas Gleixner <tglx@kernel.org>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Shrikanth Hegde <sshegde@linux.ibm.com>
-Cc: linuxppc-dev@lists.ozlabs.org
+Cc: Kees Cook <kees@kernel.org>
 ---
- arch/powerpc/kernel/syscall.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/randomize_kstack.h |   19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
---- a/arch/powerpc/kernel/syscall.c
-+++ b/arch/powerpc/kernel/syscall.c
-@@ -19,8 +19,8 @@ notrace long system_call_exception(struc
- 	long ret;
- 	syscall_fn f;
+--- a/include/linux/randomize_kstack.h
++++ b/include/linux/randomize_kstack.h
+@@ -77,8 +77,27 @@ static __always_inline u32 get_kstack_of
+ 	}								\
+ } while (0)
  
--	add_random_kstack_offset();
- 	r0 = syscall_enter_from_user_mode(regs, r0);
-+	add_random_kstack_offset();
++/**
++ * add_random_kstack_offset_irqsoff - Increase stack utilization by a random offset.
++ *
++ * This should be used in the syscall entry path after user registers have been
++ * stored to the stack. Interrupts must be still disabled.
++ */
++#define add_random_kstack_offset_irqsoff()					\
++do {										\
++	lockdep_assert_irqs_disabled();						\
++	if (static_branch_maybe(CONFIG_RANDOMIZE_KSTACK_OFFSET_DEFAULT,		\
++				&randomize_kstack_offset)) {			\
++		u32 offset = prandom_u32_state(raw_cpu_ptr(&kstack_rnd_state));	\
++		u8 *ptr = __kstack_alloca(KSTACK_OFFSET_MAX(offset));		\
++		/* Keep allocation even after "ptr" loses scope. */		\
++		asm volatile("" :: "r"(ptr) : "memory");			\
++	}									\
++} while (0)
++
+ #else /* CONFIG_RANDOMIZE_KSTACK_OFFSET */
+ #define add_random_kstack_offset()		do { } while (0)
++#define add_random_kstack_offset_irqsoff()	do { } while (0)
+ #endif /* CONFIG_RANDOMIZE_KSTACK_OFFSET */
  
- 	if (unlikely(r0 >= NR_syscalls)) {
- 		if (unlikely(trap_is_unsupported_scv(regs))) {
+ #endif
 
 
 _______________________________________________
