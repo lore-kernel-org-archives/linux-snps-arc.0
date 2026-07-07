@@ -4,53 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AFD1EC43458
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  7 Jul 2026 19:06:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53C0AC44502
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  7 Jul 2026 19:06:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
 	From:Message-ID:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=UukcXtPkRp8ixSc0OoAYXZMmTJbEsypTN0z1Nb8sft0=; b=jOI838nHSeRiEF
-	QCKgcQFLufMxxeSOnfLDnHNqO/PizsZZk3wVWcuXUNeTO+QSOj4/F7cGEu/FApytHpKfqsgSIUjrc
-	NmoFjC/fa9CnPXOLqIYIGVXHjyByf2XZAGP8ktdbff6Wem7Gdxw0aa+aG4pqUvDT+lsLKWe3lq1JD
-	QEYgLg+TFkU8qtpzHcEm93mqsrevy5B60cvKNm+udeWxQCSuHjSi4Jrv2aki8zz+Y+OfgcCPn52DV
-	HdCivTASTBIOMaiWl6sGEcf55OyCuzTTFXuovsvjbtjvNfOmyOfDhHfQWeTQpdxyzX3DKqK2fD+Im
-	pnFMd+xf+RX0MElpLaRg==;
+	List-Owner; bh=fg/Y7ZbrPae/pxGMSffSlQejwVSORrqgs8+jWCdH1CM=; b=JSex6nNsxHotfn
+	MYgSyvxrY7I704WnkXgAVI9eykfvm9+eRhPLanjTS3iXOVqkunDVOEEG8MBP5umJjtEsYxkjKLdQT
+	CDC1S/QLZgqBOnGbhakS3GlrGLEJNvHa2Cr0PDC6c8X1fS/9rCQ7iRQZe84Gm9Ft2AcoNBuhVSibk
+	VKNqmFeh7XnBPMayBT/I9Pf0l6n+g433NyqNtaRqGzELTVNMFhidrfGv1ZFO+Ih7Cf1YXALnq2X+g
+	fo8yT+oBOvZuYkrzvJmHMUqq6SQ9kLwDWTvk3LWWpu2tvFeVLj43YgXHGbDE6pODEwcfqD1hRHu+r
+	tzocF3FQk+abEvhUEkwg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whB7V-0000000FgnE-1mEI;
-	Tue, 07 Jul 2026 19:06:13 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1whB7W-0000000FgpM-3xkI;
+	Tue, 07 Jul 2026 19:06:14 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whB7O-0000000Fghv-1jSF;
-	Tue, 07 Jul 2026 19:06:06 +0000
+	id 1whB7S-0000000FgkQ-1a9d;
+	Tue, 07 Jul 2026 19:06:10 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id A2DD86138A;
-	Tue,  7 Jul 2026 19:06:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 836131F00A3A;
-	Tue,  7 Jul 2026 19:06:04 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id CAD1561384;
+	Tue,  7 Jul 2026 19:06:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B438D1F00A3D;
+	Tue,  7 Jul 2026 19:06:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783451165;
-	bh=On6NfRZNP83GQAwWkJi2QY5gy7RW6c7PPEtomv7P1Dc=;
+	s=k20260515; t=1783451169;
+	bh=LBj+ZkGRdAQN74z4D94PD8p6NaRtGe8kKF18FGUoSBc=;
 	h=Date:From:To:Cc:Subject:References;
-	b=Kyf4FHpFsIS+Ydmvpd4dDjaw6LA3z5qA3tk9jQCRiEW5qX1inNO9gy7FOgieh3baY
-	 hYOJJlHaPUBmLHJ7GT1+snJJu9GDe/I9LBY8DO5JtbHEjuAUTNBhEUGadk4Jt3mT6M
-	 jfM460+qa8cBdINqLxhonst5REsB87hmc78d5eqMEOoD5gBYWK0lJNv1XzAl9UsuvK
-	 VcyLhfQ5RZnjt+w12lkO4zxWbhBNKXx+std7IviKWtj5txrPrCsYKXUlRXGm9L5b6C
-	 x3lWCb9/6igNz1lMUWNia6Ofl2ESSU4en1Tc99OlWes1QnxVBl0HIc9O5ffHHzCd75
-	 Lv0AL/D7KjB7Q==
-Date: Tue, 07 Jul 2026 21:06:02 +0200
-Message-ID: <20260707190253.768842729@kernel.org>
+	b=VY1zowsespAaLkdQfjN21WoDu0I2bpmruM24iQyJPomLBoNcfhRcxHp71u2Qaoz8w
+	 2Y6R/xVT7Yp0jxQTc8E5PWuftOuCpOuAgoGxlRSnJZdeLFmp/X5t3iL3htCKZRfn3+
+	 ZILTZaA9qyxubwDpKLYazC72ZykMomE0EWqkxhprvJrhHU6PoirMY9t5PUOI4e22OR
+	 1Mzlboe/bN4bCNA4g1TTcbgSS+G0cMdMv/Ny3g+iZse0ddGOTpczuxmdM6Qdp/eE7e
+	 Cdr45b4mkb4xZpki9QM7BPX+TNtyRnQRDjpUHUDvask5gaQC50oiZ/ZZKDlC+8+3Ru
+	 MjqY28jZMNheA==
+Date: Tue, 07 Jul 2026 21:06:07 +0200
+Message-ID: <20260707190253.816918647@kernel.org>
 User-Agent: quilt/0.69
 From: Thomas Gleixner <tglx@kernel.org>
 To: LKML <linux-kernel@vger.kernel.org>
 Cc: Peter Zijlstra <peterz@infradead.org>,
- Kees Cook <kees@kernel.org>,
  Michael Ellerman <mpe@ellerman.id.au>,
  Shrikanth Hegde <sshegde@linux.ibm.com>,
  linuxppc-dev@lists.ozlabs.org,
+ Kees Cook <kees@kernel.org>,
  Huacai Chen <chenhuacai@kernel.org>,
  loongarch@lists.linux.dev,
  Paul Walmsley <pjw@kernel.org>,
@@ -97,8 +97,8 @@ Cc: Peter Zijlstra <peterz@infradead.org>,
  =?UTF-8?q?Michal=20Such=C3=A1nek?= <msuchanek@suse.de>,
  Jonathan Corbet <corbet@lwn.net>,
  linux-doc@vger.kernel.org
-Subject: [patch 02/18] randomize_kstack: Provide
- add_random_kstack_offset_irqsoff()
+Subject: [patch 03/18] entry: Provide
+ [syscall_]enter_from_user_mode_randomize_stack()
 References: <20260707181957.433213175@kernel.org>
 MIME-Version: 1.0
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -117,48 +117,102 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-add_random_kstack_offset() uses get/put_cpu_var() which is pointless
-overhead when it is invoked from low level entry code with interrupts
-disabled.
+Randomizing the syscall stack can only happen after state is established
+via enter_from_user_mode() or syscall_enter_from_user_mode(). The earlier
+it happens the better.
 
-Provide a irqsoff() variant, which avoids that.
+Provide two new macros to consolidate that:
+
+  - enter_from_user_mode_randomize_stack()
+	enter_from_user_mode();
+	add_random_kstack_offset_irqsoff();
+
+  - syscall_enter_from_user_mode_randomize_stack()
+	enter_from_user_mode_randomize_stack();
+	syscall_enter_from_user_mode_work();
+    
+to reduce boiler plate code.
+
+Those are macros and not inline functions as the latter would limit the
+stack randomization scope to the inline function itself.
 
 Signed-off-by: Thomas Gleixner <tglx@kernel.org>
-Cc: Kees Cook <kees@kernel.org>
 ---
- include/linux/randomize_kstack.h |   19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ include/linux/entry-common.h |   56 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 56 insertions(+)
 
---- a/include/linux/randomize_kstack.h
-+++ b/include/linux/randomize_kstack.h
-@@ -77,8 +77,27 @@ static __always_inline u32 get_kstack_of
- 	}								\
- } while (0)
+--- a/include/linux/entry-common.h
++++ b/include/linux/entry-common.h
+@@ -6,6 +6,7 @@
+ #include <linux/irq-entry-common.h>
+ #include <linux/livepatch.h>
+ #include <linux/ptrace.h>
++#include <linux/randomize_kstack.h>
+ #include <linux/resume_user_mode.h>
+ #include <linux/seccomp.h>
+ #include <linux/sched.h>
+@@ -150,6 +151,61 @@ static __always_inline long syscall_ente
+ }
  
-+/**
-+ * add_random_kstack_offset_irqsoff - Increase stack utilization by a random offset.
+ /**
++ * enter_from_user_mode_randomize_stack - Establish state and add stack randomization
++ *					  before invoking syscall_enter_from_user_mode_work()
++ * @regs:	Pointer to currents pt_regs
 + *
-+ * This should be used in the syscall entry path after user registers have been
-+ * stored to the stack. Interrupts must be still disabled.
++ * Invoked from architecture specific syscall entry code with interrupts
++ * disabled. The calling code has to be non-instrumentable. When the function
++ * returns all state is correct, interrupts are still disabled and the
++ * subsequent functions can be instrumented.
++ *
++ * Implemented as a macro so that the stack randomization is effective
++ * throughout the function in which it is invoked. An inline would only make it
++ * effective in the scope of the inline function.
 + */
-+#define add_random_kstack_offset_irqsoff()					\
-+do {										\
-+	lockdep_assert_irqs_disabled();						\
-+	if (static_branch_maybe(CONFIG_RANDOMIZE_KSTACK_OFFSET_DEFAULT,		\
-+				&randomize_kstack_offset)) {			\
-+		u32 offset = prandom_u32_state(raw_cpu_ptr(&kstack_rnd_state));	\
-+		u8 *ptr = __kstack_alloca(KSTACK_OFFSET_MAX(offset));		\
-+		/* Keep allocation even after "ptr" loses scope. */		\
-+		asm volatile("" :: "r"(ptr) : "memory");			\
-+	}									\
++#define enter_from_user_mode_randomize_stack(regs)			\
++do {									\
++	enter_from_user_mode(regs);					\
++	instrumentation_begin();					\
++	add_random_kstack_offset_irqsoff();				\
++	instrumentation_end();						\
 +} while (0)
 +
- #else /* CONFIG_RANDOMIZE_KSTACK_OFFSET */
- #define add_random_kstack_offset()		do { } while (0)
-+#define add_random_kstack_offset_irqsoff()	do { } while (0)
- #endif /* CONFIG_RANDOMIZE_KSTACK_OFFSET */
- 
- #endif
++/**
++ * syscall_enter_from_user_mode_randomize_stack - Establish state and check and handle work
++ *						  before invoking a syscall
++ * @regs:	Pointer to currents pt_regs
++ * @syscall:	The syscall number
++ *
++ * Invoked from architecture specific syscall entry code with interrupts
++ * disabled. The calling code has to be non-instrumentable. When the
++ * function returns all state is correct, interrupts are enabled and the
++ * subsequent functions can be instrumented.
++ *
++ * This is the combination of enter_from_user_mode_randomize_stack() and
++ * syscall_enter_from_user_mode_work() to be used when there is no
++ * architecture specific work to be done between the two.
++ *
++ * Returns: The original or a modified syscall number. See
++ * syscall_enter_from_user_mode_work() for further explanation.
++ *
++ * Implemented as a macro to make stack randomization effective in the calling
++ * scope.
++ */
++#define syscall_enter_from_user_mode_randomize_stack(regs, syscall)	\
++({									\
++	enter_from_user_mode_randomize_stack(regs);			\
++									\
++	instrumentation_begin();					\
++	local_irq_enable();						\
++	long _ret = syscall_enter_from_user_mode_work(regs, syscall);	\
++	instrumentation_end();						\
++									\
++	_ret;								\
++})
++
++/**
+  * syscall_enter_from_user_mode - Establish state and check and handle work
+  *				  before invoking a syscall
+  * @regs:	Pointer to currents pt_regs
 
 
 _______________________________________________
