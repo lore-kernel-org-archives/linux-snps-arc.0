@@ -4,112 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C4D7C43458
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jul 2026 16:04:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3F12C43458
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jul 2026 17:23:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Date:Cc:To:From:Subject:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=tk6+LrGuRYLqJCVO3+1PU5GmE+whCtnYkyMn2s44VaA=; b=tbZJVnHw8D3qlu
-	8IU0PJfFk2kbaS6b7myPzRWwt6fqAaIBo28XSzf9ITKiMwk6yHtOv2NispD9lGUGmU8mke5iIyMbq
-	lDzFnXAEU2s9n26yEJhz2X0LR0BJC3Y9wiCav6ctpj9b+Bi9ev06oBBTnE2QHY/UY4vVeboE0JK6S
-	udv2hntLOxH7Me0eBf9OWLctlHOMz3kc2vaAqb8jmrAN3K5SiX8HmIVqHG1rvObjsTtyJ6W9WaQSz
-	edTcacc0MnqK7T9fysHBDYvi1Rv52s57hZhjv00/W0Tr6VelQR3QKYnwmY42j4NwVXp1Y76Z7A7u5
-	Vmc0602LIE9FKYluPWwA==;
+	List-Owner; bh=XiZdfrQ9GN60QCFkdtyIv+zoJlNBxkOeRmf3eKVy6JA=; b=3Ds9BAJSVCiA7F
+	eQ4xa2xiH71PvUx6hHoxOHm0Wu5yY4veksILP7PI8AODWA8dyozkLybSqh59cNJWgxlBfyCTDojqV
+	03pWBPdL6xvXU8O18/s5eL/WOfeaH+KVVkxxp7gWemGmJwN4C0OtO5ryahyfHo4nxMRNuf2W1QjNk
+	HsCtLchXO2MkNfub5nIqMJ72hd5NOReijQktlGt7FUplHqzbWOvQQJN7Dm2mGRGhm3lOj0W3cmyjI
+	BdDKspHGBtaMbizfMFqsaXPfEQAhWKfzAuu9Bt3KAV/yPAs+wu/xJMbiVRVOKBWned5pxKPmUc/0B
+	wp3P4NAoSCcuNvH2ELqQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whUlc-0000000HYSf-3Z8f;
-	Wed, 08 Jul 2026 16:04:56 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1whVzx-000000005s2-2DDK;
+	Wed, 08 Jul 2026 17:23:49 +0000
+Received: from xs1.mindbit.ro ([80.86.107.70] helo=mail.mindbit.ro)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whUla-0000000HYRV-2BAM
-	for linux-snps-arc@lists.infradead.org;
-	Wed, 08 Jul 2026 16:04:55 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783526693;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8P/ciXzD2S1KvjG8yWg06YK1HrAoM9H+3p3KtWGqU68=;
-	b=B/Yjd3nNog6ML28mQqDIu3O1cF1Z/+20DrK1T9sApXE6mqjeXGY6b3FBEhMRGXyyc/qjgs
-	9D44NYOcSeg0MkQR0coJkZEcxRWupA4+fVOu+zegxNgckASRHlNqalrZ45jng8L6BQtKpS
-	WeWBcCsiKBTr+127Zp1o1mW6XM+VsDA=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-595-fn1pYKmRPGGlbjH-rSP4QA-1; Wed,
- 08 Jul 2026 12:04:48 -0400
-X-MC-Unique: fn1pYKmRPGGlbjH-rSP4QA-1
-X-Mimecast-MFC-AGG-ID: fn1pYKmRPGGlbjH-rSP4QA_1783526682
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0E37718009D8;
-	Wed,  8 Jul 2026 16:04:40 +0000 (UTC)
-Received: from fedora (unknown [10.44.33.83])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 1D1D21956040;
-	Wed,  8 Jul 2026 16:04:21 +0000 (UTC)
-Received: by fedora (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Wed,  8 Jul 2026 18:04:39 +0200 (CEST)
-Date: Wed, 8 Jul 2026 18:04:19 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: Jinjie Ruan <ruanjinjie@huawei.com>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Mark Rutland <mark.rutland@arm.com>, Kees Cook <kees@kernel.org>,
-	Andy Lutomirski <luto@kernel.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Guo Ren <guoren@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Helge Deller <deller@gmx.de>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Richard Weinberger <richard@nod.at>,
-	Chris Zankel <chris@zankel.net>,
-	linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org,
-	linux-csky@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-	linux-sh@vger.kernel.org, linux-um@lists.infradead.org,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	linuxppc-dev@lists.ozlabs.org, Huacai Chen <chenhuacai@kernel.org>,
-	loongarch@lists.linux.dev, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	linux-riscv@lists.infradead.org,
-	Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org,
-	x86@kernel.org, Arnd Bergmann <arnd@arndb.de>,
-	Vineet Gupta <vgupta@kernel.org>, Will Deacon <will@kernel.org>,
-	Brian Cain <bcain@kernel.org>, Michal Simek <monstr@monstr.eu>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>,
-	linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org,
-	linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [patch 11/18] seccomp, treewide: Rename and convert
- __secure_computing() to return boolean
-Message-ID: <ak51A77h1YRIl5tz@redhat.com>
+	id 1whVzu-000000005ol-390V;
+	Wed, 08 Jul 2026 17:23:48 +0000
+Received: from bat.kanata.rendec.net (unknown [24.114.111.125])
+	by mail.mindbit.ro (Postfix) with ESMTPSA id C6722C2A01;
+	Wed,  8 Jul 2026 20:23:07 +0300 (EEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.mindbit.ro C6722C2A01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rendec.net;
+	s=default; t=1783531415;
+	bh=Z81AqF8sZ0HbKd4OyTLskHjABuyT0Tc0putXPru6w9M=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=MwinUj84iH00nexlmnhmDgR8X+WQik+DrvADedzcPZ9CeQY6xX1Fx3GoyEAx9wrw+
+	 Qdscs2HlxOLAQsUWmM9C8f5DrkHkoVgKYwJs+XQ2tFPd5t4en+6vUqgSLYxSBdIwBj
+	 555LvdKRH7m1aCTa5jMD6siDGQdvrKp961ZSe90G1chGvdgdtY0LoAvKa+i9v8wU5c
+	 bWRF7OLablSVqprq4HLnjHYPD0Doh6wC1fnDaN+ZveYxw8RUEs8Ut6dFJfZDIKl5We
+	 w78c65fWXzE8Q1+/ZRaJSLn4ncOl+TKAdXUve5QtEGG7DQ85WMF0AHi0oAnduE4Xgt
+	 l68qBKty9jNkA==
+Message-ID: <4614d1281cace737e3e117bd7242253475a30f58.camel@rendec.net>
+Subject: Re: [patch 01/18] powerpc: Move stack randomization after
+ syscall_enter_from_user_mode()
+From: Radu Rendec <radu@rendec.net>
+To: Thomas Gleixner <tglx@kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, Michael Ellerman
+ <mpe@ellerman.id.au>,  Shrikanth Hegde <sshegde@linux.ibm.com>,
+ linuxppc-dev@lists.ozlabs.org, Kees Cook <kees@kernel.org>, Huacai Chen	
+ <chenhuacai@kernel.org>, loongarch@lists.linux.dev, Paul Walmsley
+ <pjw@kernel.org>,  Palmer Dabbelt <palmer@dabbelt.com>,
+ linux-riscv@lists.infradead.org, Sven Schnelle <svens@linux.ibm.com>, 
+	linux-s390@vger.kernel.org, x86@kernel.org, Mark Rutland
+ <mark.rutland@arm.com>,  Jinjie Ruan <ruanjinjie@huawei.com>, Andy
+ Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>,  Richard
+ Henderson <richard.henderson@linaro.org>, Russell King
+ <linux@armlinux.org.uk>, Catalin Marinas	 <catalin.marinas@arm.com>, Guo
+ Ren <guoren@kernel.org>, Geert Uytterhoeven	 <geert@linux-m68k.org>, Thomas
+ Bogendoerfer <tsbogend@alpha.franken.de>,  Helge Deller	 <deller@gmx.de>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Richard Weinberger
+ <richard@nod.at>, Chris Zankel <chris@zankel.net>,
+ linux-arm-kernel@lists.infradead.org, 	linux-alpha@vger.kernel.org,
+ linux-csky@vger.kernel.org, 	linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, 	linux-parisc@vger.kernel.org,
+ linux-sh@vger.kernel.org, 	linux-um@lists.infradead.org, Arnd Bergmann
+ <arnd@arndb.de>, Vineet Gupta	 <vgupta@kernel.org>, Will Deacon
+ <will@kernel.org>, Brian Cain <bcain@kernel.org>,  Michal Simek
+ <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>, "David S. Miller"
+ <davem@davemloft.net>,  Andreas Larsson <andreas@gaisler.com>,
+ linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org, 
+	linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org, 
+	linux-arch@vger.kernel.org, Michal =?ISO-8859-1?Q?Such=E1nek?=	
+ <msuchanek@suse.de>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-doc@vger.kernel.org
+Date: Wed, 08 Jul 2026 13:22:58 -0400
+In-Reply-To: <20260707190253.718191130@kernel.org>
 References: <20260707181957.433213175@kernel.org>
- <20260707190254.230735780@kernel.org>
- <2e6ed364-ce8f-4b4b-8675-acd07f140f4f@huawei.com>
- <871pddsuzl.ffs@fw13>
+	 <20260707190253.718191130@kernel.org>
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 MIME-Version: 1.0
-In-Reply-To: <871pddsuzl.ffs@fw13>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-MFC-PROC-ID: H_FWtlG3Vqdi0CInUlnPs1p6wXXTMD2hf-Z5JTZm-Fc_1783526682
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260708_090454_644506_FE9CE1E7 
-X-CRM114-Status: GOOD (  13.71  )
+X-CRM114-CacheID: sfid-20260708_102347_102031_3C97D788 
+X-CRM114-Status: GOOD (  12.27  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,35 +93,30 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 07/08, Thomas Gleixner wrote:
->
-> On Wed, Jul 08 2026 at 09:43, Jinjie Ruan wrote:
-> >
-> > The return value of __seccomp_filter is checked in the wrong way, check
-> > -1 should be replaced with check false, maybe:
-> >
-> > -               if (__seccomp_filter(this_syscall, true))
-> > -                       return -1;
-> > +               if (!__seccomp_filter(this_syscall, true))
-> > +                       return false;
-
-Or simply
-
-	return __seccomp_filter(this_syscall, true);
-
-and remove "return true" below ?
-
-Either way, I personally like this change, I was always confused by these -1's.
-
-Acked-by: Oleg Nesterov <oleg@redhat.com>
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gVHVlLCAyMDI2LTA3LTA3IGF0IDIxOjA1ICswMjAwLCBUaG9tYXMgR2xlaXhuZXIgd3JvdGU6
+Cj4gYWRkX3JhbmRvbV9rc3RhY2tfb2Zmc2V0KCkgaXMgaW52b2tlZCBiZWZvcmUgc3lzY2FsbF9l
+bnRlcl9mcm9tX3VzZXJfbW9kZSgpCj4gZXN0YWJsaXNoZXMgc3RhdGUuIFRoYXQncyB3cm9uZyBi
+ZWNhdXNlIGFkZF9yYW5kb21fa3N0YWNrX29mZnNldCgpIGNhbGxzCj4gaW50byBpbnN0cnVtZW50
+YWJsZSBjb2RlLgo+IAo+IE1vdmUgaXQgYWZ0ZXIgc3lzY2FsbF9lbnRlcl9mcm9tX3VzZXJfbW9k
+ZSgpIHRvIGVuc3VyZSB0aGF0IHN0YXRlIGlzCj4gY29ycmVjdGx5IGVzdGFibGlzaGVkLgo+IAo+
+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBHbGVpeG5lciA8dGdseEBrZXJuZWwub3JnPgo+IENjOiBN
+aWNoYWVsIEVsbGVybWFuIDxtcGVAZWxsZXJtYW4uaWQuYXU+Cj4gQ2M6IFNocmlrYW50aCBIZWdk
+ZSA8c3NoZWdkZUBsaW51eC5pYm0uY29tPgo+IENjOiBsaW51eHBwYy1kZXZAbGlzdHMub3psYWJz
+Lm9yZwo+IC0tLQo+IMKgYXJjaC9wb3dlcnBjL2tlcm5lbC9zeXNjYWxsLmMgfMKgwqDCoCAyICst
+Cj4gwqAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPiAKPiAt
+LS0gYS9hcmNoL3Bvd2VycGMva2VybmVsL3N5c2NhbGwuYwo+ICsrKyBiL2FyY2gvcG93ZXJwYy9r
+ZXJuZWwvc3lzY2FsbC5jCj4gQEAgLTE5LDggKzE5LDggQEAgbm90cmFjZSBsb25nIHN5c3RlbV9j
+YWxsX2V4Y2VwdGlvbihzdHJ1Ywo+IMKgCWxvbmcgcmV0Owo+IMKgCXN5c2NhbGxfZm4gZjsKPiDC
+oAo+IC0JYWRkX3JhbmRvbV9rc3RhY2tfb2Zmc2V0KCk7Cj4gwqAJcjAgPSBzeXNjYWxsX2VudGVy
+X2Zyb21fdXNlcl9tb2RlKHJlZ3MsIHIwKTsKPiArCWFkZF9yYW5kb21fa3N0YWNrX29mZnNldCgp
+Owo+IMKgCj4gwqAJaWYgKHVubGlrZWx5KHIwID49IE5SX3N5c2NhbGxzKSkgewo+IMKgCQlpZiAo
+dW5saWtlbHkodHJhcF9pc191bnN1cHBvcnRlZF9zY3YocmVncykpKSB7CgpSZXZpZXdlZC1ieTog
+UmFkdSBSZW5kZWMgPHJhZHVAcmVuZGVjLm5ldD4KCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1z
+bnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21h
+aWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
