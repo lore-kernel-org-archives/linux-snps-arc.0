@@ -4,104 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5538BC44501
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  7 Jul 2026 19:07:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52428C43458
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jul 2026 01:44:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Subject:Cc:To:
-	From:Message-ID:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=prj9/zFCqp4MtdZoQFo6bvR5fnMzYhfSrR1dVTED6cQ=; b=CdfKnNcKxfHj7J
-	s/WDp+LisZzePeJuL4VtxAo0KqkTgrHez/E/Z/cJC3j97FkWswVcbwyXP5aju10oIlSq/4LxSEkWb
-	ZOpQdC03DwCDTEU4lP03QlI2/KAsroDKpRMqjEQs+zEj8kPEccftRJRvdBbjJFXlWzgauipoN2CG6
-	T1GZjd/pfm1NT0/KquHr5rEueyMMwlRrmPzzfo0ub6cVXQbwUdDmLKCSYlgWbP5LeJe4Bz2PXEfm3
-	HYI3M1xdwR0RvRJ17vZiiKqYEt7+A6Nc4rc7hyKWUi1O+FuoUeCEGPO12O5wrsKlhNvdBt9d9suFA
-	8b13dMYiM/TxwawPhn2A==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:CC:To:
+	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=p48kInanQ+SCyJCnpQYlLa2QqHhl0/tPxje2rI+Hr84=; b=YON78VelSnLHTC
+	wGbpATSmz2yXjYu48vNlSKK0snr466fBr5+9i6krkZwL8KavkdMecvvblo2zBXrz7cir5u9BcA50b
+	onMz6BOQD1c1JjfdLNqapXqLtkGzqJ+dx1pZtTEmk/Foph1JI7sJS3JDfZQfJNc0rPbbQBfpMBzgv
+	pjYVvG8RyJBv8cXu5vz4duPcN83S5e0g481QgOhrpwHepW5tuCQtq+OBUYH8r48hzOC7BZGrGsgpc
+	zDR0Jl1i0aBuQSOp1Lvf/BsSQlbtliBkA7rXwGjV0KMvKXvobUdnDEwDUXnA0om9ZWzXQUtpcP9FP
+	dyvxHhQFeqCbAk+a31hg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whB9B-0000000FikF-0LTd;
-	Tue, 07 Jul 2026 19:07:57 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1whHKZ-0000000G7My-2hVG;
+	Wed, 08 Jul 2026 01:44:07 +0000
+Received: from canpmsgout07.his.huawei.com ([113.46.200.222])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whB8T-0000000Fhmy-1Qhl;
-	Tue, 07 Jul 2026 19:07:13 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id B1DC26138D;
-	Tue,  7 Jul 2026 19:07:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 959C01F00A3E;
-	Tue,  7 Jul 2026 19:07:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783451232;
-	bh=ujg63nFpNppD6hh8ErFLF1J5JX2ZfpeEoGN6ZrinWc0=;
-	h=Date:From:To:Cc:Subject:References;
-	b=AHEhZEMBYzBtdLcDTyhlS45Q7S7ZwTjKIqiJzRbhD5/XAbHDISjmwksUK82ZNX4eN
-	 v/56KPMLh+ap7XlsQOg/BTaFcC0r6cCqimRsKEEjnM7HqpHCJ0wTkRT4YpPRqksdHy
-	 hbur5BBOkf2MqLhVXO+OEJPygToMV0GfcDHqGyXAo5xm9el2SAov1vxRwDLsZ9mDTO
-	 8DMadvH3j+KUyVnLd3M9IfC7bg8qqqSHv1wejHUyEH+mIuHPWHU4dWWsyjmGqtk7PJ
-	 8vvvohEhLbaJuT/nrhqQWxuMcj0mhqi8CGIjfadl6DsadWHk3iOaJCLltrwK6NFjAk
-	 oac7QSSvNoGEw==
-Date: Tue, 07 Jul 2026 21:07:09 +0200
-Message-ID: <20260707190254.603111179@kernel.org>
-User-Agent: quilt/0.69
-From: Thomas Gleixner <tglx@kernel.org>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- =?UTF-8?q?Michal=20Such=C3=A1nek?= <msuchanek@suse.de>,
- Jonathan Corbet <corbet@lwn.net>,
- Arnd Bergmann <arnd@arndb.de>,
- Mark Rutland <mark.rutland@arm.com>,
- Huacai Chen <chenhuacai@kernel.org>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Shrikanth Hegde <sshegde@linux.ibm.com>,
- Paul Walmsley <pjw@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Sven Schnelle <svens@linux.ibm.com>,
- linux-doc@vger.kernel.org,
- loongarch@lists.linux.dev,
- linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org,
- Kees Cook <kees@kernel.org>,
- x86@kernel.org,
- Jinjie Ruan <ruanjinjie@huawei.com>,
- Andy Lutomirski <luto@kernel.org>,
- Oleg Nesterov <oleg@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Russell King <linux@armlinux.org.uk>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Guo Ren <guoren@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Helge Deller <deller@gmx.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Richard Weinberger <richard@nod.at>,
- Chris Zankel <chris@zankel.net>,
- linux-arm-kernel@lists.infradead.org,
- linux-alpha@vger.kernel.org,
- linux-csky@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org,
- linux-sh@vger.kernel.org,
- linux-um@lists.infradead.org,
- Vineet Gupta <vgupta@kernel.org>,
- Will Deacon <will@kernel.org>,
- Brian Cain <bcain@kernel.org>,
- Michal Simek <monstr@monstr.eu>,
- Dinh Nguyen <dinguyen@kernel.org>,
- "David S. Miller" <davem@davemloft.net>,
- Andreas Larsson <andreas@gaisler.com>,
- linux-snps-arc@lists.infradead.org,
- linux-hexagon@vger.kernel.org,
- linux-openrisc@vger.kernel.org,
- sparclinux@vger.kernel.org,
- linux-arch@vger.kernel.org
-Subject: [patch 18/18] entry,
- treewide: Make syscall_enter_from_user_mode[_work]() indicate syscall
- execution
-References: <20260707181957.433213175@kernel.org>
+	id 1whHKU-0000000G7M4-0bIV;
+	Wed, 08 Jul 2026 01:44:06 +0000
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=PdZvJupbHpc2hOYnTOWKrk/la+Cgt9ShW3j2lWe0WJs=;
+	b=5hA9y/nbJT2Rdg9agSG6EdreDMBgYhixnmJvdWlfr8XidFnsSzCZu1Z1RT4/0VWszYj3O4mq/
+	EgOdnVoPIUBGLqZev43itv9gO4V5NDlaHCFpwiBMuwwoePes9JuQ/NhfwH1VMdkJPUaHTUdzc7M
+	av1A0vhQhzopjwvWZCaC8Vk=
+Received: from mail.maildlp.com (unknown [172.19.163.214])
+	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4gw0y549jNzLlTw;
+	Wed,  8 Jul 2026 09:34:37 +0800 (CST)
+Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
+	by mail.maildlp.com (Postfix) with ESMTPS id 665034057C;
+	Wed,  8 Jul 2026 09:43:51 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 8 Jul 2026 09:43:48 +0800
+Message-ID: <2e6ed364-ce8f-4b4b-8675-acd07f140f4f@huawei.com>
+Date: Wed, 8 Jul 2026 09:43:46 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [patch 11/18] seccomp, treewide: Rename and convert
+ __secure_computing() to return boolean
+To: Thomas Gleixner <tglx@kernel.org>, LKML <linux-kernel@vger.kernel.org>
+CC: Peter Zijlstra <peterz@infradead.org>, Mark Rutland
+	<mark.rutland@arm.com>, Kees Cook <kees@kernel.org>, Andy Lutomirski
+	<luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Richard Henderson
+	<richard.henderson@linaro.org>, Russell King <linux@armlinux.org.uk>, Catalin
+ Marinas <catalin.marinas@arm.com>, Guo Ren <guoren@kernel.org>, Geert
+ Uytterhoeven <geert@linux-m68k.org>, Thomas Bogendoerfer
+	<tsbogend@alpha.franken.de>, Helge Deller <deller@gmx.de>, Yoshinori Sato
+	<ysato@users.sourceforge.jp>, Richard Weinberger <richard@nod.at>, Chris
+ Zankel <chris@zankel.net>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-alpha@vger.kernel.org>, <linux-csky@vger.kernel.org>,
+	<linux-m68k@lists.linux-m68k.org>, <linux-mips@vger.kernel.org>,
+	<linux-parisc@vger.kernel.org>, <linux-sh@vger.kernel.org>,
+	<linux-um@lists.infradead.org>, Michael Ellerman <mpe@ellerman.id.au>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>, <linuxppc-dev@lists.ozlabs.org>,
+	Huacai Chen <chenhuacai@kernel.org>, <loongarch@lists.linux.dev>, Paul
+ Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	<linux-riscv@lists.infradead.org>, Sven Schnelle <svens@linux.ibm.com>,
+	<linux-s390@vger.kernel.org>, <x86@kernel.org>, Arnd Bergmann
+	<arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>, Will Deacon
+	<will@kernel.org>, Brian Cain <bcain@kernel.org>, Michal Simek
+	<monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>, "David S. Miller"
+	<davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>,
+	<linux-snps-arc@lists.infradead.org>, <linux-hexagon@vger.kernel.org>,
+	<linux-openrisc@vger.kernel.org>, <sparclinux@vger.kernel.org>,
+	<linux-arch@vger.kernel.org>, =?UTF-8?Q?Michal_Such=C3=A1nek?=
+	<msuchanek@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+	<linux-doc@vger.kernel.org>
+References: <20260707181957.433213175@kernel.org>
+ <20260707190254.230735780@kernel.org>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <20260707190254.230735780@kernel.org>
+X-Originating-IP: [10.67.109.254]
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ dggpemf500011.china.huawei.com (7.185.36.131)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260707_184402_844728_2E7E95B7 
+X-CRM114-Status: GOOD (  30.52  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,201 +98,235 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-RnJvbTogTWljaGFsIFN1Y2jDoW5layA8bXN1Y2hhbmVrQHN1c2UuZGU+CgpUaGUgcmV0dXJuIHZh
-bHVlcyBvZiBzeXNjYWxsX2VudGVyX2Zyb21fdXNlcl9tb2RlW193b3JrXSgpIGFyZQpub24taW50
-dWl0aXZlLiBCb3RoIGZ1bmN0aW9ucyByZXR1cm4gdGhlIHN5c2NhbGwgbnVtYmVyIHdoaWNoIHNo
-b3VsZCBiZQppbnZva2VkIGJ5IHRoZSBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgc3lzY2FsbCBlbnRy
-eSBjb2RlLiBUaGUgcmV0dXJuZWQKbnVtYmVyIGNhbiBiZToKCiAgLSB0aGUgdW5tb2RpZmllZCBz
-eXNjYWxsIG51bWJlciB3aGljaCB3YXMgaGFuZGVkIGluIGJ5IHRoZSBjYWxsZXIKCiAgLSBhIG1v
-ZGlmaWVkIHN5c2NhbGwgbnVtYmVyIChwdHJhY2UsIHNlY2NvbXAsIHRyYWNlL3Byb2JlL2JwZikK
-ClRoYXQgaGFzIGFuIGFkZGl0aW9uYWwgdHdpc3QuIElmIHRoZSByZXR1cm4gdmFsdWUgaXMgLTFM
-IHRoZW4gdGhlIGNhbGxlciBpcwpub3QgYWxsb3dlZCB0byBtb2RpZnkgdGhlIHJldHVybiB2YWx1
-ZSBhcyB0aGF0IGluZGljYXRlcyB0aGF0IHRoZSBtb2RpZnlpbmcKZW50aXR5IHJlcXVlc3RzIHRv
-IGFib3J0IHRoZSBzeXNjYWxsIGFuZCBzZXQgdGhlIHJldHVybiB2YWx1ZSBhbHJlYWR5LiBUaGF0
-CmNhbiBvYnZpb3VzbHkgbm90IGJlIGRpZmZlcmVudGlhdGVkIGZyb20gYSBzeXNjYWxsIHdoaWNo
-IGhhbmRlZCBpbiAtMSBhcwpzeXNjYWxsIG51bWJlci4KClRoZSBlc3RhYmxpc2hlZCB3YXkgdG8g
-ZGVhbCB3aXRoIHRoYXQgaXM6CgogICAgc2V0X3JldHVybl92YWx1ZShyZWdzLCAtRU5PU1lTKTsK
-ICAgIG5yID0gc3lzY2FsbF9lbnRlcl9mcm9tX3VzZXJfbW9kZShyZWdzLCBucik7CiAgICBpZiAo
-KHVuc2lnbmVkKW5yIDwgU1lTQ0FMTE5SX01BWCkKICAgIAloYW5kbGVfc3lzY2FsbChyZWdzLCBu
-cik7CiAgICBlbHNlIGlmIChuciAhPSAtMSkKICAgIAlzZXRfcmV0dXJuX3ZhbHVlKHJlZ3MsIC1F
-Tk9TWVMpOwoKVGhlIGxhdHRlciBpcyBvYnZpb3VzbHkgcmVkdW5kYW50LCBidXQgdGhhdCdzIGp1
-c3QgYSBsZWZ0b3ZlciBvZiB0aGUKaGlzdG9yaWNhbCBldm9sdXRpb24gb2YgdGhpcyBjb2RlLiBT
-MzkwIGhhcyBzb21lIHNwZWNpYWwgcmVxdWlyZW1lbnRzIGhlcmUsCndoaWNoIGNhbiBiZSBhdm9p
-ZGVkIHdoZW4gdGhlIHJldHVybiB2YWx1ZSBpcyBub3QgYW1iaWd1b3VzLgoKTm93IHRoYXQgdGhl
-IGZ1bmN0aW9ucyB3aGljaCBtb2RpZnkgdGhlIHN5c2NhbGwgbnVtYmVyIGFuZCB3YW50IHRvIGFi
-b3J0CmFyZSBjb252ZXJ0ZWQgdG8gaW5kaWNhdGUgdGhhdCB3aXRoIGEgYm9vbGVhbiByZXR1cm4g
-dmFsdWUsIGl0J3Mgb2J2aW91cyB0bwpoYW5kIHRoaXMgdGhyb3VnaCB0byB0aGUgY2FsbGVycy4K
-ClJld29yayBzeXNjYWxsX2VudGVyX2Zyb21fdXNlcl9tb2RlW193b3JrXSkgc28gdGhleSB0YWtl
-IGEgcG9pbnRlciB0byB0aGUKc3lzY2FsbCBudW1iZXIgYW5kIHJldHVybiBhIGJvb2xlYW4sIHdo
-aWNoIGluZGljYXRlcyB3aGV0aGVyIHRoZSBzeXNjYWxsCnNob3VsZCBiZSBoYW5kbGVkIG9yIG5v
-dC4KClRoYXQncyBub3Qgb25seSBtb3JlIGludHVpdGl2ZSwgaXQgYWxzbyByZXN1bHRzIGluIHNs
-aWdodGx5IGRlbnNlcgpleGVjdXRhYmxlIGNvZGUgb24geDg2IGF0IGxlYXN0LCBidXQgcGVyZiBy
-ZXN1bHRzIGFyZSBuZXV0cmFsIGFuZCB3aXRoaW4KdGhlIG5vaXNlLgoKWyB0Z2x4OiBBZG9wdGVk
-IGl0IHRvIHRoZSBjaGFuZ2VzIGluIHRoZSBnZW5lcmljIGVudHJ5IGNvZGUsIGZpeGVkIHVwIHRo
-ZQogIAkzMi1iaXQgZmFsbG91dCBhbmQgcmV3cm90ZSBjaGFuZ2UgbG9nIF0KClNpZ25lZC1vZmYt
-Ynk6IE1pY2hhbCBTdWNow6FuZWsgPG1zdWNoYW5la0BzdXNlLmRlPgpTaWduZWQtb2ZmLWJ5OiBU
-aG9tYXMgR2xlaXhuZXIgPHRnbHhAa2VybmVsLm9yZz4KQ2M6IEpvbmF0aGFuIENvcmJldCA8Y29y
-YmV0QGx3bi5uZXQ+CkNjOiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPgpDYzogTWFyayBS
-dXRsYW5kIDxtYXJrLnJ1dGxhbmRAYXJtLmNvbT4KQ2M6IEh1YWNhaSBDaGVuIDxjaGVuaHVhY2Fp
-QGtlcm5lbC5vcmc+CkNjOiBNaWNoYWVsIEVsbGVybWFuIDxtcGVAZWxsZXJtYW4uaWQuYXU+CkNj
-OiBTaHJpa2FudGggSGVnZGUgPHNzaGVnZGVAbGludXguaWJtLmNvbT4KQ2M6IFBhdWwgV2FsbXNs
-ZXkgPHBqd0BrZXJuZWwub3JnPgpDYzogUGFsbWVyIERhYmJlbHQgPHBhbG1lckBkYWJiZWx0LmNv
-bT4KQ2M6IFN2ZW4gU2NobmVsbGUgPHN2ZW5zQGxpbnV4LmlibS5jb20+CkNjOiBsaW51eC1kb2NA
-dmdlci5rZXJuZWwub3JnCkNjOiBsb29uZ2FyY2hAbGlzdHMubGludXguZGV2CkNjOiBsaW51eHBw
-Yy1kZXZAbGlzdHMub3psYWJzLm9yZwpDYzogbGludXgtcmlzY3ZAbGlzdHMuaW5mcmFkZWFkLm9y
-ZwpDYzogbGludXgtczM5MEB2Z2VyLmtlcm5lbC5vcmcKLS0tCiBEb2N1bWVudGF0aW9uL2NvcmUt
-YXBpL2VudHJ5LnJzdCB8ICAgMTggKysrKysrKysrKystLS0tLS0tCiBhcmNoL2xvb25nYXJjaC9r
-ZXJuZWwvc3lzY2FsbC5jICB8ICAgMTQgKysrKysrKy0tLS0tLS0KIGFyY2gvcG93ZXJwYy9rZXJu
-ZWwvc3lzY2FsbC5jICAgIHwgICAgMyArKy0KIGFyY2gvcmlzY3Yva2VybmVsL3RyYXBzLmMgICAg
-ICAgIHwgICAxMSArKysrKy0tLS0tLQogYXJjaC9zMzkwL2tlcm5lbC9zeXNjYWxsLmMgICAgICAg
-fCAgICA3ICsrKysrLS0KIGFyY2gveDg2L2VudHJ5L3N5c2NhbGxfMzIuYyAgICAgIHwgICAyNSAr
-KysrKysrKysrKystLS0tLS0tLS0tLS0tCiBhcmNoL3g4Ni9lbnRyeS9zeXNjYWxsXzY0LmMgICAg
-ICB8ICAgMTIgKysrKysrLS0tLS0tCiBpbmNsdWRlL2xpbnV4L2VudHJ5LWNvbW1vbi5oICAgICB8
-ICAgMTIgKysrKystLS0tLS0tCiA4IGZpbGVzIGNoYW5nZWQsIDUzIGluc2VydGlvbnMoKyksIDQ5
-IGRlbGV0aW9ucygtKQoKLS0tIGEvRG9jdW1lbnRhdGlvbi9jb3JlLWFwaS9lbnRyeS5yc3QKKysr
-IGIvRG9jdW1lbnRhdGlvbi9jb3JlLWFwaS9lbnRyeS5yc3QKQEAgLTY4LDE2ICs2OCwyMCBAQCBs
-b3ctbGV2ZWwgQyBjb2RlIG11c3Qgbm90IGJlIGluc3RydW1lbnRlCiAgIG5vaW5zdHIgdm9pZCBz
-eXNjYWxsKHN0cnVjdCBwdF9yZWdzICpyZWdzLCBpbnQgbnIpCiAgIHsKIAlhcmNoX3N5c2NhbGxf
-ZW50ZXIocmVncyk7Ci0JbnIgPSBzeXNjYWxsX2VudGVyX2Zyb21fdXNlcl9tb2RlX3JhbmRvbWl6
-ZV9zdGFjayhyZWdzLCBucik7Ci0KLQlpbnN0cnVtZW50YXRpb25fYmVnaW4oKTsKLQlpZiAoIWlu
-dm9rZV9zeXNjYWxsKHJlZ3MsIG5yKSAmJiBuciAhPSAtMSkKLQkgCXJlc3VsdF9yZWcocmVncykg
-PSBfX3N5c19uaV9zeXNjYWxsKHJlZ3MpOwotCWluc3RydW1lbnRhdGlvbl9lbmQoKTsKLQorCXJl
-c3VsdF9yZWcocmVncykgPSAtRU5PU1lTOworCWlmIChzeXNjYWxsX2VudGVyX2Zyb21fdXNlcl9t
-b2RlX3JhbmRvbWl6ZV9zdGFjayhyZWdzLCAmbnIpKSB7CisJCWluc3RydW1lbnRhdGlvbl9iZWdp
-bigpOworCQlpZiAoIWludm9rZV9zeXNjYWxsKHJlZ3MsIG5yKSkKKwkJCXJlc3VsdF9yZWcocmVn
-cykgPSBfX3N5c19uaV9zeXNjYWxsKHJlZ3MpOworCQlpbnN0cnVtZW50YXRpb25fZW5kKCk7CisJ
-fQogCXN5c2NhbGxfZXhpdF90b191c2VyX21vZGUocmVncyk7CiAgIH0KIAorSXQgaXMgcmVxdWly
-ZWQgdGhhdCBlaXRoZXIgdGhlIGxvdyBsZXZlbCBhc3NlbWJseSBjb2RlIG9yIHRoZSBzeXNjYWxs
-CitmdW5jdGlvbiBzZXRzIHRoZSByZXN1bHQgcmVnaXN0ZXIgdG8gLUVOT1NZUyBiZWZvcmUgaW52
-b2tpbmcgdGhlIGdlbmVyaWMKK2NvZGUuCisKIHN5c2NhbGxfZW50ZXJfZnJvbV91c2VyX21vZGVf
-cmFuZG9taXplX3N0YWNrKCkgZmlyc3QgaW52b2tlcwogZW50ZXJfZnJvbV91c2VyX21vZGVfcmFu
-ZG9taXplX3N0YWNrKCkgd2hpY2ggZXN0YWJsaXNoZXMgc3RhdGUgaW4gdGhlCiBmb2xsb3dpbmcg
-b3JkZXI6Ci0tLSBhL2FyY2gvbG9vbmdhcmNoL2tlcm5lbC9zeXNjYWxsLmMKKysrIGIvYXJjaC9s
-b29uZ2FyY2gva2VybmVsL3N5c2NhbGwuYwpAQCAtNTcsOCArNTcsOCBAQCB0eXBlZGVmIGxvbmcg
-KCpzeXNfY2FsbF9mbikodW5zaWduZWQgbG9uCiAKIHZvaWQgbm9pbnN0ciBfX25vX3N0YWNrX3By
-b3RlY3RvciBkb19zeXNjYWxsKHN0cnVjdCBwdF9yZWdzICpyZWdzKQogewotCXVuc2lnbmVkIGxv
-bmcgbnI7CiAJc3lzX2NhbGxfZm4gc3lzY2FsbF9mbjsKKwl1bnNpZ25lZCBsb25nIG5yOwogCiAJ
-bnIgPSByZWdzLT5yZWdzWzExXTsKIAkvKiBTZXQgZm9yIHN5c2NhbGwgcmVzdGFydGluZyAqLwpA
-QCAtNjksMTIgKzY5LDEyIEBAIHZvaWQgbm9pbnN0ciBfX25vX3N0YWNrX3Byb3RlY3RvciBkb19z
-eXMKIAlyZWdzLT5vcmlnX2EwID0gcmVncy0+cmVnc1s0XTsKIAlyZWdzLT5yZWdzWzRdID0gLUVO
-T1NZUzsKIAotCW5yID0gc3lzY2FsbF9lbnRlcl9mcm9tX3VzZXJfbW9kZV9yYW5kb21pemVfc3Rh
-Y2socmVncywgbnIpOwotCi0JaWYgKG5yIDwgTlJfc3lzY2FsbHMpIHsKLQkJc3lzY2FsbF9mbiA9
-IHN5c19jYWxsX3RhYmxlW2FycmF5X2luZGV4X25vc3BlYyhuciwgTlJfc3lzY2FsbHMpXTsKLQkJ
-cmVncy0+cmVnc1s0XSA9IHN5c2NhbGxfZm4ocmVncy0+b3JpZ19hMCwgcmVncy0+cmVnc1s1XSwg
-cmVncy0+cmVnc1s2XSwKLQkJCQkJICAgcmVncy0+cmVnc1s3XSwgcmVncy0+cmVnc1s4XSwgcmVn
-cy0+cmVnc1s5XSk7CisJaWYgKGxpa2VseShzeXNjYWxsX2VudGVyX2Zyb21fdXNlcl9tb2RlX3Jh
-bmRvbWl6ZV9zdGFjayhyZWdzLCAmbnIpKSkgeworCQlpZiAobnIgPCBOUl9zeXNjYWxscykgewor
-CQkJc3lzY2FsbF9mbiA9IHN5c19jYWxsX3RhYmxlW2FycmF5X2luZGV4X25vc3BlYyhuciwgTlJf
-c3lzY2FsbHMpXTsKKwkJCXJlZ3MtPnJlZ3NbNF0gPSBzeXNjYWxsX2ZuKHJlZ3MtPm9yaWdfYTAs
-IHJlZ3MtPnJlZ3NbNV0sIHJlZ3MtPnJlZ3NbNl0sCisJCQkJCQkgICByZWdzLT5yZWdzWzddLCBy
-ZWdzLT5yZWdzWzhdLCByZWdzLT5yZWdzWzldKTsKKwkJfQogCX0KIAogCXN5c2NhbGxfZXhpdF90
-b191c2VyX21vZGUocmVncyk7Ci0tLSBhL2FyY2gvcG93ZXJwYy9rZXJuZWwvc3lzY2FsbC5jCisr
-KyBiL2FyY2gvcG93ZXJwYy9rZXJuZWwvc3lzY2FsbC5jCkBAIC0xOCw3ICsxOCw4IEBAIG5vdHJh
-Y2UgbG9uZyBzeXN0ZW1fY2FsbF9leGNlcHRpb24oc3RydWMKIAlsb25nIHJldDsKIAlzeXNjYWxs
-X2ZuIGY7CiAKLQlyMCA9IHN5c2NhbGxfZW50ZXJfZnJvbV91c2VyX21vZGVfcmFuZG9taXplX3N0
-YWNrKHJlZ3MsIHIwKTsKKwlpZiAodW5saWtlbHkoIXN5c2NhbGxfZW50ZXJfZnJvbV91c2VyX21v
-ZGVfcmFuZG9taXplX3N0YWNrKHJlZ3MsICZyMCkpCisJCXJldHVybiBzeXNjYWxsX2dldF9lcnJv
-cihjdXJyZW50LCByZWdzKTsKIAogCWlmICh1bmxpa2VseShyMCA+PSBOUl9zeXNjYWxscykpIHsK
-IAkJaWYgKHVubGlrZWx5KHRyYXBfaXNfdW5zdXBwb3J0ZWRfc2N2KHJlZ3MpKSkgewotLS0gYS9h
-cmNoL3Jpc2N2L2tlcm5lbC90cmFwcy5jCisrKyBiL2FyY2gvcmlzY3Yva2VybmVsL3RyYXBzLmMK
-QEAgLTMzMiwxMyArMzMyLDEyIEBAIHZvaWQgZG9fdHJhcF9lY2FsbF91KHN0cnVjdCBwdF9yZWdz
-ICpyZWcKIAogCQlyaXNjdl92X3ZzdGF0ZV9kaXNjYXJkKHJlZ3MpOwogCi0JCXN5c2NhbGwgPSBz
-eXNjYWxsX2VudGVyX2Zyb21fdXNlcl9tb2RlX3JhbmRvbWl6ZV9zdGFjayhyZWdzLCBzeXNjYWxs
-KTsKLQotCQlpZiAoc3lzY2FsbCA+PSAwICYmIHN5c2NhbGwgPCBOUl9zeXNjYWxscykgewotCQkJ
-c3lzY2FsbCA9IGFycmF5X2luZGV4X25vc3BlYyhzeXNjYWxsLCBOUl9zeXNjYWxscyk7Ci0JCQlz
-eXNjYWxsX2hhbmRsZXIocmVncywgc3lzY2FsbCk7CisJCWlmIChzeXNjYWxsX2VudGVyX2Zyb21f
-dXNlcl9tb2RlX3JhbmRvbWl6ZV9zdGFjayhyZWdzLCAmc3lzY2FsbCkpIHsKKwkJCWlmIChzeXNj
-YWxsID49IDAgJiYgc3lzY2FsbCA8IE5SX3N5c2NhbGxzKSB7CisJCQkJc3lzY2FsbCA9IGFycmF5
-X2luZGV4X25vc3BlYyhzeXNjYWxsLCBOUl9zeXNjYWxscyk7CisJCQkJc3lzY2FsbF9oYW5kbGVy
-KHJlZ3MsIHN5c2NhbGwpOworCQkJfQogCQl9Ci0KIAkJc3lzY2FsbF9leGl0X3RvX3VzZXJfbW9k
-ZShyZWdzKTsKIAl9IGVsc2UgewogCQlpcnFlbnRyeV9zdGF0ZV90IHN0YXRlID0gaXJxZW50cnlf
-bm1pX2VudGVyKHJlZ3MpOwotLS0gYS9hcmNoL3MzOTAva2VybmVsL3N5c2NhbGwuYworKysgYi9h
-cmNoL3MzOTAva2VybmVsL3N5c2NhbGwuYwpAQCAtOTYsNiArOTYsNyBAQCBTWVNDQUxMX0RFRklO
-RTAobmlfc3lzY2FsbCkKIHZvaWQgbm9pbnN0ciBfX2RvX3N5c2NhbGwoc3RydWN0IHB0X3JlZ3Mg
-KnJlZ3MsIGludCBwZXJfdHJhcCkKIHsKIAl1bnNpZ25lZCBsb25nIG5yOworCWJvb2wgcGVybWl0
-OwogCiAJZW50ZXJfZnJvbV91c2VyX21vZGVfcmFuZG9taXplX3N0YWNrKHJlZ3MpOwogCkBAIC0x
-MjEsNyArMTIyLDkgQEAgdm9pZCBub2luc3RyIF9fZG9fc3lzY2FsbChzdHJ1Y3QgcHRfcmVncwog
-CQlyZWdzLT5wc3cuYWRkciA9IGN1cnJlbnQtPnJlc3RhcnRfYmxvY2suYXJjaF9kYXRhOwogCQlj
-dXJyZW50LT5yZXN0YXJ0X2Jsb2NrLmFyY2hfZGF0YSA9IDE7CiAJfQotCW5yID0gc3lzY2FsbF9l
-bnRlcl9mcm9tX3VzZXJfbW9kZV93b3JrKHJlZ3MsIG5yKTsKKworCXBlcm1pdCA9IHN5c2NhbGxf
-ZW50ZXJfZnJvbV91c2VyX21vZGVfd29yayhyZWdzLCAmbnIpOworCiAJLyoKIAkgKiBJbiB0aGUg
-czM5MCBwdHJhY2UgQUJJLCBib3RoIHRoZSBzeXNjYWxsIG51bWJlciBhbmQgdGhlIHJldHVybiB2
-YWx1ZQogCSAqIHVzZSBncHIyLiBIb3dldmVyLCB1c2Vyc3BhY2UgcHV0cyB0aGUgc3lzY2FsbCBu
-dW1iZXIgZWl0aGVyIGluIHRoZQpAQCAtMTI5LDcgKzEzMiw3IEBAIHZvaWQgbm9pbnN0ciBfX2Rv
-X3N5c2NhbGwoc3RydWN0IHB0X3JlZ3MKIAkgKiB3b3JrLCB0aGUgcHRyYWNlIGNvZGUgc2V0cyBQ
-SUZfU1lTQ0FMTF9SRVRfU0VULCB3aGljaCBpcyBjaGVja2VkIGhlcmUKIAkgKiBhbmQgaWYgc2V0
-LCB0aGUgc3lzY2FsbCB3aWxsIGJlIHNraXBwZWQuCiAJICovCi0JaWYgKHVubGlrZWx5KHRlc3Rf
-YW5kX2NsZWFyX3B0X3JlZ3NfZmxhZyhyZWdzLCBQSUZfU1lTQ0FMTF9SRVRfU0VUKSkpCisJaWYg
-KHVubGlrZWx5KHRlc3RfYW5kX2NsZWFyX3B0X3JlZ3NfZmxhZyhyZWdzLCBQSUZfU1lTQ0FMTF9S
-RVRfU0VUKSB8fCAhcGVybWl0KSkKIAkJZ290byBvdXQ7CiAJcmVncy0+Z3Byc1syXSA9IC1FTk9T
-WVM7CiAJaWYgKGxpa2VseShuciA8IE5SX3N5c2NhbGxzKSkgewotLS0gYS9hcmNoL3g4Ni9lbnRy
-eS9zeXNjYWxsXzMyLmMKKysrIGIvYXJjaC94ODYvZW50cnkvc3lzY2FsbF8zMi5jCkBAIC0xNjEs
-OCArMTYxLDkgQEAgc3RhdGljIF9fYWx3YXlzX2lubGluZSBib29sIGludDgwX2lzX2V4dAogCW5y
-ID0gc3lzY2FsbF8zMl9lbnRlcihyZWdzKTsKIAogCWxvY2FsX2lycV9lbmFibGUoKTsKLQluciA9
-IHN5c2NhbGxfZW50ZXJfZnJvbV91c2VyX21vZGVfd29yayhyZWdzLCBucik7Ci0JZG9fc3lzY2Fs
-bF8zMl9pcnFzX29uKHJlZ3MsIG5yKTsKKworCWlmIChsaWtlbHkoc3lzY2FsbF9lbnRlcl9mcm9t
-X3VzZXJfbW9kZV93b3JrKHJlZ3MsICZucikpKQorCQlkb19zeXNjYWxsXzMyX2lycXNfb24ocmVn
-cywgbnIpOwogCiAJaW5zdHJ1bWVudGF0aW9uX2VuZCgpOwogCXN5c2NhbGxfZXhpdF90b191c2Vy
-X21vZGUocmVncyk7CkBAIC0yMjMsOCArMjI0LDggQEAgREVGSU5FX0ZSRURFTlRSWV9SQVcoaW50
-ODBfZW11bGF0aW9uKQogCW5yID0gc3lzY2FsbF8zMl9lbnRlcihyZWdzKTsKIAogCWxvY2FsX2ly
-cV9lbmFibGUoKTsKLQluciA9IHN5c2NhbGxfZW50ZXJfZnJvbV91c2VyX21vZGVfd29yayhyZWdz
-LCBucik7Ci0JZG9fc3lzY2FsbF8zMl9pcnFzX29uKHJlZ3MsIG5yKTsKKwlpZiAobGlrZWx5KHN5
-c2NhbGxfZW50ZXJfZnJvbV91c2VyX21vZGVfd29yayhyZWdzLCAmbnIpKSkKKwkJZG9fc3lzY2Fs
-bF8zMl9pcnFzX29uKHJlZ3MsIG5yKTsKIAogCWluc3RydW1lbnRhdGlvbl9lbmQoKTsKIAlzeXNj
-YWxsX2V4aXRfdG9fdXNlcl9tb2RlKHJlZ3MpOwpAQCAtMjQzLDEzICsyNDQsMTMgQEAgREVGSU5F
-X0ZSRURFTlRSWV9SQVcoaW50ODBfZW11bGF0aW9uKQogCSAqIG9yaWdfYXgsIHRoZSBpbnQgcmV0
-dXJuIHZhbHVlIHRydW5jYXRlcyBpdC4gVGhpcyBtYXRjaGVzCiAJICogdGhlIHNlbWFudGljcyBv
-ZiBzeXNjYWxsX2dldF9ucigpLgogCSAqLwotCW5yID0gc3lzY2FsbF9lbnRlcl9mcm9tX3VzZXJf
-bW9kZV9yYW5kb21pemVfc3RhY2socmVncywgbnIpOwotCi0JaW5zdHJ1bWVudGF0aW9uX2JlZ2lu
-KCk7CisJaWYgKGxpa2VseShzeXNjYWxsX2VudGVyX2Zyb21fdXNlcl9tb2RlX3JhbmRvbWl6ZV9z
-dGFjayhyZWdzLCAmbnIpKSkgeworCQlpbnN0cnVtZW50YXRpb25fYmVnaW4oKTsKIAotCWRvX3N5
-c2NhbGxfMzJfaXJxc19vbihyZWdzLCBucik7CisJCWRvX3N5c2NhbGxfMzJfaXJxc19vbihyZWdz
-LCBucik7CiAKLQlpbnN0cnVtZW50YXRpb25fZW5kKCk7CisJCWluc3RydW1lbnRhdGlvbl9lbmQo
-KTsKKwl9CiAJc3lzY2FsbF9leGl0X3RvX3VzZXJfbW9kZShyZWdzKTsKIH0KICNlbmRpZiAvKiAh
-Q09ORklHX0lBMzJfRU1VTEFUSU9OICovCkBAIC0yODYsMTAgKzI4Nyw4IEBAIHN0YXRpYyBub2lu
-c3RyIGJvb2wgX19kb19mYXN0X3N5c2NhbGxfMzIKIAkJcmV0dXJuIGZhbHNlOwogCX0KIAotCW5y
-ID0gc3lzY2FsbF9lbnRlcl9mcm9tX3VzZXJfbW9kZV93b3JrKHJlZ3MsIG5yKTsKLQotCS8qIE5v
-dyB0aGlzIGlzIGp1c3QgbGlrZSBhIG5vcm1hbCBzeXNjYWxsLiAqLwotCWRvX3N5c2NhbGxfMzJf
-aXJxc19vbihyZWdzLCBucik7CisJaWYgKGxpa2VseShzeXNjYWxsX2VudGVyX2Zyb21fdXNlcl9t
-b2RlX3dvcmsocmVncywgJm5yKSkpCisJCWRvX3N5c2NhbGxfMzJfaXJxc19vbihyZWdzLCBucik7
-CiAKIAlpbnN0cnVtZW50YXRpb25fZW5kKCk7CiAJc3lzY2FsbF9leGl0X3RvX3VzZXJfbW9kZShy
-ZWdzKTsKLS0tIGEvYXJjaC94ODYvZW50cnkvc3lzY2FsbF82NC5jCisrKyBiL2FyY2gveDg2L2Vu
-dHJ5L3N5c2NhbGxfNjQuYwpAQCAtNzgsMTQgKzc4LDE0IEBAIHN0YXRpYyBfX2Fsd2F5c19pbmxp
-bmUgdm9pZCBkb19zeXNjYWxsX3gKIC8qIFJldHVybnMgdHJ1ZSB0byByZXR1cm4gdXNpbmcgU1lT
-UkVULCBvciBmYWxzZSB0byB1c2UgSVJFVCAqLwogX192aXNpYmxlIG5vaW5zdHIgYm9vbCBkb19z
-eXNjYWxsXzY0KHN0cnVjdCBwdF9yZWdzICpyZWdzLCBsb25nIG5yKQogewotCW5yID0gc3lzY2Fs
-bF9lbnRlcl9mcm9tX3VzZXJfbW9kZV9yYW5kb21pemVfc3RhY2socmVncywgbnIpOworCWlmIChs
-aWtlbHkoc3lzY2FsbF9lbnRlcl9mcm9tX3VzZXJfbW9kZV9yYW5kb21pemVfc3RhY2socmVncywg
-Jm5yKSkpIHsKKwkJaW5zdHJ1bWVudGF0aW9uX2JlZ2luKCk7CiAKLQlpbnN0cnVtZW50YXRpb25f
-YmVnaW4oKTsKKwkJaWYgKCFkb19zeXNjYWxsX3g2NChyZWdzLCBucikpCisJCQlkb19zeXNjYWxs
-X3gzMihyZWdzLCBucik7CiAKLQlpZiAoIWRvX3N5c2NhbGxfeDY0KHJlZ3MsIG5yKSkKLQkJZG9f
-c3lzY2FsbF94MzIocmVncywgbnIpOwotCi0JaW5zdHJ1bWVudGF0aW9uX2VuZCgpOworCQlpbnN0
-cnVtZW50YXRpb25fZW5kKCk7CisJfQogCXN5c2NhbGxfZXhpdF90b191c2VyX21vZGUocmVncyk7
-CiAKIAkvKgotLS0gYS9pbmNsdWRlL2xpbnV4L2VudHJ5LWNvbW1vbi5oCisrKyBiL2luY2x1ZGUv
-bGludXgvZW50cnktY29tbW9uLmgKQEAgLTcxLDcgKzcxLDcgQEAgc3RhdGljIGlubGluZSB2b2lk
-IHN5c2NhbGxfZW50ZXJfYXVkaXQocwogCX0KIH0KIAotc3RhdGljIF9fYWx3YXlzX2lubGluZSBi
-b29sIHN5c2NhbGxfdHJhY2VfZW50ZXIoc3RydWN0IHB0X3JlZ3MgKnJlZ3MsIHVuc2lnbmVkIGxv
-bmcgd29yaywKK3N0YXRpYyBfX2Fsd2F5c19pbmxpbmUgbG9uZyBzeXNjYWxsX3RyYWNlX2VudGVy
-KHN0cnVjdCBwdF9yZWdzICpyZWdzLCB1bnNpZ25lZCBsb25nIHdvcmssCiAJCQkJCQlsb25nICpz
-eXNjYWxsKQogewogCS8qCkBAIC0xNDEsMTYgKzE0MSwxNCBAQCBzdGF0aWMgX19hbHdheXNfaW5s
-aW5lIGJvb2wgc3lzY2FsbF90cmFjCiAgKiAgICAgcHRyYWNlX3JlcG9ydF9zeXNjYWxsX3Blcm1p
-dF9lbnRyeSgpLCBfX3NlY2NvbXBfcGVybWl0X3N5c2NhbGwoKSwgdHJhY2Vfc3lzX2VudGVyKCkK
-ICAqICAyKSBJbnZvY2F0aW9uIG9mIGF1ZGl0X3N5c2NhbGxfZW50cnkoKQogICovCi1zdGF0aWMg
-X19hbHdheXNfaW5saW5lIGxvbmcgc3lzY2FsbF9lbnRlcl9mcm9tX3VzZXJfbW9kZV93b3JrKHN0
-cnVjdCBwdF9yZWdzICpyZWdzLCBsb25nIHN5c2NhbGwpCitzdGF0aWMgX19hbHdheXNfaW5saW5l
-IGJvb2wgc3lzY2FsbF9lbnRlcl9mcm9tX3VzZXJfbW9kZV93b3JrKHN0cnVjdCBwdF9yZWdzICpy
-ZWdzLCBsb25nICpzeXNjYWxsKQogewogCXVuc2lnbmVkIGxvbmcgd29yayA9IFJFQURfT05DRShj
-dXJyZW50X3RocmVhZF9pbmZvKCktPnN5c2NhbGxfd29yayk7CiAKLQlpZiAod29yayAmIFNZU0NB
-TExfV09SS19FTlRFUikgewotCQlpZiAoIXN5c2NhbGxfdHJhY2VfZW50ZXIocmVncywgd29yaywg
-JnN5c2NhbGwpKQotCQkJcmV0dXJuIC0xTDsKLQl9CisJaWYgKHVubGlrZWx5KHdvcmsgJiBTWVND
-QUxMX1dPUktfRU5URVIpKQorCQlyZXR1cm4gc3lzY2FsbF90cmFjZV9lbnRlcihyZWdzLCB3b3Jr
-LCBzeXNjYWxsKTsKIAotCXJldHVybiBzeXNjYWxsOworCXJldHVybiB0cnVlOwogfQogCiAvKioK
-CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1z
-bnBzLWFyYyBtYWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpo
-dHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNucHMtYXJj
-Cg==
+
+
+On 7/8/2026 3:06 AM, Thomas Gleixner wrote:
+> From: Jinjie Ruan <ruanjinjie@huawei.com>
+> 
+> The return value of __secure_computing() currently uses 0 to indicate
+> that a system call should be allowed, and -1 to indicate that it should
+> be blocked/killed. This 0/-1 pattern is non-intuitive for a security
+> check function and makes the control flow at the call sites less readable.
+> 
+> Furthermore, any potential future changes to these return values would
+> require a high-risk, error-prone audit of all its users across different
+> architectures.
+> 
+> Sanitize this logic by converting the return type of __secure_computing()
+> to a proper boolean, where 'true' explicitly means 'allow' and 'false'
+> means 'fail/deny'.
+> 
+> Update all the two dozen or so call sites across the tree to align with
+> this new boolean semantic. No functional changes are intended, as the
+> callers still return -1 to the lower-level assembly entry code upon
+> seccomp denial.
+> 
+> Rename the function to __seccomp_permit_syscall() so that the purpose is
+> entirely clear.
+> 
+> [ tglx: Rename the function ]
+> 
+> Suggested-by: Thomas Gleixner <tglx@kernel.org>
+> Suggested-by: Mark Rutland <mark.rutland@arm.com>
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
+> Cc: Kees Cook <kees@kernel.org>
+> Cc: Andy Lutomirski <luto@kernel.org>
+> Cc: Oleg Nesterov <oleg@redhat.com>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Russell King <linux@armlinux.org.uk>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Guo Ren <guoren@kernel.org>
+> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Cc: Richard Weinberger <richard@nod.at>
+> Cc: Chris Zankel <chris@zankel.net>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-alpha@vger.kernel.org
+> Cc: linux-csky@vger.kernel.org
+> Cc: linux-m68k@lists.linux-m68k.org
+> Cc: linux-mips@vger.kernel.org
+> Cc: linux-parisc@vger.kernel.org
+> Cc: linux-sh@vger.kernel.org
+> Cc: linux-um@lists.infradead.org
+> ---
+>  arch/alpha/kernel/ptrace.c            |    2 -
+>  arch/arm/kernel/ptrace.c              |    2 -
+>  arch/arm64/kernel/ptrace.c            |    2 -
+>  arch/csky/kernel/ptrace.c             |    2 -
+>  arch/m68k/kernel/ptrace.c             |    2 -
+>  arch/mips/kernel/ptrace.c             |    2 -
+>  arch/parisc/kernel/ptrace.c           |    2 -
+>  arch/sh/kernel/ptrace_32.c            |    2 -
+>  arch/um/kernel/skas/syscall.c         |    2 -
+>  arch/x86/entry/vsyscall/vsyscall_64.c |   14 ++++++-------
+>  arch/xtensa/kernel/ptrace.c           |    3 --
+>  include/linux/entry-common.h          |    9 +++-----
+>  include/linux/seccomp.h               |   12 +++++------
+>  kernel/seccomp.c                      |   35 +++++++++++++++++-----------------
+>  14 files changed, 45 insertions(+), 46 deletions(-)
+
+As Ada pointed out, the description of secure_computing in arch/Kconfig
+need to be updated, a possible suggestion:
+
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -636,8 +636,8 @@ config HAVE_ARCH_SECCOMP_FILTER
+          - syscall_rollback()
+          - syscall_set_return_value()
+          - SIGSYS siginfo_t support
+-         - secure_computing is called from a ptrace_event()-safe context
+-         - secure_computing return value is checked and a return value
+of -1
++         - seccomp_permits_syscall is called from a ptrace_event()-safe
+context
++         - seccomp_permits_syscall return value is checked and if false
+
+
+Link:
+https://lore.kernel.org/all/b8f3b5cd-8d8a-4396-ba0c-011a83234dd9@arm.com/
+
+> --- a/arch/alpha/kernel/ptrace.c
+> +++ b/arch/alpha/kernel/ptrace.c
+> @@ -387,7 +387,7 @@ asmlinkage unsigned long syscall_trace_e
+>  	 * If this fails, seccomp may already have set up the return value
+>  	 * (e.g. SECCOMP_RET_ERRNO / TRACE).
+>  	 */
+> -	if (secure_computing() == -1) {
+> +	if (!seccomp_permit_syscall()) {
+>  		if (regs->r19 == 0 && regs->r0 == (unsigned long)-1)
+>  			syscall_set_return_value(current, regs, -ENOSYS, 0);
+>  		syscall_set_nr(current, regs, -1);
+
+[...]
+
+> -static int __seccomp_filter(int this_syscall, const bool recheck_after_trace)
+> +static bool __seccomp_filter(int this_syscall, const bool recheck_after_trace)
+>  {
+>  	u32 filter_ret, action;
+>  	struct seccomp_data sd;
+> @@ -1294,7 +1295,7 @@ static int __seccomp_filter(int this_sys
+>  	case SECCOMP_RET_TRACE:
+>  		/* We've been put in this state by the ptracer already. */
+>  		if (recheck_after_trace)
+> -			return 0;
+> +			return true;
+>  
+>  		/* ENOSYS these calls if there is no tracer attached. */
+>  		if (!ptrace_event_enabled(current, PTRACE_EVENT_SECCOMP)) {
+> @@ -1330,19 +1331,19 @@ static int __seccomp_filter(int this_sys
+>  		 * a skip would have already been reported.
+>  		 */
+>  		if (__seccomp_filter(this_syscall, true))
+> -			return -1;
+> +			return false;
+
+The return value of __seccomp_filter is checked in the wrong way, check
+-1 should be replaced with check false, maybe:
+
+-               if (__seccomp_filter(this_syscall, true))
+-                       return -1;
++               if (!__seccomp_filter(this_syscall, true))
++                       return false;
+
+otherwise,
+
+LGTM
+Reviewed-by: Jinjie Ruan <ruanjinjie@huawei.com>
+
+>  
+> -		return 0;
+> +		return true;
+>  
+>  	case SECCOMP_RET_USER_NOTIF:
+>  		if (seccomp_do_user_notification(this_syscall, match, &sd))
+>  			goto skip;
+>  
+> -		return 0;
+> +		return true;
+>  
+>  	case SECCOMP_RET_LOG:
+>  		seccomp_log(this_syscall, 0, action, true);
+> -		return 0;
+> +		return true;
+>  
+>  	case SECCOMP_RET_ALLOW:
+>  		/*
+> @@ -1350,7 +1351,7 @@ static int __seccomp_filter(int this_sys
+>  		 * this action since SECCOMP_RET_ALLOW is the starting
+>  		 * state in seccomp_run_filters().
+>  		 */
+> -		return 0;
+> +		return true;
+>  
+>  	case SECCOMP_RET_KILL_THREAD:
+>  	case SECCOMP_RET_KILL_PROCESS:
+> @@ -1367,46 +1368,46 @@ static int __seccomp_filter(int this_sys
+>  		} else {
+>  			do_exit(SIGSYS);
+>  		}
+> -		return -1; /* skip the syscall go directly to signal handling */
+> +		return false; /* skip the syscall go directly to signal handling */
+>  	}
+>  
+>  	unreachable();
+>  
+>  skip:
+>  	seccomp_log(this_syscall, 0, action, match ? match->log : false);
+> -	return -1;
+> +	return false;
+>  }
+>  #else
+> -static int __seccomp_filter(int this_syscall, const bool recheck_after_trace)
+> +static bool __seccomp_filter(int this_syscall, const bool recheck_after_trace)
+>  {
+>  	BUG();
+>  
+> -	return -1;
+> +	return false;
+>  }
+>  #endif
+>  
+> -int __secure_computing(void)
+> +bool __seccomp_permit_syscall(void)
+>  {
+>  	int mode = current->seccomp.mode;
+>  	int this_syscall;
+>  
+>  	if (IS_ENABLED(CONFIG_CHECKPOINT_RESTORE) &&
+>  	    unlikely(current->ptrace & PT_SUSPEND_SECCOMP))
+> -		return 0;
+> +		return true;
+>  
+>  	this_syscall = syscall_get_nr(current, current_pt_regs());
+>  
+>  	switch (mode) {
+>  	case SECCOMP_MODE_STRICT:
+>  		__secure_computing_strict(this_syscall);  /* may call do_exit */
+> -		return 0;
+> +		return true;
+>  	case SECCOMP_MODE_FILTER:
+>  		return __seccomp_filter(this_syscall, false);
+>  	/* Surviving SECCOMP_RET_KILL_* must be proactively impossible. */
+>  	case SECCOMP_MODE_DEAD:
+>  		WARN_ON_ONCE(1);
+>  		do_exit(SIGKILL);
+> -		return -1;
+> +		return false;
+>  	default:
+>  		BUG();
+>  	}
+> 
+
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
