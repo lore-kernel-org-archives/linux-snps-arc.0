@@ -4,83 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F2E5C43458
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jul 2026 21:40:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7DEB8C43458
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  8 Jul 2026 21:50:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Date:Cc:To:From:Subject:Message-ID:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References
+	:In-Reply-To:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=IG9YK6vm3qcz/7+Nyv6ltzBnYgOO08d+NQTpJmxPEzc=; b=3roufr6toXZyJn
-	nU3g7ZGxu69vGi0QRQgmAX7ZGVJiKXsloJ9EluUXhy1Zy1luffugemXaMHx7jNzTgoDwq3nFhuY8u
-	qOeAZR0IPnWJTQG5lYH1GFfEyMUC6wp0wh17ExfLpWPccwZNNRQMI4AzH4ilo8jxP+7/J6WhraaXE
-	6Azc3I13sR+CtTnNJGhjq5N+TY879tY1dIhdFnRRC76ARm7c9hoUWas7y+4UznJGdqjys/Dd7ZJfD
-	/dDNhBYovfBO5zFO9w3iE6tc2UC/h6RCRlT5XBjSsIS/fGGRxOCxIYXqTvv6WEuatRXtxFQld/Byb
-	ueMOZb9JCavmQQL0+HQQ==;
+	List-Owner; bh=Lux9i502yb9psaHRgyZ+yWjrxGDaAH6on8xZQsHiUgI=; b=lt5m+T6uYiMbep
+	ItieAnrNDX2F2bg6ADVohuxtln52gLQDbBMXRbsbxuqrEww4D69CAZj2Rab4vXtac0d9lA7xiR0+C
+	hSz3qfLBpcZ7/3qwwzpF4Uw9n4D9LLQ/trkESXZjzXs1mwM9twaUYYr3KrfqSnkPnLfQVgXB3dHnp
+	XA2pFvfsdeNjuRaYG8RaYGJE6eVKanbtBD6HQTSIbHRGLQ/fw4wY11oJ2UpIEQsZgSE9/QTLfs6Pd
+	gVcq6I8CCrvPrbMf9YyXG966AYm2Q2nzX3JhFfraaawTtkzdkJGqWuK3ufRviIo9SCspj6ylcmGrR
+	UZeIlCWcpd6Pp+h/249Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wha0I-00000000SWk-0XTZ;
-	Wed, 08 Jul 2026 21:40:26 +0000
-Received: from xs1.mindbit.ro ([80.86.107.70] helo=mail.mindbit.ro)
+	id 1wha9b-00000000T5m-0w2B;
+	Wed, 08 Jul 2026 21:50:03 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wha0E-00000000SVt-10mJ;
-	Wed, 08 Jul 2026 21:40:23 +0000
-Received: from bat.kanata.rendec.net (unknown [24.114.111.125])
-	by mail.mindbit.ro (Postfix) with ESMTPSA id 362D5C2A88;
-	Thu,  9 Jul 2026 00:39:55 +0300 (EEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.mindbit.ro 362D5C2A88
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rendec.net;
-	s=default; t=1783546818;
-	bh=vh8LzxdSEB6LZ5YWToq98HafI55oS8+SMbKFy7UAtCc=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=Vxaj5QTrZmnMb8kgo0DAnYKLpgF1VNrrEnZhf9ONVOiUDzl0XehMr6So/mzP7wSyL
-	 f/bqBaPzsa1UU5XOryNPd/7wb5rGQ7IwzXh6waI3HHJA4HLb35t2X+7MMwejCU49/V
-	 wyf2N0EPqZ3qOvz85kyJv8Z4VVG4eamp/AsyfiC+iferCPdwrWRhhI2Gihi8EYWMG6
-	 w9oTc7WxIT/1nxUO9bTb5BDnYHc4NJdQoeD9M4hXia3YTHnUvNPgR3MY/vwUlZnDJN
-	 KsGLwDIHTElRb68oeRo724l+p50zYouaHMInNxEVvF4Rx2YclHGHsHkUSx9MW9gMJA
-	 BLbx/jCYTxmsw==
-Message-ID: <0f3a6ccaadc1d330215416d9cec13263d71b685e.camel@rendec.net>
-Subject: Re: [patch 10/18] entry: Use syscall number instead of rereading it
-From: Radu Rendec <radu@rendec.net>
-To: Thomas Gleixner <tglx@kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Michael Ellerman
- <mpe@ellerman.id.au>,  Shrikanth Hegde <sshegde@linux.ibm.com>,
- linuxppc-dev@lists.ozlabs.org, Kees Cook <kees@kernel.org>, Huacai Chen	
- <chenhuacai@kernel.org>, loongarch@lists.linux.dev, Paul Walmsley
- <pjw@kernel.org>,  Palmer Dabbelt <palmer@dabbelt.com>,
- linux-riscv@lists.infradead.org, Sven Schnelle <svens@linux.ibm.com>, 
-	linux-s390@vger.kernel.org, x86@kernel.org, Mark Rutland
- <mark.rutland@arm.com>,  Jinjie Ruan <ruanjinjie@huawei.com>, Andy
- Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>,  Richard
- Henderson <richard.henderson@linaro.org>, Russell King
- <linux@armlinux.org.uk>, Catalin Marinas	 <catalin.marinas@arm.com>, Guo
- Ren <guoren@kernel.org>, Geert Uytterhoeven	 <geert@linux-m68k.org>, Thomas
- Bogendoerfer <tsbogend@alpha.franken.de>,  Helge Deller	 <deller@gmx.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Richard Weinberger
- <richard@nod.at>, Chris Zankel <chris@zankel.net>,
- linux-arm-kernel@lists.infradead.org, 	linux-alpha@vger.kernel.org,
- linux-csky@vger.kernel.org, 	linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, 	linux-parisc@vger.kernel.org,
- linux-sh@vger.kernel.org, 	linux-um@lists.infradead.org, Arnd Bergmann
- <arnd@arndb.de>, Vineet Gupta	 <vgupta@kernel.org>, Will Deacon
- <will@kernel.org>, Brian Cain <bcain@kernel.org>,  Michal Simek
- <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>, "David S. Miller"
- <davem@davemloft.net>,  Andreas Larsson <andreas@gaisler.com>,
- linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org, 
-	linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-arch@vger.kernel.org, Michal =?ISO-8859-1?Q?Such=E1nek?=	
- <msuchanek@suse.de>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-doc@vger.kernel.org
-Date: Wed, 08 Jul 2026 17:39:50 -0400
-In-Reply-To: <20260707190254.181086755@kernel.org>
+	id 1wha9Z-00000000T5E-1EW5;
+	Wed, 08 Jul 2026 21:50:01 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id B674B42B57;
+	Wed,  8 Jul 2026 21:50:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6ADD1F000E9;
+	Wed,  8 Jul 2026 21:49:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783547400;
+	bh=vmuHxwYgqm1gQOMh7c/wvEC96VXO05kzD/lM2vW9atQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=LQXgoHnJBN1jyue5u35c/dE+tvbdFa3zUViq7zqGblJh/ZruG6J0COcocKehdLFfd
+	 4xXw/bCoVIbrdpJZ1yxvDgT9U95yzkk950wT9I897knLqsLOwWpBR6zC0Wl0OmKtGN
+	 qA7xvyVuCxc36Uggfu07lBhQDGgG4EE5F0SW1Nvv4sJgy854Xef255mh0e3TvqBF2r
+	 SBr4Ish5mjPGiV3ozZVjDpPopq53Klt37AdVF1ulSRh47ns0ya3XPMuPgRNdRIF3jm
+	 1AeWmFDRhRZWLT6auHwI3KvNlkgzOBPY9SYSho4DzEN/jTu7kl2ls2cvpTtmqLBfh9
+	 CtbtIsoeAAukg==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Jinjie Ruan <ruanjinjie@huawei.com>, LKML
+ <linux-kernel@vger.kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Mark Rutland <mark.rutland@arm.com>, Kees Cook <kees@kernel.org>, Andy
+ Lutomirski <luto@kernel.org>, Richard Henderson
+ <richard.henderson@linaro.org>, Russell King <linux@armlinux.org.uk>,
+ Catalin Marinas <catalin.marinas@arm.com>, Guo Ren <guoren@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Thomas Bogendoerfer
+ <tsbogend@alpha.franken.de>, Helge Deller <deller@gmx.de>, Yoshinori Sato
+ <ysato@users.sourceforge.jp>, Richard Weinberger <richard@nod.at>, Chris
+ Zankel <chris@zankel.net>, linux-arm-kernel@lists.infradead.org,
+ linux-alpha@vger.kernel.org, linux-csky@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-um@lists.infradead.org, Michael Ellerman <mpe@ellerman.id.au>,
+ Shrikanth Hegde <sshegde@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
+ Huacai Chen <chenhuacai@kernel.org>, loongarch@lists.linux.dev, Paul
+ Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ linux-riscv@lists.infradead.org, Sven Schnelle <svens@linux.ibm.com>,
+ linux-s390@vger.kernel.org, x86@kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ Vineet Gupta <vgupta@kernel.org>, Will Deacon <will@kernel.org>, Brian
+ Cain <bcain@kernel.org>, Michal Simek <monstr@monstr.eu>, Dinh Nguyen
+ <dinguyen@kernel.org>, "David S. Miller" <davem@davemloft.net>, Andreas
+ Larsson <andreas@gaisler.com>, linux-snps-arc@lists.infradead.org,
+ linux-hexagon@vger.kernel.org, linux-openrisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-arch@vger.kernel.org, Michal
+ =?utf-8?Q?Such=C3=A1nek?=
+ <msuchanek@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org
+Subject: Re: [patch 11/18] seccomp, treewide: Rename and convert
+ __secure_computing() to return boolean
+In-Reply-To: <ak51A77h1YRIl5tz@redhat.com>
 References: <20260707181957.433213175@kernel.org>
-	 <20260707190254.181086755@kernel.org>
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+ <20260707190254.230735780@kernel.org>
+ <2e6ed364-ce8f-4b4b-8675-acd07f140f4f@huawei.com> <871pddsuzl.ffs@fw13>
+ <ak51A77h1YRIl5tz@redhat.com>
+Date: Wed, 08 Jul 2026 23:49:57 +0200
+Message-ID: <87pl0xqhh6.ffs@fw13>
 MIME-Version: 1.0
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260708_144022_458680_F1CFFA97 
-X-CRM114-Status: GOOD (  13.24  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,39 +92,37 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-T24gVHVlLCAyMDI2LTA3LTA3IGF0IDIxOjA2ICswMjAwLCBUaG9tYXMgR2xlaXhuZXIgd3JvdGU6
-Cj4gcnNlcV9zeXNjYWxsX2VudGVyX3dvcmsoKSBpcyBpbnZva2VkIGJlZm9yZSB0aGUgc3lzY2Fs
-bCBudW1iZXIgY2FuIGJlCj4gbW9kaWZpZWQuIFNvIHRoZXJlIGlzIG5vIHBvaW50IGluIHJlcmVh
-ZGluZyBpdCBmcm9tIHB0X3JlZ3MuCj4gCj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIEdsZWl4bmVy
-IDx0Z2x4QGtlcm5lbC5vcmc+Cj4gLS0tCj4gwqBpbmNsdWRlL2xpbnV4L2VudHJ5LWNvbW1vbi5o
-IHzCoMKgwqAgOSArKysrKy0tLS0KPiDCoDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyks
-IDQgZGVsZXRpb25zKC0pCj4gCj4gLS0tIGEvaW5jbHVkZS9saW51eC9lbnRyeS1jb21tb24uaAo+
-ICsrKyBiL2luY2x1ZGUvbGludXgvZW50cnktY29tbW9uLmgKPiBAQCAtNzAsOSArNzAsMTAgQEAg
-c3RhdGljIGlubGluZSB2b2lkIHN5c2NhbGxfZW50ZXJfYXVkaXQocwo+IMKgCX0KPiDCoH0KPiDC
-oAo+IC1zdGF0aWMgX19hbHdheXNfaW5saW5lIGxvbmcgc3lzY2FsbF90cmFjZV9lbnRlcihzdHJ1
-Y3QgcHRfcmVncyAqcmVncywgdW5zaWduZWQgbG9uZyB3b3JrKQo+ICtzdGF0aWMgX19hbHdheXNf
-aW5saW5lIGxvbmcgc3lzY2FsbF90cmFjZV9lbnRlcihzdHJ1Y3QgcHRfcmVncyAqcmVncywgdW5z
-aWduZWQgbG9uZyB3b3JrLAo+ICsJCQkJCQlsb25nIHN5c2NhbGwpCj4gwqB7Cj4gLQlsb25nIHN5
-c2NhbGwsIHJldCA9IDA7Cj4gKwlsb25nIHJldCA9IDA7Cj4gwqAKPiDCoAkvKgo+IMKgCSAqIEhh
-bmRsZSBTeXNjYWxsIFVzZXIgRGlzcGF0Y2guwqAgVGhpcyBtdXN0IGNvbWVzIGZpcnN0LCBzaW5j
-ZQo+IEBAIC05MCw3ICs5MSw3IEBAIHN0YXRpYyBfX2Fsd2F5c19pbmxpbmUgbG9uZyBzeXNjYWxs
-X3RyYWMKPiDCoAkgKiB0aHJvdWdoIGhydGltZXJfaW50ZXJydXB0KCkuCj4gwqAJICovCj4gwqAJ
-aWYgKHdvcmsgJiBTWVNDQUxMX1dPUktfU1lTQ0FMTF9SU0VRX1NMSUNFKQo+IC0JCXJzZXFfc3lz
-Y2FsbF9lbnRlcl93b3JrKHN5c2NhbGxfZ2V0X25yKGN1cnJlbnQsIHJlZ3MpKTsKPiArCQlyc2Vx
-X3N5c2NhbGxfZW50ZXJfd29yayhzeXNjYWxsKTsKPiDCoAo+IMKgCS8qIEhhbmRsZSBwdHJhY2Ug
-Ki8KPiDCoAlpZiAod29yayAmIChTWVNDQUxMX1dPUktfU1lTQ0FMTF9UUkFDRSB8IFNZU0NBTExf
-V09SS19TWVNDQUxMX0VNVSkpIHsKPiBAQCAtMTQ1LDcgKzE0Niw3IEBAIHN0YXRpYyBfX2Fsd2F5
-c19pbmxpbmUgbG9uZyBzeXNjYWxsX2VudGUKPiDCoAl1bnNpZ25lZCBsb25nIHdvcmsgPSBSRUFE
-X09OQ0UoY3VycmVudF90aHJlYWRfaW5mbygpLT5zeXNjYWxsX3dvcmspOwo+IMKgCj4gwqAJaWYg
-KHdvcmsgJiBTWVNDQUxMX1dPUktfRU5URVIpCj4gLQkJc3lzY2FsbCA9IHN5c2NhbGxfdHJhY2Vf
-ZW50ZXIocmVncywgd29yayk7Cj4gKwkJc3lzY2FsbCA9IHN5c2NhbGxfdHJhY2VfZW50ZXIocmVn
-cywgd29yaywgc3lzY2FsbCk7Cj4gwqAKPiDCoAlyZXR1cm4gc3lzY2FsbDsKPiDCoH0KClJldmll
-d2VkLWJ5OiBSYWR1IFJlbmRlYyA8cmFkdUByZW5kZWMubmV0PgoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0
-CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVh
-ZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
+On Wed, Jul 08 2026 at 18:04, Oleg Nesterov wrote:
+> On 07/08, Thomas Gleixner wrote:
+>>
+>> On Wed, Jul 08 2026 at 09:43, Jinjie Ruan wrote:
+>> >
+>> > The return value of __seccomp_filter is checked in the wrong way, check
+>> > -1 should be replaced with check false, maybe:
+>> >
+>> > -               if (__seccomp_filter(this_syscall, true))
+>> > -                       return -1;
+>> > +               if (!__seccomp_filter(this_syscall, true))
+>> > +                       return false;
+>
+> Or simply
+>
+> 	return __seccomp_filter(this_syscall, true);
+>
+> and remove "return true" below ?
+
+Duh. Obvious now that you point it out :)
+
+> Either way, I personally like this change, I was always confused by these -1's.
+
+Welcome to the club!
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
