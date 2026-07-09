@@ -4,50 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9356C44501
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Jul 2026 01:48:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A834BC43458
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Jul 2026 02:04:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:CC:To:
 	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=4Cn3mVpgweHVGBeyvMOOYT/EbqL+1cM8pUKJ9OM4i+M=; b=pJleeOCDFi45x8
-	F2abBn9CNJj0sT+QRf8T868LL+KqtCi6WZkkcO+ir3nwAAGU9kkOP4ju04z9Xm1+y6aPoLw8bL4RK
-	cJ2qZhd5v62Nf55jTXiwsIzB8fQmnG49jE2gUQuSljBaLUa6QcFYdt3+KxzQz+3gpf37Ll++7Wbdk
-	RBrp57Hd5jFXPJyJW8W3PpH6NFAh2GkkL0xKTE/aZxPLprExA4sp4BzuLaWOc5KnkM2xiHvm2uvtr
-	nggLu6Ks8+50zll/VWTagpZx5QLfjxLg9yvw/Bofc25/QWMMuZgg1AXE6ODm+jV1BiBzKYVFgqg0Y
-	aVCbu31WwzrTy3yJ+NIA==;
+	List-Owner; bh=KZvxDspLbeayqSCiEmtqgVi+dRj+5pXmtWADH4UmMng=; b=Ca7BMqGNQQb7lR
+	A4TsVyFKgOfX7aPv/CRcNH5/EDyM4TpT2dsOqnF47Uru7saMro2bY2JC9p2sMtrXPyOiAJHfCUaEf
+	t0a7oBeUQgzUOVpDoZzhU+Yu6b8rjAW2B3dZQtmcPDxv439wZ2SaS8meXqJ93ZfeU168jDi6qm9Bb
+	pMXQ47sfP0p9hj6AnpYSimYTvYU/fL98UDUyULPJ65NaJm3BzmKzZIDJhl43G6PesJteidnWMez7z
+	4lStEgdgRgJa8rNgiuvTQC2dVw95tK7VxFgIiMscvFqZBss8FttlCbMKECgG9Woj7vuoC2M3mITh/
+	ktmLQgX8cxTRO8wV8i+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whds4-00000000m4I-2Lki;
-	Thu, 09 Jul 2026 01:48:12 +0000
-Received: from canpmsgout04.his.huawei.com ([113.46.200.219])
+	id 1whe7a-00000000nHC-1QnC;
+	Thu, 09 Jul 2026 02:04:14 +0000
+Received: from canpmsgout11.his.huawei.com ([113.46.200.226])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whds1-00000000m33-0i8s;
-	Thu, 09 Jul 2026 01:48:10 +0000
+	id 1whe7N-00000000nDT-3yhg;
+	Thu, 09 Jul 2026 02:04:04 +0000
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
 	c=relaxed/relaxed; q=dns/txt;
 	h=From;
-	bh=lJ2lsOw1A2mFoTW+4rB/gWuEpAa+RS/uQCfSDrk5Vco=;
-	b=ksHjnD6U1596jfDaaEoW3GmT39cferO2kq33vFZ36Yq2mGGCmosfTYbLFn7fMP/UeeYaIntK6
-	p8XaNfppstNTJ0P0vOKbsKrpKmttUnZgBTyp4Laq98LfqAZZrRNzDaKqN/X7my4nhdn8YPnp+8c
-	AalCZ4kXjnU31eOGZTBybVA=
-Received: from mail.maildlp.com (unknown [172.19.163.0])
-	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4gwd0M5Hszz1prKZ;
-	Thu,  9 Jul 2026 09:38:43 +0800 (CST)
+	bh=SbMumxZtxbvkP/ieepXLg1JhrafzB20Wq2MZPkH/Sw0=;
+	b=AWDuAsADSwEvEL71EYfZ0NigOV6Nm/EE0o+eCaP1xQFlxhq8DY4cyFSYwdUDcA872iUYRmCcL
+	fgkqFmw2f6REMuKThf5T1j9G/cENjZayXtYg+Tp2Kdo8RhfXnSpSgOVUD3wzxl53MN4FlPjvW4S
+	5jTBmgoFDxvMSl13ULhIb7E=
+Received: from mail.maildlp.com (unknown [172.19.163.15])
+	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4gwdLg6g1HzKmWh;
+	Thu,  9 Jul 2026 09:54:35 +0800 (CST)
 Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id 2BC2D40561;
-	Thu,  9 Jul 2026 09:48:00 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id D94DC40578;
+	Thu,  9 Jul 2026 10:03:52 +0800 (CST)
 Received: from [10.67.109.254] (10.67.109.254) by
  dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 9 Jul 2026 09:47:57 +0800
-Message-ID: <19433c47-94b3-46e1-8bd2-1a3f3139fe4e@huawei.com>
-Date: Thu, 9 Jul 2026 09:47:56 +0800
+ 15.2.1544.11; Thu, 9 Jul 2026 10:03:50 +0800
+Message-ID: <cb27984f-bb8e-4deb-90f2-c3c9965b3017@huawei.com>
+Date: Thu, 9 Jul 2026 10:03:49 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [patch 15/18] x86/entry: Make syscall functions static
+Subject: Re: [patch 16/18] x86/entry: Get rid of the sys_ni_syscall()
+ indirection
 To: Thomas Gleixner <tglx@kernel.org>, LKML <linux-kernel@vger.kernel.org>
 CC: Peter Zijlstra <peterz@infradead.org>, Michael Ellerman
 	<mpe@ellerman.id.au>, Shrikanth Hegde <sshegde@linux.ibm.com>,
@@ -77,15 +78,15 @@ CC: Peter Zijlstra <peterz@infradead.org>, Michael Ellerman
 	<msuchanek@suse.de>, Jonathan Corbet <corbet@lwn.net>,
 	<linux-doc@vger.kernel.org>
 References: <20260707181957.433213175@kernel.org>
- <20260707190254.438361565@kernel.org>
+ <20260707190254.493733289@kernel.org>
 From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <20260707190254.438361565@kernel.org>
+In-Reply-To: <20260707190254.493733289@kernel.org>
 X-Originating-IP: [10.67.109.254]
 X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
  dggpemf500011.china.huawei.com (7.185.36.131)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260708_184809_593016_511EBCD0 
-X-CRM114-Status: GOOD (  15.45  )
+X-CRM114-CacheID: sfid-20260708_190402_622083_DB419BF9 
+X-CRM114-Status: GOOD (  18.03  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,80 +105,74 @@ Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infra
 
 
 
-On 7/8/2026 3:06 AM, Thomas Gleixner wrote:
-> They are only used in the respective source files. No point in exposing
-> them.
+On 7/8/2026 3:07 AM, Thomas Gleixner wrote:
+> Invoking sys_ni_syscall() from a code path, which already knows that the
+> syscall number is invalid just to assign -ENOSYS to regs->ax is a pointless
+> exercise. It's even redundant as the low level entry code already has set
+> regs->ax to -ENOSYS on entry.
+
+Makes sense, the all reltaed entry has already initialized
+regs->ax to -ENOSYS.
+
+This makes the code very concise.
+
+LGTM
+Reviewed-by: Jinjie Ruan <ruanjinjie@huawei.com>
+
+> 
+> Remove the extra conditionals and the function calls.
 > 
 > Signed-off-by: Thomas Gleixner <tglx@kernel.org>
 > ---
->  arch/x86/entry/syscall_32.c    |    2 +-
->  arch/x86/entry/syscall_64.c    |   10 ++++++----
->  arch/x86/include/asm/syscall.h |    8 --------
->  3 files changed, 7 insertions(+), 13 deletions(-)
+>  arch/x86/entry/syscall_32.c |    2 --
+>  arch/x86/entry/syscall_64.c |   10 +++-------
+>  2 files changed, 3 insertions(+), 9 deletions(-)
 > 
 > --- a/arch/x86/entry/syscall_32.c
 > +++ b/arch/x86/entry/syscall_32.c
-> @@ -41,7 +41,7 @@ const sys_call_ptr_t sys_call_table[] =
->  #endif
->  
->  #define __SYSCALL(nr, sym) case nr: return __ia32_##sym(regs);
-> -long ia32_sys_call(const struct pt_regs *regs, unsigned int nr)
-> +static noinline long ia32_sys_call(const struct pt_regs *regs, unsigned int nr)
->  {
->  	switch (nr) {
->  	#include <asm/syscalls_32.h>
-> --- a/arch/x86/entry/syscall_64.c
-> +++ b/arch/x86/entry/syscall_64.c
-> @@ -32,7 +32,7 @@ const sys_call_ptr_t sys_call_table[] =
->  #undef  __SYSCALL
->  
->  #define __SYSCALL(nr, sym) case nr: return __x64_##sym(regs);
-> -long x64_sys_call(const struct pt_regs *regs, unsigned int nr)
-> +static noinline long x64_sys_call(const struct pt_regs *regs, unsigned int nr)
->  {
->  	switch (nr) {
->  	#include <asm/syscalls_64.h>
-> @@ -40,15 +40,17 @@ long x64_sys_call(const struct pt_regs *
+> @@ -81,8 +81,6 @@ static __always_inline void do_syscall_3
+>  	if (likely(unr < IA32_NR_syscalls)) {
+>  		unr = array_index_nospec(unr, IA32_NR_syscalls);
+>  		regs->ax = ia32_sys_call(regs, unr);
+> -	} else if (nr != -1) {
+> -		regs->ax = __ia32_sys_ni_syscall(regs);
 >  	}
 >  }
 >  
-> -#ifdef CONFIG_X86_X32_ABI
-> -long x32_sys_call(const struct pt_regs *regs, unsigned int nr)
-> +static noinline long x32_sys_call(const struct pt_regs *regs, unsigned int nr)
+> --- a/arch/x86/entry/syscall_64.c
+> +++ b/arch/x86/entry/syscall_64.c
+> @@ -68,7 +68,7 @@ static __always_inline bool do_syscall_x
+>  	return false;
+>  }
+>  
+> -static __always_inline bool do_syscall_x32(struct pt_regs *regs, int nr)
+> +static __always_inline void do_syscall_x32(struct pt_regs *regs, int nr)
 >  {
-> +#ifdef CONFIG_X86_X32_ABI
->  	switch (nr) {
->  	#include <asm/syscalls_x32.h>
->  	default: return __x64_sys_ni_syscall(regs);
+>  	/*
+>  	 * Adjust the starting offset of the table, and convert numbers
+> @@ -80,9 +80,7 @@ static __always_inline bool do_syscall_x
+>  	if (IS_ENABLED(CONFIG_X86_X32_ABI) && likely(xnr < X32_NR_syscalls)) {
+>  		xnr = array_index_nospec(xnr, X32_NR_syscalls);
+>  		regs->ax = x32_sys_call(regs, xnr);
+> -		return true;
 >  	}
-> -}
-> +#else
-> +	return -ENOSYS;
->  #endif
-> +}
+> -	return false;
+>  }
 >  
->  static __always_inline bool do_syscall_x64(struct pt_regs *regs, int nr)
->  {
-> --- a/arch/x86/include/asm/syscall.h
-> +++ b/arch/x86/include/asm/syscall.h
-> @@ -21,14 +21,6 @@ typedef long (*sys_call_ptr_t)(const str
->  extern const sys_call_ptr_t sys_call_table[];
+>  /* Returns true to return using SYSRET, or false to use IRET */
+> @@ -92,10 +90,8 @@ static __always_inline bool do_syscall_x
 >  
->  /*
-> - * These may not exist, but still put the prototypes in so we
-> - * can use IS_ENABLED().
-> - */
-> -extern long ia32_sys_call(const struct pt_regs *, unsigned int nr);
-> -extern long x32_sys_call(const struct pt_regs *, unsigned int nr);
-> -extern long x64_sys_call(const struct pt_regs *, unsigned int nr);
-> -
-
-Reviewed-by: Jinjie Ruan <ruanjinjie@huawei.com>
-
-> -/*
->   * Only the low 32 bits of orig_ax are meaningful, so we return int.
->   * This importantly ignores the high bits on 64-bit, so comparisons
->   * sign-extend the low 32 bits.
+>  	instrumentation_begin();
+>  
+> -	if (!do_syscall_x64(regs, nr) && !do_syscall_x32(regs, nr) && nr != -1) {
+> -		/* Invalid system call, but still a system call. */
+> -		regs->ax = __x64_sys_ni_syscall(regs);
+> -	}
+> +	if (!do_syscall_x64(regs, nr))
+> +		do_syscall_x32(regs, nr);
+>  
+>  	instrumentation_end();
+>  	syscall_exit_to_user_mode(regs);
 > 
 
 
