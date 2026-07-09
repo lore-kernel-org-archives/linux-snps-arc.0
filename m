@@ -4,73 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1CDF1C44506
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Jul 2026 20:15:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 257B5C44501
+	for <linux-snps-arc@archiver.kernel.org>; Thu,  9 Jul 2026 20:16:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=5B/0oxrnG7yLcJIWawT7yBgS79SRDL+XWEeG84+bJgU=; b=LLsPYK+VH/MAvb
-	1tEbZSG5o54beSdio27K+nFaGjI/6kMkB/JK7cZBUN0rff7O/j4df3DhO8XSxDC/WhCiArZjobdo0
-	y8hwYtqoLwEahwaAZlEFdmYFfmmyqdMG7P9UjvKK/yOvpL5R+sDPlABT88Qc2PxGS8R8HQJLBCPiN
-	wOYeb6VsSL/cvDWz+09WoTfiR1p9/U0lgCE3TZqn6RGxYe5Lay+koEgH8l5EAbbAQoJbqOiFT9y4f
-	aQh+IKGBsMPe/FxgQKEfRK4q2QIv3jrBhitMfAsG8xMXcdzTz/1GCRReBj5mlXntP4lcQRVKOQwkZ
-	JlVnV+aQqUiWCFOK6gng==;
+	List-Owner; bh=HDChR1ghMaKYOv3X78lX817qJyaAImmh5WALGnwLjiI=; b=NY6zhC3mEdMFyc
+	QGykYL9lnV+5pfHrrDvkv7NG1jR/iqA5kZuymzdrlH0b7oHNRdr93VBQ+VPz7zDwAQGpbmO+ddz4x
+	gHN3MnYy9AnGOs3prJt0qXN5PeAVLOGRuru0/AMhrR4RBnVoQHORR33PiT8CyDBAceXVVeMSIXwXV
+	7X8dalCQYASeF0q0vraEa4cVfg2IAshtbsCReUaeA/cjwAhvw4kyUNV5cX4Xs2pUXGUr9YdzVpeR8
+	Hsvg6SRAnmDV52BhnQ7zmn04ocSGR3qTUuUrGH5fZWKOnl9aIYMlFYLVVXBCuzGuhCEW+UiFIbQZc
+	uYo0BM5vbhvw4hZp0gjg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whv9r-00000003YXl-0sXv;
-	Thu, 09 Jul 2026 20:15:43 +0000
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
+	id 1whvAl-00000003Yia-3JYC;
+	Thu, 09 Jul 2026 20:16:39 +0000
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whv9n-00000003YWM-3q6X
+	id 1whvAj-00000003YhB-0CAH
 	for linux-snps-arc@lists.infradead.org;
-	Thu, 09 Jul 2026 20:15:41 +0000
-Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-ca97d139d5fso170382a12.0
-        for <linux-snps-arc@lists.infradead.org>; Thu, 09 Jul 2026 13:15:39 -0700 (PDT)
+	Thu, 09 Jul 2026 20:16:38 +0000
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-2cae1a3a744so1031345ad.3
+        for <linux-snps-arc@lists.infradead.org>; Thu, 09 Jul 2026 13:16:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783628139; x=1784232939; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1783628196; x=1784232996; darn=lists.infradead.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=4V4fuwVKw9a+buqSTfOSwTO6Zlt+2k8vx+/ObUQlSos=;
-        b=CNkoS/doRzyGAaI+c0xQog+i9DspD956cADpCa6oZCebu6It/3LyyIovG/1h2NOwoF
-         olmSyXsPgb8L4YYLAGlDxzE3X96orgP0R7v0iquRqXSN9wSv+759SiQ3ExMz1WUwcJgL
-         RJctJvrA7807CxlvYL2hG9gFCKy4YZXPCfNn1tpR/2ThzDFd1KxsgTvdxkHTDh2rW/hg
-         aBUtCf6fcuoN3WdJ6qwNDlus5PAIY7uPdaoqjemntngvgUzcfXliRGBeKsIRb260xc5d
-         qoohxxTz3jhlWVeRyVxQhBFYGpatrn8yMhNOibJ7D0LeRQrX2fmNMloiQdBIztQLFuTY
-         825Q==
+        bh=5lqgggpghOuMWXpzCLQ94POSykk42wtAfFSu9QYNYOQ=;
+        b=pNxS+le+KmzpDMn+vGEZnj2x96cbf9RfAwJa06bwjPq2gIIO70MRL+ECGZtTwznmFD
+         EKtM+eFUqneshwo/PtAtMOYw3iDFKxyrN1VlCwWnEqii6hclcINUsGHDeaoCrPz8RZA3
+         aNLT7A9W7MUvYE0yGqcp3ojXOWRtbHrmW2l9zjh1688ssUWYv2EKwI8buvzespevH/t8
+         XnwwV1trN8Vuib7P3K7lJ6AvuupSHPjwVWh0b2I5OB+KgxaEpaUTUp2U/9qTGV02DtzK
+         NbGiCZXZuD4NeWOVNEy9Eefwi+o8AuoDNdz6BIS6TJ1Lqah188M191RJRQqqXIrfbVUR
+         K0zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783628139; x=1784232939;
+        d=1e100.net; s=20251104; t=1783628196; x=1784232996;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=4V4fuwVKw9a+buqSTfOSwTO6Zlt+2k8vx+/ObUQlSos=;
-        b=SyTnlgS7aKPjiYzsYMIyfKSxsPo912cKlodZYGPhth/1XpF2tGaZlxYNDHHFN0dlmV
-         Jgld2ORvVA4DLar2WQNlLrLbbGe6XhdO8j5lFIBZlHOFdl+ZJ4WmieMO+3A2lRIRT+QO
-         F+QNsy5vL3BlEPP6cJarSZKfb+Dag1scpbchGgVOHdG/Yw/w0paF81LYcmrWfYjqoIZX
-         tldoY8nQvaqc88CUhMfYaYJeRQT4L2C1FdKKoC9Y8xTJ9RIwZYXTdCGdiunY+ia20ZRd
-         SR4uqREB+Q2PYe8F4e98P/ed4EV7yEcvZtkJzPLBJnBdvVJbNrd1YRO3pKk3/WJa6p1L
-         YgNg==
-X-Forwarded-Encrypted: i=1; AHgh+Rq2ZavhO+UQMPrBc5nMRcVhj/fHpPBF6cRBO4nQXCsddtL6+pmM13W3Rc/q3JWTdeZBiAGEu0M7ibHx7jroOA==@lists.infradead.org
-X-Gm-Message-State: AOJu0YzPlKmoXLhw95jhphkIfQOJypd5JOH2X2k4WIK0XiUBw7RieYCn
-	Ax/Zej/C0RJgTEiW7YdtCl9sewfcRDAYU4n8hQNPaAiAhJOxCL7GZBe3
-X-Gm-Gg: AfdE7cljA25BunrADmwbCobw407/f8jsj6cPEfEyw5QJ5cpr8nMh6DyTjHsl1Ri8Bq8
-	c8nuKhgYJozYJxVMZE9VD+J1Nk5IHSkcr1Uoph6tsQ349XIvSWTtN2AzGv53jLgjFDw6dbZi/XT
-	O2d2y4JoyWnZGKkKlzqwTC9Rc3hW0h3h3TJkD60stbV/GBl2gZLTHqRVTt5qx6bgDNqpGqRt0tK
-	wEX7H86mLPX1l0ud53BrRMZ1WfrUSRRqntF9f0/xbqqMSfrFO524A3XQMe9txzzQ61fkinfP8SR
-	Q15QywgsJ2PW+5p35AgWLexNkhWMfq7hFkd61/G59VoYG2USJwr2ZNg1iHgtHuYGdNGYCMC9DT5
-	PN72MxmbOdauhXlIa9Zxk441P7imGxj7bxJAIlJQI3QFnXMsVWBhms8mwtJjINrtOXUolJ9iBCy
-	ign/MN5SXIpi8ZIVv4TQGgR7dcmVLeUR2Za77pi46OcdKoyTZK75JV1vgXFu0xochO//OAj0k=
-X-Received: by 2002:a05:6a21:32a2:b0:398:8870:b58f with SMTP id adf61e73a8af0-3c0bcbe77a5mr11679805637.14.1783628138627;
-        Thu, 09 Jul 2026 13:15:38 -0700 (PDT)
+        bh=5lqgggpghOuMWXpzCLQ94POSykk42wtAfFSu9QYNYOQ=;
+        b=N4S9nbjv9AyLczWzjToATK52gPsm2c3Y4rM4nTMClKg4jyRvtEzqlLFwfMlVp9rsjY
+         mYTbEQWIg7zSs+D3VoSVQjan2UMPiDGESZBp0Fjjo+IvwxZnpjKenAnsR2HBqn08T5ss
+         kAGU8ghIH1vo53hDqVZLmVhNL1WJj+bZ5aw3ETZM59xVWxxZT3xXyBeLLn4VavM1mKLd
+         77VRiCKrAwYOjF98gz4wl8bOIvuBG7V4LBe1sroR6+e9hYQ0JpW1mkbWo+ILSRZWEJWw
+         JKBpo8ZYcRKsB+dRUKLaDBUndFyRGmrhqyHnPdZ0tW20Jwkx/scfk1T+QDy+Y4gKjYfd
+         sg1w==
+X-Forwarded-Encrypted: i=1; AHgh+RqjCLmjG5XDaRUhI5qAPn8ptLFttqs7bbM6+Doyf2+7E2LN5Ea3Ytb+bgO+aWcF1f5jvVxr33etj7QtiiNs7g==@lists.infradead.org
+X-Gm-Message-State: AOJu0YyQRCCUVv9EJpH38EL/DhVE/fZDScyVkDxIfZL5I/e2ctFfFwi2
+	gJ9G8L5l2aSXtWxaWsCbWAZE500itKWZlaaLZykTAl8bmlgxKIuzhLTw
+X-Gm-Gg: AfdE7cnsxrFNP136PXIjvSLVatkxspT6FsnoYxYYAUOVHlRF2agESy0UeN7gXRdO5rr
+	JlcsL/WhcLG/VwH3vcplY5JmPz4IjajVdwftpAizarFPzBNkj5Dhw29oehkhjUvVFMOxQBD41Wh
+	k8u6WIEcyM/XEix4IjGqHUW2NauaaDUeU1woDpF08YDnqP4N0BmkEUZUiZxSnaTVomm0iwg+af2
+	PzgsD2PD9Qv8Vdsa1UQ4w3EIoRlRT9B2yIJkofVTk4FLH98blMHQOl/b6yprlzlhOpt+/Xh1am6
+	OuPWraXSXvguXKxwMky7xuKQ9uoY+aS371jtepqzL//HdLITBgdnsVZNldDvm2mHrELCP7z6JZ4
+	gSh/SzCdmj2Z74nIKD7FR0XEOsPfxq2BXl9o1Q/wq+ZnnN7QTsS48n2ZVothIhRRzzjlJW9JIsy
+	ljT/fKlV7w0Z3z/6sP8RIAMokQOET6QnHox/mJ15//tSvX5qNIrPeeUv/JHrII
+X-Received: by 2002:a05:6a20:12d0:b0:3b1:882a:607b with SMTP id adf61e73a8af0-3c0bc95630amr10563387637.22.1783628195005;
+        Thu, 09 Jul 2026 13:16:35 -0700 (PDT)
 Received: from li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com ([106.51.160.236])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3120c8e41fcsm2908315eec.15.2026.07.09.13.15.22
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31174a583bcsm38446663eec.19.2026.07.09.13.16.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 13:15:38 -0700 (PDT)
-Date: Fri, 10 Jul 2026 01:45:19 +0530
+        Thu, 09 Jul 2026 13:16:34 -0700 (PDT)
+Date: Fri, 10 Jul 2026 01:46:15 +0530
 From: Mukesh Kumar Chaurasiya <mkchauras@gmail.com>
 To: Thomas Gleixner <tglx@kernel.org>
 Cc: LKML <linux-kernel@vger.kernel.org>, 
@@ -95,16 +95,17 @@ Cc: LKML <linux-kernel@vger.kernel.org>,
 	linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org, linux-openrisc@vger.kernel.org, 
 	sparclinux@vger.kernel.org, linux-arch@vger.kernel.org, 
 	Michal =?utf-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [patch 00/18] entry: Consolidate and rework syscall entry
- handling
-Message-ID: <ak_7lawD_OujooyZ@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
+Subject: Re: [patch 03/18] entry: Provide
+ [syscall_]enter_from_user_mode_randomize_stack()
+Message-ID: <alABgaW3OpGvH_Oc@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
 References: <20260707181957.433213175@kernel.org>
+ <20260707190253.816918647@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20260707181957.433213175@kernel.org>
+In-Reply-To: <20260707190253.816918647@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260709_131539_968846_B7A1A562 
-X-CRM114-Status: GOOD (  41.38  )
+X-CRM114-CacheID: sfid-20260709_131637_085292_B1CA57E0 
+X-CRM114-Status: GOOD (  26.81  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,164 +122,110 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jul 07, 2026 at 09:05:53PM +0200, Thomas Gleixner wrote:
-> Sorry for the long CC list, but this is a treewide change.
+On Tue, Jul 07, 2026 at 09:06:07PM +0200, Thomas Gleixner wrote:
+> Randomizing the syscall stack can only happen after state is established
+> via enter_from_user_mode() or syscall_enter_from_user_mode(). The earlier
+> it happens the better.
 > 
-> Michal recently posted a RFC patch to separate the potential syscall number
-> modifications in syscall_enter_user_mode_work() from the information
-> whether the syscall should be processed and the return value modified:
+> Provide two new macros to consolidate that:
 > 
->   https://lore.kernel.org/lkml/CE1qW@kunlun.suse.cz
+>   - enter_from_user_mode_randomize_stack()
+> 	enter_from_user_mode();
+> 	add_random_kstack_offset_irqsoff();
 > 
-> The existing logic is:
+>   - syscall_enter_from_user_mode_randomize_stack()
+> 	enter_from_user_mode_randomize_stack();
+> 	syscall_enter_from_user_mode_work();
+>     
+> to reduce boiler plate code.
 > 
-> arch_syscall()
-> 	regs->result = -ENOSYS;
+> Those are macros and not inline functions as the latter would limit the
+> stack randomization scope to the inline function itself.
 > 
-> 	syscallnr = syscall_enter_from_user_mode(regs, syscall);
-> 
-> 	if (syscallnr != -1L)
-> 		regs->result = invoke_syscall(regs, syscall;
-> 
-> syscall_enter_from_user_mode() invokes ptrace, seccomp and
-> tracing/BPF/Probes. All of them can modify the syscall number.
-> 
-> ptrace and seccomp explicitly set the syscall number to -1L to indicate
-> that the syscall invocation needs to be skipped and the result has not to
-> be modified as it might have been modified by ptrace or seccomp. The
-> tracer/BPF/Probes mechanism can modify the syscall number as well and
-> relies implicitly on the -1L logic.
-> 
-> This can obviously not be differentiated from a syscall invocation where
-> userspace provided -1 as syscall number.
-> 
-> The general agreement of the discussion was that the current mechanism,
-> while functionally correct is non-intuitive and something like Michals
-> proposal would make that code clearer and easier to handle on the
-> architecture side:
-> 
-> arch_syscall()
-> 	regs->result = -ENOSYS;
-> 
-> 	if (syscall_enter_from_user_mode(regs, &syscall)) 
-> 		regs->result = invoke_syscall(regs, syscall;
-> 
-> That discussion made me look deeper into the related code and as usual
-> there were a lot of other things to discover.
-> 
->   1) Stack randomization
-> 
->      add_random_kstack_offset() can only be invoked after
->      enter_from_user_mode() established proper state as it calls into
->      instrumentable code.
-> 
->      PowerPC got that wrong and the other architectures either invoke it
->      after enter_from_user_mode() or after syscall_enter_from_user_mode().
-> 
->      The latter is suboptimal as the randomization takes place after all
->      the user mode entry work. Aside of that add_random_kstack_offset()
->      uses get/put_cpu_var(), which makes it usable in preemptible code, but
->      when invoked in the interrupt disabled region that's pointless
->      overhead.
-> 
->   2) As discussed in the above thread just changing the function signature
->      of syscall_enter_from_user_mode[_work]() so they take a pointer
->      argument for the syscall and then return 0 on success is not really
->      intuitive either. Aside of that this breaks the implicit assumption of
->      the tracer when setting the syscall number to -1.
-> 
->   3) The x86 entry code has some historically accumulated oddities
-> 
-> The following series addresses this by:
-> 
->   1) Providing new [syscall_]enter_from_user_mode() variants, which include
->      stack randomization and utilize a new add_random_kstack_offset_irqsoff()
->      variant, which avoids the get/put_cpu_var() overhead and converting all
->      usage sites over
-> 
->   2) Picking up Jinjie's seccomp patch from:
-> 
->      https://lore.kernel.org/lkml/20260629130616.642022-2-ruanjinjie@huawei.com
-> 
->      and addressing the feedback (renaming the seccomp functions)
-> 
->   3) Making the ptrace and tracer related functions return a boolean value
->      to indicate syscall permission
-> 
->   4) Addressing the x86 oddities
-> 
->   5) Converting the tree over to the new scheme
-> 
-> With that all architectures using the generic syscall entry code follow the
-> same scheme, apply stack randomization at the correct and earliest possible
-> place and skip syscall processing depending on the boolean return value of
-> syscall_enter_from_user_mode[_work]().
-> 
-> There should be no functional changes, at least there are none intended.
-> 
-> The resulting text size for the syscall entry code on x8664 is slightly
-> smaller than before these changes.
-> 
-> Testing syscall heavy workloads and micro benchmarks shows a small
-> performance gain for the general rework, but the last patch, which changes
-> the logic to be more understandable has no measurable impact in either
-> direction.
-> 
-> The series applies on Linus tree and is also available from git:
-> 
->         git://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git entry-rework-v1
-> 
-> Thanks,
-> 
-> 	tglx
+> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
 > ---
->  Documentation/core-api/entry.rst      |   33 +++++---
->  arch/alpha/kernel/ptrace.c            |    4 -
->  arch/arc/kernel/ptrace.c              |    2 
->  arch/arm/kernel/ptrace.c              |    4 -
->  arch/arm64/kernel/ptrace.c            |    4 -
->  arch/csky/kernel/ptrace.c             |    4 -
->  arch/hexagon/kernel/traps.c           |    2 
->  arch/loongarch/kernel/syscall.c       |   17 +---
->  arch/m68k/kernel/ptrace.c             |    4 -
->  arch/microblaze/kernel/ptrace.c       |    2 
->  arch/mips/kernel/ptrace.c             |    4 -
->  arch/nios2/kernel/ptrace.c            |    2 
->  arch/openrisc/kernel/ptrace.c         |    2 
->  arch/parisc/kernel/ptrace.c           |   12 +--
->  arch/powerpc/kernel/syscall.c         |    5 -
->  arch/riscv/kernel/traps.c             |   14 +--
->  arch/s390/kernel/syscall.c            |   11 +-
->  arch/sh/kernel/ptrace_32.c            |    4 -
->  arch/sparc/kernel/ptrace_32.c         |    2 
->  arch/sparc/kernel/ptrace_64.c         |    2 
->  arch/um/kernel/ptrace.c               |    2 
->  arch/um/kernel/skas/syscall.c         |    2 
->  arch/x86/entry/syscall_32.c           |   70 +++++++------------
->  arch/x86/entry/syscall_64.c           |   61 ++++++----------
->  arch/x86/entry/vsyscall/vsyscall_64.c |   14 +--
->  arch/x86/include/asm/entry-common.h   |    1 
->  arch/x86/include/asm/syscall.h        |   10 --
->  arch/xtensa/kernel/ptrace.c           |    5 -
->  include/asm-generic/syscall.h         |    4 -
->  include/linux/entry-common.h          |  125 ++++++++++++++++++++--------------
->  include/linux/irq-entry-common.h      |    6 -
->  include/linux/ptrace.h                |   13 +--
->  include/linux/randomize_kstack.h      |   19 +++++
->  include/linux/seccomp.h               |   12 +--
->  kernel/entry/syscall-common.c         |    7 +
->  kernel/seccomp.c                      |   35 ++++-----
->  36 files changed, 264 insertions(+), 256 deletions(-)
+>  include/linux/entry-common.h |   56 +++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 56 insertions(+)
 > 
+> --- a/include/linux/entry-common.h
+> +++ b/include/linux/entry-common.h
+> @@ -6,6 +6,7 @@
+>  #include <linux/irq-entry-common.h>
+>  #include <linux/livepatch.h>
+>  #include <linux/ptrace.h>
+> +#include <linux/randomize_kstack.h>
+>  #include <linux/resume_user_mode.h>
+>  #include <linux/seccomp.h>
+>  #include <linux/sched.h>
+> @@ -150,6 +151,61 @@ static __always_inline long syscall_ente
+>  }
+>  
+>  /**
+> + * enter_from_user_mode_randomize_stack - Establish state and add stack randomization
+> + *					  before invoking syscall_enter_from_user_mode_work()
+> + * @regs:	Pointer to currents pt_regs
+> + *
+> + * Invoked from architecture specific syscall entry code with interrupts
+> + * disabled. The calling code has to be non-instrumentable. When the function
+> + * returns all state is correct, interrupts are still disabled and the
+> + * subsequent functions can be instrumented.
+> + *
+> + * Implemented as a macro so that the stack randomization is effective
+> + * throughout the function in which it is invoked. An inline would only make it
+> + * effective in the scope of the inline function.
+> + */
+> +#define enter_from_user_mode_randomize_stack(regs)			\
+> +do {									\
+> +	enter_from_user_mode(regs);					\
+> +	instrumentation_begin();					\
+> +	add_random_kstack_offset_irqsoff();				\
+> +	instrumentation_end();						\
+> +} while (0)
+> +
+> +/**
+> + * syscall_enter_from_user_mode_randomize_stack - Establish state and check and handle work
+> + *						  before invoking a syscall
+> + * @regs:	Pointer to currents pt_regs
+> + * @syscall:	The syscall number
+> + *
+> + * Invoked from architecture specific syscall entry code with interrupts
+> + * disabled. The calling code has to be non-instrumentable. When the
+> + * function returns all state is correct, interrupts are enabled and the
+> + * subsequent functions can be instrumented.
+> + *
+> + * This is the combination of enter_from_user_mode_randomize_stack() and
+> + * syscall_enter_from_user_mode_work() to be used when there is no
+> + * architecture specific work to be done between the two.
+> + *
+> + * Returns: The original or a modified syscall number. See
+> + * syscall_enter_from_user_mode_work() for further explanation.
+> + *
+> + * Implemented as a macro to make stack randomization effective in the calling
+> + * scope.
+> + */
+> +#define syscall_enter_from_user_mode_randomize_stack(regs, syscall)	\
+> +({									\
+> +	enter_from_user_mode_randomize_stack(regs);			\
+> +									\
+> +	instrumentation_begin();					\
+> +	local_irq_enable();						\
+> +	long _ret = syscall_enter_from_user_mode_work(regs, syscall);	\
+> +	instrumentation_end();						\
+> +									\
+> +	_ret;								\
+> +})
+> +
+> +/**
+>   * syscall_enter_from_user_mode - Establish state and check and handle work
+>   *				  before invoking a syscall
+>   * @regs:	Pointer to currents pt_regs
 > 
+Reviewed-by: Mukesh Kumar Chaurasiya (IBM) <mkchauras@gmail.com>
 > 
 > _______________________________________________
 > linux-snps-arc mailing list
 > linux-snps-arc@lists.infradead.org
 > http://lists.infradead.org/mailman/listinfo/linux-snps-arc
-
-Boot tested this on P11 LPAR and P9 powernv system.
-Tested-by: Mukesh Kumar Chaurasiya (IBM) <mkchauras@gmail.com>
 
 _______________________________________________
 linux-snps-arc mailing list
