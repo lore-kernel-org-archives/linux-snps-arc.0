@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C037AC5AD7B
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 11 Aug 2026 04:21:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58EFEC5B572
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 11 Aug 2026 04:21:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=dMtvzMoRSE0Vu/skSnni5XZ0zUlevjilC8ncfZ7QOOk=; b=ZfxdbySaflJk9j
-	amZfSjEzw6YG1bdYmpregwt7YAjZ430dK7YAyt23qZKTbJFDB8s/Tkctvw9mQdCEjUa03vK4+L5e6
-	CIsTd4Dx5iA2y1IohWevH84yV6BMQiazjbXlH1Ks7HCyRNI4Uz7PJGw4xDiUon83/o44VN3oQOaaH
-	XZl3YzQ0h4q70CDE82HoHy4R5S2PWv2va4Uy55KOPfUI8BohOhskqE/rhoJn3F5u22t7lm8/29Oiy
-	bePb2o0uoQWrI/u4HMnUe88eA9z0ONhDo0OYDXLpJ1N2LU1XhlXlSdnpS1+4YlDNYsa/inn8wHOHh
-	/egyszgo+sOdmR/c3oDw==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=CjFrB4G5cL0umlLT4V6XD1GXQjbS8g7QmcGtgbqUms8=; b=mzRUaZfsqkP2oQ
+	Ix5bVTYGffA08YAPZ+J0mDyGakX+hRLkMEKgSRrp5NB/2RKicfGbBfP3F/3mCELxK4sF1NsxuqHHL
+	qQ6U5+1A7fdow27s3tGHMRaz5JLcoFLa7vvxB+xH/wVnWsQvhMAGqb/kE7i8rmmU5MGRDT39jeIgc
+	8dQGOKRdQ78tJ64aPavfKyOTVcv16pGUwSVSXRQAqhDCRxYpKliuM/JyC3we4YpoGEswAlxZGRt1F
+	ugjW9NTVJFCaBF5I+ymzUr3mOItmgEXi8hUdnUM/Iw3QfZCwZLZnJOFEU3+iRkygv/X7Htxou6Mdt
+	nHDG/VS/4qJdzz8d7DZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtdzc-0000000DFnI-1E0K;
-	Tue, 11 Aug 2026 04:21:36 +0000
+	id 1wtdzd-0000000DFoq-3abC;
+	Tue, 11 Aug 2026 04:21:37 +0000
 Received: from foss.arm.com ([217.140.110.172])
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtdzX-0000000DFlH-0LVd;
+	id 1wtdzW-0000000DFl3-2eRZ;
 	Tue, 11 Aug 2026 04:21:35 +0000
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CB1921682;
-	Mon, 10 Aug 2026 21:21:24 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 39B3114BF;
+	Mon, 10 Aug 2026 21:21:21 -0700 (PDT)
 Received: from localhost (a085714.arm.com [10.164.19.28])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0D93B3F673;
-	Mon, 10 Aug 2026 21:21:28 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6E55B3F673;
+	Mon, 10 Aug 2026 21:21:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1786422088; bh=seDKsmiMOMrdwfylVhhzaffw4o0OcF7YTjTN6FBF/F4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KC7mBJJ7KWVH6Grb7zUC3NdpCyV/h1uPp7PTSBIuRmm8PBZZS6xTMV8rQbmBcb0+k
-	 CrFwokBxCYlG/gET0eDkNie78MI7Otgx+fDNF63nC3bpTuLMTOYV0FYW/FoKzOsWXt
-	 +rPreTXul9plA9OwBjRX3iIHmzyFZ4yyGIp2Yfrw=
+	t=1786422085; bh=U4Z1uTiwNPlptM0+2YMoqojdlsHVf+3xXUYXjiCQ8pk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=GopI0I0fYfwHaaeo2Y1tRcsF2e/amGL0odHVP/X1kESNXKYqhycXNoTsAuQ3kbLz6
+	 6aWj1XpWWD5XHhdxDVLSsmNEIV5BHzcUh5zug5WGO5oBPaTxRMDHz11rcK3BnPzn8e
+	 wSjaNCIByq50FgWv0gwZJCSc7yloLZqXMTvqJhr0=
 From: Anshuman Khandual <anshuman.khandual@arm.com>
 To: linux-mm@kvack.org,
 	akpm@linux-foundation.org,
@@ -68,17 +68,14 @@ Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
 	linux-um@lists.infradead.org,
 	linux-arch@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC V2 1/6] loongarch/mm: Stop using pte_ERROR()
-Date: Tue, 11 Aug 2026 09:51:14 +0530
-Message-ID: <20260811042119.3652929-2-anshuman.khandual@arm.com>
+Subject: [RFC V2 0/6] mm: Drop pxd_ERROR()
+Date: Tue, 11 Aug 2026 09:51:13 +0530
+Message-ID: <20260811042119.3652929-1-anshuman.khandual@arm.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260811042119.3652929-1-anshuman.khandual@arm.com>
-References: <20260811042119.3652929-1-anshuman.khandual@arm.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260810_212131_172268_0DA4A699 
-X-CRM114-Status: UNSURE (   9.98  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260810_212130_871784_64D22989 
+X-CRM114-Status: GOOD (  10.88  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,47 +92,109 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Directly use pr_err() in __set_fixmap() and drop pte_ERROR() which helps in
-eventually dropping pte_ERROR() macro across the tree. In this new printing
-__FILE__ and __LINE__ has been dropped because they are always the same and
-don't really add any value.
+pxd_ERROR() macros have been provided by all platforms, which are very much
+identical and can be dropped off completely if these pgtable printing could
+be moved to callers in generic MM aka all pxd_clear_bad().
 
+But first cleanups and re-organizations are required in some platforms that
+are using these macros internally. Afterwards [pte|pmd|pud|p4d|pgd]_ERROR()
+macros have been completely dropped from the entire tree.
+
+This series is based on v7.2-rc7 after the following patch. This has also
+been built tested on multiple platforms.
+
+https://lore.kernel.org/all/20260709044334.1741263-1-anshuman.khandual@arm.com/
+
+Changes in RFC V2:
+
+- Added clean up patches for platforms with existing pxd_ERROR() usage
+- Dropped __FILE__ and __LINE__ from all pgtable entry printing
+
+Changes in RFC V1:
+
+https://lore.kernel.org/all/20260806080639.1916749-1-anshuman.khandual@arm.com/
+
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Rich Felker <dalias@libc.org>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+Cc: Helge Deller <deller@gmx.de>
 Cc: Huacai Chen <chenhuacai@kernel.org>
 Cc: WANG Xuerui <kernel@xen0n.name>
+Cc: linux-alpha@vger.kernel.org
+Cc: linux-snps-arc@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-csky@vger.kernel.org
+Cc: linux-hexagon@vger.kernel.org
 Cc: loongarch@lists.linux.dev
+Cc: linux-m68k@lists.linux-m68k.org
+Cc: linux-mips@vger.kernel.org
+Cc: linux-openrisc@vger.kernel.org
+Cc: linux-parisc@vger.kernel.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-riscv@lists.infradead.org
+Cc: linux-s390@vger.kernel.org
+Cc: linux-sh@vger.kernel.org
+Cc: sparclinux@vger.kernel.org
+Cc: linux-um@lists.infradead.org
+Cc: linux-arch@vger.kernel.org
+Cc: linux-mm@kvack.org
 Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
----
- arch/loongarch/include/asm/pgtable.h | 2 --
- arch/loongarch/mm/init.c             | 2 +-
- 2 files changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/arch/loongarch/include/asm/pgtable.h b/arch/loongarch/include/asm/pgtable.h
-index 223528c04d73..a32a8fff70c1 100644
---- a/arch/loongarch/include/asm/pgtable.h
-+++ b/arch/loongarch/include/asm/pgtable.h
-@@ -128,8 +128,6 @@ struct vm_area_struct;
- #define ptep_get(ptep) READ_ONCE(*(ptep))
- #define pmdp_get(pmdp) READ_ONCE(*(pmdp))
- 
--#define pte_ERROR(e) \
--	pr_err("%s:%d: bad pte %016lx.\n", __FILE__, __LINE__, pte_val(e))
- #ifndef __PAGETABLE_PMD_FOLDED
- #define pmd_ERROR(e) \
- 	pr_err("%s:%d: bad pmd %016lx.\n", __FILE__, __LINE__, pmd_val(e))
-diff --git a/arch/loongarch/mm/init.c b/arch/loongarch/mm/init.c
-index 3407030f3e7a..be9b127daef2 100644
---- a/arch/loongarch/mm/init.c
-+++ b/arch/loongarch/mm/init.c
-@@ -203,7 +203,7 @@ void __init __set_fixmap(enum fixed_addresses idx,
- 
- 	ptep = populate_kernel_pte(addr);
- 	if (!pte_none(ptep_get(ptep))) {
--		pte_ERROR(*ptep);
-+		pr_err("bad pte %016lx\n", pte_val(*ptep));
- 		return;
- 	}
- 
+Anshuman Khandual (6):
+  loongarch/mm: Stop using pte_ERROR()
+  parisc/mm: Directly use generic [pmd|pgd]_clear_bad()
+  sh/mm: Stop using pte_ERROR()
+  sh/mm: Stop using [p4d|pud|pmd]_ERROR()
+  sh/mm: Stop using pgd_ERROR()
+  mm: Drop pxd_ERROR()
+
+ arch/alpha/include/asm/pgtable.h              |  7 ----
+ arch/arc/include/asm/pgtable-levels.h         | 11 -----
+ arch/arm/include/asm/pgtable.h                |  7 ----
+ arch/arm/kernel/traps.c                       | 17 --------
+ arch/arm64/include/asm/pgtable.h              | 15 -------
+ arch/csky/include/asm/pgtable.h               |  4 --
+ arch/hexagon/include/asm/pgtable.h            |  3 --
+ arch/loongarch/include/asm/pgtable.h          | 13 ------
+ arch/loongarch/mm/init.c                      |  2 +-
+ arch/m68k/include/asm/mcf_pgtable.h           |  6 ---
+ arch/m68k/include/asm/motorola_pgtable.h      |  8 ----
+ arch/m68k/include/asm/sun3_pgtable.h          |  7 ----
+ arch/microblaze/include/asm/pgtable.h         |  7 ----
+ arch/mips/include/asm/pgtable-32.h            | 10 -----
+ arch/mips/include/asm/pgtable-64.h            | 13 ------
+ arch/nios2/include/asm/pgtable.h              |  7 ----
+ arch/openrisc/include/asm/pgtable.h           |  7 ----
+ arch/parisc/include/asm/pgtable.h             |  9 ----
+ arch/parisc/kernel/pci-dma.c                  |  6 +--
+ arch/powerpc/include/asm/book3s/32/pgtable.h  |  2 -
+ arch/powerpc/include/asm/book3s/64/pgtable.h  |  7 ----
+ arch/powerpc/include/asm/nohash/32/pgtable.h  |  2 -
+ .../include/asm/nohash/64/pgtable-4k.h        |  3 --
+ arch/powerpc/include/asm/nohash/64/pgtable.h  |  5 ---
+ arch/riscv/include/asm/pgtable-64.h           |  9 ----
+ arch/riscv/include/asm/pgtable.h              |  4 --
+ arch/s390/include/asm/pgtable.h               | 11 -----
+ arch/sh/include/asm/pgtable-3level.h          |  3 --
+ arch/sh/include/asm/pgtable_32.h              | 13 ------
+ arch/sh/mm/init.c                             | 27 ++++++------
+ arch/sparc/include/asm/pgtable_32.h           |  3 --
+ arch/sparc/include/asm/pgtable_64.h           | 10 -----
+ arch/um/include/asm/pgtable-2level.h          |  7 ----
+ arch/um/include/asm/pgtable-4level.h          | 13 ------
+ arch/x86/include/asm/pgtable-2level.h         |  5 ---
+ arch/x86/include/asm/pgtable-3level.h         | 11 -----
+ arch/x86/include/asm/pgtable_64.h             | 18 --------
+ arch/xtensa/include/asm/pgtable.h             |  4 --
+ include/asm-generic/pgtable-nop4d.h           |  1 -
+ include/asm-generic/pgtable-nopmd.h           |  1 -
+ include/asm-generic/pgtable-nopud.h           |  1 -
+ include/linux/mm_types.h                      | 41 +++++++++++++++++++
+ mm/memory.c                                   | 41 +------------------
+ mm/pgtable-generic.c                          | 21 ++++++++--
+ 44 files changed, 76 insertions(+), 346 deletions(-)
+
 -- 
 2.43.0
 
