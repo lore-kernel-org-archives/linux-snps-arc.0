@@ -4,115 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17689C5CFEB
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 13 Aug 2026 07:18:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81598C5DF70
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 16 Aug 2026 14:22:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=T4vozpyBmiej/9Yr6iNv4llq63b3GYmkkY8u3yjyngM=; b=HvdLlQ7xtrDMQ1
-	f+Dzqu9lG24kupvycN2ddP8+oF4OkhSIDZpZ9zwMlR1RfRzVvdG7Pm1bpZ4JH45Z7zbmTuWWBcfkx
-	Y0f/qffz9a9b7tmlSdAHU2jn1o+4dkuE6Kq0W9XO1Wsl/Sq0MlGY63hCNZm/gOoCXKpfkMxBC3SjT
-	r+PfYjKfPu+QOTkZ3phJhxsvsjugPA645pPtx1IiE3PdLyn8P6kWSs582jfpn66vQS3aJ39uAKz6G
-	MOolWtSdUdiojP5S0ASQt85KfbNnMoxs2rQGm2nuLenfk47jqgUYQKs+Nimm7TMAkQYvSoAyFa+7e
-	Fxf+xPEC42nT8e5rjGbA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=iSS+Nhw86A4qRXr3E6XalAp5x9TPQARwaLkzq+bqSLU=; b=EreyNAynY6SoFk
+	auDDKAcmIhMwTaPTRiZT5CZJ+cxMfzUztw0UF7wRCe8uXrizK/Ihzice/F3e34S9fQLXPP+vPkdnX
+	OVpGj1lcqwmzfJ2kFPuEPCxLXlSPy+R0sicZRi1A30mLVMOfu2sv46mFS7MN84CzA0AkGGe4cRLaw
+	evjI6wjdH2rDAx0tLESBlrXAHHvqtXGxiu9MnHkdutvk6zEI+cI1g/BNlRHd9MZ1whDkbrfd44KKQ
+	pQJN1uWl85GYD0mRSgNtyqok9PCGyjZ1PrHeZ0qo58SAll92cgilYoTdpYRG+a/C1+S9cZFTydBJm
+	4qePyQEpG8Rs5W2j5JAA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wuPiI-0000000HZyw-34vL;
-	Thu, 13 Aug 2026 07:18:54 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1wvbkd-00000004pKm-0XQ8;
+	Sun, 16 Aug 2026 14:22:15 +0000
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wuPiH-0000000HZxg-0Sbq;
-	Thu, 13 Aug 2026 07:18:53 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 6A282600AD;
-	Thu, 13 Aug 2026 07:18:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF6D91F00A3D;
-	Thu, 13 Aug 2026 07:18:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786605532;
-	bh=FRu9n4mjHkdLoh1auc0+F0uq9mi4uQgSH6ITAa/iuvU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=LQoW8GUUyQqsjsyMSCymikLCl0K/PpYaTCtOqE8smOcqa2DMyAwkHJlcjWeM1J3S+
-	 p7F7YTHDWjjGCL63HV5xpWRhAdsFHo0ku3RZp+dd7ECs9spcYVoBm+vyaaylpUF+PD
-	 H22qTcfvj4D5oNy89mJR0hbJjegsfONgrwhHmtzF+bBi+aGhDM9oGd0P2xzEDI2kou
-	 1E0HF2+DNVjJvv6cBBocYB1eb2SJm99VpExDuZUltvNNZREs8uFacDqc0tyd8Vhkzr
-	 RtyNl40a3quN8bMMpCL9V3232v/KWwZovejB57bX78GVNpy/nQciclUW97AqYJJX/W
-	 0jrUTV5cHJu/Q==
-Message-ID: <fc404670-7194-4ae9-8646-b543869738f3@kernel.org>
-Date: Thu, 13 Aug 2026 09:18:43 +0200
+	id 1wvbka-00000004pKR-1YYM
+	for linux-snps-arc@lists.infradead.org;
+	Sun, 16 Aug 2026 14:22:13 +0000
+Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-495437bb891so22122985e9.1
+        for <linux-snps-arc@lists.infradead.org>; Sun, 16 Aug 2026 07:22:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786890130; x=1787494930; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4KMlwaAd8I5gc71MX6N5TV2im3iyNimd7J8XIlb6Aas=;
+        b=QIrcmvOIe200OfM2buGED5BgnaoODSz+QHRRoVSKfDEFaAO7IMARpxdBmcYSF3LWG8
+         XopCEX/z14bJM/j7DEFYzChbLf/Zmktm8K4PvLnyGURZm6EpxY8I9X/zltokoVhJaRaw
+         r6GE/FBgNQJGrWTABFE13eWL6DwXt8gGtssbRBdTnuz0E03cLmDZc9GrmkFtwgeqZEI1
+         upJQa7hgzT13vMmSWhjp7Ku51a2cB9jXG/bSWsUaKM3q9Zkx2HMx+llUcrXq87knTIEB
+         NeuNsNQlupV7P1/YjEQEMDo/VuRAf6Oa0ysCXX70jSkWi15bshT82bOe3vCtxaS6k+mM
+         ENAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786890130; x=1787494930;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4KMlwaAd8I5gc71MX6N5TV2im3iyNimd7J8XIlb6Aas=;
+        b=KZxZhmy3Vlg5+0H9pbBu9D4+m9frwJ6dRbAHWfY9bqVyx5dIHYYKvpC0b2tD8w/+bO
+         TNau+AIMg2RzgVsR9yYUsuip656wXL55+FQhRIvXvU4/fU5dmQCXQke8zpcRBWSLv3JM
+         5Sr7E3qJaV/DiOQxPEsmhqbn6Gy2DM83p0S9615pRx+xXRrwxFkcvDGsgRYz+5Humu+E
+         NPp0YH6cTbpr364npGUhQi37Lcz+044jtrlY4laU5TUgVJPkL2OkG21FCT9gl1EwbDEc
+         CwJYvhUb203GqvtxqbTWcv0jkcpgE+pf/2jhBp/836sygJ2Am728d5kDTYTwVDuIGFSG
+         Shpw==
+X-Forwarded-Encrypted: i=1; AHgh+RoWILnDFhfPkrWAlVgLnD+mOEIDolgSaFM2hHpMMJba+pkGz6NmBvkz50kvk/QeSJ0eLEvI1qAs7ywXRajHpA==@lists.infradead.org
+X-Gm-Message-State: AOJu0Yyc5uQQjo+TPluRVB6liC+iG+XQJJbtGNb11DvFaFvhCnKhxvoM
+	IPkt84J6TrHqUkVNZaSs4qIhOF1JadNIAdeAtV3ZMZvhWeRCiIqpbsSD
+X-Gm-Gg: AR+sD13dMPcIx0FJUMnKJE6S4khHoGyntWopt+nSKfjs9nLY8tZdP+ZMhnv7Fm8roSl
+	obZNIRg9oOU2FFaH7MDUGIqfzxeQjvqXGOawWVbfoL9lCP0iy7ICLBboB/w9EYIputqFqiiI0Tu
+	E8tqwmFIz+iC7SmmrO04ktMHaizfTo9QzjtIjT9VZu8BfNM0We1rEC9PzA1QLY6/XfL9m62ycWW
+	ZaH+cVmZvOeyod3HCUsqPfau37rJJyAI16sfOxWhJUmUeaiGxEdndM6X7u2+RSfM+YbCIF25Rgk
+	s3J1BzRpstDM8PK6mexmHY3qb/4d+ZES1PXzBQkWo0h4fXg4hUOkJU0CFudnj6QSyJ9uG3MNRFI
+	vka8qnuncRIP2WLhv7O4a0FQAtuJQ6FRPfimLvRZZpmYtacA73ikVJUEulYy2vwOW9g8IV2rq7z
+	cdY2jRptSyJ27Y1YNehf4RpOzqSmmVhHoke6kGbWVlpDKaGPy230nn2jRUOpyCxaTHWI6hTxDPN
+	03UBXLaK4D272qIy5i5UWhQfd4UbG4dTv/H7eU04j+KwGeG53f9shaDU80tcrg=
+X-Received: by 2002:a05:600c:3145:b0:493:f783:c46a with SMTP id 5b1f17b1804b1-49987ab45famr258199375e9.6.1786890129769;
+        Sun, 16 Aug 2026 07:22:09 -0700 (PDT)
+Received: from nixos-office (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49996176b95sm39575365e9.10.2026.08.16.07.22.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Aug 2026 07:22:09 -0700 (PDT)
+From: Julian Braha <julianbraha@gmail.com>
+To: vgupta@kernel.org
+Cc: joao@joaoff.com,
+	linux-snps-arc@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Julian Braha <julianbraha@gmail.com>
+Subject: [PATCH] ARC: cleanup dead ARC_CANT_LLSC option in Kconfig
+Date: Sun, 16 Aug 2026 15:22:07 +0100
+Message-ID: <20260816142207.1034329-1-julianbraha@gmail.com>
+X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC V2 6/6] mm: Drop pxd_ERROR()
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: linux-mm@kvack.org, akpm@linux-foundation.org,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
- WANG Xuerui <kernel@xen0n.name>, linux-alpha@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
- loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-um@lists.infradead.org, linux-arch@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260811042119.3652929-1-anshuman.khandual@arm.com>
- <20260811042119.3652929-7-anshuman.khandual@arm.com>
- <1fb9ed88-67d0-4ac1-878d-0dc8e1135d19@kernel.org>
- <2ys7apbnfuj3ugfoqgbptgej3jjcyfpmdgbv6qbxupmwg6mefc@h5p33ua2nzlu>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <2ys7apbnfuj3ugfoqgbptgej3jjcyfpmdgbv6qbxupmwg6mefc@h5p33ua2nzlu>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260816_072212_424206_A8378C9B 
+X-CRM114-Status: UNSURE (   9.65  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -129,38 +102,40 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 8/13/26 08:03, Anshuman Khandual wrote:
-> On Wed, Aug 12, 2026 at 01:33:14PM +0200, David Hildenbrand (Arm) wrote:
->> On 8/11/26 06:21, Anshuman Khandual wrote:
->>> pxd_ERROR() has been used in generic mm just to print the page table entry
->>> in pxd_clear_bad() before clearing those out with pxd_clear() later. These
->>> pxd_ERROR() macros have been provided by all platforms which basically did
->>> the same thing.
->>>
->>> Make pxd_clear_bad() use recently added ptval_to_str() instead for printing
->>> page table entries thus completely dropping dependency on platform provided
->>> pxd_ERROR() macros which can then be dropped off. First move all required
->>> helpers in core MM into a header file which could then be used else where.
->>>
->>
->> It might make sense to split this patch further up to ease review:
->>
->> Patch 1) provide ptval_to_str() a header.
->>
->> Patch 2) Stop using pxd_ERROR() and friends in common code, converting to
->> pteval_to_str()
->>
->> Patch 3) Remove now unused pxd_ERROR() and friends from arch code.
-> 
-> Sure but the intiial platform changes which now use ptval_to_str() as well
-> will probably come after the Patch (2) but before the Patch (3).
+Currently, the ARC_CANT_LLSC config option can never be enabled.
+It is also not referenced anywhere else. So let's remove this dead code.
 
-Exactly :)
+Note that I have only compile-tested these changes, because I do not have
+the hardware to runtime test.
 
+This dead code was found by kconfirm, a static analysis tool for Kconfig.
+
+Signed-off-by: Julian Braha <julianbraha@gmail.com>
+---
+ arch/arc/Kconfig | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index 2ed7186c81c5..80e61175bf52 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -331,13 +331,9 @@ config ARC_FPU_SAVE_RESTORE
+ 	  for floating point exceptions and rounding modes. These are
+ 	  preserved across task context switch when enabled.
+ 
+-config ARC_CANT_LLSC
+-	def_bool n
+-
+ config ARC_HAS_LLSC
+ 	bool "Insn: LLOCK/SCOND (efficient atomic ops)"
+ 	default y
+-	depends on !ARC_CANT_LLSC
+ 
+ if ISA_ARCV2
+ 
 -- 
-Cheers,
+2.55.0
 
-David
 
 _______________________________________________
 linux-snps-arc mailing list
