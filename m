@@ -4,56 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97953C5DF66
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 16 Aug 2026 19:20:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D30FC5DF74
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 18 Aug 2026 04:00:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=qK03LZMvMUR2MKvjeQOqM65M4dU3KiVdtQrBicp1MxE=; b=hdkyNc1umr6chk
-	Jed217MtJDZpvF5WTb3C/a29f5HNVIDwEnZqdZW5DIyjuwep3tLXBh3X5085bqwhkN6P1jE2cFddq
-	zVs+ReLVMe3YNGolNCsC3zHM4hMfXv4yIoO168qG/CWO/3J6QndVsZoPxSgVAtYL6MF2+uZz7i2Gy
-	iVr+OSDE/6kLs17RFH/ze4o2vRlNDZEb6Fru01aixRT9ywkpcQD8UjxFhKFCauwFstFfTlEVm0X0/
-	MjIIL5EZFuBWjw/yWCrp4o73EX1TaZND4wkcokUC4n4CM9j+oYiGvgU47L8KsKeEY/sqJF+z7Warh
-	fzQV6Snlm/2+BKAkutDQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=FLaHMRDa1Eqs77ceXgo+i7IWMt7erzVb8caZRNly3fU=; b=ZH1BisakMcn7XV
+	7eidZGz2GMD5vlm56UHazxd06Brxt5Ay37VykZ3hBQaxu/bF44f9bEcrhrUihXVne7nwch6tzL2pD
+	+DvPu0cABVee1QI1RMnJIa7ZVga+9hs9xbsao6NNH1FQKl9q2nuLZtvwX1wWpeMgVydfwaOfiD2mT
+	Y1EXDuGMj8xAFVHA5pwxPSLYPh0+trqNa4qzVq+iS9ODyOTAcM8COfLOs0yfEtvK2V5t248JyjoeU
+	VaW0cijbQnR7L/eLoriOYNPQI/U4U6tWszJXhbC2/HWQ4rR1slahSxAEU9VEj1or688sbAeYSmMrU
+	mc21WZXTzbWGU+hZblsQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wvgOu-000000051Gk-2o0B;
-	Sun, 16 Aug 2026 19:20:08 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
-	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wvgOt-000000051GK-0RcE
-	for linux-snps-arc@lists.infradead.org;
-	Sun, 16 Aug 2026 19:20:07 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id F3A4043D91;
-	Sun, 16 Aug 2026 19:20:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A47251F000E9;
-	Sun, 16 Aug 2026 19:20:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786908004;
-	bh=ePqlfN7J/QMmtiy/pjAlZMY3V2slosZlFTfi6QegtJk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=WdcXRJY8PSD94VUEJ67dL/jTjV/WwprH4DLneT0NhAH+bV8QL6sJL7LMsg075Ltrb
-	 G2SxXlnoHQhW057yWbGMAp2rvxbtSI8yTJLSowV3h8bKbfOL+iaMWT4YUcHZ1tKxs0
-	 Ys2lA9puKa3vUYQDIpygvMp+kD691lcYudiS+W6kRRSXMv4dLjJ1LprVmlXKN6F/iL
-	 +bf3OILDK75PDrhdEVb8rSGHbj83r5DlZksUW3Nfe7ANwG477Bn4ZYezf4Cv7oBSVB
-	 eD9xOVjM0bAS3m6gKuSL3n8SmTnAjcr7I0ouQdEUNlmgA5wZhh1e2eQh9Uhqv/akhA
-	 8vPAFEsC+nL8A==
-Message-ID: <193a2ce6-4c4e-4291-a542-e112d5a87742@kernel.org>
-Date: Sun, 16 Aug 2026 12:20:03 -0700
+	id 1wwB0O-00000007E0L-3ygf;
+	Tue, 18 Aug 2026 04:00:52 +0000
+Received: from foss.arm.com ([217.140.110.172])
+	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wwB0K-00000007Dyt-0OXP;
+	Tue, 18 Aug 2026 04:00:50 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 46004153B;
+	Mon, 17 Aug 2026 21:00:41 -0700 (PDT)
+Received: from localhost (a085714.arm.com [10.164.19.28])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6E5453F66F;
+	Mon, 17 Aug 2026 21:00:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1787025645; bh=LRR2JW96qzLG8uXgU1+MfoOsPimHhtCsmfw/iXX8kB4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=NtFRXij4Uhwnlv72AF85fJYzj/aymvsPMmb1FV54uYlLFKg3t/C+cIPPz6W0jsHV1
+	 9J4gARXAWELXnskJwPs+BnDvgT6ZNx/a8ZwzPVKYIGTlZF5fGPZRP4qKo2lnT7Fr1w
+	 ur0UrDi2dMsXj4xyEnxA47CkAD4o6o2g2lJDsONI=
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+To: linux-mm@kvack.org,
+	akpm@linux-foundation.org,
+	david@kernel.org
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	Helge Deller <deller@gmx.de>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	linux-alpha@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org,
+	linux-openrisc@vger.kernel.org,
+	linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [RFC V3 0/8] mm: Drop pxd_ERROR()
+Date: Tue, 18 Aug 2026 09:30:33 +0530
+Message-ID: <20260818040041.1891769-1-anshuman.khandual@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ARC: cleanup dead ARC_CANT_LLSC option in Kconfig
-To: Julian Braha <julianbraha@gmail.com>, vgupta@kernel.org
-Cc: joao@joaoff.com, linux-snps-arc@lists.infradead.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <20260816142207.1034329-1-julianbraha@gmail.com>
-Content-Language: en-US
-From: Vineet Gupta <vgupta@kernel.org>
-In-Reply-To: <20260816142207.1034329-1-julianbraha@gmail.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260817_210048_305842_D8B64AD7 
+X-CRM114-Status: GOOD (  10.85  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,49 +87,129 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 8/16/26 07:22, Julian Braha wrote:
-> Currently, the ARC_CANT_LLSC config option can never be enabled.
-> It is also not referenced anywhere else. So let's remove this dead code.
->
-> Note that I have only compile-tested these changes, because I do not have
-> the hardware to runtime test.
->
-> This dead code was found by kconfirm, a static analysis tool for Kconfig.
->
-> Signed-off-by: Julian Braha <julianbraha@gmail.com>
+pxd_ERROR() macros have been provided by all platforms, which are very much
+identical and can be dropped off completely if these pgtable printing could
+be moved to callers in generic MM aka all pxd_clear_bad().
 
-Acked-by: Vineet Gupta <vgupta@kernel.org>
+But first cleanups and re-organizations are required in some platforms that
+are using these macros internally. Afterwards [pte|pmd|pud|p4d|pgd]_ERROR()
+macros have been completely dropped from the entire tree.
 
-Thx,
--Vineet
+This series is based on v7.2 after the following patch and has also been
+built tested on multiple platforms.
 
-> ---
->   arch/arc/Kconfig | 4 ----
->   1 file changed, 4 deletions(-)
->
-> diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-> index 2ed7186c81c5..80e61175bf52 100644
-> --- a/arch/arc/Kconfig
-> +++ b/arch/arc/Kconfig
-> @@ -331,13 +331,9 @@ config ARC_FPU_SAVE_RESTORE
->   	  for floating point exceptions and rounding modes. These are
->   	  preserved across task context switch when enabled.
->   
-> -config ARC_CANT_LLSC
-> -	def_bool n
-> -
->   config ARC_HAS_LLSC
->   	bool "Insn: LLOCK/SCOND (efficient atomic ops)"
->   	default y
-> -	depends on !ARC_CANT_LLSC
->   
->   if ISA_ARCV2
->   
+https://lore.kernel.org/all/20260709044334.1741263-1-anshuman.khandual@arm.com/
+
+Changes in RFC V3:
+
+- Moved ptrval_to_str() as header in a separate patch
+- Stopped using pxd_ERROR() in generic MM in a separate patch
+- Dropped pxd_ERRO() macros from all platforms in a separate patch
+- Dropped print_bad_pte() and also cleaned up set_pte_phys()
+- Added some pr_error() messages in __get_pte_phys()
+- Cleaned up error messages and used ptrval_to_str() in platforms
+
+Changes in RFC V2:
+
+https://lore.kernel.org/all/20260811042119.3652929-1-anshuman.khandual@arm.com/
+
+- Added clean up patches for platforms with existing pxd_ERROR() usage
+- Dropped __FILE__ and __LINE__ from all print sections per David
+
+Changes in RFC V1:
+
+https://lore.kernel.org/all/20260806080639.1916749-1-anshuman.khandual@arm.com/
+
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Rich Felker <dalias@libc.org>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Huacai Chen <chenhuacai@kernel.org>
+Cc: WANG Xuerui <kernel@xen0n.name>
+Cc: linux-alpha@vger.kernel.org
+Cc: linux-snps-arc@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-csky@vger.kernel.org
+Cc: linux-hexagon@vger.kernel.org
+Cc: loongarch@lists.linux.dev
+Cc: linux-m68k@lists.linux-m68k.org
+Cc: linux-mips@vger.kernel.org
+Cc: linux-openrisc@vger.kernel.org
+Cc: linux-parisc@vger.kernel.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-riscv@lists.infradead.org
+Cc: linux-s390@vger.kernel.org
+Cc: linux-sh@vger.kernel.org
+Cc: sparclinux@vger.kernel.org
+Cc: linux-um@lists.infradead.org
+Cc: linux-arch@vger.kernel.org
+Cc: linux-mm@kvack.org
+Cc: linux-kernel@vger.kernel.org
+
+Anshuman Khandual (8):
+  mm: Make ptrval_to_str() generally available
+  mm: Stop using pxd_ERROR()
+  loongarch/mm: Stop using pte_ERROR()
+  parisc/mm: Directly use generic [pmd|pgd]_clear_bad()
+  sh/mm: Stop using pte_ERROR()
+  sh/mm: Stop using [p4d|pud|pmd]_ERROR()
+  sh/mm: Stop using pgd_ERROR()
+  mm: Drop pxd_ERROR()
+
+ arch/alpha/include/asm/pgtable.h              |  7 -------
+ arch/arc/include/asm/pgtable-levels.h         | 11 ----------
+ arch/arm/include/asm/pgtable.h                |  7 -------
+ arch/arm/kernel/traps.c                       | 17 ---------------
+ arch/arm64/include/asm/pgtable.h              | 15 -------------
+ arch/csky/include/asm/pgtable.h               |  4 ----
+ arch/hexagon/include/asm/pgtable.h            |  3 ---
+ arch/loongarch/include/asm/pgtable.h          | 13 ------------
+ arch/loongarch/mm/init.c                      |  4 +++-
+ arch/m68k/include/asm/mcf_pgtable.h           |  6 ------
+ arch/m68k/include/asm/motorola_pgtable.h      |  8 -------
+ arch/m68k/include/asm/sun3_pgtable.h          |  7 -------
+ arch/microblaze/include/asm/pgtable.h         |  7 -------
+ arch/mips/include/asm/pgtable-32.h            | 10 ---------
+ arch/mips/include/asm/pgtable-64.h            | 13 ------------
+ arch/nios2/include/asm/pgtable.h              |  7 -------
+ arch/openrisc/include/asm/pgtable.h           |  7 -------
+ arch/parisc/include/asm/pgtable.h             |  9 --------
+ arch/parisc/kernel/pci-dma.c                  |  6 ++----
+ arch/powerpc/include/asm/book3s/32/pgtable.h  |  2 --
+ arch/powerpc/include/asm/book3s/64/pgtable.h  |  7 -------
+ arch/powerpc/include/asm/nohash/32/pgtable.h  |  2 --
+ .../include/asm/nohash/64/pgtable-4k.h        |  3 ---
+ arch/powerpc/include/asm/nohash/64/pgtable.h  |  5 -----
+ arch/riscv/include/asm/pgtable-64.h           |  9 --------
+ arch/riscv/include/asm/pgtable.h              |  4 ----
+ arch/s390/include/asm/pgtable.h               | 11 ----------
+ arch/sh/include/asm/pgtable-3level.h          |  3 ---
+ arch/sh/include/asm/pgtable_32.h              | 13 ------------
+ arch/sh/mm/init.c                             | 16 +++++++-------
+ arch/sparc/include/asm/pgtable_32.h           |  3 ---
+ arch/sparc/include/asm/pgtable_64.h           | 10 ---------
+ arch/um/include/asm/pgtable-2level.h          |  7 -------
+ arch/um/include/asm/pgtable-4level.h          | 13 ------------
+ arch/x86/include/asm/pgtable-2level.h         |  5 -----
+ arch/x86/include/asm/pgtable-3level.h         | 11 ----------
+ arch/x86/include/asm/pgtable_64.h             | 18 ----------------
+ arch/xtensa/include/asm/pgtable.h             |  4 ----
+ include/asm-generic/pgtable-nop4d.h           |  1 -
+ include/asm-generic/pgtable-nopmd.h           |  1 -
+ include/asm-generic/pgtable-nopud.h           |  1 -
+ include/linux/mm_types.h                      | 15 +++++++++++++
+ mm/memory.c                                   | 16 ++------------
+ mm/pgtable-generic.c                          | 21 +++++++++++++++----
+ 44 files changed, 48 insertions(+), 314 deletions(-)
+
+-- 
+2.43.0
 
 
 _______________________________________________
