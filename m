@@ -4,48 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B339C5DF81
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 18 Aug 2026 17:26:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4144FC5DF81
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 18 Aug 2026 17:26:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
 	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=tlejOBn6j13XSSxx0XZrfhsKbvBqNkldPtdIyxNgNp0=; b=GO1rjVGzBdoQ7L
-	yHMSMG5hyjKVISFUAY4yeFVWfSPG80eyFwed1Ck3EYauz3HOP0QmfDjSH4QjZu6grcZaXFnKe5zY1
-	RIv0EOlmVfhuXKXFPTr3uK3QCvwqKkXtOf492Ka6hmrtQfnc0mcogQG50IfT9POuNz+dzbfc7QaWK
-	l0DC6zVi6+GMbaB0RemZx6MBIzYKBJaHZCheamQjPutdN7CSuewHfHBXA/NGgxMlN86+lXKZsfwCt
-	xWp6caITgiVgwrOFHIPDEPYT04gKF2Xew3KqgxJ6XU/ZoWTl8zV2yn4hWJNBmgbc3sq/vTv2ytjZJ
-	zJZ2sgfd9JNpmpqY7Aag==;
+	List-Owner; bh=r0ucmO1bqIdUhwfSDw2r/UAs06hCEbt8usJQYtj5wII=; b=fgs3OASq6xJteu
+	glZ6HkvO8Xt4lJdjN7I7BYUmPJqsx5/9/R/DeV09tA36UHuogpGnzIvz5fF1++OpPixrzx3yV/fnd
+	COp6CmzHApUbrr67UI/SXa0EauUy+zavrRC90a2oxiqqGHa6dFKhlpubkBjAppUKKvQj/81kI6d+t
+	vlDjdYUc2Hp5AnjjkXV0MucqWB8wqzbAMr3K7O1KIG9S4ryYdOGuRV6bMg//TJJwJjMrkWdDRO6xh
+	wfY4ET544BMVO8nxirQJEwIdAhI7cDSXjz5fyvUQB41FRuzGQHFKfzvvRQbCFgIrMWSelA1oeyrxI
+	9BEKSBRrMKllTLfPQlAg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwNZe-00000008QOu-0awu;
-	Tue, 18 Aug 2026 17:26:06 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1wwNaF-00000008Qj9-33OT;
+	Tue, 18 Aug 2026 17:26:43 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwNZc-00000008QNz-1SbZ;
-	Tue, 18 Aug 2026 17:26:04 +0000
+	id 1wwNaD-00000008Qhy-3lF6;
+	Tue, 18 Aug 2026 17:26:41 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 1DD6D403C9;
-	Tue, 18 Aug 2026 17:26:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7EAE1F000E9;
-	Tue, 18 Aug 2026 17:25:55 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 5BC3743687;
+	Tue, 18 Aug 2026 17:26:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B62471F000E9;
+	Tue, 18 Aug 2026 17:26:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787073964;
-	bh=bVsmR2M21o1vKJ3cy/12UmIutLddLn3TpoYg5BwFDD0=;
+	s=k20260515; t=1787074001;
+	bh=rnEdMRtIz89oIwbynNL9OjJWy1tOvB6Av/Ys5ptNXPk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Hd4zZqYlsGKEx/jhtQpqKkSx9RTUboWG40nyZZJHu3aMW61Z87euXiGJSy0ADtjyR
-	 m66jdF1q+357id1bqIreIhbEdpZ/sgMPUxHsRL5upT0UyFGrvM6HyCS9SVpJA4TU+d
-	 gassLD90Xeh6KMJaO1fqTs+OebEDB8HnsqsPPn/z3u5gxAPalXv3a4gb1hT5xHadHh
-	 fdg8S8VR8ZQvXv6NBUwwaSAUrE12u/ZJCbhBwd6+Psh5v0mgM7k+65hSQgJg6UjjKK
-	 hdN0pPR0VYT1k9eqEIiOxYwmelrWgOV0PAZslwiEj/BEKTam2bKJR5YLAScDZA3fpC
-	 RmKBXcclg5XyA==
-Message-ID: <1de1adf1-84a6-4247-98c1-406686233d3f@kernel.org>
-Date: Tue, 18 Aug 2026 19:25:53 +0200
+	b=VkTka9sBrgxZBjvuWUfpq/xlYMQqt4vpe7baWUl2zn2trNJ8rpzrhrpwL6vtjm3qW
+	 wbBqpaxiu9lVfp57KyMZOJ7kiRQV+cpJAlq/k/zDZfJLSvyZUzi/0CTmFciWw53seW
+	 vhjcZ7sV12pjEumpOcvCJzxXwMSMqf/WGil9kIw7Tu+AxtV8233UXYJIJiJB2/EHVb
+	 WniMIdls6pU17tb/SWmZ8ViqAqCUJqJ72muZNyGzWteYnFUePKPv7MWye28Hnrbr6t
+	 XqELe+93riD5Sw2O3gRt+a1tqkyKyasmmoOMQSHfaI6RV28GMzsXnPLYB2jq1hl07U
+	 mMfTEguOfeKeg==
+Message-ID: <12829f76-f577-4305-abe6-319405bf8dc6@kernel.org>
+Date: Tue, 18 Aug 2026 19:26:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC V3 3/8] loongarch/mm: Stop using pte_ERROR()
+Subject: Re: [RFC V3 5/8] sh/mm: Stop using pte_ERROR()
 To: Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org,
  akpm@linux-foundation.org
 Cc: Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker
@@ -63,7 +63,7 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker
  linux-um@lists.infradead.org, linux-arch@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20260818040041.1891769-1-anshuman.khandual@arm.com>
- <20260818040041.1891769-4-anshuman.khandual@arm.com>
+ <20260818040041.1891769-6-anshuman.khandual@arm.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -110,7 +110,7 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260818040041.1891769-4-anshuman.khandual@arm.com>
+In-Reply-To: <20260818040041.1891769-6-anshuman.khandual@arm.com>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -128,16 +128,17 @@ Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
 On 8/18/26 06:00, Anshuman Khandual wrote:
-> Directly use pr_err() in __set_fixmap() and drop pte_ERROR() which helps in
+> Directly use pr_err() in set_pte_phys() and drop pte_ERROR() which helps in
 > eventually dropping pte_ERROR() macro across the tree. In this new printing
 > __FILE__ and __LINE__ has been dropped because they are always the same and
-> don't really add any value. The new ptval_to_str() helper is being used for
-> converting pgtable entry value into a string. The error message itself has
-> been cleaned up as well.
+> don't really add any value. Besides ptrval_to_str() has been able to handle
+> different PTE representation with and without CONFIG_X2TLB, which helped in
+> unifying error message printing.
 > 
-> Cc: Huacai Chen <chenhuacai@kernel.org>
-> Cc: WANG Xuerui <kernel@xen0n.name>
-> Cc: loongarch@lists.linux.dev
+> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Cc: Rich Felker <dalias@libc.org>
+> Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+> Cc: linux-sh@vger.kernel.org
 > Cc: linux-kernel@vger.kernel.org
 > Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
 > ---
