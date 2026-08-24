@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5006CC5DF81
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Aug 2026 07:27:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1CB43C5DF9D
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Aug 2026 07:27:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:References:In-Reply-To:
 	Cc:To:From:Subject:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=klDgIbETJG97xjh1Waa6WeQjoytPCVUYUy+TyB/VoYk=; b=ew34z3P2TisTp+
-	YnWDJBDeKCOLJiHzD/RH+pCLEz5zIDzKkaBgwdPMx0+s4AG3QkLKREnBKHQ5w9Gdh9R8xWMJzd9Nb
-	pw2iF6CPo5JMCBwy2mwg3UfBcgo3N+cKuQTGYmWbbM92dB85e3pM0GV1JvKCRBHPIAXA+R6EXoop8
-	fLvSVIWK0opUjoj6gqoo2vE55Jy7BzUy1wrcYTcPpUwW1whX8nX4XNb6DRQ9zW4mx2jKGaz+ODtIN
-	DAt3NOqqTHmJvgGoHMdZqK/1SPEd2MGu9gtoULOoo5PqgsCovX5OKCMMsWaqVRnKXVAoReSxqGCVi
-	BiHc1ENu5wSnzymE/fqQ==;
+	List-Owner; bh=yYQHd/OcRICyYLTEyMY36VzL+680dsUsx0buq7bnJ4Y=; b=NlWDdtaK/IzeuU
+	7Xw7+lowx0ifQre0ltW27nSGDJEiNI7qSIgiGdnFEMKzDGJiT0SXaCub+Z3BDjClHvb8v2Pve5X9d
+	qFbahfQ72zWZ2e3G3fjvNQ+R/Cfp5HKBdFTr85KjTsC0u+YFaNZK2CgGhLhnvAw3fHUsH/Im61wGb
+	fMTusxkEY8SMhrsIACQmne92rmx6teUnq7ibrpOUCmwKH5AY0OqV6TYYm4GUrllAnes1I69LPy0uM
+	LHSxdGAmGz4VlLPHN3Qcryjh5WBWzpijK2/30xObfbgy8EKzjaXYKQ7W+XI680Cm5xMkRXYDAB/t1
+	D2fZVdikTY306+/XtzfA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wyP5v-0000000G4aI-3jYb;
-	Mon, 24 Aug 2026 07:27:47 +0000
+	id 1wyP66-0000000G4gP-3IR0;
+	Mon, 24 Aug 2026 07:27:58 +0000
 Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wyP5u-0000000G4Zf-18TH;
-	Mon, 24 Aug 2026 07:27:46 +0000
+	id 1wyP60-0000000G4cZ-2b3q;
+	Mon, 24 Aug 2026 07:27:52 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 300B1600AD;
+	by tor.source.kernel.org (Postfix) with ESMTP id 1173E600AD;
+	Mon, 24 Aug 2026 07:27:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62AFC1F00A3A;
 	Mon, 24 Aug 2026 07:27:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B017B1F000E9;
-	Mon, 24 Aug 2026 07:27:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787556464;
-	bh=hpXldSP37oQmlhckItfAzwUOG6JobW41WzP0kSdLesI=;
+	s=k20260515; t=1787556471;
+	bh=TDmng5bNiE+YiLBp1dwqj9DRhmUVXQIS/lif+VRO/fE=;
 	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=Hghfi3F3hhjgblfEVPUEEPHALjTTBAgKBK8MbewWtmMLpyrYB+8Jo29/224FAiShM
-	 0SLcU5txHHDDVRBQmZbs0Km1ZqbqYphsVzR3okw73rVZzhWFSwmbPshMJk+4ij8Gwk
-	 wBlW/tVqVoMXtxSb8VWH+7r37m/WC7KmAwdV5lxYZr50+jzu/iInwaVg4PoIgWPYV+
-	 C5co0jxq4J2+miGm/bYP5+zECjtlCOUz+jUuPUU4mw1mdcjIPjf5Qqh658+sfYqF50
-	 oCrhxE7AzAMSOiSyXc8TzEpXzk6qb68sZUnHfTQBzsRUMB6GzKuCnUN8V+wutnGyd3
-	 qgVllw8rmVK3Q==
+	b=LisqMsMwto/kBuZ7gdbcgEJrUKMCvB31iYajSaP8VSdLEt16BVkX4Oh7MmltHH6/x
+	 lgJMQ/bHIDKxJx2zSKHsCi53faclUGyXrEjtwgO9HglPDbBjmzSGM601uHETfiupKK
+	 k9L2jhdovk2XzuRexJe8lI2Ja3+L6F1zhgtZeR57y04iBM9ZTxAg8R4/0hzvBRU/1n
+	 j/yQ64IOrcqDTuW2xREKaopx2MCLiJJbnIajCPVW+gYaQ/oYq0qHnMHsDEPBeQlGIk
+	 UAUiHCdZACNNtFoUCqb60H6mqsfCFPiGb92umTHv0AOcuZ/mH0PdZQm1D5ksQY3O+D
+	 A0IEUUHfnBZfg==
 MIME-Version: 1.0
-Subject: Re: [RFC V3 0/8] mm: Drop pxd_ERROR()
+Subject: Re: [RFC V3 1/8] mm: Make ptrval_to_str() generally available
 From: Mike Rapoport <rppt@kernel.org>
 To: Anshuman Khandual <anshuman.khandual@arm.com>
 Cc: linux-mm@kvack.org, akpm@linux-foundation.org, david@kernel.org, 
@@ -59,11 +59,12 @@ Cc: linux-mm@kvack.org, akpm@linux-foundation.org, david@kernel.org,
  linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
  linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, 
  linux-um@lists.infradead.org, linux-arch@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260818040041.1891769-1-anshuman.khandual@arm.com>
+ linux-kernel@vger.kernel.org, Lorenzo Stoakes <ljs@kernel.org>
+In-Reply-To: <20260818040041.1891769-2-anshuman.khandual@arm.com>
 References: <20260818040041.1891769-1-anshuman.khandual@arm.com>
+ <20260818040041.1891769-2-anshuman.khandual@arm.com>
 Date: Mon, 24 Aug 2026 10:27:34 +0300
-Message-Id: <178755645423.3606540.14531883744138096395.b4-review@b4>
+Message-Id: <178755645423.3606540.12945780031100652573.b4-review@b4>
 X-Mailer: b4 0.17-dev
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -81,18 +82,18 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, 18 Aug 2026 09:30:33 +0530, Anshuman Khandual <anshuman.khandual@arm.com> wrote:
-> mm: Drop pxd_ERROR()
+> Move ptrval_to_str() inside a header thus making the helper more generally
+> available for new users which are being added later. While here, also move
+> another related string size macro PTVAL_STR_MAX inside the header as well.
 > 
-> pxd_ERROR() macros have been provided by all platforms, which are very much
-> identical and can be dropped off completely if these pgtable printing could
-> be moved to callers in generic MM aka all pxd_clear_bad().
-> 
-> But first cleanups and re-organizations are required in some platforms that
-> are using these macros internally. Afterwards [pte|pmd|pud|p4d|pgd]_ERROR()
-> macros have been completely dropped from the entire tree.
-> 
-> [...]
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: David Hildenbrand <david@kernel.org>
+> Cc: Lorenzo Stoakes <ljs@kernel.org>
+> Cc: linux-mm@kvack.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+
+I agree with David, include/linux/pgtable.h is better.
 
 Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
