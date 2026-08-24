@@ -4,101 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6CBD9C5DF9C
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Aug 2026 15:50:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A3A8C5DF9C
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 24 Aug 2026 20:39:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=5jqRyQXad+oWNCA8t/ly7r02EM6HJbf2wnj464U9Y4k=; b=RlM97p1jURReJH
-	hbAoD502Yx+Oy85VzfMd2gfCHvEvcZVxRNLPU0a1Dorqn/WT+ichiTwWjMtQK1OV1j7KEkU/4zstT
-	giaLzehVBJHtbkSgJVRqvQD4ln+X+u5iCKV0LY80nS4IhmQ12bvIeYGxMcnupc18v+s0QK1p+wneS
-	kdlPaOAXUXHLTvqutbfgVLjqhoFZWRd7jFo1Ne4x2jrAZj1e2c1BQOWXuR98bOkiboxK+RW5wy/EZ
-	iZ/XODsW1tklPvMwPLdpDNQw9n566xNIWTTt/o1SxZYTm8/2Wfj/MVFl6dD7P1vu7tgsdqTPiBmsW
-	FBp1NidXO/R6+PPxlndw==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=4ZR2BN8QCIc1lQFnQCqARps6VVd/nZ8RaDHyGCcbyKI=; b=WMt9s1CGsPjb3r
+	Ii9QVWOcEFebW/NH8npiRjmwZVOcODOjdY4fs+jPqYN6uV2s+9sIqYPQLR5JzJN5fi4v9RsoFUChw
+	uJXMaf7tpckWtRkhu9LePMT66KpGnTjJMjwILh2enXZN6DM5BV5nyVsMZCQRkqGLrbD5yb3o6180b
+	vrso3C+A+iZEfgSg7zWNiwit/M58DhTdSNI/z9Y3Y6fsuscEY/tEzt0UP9Qtx0iYPeiLm10IT6i9n
+	1pFalM534Yq1O4UUv7kXhvsyxjS5shrdMt/Fy5b6LHs2vhRbFm7/espvmIHHTaBqYHjHhFxneJDmZ
+	FNonsoKt2HU9mlkpwteA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wyWwd-0000000Gxxr-0HI8;
-	Mon, 24 Aug 2026 15:50:43 +0000
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+	id 1wybS0-0000000HNLc-19W1;
+	Mon, 24 Aug 2026 20:39:24 +0000
+Received: from oss.cyber.gouv.fr ([51.159.188.251])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wyWwa-0000000GxwP-1Fh5
+	id 1wybRx-0000000HNKg-15iR
 	for linux-snps-arc@lists.infradead.org;
-	Mon, 24 Aug 2026 15:50:41 +0000
-Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-84874b52eabso4705961b3a.0
-        for <linux-snps-arc@lists.infradead.org>; Mon, 24 Aug 2026 08:50:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1787586639; x=1788191439; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8n2sUFyNkTeeyJ480adWKOU51gCub2/F4WE3r3BRNf0=;
-        b=Icpr5OJVzI/ZGQpR09V3wtZh0ZpIHijKFiv0/dYpIoGAi9bzWAbInYHAtDc6Tq4aLB
-         BjmpScVMTThtnz4QDstISghXHm+FsH9ZqqvWACs65UjHZf6hSpUxa2WXHh55bA/b8uMu
-         elQZnZfq16DtIIPin4mNrlvI3z6uZqKiHrqr4X7y+ujnV2HIUmaLUsfu87IkmXWPV1h7
-         0+vc2FrFcug5LUdWQdi2XZ6CJ2WQzgsgl8ihDm1N6aeuV/mediAp965wW0rh7V0/eNxi
-         lLEXAXqo/Y1TP9dp+naV75cSno57O/MvTEZj58xXKa64nGMujxyPcMXZDgzCkKYMLei5
-         U3Rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787586639; x=1788191439;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8n2sUFyNkTeeyJ480adWKOU51gCub2/F4WE3r3BRNf0=;
-        b=RfXPFOVmXx5kNSzYp4/tDdznzBYU6+fX6JU9gXfWYz1Vj6EEMafB8aFo3VlrOe204s
-         Y7WT8KATWDiS7N84D8BONUHQO7bAdcMwQWXKwA56r+sw61dRCnDuSJd+kuIY22xydbth
-         549Tf0RSQN8cksOZSbe+vAbG6rT9k1U6hA77oF3crzhVdG2oRvNjBA6XRvaQbZBotIJH
-         UMvIjz3HIBSIgtMr83sgz841bm0ag+1KYyTNXX3ED1Fc3iv0IYXQ9HnlJMtbTnSF0h6u
-         WDCl4gGA5YFwZiCcVc8O0+aiUqfcBjTvBQ4tceS02pg1gR3UT3VaS6qIucic7x5ZYs5y
-         S8Tw==
-X-Forwarded-Encrypted: i=1; AHgh+RpSfOGtC0YNRRHNOKE+Myj39X/TAhtjHhnPKtvuz3RfRw9RjW3ZBZyXWAuv/xb8XT5EFgfmKEfoPNeeDinGMQ==@lists.infradead.org
-X-Gm-Message-State: AFuF++kqPZFiAxAEM3AKQBbGCxDLQ4t6h2g1vtPwsrHxHRP3141r7V+N
-	Vq36SkqI/ryHEwuRr93UYioVTKWao30l0oMh6cPda/QQpDiXSpo4cPFugNP1gpIIfC4=
-X-Gm-Gg: AR+sD115Rkd1qYniGhy8d0iXbo3U0zb1yY3jjm/rslHWmdpFufv1BZmw9bEhFESduiQ
-	JDs/CCVFbAgNJ/7lsHy2qfATfz4ZDKVeEqiI/sxo/8WdV2IkLuwwuwAFaS3osBcEK8Gm2SIrRI8
-	cLhwrG3bf/RVm8vX+aVN/Qt+KidSEDPFH37Pqe2zgo8eQAtlOdRCXHc2/0JK8e7RFM1I86RlzMb
-	BmXBNl5ktGMXd6WynnOrFeRUFt0poGbbvgwAmbsVRQ69abKMc00evhFSp0pPGTW6zaNhzx5tPaL
-	8o0SvXQqRxJsUaykWjd57J0kOsQUyBJXwLEQIv95GTohZyHImCUS3oaypaZDiiSRLciN4rm8mO5
-	Cs9MnaOujiT3moR0wRtA/sHHWk9FgqN89MMQC5dw0ri9GMHM7gRElD0PKTUcO9s36BTzbOKOz8w
-	g5+WyfMU0oa3ezdJYvKCBuUhDB3dBmWkbwRJHmQ2spd8AbkgB9Plrjc2Kk3AXqB49w
-X-Received: by 2002:a05:6a00:10d1:b0:848:5540:2377 with SMTP id d2e1a72fcca58-851fa070c14mr40910400b3a.17.1787586639434;
-        Mon, 24 Aug 2026 08:50:39 -0700 (PDT)
-Received: from [100.64.0.1] ([165.225.242.163])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8520ef36048sm2219670b3a.26.2026.08.24.08.50.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Aug 2026 08:50:38 -0700 (PDT)
-Message-ID: <6dae9cae-9665-4dc8-9a49-d6e5acda221b@sifive.com>
-Date: Mon, 24 Aug 2026 10:50:37 -0500
+	Mon, 24 Aug 2026 20:39:22 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=oss.cyber.gouv.fr; s=default; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=IrwYsB/cvJROppYg40sjAVcDPzEozjwDIQ9eN23y38M=; b=hgEpTsEEXwqTdASOSbcRyqt2PO
+	I4FkdIhsXufUAEpcUGFdSQw/c2aREDTg5seTKAQHXuS2cjPnggg3fmnjvGQtpMltGMkMfyA47Igzd
+	AgvqWGGIgh9dOfVRUbwYRSr+n/5O41JArJHl6u6LZjdN5MT/4UcGUEYdkgCNoN0+yQ5q9tcY2gRsk
+	o7icrvVekz6ZlYhLIThL+WbZGx/TRtkotuxxRH8y8ZX9WtujVcHhTI1yFYTr9HjMur02T5Z4fKWyH
+	9YGgw7wa4kDnqWO4PjkW2OEhaEhOIho5SvcJob9k91/XgOIjhcjp0qsJQ7cMcleRJLGFup2WzKgtz
+	aXUEF2Hg==;
+Received: from [151.115.150.205] (port=47050 helo=gepetto..)
+	by pf-012.whm.fr-par.scw.cloud with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.99.5)
+	(envelope-from <Jeremy.Jean@oss.cyber.gouv.fr>)
+	id 1wybRF-0000000DXTc-34iK;
+	Mon, 24 Aug 2026 22:38:37 +0200
+From: =?UTF-8?q?J=C3=A9r=C3=A9my=20Jean?= <Jeremy.Jean@oss.cyber.gouv.fr>
+To: Vineet Gupta <vgupta@kernel.org>
+Cc: linux-snps-arc@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?J=C3=A9r=C3=A9my=20Jean?= <Jeremy.Jean@oss.cyber.gouv.fr>
+Subject: [PATCH] ARC: check user addresses in unaligned access emulation
+Date: Mon, 24 Aug 2026 20:37:41 +0000
+Message-ID: <20260824203740.3689400-2-Jeremy.Jean@oss.cyber.gouv.fr>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC V3 8/8] mm: Drop pxd_ERROR()
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker
- <dalias@libc.org>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
- WANG Xuerui <kernel@xen0n.name>, linux-alpha@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
- loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-um@lists.infradead.org, linux-arch@vger.kernel.org,
- linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-mm@kvack.org, akpm@linux-foundation.org, david@kernel.org
-References: <20260818040041.1891769-1-anshuman.khandual@arm.com>
- <20260818040041.1891769-9-anshuman.khandual@arm.com>
-From: Samuel Holland <samuel.holland@sifive.com>
-Content-Language: en-US
-In-Reply-To: <20260818040041.1891769-9-anshuman.khandual@arm.com>
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - pf-012.whm.fr-par.scw.cloud
+X-AntiAbuse: Original Domain - lists.infradead.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - oss.cyber.gouv.fr
+X-Get-Message-Sender-Via: pf-012.whm.fr-par.scw.cloud: authenticated_id: jeremy.jean@oss.cyber.gouv.fr
+X-Authenticated-Sender: pf-012.whm.fr-par.scw.cloud: jeremy.jean@oss.cyber.gouv.fr
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260824_085040_381212_319F6A49 
-X-CRM114-Status: GOOD (  15.09  )
+X-CRM114-CacheID: sfid-20260824_133921_468617_238FE65F 
+X-CRM114-Status: UNSURE (   7.78  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,102 +80,61 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 2026-08-17 11:00 PM, Anshuman Khandual wrote:
-> There are no more users left for any pxd_ERROR() either in generic MM or in
-> the platform MM. Hence all these platform macros along with their generic
-> fallback could be dropped across the tree.
-> 
-> Cc: linux-alpha@vger.kernel.org
-> Cc: linux-snps-arc@lists.infradead.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-csky@vger.kernel.org
-> Cc: linux-hexagon@vger.kernel.org
-> Cc: loongarch@lists.linux.dev
-> Cc: linux-m68k@lists.linux-m68k.org
-> Cc: linux-mips@vger.kernel.org
-> Cc: linux-openrisc@vger.kernel.org
-> Cc: linux-parisc@vger.kernel.org
-> Cc: linuxppc-dev@lists.ozlabs.org
-> Cc: linux-riscv@lists.infradead.org
-> Cc: linux-s390@vger.kernel.org
-> Cc: linux-sh@vger.kernel.org
-> Cc: sparclinux@vger.kernel.org
-> Cc: linux-um@lists.infradead.org
-> Cc: linux-arch@vger.kernel.org
-> Cc: linux-mm@kvack.org
-> Cc: linux-kernel@vger.kernel.org
-> Acked-by: Geert Uytterhoeven <geert@linux-m68k.org> # m68k
-> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> ---
-> Changes in RFC V3
-> 
-> - Moved ptrval_to_str() as header in a [PATCH 1/8]
-> - Stopped using pxd_ERROR() in generic MM in [PATCH 2/8]
-> - Dropped pxd_ERRO() macros from all platforms in this patch
-> 
->  arch/alpha/include/asm/pgtable.h               |  7 -------
->  arch/arc/include/asm/pgtable-levels.h          | 11 -----------
->  arch/arm/include/asm/pgtable.h                 |  7 -------
->  arch/arm/kernel/traps.c                        | 17 -----------------
->  arch/arm64/include/asm/pgtable.h               | 15 ---------------
->  arch/csky/include/asm/pgtable.h                |  4 ----
->  arch/hexagon/include/asm/pgtable.h             |  3 ---
->  arch/loongarch/include/asm/pgtable.h           | 11 -----------
->  arch/m68k/include/asm/mcf_pgtable.h            |  6 ------
->  arch/m68k/include/asm/motorola_pgtable.h       |  8 --------
->  arch/m68k/include/asm/sun3_pgtable.h           |  7 -------
->  arch/microblaze/include/asm/pgtable.h          |  7 -------
->  arch/mips/include/asm/pgtable-32.h             | 10 ----------
->  arch/mips/include/asm/pgtable-64.h             | 13 -------------
->  arch/nios2/include/asm/pgtable.h               |  7 -------
->  arch/openrisc/include/asm/pgtable.h            |  7 -------
->  arch/parisc/include/asm/pgtable.h              |  9 ---------
->  arch/powerpc/include/asm/book3s/32/pgtable.h   |  2 --
->  arch/powerpc/include/asm/book3s/64/pgtable.h   |  7 -------
->  arch/powerpc/include/asm/nohash/32/pgtable.h   |  2 --
->  .../powerpc/include/asm/nohash/64/pgtable-4k.h |  3 ---
->  arch/powerpc/include/asm/nohash/64/pgtable.h   |  5 -----
->  arch/riscv/include/asm/pgtable-64.h            |  9 ---------
->  arch/riscv/include/asm/pgtable.h               |  4 ----
->  arch/s390/include/asm/pgtable.h                | 11 -----------
->  arch/sh/include/asm/pgtable-3level.h           |  3 ---
->  arch/sh/include/asm/pgtable_32.h               |  8 --------
->  arch/sparc/include/asm/pgtable_32.h            |  3 ---
->  arch/sparc/include/asm/pgtable_64.h            | 10 ----------
->  arch/um/include/asm/pgtable-2level.h           |  7 -------
->  arch/um/include/asm/pgtable-4level.h           | 13 -------------
->  arch/x86/include/asm/pgtable-2level.h          |  5 -----
->  arch/x86/include/asm/pgtable-3level.h          | 11 -----------
->  arch/x86/include/asm/pgtable_64.h              | 18 ------------------
->  arch/xtensa/include/asm/pgtable.h              |  4 ----
->  include/asm-generic/pgtable-nop4d.h            |  1 -
->  include/asm-generic/pgtable-nopmd.h            |  1 -
->  include/asm-generic/pgtable-nopud.h            |  1 -
->  38 files changed, 277 deletions(-)
-> ...
-> diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
-> index 5d5756bda82e..993a6505eb8f 100644
-> --- a/arch/riscv/include/asm/pgtable.h
-> +++ b/arch/riscv/include/asm/pgtable.h
-> @@ -559,10 +559,6 @@ static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
->  	return __pte((pte_val(pte) & _PAGE_CHG_MASK) | newprot_val);
->  }
->  
-> -#define pgd_ERROR(e) \
-> -	pr_err("%s:%d: bad pgd " PTE_FMT ".\n", __FILE__, __LINE__, pgd_val(e))
-
-We can drop the PTE_FMT macro now too.
-
-Regards,
-Samuel
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+QVJDNzAwIHJhaXNlcyBhbiBhbGlnbm1lbnQgZXhjZXB0aW9uIGJlZm9yZSBjaGVja2luZyBhY2Nl
+c3MgcGVybWlzc2lvbnMuCkNvbnNlcXVlbnRseSwgYSB1c2Vyc3BhY2UgbG9hZCBvciBzdG9yZSB1
+c2luZyBhIG1pc2FsaWduZWQga2VybmVsIGFkZHJlc3MKcmVhY2hlcyBtaXNhbGlnbmVkX2ZpeHVw
+KCkgYmVmb3JlIHRoZSBwcm9jZXNzb3IgcmVqZWN0cyBpdC4KCm1pc2FsaWduZWRfZml4dXAoKSBk
+ZWNvZGVzIHRoZSBpbnN0cnVjdGlvbiBhbmQgcmVwZWF0cyB0aGUgYWNjZXNzIHVzaW5nCmJ5dGUg
+bG9hZHMgb3Igc3RvcmVzLiBUaGVzZSBhY2Nlc3NlcyBydW4gaW4ga2VybmVsIG1vZGUsIGFuZCBl
+eGNlcHRpb24KdGFibGVzIG9ubHkgaGFuZGxlIGFjY2Vzc2VzIHRoYXQgZmF1bHQuIEEgbWFwcGVk
+IGtlcm5lbCBhZGRyZXNzIGlzCnRoZXJlZm9yZSByZWFkIG9yIHdyaXR0ZW4gd2l0aCBzdXBlcnZp
+c29yIHBlcm1pc3Npb25zLgoKVXNlIGFjY2Vzc19vaygpIHRvIHJlamVjdCBhZGRyZXNzZXMgb3V0
+c2lkZSB0aGUgdXNlciByYW5nZSBiZWZvcmUgY2FsbGluZwp0aGUgaGVscGVycy4gQ2hlY2sgdGhl
+IHdob2xlIDItIG9yIDQtYnl0ZSByYW5nZSBhbmQgdXNlIHRoZSBjaGVja2VkIGFkZHJlc3MKZm9y
+IHRoZSBlbXVsYXRlZCBvcGVyYXRpb24uCgpGaXhlczogMmU2NTFlYTE1OTZiICgiQVJDOiBVbmFs
+aWduZWQgYWNjZXNzIGVtdWxhdGlvbiIpCkFzc2lzdGVkLWJ5OiBDb2RleDpncHQtZGF5YnJlYWst
+Ymx1ZQpTaWduZWQtb2ZmLWJ5OiBKw6lyw6lteSBKZWFuIDxKZXJlbXkuSmVhbkBvc3MuY3liZXIu
+Z291di5mcj4KLS0tCiBhcmNoL2FyYy9rZXJuZWwvdW5hbGlnbmVkLmMgfCAyMyArKysrKysrKysr
+KysrKysrKysrLS0tLQogMSBmaWxlIGNoYW5nZWQsIDE5IGluc2VydGlvbnMoKyksIDQgZGVsZXRp
+b25zKC0pCgpkaWZmIC0tZ2l0IGEvYXJjaC9hcmMva2VybmVsL3VuYWxpZ25lZC5jIGIvYXJjaC9h
+cmMva2VybmVsL3VuYWxpZ25lZC5jCmluZGV4IDNiMmQ4YjFiZDI3MS4uZjYwNzlkYzg5YTZkIDEw
+MDY0NAotLS0gYS9hcmNoL2FyYy9rZXJuZWwvdW5hbGlnbmVkLmMKKysrIGIvYXJjaC9hcmMva2Vy
+bmVsL3VuYWxpZ25lZC5jCkBAIC0xMzMsNiArMTMzLDggQEAgaW50IG5vX3VuYWxpZ25lZF93YXJu
+aW5nIF9fcmVhZF9tb3N0bHkgPSAxOwkvKiBPbmx5IDEgd2FybmluZyBieSBkZWZhdWx0ICovCiBz
+dGF0aWMgdm9pZCBmaXh1cF9sb2FkKHN0cnVjdCBkaXNhc21fc3RhdGUgKnN0YXRlLCBzdHJ1Y3Qg
+cHRfcmVncyAqcmVncywKIAkJCXN0cnVjdCBjYWxsZWVfcmVncyAqY3JlZ3MpCiB7CisJdW5zaWdu
+ZWQgbG9uZyBhZGRyZXNzOworCXVuc2lnbmVkIGludCBzaXplOwogCWludCB2YWw7CiAKIAkvKiBy
+ZWdpc3RlciB3cml0ZSBiYWNrICovCkBAIC0xNDMsMTAgKzE0NSwxNSBAQCBzdGF0aWMgdm9pZCBm
+aXh1cF9sb2FkKHN0cnVjdCBkaXNhc21fc3RhdGUgKnN0YXRlLCBzdHJ1Y3QgcHRfcmVncyAqcmVn
+cywKIAkJCXN0YXRlLT5zcmMyID0gMDsKIAl9CiAKKwlhZGRyZXNzID0gc3RhdGUtPnNyYzEgKyBz
+dGF0ZS0+c3JjMjsKKwlzaXplID0gc3RhdGUtPnp6ID8gMiA6IDQ7CisJaWYgKCFhY2Nlc3Nfb2so
+KHZvaWQgX191c2VyICopYWRkcmVzcywgc2l6ZSkpCisJCWdvdG8gZmF1bHQ7CisKIAlpZiAoc3Rh
+dGUtPnp6ID09IDApIHsKLQkJZ2V0MzJfdW5hbGlnbmVkX2NoZWNrKHZhbCwgc3RhdGUtPnNyYzEg
+KyBzdGF0ZS0+c3JjMik7CisJCWdldDMyX3VuYWxpZ25lZF9jaGVjayh2YWwsIGFkZHJlc3MpOwog
+CX0gZWxzZSB7Ci0JCWdldDE2X3VuYWxpZ25lZF9jaGVjayh2YWwsIHN0YXRlLT5zcmMxICsgc3Rh
+dGUtPnNyYzIpOworCQlnZXQxNl91bmFsaWduZWRfY2hlY2sodmFsLCBhZGRyZXNzKTsKIAogCQlp
+ZiAoc3RhdGUtPngpCiAJCQl2YWwgPSAodmFsIDw8IDE2KSA+PiAxNjsKQEAgLTE2Myw2ICsxNzAs
+OSBAQCBmYXVsdDoJc3RhdGUtPmZhdWx0ID0gMTsKIHN0YXRpYyB2b2lkIGZpeHVwX3N0b3JlKHN0
+cnVjdCBkaXNhc21fc3RhdGUgKnN0YXRlLCBzdHJ1Y3QgcHRfcmVncyAqcmVncywKIAkJCXN0cnVj
+dCBjYWxsZWVfcmVncyAqY3JlZ3MpCiB7CisJdW5zaWduZWQgbG9uZyBhZGRyZXNzOworCXVuc2ln
+bmVkIGludCBzaXplOworCiAJLyogcmVnaXN0ZXIgd3JpdGUgYmFjayAqLwogCWlmICgoc3RhdGUt
+PmFhID09IDEpIHx8IChzdGF0ZS0+YWEgPT0gMikpIHsKIAkJc2V0X3JlZyhzdGF0ZS0+d2JfcmVn
+LCBzdGF0ZS0+c3JjMiArIHN0YXRlLT5zcmMzLCByZWdzLCBjcmVncyk7CkBAIC0xODEsMTEgKzE5
+MSwxNiBAQCBzdGF0aWMgdm9pZCBmaXh1cF9zdG9yZShzdHJ1Y3QgZGlzYXNtX3N0YXRlICpzdGF0
+ZSwgc3RydWN0IHB0X3JlZ3MgKnJlZ3MsCiAJCX0KIAl9CiAKKwlhZGRyZXNzID0gc3RhdGUtPnNy
+YzIgKyBzdGF0ZS0+c3JjMzsKKwlzaXplID0gc3RhdGUtPnp6ID8gMiA6IDQ7CisJaWYgKCFhY2Nl
+c3Nfb2soKHZvaWQgX191c2VyICopYWRkcmVzcywgc2l6ZSkpCisJCWdvdG8gZmF1bHQ7CisKIAkv
+KiB3cml0ZSBmaXgtdXAgKi8KIAlpZiAoIXN0YXRlLT56eikKLQkJcHV0MzJfdW5hbGlnbmVkX2No
+ZWNrKHN0YXRlLT5zcmMxLCBzdGF0ZS0+c3JjMiArIHN0YXRlLT5zcmMzKTsKKwkJcHV0MzJfdW5h
+bGlnbmVkX2NoZWNrKHN0YXRlLT5zcmMxLCBhZGRyZXNzKTsKIAllbHNlCi0JCXB1dDE2X3VuYWxp
+Z25lZF9jaGVjayhzdGF0ZS0+c3JjMSwgc3RhdGUtPnNyYzIgKyBzdGF0ZS0+c3JjMyk7CisJCXB1
+dDE2X3VuYWxpZ25lZF9jaGVjayhzdGF0ZS0+c3JjMSwgYWRkcmVzcyk7CiAKIAlyZXR1cm47CiAK
+LS0gCjIuNDcuMwoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZy
+YWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGlu
+dXgtc25wcy1hcmMK
