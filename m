@@ -4,55 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9533DC5DF81
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 25 Aug 2026 03:28:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A61E4C61DBE
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 25 Aug 2026 12:05:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
 	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=+2Yv2AzlMb4aTYv/HttmrY3eDT9Vd2wTsqnYi4mA4Vw=; b=vV7OsXqSsNj4js
-	R9hUm+RDQjG1dmPW5oQIKw9mI1sXqTkZ8kKICT6H82+j5FeqCS9YWfjVlG3bOBcaaqviJ4W5QsFn1
-	4GwSFWqwLA2K+X2Y3aFFKGXiS6Xf+drqQdRDxHQnHi+Ywl3rXWnKQa+WnfFkl/xnwcNrCPRDRwqbX
-	e+0yK39WmwOzr6r1OJp4sCnt2nYqcltaDGGqA1s+J8Bbn8ViTKp1TGT5PvZpgaJoVfR5kTmpGpxdk
-	AXOfBFYglOQ/Hv8KegpGOmXQFZb9vw93ojBujovYl+Dzoi8ymVSKYJxihY7n6ZHkHUuNSUfykGvjE
-	JqL9AEBRHCJ9w/6HtP+A==;
+	List-Unsubscribe:List-Id:Message-ID:References:In-Reply-To:Subject:Cc:To:From
+	:Date:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=1f2Z1/Pw8QkSVwYpTU/ziIOKyIzWG6PU5ErnKH4X++Y=; b=KN4lYAV4HlogiJ4iEd7Ib1/uqU
+	e7W4bIp8pxfd1vh20VbDzzJr9ahuvs7JkIWmi9A3CGJKmL6aGSfTX8ieFddP8zN28Wr7LfK9+PH2d
+	+sw4woX7NF/OKGzvVi6GcF7/yAKJdGqziuZZpNWwBMJFlbMLgFi1WRKukc0Bx8IznQDGsZSEQvC6e
+	JvFBRIaJkslZBdNor5KEe1xllZnGNAtmHqMbs5JkKd5aWJRA5+7DON3uXQsSFaYnZZdEDF+8ZFeqD
+	Neyrew9twgLgU8hGQAlkb/6IIJreonvVGuGLVz1qG3Ymn1Ib3Avj99Kw5AIingxb/nChFGO5t+XRB
+	FAe0DRNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wyhpu-00000000617-3YXM;
-	Tue, 25 Aug 2026 03:28:30 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1wypuF-00000000jC5-1IC5;
+	Tue, 25 Aug 2026 12:05:31 +0000
+Received: from oss.cyber.gouv.fr ([51.159.188.251])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wyhpt-0000000060z-1AyU
+	id 1wypuC-00000000jAg-05hF
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 25 Aug 2026 03:28:29 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 3E0E36013A;
-	Tue, 25 Aug 2026 03:28:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C17891F000E9;
-	Tue, 25 Aug 2026 03:28:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787628508;
-	bh=GCZR+p/4zN+eY/KJ1JWc0rg32vdHQjxJS0JdT8s5Qh8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=gZfa1gke8hL1tOS66EI+Omq+nE0bS6GumLAfH1UwzDzMmXlm86+4kCLxTDbGs/hRO
-	 0nugSSpeNDbf68WXwoXUizJsbxgE2GqFO+gcE8bdHxXzGZZZwd+BEYrT+Qgf9wbN1+
-	 y0U6HoK8vH+8LUlfUxCIBLyfgGpb/xy6dYT+nclULD6bWHw3MdG6ApRN1MidIKA7wd
-	 24SGUwi7HZbVzLuPXZN/o2irp+6k+EiRIH2x0qKlZkXd/pPOmWZfpEHKk2itNiXVJE
-	 j3NYWCaw+mReu2TqAMDB9vOFgQGFfjmPJKynqT4jgRqzPXEsVfdwd+nYkY8IyH25Qe
-	 J1rirPcc1nFRg==
-Message-ID: <5ec07658-b532-47df-b752-1ace766d4b45@kernel.org>
-Date: Mon, 24 Aug 2026 20:28:27 -0700
+	Tue, 25 Aug 2026 12:05:29 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=oss.cyber.gouv.fr; s=default; h=Content-Transfer-Encoding:Content-Type:
+	Message-ID:References:In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=tVwDZmcOQ6Beqqvw2MUUnSWYeBXBUpNiZHyDjfWap2M=; b=L8/7kzH8Gya2x1BspNxnmPUFaK
+	TlPI7PuFkipMsWw/eCqjOqpdzgVNePRM5sud31rqKZ7N3x4CXEAGYPG2vkw1oMZC7hky7utaryuKb
+	J9Z3xJE/DxHHrnnV41PrBysVKiiHtzciciT2UgDF2raTvRPYFH9Z7Edqm6mRZ7CoXMHIH3pPOG+OD
+	O9+J9otYoOYZt5gqeaQVPw0ocnsBJGdQiOjse3TGaJtGf7lF9mXEI/dDprsD8tag2bxRWbCOWK+hQ
+	pHtVtKuO3FUhBQvZ+kveTVGQ60e2IbRMaReiyH99R0FFmjvleNavRPJFha8frwyFrft3bZqCCkQb6
+	+fWTmImQ==;
+Received: from [::1] (port=53682 helo=pf-012.whm.fr-par.scw.cloud)
+	by pf-012.whm.fr-par.scw.cloud with esmtpa (Exim 4.99.5)
+	(envelope-from <jeremy.jean@oss.cyber.gouv.fr>)
+	id 1wyptV-0000000BqQk-47Kz;
+	Tue, 25 Aug 2026 14:04:44 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] arc: remove unused profile.h includes
-To: Anthony Iliopoulos <ailiop@suse.com>, Vineet Gupta <vgupta@kernel.org>
+Date: Tue, 25 Aug 2026 14:04:43 +0200
+From: =?UTF-8?Q?J=C3=A9r=C3=A9my_Jean?= <jeremy.jean@oss.cyber.gouv.fr>
+To: Vineet Gupta <vgupta@kernel.org>
 Cc: linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20260820131340.14116-1-ailiop@suse.com>
-Content-Language: en-US
-From: Vineet Gupta <vgupta@kernel.org>
-In-Reply-To: <20260820131340.14116-1-ailiop@suse.com>
+Subject: Re: [PATCH] ARC: check user addresses in unaligned access emulation
+In-Reply-To: <0b3af924-6e87-484c-be0e-11279e28d77b@kernel.org>
+References: <20260824203740.3689400-2-Jeremy.Jean@oss.cyber.gouv.fr>
+ <0b3af924-6e87-484c-be0e-11279e28d77b@kernel.org>
+User-Agent: Roundcube Webmail/1.6.18
+Message-ID: <1f91f8589126b98700ac0b215b0e72ff@oss.cyber.gouv.fr>
+X-Sender: jeremy.jean@oss.cyber.gouv.fr
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - pf-012.whm.fr-par.scw.cloud
+X-AntiAbuse: Original Domain - lists.infradead.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - oss.cyber.gouv.fr
+X-Get-Message-Sender-Via: pf-012.whm.fr-par.scw.cloud: authenticated_id: jeremy.jean@oss.cyber.gouv.fr
+X-Authenticated-Sender: pf-012.whm.fr-par.scw.cloud: jeremy.jean@oss.cyber.gouv.fr
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260825_050528_211583_C0199C23 
+X-CRM114-Status: UNSURE (   6.04  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,42 +81,29 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 8/20/26 06:13, Anthony Iliopoulos wrote:
-> None of the code in these files uses declarations provided by profile.h.
-> Remove the unnecessary header includes across the various files to clean
-> up dependencies and reduce include bloat.
-> 
-> Signed-off-by: Anthony Iliopoulos <ailiop@suse.com>
-
-Acked-by: Vineet Gupta <vgupta@kernel.org>
-
-Thx,
--Vineet
-
-> ---
->   arch/arc/kernel/smp.c | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/arch/arc/kernel/smp.c b/arch/arc/kernel/smp.c
-> index 2d99dffed0ce..ee210a94ce45 100644
-> --- a/arch/arc/kernel/smp.c
-> +++ b/arch/arc/kernel/smp.c
-> @@ -12,7 +12,6 @@
->   #include <linux/spinlock.h>
->   #include <linux/sched/mm.h>
->   #include <linux/interrupt.h>
-> -#include <linux/profile.h>
->   #include <linux/mm.h>
->   #include <linux/cpu.h>
->   #include <linux/irq.h>
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+SGVsbG8sCgpPbiAyMDI2LTA4LTI1IDA1OjAwLCBWaW5lZXQgR3VwdGEgd3JvdGU6Cj4gSG93IGRv
+IHlvdSBrbm93IHRoaXMgZm9yIHN1cmUuIERpZCB5b3UgcnVuIGludG8gdGhpcyBpc3N1ZSB5b3Vy
+c2VsZiBhbmQgCj4gd2VyZSBhYmxlIHRvIHByb3ZlIHRoaXMgb3JkZXJpbmcuCj4gQW5kIGV2ZW4g
+aWYgeW91IGZvdW5kIHNvbWUgZG9jdW1lbnRhdGlvbiBjYW4geW91IGNvbmZpcm0gdGhpcyB0byBi
+ZSAKPiBoYXBwZW5pbmcgb24gcmVhbCBBUkM3MDAgaGFyZHdhcmUuCj4gSSd2ZSBiZWVuIG1haW50
+YWluaW5nIEFSQyBmb3JldmVyIGFuZCBldmVuIGRvIEkgZG9uJ3QgaGF2ZSBhY2Nlc3MgdG8gCj4g
+d29ya2luZyBBUkM3MDAgc2lsaWNvbi4KCkkgY2Fubm90IHNheSBJIGtub3cgdGhpcyBmb3Igc3Vy
+ZSwgYW5kIEkgbmVpdGhlciBoYXZlIGFjY2VzcyB0byByZWFsIApoYXJkd2FyZSB0byBjaGVjayBm
+dXJ0aGVyLgoKPiBJIGNhbiBzeW1wYXRoaXplIHdpdGggeW91ciBuZWVkIHRvIHNlbmQgYSBmaXgg
+YW5kIGl0IG1pZ2h0IGFjdHVhbGx5IGJlIAo+IGNvcnJlY3QuCj4gQnV0IEkgY2FuJ3QgdGFrZSBh
+IGZpeCB0aGF0IHRoZW9yZXRpY2FsbHkgZml4ZXMgc29tZXRoaW5nIHcvbyAKPiBkZW1vbnN0cmF0
+aW5nIHdoYXQgcmVhbCBsaWZlIGNhc2UgaXQgY2F0ZXJzIHNvLgoKSSBoYXZlIG5vIG5lZWQgdG8g
+c2VuZCBhbnl0aGluZzogSSdtIHNpbXBseSByYWlzaW5nIHRoaXMgcG90ZW50aWFsIApwcm9ibGVt
+IHRvIHlvdSwgd2l0aCBhIHBvc3NpYmxlIGZpeCBhcyBoZWxwLgpJbiBteSB1bmRlcnN0YW5kaW5n
+LCB0aGVzZSBsaXN0cyBhcmUgYXVkaXRlZCBieSBleHBlcnRzIGxpa2UgeW91IHRvIApjb25zaWRl
+ciBwdWJsaWMgcmVwb3J0cyB0aGF0IG1heSBoYXZlIGNvbmNyZXRlIGltcGFjdC4KSSdtIHRvdGFs
+bHkgZmluZSBpZiB0aGlzIGRvZXMgbm90IGZpdC4KClRoYW5rcyBmb3IgeW91ciB0aW1lLgoKUmVn
+YXJkcywKSsOpcsOpbXkKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5p
+bmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8v
+bGludXgtc25wcy1hcmMK
