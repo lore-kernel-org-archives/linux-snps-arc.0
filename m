@@ -4,65 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2FF88C61DB9
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 27 Aug 2026 06:06:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFD8BC61DB9
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 27 Aug 2026 22:23:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=2QEDqjQvXUn+TC8X0jUw4tJ/gnMZbpdcT0d6zLnVU2g=; b=Bau276ArZ7HNVJ
-	8NqAOx9/svmdA3mP4YtvKVxxUQHhWm6lQ5KSPbaM5P+i1ABovzGgWAC4xkpE8i7j3sHZ4ZVJsudBI
-	A9LYLYaXndsqn8lkqEY1rO591bVcuSbPJ84hExe83VgyZwWdiRPtS3KIHDrpMvoss0bOXG463fWBt
-	+GPKlcopMmLUFu/GM2a7JoJhaut7AFi3O28B2SIUDuN5iPmdnGGZGh/gOoGYDgKxumANK7MVKGKHY
-	tSAM/8i50OJ8gWkMlR/iBBEh8IeKhsKAz53BE6X2hvL6+0p/2lBz+4PeG3e7CtSDTN3MbEFNOUaTc
-	RdhUjGquFlS93o4mXQtA==;
+	List-Owner; bh=af6hUMLQCuP0VMYsQdOAUEkWUEa24BBclJu5gErqvhI=; b=FAEBLqof6ZKsSt
+	ZxAVUzPmIwshH7ea+rBGzb6z5UgkwHRtro87JTPvqbUJXkWuFPq/VF0nt5fKrEIgv/5+f1gxd5rgK
+	xQjWY26nsfSThSu9TsCrvbcwG/hldX+IYxXhGieVOHzyTw6mCGjDC+pW4WSgJwyvgoC9vbCaOKDTq
+	70W78HARYHh4LOpD9PJIw/rfooGtP8ewiHT1njJPeHvykuaJB3xhJtfn3wm+8eTcUcoXN8FbecnUC
+	lhuIwlsE22JjHOVbBFXp0BhWhkZTyi/qWdAfuFsut/+hK693/njPN3qDWyxRspZhTm07LFZ+ivK1A
+	l6cn/KLhOi+nrGTYFAhw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wzTG2-00000003SOV-1aeG;
-	Thu, 27 Aug 2026 06:06:38 +0000
-Received: from foss.arm.com ([217.140.110.172])
-	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wzTFz-00000003SNZ-3MMN;
-	Thu, 27 Aug 2026 06:06:36 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 343D01691;
-	Wed, 26 Aug 2026 23:06:29 -0700 (PDT)
-Received: from localhost (a085714.arm.com [10.164.19.28])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 46D2D3F85F;
-	Wed, 26 Aug 2026 23:06:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1787810793; bh=4MEVYAYSJL4cEovvPaUuVnqFB51awZSJxYddF6SWzro=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=atxvd2MBYeFEkKGg88c3L5GRhXIVBg8ao3BgsUAsWkYA7ds0RiLYyyyMKGlCqEe4v
-	 MOEpEcQqGd8VjOnqn4rLw1NEKggOUfl9biN2Je1oGa1rmznEcLbhjXu1/IkCtDfkV+
-	 TlSm0YogFKVAPwPubmvtzGJxMq025DHHeIV/tBH0=
-Date: Thu, 27 Aug 2026 11:36:29 +0530
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-To: Samuel Holland <samuel.holland@sifive.com>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>, 
-	Rich Felker <dalias@libc.org>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, linux-alpha@vger.kernel.org, 
-	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org, 
-	linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, 
-	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, linux-um@lists.infradead.org, 
-	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org, Lorenzo Stoakes <ljs@kernel.org>, 
-	linux-mm@kvack.org, akpm@linux-foundation.org, david@kernel.org
-Subject: Re: [RFC V3 1/8] mm: Make ptrval_to_str() generally available
-Message-ID: <xj6w5re27lbtih3lxksk2jxv6kvnpek25urjjcoobwj5pgfqtr@z5loauvsw3jj>
-References: <20260818040041.1891769-1-anshuman.khandual@arm.com>
- <20260818040041.1891769-2-anshuman.khandual@arm.com>
- <029cfde8-74fc-4437-bc18-b1b53d44cab2@sifive.com>
+	id 1wziVj-00000004r1U-1wUh;
+	Thu, 27 Aug 2026 22:23:51 +0000
+Received: from terminus.zytor.com ([2607:7c80:54:3::136] helo=mail.zytor.com)
+	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wziVg-00000004r0r-1IoC;
+	Thu, 27 Aug 2026 22:23:50 +0000
+Received: from [IPV6:2601:646:8081:8d71:abf3:5091:f2d1:704c] ([IPv6:2601:646:8081:8d71:abf3:5091:f2d1:704c])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 67RMMfVr1791603
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Thu, 27 Aug 2026 15:22:41 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 67RMMfVr1791603
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2026072801; t=1787869372;
+	bh=LZKaCTEQCsGwD2GMVqaYbcSqk2BZFOtph9TUIqgES9Q=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=gNMC6j97IhbcMMgbmy2ny/QcgirAYDsXNjEkUGVM1Znjxud9QCneQ+NaB5oSLG7gQ
+	 v5jvb30334qIMdinwHRV9Mkm1vAkB5dFCtDPrhTExA9+mhWKMhkyyY7pwNNDXV+nYa
+	 ZIUdNM5QoTekGZ7e8HvCcyeQNddaLDAOWN/Jvy8Uxxv9wNTihWITw7TCmVqP1EgGTN
+	 kCIbtTmc82Op/HsTj3eTn45BlM2A5KPVDP0EK2g3yw1TIdDnwOqpIsCW0Ta4Fd3LkB
+	 DEHUft1fSZPVoc0UzuPw3ALg0KFFm7VuvuV0p1CXapd4uXhsjXORgINVOEreyDf3f9
+	 wBqVK82EaU2Nw==
+Message-ID: <ed8b99e6-4d90-4622-9d43-451bf6a8db2c@zytor.com>
+Date: Thu, 27 Aug 2026 15:22:35 -0700
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <029cfde8-74fc-4437-bc18-b1b53d44cab2@sifive.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [patch 00/18] entry: Consolidate and rework syscall entry
+ handling
+To: Thomas Gleixner <tglx@kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Shrikanth Hegde <sshegde@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
+        Kees Cook <kees@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+        loongarch@lists.linux.dev, Paul Walmsley <pjw@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org,
+        Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org,
+        x86@kernel.org, Mark Rutland <mark.rutland@arm.com>,
+        Jinjie Ruan <ruanjinjie@huawei.com>, Andy Lutomirski <luto@kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>, Guo Ren <guoren@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Helge Deller
+ <deller@gmx.de>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Richard Weinberger <richard@nod.at>, Chris Zankel <chris@zankel.net>,
+        linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org,
+        linux-csky@vger.kernel.org, linux-m68k@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-um@lists.infradead.org,
+        Arnd Bergmann <arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>,
+        Will Deacon <will@kernel.org>, Brian Cain <bcain@kernel.org>,
+        Michal Simek <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Andreas Larsson <andreas@gaisler.com>,
+        linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org,
+        linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-arch@vger.kernel.org,
+        =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <20260707181957.433213175@kernel.org>
+Content-Language: en-US, sv-SE
+From: "H. Peter Anvin" <hpa@zytor.com>
+In-Reply-To: <20260707181957.433213175@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260826_230635_891528_A3EF40B3 
-X-CRM114-Status: GOOD (  14.39  )
+X-CRM114-CacheID: sfid-20260827_152348_367034_A4FB16A6 
+X-CRM114-Status: GOOD (  41.56  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,41 +105,139 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon, Aug 24, 2026 at 10:45:09AM -0500, Samuel Holland wrote:
-> On 2026-08-17 11:00 PM, Anshuman Khandual wrote:
-> > Move ptrval_to_str() inside a header thus making the helper more generally
+On 2026-07-07 12:05, Thomas Gleixner wrote:
+> Sorry for the long CC list, but this is a treewide change.
 > 
-> Typo here and in subject: ptrval -> ptval
-
-Fixed.
-
+> Michal recently posted a RFC patch to separate the potential syscall number
+> modifications in syscall_enter_user_mode_work() from the information
+> whether the syscall should be processed and the return value modified:
 > 
-> > available for new users which are being added later. While here, also move
-> > another related string size macro PTVAL_STR_MAX inside the header as well.
-> > 
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: David Hildenbrand <david@kernel.org>
-> > Cc: Lorenzo Stoakes <ljs@kernel.org>
-> > Cc: linux-mm@kvack.org
-> > Cc: linux-kernel@vger.kernel.org
-> > Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> > ---
-> >  include/linux/mm_types.h | 15 +++++++++++++++
-> >  mm/memory.c              | 16 ++--------------
-> >  2 files changed, 17 insertions(+), 14 deletions(-)
-> > 
-> > diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-> > index b18c2b2e7d2c..a5b514e55dd7 100644
-> > --- a/include/linux/mm_types.h
-> > +++ b/include/linux/mm_types.h
-> > @@ -2001,4 +2001,19 @@ static inline unsigned long mmf_init_legacy_flags(unsigned long flags)
-> >  	return flags & MMF_INIT_LEGACY_MASK;
-> >  }
-> >  
-> > +void ptval_bytes_to_hex_str(char *buf, size_t buf_size, const void *entry, size_t entry_size);
-> > +
-> > +#define ptval_to_str(buf, val)								\
-> >...
+>   https://lore.kernel.org/lkml/CE1qW@kunlun.suse.cz
+> 
+> The existing logic is:
+> 
+> arch_syscall()
+> 	regs->result = -ENOSYS;
+> 
+> 	syscallnr = syscall_enter_from_user_mode(regs, syscall);
+> 
+> 	if (syscallnr != -1L)
+> 		regs->result = invoke_syscall(regs, syscall;
+> 
+> syscall_enter_from_user_mode() invokes ptrace, seccomp and
+> tracing/BPF/Probes. All of them can modify the syscall number.
+> 
+> ptrace and seccomp explicitly set the syscall number to -1L to indicate
+> that the syscall invocation needs to be skipped and the result has not to
+> be modified as it might have been modified by ptrace or seccomp. The
+> tracer/BPF/Probes mechanism can modify the syscall number as well and
+> relies implicitly on the -1L logic.
+> 
+> This can obviously not be differentiated from a syscall invocation where
+> userspace provided -1 as syscall number.
+> 
+> The general agreement of the discussion was that the current mechanism,
+> while functionally correct is non-intuitive and something like Michals
+> proposal would make that code clearer and easier to handle on the
+> architecture side:
+> 
+> arch_syscall()
+> 	regs->result = -ENOSYS;
+> 
+> 	if (syscall_enter_from_user_mode(regs, &syscall)) 
+> 		regs->result = invoke_syscall(regs, syscall;
+> 
+> That discussion made me look deeper into the related code and as usual
+> there were a lot of other things to discover.
+> 
+>   1) Stack randomization
+> 
+>      add_random_kstack_offset() can only be invoked after
+>      enter_from_user_mode() established proper state as it calls into
+>      instrumentable code.
+> 
+>      PowerPC got that wrong and the other architectures either invoke it
+>      after enter_from_user_mode() or after syscall_enter_from_user_mode().
+> 
+>      The latter is suboptimal as the randomization takes place after all
+>      the user mode entry work. Aside of that add_random_kstack_offset()
+>      uses get/put_cpu_var(), which makes it usable in preemptible code, but
+>      when invoked in the interrupt disabled region that's pointless
+>      overhead.
+> 
+>   2) As discussed in the above thread just changing the function signature
+>      of syscall_enter_from_user_mode[_work]() so they take a pointer
+>      argument for the syscall and then return 0 on success is not really
+>      intuitive either. Aside of that this breaks the implicit assumption of
+>      the tracer when setting the syscall number to -1.
+> 
+>   3) The x86 entry code has some historically accumulated oddities
+> 
+> The following series addresses this by:
+> 
+>   1) Providing new [syscall_]enter_from_user_mode() variants, which include
+>      stack randomization and utilize a new add_random_kstack_offset_irqsoff()
+>      variant, which avoids the get/put_cpu_var() overhead and converting all
+>      usage sites over
+> 
+>   2) Picking up Jinjie's seccomp patch from:
+> 
+>      https://lore.kernel.org/lkml/20260629130616.642022-2-ruanjinjie@huawei.com
+> 
+>      and addressing the feedback (renaming the seccomp functions)
+> 
+>   3) Making the ptrace and tracer related functions return a boolean value
+>      to indicate syscall permission
+> 
+>   4) Addressing the x86 oddities
+> 
+>   5) Converting the tree over to the new scheme
+> 
+> With that all architectures using the generic syscall entry code follow the
+> same scheme, apply stack randomization at the correct and earliest possible
+> place and skip syscall processing depending on the boolean return value of
+> syscall_enter_from_user_mode[_work]().
+> 
+> There should be no functional changes, at least there are none intended.
+> 
+> The resulting text size for the syscall entry code on x8664 is slightly
+> smaller than before these changes.
+> 
+> Testing syscall heavy workloads and micro benchmarks shows a small
+> performance gain for the general rework, but the last patch, which changes
+> the logic to be more understandable has no measurable impact in either
+> direction.
+> 
+> The series applies on Linus tree and is also available from git:
+> 
+>         git://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git entry-rework-v1
+> 
+Hi,
+
+It looks like I didn't get a personal Cc: on this one and so I missed it (it
+happened just before I found out I would be departing Intel, so I can make the
+excuse that I was just a bit distracted.)
+
+This series is a great cleanup, but it did make me concerned on one count: it
+ends up making it universal that the syscall number is always stored and
+fetched from memory. I'm worried that this may have undesirable effects on
+future CPUs which incorporate data speculation, which is probably something
+that will happen at some point (this is a general statement, not in any way
+related to any former employers of mine.)
+
+As such, I was looking at changing that to *always* keep the system call
+number in a register, to allow the CPU to consistently maintain a "chain of
+custody" of this value.
+
+This isn't a hard thing to solve in any way: replacing the pointer argument
+with a two-element structure return would do the trick. As far as I know,
+*all* architectures that support Linux support returning structures with two
+register-sized values in registers.
+
+However, before digging into this I would like to hear people's opinions.
+
+	-hpa
+
 
 _______________________________________________
 linux-snps-arc mailing list
