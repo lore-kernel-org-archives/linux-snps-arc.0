@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F1CDC61DF0
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 31 Aug 2026 05:44:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7EA7C624C2
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 31 Aug 2026 05:44:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=qI2U084lBA34mLPpO9LsKxlx6C9K6am0DuEcTCk2u1U=; b=XVyuD1PwczytPp
-	gbUpGiB40jrgJ6Rh9xT9yvLX+e9i0oD5MydzUh0epj0BKN8SMHiXfuhzommJQ+T7Iin3j9/LU29HD
-	/v3YcaKV5hZH/ojEWk0FyFo5DbVkYr0vAxWlwh0rzTkdlWi9v/yAQHwWAcDf8SsaO/80zMXg32tFf
-	57DFh3UsuiSxxIf5pSmBq9SbUHhg1+4+qhWKQOKgldXcYtTEVdSeiah27DRabigRPBWxVuar5b3Oy
-	d0W5J/hFooCcdXYwYFu52jUXPJXQRvYQPvpQMMg1dT79nu6O7UOASy6Dk5bLhMZtOkNYiqMFOthfw
-	2TUhVS9xi4Ry92antkaw==;
+	List-Owner; bh=OP8V2phIEFxFkoEqpOJslPeOB9BKreJ5Vsdf96ZDJLY=; b=PhhMyEJQKfvaj3
+	UbPCCnho7sQvmtBUYpwec4ZZZi1VsZjmE1s23t7+myVOj/WnQozmO5JDo4L+nP6I4Man4FF1441cr
+	MFffFxoORDKSp1porJ1aypcWTQpY/TuKpS/SYZH8/mzYykL//MecQUQfMBLw6F1dGnG4huaizPRuB
+	mURiZs8UzR5J9d8bkKCef0J+Z55fkgRdIMN5buLOU11C2uwoyc+BF2IyY96aCAF+Ex0H2bkgIwkhc
+	/ry4SvYsxUkzhOys4cvQOAsTu7GlkR0jx0DpuV8wB2XyOLv8qbOjGKNVcPhNCDgvPBuMTMY0evbmu
+	GjvB8M4IFCPZO0wS76Ug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x0uoT-00000008XlL-01Ev;
-	Mon, 31 Aug 2026 05:44:09 +0000
+	id 1x0uoa-00000008Xub-29nb;
+	Mon, 31 Aug 2026 05:44:16 +0000
 Received: from foss.arm.com ([217.140.110.172])
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x0uoA-00000008XQZ-0lTj;
-	Mon, 31 Aug 2026 05:43:51 +0000
+	id 1x0uoH-00000008XXP-3Nkd;
+	Mon, 31 Aug 2026 05:43:59 +0000
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A634419F6;
-	Sun, 30 Aug 2026 22:43:45 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CE4A51A2D;
+	Sun, 30 Aug 2026 22:43:52 -0700 (PDT)
 Received: from localhost (a085714.arm.com [10.164.19.28])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AB2A63F85F;
-	Sun, 30 Aug 2026 22:43:48 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CE08E3F85F;
+	Sun, 30 Aug 2026 22:43:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1788155029; bh=bHIKcGFMXnlsQJKrJxXnpqBn4JSSxbIBTdF+CIJ8MW8=;
+	t=1788155036; bh=tv5DjbtfmXjBBuL3EGYgZEMiDxUCxKafhP8IwXphMBE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=clNBxERMYdRAakaKKIeVq+fddLwKzW5bcKoOh3VIgFbow5RV1gsMlDc9WSqbXb3In
-	 gA4QFgJuxjGVFz7Nge+XaSm3JSHwl5mmk9xVBh4EipWfCTJt1zUhGrlxZzYC3eH25s
-	 bGFJxNhoF2TETCqvHlEfMMHmYKgnZUJbqwS8L0U8=
+	b=mexQGEwhHQAlOrXrZQ25kdw0Ek/wBEDGfOAXtdmcIVany4CjdRHDvTRCAQnRszXkF
+	 brFCVNYJ3wXIMOzy/m82CHQbQfsZL/9752QXUP8CK+p/FFq6WUSn/ton2ZHgaAcI4A
+	 mipdr60mJO12jxZ7sxfPTPRFfT7MvotJi5x09tSk=
 From: Anshuman Khandual <anshuman.khandual@arm.com>
 To: linux-mm@kvack.org
 Cc: samuel.holland@sifive.com,
@@ -71,16 +71,16 @@ Cc: samuel.holland@sifive.com,
 	linux-um@lists.infradead.org,
 	linux-arch@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/8] parisc/mm: Directly use generic [pmd|pgd]_clear_bad()
-Date: Mon, 31 Aug 2026 11:13:26 +0530
-Message-ID: <20260831054331.625505-5-anshuman.khandual@arm.com>
+Subject: [PATCH 6/8] sh/mm: Stop using [p4d|pud|pmd]_ERROR()
+Date: Mon, 31 Aug 2026 11:13:28 +0530
+Message-ID: <20260831054331.625505-7-anshuman.khandual@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260831054331.625505-1-anshuman.khandual@arm.com>
 References: <20260831054331.625505-1-anshuman.khandual@arm.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260830_224350_277051_6FC6B49C 
-X-CRM114-Status: UNSURE (   8.60  )
+X-CRM114-CacheID: sfid-20260830_224358_056839_28873A45 
+X-CRM114-Status: UNSURE (   9.21  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -98,46 +98,48 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Drop [pmd|pgd]_ERROR() followed by [pmd|pgd]_clear() instances. But instead
-directly use semantically equivalent generic helpers [pmd|pgd]_clear_bad()
-in unmap_uncached_[pte|pmd]() which helps in dropping their corresponding
-[pmd|pgd]_ERROR() macros across the tree.
+Stop using [p4d|pud|pmd]_ERROR() in __get_pte_phys() as the pgtable entries
+are known to be NULL and hence could not really be accessed.
 
-Cc: James E.J. Bottomley <James.Bottomley@HansenPartnership.com>
-Cc: Helge Deller <deller@gmx.de>
-Cc: linux-parisc@vger.kernel.org
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Rich Felker <dalias@libc.org>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: linux-sh@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 Reviewed-by: David Hildenbrand (Arm) <david@kernel.org>
 Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
 ---
- arch/parisc/kernel/pci-dma.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ arch/sh/mm/init.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/parisc/kernel/pci-dma.c b/arch/parisc/kernel/pci-dma.c
-index bf9f192c826e..84e7309a8266 100644
---- a/arch/parisc/kernel/pci-dma.c
-+++ b/arch/parisc/kernel/pci-dma.c
-@@ -160,8 +160,7 @@ static inline void unmap_uncached_pte(pmd_t * pmd, unsigned long vaddr,
- 	if (pmd_none(*pmd))
- 		return;
- 	if (pmd_bad(*pmd)) {
+diff --git a/arch/sh/mm/init.c b/arch/sh/mm/init.c
+index 9466ae6f9f16..8d65e60688dc 100644
+--- a/arch/sh/mm/init.c
++++ b/arch/sh/mm/init.c
+@@ -59,19 +59,19 @@ static pte_t *__get_pte_phys(unsigned long addr)
+ 
+ 	p4d = p4d_alloc(NULL, pgd, addr);
+ 	if (unlikely(!p4d)) {
+-		p4d_ERROR(*p4d);
++		pr_err("allocating p4d table failed\n");
+ 		return NULL;
+ 	}
+ 
+ 	pud = pud_alloc(NULL, p4d, addr);
+ 	if (unlikely(!pud)) {
+-		pud_ERROR(*pud);
++		pr_err("allocating pud table failed\n");
+ 		return NULL;
+ 	}
+ 
+ 	pmd = pmd_alloc(NULL, pud, addr);
+ 	if (unlikely(!pmd)) {
 -		pmd_ERROR(*pmd);
--		pmd_clear(pmd);
-+		pmd_clear_bad(pmd);
- 		return;
++		pr_err("allocating pmd table failed\n");
+ 		return NULL;
  	}
- 	pte = pte_offset_kernel(pmd, vaddr);
-@@ -196,8 +195,7 @@ static inline void unmap_uncached_pmd(pgd_t * dir, unsigned long vaddr,
- 	if (pgd_none(*dir))
- 		return;
- 	if (pgd_bad(*dir)) {
--		pgd_ERROR(*dir);
--		pgd_clear(dir);
-+		pgd_clear_bad(dir);
- 		return;
- 	}
- 	pmd = pmd_offset(pud_offset(p4d_offset(dir, vaddr), vaddr), vaddr);
+ 
 -- 
 2.43.0
 
