@@ -4,60 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82097C624D3
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  1 Sep 2026 15:45:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BF1B9C61DD6
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  1 Sep 2026 15:55:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=RQBVeAL8vblv4o7siVSTc5Xjv7BvTktg4Z+yLsigIws=; b=y2K0WKGHaQwdRx
-	PfNWHfQPKqtj5lsqbn269hr0/KwwosDuUj5ChnQz9qMMnJJAmKnYvBxj0v8S2FDagNgOuMvH6gNA8
-	E6qqrc8S6hRxLlboGTNkuboquKlPWm4F/y/Uidff7c790VvBaCARkPgCMwVyoIzeAh4dyle9HRCZN
-	UB92D8WSEljkEGz7dxwqoLQUH1CFGFDAAqz6zSkiznDpgV3NMxrIzVUJ+2z2l1G2W0g9YQFDxyU9z
-	fBliAnsHydanvZeMA/DSZgwiX7zPrdGn/iLFXAhk4OTsKqCT6CW+ronVkvUOplfc/TlxemiQVH4Dm
-	qWKP5JX+UjzszW7Qggyw==;
+	List-Owner; bh=uNGBLPU4syvbbF6NmEEa+y/LSKAiIGdmHXVi7WXkytE=; b=1hM+VmympI6l9L
+	Mx3gF47qncLSgSoCfBJLT37vjvU0lSfU+nSV4VFbeTcgtfaL6b74ajDRQp/zJE+GeeVoYYooXmAru
+	ZOszPnEMW/N68ZM6MN26FI0mL0MnJmahO04yh2NtHd+erMpr+v0/jcS46/9O284EtqHL0cAQXMxDP
+	dJPllQO+7746bzttJLLf2B9KGY1EZGizisK4o6A+9KfhNo1DWDxye1sN/Q+++9jWnpVA7yr7MgN65
+	9wBo1uH4hiRTU7QbbFvThDE8CxjNcRjG5VyKx01kEHCkbtHRqAQoGOkMQhSnGlA11sYSAMlP6D6Q+
+	bmpNdujDvOz35Y2htHtA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1QgC-0000000Ca3H-0MKb;
-	Tue, 01 Sep 2026 15:45:44 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
-	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1QgA-0000000Ca2m-3jHP;
-	Tue, 01 Sep 2026 15:45:42 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 2AC84434B4;
-	Tue,  1 Sep 2026 15:45:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 951D41F00A3A;
-	Tue,  1 Sep 2026 15:45:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788277542;
-	bh=UVHtz6Elr1SZh1A7h5PnNFYa2TvXIJLXLTfOMhtO9T0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZTvYdEaL17Xe57XD8vyZST14VBPRctjf28yyFGBI5rdY8BhdwP/dFY55tWjPYAROH
-	 wHw1cZaETEpdGFMWKgfrhKvyrIXd6bJDtcydcX3/fPqK8Kfi5IfzcyNr//cMw16txd
-	 HFiCeAX5f/1+Nu/YL3SO5aPns4ylRzukBeENUY24mi7KCFX+k7s14AOxgxiOOtHlum
-	 W6G9F88xDUVcAEipO83iD5JtJTIZcqLoGsvrFg6C9MQ0JUePRMRswDgKmoAF/Vk71T
-	 gM3PMpQT/NErJ7UkLFICeRZsY2Bjhj6d+sZWTtE2+9Pnuydiw13BrWhOWFQOR8QNap
-	 Lu8bcy8/bQcbQ==
-Date: Tue, 1 Sep 2026 16:45:14 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+	id 1x1QpH-0000000Cb2T-1qWT;
+	Tue, 01 Sep 2026 15:55:07 +0000
+Received: from [38.23.173.23] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x1Qp4-0000000CazZ-3xgl;
+	Tue, 01 Sep 2026 15:54:55 +0000
+Date: Tue, 1 Sep 2026 11:54:47 -0400
+From: "Liam R. Howlett" <liam@infradead.org>
 To: Kiryl Shutsemau <kas@kernel.org>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, "Liam R. Howlett" <liam@infradead.org>, 
-	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Usama Arif <usama.arif@linux.dev>, Guo Ren <guoren@kernel.org>, Brian Cain <bcain@kernel.org>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Dinh Nguyen <dinguyen@kernel.org>, 
-	Simon Schuster <schuster.simon@siemens-energy.com>, Jonas Bonn <jonas@southpole.se>, 
-	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, Stafford Horne <shorne@gmail.com>, 
-	Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Russell King <linux@armlinux.org.uk>, 
-	Vineet Gupta <vgupta@kernel.org>, Michal Simek <monstr@monstr.eu>, Chris Zankel <chris@zankel.net>, 
+Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, Guo Ren <guoren@kernel.org>, 
+	Brian Cain <bcain@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Dinh Nguyen <dinguyen@kernel.org>, Simon Schuster <schuster.simon@siemens-energy.com>, 
+	Jonas Bonn <jonas@southpole.se>, Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, 
+	Stafford Horne <shorne@gmail.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
+	Rich Felker <dalias@libc.org>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+	Russell King <linux@armlinux.org.uk>, Vineet Gupta <vgupta@kernel.org>, 
+	Michal Simek <monstr@monstr.eu>, Chris Zankel <chris@zankel.net>, 
 	Max Filippov <jcmvbkbc@gmail.com>, Will Deacon <will@kernel.org>, 
 	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
 	Peter Zijlstra <peterz@infradead.org>, "David S. Miller" <davem@davemloft.net>, 
@@ -87,7 +73,7 @@ Cc: Jason Gunthorpe <jgg@ziepe.ca>,
 	Qi Zheng <qi.zheng@linux.dev>
 Subject: Re: [PATCH 01/12] mm/huge_memory: zap deposited page tables after an
  RCU grace period
-Message-ID: <apbvoN6ttgHfI_xg@gremlin>
+Message-ID: <kasi4mkjkt56wxsrmphm5o2qfg2lwsdxf3tlmzx5tq6t7uez74@kozleoavd6r2>
 References: <20260901-rcu-pagetable-freeing-v1-0-5456a81c8212@kernel.org>
  <20260901-rcu-pagetable-freeing-v1-1-5456a81c8212@kernel.org>
  <apbOlyF77yDCV4cF@thinkstation>
@@ -114,7 +100,7 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 01, 2026 at 04:28:48PM +0100, Kiryl Shutsemau wrote:
+On 26/09/01 04:28PM, Kiryl Shutsemau wrote:
 > On Tue, Sep 01, 2026 at 03:41:17PM +0100, Lorenzo Stoakes (ARM) wrote:
 > > On Tue, Sep 01, 2026 at 11:24:08AM -0300, Jason Gunthorpe wrote:
 > > > On Tue, Sep 01, 2026 at 03:12:45PM +0100, Lorenzo Stoakes (ARM) wrote:
@@ -132,6 +118,11 @@ On Tue, Sep 01, 2026 at 04:28:48PM +0100, Kiryl Shutsemau wrote:
 > > > Then when the mmu_gather is flushed it does a single call_rcu using
 > > > the rcu head of the struct page of the head of the list. The callback
 > > > clears the entire linked list of pages.
+
+If you are going through the trouble of doing this on your side with a
+custom rcu callback, it might be better to pack the pointers in a way
+that does not need to pointer chase through a linked list.
+
 > > >
 > > > Since you have to tlb flush anyhow, it makes sense to always use the
 > > > mmu_gather. For example the design I ended up with for iommupt
@@ -145,70 +136,74 @@ On Tue, Sep 01, 2026 at 04:28:48PM +0100, Kiryl Shutsemau wrote:
 > > > So if the kernel really does want to clear out 512 leaf tables the
 > > > optimal implementation is one range tlbi for 512 entries followed by
 > > > one call_rcu to free the memory. Hence the gather..
-> >
+> > 
 > > I think there's some confusion here.
-> >
+> > 
 > > This isn't the path in which a page table is being freed, the _deposited_
 > > table is zapped, in zap_deposited_table().
-> >
+> > 
 > > That is, the page table kept in reserve for THP split, that is not
 > > currently mapped.
-> >
+> > 
 > > It amounts to a __free_pages() call.
-> >
+> > 
 > > The TLB operations are in e.g. zap_huge_pmd() etc. and nobody has
 > > complained about inefficiencies there.
-> >
+> > 
 > > So, unless I'm missing something here, TLB flushes play no role in this
 > > whatsoever.
-> >
+> > 
 > > The issue Kiryl raised was that instead of immediately freeing page tables,
 > > they are now batched up individually by call_rcu().
-> >
+> > 
 > > I personally find it difficult to imagine the numbers here would be
 > > problematic or certainly cause anything observable beyond what is
 > > observable now.
-> >
+> > 
 > > So I'm going to have to say, unless it can be clearly demonstrated this is
 > > problematic, I don't think there's any reason to add additional complexity
 > > here.
->
+> 
 > It would be nice to measure munmap() overhead here.
->
+> 
 > I am worried about hitting DEFAULT_MAX_RCU_BLIMIT and trigger
 > rcu_force_quiescent_state() which can be disruptive to the system.
->
+> 
 > DEFAULT_MAX_RCU_BLIMIT is 10K, so it is ~20G of THP unmapped on x86.
->
+> 
 > munmap() of 64G worth of THP should be enough to demonstrate the
 > problem.
 
-I mean you're going to hit that from RCU freeing page tables already, which
-most architectures already do right?
+I'm not sure what that would prove besides checking if your number is
+correct?  You'll see a slow down once you hit 10K of objects in the rcu
+linked list.  And that will depend on what the system is doing as well,
+so there will be a slow down since other things are happening on the
+system before 20GB of THP is unleashed towards munmap().
 
-So if RCU saturation is a problem, that problem already exists, but I've
-not heard of that being a problem at all?
+One of these does use 5.12% of the RCU items that need to wait for a
+grace period to be released, but testing it would be rather tricky and
+the numbers won't really show much..?
 
-So you're going to have to demonstrate why this situation is markedly
-different from that. And it's the same scale.
+Form my understanding and experience with rcu and freeing massive
+numbers of objects, you gain more from the lower lock contention than
+you lose when you hit 10K objects.
 
-Overall I think freeing 64 GiB of mapped memory all at once will inevitably
-be a slow operation, freeing them directly will also be a lengthily process.
+The trade off is in the Android setup, where they have restricted RCU to
+a slower core.  Combined with another RCU setting, it was causing slow
+down when we overwhelmed the queue multiple times.
 
-And also it seems to me that RCU mishandling heavy load to the point of
-causing system instability should a bug filed with RCU no?
+So this should actually be faster unless you are doing 20GB of THP
+unmapping on Android or a device configured the same way.  Considering
+the cost of RAM, we should be okay for a few phone iterations.
 
-Also note pte_free_defer() is already used in retract_page_tables() so a large
-collapse could also hit this problem?
+Do you have munmap() performance dependent workload that you are
+concerned about regressing?
 
-I'm not sure I'm convinced there's an issue here.
+Thanks,
+Liam
 
->
-> --
->   Kiryl Shutsemau / Kirill A. Shutemov
 
---
-Cheers, Lorenzo
+
 
 _______________________________________________
 linux-snps-arc mailing list
