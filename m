@@ -4,88 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77F68C624D5
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  1 Sep 2026 17:48:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59546C79F89
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  7 Sep 2026 06:28:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=HTrMfdFLoL2w6avOy80NQtE2fjXHZmsVLUr0Zffh4ZM=; b=Q/a0foXfh9ydoq
-	jObd9b9VsyU84Yb48vSk90WBibNtcD9xoLR2sPayuOhUEB6tunlpuyrNbj2b8VVHzRME0Vjg8dn98
-	cDqbCzmH4iBQi7oDuvhN0K9q/+l7YQqQ51fslTY6TW3Yg5x05u/Tq8iLuj0qJ3imrOzdzUQjGWSd/
-	NpdJchsqvnIZaNpbh3VYuLR5PKH1sr4kUFnJjZiXiiWQGBqWE5SXEm9JZ6O6M5hwtxyI41/dPbsy0
-	1K2vTgFzC/8gjpSgNTYSRgZGTlcddm2GSNgsqlWH+Hh87jF4ZWA43t54uKXzqBcTTAZUfCIY1+X94
-	90IofSD0r/3Z+S3hup6g==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=LykEshoU8it0r4fYnNvkPwgP1VsKTuvjMSJIsvU9ecw=; b=aVDMCm9qfvw2jT
+	Q1xOl0unmiDfZGm5ik/qXzSVvixZUDnT0ZOz7ZTlnsWAuV//GojY82+2syj2cdzXaotKNSo9Exz8y
+	dc9efhtV7xzLww3MfipaboTzVpyeMNSkONTSJOynq23KShoBtVg8TlSqChrbSSwL7PW2CjASPmu7B
+	hPTElCZDIgUb2MZDlxeEkpBlUAQymyM/BzBIKImtkcYfkMaJz/Smmdd5mwVu/nfN9mPSZUY6oNw9O
+	+Wul+0cSiDjWnH4+pzZNezdWamc/PYuXXY8kzhkFh+iYaSHk2j1xuVBaB5L5zqwOPSK/jHtGCe3Yl
+	r4HN8eh2x5qgcAnsm/iw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1Saj-0000000Cs27-0Tbu;
-	Tue, 01 Sep 2026 17:48:13 +0000
-Received: from [38.23.173.23] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1SaY-0000000Crxj-16sr;
-	Tue, 01 Sep 2026 17:48:03 +0000
-Date: Tue, 1 Sep 2026 13:47:49 -0400
-From: "Liam R. Howlett" <liam@infradead.org>
-To: Kiryl Shutsemau <kas@kernel.org>
-Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, Guo Ren <guoren@kernel.org>, 
-	Brian Cain <bcain@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Dinh Nguyen <dinguyen@kernel.org>, Simon Schuster <schuster.simon@siemens-energy.com>, 
-	Jonas Bonn <jonas@southpole.se>, Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, 
-	Stafford Horne <shorne@gmail.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
-	Rich Felker <dalias@libc.org>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
-	Russell King <linux@armlinux.org.uk>, Vineet Gupta <vgupta@kernel.org>, 
-	Michal Simek <monstr@monstr.eu>, Chris Zankel <chris@zankel.net>, 
-	Max Filippov <jcmvbkbc@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
-	Peter Zijlstra <peterz@infradead.org>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Richard Henderson <richard.henderson@linaro.org>, 
-	Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Mark Rutland <mark.rutland@arm.com>, 
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	Helge Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Richard Weinberger <richard@nod.at>, 
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-csky@vger.kernel.org, 
-	linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-openrisc@vger.kernel.org, 
-	linux-sh@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-snps-arc@lists.infradead.org, linux-arch@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-alpha@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-s390@vger.kernel.org, linux-um@lists.infradead.org, Hugh Dickins <hughd@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>
-Subject: Re: [PATCH 01/12] mm/huge_memory: zap deposited page tables after an
- RCU grace period
-Message-ID: <px4uwbuq4ixucmjzudxulldk5l2tbuymaoaheyc624jdznnac6@px5wkmxqjmfo>
-References: <20260901-rcu-pagetable-freeing-v1-0-5456a81c8212@kernel.org>
- <20260901-rcu-pagetable-freeing-v1-1-5456a81c8212@kernel.org>
- <apbOlyF77yDCV4cF@thinkstation>
- <apbcoMTVlL42G5tg@gremlin>
- <20260901142408.GA56830@ziepe.ca>
- <apbiB51hjm-9pRzf@gremlin>
- <apbuO_QveZNAz3ns@thinkstation>
- <kasi4mkjkt56wxsrmphm5o2qfg2lwsdxf3tlmzx5tq6t7uez74@kozleoavd6r2>
- <apcHiE7jDQaFYXOM@thinkstation>
+	id 1x3SqW-000000061Aw-0DKy;
+	Mon, 07 Sep 2026 06:28:48 +0000
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
+	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x3SqU-0000000619t-0rN0
+	for linux-snps-arc@lists.infradead.org;
+	Mon, 07 Sep 2026 06:28:47 +0000
+Received: by mail-pg1-x52a.google.com with SMTP id 41be03b00d2f7-cc439aa0078so2575228a12.0
+        for <linux-snps-arc@lists.infradead.org>; Sun, 06 Sep 2026 23:28:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788762525; x=1789367325; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=FLAE2XmmuZSgKOvA0qkWrT7oMG5vU8MEAkdw+Fem9Fc=;
+        b=WW4Ik+QhLOrMvsvtr9cNnIuXuDS3hYC6W4a89zTeRHNNzb2xIbU4n0h4mTqE9H64Qg
+         B94uoNaK/4q3QpcWK5YibCM9aB74TxUjYvaYZOe5L95ZDTgAxJ+xrDOFp0D6bcjWBiCA
+         SPEmC4XrMWcxJYuWI8fko0i00KjsXc1iCQAFt2EgXtl4SuISft6FAMRI4qfXgba8mH8T
+         08SZFz3pSn7iJSU5aFmmw+8soh26UIqOCYnl4ZEs0ITLVuaz7CYAViOQf8K+PpLfi/JW
+         owIPCh4drJkcmzF5gfWosBTRApNFDMZBOJv1fuTSGF2hrrCVZ//TrqxbUyegMrAwwa5q
+         stIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788762525; x=1789367325;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=FLAE2XmmuZSgKOvA0qkWrT7oMG5vU8MEAkdw+Fem9Fc=;
+        b=JKcxW7KyF4s3dAUyd8zdC/IMKf9ckhm7bMa+pMaO//iF1/Thjan1lkWNqCU1lUTmuc
+         IckbsiCYMQwAiqyxuthP8u9pE+BaY/PsSlyknAsKeARBIhu4WwvGZWP4QjURxcWTTCui
+         m/L2l1K6kSGftgeDlWDjLOQVM3cBGNf/VxDF/5D6+p/th9DZE3k3KLzLfGI4xL3Tqld/
+         hStI1hW4Ox5koekFFgRlsdeJg4qFPA2ogmLpotJy/QXnif1bSHHee6vzyvuS+2uPJFqU
+         WPh1eItBNvu/kSBZykg5npJli2zgWu/amv+VlQh+f0YyhkdVUbXxi34l6XjhFLTj2cFC
+         gXEg==
+X-Gm-Message-State: AFuF++ll2yIkQa7CCb7SELUNF+0UDq99geGMyUKOQ+WzkPqjkWMB0wju
+	11jSWDyYsb/SDwcbeklXEznxEOTQlso01XSQe+3+pLoVqQFitO0/yubY
+X-Gm-Gg: AYBFou3bqKkhR7jBB3RPrbGsSsIp7HzzJ3BH1nlXxzlo86Gk+etNbt+4OfgAXw+5O/2
+	I5GKm6VwGQmfKoX0DGi53DH8qmojAvK2LK3WMXqPHfJD+ASs94McGDyg5ftJ4KU8EV5yErkkHVS
+	/2YhyyD8BDAyBnLx3FqOV0FumScszUHkCzyvUkRSOZgFGg/OAP7z6dYiB0djCWV6/opYqZL1yQw
+	UUO/he6QvNpwF0yXhLkr7Fao/j+xHJ6CbLMuzAFhZ4+MXum5b/ekz7M/zGQ/VpbQ/mC4yWdABK0
+	fVZ15SzZWx6bo3Wchxke6V8EMlGRXKdl9Fpwx3C5yz7mEcbAd+l902CYpLS/pX6CVqtLq2lccMi
+	W2iDbwJj9c9evV3lXxZsWjErNAVnb0EF1mX1GmBuqhDPTLq05NVDmfTlJbVPXApsrhl37UbyM5P
+	9YigSZujD/28BYS4RldqB4qS4BP1hlPiA6a7KR7lX63Unt2qPzb8BRa5PaJPrn1zQfL/Ph5i+b1
+	vDXGuyngAX67Q==
+X-Received: by 2002:a17:90b:1641:b0:399:1f8b:d255 with SMTP id 98e67ed59e1d1-39b260dd3fdmr30248151a91.5.1788762525152;
+        Sun, 06 Sep 2026 23:28:45 -0700 (PDT)
+Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14324356931sm36612713c88.4.2026.09.06.23.28.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Sep 2026 23:28:44 -0700 (PDT)
+From: Hemanth Selam <hemanth.selam@gmail.com>
+To: Vineet Gupta <vgupta@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>
+Cc: linux-snps-arc@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org
+Subject: [PATCH] tty: serial: fix typo "satify" in comment
+Date: Mon,  7 Sep 2026 11:58:40 +0530
+Message-ID: <20260907062840.17276-1-hemanth.selam@gmail.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <apcHiE7jDQaFYXOM@thinkstation>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260906_232846_288433_90F60119 
+X-CRM114-Status: GOOD (  10.04  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,21 +99,31 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 26/09/01 06:13PM, Kiryl Shutsemau wrote:
-> On Tue, Sep 01, 2026 at 11:54:47AM -0400, Liam R. Howlett wrote:
-> > Do you have munmap() performance dependent workload that you are
-> > concerned about regressing?
-> 
-> exit(2) path is performance critical for many workloads. Like, if you
-> need to restart VM.
-> 
+Correct "satify" to "satisfy", reported by scripts/checkpatch.pl using the
+misspelling list in scripts/spelling.txt.  Only touches comments, no code
+changes.
 
-That is not enough to see any impact, although less overall work would
-be done during the exit call.
+Assisted-by: Cursor:claude-opus-5
+Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
+---
+ drivers/tty/serial/arc_uart.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-It would be very difficult to come up with a scenario that this would
-have a measurable difference and an even harder time to come up with one
-that is slower.
+diff --git a/drivers/tty/serial/arc_uart.c b/drivers/tty/serial/arc_uart.c
+index 5c4895d154c0..3988e5958896 100644
+--- a/drivers/tty/serial/arc_uart.c
++++ b/drivers/tty/serial/arc_uart.c
+@@ -304,7 +304,7 @@ static unsigned int arc_serial_get_mctrl(struct uart_port *port)
+ {
+ 	/*
+ 	 * Pretend we have a Modem status reg and following bits are
+-	 *  always set, to satify the serial core state machine
++	 *  always set, to satisfy the serial core state machine
+ 	 *  (DSR) Data Set Ready
+ 	 *  (CTS) Clear To Send
+ 	 *  (CAR) Carrier Detect
+-- 
+2.48.1
 
 
 _______________________________________________
