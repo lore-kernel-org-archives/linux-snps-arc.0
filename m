@@ -4,100 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92EBCC79F82
-	for <linux-snps-arc@archiver.kernel.org>; Tue,  8 Sep 2026 21:15:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0AFCEC79F8C
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  9 Sep 2026 04:43:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Mime-Version:References:In-Reply-To:
-	Message-Id:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=la8ApOqoD+n7nqzh5TIxAhQ4jvnJV3WVo/rKGe9uZgQ=; b=FJXp1/fDcNr4AP
-	NO5rd93sxsfsIKjZOFg2sYbQdy6rom4cyZ76lybT9nqICE4eScM39lG4AiEwEi4Gg2inGdC0dqgEV
-	vLQ8W9NYFBVAM0B0AN9+K6fdrMDfSy7qcezq3CRrZuzD/FpqadY2oA8HbPsIWF86MVjWJBuoxsOh7
-	e/qFSOE3reDfNmSM617K2TSZ7MvgZVjxfivbyo5fSWxv8XMYohULB67lNiWUUSvPSuc22ZgK0WC9F
-	t+2ESbPmtgcWDCAok+6flM3dmT04pJ90gjJZbVh6dMX+6yrNB+Vhck0mDlE50wp3CHCp5z81Fn/mg
-	caupTTyrjjgHHzvh3/TQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Date:Subject:Cc:To:From:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=mm28XX5IDWFOhd+ocGts8sHrCHIZWdRF+IXIHY0cOKE=; b=1BRZAsxiZR7Eyq
+	n3NzHO/id5gnnYA49bLXcoyHXk8ge6Roj4oahh6THQ2yq+ewjX/SO8WDCPBviFYAXyJ7ruJtmiJ7z
+	Eoro+4vNqL7qP4A3WAL71rcLFXK5j6jl9ImAtsjTgpE4pjgHdtAQ8M61agIWT0FuDIPmvx+PoeXzZ
+	9JpQ49dzrygr9QZnsJ+GrczUWzSAw3s3/dU896u4yoWnwKorysudqWqBVuuKRQRe1C4ipy5ZZhFe6
+	6fo/k5QTfyBxpDse2p0PEC/5W/CcWvoU/W+HsYF8c1I+5HVwSsi5TGlT+hTJl2fyEgh2wNkw1kcxj
+	ErJL8fFUATlnh1zPbkEA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x43AV-0000000AIe4-0Qni;
-	Tue, 08 Sep 2026 21:15:51 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1x4A9Y-0000000AlW9-3igV;
+	Wed, 09 Sep 2026 04:43:20 +0000
+Received: from out162-62-57-137.mail.qq.com ([162.62.57.137])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x43AS-0000000AIdP-3MHz;
-	Tue, 08 Sep 2026 21:15:48 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 54B69601F9;
-	Tue,  8 Sep 2026 21:15:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E1EB1F00A3A;
-	Tue,  8 Sep 2026 21:15:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1788902147;
-	bh=eVg9GefJyoXHHA5a69mXqnQLyloUJ4YxIPGGpLvgyr0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=S61FQutZ9GAkmusTuBm8tba1mRd5os9NdWI1OcYUdnUCilKfQqRFUpY9X0910S1CM
-	 WZ7yUO067yRvIkgkaa3uP271RNhAevtq90hMdQ5fuv0628aYooJ26Y2LotuEU39MiY
-	 QQuRFXCkF1Dzu+58mWFPPcGHJySDbzaovnewoTOY=
-Date: Tue, 8 Sep 2026 14:15:43 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>, Baolin
- Wang <baolin.wang@linux.alibaba.com>, "Liam R. Howlett"
- <liam@infradead.org>, Nico Pache <nico.pache@linux.dev>, Ryan Roberts
- <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song
- <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, Usama Arif
- <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, Guo Ren
- <guoren@kernel.org>, Brian Cain <bcain@kernel.org>, Geert Uytterhoeven
- <geert@linux-m68k.org>, Dinh Nguyen <dinguyen@kernel.org>, Simon Schuster
- <schuster.simon@siemens-energy.com>, Jonas Bonn <jonas@southpole.se>,
- Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, Stafford Horne
- <shorne@gmail.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, Rich
- Felker <dalias@libc.org>, John Paul Adrian Glaubitz
- <glaubitz@physik.fu-berlin.de>, Paul Walmsley <pjw@kernel.org>, Palmer
- Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre
- Ghiti <alex@ghiti.fr>, Russell King <linux@armlinux.org.uk>, Vineet Gupta
- <vgupta@kernel.org>, Michal Simek <monstr@monstr.eu>, Chris Zankel
- <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>, Will Deacon
- <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick
- Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
- "David S. Miller" <davem@davemloft.net>, Andreas Larsson
- <andreas@gaisler.com>, Richard Henderson <richard.henderson@linaro.org>,
- Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Mark Rutland
- <mark.rutland@arm.com>, Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui
- <kernel@xen0n.name>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Helge
- Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, Michael
- Ellerman <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)"
- <chleroy@kernel.org>, Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik
- <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, Christian
- Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle
- <svens@linux.ibm.com>, Richard Weinberger <richard@nod.at>, Anton Ivanov
- <anton.ivanov@cambridgegreys.com>, Johannes Berg
- <johannes@sipsolutions.net>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
- <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
- <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>, Vlastimil Babka
- <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
- <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jason Gunthorpe
- <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, Peter Xu
- <peterx@redhat.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, linux-openrisc@vger.kernel.org,
- linux-sh@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-snps-arc@lists.infradead.org,
- linux-arch@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-alpha@vger.kernel.org, loongarch@lists.linux.dev,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
- linux-um@lists.infradead.org, Hugh Dickins <hughd@google.com>, Qi Zheng
- <qi.zheng@linux.dev>
-Subject: Re: [PATCH v2 00/12] mm: make userland page table freeing RCU-safe
-Message-Id: <20260908141543.8180b60400d38b70d249949b@linux-foundation.org>
-In-Reply-To: <20260908-rcu-pagetable-freeing-v2-0-1f60b64e878e@kernel.org>
-References: <20260908-rcu-pagetable-freeing-v2-0-1f60b64e878e@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
+	id 1x4A9W-0000000AlVO-0fig
+	for linux-snps-arc@lists.infradead.org;
+	Wed, 09 Sep 2026 04:43:20 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1788928989; bh=lH5IXN2ceBcHMTHqBV+AIVgEgQN9eNu+ZHV3+2w5mx0=;
+	h=From:To:Cc:Subject:Date;
+	b=kQ8fVcJHu4FE3zZ6UA1hN55+P4PxvSbzdtLMc+rZ2EI0MZNyz+Mu2soFpOO7BkkNx
+	 aBwPIq1sQK64q5bAjPlVeQFMHc8KoPB1HRcUSN0xzHHisUeCDiZm1uTq/Vv9d33iXg
+	 QbnA0SEiX22G4CiicdskODrOs4PwCHIovHa2BcTc=
+Received: from LAPTOP-7R15B00L ([183.220.99.26])
+	by newxmesmtplogicsvrszc56-0.qq.com (NewEsmtp) with SMTP
+	id AC607059; Wed, 09 Sep 2026 12:43:06 +0800
+X-QQ-mid: xmsmtpt1788928986tmhcx1u2r
+Message-ID: <tencent_0F7ECDD4429624B3213BD758BED2F788490A@qq.com>
+X-QQ-XMAILINFO: MvkQ4+1sQve7ZBBNo/VzFgtVOuGjkPOFpk6XnbAZ5bKKusMwGb4E3wMRl3nMSu
+	 3psG7ih7dEvl/qigeqeONwGIvUWxNZ/YugjQhQ3QD5zsdJeYGkY13KUYf7klzbmf8wQ+tWaA3o3m
+	 abZxj6uyMzJZisWvFbEX+Q7Usi8i42TMrPO8wRrZ3DvGwVt0KqbrUzVLJ5Sgx8OmjLstln2NskOn
+	 G2Tpf+u3zN5J5A7SmS356LKNtAdLDLtOa8hm25Gf1pPZXh/pKAa8un7j/wzcJdAwI7lLo+MNo2vr
+	 zBYKzGk2BRvYs5HxxG2VsXpGy9mJKDgeKlytfz8jtkVL41qcKZ3ytXilImglntOhkj4Oo+GOurct
+	 FE1gGSEBAUeoBupmZGcz0/JFE6B0atxDgglCytizhl2SgDmqbs4XcxFhvxiEcdPhqD/tujGHEO7w
+	 pbJR1yxHpeiwYbUi3b3nyCqkc9zMlHBJffNyQZ8KHkxlmm76bGwVaNGSTWFOmV8sjG1lG5TWgc8I
+	 fjM4BFjLNCau8AgZ1Ql0IV2lniajNWdv4gsEDW1SIWQK5nmLhqERsRhpZQ3jtiKZbM9641+1RIsl
+	 YkgbxjFyQLC1/QGB2oXrSYqD5jum4pJ+q/8UvxwE8tgEtrCbTy8RAk6LPcuevTBQJDP6saOzpIIZ
+	 AA3yiLielIjJ3+H7dI2BWQ7eF+BsRo52YvtNQhlv/PNHyZT0iGZLZILjTB7SE+4P1aJqJvaNEqA/
+	 H8lNyZmbGWdcIok03mU+li5ZjHBOGmFg6ydjmkeyg4eZlJO3bTOZdF4sI5uQcJrE8zm4VNngKXkW
+	 cQf50x0POwQJdSt6wr0ls+9yk9Vz+G6EpusNkgFbx8sq40sLt4Wem0S8Btu3hiFLH+3uyHs1GKWp
+	 eLXIc8JUVArHUW5tYsSys1vF9ZJ9tNH660lYysb32eaf49bsvyNG9J7TBivDG4efM4769bAMdF10
+	 iL4Ynnphtz3xvuB1jQrf47FpNVR3hKlD2fz66K0XcrTI6m+D11lQsdtDZbXParrs5+Kz4vIH/Ymj
+	 rz8YZK57hIQ62pDgPMPgxCW/q4zSMNixWOtO20l9yKcoNXhz8yjJ92xYS9vG+/3jvPWGSoOuC4nF
+	 FHuLG2WwXswJbBrns=
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+From: blaze <1466528493@qq.com>
+To: vgupta@kernel.org
+Cc: linux-snps-arc@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	blaze <1466528493@qq.com>
+Subject: [PATCH] arc: kernel: Fix clk reference leak in show_cpuinfo()
+Date: Wed,  9 Sep 2026 12:42:59 +0800
+X-OQ-MSGID: <20260909044259.1754-1-1466528493@qq.com>
+X-Mailer: git-send-email 2.53.0.windows.1
+MIME-Version: 1.0
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260908_214318_889642_F660E797 
+X-CRM114-Status: UNSURE (   9.04  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,31 +85,36 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, 08 Sep 2026 13:32:09 +0100 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
+In show_cpuinfo(), clk_get() acquires a reference to the CPU clock, but
+clk_put() is never called to release it. Since show_cpuinfo() is the
+seq_file show callback for /proc/cpuinfo, this causes a clock reference
+count leak every time /proc/cpuinfo is read.
 
-> The majority of architectures in the kernel defer page table freeing until
-> an RCU grace period has elapsed, this series converts all remaining
-> architectures to do so too and eliminates CONFIG_MMU_GATHER_RCU_TABLE_FREE
-> altogether.
-> 
-> This is important because it enables safe lockless page table walking under
-> RCU alone.
-> 
-> Doing so allows for reduced lock contention, avoids lock ordering concerns
-> and enables fast, efficient and correct page table walking as a result.
-> 
-> Additionally it removes a bunch of code and architecture-specific behaviour
-> which is always a beneficial thing to do.
+The frequency is extracted via clk_get_rate() into a local variable, so
+the clock reference can be safely released immediately after.
 
-Thanks.  It's early and unreviewed, but this is mainly an
-if-it-compiles-its-good thing, so I'll add it for exposure to the
-build/checker universe.
+Fix this by calling clk_put(cpu_clk) right after clk_get_rate().
 
-> However some arches required extra attention - sh-X2, m68k-motorola and
-> sparc32.
+Fixes: 98f2892607c5 ("ARC: [cpuinfo] Add clk info in /proc/cpuinfo")
+Signed-off-by: blaze <1466528493@qq.com>
+---
+ arch/arc/kernel/setup.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-OK.  Please lmk later if you think additional reviewer/tester attention
-is desirable in these areas.
+diff --git a/arch/arc/kernel/setup.c b/arch/arc/kernel/setup.c
+index 0000000..1111111 100644
+--- a/arch/arc/kernel/setup.c
++++ b/arch/arc/kernel/setup.c
+@@ -593,6 +593,7 @@ static int show_cpuinfo(struct seq_file *m, void *v)
+ 				   cpu_id);
+ 	} else {
+ 		freq = clk_get_rate(cpu_clk);
++		clk_put(cpu_clk);
+ 	}
+ 	if (freq)
+ 		seq_printf(m, "CPU speed\t: %lu.%02lu Mhz\n",
+--
+2.43.0
 
 
 _______________________________________________
