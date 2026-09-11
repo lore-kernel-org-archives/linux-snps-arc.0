@@ -4,107 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD6BAC88E4D
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 11 Sep 2026 20:17:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99297C88E50
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 11 Sep 2026 22:10:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Subject:References:In-Reply-To:
-	Message-Id:Cc:To:From:Date:MIME-Version:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Owner;
-	bh=NglKyfMW72Q1y/3uet8QQpYuxjpfIza87hrNNKVeZRo=; b=xVgz6jbCq/3HzsNyUYjbSq3bP1
-	qURiM8ueyDT4v/51dNVzvk1By5/mFTuSWXLO7yqGy+35zzNZuNZXY/Y03eUTkkjwCyZZPp2QyGzzN
-	KlTg9lmy3xTrG9jIz0OaDLFb2AJFTX9jDaa1IeSYs/+Lc2++TxKh8kvtge3Iz/8APLPs/e1FSfU1/
-	9a/NRNHRga5xWyZHr7ZHxx0jndZh92BzAix05BAMsfV+Of4o1cynToJJwenwfCVfgzR/hyKUuKN+A
-	WiCafW4p/45JTWF5nbt4TlTm7QQJKl2UoZTSCYzyATZBb6UvxKfLqvciUJeYvTsvQKzGeKiAyzyTa
-	73yc0+Gg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=8Umz5vTdmpo6FnUbGdi0zfmgUVvpmUzzFqh/RurR3gs=; b=pBQyC/89ZXINC4
+	Yfbq+moTfcFrkeuyHj51D0icJlBsS4OQLFPQQhXcHBMn/4/Io2wtf7BKgZ9cZ6bOf7h5Pr3UFVQes
+	3vkF3wOUrLOFpYzBWPTFWdeHD00zfeW+DwvlEz9OVrDFS3jdlE/9QrgwMNtJDxsj6Sxv4MEIBa48W
+	q5BumSPvU0ZQZNFBiJX9j0goaQu7h8TLYe7BQaHs6uY0zdA39+oEciL+uuvX9L7fsP/Ok35/eBtlU
+	GZ87u5v0NVWNkfVQndjD/Nu83AHh0rxU9zvcM2loL3VuCfsPXmphAXe0H2dIwUa0fnYXA2vxOlzko
+	oy612oaCZWDjZumsnKGQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x57h1-000000004rI-31Uo;
-	Fri, 11 Sep 2026 20:17:51 +0000
-Received: from fhigh-b7-smtp.messagingengine.com ([202.12.124.158])
+	id 1x59Rx-00000000EOa-0xsE;
+	Fri, 11 Sep 2026 22:10:25 +0000
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x57gx-000000004qJ-459w;
-	Fri, 11 Sep 2026 20:17:50 +0000
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 53CA57A00C6;
-	Fri, 11 Sep 2026 16:17:43 -0400 (EDT)
-Received: from ams-imap-03 ([10.64.2.23])
-  by ams-compute-02.internal (MEProxy); Fri, 11 Sep 2026 16:17:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1789157862;
-	 x=1789244262; bh=6EbnYxGqe0xixbnmgwrnZwLddp9Ao1JEq2A2JzywCcI=; b=
-	Wu7myXEuTU4nZbcOAv+QPnbuAtWv8/+K/zriRJrhRxjnzdYRc2AU7kih4tjN7u4x
-	FPsmMYEUWPKmpkcz4FTBjjna/GZEu6Nru1MDgU/VVsvv3wkFIfiiLgrOlm5athXV
-	EpLnTenvHSogbwrLX5VrFXKiUXCht2PmwLZZLGYIbi3lnq+TzGADNgyzdTR6vFpz
-	vlTbWSud0X+E7Twqix/O2qWfs1WhxAbh7Kq3Q5xN1tM2zkW6O4QX0gM1O+FT8hoB
-	6gqZyDW4m4hLgylpWza7RRsgJflSKPybgiWSft13eFyuR2TQCis0g56wedFzPDyh
-	09uP9TuOXOGPVBUdOyPXBA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1789157862; x=
-	1789244262; bh=6EbnYxGqe0xixbnmgwrnZwLddp9Ao1JEq2A2JzywCcI=; b=W
-	fxl++9NU0d8tHTjJWeMiF05jlpLzcp5E3OeAHqL/90wDxsS+Vhgpg3kIsI9Bu3EU
-	XL09lXtwZ+TWYQAdTdDPNoAelXZjVG5JszCpgnKrNwfkBR3mx8e4RAfVxJMB4C42
-	8Prv6vqIIhByMUEZIjDYld26i7/H/cUexctkJsp/WgiVDoMn/NUt2Gd5j8/bZr2Q
-	BsJhHiK7aak41f7vAr3VSyVeboF41dMBB0gZOK891Uswa7Os9v1gMNh3GFtdylxl
-	n+EgKweNNNW+0DYXIwbBr6QpesBHrdh8SzVAwsgdWlTMYXsSnE4tjIUo0H4F+EJZ
-	G/0U49j1q5y/trkLHXvhQ==
-X-ME-Sender: <xms:32GkasISX4WbD9wG2rxBdBe9Na4bcX9xm_JDGLFHnSAeHgzRE7Cr3g>
-    <xme:32Gkam8cvJaPKT-InblbjyT5ZdW3r4rROkjQqvt8SwiQcNb90L0c13Ez9e1WWDZYt
-    o8zuYY1S1ZV1Ph152Mjx68Bl1uPhuNaKoSyMdkdovZZRP6W8uTGFgo>
-X-ME-Proxy-Cause: dmFkZTGh0gLZNZBxe6Y5EwujO7h5YSAbLaol936kXjDbPkBTmCLtncegw+FJypwAB0cXMF
-    5VBA6L86GAs34nb9D7LOw6xcYkzdt4dfxfwMc8Df5DPPw0PSZiraAEsYITNStpuvxYvP85
-    6dvdSeWKu8M2XUSW2E+8odMexOEm7bEeGAV1bLv6IUDtMPL42JsG7nVzKQ3TCK37XXCqpF
-    92nRhGgzUy7iM+hCgmBshWzd5f6IuAsIj1DYDhgRWpdZJnswQNoYDbW0rpqX/Jrupgz+Ox
-    oX9VL28TkUhg+2x+ivO5QRzZ/lXB/ma/Oe2TQkZPd7YTZf0gQEzke7B2TrNvpS8cf5e7dW
-    YRtQzOcaJqvDbyTDiI/oDLnR6om5i0xGnn+PB0k/ganOZxbe0EHjVJz18oZTNUAD0EE8km
-    qZf/fwV/9PWYrKrL7rpucLFdTIAGYZkafGJloWzOICo1mjJY1zl1AAfpAX5gvKvkt96MCe
-    0g6F6eYAV2zE9g7/JOD0zhd41ta7wMu40/Y1hfJ/ksIarblZHeIFSeF73Fqru5qQzxQ9Yz
-    biMdM4KTC/yRDvAI9oPHDbpFetrxTvBTseI+nPrLrcgxdSAOAIkK2JJWNR/MoL23csKjlL
-    RFJJ1UuW2r5iPkr1kmh8qX6hejxePJJHDk8MSoQlBO74jfJQy3+CfQtAjkAQ
-X-ME-Proxy: <xmx:42GkaqkWLW_2vJQHOwEHI3pQ7h_Ufp9XzEukJ1yf7GqRnnR9rf2R2w>
-    <xmx:42Gkas2MNrwkQq_g4iUQMQl8VCOd2jaIkEptHlnfzmC8IFqtis4bMg>
-    <xmx:42GkavRzfofbrj818MWgcK61z7kwSf12vFAwP0UXtZXA5hPaqKEUcw>
-    <xmx:42GkasOoPcljqFc03VdUTftLcTXe_oRivwx_b_Y3omoLYCYky55G9g>
-    <xmx:5mGkaqQwkNj47I5B8l0Garx2qvsPVJE3iphHAgJ8dCMedEAhlmY2b5NE>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id C7F7532A0081; Fri, 11 Sep 2026 16:17:35 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-MIME-Version: 1.0
-X-ThreadId: Atvpn89t2M6-
-Date: Fri, 11 Sep 2026 22:17:15 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Bradley Morgan" <brads@mainlining.org>,
- "Paul E. McKenney" <paulmck@kernel.org>
-Cc: "Frederic Weisbecker" <frederic@kernel.org>, neeraj.upadhyay@kernel.org,
- "Boqun Feng" <boqun@kernel.org>, "Joel Fernandes" <joelagnelf@nvidia.com>,
- rcu <rcu@vger.kernel.org>, "Andrew Morton" <akpm@linux-foundation.org>,
- Linux-Arch <linux-arch@vger.kernel.org>, "Vineet Gupta" <vgupta@kernel.org>,
- linux-snps-arc@lists.infradead.org, "Russell King" <linux@armlinux.org.uk>,
- linux-arm-kernel@lists.infradead.org, guoren <guoren@kernel.org>,
- "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
- "Yoshinori Sato" <ysato@users.sourceforge.jp>,
- "Rich Felker" <dalias@libc.org>,
- "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
- linux-sh@vger.kernel.org, "Chris Zankel" <chris@zankel.net>,
- "Max Filippov" <jcmvbkbc@gmail.com>, linux-kernel@vger.kernel.org
-Message-Id: <a817a6ed-7345-435c-97bd-a394b90e8366@app.fastmail.com>
-In-Reply-To: <20260911192540.20983-1-brads@mainlining.org>
+	id 1x59Rt-00000000ENY-0lgs
+	for linux-snps-arc@lists.infradead.org;
+	Fri, 11 Sep 2026 22:10:23 +0000
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-49b0d8bc2aaso16423505e9.0
+        for <linux-snps-arc@lists.infradead.org>; Fri, 11 Sep 2026 15:10:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789164619; x=1789769419; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=1CitEInQG9IH8hFfkxw+Dy1+TcxOBHzYjUh6RK88Fgs=;
+        b=Vu6dKsPcNI5U9U7anAngoqYq+QRvUlGMvbGoSrQ6Fx6TDM4YpLscW+5Ma9uZTM3Wci
+         m/TLsPX7wv2t11xVLFjQfehrf1CBVrkCWyyRzbvTFjSd+sMHBBb+YZYaPoK44oaCOVH8
+         9Fi9FKfWDWHyGpYlSqBAaCseBtuM50Tc4CHE4tl2ZZQunwVxZRy6L27ImirAU0XqMcE9
+         QZBv8X3tK2l1KEy7N285Gw69qnMqSWATCvYfhN6/cevQmqMdXu7jjQ++MzPmlMm6Raq0
+         keIL4hqZqMxzqQBxTDdTW+6v7Qq3IfZ1fiGVHXy+LteCx01+8u6TLJ5YyPeoN8u95ROe
+         ZJRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789164619; x=1789769419;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1CitEInQG9IH8hFfkxw+Dy1+TcxOBHzYjUh6RK88Fgs=;
+        b=FsDD736ACbrsaEOzbkdXtm05UeBOKgTzZDK/BK04P2KW7cK7Y2///DEWDxiIZkI+Un
+         j9i7cdp3v71xzMn4daK4u8vBUmCbEAarDjZSz2B9ZJTI6u7l08XakT7tR68YcRVRQVrP
+         AsP4/YqOtMldH+SD1c1iPaJ546G2Zv9tvu06doIclu8ecROr+wUVJIrhM5lEK9gkQ3RS
+         TLf/4daU4/H41gyeJsq3OfsAeeKtqWWgsaHf86HtQe8oi3ji+BAsHzeAFf+tsHHzSgOI
+         QTGcxvbBZM1nvZywFg57fEX7a9pFDyPGi7HRGzjc1ukd05DSdWc4BzGCoOkSFA8YTsCj
+         ezpw==
+X-Forwarded-Encrypted: i=1; AKwUvBzgTsRUl5mkPojNKco2VAm1tWbr/39P9aWwWTZS5MCLJda9eYi/OoVFOIOdwypGqpbgOY08JIXLIx7FyrHHpw==@lists.infradead.org
+X-Gm-Message-State: AFuF++ngshhhkHSDAf4QgkfXTATtVRTOlmYJfs9ARVBRwP4uW0Pf2Kkc
+	WKgYEEcFufhXv3h5X+ySfIJN02gC6ZiP6TKi9oADu8bx2LnafNJEPdEc
+X-Gm-Gg: AYBFou3isQ7yCdFDZeyEVPe3cjjkLxeIJ2gIRi1v1SL0Ducs1Z4QIieehqhxJRL9i5Z
+	rviOdlazBmqX8UN8L5tprBWZPFlptoLrYgVuODYgWAqDsHxmxwShvpj6ZSAVEPaK5+lhqOS5lSC
+	sKllwG71ysrvYrWV2SaewLQ6T7w0fizwUDfMnhq+N+WbS2SMsx6vBWUiDptv28xFDuQY5g6wnHS
+	tsM6HkZsP0vYU/ZA4fz4EZNIPNDhjHoR3i7Z63nsuR2295yV+izM/gmsIplB2Mx+X+GzOYnMjxV
+	631q/ilZPQXzFK/EMkkzR+N9QYENnXRLyaahD1Lm/eFvyMN8SkJcdIVEsNIIrd24HACemsvYBwW
+	CULh8nrXvzgHjuaFmmxURJF5PAJqNXgXnKFXx6zmw+4x+nDD7tD/SwGTLKlt9Oyh16O7gOip0cg
+	qD1S96fp0htcUJTWuAus3etbIdOe60FL6BE2xXerXHwSdbmr2wjmyEMw4DAU3B418AH4lA/WHHO
+	RSN8flf6ica04l3Az3uvbom3kwaIjJTI4bS
+X-Received: by 2002:a05:600c:8b41:b0:49b:d45:703e with SMTP id 5b1f17b1804b1-49e6198865dmr87033975e9.8.1789164618893;
+        Fri, 11 Sep 2026 15:10:18 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e61a81943sm69553525e9.1.2026.09.11.15.10.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Sep 2026 15:10:18 -0700 (PDT)
+Date: Fri, 11 Sep 2026 23:10:17 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Bradley Morgan <brads@mainlining.org>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>, frederic@kernel.org,
+ neeraj.upadhyay@kernel.org, boqun@kernel.org, joelagnelf@nvidia.com,
+ rcu@vger.kernel.org, "Andrew Morton" <akpm@linux-foundation.org>, "Arnd
+ Bergmann" <arnd@arndb.de>, linux-arch@vger.kernel.org, "Vineet Gupta"
+ <vgupta@kernel.org>, linux-snps-arc@lists.infradead.org, "Russell King"
+ <linux@armlinux.org.uk>, linux-arm-kernel@lists.infradead.org, "Guo Ren"
+ <guoren@kernel.org>, linux-csky@vger.kernel.org, "Yoshinori Sato"
+ <ysato@users.sourceforge.jp>, "Rich Felker" <dalias@libc.org>, "John Paul
+ Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>, linux-sh@vger.kernel.org,
+ "Chris Zankel" <chris@zankel.net>, "Max Filippov" <jcmvbkbc@gmail.com>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/6] lib: Add two-byte cmpxchg emulation function
+Message-ID: <20260911231017.550f8cd1@pumpkin>
+In-Reply-To: <20260911192540.20983-2-brads@mainlining.org>
 References: <20260911192540.20983-1-brads@mainlining.org>
-Subject: Re: [PATCH 0/6] Add two-byte cmpxchg emulation and wire it into the
- architectures
+	<20260911192540.20983-2-brads@mainlining.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260911_131748_685698_DDFB5DC5 
-X-CRM114-Status: UNSURE (   9.65  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260911_151021_250803_4431D3C2 
+X-CRM114-Status: GOOD (  17.56  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,26 +111,55 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 11, 2026, at 21:25, Bradley Morgan wrote:
-> Per Paul's note, Arnd Bergmann's platform removal series was
-> checked before analyzing the users. It removes the imx31 and
-> omap24xx CPU_ARM1136R0 selectors, but INTEGRATOR_CM1136JFS still
-> selects CPU_ARM1136R0 until its scheduled removal in early 2027,
-> so the ARMv6 path in patch 3 is still live.
+On Fri, 11 Sep 2026 19:25:34 +0000
+Bradley Morgan <brads@mainlining.org> wrote:
 
-I can still restructure this and pull the INTEGRATOR_CM1136JFS
-removal a little earlier. At the moment, this is part of the
-patch to remove CPU_ARM1136R0, which I had planned to submit
-once the arch/arm/mach-*/ platform removal patches are done:
+> cmpxchg_emu_u8() emulates one-byte cmpxchg() in terms of four-byte
+> cmpxchg() for the architectures lacking native one-byte atomics.
+> The same architectures also lack native two-byte cmpxchg(), where
+> such an operation is not supported and either fails to compile via
+> BUILD_BUG() or fails to link, because the bad pointer sentinels
+> these architectures declare are never defined.
+> 
+> Add cmpxchg_emu_u16(), the two-byte sibling. It reads the enclosing
+> word with READ_ONCE(), splices the two target bytes through a union
+> and loops on cmpxchg() of the full word until the compare succeeds.
+> Like cmpxchg_emu_u8() it is fully ordered.
+> 
+> The Kconfig symbol gating this file is renamed from
+> ARCH_NEED_CMPXCHG_1_EMU to ARCH_NEED_CMPXCHG_1_2_EMU, as it now
+> selects both the one-byte and the two-byte emulation.
+> 
+> Suggested-by: Paul E. McKenney <paulmck@kernel.org>
+> Signed-off-by: Bradley Morgan <brads@mainlining.org>
+> ---
+>  arch/Kconfig                |  2 +-
+>  arch/arc/Kconfig            |  2 +-
+>  arch/arm/Kconfig            |  2 +-
+>  arch/csky/Kconfig           |  2 +-
+>  arch/sh/Kconfig             |  2 +-
+>  arch/xtensa/Kconfig         |  2 +-
+>  include/linux/cmpxchg-emu.h |  1 +
+>  lib/Makefile                |  2 +-
+>  lib/cmpxchg-emu.c           | 35 ++++++++++++++++++++++++++++++++---
+>  9 files changed, 40 insertions(+), 10 deletions(-)
+> 
+...
+> diff --git a/include/linux/cmpxchg-emu.h b/include/linux/cmpxchg-emu.h
+> index 998deec67740..fee8171fa05e 100644
+> --- a/include/linux/cmpxchg-emu.h
+> +++ b/include/linux/cmpxchg-emu.h
+> @@ -11,5 +11,6 @@
+>  #define __LINUX_CMPXCHG_EMU_H
+>  
+>  uintptr_t cmpxchg_emu_u8(volatile u8 *p, uintptr_t old, uintptr_t new);
+> +uintptr_t cmpxchg_emu_u16(volatile u16 *p, uintptr_t old, uintptr_t new);
 
-https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git/commit/?id=a8cfcc5533e33a
+Why uintptr_t? Shouldn't it just be u16?
+(Which probably means the code would better if it was just 'unsigned int')
 
-I could turn the mach-versatile/Kconfig change into a separate
-(trivial) patch and add it to the platform series to avoid
-churn here. The armv6 cmpxchg() code would still exist
-in 7.4 then, but be unreachable.
+David
 
-       Arnd
 
 _______________________________________________
 linux-snps-arc mailing list
