@@ -4,49 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 638F0C88E7B
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Sep 2026 11:37:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD34AC982C3
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Sep 2026 11:37:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References:Message-Id
 	:MIME-Version:Subject:Date:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=DptkML9h6H16YtV3qI1YQ+wGX+DrpBHe3Sus3+LhmzI=; b=rkIkXYDwoI2xii
-	hK0PSkmQ3ZinpR7t2shYmWNgMI9j3UtUcFVyacKbL1f9gU/Kg1MaYU1LbO+6StiZv4Qxj1Ew/cDUP
-	mxUe2QR2sfDhugx2Ibegt5OXHcvIhDHFoXgCDfW++Z5FIsAFPJwEmzMnybYwJJwxYj4QZzCS+HA0L
-	YVCoBO5axFI9BgXFjxi1F973nqNPatOI3hLtBdV5dPpM28SAo8v7gxMZUTQlA8Augu1BvdNI95Hw8
-	b+VVzvgxKnql7Btz8TXS7OuW9VFZQvlLZguPGjhjHCxXY0DFRWMhQohT+clMXE2GdSE8I7aO+FO2t
-	/KUYVGw5mZboryq06QWQ==;
+	List-Owner; bh=8/Z+Ao7Wds+wz70YuBk4WVsbo7a/Cjho9kDVND5Jhbc=; b=ZGWP/cM4tx6xnt
+	izw/Rix5kx3e89ahX5MJOhd2P3oCbeyfe5wAw9OiUlGL5PajnoXWHHZ69f5BK+p52+DLHxFzRAR2M
+	9BX3m8ONFyp+5YCBTQRJN6cel28q/IFFPWqlbr0GhnWQy5v6XlBUxXWTsm5ADaYbAVXMSSUcXebiI
+	KNJhFNfD3iXjhFzi7qT8vPbBdrBYjP3p7TizDidEI3xvY3earHARi4eMLGfthD+WzTN39Fn9P6nMu
+	fMXR43b9JzeF7RbaVZDLI8htXbiynbei+0DH1rF9KcjDZEgVPXO3wbJebkKxWZ2205PagzXd+3/NS
+	pPAEf5M1Pb9zC1ns6dfg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6RTX-00000006EM6-2JEZ;
-	Tue, 15 Sep 2026 11:37:23 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1x6RTf-00000006EZf-12sv;
+	Tue, 15 Sep 2026 11:37:31 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6RT4-00000006DQ0-3PYB;
-	Tue, 15 Sep 2026 11:36:54 +0000
+	id 1x6RTC-00000006DZu-2AcD;
+	Tue, 15 Sep 2026 11:37:02 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id F3098602C4;
+	by tor.source.kernel.org (Postfix) with ESMTP id EE8EE600D1;
+	Tue, 15 Sep 2026 11:37:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28C811F00893;
 	Tue, 15 Sep 2026 11:36:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 730581F000FF;
-	Tue, 15 Sep 2026 11:36:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789472213;
-	bh=6e1PB4CQNzedeHCycAL44Td/hQEl2CX/iFm1Iur71xE=;
+	s=k20260515; t=1789472221;
+	bh=vNAyMtfXPrvlDMBwu/W4OdplmCeF+Bx8YXtsYm6LQAM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=EXI8vF2Mi2qQql8uoPNVMR9Vjgp88ee0ybxkHsj+i1EcfZwKRf7jQAqrx5XocwZ5u
-	 bXuB/2sL89kC6PNZZE/dhnoh6Kr65fNehf5/WE+WzUeV5/pclzQoq/bonRzBcg9E7+
-	 NfoFoguGthxJQGC332DYQsb5ljWYLD+kEUw/Pee+5M/7Dg2ZiE3sQd1cKKv890ucDD
-	 /r0vRvig6oqwgwA6dJ/z5P48MPdRVZFrQKEwVGkp3Sgwz1v5wVDwGFDqx3GUFssAgt
-	 DN89k/PZlDz7rh5/WFfNs5IypEAhalKV3Vwaa2jbU2stx2+1M+fSysP8b+juFLIlZq
-	 jL2puXhM2BB9Q==
+	b=hJcbb+ve+d0nQ+lyOtzlz+UYbr/gC7seiGRVtM9hr3qhRy0SP4rtTxf+61fJV6HZZ
+	 LW8RS1sK7opxRgNB4vdONobXBpXD+8GA3HqD2ByRAw16fqkTwu9j8tnAJddGmb7PLP
+	 uAm06SirtIHb9CCSMDYGUJRVhcFsQ8v4/IdM2Y5J83ZMffAgWUfRu60wVT+I3rLxob
+	 Mi3XVumaSCaqqvXwhpB/3c9gXctwqH2urcLOWEF/YPHWIZ1DoeXtnc71XLjr6mUjdh
+	 GfPZGsugN7/T7eQDGipHgpsCZ2aT0QgMaxK1TaXJWBPrJ+seh1rFblIFb7+Y//Ecs/
+	 SAX3DixdA32jQ==
 From: Christian Brauner <brauner@kernel.org>
-Date: Tue, 15 Sep 2026 13:31:29 +0200
-Subject: [PATCH RFC POC 43/50] drm/amdgpu: stop unwinding the fence
- descriptor by hand
+Date: Tue, 15 Sep 2026 13:31:30 +0200
+Subject: [PATCH RFC POC 44/50] drm/etnaviv: install the out-fence
+ descriptor when the ioctl returns
 MIME-Version: 1.0
-Message-Id: <20260915-work-fd-reserve-unify-folded-v1-43-4d5217d6b246@kernel.org>
+Message-Id: <20260915-work-fd-reserve-unify-folded-v1-44-4d5217d6b246@kernel.org>
 References: <20260915-work-fd-reserve-unify-folded-v1-0-4d5217d6b246@kernel.org>
 In-Reply-To: <20260915-work-fd-reserve-unify-folded-v1-0-4d5217d6b246@kernel.org>
 To: Linus Torvalds <torvalds@linux-foundation.org>
@@ -69,12 +69,12 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jann Horn <jannh@google.com>,
  kexec@lists.infradead.org, linux-hyperv@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1456; i=brauner@kernel.org;
- h=from:subject:message-id; bh=ufNESbgGG96SdhrvZQNvdMYhyiyG0BhLW+Tl/xqdcT0=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSt1Kk/up3zrbpgwjWhoti6iGnTuBPttKJTrrTH/TR99
- na/1fRNHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABMRM2D4n28sFLhN/8+GKPvC
- voCqx/oLuw/JH2VIEPq49KPjCV75pwz/41f1ZW/e/L95zZs5+aVvD0z0YZjxyGRy0d0flus809L
- W8wMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1875; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=WG8U461FL48WyesDf7+OQN8njA3nXiC/HvwYW8sZuPs=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSt1Km/q3LcYfWGcx8fpJwoLZDaNd0oa+00ldguK1cb6
+ asTWTUPdJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEyEn5Hhf8CmHl/lhwWpt/aY
+ /5Pr3xCoq1J+5FT33kNKDsks7ZtPZjMy7JT6oyr93P+B4L/VWRcU9j8zmrNg9ut3r3TNptlZWIi
+ 5MgAA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -97,50 +97,57 @@ Rely on the fd exit path machinery.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index 03b41f803520..e5c0f7201cea 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -1581,7 +1581,8 @@ int amdgpu_cs_fence_to_handle_ioctl(struct drm_device *dev, void *data,
- 	struct dma_fence *fence;
- 	struct drm_syncobj *syncobj;
- 	struct sync_file *sync_file;
--	int fd, r;
-+	const struct fd_slot *fd;
-+	int r;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+index 1a77a09b3377..174f1d66d9ad 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+@@ -420,7 +420,7 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 	struct etnaviv_gpu *gpu;
+ 	struct sync_file *sync_file = NULL;
+ 	struct ww_acquire_ctx ticket;
+-	int out_fence_fd = -1;
++	const struct fd_slot *out_fence_fd = NULL;
+ 	struct pid *pid = get_pid(task_pid(current));
+ 	void *stream;
+ 	int ret;
+@@ -504,9 +504,9 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 	}
  
- 	fence = amdgpu_cs_get_fence(adev, filp, &info->in.fence);
- 	if (IS_ERR(fence))
-@@ -1610,21 +1611,18 @@ int amdgpu_cs_fence_to_handle_ioctl(struct drm_device *dev, void *data,
- 		return r;
- 
- 	case AMDGPU_FENCE_TO_HANDLE_GET_SYNC_FILE_FD:
--		fd = get_unused_fd_flags(O_CLOEXEC);
--		if (fd < 0) {
-+		fd = fd_prepare(O_CLOEXEC);
-+		if (IS_ERR(fd)) {
- 			dma_fence_put(fence);
--			return fd;
-+			return PTR_ERR(fd);
+ 	if (args->flags & ETNA_SUBMIT_FENCE_FD_OUT) {
+-		out_fence_fd = get_unused_fd_flags(O_CLOEXEC);
+-		if (out_fence_fd < 0) {
+-			ret = out_fence_fd;
++		out_fence_fd = fd_prepare(O_CLOEXEC);
++		if (IS_ERR(out_fence_fd)) {
++			ret = PTR_ERR(out_fence_fd);
+ 			goto err_submit_cmds;
  		}
+ 	}
+@@ -607,10 +607,10 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 			 */
+ 			goto err_submit_put;
+ 		}
+-		fd_install(out_fence_fd, sync_file->file);
++		fd_stage(out_fence_fd, sync_file->file);
+ 	}
  
- 		sync_file = sync_file_create(fence);
- 		dma_fence_put(fence);
--		if (!sync_file) {
--			put_unused_fd(fd);
-+		if (!sync_file)
- 			return -ENOMEM;
--		}
+-	args->fence_fd = out_fence_fd;
++	args->fence_fd = out_fence_fd ? fd_prepare_fd(out_fence_fd) : -1;
+ 	args->fence = submit->out_fence_id;
  
--		fd_install(fd, sync_file->file);
--		info->out.handle = fd;
-+		info->out.handle = fd_stage(fd, sync_file->file);
- 		return 0;
+ err_submit_job:
+@@ -623,8 +623,6 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 	ww_acquire_fini(&ticket);
  
- 	default:
+ err_submit_cmds:
+-	if (ret && (out_fence_fd >= 0))
+-		put_unused_fd(out_fence_fd);
+ 	kvfree(stream);
+ 	kvfree(bos);
+ 	kvfree(relocs);
 
 -- 
 2.53.0
