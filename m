@@ -4,60 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B1F6C88E75
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Sep 2026 12:18:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3218C88E53
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Sep 2026 12:19:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:MIME-Version:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
 	References:In-Reply-To:Cc:To:Subject:From:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=OhvB1KcoAbe1LkrS/l787tbZnxpk4CxahTDX+PzSPtA=; b=LthoDTTELB5sDZ
-	6yMnxyRcZa6qP+YVKFpp2kRV8w7yQxSAs97sOmaECRQLOnTQ9EfW9QvkyQ3bjOG5a6324BiSpuJrR
-	wDGOZKC8QDE50HUapbV6+0pa2b/UDn5qKDB81QegY7EFe2RJbdMspeRjMeayhGe0y2zI/DhbcOANk
-	+WfWqg+GtRnJAf3ItCJOH99IHHy0+F1UBGs9QGjXfB0Ub0P8uLf3lTrXAJgjSQBv/mVvMqxvYOqKA
-	sJN+cy47AAUdAEERefbeE3VgE+gLgjBomLYmVpK8FOozZQu17wfSN8DgpxrIcL5yvhaFf0adB97JF
-	paU4Sf0I1P3vyTnIz+mg==;
+	List-Owner; bh=g2/06q7J4QoTIkDPTx7bXyEK7ZZHpNKSQztPJdpqVxY=; b=ysa5DubYZ91Co+
+	uOaOiUdhVuIQYWg19CCbtiIjDvZHEuk+acZNufu7x6BONXp7F4FlT7AvnTIaKhpOwsp7Pm2jj92fd
+	ig07WgsHpxr4dgSXWffiNL/I3bmz6J2rVP+dxXNTKngIaBSNURpqnlO2d7gCzlMA6UgggGHJt9KvS
+	Uf9eP4wRE4oDiO8UqeE8v19Ru14Upczlo56UJ4h3zTXWM6zFyCv2/CXc4SvM/HxB6edIVEYutATvV
+	B3GlXy9G1rEB6l6tB1KnASbCEXg2YwdHo7gRlWm5TxWdMPUZ0rTn+Kju1CoMJYKPDE30m2W17LBJk
+	Lnwg52d7R1TltGeyVUEw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6S7V-00000006SWn-2wu0;
-	Tue, 15 Sep 2026 12:18:41 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1x6S8Y-00000006Sqe-1CxD;
+	Tue, 15 Sep 2026 12:19:46 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6S7R-00000006SSl-1upG;
-	Tue, 15 Sep 2026 12:18:37 +0000
+	id 1x6S8W-00000006Sps-2MSF;
+	Tue, 15 Sep 2026 12:19:44 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id B2BA5602C4;
-	Tue, 15 Sep 2026 12:18:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E6111F00898;
-	Tue, 15 Sep 2026 12:18:34 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 5176C4069F;
+	Tue, 15 Sep 2026 12:19:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11B431F00893;
+	Tue, 15 Sep 2026 12:19:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789474716;
-	bh=vrVAobJMjM7S9OZZMwIDwvr8ty2bA0kqwagLpHQp40w=;
+	s=k20260515; t=1789474784;
+	bh=s+9PDH0CZ1Vr08YyoCof+UTThGpQ93yPbrI7mSCf5jg=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ea1sJwsBr/Nvel740b29/2lnm8kv13L85FditgVsIEu95cKYPQZU0Zm86Po1jnZNR
-	 WHN070goKjNpVo1FRyPViEa8NGr0QNUX2ucQBNO5lGEpXDGQD7U7BclSRhluMnxtKP
-	 ATnOY9YQY/9J5OJE6jroQgQS5sfBOnMZtK6e3d1b5IYszHnQqLJX4JE1tZ1dgWaKGz
-	 MVf3djXQJIyElXt0yrKwDYp8btcu88OnDKD8ru7wqrjSAcI7zj25kTBGPYQCXOGFwa
-	 RfYXn1Lwzeg0QAuqyZ/UnU7T5x+37hRI9c8kwg/0XtOV9Mo2i3dXkFawFgls2HqTB0
-	 kguWCX48YbslQ==
+	b=m0z6lytA0Lb7PeCTJJ9wan77NmP+WaqiiLFqlwKeXKPuaHqeXDGZgjSEE5Nqy5ZTD
+	 uXplubyhODu8Q/NNq14/kXJbT/9AFQwToWT9BIY9E7L4zCHdhq4qOYWiAgbLHBLAxF
+	 XtT+b1kvKyB39r1HyAihRAZd/uoRrMfxf0YZCrLmFzS7pKcK/CRl1fiGl+0H5LKWhV
+	 PlUaIzcMF+cm9TI4V6HSienMOrDlPf4JHELixv0sjOAXsqO+TJlLMDqNaOXk1sfBNv
+	 cjEFW+zAMBlSevojGz84ZSkbXhlbmUkgsft9l8Pqsgamb08/hqshJfCjYTrtd+Gp+Z
+	 XZIjfnkZC6SUg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC POC 45/50] accel/habanalabs: stop putting the
- dma-buf descriptor back on failure
+Subject: Re: [PATCH RFC POC 50/50] Drivers: hv: mshv: stop putting
+ descriptors back on failure
 To: "Linus Torvalds" <torvalds@linux-foundation.org>, "Christian Brauner" <brauner@kernel.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org, sparclinux@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linux-snps-arc@lists.infradead.org, "Oleg
- Nesterov" <oleg@redhat.com>, "Peter Zijlstra" <peterz@infradead.org>, "Ingo
- Molnar" <mingo@redhat.com>, linux-alpha@vger.kernel.org, "Alexander Viro" <viro@zeniv.linux.org.uk>, virtualization@lists.linux.dev, linux-mips@vger.kernel.org, kexec@lists.infradead.org, bpf@vger.kernel.org, linux-arm-msm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, "Jan
- Kara" <jack@suse.cz>, linux-openrisc@vger.kernel.org, linux-sh@vger.kernel.org, "David
- Airlie" <airlied@redhat.com>, linux-um@lists.infradead.org, linux-csky@vger.kernel.org, linux-parisc@vger.kernel.org, "Jens
- Axboe" <axboe@kernel.dk>, =?utf-8?b?Q2hyaXN0aWFuIEJyYXVuZXIgKEFtdXRhYmxl?=
- =?utf-8?b?KQ==?= <brauner@kernel.org>, linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org, linux-hexagon@vger.kernel.org, io-uring@vger.kernel.org, linux-m68k@lists.linux-m68k.org, "Eugenio
- Perez" <eperezma@redhat.com>, "Jann Horn" <jannh@google.com>
-In-Reply-To: <20260915-work-fd-reserve-unify-folded-v1-45-4d5217d6b246@kernel.org>
+Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>, linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org, "Jann
+ Horn" <jannh@google.com>, linux-hexagon@vger.kernel.org, sparclinux@vger.kernel.org, "Jan
+ Kara" <jack@suse.cz>, virtualization@lists.linux.dev, "Peter Zijlstra" <peterz@infradead.org>, kexec@lists.infradead.org, linux-hyperv@vger.kernel.org, kvm@vger.kernel.org, "Eugenio
+ Perez" <eperezma@redhat.com>, linux-fsdevel@vger.kernel.org, linux-snps-arc@lists.infradead.org, linux-sh@vger.kernel.org, linux-mips@vger.kernel.org, linux-arm-msm@vger.kernel.org, "David
+ Airlie" <airlied@redhat.com>, "Oleg Nesterov" <oleg@redhat.com>, linux-csky@vger.kernel.org, bpf@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, io-uring@vger.kernel.org, linux-kernel@vger.kernel.org, "Ingo
+ Molnar" <mingo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, linux-m68k@lists.linux-m68k.org, "Jens
+ Axboe" <axboe@kernel.dk>, dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org, linux-openrisc@vger.kernel.org, linux-um@lists.infradead.org,
+ =?utf-8?b?Q2hyaXN0aWFuIEJyYXVuZXIgKEFtdXRhYmxlKQ==?= <brauner@kernel.org>, linux-mm@kvack.org
+In-Reply-To: <20260915-work-fd-reserve-unify-folded-v1-50-4d5217d6b246@kernel.org>
 References: <20260915-work-fd-reserve-unify-folded-v1-0-4d5217d6b246@kernel.org>
- <20260915-work-fd-reserve-unify-folded-v1-45-4d5217d6b246@kernel.org>
-Date: Tue, 15 Sep 2026 12:18:34 +0000
-Message-Id: <20260915121834.8E6111F00898@smtp.kernel.org>
+ <20260915-work-fd-reserve-unify-folded-v1-50-4d5217d6b246@kernel.org>
+Date: Tue, 15 Sep 2026 12:19:41 +0000
+Message-Id: <20260915121942.11B431F00893@smtp.kernel.org>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,7 +81,7 @@ IENocmlzdGlhbiBCcmF1bmVyIChBbXV0YWJsZSkgPGJyYXVuZXJAa2VybmVsLm9yZz4KClNhc2hp
 a28gaGFzIHJldmlld2VkIHRoaXMgcGF0Y2ggYW5kIGZvdW5kIG5vIGlzc3Vlcy4gSXQgbG9va3Mg
 Z3JlYXQhCgotLSAKU2FzaGlrbyBBSSByZXZpZXcgwrcgaHR0cHM6Ly9zYXNoaWtvLmRldi8jL3Bh
 dGNoc2V0LzIwMjYwOTE1LXdvcmstZmQtcmVzZXJ2ZS11bmlmeS1mb2xkZWQtdjEtMC00ZDUyMTdk
-NmIyNDZAa2VybmVsLm9yZz9wYXJ0PTQ1CgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+NmIyNDZAa2VybmVsLm9yZz9wYXJ0PTUwCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
 X19fX19fX19fX19fX19fX18KbGludXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMt
 YXJjQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1h
 bi9saXN0aW5mby9saW51eC1zbnBzLWFyYwo=
