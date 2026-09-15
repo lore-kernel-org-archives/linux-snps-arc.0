@@ -4,60 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 240A6C982C3
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Sep 2026 11:48:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8550EC88E53
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Sep 2026 11:48:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:MIME-Version:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
 	References:In-Reply-To:Cc:To:Subject:From:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=b/ELFqaVWvP73H/EOoChfNfH1BY7UepHuPDVV84bif8=; b=tYb15jPe3ulNMn
-	Hc3OLPnM2mSIOy182uk80IKTS+3UF+xi0HuhCiu4mYrmpZxgvM41bD6VEcs6glS0wW/bhku7paU8L
-	1L5heMOMnJRnF5fm1kMR9oUWuoVtlfbIbFbaTeCy9m6yCGNHx7UO3PELfmgk3UFZ8Both43T3V+4r
-	FLNgY/L90crV3h1sr9BF+7jaOR3fV7yibJI9W+NkRXMaVyHeUZvdXy6vHArHxUqfJvV6jfpkxjP+x
-	BBskna7R3v5mlZ/DbWwLY9OWbqWMjbxPBvJFqNbG/y4i50HN2dFGzeuJa4TI9moq2F/JTfMjM1izl
-	r8OpBL88ZUGHToMXZrhw==;
+	List-Owner; bh=r4Hq8AxhpZFf1iuvAHEIFlXLxlX2fVGk1IdBLqk2NwU=; b=JSZ3lalc7XIWdi
+	wYg2hAE9k+kzDUdsGCNsUfi3ytdiCpPZONEBrCvhIUwzE1wBIMheVkLVZr77s9dhu50mdVtoAVGyt
+	A0CPNVh8ly/HkIhHCg1tkdlDax3bxWKjagryPuGAvoafDrZkVZNEKNboi6K7E7dJM99SR7y6P8ZH3
+	Ccpk+984KnW1ktDJWUvgg2qFPu+bRawcASczLJrvj3bT0XWn8Sst3GR+8nFpc+PVJsHVzsYcrwAQl
+	57nALvSWwioEAF74csMUIwq31HCIGzBu+7TpWuxjVFDI2h75bjYfSxbHRBRpkOAVoYa9m6yovWBQW
+	I+/J9Zo1StsHR1Rd1Qng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6Rdv-00000006HqG-3UQ2;
-	Tue, 15 Sep 2026 11:48:07 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1x6Re2-00000006Hw1-0rSc;
+	Tue, 15 Sep 2026 11:48:14 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6Rdt-00000006Hob-3xvp;
-	Tue, 15 Sep 2026 11:48:06 +0000
+	id 1x6Re0-00000006HuS-33xv;
+	Tue, 15 Sep 2026 11:48:12 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 617DF6025F;
-	Tue, 15 Sep 2026 11:48:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44BC01F000FF;
-	Tue, 15 Sep 2026 11:48:03 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 7623741342;
+	Tue, 15 Sep 2026 11:48:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 973821F000FF;
+	Tue, 15 Sep 2026 11:48:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789472885;
-	bh=EYRIdKp/FfwNNqSNi/pBExuEJpqL4OpkJpzESq5stW8=;
+	s=k20260515; t=1789472892;
+	bh=+hCyRfdYxaDHjUjrbC2f1l+hk2nsMICX165AMlBJOFw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=KEA46w/jL9NKEBXKdpDRVvgUVpdw6hOUBCW8wQyHI6NwDPC4Am8sCmr7j0WvoKK5v
-	 Bi5VQmzbc0sNbBRMKVoi5XBwnkMmxH9tNMHqDw3ItnBUybU4feNnNWv7cT2bB8AjBd
-	 dY6wMyYKrW4Ezf2ZF1yg1nT3JYwFHCkXSv5QxKi4ShZMZv5F2iT044OEtU+pEb+idW
-	 Tog3ab9yFoO5+qKuA6KwBgJKAx/c448Pa5xlXvcd0f4KIxP8erzSA5JNQBA/bgLLZB
-	 IGHhr6D+xE3ldAUlwnI0HynOJtRl8do+l5clEE47V/0XL01LM1u7vq8zJwzIFJqQrv
-	 ilAIi+rTQ2iFQ==
+	b=XT+DfR2fI9lSDVHTRxc8fxOJ84VdAucgEp1D7Rsg22J1SRRtMEiE19TvXZrbO4lIZ
+	 TxJ/l2gehvn5l2kdO5dHi1/HiNiTrodHb341ROtDKEQB4TK5qE077C+sr6m2ZRGq1A
+	 YhT5vOmSLIZn+aB2D2xVS3UmQD+O73OuHKWdb/9Q6SJtudR7Vr4EWHcVJIUSGq4wWb
+	 EwguAAzu7/EG5DnE1SXHjXkeQUDSQ1mouWrUTfOdgFhzkd3ZU0wbFF/c3Yr6mjzm+T
+	 iHVYaDYddqfXs43IVkcTAt+29bmm0zSxlyvXzfaYtnXgwc/VcrMwi/snt2mFoFeFgS
+	 xEBfPHquaOhWw==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC POC 10/50] microblaze: commit fds on syscall exit
+Subject: Re: [PATCH RFC POC 06/50] arm64: commit fds on syscall exit
 To: "Linus Torvalds" <torvalds@linux-foundation.org>, "Christian Brauner" <brauner@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, kexec@lists.infradead.org, sparclinux@vger.kernel.org, linux-sh@vger.kernel.org, bpf@vger.kernel.org, linux-mm@kvack.org, linux-snps-arc@lists.infradead.org, "Michael
- S. Tsirkin" <mst@redhat.com>, linux-openrisc@vger.kernel.org, kvm@vger.kernel.org, linux-fsdevel@vger.kernel.org, "Peter
- Zijlstra" <peterz@infradead.org>, linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org, "Eugenio
- Perez" <eperezma@redhat.com>, linux-arm-kernel@lists.infradead.org, "Jens
- Axboe" <axboe@kernel.dk>, "Jann Horn" <jannh@google.com>, "Ingo Molnar" <mingo@redhat.com>, "Jan
- Kara" <jack@suse.cz>, dri-devel@lists.freedesktop.org, linux-um@lists.infradead.org, virtualization@lists.linux.dev,
- =?utf-8?b?Q2hyaXN0aWFuIEJyYXVuZXIgKEFtdXRhYmxlKQ==?= <brauner@kernel.org>, "Alexander
- Viro" <viro@zeniv.linux.org.uk>, io-uring@vger.kernel.org, linux-gpio@vger.kernel.org, "David
- Airlie" <airlied@redhat.com>, linux-hyperv@vger.kernel.org, "Oleg Nesterov" <oleg@redhat.com>, linux-alpha@vger.kernel.org, linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-parisc@vger.kernel.org, linux-mips@vger.kernel.org
-In-Reply-To: <20260915-work-fd-reserve-unify-folded-v1-10-4d5217d6b246@kernel.org>
+Cc: "David Airlie" <airlied@redhat.com>, linux-parisc@vger.kernel.org, virtualization@lists.linux.dev, linux-mips@vger.kernel.org, "Oleg
+ Nesterov" <oleg@redhat.com>, dri-devel@lists.freedesktop.org, "Jens Axboe" <axboe@kernel.dk>, linux-um@lists.infradead.org,
+ =?utf-8?b?Q2hyaXN0aWFuIEJyYXVuZXIgKEFtdXRhYmxlKQ==?= <brauner@kernel.org>, "Eugenio
+ Perez" <eperezma@redhat.com>, linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org, "Alexander
+ Viro" <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, sparclinux@vger.kernel.org, linux-csky@vger.kernel.org, linux-sh@vger.kernel.org, "Peter
+ Zijlstra" <peterz@infradead.org>, linux-snps-arc@lists.infradead.org, kexec@lists.infradead.org, "Ingo
+ Molnar" <mingo@redhat.com>, io-uring@vger.kernel.org, kvm@vger.kernel.org, linux-hexagon@vger.kernel.org, bpf@vger.kernel.org, "Michael
+ S. Tsirkin" <mst@redhat.com>, linuxppc-dev@lists.ozlabs.org, linux-m68k@lists.linux-m68k.org, linux-alpha@vger.kernel.org, linux-mm@kvack.org, linux-gpio@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-openrisc@vger.kernel.org, "Jann
+ Horn" <jannh@google.com>, "Jan Kara" <jack@suse.cz>
+In-Reply-To: <20260915-work-fd-reserve-unify-folded-v1-6-4d5217d6b246@kernel.org>
 References: <20260915-work-fd-reserve-unify-folded-v1-0-4d5217d6b246@kernel.org>
- <20260915-work-fd-reserve-unify-folded-v1-10-4d5217d6b246@kernel.org>
-Date: Tue, 15 Sep 2026 11:48:02 +0000
-Message-Id: <20260915114803.44BC01F000FF@smtp.kernel.org>
+ <20260915-work-fd-reserve-unify-folded-v1-6-4d5217d6b246@kernel.org>
+Date: Tue, 15 Sep 2026 11:48:10 +0000
+Message-Id: <20260915114810.973821F000FF@smtp.kernel.org>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,15 +76,16 @@ Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-PiBBZGQgVElGX0ZEX1NMT1RTIHRvIHRoZSBzeXNjYWxsIHdvcmsgbWFzay4gVGhlIHJldHVybiBw
-YXRoIHJlcmVhZHMKPiB0aGUgZmxhZ3MgYWZ0ZXIgdGhlIHN5c3RlbSBjYWxsIGFuZCBjYWxscyBk
-b19zeXNjYWxsX3RyYWNlX2xlYXZlKCkKPiBmb3IgYW55IG9mIHRoZW0gd2hpY2ggY29tbWl0cyB0
-aGUgcmVzZXJ2YXRpb25zIGJlZm9yZSBhdWRpdCBhbmQgdGhlCj4gcHRyYWNlIGV4aXQgc3RvcC4K
-PiAKPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gQnJhdW5lciAoQW11dGFibGUpIDxicmF1bmVy
-QGtlcm5lbC5vcmc+CgpTYXNoaWtvIGhhcyByZXZpZXdlZCB0aGlzIHBhdGNoIGFuZCBmb3VuZCBu
-byBpc3N1ZXMuIEl0IGxvb2tzIGdyZWF0IQoKLS0gClNhc2hpa28gQUkgcmV2aWV3IMK3IGh0dHBz
-Oi8vc2FzaGlrby5kZXYvIy9wYXRjaHNldC8yMDI2MDkxNS13b3JrLWZkLXJlc2VydmUtdW5pZnkt
-Zm9sZGVkLXYxLTAtNGQ1MjE3ZDZiMjQ2QGtlcm5lbC5vcmc/cGFydD0xMAoKCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxp
-bmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5p
-bmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
+PiBBZGQgVElGX0ZEX1NMT1RTIHRvIHRoZSBzeXNjYWxsIHdvcmsgYml0cy4gZWwwX3N2Y19jb21t
+b24oKSByZXJlYWRzCj4gdGhlIGZsYWdzIGFmdGVyIHRoZSBzeXN0ZW0gY2FsbCBhbmQgdGFrZXMg
+dGhlIHRyYWNlIGV4aXQgZm9yIGFueSBvZgo+IHRoZW0uIFNvIGEgdGFzayB0aGF0IHJlc2VydmVk
+IGRlc2NyaXB0b3JzIGVuZHMgdXAgaW4KPiBzeXNjYWxsX3RyYWNlX2V4aXQoKSB3aGljaCBjb21t
+aXRzIHRoZW0gYmVmb3JlIGF1ZGl0IGFuZCB0aGUgcHRyYWNlIGV4aXQKPiBzdG9wLgo+IAo+IFNp
+Z25lZC1vZmYtYnk6IENocmlzdGlhbiBCcmF1bmVyIChBbXV0YWJsZSkgPGJyYXVuZXJAa2VybmVs
+Lm9yZz4KClNhc2hpa28gaGFzIHJldmlld2VkIHRoaXMgcGF0Y2ggYW5kIGZvdW5kIG5vIGlzc3Vl
+cy4gSXQgbG9va3MgZ3JlYXQhCgotLSAKU2FzaGlrbyBBSSByZXZpZXcgwrcgaHR0cHM6Ly9zYXNo
+aWtvLmRldi8jL3BhdGNoc2V0LzIwMjYwOTE1LXdvcmstZmQtcmVzZXJ2ZS11bmlmeS1mb2xkZWQt
+djEtMC00ZDUyMTdkNmIyNDZAa2VybmVsLm9yZz9wYXJ0PTYKCgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBtYWlsaW5nIGxpc3QK
+bGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFk
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
