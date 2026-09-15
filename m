@@ -4,49 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3833C982C4
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Sep 2026 11:36:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91C9CC982C5
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Sep 2026 11:36:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References:Message-Id
 	:MIME-Version:Subject:Date:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=pxEqEz5lS4vL9I4ACD8ZuCCIfu35jqQKOoRY84XHb8E=; b=ytkgj9KLKKq6LH
-	YKTfqwUxU2V/Oten+Fk8TravMiOGzv7qtfB1Gs70tLR1sj0JG1/mHXA2KyKmpDZ8jzIi67C/yyb69
-	lHGVRRphn106Pw6LLlqerNqxZh2HpSeUta83dgQepe4Lw7+LWVNFWzLwnYp7KN+fSE/ZWTofCsWfg
-	QaUmP3+gvbWNWunlXCN2tlgYdkDzmTtNuEXMkNXae9EBC2p724jJg8QlqERnXwVLf16R772kXF8Na
-	L956gnVCa+tWMlb2xcFd5Qwc5P+aJRZzos8MxlZu8nh+ncyaI59nvp54O1pL7CpE4x1iRUwjnuH0w
-	kcz2NWOgZDmydRqvMurA==;
+	List-Owner; bh=201mIn0ewM0laVe6Z3wB/MUGCP+GGLW7M4gZX+I96Hs=; b=C5DTl79+JLgnOI
+	fBFN9+SVZ88On1cezdZPqSgOu1WEftVDTQAaovyE+u5oPHhK2hKxJdlbH7bsh7lov49J9mEBynt01
+	dFYU2QcPNXzH0Xfl0ji/BjjfN/EPMLS4VaSstR+pthHAW0TiHR7xDlI78NTkK6oqVrSHCaoIpatoZ
+	wop3kZYUSU6GftwsfgHkrnUlVj/U21XTnvzyjEcuP/c/j/lDTdQaIaEhwy7TKr+4YPCYo5hNXcvdX
+	LfNiFsx1RnVi7moW1W+8cJF3pZHB8E5a21YMhFnZTl6wsgCk5i6jcUJIaG0DrGEDhkBN5gxAyQl96
+	5Q6WVYJWbX4JefFRj79Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6RSm-00000006D4T-1lgY;
-	Tue, 15 Sep 2026 11:36:36 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1x6RSs-00000006DD3-3jfY;
+	Tue, 15 Sep 2026 11:36:42 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6RRn-00000006CAR-1Pte;
-	Tue, 15 Sep 2026 11:35:35 +0000
+	id 1x6RRv-00000006CIb-0sme;
+	Tue, 15 Sep 2026 11:35:43 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 194BC41253;
+	by sea.source.kernel.org (Postfix) with ESMTP id EDB76415D0;
+	Tue, 15 Sep 2026 11:35:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 738C21F00893;
 	Tue, 15 Sep 2026 11:35:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 855EE1F000FF;
-	Tue, 15 Sep 2026 11:35:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789472135;
-	bh=4cyWZY3NqovxpRDY6IE9b0iFSwFNHI0DbK45a85UipQ=;
+	s=k20260515; t=1789472142;
+	bh=1MrvtETchtY74VhNhdP5L1TLK5JZUI/4E6S7ET6JvLE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=QShSpSCRD6Ol4MQvbWaGFCrC9D2hEvMMsqJVxbgperwaAzfDuHUwR651hhvjbuklD
-	 V8TQMFUcMD9eSXSMuyAwgiWFzi0aqbkjT2ga+ukHQTd+ooSqbRR0w+8dklcQllx84s
-	 J1vd1rrkg7W2xCcJFOtsGmjuUfysGb2g+4rZjFbqLWmyJ8Yf8Ww523QPYOM4gdlVYe
-	 9qjw6VvRm1T5endGkraMKVYh3kIi8DvPoXM1B76VPl1ZetouR5ZWcWZs/UQmu4oEg/
-	 QeIQWjAGAMnj1aiLn/FeAtI3+y0er7L+q8OA2u/+KtDir8seIk/RUJip7Wgf4oA2Ys
-	 w5GYgWQdLMU4Q==
+	b=HEvP3jmwChKyeHdJ9Jg3mkRQ3dA8Vigmgn9aN70pEyemzrmDRt+HBflUFt5dg79cy
+	 nmMA9QgA22+3lDgeMbCub5jO8UBj8OpN+VauBt7p0dIet/Okhi/+8AxBkWACPQan5v
+	 iQ0CGGPOK3xa6Bp++Ti5WKZZzuDFnPibEu6y50nXpqvsbgWZb46/QO9Fp/CohuBmiy
+	 4H6uR9SGKU0GNDbp8fufyXpe2tUFSDQhZvLM/dJkrYmbemLCUe0oHuhVmELpbcwMRe
+	 lCVZjHzvU3NtKwOBPfXEcCycM3OMg+ZekdadygNaeC/QE91ROYMdhIuR0e/OpAPmhY
+	 Sv9/raR2HHHcg==
 From: Christian Brauner <brauner@kernel.org>
-Date: Tue, 15 Sep 2026 13:31:19 +0200
-Subject: [PATCH RFC POC 33/50] io_uring/zcrx: install the exported
- descriptor when the request returns
+Date: Tue, 15 Sep 2026 13:31:20 +0200
+Subject: [PATCH RFC POC 34/50] sctp: install the peeloff descriptor when
+ the syscall returns
 MIME-Version: 1.0
-Message-Id: <20260915-work-fd-reserve-unify-folded-v1-33-4d5217d6b246@kernel.org>
+Message-Id: <20260915-work-fd-reserve-unify-folded-v1-34-4d5217d6b246@kernel.org>
 References: <20260915-work-fd-reserve-unify-folded-v1-0-4d5217d6b246@kernel.org>
 In-Reply-To: <20260915-work-fd-reserve-unify-folded-v1-0-4d5217d6b246@kernel.org>
 To: Linus Torvalds <torvalds@linux-foundation.org>
@@ -69,12 +69,12 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jann Horn <jannh@google.com>,
  kexec@lists.infradead.org, linux-hyperv@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1536; i=brauner@kernel.org;
- h=from:subject:message-id; bh=g4cMNX/82jJQalDLSwX1Nity2yqjS0J0NiJHAB23CT0=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSt1Kk73H60xLL/uL9c1Ubz66I7n/6tuiXcUVn6/cZhl
- 7opP+8pdJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExk/weG/3mbVB0z75nsf+2g
- kJwuHDdbwrosi1P7+cq1bOytTdFl1gz/Y3eZWfw1evMxy/980nMezqvh6nqrq+2qsnZHrDSbM9O
- WEQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3999; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=jxeTmf0RLLPrfqfHR6VaW0QlyLJFo9vgcxMApZCym7U=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSt1Km7cNv2coTSh6uv2SKV9J9xe1cli18O2fg9bbWMR
+ XmeZEFFRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwEQuPmT4ZzXhBS9/eF7krI4v
+ 9nuSVLY1Xi4SeKo2SeDbFrPXBqrPxBj+yrHXSsXOVdm4U/HG2oqX3ly9K7UCc6pmru7Si/L9f7W
+ YAQA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -97,55 +97,146 @@ Rely on the fd exit path machinery.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- io_uring/zcrx.c | 25 +++++++------------------
- 1 file changed, 7 insertions(+), 18 deletions(-)
+ net/sctp/socket.c | 78 +++++++++++++++++++++----------------------------------
+ 1 file changed, 29 insertions(+), 49 deletions(-)
 
-diff --git a/io_uring/zcrx.c b/io_uring/zcrx.c
-index 1b3b11405dac..d458c614c765 100644
---- a/io_uring/zcrx.c
-+++ b/io_uring/zcrx.c
-@@ -795,8 +795,6 @@ static int zcrx_export(struct io_ring_ctx *ctx, struct io_zcrx_ifq *ifq,
- 		       struct zcrx_ctrl *ctrl, void __user *arg)
+diff --git a/net/sctp/socket.c b/net/sctp/socket.c
+index c7b9e325ec1c..b75c50af8c16 100644
+--- a/net/sctp/socket.c
++++ b/net/sctp/socket.c
+@@ -5744,46 +5744,41 @@ static int sctp_do_peeloff(struct sock *sk, sctp_assoc_t id,
+ }
+ 
+ static int sctp_getsockopt_peeloff_common(struct sock *sk, sctp_peeloff_arg_t *peeloff,
+-					  struct file **newfile, unsigned flags)
++					  unsigned flags)
  {
- 	struct zcrx_ctrl_export *ce = &ctrl->zc_export;
--	struct file *file;
--	int fd;
+ 	struct socket *newsock;
++	struct file *newfile;
++	const struct fd_slot *fd;
+ 	int retval;
  
- 	if (!mem_is_zero(ce, sizeof(*ce)))
- 		return -EINVAL;
-@@ -804,27 +802,18 @@ static int zcrx_export(struct io_ring_ctx *ctx, struct io_zcrx_ifq *ifq,
- 	refcount_inc(&ifq->refs);
- 	refcount_inc(&ifq->user_refs);
+ 	retval = sctp_do_peeloff(sk, peeloff->associd, &newsock);
+ 	if (retval < 0)
+-		goto out;
++		return retval;
  
--	file = anon_inode_create_getfile("[zcrx]", &zcrx_box_fops,
--					 ifq, O_CLOEXEC, NULL);
--	if (IS_ERR(file)) {
-+	FD_PREPARE(fdf, O_CLOEXEC,
-+		   anon_inode_create_getfile("[zcrx]", &zcrx_box_fops, ifq,
-+					     O_CLOEXEC, NULL));
-+	if (IS_ERR(fdf)) {
- 		zcrx_unregister(ifq, NULL);
--		return PTR_ERR(file);
+-	/* Map the socket to an unused fd that can be returned to the user.  */
+-	retval = get_unused_fd_flags(flags & SOCK_CLOEXEC);
+-	if (retval < 0) {
++	/* Map the socket to a reserved fd that can be returned to the user. */
++	fd = fd_prepare(flags & SOCK_CLOEXEC);
++	if (IS_ERR(fd)) {
+ 		sock_release(newsock);
+-		goto out;
 -	}
 -
--	fd = get_unused_fd_flags(O_CLOEXEC);
--	if (fd < 0) {
--		fput(file);
--		return fd;
-+		return PTR_ERR(fdf);
+-	*newfile = sock_alloc_file(newsock, 0, NULL);
+-	if (IS_ERR(*newfile)) {
+-		put_unused_fd(retval);
+-		retval = PTR_ERR(*newfile);
+-		*newfile = NULL;
+-		return retval;
++		return PTR_ERR(fd);
  	}
  
--	ce->zcrx_fd = fd;
--	if (copy_to_user(arg, ctrl, sizeof(*ctrl))) {
--		fput(file);
--		put_unused_fd(fd);
-+	ce->zcrx_fd = fd_prepare_fd(fdf);
-+	if (copy_to_user(arg, ctrl, sizeof(*ctrl)))
+-	pr_debug("%s: sk:%p, newsk:%p, sd:%d\n", __func__, sk, newsock->sk,
+-		 retval);
+-
+-	peeloff->sd = retval;
++	newfile = sock_alloc_file(newsock, 0, NULL);
++	if (IS_ERR(newfile))
++		return PTR_ERR(newfile);
+ 
+ 	if (flags & SOCK_NONBLOCK)
+-		(*newfile)->f_flags |= O_NONBLOCK;
+-out:
+-	return retval;
++		newfile->f_flags |= O_NONBLOCK;
++
++	peeloff->sd = fd_stage(fd, newfile);
++	pr_debug("%s: sk:%p, newsk:%p, sd:%d\n", __func__, sk, newsock->sk,
++		 peeloff->sd);
++	return peeloff->sd;
+ }
+ 
+ static int sctp_getsockopt_peeloff(struct sock *sk, int len, char __user *optval, int __user *optlen)
+ {
+ 	sctp_peeloff_arg_t peeloff;
+-	struct file *newfile = NULL;
+-	int retval = 0;
++	int retval;
+ 
+ 	if (len < sizeof(sctp_peeloff_arg_t))
+ 		return -EINVAL;
+@@ -5791,24 +5786,17 @@ static int sctp_getsockopt_peeloff(struct sock *sk, int len, char __user *optval
+ 	if (copy_from_user(&peeloff, optval, len))
+ 		return -EFAULT;
+ 
+-	retval = sctp_getsockopt_peeloff_common(sk, &peeloff, &newfile, 0);
++	retval = sctp_getsockopt_peeloff_common(sk, &peeloff, 0);
+ 	if (retval < 0)
+-		goto out;
++		return retval;
+ 
+ 	/* Return the fd mapped to the new socket.  */
+-	if (put_user(len, optlen)) {
+-		fput(newfile);
+-		put_unused_fd(retval);
++	if (put_user(len, optlen))
  		return -EFAULT;
 -	}
  
--	fd_install(fd, file);
- 	return 0;
+-	if (copy_to_user(optval, &peeloff, len)) {
+-		fput(newfile);
+-		put_unused_fd(retval);
++	if (copy_to_user(optval, &peeloff, len))
+ 		return -EFAULT;
+-	}
+-	fd_install(retval, newfile);
+-out:
++
+ 	return retval;
+ }
+ 
+@@ -5816,8 +5804,7 @@ static int sctp_getsockopt_peeloff_flags(struct sock *sk, int len,
+ 					 char __user *optval, int __user *optlen)
+ {
+ 	sctp_peeloff_flags_arg_t peeloff;
+-	struct file *newfile = NULL;
+-	int retval = 0;
++	int retval;
+ 
+ 	if (len < sizeof(sctp_peeloff_flags_arg_t))
+ 		return -EINVAL;
+@@ -5826,24 +5813,17 @@ static int sctp_getsockopt_peeloff_flags(struct sock *sk, int len,
+ 		return -EFAULT;
+ 
+ 	retval = sctp_getsockopt_peeloff_common(sk, &peeloff.p_arg,
+-						&newfile, peeloff.flags);
++						peeloff.flags);
+ 	if (retval < 0)
+-		goto out;
++		return retval;
+ 
+ 	/* Return the fd mapped to the new socket.  */
+-	if (put_user(len, optlen)) {
+-		fput(newfile);
+-		put_unused_fd(retval);
++	if (put_user(len, optlen))
+ 		return -EFAULT;
+-	}
+ 
+-	if (copy_to_user(optval, &peeloff, len)) {
+-		fput(newfile);
+-		put_unused_fd(retval);
++	if (copy_to_user(optval, &peeloff, len))
+ 		return -EFAULT;
+-	}
+-	fd_install(retval, newfile);
+-out:
++
+ 	return retval;
  }
  
 
