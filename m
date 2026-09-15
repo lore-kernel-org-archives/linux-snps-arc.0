@@ -4,59 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 15B0AC88E7F
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Sep 2026 12:02:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D032C88E7F
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Sep 2026 12:03:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:MIME-Version:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
 	References:In-Reply-To:Cc:To:Subject:From:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=UrzGYQ6F2/NmXKPio4WtKs7pN0NeOYGh18s89e0BhRk=; b=LOzW/4HY1xRuht
-	hPh7s012k9dOBIOnMB3uwWS4dDIQoEga7g0Fv14+pgHA/eWTNVCKbGAroJO8uEHiwpFe5a+AQUDhv
-	+KRgEY4Wdnq4NplTAojDjn94jVuUGpBMFN7YN0yor4P+HG0WnuU2VnfPQoZWIR/WdyCPT1s+7i/4K
-	P5Ao7CyHXEfSDldu8W8kmCX5tJ3bdlYpRNWneLygoMfRrUAmV4y/dFB2C5k2tK/53TqfvJMNloPcu
-	VhbpwslpwVWTYCQ9pjpSnWptIQ+wNaac5N6SZhRXmCmnqq5MPspkTvtWMBef9/MGxE5Juhq3Y3iye
-	H3Lj9RVOhg8kyIPALa8w==;
+	List-Owner; bh=L6XRrCxlCm3ZL62cbk6dgV894RiICe0xYgTV6yujnDg=; b=gaRYHzetM2fmZP
+	3g0ZlLQY8wjDkfKf2yRc9+3dMhtg4BghC3LYqa0ny8UXh8Ou5MDnnvWmmwu6Dw0w3k3aI662ZSmkb
+	oTZq5q4Q6ZCZpN/4sPAw+XWdT0w70XLuw+kplW1Wd6OirhDDBNJjMZCl1TZKhScnN76/q2fV7KuDh
+	Z4VERsESoEF8L9B9sp4MvsQjKPlTEqT6yPusoOWNZVbU6bj60a4ItFEd0lrZ65wuUII94NBk/s47F
+	d4fby2b+h8qK4EmS/RUF4kaPoz+Ks/So2vMf3+rqWJTz4aB+EPI1isS/g77TVPpPBV/+GvEcTvUj8
+	JG8/Ca8bxUXyY9OZonkQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6RsF-00000006MvD-31CU;
-	Tue, 15 Sep 2026 12:02:55 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1x6Rse-00000006N8V-0Q3N;
+	Tue, 15 Sep 2026 12:03:20 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6RsE-00000006Mu6-2pAM;
-	Tue, 15 Sep 2026 12:02:54 +0000
+	id 1x6Rsc-00000006N6V-0cFg;
+	Tue, 15 Sep 2026 12:03:18 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 6B76E41687;
-	Tue, 15 Sep 2026 12:02:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89A091F000FF;
-	Tue, 15 Sep 2026 12:02:52 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 84F70409F3;
+	Tue, 15 Sep 2026 12:03:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E53111F000FF;
+	Tue, 15 Sep 2026 12:03:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789473774;
-	bh=DKmKc8nUgnveY4UghGsysLXcnr7yvrf1lajtZ4j0caE=;
+	s=k20260515; t=1789473797;
+	bh=+u7ApoOuOF8zgpGLaZZqOsYtXtnXCzj3vZ61f6s8LvY=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=DfQU5ninsS1IF1iFmSCoi9zf6HJdPuTsj7XVVosHw24AZzhEXM7lUTSHKfoNPHRdo
-	 ftBPV2UxXZ2x35Xuh5jkFihXtOZzfFYSs5oMx5CREjLOMipaTe8AZXg3ZWUkHTE9VL
-	 3gNhL/WjsyOkNox97h2tfNc5eOHIstmUUtbf7Kt7QK0dzF9fCvXokT4Z7qzy3LnalW
-	 L8pIgSgRVoLl7LNk9qv23YKEL97Hvnx60zhcjswEXimdWiH3nyH090Y8Tjh1FGnAql
-	 aHkyZipO2f+jnmDQAYZHAx+8OnX8dq3pE0GKnLcYYqt6qe+Wm21ZPjEtaRgeSDex2F
-	 1fIq73PDJ4NnA==
+	b=THnhYqifnsYIWurKEUAhE5a21iMJPlZD91gXsYeEKbrZccsHcRXVqGfm5oAHxQqOd
+	 e1wuKKqVeBYXyc2aFoavHWSkhBnSVerlDl5LdiePK1NOkSeaQW/idnPwhZZFr9qO2U
+	 cg7uUETVS3OG1gBkYBAm+yUoWRGRSH3/1l1cbZ2tR32pl+WFSqQtvnmtWPmcEO4Q+L
+	 BxuqA3mh6TGj2Aku0WcupA4zXl8/Qqfs3dDrK1fqU5kv2LzDSbBcXV0J8UBqa9cxEY
+	 w/xfA2bcbpba0mU4z3odT8FBDfF8Id5jJPBmzjOTZnLPQ12i2X8SrT2BDKLxXvMAyA
+	 ptXGYIc0ZxCJw==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC POC 13/50] openrisc: commit fds on syscall exit
+Subject: Re: [PATCH RFC POC 22/50] net: install SCM_RIGHTS descriptors when
+ recvmsg() returns
 To: "Christian Brauner" <brauner@kernel.org>, "Linus Torvalds" <torvalds@linux-foundation.org>
-Cc: linux-csky@vger.kernel.org, io-uring@vger.kernel.org, "Peter Zijlstra" <peterz@infradead.org>, linux-snps-arc@lists.infradead.org, linux-parisc@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-sh@vger.kernel.org, linux-openrisc@vger.kernel.org, "Jens
- Axboe" <axboe@kernel.dk>, linux-mips@vger.kernel.org, "David Airlie" <airlied@redhat.com>, "Alexander
- Viro" <viro@zeniv.linux.org.uk>, "Ingo Molnar" <mingo@redhat.com>, linux-hyperv@vger.kernel.org, "Eugenio
- Perez" <eperezma@redhat.com>, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, "Jann
- Horn" <jannh@google.com>, linux-kernel@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- =?utf-8?b?Q2hyaXN0aWFuIEJyYXVuZXIgKEFtdXRhYmxlKQ==?= <brauner@kernel.org>, linux-arm-msm@vger.kernel.org, linux-alpha@vger.kernel.org, linux-hexagon@vger.kernel.org, kexec@lists.infradead.org, dri-devel@lists.freedesktop.org, bpf@vger.kernel.org, "Jan
- Kara" <jack@suse.cz>, sparclinux@vger.kernel.org, linux-gpio@vger.kernel.org, linux-um@lists.infradead.org, virtualization@lists.linux.dev, kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, "Oleg
- Nesterov" <oleg@redhat.com>
-In-Reply-To: <20260915-work-fd-reserve-unify-folded-v1-13-4d5217d6b246@kernel.org>
+Cc: kvm@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org, "David
+ Airlie" <airlied@redhat.com>, "Jan Kara" <jack@suse.cz>, linux-arm-msm@vger.kernel.org, "Jann
+ Horn" <jannh@google.com>, linux-alpha@vger.kernel.org, linux-hexagon@vger.kernel.org, linux-parisc@vger.kernel.org, "Jens
+ Axboe" <axboe@kernel.dk>, linux-openrisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, bpf@vger.kernel.org, linux-um@lists.infradead.org, io-uring@vger.kernel.org, "Alexander
+ Viro" <viro@zeniv.linux.org.uk>, linux-mm@kvack.org, "Peter Zijlstra" <peterz@infradead.org>, "Ingo
+ Molnar" <mingo@redhat.com>, linux-fsdevel@vger.kernel.org, virtualization@lists.linux.dev, "Oleg
+ Nesterov" <oleg@redhat.com>, linux-csky@vger.kernel.org, linux-mips@vger.kernel.org, kexec@lists.infradead.org, "Michael
+ S. Tsirkin" <mst@redhat.com>, linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+ =?utf-8?b?Q2hyaXN0aWFuIEJyYXVuZXIgKEFtdXRhYmxlKQ==?= <brauner@kernel.org>, linux-snps-arc@lists.infradead.org, "Eugenio
+ Perez" <eperezma@redhat.com>, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20260915-work-fd-reserve-unify-folded-v1-22-4d5217d6b246@kernel.org>
 References: <20260915-work-fd-reserve-unify-folded-v1-0-4d5217d6b246@kernel.org>
- <20260915-work-fd-reserve-unify-folded-v1-13-4d5217d6b246@kernel.org>
-Date: Tue, 15 Sep 2026 12:02:52 +0000
-Message-Id: <20260915120252.89A091F000FF@smtp.kernel.org>
+ <20260915-work-fd-reserve-unify-folded-v1-22-4d5217d6b246@kernel.org>
+Date: Tue, 15 Sep 2026 12:03:14 +0000
+Message-Id: <20260915120314.E53111F000FF@smtp.kernel.org>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,18 +78,27 @@ Content-Transfer-Encoding: base64
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-PiBBZGQgVElGX0ZEX1NMT1RTIGFuZCB0ZXN0IGl0IHRvZ2V0aGVyIHdpdGggVElGX1NZU0NBTExf
-VFJBQ0Ugb24gdGhlCj4gd2F5IG91dCBvZiBhIHN5c3RlbSBjYWxsLiBUaGUgY2hlY2sgdXNlZCB0
-byByZWx5IG9uIHRoZSBmbGFncyByMzAgaGFkCj4gYmVlbiBsb2FkZWQgd2l0aCBiZWZvcmUgdGhl
-IGNhbGwuIFJlbG9hZCB0aGVtLiBUaGUgc3lzY2FsbCBtYXkgaGF2ZSBzZXQKPiB0aGUgbmV3IGJp
-dC4gQSB0YXNrIHRoYXQgcmVzZXJ2ZWQgZGVzY3JpcHRvcnMgY2FsbHMKPiBkb19zeXNjYWxsX3Ry
-YWNlX2xlYXZlKCkgd2hpY2ggY29tbWl0cyB0aGVtIGJlZm9yZSBhdWRpdCBhbmQgdGhlIHB0cmFj
-ZQo+IGV4aXQgc3RvcC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gQnJhdW5lciAoQW11
-dGFibGUpIDxicmF1bmVyQGtlcm5lbC5vcmc+CgpTYXNoaWtvIGhhcyByZXZpZXdlZCB0aGlzIHBh
-dGNoIGFuZCBmb3VuZCBubyBpc3N1ZXMuIEl0IGxvb2tzIGdyZWF0IQoKLS0gClNhc2hpa28gQUkg
-cmV2aWV3IMK3IGh0dHBzOi8vc2FzaGlrby5kZXYvIy9wYXRjaHNldC8yMDI2MDkxNS13b3JrLWZk
-LXJlc2VydmUtdW5pZnktZm9sZGVkLXYxLTAtNGQ1MjE3ZDZiMjQ2QGtlcm5lbC5vcmc/cGFydD0x
-MwoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4
-LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3Jn
-Cmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1h
-cmMK
+PiBzY21fcmVjdl9vbmVfZmQoKSBhbGxvY2F0ZXMgYSBkZXNjcmlwdG9yLCB3cml0ZXMgdGhlIG51
+bWJlciBpbnRvIHRoZQo+IGNvbnRyb2wgbWVzc2FnZSBhbmQgaW5zdGFsbHMgdGhlIGZpbGUgcmln
+aHQgdGhlcmUsIG9uZSBkZXNjcmlwdG9yIGF0IGEKPiB0aW1lLiBFdmVyeXRoaW5nIHRoYXQgcmVj
+dm1zZygpIGRvZXMgYWZ0ZXIgc2NtX2RldGFjaF9mZHMoKSBjYW4gc3RpbGwKPiBmYWlsIHRob3Vn
+aC4gV2hlbiBpdCBkb2VzIHRoZSBzeXNjYWxsIHJldHVybnMgLUVGQVVMVCB3aGlsZSB0aGUgcmVj
+ZWl2ZWQKPiBkZXNjcmlwdG9ycyBhcmUgYWxyZWFkeSBpbiB0aGUgdGFibGUgYW5kIHRoZSBjYWxs
+ZXIgaGFzIG5vIHdheSB0byB0ZWxsLgo+IAo+IFJlc2VydmUgdGhlIGRlc2NyaXB0b3Igd2l0aCBm
+ZF9wcmVwYXJlKCkgYW5kIHN0YWdlIHRoZSBmaWxlIHdpdGgKPiBmZF9zdGFnZSgpLiBUaGUgbnVt
+YmVyIGlzIHdyaXR0ZW4gdG8gdXNlcnNwYWNlIGFzIGJlZm9yZSwgYnV0IHRoZSBmaWxlCj4gaXMg
+b25seSBpbnN0YWxsZWQgd2hlbiByZWN2bXNnKCkgcmV0dXJucyBzdWNjZXNzIGFuZCBkcm9wcGVk
+IHRvZ2V0aGVyCj4gd2l0aCB0aGUgZGVzY3JpcHRvciB3aGVuIGl0IHJldHVybnMgYW4gZXJyb3Iu
+Cj4gCj4gQSBjb250cm9sIG1lc3NhZ2UgdGhhdCBkb2Vzbid0IGZpdCBzdGlsbCBnZXRzIG9ubHkg
+dGhlIGRlc2NyaXB0b3JzIGl0Cj4gY2FuIHJlcG9ydCBhbmQgTVNHX0NUUlVOQy4KPiAKPiBJT1JJ
+TkdfT1BfUkVDVk1TRyByZWFjaGVzIHRoZSBzYW1lIGNvZGUgZnJvbSBpby13cSB3b3JrZXJzIGFu
+ZCB0aGUKPiBTUVBPTEwgdGhyZWFkLiBpb191cmluZyByZXF1ZXN0cyBjb21taXQgdGhlaXIgcmVz
+ZXJ2YXRpb25zIGJlZm9yZSB0aGUKPiBjb21wbGV0aW9uIGlzIHBvc3RlZC4KPiAKPiBTaWduZWQt
+b2ZmLWJ5OiBDaHJpc3RpYW4gQnJhdW5lciAoQW11dGFibGUpIDxicmF1bmVyQGtlcm5lbC5vcmc+
+CgpTYXNoaWtvIGhhcyByZXZpZXdlZCB0aGlzIHBhdGNoIGFuZCBmb3VuZCBubyBpc3N1ZXMuIEl0
+IGxvb2tzIGdyZWF0IQoKLS0gClNhc2hpa28gQUkgcmV2aWV3IMK3IGh0dHBzOi8vc2FzaGlrby5k
+ZXYvIy9wYXRjaHNldC8yMDI2MDkxNS13b3JrLWZkLXJlc2VydmUtdW5pZnktZm9sZGVkLXYxLTAt
+NGQ1MjE3ZDZiMjQ2QGtlcm5lbC5vcmc/cGFydD0yMgoKCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcgbGlzdApsaW51
+eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3Jn
+L21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
