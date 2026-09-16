@@ -4,108 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 150DEC88E75
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 15 Sep 2026 22:55:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1BA8C88E75
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 16 Sep 2026 02:01:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Mime-Version:References:In-Reply-To:
+	Message-Id:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=SIlEtaa0jONSumSqzY6Uw/B/2w3FdArIACQtP5SBy78=; b=L4JuLY1dx9TUan
-	Wy2VQI+IF9MElZQsMdKtpiV+JhfT4o2sVY1NuObbaPlkTkmwOdx34d2KZm77YHlB01FNghGcg08Gn
-	cim1sFXsyZ2OKsSOBA3vEI4UwnNxEYJVK8hY3mRdQmyHgGiCXXnH7LElnZWFXfWxRpFXLMUhOaDfB
-	EU7NHkdrT1eEd0kuWKF+izkDKob2Wu6n+s5nRy7K9Mujas80CQ52x54YLufbX29+KY0RxjEFoPfjb
-	gAzNr+6stjOg5Er4krsXh02e3aJ9mmm5v63E/j3Z3CDLfZ+RKRxCryfpWwgse1xsq4Cn+JroCdZ0a
-	zygz3MSP4dCrrf/qwB1Q==;
+	List-Owner; bh=DVjHw6LdiZDNT54a8EKbI7aMeKri0hBby9+ezNd6szI=; b=nTxwOsBnMxKtxh
+	K07Z0EewiHQSn3yj0i59IQgmbjtGJaQIK21hX3yZNLOz0uhxNiTI3Kl3IivaGl4cZZZm/vjaXLGh+
+	lXoP/hJn5cKcxFBu8I7tbTkGOCtnqHH+kVI0qa9mRChH/N4mwmvzsFDcV2qc0C81FyKV8tFSuJS7h
+	eEx9J5gv8XA3s9QmUfSjKRPjpc6SNebE/ZeXGvmRT8fpuYyYHkcMlBLVHP0StJfytZ9dyJz96xJ8T
+	79srf9xfInP9GWboFWN84XLLKdP2LJWwi4/BNEzqFoqmHHKZ4PeKNVc5/8CbYw/xYXFteMukFVH1K
+	mr3z4vVGxoGXSG1Y+kgA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6c3a-000000082k5-2CfC;
-	Tue, 15 Sep 2026 22:55:18 +0000
-Received: from mail-ej2-x10.google.com ([2a00:1450:4864:34::10])
+	id 1x6exv-00000008B3g-0UGJ;
+	Wed, 16 Sep 2026 02:01:39 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6c3Y-000000082je-27vk
-	for linux-snps-arc@lists.infradead.org;
-	Tue, 15 Sep 2026 22:55:18 +0000
-Received: by mail-ej2-x10.google.com with SMTP id a640c23a62f3a-c254f6c7a58so58012566b.2
-        for <linux-snps-arc@lists.infradead.org>; Tue, 15 Sep 2026 15:55:15 -0700 (PDT)
+	id 1x6exs-00000008B33-2kIR;
+	Wed, 16 Sep 2026 02:01:36 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id CDE3560214;
+	Wed, 16 Sep 2026 02:01:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E999D1F00893;
+	Wed, 16 Sep 2026 02:01:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1789512914; x=1790117714; darn=lists.infradead.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=7NEEN5klK6sYQ7k8fj+V0z2WeSFVNwjy5fJJIdfiMPQ=;
-        b=UjmYVQ4EekHgbAxownd4WXtzIR6TaeeiK8gdE7Z5yMPgKpCcWDwqlbuIwvnT5vf0/q
-         f//2EZAO245ETQFQsbTLnyCFbB9Qr7Nfej+Xaeqii3ycNfa4Swp6LLxLQi194EEVT8oz
-         +seH+aaTGH5hge5b2+OHq4B7+qDDsxykDDSFM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789512914; x=1790117714;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=7NEEN5klK6sYQ7k8fj+V0z2WeSFVNwjy5fJJIdfiMPQ=;
-        b=UA856efDfq/4q5dnudY1ESgzwZZ/6e8iGN9HmNQAZUSch5CtR3iQDiAfVVjFAz3lX/
-         0jeuhfB0/RldHM3uj5pdQo9KlGQj0MG3iBwsVpLeWNO2pYSRXn0ysuXeHvIb2KqvKsHO
-         RANEvPhegR9k8IXCBD7cpR0fVWoq+z4y8sSqnt1XrDhr75CBPhNO2E6kLFoXBdyxftYk
-         XAA9NVT8o87nFcwp7HisiO26cUYmR+4dlO4eBlgvpdeFZoeyFOAfGvJq572Lst9zTmyH
-         lki08RLGnEMOTFX+rqnhfyYD905+Cj2bnZGR+jiZ4ug1+5/TBmhvsZwUQ7dipXry6AU3
-         O+ow==
-X-Forwarded-Encrypted: i=1; AKwUvBxzbrm9j+sbLvK4DZ83/wacalBBqk056J4aeVobHO/V07VkjAczWQWRFdRRDIx3wsMHvYrjDNpeVPBrd/mLoA==@lists.infradead.org
-X-Gm-Message-State: AFuF++l1Xbfi9R1HtQf53cCFLsSS+eD+8mMozJEEbS0ZRyoN6AJsPstp
-	TuQEroZYeKi8NY6uajHHJ14K1k41TnEJn42khU44a/IRiw+TMhGAfsssT8qvEaDo+qKzwXUCiMV
-	/idr3yuv6lA==
-X-Gm-Gg: AYBFou0l6Nd45kSPlfjlL5wW2uoL/+QCZMSgS/k5N0I1RpqFUlXsAdtXH7+HoJdxtSc
-	SyqKFMDenggj1Om1PSNkofrglHSh2lawX5UMoixGj9IR67TDHQ7AsSaA0bzlq6rXDS7DwqJYP7s
-	h0/0yGKMTNYEx82Iw3A1+J3/CECS+d6lt69AmWx97ZUd44j996zBKbwXfN9E3q8MOLkpGovBHwe
-	BBF0ewyMuekdXy6/PgFKZCzyQapvesLllxexEG4ZS61ch9SWfN6d9g4Zq8pGvTK9t6HXgGzdj9I
-	rokDo9n+2oVtchuBayNg/iIcbu/V6xXSdI9Ewn+Qx1AP2oHANLQd+xh8fW8ukOAhxfOJRow+avt
-	xkivY3E6yQjLvnRlEcVyuHuw0hJfE2b2azTuVGp5ricQSue8lC5zWjFW6ahXt3KR14Zr4JD5Pr9
-	iGAutzgYFYg/UGDQc+ozpBQSG0ccju6GGYPd2ciquTY8AO8+lr/cTlTah5Vrh3Q4UYz6snxVeC0
-	cY+GhNffed4pZEa5KFDpCsBil+AKB8S/cvwJ8WX5dAJQT7J
-X-Received: by 2002:a17:906:eec6:b0:c25:8c74:71ea with SMTP id a640c23a62f3a-c29e51dbf30mr9184766b.4.1789512914212;
-        Tue, 15 Sep 2026 15:55:14 -0700 (PDT)
-Received: from mail-ed2-f35.google.com (mail-ed2-f35.google.com. [74.125.228.99])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c29de453e23sm33903466b.14.2026.09.15.15.55.14
-        for <linux-snps-arc@lists.infradead.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Sep 2026 15:55:14 -0700 (PDT)
-Received: by mail-ed2-f35.google.com with SMTP id 4fb4d7f45d1cf-6a98dfb8002so490823a12.2
-        for <linux-snps-arc@lists.infradead.org>; Tue, 15 Sep 2026 15:55:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBx5ryViIAZUlRdbr6JeigUr7dreoZNX7ax8eNi2ckT6sYOl0RJORjFeZtMcU/hdYIf/rY2I9oX1ujhmaCznfQ==@lists.infradead.org
-X-Received: by 2002:a05:6402:5d1:b0:6a9:a6c0:e5ef with SMTP id
- 4fb4d7f45d1cf-6aa2244ef06mr218172a12.37.1789512913950; Tue, 15 Sep 2026
- 15:55:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260915-work-fd-reserve-unify-folded-v1-0-4d5217d6b246@kernel.org>
- <CAHk-=wjeamU=_RYT9cR3dZJ2N-Teo-N1+aYh7jwhrB=iWXD0cg@mail.gmail.com> <CACSVV028AdnTYa6OKDeoJYCau58uTkKMgEdqTn7crNSV8QZxOA@mail.gmail.com>
-In-Reply-To: <CACSVV028AdnTYa6OKDeoJYCau58uTkKMgEdqTn7crNSV8QZxOA@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 15 Sep 2026 15:54:57 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjhJF91TCO0Zqeuf+caG2tQZ4AzbLr2qFmRmnMM4dbh4g@mail.gmail.com>
-X-Gm-Features: AcwNN1Wx2MaYDtFtmeOlL6MnzYY7doY_FEPpziKatTBWbLOeKsjmritQ5JuAL3M
-Message-ID: <CAHk-=wjhJF91TCO0Zqeuf+caG2tQZ4AzbLr2qFmRmnMM4dbh4g@mail.gmail.com>
-Subject: Re: [PATCH RFC POC 00/50] file: handle files on syscall exit
-To: rob.clark@oss.qualcomm.com
-Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jann Horn <jannh@google.com>, Jan Kara <jack@suse.cz>, Ingo Molnar <mingo@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	Oleg Nesterov <oleg@redhat.com>, linux-alpha@vger.kernel.org, 
-	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
-	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-um@lists.infradead.org, Jens Axboe <axboe@kernel.dk>, io-uring@vger.kernel.org, 
-	netdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-gpio@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, bpf@vger.kernel.org, 
-	David Airlie <airlied@redhat.com>, virtualization@lists.linux.dev, kvm@vger.kernel.org, 
-	kexec@lists.infradead.org, linux-hyperv@vger.kernel.org
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260915_155516_921771_4BFC57A0 
-X-CRM114-Status: UNSURE (   9.58  )
-X-CRM114-Notice: Please train this message.
+	d=linux-foundation.org; s=korg; t=1789524094;
+	bh=Kq4nX0CZWZvbBl1ewxdrR8njTtxJd2HKKhLZ4yZoin4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=HA4IrxR+bH6KFYi5TWsVFFRj5NN/KsmXWn+L2rcKXslNm+h4O1+C0Mz1TX/mnbSd5
+	 wNlo1vs7L/RwOu/p4JC+a32HO1/edlho+RmyG7M/c8w2xQw4dUW63KjVSNntMUP6xo
+	 zHIhd6HWzSLYzzfxhv0JalmDYIqgVcBuZA1Pa2/U=
+Date: Tue, 15 Sep 2026 19:01:31 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>, Baolin
+ Wang <baolin.wang@linux.alibaba.com>, "Liam R. Howlett"
+ <liam@infradead.org>, Nico Pache <nico.pache@linux.dev>, Ryan Roberts
+ <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song
+ <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, Usama Arif
+ <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, Guo Ren
+ <guoren@kernel.org>, Brian Cain <bcain@kernel.org>, Geert Uytterhoeven
+ <geert@linux-m68k.org>, Dinh Nguyen <dinguyen@kernel.org>, Simon Schuster
+ <schuster.simon@siemens-energy.com>, Jonas Bonn <jonas@southpole.se>,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, Stafford Horne
+ <shorne@gmail.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, Rich
+ Felker <dalias@libc.org>, John Paul Adrian Glaubitz
+ <glaubitz@physik.fu-berlin.de>, Paul Walmsley <pjw@kernel.org>, Palmer
+ Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre
+ Ghiti <alex@ghiti.fr>, Russell King <linux@armlinux.org.uk>, Vineet Gupta
+ <vgupta@kernel.org>, Michal Simek <monstr@monstr.eu>, Chris Zankel
+ <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>, Will Deacon
+ <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick
+ Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
+ "David S. Miller" <davem@davemloft.net>, Andreas Larsson
+ <andreas@gaisler.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Mark Rutland
+ <mark.rutland@arm.com>, Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui
+ <kernel@xen0n.name>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Helge
+ Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, Michael
+ Ellerman <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)"
+ <chleroy@kernel.org>, Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik
+ <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, Christian
+ Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle
+ <svens@linux.ibm.com>, Richard Weinberger <richard@nod.at>, Anton Ivanov
+ <anton.ivanov@cambridgegreys.com>, Johannes Berg
+ <johannes@sipsolutions.net>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
+ <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
+ <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>, Vlastimil Babka
+ <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
+ <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jason Gunthorpe
+ <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, Peter Xu
+ <peterx@redhat.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, linux-openrisc@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-snps-arc@lists.infradead.org,
+ linux-arch@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-alpha@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+ linux-um@lists.infradead.org, Hugh Dickins <hughd@google.com>, Qi Zheng
+ <qi.zheng@linux.dev>
+Subject: Re: [PATCH v3 00/12] mm: make userland page table freeing RCU-safe
+Message-Id: <20260915190131.adee185f2ce04a8ec821489c@linux-foundation.org>
+In-Reply-To: <20260911-rcu-pagetable-freeing-v3-0-7b8c86103821@kernel.org>
+References: <20260911-rcu-pagetable-freeing-v3-0-7b8c86103821@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -122,19 +114,55 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, 15 Sept 2026 at 15:21, Rob Clark <rob.clark@oss.qualcomm.com> wrote:
->
-> With fd's it is more than just about error rollback.. exposing an fd
-> to userspace mid-way thru an ioctl is an easy security bug to write..
+On Fri, 11 Sep 2026 20:36:47 +0100 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
 
-That isn't very common code. It's something that is done by a few
-strange cases, and yes, those cases should just do it right.
+> The majority of architectures in the kernel defer page table freeing until
+> an RCU grace period has elapsed, this series converts all remaining
+> architectures to do so too and eliminates CONFIG_MMU_GATHER_RCU_TABLE_FREE
+> altogether.
 
-But "those few cases should do it right" does not mean "make a whole
-new subsystem for this thing that makes a simple "open" actually be
-slower and stranger".
+Thanks, I've updated mm.git's mm-unstable branch to this version.
 
-             Linus
+> v3:
+> * Added Kiryl's tag to series (thanks! :)
+> * Corrected commit message, comment indentation in 11/12 as per Kiryl.
+> * Corrected 12/12 documentation as per Kiryl.
+
+Here's how v3 altered mm.git:
+
+
+ Documentation/mm/process_addrs.rst |    4 ++--
+ include/asm-generic/tlb.h          |    4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+--- a/Documentation/mm/process_addrs.rst~b
++++ a/Documentation/mm/process_addrs.rst
+@@ -541,8 +541,8 @@ We establish basic locking rules when in
+   after an RCU grace period has elapsed. However, any entry found must be
+   revalidated after the page table lock is taken (such as the
+   :c:func:`!pmd_same` recheck performed by :c:func:`!pte_offset_map_lock`)
+-  before it is acted upon. Changing an entry always requires the page table
+-  lock.
++  before it is acted upon. Changing an entry requires the page table
++  lock and one of the locks that excludes teardown (mmap or VMA lock).
+ * Reads from and writes to page table entries must be *appropriately*
+   atomic. See the section on atomicity below for details.
+ * Populating previously empty entries requires that the mmap or VMA locks are
+--- a/include/asm-generic/tlb.h~b
++++ a/include/asm-generic/tlb.h
+@@ -151,8 +151,8 @@
+  *  Page directories (__p*_free_tlb()) are always freed via tlb_remove_table(),
+  *  after an RCU grace period (see mm/mmu_gather.c).
+  *
+- * This serialises against software page-table walkers, including architectures
+- * which do not use IPIs for remote TLB invalidates.
++ *  This serialises against software page-table walkers, including architectures
++ *  which do not use IPIs for remote TLB invalidates.
+  *
+  *  An architecture is expected to provide __tlb_remove_table() (see
+  *  HAVE_ARCH_TLB_REMOVE_TABLE) or use the generic __tlb_remove_table(), which
+_
+
 
 _______________________________________________
 linux-snps-arc mailing list
