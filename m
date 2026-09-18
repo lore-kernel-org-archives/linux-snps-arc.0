@@ -4,74 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 08619C982D7
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Sep 2026 08:59:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47FEAC982D7
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 18 Sep 2026 09:10:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=5NizvV4OyxvMaR/TRdLtqIVFW/WKjfR0hRNfrd8IIJw=; b=feSPda/o6TTZwU
-	eS8WRTD+iSMmOJf7tBfzALy8Rw78Xl0H+WDQYCZy42Ilr/DXdhFKsoN5gPJL03sVGT01GnbC2Qgih
-	UqetC3Hn2DTIJQTeEXqN2SbQlEDPTHo9tNNWmbRuDnXt7i/NYiKbusdIINoUcT2eZBpOrfPBJdbg7
-	TtPlpLUMTuk0Vqat8VkM2aeEu82MRaa/9xDHzJC+HIda6pm1G/l65HCv7hnbPzX2qA6xEoEnUvyin
-	RAAEY3obTid5W1w2M6LOJSwBCVhASazQI7U2YS8vDiHvKg9LTeUiLcjH2QUViEcEZhexb3WWmW1Uo
-	470aBKuSbVcXmKA+PeoQ==;
+	List-Owner; bh=Yj4HL9SI1itsxMLWhV4gqPtFJFpIKbyu0ZACs9AmGs8=; b=fMUwwvOs3kGARX
+	NpYkvuH+gcGo+XdJ8gymxPe3sYlbmwS1QZBnFe+cQfhxidRwT0dyPxITLkgxWZqhBgFq9EwL+4anj
+	lSDXoBiib4nn7a6Nw4gqCX8ig0kylxRK6GJDxuCgS1oNLkxMQAthWQDBInvnsKLItUZsvjoYp/aQQ
+	qOvSHlOvnmFuyNjZce1LmRZ17jjKJLcM5k+j9YKWr5ozMqC19sC9wigFtb3sm+1C9XQIIpYsZAlDy
+	CvdIg43i3OHyX1eXmbsJOpA/CEzft/3kxtN9/P3Zfv2wxAXRPNwUhfSEXStij/EvmO1GBrCG6pqQa
+	NQAmdnoZsMZBS3RQjXNg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x7URd-0000000DsRi-1khN;
-	Fri, 18 Sep 2026 08:59:45 +0000
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+	id 1x7Ubj-0000000DtYl-3qsy;
+	Fri, 18 Sep 2026 09:10:11 +0000
+Received: from mail-wm2-x10.google.com ([2a00:1450:4864:31::10])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x7URa-0000000DsQX-28OY
+	id 1x7Ubh-0000000DtYD-2rig
 	for linux-snps-arc@lists.infradead.org;
-	Fri, 18 Sep 2026 08:59:43 +0000
-Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-48586861639so200098f8f.0
-        for <linux-snps-arc@lists.infradead.org>; Fri, 18 Sep 2026 01:59:41 -0700 (PDT)
+	Fri, 18 Sep 2026 09:10:10 +0000
+Received: by mail-wm2-x10.google.com with SMTP id 5b1f17b1804b1-49e620fa473so3033085e9.1
+        for <linux-snps-arc@lists.infradead.org>; Fri, 18 Sep 2026 02:10:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789721980; x=1790326780; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1789722607; x=1790327407; darn=lists.infradead.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=ebKeWW1b/FCTysKRCA2qCKC9jXPhUpw/tMxPeazltLI=;
-        b=R1Nf9Z+GHdFSOsyIuFA1cZdihqXOHmpBfFWUxNAWaymV1zb8qBdDKEMGC+ohSsleZP
-         hfJHwi2YEyB0v0rGd3ocQQrAqpbeXz8jcKB5PqZ4G+3W1QAJ5ZiGnAzHKHsmqX9Weuvq
-         jOXlPoSzlhhLfaUUr4QJrvG6NcSbLB3TipKtVOidLoucNOL0XL+GSvzLaEqH6TJ+qaFw
-         kxh+fP+CvOD5rNtebHrhOOaBlrlGPTL++MCbvrEn8phZjaCv5z/o6NvW6aS6k28VeVlB
-         uL/LuqbgkwWBK+bvQc86oS24Ekz+BRX8baKH+fLJgriCtqU2lGri11nZN9x7XhfUDwBV
-         jbDg==
+        bh=NEA9aek5vNuu7I8nEFfi0rFdQ9PD9h+hnZ3KY6uKWvs=;
+        b=sBVIyg6qK07ULO8duQHFuOAT/QMdBXo2MgQ66g2nccB8DUpSJCddSXeDq/kIP12Vdy
+         2vyltUi6tKmuHK1ObnzG2BSObeoX7JfmOICst1eZy9g08KDQR2AjcYC5mu6GFtnkxr4Q
+         M7jlWwJ7jHRoyQX2os9eGoEAdIT1GmyR8Q1i6aNo9m60a7rww1B/dHhzS5pKErRkxiY6
+         UA+dkASUX24hH63c2w0xRCWsnMkL8rwoyqlGC5uMmKU3wegBGhy4R4cXhiG8B6pGgS20
+         EM2wQu3pMYLnwWScU+ISK5xKN6c3DfTKVuuwwK8uUqazqK++oFsyYe/9lLT6BYDtGnn0
+         5Ybw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789721980; x=1790326780;
+        d=1e100.net; s=20260707; t=1789722607; x=1790327407;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ebKeWW1b/FCTysKRCA2qCKC9jXPhUpw/tMxPeazltLI=;
-        b=0wbY5wfvGKy+dP6EcmGHQkfzhVEbgYRz2AAQ61vlATpVe3CZYwkl6Tp2EYbw59TRFs
-         6rpDI/RHl2KmiGq9mu9vN6t1SW8q9Rkb931C8xWuz/4DCnA+rzCJifFYLzKCk7IPa1nH
-         0VIE4NfXg7t3USsFHqwGT2oU5LzmOAMMRWkQaAghpF1CU0KFiJ3trz6cRn2eisVlml7S
-         Ci8W0f9JybcZdepmW2WAs8bVQSNpzoecK1L72eRTL6kgVERqoXPr210PVCWsMlf/cBOJ
-         tkh+dDzGDBPhkZbAsqiR/2LdMufslcKkDFzwZIv23hmtwc1YbSZP+4+fHuZUksJFTEYD
-         Lg2Q==
-X-Forwarded-Encrypted: i=1; AKwUvBw0W8cFTfcfbs5lXcu6t6w/dMPq2J8BVDKCizsXVDmICPXSQlqithLYzvoxoeeZBImeF/Jy1bqb8zgEKpvuew==@lists.infradead.org
-X-Gm-Message-State: AFuF++nIAvgPvxqo2a5g7jS0PNu5lpm26P+PQqw+xp5Q0+mb+UCO3teN
-	3v0m+viYyDlzluHrTf1sPLzhaaidgiidkOsvxfPlF829IKEIqKN5jHoO
-X-Gm-Gg: AYBFou18HlCr38TYKhHU/FzO2QhdF/+PJnPjg0sRHaXHDQG1f//BB2KUJIU3RC9+ucb
-	LSkxwnpQ2K2RXCMHb2l91VCpnaijjzG5dGWoOqgBgroY4lZ1R4YhY6amJta5kWCRUum9wYejAWl
-	RDEBu6S/wh0W/gXOWloTrFKUIKR4GYLjYlXQCcmJU6vArOqHPHK9n8Hv1bUk5WRjKbJXtHW6XQu
-	2894etxAZlnHw9+3plrorJjA7XhST+XpnUbXZXqBnNfoMVwdaP/WXIN3a+dzz+YlPV0RFTWSMA9
-	BPQLFFpDgOr8Db/joIU4DdRovLhyzJWdGlaxXyNbxvPjp/lZxX6RCNoNO5z4jT6lco2/olu5vXC
-	kwl5AqekKyw1jLSSzGBd5ehNRVcEFCK07qJTRL7I/7u3/KcGoG9zs/6dPl8u4CYbu6FZkb/K6RH
-	SoN6qcAw+WP2tjcggJUvtM3S3LomtNXhmG45yyRkJZqnJpMXQTrYiNvtScGv3qoox7IEloh7FZP
-	XiI86kp6ArLj6UKfEqZbYNysI//I9BTIeFG
-X-Received: by 2002:a5d:6f06:0:b0:485:8d9c:47d2 with SMTP id ffacd0b85a97d-48713c7ef38mr9129868f8f.30.1789721980248;
-        Fri, 18 Sep 2026 01:59:40 -0700 (PDT)
+        bh=NEA9aek5vNuu7I8nEFfi0rFdQ9PD9h+hnZ3KY6uKWvs=;
+        b=l4rfC3EL0C6yID+qEphsEUGGvXfA+vWV4tTCqTwdiutB3iylzQP8uHGcj6yyp2FMTm
+         w+WJcC/ohpywpm17RMIdR6unYQySCO8ctl6dTCZ7G2tlS19CgAFaxbadbiszabefP794
+         ZWqv9Q+2GzdorweqCJwGIB5vx9vt3OkiZcSdSlU7OEJ3T1zDPbLrrJeTkFCJmvj7Ulec
+         M95mbtdkw/NyQuF3LrE8/QyAWafWqWdY6UhbN0o3+RpViBH18Nx9Z5+hlPS7v2r82XHV
+         veTww1m4oJETc5LpeED7R1xbOWH5lmIwFr7oPCq6pnAMMNJmob7EPVbCbRxTs2Nd6hRF
+         Flhg==
+X-Forwarded-Encrypted: i=1; AKwUvBx03gYYD9tqZHK+1MKVliI+BK5pGdARa0JdPYQctU2N20NufYTFEBuWD/YFhb5NFOVyV12fu9M6fRQzeAlqBA==@lists.infradead.org
+X-Gm-Message-State: AFuF++kCnDZm0oITbyMso8XpSTIKXgCdGNAsf3FTb9uhtDcUMTk+PkdG
+	17ofXQWGtJ8R1xPsAmQ3gOYaP440unLENobXz7mk1JTCE9RJsOmWWMMzs39H0Q4s
+X-Gm-Gg: AYBFou0vJrrwDGltH0I8EtwYYBwTcDN4S7e45C28XjaGROChcMbQw+zyaE34Gm1uGhM
+	evfvCAQ8XHGIphAdHH8uCSCwbtg9cy171Xrsl5Byo/M/ZehSkDtFOfiCsks386S/uKvPZzIUR/B
+	FQtnY85oSlcHZPjV44KBGuuAY5m4bZGY2c76NPuvkKp97X4aAKUGpLPx2r/B55W6YO9fWjp7Opj
+	TZSzeV2aLd6kE1tjHbY+U4/RF14Zcr3qilIsjHubP5gDxjI5DXe+QoBlDvL4CZj0Dd4xwe9jmqj
+	553uOiydRdBKehNijckFITCgRch1VnMzOMWx3xERSAVcNwk90Ek999wqcmybyUmjNuTsfMQ5N9V
+	YK7i/7ejtfURfVqo2GiXV6yeMl9vtcSS9GTKbnRl9Sf5SQuQQLQeBhRnHbN//DUdIhuQuzdtMvP
+	lYcGm5PgymXhLojzKw+d3UZBLdOK0GdKzttWF5VwMdj1Wr8RcHF6iYbfHrOj9bhq1tIJqhdc+5t
+	hqrnh0VEQuBg3orMKEKuBSCCSMrniIMORDz
+X-Received: by 2002:a05:600c:3f0b:b0:49d:1df6:2592 with SMTP id 5b1f17b1804b1-49fc5750c61mr18187915e9.21.1789722607156;
+        Fri, 18 Sep 2026 02:10:07 -0700 (PDT)
 Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4872008f34dsm2547841f8f.36.2026.09.18.01.59.39
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc56aab7csm31503375e9.1.2026.09.18.02.10.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 01:59:39 -0700 (PDT)
-Date: Fri, 18 Sep 2026 09:59:38 +0100
+        Fri, 18 Sep 2026 02:10:06 -0700 (PDT)
+Date: Fri, 18 Sep 2026 10:10:04 +0100
 From: David Laight <david.laight.linux@gmail.com>
 To: Bradley Morgan <brads@mainlining.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>, Vineet Gupta
@@ -82,16 +82,16 @@ Cc: Andrew Morton <akpm@linux-foundation.org>, Vineet Gupta
  Glaubitz <glaubitz@physik.fu-berlin.de>,
  linux-snps-arc@lists.infradead.org, linux-csky@vger.kernel.org,
  linux-sh@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/5] lib: Add two-byte cmpxchg emulation function
-Message-ID: <20260918095938.6082a31a@pumpkin>
-In-Reply-To: <20260917163830.3748-2-brads@mainlining.org>
+Subject: Re: [PATCH v3 0/5] Add two-byte cmpxchg emulation and wire it into
+ the architectures
+Message-ID: <20260918101004.731bf2e5@pumpkin>
+In-Reply-To: <20260917163830.3748-1-brads@mainlining.org>
 References: <20260917163830.3748-1-brads@mainlining.org>
-	<20260917163830.3748-2-brads@mainlining.org>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260918_015942_580747_F33FC4D3 
-X-CRM114-Status: GOOD (  24.96  )
+X-CRM114-CacheID: sfid-20260918_021009_744316_AA4F66DF 
+X-CRM114-Status: GOOD (  18.54  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,79 +108,51 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu, 17 Sep 2026 16:38:26 +0000
+On Thu, 17 Sep 2026 16:38:25 +0000
 Bradley Morgan <brads@mainlining.org> wrote:
 
-> cmpxchg_emu_u8() emulates one-byte cmpxchg() in terms of four-byte
-> cmpxchg() for the architectures lacking native one-byte atomics.
-> The same architectures also lack native two-byte cmpxchg(), where
-> such an operation is not supported and either fails to compile via
-> BUILD_BUG() or fails to link, because the bad pointer sentinels
-> these architectures declare are never defined.
+> This is v3 of the two byte cmpxchg emulation series, wiring
+> cmpxchg_emu_u16() into arc, csky, sh and xtensa.
 > 
-> Add cmpxchg_emu_u16(), the two-byte sibling. It reads the enclosing
-> word with READ_ONCE(), splices the two target bytes through a union
-> and loops on cmpxchg() of the full word until the compare succeeds.
-> Like cmpxchg_emu_u8() it is fully ordered.
+> v2 tried u16 as the parameter type. David Laight pointed out that
+> this does not compile warning free when exchanging a pointer type,
+> because the switch statements in the architecture macros instantiate
+> every size case, so a pointer cmpxchg() type checks the two byte
+> case, and the (u16) casts there warn. v3 takes the old and new
+> values as unsigned long and casts to u16 inside the function, so the
+> call sites need no narrowing casts and pointer exchanges compile
+> clean. The function still compares and returns exactly the 16 bits
+> of the emulated halfword, which matches hardware cmpxchg r16
+> behaviour, and a host test of 972 cases across both halfword offsets
+> against a byte level reference model still passes.
 > 
-> Unlike cmpxchg_emu_u8() it casts the old and new values to u16
-> internally and returns unsigned long, taking the old and new values
-> as unsigned long, per the suggestion from David Laight. The switch
-> statements in the architecture macros instantiate every size case,
-> so a cmpxchg() on a pointer type checks the two-byte case as well,
-> and a u16 parameter or return would make the macro casts and return
-> conversions warn there. With unsigned long parameters and return the
-> call sites need no narrowing casts, pointer exchanges compile warning
-> free, and the function still compares and returns exactly the 16 bits
-> the caller asked for, which matches the hardware cmpxchg r16
-> behaviour where a 16-bit compare only looks at the low 16 bits of
-> the register.
-> 
-> The Kconfig symbol gating this file is renamed from
-> ARCH_NEED_CMPXCHG_1_EMU to ARCH_NEED_CMPXCHG_1_2_EMU, as it now
-> selects both the one-byte and the two-byte emulation.
-> 
-> Suggested-by: Paul E. McKenney <paulmck@kernel.org>
-> Suggested-by: David Laight <david.laight.linux@gmail.com>
-> Signed-off-by: Bradley Morgan <brads@mainlining.org>
-> ---
-...
-> diff --git a/lib/cmpxchg-emu.c b/lib/cmpxchg-emu.c
-> index 27f6f97cb60d..ac1c84383887 100644
-> --- a/lib/cmpxchg-emu.c
-> +++ b/lib/cmpxchg-emu.c
-> @@ -1,10 +1,11 @@
->  // SPDX-License-Identifier: GPL-2.0+
->  /*
-> - * Emulated 1-byte cmpxchg operation for architectures lacking direct
-> - * support for this size.  This is implemented in terms of 4-byte cmpxchg
-> - * operations.
-> + * Emulated 1-byte and 2-byte cmpxchg operations for architectures lacking
-> + * direct support for these sizes.  These are implemented in terms of
-> + * 4-byte cmpxchg operations.
->   *
-> - * Copyright (C) 2024 Paul E. McKenney.
-> + * Copyright (C) 2024 Paul E. McKenney <paulmck@kernel.org>
-> + * Copyright (C) 2026 Bradley Morgan <brads@mainlining.org>
->   */
->  
->  #include <linux/types.h>
-> @@ -40,6 +41,35 @@ uintptr_t cmpxchg_emu_u8(volatile u8 *p, uintptr_t old, uintptr_t new)
->  		instrument_atomic_read_write(p, 1);
->  		ret = data_race(cmpxchg(p32, old32.w, new32.w)); // Overridden above.
->  	} while (ret != old32.w);
-> -	return old;
-> +	return (u16)old;
->  }
->  EXPORT_SYMBOL_GPL(cmpxchg_emu_u8);
+> David also noted the missing pointer to integer type check in some
+> of the macros, so cmpxchg(&p, 4, 5) compiled silently. The csky
+> macros typed __old and __new through __typeof__(old), which skips
+> the check, and sh had none either. Both now type check through
+> (unsigned long)(0 ? *(ptr) : (old)), the idiom David suggested,
+> which keeps the pointer to integer conversion explicit while making
+> the compiler reject mismatched types. Both of his test cases now
+> fail to compile on every macro shape.
 
-Where did the (u16) cast come from?
-If you want to mask 'old' to 8 bits it would be more reasonable to change
-the function prototype.
-(Although I can never remember whether the caller or called code is
-responsible for masking the value.)
+You fixed csky but not the others.
+I guess that could be a separate patch (maybe series).
 
 David
+
+> 
+> The ARMv6 wiring stays dropped from v1, per Arnd Bergmann's offer to
+> take the INTEGRATOR_CM1136JFS cleanup in his platform removal series.
+> 
+> Thank you, Paul McKenney for suggesting this, and David Laight and
+> Arnd Bergmann for the review that shaped all three revisions.
+> 
+> Bradley Morgan (5):
+>   lib: Add two-byte cmpxchg emulation function
+>   ARC: Emulate two-byte cmpxchg
+>   csky: Emulate two-byte cmpxchg
+>   sh: Emulate two-byte cmpxchg
+>   xtensa: Emulate two-byte cmpxchg
 
 
 _______________________________________________
