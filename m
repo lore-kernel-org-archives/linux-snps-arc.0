@@ -4,41 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14537C98308
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 23 Sep 2026 04:39:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 74D4CC98302
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 23 Sep 2026 06:16:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=XupzJ0S0y/OIDpxS7jXRW11SmrdPQTV719g39GvBSPA=; b=aGpGS6Iw92HjD8
-	4P7f90Hr/33H9+EhllIfIDLaSVvHHrqV/T4PY0fcfVbHuQvuWis7Su1EWSXcE/f52lpqG/pviVLvj
-	dFvkJYQznA2fSXLjIopCqES9FGiiyra6/riTJZF7bNKpBgEEXw2OUQR1nXEqmokh66APQZqH3gIeE
-	G62SLhMyQtCDS6gzOR7TigbumptMFIS5OQGk1l9YQkGAEiS28UBgRFutsZxN9xOlwzfVWemYv7OrM
-	7rW0DjNOBn9GUpIdbGDeuQ/Ni1+eLAbWZ4JbZXAdK/mbtE/5OZp3obk6wxhzmUOlKQKnijaxtFxqs
-	M/9pkXYI8sgtOCg1GVCg==;
+	List-Owner; bh=7mCv+Cr0K99TH2X3TA0yk3kn9OeBiOnT5qGluANDax4=; b=ZMx9Ne/njn4VBk
+	G39tt4IkVVq251Ayxr3AG81inm6kMLuxsfU1roJ2F7RpR32Hmc+mZKkIeTxzIEvJgKpkBw9tKbVPo
+	EIVl71BnhyC8cj329yzIE1nPgm3W40tf1wAPW4puJj+RbmiAXptT5FYVbkKhR7FOiZ8OkGIiCIQ7J
+	joATRf8qJ9/dr09aOshdpSNnthHkLlhKXD7TDWMokSBSGRVUkw9MoMCjLAg8RBQGTZdJ/LvqWxxen
+	yOjtxkI03X6pj0keTWeRp/kYTMV7H/AneEgTHsu7Xnmz3eY43PoR1jsuQQXj0y5mlN6xO/nfSTwOL
+	9zbetNJUZAiX+ZXwMJpA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9Elh-000000077fO-1nci;
-	Wed, 23 Sep 2026 04:39:41 +0000
-Received: from out-221.mta0.migadu.com ([2001:41d0:1004:224b::dd] helo=mta0.migadu.com)
+	id 1x9GH5-00000007Fr7-0YRv;
+	Wed, 23 Sep 2026 06:16:11 +0000
+Received: from out-75.mta1.migadu.com ([95.215.58.75] helo=mta1.migadu.com)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9Ele-000000077eo-3qAx
+	id 1x9GH2-00000007Fpl-1E5Q
 	for linux-snps-arc@lists.infradead.org;
-	Wed, 23 Sep 2026 04:39:40 +0000
+	Wed, 23 Sep 2026 06:16:10 +0000
 X-Envelope-To: linux-snps-arc@lists.infradead.org
-DKIM-Signature: a=rsa-sha256; bh=iSNouMXA3RwlruRYR9UspqX4v90LzLOpRZaDkTpRMn8=;
+DKIM-Signature: a=rsa-sha256; bh=iNN52+OjGBWKHuNTOEPyALCLpNm9HUlYo8ccDdYusP4=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790138376; v=1; x=1790743176;
- b=R9I0X+KWGBE/vaDU7Ovh8r1ZnCbE8G0KoTlLMRHkS4uir8Qc8Jlg/FHj/UKQQ9vDiLa0R3/6
- CYB/ENGaBD8cL7inF0yRGc4Zo+Qg1i+33czD3MrJq68DVns18LKlpJWzyG0YmSYZyz0CpnqQ0/g
- AbdpL0U++ODsZ+08yeuu093s=
+ t=1790144164; v=1; x=1790748964;
+ b=gag9wr/2m9nlYMg94wqKX0sL+xHtX2PQLyIL0XDY/IEf6zvjcqM4ToozQDjaYNC0SbsW7uX0
+ h9u+YxvHsPkhrZniHNejScthRlTvUpSuJw+p86CP75SstPEgn2FWeIj1kXX89now5P/OA7ZLzps
+ fk4oVuIAdp5yGiKT1mU1fOEY=
 X-Envelope-To: linux-snps-arc@lists.infradead.org
-Received: by smtp.migadu.com with ESMTPS id 8a4b30de2f7f9df3;
-	Wed, 23 Sep 2026 04:39:35 +0000
-X-Mizu-Trace-ID: 8a4b30de2f7f9df3
+Received: by smtp.migadu.com with ESMTPS id 4b4ce70d101944f5;
+	Wed, 23 Sep 2026 06:16:01 +0000
+X-Mizu-Trace-ID: 4b4ce70d101944f5
 X-Migadu-Flow: FLOW_OUT
 From: Lance Yang <lance.yang@linux.dev>
 To: ljs@kernel.org
@@ -140,16 +140,16 @@ Cc: akpm@linux-foundation.org,
 	hughd@google.com,
 	qi.zheng@linux.dev,
 	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 02/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for most 2-level architectures
-Date: Wed, 23 Sep 2026 12:39:26 +0800
-Message-ID: <20260923043926.76397-1-lance.yang@linux.dev>
+Subject: Re: [PATCH v4 03/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for MMU riscv
+Date: Wed, 23 Sep 2026 14:15:51 +0800
+Message-ID: <20260923061551.84398-1-lance.yang@linux.dev>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20260922-rcu-pagetable-freeing-v4-2-fe1ad1f1e303@kernel.org>
-References: <20260922-rcu-pagetable-freeing-v4-2-fe1ad1f1e303@kernel.org>
+In-Reply-To: <20260922-rcu-pagetable-freeing-v4-3-fe1ad1f1e303@kernel.org>
+References: <20260922-rcu-pagetable-freeing-v4-3-fe1ad1f1e303@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260922_213939_490577_3BE6455A 
-X-CRM114-Status: UNSURE (   6.30  )
+X-CRM114-CacheID: sfid-20260922_231608_479643_FFFE1859 
+X-CRM114-Status: UNSURE (   6.81  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -168,22 +168,27 @@ Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
 
-On Tue, Sep 22, 2026 at 04:35:33PM +0100, Lorenzo Stoakes (ARM) wrote:
->Commit e3ecf7c7d082 ("mm: pgtable: convert some architectures to use
->tlb_remove_ptdesc()") updated a number of architectures from using
->pagetable_dtor() + tlb_remove_page_ptdesc() to using tlb_remove_ptdesc() in
->__pte_free_tlb().
+On Tue, Sep 22, 2026 at 04:35:34PM +0100, Lorenzo Stoakes (ARM) wrote:
+>Currently riscv gates MMU_GATHER_RCU_TABLE_FREE on CONFIG_SMP and
+>CONFIG_MMU.
 >
->This is meaningful as tlb_remove_ptdesc() allows for RCU page table
->freeing if CONFIG_MMU_GATHER_RCU_TABLE_FREE is specified.
+>Commit 69be3fb111e7 ("riscv: enable MMU_GATHER_RCU_TABLE_FREE for SMP &&
+>MMU") enabled CONFIG_MMU_GATHER_RCU_TABLE_FREE for CONFIG_SMP, CONFIG_MMU
+>riscv builds.
 >
->The csky, hexagon, nios2, openrisc, sh (except X2) and m68k-sun3
->architectures all have 2 levels of page tables, so the only page tables
->ever freed by mmu_gather are PTEs, so this update suffices to ensure that
->every page table freed by the mmu_gather mechanism is freed under RCU.
+>This is expressly for the safety of GUP-fast walkers (CONFIG_HAVE_GUP_FAST
+>is enabled if CONFIG_MMU is enabled).
 >
->Therefore, update all of these architectures to select
->CONFIG_MMU_GATHER_RCU_TABLE_FREE.
+>Naturally a single core system does not encounter issues with software page
+>table walkers being correctly synchronised across cores, as there is only a
+>single core.
+>
+>However, CONFIG_PREEMPT_RCU is still available on a riscv UP system, so for
+>a future RCU-only page table walker, this guarantee is required to prevent
+>concurrent page table teardown.
+>
+>All page table freeing is already done via tlb_remove_ptdesc() so the
+>conditions of CONFIG_MMU_GATHER_RCU_TABLE_FREE are already met.
 >
 >This forms part of an overall effort to switch every architecture to this
 >mode.
@@ -192,9 +197,10 @@ On Tue, Sep 22, 2026 at 04:35:33PM +0100, Lorenzo Stoakes (ARM) wrote:
 >Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 >---
 
-Nothing jumped out at me,
+Yeah, for RISC-V, page-table freeing already goes through
+tlb_remove_ptdesc() :) Tested on QEMU, no issues seen :)
 
-Reviewed-by: Lance Yang <lance.yang@linux.dev>
+Tested-by: Lance Yang <lance.yang@linux.dev>
 
 _______________________________________________
 linux-snps-arc mailing list
