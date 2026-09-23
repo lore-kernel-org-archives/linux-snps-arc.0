@@ -4,41 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE107C982FA
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 23 Sep 2026 02:25:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14537C98308
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 23 Sep 2026 04:39:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=lN/W57flP3+oym9S+Vfkak4+1fzBM5UVpIpu5quFMgw=; b=VZ4yvu1O+N9pfU
-	us1l3tUmLucJ+6aedSBIA+Iz+8JR4PWK+PTVIQYC6fi1PySEoKZhZOZh49sbxET7T/DxZSO97BuQQ
-	dyvPOq+zxEHebHnC3Ihp2eUV1JDpAfAakvUaIFFMVg7XnQ3W275JX211QqqcNIt8/G5w5bqIHr9Wf
-	itB6rDE4evgMkwOEzLtTMIgksgHiKO8utctDGNfP0Pwbm4r+AP+MA/0dVABqlTexAyEpF6/ykXG78
-	cF0a6yfLn5X7RA9w8lbtEkMQeoQt/bgs2p1aVUwy1aT6/19c+z7a1A9+kxg3SQuvgfDiVIb9HH3YQ
-	xX8GcHxfHrknu+mbDaPA==;
+	List-Owner; bh=XupzJ0S0y/OIDpxS7jXRW11SmrdPQTV719g39GvBSPA=; b=aGpGS6Iw92HjD8
+	4P7f90Hr/33H9+EhllIfIDLaSVvHHrqV/T4PY0fcfVbHuQvuWis7Su1EWSXcE/f52lpqG/pviVLvj
+	dFvkJYQznA2fSXLjIopCqES9FGiiyra6/riTJZF7bNKpBgEEXw2OUQR1nXEqmokh66APQZqH3gIeE
+	G62SLhMyQtCDS6gzOR7TigbumptMFIS5OQGk1l9YQkGAEiS28UBgRFutsZxN9xOlwzfVWemYv7OrM
+	7rW0DjNOBn9GUpIdbGDeuQ/Ni1+eLAbWZ4JbZXAdK/mbtE/5OZp3obk6wxhzmUOlKQKnijaxtFxqs
+	M/9pkXYI8sgtOCg1GVCg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9CfO-00000006vxY-0XUl;
-	Wed, 23 Sep 2026 02:25:02 +0000
-Received: from out-92.mta0.migadu.com ([2001:41d0:1004:224b::5c] helo=mta0.migadu.com)
+	id 1x9Elh-000000077fO-1nci;
+	Wed, 23 Sep 2026 04:39:41 +0000
+Received: from out-221.mta0.migadu.com ([2001:41d0:1004:224b::dd] helo=mta0.migadu.com)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9CfE-00000006vpd-2u2G
+	id 1x9Ele-000000077eo-3qAx
 	for linux-snps-arc@lists.infradead.org;
-	Wed, 23 Sep 2026 02:24:54 +0000
+	Wed, 23 Sep 2026 04:39:40 +0000
 X-Envelope-To: linux-snps-arc@lists.infradead.org
-DKIM-Signature: a=rsa-sha256; bh=d3FVAdMqEDWFoCMHxuxCTxk+fOdRBfvFdCrMB1cIOo0=;
+DKIM-Signature: a=rsa-sha256; bh=iSNouMXA3RwlruRYR9UspqX4v90LzLOpRZaDkTpRMn8=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790130287; v=1; x=1790735087;
- b=vu2sfn0982RRA4RhzBEBH5A/tOMf4SU0zU1o0DtRKmaKcIUT+mL+G3c9+Ejt9Ze7WqxzLDlH
- aY69NsXv+r1WhxDCfxUs67+vy2MRUHNeW8w8tOXdM1jrpq961pKJVWmA4CQO/MEn3RByGiqQemF
- r9lfpS8l06Negsm+5xTj4Z1U=
+ t=1790138376; v=1; x=1790743176;
+ b=R9I0X+KWGBE/vaDU7Ovh8r1ZnCbE8G0KoTlLMRHkS4uir8Qc8Jlg/FHj/UKQQ9vDiLa0R3/6
+ CYB/ENGaBD8cL7inF0yRGc4Zo+Qg1i+33czD3MrJq68DVns18LKlpJWzyG0YmSYZyz0CpnqQ0/g
+ AbdpL0U++ODsZ+08yeuu093s=
 X-Envelope-To: linux-snps-arc@lists.infradead.org
-Received: by smtp.migadu.com with ESMTPS id b86f8e4163d69484;
-	Wed, 23 Sep 2026 02:24:43 +0000
-X-Mizu-Trace-ID: b86f8e4163d69484
+Received: by smtp.migadu.com with ESMTPS id 8a4b30de2f7f9df3;
+	Wed, 23 Sep 2026 04:39:35 +0000
+X-Mizu-Trace-ID: 8a4b30de2f7f9df3
 X-Migadu-Flow: FLOW_OUT
 From: Lance Yang <lance.yang@linux.dev>
 To: ljs@kernel.org
@@ -140,16 +140,17 @@ Cc: akpm@linux-foundation.org,
 	hughd@google.com,
 	qi.zheng@linux.dev,
 	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 01/12] mm/khugepaged: deposit a newly allocated page table on collapse
-Date: Wed, 23 Sep 2026 10:24:36 +0800
-Message-ID: <20260923022436.61930-1-lance.yang@linux.dev>
+Subject: Re: [PATCH v4 02/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for most 2-level architectures
+Date: Wed, 23 Sep 2026 12:39:26 +0800
+Message-ID: <20260923043926.76397-1-lance.yang@linux.dev>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20260922-rcu-pagetable-freeing-v4-1-fe1ad1f1e303@kernel.org>
-References: <20260922-rcu-pagetable-freeing-v4-1-fe1ad1f1e303@kernel.org>
+In-Reply-To: <20260922-rcu-pagetable-freeing-v4-2-fe1ad1f1e303@kernel.org>
+References: <20260922-rcu-pagetable-freeing-v4-2-fe1ad1f1e303@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260922_192452_903227_4EA219E6 
-X-CRM114-Status: GOOD (  21.54  )
+X-CRM114-CacheID: sfid-20260922_213939_490577_3BE6455A 
+X-CRM114-Status: UNSURE (   6.30  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -167,129 +168,33 @@ Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
 
-On Tue, Sep 22, 2026 at 04:35:32PM +0100, Lorenzo Stoakes (ARM) wrote:
->collapse_huge_page() deposits a PTE page table on PMD collapse in order
->that it can be utilised for subsequent split operations, meaning that those
->operations do not need to perform an allocation (as they are in a context
->where it might be unwise).
+On Tue, Sep 22, 2026 at 04:35:33PM +0100, Lorenzo Stoakes (ARM) wrote:
+>Commit e3ecf7c7d082 ("mm: pgtable: convert some architectures to use
+>tlb_remove_ptdesc()") updated a number of architectures from using
+>pagetable_dtor() + tlb_remove_page_ptdesc() to using tlb_remove_ptdesc() in
+>__pte_free_tlb().
 >
->However the PTE page table which is deposited is the one which is currently
->mapped by the PMD entry that is in the process of being collapsed.
+>This is meaningful as tlb_remove_ptdesc() allows for RCU page table
+>freeing if CONFIG_MMU_GATHER_RCU_TABLE_FREE is specified.
 >
->Once deposited, the PTE page table may be used in a split of any other
->unrelated PMD entry.
+>The csky, hexagon, nios2, openrisc, sh (except X2) and m68k-sun3
+>architectures all have 2 levels of page tables, so the only page tables
+>ever freed by mmu_gather are PTEs, so this update suffices to ensure that
+>every page table freed by the mmu_gather mechanism is freed under RCU.
 >
->This is currently not an issue as this operation is performed with VMA/mmap
->write lock + anon rmap locks held, so ordinary page table walkers will
->never accidentally end up walking the wrong thing, and GUP-fast is
->protected by an IPI via tlb_remove_table_sync_one().
+>Therefore, update all of these architectures to select
+>CONFIG_MMU_GATHER_RCU_TABLE_FREE.
 >
->However, the series to which this commit belongs implements RCU-safe page
->table traversal, at which point this becomes problematic.
+>This forms part of an overall effort to switch every architecture to this
+>mode.
 >
->This can be resolved by using pte_offset_map_lock() which gates on a PTE
->PTL and a pmd_same() check, but lockless walks are unsafe as things stand.
->
->Resolve this by simply allocating a new, zeroed, PTE page table to deposit
->at the point of collapse.
->
->This path is already costly and an allocation has already been performed
->for the huge folio, so this allocation is statistical noise in terms of
->performance and memory usage at this point.
->
->With this PTE page table deposited, RCU-free the existing PTE page table
->so it is safe for page table walkers to traverse within a grace period.
->
->This also brings this deposit case in line with all other page table
->deposit logic which deposit a fresh page table.
->
->Additionally, this was the only place in the kernel that displaced a page
->table like this, so eliminating it also helps consistency.
->
->An edge case for deposit exists for powerpc and its hash-based MMU - it
->stores hash slot data in deposited page tables and zeroes them on withdraw,
->so a zeroed deposited page table works correctly for it.
->
->Since khugepaged runs as a kernel thread, do a little dance in
->alloc_deposit_pte() to correctly charge the allocation.
->
->This is already done for the folio allocation via alloc_charge_folio() but
->no such wrapper exists for a page table allocation.
->
+>Acked-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
 >Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 >---
-> mm/khugepaged.c | 32 ++++++++++++++++++++++++++++++--
-> 1 file changed, 30 insertions(+), 2 deletions(-)
->
->diff --git a/mm/khugepaged.c b/mm/khugepaged.c
->index f49a6710933b..dab421f8233e 100644
->--- a/mm/khugepaged.c
->+++ b/mm/khugepaged.c
->@@ -1278,6 +1278,23 @@ static enum scan_result alloc_charge_folio(struct folio **foliop, struct mm_stru
-> 	return SCAN_SUCCEED;
-> }
-> 
->+static pgtable_t alloc_deposit_pte(struct mm_struct *mm)
->+{
->+	/*
->+	 * khugepaged is run from a kernel thread, so need to manually set the
->+	 * correct memcg so the allocation gets charged correctly.
->+	 */
->+	struct mem_cgroup *memcg = get_mem_cgroup_from_mm(mm);
->+	struct mem_cgroup *old_memcg = set_active_memcg(memcg);
->+	pgtable_t pgtable;
->+
->+	pgtable = pte_alloc_one(mm);
->+
->+	set_active_memcg(old_memcg);
->+	mem_cgroup_put(memcg);
->+	return pgtable;
->+}
->+
-> /*
->  * collapse_huge_page() expects the mmap_lock to be unlocked before entering and
->  * will always return with the lock unlocked, to avoid holding the mmap_lock
->@@ -1293,7 +1310,7 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
-> 	LIST_HEAD(compound_pagelist);
-> 	pmd_t *pmd, _pmd;
-> 	pte_t *pte = NULL;
->-	pgtable_t pgtable;
->+	pgtable_t pgtable = NULL;
-> 	struct folio *folio;
-> 	spinlock_t *pmd_ptl, *pte_ptl;
-> 	enum scan_result result = SCAN_FAIL;
->@@ -1310,6 +1327,12 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
-> 		goto out_nolock;
-> 	}
-> 
->+	if (is_pmd_order(order)) {
->+		pgtable = alloc_deposit_pte(mm);
->+		if (!pgtable)
->+			goto out_nolock;
 
-One small thing: result is still SCAN_SUCCEED after alloc_charge_folio(),
+Nothing jumped out at me,
 
-	result = alloc_charge_folio(&folio, mm, cc, order);
-	if (result != SCAN_SUCCEED)
-		goto out_nolock;
-
-	if (folio_memcg_alloc_deferred(folio)) {
-		result = SCAN_ALLOC_HUGE_PAGE_FAIL;
-		goto out_nolock;
-	}
-
-	if (is_pmd_order(order)) {
-		pgtable = alloc_deposit_pte(mm);
-		if (!pgtable)
-			goto out_nolock;
-	}
-
-so if alloc_deposit_pte() fails, collapse_huge_page() returns success
-without installing a PMD.
-
-I see sashiko pointed that out too :)
-
-Cheers, Lance
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
 
 _______________________________________________
 linux-snps-arc mailing list
