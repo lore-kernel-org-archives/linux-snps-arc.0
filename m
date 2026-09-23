@@ -4,101 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C89FC98302
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 23 Sep 2026 13:43:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D844C9830B
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 23 Sep 2026 17:00:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Content-Transfer-Encoding:Content-Type:Reply-To:List-Subscribe:List-Help:
+	List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=SB7puH8kRb7HrwhdsFOw+1enliF3Ui2Bgt/I554yLB0=; b=AmwZfPBNlLaZwX
-	VMHG/tf4U6+QUv+wbF5qy8196exruUSygI8mR83OMT2XedkcqYvwKDhvDGk8TwRK3D7oKkSzlXEIG
-	dl7MBG9uBujRZJc7XS5Vvx9PuoFVVPilDhHjJvrDZNbUju9GIAXYGVx9PSln4zhaCyyX/vUrDOB0U
-	iu8mQmgU66gI9tGXyjmCKDRWQpYOf5EnRGVDkCypXguMPPYMRdqoUbhH25MHAVX5riszX1E6/ES/m
-	mIqJtZ5IowPN24ufxiHCHV6IxSZmUuZ5Hp0ZcJxZKD2hU/xE8uRc4hcfazEigid7aota/TEQPetAK
-	Vk09Y+4abDb0wENLN/0A==;
+	List-Owner; bh=1kViKZYVsJC7kQKE+dL8+TvWIZgnUPOf5dycdZ2IwTE=; b=oFc7IJOcngRYvs
+	Ugg5gOij0AV6SVT15Z/WdRb2ukk20zCfhWFODQUm2a0JlLr0SQgWT+19rFJww4rt28uEA6UR7na64
+	wJo0cfrtHxzoJ9Ho/pzguoKjt6jULDL0ZHMZBNGwbFVeZqiKag2KWqHyoyEVI5nefLYn29pLLvaCI
+	oBD8JUaYtkTyP9ZuBjF6gwVKQrmzBN+9vWnmsaBdRRwlx4lsTZVDiQjTSey3d/BqDOIerTYdRozVe
+	CbPTXDih+PLAVwr/QgbUqGRu6jmOzx3Nh/qMD7AyTCG/ojAMY9QoBvZgb6/HGkQ04j9FMGGg9qSA6
+	1G7ElWpTM3Qoe94muliA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9NGC-00000008R8G-3vEL;
-	Wed, 23 Sep 2026 13:43:44 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1x9QKl-00000008x8c-3NyB;
+	Wed, 23 Sep 2026 17:00:39 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9NGA-00000008R7e-3CMh;
-	Wed, 23 Sep 2026 13:43:42 +0000
+	id 1x9QKh-00000008x8C-0pEo;
+	Wed, 23 Sep 2026 17:00:35 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id BC4B2600AA;
-	Wed, 23 Sep 2026 13:43:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73A5C1F000FF;
-	Wed, 23 Sep 2026 13:43:19 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 59BD6600D4;
+	Wed, 23 Sep 2026 17:00:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03A7C1F000FF;
+	Wed, 23 Sep 2026 17:00:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790171021;
-	bh=6xDgTcRD17pMZUKjE+n6zU9uG96i5536rlsM5iR5TPE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=odmxHHcphfJU/2dNQHFnLCZHx7qUsOTN2unPx/tuy1nXDSyLZmeYwR7/Rjr7jfT77
-	 QnuCynM47lsKoqJC1y97i+U1JvZkZUSXp9zkXwbycdpb9XJ+pApXutz7lCcNFAJ3vm
-	 vBWH4cHO+xn5wlHRsn6xzSZJ9/9k5KZaXvlcM22x8ZHXT/+6kz62RqW65s76Lppcuz
-	 F5EUgyH8Kf2PVj50ygyL2QutGkc1XBv8xpCS/e6hY65wLgFvWhIpVu4lKscZxay6Tm
-	 z5HHhYChWlwV8Hq1DsRMOKqUEfxwlsCQ4YbcBWu/p5tcGD9PmvWztotX9Xy/LdT1Kq
-	 9Ab6m9tid+4dA==
-Date: Wed, 23 Sep 2026 14:43:16 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, "Liam R. Howlett" <liam@infradead.org>, 
-	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, Guo Ren <guoren@kernel.org>, 
-	Brian Cain <bcain@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Dinh Nguyen <dinguyen@kernel.org>, Simon Schuster <schuster.simon@siemens-energy.com>, 
-	Jonas Bonn <jonas@southpole.se>, Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, 
-	Stafford Horne <shorne@gmail.com>, Rich Felker <dalias@libc.org>, 
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Russell King <linux@armlinux.org.uk>, 
-	Vineet Gupta <vgupta@kernel.org>, Michal Simek <monstr@monstr.eu>, Chris Zankel <chris@zankel.net>, 
-	Max Filippov <jcmvbkbc@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
-	Peter Zijlstra <peterz@infradead.org>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Richard Henderson <richard.henderson@linaro.org>, 
-	Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Mark Rutland <mark.rutland@arm.com>, 
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	Helge Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Richard Weinberger <richard@nod.at>, 
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Yoshinori Sato <ysato@users.sourceforge.jp>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
-	linux-m68k@lists.linux-m68k.org, linux-openrisc@vger.kernel.org, linux-sh@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-snps-arc@lists.infradead.org, linux-arch@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-alpha@vger.kernel.org, loongarch@lists.linux.dev, linux-mips@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org, 
-	linux-um@lists.infradead.org, Hugh Dickins <hughd@google.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 11/12] mm: make userland page table freeing RCU-safe
-Message-ID: <arPXb084Xbty9O4_@gremlin>
-References: <20260922-rcu-pagetable-freeing-v4-0-fe1ad1f1e303@kernel.org>
- <20260922-rcu-pagetable-freeing-v4-11-fe1ad1f1e303@kernel.org>
- <72d1548a-a4ee-4832-b2ab-4bc82f1933f8@kernel.org>
- <arOWZCeV8FrkAvhK@gremlin>
- <802d3999-95fe-4a09-89b4-d01b60f8e963@kernel.org>
- <arO7lSy71meks_sW@gremlin>
- <c62bbd96-d949-4c57-a3c9-ebec14744f35@kernel.org>
+	s=k20260515; t=1790182834;
+	bh=oYrY96BkmNrksWcvVD7C1QohSxV2WmGeTWj6WJeQNwk=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=O3SWeuyxeCA33WKiVgWynxkaK6WXM/9PzNvKGGJvHYgMtZ7fzf5wNbGABcm2PyPj0
+	 ulo+tAaMqePdNeRO4+Z12Obay4r+X761lYIAXX7LBrFpH1jyxy/IcTr3YvwTboZroO
+	 tHqehtSNX4OCsUOvOroNHB5MqUtLlAWLWuyWJ/jPw7b+0IN20cMVOt8NDPbZXBh0uj
+	 6TQhIAVJGZD1sl840y39G+sYKSRYOGPkxAYleHfPbZOxM9hfcg3XAzKEEUnh3MCz7U
+	 WBGGn5AXMVNwklMPoO+X82EHE3INiTFAxKTO0GDKUZXxF9WmRvptntaEd3aJ7hfXe1
+	 HTGdL2PEWqJxA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id AFC4ACE1598; Wed, 23 Sep 2026 10:00:33 -0700 (PDT)
+Date: Wed, 23 Sep 2026 10:00:33 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Bradley Morgan <brads@mainlining.org>, frederic@kernel.org,
+	neeraj.upadhyay@kernel.org, boqun@kernel.org, joelagnelf@nvidia.com,
+	rcu@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+	Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org,
+	Vineet Gupta <vgupta@kernel.org>,
+	linux-snps-arc@lists.infradead.org,
+	Russell King <linux@armlinux.org.uk>,
+	linux-arm-kernel@lists.infradead.org, Guo Ren <guoren@kernel.org>,
+	linux-csky@vger.kernel.org,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	linux-sh@vger.kernel.org, Chris Zankel <chris@zankel.net>,
+	Max Filippov <jcmvbkbc@gmail.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/6] lib: Add two-byte cmpxchg emulation function
+Message-ID: <93f2bb33-c5ec-4836-8b1b-d0ee131be5b7@paulmck-laptop>
+References: <20260911192540.20983-1-brads@mainlining.org>
+ <20260911192540.20983-2-brads@mainlining.org>
+ <20260923114313.75494970@pumpkin>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <c62bbd96-d949-4c57-a3c9-ebec14744f35@kernel.org>
+In-Reply-To: <20260923114313.75494970@pumpkin>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,47 +79,66 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+Reply-To: paulmck@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Sep 23, 2026 at 03:38:53PM +0200, David Hildenbrand (Arm) wrote:
-> On 9/23/26 13:48, Lorenzo Stoakes (ARM) wrote:
-> > On Wed, Sep 23, 2026 at 11:13:36AM +0200, David Hildenbrand (Arm) wrote:
-> >> On 9/23/26 11:06, Lorenzo Stoakes (ARM) wrote:
-> >>>
-> >>> It is the final piece that makes that the case, so I think it's OK to allow
-> >>> oneself a nice subject line? No? :)
-> >>
-> >> Just took me longer to figure out if I am missing something important.
-> >>
-> >> E.g.,
-> >>
-> >> 	"mm: remove unused RCU-unsafe user page table freeing"
-> >>
-> >> would have been clearer to me. Anyhow, just stumbled over it, I don't care too much.
-> >
-> > Compromise on:
-> >
-> > mm: now userland pgtable freeing is safe, remove unused bits
-> >
-> > ?
->
-> Maybe something along those lines, yes
->
-> 	mm: userland pgtable freeing is RCU-safe now, remove leftover bits
+On Wed, Sep 23, 2026 at 11:43:13AM +0100, David Laight wrote:
+> On Fri, 11 Sep 2026 19:25:34 +0000
+> Bradley Morgan <brads@mainlining.org> wrote:
+> 
+> > cmpxchg_emu_u8() emulates one-byte cmpxchg() in terms of four-byte
+> > cmpxchg() for the architectures lacking native one-byte atomics.
+> > The same architectures also lack native two-byte cmpxchg(), where
+> > such an operation is not supported and either fails to compile via
+> > BUILD_BUG() or fails to link, because the bad pointer sentinels
+> > these architectures declare are never defined.
+> > 
+> > Add cmpxchg_emu_u16(), the two-byte sibling. It reads the enclosing
+> > word with READ_ONCE(), splices the two target bytes through a union
+> > and loops on cmpxchg() of the full word until the compare succeeds.
+> > Like cmpxchg_emu_u8() it is fully ordered.
+> > 
+> > The Kconfig symbol gating this file is renamed from
+> > ARCH_NEED_CMPXCHG_1_EMU to ARCH_NEED_CMPXCHG_1_2_EMU, as it now
+> > selects both the one-byte and the two-byte emulation.
+> > 
+> > Suggested-by: Paul E. McKenney <paulmck@kernel.org>
+> > Signed-off-by: Bradley Morgan <brads@mainlining.org>
+> > ---
+> >  arch/Kconfig                |  2 +-
+> >  arch/arc/Kconfig            |  2 +-
+> >  arch/arm/Kconfig            |  2 +-
+> >  arch/csky/Kconfig           |  2 +-
+> >  arch/sh/Kconfig             |  2 +-
+> >  arch/xtensa/Kconfig         |  2 +-
+> >  include/linux/cmpxchg-emu.h |  1 +
+> >  lib/Makefile                |  2 +-
+> >  lib/cmpxchg-emu.c           | 35 ++++++++++++++++++++++++++++++++---
+> >  9 files changed, 40 insertions(+), 10 deletions(-)
+> > 
+> > diff --git a/arch/Kconfig b/arch/Kconfig
+> > index 3bb2e568f5b1..d56064797e09 100644
+> > --- a/arch/Kconfig
+> > +++ b/arch/Kconfig
+> > @@ -1817,7 +1817,7 @@ config CC_HAS_SANE_FUNCTION_ALIGNMENT
+> >  	# strict alignment always, even with -falign-functions.
+> >  	def_bool CC_HAS_MIN_FUNCTION_ALIGNMENT || CC_IS_CLANG
+> >  
+> > -config ARCH_NEED_CMPXCHG_1_EMU
+> > +config ARCH_NEED_CMPXCHG_1_2_EMU
+> 
+> Is it actually worth the churn of changing the name?
+> Maybe just a comment that say it adds both 1 and 2 byte emulation?
 
-Ack OK.
+The churn is only a few lines of code, and the potential confusion from
+the name would be forever.  I agree that if we were stuck with the old
+name, the comment would help, but why not just rip the bandage off and
+be done with it?  ;-)
 
->
-> --
-> Cheers,
->
-> David
-
---
-Cheers, Lorenzo
+							Thanx, Paul
 
 _______________________________________________
 linux-snps-arc mailing list
