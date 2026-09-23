@@ -4,81 +4,153 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6439C982FA
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 23 Sep 2026 08:16:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93443C982EA
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 23 Sep 2026 08:43:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=5Lubelf1qMljyAt0R9HH+S9BuKh1LBB3CfIuzi0iMOc=; b=e5zeQZAlBLJuy3
-	LjuDK2pqEuz+TmoiLt1TKkug4dx7BlenIHYeVpckTWW+12kIhtAGOKCmieobQadg3mwpfJ5pV8vMG
-	gij4IhylwBMRXR4zG1e3aOYXvIptgO6cps1UyRzWFkGPRLL8lJbP8LQ6dvcuKMXbZGM7YqeBgbTAs
-	trSZHitNxTnto+tFhH8Lt5hiaybVi1KzEu02psjsxFn/wAQtgRtYD+XF/eA/EUp9MF1qOpzKHVf5e
-	VbzExPgMYf7W8la0OuSZvYhonKL8ExgvDGAFocBoi5gC/5exwfZ4jwnG29k4p7T8NkWCbfees9ACH
-	Gn6kAa1R3ZbWwc/499+Q==;
+	List-Owner; bh=NPPdO6Zn4G26vQkQ/PQvK/YaxbOBRm3J0szMiQSU5h8=; b=2xOl5/8wi/f7Yr
+	oaoPdjRCJ6thU9BnLVAyPRLE/AXzn2mv8jzSWxwr4Ifv+PBd9EZIOwjOv+vAvqv1HCUB5bckbP2O8
+	PZDqfpxeBBJOJXwUgped/Hebm8IbJanBHlc9N2Af4WrQpaMwQBb/bQqaZGiud2fCiHGXoj7MKh1Jm
+	8ptu+PkVpcS8tYSJXdojYL/8XPxoFZwUhA6eN/0Yn4oFrJwVgxYeRH20bDG1i/HepZ++s9mCHVwGx
+	w+O7n8JEQfBO4iaMr8SuI5OlfsMk81Bi9FT9KxyPGHzeCMj1a5Ni6f7pI+5TFmWtwGqKv4jV8lylx
+	NoHXNGh0iiHsi7FqxcWA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9I9P-00000007UsG-1ZmU;
-	Wed, 23 Sep 2026 08:16:23 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1x9IZc-00000007Ze6-0oB9;
+	Wed, 23 Sep 2026 08:43:28 +0000
+Received: from out-199.mta0.migadu.com ([2001:41d0:1004:224b::c7] helo=mta0.migadu.com)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9I9N-00000007Urs-2t4D;
-	Wed, 23 Sep 2026 08:16:21 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 0AFE74089C;
-	Wed, 23 Sep 2026 08:16:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBFAF1F000FF;
-	Wed, 23 Sep 2026 08:15:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790151380;
-	bh=gkbaaSNAYtW2x8Ye+X/x3ROsO8U5+sLZrnhf7gfW0AU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XWzv7yYPoIuMX44YD8j0VCMsdDvMOX4ZVAIwX6BWM0BUqWc3RxIQZSbE4cGZBLrge
-	 gWLBh7F6BN09sSHOwzXLTPhMBdbgGZ6ISWHW4/1i53Zn5SSXa2PnleA4qBPK1HJpi/
-	 etoE+9oM5tkUI97Gx9MHEzowWO3SL5laHbhNb2bs+YqJnehf7FqQ+20aklCnDvyxBU
-	 dQufrR0quNaM8Nwo+uAfom4D3GQWDgMFE29WL99bcadsidF86S38WdLPg0fZu1yARz
-	 kesEf0L+KRr0RP7uSr/Fj7nY9fKSeYTI9jz8Iy6In6IVSX3cWmDThsfmnJAvkoqJYQ
-	 5vOTP2yUpOXvw==
-Date: Wed, 23 Sep 2026 09:15:57 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Lance Yang <lance.yang@linux.dev>
-Cc: akpm@linux-foundation.org, david@kernel.org, ziy@nvidia.com, 
-	baolin.wang@linux.alibaba.com, liam@infradead.org, nico.pache@linux.dev, ryan.roberts@arm.com, 
-	dev.jain@arm.com, baohua@kernel.org, usama.arif@linux.dev, kas@kernel.org, 
-	guoren@kernel.org, bcain@kernel.org, geert@linux-m68k.org, dinguyen@kernel.org, 
-	schuster.simon@siemens-energy.com, jonas@southpole.se, stefan.kristiansson@saunalahti.fi, 
-	shorne@gmail.com, dalias@libc.org, glaubitz@physik.fu-berlin.de, pjw@kernel.org, 
-	palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr, linux@armlinux.org.uk, 
-	vgupta@kernel.org, monstr@monstr.eu, chris@zankel.net, jcmvbkbc@gmail.com, 
-	will@kernel.org, aneesh.kumar@kernel.org, npiggin@gmail.com, peterz@infradead.org, 
-	davem@davemloft.net, andreas@gaisler.com, richard.henderson@linaro.org, 
-	mattst88@gmail.com, linmag7@gmail.com, catalin.marinas@arm.com, mark.rutland@arm.com, 
-	chenhuacai@kernel.org, kernel@xen0n.name, tsbogend@alpha.franken.de, 
-	James.Bottomley@hansenpartnership.com, deller@gmx.de, maddy@linux.ibm.com, mpe@ellerman.id.au, 
-	chleroy@kernel.org, hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com, 
-	borntraeger@linux.ibm.com, svens@linux.ibm.com, richard@nod.at, 
-	anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net, tglx@kernel.org, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	arnd@arndb.de, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, jgg@ziepe.ca, jhubbard@nvidia.com, peterx@redhat.com, 
-	ysato@users.sourceforge.jp, shakeel.butt@linux.dev, corbet@lwn.net, rdunlap@infradead.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-csky@vger.kernel.org, 
-	linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-openrisc@vger.kernel.org, 
-	linux-sh@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-snps-arc@lists.infradead.org, linux-arch@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-alpha@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-s390@vger.kernel.org, linux-um@lists.infradead.org, hughd@google.com, 
-	qi.zheng@linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 04/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for MMU arm
-Message-ID: <arOKtMvZk_3tPJE-@gremlin>
-References: <20260922-rcu-pagetable-freeing-v4-4-fe1ad1f1e303@kernel.org>
- <20260923080523.9480-1-lance.yang@linux.dev>
+	id 1x9IZZ-00000007Zby-2RjQ
+	for linux-snps-arc@lists.infradead.org;
+	Wed, 23 Sep 2026 08:43:26 +0000
+X-Envelope-To: linux-snps-arc@lists.infradead.org
+DKIM-Signature: a=rsa-sha256; bh=99+UKhu23KDHlR6Muc20Ly3uTrswjM+UPnqZD8Rdr68=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790153003; v=1; x=1790757803;
+ b=OVP+8UHSXLmBCK3c+dzOsk2DTtkt4PvGjy/FBMe5tjP12SMncYBRGF1bbqf2+ARWr1hychQU
+ NrzV+WiUfQ6UfrkihqhxAO6bDiXp8t8/0WRzFKxAvF4kRdyC9MStYUxj3K2S/x8L2D4yF1YcD8I
+ 1h5GTjgf1ieTc55NlgCiqJAY=
+X-Envelope-To: linux-snps-arc@lists.infradead.org
+Received: by smtp.migadu.com with ESMTPS id c8a1201785675537;
+	Wed, 23 Sep 2026 08:43:18 +0000
+X-Mizu-Trace-ID: c8a1201785675537
+X-Migadu-Flow: FLOW_OUT
+From: Lance Yang <lance.yang@linux.dev>
+To: ljs@kernel.org
+Cc: akpm@linux-foundation.org,
+	david@kernel.org,
+	ziy@nvidia.com,
+	baolin.wang@linux.alibaba.com,
+	liam@infradead.org,
+	nico.pache@linux.dev,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	baohua@kernel.org,
+	lance.yang@linux.dev,
+	usama.arif@linux.dev,
+	kas@kernel.org,
+	guoren@kernel.org,
+	bcain@kernel.org,
+	geert@linux-m68k.org,
+	dinguyen@kernel.org,
+	schuster.simon@siemens-energy.com,
+	jonas@southpole.se,
+	stefan.kristiansson@saunalahti.fi,
+	shorne@gmail.com,
+	dalias@libc.org,
+	glaubitz@physik.fu-berlin.de,
+	pjw@kernel.org,
+	palmer@dabbelt.com,
+	aou@eecs.berkeley.edu,
+	alex@ghiti.fr,
+	linux@armlinux.org.uk,
+	vgupta@kernel.org,
+	monstr@monstr.eu,
+	chris@zankel.net,
+	jcmvbkbc@gmail.com,
+	will@kernel.org,
+	aneesh.kumar@kernel.org,
+	npiggin@gmail.com,
+	peterz@infradead.org,
+	davem@davemloft.net,
+	andreas@gaisler.com,
+	richard.henderson@linaro.org,
+	mattst88@gmail.com,
+	linmag7@gmail.com,
+	catalin.marinas@arm.com,
+	mark.rutland@arm.com,
+	chenhuacai@kernel.org,
+	kernel@xen0n.name,
+	tsbogend@alpha.franken.de,
+	James.Bottomley@HansenPartnership.com,
+	deller@gmx.de,
+	maddy@linux.ibm.com,
+	mpe@ellerman.id.au,
+	chleroy@kernel.org,
+	hca@linux.ibm.com,
+	gor@linux.ibm.com,
+	agordeev@linux.ibm.com,
+	borntraeger@linux.ibm.com,
+	svens@linux.ibm.com,
+	richard@nod.at,
+	anton.ivanov@cambridgegreys.com,
+	johannes@sipsolutions.net,
+	tglx@kernel.org,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	hpa@zytor.com,
+	arnd@arndb.de,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	jgg@ziepe.ca,
+	jhubbard@nvidia.com,
+	peterx@redhat.com,
+	ysato@users.sourceforge.jp,
+	shakeel.butt@linux.dev,
+	corbet@lwn.net,
+	rdunlap@infradead.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-openrisc@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arch@vger.kernel.org,
+	sparclinux@vger.kernel.org,
+	linux-alpha@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-s390@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	hughd@google.com,
+	qi.zheng@linux.dev,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 05/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for arc, microblaze, xtensa
+Date: Wed, 23 Sep 2026 16:43:11 +0800
+Message-ID: <20260923084311.15570-1-lance.yang@linux.dev>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20260922-rcu-pagetable-freeing-v4-5-fe1ad1f1e303@kernel.org>
+References: <20260922-rcu-pagetable-freeing-v4-5-fe1ad1f1e303@kernel.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20260923080523.9480-1-lance.yang@linux.dev>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260923_014325_822302_DEA53CB9 
+X-CRM114-Status: UNSURE (   7.09  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,79 +167,43 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Sep 23, 2026 at 04:05:23PM +0800, Lance Yang wrote:
->
-> On Tue, Sep 22, 2026 at 04:35:35PM +0100, Lorenzo Stoakes (ARM) wrote:
-> >Commit a0ad5496b2b3 ("arm: mm: enable HAVE_RCU_TABLE_FREE logic") enabled
-> >CONFIG_MMU_GATHER_RCU_TABLE_FREE (then named HAVE_RCU_TABLE_FREE) for SMP
-> >arm architectures with LPAE enabled.
-> >
-> >Regardless of whether CONFIG_ARM_LPAE is enabled or not, the same page
-> >table freeing functions __pte_free_tlb() and __pmd_free_tlb() are used.
-> >
-> >Non-LPAE PMD page tables are folded into the PGD and freed by
-> >pgd_free() (PGD freeing is not part of mmu_gather page table freeing in any
-> >case), so this is a noop in this case.
-> >
-> >Since commit 358d1c39c82a ("arm: convert various functions to use ptdescs")
-> >both LPAE and non-LPAE PTE page table freeing uses tlb_remove_ptdesc().
-> >
-> >Thus all page table freeing is performed under RCU with
-> >CONFIG_MMU_GATHER_RCU_TABLE_FREE enabled for LPAE and non-LPAE and thus it
-> >need not be gated on LPAE.
-> >
-> >A UP arm system can set CONFIG_PREEMPT_RCU, so a future pure RCU page
-> >table walker requires MMU_GATHER_RCU_TABLE_FREE to be enabled on UP as
-> >well, even if concurrent GUP fast is not possible there.
-> >
-> >Therefore, it is both safe and desirable to set
-> >CONFIG_MMU_GATHER_RCU_TABLE_FREE for all MMU arm architectures (nommu does
-> >not perform mmu_gather operations).
-> >
-> >This forms part of an overall effort to switch every architecture to this
-> >mode.
-> >
-> >Acked-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
-> >Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> >---
->
-> Tested under heavy page-table teardown load on qemu-system-arm,
-> with and without ARM_LPAE. No issues seen :D
->
-> Tested-by: Lance Yang <lance.yang@linux.dev>
->
-> Also, feel free to add:
->
-> Acked-by: Lance Yang <lance.yang@linux.dev>
 
-Thanks, much appreciated! :)
-
+On Tue, Sep 22, 2026 at 04:35:36PM +0100, Lorenzo Stoakes (ARM) wrote:
+>Each of these architectures directly free page tables without routing these
+>changes through tlb_remove_ptdesc().
 >
+>The use of tlb_remove_ptdesc() is required for
+>CONFIG_MMU_GATHER_RCU_TABLE_FREE to correctly free page tables under RCU,
+>so simply update these architectures to use these functions.
 >
-> > arch/arm/Kconfig | 2 +-
-> > 1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> >diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-> >index 408aa58a2a5b..72b9afc6ae10 100644
-> >--- a/arch/arm/Kconfig
-> >+++ b/arch/arm/Kconfig
-> >@@ -134,7 +134,7 @@ config ARM
-> > 	select HAVE_PERF_REGS
-> > 	select HAVE_PERF_USER_STACK_DUMP
-> > 	select HAVE_POSIX_CPU_TIMERS_TASK_WORK
-> >-	select MMU_GATHER_RCU_TABLE_FREE if SMP && ARM_LPAE
-> >+	select MMU_GATHER_RCU_TABLE_FREE if MMU
-> > 	select HAVE_REGS_AND_STACK_ACCESS_API
-> > 	select HAVE_RSEQ
-> > 	select HAVE_RUST if CPU_LITTLE_ENDIAN && CPU_32v7 && !KASAN
-> >
-> >--
-> >2.55.0
-> >
-> >
+>Since none of the architectures share page tables or do anything unusual,
+>nothing complicated is required here.
+>
+>Therefore this is simply a mechanical change - convert __pud_free_tlb(),
+>__pmd_free_tlb() and __pte_free_tlb() to use tlb_remove_ptdesc() as
+>required.
+>
+>At the point this is in place, all mmu_gather page table freeing is
+>performed under RCU, and thus MMU_GATHER_RCU_TABLE_FREE is selected for
+>each architecture.
+>
+>Note that CONFIG_MMU_GATHER_RCU_TABLE_FREE is dependent on CONFIG_MMU for
+>xtensa to reflect the fact that nommu does not implement page table
+>gathering.
+>
+>This forms part of an overall effort to switch every architecture to this
+>mode.
+>
+>Acked-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+>Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+>---
 
---
-Cheers, Lorenzo
+Right, the old frees already end up in pagetable_dtor_free(). With
+tlb_remove_ptdesc(), the same cleanup happens after an RCU grace period.
+
+Makes sense to me, feel free to add:
+
+Acked-by: Lance Yang <lance.yang@linux.dev>
 
 _______________________________________________
 linux-snps-arc mailing list
