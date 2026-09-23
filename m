@@ -4,112 +4,156 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78B75C982FA
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 23 Sep 2026 10:43:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0119CC982EA
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 23 Sep 2026 11:32:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=d5s/XokwHTuGJWbGLIFDCvGt2lD9olzKx0rMlZjUQDY=; b=lWpg7ZFcmCnZhO
-	QMhH31O/u0pqTDrdNr5lAsUBh+P68liI1dcuTYEUGnF1SaT+V2piTCuVYJXe+nSENOoQBnmaC7S/w
-	tGX1opxg+JnLjXHvuSb/O2W/teO9aNqikqkkb5Us1WNi+4tbD5oV0NnIfNrQCOU0E8hkdQwnXHJdX
-	crQCSrB+juHDeDZgKY/UyKymp2q3yLN0+H5O8UJ7ZacohxEP/160CFwS4dS+OevGeVnfI6mNihEwk
-	JVsnsnoKmGUECj+LX7Q0DybwnrOpJXX73zgQ7fMYhAfgetkm7BusA7MGK7t5d/fQwWIuBX7sDUMW/
-	wnhudxlCNHGrldtvwxRA==;
+	List-Owner; bh=VcVQI8mi5SqkJYnRoa1GQ+m48IJOhot27bYRU/6EkAo=; b=c/cEg5knhERPby
+	u1OtFafPYPxckwnx0CmPkDp69vJBIqUqohEq/gqB0ACgrfXXF2hzHRw1F39kAQGikar22FFyb/eGF
+	n9xSKSZUhHOrtcTXL3udvxJsavhDftDkbU+RzR3I9oCybrjUk/dZmSJ53RVn6w8VP47mIPv6VqHcv
+	IPKNSQ0IRu5Myf0/NPhYMtgZJ9+lwlxblhJi/LbisoIbOBM83z4GkbqIszAt37BG+GIKoesiO+zfL
+	vRXPFOZ6vkhBFNldCq0aRcLXkuXraowpMb+mfleD4eQ5HIiEE6O3svM8f1WrFk3apG1jD1yIzmX3o
+	f5Uf/N5qvxqq6c0vN+qA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9KRd-00000007vgk-3tXx;
-	Wed, 23 Sep 2026 10:43:21 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1x9LD9-000000085EI-2osS;
+	Wed, 23 Sep 2026 11:32:27 +0000
+Received: from flow-a3-smtp.messagingengine.com ([103.168.172.138])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9KRc-00000007vgZ-2H1X
-	for linux-snps-arc@bombadil.infradead.org;
-	Wed, 23 Sep 2026 10:43:20 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=t1Z4i78iFUVYmXdwkSYq7EkiOAX8N+OcOOj8F5FsldA=; b=NFMeV3+Of5iZT67elSvYgMhEKW
-	hZto1IeOa6RI1kcVScvDw4ygK6o52u+c6VeC//Zzw6aTDuN0AbWBnhZwRRJ5qxx4s565lv08v+ZgE
-	GSBRLvLlLGOR4gceFN1a/iMOTcuG3wihhei1ltyfjMIMHA4lAb89/RLRP7islPbKi0nSkOdHESOOw
-	YX1piipLSxKHcMtYBcv6BN9jtwg5lLLislEaIcWJpV/so5MCdyumbWXP+ucnYEfSzi1FgqGc0F1Bc
-	2vsmVad67Fn0BgtsI2F5jGL50fA5pttAHpzD138ym7JhoD5eV3R9V8XAfTYbmsEeEKzGwwU4j3WJ0
-	DvpY9/lA==;
-Received: from mail-wr2-x10.google.com ([2a00:1450:4864:30::10])
-	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1x9KRZ-0000000Eeme-0MEo
-	for linux-snps-arc@lists.infradead.org;
-	Wed, 23 Sep 2026 10:43:18 +0000
-Received: by mail-wr2-x10.google.com with SMTP id ffacd0b85a97d-482f6351832so486289f8f.3
-        for <linux-snps-arc@lists.infradead.org>; Wed, 23 Sep 2026 03:43:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790160195; x=1790764995; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=t1Z4i78iFUVYmXdwkSYq7EkiOAX8N+OcOOj8F5FsldA=;
-        b=jDaZG2uFG5Im10FtT/2eQudzND6opj8w/CaAqwg1csvTNl8LE1CaSS54cglg3GBuhT
-         Jv669/zgeIaQhScYj+NnU7NXrKYsNZ3Q7czRpDnreaO4v0KmisAHsOIi8oPCSdKNlIxL
-         x3M0ckdV0jAcNy/xj3ytXNkuyTdp6ZP+WZ+PecpJohmfa8k9KPfzCCT2QT5X3XoHhkRZ
-         J6V2vJVre4y+zvQaDSCBjaxKyzKIPOlRZyoZjJ0SUY5ryDm6inyBEwvJ/6QkatfCtbce
-         ABEdtpkVDouk3MDLf0a4c3ISCM5vLgFK93fFEp4OODA4sdqgELtKXxRD1N2l6z17Ojcx
-         hrhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790160195; x=1790764995;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=t1Z4i78iFUVYmXdwkSYq7EkiOAX8N+OcOOj8F5FsldA=;
-        b=hnu6VS7SHGunuHSSxN7sMJhj2wIBN1p9J0h/BfMezPumhs/DfKv5eUpoTq5m0oGhYF
-         aQPgg0ciRBsQSqbMkxTgk3+SF5ry1jA89DEI5tJiKueIbFtR2TPlXyWIkqzJjuqIixwH
-         Yi/aJLswiwASoLYkaZjUxJqQKQHselXaiIzcUAYA3amzh5jVtcXo0VXDsxlc34ETltiN
-         DhqJ6FG8/7CQHQCmwwZ1dGncYWkzuwJxNev7yTmLfE85D6GMqi4ivV4ApSGI3cJmz/ob
-         UI44zakqnAn3ymSXZ9jN3b2j1H6c+ioyDiWz9XML/cWk7vbWbCmhilspnao3Val6v7FF
-         qm1A==
-X-Forwarded-Encrypted: i=1; AKwUvBwt8gXqYjT6Ov95uQdFWEp0j2fynTykdAacUNBionnGD6RxPm2NIXa5eznt35cd35UKfCtUod4qQ/ZZUUQfpg==@lists.infradead.org
-X-Gm-Message-State: AFuF++m2404CqL8sOmZ7t+iIIpNBf1P4dCQGgaRJt0U1x/POc7xgW7cj
-	rUcnyGj1hY9UmY3YmbD0qKNYxY1jTzWbIxp4EN8iqU4xU8ybUK75VVO2
-X-Gm-Gg: AYBFou129+PIOvLKCkANxZ/dNlG1VcvdUhKscLVkGTxsJ7pJQX8cVt3bqezmRlOfkJF
-	rCUzmB4rL+vGEy4kYsJ+tD6ZCu0+2sUNXQHvc+HnzOnfFqQFEz2zSL9UQ+O30oyrxy6vI3LHhkK
-	tncgkLxGzqGGkzYrMhI3VO/BybkvVZtt/69JlHDTB055ATBvZKZiDbcwAJOvl8EXPFoq+U1YXj6
-	Z5BrJVWX9EbbAlYpAg83ug++USrHRK3b65qdtjivvmHu3usRuADhkyP0xPxsoO9Dr6H47X29ZUN
-	9NQOfwnaXiFNIxKuMWeFxzmMopk0mP42otyL1Tid7PQDBPB4Dk3JspnQDj8Cph6Y7J3MxZTSnMh
-	zwfOXn3d82CBkH0AF5MxNsEP4hQtytZQTlRVZotDaKGYjrSAwoj/ep6pLjBBHcQdm8RHa1Jsj38
-	niLjOq+coVqrv5qyi9Rulva9cbjOqwRfpkcxQdFEUh8zw0SWM4Bnh1DXLQjIMSYTpxO+D6W0aEu
-	B21a7nN8UcHMMcqt6D61wmOLxpFI0rb+DiiTuqYoI+32A==
-X-Received: by 2002:a5d:64cc:0:b0:487:81c:6de with SMTP id ffacd0b85a97d-48867093ce7mr3896298f8f.34.1790160194918;
-        Wed, 23 Sep 2026 03:43:14 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-488687791cdsm5534038f8f.22.2026.09.23.03.43.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 03:43:14 -0700 (PDT)
-Date: Wed, 23 Sep 2026 11:43:13 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Bradley Morgan <brads@mainlining.org>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>, frederic@kernel.org,
- neeraj.upadhyay@kernel.org, boqun@kernel.org, joelagnelf@nvidia.com,
- rcu@vger.kernel.org, "Andrew Morton" <akpm@linux-foundation.org>, "Arnd
- Bergmann" <arnd@arndb.de>, linux-arch@vger.kernel.org, "Vineet Gupta"
- <vgupta@kernel.org>, linux-snps-arc@lists.infradead.org, "Russell King"
- <linux@armlinux.org.uk>, linux-arm-kernel@lists.infradead.org, "Guo Ren"
- <guoren@kernel.org>, linux-csky@vger.kernel.org, "Yoshinori Sato"
- <ysato@users.sourceforge.jp>, "Rich Felker" <dalias@libc.org>, "John Paul
- Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>, linux-sh@vger.kernel.org,
- "Chris Zankel" <chris@zankel.net>, "Max Filippov" <jcmvbkbc@gmail.com>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/6] lib: Add two-byte cmpxchg emulation function
-Message-ID: <20260923114313.75494970@pumpkin>
-In-Reply-To: <20260911192540.20983-2-brads@mainlining.org>
-References: <20260911192540.20983-1-brads@mainlining.org>
-	<20260911192540.20983-2-brads@mainlining.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	id 1x9LD5-000000085Cs-24tU;
+	Wed, 23 Sep 2026 11:32:25 +0000
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailflow.phl.internal (Postfix) with ESMTP id 7955C1381530;
+	Wed, 23 Sep 2026 07:32:19 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Wed, 23 Sep 2026 07:32:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=polyxeno.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1790163139;
+	 x=1790170339; bh=RsXkzvKszGrRGCDlh+k7A1CegrFLd0BaszS3geZGuH8=; b=
+	FIU18tVwQ7tQ5cgG5noVM1dFphFNotY2b+0oBSLLNZ4oIoe+8HuJ9mlKgO/GGRHY
+	aPSkFjenSQmU/EZe67CINcqvhAbjSRbjYQrYey5IsmU/C5GK+7AGH8bL2xM+VsxK
+	KEEgL3qKUP1ax5XJdddWQI0SdRLPjb/rrzE5LP1P/PAhluNIl0Gwn6/ZGlNitjW1
+	Ny0h9FBjBCDLXPU6Gn9sNaToc66T4nsNUcuQNivF9ha5A0u/wd/EvSqhe6dW4+ED
+	7Fb4Ympv+eKDyEz59MFx2s37dwyl7FapxfhWdfhmihF1IxAp8QGebSu17ttCcrFC
+	DCNh/4j+IbhRNCApHSg1zg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790163139; x=
+	1790170339; bh=RsXkzvKszGrRGCDlh+k7A1CegrFLd0BaszS3geZGuH8=; b=Q
+	E45n4yHCqrW8IlzRSzSnxNibm5ZdFG0VRsgwpq+gHiz9wuhG7gplwqlTfpu4YZUX
+	jrKta1jfOnMmuKB48JBo/1UEKfg8gsLB3tCCsKo3QtCJQ9rS80tjvqGsFa16tHTs
+	jEzOUC4svaw1rCJzrJpp3HyF5wysHcP+5TUYyN+qjOG1EXRicJcHtcJqvztCwuhj
+	dkd+SydOpx7yrZhsHv1vVlWvUir2wouFqPHIX1LcNWPf43QW/J52IG9xIVg9W/te
+	W0+ocKFUsJFzKD610ChoRqo+i66itHC5WBOl0C1Kaoi0zPQ7pCMN+aiaAN7lK0VH
+	yL7NcKUSKDBDu7UjXoS/Q==
+X-ME-Sender: <xms:vLizav20sKH2y4pao6lP-MUG-Nk2BgG8QLoegUP-KlGKEDejq5dZaw>
+    <xme:vLizagZFBVUttqWlhgN3oOh5snNNI_umgi4xQFwFS1h3w_ZDpBouQAQj9IwGZ4eqA
+    MfAHox64ejunzzmpavugDafLfwAeftAYx1i_w1US20agsEHtJLfLLOm>
+X-ME-Received: <xmr:vLizaviwwEnPUtVYi-73amBVWWGf1G_rQxDTo_yH58aVtCxNwz5q9Lr0sC7r4lT0GLWvp3ASjUwtdR-hthR2mbEq6Q>
+X-ME-Proxy-Cause: dmFkZTFauFHpdk6CRXyr0sNyjg5Q8lqSDpfGXQ0dNZO1X8Nwu1owiUGBTt5pcDU/oArVHw
+    tow1i/xQQpDe1DYVLAcqQL38ZwvqGvVsi3/HEQ0C2Tk6IoekZoaauNG6wt8xAqZRiRmyPk
+    FQyNwuhvVlF1CXMuv5K+MEk7imbG5TMe5tVGID2STX9i7WARmMQJ5ehbq7phGnUVuGU2i+
+    7w5buj0Tunr2WfT78YiY62Abzn9xZvlFIvj7Ucv486mUbowhqnNQviyHNi9tWxt3SkssSQ
+    8pVWQCbv2GdZzvAZxTL2BjC2dIiDYlMbW4A35i+8CjosKljeAMtvgm8Dil9gy0O39w/Esm
+    9ooJmviJqxX/zw8VK/vRbPPPs/zOz1pyL/+UjjjVwfBcA0PPNwnJeVcDaFLdOuo50dODxG
+    m1v8CodVwmm0HCIceRgikYmB4DspkcY7SklPPEsm3gvbekmaXfdX05CLYinrwRfogsHIIB
+    LaHZYB7FplsHX+LsqJlCDr+xYF7lXrXE5A6lmvgve41PJoqGChfQYtPpsBxmhFgrg/s72n
+    7ZUVXQfFjTNfzOxf/NzBxIREOn++Iw4GO2axZgieXvqCrPtLfEv2H0KH//gGKKcMY2+qkf
+    DREqx+SNPaK2C8xTPwYUU7UR5ASaEsxM4lye/JQbTQXfpTBIctE57IFV2jEQ
+X-ME-Proxy: <xmx:vLizas9WEVUzXca0498rI4duFEZw3grSo3xFJL0jk1GF3WHckM11yw>
+    <xmx:vLizam87wEttGx001O3APoe2cYhUYqpBimRj8pLdosFammZDa__JYA>
+    <xmx:vLizahtaJK-PbUnAUsd98esNaLxLkmlJ9hJNV2Ks1GT8IXFlBhTNEA>
+    <xmx:vLizapIFlAiM_fCG1eFO4NU8MFxMRdMJmF-nDkiWtMArsCibMfYv6g>
+    <xmx:w7izaqkT58Dn7pxVjr1mcQWSWKCweHvd_EoCcpOAFZHAqGma6BcwfGLs>
+Feedback-ID: i09fe4b60:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 23 Sep 2026 07:31:46 -0400 (EDT)
+Message-ID: <3e6740e3-0515-4e29-9627-f554261daddb@polyxeno.com>
+Date: Wed, 23 Sep 2026 21:31:47 +1000
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 07/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for
+ m68k-coldfire
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <liam@infradead.org>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Guo Ren <guoren@kernel.org>,
+ Brian Cain <bcain@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Dinh Nguyen <dinguyen@kernel.org>,
+ Simon Schuster <schuster.simon@siemens-energy.com>,
+ Jonas Bonn <jonas@southpole.se>,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+ Stafford Horne <shorne@gmail.com>, Rich Felker <dalias@libc.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Russell King <linux@armlinux.org.uk>, Vineet Gupta <vgupta@kernel.org>,
+ Michal Simek <monstr@monstr.eu>, Chris Zankel <chris@zankel.net>,
+ Max Filippov <jcmvbkbc@gmail.com>, Will Deacon <will@kernel.org>,
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+ Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ Andreas Larsson <andreas@gaisler.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Mark Rutland <mark.rutland@arm.com>, Huacai Chen <chenhuacai@kernel.org>,
+ WANG Xuerui <kernel@xen0n.name>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, linux-openrisc@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-snps-arc@lists.infradead.org,
+ linux-arch@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-alpha@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+ linux-um@lists.infradead.org, Hugh Dickins <hughd@google.com>,
+ Qi Zheng <qi.zheng@linux.dev>, linux-doc@vger.kernel.org
+References: <20260922-rcu-pagetable-freeing-v4-0-fe1ad1f1e303@kernel.org>
+ <20260922-rcu-pagetable-freeing-v4-7-fe1ad1f1e303@kernel.org>
+Content-Language: en-US
+From: Greg Ungerer <gerg@polyxeno.com>
+In-Reply-To: <20260922-rcu-pagetable-freeing-v4-7-fe1ad1f1e303@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260923_114317_404342_7B75C495 
-X-CRM114-Status: GOOD (  19.47  )
+X-CRM114-CacheID: sfid-20260923_043223_909977_829FEF00 
+X-CRM114-Status: GOOD (  20.22  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -126,58 +170,74 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, 11 Sep 2026 19:25:34 +0000
-Bradley Morgan <brads@mainlining.org> wrote:
+Hi Lorenzo,
 
-> cmpxchg_emu_u8() emulates one-byte cmpxchg() in terms of four-byte
-> cmpxchg() for the architectures lacking native one-byte atomics.
-> The same architectures also lack native two-byte cmpxchg(), where
-> such an operation is not supported and either fails to compile via
-> BUILD_BUG() or fails to link, because the bad pointer sentinels
-> these architectures declare are never defined.
+On 23/9/26 01:35, Lorenzo Stoakes (ARM) wrote:
+> Similar to sun3, the coldfire variant of m68k uses 2-level page tables.
 > 
-> Add cmpxchg_emu_u16(), the two-byte sibling. It reads the enclosing
-> word with READ_ONCE(), splices the two target bytes through a union
-> and loops on cmpxchg() of the full word until the compare succeeds.
-> Like cmpxchg_emu_u8() it is fully ordered.
+> Update its __pte_free_tlb() function to use tlb_remove_ptdesc() in order
+> that, with CONFIG_MMU_GATHER_RCU_TABLE_FREE, page tables are freed under
+> RCU.
 > 
-> The Kconfig symbol gating this file is renamed from
-> ARCH_NEED_CMPXCHG_1_EMU to ARCH_NEED_CMPXCHG_1_2_EMU, as it now
-> selects both the one-byte and the two-byte emulation.
+> The page tables occupy a page each and have no odd semantics, so this
+> change suffices to allow enabling of CONFIG_MMU_GATHER_RCU_TABLE_FREE for
+> m68k-coldfire, so do so.
 > 
-> Suggested-by: Paul E. McKenney <paulmck@kernel.org>
-> Signed-off-by: Bradley Morgan <brads@mainlining.org>
+> This forms part of an overall effort to switch every architecture to this
+> mode.
+> 
+> Acked-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+
+Looks good to me for ColdFire, so:
+
+Acked-by: Greg Ungerer <gerg@linux-m68k.org>
+
+Tested and run with no issues I could see on a M5475 ColdFire system, so:
+
+Tested-by: Greg Ungerer <gerg@linux-m68k.org>
+
+Regards
+Greg
+
+
+
 > ---
->  arch/Kconfig                |  2 +-
->  arch/arc/Kconfig            |  2 +-
->  arch/arm/Kconfig            |  2 +-
->  arch/csky/Kconfig           |  2 +-
->  arch/sh/Kconfig             |  2 +-
->  arch/xtensa/Kconfig         |  2 +-
->  include/linux/cmpxchg-emu.h |  1 +
->  lib/Makefile                |  2 +-
->  lib/cmpxchg-emu.c           | 35 ++++++++++++++++++++++++++++++++---
->  9 files changed, 40 insertions(+), 10 deletions(-)
+>  arch/m68k/Kconfig                   | 2 +-
+>  arch/m68k/include/asm/mcf_pgalloc.h | 5 +----
+>  2 files changed, 2 insertions(+), 5 deletions(-)
 > 
-> diff --git a/arch/Kconfig b/arch/Kconfig
-> index 3bb2e568f5b1..d56064797e09 100644
-> --- a/arch/Kconfig
-> +++ b/arch/Kconfig
-> @@ -1817,7 +1817,7 @@ config CC_HAS_SANE_FUNCTION_ALIGNMENT
->  	# strict alignment always, even with -falign-functions.
->  	def_bool CC_HAS_MIN_FUNCTION_ALIGNMENT || CC_IS_CLANG
+> diff --git a/arch/m68k/Kconfig b/arch/m68k/Kconfig
+> index e29610fd1240..6b8ec67c86fd 100644
+> --- a/arch/m68k/Kconfig
+> +++ b/arch/m68k/Kconfig
+> @@ -36,7 +36,7 @@ config M68K
+>  	select HAVE_MOD_ARCH_SPECIFIC
+>  	select HAVE_UID16
+>  	select MMU_GATHER_NO_RANGE if MMU
+> -	select MMU_GATHER_RCU_TABLE_FREE if MMU && SUN3
+> +	select MMU_GATHER_RCU_TABLE_FREE if MMU && (SUN3 || COLDFIRE)
+>  	select MODULES_USE_ELF_REL
+>  	select MODULES_USE_ELF_RELA
+>  	select NO_DMA if !MMU && !COLDFIRE
+> diff --git a/arch/m68k/include/asm/mcf_pgalloc.h b/arch/m68k/include/asm/mcf_pgalloc.h
+> index fc5454d37da3..b53ff0950db2 100644
+> --- a/arch/m68k/include/asm/mcf_pgalloc.h
+> +++ b/arch/m68k/include/asm/mcf_pgalloc.h
+> @@ -39,10 +39,7 @@ extern inline pmd_t *pmd_alloc_kernel(pgd_t *pgd, unsigned long address)
+>  static inline void __pte_free_tlb(struct mmu_gather *tlb, pgtable_t pgtable,
+>  				  unsigned long address)
+>  {
+> -	struct ptdesc *ptdesc = virt_to_ptdesc(pgtable);
+> -
+> -	pagetable_dtor(ptdesc);
+> -	pagetable_free(ptdesc);
+> +	tlb_remove_ptdesc(tlb, virt_to_ptdesc(pgtable));
+>  }
 >  
-> -config ARCH_NEED_CMPXCHG_1_EMU
-> +config ARCH_NEED_CMPXCHG_1_2_EMU
+>  static inline pgtable_t pte_alloc_one(struct mm_struct *mm)
+> 
 
-Is it actually worth the churn of changing the name?
-Maybe just a comment that say it adds both 1 and 2 byte emulation?
-
-David
-
->  	bool
->  
-...
 
 _______________________________________________
 linux-snps-arc mailing list
