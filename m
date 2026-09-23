@@ -4,69 +4,152 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6F00C982FE
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 22 Sep 2026 23:06:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE107C982FA
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 23 Sep 2026 02:25:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Reply-To:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Content-ID:Content-Description:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=DkL84M5GiJHEiqS77NkoULLKMlizjEcbbROEA9aIcJA=; b=olfvuFkYiCT5KV
-	dCUHLrao2NU/86FID6Fb+LZO5bFZZLBukijMaXpODGmb8qBEU/hegJTtJCnCbAfqambY6ZmYa/ndd
-	aGXH3D2M+4G4u0THZpKBK8pEVQApyFjo0O1lAZi/61FoYvXbik1Ac7JKYFbHAaEY/qxyI2V8bYYeW
-	469zuLwVlV9YUKYIdpKBBAZTYHbS67RvcAJIg7Yy5mLgi8n9L/PzrE+PcVwT4E+brWAXefFr4C2F3
-	yRrq4EgbcOptgMqMogpYZA4BUQVuvbN83/a5QJZOMgJBTDkFWkvpIcWMYO8EvKcqBAOD8RFzBkJKO
-	Mo5Te4hVqp0fSZItvHKw==;
+	List-Owner; bh=lN/W57flP3+oym9S+Vfkak4+1fzBM5UVpIpu5quFMgw=; b=VZ4yvu1O+N9pfU
+	us1l3tUmLucJ+6aedSBIA+Iz+8JR4PWK+PTVIQYC6fi1PySEoKZhZOZh49sbxET7T/DxZSO97BuQQ
+	dyvPOq+zxEHebHnC3Ihp2eUV1JDpAfAakvUaIFFMVg7XnQ3W275JX211QqqcNIt8/G5w5bqIHr9Wf
+	itB6rDE4evgMkwOEzLtTMIgksgHiKO8utctDGNfP0Pwbm4r+AP+MA/0dVABqlTexAyEpF6/ykXG78
+	cF0a6yfLn5X7RA9w8lbtEkMQeoQt/bgs2p1aVUwy1aT6/19c+z7a1A9+kxg3SQuvgfDiVIb9HH3YQ
+	xX8GcHxfHrknu+mbDaPA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x99Yt-00000006iYd-2Pj9;
-	Tue, 22 Sep 2026 23:06:07 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1x9CfO-00000006vxY-0XUl;
+	Wed, 23 Sep 2026 02:25:02 +0000
+Received: from out-92.mta0.migadu.com ([2001:41d0:1004:224b::5c] helo=mta0.migadu.com)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x99Ys-00000006iYM-0SSu;
-	Tue, 22 Sep 2026 23:06:06 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 877A740877;
-	Tue, 22 Sep 2026 23:06:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A6EB1F000FF;
-	Tue, 22 Sep 2026 23:06:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790118365;
-	bh=/tRbI6XkA8MPG1ny+jKahsxINKgsku5yR+AT0hT9eCM=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=lXVfl7756EL7HSGKyR9mbEmgPPWnZRPR+y7JpN/HZlavwjdnB1Z/pgEDvNs9hfS7m
-	 mmGMCU0mm754ETZabpB+yAIXjg6cd44aBfApfjVqey5ZvwSYRIyO/MXSvxPTQV8jRM
-	 5VM68QWqrnGI3hxTbNtACtjUA7nVaqlqZCDVRADbz98iwyF7Sb/a1vCKEmMUh0+b2S
-	 e8qcKrHmlbS56Gi/kSLADZB422ZgCrtRTvsc1Orv2iOrt5IksuzvX/khCSOtY/pjF0
-	 xiAxBMWGk7rtsBe898hzXch3RfVvvKHX1hlJtUzdzzCEVPlHekF3CYFkincVW2ITTn
-	 3qjfQ1wesTwvw==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 1306ECE098B; Tue, 22 Sep 2026 16:06:05 -0700 (PDT)
-Date: Tue, 22 Sep 2026 16:06:05 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc: Bradley Morgan <brads@mainlining.org>, frederic@kernel.org,
-	neeraj.upadhyay@kernel.org, boqun@kernel.org, joelagnelf@nvidia.com,
-	rcu@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
-	Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org,
-	Vineet Gupta <vgupta@kernel.org>,
-	linux-snps-arc@lists.infradead.org,
-	Russell King <linux@armlinux.org.uk>,
-	linux-arm-kernel@lists.infradead.org, Guo Ren <guoren@kernel.org>,
+	id 1x9CfE-00000006vpd-2u2G
+	for linux-snps-arc@lists.infradead.org;
+	Wed, 23 Sep 2026 02:24:54 +0000
+X-Envelope-To: linux-snps-arc@lists.infradead.org
+DKIM-Signature: a=rsa-sha256; bh=d3FVAdMqEDWFoCMHxuxCTxk+fOdRBfvFdCrMB1cIOo0=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790130287; v=1; x=1790735087;
+ b=vu2sfn0982RRA4RhzBEBH5A/tOMf4SU0zU1o0DtRKmaKcIUT+mL+G3c9+Ejt9Ze7WqxzLDlH
+ aY69NsXv+r1WhxDCfxUs67+vy2MRUHNeW8w8tOXdM1jrpq961pKJVWmA4CQO/MEn3RByGiqQemF
+ r9lfpS8l06Negsm+5xTj4Z1U=
+X-Envelope-To: linux-snps-arc@lists.infradead.org
+Received: by smtp.migadu.com with ESMTPS id b86f8e4163d69484;
+	Wed, 23 Sep 2026 02:24:43 +0000
+X-Mizu-Trace-ID: b86f8e4163d69484
+X-Migadu-Flow: FLOW_OUT
+From: Lance Yang <lance.yang@linux.dev>
+To: ljs@kernel.org
+Cc: akpm@linux-foundation.org,
+	david@kernel.org,
+	ziy@nvidia.com,
+	baolin.wang@linux.alibaba.com,
+	liam@infradead.org,
+	nico.pache@linux.dev,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	baohua@kernel.org,
+	lance.yang@linux.dev,
+	usama.arif@linux.dev,
+	kas@kernel.org,
+	guoren@kernel.org,
+	bcain@kernel.org,
+	geert@linux-m68k.org,
+	dinguyen@kernel.org,
+	schuster.simon@siemens-energy.com,
+	jonas@southpole.se,
+	stefan.kristiansson@saunalahti.fi,
+	shorne@gmail.com,
+	dalias@libc.org,
+	glaubitz@physik.fu-berlin.de,
+	pjw@kernel.org,
+	palmer@dabbelt.com,
+	aou@eecs.berkeley.edu,
+	alex@ghiti.fr,
+	linux@armlinux.org.uk,
+	vgupta@kernel.org,
+	monstr@monstr.eu,
+	chris@zankel.net,
+	jcmvbkbc@gmail.com,
+	will@kernel.org,
+	aneesh.kumar@kernel.org,
+	npiggin@gmail.com,
+	peterz@infradead.org,
+	davem@davemloft.net,
+	andreas@gaisler.com,
+	richard.henderson@linaro.org,
+	mattst88@gmail.com,
+	linmag7@gmail.com,
+	catalin.marinas@arm.com,
+	mark.rutland@arm.com,
+	chenhuacai@kernel.org,
+	kernel@xen0n.name,
+	tsbogend@alpha.franken.de,
+	James.Bottomley@HansenPartnership.com,
+	deller@gmx.de,
+	maddy@linux.ibm.com,
+	mpe@ellerman.id.au,
+	chleroy@kernel.org,
+	hca@linux.ibm.com,
+	gor@linux.ibm.com,
+	agordeev@linux.ibm.com,
+	borntraeger@linux.ibm.com,
+	svens@linux.ibm.com,
+	richard@nod.at,
+	anton.ivanov@cambridgegreys.com,
+	johannes@sipsolutions.net,
+	tglx@kernel.org,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	hpa@zytor.com,
+	arnd@arndb.de,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	jgg@ziepe.ca,
+	jhubbard@nvidia.com,
+	peterx@redhat.com,
+	ysato@users.sourceforge.jp,
+	shakeel.butt@linux.dev,
+	corbet@lwn.net,
+	rdunlap@infradead.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
 	linux-csky@vger.kernel.org,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Rich Felker <dalias@libc.org>, linux-sh@vger.kernel.org,
-	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/6] sh: Emulate two-byte cmpxchg
-Message-ID: <43815338-7862-4ab1-a078-47161909a246@paulmck-laptop>
-References: <20260911192540.20983-1-brads@mainlining.org>
- <20260911192540.20983-6-brads@mainlining.org>
- <1835e3f1b7e936479964f5e40583133484510d25.camel@physik.fu-berlin.de>
+	linux-hexagon@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-openrisc@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arch@vger.kernel.org,
+	sparclinux@vger.kernel.org,
+	linux-alpha@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-s390@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	hughd@google.com,
+	qi.zheng@linux.dev,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 01/12] mm/khugepaged: deposit a newly allocated page table on collapse
+Date: Wed, 23 Sep 2026 10:24:36 +0800
+Message-ID: <20260923022436.61930-1-lance.yang@linux.dev>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20260922-rcu-pagetable-freeing-v4-1-fe1ad1f1e303@kernel.org>
+References: <20260922-rcu-pagetable-freeing-v4-1-fe1ad1f1e303@kernel.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1835e3f1b7e936479964f5e40583133484510d25.camel@physik.fu-berlin.de>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260922_192452_903227_4EA219E6 
+X-CRM114-Status: GOOD (  21.54  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,122 +161,135 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Sep 16, 2026 at 09:16:16PM +0200, John Paul Adrian Glaubitz wrote:
-> Hi Bradley,
+
+On Tue, Sep 22, 2026 at 04:35:32PM +0100, Lorenzo Stoakes (ARM) wrote:
+>collapse_huge_page() deposits a PTE page table on PMD collapse in order
+>that it can be utilised for subsequent split operations, meaning that those
+>operations do not need to perform an allocation (as they are in a context
+>where it might be unwise).
+>
+>However the PTE page table which is deposited is the one which is currently
+>mapped by the PMD entry that is in the process of being collapsed.
+>
+>Once deposited, the PTE page table may be used in a split of any other
+>unrelated PMD entry.
+>
+>This is currently not an issue as this operation is performed with VMA/mmap
+>write lock + anon rmap locks held, so ordinary page table walkers will
+>never accidentally end up walking the wrong thing, and GUP-fast is
+>protected by an IPI via tlb_remove_table_sync_one().
+>
+>However, the series to which this commit belongs implements RCU-safe page
+>table traversal, at which point this becomes problematic.
+>
+>This can be resolved by using pte_offset_map_lock() which gates on a PTE
+>PTL and a pmd_same() check, but lockless walks are unsafe as things stand.
+>
+>Resolve this by simply allocating a new, zeroed, PTE page table to deposit
+>at the point of collapse.
+>
+>This path is already costly and an allocation has already been performed
+>for the huge folio, so this allocation is statistical noise in terms of
+>performance and memory usage at this point.
+>
+>With this PTE page table deposited, RCU-free the existing PTE page table
+>so it is safe for page table walkers to traverse within a grace period.
+>
+>This also brings this deposit case in line with all other page table
+>deposit logic which deposit a fresh page table.
+>
+>Additionally, this was the only place in the kernel that displaced a page
+>table like this, so eliminating it also helps consistency.
+>
+>An edge case for deposit exists for powerpc and its hash-based MMU - it
+>stores hash slot data in deposited page tables and zeroes them on withdraw,
+>so a zeroed deposited page table works correctly for it.
+>
+>Since khugepaged runs as a kernel thread, do a little dance in
+>alloc_deposit_pte() to correctly charge the allocation.
+>
+>This is already done for the folio allocation via alloc_charge_folio() but
+>no such wrapper exists for a page table allocation.
+>
+>Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+>---
+> mm/khugepaged.c | 32 ++++++++++++++++++++++++++++++--
+> 1 file changed, 30 insertions(+), 2 deletions(-)
+>
+>diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>index f49a6710933b..dab421f8233e 100644
+>--- a/mm/khugepaged.c
+>+++ b/mm/khugepaged.c
+>@@ -1278,6 +1278,23 @@ static enum scan_result alloc_charge_folio(struct folio **foliop, struct mm_stru
+> 	return SCAN_SUCCEED;
+> }
 > 
-> On Fri, 2026-09-11 at 19:25 +0000, Bradley Morgan wrote:
-> > SH has no byte or halfword atomic memory operations, so the
-> > __cmpxchg() switch routes case 1 through cmpxchg_emu_u8() and
-> > lets case 2 fall through to __cmpxchg_called_with_bad_pointer(),
-> > which is declared but never defined, so a two-byte cmpxchg()
-> > fails at link time. Route case 2 through the new cmpxchg_emu_u16().
-> > 
-> > Signed-off-by: Bradley Morgan <brads@mainlining.org>
-> > ---
-> >  arch/sh/include/asm/cmpxchg.h | 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/arch/sh/include/asm/cmpxchg.h b/arch/sh/include/asm/cmpxchg.h
-> > index 1e5dc5ccf7bf..477d3025a441 100644
-> > --- a/arch/sh/include/asm/cmpxchg.h
-> > +++ b/arch/sh/include/asm/cmpxchg.h
-> > @@ -59,6 +59,8 @@ static inline unsigned long __cmpxchg(volatile void * ptr, unsigned long old,
-> >  	switch (size) {
-> >  	case 1:
-> >  		return cmpxchg_emu_u8(ptr, old, new);
-> > +	case 2:
-> > +		return cmpxchg_emu_u16(ptr, old, new);
-> >  	case 4:
-> >  		return __cmpxchg_u32(ptr, old, new);
-> >  	}
+>+static pgtable_t alloc_deposit_pte(struct mm_struct *mm)
+>+{
+>+	/*
+>+	 * khugepaged is run from a kernel thread, so need to manually set the
+>+	 * correct memcg so the allocation gets charged correctly.
+>+	 */
+>+	struct mem_cgroup *memcg = get_mem_cgroup_from_mm(mm);
+>+	struct mem_cgroup *old_memcg = set_active_memcg(memcg);
+>+	pgtable_t pgtable;
+>+
+>+	pgtable = pte_alloc_one(mm);
+>+
+>+	set_active_memcg(old_memcg);
+>+	mem_cgroup_put(memcg);
+>+	return pgtable;
+>+}
+>+
+> /*
+>  * collapse_huge_page() expects the mmap_lock to be unlocked before entering and
+>  * will always return with the lock unlocked, to avoid holding the mmap_lock
+>@@ -1293,7 +1310,7 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
+> 	LIST_HEAD(compound_pagelist);
+> 	pmd_t *pmd, _pmd;
+> 	pte_t *pte = NULL;
+>-	pgtable_t pgtable;
+>+	pgtable_t pgtable = NULL;
+> 	struct folio *folio;
+> 	spinlock_t *pmd_ptl, *pte_ptl;
+> 	enum scan_result result = SCAN_FAIL;
+>@@ -1310,6 +1327,12 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
+> 		goto out_nolock;
+> 	}
 > 
-> Odd, I thought this series was merged long time ago. Was there anything holding it back?
-> 
-> Either way:
-> 
-> Acked-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+>+	if (is_pmd_order(order)) {
+>+		pgtable = alloc_deposit_pte(mm);
+>+		if (!pgtable)
+>+			goto out_nolock;
 
-Thank you, John!
+One small thing: result is still SCAN_SUCCEED after alloc_charge_folio(),
 
-In my reshuffling, I associated the arch/sh/Kconfig change with the
-cmpxchg.h changes, as shown below.  The idea is to show all the changes
-for a given architecture in one place.  I kept your Acked-by, but please
-let me know if this is in any way problematic.
+	result = alloc_charge_folio(&folio, mm, cc, order);
+	if (result != SCAN_SUCCEED)
+		goto out_nolock;
 
-						Thanx, Paul
+	if (folio_memcg_alloc_deferred(folio)) {
+		result = SCAN_ALLOC_HUGE_PAGE_FAIL;
+		goto out_nolock;
+	}
 
-------------------------------------------------------------------------
+	if (is_pmd_order(order)) {
+		pgtable = alloc_deposit_pte(mm);
+		if (!pgtable)
+			goto out_nolock;
+	}
 
-commit 662151462e30187c342cffcd250834a32a9eb67a
-Author: Bradley Morgan <brads@mainlining.org>
-Date:   Tue Sep 22 17:33:52 2026 +0000
+so if alloc_deposit_pte() fails, collapse_huge_page() returns success
+without installing a PMD.
 
-    sh: Emulate two-byte cmpxchg
-    
-    SH has no byte or halfword atomic memory operations, so the __cmpxchg()
-    switch routes case 1 through cmpxchg_emu_u8() and lets case 2 fall
-    through to __cmpxchg_called_with_bad_pointer(), which is declared but
-    never defined, so a two-byte cmpxchg() fails at link time. Route case
-    2 through the new cmpxchg_emu_u16(), which takes the old and new
-    values as unsigned long, so the (unsigned long) casts move off the
-    call and into _old_ and _new_ declarations that type check the old
-    and new arguments against *ptr through (unsigned long)(0 ? *ptr : _o_),
-    the idiom David Laight suggested, so cmpxchg(&p, 4, 5) no longer
-    compiles silently.
-    
-    Acked-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-    Signed-off-by: Bradley Morgan <brads@mainlining.org>
-    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-    Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-    Cc: Rich Felker <dalias@libc.org>
-    Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-    Cc: <linux-sh@vger.kernel.org>
+I see sashiko pointed that out too :)
 
-diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
-index d60f1d5a94c0..09e556fced01 100644
---- a/arch/sh/Kconfig
-+++ b/arch/sh/Kconfig
-@@ -14,7 +14,7 @@ config SUPERH
- 	select ARCH_HIBERNATION_POSSIBLE if MMU
- 	select ARCH_MIGHT_HAVE_PC_PARPORT
- 	select ARCH_WANT_IPC_PARSE_VERSION
--	select ARCH_NEED_CMPXCHG_1_EMU
-+	select ARCH_NEED_CMPXCHG_1_2_EMU
- 	select CPU_NO_EFFICIENT_FFS
- 	select DMA_DECLARE_COHERENT
- 	select GENERIC_ATOMIC64
-diff --git a/arch/sh/include/asm/cmpxchg.h b/arch/sh/include/asm/cmpxchg.h
-index 1e5dc5ccf7bf..b87f59107b4e 100644
---- a/arch/sh/include/asm/cmpxchg.h
-+++ b/arch/sh/include/asm/cmpxchg.h
-@@ -59,6 +59,8 @@ static inline unsigned long __cmpxchg(volatile void * ptr, unsigned long old,
- 	switch (size) {
- 	case 1:
- 		return cmpxchg_emu_u8(ptr, old, new);
-+	case 2:
-+		return cmpxchg_emu_u16(ptr, old, new);
- 	case 4:
- 		return __cmpxchg_u32(ptr, old, new);
- 	}
-@@ -70,8 +72,10 @@ static inline unsigned long __cmpxchg(volatile void * ptr, unsigned long old,
-   ({									 \
-      __typeof__(*(ptr)) _o_ = (o);					 \
-      __typeof__(*(ptr)) _n_ = (n);					 \
--     (__typeof__(*(ptr))) __cmpxchg((ptr), (unsigned long)_o_,		 \
--				    (unsigned long)_n_, sizeof(*(ptr))); \
-+     unsigned long _old_ = (unsigned long)(0 ? *ptr : _o_);	 \
-+     unsigned long _new_ = (unsigned long)(0 ? *ptr : _n_);	 \
-+     (__typeof__(*(ptr))) __cmpxchg((ptr), _old_,				 \
-+				    _new_, sizeof(*(ptr)));	 \
-   })
- 
- #include <asm-generic/cmpxchg-local.h>
+Cheers, Lance
 
 _______________________________________________
 linux-snps-arc mailing list
