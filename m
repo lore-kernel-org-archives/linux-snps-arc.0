@@ -4,41 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4AED1C98304
-	for <linux-snps-arc@archiver.kernel.org>; Thu, 24 Sep 2026 02:41:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D12D8C9830D
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 24 Sep 2026 02:56:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=SFabHQefmt0BIxHFuoHmpvJZy+rVkpNSKsl13kCoshg=; b=qkYsmrIQG9FkEL
-	hVsCwN8G3mBx4zX8DhtvFHwAnyyFXBrinNaLL6nlZwzdXBI9f38VGHiu+C1qfbt1gHld72O67hl5+
-	oBgkAXwU6cV2glgrTfHtS0xYy7eMTViLpzwmOHYAa/5VC3J1rfRNKCaIwl3YMOd3/bLGcrWpjg9S1
-	xqMWPGEZZmbRQQHuIIM6x8V7k7t8GLsGGirSbAIp9ykp29iVTZhwLGDOEwc7QcGWCtD9qlrr3BEKr
-	y7gEnw+clEGLaXoYffsXGII3nHuuQexVio1W/e9YlKv6wUir1O4Wyf22Ou1syQeY0PySskZ8lovER
-	iiukF2Sk4dwYE5zK13Ag==;
+	List-Owner; bh=5dzLf3MDb3U4dwkx0OZm0CaVg0xB8SUssrrrhZlm+60=; b=oLO7xm4AlyjEl/
+	/slNFQHK352zomWOEfmlvoCIg8qOJb/mXrxFpwGoamf572/kJrxys38jqRxFeVUhE2qWp+f7tnhzG
+	a73xtqmm0o/vkVAevZrSPIualQXs3PW+SzxbJjgOkP8tcbcLNYO9dCjNdEIesmDTvUGJL5AUuAt3M
+	ZERWDybI3d5nxxVM5Zluczl8H0UPNuwZ6TMF6Nn9dWWkoQvD6w0lPdq2io8tIogvkHsQZoCdG+0Lf
+	W2Gsz+M+tl4iE6slPCvAaYghVr+h+nx3hUy76ohedY0BHkeA878qksOsfz9kLR8CAIN1PbOz+9PY9
+	oEeKA54aGeSXB9MUECaQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9ZOz-00000009t7Y-4C5x;
-	Thu, 24 Sep 2026 02:41:38 +0000
-Received: from out-83.mta0.migadu.com ([2001:41d0:1004:224b::53] helo=mta0.migadu.com)
+	id 1x9Zd4-00000009uB1-2CzO;
+	Thu, 24 Sep 2026 02:56:10 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9ZOw-00000009t5Z-22SO
+	id 1x9Zd3-00000009uAV-30lS
+	for linux-snps-arc@bombadil.infradead.org;
+	Thu, 24 Sep 2026 02:56:09 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=i3rUJrOssAsIlzaIbpG4p7ewG7Kkt+KPljgikjsMoRc=; b=f4edxevjpZYnZqHXKDm3h69SXx
+	5iLYUKyiJV7wyAtfZRpRVV8mtfk1rTtxdU+nX/iIrlglV2+oz4bW02CiBC3s0SADNzU0bdaLbPlop
+	T14XYZyQGyS2SnyTw+0tzDBY4PZvip2NRsDVa2ltj+d/wZVSjaSMGU9WIjOO0H8f3TQT7v2aP39I7
+	9ZT+G5bim9mttK/D8tcqMvIxEeZYP0VnwU6um5+cYIGvEMwAlsZ+DfjTV8ATtefV6ucoJcQsURJvY
+	+4jgCmWybAUmjN+7rCU02k8UDJyLmRBZ7QxTfFhTULd6p1wyHbAiYeyCPDX8ff9LIO6oOaeIs7YHp
+	AGxM1JmA==;
+Received: from out-111.mta1.migadu.com ([95.215.58.111] helo=mta1.migadu.com)
+	by desiato.infradead.org with esmtps (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1x9Zd0-0000000FU6g-3ulY
 	for linux-snps-arc@lists.infradead.org;
-	Thu, 24 Sep 2026 02:41:36 +0000
+	Thu, 24 Sep 2026 02:56:08 +0000
 X-Envelope-To: linux-snps-arc@lists.infradead.org
-DKIM-Signature: a=rsa-sha256; bh=4JyEcF/oNMZQFBpW+pWfHZaiat0WqM84Tbff9DsrqFA=;
+DKIM-Signature: a=rsa-sha256; bh=i3rUJrOssAsIlzaIbpG4p7ewG7Kkt+KPljgikjsMoRc=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790217689; v=1; x=1790822489;
- b=UZfw8DNCvzVWg99NPcR+Ebt/gMs9c2wbKlw9VF7xDnBODEnpn+5L/KTQ8WXUFmA/7/S3z6nK
- uOHQ/7PMLg78DwOZDksDiNr+2zlrYBU6LyvH534tTa4wCqRE3GujpnsHM+atPSdOawKRtGksWF9
- Z8XnWYcQsOI8qU0frPT9vz3w=
+ t=1790218564; v=1; x=1790823364;
+ b=Ckaz0wTrb9WChEDMMPZoMKsoiASMuXtYD8MXij4Z2VX4tIx/LPQbi9RurLmV+G1NQPuqZ7HX
+ 6BtLv7sqNe1i5pdNXYy4OvwUj0j3eDqS0R+KFbEIgrQHGJl0yU3C+8Nim9/vhFkwvGufgxCiSe+
+ otzbitNzcSXs2oJ1DxiUQs6Y=
 X-Envelope-To: linux-snps-arc@lists.infradead.org
-Received: by smtp.migadu.com with ESMTPS id 1489725b085043fe;
-	Thu, 24 Sep 2026 02:41:26 +0000
-X-Mizu-Trace-ID: 1489725b085043fe
+Received: by smtp.migadu.com with ESMTPS id 9cade30b803883cf;
+	Thu, 24 Sep 2026 02:56:02 +0000
+X-Mizu-Trace-ID: 9cade30b803883cf
 X-Migadu-Flow: FLOW_OUT
 From: Lance Yang <lance.yang@linux.dev>
 To: ljs@kernel.org
@@ -140,17 +155,16 @@ Cc: akpm@linux-foundation.org,
 	hughd@google.com,
 	qi.zheng@linux.dev,
 	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 10/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for sparc32
-Date: Thu, 24 Sep 2026 10:41:20 +0800
-Message-ID: <20260924024120.14225-1-lance.yang@linux.dev>
+Subject: Re: [PATCH v4 11/12] mm: make userland page table freeing RCU-safe
+Date: Thu, 24 Sep 2026 10:55:56 +0800
+Message-ID: <20260924025556.18719-1-lance.yang@linux.dev>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20260922-rcu-pagetable-freeing-v4-10-fe1ad1f1e303@kernel.org>
-References: <20260922-rcu-pagetable-freeing-v4-10-fe1ad1f1e303@kernel.org>
+In-Reply-To: <20260922-rcu-pagetable-freeing-v4-11-fe1ad1f1e303@kernel.org>
+References: <20260922-rcu-pagetable-freeing-v4-11-fe1ad1f1e303@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260923_194134_864789_FB687194 
-X-CRM114-Status: UNSURE (   8.29  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260924_035607_096181_981FFF1C 
+X-CRM114-Status: GOOD (  12.52  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -168,49 +182,50 @@ Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
 
-On Tue, Sep 22, 2026 at 04:35:41PM +0100, Lorenzo Stoakes (ARM) wrote:
->Careful handling is required for sparc32 which implements page tables as
->part of a shared backing page.
+On Tue, Sep 22, 2026 at 04:35:42PM +0100, Lorenzo Stoakes (ARM) wrote:
+>Now every architecture has been converted to support
+>CONFIG_MMU_GATHER_RCU_TABLE_FREE, this configuration option no longer makes
+>any sense to keep around.
 >
->To support this, a custom __tlb_remove_table() function is required, as
->specified by CONFIG_HAVE_ARCH_TLB_REMOVE_TABLE.
+>Therefore remove it, and remove all the dead code that existed for
+>!CONFIG_MMU_GATHER_RCU_TABLE_FREE architectures previously.
 >
->This allows __pte_free_tlb() and __pmd_free_tlb() to specify which page
->table level is being freed, which is transmitted to __tlb_remove_table()
->through setting the lowest bit of the page table to 1 for a PMD and 0 for a
->PTE (the page tables are 256-byte aligned so this is safe to do).
+>Additionally, CONFIG_MMU_GATHER_TABLE_FREE is no longer necessary, as all
+>architectures instead use CONFIG_HAVE_ARCH_TLB_REMOVE_TABLE when a custom
+>__tlb_remove_table() is required, so remove this too.
 >
->Next, since the page table freeing is done via RCU callback, and thus might
->be executed in softirq context, update the spin locks to IRQ save/restore.
+>A number of architectures only enabled CONFIG_MMU_GATHER_RCU_TABLE_FREE if
+>CONFIG_MMU was set, however the mmu_gather logic only actually does
+>something meaningful if CONFIG_MMU is set (mmu_gather.c is only compiled in
+>this case, for instance).
 >
->Then, in __tlb_remove_table(), figure out whether to free a PMD page table
->via free_pmd_fast() or a PTE via the newly introduced __pte_free()
->function, using the lower bit encoded in __pte_free_tlb() or
->__pmd_free_tlb() to determine which to call.
+>As a result, there's no need to gate any of this logic on CONFIG_MMU
+>explicitly.
 >
->As part of this change use this spin lock rather than mm->page_table_lock
->for all shared page table exclusion, as RCU freeing means that page tables
->can be freed from soft IRQ context so both don't have an mm and also
->mm->page_table_lock is not IRQ-safe.
+>CONFIG_PT_RECLAIM however does have a strict dependency on CONFIG_MMU, so
+>make this dependency explicit.
 >
->Note that the specification of CONFIG_HAVE_ARCH_TLB_REMOVE_TABLE disables
->CONFIG_PT_RECLAIM for sparc32, which mirrors sparc64.
+>Additionally, correct comments to remove references to non-RCU page table
+>gathering and make it clear that this is not 'semi-RCU', nor has it been
+>since commit 1fb3d8c20bfa ("mm/mmu_gather: replace IPI with
+>synchronize_rcu() when batch allocation fails").
 >
->This forms part of an overall effort to switch every architecture to this
->mode, and with it complete, means every architecture now supports
->CONFIG_MMU_GATHER_RCU_TABLE_FREE.
+>With this change in place the kernel policy is now that userspace page
+>tables are freed after an RCU grace period, and thus it is now safe to
+>unconditionally perform page table walks under RCU, safe in the knowledge
+>that page tables will not be freed underneath the walker.
+>
+>This is all that is guaranteed, however, so naturally it is still incumbent
+>upon page table walkers to ensure that the page table entries are as
+>expected.
 >
 >Acked-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
 >Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 >---
 
-Also ran page-table teardown stress on qemu-system-sparc (SS-20, sun4m,
-CONFIG_SPARC32=y). All 24 rounds ran cleanly :)
+with David's feedback folded in, LGTM!
 
-Feel free to add:
-
-Tested-by: Lance Yang <lance.yang@linux.dev>
-Acked-by: Lance Yang <lance.yang@linux.dev>
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
 
 _______________________________________________
 linux-snps-arc mailing list
