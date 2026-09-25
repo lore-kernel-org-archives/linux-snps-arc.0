@@ -4,48 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9E43C98321
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 25 Sep 2026 20:12:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38B35C9830E
+	for <linux-snps-arc@archiver.kernel.org>; Fri, 25 Sep 2026 20:12:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References:Message-Id
 	:MIME-Version:Subject:Date:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=iWHbh6v81diHQhCmCREnTYb+1xk+y8dprCt7g+2g+mM=; b=EKT1mYRn22+CW5
-	513k9Kdw6zC5Ly9fcOCPA+2pd7h57loiuIKe8OcqSmM+tIvYpYN2PDfh1opsCbyGdxOeiZhB1ILk/
-	8sZ57vjtJGrHnPw7LpBlepA2auuQIgidEESwJ0Cm/6eMh2hMdXWLXS/p5BnQCwL3WICi6MPHAcZjo
-	iFdTvuqyD7MLPfsis9S2Djz/HlDXrUvEx2luCBIqV/C5JGnVOIfFd06W0eli+kDm0AbGq+EbTUWzf
-	Wm0YGV1/Rgsyd23oyBhsQmKgjX5t/8iMIECblN6nxzQSeHq2X4Qi0RxFInj9zxjlZP+EE34j1Q44K
-	u7s4yFaQCp6SIQcvm+iQ==;
+	List-Owner; bh=COEVwyebaIAP7egjuO912H3MyIQwCug4DQuf71UI0kw=; b=fpBf0MwzNH7a5X
+	PdPBLp/3OgtGKobii7dfX+7ONBREuAIB3fypP+3JGLLrZVcZ2L5GS/Mvjr+GKJtj5ubk9SkPpYsWj
+	4TZkAZTMsa/XJHPeUFuV6vynsPPlL9wGAF3FscimoK28zpSNoS1aj2Jr8tRUvOuevG/QtOm4FWAVj
+	M02eFP2xn+fPJW3v20tW+YeYIrdoJJSjqNXikhFWUw5Wsz1/YNu/v0pdL0Wlr5FHLazly1hVF9xTs
+	X2iBm6VctDLRzsLDv/DAa7o5hgMhfXQA6BGgmHs36sWYay4wpMN/aYtoh98uTJXWchrhQGPZ2/Sr+
+	KlyEp3pT6AnWJlOHLaHA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xACHH-0000000ELor-2LP4;
-	Fri, 25 Sep 2026 20:12:15 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1xACHc-0000000EM1W-3rA9;
+	Fri, 25 Sep 2026 20:12:36 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xACHF-0000000ELnP-0ErY;
-	Fri, 25 Sep 2026 20:12:13 +0000
+	id 1xACHa-0000000EM03-1K6b;
+	Fri, 25 Sep 2026 20:12:34 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 775A960136;
+	by tor.source.kernel.org (Postfix) with ESMTP id B841760238;
+	Fri, 25 Sep 2026 20:12:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A74D61F00898;
 	Fri, 25 Sep 2026 20:12:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0DBF1F00893;
-	Fri, 25 Sep 2026 20:11:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790367132;
-	bh=0/RwvDc+Yn6qQyxIlipbe7ZS0nZ7PlvA6+VjYxgRBPE=;
+	s=k20260515; t=1790367153;
+	bh=i9btTZnCFLC8MMw6KMGK91iVLYRqVa7A+XQvAJcnthc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=gKh/gqLZ6tuLTMtMolwZ0R1z1pkLXe1CHwiE0D9GHHPFGtRxoVceWHxaxOOHwCjMU
-	 SSgWnP6WPc7OgBWvdah+8+s+y77sVEVsh+CU9JRyYmPD6Pbx8Vf+acsnxrR7dTdMSC
-	 jSKkFayThIUdZ+rkcCk++LpkI2mYEdliqnGUkvuUt9w+l/+KUwA/SoIM1lWVcJnj3T
-	 bKBw27PYXRqzRB/NLanfe7hFILrPCnNNQIxaNY8U6Un/Y/FOBiDXf/4VTrKQndkLoZ
-	 J7yLnY4Xal0/44DqVhGwq19g6cw9R6l1o/4ZWhTGvvzpFXJGNOl8ShkEZibRSUgYR/
-	 1+cjtQGpV3/xw==
+	b=koGG6VkHK9sq7MUCsKX6l8GWvGH1X10xvKB/1Gb6IALPCnGNK6OLAn4edc3ppM9tw
+	 XF5DLLj+zcIZx0j+zL/F8/pMW1FR8yjWkWYsg0z+hqLvAIEBvGhuRCTS95OSheg3IC
+	 i8haH1mXFZ6EiUV4mPNPDYbngmJZJL6fneEkRFBz69DDia5YYUyV+DyyfnCtX2nw9b
+	 aFW4fMhecvKfClHGenR6/HrNpp/dpU9NU7ZXVhlKOxZhvXhq4/JGllecZvzt50vRqf
+	 5xFwTYJFDrouBhp5qHt7Zk/0avP9tlgacO//JPou+MCvPzoZmO5Vrju3Q2vp+7jOow
+	 Wv8x2IhM+uhGg==
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Fri, 25 Sep 2026 21:09:41 +0100
-Subject: [PATCH v5 06/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for sparc64
+Date: Fri, 25 Sep 2026 21:09:42 +0100
+Subject: [PATCH v5 07/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for
+ m68k-coldfire
 MIME-Version: 1.0
-Message-Id: <20260925-rcu-pagetable-freeing-v5-6-31e91065fea4@kernel.org>
+Message-Id: <20260925-rcu-pagetable-freeing-v5-7-31e91065fea4@kernel.org>
 References: <20260925-rcu-pagetable-freeing-v5-0-31e91065fea4@kernel.org>
 In-Reply-To: <20260925-rcu-pagetable-freeing-v5-0-31e91065fea4@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -109,14 +110,15 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org, 
  linux-um@lists.infradead.org, Hugh Dickins <hughd@google.com>, 
  Qi Zheng <qi.zheng@linux.dev>, linux-doc@vger.kernel.org, 
- "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+ "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, 
+ Greg Ungerer <gerg@linux-m68k.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2563; i=ljs@kernel.org;
- h=from:subject:message-id; bh=7tmFad46Ay6V6b5/mmZvG/hiVDuSFgYhQDgYlo78TeM=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLK2XWW/YFoQrqOUEZLpL3zwHfvHV+1zGe5zBj351OHcx
- crT/3Z1RykLgxgXg6yYIsvzL+L7g0TC5nVe8HeDmcPKBDKEgYtTACZi68jIcHrDLoNNgikXeHUa
- 1+2/x5K/fEvyqyxb7m6H93+NspK3yjD8U/ZucWJc7HzE0fPCP8Mer73FC6ZeTq3deSvhoqnm48e
- TuQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2031; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=wTPS3tObjnit80i5jG0OzSjV+ZJC9LambnmGz9RIJjc=;
+ b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLK2XWX/nrikwtvb6sJaZkaOMrNvQjuEvKuOTD/x7pxf+
+ OXTKV0SHaUsDGJcDLJiiizPv4jvDxIJm9d5wd8NZg4rE8gQBi5OAZiIZCcjwwZR4ZUL3m+I7wsx
+ 28EiL/8lbNpvXfG9HGGXd8pt/qk9vZDhv1N3gp7PVQn/0s4L+TtjrpclvJk57XX1tn0fvjKcb81
+ azwkA
 X-Developer-Key: i=ljs@kernel.org; a=openpgp;
  fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 X-BeenThere: linux-snps-arc@lists.infradead.org
@@ -135,76 +137,58 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Commit 4a0100f7546f ("sparc64: use RCU page table freeing") enabled
-CONFIG_MMU_GATHER_RCU_TABLE_FREE for SMP sparc64 architectures, expressly
-for GUP-fast page table walkers.
+Similar to sun3, the coldfire variant of m68k uses 2-level page tables.
 
-Naturally, UP systems do not have to worry about concurrent GUP fast
-operations.
+Update its __pte_free_tlb() function to use tlb_remove_ptdesc() in order
+that, with CONFIG_MMU_GATHER_RCU_TABLE_FREE, page tables are freed under
+RCU.
 
-However, CONFIG_PREEMPT_RCU is also available even on a UP system, so a
-future pure-RCU page table walker requires MMU_GATHER_RCU_TABLE_FREE to be
-enabled on UP, even if concurrent GUP fast is not possible there.
-
-To enable future pure-RCU page table walkers, enable
-MMU_GATHER_RCU_TABLE_FREE unconditionally.
-
-With this change, it is no longer necessary to have !CONFIG_SMP
-pgtable_free_tlb(), so also remove this now dead code.
+The page tables occupy a page each and have no odd semantics, so this
+change suffices to allow enabling of CONFIG_MMU_GATHER_RCU_TABLE_FREE for
+m68k-coldfire, so do so.
 
 This forms part of an overall effort to switch every architecture to this
 mode.
 
 Acked-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
-Tested-by: Lance Yang <lance.yang@linux.dev>
+Acked-by: Greg Ungerer <gerg@linux-m68k.org>
+Tested-by: Greg Ungerer <gerg@linux-m68k.org>
 Acked-by: Lance Yang <lance.yang@linux.dev>
 Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 ---
- arch/sparc/Kconfig                  | 4 ++--
- arch/sparc/include/asm/pgalloc_64.h | 8 --------
- 2 files changed, 2 insertions(+), 10 deletions(-)
+ arch/m68k/Kconfig                   | 2 +-
+ arch/m68k/include/asm/mcf_pgalloc.h | 5 +----
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
-index ab77d3f2536e..8d42ebc6d302 100644
---- a/arch/sparc/Kconfig
-+++ b/arch/sparc/Kconfig
-@@ -75,8 +75,8 @@ config SPARC64
- 	select HAVE_FUNCTION_GRAPH_TRACER
- 	select HAVE_KRETPROBES
- 	select HAVE_KPROBES
--	select MMU_GATHER_RCU_TABLE_FREE if SMP
--	select HAVE_ARCH_TLB_REMOVE_TABLE if SMP
-+	select MMU_GATHER_RCU_TABLE_FREE
-+	select HAVE_ARCH_TLB_REMOVE_TABLE
- 	select MMU_GATHER_MERGE_VMAS
- 	select MMU_GATHER_NO_FLUSH_CACHE
- 	select HAVE_ARCH_TRANSPARENT_HUGEPAGE
-diff --git a/arch/sparc/include/asm/pgalloc_64.h b/arch/sparc/include/asm/pgalloc_64.h
-index caa7632be4c2..b5055d259b74 100644
---- a/arch/sparc/include/asm/pgalloc_64.h
-+++ b/arch/sparc/include/asm/pgalloc_64.h
-@@ -74,8 +74,6 @@ void pte_free_defer(struct mm_struct *mm, pgtable_t pgtable);
- 
- void pgtable_free(void *table, bool is_page);
- 
--#ifdef CONFIG_SMP
--
- struct mmu_gather;
- void tlb_remove_table(struct mmu_gather *, void *);
- 
-@@ -96,12 +94,6 @@ static inline void __tlb_remove_table(void *_table)
- 		is_page = true;
- 	pgtable_free(table, is_page);
- }
--#else /* CONFIG_SMP */
--static inline void pgtable_free_tlb(struct mmu_gather *tlb, void *table, bool is_page)
--{
--	pgtable_free(table, is_page);
--}
--#endif /* !CONFIG_SMP */
- 
- static inline void __pte_free_tlb(struct mmu_gather *tlb, pte_t *pte,
+diff --git a/arch/m68k/Kconfig b/arch/m68k/Kconfig
+index e29610fd1240..6b8ec67c86fd 100644
+--- a/arch/m68k/Kconfig
++++ b/arch/m68k/Kconfig
+@@ -36,7 +36,7 @@ config M68K
+ 	select HAVE_MOD_ARCH_SPECIFIC
+ 	select HAVE_UID16
+ 	select MMU_GATHER_NO_RANGE if MMU
+-	select MMU_GATHER_RCU_TABLE_FREE if MMU && SUN3
++	select MMU_GATHER_RCU_TABLE_FREE if MMU && (SUN3 || COLDFIRE)
+ 	select MODULES_USE_ELF_REL
+ 	select MODULES_USE_ELF_RELA
+ 	select NO_DMA if !MMU && !COLDFIRE
+diff --git a/arch/m68k/include/asm/mcf_pgalloc.h b/arch/m68k/include/asm/mcf_pgalloc.h
+index fc5454d37da3..b53ff0950db2 100644
+--- a/arch/m68k/include/asm/mcf_pgalloc.h
++++ b/arch/m68k/include/asm/mcf_pgalloc.h
+@@ -39,10 +39,7 @@ extern inline pmd_t *pmd_alloc_kernel(pgd_t *pgd, unsigned long address)
+ static inline void __pte_free_tlb(struct mmu_gather *tlb, pgtable_t pgtable,
  				  unsigned long address)
+ {
+-	struct ptdesc *ptdesc = virt_to_ptdesc(pgtable);
+-
+-	pagetable_dtor(ptdesc);
+-	pagetable_free(ptdesc);
++	tlb_remove_ptdesc(tlb, virt_to_ptdesc(pgtable));
+ }
+ 
+ static inline pgtable_t pte_alloc_one(struct mm_struct *mm)
 
 -- 
 2.55.0
