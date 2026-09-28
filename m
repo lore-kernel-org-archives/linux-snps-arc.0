@@ -4,102 +4,158 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5085CC9832A
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 25 Sep 2026 22:28:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65B50CA5FA2
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 28 Sep 2026 12:06:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Mime-Version:References:In-Reply-To:
-	Message-Id:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=I+NLq2VMqztmGmw5wXbL/ZC1mcM1eL3mv0VPNe08GX0=; b=KIofrj1d916HDh
-	L/SdbmRvZCbzZZ1zFIj7AkUWoyzqQUmn4M28TD1VXFU0t7ehQOuVt9zw9d3YPh1z3La7hcSl/tub1
-	naeaun3yMxWZ34gJkOx6dFnpNQOnVkZF47dH1AK8oMRJP+7Vke5Rs72q4bC7ef10rJ7VW3s6z+FkG
-	vItUjtrfpJ41D+MfgfZva4XekU5nlhBZgYVMcyJEPxulFUf5Sfo7thpsI8UikpVkeHioZ2kzVCy18
-	W0kAZLyeKTHXnm5xryyj2o/FFNEeurligD/kfnnU0emZXJV/f6MPNSAPcxJZ1rfi7SJ/+PhKL+Ddo
-	Kja8FjBMUUBs/aosoK1Q==;
+	List-Owner; bh=fuP1x8YtsyHx5FgidCzImupA26H7yInulpmSQDISCrk=; b=xpllc6faaEUUOz
+	klP3Z1DTCqNlu+QRevOrG5RShFi0zMq5tNESFvyjNu6ZXziVUy/ebRmyQcBfcUyg6ISJrhkoiffdN
+	PHON13L7Fv5SxU5NCInh6p7MT9ODUjRwCKFfBXm0V5jzdtjAa91bx5m4zEZnU1/MBmSvGM3mQ4ofx
+	Sv5lFTCOJi9JHTJZu66m8rRpoRYdyW6qLjfPd2MPjJAybqMuMjJyHwfVGgI2hQS6BQt+gWwpW5Uw5
+	pwjElyTJUNmvMaCEi4lkx6szKOm4m7pugsHYvIdvOh/v0fcONY7GYucsIiiCzH3GX3wWHe7Re7344
+	q98tdE7q/jQFkjBPHPhg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xAEOu-0000000EZOX-2Xs5;
-	Fri, 25 Sep 2026 22:28:16 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xBA8G-00000000Wh9-2dn6;
+	Mon, 28 Sep 2026 12:06:56 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xAEOs-0000000EZNo-0ruS;
-	Fri, 25 Sep 2026 22:28:14 +0000
+	id 1xBA8E-00000000Wgk-2NZ3;
+	Mon, 28 Sep 2026 12:06:54 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 70FF960136;
-	Fri, 25 Sep 2026 22:28:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D2B91F000FF;
-	Fri, 25 Sep 2026 22:28:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1790375292;
-	bh=/FeqC6NsreHCzW9fFs+vzkIExlhoQtzmbN9AT65QI1Y=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=S6120kZCR12iXPZt0xcZL0+Wfn1gU1RZB7NUKDNkZNJefGSfG9P6RA8Epfy+rvbkU
-	 xVs4fjUj0UHw+k+Gz9ZkgCGkot9F+dI1a3SWmLuTTxquEIyiCktMR74MXAiWNxdK6p
-	 IPoozz5ITxp6Mrzfo2l82/2c0yVPGzL/vW8rZJG0=
-Date: Fri, 25 Sep 2026 15:28:08 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>, Baolin
- Wang <baolin.wang@linux.alibaba.com>, "Liam R. Howlett"
- <liam@infradead.org>, Nico Pache <nico.pache@linux.dev>, Ryan Roberts
- <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song
- <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, Usama Arif
- <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, Guo Ren
- <guoren@kernel.org>, Brian Cain <bcain@kernel.org>, Geert Uytterhoeven
- <geert@linux-m68k.org>, Dinh Nguyen <dinguyen@kernel.org>, Simon Schuster
- <schuster.simon@siemens-energy.com>, Jonas Bonn <jonas@southpole.se>,
- Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, Stafford Horne
- <shorne@gmail.com>, Rich Felker <dalias@libc.org>, John Paul Adrian
- Glaubitz <glaubitz@physik.fu-berlin.de>, Paul Walmsley <pjw@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Russell King <linux@armlinux.org.uk>,
- Vineet Gupta <vgupta@kernel.org>, Michal Simek <monstr@monstr.eu>, Chris
- Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>, Will Deacon
- <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick
- Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
- "David S. Miller" <davem@davemloft.net>, Andreas Larsson
- <andreas@gaisler.com>, Richard Henderson <richard.henderson@linaro.org>,
+	by sea.source.kernel.org (Postfix) with ESMTP id A678843D4A;
+	Mon, 28 Sep 2026 12:06:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F2D11F000FF;
+	Mon, 28 Sep 2026 12:06:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790597213;
+	bh=X+J2tmzVsgooMXBbKivE7bEvNfx2Ag9Y7fspt+jroYc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=ZM4pATIsX2hT8zVjh+/O7BaWcif1c4FeEots55BNVQ1Mx9iZ1bILJzL1cp3i+SxFL
+	 vDQ1FQFTOctpx4oEcNE41IjsJxt9Iu5JECieYmlGJDMh6fAwKZ38/yuPA+TLmmNwJQ
+	 5vyj8YgTP3Gjh9k1zZWvvSc6b1EEwjnRO8tk7IYj5gqdkMRHc0o3fvlQ36u2GJWF2E
+	 2cV8TbA4Ffe7iKukUkkOEq6+eRTjIaIyJKsBC8rqm3MQQ4xvzxT7Wh4R0cWK6i2ivc
+	 LHow86aIUs5raGniD+ujL659sTH1zZI7ncmRSs78xGgDeutYj0VsS2yWSjZemekhPS
+	 7o/JAv+f61zXQ==
+Message-ID: <232ea2c2-a594-4a31-8ec8-7884707f1bc9@kernel.org>
+Date: Mon, 28 Sep 2026 14:06:22 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 12/12] mm: change the contract for free_pgtables(),
+ update docs
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Nico Pache <nico.pache@linux.dev>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
+ Guo Ren <guoren@kernel.org>, Brian Cain <bcain@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Dinh Nguyen
+ <dinguyen@kernel.org>, Simon Schuster <schuster.simon@siemens-energy.com>,
+ Jonas Bonn <jonas@southpole.se>,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+ Stafford Horne <shorne@gmail.com>, Rich Felker <dalias@libc.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Russell King <linux@armlinux.org.uk>, Vineet Gupta <vgupta@kernel.org>,
+ Michal Simek <monstr@monstr.eu>, Chris Zankel <chris@zankel.net>,
+ Max Filippov <jcmvbkbc@gmail.com>, Will Deacon <will@kernel.org>,
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
+ <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ Andreas Larsson <andreas@gaisler.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Mark Rutland
- <mark.rutland@arm.com>, Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui
- <kernel@xen0n.name>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Helge
- Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, Michael
- Ellerman <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)"
- <chleroy@kernel.org>, Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik
- <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, Christian
- Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle
- <svens@linux.ibm.com>, Richard Weinberger <richard@nod.at>, Anton Ivanov
- <anton.ivanov@cambridgegreys.com>, Johannes Berg
- <johannes@sipsolutions.net>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
- <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
- <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>, Vlastimil Babka
- <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
- <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jason Gunthorpe
- <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, Peter Xu
- <peterx@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, Shakeel
- Butt <shakeel.butt@linux.dev>, Jonathan Corbet <corbet@lwn.net>, Randy
- Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-csky@vger.kernel.org,
- linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
- linux-openrisc@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-snps-arc@lists.infradead.org, linux-arch@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-alpha@vger.kernel.org,
- loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-s390@vger.kernel.org, linux-um@lists.infradead.org, Hugh Dickins
- <hughd@google.com>, Qi Zheng <qi.zheng@linux.dev>,
- linux-doc@vger.kernel.org, Greg Ungerer <gerg@linux-m68k.org>
-Subject: Re: [PATCH v5 00/12] mm: make userland page table freeing RCU-safe
-Message-Id: <20260925152808.d4cae19cc002b1bba26502af@linux-foundation.org>
-In-Reply-To: <20260925-rcu-pagetable-freeing-v5-0-31e91065fea4@kernel.org>
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Mark Rutland <mark.rutland@arm.com>, Huacai Chen <chenhuacai@kernel.org>,
+ WANG Xuerui <kernel@xen0n.name>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>, Thomas Gleixner
+ <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Arnd Bergmann <arnd@arndb.de>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, linux-openrisc@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-snps-arc@lists.infradead.org,
+ linux-arch@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-alpha@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+ linux-um@lists.infradead.org, Hugh Dickins <hughd@google.com>,
+ Qi Zheng <qi.zheng@linux.dev>, linux-doc@vger.kernel.org
 References: <20260925-rcu-pagetable-freeing-v5-0-31e91065fea4@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
+ <20260925-rcu-pagetable-freeing-v5-12-31e91065fea4@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260925-rcu-pagetable-freeing-v5-12-31e91065fea4@kernel.org>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,150 +172,28 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Fri, 25 Sep 2026 21:09:35 +0100 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
-
-> The majority of architectures in the kernel defer page table freeing until
-> an RCU grace period has elapsed, this series converts all remaining
-> architectures to do so too and eliminates CONFIG_MMU_GATHER_RCU_TABLE_FREE
-> altogether.
+On 9/25/26 22:09, Lorenzo Stoakes (ARM) wrote:
+> Now that page tables are freed after an RCU grace period, it is safe for
+> read-only page table walkers to walk page table ranges that are being
+> concurrently torn down, provided the mm is kept alive via mmgrab().
 > 
-> This is important because it enables safe lockless page table walking under
-> RCU alone.
+> It is however unsafe for writers to do so, as they must obtain an
+> appropriate lock to do so safely.
 > 
-> Doing so allows for reduced lock contention, avoids lock ordering concerns
-> and enables fast, efficient and correct page table walking as a result.
+> Update the pte_offset_map_lock()'s comment block to reflect this.
+> 
+> Similarly update the process addresses documentation.
+> 
+> Acked-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
 
-Thanks, I've updated mm-unstable to this version.
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
-> v5:
-> * Collected tags (thanks all! :)
-> * Updated 1/12 to correctly set result to SCAN_ALLOC_HUGE_PAGE_FAIL should
->   the page table allocation fail, as per Lance.
-> * Updated 1/12 to rename alloc_deposit_pte() to alloc_deposit_pte_table()
->   and dropped the powerpc hash MMU paragraph from the commit message, as
->   per David.
-> * Updated 9/12 to use a BH-disabling spinlock rather than an IRQ-safe one,
->   as per Matthew.
-> * Updated the subject line of 11/12 to clarify that the patch removes
->   now-unneeded code, as per David.
-> * Updated 12/12 documentation as per David, Lance.
+-- 
+Cheers,
 
-Here's how v5 altered mm.git:
-
-
- Documentation/mm/process_addrs.rst |    9 +++++++--
- arch/m68k/mm/motorola.c            |   16 +++++++---------
- mm/khugepaged.c                    |    4 ++--
- 3 files changed, 16 insertions(+), 13 deletions(-)
-
---- a/arch/m68k/mm/motorola.c~b
-+++ a/arch/m68k/mm/motorola.c
-@@ -181,7 +181,7 @@ static void *add_pointer_table(struct mm
- 	new = PD_PTABLE(pt_addr);
- 
- 	PD_MARKBITS(new) = ptable_mask(type) - 1;
--	scoped_guard(spinlock_irqsave, &ptable_lock)
-+	scoped_guard(spinlock_bh, &ptable_lock)
- 		list_add(new, &ptable_list[type]);
- 
- 	return (pmd_t *)pt_addr;
-@@ -191,16 +191,15 @@ void *get_pointer_table(struct mm_struct
- {
- 	unsigned int tmp, off;
- 	unsigned long mask;
--	unsigned long flags;
- 	ptable_desc *dp;
- 	void *ret;
- 
--	spin_lock_irqsave(&ptable_lock, flags);
-+	spin_lock_bh(&ptable_lock);
- 	dp = ptable_list[type].next;
- 	mask = list_empty(&ptable_list[type]) ? 0 : PD_MARKBITS(dp);
- 
- 	if (mask == 0) {
--		spin_unlock_irqrestore(&ptable_lock, flags);
-+		spin_unlock_bh(&ptable_lock);
- 		return add_pointer_table(mm, type);
- 	}
- 
-@@ -213,7 +212,7 @@ void *get_pointer_table(struct mm_struct
- 	}
- 
- 	ret = ptdesc_address(PD_PTDESC(dp)) + off;
--	spin_unlock_irqrestore(&ptable_lock, flags);
-+	spin_unlock_bh(&ptable_lock);
- 	return ret;
- }
- 
-@@ -223,9 +222,8 @@ int free_pointer_table(void *table, int
- 	unsigned long ptable = (unsigned long)table;
- 	unsigned long pt_addr = ptable & PAGE_MASK;
- 	unsigned int mask = 1U << ((ptable - pt_addr)/ptable_size(type));
--	unsigned long flags;
- 
--	spin_lock_irqsave(&ptable_lock, flags);
-+	spin_lock_bh(&ptable_lock);
- 
- 	dp = PD_PTABLE(pt_addr);
- 	if (PD_MARKBITS (dp) & mask)
-@@ -236,7 +234,7 @@ int free_pointer_table(void *table, int
- 	if (PD_MARKBITS(dp) == ptable_mask(type)) {
- 		/* all tables in ptdesc are free, free ptdesc */
- 		list_del(dp);
--		spin_unlock_irqrestore(&ptable_lock, flags);
-+		spin_unlock_bh(&ptable_lock);
- 
- 		mmu_page_dtor((void *)pt_addr);
- 		pagetable_dtor_free(virt_to_ptdesc((void *)pt_addr));
-@@ -249,7 +247,7 @@ int free_pointer_table(void *table, int
- 		list_move(dp, &ptable_list[type]);
- 	}
- 
--	spin_unlock_irqrestore(&ptable_lock, flags);
-+	spin_unlock_bh(&ptable_lock);
- 	return 0;
- }
- 
---- a/Documentation/mm/process_addrs.rst~b
-+++ a/Documentation/mm/process_addrs.rst
-@@ -541,8 +541,13 @@ We establish basic locking rules when in
-   after an RCU grace period has elapsed. However, any entry found must be
-   revalidated after the page table lock is taken (such as the
-   :c:func:`!pmd_same` recheck performed by :c:func:`!pte_offset_map_lock`)
--  before it is acted upon. Changing an entry requires the page table
--  lock and one of the locks that excludes teardown (mmap or VMA lock).
-+  before it is acted upon. Changing an entry requires the page table lock
-+  and one of the locks that excludes teardown (any one of the mmap, VMA or
-+  rmap locks).
-+* When traversing page tables under RCU alone it is important to take care
-+  when operating upon leaf entries - if the value is operated upon (for
-+  instance getting the folio associated with a PTE) an appropriate lock must
-+  be taken to prevent concurrent modification.
- * Reads from and writes to page table entries must be *appropriately*
-   atomic. See the section on atomicity below for details.
- * Populating previously empty entries requires that the mmap or VMA locks are
---- a/mm/khugepaged.c~b
-+++ a/mm/khugepaged.c
-@@ -1278,7 +1278,7 @@ static enum scan_result alloc_charge_fol
- 	return SCAN_SUCCEED;
- }
- 
--static pgtable_t alloc_deposit_pte(struct mm_struct *mm)
-+static pgtable_t alloc_deposit_pte_table(struct mm_struct *mm)
- {
- 	/*
- 	 * khugepaged is run from a kernel thread, so need to manually set the
-@@ -1328,7 +1328,7 @@ static enum scan_result collapse_huge_pa
- 	}
- 
- 	if (is_pmd_order(order)) {
--		pgtable = alloc_deposit_pte(mm);
-+		pgtable = alloc_deposit_pte_table(mm);
- 		if (!pgtable) {
- 			result = SCAN_ALLOC_HUGE_PAGE_FAIL;
- 			goto out_nolock;
-_
-
+David
 
 _______________________________________________
 linux-snps-arc mailing list
