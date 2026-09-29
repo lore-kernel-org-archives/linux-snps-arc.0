@@ -4,56 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9018CA5FAC
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 29 Sep 2026 17:58:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4E0DCA5FA5
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 29 Sep 2026 19:16:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Subject:Cc:To:From:MIME-Version:Date:Message-ID:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=UxRDUXY7KTmEuSyQX8BcHuW9MgQ0jlH8ocW5gTIGTGw=; b=tL5jaPjkaLtNO+LvGt/7RDhhFi
-	LLJjwHOe53lbUZzQBanfyC/qj5F56XC5NVzFnhOjSdB6rV6SzIj1haFep3hyiNUt7ug81q3u7Uyim
-	q0LKVJBxCHMLxDBueFHNAC/uGzr9fx3jKfmsw/CbR/x8C19G8uKGJYsXVpnpaKwX9QSbvgIMrOpMB
-	AJrQCvqEAByejn97gcelaxKEWyxVMkJQr6+8Xim2FAdWPvq2G7h3K56jcs3qr5haOtTpHQK7IgoX8
-	Ps37HvEwG3Z2nT0dwYcRKViYRXo1a5M47KUJNJbt7mjTXNvLkuPGCm1WXbIv4tsPNG6vnxVyLwjf9
-	CvZ5VBDQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Reply-To:List-Subscribe:List-Help:
+	List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=q8iiLqK5ZI1wbLG+U7Y/nzL4vtC4yb0W3IMVCK09vJQ=; b=RqsROs508GDouc
+	2RIBpGDkE1FUEzAKQmmAvE6yOg1zJ58i62jrcHsI/W6pSSZhMb5CZ0l+R7IJLgBYBS87W+YgWZtvj
+	ZFXXJdczW8TOly7nAXIcP6Qn3zwFf9UFI1CqqehLI6y+1UViYehI6+cCFWygSwsvwZnCLuCG72haO
+	oVocS7/OoUwIMs+0aqwLl687RXDLOK7WQxrJDrnNNJc17Pn9sCMVmAvTzIdp/PPQH+miUgKSK/Ka/
+	NNtUcVokajJFnJ+eGgf7ecv7zA3qpZ/P3np9DopLru68pMn9X0roDKoIil9g5DY8YQLopbwUIYxor
+	W/x+28/Qq9U6mRa45EPA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBc6U-00000004F5I-05gB;
-	Tue, 29 Sep 2026 17:58:58 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xBdJG-00000004M7H-3PLV;
+	Tue, 29 Sep 2026 19:16:14 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBc6R-00000004F4z-44Hi
+	id 1xBdJF-00000004M79-3eJL
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 29 Sep 2026 17:58:56 +0000
+	Tue, 29 Sep 2026 19:16:13 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 12BEF6022B;
-	Tue, 29 Sep 2026 17:58:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 827061F000FF;
-	Tue, 29 Sep 2026 17:58:54 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 5890143CBA;
+	Tue, 29 Sep 2026 19:16:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A6231F000FF;
+	Tue, 29 Sep 2026 19:16:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790704734;
-	bh=vk3nxwp/7lZZyp5CGxF5TgatcwDjt9KZTeaXzgNAE2I=;
-	h=Date:From:To:Cc:Subject;
-	b=UKUtNz0OGYJcm4trvq+cBEKFIwHEtOln0ej9SvH+RCOz2VdQujJo3RG7egLWGrg2A
-	 vEpZs5la1aIlchPjzCaQnrCcXaNOehTe+G10L7ZRgm7Qq4861S030WUyTPTNf99RKz
-	 LhWd4rB4pXWqhZZ1jEaSkHdXHukdi06NZbpt88khVRibSrHsr6qCnhWz2Yq6OR1UWj
-	 se1U9BiKXOMYZXZcTDvevYhjlsEIEzYdofSy+10MV6jttA2QxtDJ8cCqpTE4FR5AK5
-	 x7ubb6c7xKx+328SVZDx9BpL/wXODJlAT43syyakIp4W52ggoz7EHDylAJoQ2Q06KJ
-	 q9ZCRjpn+uluA==
-Message-ID: <edb955af-9153-4db1-8a9e-3d729cb99753@kernel.org>
-Date: Tue, 29 Sep 2026 10:58:53 -0700
+	s=k20260515; t=1790709373;
+	bh=2F2aWdkIYY9J+/Phr2Mvz23GzKZggxE2FOvLTfmYxeA=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=OZhsRQok8SpIZbPD/TSIOIAjcCSkCdlPVe9+7HDlccxG+v0qh61yuEvP9dohqCHga
+	 ttLe+w/TGn1ZNVP7viHcVHvEf0/QFDHVwrXXoUmgrt5K0yA5gVQNlhfRSlG4AMtWmT
+	 5LfgUnp/jD5zmJ+qoxhxerjdREv0DhG0M9o94BRES3Ml3TqmoAuYSeHoGlRJK1zn+5
+	 PacfrBdZeis7glix5RuzU3IXM7zcqfAOEGQ0/E+OqWubCjDoKkt8KKq8nPpzZ9gtcZ
+	 xaPlOEP1EP9oigsy17/Il6iIdxqCSIk1/wV10dY1X7yPM6tU4863rxqNU2BQ8QNdXK
+	 bN49ipKGH4/fQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id E9733CE3A57; Tue, 29 Sep 2026 12:16:12 -0700 (PDT)
+Date: Tue, 29 Sep 2026 12:16:12 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Vineet Gupta <vgupta@kernel.org>
+Cc: Bradley Morgan <brads@mainlining.org>,
+	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-snps-arc@lists.infradead.org
+Subject: Re: [paulmckrcu:cmpxchg2.2026.09.22a 25/28]
+ arch/arc/include/asm/cmpxchg.h:71:23: warning: unused variable '_new_'
+Message-ID: <f976fb79-c230-49c3-a32e-7b590bf7c471@paulmck-laptop>
+References: <202609240539.AkulvjVe-lkp@intel.com>
+ <1849D2CD-4FCF-41BE-86D2-B4DDCF59D20B@mainlining.org>
+ <9e7b3428-d462-4551-8aa8-258d10f90b96@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Vineet Gupta <vgupta@kernel.org>
-Content-Language: en-US
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: lkml <linux-kernel@vger.kernel.org>,
- arcml <linux-snps-arc@lists.infradead.org>,
- Bradley Morgan <brads@mainlining.org>, blaze <1466528493@qq.com>,
- Anthony Iliopoulos <ailiop@suse.com>, "Paul E. McKenney" <paulmck@kernel.org>
-Subject: [GIT PULL] ARC updates for 7.3
+Content-Disposition: inline
+In-Reply-To: <9e7b3428-d462-4551-8aa8-258d10f90b96@kernel.org>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,35 +70,448 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Reply-To: paulmck@kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-SGkgTGludXMsCgpBIGJ1bmNoIG9mIGZpeGVzIGZvciBBUkMuIFBsZWFzZSBwdWxsLgoKVGh4Ci1W
-aW5lZXQKLS0tLS0tPgpUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2luY2UgY29tbWl0IGRmMjkwODA5
-MGNkYTM2OGIwMWZmNDM3MDlmNTE4OTAwNzZjNTYxNTc6CgogwqAgTGludXggNy4zLXJjMiAoMjAy
-Ni0wOS0wNiAxNTowNzoyMCAtMDcwMCkKCmFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCByZXBvc2l0
-b3J5IGF0OgoKIMKgIGdpdDovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dp
-dC92Z3VwdGEvYXJjLmdpdC8gCnRhZ3MvYXJjLWZpeGVzLTcuMwoKZm9yIHlvdSB0byBmZXRjaCBj
-aGFuZ2VzIHVwIHRvIGYwNTBjM2U2MWQyYTFhYWVjZTMxNzBkNDU5ZTRjZTVmYTI0ODZjMTI6Cgog
-wqAgQVJDOiBhcmNoX2NtcHhjaGdfcmVsYXhlZCB0byB1c2Ugc2l6ZSBvZiBwb2ludGVkIHR5cGUg
-bm90IHBvaW50ZXIgCigyMDI2LTA5LTI0IDIxOjE3OjA5IC0wNzAwKQoKLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpBUkMgZml4
-ZXMgZm9yIDcuMwoKIMKgLSBjbXB4Y2hnIHNuYWZ1IFtCcmFkbGV5XSBhbmQgb3RoZXIgbWlzY2xs
-IGZpeGVzCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tCkFudGhvbnkgSWxpb3BvdWxvcyAoMSk6CiDCoCDCoCDCoCBhcmM6IHJl
-bW92ZSB1bnVzZWQgcHJvZmlsZS5oIGluY2x1ZGVzCgpKdWxpYW4gQnJhaGEgKDEpOgogwqAgwqAg
-wqAgQVJDOiBjbGVhbnVwIGRlYWQgQVJDX0NBTlRfTExTQyBvcHRpb24gaW4gS2NvbmZpZwoKVmlu
-ZWV0IEd1cHRhICgxKToKIMKgIMKgIMKgIEFSQzogYXJjaF9jbXB4Y2hnX3JlbGF4ZWQgdG8gdXNl
-IHNpemUgb2YgcG9pbnRlZCB0eXBlIG5vdCBwb2ludGVyCgpibGF6ZSAoMSk6CiDCoCDCoCDCoCBh
-cmM6IGtlcm5lbDogRml4IGNsayByZWZlcmVuY2UgbGVhayBpbiBzaG93X2NwdWluZm8oKQoKIMKg
-YXJjaC9hcmMvS2NvbmZpZ8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIHwgNCAtLS0t
-CiDCoGFyY2gvYXJjL2luY2x1ZGUvYXNtL2F0b21pYzY0LWFyY3YyLmggfCA2ICsrKysrKwogwqBh
-cmNoL2FyYy9pbmNsdWRlL2FzbS9jbXB4Y2hnLmjCoCDCoCDCoCDCoCB8IDQgKystLQogwqBhcmNo
-L2FyYy9rZXJuZWwvc2V0dXAuY8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgfCAxICsKIMKgYXJjaC9h
-cmMva2VybmVsL3NtcC5jwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqB8IDEgLQogwqA1IGZpbGVz
-IGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LXNucHMtYXJjIG1haWxpbmcg
-bGlzdApsaW51eC1zbnBzLWFyY0BsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZy
-YWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtc25wcy1hcmMK
+On Wed, Sep 23, 2026 at 03:23:47PM -0700, Vineet Gupta wrote:
+> On 9/23/26 14:13, Bradley Morgan wrote:
+> > On 23 September 2026 22:12:09 BST, kernel test robot <lkp@intel.com> wr=
+ote:
+> > > tree:   https://github.com/paulmckrcu/linux cmpxchg2.2026.09.22a
+> > > head:   54c282c15475ebfae4712fe3ab637c9d19c723d6
+> > > commit: b6d4f6af38f85e7948fd64f9bf09cbb858b4dade [25/28] ARC: Emulate=
+ two-byte cmpxchg
+> > > config: arc-randconfig-1001-20260924 (https://download.01.org/0day-ci=
+/archive/20260924/202609240539.AkulvjVe-lkp@intel.com/config)
+> > > compiler: arc-linux-gcc (GCC) 14.3.0
+> > > reproduce (this is a W=3D1 build):
+> > > (https://download.01.org/0day-ci/archive/20260924/202609240539.Akulvj=
+Ve-lkp@intel.com/reproduce)
+> > > =
+
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new
+> > > version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes:
+> > > https://lore.kernel.org/oe-kbuild-all/202609240539.AkulvjVe-lkp@intel=
+.com/
+> > > =
+
+> > > All warnings (new ones prefixed by >>):
+> > > =
+
+> > >    In file included from arch/arc/include/asm/atomic.h:13,
+> > >                     from include/linux/atomic.h:7,
+> > >                     from include/asm-generic/bitops/lock.h:5,
+> > >                     from arch/arc/include/asm/bitops.h:190,
+> > >                     from include/linux/bitops.h:67,
+> > >                     from include/linux/log2.h:12,
+> > >                     from kernel/bounds.c:14:
+> > >    include/linux/atomic/atomic-arch-fallback.h: In function 'raw_atom=
+ic_cmpxchg':
+> > >    arch/arc/include/asm/cmpxchg.h:80:23: error: '_o_' undeclared (fir=
+st use in this function); did you mean '_p_'?
+> > >       80 |         if (_prev_ =3D=3D _o_)                            =
+                  \
+> > >          |                       ^~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expans=
+ion of macro 'arch_cmpxchg'
+> > >       55 | #define raw_cmpxchg arch_cmpxchg
+> > >          |                     ^~~~~~~~~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in expa=
+nsion of macro 'raw_cmpxchg'
+> > >     2026 |         return raw_cmpxchg(&v->counter, old, new);
+> > >          |                ^~~~~~~~~~~
+> > >    arch/arc/include/asm/cmpxchg.h:80:23: note: each undeclared identi=
+fier is reported only once for each function it appears in
+> > >       80 |         if (_prev_ =3D=3D _o_)                            =
+                  \
+> > >          |                       ^~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expans=
+ion of macro 'arch_cmpxchg'
+> > >       55 | #define raw_cmpxchg arch_cmpxchg
+> > >          |                     ^~~~~~~~~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in expa=
+nsion of macro 'raw_cmpxchg'
+> > >     2026 |         return raw_cmpxchg(&v->counter, old, new);
+> > >          |                ^~~~~~~~~~~
+> > >    arch/arc/include/asm/cmpxchg.h:81:24: error: '_n_' undeclared (fir=
+st use in this function); did you mean '_p_'?
+> > >       81 |                 *_p_ =3D _n_;                             =
+                \
+> > >          |                        ^~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expans=
+ion of macro 'arch_cmpxchg'
+> > >       55 | #define raw_cmpxchg arch_cmpxchg
+> > >          |                     ^~~~~~~~~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in expa=
+nsion of macro 'raw_cmpxchg'
+> > >     2026 |         return raw_cmpxchg(&v->counter, old, new);
+> > >          |                ^~~~~~~~~~~
+> > > > > arch/arc/include/asm/cmpxchg.h:71:23: warning: unused variable '_=
+new_'
+> > > [-Wunused-variable]
+> > >       71 |         unsigned long _new_ =3D (unsigned long)(0 ? *(_p_)=
+ : (new));              \
+> > >          |                       ^~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expans=
+ion of macro 'arch_cmpxchg'
+> > >       55 | #define raw_cmpxchg arch_cmpxchg
+> > >          |                     ^~~~~~~~~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in expa=
+nsion of macro 'raw_cmpxchg'
+> > >     2026 |         return raw_cmpxchg(&v->counter, old, new);
+> > >          |                ^~~~~~~~~~~
+> > > > > arch/arc/include/asm/cmpxchg.h:70:23: warning: unused variable '_=
+old_'
+> > > [-Wunused-variable]
+> > >       70 |         unsigned long _old_ =3D (unsigned long)(0 ? *(_p_)=
+ : (old));              \
+> > >          |                       ^~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expans=
+ion of macro 'arch_cmpxchg'
+> > >       55 | #define raw_cmpxchg arch_cmpxchg
+> > >          |                     ^~~~~~~~~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in expa=
+nsion of macro 'raw_cmpxchg'
+> > >     2026 |         return raw_cmpxchg(&v->counter, old, new);
+> > >          |                ^~~~~~~~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h: In function 'raw_atom=
+ic_cmpxchg_acquire':
+> > >    arch/arc/include/asm/cmpxchg.h:80:23: error: '_o_' undeclared (fir=
+st use in this function); did you mean '_p_'?
+> > >       80 |         if (_prev_ =3D=3D _o_)                            =
+                  \
+> > >          |                       ^~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:70:29: note: in expans=
+ion of macro 'arch_cmpxchg'
+> > >       70 | #define raw_cmpxchg_acquire arch_cmpxchg
+> > >          |                             ^~~~~~~~~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:2055:16: note: in expa=
+nsion of macro 'raw_cmpxchg_acquire'
+> > >     2055 |         return raw_cmpxchg_acquire(&v->counter, old, new);
+> > >          |                ^~~~~~~~~~~~~~~~~~~
+> > >    arch/arc/include/asm/cmpxchg.h:81:24: error: '_n_' undeclared (fir=
+st use in this function); did you mean '_p_'?
+> > >       81 |                 *_p_ =3D _n_;                             =
+                \
+> > >          |                        ^~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:70:29: note: in expans=
+ion of macro 'arch_cmpxchg'
+> > >       70 | #define raw_cmpxchg_acquire arch_cmpxchg
+> > >          |                             ^~~~~~~~~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:2055:16: note: in expa=
+nsion of macro 'raw_cmpxchg_acquire'
+> > >     2055 |         return raw_cmpxchg_acquire(&v->counter, old, new);
+> > >          |                ^~~~~~~~~~~~~~~~~~~
+> > > > > arch/arc/include/asm/cmpxchg.h:71:23: warning: unused variable '_=
+new_'
+> > > [-Wunused-variable]
+> > >       71 |         unsigned long _new_ =3D (unsigned long)(0 ? *(_p_)=
+ : (new));              \
+> > >          |                       ^~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:70:29: note: in expans=
+ion of macro 'arch_cmpxchg'
+> > >       70 | #define raw_cmpxchg_acquire arch_cmpxchg
+> > >          |                             ^~~~~~~~~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:2055:16: note: in expa=
+nsion of macro 'raw_cmpxchg_acquire'
+> > >     2055 |         return raw_cmpxchg_acquire(&v->counter, old, new);
+> > >          |                ^~~~~~~~~~~~~~~~~~~
+> > > > > arch/arc/include/asm/cmpxchg.h:70:23: warning: unused variable '_=
+old_'
+> > > [-Wunused-variable]
+> > >       70 |         unsigned long _old_ =3D (unsigned long)(0 ? *(_p_)=
+ : (old));              \
+> > >          |                       ^~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:70:29: note: in expans=
+ion of macro 'arch_cmpxchg'
+> > >       70 | #define raw_cmpxchg_acquire arch_cmpxchg
+> > >          |                             ^~~~~~~~~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:2055:16: note: in expa=
+nsion of macro 'raw_cmpxchg_acquire'
+> > >     2055 |         return raw_cmpxchg_acquire(&v->counter, old, new);
+> > >          |                ^~~~~~~~~~~~~~~~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h: In function 'raw_atom=
+ic_cmpxchg_release':
+> > >    arch/arc/include/asm/cmpxchg.h:80:23: error: '_o_' undeclared (fir=
+st use in this function); did you mean '_p_'?
+> > >       80 |         if (_prev_ =3D=3D _o_)                            =
+                  \
+> > >          |                       ^~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:82:29: note: in expans=
+ion of macro 'arch_cmpxchg'
+> > >       82 | #define raw_cmpxchg_release arch_cmpxchg
+> > >          |                             ^~~~~~~~~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:2083:16: note: in expa=
+nsion of macro 'raw_cmpxchg_release'
+> > >     2083 |         return raw_cmpxchg_release(&v->counter, old, new);
+> > >          |                ^~~~~~~~~~~~~~~~~~~
+> > >    arch/arc/include/asm/cmpxchg.h:81:24: error: '_n_' undeclared (fir=
+st use in this function); did you mean '_p_'?
+> > >       81 |                 *_p_ =3D _n_;                             =
+                \
+> > >          |                        ^~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:82:29: note: in expans=
+ion of macro 'arch_cmpxchg'
+> > >       82 | #define raw_cmpxchg_release arch_cmpxchg
+> > >          |                             ^~~~~~~~~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:2083:16: note: in expa=
+nsion of macro 'raw_cmpxchg_release'
+> > >     2083 |         return raw_cmpxchg_release(&v->counter, old, new);
+> > >          |                ^~~~~~~~~~~~~~~~~~~
+> > > > > arch/arc/include/asm/cmpxchg.h:71:23: warning: unused variable '_=
+new_'
+> > > [-Wunused-variable]
+> > >       71 |         unsigned long _new_ =3D (unsigned long)(0 ? *(_p_)=
+ : (new));              \
+> > >          |                       ^~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:82:29: note: in expans=
+ion of macro 'arch_cmpxchg'
+> > >       82 | #define raw_cmpxchg_release arch_cmpxchg
+> > >          |                             ^~~~~~~~~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:2083:16: note: in expa=
+nsion of macro 'raw_cmpxchg_release'
+> > >     2083 |         return raw_cmpxchg_release(&v->counter, old, new);
+> > >          |                ^~~~~~~~~~~~~~~~~~~
+> > > > > arch/arc/include/asm/cmpxchg.h:70:23: warning: unused variable '_=
+old_'
+> > > [-Wunused-variable]
+> > >       70 |         unsigned long _old_ =3D (unsigned long)(0 ? *(_p_)=
+ : (old));              \
+> > >          |                       ^~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:82:29: note: in expans=
+ion of macro 'arch_cmpxchg'
+> > >       82 | #define raw_cmpxchg_release arch_cmpxchg
+> > >          |                             ^~~~~~~~~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:2083:16: note: in expa=
+nsion of macro 'raw_cmpxchg_release'
+> > >     2083 |         return raw_cmpxchg_release(&v->counter, old, new);
+> > >          |                ^~~~~~~~~~~~~~~~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h: In function 'raw_atom=
+ic_cmpxchg_relaxed':
+> > >    arch/arc/include/asm/cmpxchg.h:80:23: error: '_o_' undeclared (fir=
+st use in this function); did you mean '_p_'?
+> > >       80 |         if (_prev_ =3D=3D _o_)                            =
+                  \
+> > >          |                       ^~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:91:29: note: in expans=
+ion of macro 'arch_cmpxchg'
+> > >       91 | #define raw_cmpxchg_relaxed arch_cmpxchg
+> > >          |                             ^~~~~~~~~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:2108:16: note: in expa=
+nsion of macro 'raw_cmpxchg_relaxed'
+> > >     2108 |         return raw_cmpxchg_relaxed(&v->counter, old, new);
+> > >          |                ^~~~~~~~~~~~~~~~~~~
+> > >    arch/arc/include/asm/cmpxchg.h:81:24: error: '_n_' undeclared (fir=
+st use in this function); did you mean '_p_'?
+> > >       81 |                 *_p_ =3D _n_;                             =
+                \
+> > >          |                        ^~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:91:29: note: in expans=
+ion of macro 'arch_cmpxchg'
+> > >       91 | #define raw_cmpxchg_relaxed arch_cmpxchg
+> > >          |                             ^~~~~~~~~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:2108:16: note: in expa=
+nsion of macro 'raw_cmpxchg_relaxed'
+> > >     2108 |         return raw_cmpxchg_relaxed(&v->counter, old, new);
+> > >          |                ^~~~~~~~~~~~~~~~~~~
+> > > > > arch/arc/include/asm/cmpxchg.h:71:23: warning: unused variable '_=
+new_'
+> > > [-Wunused-variable]
+> > >       71 |         unsigned long _new_ =3D (unsigned long)(0 ? *(_p_)=
+ : (new));              \
+> > >          |                       ^~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:91:29: note: in expans=
+ion of macro 'arch_cmpxchg'
+> > >       91 | #define raw_cmpxchg_relaxed arch_cmpxchg
+> > >          |                             ^~~~~~~~~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:2108:16: note: in expa=
+nsion of macro 'raw_cmpxchg_relaxed'
+> > >     2108 |         return raw_cmpxchg_relaxed(&v->counter, old, new);
+> > >          |                ^~~~~~~~~~~~~~~~~~~
+> > > > > arch/arc/include/asm/cmpxchg.h:70:23: warning: unused variable '_=
+old_'
+> > > [-Wunused-variable]
+> > >       70 |         unsigned long _old_ =3D (unsigned long)(0 ? *(_p_)=
+ : (old));              \
+> > >          |                       ^~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:91:29: note: in expans=
+ion of macro 'arch_cmpxchg'
+> > >       91 | #define raw_cmpxchg_relaxed arch_cmpxchg
+> > >          |                             ^~~~~~~~~~~~
+> > >    include/linux/atomic/atomic-arch-fallback.h:2108:16: note: in expa=
+nsion of macro 'raw_cmpxchg_relaxed'
+> > >     2108 |         return raw_cmpxchg_relaxed(&v->counter, old, new);
+> > >          |                ^~~~~~~~~~~~~~~~~~~
+> > >    make[3]: *** [scripts/Makefile.build:185: kernel/bounds.s] Error 1=
+ shuffle=3D1050985161
+> > >    make[3]: Target 'prepare' not remade because of errors.
+> > >    make[2]: *** [Makefile:1425: prepare0] Error 2 shuffle=3D1050985161
+> > >    make[2]: Target 'prepare' not remade because of errors.
+> > >    make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3D10509851=
+61
+> > >    make[1]: Target 'prepare' not remade because of errors.
+> > >    make: *** [Makefile:248: __sub-make] Error 2 shuffle=3D1050985161
+> > >    make: Target 'prepare' not remade because of errors.
+> > > =
+
+> > > =
+
+> > > vim +/_new_ +71 arch/arc/include/asm/cmpxchg.h
+> > > =
+
+> > >     66	=
+
+> > >     67	#define arch_cmpxchg(ptr, old, new)				        \
+> > >     68	({									\
+> > >     69		volatile __typeof__(ptr) _p_ =3D (ptr);				\
+> > >   > 70		unsigned long _old_ =3D (unsigned long)(0 ? *(_p_) : (old));	=
+	\
+> > >   > 71		unsigned long _new_ =3D (unsigned long)(0 ? *(_p_) : (new));	=
+	\
+> > >     72		__typeof__(*(ptr)) _prev_;					\
+> > >     73		unsigned long __flags;						\
+> > >     74										\
+> > >     75		/*								\
+> > >     76		 * spin lock/unlock provide the needed smp_mb() before/after	\
+> > >     77		 */								\
+> > >     78		atomic_ops_lock(__flags);					\
+> > >     79		_prev_ =3D *_p_;							\
+> > >     80		if (_prev_ =3D=3D _o_)						\
+> > >     81			*_p_ =3D _n_;						\
+> > >     82		atomic_ops_unlock(__flags);					\
+> > >     83		_prev_;								\
+> > >     84	})
+> > >     85	=
+
+> > > =
+
+> > > --
+> > > 0-DAY CI Kernel Test Service
+> > > https://github.com/intel/lkp-tests/wiki
+> > Apparently nobody uses arc
+> =
+
+> Yes the development has slowed down compared to five years ago, but its n=
+ot
+> dead, if anything it is still my hobby project, like so many other things
+> open source and you repeating this hurts.
+> =
+
+> You stumbled onto a real issue: typeof ptr vs. *ptr which unmasked an
+> existing shortcoming.
+> @Paul can you please apply this in your tree and rebase the series on top.
+> If not I can send this fix to Linus urgently, but it will cause some
+> collisions.
+
+I tried applying this against current linux/master, v7.2, and v7.3-rc1,
+and no go.  Please let me know what you based this on.
+
+Or is this in your recent pull request from Linus?  In which case,
+I could pull that and cherry-pick this patch.
+
+							Thanx, Paul
+
+> ---------->
+> From f3e2402f62bebfa9f1ad21e23d1663a0a3e5a58d Mon Sep 17 00:00:00 2001
+> From: Vineet Gupta <vgupta@kernel.org>
+> Date: Wed, 23 Sep 2026 15:01:38 -0700
+> Subject: [PATCH] ARC: arch_cmpxchg_relaxed to use size of pointed type not
+> =A0pointer
+> =
+
+> Bradley spotted this snafu when working on two-byte cmpxchg emulation.
+> He originally folded this fix into his series but the fix itself
+> uncovered a pre-existing issue, missing arch_atomic64_cmpxchg_relaxed
+> which just needed to be wired up.
+> =
+
+> Fixes: e188f3330a13 ("ARC: cmpxchg/xchg: rewrite as macros to make type
+> safe")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes:
+> https://lore.kernel.org/oe-kbuild-all/202609240539.AkulvjVe-lkp@intel.com/
+> Suggested-by: Bradley Morgan <brads@mainlining.org>
+> Signed-off-by: Vineet Gupta <vgupta@kernel.org>
+> ---
+> =A0arch/arc/include/asm/atomic64-arcv2.h | 6 ++++++
+> =A0arch/arc/include/asm/cmpxchg.h=A0 =A0 =A0 =A0 | 4 ++--
+> =A02 files changed, 8 insertions(+), 2 deletions(-)
+> =
+
+> diff --git a/arch/arc/include/asm/atomic64-arcv2.h
+> b/arch/arc/include/asm/atomic64-arcv2.h
+> index 73080a664369..1ca4a1047fb3 100644
+> --- a/arch/arc/include/asm/atomic64-arcv2.h
+> +++ b/arch/arc/include/asm/atomic64-arcv2.h
+> @@ -156,6 +156,12 @@ static inline u64 __arch_cmpxchg64_relaxed(volatile
+> void *ptr, u64 old, u64 new)
+> =A0}
+> =A0#define arch_cmpxchg64_relaxed __arch_cmpxchg64_relaxed
+> =
+
+> +static inline s64 arch_atomic64_cmpxchg_relaxed(atomic64_t *v, s64 old, =
+s64
+> new)
+> +{
+> +=A0 =A0 return arch_cmpxchg64_relaxed(&v->counter, old, new);
+> +}
+> +#define arch_atomic64_cmpxchg_relaxed arch_atomic64_cmpxchg_relaxed
+> +
+> =A0static inline s64 arch_atomic64_xchg(atomic64_t *ptr, s64 new)
+> =A0{
+> =A0 =A0 =A0s64 prev;
+> diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxch=
+g.h
+> index 76f43db0890f..66b3743c9400 100644
+> --- a/arch/arc/include/asm/cmpxchg.h
+> +++ b/arch/arc/include/asm/cmpxchg.h
+> @@ -46,7 +46,7 @@
+> =A0 =A0 =A0__typeof__(*(ptr)) _n_ =3D (new);=A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 \
+> =A0 =A0 =A0__typeof__(*(ptr)) _prev_;=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 \
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0\
+> -=A0 =A0 switch(sizeof((_p_))) {=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 \
+> +=A0 =A0 switch (sizeof(*(_p_))) {=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 \
+> =A0 =A0 =A0case 1:=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 \
+> =A0 =A0 =A0 =A0 =A0_prev_ =3D (__typeof__(*(ptr)))cmpxchg_emu_u8((volatil=
+e u8
+> *__force)_p_, (uintptr_t)_o_, (uintptr_t)_n_);=A0 =A0 \
+> =A0 =A0 =A0 =A0 =A0break;=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 \
+> @@ -102,7 +102,7 @@
+> =A0 =A0 =A0__typeof__(ptr) _p_ =3D (ptr);=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 \
+> =A0 =A0 =A0__typeof__(*(ptr)) _val_ =3D (val);=A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 \
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0\
+> -=A0 =A0 switch(sizeof(*(_p_))) {=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 \
+> +=A0 =A0 switch (sizeof(*(_p_))) {=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ \
+> =A0 =A0 =A0case 4:=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 \
+> =A0 =A0 =A0 =A0 =A0_val_ =3D __arch_xchg(_p_, _val_);=A0 =A0 =A0 =A0 =A0 =
+=A0 \
+> =A0 =A0 =A0 =A0 =A0break;=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 \
+> -- =
+
+> 2.53.0
+> =
+
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
