@@ -4,61 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4E0DCA5FA5
-	for <linux-snps-arc@archiver.kernel.org>; Tue, 29 Sep 2026 19:16:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B0A3CA5FA7
+	for <linux-snps-arc@archiver.kernel.org>; Tue, 29 Sep 2026 19:42:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Reply-To:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=q8iiLqK5ZI1wbLG+U7Y/nzL4vtC4yb0W3IMVCK09vJQ=; b=RqsROs508GDouc
-	2RIBpGDkE1FUEzAKQmmAvE6yOg1zJ58i62jrcHsI/W6pSSZhMb5CZ0l+R7IJLgBYBS87W+YgWZtvj
-	ZFXXJdczW8TOly7nAXIcP6Qn3zwFf9UFI1CqqehLI6y+1UViYehI6+cCFWygSwsvwZnCLuCG72haO
-	oVocS7/OoUwIMs+0aqwLl687RXDLOK7WQxrJDrnNNJc17Pn9sCMVmAvTzIdp/PPQH+miUgKSK/Ka/
-	NNtUcVokajJFnJ+eGgf7ecv7zA3qpZ/P3np9DopLru68pMn9X0roDKoIil9g5DY8YQLopbwUIYxor
-	W/x+28/Qq9U6mRa45EPA==;
+	List-Owner; bh=hCUAray6Zvt5nFKrsFJNl/1e/p/FISpndmYN8lsdh0U=; b=bVEDC4ap7gdM03
+	ACJeLt9NNxpyql5wHZ5Pk4ZqX2JkXh4XJtX+rWHg8AIffMSb5X54u0yrX9wFM/geAPX94VA5v9Vqh
+	ChkOwGqjJmL8jQNR+yTsZwrxziOHm6S3qJOS5na6TEpBNNQoBlq5vqH1Y5QP3b9Zv/bXKMzUAjLNM
+	gzL7GRXuI7zL86KnHZ+pbh1wegC6aohJyoTbw+rcVyVlstqdBj4dHc5536y8PgKQrRxk6jh+s1d/U
+	dPxs63k8+kjMYuRT/LSaP0UzldAYZ1WXhD4ondHAYqtRQVHqd2jnVdtVshyDNyRrolxst9iUUDvOY
+	g5TnrV13wdrbaN/Y5Wtg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBdJG-00000004M7H-3PLV;
-	Tue, 29 Sep 2026 19:16:14 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1xBdj6-00000004PWi-02G1;
+	Tue, 29 Sep 2026 19:42:56 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBdJF-00000004M79-3eJL
+	id 1xBdj4-00000004PVs-1UIO
 	for linux-snps-arc@lists.infradead.org;
-	Tue, 29 Sep 2026 19:16:13 +0000
+	Tue, 29 Sep 2026 19:42:54 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 5890143CBA;
-	Tue, 29 Sep 2026 19:16:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A6231F000FF;
-	Tue, 29 Sep 2026 19:16:13 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 8E9306022B;
+	Tue, 29 Sep 2026 19:42:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12CD11F000FF;
+	Tue, 29 Sep 2026 19:42:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790709373;
-	bh=2F2aWdkIYY9J+/Phr2Mvz23GzKZggxE2FOvLTfmYxeA=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=OZhsRQok8SpIZbPD/TSIOIAjcCSkCdlPVe9+7HDlccxG+v0qh61yuEvP9dohqCHga
-	 ttLe+w/TGn1ZNVP7viHcVHvEf0/QFDHVwrXXoUmgrt5K0yA5gVQNlhfRSlG4AMtWmT
-	 5LfgUnp/jD5zmJ+qoxhxerjdREv0DhG0M9o94BRES3Ml3TqmoAuYSeHoGlRJK1zn+5
-	 PacfrBdZeis7glix5RuzU3IXM7zcqfAOEGQ0/E+OqWubCjDoKkt8KKq8nPpzZ9gtcZ
-	 xaPlOEP1EP9oigsy17/Il6iIdxqCSIk1/wV10dY1X7yPM6tU4863rxqNU2BQ8QNdXK
-	 bN49ipKGH4/fQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id E9733CE3A57; Tue, 29 Sep 2026 12:16:12 -0700 (PDT)
-Date: Tue, 29 Sep 2026 12:16:12 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Vineet Gupta <vgupta@kernel.org>
-Cc: Bradley Morgan <brads@mainlining.org>,
-	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	linux-snps-arc@lists.infradead.org
+	s=k20260515; t=1790710973;
+	bh=1jSNMuPAwStgsfHywp5LJMkYwsddmip61RcFuognZ70=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=RNYdYBHOT+5l6z/qKtl5/Jat74zGDxxGNh5RK/cUFyzlU5MI1D9ykDkW4NKWzKuEs
+	 6CejIUnhJndNirq6jJYos0SePVJ2HZTmvtM1H4ueO7nnpHpoKQwTI81E70z+iR2JZt
+	 /TUwEDm02me2VIfiCJUOVQkjETwhwwc8XnOLcDrhWT5oP/M+dDZYzb7B7YV+QKnXaY
+	 cXfH4KwQHcHtmN6htuPU4LRKAizpetoF0SrIWxLzFNj4KkkhuMVzKSYwE8fXpGooD9
+	 nuq4EiI/Fu653/uchD6WeojWx/GnQZAbMsfrtBx7U1MLdTdar7RVicVjZhDtRuaXq6
+	 ThuiI7Lqq8HVA==
+Message-ID: <283bb2a1-7f87-4ec5-8280-02bd0dbd09d0@kernel.org>
+Date: Tue, 29 Sep 2026 12:42:52 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [paulmckrcu:cmpxchg2.2026.09.22a 25/28]
  arch/arc/include/asm/cmpxchg.h:71:23: warning: unused variable '_new_'
-Message-ID: <f976fb79-c230-49c3-a32e-7b590bf7c471@paulmck-laptop>
+To: paulmck@kernel.org
+Cc: Bradley Morgan <brads@mainlining.org>, kernel test robot <lkp@intel.com>,
+ oe-kbuild-all@lists.linux.dev, linux-snps-arc@lists.infradead.org
 References: <202609240539.AkulvjVe-lkp@intel.com>
  <1849D2CD-4FCF-41BE-86D2-B4DDCF59D20B@mainlining.org>
  <9e7b3428-d462-4551-8aa8-258d10f90b96@kernel.org>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <9e7b3428-d462-4551-8aa8-258d10f90b96@kernel.org>
+ <f976fb79-c230-49c3-a32e-7b590bf7c471@paulmck-laptop>
+From: Vineet Gupta <vgupta@kernel.org>
+Content-Language: en-US
+In-Reply-To: <f976fb79-c230-49c3-a32e-7b590bf7c471@paulmck-laptop>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,448 +69,352 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Wed, Sep 23, 2026 at 03:23:47PM -0700, Vineet Gupta wrote:
-> On 9/23/26 14:13, Bradley Morgan wrote:
-> > On 23 September 2026 22:12:09 BST, kernel test robot <lkp@intel.com> wr=
-ote:
-> > > tree:   https://github.com/paulmckrcu/linux cmpxchg2.2026.09.22a
-> > > head:   54c282c15475ebfae4712fe3ab637c9d19c723d6
-> > > commit: b6d4f6af38f85e7948fd64f9bf09cbb858b4dade [25/28] ARC: Emulate=
- two-byte cmpxchg
-> > > config: arc-randconfig-1001-20260924 (https://download.01.org/0day-ci=
-/archive/20260924/202609240539.AkulvjVe-lkp@intel.com/config)
-> > > compiler: arc-linux-gcc (GCC) 14.3.0
-> > > reproduce (this is a W=3D1 build):
-> > > (https://download.01.org/0day-ci/archive/20260924/202609240539.Akulvj=
-Ve-lkp@intel.com/reproduce)
-> > > =
-
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new
-> > > version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes:
-> > > https://lore.kernel.org/oe-kbuild-all/202609240539.AkulvjVe-lkp@intel=
-.com/
-> > > =
-
-> > > All warnings (new ones prefixed by >>):
-> > > =
-
-> > >    In file included from arch/arc/include/asm/atomic.h:13,
-> > >                     from include/linux/atomic.h:7,
-> > >                     from include/asm-generic/bitops/lock.h:5,
-> > >                     from arch/arc/include/asm/bitops.h:190,
-> > >                     from include/linux/bitops.h:67,
-> > >                     from include/linux/log2.h:12,
-> > >                     from kernel/bounds.c:14:
-> > >    include/linux/atomic/atomic-arch-fallback.h: In function 'raw_atom=
-ic_cmpxchg':
-> > >    arch/arc/include/asm/cmpxchg.h:80:23: error: '_o_' undeclared (fir=
-st use in this function); did you mean '_p_'?
-> > >       80 |         if (_prev_ =3D=3D _o_)                            =
-                  \
-> > >          |                       ^~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expans=
-ion of macro 'arch_cmpxchg'
-> > >       55 | #define raw_cmpxchg arch_cmpxchg
-> > >          |                     ^~~~~~~~~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in expa=
-nsion of macro 'raw_cmpxchg'
-> > >     2026 |         return raw_cmpxchg(&v->counter, old, new);
-> > >          |                ^~~~~~~~~~~
-> > >    arch/arc/include/asm/cmpxchg.h:80:23: note: each undeclared identi=
-fier is reported only once for each function it appears in
-> > >       80 |         if (_prev_ =3D=3D _o_)                            =
-                  \
-> > >          |                       ^~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expans=
-ion of macro 'arch_cmpxchg'
-> > >       55 | #define raw_cmpxchg arch_cmpxchg
-> > >          |                     ^~~~~~~~~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in expa=
-nsion of macro 'raw_cmpxchg'
-> > >     2026 |         return raw_cmpxchg(&v->counter, old, new);
-> > >          |                ^~~~~~~~~~~
-> > >    arch/arc/include/asm/cmpxchg.h:81:24: error: '_n_' undeclared (fir=
-st use in this function); did you mean '_p_'?
-> > >       81 |                 *_p_ =3D _n_;                             =
-                \
-> > >          |                        ^~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expans=
-ion of macro 'arch_cmpxchg'
-> > >       55 | #define raw_cmpxchg arch_cmpxchg
-> > >          |                     ^~~~~~~~~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in expa=
-nsion of macro 'raw_cmpxchg'
-> > >     2026 |         return raw_cmpxchg(&v->counter, old, new);
-> > >          |                ^~~~~~~~~~~
-> > > > > arch/arc/include/asm/cmpxchg.h:71:23: warning: unused variable '_=
-new_'
-> > > [-Wunused-variable]
-> > >       71 |         unsigned long _new_ =3D (unsigned long)(0 ? *(_p_)=
- : (new));              \
-> > >          |                       ^~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expans=
-ion of macro 'arch_cmpxchg'
-> > >       55 | #define raw_cmpxchg arch_cmpxchg
-> > >          |                     ^~~~~~~~~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in expa=
-nsion of macro 'raw_cmpxchg'
-> > >     2026 |         return raw_cmpxchg(&v->counter, old, new);
-> > >          |                ^~~~~~~~~~~
-> > > > > arch/arc/include/asm/cmpxchg.h:70:23: warning: unused variable '_=
-old_'
-> > > [-Wunused-variable]
-> > >       70 |         unsigned long _old_ =3D (unsigned long)(0 ? *(_p_)=
- : (old));              \
-> > >          |                       ^~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expans=
-ion of macro 'arch_cmpxchg'
-> > >       55 | #define raw_cmpxchg arch_cmpxchg
-> > >          |                     ^~~~~~~~~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in expa=
-nsion of macro 'raw_cmpxchg'
-> > >     2026 |         return raw_cmpxchg(&v->counter, old, new);
-> > >          |                ^~~~~~~~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h: In function 'raw_atom=
-ic_cmpxchg_acquire':
-> > >    arch/arc/include/asm/cmpxchg.h:80:23: error: '_o_' undeclared (fir=
-st use in this function); did you mean '_p_'?
-> > >       80 |         if (_prev_ =3D=3D _o_)                            =
-                  \
-> > >          |                       ^~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:70:29: note: in expans=
-ion of macro 'arch_cmpxchg'
-> > >       70 | #define raw_cmpxchg_acquire arch_cmpxchg
-> > >          |                             ^~~~~~~~~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:2055:16: note: in expa=
-nsion of macro 'raw_cmpxchg_acquire'
-> > >     2055 |         return raw_cmpxchg_acquire(&v->counter, old, new);
-> > >          |                ^~~~~~~~~~~~~~~~~~~
-> > >    arch/arc/include/asm/cmpxchg.h:81:24: error: '_n_' undeclared (fir=
-st use in this function); did you mean '_p_'?
-> > >       81 |                 *_p_ =3D _n_;                             =
-                \
-> > >          |                        ^~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:70:29: note: in expans=
-ion of macro 'arch_cmpxchg'
-> > >       70 | #define raw_cmpxchg_acquire arch_cmpxchg
-> > >          |                             ^~~~~~~~~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:2055:16: note: in expa=
-nsion of macro 'raw_cmpxchg_acquire'
-> > >     2055 |         return raw_cmpxchg_acquire(&v->counter, old, new);
-> > >          |                ^~~~~~~~~~~~~~~~~~~
-> > > > > arch/arc/include/asm/cmpxchg.h:71:23: warning: unused variable '_=
-new_'
-> > > [-Wunused-variable]
-> > >       71 |         unsigned long _new_ =3D (unsigned long)(0 ? *(_p_)=
- : (new));              \
-> > >          |                       ^~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:70:29: note: in expans=
-ion of macro 'arch_cmpxchg'
-> > >       70 | #define raw_cmpxchg_acquire arch_cmpxchg
-> > >          |                             ^~~~~~~~~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:2055:16: note: in expa=
-nsion of macro 'raw_cmpxchg_acquire'
-> > >     2055 |         return raw_cmpxchg_acquire(&v->counter, old, new);
-> > >          |                ^~~~~~~~~~~~~~~~~~~
-> > > > > arch/arc/include/asm/cmpxchg.h:70:23: warning: unused variable '_=
-old_'
-> > > [-Wunused-variable]
-> > >       70 |         unsigned long _old_ =3D (unsigned long)(0 ? *(_p_)=
- : (old));              \
-> > >          |                       ^~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:70:29: note: in expans=
-ion of macro 'arch_cmpxchg'
-> > >       70 | #define raw_cmpxchg_acquire arch_cmpxchg
-> > >          |                             ^~~~~~~~~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:2055:16: note: in expa=
-nsion of macro 'raw_cmpxchg_acquire'
-> > >     2055 |         return raw_cmpxchg_acquire(&v->counter, old, new);
-> > >          |                ^~~~~~~~~~~~~~~~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h: In function 'raw_atom=
-ic_cmpxchg_release':
-> > >    arch/arc/include/asm/cmpxchg.h:80:23: error: '_o_' undeclared (fir=
-st use in this function); did you mean '_p_'?
-> > >       80 |         if (_prev_ =3D=3D _o_)                            =
-                  \
-> > >          |                       ^~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:82:29: note: in expans=
-ion of macro 'arch_cmpxchg'
-> > >       82 | #define raw_cmpxchg_release arch_cmpxchg
-> > >          |                             ^~~~~~~~~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:2083:16: note: in expa=
-nsion of macro 'raw_cmpxchg_release'
-> > >     2083 |         return raw_cmpxchg_release(&v->counter, old, new);
-> > >          |                ^~~~~~~~~~~~~~~~~~~
-> > >    arch/arc/include/asm/cmpxchg.h:81:24: error: '_n_' undeclared (fir=
-st use in this function); did you mean '_p_'?
-> > >       81 |                 *_p_ =3D _n_;                             =
-                \
-> > >          |                        ^~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:82:29: note: in expans=
-ion of macro 'arch_cmpxchg'
-> > >       82 | #define raw_cmpxchg_release arch_cmpxchg
-> > >          |                             ^~~~~~~~~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:2083:16: note: in expa=
-nsion of macro 'raw_cmpxchg_release'
-> > >     2083 |         return raw_cmpxchg_release(&v->counter, old, new);
-> > >          |                ^~~~~~~~~~~~~~~~~~~
-> > > > > arch/arc/include/asm/cmpxchg.h:71:23: warning: unused variable '_=
-new_'
-> > > [-Wunused-variable]
-> > >       71 |         unsigned long _new_ =3D (unsigned long)(0 ? *(_p_)=
- : (new));              \
-> > >          |                       ^~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:82:29: note: in expans=
-ion of macro 'arch_cmpxchg'
-> > >       82 | #define raw_cmpxchg_release arch_cmpxchg
-> > >          |                             ^~~~~~~~~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:2083:16: note: in expa=
-nsion of macro 'raw_cmpxchg_release'
-> > >     2083 |         return raw_cmpxchg_release(&v->counter, old, new);
-> > >          |                ^~~~~~~~~~~~~~~~~~~
-> > > > > arch/arc/include/asm/cmpxchg.h:70:23: warning: unused variable '_=
-old_'
-> > > [-Wunused-variable]
-> > >       70 |         unsigned long _old_ =3D (unsigned long)(0 ? *(_p_)=
- : (old));              \
-> > >          |                       ^~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:82:29: note: in expans=
-ion of macro 'arch_cmpxchg'
-> > >       82 | #define raw_cmpxchg_release arch_cmpxchg
-> > >          |                             ^~~~~~~~~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:2083:16: note: in expa=
-nsion of macro 'raw_cmpxchg_release'
-> > >     2083 |         return raw_cmpxchg_release(&v->counter, old, new);
-> > >          |                ^~~~~~~~~~~~~~~~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h: In function 'raw_atom=
-ic_cmpxchg_relaxed':
-> > >    arch/arc/include/asm/cmpxchg.h:80:23: error: '_o_' undeclared (fir=
-st use in this function); did you mean '_p_'?
-> > >       80 |         if (_prev_ =3D=3D _o_)                            =
-                  \
-> > >          |                       ^~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:91:29: note: in expans=
-ion of macro 'arch_cmpxchg'
-> > >       91 | #define raw_cmpxchg_relaxed arch_cmpxchg
-> > >          |                             ^~~~~~~~~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:2108:16: note: in expa=
-nsion of macro 'raw_cmpxchg_relaxed'
-> > >     2108 |         return raw_cmpxchg_relaxed(&v->counter, old, new);
-> > >          |                ^~~~~~~~~~~~~~~~~~~
-> > >    arch/arc/include/asm/cmpxchg.h:81:24: error: '_n_' undeclared (fir=
-st use in this function); did you mean '_p_'?
-> > >       81 |                 *_p_ =3D _n_;                             =
-                \
-> > >          |                        ^~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:91:29: note: in expans=
-ion of macro 'arch_cmpxchg'
-> > >       91 | #define raw_cmpxchg_relaxed arch_cmpxchg
-> > >          |                             ^~~~~~~~~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:2108:16: note: in expa=
-nsion of macro 'raw_cmpxchg_relaxed'
-> > >     2108 |         return raw_cmpxchg_relaxed(&v->counter, old, new);
-> > >          |                ^~~~~~~~~~~~~~~~~~~
-> > > > > arch/arc/include/asm/cmpxchg.h:71:23: warning: unused variable '_=
-new_'
-> > > [-Wunused-variable]
-> > >       71 |         unsigned long _new_ =3D (unsigned long)(0 ? *(_p_)=
- : (new));              \
-> > >          |                       ^~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:91:29: note: in expans=
-ion of macro 'arch_cmpxchg'
-> > >       91 | #define raw_cmpxchg_relaxed arch_cmpxchg
-> > >          |                             ^~~~~~~~~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:2108:16: note: in expa=
-nsion of macro 'raw_cmpxchg_relaxed'
-> > >     2108 |         return raw_cmpxchg_relaxed(&v->counter, old, new);
-> > >          |                ^~~~~~~~~~~~~~~~~~~
-> > > > > arch/arc/include/asm/cmpxchg.h:70:23: warning: unused variable '_=
-old_'
-> > > [-Wunused-variable]
-> > >       70 |         unsigned long _old_ =3D (unsigned long)(0 ? *(_p_)=
- : (old));              \
-> > >          |                       ^~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:91:29: note: in expans=
-ion of macro 'arch_cmpxchg'
-> > >       91 | #define raw_cmpxchg_relaxed arch_cmpxchg
-> > >          |                             ^~~~~~~~~~~~
-> > >    include/linux/atomic/atomic-arch-fallback.h:2108:16: note: in expa=
-nsion of macro 'raw_cmpxchg_relaxed'
-> > >     2108 |         return raw_cmpxchg_relaxed(&v->counter, old, new);
-> > >          |                ^~~~~~~~~~~~~~~~~~~
-> > >    make[3]: *** [scripts/Makefile.build:185: kernel/bounds.s] Error 1=
- shuffle=3D1050985161
-> > >    make[3]: Target 'prepare' not remade because of errors.
-> > >    make[2]: *** [Makefile:1425: prepare0] Error 2 shuffle=3D1050985161
-> > >    make[2]: Target 'prepare' not remade because of errors.
-> > >    make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3D10509851=
-61
-> > >    make[1]: Target 'prepare' not remade because of errors.
-> > >    make: *** [Makefile:248: __sub-make] Error 2 shuffle=3D1050985161
-> > >    make: Target 'prepare' not remade because of errors.
-> > > =
-
-> > > =
-
-> > > vim +/_new_ +71 arch/arc/include/asm/cmpxchg.h
-> > > =
-
-> > >     66	=
-
-> > >     67	#define arch_cmpxchg(ptr, old, new)				        \
-> > >     68	({									\
-> > >     69		volatile __typeof__(ptr) _p_ =3D (ptr);				\
-> > >   > 70		unsigned long _old_ =3D (unsigned long)(0 ? *(_p_) : (old));	=
-	\
-> > >   > 71		unsigned long _new_ =3D (unsigned long)(0 ? *(_p_) : (new));	=
-	\
-> > >     72		__typeof__(*(ptr)) _prev_;					\
-> > >     73		unsigned long __flags;						\
-> > >     74										\
-> > >     75		/*								\
-> > >     76		 * spin lock/unlock provide the needed smp_mb() before/after	\
-> > >     77		 */								\
-> > >     78		atomic_ops_lock(__flags);					\
-> > >     79		_prev_ =3D *_p_;							\
-> > >     80		if (_prev_ =3D=3D _o_)						\
-> > >     81			*_p_ =3D _n_;						\
-> > >     82		atomic_ops_unlock(__flags);					\
-> > >     83		_prev_;								\
-> > >     84	})
-> > >     85	=
-
-> > > =
-
-> > > --
-> > > 0-DAY CI Kernel Test Service
-> > > https://github.com/intel/lkp-tests/wiki
-> > Apparently nobody uses arc
-> =
-
-> Yes the development has slowed down compared to five years ago, but its n=
-ot
-> dead, if anything it is still my hobby project, like so many other things
-> open source and you repeating this hurts.
-> =
-
-> You stumbled onto a real issue: typeof ptr vs. *ptr which unmasked an
-> existing shortcoming.
-> @Paul can you please apply this in your tree and rebase the series on top.
-> If not I can send this fix to Linus urgently, but it will cause some
-> collisions.
-
-I tried applying this against current linux/master, v7.2, and v7.3-rc1,
-and no go.  Please let me know what you based this on.
-
-Or is this in your recent pull request from Linus?  In which case,
-I could pull that and cherry-pick this patch.
-
-							Thanx, Paul
-
-> ---------->
-> From f3e2402f62bebfa9f1ad21e23d1663a0a3e5a58d Mon Sep 17 00:00:00 2001
-> From: Vineet Gupta <vgupta@kernel.org>
-> Date: Wed, 23 Sep 2026 15:01:38 -0700
-> Subject: [PATCH] ARC: arch_cmpxchg_relaxed to use size of pointed type not
-> =A0pointer
-> =
-
-> Bradley spotted this snafu when working on two-byte cmpxchg emulation.
-> He originally folded this fix into his series but the fix itself
-> uncovered a pre-existing issue, missing arch_atomic64_cmpxchg_relaxed
-> which just needed to be wired up.
-> =
-
-> Fixes: e188f3330a13 ("ARC: cmpxchg/xchg: rewrite as macros to make type
-> safe")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes:
-> https://lore.kernel.org/oe-kbuild-all/202609240539.AkulvjVe-lkp@intel.com/
-> Suggested-by: Bradley Morgan <brads@mainlining.org>
-> Signed-off-by: Vineet Gupta <vgupta@kernel.org>
-> ---
-> =A0arch/arc/include/asm/atomic64-arcv2.h | 6 ++++++
-> =A0arch/arc/include/asm/cmpxchg.h=A0 =A0 =A0 =A0 | 4 ++--
-> =A02 files changed, 8 insertions(+), 2 deletions(-)
-> =
-
-> diff --git a/arch/arc/include/asm/atomic64-arcv2.h
-> b/arch/arc/include/asm/atomic64-arcv2.h
-> index 73080a664369..1ca4a1047fb3 100644
-> --- a/arch/arc/include/asm/atomic64-arcv2.h
-> +++ b/arch/arc/include/asm/atomic64-arcv2.h
-> @@ -156,6 +156,12 @@ static inline u64 __arch_cmpxchg64_relaxed(volatile
-> void *ptr, u64 old, u64 new)
-> =A0}
-> =A0#define arch_cmpxchg64_relaxed __arch_cmpxchg64_relaxed
-> =
-
-> +static inline s64 arch_atomic64_cmpxchg_relaxed(atomic64_t *v, s64 old, =
-s64
-> new)
-> +{
-> +=A0 =A0 return arch_cmpxchg64_relaxed(&v->counter, old, new);
-> +}
-> +#define arch_atomic64_cmpxchg_relaxed arch_atomic64_cmpxchg_relaxed
-> +
-> =A0static inline s64 arch_atomic64_xchg(atomic64_t *ptr, s64 new)
-> =A0{
-> =A0 =A0 =A0s64 prev;
-> diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxch=
-g.h
-> index 76f43db0890f..66b3743c9400 100644
-> --- a/arch/arc/include/asm/cmpxchg.h
-> +++ b/arch/arc/include/asm/cmpxchg.h
-> @@ -46,7 +46,7 @@
-> =A0 =A0 =A0__typeof__(*(ptr)) _n_ =3D (new);=A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 \
-> =A0 =A0 =A0__typeof__(*(ptr)) _prev_;=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 \
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0\
-> -=A0 =A0 switch(sizeof((_p_))) {=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 \
-> +=A0 =A0 switch (sizeof(*(_p_))) {=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 \
-> =A0 =A0 =A0case 1:=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 \
-> =A0 =A0 =A0 =A0 =A0_prev_ =3D (__typeof__(*(ptr)))cmpxchg_emu_u8((volatil=
-e u8
-> *__force)_p_, (uintptr_t)_o_, (uintptr_t)_n_);=A0 =A0 \
-> =A0 =A0 =A0 =A0 =A0break;=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 \
-> @@ -102,7 +102,7 @@
-> =A0 =A0 =A0__typeof__(ptr) _p_ =3D (ptr);=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 \
-> =A0 =A0 =A0__typeof__(*(ptr)) _val_ =3D (val);=A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 \
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0\
-> -=A0 =A0 switch(sizeof(*(_p_))) {=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 \
-> +=A0 =A0 switch (sizeof(*(_p_))) {=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- \
-> =A0 =A0 =A0case 4:=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 \
-> =A0 =A0 =A0 =A0 =A0_val_ =3D __arch_xchg(_p_, _val_);=A0 =A0 =A0 =A0 =A0 =
-=A0 \
-> =A0 =A0 =A0 =A0 =A0break;=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 \
-> -- =
-
-> 2.53.0
-> =
-
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gOS8yOS8yNiAxMjoxNiwgUGF1bCBFLiBNY0tlbm5leSB3cm90ZToKPiBPbiBXZWQsIFNlcCAy
+MywgMjAyNiBhdCAwMzoyMzo0N1BNIC0wNzAwLCBWaW5lZXQgR3VwdGEgd3JvdGU6Cj4+IE9uIDkv
+MjMvMjYgMTQ6MTMsIEJyYWRsZXkgTW9yZ2FuIHdyb3RlOgo+Pj4gT24gMjMgU2VwdGVtYmVyIDIw
+MjYgMjI6MTI6MDkgQlNULCBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4gd3JvdGU6
+Cj4+Pj4gdHJlZTogICBodHRwczovL2dpdGh1Yi5jb20vcGF1bG1ja3JjdS9saW51eCBjbXB4Y2hn
+Mi4yMDI2LjA5LjIyYQo+Pj4+IGhlYWQ6ICAgNTRjMjgyYzE1NDc1ZWJmYWU0NzEyZmUzYWI2Mzdj
+OWQxOWM3MjNkNgo+Pj4+IGNvbW1pdDogYjZkNGY2YWYzOGY4NWU3OTQ4ZmQ2NGY5YmYwOWNiYjg1
+OGI0ZGFkZSBbMjUvMjhdIEFSQzogRW11bGF0ZSB0d28tYnl0ZSBjbXB4Y2hnCj4+Pj4gY29uZmln
+OiBhcmMtcmFuZGNvbmZpZy0xMDAxLTIwMjYwOTI0IChodHRwczovL2Rvd25sb2FkLjAxLm9yZy8w
+ZGF5LWNpL2FyY2hpdmUvMjAyNjA5MjQvMjAyNjA5MjQwNTM5LkFrdWx2alZlLWxrcEBpbnRlbC5j
+b20vY29uZmlnKQo+Pj4+IGNvbXBpbGVyOiBhcmMtbGludXgtZ2NjIChHQ0MpIDE0LjMuMAo+Pj4+
+IHJlcHJvZHVjZSAodGhpcyBpcyBhIFc9MSBidWlsZCk6Cj4+Pj4gKGh0dHBzOi8vZG93bmxvYWQu
+MDEub3JnLzBkYXktY2kvYXJjaGl2ZS8yMDI2MDkyNC8yMDI2MDkyNDA1MzkuQWt1bHZqVmUtbGtw
+QGludGVsLmNvbS9yZXByb2R1Y2UpCj4+Pj4KPj4+PiBJZiB5b3UgZml4IHRoZSBpc3N1ZSBpbiBh
+IHNlcGFyYXRlIHBhdGNoL2NvbW1pdCAoaS5lLiBub3QganVzdCBhIG5ldwo+Pj4+IHZlcnNpb24g
+b2YKPj4+PiB0aGUgc2FtZSBwYXRjaC9jb21taXQpLCBraW5kbHkgYWRkIGZvbGxvd2luZyB0YWdz
+Cj4+Pj4gfCBSZXBvcnRlZC1ieToga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+Cj4+
+Pj4gfCBDbG9zZXM6Cj4+Pj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvb2Uta2J1aWxkLWFsbC8y
+MDI2MDkyNDA1MzkuQWt1bHZqVmUtbGtwQGludGVsLmNvbS8KPj4+Pgo+Pj4+IEFsbCB3YXJuaW5n
+cyAobmV3IG9uZXMgcHJlZml4ZWQgYnkgPj4pOgo+Pj4+Cj4+Pj4gICAgIEluIGZpbGUgaW5jbHVk
+ZWQgZnJvbSBhcmNoL2FyYy9pbmNsdWRlL2FzbS9hdG9taWMuaDoxMywKPj4+PiAgICAgICAgICAg
+ICAgICAgICAgICBmcm9tIGluY2x1ZGUvbGludXgvYXRvbWljLmg6NywKPj4+PiAgICAgICAgICAg
+ICAgICAgICAgICBmcm9tIGluY2x1ZGUvYXNtLWdlbmVyaWMvYml0b3BzL2xvY2suaDo1LAo+Pj4+
+ICAgICAgICAgICAgICAgICAgICAgIGZyb20gYXJjaC9hcmMvaW5jbHVkZS9hc20vYml0b3BzLmg6
+MTkwLAo+Pj4+ICAgICAgICAgICAgICAgICAgICAgIGZyb20gaW5jbHVkZS9saW51eC9iaXRvcHMu
+aDo2NywKPj4+PiAgICAgICAgICAgICAgICAgICAgICBmcm9tIGluY2x1ZGUvbGludXgvbG9nMi5o
+OjEyLAo+Pj4+ICAgICAgICAgICAgICAgICAgICAgIGZyb20ga2VybmVsL2JvdW5kcy5jOjE0Ogo+
+Pj4+ICAgICBpbmNsdWRlL2xpbnV4L2F0b21pYy9hdG9taWMtYXJjaC1mYWxsYmFjay5oOiBJbiBm
+dW5jdGlvbiAncmF3X2F0b21pY19jbXB4Y2hnJzoKPj4+PiAgICAgYXJjaC9hcmMvaW5jbHVkZS9h
+c20vY21weGNoZy5oOjgwOjIzOiBlcnJvcjogJ19vXycgdW5kZWNsYXJlZCAoZmlyc3QgdXNlIGlu
+IHRoaXMgZnVuY3Rpb24pOyBkaWQgeW91IG1lYW4gJ19wXyc/Cj4+Pj4gICAgICAgIDgwIHwgICAg
+ICAgICBpZiAoX3ByZXZfID09IF9vXykgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgXAo+Pj4+ICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICBefn4K
+Pj4+PiAgICAgaW5jbHVkZS9saW51eC9hdG9taWMvYXRvbWljLWFyY2gtZmFsbGJhY2suaDo1NToy
+MTogbm90ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3JvICdhcmNoX2NtcHhjaGcnCj4+Pj4gICAgICAg
+IDU1IHwgI2RlZmluZSByYXdfY21weGNoZyBhcmNoX2NtcHhjaGcKPj4+PiAgICAgICAgICAgfCAg
+ICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fgo+Pj4+ICAgICBpbmNsdWRlL2xpbnV4L2F0
+b21pYy9hdG9taWMtYXJjaC1mYWxsYmFjay5oOjIwMjY6MTY6IG5vdGU6IGluIGV4cGFuc2lvbiBv
+ZiBtYWNybyAncmF3X2NtcHhjaGcnCj4+Pj4gICAgICAyMDI2IHwgICAgICAgICByZXR1cm4gcmF3
+X2NtcHhjaGcoJnYtPmNvdW50ZXIsIG9sZCwgbmV3KTsKPj4+PiAgICAgICAgICAgfCAgICAgICAg
+ICAgICAgICBefn5+fn5+fn5+fgo+Pj4+ICAgICBhcmNoL2FyYy9pbmNsdWRlL2FzbS9jbXB4Y2hn
+Lmg6ODA6MjM6IG5vdGU6IGVhY2ggdW5kZWNsYXJlZCBpZGVudGlmaWVyIGlzIHJlcG9ydGVkIG9u
+bHkgb25jZSBmb3IgZWFjaCBmdW5jdGlvbiBpdCBhcHBlYXJzIGluCj4+Pj4gICAgICAgIDgwIHwg
+ICAgICAgICBpZiAoX3ByZXZfID09IF9vXykgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgXAo+Pj4+ICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICBe
+fn4KPj4+PiAgICAgaW5jbHVkZS9saW51eC9hdG9taWMvYXRvbWljLWFyY2gtZmFsbGJhY2suaDo1
+NToyMTogbm90ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3JvICdhcmNoX2NtcHhjaGcnCj4+Pj4gICAg
+ICAgIDU1IHwgI2RlZmluZSByYXdfY21weGNoZyBhcmNoX2NtcHhjaGcKPj4+PiAgICAgICAgICAg
+fCAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fgo+Pj4+ICAgICBpbmNsdWRlL2xpbnV4
+L2F0b21pYy9hdG9taWMtYXJjaC1mYWxsYmFjay5oOjIwMjY6MTY6IG5vdGU6IGluIGV4cGFuc2lv
+biBvZiBtYWNybyAncmF3X2NtcHhjaGcnCj4+Pj4gICAgICAyMDI2IHwgICAgICAgICByZXR1cm4g
+cmF3X2NtcHhjaGcoJnYtPmNvdW50ZXIsIG9sZCwgbmV3KTsKPj4+PiAgICAgICAgICAgfCAgICAg
+ICAgICAgICAgICBefn5+fn5+fn5+fgo+Pj4+ICAgICBhcmNoL2FyYy9pbmNsdWRlL2FzbS9jbXB4
+Y2hnLmg6ODE6MjQ6IGVycm9yOiAnX25fJyB1bmRlY2xhcmVkIChmaXJzdCB1c2UgaW4gdGhpcyBm
+dW5jdGlvbik7IGRpZCB5b3UgbWVhbiAnX3BfJz8KPj4+PiAgICAgICAgODEgfCAgICAgICAgICAg
+ICAgICAgKl9wXyA9IF9uXzsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBcCj4+Pj4gICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICBefn4KPj4+PiAg
+ICAgaW5jbHVkZS9saW51eC9hdG9taWMvYXRvbWljLWFyY2gtZmFsbGJhY2suaDo1NToyMTogbm90
+ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3JvICdhcmNoX2NtcHhjaGcnCj4+Pj4gICAgICAgIDU1IHwg
+I2RlZmluZSByYXdfY21weGNoZyBhcmNoX2NtcHhjaGcKPj4+PiAgICAgICAgICAgfCAgICAgICAg
+ICAgICAgICAgICAgIF5+fn5+fn5+fn5+fgo+Pj4+ICAgICBpbmNsdWRlL2xpbnV4L2F0b21pYy9h
+dG9taWMtYXJjaC1mYWxsYmFjay5oOjIwMjY6MTY6IG5vdGU6IGluIGV4cGFuc2lvbiBvZiBtYWNy
+byAncmF3X2NtcHhjaGcnCj4+Pj4gICAgICAyMDI2IHwgICAgICAgICByZXR1cm4gcmF3X2NtcHhj
+aGcoJnYtPmNvdW50ZXIsIG9sZCwgbmV3KTsKPj4+PiAgICAgICAgICAgfCAgICAgICAgICAgICAg
+ICBefn5+fn5+fn5+fgo+Pj4+Pj4gYXJjaC9hcmMvaW5jbHVkZS9hc20vY21weGNoZy5oOjcxOjIz
+OiB3YXJuaW5nOiB1bnVzZWQgdmFyaWFibGUgJ19uZXdfJwo+Pj4+IFstV3VudXNlZC12YXJpYWJs
+ZV0KPj4+PiAgICAgICAgNzEgfCAgICAgICAgIHVuc2lnbmVkIGxvbmcgX25ld18gPSAodW5zaWdu
+ZWQgbG9uZykoMCA/ICooX3BfKSA6IChuZXcpKTsgICAgICAgICAgICAgIFwKPj4+PiAgICAgICAg
+ICAgfCAgICAgICAgICAgICAgICAgICAgICAgXn5+fn4KPj4+PiAgICAgaW5jbHVkZS9saW51eC9h
+dG9taWMvYXRvbWljLWFyY2gtZmFsbGJhY2suaDo1NToyMTogbm90ZTogaW4gZXhwYW5zaW9uIG9m
+IG1hY3JvICdhcmNoX2NtcHhjaGcnCj4+Pj4gICAgICAgIDU1IHwgI2RlZmluZSByYXdfY21weGNo
+ZyBhcmNoX2NtcHhjaGcKPj4+PiAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAgIF5+fn5+
+fn5+fn5+fgo+Pj4+ICAgICBpbmNsdWRlL2xpbnV4L2F0b21pYy9hdG9taWMtYXJjaC1mYWxsYmFj
+ay5oOjIwMjY6MTY6IG5vdGU6IGluIGV4cGFuc2lvbiBvZiBtYWNybyAncmF3X2NtcHhjaGcnCj4+
+Pj4gICAgICAyMDI2IHwgICAgICAgICByZXR1cm4gcmF3X2NtcHhjaGcoJnYtPmNvdW50ZXIsIG9s
+ZCwgbmV3KTsKPj4+PiAgICAgICAgICAgfCAgICAgICAgICAgICAgICBefn5+fn5+fn5+fgo+Pj4+
+Pj4gYXJjaC9hcmMvaW5jbHVkZS9hc20vY21weGNoZy5oOjcwOjIzOiB3YXJuaW5nOiB1bnVzZWQg
+dmFyaWFibGUgJ19vbGRfJwo+Pj4+IFstV3VudXNlZC12YXJpYWJsZV0KPj4+PiAgICAgICAgNzAg
+fCAgICAgICAgIHVuc2lnbmVkIGxvbmcgX29sZF8gPSAodW5zaWduZWQgbG9uZykoMCA/ICooX3Bf
+KSA6IChvbGQpKTsgICAgICAgICAgICAgIFwKPj4+PiAgICAgICAgICAgfCAgICAgICAgICAgICAg
+ICAgICAgICAgXn5+fn4KPj4+PiAgICAgaW5jbHVkZS9saW51eC9hdG9taWMvYXRvbWljLWFyY2gt
+ZmFsbGJhY2suaDo1NToyMTogbm90ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3JvICdhcmNoX2NtcHhj
+aGcnCj4+Pj4gICAgICAgIDU1IHwgI2RlZmluZSByYXdfY21weGNoZyBhcmNoX2NtcHhjaGcKPj4+
+PiAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fgo+Pj4+ICAgICBp
+bmNsdWRlL2xpbnV4L2F0b21pYy9hdG9taWMtYXJjaC1mYWxsYmFjay5oOjIwMjY6MTY6IG5vdGU6
+IGluIGV4cGFuc2lvbiBvZiBtYWNybyAncmF3X2NtcHhjaGcnCj4+Pj4gICAgICAyMDI2IHwgICAg
+ICAgICByZXR1cm4gcmF3X2NtcHhjaGcoJnYtPmNvdW50ZXIsIG9sZCwgbmV3KTsKPj4+PiAgICAg
+ICAgICAgfCAgICAgICAgICAgICAgICBefn5+fn5+fn5+fgo+Pj4+ICAgICBpbmNsdWRlL2xpbnV4
+L2F0b21pYy9hdG9taWMtYXJjaC1mYWxsYmFjay5oOiBJbiBmdW5jdGlvbiAncmF3X2F0b21pY19j
+bXB4Y2hnX2FjcXVpcmUnOgo+Pj4+ICAgICBhcmNoL2FyYy9pbmNsdWRlL2FzbS9jbXB4Y2hnLmg6
+ODA6MjM6IGVycm9yOiAnX29fJyB1bmRlY2xhcmVkIChmaXJzdCB1c2UgaW4gdGhpcyBmdW5jdGlv
+bik7IGRpZCB5b3UgbWVhbiAnX3BfJz8KPj4+PiAgICAgICAgODAgfCAgICAgICAgIGlmIChfcHJl
+dl8gPT0gX29fKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBc
+Cj4+Pj4gICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgIF5+fgo+Pj4+ICAgICBpbmNs
+dWRlL2xpbnV4L2F0b21pYy9hdG9taWMtYXJjaC1mYWxsYmFjay5oOjcwOjI5OiBub3RlOiBpbiBl
+eHBhbnNpb24gb2YgbWFjcm8gJ2FyY2hfY21weGNoZycKPj4+PiAgICAgICAgNzAgfCAjZGVmaW5l
+IHJhd19jbXB4Y2hnX2FjcXVpcmUgYXJjaF9jbXB4Y2hnCj4+Pj4gICAgICAgICAgIHwgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fgo+Pj4+ICAgICBpbmNsdWRlL2xpbnV4
+L2F0b21pYy9hdG9taWMtYXJjaC1mYWxsYmFjay5oOjIwNTU6MTY6IG5vdGU6IGluIGV4cGFuc2lv
+biBvZiBtYWNybyAncmF3X2NtcHhjaGdfYWNxdWlyZScKPj4+PiAgICAgIDIwNTUgfCAgICAgICAg
+IHJldHVybiByYXdfY21weGNoZ19hY3F1aXJlKCZ2LT5jb3VudGVyLCBvbGQsIG5ldyk7Cj4+Pj4g
+ICAgICAgICAgIHwgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fgo+Pj4+ICAgICBh
+cmNoL2FyYy9pbmNsdWRlL2FzbS9jbXB4Y2hnLmg6ODE6MjQ6IGVycm9yOiAnX25fJyB1bmRlY2xh
+cmVkIChmaXJzdCB1c2UgaW4gdGhpcyBmdW5jdGlvbik7IGRpZCB5b3UgbWVhbiAnX3BfJz8KPj4+
+PiAgICAgICAgODEgfCAgICAgICAgICAgICAgICAgKl9wXyA9IF9uXzsgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCj4+Pj4gICAgICAgICAgIHwgICAgICAgICAg
+ICAgICAgICAgICAgICBefn4KPj4+PiAgICAgaW5jbHVkZS9saW51eC9hdG9taWMvYXRvbWljLWFy
+Y2gtZmFsbGJhY2suaDo3MDoyOTogbm90ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3JvICdhcmNoX2Nt
+cHhjaGcnCj4+Pj4gICAgICAgIDcwIHwgI2RlZmluZSByYXdfY21weGNoZ19hY3F1aXJlIGFyY2hf
+Y21weGNoZwo+Pj4+ICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBefn5+
+fn5+fn5+fn4KPj4+PiAgICAgaW5jbHVkZS9saW51eC9hdG9taWMvYXRvbWljLWFyY2gtZmFsbGJh
+Y2suaDoyMDU1OjE2OiBub3RlOiBpbiBleHBhbnNpb24gb2YgbWFjcm8gJ3Jhd19jbXB4Y2hnX2Fj
+cXVpcmUnCj4+Pj4gICAgICAyMDU1IHwgICAgICAgICByZXR1cm4gcmF3X2NtcHhjaGdfYWNxdWly
+ZSgmdi0+Y291bnRlciwgb2xkLCBuZXcpOwo+Pj4+ICAgICAgICAgICB8ICAgICAgICAgICAgICAg
+IF5+fn5+fn5+fn5+fn5+fn5+fn4KPj4+Pj4+IGFyY2gvYXJjL2luY2x1ZGUvYXNtL2NtcHhjaGcu
+aDo3MToyMzogd2FybmluZzogdW51c2VkIHZhcmlhYmxlICdfbmV3XycKPj4+PiBbLVd1bnVzZWQt
+dmFyaWFibGVdCj4+Pj4gICAgICAgIDcxIHwgICAgICAgICB1bnNpZ25lZCBsb25nIF9uZXdfID0g
+KHVuc2lnbmVkIGxvbmcpKDAgPyAqKF9wXykgOiAobmV3KSk7ICAgICAgICAgICAgICBcCj4+Pj4g
+ICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+Cj4+Pj4gICAgIGluY2x1ZGUv
+bGludXgvYXRvbWljL2F0b21pYy1hcmNoLWZhbGxiYWNrLmg6NzA6Mjk6IG5vdGU6IGluIGV4cGFu
+c2lvbiBvZiBtYWNybyAnYXJjaF9jbXB4Y2hnJwo+Pj4+ICAgICAgICA3MCB8ICNkZWZpbmUgcmF3
+X2NtcHhjaGdfYWNxdWlyZSBhcmNoX2NtcHhjaGcKPj4+PiAgICAgICAgICAgfCAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+Cj4+Pj4gICAgIGluY2x1ZGUvbGludXgvYXRv
+bWljL2F0b21pYy1hcmNoLWZhbGxiYWNrLmg6MjA1NToxNjogbm90ZTogaW4gZXhwYW5zaW9uIG9m
+IG1hY3JvICdyYXdfY21weGNoZ19hY3F1aXJlJwo+Pj4+ICAgICAgMjA1NSB8ICAgICAgICAgcmV0
+dXJuIHJhd19jbXB4Y2hnX2FjcXVpcmUoJnYtPmNvdW50ZXIsIG9sZCwgbmV3KTsKPj4+PiAgICAg
+ICAgICAgfCAgICAgICAgICAgICAgICBefn5+fn5+fn5+fn5+fn5+fn5+Cj4+Pj4+PiBhcmNoL2Fy
+Yy9pbmNsdWRlL2FzbS9jbXB4Y2hnLmg6NzA6MjM6IHdhcm5pbmc6IHVudXNlZCB2YXJpYWJsZSAn
+X29sZF8nCj4+Pj4gWy1XdW51c2VkLXZhcmlhYmxlXQo+Pj4+ICAgICAgICA3MCB8ICAgICAgICAg
+dW5zaWduZWQgbG9uZyBfb2xkXyA9ICh1bnNpZ25lZCBsb25nKSgwID8gKihfcF8pIDogKG9sZCkp
+OyAgICAgICAgICAgICAgXAo+Pj4+ICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICBe
+fn5+fgo+Pj4+ICAgICBpbmNsdWRlL2xpbnV4L2F0b21pYy9hdG9taWMtYXJjaC1mYWxsYmFjay5o
+OjcwOjI5OiBub3RlOiBpbiBleHBhbnNpb24gb2YgbWFjcm8gJ2FyY2hfY21weGNoZycKPj4+PiAg
+ICAgICAgNzAgfCAjZGVmaW5lIHJhd19jbXB4Y2hnX2FjcXVpcmUgYXJjaF9jbXB4Y2hnCj4+Pj4g
+ICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fgo+Pj4+
+ICAgICBpbmNsdWRlL2xpbnV4L2F0b21pYy9hdG9taWMtYXJjaC1mYWxsYmFjay5oOjIwNTU6MTY6
+IG5vdGU6IGluIGV4cGFuc2lvbiBvZiBtYWNybyAncmF3X2NtcHhjaGdfYWNxdWlyZScKPj4+PiAg
+ICAgIDIwNTUgfCAgICAgICAgIHJldHVybiByYXdfY21weGNoZ19hY3F1aXJlKCZ2LT5jb3VudGVy
+LCBvbGQsIG5ldyk7Cj4+Pj4gICAgICAgICAgIHwgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+
+fn5+fn5+fgo+Pj4+ICAgICBpbmNsdWRlL2xpbnV4L2F0b21pYy9hdG9taWMtYXJjaC1mYWxsYmFj
+ay5oOiBJbiBmdW5jdGlvbiAncmF3X2F0b21pY19jbXB4Y2hnX3JlbGVhc2UnOgo+Pj4+ICAgICBh
+cmNoL2FyYy9pbmNsdWRlL2FzbS9jbXB4Y2hnLmg6ODA6MjM6IGVycm9yOiAnX29fJyB1bmRlY2xh
+cmVkIChmaXJzdCB1c2UgaW4gdGhpcyBmdW5jdGlvbik7IGRpZCB5b3UgbWVhbiAnX3BfJz8KPj4+
+PiAgICAgICAgODAgfCAgICAgICAgIGlmIChfcHJldl8gPT0gX29fKSAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCj4+Pj4gICAgICAgICAgIHwgICAgICAgICAg
+ICAgICAgICAgICAgIF5+fgo+Pj4+ICAgICBpbmNsdWRlL2xpbnV4L2F0b21pYy9hdG9taWMtYXJj
+aC1mYWxsYmFjay5oOjgyOjI5OiBub3RlOiBpbiBleHBhbnNpb24gb2YgbWFjcm8gJ2FyY2hfY21w
+eGNoZycKPj4+PiAgICAgICAgODIgfCAjZGVmaW5lIHJhd19jbXB4Y2hnX3JlbGVhc2UgYXJjaF9j
+bXB4Y2hnCj4+Pj4gICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+
+fn5+fn5+fgo+Pj4+ICAgICBpbmNsdWRlL2xpbnV4L2F0b21pYy9hdG9taWMtYXJjaC1mYWxsYmFj
+ay5oOjIwODM6MTY6IG5vdGU6IGluIGV4cGFuc2lvbiBvZiBtYWNybyAncmF3X2NtcHhjaGdfcmVs
+ZWFzZScKPj4+PiAgICAgIDIwODMgfCAgICAgICAgIHJldHVybiByYXdfY21weGNoZ19yZWxlYXNl
+KCZ2LT5jb3VudGVyLCBvbGQsIG5ldyk7Cj4+Pj4gICAgICAgICAgIHwgICAgICAgICAgICAgICAg
+Xn5+fn5+fn5+fn5+fn5+fn5+fgo+Pj4+ICAgICBhcmNoL2FyYy9pbmNsdWRlL2FzbS9jbXB4Y2hn
+Lmg6ODE6MjQ6IGVycm9yOiAnX25fJyB1bmRlY2xhcmVkIChmaXJzdCB1c2UgaW4gdGhpcyBmdW5j
+dGlvbik7IGRpZCB5b3UgbWVhbiAnX3BfJz8KPj4+PiAgICAgICAgODEgfCAgICAgICAgICAgICAg
+ICAgKl9wXyA9IF9uXzsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBcCj4+Pj4gICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICBefn4KPj4+PiAgICAg
+aW5jbHVkZS9saW51eC9hdG9taWMvYXRvbWljLWFyY2gtZmFsbGJhY2suaDo4MjoyOTogbm90ZTog
+aW4gZXhwYW5zaW9uIG9mIG1hY3JvICdhcmNoX2NtcHhjaGcnCj4+Pj4gICAgICAgIDgyIHwgI2Rl
+ZmluZSByYXdfY21weGNoZ19yZWxlYXNlIGFyY2hfY21weGNoZwo+Pj4+ICAgICAgICAgICB8ICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+fn5+fn4KPj4+PiAgICAgaW5jbHVkZS9s
+aW51eC9hdG9taWMvYXRvbWljLWFyY2gtZmFsbGJhY2suaDoyMDgzOjE2OiBub3RlOiBpbiBleHBh
+bnNpb24gb2YgbWFjcm8gJ3Jhd19jbXB4Y2hnX3JlbGVhc2UnCj4+Pj4gICAgICAyMDgzIHwgICAg
+ICAgICByZXR1cm4gcmF3X2NtcHhjaGdfcmVsZWFzZSgmdi0+Y291bnRlciwgb2xkLCBuZXcpOwo+
+Pj4+ICAgICAgICAgICB8ICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn5+fn4KPj4+Pj4+
+IGFyY2gvYXJjL2luY2x1ZGUvYXNtL2NtcHhjaGcuaDo3MToyMzogd2FybmluZzogdW51c2VkIHZh
+cmlhYmxlICdfbmV3XycKPj4+PiBbLVd1bnVzZWQtdmFyaWFibGVdCj4+Pj4gICAgICAgIDcxIHwg
+ICAgICAgICB1bnNpZ25lZCBsb25nIF9uZXdfID0gKHVuc2lnbmVkIGxvbmcpKDAgPyAqKF9wXykg
+OiAobmV3KSk7ICAgICAgICAgICAgICBcCj4+Pj4gICAgICAgICAgIHwgICAgICAgICAgICAgICAg
+ICAgICAgIF5+fn5+Cj4+Pj4gICAgIGluY2x1ZGUvbGludXgvYXRvbWljL2F0b21pYy1hcmNoLWZh
+bGxiYWNrLmg6ODI6Mjk6IG5vdGU6IGluIGV4cGFuc2lvbiBvZiBtYWNybyAnYXJjaF9jbXB4Y2hn
+Jwo+Pj4+ICAgICAgICA4MiB8ICNkZWZpbmUgcmF3X2NtcHhjaGdfcmVsZWFzZSBhcmNoX2NtcHhj
+aGcKPj4+PiAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+
+fn5+Cj4+Pj4gICAgIGluY2x1ZGUvbGludXgvYXRvbWljL2F0b21pYy1hcmNoLWZhbGxiYWNrLmg6
+MjA4MzoxNjogbm90ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3JvICdyYXdfY21weGNoZ19yZWxlYXNl
+Jwo+Pj4+ICAgICAgMjA4MyB8ICAgICAgICAgcmV0dXJuIHJhd19jbXB4Y2hnX3JlbGVhc2UoJnYt
+PmNvdW50ZXIsIG9sZCwgbmV3KTsKPj4+PiAgICAgICAgICAgfCAgICAgICAgICAgICAgICBefn5+
+fn5+fn5+fn5+fn5+fn5+Cj4+Pj4+PiBhcmNoL2FyYy9pbmNsdWRlL2FzbS9jbXB4Y2hnLmg6NzA6
+MjM6IHdhcm5pbmc6IHVudXNlZCB2YXJpYWJsZSAnX29sZF8nCj4+Pj4gWy1XdW51c2VkLXZhcmlh
+YmxlXQo+Pj4+ICAgICAgICA3MCB8ICAgICAgICAgdW5zaWduZWQgbG9uZyBfb2xkXyA9ICh1bnNp
+Z25lZCBsb25nKSgwID8gKihfcF8pIDogKG9sZCkpOyAgICAgICAgICAgICAgXAo+Pj4+ICAgICAg
+ICAgICB8ICAgICAgICAgICAgICAgICAgICAgICBefn5+fgo+Pj4+ICAgICBpbmNsdWRlL2xpbnV4
+L2F0b21pYy9hdG9taWMtYXJjaC1mYWxsYmFjay5oOjgyOjI5OiBub3RlOiBpbiBleHBhbnNpb24g
+b2YgbWFjcm8gJ2FyY2hfY21weGNoZycKPj4+PiAgICAgICAgODIgfCAjZGVmaW5lIHJhd19jbXB4
+Y2hnX3JlbGVhc2UgYXJjaF9jbXB4Y2hnCj4+Pj4gICAgICAgICAgIHwgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIF5+fn5+fn5+fn5+fgo+Pj4+ICAgICBpbmNsdWRlL2xpbnV4L2F0b21pYy9h
+dG9taWMtYXJjaC1mYWxsYmFjay5oOjIwODM6MTY6IG5vdGU6IGluIGV4cGFuc2lvbiBvZiBtYWNy
+byAncmF3X2NtcHhjaGdfcmVsZWFzZScKPj4+PiAgICAgIDIwODMgfCAgICAgICAgIHJldHVybiBy
+YXdfY21weGNoZ19yZWxlYXNlKCZ2LT5jb3VudGVyLCBvbGQsIG5ldyk7Cj4+Pj4gICAgICAgICAg
+IHwgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fgo+Pj4+ICAgICBpbmNsdWRlL2xp
+bnV4L2F0b21pYy9hdG9taWMtYXJjaC1mYWxsYmFjay5oOiBJbiBmdW5jdGlvbiAncmF3X2F0b21p
+Y19jbXB4Y2hnX3JlbGF4ZWQnOgo+Pj4+ICAgICBhcmNoL2FyYy9pbmNsdWRlL2FzbS9jbXB4Y2hn
+Lmg6ODA6MjM6IGVycm9yOiAnX29fJyB1bmRlY2xhcmVkIChmaXJzdCB1c2UgaW4gdGhpcyBmdW5j
+dGlvbik7IGRpZCB5b3UgbWVhbiAnX3BfJz8KPj4+PiAgICAgICAgODAgfCAgICAgICAgIGlmIChf
+cHJldl8gPT0gX29fKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBcCj4+Pj4gICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgIF5+fgo+Pj4+ICAgICBp
+bmNsdWRlL2xpbnV4L2F0b21pYy9hdG9taWMtYXJjaC1mYWxsYmFjay5oOjkxOjI5OiBub3RlOiBp
+biBleHBhbnNpb24gb2YgbWFjcm8gJ2FyY2hfY21weGNoZycKPj4+PiAgICAgICAgOTEgfCAjZGVm
+aW5lIHJhd19jbXB4Y2hnX3JlbGF4ZWQgYXJjaF9jbXB4Y2hnCj4+Pj4gICAgICAgICAgIHwgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fgo+Pj4+ICAgICBpbmNsdWRlL2xp
+bnV4L2F0b21pYy9hdG9taWMtYXJjaC1mYWxsYmFjay5oOjIxMDg6MTY6IG5vdGU6IGluIGV4cGFu
+c2lvbiBvZiBtYWNybyAncmF3X2NtcHhjaGdfcmVsYXhlZCcKPj4+PiAgICAgIDIxMDggfCAgICAg
+ICAgIHJldHVybiByYXdfY21weGNoZ19yZWxheGVkKCZ2LT5jb3VudGVyLCBvbGQsIG5ldyk7Cj4+
+Pj4gICAgICAgICAgIHwgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fgo+Pj4+ICAg
+ICBhcmNoL2FyYy9pbmNsdWRlL2FzbS9jbXB4Y2hnLmg6ODE6MjQ6IGVycm9yOiAnX25fJyB1bmRl
+Y2xhcmVkIChmaXJzdCB1c2UgaW4gdGhpcyBmdW5jdGlvbik7IGRpZCB5b3UgbWVhbiAnX3BfJz8K
+Pj4+PiAgICAgICAgODEgfCAgICAgICAgICAgICAgICAgKl9wXyA9IF9uXzsgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCj4+Pj4gICAgICAgICAgIHwgICAgICAg
+ICAgICAgICAgICAgICAgICBefn4KPj4+PiAgICAgaW5jbHVkZS9saW51eC9hdG9taWMvYXRvbWlj
+LWFyY2gtZmFsbGJhY2suaDo5MToyOTogbm90ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3JvICdhcmNo
+X2NtcHhjaGcnCj4+Pj4gICAgICAgIDkxIHwgI2RlZmluZSByYXdfY21weGNoZ19yZWxheGVkIGFy
+Y2hfY21weGNoZwo+Pj4+ICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBe
+fn5+fn5+fn5+fn4KPj4+PiAgICAgaW5jbHVkZS9saW51eC9hdG9taWMvYXRvbWljLWFyY2gtZmFs
+bGJhY2suaDoyMTA4OjE2OiBub3RlOiBpbiBleHBhbnNpb24gb2YgbWFjcm8gJ3Jhd19jbXB4Y2hn
+X3JlbGF4ZWQnCj4+Pj4gICAgICAyMTA4IHwgICAgICAgICByZXR1cm4gcmF3X2NtcHhjaGdfcmVs
+YXhlZCgmdi0+Y291bnRlciwgb2xkLCBuZXcpOwo+Pj4+ICAgICAgICAgICB8ICAgICAgICAgICAg
+ICAgIF5+fn5+fn5+fn5+fn5+fn5+fn4KPj4+Pj4+IGFyY2gvYXJjL2luY2x1ZGUvYXNtL2NtcHhj
+aGcuaDo3MToyMzogd2FybmluZzogdW51c2VkIHZhcmlhYmxlICdfbmV3XycKPj4+PiBbLVd1bnVz
+ZWQtdmFyaWFibGVdCj4+Pj4gICAgICAgIDcxIHwgICAgICAgICB1bnNpZ25lZCBsb25nIF9uZXdf
+ID0gKHVuc2lnbmVkIGxvbmcpKDAgPyAqKF9wXykgOiAobmV3KSk7ICAgICAgICAgICAgICBcCj4+
+Pj4gICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+Cj4+Pj4gICAgIGluY2x1
+ZGUvbGludXgvYXRvbWljL2F0b21pYy1hcmNoLWZhbGxiYWNrLmg6OTE6Mjk6IG5vdGU6IGluIGV4
+cGFuc2lvbiBvZiBtYWNybyAnYXJjaF9jbXB4Y2hnJwo+Pj4+ICAgICAgICA5MSB8ICNkZWZpbmUg
+cmF3X2NtcHhjaGdfcmVsYXhlZCBhcmNoX2NtcHhjaGcKPj4+PiAgICAgICAgICAgfCAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+Cj4+Pj4gICAgIGluY2x1ZGUvbGludXgv
+YXRvbWljL2F0b21pYy1hcmNoLWZhbGxiYWNrLmg6MjEwODoxNjogbm90ZTogaW4gZXhwYW5zaW9u
+IG9mIG1hY3JvICdyYXdfY21weGNoZ19yZWxheGVkJwo+Pj4+ICAgICAgMjEwOCB8ICAgICAgICAg
+cmV0dXJuIHJhd19jbXB4Y2hnX3JlbGF4ZWQoJnYtPmNvdW50ZXIsIG9sZCwgbmV3KTsKPj4+PiAg
+ICAgICAgICAgfCAgICAgICAgICAgICAgICBefn5+fn5+fn5+fn5+fn5+fn5+Cj4+Pj4+PiBhcmNo
+L2FyYy9pbmNsdWRlL2FzbS9jbXB4Y2hnLmg6NzA6MjM6IHdhcm5pbmc6IHVudXNlZCB2YXJpYWJs
+ZSAnX29sZF8nCj4+Pj4gWy1XdW51c2VkLXZhcmlhYmxlXQo+Pj4+ICAgICAgICA3MCB8ICAgICAg
+ICAgdW5zaWduZWQgbG9uZyBfb2xkXyA9ICh1bnNpZ25lZCBsb25nKSgwID8gKihfcF8pIDogKG9s
+ZCkpOyAgICAgICAgICAgICAgXAo+Pj4+ICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAg
+ICBefn5+fgo+Pj4+ICAgICBpbmNsdWRlL2xpbnV4L2F0b21pYy9hdG9taWMtYXJjaC1mYWxsYmFj
+ay5oOjkxOjI5OiBub3RlOiBpbiBleHBhbnNpb24gb2YgbWFjcm8gJ2FyY2hfY21weGNoZycKPj4+
+PiAgICAgICAgOTEgfCAjZGVmaW5lIHJhd19jbXB4Y2hnX3JlbGF4ZWQgYXJjaF9jbXB4Y2hnCj4+
+Pj4gICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fgo+
+Pj4+ICAgICBpbmNsdWRlL2xpbnV4L2F0b21pYy9hdG9taWMtYXJjaC1mYWxsYmFjay5oOjIxMDg6
+MTY6IG5vdGU6IGluIGV4cGFuc2lvbiBvZiBtYWNybyAncmF3X2NtcHhjaGdfcmVsYXhlZCcKPj4+
+PiAgICAgIDIxMDggfCAgICAgICAgIHJldHVybiByYXdfY21weGNoZ19yZWxheGVkKCZ2LT5jb3Vu
+dGVyLCBvbGQsIG5ldyk7Cj4+Pj4gICAgICAgICAgIHwgICAgICAgICAgICAgICAgXn5+fn5+fn5+
+fn5+fn5+fn5+fgo+Pj4+ICAgICBtYWtlWzNdOiAqKiogW3NjcmlwdHMvTWFrZWZpbGUuYnVpbGQ6
+MTg1OiBrZXJuZWwvYm91bmRzLnNdIEVycm9yIDEgc2h1ZmZsZT0xMDUwOTg1MTYxCj4+Pj4gICAg
+IG1ha2VbM106IFRhcmdldCAncHJlcGFyZScgbm90IHJlbWFkZSBiZWNhdXNlIG9mIGVycm9ycy4K
+Pj4+PiAgICAgbWFrZVsyXTogKioqIFtNYWtlZmlsZToxNDI1OiBwcmVwYXJlMF0gRXJyb3IgMiBz
+aHVmZmxlPTEwNTA5ODUxNjEKPj4+PiAgICAgbWFrZVsyXTogVGFyZ2V0ICdwcmVwYXJlJyBub3Qg
+cmVtYWRlIGJlY2F1c2Ugb2YgZXJyb3JzLgo+Pj4+ICAgICBtYWtlWzFdOiAqKiogW01ha2VmaWxl
+OjI0ODogX19zdWItbWFrZV0gRXJyb3IgMiBzaHVmZmxlPTEwNTA5ODUxNjEKPj4+PiAgICAgbWFr
+ZVsxXTogVGFyZ2V0ICdwcmVwYXJlJyBub3QgcmVtYWRlIGJlY2F1c2Ugb2YgZXJyb3JzLgo+Pj4+
+ICAgICBtYWtlOiAqKiogW01ha2VmaWxlOjI0ODogX19zdWItbWFrZV0gRXJyb3IgMiBzaHVmZmxl
+PTEwNTA5ODUxNjEKPj4+PiAgICAgbWFrZTogVGFyZ2V0ICdwcmVwYXJlJyBub3QgcmVtYWRlIGJl
+Y2F1c2Ugb2YgZXJyb3JzLgo+Pj4+Cj4+Pj4KPj4+PiB2aW0gKy9fbmV3XyArNzEgYXJjaC9hcmMv
+aW5jbHVkZS9hc20vY21weGNoZy5oCj4+Pj4KPj4+PiAgICAgIDY2CQo+Pj4+ICAgICAgNjcJI2Rl
+ZmluZSBhcmNoX2NtcHhjaGcocHRyLCBvbGQsIG5ldykJCQkJICAgICAgICBcCj4+Pj4gICAgICA2
+OAkoewkJCQkJCQkJCVwKPj4+PiAgICAgIDY5CQl2b2xhdGlsZSBfX3R5cGVvZl9fKHB0cikgX3Bf
+ID0gKHB0cik7CQkJCVwKPj4+PiAgICA+IDcwCQl1bnNpZ25lZCBsb25nIF9vbGRfID0gKHVuc2ln
+bmVkIGxvbmcpKDAgPyAqKF9wXykgOiAob2xkKSk7CQlcCj4+Pj4gICAgPiA3MQkJdW5zaWduZWQg
+bG9uZyBfbmV3XyA9ICh1bnNpZ25lZCBsb25nKSgwID8gKihfcF8pIDogKG5ldykpOwkJXAo+Pj4+
+ICAgICAgNzIJCV9fdHlwZW9mX18oKihwdHIpKSBfcHJldl87CQkJCQlcCj4+Pj4gICAgICA3MwkJ
+dW5zaWduZWQgbG9uZyBfX2ZsYWdzOwkJCQkJCVwKPj4+PiAgICAgIDc0CQkJCQkJCQkJCVwKPj4+
+PiAgICAgIDc1CQkvKgkJCQkJCQkJXAo+Pj4+ICAgICAgNzYJCSAqIHNwaW4gbG9jay91bmxvY2sg
+cHJvdmlkZSB0aGUgbmVlZGVkIHNtcF9tYigpIGJlZm9yZS9hZnRlcglcCj4+Pj4gICAgICA3NwkJ
+ICovCQkJCQkJCQlcCj4+Pj4gICAgICA3OAkJYXRvbWljX29wc19sb2NrKF9fZmxhZ3MpOwkJCQkJ
+XAo+Pj4+ICAgICAgNzkJCV9wcmV2XyA9ICpfcF87CQkJCQkJCVwKPj4+PiAgICAgIDgwCQlpZiAo
+X3ByZXZfID09IF9vXykJCQkJCQlcCj4+Pj4gICAgICA4MQkJCSpfcF8gPSBfbl87CQkJCQkJXAo+
+Pj4+ICAgICAgODIJCWF0b21pY19vcHNfdW5sb2NrKF9fZmxhZ3MpOwkJCQkJXAo+Pj4+ICAgICAg
+ODMJCV9wcmV2XzsJCQkJCQkJCVwKPj4+PiAgICAgIDg0CX0pCj4+Pj4gICAgICA4NQkKPj4+Pgo+
+Pj4+IC0tCj4+Pj4gMC1EQVkgQ0kgS2VybmVsIFRlc3QgU2VydmljZQo+Pj4+IGh0dHBzOi8vZ2l0
+aHViLmNvbS9pbnRlbC9sa3AtdGVzdHMvd2lraQo+Pj4gQXBwYXJlbnRseSBub2JvZHkgdXNlcyBh
+cmMKPj4gWWVzIHRoZSBkZXZlbG9wbWVudCBoYXMgc2xvd2VkIGRvd24gY29tcGFyZWQgdG8gZml2
+ZSB5ZWFycyBhZ28sIGJ1dCBpdHMgbm90Cj4+IGRlYWQsIGlmIGFueXRoaW5nIGl0IGlzIHN0aWxs
+IG15IGhvYmJ5IHByb2plY3QsIGxpa2Ugc28gbWFueSBvdGhlciB0aGluZ3MKPj4gb3BlbiBzb3Vy
+Y2UgYW5kIHlvdSByZXBlYXRpbmcgdGhpcyBodXJ0cy4KPj4KPj4gWW91IHN0dW1ibGVkIG9udG8g
+YSByZWFsIGlzc3VlOiB0eXBlb2YgcHRyIHZzLiAqcHRyIHdoaWNoIHVubWFza2VkIGFuCj4+IGV4
+aXN0aW5nIHNob3J0Y29taW5nLgo+PiBAUGF1bCBjYW4geW91IHBsZWFzZSBhcHBseSB0aGlzIGlu
+IHlvdXIgdHJlZSBhbmQgcmViYXNlIHRoZSBzZXJpZXMgb24gdG9wLgo+PiBJZiBub3QgSSBjYW4g
+c2VuZCB0aGlzIGZpeCB0byBMaW51cyB1cmdlbnRseSwgYnV0IGl0IHdpbGwgY2F1c2Ugc29tZQo+
+PiBjb2xsaXNpb25zLgo+IEkgdHJpZWQgYXBwbHlpbmcgdGhpcyBhZ2FpbnN0IGN1cnJlbnQgbGlu
+dXgvbWFzdGVyLCB2Ny4yLCBhbmQgdjcuMy1yYzEsCj4gYW5kIG5vIGdvLiAgUGxlYXNlIGxldCBt
+ZSBrbm93IHdoYXQgeW91IGJhc2VkIHRoaXMgb24uCj4KPiBPciBpcyB0aGlzIGluIHlvdXIgcmVj
+ZW50IHB1bGwgcmVxdWVzdCBmcm9tIExpbnVzPyAgSW4gd2hpY2ggY2FzZSwKPiBJIGNvdWxkIHB1
+bGwgdGhhdCBhbmQgY2hlcnJ5LXBpY2sgdGhpcyBwYXRjaC4KCkl0cyB0aGUgbGF0dGVyLgoKVGh4
+LAotVmluZWV0Cgo+Cj4gCQkJCQkJCVRoYW54LCBQYXVsCj4KPj4gLS0tLS0tLS0tLT4KPj4gIEZy
+b20gZjNlMjQwMmY2MmJlYmZhOWYxYWQyMWUyM2QxNjYzYTBhM2U1YTU4ZCBNb24gU2VwIDE3IDAw
+OjAwOjAwIDIwMDEKPj4gRnJvbTogVmluZWV0IEd1cHRhIDx2Z3VwdGFAa2VybmVsLm9yZz4KPj4g
+RGF0ZTogV2VkLCAyMyBTZXAgMjAyNiAxNTowMTozOCAtMDcwMAo+PiBTdWJqZWN0OiBbUEFUQ0hd
+IEFSQzogYXJjaF9jbXB4Y2hnX3JlbGF4ZWQgdG8gdXNlIHNpemUgb2YgcG9pbnRlZCB0eXBlIG5v
+dAo+PiAgwqBwb2ludGVyCj4+Cj4+IEJyYWRsZXkgc3BvdHRlZCB0aGlzIHNuYWZ1IHdoZW4gd29y
+a2luZyBvbiB0d28tYnl0ZSBjbXB4Y2hnIGVtdWxhdGlvbi4KPj4gSGUgb3JpZ2luYWxseSBmb2xk
+ZWQgdGhpcyBmaXggaW50byBoaXMgc2VyaWVzIGJ1dCB0aGUgZml4IGl0c2VsZgo+PiB1bmNvdmVy
+ZWQgYSBwcmUtZXhpc3RpbmcgaXNzdWUsIG1pc3NpbmcgYXJjaF9hdG9taWM2NF9jbXB4Y2hnX3Jl
+bGF4ZWQKPj4gd2hpY2gganVzdCBuZWVkZWQgdG8gYmUgd2lyZWQgdXAuCj4+Cj4+IEZpeGVzOiBl
+MTg4ZjMzMzBhMTMgKCJBUkM6IGNtcHhjaGcveGNoZzogcmV3cml0ZSBhcyBtYWNyb3MgdG8gbWFr
+ZSB0eXBlCj4+IHNhZmUiKQo+PiBSZXBvcnRlZC1ieToga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBp
+bnRlbC5jb20+Cj4+IENsb3NlczoKPj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvb2Uta2J1aWxk
+LWFsbC8yMDI2MDkyNDA1MzkuQWt1bHZqVmUtbGtwQGludGVsLmNvbS8KPj4gU3VnZ2VzdGVkLWJ5
+OiBCcmFkbGV5IE1vcmdhbiA8YnJhZHNAbWFpbmxpbmluZy5vcmc+Cj4+IFNpZ25lZC1vZmYtYnk6
+IFZpbmVldCBHdXB0YSA8dmd1cHRhQGtlcm5lbC5vcmc+Cj4+IC0tLQo+PiAgwqBhcmNoL2FyYy9p
+bmNsdWRlL2FzbS9hdG9taWM2NC1hcmN2Mi5oIHwgNiArKysrKysKPj4gIMKgYXJjaC9hcmMvaW5j
+bHVkZS9hc20vY21weGNoZy5owqAgwqAgwqAgwqAgfCA0ICsrLS0KPj4gIMKgMiBmaWxlcyBjaGFu
+Z2VkLCA4IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4+Cj4+IGRpZmYgLS1naXQgYS9h
+cmNoL2FyYy9pbmNsdWRlL2FzbS9hdG9taWM2NC1hcmN2Mi5oCj4+IGIvYXJjaC9hcmMvaW5jbHVk
+ZS9hc20vYXRvbWljNjQtYXJjdjIuaAo+PiBpbmRleCA3MzA4MGE2NjQzNjkuLjFjYTRhMTA0N2Zi
+MyAxMDA2NDQKPj4gLS0tIGEvYXJjaC9hcmMvaW5jbHVkZS9hc20vYXRvbWljNjQtYXJjdjIuaAo+
+PiArKysgYi9hcmNoL2FyYy9pbmNsdWRlL2FzbS9hdG9taWM2NC1hcmN2Mi5oCj4+IEBAIC0xNTYs
+NiArMTU2LDEyIEBAIHN0YXRpYyBpbmxpbmUgdTY0IF9fYXJjaF9jbXB4Y2hnNjRfcmVsYXhlZCh2
+b2xhdGlsZQo+PiB2b2lkICpwdHIsIHU2NCBvbGQsIHU2NCBuZXcpCj4+ICDCoH0KPj4gIMKgI2Rl
+ZmluZSBhcmNoX2NtcHhjaGc2NF9yZWxheGVkIF9fYXJjaF9jbXB4Y2hnNjRfcmVsYXhlZAo+Pgo+
+PiArc3RhdGljIGlubGluZSBzNjQgYXJjaF9hdG9taWM2NF9jbXB4Y2hnX3JlbGF4ZWQoYXRvbWlj
+NjRfdCAqdiwgczY0IG9sZCwgczY0Cj4+IG5ldykKPj4gK3sKPj4gK8KgIMKgIHJldHVybiBhcmNo
+X2NtcHhjaGc2NF9yZWxheGVkKCZ2LT5jb3VudGVyLCBvbGQsIG5ldyk7Cj4+ICt9Cj4+ICsjZGVm
+aW5lIGFyY2hfYXRvbWljNjRfY21weGNoZ19yZWxheGVkIGFyY2hfYXRvbWljNjRfY21weGNoZ19y
+ZWxheGVkCj4+ICsKPj4gIMKgc3RhdGljIGlubGluZSBzNjQgYXJjaF9hdG9taWM2NF94Y2hnKGF0
+b21pYzY0X3QgKnB0ciwgczY0IG5ldykKPj4gIMKgewo+PiAgwqAgwqAgwqBzNjQgcHJldjsKPj4g
+ZGlmZiAtLWdpdCBhL2FyY2gvYXJjL2luY2x1ZGUvYXNtL2NtcHhjaGcuaCBiL2FyY2gvYXJjL2lu
+Y2x1ZGUvYXNtL2NtcHhjaGcuaAo+PiBpbmRleCA3NmY0M2RiMDg5MGYuLjY2YjM3NDNjOTQwMCAx
+MDA2NDQKPj4gLS0tIGEvYXJjaC9hcmMvaW5jbHVkZS9hc20vY21weGNoZy5oCj4+ICsrKyBiL2Fy
+Y2gvYXJjL2luY2x1ZGUvYXNtL2NtcHhjaGcuaAo+PiBAQCAtNDYsNyArNDYsNyBAQAo+PiAgwqAg
+wqAgwqBfX3R5cGVvZl9fKCoocHRyKSkgX25fID0gKG5ldyk7wqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgXAo+PiAgwqAgwqAgwqBfX3R5cGVvZl9fKCoocHRyKSkgX3ByZXZfO8KgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIFwKPj4gIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgXAo+PiAtwqAgwqAgc3dpdGNoKHNpemVvZigoX3Bf
+KSkpIHvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBcCj4+ICvCoCDCoCBzd2l0
+Y2ggKHNpemVvZigqKF9wXykpKSB7wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+XAo+PiAgwqAgwqAgwqBjYXNlIDE6wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgXAo+PiAgwqAgwqAgwqAgwqAgwqBfcHJldl8gPSAoX190eXBlb2ZfXygqKHB0
+cikpKWNtcHhjaGdfZW11X3U4KCh2b2xhdGlsZSB1OAo+PiAqX19mb3JjZSlfcF8sICh1aW50cHRy
+X3QpX29fLCAodWludHB0cl90KV9uXyk7wqAgwqAgXAo+PiAgwqAgwqAgwqAgwqAgwqBicmVhazvC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBcCj4+IEBAIC0xMDIsNyAr
+MTAyLDcgQEAKPj4gIMKgIMKgIMKgX190eXBlb2ZfXyhwdHIpIF9wXyA9IChwdHIpO8KgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIFwKPj4gIMKgIMKgIMKgX190eXBlb2ZfXygqKHB0cikpIF92
+YWxfID0gKHZhbCk7wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgXAo+PiAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqBcCj4+IC3CoCDCoCBzd2l0
+Y2goc2l6ZW9mKCooX3BfKSkpIHvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBcCj4+ICvC
+oCDCoCBzd2l0Y2ggKHNpemVvZigqKF9wXykpKSB7wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgXAo+PiAgwqAgwqAgwqBjYXNlIDQ6wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgXAo+PiAgwqAgwqAgwqAgwqAgwqBfdmFsXyA9IF9fYXJjaF94Y2hnKF9w
+XywgX3ZhbF8pO8KgIMKgIMKgIMKgIMKgIMKgIFwKPj4gIMKgIMKgIMKgIMKgIMKgYnJlYWs7wqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgXAo+PiAtLSAKPj4gMi41My4w
+Cj4+CgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGlu
+dXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5v
+cmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBz
+LWFyYwo=
