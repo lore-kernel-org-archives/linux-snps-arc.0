@@ -4,63 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D561FCA5FC4
-	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Sep 2026 17:52:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6BBFECA5FC4
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 30 Sep 2026 17:55:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Reply-To:List-Subscribe:List-Help:
 	List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=AoNwWpERjZzxmSy9InELW66N+4/ChydIWBoDTrvZ0Cg=; b=rf0Wh1vbLSC/dx
-	sEj/vz4WVglranWimZpdKKlumC56JxLG0z2BYmiPtqWeK3p33PD8trziFbjN9AFNZtLTCDS4qvBRo
-	7gIp7+WPzeEW4CJEXd2DjdDeQle3WrcD1nzIsd/FJzO0YankPATlRKonHVgdWy3m4vhlf6B6ZuNkG
-	Mb7w1DdNrRHhF4kWPfYmD1QZRghP/Z2qIt9JuxzBg0r5s+H2Ga/hwBLTx7FwWplBFftz4ICr7bdip
-	phZGu2Hmd4V44f5nT8S+k9ZBVMJyOkjh3e8j1qfctG3lEgPlIpoE9TRH5JWvyr2LoEhpMjhUzrV0+
-	TnVSCmcA5/UD1A+W7TGQ==;
+	List-Owner; bh=TieFMefWimWX4N3ybXwur8XfwisaeC44L4e+g6uTafY=; b=scxtW7ulmRvLvW
+	OM0BFf0/WZPMDtJEQPGOM+et050wHIgaEnIHbsjmOsqqDwx8bbZS2AX0WVA2otkfYznCDaa2YFCXR
+	f9mNyH3RpyekAESfNwmL24W75WKQ/V+y4ZV7xErUVawEifYyQEOVaCDoDxxHBCwobEruEUHnVjn4I
+	SubvQL5sDvMPqiEXKAaUh2lyodXGmHMSxxfJxTlnYImrpmL5e6MFkT+StFxzE7EJxbMKpWqwgq/9F
+	5YY8e52irSH/BA1RRx8F4qjrRNsK1LYXtiVuPe3O2po46PAjqY0cmUkZg/DaTA54OXtf12oEYdq3t
+	qhB9WqxSg4iy8TVRwd4w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xByUA-00000006ujg-1QCe;
-	Wed, 30 Sep 2026 17:52:54 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xByWe-00000006v2N-0Xrv;
+	Wed, 30 Sep 2026 17:55:28 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xByU9-00000006ujZ-0Uws
+	id 1xByWc-00000006v1v-3Tb0
 	for linux-snps-arc@lists.infradead.org;
-	Wed, 30 Sep 2026 17:52:53 +0000
+	Wed, 30 Sep 2026 17:55:26 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 7EC9E403F9;
-	Wed, 30 Sep 2026 17:52:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56C291F000FF;
-	Wed, 30 Sep 2026 17:52:52 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 408DF41190;
+	Wed, 30 Sep 2026 17:55:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D78D1F00898;
+	Wed, 30 Sep 2026 17:55:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790790772;
-	bh=fO6epvUPzymr4CYhpUN+YAMWOHeDDHL2JHSoN0ld19E=;
+	s=k20260515; t=1790790926;
+	bh=FAhMdtCDqWz9D3ECT7MNQQ8phMf7Ags713lI/BxPppg=;
 	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=AQmtOjUcyc3+TDIPWNY5P1dnLFsBzQr5sAgSpmIxr7B3rjq/2SdFeWxeTVcQRDHYw
-	 DCaTQCnv1EoVY12tDk+JkqwEGc5by9/MjAAhK6OPTy0c9g/jdSBG1mZCfljY3BhWgd
-	 cGAGoPxjKQJn7GMescE9Pqc/2ssMkt8SXORpk6h7lon3JaTDVx8pGojgD/JltFMMr/
-	 iNuCFmXYSmpGM0aXnyt3Qk5o7RVuXynsobeolgeTIbUC5D3yaSFdZgGuDvKf467fgA
-	 z4HJ8Zg495jyQDAQayBk/g/T4DKczrDvCNriwvGeza4W0cYp+KYcN6Nw/gL0c9myzY
-	 U82Kfb6SO0gvw==
+	b=SP4n51p/tktB96CKVbuvawZb+MnVHpKGpktBwFvD7AT3vRQajdtegEBZKUk62BYeD
+	 eGFwjGT0xu7AFDOoZmeIgJJX2RtsqTHPHV25UOw8tUIDeWzFry+22WfJKarjLv/5VY
+	 Hgu/G80DQs5Oj07ljwtFSLjhg3ApHMjeZJJj6LEfWfkNVmQqcBlItls3+eYYEYR5Mt
+	 ix+ZmxIiSvSQ5dchM7Wok0m1hy6AiZjFVH4I6kE1ycAiWlcCtkCP+ABzigbVIbBTDl
+	 SVcBSnc9oPD87L+2tMhb1KqQsi2zZxhaE+mLHW47JK8vMsPkhJb4swCLGrV3LOLRhW
+	 E+vmD2yg/45iw==
 Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 03A7DCE097C; Wed, 30 Sep 2026 10:52:52 -0700 (PDT)
-Date: Wed, 30 Sep 2026 10:52:51 -0700
+	id 8B637CE097C; Wed, 30 Sep 2026 10:55:25 -0700 (PDT)
+Date: Wed, 30 Sep 2026 10:55:25 -0700
 From: "Paul E. McKenney" <paulmck@kernel.org>
 To: Vineet Gupta <vgupta@kernel.org>
 Cc: Bradley Morgan <brads@mainlining.org>,
 	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
 	linux-snps-arc@lists.infradead.org
 Subject: Re: [paulmckrcu:cmpxchg2.2026.09.22a 25/28]
- arch/arc/include/asm/cmpxchg.h:71:23: warning: unused variable '_new_'
-Message-ID: <a4e697f5-5d3b-44f3-858a-f9463b8eee0b@paulmck-laptop>
-References: <202609240539.AkulvjVe-lkp@intel.com>
- <1849D2CD-4FCF-41BE-86D2-B4DDCF59D20B@mainlining.org>
- <9e7b3428-d462-4551-8aa8-258d10f90b96@kernel.org>
- <f976fb79-c230-49c3-a32e-7b590bf7c471@paulmck-laptop>
- <283bb2a1-7f87-4ec5-8280-02bd0dbd09d0@kernel.org>
+ arch/arc/include/asm/cmpxchg.h:46:58: error: pointer type mismatch in
+ conditional expression
+Message-ID: <6d38b017-fc53-4377-b196-80cdb613520a@paulmck-laptop>
+References: <202609241517.SSV1Goz3-lkp@intel.com>
+ <3cbe5de8-d04b-4afe-b19f-ad755d4ea320@kernel.org>
+ <7CB37192-1AE6-4392-8D7B-89F401214C02@mainlining.org>
+ <d7a78ebb-8b5e-42e9-9560-bd731724c9f8@linux.dev>
+ <5c72050d-95c8-4ba1-ab15-22f774ea9319@paulmck-laptop>
+ <05f1310a-684f-493a-ad4f-4f313f344c81@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <283bb2a1-7f87-4ec5-8280-02bd0dbd09d0@kernel.org>
+In-Reply-To: <05f1310a-684f-493a-ad4f-4f313f344c81@kernel.org>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,480 +80,198 @@ Content-Transfer-Encoding: quoted-printable
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 29, 2026 at 12:42:52PM -0700, Vineet Gupta wrote:
-> On 9/29/26 12:16, Paul E. McKenney wrote:
-> > On Wed, Sep 23, 2026 at 03:23:47PM -0700, Vineet Gupta wrote:
-> > > On 9/23/26 14:13, Bradley Morgan wrote:
-> > > > On 23 September 2026 22:12:09 BST, kernel test robot <lkp@intel.com=
-> wrote:
-> > > > > tree:   https://github.com/paulmckrcu/linux cmpxchg2.2026.09.22a
-> > > > > head:   54c282c15475ebfae4712fe3ab637c9d19c723d6
-> > > > > commit: b6d4f6af38f85e7948fd64f9bf09cbb858b4dade [25/28] ARC: Emu=
-late two-byte cmpxchg
-> > > > > config: arc-randconfig-1001-20260924 (https://download.01.org/0da=
-y-ci/archive/20260924/202609240539.AkulvjVe-lkp@intel.com/config)
-> > > > > compiler: arc-linux-gcc (GCC) 14.3.0
-> > > > > reproduce (this is a W=3D1 build):
-> > > > > (https://download.01.org/0day-ci/archive/20260924/202609240539.Ak=
-ulvjVe-lkp@intel.com/reproduce)
-> > > > > =
-
-> > > > > If you fix the issue in a separate patch/commit (i.e. not just a =
-new
-> > > > > version of
-> > > > > the same patch/commit), kindly add following tags
-> > > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > > | Closes:
-> > > > > https://lore.kernel.org/oe-kbuild-all/202609240539.AkulvjVe-lkp@i=
-ntel.com/
-> > > > > =
-
-> > > > > All warnings (new ones prefixed by >>):
-> > > > > =
-
-> > > > >     In file included from arch/arc/include/asm/atomic.h:13,
-> > > > >                      from include/linux/atomic.h:7,
-> > > > >                      from include/asm-generic/bitops/lock.h:5,
-> > > > >                      from arch/arc/include/asm/bitops.h:190,
-> > > > >                      from include/linux/bitops.h:67,
-> > > > >                      from include/linux/log2.h:12,
-> > > > >                      from kernel/bounds.c:14:
-> > > > >     include/linux/atomic/atomic-arch-fallback.h: In function 'raw=
-_atomic_cmpxchg':
-> > > > >     arch/arc/include/asm/cmpxchg.h:80:23: error: '_o_' undeclared=
- (first use in this function); did you mean '_p_'?
-> > > > >        80 |         if (_prev_ =3D=3D _o_)                       =
-                       \
-> > > > >           |                       ^~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:55:21: note: in e=
-xpansion of macro 'arch_cmpxchg'
-> > > > >        55 | #define raw_cmpxchg arch_cmpxchg
-> > > > >           |                     ^~~~~~~~~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in=
- expansion of macro 'raw_cmpxchg'
-> > > > >      2026 |         return raw_cmpxchg(&v->counter, old, new);
-> > > > >           |                ^~~~~~~~~~~
-> > > > >     arch/arc/include/asm/cmpxchg.h:80:23: note: each undeclared i=
-dentifier is reported only once for each function it appears in
-> > > > >        80 |         if (_prev_ =3D=3D _o_)                       =
-                       \
-> > > > >           |                       ^~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:55:21: note: in e=
-xpansion of macro 'arch_cmpxchg'
-> > > > >        55 | #define raw_cmpxchg arch_cmpxchg
-> > > > >           |                     ^~~~~~~~~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in=
- expansion of macro 'raw_cmpxchg'
-> > > > >      2026 |         return raw_cmpxchg(&v->counter, old, new);
-> > > > >           |                ^~~~~~~~~~~
-> > > > >     arch/arc/include/asm/cmpxchg.h:81:24: error: '_n_' undeclared=
- (first use in this function); did you mean '_p_'?
-> > > > >        81 |                 *_p_ =3D _n_;                        =
-                     \
-> > > > >           |                        ^~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:55:21: note: in e=
-xpansion of macro 'arch_cmpxchg'
-> > > > >        55 | #define raw_cmpxchg arch_cmpxchg
-> > > > >           |                     ^~~~~~~~~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in=
- expansion of macro 'raw_cmpxchg'
-> > > > >      2026 |         return raw_cmpxchg(&v->counter, old, new);
-> > > > >           |                ^~~~~~~~~~~
-> > > > > > > arch/arc/include/asm/cmpxchg.h:71:23: warning: unused variabl=
-e '_new_'
-> > > > > [-Wunused-variable]
-> > > > >        71 |         unsigned long _new_ =3D (unsigned long)(0 ? *=
-(_p_) : (new));              \
-> > > > >           |                       ^~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:55:21: note: in e=
-xpansion of macro 'arch_cmpxchg'
-> > > > >        55 | #define raw_cmpxchg arch_cmpxchg
-> > > > >           |                     ^~~~~~~~~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in=
- expansion of macro 'raw_cmpxchg'
-> > > > >      2026 |         return raw_cmpxchg(&v->counter, old, new);
-> > > > >           |                ^~~~~~~~~~~
-> > > > > > > arch/arc/include/asm/cmpxchg.h:70:23: warning: unused variabl=
-e '_old_'
-> > > > > [-Wunused-variable]
-> > > > >        70 |         unsigned long _old_ =3D (unsigned long)(0 ? *=
-(_p_) : (old));              \
-> > > > >           |                       ^~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:55:21: note: in e=
-xpansion of macro 'arch_cmpxchg'
-> > > > >        55 | #define raw_cmpxchg arch_cmpxchg
-> > > > >           |                     ^~~~~~~~~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in=
- expansion of macro 'raw_cmpxchg'
-> > > > >      2026 |         return raw_cmpxchg(&v->counter, old, new);
-> > > > >           |                ^~~~~~~~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h: In function 'raw=
-_atomic_cmpxchg_acquire':
-> > > > >     arch/arc/include/asm/cmpxchg.h:80:23: error: '_o_' undeclared=
- (first use in this function); did you mean '_p_'?
-> > > > >        80 |         if (_prev_ =3D=3D _o_)                       =
-                       \
-> > > > >           |                       ^~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:70:29: note: in e=
-xpansion of macro 'arch_cmpxchg'
-> > > > >        70 | #define raw_cmpxchg_acquire arch_cmpxchg
-> > > > >           |                             ^~~~~~~~~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:2055:16: note: in=
- expansion of macro 'raw_cmpxchg_acquire'
-> > > > >      2055 |         return raw_cmpxchg_acquire(&v->counter, old, =
-new);
-> > > > >           |                ^~~~~~~~~~~~~~~~~~~
-> > > > >     arch/arc/include/asm/cmpxchg.h:81:24: error: '_n_' undeclared=
- (first use in this function); did you mean '_p_'?
-> > > > >        81 |                 *_p_ =3D _n_;                        =
-                     \
-> > > > >           |                        ^~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:70:29: note: in e=
-xpansion of macro 'arch_cmpxchg'
-> > > > >        70 | #define raw_cmpxchg_acquire arch_cmpxchg
-> > > > >           |                             ^~~~~~~~~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:2055:16: note: in=
- expansion of macro 'raw_cmpxchg_acquire'
-> > > > >      2055 |         return raw_cmpxchg_acquire(&v->counter, old, =
-new);
-> > > > >           |                ^~~~~~~~~~~~~~~~~~~
-> > > > > > > arch/arc/include/asm/cmpxchg.h:71:23: warning: unused variabl=
-e '_new_'
-> > > > > [-Wunused-variable]
-> > > > >        71 |         unsigned long _new_ =3D (unsigned long)(0 ? *=
-(_p_) : (new));              \
-> > > > >           |                       ^~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:70:29: note: in e=
-xpansion of macro 'arch_cmpxchg'
-> > > > >        70 | #define raw_cmpxchg_acquire arch_cmpxchg
-> > > > >           |                             ^~~~~~~~~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:2055:16: note: in=
- expansion of macro 'raw_cmpxchg_acquire'
-> > > > >      2055 |         return raw_cmpxchg_acquire(&v->counter, old, =
-new);
-> > > > >           |                ^~~~~~~~~~~~~~~~~~~
-> > > > > > > arch/arc/include/asm/cmpxchg.h:70:23: warning: unused variabl=
-e '_old_'
-> > > > > [-Wunused-variable]
-> > > > >        70 |         unsigned long _old_ =3D (unsigned long)(0 ? *=
-(_p_) : (old));              \
-> > > > >           |                       ^~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:70:29: note: in e=
-xpansion of macro 'arch_cmpxchg'
-> > > > >        70 | #define raw_cmpxchg_acquire arch_cmpxchg
-> > > > >           |                             ^~~~~~~~~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:2055:16: note: in=
- expansion of macro 'raw_cmpxchg_acquire'
-> > > > >      2055 |         return raw_cmpxchg_acquire(&v->counter, old, =
-new);
-> > > > >           |                ^~~~~~~~~~~~~~~~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h: In function 'raw=
-_atomic_cmpxchg_release':
-> > > > >     arch/arc/include/asm/cmpxchg.h:80:23: error: '_o_' undeclared=
- (first use in this function); did you mean '_p_'?
-> > > > >        80 |         if (_prev_ =3D=3D _o_)                       =
-                       \
-> > > > >           |                       ^~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:82:29: note: in e=
-xpansion of macro 'arch_cmpxchg'
-> > > > >        82 | #define raw_cmpxchg_release arch_cmpxchg
-> > > > >           |                             ^~~~~~~~~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:2083:16: note: in=
- expansion of macro 'raw_cmpxchg_release'
-> > > > >      2083 |         return raw_cmpxchg_release(&v->counter, old, =
-new);
-> > > > >           |                ^~~~~~~~~~~~~~~~~~~
-> > > > >     arch/arc/include/asm/cmpxchg.h:81:24: error: '_n_' undeclared=
- (first use in this function); did you mean '_p_'?
-> > > > >        81 |                 *_p_ =3D _n_;                        =
-                     \
-> > > > >           |                        ^~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:82:29: note: in e=
-xpansion of macro 'arch_cmpxchg'
-> > > > >        82 | #define raw_cmpxchg_release arch_cmpxchg
-> > > > >           |                             ^~~~~~~~~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:2083:16: note: in=
- expansion of macro 'raw_cmpxchg_release'
-> > > > >      2083 |         return raw_cmpxchg_release(&v->counter, old, =
-new);
-> > > > >           |                ^~~~~~~~~~~~~~~~~~~
-> > > > > > > arch/arc/include/asm/cmpxchg.h:71:23: warning: unused variabl=
-e '_new_'
-> > > > > [-Wunused-variable]
-> > > > >        71 |         unsigned long _new_ =3D (unsigned long)(0 ? *=
-(_p_) : (new));              \
-> > > > >           |                       ^~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:82:29: note: in e=
-xpansion of macro 'arch_cmpxchg'
-> > > > >        82 | #define raw_cmpxchg_release arch_cmpxchg
-> > > > >           |                             ^~~~~~~~~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:2083:16: note: in=
- expansion of macro 'raw_cmpxchg_release'
-> > > > >      2083 |         return raw_cmpxchg_release(&v->counter, old, =
-new);
-> > > > >           |                ^~~~~~~~~~~~~~~~~~~
-> > > > > > > arch/arc/include/asm/cmpxchg.h:70:23: warning: unused variabl=
-e '_old_'
-> > > > > [-Wunused-variable]
-> > > > >        70 |         unsigned long _old_ =3D (unsigned long)(0 ? *=
-(_p_) : (old));              \
-> > > > >           |                       ^~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:82:29: note: in e=
-xpansion of macro 'arch_cmpxchg'
-> > > > >        82 | #define raw_cmpxchg_release arch_cmpxchg
-> > > > >           |                             ^~~~~~~~~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:2083:16: note: in=
- expansion of macro 'raw_cmpxchg_release'
-> > > > >      2083 |         return raw_cmpxchg_release(&v->counter, old, =
-new);
-> > > > >           |                ^~~~~~~~~~~~~~~~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h: In function 'raw=
-_atomic_cmpxchg_relaxed':
-> > > > >     arch/arc/include/asm/cmpxchg.h:80:23: error: '_o_' undeclared=
- (first use in this function); did you mean '_p_'?
-> > > > >        80 |         if (_prev_ =3D=3D _o_)                       =
-                       \
-> > > > >           |                       ^~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:91:29: note: in e=
-xpansion of macro 'arch_cmpxchg'
-> > > > >        91 | #define raw_cmpxchg_relaxed arch_cmpxchg
-> > > > >           |                             ^~~~~~~~~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:2108:16: note: in=
- expansion of macro 'raw_cmpxchg_relaxed'
-> > > > >      2108 |         return raw_cmpxchg_relaxed(&v->counter, old, =
-new);
-> > > > >           |                ^~~~~~~~~~~~~~~~~~~
-> > > > >     arch/arc/include/asm/cmpxchg.h:81:24: error: '_n_' undeclared=
- (first use in this function); did you mean '_p_'?
-> > > > >        81 |                 *_p_ =3D _n_;                        =
-                     \
-> > > > >           |                        ^~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:91:29: note: in e=
-xpansion of macro 'arch_cmpxchg'
-> > > > >        91 | #define raw_cmpxchg_relaxed arch_cmpxchg
-> > > > >           |                             ^~~~~~~~~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:2108:16: note: in=
- expansion of macro 'raw_cmpxchg_relaxed'
-> > > > >      2108 |         return raw_cmpxchg_relaxed(&v->counter, old, =
-new);
-> > > > >           |                ^~~~~~~~~~~~~~~~~~~
-> > > > > > > arch/arc/include/asm/cmpxchg.h:71:23: warning: unused variabl=
-e '_new_'
-> > > > > [-Wunused-variable]
-> > > > >        71 |         unsigned long _new_ =3D (unsigned long)(0 ? *=
-(_p_) : (new));              \
-> > > > >           |                       ^~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:91:29: note: in e=
-xpansion of macro 'arch_cmpxchg'
-> > > > >        91 | #define raw_cmpxchg_relaxed arch_cmpxchg
-> > > > >           |                             ^~~~~~~~~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:2108:16: note: in=
- expansion of macro 'raw_cmpxchg_relaxed'
-> > > > >      2108 |         return raw_cmpxchg_relaxed(&v->counter, old, =
-new);
-> > > > >           |                ^~~~~~~~~~~~~~~~~~~
-> > > > > > > arch/arc/include/asm/cmpxchg.h:70:23: warning: unused variabl=
-e '_old_'
-> > > > > [-Wunused-variable]
-> > > > >        70 |         unsigned long _old_ =3D (unsigned long)(0 ? *=
-(_p_) : (old));              \
-> > > > >           |                       ^~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:91:29: note: in e=
-xpansion of macro 'arch_cmpxchg'
-> > > > >        91 | #define raw_cmpxchg_relaxed arch_cmpxchg
-> > > > >           |                             ^~~~~~~~~~~~
-> > > > >     include/linux/atomic/atomic-arch-fallback.h:2108:16: note: in=
- expansion of macro 'raw_cmpxchg_relaxed'
-> > > > >      2108 |         return raw_cmpxchg_relaxed(&v->counter, old, =
-new);
-> > > > >           |                ^~~~~~~~~~~~~~~~~~~
-> > > > >     make[3]: *** [scripts/Makefile.build:185: kernel/bounds.s] Er=
-ror 1 shuffle=3D1050985161
-> > > > >     make[3]: Target 'prepare' not remade because of errors.
-> > > > >     make[2]: *** [Makefile:1425: prepare0] Error 2 shuffle=3D1050=
-985161
-> > > > >     make[2]: Target 'prepare' not remade because of errors.
-> > > > >     make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3D105=
-0985161
-> > > > >     make[1]: Target 'prepare' not remade because of errors.
-> > > > >     make: *** [Makefile:248: __sub-make] Error 2 shuffle=3D105098=
-5161
-> > > > >     make: Target 'prepare' not remade because of errors.
-> > > > > =
-
-> > > > > =
-
-> > > > > vim +/_new_ +71 arch/arc/include/asm/cmpxchg.h
-> > > > > =
-
-> > > > >      66	=
-
-> > > > >      67	#define arch_cmpxchg(ptr, old, new)				        \
-> > > > >      68	({									\
-> > > > >      69		volatile __typeof__(ptr) _p_ =3D (ptr);				\
-> > > > >    > 70		unsigned long _old_ =3D (unsigned long)(0 ? *(_p_) : (ol=
-d));		\
-> > > > >    > 71		unsigned long _new_ =3D (unsigned long)(0 ? *(_p_) : (ne=
-w));		\
-> > > > >      72		__typeof__(*(ptr)) _prev_;					\
-> > > > >      73		unsigned long __flags;						\
-> > > > >      74										\
-> > > > >      75		/*								\
-> > > > >      76		 * spin lock/unlock provide the needed smp_mb() before/a=
-fter	\
-> > > > >      77		 */								\
-> > > > >      78		atomic_ops_lock(__flags);					\
-> > > > >      79		_prev_ =3D *_p_;							\
-> > > > >      80		if (_prev_ =3D=3D _o_)						\
-> > > > >      81			*_p_ =3D _n_;						\
-> > > > >      82		atomic_ops_unlock(__flags);					\
-> > > > >      83		_prev_;								\
-> > > > >      84	})
-> > > > >      85	=
-
-> > > > > =
-
-> > > > > --
-> > > > > 0-DAY CI Kernel Test Service
-> > > > > https://github.com/intel/lkp-tests/wiki
-> > > > Apparently nobody uses arc
-> > > Yes the development has slowed down compared to five years ago, but i=
-ts not
-> > > dead, if anything it is still my hobby project, like so many other th=
-ings
-> > > open source and you repeating this hurts.
-> > > =
-
-> > > You stumbled onto a real issue: typeof ptr vs. *ptr which unmasked an
-> > > existing shortcoming.
-> > > @Paul can you please apply this in your tree and rebase the series on=
- top.
-> > > If not I can send this fix to Linus urgently, but it will cause some
-> > > collisions.
-> > I tried applying this against current linux/master, v7.2, and v7.3-rc1,
-> > and no go.  Please let me know what you based this on.
-> > =
-
-> > Or is this in your recent pull request from Linus?  In which case,
-> > I could pull that and cherry-pick this patch.
+On Tue, Sep 29, 2026 at 03:10:01PM -0700, Vineet Gupta wrote:
 > =
 
-> Its the latter.
+> =
 
-Done!
+> On 9/29/26 13:47, Paul E. McKenney wrote:
+> > On Thu, Sep 24, 2026 at 02:27:11PM -0700, Vineet Gupta wrote:
+> > > On 9/24/26 13:58, Bradley Morgan wrote:
+> > > > On 24 September 2026 21:52:55 BST, Vineet Gupta <vgupta@kernel.org>=
+ wrote:
+> > > > > On 9/24/26 00:51, kernel test robot wrote:
+> > > > > > tree:   https://github.com/paulmckrcu/linux cmpxchg2.2026.09.22a
+> > > > > > head:   54c282c15475ebfae4712fe3ab637c9d19c723d6
+> > > > > > commit: b6d4f6af38f85e7948fd64f9bf09cbb858b4dade [25/28] ARC: E=
+mulate
+> > > > > two-byte cmpxchg
+> > > > > > config: arc-allyesconfig
+> > > > > (https://download.01.org/0day-ci/archive/20260924/202609241517.SS=
+V1Goz3-lkp@intel.com/config)
+> > > > > > compiler: arc-linux-gcc (GCC) 16.1.0
+> > > > > > reproduce (this is a W=3D1 build):
+> > > > > (https://download.01.org/0day-ci/archive/20260924/202609241517.SS=
+V1Goz3-lkp@intel.com/reproduce)
+> > > > > > If you fix the issue in a separate patch/commit (i.e. not just =
+a new
+> > > > > version of
+> > > > > > the same patch/commit), kindly add following tags
+> > > > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > > > | Closes:
+> > > > > https://lore.kernel.org/oe-kbuild-all/202609241517.SSV1Goz3-lkp@i=
+ntel.com/
+> > > > > > All errors (new ones prefixed by >>):
+> > > > > > =
+
+> > > > > >       In file included from arch/arc/include/asm/atomic.h:13,
+> > > > > >                        from include/linux/atomic.h:7,
+> > > > > >                        from include/asm-generic/bitops/lock.h:5,
+> > > > > >                        from arch/arc/include/asm/bitops.h:190,
+> > > > > >                        from include/linux/bitops.h:67,
+> > > > > >                        from include/linux/log2.h:12,
+> > > > > >                        from include/asm-generic/div64.h:55,
+> > > > > >                        from ./arch/arc/include/generated/asm/di=
+v64.h:1,
+> > > > > >                        from include/linux/math.h:6,
+> > > > > >                        from include/linux/math64.h:6,
+> > > > > >                        from include/linux/time.h:6,
+> > > > > >                        from include/linux/stat.h:19,
+> > > > > >                        from include/linux/fs_dirent.h:5,
+> > > > > >                        from include/linux/fs/super_types.h:5,
+> > > > > >                        from include/linux/fs/super.h:5,
+> > > > > >                        from include/linux/fs.h:5,
+> > > > > >                        from include/linux/fscrypt.h:16,
+> > > > > >                        from fs/crypto/fscrypt_private.h:15,
+> > > > > >                        from fs/crypto/hooks.c:10:
+> > > > > >       fs/crypto/hooks.c: In function 'fscrypt_get_symlink':
+> > > > > > > > arch/arc/include/asm/cmpxchg.h:46:58: error: pointer type m=
+ismatch in
+> > > > > conditional expression [-Wincompatible-pointer-types]
+> > > > > >          46 |         unsigned long _new_ =3D (unsigned long)(0=
+ ? *(_p_) :
+> > > > > (new));              \
+> > > > > =
+
+> > > > > Issue is in=A0 fs/crypto/hooks.c doing cmpxchg_release(&inode->i_=
+link, NULL,
+> > > > > pstr.name)
+> > > > > where i_link is char * and pstr.name is unsigned char *),
+> > > > > =
+
+> > > > > The problem is when pointer types are incompatible and that's exa=
+ctly the
+> > > > > W toggle above.
+> > > > > =
+
+> > > > > So Bradley's patch needs this fixup
+> > > > > =
+
+> > > > > diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/as=
+m/cmpxchg.h
+> > > > > index 4596edfefa95..9053098bb152 100644
+> > > > > --- a/arch/arc/include/asm/cmpxchg.h
+> > > > > +++ b/arch/arc/include/asm/cmpxchg.h
+> > > > > @@ -42,8 +42,10 @@
+> > > > >   =A0#define arch_cmpxchg_relaxed(ptr, old, new) =A0 =A0 \
+> > > > >   =A0({ =A0 =A0\
+> > > > >   =A0 =A0 =A0 =A0 __typeof__(ptr) _p_ =3D (ptr); =A0 =A0 \
+> > > > > -=A0 =A0 =A0 =A0unsigned long _old_ =3D (unsigned long)(0 ? *(_p_=
+) : (old)); =A0 =A0 =A0 =A0 =A0 =A0 \
+> > > > > -=A0 =A0 =A0 =A0unsigned long _new_ =3D (unsigned long)(0 ? *(_p_=
+) : (new)); =A0 =A0 =A0 =A0 =A0 =A0 \
+> > > > > +=A0 =A0 =A0 =A0__typeof__(*(ptr)) _o_ =3D (old); =A0 =A0\
+> > > > > +=A0 =A0 =A0 =A0__typeof__(*(ptr)) _n_ =3D (new); =A0 =A0\
+> > > > > +=A0 =A0 =A0 =A0unsigned long _old_ =3D (unsigned long)_o_; =A0 =
+=A0 =A0 =A0 =A0 =A0\
+> > > > > +=A0 =A0 =A0 =A0unsigned long _new_ =3D (unsigned long)_n_; =A0 =
+=A0 =A0 =A0 =A0 =A0\
+> > > > > =
+
+> > > > > P.S: For arch changes shouldn't the submitter be required to at l=
+east test
+> > > > > the building, specially when this involves the macro maze. Its re=
+ally easy
+> > > > > with crosstool hosting all the cross-compilers [1] - just downloa=
+d and
+> > > > > untar.
+> > > > > =
+
+> > > > > [1]
+> > > > > https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/x86=
+_64/16.2.0/
+> > > > Well thanks but I didn't have a proper server till yesterday.
+> > > A relatively decent laptop works for me.
+> > And you will get *way* faster response time than waiting on kernel
+> > test robot.  ;-)
+> > =
+
+> > > > I'll post all arch patches when Paul tells me how he wants it
+> > > Please do a minimal compile build - it will save you the re-spins.
+> > > =
+
+> > > > Like if he wants u16 in first then arch changes sent.
+> > First, I queued Vineet's cmpxchg patch from his pull request to Linus.
+> > I have marked it "EXP" so that I don't accidentally ship it off somewhe=
+re
+> > myself.
+> > =
+
+> > Given the surprises from the u8/u16 changes, I suggest the following:
+> > =
+
+> > 1.	One patch to add cmpxchg_emu_u16(), but without the u8/u16
+> > 	changes.  And without the CONFIG_ARCH_NEED_CMPXCHG_1_2_EMU
+> > 	change.
+> > =
+
+> > 	At Bradley's option, cmpxchg_emu_u8() could remain as is, with
+> > 	cmpxchg_emu_u16() being born as u16.  The upside is less churn
+> > 	later.	The downside is that more up-front testing is needed,
+> > 	and thus greater interaction with busy architecture maintainers.
+> > 	If it was me, I would start with cmpxchg_emu_u16() being as
+> > 	close to cmpxchg_emu_u8() as possible in order to "get the
+> > 	camel's nose into the tent" as quickly and easily as possible.
+> > 	But this is Bradley's patch series, so his choice.
+> > =
+
+> > 2.	One patch each to add use of cmpxchg_emu_u16() to each
+> > 	affected architecture.
+> > =
+
+> > 3.	Given #1, each patch for #2 can go in independently.  The patches
+> > 	for #2 of course need acks from their respective maintainers.
+> > =
+
+> > 4.	A patch to rename CONFIG_ARCH_NEED_CMPXCHG_1_EMU to
+> > 	CONFIG_ARCH_NEED_CMPXCHG_1_2_EMU.  This will cross lib and
+> > 	architectures, which should be OK because it is just a name
+> > 	change.  We collect acks as before.
+> > =
+
+> > 5.	Convert cmpxchg_emu_u8() away from uintptr_t, and, if needed,
+> > 	cmpxchg_emu_u16() as well.
+> > =
+
+> > This could take a merge window or three to get in, but that is not all
+> > that bad for cross-architecture patch serieses such as this one.
+> > =
+
+> > Bradley, Vineet, thoughts?
+> =
+
+> Sound like a plan, buy hey its Bradley doing all the work here ;-)
+
+I figured that I should give him the chance, but yes, if he declines I
+will of course do any needed additional work.
+
+> I would only add something I mentioned before: download the cross toolcha=
+ins
+> and do some build testing locally before posting. This is not because arch
+> maintainers are busy or lazy (although they can be both) - that saves
+> potential respins induced by new code or even broken existing code expose=
+d.
+
+Agreed!!!
+
+> And on that topic I just found a gcc 16 ICE when building an allyesconfig
+> for ARC. I will only be able to post the gcc fix after LPC, but just FYI =
+in
+> case someone runs into it.
+
+Thanks for the heads up.
 
 							Thanx, Paul
-
-> Thx,
-> -Vineet
-> =
-
-> > =
-
-> > 							Thanx, Paul
-> > =
-
-> > > ---------->
-> > >  From f3e2402f62bebfa9f1ad21e23d1663a0a3e5a58d Mon Sep 17 00:00:00 20=
-01
-> > > From: Vineet Gupta <vgupta@kernel.org>
-> > > Date: Wed, 23 Sep 2026 15:01:38 -0700
-> > > Subject: [PATCH] ARC: arch_cmpxchg_relaxed to use size of pointed typ=
-e not
-> > >  =A0pointer
-> > > =
-
-> > > Bradley spotted this snafu when working on two-byte cmpxchg emulation.
-> > > He originally folded this fix into his series but the fix itself
-> > > uncovered a pre-existing issue, missing arch_atomic64_cmpxchg_relaxed
-> > > which just needed to be wired up.
-> > > =
-
-> > > Fixes: e188f3330a13 ("ARC: cmpxchg/xchg: rewrite as macros to make ty=
-pe
-> > > safe")
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > Closes:
-> > > https://lore.kernel.org/oe-kbuild-all/202609240539.AkulvjVe-lkp@intel=
-.com/
-> > > Suggested-by: Bradley Morgan <brads@mainlining.org>
-> > > Signed-off-by: Vineet Gupta <vgupta@kernel.org>
-> > > ---
-> > >  =A0arch/arc/include/asm/atomic64-arcv2.h | 6 ++++++
-> > >  =A0arch/arc/include/asm/cmpxchg.h=A0 =A0 =A0 =A0 | 4 ++--
-> > >  =A02 files changed, 8 insertions(+), 2 deletions(-)
-> > > =
-
-> > > diff --git a/arch/arc/include/asm/atomic64-arcv2.h
-> > > b/arch/arc/include/asm/atomic64-arcv2.h
-> > > index 73080a664369..1ca4a1047fb3 100644
-> > > --- a/arch/arc/include/asm/atomic64-arcv2.h
-> > > +++ b/arch/arc/include/asm/atomic64-arcv2.h
-> > > @@ -156,6 +156,12 @@ static inline u64 __arch_cmpxchg64_relaxed(volat=
-ile
-> > > void *ptr, u64 old, u64 new)
-> > >  =A0}
-> > >  =A0#define arch_cmpxchg64_relaxed __arch_cmpxchg64_relaxed
-> > > =
-
-> > > +static inline s64 arch_atomic64_cmpxchg_relaxed(atomic64_t *v, s64 o=
-ld, s64
-> > > new)
-> > > +{
-> > > +=A0 =A0 return arch_cmpxchg64_relaxed(&v->counter, old, new);
-> > > +}
-> > > +#define arch_atomic64_cmpxchg_relaxed arch_atomic64_cmpxchg_relaxed
-> > > +
-> > >  =A0static inline s64 arch_atomic64_xchg(atomic64_t *ptr, s64 new)
-> > >  =A0{
-> > >  =A0 =A0 =A0s64 prev;
-> > > diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cm=
-pxchg.h
-> > > index 76f43db0890f..66b3743c9400 100644
-> > > --- a/arch/arc/include/asm/cmpxchg.h
-> > > +++ b/arch/arc/include/asm/cmpxchg.h
-> > > @@ -46,7 +46,7 @@
-> > >  =A0 =A0 =A0__typeof__(*(ptr)) _n_ =3D (new);=A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 \
-> > >  =A0 =A0 =A0__typeof__(*(ptr)) _prev_;=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 \
-> > >  =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0\
-> > > -=A0 =A0 switch(sizeof((_p_))) {=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 \
-> > > +=A0 =A0 switch (sizeof(*(_p_))) {=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0 \
-> > >  =A0 =A0 =A0case 1:=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 \
-> > >  =A0 =A0 =A0 =A0 =A0_prev_ =3D (__typeof__(*(ptr)))cmpxchg_emu_u8((vo=
-latile u8
-> > > *__force)_p_, (uintptr_t)_o_, (uintptr_t)_n_);=A0 =A0 \
-> > >  =A0 =A0 =A0 =A0 =A0break;=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0 \
-> > > @@ -102,7 +102,7 @@
-> > >  =A0 =A0 =A0__typeof__(ptr) _p_ =3D (ptr);=A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0 \
-> > >  =A0 =A0 =A0__typeof__(*(ptr)) _val_ =3D (val);=A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 \
-> > >  =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0\
-> > > -=A0 =A0 switch(sizeof(*(_p_))) {=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 \
-> > > +=A0 =A0 switch (sizeof(*(_p_))) {=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 \
-> > >  =A0 =A0 =A0case 4:=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 \
-> > >  =A0 =A0 =A0 =A0 =A0_val_ =3D __arch_xchg(_p_, _val_);=A0 =A0 =A0 =A0=
- =A0 =A0 \
-> > >  =A0 =A0 =A0 =A0 =A0break;=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0 \
-> > > -- =
-
-> > > 2.53.0
-> > > =
-
-> =
-
 
 _______________________________________________
 linux-snps-arc mailing list
