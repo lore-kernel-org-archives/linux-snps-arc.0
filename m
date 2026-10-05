@@ -4,66 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB4CBCA5FF0
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  5 Oct 2026 12:09:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1B407CA5FCE
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  5 Oct 2026 12:10:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:References:
+	In-Reply-To:Subject:CC:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=rd9U/e1VADkMCa4i1E1VJw+NvyQdxAnDpL5q29aqKfI=; b=G0GvFPNEfUx3Xg
-	mj+x4GdgGhcEnSZu8zNNhd6mYZqV5schFs7Bf3O754rbDvEOraw/OBu2ckWAyN78B8p/r44A2HuqI
-	5XMaBJ8sIvp1cKmRTP88x/oVOwIk8nKkymrqt/iaqSZSICzWvVDr4dM/sTZPAi5kKZ87huymqwsmD
-	ZvNkx3x1WJFPAVAdrBQPngN4nZuRuwDgA02lB3wcJ0ZHkv82+87+5+8fLKX3+cgTxer8lPLWMNo0n
-	c/6bgM1pJbz6Me8XYyC/JjxcmFMjIHxa/lGrQyJAKeastbpRZoXM2fGiGBSbSlWXrPWp8Iyuk6odM
-	5QOIIAsaQ7dT+U9UcXHw==;
+	List-Owner; bh=+mIgbAslFhty9D2OBXWdtb1+Kdoz4tdaKp9kacrLIJU=; b=kd4YQp+pQ0sIsd
+	E5Hp4JAM7soKsisAo02zHT/E3waUGfwLtFqI1k8/RxWZsj/RkvwdUgpcl08JzjokJBNrN9jpjcZFd
+	bxft31HX4LsSpjGuKa69YCAJX0ub9UE7l+UQpOr0wQ+eEvBFS82fJrGuXU+8Oqp/yh22fLfAM/bmI
+	hxU9SxR2X7ObmzSH1X83PMnknaKvLK5QuwkZb/fj7bfcllyzxqd4vz5mooC47m3obCbo/RyzdIc3a
+	/o5Vxp7ia41l+56kkh8mA0uVcgKPuLzrPI8A/rnzo7Yr0JFkP/jXw1F8ANF7BlSljTm7lPABkqMaw
+	nL+lbA4rThL8jnQuQl0A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xDhVg-0000000GNdt-2i9U;
-	Mon, 05 Oct 2026 12:09:36 +0000
+	id 1xDhWc-0000000GNjI-36dP;
+	Mon, 05 Oct 2026 12:10:34 +0000
 Received: from mail.mainlining.org ([5.75.144.95])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xDhVd-0000000GNd7-3wi3
+	id 1xDhWZ-0000000GNio-3Fv6
 	for linux-snps-arc@lists.infradead.org;
-	Mon, 05 Oct 2026 12:09:35 +0000
+	Mon, 05 Oct 2026 12:10:32 +0000
 DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Date:Subject:To:From; t=1791202026; bh=UyE2WbqxID6O1bGrrpnC3dh
-	LKyhQZ5MZNS++hKSonwE=; b=rTl8ubsK68VnzzAoJ06grCjpnVljgY6irkKS6xzwA0e50XxCG4
-	fgWicCYVH9aWJ/d05yzlcXXtrFO2gCD+00zalNkNsm9r257kgHQeFDCDdjTuLd4sTTbuWf6qvtX
-	HSDPbyCRAY8Vo6iEBkojAhtchIg1abBuONGQ+v1JSA49311frmMZawdNf1bHNufNpTRPjbRQX8m
-	HNLNrz/tO5DQjPSA8pKE0WeWGlpXxC8I7IOnDTNrQEnRrN/pwRtITI4GZig4oUfVzn13/HenHnO
-	a5eVal9ioHRZtXC1R/Ur48ME4K48i8HryQXwRjuLavGOn25MvoTLJPWsnjhh2E22l4A==;
+	h=Message-ID:Subject:To:From:Date; t=1791202084; bh=c8blceBjpnicYTX0j9XL6TT
+	+wvS5GLIS98CfSPeQ2So=; b=ChSIBjgC7DJbuoj/hq7PaoY2Khp4WzR5BqDkJa6jmQg/jjXsl+
+	VmcjNTSVigwDsUo6NRJbhYBilUXRgjMICH4pDmHGTvx9spdUnOj/Cz9YyUQ3fX/GMu8CHoJg1tY
+	BtZiCtrnWdAd5VukqFHdMyVo54B2s/YqToJtCdMjY/jNMQ9yz6Mxg6iuGo+uUJlW5SlYOhdfQID
+	f63H8AKR/KuaSHBqHImS+JoZtAj1+0qWDMfIPrHL1AAOfxdQGQHK1e/7AxIuWHm1EtdvESl1tNR
+	XCUNunKXIX7pwWkk3ldyqQUmgcEPcGpOgmYGrJSq2QY5JVtWnxF6CKycRL3IAUVZNtw==;
 DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Date:Subject:To:From; t=1791202026; bh=UyE2WbqxID6O1bGrrpnC3dh
-	LKyhQZ5MZNS++hKSonwE=; b=Q6M3tnXKegcyxQ/ar5xcHyJbNFw2/dvgiQW7xxhcf4bOGNNGju
-	rF5I1b7DMHBwWdSDN8zHGSPcu2ZbFw9EosDg==;
+	h=Message-ID:Subject:To:From:Date; t=1791202084; bh=c8blceBjpnicYTX0j9XL6TT
+	+wvS5GLIS98CfSPeQ2So=; b=61+Af8PJELF/8wkGVGMZLlzU/KpTjAlFsFmdjLYcCJKFG7YYOj
+	MQ0Gh/Lq6D1KBGlISidzf8IttNb8Uvr+FIAg==;
+Date: Mon, 05 Oct 2026 13:08:05 +0100
 From: Bradley Morgan <brads@mainlining.org>
-To: akpm@linux-foundation.org,
-	vgupta@kernel.org,
-	guoren@kernel.org,
-	chris@zankel.net,
-	jcmvbkbc@gmail.com
-Cc: arnd@arndb.de,
-	paulmck@kernel.org,
-	david.laight.linux@gmail.com,
-	glaubitz@physik.fu-berlin.de,
-	ysato@users.sourceforge.jp,
-	dalias@libc.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-csky@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	brads@mainlining.org
-Subject: [PATCH v5 2/3] csky: Emulate two-byte cmpxchg
-Date: Mon,  5 Oct 2026 12:06:59 +0000
-Message-ID: <20261005120700.383058-3-brads@mainlining.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261005120700.383058-1-brads@mainlining.org>
-References: <20261005120700.383058-1-brads@mainlining.org>
+To: akpm@linux-foundation.org, vgupta@kernel.org, guoren@kernel.org,
+ chris@zankel.net, jcmvbkbc@gmail.com
+CC: arnd@arndb.de, paulmck@kernel.org, david.laight.linux@gmail.com,
+ glaubitz@physik.fu-berlin.de, ysato@users.sourceforge.jp, dalias@libc.org,
+ linux-snps-arc@lists.infradead.org, linux-csky@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 1/3] ARC: Emulate two-byte cmpxchg
+In-Reply-To: <20261005120556.383004-2-brads@mainlining.org>
+References: <20261005120556.383004-1-brads@mainlining.org> <20261005120556.383004-2-brads@mainlining.org>
+Message-ID: <DFEBDABC-BF95-4AF7-863C-7C25F1443B28@mainlining.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261005_050934_124183_C0D44E35 
-X-CRM114-Status: UNSURE (   7.33  )
+X-CRM114-CacheID: sfid-20261005_051031_967316_5721ABAE 
+X-CRM114-Status: UNSURE (   7.15  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -81,55 +71,43 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-C-SKY has no two-byte atomic compare and swap, so the __cmpxchg()
-macros let case 2 fall through to BUILD_BUG() via default, and a
-two-byte cmpxchg() fails the build.
-
-Route case 2 through the new cmpxchg_emu_u16(), which narrows the
-old and new values itself, so all three orderings, relaxed, acquire
-and full, keep the (uintptr_t) casts the case 1 path already uses.
-
-Signed-off-by: Bradley Morgan <brads@mainlining.org>
----
- arch/csky/include/asm/cmpxchg.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/arch/csky/include/asm/cmpxchg.h b/arch/csky/include/asm/cmpxchg.h
-index db6dda47184e..6f3ca79e54ac 100644
---- a/arch/csky/include/asm/cmpxchg.h
-+++ b/arch/csky/include/asm/cmpxchg.h
-@@ -64,6 +64,9 @@
- 	switch (size) {						\
- 	case 1:							\
- 		__ret = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)__ptr, (uintptr_t)__old, (uintptr_t)__new); \
-+		break;							\
-+	case 2:							\
-+		__ret = (__typeof__(*(ptr)))cmpxchg_emu_u16((volatile u16 *)__ptr, (unsigned long)__old, (unsigned long)__new); \
- 		break;						\
- 	case 4:							\
- 		asm volatile (					\
-@@ -97,6 +100,9 @@
- 	switch (size) {						\
- 	case 1:							\
- 		__ret = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)__ptr, (uintptr_t)__old, (uintptr_t)__new); \
-+		break;							\
-+	case 2:							\
-+		__ret = (__typeof__(*(ptr)))cmpxchg_emu_u16((volatile u16 *)__ptr, (unsigned long)__old, (unsigned long)__new); \
- 		break;						\
- 	case 4:							\
- 		asm volatile (					\
-@@ -131,6 +137,9 @@
- 	switch (size) {						\
- 	case 1:							\
- 		__ret = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *)__ptr, (uintptr_t)__old, (uintptr_t)__new); \
-+		break;							\
-+	case 2:							\
-+		__ret = (__typeof__(*(ptr)))cmpxchg_emu_u16((volatile u16 *)__ptr, (unsigned long)__old, (unsigned long)__new); \
- 		break;						\
- 	case 4:							\
- 		asm volatile (					\
--- 
-2.53.0
+On 5 October 2026 13:05:54 BST, Bradley Morgan <brads@mainlining.org>
+wrote:
+>ARC has no two-byte atomic compare and swap, so the
+>arch_cmpxchg_relaxed() macro switch lets case 2 fall through to
+>BUILD_BUG() via default, and a two-byte cmpxchg() fails the build.
+>
+>Route case 2 through the new cmpxchg_emu_u16(), which narrows the
+>old and new values itself, so the dispatch keeps the (uintptr_t)
+>casts the case 1 path already uses.
+>
+>The sizeof(*(_p_)) fix that v4 folded in here landed separately
+>through Vineet's f050c3e61d2a, so this patch is now only the
+>case 2 wiring.
+>
+>Signed-off-by: Bradley Morgan <brads@mainlining.org>
+>---
+> arch/arc/include/asm/cmpxchg.h | 3 +++
+> 1 file changed, 3 insertions(+)
+>
+>diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
+>index 66b3743c9400..b30b20933f32 100644
+>--- a/arch/arc/include/asm/cmpxchg.h
+>+++ b/arch/arc/include/asm/cmpxchg.h
+>@@ -50,6 +50,9 @@
+> 	case 1:								\
+> 		_prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *__force)_p_, (uintptr_t)_o_, (uintptr_t)_n_);	\
+> 		break;							\
+>+	case 2:								\
+>+		_prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u16((volatile u16 *__force)_p_, (unsigned long)_o_, (unsigned long)_n_);	\
+>+		break;							\
+> 	case 4:								\
+> 		_prev_ = __cmpxchg(_p_, _o_, _n_);			\
+> 		break;							\
+>
+Sorry, resent email, internet went out ;(
+--- Thanks!
+"I'm not a very positive person" - Linus torvalds
 
 _______________________________________________
 linux-snps-arc mailing list
