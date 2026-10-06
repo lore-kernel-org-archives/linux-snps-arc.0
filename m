@@ -4,91 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D981CA5FF0
-	for <linux-snps-arc@archiver.kernel.org>; Mon,  5 Oct 2026 18:02:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E000FCA5FF0
+	for <linux-snps-arc@archiver.kernel.org>; Tue,  6 Oct 2026 09:55:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=nBRJLpiT4cwceP9yBtA5rd8+IumgHh37AYqmFf7euno=; b=lMKLcUt8GLjAp6
-	KZ19/yI/Gx5s2rHaBl8wSBDKTIYLrLk3VwQz4kL3KwaR37HTxzHlz+Bt6g/w9p690jQ9BU1nefomf
-	mwbquNxkByRv8WRYCW3PEOs9AczzSTzLwji3OSSdx6GGTq4EASErC1WH5fqeJtSfY1NYbY5617zxs
-	zwWkKECphXYJYwlmKxzmrWhvVYd65rHJ5Us3cdwcFCaiS/smwdeXrYWob46X2PI6C+PjBpdERUZfP
-	i1XPaLyKItbgblBv5JaaBmZQf+ZoVX6Bd0JjTenC/MIOOrncBPmHrG6XJXQ1E7llaaNX0IuwfC5bF
-	EiTfZP+ueGgwydBR6/xA==;
+	List-Owner; bh=dI1jwUkEzqt3CcfeH5HnBp7x4QNGkWBPWxkgszIisrg=; b=Oo+BkYewxSKNu9
+	a+Lt7kHbd0mfDUuv0EgpAhRsq3vX2HaLWwJI3jmcz8D/YMHJ2mJKA2SRIvn/W2PqupUlh2Poarj8l
+	jq9x7NjXaerZJZudi2hapq+Aqt2i7CekZmFQK8mRaUp9vZXJi1VT2rCUP34RcSozhLSTVCUP1Hj5w
+	MZ/nMcXvCkY18RdY/lBr5wZBqkOXlHEptvcaZcQg2l6m+LSixs2GD7AvVqbI1sbgka2JFbOGABu19
+	kdig7p08+DaibtmCCqZDI1i4bjOcQFjVq9HQ5JNb14JqVG5qhV1c/6Wamju126b7QRZbV/6pAHgrl
+	GPLHt+IMXiKIkvMJJxmA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xDn0t-0000000Gy9c-291p;
-	Mon, 05 Oct 2026 18:02:11 +0000
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+	id 1xE1tJ-00000000R0j-1SAq;
+	Tue, 06 Oct 2026 09:55:21 +0000
+Received: from mgamail.intel.com ([192.198.163.19])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xDn0r-0000000Gy9C-2uCT
+	id 1xE1tF-00000000Qyk-25NH
 	for linux-snps-arc@lists.infradead.org;
-	Mon, 05 Oct 2026 18:02:10 +0000
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-4998b5a63e2so20215735e9.1
-        for <linux-snps-arc@lists.infradead.org>; Mon, 05 Oct 2026 11:02:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791223327; x=1791828127; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=LnVgwZ0Ax9BPhjLqXni98Fj4ELNlpNrDohzywKqSoSM=;
-        b=jhXhdwHnrUbZ95VsS/6oGZm/YWmpYOJT2jQYDvhcgaYx5Dtok/2tgjdd3FZRJ98vLV
-         tQpbZ6tBLqpM8GXM63rKvy1rMt7R3oUyJdvNfsYiCkDLIk7b4IW56yf90OVNNJ15xINU
-         VFIV7E3MTi0G+ogupsvyhhp+ywrbuIrGq8EKv1IHTjjvb0X8q/KFOkyPGkZEocrr6PPY
-         QH88x7AkHKwtjsux3ExReFrPRBtGOqC7SROwF+3Ghjeeh9hkCscbwnDGvcU9BRTckf46
-         3Vy3DYXWEahZh9Labl98HteWveZZqcEpmck2E01Zt2BpYrNK2Rps6FcB1ytgLL6sLOg9
-         jzAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791223327; x=1791828127;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LnVgwZ0Ax9BPhjLqXni98Fj4ELNlpNrDohzywKqSoSM=;
-        b=TSZx6rIlfkEHLLBkbyyFR1CIHinvZUAJnan3jPoS0/3KrVphmzzB2R9bkgWCcK+1br
-         xFidbOI4OkNVYNH00cOnwxZCg9DhMBWud8d5Yr4U+Tevn+cXMyufELS/Fqe0TkvUgNNG
-         M0NnOu55YO7GVT6D3Yq7OaLib77Exw0pqzU1TwAlxyZbCpQNU9+goFMmYHUTwdPFgXqP
-         q6PcNHTeMN9ikUrav3GSXRa1lDWkmTTxc89BaI63l+A0itdmwtqsXRhzf4BHJQg3YrXp
-         4zcU81c/D4A8W0Y3BBsh8c0cgdyVMNUCZ22C2ohIUIfIPHtTzo0z858oDm8NrS4nIJXS
-         SuQQ==
-X-Forwarded-Encrypted: i=1; AKwUvByZZCkB7l4Hm13v6uyT3VqHtUC+yq1yYoRWsB2E4TWZ5JCgHhSmnrgIcRcyBiWK9ZkdcKNb2yyFsxpFlfxJnA==@lists.infradead.org
-X-Gm-Message-State: AFuF++m26/82+1jojzKq+POGFt2FH75lTplnzoQXQGkQiFPLNI11Nwye
-	EbJ8tGNuRKid0O9l9vR+7HPVfqgSS0g8fstImcnBZ728JqMSoDhh8VBj
-X-Gm-Gg: AYBFou10ooi2q3Tzcb4t906FJA/96E8Qly0zwLKEM+BoGgJ4XcezzxYOwr7x+J+52UF
-	MYrxvtiCPKY022UTY5OyP1qP82XdEPJWjWeNJTv06DdYfcvrATsw8LcPJmTQchNUK1gM8PGkMe6
-	LgqK/1hvA/PckO/0eFfr0auxP/teqcSdKkSzUfEEJ+cNYdbuzAewy8B4fs6vDukMqnloMHq3zVy
-	3mZepr65d+iD0giwNE9RiJYSDl+itj1RGcRtY7+TPFFZSKBJzOrni2DFE4MbsExrRKFteYqsbeG
-	QVnwavfykRN+tnMvizdXbX3Dn6uLQFZtgGgUt1diiTiz6dE4ujFBp3Vye1Bvx2nXjQ2/2V6X/Tz
-	9C0qkIQvj02EwqMT4jw3zY4A1+PZ2jKq9Ml+EsP3h7xCcqTOjnyUsPntGr++2iCJvKR2bQyTmRO
-	c+HGtQm0WB1eivpYdCcqVKNauldoKfswdUzmjbPFGtBYjsO/BCDsTCuSu+c5dkfhBoQkZoEqQA3
-	T1jFzAgladMeh0SVgs0OWe2S+PYsr5cTGo=
-X-Received: by 2002:a05:600c:b95:b0:49f:d087:6526 with SMTP id 5b1f17b1804b1-4a168106239mr136305905e9.34.1791223326914;
-        Mon, 05 Oct 2026 11:02:06 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a178c4008esm7441325e9.6.2026.10.05.11.02.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Oct 2026 11:02:06 -0700 (PDT)
-Date: Mon, 5 Oct 2026 19:02:05 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Bradley Morgan <brads@mainlining.org>
-Cc: akpm@linux-foundation.org, vgupta@kernel.org, guoren@kernel.org,
- chris@zankel.net, jcmvbkbc@gmail.com, arnd@arndb.de, paulmck@kernel.org,
- glaubitz@physik.fu-berlin.de, ysato@users.sourceforge.jp, dalias@libc.org,
- linux-snps-arc@lists.infradead.org, linux-csky@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 0/3] Add two-byte cmpxchg emulation and wire it into
- the architectures
-Message-ID: <20261005190205.26f17469@pumpkin>
-In-Reply-To: <20261005120700.383058-1-brads@mainlining.org>
-References: <20261005120700.383058-1-brads@mainlining.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	Tue, 06 Oct 2026 09:55:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791280518; x=1822816518;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PprG1zoTavpw3blbpMrw2Qfk/deLSjiCWxGPFyBWXnA=;
+  b=fJr9ZxmV6uTPjqjUfMyQpkyOiTDq8LryVkXubOhZuozC7LI11GiX8R01
+   sCBDrq1JnVbjMJm7WDj3HgSjYM+/Bhjtwuz/Y1fYFJABp9G5015loIi+z
+   Dgw+BExHFOWF/eHZosSL7LQD43jY4jgo5ppBYT7TggCkLbpPZBn58TYmK
+   1pS/P1xhnf2waJSkgMhJfcmuvu19O72y/BcScmRZ+OEnyPVil8J4uNJQr
+   gu+iFhqK6n5MLowkXkYCa4bJDVKUf0qSHJCT3wrYrW80KiBNSrOazG9Lo
+   cZgz9MAcuGYbCNIe4vVZfW9yxvm1t8eR4MEGrzfdUtGY2TUCDxYt88ca0
+   g==;
+X-CSE-ConnectionGUID: Gs1/KFgIS4uWMFhp8W5Vtg==
+X-CSE-MsgGUID: qzOLmt3URyW/Yy86HSAPYg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="112887"
+X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
+   d="scan'208";a="112887"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 02:55:17 -0700
+X-CSE-ConnectionGUID: 3CvIPXL/Tc2i1GM26q+rSA==
+X-CSE-MsgGUID: NdjTDoNtQXq0SfBbj3gt+w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
+   d="scan'208";a="285008670"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 06 Oct 2026 02:55:13 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xE1t7-000000001Qi-36dv;
+	Tue, 06 Oct 2026 09:55:09 +0000
+Date: Tue, 6 Oct 2026 17:54:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bradley Morgan <brads@mainlining.org>, akpm@linux-foundation.org,
+	vgupta@kernel.org, guoren@kernel.org, chris@zankel.net,
+	jcmvbkbc@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, arnd@arndb.de, paulmck@kernel.org,
+	david.laight.linux@gmail.com, glaubitz@physik.fu-berlin.de,
+	ysato@users.sourceforge.jp, dalias@libc.org,
+	linux-snps-arc@lists.infradead.org, linux-csky@vger.kernel.org,
+	linux-kernel@vger.kernel.org, brads@mainlining.org
+Subject: Re: [PATCH v5 3/3] xtensa: Emulate two-byte cmpxchg
+Message-ID: <202610061704.rvbolgPy-lkp@intel.com>
+References: <20261005120700.383058-4-brads@mainlining.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20261005120700.383058-4-brads@mainlining.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261005_110209_758281_F4325467 
-X-CRM114-Status: GOOD (  25.22  )
+X-CRM114-CacheID: sfid-20261006_025517_553524_1211BDFF 
+X-CRM114-Status: GOOD (  11.37  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,60 +93,73 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Mon,  5 Oct 2026 12:06:57 +0000
-Bradley Morgan <brads@mainlining.org> wrote:
+Hi Bradley,
 
-> This is v5 of the two-byte cmpxchg emulation series, reduced to the
-> three architectures still missing after Paul McKenney queued the lib
-> and sh patches, ARC, csky and xtensa.
-> 
-> The v4 attempt at these folded in a type checking idiom,
-> (unsigned long)(0 ? *ptr : old), meant to make cmpxchg(&p, 4, 5) fail
-> to compile. The kernel test robot and Vineet Gupta showed that idiom
-> breaks real callers, fs/crypto/hooks.c passes a char * and an
-> unsigned char * to cmpxchg_release(),
+kernel test robot noticed the following build errors:
 
-That ought to be a bug...
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on vgupta-arc/for-curr jcmvbkbc-xtensa/xtensa-for-next linus/master v7.3-rc6 next-20261005]
+[cannot apply to vgupta-arc/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-David
+url:    https://github.com/intel-lab-lkp/linux/commits/Bradley-Morgan/ARC-Emulate-two-byte-cmpxchg/20261005-120658
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20261005120700.383058-4-brads%40mainlining.org
+patch subject: [PATCH v5 3/3] xtensa: Emulate two-byte cmpxchg
+config: xtensa-allyesconfig (https://download.01.org/0day-ci/archive/20261006/202610061704.rvbolgPy-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261006/202610061704.rvbolgPy-lkp@intel.com/reproduce)
 
-> and the conditional expression
-> then has incompatible pointer types, which is a hard error on gcc 14
-> and newer. So this version only adds the case 2 dispatch, the
-> declarations the architectures already have are kept as is.
-> 
-> The ARC sizeof bug that v4 fixed along the way is in mainline
-> separately through Vineet's f050c3e61d2a ("ARC: arch_cmpxchg_relaxed
-> to use size of pointed type not pointer"), so the ARC patch here is
-> only the case 2 wiring on top of that.
-> 
-> On the why, RCU previously used single-byte cmpxchg(), which is what
-> motivated cmpxchg_emu_u8() in the first place, and Paul has now
-> queued cmpxchg_emu_u16(). Unused new code is frowned upon, so wiring
-> it into the architectures that need it is the missing half, and
-> there are existing workarounds for the missing two-byte cmpxchg() in
-> the tree, _Q_PENDING_BITS for one, that can make use of it.
-> 
-> Per Paul's suggestion each patch is standalone and can go in
-> independently, they only depend on the lib patch already queued.
-> Each one was build tested with the real cross toolchain, ARC with
-> arc-linux-gnu-gcc and csky and xtensa with the gcc 16.2 crosstool
-> builds Vineet pointed at, W=1, with the macro instantiated on
-> u8, u16, u32 and pointer types, confirming the new dispatch is
-> reached and no new warnings appear. The pointer instantiation
-> covers the fs/crypto/hooks.c case that broke v4.
-> 
-> Bradley Morgan (3):
->   ARC: Emulate two-byte cmpxchg
->   csky: Emulate two-byte cmpxchg
->   xtensa: Emulate two-byte cmpxchg
-> 
->  arch/arc/include/asm/cmpxchg.h    | 3 +++
->  arch/csky/include/asm/cmpxchg.h   | 9 +++++++++
->  arch/xtensa/include/asm/cmpxchg.h | 1 +
->  3 files changed, 13 insertions(+)
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610061704.rvbolgPy-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+   In file included from arch/xtensa/include/asm/atomic.h:19,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/atomic.h:5,
+                    from arch/xtensa/include/asm/bitops.h:192,
+                    from include/linux/bitops.h:67,
+                    from include/linux/log2.h:12,
+                    from kernel/bounds.c:14:
+   arch/xtensa/include/asm/cmpxchg.h: In function '__cmpxchg':
+>> arch/xtensa/include/asm/cmpxchg.h:79:25: error: implicit declaration of function 'cmpxchg_emu_u16'; did you mean 'cmpxchg_emu_u8'? [-Wimplicit-function-declaration]
+      79 |         case 2:  return cmpxchg_emu_u16(ptr, old, new);
+         |                         ^~~~~~~~~~~~~~~
+         |                         cmpxchg_emu_u8
+   make[3]: *** [scripts/Makefile.build:185: kernel/bounds.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1405: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +79 arch/xtensa/include/asm/cmpxchg.h
+
+    73	
+    74	static __inline__ unsigned long
+    75	__cmpxchg(volatile void *ptr, unsigned long old, unsigned long new, int size)
+    76	{
+    77		switch (size) {
+    78		case 1:  return cmpxchg_emu_u8(ptr, old, new);
+  > 79		case 2:  return cmpxchg_emu_u16(ptr, old, new);
+    80		case 4:  return __cmpxchg_u32(ptr, old, new);
+    81		default: __cmpxchg_called_with_bad_pointer();
+    82			 return old;
+    83		}
+    84	}
+    85	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
 _______________________________________________
 linux-snps-arc mailing list
