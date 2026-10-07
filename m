@@ -4,64 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30991CA5FFF
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  7 Oct 2026 20:36:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26092CA600A
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  7 Oct 2026 20:36:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Reply-To:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:
-	Subject:Cc:To:From:Date:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=ScHNHUtQbqa/6scMX1oQ0fy/09Xmxj2+S5DO/ieJ+dY=; b=wQM
-	hvFduuhsp+La9vBoHa5G4qXPdtQueVoEJn9071YWkhcpnMRJl6/0OGB6tXJ0HDXB2SxmzzgwMxzJ/
-	Y/N7lSfScCQjHXElXTuYtksJw7qUM07A8lBMcDUTRsfsVBIhccAJipBK/VvTvHo94f22dV6stQB5h
-	+Iseb1/Qw8/WYBX6XcAZ/vk8CmiUbVGLFu4JVKQPJGo3QsS7ajD4N7YJXxgcQ9Yc32uSqxeTfjhjI
-	oeb3Adwtc6QancLnNQC4IniUKxk9ENLiSNLVju3fXbDQJVI/GniiaKCwFnh12fR4/sl6ldzT+/5Md
-	xB2ASrFRxMhnGi5GpbRFxjcBRvVEK2w==;
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=4m4X0icEY5wLbcxkq/NyT5iheFGc0KuuGSEu/blipgE=; b=jHomqj8epnINAQ
+	VKIXMo67aB12e4LOfrajmpzQiO0j7uV84vwRtf34xV17QDEhOuS0wLy07Zl6cQUi1K0SyJIBf4EPq
+	iU6zGC3h7DAM+t0EogKwNfgx06r6iICZ0+wMC+08iFTMUGD9dW3VWLh1LSGRcSwNEcPAwOLFcx5nA
+	9Zv1srrRHN+TN1QsT/etQ7CyF9oMxGiNtEkf7lPve4FCw9ZLm3lGV/9ucmZ4VbssgLM1mGIyFG4jq
+	bCRJtoaJd5if8J+4Jp0kPSByDJElTj9ve3R1/2WoGSwgFaQf/3ocoXIFrWH9pWJyPZvLPDfmwNJgr
+	aqPQKzKuhZCXA5ISZXfg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xEYMu-000000038kO-0MrC;
-	Wed, 07 Oct 2026 20:36:04 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1xEYNT-000000038qB-2aWt;
+	Wed, 07 Oct 2026 20:36:39 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xEYMs-000000038jw-3S9I
+	id 1xEYNS-000000038pJ-1MBX
 	for linux-snps-arc@lists.infradead.org;
-	Wed, 07 Oct 2026 20:36:02 +0000
+	Wed, 07 Oct 2026 20:36:38 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 478FB43835;
-	Wed,  7 Oct 2026 20:36:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2261B1F000FF;
-	Wed,  7 Oct 2026 20:36:02 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id E721143835;
+	Wed,  7 Oct 2026 20:36:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B99EE1F0089C;
+	Wed,  7 Oct 2026 20:36:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791405362;
-	bh=s2dr5ZtYxDvsJVmv19YUiGWV6zK4NMpNX2VkLiAlLUM=;
-	h=Date:From:To:Cc:Subject:Reply-To;
-	b=O+d/K0iJTokxmwTEPDNJiuOLU9sPsSxEA318JmC+Im3Uf7yyiy0vuK8f4nKkcWcWD
-	 xBEJCJsje+nyjvM1sbmNt/0/hgldaLaJ3U3hHFFzQSAnkRMQ6qtSk1pmKSr/8ELRWx
-	 mFdw7cu/Gi5Qrr6KpNsC1mXMFiW9nAUciUGnpuuPYeSCW/dnpwZu5lA0gF5FWl29eP
-	 nLVZwWBH9Dm0YGPvDOloVX/uhBgfcDgAryF4hqSdFZy1IFHEsT2GkknUMOUEaEdHXA
-	 N9NRVgybo7IByqFEj+EIeTsfHB984Jp16zzHvkc7VdraclLWZS0jfQfARnPSN/2WLY
-	 L6aBRdPbOyM5g==
+	s=k20260515; t=1791405397;
+	bh=upIye1vBByZq8u9I7ewvweyxNsW1uHQn3v6eHNja+6M=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Eaprc0SxvCsFv6ngGQs+vgo/PT/Vo2xHgN3DA6sHitMW8/Z5UJuSLWAcaOTdrl3se
+	 3Eo1KEVdR5/l5hekbHimkZEdU9JpRhJMXButNWBNNVacCMCZw5JBmujXDq4W32sjeI
+	 oztaqjcIxWdaQ9YU8KEnlx1CC6gyw/se01qOCtk4mnSc8iytAZXUtyxvtKH3qPsJ+t
+	 AMYUtOSDbdTILWuqsfya+74CVLCrsLx3MlcR243lLb3d+/IxMdpwWA+8f0jtvbRHfv
+	 byhOu2u77TttTGI+upIPDPHwINLgPA7BjceFKJ1xoumKW/6RnM1ILelqqJWlfJRhOg
+	 kJOCxj0xAKFHg==
 Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id ADEA5CE0D79; Wed,  7 Oct 2026 13:36:01 -0700 (PDT)
-Date: Wed, 7 Oct 2026 13:36:01 -0700
+	id 6666BCE1735; Wed,  7 Oct 2026 13:36:37 -0700 (PDT)
 From: "Paul E. McKenney" <paulmck@kernel.org>
 To: linux-kernel@vger.kernel.org
-Cc: Bradley Morgan <brads@mainlining.org>, Vineet Gupta <vgupta@kernel.org>,
+Cc: Bradley Morgan <brads@mainlining.org>,
+	Vineet Gupta <vgupta@kernel.org>,
 	Guo Ren <guoren@kernel.org>,
 	Yoshinori Sato <ysato@users.sourceforge.jp>,
 	Rich Felker <dalias@libc.org>,
 	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
+	Chris Zankel <chris@zankel.net>,
+	Max Filippov <jcmvbkbc@gmail.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Arnd Bergmann <arnd@kernel.org>,
 	David Laight <david.laight.linux@gmail.com>,
-	linux-snps-arc@lists.infradead.org, linux-csky@vger.kernel.org,
-	linux-sh@vger.kernel.org, kernel-team@meta.com
-Subject: [PATCH 0/5] Provide two-byte cmpxchg() emulation
-Message-ID: <7f398d4a-7fae-4382-9cc4-8627e8aa912b@paulmck-laptop>
+	linux-snps-arc@lists.infradead.org,
+	linux-csky@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	kernel-team@meta.com,
+	"Paul E . McKenney" <paulmck@kernel.org>
+Subject: [PATCH 3/5] ARC: Emulate two-byte cmpxchg
+Date: Wed,  7 Oct 2026 13:36:34 -0700
+Message-Id: <20261007203636.1982188-3-paulmck@kernel.org>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <7f398d4a-7fae-4382-9cc4-8627e8aa912b@paulmck-laptop>
+References: <7f398d4a-7fae-4382-9cc4-8627e8aa912b@paulmck-laptop>
 MIME-Version: 1.0
-Content-Disposition: inline
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,49 +80,48 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-Hello!
+From: Bradley Morgan <brads@mainlining.org>
 
-This series provides emulation of two-byte cmpxchg().  Note that this
-does not (yet) allow free use of atomic operations on two-byte operands
-in core code because there are still a few supported systems that do not
-have two-byte store instructions.  However, this emulation does permit use
-of wide range of two-byte atomic operations, so is worth putting forward.
+ARC has no two-byte atomic compare and swap, so the
+arch_cmpxchg_relaxed() macro switch lets case 2 fall through to
+BUILD_BUG() via default, and a two-byte cmpxchg() fails the build.
 
-This series is being reposted on request in order to ease testing efforts.
+Route case 2 through the new cmpxchg_emu_u16(), which narrows the
+old and new values itself, so the dispatch keeps the (uintptr_t)
+casts the case 1 path already uses.
 
-The individual patches are as follows:
+The sizeof(*(_p_)) fix that v4 folded in here landed separately
+through Vineet's f050c3e61d2a, so this patch is now only the
+case 2 wiring.
 
-1.	Add two-byte cmpxchg emulation function, courtesy of Bradley
-	Morgan.
+Signed-off-by: Bradley Morgan <brads@mainlining.org>
+Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+---
+ arch/arc/include/asm/cmpxchg.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-2.	sh: Emulate two-byte cmpxchg, courtesy of Bradley Morgan.
+diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
+index 76f43db0890fc..7157718f147c1 100644
+--- a/arch/arc/include/asm/cmpxchg.h
++++ b/arch/arc/include/asm/cmpxchg.h
+@@ -50,6 +50,9 @@
+ 	case 1:								\
+ 		_prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *__force)_p_, (uintptr_t)_o_, (uintptr_t)_n_);	\
+ 		break;							\
++	case 2:								\
++		_prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u16((volatile u16 *__force)_p_, (unsigned long)_o_, (unsigned long)_n_);	\
++		break;							\
+ 	case 4:								\
+ 		_prev_ = __cmpxchg(_p_, _o_, _n_);			\
+ 		break;							\
+-- 
+2.40.1
 
-3.	ARC: Emulate two-byte cmpxchg, courtesy of Bradley Morgan.
-
-4.	csky: Emulate two-byte cmpxchg, courtesy of Bradley Morgan.
-
-5.	xtensa: Emulate two-byte cmpxchg, courtesy of Bradley Morgan.
-
-#1 and #2 have the acks required to go into the upcoming v7.4 merge
-window.
-
-						Thanx, Paul
-
-------------------------------------------------------------------------
-
- arch/arc/include/asm/cmpxchg.h    |    3 +++
- arch/csky/include/asm/cmpxchg.h   |    9 +++++++++
- arch/sh/include/asm/cmpxchg.h     |    2 ++
- arch/xtensa/include/asm/cmpxchg.h |    1 +
- include/linux/cmpxchg-emu.h       |    4 +++-
- lib/cmpxchg-emu.c                 |   38 ++++++++++++++++++++++++++++++++++----
- 6 files changed, 52 insertions(+), 5 deletions(-)
 
 _______________________________________________
 linux-snps-arc mailing list
