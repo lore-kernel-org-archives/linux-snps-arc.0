@@ -4,68 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBDCFCA600C
-	for <linux-snps-arc@archiver.kernel.org>; Thu,  8 Oct 2026 15:38:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92B93CA6015
+	for <linux-snps-arc@archiver.kernel.org>; Fri,  9 Oct 2026 02:24:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Reply-To:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Content-ID:Content-Description:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=6InHpTvGYU5cs5quKbNNYwDzoaT108uA/nH1TpeDX3Y=; b=1lMxd/rKJWZxyN
-	iOy+HexFLciHcmX54jOtQ0kWFyTqdmS0O+7kqh9ZTF/zc62hnia+ueenWip/C6fAT3mPKL6A4WTog
-	z6zj81qoSFQUdi4yi7iPa0W+fkmgrDHqsFkPnsRiNKZo/oFWuZ7kcyCdvNb9i6dZb6G7y4SLeeEhk
-	+B6m3C3VJdUDxlS9iQAOsXzZ92HHbDDZX1H+M1HsbZPr4qdsuzKGo0xhEXO/6UbjyJcv+H6OmjGGm
-	I317TFKtDJq8kNe4xzP55D736zwNJ86eJjV4YoaJ/In6Ck/8YdpCx4HIPpmIZSPmAUdTQwPCayzEW
-	QvniDu34l8dz3Eekwq/w==;
+	List-Owner; bh=km6EixOKujHxvYlfpunBRmjSAwjPCcQtT0VBoHLCzcU=; b=jNq4mPCXGj2iPU
+	BOj5mF0kYN+R7ojIYKXKtWi4PYs+IOFiTlSFk7kT9UZ/BQjw19FFlHxQFly0/OjOLbrvcbh81ZpYe
+	eLllgfr05kLl4k2P0FF99Uxrvl1tMlHDgGAHfoWFyBLjcIcSU0X2j2nZmLqWI6VY01CGJT0aVr+5i
+	9rFekY+H1u4XVt3V54ceOYe03t/teWO0puQRbE0iZkuxVmj8ZIrQphny4z4UXeiuDevlrhsuKrpTt
+	AmfhVJtX9iiZ16bkHW9kpfkvKrtjGIw4cMdiboJlKsN5jxO/25UyFEQET+y05ac2aOU10lWvoqakG
+	S8nlc8Lkwa4hp/BBkQoA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xEqC3-00000004ces-16Iu;
-	Thu, 08 Oct 2026 15:38:03 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
-	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xEqC1-00000004ceZ-30rW
-	for linux-snps-arc@lists.infradead.org;
-	Thu, 08 Oct 2026 15:38:01 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id D9F8C601EF;
-	Thu,  8 Oct 2026 15:38:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F0F91F000FF;
-	Thu,  8 Oct 2026 15:38:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791473880;
-	bh=ie7wR03RucgsB/jgJe4FU0Vwspb7ELUKAMZ57zUu0sE=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=G2iU6EW9EFIllbh3aVrRfKKXqDkxcF0TBv8st/BCo5pUJAfjqVKnOh+mEdtx0NjMM
-	 HBQ2SnVVFaLMu9fJOL0SZDdrfY5C5l58muGuiGZJHy+UQJf3WXP5TlcGZAWe7qZ6fB
-	 tujJGNSQUFY4tn1VoF0TTGgvOUckabbBFRTMGHPwOJKXVt+5+ouB8MxfOFwqdxBjC5
-	 eP/YzTcBkWvWjGKYh2RJORIQS4fLIi68PbaalWWLpUBFQ9h72DYG7inT3EIqZc58PK
-	 aWlDl9WvG5RL0sxFslbBc9eITx/iTfTIp6z9o8sWVw3ZhfXXJjuw4SEh0QXGKIbF/h
-	 uQI2iYoJauGTA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 48E57CE399B; Thu,  8 Oct 2026 08:38:00 -0700 (PDT)
-Date: Thu, 8 Oct 2026 08:38:00 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Guo Ren <guoren@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Bradley Morgan <brads@mainlining.org>,
-	Vineet Gupta <vgupta@kernel.org>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Rich Felker <dalias@libc.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Arnd Bergmann <arnd@kernel.org>,
-	David Laight <david.laight.linux@gmail.com>,
-	linux-snps-arc@lists.infradead.org, linux-csky@vger.kernel.org,
-	linux-sh@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH 4/5] csky: Emulate two-byte cmpxchg
-Message-ID: <f4e71ae2-e97e-4667-8d97-bcdab56caf86@paulmck-laptop>
-References: <7f398d4a-7fae-4382-9cc4-8627e8aa912b@paulmck-laptop>
- <20261007203636.1982188-4-paulmck@kernel.org>
- <CAJF2gTQbbPAdjS3p3oMoCGdkBWFM3Hx5+JnCu=9hdXuPQaM5Zg@mail.gmail.com>
+	id 1xF0Ha-00000005HLf-3rm5;
+	Fri, 09 Oct 2026 02:24:26 +0000
+Received: from foss.arm.com ([217.140.110.172])
+	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1xF0HX-00000005HKr-0LY9;
+	Fri, 09 Oct 2026 02:24:25 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0010F1692;
+	Thu,  8 Oct 2026 19:24:14 -0700 (PDT)
+Received: from localhost (a085714.arm.com [10.164.19.28])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 99E593F66F;
+	Thu,  8 Oct 2026 19:24:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1791512658; bh=2QLRKUYyFp8S6i+UXZO3Wxnz517D73K9DyPKeDJE9KQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cdimGt4BwBkbC2kvqJXbpnU8+qL/O0F0HZ2Z0H4CpSxUOxCh+EcoJtLXctAWoTzrV
+	 OtcAfxF5iREGuxkwM6scrG4vYN4mDhOT5dXuCp6y3UYQNkA+QiuO7WX1/GccVSzj2V
+	 OoaC3kiLUtydOmdP9bIBEODXTrrr6BODQU57YXnw=
+Date: Fri, 9 Oct 2026 07:54:15 +0530
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+To: Andreas Larsson <andreas@gaisler.com>
+Cc: linux-mm@kvack.org, samuel.holland@sifive.com, 
+	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>, 
+	WANG Xuerui <kernel@xen0n.name>, linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
+	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
+	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-um@lists.infradead.org, linux-arch@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH 8/8] mm: Drop pxd_ERROR()
+Message-ID: <y4zwpwqqxnjtwzm2j5xrdnnmdle5eiih7tsn7quywur7w2beh4@z3lk5ztxdz35>
+References: <20260831054331.625505-1-anshuman.khandual@arm.com>
+ <20260831054331.625505-9-anshuman.khandual@arm.com>
+ <c24fc419-7bee-4fe4-be12-9aa378d49af1@gaisler.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAJF2gTQbbPAdjS3p3oMoCGdkBWFM3Hx5+JnCu=9hdXuPQaM5Zg@mail.gmail.com>
+In-Reply-To: <c24fc419-7bee-4fe4-be12-9aa378d49af1@gaisler.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261008_192423_229878_A6A81939 
+X-CRM114-Status: GOOD (  17.12  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,75 +76,86 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-T24gVGh1LCBPY3QgMDgsIDIwMjYgYXQgMDE6NTQ6NTdQTSArMDgwMCwgR3VvIFJlbiB3cm90ZToK
-PiBPbiBUaHUsIE9jdCA4LCAyMDI2IGF0IDQ6MzbigK9BTSBQYXVsIEUuIE1jS2VubmV5IDxwYXVs
-bWNrQGtlcm5lbC5vcmc+IHdyb3RlOgo+ID4KPiA+IEZyb206IEJyYWRsZXkgTW9yZ2FuIDxicmFk
-c0BtYWlubGluaW5nLm9yZz4KPiA+Cj4gPiBDLVNLWSBoYXMgbm8gdHdvLWJ5dGUgYXRvbWljIGNv
-bXBhcmUgYW5kIHN3YXAsIHNvIHRoZSBfX2NtcHhjaGcoKQo+ID4gbWFjcm9zIGxldCBjYXNlIDIg
-ZmFsbCB0aHJvdWdoIHRvIEJVSUxEX0JVRygpIHZpYSBkZWZhdWx0LCBhbmQgYQo+ID4gdHdvLWJ5
-dGUgY21weGNoZygpIGZhaWxzIHRoZSBidWlsZC4KPiA+Cj4gPiBSb3V0ZSBjYXNlIDIgdGhyb3Vn
-aCB0aGUgbmV3IGNtcHhjaGdfZW11X3UxNigpLCB3aGljaCBuYXJyb3dzIHRoZQo+ID4gb2xkIGFu
-ZCBuZXcgdmFsdWVzIGl0c2VsZiwgc28gYWxsIHRocmVlIG9yZGVyaW5ncywgcmVsYXhlZCwgYWNx
-dWlyZQo+ID4gYW5kIGZ1bGwsIGtlZXAgdGhlICh1aW50cHRyX3QpIGNhc3RzIHRoZSBjYXNlIDEg
-cGF0aCBhbHJlYWR5IHVzZXMuCj4gPgo+ID4gU2lnbmVkLW9mZi1ieTogQnJhZGxleSBNb3JnYW4g
-PGJyYWRzQG1haW5saW5pbmcub3JnPgo+ID4gU2lnbmVkLW9mZi1ieTogUGF1bCBFLiBNY0tlbm5l
-eSA8cGF1bG1ja0BrZXJuZWwub3JnPgo+ID4gLS0tCj4gPiAgYXJjaC9jc2t5L2luY2x1ZGUvYXNt
-L2NtcHhjaGcuaCB8IDkgKysrKysrKysrCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDkgaW5zZXJ0aW9u
-cygrKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9hcmNoL2Nza3kvaW5jbHVkZS9hc20vY21weGNoZy5o
-IGIvYXJjaC9jc2t5L2luY2x1ZGUvYXNtL2NtcHhjaGcuaAo+ID4gaW5kZXggZGI2ZGRhNDcxODRl
-NC4uNmYzY2E3OWU1NGFjZiAxMDA2NDQKPiA+IC0tLSBhL2FyY2gvY3NreS9pbmNsdWRlL2FzbS9j
-bXB4Y2hnLmgKPiA+ICsrKyBiL2FyY2gvY3NreS9pbmNsdWRlL2FzbS9jbXB4Y2hnLmgKPiA+IEBA
-IC02NCw2ICs2NCw5IEBACj4gPiAgICAgICAgIHN3aXRjaCAoc2l6ZSkgeyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgXAo+ID4gICAgICAgICBjYXNlIDE6ICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKPiA+ICAgICAgICAgICAg
-ICAgICBfX3JldCA9IChfX3R5cGVvZl9fKCoocHRyKSkpY21weGNoZ19lbXVfdTgoKHZvbGF0aWxl
-IHU4ICopX19wdHIsICh1aW50cHRyX3QpX19vbGQsICh1aW50cHRyX3QpX19uZXcpOyBcCj4gPiAr
-ICAgICAgICAgICAgICAgYnJlYWs7ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBcCj4gPiArICAgICAgIGNhc2UgMjogICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgXAo+ID4gKyAgICAgICAgICAgICAgIF9fcmV0ID0g
-KF9fdHlwZW9mX18oKihwdHIpKSljbXB4Y2hnX2VtdV91MTYoKHZvbGF0aWxlIHUxNiAqKV9fcHRy
-LCAodW5zaWduZWQgbG9uZylfX29sZCwgKHVuc2lnbmVkIGxvbmcpX19uZXcpOyBcCj4gPiAgICAg
-ICAgICAgICAgICAgYnJlYWs7ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgXAo+ID4gICAgICAgICBjYXNlIDQ6ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIFwKPiA+ICAgICAgICAgICAgICAgICBhc20gdm9sYXRpbGUgKCAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCj4gPiBAQCAtOTcsNiArMTAwLDkgQEAKPiA+
-ICAgICAgICAgc3dpdGNoIChzaXplKSB7ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICBcCj4gPiAgICAgICAgIGNhc2UgMTogICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgXAo+ID4gICAgICAgICAgICAgICAgIF9fcmV0ID0gKF9fdHlw
-ZW9mX18oKihwdHIpKSljbXB4Y2hnX2VtdV91OCgodm9sYXRpbGUgdTggKilfX3B0ciwgKHVpbnRw
-dHJfdClfX29sZCwgKHVpbnRwdHJfdClfX25ldyk7IFwKPiA+ICsgICAgICAgICAgICAgICBicmVh
-azsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKPiA+
-ICsgICAgICAgY2FzZSAyOiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICBcCj4gPiArICAgICAgICAgICAgICAgX19yZXQgPSAoX190eXBlb2ZfXygqKHB0cikp
-KWNtcHhjaGdfZW11X3UxNigodm9sYXRpbGUgdTE2ICopX19wdHIsICh1bnNpZ25lZCBsb25nKV9f
-b2xkLCAodW5zaWduZWQgbG9uZylfX25ldyk7IFwKPiA+ICAgICAgICAgICAgICAgICBicmVhazsg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCj4gPiAgICAgICAgIGNh
-c2UgNDogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAo+
-ID4gICAgICAgICAgICAgICAgIGFzbSB2b2xhdGlsZSAoICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIFwKPiA+IEBAIC0xMzEsNiArMTM3LDkgQEAKPiA+ICAgICAgICAgc3dpdGNoIChz
-aXplKSB7ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCj4gPiAgICAg
-ICAgIGNhc2UgMTogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgXAo+ID4gICAgICAgICAgICAgICAgIF9fcmV0ID0gKF9fdHlwZW9mX18oKihwdHIpKSljbXB4
-Y2hnX2VtdV91OCgodm9sYXRpbGUgdTggKilfX3B0ciwgKHVpbnRwdHJfdClfX29sZCwgKHVpbnRw
-dHJfdClfX25ldyk7IFwKPiA+ICsgICAgICAgICAgICAgICBicmVhazsgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKPiA+ICsgICAgICAgY2FzZSAyOiAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCj4gPiArICAg
-ICAgICAgICAgICAgX19yZXQgPSAoX190eXBlb2ZfXygqKHB0cikpKWNtcHhjaGdfZW11X3UxNigo
-dm9sYXRpbGUgdTE2ICopX19wdHIsICh1bnNpZ25lZCBsb25nKV9fb2xkLCAodW5zaWduZWQgbG9u
-ZylfX25ldyk7IFwKPiBMR1RNIQo+IAo+IEFja2VkLWJ5OiBHVU8gUmVuIDxndW9yZW5Aa2VybmVs
-Lm9yZz4KClRoYW5rIHlvdSEgIEkgd2lsbCBhcHBseSB0aGlzIG9uIG15IG5leHQgcmViYXNlLgoK
-CQkJCQkJCVRoYW54LCBQYXVsCgo+ID4gICAgICAgICAgICAgICAgIGJyZWFrOyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKPiA+ICAgICAgICAgY2FzZSA0OiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCj4gPiAgICAgICAg
-ICAgICAgICAgYXNtIHZvbGF0aWxlICggICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-XAo+ID4gLS0KPiA+IDIuNDAuMQo+ID4KPiAKPiAKPiAtLSAKPiBCZXN0IFJlZ2FyZHMKPiAgR3Vv
-IFJlbgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGlu
-dXgtc25wcy1hcmMgbWFpbGluZyBsaXN0CmxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5v
-cmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1zbnBz
-LWFyYwo=
+On Thu, Oct 08, 2026 at 11:20:14AM +0200, Andreas Larsson wrote:
+> On 2026-08-31 07:43, Anshuman Khandual wrote:
+> > There are no more users left for any pxd_ERROR() either in generic MM or in
+> > the platform MM. Hence all these platform macros along with their generic
+> > fallback could be dropped across the tree.
+> > 
+> > Cc: linux-alpha@vger.kernel.org
+> > Cc: linux-snps-arc@lists.infradead.org
+> > Cc: linux-arm-kernel@lists.infradead.org
+> > Cc: linux-csky@vger.kernel.org
+> > Cc: linux-hexagon@vger.kernel.org
+> > Cc: loongarch@lists.linux.dev
+> > Cc: linux-m68k@lists.linux-m68k.org
+> > Cc: linux-mips@vger.kernel.org
+> > Cc: linux-openrisc@vger.kernel.org
+> > Cc: linux-parisc@vger.kernel.org
+> > Cc: linuxppc-dev@lists.ozlabs.org
+> > Cc: linux-riscv@lists.infradead.org
+> > Cc: linux-s390@vger.kernel.org
+> > Cc: linux-sh@vger.kernel.org
+> > Cc: sparclinux@vger.kernel.org
+> > Cc: linux-um@lists.infradead.org
+> > Cc: linux-arch@vger.kernel.org
+> > Cc: linux-mm@kvack.org
+> > Cc: linux-kernel@vger.kernel.org
+> > Acked-by: Geert Uytterhoeven <geert@linux-m68k.org> # m68k
+> > Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+> > Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> > Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+> ...>  /*
+> >   * Encode/decode swap entries and swap PTEs. Swap PTEs are all PTEs that
+> >   * are !pte_none() && !pte_present().
+> > diff --git a/arch/sparc/include/asm/pgtable_32.h b/arch/sparc/include/asm/pgtable_32.h
+> > index f89b1250661d..5a5f54a090f5 100644
+> > --- a/arch/sparc/include/asm/pgtable_32.h
+> > +++ b/arch/sparc/include/asm/pgtable_32.h
+> > @@ -40,9 +40,6 @@ void load_mmu(void);
+> >  unsigned long calc_highpages(void);
+> >  unsigned long __init bootmem_init(unsigned long *pages_avail);
+> >  
+> > -#define pte_ERROR(e)   __builtin_trap()
+> > -#define pmd_ERROR(e)   __builtin_trap()
+> > -#define pgd_ERROR(e)   __builtin_trap()
+> >  
+> >  #define PTRS_PER_PTE    	64
+> >  #define PTRS_PER_PMD    	64
+> > diff --git a/arch/sparc/include/asm/pgtable_64.h b/arch/sparc/include/asm/pgtable_64.h
+> > index 0837ebbc5dce..44d1333065a6 100644
+> > --- a/arch/sparc/include/asm/pgtable_64.h
+> > +++ b/arch/sparc/include/asm/pgtable_64.h
+> > @@ -96,16 +96,6 @@ bool kern_addr_valid(unsigned long addr);
+> >  #define PTRS_PER_PUD	(1UL << PUD_BITS)
+> >  #define PTRS_PER_PGD	(1UL << PGDIR_BITS)
+> >  
+> > -#define pmd_ERROR(e)							\
+> > -	pr_err("%s:%d: bad pmd %p(%016lx) seen at (%pS)\n",		\
+> > -	       __FILE__, __LINE__, &(e), pmd_val(e), __builtin_return_address(0))
+> > -#define pud_ERROR(e)							\
+> > -	pr_err("%s:%d: bad pud %p(%016lx) seen at (%pS)\n",		\
+> > -	       __FILE__, __LINE__, &(e), pud_val(e), __builtin_return_address(0))
+> > -#define pgd_ERROR(e)							\
+> > -	pr_err("%s:%d: bad pgd %p(%016lx) seen at (%pS)\n",		\
+> > -	       __FILE__, __LINE__, &(e), pgd_val(e), __builtin_return_address(0))
+> > -
+> >  #endif /* !(__ASSEMBLER__) */
+> 
+> Perhaps a bit of a pity to lose the printing of the address of the pxd
+> that a number of architectures did before this series, but i have no
+> strong opinion.
+> 
+> Acked-by: Andreas Larsson <andreas@gaisler.com> # sparc
+
+Thanks Andreas.
+
+_______________________________________________
+linux-snps-arc mailing list
+linux-snps-arc@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-snps-arc
