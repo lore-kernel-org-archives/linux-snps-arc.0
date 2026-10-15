@@ -4,67 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92B93CA6015
-	for <linux-snps-arc@archiver.kernel.org>; Fri,  9 Oct 2026 02:24:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 50D5BCC6B33
+	for <linux-snps-arc@archiver.kernel.org>; Thu, 15 Oct 2026 15:40:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=km6EixOKujHxvYlfpunBRmjSAwjPCcQtT0VBoHLCzcU=; b=jNq4mPCXGj2iPU
-	BOj5mF0kYN+R7ojIYKXKtWi4PYs+IOFiTlSFk7kT9UZ/BQjw19FFlHxQFly0/OjOLbrvcbh81ZpYe
-	eLllgfr05kLl4k2P0FF99Uxrvl1tMlHDgGAHfoWFyBLjcIcSU0X2j2nZmLqWI6VY01CGJT0aVr+5i
-	9rFekY+H1u4XVt3V54ceOYe03t/teWO0puQRbE0iZkuxVmj8ZIrQphny4z4UXeiuDevlrhsuKrpTt
-	AmfhVJtX9iiZ16bkHW9kpfkvKrtjGIw4cMdiboJlKsN5jxO/25UyFEQET+y05ac2aOU10lWvoqakG
-	S8nlc8Lkwa4hp/BBkQoA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=NU7K2eoDiKbkqv4c0IQTEM9QEM3a+W4vg5Ui6TKEtAk=; b=IXuy3Zg4zxh9Ru
+	R4Df1E6JQWTdr/EbmqK18ttCJPfZd3FZEERYHa1SCWIsPr/XUHuQEb4RA5s9qm0LTch0ljmpSsOia
+	TlnX4jlwwv0i3k8YguOEXRVv7m3QoofaqksNIPxwjni676eCm08WnZJ39qdwsd3kTUT7tth2hVl6j
+	nvKsJQD4Jdr+We1kTto2fqTOHO4whcFBQ+Jm5M1AAWUzfkST2I/8HLC62D4Xw/rhNkuA+CjZTDp+y
+	MHdVbxYpX96efEx2y4eC1y/LgIrMFTgNZ8Jvki6Yvr2Ex4Vqh4YmUFTTqmc/nJnlLmCzQ8iBkplwI
+	pfdHvnTe4B+zlFIIQX4w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xF0Ha-00000005HLf-3rm5;
-	Fri, 09 Oct 2026 02:24:26 +0000
-Received: from foss.arm.com ([217.140.110.172])
-	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xF0HX-00000005HKr-0LY9;
-	Fri, 09 Oct 2026 02:24:25 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0010F1692;
-	Thu,  8 Oct 2026 19:24:14 -0700 (PDT)
-Received: from localhost (a085714.arm.com [10.164.19.28])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 99E593F66F;
-	Thu,  8 Oct 2026 19:24:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1791512658; bh=2QLRKUYyFp8S6i+UXZO3Wxnz517D73K9DyPKeDJE9KQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cdimGt4BwBkbC2kvqJXbpnU8+qL/O0F0HZ2Z0H4CpSxUOxCh+EcoJtLXctAWoTzrV
-	 OtcAfxF5iREGuxkwM6scrG4vYN4mDhOT5dXuCp6y3UYQNkA+QiuO7WX1/GccVSzj2V
-	 OoaC3kiLUtydOmdP9bIBEODXTrrr6BODQU57YXnw=
-Date: Fri, 9 Oct 2026 07:54:15 +0530
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-To: Andreas Larsson <andreas@gaisler.com>
-Cc: linux-mm@kvack.org, samuel.holland@sifive.com, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>, 
-	WANG Xuerui <kernel@xen0n.name>, linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
-	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-um@lists.infradead.org, linux-arch@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH 8/8] mm: Drop pxd_ERROR()
-Message-ID: <y4zwpwqqxnjtwzm2j5xrdnnmdle5eiih7tsn7quywur7w2beh4@z3lk5ztxdz35>
-References: <20260831054331.625505-1-anshuman.khandual@arm.com>
- <20260831054331.625505-9-anshuman.khandual@arm.com>
- <c24fc419-7bee-4fe4-be12-9aa378d49af1@gaisler.com>
+	id 1xHNZY-00000000apI-3fhF;
+	Thu, 15 Oct 2026 15:40:48 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
+	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1xHNZW-00000000aol-34ww
+	for linux-snps-arc@lists.infradead.org;
+	Thu, 15 Oct 2026 15:40:46 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id 32F36408CA;
+	Thu, 15 Oct 2026 15:40:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 571CC1F000C4;
+	Thu, 15 Oct 2026 15:40:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792078846;
+	bh=ddZjtjOCh5jlTMGXe/i/6le28DxCfsrE+liYqQ3Dqgs=;
+	h=From:To:Cc:Subject:Date;
+	b=MbtBene2qfbMlfoweEAJtIgbeH2a7u6WX0U5uZaJfB8tnaTJREw0iGg7sNQ0KwEQH
+	 qMN8U2VahNYDiNejGgexzLSNmc7XNeqs/3nbBbptKMa16FCo8JoCDRGIxuqWqgF/b9
+	 yX5AZFfgv5urGbajMrUboGfxL88OuC+zfia+J7RbF0Cr9ycHDzLGpLNDIkNota7wBT
+	 C5cw4UpRjvvtVmF9+d/BDcON5d7pQOF7gFaTxJ6yKofJ0Nci2Jd8X98M2h/caNx4wY
+	 13qU1+P7vf3VK2hN91pmh4akUZSHBONpEv41wmLlsf1E6NeEugjz7JYq6hthbw09/9
+	 3CDazGAjge/vg==
+From: Sasha Levin <sashal@kernel.org>
+To: Vineet Gupta <vgupta@kernel.org>,
+	linux-snps-arc@lists.infradead.org
+Cc: Andrii Nakryiko <andrii@kernel.org>,
+	Ilya Leoshkevich <iii@linux.ibm.com>,
+	bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH] ARC: Strip libgcc debug information when generating BTF
+Date: Thu, 15 Oct 2026 11:40:44 -0400
+Message-ID: <20261015154044.4058618-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <c24fc419-7bee-4fe4-be12-9aa378d49af1@gaisler.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261008_192423_229878_A6A81939 
-X-CRM114-Status: GOOD (  17.12  )
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,79 +71,85 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On Thu, Oct 08, 2026 at 11:20:14AM +0200, Andreas Larsson wrote:
-> On 2026-08-31 07:43, Anshuman Khandual wrote:
-> > There are no more users left for any pxd_ERROR() either in generic MM or in
-> > the platform MM. Hence all these platform macros along with their generic
-> > fallback could be dropped across the tree.
-> > 
-> > Cc: linux-alpha@vger.kernel.org
-> > Cc: linux-snps-arc@lists.infradead.org
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: linux-csky@vger.kernel.org
-> > Cc: linux-hexagon@vger.kernel.org
-> > Cc: loongarch@lists.linux.dev
-> > Cc: linux-m68k@lists.linux-m68k.org
-> > Cc: linux-mips@vger.kernel.org
-> > Cc: linux-openrisc@vger.kernel.org
-> > Cc: linux-parisc@vger.kernel.org
-> > Cc: linuxppc-dev@lists.ozlabs.org
-> > Cc: linux-riscv@lists.infradead.org
-> > Cc: linux-s390@vger.kernel.org
-> > Cc: linux-sh@vger.kernel.org
-> > Cc: sparclinux@vger.kernel.org
-> > Cc: linux-um@lists.infradead.org
-> > Cc: linux-arch@vger.kernel.org
-> > Cc: linux-mm@kvack.org
-> > Cc: linux-kernel@vger.kernel.org
-> > Acked-by: Geert Uytterhoeven <geert@linux-m68k.org> # m68k
-> > Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-> > Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> > Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> ...>  /*
-> >   * Encode/decode swap entries and swap PTEs. Swap PTEs are all PTEs that
-> >   * are !pte_none() && !pte_present().
-> > diff --git a/arch/sparc/include/asm/pgtable_32.h b/arch/sparc/include/asm/pgtable_32.h
-> > index f89b1250661d..5a5f54a090f5 100644
-> > --- a/arch/sparc/include/asm/pgtable_32.h
-> > +++ b/arch/sparc/include/asm/pgtable_32.h
-> > @@ -40,9 +40,6 @@ void load_mmu(void);
-> >  unsigned long calc_highpages(void);
-> >  unsigned long __init bootmem_init(unsigned long *pages_avail);
-> >  
-> > -#define pte_ERROR(e)   __builtin_trap()
-> > -#define pmd_ERROR(e)   __builtin_trap()
-> > -#define pgd_ERROR(e)   __builtin_trap()
-> >  
-> >  #define PTRS_PER_PTE    	64
-> >  #define PTRS_PER_PMD    	64
-> > diff --git a/arch/sparc/include/asm/pgtable_64.h b/arch/sparc/include/asm/pgtable_64.h
-> > index 0837ebbc5dce..44d1333065a6 100644
-> > --- a/arch/sparc/include/asm/pgtable_64.h
-> > +++ b/arch/sparc/include/asm/pgtable_64.h
-> > @@ -96,16 +96,6 @@ bool kern_addr_valid(unsigned long addr);
-> >  #define PTRS_PER_PUD	(1UL << PUD_BITS)
-> >  #define PTRS_PER_PGD	(1UL << PGDIR_BITS)
-> >  
-> > -#define pmd_ERROR(e)							\
-> > -	pr_err("%s:%d: bad pmd %p(%016lx) seen at (%pS)\n",		\
-> > -	       __FILE__, __LINE__, &(e), pmd_val(e), __builtin_return_address(0))
-> > -#define pud_ERROR(e)							\
-> > -	pr_err("%s:%d: bad pud %p(%016lx) seen at (%pS)\n",		\
-> > -	       __FILE__, __LINE__, &(e), pud_val(e), __builtin_return_address(0))
-> > -#define pgd_ERROR(e)							\
-> > -	pr_err("%s:%d: bad pgd %p(%016lx) seen at (%pS)\n",		\
-> > -	       __FILE__, __LINE__, &(e), pgd_val(e), __builtin_return_address(0))
-> > -
-> >  #endif /* !(__ASSEMBLER__) */
-> 
-> Perhaps a bit of a pity to lose the printing of the address of the pxd
-> that a number of architectures did before this series, but i have no
-> strong opinion.
-> 
-> Acked-by: Andreas Larsson <andreas@gaisler.com> # sparc
+ARC links against the compiler's libgcc archive. The ARC GNU 2023.03
+toolchain ships this library with debug information, including complex
+floating-point types in integer arithmetic helpers such as __udivdi3.
+These types reach vmlinux even though the kernel does not use complex
+floating-point arithmetic.
 
-Thanks Andreas.
+When floating-point BTF encoding is enabled, pahole rejects those types:
+
+  Complex, interval and imaginary float types are not supported
+  Error while encoding BTF.
+  FAILED: load BTF from .tmp_vmlinux1.BTF.1: No such file or directory
+
+KernelCI's upgrade to pahole 1.31 exposed this long-standing problem as
+failed ARC builds. As of 1.32, pahole still rejects these types, and
+older versions will stay in use, so the kernel build has to keep them
+out of vmlinux. Commit f122668ddcce ("ARC: Add eBPF JIT support")
+documented the same failure along with a workaround of disabling
+floating-point BTF encoding, but that also discards supported
+floating-point types from kernel BTF.
+
+For CONFIG_DEBUG_INFO_BTF, generate a debug-stripped copy of the selected
+libgcc archive in the output tree and link that copy. Preserve the archive
+structure so that only needed helpers are linked, and use the normal
+Kbuild objcopy rule to track input and command changes. The trade-off is
+that vmlinux in BTF-enabled builds no longer carries DWARF for the libgcc
+helpers. Debug information for kernel code, the installed toolchain and
+non-BTF builds stay unchanged.
+
+Reproduced and tested with ARC GCC 12.2.1 and pahole 1.31 and 1.32 using
+an ARCv2 tinyconfig with BPF_SYSCALL and DWARF4/BTF enabled. Before and
+after vmlinux.o files are identical after stripping debug information.
+
+Fixes: db16c1fe92d7 ("bpf: Generate BTF_KIND_FLOAT when linking vmlinux")
+Link: https://github.com/kernelci/kernelci-core/commit/e71b8c9f42253180596e734c18965a5aad80c8c5
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ arch/arc/Makefile     | 9 ++++++++-
+ arch/arc/lib/Makefile | 8 ++++++++
+ 2 files changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+index 868805ffcfeab..4ea705a331c7c 100644
+--- a/arch/arc/Makefile
++++ b/arch/arc/Makefile
+@@ -86,7 +86,14 @@ core-$(CONFIG_ARC_PLAT_TB10X)	+= arch/arc/plat-tb10x/
+ core-$(CONFIG_ARC_PLAT_AXS10X)	+= arch/arc/plat-axs10x/
+ core-$(CONFIG_ARC_SOC_HSDK)	+= arch/arc/plat-hsdk/
+ 
+-libs-y		+= arch/arc/lib/ $(LIBGCC)
++libs-y		+= arch/arc/lib/
++
++ifdef CONFIG_DEBUG_INFO_BTF
++export LIBGCC := $(LIBGCC)
++libs-y		+= arch/arc/lib/libgcc.a
++else
++libs-y		+= $(LIBGCC)
++endif
+ 
+ boot		:= arch/arc/boot
+ 
+diff --git a/arch/arc/lib/Makefile b/arch/arc/lib/Makefile
+index 30158ae69fd4a..2807ee24f27e6 100644
+--- a/arch/arc/lib/Makefile
++++ b/arch/arc/lib/Makefile
+@@ -13,3 +13,11 @@ lib-$(CONFIG_ISA_ARCV2)		+=memcpy-archs-unaligned.o
+ else
+ lib-$(CONFIG_ISA_ARCV2)		+=memcpy-archs.o
+ endif
++
++# libgcc can contain complex floating-point debug types unsupported by BTF.
++# Strip only the debug information from a local copy of the selected archive.
++always-$(CONFIG_DEBUG_INFO_BTF) += libgcc.a
++OBJCOPYFLAGS_libgcc.a := --strip-debug
++
++$(obj)/libgcc.a: $(LIBGCC) FORCE
++	$(call if_changed,objcopy)
+-- 
+2.53.0
+
 
 _______________________________________________
 linux-snps-arc mailing list
