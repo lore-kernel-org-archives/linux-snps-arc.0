@@ -4,57 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B8FEBCCA462
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 16 Oct 2026 09:18:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8921CCF2C9
+	for <linux-snps-arc@archiver.kernel.org>; Sun, 18 Oct 2026 13:29:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=PX1RUmQUc4yQPsocfm01yI+pMovg/4b+Aqtfm1HdnIE=; b=E0SpEX8jLC5jk4
-	VlMO/rDrde201Y+yGbFaLBrAxd/FZC553742BEbLKqWhnfe0L5E3AhkBTLsfDoqQ9NSMsfVm/7Au3
-	fLfH/a917axLPSBTqYtwXKAW+hZOR9Sqoxf71uHvpv/gDbU8u4DrxzeZb0piAzRG4cMDjc3htt/oV
-	J4qj7MiuKzSVLW4hbzRO+7N7KkZ7BJE2TPoRPtP/CTczZqF7SeT4nJWFjZhZrkvc1zzpL6rS7XfcV
-	hhXx4TvlHRk8Pr+kwDULTsgUCYQjLNR9DV7JZrsIhxMnYfmk5PrY2o4TU2cZP3uYK05B+OEkMDwPY
-	620BaJFCXbYTY63hRZ1w==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=W4pMQgVfHg8DoBtrTffUZnoHd8nSciZzlxlTqT0k5YU=; b=F5lNxORsr0UYk5
+	50jKQbjVZRWbXpvyToA0uRGJtl1/b4U6xwOcHW+H11K5bIgHAEBGMzB+59Do1WnxEYonax5gTewq1
+	PsXroO9n51RMFkMDz5TgNxxD0KJWTCBNriz2sSiyOd0lMVxirEJl5hHLc2chuNnhL38unp4guRar2
+	M6LclSP7hHwyrNNzh8pmwCKdxunpdAKRQdf1x0r9t4pIKtGtY1WRlMRi/lZlZdJHCXdRo/tL61Gan
+	1EWX4Ywgd3XeLwc2oAtGuHMIhm8LVy8Mkphf+xsM42tcFzBeJTiGrJ6BnwOOEj17o5gfazJkj1t7X
+	g8Z4DUHbumXwD7lkE98g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xHe5V-00000002SWi-0PKV;
-	Fri, 16 Oct 2026 09:18:53 +0000
+	id 1xIQws-00000005tXr-2PjN;
+	Sun, 18 Oct 2026 13:29:14 +0000
 Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xHe5T-00000002SWa-1tYK
+	id 1xIQwp-00000005tXj-25Fp
 	for linux-snps-arc@lists.infradead.org;
-	Fri, 16 Oct 2026 09:18:51 +0000
+	Sun, 18 Oct 2026 13:29:11 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id ABB9260018;
-	Fri, 16 Oct 2026 09:18:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06A981F000C4;
-	Fri, 16 Oct 2026 09:18:48 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id A3FA860D97;
+	Sun, 18 Oct 2026 13:29:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21D4D1F000C5;
+	Sun, 18 Oct 2026 13:29:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792142330;
-	bh=NbWDxILIwfiHLalvlI7KJfx446gCQIB/Sm6F+YT4cfw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=hugg/Ish40Lnnw/N9fkNWC988BB4oOQTGY24+sFzpc820WNIb/vVn4IGYunPiwC6F
-	 J+MynlRIV+0ITU2Xq1RNMA/prXJz7DCucnneAzJ9n2/XFSXnaVM8gCl80fFNxXP1/W
-	 XJYWwjFfNCpHIReZEhd8tqgPBtySlEoyBVDss5Ms5m7RCaG9YWyhddftCzzzHAB9Yu
-	 QazlSc5iyoos1/YE/s2WyxdQYI3eXCBoVDkn0EYb4iE5qwwh9hrZi/t/zGK+dPrxh5
-	 8ZS5nDU0sABQaaBm+J5Ih0Ih7f7oT17tnzH1sCDxOcunBSyz4Nt3kBpbezRmqlT+tG
-	 2E3Toy7qWOzHA==
-Message-ID: <3683fce4-8700-4e6b-9a1d-86826348a5dc@kernel.org>
-Date: Fri, 16 Oct 2026 10:18:46 +0100
+	s=k20260515; t=1792330150;
+	bh=MGW9gS81JOGmQhAC9OrTzEkmznZ+6BrPV7a61PBlbiY=;
+	h=From:To:Cc:Subject:Date;
+	b=jQ+7Gji5398VsfxuIyNKoWG3c80C6uFP86YknrNLVg1SjybiOFqi6yQZAu46udGVk
+	 v4j9A3HiMjwdR3X91FidNxnwzAlsgdxcd4jD3knSSkpE5zzx5XNGZs7ikGYIq9SS4A
+	 BsKM/W2XpYjYGcFcBCbewR74GiDwqf0xfzKAEsAnSzJe4mXCRxV3r0k1gz2bWK4faF
+	 b96B3/+XRXN3Nf+rx1G6M8xqT8yP8clPh1sqzmRd7d8Icb+6JdBzKfUZFPCbZxQCk5
+	 cH8ZuzFDyM7R0v/HILU4i6ihzT5mwhT3/ZYUXU8WZr83Middj4kTXnh/jVmCD97NOI
+	 m9ajISozhV7CQ==
+From: Sasha Levin <sashal@kernel.org>
+To: Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Vineet Gupta <vgupta@kernel.org>,
+	Brian Cain <bcain@kernel.org>,
+	Stafford Horne <shorne@gmail.com>
+Cc: Josef Bacik <josef@toxicpanda.com>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Jonas Bonn <jonas@southpole.se>,
+	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	bpf@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-hexagon@vger.kernel.org,
+	linux-openrisc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>,
+	"kernelci.org bot" <bot@kernelci.org>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH bpf-next] locking/atomic: arc, hexagon, openrisc: Define arch_cmpxchg_local()
+Date: Sun, 18 Oct 2026 09:29:07 -0400
+Message-ID: <20261018132907.3823160-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ARC: Strip libgcc debug information when generating BTF
-To: Sasha Levin <sashal@kernel.org>, Vineet Gupta <vgupta@kernel.org>,
- linux-snps-arc@lists.infradead.org
-Cc: Andrii Nakryiko <andrii@kernel.org>, Ilya Leoshkevich
- <iii@linux.ibm.com>, bpf@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261015154044.4058618-1-sashal@kernel.org>
-Content-Language: en-GB
-From: Alan Maguire <almagui@kernel.org>
-In-Reply-To: <20261015154044.4058618-1-sashal@kernel.org>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,47 +88,109 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
 Errors-To: linux-snps-arc-bounces+linux-snps-arc=archiver.kernel.org@lists.infradead.org
 
-On 10/15/26 4:40 PM, Sasha Levin wrote:
-> ARC links against the compiler's libgcc archive. The ARC GNU 2023.03
-> toolchain ships this library with debug information, including complex
-> floating-point types in integer arithmetic helpers such as __udivdi3.
-> These types reach vmlinux even though the kernel does not use complex
-> floating-point arithmetic.
-> 
-> When floating-point BTF encoding is enabled, pahole rejects those types:
-> 
->   Complex, interval and imaginary float types are not supported
->   Error while encoding BTF.
->   FAILED: load BTF from .tmp_vmlinux1.BTF.1: No such file or directory
-> 
-> KernelCI's upgrade to pahole 1.31 exposed this long-standing problem as
-> failed ARC builds. As of 1.32, pahole still rejects these types, and
-> older versions will stay in use, so the kernel build has to keep them
-> out of vmlinux. Commit f122668ddcce ("ARC: Add eBPF JIT support")
-> documented the same failure along with a workaround of disabling
-> floating-point BTF encoding, but that also discards supported
-> floating-point types from kernel BTF.
-> 
-> For CONFIG_DEBUG_INFO_BTF, generate a debug-stripped copy of the selected
-> libgcc archive in the output tree and link that copy. Preserve the archive
-> structure so that only needed helpers are linked, and use the normal
-> Kbuild objcopy rule to track input and command changes. The trade-off is
-> that vmlinux in BTF-enabled builds no longer carries DWARF for the libgcc
-> helpers. Debug information for kernel code, the installed toolchain and
-> non-BTF builds stay unchanged.
-> 
-> Reproduced and tested with ARC GCC 12.2.1 and pahole 1.31 and 1.32 using
-> an ARCv2 tinyconfig with BPF_SYSCALL and DWARF4/BTF enabled. Before and
-> after vmlinux.o files are identical after stripping debug information.
-> 
-> Fixes: db16c1fe92d7 ("bpf: Generate BTF_KIND_FLOAT when linking vmlinux")
-> Link: https://github.com/kernelci/kernelci-core/commit/e71b8c9f42253180596e734c18965a5aad80c8c5
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+Commit ccb88db8dac8 ("bpf: Don't hand out a linked element as extra
+element") made alloc_htab_elem() take the per-cpu spare element with
+try_cmpxchg_local(), the first caller of cmpxchg_local() outside of
+architecture code. It doesn't build on arc, hexagon and openrisc:
 
-Acked-by: Alan Maguire (Oracle) <almagui@kernel.org>
+  include/linux/atomic/atomic-arch-fallback.h:384:27: error: implicit declaration of function 'arch_cmpxchg_local'; did you mean 'raw_cmpxchg_local'? [-Werror=implicit-function-declaration]
 
-Thanks for the fix Sasha! More complete floating point representations for BTF
-should definitely be on the to-do list..
+raw_cmpxchg_local() maps to arch_cmpxchg_local() unconditionally, but
+these three architectures don't define it, and unlike nios2 and
+microblaze they don't get it from asm-generic/cmpxchg.h either.
+
+cmpxchg_local() only has to be atomic with respect to the local CPU, so
+an architecture's own arch_cmpxchg() can serve for the sizes it
+supports. arc uses its relaxed LLOCK/SCOND variant when ARC_HAS_LLSC is
+set and its atomic_ops_lock() variant otherwise, and openrisc uses its
+LL/SC arch_cmpxchg(), the way arm64, riscv and s390 alias theirs. The
+hexagon arch_cmpxchg() only handles 32-bit words, so hexagon uses the
+generic version that disables interrupts, like sh, sparc32 and xtensa
+do. Linux has no NMIs on hexagon, so that is sufficient there.
+
+Fixes: ccb88db8dac8 ("bpf: Don't hand out a linked element as extra element")
+Reported-by: kernelci.org bot <bot@kernelci.org>
+Closes: https://d.kernelci.org/i/maestro:78b65519ee4561df1fbf1e72f1dec9da7e5b153e
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202610181750.BoqAddaF-lkp@intel.com/
+Closes: https://lore.kernel.org/oe-kbuild-all/202610182048.aEaiBP8W-lkp@intel.com/
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+The only user is in bpf-next, so it is probably easiest to take this
+through bpf-next with acks from the arc, hexagon and openrisc
+maintainers. A similar change was posted in 2023 for objpool and
+stalled once objpool stopped using try_cmpxchg_local():
+https://lore.kernel.org/all/20231121142347.241356-1-wuqiang.matt@bytedance.com/
+
+Build tested on arc with and without LLSC (including both KernelCI
+configs), hexagon (clang) and openrisc.
+
+ arch/arc/include/asm/cmpxchg.h      | 4 ++++
+ arch/hexagon/include/asm/cmpxchg.h  | 6 ++++++
+ arch/openrisc/include/asm/cmpxchg.h | 2 ++
+ 3 files changed, 12 insertions(+)
+
+diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
+index 66b3743c94008..93f7153eb267a 100644
+--- a/arch/arc/include/asm/cmpxchg.h
++++ b/arch/arc/include/asm/cmpxchg.h
+@@ -59,6 +59,8 @@
+ 	_prev_;								\
+ })
+ 
++#define arch_cmpxchg_local	arch_cmpxchg_relaxed
++
+ #else
+ 
+ #define arch_cmpxchg(ptr, old, new)				        \
+@@ -80,6 +82,8 @@
+ 	_prev_;								\
+ })
+ 
++#define arch_cmpxchg_local	arch_cmpxchg
++
+ #endif
+ 
+ /*
+diff --git a/arch/hexagon/include/asm/cmpxchg.h b/arch/hexagon/include/asm/cmpxchg.h
+index 9c58fb81f7fd6..e6114e713db9f 100644
+--- a/arch/hexagon/include/asm/cmpxchg.h
++++ b/arch/hexagon/include/asm/cmpxchg.h
+@@ -8,6 +8,8 @@
+ #ifndef _ASM_CMPXCHG_H
+ #define _ASM_CMPXCHG_H
+ 
++#include <asm-generic/cmpxchg-local.h>
++
+ /*
+  * __arch_xchg - atomically exchange a register and a memory location
+  * @x: value to swap
+@@ -72,4 +74,8 @@ __arch_xchg(unsigned long x, volatile void *ptr, int size)
+ 	__oldval;						\
+ })
+ 
++#define arch_cmpxchg_local(ptr, o, n)					\
++	((__typeof__(*(ptr)))__generic_cmpxchg_local((ptr),		\
++			(unsigned long)(o), (unsigned long)(n), sizeof(*(ptr))))
++
+ #endif /* _ASM_CMPXCHG_H */
+diff --git a/arch/openrisc/include/asm/cmpxchg.h b/arch/openrisc/include/asm/cmpxchg.h
+index 8ee151c072e41..fcf1bc8db8fe9 100644
+--- a/arch/openrisc/include/asm/cmpxchg.h
++++ b/arch/openrisc/include/asm/cmpxchg.h
+@@ -140,6 +140,8 @@ static inline unsigned long __cmpxchg(volatile void *ptr, unsigned long old,
+ 					       sizeof(*(ptr)));		\
+ 	})
+ 
++#define arch_cmpxchg_local	arch_cmpxchg
++
+ /*
+  * This function doesn't exist, so you'll get a linker error if
+  * something tries to do an invalidly-sized xchg().
+
+base-commit: a6303535c2ad9d49598d52556183911f02287791
+-- 
+2.53.0
 
 
 _______________________________________________
