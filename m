@@ -2,90 +2,67 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3002C606A32E
-	for <linux-snps-arc@archiver.kernel.org>; Fri, 30 Oct 2026 19:11:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A83E9606A32C
+	for <linux-snps-arc@archiver.kernel.org>; Sat, 31 Oct 2026 23:57:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=woOSHo1H;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cJGl/G/2
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=U+L8aF+K;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WCSgVFKA
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References
-	:In-Reply-To:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=uyEVvx6F9NQrvMganwbgtiTGluhBvCKAUC18D3Xb/DU=; b=woOSHo1HHQuZJYZS/pmaJypKEA
-	WlLwUybNYj1r/1JU/zMSOYRirJOrkm7/8oDRJOwZWFURUjlubhEdUK62U/J9YQPjgqnVvdlihhZ56
-	paQ1Ud3rRDsbj9RDTenGBCxbEKGzRyEA8B+xndYP8r7cqkblauEEdTOE+n87pnJv4XhlyK5Vm7Agv
-	ZOolBNUzzg06CYlda+DSF6A9ZpHpUn2xIuk5ZFzJAk8BiPfREtKYBiBEIv/yeGDmPywKE1FXOLAWZ
-	SGkEYiv95F3JuWlY5St9jNqZJPGEbZnJbtnmDCl2amL/Cq996rTuJWdxUit05Mz/xcRhRNLFrJ1+p
-	+KBrOt6w==;
+	bh=KSOlR/xwfs04htpdLAqRWX4xBjSjobEulg4tATQfZkg=; b=U+L8aF+KGAZrHmUMhDbIrnjwfD
+	VU2+0N8nsXATraWS4CLLv37LZjb9fNetFIm87LxOnWuhDG3D2iM1r9NLx7W+dNMxl5E2BoKxnj+JC
+	GvmcIlWBMDVLc5Li3jRH9ynvrb+LYTz4yMmEPWioyXbFArH7VvnJHS0wMs+Ip6PFq1AyWwQtr997e
+	i9kbasUcIFEB12CuEZ6VrIoqo1iJWV7rxFwH0z9LIP/zOj+upMU7WRhXs5AdAnjNuqTmJeN3W9Vap
+	3WNNaJEpXirjKdECMjxK9roO+9/KaWpUZBhhmGDud2lJuaHDO/EpPDzr1bsvXkzkuX+0ehW1bdyg9
+	llCinEDg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMs0w-0000000CT37-2IYs;
-	Fri, 30 Oct 2026 19:11:46 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xNIwl-0000000Dl8I-0on8;
+	Sat, 31 Oct 2026 23:57:15 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMs0t-0000000CT2i-3Arf;
-	Fri, 30 Oct 2026 19:11:44 +0000
+	id 1xNIwj-0000000Dl8C-3wCk
+	for linux-snps-arc@lists.infradead.org;
+	Sat, 31 Oct 2026 23:57:13 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 9390060202;
-	Fri, 30 Oct 2026 19:11:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 856D71F000C1;
-	Fri, 30 Oct 2026 19:11:40 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 3D691434E1;
+	Sat, 31 Oct 2026 23:57:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0AFC1F000C1;
+	Sat, 31 Oct 2026 23:57:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793387501;
-	bh=T4hFvVxLfjnAJg8k+NzczjZdpae4mRcTksCIzgxfA9U=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=cJGl/G/2fQF1yJWHTie2xk6HB608xeSGry+Y/uMzkiv7mSAAvI/rgcFa2ycf1BTVh
-	 d35A0kNRaV1SESzGWirJvsignzKFJjZo7LJ49bkaLS5abOu8oYwNJDowAY4LXAaFk3
-	 1qvBtDFkFqlDjn51/ADmcGHjG88Z10ZTRm9cloeKGen2Fvgbp7EvWKP7Fs/k+w7w7I
-	 N+Bpq3UQzRBk81FGdRpPvr/G8hUKlkAznQ9epCS9WohqPLXX6ImGQB2IoLMbeTEcsI
-	 X7PFkJetPPJchwZrSKjuCFkEbuOgCvp7lXiZPRZWxHOpx5mbgnJHdFUTifU5ObrOgF
-	 1vyrUAqP9m8pA==
-From: Thomas Gleixner <tglx@kernel.org>
-To: "H. Peter Anvin" <hpa@zytor.com>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, Peter Zijlstra
- <peterz@infradead.org>, Michael Ellerman <mpe@ellerman.id.au>, Shrikanth
- Hegde <sshegde@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org, Kees Cook
- <kees@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
- loongarch@lists.linux.dev, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt
- <palmer@dabbelt.com>, linux-riscv@lists.infradead.org, Sven Schnelle
- <svens@linux.ibm.com>, linux-s390@vger.kernel.org, x86@kernel.org, Mark
- Rutland <mark.rutland@arm.com>, Jinjie Ruan <ruanjinjie@huawei.com>, Andy
- Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Richard
- Henderson <richard.henderson@linaro.org>, Russell King
- <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, Guo
- Ren <guoren@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Thomas
- Bogendoerfer <tsbogend@alpha.franken.de>, Helge Deller <deller@gmx.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Richard Weinberger
- <richard@nod.at>, Chris Zankel <chris@zankel.net>,
- linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org,
- linux-csky@vger.kernel.org, linux-m68k@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-sh@vger.kernel.org, linux-um@lists.infradead.org, Arnd Bergmann
- <arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>, Will Deacon
- <will@kernel.org>, Brian Cain <bcain@kernel.org>, Michal Simek
- <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>, "David S. Miller"
- <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>,
- linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org,
- linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-arch@vger.kernel.org, Michal =?utf-8?Q?Such=C3=A1nek?=
- <msuchanek@suse.de>, Jonathan
- Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH] x86/entry: Fix ptrace regression
-In-Reply-To: <87se1wyvs8.ffs@fw13>
-References: <20260707181957.433213175@kernel.org>
- <20260707190254.493733289@kernel.org>
- <20261022142425.3Wx-RrU5@linutronix.de> <87fqxx1r80.ffs@fw13>
- <87cxt11ktr.ffs@fw13> <1149A39E-BEBA-46EA-94F4-4DFFC4733EF5@zytor.com>
- <871p9g1s3w.ffs@fw13> <87y0boze95.ffs@fw13>
- <C6D7BF04-4CF7-48D1-93B5-E80D52C2617D@zytor.com> <87se1wyvs8.ffs@fw13>
-Date: Fri, 30 Oct 2026 20:11:37 +0100
-Message-ID: <87mrrvxaty.ffs@fw13>
+	s=k20260515; t=1793491033;
+	bh=MXDZ/tc0FGE+vZKOkRRrWrPdu4KytGFQa3AK0t7MysI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=WCSgVFKAoEiUlBRt6zXiht7Cz+aUqr+u8pkCYORaKRffLYfUiW1nNB4dPLmsuMbPD
+	 1wdBNztG55Vs2jTuRiMMlABj2JgeGWWeUi0URgCasCymnaXvWEwPNj/nLzkqyeSt1d
+	 RUAW1AnfbOdNgZQpaXgh28kEwNxgNzJHuaUgJxLN7iPUIur8rixrRLsbtB+p3SXx96
+	 9Is1q95z9l8bZP/e7z3sUfujx+51XR++hsrV/64+6uWqLPhJX7VgDvH8Mh7LpNUw/Z
+	 mivUDwm3D1icMiSrin0rQa0ZUkEGQ913wYogPYduADhqTvHTif9rOr3XwbKzqwJ4o1
+	 e3xd+HdwD0Zpg==
+Message-ID: <3175caa0-9f49-465d-959e-6b6c9bbb4f01@kernel.org>
+Date: Sat, 31 Oct 2026 16:57:11 -0700
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nios2: ksyms: Declare __mulsi3 export
+To: Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+ Dinh Nguyen <dinguyen@kernel.org>,
+ "schuster.simon@siemens-energy.com" <schuster.simon@siemens-energy.com>,
+ Ley Foon Tan <lftan@altera.com>
+Cc: linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>,
+ linux-snps-arc@lists.infradead.org, linux-parisc@vger.kernel.org,
+ "linux-openrisc@vger.kernel.org" <linux-openrisc@vger.kernel.org>
+References: <20261019-nios2-mulsi3-v1-1-4fd75b1bacef@linutronix.de>
+ <47eb6b48-d664-440f-84b6-ba09f34d5e08@app.fastmail.com>
+From: Vineet Gupta <vgupta@kernel.org>
+Content-Language: en-US
+In-Reply-To: <47eb6b48-d664-440f-84b6-ba09f34d5e08@app.fastmail.com>
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,96 +72,120 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=4.0.1
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-The recent rework of the syscall entry code missed the historical detail of
-the abuse of syscall number -1L to abort a syscall and keep modifications
-by tracers to the return value, while a rewrite of the syscall number to an
-invalid value undoes eventual tracer modification to the return value and
-overwrites it with -ENOSYS.
-
-Restore the original behaviour.
-
-Fixes: 1b1f3b3e1b39 ("x86/entry: Get rid of the sys_ni_syscall() indirection")
-Reported-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Signed-off-by: Thomas Gleixner <tglx@kernel.org>
-Cc: stable@vger.kernel.org
-Closes: https://lore.kernel.org/all/20261022142425.3Wx-RrU5@linutronix.de
----
- arch/x86/entry/syscall_32.c |    2 ++
- arch/x86/entry/syscall_64.c |   26 ++++++++++++++++++++++----
- 2 files changed, 24 insertions(+), 4 deletions(-)
-
---- a/arch/x86/entry/syscall_32.c
-+++ b/arch/x86/entry/syscall_32.c
-@@ -77,6 +77,8 @@ static __always_inline void do_syscall_3
- 	if (likely(nr < IA32_NR_syscalls)) {
- 		nr = array_index_nospec(nr, IA32_NR_syscalls);
- 		regs->ax = ia32_sys_call(regs, (unsigned int)nr);
-+	} else {
-+		regs->ax = -ENOSYS;
- 	}
- }
- 
---- a/arch/x86/entry/syscall_64.c
-+++ b/arch/x86/entry/syscall_64.c
-@@ -64,15 +64,20 @@ static __always_inline bool do_syscall_x
- 	return false;
- }
- 
--static __always_inline void do_syscall_x32(struct pt_regs *regs, unsigned long nr)
-+static __always_inline bool do_syscall_x32(struct pt_regs *regs, unsigned long nr)
- {
-+	if (!IS_ENABLED(CONFIG_X86_X32_ABI))
-+		return false;
-+
- 	/* Adjust the starting offset of the table */
- 	nr -= __X32_SYSCALL_BIT;
- 
--	if (IS_ENABLED(CONFIG_X86_X32_ABI) && likely(nr < X32_NR_syscalls)) {
-+	if (likely(nr < X32_NR_syscalls)) {
- 		nr = array_index_nospec(nr, X32_NR_syscalls);
- 		regs->ax = x32_sys_call(regs, (unsigned int)nr);
-+		return true;
- 	}
-+	return false;
- }
- 
- /* Returns true to return using SYSRET, or false to use IRET */
-@@ -81,8 +86,21 @@ static __always_inline void do_syscall_x
- 	if (likely(syscall_enter_from_user_mode_randomize_stack(regs, &nr))) {
- 		instrumentation_begin();
- 
--		if (!do_syscall_x64(regs, nr))
--			do_syscall_x32(regs, nr);
-+		if (unlikely(!do_syscall_x64(regs, nr))) {
-+			/*
-+			 * The special treatment of syscall number -1 is a
-+			 * historical bogosity as the original code used -1 to
-+			 * indicate syscall abort, which is not distinguishable
-+			 * from a syscall which is invoked with syscall number
-+			 * -1. The historic behavior is to keep the return value
-+			 * in regs->ax unmodified in that case, which means it's
-+			 * either the preset value -ENOSYS or a value which was
-+			 * written by a tracer. If the syscall number is invalid
-+			 * but not -1 then overwrite any tracer modification.
-+			 */
-+			if (!do_syscall_x32(regs, nr) && nr != -1L)
-+				regs->ax = -ENOSYS;
-+		}
- 
- 		instrumentation_end();
- 	}
-
-_______________________________________________
-linux-snps-arc mailing list
-linux-snps-arc@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-snps-arc
+T24gMTAvMTkvMjYgMDQ6MTYsIEFybmQgQmVyZ21hbm4gd3JvdGU6Cj4gT24gTW9uLCBPY3QgMTks
+IDIwMjYsIGF0IDExOjQ5LCBUaG9tYXMgV2Vpw59zY2h1aCB3cm90ZToKPj4gR0NDIG1heSBlbWl0
+IGxpYmNhbGxzIHRvIF9fbXVsc2kzKCkuIEFzIG1vZHBvc3QgaXMgbm90IGF3YXJlIHRoYXQgdGhp
+cwo+PiBmdW5jdGlvbiBpcyBwcm92aWRlZCB0aHJvdWdoIHRoZSBsaW5rZWQgaW4gbGliZ2NjLCBp
+dCBmYWlsczoKPj4KPj4gRVJST1I6IG1vZHBvc3Q6IGtlcm5lbC9sb2NraW5nL3Rlc3Qtd3dfbXV0
+ZXgua286IHN5bWJvbCAnX19tdWxzaTMnIHVuZGVmaW5lZCEKPj4gRVJST1I6IG1vZHBvc3Q6IGtl
+cm5lbC90aW1lL3Rlc3RfdWRlbGF5LmtvOiBzeW1ib2wgJ19fbXVsc2kzJyB1bmRlZmluZWQhCj4+
+IEVSUk9SOiBtb2Rwb3N0OiBrZXJuZWwvcmVzb3VyY2Vfa3VuaXQua286IHN5bWJvbCAnX19tdWxz
+aTMnIHVuZGVmaW5lZCEKPj4gRVJST1I6IG1vZHBvc3Q6IGZzL2Z1c2UvdmlydGlvZnMua286IHN5
+bWJvbCAnX19tdWxzaTMnIHVuZGVmaW5lZCEKPj4gZXRjLgo+Pgo+PiBNYWtlIHN1cmUgbW9kcG9z
+dCBjYW4gc2VlIHRoZSBzeW1ib2wgZnJvbSBsaWJnY2MuCj4+Cj4+IFJlcG9ydGVkLWJ5OiBrZXJu
+ZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4KPj4gQ2xvc2VzOgo+PiBodHRwczovL2xvcmUu
+a2VybmVsLm9yZy9vZS1rYnVpbGQtYWxsLzIwMjYxMDE3MTkzMy5KNGJGT2ZMOC1sa3BAaW50ZWwu
+Y29tLwo+PiBGaXhlczogMmZjODQ4M2ZkY2RlICgibmlvczI6IEJ1aWxkIGluZnJhc3RydWN0dXJl
+IikKPj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFdlacOfc2NodWggPHRob21hcy53ZWlzc3NjaHVo
+QGxpbnV0cm9uaXguZGU+Cj4gQWNrZWQtYnk6IEFybmQgQmVyZ21hbm4gPGFybmRAYXJuZGIuZGU+
+Cj4KPiBUaGUgcGF0Y2ggbG9va3MgY29ycmVjdCB0byBtZSwgYnV0IGl0IHdvdWxkIGFsc28gYmUg
+bmljZSB0byBub3QgdXNlCj4gbGliZ2NjIGF0IGFsbC4gV2hhdCBJIHNlZSBpcyB0aGF0IG9ubHkg
+YXJjLCBuaW9zMiwgb3BlbnJpc2MgYW5kCj4gcGFyaXNjIHN0aWxsIGxpbmsgYWdhaW5zdCB0aGUg
+dG9vbGNoYWluLXByb3ZpZGVkIGxpYmdjYywgZXZlcnl0aGluZwo+IGVsc2UgdXNlcyB0aGUga2Vy
+bmVsJ3Mgb3duIHJ1bnRpbWUuCj4KPiBJdCdzIHByb2JhYmx5IG5vdCBldmVuIHRoYXQgaGFyZCB0
+byBkbyByaWdodCwgaGVyZSBpcyB3aGF0IEkgZm91bmQKPiBpcyBpbXBvcnRlZCBmcm9tIGxpYmdj
+Yy4KCkFuZCBzZWVtcyBsaWtlIEFSQyBpcyB0aGUgYmlnZ2VzdCBvZmZlbmRlciwgd2hhdCBhIHNo
+YW1lLgoKPiAqIEdlbmVyaWMgbGlicmFyeSBoZWxwZXIgZXhpc3RzLCBjYW4gYmUgZW5hYmxlZCB0
+aHJvdWdoIEtjb25maWc6Cj4KPiA9PT0gX19sc2hyZGkzID09PQo+IGFyY2gvYXJjL2tlcm5lbC9h
+cmNrc3ltcy5jCj4gYXJjaC9uaW9zMi9rZXJuZWwvbmlvczJfa3N5bXMuYwo+IGFyY2gvb3BlbnJp
+c2Mva2VybmVsL29yMzJfa3N5bXMuYwo+IGFyY2gvcGFyaXNjL2tlcm5lbC9wYXJpc2Nfa3N5bXMu
+Ywo+IC0+IGxpYi9sc2hyZGkzLmMKPiA9PT0gX19hc2hsZGkzID09PQo+IGFyY2gvYXJjL2tlcm5l
+bC9hcmNrc3ltcy5jCj4gYXJjaC9uaW9zMi9rZXJuZWwvbmlvczJfa3N5bXMuYwo+IGFyY2gvb3Bl
+bnJpc2Mva2VybmVsL29yMzJfa3N5bXMuYwo+IGFyY2gvcGFyaXNjL2tlcm5lbC9wYXJpc2Nfa3N5
+bXMuYwo+IC0+IGxpYi9hc2hsZGkzLmMKPiA9PT0gX19hc2hyZGkzID09PQo+IGFyY2gvYXJjL2tl
+cm5lbC9hcmNrc3ltcy5jCj4gYXJjaC9uaW9zMi9rZXJuZWwvbmlvczJfa3N5bXMuYwo+IGFyY2gv
+b3BlbnJpc2Mva2VybmVsL29yMzJfa3N5bXMuYwo+IGFyY2gvcGFyaXNjL2tlcm5lbC9wYXJpc2Nf
+a3N5bXMuYwo+IC0+IGxpYi9hc2hyZGkzLmMKPiA9PT0gX19jbXBkaTIgPT09Cj4gYXJjaC9hcmMv
+a2VybmVsL2FyY2tzeW1zLmMKPiAtPiBsaWIvY21wZGkyLmMKPiA9PT0gX19tdWxkaTMgPT09Cj4g
+YXJjaC9hcmMva2VybmVsL2FyY2tzeW1zLmMKPiBhcmNoL25pb3MyL2tlcm5lbC9uaW9zMl9rc3lt
+cy5jCj4gYXJjaC9vcGVucmlzYy9rZXJuZWwvb3IzMl9rc3ltcy5jCj4gYXJjaC9wYXJpc2Mva2Vy
+bmVsL3BhcmlzY19rc3ltcy5jCj4gLT4gbGliL211bGRpMy5jCj4gPT09IF9fdWNtcGRpMiA9PT0K
+PiBhcmNoL2FyYy9rZXJuZWwvYXJja3N5bXMuYwo+IGFyY2gvbmlvczIva2VybmVsL25pb3MyX2tz
+eW1zLmMKPiBhcmNoL29wZW5yaXNjL2tlcm5lbC9vcjMyX2tzeW1zLmMKPiBhcmNoL3BhcmlzYy9r
+ZXJuZWwvcGFyaXNjX2tzeW1zLmMKPiAtPiBsaWIvdWNtcGRpMi5jCgpJdCBzZWVtcyBQYWxtZXIg
+YWRkZWQgdGhvc2UgYmFjayBpbiAyMDE4IHdoaWNoIEFSQyB3YXMgc3RpbGwgZGV2ZWxvcGVkIAph
+Y3RpdmVseSwgSSB0b3RhbGx5IG1pc3NlZCB0aGVtLgpJIG5vdyBoYXZlIGEgcGF0Y2ggdG8gc3dp
+dGNoIEFSQyB0byBnZW5lcmljIGhlbHBlcnMgZm9yIHRob3NlLgoKPiAqIDY0LWJpdCBkaXZpc2lv
+biBwcm9iYWJseSBzaG91bGQgbm90IGJlIHByb3ZpZGVkIG9uIGFyYyBvcgo+ICAgIG5pb3MyIChh
+bmQgc3BhcmMzMiwgd2hpY2ggaGFzIGEgcHJpdmF0ZSBjb3B5KS4KPiAgICBwYXJpc2M2NCBzaG91
+bGQgZ2V0IHRoZXNlIGZyb20gbGliZ2NjL2xpYmdjYzIuYy4KPgo+ID09PSBfX2RpdmRpMyA9PT0K
+PiBhcmNoL3BhcmlzYy9rZXJuZWwvcGFyaXNjX2tzeW1zLmMKPiA9PT0gX191ZGl2bW9kZGk0ID09
+PQo+IGFyY2gvbmlvczIva2VybmVsL25pb3MyX2tzeW1zLmMKPiA9PT0gX191ZGl2ZGkzID09PQo+
+IGFyY2gvYXJjL2tlcm5lbC9hcmNrc3ltcy5jCgpJdCBzZWVtcyBpbiBzb21lIG9mIHRoZSBvbGQg
+YmluYXJpZXMgSSBoYXZlLCBkdyBtbWMgZHJpdmVyIHdhcyBhdCBzb21lIApwb2ludCBjYWxsaW5n
+IDY0LzY0IGRpdmlkZSB3aGljaCBldmVudHVhbGx5IGdvdCBmaXhlZC4KQnV0IGFncmVlIGFzIG9m
+IHRvZGF5IHRoZXJlIGFyZSBubyBjYWxsZXJzIG9mIDY0LWJpdCBkaXYvbW9kLiBJIHdpbGwgZ2V0
+IApyaWQgb2YgP2RpdipkaSogZnJvbSBBUkMuCgoKPiBhcmNoL3BhcmlzYy9rZXJuZWwvcGFyaXNj
+X2tzeW1zLmMKPiA9PT0gX191bW9kZGkzID09PQo+IGFyY2gvbmlvczIva2VybmVsL25pb3MyX2tz
+eW1zLmMKPiBhcmNoL3BhcmlzYy9rZXJuZWwvcGFyaXNjX2tzeW1zLmMKPiA9PT0gX19tb2RkaTMg
+PT09Cj4gYXJjaC9uaW9zMi9rZXJuZWwvbmlvczJfa3N5bXMuYwo+IGFyY2gvcGFyaXNjL2tlcm5l
+bC9wYXJpc2Nfa3N5bXMuYwo+Cj4gKiBmbG9hdGluZy1wb2ludCBtYXRoIHNob3VsZCBub3QgYmUg
+cHJvdmlkZWQgYnkga2VybmVsOgo+Cj4gPT09IF9fZGl2ZGYzID09PQo+IGFyY2gvYXJjL2tlcm5l
+bC9hcmNrc3ltcy5jCj4gPT09IF9fZGl2c2YzID09PQo+IGFyY2gvYXJjL2tlcm5lbC9hcmNrc3lt
+cy5jCj4gPT09IF9fZml4dW5zZGZzaSA9PT0KPiBhcmNoL2FyYy9rZXJuZWwvYXJja3N5bXMuYwo+
+ID09PSBfX2Zsb2F0dW5zaWRmID09PQo+IGFyY2gvYXJjL2tlcm5lbC9hcmNrc3ltcy5jCj4gPT09
+IF9fZmxvYXR1bnNpc2YgPT09Cj4gYXJjaC9hcmMva2VybmVsL2FyY2tzeW1zLmMKPiA9PT0gX19t
+dWxkZjMgPT09Cj4gYXJjaC9hcmMva2VybmVsL2FyY2tzeW1zLmMKCkFuZCBhIHNlY29uZCBwYXRj
+aCBnZXRzIHJpZCBvZiB0aG9zZS4gRldJVyBiYWNrIGluIHRoZSBkYXkgc29tZSBBUkNBbmdlbCAK
+Ym9hcmQncyBIREQgZHJpdmVyIG5lZWRlZCB0aG9zZS4gQ3JhenkgdGltZXMuCgo+ICogbm8gZ2Vu
+ZXJpYyBpbXBsZW1lbnRhdGlvbiBpbiBrZXJuZWwsIG5lZWQgdG8gY29weSBmcm9tCj4gICAgbGli
+Z2NjL2xpYjFmdW5jcy5TIGNvZGU6Cj4KPiA9PT0gX19kaXZzaTMgPT09Cj4gYXJjaC9hcmMva2Vy
+bmVsL2FyY2tzeW1zLmMKPiBhcmNoL25pb3MyL2tlcm5lbC9uaW9zMl9rc3ltcy5jCj4gYXJjaC9v
+cGVucmlzYy9rZXJuZWwvb3IzMl9rc3ltcy5jCj4gLT4gYXJjaC9hcm0vbGliL2xpYjFmdW5jcy5T
+Cj4gICAgIGFyY2gvbTY4ay9saWIvZGl2c2kzLlMKPiAgICAgYXJjaC9taWNyb2JsYXplL2xpYi9k
+aXZzaTMuUwo+ICAgICBhcmNoL3h0ZW5zYS9saWIvZGl2c2kzLlMKPiA9PT0gX19tb2RzaTMgPT09
+Cj4gYXJjaC9hcmMva2VybmVsL2FyY2tzeW1zLmMKPiBhcmNoL25pb3MyL2tlcm5lbC9uaW9zMl9r
+c3ltcy5jCj4gYXJjaC9vcGVucmlzYy9rZXJuZWwvb3IzMl9rc3ltcy5jCj4gLT4gYXJjaC9tNjhr
+L2xpYi9tb2RzaTMuUwo+ICAgICBhcmNoL21pY3JvYmxhemUvbGliL21vZHNpMy5TCj4gICAgIGFy
+Y2gveHRlbnNhL2xpYi9tb2RzaTMuUwo+ID09PSBfX3VkaXZzaTMgPT09Cj4gYXJjaC9hcmMva2Vy
+bmVsL2FyY2tzeW1zLmMKPiBhcmNoL25pb3MyL2tlcm5lbC9uaW9zMl9rc3ltcy5jCj4gYXJjaC9v
+cGVucmlzYy9rZXJuZWwvb3IzMl9rc3ltcy5jCj4gLT4gYXJjaC9hcm0vbGliL2xpYjFmdW5jcy5T
+Cj4gICAgIGFyY2gvbTY4ay9saWIvdWRpdnNpMy5TCj4gICAgIGFyY2gvbWljcm9ibGF6ZS9saWIv
+dWRpdnNpMy5TCj4gICAgIGFyY2gvc2gvbGliL3VkaXZzaTMuUwo+ICAgICBhcmNoL3h0ZW5zYS9s
+aWIvdWRpdnNpMy5TCj4gPT09IF9fdW1vZHNpMyA9PT0KPiBhcmNoL2FyYy9rZXJuZWwvYXJja3N5
+bXMuYwo+IGFyY2gvbmlvczIva2VybmVsL25pb3MyX2tzeW1zLmMKPiBhcmNoL29wZW5yaXNjL2tl
+cm5lbC9vcjMyX2tzeW1zLmMKPiAtPiBhcmNoL2FybS9saWIvbGliMWZ1bmNzLlMKPiAgICAgYXJj
+aC9tNjhrL2xpYi91bW9kc2kzLlMKPiAgICAgYXJjaC9taWNyb2JsYXplL2xpYi91bW9kc2kzLlMK
+PiAgICAgYXJjaC94dGVuc2EvbGliL3Vtb2RzaTMuUwoKQVJDdjIgaGFzIGhhcmR3YXJlIGRpdmlk
+ZSBzbyB0aGVzZSBhcmUgbm90IG5lZWRlZCwgYnV0IEFSQzcwMCBkb2Vzbid0IAphbmQgdGhlcmUn
+cyBhIHRvbiBvZiBjYWxscyBmb3IgdGhvc2UuCgrilIzilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilKzilIDilIDilIDilIDilIDilIDilIDilKzilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilJAK4pSCwqAgcm91dGluZcKgIOKUgiBjYWxscyDilIIgZnVuY3Rpb25zIOKU
+ggrilJzilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilLzilIDilIDilIDilIDilIDi
+lIDilIDilLzilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilKQK4pSCIF9fdWRpdnNp
+MyDilIIgNDE1wqAgwqDilIIgMjM4wqAgwqAgwqAgwqDilIIK4pSc4pSA4pSA4pSA4pSA4pSA4pSA
+4pSA4pSA4pSA4pSA4pSA4pS84pSA4pSA4pSA4pSA4pSA4pSA4pSA4pS84pSA4pSA4pSA4pSA4pSA
+4pSA4pSA4pSA4pSA4pSA4pSA4pSkCuKUgiBfX3Vtb2RzaTMg4pSCIDIwM8KgIMKg4pSCIDEzMcKg
+IMKgIMKgIMKg4pSCCuKUnOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUvOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUvOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUpAri
+lIIgX19kaXZzaTPCoCDilIIgNzfCoCDCoCDilIIgNTfCoCDCoCDCoCDCoCDilIIK4pSc4pSA4pSA
+4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pS84pSA4pSA4pSA4pSA4pSA4pSA4pSA4pS84pSA
+4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSkCuKUgiBfX21vZHNpM8KgIOKUgiA0McKg
+IMKgIOKUgiAzM8KgIMKgIMKgIMKgIOKUggrilJTilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilLTilIDilIDilIDilIDilIDilIDilIDilLTilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilJgKCkkgY2FuIHRha2UgYSBzdGFiIGF0IHByb3ZpZGluZyB0aGUgZ2VuZXJpYyBs
+aWJnY2MgaW1wbGVtZW50YXRpb24gaW4gCmxpYi8qIGJ1dCBJIG9ubHkgZXhwZWN0IHRoZSBhcmNo
+ZXMgdXNpbmcgbGliZ2NjIHZlcnNpb24gdG8gc3dpdGNoLgoKVGh4LAotVmluZWV0CgpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1zbnBzLWFyYyBt
+YWlsaW5nIGxpc3QKbGludXgtc25wcy1hcmNAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlz
+dHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXNucHMtYXJjCg==
