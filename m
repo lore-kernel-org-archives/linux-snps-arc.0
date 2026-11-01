@@ -2,125 +2,93 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB57606A330
-	for <linux-snps-arc@archiver.kernel.org>; Sun,  1 Nov 2026 19:46:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B14C606B065
+	for <linux-snps-arc@archiver.kernel.org>; Sun,  1 Nov 2026 22:16:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=dhdXQI4Y;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=bAfiBn4/;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=YPYNbiub
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=fDpjrBWR;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AXmvtNOq
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Subject:References:In-Reply-To:
-	Message-Id:Cc:To:From:Date:MIME-Version:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Unsubscribe-Post:List-Owner;
-	bh=NayNKE5CYJXuqpmOw+Kdw0KNu6KYY7zHys0yx/k+cjU=; b=dhdXQI4YSVxCV2T5DVpnhvyOX1
-	N8Oh3mBD726zUg+HHqfSmwjqHHIrcbs3Azyofl2NV3jYhg10MNeSP/9HSGNeoCQsPLkuwS+3bMVzH
-	hDQF+Uq/w5r+kpWuiVXr4BXP0KJI9pzKWq6FBRE801RWn3z+KqILJrEs3p0KDpkJbXXRWFAo+1UA5
-	p3E8ZTZfBOb4TS/d7elPMhLW+dv+xhlDTjXwuwEP3wOoo/dBg+0pp+5gYYo5D+zCVgNb5e6hxNFx0
-	3fiQQgh08B0eRDORoFmUtMldLSgWeEHyTgRJVTqkVkKHlvE4izrxghYKMs/+0kbC50NyfqSCk6w5l
-	nly9AYfA==;
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References:Date:
+	Message-Id:From:Subject:MIME-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Unsubscribe-Post:List-Owner;
+	bh=1PJBsUT3LKZzGxjHYOFXJ70I5bflB4Y2r4rTN4oHpdU=; b=fDpjrBWRCyugScubmJWMaxSFQZ
+	zETkGDJxoLH8ptXeHOakxDLCSd/+lABgnZu/lcM9/cpCv45TGliO0B6m/HiPSEilTMQbO4LivV2HW
+	3YJTTkE5u3YDyleUJo1RTrToWotJ5Gs6bv5HCPboir1CW6y4nO9ipBuIOwT2sYXchS97wms4on6Xu
+	2XuCacvrouwxVUaHIKf5YcD6cT0z0AZ/6DwyNrqEg+yoa/jzF96+EYdZBePg0kyaquIs2WbXHs1l0
+	KmZaRmxvO+wxAqcM5Uwp2I4EmyNpIxI7GFhxU+aX1lMBqzn/6ANcnw7OZkSYbZUPHrl29NTZXD/GY
+	wH0yrpvw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xNbVD-0000000EqDG-3zCY;
-	Sun, 01 Nov 2026 19:46:03 +0000
-Received: from fhigh-a5-smtp.messagingengine.com ([103.168.172.156])
+	id 1xNdqe-0000000Ezzd-32PO;
+	Sun, 01 Nov 2026 22:16:20 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xNbVA-0000000EqCm-2X4Q
-	for linux-snps-arc@lists.infradead.org;
-	Sun, 01 Nov 2026 19:46:02 +0000
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 0248B1400194
-	for <linux-snps-arc@lists.infradead.org>; Sun,  1 Nov 2026 14:45:58 -0500 (EST)
-Received: from ams-imap-03 ([10.64.2.23])
-  by ams-compute-02.internal (MEProxy); Sun, 01 Nov 2026 14:45:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1793562356;
-	 x=1793648756; bh=XL5M91BSp4AAft2kzoFv3DfkIiGz5Ajg83L723WR2fE=; b=
-	bAfiBn4/DIWkqkQUxxg3Tb6y6cbChQkhNKMFK2D+c36GSOmOwIaPPbVjyHkoUVxe
-	cw5hEPANRwox8+VRg2f2eefII3zuGpi3hp0abQINTTvQe4vxQi5y1eU6rHRmKHIS
-	KIr/1ztd/JTeAHPYVI6RLYmrHcN4yiG1ir3LTH/vS6k2YjyF8yFDWrzkP1YGlw5z
-	gbTB8Rz5a9ppKzgkyH2thLCN2+A1BV2I7h6D2aZB5CoEQl3QJH7/aR+yyMr6aa0q
-	GzmGAZkWympkTgEKSV5qhN99bp4fcSd8vAjc2pfKC9QG+Kv/5RfktQJGErRj+upN
-	QgHgSpywnT34pW1MwS61rA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793562356; x=
-	1793648756; bh=XL5M91BSp4AAft2kzoFv3DfkIiGz5Ajg83L723WR2fE=; b=Y
-	PYNbiubSn9MMP7KHrFPAFbQdJe4c633qAnayf25nYCPf1XFHu0du+xdRcUqj3snn
-	T/O/9PiWYbcrQRLh+/e0+DAKW1RqMpNUl4D7Ki4ZhxPDfHl66qcJuvgeHR1h+qC5
-	38SOO3PY9S7xYqsb+a1HMbpn3MR2o45WD9SQEcZE1rznMQGHOouUMOmuChZso0Xh
-	qtBkDu/uih9L2BAdIrNiWH2d+LmkIEloth5M7dO0C/dDiAMPV8kjKSNcnwhFHppC
-	hTg8X59vdkuM7atxM8js0NjwfkcyjMRxDelV7CHXIcVjxCywI1PpbQ+AjN/dqEOR
-	83fiOpf+m3KwHffWHj3iA==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=sign d=arndb.de a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793562356; d=arndb.de;
-	mf=PGFybmRAYXJuZGIuZGU+;
-	rt=PGxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmc+;
-	s=fm2:rsa-sha256:d3X46J1Tvyw4gIlU/QAQ4qrkvAM1M4UBfX3K+nD3aCOQ9/C
-	9QDdCFxnfe4s/87MJpumANg1RP1czrUFMyg0wt/YhI/Opz1uARO/ZpirOabsVjHO
-	GZQVw59PT4rnlmocU7dfWZ0CLzFCagWup7g05KQPyYVjiDV19MN1g4Fe6X+rAE8M
-	GAbQ3mmuAYH1WeFDSWEdn6u3fa+Li/U2xKT01n3JStq1/ItjW41SxdwpI4u0bhlt
-	4GpvvXKi4fLkUa9askBoCpN944uEEq3HWqSQttDLCokC+S23gY60TlgWPZnO5VAF
-	SRIqQzA11FS+SMq1F9K/hDOBHFHb+P5g/76LO7A==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:tVKU6x6Hpa8+j/X/xHhKxol+ZR0276eFx2r5IaeIxmo=:ZpJZa0RF5+QGwaEdzSO/cu72cdWSAvwHkZvNhEgoujY=;
-X-ME-Sender: <xms:8ZbnakOYMSWEsemSaXapmHpnCu8zpieg9UREQTFgsISEI1EEmAcDRw>
-    <xme:8ZbnalzaPLidekYo8i2rtkboUsFHjK1HMZs78tIHTpRFAWeG-1q2JnnM0Nup4bz88
-    J7cJ7j4OqxJE0UEwdXCBLENyIyETJEm3jU2GRTjwP7w2F8UliBJo_33>
-X-ME-Proxy-Cause: dmFkZTEU6JWhB3TLYMF5uFOSIuMrIcUT4lNAjQf/JM331pvv5qvR9X6bo/nK3gvmMufUr8
-    ybDW9jtvmnTebXBKKdu54eJi4GQfSFqLaH367aaiCzgmaVkk5XA//fR0IiLK45NZGijfLS
-    uoiIh9Db9QWnUcd3Q4a/JpTUzEHrccxJbjPp85ONjf7V1BrGYZ+MTvSP6YsAJRaldDWgcd
-    AwroZy6sM1MSBdIsgagOAcgPNkU/c2OPjnl15tP0WqSdrESw/OYpdiMsZXzPqUdidI2wtn
-    vNbhI9SqayT5bgxtEpTlIOCzgRp+ByStLKNVCBaaCD5nF0D7zLBLzak92KsoCPiYmjw2Es
-    TPsptJo/RsTMuz2LgskRrlQaHduYmvylhsC7iyzw5Nx/7Is8kYL2HD0lR7zTM7fys/mm4e
-    OctzPUlFL0uXC2wL7OCE+QAsajvIGQ5Z0LGbkZ+2KcanlpcLJ2iECD6DzpQIMNqa6yKHsy
-    x3or2AOE1pSyYZLW3PzkkS51wH2bTLLK+G2kMng4mkrlKAYsQbJjZiLEY0RmhI3BL0E94i
-    zGM9xdtGecwftNRzOIY6A8Ftp40QTNlbuADg2B46Y+TKL9A/gxqHwl6OAjWV2BIVM+c2yk
-    gXtLhHdfAHvqlHUvFRy6JiZzrsPRTr2lBAo0N45K/KBmXpL8zrtTCjOHBYbg
-X-ME-Proxy: <xmx:8pbnahowgsz2IBXOvVWPZYZqY3N-HSFfjxWXXtJ9QAmsp5Bl2ktqjQ>
-    <xmx:8pbnaomMKvw67cfG-LK7uBWv0uNZ-WWSFTAQEA7ip8tYwtbdx04iHA>
-    <xmx:8pbnaiccLXbUFszydGtXNuGom6OPXBdQwyDgy_IK1QnzAh58a1e5gw>
-    <xmx:8pbnasq8FbDc4HFxbLBxfXTGL96aTU0bf5zt3rmL9pf4czWhiZ2QJw>
-    <xmx:9JbnatMbgZ5ZcuUtu58AWpli_b72R8SkwkCwzLvsgC1rmzKbtMIHQ_C7>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 1557532A0093; Sun,  1 Nov 2026 14:45:53 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	id 1xNdqI-0000000Ez5e-0lus;
+	Sun, 01 Nov 2026 22:15:58 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id BE2954401A;
+	Sun,  1 Nov 2026 22:15:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BEAA1F01578;
+	Sun,  1 Nov 2026 22:15:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793571357;
+	bh=22yhHEiHUWVm81OxkB+6UNZ5/HC7Jn4HF5eln+k49OY=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=AXmvtNOqtLjopWWCQdkY1kf58r2tsshOv49SBa++XWevEZbozepPlSlFvrN1dcXpb
+	 9cANlomEUPj0ZBiZL28+j2QgAXsMv3s2laIiduoGI+ce38Y8h1u9SB0tbHS5wH5wGm
+	 +MC9Oi6Swj6nPVmYgaYL1CAKQ9ojJ66d0jdnEvjYS8ncAFvCnZtFlP7tikcjqtWDG5
+	 Nh59YfDcc4DI14trFqfgqkMwwd0YKiYIlqlolp6obAZrN5CV473iUawTOR6ZCcdra9
+	 V8ouXGtGQ2ZtYTopFX4ZriYxCryYodGD8Ier/J+MdgFsg9Z8lfVl/h7OVFyYY5TBQC
+	 LvCqYqw3qq3fA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7D5B538003B8;
+	Sun,  1 Nov 2026 22:15:57 +0000 (UTC)
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: Ap4PcZ20AeuN
-Date: Sun, 01 Nov 2026 20:45:32 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Vineet Gupta" <vgupta@kernel.org>, "Sasha Levin" <sashal@kernel.org>,
- linux-snps-arc@lists.infradead.org
-Cc: "Andrii Nakryiko" <andrii@kernel.org>,
- "Ilya Leoshkevich" <iii@linux.ibm.com>, bpf@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- "schuster.simon@siemens-energy.com" <schuster.simon@siemens-energy.com>
-Message-Id: <ca697a3c-fee0-40a9-98e6-12e24febb3b7@app.fastmail.com>
-In-Reply-To: <7de128f0-4f17-4a33-9a7a-14d5bbf62e64@kernel.org>
-References: <20261015154044.4058618-1-sashal@kernel.org>
- <09db4d22-2836-4656-8c6a-a7e5377710fb@kernel.org>
- <8b4688ca-db5c-4122-b616-8e3964e403f8@app.fastmail.com>
- <7de128f0-4f17-4a33-9a7a-14d5bbf62e64@kernel.org>
-Subject: Re: [PATCH] ARC: Strip libgcc debug information when generating BTF
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261101_114601_081636_D38B0FA8 
-X-CRM114-Status: GOOD (  14.37  )
-X-Spam-Score: -2.1 (--)
+Subject: Re: [PATCH v5 00/12] mm: make userland page table freeing RCU-safe
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: <179357135604.2624073.12750471724213497880.git-patchwork-notify@kernel.org>
+Date: Sun, 01 Nov 2026 22:15:56 +0000
+References: <20260925-rcu-pagetable-freeing-v5-0-31e91065fea4@kernel.org>
+In-Reply-To: <20260925-rcu-pagetable-freeing-v5-0-31e91065fea4@kernel.org>
+To: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Cc: linux-riscv@lists.infradead.org, akpm@linux-foundation.org,
+ david@kernel.org, ziy@nvidia.com, baolin.wang@linux.alibaba.com,
+ liam@infradead.org, nico.pache@linux.dev, ryan.roberts@arm.com,
+ dev.jain@arm.com, baohua@kernel.org, lance.yang@linux.dev,
+ usama.arif@linux.dev, kas@kernel.org, guoren@kernel.org, bcain@kernel.org,
+ geert@linux-m68k.org, dinguyen@kernel.org, schuster.simon@siemens-energy.com,
+ jonas@southpole.se, stefan.kristiansson@saunalahti.fi, shorne@gmail.com,
+ dalias@libc.org, glaubitz@physik.fu-berlin.de, pjw@kernel.org,
+ palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr,
+ linux@armlinux.org.uk, vgupta@kernel.org, monstr@monstr.eu, chris@zankel.net,
+ jcmvbkbc@gmail.com, will@kernel.org, aneesh.kumar@kernel.org,
+ npiggin@gmail.com, peterz@infradead.org, davem@davemloft.net,
+ andreas@gaisler.com, richard.henderson@linaro.org, mattst88@gmail.com,
+ linmag7@gmail.com, catalin.marinas@arm.com, mark.rutland@arm.com,
+ chenhuacai@kernel.org, kernel@xen0n.name, tsbogend@alpha.franken.de,
+ James.Bottomley@HansenPartnership.com, deller@gmx.de, maddy@linux.ibm.com,
+ mpe@ellerman.id.au, chleroy@kernel.org, hca@linux.ibm.com, gor@linux.ibm.com,
+ agordeev@linux.ibm.com, borntraeger@linux.ibm.com, svens@linux.ibm.com,
+ richard@nod.at, anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
+ tglx@kernel.org, mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+ x86@kernel.org, hpa@zytor.com, arnd@arndb.de, vbabka@kernel.org,
+ rppt@kernel.org, surenb@google.com, mhocko@suse.com, jgg@ziepe.ca,
+ jhubbard@nvidia.com, peterx@redhat.com, ysato@users.sourceforge.jp,
+ shakeel.butt@linux.dev, corbet@lwn.net, rdunlap@infradead.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-csky@vger.kernel.org,
+ linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ linux-openrisc@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-snps-arc@lists.infradead.org,
+ linux-arch@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-alpha@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+ linux-um@lists.infradead.org, hughd@google.com, qi.zheng@linux.dev,
+ linux-doc@vger.kernel.org, gerg@linux-m68k.org
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,37 +101,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=4.0.1
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Sun, Nov 1, 2026, at 19:38, Vineet Gupta wrote:
-> On 11/1/26 03:09, Arnd Bergmann wrote:
->>> I'm working on getting rid of libgcc linking for ARC.
->>
->> I hope there is some overlap with what you need for arc in the
->> lib/*.c functions. I can take both through the asm-generic tree
->> to reduce the dependencies if that helps.
->
-> Oh that fits the bill perfectly. Mine also switched the others (with 
-> build test using their cross tool-chains).
-> Anyhow I'll wait for that to land. Would this need to wait full cycle ? 
-> If it can land in 7.4-rcX, I can hold off my existing patches for 
-> switching to current in-tree lib/* to also use the new ones and be done 
-> with libgcc.
+Hello:
 
-If you need this to fix the regression, I think it's fine to merge
-the shared lib/*.c files for for 7.4 along with whatever you need on
-top. I suspect though based on Sasha's patch, the only thing we
-actually need is to stop exporting the floating point functions
-so the types don't leak into btf. If you can verify that this
-is the case, I would do the full conversion for both nios2
-and arc in 7.5.
+This series was applied to riscv/linux.git (fixes)
+by Andrew Morton <akpm@linux-foundation.org>:
 
-     Arnd
+On Fri, 25 Sep 2026 21:09:35 +0100 you wrote:
+> The majority of architectures in the kernel defer page table freeing until
+> an RCU grace period has elapsed, this series converts all remaining
+> architectures to do so too and eliminates CONFIG_MMU_GATHER_RCU_TABLE_FREE
+> altogether.
+> 
+> This is important because it enables safe lockless page table walking under
+> RCU alone.
+> 
+> [...]
+
+Here is the summary with links:
+  - [v5,01/12] mm/khugepaged: deposit a newly allocated page table on collapse
+    https://git.kernel.org/riscv/c/eb823057e092
+  - [v5,02/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for most 2-level architectures
+    https://git.kernel.org/riscv/c/d22254fd57f0
+  - [v5,03/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for MMU riscv
+    https://git.kernel.org/riscv/c/5ae75414416f
+  - [v5,04/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for MMU arm
+    https://git.kernel.org/riscv/c/8e645d98fb78
+  - [v5,05/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for arc, microblaze, xtensa
+    https://git.kernel.org/riscv/c/799bd3c4be5f
+  - [v5,06/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for sparc64
+    https://git.kernel.org/riscv/c/461a24a81215
+  - [v5,07/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for m68k-coldfire
+    https://git.kernel.org/riscv/c/ccdaaf591664
+  - [v5,08/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for sh-X2
+    https://git.kernel.org/riscv/c/a72df945113a
+  - [v5,09/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for m68k-motorola
+    https://git.kernel.org/riscv/c/0f5cbeebe00e
+  - [v5,10/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for sparc32
+    https://git.kernel.org/riscv/c/35dd856770f3
+  - [v5,11/12] mm: userland pgtable freeing is RCU-safe now, remove leftover bits
+    https://git.kernel.org/riscv/c/35e340a47888
+  - [v5,12/12] mm: change the contract for free_pgtables(), update docs
+    https://git.kernel.org/riscv/c/a5c0a39d0e57
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
 _______________________________________________
 linux-snps-arc mailing list
