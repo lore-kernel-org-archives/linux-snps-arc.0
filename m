@@ -2,63 +2,123 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC5E606A322
-	for <linux-snps-arc@archiver.kernel.org>; Sun,  1 Nov 2026 01:04:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 658EF606A325
+	for <linux-snps-arc@archiver.kernel.org>; Sun,  1 Nov 2026 11:10:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=kYL2JodV;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dMaUfqfF
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=NPdRviqw;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=EKEgsdW1;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=YfeVPFHS
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Unsubscribe-Post:List-Owner;
-	bh=rVu1v2FqzIjk11PfwH4IaH1yGzZMSLyQUcffEzBmRvE=; b=kYL2JodVRR/HuEaeeTEoascnlx
-	2ut5nK5Ob7ns22sssF7OqKxSe19zKRiMCXtfSR+8Eqej/xEnhrVYkanHyATL3D8bLWx1tl5AvbnuS
-	3gaC8A2qmECpYJblRN3ONJs/OJNFAJZvYAyhHoE4MDx8MPq0JVGvTyqau1s6aXW5QNPrMglrM3lU5
-	kJtiXsZyltOqS3gP2bOtIeSw8czSs/lvyeVpsO7o/fBKcBkG1/qDKwCgpiKxvvOqeCah3bq1oksBX
-	ECQ6B9KIZBSYWYmTsyVP95qKTyf1KPz4psBFcxRC0mZ7Ze3L8fcgTz6lFUfx2XxwLelBPX3Anlebc
-	xcyaGFWA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:Subject:References:In-Reply-To:
+	Message-Id:Cc:To:From:Date:MIME-Version:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Unsubscribe-Post:List-Owner;
+	bh=EliJiw76PlXWDm1XbOze6nMCRn8SsyWyjI7XF0VqT3M=; b=NPdRviqwD04hqaFWmMSBbCoyTo
+	um8PYG+XvnWwNve3StQvWFe3K+f5OW2aNypPatm3o/+6i+texdw9+BXxJxuBmxQTGdL16aZdCrvca
+	F1YeEHAzlFLgPEvKHO14H/m8oftEclQrr0sqNJJpVa0I3H0mh4/RS/rvlMuH/nuq1M4aSXczo0O5A
+	cYNsxcOu5g7dxXDurSs8Ok8l6qENkv8GqdhOY/B7f+w7km4Z519dNtuVdNE4Y1K1dhknv+hVv4w8V
+	Yi2wGXp5TX3ojIUDF+GG6hFYq3xPnXXDUYi9trP9Jnb3TxCTF/jpTz62W0zCDgTuQ7nzM5r+T1LDL
+	syr+ZMhw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xNJzR-0000000DmvP-0PDL;
-	Sun, 01 Nov 2026 01:04:05 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1xNTSP-0000000E87v-0G6Y;
+	Sun, 01 Nov 2026 11:10:37 +0000
+Received: from fhigh-a7-smtp.messagingengine.com ([103.168.172.158])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xNJzQ-0000000DmvD-0Aki
+	id 1xNTSL-0000000E85t-3MeU
 	for linux-snps-arc@lists.infradead.org;
-	Sun, 01 Nov 2026 01:04:04 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id E060A60054;
-	Sun,  1 Nov 2026 01:04:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CCF61F000C1;
-	Sun,  1 Nov 2026 01:04:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793495042;
-	bh=VYTTSTczGEfRjwG36VgyHOdbxUJfLIKC4RqA43YT4FI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=dMaUfqfFCmP2M/5asa9VfGfocDpvlcu6SRHwzVzXC/BL3wHIIK9hgIYeXm3GJDlbs
-	 c0K9bYDs8skteMMZqjB2cdoaVGNOUxRIjTXG1syF3zZkjwZTV4HaPQ6zslX/CmdJHW
-	 AJA9AkEhlxfRVwznhCnU4GgFT8zLcccntfgH0CFE0zdZNMjoZaZxTHHVAW8ydsMq4V
-	 Kb2WLbEN2wbuPO09oS26AsJzF5r9RtsmfiTMPobH9QBcUU1T1PR3Cstk1/BLgnkruE
-	 LKlyULpBXK7nNBvRkGEkZFZb1QOBWT+rDnc+QlnFqPSJ9aGAzyMondqeZri+E3VGr7
-	 sm3ZllZ4g44JA==
-Message-ID: <09db4d22-2836-4656-8c6a-a7e5377710fb@kernel.org>
-Date: Sat, 31 Oct 2026 18:04:01 -0700
+	Sun, 01 Nov 2026 11:10:35 +0000
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 2D8BA1400254
+	for <linux-snps-arc@lists.infradead.org>; Sun,  1 Nov 2026 06:10:29 -0500 (EST)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Sun, 01 Nov 2026 06:10:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1793531426;
+	 x=1793617826; bh=4wfpv+QTFOtinTEPJMT8d2lisDokEK4BkxqjtCTUaKw=; b=
+	EKEgsdW1SfyxgrDSqbPy62abe6+yBX+vL8a+2UTU1LI0NXk3+oTaS6avYxMslK0q
+	hD3tRCq6YVfuB8k/7VCiSZEh8QwckekW94EGnruDIdvufsRWFDTepijIPuNrCzLV
+	DVnQ3CMYpZuLAbHq5wf7HijEUnm1YbWV8SMIaVs+liNJT6U9WSi1i3G3Q5auBNIt
+	e6w7QQDPuAyjHO83x7ztImfj0rBttm8KYodZ99NyC3Upd9h9hX8qzrQ+tebUqMir
+	IMWjfaCAgAw3EN6uLyXuUVcTQE/+husMVqkdtUxz2+idrsk31Tr9MyMm8XFuVEWA
+	d8lktoXhCdH1z8uqytMqHw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793531426; x=
+	1793617826; bh=4wfpv+QTFOtinTEPJMT8d2lisDokEK4BkxqjtCTUaKw=; b=Y
+	feVPFHSXQ2Wa9yVx3P2SOgI7aWm+6qiGZoLObH40GRMXWrDCH/OP1fbDCqKQB8tM
+	m5J6WHkhcOxWe2Grnv4SlUrdMekD9yY2ArzwI43YkiBpDpijgF42Lj3fb5kACDpj
+	EaB94J+9Go38aF7zdzRbe+Gn+A1tKT1JBm5GvNBtjdVBeNkyRJJf+0e0wCE7x4em
+	NWw/2RM8uztmwbHdJyVb6lSrddIPxSNDE4a99N7/hmOj81l2NVlEW+TOfZ/QM4zg
+	JYRb+qER1rBvnOHHcypuE8Iufg5u21jWYORbdtvU6hVoYt+YorUQPt9vNHLOkG4P
+	ipkEdAvx775JkdeMQOsoQ==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=sign d=arndb.de a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793531426; d=arndb.de;
+	mf=PGFybmRAYXJuZGIuZGU+;
+	rt=PGxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmc+;
+	s=fm2:rsa-sha256:cxJC+KXFFzbHfwm//CUWZxUiDaQ0agoGAXbjXIf8TQCZMeY
+	zH1SAZTGc8R6B3EXPU5Nw4/fJyc42wA4ltfGXxsh8i1Qo2AVXPxdgpjG9E/UfsvX
+	12M4JsKouNsgPOV8DPKZrEy4pfP1r4lOL3nYBdGfoot4vIN2ERFdZkd4YQT/P1iA
+	VQBiIk1xeuyMP1fetC4VYAUHClgnT5MLRmun/BZH9lsnYgKVpoQXf7RILaPaNy4n
+	ZaaX4qGukOjjmJ+xchVkfd/jHp0SHEalnxGZ8HKpaCd5KUXVI9u5cGhUJmHD8wYL
+	CCNNFfy2fyvTYvMeVOZBA394BWR4IIEauaLUjlw==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:FDA21DrBgrzqdaomdKVLZobssXJHwAfVxzSxQkSif5Y=:baVa2LtZmCenyZV/2WeRHNZ/OkEdZPERVqPYiPWE0pE=;
+X-ME-Sender: <xms:Hx7narBXHcHcMiYGvSnv_DkH6BCsOwWvL-_K9ae1w0mN7mwySCRrQg>
+    <xme:Hx7nasVJFejhn9XWQe2GeXmKbNk_wJH_bLzPzYji1RQPfqYMPpu9sx_7iKmpEB0uA
+    HqK_nnOHZUNcCdwhnaGpLK4TBD7m2eeANcUJIGVf8SS8r5qKLLYLdo>
+X-ME-Proxy-Cause: dmFkZTFysQRqxqvi0Wb9oWm4wruPAg1gWPeP99tcZEkNI3yxqU343EAQO2QcxMdNR8VWCi
+    l6cZlJq2fU2vqsUmRqQmQqGu5Z5VFEOwmSomr6ENeL9mWh7UpbltslPJNnqEhkTmMvkXHo
+    L4f4QMBZrIBi9bh0/DZ43DXc8eLec4y/7XkmT64KS3mY+3B/K4KBHcqKup+Bog3XZNARY4
+    z/WkR56BmAlS35cY7G094YUf2tjFYccIb40rkzexho6b506uXU3NHCMJdvxV/m0KmPx2YT
+    AW2ilBV6xD2RNKbgsUSEdIqOLvyVHuywb/hJ0+rptlsF7vHaqWv+g9ftHmTtcvmMGf0os8
+    95oMGI5e3yW006P3n7JB5yMeQtWYhYHfUC6N6D78xwZKqWON129r5yp28eoY1Vd5KM9hQh
+    T4PK8RjYQx+Oiacd7QceLJzWAqc65MLUu1Da90d5b4M+RcbFVhzLS8Npra/UzOzImA53Lr
+    /kXqJWS7m2TOOjyzDOwB+/j2E4NqCLxGHszuz14N+gW/JcpjqzOiZUEqZsrv2sH+isWgAz
+    e95+BKpxp1SJgdZvaDDtIbL0tlVSBYZbkN9EpcOoPK/Rp7svBFzv1tS7ckaHD+7bVvkrN+
+    0DLxmvvVA4lQ+VPwns3W5ApBLAJkDOshDhlRJH+1VRecGtZ91j3c28m0b6Ew
+X-ME-Proxy: <xmx:IB7nai-FL20ZyyPTM4c5Ty0swO0GPno4UDXOdsfQTK1txrjdz1Po5w>
+    <xmx:IB7nanqkxMXV1851nhVBB3GfPGTdSsi3tBB10ytauak_45qcrl48Mg>
+    <xmx:IB7nasTTd84biTLVWzJYJsjNndvQ5xzN2AR6lY19q8xLft5bZ5DwTw>
+    <xmx:IB7naqP4mNORn8_XLi8QuJQVOJKda2ao13bmwWB5ENn5HWNoVqV6xw>
+    <xmx:Ih7nagQrHVSJIoEpQ8YSiNcHvwobPTBrJlAH3bBifFFW3JuwThm5Tb-X>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id E53DE32A009C; Sun,  1 Nov 2026 06:10:22 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ARC: Strip libgcc debug information when generating BTF
-To: Sasha Levin <sashal@kernel.org>, Vineet Gupta <vgupta@kernel.org>,
+X-ThreadId: Ap4PcZ20AeuN
+Date: Sun, 01 Nov 2026 12:09:47 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Vineet Gupta" <vgupta@kernel.org>, "Sasha Levin" <sashal@kernel.org>,
  linux-snps-arc@lists.infradead.org
-Cc: Andrii Nakryiko <andrii@kernel.org>, Ilya Leoshkevich
- <iii@linux.ibm.com>, bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>
+Cc: "Andrii Nakryiko" <andrii@kernel.org>,
+ "Ilya Leoshkevich" <iii@linux.ibm.com>, bpf@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ "schuster.simon@siemens-energy.com" <schuster.simon@siemens-energy.com>
+Message-Id: <8b4688ca-db5c-4122-b616-8e3964e403f8@app.fastmail.com>
+In-Reply-To: <09db4d22-2836-4656-8c6a-a7e5377710fb@kernel.org>
 References: <20261015154044.4058618-1-sashal@kernel.org>
-From: Vineet Gupta <vgupta@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20261015154044.4058618-1-sashal@kernel.org>
+ <09db4d22-2836-4656-8c6a-a7e5377710fb@kernel.org>
+Subject: Re: [PATCH] ARC: Strip libgcc debug information when generating BTF
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261101_031034_422239_F3D7A7AF 
+X-CRM114-Status: GOOD (  12.04  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,106 +128,50 @@ List-Post: <mailto:linux-snps-arc@lists.infradead.org>
 List-Help: <mailto:linux-snps-arc-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
  <mailto:linux-snps-arc-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=4.0.1
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
+On Sun, Nov 1, 2026, at 02:04, Vineet Gupta wrote:
+> On 10/15/26 08:40, Sasha Levin wrote:
 
+>> diff --git a/arch/arc/lib/Makefile b/arch/arc/lib/Makefile
+>> index 30158ae69fd4a..2807ee24f27e6 100644
+>> --- a/arch/arc/lib/Makefile
+>> +++ b/arch/arc/lib/Makefile
+>> @@ -13,3 +13,11 @@ lib-$(CONFIG_ISA_ARCV2)		+=memcpy-archs-unaligned.o
+>>   else
+>>   lib-$(CONFIG_ISA_ARCV2)		+=memcpy-archs.o
+>>   endif
+>> +
+>> +# libgcc can contain complex floating-point debug types unsupported by BTF.
+>> +# Strip only the debug information from a local copy of the selected archive.
+>> +always-$(CONFIG_DEBUG_INFO_BTF) += libgcc.a
+>> +OBJCOPYFLAGS_libgcc.a := --strip-debug
+>> +
+>> +$(obj)/libgcc.a: $(LIBGCC) FORCE
+>> +	$(call if_changed,objcopy)
+>
+> I'm working on getting rid of libgcc linking for ARC.
+> This requires adding some GENERIC_LIB_* routines, but as part of that 
+> series I'll propose a revert of this and then the dropping the first link.
+> Don't intend to revert this per se, but revert just makes it cleaner.
 
-On 10/15/26 08:40, Sasha Levin wrote:
-> ARC links against the compiler's libgcc archive. The ARC GNU 2023.03
-> toolchain ships this library with debug information, including complex
-> floating-point types in integer arithmetic helpers such as __udivdi3.
-> These types reach vmlinux even though the kernel does not use complex
-> floating-point arithmetic.
->
-> When floating-point BTF encoding is enabled, pahole rejects those types:
->
->    Complex, interval and imaginary float types are not supported
->    Error while encoding BTF.
->    FAILED: load BTF from .tmp_vmlinux1.BTF.1: No such file or directory
->
-> KernelCI's upgrade to pahole 1.31 exposed this long-standing problem as
-> failed ARC builds. As of 1.32, pahole still rejects these types, and
-> older versions will stay in use, so the kernel build has to keep them
-> out of vmlinux. Commit f122668ddcce ("ARC: Add eBPF JIT support")
-> documented the same failure along with a workaround of disabling
-> floating-point BTF encoding, but that also discards supported
-> floating-point types from kernel BTF.
->
-> For CONFIG_DEBUG_INFO_BTF, generate a debug-stripped copy of the selected
-> libgcc archive in the output tree and link that copy. Preserve the archive
-> structure so that only needed helpers are linked, and use the normal
-> Kbuild objcopy rule to track input and command changes. The trade-off is
-> that vmlinux in BTF-enabled builds no longer carries DWARF for the libgcc
-> helpers. Debug information for kernel code, the installed toolchain and
-> non-BTF builds stay unchanged.
->
-> Reproduced and tested with ARC GCC 12.2.1 and pahole 1.31 and 1.32 using
-> an ARCv2 tinyconfig with BPF_SYSCALL and DWARF4/BTF enabled. Before and
-> after vmlinux.o files are identical after stripping debug information.
->
-> Fixes: db16c1fe92d7 ("bpf: Generate BTF_KIND_FLOAT when linking vmlinux")
-> Link: https://github.com/kernelci/kernelci-core/commit/e71b8c9f42253180596e734c18965a5aad80c8c5
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->   arch/arc/Makefile     | 9 ++++++++-
->   arch/arc/lib/Makefile | 8 ++++++++
->   2 files changed, 16 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-> index 868805ffcfeab..4ea705a331c7c 100644
-> --- a/arch/arc/Makefile
-> +++ b/arch/arc/Makefile
-> @@ -86,7 +86,14 @@ core-$(CONFIG_ARC_PLAT_TB10X)	+= arch/arc/plat-tb10x/
->   core-$(CONFIG_ARC_PLAT_AXS10X)	+= arch/arc/plat-axs10x/
->   core-$(CONFIG_ARC_SOC_HSDK)	+= arch/arc/plat-hsdk/
->   
-> -libs-y		+= arch/arc/lib/ $(LIBGCC)
-> +libs-y		+= arch/arc/lib/
-> +
-> +ifdef CONFIG_DEBUG_INFO_BTF
-> +export LIBGCC := $(LIBGCC)
-> +libs-y		+= arch/arc/lib/libgcc.a
-> +else
-> +libs-y		+= $(LIBGCC)
-> +endif
->   
->   boot		:= arch/arc/boot
->   
-> diff --git a/arch/arc/lib/Makefile b/arch/arc/lib/Makefile
-> index 30158ae69fd4a..2807ee24f27e6 100644
-> --- a/arch/arc/lib/Makefile
-> +++ b/arch/arc/lib/Makefile
-> @@ -13,3 +13,11 @@ lib-$(CONFIG_ISA_ARCV2)		+=memcpy-archs-unaligned.o
->   else
->   lib-$(CONFIG_ISA_ARCV2)		+=memcpy-archs.o
->   endif
-> +
-> +# libgcc can contain complex floating-point debug types unsupported by BTF.
-> +# Strip only the debug information from a local copy of the selected archive.
-> +always-$(CONFIG_DEBUG_INFO_BTF) += libgcc.a
-> +OBJCOPYFLAGS_libgcc.a := --strip-debug
-> +
-> +$(obj)/libgcc.a: $(LIBGCC) FORCE
-> +	$(call if_changed,objcopy)
+Have you seen Simon's series?
 
-I'm working on getting rid of libgcc linking for ARC.
-This requires adding some GENERIC_LIB_* routines, but as part of that 
-series I'll propose a revert of this and then the dropping the first link.
-Don't intend to revert this per se, but revert just makes it cleaner.
+https://lore.kernel.org/all/20261030-nios2-remove-usage-of-libgcc-v1-3-4e341c66082e@siemens-energy.com/
 
-Just FYI.
+I hope there is some overlap with what you need for arc in the
+lib/*.c functions. I can take both through the asm-generic tree
+to reduce the dependencies if that helps.
 
-Thx,
--Vineet
+     Arnd
 
 _______________________________________________
 linux-snps-arc mailing list
