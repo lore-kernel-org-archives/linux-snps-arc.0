@@ -2,73 +2,62 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D210E607352B
-	for <linux-snps-arc@archiver.kernel.org>; Sun,  1 Nov 2026 22:17:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D776F606A327
+	for <linux-snps-arc@archiver.kernel.org>; Mon,  2 Nov 2026 02:37:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=jauHKPNT;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RI6vqfud
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=SsPA58hD;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ut8vxLgG
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References:Date:
-	Message-Id:From:Subject:MIME-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
 	List-Unsubscribe-Post:List-Owner;
-	bh=C67ZvH2n3/WfAxQ9QOUR9WTsJZ6/ZV4LwAIaefCWG4k=; b=jauHKPNT3CqRpUu3Prbmi3aD6W
-	P6CmYO+rKt2ibJgJ5V4JnOENCt6bwmBzKUd5Qm0FvKXEKLuCnnakeO1v04Yp3jtYFgIOkzWL9oz4E
-	9e4qlj19zVBcrtUacpFO6CDMJvl+lAYOg8MZI92yfC84NJTEtZPJyT0N6jB7b0JRREPvEqfXv+2+z
-	OBIn2QvfkDUNvCETCq3xwvwGcLVYnePMxkzxF7xHbiIyFhcR46XZbuPJGH08m468FiqG8zNRw3jeG
-	+msUrfBgu9KEt3V2MMj0dCi3XLn0MpXEnvuvoC/D0Z+9c1+ZNbyLcEE8ixqyPQsI9HyvdFx0gF1s4
-	y1OuBxJg==;
+	bh=VnmPJbBF/Bis6GIhjbqFnO0wVIEBq+1EyLCqotExLak=; b=SsPA58hDpKkfsP6RnxiIdbFtbL
+	eVLjJfnzG1p6d9yyDYX31Hpf/lU6q0h45u/mV5hRhbYRET0IWNJB4ZbmLArdtJGiD5O6KyPvNeyAl
+	XhsVmHx4YLose/gzlIb49iO5LZEeY59njGI6G14cBq11oKKG/nAPOWzFd0/IkZ11E38kvzeO7Y4hu
+	81wb6K64CnMvWLU43f1xsrYw4WBXkAFsoRLCgOcd9B75a3htCkRpQrzCnS0++3uZ9qYYZjiR9nOS3
+	8hgl+oYvRlfwSOKdVu9sGfJ+QeiKYj15y6121AZpjN0COozlo+w3z3dCrO/W7ErnAS8iqGsQt0iXw
+	HG/pNjyQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xNdrI-0000000F1sd-0eoG;
-	Sun, 01 Nov 2026 22:17:00 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1xNhuy-0000000FPVn-1eEC;
+	Mon, 02 Nov 2026 02:37:04 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xNdqq-0000000F0YQ-3GQb;
-	Sun, 01 Nov 2026 22:16:33 +0000
+	id 1xNhuw-0000000FPVU-2f2n
+	for linux-snps-arc@lists.infradead.org;
+	Mon, 02 Nov 2026 02:37:02 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 7FC2441815;
-	Sun,  1 Nov 2026 22:16:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D4D81F000C1;
-	Sun,  1 Nov 2026 22:16:32 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id C356B605CB;
+	Mon,  2 Nov 2026 02:37:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34F651F0093A;
+	Mon,  2 Nov 2026 02:37:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793571392;
-	bh=7jMaG7E0faIciRuA0j8698KDnNXPdfgqG5SZCjrpwFM=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=RI6vqfudUDAPQJyogDLl2CpARmQSYi02Z/r+Di8qbeK3KcSdM0cWSldHGeHFd7Wmg
-	 oZkcWTzbyfmhEOg5tcfCHfhpf6iaGm+isSH86qaujprBW88A0OM503IaD8+WPv9717
-	 bpcrsoSfdrv6EFgcaHxAfgeqBVd+9Lh2jlei+lTKhKmrMmF1DDRxKwuNJ2YAzniH64
-	 bTK3lBMxJ6uc9UCiWTe96qjtjhpAxsSnnRxROmumhMt3+M7z/8Bl4vxi21IO/fXVoH
-	 wUHNq2epY1lAcTmYzulW8paMq9f4RX7rYBp2SAoAq4o7yj3fGB1UzuSY/Wrq1aK7S0
-	 zpB9EvUeVfZow==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 5347838003B8;
-	Sun,  1 Nov 2026 22:16:32 +0000 (UTC)
+	s=k20260515; t=1793587021;
+	bh=MxQRI3Kt0yUFkvg8lt4ycJwOdj1jWMLnHkDm0fz34to=;
+	h=From:To:Cc:Subject:Date;
+	b=Ut8vxLgGG1cbXn9k8x0yxABLoptmCMR0jMkR+1bYJ4bGbU7P+GIQ4ArZFZ9M3aGtf
+	 9gKcmGLcHLWjxBdeXDf90lfHbcC/yHs65MIfbI3SOXeS6x/cVYFVFrX98XbyCgjXat
+	 kb2Wu2dhUVmSNCXTCFhE1GxnGWKnJVgzermLT3nyBzOp+LqVoGVq0AXh7Aj/tOwOwd
+	 SJ2QWrSwk6FTE+m2sgachVctyP4y0+0QlL/0UG2OXfeSLy3IhJHSDsQwgXCEuAIGQn
+	 TnQbCV2rbdiAd1/WPAg+zenDtPKZg8pbiao7NHNw35tEZc9dwq4XKlDnfXu7pUFcmZ
+	 rKQnaGgZ19inA==
+From: Vineet Gupta <vgupta@kernel.org>
+To: bpf@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org
+Cc: Alan Maguire <alan.maguire@oracle.com>,
+	Sasha Levin <sashal@kernel.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Vineet Gupta <vgupta@kernel.org>
+Subject: [PATCH] lib/Kconfig.debug: disable CONFIG_DEBUG_INFO_BTF for ARCompact
+Date: Sun,  1 Nov 2026 18:36:37 -0800
+Message-ID: <20261102023638.1621622-1-vgupta@kernel.org>
+X-Mailer: git-send-email 2.53.0
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/8] mm: Drop pxd_ERROR()
-From: patchwork-bot+linux-riscv@kernel.org
-Message-Id: <179357139104.2624073.10186400247460209292.git-patchwork-notify@kernel.org>
-Date: Sun, 01 Nov 2026 22:16:31 +0000
-References: <20260831054331.625505-1-anshuman.khandual@arm.com>
-In-Reply-To: <20260831054331.625505-1-anshuman.khandual@arm.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: linux-riscv@lists.infradead.org, linux-mm@kvack.org,
- samuel.holland@sifive.com, david@kernel.org, rppt@kernel.org,
- akpm@linux-foundation.org, ljs@kernel.org, ysato@users.sourceforge.jp,
- dalias@libc.org, glaubitz@physik.fu-berlin.de,
- James.Bottomley@HansenPartnership.com, deller@gmx.de, chenhuacai@kernel.org,
- kernel@xen0n.name, linux-alpha@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
- loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
- linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,52 +70,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=4.0.1
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-Hello:
+When testing Sasha's commit ca201ad6e92a "(ARC: Strip libgcc debug
+information when generating BTF)" ran into build failure for ARCompact
+builds.
 
-This series was applied to riscv/linux.git (fixes)
-by Andrew Morton <akpm@linux-foundation.org>:
+pahole, uses elfutils to read DWARF for generating BTF for kernel
+modules. These are relocatable files so elfutils has to apply the
+relocations in their .debug sections and it turns out it only handles
+EM_ARCV2 (so ARCv2 relocations), not EM_ARC_COMPACT (ARC700) which is
+silently ignored to produce bogus module binaries which can ultimately
+lead to following errors:
 
-On Mon, 31 Aug 2026 11:13:22 +0530 you wrote:
-> pxd_ERROR() macros have been provided by all platforms, which are very much
-> identical and can be dropped off completely if these pgtable printing could
-> be moved to callers in generic MM aka all pxd_clear_bad().
-> 
-> But first cleanups and re-organizations are required in some platforms that
-> are using these macros internally. Afterwards [pte|pmd|pud|p4d|pgd]_ERROR()
-> macros have been completely dropped from the entire tree.
-> 
-> [...]
+  Complex, interval and imaginary float types are not supported
+  Error while encoding BTF.
+  FAILED: load BTF from drivers/gpu/drm/drm_panel_orientation_quirks.ko.BTF.1: No such file or directory
 
-Here is the summary with links:
-  - [1/8] mm: Make ptval_to_str() generally available
-    (no matching commit)
-  - [2/8] mm: Stop using pxd_ERROR()
-    https://git.kernel.org/riscv/c/0666fc9d4432
-  - [3/8] loongarch/mm: Stop using pte_ERROR()
-    https://git.kernel.org/riscv/c/ea8763ac3af7
-  - [4/8] parisc/mm: Directly use generic [pmd|pgd]_clear_bad()
-    https://git.kernel.org/riscv/c/94d6c5466d1a
-  - [5/8] sh/mm: Stop using pte_ERROR()
-    https://git.kernel.org/riscv/c/6858e42cc2bc
-  - [6/8] sh/mm: Stop using [p4d|pud|pmd]_ERROR()
-    https://git.kernel.org/riscv/c/3b225ce37f62
-  - [7/8] sh/mm: Stop using pgd_ERROR()
-    https://git.kernel.org/riscv/c/66a0441a1791
-  - [8/8] mm: Drop pxd_ERROR()
-    https://git.kernel.org/riscv/c/c970236c300f
+As for Hexagon in commit aaa2c9a97c22 ("lib/Kconfig.debug: disable
+CONFIG_DEBUG_INFO_BTF for Hexagon"), don't allow DEBUG_INFO_BTF on
+ARCompact. BTF is unlikely to be wanted on these older cores anyway.
 
-You are awesome, thank you!
+Tested with elfutils 0.194 and pahole 1.31.
+
+Signed-off-by: Vineet Gupta <vgupta@kernel.org>
+Assisted-by: Claude:claude-opus-5
+---
+ lib/Kconfig.debug | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 2d22638ec13a..5331c3649228 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -403,6 +403,8 @@ config DEBUG_INFO_BTF
+ 	depends on PAHOLE_VERSION >= 122
+ 	# pahole uses elfutils, which does not have support for Hexagon relocations
+ 	depends on !HEXAGON
++	# elfutils only handles ARCv2 relocations, not ARCompact ones
++	depends on !ISA_ARCOMPACT
+ 	help
+ 	  Generate deduplicated BTF type information from DWARF debug info.
+ 	  Turning this on requires pahole v1.22 or later, which will convert
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.53.0
 
 
 _______________________________________________
