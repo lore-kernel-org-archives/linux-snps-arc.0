@@ -2,61 +2,119 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C6A606A328
-	for <linux-snps-arc@archiver.kernel.org>; Wed,  4 Nov 2026 04:35:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C6AC606A326
+	for <linux-snps-arc@archiver.kernel.org>; Wed,  4 Nov 2026 07:40:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=knq7phgr;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rzej8poz
+	dkim=pass (2048-bit key, unprotected) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=LZ0hZFrK;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=dIJPBt/7;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=LFF26dGc
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Unsubscribe-Post:List-Owner;
-	bh=E4g9ZT34MfcyCMm+LgPh/5XM5TWujSaTlCqsxU62UeU=; b=knq7phgrtMfiJAb+ErLl1sVOQ9
-	N1ScZMT6C3QHbioNXiVF0A0Hi9Mx2L3lnGU1X5E+D9XNvCm2SElmPcmCgx2Hn37U2N/xRpKY5hCWx
-	vv4LbMw4jOVjKf/i+/tLjfPB1Cey/hU1AMahBlEsR3GavXCX7Wglsl3ULbtYSIJyxAQ3RzPL6h9GB
-	+pmmjRyjbchJY//nrFsd1WApmIq/zGMUARUP8PE+ceCzekTSftIxL5cDnZl3QTz0BS4Wg9F+UuMkv
-	8Vyu3kmzf74zSzwDKTwNo5eHmq7j+c2HAYKm9Ty2w8GdSQ+xUWZf7QkdzSJnzOzDbB1xf0DdbvNOH
-	GXht+vZg==;
+	List-Archive:List-Unsubscribe:List-Id:Subject:References:In-Reply-To:
+	Message-Id:Cc:To:From:Date:MIME-Version:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Unsubscribe-Post:List-Owner;
+	bh=ANnBK0aGb/cAaxWqpQRpQtUNXQpEiyUEarc6KNiI4jQ=; b=LZ0hZFrKdh05GDFw6FKy2pU9kx
+	ymBv0DCY1DCF0Raz0pPTzAJxpZ0pZ49eGdJqA4qX8CUYG993F5XzcpGKsnfgyYYD4NW5be4orLlEl
+	qI1+kJ/lNkZPdAano/JWN/sHoefvr+v9BHzhHr0PLXUufgkiQj33eoiSVwnzsY2fhvhFg/dONG4yw
+	BsHeZDOLOSLmnFOryhZD/401x/90YHGD425bVTTrqkfV5Dk7G5brZygW8IRs0QusEsI8yg5movHA4
+	owB12TJpPkD8bPZ3fHPZTcitTjXCQ81kPYU2BOOqEHflHmx7mcWLeUCuNRRj0XAXgwoHP2TmQ2tGS
+	6csCU/5Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOSir-00000004JVK-35gi;
-	Wed, 04 Nov 2026 04:35:41 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1xOVc3-00000004a0d-3Ssw;
+	Wed, 04 Nov 2026 07:40:51 +0000
+Received: from fhigh-a1-smtp.messagingengine.com ([103.168.172.152])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOSiq-00000004JUq-0yXy
+	id 1xOVc0-00000004Zzi-2wCp
 	for linux-snps-arc@lists.infradead.org;
-	Wed, 04 Nov 2026 04:35:40 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 6533760AAB;
-	Wed,  4 Nov 2026 04:35:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1DF81F00A02;
-	Wed,  4 Nov 2026 04:35:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793766939;
-	bh=pMJWVNogEym8HJGxzLCBJdh24NbisfvrpyEcOzPSvJY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Rzej8pozHCzKQ7NmIb7wP0lUNOEfSuvkXiItdFgxK+tAPPTka3S2vefF0kHO4zApu
-	 m6LxuXm25jnUnbnkgwheY4hOl9vQQYaxEHABYK1PZCrRkUtNoxIi+ukG3NROCaOGK9
-	 OvcD/R0WfCIMe78RS/s74PFva1nHQX5W+ObO4EEAvc09xazoFnRGiTyw2MvX5JwHCv
-	 TQxHd2EuCvqVkNqWiZ4+KTNTmDxvyzbd2qfGsFg7SAmIKNNoXDg0ICiuZzPZrderud
-	 zOdx0WGEqBbZdDbUY5St5Ddcdq05uvaOhuTbWS9IiYgiVkuWcL+Cx5QetGT/dCNkBw
-	 48EAHstLl2skA==
-From: Vineet Gupta <vgupta@kernel.org>
-To: linux-snps-arc@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	Arnd Bergmann <arnd@arndb.de>,
-	Vineet Gupta <vgupta@kernel.org>
-Subject: [PATCH 2/2] ARC: io: use asm-generic MMIO accessors
-Date: Tue,  3 Nov 2026 20:35:35 -0800
-Message-ID: <20261104043535.2039948-3-vgupta@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261104043535.2039948-1-vgupta@kernel.org>
-References: <20261104043535.2039948-1-vgupta@kernel.org>
+	Wed, 04 Nov 2026 07:40:50 +0000
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 60964140009A
+	for <linux-snps-arc@lists.infradead.org>; Wed,  4 Nov 2026 02:40:44 -0500 (EST)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Wed, 04 Nov 2026 02:40:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1793778043;
+	 x=1793864443; bh=jdkx1jkWgH2UKTead65t6S1xgvf3aXx5Pam6zn2Qcds=; b=
+	dIJPBt/7j8f74KC8/4cLcqbGWejqqTHbBvnq4/tkEuCt7o/Qiz6s+z1+4FDQGXod
+	RAQjw0n8RjPS/fXdRcJMxEz6uEx6J/dM1z72i63dH0fYFOrp+EpK0b577yw1fdYn
+	WTrYxyUsd6wdMPCmgco0vX/wl7lc2++MhsN2waVnJTEguvkLKr7rMh5gZCHk4Sec
+	IqpqrKtjlR7N8a/h/4dTCXuk2mD+Ab5KZ4oZqAySgjqbmLsn4vB26KWa5Nj7pCJd
+	keiBgm/eSubYAy/QfqRmC+eu3+Z/hWXolNzKjkBd7uMU0uWCU4OFn+0VzWIRRZol
+	I9TtbEgcbEZnH7pvxirAxA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1793778043; x=
+	1793864443; bh=jdkx1jkWgH2UKTead65t6S1xgvf3aXx5Pam6zn2Qcds=; b=L
+	FF26dGcW7egzKPlx7Imrvif8PACTJ7VG8LM6Htb7/CXmTb6l/8UbNw6E6YiTILbM
+	A16Z/BoUrsJkuxJw1XN6JWwS9obeqaU/gXgPqGmLlAeERPBbW1zaZJ/CMMXw2FXg
+	HCLGaLSW+LK9nmfU7wua+w8YlPIGABIhYjePAlddkABDlmJ0RxCu9ViDVnigDuXz
+	aP7Jpq7jhTUcOo3K+8DdJXbFePgu4nCVsjP0EeyDoKrvb6hNNkEttdHqPwvuRe3r
+	G5dNiY1APBPYhLHUVGMGTJadQwi1QUPqcdBEjhb9WXlDM/aaujWLLYvEo0q/b5V5
+	c+sws2ep7+2px6ws3Ak0g==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=sign d=arndb.de a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793778043; d=arndb.de;
+	mf=PGFybmRAYXJuZGIuZGU+;
+	rt=PGxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmc+;
+	s=fm2:rsa-sha256:f4hLuLfumX8m1m9ABXyCnRgdzecMiIR0LCyCTr2X/HyCUxz
+	lAegDqEWIsLDsekFJD67FjhvPxr4bG97f8RegLxw5SAOGJuGGJPrY622i1L6Yudv
+	wXBQAzE7FkHW3cTUx36BjK5oCVg2BX0t9vt4/RgK5vy5PXCfJkGEd8PM1qlhPtfo
+	Z+P40uht97CBrahlQeixSuWHPycWDqGhZKDsZSQKRRMiFo2WF1nLxSmOONSjUcIE
+	HOi0JgekQh9bdPptyaN6gIaeHmIpQ0VWU7m+yyx45HrD/vL8OcJn1A1+DJTW8PAB
+	T0SXewi0RrBYtQJEx1qTl6hEKCcXFS4UfXDaq6w==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:BHCyfsEGgeB6KE/p7k2Lzxtudau9dPthb4f5ddUkBqg=:sFKbGl7M+bmc6GP2/YZhSxV5JsfWAqh3vfY6lKIjxME=;
+X-ME-Sender: <xms:eOHqaoXOGtAOJsvTMTzC0E2zfVwcGHJtDlWLsYuMTZjVvTWsJSYfrw>
+    <xme:eOHqanZAIEUvVSAZA2oMzHxzcOTuzGT8IF4oMpnW-Ug4WpxTmkCmdxK7qe0xCVE4J
+    0Oy3vKVbWG3kP3ngLT0nWFm6O82nY_2PAeqhIu2mg6gf6alIqAymMk>
+X-ME-Proxy-Cause: dmFkZTGFdExFfau+0t646T9zM/MAKUgZ7uWeewKlQBMdWAx1tBWSsutEr3o9tFN5Kl3CNO
+    UlE7joIk1WLEPl5HMSkQ920hqV6tDHkUDBC7dvxiEiDhmsmbrTNqEZduWj2CkAVTq1k3Tc
+    DuNxyW0S9kP1QS/aZ6U4eP2KuABXH4A7bYYRl9+uitHMFNG/J/DQiOdSENb8fKMPCTLb05
+    eXqeNOifiq+hfeTTa30HgAuoZ4Suzp0ycxaatMn9fg3kF/mo0P4YcE3s6cJ0D3Ewb1nwaE
+    RBfLDsKw2hP0mL+mklIgUqcK3OMqbe5xag8EgEP/KpcxLaxmt3KDtmJQBown5o7idSPiZg
+    RtSaYeJG1b4Rpc66VlXpDtfImOBPw8R/yIsixXrlr/P2sMjpAP0QguXePwi3W3izBF9GZF
+    rfuT7XfiAYl6CsKMwvifVSnCUVdhmeCLuapSxhyu2/i3BnsOTya9b0W0Qw6m6EKo6HpBqe
+    i5JZsUAP2y1L4Bl+43ZI6zJj8ibb4KZoVCBmWGR2MnB9h95WMFVK/33SZ4zxiktFqWes2I
+    vhE9biwoYBiNGlgX8PS+BuHQpBbtFSjA7qa0PyXARAajStrvr0OkF2NfK5QJQ0mW5hUq5i
+    dTnenav3so5asH6hxOsart5TDPRb5GSfhuXLymdWCGzn5FZSABZ4Y7D7Wzng
+X-ME-Proxy: <xmx:eeHqan4s4IhfPOCVnLN58KwuRzj5P5pjVW8E8Z8vtRS3xty1vI_zCw>
+    <xmx:eeHqatCmJQLDLY9SFWzdfaqoQaMBVDQbYtH1Qr4F_fvr27ALutwSaw>
+    <xmx:eeHqambweVNtC9qydigArcvefnsFCv4JldmPRt3VvOgX0YAUCX6UGg>
+    <xmx:eeHqagbAHY52aDMqID7Uzm51YUZu_uvx1tTkwWsvol90Gyk0LloNyA>
+    <xmx:e-HqatsZOxPZzy8FZwTJvCxo2KlrFkK2upd0tyRkHcpI2lf0LNLIVDPS>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id C7BD732A0093; Wed,  4 Nov 2026 02:40:40 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
+X-ThreadId: A0YankKnQQSw
+Date: Wed, 04 Nov 2026 08:40:10 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Vineet Gupta" <vgupta@kernel.org>, linux-snps-arc@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Message-Id: <6534a171-9e74-4e69-bee2-3a499798cffa@app.fastmail.com>
+In-Reply-To: <20261104043535.2039948-3-vgupta@kernel.org>
+References: <20261104043535.2039948-1-vgupta@kernel.org>
+ <20261104043535.2039948-3-vgupta@kernel.org>
+Subject: Re: [PATCH 2/2] ARC: io: use asm-generic MMIO accessors
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20261103_234049_232558_2E476D3D 
+X-CRM114-Status: GOOD (  19.54  )
+X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,259 +127,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-ARC MMIO accessors use inline asm, which isn't really needed. It was
-introduced with the original port back in 2013.
+On Wed, Nov 4, 2026, at 05:35, Vineet Gupta wrote:
+> ARC MMIO accessors use inline asm, which isn't really needed. It was
+> introduced with the original port back in 2013.
+>
+> As the previous patch showed, inline asm can be error-prone. Letting the
+> compiler emit the accesses also allows 16-bit encodings, scaled-index
+> loads and folding constant offsets (s9) into the access.
+>
+> Without the asm, ARC's __raw_{read,write}{b,w,l}(), *_relaxed(),
+> {read,write}{b,w,l}() and io{read,write}{16,32}be() are the same as the
+> asm-generic/io.h versions, so drop them and use the generic ones.
 
-As the previous patch showed, inline asm can be error-prone. Letting the
-compiler emit the accesses also allows 16-bit encodings, scaled-index
-loads and folding constant offsets (s9) into the access.
+Hi Vineet,
 
-Without the asm, ARC's __raw_{read,write}{b,w,l}(), *_relaxed(),
-{read,write}{b,w,l}() and io{read,write}{16,32}be() are the same as the
-asm-generic/io.h versions, so drop them and use the generic ones.
+In my experience, the generic helpers are also fragile, they just lead
+to different problems when the compiler optimizes them in ways it
+should not.
 
-Two things stay ARC-specific:
+I would recommend keeping the __raw helpers with the workaround from
+the first patch, possibly both variants depending on the compiler
+version.
 
-- The barriers, now hooked into the generic accessors through
-  __io_ar()/__io_bw(). On ARCv2 they remain dmb (rmb()/wmb()).
-  On ARCompact they were empty, relying on the asm "memory" clobber
-  as a compiler barrier, so make them barrier() explicitly.
-  The generic defaults would be mb(), i.e. the heavyweight SYNC.
-  The *_relaxed() accessors only need ordering against other MMIO
-  accesses, which volatile guarantees.
+Using the generic higher level interfaces is a very welcome change
+though, I hope we can eventually get to the point where every
+architecture just needs to provide the __raw_*() ones.
 
-- The {read,write}s{b,w,l}() string helpers, which, unlike the generic
-  ones, cope with an unaligned memory buffer. They are defined before
-  asm-generic/io.h is included, as it calls them (e.g. ioread8_rep()),
-  so they do the volatile access directly rather than via __raw_*().
+> Two things stay ARC-specific:
+>
+> - The barriers, now hooked into the generic accessors through
+>   __io_ar()/__io_bw(). On ARCv2 they remain dmb (rmb()/wmb()).
+>   On ARCompact they were empty, relying on the asm "memory" clobber
+>   as a compiler barrier, so make them barrier() explicitly.
+>   The generic defaults would be mb(), i.e. the heavyweight SYNC.
+>   The *_relaxed() accessors only need ordering against other MMIO
+>   accesses, which volatile guarantees.
 
-As a side effect, readX()/writeX() gain MMIO access tracing
-(CONFIG_TRACE_MMIO_ACCESS).
+Sounds good.
 
-vmlinux .text with GCC 16.2 (hsdk_defconfig): -5412 bytes.
+> - The {read,write}s{b,w,l}() string helpers, which, unlike the generic
+>   ones, cope with an unaligned memory buffer. They are defined before
+>   asm-generic/io.h is included, as it calls them (e.g. ioread8_rep()),
+>   so they do the volatile access directly rather than via __raw_*().
 
-Signed-off-by: Vineet Gupta <vgupta@kernel.org>
-Assisted-by: Claude:claude-opus-5
----
- arch/arc/include/asm/io.h | 139 ++++++--------------------------------
- 1 file changed, 19 insertions(+), 120 deletions(-)
+I don't think we want a custom version here. Do you know the reason this
+tries to handle unaligned buffers? If there are drivers that require it,
+we can change the generic implementation to be more like the arc version,
+otherwise this likely just causes larger object code for all users that
+don't ever need unaligned access.
 
-diff --git a/arch/arc/include/asm/io.h b/arch/arc/include/asm/io.h
-index b4a3393d1bdc..de929136c1a3 100644
---- a/arch/arc/include/asm/io.h
-+++ b/arch/arc/include/asm/io.h
-@@ -11,15 +11,26 @@
- #include <asm/page.h>
- #include <linux/unaligned.h>
- 
--#ifdef CONFIG_ISA_ARCV2
- #include <asm/barrier.h>
-+
-+#ifdef CONFIG_ISA_ARCV2
- #define __iormb()		rmb()
- #define __iowmb()		wmb()
- #else
--#define __iormb()		do { } while (0)
--#define __iowmb()		do { } while (0)
-+/*
-+ * The accessors are plain volatile accesses, which the compiler only orders
-+ * against other volatile accesses. Make readX()/writeX() compiler barriers so
-+ * that e.g. DMA buffer writes are not moved past the MMIO write that starts
-+ * the DMA. The asm-generic default, mb(), would be the heavyweight SYNC.
-+ */
-+#define __iormb()		barrier()
-+#define __iowmb()		barrier()
- #endif
- 
-+/* Barriers for the asm-generic readX()/writeX() */
-+#define __io_ar(v)		__iormb()
-+#define __io_bw()		__iowmb()
-+
- extern void __iomem *ioremap(phys_addr_t paddr, unsigned long size);
- #define ioremap ioremap
- #define ioremap_prot ioremap_prot
-@@ -33,57 +44,6 @@ static inline void ioport_unmap(void __iomem *addr)
- {
- }
- 
--/*
-- * io{read,write}{16,32}be() macros
-- */
--#define ioread16be(p)		({ u16 __v = be16_to_cpu((__force __be16)__raw_readw(p)); __iormb(); __v; })
--#define ioread32be(p)		({ u32 __v = be32_to_cpu((__force __be32)__raw_readl(p)); __iormb(); __v; })
--
--#define iowrite16be(v,p)	({ __iowmb(); __raw_writew((__force u16)cpu_to_be16(v), p); })
--#define iowrite32be(v,p)	({ __iowmb(); __raw_writel((__force u32)cpu_to_be32(v), p); })
--
--#define __raw_readb __raw_readb
--static inline u8 __raw_readb(const volatile void __iomem *addr)
--{
--	u8 b;
--
--	__asm__ __volatile__(
--	"	ldb%U1 %0, %1	\n"
--	: "=r" (b)
--	: "m" (*(volatile u8 __force *)addr)
--	: "memory");
--
--	return b;
--}
--
--#define __raw_readw __raw_readw
--static inline u16 __raw_readw(const volatile void __iomem *addr)
--{
--	u16 s;
--
--	__asm__ __volatile__(
--	"	ldw%U1 %0, %1	\n"
--	: "=r" (s)
--	: "m" (*(volatile u16 __force *)addr)
--	: "memory");
--
--	return s;
--}
--
--#define __raw_readl __raw_readl
--static inline u32 __raw_readl(const volatile void __iomem *addr)
--{
--	u32 w;
--
--	__asm__ __volatile__(
--	"	ld%U1 %0, %1	\n"
--	: "=r" (w)
--	: "m" (*(volatile u32 __force *)addr)
--	: "memory");
--
--	return w;
--}
--
- /*
-  * {read,write}s{b,w,l}() repeatedly access the same IO address in
-  * native endianness in 8-, 16-, 32-bit chunks {into,from} memory,
-@@ -102,12 +62,12 @@ static inline void __raw_reads##f(const volatile void __iomem *addr,	\
- 	/* Some ARC CPU's don't support unaligned accesses */		\
- 	if (is_aligned) {						\
- 		do {							\
--			u##t x = __raw_read##f(addr);			\
-+			u##t x = *(const volatile u##t __force *)addr;	\
- 			*buf++ = x;					\
- 		} while (--count);					\
- 	} else {							\
- 		do {							\
--			u##t x = __raw_read##f(addr);			\
-+			u##t x = *(const volatile u##t __force *)addr;	\
- 			put_unaligned(x, buf++);			\
- 		} while (--count);					\
- 	}								\
-@@ -120,43 +80,6 @@ __raw_readsx(16, w)
- #define __raw_readsl __raw_readsl
- __raw_readsx(32, l)
- 
--#define __raw_writeb __raw_writeb
--static inline void __raw_writeb(u8 b, volatile void __iomem *addr)
--{
--	__asm__ __volatile__(
--	"	stb%U1 %0, %1	\n"
--	:
--	: "r" (b), "m" (*(volatile u8 __force *)addr)
--	: "memory");
--}
--
--#define __raw_writew __raw_writew
--static inline void __raw_writew(u16 s, volatile void __iomem *addr)
--{
--	/*
--	 * Not an "m" operand: GCC can pick a register-indexed address for it,
--	 * which ST doesn't support (GCC PR target/127718).
--	 */
--	__asm__ __volatile__(
--	"	stw %0, [%1]	\n"
--	:
--	: "r" (s), "r" (addr)
--	: "memory");
--
--}
--
--#define __raw_writel __raw_writel
--static inline void __raw_writel(u32 w, volatile void __iomem *addr)
--{
--	/* See __raw_writew() above for why this doesn't use an "m" operand. */
--	__asm__ __volatile__(
--	"	st %0, [%1]	\n"
--	:
--	: "r" (w), "r" (addr)
--	: "memory");
--
--}
--
- #define __raw_writesx(t,f)						\
- static inline void __raw_writes##f(volatile void __iomem *addr, 	\
- 				   const void *ptr, unsigned int count)	\
-@@ -170,11 +93,12 @@ static inline void __raw_writes##f(volatile void __iomem *addr, 	\
- 	/* Some ARC CPU's don't support unaligned accesses */		\
- 	if (is_aligned) {						\
- 		do {							\
--			__raw_write##f(*buf++, addr);			\
-+			*(volatile u##t __force *)addr = *buf++;	\
- 		} while (--count);					\
- 	} else {							\
- 		do {							\
--			__raw_write##f(get_unaligned(buf++), addr);	\
-+			u##t x = get_unaligned(buf++);			\
-+			*(volatile u##t __force *)addr = x;		\
- 		} while (--count);					\
- 	}								\
- }
-@@ -198,39 +122,14 @@ __raw_writesx(32, l)
-  *
-  * http://lkml.kernel.org/r/20150622133656.GG1583@arm.com
-  */
--#define readb(c)		({ u8  __v = readb_relaxed(c); __iormb(); __v; })
--#define readw(c)		({ u16 __v = readw_relaxed(c); __iormb(); __v; })
--#define readl(c)		({ u32 __v = readl_relaxed(c); __iormb(); __v; })
- #define readsb(p,d,l)		({ __raw_readsb(p,d,l); __iormb(); })
- #define readsw(p,d,l)		({ __raw_readsw(p,d,l); __iormb(); })
- #define readsl(p,d,l)		({ __raw_readsl(p,d,l); __iormb(); })
- 
--#define writeb(v,c)		({ __iowmb(); writeb_relaxed(v,c); })
--#define writew(v,c)		({ __iowmb(); writew_relaxed(v,c); })
--#define writel(v,c)		({ __iowmb(); writel_relaxed(v,c); })
- #define writesb(p,d,l)		({ __iowmb(); __raw_writesb(p,d,l); })
- #define writesw(p,d,l)		({ __iowmb(); __raw_writesw(p,d,l); })
- #define writesl(p,d,l)		({ __iowmb(); __raw_writesl(p,d,l); })
- 
--/*
-- * Relaxed API for drivers which can handle barrier ordering themselves
-- *
-- * Also these are defined to perform little endian accesses.
-- * To provide the typical device register semantics of fixed endian,
-- * swap the byte order for Big Endian
-- *
-- * http://lkml.kernel.org/r/201603100845.30602.arnd@arndb.de
-- */
--#define readb_relaxed(c)	__raw_readb(c)
--#define readw_relaxed(c) ({ u16 __r = le16_to_cpu((__force __le16) \
--					__raw_readw(c)); __r; })
--#define readl_relaxed(c) ({ u32 __r = le32_to_cpu((__force __le32) \
--					__raw_readl(c)); __r; })
--
--#define writeb_relaxed(v,c)	__raw_writeb(v,c)
--#define writew_relaxed(v,c)	__raw_writew((__force u16) cpu_to_le16(v),c)
--#define writel_relaxed(v,c)	__raw_writel((__force u32) cpu_to_le32(v),c)
--
- #include <asm-generic/io.h>
- 
- #endif /* _ASM_ARC_IO_H */
--- 
-2.53.0
+I see that the sparc version does the same thing, other ones without
+unaligned access (in particular armv5 and riscv) assume that the
+memory buffer is aligned. On alpha and parisc, there is an alignment
+check for insl()/outsl() but not readsl()/writesl(). I suspect this
+is not intentional.
 
+If they do run into this problem, they will fix it up with a slow
+fault handler on the unaligned memory access.
+
+      Arnd
 
 _______________________________________________
 linux-snps-arc mailing list
