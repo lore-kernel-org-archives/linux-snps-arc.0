@@ -2,11 +2,11 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90B5760A263F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5C6606A32C
 	for <linux-snps-arc@archiver.kernel.org>; Thu, 19 Nov 2026 06:00:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=4GXvXbXh;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I0HI//mr
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=XdGOjnDY;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hWv3kH2W
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
@@ -14,36 +14,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
 	List-Unsubscribe-Post:List-Owner;
-	bh=iHLY6oNYFNA/NB9CnNW+q9RtPbqxUbu8Xkj/EdOefOE=; b=4GXvXbXhtI606kWMHdtHXBoo6c
-	nJt+DHqajBsrzl8UJNpYrau3UFdcmm6Xqb/0pQlW8ZCDp6/QVdasChp5E9b7Om19vgCIqo13xBCav
-	GDT+qlgHIHsZKQkvXA1nytN5msAADF4eEt9YdFbU3eqpAvnsc0EqD1jiKgnwyt5nDLDLNxKR+bZlD
-	3eDQYQG8XAGo087tbWk0NAbral3EvG+nJ5aZdTNPn5gY0WjwIqlaOxM/ntYQPak//Lp4Iw1jbTHOU
-	a+nqRUTNayzFsx+vOeCWDLG9DEfCW0EV2fFyGilhWodLy6L01XZxifTtSr9K/TI0PmeLeypjIXcF8
-	90E/Pzow==;
+	bh=nNwfH4l4lHAwhCyaJs99dP472zRov2yA2CnAV3NYhoA=; b=XdGOjnDY8bA6CFMEkIx3KVa0/F
+	460WRVRL/GfuSoO09Ad6K06nALPmiAI581Dto73Rx5qLKGcWnJrMw5iEiYEG7srEEEuGqr7++LyZl
+	TF0EmYRF4zswxUaF8aESGf4jtAdYOxvH4oPauiGVZ8o5WfzLPSAmiLXCNmekVmnU+Fr7GFvctEzBg
+	sdqc3PdiIslrbXh6Vto1NPUrEC5kbSwESJF9cH5RyUbt3Z1qzgLVDViE6oOKbbkVOu2+Gkf89lF3W
+	0GzAcj95ti5LYgzL6nQJfp6PMbRJ6JxZPJgMmkeACFMOVuYl7LjpWZsjRk/P23vsU2udVVilwEPAV
+	67Qz8mvg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xTvBn-0000000AxLi-1L0p;
+	id 1xTvBn-0000000AxLt-1W9L;
 	Thu, 19 Nov 2026 06:00:07 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xTvBl-0000000AxKe-2w5m
+	id 1xTvBm-0000000AxKG-0Lhg
 	for linux-snps-arc@lists.infradead.org;
-	Thu, 19 Nov 2026 06:00:05 +0000
+	Thu, 19 Nov 2026 06:00:06 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 296A961E25;
-	Thu, 19 Nov 2026 06:00:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94C4A1F000C8;
+	by tor.source.kernel.org (Postfix) with ESMTP id B312162147;
+	Thu, 19 Nov 2026 06:00:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A5601F000CA;
 	Thu, 19 Nov 2026 06:00:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1795068004;
-	bh=uhvIZHMzMR8LEDCjN4KMVMcwIuHWxcvFz3+gSq5p+wo=;
+	bh=kuhk+mB3UN8TnKb2oXuI2U8lqT5dSWUKA9kFr3P8Umc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=I0HI//mrpL69nBp7nOs0fZaqfwbAmU0OR7V0z4bIeviLSGYAK4m9pExNi7YHJ+YIe
-	 0bsoCFSCfFuGdZUox+7HAjWN9L1C6kMJCfirjvUrz0p4YiaRQRN1TSLZjrvKpOnubU
-	 IJ7aeDRLrP/p5//+Ncyfhj8TE4X2LfHrhlHtztTZ+AvPSQLt29RZA15GZKA6CbbMHO
-	 LN6rhpa6l9CwhTJ21XOC1MMbWQMBvpj16XpElAj05km17QdVpI9lQkIqxpvNsGbiIu
-	 pvMJ3B/itCBrQqYnmvdQ7ojdmzuPV/5k2SkYa2CURh+xrDYRHfzLKR7EV7ayGjuGgh
-	 7EiGgy70pRgmA==
+	b=hWv3kH2W4TVguDWJ7xj57brSEj8AVcfF/sQttbqifokFZJLK5ZoUBSMe83j7eB0L7
+	 JiNEVVnTS3mRnPtpB++dRiPLDDJzI+87ol58IpRDobkxQWKSykl49WxFrdIDqWGNle
+	 Kmbi5kWcgkLX4RwoP3g/uBR0DgVsOj7pMIv+EBTG8Zue4xPYbS8T+xthZHvesKSPH4
+	 kHGteTtNiiFmsRsc0bxWXHoFPNCPZrN9yYDLnJbTujP3YgF5VJ0zVxnT3zfMzLHTFX
+	 GRa2AU6T7ZzAvlgwqofBazQU0uEIepRhKo5IQ8ttzIOeHMG0iX4Uuxxd2kl9faV2Vz
+	 8drrzo1KD1cQA==
 From: Vineet Gupta <vgupta@kernel.org>
 To: linux-snps-arc@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -51,9 +51,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Dinh Nguyen <dinguyen@kernel.org>,
 	Simon Schuster <schuster.simon@siemens-energy.com>,
 	Vineet Gupta <vgupta@kernel.org>
-Subject: [PATCH 4/4] ARC: stop linking libgcc
-Date: Wed, 18 Nov 2026 21:59:58 -0800
-Message-ID: <20261119055958.1621709-5-vgupta@kernel.org>
+Subject: [PATCH 3/4] Revert "ARC: Strip libgcc debug information when generating BTF"
+Date: Wed, 18 Nov 2026 21:59:57 -0800
+Message-ID: <20261119055958.1621709-4-vgupta@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261119055958.1621709-1-vgupta@kernel.org>
 References: <20261119055958.1621709-1-vgupta@kernel.org>
@@ -78,43 +78,53 @@ X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-With the generic lib/ versions of the shift/multiply/compare helpers,
-the 32-bit divide routines (only needed without hardware div/rem) and
-clz/ctz all provided by the kernel, and the 64/64 divide and floating
-point routines gone, nothing in the kernel or modules resolves against
-libgcc any more.
+This reverts commit ca201ad6e92a1924138e83ff966f7a091e3bbe6e.
 
-Drop it from the link so that any new dependency on it (e.g. a raw
-64-bit division instead of div_u64()) shows up as a build failure
-rather than silently pulling in libgcc code.
+This is in preparation of libgcc dependency removal.
+And its better then deleteing those bits anyways.
 
 Signed-off-by: Vineet Gupta <vgupta@kernel.org>
 ---
- arch/arc/Makefile | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ arch/arc/Makefile     | 9 +--------
+ arch/arc/lib/Makefile | 8 --------
+ 2 files changed, 1 insertion(+), 16 deletions(-)
 
 diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-index 868805ffcfea..9f34198d74a3 100644
+index 4ea705a331c7..868805ffcfea 100644
 --- a/arch/arc/Makefile
 +++ b/arch/arc/Makefile
-@@ -71,8 +71,6 @@ cflags-$(disable_small_data)		+= -mno-sdata
- cflags-$(CONFIG_CPU_BIG_ENDIAN)		+= -mbig-endian
- ldflags-$(CONFIG_CPU_BIG_ENDIAN)	+= -EB
- 
--LIBGCC	= $(shell $(CC) $(cflags-y) --print-libgcc-file-name)
--
- # Modules with short calls might break for calls into builtin-kernel
- KBUILD_CFLAGS_MODULE	+= -mlong-calls -mno-millicode
- 
-@@ -86,7 +84,7 @@ core-$(CONFIG_ARC_PLAT_TB10X)	+= arch/arc/plat-tb10x/
+@@ -86,14 +86,7 @@ core-$(CONFIG_ARC_PLAT_TB10X)	+= arch/arc/plat-tb10x/
  core-$(CONFIG_ARC_PLAT_AXS10X)	+= arch/arc/plat-axs10x/
  core-$(CONFIG_ARC_SOC_HSDK)	+= arch/arc/plat-hsdk/
  
--libs-y		+= arch/arc/lib/ $(LIBGCC)
-+libs-y		+= arch/arc/lib/
+-libs-y		+= arch/arc/lib/
+-
+-ifdef CONFIG_DEBUG_INFO_BTF
+-export LIBGCC := $(LIBGCC)
+-libs-y		+= arch/arc/lib/libgcc.a
+-else
+-libs-y		+= $(LIBGCC)
+-endif
++libs-y		+= arch/arc/lib/ $(LIBGCC)
  
  boot		:= arch/arc/boot
  
+diff --git a/arch/arc/lib/Makefile b/arch/arc/lib/Makefile
+index 2807ee24f27e..30158ae69fd4 100644
+--- a/arch/arc/lib/Makefile
++++ b/arch/arc/lib/Makefile
+@@ -13,11 +13,3 @@ lib-$(CONFIG_ISA_ARCV2)		+=memcpy-archs-unaligned.o
+ else
+ lib-$(CONFIG_ISA_ARCV2)		+=memcpy-archs.o
+ endif
+-
+-# libgcc can contain complex floating-point debug types unsupported by BTF.
+-# Strip only the debug information from a local copy of the selected archive.
+-always-$(CONFIG_DEBUG_INFO_BTF) += libgcc.a
+-OBJCOPYFLAGS_libgcc.a := --strip-debug
+-
+-$(obj)/libgcc.a: $(LIBGCC) FORCE
+-	$(call if_changed,objcopy)
 -- 
 2.53.0
 
