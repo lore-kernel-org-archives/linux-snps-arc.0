@@ -2,121 +2,61 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64266606A31A
-	for <linux-snps-arc@archiver.kernel.org>; Sun, 22 Nov 2026 23:25:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C87606A31A
+	for <linux-snps-arc@archiver.kernel.org>; Mon, 23 Nov 2026 00:06:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=NKW4w8p4;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=L7IbdSJq;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=WOdYPVB1
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=shuHu6/n;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HTa7Ez/O
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Subject:References:In-Reply-To:
-	Message-Id:Cc:To:From:Date:MIME-Version:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Unsubscribe-Post:List-Owner;
-	bh=bT+t6mAN1XSTvBr5+6oSrGC64/TFXiEm1Mo1786oiak=; b=NKW4w8p4dansccWrNJl/lH+0KL
-	1tPgrDF2oLrAMS1yefj2iH0Sp7uVqo59iRaw4VsperL8CeVKgsfnsAuiEpz+yp9Yde1fvcTkB+J5i
-	6Pa5eQSArywJI+YADtkBV3M9dDk8kKWjVNaKRxfncFckiyw8LNUY8Gfloon64x3ZKGpVnWDUY8m31
-	L65th1TC+jKDwLsSHW1tBIrCVHSgd2yy1dWa3VQJoLhfCtAoZNvbJCk0xNstPz8ufiC5pJwJJd7wh
-	kfCk+ybIr3V1/Caes352SZyl1/3F6KtfOohMIv+1shMqjFhFfmPylx4lve7j+eFoebZ1iZQ/unQ3a
-	5GJXoGWA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Unsubscribe-Post:List-Owner;
+	bh=CuILqkB1WxD1FRS02/0KBQ9b0UT1en6HeRgVuZVZWjE=; b=shuHu6/nvb4/qviLatmqmdWP3w
+	vxuH2Zuk5qmozc9NTnOWytlgCTgSnT5R6GnHw+24WZS+jZY8ZaM2ptCokTxqrDx8UYVMxq6LzZRyU
+	JfkCMcEblpOWQ+SX6XQvr8hmk0OQpYFo147v1vFMJXyPKZuMXOK1X9m9XnSz4PYDO30L7UhuuhGg0
+	nvEzCo4oNq2DSfYYpE6qUn8xgfD0UxR2M2lLV026gDY32QvYby43w0L6OaIs97lpqwNYgVZ2ZHDDr
+	eekayF/Uw/LvBHo8dZcsZ7JkVKR29O38sJhYN149QrBYZQnKibAI+IKQdBs0QhSmpCVI12b0HKOaJ
+	wQxh7Fkg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVGvn-00000001tMQ-1v6d;
-	Sun, 22 Nov 2026 23:25:11 +0000
-Received: from fhigh-a1-smtp.messagingengine.com ([103.168.172.152])
+	id 1xVHa8-00000001wpX-0ZHn;
+	Mon, 23 Nov 2026 00:06:52 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVGvi-00000001tLi-3oBZ
+	id 1xVHa6-00000001wpQ-0FED
 	for linux-snps-arc@lists.infradead.org;
-	Sun, 22 Nov 2026 23:25:09 +0000
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id DE9E114001B4
-	for <linux-snps-arc@lists.infradead.org>; Sun, 22 Nov 2026 18:25:01 -0500 (EST)
-Received: from ams-imap-03 ([10.64.2.23])
-  by ams-compute-02.internal (MEProxy); Sun, 22 Nov 2026 18:25:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1795389900;
-	 x=1795476300; bh=cOQdCwhVkAoJA2pStXVgauJBpDSTM6O1UgNedxKIlwg=; b=
-	L7IbdSJqUTLkPoi2ujiG/tNloKUoL8tvTbC3NKcDaLGm9OaqWV1KT3zRjIxOQ7eJ
-	FUHzu4lZT6pGGj4ivqIGA+YqeP89PZu9P0XUo9hE3lFL/TDhFnDXEvZEMVw5Jly+
-	ZMKOnAURn8IMYs5Jcd/l/jCupXlr4GpL5SCMq7aHR5JouUU0qOx/6541fVEkKoH/
-	1n9L+3bHBssBc6rLLrGIPv8CEaK6MIAiK4ltX/T9XrJDZoQbjI7nvON/VDoiSuhm
-	Pu1htiBaSPYUF0HUM3sg/0bxWqHkZRoyJmqwPfpNmx56KcU02wEleMxbD7DI+7uW
-	7gPH36nza35arl6EppuWpw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795389900; x=
-	1795476300; bh=cOQdCwhVkAoJA2pStXVgauJBpDSTM6O1UgNedxKIlwg=; b=W
-	OdYPVB1snJ0EVPopgPYWUBZrgsRz4bH+Y5gQzAZNxhs1zPPEmVofiPokOWOpUn9U
-	Y+JQH3gSjk+nH2lhJJXsN8D0tg2zCqN9N/j/V9W+2dMHL54x3nqV5avkxyuke0SI
-	e/E/V+MoIt5b8W121OGGgNzW7LCHTpWKej9VjrwiP/fZFiKbLz40o1d3+BzJd8dX
-	ujO9jEls+PJ6DjyqZFQ+iKu2kB58e//02+YHMeaf4LEallyhLd63juaANBEvgYf/
-	5BGwn++0iMdz6NSugGwRPx0GzlNK4+ChT0lmG6DtovxXlddl+AVwtTW8VV87EKes
-	SKMVEoXWgyQLwYdszqe2g==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=arndb.de a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795389900; d=arndb.de;
-	mf=PGFybmRAYXJuZGIuZGU+;
-	rt=PGxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmc+;
-	s=fm2:rsa-sha256:SH0Gn8VJrq1mTV6zu9DCwDzLqETgjvcW8DtqN+0wwFhjaLy
-	eHkShwtg3Vk+R4b4Py1O1zwrSvU2gh2bLIphrGN1JiHMtZOeBJRmKLXYCPMHANZB
-	K1epro6EfLlIyGHC03NjZfqR+DJHDbCz0I48GTl6SlymbfQzKKgj4YdKc/Ox9yWg
-	mULMNoMYMoy93K/DOYDbMsmotptMC4GiGrcJnh/IQVdt6Btx5tRtZQkXVLZRX6eu
-	LceJTcQJWsQZ31ZAyGKlyNTxNcwr+HAo8eXWFIl6LMMY4AT9lttJerwasPURy1YE
-	qOS7qRvXz50fbYsGm/mfW4yLXy/6coNt02bMYtA==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:9/XNgCwS/y4FKhXxnXNzTWsfBRc+1aCL0E+uocRtTD4=:rR626zSvfl9NlqrU46cDXjXrqBcEPV7/iyB6YNZFfd4=;
-X-ME-Sender: <xms:yXkDaw9YBCcKVY3I4weCgOdrHUfeQG7CUA1LIEaQJ7bA8bJoz6ZZxg>
-    <xme:yXkDazjMWY-GQmuOfCaF7W1PRFTTWl66IP_6CHrl4Ihb8Uy4ZDnvh6O-fJvxSfqD0
-    991LrK1oeYZlUaXEJG9aVZZPyeriJKnUhnHFlBdfJe98W_Q17wZ7hPe>
-X-ME-Proxy-Cause: dmFkZTEXWVeCuemb4iTuYd+LaUPI8odQufbw5r3yfmXbSglGVJ58jQZIZGoX6nwJuGq9v5
-    +kDcMuibiJphUbd2y06pcOCqgFQIckN5C8mfMplvrWUVcuSuFj3Jon4BFKzifjA0bouJ36
-    nmD+xnuqaTy9YveUsiMivGJJteCLUWwseBNMp+7hQ70NKyp4Urkt4RV7eo0FsKyrHj2u7e
-    zqxX2tuFbmXSIzZGsWbx+ORez/rtwceMPx0Ild8Hl7LjbX5P9+JvLKYQDG2gK57BKkzOR7
-    15//zvVyay8kM+PIcnqbT6MeqIwgCkOk2hsPuexdTProPMhwIbJ7tp78suWQBq4xOfi0Fs
-    KMwd0sjGn98lbbxq/qpgzLW7ERL27DHAf2z3OK0Yq5lIEG6QHzy9RsggRQOnMDOBe5FsYf
-    umW9OJlA21xJ8yiz+Lon/XXifKlPFpzPwiTw0Am9298iN5I4MTt+lhcpnQDVzOAO/uwYQn
-    pxC94Cj298pn9vOjL4My/Vkwf/pRZCmuBu4EggO4xNlo1TDWXaOqQvqIcCAled8HxRaPOP
-    209z4o1bRD1Ii3JCAxCWnveFaU1q385urAGsqaBTw/iBeEFcsow852oQ6E0f1r0zKW4Whj
-    E30O/OrtDB8WdFafg6l3Icd6eHzodjdywvTD/Z3kgQEVV5wI/qjyEzu9ZpGQ
-X-ME-Proxy: <xmx:ynkDa9Hp9kM7junHBcxHnxqez8HRPi5Q0LnEalDH7FONmyLUO-MmYQ>
-    <xmx:ynkDa9yhdd8bOt8kQJIGe49hOm49NNoYDLSXozLD4sEZdbk2KCX1Vg>
-    <xmx:ynkDayqmPFuHaJkQ_uOZb_bfTB1uTUsfCzj72e-JQ9cCKykfipBGzA>
-    <xmx:ynkDa3hiAQzWdFMGaouavvgbj56QtTF87Z0TPSmcds3XYwX3V1BASQ>
-    <xmx:zHkDazW-I6pl5Ex1zV90IOs4IfeiRIlFaKR-4T-W5eW_oh7Q5_yyIbOS>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 26F6932A0099; Sun, 22 Nov 2026 18:24:57 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	Mon, 23 Nov 2026 00:06:50 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 304F96024D;
+	Mon, 23 Nov 2026 00:06:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 956871F000CA;
+	Mon, 23 Nov 2026 00:06:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795392408;
+	bh=j396iNs6n8mwHjvnju6Q3Rqztxsxxxg9N6gX1fPcUyI=;
+	h=From:To:Cc:Subject:Date;
+	b=HTa7Ez/O2ANZR1CPlIxy3tn13dUBUhraoG3thr+GFkL8p1uS2hcFE1xO9siRBumVt
+	 KFS38JqL+LdVavVBXQ8DJKBrH2Ydqa2BOcJ2mSzWHB9Qoy5eyfLYRMJh2Uet8BW0NB
+	 G9T4h1pSCZ6+ThqHWi5+5Ttq7beOH/6hDqMW6jjt3bf/eUZtdd52WzdkliBHru/j63
+	 Ceq67NEcsDzTonEUvpJjs1x7wv6VqnrjJFoxSXkNOmP8xeeht4psIoVq03NFjt9KFY
+	 XGnWwcbenDLHXPwkMTEYTVmqKrtnCsHc9n50dCJ6y8HyhZRxmnG44UnBtymOhzCbcg
+	 DjsuI2eKHj76w==
+From: Vineet Gupta <vgupta@kernel.org>
+To: linux-snps-arc@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Simon Schuster <schuster.simon@siemens-energy.com>,
+	Vineet Gupta <vgupta@kernel.org>
+Subject: [PATCH v2] ARC: stop linking libgcc
+Date: Sun, 22 Nov 2026 16:06:45 -0800
+Message-ID: <20261123000645.2097033-1-vgupta@kernel.org>
+X-Mailer: git-send-email 2.53.0
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: A7YRnwEcAcgN
-Date: Mon, 23 Nov 2026 00:24:36 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Vineet Gupta" <vgupta@kernel.org>, "kernel test robot" <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-snps-arc@lists.infradead.org
-Message-Id: <57a96de0-6990-460b-9a52-3e38f6a0beaa@app.fastmail.com>
-In-Reply-To: <e96c9d87-53e6-4e82-9502-40e86bac3edc@kernel.org>
-References: <awDriH64LFbN0dkI@rli9-mobl>
- <5d49465f-8584-4e75-8973-9fbf326bce58@app.fastmail.com>
- <e96c9d87-53e6-4e82-9502-40e86bac3edc@kernel.org>
-Subject: Re: [linux-next:master 8956/10560] main.c:undefined reference to
- `__st_r13_to_r15'
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261122_152507_437118_8430249F 
-X-CRM114-Status: GOOD (  17.60  )
-X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -129,67 +69,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=4.0.1
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Mon, Nov 23, 2026, at 00:14, Vineet Gupta wrote:
-> On 11/21/26 02:18, Arnd Bergmann wrote:
->> On Sat, Nov 21, 2026, at 01:53, kernel test robot wrote:
->>>
->>>     arc-linux-ld: init/main.o: in function `__traceiter_initcall_finish':
->>>>> main.c:(.text+0x90): undefined reference to `__st_r13_to_r15'
->>>>> arc-linux-ld: main.c:(.text+0x90): undefined reference to `__st_r13_to_r15'
->>>>> arc-linux-ld: main.c:(.text+0xba): undefined reference to `__ld_r13_to_r15_ret'
->>>>> arc-linux-ld: main.c:(.text+0xba): undefined reference to `__ld_r13_to_r15_ret'
->> I've managed to reproduce this, but only with gcc-12 and older,
->> not gcc-13 and up.
->
-> Thanks I was trying to do this as well, but couldn't since I didn't have 
-> an older toolchain handy.
+With the generic lib/ versions of the shift/multiply/compare helpers,
+the 32-bit divide routines (only needed without hardware div/rem) and
+clz/ctz all provided by the kernel, and the 64/64 divide and floating
+point routines gone, nothing in the kernel or modules resolves against
+libgcc any more.
 
-You can always use the toolchains from
+Drop it from the link so that any new dependency on it (e.g. a raw
+64-bit division instead of div_u64()) shows up as a build failure
+rather than silently pulling in libgcc code.
 
-https://mirrors.edge.kernel.org/pub/tools/crosstool/
+libgcc elision can break -Os builds as older gcc generate millicode
+thunks: disable them with -mno-millicode.
 
->>   I also found a workaround, but I'm not sure if this
->> is a good idea or not:
->>
->> --- a/arch/arc/Makefile
->> +++ b/arch/arc/Makefile
->> @@ -9,7 +9,7 @@ ifeq ($(CROSS_COMPILE),)
->>   CROSS_COMPILE := $(call cc-cross-prefix, arc-linux- arceb-linux- arc-linux-gnu-)
->>   endif
->>   
->> -cflags-y       += -fno-common -pipe -fno-builtin -mmedium-calls -mswape -D__linux__
->> +cflags-y       += -fno-common -pipe -fno-builtin -mmedium-calls -mswape -mno-millicode -D__linux__
->
-> I thik this is the right fix.
-> Ideally this is only needed for OPTIMIZE_FOR_SIZE, let me send a v2.
+Signed-off-by: Vineet Gupta <vgupta@kernel.org>
+---
+ arch/arc/Makefile | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-Ok
+diff --git a/arch/arc/Makefile b/arch/arc/Makefile
+index 868805ffcfea..d8633354a47a 100644
+--- a/arch/arc/Makefile
++++ b/arch/arc/Makefile
+@@ -71,10 +71,12 @@ cflags-$(disable_small_data)		+= -mno-sdata
+ cflags-$(CONFIG_CPU_BIG_ENDIAN)		+= -mbig-endian
+ ldflags-$(CONFIG_CPU_BIG_ENDIAN)	+= -EB
+ 
+-LIBGCC	= $(shell $(CC) $(cflags-y) --print-libgcc-file-name)
++# Millicode thunks for prologue/epilogue (e.g. at -Os) live in libgcc,
++# which neither the kernel nor modules link against
++cflags-y				+= -mno-millicode
+ 
+ # Modules with short calls might break for calls into builtin-kernel
+-KBUILD_CFLAGS_MODULE	+= -mlong-calls -mno-millicode
++KBUILD_CFLAGS_MODULE	+= -mlong-calls
+ 
+ # Finally dump eveything into kernel build system
+ KBUILD_CFLAGS	+= $(cflags-y)
+@@ -86,7 +88,7 @@ core-$(CONFIG_ARC_PLAT_TB10X)	+= arch/arc/plat-tb10x/
+ core-$(CONFIG_ARC_PLAT_AXS10X)	+= arch/arc/plat-axs10x/
+ core-$(CONFIG_ARC_SOC_HSDK)	+= arch/arc/plat-hsdk/
+ 
+-libs-y		+= arch/arc/lib/ $(LIBGCC)
++libs-y		+= arch/arc/lib/
+ 
+ boot		:= arch/arc/boot
+ 
+-- 
+2.53.0
 
->>   tune-mcpu-def-$(CONFIG_ISA_ARCOMPACT)  := -mcpu=arc700
->>   tune-mcpu-def-$(CONFIG_ISA_ARCV2)      := -mcpu=hs38
->>
->> The alternative of course is to include the libgcc file that includes the
->> millicode helpers.
->>
->> I also came across the "-fno-builtin", which seems like a bad idea because
->> it prevents a number of optimizations. I could get it to build without the
->> argument using two oneline changes, but that doesn't mean this is correct
->> or complete:
->
-> I don't recall the history behind this is, seems like its been since 
-> since th eoriginal port.
-> I can do a follow up cleanup.
-
-Sounds good, thanks!
-
-      Arnd
 
 _______________________________________________
 linux-snps-arc mailing list
