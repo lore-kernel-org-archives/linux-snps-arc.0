@@ -2,120 +2,69 @@ Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CAEA606A31E
-	for <linux-snps-arc@archiver.kernel.org>; Mon, 23 Nov 2026 09:02:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2DD606A336
+	for <linux-snps-arc@archiver.kernel.org>; Wed, 25 Nov 2026 22:26:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=QC4aa4fm;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=fpxlC60b;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=4MkzlCSf
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=fiMA+zYg;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LdwJb1xN
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Subject:References:In-Reply-To:
-	Message-Id:Cc:To:From:Date:MIME-Version:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Unsubscribe-Post:List-Owner;
-	bh=+dtQ24LQ1XwhwqbZHTL7TPhrDBdKiob6LgOcUNmgQ04=; b=QC4aa4fmmP9Zf6zV4m4UH978mV
-	Vfk+O3yGHkBaeUjO07CInpZgWnjyS3zkT2k2kzrFSDj+EvMkpto5f3NyE1irYsU12rYNkc+a4NPju
-	9SCthrWftKxTmp4yD7jcMOpH+F1oh8qVMWX1qN9IpXFJec8ESZknvt3ex38OS+P09ujCToNj0bxTR
-	iuQgpfSQgkN9Mt2qHHBTPOE/TSDiqzU4Czsx8LscT/9bEo/lHeYxj60TNQmRBS5cofRwJDgtozFJe
-	6XBwiv7R8SDfYX4X9G9xa5YUtPPVMGkS9VpQQ9x6l0gU4+PEt/oe4rKbNMPxfMhFTsiyirsB6uB8X
-	dqoctR4w==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Unsubscribe-Post:List-Owner;
+	bh=lz4Nd8fdP4sSpurT9GAj4gqD9OfcUVyy2llHB643Lr8=; b=fiMA+zYgv9p9ujkzki0lmMEIEi
+	ta8y0/SLCHHfePenQNyjQsCeMvNj2h/gFXKzt4Gn7DtTPzcnmsSL1CpRjPtsYP/ACJSD0khvnORmD
+	DH4E1loA3V1H5sW+nwCVEfOTPLOOekWrL4oLJCh8R7/d5ry0L0dc5qn51/I7Sfnr0WkmfiBxykY16
+	5PnVoFyXRhqp7chWWL+xsWIkZ9bBUlJj+Mcp04vFSeHr2GPmmJJSk5I44Oa1FN/biQx7a7L/ZcK5E
+	4unBgBNVGF0Hj4C9qjMaB7co928d2w9UvowDtnvx3yc2W/hF0aWY2GcqnNB0aQRxN17e8VBW9z3bt
+	iXZjRIqA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVPwu-00000002eJG-3MiH;
-	Mon, 23 Nov 2026 09:02:56 +0000
-Received: from fhigh-a3-smtp.messagingengine.com ([103.168.172.154])
+	id 1xWLRN-0000000BSms-2F33;
+	Wed, 25 Nov 2026 22:26:13 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVPwj-00000002eFX-0XcV
+	id 1xWLPt-0000000BSLz-1bAq
 	for linux-snps-arc@lists.infradead.org;
-	Mon, 23 Nov 2026 09:02:55 +0000
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 829731400214
-	for <linux-snps-arc@lists.infradead.org>; Mon, 23 Nov 2026 04:02:43 -0500 (EST)
-Received: from ams-imap-03 ([10.64.2.23])
-  by ams-compute-02.internal (MEProxy); Mon, 23 Nov 2026 04:02:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1795424562;
-	 x=1795510962; bh=mSMHW4SmZ7OYr+vBAy7Z/uvi3mUnomgOnauIX7oa3es=; b=
-	fpxlC60bM6d+JfyxhTLEzy0J2w82OoNEjAhij7fAfezI05lGutEljsMTcwKO2VjZ
-	Q+d3h0FtJbom2lLxYhTs/3vNwko/hBKxLSWvtW4In7hc9oFVRBg2ThIQ9wHKQnKU
-	cAJPBvxMtl6LVSfEij94+l8tlVRhJZILs8P1XQ5aVFDX6l6eY6wAjDlG6sVOpk/h
-	aKEFd6CGChKK8TqN+3JaUmCsKYWGA8Wk2KcRfv6Yyjw7HeKg0tGNWbeYh8UGMH+w
-	kmgFlASoXWakyk6MIJ4ikXMNlpuSXAIld0PHfd8MD6jrd7/9mRGwNuBEnvCdfbg5
-	Lju6tOnMr3Jevf8q89RRDw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795424562; x=
-	1795510962; bh=mSMHW4SmZ7OYr+vBAy7Z/uvi3mUnomgOnauIX7oa3es=; b=4
-	MkzlCSfhwa1uB9QClYolpD7GussMQue68b+1FvyoDyyPXi9/WbU9HuErLnp94iPO
-	u4KPSoAjzG0tDvI7I94wm9XXNG7R4pDciPQ4LDEnC0XQkCqlwUvDmqXIYyH+/1uN
-	f/9AaHCsCkZruiPl1B4Lqs6Re5yFlad/H3i/A7orewTd/NtnYzcoptGIt3//YvGM
-	KLNAVMONmpvZj2d7JiiOSpDy/r7Uw2zesJvGR/8J9kZBalmkorWDAEahH+QEu+Pd
-	cJtnywJIx95u63j5bpBVRi0kWtLxwZ5SWoGL/VH6GmKORXR1DuTZZGszSP728g9z
-	dZGB0x5Xfuw3JKx2StO3w==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=arndb.de a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795424562; d=arndb.de;
-	mf=PGFybmRAYXJuZGIuZGU+;
-	rt=PGxpbnV4LXNucHMtYXJjQGxpc3RzLmluZnJhZGVhZC5vcmc+;
-	s=fm2:rsa-sha256:F7TDMW3MkNSY6bDkmp9ZnQtOg/gLyzJXSMwzXUlzz3YPAdK
-	Da7YqjxqME2d7nD04Dfq99/1v/u07fbXcWc6iqk+KFRXNhYtrYDQXiqTcR9qda/m
-	q41gifEoVfbbBOMmvaF8m2MzISD8/3+fGmpExiInnFonPBY04cd8++OtnY/fwzzG
-	O7iAVNLL85uZ26oi8FEdW1rTBdB9ENcWWzgLfCM57jATUR64Z8c6vBH2PhvyHPxq
-	v8eEuf7djDJDfd2MEsAmH8CtkpJf9mK73S6ZLMEeurqrzpBKhst6gerJ9qWNPP8h
-	zl2NbHy7leZF2ubT0JT6FNhzIAHQwAxOz+i10ew==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:tmvIL/cahxEGzpB6SnMH6xFzrQqc+W+Phe/Jt9mB6VQ=:7qk2guwvbFcpSziYnVgksq9uHBCrUvs17Vv8cIfjMUk=;
-X-ME-Sender: <xms:LwEEa0LA4UbHIUGPBftaT23VpD8V3IZts_k4uNWFIonSwe3zzsCc3Q>
-    <xme:LwEEa-_7QFXV03S3sNVlKMlduOEUiBTd-w-uMLwPmnIBH25QKgn5Pxu3QIwCi5Kyf
-    xes0267U1_RXfz5yfOaOTSlhbOX9Ln18YmiWUZGVXiQIjXXz3nL_Ccf>
-X-ME-Proxy-Cause: dmFkZTE9Y3bDyglrTkB27cTrD9anESzEMkv2GhLbk9MHV7VdB19BLh3aknxC8pv/OdT0OO
-    13hymE4x0RdBa5v+V5RCo0yMGUpzt9F/qDF3NZJqw2MaE6jqmcQzg0eV2s7or+C1wsojf/
-    sWfzHbrqscDbDJ1U55BDcx2bmx4OK6L4AMmt0jgq25z7ncnkK3LD+yhe6e5TgJEtoGfJYi
-    08ByI6j5c3uoEM2+qTpW1HUZ3ZeshsCNXR6lFgU931+f6qEBHls58W0AEce3/fTcRIcZq6
-    nqiyeVA29+RNZyMXzSEj8qgVYDLaXR8k3quLuO7bXzsEGfAbAZiIrR8e6lwzwwVL/pY/EC
-    de8Rbs5qrJbdz7TUsow12VuQihh9nTJWMJNJfbIZfh7hl2PA8w7YD0+6/erN5zb+8oUCXj
-    cTGEvacABfmp3siPPM07gIWsvoqX4IRo59tIlNJzrSIgqIp+pb+WDQf1jfU9Ovrjc5vSvn
-    Vmwx/+ue74p+1REUDJ7tIQcLRZ0IxqPMNeEHVQqwh4icDMF/oS7gOYGuFkRrzmVbb7uGnb
-    uqwG3JH0V2krDmrG3l3bRtjehOwgezpLwiMpuQS788fTUWXA0x7FO43B8rhqYFWvLRZIuF
-    RJSk7c82AA/QpeA4rW9q5pKl2TdK6VOVJzxhbLYJbn5lfublEGxUH6MI02rA
-X-ME-Proxy: <xmx:MAEEa2jekWHxIUONRMlo4W2Mg_O_99PuKGJfz1XlAUYAPzAwS1s2_g>
-    <xmx:MAEEa09qBifBzy-WvlfkR2UfbrOhEZb1JMVOSHw61w5SEXFQsg_Hzw>
-    <xmx:MAEEawZ_g9s9PsIxtitF7WeuUYtKbjb1ZVkZwcNjKqSENNZkQaOgZw>
-    <xmx:MAEEaz3UZzFnvNskrMHZN30xmwBI6EkrpINJ3sHgQfJ4Yf0l6cA8rA>
-    <xmx:MgEEa1jMiPI1Hk28KL-zwW5wVlzHsd5sOmBQyZPRoc4VsiE6YETYyj9O>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 4AB3C32A0099; Mon, 23 Nov 2026 04:02:39 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	Wed, 25 Nov 2026 22:24:55 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id D1FF56219E;
+	Wed, 25 Nov 2026 22:24:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8D9A1F000D8;
+	Wed, 25 Nov 2026 22:24:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795645480;
+	bh=GypxCgrSGuakcSYm30KvvekU+/B96aMez0HNLTb7bn0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=LdwJb1xNj9tse3B3xT+FbXVT4u7a8JC3MkMPG+1YYTu6AY1R9PmXmknhfACiNmsbm
+	 FqFyPYT5ff0Ro9BQ47u1SnpQrS35w0RIFh5SAmv8wAKHld9hKDKQs4aGhCTEw2D4VF
+	 v7jygZquPf0N3hzPDv9Owc1vUBaxu+dNQnsIyDYs28hn34vmlrWRD/Ag1unXBu8laF
+	 8kX1InEEDLUW6/NwppBmRDIPe1ltK5nDDOc4Kue44jknJYtF76AHTZEx7i0fWAxZdi
+	 gAYN1QlK//wL1/5uGP2/e8AZZ6ARYv40gwXh4Lu+Hn4rlGrpN2bWd0UwZ+NArpK2/0
+	 x4lrMus/wYW+g==
+From: Frederic Weisbecker <frederic@kernel.org>
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: Frederic Weisbecker <frederic@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Marco Crivellari <marco.crivellari@suse.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Phil Auld <pauld@redhat.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Vineet Gupta <vgupta@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	linux-snps-arc@lists.infradead.org,
+	Michael Kelley <mhklinux@outlook.com>
+Subject: [PATCH 33/47] clocksource/drivers/arc_timer: Move CPUHP_AP_ARC_TIMER_STARTING post stop_machine()
+Date: Wed, 25 Nov 2026 23:22:16 +0100
+Message-ID: <20261125222230.22508-34-frederic@kernel.org>
+X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261125222230.22508-1-frederic@kernel.org>
+References: <20261125222230.22508-1-frederic@kernel.org>
 X-Archived-By: <archiver.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: APJ_bPFyyT9Z
-Date: Mon, 23 Nov 2026 10:02:18 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Vineet Gupta" <vgupta@kernel.org>, linux-snps-arc@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, "Dinh Nguyen" <dinguyen@kernel.org>,
- "schuster.simon@siemens-energy.com" <schuster.simon@siemens-energy.com>
-Message-Id: <65dc77ce-395b-44b9-ad03-601d06c1040a@app.fastmail.com>
-In-Reply-To: <20261123000645.2097033-1-vgupta@kernel.org>
-References: <20261123000645.2097033-1-vgupta@kernel.org>
-Subject: Re: [PATCH v2] ARC: stop linking libgcc
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20261123_010254_571900_AE97E648 
-X-CRM114-Status: UNSURE (   9.58  )
-X-CRM114-Notice: Please train this message.
-X-Spam-Score: -2.1 (--)
 X-BeenThere: linux-snps-arc@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -128,32 +77,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-snps-arc>,
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-snps-arc" <linux-snps-arc-bounces@lists.infradead.org>
-X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=4.0.1
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-26) on
 	aws-us-west-2-korg-listserv-alma10-1
 
-On Mon, Nov 23, 2026, at 01:06, Vineet Gupta wrote:
-> With the generic lib/ versions of the shift/multiply/compare helpers,
-> the 32-bit divide routines (only needed without hardware div/rem) and
-> clz/ctz all provided by the kernel, and the 64/64 divide and floating
-> point routines gone, nothing in the kernel or modules resolves against
-> libgcc any more.
->
-> Drop it from the link so that any new dependency on it (e.g. a raw
-> 64-bit division instead of div_u64()) shows up as a build failure
-> rather than silently pulling in libgcc code.
->
-> libgcc elision can break -Os builds as older gcc generate millicode
-> thunks: disable them with -mno-millicode.
->
-> Signed-off-by: Vineet Gupta <vgupta@kernel.org>
+Between CPUHP_TEARDOWN_CPU and CPUHP_AP_OFFLINE, stop_machine executes
+all the teardown callbacks while temporarily stopping/pausing all CPUs
+in the system. This doesn't mix well with running RT or isolated tasks.
 
-Thanks, I have updated the asm-generic tree to use this version now.
+In order to transition smoothly from global stop_machine to finer
+grained synchronization between teardown callbacks and the other CPUs,
+a new stop machine post function has been introduced to be executed
+after the main one with IRQs still disabled while other CPUs can exit
+stop_machine().
 
-     Arnd
+The teardown callback here simply performs IRQ disablement, which can
+run concurrently with other CPUs.
+
+Move it to post stop_machine() accordingly.
+
+Signed-off-by: Frederic Weisbecker <frederic@kernel.org>
+Tested-by: Michael Kelley <mhklinux@outlook.com>
+---
+ kernel/cpu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/cpu.c b/kernel/cpu.c
+index 4451c5997cc6..3fb757c6bc7f 100644
+--- a/kernel/cpu.c
++++ b/kernel/cpu.c
+@@ -1275,7 +1275,7 @@ void clear_tasks_mm_cpumask(int cpu)
+ static int take_cpu_down(void *_param)
+ {
+ 	struct cpuhp_cpu_state *st = this_cpu_ptr(&cpuhp_state);
+-	enum cpuhp_state target = max((int)st->target, CPUHP_AP_MIPS_GIC_TIMER_STARTING);
++	enum cpuhp_state target = max((int)st->target, CPUHP_AP_ARC_TIMER_STARTING);
+ 	int err, cpu = smp_processor_id();
+ 
+ 	/* Ensure this CPU doesn't handle any more interrupts. */
+@@ -1303,7 +1303,7 @@ static int take_cpu_down_post(void *_param)
+ 	enum cpuhp_state target = max((int)st->target, CPUHP_AP_OFFLINE);
+ 	int cpu = smp_processor_id();
+ 
+-	WARN_ON(st->state != CPUHP_AP_MIPS_GIC_TIMER_STARTING);
++	WARN_ON(st->state != CPUHP_AP_ARC_TIMER_STARTING);
+ 	/*
+ 	 * Invoke the former CPU_DYING callbacks. DYING must not fail!
+ 	 */
+-- 
+2.56.1
+
 
 _______________________________________________
 linux-snps-arc mailing list
